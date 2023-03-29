@@ -7,8 +7,6 @@ import TaskCardContainer from "../Frame19";
 import styled from "styled-components";
 import {
   IbmplexsansSemiBoldRiverBed24px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
   IbmplexsansBoldShark36px,
 } from "../../styledMixins";
 import "./TasksStudentMobile.css";
@@ -16,25 +14,15 @@ import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 
 function TasksStudentMobile(props) {
-  const {
-    allTasks,
-    frame1349,
-    frame5,
-    keepOrganizedWitho,
-    outstanding,
-
-    frame1304Props,
-    tabs21Props,
-    tabs22Props,
-    frame19Props,
-  } = props;
+  const { allTasks, frame1304Props, tabs21Props, tabs22Props, frame19Props } =
+    props;
 
   return (
     <div className="tasks-student-mobile screen">
       <HeaderSmall />
       <Frame1365>
         <Frame1307>
-          <KeepOrganizedWitho>{keepOrganizedWitho}</KeepOrganizedWitho>
+          <PageTitle>Task</PageTitle>
           <Frame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
         </Frame1307>
         <Frame1364>
@@ -49,7 +37,7 @@ function TasksStudentMobile(props) {
           </Frame1211>
           <Frame1364>
             <Frame1362>
-              <Outstanding>{outstanding}</Outstanding>
+              <SectionTitle>Outstanding</SectionTitle>
               <Number>{allTasks.length}</Number>
             </Frame1362>
             <TaskCardContainer
@@ -83,7 +71,7 @@ const Frame1307 = styled.div`
   align-self: stretch;
 `;
 
-const KeepOrganizedWitho = styled.h1`
+const PageTitle = styled.h1`
   ${IbmplexsansBoldShark36px}
   position: relative;
   flex: 1;
@@ -122,7 +110,7 @@ const Frame1362 = styled.div`
   align-self: stretch;
 `;
 
-const Outstanding = styled.div`
+const SectionTitle = styled.div`
   position: relative;
   flex: 1;
   margin-top: -1px;

@@ -41,7 +41,6 @@ function App() {
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
-  // const props = {allTasks, ...dashboardHomeStudentMobileData}
   return (
     <>
       {isMobileView && (
@@ -321,16 +320,6 @@ const frame192Data = {
 };
 
 const tasksStudentMobileData = {
-  frame1349: "/img/frame-1349@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  keepOrganizedWitho: "Tasks",
-  outstanding: "Outstanding",
-  number: "5",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
-  notificationsProps: notifications2Data,
   frame1304Props: frame13041Data,
   tabs21Props: tabs23Data,
   tabs22Props: tabs24Data,
@@ -1179,31 +1168,5 @@ const cards215Data = {
 };
 
 const tasksLaptopData = {
-  frame1343: "/img/frame-1343@2x.png",
-  title: "Tasks",
-  overdue: "Overdue",
-  number: "12",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-  navElement1Props: navElement4Data,
-  navElement2Props: navElement5Data,
-  notificationsProps: notifications5Data,
-  frame4Props: frame42Data,
-  frame1306Props: frame13062Data,
-  frame135321Props: frame135322Data,
-  cards17Props: cards17Data,
-  cards181Props: cards181Data,
-  cards191Props: cards191Data,
-  cards201Props: cards201Data,
-  cards15Props: cards152Data,
-  frame135322Props: frame135323Data,
-  cards202Props: cards202Data,
-  cards182Props: cards182Data,
-  cards192Props: cards192Data,
-  cards211Props: cards211Data,
-  cards212Props: cards212Data,
-  cards213Props: cards213Data,
-  cards193Props: cards193Data,
-  cards214Props: cards214Data,
-  cards215Props: cards215Data,
   frame19Props: frame191Data,
 };

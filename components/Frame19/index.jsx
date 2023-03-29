@@ -1,9 +1,5 @@
 import React from "react";
 import TaskCard from "../Cards";
-import Cards2 from "../Cards2";
-import Cards3 from "../Cards3";
-import Cards4 from "../Cards4";
-import Cards5 from "../Cards5";
 import styled from "styled-components";
 
 function TaskCardContainer(props) {

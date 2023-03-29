@@ -16,8 +16,7 @@ import { useEffect } from "react";
 import { getTasks } from "./service.js"
 function App() {
 
-    const [allTasks, setAllTasks] = useState([
-    {
+    const task = {
         "assignmentId": "9cec54d3-5577-4b22-894c-b8b02eb6b3e0",
         "assignmentTitle": "postman assignment",
         "dueDate": "2023-03-30T19:30:21.932964+11:00",
@@ -32,13 +31,15 @@ function App() {
             }
         ]
     }
+    const [allTasks, setAllTasks] = useState([
+        task, task, task, task
     ])
-    useEffect(()=> {
-    getTasks()
-    .then((result)=>{
-        setAllTasks(result)
-    })
-    })
+    // useEffect(()=> {
+    // getTasks()
+    // .then((result)=>{
+    //     setAllTasks(result)
+    // })
+    // })
 
     const isMobileView = useMediaQuery({ maxWidth: 1023 })
     const isTabletView = useMediaQuery({minWidth:1024, maxWidth:1439})

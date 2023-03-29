@@ -1,21 +1,13 @@
 import React from "react";
-import Notifications from "../Notifications";
+import styled from "styled-components";
 import Frame1304 from "../Frame1304";
+import TaskCardContainer from "../Frame19";
+import Notifications from "../Notifications";
 import Tabs from "../Tabs";
 import Tabs2 from "../Tabs2";
-import Cards6 from "../Cards6";
-import Cards7 from "../Cards7";
-import Cards8 from "../Cards8";
-import Cards9 from "../Cards9";
-import Cards10 from "../Cards10";
-import styled from "styled-components";
-import TaskCardContainer from "../Frame19";
 
 import {
-  IbmplexsansSemiBoldRiverBed24px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansBoldShark36px,
+  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansSemiBoldRiverBed24px
 } from "../../styledMixins";
 import "./TasksStudentTablet.css";
 
@@ -72,7 +64,6 @@ function TasksStudentTablet(props) {
             <TaskCardContainer
               allTasks = {allTasks}
               className={frame19Props.className}
-              cardsProps={frame19Props.cardsProps}
             />
           </Frame1363>
         </Frame1364>

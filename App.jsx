@@ -838,6 +838,7 @@ const tasksDesktopData = {
     cards133Props: cards133Data,
     cards164Props: cards164Data,
     cards165Props: cards165Data,
+    frame19Props: frame192Data,
 };
 
 const navElement4Data = {

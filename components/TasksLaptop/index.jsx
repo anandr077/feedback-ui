@@ -77,75 +77,33 @@ function TasksLaptop(props) {
         <Frame1360>
           <Frame1306 frame1304Props={frame1306Props.frame1304Props} />
           <Frame1359>
-            <Frame1354>
+            <Frame1358>
               <Frame13532 outstanding='Outstanding' number={allTasks.length} />
               <TaskCardContainer
               allTasks = {allTasks}
               className={frame19Props.className}
               cardsProps={frame19Props.cardsProps}
               />
-            </Frame1354>
-            <Frame1354>
+            </Frame1358>
+            <Frame1358>
               <Frame13532 outstanding='In Progress' number={allTasks.length} />
               <TaskCardContainer
               allTasks = {allTasks}
               className={frame19Props.className}
               cardsProps={frame19Props.cardsProps}
               />
-            </Frame1354>
-            {/* <Frame1354>
-              <Frame13532 outstanding={frame135322Props.outstanding} number={frame135322Props.number} />
-              <Frame19>
-                <Cards20
-                  className={cards202Props.className}
-                  frame64Props={cards202Props.frame64Props}
-                  content4Props={cards202Props.content4Props}
-                />
-                <Cards18
-                  className={cards182Props.className}
-                  frame62Props={cards182Props.frame62Props}
-                  content4Props={cards182Props.content4Props}
-                />
-                <Cards19
-                  className={cards192Props.className}
-                  frame63Props={cards192Props.frame63Props}
-                  content4Props={cards192Props.content4Props}
-                />
-                <Cards21 frame65Props={cards211Props.frame65Props} content4Props={cards211Props.content4Props} />
-              </Frame19>
-            </Frame1354> */}
+            </Frame1358>
+            
             <Frame1358>
               <Frame1357>
                 <Overdue>{overdue}</Overdue>
                 <Number>{number}</Number>
               </Frame1357>
-              <Frame19>
-                <Cards21
-                  className={cards212Props.className}
-                  frame65Props={cards212Props.frame65Props}
-                  content4Props={cards212Props.content4Props}
-                />
-                <Cards21
-                  className={cards213Props.className}
-                  frame65Props={cards213Props.frame65Props}
-                  content4Props={cards213Props.content4Props}
-                />
-                <Cards19
-                  className={cards193Props.className}
-                  frame63Props={cards193Props.frame63Props}
-                  content4Props={cards193Props.content4Props}
-                />
-                <Cards21
-                  className={cards214Props.className}
-                  frame65Props={cards214Props.frame65Props}
-                  content4Props={cards214Props.content4Props}
-                />
-                <Cards21
-                  className={cards215Props.className}
-                  frame65Props={cards215Props.frame65Props}
-                  content4Props={cards215Props.content4Props}
-                />
-              </Frame19>
+              <TaskCardContainer
+              allTasks = {allTasks}
+              className={frame19Props.className}
+              cardsProps={frame19Props.cardsProps}
+              />
               <ScrollBar></ScrollBar>
             </Frame1358>
           </Frame1359>

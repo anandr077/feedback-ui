@@ -12,6 +12,8 @@ import Cards14 from "../Cards14";
 import Cards15 from "../Cards15";
 import Cards16 from "../Cards16";
 import Frame66 from "../Frame66";
+import TaskCardContainer from "../Frame19";
+
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark64px,
@@ -22,6 +24,7 @@ import "./TasksDesktop.css";
 
 function TasksDesktop(props) {
   const {
+    allTasks,
     frame1343,
     title,
     overdue,
@@ -48,6 +51,7 @@ function TasksDesktop(props) {
     cards133Props,
     cards164Props,
     cards165Props,
+    frame19Props,
   } = props;
 
   return (
@@ -74,68 +78,28 @@ function TasksDesktop(props) {
           <Frame1306 frame1304Props={frame1306Props.frame1304Props} />
           <Frame1359>
             <Frame1354>
-              <Frame1353 outstanding={frame13531Props.outstanding} number={frame13531Props.number} />
-              <Frame19>
-                <Cards11 frame6Props={cards11Props.frame6Props} content3Props={cards11Props.content3Props} />
-                <Cards12 frame62Props={cards121Props.frame62Props} content3Props={cards121Props.content3Props} />
-                <Cards13 frame63Props={cards131Props.frame63Props} content3Props={cards131Props.content3Props} />
-                <Cards14 frame64Props={cards141Props.frame64Props} content3Props={cards141Props.content3Props} />
-                <Cards15 frame65Props={cards15Props.frame65Props} />
-              </Frame19>
+              <Frame1353 outstanding={frame13531Props.outstanding} number={allTasks.length} />
+               <TaskCardContainer
+              allTasks = {allTasks}
+              className={frame19Props.className}
+              />
             </Frame1354>
             <Frame1354>
-              <Frame1353 outstanding={frame13532Props.outstanding} number={frame13532Props.number} />
-              <Frame19>
-                <Cards14
-                  className={cards142Props.className}
-                  frame64Props={cards142Props.frame64Props}
-                  content3Props={cards142Props.content3Props}
-                />
-                <Cards12
-                  className={cards122Props.className}
-                  frame62Props={cards122Props.frame62Props}
-                  content3Props={cards122Props.content3Props}
-                />
-                <Cards13
-                  className={cards132Props.className}
-                  frame63Props={cards132Props.frame63Props}
-                  content3Props={cards132Props.content3Props}
-                />
-                <Cards16 frame65Props={cards161Props.frame65Props} content3Props={cards161Props.content3Props} />
-              </Frame19>
+              <Frame1353 outstanding={frame13532Props.outstanding} number={allTasks.length} />
+              <TaskCardContainer
+              allTasks = {allTasks}
+              className={frame19Props.className}
+              />
             </Frame1354>
             <Frame1358>
               <Frame1357>
                 <Overdue>{overdue}</Overdue>
                 <Number>{number}</Number>
               </Frame1357>
-              <Frame19>
-                <Cards16
-                  className={cards162Props.className}
-                  frame65Props={cards162Props.frame65Props}
-                  content3Props={cards162Props.content3Props}
-                />
-                <Cards16
-                  className={cards163Props.className}
-                  frame65Props={cards163Props.frame65Props}
-                  content3Props={cards163Props.content3Props}
-                />
-                <Cards13
-                  className={cards133Props.className}
-                  frame63Props={cards133Props.frame63Props}
-                  content3Props={cards133Props.content3Props}
-                />
-                <Cards16
-                  className={cards164Props.className}
-                  frame65Props={cards164Props.frame65Props}
-                  content3Props={cards164Props.content3Props}
-                />
-                <Cards16
-                  className={cards165Props.className}
-                  frame65Props={cards165Props.frame65Props}
-                  content3Props={cards165Props.content3Props}
-                />
-              </Frame19>
+              <TaskCardContainer
+              allTasks = {allTasks}
+              className={frame19Props.className}
+              />
               <ScrollBar></ScrollBar>
             </Frame1358>
           </Frame1359>

@@ -1,0 +1,11 @@
+.tasks-student-tablet {
+  align-items: center;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 1024px;
+  position: relative;
+}
+

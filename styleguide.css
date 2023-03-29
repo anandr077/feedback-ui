@@ -1,0 +1,39 @@
+:root { 
+  --alto: #d9d9d9;
+  --atlantis: #5fd12d33;
+  --black: #000000;
+  --blue-chalk: #f0e7ff;
+  --blue-chalk-2: #f1e7ff;
+  --chicago: #595959;
+  --congress-blue: #064c89;
+  --corn: #f3bf0633;
+  --dark-purple: #25222a;
+  --electric-violet: #7200e01a;
+  --feijoa: #a8e68d;
+  --fog: #dec6ff;
+  --golden-sand: #f1de73;
+  --green-house: #265312;
+  --hawkes-blue: #d2e9fd;
+  --horses-neck: #604c05;
+  --jelly-bean: #da575733;
+  --light-mode-purple: #7200e0;
+  --malibu: #77bbf7;
+  --river-bed: #405059;
+  --royal-purple: #301b72;
+  --shark: #1d2529;
+  --text: #1e252a;
+  --wheatfield: #f5efd0;
+  --white: #ffffff;
+  --white-pointer: #fcfafe;
+  --zanah: #dcf5d0;
+ 
+  --font-size-l: 16px;
+  --font-size-m: 14px;
+  --font-size-s: 13px;
+  --font-size-xl: 20px;
+  --font-size-xxl: 24px;
+  --font-size-xxxl: 36px;
+  --font-size-xxxxl: 64px;
+ 
+  --font-family-ibm_plex_sans: "IBM Plex Sans", Helvetica;
+}

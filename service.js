@@ -1,26 +1,28 @@
 const baseUrl = "http://localhost:8080";
 var myHeaders = new Headers();
-myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNDEwOCIsInJvbGUiOiJTVFVERU5UIiwiZXhwIjoxNjc5OTU2MjMzLCJpYXQiOjE2Nzk5MjAyMzN9.DyXY110ISRUxM-qHRnNu2g1erdBbiazDabevhcy6dGU");
+myHeaders.append(
+  "Authorization",
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNDEwOCIsInJvbGUiOiJTVFVERU5UIiwiZXhwIjoxNjc5OTU2MjMzLCJpYXQiOjE2Nzk5MjAyMzN9.DyXY110ISRUxM-qHRnNu2g1erdBbiazDabevhcy6dGU"
+);
 
 var raw = "";
 
 var requestOptions = {
-  method: 'GET',
+  method: "GET",
   headers: myHeaders,
-  
 };
 
 export const getTasks = async () => {
-    return await fetch(baseUrl + "/tasks", {
-      method: 'GET',
-      withCredentials:true,
-      credentials: 'include'
-      //mode: "cors",
-      // headers: {
-      //   "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNDEwOCIsInJvbGUiOiJTVFVERU5UIiwiZXhwIjoxNjc5OTU2MjMzLCJpYXQiOjE2Nzk5MjAyMzN9.DyXY110ISRUxM-qHRnNu2g1erdBbiazDabevhcy6dGU"
-      // },
-      //credentials: 'same-origin',
-    })
+  return await fetch(baseUrl + "/tasks", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+    //mode: "cors",
+    // headers: {
+    //   "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNDEwOCIsInJvbGUiOiJTVFVERU5UIiwiZXhwIjoxNjc5OTU2MjMzLCJpYXQiOjE2Nzk5MjAyMzN9.DyXY110ISRUxM-qHRnNu2g1erdBbiazDabevhcy6dGU"
+    // },
+    //credentials: 'same-origin',
+  })
     .then((response) => response.json())
     .then((data) => {
       return data;

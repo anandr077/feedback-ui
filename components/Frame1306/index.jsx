@@ -3,7 +3,6 @@ import Frame1304 from "../Frame1304";
 import styled from "styled-components";
 import { IbmplexsansNormalShark16px } from "../../styledMixins";
 
-
 function Frame1306(props) {
   const { frame1304Props } = props;
 

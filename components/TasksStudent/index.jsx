@@ -58,7 +58,9 @@ function TasksStudent(props) {
         />
         <Group6>
           <OverlapGroup>
-            <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
+            <X2023JeddleAllRightsReserved>
+              {x2023JeddleAllRightsReserved}
+            </X2023JeddleAllRightsReserved>
             <Frame6>
               <MainWebsite>{mainWebsite}</MainWebsite>
               <Terms>{terms}</Terms>

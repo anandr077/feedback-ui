@@ -2,7 +2,6 @@ import React from "react";
 import StatusBubbles2 from "../StatusBubbles2";
 import styled from "styled-components";
 
-
 function Frame65(props) {
   const { statusBubbles21Props, statusBubbles22Props } = props;
 

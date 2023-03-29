@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo13px } from "../../styledMixins";
 
-
 function Frame66() {
   return (
     <Frame6>

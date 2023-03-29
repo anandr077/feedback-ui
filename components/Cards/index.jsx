@@ -3,15 +3,12 @@ import Frame6 from "../Frame6";
 import Content from "../Content";
 import styled from "styled-components";
 
-
 function TaskCard(props) {
   const { task } = props;
 
   return (
     <Cards1>
-      <Frame6
-        tags={task.tags}
-      />
+      <Frame6 tags={task.tags} />
       <Content task={task} />
     </Cards1>
   );

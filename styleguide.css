@@ -1,4 +1,4 @@
-:root { 
+:root {
   --alto: #d9d9d9;
   --atlantis: #5fd12d33;
   --black: #000000;
@@ -26,7 +26,7 @@
   --white: #ffffff;
   --white-pointer: #fcfafe;
   --zanah: #dcf5d0;
- 
+
   --font-size-l: 16px;
   --font-size-m: 14px;
   --font-size-s: 13px;
@@ -34,6 +34,6 @@
   --font-size-xxl: 24px;
   --font-size-xxxl: 36px;
   --font-size-xxxxl: 64px;
- 
+
   --font-family-ibm_plex_sans: "IBM Plex Sans", Helvetica;
 }

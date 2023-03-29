@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../../styledMixins";
 
-
 function NavElement(props) {
   const { home3, place, className } = props;
 

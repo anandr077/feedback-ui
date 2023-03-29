@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed16px } from "../../styledMixins";
 
-
 function Frame1304(props) {
   const { iconsaxLinearSort } = props;
 

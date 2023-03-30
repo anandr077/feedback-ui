@@ -15,8 +15,6 @@ function TasksDesktop(props) {
   const {
     allTasks,
     title,
-    overdue,
-    number,
     frame1306Props,
     frame13531Props,
     frame13532Props,
@@ -32,35 +30,25 @@ function TasksDesktop(props) {
           <Frame1306 frame1304Props={frame1306Props.frame1304Props} />
           <Frame1359>
             <Frame1354>
-              <Frame1353
-                outstanding={frame13531Props.outstanding}
-                number={allTasks.length}
-              />
+              <Frame1353 outstanding="Outstanding" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
             <Frame1354>
-              <Frame1353
-                outstanding={frame13532Props.outstanding}
-                number={allTasks.length}
-              />
+              <Frame1353 outstanding="In Progress" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
             <Frame1358>
-              <Frame1357>
-                <Overdue>{overdue}</Overdue>
-                <Number>{number}</Number>
-              </Frame1357>
+              <Frame1353 outstanding="Overdue" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
               />
-              <ScrollBar></ScrollBar>
             </Frame1358>
           </Frame1359>
         </Frame1360>
@@ -173,16 +161,6 @@ const Number = styled.div`
   text-align: right;
   letter-spacing: 0;
   line-height: normal;
-`;
-
-const ScrollBar = styled.div`
-  position: absolute;
-  top: 190px;
-  left: 453px;
-  width: 4px;
-  height: 140px;
-  background-color: var(--alto);
-  border-radius: 2px;
 `;
 
 export default TasksDesktop;

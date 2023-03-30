@@ -29,7 +29,7 @@ function App() {
       },
     ],
   };
-  const [allTasks, setAllTasks] = useState([task, task, task]);
+  const [allTasks, setAllTasks] = useState([task, task, task, task, task]);
   // useEffect(()=> {
   // getTasks()
   // .then((result)=>{

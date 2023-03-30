@@ -5,26 +5,20 @@ import styled from "styled-components";
 function TaskCardContainer(props) {
   const { allTasks, className } = props;
   const cards = allTasks.map((task) => {
-    console.log(task);
     return <TaskCard task={task} />;
   });
-  return <Frame191 className={`frame-19 ${className || ""}`}>{cards}</Frame191>;
+  return <CardContainer>{cards}</CardContainer>;
 }
 
-const Frame191 = styled.div`
+const CardContainer = styled.div`
   display: flex;
-  position: relative;
-  margin-top: 21px;
   flex-direction: column;
-  width: 350px;
-  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
   gap: 20px;
-
-  &.frame-19.frame-19-1 {
-    align-self: stretch;
-    margin-top: unset;
-    width: unset;
-  }
+  overflow-y: scroll;
+  max-height: 480px;
 `;
 
 export default TaskCardContainer;

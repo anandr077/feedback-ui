@@ -18,7 +18,7 @@ export default function HeaderSmall() {
   return (
     <>
       <Frame1350>
-        <Frame1349 src="/img/frame-1349-1.png" />
+        <Frame1349 src="/img/frame-1349-2.png" />
         <Frame5>
           <Notifications src="/img/notificationbing@2x.png" />
           <Frame51 src="/img/frame-5@2x.png" onClick={handleMenuClick} />
@@ -37,25 +37,25 @@ export default function HeaderSmall() {
 
 const Frame1350 = styled.div`
   display: flex;
-  align-items: space-between;
+  align-items: flex-start;
   gap: 20px;
   padding: 16px 20px;
   position: relative;
-  width: 100%;
   max-height: 70px;
+  align-self: stretch;
   background-color: var(--white);
 `;
 
 const Frame1349 = styled.img`
   position: relative;
-  min-width: 857.75px;
+  align-self: stretch;
   height: 37.48846435546875px;
   margin-left: -1.75px;
 `;
 
 const Frame5 = styled.div`
   display: flex;
-  width: fit-content;
+  align-self: stretch;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
@@ -65,7 +65,7 @@ const Frame5 = styled.div`
 
 const Frame51 = styled.img`
   position: relative;
-  min-width: 48px;
+  align-self: stretch;
   height: 48px;
   cursor: pointer;
 `;
@@ -79,4 +79,5 @@ const Popup = styled.div`
   z-index: 1;
   background-color: var(--white);
   rbga(255, 255, 255, 0.5);
+  align-self: stretch;
 `;

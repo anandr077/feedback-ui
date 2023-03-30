@@ -41,9 +41,7 @@ function NavElement(props) {
     <article className="nav-element">
       <div className="group-1">
         <img className="icon-home" src={iconHome} alt="icon-home" />
-        <div className="placeibmplexsans-normal-white-20px">
-          {place}
-        </div>
+        <div className="placeibmplexsans-normal-white-20px">{place}</div>
       </div>
     </article>
   );
@@ -56,9 +54,7 @@ function NavElement2(props) {
     <article className={`nav-element-1-1 ${className || ""}`}>
       <div className="group-1-1">
         <img className="tasksquare" src={tasksquare} alt="tasksquare" />
-        <div className="homeibmplexsans-normal-persian-indigo-20px">
-          {home}
-        </div>
+        <div className="homeibmplexsans-normal-persian-indigo-20px">{home}</div>
       </div>
     </article>
   );
@@ -73,7 +69,11 @@ function NavElement3(props) {
         <div className="home-1ibmplexsans-normal-persian-indigo-20px">
           {home}
         </div>
-        <img className="exportsquare" src="exportsquare.png" alt="exportsquare" />
+        <img
+          className="exportsquare"
+          src="exportsquare.png"
+          alt="exportsquare"
+        />
       </div>
     </article>
   );

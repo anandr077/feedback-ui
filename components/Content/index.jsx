@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../../styledMixins";
 
 function Content(props) {
   const { task } = props;
@@ -9,7 +11,9 @@ function Content(props) {
   return (
     <Content1>
       <TaskTitle>{task.assignmentTitle}</TaskTitle>
-      <FundamentalsOfThermalPhysics>{task.courseTitle}</FundamentalsOfThermalPhysics>
+      <FundamentalsOfThermalPhysics>
+        {task.courseTitle}
+      </FundamentalsOfThermalPhysics>
       <Frame1282>
         <IconClock src="/img/clock@2x.png" alt="icon-clock" />
         <DueAt>{task.dueDate}</DueAt>

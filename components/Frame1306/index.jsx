@@ -3,27 +3,24 @@ import Frame1304 from "../Frame1304";
 import styled from "styled-components";
 import { IbmplexsansNormalShark16px } from "../../styledMixins";
 
-
-function Frame1306(props) {
-  const { frame1304Props } = props;
-
+function Frame1306() {
   return (
     <Frame13061>
-      <Frame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
+      <Frame1304 iconsaxLinearSort="/img/iconsax-linear-sort-2@2x.png" />
       <Line15 src="/img/line-15@2x.png" alt="Line 15" />
       <Frame1305>
         <Frame1282>
           <Task>Task:</Task>
           <Frame1285>
             <Assignment>Assignment</Assignment>
-            <Frame1284 src="/img/frame-1284@2x.png" alt="Frame 1284" />
+            <Frame1284 src="/img/frame-1284@2x.png" />
           </Frame1285>
         </Frame1282>
         <Frame1282>
           <Task>Type:</Task>
           <Frame1285>
             <Assignment>Theory</Assignment>
-            <Frame1284 src="/img/frame-1284@2x.png" alt="Frame 1284" />
+            <Frame1284 src="/img/frame-1284@2x.png" />
           </Frame1285>
         </Frame1282>
       </Frame1305>

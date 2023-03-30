@@ -3,7 +3,6 @@ import StatusBubbles4 from "../StatusBubbles4";
 import StatusBubbles2 from "../StatusBubbles2";
 import styled from "styled-components";
 
-
 function Frame63(props) {
   const { statusBubbles2Props } = props;
 

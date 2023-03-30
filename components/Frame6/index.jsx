@@ -4,17 +4,12 @@ import StatusBubbles2 from "../StatusBubbles2";
 import StatusBubbles3 from "../StatusBubbles3";
 import styled from "styled-components";
 
-
 function Frame6(props) {
   const { tags } = props;
   const statusBubbles = tags.map((tag) => {
-    return <StatusBubbles tag={tag} />
+    return <StatusBubbles tag={tag} />;
   });
-  return (
-    <Frame61>
-      {statusBubbles}
-    </Frame61>
-  );
+  return <Frame61>{statusBubbles}</Frame61>;
 }
 
 const Frame61 = styled.div`

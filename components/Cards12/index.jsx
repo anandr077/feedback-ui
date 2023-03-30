@@ -3,7 +3,6 @@ import Frame62 from "../Frame62";
 import Content3 from "../Content3";
 import styled from "styled-components";
 
-
 function Cards12(props) {
   const { className, frame62Props, content3Props } = props;
 
@@ -13,7 +12,10 @@ function Cards12(props) {
         statusBubbles21Props={frame62Props.statusBubbles21Props}
         statusBubbles22Props={frame62Props.statusBubbles22Props}
       />
-      <Content3 clock={content3Props.clock} dueOn2April2023={content3Props.dueOn2April2023} />
+      <Content3
+        clock={content3Props.clock}
+        dueOn2April2023={content3Props.dueOn2April2023}
+      />
     </Cards>
   );
 }

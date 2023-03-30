@@ -1,8 +1,10 @@
 import React from "react";
 import Frame65 from "../Frame65";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../../styledMixins";
 
 function Cards15(props) {
   const { className, frame65Props } = props;
@@ -21,8 +23,14 @@ function Cards15(props) {
           Fundamentals of thermal physics
         </FundamentalsOfThermalPhysics>
         <Frame1282 className="frame-1282-4">
-          <IconClock className="icon-clock-3" src="/img/clock@2x.png" alt="icon-clock" />
-          <DueOn2April2023 className="due-on-2-april-2023-3">Due on 2 April 2023</DueOn2April2023>
+          <IconClock
+            className="icon-clock-3"
+            src="/img/clock@2x.png"
+            alt="icon-clock"
+          />
+          <DueOn2April2023 className="due-on-2-april-2023-3">
+            Due on 2 April 2023
+          </DueOn2April2023>
         </Frame1282>
       </Content>
     </Cards>

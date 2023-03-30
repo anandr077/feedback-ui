@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansSemiBoldBlack16px } from "../../styledMixins";
 
-
 function Tabs2(props) {
   const { children, className } = props;
 

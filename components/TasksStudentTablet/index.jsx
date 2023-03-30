@@ -5,46 +5,30 @@ import TaskCardContainer from "../Frame19";
 import Notifications from "../Notifications";
 import Tabs from "../Tabs";
 import Tabs2 from "../Tabs2";
+import Footer from "../Footer";
+import HeaderSmall from "../HeaderSmall";
 
 import {
-  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansSemiBoldRiverBed24px
+  IbmplexsansBoldShark36px,
+  IbmplexsansSemiBoldRiverBed24px,
 } from "../../styledMixins";
 import "./TasksStudentTablet.css";
 
 function TasksStudentTablet(props) {
   const {
     allTasks,
-    frame1349,
-    frame5,
     keepOrganizedWitho,
     outstanding,
-    number,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
-    notificationsProps,
     frame1304Props,
     tabs21Props,
     tabs22Props,
-    cards6Props,
-    cards7Props,
-    cards8Props,
-    cards9Props,
-    cards10Props,
-    frame19Props,
 
+    frame19Props,
   } = props;
 
   return (
     <div className="tasks-student-tablet screen">
-      <Frame1350>
-        <Frame1349 src={frame1349} alt="Frame 1349" />
-        <Frame5>
-          <Notifications src={notificationsProps.src} />
-          <Frame51 src={frame5} alt="Frame 5" />
-        </Frame5>
-      </Frame1350>
+      <HeaderSmall />
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>{keepOrganizedWitho}</KeepOrganizedWitho>
@@ -62,57 +46,16 @@ function TasksStudentTablet(props) {
               <Number>{allTasks.length}</Number>
             </Frame1362>
             <TaskCardContainer
-              allTasks = {allTasks}
+              allTasks={allTasks}
               className={frame19Props.className}
             />
           </Frame1363>
         </Frame1364>
       </Frame1365>
-      <Frame6>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
-        <Frame61>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame61>
-      </Frame6>
+      <Footer />
     </div>
   );
 }
-
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.img`
-  position: relative;
-  flex: 1;
-  min-width: 857.75px;
-  height: 37.48846435546875px;
-  margin-left: -1.75px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: relative;
-`;
-
-const Frame51 = styled.img`
-  position: relative;
-  min-width: 48px;
-  height: 48px;
-  cursor: pointer;
-`;
 
 const Frame1365 = styled.div`
   display: flex;
@@ -193,55 +136,6 @@ const Number = styled.div`
   width: fit-content;
   margin-top: -1px;
   text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame6 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2023JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const MainWebsite = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame61 = styled.div`
-  ${IbmplexsansNormalPersianIndigo13px}
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Terms = styled.div`
-  position: relative;
-  align-self: stretch;
-  text-align: center;
   letter-spacing: 0;
   line-height: normal;
 `;

@@ -3,14 +3,16 @@ import Frame63 from "../Frame63";
 import Content4 from "../Content4";
 import styled from "styled-components";
 
-
 function Cards19(props) {
   const { className, frame63Props, content4Props } = props;
 
   return (
     <Cards className={`cards-28 ${className || ""}`}>
       <Frame63 statusBubbles2Props={frame63Props.statusBubbles2Props} />
-      <Content4 clock={content4Props.clock} dueOn2April2023={content4Props.dueOn2April2023} />
+      <Content4
+        clock={content4Props.clock}
+        dueOn2April2023={content4Props.dueOn2April2023}
+      />
     </Cards>
   );
 }

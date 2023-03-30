@@ -1,15 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../../styledMixins";
 
 function Content4(props) {
   const { clock, dueOn2April2023 } = props;
 
   return (
     <Content>
-      <PhysicsThermodyna>Physics - thermodynamics assignment questions (MCQ)</PhysicsThermodyna>
-      <FundamentalsOfThermalPhysics>Fundamentals of thermal physics</FundamentalsOfThermalPhysics>
+      <PhysicsThermodyna>
+        Physics - thermodynamics assignment questions (MCQ)
+      </PhysicsThermodyna>
+      <FundamentalsOfThermalPhysics>
+        Fundamentals of thermal physics
+      </FundamentalsOfThermalPhysics>
       <Frame1282>
         <IconClock src={clock} alt="icon-clock" />
         <DueOn2April2023>{dueOn2April2023}</DueOn2April2023>

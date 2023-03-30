@@ -2,14 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumHorsesNeck13px } from "../../styledMixins";
 
-
 function StatusBubbles(props) {
   const { tag } = props;
-  return (
-    <StatusBubbles1>
-      {tag.name}
-    </StatusBubbles1>
-  );
+  return <StatusBubbles1>{tag.name}</StatusBubbles1>;
 }
 
 const StatusBubbles1 = styled.article`

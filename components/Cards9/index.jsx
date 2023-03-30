@@ -3,7 +3,6 @@ import Frame64 from "../Frame64";
 import Content2 from "../Content2";
 import styled from "styled-components";
 
-
 function Cards9(props) {
   const { frame64Props, content2Props } = props;
 

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansSemiBoldRiverBed24px } from "../../styledMixins";
 
-
 function Frame1353(props) {
   const { outstanding, number } = props;
 

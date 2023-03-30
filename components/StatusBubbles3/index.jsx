@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumCongressBlue13px } from "../../styledMixins";
 
-
 function StatusBubbles3(props) {
   const { star1 } = props;
 

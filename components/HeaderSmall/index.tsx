@@ -77,4 +77,6 @@ const Popup = styled.div`
   height: 100px;
   cursor: pointer;
   z-index: 1;
+  background-color: var(--white);
+  rbga(255, 255, 255, 0.5);
 `;

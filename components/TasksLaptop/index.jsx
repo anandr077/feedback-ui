@@ -1,6 +1,6 @@
 import React from "react";
 import Frame1306 from "../Frame1306";
-import Frame13532 from "../Frame13532";
+import Frame1353 from "../Frame1353";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark64px,
@@ -23,7 +23,7 @@ function TasksLaptop(props) {
           <Frame1306 />
           <Frame1359>
             <Frame1358>
-              <Frame13532 outstanding="Outstanding" number={allTasks.length} />
+              <Frame1353 outstanding="Outstanding" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
@@ -31,7 +31,7 @@ function TasksLaptop(props) {
               />
             </Frame1358>
             <Frame1358>
-              <Frame13532 outstanding="In Progress" number={allTasks.length} />
+              <Frame1353 outstanding="In Progress" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
@@ -40,16 +40,12 @@ function TasksLaptop(props) {
             </Frame1358>
 
             <Frame1358>
-              <Frame1357>
-                <Overdue>Overdue</Overdue>
-                <Number>{allTasks.length}</Number>
-              </Frame1357>
+              <Frame1353 outstanding="Overdue" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
                 cardsProps={frame19Props.cardsProps}
               />
-              <ScrollBar></ScrollBar>
             </Frame1358>
           </Frame1359>
         </Frame1360>
@@ -84,6 +80,8 @@ const Frame1360 = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  width: 80%;
+  left: 10%;
   position: relative;
   align-self: stretch;
 `;
@@ -94,23 +92,7 @@ const Frame1359 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame19 = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 609px;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  overflow: hidden;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
+  width: 100%;
 `;
 
 const Frame1358 = styled.div`
@@ -121,18 +103,10 @@ const Frame1358 = styled.div`
   padding: 20px 20px 0px;
   position: relative;
   flex: 1;
+  width: 100%;
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
-`;
-
-const Frame1357 = styled.div`
-  ${IbmplexsansSemiBoldRiverBed24px}
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
 `;
 
 const Overdue = styled.div`

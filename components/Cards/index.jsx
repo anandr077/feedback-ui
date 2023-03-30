@@ -1,20 +1,20 @@
 import React from "react";
-import Frame6 from "../Frame6";
-import Content from "../Content";
+import StatusBubbleContainer from "../StatusBubblesContainer";
+import CardContent from "../CardContent";
 import styled from "styled-components";
 
 function TaskCard(props) {
   const { task } = props;
 
   return (
-    <Cards1>
-      <Frame6 tags={task.tags} />
-      <Content task={task} />
-    </Cards1>
+    <StyledCard>
+      <StatusBubbleContainer tags={task.tags} />
+      <CardContent task={task} />
+    </StyledCard>
   );
 }
 
-const Cards1 = styled.article`
+const StyledCard = styled.article`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

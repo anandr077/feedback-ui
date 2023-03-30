@@ -2,17 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo13px } from "../../styledMixins";
 
-function Frame66() {
+function FooterLinks() {
   return (
-    <Frame6>
+    <FooterLinksContainer>
       <MainWebsite>Main Website</MainWebsite>
       <MainWebsite>Terms</MainWebsite>
       <MainWebsite>Privacy</MainWebsite>
-    </Frame6>
+    </FooterLinksContainer>
   );
 }
 
-const Frame6 = styled.div`
+const FooterLinksContainer = styled.div`
   ${IbmplexsansNormalPersianIndigo13px}
   display: flex;
   width: fit-content;
@@ -46,4 +46,4 @@ const MainWebsite1 = styled.div`
   line-height: normal;
 `;
 
-export default Frame66;
+export default FooterLinks;

@@ -7,14 +7,14 @@ function TaskCard(props) {
   const { task } = props;
 
   return (
-    <Cards1>
+    <StyledCard>
       <Frame6 tags={task.tags} />
       <Content task={task} />
-    </Cards1>
+    </StyledCard>
   );
 }
 
-const Cards1 = styled.article`
+const StyledCard = styled.article`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

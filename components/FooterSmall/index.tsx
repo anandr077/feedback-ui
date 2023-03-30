@@ -7,21 +7,18 @@ import {
 
 export default function FooterSmall() {
   return (
-    <Frame6>
-      <X2023JeddleAllRightsReserved>
-        {" "}
-        © 2023 Jeddle. All rights reserved.
-      </X2023JeddleAllRightsReserved>
-      <Frame61>
+    <SmallFooterContainer>
+      <SmallFooterText> © 2023 Jeddle. All rights reserved.</SmallFooterText>
+      <SmallFooterLinksContainer>
         <MainWebsite>Main Website</MainWebsite>
         <Terms>Terms</Terms>
         <Terms>Privacy</Terms>
-      </Frame61>
-    </Frame6>
+      </SmallFooterLinksContainer>
+    </SmallFooterContainer>
   );
 }
 
-const Frame6 = styled.div`
+const SmallFooterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,7 +29,7 @@ const Frame6 = styled.div`
   background-color: var(--white);
 `;
 
-const X2023JeddleAllRightsReserved = styled.p`
+const SmallFooterText = styled.p`
   ${IbmplexsansNormalChicago13px}
   position: relative;
   align-self: stretch;
@@ -51,7 +48,7 @@ const MainWebsite = styled.div`
   line-height: normal;
 `;
 
-const Frame61 = styled.div`
+const SmallFooterLinksContainer = styled.div`
   ${IbmplexsansNormalPersianIndigo13px}
   display: flex;
   flex-direction: column;

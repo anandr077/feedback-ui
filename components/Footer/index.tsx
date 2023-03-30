@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px } from "../../styledMixins";
-import Frame66 from "../Frame66";
+import FooterLinks from "../FooterLinks";
 
 export default function Footer() {
   return (
-    <Frame6>
+    <FooterContainer>
       <FooterText>© 2021 Jeddle. All rights reserved.</FooterText>
-      <Frame66 />
-    </Frame6>
+      <FooterLinks />
+    </FooterContainer>
   );
 }
 
-const Frame6 = styled.div`
+const FooterContainer = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 20px;

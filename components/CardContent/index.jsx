@@ -5,11 +5,11 @@ import {
   IbmplexsansNormalShark20px,
 } from "../../styledMixins";
 
-function Content(props) {
+function CardContent(props) {
   const { task } = props;
 
   return (
-    <Content1>
+    <Content>
       <TaskTitle>{task.assignmentTitle}</TaskTitle>
       <FundamentalsOfThermalPhysics>
         {task.courseTitle}
@@ -18,11 +18,11 @@ function Content(props) {
         <IconClock src="/img/clock@2x.png" alt="icon-clock" />
         <DueAt>{task.dueDate}</DueAt>
       </Frame1282>
-    </Content1>
+    </Content>
   );
 }
 
-const Content1 = styled.div`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -122,4 +122,4 @@ const DueOn2April20231 = styled.p`
   line-height: normal;
 `;
 
-export default Content;
+export default CardContent;

@@ -1,6 +1,6 @@
 import React from "react";
-import Frame6 from "../Frame6";
-import Content from "../Content";
+import StatusBubbleContainer from "../StatusBubblesContainer";
+import CardContent from "../CardContent";
 import styled from "styled-components";
 
 function TaskCard(props) {
@@ -8,8 +8,8 @@ function TaskCard(props) {
 
   return (
     <StyledCard>
-      <Frame6 tags={task.tags} />
-      <Content task={task} />
+      <StatusBubbleContainer tags={task.tags} />
+      <CardContent task={task} />
     </StyledCard>
   );
 }

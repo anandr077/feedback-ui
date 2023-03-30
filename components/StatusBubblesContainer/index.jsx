@@ -2,15 +2,19 @@ import React from "react";
 import StatusBubbles from "../StatusBubbles";
 import styled from "styled-components";
 
-function Frame6(props) {
+function StatusBubblesContainer(props) {
   const { tags } = props;
   const statusBubbles = tags.map((tag) => {
     return <StatusBubbles tag={tag} />;
   });
-  return <StatusBubblesContainer>{statusBubbles}</StatusBubblesContainer>;
+  return (
+    <StatusBubblesInternalContainer>
+      {statusBubbles}
+    </StatusBubblesInternalContainer>
+  );
 }
 
-const StatusBubblesContainer = styled.div`
+const StatusBubblesInternalContainer = styled.div`
   display: flex;
   width: fit-content;
   align-items: center;
@@ -18,4 +22,4 @@ const StatusBubblesContainer = styled.div`
   position: relative;
 `;
 
-export default Frame6;
+export default StatusBubblesContainer;

@@ -1,10 +1,17 @@
 import { css } from "styled-components";
 import React from "react";
-import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
+
+import {
+  Switch,
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
 import TasksStudentMobile from "./components/TasksStudentMobile";
 import TasksStudentTablet from "./components/TasksStudentTablet";
 import TasksDesktop from "./components/TasksDesktop";
 import TasksLaptop from "./components/TasksLaptop";
+import DashboardHomeStudent from "./components/DashboardHomeStudent";
 import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -13,6 +20,8 @@ import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getTasks } from "./service.js";
+import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop";
+import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
 function App() {
   const task = {
     assignmentId: "9cec54d3-5577-4b22-894c-b8b02eb6b3e0",
@@ -29,7 +38,7 @@ function App() {
       },
     ],
   };
-  const [allTasks, setAllTasks] = useState([task, task, task, task, task]);
+  const [allTasks, setAllTasks] = useState([task, task, task]);
   // useEffect(()=> {
   // getTasks()
   // .then((result)=>{
@@ -42,16 +51,40 @@ function App() {
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
   return (
-    <>
-      {isMobileView && (
-        <TasksStudentMobile {...{ allTasks, ...tasksStudentMobileData }} />
-      )}
-      {isTabletView && (
-        <TasksStudentTablet {...{ allTasks, ...tasksStudentTabletData }} />
-      )}
-      {isLaptopView && <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />}
-      {isDesktopView && <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />}
-    </>
+    <Router>
+      <Switch>
+        <Route path="/dashboard-laptop">
+          <DashboardHomeStudentLaptop
+            {...{ allTasks, ...dashboardHomeStudentLaptopData }}
+          />
+        </Route>
+        <Route path="/dashboard-mobile">
+          <DashboardHomeStudentMobile
+            {...{ allTasks, ...dashboardHomeStudentMobileData }}
+          />
+        </Route>
+        <Route path="/tasks">
+          <>
+            {isMobileView && (
+              <TasksStudentMobile
+                {...{ allTasks, ...tasksStudentMobileData }}
+              />
+            )}
+            {isTabletView && (
+              <TasksStudentTablet
+                {...{ allTasks, ...tasksStudentTabletData }}
+              />
+            )}
+            {isLaptopView && (
+              <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />
+            )}
+            {isDesktopView && (
+              <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
+            )}
+          </>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
@@ -1169,4 +1202,174 @@ const cards215Data = {
 
 const tasksLaptopData = {
   frame19Props: frame191Data,
+};
+
+const navElement8Data = {
+  iconHome: "/img/home3@2x.png",
+  place: "Home",
+};
+
+const navElement213Data = {
+  tasksquare: "/img/tasksquare@2x.png",
+  home: "Tasks",
+};
+
+const navElement214Data = {
+  tasksquare: "/img/clipboardtick@2x.png",
+  home: "Submissions",
+  className: "nav-element-18",
+};
+
+const notifications13Data = {
+  src: "/img/notificationbing-2@2x.png",
+};
+
+const frame47Data = {
+  maskGroup: "/img/mask-group-4@2x.png",
+  className: "frame-4-5",
+};
+
+const group12055Data = {
+  className: "group-1205-2",
+};
+
+const statusBubbles80Data = {
+  children: "Assignment",
+};
+
+const statusBubbles81Data = {
+  children: "Theory",
+};
+
+const frame6122Data = {
+  statusBubbles1Props: statusBubbles80Data,
+  statusBubbles2Props: statusBubbles81Data,
+};
+
+const cards272Data = {
+  iconClock: "/img/clock-4@2x.png",
+  frame612Props: frame6122Data,
+};
+
+const group12056Data = {
+  className: "group-1206-2",
+};
+
+const statusBubbles413Data = {
+  crown: "/img/crown-2@2x.png",
+};
+
+const frame6428Data = {
+  statusBubbles4Props: statusBubbles413Data,
+};
+
+const cards426Data = {
+  frame64Props: frame6428Data,
+};
+
+const frame13402Data = {
+  line17: "/img/line-17-5.png",
+  group1205Props: group12056Data,
+  cards42Props: cards426Data,
+};
+
+const frame6627Data = {
+  className: "frame-6-6",
+};
+
+const frame6112Data = {
+  frame662Props: frame6627Data,
+};
+
+const dashboardHomeStudentLaptopData = {
+  frame1343: "/img/frame-1343-1@2x.png",
+  keepOrganizedWitho1: "Welcome, Eleanor",
+  keepOrganizedWitho2:
+    "Your dashboard contains all the vital information you need to start learning right away",
+  maskGroup: "/img/mask-group-2.png",
+  tasks: "Tasks",
+  line17: "/img/line-17-4.png",
+  line16: "/img/line-17-4.png",
+  navElementProps: navElement8Data,
+  navElement21Props: navElement213Data,
+  navElement22Props: navElement214Data,
+  notificationsProps: notifications13Data,
+  frame4Props: frame47Data,
+  group1205Props: group12055Data,
+  cards27Props: cards272Data,
+  frame1340Props: frame13402Data,
+  frame611Props: frame6112Data,
+};
+
+
+const notifications11Data = {
+  src: "/img/notificationbing@2x.png",
+};
+
+const group120522Data = {
+  arrowright: "/img/arrowright@2x.png",
+};
+
+const frame12081Data = {
+  tasks: "Tasks",
+  group12052Props: group120522Data,
+};
+
+const statusBubbles76Data = {
+  children: "Assignment",
+};
+
+const statusBubbles77Data = {
+  children: "MCQ",
+};
+
+const frame6722Data = {
+  statusBubbles1Props: statusBubbles76Data,
+  statusBubbles2Props: statusBubbles77Data,
+};
+
+const cards28Data = {
+  physicsThermodyna: "Physics - thermodynamics assignment questions (MCQ)",
+  fundamentalsOfThermalPhysics: "Fundamentals of thermal physics",
+  frame672Props: frame6722Data,
+};
+
+const group120523Data = {
+  arrowright: "/img/arrowright@2x.png",
+};
+
+const frame12082Data = {
+  tasks: "Exemplar responses",
+  group12052Props: group120523Data,
+};
+
+const statusBubbles411Data = {
+  crown: "/img/crown@2x.png",
+};
+
+const frame6426Data = {
+  statusBubbles4Props: statusBubbles411Data,
+};
+
+const cards29Data = {
+  physicsThermodyna: "Physics - thermodynamics assignment questions (MCQ)",
+  fundamentalsOfThermalPhysics: "Fundamentals of thermal physics",
+  frame642Props: frame6426Data,
+};
+
+const dashboardHomeStudentMobileData = {
+  frame1349: "/img/frame-1349@2x.png",
+  frame5: "/img/frame-5@2x.png",
+  keepOrganizedWitho1: "Welcome, Eleanor",
+  keepOrganizedWitho2: "Your dashboard contains all the vital information you need to start learning right away",
+  maskGroup: "/img/mask-group@2x.png",
+  line171: "/img/line-17@2x.png",
+  line172: "/img/line-17@2x.png",
+  notificationsProps: notifications11Data,
+  frame12081Props: frame12081Data,
+  cards28Props: cards28Data,
+  frame12082Props: frame12082Data,
+  cards29Props: cards29Data,
+  group1205Props: group12055Data,
+  frame1340Props: frame13402Data,
 };

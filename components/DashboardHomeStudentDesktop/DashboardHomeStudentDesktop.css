@@ -1,0 +1,16 @@
+.dashboard-home-student-desktop {
+  align-items: flex-start;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 117px;
+  min-width: 1920px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.dashboard-home-student-desktop:hover {
+  transform: scale(1.05);
+}

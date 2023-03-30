@@ -18,7 +18,7 @@ export default function HeaderSmall() {
   return (
     <>
       <Frame1350>
-        <Frame1349 src="/img/frame-1349-2.png" />
+        <Frame1349 src="/img/frame-1349@2x.png" />
         <Frame5>
           <Notifications src="/img/notificationbing@2x.png" />
           <Frame51 src="/img/frame-5@2x.png" onClick={handleMenuClick} />

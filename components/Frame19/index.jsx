@@ -3,7 +3,7 @@ import TaskCard from "../Cards";
 import styled from "styled-components";
 
 function TaskCardContainer(props) {
-  const { allTasks, className } = props;
+  const { allTasks } = props;
   const cards = allTasks.map((task) => {
     return <TaskCard task={task} />;
   });

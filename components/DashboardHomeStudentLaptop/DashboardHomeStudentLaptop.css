@@ -1,0 +1,17 @@
+.dashboard-home-student-laptop {
+  align-items: flex-start;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 1440px;
+  position: relative;
+  transition: all 0.2s ease;
+  height: 100vh;
+}
+/* 
+.dashboard-home-student-laptop:hover {
+  transform: scale(1.05);
+} */

@@ -5,13 +5,13 @@ import { IbmplexsansMediumHorsesNeck13px } from "../../styledMixins";
 function StatusBubbles(props) {
   const { tag } = props;
   return (
-    <StatusBubbles>
+    <StatusBubble>
       <StatusBubblesText>{tag.name}</StatusBubblesText>
-    </StatusBubbles>
+    </StatusBubble>
   );
 }
 
-const StatusBubbles = styled.article`
+const StatusBubble = styled.article`
   display: flex;
   width: fit-content;
   align-items: flex-start;

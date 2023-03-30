@@ -8,8 +8,8 @@ function Checkbox3(props) {
   return (
     <Checkbox className={`checkbox-8 ${className || ""}`}>
       <Checkbox1 className="checkbox-9">
-        <Rectangle43 className="rectangle-43-2"></Rectangle43>
-        <Vector className="vector-3" src="/img/vector-5@2x.png" alt="Vector" />
+        <Rectangle43 />
+        {/* <Vector className="vector-3" src="/img/vector-5@2x.png" alt="Vector" /> */}
       </Checkbox1>
       <Assignment className="assignment-4">Class Name</Assignment>
     </Checkbox>

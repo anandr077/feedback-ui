@@ -24,6 +24,7 @@ import Checkbox3 from "../Checkbox3";
 import RadioBox2 from "../RadioBox2";
 import Frame662 from "../Frame662";
 import styled from "styled-components";
+import Group1255 from "../Group1255";
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansSemiBoldShark24px,
@@ -33,6 +34,7 @@ import {
   IbmplexsansSemiBoldShark20px,
   IbmplexsansNormalElectricViolet16px,
   IbmplexsansMediumWhite16px,
+  IbmplexsansNormalMountainMist20px,
 } from "../../styledMixins";
 
 import "./CreateAAssignmentLaptop.css";
@@ -95,7 +97,7 @@ function CreateAAssignmentLaptop(props) {
 
   const assignmentTemplate = {
     title: "postman assignment with a very big title ",
-    courseIds: [12440],
+    courseIds: [],
     questions: [
       {
         serialNumber: "1",
@@ -112,20 +114,92 @@ function CreateAAssignmentLaptop(props) {
 
   const publish = () => {
     const assignmentName = document.getElementById("assignmentName").value;
-    assignmentTemplate.title = assignmentName;
-    console.log(assignmentTemplate);
-  };
-
-  const [courses, setCourses] = React.useState([]);
-  useEffect(() => {
-    getCourses().then((res) => {
-      setCourses(res);
-      console.log(res);
+    assignmentTemplate.courseIds = [];
+    courses.forEach((course) => {
+      if (document.getElementById(course.id).checked) {
+        assignmentTemplate.courseIds.push(course.id);
+      }
     });
+
+    assignmentTemplate.title = assignmentName;
+    const questions = [];
+    const question1 = {
+      serialNumber: "1",
+      question: document.getElementById("question1").value,
+      type: "TEXT",
+    };
+    questions.push(question1);
+    assignmentTemplate.questions = questions;
+    console.log(assignmentTemplate);
+
     createAssignment(assignmentTemplate).then((res) => {
       console.log(res);
     });
+  };
+
+  const [courses, setCourses] = React.useState([
+    {
+      id: "12440",
+      title: "All the Light We Cannot See",
+    },
+    {
+      id: "603",
+      title: "Contemporary Asian Australian Poets",
+    },
+    {
+      id: "3710",
+      title: "Frankenstein",
+    },
+    {
+      id: "3720",
+      title: "Metropolis",
+    },
+    {
+      id: "188",
+      title: "Nineteen Eighty-Four",
+    },
+    {
+      id: "627",
+      title: "Oodgeroo Noonuccal Poetry",
+    },
+    {
+      id: "419",
+      title: "Richard III &#038; Looking For Richard",
+    },
+    {
+      id: "186",
+      title: "Section I &#8211; Comprehension",
+    },
+    {
+      id: "425",
+      title: "T.S. Eliot Poetry",
+    },
+    {
+      id: "591",
+      title: "The Castle",
+    },
+  ]);
+
+  const checkboxes = courses.map((course) => {
+    return (
+      <Checkbox>
+        <Checkbox1>
+          <Rectangle43 key={course.id} id={course.id} type="checkbox" />
+        </Checkbox1>
+        <CheckBoxText>{course.title}</CheckBoxText>
+      </Checkbox>
+    );
   });
+
+  // useEffect(() => {
+  //   getCourses().then((res) => {
+  //     setCourses(res);
+  //     console.log(res);
+  //   });
+  //   createAssignment(assignmentTemplate).then((res) => {
+  //     console.log(res);
+  //   });
+  // });
 
   return (
     <div className="create-a-assignment-laptop screen">
@@ -156,6 +230,7 @@ function CreateAAssignmentLaptop(props) {
                 <Questions>{questions}</Questions>
                 <Buttons2 add={buttons21Props.add} />
               </Frame1372>
+
               <Frame1295>
                 <QuestionFrame>
                   <Frame1295>
@@ -169,18 +244,36 @@ function CreateAAssignmentLaptop(props) {
                     />
                     <Line14 src={line141} alt="Line 14" />
                   </Frame1295>
+
                   <Frame1289>
-                    <Input5 input={input51Props.input} />
-                    <Input6
-                      label={input61Props.label}
-                      input={input61Props.input}
-                    />
-                    <Input6
-                      label={input62Props.label}
-                      input={input62Props.input}
-                    />
+                    <InputQuestion>
+                      <Label>Type of question</Label>
+                      <QuestionFrame1>
+                        <QuestionInput>Theory</QuestionInput>
+                      </QuestionFrame1>
+                    </InputQuestion>
+
+                    <InputQuestion>
+                      <Label>Question</Label>
+                      <QuestionFrame1>
+                        <QuestionInputEditable
+                          id="question1"
+                          placeholder="Type Your Question here"
+                        />
+                      </QuestionFrame1>
+                    </InputQuestion>
+                    <InputQuestion>
+                      <Label>Hint (Optional)</Label>
+                      <QuestionFrame1>
+                        <QuestionInputEditable
+                          id="question1hint"
+                          placeholder="Optional"
+                        />
+                      </QuestionFrame1>
+                    </InputQuestion>
+
                     <Frame1291 className={frame1291Props.className} />
-                    <Buttons3 />
+                    {/* <Buttons3 /> */}
                   </Frame1289>
                 </QuestionFrame>
 
@@ -191,11 +284,9 @@ function CreateAAssignmentLaptop(props) {
                       <Frame1287>
                         <Frame1283>
                           <Frame1282>
-                            <Text11>{text11}</Text11>
+                            <Text11>2</Text11>
                             <Frame1281>
-                              <ToremIpsumDolorSi>
-                                {toremIpsumDolorSi}
-                              </ToremIpsumDolorSi>
+                              <ToremIpsumDolorSi>Section 2</ToremIpsumDolorSi>
                               <RichTextComponents3
                                 bulletListProps={
                                   richTextComponents3Props.bulletListProps
@@ -205,52 +296,93 @@ function CreateAAssignmentLaptop(props) {
                           </Frame1282>
                           <Frame1284 src={frame1284} alt="Frame 1284" />
                         </Frame1283>
-                        <Frame12803 />
                       </Frame1287>
                     </Frame1297>
                     <Line14 src={line142} alt="Line 14" />
                   </Frame1295>
+
                   <Frame1289>
-                    <Input5 input={input52Props.input} />
-                    <Input6
-                      label={input63Props.label}
-                      input={input63Props.input}
-                    />
+                    <InputQuestion>
+                      <Label>Type of question</Label>
+                      <QuestionFrame1>
+                        <QuestionInput>MCQ</QuestionInput>
+                      </QuestionFrame1>
+                    </InputQuestion>
+
+                    <InputQuestion>
+                      <Label>Question</Label>
+                      <QuestionFrame1>
+                        <QuestionInputEditable
+                          id="question2"
+                          placeholder="Type Your Question here"
+                        />
+                      </QuestionFrame1>
+                    </InputQuestion>
                     <Input>
                       <Options>{options}</Options>
                       <Frame1285>
-                        <Input8
-                          option1={input81Props.option1}
-                          group1255Props={input81Props.group1255Props}
-                        />
-                        <Input8
-                          option1={input82Props.option1}
-                          group1255Props={input82Props.group1255Props}
-                        />
-                        <Input8
-                          option1={input83Props.option1}
-                          group1255Props={input83Props.group1255Props}
-                        />
-                        <Input8
-                          option1={input84Props.option1}
-                          group1255Props={input84Props.group1255Props}
-                        />
+                        <MCQInput>
+                          <MCQFrame>
+                            <QuestionInputEditable
+                              id="option1"
+                              placeholder="Option 1"
+                            />
+                          </MCQFrame>
+                          <Group1255
+                            className={input82Props.group1255Props.className}
+                          />
+                        </MCQInput>
+
+                        <MCQInput>
+                          <MCQFrame>
+                            <QuestionInputEditable
+                              id="option2"
+                              placeholder="Option 2"
+                            />
+                          </MCQFrame>
+                          <Group1255
+                            className={input82Props.group1255Props.className}
+                          />
+                        </MCQInput>
+
+                        <MCQInput>
+                          <MCQFrame>
+                            <QuestionInputEditable
+                              id="option3"
+                              placeholder="Option 3"
+                            />
+                          </MCQFrame>
+                          <Group1255
+                            className={input82Props.group1255Props.className}
+                          />
+                        </MCQInput>
+
+                        <MCQInput>
+                          <MCQFrame>
+                            <QuestionInputEditable
+                              id="option4"
+                              placeholder="Option 4"
+                            />
+                          </MCQFrame>
+                          <Group1255
+                            className={input82Props.group1255Props.className}
+                          />
+                        </MCQInput>
                         <Buttons4 />
                       </Frame1285>
                     </Input>
-                    <Input6
-                      label={input64Props.label}
-                      input={input64Props.input}
-                    />
+                    <InputQuestion>
+                      <Label>Hint (Optional)</Label>
+                      <QuestionFrame1>
+                        <QuestionInputEditable
+                          id="question1hint"
+                          placeholder="Optional"
+                        />
+                      </QuestionFrame1>
+                    </InputQuestion>
                     <Buttons3 />
                   </Frame1289>
                 </QuestionFrame>
-                <QuestionFrame4
-                  frame12973Props={questionFrame42Props.frame12973Props}
-                />
-                <QuestionFrame4
-                  frame12973Props={questionFrame43Props.frame12973Props}
-                />
               </Frame1295>
               <Frame1296>
                 <Buttons2 add={buttons22Props.add} />
@@ -269,12 +401,9 @@ function CreateAAssignmentLaptop(props) {
                     </Link>
                   </Frame12811>
                   <Frame1298>
-                    <Checkbox3 className={checkbox31Props.className} />
+                    {checkboxes}
+
                     <Checkbox3 className={checkbox32Props.className} />
-                    <Checkbox3 className={checkbox33Props.className} />
-                    <Checkbox3 className={checkbox34Props.className} />
-                    <Checkbox3 className={checkbox35Props.className} />
-                    <Checkbox3 className={checkbox36Props.className} />
                   </Frame1298>
                 </Frame1299>
                 <Frame1299>
@@ -671,7 +800,7 @@ const Help = styled.img`
 
 const Frame1298 = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: space-between;
   gap: 20px;
   position: relative;
   align-self: stretch;
@@ -782,6 +911,136 @@ const Button = styled.div`
   width: fit-content;
   margin-top: -1px;
   text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const InputQuestion = styled.div`
+  ${IbmplexsansNormalShark20px}
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const Label = styled.div`
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const QuestionFrame1 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const QuestionInput = styled.div`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const QuestionInputEditable = styled.input`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
+const MCQInput = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const MCQFrame = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  flex: 1;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const OptionText = styled.div`
+  ${IbmplexsansNormalMountainMist20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
+const Rectangle43 = styled.input`
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: -1px;
+  left: -1px;
+  background-color: var(--white);
+
+  border: 1px solid;
+  border-color: var(--light-mode-purple);
+  font: inherit;
+  color: currentColor;
+  width: 1.25em;
+  height: 1.25em;
+  border: 1em solid currentColor;
+  border-radius: 1em;
+  transform: translateY(-0.075em);
+  &:checked {
+    border-color: red;
+    background-color: red;
+  }
+`;
+
+const Checkbox = styled.article`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  flex: 1;
+`;
+const Checkbox1 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
+
+const CheckBoxText = styled.div`
+  ${IbmplexsansNormalShark20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
 `;

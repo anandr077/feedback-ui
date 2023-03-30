@@ -32,6 +32,47 @@ export const getTasks = async () => {
     });
 };
 
+export const getCourses = async () => {
+  return await fetch(baseUrl + "/courses", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+    //mode: "cors",
+    // headers: {
+    //   "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNDEwOCIsInJvbGUiOiJTVFVERU5UIiwiZXhwIjoxNjc5OTU2MjMzLCJpYXQiOjE2Nzk5MjAyMzN9.DyXY110ISRUxM-qHRnNu2g1erdBbiazDabevhcy6dGU"
+    // },
+    //credentials: 'same-origin',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+export const createAssignment = async (assignment) => {
+  return await fetch(baseUrl + "/assignments", {
+    method: "POST",
+    withCredentials: true,
+    credentials: "include",
+    body: assignment,
+    //mode: "cors",
+    // headers: {
+    //   "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNDEwOCIsInJvbGUiOiJTVFVERU5UIiwiZXhwIjoxNjc5OTU2MjMzLCJpYXQiOjE2Nzk5MjAyMzN9.DyXY110ISRUxM-qHRnNu2g1erdBbiazDabevhcy6dGU"
+    // },
+    //credentials: 'same-origin',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 export const saveAssignment = async (data) => {
   return await fetch(baseUrl + "assignments/create", {
     method: "POST",

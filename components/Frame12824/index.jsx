@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalRiverBed14px } from "../../styledMixins";
 
-
 function Frame12824() {
   return (
     <Frame1282>

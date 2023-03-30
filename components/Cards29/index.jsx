@@ -2,18 +2,23 @@ import React from "react";
 import Frame642 from "../Frame642";
 import Frame12824 from "../Frame12824";
 import styled from "styled-components";
-import { IbmplexsansNormalShark20px2, IbmplexsansNormalRiverBed14px } from "../../styledMixins";
-
+import {
+  IbmplexsansNormalShark20px2,
+  IbmplexsansNormalRiverBed14px,
+} from "../../styledMixins";
 
 function Cards29(props) {
-  const { physicsThermodyna, fundamentalsOfThermalPhysics, frame642Props } = props;
+  const { physicsThermodyna, fundamentalsOfThermalPhysics, frame642Props } =
+    props;
 
   return (
     <Cards>
       <Frame642 statusBubbles4Props={frame642Props.statusBubbles4Props} />
       <Content>
         <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
-        <FundamentalsOfThermalPhysics>{fundamentalsOfThermalPhysics}</FundamentalsOfThermalPhysics>
+        <FundamentalsOfThermalPhysics>
+          {fundamentalsOfThermalPhysics}
+        </FundamentalsOfThermalPhysics>
         <Frame12824 />
       </Content>
     </Cards>

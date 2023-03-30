@@ -48,13 +48,13 @@ function DashboardHomeStudentLaptop(props) {
       <Header />
       <Frame1347>
         <Frame1345>
-      <Frame1342>
-        <Frame1341>
-          <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
-          <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
-        </Frame1341>
-        <MaskGroup src={maskGroup} alt="Mask Group" />
-      </Frame1342>
+          <Frame1342>
+            <Frame1341>
+              <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
+              <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
+            </Frame1341>
+            <MaskGroup src={maskGroup} alt="Mask Group" />
+          </Frame1342>
         </Frame1345>
         <Frame1346>
           <Frame1339>

@@ -14,6 +14,7 @@ import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 import "./DashboardHomeStudentMobile.css";
 import ModelResponseCardContainer from "../Frame1340";
+import TaskCardContainer from "../Frame19";
 
 function DashboardHomeStudentMobile(props) {
   const {
@@ -46,8 +47,20 @@ function DashboardHomeStudentMobile(props) {
         </Frame1203>
       </Frame1352>
       <Frame1351>
-        
-        
+        <Frame1205>
+          <Frame1208 tasks='Tasks' group12052Props={frame12082Props.group12052Props} />
+          <Line17 src={line172} alt="Line 17" />
+          <Frame11>
+            <TaskCardContainer allTasks={allTasks}/>
+          </Frame11>
+        </Frame1205>
+        <Frame1205>
+          <Frame1208 tasks='Model responses' group12052Props={frame12082Props.group12052Props} />
+          <Line17 src={line172} alt="Line 17" />
+          <Frame11>
+            <TaskCardContainer allTasks={allTasks}/>
+          </Frame11>
+        </Frame1205>
       </Frame1351>
       <FooterSmall />
     </div>
@@ -187,6 +200,7 @@ const Frame11 = styled.div`
   padding: 0px 16px;
   position: relative;
   align-self: stretch;
+  max-height:150px
 `;
 
 const Frame1205 = styled.div`

@@ -3,7 +3,7 @@ import Group12052 from "../Group12052";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed20px } from "../../styledMixins";
 
-function Frame1208(props) {
+function DashboardFrame1208(props) {
   const { tasks, group12052Props } = props;
 
   return (
@@ -32,4 +32,4 @@ const Tasks = styled.div`
   line-height: normal;
 `;
 
-export default Frame1208;
+export default DashboardFrame1208;

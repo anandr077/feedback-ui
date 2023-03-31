@@ -1,26 +1,19 @@
 import React from "react";
-import NavElement from "../NavElement";
-import NavElement2 from "../NavElement2";
-import Notifications from "../Notifications";
-import Frame4 from "../Frame4";
-import Group1205 from "../Group1205";
-import Frame1284 from "../Frame1284";
-import Frame1283 from "../Frame1283";
 import Frame12823 from "../Frame12823";
+import DashboardFrame1283 from "../DashboardFrame1283";
+import DashboardFrame1284 from "../DashboardFrame1284";
+import Group1205 from "../Group1205";
 // import Cards27 from "../Cards27";
-import Frame1340 from "../Frame1340";
 // import Frame611 from "../Frame611";
 import styled from "styled-components";
-import Header from "../Header";
-import Footer from "../Footer";
 import {
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansBoldWhite72px,
-  IbmplexsansNormalWhite20px,
+  IbmplexsansBoldWhite72px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalWhite20px
 } from "../../styledMixins";
-import "./DashboardHomeStudentLaptop.css";
-import TaskCardContainer from "../Frame19";
+import Footer from "../Footer";
 import ModelResponseCardContainer from "../Frame1340";
+import TaskCardContainer from "../TaskCardContainer";
+import Header from "../Header";
+import "./DashboardHomeStudentLaptop.css";
 
 function DashboardHomeStudentLaptop(props) {
   const {
@@ -66,8 +59,8 @@ function DashboardHomeStudentLaptop(props) {
             <Line17 src={line17} alt="Line 17" />
             <Frame1336>
               <Frame1307>
-                <Frame1284 />
-                <Frame1283 />
+                <DashboardFrame1284 />
+                <DashboardFrame1283 />
                 <Frame12823 />
               </Frame1307>
               <Line17 src={line16} alt="Line 16" />

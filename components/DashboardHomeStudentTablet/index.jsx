@@ -10,7 +10,7 @@ import "./DashboardHomeStudentTablet.css";
 import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 import "./DashboardHomeStudentTablet.css";
-import TaskCardContainer from "../Frame19";
+import TaskCardContainer from "../TaskCardContainer";
 
 function DashboardHomeStudentTablet(props) {
   const {

@@ -1,5 +1,5 @@
 import React from "react";
-import TaskCard from "../Cards";
+import TaskCard from "../TaskCard";
 import styled from "styled-components";
 
 function TaskCardContainer(props) {

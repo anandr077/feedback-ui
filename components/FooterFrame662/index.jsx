@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo13px } from "../../styledMixins";
 
-function Frame662(props) {
+function FooterFrame662(props) {
   const { className } = props;
 
   return (
@@ -31,4 +31,4 @@ const MainWebsite = styled.div`
   line-height: normal;
 `;
 
-export default Frame662;
+export default FooterFrame662;

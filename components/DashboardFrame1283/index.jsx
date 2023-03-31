@@ -5,7 +5,7 @@ import {
   IbmplexsansMediumShark36px,
 } from "../../styledMixins";
 
-function Frame1283() {
+function DashboardFrame1283() {
   return (
     <Frame12831>
       <InProgress>IN PROGRESS</InProgress>
@@ -68,4 +68,4 @@ const Number1 = styled.div`
   line-height: normal;
 `;
 
-export default Frame1283;
+export default DashboardFrame1283;

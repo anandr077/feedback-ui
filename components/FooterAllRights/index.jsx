@@ -1,5 +1,5 @@
 import React from "react";
-import Frame662 from "../Frame662";
+import FooterFrame662 from "../FooterFrame662";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px } from "../../styledMixins";
 
@@ -7,16 +7,16 @@ function Frame65(props) {
   const { frame662Props } = props;
 
   return (
-    <Frame6>
+    <FooterAllRights>
       <X2021JeddleAllRightsReserved>
         © 2021 Jeddle. All rights reserved.
       </X2021JeddleAllRightsReserved>
-      <Frame662 className={frame662Props.className} />
-    </Frame6>
+      <FooterFrame662 className={frame662Props.className} />
+    </FooterAllRights>
   );
 }
 
-const Frame6 = styled.div`
+const FooterAllRights = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 20px;

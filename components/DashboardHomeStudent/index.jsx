@@ -2,9 +2,9 @@ import React from "react";
 import NavElement from "../NavElement";
 import NavElement2 from "../NavElement2";
 import Notifications from "../Notifications";
-import Frame4 from "../Frame4";
+import Frame4 from "../UserIcon";
 // import Group1205 from "../Group1205";
-import Cards from "../Cards";
+import Cards from "../TaskCard";
 
 // import Frame662 from "../Frame662";
 import styled from "styled-components";

@@ -24,23 +24,8 @@ import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop"
 import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
 import DashboardHomeStudentTablet from "./components/DashboardHomeStudentTablet";
 import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
-import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
 function App() {
-  const task = {
-    assignmentId: "9cec54d3-5577-4b22-894c-b8b02eb6b3e0",
-    assignmentTitle: "postman assignment",
-    dueDate: "2023-03-30T19:30:21.932964+11:00",
-    courseId: "12440",
-    courseTitle: "All the Light We Cannot See",
-    tags: [
-      {
-        name: "tag1",
-      },
-      {
-        name: "tag2",
-      },
-    ],
-  };
+  
   const [allTasks, setAllTasks] = useState([]);
 
   useEffect(() => {
@@ -78,9 +63,9 @@ function App() {
             />
           )}
         </Route>
-        <Route path="/create-a-assignment-laptop">
+        {/* <Route path="/create-a-assignment-laptop">
           <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />
-        </Route>
+        </Route> */}
         <Route path="/dashboard-mobile">
           <DashboardHomeStudentMobile
             {...{ allTasks, ...dashboardHomeStudentMobileData }}

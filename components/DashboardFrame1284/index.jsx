@@ -5,7 +5,7 @@ import {
   IbmplexsansMediumShark36px,
 } from "../../styledMixins";
 
-function Frame1284() {
+function DashboardFrame1284() {
   return (
     <Frame12841>
       <Outstanding>OUTSTANDING</Outstanding>
@@ -68,4 +68,4 @@ const Number1 = styled.div`
   line-height: normal;
 `;
 
-export default Frame1284;
+export default DashboardFrame1284;

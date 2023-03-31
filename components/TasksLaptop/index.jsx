@@ -7,7 +7,7 @@ import {
   IbmplexsansSemiBoldRiverBed24px,
 } from "../../styledMixins";
 import "./TasksLaptop.css";
-import TaskCardContainer from "../Frame19";
+import TaskCardContainer from "../TaskCardContainer";
 import Header from "../Header";
 import Footer from "../Footer";
 

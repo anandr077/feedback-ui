@@ -54,10 +54,17 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/dashboard-laptop">
-          <DashboardHomeStudentLaptop
-            {...{ allTasks, ...dashboardHomeStudentLaptopData }}
-          />
+        <Route path="/dashboard-student">
+          {isLaptopView && (
+            <DashboardHomeStudentLaptop
+              {...{ allTasks, ...dashboardHomeStudentLaptopData }}
+            />
+          )}
+          {isDesktopView && (
+            <DashboardHomeStudentLaptop
+              {...{ allTasks, ...dashboardHomeStudentLaptopData }}
+            />
+          )}
         </Route>
         <Route path="/create-a-assignment-laptop">
           <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />
@@ -93,6 +100,55 @@ function App() {
 }
 
 export default App;
+
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
+
+const studentDashboardheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: true,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: false,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
+
 const notifications1Data = {
   src: "/img/notificationbing@2x.png",
 };
@@ -865,6 +921,7 @@ const tasksDesktopData = {
   cards164Props: cards164Data,
   cards165Props: cards165Data,
   frame19Props: frame192Data,
+  headerProps: taskheaderProps,
 };
 
 const navElement4Data = {
@@ -1206,6 +1263,7 @@ const cards215Data = {
 
 const tasksLaptopData = {
   frame19Props: frame191Data,
+  headerProps: taskheaderProps,
 };
 
 const navElement8Data = {
@@ -1303,6 +1361,7 @@ const dashboardHomeStudentLaptopData = {
   cards27Props: cards272Data,
   frame1340Props: frame13402Data,
   frame611Props: frame6112Data,
+  headerProps: studentDashboardheaderProps,
 };
 
 const notifications11Data = {

@@ -12,18 +12,11 @@ import {
 import "./TasksDesktop.css";
 
 function TasksDesktop(props) {
-  const {
-    allTasks,
-    title,
-    frame1306Props,
-    frame13531Props,
-    frame13532Props,
-    frame19Props,
-  } = props;
+  const { allTasks, title, frame1306Props, frame19Props, headerProps } = props;
 
   return (
     <div className="tasks-desktop screen">
-      <Header />
+      <Header headerProps={headerProps} />
       <Frame1361>
         <Title>{title}</Title>
         <Frame1360>

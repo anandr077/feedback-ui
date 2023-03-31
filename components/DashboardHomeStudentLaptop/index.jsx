@@ -41,11 +41,12 @@ function DashboardHomeStudentLaptop(props) {
     cards27Props,
     frame1340Props,
     frame611Props,
+    headerProps,
   } = props;
 
   return (
     <div className="dashboard-home-student-laptop screen">
-      <Header />
+      <Header headerProps={headerProps} />
       <Frame1347>
         <Frame1345>
           <Frame1342>

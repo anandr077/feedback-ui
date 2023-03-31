@@ -65,6 +65,11 @@ function App() {
               {...{ allTasks, ...dashboardHomeStudentLaptopData }}
             />
           )}
+          {isMobileView && (
+            <DashboardHomeStudentMobile
+              {...{ allTasks, ...dashboardHomeStudentMobileData }}
+            />
+          )}
         </Route>
         <Route path="/create-a-assignment-laptop">
           <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />

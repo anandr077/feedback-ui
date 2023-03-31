@@ -24,7 +24,7 @@ const Group1205 = styled.div`
 
 const ViewAll = styled.div`
   ${IbmplexsansMediumElectricViolet14px}
-  width: 75px;
+
   height: 18px;
   letter-spacing: 1.61px;
   line-height: normal;

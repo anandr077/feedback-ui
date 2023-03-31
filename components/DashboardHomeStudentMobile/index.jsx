@@ -38,7 +38,7 @@ function DashboardHomeStudentMobile(props) {
   return (
     <div className="dashboard-home-student-mobile screen">
       <Frame1352>
-        <HeaderSmall/>
+        <HeaderSmall />
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
@@ -48,17 +48,23 @@ function DashboardHomeStudentMobile(props) {
       </Frame1352>
       <Frame1351>
         <Frame1205>
-          <Frame1208 tasks='Tasks' group12052Props={frame12082Props.group12052Props} />
+          <Frame1208
+            tasks="Tasks"
+            group12052Props={frame12082Props.group12052Props}
+          />
           <Line17 src={line172} alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={allTasks}/>
+            <TaskCardContainer allTasks={allTasks} />
           </Frame11>
         </Frame1205>
         <Frame1205>
-          <Frame1208 tasks='Model responses' group12052Props={frame12082Props.group12052Props} />
+          <Frame1208
+            tasks="Model responses"
+            group12052Props={frame12082Props.group12052Props}
+          />
           <Line17 src={line172} alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={allTasks}/>
+            <TaskCardContainer allTasks={allTasks} />
           </Frame11>
         </Frame1205>
       </Frame1351>
@@ -200,7 +206,7 @@ const Frame11 = styled.div`
   padding: 0px 16px;
   position: relative;
   align-self: stretch;
-  max-height:150px
+  max-height: 150px;
 `;
 
 const Frame1205 = styled.div`

@@ -2,11 +2,14 @@ import React from "react";
 import Frame672 from "../Frame672";
 import Frame12824 from "../Frame12824";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark18px } from "../../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark18px,
+} from "../../styledMixins";
 
 function Cards28(props) {
-  const { physicsThermodyna, fundamentalsOfThermalPhysics, frame672Props } = props;
+  const { physicsThermodyna, fundamentalsOfThermalPhysics, frame672Props } =
+    props;
 
   return (
     <Cards>
@@ -16,7 +19,9 @@ function Cards28(props) {
       />
       <Content>
         <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
-        <FundamentalsOfThermalPhysics>{fundamentalsOfThermalPhysics}</FundamentalsOfThermalPhysics>
+        <FundamentalsOfThermalPhysics>
+          {fundamentalsOfThermalPhysics}
+        </FundamentalsOfThermalPhysics>
         <Frame12824 />
       </Content>
     </Cards>

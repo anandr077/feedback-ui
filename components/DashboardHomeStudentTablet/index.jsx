@@ -1,18 +1,20 @@
 import React from "react";
 import Notifications from "../Notifications";
 import Frame12082 from "../Frame12082";
-import Cards30 from "../Cards30";
-import Cards31 from "../Cards31";
-import Frame6102 from "../Frame6102";
 import styled from "styled-components";
 import {
   IbmplexsansBoldWhite36px,
   IbmplexsansNormalWhite14px,
 } from "../../styledMixins";
 import "./DashboardHomeStudentTablet.css";
+import HeaderSmall from "../HeaderSmall";
+import FooterSmall from "../FooterSmall";
+import "./DashboardHomeStudentTablet.css";
+import TaskCardContainer from "../Frame19";
 
 function DashboardHomeStudentTablet(props) {
   const {
+    allTasks,
     union,
     vector2,
     vector3,
@@ -32,28 +34,12 @@ function DashboardHomeStudentTablet(props) {
   return (
     <div className="dashboard-home-student-tablet screen">
       <Frame1352>
-        <Frame1350>
-          <Frame1349>
-            <Logo>
-              <Union src={union} alt="Union" />
-              <VectorContainer>
-                <Vector src="/img/vector@2x.png" alt="Vector" />
-                <Vector1 src={vector2} alt="Vector" />
-                <Vector2 src={vector3} alt="Vector" />
-              </VectorContainer>
-            </Logo>
-          </Frame1349>
-          <Frame5>
-            <Notifications src={notificationsProps.src} />
-            <Frame51 src={frame5} alt="Frame 5" />
-          </Frame5>
-        </Frame1350>
+        <HeaderSmall />
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </Frame1348>
-          <MaskGroup src={maskGroup} alt="Mask Group" />
         </Frame1203>
       </Frame1352>
       <Frame1351>
@@ -64,13 +50,7 @@ function DashboardHomeStudentTablet(props) {
           />
           <Line17 src={line171} alt="Line 17" />
           <Frame11>
-            <Cards30
-              physicsThermodyna={cards30Props.physicsThermodyna}
-              fundamentalsOfThermalPhysics={
-                cards30Props.fundamentalsOfThermalPhysics
-              }
-              frame672Props={cards30Props.frame672Props}
-            />
+            <TaskCardContainer allTasks={allTasks} />
           </Frame11>
         </Frame1206>
         <Frame1205>
@@ -80,17 +60,11 @@ function DashboardHomeStudentTablet(props) {
           />
           <Line17 src={line172} alt="Line 17" />
           <Frame11>
-            <Cards31
-              physicsThermodyna={cards31Props.physicsThermodyna}
-              fundamentalsOfThermalPhysics={
-                cards31Props.fundamentalsOfThermalPhysics
-              }
-              frame642Props={cards31Props.frame642Props}
-            />
+            <TaskCardContainer allTasks={allTasks} />
           </Frame11>
         </Frame1205>
       </Frame1351>
-      <Frame6102 />
+      <FooterSmall />
     </div>
   );
 }
@@ -275,6 +249,7 @@ const Frame11 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  max-height: 250px;
 `;
 
 const Frame1205 = styled.div`

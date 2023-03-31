@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import { getTasks } from "./service.js";
 import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop";
 import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
+import DashboardHomeStudentTablet from "./components/DashboardHomeStudentTablet";
 import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
 function App() {
   const task = {
@@ -63,6 +64,11 @@ function App() {
           {isDesktopView && (
             <DashboardHomeStudentLaptop
               {...{ allTasks, ...dashboardHomeStudentLaptopData }}
+            />
+          )}
+          {isTabletView && (
+            <DashboardHomeStudentTablet
+              {...{ allTasks, ...dashboardHomeStudentTabletData }}
             />
           )}
           {isMobileView && (
@@ -1367,6 +1373,79 @@ const dashboardHomeStudentLaptopData = {
   frame1340Props: frame13402Data,
   frame611Props: frame6112Data,
   headerProps: studentDashboardheaderProps,
+};
+
+const notifications12Data = {
+  src: "/img/notificationbing@2x.png",
+};
+
+const group120524Data = {
+  arrowright: "/img/arrowright-2@2x.png",
+};
+
+const frame120822Data = {
+  tasks: "Tasks",
+  group12052Props: group120524Data,
+};
+
+const statusBubbles78Data = {
+  children: "Assignment",
+};
+
+const statusBubbles79Data = {
+  children: "MCQ",
+};
+
+const frame6723Data = {
+  statusBubbles1Props: statusBubbles78Data,
+  statusBubbles2Props: statusBubbles79Data,
+};
+
+const cards30Data = {
+  physicsThermodyna: "Physics - thermodynamics assignment questions (MCQ)",
+  fundamentalsOfThermalPhysics: "Fundamentals of thermal physics",
+  frame672Props: frame6723Data,
+};
+
+const group120525Data = {
+  arrowright: "/img/arrowright-2@2x.png",
+};
+
+const frame120823Data = {
+  tasks: "Exemplar responses",
+  group12052Props: group120525Data,
+};
+
+const statusBubbles412Data = {
+  crown: "/img/crown@2x.png",
+};
+
+const frame6427Data = {
+  statusBubbles4Props: statusBubbles412Data,
+};
+
+const cards311Data = {
+  physicsThermodyna: "Physics - thermodynamics assignment questions (MCQ)",
+  fundamentalsOfThermalPhysics: "Fundamentals of thermal physics",
+  frame642Props: frame6427Data,
+};
+
+const dashboardHomeStudentTabletData = {
+  union: "/img/union@2x.png",
+  vector2: "/img/vector-1@2x.png",
+  vector3: "/img/vector-2@2x.png",
+  frame5: "/img/frame-5@2x.png",
+  keepOrganizedWitho1: "Welcome, Eleanor",
+  keepOrganizedWitho2:
+    "Your dashboard contains all the vital information you need to start learning right away",
+  maskGroup: "/img/mask-group@2x.png",
+  line171: "/img/line-17-2.png",
+  line172: "/img/line-17-2.png",
+  notificationsProps: notifications12Data,
+  frame120821Props: frame120822Data,
+  cards30Props: cards30Data,
+  frame120822Props: frame120823Data,
+  cards31Props: cards311Data,
 };
 
 const notifications11Data = {

@@ -1,6 +1,5 @@
 const baseUrl = "http://localhost:8080";
 
-
 export const getTasks = async () => {
   return await fetch(baseUrl + "/tasks", {
     method: "GET",
@@ -36,10 +35,10 @@ export const createAssignment = async (assignment) => {
     method: "POST",
     body: JSON.stringify(assignment),
     withCredentials: true,
-    credentials:'include',
-    headers: { 
+    credentials: "include",
+    headers: {
       "Content-Type": "application/json",
-     }
+    },
   })
     .then((response) => response.json())
     .then((data) => {
@@ -49,7 +48,6 @@ export const createAssignment = async (assignment) => {
       console.log(err.message);
     });
 };
-
 
 export const getAssigmentById = async (assignmentId) => {
   return await fetch(baseUrl + `assignments/id?assignmentId=${assignmentId}`)

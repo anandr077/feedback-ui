@@ -23,6 +23,7 @@ import { getTasks } from "./service.js";
 import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop";
 import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
 import DashboardHomeStudentTablet from "./components/DashboardHomeStudentTablet";
+import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
 import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
 function App() {
   const task = {
@@ -62,8 +63,8 @@ function App() {
             />
           )}
           {isDesktopView && (
-            <DashboardHomeStudentLaptop
-              {...{ allTasks, ...dashboardHomeStudentLaptopData }}
+            <DashboardHomeStudentDesktop
+              {...{ allTasks, ...dashboardHomeStudentDesktopData }}
             />
           )}
           {isTabletView && (
@@ -1374,6 +1375,108 @@ const dashboardHomeStudentLaptopData = {
   frame611Props: frame6112Data,
   headerProps: studentDashboardheaderProps,
 };
+
+
+const navElement7Data = {
+  iconHome: "/img/home3@2x.png",
+  place: "Home",
+};
+
+const navElement211Data = {
+  tasksquare: "/img/tasksquare@2x.png",
+  home: "Tasks",
+};
+
+const navElement212Data = {
+  tasksquare: "/img/clipboardtick@2x.png",
+  home: "Submissions",
+  className: "nav-element-17",
+};
+
+const notifications10Data = {
+  src: "/img/notificationbing-2@2x.png",
+};
+
+const frame46Data = {
+  maskGroup: "/img/mask-group-5@2x.png",
+  className: "frame-4-4",
+};
+
+const group12053Data = {
+  className: "group-1205-1",
+};
+
+const statusBubbles74Data = {
+  children: "Assignment",
+};
+
+const statusBubbles75Data = {
+  children: "Theory",
+};
+
+const frame6121Data = {
+  statusBubbles1Props: statusBubbles74Data,
+  statusBubbles2Props: statusBubbles75Data,
+};
+
+const cards271Data = {
+  iconClock: "/img/clock-6@2x.png",
+  frame612Props: frame6121Data,
+};
+
+const group12054Data = {
+  className: "group-1206-1",
+};
+
+const statusBubbles410Data = {
+  crown: "/img/crown-3@2x.png",
+};
+
+const frame6425Data = {
+  statusBubbles4Props: statusBubbles410Data,
+};
+
+const cards425Data = {
+  frame64Props: frame6425Data,
+};
+
+const frame13401Data = {
+  line17: "/img/line-17-7.png",
+  group1205Props: group12054Data,
+  cards42Props: cards425Data,
+};
+
+const frame6626Data = {
+  className: "frame-6-6",
+};
+
+const frame6541Data = {
+  frame662Props: frame6626Data,
+};
+
+const dashboardHomeStudentDesktopData = {
+  frame1343: "/img/frame-1343@2x.png",
+  keepOrganizedWitho1: "Welcome, Eleanor",
+  keepOrganizedWitho2: "Your dashboard contains all the vital information you need to start learning right away",
+  maskGroup: "/img/mask-group-3.png",
+  tasks: "Tasks",
+  line17: "/img/line-17-6.png",
+  line16: "/img/line-17-6.png",
+  navElementProps: navElement7Data,
+  navElement21Props: navElement211Data,
+  navElement22Props: navElement212Data,
+  notificationsProps: notifications10Data,
+  frame4Props: frame46Data,
+  group1205Props: group12053Data,
+  cards27Props: cards271Data,
+  frame1340Props: frame13401Data,
+  frame65Props: frame6541Data,
+  headerProps: studentDashboardheaderProps,
+};
+
+
+
+
 
 const notifications12Data = {
   src: "/img/notificationbing@2x.png",

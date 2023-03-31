@@ -24,7 +24,7 @@ function ModelResponseCardContainer(props) {
 const Frame13401 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 581px;
+  width: 900px;
   align-items: flex-start;
   gap: 20px;
   padding: 20px 0px;

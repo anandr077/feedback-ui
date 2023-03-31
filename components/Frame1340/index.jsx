@@ -16,10 +16,7 @@ function ModelResponseCardContainer(props) {
         <Group1205 className={group1205Props.className} />
       </Frame1338>
       <Line17 src={line17} alt="Line 17" />
-      <Frame12>
-        {cards}
-        {/* <TaskCard frame64Props={cards42Props.frame64Props} /> */}
-      </Frame12>
+      <Frame12>{cards}</Frame12>
     </Frame13401>
   );
 }
@@ -71,6 +68,9 @@ const Frame12 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  max-height: 500px;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
 `;
 
 const Frame13402 = styled.div`

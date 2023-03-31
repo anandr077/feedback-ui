@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../../styledMixins";
 
-function StyledHeaderButton(props) {
+function NavElement(props) {
   const { iconsrc, text, className } = props;
 
   return (
@@ -51,4 +51,4 @@ const ButtonText = styled.div`
   align-items: center;
 `;
 
-export default StyledHeaderButton;
+export default NavElement;

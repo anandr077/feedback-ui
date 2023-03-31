@@ -200,6 +200,7 @@ const Frame1346 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  max-height: 500px;
 `;
 
 const Frame1339 = styled.div`
@@ -213,6 +214,7 @@ const Frame1339 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0px 4px 16px #7200e01a;
+  max-height: 100vh;
 `;
 
 const Frame1337 = styled.div`

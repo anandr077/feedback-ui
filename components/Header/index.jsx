@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import StyledHeaderButton from "../StyledHeaderButton";
-import NavElement2 from "../NavElement2";
 import Notifications from "../Notifications";
 import Frame4 from "../Frame4";
 
@@ -9,7 +7,6 @@ import {
   IbmplexsansNormalPersianIndigo20px,
   IbmplexsansNormalWhite20px,
 } from "../../styledMixins";
-import { Redirect } from "react-router-dom";
 
 export default function Header(props) {
   const { headerProps } = props;

@@ -1,46 +1,21 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import NavElement2 from "../NavElement2";
-import NavElement from "../NavElement";
-import Notifications from "../Notifications";
-import Frame4 from "../Frame4";
+import styled from "styled-components";
+import {
+  IbmplexsansBoldShark64px, IbmplexsansMediumWhite16px, IbmplexsansNormalChicago13px, IbmplexsansNormalElectricViolet16px, IbmplexsansNormalMountainMist20px, IbmplexsansNormalShark20px, IbmplexsansNormalStack20px, IbmplexsansSemiBoldShark20px, IbmplexsansSemiBoldShark24px
+} from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import GoBack2 from "../GoBack2";
-import Frame1219 from "../Frame1219";
 import Buttons2 from "../Buttons2";
-import Frame12973 from "../Frame12973";
-import Input5 from "../Input5";
-import Input6 from "../Input6";
 import Frame1291 from "../Frame1291";
-import Buttons3 from "../Buttons3";
-import QuestionFrame4 from "../QuestionFrame4";
-import RichTextComponents from "../RichTextComponents";
-import RichTextComponents3 from "../RichTextComponents3";
-import Frame12803 from "../Frame12803";
-import Input8 from "../Input8";
-import Buttons4 from "../Buttons4";
-import Checkbox3 from "../Checkbox3";
+import Frame12973 from "../Frame12973";
+import GoBack2 from "../GoBack2";
 import RadioBox2 from "../RadioBox2";
-import Frame662 from "../Frame662";
-import styled from "styled-components";
-import Group1255 from "../Group1255";
-import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansSemiBoldShark24px,
-  IbmplexsansNormalStack20px,
-  IbmplexsansBoldShark64px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark20px,
-  IbmplexsansNormalElectricViolet16px,
-  IbmplexsansMediumWhite16px,
-  IbmplexsansNormalMountainMist20px,
-} from "../../styledMixins";
 
-import "./CreateAAssignmentLaptop.css";
-import Header from "../Header";
-import Footer from "../Footer";
 import { createAssignment, getCourses } from "../../service";
+import Footer from "../Footer";
+import Header from "../Header";
+import "./CreateAAssignmentLaptop.css";
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -94,6 +69,13 @@ function CreateAAssignmentLaptop(props) {
     goBack22Props,
     frame662Props,
   } = props;
+  const [courses, setCourses] = React.useState([]);
+
+  useEffect(() => {
+    getCourses().then((res) => {
+      setCourses(res);
+    });
+  }, []);
 
   const assignmentTemplate = {
     title: "postman assignment with a very big title ",
@@ -137,48 +119,7 @@ function CreateAAssignmentLaptop(props) {
     });
   };
 
-  const [courses, setCourses] = React.useState([
-    {
-      id: "12440",
-      title: "All the Light We Cannot See",
-    },
-    {
-      id: "603",
-      title: "Contemporary Asian Australian Poets",
-    },
-    {
-      id: "3710",
-      title: "Frankenstein",
-    },
-    {
-      id: "3720",
-      title: "Metropolis",
-    },
-    {
-      id: "188",
-      title: "Nineteen Eighty-Four",
-    },
-    {
-      id: "627",
-      title: "Oodgeroo Noonuccal Poetry",
-    },
-    {
-      id: "419",
-      title: "Richard III &#038; Looking For Richard",
-    },
-    {
-      id: "186",
-      title: "Section I &#8211; Comprehension",
-    },
-    {
-      id: "425",
-      title: "T.S. Eliot Poetry",
-    },
-    {
-      id: "591",
-      title: "The Castle",
-    },
-  ]);
+
 
   const checkboxes = courses.map((course) => {
     return (
@@ -190,17 +131,6 @@ function CreateAAssignmentLaptop(props) {
       </Checkbox>
     );
   });
-
-  // useEffect(() => {
-  //   getCourses().then((res) => {
-  //     setCourses(res);
-  //     console.log(res);
-  //   });
-  //   createAssignment(assignmentTemplate).then((res) => {
-  //     console.log(res);
-  //   });
-  // });
-
   return (
     <div className="create-a-assignment-laptop screen">
       <Frame1379>
@@ -277,7 +207,7 @@ function CreateAAssignmentLaptop(props) {
                   </Frame1289>
                 </QuestionFrame>
 
-                <QuestionFrame>
+                {/* <QuestionFrame>
                   <Frame1295>
                     <Frame1297>
                       <RichTextComponents src={richTextComponentsProps.src} />
@@ -382,7 +312,7 @@ function CreateAAssignmentLaptop(props) {
                     </InputQuestion>
                     <Buttons3 />
                   </Frame1289>
-                </QuestionFrame>
+                </QuestionFrame> */}
               </Frame1295>
               <Frame1296>
                 <Buttons2 add={buttons22Props.add} />
@@ -403,7 +333,7 @@ function CreateAAssignmentLaptop(props) {
                   <Frame1298>
                     {checkboxes}
 
-                    <Checkbox3 className={checkbox32Props.className} />
+                    {/* <Checkbox3 className={checkbox32Props.className} /> */}
                   </Frame1298>
                 </Frame1299>
                 <Frame1299>

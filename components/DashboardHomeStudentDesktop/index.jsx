@@ -46,7 +46,7 @@ function DashboardHomeStudentDesktop(props) {
   return (
     <div className="dashboard-home-student-desktop screen">
       <Frame1347>
-        <Frame1345>     
+        <Frame1345>
           <Header headerProps={headerProps} />
           <Frame1342>
             <Frame1341>
@@ -71,21 +71,21 @@ function DashboardHomeStudentDesktop(props) {
               </Frame1307>
               <Line17 src={line16} alt="Line 16" />
               <Frame19>
-              <TaskCardContainer allTasks={allTasks} />
-         </Frame19>
+                <TaskCardContainer allTasks={allTasks} />
+              </Frame19>
             </Frame1336>
           </Frame1339>
-          
-          <ModelResponseCardContainer
-          allTasks={allTasks}
-            line17={frame1340Props.line17}
-            group1205Props={frame1340Props.group1205Props}
-            cards42Props={frame1340Props.cards42Props}
-          />
-      
+          <Frame191>
+            <ModelResponseCardContainer
+              allTasks={allTasks}
+              line17={frame1340Props.line17}
+              group1205Props={frame1340Props.group1205Props}
+              cards42Props={frame1340Props.cards42Props}
+            />
+          </Frame191>
         </Frame1346>
       </Frame1347>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
@@ -281,11 +281,10 @@ const Frame19 = styled.div`
   }
 `;
 
-
 const Frame191 = styled.div`
   display: flex;
   flex-direction: column;
-height: 600px;
+  height: 600px;
   align-items: flex-start;
 
   position: relative;

@@ -1376,7 +1376,6 @@ const dashboardHomeStudentLaptopData = {
   headerProps: studentDashboardheaderProps,
 };
 
-
 const navElement7Data = {
   iconHome: "/img/home3@2x.png",
   place: "Home",
@@ -1457,7 +1456,8 @@ const frame6541Data = {
 const dashboardHomeStudentDesktopData = {
   frame1343: "/img/frame-1343@2x.png",
   keepOrganizedWitho1: "Welcome, Eleanor",
-  keepOrganizedWitho2: "Your dashboard contains all the vital information you need to start learning right away",
+  keepOrganizedWitho2:
+    "Your dashboard contains all the vital information you need to start learning right away",
   maskGroup: "/img/mask-group-3.png",
   tasks: "Tasks",
   line17: "/img/line-17-6.png",
@@ -1473,10 +1473,6 @@ const dashboardHomeStudentDesktopData = {
   frame65Props: frame6541Data,
   headerProps: studentDashboardheaderProps,
 };
-
-
-
-
 
 const notifications12Data = {
   src: "/img/notificationbing@2x.png",

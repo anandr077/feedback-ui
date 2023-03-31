@@ -3,13 +3,14 @@ import Frame662 from "../Frame662";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px } from "../../styledMixins";
 
-
 function Frame65(props) {
   const { frame662Props } = props;
 
   return (
     <Frame6>
-      <X2021JeddleAllRightsReserved>© 2021 Jeddle. All rights reserved.</X2021JeddleAllRightsReserved>
+      <X2021JeddleAllRightsReserved>
+        © 2021 Jeddle. All rights reserved.
+      </X2021JeddleAllRightsReserved>
       <Frame662 className={frame662Props.className} />
     </Frame6>
   );

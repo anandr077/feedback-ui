@@ -12,11 +12,11 @@ import Header from "../Header";
 import Footer from "../Footer";
 
 function TasksLaptop(props) {
-  const { allTasks, frame19Props } = props;
+  const { allTasks, frame19Props, headerProps } = props;
   console.log("allTasks in TasksLaptop: ", allTasks);
   return (
     <div className="tasks-laptop screen">
-      <Header />
+      <Header headerProps={headerProps} />
       <Frame1361>
         <Title>Tasks</Title>
         <Frame1360>

@@ -2,7 +2,15 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
-  IbmplexsansBoldShark64px, IbmplexsansMediumWhite16px, IbmplexsansNormalChicago13px, IbmplexsansNormalElectricViolet16px, IbmplexsansNormalMountainMist20px, IbmplexsansNormalShark20px, IbmplexsansNormalStack20px, IbmplexsansSemiBoldShark20px, IbmplexsansSemiBoldShark24px
+  IbmplexsansBoldShark64px,
+  IbmplexsansMediumWhite16px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalElectricViolet16px,
+  IbmplexsansNormalMountainMist20px,
+  IbmplexsansNormalShark20px,
+  IbmplexsansNormalStack20px,
+  IbmplexsansSemiBoldShark20px,
+  IbmplexsansSemiBoldShark24px,
 } from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
@@ -118,8 +126,6 @@ function CreateAAssignmentLaptop(props) {
       console.log(res);
     });
   };
-
-
 
   const checkboxes = courses.map((course) => {
     return (

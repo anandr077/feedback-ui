@@ -7,7 +7,6 @@ import Group1205 from "../Group1205";
 import Frame1284 from "../Frame1284";
 import Frame1283 from "../Frame1283";
 import Frame12823 from "../Frame12823";
-import Cards27 from "../Cards27";
 import ModelResponseCardContainer from "../Frame1340";
 import Frame65 from "../Frame65";
 import styled from "styled-components";
@@ -18,8 +17,13 @@ import {
 } from "../../styledMixins";
 import "./DashboardHomeStudentDesktop.css";
 
+import TaskCardContainer from "../Frame19";
+import Footer from "../Footer";
+import Header from "../Header";
+
 function DashboardHomeStudentDesktop(props) {
   const {
+    allTasks,
     frame1343,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
@@ -36,37 +40,14 @@ function DashboardHomeStudentDesktop(props) {
     cards27Props,
     frame1340Props,
     frame65Props,
+    headerProps,
   } = props;
 
   return (
     <div className="dashboard-home-student-desktop screen">
       <Frame1347>
         <Frame1345>
-          <Frame1344>
-            <Frame1343 src={frame1343} alt="Frame 1343" />
-            <Frame5>
-              <NavElement
-                iconHome={navElementProps.iconHome}
-                place={navElementProps.place}
-              />
-              <NavElement2
-                tasksquare={navElement21Props.tasksquare}
-                home={navElement21Props.home}
-              />
-              <NavElement2
-                tasksquare={navElement22Props.tasksquare}
-                home={navElement22Props.home}
-                className={navElement22Props.className}
-              />
-            </Frame5>
-            <Frame51>
-              <Notifications src={notificationsProps.src} />
-              <Frame4
-                maskGroup={frame4Props.maskGroup}
-                className={frame4Props.className}
-              />
-            </Frame51>
-          </Frame1344>
+          <Header headerProps={headerProps} />
           <Frame1342>
             <Frame1341>
               <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
@@ -90,21 +71,21 @@ function DashboardHomeStudentDesktop(props) {
               </Frame1307>
               <Line17 src={line16} alt="Line 16" />
               <Frame19>
-                <Cards27
-                  iconClock={cards27Props.iconClock}
-                  frame612Props={cards27Props.frame612Props}
-                />
+                <TaskCardContainer allTasks={allTasks} />
               </Frame19>
             </Frame1336>
           </Frame1339>
-          <ModelResponseCardContainer
-            line17={frame1340Props.line17}
-            group1205Props={frame1340Props.group1205Props}
-            cards42Props={frame1340Props.cards42Props}
-          />
+          <Frame191>
+            <ModelResponseCardContainer
+              allTasks={allTasks}
+              line17={frame1340Props.line17}
+              group1205Props={frame1340Props.group1205Props}
+              cards42Props={frame1340Props.cards42Props}
+            />
+          </Frame191>
         </Frame1346>
       </Frame1347>
-      <Frame65 frame662Props={frame65Props.frame662Props} />
+      <Footer />
     </div>
   );
 }
@@ -293,6 +274,23 @@ const Frame19 = styled.div`
   position: relative;
   align-self: stretch;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+`;
+
+const Frame191 = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  align-items: flex-start;
+
+  position: relative;
+  align-self: stretch;
+  overflow-y: scroll;
+  width: 200%;
 
   &::-webkit-scrollbar {
     width: 0;

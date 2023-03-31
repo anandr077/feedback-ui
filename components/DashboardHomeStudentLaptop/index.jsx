@@ -41,11 +41,12 @@ function DashboardHomeStudentLaptop(props) {
     cards27Props,
     frame1340Props,
     frame611Props,
+    headerProps,
   } = props;
 
   return (
     <div className="dashboard-home-student-laptop screen">
-      <Header />
+      <Header headerProps={headerProps} />
       <Frame1347>
         <Frame1345>
           <Frame1342>
@@ -199,6 +200,7 @@ const Frame1346 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  max-height: 500px;
 `;
 
 const Frame1339 = styled.div`
@@ -212,6 +214,7 @@ const Frame1339 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0px 4px 16px #7200e01a;
+  max-height: 100vh;
 `;
 
 const Frame1337 = styled.div`

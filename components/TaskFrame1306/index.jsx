@@ -1,12 +1,12 @@
 import React from "react";
-import Frame1304 from "../Frame1304";
+import TaskFrame1304 from "../TaskFrame1304";
 import styled from "styled-components";
 import { IbmplexsansNormalShark16px } from "../../styledMixins";
 
-function Frame1306() {
+function TaskFrame1306() {
   return (
     <Frame13061>
-      <Frame1304 iconsaxLinearSort="/img/iconsax-linear-sort-2@2x.png" />
+      <TaskFrame1304 iconsaxLinearSort="/img/iconsax-linear-sort-2@2x.png" />
       <Line15 src="/img/line-15@2x.png" alt="Line 15" />
       <Frame1305>
         <Frame1282>
@@ -186,4 +186,4 @@ const Frame12841 = styled.img`
   margin-bottom: -3px;
 `;
 
-export default Frame1306;
+export default TaskFrame1306;

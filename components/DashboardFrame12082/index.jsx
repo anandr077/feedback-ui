@@ -1,15 +1,15 @@
 import React from "react";
-import Group12052 from "../Group12052";
+import DashboardGroup12052 from "../Group12052";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed24px } from "../../styledMixins";
 
-function Frame12082(props) {
+function DashboardFrame12082(props) {
   const { tasks, group12052Props } = props;
 
   return (
     <Frame1208>
       <Tasks>{tasks}</Tasks>
-      <Group12052 arrowright={group12052Props.arrowright} />
+      <DashboardGroup12052 arrowright={group12052Props.arrowright} />
     </Frame1208>
   );
 }
@@ -32,4 +32,4 @@ const Tasks = styled.div`
   line-height: normal;
 `;
 
-export default Frame12082;
+export default DashboardFrame12082;

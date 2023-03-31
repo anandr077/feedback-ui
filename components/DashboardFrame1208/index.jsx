@@ -1,5 +1,5 @@
 import React from "react";
-import Group12052 from "../Group12052";
+import DashboardGroup12052 from "../Group12052";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed20px } from "../../styledMixins";
 
@@ -9,7 +9,7 @@ function DashboardFrame1208(props) {
   return (
     <Frame12081>
       <Tasks>{tasks}</Tasks>
-      <Group12052 arrowright={group12052Props.arrowright} />
+      <DashboardGroup12052 arrowright={group12052Props.arrowright} />
     </Frame12081>
   );
 }

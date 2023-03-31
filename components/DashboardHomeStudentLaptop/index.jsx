@@ -1,8 +1,8 @@
 import React from "react";
-import Frame12823 from "../Frame12823";
+import DashboardFrame12823 from "../DashboardFrame12823";
 import DashboardFrame1283 from "../DashboardFrame1283";
 import DashboardFrame1284 from "../DashboardFrame1284";
-import Group1205 from "../Group1205";
+import DashboardGroup1205 from "../Group1205";
 // import Cards27 from "../Cards27";
 // import Frame611 from "../Frame611";
 import styled from "styled-components";
@@ -10,7 +10,7 @@ import {
   IbmplexsansBoldWhite72px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalWhite20px
 } from "../../styledMixins";
 import Footer from "../Footer";
-import ModelResponseCardContainer from "../Frame1340";
+import ModelResponseCardContainer from "../ModelResponseCardContainer";
 import TaskCardContainer from "../TaskCardContainer";
 import Header from "../Header";
 import "./DashboardHomeStudentLaptop.css";
@@ -54,14 +54,14 @@ function DashboardHomeStudentLaptop(props) {
           <Frame1339>
             <Frame1337>
               <Tasks>{tasks}</Tasks>
-              <Group1205 className={group1205Props.className} />
+              <DashboardGroup1205 className={group1205Props.className} />
             </Frame1337>
             <Line17 src={line17} alt="Line 17" />
             <Frame1336>
               <Frame1307>
                 <DashboardFrame1284 />
                 <DashboardFrame1283 />
-                <Frame12823 />
+                <DashboardFrame12823 />
               </Frame1307>
               <Line17 src={line16} alt="Line 16" />
               <TaskCardContainer allTasks={allTasks} />

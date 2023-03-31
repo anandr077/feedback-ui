@@ -1,6 +1,6 @@
 import React from "react";
 import Notifications from "../Notifications";
-import Frame1304 from "../Frame1304";
+import TaskFrame1304 from "../Frame1304";
 import Tabs from "../Tabs";
 import Tabs2 from "../Tabs2";
 import TaskCardContainer from "../TaskCardContainer";
@@ -23,7 +23,7 @@ function TasksStudentMobile(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Task</PageTitle>
-          <Frame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
+          <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
         </Frame1307>
         <Frame1364>
           <Frame1211>

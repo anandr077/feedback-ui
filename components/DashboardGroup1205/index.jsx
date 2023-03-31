@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet16px } from "../../styledMixins";
 
-function Group1205(props) {
+function DashboardGroup1205(props) {
   const { className } = props;
 
   return (
@@ -82,4 +82,4 @@ const Arrowright = styled.img`
   height: 20px;
 `;
 
-export default Group1205;
+export default DashboardGroup1205;

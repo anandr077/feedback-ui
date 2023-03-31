@@ -5,7 +5,7 @@ import {
   IbmplexsansMediumShark36px,
 } from "../../styledMixins";
 
-function Frame12823() {
+function DashboardFrame12823() {
   return (
     <Frame1282>
       <Overdue>OVERDUE</Overdue>
@@ -68,4 +68,4 @@ const Number1 = styled.div`
   line-height: normal;
 `;
 
-export default Frame12823;
+export default DashboardFrame12823;

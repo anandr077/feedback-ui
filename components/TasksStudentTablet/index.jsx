@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Frame1304 from "../Frame1304";
+import TaskFrame1304 from "../Frame1304";
 import TaskCardContainer from "../TaskCardContainer";
 import Notifications from "../Notifications";
 import Tabs from "../Tabs";
@@ -32,7 +32,7 @@ function TasksStudentTablet(props) {
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>{keepOrganizedWitho}</KeepOrganizedWitho>
-          <Frame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
+          <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
         </Frame1307>
         <Frame1364>
           <Frame1211>

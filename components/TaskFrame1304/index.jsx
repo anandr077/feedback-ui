@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed16px } from "../../styledMixins";
 
-function Frame1304(props) {
+function TaskFrame1304(props) {
   const { iconsaxLinearSort } = props;
 
   return (
@@ -105,4 +105,4 @@ const FilterBy3 = styled.div`
   line-height: normal;
 `;
 
-export default Frame1304;
+export default TaskFrame1304;

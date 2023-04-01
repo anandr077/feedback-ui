@@ -10,7 +10,7 @@ import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
-  IbmplexsansSemiBoldShark24px,
+  IbmplexsansSemiBoldShark24px
 } from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
@@ -214,112 +214,7 @@ function CreateAAssignmentLaptop(props) {
                   </Frame1289>
                 </QuestionFrame>
 
-                {/* <QuestionFrame>
-                  <Frame1295>
-                    <Frame1297>
-                      <RichTextComponents src={richTextComponentsProps.src} />
-                      <Frame1287>
-                        <Frame1283>
-                          <Frame1282>
-                            <Text11>2</Text11>
-                            <Frame1281>
-                              <ToremIpsumDolorSi>Section 2</ToremIpsumDolorSi>
-                              <RichTextComponents3
-                                bulletListProps={
-                                  richTextComponents3Props.bulletListProps
-                                }
-                              />
-                            </Frame1281>
-                          </Frame1282>
-                          <Frame1284 src={frame1284} alt="Frame 1284" />
-                        </Frame1283>
-                      </Frame1287>
-                    </Frame1297>
-                    <Line14 src={line142} alt="Line 14" />
-                  </Frame1295>
-
-                  <Frame1289>
-                    <InputQuestion>
-                      <Label>Type of question</Label>
-                      <QuestionFrame1>
-                        <QuestionInput>MCQ</QuestionInput>
-                      </QuestionFrame1>
-                    </InputQuestion>
-
-                    <InputQuestion>
-                      <Label>Question</Label>
-                      <QuestionFrame1>
-                        <QuestionInputEditable
-                          id="question2"
-                          placeholder="Type Your Question here"
-                        />
-                      </QuestionFrame1>
-                    </InputQuestion>
-                    <Input>
-                      <Options>{options}</Options>
-                      <Frame1285>
-                        <MCQInput>
-                          <MCQFrame>
-                            <QuestionInputEditable
-                              id="option1"
-                              placeholder="Option 1"
-                            />
-                          </MCQFrame>
-                          <Group1255
-                            className={input82Props.group1255Props.className}
-                          />
-                        </MCQInput>
-
-                        <MCQInput>
-                          <MCQFrame>
-                            <QuestionInputEditable
-                              id="option2"
-                              placeholder="Option 2"
-                            />
-                          </MCQFrame>
-                          <Group1255
-                            className={input82Props.group1255Props.className}
-                          />
-                        </MCQInput>
-
-                        <MCQInput>
-                          <MCQFrame>
-                            <QuestionInputEditable
-                              id="option3"
-                              placeholder="Option 3"
-                            />
-                          </MCQFrame>
-                          <Group1255
-                            className={input82Props.group1255Props.className}
-                          />
-                        </MCQInput>
-
-                        <MCQInput>
-                          <MCQFrame>
-                            <QuestionInputEditable
-                              id="option4"
-                              placeholder="Option 4"
-                            />
-                          </MCQFrame>
-                          <Group1255
-                            className={input82Props.group1255Props.className}
-                          />
-                        </MCQInput>
-                        <Buttons4 />
-                      </Frame1285>
-                    </Input>
-                    <InputQuestion>
-                      <Label>Hint (Optional)</Label>
-                      <QuestionFrame1>
-                        <QuestionInputEditable
-                          id="question1hint"
-                          placeholder="Optional"
-                        />
-                      </QuestionFrame1>
-                    </InputQuestion>
-                    <Buttons3 />
-                  </Frame1289>
-                </QuestionFrame> */}
+               
               </Frame1295>
               <Frame1296>
                 <Buttons2 add={buttons22Props.add} />

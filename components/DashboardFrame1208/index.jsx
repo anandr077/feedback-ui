@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardGroup12052 from "../Group12052";
+import DashboardGroup12052 from "../DashboardGroup12052";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed20px } from "../../styledMixins";
 

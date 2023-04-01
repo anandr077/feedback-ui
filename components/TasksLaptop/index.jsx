@@ -1,6 +1,6 @@
 import React from "react";
 import TaskFrame1306 from "../TaskFrame1306";
-import TaskFrame1353 from "../Frame1353";
+import TaskFrame1353 from "../TaskFrame1353";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark64px,

@@ -24,6 +24,7 @@ import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop"
 import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
 import DashboardHomeStudentTablet from "./components/DashboardHomeStudentTablet";
 import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
+import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
 function App() {
   
   const [allTasks, setAllTasks] = useState([]);
@@ -63,9 +64,9 @@ function App() {
             />
           )}
         </Route>
-        {/* <Route path="/create-a-assignment-laptop">
+        <Route path="/create-a-assignment-laptop">
           <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />
-        </Route> */}
+        </Route>
         <Route path="/dashboard-mobile">
           <DashboardHomeStudentMobile
             {...{ allTasks, ...dashboardHomeStudentMobileData }}
@@ -1837,6 +1838,7 @@ const frame6622Data = {
   className: "frame-6-6",
 };
 const createAAssignmentLaptopData = {
+  headerProps: taskheaderProps,
   logo: "/img/logo-1@2x.png",
   title: "Create Assignment",
   nameOfAssignment: "Name of assignment",

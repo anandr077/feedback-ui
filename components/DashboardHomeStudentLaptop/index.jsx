@@ -1,18 +1,16 @@
 import React from "react";
-import DashboardFrame12823 from "../DashboardFrame12823";
-import DashboardFrame1283 from "../DashboardFrame1283";
-import DashboardFrame1284 from "../DashboardFrame1284";
-import DashboardGroup1205 from "../Group1205";
-// import Cards27 from "../Cards27";
-// import Frame611 from "../Frame611";
 import styled from "styled-components";
 import {
   IbmplexsansBoldWhite72px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalWhite20px
 } from "../../styledMixins";
+import DashboardFrame12823 from "../DashboardFrame12823";
+import DashboardFrame1283 from "../DashboardFrame1283";
+import DashboardFrame1284 from "../DashboardFrame1284";
+import DashboardGroup1205 from "../DashboardGroup1205";
 import Footer from "../Footer";
+import Header from "../Header";
 import ModelResponseCardContainer from "../ModelResponseCardContainer";
 import TaskCardContainer from "../TaskCardContainer";
-import Header from "../Header";
 import "./DashboardHomeStudentLaptop.css";
 
 function DashboardHomeStudentLaptop(props) {

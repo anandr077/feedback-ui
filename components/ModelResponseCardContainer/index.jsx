@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardGroup1205 from "../Group1205";
+import DashboardGroup1205 from "../DashboardGroup1205";
 import TaskCard from "../Cards";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed24px } from "../../styledMixins";

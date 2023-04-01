@@ -1,6 +1,6 @@
 import React from "react";
 import Notifications from "../Notifications";
-import TaskFrame1304 from "../Frame1304";
+import TaskFrame1304 from "../TaskFrame1304";
 import Tabs from "../Tabs";
 import Tabs2 from "../Tabs2";
 import TaskCardContainer from "../TaskCardContainer";

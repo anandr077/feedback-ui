@@ -7,7 +7,7 @@ import DashboardFrame12823 from "../DashboardFrame12823";
 import DashboardFrame1283 from "../DashboardFrame1283";
 import DashboardFrame1284 from "../DashboardFrame1284";
 import ModelResponseCardContainer from "../ModelResponseCardContainer";
-import DashboardGroup1205 from "../Group1205";
+import DashboardGroup1205 from "../DashboardGroup1205";
 import "./DashboardHomeStudentDesktop.css";
 
 import Footer from "../Footer";

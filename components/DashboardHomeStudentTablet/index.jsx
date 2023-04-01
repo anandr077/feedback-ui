@@ -1,6 +1,6 @@
 import React from "react";
 import Notifications from "../Notifications";
-import DashboardFrame12082 from "../Frame12082";
+import DashboardFrame12082 from "../DashboardFrame12082";
 import styled from "styled-components";
 import {
   IbmplexsansBoldWhite36px,

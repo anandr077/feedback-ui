@@ -28,58 +28,28 @@ import "./CreateAAssignmentLaptop.css";
 function CreateAAssignmentLaptop(props) {
   const {
     headerProps,
-    logo,
     title,
-    nameOfAssignment,
     questions,
     line141,
-    text11,
-    toremIpsumDolorSi,
-    frame1284,
-    line142,
-    options,
     assignmentSettings,
     classes,
     help1,
     feedbackMethod,
     help2,
-    x2021JeddleAllRightsReserved,
-    navElement21Props,
-    navElementProps,
-    navElement22Props,
-    notificationsProps,
     frame4Props,
     goBack21Props,
     buttons21Props,
     frame12973Props,
-    input51Props,
-    input61Props,
-    input62Props,
     frame1291Props,
-    questionFrame41Props,
-    richTextComponentsProps,
-    richTextComponents3Props,
-    input52Props,
-    input63Props,
-    input81Props,
-    input82Props,
-    input83Props,
-    input84Props,
-    input64Props,
-    questionFrame42Props,
-    questionFrame43Props,
-    buttons22Props,
-    checkbox31Props,
-    checkbox32Props,
-    checkbox33Props,
-    checkbox34Props,
-    checkbox35Props,
-    checkbox36Props,
     goBack22Props,
-    frame662Props,
   } = props;
   const [courses, setCourses] = React.useState([]);
-
+  const [questionFrames, setQuestionFrames] = React.useState([createNewQuestionFrame(frame12973Props, line141, frame1291Props)]);
+  const addQuestionFrameFn = () => {
+    const newQuestionFrame = createNewQuestionFrame(frame12973Props, line141, frame1291Props);
+    setQuestionFrames([...questionFrames, newQuestionFrame]);
+  };
+  
   useEffect(() => {
     getCourses().then((res) => {
       setCourses(res);
@@ -129,6 +99,7 @@ function CreateAAssignmentLaptop(props) {
   };
 
   const checkboxes = courses.map((course) => {
+    
     return (
       <Checkbox>
         <Checkbox1>
@@ -165,59 +136,14 @@ function CreateAAssignmentLaptop(props) {
             <Frame1294>
               <Frame1372>
                 <Questions>{questions}</Questions>
-                <Buttons2 add={buttons21Props.add} />
+                <Buttons2 add={buttons21Props.add} label = 'Add a new question' onClickFn = {addQuestionFrameFn} />
               </Frame1372>
 
               <Frame1295>
-                <QuestionFrame>
-                  <Frame1295>
-                    <Frame12973
-                      number="1"
-                      frame1284={frame12973Props.frame1284}
-                      richTextComponentsProps={
-                        frame12973Props.richTextComponentsProps
-                      }
-                      sectiontitle="Section 1"
-                    />
-                    <Line14 src={line141} alt="Line 14" />
-                  </Frame1295>
-
-                  <Frame1289>
-                    <InputQuestion>
-                      <Label>Type of question</Label>
-                      <QuestionFrame1>
-                        <QuestionInput>Theory</QuestionInput>
-                      </QuestionFrame1>
-                    </InputQuestion>
-
-                    <InputQuestion>
-                      <Label>Question</Label>
-                      <QuestionFrame1>
-                        <QuestionInputEditable
-                          id="question1"
-                          placeholder="Type Your Question here"
-                        />
-                      </QuestionFrame1>
-                    </InputQuestion>
-                    <InputQuestion>
-                      <Label>Hint (Optional)</Label>
-                      <QuestionFrame1>
-                        <QuestionInputEditable
-                          id="question1hint"
-                          placeholder="Optional"
-                        />
-                      </QuestionFrame1>
-                    </InputQuestion>
-
-                    <Frame1291 className={frame1291Props.className} />
-                    {/* <Buttons3 /> */}
-                  </Frame1289>
-                </QuestionFrame>
-
-               
+                {questionFrames}
               </Frame1295>
               <Frame1296>
-                <Buttons2 add={buttons22Props.add} />
+                <Buttons2 add={buttons21Props.add} label = 'Add a new question' onClickFn = {addQuestionFrameFn} />
               </Frame1296>
             </Frame1294>
           </Frame1375>
@@ -269,6 +195,48 @@ function CreateAAssignmentLaptop(props) {
       <Footer />
     </div>
   );
+}
+
+function createNewQuestionFrame(frame12973Props, line141, frame1291Props) {
+  return <QuestionFrame>
+    <Frame1295>
+      <Frame12973
+        number="1"
+        frame1284={frame12973Props.frame1284}
+        richTextComponentsProps={frame12973Props.richTextComponentsProps}
+        sectiontitle="Section 1" />
+      <Line14 src={line141} alt="Line 14" />
+    </Frame1295>
+
+    <Frame1289>
+      <InputQuestion>
+        <Label>Type of question</Label>
+        <QuestionFrame1>
+          <QuestionInput>Theory</QuestionInput>
+        </QuestionFrame1>
+      </InputQuestion>
+
+      <InputQuestion>
+        <Label>Question</Label>
+        <QuestionFrame1>
+          <QuestionInputEditable
+            id="question1"
+            placeholder="Type Your Question here" />
+        </QuestionFrame1>
+      </InputQuestion>
+      <InputQuestion>
+        <Label>Hint (Optional)</Label>
+        <QuestionFrame1>
+          <QuestionInputEditable
+            id="question1hint"
+            placeholder="Optional" />
+        </QuestionFrame1>
+      </InputQuestion>
+
+      <Frame1291 className={frame1291Props.className} />
+      {/* <Buttons3 /> */}
+    </Frame1289>
+  </QuestionFrame>;
 }
 
 const Frame1379 = styled.div`
@@ -877,3 +845,5 @@ const CheckBoxText = styled.div`
   line-height: normal;
 `;
 export default CreateAAssignmentLaptop;
+
+

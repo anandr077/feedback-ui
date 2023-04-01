@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../styledMixins";
 
 function Buttons2(props) {
-  const { add } = props;
-
+  const { add, label, onClickFn} = props;
+  
   return (
-    <Buttons>
+    <Buttons onClick={onClickFn}>
       <Add src={add} alt="add" />
-      <Button>Add a new question</Button>
+      <Button>{label} </Button>
     </Buttons>
   );
 }

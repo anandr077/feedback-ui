@@ -27,6 +27,7 @@ import "./CreateAAssignmentLaptop.css";
 
 function CreateAAssignmentLaptop(props) {
   const {
+    headerProps,
     logo,
     title,
     nameOfAssignment,
@@ -140,7 +141,7 @@ function CreateAAssignmentLaptop(props) {
   return (
     <div className="create-a-assignment-laptop screen">
       <Frame1379>
-        <Header />
+        <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb />

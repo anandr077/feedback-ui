@@ -1,13 +1,13 @@
 import React from "react";
-import Frame1306 from "../Frame1306";
-import Frame1353 from "../Frame1353";
+import TaskFrame1306 from "../TaskFrame1306";
+import TaskFrame1353 from "../TaskFrame1353";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansSemiBoldRiverBed24px,
 } from "../../styledMixins";
 import "./TasksLaptop.css";
-import TaskCardContainer from "../Frame19";
+import TaskCardContainer from "../TaskCardContainer";
 import Header from "../Header";
 import Footer from "../Footer";
 
@@ -20,10 +20,10 @@ function TasksLaptop(props) {
       <Frame1361>
         <Title>Tasks</Title>
         <Frame1360>
-          <Frame1306 />
+          <TaskFrame1306 />
           <Frame1359>
             <Frame1358>
-              <Frame1353 outstanding="Outstanding" number={allTasks.length} />
+              <TaskFrame1353 outstanding="Outstanding" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
@@ -31,7 +31,7 @@ function TasksLaptop(props) {
               />
             </Frame1358>
             <Frame1358>
-              <Frame1353 outstanding="In Progress" number={allTasks.length} />
+              <TaskFrame1353 outstanding="In Progress" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
@@ -40,7 +40,7 @@ function TasksLaptop(props) {
             </Frame1358>
 
             <Frame1358>
-              <Frame1353 outstanding="Overdue" number={allTasks.length} />
+              <TaskFrame1353 outstanding="Overdue" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}

@@ -1,20 +1,14 @@
 import React from "react";
-import Notifications from "../Notifications";
-import Frame1208 from "../Frame1208";
-import Cards28 from "../Cards28";
-import Cards29 from "../Cards29";
-import Frame692 from "../Frame692";
 import styled from "styled-components";
 import {
   IbmplexsansBoldWhite36px,
-  IbmplexsansNormalWhite14px,
+  IbmplexsansNormalWhite14px
 } from "../../styledMixins";
-import "./DashboardHomeStudentMobile.css";
-import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
+import DashboardFrame1208 from "../DashboardFrame1208";
+import TaskCardContainer from "../TaskCardContainer";
+import HeaderSmall from "../HeaderSmall";
 import "./DashboardHomeStudentMobile.css";
-import ModelResponseCardContainer from "../Frame1340";
-import TaskCardContainer from "../Frame19";
 
 function DashboardHomeStudentMobile(props) {
   const {
@@ -48,7 +42,7 @@ function DashboardHomeStudentMobile(props) {
       </Frame1352>
       <Frame1351>
         <Frame1205>
-          <Frame1208
+          <DashboardFrame1208
             tasks="Tasks"
             group12052Props={frame12082Props.group12052Props}
           />
@@ -58,7 +52,7 @@ function DashboardHomeStudentMobile(props) {
           </Frame11>
         </Frame1205>
         <Frame1205>
-          <Frame1208
+          <DashboardFrame1208
             tasks="Model responses"
             group12052Props={frame12082Props.group12052Props}
           />

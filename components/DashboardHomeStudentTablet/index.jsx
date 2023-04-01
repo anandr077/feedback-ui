@@ -1,6 +1,6 @@
 import React from "react";
 import Notifications from "../Notifications";
-import Frame12082 from "../Frame12082";
+import DashboardFrame12082 from "../DashboardFrame12082";
 import styled from "styled-components";
 import {
   IbmplexsansBoldWhite36px,
@@ -10,7 +10,7 @@ import "./DashboardHomeStudentTablet.css";
 import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 import "./DashboardHomeStudentTablet.css";
-import TaskCardContainer from "../Frame19";
+import TaskCardContainer from "../TaskCardContainer";
 
 function DashboardHomeStudentTablet(props) {
   const {
@@ -44,7 +44,7 @@ function DashboardHomeStudentTablet(props) {
       </Frame1352>
       <Frame1351>
         <Frame1206>
-          <Frame12082
+          <DashboardFrame12082
             tasks={frame120821Props.tasks}
             group12052Props={frame120821Props.group12052Props}
           />
@@ -54,7 +54,7 @@ function DashboardHomeStudentTablet(props) {
           </Frame11>
         </Frame1206>
         <Frame1205>
-          <Frame12082
+          <DashboardFrame12082
             tasks={frame120822Props.tasks}
             group12052Props={frame120822Props.group12052Props}
           />

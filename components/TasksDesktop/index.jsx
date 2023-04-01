@@ -1,7 +1,7 @@
 import React from "react";
-import Frame1306 from "../Frame1306";
-import Frame1353 from "../Frame1353";
-import TaskCardContainer from "../Frame19";
+import TaskFrame1306 from "../TaskFrame1306";
+import TaskFrame1353 from "../TaskFrame1353";
+import TaskCardContainer from "../TaskCardContainer";
 import Header from "../Header";
 import Footer from "../Footer";
 import styled from "styled-components";
@@ -20,24 +20,24 @@ function TasksDesktop(props) {
       <Frame1361>
         <Title>{title}</Title>
         <Frame1360>
-          <Frame1306 frame1304Props={frame1306Props.frame1304Props} />
+          <TaskFrame1306 frame1304Props={frame1306Props.frame1304Props} />
           <Frame1359>
             <Frame1354>
-              <Frame1353 outstanding="Outstanding" number={allTasks.length} />
+              <TaskFrame1353 outstanding="Outstanding" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
             <Frame1354>
-              <Frame1353 outstanding="In Progress" number={allTasks.length} />
+              <TaskFrame1353 outstanding="In Progress" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
             <Frame1358>
-              <Frame1353 outstanding="Overdue" number={allTasks.length} />
+              <TaskFrame1353 outstanding="Overdue" number={allTasks.length} />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Notifications from "../Notifications";
-import Frame4 from "../Frame4";
+import UserIcon from "../UserIcon";
 
 import {
   IbmplexsansNormalPersianIndigo20px,
@@ -97,7 +97,7 @@ export default function Header(props) {
       </Frame5>
       <Frame51>
         <Notifications src="/img/notificationbing-3@2x.png" />
-        <Frame4 maskGroup="/img/mask-group-1@2x.png" />
+        <UserIcon maskGroup="/img/mask-group-1@2x.png" />
       </Frame51>
     </Frame1344>
   );

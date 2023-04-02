@@ -123,6 +123,10 @@ function CreateAAssignmentTablet(props) {
                 />
               </Frame1372>
               <Frame1295>{questionFrames}</Frame1295>
+              <Buttons2
+                add={buttons21Props.add}
+                onClickFn={addQuestionFrameFn}
+              />
             </Frame1294>
           </Frame1375>
           <Frame1377>
@@ -443,7 +447,7 @@ const NameOfAssignment = styled.div`
 const Frame1294 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 30px;
   padding: 30px;
   position: relative;
@@ -566,6 +570,7 @@ const Frame1298 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  flex-wrap: wrap;
 `;
 
 const Frame12981 = styled.div`

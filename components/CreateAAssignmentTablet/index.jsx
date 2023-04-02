@@ -338,6 +338,14 @@ const Checkbox1 = styled.div`
   height: 20px;
 `;
 
+const CheckBoxText = styled.div`
+  ${IbmplexsansNormalShark20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 const Rectangle43 = styled.input`
   position: absolute;
   width: 22px;

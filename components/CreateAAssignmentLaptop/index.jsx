@@ -44,9 +44,9 @@ function CreateAAssignmentLaptop(props) {
     goBack22Props,
   } = props;
   const [courses, setCourses] = React.useState([]);
-  const [questionFrames, setQuestionFrames] = React.useState([createNewQuestionFrame(frame12973Props, line141, frame1291Props)]);
+  const [questionFrames, setQuestionFrames] = React.useState([createNewQuestionFrame(1, frame12973Props, line141, frame1291Props)]);
   const addQuestionFrameFn = () => {
-    const newQuestionFrame = createNewQuestionFrame(frame12973Props, line141, frame1291Props);
+    const newQuestionFrame = createNewQuestionFrame(questionFrames.length + 1,frame12973Props, line141, frame1291Props);
     setQuestionFrames([...questionFrames, newQuestionFrame]);
   };
   
@@ -56,57 +56,13 @@ function CreateAAssignmentLaptop(props) {
     });
   }, []);
 
-<<<<<<< Updated upstream
-  const assignmentTemplate = {
-    title: "postman assignment with a very big title ",
-    courseIds: [],
-    questions: [
-      {
-        serialNumber: "1",
-        question: "1 postman question",
-        type: "TEXT",
-      },
-      {
-        serialNumber: "2",
-        question: "2 postman question",
-        type: "TEXT",
-      },
-    ],
-  };
-
-  const publish = () => {
-    const assignmentName = document.getElementById("assignmentName").value;
-    assignmentTemplate.courseIds = [];
-    courses.forEach((course) => {
-      if (document.getElementById(course.id).checked) {
-        assignmentTemplate.courseIds.push(course.id);
-      }
-    });
-
-    assignmentTemplate.title = assignmentName;
-    const questions = [];
-    const question1 = {
-      serialNumber: "1",
-      question: document.getElementById("question1").value,
-      type: "TEXT",
-    };
-    questions.push(question1);
-    assignmentTemplate.questions = questions;
-    console.log(assignmentTemplate);
-
-    createAssignment(assignmentTemplate).then((res) => {
-      console.log(res);
-=======
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
     const courseIds = courses.filter((course) => {
-      console.log(course)
-      console.log(document.getElementById(course.id))
-      console.log(document.getElementById(course.id).checked)
       return document.getElementById(course.id).checked;
     }
       ).map((course) => course.id);
-       
+
     const serialNumbers = questionFrames.map((_, index)=>(index + 1))
     const questions = serialNumbers.map(serialNumber=>{
       const question = {
@@ -116,7 +72,7 @@ function CreateAAssignmentLaptop(props) {
       };
       return question;
     })
-    
+
     const assignment = 
     {
       title,
@@ -124,13 +80,11 @@ function CreateAAssignmentLaptop(props) {
       questions,
     }
     createAssignment(assignment).then((res) => {
-      <Redirect to='/' />;
->>>>>>> Stashed changes
-    });
-  };
+      window.location.href = "/";
 
+    });
+  }
   const checkboxes = courses.map((course) => {
-    
     return (
       <Checkbox>
         <Checkbox1>
@@ -228,11 +182,11 @@ function CreateAAssignmentLaptop(props) {
   );
 }
 
-function createNewQuestionFrame(frame12973Props, line141, frame1291Props) {
+function createNewQuestionFrame(serialNumber, frame12973Props, line141, frame1291Props) {
   return <QuestionFrame>
     <Frame1295>
       <Frame12973
-        number="1"
+        number={serialNumber}
         frame1284={frame12973Props.frame1284}
         richTextComponentsProps={frame12973Props.richTextComponentsProps}
         sectiontitle="Section 1" />
@@ -243,7 +197,7 @@ function createNewQuestionFrame(frame12973Props, line141, frame1291Props) {
       <InputQuestion>
         <Label>Type of question</Label>
         <QuestionFrame1>
-          <QuestionInput>Theory</QuestionInput>
+          <QuestionInput id={"questionType_" + serialNumber}>Theory</QuestionInput>
         </QuestionFrame1>
       </InputQuestion>
 
@@ -251,7 +205,7 @@ function createNewQuestionFrame(frame12973Props, line141, frame1291Props) {
         <Label>Question</Label>
         <QuestionFrame1>
           <QuestionInputEditable
-            id="question1"
+            id={"question_" + serialNumber}
             placeholder="Type Your Question here" />
         </QuestionFrame1>
       </InputQuestion>
@@ -259,7 +213,7 @@ function createNewQuestionFrame(frame12973Props, line141, frame1291Props) {
         <Label>Hint (Optional)</Label>
         <QuestionFrame1>
           <QuestionInputEditable
-            id="question1hint"
+            id={"questionHint_" + serialNumber}
             placeholder="Optional" />
         </QuestionFrame1>
       </InputQuestion>

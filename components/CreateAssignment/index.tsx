@@ -2,6 +2,7 @@ import React from "react";
 import { useMediaQuery } from "react-responsive";
 import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
 import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
+import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
 
 export default function CreateAssignment() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -10,10 +11,9 @@ export default function CreateAssignment() {
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
   return (
     <>
-      {/* {isMobileView && (
-        <TasksStudentMobile
-          {...{ allTasks, ...tasksStudentMobileData }} />
-      )} */}
+      {isMobileView && (
+        <CreateAAssignmentMobile {...createAAssignmentMobileData} />
+      )}
       {isTabletView && (
         <CreateAAssignmentTablet {...createAAssignmentTabletData} />
       )}
@@ -373,4 +373,197 @@ const createAAssignmentTabletData = {
   buttons21Props: buttons23Data,
   frame12972Props: frame129722Data,
   goBack22Props: goBack23Data,
+};
+
+const notifications2Data = {
+  src: "/img/notificationbing@2x.png",
+};
+
+const buttons21Data = {
+  add: "/img/add@2x.png",
+};
+
+const richTextComponents1Data = {
+  src: "/img/drag-icon@2x.png",
+};
+
+const frame12971Data = {
+  text1: "1.",
+  richTextComponentsProps: richTextComponents1Data,
+};
+
+const input1Data = {
+  input: "Theory",
+};
+
+const input21Data = {
+  label: "Question",
+  input: "Enter question",
+};
+
+const input22Data = {
+  label: "Hint (optional)",
+  input: "Enter hint",
+};
+
+const richTextComponents2Data = {
+  src: "/img/drag-icon@2x.png",
+};
+
+const frame12972Data = {
+  text1: "2.",
+  richTextComponentsProps: richTextComponents2Data,
+};
+
+const questionFrame1Data = {
+  frame1297Props: frame12972Data,
+};
+
+const richTextComponents3Data = {
+  src: "/img/drag-icon@2x.png",
+};
+
+const group251Data = {
+  src: "/img/vector@2x.png",
+};
+
+const bulletList1Data = {
+  group25Props: group251Data,
+};
+
+const input3Data = {
+  input: "MCQ",
+};
+
+const input32Data = {
+  label: "Question",
+  input: "Enter question",
+};
+
+const input41Data = {
+  option1: "Option 1",
+};
+
+const input42Data = {
+  option1: "Option 2",
+};
+
+const input43Data = {
+  option1: "Option 3",
+};
+
+const input44Data = {
+  option1: "Option 4",
+};
+
+const input23Data = {
+  label: "Hint (optional)",
+  input: "Enter hint",
+};
+
+const richTextComponents4Data = {
+  src: "/img/drag-icon@2x.png",
+};
+
+const frame12973Data = {
+  text1: "4.",
+  richTextComponentsProps: richTextComponents4Data,
+};
+
+const questionFrame2Data = {
+  frame1297Props: frame12973Data,
+};
+
+const richTextComponents5Data = {
+  src: "/img/drag-icon@2x.png",
+};
+
+const frame12974Data = {
+  text1: "5.",
+  richTextComponentsProps: richTextComponents5Data,
+};
+
+const questionFrame3Data = {
+  frame1297Props: frame12974Data,
+};
+
+const buttons22Data = {
+  add: "/img/add-2@2x.png",
+};
+
+const checkbox2Data = {
+  className: "checkbox-2",
+};
+
+const checkbox3Data = {
+  className: "checkbox-3",
+};
+
+const checkbox4Data = {
+  className: "checkbox-4",
+};
+
+const checkbox5Data = {
+  className: "checkbox-5",
+};
+
+const checkbox6Data = {
+  className: "checkbox-6",
+};
+
+const radioBoxData = {
+  label: "Peer to Peer (randomised)",
+};
+
+const goBack2Data = {
+  className: "go-back-1",
+};
+
+const createAAssignmentMobileData = {
+  frame1349: "/img/frame-1349@2x.png",
+  frame5: "/img/frame-5@2x.png",
+  title: "Create Assignment",
+  nameOfAssignment: "Name of assignment",
+  questions: "Questions",
+  line141: "/img/line-14@2x.png",
+  answerWordLimit: "Answer Word Limit",
+  number: "1000",
+  group1280: "/img/group-1280@2x.png",
+  text3: "3.",
+  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
+  mcq: "MCQ",
+  frame1284: "/img/frame-1284@2x.png",
+  line142: "/img/line-14@2x.png",
+  options: "Options",
+  assignmentSettings: "Assignment Settings",
+  classes: "Classes",
+  help1: "/img/help@2x.png",
+  feedbackMethod: "Feedback Method",
+  help2: "/img/help@2x.png",
+  notificationsProps: notifications2Data,
+  buttons21Props: buttons21Data,
+  frame1297Props: frame12971Data,
+  input1Props: input1Data,
+  input21Props: input21Data,
+  input22Props: input22Data,
+  questionFrame1Props: questionFrame1Data,
+  richTextComponentsProps: richTextComponents3Data,
+  bulletListProps: bulletList1Data,
+  input2Props: input3Data,
+  input3Props: input32Data,
+  input41Props: input41Data,
+  input42Props: input42Data,
+  input43Props: input43Data,
+  input44Props: input44Data,
+  input23Props: input23Data,
+  questionFrame2Props: questionFrame2Data,
+  questionFrame3Props: questionFrame3Data,
+  buttons22Props: buttons22Data,
+  checkbox1Props: checkbox2Data,
+  checkbox2Props: checkbox3Data,
+  checkbox3Props: checkbox4Data,
+  checkbox4Props: checkbox5Data,
+  checkbox5Props: checkbox6Data,
+  radioBoxProps: radioBoxData,
+  goBackProps: goBack2Data,
 };

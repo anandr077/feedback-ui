@@ -1,17 +1,18 @@
 import React from "react";
 import RichTextComponents2 from "../RichTextComponents2";
+import RichTextComponents from "../RichTextComponents";
 import styled from "styled-components";
 import { IbmplexsansNormalShark20px } from "../../styledMixins";
 
 function Frame12972(props) {
-  const { number, frame1284, richTextComponentsProps } = props;
+  const { number, frame1284 } = props;
 
   return (
     <Frame1297>
+      <RichTextComponents src="/img/drag-icon-5@2x.png" />
       <Frame1287>
         <Frame1283>
           <Frame1282>
-            <Text6>{number}</Text6>
             <Frame1281>
               <ToremIpsumDolorSi>Section {number}</ToremIpsumDolorSi>
               <RichTextComponents2 />

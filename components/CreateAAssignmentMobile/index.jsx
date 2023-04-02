@@ -1,45 +1,94 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Notifications from "../Notifications";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import GoBack2 from "../GoBack2";
+import GoBack from "../GoBack";
+import Frame1219 from "../Frame1219";
 import Buttons2 from "../Buttons2";
-import Frame12972 from "../Frame12972";
-import Frame1291 from "../Frame1291";
-import RadioBox2 from "../RadioBox2";
+import Frame1297 from "../Frame1297";
+import Input from "../Input";
+import Input2 from "../Input2";
+import Buttons3 from "../Buttons3";
+import RichTextComponents from "../RichTextComponents";
+import BulletList from "../BulletList";
+import Frame1280 from "../Frame1280";
+import Input3 from "../Input3";
+import Input4 from "../Input4";
+import Buttons4 from "../Buttons4";
+import RadioBox from "../RadioBox";
+import Frame692 from "../Frame692";
 import styled from "styled-components";
+import Frame1291 from "../Frame1291";
 import {
+  IbmplexsansNormalShark16px,
   IbmplexsansNormalShark20px,
   IbmplexsansSemiBoldShark24px,
-  IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
+  IbmplexsansNormalStack20px,
+  IbmplexsansNormalBlack16px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
 } from "../../styledMixins";
-import "./CreateAAssignmentTablet.css";
+import "./CreateAAssignmentMobile.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
 import { createAssignment, getCourses } from "../../service";
 
-function CreateAAssignmentTablet(props) {
+function CreateAAssignmentMobile(props) {
   const {
+    nameOfAssignment,
+    questions,
     line141,
+    answerWordLimit,
+    number,
+    group1280,
+    text3,
+    toremIpsumDolorSi,
+    mcq,
+    frame1284,
+    line142,
+    options,
+    assignmentSettings,
+    classes,
     help1,
+    feedbackMethod,
     help2,
-    goBack21Props,
     buttons21Props,
-    frame12972Props,
-    goBack22Props,
+    frame1297Props,
+    input1Props,
+    input21Props,
+    input22Props,
+    questionFrame1Props,
+    richTextComponentsProps,
+    bulletListProps,
+    input2Props,
+    input3Props,
+    input41Props,
+    input42Props,
+    input43Props,
+    input44Props,
+    input23Props,
+    questionFrame2Props,
+    questionFrame3Props,
+    buttons22Props,
+    checkbox1Props,
+    checkbox2Props,
+    checkbox3Props,
+    checkbox4Props,
+    checkbox5Props,
+    radioBoxProps,
+    goBackProps,
   } = props;
 
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, frame12972Props, line141),
+    createNewQuestionFrame(1, frame1297Props, line141),
   ]);
   const [courses, setCourses] = React.useState([]);
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
-      frame12972Props,
+      frame1297Props,
       line141
     );
     setQuestionFrames([...questionFrames, newQuestionFrame]);
@@ -91,7 +140,7 @@ function CreateAAssignmentTablet(props) {
   });
 
   return (
-    <div className="create-a-assignment-tablet screen">
+    <div className="create-a-assignment-mobile screen">
       <Frame1379>
         <HeaderSmall />
         <Frame1376>
@@ -99,7 +148,7 @@ function CreateAAssignmentTablet(props) {
             <Breadcrumb />
             <Breadcrumb2 />
           </Frame1315>
-          <GoBack2 caret={goBack21Props.caret} />
+          <GoBack />
         </Frame1376>
         <Frame1378>
           <Frame1375>
@@ -115,48 +164,50 @@ function CreateAAssignmentTablet(props) {
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
             <Frame1294>
-              <Frame1372>
+              <Frame1293>
                 <Questions>Questions</Questions>
                 <Buttons2
                   add={buttons21Props.add}
                   onClickFn={addQuestionFrameFn}
                 />
-              </Frame1372>
+              </Frame1293>
               <Frame1295>{questionFrames}</Frame1295>
+              <Frame1296>
+                <Buttons2
+                  add={buttons22Props.add}
+                  onClickFn={addQuestionFrameFn}
+                />
+              </Frame1296>
             </Frame1294>
           </Frame1375>
           <Frame1377>
             <Frame1294>
-              <AssignmentSettings>Assignment Settings</AssignmentSettings>
+              <Questions>{assignmentSettings}</Questions>
               <Frame1295>
                 <Frame1299>
                   <Frame12811>
-                    <Classes>Classes</Classes>
+                    <Classes>{classes}</Classes>
                     <Link to="/tooltip1">
                       <Help src={help1} alt="help" />
                     </Link>
                   </Frame12811>
                   <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
-                <Frame1299>
+                <Frame1300>
                   <Frame12811>
-                    <Classes>Feedback Method</Classes>
+                    <Classes>{feedbackMethod}</Classes>
                     <Link to="/tooltip2">
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Frame12981>
-                    <RadioBox2 />
-                  </Frame12981>
-                </Frame1299>
+                  <RadioBox label={radioBoxProps.label} />
+                </Frame1300>
               </Frame1295>
             </Frame1294>
-            <Frame1372>
-              <GoBack2
-                caret={goBack22Props.caret}
-                className={goBack22Props.className}
-              />
-            </Frame1372>
+            <Frame1373>
+              {/* <Frame1219 /> */}
+              <GoBack className={goBackProps.className} />
+            </Frame1373>
           </Frame1377>
         </Frame1378>
       </Frame1379>
@@ -164,52 +215,116 @@ function CreateAAssignmentTablet(props) {
     </div>
   );
 }
-function createNewQuestionFrame(serialNumber, frame12972Props, line141) {
+
+function createNewQuestionFrame(
+  serialNumber,
+  frame1297Props,
+  line141,
+  frame1291Props
+) {
   return (
-    <QuestionFrame>
+    <QuestionFrame1>
       <Frame1295>
-        <Frame12972
+        <Frame1297
           number={serialNumber}
-          frame1284={frame12972Props.frame1284}
+          richTextComponentsProps={frame1297Props.richTextComponentsProps}
         />
         <Line14 src={line141} alt="Line 14" />
       </Frame1295>
-
       <Frame1289>
         <InputQuestion>
-          <Label>Type of question</Label>
-          <QuestionFrame1>
-            <QuestionInput id={"questionType_" + serialNumber}>
-              Theory
-            </QuestionInput>
-          </QuestionFrame1>
-        </InputQuestion>
-
-        <InputQuestion>
           <Label>Question</Label>
-          <QuestionFrame1>
+          <QuestionFrame2>
             <QuestionInputEditable
               id={"question_" + serialNumber}
               placeholder="Type Your Question here"
             />
-          </QuestionFrame1>
+          </QuestionFrame2>
         </InputQuestion>
         <InputQuestion>
           <Label>Hint (Optional)</Label>
-          <QuestionFrame1>
+          <QuestionFrame2>
             <QuestionInputEditable
               id={"questionHint_" + serialNumber}
               placeholder="Optional"
             />
-          </QuestionFrame1>
+          </QuestionFrame2>
         </InputQuestion>
-
         <Frame1291 />
-        {/* <Buttons3 /> */}
       </Frame1289>
-    </QuestionFrame>
+    </QuestionFrame1>
   );
 }
+
+const InputQuestion = styled.div`
+  ${IbmplexsansNormalShark20px}
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  align-self: stretch;
+`;
+const Label = styled.div`
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+const QuestionInput = styled.div`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const QuestionFrame2 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+const QuestionFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+
+const QuestionInputEditable = styled.input`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+const Frame12191 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+`;
 
 const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}
@@ -224,79 +339,28 @@ const TextInput = styled.input`
   transition: 0.15s;
 `;
 
-const InputQuestion = styled.div`
-  ${IbmplexsansNormalShark20px}
+const Buttons1 = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Label = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const QuestionInput = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const QuestionFrame1 = styled.div`
-  display: flex;
+  width: fit-content;
   align-items: center;
-  gap: 20px;
-  padding: 13px 20px;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
   position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
+  background-color: var(--light-mode-purple);
+  border-radius: 30px;
   border: 1px solid;
-  border-color: var(--text);
+  &:hover {
+    scale: 1.2;
+    transition: 0.3s;
+  }
 `;
-
-const QuestionInputEditable = styled.input`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  border-color: transparent;
-  box-shadow: 0px;
-  outline: none;
-  transition: 0.15s;
-`;
-
-const Checkbox = styled.article`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  flex: 1;
-`;
-
 const Checkbox1 = styled.div`
   position: relative;
   min-width: 20px;
   height: 20px;
 `;
 
-const CheckBoxText = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 const Rectangle43 = styled.input`
   position: absolute;
   width: 22px;
@@ -319,24 +383,22 @@ const Rectangle43 = styled.input`
     background-color: red;
   }
 `;
-
-const Buttons1 = styled.div`
+const Checkbox = styled.article`
   display: flex;
-  width: fit-content;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 16px;
   position: relative;
-  background-color: var(--light-mode-purple);
-  border-radius: 30px;
-  border: 1px solid;
-  &:hover {
-    scale: 1.2;
-    transition: 0.3s;
-  }
+  flex: 1;
 `;
 
+const CheckBoxText = styled.div`
+  ${IbmplexsansNormalShark20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 const Button = styled.div`
   ${IbmplexsansMediumWhite16px}
   position: relative;
@@ -345,14 +407,6 @@ const Button = styled.div`
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
-`;
-
-const Frame12191 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  gap: 24px;
-  position: relative;
 `;
 const Frame1379 = styled.div`
   display: flex;
@@ -363,12 +417,46 @@ const Frame1379 = styled.div`
   align-self: stretch;
 `;
 
+const Frame1350 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+`;
+
+const Frame1349 = styled.img`
+  position: relative;
+  flex: 1;
+  min-width: 223.75px;
+  height: 37.4892578125px;
+  margin-left: -1.75px;
+`;
+
+const Frame5 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  position: relative;
+`;
+
+const Frame51 = styled.img`
+  position: relative;
+  min-width: 48px;
+  height: 48px;
+  cursor: pointer;
+`;
+
 const Frame1376 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 30px;
-  padding: 0px 60px;
+  padding: 0px 20px;
   position: relative;
   align-self: stretch;
 `;
@@ -385,8 +473,8 @@ const Frame1378 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 72px;
-  padding: 0px 60px;
+  gap: 60px;
+  padding: 0px 20px;
   position: relative;
   align-self: stretch;
 `;
@@ -402,8 +490,10 @@ const Frame1375 = styled.div`
 
 const Frame1372 = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 30px;
+  justify-content: space-between;
+  gap: 20px;
   position: relative;
   align-self: stretch;
 `;
@@ -411,7 +501,7 @@ const Frame1372 = styled.div`
 const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
   position: relative;
-  flex: 1;
+  align-self: stretch;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
@@ -445,7 +535,7 @@ const Frame1294 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 30px;
-  padding: 30px;
+  padding: 16px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
@@ -453,10 +543,47 @@ const Frame1294 = styled.div`
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
+const Frame1293 = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  align-self: stretch;
+`;
+
 const Questions = styled.div`
   ${IbmplexsansSemiBoldShark24px}
   position: relative;
-  flex: 1;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const AnswerWordLimit = styled.div`
+  ${IbmplexsansNormalShark16px}
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const Text3 = styled.div`
+  ${IbmplexsansNormalShark20px}
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const ToremIpsumDolorSi = styled.p`
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
 `;
@@ -470,7 +597,7 @@ const Frame1295 = styled.div`
   align-self: stretch;
 `;
 
-const QuestionFrame = styled.div`
+const QuestionFrame1 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -488,7 +615,7 @@ const QuestionFrame = styled.div`
 const Line14 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 844px;
+  min-width: 318px;
   height: 1px;
   object-fit: cover;
 `;
@@ -497,19 +624,145 @@ const Frame1289 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
-  padding: 0px 60px;
+  gap: 16px;
+  padding: 0px 16px;
   position: relative;
   align-self: stretch;
 `;
 
-const AssignmentSettings = styled.div`
-  ${IbmplexsansSemiBoldShark24px}
+const Frame1290 = styled.div`
+  display: flex;
+  width: 212px;
+  align-items: center;
+  gap: 16px;
+  padding: 11px 14px;
   position: relative;
-  align-self: stretch;
-  margin-top: -1px;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--black);
+`;
+
+const Number = styled.div`
+  ${IbmplexsansNormalBlack16px}
+  position: relative;
+  flex: 1;
   letter-spacing: 0;
   line-height: normal;
+`;
+
+const Group1280 = styled.img`
+  position: relative;
+  min-width: 19.701171875px;
+  height: 31.40234375px;
+  margin-top: -0.7px;
+  margin-bottom: -0.7px;
+  margin-right: -0.35px;
+`;
+
+const Frame12971 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0px 12px 0px 8px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const Frame1287 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+  flex: 1;
+`;
+
+const Frame1283 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const Frame1282 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  flex: 1;
+`;
+
+const Frame1281 = styled.div`
+  ${IbmplexsansNormalShark16px}
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const RichTextComponents1 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  position: relative;
+  align-self: stretch;
+  border-radius: 4px;
+  overflow: hidden;
+`;
+
+const MCQ = styled.div`
+  position: relative;
+  width: 63px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const Frame1284 = styled.img`
+  position: relative;
+  min-width: 28px;
+  height: 28px;
+`;
+
+const Input1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const Frame1285 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+
+const Frame1296 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  position: relative;
+  align-self: stretch;
 `;
 
 const Frame1377 = styled.div`
@@ -526,7 +779,7 @@ const Frame1299 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  padding: 20px;
+  padding: 16px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
@@ -562,18 +815,36 @@ const Help = styled.img`
 
 const Frame1298 = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 16px;
   position: relative;
   align-self: stretch;
 `;
 
-const Frame12981 = styled.div`
+const Frame1300 = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+
+const Frame1373 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 30px;
   position: relative;
   align-self: stretch;
 `;
 
-export default CreateAAssignmentTablet;
+export default CreateAAssignmentMobile;

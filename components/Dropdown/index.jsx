@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack14px } from "../../styledMixins";
 
-
 function Dropdown(props) {
   const { heading, className } = props;
 

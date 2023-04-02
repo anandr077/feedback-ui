@@ -1,11 +1,9 @@
 import { default as React, default as React, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import {
-  BrowserRouter as Router,
-  Route, Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AssignmentTheoryLaptop from "./components/AssignmentTheoryLaptop";
 import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
+import CreateAssignment from "./components/CreateAssignment";
 import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
 import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop";
 import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
@@ -24,9 +22,9 @@ function App() {
     <Router>
       <Switch>
         <Route path="/assignments/new">
-          <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />
+          <CreateAssignment />
         </Route>
-        <Route path="/tasks">
+        {/* <Route path="/tasks">
           {tasks()}
         </Route>
         <Route path="/submissions">
@@ -34,106 +32,105 @@ function App() {
         </Route>
         <Route path="/">
           {dashboard()}
-        </Route>
+        </Route> */}
       </Switch>
     </Router>
   );
 
-  function submissions() {
-    const queryParameters = new URLSearchParams(window.location.search)
-    const submissionId = queryParameters.get("submissionId")
-    const serialNumber = queryParameters.get("serialNumber")?queryParameters.get("serialNumber"):1
+  // function submissions() {
+  //   const queryParameters = new URLSearchParams(window.location.search)
+  //   const submissionId = queryParameters.get("submissionId")
+  //   const serialNumber = queryParameters.get("serialNumber")?queryParameters.get("serialNumber"):1
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [submission, setSubmission] = useState(null);
-    const [question, setQuestion] = useState(null);
-    const [answer, setAnswer] = useState(null);
+  //   const [isLoading, setIsLoading] = useState(true);
+  //   const [submission, setSubmission] = useState(null);
+  //   const [question, setQuestion] = useState(null);
+  //   const [answer, setAnswer] = useState(null);
 
-    useEffect(() => {
-      getSubmissionById(submissionId).then((result) => {
-        if (result) {
-          setSubmission(result);
-          
-          const maybeQuestion = result.assignment.questions.find((q) => {
-            return parseInt(q.serialNumber) === parseInt(serialNumber)
-          })
-          
-          const maybeAnswer = result.answers?.find((a) => {
-            return parseInt(a.serialNumber) === parseInt(serialNumber)
-          })
-          setQuestion(maybeQuestion)
-          setAnswer(maybeAnswer)
-          setIsLoading(false);
-        }
-      });
-    }, submission);
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-    if (question == null) {
-      return <div>Wrong serial number...</div>;
-    }
-    return <AssignmentTheoryLaptop
-          {...{ submission, question, answer, ...assignmentTheoryLaptopData }} />;
-  }
+  //   useEffect(() => {
+  //     getSubmissionById(submissionId).then((result) => {
+  //       if (result) {
+  //         setSubmission(result);
 
-  function tasks() {
-    const [allTasks, setAllTasks] = useState([]);
+  //         const maybeQuestion = result.assignment.questions.find((q) => {
+  //           return parseInt(q.serialNumber) === parseInt(serialNumber)
+  //         })
 
-    useEffect(() => {
-      getTasks().then((result) => {
-        setAllTasks(result);
-      });
-    }, []);
-    return <>
-      {isMobileView && (
-        <TasksStudentMobile
-          {...{ allTasks, ...tasksStudentMobileData }} />
-      )}
-      {isTabletView && (
-        <TasksStudentTablet
-          {...{ allTasks, ...tasksStudentTabletData }} />
-      )}
-      {isLaptopView && (
-        <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />
-      )}
-      {isDesktopView && (
-        <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
-      )}
-    </>;
-  }
+  //         const maybeAnswer = result.answers?.find((a) => {
+  //           return parseInt(a.serialNumber) === parseInt(serialNumber)
+  //         })
+  //         setQuestion(maybeQuestion)
+  //         setAnswer(maybeAnswer)
+  //         setIsLoading(false);
+  //       }
+  //     });
+  //   }, submission);
+  //   if (isLoading) {
+  //     return <div>Loading...</div>;
+  //   }
+  //   if (question == null) {
+  //     return <div>Wrong serial number...</div>;
+  //   }
+  //   return <AssignmentTheoryLaptop
+  //         {...{ submission, question, answer, ...assignmentTheoryLaptopData }} />;
+  // }
 
-  function dashboard() {
-    const [allTasks, setAllTasks] = useState([]);
+  // function tasks() {
+  //   const [allTasks, setAllTasks] = useState([]);
 
-    useEffect(() => {
-      getTasks().then((result) => {
-        setAllTasks(result);
-      });
-    }, []);
-    return <>
-      {isLaptopView && (
-        <DashboardHomeStudentLaptop
-          {...{ allTasks, ...dashboardHomeStudentLaptopData }} />
-      )}
-      {isDesktopView && (
-        <DashboardHomeStudentDesktop
-          {...{ allTasks, ...dashboardHomeStudentDesktopData }} />
-      )}
-      {isTabletView && (
-        <DashboardHomeStudentTablet
-          {...{ allTasks, ...dashboardHomeStudentTabletData }} />
-      )}
-      {isMobileView && (
-        <DashboardHomeStudentMobile
-          {...{ allTasks, ...dashboardHomeStudentMobileData }} />
-      )}
-    </>;
-  }
+  //   useEffect(() => {
+  //     getTasks().then((result) => {
+  //       setAllTasks(result);
+  //     });
+  //   }, []);
+  //   return <>
+  //     {isMobileView && (
+  //       <TasksStudentMobile
+  //         {...{ allTasks, ...tasksStudentMobileData }} />
+  //     )}
+  //     {isTabletView && (
+  //       <TasksStudentTablet
+  //         {...{ allTasks, ...tasksStudentTabletData }} />
+  //     )}
+  //     {isLaptopView && (
+  //       <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />
+  //     )}
+  //     {isDesktopView && (
+  //       <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
+  //     )}
+  //   </>;
+  // }
+
+  // function dashboard() {
+  //   const [allTasks, setAllTasks] = useState([]);
+
+  //   useEffect(() => {
+  //     getTasks().then((result) => {
+  //       setAllTasks(result);
+  //     });
+  //   }, []);
+  //   return <>
+  //     {isLaptopView && (
+  //       <DashboardHomeStudentLaptop
+  //         {...{ allTasks, ...dashboardHomeStudentLaptopData }} />
+  //     )}
+  //     {isDesktopView && (
+  //       <DashboardHomeStudentDesktop
+  //         {...{ allTasks, ...dashboardHomeStudentDesktopData }} />
+  //     )}
+  //     {isTabletView && (
+  //       <DashboardHomeStudentTablet
+  //         {...{ allTasks, ...dashboardHomeStudentTabletData }} />
+  //     )}
+  //     {isMobileView && (
+  //       <DashboardHomeStudentMobile
+  //         {...{ allTasks, ...dashboardHomeStudentMobileData }} />
+  //     )}
+  //   </>;
+  // }
 }
 
 export default App;
-
 
 const navElement4Data = {
   home3: "/img/home3@2x.png",
@@ -364,7 +361,6 @@ const tasksStudentData = {
   tabs22Props: tabs22Data,
   frame19Props: frame191Data,
 };
-
 
 const frame13041Data = {
   iconsaxLinearSort: "/img/iconsax-linear-sort@2x.png",
@@ -947,11 +943,9 @@ const cards165Data = {
   content3Props: content314Data,
 };
 
-
 const notifications5Data = {
   src: "/img/notificationbing@2x.png",
 };
-
 
 const frame13044Data = {
   iconsaxLinearSort: "/img/iconsax-linear-sort-2@2x.png",
@@ -1670,15 +1664,9 @@ const frame12912Data = {
   className: "frame-1291-2",
 };
 
-
-
 const frame128033Data = {
   className: "frame-1280-6",
 };
-
-
-
-
 
 const input54Data = {
   input: "MCQ",
@@ -1750,12 +1738,9 @@ const questionFrame42Data = {
   frame12973Props: frame129734Data,
 };
 
-
-
 const frame128036Data = {
   className: "frame-1280-7",
 };
-
 
 const buttons26Data = {
   add: "/img/add@2x.png",
@@ -1793,7 +1778,6 @@ const goBack25Data = {
 const frame6622Data = {
   className: "frame-6-6",
 };
-
 
 const frame41Data = {
   maskGroup: "/img/mask-group@2x.png",
@@ -1872,7 +1856,6 @@ const richTextComponents10Data = {
   className: "rich-text-components-9",
 };
 
-
 const notifications2Data = {
   src: "/img/notificationbing@2x.png",
 };
@@ -1892,7 +1875,6 @@ const richTextComponents13Data = {
   className: "rich-text-components-12",
 };
 
-
 const richTextComponents15Data = {
   src: "/img/underline@2x.png",
   className: "rich-text-components-14",
@@ -1911,7 +1893,6 @@ const richTextComponents17Data = {
 const richTextComponents23Data = {
   src: "/img/align-left@2x.png",
 };
-
 
 const richTextComponents18Data = {
   src: "/img/undo-1@2x.png",
@@ -1991,9 +1972,11 @@ const assignmentTheoryTabletData = {
   frame1349: "/img/frame-1349-1.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
-  boremIpsumDolorSi: "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
+  boremIpsumDolorSi:
+    "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
   line6: "/img/line-6-1.png",
-  koremIpsumDolorSi: "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
+  koremIpsumDolorSi:
+    "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
   line7: "/img/line-7-1.png",
   time015823: "Time : 01:58:23",
   q124: "Q 1/24",
@@ -2012,7 +1995,6 @@ const assignmentTheoryTabletData = {
   richTextComponents2Props2: richTextComponents29Data,
   richTextComponents10Props: richTextComponents30Data,
 };
-
 
 const frame42Data = {
   maskGroup: "/img/mask-group@2x.png",
@@ -2092,7 +2074,7 @@ const richTextComponents40Data = {
 };
 
 const assignmentTheoryLaptopData = {
-  headerProps:taskheaderProps,
+  headerProps: taskheaderProps,
   frame1343: "/img/frame-1343@2x.png",
   line6: "/img/line-6-2.png",
   x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
@@ -2114,7 +2096,6 @@ const assignmentTheoryLaptopData = {
   richTextComponents2Props2: richTextComponents210Data,
   richTextComponents10Props: richTextComponents40Data,
 };
-
 
 const frame129732Data = {
   text9: "1.",
@@ -2144,7 +2125,6 @@ const assignmentTheoryDesktopData = {
   richTextComponents2Props2: richTextComponents22Data,
   richTextComponents10Props: richTextComponents10Data,
 };
-
 
 const frame129733Data = {
   text9: "2.",
@@ -2184,14 +2164,15 @@ const tasksDesktopData = {
   headerProps: taskheaderProps,
 };
 
-
 const assignmentTheoryMobileData = {
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
-  boremIpsumDolorSi: "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
+  boremIpsumDolorSi:
+    "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
   line6: "/img/line-6@2x.png",
-  koremIpsumDolorSi: "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
+  koremIpsumDolorSi:
+    "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
   line7: "/img/line-7@2x.png",
   time015823: "Time : 01:58:23",
   q124: "Q 1/24",
@@ -2207,18 +2188,14 @@ const assignmentTheoryMobileData = {
   richTextComponents2Props2: richTextComponents23Data,
 };
 
-
-
 const questionFrame41Data = {
   frame12973Props: frame129733Data,
 };
-
 
 const bulletList3Data = {
   className: "bullet-list-2",
   group25Props: group253Data,
 };
-
 
 const frame129735Data = {
   text9: "5.",
@@ -2227,61 +2204,6 @@ const frame129735Data = {
   frame12803Props: frame128036Data,
 };
 
-
 const questionFrame43Data = {
   frame12973Props: frame129735Data,
-};
-
-
-const createAAssignmentLaptopData = {
-  headerProps: taskheaderProps,
-  logo: "/img/logo-1@2x.png",
-  title: "Create Assignment",
-  nameOfAssignment: "Name of assignment",
-  questions: "Questions",
-  line141: "/img/line-14-4.png",
-  text11: "3.",
-  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
-  frame1284: "/img/frame-1284-7@2x.png",
-  line142: "/img/line-14-4.png",
-  options: "Options",
-  assignmentSettings: "Assignment Settings",
-  classes: "Classes",
-  help1: "/img/help@2x.png",
-  feedbackMethod: "Feedback Method",
-  help2: "/img/help@2x.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-  navElement21Props: navElement23Data,
-  navElementProps: navElement3Data1,
-  navElement22Props: navElement24Data,
-  notificationsProps: notifications4Data1,
-  frame4Props: frame42Data1,
-  goBack21Props: goBack24Data,
-  buttons21Props: buttons25Data,
-  frame12973Props: frame129732Data,
-  input51Props: input53Data,
-  input61Props: input65Data,
-  input62Props: input66Data,
-  frame1291Props: frame12912Data,
-  questionFrame41Props: questionFrame41Data,
-  richTextComponentsProps: richTextComponents13Data,
-  richTextComponents3Props: richTextComponents33Data,
-  input52Props: input54Data,
-  input63Props: input67Data,
-  input81Props: input81Data,
-  input82Props: input82Data,
-  input83Props: input83Data,
-  input84Props: input84Data,
-  input64Props: input68Data,
-  questionFrame42Props: questionFrame42Data,
-  questionFrame43Props: questionFrame43Data,
-  buttons22Props: buttons26Data,
-  checkbox31Props: checkbox38Data,
-  checkbox32Props: checkbox39Data,
-  checkbox33Props: checkbox310Data,
-  checkbox34Props: checkbox311Data,
-  checkbox35Props: checkbox312Data,
-  checkbox36Props: checkbox313Data,
-  goBack22Props: goBack25Data,
-  frame662Props: frame6622Data,
 };

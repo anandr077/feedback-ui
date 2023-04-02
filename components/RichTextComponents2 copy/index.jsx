@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-
 function RichTextComponents2(props) {
   const { src } = props;
 

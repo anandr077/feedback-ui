@@ -3,11 +3,12 @@ import SubmissionFrame63 from "../Frame63";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px } from "../../styledMixins";
 
-
 function SubmissionFrame6() {
   return (
     <Frame61>
-      <X2021JeddleAllRightsReserved>© 2021 Jeddle. All rights reserved.</X2021JeddleAllRightsReserved>
+      <X2021JeddleAllRightsReserved>
+        © 2021 Jeddle. All rights reserved.
+      </X2021JeddleAllRightsReserved>
       <SubmissionFrame63 />
     </Frame61>
   );

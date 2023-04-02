@@ -2,14 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalShark20px } from "../../styledMixins";
 
-
 function SubmissionFrame1400(props) {
-  const {label} = props
+  const { label } = props;
   return (
     <Frame14001>
-      <BoremIpsumDolorSi>
-        {label}
-      </BoremIpsumDolorSi>
+      <BoremIpsumDolorSi>{label}</BoremIpsumDolorSi>
     </Frame14001>
   );
 }

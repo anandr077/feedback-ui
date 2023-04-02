@@ -15,7 +15,7 @@ export const getTasks = async () => {
     });
 };
 
-export const getAssigmentById = async  (assignmentId) => {
+export const getAssigmentById = async (assignmentId) => {
   return await fetch(baseUrl + "/assignments/" + assignmentId, {
     method: "GET",
     withCredentials: true,
@@ -30,7 +30,7 @@ export const getAssigmentById = async  (assignmentId) => {
     });
 };
 
-export const getSubmissionById = async  (submissionId) => {
+export const getSubmissionById = async (submissionId) => {
   return await fetch(baseUrl + "/submissions/" + submissionId, {
     method: "GET",
     withCredentials: true,
@@ -79,18 +79,17 @@ export const createAssignment = async (assignment) => {
     });
 };
 
-
 export const saveAnswer = async (submissionId, serialNumber, answer) => {
-  const s = JSON.stringify(submissionId)
+  const s = JSON.stringify(submissionId);
 
-
-
-  const url = baseUrl + "/submissions/" 
-  + s.substring(1, s.length - 1) 
-  + "/answers/"
-  + serialNumber;
-  console.log("url " + url)
-  return await fetch( url, {
+  const url =
+    baseUrl +
+    "/submissions/" +
+    s.substring(1, s.length - 1) +
+    "/answers/" +
+    serialNumber;
+  console.log("url " + url);
+  return await fetch(url, {
     method: "PATCH",
     body: JSON.stringify(answer),
     withCredentials: true,
@@ -109,14 +108,12 @@ export const saveAnswer = async (submissionId, serialNumber, answer) => {
 };
 
 export const submitAssignment = async (submissionId) => {
-  const s = JSON.stringify(submissionId)
+  const s = JSON.stringify(submissionId);
 
-
-  const url = baseUrl + "/submissions/" 
-  + s.substring(1, s.length - 1) 
-  + "/submit";
-  console.log("url " + url)
-  return await fetch( url, {
+  const url =
+    baseUrl + "/submissions/" + s.substring(1, s.length - 1) + "/submit";
+  console.log("url " + url);
+  return await fetch(url, {
     method: "PATCH",
     withCredentials: true,
     credentials: "include",
@@ -151,4 +148,3 @@ export const createSubmission = async (submission) => {
       console.log(err.message);
     });
 };
-

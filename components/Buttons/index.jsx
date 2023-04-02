@@ -3,18 +3,13 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../styledMixins";
 
 function Buttons(props) {
-  const {labels} = props;
-  const buttons = labels.map(label=>{
-    return <Button>{label}</Button>
+  const { labels } = props;
+  const buttons = labels.map((label) => {
+    return <Button>{label}</Button>;
   });
 
-  return (
-    <Buttons1>
-      {buttons}
-    </Buttons1>
-  );
+  return <Buttons1>{buttons}</Buttons1>;
 }
-
 
 const Buttons1 = styled.div`
   display: flex;
@@ -112,4 +107,4 @@ const Button3 = styled.div`
   line-height: normal;
 `;
 
-export default Buttons
+export default Buttons;

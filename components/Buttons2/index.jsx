@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../styledMixins";
 
 function Buttons2(props) {
-  const { add, label, onClickFn} = props;
-  console.log("add " + add)
+  const { add, label, onClickFn } = props;
+  console.log("add " + add);
   return (
     <Buttons onClick={onClickFn}>
       <Add src={add} alt="add" />

@@ -1,11 +1,10 @@
-.assignment-theory-tablet {
-  align-items: center;
+.create-a-assignment-tablet {
+  align-items: flex-start;
   background-color: var(--white-pointer);
   border: 1px none;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 123px;
   min-width: 1024px;
-  overflow: hidden;
   position: relative;
 }

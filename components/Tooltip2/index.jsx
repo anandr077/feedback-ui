@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo14px, IbmplexsansNormalShark14px } from "../../styledMixins";
+import {
+  IbmplexsansNormalPersianIndigo14px,
+  IbmplexsansNormalShark14px,
+} from "../../styledMixins";
 import "./Tooltip2.css";
 
 function Tooltip2(props) {

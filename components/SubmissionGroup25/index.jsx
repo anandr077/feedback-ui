@@ -2,7 +2,6 @@ import React from "react";
 import Dropdown from "../Dropdown";
 import styled from "styled-components";
 
-
 function SubmissionGroup25(props) {
   const { dropdown1Props, dropdown2Props, dropdown3Props } = props;
 
@@ -10,8 +9,14 @@ function SubmissionGroup25(props) {
     <Group251>
       <DropdownContainer>
         <Dropdown heading={dropdown1Props.heading} />
-        <Dropdown heading={dropdown2Props.heading} className={dropdown2Props.className} />
-        <Dropdown heading={dropdown3Props.heading} className={dropdown3Props.className} />
+        <Dropdown
+          heading={dropdown2Props.heading}
+          className={dropdown2Props.className}
+        />
+        <Dropdown
+          heading={dropdown3Props.heading}
+          className={dropdown3Props.className}
+        />
       </DropdownContainer>
     </Group251>
   );

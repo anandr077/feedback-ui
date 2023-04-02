@@ -116,7 +116,7 @@ function AssignmentTheoryTablet(props) {
                   <KoremIpsumDolorSi>{koremIpsumDolorSi}</KoremIpsumDolorSi>
                 </Frame1400>
               </Frame1395>
-              <ButtonsNoBreak labels={['Previous', 'Next']}/>
+              <ButtonsNoBreak labels={["Previous", "Next"]} />
             </Frame1398>
             <Frame1209>
               <Line7 src={line7} alt="Line 7" />

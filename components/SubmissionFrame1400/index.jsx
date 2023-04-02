@@ -27,6 +27,7 @@ const BoremIpsumDolorSi = styled.p`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  font-size: var(--font-size-l);
 `;
 
 const Frame14002 = styled.div`

@@ -17,16 +17,38 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago14px } from "../../styledMixins";
 import { saveAnswer, submitAssignment } from "../../service.js";
-import "./_textEditor.scss";
+import "../AssignmentTheory/_textEditor.scss";
 function AssignmentTheoryTablet(props) {
   const {
-    submission,
-    question,
+    // submission,
+    // question,
     answer,
-    headerProps,
-    x2021JeddleAllRightsReserved,
   } = props;
 
+  const question = {
+    serialNumber: 1,
+    question: "What is the difference between a class and an object?",
+  };
+  const submission = {
+    id: 1,
+    assignment: {
+      title: "Assignment 1",
+      questions: [
+        {
+          serialNumber: 1,
+          question: "First Questions",
+        },
+        {
+          serialNumber: 2,
+          question: "Second Question",
+        },
+        {
+          serialNumber: 3,
+          question: "Third Question",
+        },
+      ],
+    },
+  };
   console.log("answer " + JSON.stringify(answer?.answer?.answer ?? ""));
 
   const [value, setValue] = useState(answer?.answer?.answer ?? "");
@@ -122,7 +144,7 @@ function AssignmentTheoryTablet(props) {
                 </Q124>
               </Frame12092>
 
-              {showSubmit ? (
+              {true ? (
                 <Buttons2
                   add={"/icons/arrowright.png"}
                   label="Submit Assignment"
@@ -146,16 +168,6 @@ const Frame13111 = styled.div`
   align-items: flex-start;
   justify-content: flex-end;
   gap: 16px;
-  width: 830px;
-`;
-const Frame1344 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
 `;
 
 const Frame1401 = styled.div`
@@ -164,7 +176,7 @@ const Frame1401 = styled.div`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 0px 245px;
+  padding: 0px 50px;
   position: relative;
   align-self: stretch;
 `;

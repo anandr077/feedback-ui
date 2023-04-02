@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import AssignmentTheoryLaptop from "../AssignmentTheoryLaptop";
 import { getSubmissionById, getTasks } from "../../service.js";
 import AssignmentTheoryTablet from "../AssignmentTheoryTablet";
+import AssignmentTheoryMobile from "../AssignmentTheoryMobile";
 
 export default function AssignmentTheory() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -48,10 +49,11 @@ export default function AssignmentTheory() {
 
   return (
     <>
-      {/* 
-{isMobileView && (
-        
-      )} */}
+      {isMobileView && (
+        <AssignmentTheoryMobile
+          {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
+        />
+      )}
       {isTabletView && (
         <AssignmentTheoryTablet
           {...{ submission, question, answer, ...assignmentTheoryLaptopData }}

@@ -1,4 +1,4 @@
-.quill.ql-editor {
+.quill.ql-editor-small {
   width: 100%;
   padding: 3em;
 
@@ -7,6 +7,9 @@
     border-radius: 8px 8px 0 0;
     height: auto;
     position: sticky;
+
+    display: flex;
+    justify-content: center;
   }
   .ql-container {
     border: 1px solid black;

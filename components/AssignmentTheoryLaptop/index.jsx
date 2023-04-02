@@ -16,7 +16,7 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago14px } from "../../styledMixins";
 import { saveAnswer, submitAssignment } from "../../service.js";
-import "./_textEditor.scss";
+import "../AssignmentTheory/_textEditor.scss";
 import Footer from "../Footer";
 function AssignmentTheoryLaptop(props) {
   const {

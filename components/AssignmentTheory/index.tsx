@@ -48,25 +48,24 @@ export default function AssignmentTheory() {
 
   return (
     <>
-{/* 
+      {/* 
 {isMobileView && (
         
       )} */}
       {isTabletView && (
         <AssignmentTheoryTablet
-        {...{ submission, question, answer, ...assignmentTheoryLaptopData }}/>
+          {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
+        />
       )}
       {isLaptopView && (
-        
-      <AssignmentTheoryLaptop
-      {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
-    />
+        <AssignmentTheoryLaptop
+          {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
+        />
       )}
       {isDesktopView && (
-        
-      <AssignmentTheoryLaptop
-      {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
-    />
+        <AssignmentTheoryLaptop
+          {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
+        />
       )}
       ;
     </>

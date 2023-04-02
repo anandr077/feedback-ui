@@ -17,6 +17,7 @@ import styled from "styled-components";
 import { IbmplexsansNormalChicago14px } from "../../styledMixins";
 import { saveAnswer, submitAssignment } from "../../service.js";
 import "./_textEditor.scss";
+import Footer from "../Footer";
 function AssignmentTheoryLaptop(props) {
   const {
     // submission,
@@ -158,12 +159,7 @@ function AssignmentTheoryLaptop(props) {
           </Frame1396>
         </Frame1311>
       </Frame1401>
-      <Frame6>
-        <X2021JeddleAllRightsReserved>
-          {x2021JeddleAllRightsReserved}
-        </X2021JeddleAllRightsReserved>
-        <SubmissionFrame63 />
-      </Frame6>
+      <Footer />
     </div>
   );
 }
@@ -327,7 +323,6 @@ const Frame12091 = styled.div`
   background-color: var(--white);
   border-radius: 0px 0px 16px 16px;
   width: 100%;
-  
 `;
 const Line7 = styled.img`
   position: relative;
@@ -353,7 +348,7 @@ const Frame12092 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
-  width:100%;
+  width: 100%;
 `;
 
 const Time015823 = styled.div`

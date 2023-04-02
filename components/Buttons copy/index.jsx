@@ -2,19 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../styledMixins";
 
-function Buttons(props) {
-  const {labels} = props;
-  const buttons = labels.map(label=>{
-    return <Button>{label}</Button>
-  });
 
+function Buttons() {
   return (
     <Buttons1>
-      {buttons}
+      <Button>Save Answer</Button>
     </Buttons1>
   );
 }
-
 
 const Buttons1 = styled.div`
   display: flex;
@@ -27,10 +22,6 @@ const Buttons1 = styled.div`
   background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
-  &:hover {
-    scale: 1.2;
-    transition: 0.3s;
-  }
 `;
 
 const Button = styled.div`
@@ -112,4 +103,4 @@ const Button3 = styled.div`
   line-height: normal;
 `;
 
-export default Buttons
+export default Buttons;

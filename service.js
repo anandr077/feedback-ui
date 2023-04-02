@@ -15,6 +15,36 @@ export const getTasks = async () => {
     });
 };
 
+export const getAssigmentById = async  (assignmentId) => {
+  return await fetch(baseUrl + "/assignments/" + assignmentId, {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+export const getSubmissionById = async  (submissionId) => {
+  return await fetch(baseUrl + "/submissions/" + submissionId, {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 export const getCourses = async () => {
   return await fetch(baseUrl + "/courses", {
     method: "GET",
@@ -49,33 +79,26 @@ export const createAssignment = async (assignment) => {
     });
 };
 
-export const getAssigmentById = async (assignmentId) => {
-  return await fetch(baseUrl + `assignments/id?assignmentId=${assignmentId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-};
 
-export const saveComment = async (data) => {
-  return await fetch(baseUrl + `comments/create`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+export const saveAnswer = async (submissionId, serialNumber, answer) => {
+  const s = JSON.stringify(submissionId)
+
+
+
+  const url = baseUrl + "/submissions/" 
+  + s.substring(1, s.length - 1) 
+  + "/answers/"
+  + serialNumber;
+  console.log("url " + url)
+  return await fetch( url, {
+    method: "PATCH",
+    body: JSON.stringify(answer),
+    withCredentials: true,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
-    .then((response) => {
-      return response.status === 204;
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-};
-
-export const getAllComments = async (assignmentId) => {
-  return await fetch(baseUrl + `comments/all?assignmentId=${assignmentId}`)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -84,3 +107,48 @@ export const getAllComments = async (assignmentId) => {
       console.log(err.message);
     });
 };
+
+export const submitAssignment = async (submissionId) => {
+  const s = JSON.stringify(submissionId)
+
+
+  const url = baseUrl + "/submissions/" 
+  + s.substring(1, s.length - 1) 
+  + "/submit";
+  console.log("url " + url)
+  return await fetch( url, {
+    method: "PATCH",
+    withCredentials: true,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+export const createSubmission = async (submission) => {
+  return await fetch(baseUrl + "/submissions", {
+    method: "POST",
+    body: JSON.stringify(submission),
+    withCredentials: true,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+

@@ -1,0 +1,12 @@
+.assignment-theory-tablet {
+  align-items: center;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  min-width: 1024px;
+  overflow: hidden;
+  position: relative;
+}
+

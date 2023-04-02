@@ -1,34 +1,21 @@
-import { css } from "styled-components";
-import React from "react";
-
+import { default as React, default as React, useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import {
-  Switch,
   BrowserRouter as Router,
-  Route,
-  Routes,
+  Route, Switch
 } from "react-router-dom";
-import TasksStudentMobile from "./components/TasksStudentMobile";
-import TasksStudentTablet from "./components/TasksStudentTablet";
-import TasksDesktop from "./components/TasksDesktop";
-import TasksLaptop from "./components/TasksLaptop";
-import DashboardHomeStudent from "./components/DashboardHomeStudent";
-import { useMediaQuery } from "react-responsive";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getCourses, getTasks } from "./service.js";
-import { useMediaQuery } from "react-responsive";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getTasks } from "./service.js";
+import AssignmentTheoryLaptop from "./components/AssignmentTheoryLaptop";
+import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
+import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
 import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop";
 import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
 import DashboardHomeStudentTablet from "./components/DashboardHomeStudentTablet";
-import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
-import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
+import TasksDesktop from "./components/TasksDesktop";
+import TasksLaptop from "./components/TasksLaptop";
+import TasksStudentMobile from "./components/TasksStudentMobile";
+import TasksStudentTablet from "./components/TasksStudentTablet";
+import { getSubmissionById, getTasks } from "./service.js";
 function App() {
-  
-  
-
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
@@ -42,12 +29,53 @@ function App() {
         <Route path="/tasks">
           {tasks()}
         </Route>
+        <Route path="/submissions">
+          {submissions()}
+        </Route>
         <Route path="/">
           {dashboard()}
         </Route>
       </Switch>
     </Router>
   );
+
+  function submissions() {
+    const queryParameters = new URLSearchParams(window.location.search)
+    const submissionId = queryParameters.get("submissionId")
+    const serialNumber = queryParameters.get("serialNumber")?queryParameters.get("serialNumber"):1
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [submission, setSubmission] = useState(null);
+    const [question, setQuestion] = useState(null);
+    const [answer, setAnswer] = useState(null);
+
+    useEffect(() => {
+      getSubmissionById(submissionId).then((result) => {
+        if (result) {
+          setSubmission(result);
+          
+          const maybeQuestion = result.assignment.questions.find((q) => {
+            return parseInt(q.serialNumber) === parseInt(serialNumber)
+          })
+          
+          const maybeAnswer = result.answers?.find((a) => {
+            return parseInt(a.serialNumber) === parseInt(serialNumber)
+          })
+          setQuestion(maybeQuestion)
+          setAnswer(maybeAnswer)
+          setIsLoading(false);
+        }
+      });
+    }, submission);
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+    if (question == null) {
+      return <div>Wrong serial number...</div>;
+    }
+    return <AssignmentTheoryLaptop
+          {...{ submission, question, answer, ...assignmentTheoryLaptopData }} />;
+  }
 
   function tasks() {
     const [allTasks, setAllTasks] = useState([]);
@@ -106,6 +134,57 @@ function App() {
 
 export default App;
 
+
+const navElement4Data = {
+  home3: "/img/home3@2x.png",
+  place: "Home",
+};
+
+const navElement5Data = {
+  home3: "/img/tasksquare@2x.png",
+  place: "Tasks",
+  className: "nav-element-4",
+};
+
+const navElement6Data = {
+  home3: "/img/clipboardtick@2x.png",
+  place: "Completed",
+  className: "nav-element-5",
+};
+
+const notifications4Data = {
+  src: "/img/notificationbing@2x.png",
+};
+
+const notifications1Data = {
+  src: "/img/notificationbing@2x.png",
+};
+
+const notifications3Data = {
+  src: "/img/notificationbing@2x.png",
+};
+
+const navElement1Data = {
+  home3: "/img/home3@2x.png",
+  place: "Home",
+};
+
+const navElement2Data = {
+  home3: "/img/tasksquare@2x.png",
+  place: "Tasks",
+  className: "nav-element-1",
+};
+
+const navElement3Data = {
+  home3: "/img/clipboardtick@2x.png",
+  place: "Completed",
+  className: "nav-element-2",
+};
+
+const notifications4Data1 = {
+  src: "/img/notificationbing-2@2x.png",
+};
+
 const taskheaderProps = {
   firstButton: {
     text: "Home",
@@ -152,10 +231,6 @@ const studentDashboardheaderProps = {
     selected: false,
     redirect: "/submissions",
   },
-};
-
-const notifications1Data = {
-  src: "/img/notificationbing@2x.png",
 };
 
 const tabs21Data = {
@@ -290,9 +365,6 @@ const tasksStudentData = {
   frame19Props: frame191Data,
 };
 
-const notifications2Data = {
-  src: "/img/notificationbing@2x.png",
-};
 
 const frame13041Data = {
   iconsaxLinearSort: "/img/iconsax-linear-sort@2x.png",
@@ -422,10 +494,6 @@ const tasksStudentMobileData = {
   tabs21Props: tabs23Data,
   tabs22Props: tabs24Data,
   frame19Props: frame192Data,
-};
-
-const notifications3Data = {
-  src: "/img/notificationbing@2x.png",
 };
 
 const frame13042Data = {
@@ -560,25 +628,6 @@ const tasksStudentTabletData = {
   cards9Props: cards9Data,
   cards10Props: cards10Data,
   frame19Props: frame192Data,
-};
-
-const navElement1Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
-};
-
-const navElement3Data = {
-  home3: "/img/clipboardtick@2x.png",
-  place: "Submissions",
-  className: "nav-element-1",
-};
-
-const notifications4Data = {
-  src: "/img/notificationbing-3@2x.png",
-};
-
-const frame41Data = {
-  maskGroup: "/img/mask-group-1@2x.png",
 };
 
 const frame13043Data = {
@@ -898,55 +947,11 @@ const cards165Data = {
   content3Props: content314Data,
 };
 
-const tasksDesktopData = {
-  frame1343: "/img/frame-1343@2x.png",
-  title: "Tasks",
-  overdue: "Overdue",
-  number: "12",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-  navElement1Props: navElement1Data,
-  navElement2Props: navElement3Data,
-  notificationsProps: notifications4Data,
-  frame4Props: frame41Data,
-  frame1306Props: frame13061Data,
-  frame13531Props: frame13531Data,
-  cards11Props: cards11Data,
-  cards121Props: cards121Data,
-  cards131Props: cards131Data,
-  cards141Props: cards141Data,
-  cards15Props: cards151Data,
-  frame13532Props: frame13532Data,
-  cards142Props: cards142Data,
-  cards122Props: cards122Data,
-  cards132Props: cards132Data,
-  cards161Props: cards161Data,
-  cards162Props: cards162Data,
-  cards163Props: cards163Data,
-  cards133Props: cards133Data,
-  cards164Props: cards164Data,
-  cards165Props: cards165Data,
-  frame19Props: frame192Data,
-  headerProps: taskheaderProps,
-};
-
-const navElement4Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
-};
-
-const navElement5Data = {
-  home3: "/img/clipboardtick@2x.png",
-  place: "Submissions",
-  className: "nav-element-3",
-};
 
 const notifications5Data = {
   src: "/img/notificationbing@2x.png",
 };
 
-const frame42Data = {
-  maskGroup: "/img/mask-group@2x.png",
-};
 
 const frame13044Data = {
   iconsaxLinearSort: "/img/iconsax-linear-sort-2@2x.png",
@@ -1630,10 +1635,6 @@ const navElement24Data = {
   className: "nav-element-9",
 };
 
-const notifications4Data1 = {
-  src: "/img/notificationbing-2@2x.png",
-};
-
 const frame42Data1 = {
   maskGroup: "/img/mask-group-5@2x.png",
   className: "frame-4-1",
@@ -1647,20 +1648,8 @@ const buttons25Data = {
   add: "/img/add@2x.png",
 };
 
-const richTextComponents11Data = {
-  src: "/img/drag-icon-5@2x.png",
-  className: "",
-};
-
 const frame128032Data = {
   className: "",
-};
-
-const frame129732Data = {
-  text9: "1.",
-  frame1284: "/img/frame-1284-7@2x.png",
-  richTextComponentsProps: richTextComponents11Data,
-  frame12803Props: frame128032Data,
 };
 
 const input53Data = {
@@ -1681,42 +1670,15 @@ const frame12912Data = {
   className: "frame-1291-2",
 };
 
-const richTextComponents12Data = {
-  src: "/img/drag-icon-5@2x.png",
-  className: "",
-};
+
 
 const frame128033Data = {
   className: "frame-1280-6",
 };
 
-const frame129733Data = {
-  text9: "2.",
-  frame1284: "/img/frame-1284-9@2x.png",
-  richTextComponentsProps: richTextComponents12Data,
-  frame12803Props: frame128033Data,
-};
 
-const questionFrame41Data = {
-  frame12973Props: frame129733Data,
-};
 
-const richTextComponents13Data = {
-  src: "/img/drag-icon-5@2x.png",
-};
 
-const group253Data = {
-  src: "/img/vector-11@2x.png",
-};
-
-const bulletList3Data = {
-  className: "bullet-list-2",
-  group25Props: group253Data,
-};
-
-const richTextComponents33Data = {
-  bulletListProps: bulletList3Data,
-};
 
 const input54Data = {
   input: "MCQ",
@@ -1788,25 +1750,12 @@ const questionFrame42Data = {
   frame12973Props: frame129734Data,
 };
 
-const richTextComponents15Data = {
-  src: "/img/drag-icon-5@2x.png",
-  className: "",
-};
+
 
 const frame128036Data = {
   className: "frame-1280-7",
 };
 
-const frame129735Data = {
-  text9: "5.",
-  frame1284: "/img/frame-1284-9@2x.png",
-  richTextComponentsProps: richTextComponents15Data,
-  frame12803Props: frame128036Data,
-};
-
-const questionFrame43Data = {
-  frame12973Props: frame129735Data,
-};
 
 const buttons26Data = {
   add: "/img/add@2x.png",
@@ -1844,6 +1793,446 @@ const goBack25Data = {
 const frame6622Data = {
   className: "frame-6-6",
 };
+
+
+const frame41Data = {
+  maskGroup: "/img/mask-group@2x.png",
+};
+
+const richTextComponents1Data = {
+  src: "/img/undo-1@2x.png",
+};
+
+const richTextComponents2Data = {
+  src: "/img/redo-1@2x.png",
+  className: "rich-text-components-1",
+};
+
+const richTextComponents3Data = {
+  src: "/img/bold-1@2x.png",
+  className: "rich-text-components-2",
+};
+
+const richTextComponents4Data = {
+  src: "/img/italic-1@2x.png",
+  className: "rich-text-components-3",
+};
+
+const richTextComponents5Data = {
+  src: "/img/underline-1@2x.png",
+  className: "rich-text-components-4",
+};
+
+const richTextComponents6Data = {
+  src: "/img/uppercase@2x.png",
+  className: "rich-text-components-5",
+};
+
+const richTextComponents7Data = {
+  src: "/img/lowercase-1@2x.png",
+  className: "rich-text-components-6",
+};
+
+const richTextComponents8Data = {
+  src: "/img/text-color-1@2x.png",
+  className: "rich-text-components-7",
+};
+
+const richTextComponents9Data = {
+  src: "/img/paint-bucket@2x.png",
+  className: "rich-text-components-8",
+};
+
+const dropdown1Data = {
+  heading: "Heading",
+};
+
+const dropdown2Data = {
+  heading: "IBM Plex Sans",
+  className: "dropdown-1",
+};
+
+const dropdown3Data = {
+  heading: "20px",
+  className: "dropdown-2",
+};
+
+const group251Data = {
+  dropdown1Props: dropdown1Data,
+  dropdown2Props: dropdown2Data,
+  dropdown3Props: dropdown3Data,
+};
+
+const richTextComponents22Data = {
+  src: "/img/align-left-1@2x.png",
+};
+
+const richTextComponents10Data = {
+  src: "/img/more@2x.png",
+  className: "rich-text-components-9",
+};
+
+
+const notifications2Data = {
+  src: "/img/notificationbing@2x.png",
+};
+
+const richTextComponents11Data = {
+  src: "/img/undo@2x.png",
+  className: "rich-text-components-10",
+};
+
+const richTextComponents12Data = {
+  src: "/img/redo@2x.png",
+  className: "rich-text-components-11",
+};
+
+const richTextComponents13Data = {
+  src: "/img/bold@2x.png",
+  className: "rich-text-components-12",
+};
+
+
+const richTextComponents15Data = {
+  src: "/img/underline@2x.png",
+  className: "rich-text-components-14",
+};
+
+const richTextComponents16Data = {
+  src: "/img/lowercase@2x.png",
+  className: "rich-text-components-15",
+};
+
+const richTextComponents17Data = {
+  src: "/img/text-color@2x.png",
+  className: "rich-text-components-16",
+};
+
+const richTextComponents23Data = {
+  src: "/img/align-left@2x.png",
+};
+
+
+const richTextComponents18Data = {
+  src: "/img/undo-1@2x.png",
+  className: "rich-text-components-17",
+};
+
+const richTextComponents19Data = {
+  src: "/img/redo-1@2x.png",
+  className: "rich-text-components-18",
+};
+
+const richTextComponents20Data = {
+  src: "/img/bold-1@2x.png",
+  className: "rich-text-components-19",
+};
+
+const richTextComponents21Data = {
+  src: "/img/italic-1@2x.png",
+  className: "rich-text-components-20",
+};
+
+const richTextComponents24Data = {
+  src: "/img/underline-1@2x.png",
+  className: "rich-text-components-21",
+};
+
+const richTextComponents25Data = {
+  src: "/img/uppercase@2x.png",
+  className: "rich-text-components-22",
+};
+
+const richTextComponents26Data = {
+  src: "/img/lowercase-1@2x.png",
+  className: "rich-text-components-23",
+};
+
+const richTextComponents27Data = {
+  src: "/img/text-color-1@2x.png",
+  className: "rich-text-components-24",
+};
+
+const richTextComponents28Data = {
+  src: "/img/paint-bucket@2x.png",
+  className: "rich-text-components-25",
+};
+
+const dropdown4Data = {
+  heading: "Heading",
+};
+
+const dropdown5Data = {
+  heading: "IBM Plex Sans",
+  className: "dropdown-4",
+};
+
+const dropdown6Data = {
+  heading: "20px",
+  className: "dropdown-5",
+};
+
+const group252Data = {
+  dropdown1Props: dropdown4Data,
+  dropdown2Props: dropdown5Data,
+  dropdown3Props: dropdown6Data,
+};
+
+const richTextComponents29Data = {
+  src: "/img/align-left-1@2x.png",
+};
+
+const richTextComponents30Data = {
+  src: "/img/more@2x.png",
+  className: "rich-text-components-26",
+};
+
+const assignmentTheoryTabletData = {
+  frame1349: "/img/frame-1349-1.png",
+  frame5: "/img/frame-5@2x.png",
+  physicsThermodyna: "Physics - thermodynamics assignment questions",
+  boremIpsumDolorSi: "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
+  line6: "/img/line-6-1.png",
+  koremIpsumDolorSi: "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
+  line7: "/img/line-7-1.png",
+  time015823: "Time : 01:58:23",
+  q124: "Q 1/24",
+  marks10: "Marks: 10",
+  notificationsProps: notifications3Data,
+  richTextComponents1Props: richTextComponents18Data,
+  richTextComponents2Props: richTextComponents19Data,
+  richTextComponents3Props: richTextComponents20Data,
+  richTextComponents4Props: richTextComponents21Data,
+  richTextComponents5Props: richTextComponents24Data,
+  richTextComponents6Props: richTextComponents25Data,
+  richTextComponents7Props: richTextComponents26Data,
+  richTextComponents8Props: richTextComponents27Data,
+  richTextComponents9Props: richTextComponents28Data,
+  group25Props: group252Data,
+  richTextComponents2Props2: richTextComponents29Data,
+  richTextComponents10Props: richTextComponents30Data,
+};
+
+
+const frame42Data = {
+  maskGroup: "/img/mask-group@2x.png",
+};
+
+const richTextComponents31Data = {
+  src: "/img/undo-1@2x.png",
+};
+
+const richTextComponents32Data = {
+  src: "/img/redo-1@2x.png",
+  className: "rich-text-components-28",
+};
+
+const richTextComponents33Data = {
+  src: "/img/bold-1@2x.png",
+  className: "rich-text-components-29",
+};
+
+const richTextComponents34Data = {
+  src: "/img/italic-1@2x.png",
+  className: "rich-text-components-30",
+};
+
+const richTextComponents35Data = {
+  src: "/img/underline-1@2x.png",
+  className: "rich-text-components-31",
+};
+
+const richTextComponents36Data = {
+  src: "/img/uppercase@2x.png",
+  className: "rich-text-components-32",
+};
+
+const richTextComponents37Data = {
+  src: "/img/lowercase-1@2x.png",
+  className: "rich-text-components-33",
+};
+
+const richTextComponents38Data = {
+  src: "/img/text-color-1@2x.png",
+  className: "rich-text-components-34",
+};
+
+const richTextComponents39Data = {
+  src: "/img/paint-bucket@2x.png",
+  className: "rich-text-components-35",
+};
+
+const dropdown7Data = {
+  heading: "Heading",
+};
+
+const dropdown8Data = {
+  heading: "IBM Plex Sans",
+  className: "dropdown-6",
+};
+
+const dropdown9Data = {
+  heading: "20px",
+  className: "dropdown-7",
+};
+
+const group253Data = {
+  dropdown1Props: dropdown7Data,
+  dropdown2Props: dropdown8Data,
+  dropdown3Props: dropdown9Data,
+};
+
+const richTextComponents210Data = {
+  src: "/img/align-left-1@2x.png",
+};
+
+const richTextComponents40Data = {
+  src: "/img/more@2x.png",
+  className: "rich-text-components-36",
+};
+
+const assignmentTheoryLaptopData = {
+  headerProps:taskheaderProps,
+  frame1343: "/img/frame-1343@2x.png",
+  line6: "/img/line-6-2.png",
+  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  navElement221Props: navElement4Data,
+  navElement222Props: navElement5Data,
+  navElement223Props: navElement6Data,
+  notificationsProps: notifications4Data,
+  frame4Props: frame42Data,
+  richTextComponents1Props: richTextComponents31Data,
+  richTextComponents2Props: richTextComponents32Data,
+  richTextComponents3Props: richTextComponents33Data,
+  richTextComponents4Props: richTextComponents34Data,
+  richTextComponents5Props: richTextComponents35Data,
+  richTextComponents6Props: richTextComponents36Data,
+  richTextComponents7Props: richTextComponents37Data,
+  richTextComponents8Props: richTextComponents38Data,
+  richTextComponents9Props: richTextComponents39Data,
+  group25Props: group253Data,
+  richTextComponents2Props2: richTextComponents210Data,
+  richTextComponents10Props: richTextComponents40Data,
+};
+
+
+const frame129732Data = {
+  text9: "1.",
+  frame1284: "/img/frame-1284-7@2x.png",
+  richTextComponentsProps: richTextComponents11Data,
+  frame12803Props: frame128032Data,
+};
+
+const assignmentTheoryDesktopData = {
+  frame1343: "/img/frame-1343@2x.png",
+  line6: "/img/line-6-2.png",
+  navElement221Props: navElement1Data,
+  navElement222Props: navElement2Data,
+  navElement223Props: navElement3Data,
+  notificationsProps: notifications1Data,
+  frame4Props: frame41Data,
+  richTextComponents1Props: richTextComponents1Data,
+  richTextComponents2Props: richTextComponents2Data,
+  richTextComponents3Props: richTextComponents3Data,
+  richTextComponents4Props: richTextComponents4Data,
+  richTextComponents5Props: richTextComponents5Data,
+  richTextComponents6Props: richTextComponents6Data,
+  richTextComponents7Props: richTextComponents7Data,
+  richTextComponents8Props: richTextComponents8Data,
+  richTextComponents9Props: richTextComponents9Data,
+  group25Props: group251Data,
+  richTextComponents2Props2: richTextComponents22Data,
+  richTextComponents10Props: richTextComponents10Data,
+};
+
+
+const frame129733Data = {
+  text9: "2.",
+  frame1284: "/img/frame-1284-9@2x.png",
+  richTextComponentsProps: richTextComponents12Data,
+  frame12803Props: frame128033Data,
+};
+
+const tasksDesktopData = {
+  frame1343: "/img/frame-1343@2x.png",
+  title: "Tasks",
+  overdue: "Overdue",
+  number: "12",
+  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  navElement1Props: navElement1Data,
+  navElement2Props: navElement3Data,
+  notificationsProps: notifications4Data,
+  frame4Props: frame41Data,
+  frame1306Props: frame13061Data,
+  frame13531Props: frame13531Data,
+  cards11Props: cards11Data,
+  cards121Props: cards121Data,
+  cards131Props: cards131Data,
+  cards141Props: cards141Data,
+  cards15Props: cards151Data,
+  frame13532Props: frame13532Data,
+  cards142Props: cards142Data,
+  cards122Props: cards122Data,
+  cards132Props: cards132Data,
+  cards161Props: cards161Data,
+  cards162Props: cards162Data,
+  cards163Props: cards163Data,
+  cards133Props: cards133Data,
+  cards164Props: cards164Data,
+  cards165Props: cards165Data,
+  frame19Props: frame192Data,
+  headerProps: taskheaderProps,
+};
+
+
+const assignmentTheoryMobileData = {
+  frame1349: "/img/frame-1349@2x.png",
+  frame5: "/img/frame-5@2x.png",
+  physicsThermodyna: "Physics - thermodynamics assignment questions",
+  boremIpsumDolorSi: "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
+  line6: "/img/line-6@2x.png",
+  koremIpsumDolorSi: "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
+  line7: "/img/line-7@2x.png",
+  time015823: "Time : 01:58:23",
+  q124: "Q 1/24",
+  marks10: "Marks: 10",
+  notificationsProps: notifications2Data,
+  richTextComponents1Props: richTextComponents11Data,
+  richTextComponents2Props: richTextComponents12Data,
+  richTextComponents3Props: richTextComponents13Data,
+  richTextComponents4Props: richTextComponents14Data,
+  richTextComponents5Props: richTextComponents15Data,
+  richTextComponents6Props: richTextComponents16Data,
+  richTextComponents7Props: richTextComponents17Data,
+  richTextComponents2Props2: richTextComponents23Data,
+};
+
+
+
+const questionFrame41Data = {
+  frame12973Props: frame129733Data,
+};
+
+
+const bulletList3Data = {
+  className: "bullet-list-2",
+  group25Props: group253Data,
+};
+
+
+const frame129735Data = {
+  text9: "5.",
+  frame1284: "/img/frame-1284-9@2x.png",
+  richTextComponentsProps: richTextComponents15Data,
+  frame12803Props: frame128036Data,
+};
+
+
+const questionFrame43Data = {
+  frame12973Props: frame129735Data,
+};
+
+
 const createAAssignmentLaptopData = {
   headerProps: taskheaderProps,
   logo: "/img/logo-1@2x.png",

@@ -7,17 +7,20 @@
     "prettier:format": "npx prettier --write ."
   },
   "dependencies": {
+    "query-string": "^8.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-quill": "^2.0.0",
     "react-responsive": "^9.0.2",
     "react-router-dom": "5.2.0",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "browserslist": "4.19.3",
+    "buffer": "^5.7.1",
     "parcel": "2.8.1",
     "parcel-reporter-static-files-copy": "^1.3.4",
-    "process": "^0.11.10",
-    "prettier": "2.8.4"
+    "prettier": "2.8.4",
+    "process": "^0.11.10"
   }
 }

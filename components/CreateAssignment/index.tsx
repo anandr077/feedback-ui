@@ -336,10 +336,6 @@ const createAAssignmentLaptopData = {
   frame662Props: frame6622Data,
 };
 
-const notifications3Data = {
-  src: "/img/notificationbing-2@2x.png",
-};
-
 const goBack22Data = {
   caret: "/img/caret-1@2x.png",
 };
@@ -364,214 +360,17 @@ const frame129722Data = {
   frame12802Props: frame128022Data,
 };
 
-const input51Data = {
-  input: "Theory",
-};
-
-const input61Data = {
-  label: "Question",
-  input: "Enter question",
-};
-
-const input62Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
-};
-
-const richTextComponents7Data = {
-  src: "/img/drag-icon-5@2x.png",
-};
-
-const frame128023Data = {
-  className: "frame-1280-2",
-};
-
-const questionFrame22Data = {
-  text7: "2.",
-  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
-  frame1284: "/img/frame-1284-9@2x.png",
-  richTextComponentsProps: richTextComponents7Data,
-  frame12802Props: frame128023Data,
-};
-
-const richTextComponents8Data = {
-  src: "/img/drag-icon-5@2x.png",
-};
-
-const group252Data = {
-  src: "/img/vector-11@2x.png",
-};
-
-const bulletList2Data = {
-  className: "bullet-list-1",
-  group25Props: group252Data,
-};
-
-const richTextComponents32Data = {
-  bulletListProps: bulletList2Data,
-};
-
-const input52Data = {
-  input: "MCQ",
-};
-
-const input63Data = {
-  label: "Question",
-  input: "Enter question",
-};
-
-const group12555Data = {
-  className: "group-1255-2",
-};
-
-const input71Data = {
-  option1: "Option 1",
-  group1255Props: group12555Data,
-};
-
-const group12556Data = {
-  className: "group-1255-3",
-};
-
-const input72Data = {
-  option1: "Option 2",
-  group1255Props: group12556Data,
-};
-
-const group12557Data = {
-  className: "group-1255-4",
-};
-
-const input73Data = {
-  option1: "Option 3",
-  group1255Props: group12557Data,
-};
-
-const group12558Data = {
-  className: "group-1255-5",
-};
-
-const input74Data = {
-  option1: "Option 4",
-  group1255Props: group12558Data,
-};
-
-const input64Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
-};
-
-const richTextComponents9Data = {
-  src: "/img/drag-icon-8@2x.png",
-  className: "rich-text-components-4",
-};
-
-const frame128025Data = {
-  className: "",
-};
-
-const frame129723Data = {
-  text6: "4.",
-  frame1284: "/img/frame-1284-9@2x.png",
-  richTextComponentsProps: richTextComponents9Data,
-  frame12802Props: frame128025Data,
-};
-
-const questionFrame32Data = {
-  frame12972Props: frame129723Data,
-};
-
-const richTextComponents10Data = {
-  src: "/img/drag-icon-5@2x.png",
-  className: "",
-};
-
-const frame128026Data = {
-  className: "frame-1280-4",
-};
-
-const frame129724Data = {
-  text6: "5.",
-  frame1284: "/img/frame-1284-9@2x.png",
-  richTextComponentsProps: richTextComponents10Data,
-  frame12802Props: frame128026Data,
-};
-
-const questionFrame33Data = {
-  frame12972Props: frame129724Data,
-};
-
-const buttons24Data = {
-  add: "/img/add@2x.png",
-};
-
-const checkbox33Data = {
-  className: "checkbox-10",
-};
-
-const checkbox34Data = {
-  className: "checkbox-11",
-};
-
-const checkbox35Data = {
-  className: "checkbox-12",
-};
-
-const checkbox36Data = {
-  className: "checkbox-13",
-};
-
-const checkbox37Data = {
-  className: "checkbox-14",
-};
-
 const goBack23Data = {
   caret: "/img/caret-5@2x.png",
   className: "go-back-3",
 };
 
 const createAAssignmentTabletData = {
-  frame1349: "/img/frame-1349.png",
-  frame5: "/img/frame-5@2x.png",
-  title: "Create Assignment",
-  nameOfAssignment: "Name of assignment",
-  questions: "Questions",
   line141: "/img/line-14-2.png",
-  text8: "3.",
-  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
-  frame1284: "/img/frame-1284-7@2x.png",
-  line142: "/img/line-14-2.png",
-  options: "Options",
-  assignmentSettings: "Assignment Settings",
-  classes: "Classes",
   help1: "/img/help@2x.png",
-  feedbackMethod: "Feedback Method",
   help2: "/img/help@2x.png",
-  notificationsProps: notifications3Data,
   goBack21Props: goBack22Data,
   buttons21Props: buttons23Data,
   frame12972Props: frame129722Data,
-  frame12973Props: frame129732Data,
-  input51Props: input51Data,
-  input61Props: input61Data,
-  input62Props: input62Data,
-  questionFrame2Props: questionFrame22Data,
-  richTextComponentsProps: richTextComponents8Data,
-  richTextComponents3Props: richTextComponents32Data,
-  input52Props: input52Data,
-  input63Props: input63Data,
-  input71Props: input71Data,
-  input72Props: input72Data,
-  input73Props: input73Data,
-  input74Props: input74Data,
-  input64Props: input64Data,
-  questionFrame31Props: questionFrame32Data,
-  questionFrame32Props: questionFrame33Data,
-  buttons22Props: buttons24Data,
-  checkbox31Props: checkbox33Data,
-  checkbox32Props: checkbox34Data,
-  checkbox33Props: checkbox35Data,
-  checkbox34Props: checkbox36Data,
-  checkbox35Props: checkbox37Data,
   goBack22Props: goBack23Data,
 };

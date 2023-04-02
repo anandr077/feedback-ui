@@ -1,25 +1,12 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Notifications from "../Notifications";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import GoBack2 from "../GoBack2";
 import Buttons2 from "../Buttons2";
 import Frame12972 from "../Frame12972";
-import Input5 from "../Input5";
-import Input6 from "../Input6";
 import Frame1291 from "../Frame1291";
-import Buttons3 from "../Buttons3";
-import QuestionFrame2 from "../QuestionFrame2";
-import RichTextComponents from "../RichTextComponents";
-import RichTextComponents3 from "../RichTextComponents3";
-import Frame12802 from "../Frame12802";
-import Input7 from "../Input7";
-import Buttons4 from "../Buttons4";
-import QuestionFrame3 from "../QuestionFrame3";
-import Checkbox3 from "../Checkbox3";
 import RadioBox2 from "../RadioBox2";
-import Frame6102 from "../Frame6102";
 import styled from "styled-components";
 import {
   IbmplexsansNormalShark20px,
@@ -37,41 +24,11 @@ import { createAssignment, getCourses } from "../../service";
 function CreateAAssignmentTablet(props) {
   const {
     line141,
-    text8,
-    toremIpsumDolorSi,
-    frame1284,
-    line142,
-    options,
-    assignmentSettings,
-    classes,
     help1,
-    feedbackMethod,
     help2,
     goBack21Props,
     buttons21Props,
     frame12972Props,
-    input51Props,
-    input61Props,
-    input62Props,
-    questionFrame2Props,
-    richTextComponentsProps,
-    richTextComponents3Props,
-    input52Props,
-    input63Props,
-    input71Props,
-    input72Props,
-    input73Props,
-    input74Props,
-    input64Props,
-    questionFrame31Props,
-    questionFrame32Props,
-
-    buttons22Props,
-    checkbox31Props,
-    checkbox32Props,
-    checkbox33Props,
-    checkbox34Props,
-    checkbox35Props,
     goBack22Props,
   } = props;
 
@@ -170,11 +127,11 @@ function CreateAAssignmentTablet(props) {
           </Frame1375>
           <Frame1377>
             <Frame1294>
-              <AssignmentSettings>{assignmentSettings}</AssignmentSettings>
+              <AssignmentSettings>Assignment Settings</AssignmentSettings>
               <Frame1295>
                 <Frame1299>
                   <Frame12811>
-                    <Classes>{classes}</Classes>
+                    <Classes>Classes</Classes>
                     <Link to="/tooltip1">
                       <Help src={help1} alt="help" />
                     </Link>
@@ -183,7 +140,7 @@ function CreateAAssignmentTablet(props) {
                 </Frame1299>
                 <Frame1299>
                   <Frame12811>
-                    <Classes>{feedbackMethod}</Classes>
+                    <Classes>Feedback Method</Classes>
                     <Link to="/tooltip2">
                       <Help src={help2} alt="help" />
                     </Link>
@@ -510,13 +467,6 @@ const Questions = styled.div`
   line-height: normal;
 `;
 
-const ToremIpsumDolorSi = styled.p`
-  position: relative;
-  flex: 1;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const Frame1295 = styled.div`
   display: flex;
   flex-direction: column;
@@ -559,80 +509,6 @@ const Frame1289 = styled.div`
   align-self: stretch;
 `;
 
-const Frame1297 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0px 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1287 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame1283 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1282 = styled.div`
-  ${IbmplexsansNormalShark20px}
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  flex: 1;
-`;
-
-const Text8 = styled.div`
-  position: relative;
-  width: 20px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame1281 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame1284 = styled.img`
-  position: relative;
-  min-width: 28px;
-  height: 28px;
-`;
-
-const Input = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Options = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const AssignmentSettings = styled.div`
   ${IbmplexsansSemiBoldShark24px}
   position: relative;
@@ -640,31 +516,6 @@ const AssignmentSettings = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
-`;
-
-const Frame1285 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-  box-shadow: 0px 4px 16px #7200e01a;
-`;
-
-const Frame1296 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 30px;
-  position: relative;
-  align-self: stretch;
 `;
 
 const Frame1377 = styled.div`

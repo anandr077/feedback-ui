@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import AssignmentTheoryLaptop from "../AssignmentTheoryLaptop";
 import { getSubmissionById, getTasks } from "../../service.js";
+import AssignmentTheoryTablet from "../AssignmentTheoryTablet";
 
 export default function AssignmentTheory() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -20,36 +21,53 @@ export default function AssignmentTheory() {
   const [answer, setAnswer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    getSubmissionById(submissionId).then((result) => {
-      if (result) {
-        setSubmission(result);
+  //   useEffect(() => {
+  //     getSubmissionById(submissionId).then((result) => {
+  //       if (result) {
+  //         setSubmission(result);
 
-        const maybeQuestion = result.assignment.questions.find((q) => {
-          return parseInt(q.serialNumber) === parseInt(serialNumber);
-        });
+  //         const maybeQuestion = result.assignment.questions.find((q) => {
+  //           return parseInt(q.serialNumber) === parseInt(serialNumber)
+  //         })
 
-        const maybeAnswer = result.answers?.find((a) => {
-          return parseInt(a.serialNumber) === parseInt(serialNumber);
-        });
-        setQuestion(maybeQuestion);
-        setAnswer(maybeAnswer);
-        setIsLoading(false);
-      }
-    });
-  }, submission);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (question == null) {
-    return <div>Wrong serial number...</div>;
-  }
+  //         const maybeAnswer = result.answers?.find((a) => {
+  //           return parseInt(a.serialNumber) === parseInt(serialNumber)
+  //         })
+  //         setQuestion(maybeQuestion)
+  //         setAnswer(maybeAnswer)
+  //         setIsLoading(false);
+  //       }
+  //     });
+  //   }, submission);
+  //   if (isLoading) {
+  //     return <div>Loading...</div>;
+  //   }
+  //   if (question == null) {
+  //     return <div>Wrong serial number...</div>;
+  //   }
 
   return (
     <>
+{/* 
+{isMobileView && (
+        
+      )} */}
+      {isTabletView && (
+        <AssignmentTheoryTablet
+        {...{ submission, question, answer, ...assignmentTheoryLaptopData }}/>
+      )}
+      {isLaptopView && (
+        
       <AssignmentTheoryLaptop
-        {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
-      />
+      {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
+    />
+      )}
+      {isDesktopView && (
+        
+      <AssignmentTheoryLaptop
+      {...{ submission, question, answer, ...assignmentTheoryLaptopData }}
+    />
+      )}
       ;
     </>
   );

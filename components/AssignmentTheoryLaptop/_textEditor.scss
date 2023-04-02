@@ -1,0 +1,15 @@
+.quill.ql-editor {
+  width: 100%;
+  padding: 3em;
+
+  .ql-toolbar {
+    border: 1px solid black;
+    border-radius: 8px 8px 0 0;
+    height: auto;
+    position: sticky;
+  }
+  .ql-container {
+    border: 1px solid black;
+    border-radius: 0 0 8px 8px;
+  }
+}

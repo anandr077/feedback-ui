@@ -16,15 +16,40 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago14px } from "../../styledMixins";
 import { saveAnswer, submitAssignment } from "../../service.js";
+import "./_textEditor.scss";
 function AssignmentTheoryLaptop(props) {
   const {
-    submission,
-    question,
+    // submission,
+    // question,
     answer,
     headerProps,
     x2021JeddleAllRightsReserved,
   } = props;
 
+  const question = {
+    serialNumber: 1,
+    question: "What is the difference between a class and an object?",
+  };
+  const submission = {
+    id: 1,
+    assignment: {
+      title: "Assignment 1",
+      questions: [
+        {
+          serialNumber: 1,
+          question: "First Questions",
+        },
+        {
+          serialNumber: 2,
+          question: "Second Question",
+        },
+        {
+          serialNumber: 3,
+          question: "Third Question",
+        },
+      ],
+    },
+  };
   console.log("answer " + JSON.stringify(answer?.answer?.answer ?? ""));
 
   const [value, setValue] = useState(answer?.answer?.answer ?? "");
@@ -78,8 +103,9 @@ function AssignmentTheoryLaptop(props) {
                 theme="snow"
                 value={value}
                 onChange={setValue}
-                style={{ borderRadius: "50px", height: "200%", width: "100%" }}
+                className="ql-editor"
               />
+
               <Frame13111>
                 {showPrevious ? (
                   <Buttons2
@@ -118,9 +144,10 @@ function AssignmentTheoryLaptop(props) {
                   {submission.assignment.questions.length}
                 </Q124>
               </Frame12092>
-              <Line8 src="line-7-2.png" alt="Line 8" />
-              {showSubmit ? (
+              {/* <Line8 src="line-7-2.png" alt="Line 8" /> */}
+              {true ? (
                 <Buttons2
+                  add={"/icons/arrowright.png"}
                   label="Submit Assignment"
                   onClickFn={submitAssignmentFn}
                 />
@@ -291,7 +318,7 @@ const X2021JeddleAllRightsReserved = styled.p`
 
 const Frame12091 = styled.div`
   display: flex;
-  position: relative;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   gap: 20px;
@@ -299,6 +326,8 @@ const Frame12091 = styled.div`
   width: 950px;
   background-color: var(--white);
   border-radius: 0px 0px 16px 16px;
+  width: 100%;
+  
 `;
 const Line7 = styled.img`
   position: relative;
@@ -324,6 +353,7 @@ const Frame12092 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  width:100%;
 `;
 
 const Time015823 = styled.div`

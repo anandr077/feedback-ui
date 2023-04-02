@@ -23,7 +23,10 @@ function TasksLaptop(props) {
           <TaskFrame1306 />
           <Frame1359>
             <Frame1358>
-              <TaskFrame1353 outstanding="Outstanding" number={allTasks.length} />
+              <TaskFrame1353
+                outstanding="Outstanding"
+                number={allTasks.length}
+              />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}
@@ -31,7 +34,10 @@ function TasksLaptop(props) {
               />
             </Frame1358>
             <Frame1358>
-              <TaskFrame1353 outstanding="In Progress" number={allTasks.length} />
+              <TaskFrame1353
+                outstanding="In Progress"
+                number={allTasks.length}
+              />
               <TaskCardContainer
                 allTasks={allTasks}
                 className={frame19Props.className}

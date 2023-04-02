@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalChicago13px } from "../../styledMixins";
-
+import {
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalChicago13px,
+} from "../../styledMixins";
 
 function SubmissionFrame1392() {
   return (
     <Frame13921>
-      <X2023JeddleAllRightsReserved>© 2023 Jeddle. All rights reserved.</X2023JeddleAllRightsReserved>
+      <X2023JeddleAllRightsReserved>
+        © 2023 Jeddle. All rights reserved.
+      </X2023JeddleAllRightsReserved>
       <Frame6>
         <MainWebsite>Main Website</MainWebsite>
         <Terms>Terms</Terms>

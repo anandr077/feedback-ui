@@ -42,7 +42,10 @@ function AssignmentTheoryDesktop(props) {
       <Frame1344>
         <Frame1343 src={frame1343} alt="Frame 1343" />
         <Frame5>
-          <NavElement home3={navElement221Props.home3} place={navElement221Props.place} />
+          <NavElement
+            home3={navElement221Props.home3}
+            place={navElement221Props.place}
+          />
           <NavElement
             home3={navElement222Props.home3}
             place={navElement222Props.place}

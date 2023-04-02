@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago14px } from "../../styledMixins";
 
-
 function SubmissionFrame1209() {
   return (
     <Frame12091>

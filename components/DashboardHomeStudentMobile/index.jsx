@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {
   IbmplexsansBoldWhite36px,
-  IbmplexsansNormalWhite14px
+  IbmplexsansNormalWhite14px,
 } from "../../styledMixins";
 import FooterSmall from "../FooterSmall";
 import DashboardFrame1208 from "../DashboardFrame1208";

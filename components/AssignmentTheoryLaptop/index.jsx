@@ -1,7 +1,7 @@
 import { default as React, default as React, useState } from "react";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.bubble.css';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.bubble.css";
+import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px } from "../../styledMixins";
 import Buttons from "../Buttons";
@@ -15,90 +15,154 @@ import "./AssignmentTheoryLaptop.css";
 import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago14px } from "../../styledMixins";
-import {saveAnswer, submitAssignment} from "../../service.js";
+import { saveAnswer, submitAssignment } from "../../service.js";
+import "../AssignmentTheory/_textEditor.scss";
+import Footer from "../Footer";
 function AssignmentTheoryLaptop(props) {
-
-
   const {
-    submission,
-    question,
+    // submission,
+    // question,
     answer,
     headerProps,
     x2021JeddleAllRightsReserved,
   } = props;
-  console.log("answer "+ JSON.stringify(answer?.answer?.answer ?? "" ))
 
-  const [value, setValue] = useState(answer?.answer?.answer ?? "" );
-  
+  const question = {
+    serialNumber: 1,
+    question: "What is the difference between a class and an object?",
+  };
+  const submission = {
+    id: 1,
+    assignment: {
+      title: "Assignment 1",
+      questions: [
+        {
+          serialNumber: 1,
+          question: "First Questions",
+        },
+        {
+          serialNumber: 2,
+          question: "Second Question",
+        },
+        {
+          serialNumber: 3,
+          question: "Third Question",
+        },
+      ],
+    },
+  };
+  console.log("answer " + JSON.stringify(answer?.answer?.answer ?? ""));
+
+  const [value, setValue] = useState(answer?.answer?.answer ?? "");
+
   const saveAnswerFn = () => {
-    saveAnswer(
-      submission.id, 
-      question.serialNumber,
-      {
-        "answer": value
-      }
-    ).then(_ =>
-    {
-      const nextQuestion = question.serialNumber == submission.assignment.questions.length ? question.serialNumber : question.serialNumber + 1;
-      window.location.href = "/submissions?submissionId=" + submission.id + "&serialNumber=" + nextQuestion;
-    })
+    saveAnswer(submission.id, question.serialNumber, {
+      answer: value,
+    }).then((_) => {
+      const nextQuestion =
+        question.serialNumber == submission.assignment.questions.length
+          ? question.serialNumber
+          : question.serialNumber + 1;
+      window.location.href =
+        "/submissions?submissionId=" +
+        submission.id +
+        "&serialNumber=" +
+        nextQuestion;
+    });
   };
 
   const submitAssignmentFn = () => {
-    submitAssignment(
-      submission.id
-    ).then(_ =>
-    {
-      window.location.href = "/dashboard"
-    })
+    submitAssignment(submission.id).then((_) => {
+      window.location.href = "/dashboard";
+    });
   };
 
   const previousAnswerFn = () => {
-    window.location.href = "/submissions?submissionId=" + submission.id + "&serialNumber=" + (question.serialNumber - 1);
+    window.location.href =
+      "/submissions?submissionId=" +
+      submission.id +
+      "&serialNumber=" +
+      (question.serialNumber - 1);
   };
   const showPrevious = question.serialNumber > 1;
-  const showNext = question.serialNumber < submission.assignment.questions.length;
+  const showNext =
+    question.serialNumber < submission.assignment.questions.length;
   const showSubmit = submission.allAnswersSaved;
-  const showSaveAnswer = question.serialNumber == submission.assignment.questions.length;
+  const showSaveAnswer =
+    question.serialNumber == submission.assignment.questions.length;
 
-  
   return (
-
     <div className="assignment-theory-laptop screen">
-      <Header headerProps={headerProps}/>
+      <Header headerProps={headerProps} />
       <Frame1401>
         <Frame1311>
-          <SubmissionFrame1399 label = {submission.assignment.title} />
-          <SubmissionFrame1400 label = {question.question}/>
+          <SubmissionFrame1399 label={submission.assignment.title} />
+          <SubmissionFrame1400 label={question.question} />
           <Frame1396>
             <Frame1398>
-              <ReactQuill theme="snow" value={value} onChange={setValue} 
-              style={{  'borderRadius': '50px', height: '200%', width: '100%' }}/>
+              <ReactQuill
+                theme="snow"
+                value={value}
+                onChange={setValue}
+                className="ql-editor"
+              />
+
               <Frame13111>
-              {showPrevious? <Buttons2 add = 'img/arrowright-2@2x.png' label = 'Previous' onClickFn={previousAnswerFn}  /> : <></>}
-              {showNext? <Buttons2 add = {'/img/arrowright-1@2x.png'} label = 'Next'  onClickFn = {saveAnswerFn} /> : <></>}
-              {showSaveAnswer? <Buttons2 add = {'/img/arrowright-1@2x.png'} label = 'Save Answer'  onClickFn = {saveAnswerFn} /> : <></>}
+                {showPrevious ? (
+                  <Buttons2
+                    add="icons/arrowleft.png"
+                    label="Previous"
+                    onClickFn={previousAnswerFn}
+                  />
+                ) : (
+                  <></>
+                )}
+                {showNext ? (
+                  <Buttons2
+                    add={"/icons/arrowright.png"}
+                    label="Next"
+                    onClickFn={saveAnswerFn}
+                  />
+                ) : (
+                  <></>
+                )}
+                {showSaveAnswer ? (
+                  <Buttons2
+                    add={"/icons/arrowright.png"}
+                    label="Save Answer"
+                    onClickFn={saveAnswerFn}
+                  />
+                ) : (
+                  <></>
+                )}
               </Frame13111>
             </Frame1398>
             <Frame12091>
               <Line7 src="/img/line-7-2.png" alt="Line 7" />
               <Frame12092>
-                <Q124>Q {question.serialNumber}/{submission.assignment.questions.length}</Q124>
+                <Q124>
+                  Q {question.serialNumber}/
+                  {submission.assignment.questions.length}
+                </Q124>
               </Frame12092>
-              <Line8 src="line-7-2.png" alt="Line 8" />
-              {showSubmit?<Buttons2 label = 'Submit Assignment' onClickFn={submitAssignmentFn} />:<></>}
+              {/* <Line8 src="line-7-2.png" alt="Line 8" /> */}
+              {true ? (
+                <Buttons2
+                  add={"/icons/arrowright.png"}
+                  label="Submit Assignment"
+                  onClickFn={submitAssignmentFn}
+                />
+              ) : (
+                <></>
+              )}
             </Frame12091>
           </Frame1396>
         </Frame1311>
       </Frame1401>
-      <Frame6>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
-        <SubmissionFrame63 />
-      </Frame6>
+      <Footer />
     </div>
   );
 }
-
 
 const Frame13111 = styled.div`
   display: flex;
@@ -186,8 +250,6 @@ const Frame1398 = styled.div`
   align-self: stretch;
 `;
 
-
-
 const Frame1395 = styled.div`
   display: flex;
   flex-direction: column;
@@ -252,7 +314,7 @@ const X2021JeddleAllRightsReserved = styled.p`
 
 const Frame12091 = styled.div`
   display: flex;
-  position: relative;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   gap: 20px;
@@ -260,6 +322,7 @@ const Frame12091 = styled.div`
   width: 950px;
   background-color: var(--white);
   border-radius: 0px 0px 16px 16px;
+  width: 100%;
 `;
 const Line7 = styled.img`
   position: relative;
@@ -285,6 +348,7 @@ const Frame12092 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  width: 100%;
 `;
 
 const Time015823 = styled.div`

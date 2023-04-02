@@ -5,11 +5,9 @@ import {
   IbmplexsansNormalBlack20px,
 } from "../../styledMixins";
 
-function Frame1291(props) {
-  const { className } = props;
-
+function Frame1291() {
   return (
-    <Frame12911 className={`frame-1291-1 ${className || ""}`}>
+    <Frame12911>
       <AnswerWordLimit className="answer-word-limit-1">
         Answer Word Limit
       </AnswerWordLimit>

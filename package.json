@@ -16,6 +16,7 @@
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.1",
     "browserslist": "4.19.3",
     "buffer": "^5.7.1",
     "parcel": "2.8.1",

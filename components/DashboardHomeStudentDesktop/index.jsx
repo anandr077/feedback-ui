@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansBoldWhite72px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalWhite20px
+  IbmplexsansBoldWhite72px,
+  IbmplexsansMediumRiverBed24px,
+  IbmplexsansNormalWhite20px,
 } from "../../styledMixins";
 import DashboardFrame12823 from "../DashboardFrame12823";
 import DashboardFrame1283 from "../DashboardFrame1283";

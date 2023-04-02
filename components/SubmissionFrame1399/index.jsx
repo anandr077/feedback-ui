@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../../styledMixins";
 
-
 function SubmissionFrame1399(props) {
-  const {label} = props;
+  const { label } = props;
   return (
     <Frame13991>
       <PhysicsThermodyna>{label}</PhysicsThermodyna>

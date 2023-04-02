@@ -10,7 +10,7 @@ import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
-  IbmplexsansSemiBoldShark24px
+  IbmplexsansSemiBoldShark24px,
 } from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
@@ -28,28 +28,30 @@ import "./CreateAAssignmentLaptop.css";
 function CreateAAssignmentLaptop(props) {
   const {
     headerProps,
-    title,
-    questions,
     line141,
     assignmentSettings,
     classes,
     help1,
     feedbackMethod,
     help2,
-    frame4Props,
     goBack21Props,
     buttons21Props,
     frame12973Props,
-    frame1291Props,
     goBack22Props,
   } = props;
   const [courses, setCourses] = React.useState([]);
-  const [questionFrames, setQuestionFrames] = React.useState([createNewQuestionFrame(1, frame12973Props, line141, frame1291Props)]);
+  const [questionFrames, setQuestionFrames] = React.useState([
+    createNewQuestionFrame(1, frame12973Props, line141),
+  ]);
   const addQuestionFrameFn = () => {
-    const newQuestionFrame = createNewQuestionFrame(questionFrames.length + 1,frame12973Props, line141, frame1291Props);
+    const newQuestionFrame = createNewQuestionFrame(
+      questionFrames.length + 1,
+      frame12973Props,
+      line141
+    );
     setQuestionFrames([...questionFrames, newQuestionFrame]);
   };
-  
+
   useEffect(() => {
     getCourses().then((res) => {
       setCourses(res);
@@ -58,32 +60,31 @@ function CreateAAssignmentLaptop(props) {
 
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
-    const courseIds = courses.filter((course) => {
-      return document.getElementById(course.id).checked;
-    }
-      ).map((course) => course.id);
+    const courseIds = courses
+      .filter((course) => {
+        return document.getElementById(course.id).checked;
+      })
+      .map((course) => course.id);
 
-    const serialNumbers = questionFrames.map((_, index)=>(index + 1))
-    const questions = serialNumbers.map(serialNumber=>{
+    const serialNumbers = questionFrames.map((_, index) => index + 1);
+    const questions = serialNumbers.map((serialNumber) => {
       const question = {
         serialNumber: serialNumber,
         question: document.getElementById("question_" + serialNumber).value,
         type: "TEXT",
       };
       return question;
-    })
+    });
 
-    const assignment = 
-    {
+    const assignment = {
       title,
       courseIds,
       questions,
-    }
+    };
     createAssignment(assignment).then((res) => {
       window.location.href = "/";
-
     });
-  }
+  };
   const checkboxes = courses.map((course) => {
     return (
       <Checkbox>
@@ -108,7 +109,7 @@ function CreateAAssignmentLaptop(props) {
         <Frame1378>
           <Frame1375>
             <Frame1372>
-              <Title>{title}</Title>
+              <Title>Create Assignment</Title>
               <Frame12191>
                 <Buttons1>
                   <Button onClick={publish}>Publish</Button>
@@ -120,15 +121,21 @@ function CreateAAssignmentLaptop(props) {
             </Frame1374>
             <Frame1294>
               <Frame1372>
-                <Questions>{questions}</Questions>
-                <Buttons2 add={buttons21Props.add} label = 'Add a new question' onClickFn = {addQuestionFrameFn} />
+                <Questions>Questions</Questions>
+                <Buttons2
+                  add={buttons21Props.add}
+                  label="Add a new question"
+                  onClickFn={addQuestionFrameFn}
+                />
               </Frame1372>
 
-              <Frame1295>
-                {questionFrames}
-              </Frame1295>
+              <Frame1295>{questionFrames}</Frame1295>
               <Frame1296>
-                <Buttons2 add={buttons21Props.add} label = 'Add a new question' onClickFn = {addQuestionFrameFn} />
+                <Buttons2
+                  add={buttons21Props.add}
+                  label="Add a new question"
+                  onClickFn={addQuestionFrameFn}
+                />
               </Frame1296>
             </Frame1294>
           </Frame1375>
@@ -182,46 +189,53 @@ function CreateAAssignmentLaptop(props) {
   );
 }
 
-function createNewQuestionFrame(serialNumber, frame12973Props, line141, frame1291Props) {
-  return <QuestionFrame>
-    <Frame1295>
-      <Frame12973
-        number={serialNumber}
-        frame1284={frame12973Props.frame1284}
-        richTextComponentsProps={frame12973Props.richTextComponentsProps}
-        sectiontitle="Section 1" />
-      <Line14 src={line141} alt="Line 14" />
-    </Frame1295>
+function createNewQuestionFrame(serialNumber, frame12973Props, line141) {
+  return (
+    <QuestionFrame>
+      <Frame1295>
+        <Frame12973
+          number={serialNumber}
+          frame1284={frame12973Props.frame1284}
+          richTextComponentsProps={frame12973Props.richTextComponentsProps}
+          sectiontitle="Section 1"
+        />
+        <Line14 src={line141} alt="Line 14" />
+      </Frame1295>
 
-    <Frame1289>
-      <InputQuestion>
-        <Label>Type of question</Label>
-        <QuestionFrame1>
-          <QuestionInput id={"questionType_" + serialNumber}>Theory</QuestionInput>
-        </QuestionFrame1>
-      </InputQuestion>
+      <Frame1289>
+        <InputQuestion>
+          <Label>Type of question</Label>
+          <QuestionFrame1>
+            <QuestionInput id={"questionType_" + serialNumber}>
+              Theory
+            </QuestionInput>
+          </QuestionFrame1>
+        </InputQuestion>
 
-      <InputQuestion>
-        <Label>Question</Label>
-        <QuestionFrame1>
-          <QuestionInputEditable
-            id={"question_" + serialNumber}
-            placeholder="Type Your Question here" />
-        </QuestionFrame1>
-      </InputQuestion>
-      <InputQuestion>
-        <Label>Hint (Optional)</Label>
-        <QuestionFrame1>
-          <QuestionInputEditable
-            id={"questionHint_" + serialNumber}
-            placeholder="Optional" />
-        </QuestionFrame1>
-      </InputQuestion>
+        <InputQuestion>
+          <Label>Question</Label>
+          <QuestionFrame1>
+            <QuestionInputEditable
+              id={"question_" + serialNumber}
+              placeholder="Type Your Question here"
+            />
+          </QuestionFrame1>
+        </InputQuestion>
+        <InputQuestion>
+          <Label>Hint (Optional)</Label>
+          <QuestionFrame1>
+            <QuestionInputEditable
+              id={"questionHint_" + serialNumber}
+              placeholder="Optional"
+            />
+          </QuestionFrame1>
+        </InputQuestion>
 
-      <Frame1291 className={frame1291Props.className} />
-      {/* <Buttons3 /> */}
-    </Frame1289>
-  </QuestionFrame>;
+        <Frame1291 />
+        {/* <Buttons3 /> */}
+      </Frame1289>
+    </QuestionFrame>
+  );
 }
 
 const Frame1379 = styled.div`
@@ -997,9 +1011,11 @@ const assignmentTheoryMobileData = {
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
-  boremIpsumDolorSi: "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
+  boremIpsumDolorSi:
+    "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
   line6: "/img/line-6@2x.png",
-  koremIpsumDolorSi: "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
+  koremIpsumDolorSi:
+    "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
   line7: "/img/line-7@2x.png",
   time015823: "Time : 01:58:23",
   q124: "Q 1/24",
@@ -1097,9 +1113,11 @@ const assignmentTheoryTabletData = {
   frame1349: "/img/frame-1349-1.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
-  boremIpsumDolorSi: "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
+  boremIpsumDolorSi:
+    "Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis?",
   line6: "/img/line-6-1.png",
-  koremIpsumDolorSi: "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
+  koremIpsumDolorSi:
+    "Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.",
   line7: "/img/line-7-1.png",
   time015823: "Time : 01:58:23",
   q124: "Q 1/24",
@@ -1239,5 +1257,3 @@ const assignmentTheoryLaptopData = {
   richTextComponents2Props2: richTextComponents210Data,
   richTextComponents10Props: richTextComponents40Data,
 };
-
-

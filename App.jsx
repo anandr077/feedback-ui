@@ -13,6 +13,8 @@ import TasksLaptop from "./components/TasksLaptop";
 import TasksStudentMobile from "./components/TasksStudentMobile";
 import TasksStudentTablet from "./components/TasksStudentTablet";
 import { getSubmissionById, getTasks } from "./service.js";
+import AssignmentTheory from "./components/AssignmentTheory";
+
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
@@ -26,54 +28,14 @@ function App() {
         </Route>
         {/* <Route path="/tasks">
           {tasks()}
-        </Route>
-        <Route path="/submissions">
-          {submissions()}
-        </Route>
-        <Route path="/">
-          {dashboard()}
         </Route> */}
+        <Route path="/submissions">
+          <AssignmentTheory />
+        </Route>
+        <Route path="/">{dashboard()}</Route>
       </Switch>
     </Router>
   );
-
-  // function submissions() {
-  //   const queryParameters = new URLSearchParams(window.location.search)
-  //   const submissionId = queryParameters.get("submissionId")
-  //   const serialNumber = queryParameters.get("serialNumber")?queryParameters.get("serialNumber"):1
-
-  //   const [isLoading, setIsLoading] = useState(true);
-  //   const [submission, setSubmission] = useState(null);
-  //   const [question, setQuestion] = useState(null);
-  //   const [answer, setAnswer] = useState(null);
-
-  //   useEffect(() => {
-  //     getSubmissionById(submissionId).then((result) => {
-  //       if (result) {
-  //         setSubmission(result);
-
-  //         const maybeQuestion = result.assignment.questions.find((q) => {
-  //           return parseInt(q.serialNumber) === parseInt(serialNumber)
-  //         })
-
-  //         const maybeAnswer = result.answers?.find((a) => {
-  //           return parseInt(a.serialNumber) === parseInt(serialNumber)
-  //         })
-  //         setQuestion(maybeQuestion)
-  //         setAnswer(maybeAnswer)
-  //         setIsLoading(false);
-  //       }
-  //     });
-  //   }, submission);
-  //   if (isLoading) {
-  //     return <div>Loading...</div>;
-  //   }
-  //   if (question == null) {
-  //     return <div>Wrong serial number...</div>;
-  //   }
-  //   return <AssignmentTheoryLaptop
-  //         {...{ submission, question, answer, ...assignmentTheoryLaptopData }} />;
-  // }
 
   // function tasks() {
   //   const [allTasks, setAllTasks] = useState([]);
@@ -101,33 +63,39 @@ function App() {
   //   </>;
   // }
 
-  // function dashboard() {
-  //   const [allTasks, setAllTasks] = useState([]);
+  function dashboard() {
+    const [allTasks, setAllTasks] = useState([]);
 
-  //   useEffect(() => {
-  //     getTasks().then((result) => {
-  //       setAllTasks(result);
-  //     });
-  //   }, []);
-  //   return <>
-  //     {isLaptopView && (
-  //       <DashboardHomeStudentLaptop
-  //         {...{ allTasks, ...dashboardHomeStudentLaptopData }} />
-  //     )}
-  //     {isDesktopView && (
-  //       <DashboardHomeStudentDesktop
-  //         {...{ allTasks, ...dashboardHomeStudentDesktopData }} />
-  //     )}
-  //     {isTabletView && (
-  //       <DashboardHomeStudentTablet
-  //         {...{ allTasks, ...dashboardHomeStudentTabletData }} />
-  //     )}
-  //     {isMobileView && (
-  //       <DashboardHomeStudentMobile
-  //         {...{ allTasks, ...dashboardHomeStudentMobileData }} />
-  //     )}
-  //   </>;
-  // }
+    useEffect(() => {
+      getTasks().then((result) => {
+        setAllTasks(result);
+      });
+    }, []);
+    return (
+      <>
+        {isLaptopView && (
+          <DashboardHomeStudentLaptop
+            {...{ allTasks, ...dashboardHomeStudentLaptopData }}
+          />
+        )}
+        {isDesktopView && (
+          <DashboardHomeStudentDesktop
+            {...{ allTasks, ...dashboardHomeStudentDesktopData }}
+          />
+        )}
+        {isTabletView && (
+          <DashboardHomeStudentTablet
+            {...{ allTasks, ...dashboardHomeStudentTabletData }}
+          />
+        )}
+        {isMobileView && (
+          <DashboardHomeStudentMobile
+            {...{ allTasks, ...dashboardHomeStudentMobileData }}
+          />
+        )}
+      </>
+    );
+  }
 }
 
 export default App;

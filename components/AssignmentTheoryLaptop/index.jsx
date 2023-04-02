@@ -24,6 +24,7 @@ function AssignmentTheoryLaptop(props) {
     headerProps,
     x2021JeddleAllRightsReserved,
   } = props;
+
   console.log("answer " + JSON.stringify(answer?.answer?.answer ?? ""));
 
   const [value, setValue] = useState(answer?.answer?.answer ?? "");
@@ -82,7 +83,7 @@ function AssignmentTheoryLaptop(props) {
               <Frame13111>
                 {showPrevious ? (
                   <Buttons2
-                    add="img/arrowright-2@2x.png"
+                    add="icons/arrowleft.png"
                     label="Previous"
                     onClickFn={previousAnswerFn}
                   />
@@ -91,7 +92,7 @@ function AssignmentTheoryLaptop(props) {
                 )}
                 {showNext ? (
                   <Buttons2
-                    add={"/img/arrowright-1@2x.png"}
+                    add={"/icons/arrowright.png"}
                     label="Next"
                     onClickFn={saveAnswerFn}
                   />
@@ -100,7 +101,7 @@ function AssignmentTheoryLaptop(props) {
                 )}
                 {showSaveAnswer ? (
                   <Buttons2
-                    add={"/img/arrowright-1@2x.png"}
+                    add={"/icons/arrowright.png"}
                     label="Save Answer"
                     onClickFn={saveAnswerFn}
                   />

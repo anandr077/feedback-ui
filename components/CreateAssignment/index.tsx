@@ -4,6 +4,30 @@ import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
 import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
 import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
 
+const createAssignmentHeaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Assignment",
+    icon: "/icons/assignmentIconUnselected.png",
+    iconSelected: "/icons/assignmentWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Classes",
+    icon: "/icons/classesUnselected.png",
+    iconSelected: "icons/submissionIconWhite.png",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
+
 export default function CreateAssignment() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
@@ -26,30 +50,6 @@ export default function CreateAssignment() {
     </>
   );
 }
-
-const taskheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
 
 const navElement23Data = {
   tasksquare: "/img/home3-1@2x.png",
@@ -286,7 +286,7 @@ const richTextComponents33Data = {
 };
 
 const createAAssignmentLaptopData = {
-  headerProps: taskheaderProps,
+  headerProps: createAssignmentHeaderProps,
   logo: "/img/logo-1@2x.png",
   title: "Create Assignment",
   nameOfAssignment: "Name of assignment",

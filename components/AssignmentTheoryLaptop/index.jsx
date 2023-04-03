@@ -19,39 +19,7 @@ import { saveAnswer, submitAssignment } from "../../service.js";
 import "../AssignmentTheory/_textEditor.scss";
 import Footer from "../Footer";
 function AssignmentTheoryLaptop(props) {
-  const {
-    // submission,
-    // question,
-    answer,
-    headerProps,
-    x2021JeddleAllRightsReserved,
-  } = props;
-
-  const question = {
-    serialNumber: 1,
-    question: "What is the difference between a class and an object?",
-  };
-  const submission = {
-    id: 1,
-    assignment: {
-      title: "Assignment 1",
-      questions: [
-        {
-          serialNumber: 1,
-          question: "First Questions",
-        },
-        {
-          serialNumber: 2,
-          question: "Second Question",
-        },
-        {
-          serialNumber: 3,
-          question: "Third Question",
-        },
-      ],
-    },
-  };
-  console.log("answer " + JSON.stringify(answer?.answer?.answer ?? ""));
+  const { submission, question, answer, headerProps } = props;
 
   const [value, setValue] = useState(answer?.answer?.answer ?? "");
 
@@ -110,6 +78,7 @@ function AssignmentTheoryLaptop(props) {
               <Frame13111>
                 {showPrevious ? (
                   <Buttons2
+                    type="previous"
                     add="icons/arrowleft.png"
                     label="Previous"
                     onClickFn={previousAnswerFn}
@@ -146,7 +115,7 @@ function AssignmentTheoryLaptop(props) {
                 </Q124>
               </Frame12092>
               {/* <Line8 src="line-7-2.png" alt="Line 8" /> */}
-              {true ? (
+              {showSubmit ? (
                 <Buttons2
                   add={"/icons/arrowright.png"}
                   label="Submit Assignment"

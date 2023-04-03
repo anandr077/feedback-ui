@@ -26,9 +26,7 @@ function App() {
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>
-        {/* <Route path="/tasks">
-          {tasks()}
-        </Route> */}
+        <Route path="/tasks">{tasks()}</Route>
         <Route path="/submissions">
           <AssignmentTheory />
         </Route>
@@ -37,31 +35,29 @@ function App() {
     </Router>
   );
 
-  // function tasks() {
-  //   const [allTasks, setAllTasks] = useState([]);
+  function tasks() {
+    const [allTasks, setAllTasks] = useState([]);
 
-  //   useEffect(() => {
-  //     getTasks().then((result) => {
-  //       setAllTasks(result);
-  //     });
-  //   }, []);
-  //   return <>
-  //     {isMobileView && (
-  //       <TasksStudentMobile
-  //         {...{ allTasks, ...tasksStudentMobileData }} />
-  //     )}
-  //     {isTabletView && (
-  //       <TasksStudentTablet
-  //         {...{ allTasks, ...tasksStudentTabletData }} />
-  //     )}
-  //     {isLaptopView && (
-  //       <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />
-  //     )}
-  //     {isDesktopView && (
-  //       <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
-  //     )}
-  //   </>;
-  // }
+    useEffect(() => {
+      getTasks().then((result) => {
+        setAllTasks(result);
+      });
+    }, []);
+    return (
+      <>
+        {isMobileView && (
+          <TasksStudentMobile {...{ allTasks, ...tasksStudentMobileData }} />
+        )}
+        {isTabletView && (
+          <TasksStudentTablet {...{ allTasks, ...tasksStudentTabletData }} />
+        )}
+        {isLaptopView && <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />}
+        {isDesktopView && (
+          <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
+        )}
+      </>
+    );
+  }
 
   function dashboard() {
     const [allTasks, setAllTasks] = useState([]);

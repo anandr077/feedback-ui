@@ -26,9 +26,7 @@ function App() {
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>
-        {/* <Route path="/tasks">
-          {tasks()}
-        </Route> */}
+        <Route path="/tasks">{tasks()}</Route>
         <Route path="/submissions">
           <AssignmentTheory />
         </Route>
@@ -37,31 +35,29 @@ function App() {
     </Router>
   );
 
-  // function tasks() {
-  //   const [allTasks, setAllTasks] = useState([]);
+  function tasks() {
+    const [allTasks, setAllTasks] = useState([]);
 
-  //   useEffect(() => {
-  //     getTasks().then((result) => {
-  //       setAllTasks(result);
-  //     });
-  //   }, []);
-  //   return <>
-  //     {isMobileView && (
-  //       <TasksStudentMobile
-  //         {...{ allTasks, ...tasksStudentMobileData }} />
-  //     )}
-  //     {isTabletView && (
-  //       <TasksStudentTablet
-  //         {...{ allTasks, ...tasksStudentTabletData }} />
-  //     )}
-  //     {isLaptopView && (
-  //       <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />
-  //     )}
-  //     {isDesktopView && (
-  //       <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
-  //     )}
-  //   </>;
-  // }
+    useEffect(() => {
+      getTasks().then((result) => {
+        setAllTasks(result);
+      });
+    }, []);
+    return (
+      <>
+        {isMobileView && (
+          <TasksStudentMobile {...{ allTasks, ...tasksStudentMobileData }} />
+        )}
+        {isTabletView && (
+          <TasksStudentTablet {...{ allTasks, ...tasksStudentTabletData }} />
+        )}
+        {isLaptopView && <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />}
+        {isDesktopView && (
+          <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
+        )}
+      </>
+    );
+  }
 
   function dashboard() {
     const [allTasks, setAllTasks] = useState([]);
@@ -146,10 +142,6 @@ const navElement3Data = {
   className: "nav-element-2",
 };
 
-const notifications4Data1 = {
-  src: "/img/notificationbing-2@2x.png",
-};
-
 const taskheaderProps = {
   firstButton: {
     text: "Home",
@@ -168,7 +160,7 @@ const taskheaderProps = {
   thirdButton: {
     text: "Completed",
     icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
+    iconSelected: "/icons/submissionIconWhite.png",
     selected: false,
     redirect: "/submissions",
   },
@@ -192,7 +184,7 @@ const studentDashboardheaderProps = {
   thirdButton: {
     text: "Completed",
     icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
+    iconSelected: "icons/submissionIconWhite.png",
     selected: false,
     redirect: "/submissions",
   },

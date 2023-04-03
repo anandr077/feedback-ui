@@ -3,15 +3,11 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../styledMixins";
-import Buttons from "../Buttons";
 import Buttons2 from "../Buttons2";
 import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
-import SubmissionFrame1209 from "../SubmissionFrame1209";
 import SubmissionFrame1399 from "../SubmissionFrame1399";
 import SubmissionFrame1400 from "../SubmissionFrame1400";
-import SubmissionFrame63 from "../SumbissionFrame63";
 import "./AssignmentTheoryMobile.css";
 import React from "react";
 import styled from "styled-components";
@@ -116,7 +112,7 @@ function AssignmentTheoryMobile(props) {
                 </Q124>
               </Frame12092>
 
-              {true ? (
+              {showSubmit ? (
                 <Buttons2
                   add={"/icons/arrowright.png"}
                   label="Submit Assignment"

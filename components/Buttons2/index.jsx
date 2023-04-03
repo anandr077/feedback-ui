@@ -30,9 +30,10 @@ const Buttons = styled.div`
   gap: 4px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--light-mode-purple);
+  background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
+  cursor: pointer;
 `;
 
 const Add = styled.img`

@@ -3,14 +3,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../styledMixins";
-import Buttons from "../Buttons";
 import Buttons2 from "../Buttons2";
 import Header from "../Header";
-import SubmissionFrame1209 from "../SubmissionFrame1209";
 import SubmissionFrame1399 from "../SubmissionFrame1399";
 import SubmissionFrame1400 from "../SubmissionFrame1400";
-import SubmissionFrame63 from "../SumbissionFrame63";
 import "./AssignmentTheoryLaptop.css";
 import React from "react";
 import styled from "styled-components";
@@ -19,39 +15,7 @@ import { saveAnswer, submitAssignment } from "../../service.js";
 import "../AssignmentTheory/_textEditor.scss";
 import Footer from "../Footer";
 function AssignmentTheoryLaptop(props) {
-  const {
-    // submission,
-    // question,
-    answer,
-    headerProps,
-    x2021JeddleAllRightsReserved,
-  } = props;
-
-  const question = {
-    serialNumber: 1,
-    question: "What is the difference between a class and an object?",
-  };
-  const submission = {
-    id: 1,
-    assignment: {
-      title: "Assignment 1",
-      questions: [
-        {
-          serialNumber: 1,
-          question: "First Questions",
-        },
-        {
-          serialNumber: 2,
-          question: "Second Question",
-        },
-        {
-          serialNumber: 3,
-          question: "Third Question",
-        },
-      ],
-    },
-  };
-  console.log("answer " + JSON.stringify(answer?.answer?.answer ?? ""));
+  const { submission, question, answer, headerProps } = props;
 
   const [value, setValue] = useState(answer?.answer?.answer ?? "");
 
@@ -110,6 +74,7 @@ function AssignmentTheoryLaptop(props) {
               <Frame13111>
                 {showPrevious ? (
                   <Buttons2
+                    type="previous"
                     add="icons/arrowleft.png"
                     label="Previous"
                     onClickFn={previousAnswerFn}
@@ -146,7 +111,7 @@ function AssignmentTheoryLaptop(props) {
                 </Q124>
               </Frame12092>
               {/* <Line8 src="line-7-2.png" alt="Line 8" /> */}
-              {true ? (
+              {showSubmit ? (
                 <Buttons2
                   add={"/icons/arrowright.png"}
                   label="Submit Assignment"
@@ -172,40 +137,6 @@ const Frame13111 = styled.div`
   gap: 16px;
   width: 830px;
 `;
-const Frame1344 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1343 = styled.img`
-  position: relative;
-  min-width: 241.75px;
-  height: 43.5px;
-  margin-left: -1.75px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame51 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 28px;
-  position: relative;
-`;
-
 const Frame1401 = styled.div`
   display: flex;
   flex-direction: column;
@@ -250,68 +181,6 @@ const Frame1398 = styled.div`
   align-self: stretch;
 `;
 
-const Frame1395 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 1px 1px 78px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: var(--black);
-`;
-
-const Frame1397 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: relative;
-  align-self: stretch;
-`;
-
-const PrimaryOptions = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 8px 8px 0px 0px;
-`;
-
-const Line6 = styled.img`
-  position: relative;
-  align-self: stretch;
-  min-width: 828px;
-  height: 1px;
-  object-fit: cover;
-`;
-
-const Frame6 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2021JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const Frame12091 = styled.div`
   display: flex;
   justify-content: center;
@@ -332,13 +201,7 @@ const Line7 = styled.img`
   margin-top: -1px;
   object-fit: cover;
 `;
-const Line8 = styled.img`
-  position: relative;
-  align-self: stretch;
-  min-width: 950px;
-  height: 1px;
-  object-fit: cover;
-`;
+
 const Frame12092 = styled.div`
   ${IbmplexsansNormalChicago14px}
   display: flex;
@@ -351,86 +214,11 @@ const Frame12092 = styled.div`
   width: 100%;
 `;
 
-const Time015823 = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const Q124 = styled.div`
   position: relative;
   flex: 1;
   margin-top: -1px;
   text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Marks10 = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame12093 = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 58px;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 0px 0px 16px 16px;
-`;
-
-const Line71 = styled.img`
-  position: relative;
-  align-self: stretch;
-  min-width: 950px;
-  height: 1px;
-  margin-top: -1px;
-  object-fit: cover;
-`;
-
-const Frame12094 = styled.div`
-  ${IbmplexsansNormalChicago14px}
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 0px 60px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Time0158231 = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Q1241 = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Marks101 = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  text-align: right;
   letter-spacing: 0;
   line-height: normal;
 `;

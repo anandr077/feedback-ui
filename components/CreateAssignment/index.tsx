@@ -17,7 +17,7 @@ const createAssignmentHeaderProps = {
     icon: "/icons/assignmentIconUnselected.png",
     iconSelected: "/icons/assignmentWhite.png",
     selected: true,
-    redirect: "/tasks",
+    redirect: "/assignments/new",
   },
   thirdButton: {
     text: "Classes",

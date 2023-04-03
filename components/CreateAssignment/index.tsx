@@ -24,7 +24,7 @@ const createAssignmentHeaderProps = {
     icon: "/icons/classesUnselected.png",
     iconSelected: "icons/submissionIconWhite.png",
     selected: false,
-    redirect: "/submissions",
+    redirect: "/classes",
   },
 };
 

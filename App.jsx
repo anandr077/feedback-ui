@@ -142,10 +142,6 @@ const navElement3Data = {
   className: "nav-element-2",
 };
 
-const notifications4Data1 = {
-  src: "/img/notificationbing-2@2x.png",
-};
-
 const taskheaderProps = {
   firstButton: {
     text: "Home",
@@ -164,7 +160,7 @@ const taskheaderProps = {
   thirdButton: {
     text: "Completed",
     icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
+    iconSelected: "/icons/submissionIconWhite.png",
     selected: false,
     redirect: "/submissions",
   },
@@ -188,7 +184,7 @@ const studentDashboardheaderProps = {
   thirdButton: {
     text: "Completed",
     icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
+    iconSelected: "icons/submissionIconWhite.png",
     selected: false,
     redirect: "/submissions",
   },

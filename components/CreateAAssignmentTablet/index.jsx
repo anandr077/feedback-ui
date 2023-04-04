@@ -117,10 +117,6 @@ function CreateAAssignmentTablet(props) {
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
-                <Buttons2
-                  add={buttons21Props.add}
-                  onClickFn={addQuestionFrameFn}
-                />
               </Frame1372>
               <Frame1295>{questionFrames}</Frame1295>
               <Buttons2
@@ -332,7 +328,7 @@ const Buttons1 = styled.div`
   gap: 8px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--light-mode-purple);
+  background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
   &:hover {

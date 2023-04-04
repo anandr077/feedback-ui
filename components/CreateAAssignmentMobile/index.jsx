@@ -166,10 +166,6 @@ function CreateAAssignmentMobile(props) {
             <Frame1294>
               <Frame1293>
                 <Questions>Questions</Questions>
-                <Buttons2
-                  add={buttons21Props.add}
-                  onClickFn={addQuestionFrameFn}
-                />
               </Frame1293>
               <Frame1295>{questionFrames}</Frame1295>
               <Frame1296>
@@ -347,7 +343,7 @@ const Buttons1 = styled.div`
   gap: 8px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--light-mode-purple);
+  background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
   &:hover {

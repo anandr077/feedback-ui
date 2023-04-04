@@ -132,11 +132,6 @@ function CreateAAssignmentLaptop(props) {
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
-                <Buttons2
-                  add={buttons21Props.add}
-                  label="Add a new question"
-                  onClickFn={addQuestionFrameFn}
-                />
               </Frame1372>
 
               <Frame1295>{questionFrames}</Frame1295>

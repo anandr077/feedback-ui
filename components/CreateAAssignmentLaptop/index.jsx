@@ -154,11 +154,7 @@ function CreateAAssignmentLaptop(props) {
                       <Help src={help1} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Frame1298>
-                    {checkboxes}
-
-                    {/* <Checkbox3 className={checkbox32Props.className} /> */}
-                  </Frame1298>
+                  <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
                 <Frame1299>
                   <Frame12811>
@@ -168,7 +164,12 @@ function CreateAAssignmentLaptop(props) {
                     </Link>
                   </Frame12811>
                   <Frame12981>
-                    <RadioBox2 />
+                    <Checkbox>
+                      <Checkbox1>
+                        <Rectangle43 id="peertopeer" type="checkbox" />
+                      </Checkbox1>
+                      <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
+                    </Checkbox>
                   </Frame12981>
                 </Frame1299>
               </Frame1295>

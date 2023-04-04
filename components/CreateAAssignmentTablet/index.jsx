@@ -15,7 +15,7 @@ import {
   IbmplexsansSemiBoldShark20px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
-  IbmplexsansNormalElectricViolet14px
+  IbmplexsansNormalElectricViolet14px,
 } from "../../styledMixins";
 import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
@@ -37,10 +37,10 @@ function CreateAAssignmentTablet(props) {
     setQuestionFrames(newQuestionFrames);
   };
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, frame12972Props, line141,deleteQuestionFrameFn),
+    createNewQuestionFrame(1, frame12972Props, line141, deleteQuestionFrameFn),
   ]);
   const [courses, setCourses] = React.useState([]);
-  
+
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
@@ -151,9 +151,12 @@ function CreateAAssignmentTablet(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Frame12981>
-                    <RadioBox2 type="checkbox"/>
-                  </Frame12981>
+                  <Checkbox>
+                    <Checkbox1>
+                      <Rectangle43 id="peertopeer" type="checkbox" />
+                    </Checkbox1>
+                    <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
+                  </Checkbox>
                 </Frame1299>
               </Frame1295>
             </Frame1294>
@@ -170,7 +173,12 @@ function CreateAAssignmentTablet(props) {
     </div>
   );
 }
-function createNewQuestionFrame(serialNumber, frame12972Props, line141,  deleteQuestionFrameFn) {
+function createNewQuestionFrame(
+  serialNumber,
+  frame12972Props,
+  line141,
+  deleteQuestionFrameFn
+) {
   return (
     <QuestionFrame>
       <Frame1295>

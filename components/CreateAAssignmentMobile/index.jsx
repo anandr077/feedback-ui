@@ -196,7 +196,12 @@ function CreateAAssignmentMobile(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <RadioBox label={radioBoxProps.label} />
+                  <Checkbox>
+                    <Checkbox1>
+                      <Rectangle43 id="peertopeer" type="checkbox" />
+                    </Checkbox1>
+                    <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
+                  </Checkbox>
                 </Frame1300>
               </Frame1295>
             </Frame1294>

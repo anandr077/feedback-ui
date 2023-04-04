@@ -4,7 +4,7 @@ import styled from "styled-components";
 function Checkbox2() {
   return (
     <Checkbox>
-      <Rectangle43></Rectangle43>
+      <Rectangle43 type="radio" />
     </Checkbox>
   );
 }
@@ -16,7 +16,7 @@ const Checkbox = styled.div`
   height: 20px;
 `;
 
-const Rectangle43 = styled.div`
+const Rectangle43 = styled.input`
   margin-top: -1px;
   width: 22px;
   height: 22px;

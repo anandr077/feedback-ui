@@ -43,7 +43,6 @@ function CreateAAssignmentLaptop(props) {
   } = props;
   const [courses, setCourses] = React.useState([]);
   const deleteQuestionFrameFn = (index) => {
-    console.log("deleteQuestionFrameFn", index);
     const newQuestionFrames = questionFrames.filter((_, i) => i !== index);
     setQuestionFrames(newQuestionFrames);
   };

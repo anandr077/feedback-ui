@@ -1,4 +1,6 @@
 import React from "react";
+import ReactQuill from "react-quill";
+
 import { Link } from "react-router-dom";
 import TeacherDashboardHeader22 from "../TeacherDashboardHeader22";
 import Breadcrumb from "../Breadcrumb";
@@ -25,9 +27,11 @@ import {
   feedbacksIbmplexsansBoldShark36px,
 } from "../../../styledMixins";
 import "./FeedbackTeacherLaptop.css";
+import ReactQuill from "react-quill";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    submission,
     physicsThermodyna,
     frame1284,
     q1PoremIpsumDolo,
@@ -55,7 +59,26 @@ function FeedbackTeacherLaptop(props) {
     commentCard34Props,
     frame1317Props,
   } = props;
+  const answerFrames = submission.answers.map(answer => {
+    // const [value, setValue] = useState(answer.answer.answer ?? "");
 
+    return <Frame1367>
+                <Frame1366>
+                  <Q1PoremIpsumDolo>{answer.serialNumber}</Q1PoremIpsumDolo>
+                  <ToremIpsumDolorSi>
+                  <ReactQuill
+                theme="snow"
+                value={answer.answer.answer}
+                //onChange={setValue}
+                className="ql-editor"
+                  readOnly={true}
+              />
+                  {/* {answer.answer.answer} */}
+                  </ToremIpsumDolorSi>
+                </Frame1366>
+                <Line26 src={line261} alt="Line 26" />
+              </Frame1367>
+  })
   return (
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
@@ -75,7 +98,7 @@ function FeedbackTeacherLaptop(props) {
         </Frame1387>
         <Frame1386>
           <Frame1371>
-            <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
+            <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
               <Link to="/students-list">
                 <Frame13161>
@@ -88,45 +111,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1371>
           <Frame1368>
             <Group1225>
-              <Frame1367>
-                <Frame1366>
-                  <Q1PoremIpsumDolo>{q1PoremIpsumDolo}</Q1PoremIpsumDolo>
-                  <ToremIpsumDolorSi>
-                    Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a,
-                    mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut
-                    interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class
-                    aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent
-                    auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac
-                    rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet
-                    lacinia. Aliquam in elementum tellus.
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curabitur tempor
-                    quis eros tempus lacinia. Nam bibendum pellentesque quam a convallis. Sed ut vulputate nisi. Integer
-                    in felis sed leo vestibulum venenatis. Suspendisse quis arcu sem. Aenean feugiat ex eu vestibulum
-                    vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh.
-                    Mauris sit amet magna non ligula vestibulum eleifend. Nulla varius volutpat turpis sed lacinia. Nam
-                    eget mi in purus lobortis eleifend. Sed nec ante dictum sem condimentum ullamcorper quis venenatis
-                    nisi. Proin vitae facilisis nisi, ac posuere leo.
-                  </ToremIpsumDolorSi>
-                  <Group1307>
-                    <OverlapGroup>
-                      <Rectangle546></Rectangle546>
-                      <Rectangle547></Rectangle547>
-                    </OverlapGroup>
-                  </Group1307>
-                  <Group1308>
-                    <OverlapGroup1>
-                      <Rectangle5461></Rectangle5461>
-                      <Rectangle5471></Rectangle5471>
-                      <Rectangle548></Rectangle548>
-                    </OverlapGroup1>
-                  </Group1308>
-                </Frame1366>
-                <Line26 src={line261} alt="Line 26" />
-                <ReviewsFrame136642 q2PoremIpsumDolo={frame136641Props.q2PoremIpsumDolo} />
-                <Line26 src={line262} alt="Line 26" />
-                <ReviewsFrame136642 q2PoremIpsumDolo={frame136642Props.q2PoremIpsumDolo} />
-              </Frame1367>
+            {answerFrames}
             </Group1225>
             <Frame1331>
               <Frame1322>

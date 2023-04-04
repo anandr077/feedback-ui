@@ -1,6 +1,8 @@
+import { useParams } from 'react-router-dom'
+
 import { default as React, default as React, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
 import AssignmentTheoryLaptop from "./components/AssignmentTheoryLaptop";
 import CreateAAssignmentLaptop from "./components/CreateAAssignmentLaptop";
 import CreateAssignment from "./components/CreateAssignment";
@@ -27,17 +29,8 @@ function App() {
   return (
     <Router>
       <Switch>
-      <Route path="/feedback-teacher-mobile">
-          <FeedbackTeacherMobile {...feedbacksFeedbackTeacherMobileData} />
-        </Route>
-        <Route path="/feedback-teacher-tablet">
-          <FeedbackTeacherTablet {...feedbacksFeedbackTeacherTabletData} />
-        </Route>
-        <Route path="/feedback-teacher-laptop">
-          <FeedbackTeacherLaptop {...feedbacksFeedbackTeacherLaptopData} />
-        </Route>
-        <Route path="/feedback-teacher-desktop">
-          <FeedbackTeacherDesktop {...feedbacksFeedbackTeacherDesktopData} />
+        <Route path="/feedbacks/:id">
+          <Feebacks />
         </Route>
         <Route path="/assignments/new">
           <CreateAssignment />
@@ -50,6 +43,40 @@ function App() {
       </Switch>
     </Router>
   );
+
+  function Feebacks() {
+
+    const [submission, setSubmission] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const { id } = useParams();
+    console.log("id is " + id)
+    useEffect(() => {
+      getSubmissionById(id).then((result) => {
+        if (result) {
+          setSubmission(result);
+          setIsLoading(false);
+        }
+      });
+    }, submission);
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+   
+    return (
+      <>
+        {isMobileView && (
+          <FeedbackTeacherMobile {...{ submission, ...feedbacksFeedbackTeacherMobileData }} />
+        )}
+        {isTabletView && (
+          <FeedbackTeacherTablet {...{ submission, ...feedbacksFeedbackTeacherTabletData }} />
+        )}
+        {isLaptopView && <FeedbackTeacherLaptop {...{ submission, ...feedbacksFeedbackTeacherLaptopData }} />}
+        {isDesktopView && (
+          <FeedbackTeacherDesktop {...{ submission, ...feedbacksFeedbackTeacherDesktopData }} />
+        )}
+      </>
+    );
+  }
 
   function tasks() {
     const [allTasks, setAllTasks] = useState([]);

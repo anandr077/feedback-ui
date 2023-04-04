@@ -81,7 +81,7 @@ function CreateAAssignmentTablet(props) {
       questions,
     };
     createAssignment(assignment).then((res) => {
-      window.location.href = "/";
+      console.log(res);
     });
   };
 

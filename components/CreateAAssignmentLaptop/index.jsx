@@ -90,7 +90,7 @@ function CreateAAssignmentLaptop(props) {
       questions,
     };
     createAssignment(assignment).then((res) => {
-      window.location.href = "/";
+    console.log(res);
     });
   };
   const checkboxes = courses.map((course) => {

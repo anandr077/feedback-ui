@@ -29,7 +29,7 @@ import {
   IbmplexsansNormalBlack16px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
-  IbmplexsansNormalElectricViolet14px
+  IbmplexsansNormalElectricViolet14px,
 } from "../../styledMixins";
 import "./CreateAAssignmentMobile.css";
 import FooterSmall from "../FooterSmall";
@@ -267,7 +267,6 @@ function createNewQuestionFrame(
     </QuestionFrame1>
   );
 }
-
 
 const DeleteButtonFrame = styled.div`
   ${IbmplexsansNormalElectricViolet14px}

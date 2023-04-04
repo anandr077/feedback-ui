@@ -4,7 +4,7 @@ import styled from "styled-components";
 function RichTextComponents2() {
   return (
     <RichTextComponents>
-      <Assignment src="/img/assignment-4@2x.png" alt="Assignment" />
+      {/* <Assignment src="/img/assignment-4@2x.png" alt="Assignment" /> */}
       <Theory>Theory</Theory>
     </RichTextComponents>
   );

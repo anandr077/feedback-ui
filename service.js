@@ -45,8 +45,8 @@ export const getSubmissionById = async (submissionId) => {
     });
 };
 
-export const getCourses = async () => {
-  return await fetch(baseUrl + "/courses", {
+export const getClasses = async () => {
+  return await fetch(baseUrl + "/classes", {
     method: "GET",
     withCredentials: true,
     credentials: "include",

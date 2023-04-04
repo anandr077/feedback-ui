@@ -14,6 +14,7 @@ import TasksStudentMobile from "./components/TasksStudentMobile";
 import TasksStudentTablet from "./components/TasksStudentTablet";
 import { getSubmissionById, getTasks } from "./service.js";
 import AssignmentTheory from "./components/AssignmentTheory";
+import FeedbackTeacherLaptopRootRootRoot1 from "./components/FeedbackTeacherLaptopRootRootRoot1";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -30,6 +31,7 @@ function App() {
         <Route path="/submissions">
           <AssignmentTheory />
         </Route>
+        <Route path="/feedback"><FeedbackTeacherLaptopRootRootRoot1></FeedbackTeacherLaptopRootRootRoot1></Route>
         <Route path="/">{dashboard()}</Route>
       </Switch>
     </Router>

@@ -12,7 +12,7 @@ function CardContent(props) {
     <Content>
       <TaskTitle>{task.assignmentTitle}</TaskTitle>
       <FundamentalsOfThermalPhysics>
-        {task.courseTitle}
+        {task.classTitle}
       </FundamentalsOfThermalPhysics>
       <Frame1282>
         <IconClock src="/img/clock@2x.png" alt="icon-clock" />

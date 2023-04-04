@@ -11,11 +11,6 @@ function Frame12973(props) {
   const [show, setShow] = React.useState(false);
   const dropdown = () => {
     setShow(!show);
-    // if (type === "theory") {
-    //   setType("assignment");
-    // } else {
-    //   setType("theory");
-    // }
   };
   const setTypeTheory = () => {
     setType("theory");

@@ -126,7 +126,7 @@ const Frame1287 = styled.div`
 const Frame1283 = styled.div`
   display: flex;
   align-items: center;
-  gap: 40px;
+
   position: relative;
   align-self: stretch;
 `;
@@ -166,6 +166,7 @@ const Frame1284 = styled.img`
   position: relative;
   min-width: 28px;
   height: 28px;
+  cursor: pointer;
 `;
 
 export default Frame12973;

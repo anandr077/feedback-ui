@@ -25,7 +25,7 @@ function Frame12973(props) {
           </Frame1282>
           <Frame1284 src={frame1284} alt="Frame 1284" />
         </Frame1283>
-        {/* <Frame12803 className={frame12803Props.className} /> */}
+        {/* <Frame12803  /> */}
       </Frame1287>
     </Frame1297>
   );

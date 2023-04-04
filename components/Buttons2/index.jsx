@@ -4,7 +4,6 @@ import { IbmplexsansMediumWhite16px } from "../../styledMixins";
 
 function Buttons2(props) {
   const { type, add, label, onClickFn } = props;
-  console.log("add " + add);
   return (
     <>
       {type === "previous" ? (

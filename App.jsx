@@ -14,6 +14,10 @@ import TasksStudentMobile from "./components/TasksStudentMobile";
 import TasksStudentTablet from "./components/TasksStudentTablet";
 import { getSubmissionById, getTasks } from "./service.js";
 import AssignmentTheory from "./components/AssignmentTheory";
+import FeedbackTeacherMobile from "./components/FeedbacksComponents/FeedbackTeacherMobile";
+import FeedbackTeacherTablet from "./components/FeedbacksComponents/FeedbackTeacherTablet";
+import FeedbackTeacherLaptop from "./components/FeedbacksComponents/FeedbackTeacherLaptop";
+import FeedbackTeacherDesktop from "./components/FeedbacksComponents/FeedbackTeacherDesktop";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -23,6 +27,18 @@ function App() {
   return (
     <Router>
       <Switch>
+      <Route path="/feedback-teacher-mobile">
+          <FeedbackTeacherMobile {...feedbacksFeedbackTeacherMobileData} />
+        </Route>
+        <Route path="/feedback-teacher-tablet">
+          <FeedbackTeacherTablet {...feedbacksFeedbackTeacherTabletData} />
+        </Route>
+        <Route path="/feedback-teacher-laptop">
+          <FeedbackTeacherLaptop {...feedbacksFeedbackTeacherLaptopData} />
+        </Route>
+        <Route path="/feedback-teacher-desktop">
+          <FeedbackTeacherDesktop {...feedbacksFeedbackTeacherDesktopData} />
+        </Route>
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>
@@ -2167,3 +2183,760 @@ const frame129735Data = {
 const questionFrame43Data = {
   frame12973Props: frame129735Data,
 };
+
+
+const feedbacksBreadcrumb21Data = {
+  assignments: "Feedback",
+};
+
+const feedbacksBreadcrumb22Data = {
+  assignments: "Physics - thermodynami...",
+};
+
+const feedbacksButtons1Data = {
+  arrowleft: "/img/arrowleft-2@2x.png",
+};
+
+const feedbacksButtons21Data = {
+  button: "Submit & Next",
+  arrowright: "/img/arrowright-2@2x.png",
+  className: "",
+};
+
+const feedbacksFrame1317221Data = {
+  buttonsProps: feedbacksButtons1Data,
+  buttons2Props: feedbacksButtons21Data,
+};
+
+const feedbacksFrame1366221Data = {
+  q2PoremIpsumDolo: "Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame1366222Data = {
+  q2PoremIpsumDolo: "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksButtons3Data = {
+  arrowleft: "/img/arrowleft-3@2x.png",
+};
+
+const feedbacksButtons22Data = {
+  button: "Next",
+  arrowright: "/img/arrowright-3@2x.png",
+};
+
+const feedbacksFrame13171Data = {
+  buttonsProps: feedbacksButtons3Data,
+  buttons2Props: feedbacksButtons22Data,
+};
+
+const feedbacksFeedbackTeacherMobileData = {
+  frame1349: "/img/frame-1349@2x.png",
+  frame5: "/img/frame-5@2x.png",
+  physicsThermodyna: "Physics - thermodynamics assignment questions",
+  frame12841: "/img/frame-1284@2x.png",
+  q1PoremIpsumDolo: "Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?",
+  line261: "/img/line-26-2@2x.png",
+  line262: "/img/line-26-2@2x.png",
+  frame12842: "/img/frame-1284@2x.png",
+  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
+  mainWebsite: "Main Website",
+  terms: "Terms",
+  privacy: "Privacy",
+  breadcrumb21Props: feedbacksBreadcrumb21Data,
+  breadcrumb22Props: feedbacksBreadcrumb22Data,
+  frame13172Props: feedbacksFrame1317221Data,
+  frame136621Props: feedbacksFrame1366221Data,
+  frame136622Props: feedbacksFrame1366222Data,
+  frame1317Props: feedbacksFrame13171Data,
+};
+
+const feedbacksFrame13311Data = {
+  iconsaxLinearMagicpen: "/img/iconsax-linear-magicpen@2x.png",
+  shortcuts: "Shortcuts",
+};
+
+const feedbacksButtons421Data = {
+  children: "More shortcuts",
+};
+
+const feedbacksFrame13312Data = {
+  iconsaxLinearMagicpen: "/img/iconsax-linear-share@2x.png",
+  shortcuts: "Share",
+};
+
+const feedbacksShortcutsData = {
+  search: "Search",
+  searchnormal1: "/img/searchnormal1@2x.png",
+  useMoreTechniques: "Use More Techniques",
+  shortenQuotes: "Shorten quotes",
+  thisIsTooLong: "This is too long",
+  greatAnswer: "Great answer!",
+  line26: "/img/line-26-4@2x.png",
+  frame13311Props: feedbacksFrame13311Data,
+  buttons4Props: feedbacksButtons421Data,
+  frame13312Props: feedbacksFrame13312Data,
+};
+
+const feedbacksBreadcrumb23Data = {
+  assignments: "Feedback",
+};
+
+const feedbacksBreadcrumb24Data = {
+  assignments: "Physics - thermodynamics assignment questions",
+};
+
+const feedbacksButtons5Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons23Data = {
+  button: "Submit & Next",
+  arrowright: "/img/arrowright@2x.png",
+  className: "buttons-3",
+};
+
+const feedbacksFrame1317222Data = {
+  buttonsProps: feedbacksButtons5Data,
+  buttons2Props: feedbacksButtons23Data,
+};
+
+const feedbacksFrame1366321Data = {
+  q2PoremIpsumDolo: "Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame1366322Data = {
+  q2PoremIpsumDolo: "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame13201Data = {
+  children: "Feedback",
+};
+
+const feedbacksFrame13202Data = {
+  children: "Shortcuts",
+  className: "frame-1321",
+};
+
+const feedbacksCommentCard221Data = {
+  horemIpsumDolorSi: "Use More Techniques",
+};
+
+const feedbacksCommentCard222Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+};
+
+const feedbacksCommentCard223Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+  className: "comment-card-2",
+};
+
+const feedbacksCommentCard224Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+  className: "comment-card-3",
+};
+
+const feedbacksButtons6Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons24Data = {
+  button: "Submit & Next",
+  arrowright: "/img/arrowright@2x.png",
+  className: "",
+};
+
+const feedbacksFrame1317223Data = {
+  buttonsProps: feedbacksButtons6Data,
+  buttons2Props: feedbacksButtons24Data,
+};
+
+const feedbacksFeedbackTeacherTabletData = {
+  frame1349: "/img/frame-1349-1.png",
+  frame5: "/img/frame-5@2x.png",
+  physicsThermodyna: "Physics - thermodynamics assignment questions",
+  frame1284: "/img/frame-1284@2x.png",
+  q1PoremIpsumDolo: "Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?",
+  line261: "/img/line-26-5.png",
+  line262: "/img/line-26-5.png",
+  typeHere: "Type here....",
+  iconsaxLinearMicrophone2: "/img/iconsax-linear-microphone2-1@2x.png",
+  line263: "/img/line-26-7@2x.png",
+  iconsaxLinearShare: "/img/iconsax-linear-share@2x.png",
+  share: "Share",
+  line27: "/img/line-26-7@2x.png",
+  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
+  mainWebsite: "Main Website",
+  terms: "Terms",
+  privacy: "Privacy",
+  breadcrumb21Props: feedbacksBreadcrumb23Data,
+  breadcrumb22Props: feedbacksBreadcrumb24Data,
+  frame131721Props: feedbacksFrame1317222Data,
+  frame136631Props: feedbacksFrame1366321Data,
+  frame136632Props: feedbacksFrame1366322Data,
+  frame13201Props: feedbacksFrame13201Data,
+  frame13202Props: feedbacksFrame13202Data,
+  commentCard21Props: feedbacksCommentCard221Data,
+  commentCard22Props: feedbacksCommentCard222Data,
+  commentCard23Props: feedbacksCommentCard223Data,
+  commentCard24Props: feedbacksCommentCard224Data,
+  frame131722Props: feedbacksFrame1317223Data,
+};
+
+const feedbacksNavElement1Data = {
+  home3: "/img/home3-1@2x.png",
+  place: "Home",
+};
+
+const feedbacksNavElement2Data = {
+  home3: "/img/assignment@2x.png",
+  place: "Assignments",
+  className: "nav-element-1",
+};
+
+const feedbacksNavElement3Data = {
+  home3: "/img/subject-1@2x.png",
+  place: "Classes",
+  className: "nav-element-2",
+};
+
+const feedbacksFrame41Data = {
+  maskGroup: "/img/mask-group-1@2x.png",
+};
+
+const feedbacksTeacherDashboardHeader22Data = {
+  logo: "/img/logo-1@2x.png",
+  navElement1Props: feedbacksNavElement1Data,
+  navElement2Props: feedbacksNavElement2Data,
+  navElement3Props: feedbacksNavElement3Data,
+  frame4Props: feedbacksFrame41Data,
+};
+
+const feedbacksBreadcrumb25Data = {
+  assignments: "Feedback",
+};
+
+const feedbacksBreadcrumb26Data = {
+  assignments: "Physics - thermodynamics assignment questions",
+};
+
+const feedbacksButtons7Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons25Data = {
+  button: "Submit & Next",
+  arrowright: "/img/arrowright@2x.png",
+  className: "buttons-4",
+};
+
+const feedbacksFrame1317224Data = {
+  buttonsProps: feedbacksButtons7Data,
+  buttons2Props: feedbacksButtons25Data,
+};
+
+const feedbacksFrame1366421Data = {
+  q2PoremIpsumDolo: "Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame1366422Data = {
+  q2PoremIpsumDolo: "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame13203Data = {
+  children: "Feedback",
+};
+
+const feedbacksFrame13204Data = {
+  children: "Shortcuts",
+  className: "frame-1321-1",
+};
+
+const feedbacksFrame13332Data = {
+  className: "frame-1333-2",
+};
+
+const feedbacksCommentCard321Data = {
+  horemIpsumDolorSi: "Use More Techniques",
+};
+
+const feedbacksCommentCard322Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+};
+
+const feedbacksCommentCard323Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+  className: "comment-card-5",
+};
+
+const feedbacksCommentCard324Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+  className: "comment-card-6",
+};
+
+const feedbacksButtons8Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons26Data = {
+  button: "Next",
+  arrowright: "/img/arrowright@2x.png",
+};
+
+const feedbacksFrame13172Data = {
+  buttonsProps: feedbacksButtons8Data,
+  buttons2Props: feedbacksButtons26Data,
+};
+
+const feedbacksFeedbackTeacherLaptopData = {
+  physicsThermodyna: "Physics - thermodynamics assignment questions",
+  frame1284: "/img/frame-1284@2x.png",
+  q1PoremIpsumDolo: "Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?",
+  line261: "/img/line-26-8.png",
+  line262: "/img/line-26-8.png",
+  typeHere: "Type here....",
+  iconsaxLinearMicrophone2: "/img/iconsax-linear-microphone2-1@2x.png",
+  line263: "/img/line-26-10@2x.png",
+  iconsaxLinearShare: "/img/iconsax-linear-share@2x.png",
+  share: "Share",
+  line27: "/img/line-26-10@2x.png",
+  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  teacherDashboardHeader2Props: feedbacksTeacherDashboardHeader22Data,
+  breadcrumb21Props: feedbacksBreadcrumb25Data,
+  breadcrumb22Props: feedbacksBreadcrumb26Data,
+  frame13172Props: feedbacksFrame1317224Data,
+  frame136641Props: feedbacksFrame1366421Data,
+  frame136642Props: feedbacksFrame1366422Data,
+  frame13201Props: feedbacksFrame13203Data,
+  frame13202Props: feedbacksFrame13204Data,
+  frame1333Props: feedbacksFrame13332Data,
+  commentCard31Props: feedbacksCommentCard321Data,
+  commentCard32Props: feedbacksCommentCard322Data,
+  commentCard33Props: feedbacksCommentCard323Data,
+  commentCard34Props: feedbacksCommentCard324Data,
+  frame1317Props: feedbacksFrame13172Data,
+};
+
+const feedbacksNavElement4Data = {
+  home3: "/img/home3@2x.png",
+  place: "Home",
+};
+
+const feedbacksNavElement5Data = {
+  home3: "/img/assignment@2x.png",
+  place: "Assignments",
+  className: "nav-element-4",
+};
+
+const feedbacksNavElement6Data = {
+  home3: "/img/subject-1@2x.png",
+  place: "Classes",
+  className: "nav-element-5",
+};
+
+const feedbacksFrame51Data = {
+  navElement1Props: feedbacksNavElement4Data,
+  navElement2Props: feedbacksNavElement5Data,
+  navElement3Props: feedbacksNavElement6Data,
+};
+
+const feedbacksFrame42Data = {
+  maskGroup: "/img/mask-group-1@2x.png",
+  className: "",
+};
+
+const feedbacksTeacherDashboardHeader21Data = {
+  logo: "/img/logo-2@2x.png",
+  frame5Props: feedbacksFrame51Data,
+  frame4Props: feedbacksFrame42Data,
+};
+
+const feedbacksBreadcrumb27Data = {
+  assignments: "Feedback",
+};
+
+const feedbacksBreadcrumb28Data = {
+  assignments: "Physics - thermodynamics assignment questions",
+};
+
+const feedbacksButtons9Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons27Data = {
+  button: "Submit & Next",
+  arrowright: "/img/arrowright@2x.png",
+  className: "buttons-5",
+};
+
+const feedbacksFrame1317225Data = {
+  buttonsProps: feedbacksButtons9Data,
+  buttons2Props: feedbacksButtons27Data,
+};
+
+const feedbacksFrame1366521Data = {
+  q2PoremIpsumDolo: "Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame1366522Data = {
+  q2PoremIpsumDolo: "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame13205Data = {
+  children: "Feedback",
+  className: "",
+};
+
+const feedbacksFrame13206Data = {
+  children: "Shortcuts",
+  className: "frame-1321-2",
+};
+
+const feedbacksFrame13221Data = {
+  frame13201Props: feedbacksFrame13205Data,
+  frame13202Props: feedbacksFrame13206Data,
+};
+
+const feedbacksFrame13251Data = {
+  ellipse7: "/img/ellipse-7-12@2x.png",
+  more: "/img/more-12@2x.png",
+};
+
+const feedbacksCommentCard31Data = {
+  horemIpsumDolorSi: "Use More Techniques",
+  frame1325Props: feedbacksFrame13251Data,
+};
+
+const feedbacksFrame13252Data = {
+  ellipse7: "/img/ellipse-7-12@2x.png",
+  more: "/img/more-12@2x.png",
+};
+
+const feedbacksCommentCard33Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+  frame1325Props: feedbacksFrame13252Data,
+};
+
+const feedbacksFrame13253Data = {
+  ellipse7: "/img/ellipse-7-12@2x.png",
+  more: "/img/more-12@2x.png",
+};
+
+const feedbacksCommentCard34Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+  className: "comment-card-8",
+  frame1325Props: feedbacksFrame13253Data,
+};
+
+const feedbacksFrame13254Data = {
+  ellipse7: "/img/ellipse-7-12@2x.png",
+  more: "/img/more-12@2x.png",
+};
+
+const feedbacksCommentCard35Data = {
+  horemIpsumDolorSi: "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+  className: "comment-card-9",
+  frame1325Props: feedbacksFrame13254Data,
+};
+
+const feedbacksButtons10Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons28Data = {
+  button: "Next",
+  arrowright: "/img/arrowright@2x.png",
+};
+
+const feedbacksFrame13173Data = {
+  buttonsProps: feedbacksButtons10Data,
+  buttons2Props: feedbacksButtons28Data,
+};
+
+const feedbacksFeedbackTeacherDesktopData = {
+  physicsThermodyna: "Physics - thermodynamics assignment questions",
+  frame1284: "/img/frame-1284@2x.png",
+  q1PoremIpsumDolo: "Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?",
+  line261: "/img/line-26-11.png",
+  line262: "/img/line-26-11.png",
+  typeHere: "Type here....",
+  iconsaxLinearMicrophone2: "/img/iconsax-linear-microphone2-3@2x.png",
+  line263: "/img/line-26-13@2x.png",
+  iconsaxLinearShare: "/img/iconsax-linear-share-3@2x.png",
+  share: "Share",
+  line27: "/img/line-26-13@2x.png",
+  teacherDashboardHeaderProps: feedbacksTeacherDashboardHeader21Data,
+  breadcrumb21Props: feedbacksBreadcrumb27Data,
+  breadcrumb22Props: feedbacksBreadcrumb28Data,
+  frame13172Props: feedbacksFrame1317225Data,
+  frame136651Props: feedbacksFrame1366521Data,
+  frame136652Props: feedbacksFrame1366522Data,
+  frame1322Props: feedbacksFrame13221Data,
+  commentCard1Props: feedbacksCommentCard31Data,
+  commentCard2Props: feedbacksCommentCard33Data,
+  commentCard3Props: feedbacksCommentCard34Data,
+  commentCard4Props: feedbacksCommentCard35Data,
+  frame1317Props: feedbacksFrame13173Data,
+};
+
+const feedbacksStudentsList21Data = {
+  ellipse10: "/img/ellipse-10@2x.png",
+  name: "Floyd Miles",
+};
+
+const feedbacksStudentsList22Data = {
+  ellipse10: "/img/ellipse-10-11@2x.png",
+  name: "Darrell Steward",
+};
+
+const feedbacksStudentsList23Data = {
+  ellipse10: "/img/ellipse-10-12@2x.png",
+  name: "Guy Hawkins",
+};
+
+const feedbacksStudentsList24Data = {
+  ellipse10: "/img/ellipse-10-13@2x.png",
+  name: "Robert Fox",
+};
+
+const feedbacksStudentsList25Data = {
+  ellipse10: "/img/ellipse-10-14@2x.png",
+  name: "Arlene McCoy",
+};
+
+const feedbacksStudentsList26Data = {
+  ellipse10: "/img/ellipse-10-15@2x.png",
+  name: "Leslie Alexander",
+};
+
+const feedbacksStudentsList27Data = {
+  ellipse10: "/img/ellipse-10-16@2x.png",
+  name: "Cody Fisher",
+};
+
+const feedbacksStudentsList28Data = {
+  ellipse10: "/img/ellipse-10-16@2x.png",
+  name: "Cameron Williamson",
+};
+
+const feedbacksStudentsList29Data = {
+  ellipse10: "/img/ellipse-10-14@2x.png",
+  name: "Jacob Jones",
+};
+
+const feedbacksStudentsList210Data = {
+  ellipse10: "/img/ellipse-10-11@2x.png",
+  name: "Ronald Richards",
+};
+
+const feedbacksStudentsList211Data = {
+  ellipse10: "/img/ellipse-10-15@2x.png",
+  name: "Courtney Henry",
+};
+
+const feedbacksStudentsList212Data = {
+  ellipse10: "/img/ellipse-10-12@2x.png",
+  name: "Devon Lane",
+};
+
+const feedbacksStudentsList213Data = {
+  ellipse10: "/img/ellipse-10-13@2x.png",
+  name: "Theresa Webb",
+};
+
+const feedbacksStudentsList214Data = {
+  ellipse10: "/img/ellipse-10-16@2x.png",
+  name: "Wade Warren",
+};
+
+const feedbacksStudentsList215Data = {
+  ellipse10: "/img/ellipse-10-14@2x.png",
+  name: "Kathryn Murphy",
+};
+
+const feedbacksStudentsListData = {
+  search: "Search",
+  searchnormal1: "/img/searchnormal1@2x.png",
+  line28: "/img/line-28@2x.png",
+  studentsList21Props: feedbacksStudentsList21Data,
+  studentsList22Props: feedbacksStudentsList22Data,
+  studentsList23Props: feedbacksStudentsList23Data,
+  studentsList24Props: feedbacksStudentsList24Data,
+  studentsList25Props: feedbacksStudentsList25Data,
+  studentsList26Props: feedbacksStudentsList26Data,
+  studentsList27Props: feedbacksStudentsList27Data,
+  studentsList28Props: feedbacksStudentsList28Data,
+  studentsList29Props: feedbacksStudentsList29Data,
+  studentsList210Props: feedbacksStudentsList210Data,
+  studentsList211Props: feedbacksStudentsList211Data,
+  studentsList212Props: feedbacksStudentsList212Data,
+  studentsList213Props: feedbacksStudentsList213Data,
+  studentsList214Props: feedbacksStudentsList214Data,
+  studentsList215Props: feedbacksStudentsList215Data,
+};
+
+const feedbacksNavElement7Data = {
+  home3: "/img/home3-1@2x.png",
+  place: "Home",
+};
+
+const feedbacksNavElement8Data = {
+  home3: "/img/assignment@2x.png",
+  place: "Assignments",
+  className: "nav-element-6",
+};
+
+const feedbacksNavElement9Data = {
+  home3: "/img/subject@2x.png",
+  place: "Classes",
+  className: "nav-element-7",
+};
+
+const feedbacksFrame52Data = {
+  navElement1Props: feedbacksNavElement7Data,
+  navElement2Props: feedbacksNavElement8Data,
+  navElement3Props: feedbacksNavElement9Data,
+};
+
+const feedbacksFrame43Data = {
+  maskGroup: "/img/mask-group@2x.png",
+  className: "frame-4-2",
+};
+
+const feedbacksTeacherDashboardHeader23Data = {
+  logo: "/img/logo-3@2x.png",
+  className: "teacher-dashboard-header-2",
+  frame5Props: feedbacksFrame52Data,
+  frame4Props: feedbacksFrame43Data,
+};
+
+const feedbacksBreadcrumb29Data = {
+  assignments: "Feedback",
+};
+
+const feedbacksBreadcrumb210Data = {
+  assignments: "Physics - thermodynamics assignment questions",
+};
+
+const feedbacksFrame1315Data = {
+  breadcrumb21Props: feedbacksBreadcrumb29Data,
+  breadcrumb22Props: feedbacksBreadcrumb210Data,
+};
+
+const feedbacksButtons11Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons29Data = {
+  button: "Next",
+  arrowright: "/img/arrowright@2x.png",
+};
+
+const feedbacksFrame13174Data = {
+  buttonsProps: feedbacksButtons11Data,
+  buttons2Props: feedbacksButtons29Data,
+};
+
+const feedbacksSidebarNav22Data = {
+  className: "sidebar-nav-2",
+};
+
+const feedbacksSidebarNav23Data = {
+  className: "sidebar-nav-3",
+};
+
+const feedbacksSidebarNav24Data = {
+  className: "sidebar-nav-4",
+};
+
+const feedbacksFrame13661Data = {
+  q2PoremIpsumDolo: "Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame13662Data = {
+  q2PoremIpsumDolo: "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+};
+
+const feedbacksFrame13207Data = {
+  children: "Feedback",
+  className: "frame-1320-2",
+};
+
+const feedbacksFrame13208Data = {
+  children: "Shortcuts",
+  className: "",
+};
+
+const feedbacksFrame13222Data = {
+  frame13201Props: feedbacksFrame13207Data,
+  frame13202Props: feedbacksFrame13208Data,
+};
+
+const feedbacksButtons422Data = {
+  children: "Create shortcut",
+  className: "buttons-7",
+};
+
+const feedbacksFrame129732Data = {
+  children: "Use More Techniques",
+};
+
+const feedbacksFrame129733Data = {
+  children: "Shorten quotes",
+};
+
+const feedbacksFrame129734Data = {
+  children: "This is too long",
+};
+
+const feedbacksFrame129735Data = {
+  children: "Great answer!",
+};
+
+const feedbacksButtons12Data = {
+  arrowleft: "/img/arrowleft@2x.png",
+};
+
+const feedbacksButtons210Data = {
+  button: "Next",
+  arrowright: "/img/arrowright@2x.png",
+};
+
+const feedbacksFrame13175Data = {
+  buttonsProps: feedbacksButtons12Data,
+  buttons2Props: feedbacksButtons210Data,
+};
+
+const feedbacksFrame1370Data = {
+  frame1317Props: feedbacksFrame13175Data,
+};
+
+const feedbacksFrame62Data = {
+  className: "frame-6-5",
+};
+
+const feedbacksFeedbackWireframeTeacher2Data = {
+  physicsThermodyna: "Physics - thermodynamics assignment questions",
+  frame1284: "/img/frame-1284@2x.png",
+  q1PoremIpsumDolo: "Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?",
+  line261: "/img/line-26.png",
+  line262: "/img/line-26.png",
+  enterNewShortcut: "Enter new shortcut",
+  teacherDashboardHeaderProps: feedbacksTeacherDashboardHeader23Data,
+  frame1315Props: feedbacksFrame1315Data,
+  frame1317Props: feedbacksFrame13174Data,
+  sidebarNav22Props: feedbacksSidebarNav22Data,
+  sidebarNav23Props: feedbacksSidebarNav23Data,
+  sidebarNav24Props: feedbacksSidebarNav24Data,
+  frame13661Props: feedbacksFrame13661Data,
+  frame13662Props: feedbacksFrame13662Data,
+  frame1322Props: feedbacksFrame13222Data,
+  buttons4Props: feedbacksButtons422Data,
+  frame129731Props: feedbacksFrame129732Data,
+  frame129732Props: feedbacksFrame129733Data,
+  frame129733Props: feedbacksFrame129734Data,
+  frame129734Props: feedbacksFrame129735Data,
+  frame1370Props: feedbacksFrame1370Data,
+  frame13662Props2: feedbacksFrame62Data,
+};
+

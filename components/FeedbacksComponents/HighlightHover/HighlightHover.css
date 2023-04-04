@@ -1,0 +1,13 @@
+.highlight-hover {
+  align-items: flex-start;
+  border: 1px none;
+  display: flex;
+  min-width: 739px;
+}
+
+#overlay-highlight-hover {
+  align-items: center;
+  background-color: #ffffff00;
+  justify-content: center;
+}
+

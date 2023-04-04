@@ -207,7 +207,6 @@ function createNewQuestionFrame(
           number={serialNumber}
           frame1284={frame12973Props.frame1284}
           richTextComponentsProps={frame12973Props.richTextComponentsProps}
-          sectiontitle="Section 1"
         />
         <DeleteButtonFrame>
           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { IbmplexsansNormalShark20px } from "../../styledMixins";
 
 function Frame12973(props) {
-  const { number, frame1284, richTextComponentsProps, sectiontitle } = props;
+  const { number, frame1284, richTextComponentsProps } = props;
 
   return (
     <Frame1297>
@@ -17,9 +17,8 @@ function Frame12973(props) {
       <Frame1287>
         <Frame1283>
           <Frame1282>
-            <Text9>{number}</Text9>
             <Frame1281>
-              <QuestionSection>{sectiontitle}</QuestionSection>
+              <QuestionSection>Section {number}</QuestionSection>
               <RichTextComponents2 />
             </Frame1281>
           </Frame1282>

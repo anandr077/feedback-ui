@@ -43,7 +43,7 @@ function CreateAAssignmentLaptop(props) {
   } = props;
   const [courses, setCourses] = React.useState([]);
   const deleteQuestionFrameFn = (index) => {
-    const newQuestionFrames = questionFrames.filter((_, i) => i !== index);
+    const newQuestionFrames = questionFrames.filter((_, i) => i !== 2);
     setQuestionFrames(newQuestionFrames);
   };
 
@@ -90,7 +90,7 @@ function CreateAAssignmentLaptop(props) {
       questions,
     };
     createAssignment(assignment).then((res) => {
-      console.log(res);
+      window.location.href = "/";
     });
   };
   const checkboxes = courses.map((course) => {

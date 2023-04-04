@@ -29,6 +29,7 @@ import {
   IbmplexsansNormalBlack16px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
+  IbmplexsansNormalElectricViolet14px,
 } from "../../styledMixins";
 import "./CreateAAssignmentMobile.css";
 import FooterSmall from "../FooterSmall";
@@ -81,15 +82,20 @@ function CreateAAssignmentMobile(props) {
     goBackProps,
   } = props;
 
+  const deleteQuestionFrameFn = (index) => {
+    const newQuestionFrames = questionFrames.filter((_, i) => i !== index);
+    setQuestionFrames(newQuestionFrames);
+  };
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, frame1297Props, line141),
+    createNewQuestionFrame(1, frame1297Props, line141, deleteQuestionFrameFn),
   ]);
   const [courses, setCourses] = React.useState([]);
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
       frame1297Props,
-      line141
+      line141,
+      deleteQuestionFrameFn
     );
     setQuestionFrames([...questionFrames, newQuestionFrame]);
   };
@@ -124,7 +130,7 @@ function CreateAAssignmentMobile(props) {
       questions,
     };
     createAssignment(assignment).then((res) => {
-      window.location.href = "/";
+      console.log(res);
     });
   };
 
@@ -166,10 +172,6 @@ function CreateAAssignmentMobile(props) {
             <Frame1294>
               <Frame1293>
                 <Questions>Questions</Questions>
-                <Buttons2
-                  add={buttons21Props.add}
-                  onClickFn={addQuestionFrameFn}
-                />
               </Frame1293>
               <Frame1295>{questionFrames}</Frame1295>
               <Frame1296>
@@ -200,7 +202,12 @@ function CreateAAssignmentMobile(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <RadioBox label={radioBoxProps.label} />
+                  <Checkbox>
+                    <Checkbox1>
+                      <Rectangle43 id="peertopeer" type="checkbox" />
+                    </Checkbox1>
+                    <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
+                  </Checkbox>
                 </Frame1300>
               </Frame1295>
             </Frame1294>
@@ -220,7 +227,7 @@ function createNewQuestionFrame(
   serialNumber,
   frame1297Props,
   line141,
-  frame1291Props
+  deleteQuestionFrameFn
 ) {
   return (
     <QuestionFrame1>
@@ -229,6 +236,11 @@ function createNewQuestionFrame(
           number={serialNumber}
           richTextComponentsProps={frame1297Props.richTextComponentsProps}
         />
+        <DeleteButtonFrame>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+            Delete
+          </DeleteButton>
+        </DeleteButtonFrame>
         <Line14 src={line141} alt="Line 14" />
       </Frame1295>
       <Frame1289>
@@ -256,6 +268,30 @@ function createNewQuestionFrame(
   );
 }
 
+const DeleteButtonFrame = styled.div`
+  ${IbmplexsansNormalElectricViolet14px}
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  align-self: stretch;
+  left: 60px;
+  &.frame-1280-5.frame-1280-6 {
+    opacity: 0;
+  }
+
+  &.frame-1280-5.frame-1280-7 {
+    opacity: 0;
+  }
+`;
+
+const DeleteButton = styled.div`
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 const InputQuestion = styled.div`
   ${IbmplexsansNormalShark20px}
   display: flex;
@@ -347,7 +383,7 @@ const Buttons1 = styled.div`
   gap: 8px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--light-mode-purple);
+  background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
   &:hover {

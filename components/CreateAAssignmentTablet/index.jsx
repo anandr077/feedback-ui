@@ -15,6 +15,7 @@ import {
   IbmplexsansSemiBoldShark20px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
+  IbmplexsansNormalElectricViolet14px,
 } from "../../styledMixins";
 import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
@@ -31,16 +32,21 @@ function CreateAAssignmentTablet(props) {
     frame12972Props,
     goBack22Props,
   } = props;
-
+  const deleteQuestionFrameFn = (index) => {
+    const newQuestionFrames = questionFrames.filter((_, i) => i !== index);
+    setQuestionFrames(newQuestionFrames);
+  };
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, frame12972Props, line141),
+    createNewQuestionFrame(1, frame12972Props, line141, deleteQuestionFrameFn),
   ]);
   const [courses, setCourses] = React.useState([]);
+
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
       frame12972Props,
-      line141
+      line141,
+      deleteQuestionFrameFn
     );
     setQuestionFrames([...questionFrames, newQuestionFrame]);
   };
@@ -75,7 +81,7 @@ function CreateAAssignmentTablet(props) {
       questions,
     };
     createAssignment(assignment).then((res) => {
-      window.location.href = "/";
+      console.log(res);
     });
   };
 
@@ -117,10 +123,6 @@ function CreateAAssignmentTablet(props) {
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
-                <Buttons2
-                  add={buttons21Props.add}
-                  onClickFn={addQuestionFrameFn}
-                />
               </Frame1372>
               <Frame1295>{questionFrames}</Frame1295>
               <Buttons2
@@ -149,9 +151,12 @@ function CreateAAssignmentTablet(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Frame12981>
-                    <RadioBox2 />
-                  </Frame12981>
+                  <Checkbox>
+                    <Checkbox1>
+                      <Rectangle43 id="peertopeer" type="checkbox" />
+                    </Checkbox1>
+                    <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
+                  </Checkbox>
                 </Frame1299>
               </Frame1295>
             </Frame1294>
@@ -168,7 +173,12 @@ function CreateAAssignmentTablet(props) {
     </div>
   );
 }
-function createNewQuestionFrame(serialNumber, frame12972Props, line141) {
+function createNewQuestionFrame(
+  serialNumber,
+  frame12972Props,
+  line141,
+  deleteQuestionFrameFn
+) {
   return (
     <QuestionFrame>
       <Frame1295>
@@ -176,6 +186,11 @@ function createNewQuestionFrame(serialNumber, frame12972Props, line141) {
           number={serialNumber}
           frame1284={frame12972Props.frame1284}
         />
+        <DeleteButtonFrame>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+            Delete
+          </DeleteButton>
+        </DeleteButtonFrame>
         <Line14 src={line141} alt="Line 14" />
       </Frame1295>
 
@@ -214,6 +229,31 @@ function createNewQuestionFrame(serialNumber, frame12972Props, line141) {
     </QuestionFrame>
   );
 }
+
+const DeleteButtonFrame = styled.div`
+  ${IbmplexsansNormalElectricViolet14px}
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  align-self: stretch;
+  left: 60px;
+  &.frame-1280-5.frame-1280-6 {
+    opacity: 0;
+  }
+
+  &.frame-1280-5.frame-1280-7 {
+    opacity: 0;
+  }
+`;
+
+const DeleteButton = styled.div`
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 
 const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}
@@ -332,7 +372,7 @@ const Buttons1 = styled.div`
   gap: 8px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--light-mode-purple);
+  background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
   &:hover {

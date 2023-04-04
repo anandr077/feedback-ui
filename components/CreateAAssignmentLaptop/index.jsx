@@ -11,6 +11,7 @@ import {
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
   IbmplexsansSemiBoldShark24px,
+  IbmplexsansNormalElectricViolet14px,
 } from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
@@ -19,6 +20,7 @@ import Frame1291 from "../Frame1291";
 import Frame12973 from "../Frame12973";
 import GoBack2 from "../GoBack2";
 import RadioBox2 from "../RadioBox2";
+import Frame12803 from "../Frame12803";
 
 import { createAssignment, getCourses } from "../../service";
 import Footer from "../Footer";
@@ -40,14 +42,20 @@ function CreateAAssignmentLaptop(props) {
     goBack22Props,
   } = props;
   const [courses, setCourses] = React.useState([]);
+  const deleteQuestionFrameFn = (index) => {
+    const newQuestionFrames = questionFrames.filter((_, i) => i !== 2);
+    setQuestionFrames(newQuestionFrames);
+  };
+
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, frame12973Props, line141),
+    createNewQuestionFrame(1, frame12973Props, line141, deleteQuestionFrameFn),
   ]);
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
       frame12973Props,
-      line141
+      line141,
+      deleteQuestionFrameFn
     );
     setQuestionFrames([...questionFrames, newQuestionFrame]);
   };
@@ -82,7 +90,7 @@ function CreateAAssignmentLaptop(props) {
       questions,
     };
     createAssignment(assignment).then((res) => {
-      window.location.href = "/";
+    console.log(res);
     });
   };
   const checkboxes = courses.map((course) => {
@@ -95,6 +103,7 @@ function CreateAAssignmentLaptop(props) {
       </Checkbox>
     );
   });
+
   return (
     <div className="create-a-assignment-laptop screen">
       <Frame1379>
@@ -122,11 +131,6 @@ function CreateAAssignmentLaptop(props) {
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
-                <Buttons2
-                  add={buttons21Props.add}
-                  label="Add a new question"
-                  onClickFn={addQuestionFrameFn}
-                />
               </Frame1372>
 
               <Frame1295>{questionFrames}</Frame1295>
@@ -150,11 +154,7 @@ function CreateAAssignmentLaptop(props) {
                       <Help src={help1} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Frame1298>
-                    {checkboxes}
-
-                    {/* <Checkbox3 className={checkbox32Props.className} /> */}
-                  </Frame1298>
+                  <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
                 <Frame1299>
                   <Frame12811>
@@ -164,7 +164,12 @@ function CreateAAssignmentLaptop(props) {
                     </Link>
                   </Frame12811>
                   <Frame12981>
-                    <RadioBox2 />
+                    <Checkbox>
+                      <Checkbox1>
+                        <Rectangle43 id="peertopeer" type="checkbox" />
+                      </Checkbox1>
+                      <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
+                    </Checkbox>
                   </Frame12981>
                 </Frame1299>
               </Frame1295>
@@ -189,7 +194,12 @@ function CreateAAssignmentLaptop(props) {
   );
 }
 
-function createNewQuestionFrame(serialNumber, frame12973Props, line141) {
+function createNewQuestionFrame(
+  serialNumber,
+  frame12973Props,
+  line141,
+  deleteQuestionFrameFn
+) {
   return (
     <QuestionFrame>
       <Frame1295>
@@ -197,8 +207,12 @@ function createNewQuestionFrame(serialNumber, frame12973Props, line141) {
           number={serialNumber}
           frame1284={frame12973Props.frame1284}
           richTextComponentsProps={frame12973Props.richTextComponentsProps}
-          sectiontitle="Section 1"
         />
+        <DeleteButtonFrame>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+            Delete
+          </DeleteButton>
+        </DeleteButtonFrame>
         <Line14 src={line141} alt="Line 14" />
       </Frame1295>
 
@@ -237,6 +251,31 @@ function createNewQuestionFrame(serialNumber, frame12973Props, line141) {
     </QuestionFrame>
   );
 }
+
+const DeleteButtonFrame = styled.div`
+  ${IbmplexsansNormalElectricViolet14px}
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  align-self: stretch;
+  left: 80px;
+  &.frame-1280-5.frame-1280-6 {
+    opacity: 0;
+  }
+
+  &.frame-1280-5.frame-1280-7 {
+    opacity: 0;
+  }
+`;
+
+const DeleteButton = styled.div`
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 
 const Frame1379 = styled.div`
   display: flex;
@@ -695,7 +734,7 @@ const Buttons1 = styled.div`
   gap: 8px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--light-mode-purple);
+  background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
   &:hover {
@@ -712,6 +751,7 @@ const Button = styled.div`
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
+  background-color: var(--royal-purple);
 `;
 
 const InputQuestion = styled.div`

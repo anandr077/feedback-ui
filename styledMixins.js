@@ -351,3 +351,127 @@ export const IbmplexsansNormalShark18px = css`
   font-weight: 400;
   font-style: normal;
 `;
+
+
+
+
+
+export const feedbacksIbmplexsansNormalBlack16px = css`
+  color: var(--black);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansMediumWhite16px = css`
+  color: var(--white);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 500;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalFuscousGray14px = css`
+  color: var(--fuscous-gray);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansMediumPersianIndigo20px = css`
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-m);
+  font-weight: 500;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalShark20px = css`
+  color: var(--text);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-m);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalPersianIndigo13px = css`
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xxs);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalPersianIndigo16px = css`
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansMediumBlack16px = css`
+  color: var(--black);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 500;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalPersianIndigo20px = css`
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-m);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalDeepBronze16px = css`
+  color: var(--deep-bronze);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansMediumPersianIndigo16px = css`
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 500;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalMountainMist16px = css`
+  color: var(--mountain-mist);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalChicago13px = css`
+  color: var(--chicago);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xxs);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansNormalGraniteGray16px = css`
+  color: var(--granite-gray);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const feedbacksIbmplexsansBoldShark36px = css`
+  color: var(--dark-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  font-style: normal;
+`;

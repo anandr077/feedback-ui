@@ -1,0 +1,19 @@
+.students-list {
+  align-items: flex-start;
+  border: 1px solid;
+  border-color: var(--concrete);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 320px;
+  min-width: 328px;
+  padding: 12px;
+  position: relative;
+}
+
+#overlay-students-list {
+  align-items: center;
+  background-color: #ffffff00;
+  justify-content: center;
+}
+

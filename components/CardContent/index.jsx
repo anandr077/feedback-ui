@@ -10,13 +10,13 @@ function CardContent(props) {
 
   return (
     <Content>
-      <TaskTitle>{task.assignmentTitle}</TaskTitle>
+      <TaskTitle>{task.title}</TaskTitle>
       <FundamentalsOfThermalPhysics>
         {task.classTitle}
       </FundamentalsOfThermalPhysics>
       <Frame1282>
         <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-        <DueAt>{task.dueDate}</DueAt>
+        <DueAt>{task.dueAt}</DueAt>
       </Frame1282>
     </Content>
   );

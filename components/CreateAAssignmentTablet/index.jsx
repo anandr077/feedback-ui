@@ -20,7 +20,7 @@ import {
 import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
-import { createAssignment, getCourses } from "../../service";
+import { createAssignment, getClasses } from "../../service";
 
 function CreateAAssignmentTablet(props) {
   const {
@@ -39,31 +39,31 @@ function CreateAAssignmentTablet(props) {
   const [questionFrames, setQuestionFrames] = React.useState([
     createNewQuestionFrame(1, frame12972Props, line141, deleteQuestionFrameFn),
   ]);
-  const [courses, setCourses] = React.useState([]);
+  const [classes, setClasses] = React.useState([]);
 
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
       frame12972Props,
       line141,
-      deleteQuestionFrameFn
+    getClassesestionFrameFn
     );
     setQuestionFrames([...questionFrames, newQuestionFrame]);
   };
 
   useEffect(() => {
-    getCourses().then((res) => {
-      setCourses(res);
+    getClasses().then((res) => {
+      setClasses(res);
     });
   }, []);
 
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
-    const courseIds = courses
-      .filter((course) => {
-        return document.getElementById(course.id).checked;
+    const classIds = classes
+      .filter((clazz) => {
+        return document.getElementById(clazz.id).checked;
       })
-      .map((course) => course.id);
+      .map((clazz) => clazz.id);
 
     const serialNumbers = questionFrames.map((_, index) => index + 1);
     const questions = serialNumbers.map((serialNumber) => {
@@ -77,7 +77,7 @@ function CreateAAssignmentTablet(props) {
 
     const assignment = {
       title,
-      courseIds,
+      classIds,
       questions,
     };
     createAssignment(assignment).then((res) => {
@@ -85,13 +85,13 @@ function CreateAAssignmentTablet(props) {
     });
   };
 
-  const checkboxes = courses.map((course) => {
+  const checkboxes = classes.map((clazz) => {
     return (
       <Checkbox>
         <Checkbox1>
-          <Rectangle43 key={course.id} id={course.id} type="checkbox" />
+          <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
         </Checkbox1>
-        <CheckBoxText>{course.title}</CheckBoxText>
+        <CheckBoxText>{clazz.title}</CheckBoxText>
       </Checkbox>
     );
   });

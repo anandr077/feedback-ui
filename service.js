@@ -45,8 +45,24 @@ export const getSubmissionById = async (submissionId) => {
     });
 };
 
-export const getCourses = async () => {
-  return await fetch(baseUrl + "/courses", {
+
+export const getCommentsForSubmission = async (submissionId) => {
+  return await fetch(baseUrl + "/submissions/" + submissionId+"/comments", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+export const getClasses = async () => {
+  return await fetch(baseUrl + "/classes", {
     method: "GET",
     withCredentials: true,
     credentials: "include",

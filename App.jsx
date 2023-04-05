@@ -51,13 +51,17 @@ function App() {
     const { id } = useParams();
     console.log("id is " + id)
     useEffect(() => {
+      if(submission == null) {
       getSubmissionById(id).then((result) => {
         if (result) {
           setSubmission(result);
           setIsLoading(false);
         }
+
       });
-    }, submission);
+    }
+    });
+    
     if (isLoading) {
       return <div>Loading...</div>;
     }

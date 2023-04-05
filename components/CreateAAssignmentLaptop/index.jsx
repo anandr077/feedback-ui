@@ -22,7 +22,7 @@ import GoBack2 from "../GoBack2";
 import RadioBox2 from "../RadioBox2";
 import Frame12803 from "../Frame12803";
 
-import { createAssignment, getCourses } from "../../service";
+import { createAssignment, getClasses } from "../../service";
 import Footer from "../Footer";
 import Header from "../Header";
 import "./CreateAAssignmentLaptop.css";
@@ -32,7 +32,6 @@ function CreateAAssignmentLaptop(props) {
     headerProps,
     line141,
     assignmentSettings,
-    classes,
     help1,
     feedbackMethod,
     help2,
@@ -41,7 +40,7 @@ function CreateAAssignmentLaptop(props) {
     frame12973Props,
     goBack22Props,
   } = props;
-  const [courses, setCourses] = React.useState([]);
+  const [classes, setClasses] = React.useState([]);
   const deleteQuestionFrameFn = (index) => {
     const newQuestionFrames = questionFrames.filter((_, i) => i !== 2);
     setQuestionFrames(newQuestionFrames);
@@ -61,18 +60,18 @@ function CreateAAssignmentLaptop(props) {
   };
 
   useEffect(() => {
-    getCourses().then((res) => {
-      setCourses(res);
+    getClasses().then((res) => {
+      setClasses(res);
     });
   }, []);
 
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
-    const courseIds = courses
-      .filter((course) => {
-        return document.getElementById(course.id).checked;
+    const classIds = classes
+      .filter((clazz) => {
+        return document.getElementById(clazz.id).checked;
       })
-      .map((course) => course.id);
+      .map((clazz) => clazz.id);
 
     const serialNumbers = questionFrames.map((_, index) => index + 1);
     const questions = serialNumbers.map((serialNumber) => {
@@ -86,20 +85,20 @@ function CreateAAssignmentLaptop(props) {
 
     const assignment = {
       title,
-      courseIds,
+      classIds: classIds,
       questions,
     };
     createAssignment(assignment).then((res) => {
     console.log(res);
     });
   };
-  const checkboxes = courses.map((course) => {
+  const checkboxes = classes.map((clazz) => {
     return (
       <Checkbox>
         <Checkbox1>
-          <Rectangle43 key={course.id} id={course.id} type="checkbox" />
+          <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
         </Checkbox1>
-        <CheckBoxText>{course.title}</CheckBoxText>
+        <CheckBoxText>{clazz.title}</CheckBoxText>
       </Checkbox>
     );
   });
@@ -149,7 +148,7 @@ function CreateAAssignmentLaptop(props) {
               <Frame1295>
                 <Frame1299>
                   <Frame12811>
-                    <Classes>{classes}</Classes>
+                    <Classes>"Classes"</Classes>
                     <Link to="/tooltip1">
                       <Help src={help1} alt="help" />
                     </Link>

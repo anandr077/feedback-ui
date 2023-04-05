@@ -1,33 +1,28 @@
-import React from "react";
+import {React,useState, useEffect} from "react";
 import ReactQuill from "react-quill";
 
 import { Link } from "react-router-dom";
-import TeacherDashboardHeader22 from "../TeacherDashboardHeader22";
+import styled from "styled-components";
+import { getCommentsForSubmission } from "../../../service";
+import {
+  feedbacksIbmplexsansBoldShark36px, feedbacksIbmplexsansMediumPersianIndigo20px, feedbacksIbmplexsansNormalBlack16px, feedbacksIbmplexsansNormalChicago13px, feedbacksIbmplexsansNormalMountainMist16px, feedbacksIbmplexsansNormalShark20px
+} from "../../../styledMixins";
+import "../../AssignmentTheory/_textEditor.scss";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import ReviewsFrame129532 from "../ReviewsFrame129532";
-import ReviewsFrame131722 from "../ReviewsFrame131722";
-import ReviewsFrame136642 from "../ReviewsFrame136642";
-import ReviewsFrame1320 from "../ReviewsFrame1320";
-import ReviewsFrame1332 from "../ReviewsFrame1332";
-import ReviewsFrame1384 from "../ReviewsFrame1384";
-import ReviewsFrame1333 from "../ReviewsFrame1333";
 import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
+import ReviewsFrame129532 from "../ReviewsFrame129532";
 import ReviewsFrame1316 from "../ReviewsFrame1316";
 import ReviewsFrame1317 from "../ReviewsFrame1317";
+import ReviewsFrame131722 from "../ReviewsFrame131722";
+import ReviewsFrame1320 from "../ReviewsFrame1320";
+import ReviewsFrame1332 from "../ReviewsFrame1332";
+import ReviewsFrame1333 from "../ReviewsFrame1333";
+import ReviewsFrame1384 from "../ReviewsFrame1384";
 import ReviewsFrame622 from "../ReviewsFrame622";
-import styled from "styled-components";
-import {
-  feedbacksIbmplexsansNormalShark20px,
-  feedbacksIbmplexsansNormalMountainMist16px,
-  feedbacksIbmplexsansMediumPersianIndigo20px,
-  feedbacksIbmplexsansNormalChicago13px,
-  feedbacksIbmplexsansNormalBlack16px,
-  feedbacksIbmplexsansBoldShark36px,
-} from "../../../styledMixins";
+import TeacherDashboardHeader22 from "../TeacherDashboardHeader22";
 import "./FeedbackTeacherLaptop.css";
-import ReactQuill from "react-quill";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -59,25 +54,74 @@ function FeedbackTeacherLaptop(props) {
     commentCard34Props,
     frame1317Props,
   } = props;
-  const answerFrames = submission.answers.map(answer => {
-    // const [value, setValue] = useState(answer.answer.answer ?? "");
+  const [showNewComment, setShowNewComment] = useState(false);
+  const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    if (comments.length === 0) {
+    getCommentsForSubmission(submission.id).then((result) => {
+      if (result) {
+        setComments(result);
+      }
+    });
+    }
+  });
+  const feedbackFrame = 
+      <>
+      <Frame1329>
+                <Frame1406>
+                  <Frame1326>
+                    <TypeHere>{typeHere}</TypeHere>
+                    <IconsaxLinearmicrophone2 src={iconsaxLinearMicrophone2} alt="Iconsax/Linear/microphone2" />
+                  </Frame1326>
+                  <Frame1406>
+                    <ReviewsFrame1332 />
+                    <ReviewsFrame1384 />
+                    <ReviewsFrame1333 className={frame1333Props.className} />
+                  </Frame1406>
+                </Frame1406>
+                <Line261 src={line263} alt="Line 26" />
+                <Frame1383>
+                  <Frame13311>
+                    <Frame1284 src={iconsaxLinearShare} alt="Iconsax/Linear/share" />
+                    <Share>{share}</Share>
+                  </Frame13311>
+                  <Buttons4 />
+                </Frame1383>
+                <Line261 src={line27} alt="Line 27" />
+              </Frame1329>
+      </>
 
-    return <Frame1367>
+
+  
+  const commentsFrame =
+  comments.map(comment => {
+    return <CommentCard32 horemIpsumDolorSi={comment.comment} />
+  })
+    
+  const answerFrames = submission.answers.map(answer => {
+
+    return <><Frame1367>
                 <Frame1366>
                   <Q1PoremIpsumDolo>{answer.serialNumber}</Q1PoremIpsumDolo>
                   <ToremIpsumDolorSi>
                   <ReactQuill
                 theme="snow"
                 value={answer.answer.answer}
-                //onChange={setValue}
                 className="ql-editor"
-                  readOnly={true}
+                readOnly={true}
+                onChangeSelection={(range, source, editor) => {
+                  setNewCommentSerialNumber(answer.serialNumber)
+                  setShowNewComment(true)
+                }}
               />
-                  {/* {answer.answer.answer} */}
                   </ToremIpsumDolorSi>
                 </Frame1366>
                 <Line26 src={line261} alt="Line 26" />
+                
               </Frame1367>
+              <br/>
+              </>
   })
   return (
     <div className="feedback-teacher-laptop screen">
@@ -118,40 +162,12 @@ function FeedbackTeacherLaptop(props) {
                 <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
                 <ReviewsFrame1320 className={frame13202Props.className}>{frame13202Props.children}</ReviewsFrame1320>
               </Frame1322>
-              <Frame1329>
-                <Frame1406>
-                  <Frame1326>
-                    <TypeHere>{typeHere}</TypeHere>
-                    <IconsaxLinearmicrophone2 src={iconsaxLinearMicrophone2} alt="Iconsax/Linear/microphone2" />
-                  </Frame1326>
-                  <Frame1406>
-                    <ReviewsFrame1332 />
-                    <ReviewsFrame1384 />
-                    <ReviewsFrame1333 className={frame1333Props.className} />
-                  </Frame1406>
-                </Frame1406>
-                <Line261 src={line263} alt="Line 26" />
-                <Frame1383>
-                  <Frame13311>
-                    <Frame1284 src={iconsaxLinearShare} alt="Iconsax/Linear/share" />
-                    <Share>{share}</Share>
-                  </Frame13311>
-                  <Buttons4 />
-                </Frame1383>
-                <Line261 src={line27} alt="Line 27" />
-              </Frame1329>
-              <Frame1328>
-                <CommentCard32 horemIpsumDolorSi={commentCard31Props.horemIpsumDolorSi} />
-                <CommentCard32 horemIpsumDolorSi={commentCard32Props.horemIpsumDolorSi} />
-                <CommentCard32
-                  horemIpsumDolorSi={commentCard33Props.horemIpsumDolorSi}
-                  className={commentCard33Props.className}
-                />
-                <CommentCard32
-                  horemIpsumDolorSi={commentCard34Props.horemIpsumDolorSi}
-                  className={commentCard34Props.className}
-                />
-              </Frame1328>
+              <>
+              {showNewComment?feedbackFrame:<></>}
+                <Frame1328>
+                  {commentsFrame}
+                </Frame1328>    
+              </>
             </Frame1331>
           </Frame1368>
           <Frame1370>
@@ -284,7 +300,7 @@ const Frame1367 = styled.div`
 
 const Frame1366 = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   gap: 20px;
   padding: 0px 60px;

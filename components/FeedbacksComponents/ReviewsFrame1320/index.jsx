@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumPersianIndigo16px } from "../../../styledMixins";
 
-
 function ReviewsFrame1320(props) {
   const { children, className } = props;
 

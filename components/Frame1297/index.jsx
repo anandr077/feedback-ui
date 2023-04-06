@@ -35,7 +35,7 @@ function Frame1297(props) {
                 <Assignment src="/img/assignment@2x.png" alt="Assignment" />
                 <Theory>Theory</Theory>
               </RichTextComponents1> */}
-               {show ? (
+              {show ? (
                 <DropDown>
                   <RichTextComponents2 onClick={setTypeTheory}>
                     <Assignment2
@@ -45,10 +45,7 @@ function Frame1297(props) {
                     <Theory>Theory</Theory>
                   </RichTextComponents2>
                   <RichTextComponents2 onClick={setTypeMCQ}>
-                    <Assignment2
-                      src="/icons/mcqIcon.png"
-               
-                    />
+                    <Assignment2 src="/icons/mcqIcon.png" />
                     <Theory>MCQ</Theory>
                   </RichTextComponents2>
                 </DropDown>
@@ -64,18 +61,17 @@ function Frame1297(props) {
                     </RichTextComponents2>
                   ) : (
                     <RichTextComponents2 onClick={setTypeMCQ}>
-                    <Assignment2
-                      src="/icons/mcqIcon.png"
-               
-                    />
-                    <Theory>MCQ</Theory>
-                  </RichTextComponents2>
+                      <Assignment2 src="/icons/mcqIcon.png" />
+                      <Theory>MCQ</Theory>
+                    </RichTextComponents2>
                   )}
                 </>
               )}
             </Frame1281>
           </Frame1282>
-          {!show &&  (<Frame1284 onClick={dropdown} src="/img/frame-1284@2x.png" />)}
+          {!show && (
+            <Frame1284 onClick={dropdown} src="/img/frame-1284@2x.png" />
+          )}
         </Frame1283>
       </Frame1287>
     </Frame12971>
@@ -189,8 +185,6 @@ const Assignment = styled.img`
   min-width: 20px;
   height: 20px;
 `;
-
-
 
 const Frame1284 = styled.img`
   position: relative;

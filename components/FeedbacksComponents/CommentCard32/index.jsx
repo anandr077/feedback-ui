@@ -4,7 +4,6 @@ import ReviewsFrame132532 from "../ReviewsFrame132532";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 
-
 function CommentCard32(props) {
   const { horemIpsumDolorSi, className } = props;
 
@@ -12,7 +11,9 @@ function CommentCard32(props) {
     <Link to="/highlight-hover">
       <CommentCard className={`comment-card-4 ${className || ""}`}>
         <ReviewsFrame132532 />
-        <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">{horemIpsumDolorSi}</HoremIpsumDolorSi>
+        <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">
+          {horemIpsumDolorSi}
+        </HoremIpsumDolorSi>
       </CommentCard>
     </Link>
   );

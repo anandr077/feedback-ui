@@ -42,10 +42,7 @@ function Frame12973(props) {
                     <Theory>Theory</Theory>
                   </RichTextComponents2>
                   <RichTextComponents2 onClick={setTypeMCQ}>
-                    <Assignment2
-                      src="/icons/mcqIcon.png"
-               
-                    />
+                    <Assignment2 src="/icons/mcqIcon.png" />
                     <Theory>MCQ</Theory>
                   </RichTextComponents2>
                 </DropDown>
@@ -61,18 +58,17 @@ function Frame12973(props) {
                     </RichTextComponents2>
                   ) : (
                     <RichTextComponents2 onClick={setTypeMCQ}>
-                    <Assignment2
-                      src="/icons/mcqIcon.png"
-               
-                    />
-                    <Theory>MCQ</Theory>
-                  </RichTextComponents2>
+                      <Assignment2 src="/icons/mcqIcon.png" />
+                      <Theory>MCQ</Theory>
+                    </RichTextComponents2>
                   )}
                 </>
               )}
             </Frame1281>
           </Frame1282>
-          {!show &&  (<Frame1284 onClick={dropdown} src={frame1284} alt="Frame 1284" />)}
+          {!show && (
+            <Frame1284 onClick={dropdown} src={frame1284} alt="Frame 1284" />
+          )}
         </Frame1283>
       </Frame1287>
     </Frame1297>

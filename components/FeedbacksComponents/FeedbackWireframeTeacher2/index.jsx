@@ -69,7 +69,10 @@ function FeedbackWireframeTeacher2(props) {
               <Frame1284 src={frame1284} alt="Frame 1284" />
             </Frame1316>
           </Link>
-          <ReviewsFrame1317 buttonsProps={frame1317Props.buttonsProps} buttons2Props={frame1317Props.buttons2Props} />
+          <ReviewsFrame1317
+            buttonsProps={frame1317Props.buttonsProps}
+            buttons2Props={frame1317Props.buttons2Props}
+          />
         </Frame1369>
       </Frame1371>
       <Frame1368>
@@ -88,20 +91,26 @@ function FeedbackWireframeTeacher2(props) {
             <Frame13661>
               <Q1PoremIpsumDolo>{q1PoremIpsumDolo}</Q1PoremIpsumDolo>
               <ToremIpsumDolorSi>
-                Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis
-                tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus
-                elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu
-                ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim
-                egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna.
-                Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum
-                tellus.
+                Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                eu turpis molestie, dictum est a, mattis tellus. Sed dignissim,
+                metus nec fringilla accumsan, risus sem sollicitudin lacus, ut
+                interdum tellus elit sed risus. Maecenas eget condimentum velit,
+                sit amet feugiat lectus. Class aptent taciti sociosqu ad litora
+                torquent per conubia nostra, per inceptos himenaeos. Praesent
+                auctor purus luctus enim egestas, ac scelerisque ante pulvinar.
+                Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor
+                urna. Curabitur vel bibendum lorem. Morbi convallis convallis
+                diam sit amet lacinia. Aliquam in elementum tellus.
                 <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curabitur tempor
-                quis eros tempus lacinia. Nam bibendum pellentesque quam a convallis. Sed ut vulputate nisi. Integer in
-                felis sed leo vestibulum venenatis. Suspendisse quis arcu sem. Aenean feugiat ex eu vestibulum
-                vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh.
-                Mauris sit amet magna non ligula vestibulum eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget
-                mi in purus lobortis eleifend. Sed nec ante dictum sem condimentum ullamcorper quis venenatis nisi.
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curabitur
+                tempor quis eros tempus lacinia. Nam bibendum pellentesque quam
+                a convallis. Sed ut vulputate nisi. Integer in felis sed leo
+                vestibulum venenatis. Suspendisse quis arcu sem. Aenean feugiat
+                ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus
+                lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit
+                amet magna non ligula vestibulum eleifend. Nulla varius volutpat
+                turpis sed lacinia. Nam eget mi in purus lobortis eleifend. Sed
+                nec ante dictum sem condimentum ullamcorper quis venenatis nisi.
                 Proin vitae facilisis nisi, ac posuere leo.
               </ToremIpsumDolorSi>
               <Link to="/shortcuts">
@@ -123,9 +132,13 @@ function FeedbackWireframeTeacher2(props) {
               </Link>
             </Frame13661>
             <Line26 src={line261} alt="Line 26" />
-            <ReviewsFrame1366 q2PoremIpsumDolo={frame13661Props.q2PoremIpsumDolo} />
+            <ReviewsFrame1366
+              q2PoremIpsumDolo={frame13661Props.q2PoremIpsumDolo}
+            />
             <Line26 src={line262} alt="Line 26" />
-            <ReviewsFrame1366 q2PoremIpsumDolo={frame13662Props.q2PoremIpsumDolo} />
+            <ReviewsFrame1366
+              q2PoremIpsumDolo={frame13662Props.q2PoremIpsumDolo}
+            />
           </Frame1367>
         </Group1225>
         <Frame1330>
@@ -137,7 +150,9 @@ function FeedbackWireframeTeacher2(props) {
             <Frame1326>
               <EnterNewShortcut>{enterNewShortcut}</EnterNewShortcut>
             </Frame1326>
-            <Buttons42 className={buttons4Props.className}>{buttons4Props.children}</Buttons42>
+            <Buttons42 className={buttons4Props.className}>
+              {buttons4Props.children}
+            </Buttons42>
           </Frame1329>
           <Frame1328>
             <ReviewsFrame12973>{frame129731Props.children}</ReviewsFrame12973>

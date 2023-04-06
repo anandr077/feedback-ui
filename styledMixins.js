@@ -352,10 +352,6 @@ export const IbmplexsansNormalShark18px = css`
   font-style: normal;
 `;
 
-
-
-
-
 export const feedbacksIbmplexsansNormalBlack16px = css`
   color: var(--black);
   font-family: var(--font-family-ibm_plex_sans);

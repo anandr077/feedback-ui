@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo16px } from "../../../styledMixins";
 
-
 function ReviewsFrame1385() {
   return (
     <Frame13851>

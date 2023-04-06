@@ -45,9 +45,8 @@ export const getSubmissionById = async (submissionId) => {
     });
 };
 
-
 export const addNewComment = async (submissionId, comment) => {
-  return await fetch(baseUrl + "/submissions/" + submissionId+"/comments", {
+  return await fetch(baseUrl + "/submissions/" + submissionId + "/comments", {
     method: "POST",
     body: JSON.stringify(comment),
     withCredentials: true,
@@ -63,9 +62,9 @@ export const addNewComment = async (submissionId, comment) => {
     .catch((err) => {
       console.log(err.message);
     });
-}
+};
 export const getCommentsForSubmission = async (submissionId) => {
-  return await fetch(baseUrl + "/submissions/" + submissionId+"/comments", {
+  return await fetch(baseUrl + "/submissions/" + submissionId + "/comments", {
     method: "GET",
     withCredentials: true,
     credentials: "include",

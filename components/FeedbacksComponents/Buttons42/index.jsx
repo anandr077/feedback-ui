@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumBlack16px } from "../../../styledMixins";
 
-
 function Buttons42(props) {
   const { children, className } = props;
 

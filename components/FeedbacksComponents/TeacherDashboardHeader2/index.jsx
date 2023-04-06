@@ -4,12 +4,13 @@ import Notifications from "../Notifications";
 import Frame4 from "../ReviewsFrame41";
 import styled from "styled-components";
 
-
 function TeacherDashboardHeader2(props) {
   const { logo, className, frame5Props, frame4Props } = props;
 
   return (
-    <TeacherDashboardHeader className={`teacher-dashboard-header-1 ${className || ""}`}>
+    <TeacherDashboardHeader
+      className={`teacher-dashboard-header-1 ${className || ""}`}
+    >
       <Logo className="logo-1" src={logo} alt="Logo" />
       <Frame5
         navElement1Props={frame5Props.navElement1Props}
@@ -18,7 +19,10 @@ function TeacherDashboardHeader2(props) {
       />
       <Frame51 className="frame-5-6">
         <Notifications />
-        <Frame4 maskGroup={frame4Props.maskGroup} className={frame4Props.className} />
+        <Frame4
+          maskGroup={frame4Props.maskGroup}
+          className={frame4Props.className}
+        />
       </Frame51>
     </TeacherDashboardHeader>
   );

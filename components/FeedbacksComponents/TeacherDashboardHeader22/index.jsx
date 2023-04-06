@@ -4,15 +4,23 @@ import Notifications from "../Notifications";
 import Frame4 from "../ReviewsFrame41";
 import styled from "styled-components";
 
-
 function TeacherDashboardHeader22(props) {
-  const { logo, navElement1Props, navElement2Props, navElement3Props, frame4Props } = props;
+  const {
+    logo,
+    navElement1Props,
+    navElement2Props,
+    navElement3Props,
+    frame4Props,
+  } = props;
 
   return (
     <TeacherDashboardHeader>
       <Logo src={logo} alt="Logo" />
       <Frame5>
-        <NavElement home3={navElement1Props.home3} place={navElement1Props.place} />
+        <NavElement
+          home3={navElement1Props.home3}
+          place={navElement1Props.place}
+        />
         <NavElement
           home3={navElement2Props.home3}
           place={navElement2Props.place}

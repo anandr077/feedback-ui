@@ -3,7 +3,10 @@ import ReviewsFrame1331 from "../ReviewsFrame1331";
 import Buttons42 from "../Buttons42";
 import Buttons4 from "../Buttons4";
 import styled from "styled-components";
-import { IbmplexsansNormalDeepBronze16px, IbmplexsansNormalMountainMist16px } from "../../../styledMixins";
+import {
+  IbmplexsansNormalDeepBronze16px,
+  IbmplexsansNormalMountainMist16px,
+} from "../../../styledMixins";
 import "./Shortcuts.css";
 
 function Shortcuts(props) {

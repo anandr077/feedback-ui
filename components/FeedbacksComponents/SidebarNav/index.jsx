@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-
 function SidebarNav() {
   return (
     <SidebarNav1>
-      <IconsaxLineararrowright2 src="/img/iconsax-linear-arrowright2@2x.png" alt="Iconsax/Linear/arrowright2" />
-      <Q1PoremIpsumDolo>Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit.</Q1PoremIpsumDolo>
+      <IconsaxLineararrowright2
+        src="/img/iconsax-linear-arrowright2@2x.png"
+        alt="Iconsax/Linear/arrowright2"
+      />
+      <Q1PoremIpsumDolo>
+        Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit.
+      </Q1PoremIpsumDolo>
     </SidebarNav1>
   );
 }

@@ -34,21 +34,66 @@ function StudentsList(props) {
           <Searchnormal1 src={searchnormal1} alt="searchnormal1" />
         </Frame1326>
         <Frame1385>
-          <StudentsList2 ellipse10={studentsList21Props.ellipse10} name={studentsList21Props.name} />
-          <StudentsList2 ellipse10={studentsList22Props.ellipse10} name={studentsList22Props.name} />
-          <StudentsList2 ellipse10={studentsList23Props.ellipse10} name={studentsList23Props.name} />
-          <StudentsList2 ellipse10={studentsList24Props.ellipse10} name={studentsList24Props.name} />
-          <StudentsList2 ellipse10={studentsList25Props.ellipse10} name={studentsList25Props.name} />
-          <StudentsList2 ellipse10={studentsList26Props.ellipse10} name={studentsList26Props.name} />
-          <StudentsList2 ellipse10={studentsList27Props.ellipse10} name={studentsList27Props.name} />
-          <StudentsList2 ellipse10={studentsList28Props.ellipse10} name={studentsList28Props.name} />
-          <StudentsList2 ellipse10={studentsList29Props.ellipse10} name={studentsList29Props.name} />
-          <StudentsList2 ellipse10={studentsList210Props.ellipse10} name={studentsList210Props.name} />
-          <StudentsList2 ellipse10={studentsList211Props.ellipse10} name={studentsList211Props.name} />
-          <StudentsList2 ellipse10={studentsList212Props.ellipse10} name={studentsList212Props.name} />
-          <StudentsList2 ellipse10={studentsList213Props.ellipse10} name={studentsList213Props.name} />
-          <StudentsList2 ellipse10={studentsList214Props.ellipse10} name={studentsList214Props.name} />
-          <StudentsList2 ellipse10={studentsList215Props.ellipse10} name={studentsList215Props.name} />
+          <StudentsList2
+            ellipse10={studentsList21Props.ellipse10}
+            name={studentsList21Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList22Props.ellipse10}
+            name={studentsList22Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList23Props.ellipse10}
+            name={studentsList23Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList24Props.ellipse10}
+            name={studentsList24Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList25Props.ellipse10}
+            name={studentsList25Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList26Props.ellipse10}
+            name={studentsList26Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList27Props.ellipse10}
+            name={studentsList27Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList28Props.ellipse10}
+            name={studentsList28Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList29Props.ellipse10}
+            name={studentsList29Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList210Props.ellipse10}
+            name={studentsList210Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList211Props.ellipse10}
+            name={studentsList211Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList212Props.ellipse10}
+            name={studentsList212Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList213Props.ellipse10}
+            name={studentsList213Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList214Props.ellipse10}
+            name={studentsList214Props.name}
+          />
+          <StudentsList2
+            ellipse10={studentsList215Props.ellipse10}
+            name={studentsList215Props.name}
+          />
         </Frame1385>
         <Line28 src={line28} alt="Line 28" />
       </StudentsList1>

@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalShark20px, IbmplexsansMediumPersianIndigo20px } from "../../../styledMixins";
-
+import {
+  IbmplexsansNormalShark20px,
+  IbmplexsansMediumPersianIndigo20px,
+} from "../../../styledMixins";
 
 function ReviewsFrame136622(props) {
   const { q2PoremIpsumDolo } = props;
@@ -10,10 +12,12 @@ function ReviewsFrame136622(props) {
     <Frame1366>
       <Q2PoremIpsumDolo>{q2PoremIpsumDolo}</Q2PoremIpsumDolo>
       <ToremIpsumDolorSi>
-        Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
-        Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
-        Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per
-        conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim.
+        Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis
+        molestie, dictum est a, mattis tellus. Sed dignissim, metus nec
+        fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus
+        elit sed risus. Maecenas eget condimentum velit, sit amet feugiat
+        lectus. Class aptent taciti sociosqu ad litora torquent per conubia
+        nostra, per inceptos himenaeos. Praesent auctor purus luctus enim.
       </ToremIpsumDolorSi>
     </Frame1366>
   );

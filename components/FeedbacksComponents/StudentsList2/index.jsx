@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 
-
 function StudentsList2(props) {
   const { ellipse10, name } = props;
 

@@ -3,7 +3,6 @@ import ReviewsFrame12972 from "../ReviewsFrame12972";
 import ReviewsFrame1385 from "../ReviewsFrame1385";
 import styled from "styled-components";
 
-
 function ReviewsFrame1333(props) {
   const { className } = props;
 

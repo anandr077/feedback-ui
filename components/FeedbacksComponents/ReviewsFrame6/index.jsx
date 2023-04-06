@@ -3,7 +3,6 @@ import ReviewsFrame622 from "../ReviewsFrame622";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px } from "../../../styledMixins";
 
-
 function ReviewsFrame6(props) {
   const { className } = props;
 

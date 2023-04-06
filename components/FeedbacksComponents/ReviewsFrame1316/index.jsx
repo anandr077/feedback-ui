@@ -2,7 +2,6 @@ import React from "react";
 import ReviewsFrame1295 from "../ReviewsFrame1295";
 import styled from "styled-components";
 
-
 function ReviewsFrame1316() {
   return (
     <Frame13161>

@@ -19,7 +19,7 @@ const FeedbackTeacherLaptopRootRootRoot1 = ({}) => {
     alert(`${name} was clicked`);
   };
 
-const taskheaderProps = {
+  const taskheaderProps = {
     firstButton: {
       text: "Home",
       icon: "/icons/homeIconUnselected.png",
@@ -44,7 +44,7 @@ const taskheaderProps = {
   };
   return (
     <FeedbackTeacherLaptopRootRootRoot>
-          <Header headerProps={taskheaderProps} />
+      <Header headerProps={taskheaderProps} />
       <Group>
         <Assignments>Assignments</Assignments>
         <Vector17 src="https://file.rendit.io/n/7P4bVWu35bQV2hM4iOhL.svg" />
@@ -771,7 +771,7 @@ const Buttons = styled.button`
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
+  }
 `;
 const Buttons1 = styled.button`
   width: 12.54%;
@@ -799,7 +799,7 @@ const Buttons1 = styled.button`
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
+  }
 `;
 const Button2 = styled.div`
   align-self: flex-start;
@@ -1162,7 +1162,7 @@ const Buttons2 = styled.button`
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
+  }
 `;
 const Button3 = styled.div`
   color: #ffffff;
@@ -1268,7 +1268,7 @@ const Buttons3 = styled.button`
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
+  }
 `;
 const Buttons4 = styled.button`
   width: 16.08%;
@@ -1296,7 +1296,7 @@ const Buttons4 = styled.button`
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
+  }
 `;
 const Vector29 = styled.img`
   width: 25.99%;

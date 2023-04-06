@@ -65,7 +65,10 @@ function FeedbackTeacherMobile(props) {
                   <Frame1284 src={frame12841} alt="Frame 1284" />
                 </Frame1316>
               </Link>
-              <ReviewsFrame131722 buttonsProps={frame13172Props.buttonsProps} buttons2Props={frame13172Props.buttons2Props} />
+              <ReviewsFrame131722
+                buttonsProps={frame13172Props.buttonsProps}
+                buttons2Props={frame13172Props.buttons2Props}
+              />
             </Frame1369>
           </Frame1371>
           <Frame1368>
@@ -74,28 +77,40 @@ function FeedbackTeacherMobile(props) {
                 <Frame1366>
                   <Q1PoremIpsumDolo>{q1PoremIpsumDolo}</Q1PoremIpsumDolo>
                   <ToremIpsumDolorSi>
-                    Torem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a,
-                    mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut
-                    interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class
-                    aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent
-                    auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac
-                    rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet
+                    Torem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Etiam eu turpis molestie, dictum est a, mattis tellus. Sed
+                    dignissim, metus nec fringilla accumsan, risus sem
+                    sollicitudin lacus, ut interdum tellus elit sed risus.
+                    Maecenas eget condimentum velit, sit amet feugiat lectus.
+                    Class aptent taciti sociosqu ad litora torquent per conubia
+                    nostra, per inceptos himenaeos. Praesent auctor purus luctus
+                    enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus
+                    ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur
+                    vel bibendum lorem. Morbi convallis convallis diam sit amet
                     lacinia. Aliquam in elementum tellus.
                     <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curabitur tempor
-                    quis eros tempus lacinia. Nam bibendum pellentesque quam a convallis. Sed ut vulputate nisi. Integer
-                    in felis sed leo vestibulum venenatis. Suspendisse quis arcu sem. Aenean feugiat ex eu vestibulum
-                    vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh.
-                    Mauris sit amet magna non ligula vestibulum eleifend. Nulla varius volutpat turpis sed lacinia. Nam
-                    eget mi in purus lobortis eleifend. Sed nec ante dictum sem condimentum ullamcorper quis venenatis
-                    nisi. Proin vitae facilisis nisi, ac posuere leo.
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curabitur
+                    tempor quis eros tempus lacinia. Nam bibendum pellentesque
+                    quam a convallis. Sed ut vulputate nisi. Integer in felis
+                    sed leo vestibulum venenatis. Suspendisse quis arcu sem.
+                    Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend
+                    magna. Nam metus lacus, porttitor eu mauris a, blandit
+                    ultrices nibh. Mauris sit amet magna non ligula vestibulum
+                    eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget
+                    mi in purus lobortis eleifend. Sed nec ante dictum sem
+                    condimentum ullamcorper quis venenatis nisi. Proin vitae
+                    facilisis nisi, ac posuere leo.
                   </ToremIpsumDolorSi>
                   <Group1307></Group1307>
                 </Frame1366>
                 <Line26 src={line261} alt="Line 26" />
-                <ReviewsFrame136622 q2PoremIpsumDolo={frame136621Props.q2PoremIpsumDolo} />
+                <ReviewsFrame136622
+                  q2PoremIpsumDolo={frame136621Props.q2PoremIpsumDolo}
+                />
                 <Line26 src={line262} alt="Line 26" />
-                <ReviewsFrame136622 q2PoremIpsumDolo={frame136622Props.q2PoremIpsumDolo} />
+                <ReviewsFrame136622
+                  q2PoremIpsumDolo={frame136622Props.q2PoremIpsumDolo}
+                />
               </Frame1367>
             </Group1225>
           </Frame1368>
@@ -104,12 +119,17 @@ function FeedbackTeacherMobile(props) {
               <ReviewsFrame129522 />
               <Frame1284 src={frame12842} alt="Frame 1284" />
             </Frame13161>
-            <ReviewsFrame1317 buttonsProps={frame1317Props.buttonsProps} buttons2Props={frame1317Props.buttons2Props} />
+            <ReviewsFrame1317
+              buttonsProps={frame1317Props.buttonsProps}
+              buttons2Props={frame1317Props.buttons2Props}
+            />
           </Frame1370>
         </Frame1386>
       </Frame1388>
       <Frame1380>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
+        <X2023JeddleAllRightsReserved>
+          {x2023JeddleAllRightsReserved}
+        </X2023JeddleAllRightsReserved>
         <Frame6>
           <MainWebsite>{mainWebsite}</MainWebsite>
           <Terms>{terms}</Terms>

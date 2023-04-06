@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 
-
 function ReviewsFrame1331(props) {
   const { iconsaxLinearMagicpen, shortcuts } = props;
 
   return (
     <Frame13311>
-      <IconsaxLinearmagicpen src={iconsaxLinearMagicpen} alt="Iconsax/Linear/magicpen" />
+      <IconsaxLinearmagicpen
+        src={iconsaxLinearMagicpen}
+        alt="Iconsax/Linear/magicpen"
+      />
       <Shortcuts>{shortcuts}</Shortcuts>
     </Frame13311>
   );

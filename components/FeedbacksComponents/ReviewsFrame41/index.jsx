@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 
-
 function Frame4(props) {
   const { maskGroup, className } = props;
 
@@ -11,7 +10,11 @@ function Frame4(props) {
       <MaskGroup className="mask-group" src={maskGroup} alt="Mask group" />
       <Frame3 className="frame-3">
         <Name className="name-3">Eleanor Pena</Name>
-        <Frame27 className="frame-27" src="/img/frame-27@2x.png" alt="Frame 27" />
+        <Frame27
+          className="frame-27"
+          src="/img/frame-27@2x.png"
+          alt="Frame 27"
+        />
       </Frame3>
     </ReviewsFrame41>
   );

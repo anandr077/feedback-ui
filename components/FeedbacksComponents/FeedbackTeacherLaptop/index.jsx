@@ -1,11 +1,17 @@
-import {React,useState, useEffect} from "react";
+import { React, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getCommentsForSubmission, addNewComment } from "../../../service";
 import {
-  feedbacksIbmplexsansNormalStack20px, feedbacksIbmplexsansBoldShark36px, feedbacksIbmplexsansMediumPersianIndigo20px, feedbacksIbmplexsansNormalBlack16px, feedbacksIbmplexsansNormalChicago13px, feedbacksIbmplexsansNormalMountainMist16px, feedbacksIbmplexsansNormalShark20px
+  feedbacksIbmplexsansNormalStack20px,
+  feedbacksIbmplexsansBoldShark36px,
+  feedbacksIbmplexsansMediumPersianIndigo20px,
+  feedbacksIbmplexsansNormalBlack16px,
+  feedbacksIbmplexsansNormalChicago13px,
+  feedbacksIbmplexsansNormalMountainMist16px,
+  feedbacksIbmplexsansNormalShark20px,
 } from "../../../styledMixins";
 import "../../AssignmentTheory/_textEditor.scss";
 import Breadcrumb from "../Breadcrumb";
@@ -55,95 +61,107 @@ function FeedbackTeacherLaptop(props) {
     frame1317Props,
   } = props;
   const [showNewComment, setShowNewComment] = useState(false);
+  const [selectedRange, setSelectedRange] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [comments, setComments] = useState([]);
   useEffect(() => {
     if (comments.length === 0) {
-    getCommentsForSubmission(submission.id).then((result) => {
-      if (result) {
-        setComments(result);
-      }
-    });
+      getCommentsForSubmission(submission.id).then((result) => {
+        if (result) {
+          setComments(result);
+        }
+      });
     }
   }, [comments]);
-  const [newCommentValue, setNewCommentValue] = useState('');
+  const [newCommentValue, setNewCommentValue] = useState("");
 
   function handleInputChange(event) {
     setNewCommentValue(event.target.value);
   }
   function handleKeyPress(event) {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       // Do something here, for example, call a function or submit a form
-      addNewComment(submission.id, {questionSerialNumber:newCommentSerialNumber, feedback:newCommentValue})
-      .then(response=>{
+      addNewComment(submission.id, {
+        questionSerialNumber: newCommentSerialNumber,
+        feedback: newCommentValue,
+        range: selectedRange,
+      }).then((response) => {
         if (response) {
           setComments([...comments, response]);
-          setNewCommentValue('');
+          setNewCommentValue("");
         }
       });
     }
   }
 
-
-  const feedbackFrame = 
-      <>
+  const feedbackFrame = (
+    <>
       <Frame1329>
-                <Frame1406>
-                  <Frame1326>
-                    <TypeHere ><TextInput placeholder="Comment here...." value={newCommentValue} onChange={handleInputChange} onKeyPress={handleKeyPress} ></TextInput></TypeHere>
-                    <IconsaxLinearmicrophone2 src={iconsaxLinearMicrophone2} alt="Iconsax/Linear/microphone2" />
-                  </Frame1326>
-                </Frame1406>
-                <Line261 src={line263} alt="Line 26" />
-                <Frame1383>
-                  <Frame13311>
-                    <Frame1284 src={iconsaxLinearShare} alt="Iconsax/Linear/share" />
-                    <Share>{share}</Share>
-                  </Frame13311>
-                  <Buttons4 />
-                </Frame1383>
-                <Line261 src={line27} alt="Line 27" />
-              </Frame1329>
-      </>
+        <Frame1406>
+          <Frame1326>
+            <TypeHere>
+              <TextInput
+                placeholder="Comment here...."
+                value={newCommentValue}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+              ></TextInput>
+            </TypeHere>
+            <IconsaxLinearmicrophone2
+              src={iconsaxLinearMicrophone2}
+              alt="Iconsax/Linear/microphone2"
+            />
+          </Frame1326>
+        </Frame1406>
+        <Line261 src={line263} alt="Line 26" />
+        <Frame1383>
+          <Frame13311>
+            <Frame1284 src={iconsaxLinearShare} alt="Iconsax/Linear/share" />
+            <Share>{share}</Share>
+          </Frame13311>
+          <Buttons4 />
+        </Frame1383>
+        <Line261 src={line27} alt="Line 27" />
+      </Frame1329>
+    </>
+  );
 
-
-
-
-  const commentsFrame =
-  comments.map(comment => {
-    return <CommentCard32 horemIpsumDolorSi={comment.comment} />
-  })
+  const commentsFrame = comments.map((comment) => {
+    return <CommentCard32 horemIpsumDolorSi={comment.comment} />;
+  });
   const modules = {
-    toolbar: false
-  }
-  const answerFrames = submission.answers.map(answer => {
-
-    return <><Frame1367>
-                <Frame1366>
-                  <Q1PoremIpsumDolo>{answer.serialNumber}</Q1PoremIpsumDolo>
-                  <ToremIpsumDolorSi>
-                  <ReactQuill
-                theme="snow"
-                value={answer.answer.answer}
-                className="ql-editor"
-                readOnly={true}
-                modules = {modules}
-                onChangeSelection={(range, source, editor) => {
-                  if (range && range.length>0) {
-                  console.log(range)
-                  setNewCommentSerialNumber(answer.serialNumber)
-                  setShowNewComment(true)
-                  }
-                }}
-              />
-                  </ToremIpsumDolorSi>
-                </Frame1366>
-                <Line26 src={line261} alt="Line 26" />
-                
-              </Frame1367>
-              <br/>
-              </>
-  })
+    toolbar: false,
+  };
+  const answerFrames = submission.answers.map((answer) => {
+    return (
+      <>
+        <Frame1366>
+          <Q1PoremIpsumDolo>{answer.serialNumber}</Q1PoremIpsumDolo>
+          <ToremIpsumDolorSi>
+            <ReactQuill
+              theme="snow"
+              value={answer.answer.answer}
+              className="ql-editor"
+              readOnly={true}
+              modules={modules}
+              onChangeSelection={(range, source, editor) => {
+                if (range && range.length > 0) {
+                  console.log(range);
+                  setNewCommentSerialNumber(answer.serialNumber);
+                  setShowNewComment(true);
+                  setSelectedRange({
+                    from: range.index,
+                    to: range.index + range.length,
+                  });
+                }
+              }}
+            />
+          </ToremIpsumDolorSi>
+        </Frame1366>
+        <Line26 src={line261} alt="Line 26" />
+      </>
+    );
+  });
   return (
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
@@ -171,43 +189,47 @@ function FeedbackTeacherLaptop(props) {
                   <Frame1284 src={frame1284} alt="Frame 1284" />
                 </Frame13161>
               </Link>
-              <ReviewsFrame131722 buttonsProps={frame13172Props.buttonsProps} buttons2Props={frame13172Props.buttons2Props} />
+              <ReviewsFrame131722
+                buttonsProps={frame13172Props.buttonsProps}
+                buttons2Props={frame13172Props.buttons2Props}
+              />
             </Frame1369>
           </Frame1371>
           <Frame1368>
             <Group1225>
-            {answerFrames}
+              <Frame1367>{answerFrames}</Frame1367>
             </Group1225>
             <Frame1331>
               <Frame1322>
                 <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
-                <ReviewsFrame1320 className={frame13202Props.className}>{frame13202Props.children}</ReviewsFrame1320>
+                <ReviewsFrame1320 className={frame13202Props.className}>
+                  {frame13202Props.children}
+                </ReviewsFrame1320>
               </Frame1322>
               <>
-              {showNewComment?feedbackFrame:<></>}
-                <Frame1328>
-                  {commentsFrame}
-                </Frame1328>    
+                {showNewComment ? feedbackFrame : <></>}
+                <Frame1328>{commentsFrame}</Frame1328>
               </>
             </Frame1331>
           </Frame1368>
           <Frame1370>
             <ReviewsFrame1316 />
-            <ReviewsFrame1317 buttonsProps={frame1317Props.buttonsProps} buttons2Props={frame1317Props.buttons2Props} />
+            <ReviewsFrame1317
+              buttonsProps={frame1317Props.buttonsProps}
+              buttons2Props={frame1317Props.buttons2Props}
+            />
           </Frame1370>
         </Frame1386>
       </Frame1388>
       <Frame6>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
+        <X2021JeddleAllRightsReserved>
+          {x2021JeddleAllRightsReserved}
+        </X2021JeddleAllRightsReserved>
         <ReviewsFrame622 />
       </Frame6>
     </div>
   );
 }
-
-
-
-
 
 const Frame1388 = styled.div`
   display: flex;
@@ -305,20 +327,21 @@ const Group1225 = styled.div`
   display: flex;
   flex: 1;
   min-width: 949px;
-  height: 982px;
+  // height: 982px;
+  flex-direction: column;
 `;
 
 const Frame1367 = styled.div`
   display: flex;
-  width: 949px;
-  height: 982px;
+  min-width: 949px;
+  // height: 982px;
   position: relative;
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
   padding: 30px 0px;
   background-color: var(--white);
-  border-radius: 16px;
+  border-radius: 26px;
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
@@ -348,6 +371,7 @@ const ToremIpsumDolorSi = styled.p`
   align-self: stretch;
   letter-spacing: 0;
   line-height: normal;
+  width: 900px;
 `;
 
 const Group1307 = styled.div`
@@ -399,18 +423,6 @@ const Group1308 = styled.div`
 const OverlapGroup1 = styled.div`
   position: relative;
   height: 76px;
-`;
-
-const Rectangle5461 = styled.div`
-  position: absolute;
-  width: 308px;
-  height: 26px;
-  top: 0;
-  left: 500px;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
 `;
 
 const Rectangle5471 = styled.div`

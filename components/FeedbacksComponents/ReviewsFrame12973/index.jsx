@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalDeepBronze16px } from "../../../styledMixins";
 
-
 function ReviewsFrame12973(props) {
   const { children } = props;
 

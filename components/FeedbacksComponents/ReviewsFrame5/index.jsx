@@ -2,13 +2,15 @@ import React from "react";
 import NavElement from "../NavElement";
 import styled from "styled-components";
 
-
 function Frame5(props) {
   const { navElement1Props, navElement2Props, navElement3Props } = props;
 
   return (
     <ReviewsFrame51>
-      <NavElement home3={navElement1Props.home3} place={navElement1Props.place} />
+      <NavElement
+        home3={navElement1Props.home3}
+        place={navElement1Props.place}
+      />
       <NavElement
         home3={navElement2Props.home3}
         place={navElement2Props.place}

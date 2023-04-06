@@ -46,7 +46,7 @@ function CreateAAssignmentTablet(props) {
       questionFrames.length + 1,
       frame12972Props,
       line141,
-    getClassesestionFrameFn
+      getClassesestionFrameFn
     );
     setQuestionFrames([...questionFrames, newQuestionFrame]);
   };

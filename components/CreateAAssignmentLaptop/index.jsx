@@ -89,7 +89,7 @@ function CreateAAssignmentLaptop(props) {
       questions,
     };
     createAssignment(assignment).then((res) => {
-    console.log(res);
+      console.log(res);
     });
   };
   const checkboxes = classes.map((clazz) => {

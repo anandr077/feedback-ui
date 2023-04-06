@@ -3,14 +3,16 @@ import Buttons from "../Buttons";
 import Buttons2 from "../Buttons2";
 import styled from "styled-components";
 
-
 function ReviewsFrame1317(props) {
   const { buttonsProps, buttons2Props } = props;
 
   return (
     <Frame13171>
       <Buttons arrowleft={buttonsProps.arrowleft} />
-      <Buttons2 button={buttons2Props.button} arrowright={buttons2Props.arrowright} />
+      <Buttons2
+        button={buttons2Props.button}
+        arrowright={buttons2Props.arrowright}
+      />
     </Frame13171>
   );
 }

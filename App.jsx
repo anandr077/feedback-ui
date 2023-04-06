@@ -29,15 +29,15 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/feedbacks/:id">
-          <Feebacks />
-        </Route>
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>
         <Route path="/tasks">{tasks()}</Route>
         <Route path="/submissions">
           <AssignmentTheory />
+        </Route>
+        <Route path="/feedbacks/:id">
+          <Feebacks />
         </Route>
         <Route path="/">{dashboard()}</Route>
       </Switch>
@@ -49,19 +49,20 @@ function App() {
     const [submission, setSubmission] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
-    console.log("id is " + id)
-    useEffect(() => {
-      if(submission == null) {
-      getSubmissionById(id).then((result) => {
-        if (result) {
-          setSubmission(result);
-          setIsLoading(false);
-        }
-
-      });
-    }
-    });
     
+    useEffect(() => {
+      if(submission === null) {
+        console.log("id is " + id)
+        getSubmissionById(id).then((result) => {
+          if (result) {
+            setSubmission(result);
+            setIsLoading(false);
+          }
+
+        });
+    }
+    }, []);
+    console.log("Loading is " + isLoading)
     if (isLoading) {
       return <div>Loading...</div>;
     }

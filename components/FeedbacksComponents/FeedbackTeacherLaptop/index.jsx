@@ -3,9 +3,9 @@ import ReactQuill from "react-quill";
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getCommentsForSubmission } from "../../../service";
+import { getCommentsForSubmission, addNewComment } from "../../../service";
 import {
-  feedbacksIbmplexsansBoldShark36px, feedbacksIbmplexsansMediumPersianIndigo20px, feedbacksIbmplexsansNormalBlack16px, feedbacksIbmplexsansNormalChicago13px, feedbacksIbmplexsansNormalMountainMist16px, feedbacksIbmplexsansNormalShark20px
+  feedbacksIbmplexsansNormalStack20px, feedbacksIbmplexsansBoldShark36px, feedbacksIbmplexsansMediumPersianIndigo20px, feedbacksIbmplexsansNormalBlack16px, feedbacksIbmplexsansNormalChicago13px, feedbacksIbmplexsansNormalMountainMist16px, feedbacksIbmplexsansNormalShark20px
 } from "../../../styledMixins";
 import "../../AssignmentTheory/_textEditor.scss";
 import Breadcrumb from "../Breadcrumb";
@@ -65,20 +65,34 @@ function FeedbackTeacherLaptop(props) {
       }
     });
     }
-  });
+  }, [comments]);
+  const [newCommentValue, setNewCommentValue] = useState('');
+
+  function handleInputChange(event) {
+    setNewCommentValue(event.target.value);
+  }
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      // Do something here, for example, call a function or submit a form
+      addNewComment(submission.id, {questionSerialNumber:newCommentSerialNumber, feedback:newCommentValue})
+      .then(response=>{
+        if (response) {
+          setComments([...comments, response]);
+          setNewCommentValue('');
+        }
+      });
+    }
+  }
+
+
   const feedbackFrame = 
       <>
       <Frame1329>
                 <Frame1406>
                   <Frame1326>
-                    <TypeHere>{typeHere}</TypeHere>
+                    <TypeHere ><TextInput placeholder="Comment here...." value={newCommentValue} onChange={handleInputChange} onKeyPress={handleKeyPress} ></TextInput></TypeHere>
                     <IconsaxLinearmicrophone2 src={iconsaxLinearMicrophone2} alt="Iconsax/Linear/microphone2" />
                   </Frame1326>
-                  <Frame1406>
-                    <ReviewsFrame1332 />
-                    <ReviewsFrame1384 />
-                    <ReviewsFrame1333 className={frame1333Props.className} />
-                  </Frame1406>
                 </Frame1406>
                 <Line261 src={line263} alt="Line 26" />
                 <Frame1383>
@@ -93,12 +107,15 @@ function FeedbackTeacherLaptop(props) {
       </>
 
 
-  
+
+
   const commentsFrame =
   comments.map(comment => {
     return <CommentCard32 horemIpsumDolorSi={comment.comment} />
   })
-    
+  const modules = {
+    toolbar: false
+  }
   const answerFrames = submission.answers.map(answer => {
 
     return <><Frame1367>
@@ -110,9 +127,13 @@ function FeedbackTeacherLaptop(props) {
                 value={answer.answer.answer}
                 className="ql-editor"
                 readOnly={true}
+                modules = {modules}
                 onChangeSelection={(range, source, editor) => {
+                  if (range && range.length>0) {
+                  console.log(range)
                   setNewCommentSerialNumber(answer.serialNumber)
                   setShowNewComment(true)
+                  }
                 }}
               />
                   </ToremIpsumDolorSi>
@@ -183,6 +204,10 @@ function FeedbackTeacherLaptop(props) {
     </div>
   );
 }
+
+
+
+
 
 const Frame1388 = styled.div`
   display: flex;
@@ -480,9 +505,19 @@ const TypeHere = styled.div`
   position: relative;
   flex: 1;
   letter-spacing: 0;
-  line-height: normal;
 `;
-
+const TextInput = styled.input`
+  ${feedbacksIbmplexsansNormalStack20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
 const IconsaxLinearmicrophone2 = styled.img`
   position: relative;
   min-width: 30px;

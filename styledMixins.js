@@ -475,3 +475,11 @@ export const feedbacksIbmplexsansBoldShark36px = css`
   font-weight: 700;
   font-style: normal;
 `;
+
+export const feedbacksIbmplexsansNormalStack20px = css`
+  color: var(--stack);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-m);
+  font-weight: 400;
+  font-style: normal;
+`;

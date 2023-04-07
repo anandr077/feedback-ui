@@ -3,6 +3,10 @@ import { useMediaQuery } from "react-responsive";
 import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
 import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
 import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
+import styled from "styled-components";
+import {
+  IbmplexsansNormalShark20px,
+} from "../../styledMixins";
 import { getClasses, createAssignment } from "../../service";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
 
@@ -45,7 +49,7 @@ export default function CreateAssignment() {
   }, []);
 
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, null),
+    createNewQuestionFrame(1, null,isMobileView ? "small" : "large"),
   ]);
 
   const addQuestionFrameFn = () => {
@@ -185,6 +189,51 @@ export default function CreateAssignment() {
     </>
   );
 }
+
+const Checkbox = styled.article`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  flex: 1;
+`;
+
+const Checkbox1 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
+
+const CheckBoxText = styled.div`
+  ${IbmplexsansNormalShark20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+const Rectangle43 = styled.input`
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: -1px;
+  left: -1px;
+  background-color: var(--white);
+
+  border: 1px solid;
+  border-color: var(--light-mode-purple);
+  font: inherit;
+  color: currentColor;
+  width: 1.25em;
+  height: 1.25em;
+  border: 1em solid currentColor;
+  border-radius: 1em;
+  transform: translateY(-0.075em);
+  &:checked {
+    border-color: red;
+    background-color: red;
+  }
+`;
 
 const navElement23Data = {
   tasksquare: "/img/home3-1@2x.png",

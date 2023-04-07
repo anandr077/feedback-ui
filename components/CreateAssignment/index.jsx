@@ -3,6 +3,15 @@ import { useMediaQuery } from "react-responsive";
 import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
 import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
 import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
+import styled from "styled-components";
+import Frame12973 from "../Frame12973";
+import Frame1291 from "../Frame1291";
+import {
+  IbmplexsansSemiBoldShark24px,
+  IbmplexsansNormalElectricViolet14px,
+  IbmplexsansNormalShark20px,
+} from "../../styledMixins";
+import { getClasses, createAssignment } from "../../service";
 
 const createAssignmentHeaderProps = {
   firstButton: {
@@ -33,16 +42,174 @@ export default function CreateAssignment() {
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
+
+  const [questionFrames, setQuestionFrames] = React.useState([
+    createNewQuestionFrame(1, null),
+  ]);
+  const [classes, setClasses] = React.useState([]);
+
+  React.useEffect(() => {
+    getClasses().then((res) => {
+      setClasses(res);
+    });
+  }, []);
+
+  const addQuestionFrameFn = () => {
+    const newQuestionFrame = createNewQuestionFrame(
+      questionFrames.length + 1,
+      null
+    );
+    console.log("questionFrames.size", questionFrames.length);
+
+    setQuestionFrames((oldFrames) => [...oldFrames, newQuestionFrame]);
+    console.log("questionFrames.size", questionFrames.length);
+  };
+
+  function deleteQuestionFrameFn(index) {
+    setQuestionFrames((oldFrames) => {
+      console.log("questionFrames.size", oldFrames.length);
+      console.log("index", index);
+      const questionFramesBefore = oldFrames.filter((_, i) => i < index);
+      const questionFramesAfter = oldFrames
+        .filter((_, i) => i > index)
+        .map((_, i) => {
+          return createNewQuestionFrame(
+            index + i + 1,
+            (question = {
+              serialNumber: index + i + 1,
+              question: document.getElementById("question_" + (index + i + 2))
+                .value,
+              hint: document.getElementById("questionHint_" + (index + i + 2))
+                .value,
+              type: "TEXT",
+            })
+          );
+        });
+      console.log("questionFramesBefore", questionFramesBefore.length);
+      console.log("questionFramesAfter", questionFramesAfter.length);
+      return [...questionFramesBefore, ...questionFramesAfter];
+    });
+  }
+
+  function createNewQuestionFrame(serialNumber, questionDetails) {
+    return (
+      <QuestionFrame>
+        <Frame1295>
+          <Frame12973
+            number={serialNumber}
+            frame1284="/img/frame-1284-7@2x.png"
+          />
+          <DeleteButtonFrame>
+            <DeleteButton
+              onClick={() => deleteQuestionFrameFn(serialNumber - 1)}
+            >
+              Delete
+            </DeleteButton>
+          </DeleteButtonFrame>
+          <Line14 src="/img/line-14-4.png" alt="Line 14" />
+        </Frame1295>
+
+        <Frame1289>
+          <InputQuestion>
+            <Label>Type of question</Label>
+            <QuestionFrame1>
+              <QuestionInput id={"questionType_" + serialNumber}>
+                Theory
+              </QuestionInput>
+            </QuestionFrame1>
+          </InputQuestion>
+
+          <InputQuestion>
+            <Label>Question</Label>
+            <QuestionFrame1>
+              <QuestionInputEditable
+                id={"question_" + serialNumber}
+                placeholder="Type Your Question here"
+                value={questionDetails?.question}
+              />
+            </QuestionFrame1>
+          </InputQuestion>
+          <InputQuestion>
+            <Label>Hint (Optional)</Label>
+            <QuestionFrame1>
+              <QuestionInputEditable
+                id={"questionHint_" + serialNumber}
+                placeholder="Optional"
+                value={questionDetails?.hint}
+              />
+            </QuestionFrame1>
+          </InputQuestion>
+
+          <Frame1291 />
+          {/* <Buttons3 /> */}
+        </Frame1289>
+      </QuestionFrame>
+    );
+  }
+
+  const publish = () => {
+    const title = document.getElementById("assignmentName").value;
+    const classIds = classes
+      .filter((clazz) => {
+        return document.getElementById(clazz.id).checked;
+      })
+      .map((clazz) => clazz.id);
+
+    const serialNumbers = questionFrames.map((_, index) => index + 1);
+    const questions = serialNumbers.map((serialNumber) => {
+      const question = {
+        serialNumber: serialNumber,
+        question: document.getElementById("question_" + serialNumber).value,
+        type: "TEXT",
+      };
+      return question;
+    });
+
+    const assignment = {
+      title,
+      classIds,
+      questions,
+    };
+    createAssignment(assignment).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const checkboxes = classes.map((clazz) => {
+    return (
+      <Checkbox>
+        <Checkbox1>
+          <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
+        </Checkbox1>
+        <CheckBoxText>{clazz.title}</CheckBoxText>
+      </Checkbox>
+    );
+  });
+
   return (
     <>
       {isMobileView && (
         <CreateAAssignmentMobile {...createAAssignmentMobileData} />
       )}
       {isTabletView && (
-        <CreateAAssignmentTablet {...createAAssignmentTabletData} />
+        <CreateAAssignmentTablet
+          {...{
+            addQuestionFrameFn,
+            questionFrames,
+            publish,
+            checkboxes,
+            ...createAAssignmentTabletData,
+          }}
+        />
       )}
       {isLaptopView && (
-        <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />
+        <CreateAAssignmentLaptop
+          {...{
+            addQuestionFrameFn,
+            questionFrames,
+            ...createAAssignmentLaptopData,
+          }}
+        />
       )}
       {isDesktopView && (
         <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />
@@ -50,6 +217,166 @@ export default function CreateAssignment() {
     </>
   );
 }
+const Checkbox = styled.article`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  flex: 1;
+`;
+
+const Checkbox1 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
+
+const CheckBoxText = styled.div`
+  ${IbmplexsansNormalShark20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+const Rectangle43 = styled.input`
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: -1px;
+  left: -1px;
+  background-color: var(--white);
+
+  border: 1px solid;
+  border-color: var(--light-mode-purple);
+  font: inherit;
+  color: currentColor;
+  width: 1.25em;
+  height: 1.25em;
+  border: 1em solid currentColor;
+  border-radius: 1em;
+  transform: translateY(-0.075em);
+  &:checked {
+    border-color: red;
+    background-color: red;
+  }
+`;
+const InputQuestion = styled.div`
+  ${IbmplexsansNormalShark20px}
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const Label = styled.div`
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const QuestionFrame1 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const QuestionInput = styled.div`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const QuestionInputEditable = styled.input`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
+const DeleteButtonFrame = styled.div`
+  ${IbmplexsansNormalElectricViolet14px}
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  align-self: stretch;
+  left: 80px;
+  &.frame-1280-5.frame-1280-6 {
+    opacity: 0;
+  }
+
+  &.frame-1280-5.frame-1280-7 {
+    opacity: 0;
+  }
+`;
+
+const Line14 = styled.img`
+  position: relative;
+  align-self: stretch;
+  min-width: 960px;
+  height: 1px;
+  object-fit: cover;
+`;
+const DeleteButton = styled.div`
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const Frame1289 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0px 60px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const Frame1295 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const QuestionFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
 
 const navElement23Data = {
   tasksquare: "/img/home3-1@2x.png",

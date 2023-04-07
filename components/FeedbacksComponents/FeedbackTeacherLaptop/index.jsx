@@ -3,7 +3,11 @@ import ReactQuill from "react-quill";
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getCommentsForSubmission, addNewComment, markAssignmentReviewed as markSubmsissionReviewed } from "../../../service";
+import {
+  getCommentsForSubmission,
+  addNewComment,
+  markAssignmentReviewed as markSubmsissionReviewed,
+} from "../../../service";
 import {
   feedbacksIbmplexsansNormalStack20px,
   feedbacksIbmplexsansBoldShark36px,
@@ -81,8 +85,9 @@ function FeedbackTeacherLaptop(props) {
   }
 
   function handleSubmissionReviewed() {
-    markSubmsissionReviewed(submission.id)
-    .then((_) => window.location.href = "/");
+    markSubmsissionReviewed(submission.id).then(
+      (_) => (window.location.href = "/")
+    );
   }
   function handleKeyPress(event) {
     if (event.key === "Enter") {
@@ -197,14 +202,14 @@ function FeedbackTeacherLaptop(props) {
               </Link>
               <Buttons2
                 arrowleft={true}
-                button='Previous'
-                onClickFn={()=>alert('clicked')}>
-              </Buttons2>
+                button="Previous"
+                onClickFn={() => alert("clicked")}
+              ></Buttons2>
               <Buttons2
-                button='Submit & Next'
+                button="Submit & Next"
                 arrowright={true}
-                onClickFn={()=>handleSubmissionReviewed()} >
-              </Buttons2>
+                onClickFn={() => handleSubmissionReviewed()}
+              ></Buttons2>
               {/* <ReviewsFrame131722
                 buttonsProps={frame13172Props.buttonsProps}
                 buttons2Props={frame13172Props.buttons2Props}

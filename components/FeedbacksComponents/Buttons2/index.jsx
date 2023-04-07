@@ -8,21 +8,33 @@ function Buttons2(props) {
   return (
     <Buttons className={`buttons-1 ${className || ""}`}>
       {arrowLeft()}
-      <Button onClick={onClickFn} className="button-1">{button}</Button>
+      <Button onClick={onClickFn} className="button-1">
+        {button}
+      </Button>
       {arrowRight()}
     </Buttons>
   );
   function arrowLeft() {
     if (arrowleft)
-      return <Arrowleft className="arrowleft" src={"/icons/arrowleft.png"} alt="arrowleft" />;
-    else
-      return <></>
+      return (
+        <Arrowleft
+          className="arrowleft"
+          src={"/icons/arrowleft.png"}
+          alt="arrowleft"
+        />
+      );
+    else return <></>;
   }
   function arrowRight() {
     if (arrowright)
-      return <Arrowright className="arrowright" src={"/icons/arrowright.png"} alt="arrowright" />;
-    else
-      return <></>
+      return (
+        <Arrowright
+          className="arrowright"
+          src={"/icons/arrowright.png"}
+          alt="arrowright"
+        />
+      );
+    else return <></>;
   }
 }
 

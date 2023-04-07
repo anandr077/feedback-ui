@@ -24,6 +24,11 @@ import { createAssignment, getClasses } from "../../service";
 
 function CreateAAssignmentTablet(props) {
   const {
+    addQuestionFrameFn,
+    questionFrames,
+    publish,
+    checkboxes,
+    classes,
     line141,
     help1,
     help2,
@@ -32,69 +37,69 @@ function CreateAAssignmentTablet(props) {
     frame12972Props,
     goBack22Props,
   } = props;
-  const deleteQuestionFrameFn = (index) => {
-    const newQuestionFrames = questionFrames.filter((_, i) => i !== index);
-    setQuestionFrames(newQuestionFrames);
-  };
-  const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, frame12972Props, line141, deleteQuestionFrameFn),
-  ]);
-  const [classes, setClasses] = React.useState([]);
+  // const deleteQuestionFrameFn = (index) => {
+  //   const newQuestionFrames = questionFrames.filter((_, i) => i !== index);
+  //   setQuestionFrames(newQuestionFrames);
+  // };
+  // const [questionFrames, setQuestionFrames] = React.useState([
+  //   createNewQuestionFrame(1, frame12972Props, line141, deleteQuestionFrameFn),
+  // ]);
+  // const [classes, setClasses] = React.useState([]);
 
-  const addQuestionFrameFn = () => {
-    const newQuestionFrame = createNewQuestionFrame(
-      questionFrames.length + 1,
-      frame12972Props,
-      line141,
-      getClassesestionFrameFn
-    );
-    setQuestionFrames([...questionFrames, newQuestionFrame]);
-  };
+  // const addQuestionFrameFn = () => {
+  //   const newQuestionFrame = createNewQuestionFrame(
+  //     questionFrames.length + 1,
+  //     frame12972Props,
+  //     line141,
+  //     getClassesestionFrameFn
+  //   );
+  //   setQuestionFrames([...questionFrames, newQuestionFrame]);
+  // };
 
-  useEffect(() => {
-    getClasses().then((res) => {
-      setClasses(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getClasses().then((res) => {
+  //     setClasses(res);
+  //   });
+  // }, []);
 
-  const publish = () => {
-    const title = document.getElementById("assignmentName").value;
-    const classIds = classes
-      .filter((clazz) => {
-        return document.getElementById(clazz.id).checked;
-      })
-      .map((clazz) => clazz.id);
+  // const publish = () => {
+  //   const title = document.getElementById("assignmentName").value;
+  //   const classIds = classes
+  //     .filter((clazz) => {
+  //       return document.getElementById(clazz.id).checked;
+  //     })
+  //     .map((clazz) => clazz.id);
 
-    const serialNumbers = questionFrames.map((_, index) => index + 1);
-    const questions = serialNumbers.map((serialNumber) => {
-      const question = {
-        serialNumber: serialNumber,
-        question: document.getElementById("question_" + serialNumber).value,
-        type: "TEXT",
-      };
-      return question;
-    });
+  //   const serialNumbers = questionFrames.map((_, index) => index + 1);
+  //   const questions = serialNumbers.map((serialNumber) => {
+  //     const question = {
+  //       serialNumber: serialNumber,
+  //       question: document.getElementById("question_" + serialNumber).value,
+  //       type: "TEXT",
+  //     };
+  //     return question;
+  //   });
 
-    const assignment = {
-      title,
-      classIds,
-      questions,
-    };
-    createAssignment(assignment).then((res) => {
-      console.log(res);
-    });
-  };
+  //   const assignment = {
+  //     title,
+  //     classIds,
+  //     questions,
+  //   };
+  //   createAssignment(assignment).then((res) => {
+  //     console.log(res);
+  //   });
+  // };
 
-  const checkboxes = classes.map((clazz) => {
-    return (
-      <Checkbox>
-        <Checkbox1>
-          <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
-        </Checkbox1>
-        <CheckBoxText>{clazz.title}</CheckBoxText>
-      </Checkbox>
-    );
-  });
+  // const checkboxes = classes.map((clazz) => {
+  //   return (
+  //     <Checkbox>
+  //       <Checkbox1>
+  //         <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
+  //       </Checkbox1>
+  //       <CheckBoxText>{clazz.title}</CheckBoxText>
+  //     </Checkbox>
+  //   );
+  // });
 
   return (
     <div className="create-a-assignment-tablet screen">
@@ -173,62 +178,62 @@ function CreateAAssignmentTablet(props) {
     </div>
   );
 }
-function createNewQuestionFrame(
-  serialNumber,
-  frame12972Props,
-  line141,
-  deleteQuestionFrameFn
-) {
-  return (
-    <QuestionFrame>
-      <Frame1295>
-        <Frame12972
-          number={serialNumber}
-          frame1284={frame12972Props.frame1284}
-        />
-        <DeleteButtonFrame>
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
-            Delete
-          </DeleteButton>
-        </DeleteButtonFrame>
-        <Line14 src={line141} alt="Line 14" />
-      </Frame1295>
+// function createNewQuestionFrame(
+//   serialNumber,
+//   frame12972Props,
+//   line141,
+//   deleteQuestionFrameFn
+// ) {
+//   return (
+//     <QuestionFrame>
+//       <Frame1295>
+//         <Frame12972
+//           number={serialNumber}
+//           frame1284={frame12972Props.frame1284}
+//         />
+//         <DeleteButtonFrame>
+//           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+//             Delete
+//           </DeleteButton>
+//         </DeleteButtonFrame>
+//         <Line14 src={line141} alt="Line 14" />
+//       </Frame1295>
 
-      <Frame1289>
-        <InputQuestion>
-          <Label>Type of question</Label>
-          <QuestionFrame1>
-            <QuestionInput id={"questionType_" + serialNumber}>
-              Theory
-            </QuestionInput>
-          </QuestionFrame1>
-        </InputQuestion>
+//       <Frame1289>
+//         <InputQuestion>
+//           <Label>Type of question</Label>
+//           <QuestionFrame1>
+//             <QuestionInput id={"questionType_" + serialNumber}>
+//               Theory
+//             </QuestionInput>
+//           </QuestionFrame1>
+//         </InputQuestion>
 
-        <InputQuestion>
-          <Label>Question</Label>
-          <QuestionFrame1>
-            <QuestionInputEditable
-              id={"question_" + serialNumber}
-              placeholder="Type Your Question here"
-            />
-          </QuestionFrame1>
-        </InputQuestion>
-        <InputQuestion>
-          <Label>Hint (Optional)</Label>
-          <QuestionFrame1>
-            <QuestionInputEditable
-              id={"questionHint_" + serialNumber}
-              placeholder="Optional"
-            />
-          </QuestionFrame1>
-        </InputQuestion>
+//         <InputQuestion>
+//           <Label>Question</Label>
+//           <QuestionFrame1>
+//             <QuestionInputEditable
+//               id={"question_" + serialNumber}
+//               placeholder="Type Your Question here"
+//             />
+//           </QuestionFrame1>
+//         </InputQuestion>
+//         <InputQuestion>
+//           <Label>Hint (Optional)</Label>
+//           <QuestionFrame1>
+//             <QuestionInputEditable
+//               id={"questionHint_" + serialNumber}
+//               placeholder="Optional"
+//             />
+//           </QuestionFrame1>
+//         </InputQuestion>
 
-        <Frame1291 />
-        {/* <Buttons3 /> */}
-      </Frame1289>
-    </QuestionFrame>
-  );
-}
+//         <Frame1291 />
+//         {/* <Buttons3 /> */}
+//       </Frame1289>
+//     </QuestionFrame>
+//   );
+// }
 
 const DeleteButtonFrame = styled.div`
   ${IbmplexsansNormalElectricViolet14px}

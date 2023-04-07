@@ -29,6 +29,8 @@ import "./CreateAAssignmentLaptop.css";
 
 function CreateAAssignmentLaptop(props) {
   const {
+    addQuestionFrameFn,
+    questionFrames,
     headerProps,
     line141,
     assignmentSettings,
@@ -41,46 +43,43 @@ function CreateAAssignmentLaptop(props) {
     goBack22Props,
   } = props;
   const [classes, setClasses] = React.useState([]);
-  const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, null),
-  ]);
-  
+  // const [questionFrames, setQuestionFrames] = React.useState([
+  //   createNewQuestionFrame(1, null),
+  // ]);
 
-  function deleteQuestionFrameFn(index) {
-    
-    setQuestionFrames(oldFrames=>{
-      console.log("questionFrames.size", oldFrames.length);
-      console.log("index", index);
-      const questionFramesBefore = oldFrames.filter((_, i) => i < index);
-      const questionFramesAfter = oldFrames.filter((_, i) => i > index)
-              .map((_, i)=>{
-                return createNewQuestionFrame(
-                  index + i+1, 
-                  question = {
-                    serialNumber: index + i+1,
-                    question: document.getElementById("question_" + (index + i+2)).value,
-                    hint: document.getElementById("questionHint_" + (index + i+2)).value,
-                    type: "TEXT",
-                  })
-              });
-      console.log("questionFramesBefore", questionFramesBefore.length);
-      console.log("questionFramesAfter", questionFramesAfter.length);
-      return [...questionFramesBefore, ...questionFramesAfter];
-    });
-  };
-  const addQuestionFrameFn = () => {
-    const newQuestionFrame = createNewQuestionFrame(
-      questionFrames.length + 1,
-      null
-    );
-    console.log("questionFrames.size", questionFrames.length);
+  // function deleteQuestionFrameFn(index) {
 
-    setQuestionFrames(oldFrames=>[...oldFrames, newQuestionFrame]);
-    console.log("questionFrames.size", questionFrames.length);
-  };
+  //   setQuestionFrames(oldFrames=>{
+  //     console.log("questionFrames.size", oldFrames.length);
+  //     console.log("index", index);
+  //     const questionFramesBefore = oldFrames.filter((_, i) => i < index);
+  //     const questionFramesAfter = oldFrames.filter((_, i) => i > index)
+  //             .map((_, i)=>{
+  //               return createNewQuestionFrame(
+  //                 index + i+1,
+  //                 question = {
+  //                   serialNumber: index + i+1,
+  //                   question: document.getElementById("question_" + (index + i+2)).value,
+  //                   hint: document.getElementById("questionHint_" + (index + i+2)).value,
+  //                   type: "TEXT",
+  //                 })
+  //             });
+  //     console.log("questionFramesBefore", questionFramesBefore.length);
+  //     console.log("questionFramesAfter", questionFramesAfter.length);
+  //     return [...questionFramesBefore, ...questionFramesAfter];
+  //   });
+  // };
+  // const addQuestionFrameFn = () => {
+  //   const newQuestionFrame = createNewQuestionFrame(
+  //     questionFrames.length + 1,
+  //     null
+  //   );
+  //   console.log("questionFrames.size", questionFrames.length);
 
-  
-  
+  //   setQuestionFrames(oldFrames=>[...oldFrames, newQuestionFrame]);
+  //   console.log("questionFrames.size", questionFrames.length);
+  // };
+
   useEffect(() => {
     getClasses().then((res) => {
       setClasses(res);
@@ -214,66 +213,64 @@ function CreateAAssignmentLaptop(props) {
     </div>
   );
 
+  // function createNewQuestionFrame(
+  //   serialNumber,
+  //   questionDetails
+  // ) {
+  //   return (
+  //     <QuestionFrame>
+  //       <Frame1295>
+  //         <Frame12973
+  //           number={serialNumber}
+  //           frame1284={frame12973Props.frame1284}
+  //           richTextComponentsProps={frame12973Props.richTextComponentsProps}
+  //         />
+  //         <DeleteButtonFrame>
+  //           <DeleteButton onClick={ ()=>deleteQuestionFrameFn(serialNumber -1)}>
+  //             Delete
+  //           </DeleteButton>
+  //         </DeleteButtonFrame>
+  //         <Line14 src={line141} alt="Line 14" />
+  //       </Frame1295>
 
-function createNewQuestionFrame(
-  serialNumber,
-  questionDetails
-) {
-  return (
-    <QuestionFrame>
-      <Frame1295>
-        <Frame12973
-          number={serialNumber}
-          frame1284={frame12973Props.frame1284}
-          richTextComponentsProps={frame12973Props.richTextComponentsProps}
-        />
-        <DeleteButtonFrame>
-          <DeleteButton onClick={ ()=>deleteQuestionFrameFn(serialNumber -1)}>
-            Delete
-          </DeleteButton>
-        </DeleteButtonFrame>
-        <Line14 src={line141} alt="Line 14" />
-      </Frame1295>
+  //       <Frame1289>
+  //         <InputQuestion>
+  //           <Label>Type of question</Label>
+  //           <QuestionFrame1>
+  //             <QuestionInput id={"questionType_" + serialNumber}>
+  //               Theory
+  //             </QuestionInput>
+  //           </QuestionFrame1>
+  //         </InputQuestion>
 
-      <Frame1289>
-        <InputQuestion>
-          <Label>Type of question</Label>
-          <QuestionFrame1>
-            <QuestionInput id={"questionType_" + serialNumber}>
-              Theory
-            </QuestionInput>
-          </QuestionFrame1>
-        </InputQuestion>
+  //         <InputQuestion>
+  //           <Label>Question</Label>
+  //           <QuestionFrame1>
+  //             <QuestionInputEditable
+  //               id={"question_" + serialNumber}
+  //               placeholder="Type Your Question here"
+  //               value={questionDetails?.question}
+  //             />
+  //           </QuestionFrame1>
+  //         </InputQuestion>
+  //         <InputQuestion>
+  //           <Label>Hint (Optional)</Label>
+  //           <QuestionFrame1>
+  //             <QuestionInputEditable
+  //               id={"questionHint_" + serialNumber}
+  //               placeholder="Optional"
+  //               value={questionDetails?.hint}
+  //             />
+  //           </QuestionFrame1>
+  //         </InputQuestion>
 
-        <InputQuestion>
-          <Label>Question</Label>
-          <QuestionFrame1>
-            <QuestionInputEditable
-              id={"question_" + serialNumber}
-              placeholder="Type Your Question here"
-              value={questionDetails?.question}
-            />
-          </QuestionFrame1>
-        </InputQuestion>
-        <InputQuestion>
-          <Label>Hint (Optional)</Label>
-          <QuestionFrame1>
-            <QuestionInputEditable
-              id={"questionHint_" + serialNumber}
-              placeholder="Optional"
-              value={questionDetails?.hint}
-            />
-          </QuestionFrame1>
-        </InputQuestion>
-
-        <Frame1291 />
-        {/* <Buttons3 /> */}
-      </Frame1289>
-    </QuestionFrame>
-  );
+  //         <Frame1291 />
+  //         {/* <Buttons3 /> */}
+  //       </Frame1289>
+  //     </QuestionFrame>
+  //   );
+  // }
 }
-}
-
 
 const DeleteButtonFrame = styled.div`
   ${IbmplexsansNormalElectricViolet14px}

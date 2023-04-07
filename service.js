@@ -140,8 +140,6 @@ export const saveAnswer = async (submissionId, serialNumber, answer) => {
     });
 };
 
-
-
 export const submitAssignment = async (submissionId) => {
   const s = JSON.stringify(submissionId);
 
@@ -164,7 +162,6 @@ export const submitAssignment = async (submissionId) => {
       console.log(err.message);
     });
 };
-
 
 export const markAssignmentReviewed = async (submissionId) => {
   const s = JSON.stringify(submissionId);

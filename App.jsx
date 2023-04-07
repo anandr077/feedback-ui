@@ -18,6 +18,7 @@ import TasksLaptop from "./components/TasksLaptop";
 import TasksStudentMobile from "./components/TasksStudentMobile";
 import TasksStudentTablet from "./components/TasksStudentTablet";
 import { getSubmissionById, getTasks } from "./service.js";
+import StudentTaskRoot from "./components/StudentTaskRoot";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -30,7 +31,9 @@ function App() {
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>
-        <Route path="/tasks">{tasks()}</Route>
+        <Route path="/tasks">
+          <StudentTaskRoot />
+        </Route>
         <Route path="/submissions">
           <AssignmentTheory />
         </Route>
@@ -88,30 +91,6 @@ function App() {
           <FeedbackTeacherDesktop
             {...{ submission, ...feedbacksFeedbackTeacherDesktopData }}
           />
-        )}
-      </>
-    );
-  }
-
-  function tasks() {
-    const [allTasks, setAllTasks] = useState([]);
-
-    useEffect(() => {
-      getTasks().then((result) => {
-        setAllTasks(result);
-      });
-    }, []);
-    return (
-      <>
-        {isMobileView && (
-          <TasksStudentMobile {...{ allTasks, ...tasksStudentMobileData }} />
-        )}
-        {isTabletView && (
-          <TasksStudentTablet {...{ allTasks, ...tasksStudentTabletData }} />
-        )}
-        {isLaptopView && <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />}
-        {isDesktopView && (
-          <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
         )}
       </>
     );

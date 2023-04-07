@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { IbmplexsansMediumRiverBed16px } from "../../styledMixins";
 
 function TaskFrame1304(props) {
-  const { iconsaxLinearSort } = props;
-
   return (
     <Frame13041>
-      <IconsaxLinearsort src={iconsaxLinearSort} alt="Iconsax/Linear/sort" />
+      <IconsaxLinearsort
+        src="/img/iconsax-linear-sort@2x.png"
+        alt="Iconsax/Linear/sort"
+      />
       <FilterBy>Filter by</FilterBy>
     </Frame13041>
   );

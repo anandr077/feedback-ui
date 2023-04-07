@@ -123,9 +123,7 @@ function CreateAAssignmentLaptop(props) {
       <Footer />
     </div>
   );
-
 }
-
 
 const Frame1379 = styled.div`
   display: flex;
@@ -135,7 +133,6 @@ const Frame1379 = styled.div`
   position: relative;
   align-self: stretch;
 `;
-
 
 const Frame1376 = styled.div`
   display: flex;
@@ -218,7 +215,6 @@ const TextInput = styled.input`
   transition: 0.15s;
 `;
 
-
 const Frame1294 = styled.div`
   display: flex;
   flex-direction: column;
@@ -240,7 +236,6 @@ const Questions = styled.div`
   line-height: normal;
 `;
 
-
 const Frame1295 = styled.div`
   display: flex;
   flex-direction: column;
@@ -258,7 +253,6 @@ const AssignmentSettings = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 const Frame1296 = styled.div`
   display: flex;
@@ -341,8 +335,6 @@ const Frame12191 = styled.div`
   position: relative;
 `;
 
-
-
 const Buttons1 = styled.div`
   display: flex;
   width: fit-content;
@@ -370,7 +362,6 @@ const Button = styled.div`
   line-height: normal;
   background-color: var(--royal-purple);
 `;
-
 
 const Rectangle43 = styled.input`
   position: absolute;
@@ -417,4 +408,3 @@ const CheckBoxText = styled.div`
   line-height: normal;
 `;
 export default CreateAAssignmentLaptop;
-

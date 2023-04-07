@@ -38,9 +38,9 @@ import { createAssignment, getClasses } from "../../service";
 
 function CreateAAssignmentMobile(props) {
   const {
-    addQuestionFrameFnSmall,
-    questionFramesSmall,
-    publishMobile,
+    addQuestionFrameFn,
+    questionFrames,
+    publish,
     checkboxes,
     assignmentSettings,
     help1,
@@ -67,7 +67,7 @@ function CreateAAssignmentMobile(props) {
               <Title>Create Assignment</Title>
               <Frame12191>
                 <Buttons1>
-                  <Button onClick={publishMobile}>Publish</Button>
+                  <Button onClick={publish}>Publish</Button>
                 </Buttons1>
               </Frame12191>
             </Frame1372>
@@ -78,11 +78,11 @@ function CreateAAssignmentMobile(props) {
               <Frame1293>
                 <Questions>Questions</Questions>
               </Frame1293>
-              <Frame1295>{questionFramesSmall}</Frame1295>
+              <Frame1295>{questionFrames}</Frame1295>
               <Frame1296>
                 <Buttons2
                   add={buttons22Props.add}
-                  onClickFn={addQuestionFrameFnSmall}
+                  onClickFn={addQuestionFrameFn}
                 />
               </Frame1296>
             </Frame1294>

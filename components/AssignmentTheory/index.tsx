@@ -4,15 +4,18 @@ import AssignmentTheoryLaptop from "../AssignmentTheoryLaptop";
 import { getSubmissionById, getTasks } from "../../service.js";
 import AssignmentTheoryTablet from "../AssignmentTheoryTablet";
 import AssignmentTheoryMobile from "../AssignmentTheoryMobile";
+import {Route, useParams } from "react-router-dom";
 
 export default function AssignmentTheory() {
+  const { submissionId } = useParams<{ submissionId: string }>();
+
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
 
   const queryParameters = new URLSearchParams(window.location.search);
-  const submissionId = queryParameters.get("submissionId");
+  console.log("submissionId" + submissionId);
   const serialNumber = queryParameters.get("serialNumber")
     ? queryParameters.get("serialNumber")
     : 1;

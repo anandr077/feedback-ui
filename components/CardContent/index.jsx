@@ -10,7 +10,11 @@ function CardContent(props) {
 
   return (
     <Content>
-      <TaskTitle>{task.title}</TaskTitle>
+      <TaskTitle onClick={
+        () => {
+          window.location.href = `${task.link}`;
+        }
+      }>{task.title}</TaskTitle>
       <FundamentalsOfThermalPhysics>
         {task.classTitle}
       </FundamentalsOfThermalPhysics>
@@ -39,6 +43,7 @@ const TaskTitle = styled.p`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const FundamentalsOfThermalPhysics = styled.div`

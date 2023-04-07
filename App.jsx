@@ -31,7 +31,7 @@ function App() {
           <CreateAssignment />
         </Route>
         <Route path="/tasks">{tasks()}</Route>
-        <Route path="/submissions">
+        <Route path="/submissions/:submissionId">
           <AssignmentTheory />
         </Route>
         <Route path="/feedbacks/:id">

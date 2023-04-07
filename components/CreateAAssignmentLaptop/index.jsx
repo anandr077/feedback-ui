@@ -41,24 +41,45 @@ function CreateAAssignmentLaptop(props) {
     goBack22Props,
   } = props;
   const [classes, setClasses] = React.useState([]);
-  const deleteQuestionFrameFn = (index) => {
-    const newQuestionFrames = questionFrames.filter((_, i) => i !== 2);
-    setQuestionFrames(newQuestionFrames);
-  };
-
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, frame12973Props, line141, deleteQuestionFrameFn),
+    createNewQuestionFrame(1, null),
   ]);
+  
+
+  function deleteQuestionFrameFn(index) {
+    
+    setQuestionFrames(oldFrames=>{
+      console.log("questionFrames.size", oldFrames.length);
+      console.log("index", index);
+      const questionFramesBefore = oldFrames.filter((_, i) => i < index);
+      const questionFramesAfter = oldFrames.filter((_, i) => i > index)
+              .map((_, i)=>{
+                return createNewQuestionFrame(
+                  index + i+1, 
+                  question = {
+                    serialNumber: index + i+1,
+                    question: document.getElementById("question_" + (index + i+2)).value,
+                    type: "TEXT",
+                  })
+              });
+      console.log("questionFramesBefore", questionFramesBefore.length);
+      console.log("questionFramesAfter", questionFramesAfter.length);
+      return [...questionFramesBefore, ...questionFramesAfter];
+    });
+  };
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
-      frame12973Props,
-      line141,
-      deleteQuestionFrameFn
+      null
     );
-    setQuestionFrames([...questionFrames, newQuestionFrame]);
+    console.log("questionFrames.size", questionFrames.length);
+
+    setQuestionFrames(oldFrames=>[...oldFrames, newQuestionFrame]);
+    console.log("questionFrames.size", questionFrames.length);
   };
 
+  
+  
   useEffect(() => {
     getClasses().then((res) => {
       setClasses(res);
@@ -191,13 +212,11 @@ function CreateAAssignmentLaptop(props) {
       <Footer />
     </div>
   );
-}
+
 
 function createNewQuestionFrame(
   serialNumber,
-  frame12973Props,
-  line141,
-  deleteQuestionFrameFn
+  questionDetails
 ) {
   return (
     <QuestionFrame>
@@ -208,7 +227,7 @@ function createNewQuestionFrame(
           richTextComponentsProps={frame12973Props.richTextComponentsProps}
         />
         <DeleteButtonFrame>
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+          <DeleteButton onClick={ ()=>deleteQuestionFrameFn(serialNumber -1)}>
             Delete
           </DeleteButton>
         </DeleteButtonFrame>
@@ -231,6 +250,7 @@ function createNewQuestionFrame(
             <QuestionInputEditable
               id={"question_" + serialNumber}
               placeholder="Type Your Question here"
+              value={questionDetails?.question}
             />
           </QuestionFrame1>
         </InputQuestion>
@@ -250,6 +270,8 @@ function createNewQuestionFrame(
     </QuestionFrame>
   );
 }
+}
+
 
 const DeleteButtonFrame = styled.div`
   ${IbmplexsansNormalElectricViolet14px}

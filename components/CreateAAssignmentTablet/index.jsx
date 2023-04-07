@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import GoBack2 from "../GoBack2";
 import Buttons2 from "../Buttons2";
-import Frame12972 from "../Frame12972";
-import Frame1291 from "../Frame1291";
-import RadioBox2 from "../RadioBox2";
 import styled from "styled-components";
 import {
   IbmplexsansNormalShark20px,
@@ -15,12 +12,10 @@ import {
   IbmplexsansSemiBoldShark20px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
-  IbmplexsansNormalElectricViolet14px,
 } from "../../styledMixins";
 import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
-import { createAssignment, getClasses } from "../../service";
 
 function CreateAAssignmentTablet(props) {
   const {
@@ -28,78 +23,12 @@ function CreateAAssignmentTablet(props) {
     questionFrames,
     publish,
     checkboxes,
-    classes,
-    line141,
     help1,
     help2,
     goBack21Props,
     buttons21Props,
-    frame12972Props,
     goBack22Props,
   } = props;
-  // const deleteQuestionFrameFn = (index) => {
-  //   const newQuestionFrames = questionFrames.filter((_, i) => i !== index);
-  //   setQuestionFrames(newQuestionFrames);
-  // };
-  // const [questionFrames, setQuestionFrames] = React.useState([
-  //   createNewQuestionFrame(1, frame12972Props, line141, deleteQuestionFrameFn),
-  // ]);
-  // const [classes, setClasses] = React.useState([]);
-
-  // const addQuestionFrameFn = () => {
-  //   const newQuestionFrame = createNewQuestionFrame(
-  //     questionFrames.length + 1,
-  //     frame12972Props,
-  //     line141,
-  //     getClassesestionFrameFn
-  //   );
-  //   setQuestionFrames([...questionFrames, newQuestionFrame]);
-  // };
-
-  // useEffect(() => {
-  //   getClasses().then((res) => {
-  //     setClasses(res);
-  //   });
-  // }, []);
-
-  // const publish = () => {
-  //   const title = document.getElementById("assignmentName").value;
-  //   const classIds = classes
-  //     .filter((clazz) => {
-  //       return document.getElementById(clazz.id).checked;
-  //     })
-  //     .map((clazz) => clazz.id);
-
-  //   const serialNumbers = questionFrames.map((_, index) => index + 1);
-  //   const questions = serialNumbers.map((serialNumber) => {
-  //     const question = {
-  //       serialNumber: serialNumber,
-  //       question: document.getElementById("question_" + serialNumber).value,
-  //       type: "TEXT",
-  //     };
-  //     return question;
-  //   });
-
-  //   const assignment = {
-  //     title,
-  //     classIds,
-  //     questions,
-  //   };
-  //   createAssignment(assignment).then((res) => {
-  //     console.log(res);
-  //   });
-  // };
-
-  // const checkboxes = classes.map((clazz) => {
-  //   return (
-  //     <Checkbox>
-  //       <Checkbox1>
-  //         <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
-  //       </Checkbox1>
-  //       <CheckBoxText>{clazz.title}</CheckBoxText>
-  //     </Checkbox>
-  //   );
-  // });
 
   return (
     <div className="create-a-assignment-tablet screen">
@@ -178,141 +107,9 @@ function CreateAAssignmentTablet(props) {
     </div>
   );
 }
-// function createNewQuestionFrame(
-//   serialNumber,
-//   frame12972Props,
-//   line141,
-//   deleteQuestionFrameFn
-// ) {
-//   return (
-//     <QuestionFrame>
-//       <Frame1295>
-//         <Frame12972
-//           number={serialNumber}
-//           frame1284={frame12972Props.frame1284}
-//         />
-//         <DeleteButtonFrame>
-//           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
-//             Delete
-//           </DeleteButton>
-//         </DeleteButtonFrame>
-//         <Line14 src={line141} alt="Line 14" />
-//       </Frame1295>
-
-//       <Frame1289>
-//         <InputQuestion>
-//           <Label>Type of question</Label>
-//           <QuestionFrame1>
-//             <QuestionInput id={"questionType_" + serialNumber}>
-//               Theory
-//             </QuestionInput>
-//           </QuestionFrame1>
-//         </InputQuestion>
-
-//         <InputQuestion>
-//           <Label>Question</Label>
-//           <QuestionFrame1>
-//             <QuestionInputEditable
-//               id={"question_" + serialNumber}
-//               placeholder="Type Your Question here"
-//             />
-//           </QuestionFrame1>
-//         </InputQuestion>
-//         <InputQuestion>
-//           <Label>Hint (Optional)</Label>
-//           <QuestionFrame1>
-//             <QuestionInputEditable
-//               id={"questionHint_" + serialNumber}
-//               placeholder="Optional"
-//             />
-//           </QuestionFrame1>
-//         </InputQuestion>
-
-//         <Frame1291 />
-//         {/* <Buttons3 /> */}
-//       </Frame1289>
-//     </QuestionFrame>
-//   );
-// }
-
-const DeleteButtonFrame = styled.div`
-  ${IbmplexsansNormalElectricViolet14px}
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  align-self: stretch;
-  left: 60px;
-  &.frame-1280-5.frame-1280-6 {
-    opacity: 0;
-  }
-
-  &.frame-1280-5.frame-1280-7 {
-    opacity: 0;
-  }
-`;
-
-const DeleteButton = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 
 const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  border-color: transparent;
-  box-shadow: 0px;
-  outline: none;
-  transition: 0.15s;
-`;
-
-const InputQuestion = styled.div`
-  ${IbmplexsansNormalShark20px}
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Label = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const QuestionInput = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const QuestionFrame1 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
-`;
-
-const QuestionInputEditable = styled.input`
   position: relative;
   flex: 1;
   margin-top: -1px;
@@ -480,15 +277,6 @@ const Frame1374 = styled.div`
   border-color: var(--text);
 `;
 
-const NameOfAssignment = styled.div`
-  ${IbmplexsansNormalStack20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const Frame1294 = styled.div`
   display: flex;
   flex-direction: column;
@@ -515,39 +303,6 @@ const Frame1295 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const QuestionFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-  box-shadow: 0px 4px 16px #7200e01a;
-`;
-
-const Line14 = styled.img`
-  position: relative;
-  align-self: stretch;
-  min-width: 844px;
-  height: 1px;
-  object-fit: cover;
-`;
-
-const Frame1289 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;
@@ -616,14 +371,6 @@ const Frame1298 = styled.div`
   position: relative;
   align-self: stretch;
   flex-wrap: wrap;
-`;
-
-const Frame12981 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 30px;
-  position: relative;
-  align-self: stretch;
 `;
 
 export default CreateAAssignmentTablet;

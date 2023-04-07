@@ -140,11 +140,37 @@ export const saveAnswer = async (submissionId, serialNumber, answer) => {
     });
 };
 
+
+
 export const submitAssignment = async (submissionId) => {
   const s = JSON.stringify(submissionId);
 
   const url =
     baseUrl + "/submissions/" + s.substring(1, s.length - 1) + "/submit";
+  console.log("url " + url);
+  return await fetch(url, {
+    method: "PATCH",
+    withCredentials: true,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+
+export const markAssignmentReviewed = async (submissionId) => {
+  const s = JSON.stringify(submissionId);
+
+  const url =
+    baseUrl + "/submissions/" + s.substring(1, s.length - 1) + "/reviewed";
   console.log("url " + url);
   return await fetch(url, {
     method: "PATCH",

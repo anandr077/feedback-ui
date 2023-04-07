@@ -3,14 +3,27 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
 
 function Buttons2(props) {
-  const { button, arrowright, className } = props;
+  const { button, arrowleft, arrowright, className, onClickFn } = props;
 
   return (
     <Buttons className={`buttons-1 ${className || ""}`}>
-      <Button className="button-1">{button}</Button>
-      <Arrowright className="arrowright" src={arrowright} alt="arrowright" />
+      {arrowLeft()}
+      <Button onClick={onClickFn} className="button-1">{button}</Button>
+      {arrowRight()}
     </Buttons>
   );
+  function arrowLeft() {
+    if (arrowleft)
+      return <Arrowleft className="arrowleft" src={"/icons/arrowleft.png"} alt="arrowleft" />;
+    else
+      return <></>
+  }
+  function arrowRight() {
+    if (arrowright)
+      return <Arrowright className="arrowright" src={"/icons/arrowright.png"} alt="arrowright" />;
+    else
+      return <></>
+  }
 }
 
 const Buttons = styled.article`
@@ -24,6 +37,7 @@ const Buttons = styled.article`
   background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
+  cursor: pointer;
 `;
 
 const Button = styled.div`
@@ -34,6 +48,12 @@ const Button = styled.div`
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
+`;
+
+const Arrowleft = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
 `;
 
 const Arrowright = styled.img`

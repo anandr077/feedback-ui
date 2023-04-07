@@ -59,6 +59,7 @@ function CreateAAssignmentLaptop(props) {
                   question = {
                     serialNumber: index + i+1,
                     question: document.getElementById("question_" + (index + i+2)).value,
+                    hint: document.getElementById("questionHint_" + (index + i+2)).value,
                     type: "TEXT",
                   })
               });
@@ -260,6 +261,7 @@ function createNewQuestionFrame(
             <QuestionInputEditable
               id={"questionHint_" + serialNumber}
               placeholder="Optional"
+              value={questionDetails?.hint}
             />
           </QuestionFrame1>
         </InputQuestion>

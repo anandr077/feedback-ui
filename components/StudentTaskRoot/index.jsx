@@ -14,20 +14,6 @@ export default function StudentTaskRoot() {
       setAllTasks(result);
     });
   }, []);
-  // return (
-  //   <>
-  //     {isMobileView && (
-  //       <TasksStudentMobile {...{ allTasks, ...tasksStudentMobileData }} />
-  //     )}
-  //     {isTabletView && (
-  //       <TasksStudentTablet {...{ allTasks, ...tasksStudentTabletData }} />
-  //     )}
-  //     {isLaptopView && <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />}
-  //     {isDesktopView && (
-  //       <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
-  //     )}
-  //   </>
-  // );
   return (
     <ReactiveRender
       mobile={

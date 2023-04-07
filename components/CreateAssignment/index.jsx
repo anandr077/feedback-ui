@@ -4,11 +4,11 @@ import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
 import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
 import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
 import styled from "styled-components";
-import {
-  IbmplexsansNormalShark20px,
-} from "../../styledMixins";
+import { IbmplexsansNormalShark20px } from "../../styledMixins";
 import { getClasses, createAssignment } from "../../service";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
+import breakpoints from "../../utils/breakpoints";
+import ReactiveRender, { isMobileView } from "../ReactiveRender";
 
 const createAssignmentHeaderProps = {
   firstButton: {
@@ -35,11 +35,6 @@ const createAssignmentHeaderProps = {
 };
 
 export default function CreateAssignment() {
-  const isMobileView = useMediaQuery({ maxWidth: 1023 });
-  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
-  const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
-  const isDesktopView = useMediaQuery({ minWidth: 1920 });
-
   const [classes, setClasses] = React.useState([]);
 
   React.useEffect(() => {
@@ -49,14 +44,14 @@ export default function CreateAssignment() {
   }, []);
 
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, null,isMobileView ? "small" : "large"),
+    createNewQuestionFrame(1, null, isMobileView() ? "small" : "large"),
   ]);
 
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
       null,
-      isMobileView ? "small" : "large"
+      isMobileView() ? "small" : "large"
     );
     console.log("questionFrames.size", questionFrames.length);
 
@@ -140,53 +135,48 @@ export default function CreateAssignment() {
     );
   });
 
+  const methods = {
+    addQuestionFrameFn,
+    questionFrames,
+    publish,
+    checkboxes,
+  };
+
   return (
-    <>
-      {isMobileView && (
+    <ReactiveRender
+      mobile={
         <CreateAAssignmentMobile
           {...{
-            addQuestionFrameFn,
-            questionFrames,
-            publish,
-            checkboxes,
+            ...methods,
             ...createAAssignmentMobileData,
           }}
         />
-      )}
-      {isTabletView && (
+      }
+      tablet={
         <CreateAAssignmentTablet
           {...{
-            addQuestionFrameFn,
-            questionFrames,
-            publish,
-            checkboxes,
+            ...methods,
             ...createAAssignmentTabletData,
           }}
         />
-      )}
-      {isLaptopView && (
+      }
+      laptop={
         <CreateAAssignmentLaptop
           {...{
-            addQuestionFrameFn,
-            questionFrames,
-            publish,
-            checkboxes,
+            ...methods,
             ...createAAssignmentLaptopData,
           }}
         />
-      )}
-      {isDesktopView && (
+      }
+      desktop={
         <CreateAAssignmentLaptop
           {...{
-            addQuestionFrameFn,
-            questionFrames,
-            publish,
-            checkboxes,
+            ...methods,
             ...createAAssignmentLaptopData,
           }}
         />
-      )}
-    </>
+      }
+    />
   );
 }
 

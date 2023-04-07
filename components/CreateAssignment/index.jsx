@@ -7,7 +7,6 @@ import styled from "styled-components";
 import { IbmplexsansNormalShark20px } from "../../styledMixins";
 import { getClasses, createAssignment } from "../../service";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
-import breakpoints from "../../utils/breakpoints";
 import ReactiveRender, { isMobileView } from "../ReactiveRender";
 
 const createAssignmentHeaderProps = {

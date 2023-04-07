@@ -1,5 +1,6 @@
 import { React, useEffect, useState, useRef } from "react";
 import ReactQuill from "react-quill";
+import { sortBy } from 'lodash';
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -45,6 +46,19 @@ function FeedbackTeacherLaptop(props) {
     frame1317Props,
   } = props;
   const quillRefs = useRef([]);
+  const feedbacksFrameRef = useRef(null);
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  function handleClickOutside(event) {
+    if (feedbacksFrameRef.current && !feedbacksFrameRef.current.contains(event.target)) {
+      setShowDiv(false);
+    }
+  }
   const handleEditorMounted = (editor, index) => {
     quillRefs.current[index] = editor;
   };
@@ -111,7 +125,7 @@ function FeedbackTeacherLaptop(props) {
             <Frame1284 src={iconsaxLinearShare} alt="Iconsax/Linear/share" />
             <Share>{share}</Share>
           </Frame13311>
-          <Buttons4 />
+          <Buttons4/>
         </Frame1383>
         <Line261 src={line27} alt="Line 27" />
       </Frame1329>
@@ -129,7 +143,7 @@ function FeedbackTeacherLaptop(props) {
     quill.formatText(range.index, range.length, 'background', 'yellow');
 
   }
-  const commentsFrame = comments.map((comment) => {
+  const commentsFrame = sortBy(comments, ['questionSerialNumber', 'range.from']).map((comment) => {
     return <CommentCard32  comment={comment} onClick = {c=>handleCommentSelected(c)} />;
   });
   const modules = {
@@ -194,11 +208,7 @@ function FeedbackTeacherLaptop(props) {
                   <Frame1284 src={frame1284} alt="Frame 1284" />
                 </Frame13161>
               </Link>
-              {/* <Buttons2
-                arrowleft={true}
-                button='Previous'
-                onClickFn={()=>alert('clicked')}>
-              </Buttons2> */}
+              
               <Buttons2
                 button='Submit & Next'
                 arrowright={true}
@@ -479,8 +489,10 @@ const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 30px 30px 0px;
-  position: relative;
-  align-self: stretch;
+  //position: relative;
+  position: sticky;
+  top: 0;
+  // align-self: stretch;
   background-color: var(--white);
   border-radius: 16px;
   overflow: hidden;
@@ -585,6 +597,9 @@ const Share = styled.div`
   line-height: normal;
 `;
 
+const FeedbackWithCommentsFrame = styled.div`
+  position: sticky;
+`;
 const Frame1328 = styled.div`
   display: flex;
   flex-direction: column;

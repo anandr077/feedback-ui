@@ -31,6 +31,8 @@ function CreateAAssignmentLaptop(props) {
   const {
     addQuestionFrameFn,
     questionFrames,
+    publish,
+    checkboxes,
     headerProps,
     line141,
     assignmentSettings,
@@ -42,7 +44,7 @@ function CreateAAssignmentLaptop(props) {
     frame12973Props,
     goBack22Props,
   } = props;
-  const [classes, setClasses] = React.useState([]);
+  // const [classes, setClasses] = React.useState([]);
   // const [questionFrames, setQuestionFrames] = React.useState([
   //   createNewQuestionFrame(1, null),
   // ]);
@@ -80,49 +82,49 @@ function CreateAAssignmentLaptop(props) {
   //   console.log("questionFrames.size", questionFrames.length);
   // };
 
-  useEffect(() => {
-    getClasses().then((res) => {
-      setClasses(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getClasses().then((res) => {
+  //     setClasses(res);
+  //   });
+  // }, []);
 
-  const publish = () => {
-    const title = document.getElementById("assignmentName").value;
-    const classIds = classes
-      .filter((clazz) => {
-        return document.getElementById(clazz.id).checked;
-      })
-      .map((clazz) => clazz.id);
+  // const publish = () => {
+  //   const title = document.getElementById("assignmentName").value;
+  //   const classIds = classes
+  //     .filter((clazz) => {
+  //       return document.getElementById(clazz.id).checked;
+  //     })
+  //     .map((clazz) => clazz.id);
 
-    const serialNumbers = questionFrames.map((_, index) => index + 1);
-    const questions = serialNumbers.map((serialNumber) => {
-      const question = {
-        serialNumber: serialNumber,
-        question: document.getElementById("question_" + serialNumber).value,
-        type: "TEXT",
-      };
-      return question;
-    });
+  //   const serialNumbers = questionFrames.map((_, index) => index + 1);
+  //   const questions = serialNumbers.map((serialNumber) => {
+  //     const question = {
+  //       serialNumber: serialNumber,
+  //       question: document.getElementById("question_" + serialNumber).value,
+  //       type: "TEXT",
+  //     };
+  //     return question;
+  //   });
 
-    const assignment = {
-      title,
-      classIds: classIds,
-      questions,
-    };
-    createAssignment(assignment).then((res) => {
-      console.log(res);
-    });
-  };
-  const checkboxes = classes.map((clazz) => {
-    return (
-      <Checkbox>
-        <Checkbox1>
-          <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
-        </Checkbox1>
-        <CheckBoxText>{clazz.title}</CheckBoxText>
-      </Checkbox>
-    );
-  });
+  //   const assignment = {
+  //     title,
+  //     classIds: classIds,
+  //     questions,
+  //   };
+  //   createAssignment(assignment).then((res) => {
+  //     console.log(res);
+  //   });
+  // };
+  // const checkboxes = classes.map((clazz) => {
+  //   return (
+  //     <Checkbox>
+  //       <Checkbox1>
+  //         <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
+  //       </Checkbox1>
+  //       <CheckBoxText>{clazz.title}</CheckBoxText>
+  //     </Checkbox>
+  //   );
+  // });
 
   return (
     <div className="create-a-assignment-laptop screen">

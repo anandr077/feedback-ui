@@ -25,7 +25,7 @@ function Frame1297(props) {
   };
   return (
     <Frame12971>
-      <RichTextComponents src={richTextComponentsProps.src} />
+      {/* <RichTextComponents src="/img/drag-icon@2x.png" /> */}
       <Frame1287>
         <Frame1283>
           <Frame1282>

@@ -6,6 +6,7 @@ import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
 import styled from "styled-components";
 import Frame12973 from "../Frame12973";
 import Frame1291 from "../Frame1291";
+import Frame1297 from "../Frame1297";
 import {
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalElectricViolet14px,
@@ -43,9 +44,6 @@ export default function CreateAssignment() {
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
 
-  const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, null),
-  ]);
   const [classes, setClasses] = React.useState([]);
 
   React.useEffect(() => {
@@ -53,6 +51,10 @@ export default function CreateAssignment() {
       setClasses(res);
     });
   }, []);
+
+  const [questionFrames, setQuestionFrames] = React.useState([
+    createNewQuestionFrame(1, null),
+  ]);
 
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
@@ -175,6 +177,113 @@ export default function CreateAssignment() {
     });
   };
 
+  const [questionFramesSmall, setQuestionFramesSmall] = React.useState([
+    createNewQuestionFrameSmall(1, null),
+  ]);
+
+  const addQuestionFrameFnSmall = () => {
+    const newQuestionFrame = createNewQuestionFrameSmall(
+      questionFramesSmall.length + 1,
+      null
+    );
+    console.log("questionFramesSmall.size", questionFramesSmall.length);
+
+    setQuestionFramesSmall((oldFrames) => [...oldFrames, newQuestionFrame]);
+    console.log("questionFramesSmall.size", questionFramesSmall.length);
+  };
+  function deleteQuestionFrameFnSmall(index) {
+    setQuestionFramesSmall((oldFrames) => {
+      console.log("questionFramesSmall.size", oldFrames.length);
+      console.log("index", index);
+      const questionFramesBefore = oldFrames.filter((_, i) => i < index);
+      const questionFramesAfter = oldFrames
+        .filter((_, i) => i > index)
+        .map((_, i) => {
+          return createNewQuestionFrameSmall(
+            index + i + 1,
+            (question = {
+              serialNumber: index + i + 1,
+              question: document.getElementById("question_" + (index + i + 2))
+                .value,
+              hint: document.getElementById("questionHint_" + (index + i + 2))
+                .value,
+              type: "TEXT",
+            })
+          );
+        });
+      console.log("questionFramesBefore", questionFramesBefore.length);
+      console.log("questionFramesAfter", questionFramesAfter.length);
+      return [...questionFramesBefore, ...questionFramesAfter];
+    });
+  }
+  function createNewQuestionFrameSmall(serialNumber, questionDetails) {
+    return (
+      <SmalllQuestionFrame>
+        <Frame1295>
+          <Frame1297 number={serialNumber} />
+          <DeleteButtonFrame>
+            <DeleteButton
+              onClick={() => deleteQuestionFrameFnSmall(serialNumber - 1)}
+            >
+              Delete
+            </DeleteButton>
+          </DeleteButtonFrame>
+          <Line141 src="/img/line-14@2x.png" />
+        </Frame1295>
+        <Frame12891>
+          <InputQuestion>
+            <Label>Question</Label>
+            <QuestionFrame2>
+              <QuestionInputEditable
+                id={"question_" + serialNumber}
+                placeholder="Type Your Question here"
+                value={questionDetails?.question}
+              />
+            </QuestionFrame2>
+          </InputQuestion>
+          <InputQuestion>
+            <Label>Hint (Optional)</Label>
+            <QuestionFrame2>
+              <QuestionInputEditable
+                id={"questionHint_" + serialNumber}
+                placeholder="Optional"
+                value={questionDetails?.hint}
+              />
+            </QuestionFrame2>
+          </InputQuestion>
+          <Frame1291 />
+        </Frame12891>
+      </SmalllQuestionFrame>
+    );
+  }
+  const publishMobile = () => {
+    const title = document.getElementById("assignmentName").value;
+    const classIds = classes
+      .filter((clazz) => {
+        return document.getElementById(clazz.id).checked;
+      })
+      .map((clazz) => clazz.id);
+
+    const serialNumbers = questionFramesSmall.map((_, index) => index + 1);
+    const questions = serialNumbers.map((serialNumber) => {
+      const question = {
+        serialNumber: serialNumber,
+        question: document.getElementById("question_" + serialNumber).value,
+        type: "TEXT",
+      };
+      return question;
+    });
+
+    const assignment = {
+      title,
+      classIds,
+      questions,
+    };
+    createAssignment(assignment).then((res) => {
+      console.log(res);
+    });
+  };
+
   const checkboxes = classes.map((clazz) => {
     return (
       <Checkbox>
@@ -189,7 +298,15 @@ export default function CreateAssignment() {
   return (
     <>
       {isMobileView && (
-        <CreateAAssignmentMobile {...createAAssignmentMobileData} />
+        <CreateAAssignmentMobile
+          {...{
+            addQuestionFrameFnSmall,
+            questionFramesSmall,
+            publishMobile,
+            checkboxes,
+            ...createAAssignmentMobileData,
+          }}
+        />
       )}
       {isTabletView && (
         <CreateAAssignmentTablet
@@ -207,16 +324,63 @@ export default function CreateAssignment() {
           {...{
             addQuestionFrameFn,
             questionFrames,
+            publish,
+            checkboxes,
             ...createAAssignmentLaptopData,
           }}
         />
       )}
       {isDesktopView && (
-        <CreateAAssignmentLaptop {...createAAssignmentLaptopData} />
+        <CreateAAssignmentLaptop
+          {...{
+            addQuestionFrameFn,
+            questionFrames,
+            publish,
+            checkboxes,
+            ...createAAssignmentLaptopData,
+          }}
+        />
       )}
     </>
   );
 }
+
+const SmalllQuestionFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+const Frame12891 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 0px 16px;
+  position: relative;
+  align-self: stretch;
+`;
+const QuestionFrame2 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
 const Checkbox = styled.article`
   display: flex;
   align-items: center;
@@ -319,7 +483,7 @@ const DeleteButtonFrame = styled.div`
   gap: 12px;
   position: relative;
   align-self: stretch;
-  left: 80px;
+  left: 1em;
   &.frame-1280-5.frame-1280-6 {
     opacity: 0;
   }
@@ -333,6 +497,13 @@ const Line14 = styled.img`
   position: relative;
   align-self: stretch;
   min-width: 960px;
+  height: 1px;
+  object-fit: cover;
+`;
+
+const Line141 = styled.img`
+  position: relative;
+  align-self: stretch;
   height: 1px;
   object-fit: cover;
 `;

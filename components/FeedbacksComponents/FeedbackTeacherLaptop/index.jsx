@@ -1,6 +1,7 @@
 import { React, useEffect, useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import { sortBy } from 'lodash';
+import Header from "../../Header";
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -26,9 +27,11 @@ import ReviewsFrame1320 from "../ReviewsFrame1320";
 import ReviewsFrame622 from "../ReviewsFrame622";
 import TeacherDashboardHeader22 from "../TeacherDashboardHeader22";
 import "./FeedbackTeacherLaptop.css";
+import Footer from "../../Footer";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    headerProps,
     submission,
     frame1284,
     line261,
@@ -185,12 +188,8 @@ function FeedbackTeacherLaptop(props) {
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
         <Frame1387>
-          <TeacherDashboardHeader22
-            logo={teacherDashboardHeader2Props.logo}
-            navElement1Props={teacherDashboardHeader2Props.navElement1Props}
-            navElement2Props={teacherDashboardHeader2Props.navElement2Props}
-            navElement3Props={teacherDashboardHeader2Props.navElement3Props}
-            frame4Props={teacherDashboardHeader2Props.frame4Props}
+          <Header
+            headerProps={headerProps}
           />
           <Frame1315>
             <Breadcrumb />
@@ -201,24 +200,15 @@ function FeedbackTeacherLaptop(props) {
         <Frame1386>
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
-            <Frame1369>
-              <Link to="/students-list">
-                <Frame13161>
-                  <ReviewsFrame129532 />
-                  <Frame1284 src={frame1284} alt="Frame 1284" />
-                </Frame13161>
-              </Link>
+            <Frame1370>
+              <ReviewsFrame1316 />
               
               <Buttons2
                 button='Submit & Next'
                 arrowright={true}
                 onClickFn={()=>handleSubmissionReviewed()} >
               </Buttons2>
-              {/* <ReviewsFrame131722
-                buttonsProps={frame13172Props.buttonsProps}
-                buttons2Props={frame13172Props.buttons2Props}
-              /> */}
-            </Frame1369>
+            </Frame1370>
           </Frame1371>
           <Frame1368>
             <Group1225>
@@ -239,19 +229,15 @@ function FeedbackTeacherLaptop(props) {
           </Frame1368>
           <Frame1370>
             <ReviewsFrame1316 />
-            <ReviewsFrame1317
-              buttonsProps={frame1317Props.buttonsProps}
-              buttons2Props={frame1317Props.buttons2Props}
-            />
+            <Buttons2
+                button='Submit & Next'
+                arrowright={true}
+                onClickFn={()=>handleSubmissionReviewed()} >
+              </Buttons2>
           </Frame1370>
         </Frame1386>
       </Frame1388>
-      <Frame6>
-        <X2021JeddleAllRightsReserved>
-          {x2021JeddleAllRightsReserved}
-        </X2021JeddleAllRightsReserved>
-        <ReviewsFrame622 />
-      </Frame6>
+      <Footer></Footer>
     </div>
   );
 }

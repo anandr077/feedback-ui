@@ -2274,6 +2274,7 @@ const feedbacksFrame13171Data = {
 };
 
 const feedbacksFeedbackTeacherMobileData = {
+  headerProps: taskheaderProps,
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
@@ -2401,6 +2402,7 @@ const feedbacksFrame1317223Data = {
 };
 
 const feedbacksFeedbackTeacherTabletData = {
+  headerProps: taskheaderProps,
   frame1349: "/img/frame-1349-1.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
@@ -2544,6 +2546,7 @@ const feedbacksFrame13172Data = {
 };
 
 const feedbacksFeedbackTeacherLaptopData = {
+  headerProps: taskheaderProps,
   physicsThermodyna: "Physics - thermodynamics assignment questions",
   frame1284: "/img/frame-1284@2x.png",
   q1PoremIpsumDolo:
@@ -2715,6 +2718,7 @@ const feedbacksFrame13173Data = {
 };
 
 const feedbacksFeedbackTeacherDesktopData = {
+  headerProps: taskheaderProps,
   physicsThermodyna: "Physics - thermodynamics assignment questions",
   frame1284: "/img/frame-1284@2x.png",
   q1PoremIpsumDolo:

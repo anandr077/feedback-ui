@@ -13,12 +13,9 @@ import FeedbackTeacherDesktop from "./components/FeedbacksComponents/FeedbackTea
 import FeedbackTeacherLaptop from "./components/FeedbacksComponents/FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "./components/FeedbacksComponents/FeedbackTeacherMobile";
 import FeedbackTeacherTablet from "./components/FeedbacksComponents/FeedbackTeacherTablet";
-import TasksDesktop from "./components/TasksDesktop";
-import TasksLaptop from "./components/TasksLaptop";
-import TasksStudentMobile from "./components/TasksStudentMobile";
-import TasksStudentTablet from "./components/TasksStudentTablet";
 import { getSubmissionById, getTasks } from "./service.js";
 import StudentTaskRoot from "./components/StudentTaskRoot";
+import StudentDashboardRoot from "./components/StudentDashBoardRoot";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -40,7 +37,9 @@ function App() {
         <Route path="/feedbacks/:id">
           <Feebacks />
         </Route>
-        <Route path="/">{dashboard()}</Route>
+        <Route path="/">
+          <StudentDashboardRoot />
+        </Route>
       </Switch>
     </Router>
   );

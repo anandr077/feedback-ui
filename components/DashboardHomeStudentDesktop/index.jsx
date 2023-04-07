@@ -19,22 +19,11 @@ import Header from "../Header";
 function DashboardHomeStudentDesktop(props) {
   const {
     allTasks,
-    frame1343,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
-    tasks,
-    line17,
-    line16,
-    navElementProps,
-    navElement21Props,
-    navElement22Props,
-    notificationsProps,
-    frame4Props,
     group1205Props,
-    cards27Props,
     frame1340Props,
-    frame65Props,
     headerProps,
   } = props;
 
@@ -54,17 +43,17 @@ function DashboardHomeStudentDesktop(props) {
         <Frame1346>
           <Frame1339>
             <Frame1337>
-              <Tasks>{tasks}</Tasks>
+              <Tasks>Tasks</Tasks>
               <DashboardGroup1205 className={group1205Props.className} />
             </Frame1337>
-            <Line17 src={line17} alt="Line 17" />
+            <Line17 src="/img/line-17-6.png" alt="Line 17" />
             <Frame1336>
               <Frame1307>
                 <DashboardFrame1284 />
                 <DashboardFrame1283 />
                 <DashboardFrame12823 />
               </Frame1307>
-              <Line17 src={line16} alt="Line 16" />
+              <Line17 src="/img/line-17-6.png" alt="Line 16" />
               <Frame19>
                 <TaskCardContainer allTasks={allTasks} />
               </Frame19>

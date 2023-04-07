@@ -15,20 +15,12 @@ import TaskCardContainer from "../TaskCardContainer";
 function DashboardHomeStudentTablet(props) {
   const {
     allTasks,
-    union,
-    vector2,
-    vector3,
-    frame5,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
-    maskGroup,
     line171,
     line172,
-    notificationsProps,
     frame120821Props,
-    cards30Props,
     frame120822Props,
-    cards31Props,
   } = props;
 
   return (
@@ -48,7 +40,7 @@ function DashboardHomeStudentTablet(props) {
             tasks={frame120821Props.tasks}
             group12052Props={frame120821Props.group12052Props}
           />
-          <Line17 src={line171} alt="Line 17" />
+          <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
             <TaskCardContainer allTasks={allTasks} />
           </Frame11>
@@ -58,7 +50,7 @@ function DashboardHomeStudentTablet(props) {
             tasks={frame120822Props.tasks}
             group12052Props={frame120822Props.group12052Props}
           />
-          <Line17 src={line172} alt="Line 17" />
+          <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
             <TaskCardContainer allTasks={allTasks} />
           </Frame11>

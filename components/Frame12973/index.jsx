@@ -1,6 +1,4 @@
 import React from "react";
-import RichTextComponents from "../RichTextComponents";
-import Frame12803 from "../Frame12803";
 import styled from "styled-components";
 import { IbmplexsansNormalShark20px } from "../../styledMixins";
 
@@ -23,15 +21,11 @@ function Frame12973(props) {
   };
   return (
     <Frame1297>
-      <RichTextComponents
-        src={richTextComponentsProps.src}
-        className={richTextComponentsProps.className}
-      />
       <Frame1287>
         <Frame1283>
           <Frame1282>
             <Frame1281>
-              <QuestionSection>Section {number}</QuestionSection>
+              <QuestionSection>{number}.</QuestionSection>
               {show ? (
                 <DropDown>
                   <RichTextComponents2 onClick={setTypeTheory}>

@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getCommentsForSubmission, addNewComment } from "../../../service";
+import { getCommentsForSubmission, addNewComment, markAssignmentReviewed as markSubmsissionReviewed } from "../../../service";
 import {
   feedbacksIbmplexsansNormalStack20px,
   feedbacksIbmplexsansBoldShark36px,
@@ -16,6 +16,7 @@ import {
 import "../../AssignmentTheory/_textEditor.scss";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
+import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame129532 from "../ReviewsFrame129532";
@@ -77,6 +78,11 @@ function FeedbackTeacherLaptop(props) {
 
   function handleInputChange(event) {
     setNewCommentValue(event.target.value);
+  }
+
+  function handleSubmissionReviewed() {
+    markSubmsissionReviewed(submission.id)
+    .then((_) => window.location.href = "/");
   }
   function handleKeyPress(event) {
     if (event.key === "Enter") {
@@ -189,10 +195,20 @@ function FeedbackTeacherLaptop(props) {
                   <Frame1284 src={frame1284} alt="Frame 1284" />
                 </Frame13161>
               </Link>
-              <ReviewsFrame131722
+              <Buttons2
+                arrowleft={true}
+                button='Previous'
+                onClickFn={()=>alert('clicked')}>
+              </Buttons2>
+              <Buttons2
+                button='Submit & Next'
+                arrowright={true}
+                onClickFn={()=>handleSubmissionReviewed()} >
+              </Buttons2>
+              {/* <ReviewsFrame131722
                 buttonsProps={frame13172Props.buttonsProps}
                 buttons2Props={frame13172Props.buttons2Props}
-              />
+              /> */}
             </Frame1369>
           </Frame1371>
           <Frame1368>

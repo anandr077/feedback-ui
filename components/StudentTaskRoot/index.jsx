@@ -9,9 +9,15 @@ import TasksDesktop from "../TasksDesktop";
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const outstandingTasks = allTasks.filter((task) => task.progressStatus === "OUTSTANDING")
-  const inProgressTasks = allTasks.filter((task) => task.progressStatus === "IN_PROGRESS")
-  const overdueTasks = allTasks.filter((task) => task.progressStatus === "OVERDUE")
+  const outstandingTasks = allTasks.filter(
+    (task) => task.progressStatus === "OUTSTANDING"
+  );
+  const inProgressTasks = allTasks.filter(
+    (task) => task.progressStatus === "IN_PROGRESS"
+  );
+  const overdueTasks = allTasks.filter(
+    (task) => task.progressStatus === "OVERDUE"
+  );
 
   React.useEffect(() => {
     getTasks().then((result) => {
@@ -19,19 +25,51 @@ export default function StudentTaskRoot() {
       setIsLoading(false);
     });
   }, []);
-   if (isLoading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
   return (
     <ReactiveRender
       mobile={
-        <TasksStudentMobile {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksStudentMobileData }} />
+        <TasksStudentMobile
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...tasksStudentMobileData,
+          }}
+        />
       }
       tablet={
-        <TasksStudentTablet {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksStudentTabletData }} />
+        <TasksStudentTablet
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...tasksStudentTabletData,
+          }}
+        />
       }
-      laptop={<TasksLaptop {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksLaptopData }} />}
-      desktop={<TasksDesktop {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksDesktopData }} />}
+      laptop={
+        <TasksLaptop
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...tasksLaptopData,
+          }}
+        />
+      }
+      desktop={
+        <TasksDesktop
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...tasksDesktopData,
+          }}
+        />
+      }
     />
   );
 }

@@ -100,10 +100,12 @@ function FeedbackTeacherLaptop(props) {
     );
   }
   function handleKeyPress(event) {
+    // alert(event.target.value);
+
     if (event.key === "Enter") {
       addNewComment(submission.id, {
         questionSerialNumber: newCommentSerialNumber,
-        feedback: newCommentValue,
+        feedback: event.target.value,
         range: selectedRange,
       }).then((response) => {
         if (response) {
@@ -224,8 +226,15 @@ function FeedbackTeacherLaptop(props) {
     const quill =
       quillRefs.current[comment.questionSerialNumber - 1].getEditor();
 
+    var div = document.getElementById("quill_" + comment.questionSerialNumber);
+    div.scrollIntoView({ behavior: "smooth" });
     quill.formatText(range.index, range.length, "background", "yellow");
   }
+
+  const highlightSelection = (range, serialNumber) => {
+    const quill = quillRefs.current[serialNumber - 1].getEditor();
+    quill.formatText(range.index, range.length, "background", "red");
+  };
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
@@ -253,6 +262,8 @@ function FeedbackTeacherLaptop(props) {
               ref={(editor) =>
                 handleEditorMounted(editor, answer.serialNumber - 1)
               }
+              id={"quill_" + answer.serialNumber}
+              key={"quill_" + answer.serialNumber}
               theme="snow"
               value={answer.answer.answer}
               className="ql-editor-feedbacks"
@@ -263,10 +274,12 @@ function FeedbackTeacherLaptop(props) {
                   console.log(range);
                   setNewCommentSerialNumber(answer.serialNumber);
                   setShowNewComment(true);
+
                   setSelectedRange({
                     from: range.index,
                     to: range.index + range.length,
                   });
+                  highlightSelection(range, answer.serialNumber);
                 }
               }}
             />
@@ -779,7 +792,8 @@ const Frame1328 = styled.div`
   position: relative;
   flex: 1;
   align-self: stretch;
-  overflow: hidden;
+  height: 500px;
+  overflow-y: scroll;
 `;
 
 const Frame1370 = styled.div`

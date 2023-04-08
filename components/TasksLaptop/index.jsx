@@ -12,7 +12,13 @@ import Header from "../Header";
 import Footer from "../Footer";
 
 function TasksLaptop(props) {
-  const { outstandingTasks,inProgressTasks, overdueTasks,frame19Props, headerProps } = props;
+  const {
+    outstandingTasks,
+    inProgressTasks,
+    overdueTasks,
+    frame19Props,
+    headerProps,
+  } = props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={headerProps} />
@@ -45,7 +51,10 @@ function TasksLaptop(props) {
             </Frame1358>
 
             <Frame1358>
-              <TaskFrame1353 outstanding="Overdue" number={overdueTasks.length} />
+              <TaskFrame1353
+                outstanding="Overdue"
+                number={overdueTasks.length}
+              />
               <TaskCardContainer
                 allTasks={overdueTasks}
                 className={frame19Props.className}

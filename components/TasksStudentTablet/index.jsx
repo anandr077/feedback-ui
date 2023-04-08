@@ -17,7 +17,9 @@ import "./TasksStudentTablet.css";
 
 function TasksStudentTablet(props) {
   const {
-    allTasks,
+    outstandingTasks, 
+    inProgressTasks, 
+    overdueTasks,
     keepOrganizedWitho,
     outstanding,
     frame1304Props,
@@ -26,6 +28,10 @@ function TasksStudentTablet(props) {
 
     frame19Props,
   } = props;
+  const outstandingFrame = createTasksFrame('Outstanding', outstandingTasks, true, false, false)
+  const inProgressFrame = createTasksFrame('In Progress', inProgressTasks, false, true, false)
+  const overdueFrame = createTasksFrame('Overdue', overdueTasks, false, false, true)
+  const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
 
   return (
     <div className="tasks-student-tablet screen">
@@ -35,27 +41,33 @@ function TasksStudentTablet(props) {
           <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
           <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
         </Frame1307>
-        <Frame1364>
-          <Frame1211>
-            <Tabs />
-            <Tabs2>{tabs21Props.children}</Tabs2>
-            <Tabs2>{tabs22Props.children}</Tabs2>
-          </Frame1211>
-          <Frame1363>
-            <Frame1362>
-              <Outstanding>{outstanding}</Outstanding>
-              <Number>{allTasks.length}</Number>
-            </Frame1362>
-            <TaskCardContainer
-              allTasks={allTasks}
-              className={frame19Props.className}
-            />
-          </Frame1363>
-        </Frame1364>
+        {tasksFrame}
       </Frame1365>
       <Footer />
     </div>
   );
+}
+
+
+function createTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue) {
+  return <><Frame1364>
+    <Frame1211>
+      <Tabs text={"Outstanding"} isSelected={isOutstanding} onClickFn={()=>{setTasksFrame(outstandingFrame)}}/>
+      <Tabs text={"In Progress"} isSelected={isInProgress} onClickFn={()=>{setTasksFrame(inProgressFrame)}}/>
+      <Tabs text={"Overdue"} isSelected={isOverdue} onClickFn={()=>{setTasksFrame(overdueFrame)}}/>
+    </Frame1211>
+    <Frame1363>
+    <Frame1362>
+      <Outstanding>{title}</Outstanding>
+      <Number>{tasks.length}</Number>
+    </Frame1362>
+        <TaskCardContainer
+          allTasks={tasks}
+          className={frame19Props.className}
+      />
+    </Frame1363>
+  </Frame1364>
+  </>;
 }
 
 const Frame1365 = styled.div`

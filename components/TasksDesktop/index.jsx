@@ -12,7 +12,7 @@ import {
 import "./TasksDesktop.css";
 
 function TasksDesktop(props) {
-  const { allTasks, title, frame1306Props, frame19Props, headerProps } = props;
+  const { outstandingTasks,inProgressTasks, overdueTasks, title, frame1306Props, frame19Props, headerProps } = props;
 
   return (
     <div className="tasks-desktop screen">
@@ -25,27 +25,27 @@ function TasksDesktop(props) {
             <Frame1354>
               <TaskFrame1353
                 outstanding="Outstanding"
-                number={allTasks.length}
+                number={outstandingTasks.length}
               />
               <TaskCardContainer
-                allTasks={allTasks}
+                allTasks={outstandingTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
             <Frame1354>
               <TaskFrame1353
                 outstanding="In Progress"
-                number={allTasks.length}
+                number={inProgressTasks.length}
               />
               <TaskCardContainer
-                allTasks={allTasks}
+                allTasks={inProgressTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
             <Frame1358>
-              <TaskFrame1353 outstanding="Overdue" number={allTasks.length} />
+              <TaskFrame1353 outstanding="Overdue" number={outstandingTasks.length} />
               <TaskCardContainer
-                allTasks={allTasks}
+                allTasks={outstandingTasks}
                 className={frame19Props.className}
               />
             </Frame1358>

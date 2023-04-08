@@ -12,8 +12,7 @@ import Header from "../Header";
 import Footer from "../Footer";
 
 function TasksLaptop(props) {
-  const { allTasks, frame19Props, headerProps } = props;
-  console.log("allTasks in TasksLaptop: ", allTasks);
+  const { outstandingTasks,inProgressTasks, overdueTasks,frame19Props, headerProps } = props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={headerProps} />
@@ -25,10 +24,10 @@ function TasksLaptop(props) {
             <Frame1358>
               <TaskFrame1353
                 outstanding="Outstanding"
-                number={allTasks.length}
+                number={outstandingTasks.length}
               />
               <TaskCardContainer
-                allTasks={allTasks}
+                allTasks={outstandingTasks}
                 className={frame19Props.className}
                 cardsProps={frame19Props.cardsProps}
               />
@@ -36,19 +35,19 @@ function TasksLaptop(props) {
             <Frame1358>
               <TaskFrame1353
                 outstanding="In Progress"
-                number={allTasks.length}
+                number={inProgressTasks.length}
               />
               <TaskCardContainer
-                allTasks={allTasks}
+                allTasks={inProgressTasks}
                 className={frame19Props.className}
                 cardsProps={frame19Props.cardsProps}
               />
             </Frame1358>
 
             <Frame1358>
-              <TaskFrame1353 outstanding="Overdue" number={allTasks.length} />
+              <TaskFrame1353 outstanding="Overdue" number={overdueTasks.length} />
               <TaskCardContainer
-                allTasks={allTasks}
+                allTasks={overdueTasks}
                 className={frame19Props.className}
                 cardsProps={frame19Props.cardsProps}
               />

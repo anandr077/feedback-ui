@@ -12,9 +12,15 @@ import {
 import "./TasksStudentMobile.css";
 import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
+import React, { useState, useEffect } from "react";
 
 function TasksStudentMobile(props) {
-  const { allTasks, tabs21Props, tabs22Props, frame19Props } = props;
+
+  const { outstandingTasks, inProgressTasks, overdueTasks, tabs21Props, tabs22Props, frame19Props } = props;
+  const outstandingFrame = createTasksFrame('Outstanding', outstandingTasks, true, false, false)
+  const inProgressFrame = createTasksFrame('In Progress', inProgressTasks, false, true, false)
+  const overdueFrame = createTasksFrame('Overdue', overdueTasks, false, false, true)
+  const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
 
   return (
     <div className="tasks-student-mobile screen">
@@ -24,32 +30,32 @@ function TasksStudentMobile(props) {
           <PageTitle>Task</PageTitle>
           <TaskFrame1304 />
         </Frame1307>
-        <Frame1364>
-          <Frame1211>
-            <Tabs />
-            <Tabs2 className={tabs21Props.className}>
-              {tabs21Props.children}
-            </Tabs2>
-            <Tabs2 className={tabs22Props.className}>
-              {tabs22Props.children}
-            </Tabs2>
-          </Frame1211>
-          <Frame1364>
-            <Frame1362>
-              <SectionTitle>Outstanding</SectionTitle>
-              <Number>{allTasks.length}</Number>
-            </Frame1362>
-            <TaskCardContainer
-              allTasks={allTasks}
-              className={frame19Props.className}
-              cardsProps={frame19Props.cardsProps}
-            />
-          </Frame1364>
-        </Frame1364>
+        {tasksFrame}
       </Frame1365>
       <FooterSmall />
     </div>
   );
+
+  function createTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue) {
+    return <><Frame1364>
+      <Frame1211>
+        <Tabs text={"Outstanding"} isSelected={isOutstanding} onClickFn={()=>{setTasksFrame(outstandingFrame)}}/>
+        <Tabs text={"In Progress"} isSelected={isInProgress} onClickFn={()=>{setTasksFrame(inProgressFrame)}}/>
+        <Tabs text={"Overdue"} isSelected={isOverdue} onClickFn={()=>{setTasksFrame(overdueFrame)}}/>
+      </Frame1211>
+      <Frame1364>
+        <Frame1362>
+          <SectionTitle>{title}</SectionTitle>
+          <Number>{tasks.length}</Number>
+        </Frame1362>
+        <TaskCardContainer
+          allTasks={tasks}
+          className={frame19Props.className}
+          cardsProps={frame19Props.cardsProps} />
+      </Frame1364>
+    </Frame1364>
+    </>;
+  }
 }
 
 const Frame1365 = styled.div`

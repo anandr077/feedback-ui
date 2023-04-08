@@ -8,22 +8,30 @@ import TasksDesktop from "../TasksDesktop";
 
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const outstandingTasks = allTasks.filter((task) => task.progressStatus === "OUTSTANDING")
+  const inProgressTasks = allTasks.filter((task) => task.progressStatus === "IN_PROGRESS")
+  const overdueTasks = allTasks.filter((task) => task.progressStatus === "OVERDUE")
 
   React.useEffect(() => {
     getTasks().then((result) => {
       setAllTasks(result);
+      setIsLoading(false);
     });
   }, []);
+   if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <ReactiveRender
       mobile={
-        <TasksStudentMobile {...{ allTasks, ...tasksStudentMobileData }} />
+        <TasksStudentMobile {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksStudentMobileData }} />
       }
       tablet={
-        <TasksStudentTablet {...{ allTasks, ...tasksStudentTabletData }} />
+        <TasksStudentTablet {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksStudentTabletData }} />
       }
-      laptop={<TasksLaptop {...{ allTasks, ...tasksLaptopData }} />}
-      desktop={<TasksDesktop {...{ allTasks, ...tasksDesktopData }} />}
+      laptop={<TasksLaptop {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksLaptopData }} />}
+      desktop={<TasksDesktop {...{ outstandingTasks, inProgressTasks, overdueTasks, ...tasksDesktopData }} />}
     />
   );
 }

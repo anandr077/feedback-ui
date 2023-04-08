@@ -6,6 +6,9 @@ import NavElement7 from "../NavElement7";
 import NavElement8 from "../NavElement8";
 import styled from "styled-components";
 import "./Navigation.css";
+import { getUserName } from "../../../service";
+import { Avatar } from "@boringer-avatars/react";
+
 const group1Data = {
   iconHome: "/img/home3-1@2x.png",
 };
@@ -28,6 +31,7 @@ const navElement8Data = {
 };
 
 function Navigation(props) {
+  const name = getUserName()
   const {headerProps, onCloseFn} = props;
   const navigationData = {
     maskGroup: "/img/mask-group-2@2x.png",
@@ -42,9 +46,16 @@ function Navigation(props) {
     <NavbarDiv className="navigation screen" name="form1" action="form1" method="post">
       <Frame1409>
         <Frame4>
-          <MaskGroup src={navigationData.maskGroup} alt="Mask group" />
+        <Avatar
+          title={false}
+          size={45}
+          variant="beam"
+          name={name}
+          square={false}
+        />
+          {/* <MaskGroup src={navigationData.maskGroup} alt="Mask group" /> */}
           <Frame3>
-            <Name>{navigationData.name}</Name>
+            <Name>{name}</Name>
             <Frame27></Frame27>
           </Frame3>
         </Frame4>

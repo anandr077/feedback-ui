@@ -7,6 +7,7 @@
     "prettier:format": "npx prettier --write ."
   },
   "dependencies": {
+    "@boringer-avatars/react": "^0.2.1",
     "lodash": "^4.17.21",
     "query-string": "^8.1.0",
     "react": "^18.1.0",

@@ -1,15 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../styledMixins";
+import { Avatar } from "@boringer-avatars/react";
+import { getUserName } from "../../service";
 
 function Frame4(props) {
-  const { maskGroup } = props;
-
+  const name = getUserName()  
   return (
     <Frame41>
-      <MaskGroup src={maskGroup} alt="Mask group" />
+      <Avatar
+          title={false}
+          size={45}
+          variant="beam"
+          name={name}
+          square={false}
+        />
       <Frame3>
-        <Name>Eleanor Pena</Name>
+        <Name>{name}</Name>
+        
         <Frame27 src="/img/frame-27@2x.png" alt="Frame 27" />
       </Frame3>
     </Frame41>

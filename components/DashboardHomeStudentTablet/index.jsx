@@ -1,18 +1,39 @@
 import React from "react";
-import Notifications from "../Notifications";
-import DashboardFrame12082 from "../DashboardFrame12082";
 import styled from "styled-components";
+import { getUserName } from "../../service";
 import {
   IbmplexsansBoldWhite36px,
-  IbmplexsansNormalWhite14px,
+  IbmplexsansNormalWhite14px
 } from "../../styledMixins";
-import "./DashboardHomeStudentTablet.css";
-import HeaderSmall from "../HeaderSmall";
+import DashboardFrame12082 from "../DashboardFrame12082";
 import FooterSmall from "../FooterSmall";
-import "./DashboardHomeStudentTablet.css";
+import HeaderSmall from "../HeaderSmall";
 import TaskCardContainer from "../TaskCardContainer";
-import { getUserName } from "../../service";
+import "./DashboardHomeStudentTablet.css";
 
+const homeheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: true,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: false,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "icons/submissionIconWhite.png",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function DashboardHomeStudentTablet(props) {
   const {
     allTasks,
@@ -27,7 +48,7 @@ function DashboardHomeStudentTablet(props) {
   return (
     <div className="dashboard-home-student-tablet screen">
       <Frame1352>
-        <HeaderSmall />
+        <HeaderSmall headerProps={homeheaderProps}/>
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>

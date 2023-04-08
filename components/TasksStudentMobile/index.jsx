@@ -16,7 +16,7 @@ import React, { useState, useEffect } from "react";
 
 function TasksStudentMobile(props) {
 
-  const { outstandingTasks, inProgressTasks, overdueTasks, tabs21Props, tabs22Props, frame19Props } = props;
+  const { headerProps, outstandingTasks, inProgressTasks, overdueTasks, tabs21Props, tabs22Props, frame19Props } = props;
   const outstandingFrame = createTasksFrame('Outstanding', outstandingTasks, true, false, false)
   const inProgressFrame = createTasksFrame('In Progress', inProgressTasks, false, true, false)
   const overdueFrame = createTasksFrame('Overdue', overdueTasks, false, false, true)
@@ -24,7 +24,7 @@ function TasksStudentMobile(props) {
 
   return (
     <div className="tasks-student-mobile screen">
-      <HeaderSmall />
+      <HeaderSmall headerProps={headerProps}/>
       <Frame1365>
         <Frame1307>
           <PageTitle>Task</PageTitle>

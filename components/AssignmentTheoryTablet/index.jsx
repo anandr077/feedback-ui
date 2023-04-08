@@ -18,6 +18,32 @@ import styled from "styled-components";
 import { IbmplexsansNormalChicago14px } from "../../styledMixins";
 import { saveAnswer, submitAssignment } from "../../service.js";
 import "../AssignmentTheory/_textEditor.scss";
+
+
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
+
 function AssignmentTheoryTablet(props) {
   const { submission, question, answer } = props;
 
@@ -63,7 +89,7 @@ function AssignmentTheoryTablet(props) {
 
   return (
     <div className="assignment-theory-tablet screen">
-      <HeaderSmall />
+      <HeaderSmall headerProps={taskheaderProps}/>
       <Frame1401>
         <Frame1311>
           <SubmissionFrame1399 label={submission.assignment.title} />

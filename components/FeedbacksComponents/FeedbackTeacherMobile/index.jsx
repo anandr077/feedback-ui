@@ -21,6 +21,29 @@ import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
 import ReactQuill from "react-quill";
 
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function FeedbackTeacherMobile(props) {
   const {
     physicsThermodyna,
@@ -150,7 +173,7 @@ function FeedbackTeacherMobile(props) {
     <div className="feedback-teacher-mobile screen">
       <Frame1388>
         <Frame1387>
-          <HeaderSmall />
+          <HeaderSmall headerProps={taskheaderProps}/>
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />

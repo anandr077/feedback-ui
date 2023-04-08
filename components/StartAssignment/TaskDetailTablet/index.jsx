@@ -20,6 +20,29 @@ import {
 import "./TaskDetailTablet.css";
 import HeaderSmall from "../../HeaderSmall";
 
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function TaskDetailTablet(props) {
   const {
     assignment,
@@ -44,7 +67,11 @@ function TaskDetailTablet(props) {
   return (
     <div className="task-detail-tablet screen">
       <Frame1391>
+<<<<<<< Updated upstream
         <HeaderSmall />
+=======
+        <HeaderSmall headerProps={taskheaderProps}/>
+>>>>>>> Stashed changes
         <Frame1390>
           <Frame29>
             <Breadcrumb />

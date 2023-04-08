@@ -1,0 +1,12 @@
+.navigation {
+  align-items: center;
+  background-color: var(--white);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 844px;
+  min-width: 370px;
+  position: relative;
+}
+

@@ -17,6 +17,29 @@ import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
 
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function CreateAAssignmentTablet(props) {
   const {
     addQuestionFrameFn,
@@ -33,7 +56,7 @@ function CreateAAssignmentTablet(props) {
   return (
     <div className="create-a-assignment-tablet screen">
       <Frame1379>
-        <HeaderSmall />
+        <HeaderSmall headerProps={taskheaderProps}/>
         <Frame1376>
           <Frame1315>
             <Breadcrumb />

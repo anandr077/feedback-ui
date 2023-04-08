@@ -283,7 +283,7 @@ function FeedbackTeacherLaptop(props) {
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
         <Frame1387>
-          {tabletView ? <HeaderSmall /> : <Header headerProps={headerProps} />}
+          {tabletView ? <HeaderSmall headerProps={headerProps}/> : <Header headerProps={headerProps} />}
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />

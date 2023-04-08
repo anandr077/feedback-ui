@@ -1,9 +1,62 @@
 import React from "react";
 import styled from "styled-components";
 import MenuMobile from "../MenuMobile";
+import Navigation from "../Navbar/Navigation";
 import Notifications from "../Notifications";
 
-export default function HeaderSmall() {
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
+
+
+const homeheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: true,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: false,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "icons/submissionIconWhite.png",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
+
+export default function HeaderSmall(props) {
+  
+  const { headerProps } = props;
+  
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -14,7 +67,10 @@ export default function HeaderSmall() {
     setIsMenuOpen(!isMenuOpen);
     console.log(isMenuOpen);
   };
-
+  if (isMenuOpen) {
+    return <Navigation headerProps={headerProps} 
+    onCloseFn={handleMenuClick}/>
+  }
   return (
     <>
       <Frame1350>
@@ -23,14 +79,8 @@ export default function HeaderSmall() {
           <Notifications src="/img/notificationbing@2x.png" />
           <Frame51 src="/img/frame-5@2x.png" onClick={handleMenuClick} />
         </Frame5>
-
-        {isMenuOpen && (
-          <Popup>
-            {" "}
-            <MenuMobile />{" "}
-          </Popup>
-        )}
       </Frame1350>
+      
     </>
   );
 }
@@ -72,8 +122,8 @@ const Frame51 = styled.img`
 
 const Popup = styled.div`
   position: absolute;
-  right: 10px;
-  top: 70px;
+  // right: 10px;
+  // top: 70px;
   height: 100px;
   cursor: pointer;
   z-index: 1;

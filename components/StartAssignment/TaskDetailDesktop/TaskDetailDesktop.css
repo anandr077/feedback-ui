@@ -1,0 +1,11 @@
+.task-detail-desktop {
+  align-items: flex-start;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 65px;
+  min-width: 1920px;
+  position: relative;
+}
+

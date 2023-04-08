@@ -27,7 +27,9 @@ function DashboardHomeStudentMobile(props) {
         <HeaderSmall />
         <Frame1203>
           <Frame1348>
-            <KeepOrganizedWitho>Welcome, {keepOrganizedWitho1}</KeepOrganizedWitho>
+            <KeepOrganizedWitho>
+              Welcome, {keepOrganizedWitho1}
+            </KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </Frame1348>
         </Frame1203>

@@ -16,7 +16,6 @@ import TaskCardContainer from "../TaskCardContainer";
 import "./DashboardHomeStudentLaptop.css";
 import { getUserName } from "../../service";
 
-
 function DashboardHomeStudentLaptop(props) {
   const {
     allTasks,
@@ -28,9 +27,8 @@ function DashboardHomeStudentLaptop(props) {
     headerProps,
   } = props;
   const userName = getUserName();
-  console.log(userName)
+  console.log(userName);
   return (
-    
     <div className="dashboard-home-student-laptop screen">
       <Header headerProps={headerProps} />
       <Frame1347>

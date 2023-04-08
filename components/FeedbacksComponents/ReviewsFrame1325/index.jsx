@@ -8,7 +8,7 @@ function ReviewsFrame1325(props) {
   return (
     <Frame13251>
       <Frame1324>
-        <Ellipse7 src={ellipse7} alt="Ellipse 7" />
+        <Ellipse7 src="/img/ellipse-10@2x.png" alt="Ellipse 7" />
         <Instructer>Instructer</Instructer>
       </Frame1324>
       <More src={more} alt="more" />

@@ -4,7 +4,7 @@ import AssignmentTheoryLaptop from "../AssignmentTheoryLaptop";
 import { getSubmissionById, getTasks } from "../../service.js";
 import AssignmentTheoryTablet from "../AssignmentTheoryTablet";
 import AssignmentTheoryMobile from "../AssignmentTheoryMobile";
-import {Route, useParams } from "react-router-dom";
+import { Route, useParams } from "react-router-dom";
 
 export default function AssignmentTheory() {
   const { submissionId } = useParams<{ submissionId: string }>();

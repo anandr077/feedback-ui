@@ -5,7 +5,7 @@ import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 function ReviewsFrame1295() {
   return (
     <Frame12951>
-      <Ellipse10 src="/img/ellipse-10@2x.png" alt="Ellipse 10" />
+      <Ellipse10 src="/icons/ellipse.png" alt="Ellipse 10" />
       <Name>Floyd Miles</Name>
     </Frame12951>
   );

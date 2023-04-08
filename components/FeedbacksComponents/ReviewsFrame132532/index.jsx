@@ -6,7 +6,7 @@ function ReviewsFrame132532() {
   return (
     <Frame1325>
       <Frame1324>
-        <Ellipse7 src="/img/ellipse-10@2x.png" alt="Ellipse 7" />
+        <Ellipse7 src="/icons/ellipse.png" alt="Ellipse 7" />
         <Instructer>Instructer</Instructer>
       </Frame1324>
       <More src="/img/more@2x.png" alt="more" />

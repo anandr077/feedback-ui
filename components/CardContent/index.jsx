@@ -10,11 +10,13 @@ function CardContent(props) {
 
   return (
     <Content>
-      <TaskTitle onClick={
-        () => {
+      <TaskTitle
+        onClick={() => {
           window.location.href = `${task.link}`;
-        }
-      }>{task.title}</TaskTitle>
+        }}
+      >
+        {task.title}
+      </TaskTitle>
       <FundamentalsOfThermalPhysics>
         {task.classTitle}
       </FundamentalsOfThermalPhysics>

@@ -15,40 +15,69 @@ import {
   IbmplexsansNormalChicago13px,
 } from "../../../styledMixins";
 import "./FeedbackTeacherMobile.css";
+import HeaderSmall from "../../HeaderSmall";
+import Footer from "../../Footer";
+import FooterSmall from "../../FooterSmall";
+import ReactQuill from "react-quill";
 
 function FeedbackTeacherMobile(props) {
   const {
-    frame1349,
-    frame5,
     physicsThermodyna,
     frame12841,
-    q1PoremIpsumDolo,
-    line261,
-    line262,
+    submission,
     frame12842,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
     breadcrumb21Props,
     breadcrumb22Props,
     frame13172Props,
-    frame136621Props,
-    frame136622Props,
     frame1317Props,
   } = props;
+  const modules = {
+    toolbar: false,
+  };
+  const quillRefs = React.useRef([]);
+  const handleEditorMounted = (editor, index) => {
+    quillRefs.current[index] = editor;
+  };
+
+  const answerFrames = submission.answers.map((answer) => {
+    return (
+      <>
+        <Frame1366>
+          <Q1PoremIpsumDolo>
+            {submission.assignment.questions[answer.serialNumber - 1].question}
+          </Q1PoremIpsumDolo>
+          <ToremIpsumDolorSi></ToremIpsumDolorSi>
+          <ReactQuill
+            ref={(editor) =>
+              handleEditorMounted(editor, answer.serialNumber - 1)
+            }
+            theme="snow"
+            value={answer.answer.answer}
+            className="ql-editor-feedbacks"
+            readOnly={true}
+            modules={modules}
+            onChangeSelection={(range, source, editor) => {
+              if (range && range.length > 0) {
+                console.log(range);
+                setNewCommentSerialNumber(answer.serialNumber);
+                setShowNewComment(true);
+                setSelectedRange({
+                  from: range.index,
+                  to: range.index + range.length,
+                });
+              }
+            }}
+          />
+        </Frame1366>
+      </>
+    );
+  });
 
   return (
     <div className="feedback-teacher-mobile screen">
       <Frame1388>
         <Frame1387>
-          <Frame1350>
-            <Frame1349 src={frame1349} alt="Frame 1349" />
-            <Frame5>
-              <Notifications />
-              <Frame51 src={frame5} alt="Frame 5" />
-            </Frame5>
-          </Frame1350>
+          <HeaderSmall />
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
@@ -74,43 +103,7 @@ function FeedbackTeacherMobile(props) {
           <Frame1368>
             <Group1225>
               <Frame1367>
-                <Frame1366>
-                  <Q1PoremIpsumDolo>{q1PoremIpsumDolo}</Q1PoremIpsumDolo>
-                  <ToremIpsumDolorSi>
-                    Torem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam eu turpis molestie, dictum est a, mattis tellus. Sed
-                    dignissim, metus nec fringilla accumsan, risus sem
-                    sollicitudin lacus, ut interdum tellus elit sed risus.
-                    Maecenas eget condimentum velit, sit amet feugiat lectus.
-                    Class aptent taciti sociosqu ad litora torquent per conubia
-                    nostra, per inceptos himenaeos. Praesent auctor purus luctus
-                    enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus
-                    ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur
-                    vel bibendum lorem. Morbi convallis convallis diam sit amet
-                    lacinia. Aliquam in elementum tellus.
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Curabitur
-                    tempor quis eros tempus lacinia. Nam bibendum pellentesque
-                    quam a convallis. Sed ut vulputate nisi. Integer in felis
-                    sed leo vestibulum venenatis. Suspendisse quis arcu sem.
-                    Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend
-                    magna. Nam metus lacus, porttitor eu mauris a, blandit
-                    ultrices nibh. Mauris sit amet magna non ligula vestibulum
-                    eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget
-                    mi in purus lobortis eleifend. Sed nec ante dictum sem
-                    condimentum ullamcorper quis venenatis nisi. Proin vitae
-                    facilisis nisi, ac posuere leo.
-                  </ToremIpsumDolorSi>
-                  <Group1307></Group1307>
-                </Frame1366>
-                <Line26 src={line261} alt="Line 26" />
-                <ReviewsFrame136622
-                  q2PoremIpsumDolo={frame136621Props.q2PoremIpsumDolo}
-                />
-                <Line26 src={line262} alt="Line 26" />
-                <ReviewsFrame136622
-                  q2PoremIpsumDolo={frame136622Props.q2PoremIpsumDolo}
-                />
+                <Frame1366>{answerFrames}</Frame1366>
               </Frame1367>
             </Group1225>
           </Frame1368>
@@ -126,16 +119,7 @@ function FeedbackTeacherMobile(props) {
           </Frame1370>
         </Frame1386>
       </Frame1388>
-      <Frame1380>
-        <X2023JeddleAllRightsReserved>
-          {x2023JeddleAllRightsReserved}
-        </X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1380>
+      <FooterSmall />
     </div>
   );
 }
@@ -235,8 +219,7 @@ const PhysicsThermodyna = styled.h1`
 
 const Frame1369 = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 350px;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 30px;
@@ -270,20 +253,18 @@ const Frame1368 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  width: 100%;
 `;
 
 const Group1225 = styled.div`
   position: relative;
-  display: flex;
   flex: 1;
-  min-width: 350px;
-  height: 2106px;
+  width: 100%;
 `;
 
 const Frame1367 = styled.div`
   display: flex;
-  width: 350px;
-  height: 2106px;
+
   position: relative;
   flex-direction: column;
   align-items: flex-start;

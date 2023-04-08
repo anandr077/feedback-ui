@@ -13,13 +13,9 @@ import StudentDashboardRoot from "./components/StudentDashBoardRoot";
 import StudentTaskRoot from "./components/StudentTaskRoot";
 import { getSubmissionById } from "./service.js";
 import TaskDetail from "./components/StartAssignment/TaskDetail";
+import FeedbacksRoot from "./components/FeedbacksComponents/FeedbacksRoot";
 
 function App() {
-  const isMobileView = useMediaQuery({ maxWidth: 1023 });
-  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
-  const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
-  const isDesktopView = useMediaQuery({ minWidth: 1920 });
-  
   return (
     <Router>
       <Switch>
@@ -36,7 +32,7 @@ function App() {
           <AssignmentTheory />
         </Route>
         <Route path="/feedbacks/:id">
-          <Feebacks />
+          <FeedbacksRoot />
         </Route>
         <Route path="/">
           <StudentDashboardRoot />
@@ -45,30 +41,6 @@ function App() {
       </Switch>
     </Router>
   );
-
-  function Feebacks() {
-    const [submission, setSubmission] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const { id } = useParams();
-
-    useEffect(() => {
-      if (submission === null) {
-        console.log("id is " + id);
-        getSubmissionById(id).then((result) => {
-          if (result) {
-            setSubmission(result);
-            setIsLoading(false);
-          }
-        });
-      }
-    }, []);
-    console.log("Loading is " + isLoading);
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-
-    return newFunction(submission);
-  }
 
   function newFunction(submission) {
     return (
@@ -79,8 +51,8 @@ function App() {
           />
         )}
         {isTabletView && (
-          <FeedbackTeacherTablet
-            {...{ submission, ...feedbacksFeedbackTeacherTabletData }}
+          <FeedbackTeacherLaptop
+            {...{ submission, ...feedbacksFeedbackTeacherLaptopData }}
           />
         )}
         {isLaptopView && (
@@ -89,8 +61,8 @@ function App() {
           />
         )}
         {isDesktopView && (
-          <FeedbackTeacherDesktop
-            {...{ submission, ...feedbacksFeedbackTeacherDesktopData }}
+          <FeedbackTeacherLaptop
+            {...{ submission, ...feedbacksFeedbackTeacherLaptopData }}
           />
         )}
       </>

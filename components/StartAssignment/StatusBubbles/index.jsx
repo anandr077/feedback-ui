@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumWhite13px } from "../styledMixins";
 
-
 function StatusBubbles(props) {
   const { text } = props;
 

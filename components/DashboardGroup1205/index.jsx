@@ -6,11 +6,13 @@ function DashboardGroup1205(props) {
   const { className } = props;
 
   return (
-    <Group12051 onClick={()=>{
-        window.location.href="/tasks"
-      }} 
-      className={`group-1205 ${className || ""}`}>
-      <ViewAll  className="view-all">VIEW ALL</ViewAll>
+    <Group12051
+      onClick={() => {
+        window.location.href = "/tasks";
+      }}
+      className={`group-1205 ${className || ""}`}
+    >
+      <ViewAll className="view-all">VIEW ALL</ViewAll>
       <Arrowright
         className="arrowright"
         src="/img/arrowright@2x.png"

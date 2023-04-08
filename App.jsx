@@ -29,7 +29,6 @@ function App() {
         <Route path="/">
           <StudentDashboardRoot />
         </Route>
-        
       </Switch>
     </Router>
   );

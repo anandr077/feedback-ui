@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalFuscousGray16px, IbmplexsansMediumShark20px } from "../styledMixins";
-
+import {
+  IbmplexsansNormalFuscousGray16px,
+  IbmplexsansMediumShark20px,
+} from "../styledMixins";
 
 function Frame12094(props) {
   const { topicsCovered, moremIpsumDolorSi } = props;

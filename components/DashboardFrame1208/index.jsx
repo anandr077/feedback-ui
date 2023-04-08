@@ -8,10 +8,14 @@ function DashboardFrame1208(props) {
 
   return (
     <Frame12081>
-      <Tasks onClick={()=>{
-        alert("View All");
-        window.location.href="/tasks"
-        }} >View All</Tasks>
+      <Tasks
+        onClick={() => {
+          alert("View All");
+          window.location.href = "/tasks";
+        }}
+      >
+        View All
+      </Tasks>
       <DashboardGroup12052 arrowright={group12052Props.arrowright} />
     </Frame12081>
   );

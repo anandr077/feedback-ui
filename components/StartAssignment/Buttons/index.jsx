@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumWhite20px } from "../styledMixins";
 
-
 function Buttons(props) {
-  const {onClickFn} = props
+  const { onClickFn } = props;
   return (
     <Buttons1 onClick={onClickFn}>
       <Button>Start Assignment</Button>

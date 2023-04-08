@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalFuscousGray14px } from "../styledMixins";
 
-
 function Breadcrumb() {
   return (
     <Breadcrumb1>

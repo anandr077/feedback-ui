@@ -100,12 +100,10 @@ function FeedbackTeacherLaptop(props) {
     );
   }
   function handleKeyPress(event) {
-    // alert(event.target.value);
-
     if (event.key === "Enter") {
       addNewComment(submission.id, {
         questionSerialNumber: newCommentSerialNumber,
-        feedback: event.target.value,
+        feedback: newCommentValue,
         range: selectedRange,
       }).then((response) => {
         if (response) {

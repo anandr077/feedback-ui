@@ -7,7 +7,7 @@ function Tabs2(props) {
 
   return (
     <Tabs className={`tabs-1 ${className || ""}`}>
-      <ToDo className="to-do-1">{children}</ToDo>
+      <ToDo>{children}</ToDo>
     </Tabs>
   );
 }

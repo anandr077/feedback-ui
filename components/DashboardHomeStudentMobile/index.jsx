@@ -14,20 +14,11 @@ import { getUserName } from "../../service";
 function DashboardHomeStudentMobile(props) {
   const {
     allTasks,
-    frame1349,
-    frame5,
+
     keepOrganizedWitho1,
     keepOrganizedWitho2,
-    maskGroup,
-    line171,
     line172,
-    notificationsProps,
-    frame12081Props,
-    cards28Props,
     frame12082Props,
-    cards29Props,
-    group1205Props,
-    frame1340Props,
   } = props;
 
   return (
@@ -47,7 +38,7 @@ function DashboardHomeStudentMobile(props) {
             tasks="Tasks"
             group12052Props={frame12082Props.group12052Props}
           />
-          <Line17 src={line172} alt="Line 17" />
+          <Line17 src="/img/line-17@2x.png" alt="Line 17" />
           <Frame11>
             <TaskCardContainer allTasks={allTasks} />
           </Frame11>

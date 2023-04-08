@@ -14,8 +14,7 @@ import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 
 function TasksStudentMobile(props) {
-  const { allTasks, frame1304Props, tabs21Props, tabs22Props, frame19Props } =
-    props;
+  const { allTasks, tabs21Props, tabs22Props, frame19Props } = props;
 
   return (
     <div className="tasks-student-mobile screen">
@@ -23,7 +22,7 @@ function TasksStudentMobile(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Task</PageTitle>
-          <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
+          <TaskFrame1304 />
         </Frame1307>
         <Frame1364>
           <Frame1211>

@@ -5,6 +5,11 @@ import Header from "../../Header";
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import {
+  getCommentsForSubmission,
+  addNewComment,
+  markAssignmentReviewed as markSubmsissionReviewed,
+} from "../../../service";
 import { addNewComment, getCommentsForSubmission, markAssignmentReviewed as markSubmsissionReviewed } from "../../../service";
 import {
   feedbacksIbmplexsansBoldShark36px,
@@ -85,8 +90,9 @@ function FeedbackTeacherLaptop(props) {
   }
 
   function handleSubmissionReviewed() {
-    markSubmsissionReviewed(submission.id)
-    .then((_) => window.location.href = "/");
+    markSubmsissionReviewed(submission.id).then(
+      (_) => (window.location.href = "/")
+    );
   }
   function handleKeyPress(event) {
     if (event.key === "Enter") {
@@ -200,15 +206,28 @@ function FeedbackTeacherLaptop(props) {
         <Frame1386>
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
-            <Frame1370>
-              <ReviewsFrame1316 />
-              
+            <Frame1369>
+              <Link to="/students-list">
+                <Frame13161>
+                  <ReviewsFrame129532 />
+                  <Frame1284 src={frame1284} alt="Frame 1284" />
+                </Frame13161>
+              </Link>
               <Buttons2
-                button='Submit & Next'
+                arrowleft={true}
+                button="Previous"
+                onClickFn={() => alert("clicked")}
+              ></Buttons2>
+              <Buttons2
+                button="Submit & Next"
                 arrowright={true}
-                onClickFn={()=>handleSubmissionReviewed()} >
-              </Buttons2>
-            </Frame1370>
+                onClickFn={() => handleSubmissionReviewed()}
+              ></Buttons2>
+              {/* <ReviewsFrame131722
+                buttonsProps={frame13172Props.buttonsProps}
+                buttons2Props={frame13172Props.buttons2Props}
+              /> */}
+            </Frame1369>
           </Frame1371>
           <Frame1368>
             <Group1225>

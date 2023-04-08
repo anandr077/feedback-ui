@@ -5,19 +5,13 @@ import { useMediaQuery } from "react-responsive";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AssignmentTheory from "./components/AssignmentTheory";
 import CreateAssignment from "./components/CreateAssignment";
-import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
-import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop";
-import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
-import DashboardHomeStudentTablet from "./components/DashboardHomeStudentTablet";
 import FeedbackTeacherDesktop from "./components/FeedbacksComponents/FeedbackTeacherDesktop";
 import FeedbackTeacherLaptop from "./components/FeedbacksComponents/FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "./components/FeedbacksComponents/FeedbackTeacherMobile";
 import FeedbackTeacherTablet from "./components/FeedbacksComponents/FeedbackTeacherTablet";
-import TasksDesktop from "./components/TasksDesktop";
-import TasksLaptop from "./components/TasksLaptop";
-import TasksStudentMobile from "./components/TasksStudentMobile";
-import TasksStudentTablet from "./components/TasksStudentTablet";
-import { getSubmissionById, getTasks, login } from "./service.js";
+import StudentDashboardRoot from "./components/StudentDashBoardRoot";
+import StudentTaskRoot from "./components/StudentTaskRoot";
+import { getSubmissionById } from "./service.js";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -31,14 +25,18 @@ function App() {
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>
-        <Route path="/tasks">{tasks()}</Route>
+        <Route path="/tasks">
+          <StudentTaskRoot />
+        </Route>
         <Route path="/submissions/:submissionId">
           <AssignmentTheory />
         </Route>
         <Route path="/feedbacks/:id">
           <Feebacks />
         </Route>
-        <Route path="/">{dashboard()}</Route>
+        <Route path="/">
+          <StudentDashboardRoot />
+        </Route>
       </Switch>
     </Router>
   );
@@ -88,66 +86,6 @@ function App() {
         {isDesktopView && (
           <FeedbackTeacherDesktop
             {...{ submission, ...feedbacksFeedbackTeacherDesktopData }}
-          />
-        )}
-      </>
-    );
-  }
-
-  function tasks() {
-    const [allTasks, setAllTasks] = useState([]);
-
-    useEffect(() => {
-      
-      getTasks().then((result) => {
-        setAllTasks(result);
-      });
-      
-    }, []);
-    return (
-      <>
-        {isMobileView && (
-          <TasksStudentMobile {...{ allTasks, ...tasksStudentMobileData }} />
-        )}
-        {isTabletView && (
-          <TasksStudentTablet {...{ allTasks, ...tasksStudentTabletData }} />
-        )}
-        {isLaptopView && <TasksLaptop {...{ allTasks, ...tasksLaptopData }} />}
-        {isDesktopView && (
-          <TasksDesktop {...{ allTasks, ...tasksDesktopData }} />
-        )}
-      </>
-    );
-  }
-
-  function dashboard() {
-    const [allTasks, setAllTasks] = useState([]);
-
-    useEffect(() => {
-      getTasks().then((result) => {
-        setAllTasks(result);
-      });
-    }, []);
-    return (
-      <>
-        {isLaptopView && (
-          <DashboardHomeStudentLaptop
-            {...{ allTasks, ...dashboardHomeStudentLaptopData }}
-          />
-        )}
-        {isDesktopView && (
-          <DashboardHomeStudentDesktop
-            {...{ allTasks, ...dashboardHomeStudentDesktopData }}
-          />
-        )}
-        {isTabletView && (
-          <DashboardHomeStudentTablet
-            {...{ allTasks, ...dashboardHomeStudentTabletData }}
-          />
-        )}
-        {isMobileView && (
-          <DashboardHomeStudentMobile
-            {...{ allTasks, ...dashboardHomeStudentMobileData }}
           />
         )}
       </>

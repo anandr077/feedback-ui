@@ -166,8 +166,6 @@ export const saveAnswer = async (submissionId, serialNumber, answer) => {
     .catch(errorHandler);
 };
 
-
-
 export const submitAssignment = async (submissionId) => {
   const s = JSON.stringify(submissionId);
 
@@ -188,7 +186,6 @@ export const submitAssignment = async (submissionId) => {
     })
     .catch(errorHandler);
 };
-
 
 export const markAssignmentReviewed = async (submissionId) => {
   const s = JSON.stringify(submissionId);

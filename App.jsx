@@ -12,6 +12,7 @@ import FeedbackTeacherTablet from "./components/FeedbacksComponents/FeedbackTeac
 import StudentDashboardRoot from "./components/StudentDashBoardRoot";
 import StudentTaskRoot from "./components/StudentTaskRoot";
 import { getSubmissionById } from "./service.js";
+import TaskDetail from "./components/StartAssignment/TaskDetail";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
@@ -28,6 +29,9 @@ function App() {
         <Route path="/tasks">
           <StudentTaskRoot />
         </Route>
+        <Route path="/submissions/new">
+          <TaskDetail />
+        </Route>
         <Route path="/submissions/:submissionId">
           <AssignmentTheory />
         </Route>
@@ -37,6 +41,7 @@ function App() {
         <Route path="/">
           <StudentDashboardRoot />
         </Route>
+        
       </Switch>
     </Router>
   );

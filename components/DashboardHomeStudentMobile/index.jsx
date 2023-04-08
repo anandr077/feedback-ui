@@ -9,6 +9,7 @@ import DashboardFrame1208 from "../DashboardFrame1208";
 import TaskCardContainer from "../TaskCardContainer";
 import HeaderSmall from "../HeaderSmall";
 import "./DashboardHomeStudentMobile.css";
+import { getUserName } from "../../service";
 
 function DashboardHomeStudentMobile(props) {
   const {
@@ -35,7 +36,7 @@ function DashboardHomeStudentMobile(props) {
         <HeaderSmall />
         <Frame1203>
           <Frame1348>
-            <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
+            <KeepOrganizedWitho>Welcome, {keepOrganizedWitho1}</KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </Frame1348>
         </Frame1203>

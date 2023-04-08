@@ -11,6 +11,7 @@ import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 import "./DashboardHomeStudentTablet.css";
 import TaskCardContainer from "../TaskCardContainer";
+import { getUserName } from "../../service";
 
 function DashboardHomeStudentTablet(props) {
   const {
@@ -37,7 +38,7 @@ function DashboardHomeStudentTablet(props) {
         <HeaderSmall />
         <Frame1203>
           <Frame1348>
-            <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
+            <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </Frame1348>
         </Frame1203>

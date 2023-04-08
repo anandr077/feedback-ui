@@ -1,10 +1,21 @@
 const baseUrl = "http://localhost:8080";
 
-export const getTasks = async () => {
-  return await fetch(baseUrl + "/tasks", {
-    method: "GET",
+export const login = async () => {
+  const token = getCookie("auth.access_token")
+  if (!token) {
+  
+  const user = getCookie("userId")
+  return await fetch(baseUrl + "/users/login", {
+    method: "POST",
+    body: JSON.stringify({
+      username: user,
+      password: "password"
+    }),
     withCredentials: true,
     credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => response.json())
     .then((data) => {
@@ -13,6 +24,35 @@ export const getTasks = async () => {
     .catch((err) => {
       console.log(err.message);
     });
+  }
+};
+export const getUserName = () => {
+  return getCookie('user.name')
+}
+
+export const getCookie = (name) => {
+  console.log(document.cookie)
+  const cookieValue = document.cookie.split('; ')
+    .find(cookie => cookie.startsWith(`${name}=`));
+  console.log(cookieValue)
+  if (cookieValue) {
+    return cookieValue.split('=')[1];
+  } else {
+    return null;
+  }
+}
+
+export const getTasks = async () => {
+  return await fetch(baseUrl + "/tasks", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  }).then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
 };
 
 export const getAssigmentById = async (assignmentId) => {
@@ -20,14 +60,12 @@ export const getAssigmentById = async (assignmentId) => {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 export const getSubmissionById = async (submissionId) => {
@@ -35,14 +73,12 @@ export const getSubmissionById = async (submissionId) => {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 export const addNewComment = async (submissionId, comment) => {
@@ -54,28 +90,24 @@ export const addNewComment = async (submissionId, comment) => {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 export const getCommentsForSubmission = async (submissionId) => {
   return await fetch(baseUrl + "/submissions/" + submissionId + "/comments", {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 export const getClasses = async () => {
@@ -83,14 +115,12 @@ export const getClasses = async () => {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 export const createAssignment = async (assignment) => {
@@ -102,14 +132,12 @@ export const createAssignment = async (assignment) => {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 export const saveAnswer = async (submissionId, serialNumber, answer) => {
@@ -130,14 +158,12 @@ export const saveAnswer = async (submissionId, serialNumber, answer) => {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 
@@ -155,14 +181,12 @@ export const submitAssignment = async (submissionId) => {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  }).then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 
@@ -184,9 +208,7 @@ export const markAssignmentReviewed = async (submissionId) => {
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch(errorHandler);
 };
 
 export const createSubmission = async (submission) => {
@@ -199,11 +221,25 @@ export const createSubmission = async (submission) => {
       "Content-Type": "application/json",
     },
   })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+    .catch((errorHandler));
 };
+
+function errorHandler(response) {
+  console.log(response)
+};
+function handleErrors(response) {
+  if (!response.ok) {
+    console.log(response);
+    login().then((data) => {
+      window.location.reload();
+    })
+  }
+  return response;
+};
+
+

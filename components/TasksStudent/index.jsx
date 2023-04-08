@@ -11,6 +11,7 @@ import {
   IbmplexsansBoldShark36px,
 } from "../../styledMixins";
 import "./TasksStudent.css";
+import { getUserName } from "../../service";
 
 function TasksStudent(props) {
   const {
@@ -39,7 +40,7 @@ function TasksStudent(props) {
             <Frame51 src={frame5} alt="Frame 5" />
           </Frame5>
         </OverlapGroup1>
-        <KeepOrganizedWitho>{keepOrganizedWitho}</KeepOrganizedWitho>
+        <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
         <Frame1211>
           <Tabs />
           <Tabs2>{tabs21Props.children}</Tabs2>

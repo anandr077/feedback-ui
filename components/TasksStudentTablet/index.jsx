@@ -7,6 +7,7 @@ import Tabs from "../Tabs";
 import Tabs2 from "../Tabs2";
 import Footer from "../Footer";
 import HeaderSmall from "../HeaderSmall";
+import { getUserName } from "../../service";
 
 import {
   IbmplexsansBoldShark36px,
@@ -31,7 +32,7 @@ function TasksStudentTablet(props) {
       <HeaderSmall />
       <Frame1365>
         <Frame1307>
-          <KeepOrganizedWitho>{keepOrganizedWitho}</KeepOrganizedWitho>
+          <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
           <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
         </Frame1307>
         <Frame1364>

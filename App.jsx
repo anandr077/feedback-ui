@@ -17,13 +17,14 @@ import TasksDesktop from "./components/TasksDesktop";
 import TasksLaptop from "./components/TasksLaptop";
 import TasksStudentMobile from "./components/TasksStudentMobile";
 import TasksStudentTablet from "./components/TasksStudentTablet";
-import { getSubmissionById, getTasks } from "./service.js";
+import { getSubmissionById, getTasks, login } from "./service.js";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
+  
   return (
     <Router>
       <Switch>
@@ -97,9 +98,11 @@ function App() {
     const [allTasks, setAllTasks] = useState([]);
 
     useEffect(() => {
+      
       getTasks().then((result) => {
         setAllTasks(result);
       });
+      
     }, []);
     return (
       <>

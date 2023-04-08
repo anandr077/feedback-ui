@@ -14,6 +14,8 @@ import Header from "../Header";
 import ModelResponseCardContainer from "../ModelResponseCardContainer";
 import TaskCardContainer from "../TaskCardContainer";
 import "./DashboardHomeStudentLaptop.css";
+import { getUserName } from "../../service";
+
 
 function DashboardHomeStudentLaptop(props) {
   const {
@@ -36,15 +38,17 @@ function DashboardHomeStudentLaptop(props) {
     frame611Props,
     headerProps,
   } = props;
-
+  const userName = getUserName();
+  console.log(userName)
   return (
+    
     <div className="dashboard-home-student-laptop screen">
       <Header headerProps={headerProps} />
       <Frame1347>
         <Frame1345>
           <Frame1342>
             <Frame1341>
-              <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
+              <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
               <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
             </Frame1341>
             <MaskGroup src={maskGroup} alt="Mask Group" />

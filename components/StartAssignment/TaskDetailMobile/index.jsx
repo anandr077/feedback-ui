@@ -1,26 +1,22 @@
 import React from "react";
-import Notifications from "../Notifications";
+import styled from "styled-components";
+import HeaderSmall from "../../HeaderSmall";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
+import Buttons from "../Buttons";
+import Frame11 from "../Frame11";
+import Frame12092 from "../Frame12092";
 import GoBack from "../GoBack";
 import StatusBubbles from "../StatusBubbles";
-import Frame11 from "../Frame11";
-import Frame12 from "../Frame12";
-import Frame13 from "../Frame13";
-import Frame14 from "../Frame14";
-import Frame12092 from "../Frame12092";
-import Buttons from "../Buttons";
-import styled from "styled-components";
 import {
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark28px,
-  IbmplexsansBoldShark36px,
+  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansSemiBoldShark28px
 } from "../styledMixins";
 import "./TaskDetailMobile.css";
 
 function TaskDetailMobile(props) {
   const {
+    assignment,
+    methods,
     frame1349,
     frame5,
     title,
@@ -40,13 +36,7 @@ function TaskDetailMobile(props) {
   return (
     <div className="task-detail-mobile screen">
       <Frame1391>
-        <Frame1350>
-          <Frame1349 src={frame1349} alt="Frame 1349" />
-          <Frame5>
-            <Notifications />
-            <Frame51 src={frame5} alt="Frame 5" />
-          </Frame5>
-        </Frame1350>
+        <HeaderSmall />
         <Frame1390>
           <Frame29>
             <Breadcrumb />
@@ -55,30 +45,24 @@ function TaskDetailMobile(props) {
           </Frame29>
           <Frame1389>
             <GoBack caret={goBackProps.caret} />
-            <Title>{title}</Title>
+            <Title>Assignment</Title>
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles />
-              <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
+              <StatusBubbles text={assignment.dueAt}/>
+              <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
-              <Frame11 />
-              <Frame12 />
-              <Frame13 />
-              <Frame14 />
+              <Frame11 text={assignment.questions.length}/>
             </Frame28>
-            <Frame12092
-              topicsCovered={frame120921Props.topicsCovered}
-              moremIpsumDolorSi={frame120921Props.moremIpsumDolorSi}
-            />
+            
             <Frame12092
               topicsCovered={frame120922Props.topicsCovered}
               moremIpsumDolorSi={frame120922Props.moremIpsumDolorSi}
             />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
-              <Buttons />
+              <Buttons onClickFn={methods.onClickStartAssignment}/>
             </Frame1209>
           </Frame13901>
         </Frame1390>

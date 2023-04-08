@@ -1,13 +1,91 @@
-import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../styledMixins";
+import { IbmplexsansNormalShark16px } from "../styledMixins";
 import ReactiveRender from "../../ReactiveRender";
 import TaskDetailMobile from "../TaskDetailMobile";
 import TaskDetailTablet from "../TaskDetailTablet";
 import TaskDetailLaptop from "../TaskDetailLaptop";
 import TaskDetailDesktop from "../TaskDetailDesktop";
+import { getAssigmentById, startSubmission } from "../../../service";
+import { useParams } from "react-router-dom";
+import { default as React, useEffect, useState } from "react";
 
-const createAssignmentHeaderProps = {
+export default function TaskDetail() {
+  const { assignmentId } = useParams<{ assignmentId: string }>();
+
+  const [assignment, setAssigment] = React.useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    getAssigmentById(assignmentId).then((res) => {
+      console.log("Assignment " + JSON.stringify(res))
+      setAssigment(res);
+      setIsLoading(false);
+    });
+  }, []);
+  console.log("Loading: " + isLoading)
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  console.log("Loadr: " + isLoading)
+
+  const methods = {
+    onClickStartAssignment: (_) => {
+      startSubmission({ assignmentId: assignment.id })
+      .then((res) => {
+        console.log("res " + res);
+        window.location.href = "/submissions/" + res.id;
+      });
+    }
+  };
+  return (
+    <ReactiveRender
+      mobile={
+        <TaskDetailMobile
+          {...{
+            assignment,
+            methods,
+            ...taskDetailMobileData,
+          }}
+        />
+      }
+      tablet={
+        <TaskDetailTablet
+          {...{
+            assignment,
+            methods,
+            ...taskDetailTabletData,
+          }}
+        />
+      }
+      laptop={
+        <TaskDetailLaptop
+          {...{
+            assignment,
+            methods,
+            ...taskDetailLaptopData,
+          }}
+        />
+      }
+      desktop={
+        <TaskDetailDesktop
+          {...{
+            assignment,
+            methods,
+            ...taskDetailDesktopData,
+          }}
+        />
+      }
+    />
+  );
+  
+}
+
+const goBack2Data = {
+  className: "go-back-1",
+  caret: "/img/caret-5@2x.png",
+};
+
+const headerProps = {
   firstButton: {
     text: "Home",
     icon: "/icons/homeIconUnselected.png",
@@ -30,13 +108,9 @@ const createAssignmentHeaderProps = {
     redirect: "/classes",
   },
 };
-
-export default function TaskDetail() {
-  
-
-  const navElement1Data = {
-    home3: "/img/home3@2x.png",
-    place: "Home",
+const navElement1Data = {
+  home3: "/img/home3@2x.png",
+  place: "Home",
 };
 
 const navElement2Data = {
@@ -74,6 +148,7 @@ const frame12092Data = {
 };
 
 const taskDetailDesktopData = {
+    headerProps,
     frame1343: "/img/frame-1343@2x.png",
     title: "Assignment",
     physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
@@ -97,9 +172,6 @@ const breadcrumb24Data = {
     assignments: "Physics - thermodynamics...",
 };
 
-const goBack2Data = {
-    caret: "/img/caret-2@2x.png",
-};
 
 const frame120922Data = {
     topicsCovered: "Topics covered:",
@@ -207,6 +279,7 @@ const frame120942Data = {
 };
 
 const taskDetailLaptopData = {
+    headerProps:headerProps,
     frame1343: "/img/frame-1343@2x.png",
     title: "Assignment",
     physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
@@ -221,50 +294,6 @@ const taskDetailLaptopData = {
     frame120941Props: frame120941Data,
     frame120942Props: frame120942Data,
 };
-
-  
-  const methods = {
-    
-  };
-
-  return (
-    <ReactiveRender
-      mobile={
-        <TaskDetailMobile
-          {...{
-            ...methods,
-            ...taskDetailMobileData,
-          }}
-        />
-      }
-      tablet={
-        <TaskDetailTablet
-          {...{
-            ...methods,
-            ...taskDetailTabletData,
-          }}
-        />
-      }
-      laptop={
-        <TaskDetailLaptop
-          {...{
-            ...methods,
-            ...taskDetailLaptopData,
-          }}
-        />
-      }
-      desktop={
-        <TaskDetailDesktop
-          {...{
-            ...methods,
-            ...taskDetailDesktopData,
-          }}
-        />
-      }
-    />
-  );
-}
-
 const Checkbox = styled.article`
   display: flex;
   align-items: center;
@@ -279,14 +308,6 @@ const Checkbox1 = styled.div`
   height: 20px;
 `;
 
-const CheckBoxText = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 const Rectangle43 = styled.input`
   position: absolute;
   width: 22px;
@@ -544,57 +565,6 @@ const richTextComponents33Data = {
   className: "rich-text-components-29",
 };
 
-const createAAssignmentLaptopData = {
-  headerProps: createAssignmentHeaderProps,
-  logo: "/img/logo-1@2x.png",
-  title: "Create Assignment",
-  nameOfAssignment: "Name of assignment",
-  line141: "/img/line-14-4.png",
-  text11: "3.",
-  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
-  frame1284: "/img/frame-1284-7@2x.png",
-  line142: "/img/line-14-4.png",
-  options: "Options",
-  assignmentSettings: "Assignment Settings",
-  classes: "Classes",
-  help1: "/img/help@2x.png",
-  feedbackMethod: "Feedback Method",
-  help2: "/img/help@2x.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-  navElement21Props: navElement23Data,
-  navElementProps: navElement3Data1,
-  navElement22Props: navElement24Data,
-  notificationsProps: notifications4Data1,
-  frame4Props: frame42Data1,
-  goBack21Props: goBack24Data,
-  buttons21Props: buttons25Data,
-  frame12973Props: frame129732Data,
-  input51Props: input53Data,
-  input61Props: input65Data,
-  input62Props: input66Data,
-  questionFrame41Props: questionFrame41Data,
-  richTextComponentsProps: richTextComponents13Data,
-  richTextComponents3Props: richTextComponents33Data,
-  input52Props: input54Data,
-  input63Props: input67Data,
-  input81Props: input81Data,
-  input82Props: input82Data,
-  input83Props: input83Data,
-  input84Props: input84Data,
-  input64Props: input68Data,
-  questionFrame42Props: questionFrame42Data,
-  questionFrame43Props: questionFrame43Data,
-  buttons22Props: buttons26Data,
-  checkbox31Props: checkbox38Data,
-  checkbox32Props: checkbox39Data,
-  checkbox33Props: checkbox310Data,
-  checkbox34Props: checkbox311Data,
-  checkbox35Props: checkbox312Data,
-  checkbox36Props: checkbox313Data,
-  goBack22Props: goBack25Data,
-  frame662Props: frame6622Data,
-};
-
 const goBack22Data = {
   caret: "/img/caret-1@2x.png",
 };
@@ -624,15 +594,6 @@ const goBack23Data = {
   className: "go-back-3",
 };
 
-const createAAssignmentTabletData = {
-  line141: "/img/line-14-2.png",
-  help1: "/img/help@2x.png",
-  help2: "/img/help@2x.png",
-  goBack21Props: goBack22Data,
-  buttons21Props: buttons23Data,
-  frame12972Props: frame129722Data,
-  goBack22Props: goBack23Data,
-};
 
 const notifications2Data = {
   src: "/img/notificationbing@2x.png",
@@ -774,55 +735,3 @@ const radioBoxData = {
   label: "Peer to Peer (randomised)",
 };
 
-const goBack2Data = {
-  className: "go-back-1",
-};
-
-const createAAssignmentMobileData = {
-  frame1349: "/img/frame-1349@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  title: "Create Assignment",
-  nameOfAssignment: "Name of assignment",
-  questions: "Questions",
-  line141: "/img/line-14@2x.png",
-  answerWordLimit: "Answer Word Limit",
-  number: "1000",
-  group1280: "/img/group-1280@2x.png",
-  text3: "3.",
-  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
-  mcq: "MCQ",
-  frame1284: "/img/frame-1284@2x.png",
-  line142: "/img/line-14@2x.png",
-  options: "Options",
-  assignmentSettings: "Assignment Settings",
-  classes: "Classes",
-  help1: "/img/help@2x.png",
-  feedbackMethod: "Feedback Method",
-  help2: "/img/help@2x.png",
-  notificationsProps: notifications2Data,
-  buttons21Props: buttons21Data,
-  frame1297Props: frame12971Data,
-  input1Props: input1Data,
-  input21Props: input21Data,
-  input22Props: input22Data,
-  questionFrame1Props: questionFrame1Data,
-  richTextComponentsProps: richTextComponents3Data,
-  bulletListProps: bulletList1Data,
-  input2Props: input3Data,
-  input3Props: input32Data,
-  input41Props: input41Data,
-  input42Props: input42Data,
-  input43Props: input43Data,
-  input44Props: input44Data,
-  input23Props: input23Data,
-  questionFrame2Props: questionFrame2Data,
-  questionFrame3Props: questionFrame3Data,
-  buttons22Props: buttons22Data,
-  checkbox1Props: checkbox2Data,
-  checkbox2Props: checkbox3Data,
-  checkbox3Props: checkbox4Data,
-  checkbox4Props: checkbox5Data,
-  checkbox5Props: checkbox6Data,
-  radioBoxProps: radioBoxData,
-  goBackProps: goBack2Data,
-};

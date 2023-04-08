@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { IbmplexsansNormalShark16px } from "../styledMixins";
 
 
-function Frame11() {
+function Frame11(props) {
+  const { text } = props;
   return (
     <Frame111>
-      <Address>24 Questions</Address>
+      <Address>{text} Questions</Address>
     </Frame111>
   );
 }

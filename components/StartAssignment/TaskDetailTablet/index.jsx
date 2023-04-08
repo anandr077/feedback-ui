@@ -18,9 +18,13 @@ import {
   IbmplexsansBoldShark36px,
 } from "../styledMixins";
 import "./TaskDetailTablet.css";
+import HeaderSmall from "../../HeaderSmall";
 
 function TaskDetailTablet(props) {
   const {
+    assignment,
+    methods,
+    mobile,
     frame1349,
     frame5,
     title,
@@ -40,13 +44,7 @@ function TaskDetailTablet(props) {
   return (
     <div className="task-detail-tablet screen">
       <Frame1391>
-        <Frame1350>
-          <Frame1349 src={frame1349} alt="Frame 1349" />
-          <Frame5>
-            <Notifications />
-            <Frame51 src={frame5} alt="Frame 5" />
-          </Frame5>
-        </Frame1350>
+        <HeaderSmall/>
         <Frame1390>
           <Frame29>
             <Breadcrumb />
@@ -54,31 +52,24 @@ function TaskDetailTablet(props) {
             <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
           </Frame29>
           <Frame1389>
-            <Title>{title}</Title>
+            <Title>Assignment</Title>
             <GoBack caret={goBackProps.caret} />
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles />
-              <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
+              <StatusBubbles text={assignment.dueAt}/>
+              <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
-              <Frame11 />
-              <Frame12 />
-              <Frame13 />
-              <Frame14 />
+              <Frame11 text={assignment.questions.length}/>
             </Frame28>
-            <Frame12093
-              topicsCovered={frame120931Props.topicsCovered}
-              moremIpsumDolorSi={frame120931Props.moremIpsumDolorSi}
-            />
             <Frame12093
               topicsCovered={frame120932Props.topicsCovered}
               moremIpsumDolorSi={frame120932Props.moremIpsumDolorSi}
             />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
-              <Buttons />
+              <Buttons onClickFn={methods.onClickStartAssignment}/>
             </Frame1209>
           </Frame13901>
         </Frame1390>

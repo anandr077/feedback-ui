@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite20px } from "../styledMixins";
 
 
-function Buttons() {
+function Buttons(props) {
+  const {onClickFn} = props
   return (
-    <Buttons1>
+    <Buttons1 onClick={onClickFn}>
       <Button>Start Assignment</Button>
-      <Arrowright src="/img/arrowright@2x.png" alt="arrowright" />
+      <Arrowright src="/icons/arrowright.png" alt="arrowright" />
     </Buttons1>
   );
 }
@@ -23,6 +24,7 @@ const Buttons1 = styled.div`
   background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
+  cursor: pointer;
 `;
 
 const Button = styled.div`

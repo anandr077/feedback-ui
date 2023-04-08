@@ -3,10 +3,12 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite13px } from "../styledMixins";
 
 
-function StatusBubbles() {
+function StatusBubbles(props) {
+  const { text } = props;
+
   return (
     <StatusBubbles1>
-      <DueIn3Days>Due on: Friday, 10 Mar, 2023</DueIn3Days>
+      <DueIn3Days>Due on : {text}</DueIn3Days>
     </StatusBubbles1>
   );
 }

@@ -52,10 +52,8 @@ export default function CreateAssignment() {
       null,
       isMobileView() ? "small" : "large"
     );
-    console.log("questionFrames.size", questionFrames.length);
 
     setQuestionFrames((oldFrames) => [...oldFrames, newQuestionFrame]);
-    console.log("questionFrames.size", questionFrames.length);
   };
 
   function deleteQuestionFrameFn(index) {
@@ -120,6 +118,7 @@ export default function CreateAssignment() {
     };
     createAssignment(assignment).then((res) => {
       console.log(res);
+      window.location.href = "/";
     });
   };
 

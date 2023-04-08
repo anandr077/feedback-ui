@@ -67,6 +67,22 @@ export const getAssigmentById = async (assignmentId) => {
     })
     .catch(errorHandler);
 };
+export const startSubmission = async (assignmentDetails) => {
+  return await fetch(baseUrl + "/submissions" , {
+    method: "POST",
+    body: JSON.stringify(assignmentDetails),
+    withCredentials: true,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
 
 export const getSubmissionById = async (submissionId) => {
   return await fetch(baseUrl + "/submissions/" + submissionId, {

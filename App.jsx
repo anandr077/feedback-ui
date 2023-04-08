@@ -29,7 +29,7 @@ function App() {
         <Route path="/tasks">
           <StudentTaskRoot />
         </Route>
-        <Route path="/submissions/new">
+        <Route path="/assignments/:assignmentId/start">
           <TaskDetail />
         </Route>
         <Route path="/submissions/:submissionId">

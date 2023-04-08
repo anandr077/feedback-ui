@@ -20,9 +20,14 @@ import {
   IbmplexsansSemiBoldShark28px,
 } from "../styledMixins";
 import "./TaskDetailLaptop.css";
+import Footer from "../../Footer";
+import Header from "../../Header";
 
 function TaskDetailLaptop(props) {
   const {
+    assignment,
+    methods,
+    headerProps,
     frame1343,
     title,
     physicsThermodyna,
@@ -37,30 +42,11 @@ function TaskDetailLaptop(props) {
     frame120941Props,
     frame120942Props,
   } = props;
-
+  console.log("Assignment: ", assignment)
   return (
     <div className="task-detail-laptop screen">
       <Frame1391>
-        <Frame1344>
-          <Frame1343 src={frame1343} alt="Frame 1343" />
-          <Frame5>
-            <NavElement home3={navElement1Props.home3} place={navElement1Props.place} />
-            <NavElement
-              home3={navElement2Props.home3}
-              place={navElement2Props.place}
-              className={navElement2Props.className}
-            />
-            <NavElement
-              home3={navElement3Props.home3}
-              place={navElement3Props.place}
-              className={navElement3Props.className}
-            />
-          </Frame5>
-          <Frame51>
-            <Notifications />
-            <Frame4 />
-          </Frame51>
-        </Frame1344>
+        <Header headerProps={headerProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb />
@@ -68,39 +54,29 @@ function TaskDetailLaptop(props) {
             <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
           </Frame29>
           <Frame1389>
-            <Title>{title}</Title>
+            <Title>Assignment</Title>
             <GoBack caret={goBackProps.caret} />
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles />
-              <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
+              <StatusBubbles text={assignment.dueAt} />
+              <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
-              <Frame11 />
-              <Frame12 />
-              <Frame13 />
-              <Frame14 />
+              <Frame11 text={assignment.questions.length}/>
             </Frame28>
-            <Frame12094
-              topicsCovered={frame120941Props.topicsCovered}
-              moremIpsumDolorSi={frame120941Props.moremIpsumDolorSi}
-            />
             <Frame12094
               topicsCovered={frame120942Props.topicsCovered}
               moremIpsumDolorSi={frame120942Props.moremIpsumDolorSi}
             />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
-              <Buttons />
+              <Buttons onClickFn={methods.onClickStartAssignment}/>
             </Frame1209>
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
+      <Footer/>
     </div>
   );
 }

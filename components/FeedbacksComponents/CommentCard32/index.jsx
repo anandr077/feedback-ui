@@ -5,17 +5,15 @@ import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 
 function CommentCard32(props) {
-  const { horemIpsumDolorSi, className } = props;
+  const { comment, className, onClick } = props;
 
   return (
-    <Link to="/highlight-hover">
-      <CommentCard className={`comment-card-4 ${className || ""}`}>
+      <CommentCard onClick={()=>onClick(comment)} className={`comment-card-4 ${className || ""}`}>
         <ReviewsFrame132532 />
         <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">
-          {horemIpsumDolorSi}
+          {comment.comment}
         </HoremIpsumDolorSi>
       </CommentCard>
-    </Link>
   );
 }
 

@@ -11,6 +11,7 @@ import DashboardFrame1284 from "../DashboardFrame1284";
 import ModelResponseCardContainer from "../ModelResponseCardContainer";
 import DashboardGroup1205 from "../DashboardGroup1205";
 import "./DashboardHomeStudentDesktop.css";
+import { getUserName } from "../../service";
 
 import Footer from "../Footer";
 import TaskCardContainer from "../TaskCardContainer";
@@ -34,7 +35,7 @@ function DashboardHomeStudentDesktop(props) {
           <Header headerProps={headerProps} />
           <Frame1342>
             <Frame1341>
-              <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
+              <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
               <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
             </Frame1341>
             <MaskGroup src={maskGroup} alt="Mask Group" />

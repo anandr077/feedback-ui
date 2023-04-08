@@ -5,23 +5,20 @@ import { useMediaQuery } from "react-responsive";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AssignmentTheory from "./components/AssignmentTheory";
 import CreateAssignment from "./components/CreateAssignment";
-import DashboardHomeStudentDesktop from "./components/DashboardHomeStudentDesktop";
-import DashboardHomeStudentLaptop from "./components/DashboardHomeStudentLaptop";
-import DashboardHomeStudentMobile from "./components/DashboardHomeStudentMobile";
-import DashboardHomeStudentTablet from "./components/DashboardHomeStudentTablet";
 import FeedbackTeacherDesktop from "./components/FeedbacksComponents/FeedbackTeacherDesktop";
 import FeedbackTeacherLaptop from "./components/FeedbacksComponents/FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "./components/FeedbacksComponents/FeedbackTeacherMobile";
 import FeedbackTeacherTablet from "./components/FeedbacksComponents/FeedbackTeacherTablet";
-import { getSubmissionById, getTasks } from "./service.js";
-import StudentTaskRoot from "./components/StudentTaskRoot";
 import StudentDashboardRoot from "./components/StudentDashBoardRoot";
+import StudentTaskRoot from "./components/StudentTaskRoot";
+import { getSubmissionById } from "./service.js";
 
 function App() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
+  
   return (
     <Router>
       <Switch>
@@ -31,7 +28,7 @@ function App() {
         <Route path="/tasks">
           <StudentTaskRoot />
         </Route>
-        <Route path="/submissions">
+        <Route path="/submissions/:submissionId">
           <AssignmentTheory />
         </Route>
         <Route path="/feedbacks/:id">
@@ -89,40 +86,6 @@ function App() {
         {isDesktopView && (
           <FeedbackTeacherDesktop
             {...{ submission, ...feedbacksFeedbackTeacherDesktopData }}
-          />
-        )}
-      </>
-    );
-  }
-
-  function dashboard() {
-    const [allTasks, setAllTasks] = useState([]);
-
-    useEffect(() => {
-      getTasks().then((result) => {
-        setAllTasks(result);
-      });
-    }, []);
-    return (
-      <>
-        {isLaptopView && (
-          <DashboardHomeStudentLaptop
-            {...{ allTasks, ...dashboardHomeStudentLaptopData }}
-          />
-        )}
-        {isDesktopView && (
-          <DashboardHomeStudentDesktop
-            {...{ allTasks, ...dashboardHomeStudentDesktopData }}
-          />
-        )}
-        {isTabletView && (
-          <DashboardHomeStudentTablet
-            {...{ allTasks, ...dashboardHomeStudentTabletData }}
-          />
-        )}
-        {isMobileView && (
-          <DashboardHomeStudentMobile
-            {...{ allTasks, ...dashboardHomeStudentMobileData }}
           />
         )}
       </>
@@ -2252,6 +2215,7 @@ const feedbacksFrame13171Data = {
 };
 
 const feedbacksFeedbackTeacherMobileData = {
+  headerProps: taskheaderProps,
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
@@ -2379,6 +2343,7 @@ const feedbacksFrame1317223Data = {
 };
 
 const feedbacksFeedbackTeacherTabletData = {
+  headerProps: taskheaderProps,
   frame1349: "/img/frame-1349-1.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",
@@ -2522,6 +2487,7 @@ const feedbacksFrame13172Data = {
 };
 
 const feedbacksFeedbackTeacherLaptopData = {
+  headerProps: taskheaderProps,
   physicsThermodyna: "Physics - thermodynamics assignment questions",
   frame1284: "/img/frame-1284@2x.png",
   q1PoremIpsumDolo:
@@ -2693,6 +2659,7 @@ const feedbacksFrame13173Data = {
 };
 
 const feedbacksFeedbackTeacherDesktopData = {
+  headerProps: taskheaderProps,
   physicsThermodyna: "Physics - thermodynamics assignment questions",
   frame1284: "/img/frame-1284@2x.png",
   q1PoremIpsumDolo:

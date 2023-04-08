@@ -15,6 +15,7 @@ import {
   IbmplexsansNormalWhite20px,
 } from "../../styledMixins";
 import "./DashboardHomeStudent.css";
+import { getUserName } from "../../service";
 
 function DashboardHomeStudent(props) {
   const {
@@ -40,7 +41,6 @@ function DashboardHomeStudent(props) {
     cards423Props,
     cards424Props,
   } = props;
-
   return (
     <div className="container-center-horizontal">
       <div className="dashboard-home-student screen">
@@ -70,7 +70,7 @@ function DashboardHomeStudent(props) {
           <KeepOrganizedWithoContainer
             style={{ backgroundImage: `url(${keepOrganizedWithoContainer})` }}
           >
-            <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
+            <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </KeepOrganizedWithoContainer>
         </Group1203>

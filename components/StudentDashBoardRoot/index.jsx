@@ -14,30 +14,6 @@ export default function StudentDashboardRoot() {
       setAllTasks(result);
     });
   }, []);
-  // return (
-  //   <>
-  //     {isLaptopView && (
-  //       <DashboardHomeStudentLaptop
-  //         {...{ allTasks, ...dashboardHomeStudentLaptopData }}
-  //       />
-  //     )}
-  //     {isDesktopView && (
-  //       <DashboardHomeStudentDesktop
-  //         {...{ allTasks, ...dashboardHomeStudentDesktopData }}
-  //       />
-  //     )}
-  //     {isTabletView && (
-  //       <DashboardHomeStudentTablet
-  //         {...{ allTasks, ...dashboardHomeStudentTabletData }}
-  //       />
-  //     )}
-  //     {isMobileView && (
-  //       <DashboardHomeStudentMobile
-  //         {...{ allTasks, ...dashboardHomeStudentMobileData }}
-  //       />
-  //     )}
-  //   </>
-  // );
 
   return (
     <ReactiveRender

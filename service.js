@@ -70,7 +70,7 @@ export const getAssigmentById = async (assignmentId) => {
     .catch(errorHandler);
 };
 export const startSubmission = async (assignmentDetails) => {
-  return await fetch(baseUrl + "/submissions" , {
+  return await fetch(baseUrl + "/submissions", {
     method: "POST",
     body: JSON.stringify(assignmentDetails),
     withCredentials: true,
@@ -78,7 +78,8 @@ export const startSubmission = async (assignmentDetails) => {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;

@@ -23,6 +23,7 @@ import {
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
   feedbacksIbmplexsansNormalStack20px,
+  IbmplexsansNormalBlack16px,
 } from "../../../styledMixins";
 
 import Breadcrumb from "../Breadcrumb";
@@ -114,6 +115,78 @@ function FeedbackTeacherLaptop(props) {
     }
   }
 
+  const students = [
+    {
+      name: "Emily Brown",
+      src: "/studentIcons/1.png",
+    },
+    {
+      name: "Ethan Williams",
+      src: "/studentIcons/2.png",
+    },
+    {
+      name: "Sophia Davis",
+      src: "/studentIcons/3.png",
+    },
+    {
+      name: "Noah Johnson",
+      src: "/studentIcons/4.png",
+    },
+    {
+      name: "Madison Lee",
+      src: "/studentIcons/5.png",
+    },
+    {
+      name: "William Rodriguez",
+      src: "/studentIcons/6.png",
+    },
+    {
+      name: "Olivia Nguyen",
+      src: "/studentIcons/7.png",
+    },
+    {
+      name: "Alexander Taylor",
+      src: "/studentIcons/8.png",
+    },
+    {
+      name: "Isabella Kim",
+      src: "/studentIcons/9.png",
+    },
+    {
+      name: "Benjamin Chen",
+      src: "/studentIcons/10.png",
+    },
+  ];
+
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedStudentIcon, setSelectedStudentIcon] = useState(
+    students[0].src
+  );
+  const [selectedStudent, setSelectedStudent] = useState(students[0].name);
+  const toggleOptions = (event) => {
+    if (event.currentTarget.getAttribute("data-name") == null) {
+      setSelectedStudent(students[0].name);
+      setSelectedStudentIcon(students[0].src);
+    } else {
+      setSelectedStudent(event.currentTarget.getAttribute("data-name"));
+      setSelectedStudentIcon(event.currentTarget.getAttribute("data-icon"));
+    }
+    setShowOptions(!showOptions);
+  };
+  const options = students.map((student, index) => {
+    return (
+      <OptionCotainer
+        key={index}
+        data-name={student.name}
+        data-icon={student.src}
+        onClick={toggleOptions}
+      >
+        <Ellipse10 src={student.src} />
+        <Name>{student.name} </Name>
+      </OptionCotainer>
+    );
+  });
+
   const feedbackFrame = (
     <>
       <Frame1329>
@@ -127,10 +200,6 @@ function FeedbackTeacherLaptop(props) {
                 onKeyPress={handleKeyPress}
               ></TextInput>
             </TypeHere>
-            {/* <IconsaxLinearmicrophone2
-              src={iconsaxLinearMicrophone2}
-              alt="Iconsax/Linear/microphone2"
-            /> */}
           </Frame1326>
         </Frame1406>
         <Line261 src={line263} alt="Line 26" />
@@ -225,26 +294,27 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
-              <Link to="/students-list">
-                <Frame13161>
-                  <ReviewsFrame129532 />
-                  <Frame1284 src={frame1284} alt="Frame 1284" />
-                </Frame13161>
-              </Link>
-              {/* <Buttons2
-                arrowleft={true}
-                button="Previous"
-                onClickFn={() => alert("clicked")}
-              ></Buttons2> */}
+              <Frame131612>
+                <Frame1295>
+                  {showOptions ? (
+                    <OptionsList>{options}</OptionsList>
+                  ) : (
+                    <OptionCotainer>
+                      <Ellipse10 src={selectedStudentIcon} />
+                      <Name>{selectedStudent} </Name>
+                    </OptionCotainer>
+                  )}
+                </Frame1295>
+                <Frame12842
+                  src="/img/frame-1284@2x.png"
+                  onClick={toggleOptions}
+                />
+              </Frame131612>
               <Buttons2
                 button="Submit & Next"
                 arrowright={true}
                 onClickFn={() => handleSubmissionReviewed()}
               ></Buttons2>
-              {/* <ReviewsFrame131722
-                buttonsProps={frame13172Props.buttonsProps}
-                buttons2Props={frame13172Props.buttons2Props}
-              /> */}
             </Frame1369>
           </Frame1371>
           <Frame1368>
@@ -265,7 +335,22 @@ function FeedbackTeacherLaptop(props) {
             </Frame1331>
           </Frame1368>
           <Frame1370>
-            <ReviewsFrame1316 />
+            <Frame131612>
+              <Frame1295>
+                {showOptions ? (
+                  <OptionsList>{options}</OptionsList>
+                ) : (
+                  <OptionCotainer>
+                    <Ellipse10 src={selectedStudentIcon} />
+                    <Name>{selectedStudent} </Name>
+                  </OptionCotainer>
+                )}
+              </Frame1295>
+              <Frame12842
+                src="/img/frame-1284@2x.png"
+                onClick={toggleOptions}
+              />
+            </Frame131612>
             <Buttons2
               button="Submit & Next"
               arrowright={true}
@@ -278,6 +363,72 @@ function FeedbackTeacherLaptop(props) {
     </div>
   );
 }
+
+const Frame131612 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  position: relative;
+  flex: 1;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+  cursor: pointer;
+  flex-direction: row;
+  justify-content: space-evenly;
+  max-width: 300px;
+`;
+const Frame1295 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  flex-direction: column;
+`;
+
+const OptionCotainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  gap: 3em;
+  justify-content: flex-start;
+`;
+const OptionsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  width: 100%;
+  left: 0.5em;
+  background-color: var(--white);
+  opacity: 0.9;
+  width: 98%;
+  max-height: 300px;
+  overflow-y: scroll;
+`;
+
+const Ellipse10 = styled.img`
+  min-width: 30px;
+  height: 30px;
+  object-fit: cover;
+`;
+
+const Name = styled.div`
+  ${IbmplexsansNormalBlack16px}
+
+  flex: 1;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const Frame12842 = styled.img`
+  position: relative;
+`;
 
 const Frame1388 = styled.div`
   display: flex;

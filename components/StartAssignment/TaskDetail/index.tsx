@@ -17,25 +17,24 @@ export default function TaskDetail() {
 
   React.useEffect(() => {
     getAssigmentById(assignmentId).then((res) => {
-      console.log("Assignment " + JSON.stringify(res))
+      console.log("Assignment " + JSON.stringify(res));
       setAssigment(res);
       setIsLoading(false);
     });
   }, []);
-  console.log("Loading: " + isLoading)
+  console.log("Loading: " + isLoading);
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  console.log("Loadr: " + isLoading)
+  console.log("Loadr: " + isLoading);
 
   const methods = {
     onClickStartAssignment: (_) => {
-      startSubmission({ assignmentId: assignment.id })
-      .then((res) => {
+      startSubmission({ assignmentId: assignment.id }).then((res) => {
         console.log("res " + res);
         window.location.href = "/submissions/" + res.id;
       });
-    }
+    },
   };
   return (
     <ReactiveRender
@@ -77,7 +76,6 @@ export default function TaskDetail() {
       }
     />
   );
-  
 }
 
 const goBack2Data = {
@@ -114,185 +112,220 @@ const navElement1Data = {
 };
 
 const navElement2Data = {
-    home3: "/img/tasksquare@2x.png",
-    place: "Tasks",
-    className: "nav-element-1",
+  home3: "/img/tasksquare@2x.png",
+  place: "Tasks",
+  className: "nav-element-1",
 };
 
 const navElement3Data = {
-    home3: "/img/clipboardtick@2x.png",
-    place: "Completed",
-    className: "nav-element-2",
+  home3: "/img/clipboardtick@2x.png",
+  place: "Completed",
+  className: "nav-element-2",
 };
 
 const breadcrumb21Data = {
-    assignments: "Assignments",
+  assignments: "Assignments",
 };
 
 const breadcrumb22Data = {
-    assignments: "Physics - thermodynamics assignment questions (Theory)",
+  assignments: "Physics - thermodynamics assignment questions (Theory)",
 };
 
 const goBack1Data = {
-    caret: "/img/caret-5@2x.png",
+  caret: "/img/caret-5@2x.png",
 };
 
 const frame12091Data = {
-    topicsCovered: "Topics covered:",
-    moremIpsumDolorSi: "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+  topicsCovered: "Topics covered:",
+  moremIpsumDolorSi:
+    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
 };
 
 const frame12092Data = {
-    topicsCovered: "Note from the instructor:",
-    moremIpsumDolorSi: <React.Fragment>Norem ipsum dolor sit amet, consectetur adipiscing elit.<br />Qorem ipsum dolor sit amet, consectetur adipiscing elit.<br />Vorem ipsum dolor sit amet, consectetur adipiscing elit.</React.Fragment>,
+  topicsCovered: "Note from the instructor:",
+  moremIpsumDolorSi: (
+    <React.Fragment>
+      Norem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Qorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Vorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </React.Fragment>
+  ),
 };
 
 const taskDetailDesktopData = {
-    headerProps,
-    frame1343: "/img/frame-1343@2x.png",
-    title: "Assignment",
-    physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-    line11: "/img/line-11-3.png",
-    x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-    navElement1Props: navElement1Data,
-    navElement2Props: navElement2Data,
-    navElement3Props: navElement3Data,
-    breadcrumb21Props: breadcrumb21Data,
-    breadcrumb22Props: breadcrumb22Data,
-    goBackProps: goBack1Data,
-    frame12091Props: frame12091Data,
-    frame12092Props: frame12092Data,
+  headerProps,
+  frame1343: "/img/frame-1343@2x.png",
+  title: "Assignment",
+  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
+  line11: "/img/line-11-3.png",
+  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  navElement1Props: navElement1Data,
+  navElement2Props: navElement2Data,
+  navElement3Props: navElement3Data,
+  breadcrumb21Props: breadcrumb21Data,
+  breadcrumb22Props: breadcrumb22Data,
+  goBackProps: goBack1Data,
+  frame12091Props: frame12091Data,
+  frame12092Props: frame12092Data,
 };
 
 const breadcrumb23Data = {
-    assignments: "Assignments",
+  assignments: "Assignments",
 };
 
 const breadcrumb24Data = {
-    assignments: "Physics - thermodynamics...",
+  assignments: "Physics - thermodynamics...",
 };
 
-
 const frame120922Data = {
-    topicsCovered: "Topics covered:",
-    moremIpsumDolorSi: "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+  topicsCovered: "Topics covered:",
+  moremIpsumDolorSi:
+    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
 };
 
 const frame120923Data = {
-    topicsCovered: "Note from the instructor:",
-    moremIpsumDolorSi: <React.Fragment>Norem ipsum dolor sit amet, consectetur adipiscing elit.<br />Qorem ipsum dolor sit amet, consectetur adipiscing elit.<br />Vorem ipsum dolor sit amet, consectetur adipiscing elit.</React.Fragment>,
+  topicsCovered: "Note from the instructor:",
+  moremIpsumDolorSi: (
+    <React.Fragment>
+      Norem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Qorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Vorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </React.Fragment>
+  ),
 };
 
 const taskDetailMobileData = {
-    frame1349: "/img/frame-1349@2x.png",
-    frame5: "/img/frame-5@2x.png",
-    title: "Assignment",
-    physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-    line11: "/img/line-11@2x.png",
-    x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-    mainWebsite: "Main Website",
-    terms: "Terms",
-    privacy: "Privacy",
-    breadcrumb21Props: breadcrumb23Data,
-    breadcrumb22Props: breadcrumb24Data,
-    goBackProps: goBack2Data,
-    frame120921Props: frame120922Data,
-    frame120922Props: frame120923Data,
+  frame1349: "/img/frame-1349@2x.png",
+  frame5: "/img/frame-5@2x.png",
+  title: "Assignment",
+  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
+  line11: "/img/line-11@2x.png",
+  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
+  mainWebsite: "Main Website",
+  terms: "Terms",
+  privacy: "Privacy",
+  breadcrumb21Props: breadcrumb23Data,
+  breadcrumb22Props: breadcrumb24Data,
+  goBackProps: goBack2Data,
+  frame120921Props: frame120922Data,
+  frame120922Props: frame120923Data,
 };
 
 const breadcrumb25Data = {
-    assignments: "Assignments",
+  assignments: "Assignments",
 };
 
 const breadcrumb26Data = {
-    assignments: "Physics - thermodynamics assignment questions (Theory)",
+  assignments: "Physics - thermodynamics assignment questions (Theory)",
 };
 
 const goBack3Data = {
-    caret: "/img/caret-5@2x.png",
+  caret: "/img/caret-5@2x.png",
 };
 
 const frame120931Data = {
-    topicsCovered: "Topics covered:",
-    moremIpsumDolorSi: "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+  topicsCovered: "Topics covered:",
+  moremIpsumDolorSi:
+    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
 };
 
 const frame120932Data = {
-    topicsCovered: "Note from the instructor:",
-    moremIpsumDolorSi: <React.Fragment>Norem ipsum dolor sit amet, consectetur adipiscing elit.<br />Qorem ipsum dolor sit amet, consectetur adipiscing elit.<br />Vorem ipsum dolor sit amet, consectetur adipiscing elit.</React.Fragment>,
+  topicsCovered: "Note from the instructor:",
+  moremIpsumDolorSi: (
+    <React.Fragment>
+      Norem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Qorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Vorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </React.Fragment>
+  ),
 };
 
 const taskDetailTabletData = {
-    frame1349: "/img/frame-1349-1.png",
-    frame5: "/img/frame-5@2x.png",
-    title: "Assignment",
-    physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-    line11: "/img/line-11-1.png",
-    x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-    mainWebsite: "Main Website",
-    terms: "Terms",
-    privacy: "Privacy",
-    breadcrumb21Props: breadcrumb25Data,
-    breadcrumb22Props: breadcrumb26Data,
-    goBackProps: goBack3Data,
-    frame120931Props: frame120931Data,
-    frame120932Props: frame120932Data,
+  frame1349: "/img/frame-1349-1.png",
+  frame5: "/img/frame-5@2x.png",
+  title: "Assignment",
+  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
+  line11: "/img/line-11-1.png",
+  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
+  mainWebsite: "Main Website",
+  terms: "Terms",
+  privacy: "Privacy",
+  breadcrumb21Props: breadcrumb25Data,
+  breadcrumb22Props: breadcrumb26Data,
+  goBackProps: goBack3Data,
+  frame120931Props: frame120931Data,
+  frame120932Props: frame120932Data,
 };
 
 const navElement4Data = {
-    home3: "/img/home3@2x.png",
-    place: "Home",
+  home3: "/img/home3@2x.png",
+  place: "Home",
 };
 
 const navElement5Data = {
-    home3: "/img/tasksquare@2x.png",
-    place: "Tasks",
-    className: "nav-element-4",
+  home3: "/img/tasksquare@2x.png",
+  place: "Tasks",
+  className: "nav-element-4",
 };
 
 const navElement6Data = {
-    home3: "/img/clipboardtick@2x.png",
-    place: "Completed",
-    className: "nav-element-5",
+  home3: "/img/clipboardtick@2x.png",
+  place: "Completed",
+  className: "nav-element-5",
 };
 
 const breadcrumb27Data = {
-    assignments: "Assignments",
+  assignments: "Assignments",
 };
 
 const breadcrumb28Data = {
-    assignments: "Physics - thermodynamics assignment questions (Theory)",
+  assignments: "Physics - thermodynamics assignment questions (Theory)",
 };
 
 const goBack4Data = {
-    caret: "/img/caret-5@2x.png",
+  caret: "/img/caret-5@2x.png",
 };
 
 const frame120941Data = {
-    topicsCovered: "Topics covered:",
-    moremIpsumDolorSi: "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+  topicsCovered: "Topics covered:",
+  moremIpsumDolorSi:
+    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
 };
 
 const frame120942Data = {
-    topicsCovered: "Note from the instructor:",
-    moremIpsumDolorSi: <React.Fragment>Norem ipsum dolor sit amet, consectetur adipiscing elit.<br />Qorem ipsum dolor sit amet, consectetur adipiscing elit.<br />Vorem ipsum dolor sit amet, consectetur adipiscing elit.</React.Fragment>,
+  topicsCovered: "Note from the instructor:",
+  moremIpsumDolorSi: (
+    <React.Fragment>
+      Norem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Qorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <br />
+      Vorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </React.Fragment>
+  ),
 };
 
 const taskDetailLaptopData = {
-    headerProps:headerProps,
-    frame1343: "/img/frame-1343@2x.png",
-    title: "Assignment",
-    physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-    line11: "/img/line-11-2.png",
-    x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-    navElement1Props: navElement4Data,
-    navElement2Props: navElement5Data,
-    navElement3Props: navElement6Data,
-    breadcrumb21Props: breadcrumb27Data,
-    breadcrumb22Props: breadcrumb28Data,
-    goBackProps: goBack4Data,
-    frame120941Props: frame120941Data,
-    frame120942Props: frame120942Data,
+  headerProps: headerProps,
+  frame1343: "/img/frame-1343@2x.png",
+  title: "Assignment",
+  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
+  line11: "/img/line-11-2.png",
+  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  navElement1Props: navElement4Data,
+  navElement2Props: navElement5Data,
+  navElement3Props: navElement6Data,
+  breadcrumb21Props: breadcrumb27Data,
+  breadcrumb22Props: breadcrumb28Data,
+  goBackProps: goBack4Data,
+  frame120941Props: frame120941Data,
+  frame120942Props: frame120942Data,
 };
 const Checkbox = styled.article`
   display: flex;
@@ -594,7 +627,6 @@ const goBack23Data = {
   className: "go-back-3",
 };
 
-
 const notifications2Data = {
   src: "/img/notificationbing@2x.png",
 };
@@ -734,4 +766,3 @@ const checkbox6Data = {
 const radioBoxData = {
   label: "Peer to Peer (randomised)",
 };
-

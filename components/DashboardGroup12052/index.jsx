@@ -6,9 +6,11 @@ function DashboardGroup12052(props) {
   const { arrowright } = props;
 
   return (
-    <Group1205 onClick={()=>{
-      window.location.href="/tasks"
-    }} >
+    <Group1205
+      onClick={() => {
+        window.location.href = "/tasks";
+      }}
+    >
       <ViewAll>VIEW ALL</ViewAll>
       <Arrowright src={arrowright} alt="arrowright" />
     </Group1205>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Notifications from "../Notifications";
 import Breadcrumb from "../Breadcrumb";
@@ -13,6 +13,7 @@ import {
   IbmplexsansMediumPersianIndigo20px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalChicago13px,
+  IbmplexsansNormalBlack16px,
 } from "../../../styledMixins";
 import "./FeedbackTeacherMobile.css";
 import HeaderSmall from "../../HeaderSmall";
@@ -73,6 +74,78 @@ function FeedbackTeacherMobile(props) {
     );
   });
 
+  const students = [
+    {
+      name: "Emily Brown",
+      src: "/studentIcons/1.png",
+    },
+    {
+      name: "Ethan Williams",
+      src: "/studentIcons/2.png",
+    },
+    {
+      name: "Sophia Davis",
+      src: "/studentIcons/3.png",
+    },
+    {
+      name: "Noah Johnson",
+      src: "/studentIcons/4.png",
+    },
+    {
+      name: "Madison Lee",
+      src: "/studentIcons/5.png",
+    },
+    {
+      name: "William Rodriguez",
+      src: "/studentIcons/6.png",
+    },
+    {
+      name: "Olivia Nguyen",
+      src: "/studentIcons/7.png",
+    },
+    {
+      name: "Alexander Taylor",
+      src: "/studentIcons/8.png",
+    },
+    {
+      name: "Isabella Kim",
+      src: "/studentIcons/9.png",
+    },
+    {
+      name: "Benjamin Chen",
+      src: "/studentIcons/10.png",
+    },
+  ];
+
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedStudentIcon, setSelectedStudentIcon] = useState(
+    students[0].src
+  );
+  const [selectedStudent, setSelectedStudent] = useState(students[0].name);
+  const toggleOptions = (event) => {
+    if (event.currentTarget.getAttribute("data-name") == null) {
+      setSelectedStudent(students[0].name);
+      setSelectedStudentIcon(students[0].src);
+    } else {
+      setSelectedStudent(event.currentTarget.getAttribute("data-name"));
+      setSelectedStudentIcon(event.currentTarget.getAttribute("data-icon"));
+    }
+    setShowOptions(!showOptions);
+  };
+  const options = students.map((student, index) => {
+    return (
+      <OptionCotainer
+        key={index}
+        data-name={student.name}
+        data-icon={student.src}
+        onClick={toggleOptions}
+      >
+        <Ellipse10 src={student.src} />
+        <Name>{student.name} </Name>
+      </OptionCotainer>
+    );
+  });
+
   return (
     <div className="feedback-teacher-mobile screen">
       <Frame1388>
@@ -86,14 +159,24 @@ function FeedbackTeacherMobile(props) {
         </Frame1387>
         <Frame1386>
           <Frame1371>
-            <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
+            <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
-              <Link to="/students-list">
-                <Frame1316>
-                  <ReviewsFrame129522 />
-                  <Frame1284 src={frame12841} alt="Frame 1284" />
-                </Frame1316>
-              </Link>
+              <Frame131612>
+                <Frame1295>
+                  {showOptions ? (
+                    <OptionsList>{options}</OptionsList>
+                  ) : (
+                    <OptionCotainer>
+                      <Ellipse10 src={selectedStudentIcon} />
+                      <Name>{selectedStudent} </Name>
+                    </OptionCotainer>
+                  )}
+                </Frame1295>
+                <Frame12842
+                  src="/img/frame-1284@2x.png"
+                  onClick={toggleOptions}
+                />
+              </Frame131612>
               <ReviewsFrame131722
                 buttonsProps={frame13172Props.buttonsProps}
                 buttons2Props={frame13172Props.buttons2Props}
@@ -108,10 +191,26 @@ function FeedbackTeacherMobile(props) {
             </Group1225>
           </Frame1368>
           <Frame1370>
-            <Frame13161>
+            {/* <Frame13161>
               <ReviewsFrame129522 />
               <Frame1284 src={frame12842} alt="Frame 1284" />
-            </Frame13161>
+            </Frame13161> */}
+            <Frame131612>
+              <Frame1295>
+                {showOptions ? (
+                  <OptionsList>{options}</OptionsList>
+                ) : (
+                  <OptionCotainer>
+                    <Ellipse10 src={selectedStudentIcon} />
+                    <Name>{selectedStudent} </Name>
+                  </OptionCotainer>
+                )}
+              </Frame1295>
+              <Frame12842
+                src="/img/frame-1284@2x.png"
+                onClick={toggleOptions}
+              />
+            </Frame131612>
             <ReviewsFrame1317
               buttonsProps={frame1317Props.buttonsProps}
               buttons2Props={frame1317Props.buttons2Props}
@@ -123,6 +222,72 @@ function FeedbackTeacherMobile(props) {
     </div>
   );
 }
+
+const Frame131612 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  position: relative;
+  flex: 1;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+  cursor: pointer;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+`;
+const Frame1295 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  flex-direction: column;
+`;
+
+const OptionCotainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+
+  justify-content: flex-start;
+`;
+const OptionsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  width: 100%;
+  left: 0.5em;
+  background-color: var(--white);
+  opacity: 0.9;
+  width: 98%;
+  max-height: 300px;
+  overflow-y: scroll;
+`;
+
+const Ellipse10 = styled.img`
+  min-width: 30px;
+  height: 30px;
+  object-fit: cover;
+`;
+
+const Name = styled.div`
+  ${IbmplexsansNormalBlack16px}
+
+  flex: 1;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const Frame12842 = styled.img`
+  position: relative;
+`;
 
 const Frame1388 = styled.div`
   display: flex;
@@ -193,6 +358,7 @@ const Frame1386 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  width: 100%;
 `;
 
 const Frame1371 = styled.div`
@@ -203,6 +369,7 @@ const Frame1371 = styled.div`
   gap: 25px;
   position: relative;
   align-self: stretch;
+  width: 100%;
 `;
 
 const PhysicsThermodyna = styled.h1`
@@ -215,15 +382,17 @@ const PhysicsThermodyna = styled.h1`
   font-size: var(--font-size-l);
   letter-spacing: -0.6px;
   line-height: normal;
+  font-size: 32px;
 `;
 
 const Frame1369 = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 30px;
   position: relative;
+  width: 100%;
 `;
 
 const Frame1316 = styled.div`

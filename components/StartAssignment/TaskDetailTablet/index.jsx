@@ -44,7 +44,7 @@ function TaskDetailTablet(props) {
   return (
     <div className="task-detail-tablet screen">
       <Frame1391>
-        <HeaderSmall/>
+        <HeaderSmall />
         <Frame1390>
           <Frame29>
             <Breadcrumb />
@@ -57,11 +57,11 @@ function TaskDetailTablet(props) {
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles text={assignment.dueAt}/>
+              <StatusBubbles text={assignment.dueAt} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
-              <Frame11 text={assignment.questions.length}/>
+              <Frame11 text={assignment.questions.length} />
             </Frame28>
             <Frame12093
               topicsCovered={frame120932Props.topicsCovered}
@@ -69,13 +69,15 @@ function TaskDetailTablet(props) {
             />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
-              <Buttons onClickFn={methods.onClickStartAssignment}/>
+              <Buttons onClickFn={methods.onClickStartAssignment} />
             </Frame1209>
           </Frame13901>
         </Frame1390>
       </Frame1391>
       <Frame1392>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
+        <X2023JeddleAllRightsReserved>
+          {x2023JeddleAllRightsReserved}
+        </X2023JeddleAllRightsReserved>
         <Frame6>
           <MainWebsite>{mainWebsite}</MainWebsite>
           <Terms>{terms}</Terms>

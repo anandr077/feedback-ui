@@ -45,7 +45,7 @@ function TaskDetailDesktop(props) {
   return (
     <div className="task-detail-desktop screen">
       <Frame1391>
-        <Header headerProps={headerProps}/>
+        <Header headerProps={headerProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb />
@@ -58,11 +58,11 @@ function TaskDetailDesktop(props) {
           </Frame1389>
           <Frame12091>
             <Frame1210>
-              <StatusBubbles text={assignment.dueAt}/>
+              <StatusBubbles text={assignment.dueAt} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
-              <Frame11 text={assignment.questions.length}/>
+              <Frame11 text={assignment.questions.length} />
             </Frame28>
             <Frame1209
               topicsCovered={frame12092Props.topicsCovered}
@@ -76,7 +76,9 @@ function TaskDetailDesktop(props) {
         </Frame1390>
       </Frame1391>
       <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
+        <X2021JeddleAllRightsReserved>
+          {x2021JeddleAllRightsReserved}
+        </X2021JeddleAllRightsReserved>
         <Frame6 />
       </Frame61>
     </div>

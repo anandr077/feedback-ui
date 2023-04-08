@@ -9,7 +9,10 @@ import Frame12092 from "../Frame12092";
 import GoBack from "../GoBack";
 import StatusBubbles from "../StatusBubbles";
 import {
-  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansSemiBoldShark28px
+  IbmplexsansBoldShark36px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansSemiBoldShark28px,
 } from "../styledMixins";
 import "./TaskDetailMobile.css";
 
@@ -49,26 +52,28 @@ function TaskDetailMobile(props) {
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles text={assignment.dueAt}/>
+              <StatusBubbles text={assignment.dueAt} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
-              <Frame11 text={assignment.questions.length}/>
+              <Frame11 text={assignment.questions.length} />
             </Frame28>
-            
+
             <Frame12092
               topicsCovered={frame120922Props.topicsCovered}
               moremIpsumDolorSi={frame120922Props.moremIpsumDolorSi}
             />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
-              <Buttons onClickFn={methods.onClickStartAssignment}/>
+              <Buttons onClickFn={methods.onClickStartAssignment} />
             </Frame1209>
           </Frame13901>
         </Frame1390>
       </Frame1391>
       <Frame1392>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
+        <X2023JeddleAllRightsReserved>
+          {x2023JeddleAllRightsReserved}
+        </X2023JeddleAllRightsReserved>
         <Frame6>
           <MainWebsite>{mainWebsite}</MainWebsite>
           <Terms>{terms}</Terms>

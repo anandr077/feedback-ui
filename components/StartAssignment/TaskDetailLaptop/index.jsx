@@ -42,7 +42,7 @@ function TaskDetailLaptop(props) {
     frame120941Props,
     frame120942Props,
   } = props;
-  console.log("Assignment: ", assignment)
+  console.log("Assignment: ", assignment);
   return (
     <div className="task-detail-laptop screen">
       <Frame1391>
@@ -63,7 +63,7 @@ function TaskDetailLaptop(props) {
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
-              <Frame11 text={assignment.questions.length}/>
+              <Frame11 text={assignment.questions.length} />
             </Frame28>
             <Frame12094
               topicsCovered={frame120942Props.topicsCovered}
@@ -71,12 +71,12 @@ function TaskDetailLaptop(props) {
             />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
-              <Buttons onClickFn={methods.onClickStartAssignment}/>
+              <Buttons onClickFn={methods.onClickStartAssignment} />
             </Frame1209>
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

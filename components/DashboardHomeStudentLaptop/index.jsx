@@ -45,8 +45,7 @@ function DashboardHomeStudentLaptop(props) {
           <Frame1339>
             <Frame1337>
               <Tasks>Tasks</Tasks>
-              <DashboardGroup1205 
-              className={group1205Props.className} />
+              <DashboardGroup1205 className={group1205Props.className} />
             </Frame1337>
             <Line17 src="/img/line-17-4.png" alt="Line 17" />
             <Frame1336>

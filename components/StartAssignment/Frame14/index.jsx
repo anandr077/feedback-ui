@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalShark16px } from "../styledMixins";
 
-
 function Frame14() {
   return (
     <Frame141>
-      <IconsaxLineartickcircle src="/img/iconsax-linear-tickcircle@2x.png" alt="Iconsax/Linear/tickcircle" />
+      <IconsaxLineartickcircle
+        src="/img/iconsax-linear-tickcircle@2x.png"
+        alt="Iconsax/Linear/tickcircle"
+      />
       <TotalMarks100>Total Marks: 100</TotalMarks100>
     </Frame141>
   );

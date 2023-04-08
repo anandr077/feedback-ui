@@ -7,7 +7,7 @@ function StudentsList2(props) {
 
   return (
     <StudentsList>
-      <Ellipse10 src={ellipse10} alt="Ellipse 10" />
+      <Ellipse10 src="/icons/ellipse.png" alt="Ellipse 10" />
       <Name>{name}</Name>
     </StudentsList>
   );

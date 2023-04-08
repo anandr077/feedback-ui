@@ -1,6 +1,6 @@
 import { React, useEffect, useState, useRef } from "react";
 import ReactQuill from "react-quill";
-import { sortBy } from 'lodash';
+import { sortBy } from "lodash";
 import Header from "../../Header";
 
 import { Link } from "react-router-dom";
@@ -10,16 +10,21 @@ import {
   addNewComment,
   markAssignmentReviewed as markSubmsissionReviewed,
 } from "../../../service";
-import { addNewComment, getCommentsForSubmission, markAssignmentReviewed as markSubmsissionReviewed } from "../../../service";
+import {
+  addNewComment,
+  getCommentsForSubmission,
+  markAssignmentReviewed as markSubmsissionReviewed,
+} from "../../../service";
 import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
   feedbacksIbmplexsansNormalBlack16px,
   feedbacksIbmplexsansNormalChicago13px,
   feedbacksIbmplexsansNormalMountainMist16px,
-  feedbacksIbmplexsansNormalShark20px, feedbacksIbmplexsansNormalStack20px
+  feedbacksIbmplexsansNormalShark20px,
+  feedbacksIbmplexsansNormalStack20px,
 } from "../../../styledMixins";
-import "../../AssignmentTheory/_textEditor.scss";
+
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
@@ -27,12 +32,13 @@ import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame129532 from "../ReviewsFrame129532";
 import ReviewsFrame1316 from "../ReviewsFrame1316";
-import ReviewsFrame1317 from "../ReviewsFrame1317";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
-import ReviewsFrame622 from "../ReviewsFrame622";
-import TeacherDashboardHeader22 from "../TeacherDashboardHeader22";
 import "./FeedbackTeacherLaptop.css";
 import Footer from "../../Footer";
+import "./_feedbacksEditor.scss";
+import { isTabletView } from "../../ReactiveRender";
+import HeaderSmall from "../../HeaderSmall";
+import FooterSmall from "../../FooterSmall";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -40,30 +46,28 @@ function FeedbackTeacherLaptop(props) {
     submission,
     frame1284,
     line261,
-    iconsaxLinearMicrophone2,
     line263,
-    iconsaxLinearShare,
     share,
     line27,
-    x2021JeddleAllRightsReserved,
-    teacherDashboardHeader2Props,
     breadcrumb21Props,
     breadcrumb22Props,
     frame13201Props,
     frame13202Props,
-    frame1317Props,
   } = props;
   const quillRefs = useRef([]);
   const feedbacksFrameRef = useRef(null);
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
   function handleClickOutside(event) {
-    if (feedbacksFrameRef.current && !feedbacksFrameRef.current.contains(event.target)) {
+    if (
+      feedbacksFrameRef.current &&
+      !feedbacksFrameRef.current.contains(event.target)
+    ) {
       setShowDiv(false);
     }
   }
@@ -106,14 +110,15 @@ function FeedbackTeacherLaptop(props) {
           setNewCommentValue("");
         }
       });
+      setShowNewComment(false);
     }
   }
 
   const feedbackFrame = (
     <>
-      <Frame1329 >
-        <Frame1406 >
-          <Frame1326 >
+      <Frame1329>
+        <Frame1406>
+          <Frame1326>
             <TypeHere>
               <TextInput
                 placeholder="Comment here...."
@@ -122,38 +127,46 @@ function FeedbackTeacherLaptop(props) {
                 onKeyPress={handleKeyPress}
               ></TextInput>
             </TypeHere>
-            <IconsaxLinearmicrophone2
+            {/* <IconsaxLinearmicrophone2
               src={iconsaxLinearMicrophone2}
               alt="Iconsax/Linear/microphone2"
-            />
+            /> */}
           </Frame1326>
         </Frame1406>
         <Line261 src={line263} alt="Line 26" />
         <Frame1383>
           <Frame13311>
-            <Frame1284 src={iconsaxLinearShare} alt="Iconsax/Linear/share" />
+            <Frame1284 src="/icons/share.png" />
             <Share>{share}</Share>
           </Frame13311>
-          <Buttons4/>
+          <Buttons4 />
         </Frame1383>
         <Line261 src={line27} alt="Line 27" />
       </Frame1329>
     </>
   );
-  
+
   function handleCommentSelected(comment) {
     const range = {
       index: comment.range.from,
       length: comment.range.to - comment.range.from,
     };
-    console.log(range)
-    const quill = quillRefs.current[comment.questionSerialNumber - 1].getEditor()
+    console.log(range);
+    const quill =
+      quillRefs.current[comment.questionSerialNumber - 1].getEditor();
 
-    quill.formatText(range.index, range.length, 'background', 'yellow');
-
+    quill.formatText(range.index, range.length, "background", "yellow");
   }
-  const commentsFrame = sortBy(comments, ['questionSerialNumber', 'range.from']).map((comment) => {
-    return <CommentCard32  comment={comment} onClick = {c=>handleCommentSelected(c)} />;
+  const commentsFrame = sortBy(comments, [
+    "questionSerialNumber",
+    "range.from",
+  ]).map((comment) => {
+    return (
+      <CommentCard32
+        comment={comment}
+        onClick={(c) => handleCommentSelected(c)}
+      />
+    );
   });
   const modules = {
     toolbar: false,
@@ -163,13 +176,17 @@ function FeedbackTeacherLaptop(props) {
     return (
       <>
         <Frame1366>
-          <Q1PoremIpsumDolo>{submission.assignment.questions[answer.serialNumber-1].question}</Q1PoremIpsumDolo>
+          <Q1PoremIpsumDolo>
+            {submission.assignment.questions[answer.serialNumber - 1].question}
+          </Q1PoremIpsumDolo>
           <ToremIpsumDolorSi>
             <ReactQuill
-              ref={(editor) => handleEditorMounted(editor, answer.serialNumber-1)}
+              ref={(editor) =>
+                handleEditorMounted(editor, answer.serialNumber - 1)
+              }
               theme="snow"
               value={answer.answer.answer}
-              className="ql-editor"
+              className="ql-editor-feedbacks"
               readOnly={true}
               modules={modules}
               onChangeSelection={(range, source, editor) => {
@@ -190,13 +207,14 @@ function FeedbackTeacherLaptop(props) {
       </>
     );
   });
+
+  const [tabletView, setTabletView] = useState(isTabletView());
+
   return (
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
         <Frame1387>
-          <Header
-            headerProps={headerProps}
-          />
+          {tabletView ? <HeaderSmall /> : <Header headerProps={headerProps} />}
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
@@ -213,11 +231,11 @@ function FeedbackTeacherLaptop(props) {
                   <Frame1284 src={frame1284} alt="Frame 1284" />
                 </Frame13161>
               </Link>
-              <Buttons2
+              {/* <Buttons2
                 arrowleft={true}
                 button="Previous"
                 onClickFn={() => alert("clicked")}
-              ></Buttons2>
+              ></Buttons2> */}
               <Buttons2
                 button="Submit & Next"
                 arrowright={true}
@@ -249,14 +267,14 @@ function FeedbackTeacherLaptop(props) {
           <Frame1370>
             <ReviewsFrame1316 />
             <Buttons2
-                button='Submit & Next'
-                arrowright={true}
-                onClickFn={()=>handleSubmissionReviewed()} >
-              </Buttons2>
+              button="Submit & Next"
+              arrowright={true}
+              onClickFn={() => handleSubmissionReviewed()}
+            ></Buttons2>
           </Frame1370>
         </Frame1386>
       </Frame1388>
-      <Footer></Footer>
+      {tabletView ? <FooterSmall /> : <Footer />}
     </div>
   );
 }
@@ -356,15 +374,11 @@ const Group1225 = styled.div`
   position: relative;
   display: flex;
   flex: 1;
-  min-width: 949px;
-  // height: 982px;
   flex-direction: column;
 `;
 
 const Frame1367 = styled.div`
   display: flex;
-  min-width: 949px;
-  // height: 982px;
   position: relative;
   flex-direction: column;
   align-items: flex-start;
@@ -401,7 +415,7 @@ const ToremIpsumDolorSi = styled.p`
   align-self: stretch;
   letter-spacing: 0;
   line-height: normal;
-  width: 850px;
+  width: 100%;
 `;
 
 const Group1307 = styled.div`
@@ -482,7 +496,7 @@ const Rectangle548 = styled.div`
 const Line26 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 949px;
+
   height: 1px;
   object-fit: cover;
 `;
@@ -571,7 +585,7 @@ const IconsaxLinearmicrophone2 = styled.img`
 const Line261 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 279px;
+
   height: 1px;
   object-fit: cover;
 `;

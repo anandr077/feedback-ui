@@ -1,53 +1,54 @@
 const baseUrl = "http://localhost:8080";
 
 export const login = async () => {
-  const token = getCookie("auth.access_token")
+  const token = getCookie("auth.access_token");
   if (!token) {
-  
-  const user = getCookie("userId")
-  return await fetch(baseUrl + "/users/login", {
-    method: "POST",
-    body: JSON.stringify({
-      username: user,
-      password: "password"
-    }),
-    withCredentials: true,
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
+    const user = getCookie("userId");
+    return await fetch(baseUrl + "/users/login", {
+      method: "POST",
+      body: JSON.stringify({
+        username: user,
+        password: "password",
+      }),
+      withCredentials: true,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 };
 export const getUserName = () => {
-  return getCookie('user.name')
-}
+  return getCookie("user.name");
+};
 
 export const getCookie = (name) => {
-  console.log(document.cookie)
-  const cookieValue = document.cookie.split('; ')
-    .find(cookie => cookie.startsWith(`${name}=`));
-  console.log(cookieValue)
+  console.log(document.cookie);
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith(`${name}=`));
+  console.log(cookieValue);
   if (cookieValue) {
-    return cookieValue.split('=')[1];
+    return cookieValue.split("=")[1];
   } else {
     return null;
   }
-}
+};
 
 export const getTasks = async () => {
   return await fetch(baseUrl + "/tasks", {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -60,7 +61,8 @@ export const getAssigmentById = async (assignmentId) => {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -89,7 +91,8 @@ export const getSubmissionById = async (submissionId) => {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -106,7 +109,8 @@ export const addNewComment = async (submissionId, comment) => {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -118,7 +122,8 @@ export const getCommentsForSubmission = async (submissionId) => {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -131,7 +136,8 @@ export const getClasses = async () => {
     method: "GET",
     withCredentials: true,
     credentials: "include",
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -148,7 +154,8 @@ export const createAssignment = async (assignment) => {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -174,7 +181,8 @@ export const saveAnswer = async (submissionId, serialNumber, answer) => {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -195,7 +203,8 @@ export const submitAssignment = async (submissionId) => {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(handleErrors)
+  })
+    .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -239,20 +248,18 @@ export const createSubmission = async (submission) => {
     .then((data) => {
       return data;
     })
-    .catch((errorHandler));
+    .catch(errorHandler);
 };
 
 function errorHandler(response) {
-  console.log(response)
-};
+  console.log(response);
+}
 function handleErrors(response) {
   if (!response.ok) {
     console.log(response);
     login().then((data) => {
-      window.location.reload();
-    })
+      // window.location.reload();
+    });
   }
   return response;
-};
-
-
+}

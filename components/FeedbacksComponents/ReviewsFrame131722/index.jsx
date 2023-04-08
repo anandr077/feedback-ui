@@ -8,7 +8,6 @@ function ReviewsFrame131722(props) {
 
   return (
     <Frame1317>
-      <Buttons arrowleft={buttonsProps.arrowleft} />
       <Buttons2
         button={buttons2Props.button}
         arrowright={buttons2Props.arrowright}

@@ -8,12 +8,15 @@ function CommentCard32(props) {
   const { comment, className, onClick } = props;
 
   return (
-      <CommentCard onClick={()=>onClick(comment)} className={`comment-card-4 ${className || ""}`}>
-        <ReviewsFrame132532 />
-        <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">
-          {comment.comment}
-        </HoremIpsumDolorSi>
-      </CommentCard>
+    <CommentCard
+      onClick={() => onClick(comment)}
+      className={`comment-card-4 ${className || ""}`}
+    >
+      <ReviewsFrame132532 />
+      <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">
+        {comment.comment}
+      </HoremIpsumDolorSi>
+    </CommentCard>
   );
 }
 

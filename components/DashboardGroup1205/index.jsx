@@ -6,8 +6,11 @@ function DashboardGroup1205(props) {
   const { className } = props;
 
   return (
-    <Group12051 className={`group-1205 ${className || ""}`}>
-      <ViewAll className="view-all">VIEW ALL</ViewAll>
+    <Group12051 onClick={()=>{
+        window.location.href="/tasks"
+      }} 
+      className={`group-1205 ${className || ""}`}>
+      <ViewAll  className="view-all">VIEW ALL</ViewAll>
       <Arrowright
         className="arrowright"
         src="/img/arrowright@2x.png"
@@ -23,7 +26,7 @@ const Group12051 = styled.div`
   margin-top: 3px;
   display: flex;
   gap: 8px;
-
+  cursor: pointer;
   &.group-1205.group-1206 {
     margin-left: 170px;
   }

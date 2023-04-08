@@ -16,6 +16,29 @@ import {
 } from "../styledMixins";
 import "./TaskDetailMobile.css";
 
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function TaskDetailMobile(props) {
   const {
     assignment,
@@ -39,7 +62,7 @@ function TaskDetailMobile(props) {
   return (
     <div className="task-detail-mobile screen">
       <Frame1391>
-        <HeaderSmall />
+        <HeaderSmall headerProps={taskheaderProps}/>
         <Frame1390>
           <Frame29>
             <Breadcrumb />

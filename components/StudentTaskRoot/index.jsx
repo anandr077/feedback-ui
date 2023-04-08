@@ -180,6 +180,7 @@ const frame192Data = {
 };
 
 const tasksStudentMobileData = {
+  headerProps: taskheaderProps,
   frame1304Props: frame13041Data,
   tabs21Props: tabs23Data,
   tabs22Props: tabs24Data,

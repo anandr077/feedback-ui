@@ -8,6 +8,7 @@ import Tabs2 from "../Tabs2";
 import Footer from "../Footer";
 import HeaderSmall from "../HeaderSmall";
 import { getUserName } from "../../service";
+import React, { useState, useEffect } from "react";
 
 import {
   IbmplexsansBoldShark36px,
@@ -15,6 +16,29 @@ import {
 } from "../../styledMixins";
 import "./TasksStudentTablet.css";
 
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function TasksStudentTablet(props) {
   const {
     outstandingTasks, 
@@ -35,7 +59,7 @@ function TasksStudentTablet(props) {
 
   return (
     <div className="tasks-student-tablet screen">
-      <HeaderSmall />
+      <HeaderSmall headerProps={taskheaderProps}/>
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
@@ -63,7 +87,6 @@ function createTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue) 
     </Frame1362>
         <TaskCardContainer
           allTasks={tasks}
-          className={frame19Props.className}
       />
     </Frame1363>
   </Frame1364>

@@ -11,6 +11,29 @@ import HeaderSmall from "../HeaderSmall";
 import "./DashboardHomeStudentMobile.css";
 import { getUserName } from "../../service";
 
+const homeheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: true,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: false,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "icons/submissionIconWhite.png",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function DashboardHomeStudentMobile(props) {
   const {
     allTasks,
@@ -24,7 +47,7 @@ function DashboardHomeStudentMobile(props) {
   return (
     <div className="dashboard-home-student-mobile screen">
       <Frame1352>
-        <HeaderSmall />
+        <HeaderSmall headerProps={homeheaderProps}/>
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>

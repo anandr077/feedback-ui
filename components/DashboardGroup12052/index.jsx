@@ -6,7 +6,9 @@ function DashboardGroup12052(props) {
   const { arrowright } = props;
 
   return (
-    <Group1205>
+    <Group1205 onClick={()=>{
+      window.location.href="/tasks"
+    }} >
       <ViewAll>VIEW ALL</ViewAll>
       <Arrowright src={arrowright} alt="arrowright" />
     </Group1205>
@@ -20,6 +22,7 @@ const Group1205 = styled.div`
   min-width: 97px;
   height: 18px;
   margin-right: -2px;
+  cursor: pointer;
 `;
 
 const ViewAll = styled.div`

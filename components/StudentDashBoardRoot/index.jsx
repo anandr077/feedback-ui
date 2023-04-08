@@ -11,7 +11,7 @@ export default function StudentDashboardRoot() {
 
   React.useEffect(() => {
     getTasks().then((result) => {
-      setAllTasks(result);
+      setAllTasks(result.slice(0, 10));
     });
   }, []);
 

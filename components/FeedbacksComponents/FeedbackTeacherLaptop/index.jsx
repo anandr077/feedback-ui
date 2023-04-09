@@ -115,77 +115,6 @@ function FeedbackTeacherLaptop(props) {
     }
   }
 
-  const students = [
-    {
-      name: "Emily Brown",
-      src: "/studentIcons/1.png",
-    },
-    {
-      name: "Ethan Williams",
-      src: "/studentIcons/2.png",
-    },
-    {
-      name: "Sophia Davis",
-      src: "/studentIcons/3.png",
-    },
-    {
-      name: "Noah Johnson",
-      src: "/studentIcons/4.png",
-    },
-    {
-      name: "Madison Lee",
-      src: "/studentIcons/5.png",
-    },
-    {
-      name: "William Rodriguez",
-      src: "/studentIcons/6.png",
-    },
-    {
-      name: "Olivia Nguyen",
-      src: "/studentIcons/7.png",
-    },
-    {
-      name: "Alexander Taylor",
-      src: "/studentIcons/8.png",
-    },
-    {
-      name: "Isabella Kim",
-      src: "/studentIcons/9.png",
-    },
-    {
-      name: "Benjamin Chen",
-      src: "/studentIcons/10.png",
-    },
-  ];
-
-  const [showOptions, setShowOptions] = useState(false);
-  const [selectedStudentIcon, setSelectedStudentIcon] = useState(
-    students[0].src
-  );
-  const [selectedStudent, setSelectedStudent] = useState(students[0].name);
-  const toggleOptions = (event) => {
-    if (event.currentTarget.getAttribute("data-name") == null) {
-      setSelectedStudent(students[0].name);
-      setSelectedStudentIcon(students[0].src);
-    } else {
-      setSelectedStudent(event.currentTarget.getAttribute("data-name"));
-      setSelectedStudentIcon(event.currentTarget.getAttribute("data-icon"));
-    }
-    setShowOptions(!showOptions);
-  };
-  const options = students.map((student, index) => {
-    return (
-      <OptionCotainer
-        key={index}
-        data-name={student.name}
-        data-icon={student.src}
-        onClick={toggleOptions}
-      >
-        <Ellipse10 src={student.src} />
-        <Name>{student.name} </Name>
-      </OptionCotainer>
-    );
-  });
 
   const feedbackFrame = (
     <>
@@ -305,22 +234,7 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
-              <Frame131612>
-                <Frame1295>
-                  {showOptions ? (
-                    <OptionsList>{options}</OptionsList>
-                  ) : (
-                    <OptionCotainer>
-                      <Ellipse10 src={selectedStudentIcon} />
-                      <Name>{selectedStudent} </Name>
-                    </OptionCotainer>
-                  )}
-                </Frame1295>
-                <Frame12842
-                  src="/img/frame-1284@2x.png"
-                  onClick={toggleOptions}
-                />
-              </Frame131612>
+            <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
               <Buttons2
                 button="Submit & Next"
                 arrowright={true}
@@ -347,20 +261,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1368>
           <Frame1370>
             <Frame131612>
-              <Frame1295>
-                {showOptions ? (
-                  <OptionsList>{options}</OptionsList>
-                ) : (
-                  <OptionCotainer>
-                    <Ellipse10 src={selectedStudentIcon} />
-                    <Name>{selectedStudent} </Name>
-                  </OptionCotainer>
-                )}
-              </Frame1295>
-              <Frame12842
-                src="/img/frame-1284@2x.png"
-                onClick={toggleOptions}
-              />
+              <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
             </Frame131612>
             <Buttons2
               button="Submit & Next"

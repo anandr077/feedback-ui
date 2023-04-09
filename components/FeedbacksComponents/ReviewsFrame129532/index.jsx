@@ -1,22 +1,44 @@
 import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
+import { getTasks } from "../../../service";
+import { Avatar } from "@boringer-avatars/react";
 
 function ReviewsFrame129532(props) {
-  const { students } = props;
+
+  const {submission} = props
+  const [students, setStudents] = React.useState([]);
+  const [studentName, setStudentName] = React.useState(null);
+  const [selectedStudentIcon, setSelectedStudentIcon] = React.useState(null);
+
+  React.useEffect(() => {
+    getTasks().then((result) => {
+      const forCurrentAssignment = result
+      console.log("result " + JSON.stringify(result))
+      setStudents(result.map((task) => {
+        return {
+          name: task.studentName,
+          src: <Avatar
+          title={false}
+          size={25}
+          variant="beam"
+          name={task.studentName}
+          square={false}
+        />,
+        }
+      }));
+      console.log("result filtered" + result.filter(r=>{r.id === submission.id}))
+      setStudentName(result.filter(r=>r.id === submission.id)[0].studentName);
+    });
+  }, []);
   const [showOptions, setShowOptions] = React.useState(false);
-  const [selectedStudentIcon, setSelectedStudentIcon] = React.useState(
-    students[0].src
-  );
-  const [selectedStudent, setSelectedStudent] = React.useState(
-    students[0].name
-  );
+
   const toggleOptions = (event) => {
     if (event.currentTarget.getAttribute("data-name") == null) {
-      setSelectedStudent(students[0].name);
-      setSelectedStudentIcon(students[0].src);
+      setStudentName(studentName);
+      setSelectedStudentIcon(selectedStudentIcon);
     } else {
-      setSelectedStudent(event.currentTarget.getAttribute("data-name"));
+      setStudentName(event.currentTarget.getAttribute("data-name"));
       setSelectedStudentIcon(event.currentTarget.getAttribute("data-icon"));
     }
     setShowOptions(!showOptions);
@@ -25,11 +47,22 @@ function ReviewsFrame129532(props) {
     return (
       <OptionCotainer
         key={index}
-        data-name={student.name}
-        data-icon={student.src}
+        data-icon={<Avatar
+        title={false}
+        size={25}
+        variant="beam"
+        name={student.name}
+        square={false}
+      />}
         onClick={toggleOptions}
       >
-        <Ellipse10 src={student.src} />
+        <Avatar
+          title={false}
+          size={25}
+          variant="beam"
+          name={student.name}
+          square={false}
+        />
         <Name>{student.name} </Name>
       </OptionCotainer>
     );
@@ -42,8 +75,15 @@ function ReviewsFrame129532(props) {
           <OptionsList>{options}</OptionsList>
         ) : (
           <OptionCotainer>
-            <Ellipse10 src={selectedStudentIcon} />
-            <Name>{selectedStudent} </Name>
+            <Avatar
+          title={false}
+          size={25}
+          variant="beam"
+          name={studentName}
+          square={false}
+        />
+            {/* <Ellipse10 src={selectedStudentIcon} /> */}
+            <Name>{studentName} </Name>
           </OptionCotainer>
         )}
       </Frame1295>

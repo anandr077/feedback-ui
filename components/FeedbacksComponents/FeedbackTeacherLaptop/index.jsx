@@ -1,7 +1,11 @@
 import { React, useEffect, useState, useRef } from "react";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 import { sortBy } from "lodash";
 import Header from "../../Header";
+import Quill from 'quill';
+import QuillEditor from '../../QuillEditor';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -57,28 +61,25 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   const quillRefs = useRef([]);
   const feedbacksFrameRef = useRef(null);
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-  function handleClickOutside(event) {
-    if (
-      feedbacksFrameRef.current &&
-      !feedbacksFrameRef.current.contains(event.target)
-    ) {
-      setShowDiv(false);
-    }
-  }
+ 
+  
   const handleEditorMounted = (editor, index) => {
+    console.log("Mounted " + editor)
     quillRefs.current[index] = editor;
   };
+  // const hightlighComment = (comment)=>{
+  //   quillRefs.current[comment.questionSerialNumber - 1].getEditor();
+
+  //   quill.formatText(range.index, range.length, {
+  //     background: "#fff72b"
+  //   });
+  // }
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [comments, setComments] = useState([]);
+  const [newCommentValue, setNewCommentValue] = useState("");
+
   useEffect(() => {
     if (comments.length === 0) {
       getCommentsForSubmission(submission.id).then((result) => {
@@ -88,7 +89,7 @@ function FeedbackTeacherLaptop(props) {
       });
     }
   }, [comments]);
-  const [newCommentValue, setNewCommentValue] = useState("");
+  
 
   function handleInputChange(event) {
     setNewCommentValue(event.target.value);
@@ -103,7 +104,7 @@ function FeedbackTeacherLaptop(props) {
     if (event.key === "Enter") {
       addNewComment(submission.id, {
         questionSerialNumber: newCommentSerialNumber,
-        feedback: newCommentValue,
+        feedback: document.getElementById("newCommentInput").value,
         range: selectedRange,
       }).then((response) => {
         if (response) {
@@ -122,9 +123,11 @@ function FeedbackTeacherLaptop(props) {
           <Frame1326>
             <TypeHere>
               <TextInput
+                id="newCommentInput"
+                ref={feedbacksFrameRef}
                 placeholder="Comment here...."
-                value={newCommentValue}
-                onChange={handleInputChange}
+                // value={newCommentValue}
+                // onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
               ></TextInput>
             </TypeHere>
@@ -144,23 +147,20 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function handleCommentSelected(comment) {
-    const range = {
-      index: comment.range.from,
-      length: comment.range.to - comment.range.from,
-    };
-    console.log(range);
-    const quill =
-      quillRefs.current[comment.questionSerialNumber - 1].getEditor();
-
-    var div = document.getElementById("quill_" + comment.questionSerialNumber);
-    div.scrollIntoView({ behavior: "smooth" });
-    quill.formatText(range.index, range.length, "background", "yellow");
+    if (comment.range){
+      const range = {
+        index: comment.range.from,
+        length: comment.range.to - comment.range.from,
+      };
+      console.log("Rangle " + JSON.stringify(range));
+      const quill =
+        quillRefs.current[comment.questionSerialNumber - 1];
+      quill.selectRange(range);
+   } else {
+      console.log("No range");
+   }
   }
 
-  const highlightSelection = (range, serialNumber) => {
-    const quill = quillRefs.current[serialNumber - 1].getEditor();
-    quill.formatText(range.index, range.length, "background", "red");
-  };
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
@@ -184,7 +184,7 @@ function FeedbackTeacherLaptop(props) {
             {submission.assignment.questions[answer.serialNumber - 1].question}
           </Q1PoremIpsumDolo>
           <ToremIpsumDolorSi>
-            <ReactQuill
+            {/* <ReactQuill
               ref={(editor) =>
                 handleEditorMounted(editor, answer.serialNumber - 1)
               }
@@ -208,7 +208,33 @@ function FeedbackTeacherLaptop(props) {
                   highlightSelection(range, answer.serialNumber);
                 }
               }}
-            />
+            /> */}
+
+            <QuillEditor 
+              ref={(editor) =>
+                handleEditorMounted(editor, answer.serialNumber - 1)
+              }
+              comments = {comments.filter((comment) => {
+                console.log("a " + JSON.stringify(answer))
+                console.log("b " + JSON.stringify(comment.questionSerialNumber))
+                return comment.questionSerialNumber === answer.serialNumber}
+              )}
+            value={answer.answer.answer} 
+            onX={(range) => {
+              if (range && range.length > 0) {
+                console.log("range triggered");
+
+                setNewCommentSerialNumber(answer.serialNumber);
+                setSelectedRange({
+                  from: range.index,
+                  to: range.index + range.length,
+                });
+                setShowNewComment(true);
+               
+                feedbacksFrameRef.current.focus()
+              }
+            }}
+            options={{modules:modules, theme: 'snow', readOnly:true }} ></QuillEditor>
           </ToremIpsumDolorSi>
         </Frame1366>
         <Line26 src={line261} alt="Line 26" />

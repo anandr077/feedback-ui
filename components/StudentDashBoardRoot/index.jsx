@@ -14,27 +14,30 @@ export default function StudentDashboardRoot() {
       setAllTasks(result.slice(0, 10));
     });
   }, []);
+  const outstandingTasks = allTasks.filter((task) => task.progressStatus === "OUTSTANDING")
+  const inProgressTasks = allTasks.filter((task) => task.progressStatus === "IN_PROGRESS")
+  const overdueTasks = allTasks.filter((task) => task.progressStatus === "OVERDUE")
 
   return (
     <ReactiveRender
       mobile={
         <DashboardHomeStudentMobile
-          {...{ allTasks, ...dashboardHomeStudentMobileData }}
+          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentMobileData }}
         />
       }
       tablet={
         <DashboardHomeStudentTablet
-          {...{ allTasks, ...dashboardHomeStudentTabletData }}
+          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentTabletData }}
         />
       }
       laptop={
         <DashboardHomeStudentLaptop
-          {...{ allTasks, ...dashboardHomeStudentLaptopData }}
+          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentLaptopData }}
         />
       }
       desktop={
         <DashboardHomeStudentDesktop
-          {...{ allTasks, ...dashboardHomeStudentDesktopData }}
+          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentDesktopData }}
         />
       }
     />

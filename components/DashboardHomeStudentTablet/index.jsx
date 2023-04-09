@@ -36,7 +36,7 @@ const homeheaderProps = {
 };
 function DashboardHomeStudentTablet(props) {
   const {
-    allTasks,
+    outstandingTasks, inProgressTasks, overdueTasks,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     line171,
@@ -44,6 +44,7 @@ function DashboardHomeStudentTablet(props) {
     frame120821Props,
     frame120822Props,
   } = props;
+  const userName = getUserName();
 
   return (
     <div className="dashboard-home-student-tablet screen">
@@ -51,7 +52,7 @@ function DashboardHomeStudentTablet(props) {
         <HeaderSmall headerProps={homeheaderProps}/>
         <Frame1203>
           <Frame1348>
-            <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
+            <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </Frame1348>
         </Frame1203>
@@ -64,7 +65,7 @@ function DashboardHomeStudentTablet(props) {
           />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={allTasks} />
+            <TaskCardContainer allTasks={[...overdueTasks,...outstandingTasks, ...inProgressTasks]} />
           </Frame11>
         </Frame1206>
         <Frame1205>
@@ -74,7 +75,7 @@ function DashboardHomeStudentTablet(props) {
           />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={allTasks} />
+            <TaskCardContainer allTasks={[]} />
           </Frame11>
         </Frame1205>
       </Frame1351>

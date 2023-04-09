@@ -11,7 +11,7 @@ function Frame1404(props) {
       </div>
       <img
         className="exportsquare"
-        src="/img/exportsquare@2x.png"
+        src="/icons/redirectIcon.png"
         alt="exportsquare"
       />
     </div>

@@ -674,13 +674,14 @@ const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 30px 30px 0px;
-  //position: relative;
+
   position: sticky;
   top: 0;
-  // align-self: stretch;
+
   background-color: var(--white);
   border-radius: 16px;
-  overflow: hidden;
+  height: 900px;
+  overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
@@ -794,7 +795,6 @@ const Frame1328 = styled.div`
   position: relative;
   flex: 1;
   align-self: stretch;
-  height: 500px;
   overflow-y: scroll;
 `;
 

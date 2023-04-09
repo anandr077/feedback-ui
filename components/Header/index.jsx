@@ -11,6 +11,8 @@ import {
 
 export default function Header(props) {
   const { headerProps } = props;
+  const [dropDown, setDropDown] = React.useState(false);
+
   const OnFirstButtonClick = () => {
     console.log("firstButton clicked");
     window.location.href = headerProps.firstButton.redirect;
@@ -26,6 +28,12 @@ export default function Header(props) {
     setIsNotificationOpen(!isNotificationOpen);
     console.log("isNotificationOpen" + isNotificationOpen);
   };
+
+  const toggleDropDown = () => {
+    console.log("toggleDropDown");
+    setDropDown(!dropDown);
+  };
+
   return (
     <>
       <Frame1344>
@@ -106,14 +114,47 @@ export default function Header(props) {
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}
           />
-          <UserIcon maskGroup="/img/mask-group-1@2x.png" />
+          <div onClick={toggleDropDown}>
+            <UserIcon maskGroup="/img/mask-group-1@2x.png" />
+          </div>
         </Frame51>
       </Frame1344>
       {/* <NotificationsBar></NotificationsBar> */}
-      {/* <ProfileDropdown></ProfileDropdown> */}
+      {dropDown && (
+        <Screen onClick={toggleDropDown}>
+          <DropDownContainer>
+            <ProfileDropdown />
+          </DropDownContainer>
+        </Screen>
+      )}
     </>
   );
 }
+
+const Screen = styled.div`
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const DropDownContainer = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  z-index: 1;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
 const Frame1344 = styled.div`
   display: flex;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Notifications from "../Notifications";
 import UserIcon from "../UserIcon";
 import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
+import NotificationsBar from "../NotificationsMenu/NotificationsBar";
 
 import {
   IbmplexsansNormalPersianIndigo20px,
@@ -26,7 +27,7 @@ export default function Header(props) {
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    console.log("isNotificationOpen" + isNotificationOpen);
+    // console.log("isNotificationOpen" + isNotificationOpen);
   };
 
   const toggleDropDown = () => {
@@ -119,7 +120,15 @@ export default function Header(props) {
           </div>
         </Frame51>
       </Frame1344>
-      {/* <NotificationsBar></NotificationsBar> */}
+      {isNotificationOpen && (
+        <Screen onClick={handleNotificationClick}>
+          <NavigationContainer>
+            {" "}
+            <NotificationsBar />{" "}
+          </NavigationContainer>
+        </Screen>
+      )}
+
       {dropDown && (
         <Screen onClick={toggleDropDown}>
           <DropDownContainer>
@@ -131,6 +140,20 @@ export default function Header(props) {
   );
 }
 
+const NavigationContainer = styled.div`
+  position: absolute;
+  right: 180px;
+  top: 20px;
+  z-index: 1;
+  background-color: var(--white);
+  border-radius: 8px;
+  rbga(255, 255, 255, 0.5);
+  align-self: stretch;
+  width: 300px;
+  height: 300px;
+  padding: 20px;
+  overflow-y: scroll;
+  `;
 const Screen = styled.div`
   height: 100vh;
   width: 100vw;

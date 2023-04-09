@@ -1,0 +1,38 @@
+.profile-dropdown {
+  align-items: flex-start;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #f5ebfe;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 200px;
+  padding: 12px 0px;
+  position: relative;
+}
+
+.line {
+  align-self: stretch;
+  height: 1px;
+  min-width: 200px;
+  object-fit: cover;
+  position: relative;
+}
+
+.frame-1403 {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  gap: 8px;
+  padding: 0px 12px;
+  position: relative;
+}
+
+.logout {
+  flex: 1;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1.00px;
+  position: relative;
+}
+

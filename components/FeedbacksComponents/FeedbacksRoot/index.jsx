@@ -4,6 +4,7 @@ import { getSubmissionById } from "../../../service";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
+import Loader from "../../Loader";
 export default function FeedbacksRoot() {
   const [submission, setSubmission] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -22,7 +23,11 @@ export default function FeedbacksRoot() {
   }, []);
   console.log("Loading is " + isLoading);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   }
 
   return (

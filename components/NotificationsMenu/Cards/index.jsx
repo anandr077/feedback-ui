@@ -36,6 +36,7 @@ const Cards1 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
+  width: 100%;
 `;
 
 const Content = styled.div`

@@ -11,11 +11,9 @@ export default function HeaderSmall(props) {
 
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    console.log("isNotificationOpen" + isNotificationOpen);
   };
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
-    console.log(isMenuOpen);
   };
   if (isMenuOpen) {
     return (
@@ -26,7 +24,12 @@ export default function HeaderSmall(props) {
     );
   }
   if (isNotificationOpen) {
-    return <NotificationsBar></NotificationsBar>;
+    return (
+      <NavigationContainer>
+        {" "}
+        <NotificationsBar />{" "}
+      </NavigationContainer>
+    );
   }
   return (
     <>

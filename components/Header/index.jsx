@@ -6,7 +6,7 @@ import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
 
 import {
   IbmplexsansNormalPersianIndigo20px,
-  IbmplexsansNormalWhite20px,
+  IbmplexsansNormalWhite20px
 } from "../../styledMixins";
 
 export default function Header(props) {
@@ -21,7 +21,11 @@ export default function Header(props) {
   const OnThirdButtonClick = () => {
     window.location.href = headerProps.thirdButton.redirect;
   };
-
+  const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
+  const handleNotificationClick = () => {
+    setIsNotificationOpen(!isNotificationOpen);
+    console.log("isNotificationOpen" + isNotificationOpen);
+  };
   return (
     <>
     <Frame1344>
@@ -98,10 +102,11 @@ export default function Header(props) {
         )}
       </Frame5>
       <Frame51>
-        <Notifications src="/img/notificationbing-3@2x.png" />
+        <Notifications src="/img/notificationbing-3@2x.png" onClickFn={handleNotificationClick}/>
         <UserIcon maskGroup="/img/mask-group-1@2x.png" />
       </Frame51>
     </Frame1344>
+    {/* <NotificationsBar></NotificationsBar> */}
     {/* <ProfileDropdown></ProfileDropdown> */}
     </>
   );

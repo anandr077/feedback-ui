@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 function Notifications(props) {
-  const { src } = props;
+  const { src, onClickFn } = props;
 
   return (
-    <Notifications1>
+    <Notifications1 onClick={onClickFn}>
       <OverlapGroup>
         <Notificationbing src={src} alt="notificationbing" />
         <Ellipse1></Ellipse1>

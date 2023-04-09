@@ -38,12 +38,7 @@ const taskheaderProps = {
   },
 };
 function TasksStudentMobile(props) {
-  const {
-    outstandingTasks,
-    inProgressTasks,
-    overdueTasks,
-
-  } = props;
+  const { outstandingTasks, inProgressTasks, overdueTasks } = props;
   const outstandingFrame = createTasksFrame(
     "Outstanding",
     outstandingTasks,
@@ -69,7 +64,7 @@ function TasksStudentMobile(props) {
 
   return (
     <div className="tasks-student-mobile screen">
-      <HeaderSmall headerProps={taskheaderProps}/>
+      <HeaderSmall headerProps={taskheaderProps} />
       <Frame1365>
         <Frame1307>
           <PageTitle>Task</PageTitle>
@@ -119,9 +114,7 @@ function TasksStudentMobile(props) {
               <SectionTitle>{title}</SectionTitle>
               <Number>{tasks.length}</Number>
             </Frame1362>
-            <TaskCardContainer
-              allTasks={tasks}
-            />
+            <TaskCardContainer allTasks={tasks} />
           </Frame1364>
         </Frame1364>
       </>

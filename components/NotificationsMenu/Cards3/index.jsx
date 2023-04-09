@@ -3,14 +3,17 @@ import Buttons from "../Buttons";
 import styled from "styled-components";
 import { IbmplexsansNormalWhite16px } from "../styledMixins";
 
-
 function Cards3() {
   return (
     <Cards>
       <Content>
         <YouHaveReceivedA>
-          <span className="ibmplexsans-normal-shark-16px">You have received a new theory assignment on </span>
-          <span className="ibmplexsans-normal-electric-violet-16px">fundamentals of thermal physics</span>
+          <span className="ibmplexsans-normal-shark-16px">
+            You have received a new theory assignment on{" "}
+          </span>
+          <span className="ibmplexsans-normal-electric-violet-16px">
+            fundamentals of thermal physics
+          </span>
         </YouHaveReceivedA>
         <Buttons />
       </Content>

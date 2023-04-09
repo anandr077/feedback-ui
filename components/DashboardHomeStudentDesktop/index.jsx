@@ -19,7 +19,9 @@ import Header from "../Header";
 
 function DashboardHomeStudentDesktop(props) {
   const {
-    outstandingTasks, inProgressTasks, overdueTasks,
+    outstandingTasks,
+    inProgressTasks,
+    overdueTasks,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
@@ -50,13 +52,28 @@ function DashboardHomeStudentDesktop(props) {
             <Line17 src="/img/line-17-6.png" alt="Line 17" />
             <Frame1336>
               <Frame1307>
-                <DashboardFrame1284 title={'OUTSTANDING'} count={outstandingTasks.length}/>
-                <DashboardFrame1284 title={'IN PROGRESS'} count={inProgressTasks.length}/>
-                <DashboardFrame1284 title={'OVERDUE'} count={overdueTasks.length}/>
+                <DashboardFrame1284
+                  title={"OUTSTANDING"}
+                  count={outstandingTasks.length}
+                />
+                <DashboardFrame1284
+                  title={"IN PROGRESS"}
+                  count={inProgressTasks.length}
+                />
+                <DashboardFrame1284
+                  title={"OVERDUE"}
+                  count={overdueTasks.length}
+                />
               </Frame1307>
               <Line17 src="/img/line-17-6.png" alt="Line 16" />
               <Frame19>
-                <TaskCardContainer allTasks={[...overdueTasks,...outstandingTasks, ...inProgressTasks]} />
+                <TaskCardContainer
+                  allTasks={[
+                    ...overdueTasks,
+                    ...outstandingTasks,
+                    ...inProgressTasks,
+                  ]}
+                />
               </Frame19>
             </Frame1336>
           </Frame1339>

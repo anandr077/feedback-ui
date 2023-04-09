@@ -2,7 +2,6 @@ import React from "react";
 import Group12 from "../Group12";
 import styled from "styled-components";
 
-
 function NavElement52() {
   return (
     <NavElement>

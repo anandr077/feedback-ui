@@ -6,7 +6,7 @@ import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
 
 import {
   IbmplexsansNormalPersianIndigo20px,
-  IbmplexsansNormalWhite20px
+  IbmplexsansNormalWhite20px,
 } from "../../styledMixins";
 
 export default function Header(props) {
@@ -28,86 +28,89 @@ export default function Header(props) {
   };
   return (
     <>
-    <Frame1344>
-      <Frame1343 src="/img/frame-1343@2x.png" alt="Frame 1343" />
-      <Frame5>
-        {headerProps.firstButton.selected ? (
-          <HeaderButtonSelected onClick={OnFirstButtonClick}>
-            <HeaderButtonInnnerContainer>
-              <IconContainer
-                src={headerProps.firstButton.iconSelected}
-                alt="buttonIcon"
-              />
-              <SelectedButtonText>
-                {headerProps.firstButton.text}
-              </SelectedButtonText>
-            </HeaderButtonInnnerContainer>
-          </HeaderButtonSelected>
-        ) : (
-          <HeaderButton onClick={OnFirstButtonClick}>
-            <HeaderButtonInnnerContainer className="group-1">
-              <IconContainer
-                src={headerProps.firstButton.icon}
-                alt="buttonIcon"
-              />
-              <ButtonText>{headerProps.firstButton.text}</ButtonText>
-            </HeaderButtonInnnerContainer>
-          </HeaderButton>
-        )}
-        {headerProps.secondButton.selected ? (
-          <HeaderButtonSelected onClick={OnSecondButtonClick}>
-            <HeaderButtonInnnerContainer>
-              <IconContainer
-                src={headerProps.secondButton.iconSelected}
-                alt="buttonIcon"
-              />
-              <SelectedButtonText>
-                {headerProps.secondButton.text}
-              </SelectedButtonText>
-            </HeaderButtonInnnerContainer>
-          </HeaderButtonSelected>
-        ) : (
-          <HeaderButton onClick={OnSecondButtonClick}>
-            <HeaderButtonInnnerContainer className="group-1">
-              <IconContainer
-                src={headerProps.secondButton.icon}
-                alt="buttonIcon"
-              />
-              <ButtonText>{headerProps.secondButton.text}</ButtonText>
-            </HeaderButtonInnnerContainer>
-          </HeaderButton>
-        )}
-        {headerProps.thirdButton.selected ? (
-          <HeaderButtonSelected onClick={OnThirdButtonClick}>
-            <HeaderButtonInnnerContainer>
-              <IconContainer
-                src={headerProps.thirdButton.iconSelected}
-                alt="buttonIcon"
-              />
-              <SelectedButtonText>
-                {headerProps.thirdButton.text}
-              </SelectedButtonText>
-            </HeaderButtonInnnerContainer>
-          </HeaderButtonSelected>
-        ) : (
-          <HeaderButton onClick={OnThirdButtonClick}>
-            <HeaderButtonInnnerContainer className="group-1">
-              <IconContainer
-                src={headerProps.thirdButton.icon}
-                alt="buttonIcon"
-              />
-              <ButtonText>{headerProps.thirdButton.text}</ButtonText>
-            </HeaderButtonInnnerContainer>
-          </HeaderButton>
-        )}
-      </Frame5>
-      <Frame51>
-        <Notifications src="/img/notificationbing-3@2x.png" onClickFn={handleNotificationClick}/>
-        <UserIcon maskGroup="/img/mask-group-1@2x.png" />
-      </Frame51>
-    </Frame1344>
-    {/* <NotificationsBar></NotificationsBar> */}
-    {/* <ProfileDropdown></ProfileDropdown> */}
+      <Frame1344>
+        <Frame1343 src="/img/frame-1343@2x.png" alt="Frame 1343" />
+        <Frame5>
+          {headerProps.firstButton.selected ? (
+            <HeaderButtonSelected onClick={OnFirstButtonClick}>
+              <HeaderButtonInnnerContainer>
+                <IconContainer
+                  src={headerProps.firstButton.iconSelected}
+                  alt="buttonIcon"
+                />
+                <SelectedButtonText>
+                  {headerProps.firstButton.text}
+                </SelectedButtonText>
+              </HeaderButtonInnnerContainer>
+            </HeaderButtonSelected>
+          ) : (
+            <HeaderButton onClick={OnFirstButtonClick}>
+              <HeaderButtonInnnerContainer className="group-1">
+                <IconContainer
+                  src={headerProps.firstButton.icon}
+                  alt="buttonIcon"
+                />
+                <ButtonText>{headerProps.firstButton.text}</ButtonText>
+              </HeaderButtonInnnerContainer>
+            </HeaderButton>
+          )}
+          {headerProps.secondButton.selected ? (
+            <HeaderButtonSelected onClick={OnSecondButtonClick}>
+              <HeaderButtonInnnerContainer>
+                <IconContainer
+                  src={headerProps.secondButton.iconSelected}
+                  alt="buttonIcon"
+                />
+                <SelectedButtonText>
+                  {headerProps.secondButton.text}
+                </SelectedButtonText>
+              </HeaderButtonInnnerContainer>
+            </HeaderButtonSelected>
+          ) : (
+            <HeaderButton onClick={OnSecondButtonClick}>
+              <HeaderButtonInnnerContainer className="group-1">
+                <IconContainer
+                  src={headerProps.secondButton.icon}
+                  alt="buttonIcon"
+                />
+                <ButtonText>{headerProps.secondButton.text}</ButtonText>
+              </HeaderButtonInnnerContainer>
+            </HeaderButton>
+          )}
+          {headerProps.thirdButton.selected ? (
+            <HeaderButtonSelected onClick={OnThirdButtonClick}>
+              <HeaderButtonInnnerContainer>
+                <IconContainer
+                  src={headerProps.thirdButton.iconSelected}
+                  alt="buttonIcon"
+                />
+                <SelectedButtonText>
+                  {headerProps.thirdButton.text}
+                </SelectedButtonText>
+              </HeaderButtonInnnerContainer>
+            </HeaderButtonSelected>
+          ) : (
+            <HeaderButton onClick={OnThirdButtonClick}>
+              <HeaderButtonInnnerContainer className="group-1">
+                <IconContainer
+                  src={headerProps.thirdButton.icon}
+                  alt="buttonIcon"
+                />
+                <ButtonText>{headerProps.thirdButton.text}</ButtonText>
+              </HeaderButtonInnnerContainer>
+            </HeaderButton>
+          )}
+        </Frame5>
+        <Frame51>
+          <Notifications
+            src="/img/notificationbing-3@2x.png"
+            onClickFn={handleNotificationClick}
+          />
+          <UserIcon maskGroup="/img/mask-group-1@2x.png" />
+        </Frame51>
+      </Frame1344>
+      {/* <NotificationsBar></NotificationsBar> */}
+      {/* <ProfileDropdown></ProfileDropdown> */}
     </>
   );
 }

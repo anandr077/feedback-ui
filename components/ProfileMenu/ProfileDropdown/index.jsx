@@ -3,7 +3,6 @@ import Frame1404 from "../Frame1404";
 import "./ProfileDropdown.css";
 
 function ProfileDropdown() {
-
   return (
     <div className="profile-dropdown screen">
       <Frame1404 viewProfile="View Profile" />

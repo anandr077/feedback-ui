@@ -43,14 +43,14 @@ export default function CreateAssignment() {
   }, []);
 
   const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, null, isMobileView() ? "small" : "large"),
+    createNewQuestionFrame(1, null, "small"),
   ]);
 
   const addQuestionFrameFn = () => {
     const newQuestionFrame = createNewQuestionFrame(
       questionFrames.length + 1,
       null,
-      isMobileView() ? "small" : "large"
+      "small"
     );
 
     setQuestionFrames((oldFrames) => [...oldFrames, newQuestionFrame]);

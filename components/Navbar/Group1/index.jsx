@@ -4,8 +4,8 @@ import { IbmplexsansNormalPersianIndigo20px } from "../../../styledMixins";
 
 function Group1(props) {
   const { iconHome, text, isSelected } = props;
-  console.log("isSelected: " + isSelected + " text " + text)
-  if(isSelected) {
+  console.log("isSelected: " + isSelected + " text " + text);
+  if (isSelected) {
     return (
       <Group11>
         <IconHome src={iconHome} alt="icon-home" />
@@ -20,7 +20,6 @@ function Group1(props) {
       </Group11>
     );
   }
-  
 }
 
 const Group11 = styled.div`

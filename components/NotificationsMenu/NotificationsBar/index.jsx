@@ -8,7 +8,6 @@ import { getNotifications, getTasks } from "../../../service.js";
 function NotificationsBar() {
   const [notification, setNotifications] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  
 
   React.useEffect(() => {
     getNotifications().then((result) => {
@@ -20,14 +19,12 @@ function NotificationsBar() {
     return <div>Loading...</div>;
   }
 
-  const notificationFrames = notification.map(notification=>{
-    <Cards title={notification.title} link={notification.link}/>
-  })
+  const notificationFrames = notification.map((notification) => {
+    <Cards title={notification.title} link={notification.link} />;
+  });
   return (
     <div className="notifications-bar screen">
-      <Frame15>
-        {notificationFrames}
-      </Frame15>
+      <Frame15>{notificationFrames}</Frame15>
     </div>
   );
 }

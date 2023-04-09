@@ -67,7 +67,7 @@ function TaskDetailTablet(props) {
   return (
     <div className="task-detail-tablet screen">
       <Frame1391>
-        <HeaderSmall headerProps={taskheaderProps}/>
+        <HeaderSmall headerProps={taskheaderProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb />

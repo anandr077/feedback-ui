@@ -173,7 +173,7 @@ function FeedbackTeacherMobile(props) {
     <div className="feedback-teacher-mobile screen">
       <Frame1388>
         <Frame1387>
-          <HeaderSmall headerProps={taskheaderProps}/>
+          <HeaderSmall headerProps={taskheaderProps} />
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />

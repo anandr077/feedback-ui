@@ -84,7 +84,7 @@ function AssignmentTheoryMobile(props) {
 
   return (
     <div className="assignment-theory-mobile screen">
-      <HeaderSmall headerProps={taskheaderProps}/>
+      <HeaderSmall headerProps={taskheaderProps} />
       <Frame1401>
         <Frame1311>
           <SubmissionFrame1399 label={submission.assignment.title} />

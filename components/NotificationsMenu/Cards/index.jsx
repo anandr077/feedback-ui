@@ -3,19 +3,19 @@ import Buttons from "../Buttons";
 import styled from "styled-components";
 import { IbmplexsansNormalWhite16px } from "../styledMixins";
 
-
 function Cards(props) {
-  const {title, link} = props
+  const { title, link } = props;
   return (
     <Cards1>
       <Content>
         <DarrellInstructor>
-          <span className="ibmplexsans-normal-shark-16px">Darrell(Instructor) from </span>
-          <span className="ibmplexsans-normal-electric-violet-16px">C programming mastery</span>
           <span className="ibmplexsans-normal-shark-16px">
-            {" "}
-            {title}{" "}
+            Darrell(Instructor) from{" "}
           </span>
+          <span className="ibmplexsans-normal-electric-violet-16px">
+            C programming mastery
+          </span>
+          <span className="ibmplexsans-normal-shark-16px"> {title} </span>
         </DarrellInstructor>
         <a href={link}>
           <Buttons />

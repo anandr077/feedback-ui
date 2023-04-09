@@ -76,7 +76,7 @@ function CreateAAssignmentMobile(props) {
   return (
     <div className="create-a-assignment-mobile screen">
       <Frame1379>
-        <HeaderSmall headerProps={taskheaderProps}/>
+        <HeaderSmall headerProps={taskheaderProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb />

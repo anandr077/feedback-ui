@@ -14,30 +14,56 @@ export default function StudentDashboardRoot() {
       setAllTasks(result.slice(0, 10));
     });
   }, []);
-  const outstandingTasks = allTasks.filter((task) => task.progressStatus === "OUTSTANDING")
-  const inProgressTasks = allTasks.filter((task) => task.progressStatus === "IN_PROGRESS")
-  const overdueTasks = allTasks.filter((task) => task.progressStatus === "OVERDUE")
+  const outstandingTasks = allTasks.filter(
+    (task) => task.progressStatus === "OUTSTANDING"
+  );
+  const inProgressTasks = allTasks.filter(
+    (task) => task.progressStatus === "IN_PROGRESS"
+  );
+  const overdueTasks = allTasks.filter(
+    (task) => task.progressStatus === "OVERDUE"
+  );
 
   return (
     <ReactiveRender
       mobile={
         <DashboardHomeStudentMobile
-          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentMobileData }}
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...dashboardHomeStudentMobileData,
+          }}
         />
       }
       tablet={
         <DashboardHomeStudentTablet
-          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentTabletData }}
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...dashboardHomeStudentTabletData,
+          }}
         />
       }
       laptop={
         <DashboardHomeStudentLaptop
-          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentLaptopData }}
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...dashboardHomeStudentLaptopData,
+          }}
         />
       }
       desktop={
         <DashboardHomeStudentDesktop
-          {...{ outstandingTasks, inProgressTasks, overdueTasks, ...dashboardHomeStudentDesktopData }}
+          {...{
+            outstandingTasks,
+            inProgressTasks,
+            overdueTasks,
+            ...dashboardHomeStudentDesktopData,
+          }}
         />
       }
     />

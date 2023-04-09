@@ -67,13 +67,7 @@ function FeedbackTeacherLaptop(props) {
     console.log("Mounted " + editor)
     quillRefs.current[index] = editor;
   };
-  // const hightlighComment = (comment)=>{
-  //   quillRefs.current[comment.questionSerialNumber - 1].getEditor();
-
-  //   quill.formatText(range.index, range.length, {
-  //     background: "#fff72b"
-  //   });
-  // }
+  
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
@@ -104,7 +98,7 @@ function FeedbackTeacherLaptop(props) {
     if (event.key === "Enter") {
       addNewComment(submission.id, {
         questionSerialNumber: newCommentSerialNumber,
-        feedback: document.getElementById("newCommentInput").value,
+        feedback: newCommentValue,
         range: selectedRange,
       }).then((response) => {
         if (response) {
@@ -126,8 +120,8 @@ function FeedbackTeacherLaptop(props) {
                 id="newCommentInput"
                 ref={feedbacksFrameRef}
                 placeholder="Comment here...."
-                // value={newCommentValue}
-                // onChange={handleInputChange}
+                value={newCommentValue}
+                onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
               ></TextInput>
             </TypeHere>

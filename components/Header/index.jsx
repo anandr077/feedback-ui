@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Notifications from "../Notifications";
 import UserIcon from "../UserIcon";
+import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
 
 import {
   IbmplexsansNormalPersianIndigo20px,

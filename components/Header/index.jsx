@@ -2,15 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Notifications from "../Notifications";
 import UserIcon from "../UserIcon";
-<<<<<<< Updated upstream
-=======
-import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
-import NotificationsBar from "../NotificationsMenu/NotificationsBar";
->>>>>>> Stashed changes
 
 import {
   IbmplexsansNormalPersianIndigo20px,
-  IbmplexsansNormalWhite20px,
+  IbmplexsansNormalWhite20px
 } from "../../styledMixins";
 
 export default function Header(props) {
@@ -31,6 +26,7 @@ export default function Header(props) {
     console.log("isNotificationOpen" + isNotificationOpen);
   };
   return (
+    <>
     <Frame1344>
       <Frame1343 src="/img/frame-1343@2x.png" alt="Frame 1343" />
       <Frame5>
@@ -109,12 +105,9 @@ export default function Header(props) {
         <UserIcon maskGroup="/img/mask-group-1@2x.png" />
       </Frame51>
     </Frame1344>
-<<<<<<< Updated upstream
-=======
     {/* <NotificationsBar></NotificationsBar> */}
     {/* <ProfileDropdown></ProfileDropdown> */}
     </>
->>>>>>> Stashed changes
   );
 }
 

@@ -44,13 +44,7 @@ function TasksStudentTablet(props) {
     outstandingTasks,
     inProgressTasks,
     overdueTasks,
-    keepOrganizedWitho,
-    outstanding,
     frame1304Props,
-    tabs21Props,
-    tabs22Props,
-
-    frame19Props,
   } = props;
   const outstandingFrame = createTasksFrame(
     "Outstanding",
@@ -130,7 +124,6 @@ function createTasksFrame(
           </Frame1362>
           <TaskCardContainer
             allTasks={tasks}
-            className={frame19Props.className}
           />
         </Frame1363>
       </Frame1364>

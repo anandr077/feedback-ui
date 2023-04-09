@@ -14,14 +14,35 @@ import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 import React, { useState, useEffect } from "react";
 
+const taskheaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/dashboard-student",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: true,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "",
+    selected: false,
+    redirect: "/submissions",
+  },
+};
 function TasksStudentMobile(props) {
   const {
     outstandingTasks,
     inProgressTasks,
     overdueTasks,
-    tabs21Props,
-    tabs22Props,
-    frame19Props,
+
   } = props;
   const outstandingFrame = createTasksFrame(
     "Outstanding",
@@ -48,7 +69,7 @@ function TasksStudentMobile(props) {
 
   return (
     <div className="tasks-student-mobile screen">
-      <HeaderSmall headerProps={headerProps}/>
+      <HeaderSmall headerProps={taskheaderProps}/>
       <Frame1365>
         <Frame1307>
           <PageTitle>Task</PageTitle>
@@ -100,8 +121,6 @@ function TasksStudentMobile(props) {
             </Frame1362>
             <TaskCardContainer
               allTasks={tasks}
-              className={frame19Props.className}
-              cardsProps={frame19Props.cardsProps}
             />
           </Frame1364>
         </Frame1364>

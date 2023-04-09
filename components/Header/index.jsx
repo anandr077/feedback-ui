@@ -142,8 +142,8 @@ export default function Header(props) {
 
 const NavigationContainer = styled.div`
   position: absolute;
-  right: 180px;
-  top: 20px;
+  right: 200px;
+  top: 70px;
   z-index: 1;
   background-color: var(--white);
   border-radius: 8px;
@@ -166,7 +166,7 @@ const Screen = styled.div`
 
 const DropDownContainer = styled.div`
   position: absolute;
-  top: 15px;
+  top: 70px;
   right: 10px;
   z-index: 1;
   background-color: var(--white);

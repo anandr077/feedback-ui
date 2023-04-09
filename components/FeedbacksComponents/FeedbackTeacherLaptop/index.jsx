@@ -115,7 +115,6 @@ function FeedbackTeacherLaptop(props) {
     }
   }
 
-
   const feedbackFrame = (
     <>
       <Frame1329>
@@ -238,7 +237,7 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
-            <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+              <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
               <Buttons2
                 button="Submit & Next"
                 arrowright={true}

@@ -6,7 +6,7 @@ import {
 } from "../../styledMixins";
 
 function DashboardFrame1284(props) {
-  const {title, count} = props
+  const { title, count } = props;
   return (
     <Frame12841>
       <Outstanding>{title}</Outstanding>

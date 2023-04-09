@@ -31,8 +31,8 @@ const navElement8Data = {
 };
 
 function Navigation(props) {
-  const name = getUserName()
-  const {headerProps, onCloseFn} = props;
+  const name = getUserName();
+  const { headerProps, onCloseFn } = props;
   const navigationData = {
     maskGroup: "/img/mask-group-2@2x.png",
     name: "Eleanor Pena",
@@ -43,30 +43,42 @@ function Navigation(props) {
     navElement8Props: navElement8Data,
   };
   return (
-    <NavbarDiv className="navigation screen" name="form1" action="form1" method="post">
+    <NavbarDiv
+      className="navigation screen"
+      name="form1"
+      action="form1"
+      method="post"
+    >
       <Frame1409>
         <Frame4>
-        <Avatar
-          title={false}
-          size={45}
-          variant="beam"
-          name={name}
-          square={false}
-        />
+          <Avatar
+            title={false}
+            size={45}
+            variant="beam"
+            name={name}
+            square={false}
+          />
           {/* <MaskGroup src={navigationData.maskGroup} alt="Mask group" /> */}
           <Frame3>
             <Name>{name}</Name>
             <Frame27></Frame27>
           </Frame3>
         </Frame4>
-        <MaskGroup src={navigationData.iconClose} alt="icon-close" onClick={onCloseFn}/>
+        <MaskGroup
+          src={navigationData.iconClose}
+          alt="icon-close"
+          onClick={onCloseFn}
+        />
       </Frame1409>
       <Frame5>
-        <NavElement42 button={headerProps.firstButton}  />
-        <NavElement42 button={headerProps.secondButton}  />
-        <NavElement42 button={headerProps.thirdButton}  />
+        <NavElement42 button={headerProps.firstButton} />
+        <NavElement42 button={headerProps.secondButton} />
+        <NavElement42 button={headerProps.thirdButton} />
         <NavElement7 home={navigationData.navElement71Props.home} />
-        <NavElement7 home={navigationData.navElement72Props.home} className={navigationData.navElement72Props.className} />
+        <NavElement7
+          home={navigationData.navElement72Props.home}
+          className={navigationData.navElement72Props.className}
+        />
         <NavElement8>{navigationData.navElement8Props.children}</NavElement8>
       </Frame5>
     </NavbarDiv>
@@ -81,7 +93,7 @@ const NavbarDiv = styled.div`
   padding: 16px 20px;
   position: relative;
   align-self: stretch;
-  background-color: #f4f4f4;
+  background-color: var(--white);
   z-index: 1;
 `;
 const Frame1409 = styled.div`
@@ -92,7 +104,7 @@ const Frame1409 = styled.div`
   padding: 16px 20px;
   position: relative;
   align-self: stretch;
-  background-color: #f4f4f4;
+  background-color: var(--white);
 `;
 
 const Frame4 = styled.div`
@@ -144,6 +156,7 @@ const Frame5 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  width: 100%;
 `;
 
 export default Navigation;

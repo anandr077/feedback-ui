@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
 
-
 function NavElement7(props) {
   const { home, className } = props;
 
@@ -10,7 +9,11 @@ function NavElement7(props) {
     <NavElement className={`nav-element-3 ${className || ""}`}>
       <Group1 className="group-1-3">
         <Home className="home-2">{home}</Home>
-        <Exportsquare className="exportsquare" src="/img/exportsquare@2x.png" alt="exportsquare" />
+        <Exportsquare
+          className="exportsquare"
+          src="/icons/redirectIcon.png"
+          alt="exportsquare"
+        />
       </Group1>
     </NavElement>
   );

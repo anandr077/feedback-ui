@@ -40,12 +40,8 @@ const taskheaderProps = {
   },
 };
 function TasksStudentTablet(props) {
-  const {
-    outstandingTasks,
-    inProgressTasks,
-    overdueTasks,
-    frame1304Props,
-  } = props;
+  const { outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
+    props;
   const outstandingFrame = createTasksFrame(
     "Outstanding",
     outstandingTasks,
@@ -71,7 +67,7 @@ function TasksStudentTablet(props) {
 
   return (
     <div className="tasks-student-tablet screen">
-      <HeaderSmall headerProps={taskheaderProps}/>
+      <HeaderSmall headerProps={taskheaderProps} />
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
@@ -122,9 +118,7 @@ function createTasksFrame(
             <Outstanding>{title}</Outstanding>
             <Number>{tasks.length}</Number>
           </Frame1362>
-          <TaskCardContainer
-            allTasks={tasks}
-          />
+          <TaskCardContainer allTasks={tasks} />
         </Frame1363>
       </Frame1364>
     </>

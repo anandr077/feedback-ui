@@ -11,30 +11,52 @@ export default function HeaderSmall(props) {
 
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    console.log("isNotificationOpen" + isNotificationOpen);
   };
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
-    console.log(isMenuOpen);
   };
   if (isMenuOpen) {
-    return <Navigation headerProps={headerProps} onCloseFn={handleMenuClick}/>
+    return (
+      <NavigationContainer>
+        {" "}
+        <Navigation headerProps={headerProps} onCloseFn={handleMenuClick} />
+      </NavigationContainer>
+    );
   }
   if (isNotificationOpen) {
-    return <NotificationsBar></NotificationsBar>
+    return (
+      <NavigationContainer>
+        {" "}
+        <NotificationsBar />{" "}
+      </NavigationContainer>
+    );
   }
   return (
     <>
       <Frame1350>
         <Frame1349 src="/img/frame-1349@2x.png" />
         <Frame5>
-          <Notifications src="/img/notificationbing@2x.png" onClickFn={handleNotificationClick}/>
+          <Notifications
+            src="/img/notificationbing@2x.png"
+            onClickFn={handleNotificationClick}
+          />
           <Frame51 src="/img/frame-5@2x.png" onClick={handleMenuClick} />
         </Frame5>
       </Frame1350>
     </>
   );
 }
+
+const NavigationContainer = styled.div`
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  background-color: var(--white);
+  rbga(255, 255, 255, 0.5);
+  align-self: stretch;
+  width: 100%;
+  height: 100%;
+  `;
 
 const Frame1350 = styled.div`
   display: flex;

@@ -3,12 +3,13 @@ import Buttons from "../Buttons";
 import styled from "styled-components";
 import { IbmplexsansNormalShark16px } from "../styledMixins";
 
-
 function Cards2() {
   return (
     <Cards>
       <Content>
-        <YouHaveReceivedSo>You have received some feedback on quiz assignment from Theresa.</YouHaveReceivedSo>
+        <YouHaveReceivedSo>
+          You have received some feedback on quiz assignment from Theresa.
+        </YouHaveReceivedSo>
         <Buttons />
       </Content>
     </Cards>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getUserName } from "../../service";
 import {
   IbmplexsansBoldWhite36px,
-  IbmplexsansNormalWhite14px
+  IbmplexsansNormalWhite14px,
 } from "../../styledMixins";
 import DashboardFrame12082 from "../DashboardFrame12082";
 import FooterSmall from "../FooterSmall";
@@ -36,7 +36,9 @@ const homeheaderProps = {
 };
 function DashboardHomeStudentTablet(props) {
   const {
-    outstandingTasks, inProgressTasks, overdueTasks,
+    outstandingTasks,
+    inProgressTasks,
+    overdueTasks,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     line171,
@@ -49,7 +51,7 @@ function DashboardHomeStudentTablet(props) {
   return (
     <div className="dashboard-home-student-tablet screen">
       <Frame1352>
-        <HeaderSmall headerProps={homeheaderProps}/>
+        <HeaderSmall headerProps={homeheaderProps} />
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
@@ -65,7 +67,13 @@ function DashboardHomeStudentTablet(props) {
           />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={[...overdueTasks,...outstandingTasks, ...inProgressTasks]} />
+            <TaskCardContainer
+              allTasks={[
+                ...overdueTasks,
+                ...outstandingTasks,
+                ...inProgressTasks,
+              ]}
+            />
           </Frame11>
         </Frame1206>
         <Frame1205>

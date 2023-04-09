@@ -223,7 +223,11 @@ function FeedbackTeacherLaptop(props) {
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
         <Frame1387>
-          {tabletView ? <HeaderSmall headerProps={headerProps}/> : <Header headerProps={headerProps} />}
+          {tabletView ? (
+            <HeaderSmall headerProps={headerProps} />
+          ) : (
+            <Header headerProps={headerProps} />
+          )}
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
@@ -571,13 +575,14 @@ const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 30px 30px 0px;
-  //position: relative;
+
   position: sticky;
   top: 0;
-  // align-self: stretch;
+
   background-color: var(--white);
   border-radius: 16px;
-  overflow: hidden;
+  height: 900px;
+  overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
@@ -691,7 +696,6 @@ const Frame1328 = styled.div`
   position: relative;
   flex: 1;
   align-self: stretch;
-  height: 500px;
   overflow-y: scroll;
 `;
 

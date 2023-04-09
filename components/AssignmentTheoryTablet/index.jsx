@@ -19,7 +19,6 @@ import { IbmplexsansNormalChicago14px } from "../../styledMixins";
 import { saveAnswer, submitAssignment } from "../../service.js";
 import "../AssignmentTheory/_textEditor.scss";
 
-
 const taskheaderProps = {
   firstButton: {
     text: "Home",
@@ -89,7 +88,7 @@ function AssignmentTheoryTablet(props) {
 
   return (
     <div className="assignment-theory-tablet screen">
-      <HeaderSmall headerProps={taskheaderProps}/>
+      <HeaderSmall headerProps={taskheaderProps} />
       <Frame1401>
         <Frame1311>
           <SubmissionFrame1399 label={submission.assignment.title} />

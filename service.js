@@ -55,7 +55,19 @@ export const getTasks = async () => {
     })
     .catch(errorHandler);
 };
-
+export const getNotifications = async () => {
+  return await fetch(baseUrl + "/tasks/notifications", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
 export const getAssigmentById = async (assignmentId) => {
   return await fetch(baseUrl + "/assignments/" + assignmentId, {
     method: "GET",

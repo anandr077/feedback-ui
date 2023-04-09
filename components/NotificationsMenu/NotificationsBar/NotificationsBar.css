@@ -1,0 +1,13 @@
+.notifications-bar {
+  align-items: flex-start;
+  background-color: #00000080;
+  border: 1px none;
+  display: flex;
+  gap: 10px;
+  height: 1285px;
+  min-width: 420px;
+  padding: 20px;
+  position: relative;
+  width: 100%;
+}
+

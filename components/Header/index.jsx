@@ -2,6 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Notifications from "../Notifications";
 import UserIcon from "../UserIcon";
+<<<<<<< Updated upstream
+=======
+import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
+import NotificationsBar from "../NotificationsMenu/NotificationsBar";
+>>>>>>> Stashed changes
 
 import {
   IbmplexsansNormalPersianIndigo20px,
@@ -20,7 +25,11 @@ export default function Header(props) {
   const OnThirdButtonClick = () => {
     window.location.href = headerProps.thirdButton.redirect;
   };
-
+  const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
+  const handleNotificationClick = () => {
+    setIsNotificationOpen(!isNotificationOpen);
+    console.log("isNotificationOpen" + isNotificationOpen);
+  };
   return (
     <Frame1344>
       <Frame1343 src="/img/frame-1343@2x.png" alt="Frame 1343" />
@@ -96,10 +105,16 @@ export default function Header(props) {
         )}
       </Frame5>
       <Frame51>
-        <Notifications src="/img/notificationbing-3@2x.png" />
+        <Notifications src="/img/notificationbing-3@2x.png" onClickFn={handleNotificationClick}/>
         <UserIcon maskGroup="/img/mask-group-1@2x.png" />
       </Frame51>
     </Frame1344>
+<<<<<<< Updated upstream
+=======
+    {/* <NotificationsBar></NotificationsBar> */}
+    {/* <ProfileDropdown></ProfileDropdown> */}
+    </>
+>>>>>>> Stashed changes
   );
 }
 

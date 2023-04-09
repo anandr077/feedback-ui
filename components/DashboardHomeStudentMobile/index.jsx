@@ -36,13 +36,14 @@ const homeheaderProps = {
 };
 function DashboardHomeStudentMobile(props) {
   const {
-    allTasks,
+    outstandingTasks, inProgressTasks, overdueTasks,
 
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     line172,
     frame12082Props,
   } = props;
+  const userName = getUserName();
 
   return (
     <div className="dashboard-home-student-mobile screen">
@@ -51,7 +52,7 @@ function DashboardHomeStudentMobile(props) {
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>
-              Welcome, {keepOrganizedWitho1}
+              Welcome, {userName}
             </KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </Frame1348>
@@ -65,7 +66,7 @@ function DashboardHomeStudentMobile(props) {
           />
           <Line17 src="/img/line-17@2x.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={allTasks} />
+            <TaskCardContainer allTasks={[...overdueTasks,...outstandingTasks, ...inProgressTasks]} />
           </Frame11>
         </Frame1205>
         <Frame1205>
@@ -75,7 +76,7 @@ function DashboardHomeStudentMobile(props) {
           />
           <Line17 src={line172} alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={allTasks} />
+            <TaskCardContainer allTasks={[]} />
           </Frame11>
         </Frame1205>
       </Frame1351>

@@ -19,7 +19,7 @@ import Header from "../Header";
 
 function DashboardHomeStudentDesktop(props) {
   const {
-    allTasks,
+    outstandingTasks, inProgressTasks, overdueTasks,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
@@ -50,19 +50,19 @@ function DashboardHomeStudentDesktop(props) {
             <Line17 src="/img/line-17-6.png" alt="Line 17" />
             <Frame1336>
               <Frame1307>
-                <DashboardFrame1284 />
-                <DashboardFrame1283 />
-                <DashboardFrame12823 />
+                <DashboardFrame1284 title={'OUTSTANDING'} count={outstandingTasks.length}/>
+                <DashboardFrame1284 title={'IN PROGRESS'} count={inProgressTasks.length}/>
+                <DashboardFrame1284 title={'OVERDUE'} count={overdueTasks.length}/>
               </Frame1307>
               <Line17 src="/img/line-17-6.png" alt="Line 16" />
               <Frame19>
-                <TaskCardContainer allTasks={allTasks} />
+                <TaskCardContainer allTasks={[...overdueTasks,...outstandingTasks, ...inProgressTasks]} />
               </Frame19>
             </Frame1336>
           </Frame1339>
           <Frame191>
             <ModelResponseCardContainer
-              allTasks={allTasks}
+              allTasks={[]}
               line17={frame1340Props.line17}
               group1205Props={frame1340Props.group1205Props}
               cards42Props={frame1340Props.cards42Props}

@@ -147,8 +147,7 @@ function FeedbackTeacherLaptop(props) {
   const handleSaveSubmissionForReview = () => {
     //Code to change the status of the submission to "reviewed"
     window.location.href = "/";
-  }
-
+  };
 
   function handleKeyPress(event) {
     if (event.key === "Enter") {
@@ -327,15 +326,19 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-            {isEditable ?<Buttons2
-              button="Submit For Review"
-              arrowright={true}
-              onClickFn={() => handleSaveSubmissionForReview()}
-            ></Buttons2>:<Buttons2
-              button="Submit & Next"
-              arrowright={true}
-              onClickFn={() => handleSubmissionReviewed()}
-            ></Buttons2>}
+            {isEditable ? (
+              <Buttons2
+                button="Submit For Review"
+                arrowright={true}
+                onClickFn={() => handleSaveSubmissionForReview()}
+              ></Buttons2>
+            ) : (
+              <Buttons2
+                button="Submit & Next"
+                arrowright={true}
+                onClickFn={() => handleSubmissionReviewed()}
+              ></Buttons2>
+            )}
           </Frame1371>
           <Frame1368>
             <Group1225>
@@ -366,15 +369,19 @@ function FeedbackTeacherLaptop(props) {
           </Frame1368>
           <Frame1370>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-            {isEditable ?<Buttons2
-              button="Submit For Review"
-              arrowright={true}
-              onClickFn={() => handleSaveSubmissionForReview()}
-            ></Buttons2>:<Buttons2
-              button="Submit & Next"
-              arrowright={true}
-              onClickFn={() => handleSubmissionReviewed()}
-            ></Buttons2>}
+            {isEditable ? (
+              <Buttons2
+                button="Submit For Review"
+                arrowright={true}
+                onClickFn={() => handleSaveSubmissionForReview()}
+              ></Buttons2>
+            ) : (
+              <Buttons2
+                button="Submit & Next"
+                arrowright={true}
+                onClickFn={() => handleSubmissionReviewed()}
+              ></Buttons2>
+            )}
           </Frame1370>
         </Frame1386>
       </Frame1388>

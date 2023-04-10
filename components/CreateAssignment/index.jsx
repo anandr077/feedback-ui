@@ -88,7 +88,7 @@ export default function CreateAssignment() {
         serialNumber={serialNumber}
         deleteQuestionFrameFn={deleteQuestionFrameFn}
         questionDetails={questionDetails}
-        size={size}
+        size="small"
       />
     );
   }

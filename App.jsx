@@ -21,10 +21,10 @@ function App() {
           <TaskDetail />
         </Route>
         <Route path="/submissions/:id">
-          <FeedbacksRoot isEditable={true}/>
+          <FeedbacksRoot isEditable={true} />
         </Route>
         <Route path="/feedbacks/:id">
-          <FeedbacksRoot isEditable={false}/>
+          <FeedbacksRoot isEditable={false} />
         </Route>
         <Route path="/">
           <StudentDashboardRoot />

@@ -6,9 +6,9 @@ import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import Loader from "../../Loader";
 export default function FeedbacksRoot(props) {
-  const isEditable = {props}
+  const isEditable = { props };
 
-  console.log("isEditable is " + JSON.stringify(isEditable))
+  console.log("isEditable is " + JSON.stringify(isEditable));
   const [submission, setSubmission] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const { id } = useParams();
@@ -32,29 +32,45 @@ export default function FeedbacksRoot(props) {
       </div>
     );
   }
-  const isTeacher = getUserRole() === 'TEACHER';
+  const isTeacher = getUserRole() === "TEACHER";
   const isEditableProps = isEditable.props.isEditable;
   console.log("isEditableProps is " + isEditableProps);
   return (
     <ReactiveRender
       mobile={
-        <FeedbackTeacherMobile 
-          {...{ submission,  isEditableProps, ...feedbacksFeedbackTeacherMobileData }}
+        <FeedbackTeacherMobile
+          {...{
+            submission,
+            isEditableProps,
+            ...feedbacksFeedbackTeacherMobileData,
+          }}
         />
       }
       tablet={
-        <FeedbackTeacherLaptop 
-          {...{ submission,isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
+        <FeedbackTeacherLaptop
+          {...{
+            submission,
+            isEditableProps,
+            ...feedbacksFeedbackTeacherLaptopData,
+          }}
         />
       }
       laptop={
         <FeedbackTeacherLaptop
-          {...{ submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
+          {...{
+            submission,
+            isEditableProps,
+            ...feedbacksFeedbackTeacherLaptopData,
+          }}
         />
       }
       desktop={
         <FeedbackTeacherLaptop
-          {...{ submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
+          {...{
+            submission,
+            isEditableProps,
+            ...feedbacksFeedbackTeacherLaptopData,
+          }}
         />
       }
     />

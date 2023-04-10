@@ -66,9 +66,12 @@ function FeedbackTeacherMobile(props) {
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
-    answer: ""
-    }
-    const answer = submission.answers?.find(answer=>answer.questionSerialNumber === question.serialNumber) || newAnswer;
+      answer: "",
+    };
+    const answer =
+      submission.answers?.find(
+        (answer) => answer.questionSerialNumber === question.serialNumber
+      ) || newAnswer;
 
     return (
       <>

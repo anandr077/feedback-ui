@@ -61,25 +61,25 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  console.log("F isEditableProps " + isEditableProps)
-  console.log("F submission " + submission)
+  //console.log("F isEditableProps " + isEditableProps)
+  //console.log("F submission " + submission)
   const isEditable = isEditableProps
 
   const quillRefs = useRef([]);
   const feedbacksFrameRef = useRef(null);
  
-  console.log("Again")
+  //console.log("Again")
   const handleEditorMounted = (editor, index) => {
-    console.log("Mounted " + editor)
+    //console.log("Mounted " + editor)
     quillRefs.current[index] = editor;
   };
   const createTasksDropDown=(isEditable)=>{
-    console.log("isEditable " + isEditable)
+    //console.log("isEditable " + isEditable)
     if (isEditable) {
       return <></>
     } else {
-      console.log("Creating ReviewsFrame129532")
-      return <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+      //console.log("Creating ReviewsFrame129532")
+      // return <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
     }
   }
   const createFeedbacksFrame=(isEditable)=> {
@@ -122,23 +122,20 @@ function FeedbackTeacherLaptop(props) {
   const [selectedRange, setSelectedRange] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [comments, setComments] = useState([]);
+  const [loadingComments, setLoadingComments] = useState(true);
   const [newCommentValue, setNewCommentValue] = useState("");
 
   if(!isEditable){ 
     useEffect(() => {
-    
-    
+    if(loadingComments){
       getCommentsForSubmission(submission.id).then((result) => {
         if (result) {
           setComments(result);
         }
       });
-    
-  }, [comments]);
-  }
-
-  function handleInputChange(event) {
-    setNewCommentValue(event.target.value);
+      setLoadingComments(false);
+    }
+  },  [loadingComments, comments]);
   }
 
   function handleSubmissionReviewed() {
@@ -170,12 +167,12 @@ function FeedbackTeacherLaptop(props) {
         index: comment.range.from,
         length: comment.range.to - comment.range.from,
       };
-      console.log("Rangle " + JSON.stringify(range));
+      //console.log("Rangle " + JSON.stringify(range));
       const quill =
         quillRefs.current[comment.questionSerialNumber - 1];
       quill.selectRange(range);
    } else {
-      console.log("No range");
+      //console.log("No range");
    }
   }
 
@@ -197,11 +194,11 @@ function FeedbackTeacherLaptop(props) {
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
-      answer: ""
+      answer: "",
     }
     const reviewerOnX = (range) => {
       if (range && range.length > 0) {
-        console.log("range triggered");
+        ////console.log("range triggered");
 
         setNewCommentSerialNumber(answer.serialNumber);
         setSelectedRange({
@@ -210,12 +207,15 @@ function FeedbackTeacherLaptop(props) {
         });
         setShowNewComment(true);
        
-        feedbacksFrameRef.current.focus()
+        // feedbacksFrameRef.current.focus()
       }
     }
     const editorOnX = (range) => {}
     const onX = isEditable ? editorOnX : reviewerOnX;
-    const answer = submission.answers?.find(answer=>answer.questionSerialNumber === question.serialNumber) || newAnswer;
+  
+    const answer = submission.answers?.
+    find(answer=>answer.serialNumber === question.serialNumber) 
+    || newAnswer;
     console.log("Answer " + JSON.stringify(answer))
 
     return (
@@ -231,10 +231,10 @@ function FeedbackTeacherLaptop(props) {
               }
               comments = {comments.filter((comment) => {
                 console.log("a " + JSON.stringify(answer))
-                console.log("b " + JSON.stringify(comment.questionSerialNumber))
+                //console.log("b " + JSON.stringify(comment.questionSerialNumber))
                 return comment.questionSerialNumber === answer.serialNumber}
               )}
-            value={answer.answer} 
+            value={answer.answer.answer} 
             onX={onX}
             options={{modules:modules,  theme: 'snow', readOnly:!isEditable }} >
 
@@ -282,10 +282,10 @@ function FeedbackTeacherLaptop(props) {
             </Group1225>
             <Frame1331>
               <Frame1322>
-                <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
+                {/* <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
                 <ReviewsFrame1320 className={frame13202Props.className}>
                   {frame13202Props.children}
-                </ReviewsFrame1320>
+                </ReviewsFrame1320> */}
               </Frame1322>
               <>
                 {showNewComment ? feedbackFrame : <></>}

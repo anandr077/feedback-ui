@@ -70,7 +70,7 @@ export default function CreateAssignment() {
               serialNumber: index + i + 1,
               question: document.getElementById("question_" + (index + i + 2))
                 .value,
-              hint: document.getElementById("questionHint_" + (index + i + 2))
+              wordLimit: document.getElementById("wordLimit_" + (index + i + 2))
                 .value,
               type: "TEXT",
             })
@@ -95,6 +95,8 @@ export default function CreateAssignment() {
 
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
+    const peertopeer = document.getElementById("peertopeer").checked;
+    const reviewedBy =  peertopeer? "P2P": "TEACHER"
     const classIds = classes
       .filter((clazz) => {
         return document.getElementById(clazz.id).checked;
@@ -106,7 +108,8 @@ export default function CreateAssignment() {
       const question = {
         serialNumber: serialNumber,
         question: document.getElementById("question_" + serialNumber).value,
-        type: "TEXT",
+        wordLimit: document.getElementById("wordLimit_" + serialNumber).value,
+        type: "TEXT"
       };
       return question;
     });
@@ -115,6 +118,7 @@ export default function CreateAssignment() {
       title,
       classIds,
       questions,
+      reviewedBy
     };
     createAssignment(assignment).then((res) => {
       console.log(res);

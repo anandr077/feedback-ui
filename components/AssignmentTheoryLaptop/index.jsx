@@ -28,9 +28,9 @@ function AssignmentTheoryLaptop(props) {
           ? question.serialNumber
           : question.serialNumber + 1;
       window.location.href =
-        "/submissions?submissionId=" +
+        "/submissions/" +
         submission.id +
-        "&serialNumber=" +
+        "?serialNumber=" +
         nextQuestion;
     });
   };
@@ -43,9 +43,9 @@ function AssignmentTheoryLaptop(props) {
 
   const previousAnswerFn = () => {
     window.location.href =
-      "/submissions?submissionId=" +
+      "/submissions/" +
       submission.id +
-      "&serialNumber=" +
+      "?serialNumber=" +
       (question.serialNumber - 1);
   };
   const showPrevious = question.serialNumber > 1;

@@ -8,7 +8,6 @@ import { Route, useParams } from "react-router-dom";
 
 export default function AssignmentTheory() {
   const { submissionId } = useParams<{ submissionId: string }>();
-
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });

@@ -48,6 +48,8 @@ import { doc } from "prettier";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    studentName, 
+    students,
     isEditableProps,
     headerProps,
     submission,
@@ -79,7 +81,7 @@ function FeedbackTeacherLaptop(props) {
       return <></>;
     } else {
       console.log("Creating ReviewsFrame129532");
-      return <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>;
+      return <ReviewsFrame129532 studentName={studentName} students={students}></ReviewsFrame129532>;
     }
   };
   // const createFeedbacksFrame = (isEditable) => {

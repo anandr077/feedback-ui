@@ -1,29 +1,57 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { getSubmissionById, getUserRole } from "../../../service";
+import { getSubmissionById, getTasks } from "../../../service";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import Loader from "../../Loader";
+import { Avatar } from "@boringer-avatars/react";
+
 export default function FeedbacksRoot(props) {
   const isEditable = { props };
 
   console.log("isEditable is " + JSON.stringify(isEditable));
+
   const [submission, setSubmission] = React.useState(null);
+  const [students, setStudents] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const { id } = useParams();
+  const [studentName, setStudentName] = React.useState(null);
 
   React.useEffect(() => {
     if (submission === null) {
       console.log("id is " + id);
-      getSubmissionById(id).then((result) => {
-        if (result) {
-          setSubmission(result);
-          setIsLoading(false);
+      getSubmissionById(id).then((submissionsResult) => {
+        if (submissionsResult) {
+          setSubmission(submissionsResult);
+          getTasks().then((tasksResult) => {
+            setStudents(
+              tasksResult.map((task) => {
+                return {
+                  name: task.studentName,
+                  src: (
+                    <Avatar
+                      title={false}
+                      size={25}
+                      variant="beam"
+                      name={task.studentName}
+                      square={false}
+                    />
+                  ),
+                };
+              })
+            );
+            console.log("tasksResult" + JSON.stringify(tasksResult))
+            console.log("submissionsResult" + JSON.stringify(submissionsResult))
+            setStudentName(
+              tasksResult.filter((r) => r.id === submissionsResult.id)[0].studentName
+            );
+            setIsLoading(false);
+          })
         }
-      });
-    }
-  }, []);
+      })
+      }
+    }, []);
   console.log("Loading is " + isLoading);
   if (isLoading) {
     return (
@@ -32,45 +60,28 @@ export default function FeedbacksRoot(props) {
       </div>
     );
   }
-  const isTeacher = getUserRole() === "TEACHER";
   const isEditableProps = isEditable.props.isEditable;
   console.log("isEditableProps is " + isEditableProps);
   return (
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile
-          {...{
-            submission,
-            isEditableProps,
-            ...feedbacksFeedbackTeacherMobileData,
-          }}
+          {...{ studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherMobileData }}
         />
       }
       tablet={
         <FeedbackTeacherLaptop
-          {...{
-            submission,
-            isEditableProps,
-            ...feedbacksFeedbackTeacherLaptopData,
-          }}
+          {...{ studentName, students, submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       laptop={
         <FeedbackTeacherLaptop
-          {...{
-            submission,
-            isEditableProps,
-            ...feedbacksFeedbackTeacherLaptopData,
-          }}
+          {...{ studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       desktop={
         <FeedbackTeacherLaptop
-          {...{
-            submission,
-            isEditableProps,
-            ...feedbacksFeedbackTeacherLaptopData,
-          }}
+          {...{ studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
         />
       }
     />

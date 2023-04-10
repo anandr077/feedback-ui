@@ -13,6 +13,7 @@ import {
   getCommentsForSubmission,
   addNewComment,
   markAssignmentReviewed as markSubmsissionReviewed,
+  saveAnswer,
 } from "../../../service";
 import {
   addNewComment,
@@ -61,24 +62,24 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  //console.log("F isEditableProps " + isEditableProps)
-  //console.log("F submission " + submission)
+  console.log("F isEditableProps " + isEditableProps);
+  console.log("F submission " + submission);
   const isEditable = isEditableProps;
 
   const quillRefs = useRef([]);
   const feedbacksFrameRef = useRef(null);
 
-  //console.log("Again")
+  console.log("Again");
   const handleEditorMounted = (editor, index) => {
-    //console.log("Mounted " + editor)
+    console.log("Mounted " + editor);
     quillRefs.current[index] = editor;
   };
   const createTasksDropDown = (isEditable) => {
-    //console.log("isEditable " + isEditable)
+    console.log("isEditable " + isEditable);
     if (isEditable) {
       return <></>;
     } else {
-      //console.log("Creating ReviewsFrame129532")
+      console.log("Creating ReviewsFrame129532");
       return <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>;
     }
   };
@@ -165,19 +166,27 @@ function FeedbackTeacherLaptop(props) {
         index: comment.range.from,
         length: comment.range.to - comment.range.from,
       };
-      //console.log("Rangle " + JSON.stringify(range));
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
       quill.selectRange(range);
 
       const div = document.getElementById(
         "quill_" + comment.questionSerialNumber
       );
-      console.log("Div " + div);
       div.scrollIntoView({ behavior: "smooth" });
     } else {
-      //console.log("No range");
+      console.log("No range");
     }
   }
+
+  const handlesaveAnswer = (serialNumber) => {
+    console.log(serialNumber);
+    // const quill = quillRefs.current[serialNumber];
+    // console.log("##",quill);
+    // const answer = quill.getContents();
+
+    // console.log(answer);
+    // Here we need to save the answer make call per question
+  };
 
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
@@ -201,7 +210,7 @@ function FeedbackTeacherLaptop(props) {
     };
     const reviewerOnX = (range) => {
       if (range && range.length > 0) {
-        ////console.log("range triggered");
+        //console.log("range triggered");
 
         setNewCommentSerialNumber(answer.serialNumber);
         setSelectedRange({
@@ -211,7 +220,9 @@ function FeedbackTeacherLaptop(props) {
         setShowNewComment(true);
       }
     };
-    const editorOnX = (range) => {};
+    const editorOnX = (range) => {
+      console.log("##editorOnX" + JSON.stringify(range));
+    };
     const onX = isEditable ? editorOnX : reviewerOnX;
 
     const answer =
@@ -219,11 +230,12 @@ function FeedbackTeacherLaptop(props) {
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
     console.log("Answer " + JSON.stringify(answer));
-
+    const questionText = "Q" + question.serialNumber + ". " + question.question;
+    const answerValue = answer.answer.answer;
     return (
       <>
         <Frame1366>
-          <Q1PoremIpsumDolo>{question.question}</Q1PoremIpsumDolo>
+          <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
           <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
             <QuillEditor
               ref={(editor) =>
@@ -231,10 +243,12 @@ function FeedbackTeacherLaptop(props) {
               }
               comments={comments.filter((comment) => {
                 console.log("a " + JSON.stringify(answer));
-                //console.log("b " + JSON.stringify(comment.questionSerialNumber))
+                console.log(
+                  "b " + JSON.stringify(comment.questionSerialNumber)
+                );
                 return comment.questionSerialNumber === answer.serialNumber;
               })}
-              value={answer.answer.answer}
+              value={answerValue ? answerValue : ""}
               onX={onX}
               options={{
                 modules: modules,
@@ -243,8 +257,15 @@ function FeedbackTeacherLaptop(props) {
               }}
             ></QuillEditor>
           </ToremIpsumDolorSi>
+          <SaveDraftButtonContainer>
+            <Buttons2
+              id={"saveAnswer_" + question.serialNumber}
+              button="Save Answer"
+              arrowright={true}
+              onClickFn={() => handlesaveAnswer(question.serialNumber)}
+            ></Buttons2>
+          </SaveDraftButtonContainer>
         </Frame1366>
-        <Line26 src={line261} alt="Line 26" />
       </>
     );
   });
@@ -310,24 +331,28 @@ function FeedbackTeacherLaptop(props) {
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>
-            <Frame1331>
-              <Frame1322>
-                <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
-                <ReviewsFrame1320 className={frame13202Props.className}>
-                  {frame13202Props.children}
-                </ReviewsFrame1320>
-              </Frame1322>
-              <>
-                {showNewComment ? (
-                  <>
-                    <Screen onClick={() => setShowNewComment(false)}></Screen>
-                    {feedbackFrame}
-                  </>
-                ) : (
-                  <Frame1328>{commentsFrame}</Frame1328>
-                )}
-              </>
-            </Frame1331>
+            {!isEditable && (
+              <Frame1331>
+                <Frame1322>
+                  <ReviewsFrame1320>
+                    {frame13201Props.children}
+                  </ReviewsFrame1320>
+                  <ReviewsFrame1320 className={frame13202Props.className}>
+                    {frame13202Props.children}
+                  </ReviewsFrame1320>
+                </Frame1322>
+                <>
+                  {showNewComment ? (
+                    <>
+                      <Screen onClick={() => setShowNewComment(false)}></Screen>
+                      {feedbackFrame}
+                    </>
+                  ) : (
+                    <Frame1328>{commentsFrame}</Frame1328>
+                  )}
+                </>
+              </Frame1331>
+            )}
           </Frame1368>
           <Frame1370>
             <Frame131612>{tasksListsDropDown}</Frame131612>
@@ -343,6 +368,14 @@ function FeedbackTeacherLaptop(props) {
     </div>
   );
 }
+
+const SaveDraftButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 190%;
+`;
 
 const Screen = styled.div`
   position: fixed;

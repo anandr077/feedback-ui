@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useImperativeHandle } from "react";
 import Quill from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
+import "./styles.css";
 
 const QuillEditor = React.forwardRef(
   ({ comments, value, onX, options }, ref) => {
@@ -10,6 +11,8 @@ const QuillEditor = React.forwardRef(
     useEffect(() => {
       if (editorRef.current) {
         const editor = new Quill(editorRef.current, options);
+        editor.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
+        editor.root.style.fontSize = "16px";
         editor.root.innerHTML = value;
 
         editor.on("selection-change", (range1, range2) => {
@@ -46,7 +49,11 @@ const QuillEditor = React.forwardRef(
       },
     }));
 
-    return <div ref={editorRef} />;
+    return (
+      <div className="quill-editor-container">
+        <div style={{ border: "1px solid black" }} ref={editorRef} />
+      </div>
+    );
   }
 );
 

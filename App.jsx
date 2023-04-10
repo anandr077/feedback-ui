@@ -20,11 +20,11 @@ function App() {
         <Route path="/assignments/:assignmentId/start">
           <TaskDetail />
         </Route>
-        <Route path="/submissions/:submissionId">
-          <AssignmentTheory />
+        <Route path="/submissions/:id">
+          <FeedbacksRoot isEditable={true}/>
         </Route>
         <Route path="/feedbacks/:id">
-          <FeedbacksRoot />
+          <FeedbacksRoot isEditable={false}/>
         </Route>
         <Route path="/">
           <StudentDashboardRoot />

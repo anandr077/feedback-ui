@@ -1,11 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { getSubmissionById } from "../../../service";
+import { getSubmissionById, getUserRole } from "../../../service";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import Loader from "../../Loader";
-export default function FeedbacksRoot() {
+export default function FeedbacksRoot(props) {
+  const isEditable = {props}
+
+  console.log("isEditable is " + JSON.stringify(isEditable))
   const [submission, setSubmission] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const { id } = useParams();
@@ -29,17 +32,19 @@ export default function FeedbacksRoot() {
       </div>
     );
   }
-
+  const isTeacher = getUserRole() === 'TEACHER';
+  const isEditableProps = true;
+  console.log("isEditableProps is " + isEditableProps);
   return (
     <ReactiveRender
       mobile={
-        <FeedbackTeacherMobile
-          {...{ submission, ...feedbacksFeedbackTeacherMobileData }}
+        <FeedbackTeacherMobile 
+          {...{ submission,  ...feedbacksFeedbackTeacherMobileData }}
         />
       }
       tablet={
-        <FeedbackTeacherLaptop
-          {...{ submission, ...feedbacksFeedbackTeacherLaptopData }}
+        <FeedbackTeacherLaptop  x={true}
+          {...{ submission,...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       laptop={

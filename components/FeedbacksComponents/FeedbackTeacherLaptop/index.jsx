@@ -47,6 +47,7 @@ import FooterSmall from "../../FooterSmall";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    x,
     headerProps,
     submission,
     frame1284,
@@ -59,14 +60,62 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
+  console.log("F isEditableProps " + x)
+  console.log("F submission " + submission)
+  const isEditable = true
+
   const quillRefs = useRef([]);
   const feedbacksFrameRef = useRef(null);
  
-  
+  console.log("Again")
   const handleEditorMounted = (editor, index) => {
     console.log("Mounted " + editor)
     quillRefs.current[index] = editor;
   };
+  const createTasksDropDown=(isEditable)=>{
+    console.log("isEditable " + isEditable)
+    if (isEditable) {
+      return <></>
+    } else {
+      console.log("Creating ReviewsFrame129532")
+      return <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+    }
+  }
+  const createFeedbacksFrame=(isEditable)=> {
+    if (isEditable) {
+      return <></>
+    } else {
+    return (
+      <>
+        <Frame1329>
+          <Frame1406>
+            <Frame1326>
+              <TypeHere>
+                <TextInput
+                  id="newCommentInput"
+                  ref={feedbacksFrameRef}
+                  placeholder="Comment here...."
+                  // value={newCommentValue}
+                  // onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                ></TextInput>
+              </TypeHere>
+            </Frame1326>
+          </Frame1406>
+          <Line261 src={line263} alt="Line 26" />
+          <Frame1383>
+            <Frame13311>
+              <Frame1284 src="/icons/share.png" />
+              <Share>{share}</Share>
+            </Frame13311>
+            <Buttons4 />
+          </Frame1383>
+          <Line261 src={line27} alt="Line 27" />
+        </Frame1329>
+      </>
+    );
+    }
+  }
   
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
@@ -74,7 +123,9 @@ function FeedbackTeacherLaptop(props) {
   const [comments, setComments] = useState([]);
   const [newCommentValue, setNewCommentValue] = useState("");
 
-  useEffect(() => {
+  if(!isEditable){ 
+    useEffect(() => {
+    
     if (comments.length === 0) {
       getCommentsForSubmission(submission.id).then((result) => {
         if (result) {
@@ -83,7 +134,7 @@ function FeedbackTeacherLaptop(props) {
       });
     }
   }, [comments]);
-  
+  }
 
   function handleInputChange(event) {
     setNewCommentValue(event.target.value);
@@ -98,7 +149,7 @@ function FeedbackTeacherLaptop(props) {
     if (event.key === "Enter") {
       addNewComment(submission.id, {
         questionSerialNumber: newCommentSerialNumber,
-        feedback: newCommentValue,
+        feedback: document.getElementById("newCommentInput").value,
         range: selectedRange,
       }).then((response) => {
         if (response) {
@@ -110,35 +161,7 @@ function FeedbackTeacherLaptop(props) {
     }
   }
 
-  const feedbackFrame = (
-    <>
-      <Frame1329>
-        <Frame1406>
-          <Frame1326>
-            <TypeHere>
-              <TextInput
-                id="newCommentInput"
-                ref={feedbacksFrameRef}
-                placeholder="Comment here...."
-                value={newCommentValue}
-                onChange={handleInputChange}
-                onKeyPress={handleKeyPress}
-              ></TextInput>
-            </TypeHere>
-          </Frame1326>
-        </Frame1406>
-        <Line261 src={line263} alt="Line 26" />
-        <Frame1383>
-          <Frame13311>
-            <Frame1284 src="/icons/share.png" />
-            <Share>{share}</Share>
-          </Frame13311>
-          <Buttons4 />
-        </Frame1383>
-        <Line261 src={line27} alt="Line 27" />
-      </Frame1329>
-    </>
-  );
+  
 
   function handleCommentSelected(comment) {
     if (comment.range){
@@ -167,43 +190,40 @@ function FeedbackTeacherLaptop(props) {
     );
   });
   const modules = {
-    toolbar: false,
+    toolbar: isEditable,
   };
 
-  const answerFrames = submission.answers.map((answer) => {
+  const answerFrames = submission.assignment.questions.map((question) => {
+    const newAnswer = {
+      serialNumber: question.serialNumber,
+      answer: ""
+    }
+    const reviewerOnX = (range) => {
+      if (range && range.length > 0) {
+        console.log("range triggered");
+
+        setNewCommentSerialNumber(answer.serialNumber);
+        setSelectedRange({
+          from: range.index,
+          to: range.index + range.length,
+        });
+        setShowNewComment(true);
+       
+        feedbacksFrameRef.current.focus()
+      }
+    }
+    const editorOnX = (range) => {}
+    const onX = isEditable ? editorOnX : reviewerOnX;
+    const answer = submission.answers?.find(answer=>answer.questionSerialNumber === question.serialNumber) || newAnswer;
+    console.log("Answer " + JSON.stringify(answer))
+
     return (
       <>
         <Frame1366>
           <Q1PoremIpsumDolo>
-            {submission.assignment.questions[answer.serialNumber - 1].question}
+            {question.question}
           </Q1PoremIpsumDolo>
           <ToremIpsumDolorSi>
-            {/* <ReactQuill
-              ref={(editor) =>
-                handleEditorMounted(editor, answer.serialNumber - 1)
-              }
-              id={"quill_" + answer.serialNumber}
-              key={"quill_" + answer.serialNumber}
-              theme="snow"
-              value={answer.answer.answer}
-              className="ql-editor-feedbacks"
-              readOnly={true}
-              modules={modules}
-              onChangeSelection={(range, source, editor) => {
-                if (range && range.length > 0) {
-                  console.log(range);
-                  setNewCommentSerialNumber(answer.serialNumber);
-                  setShowNewComment(true);
-
-                  setSelectedRange({
-                    from: range.index,
-                    to: range.index + range.length,
-                  });
-                  highlightSelection(range, answer.serialNumber);
-                }
-              }}
-            /> */}
-
             <QuillEditor 
               ref={(editor) =>
                 handleEditorMounted(editor, answer.serialNumber - 1)
@@ -213,31 +233,21 @@ function FeedbackTeacherLaptop(props) {
                 console.log("b " + JSON.stringify(comment.questionSerialNumber))
                 return comment.questionSerialNumber === answer.serialNumber}
               )}
-            value={answer.answer.answer} 
-            onX={(range) => {
-              if (range && range.length > 0) {
-                console.log("range triggered");
+            value={answer.answer} 
+            onX={onX}
+            options={{modules:modules,  theme: 'snow', readOnly:!isEditable }} >
 
-                setNewCommentSerialNumber(answer.serialNumber);
-                setSelectedRange({
-                  from: range.index,
-                  to: range.index + range.length,
-                });
-                setShowNewComment(true);
-               
-                feedbacksFrameRef.current.focus()
-              }
-            }}
-            options={{modules:modules, theme: 'snow', readOnly:true }} ></QuillEditor>
+            </QuillEditor>
           </ToremIpsumDolorSi>
         </Frame1366>
         <Line26 src={line261} alt="Line 26" />
       </>
     );
   });
-
+  const tasksListsDropDown = createTasksDropDown(isEditable)
+  
+  const feedbackFrame = createFeedbacksFrame(isEditable);
   const [tabletView, setTabletView] = useState(isTabletView());
-
   return (
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
@@ -257,7 +267,7 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
-              <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+              {tasksListsDropDown}
               <Buttons2
                 button="Submit & Next"
                 arrowright={true}
@@ -284,7 +294,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1368>
           <Frame1370>
             <Frame131612>
-              <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+              {tasksListsDropDown}
             </Frame131612>
             <Buttons2
               button="Submit & Next"

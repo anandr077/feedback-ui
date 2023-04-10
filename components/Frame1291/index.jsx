@@ -5,7 +5,8 @@ import {
   IbmplexsansNormalBlack20px,
 } from "../../styledMixins";
 
-function Frame1291() {
+function Frame1291(props) {
+  const {questionDetails, serialNumber} = props
   return (
     <Frame12911>
       <AnswerWordLimit className="answer-word-limit-1">
@@ -13,6 +14,8 @@ function Frame1291() {
       </AnswerWordLimit>
       <Frame1290>
         <input
+          id = {"wordLimit_"+serialNumber}
+          value={questionDetails?.wordLimit}
           type="text"
           className="number-1"
           placeholder="1000"

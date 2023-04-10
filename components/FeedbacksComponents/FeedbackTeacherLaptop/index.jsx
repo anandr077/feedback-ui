@@ -79,44 +79,44 @@ function FeedbackTeacherLaptop(props) {
       return <></>;
     } else {
       //console.log("Creating ReviewsFrame129532")
-      // return <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+      return <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>;
     }
   };
-  const createFeedbacksFrame = (isEditable) => {
-    if (isEditable) {
-      return <></>;
-    } else {
-      return (
-        <>
-          <Frame1329>
-            <Frame1406>
-              <Frame1326>
-                <TypeHere>
-                  <TextInput
-                    id="newCommentInput"
-                    ref={feedbacksFrameRef}
-                    placeholder="Comment here...."
-                    // value={newCommentValue}
-                    // onChange={handleInputChange}
-                    onKeyPress={handleKeyPress}
-                  ></TextInput>
-                </TypeHere>
-              </Frame1326>
-            </Frame1406>
-            <Line261 src={line263} alt="Line 26" />
-            <Frame1383>
-              <Frame13311>
-                <Frame1284 src="/icons/share.png" />
-                <Share>{share}</Share>
-              </Frame13311>
-              <Buttons4 />
-            </Frame1383>
-            <Line261 src={line27} alt="Line 27" />
-          </Frame1329>
-        </>
-      );
-    }
-  };
+  // const createFeedbacksFrame = (isEditable) => {
+  //   if (isEditable) {
+  //     return <></>;
+  //   } else {
+  //     return (
+  //       <>
+  //         <Frame1329>
+  //           <Frame1406>
+  //             <Frame1326>
+  //               <TypeHere>
+  //                 <TextInput
+  //                   id="newCommentInput"
+  //                   ref={feedbacksFrameRef}
+  //                   placeholder="Comment here...."
+  //                   // value={newCommentValue}
+  //                   // onChange={handleInputChange}
+  //                   onKeyPress={handleKeyPress}
+  //                 ></TextInput>
+  //               </TypeHere>
+  //             </Frame1326>
+  //           </Frame1406>
+  //           <Line261 src={line263} alt="Line 26" />
+  //           <Frame1383>
+  //             <Frame13311>
+  //               <Frame1284 src="/icons/share.png" />
+  //               <Share>{share}</Share>
+  //             </Frame13311>
+  //             <Buttons4 />
+  //           </Frame1383>
+  //           <Line261 src={line27} alt="Line 27" />
+  //         </Frame1329>
+  //       </>
+  //     );
+  //   }
+  // };
 
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
@@ -209,8 +209,6 @@ function FeedbackTeacherLaptop(props) {
           to: range.index + range.length,
         });
         setShowNewComment(true);
-
-        // feedbacksFrameRef.current.focus()
       }
     };
     const editorOnX = (range) => {};
@@ -252,7 +250,36 @@ function FeedbackTeacherLaptop(props) {
   });
   const tasksListsDropDown = createTasksDropDown(isEditable);
 
-  const feedbackFrame = createFeedbacksFrame(isEditable);
+  const feedbackFrame = (
+    <>
+      <Frame1329>
+        <Frame1406>
+          <Frame1326>
+            <TypeHere>
+              <TextInput
+                id="newCommentInput"
+                ref={feedbacksFrameRef}
+                placeholder="Comment here...."
+                // value={newCommentValue}
+                // onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+              ></TextInput>
+            </TypeHere>
+          </Frame1326>
+        </Frame1406>
+        <Line6 src="/icons/line.png" alt="Line 6" />
+        <Frame1383>
+          <Frame13311>
+            <Frame1284 src="/icons/share.png" />
+            <Share>{share}</Share>
+          </Frame13311>
+          <Buttons4 />
+        </Frame1383>
+        <Line6 src="/icons/line.png" alt="Line 6" />
+      </Frame1329>
+    </>
+  );
+
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
@@ -272,14 +299,12 @@ function FeedbackTeacherLaptop(props) {
         <Frame1386>
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
-            <Frame1369>
-              {tasksListsDropDown}
-              <Buttons2
-                button="Submit & Next"
-                arrowright={true}
-                onClickFn={() => handleSubmissionReviewed()}
-              ></Buttons2>
-            </Frame1369>
+            <Frame131612>{tasksListsDropDown}</Frame131612>
+            <Buttons2
+              button="Submit & Next"
+              arrowright={true}
+              onClickFn={() => handleSubmissionReviewed()}
+            ></Buttons2>
           </Frame1371>
           <Frame1368>
             <Group1225>
@@ -287,14 +312,20 @@ function FeedbackTeacherLaptop(props) {
             </Group1225>
             <Frame1331>
               <Frame1322>
-                {/* <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
+                <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
                 <ReviewsFrame1320 className={frame13202Props.className}>
                   {frame13202Props.children}
-                </ReviewsFrame1320> */}
+                </ReviewsFrame1320>
               </Frame1322>
               <>
-                {showNewComment ? feedbackFrame : <></>}
-                <Frame1328>{commentsFrame}</Frame1328>
+                {showNewComment ? (
+                  <>
+                    <Screen onClick={() => setShowNewComment(false)}></Screen>
+                    {feedbackFrame}
+                  </>
+                ) : (
+                  <Frame1328>{commentsFrame}</Frame1328>
+                )}
               </>
             </Frame1331>
           </Frame1368>
@@ -313,20 +344,40 @@ function FeedbackTeacherLaptop(props) {
   );
 }
 
-const Frame131612 = styled.div`
+const Screen = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+const CommentContiner = styled.div`
+  position: absolute;
+  right: 60px;
+  top: 200px;
+  z-index: 100;
+  width: 400px;
+  height: 200px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px;
-  position: relative;
-  flex: 1;
+  justify-content: center;
+  flex-direction: column;
   background-color: var(--white);
-  border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
-  cursor: pointer;
-  flex-direction: row;
-  justify-content: space-evenly;
+  border-radius: 10px;
+  padding: 1em;
+`;
+const Line6 = styled.img`
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 1px;
+  object-fit: cover;
+`;
+const Frame131612 = styled.div`
+  width: 100%;
   max-width: 300px;
 `;
 const Frame1295 = styled.div`
@@ -686,7 +737,7 @@ const IconsaxLinearmicrophone2 = styled.img`
 const Line261 = styled.img`
   position: relative;
   align-self: stretch;
-
+  width: 100%;
   height: 1px;
   object-fit: cover;
 `;

@@ -36,17 +36,8 @@ export default function TheoryQuestionFrame(props) {
                 />
               </QuestionFrame2>
             </InputQuestion>
-            <InputQuestion>
-              <Label>Hint (Optional)</Label>
-              <QuestionFrame2>
-                <QuestionInputEditable
-                  id={"questionHint_" + serialNumber}
-                  placeholder="Optional"
-                  value={questionDetails?.hint}
-                />
-              </QuestionFrame2>
-            </InputQuestion>
-            <Frame1291 />
+            
+            <Frame1291 questionDetails={questionDetails} serialNumber={serialNumber}/>
           </Frame12891>
         </SmalllQuestionFrame>
       ) : (
@@ -86,18 +77,9 @@ export default function TheoryQuestionFrame(props) {
                 />
               </QuestionFrame1>
             </InputQuestion>
-            <InputQuestion>
-              <Label>Hint (Optional)</Label>
-              <QuestionFrame1>
-                <QuestionInputEditable
-                  id={"questionHint_" + serialNumber}
-                  placeholder="Optional"
-                  value={questionDetails?.hint}
-                />
-              </QuestionFrame1>
-            </InputQuestion>
+            
 
-            <Frame1291 />
+            <Frame1291 questionDetails={questionDetails} serialNumber={serialNumber}/>
             {/* <Buttons3 /> */}
           </Frame1289>
         </QuestionFrame>

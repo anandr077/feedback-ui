@@ -7,7 +7,7 @@ export default function ReactiveRender(props) {
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
-
+  console.log("isMobileView", isMobileView)
   return (
     <>
       {isMobileView && mobile}
@@ -18,11 +18,6 @@ export default function ReactiveRender(props) {
   );
 }
 
-export function isMobileView() {
-  const isMobileView = useMediaQuery({ maxWidth: 1023 });
-  console.log("##", isMobileView);
-  return isMobileView;
-}
 
 export function isTabletView() {
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });

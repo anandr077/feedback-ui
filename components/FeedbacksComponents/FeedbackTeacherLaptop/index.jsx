@@ -1,5 +1,4 @@
 import { React, useEffect, useState, useRef } from "react";
-// import ReactQuill from "react-quill";
 import { sortBy } from "lodash";
 import Header from "../../Header";
 import Quill from 'quill';
@@ -47,6 +46,8 @@ import FooterSmall from "../../FooterSmall";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    studentName, 
+    students,
     headerProps,
     submission,
     frame1284,
@@ -75,14 +76,13 @@ function FeedbackTeacherLaptop(props) {
   const [newCommentValue, setNewCommentValue] = useState("");
 
   useEffect(() => {
-    if (comments.length === 0) {
       getCommentsForSubmission(submission.id).then((result) => {
         if (result) {
           setComments(result);
         }
-      });
-    }
-  }, [comments]);
+      })
+    
+  }, []);
   
 
   function handleInputChange(event) {
@@ -178,32 +178,6 @@ function FeedbackTeacherLaptop(props) {
             {submission.assignment.questions[answer.serialNumber - 1].question}
           </Q1PoremIpsumDolo>
           <ToremIpsumDolorSi>
-            {/* <ReactQuill
-              ref={(editor) =>
-                handleEditorMounted(editor, answer.serialNumber - 1)
-              }
-              id={"quill_" + answer.serialNumber}
-              key={"quill_" + answer.serialNumber}
-              theme="snow"
-              value={answer.answer.answer}
-              className="ql-editor-feedbacks"
-              readOnly={true}
-              modules={modules}
-              onChangeSelection={(range, source, editor) => {
-                if (range && range.length > 0) {
-                  console.log(range);
-                  setNewCommentSerialNumber(answer.serialNumber);
-                  setShowNewComment(true);
-
-                  setSelectedRange({
-                    from: range.index,
-                    to: range.index + range.length,
-                  });
-                  highlightSelection(range, answer.serialNumber);
-                }
-              }}
-            /> */}
-
             <QuillEditor 
               ref={(editor) =>
                 handleEditorMounted(editor, answer.serialNumber - 1)
@@ -236,7 +210,7 @@ function FeedbackTeacherLaptop(props) {
     );
   });
 
-  const [tabletView, setTabletView] = useState(isTabletView());
+  const tabletView = isTabletView();
 
   return (
     <div className="feedback-teacher-laptop screen">
@@ -257,7 +231,7 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
-              <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+              <ReviewsFrame129532 studentName={studentName} students={students} submission={submission}></ReviewsFrame129532>
               <Buttons2
                 button="Submit & Next"
                 arrowright={true}
@@ -284,7 +258,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1368>
           <Frame1370>
             <Frame131612>
-              <ReviewsFrame129532 submission={submission}></ReviewsFrame129532>
+              <ReviewsFrame129532 studentName={studentName} students={students} submission={submission}></ReviewsFrame129532>
             </Frame131612>
             <Buttons2
               button="Submit & Next"

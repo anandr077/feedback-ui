@@ -5,42 +5,9 @@ import { getTasks } from "../../../service";
 import { Avatar } from "@boringer-avatars/react";
 
 function ReviewsFrame129532(props) {
-  const { submission } = props;
-  const [students, setStudents] = React.useState([]);
-  const [studentName, setStudentName] = React.useState(null);
+  const {  students, studentName } = props;
   const [selectedStudentIcon, setSelectedStudentIcon] = React.useState(null);
 
-  React.useEffect(() => {
-    getTasks().then((result) => {
-      const forCurrentAssignment = result;
-      console.log("result " + JSON.stringify(result));
-      setStudents(
-        result.map((task) => {
-          return {
-            name: task.studentName,
-            src: (
-              <Avatar
-                title={false}
-                size={25}
-                variant="beam"
-                name={task.studentName}
-                square={false}
-              />
-            ),
-          };
-        })
-      );
-      console.log(
-        "result filtered" +
-          result.filter((r) => {
-            r.id === submission.id;
-          })
-      );
-      setStudentName(
-        result.filter((r) => r.id === submission.id)[0].studentName
-      );
-    });
-  }, []);
   const [showOptions, setShowOptions] = React.useState(false);
 
   const toggleOptions = (event) => {
@@ -53,6 +20,7 @@ function ReviewsFrame129532(props) {
     }
     setShowOptions(!showOptions);
   };
+  console.log("Students are " + JSON.stringify(students));
   const options = students.map((student, index) => {
     return (
       <OptionCotainer

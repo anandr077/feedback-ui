@@ -45,9 +45,10 @@ import { isTabletView } from "../../ReactiveRender";
 import HeaderSmall from "../../HeaderSmall";
 import FooterSmall from "../../FooterSmall";
 
+
 function FeedbackTeacherLaptop(props) {
   const {
-    x,
+    isEditableProps,
     headerProps,
     submission,
     frame1284,
@@ -60,9 +61,9 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  console.log("F isEditableProps " + x)
+  console.log("F isEditableProps " + isEditableProps)
   console.log("F submission " + submission)
-  const isEditable = true
+  const isEditable = isEditableProps
 
   const quillRefs = useRef([]);
   const feedbacksFrameRef = useRef(null);
@@ -126,13 +127,13 @@ function FeedbackTeacherLaptop(props) {
   if(!isEditable){ 
     useEffect(() => {
     
-    if (comments.length === 0) {
+    
       getCommentsForSubmission(submission.id).then((result) => {
         if (result) {
           setComments(result);
         }
       });
-    }
+    
   }, [comments]);
   }
 

@@ -33,28 +33,28 @@ export default function FeedbacksRoot(props) {
     );
   }
   const isTeacher = getUserRole() === 'TEACHER';
-  const isEditableProps = true;
+  const isEditableProps = isEditable.props.isEditable;
   console.log("isEditableProps is " + isEditableProps);
   return (
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile 
-          {...{ submission,  ...feedbacksFeedbackTeacherMobileData }}
+          {...{ submission,  isEditableProps, ...feedbacksFeedbackTeacherMobileData }}
         />
       }
       tablet={
-        <FeedbackTeacherLaptop  x={true}
-          {...{ submission,...feedbacksFeedbackTeacherLaptopData }}
+        <FeedbackTeacherLaptop 
+          {...{ submission,isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       laptop={
         <FeedbackTeacherLaptop
-          {...{ submission, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{ submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       desktop={
         <FeedbackTeacherLaptop
-          {...{ submission, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{ submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
         />
       }
     />

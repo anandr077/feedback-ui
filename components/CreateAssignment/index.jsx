@@ -9,6 +9,7 @@ import { getClasses, createAssignment } from "../../service";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import ReactiveRender, { isMobileView } from "../ReactiveRender";
 import { assignmentsHeaderProps } from "../../utils/headerProps";
+import MCQQuestionFrame from "../MCQQuestionFrame";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps
 
@@ -63,12 +64,15 @@ export default function CreateAssignment() {
 
   function createNewQuestionFrame(serialNumber, questionDetails, size) {
     return (
-      <TheoryQuestionFrame
-        serialNumber={serialNumber}
-        deleteQuestionFrameFn={deleteQuestionFrameFn}
-        questionDetails={questionDetails}
-        size="small"
-      />
+      <>
+        <TheoryQuestionFrame
+          serialNumber={serialNumber}
+          deleteQuestionFrameFn={deleteQuestionFrameFn}
+          questionDetails={questionDetails}
+          size="small"
+        />
+        <MCQQuestionFrame />
+      </>
     );
   }
 

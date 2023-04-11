@@ -185,6 +185,7 @@ const DeleteButton = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const Line14 = styled.img`

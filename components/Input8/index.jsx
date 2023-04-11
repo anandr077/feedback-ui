@@ -3,15 +3,13 @@ import Group1255 from "../Group1255";
 import styled from "styled-components";
 import { IbmplexsansNormalMountainMist20px } from "../../styledMixins";
 
-function Input8(props) {
-  const { option1, group1255Props } = props;
-
+function Input8() {
   return (
     <Input>
       <Frame1285>
-        <Option1>{option1}</Option1>
+        <Option1>Text</Option1>
       </Frame1285>
-      <Group1255 className={group1255Props.className} />
+      <Group1255 />
     </Input>
   );
 }

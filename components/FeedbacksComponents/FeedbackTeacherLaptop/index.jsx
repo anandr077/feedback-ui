@@ -1,5 +1,4 @@
 import { React, useRef, useState } from "react";
-// import ReactQuill from "react-quill";
 import { sortBy } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -8,7 +7,7 @@ import QuillEditor from "../../QuillEditor";
 
 import styled from "styled-components";
 import {
-  markAssignmentReviewed as markSubmsissionReviewed
+  markSubmissionReviewed as markSubmsissionReviewed
 } from "../../../service";
 import {
   feedbacksIbmplexsansBoldShark36px,
@@ -101,12 +100,14 @@ function FeedbackTeacherLaptop(props) {
                 return comment.questionSerialNumber === answer.serialNumber;
               })}
               value={answerValue ? answerValue : ""}
-              onX={methods.onX(answer.serialNumber)}
+              onSelectionChange={methods.onSelectionChange(answer.serialNumber)}
+              onChangeFn={methods.onChangeFn(question.serialNumber)}
               options={{
                 modules: modules,
                 theme: "snow",
                 readOnly: !isEditable,
               }}
+
             ></QuillEditor>
           </ToremIpsumDolorSi>
           <SaveDraftButtonContainer>
@@ -114,7 +115,7 @@ function FeedbackTeacherLaptop(props) {
               id={"saveAnswer_" + question.serialNumber}
               button="Save Answer"
               arrowright={true}
-              onClickFn={() => methods.handlesaveAnswer(question.serialNumber)}
+              onClickFn={methods.handlesaveAnswer(question.serialNumber)}
             ></Buttons2>
           </SaveDraftButtonContainer>
         </Frame1366>

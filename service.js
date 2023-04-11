@@ -229,7 +229,7 @@ export const submitAssignment = async (submissionId) => {
     .catch(errorHandler);
 };
 
-export const markAssignmentReviewed = async (submissionId) => {
+export const markSubmissionReviewed = async (submissionId) => {
   const s = JSON.stringify(submissionId);
 
   const url =

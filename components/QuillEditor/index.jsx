@@ -5,7 +5,7 @@ import "quill/dist/quill.snow.css";
 import "./styles.css";
 
 const QuillEditor = React.forwardRef(
-  ({ comments, value, onX, options }, ref) => {
+  ({ comments, value, onSelectionChange, onChangeFn, options }, ref) => {
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
     useEffect(() => {
@@ -15,11 +15,17 @@ const QuillEditor = React.forwardRef(
         editor.root.style.fontSize = "16px";
         editor.root.innerHTML = value;
 
+        editor.on('text-change', function(delta, oldDelta, source) {
+            var contents = editor.root.innerHTML;
+            console.log("contents " + JSON.stringify(delta))
+            onChangeFn(contents);
+        });
+
         editor.on("selection-change", (range1, range2) => {
           console.log("range  selected 1" + JSON.stringify(range1));
           console.log("range  selected 2" + JSON.stringify(range2));
           if (range1 && range1.length > 0) {
-            onX(range1);
+            onSelectionChange(range1);
           }
         });
 
@@ -39,13 +45,15 @@ const QuillEditor = React.forwardRef(
         });
         setEditor(editor);
       }
-    }, [value, options, onX]);
+    }, [value, options, onSelectionChange]);
 
     useImperativeHandle(ref, () => ({
       selectRange(range) {
-        console.log("silecntly");
         editor.setSelection(range.index, range.length, "silent");
         editor.focus();
+      },
+      getContents() {
+        return editor.root.innerHTML;
       },
     }));
 

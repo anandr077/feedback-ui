@@ -6,12 +6,12 @@ import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
-// import ReactQuill from "react-quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
+import { saveAnswer, submitAssignment } from "../../../service.js";
 
 import {
-  markAssignmentReviewed as markSubmsissionReviewed
+  markSubmissionReviewed as markSubmsissionReviewed
 } from "../../../service";
 
 import ReviewsFrame129532 from "../ReviewsFrame129532";
@@ -35,12 +35,19 @@ export default function FeedbacksRoot(props) {
   const [newCommentValue, setNewCommentValue] = useState("");
 
  
+  const isEditableProps = isEditable.props.isEditable;
+  console.log("isEditableProps is " + isEditableProps);
+  
   useEffect(() => {
     if (submission === null) {
       console.log("id is " + id);
       getSubmissionById(id).then((submissionsResult) => {
+        setSubmission(submissionsResult);
+        
+        if (isEditableProps) {
+          setIsLoading(false)
+        } else {
         if (submissionsResult) {
-          setSubmission(submissionsResult);
           getTasks().then((tasksResult) => {
             setStudents(
               tasksResult.map((task) => {
@@ -74,6 +81,7 @@ export default function FeedbacksRoot(props) {
             
           })
         }
+        }
       })
       }
     }, [comments]);
@@ -85,9 +93,7 @@ export default function FeedbacksRoot(props) {
       </div>
     );
   }
-  const isEditableProps = isEditable.props.isEditable;
-  console.log("isEditableProps is " + isEditableProps);
-  
+
 
   const handleEditorMounted = (editor, index) => {
     console.log("Mounted " + editor);
@@ -116,8 +122,9 @@ export default function FeedbacksRoot(props) {
     );
   }
   const handleSaveSubmissionForReview = () => {
-    //Code to change the status of the submission to "reviewed"
-    window.location.href = "/";
+    submitAssignment(submission.id).then((_) => {
+      window.location.href = "/dashboard";
+    });
   };
 
 
@@ -139,12 +146,17 @@ export default function FeedbacksRoot(props) {
     }
   }
 
-
-  const handlesaveAnswer = (serialNumber) => {
+  const handlesaveAnswer = (serialNumber) =>(_)=> {
+    const contents = quillRefs.current[serialNumber - 1].getContents();
+    saveAnswer(submission.id, serialNumber, {
+      answer: contents,
+    }).then((_) => {
+      console.log("Answer saved");
+    });
     console.log(serialNumber);
   };
 
-  const reviewerOnX = (serialNumber)=>(range) => {
+  const reviewerSelectionChange = (serialNumber)=>(range) => {
     if (range && range.length > 0) {
 
       setNewCommentSerialNumber(serialNumber);
@@ -156,14 +168,15 @@ export default function FeedbacksRoot(props) {
       setShowNewComment(true);
     }
   };
-  const editorOnX = (serialNumber)=>(range) => {
+  const editorSelectionChange = (serialNumber)=>(range) => {
     
     console.log("##editorOnX" + JSON.stringify(range));
   };
   
-  const onX = isEditableProps ? editorOnX : reviewerOnX;
-
-
+  const onSelectionChange = isEditableProps ? editorSelectionChange : reviewerSelectionChange;
+  const onChangeFn = (serialNumber) => (value) => {
+    
+  }
   const createTasksDropDown = (isEditable) => {
     console.log("isEditable " + isEditable);
     if (isEditable) {
@@ -182,7 +195,8 @@ export default function FeedbacksRoot(props) {
     handleCommentSelected,
     handlesaveAnswer,
     createTasksDropDown,
-    onX
+    onSelectionChange,
+    onChangeFn
   };
   return (
     <ReactiveRender

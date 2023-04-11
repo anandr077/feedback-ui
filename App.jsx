@@ -20,9 +20,8 @@ function App() {
         <Route path="/assignments/:assignmentId/start">
           <TaskDetail />
         </Route>
-        <Route path="/submissions/:submissionId">
-          {/* <FeedbacksRoot isEditable={true} /> */}
-          <AssignmentTheory />
+        <Route path="/submissions/:id">
+          <FeedbacksRoot isEditable={true} />
         </Route>
         <Route path="/assignments/:assignmentId/start">
           <TaskDetail />

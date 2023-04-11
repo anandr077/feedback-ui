@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import "./SubmitCommentFrameRoot.css"
+import "./SubmitCommentFrameRoot.css";
 const SubmitCommentFrameRoot = (props) => {
   const {submitButtonOnClick, cancelButtonOnClick} = props;
  
@@ -57,7 +57,7 @@ const SmallButton = styled.button`
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
+  }
 `;
 const Text1 = styled.div`
   color: #ffffff;
@@ -97,7 +97,7 @@ const SmallButtonWhite = styled.button`
   cursor: pointer;
   &: hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-  } ;
+  }
 `;
 const Text2 = styled.div`
   color: #7200e0;
@@ -108,4 +108,4 @@ const Text2 = styled.div`
   white-space: nowrap;
   box-sizing: border-box;
 `;
-export default SubmitCommentFrameRoot
+export default SubmitCommentFrameRoot;

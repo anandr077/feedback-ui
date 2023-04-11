@@ -5,7 +5,7 @@ import { getTasks } from "../../../service";
 import { Avatar } from "@boringer-avatars/react";
 
 function ReviewsFrame129532(props) {
-  const {  students, studentName } = props;
+  const { students, studentName } = props;
   const [selectedStudentIcon, setSelectedStudentIcon] = React.useState(null);
 
   const [showOptions, setShowOptions] = React.useState(false);

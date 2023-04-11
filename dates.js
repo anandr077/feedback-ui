@@ -1,11 +1,11 @@
 // Format the date to the desired output format
-const options = { 
-  year: 'numeric', 
-  month: 'long', 
-  day: 'numeric', 
-  hour: 'numeric', 
-  minute: 'numeric', 
-  hour12: true 
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: true,
 };
 
 export const formattedDate = (dateString) => {

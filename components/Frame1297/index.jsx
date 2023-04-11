@@ -30,7 +30,7 @@ function Frame1297(props) {
         <Frame1283>
           <Frame1282>
             <Frame1281>
-              <ToremIpsumDolorSi>Quesion {number}</ToremIpsumDolorSi>
+              <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
               {/* <RichTextComponents1>
                 <Assignment src="/img/assignment@2x.png" alt="Assignment" />
                 <Theory>Theory</Theory>
@@ -78,7 +78,12 @@ function Frame1297(props) {
   );
 }
 
-const DropDown = styled.div``;
+const DropDown = styled.div`
+  position: absolute;
+  right: 30px;
+  top: 3px;
+  cursor: pointer;
+`;
 
 const RichTextComponents2 = styled.div`
   display: flex;
@@ -99,6 +104,7 @@ const Assignment2 = styled.img`
 
 const Theory = styled.div`
   position: relative;
+  ${IbmplexsansNormalShark16px}
 
   margin-top: -1px;
   letter-spacing: 0;
@@ -190,6 +196,7 @@ const Frame1284 = styled.img`
   position: relative;
   min-width: 28px;
   height: 28px;
+  cursor: pointer;
 `;
 
 export default Frame1297;

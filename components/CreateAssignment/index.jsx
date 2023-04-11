@@ -75,7 +75,7 @@ export default function CreateAssignment() {
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
     const peertopeer = document.getElementById("peertopeer").checked;
-    const reviewedBy =  peertopeer? "P2P": "TEACHER"
+    const reviewedBy = peertopeer ? "P2P" : "TEACHER";
     const classIds = classes
       .filter((clazz) => {
         return document.getElementById(clazz.id).checked;
@@ -88,7 +88,7 @@ export default function CreateAssignment() {
         serialNumber: serialNumber,
         question: document.getElementById("question_" + serialNumber).value,
         wordLimit: document.getElementById("wordLimit_" + serialNumber).value,
-        type: "TEXT"
+        type: "TEXT",
       };
       return question;
     });
@@ -97,7 +97,7 @@ export default function CreateAssignment() {
       title,
       classIds,
       questions,
-      reviewedBy
+      reviewedBy,
     };
     createAssignment(assignment).then((res) => {
       console.log(res);

@@ -122,8 +122,9 @@ export default function FeedbacksRoot(props) {
     );
   }
   const handleSaveSubmissionForReview = () => {
-    //Code to change the status of the submission to "reviewed"
-    window.location.href = "/";
+    submitAssignment(submission.id).then((_) => {
+      window.location.href = "/dashboard";
+    });
   };
 
 
@@ -144,7 +145,6 @@ export default function FeedbacksRoot(props) {
       console.log("No range");
     }
   }
-
 
   const handlesaveAnswer = (serialNumber) =>(_)=> {
     const contents = quillRefs.current[serialNumber - 1].getContents();

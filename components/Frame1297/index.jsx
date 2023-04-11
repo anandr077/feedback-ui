@@ -30,7 +30,7 @@ function Frame1297(props) {
         <Frame1283>
           <Frame1282>
             <Frame1281>
-              <ToremIpsumDolorSi>Section {number}</ToremIpsumDolorSi>
+              <ToremIpsumDolorSi>Quesion {number}</ToremIpsumDolorSi>
               {/* <RichTextComponents1>
                 <Assignment src="/img/assignment@2x.png" alt="Assignment" />
                 <Theory>Theory</Theory>

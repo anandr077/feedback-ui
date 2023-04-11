@@ -63,7 +63,16 @@ function FeedbackTeacherMobile(props) {
     quillRefs.current[index] = editor;
   };
 
-  const answerFrames = submission.answers.map((answer) => {
+  const answerFrames = submission.assignment.questions.map((question) => {
+    const newAnswer = {
+      serialNumber: question.serialNumber,
+      answer: "",
+    };
+    const answer =
+      submission.answers?.find(
+        (answer) => answer.questionSerialNumber === question.serialNumber
+      ) || newAnswer;
+
     return (
       <>
         <Frame1366>

@@ -29,6 +29,10 @@ export const getUserName = () => {
   return getCookie("user.name");
 };
 
+export const getUserRole = () => {
+  return getCookie("role");
+};
+
 export const getCookie = (name) => {
   console.log(document.cookie);
   const cookieValue = document.cookie

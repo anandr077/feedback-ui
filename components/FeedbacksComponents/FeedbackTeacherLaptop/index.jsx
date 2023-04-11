@@ -1,22 +1,14 @@
-import { React, useEffect, useState, useRef } from "react";
+import { React, useRef, useState } from "react";
+// import ReactQuill from "react-quill";
 import { sortBy } from "lodash";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 import Header from "../../Header";
-import Quill from 'quill';
-import QuillEditor from '../../QuillEditor';
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
+import QuillEditor from "../../QuillEditor";
 
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
-  getCommentsForSubmission,
-  addNewComment,
-  markAssignmentReviewed as markSubmsissionReviewed,
-} from "../../../service";
-import {
-  addNewComment,
-  getCommentsForSubmission,
-  markAssignmentReviewed as markSubmsissionReviewed,
+  markAssignmentReviewed as markSubmsissionReviewed
 } from "../../../service";
 import {
   feedbacksIbmplexsansBoldShark36px,
@@ -26,28 +18,31 @@ import {
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
   feedbacksIbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack16px,
+  IbmplexsansNormalBlack16px
 } from "../../../styledMixins";
 
+import Footer from "../../Footer";
+import FooterSmall from "../../FooterSmall";
+import HeaderSmall from "../../HeaderSmall";
+import { isTabletView } from "../../ReactiveRender";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame129532 from "../ReviewsFrame129532";
-import ReviewsFrame1316 from "../ReviewsFrame1316";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
 import "./FeedbackTeacherLaptop.css";
-import Footer from "../../Footer";
-import "./_feedbacksEditor.scss";
-import { isTabletView } from "../../ReactiveRender";
-import HeaderSmall from "../../HeaderSmall";
-import FooterSmall from "../../FooterSmall";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    feedbacksFrameRef,
+    showNewComment,
+    methods,
+    comments,
     studentName, 
     students,
+    isEditableProps,
     headerProps,
     submission,
     frame1284,
@@ -60,55 +55,73 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  const quillRefs = useRef([]);
-  const feedbacksFrameRef = useRef(null);
+  console.log("F isEditableProps " + isEditableProps);
+  console.log("F comments " + comments);
+  const isEditable = isEditableProps;
  
-  
-  const handleEditorMounted = (editor, index) => {
-    console.log("Mounted " + editor)
-    quillRefs.current[index] = editor;
-  };
-  
-  const [showNewComment, setShowNewComment] = useState(false);
-  const [selectedRange, setSelectedRange] = useState(null);
-  const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
-  const [comments, setComments] = useState([]);
-  const [newCommentValue, setNewCommentValue] = useState("");
 
-  useEffect(() => {
-      getCommentsForSubmission(submission.id).then((result) => {
-        if (result) {
-          setComments(result);
-        }
-      })
-    
-  }, []);
-  
-
-  function handleInputChange(event) {
-    setNewCommentValue(event.target.value);
-  }
-
-  function handleSubmissionReviewed() {
-    markSubmsissionReviewed(submission.id).then(
-      (_) => (window.location.href = "/")
+  const commentsFrame = sortBy(comments, [
+    "questionSerialNumber",
+    "range.from",
+  ]).map((comment) => {
+    return (
+      <CommentCard32
+        comment={comment}
+        onClick={(c) => methods.handleCommentSelected(c)}
+      />
     );
-  }
-  function handleKeyPress(event) {
-    if (event.key === "Enter") {
-      addNewComment(submission.id, {
-        questionSerialNumber: newCommentSerialNumber,
-        feedback: newCommentValue,
-        range: selectedRange,
-      }).then((response) => {
-        if (response) {
-          setComments([...comments, response]);
-          setNewCommentValue("");
-        }
-      });
-      setShowNewComment(false);
-    }
-  }
+  });
+  const modules = {
+    toolbar: isEditable,
+  };
+
+  const answerFrames = submission.assignment.questions.map((question) => {
+    const newAnswer = {
+      serialNumber: question.serialNumber,
+      answer: "",
+    };
+    
+    const answer =
+      submission.answers?.find(
+        (answer) => answer.serialNumber === question.serialNumber
+      ) || newAnswer;
+    console.log("Answer " + JSON.stringify(answer));
+    const questionText = "Q" + question.serialNumber + ". " + question.question;
+    const answerValue = answer.answer.answer;
+    return (
+      <>
+        <Frame1366>
+          <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
+          <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
+            <QuillEditor
+              ref={(editor) =>
+                methods.handleEditorMounted(editor, answer.serialNumber - 1)
+              }
+              comments={comments.filter((comment) => {
+                return comment.questionSerialNumber === answer.serialNumber;
+              })}
+              value={answerValue ? answerValue : ""}
+              onX={methods.onX(answer.serialNumber)}
+              options={{
+                modules: modules,
+                theme: "snow",
+                readOnly: !isEditable,
+              }}
+            ></QuillEditor>
+          </ToremIpsumDolorSi>
+          <SaveDraftButtonContainer>
+            <Buttons2
+              id={"saveAnswer_" + question.serialNumber}
+              button="Save Answer"
+              arrowright={true}
+              onClickFn={() => methods.handlesaveAnswer(question.serialNumber)}
+            ></Buttons2>
+          </SaveDraftButtonContainer>
+        </Frame1366>
+      </>
+    );
+  });
+  const tasksListsDropDown = methods.createTasksDropDown(isEditable);
 
   const feedbackFrame = (
     <>
@@ -120,14 +133,14 @@ function FeedbackTeacherLaptop(props) {
                 id="newCommentInput"
                 ref={feedbacksFrameRef}
                 placeholder="Comment here...."
-                value={newCommentValue}
-                onChange={handleInputChange}
-                onKeyPress={handleKeyPress}
+                // value={newCommentValue}
+                // onChange={handleInputChange}
+                onKeyPress={methods.handleKeyPress}
               ></TextInput>
             </TypeHere>
           </Frame1326>
         </Frame1406>
-        <Line261 src={line263} alt="Line 26" />
+        <Line6 src="/icons/line.png" alt="Line 6" />
         <Frame1383>
           <Frame13311>
             <Frame1284 src="/icons/share.png" />
@@ -135,83 +148,12 @@ function FeedbackTeacherLaptop(props) {
           </Frame13311>
           <Buttons4 />
         </Frame1383>
-        <Line261 src={line27} alt="Line 27" />
+        <Line6 src="/icons/line.png" alt="Line 6" />
       </Frame1329>
     </>
   );
 
-  function handleCommentSelected(comment) {
-    if (comment.range){
-      const range = {
-        index: comment.range.from,
-        length: comment.range.to - comment.range.from,
-      };
-      console.log("Rangle " + JSON.stringify(range));
-      const quill =
-        quillRefs.current[comment.questionSerialNumber - 1];
-      quill.selectRange(range);
-   } else {
-      console.log("No range");
-   }
-  }
-
-  const commentsFrame = sortBy(comments, [
-    "questionSerialNumber",
-    "range.from",
-  ]).map((comment) => {
-    return (
-      <CommentCard32
-        comment={comment}
-        onClick={(c) => handleCommentSelected(c)}
-      />
-    );
-  });
-  const modules = {
-    toolbar: false,
-  };
-
-  const answerFrames = submission.answers.map((answer) => {
-    return (
-      <>
-        <Frame1366>
-          <Q1PoremIpsumDolo>
-            {submission.assignment.questions[answer.serialNumber - 1].question}
-          </Q1PoremIpsumDolo>
-          <ToremIpsumDolorSi>
-            <QuillEditor 
-              ref={(editor) =>
-                handleEditorMounted(editor, answer.serialNumber - 1)
-              }
-              comments = {comments.filter((comment) => {
-                console.log("a " + JSON.stringify(answer))
-                console.log("b " + JSON.stringify(comment.questionSerialNumber))
-                return comment.questionSerialNumber === answer.serialNumber}
-              )}
-            value={answer.answer.answer} 
-            onX={(range) => {
-              if (range && range.length > 0) {
-                console.log("range triggered");
-
-                setNewCommentSerialNumber(answer.serialNumber);
-                setSelectedRange({
-                  from: range.index,
-                  to: range.index + range.length,
-                });
-                setShowNewComment(true);
-               
-                feedbacksFrameRef.current.focus()
-              }
-            }}
-            options={{modules:modules, theme: 'snow', readOnly:true }} ></QuillEditor>
-          </ToremIpsumDolorSi>
-        </Frame1366>
-        <Line26 src={line261} alt="Line 26" />
-      </>
-    );
-  });
-
-  const tabletView = isTabletView();
-
+  const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
@@ -230,41 +172,63 @@ function FeedbackTeacherLaptop(props) {
         <Frame1386>
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
-            <Frame1369>
-              <ReviewsFrame129532 studentName={studentName} students={students} submission={submission}></ReviewsFrame129532>
+            <Frame131612>{tasksListsDropDown}</Frame131612>
+            {isEditable ? (
+              <Buttons2
+                button="Submit For Review"
+                arrowright={true}
+                onClickFn={() => methods.handleSaveSubmissionForReview()}
+              ></Buttons2>
+            ) : (
               <Buttons2
                 button="Submit & Next"
                 arrowright={true}
-                onClickFn={() => handleSubmissionReviewed()}
+                onClickFn={() => methods.handleSubmissionReviewed()}
               ></Buttons2>
-            </Frame1369>
+            )}
           </Frame1371>
           <Frame1368>
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>
-            <Frame1331>
-              <Frame1322>
-                <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
-                <ReviewsFrame1320 className={frame13202Props.className}>
-                  {frame13202Props.children}
-                </ReviewsFrame1320>
-              </Frame1322>
-              <>
-                {showNewComment ? feedbackFrame : <></>}
-                <Frame1328>{commentsFrame}</Frame1328>
-              </>
-            </Frame1331>
+            {!isEditable && (
+              <Frame1331>
+                <Frame1322>
+                  <ReviewsFrame1320>
+                    {frame13201Props.children}
+                  </ReviewsFrame1320>
+                  <ReviewsFrame1320 className={frame13202Props.className}>
+                    {frame13202Props.children}
+                  </ReviewsFrame1320>
+                </Frame1322>
+                <>
+                  {showNewComment ? (
+                    <>
+                      <Screen onClick={() => methods.setShowNewComment(false)}></Screen>
+                      {feedbackFrame}
+                    </>
+                  ) : (
+                    <Frame1328>{commentsFrame}</Frame1328>
+                  )}
+                </>
+              </Frame1331>
+            )}
           </Frame1368>
           <Frame1370>
-            <Frame131612>
-              <ReviewsFrame129532 studentName={studentName} students={students} submission={submission}></ReviewsFrame129532>
-            </Frame131612>
-            <Buttons2
-              button="Submit & Next"
-              arrowright={true}
-              onClickFn={() => handleSubmissionReviewed()}
-            ></Buttons2>
+            <Frame131612>{tasksListsDropDown}</Frame131612>
+            {isEditable ? (
+              <Buttons2
+                button="Submit For Review"
+                arrowright={true}
+                onClickFn={() => methods.handleSaveSubmissionForReview()}
+              ></Buttons2>
+            ) : (
+              <Buttons2
+                button="Submit & Next"
+                arrowright={true}
+                onClickFn={() => methods.handleSubmissionReviewed()}
+              ></Buttons2>
+            )}
           </Frame1370>
         </Frame1386>
       </Frame1388>
@@ -273,20 +237,48 @@ function FeedbackTeacherLaptop(props) {
   );
 }
 
-const Frame131612 = styled.div`
+const SaveDraftButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px;
-  position: relative;
-  flex: 1;
+  justify-content: center;
+  flex-direction: column;
+  width: 190%;
+`;
+
+const Screen = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+const CommentContiner = styled.div`
+  position: absolute;
+  right: 60px;
+  top: 200px;
+  z-index: 100;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   background-color: var(--white);
-  border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
-  cursor: pointer;
-  flex-direction: row;
-  justify-content: space-evenly;
+  border-radius: 10px;
+  padding: 1em;
+`;
+const Line6 = styled.img`
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 1px;
+  object-fit: cover;
+`;
+const Frame131612 = styled.div`
+  width: 100%;
   max-width: 300px;
 `;
 const Frame1295 = styled.div`
@@ -646,7 +638,7 @@ const IconsaxLinearmicrophone2 = styled.img`
 const Line261 = styled.img`
   position: relative;
   align-self: stretch;
-
+  width: 100%;
   height: 1px;
   object-fit: cover;
 `;

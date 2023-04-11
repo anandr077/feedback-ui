@@ -54,11 +54,11 @@ function AssignmentTheoryMobile(props) {
         question.serialNumber == submission.assignment.questions.length
           ? question.serialNumber
           : question.serialNumber + 1;
-      window.location.href =
-        "/submissions?submissionId=" +
-        submission.id +
-        "&serialNumber=" +
-        nextQuestion;
+        window.location.href =
+          "/submissions/" +
+          submission.id +
+          "?serialNumber=" +
+          nextQuestion;
     });
   };
 
@@ -70,9 +70,9 @@ function AssignmentTheoryMobile(props) {
 
   const previousAnswerFn = () => {
     window.location.href =
-      "/submissions?submissionId=" +
+      "/submissions/" +
       submission.id +
-      "&serialNumber=" +
+      "?serialNumber=" +
       (question.serialNumber - 1);
   };
   const showPrevious = question.serialNumber > 1;

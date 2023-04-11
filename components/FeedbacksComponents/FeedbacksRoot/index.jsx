@@ -1,20 +1,41 @@
-import React from "react";
+import { Avatar } from "@boringer-avatars/react";
+import { React, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSubmissionById, getTasks } from "../../../service";
+import { addNewComment, getCommentsForSubmission, getSubmissionById, getTasks } from "../../../service";
+import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
-import Loader from "../../Loader";
-import { Avatar } from "@boringer-avatars/react";
+// import ReactQuill from "react-quill";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 
-export default function FeedbacksRoot() {
-  const [submission, setSubmission] = React.useState(null);
-  const [students, setStudents] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+import {
+  markAssignmentReviewed as markSubmsissionReviewed
+} from "../../../service";
+
+import ReviewsFrame129532 from "../ReviewsFrame129532";
+
+export default function FeedbacksRoot(props) {
+  const isEditable = { props };
+
+  console.log("isEditableP is " + JSON.stringify(isEditable));
+  const quillRefs = useRef([]);
+  const feedbacksFrameRef = useRef(null);
+
+  const [submission, setSubmission] = useState(null);
+  const [students, setStudents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const [studentName, setStudentName] = React.useState(null);
+  const [studentName, setStudentName] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [showNewComment, setShowNewComment] = useState(false);
+  const [selectedRange, setSelectedRange] = useState(null);
+  const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
+  const [newCommentValue, setNewCommentValue] = useState("");
 
-  React.useEffect(() => {
+ 
+  useEffect(() => {
     if (submission === null) {
       console.log("id is " + id);
       getSubmissionById(id).then((submissionsResult) => {
@@ -37,17 +58,25 @@ export default function FeedbacksRoot() {
                 };
               })
             );
-            console.log("tasksResult" + JSON.stringify(tasksResult))
-            console.log("submissionsResult" + JSON.stringify(submissionsResult))
             setStudentName(
               tasksResult.filter((r) => r.id === submissionsResult.id)[0].studentName
             );
-            setIsLoading(false);
+            console.log("tasksResult" + JSON.stringify(tasksResult))
+            console.log("submissionsResult" + JSON.stringify(submissionsResult))
+            
+            getCommentsForSubmission(submissionsResult.id).then((result) => {
+              if (result) {
+                setComments(result);
+
+                setIsLoading(false);
+              }
+            });
+            
           })
         }
       })
       }
-    }, []);
+    }, [comments]);
   console.log("Loading is " + isLoading);
   if (isLoading) {
     return (
@@ -56,31 +85,131 @@ export default function FeedbacksRoot() {
       </div>
     );
   }
+  const isEditableProps = isEditable.props.isEditable;
+  console.log("isEditableProps is " + isEditableProps);
+  
 
+  const handleEditorMounted = (editor, index) => {
+    console.log("Mounted " + editor);
+    quillRefs.current[index] = editor;
+  };
+
+  function handleKeyPress(event) {
+    if (event.key === "Enter") {
+      addNewComment(submission.id, {
+        questionSerialNumber: newCommentSerialNumber,
+        feedback: document.getElementById("newCommentInput").value,
+        range: selectedRange,
+      }).then((response) => {
+        if (response) {
+          setComments([...comments, response]);
+          setNewCommentValue("");
+        }
+      });
+      setShowNewComment(false);
+    }
+  }
+
+  function handleSubmissionReviewed() {
+    markSubmsissionReviewed(submission.id).then(
+      (_) => (window.location.href = "/")
+    );
+  }
+  const handleSaveSubmissionForReview = () => {
+    //Code to change the status of the submission to "reviewed"
+    window.location.href = "/";
+  };
+
+
+  function handleCommentSelected(comment) {
+    if (comment.range) {
+      const range = {
+        index: comment.range.from,
+        length: comment.range.to - comment.range.from,
+      };
+      const quill = quillRefs.current[comment.questionSerialNumber - 1];
+      quill.selectRange(range);
+
+      const div = document.getElementById(
+        "quill_" + comment.questionSerialNumber
+      );
+      div.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.log("No range");
+    }
+  }
+
+
+  const handlesaveAnswer = (serialNumber) => {
+    console.log(serialNumber);
+  };
+
+  const reviewerOnX = (serialNumber)=>(range) => {
+    if (range && range.length > 0) {
+
+      setNewCommentSerialNumber(serialNumber);
+      setSelectedRange({
+        from: range.index,
+        to: range.index + range.length,
+      });
+      feedbacksFrameRef.current?.focus()
+      setShowNewComment(true);
+    }
+  };
+  const editorOnX = (serialNumber)=>(range) => {
+    
+    console.log("##editorOnX" + JSON.stringify(range));
+  };
+  
+  const onX = isEditableProps ? editorOnX : reviewerOnX;
+
+
+  const createTasksDropDown = (isEditable) => {
+    console.log("isEditable " + isEditable);
+    if (isEditable) {
+      return <></>;
+    } else {
+      console.log("Creating ReviewsFrame129532");
+      return <ReviewsFrame129532 studentName={studentName} students={students}></ReviewsFrame129532>;
+    }
+  };
+  const methods = {
+    setShowNewComment,
+    handleEditorMounted,
+    handleKeyPress, 
+    handleSubmissionReviewed, 
+    handleSaveSubmissionForReview, 
+    handleCommentSelected,
+    handlesaveAnswer,
+    createTasksDropDown,
+    onX
+  };
   return (
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile
-          {...{ studentName, students, submission, ...feedbacksFeedbackTeacherMobileData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments, studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherMobileData }}
         />
       }
       tablet={
         <FeedbackTeacherLaptop
-          {...{ studentName, students, submission, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments, studentName, students, submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       laptop={
         <FeedbackTeacherLaptop
-          {...{ studentName, students, submission, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments,studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       desktop={
         <FeedbackTeacherLaptop
-          {...{ studentName, students, submission, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments,studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
         />
       }
     />
   );
+
+  
 }
 const taskheaderProps = {
   firstButton: {

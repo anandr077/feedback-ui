@@ -36,6 +36,7 @@ import "./FeedbackTeacherLaptop.css";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    feedbacksFrameRef,
     showNewComment,
     methods,
     comments,
@@ -130,7 +131,7 @@ function FeedbackTeacherLaptop(props) {
             <TypeHere>
               <TextInput
                 id="newCommentInput"
-                // ref={feedbacksFrameRef}
+                ref={feedbacksFrameRef}
                 placeholder="Comment here...."
                 // value={newCommentValue}
                 // onChange={handleInputChange}

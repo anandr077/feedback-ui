@@ -21,7 +21,7 @@ export default function FeedbacksRoot(props) {
 
   console.log("isEditableP is " + JSON.stringify(isEditable));
   const quillRefs = useRef([]);
-  // const feedbacksFrameRef = React.useRef(null);
+  const feedbacksFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
   const [students, setStudents] = useState([]);
@@ -152,6 +152,7 @@ export default function FeedbacksRoot(props) {
         from: range.index,
         to: range.index + range.length,
       });
+      feedbacksFrameRef.current?.focus()
       setShowNewComment(true);
     }
   };
@@ -187,22 +188,22 @@ export default function FeedbacksRoot(props) {
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile
-          {...{ methods, showNewComment,comments, studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherMobileData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments, studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherMobileData }}
         />
       }
       tablet={
         <FeedbackTeacherLaptop
-          {...{ methods, showNewComment,comments, studentName, students, submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments, studentName, students, submission, isEditableProps,...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       laptop={
         <FeedbackTeacherLaptop
-          {...{ methods, showNewComment,comments,studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments,studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
         />
       }
       desktop={
         <FeedbackTeacherLaptop
-          {...{ methods, showNewComment,comments,studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{ feedbacksFrameRef, methods, showNewComment,comments,studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
         />
       }
     />

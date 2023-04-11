@@ -1,23 +1,17 @@
-import { default as React, default as React, useState } from "react";
+import React, { default as React, default as React, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../styledMixins";
-import Buttons from "../Buttons";
+import { saveAnswer, submitAssignment } from "../../service.js";
+import { IbmplexsansNormalChicago14px } from "../../styledMixins";
+import "../AssignmentTheory/_textEditor.scss";
 import Buttons2 from "../Buttons2";
-import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
-import SubmissionFrame1209 from "../SubmissionFrame1209";
+import HeaderSmall from "../HeaderSmall";
 import SubmissionFrame1399 from "../SubmissionFrame1399";
 import SubmissionFrame1400 from "../SubmissionFrame1400";
-import SubmissionFrame63 from "../SumbissionFrame63";
 import "./AssignmentTheoryTablet.css";
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalChicago14px } from "../../styledMixins";
-import { saveAnswer, submitAssignment } from "../../service.js";
-import "../AssignmentTheory/_textEditor.scss";
 
 const taskheaderProps = {
   firstButton: {
@@ -58,11 +52,11 @@ function AssignmentTheoryTablet(props) {
         question.serialNumber == submission.assignment.questions.length
           ? question.serialNumber
           : question.serialNumber + 1;
-      window.location.href =
-        "/submissions?submissionId=" +
-        submission.id +
-        "&serialNumber=" +
-        nextQuestion;
+        window.location.href =
+          "/submissions/" +
+          submission.id +
+          "?serialNumber=" +
+          nextQuestion;
     });
   };
 
@@ -74,10 +68,10 @@ function AssignmentTheoryTablet(props) {
 
   const previousAnswerFn = () => {
     window.location.href =
-      "/submissions?submissionId=" +
-      submission.id +
-      "&serialNumber=" +
-      (question.serialNumber - 1);
+        "/submissions/" +
+        submission.id +
+        "?serialNumber=" +
+        (question.serialNumber - 1);
   };
   const showPrevious = question.serialNumber > 1;
   const showNext =

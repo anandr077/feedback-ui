@@ -1,7 +1,7 @@
 import { Avatar } from "@boringer-avatars/react";
 import { React, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { addNewComment, getCommentsForSubmission, getSubmissionById, getTasks } from "../../../service";
+import { addModelResponse, addFeedback, getCommentsForSubmission, getSubmissionById, getTasks } from "../../../service";
 import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
@@ -103,18 +103,37 @@ export default function FeedbacksRoot(props) {
 
   function handleKeyPress(event) {
     if (event.key === "Enter") {
-      addNewComment(submission.id, {
-        questionSerialNumber: newCommentSerialNumber,
-        feedback: document.getElementById("newCommentInput").value,
-        range: selectedRange,
-      }).then((response) => {
-        if (response) {
-          setComments([...comments, response]);
-          setNewCommentValue("");
-        }
-      });
-      setShowNewComment(false);
+      handleAddComment()
     }
+  }
+  function handleAddComment() {
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: document.getElementById("newCommentInput").value,
+      range: selectedRange,
+      type:"COMMENT"
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
+  }
+
+  function handleShareWithClass() {
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: document.getElementById("newCommentInput").value,
+      range: selectedRange,
+      type:"MODEL_RESPONSE"
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
   }
 
   function handleSubmissionReviewed() {
@@ -188,6 +207,8 @@ export default function FeedbacksRoot(props) {
     }
   };
   const methods = {
+    handleShareWithClass,
+    handleAddComment,
     setShowNewComment,
     handleEditorMounted,
     handleKeyPress, 

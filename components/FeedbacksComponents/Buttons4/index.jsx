@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
 
-function Buttons4() {
+function Buttons4(props) {
+  const {text, onClickFn} = props
   return (
     <Buttons>
-      <Button>Share with class</Button>
+      <Button onClick={onClickFn}>{text}</Button>
     </Buttons>
   );
 }
@@ -21,6 +22,7 @@ const Buttons = styled.div`
   background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
+  cursor: pointer;
 `;
 
 const Button = styled.div`
@@ -31,6 +33,7 @@ const Button = styled.div`
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const Buttons1 = styled.div`

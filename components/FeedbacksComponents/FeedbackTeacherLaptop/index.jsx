@@ -5,7 +5,6 @@ import "quill/dist/quill.snow.css";
 import Header from "../../Header";
 import QuillEditor from "../../QuillEditor";
 import styled from "styled-components";
-
 import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
@@ -19,6 +18,7 @@ import {
 
 import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
+import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import HeaderSmall from "../../HeaderSmall";
 import { isTabletView } from "../../ReactiveRender";
 import Breadcrumb from "../Breadcrumb";
@@ -29,6 +29,7 @@ import CommentCard32 from "../CommentCard32";
 import ReviewsFrame129532 from "../ReviewsFrame129532";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
 import "./FeedbackTeacherLaptop.css";
+import { getUserName } from "../../../service";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -51,8 +52,7 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  console.log("F isEditableProps " + isEditableProps);
-  console.log("F comments " + comments);
+
   const isEditable = isEditableProps;
  
 
@@ -62,6 +62,7 @@ function FeedbackTeacherLaptop(props) {
   ]).map((comment) => {
     return (
       <CommentCard32
+        reviewer={getUserName()}
         comment={comment}
         onClick={(c) => methods.handleCommentSelected(c)}
       />
@@ -76,12 +77,10 @@ function FeedbackTeacherLaptop(props) {
       serialNumber: question.serialNumber,
       answer: "",
     };
-    
     const answer =
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
-    console.log("Answer " + JSON.stringify(answer));
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
     return (
@@ -107,14 +106,7 @@ function FeedbackTeacherLaptop(props) {
 
             ></QuillEditor>
           </ToremIpsumDolorSi>
-          <SaveDraftButtonContainer>
-            <Buttons2
-              id={"saveAnswer_" + question.serialNumber}
-              button="Save Answer"
-              arrowright={true}
-              onClickFn={methods.handlesaveAnswer(question.serialNumber)}
-            ></Buttons2>
-          </SaveDraftButtonContainer>
+          {createSaveAnswerButton(question)}
         </Frame1366>
       </>
     );
@@ -137,6 +129,8 @@ function FeedbackTeacherLaptop(props) {
               ></TextInput>
             </TypeHere>
           </Frame1326>
+          <SubmitCommentFrameRoot submitButtonOnClick={methods.handleAddComment}/>
+
         </Frame1406>
         <Line6 src="/icons/line.png" alt="Line 6" />
         <Frame1383>
@@ -144,7 +138,7 @@ function FeedbackTeacherLaptop(props) {
             <Frame1284 src="/icons/share.png" />
             <Share>{share}</Share>
           </Frame13311>
-          <Buttons4 />
+          <Buttons4 text={"Share with class"} onClickFn={methods.handleShareWithClass}/>
         </Frame1383>
         <Line6 src="/icons/line.png" alt="Line 6" />
       </Frame1329>
@@ -233,6 +227,18 @@ function FeedbackTeacherLaptop(props) {
       {tabletView ? <FooterSmall /> : <Footer />}
     </div>
   );
+
+  function createSaveAnswerButton(question) {
+    if (!isEditable) return <></>
+    return <SaveDraftButtonContainer>
+      <Buttons2
+        id={"saveAnswer_" + question.serialNumber}
+        button="Save Answer"
+        arrowright={true}
+        onClickFn={methods.handlesaveAnswer(question.serialNumber)}
+      ></Buttons2>
+    </SaveDraftButtonContainer>;
+  }
 }
 
 const SaveDraftButtonContainer = styled.div`

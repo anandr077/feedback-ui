@@ -69,7 +69,7 @@ export default function CreateAssignment() {
       return [
         ...questionFramesBefore,
         createNewQuestionFrame(
-          index + 1,
+          index,
           (question = {
             serialNumber: index,
             question: document.getElementById("question_" + index).value,

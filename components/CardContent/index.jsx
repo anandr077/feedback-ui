@@ -4,7 +4,7 @@ import {
   IbmplexsansNormalRiverBed14px,
   IbmplexsansNormalShark20px,
 } from "../../styledMixins";
-
+import { formattedDate } from "../../dates";
 function CardContent(props) {
   const { task } = props;
 
@@ -22,7 +22,7 @@ function CardContent(props) {
       </FundamentalsOfThermalPhysics>
       <Frame1282>
         <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-        <DueAt>{task.dueAt}</DueAt>
+        <DueAt>{formattedDate(task.dueAt)}</DueAt>
       </Frame1282>
     </Content>
   );

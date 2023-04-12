@@ -5,14 +5,14 @@ import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 
 function CommentCard32(props) {
-  const { comment, className, onClick } = props;
+  const { comment, className, reviewer, onClick } = props;
 
   return (
     <CommentCard
       onClick={() => onClick(comment)}
       className={`comment-card-4 ${className || ""}`}
     >
-      <ReviewsFrame132532 />
+      <ReviewsFrame132532 isShare={comment.type==='MODEL_RESPONSE'} reviewer={reviewer}/>
       <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">
         {comment.comment}
       </HoremIpsumDolorSi>

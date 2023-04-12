@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Notifications from "../Notifications";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
-import ReviewsFrame129522 from "../ReviewsFrame129522";
-import ReviewsFrame131722 from "../ReviewsFrame131722";
-import ReviewsFrame136622 from "../ReviewsFrame136622";
-import ReviewsFrame1317 from "../ReviewsFrame1317";
+import React, { useState } from "react";
+import ReactQuill from "react-quill";
 import styled from "styled-components";
 import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansMediumPersianIndigo20px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansNormalBlack16px,
+  IbmplexsansMediumPersianIndigo20px, IbmplexsansNormalBlack16px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark20px
 } from "../../../styledMixins";
-import "./FeedbackTeacherMobile.css";
-import HeaderSmall from "../../HeaderSmall";
-import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
-import ReactQuill from "react-quill";
+import HeaderSmall from "../../HeaderSmall";
+import Breadcrumb from "../Breadcrumb";
+import Breadcrumb2 from "../Breadcrumb2";
+import ReviewsFrame1317 from "../ReviewsFrame1317";
+import ReviewsFrame131722 from "../ReviewsFrame131722";
+import "./FeedbackTeacherMobile.css";
 
 const taskheaderProps = {
   firstButton: {

@@ -117,8 +117,8 @@ export const getSubmissionById = async (submissionId) => {
     .catch(errorHandler);
 };
 
-export const addNewComment = async (submissionId, comment) => {
-  return await fetch(baseUrl + "/submissions/" + submissionId + "/comments", {
+export const addFeedback = async (submissionId, comment) => {
+  return await fetch(baseUrl + "/submissions/" + submissionId + "/feedbacks", {
     method: "POST",
     body: JSON.stringify(comment),
     withCredentials: true,
@@ -134,6 +134,7 @@ export const addNewComment = async (submissionId, comment) => {
     })
     .catch(errorHandler);
 };
+
 export const getCommentsForSubmission = async (submissionId) => {
   return await fetch(baseUrl + "/submissions/" + submissionId + "/comments", {
     method: "GET",

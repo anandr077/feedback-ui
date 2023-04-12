@@ -9,10 +9,13 @@ import Frame1291 from "../Frame1291";
 import Buttons4 from "../Buttons4";
 import Group1255 from "../Group1255";
 
-export default function MCQQuestionFrame() {
-  const serialNumber = 1;
-  const deleteQuestionFrameFn = () => {};
-  const questionDetails = {};
+export default function MCQQuestionFrame(props) {
+  const {
+    serialNumber,
+    deleteQuestionFrameFn,
+    questionDetails,
+    UpdateQuestionFrame,
+  } = props;
   const options = [1, 2, 3, 4];
 
   const optionFrame = options.map((index) => {
@@ -30,7 +33,11 @@ export default function MCQQuestionFrame() {
   return (
     <SmalllQuestionFrame>
       <Frame1295>
-        <Frame1297 number={serialNumber} />
+        <Frame1297
+          number={serialNumber}
+          UpdateQuestionFrame={UpdateQuestionFrame}
+          defaultType="mcq"
+        />
         <DeleteButtonFrame>
           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber - 1)}>
             Delete

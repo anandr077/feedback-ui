@@ -8,19 +8,25 @@ import {
 } from "../../styledMixins";
 
 function Frame1297(props) {
-  const { number, richTextComponentsProps } = props;
-  const [type, setType] = React.useState("theory");
+  const { number, UpdateQuestionFrame, defaultType } = props;
+  const [type, setType] = React.useState(defaultType);
   const [show, setShow] = React.useState(false);
+
   const dropdown = () => {
     setShow(!show);
   };
   const setTypeTheory = () => {
     setType("theory");
+
+    UpdateQuestionFrame(number, "theory");
+
     setShow(false);
   };
 
   const setTypeMCQ = () => {
+    console.log("mcq");
     setType("mcq");
+    UpdateQuestionFrame(number, "mcq");
     setShow(false);
   };
   return (
@@ -31,38 +37,38 @@ function Frame1297(props) {
           <Frame1282>
             <Frame1281>
               <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
-              {/* <RichTextComponents1>
-                <Assignment src="/img/assignment@2x.png" alt="Assignment" />
-                <Theory>Theory</Theory>
-              </RichTextComponents1> */}
               {show ? (
                 <DropDown>
-                  <RichTextComponents2 onClick={setTypeTheory}>
-                    <Assignment2
-                      src="/img/assignment-4@2x.png"
-                      alt="Assignment"
-                    />
-                    <Theory>Theory</Theory>
-                  </RichTextComponents2>
-                  <RichTextComponents2 onClick={setTypeMCQ}>
-                    <Assignment2 src="/icons/mcqIcon.png" />
-                    <Theory>MCQ</Theory>
-                  </RichTextComponents2>
+                  <>
+                    <RichTextComponents2 onClick={setTypeTheory}>
+                      <Assignment2
+                        src="/img/assignment-4@2x.png"
+                        alt="Assignment"
+                      />
+                      <Text>Theory</Text>
+                    </RichTextComponents2>
+                  </>
+                  <>
+                    <RichTextComponents2 onClick={setTypeMCQ}>
+                      <Assignment2 src="/icons/mcqIcon.png" />
+                      <Text>MCQ</Text>
+                    </RichTextComponents2>
+                  </>
                 </DropDown>
               ) : (
                 <>
-                  {type === "theory" ? (
+                  {type == "theory" ? (
                     <RichTextComponents2>
                       <Assignment2
                         src="/img/assignment-4@2x.png"
                         alt="Assignment"
                       />
-                      <Theory>Theory</Theory>
+                      <Text>Theory</Text>
                     </RichTextComponents2>
                   ) : (
-                    <RichTextComponents2 onClick={setTypeMCQ}>
+                    <RichTextComponents2>
                       <Assignment2 src="/icons/mcqIcon.png" />
-                      <Theory>MCQ</Theory>
+                      <Text>MCQ</Text>
                     </RichTextComponents2>
                   )}
                 </>
@@ -98,14 +104,12 @@ const RichTextComponents2 = styled.div`
 
 const Assignment2 = styled.img`
   position: relative;
-
   height: 24px;
 `;
 
-const Theory = styled.div`
-  position: relative;
+const Text = styled.div`
   ${IbmplexsansNormalShark16px}
-
+  position: relative;
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;

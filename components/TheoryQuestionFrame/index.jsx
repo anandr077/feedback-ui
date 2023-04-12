@@ -9,13 +9,23 @@ import {
 } from "../../styledMixins";
 
 export default function TheoryQuestionFrame(props) {
-  const { serialNumber, deleteQuestionFrameFn, questionDetails, size } = props;
+  const {
+    serialNumber,
+    deleteQuestionFrameFn,
+    questionDetails,
+    size,
+    UpdateQuestionFrame,
+  } = props;
   return (
     <>
       {size == "small" ? (
         <SmalllQuestionFrame>
           <Frame1295>
-            <Frame1297 number={serialNumber} />
+            <Frame1297
+              number={serialNumber}
+              UpdateQuestionFrame={UpdateQuestionFrame}
+              defaultType="theory"
+            />
             <DeleteButtonFrame>
               <DeleteButton
                 onClick={() => deleteQuestionFrameFn(serialNumber - 1)}

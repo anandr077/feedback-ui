@@ -62,16 +62,47 @@ export default function CreateAssignment() {
     });
   }
 
-  function createNewQuestionFrame(serialNumber, questionDetails, size) {
+  function UpdateQuestionFrame(index, questionType) {
+    setQuestionFrames((oldFrames) => {
+      const questionFramesBefore = oldFrames.filter((_, i) => i < index - 1);
+      const questionFramesAfter = oldFrames.filter((_, i) => i > index);
+      return [
+        ...questionFramesBefore,
+        createNewQuestionFrame(
+          index,
+          (question = {
+            serialNumber: index,
+            question: document.getElementById("question_" + index).value,
+            wordLimit: document.getElementById("wordLimit_" + index).value,
+            type: "TEXT",
+          }),
+          questionType
+        ),
+        ...questionFramesAfter,
+      ];
+    });
+    console.log("update" + questionType);
+  }
+
+  function createNewQuestionFrame(serialNumber, questionDetails, questionType) {
     return (
       <>
-        <TheoryQuestionFrame
-          serialNumber={serialNumber}
-          deleteQuestionFrameFn={deleteQuestionFrameFn}
-          questionDetails={questionDetails}
-          size="small"
-        />
-        <MCQQuestionFrame />
+        {questionType === "mcq" ? (
+          <MCQQuestionFrame
+            serialNumber={serialNumber}
+            deleteQuestionFrameFn={deleteQuestionFrameFn}
+            questionDetails={questionDetails}
+            UpdateQuestionFrame={UpdateQuestionFrame}
+          />
+        ) : (
+          <TheoryQuestionFrame
+            serialNumber={serialNumber}
+            deleteQuestionFrameFn={deleteQuestionFrameFn}
+            questionDetails={questionDetails}
+            UpdateQuestionFrame={UpdateQuestionFrame}
+            size="small"
+          />
+        )}
       </>
     );
   }

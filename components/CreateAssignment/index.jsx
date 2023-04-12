@@ -8,30 +8,9 @@ import { IbmplexsansNormalShark20px } from "../../styledMixins";
 import { getClasses, createAssignment } from "../../service";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import ReactiveRender, { isMobileView } from "../ReactiveRender";
+import { assignmentsHeaderProps } from "../../utils/headerProps";
 
-const createAssignmentHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Assignment",
-    icon: "/icons/assignmentIconUnselected.png",
-    iconSelected: "/icons/assignmentWhite.png",
-    selected: true,
-    redirect: "/assignments/new",
-  },
-  thirdButton: {
-    text: "Classes",
-    icon: "/icons/classesUnselected.png",
-    iconSelected: "icons/submissionIconWhite.png",
-    selected: false,
-    redirect: "/classes",
-  },
-};
+const createAssignmentHeaderProps = assignmentsHeaderProps
 
 export default function CreateAssignment() {
   const [classes, setClasses] = React.useState([]);

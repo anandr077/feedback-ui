@@ -6,8 +6,12 @@ import StudentDashboardRoot from "./components/StudentDashBoardRoot";
 import StudentTaskRoot from "./components/StudentTaskRoot";
 import TaskDetail from "./components/StartAssignment/TaskDetail";
 import FeedbacksRoot from "./components/FeedbacksComponents/FeedbacksRoot";
+import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboardRoot";
+import { getUserRole } from "./service";
 
 function App() {
+  const role = getUserRole()
+  const dashboard = role === "TEACHER" ? <TeacherDashboardRoot/>:<StudentDashboardRoot/>
   return (
     <Router>
       <Switch>
@@ -30,7 +34,7 @@ function App() {
           <FeedbacksRoot isEditable={false} />
         </Route>
         <Route path="/">
-          <StudentDashboardRoot />
+          {dashboard}
         </Route>
       </Switch>
     </Router>

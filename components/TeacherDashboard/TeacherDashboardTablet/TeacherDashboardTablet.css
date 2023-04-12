@@ -1,0 +1,11 @@
+.teacher-dashboard-tblet {
+  align-items: flex-start;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  min-width: 1024px;
+  position: relative;
+}
+

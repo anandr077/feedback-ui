@@ -1,40 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Notifications from "../Notifications";
+import styled from "styled-components";
+import {
+  IbmplexsansBoldShark36px,
+  IbmplexsansMediumWhite16px, IbmplexsansNormalShark20px, IbmplexsansNormalStack20px, IbmplexsansSemiBoldShark20px, IbmplexsansSemiBoldShark24px
+} from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import GoBack from "../GoBack";
-import Frame1219 from "../Frame1219";
 import Buttons2 from "../Buttons2";
-import Frame1297 from "../Frame1297";
-import Input from "../Input";
-import Input2 from "../Input2";
-import Buttons3 from "../Buttons3";
-import RichTextComponents from "../RichTextComponents";
-import BulletList from "../BulletList";
-import Frame1280 from "../Frame1280";
-import Input3 from "../Input3";
-import Input4 from "../Input4";
-import Buttons4 from "../Buttons4";
-import RadioBox from "../RadioBox";
-import Frame692 from "../Frame692";
-import styled from "styled-components";
-import Frame1291 from "../Frame1291";
-import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansNormalShark20px,
-  IbmplexsansSemiBoldShark24px,
-  IbmplexsansSemiBoldShark20px,
-  IbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack16px,
-  IbmplexsansBoldShark36px,
-  IbmplexsansMediumWhite16px,
-  IbmplexsansNormalElectricViolet14px,
-} from "../../styledMixins";
-import "./CreateAAssignmentMobile.css";
 import FooterSmall from "../FooterSmall";
+import GoBack from "../GoBack";
 import HeaderSmall from "../HeaderSmall";
-import { createAssignment, getClasses } from "../../service";
+import "./CreateAAssignmentMobile.css";
 
 const taskheaderProps = {
   firstButton: {

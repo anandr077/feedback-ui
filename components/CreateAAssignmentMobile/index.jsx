@@ -35,30 +35,7 @@ import "./CreateAAssignmentMobile.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
 import { createAssignment, getClasses } from "../../service";
-
-const taskheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
+import {taskHeaderProps} from "../../utils/headerProps.js";
 function CreateAAssignmentMobile(props) {
   const {
     addQuestionFrameFn,
@@ -76,7 +53,7 @@ function CreateAAssignmentMobile(props) {
   return (
     <div className="create-a-assignment-mobile screen">
       <Frame1379>
-        <HeaderSmall headerProps={taskheaderProps} />
+        <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb />

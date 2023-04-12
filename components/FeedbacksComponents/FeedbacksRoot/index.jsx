@@ -9,6 +9,7 @@ import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { saveAnswer, submitAssignment } from "../../../service.js";
+import {taskHeaderProps} from "../../../utils/headerProps.js";
 
 import {
   markSubmissionReviewed as markSubmsissionReviewed
@@ -225,30 +226,6 @@ export default function FeedbacksRoot(props) {
 
   
 }
-const taskheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "/icons/submissionIconWhite.png",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
-
 const feedbacksNavElement1Data = {
   home3: "/img/home3-1@2x.png",
   place: "Home",
@@ -360,7 +337,7 @@ const feedbacksFrame13172Data = {
 };
 
 const feedbacksFeedbackTeacherLaptopData = {
-  headerProps: taskheaderProps,
+  headerProps: taskHeaderProps,
   physicsThermodyna: "Physics - thermodynamics assignment questions",
   frame1284: "/img/frame-1284@2x.png",
   q1PoremIpsumDolo:
@@ -457,7 +434,7 @@ const feedbacksFrame13171Data = {
 };
 
 const feedbacksFeedbackTeacherMobileData = {
-  headerProps: taskheaderProps,
+  headerProps: taskHeaderProps,
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",

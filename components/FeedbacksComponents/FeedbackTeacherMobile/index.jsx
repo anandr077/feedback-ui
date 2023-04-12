@@ -21,7 +21,7 @@ import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
 import ReactQuill from "react-quill";
 
-const taskheaderProps = {
+const taskHeaderProps = {
   firstButton: {
     text: "Home",
     icon: "/icons/homeIconUnselected.png",
@@ -182,7 +182,7 @@ function FeedbackTeacherMobile(props) {
     <div className="feedback-teacher-mobile screen">
       <Frame1388>
         <Frame1387>
-          <HeaderSmall headerProps={taskheaderProps} />
+          <HeaderSmall headerProps={taskHeaderProps} />
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />

@@ -15,30 +15,8 @@ import {
   IbmplexsansSemiBoldShark28px,
 } from "../styledMixins";
 import "./TaskDetailMobile.css";
+import {taskHeaderProps} from "../../../utils/headerProps.js";
 
-const taskheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
 function TaskDetailMobile(props) {
   const {
     assignment,
@@ -62,7 +40,7 @@ function TaskDetailMobile(props) {
   return (
     <div className="task-detail-mobile screen">
       <Frame1391>
-        <HeaderSmall headerProps={taskheaderProps} />
+        <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb />

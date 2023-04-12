@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "../Header";
+import {taskHeaderProps} from "../../utils/headerProps.js";
 
 const FeedbackTeacherLaptopRootRootRoot1 = ({}) => {
   const ButtonsFunction = (e, name) => {
@@ -19,32 +20,9 @@ const FeedbackTeacherLaptopRootRootRoot1 = ({}) => {
     alert(`${name} was clicked`);
   };
 
-  const taskheaderProps = {
-    firstButton: {
-      text: "Home",
-      icon: "/icons/homeIconUnselected.png",
-      iconSelected: "/icons/homeIconWhite.png",
-      selected: false,
-      redirect: "/",
-    },
-    secondButton: {
-      text: "Task",
-      icon: "/icons/taskIconUnselected.png",
-      iconSelected: "/icons/taskIconWhite.png",
-      selected: true,
-      redirect: "/tasks",
-    },
-    thirdButton: {
-      text: "Completed",
-      icon: "/icons/submissionIconUnselected.png",
-      iconSelected: "/icons/submissionIconWhite.png",
-      selected: false,
-      redirect: "/submissions",
-    },
-  };
   return (
     <FeedbackTeacherLaptopRootRootRoot>
-      <Header headerProps={taskheaderProps} />
+      <Header headerProps={taskHeaderProps} />
       <Group>
         <Assignments>Assignments</Assignments>
         <Vector17 src="https://file.rendit.io/n/7P4bVWu35bQV2hM4iOhL.svg" />

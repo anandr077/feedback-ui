@@ -25,7 +25,7 @@ const FeedbackTeacherLaptopRootRootRoot1 = ({}) => {
       icon: "/icons/homeIconUnselected.png",
       iconSelected: "/icons/homeIconWhite.png",
       selected: false,
-      redirect: "/dashboard-student",
+      redirect: "/",
     },
     secondButton: {
       text: "Task",

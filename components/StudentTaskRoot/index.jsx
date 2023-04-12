@@ -9,6 +9,19 @@ import TasksDesktop from "../TasksDesktop";
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+
+
+  React.useEffect(() => {
+    getTasks().then((result) => {
+      if (result) {
+      setAllTasks(result);
+      setIsLoading(false);
+      }
+    });
+  }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   const outstandingTasks = allTasks.filter(
     (task) => task.progressStatus === "OUTSTANDING"
   );
@@ -18,16 +31,6 @@ export default function StudentTaskRoot() {
   const overdueTasks = allTasks.filter(
     (task) => task.progressStatus === "OVERDUE"
   );
-
-  React.useEffect(() => {
-    getTasks().then((result) => {
-      setAllTasks(result);
-      setIsLoading(false);
-    });
-  }, []);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
   return (
     <ReactiveRender
       mobile={

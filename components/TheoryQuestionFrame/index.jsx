@@ -24,7 +24,7 @@ export default function TheoryQuestionFrame(props) {
             <Frame1297
               number={serialNumber}
               UpdateQuestionFrame={UpdateQuestionFrame}
-              defaultType="theory"
+              defaultType="TEXT"
             />
             <DeleteButtonFrame>
               <DeleteButton

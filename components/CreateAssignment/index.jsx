@@ -64,19 +64,18 @@ export default function CreateAssignment() {
 
   function UpdateQuestionFrame(index, questionType) {
     setQuestionFrames((oldFrames) => {
-      const questionFramesBefore = oldFrames.filter((_, i) => i < index - 1);
+      const questionFramesBefore = oldFrames.filter((_, i) => i < index);
       const questionFramesAfter = oldFrames.filter((_, i) => i > index);
       return [
         ...questionFramesBefore,
         createNewQuestionFrame(
-          index,
+          index + 1,
           (question = {
             serialNumber: index,
             question: document.getElementById("question_" + index).value,
             wordLimit: document.getElementById("wordLimit_" + index).value,
-            type: "TEXT",
-          }),
-          questionType
+            type: questionType,
+          })
         ),
         ...questionFramesAfter,
       ];
@@ -84,10 +83,10 @@ export default function CreateAssignment() {
     console.log("update" + questionType);
   }
 
-  function createNewQuestionFrame(serialNumber, questionDetails, questionType) {
+  function createNewQuestionFrame(serialNumber, questionDetails) {
     return (
       <>
-        {questionType === "mcq" ? (
+        {questionDetails?.type === "MCQ" ? (
           <MCQQuestionFrame
             serialNumber={serialNumber}
             deleteQuestionFrameFn={deleteQuestionFrameFn}

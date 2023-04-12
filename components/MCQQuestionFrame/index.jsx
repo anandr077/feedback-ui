@@ -36,7 +36,7 @@ export default function MCQQuestionFrame(props) {
         <Frame1297
           number={serialNumber}
           UpdateQuestionFrame={UpdateQuestionFrame}
-          defaultType="mcq"
+          defaultType="MCQ"
         />
         <DeleteButtonFrame>
           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber - 1)}>

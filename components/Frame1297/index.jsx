@@ -16,17 +16,17 @@ function Frame1297(props) {
     setShow(!show);
   };
   const setTypeTheory = () => {
-    setType("theory");
+    setType("TEXT");
 
-    UpdateQuestionFrame(number, "theory");
+    UpdateQuestionFrame(number, "TEXT");
 
     setShow(false);
   };
 
   const setTypeMCQ = () => {
-    console.log("mcq");
-    setType("mcq");
-    UpdateQuestionFrame(number, "mcq");
+    console.log("MCQ");
+    setType("MCQ");
+    UpdateQuestionFrame(number, "MCQ");
     setShow(false);
   };
   return (
@@ -57,7 +57,7 @@ function Frame1297(props) {
                 </DropDown>
               ) : (
                 <>
-                  {type == "theory" ? (
+                  {type == "TEXT" ? (
                     <RichTextComponents2>
                       <Assignment2
                         src="/img/assignment-4@2x.png"

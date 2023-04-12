@@ -22,12 +22,12 @@ import {
 import "./TaskDetailLaptop.css";
 import Footer from "../../Footer";
 import Header from "../../Header";
+import {taskHeaderProps} from "../../../utils/headerProps.js";
 
 function TaskDetailLaptop(props) {
   const {
     assignment,
     methods,
-    headerProps,
     frame1343,
     title,
     physicsThermodyna,
@@ -46,7 +46,7 @@ function TaskDetailLaptop(props) {
   return (
     <div className="task-detail-laptop screen">
       <Frame1391>
-        <Header headerProps={headerProps} />
+        <Header headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb />

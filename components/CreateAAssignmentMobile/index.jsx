@@ -5,6 +5,7 @@ import {
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px, IbmplexsansNormalShark20px, IbmplexsansNormalStack20px, IbmplexsansSemiBoldShark20px, IbmplexsansSemiBoldShark24px
 } from "../../styledMixins";
+import { taskHeaderProps } from "../../utils/headerProps.js";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
@@ -13,29 +14,6 @@ import GoBack from "../GoBack";
 import HeaderSmall from "../HeaderSmall";
 import "./CreateAAssignmentMobile.css";
 
-const taskheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
 function CreateAAssignmentMobile(props) {
   const {
     addQuestionFrameFn,
@@ -53,7 +31,7 @@ function CreateAAssignmentMobile(props) {
   return (
     <div className="create-a-assignment-mobile screen">
       <Frame1379>
-        <HeaderSmall headerProps={taskheaderProps} />
+        <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb />

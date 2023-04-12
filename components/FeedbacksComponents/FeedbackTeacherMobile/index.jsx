@@ -12,7 +12,7 @@ import ReviewsFrame1317 from "../ReviewsFrame1317";
 import ReviewsFrame131722 from "../ReviewsFrame131722";
 import "./FeedbackTeacherMobile.css";
 
-const taskheaderProps = {
+const taskHeaderProps = {
   firstButton: {
     text: "Home",
     icon: "/icons/homeIconUnselected.png",
@@ -173,7 +173,7 @@ function FeedbackTeacherMobile(props) {
     <div className="feedback-teacher-mobile screen">
       <Frame1388>
         <Frame1387>
-          <HeaderSmall headerProps={taskheaderProps} />
+          <HeaderSmall headerProps={taskHeaderProps} />
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />

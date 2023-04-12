@@ -5,6 +5,7 @@ import TasksStudentMobile from "../TasksStudentMobile";
 import TasksStudentTablet from "../TasksStudentTablet";
 import TasksLaptop from "../TasksLaptop";
 import TasksDesktop from "../TasksDesktop";
+import {taskHeaderProps} from "../../utils/headerProps.js";
 
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -77,29 +78,6 @@ export default function StudentTaskRoot() {
   );
 }
 
-const taskheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "/icons/submissionIconWhite.png",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
 
 const frame13041Data = {
   iconsaxLinearSort: "/img/iconsax-linear-sort@2x.png",
@@ -221,7 +199,7 @@ const frame192Data = {
 };
 
 const tasksStudentMobileData = {
-  headerProps: taskheaderProps,
+  headerProps: taskHeaderProps,
   frame1304Props: frame13041Data,
   tabs21Props: tabs23Data,
   tabs22Props: tabs24Data,
@@ -480,7 +458,7 @@ const frame191Data = {
 
 const tasksLaptopData = {
   frame19Props: frame191Data,
-  headerProps: taskheaderProps,
+  headerProps: taskHeaderProps,
 };
 
 const navElement4Data = {
@@ -538,5 +516,5 @@ const tasksDesktopData = {
   title: "Tasks",
   frame1306Props: frame13061Data,
   frame19Props: frame192Data,
-  headerProps: taskheaderProps,
+  headerProps: taskHeaderProps,
 };

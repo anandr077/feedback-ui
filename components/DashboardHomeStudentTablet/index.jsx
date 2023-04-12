@@ -10,30 +10,7 @@ import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
 import TaskCardContainer from "../TaskCardContainer";
 import "./DashboardHomeStudentTablet.css";
-
-const homeheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: true,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: false,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "icons/submissionIconWhite.png",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
+import { homeHeaderProps } from "../../utils/headerProps";
 function DashboardHomeStudentTablet(props) {
   const {
     outstandingTasks,
@@ -51,7 +28,7 @@ function DashboardHomeStudentTablet(props) {
   return (
     <div className="dashboard-home-student-tablet screen">
       <Frame1352>
-        <HeaderSmall headerProps={homeheaderProps} />
+        <HeaderSmall headerProps={homeHeaderProps} />
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>

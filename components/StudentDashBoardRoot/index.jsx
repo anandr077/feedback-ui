@@ -8,12 +8,19 @@ import { getTasks } from "../../service";
 
 export default function StudentDashboardRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     getTasks().then((result) => {
-      setAllTasks(result.slice(0, 10));
+      if (result) {
+        setAllTasks(result.slice(0, 10));
+        setIsLoading(false);
+      }
     });
   }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   const outstandingTasks = allTasks.filter(
     (task) => task.progressStatus === "OUTSTANDING"
   );

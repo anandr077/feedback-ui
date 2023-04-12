@@ -4,11 +4,8 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import Header from "../../Header";
 import QuillEditor from "../../QuillEditor";
-
 import styled from "styled-components";
-import {
-  markSubmissionReviewed as markSubmsissionReviewed
-} from "../../../service";
+
 import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,

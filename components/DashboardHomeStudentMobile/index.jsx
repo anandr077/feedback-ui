@@ -17,7 +17,7 @@ const homeheaderProps = {
     icon: "/icons/homeIconUnselected.png",
     iconSelected: "/icons/homeIconWhite.png",
     selected: true,
-    redirect: "/dashboard-student",
+    redirect: "/",
   },
   secondButton: {
     text: "Task",

@@ -3,6 +3,12 @@
   border-color: black;
   border-radius: 0px 0px 8px 8px;
 }
+.ql-editor strong {
+  font-weight: bold;
+}
+.ql-editor em {
+  font-style: italic;
+}
 .ql-editor.ql-blank::before {
   color: black;
 }

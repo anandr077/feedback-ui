@@ -29,13 +29,13 @@ function App() {
         </Route>
 
         <Route path="/submissions/:id">
-          <FeedbacksRoot isEditable={true} />
+          <FeedbacksRoot isFeedbackPage={false} />
         </Route>
         <Route path="/assignments/:assignmentId/start">
           <TaskDetail />
         </Route>
         <Route path="/feedbacks/:id">
-          <FeedbacksRoot isEditable={false} />
+          <FeedbacksRoot isFeedbackPage={true} />
         </Route>
         <Route path="/">
           {dashboard}

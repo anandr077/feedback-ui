@@ -13,14 +13,14 @@ export const teacherHomeHeaderProps = {
       icon: "/icons/assignmentUnselected.png",
       iconSelected: "/icons/assignmentWhite.png",
       selected: false,
-      redirect: "/tasks",
+      redirect: "/assignments",
     },
     thirdButton: {
       text: "Classes",
       icon: "/icons/classesUnselected.png",
       iconSelected: "/icons/classesWhite.png",
       selected: false,
-      redirect: "/submissions",
+      redirect: "/classes",
     },
 };
 
@@ -37,14 +37,14 @@ export const assignmentsHeaderProps = {
       icon: "/icons/assignmentUnselected.png",
       iconSelected: "/icons/assignmentWhite.png",
       selected: true,
-      redirect: "/tasks",
+      redirect: "/assignments",
     },
     thirdButton: {
       text: "Classes",
       icon: "/icons/classesUnselected.png",
       iconSelected: "/icons/classesWhite.png",
       selected: false,
-      redirect: "/submissions",
+      redirect: "/classes",
     },
 };
 export const taskHeaderProps = {

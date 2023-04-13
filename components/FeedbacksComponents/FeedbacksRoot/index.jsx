@@ -6,6 +6,7 @@ import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
+import ConfirmationDialog from "../../ConfirmationDialog";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { saveAnswer, submitAssignment } from "../../../service.js";
@@ -23,7 +24,7 @@ export default function FeedbacksRoot(props) {
   console.log("isEditableP is " + JSON.stringify(isEditable));
   const quillRefs = useRef([]);
   const feedbacksFrameRef = useRef(null);
-
+  const [showNotification, setShowNotification] = useState(false);
   const [submission, setSubmission] = useState(null);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +39,14 @@ export default function FeedbacksRoot(props) {
  
   const isEditableProps = isEditable.props.isEditable;
   console.log("isEditableProps is " + isEditableProps);
-  
+  const handleButtonClick = () => {
+    // do something that triggers the notification
+    setShowNotification(true);
+  };
+  const handleCloseNotification = () => {
+    // do something that triggers the notification
+    setShowNotification(false);
+  };
   useEffect(() => {
     if (submission === null) {
       console.log("id is " + id);
@@ -94,10 +102,15 @@ export default function FeedbacksRoot(props) {
       </div>
     );
   }
+  
+  
 
+  const handleConfirmation = () => {
+    setShowNotification(true);
+  };
 
   const handleEditorMounted = (editor, index) => {
-    console.log("Mounted " + editor);
+    console.log("Mounted " + JSON.stringify(editor) + " index " + index);
     quillRefs.current[index] = editor;
   };
 
@@ -172,6 +185,7 @@ export default function FeedbacksRoot(props) {
       answer: contents,
     }).then((_) => {
       console.log("Answer saved");
+      handleButtonClick();
     });
     console.log(serialNumber);
   };
@@ -206,7 +220,13 @@ export default function FeedbacksRoot(props) {
       return <ReviewsFrame129532 studentName={studentName} students={students}></ReviewsFrame129532>;
     }
   };
+  const msg =  (showNotification) ? 
+    <div>
+        <ConfirmationDialog message="This is a notification message" link="https://example.com" linkText="Click here for more info" onClose={handleCloseNotification} />
+    </div>
+    :<></>
   const methods = {
+    handleButtonClick,
     handleShareWithClass,
     handleAddComment,
     setShowNewComment,
@@ -233,9 +253,11 @@ export default function FeedbacksRoot(props) {
         />
       }
       laptop={
+        <>
         <FeedbackTeacherLaptop
           {...{ feedbacksFrameRef, methods, showNewComment,comments,studentName, students, submission,isEditableProps, ...feedbacksFeedbackTeacherLaptopData }}
         />
+        {msg}</>
       }
       desktop={
         <FeedbackTeacherLaptop
@@ -243,6 +265,7 @@ export default function FeedbacksRoot(props) {
         />
       }
     />
+    
   );
 
   

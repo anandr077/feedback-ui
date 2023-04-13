@@ -1,13 +1,13 @@
 import React from "react";
-import { getTasks } from "../../service";
-import ReactiveRender from "../ReactiveRender";
-import TasksStudentMobile from "../TasksStudentMobile";
-import TasksStudentTablet from "../TasksStudentTablet";
-import TasksLaptop from "../TasksLaptop";
-import TasksDesktop from "../TasksDesktop";
-import {taskHeaderProps} from "../../utils/headerProps.js";
+import { getTasks } from "../../../service";
+import ReactiveRender from "../../ReactiveRender";
+import TeacherTasksStudentMobile from "../TeacherTasksStudentMobile";
+import TeacherTasksStudentTablet from "../TeacherTasksStudentTablet";
+import TeacherTasksLaptop from "../TeacherTasksLaptop";
+import TeacherTasksDesktop from "../TeacherTasksDesktop";
+import {assignmentsHeaderProps, taskHeaderProps} from "../../../utils/headerProps.js";
 
-export default function StudentTaskRoot() {
+export default function TeacherTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -24,8 +24,7 @@ export default function StudentTaskRoot() {
     return <div>Loading...</div>;
   }
   const outstandingTasks = allTasks.filter(
-    (task) => (task.progressStatus === "OUTSTANDING"
-  ||task.progressStatus === "REVIEWED")
+    (task) => task.progressStatus === "OUTSTANDING"
   );
   const inProgressTasks = allTasks.filter(
     (task) => task.progressStatus === "IN_PROGRESS"
@@ -36,7 +35,7 @@ export default function StudentTaskRoot() {
   return (
     <ReactiveRender
       mobile={
-        <TasksStudentMobile
+        <TeacherTasksStudentMobile
           {...{
             outstandingTasks,
             inProgressTasks,
@@ -46,7 +45,7 @@ export default function StudentTaskRoot() {
         />
       }
       tablet={
-        <TasksStudentTablet
+        <TeacherTasksStudentTablet
           {...{
             outstandingTasks,
             inProgressTasks,
@@ -56,7 +55,7 @@ export default function StudentTaskRoot() {
         />
       }
       laptop={
-        <TasksLaptop
+        <TeacherTasksLaptop
           {...{
             outstandingTasks,
             inProgressTasks,
@@ -66,7 +65,7 @@ export default function StudentTaskRoot() {
         />
       }
       desktop={
-        <TasksDesktop
+        <TeacherTasksDesktop
           {...{
             outstandingTasks,
             inProgressTasks,
@@ -200,7 +199,7 @@ const frame192Data = {
 };
 
 const tasksStudentMobileData = {
-  headerProps: taskHeaderProps,
+  headerProps: assignmentsHeaderProps,
   frame1304Props: frame13041Data,
   tabs21Props: tabs23Data,
   tabs22Props: tabs24Data,

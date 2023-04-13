@@ -276,7 +276,7 @@ function handleErrors(response) {
   if (!response.ok) {
     console.log(response);
     login().then((data) => {
-      // window.location.reload();
+      window.location.reload();
     });
   }
   return response;

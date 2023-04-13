@@ -5,7 +5,7 @@ import "quill/dist/quill.snow.css";
 import "./styles.css";
 
 const QuillEditor = React.forwardRef(
-  ({ comments, value, onSelectionChange, onChangeFn, options }, ref) => {
+  ({ comments, value, onSelectionChange, options }, ref) => {
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
     useEffect(() => {
@@ -17,13 +17,9 @@ const QuillEditor = React.forwardRef(
 
         editor.on('text-change', function(delta, oldDelta, source) {
             var contents = editor.root.innerHTML;
-            console.log("contents " + JSON.stringify(delta))
-            onChangeFn(contents);
         });
 
         editor.on("selection-change", (range1, range2) => {
-          console.log("range  selected 1" + JSON.stringify(range1));
-          console.log("range  selected 2" + JSON.stringify(range2));
           if (range1 && range1.length > 0) {
             onSelectionChange(range1);
           }

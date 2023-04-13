@@ -251,6 +251,28 @@ export const markSubmissionReviewed = async (submissionId) => {
     .catch(errorHandler);
 };
 
+
+export const markSubmsissionClosed = async (submissionId) => {
+  const s = JSON.stringify(submissionId);
+
+  const url =
+    baseUrl + "/submissions/" + s.substring(1, s.length - 1) + "/closed";
+  console.log("url " + url);
+  return await fetch(url, {
+    method: "PATCH",
+    withCredentials: true,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
+
 export const createSubmission = async (submission) => {
   return await fetch(baseUrl + "/submissions", {
     method: "POST",

@@ -28,7 +28,7 @@ export default function StudentTaskRoot() {
   ||task.progressStatus === "REVIEWED")
   );
   const inProgressTasks = allTasks.filter(
-    (task) => task.progressStatus === "IN_PROGRESS"
+    (task) => task.progressStatus === "DRAFT"
   );
   const overdueTasks = allTasks.filter(
     (task) => task.progressStatus === "OVERDUE"

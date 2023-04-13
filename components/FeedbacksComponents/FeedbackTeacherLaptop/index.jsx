@@ -29,17 +29,17 @@ import CommentCard32 from "../CommentCard32";
 import ReviewsFrame129532 from "../ReviewsFrame129532";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
 import "./FeedbackTeacherLaptop.css";
-import { getUserName } from "../../../service";
+import { getUserName, getUserRole } from "../../../service";
 
 function FeedbackTeacherLaptop(props) {
   const {
-    feedbacksFrameRef,
+    pageMode,
+    newCommentFrameRef,
     showNewComment,
     methods,
     comments,
     studentName, 
     students,
-    isEditableProps,
     headerProps,
     submission,
     frame1284,
@@ -52,10 +52,8 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-
-  const isEditable = isEditableProps;
  
-
+  console.log("pageMode " + pageMode)
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
@@ -69,9 +67,60 @@ function FeedbackTeacherLaptop(props) {
     );
   });
   const modules = {
-    toolbar: isEditable,
+    toolbar: pageMode === "EDITOR" || pageMode === "REVISE",
   };
 
+  const feedbackFrame = ()=> {
+    if (pageMode === "DRAFT") {
+      return <></>
+    }
+    console.log("pageMode feedbackFrame" + pageMode)
+    return <Frame1331>
+      <Frame1322>
+        <ReviewsFrame1320>
+          {frame13201Props.children}
+        </ReviewsFrame1320>
+        <ReviewsFrame1320 className={frame13202Props.className}>
+          {frame13202Props.children}
+        </ReviewsFrame1320>
+      </Frame1322>
+      <>
+        {showNewComment ? (
+          <>
+            <Screen onClick={() => methods.setShowNewComment(false)}></Screen>
+            {newCommentFrame}
+          </>
+        ) : (
+          <Frame1328>{commentsFrame}</Frame1328>
+        )}
+      </>
+    </Frame1331>
+  }
+  const submitButton = () => {
+    if (pageMode === "DRAFT") {
+      return  <Buttons2
+          button="Submit For Review"
+          arrowright={true}
+          onClickFn={() => methods.handleSaveSubmissionForReview()}
+        ></Buttons2>
+      
+    }
+    if (pageMode === "REVIEW") {
+      return  <Buttons2
+          button="Submit & Next"
+          arrowright={true}
+          onClickFn={() => methods.handleSubmissionReviewed()}
+        ></Buttons2>
+    }
+    if (pageMode === "REVISE") {
+      return  <Buttons2
+          button="Submit & Next"
+          arrowright={true}
+          onClickFn={() => methods.handleSubmissionClosed()}
+        ></Buttons2>
+    }
+    return <></>
+  }
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -97,11 +146,11 @@ function FeedbackTeacherLaptop(props) {
               })}
               value={answerValue ? answerValue : ""}
               onSelectionChange={methods.onSelectionChange(answer.serialNumber)}
-              onChangeFn={methods.onChangeFn(question.serialNumber)}
+              // onChangeFn={methods.onChangeFn(question.serialNumber)}
               options={{
                 modules: modules,
                 theme: "snow",
-                readOnly: !isEditable,
+                readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
               }}
 
             ></QuillEditor>
@@ -111,28 +160,11 @@ function FeedbackTeacherLaptop(props) {
       </>
     );
   });
-  const tasksListsDropDown = methods.createTasksDropDown(isEditable);
-
-  const feedbackFrame = (
-    <>
-      <Frame1329>
-        <Frame1406>
-          <Frame1326>
-            <TypeHere>
-              <TextInput
-                id="newCommentInput"
-                ref={feedbacksFrameRef}
-                placeholder="Comment here...."
-                // value={newCommentValue}
-                // onChange={handleInputChange}
-                onKeyPress={methods.handleKeyPress}
-              ></TextInput>
-            </TypeHere>
-          </Frame1326>
-          <SubmitCommentFrameRoot submitButtonOnClick={methods.handleAddComment}/>
-
-        </Frame1406>
-        <Line6 src="/icons/line.png" alt="Line 6" />
+  const tasksListsDropDown = methods.createTasksDropDown();
+  const shareWithClassFrame = () => {
+    if (getUserRole() === "STUDENT")
+      return <></>
+    return <><Line6 src="/icons/line.png" alt="Line 6" />
         <Frame1383>
           <Frame13311>
             <Frame1284 src="/icons/share.png" />
@@ -141,10 +173,34 @@ function FeedbackTeacherLaptop(props) {
           <Buttons4 text={"Share with class"} onClickFn={methods.handleShareWithClass}/>
         </Frame1383>
         <Line6 src="/icons/line.png" alt="Line 6" />
+        </>
+  }
+  const newCommentFrame = (
+    <>
+      <Frame1329>
+        <Frame1406>
+          <Frame1326>
+            <TypeHere>
+              <TextInput
+                id="newCommentInput"
+                ref={newCommentFrameRef}
+                placeholder="Comment here...."
+                // value={newCommentValue}
+                // onChange={handleInputChange}
+                onKeyPress={methods.handleKeyPress}
+              ></TextInput>
+            </TypeHere>
+          </Frame1326>
+          
+          <SubmitCommentFrameRoot submitButtonOnClick={methods.handleAddComment}/>
+          {shareWithClassFrame()}
+        </Frame1406>
+        
       </Frame1329>
     </>
   );
-
+  
+  
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
@@ -165,62 +221,17 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-            {isEditable ? (
-              <Buttons2
-                button="Submit For Review"
-                arrowright={true}
-                onClickFn={() => methods.handleSaveSubmissionForReview()}
-              ></Buttons2>
-            ) : (
-              <Buttons2
-                button="Submit & Next"
-                arrowright={true}
-                onClickFn={() => methods.handleSubmissionReviewed()}
-              ></Buttons2>
-            )}
+            {submitButton()}
           </Frame1371>
           <Frame1368>
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>
-            {!isEditable && (
-              <Frame1331>
-                <Frame1322>
-                  <ReviewsFrame1320>
-                    {frame13201Props.children}
-                  </ReviewsFrame1320>
-                  <ReviewsFrame1320 className={frame13202Props.className}>
-                    {frame13202Props.children}
-                  </ReviewsFrame1320>
-                </Frame1322>
-                <>
-                  {showNewComment ? (
-                    <>
-                      <Screen onClick={() => methods.setShowNewComment(false)}></Screen>
-                      {feedbackFrame}
-                    </>
-                  ) : (
-                    <Frame1328>{commentsFrame}</Frame1328>
-                  )}
-                </>
-              </Frame1331>
-            )}
+            {feedbackFrame()}
           </Frame1368>
           <Frame1370>
-            <Frame131612>{tasksListsDropDown}</Frame131612>
-            {isEditable ? (
-              <Buttons2
-                button="Submit For Review"
-                arrowright={true}
-                onClickFn={() => methods.handleSaveSubmissionForReview()}
-              ></Buttons2>
-            ) : (
-              <Buttons2
-                button="Submit & Next"
-                arrowright={true}
-                onClickFn={() => methods.handleSubmissionReviewed()}
-              ></Buttons2>
-            )}
+          <Frame131612>{tasksListsDropDown}</Frame131612>
+            {submitButton()}
           </Frame1370>
         </Frame1386>
       </Frame1388>
@@ -229,7 +240,7 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function createSaveAnswerButton(question) {
-    if (!isEditable) return <></>
+    if (pageMode === "REVIEW" || pageMode === "CLOSED") return <></>
     return <SaveDraftButtonContainer>
       <Buttons2
         id={"saveAnswer_" + question.serialNumber}

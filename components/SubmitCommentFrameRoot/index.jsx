@@ -3,9 +3,7 @@ import styled from "styled-components";
 import "./SubmitCommentFrameRoot.css"
 const SubmitCommentFrameRoot = (props) => {
   const {submitButtonOnClick, cancelButtonOnClick} = props;
-  const SmallButtonFunction = (e, name) => {
-    alert(`${name} was clicked`);
-  };
+ 
   const SmallButtonWhiteFunction = (e, name) => {
     alert(`${name} was clicked`);
   };

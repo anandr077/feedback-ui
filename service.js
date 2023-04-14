@@ -59,6 +59,20 @@ export const getTasks = async () => {
     })
     .catch(errorHandler);
 };
+
+export const getCompletedTasks = async () => {
+  return await fetch(baseUrl + "/completed-tasks", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
 export const getNotifications = async () => {
   return await fetch(baseUrl + "/tasks/notifications", {
     method: "GET",
@@ -298,7 +312,7 @@ function handleErrors(response) {
   if (!response.ok) {
     console.log(response);
     login().then((data) => {
-      window.location.reload();
+      //window.location.reload();
     });
   }
   return response;

@@ -12,4 +12,8 @@ export const formattedDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString(undefined, options);
 }
+export const dateOnly = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+}
 

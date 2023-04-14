@@ -67,8 +67,32 @@ export const taskHeaderProps = {
       icon: "/icons/submissionIconUnselected.png",
       iconSelected: "",
       selected: false,
-      redirect: "/submissions",
+      redirect: "/completed",
     },
+};
+
+export const completedHeaderProps = {
+  firstButton: {
+    text: "Home",
+    icon: "/icons/homeIconUnselected.png",
+    iconSelected: "/icons/homeIconWhite.png",
+    selected: false,
+    redirect: "/",
+  },
+  secondButton: {
+    text: "Task",
+    icon: "/icons/taskIconUnselected.png",
+    iconSelected: "/icons/taskIconWhite.png",
+    selected: false,
+    redirect: "/tasks",
+  },
+  thirdButton: {
+    text: "Completed",
+    icon: "/icons/submissionIconUnselected.png",
+    iconSelected: "/icons/submissionIconWhite.png",
+    selected: true,
+    redirect: "/completed",
+  },
 };
 export const homeHeaderProps = {
     firstButton: {
@@ -76,7 +100,7 @@ export const homeHeaderProps = {
       icon: "/icons/homeIconUnselected.png",
       iconSelected: "/icons/homeIconWhite.png",
       selected: true,
-      redirect: "/dashboard-student",
+      redirect: "/",
     },
     secondButton: {
       text: "Task",
@@ -90,6 +114,6 @@ export const homeHeaderProps = {
       icon: "/icons/submissionIconUnselected.png",
       iconSelected: "icons/submissionIconWhite.png",
       selected: false,
-      redirect: "/submissions",
+      redirect: "/completed",
     },
   };

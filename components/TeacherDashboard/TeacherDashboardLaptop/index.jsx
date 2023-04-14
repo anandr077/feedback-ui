@@ -1,5 +1,4 @@
 import React from "react";
-import TeacherDashboardHeader from "../TeacherDashboardHeader";
 import Group1205 from "../Group1205";
 import Frame13124 from "../Frame13124";
 import Frame14072 from "../Frame14072";

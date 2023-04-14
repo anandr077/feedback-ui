@@ -8,6 +8,7 @@ import FeedbacksRoot from "./components/FeedbacksComponents/FeedbacksRoot";
 import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboardRoot";
 import { getUserRole } from "./service";
 import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
+import CompletedRoot from "./components/Completed/CompletedRoot";
 
 function App() {
   const role = getUserRole()
@@ -17,6 +18,9 @@ function App() {
       <Switch>
         <Route path="/tasks">
           <StudentTaskRoot />
+        </Route>
+        <Route path="/completed">
+          <CompletedRoot />
         </Route>
         <Route path="/assignments/new">
           <CreateAssignment />

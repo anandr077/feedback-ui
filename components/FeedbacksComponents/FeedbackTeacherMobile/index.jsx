@@ -11,30 +11,7 @@ import Breadcrumb2 from "../Breadcrumb2";
 import ReviewsFrame1317 from "../ReviewsFrame1317";
 import ReviewsFrame131722 from "../ReviewsFrame131722";
 import "./FeedbackTeacherMobile.css";
-
-const taskHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
+import {taskHeaderProps} from "../../../utils/headerProps.js";
 function FeedbackTeacherMobile(props) {
   const {
     physicsThermodyna,

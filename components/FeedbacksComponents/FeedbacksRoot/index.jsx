@@ -4,7 +4,7 @@ import { React, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { addFeedback, getCommentsForSubmission, getSubmissionById, getTasks, getUserRole, markSubmissionReviewed as markSubmsissionReviewed, markSubmsissionClosed } from "../../../service";
 import { saveAnswer, submitAssignment } from "../../../service.js";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
+import { taskHeaderProps, assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
@@ -98,7 +98,7 @@ export default function FeedbacksRoot({isFeedbackPage}) {
   }
   const handleSaveSubmissionForReview = () => {
     submitAssignment(submission.id).then((_) => {
-      window.location.href = "/dashboard";
+      window.location.href = "/";
     });
   };
   function handleSubmissionClosed() {
@@ -175,7 +175,7 @@ export default function FeedbacksRoot({isFeedbackPage}) {
     handlesaveAnswer,
     createTasksDropDown,
     onSelectionChange,
-    //onChangeFn
+    setStudentName
   };
 
   return (
@@ -208,6 +208,8 @@ export default function FeedbacksRoot({isFeedbackPage}) {
 
   
 }
+const isTeacher = getUserRole() === "TEACHER";
+
 const feedbacksNavElement1Data = {
   home3: "/img/home3-1@2x.png",
   place: "Home",
@@ -319,7 +321,7 @@ const feedbacksFrame13172Data = {
 };
 
 const feedbacksFeedbackTeacherLaptopData = {
-  headerProps: taskHeaderProps,
+  headerProps: isTeacher?assignmentsHeaderProps:taskHeaderProps,
   physicsThermodyna: "Physics - thermodynamics assignment questions",
   frame1284: "/img/frame-1284@2x.png",
   q1PoremIpsumDolo:
@@ -416,7 +418,7 @@ const feedbacksFrame13171Data = {
 };
 
 const feedbacksFeedbackTeacherMobileData = {
-  headerProps: taskHeaderProps,
+  headerProps: isTeacher?assignmentsHeaderProps:taskHeaderProps,
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",

@@ -11,11 +11,12 @@ function ReviewsFrame129532(props) {
   const [showOptions, setShowOptions] = React.useState(false);
 
   const toggleOptions = (event) => {
+    console.log("event.currentTarget.getAttribute()" + event.currentTarget.getAttribute("data-name"))
     if (event.currentTarget.getAttribute("data-name") == null) {
-      setStudentName(studentName);
+      // setStudentName(studentName);
       setSelectedStudentIcon(selectedStudentIcon);
     } else {
-      setStudentName(event.currentTarget.getAttribute("data-name"));
+      //setStudentName(event.currentTarget.getAttribute("data-name"));
       setSelectedStudentIcon(event.currentTarget.getAttribute("data-icon"));
     }
     setShowOptions(!showOptions);

@@ -5,6 +5,7 @@ import DashboardHomeStudentDesktop from "../DashboardHomeStudentDesktop";
 import DashboardHomeStudentTablet from "../DashboardHomeStudentTablet";
 import DashboardHomeStudentMobile from "../DashboardHomeStudentMobile";
 import { getTasks } from "../../service";
+import {homeHeaderProps} from "../../utils/headerProps.js";
 
 export default function StudentDashboardRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -77,29 +78,6 @@ export default function StudentDashboardRoot() {
   );
 }
 
-const studentDashboardheaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: true,
-    redirect: "/dashboard-student",
-  },
-  secondButton: {
-    text: "Task",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: false,
-    redirect: "/tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "icons/submissionIconWhite.png",
-    selected: false,
-    redirect: "/submissions",
-  },
-};
 
 const group120523Data = {
   arrowright: "/img/arrowright@2x.png",
@@ -159,7 +137,7 @@ const dashboardHomeStudentLaptopData = {
   maskGroup: "/img/mask-group-2.png",
   group1205Props: group12055Data,
   frame1340Props: frame13402Data,
-  headerProps: studentDashboardheaderProps,
+  headerProps: homeHeaderProps,
 };
 
 const group12053Data = {
@@ -193,5 +171,5 @@ const dashboardHomeStudentDesktopData = {
   maskGroup: "/img/mask-group-3.png",
   group1205Props: group12053Data,
   frame1340Props: frame13401Data,
-  headerProps: studentDashboardheaderProps,
+  headerProps: homeHeaderProps,
 };

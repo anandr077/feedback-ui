@@ -1,0 +1,11 @@
+.completed-mobile {
+  align-items: flex-start;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  min-width: 390px;
+  position: relative;
+}
+

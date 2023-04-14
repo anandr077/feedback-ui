@@ -67,9 +67,10 @@ function FeedbackTeacherLaptop(props) {
     );
   });
   const modules = {
-    toolbar: pageMode === "EDITOR" || pageMode === "REVISE",
+    toolbar: (pageMode === "DRAFT" || pageMode === "REVISE")
   };
-
+  console.log("modules.toolbar " + modules.toolbar)
+  console.log("modules.toolbar2 " + (pageMode === "EDITOR" || pageMode === "REVISE"))
   const feedbackFrame = ()=> {
     if (pageMode === "DRAFT") {
       return <></>

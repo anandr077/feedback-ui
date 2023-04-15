@@ -177,6 +177,20 @@ export const getModelResponsesForClass = async (classId) => {
     .catch(errorHandler);
 };
 
+export const getStudentsForClass = async (classId) => {
+  return await fetch(baseUrl + "/classes/" + classId + "/students", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
+
 export const getClasses = async () => {
   return await fetch(baseUrl + "/classes", {
     method: "GET",

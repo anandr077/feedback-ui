@@ -1,15 +1,7 @@
 import React from "react";
 import Frame1285 from "../Frame1285";
 import Buttons from "../Buttons";
-import Frame13123 from "../Frame13123";
-import Frame1284 from "../Frame1284";
-import Frame1283 from "../Frame1283";
-import Frame1282 from "../Frame1282";
-import Frame12842 from "../Frame12842";
-import Frame12852 from "../Frame12852";
-import Frame1407 from "../Frame1407";
-import Frame12082 from "../Frame12082";
-import Frame13135 from "../Frame13135";
+
 import Frame13373 from "../Frame13373";
 import Frame12843 from "../Frame12843";
 import Frame12832 from "../Frame12832";
@@ -30,16 +22,17 @@ import "./TeacherClassesLaptop.css";
 import Header from "../../Header";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
+import {createStudentsFrames, createModelResponsesFrames} from "../TeacherClassesRoot/methods";
 
 function TeacherClassesLaptop(props) {
   const {
     modelResponses,
+    students,
     title,
     x12Engadv3,
     frame12841,
     xclass,
     frame12842,
-    students,
     line171,
     line172,
     line18,
@@ -101,41 +94,11 @@ function TeacherClassesLaptop(props) {
         <Frame1417>
           <Frame1339>
             <Frame1337>
-              <Students>{students}</Students>
+              <Students>Students</Students>
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>
-              <Frame13121>
-                <Frame13122>
-                  <Frame13123 boyleJonny={frame13123Props.boyleJonny} arrowdown2={frame13123Props.arrowdown2} />
-                  <Line171 src={line172} alt="Line 17" />
-                  <Frame1307>
-                    <Frame1284 />
-                    <Frame1283 />
-                    <Frame1282 />
-                  </Frame1307>
-                  <Line171 src={line18} alt="Line 18" />
-                  <Frame1307>
-                    <Frame12842 />
-                    <Frame12852 />
-                  </Frame1307>
-                  <Line171 src={line19} alt="Line 19" />
-                  <Frame14071>
-                    <Frame1407 frame1208Props={frame1407Props.frame1208Props} />
-                    <Line172 src={line173} alt="Line 17" />
-                    <Frame12082 arrowright={frame12082Props.arrowright} />
-                  </Frame14071>
-                </Frame13122>
-              </Frame13121>
-              <Frame13135 frame13123Props={frame131351Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131352Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131353Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131354Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131355Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131356Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131357Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131358Props.frame13123Props} />
-              <Frame13135 frame13123Props={frame131359Props.frame13123Props} />
+              {createStudentsFrames(students)}
             </Frame1336>
           </Frame1339>
           <Frame1416>
@@ -193,16 +156,6 @@ function TeacherClassesLaptop(props) {
       <Footer/>
     </div>
   );
-}
-
-const createModelResponsesFrames = (modelResponses)=>{
-  console.log("createModelResponsesFrames " + modelResponses)
- 
-  return <>{
-    modelResponses.map((modelResponse, index)=>{
-    return <Cards2 modelResponse={modelResponse} />
-  })}
-  </>
 }
 
 const Frame1422 = styled.div`

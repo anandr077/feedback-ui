@@ -30,9 +30,13 @@ import {
 } from "../styledMixins";
 import "./TeacherClassesMobile.css";
 import HeaderSmall from "../../HeaderSmall";
-
+import { classesHomeHeaderProps } from "../../../utils/headerProps";
+import FooterSmall from "../../FooterSmall";
+import {createModelResponsesFrames, createStudentsFrames} from "../TeacherClassesRoot/methods";
 function TeacherClassesMobile(props) {
   const {
+    modelResponses,
+    students,
     headerProps,
     frame5,
     title,
@@ -42,7 +46,6 @@ function TeacherClassesMobile(props) {
     frame12842,
     subject,
     frame12843,
-    students,
     line171,
     line172,
     line18,
@@ -82,15 +85,7 @@ function TeacherClassesMobile(props) {
   return (
     <div className="teacher-classes-mobile screen">
       <Frame1422>
-        <Frame1350>
-          <Frame1349>
-            <Logo />
-          </Frame1349>
-          <Frame5>
-            <Notifications src={notificationsProps.src} className={notificationsProps.className} />
-            <Frame51 src={frame5} alt="Frame 5" />
-          </Frame5>
-        </Frame1350>
+        <HeaderSmall headerProps={classesHomeHeaderProps} />
         <Frame1312>
           <Title>{title}</Title>
         </Frame1312>
@@ -116,40 +111,11 @@ function TeacherClassesMobile(props) {
         <Frame14221>
           <Frame1339>
             <Frame1337>
-              <Students>{students}</Students>
+              <Students>Students</Students>
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>
-              <Frame13121>
-                <Frame13123>
-                  <Frame13122 boyleJonny={frame13122Props.boyleJonny} arrowdown2={frame13122Props.arrowdown2} />
-                  <Line171 src={line172} alt="Line 17" />
-                  <Frame1307>
-                    <Frame1284 />
-                    <Frame1283 />
-                    <Frame1282 />
-                  </Frame1307>
-                  <Line171 src={line18} alt="Line 18" />
-                  <Frame1307>
-                    <Frame12842 />
-                    <Frame12852 />
-                  </Frame1307>
-                  <Line171 src={line19} alt="Line 19" />
-                  <Frame1307>
-                    <Frame1208 down={frame1208Props.down} />
-                    <Frame12082 arrowright={frame12082Props.arrowright} />
-                  </Frame1307>
-                </Frame13123>
-              </Frame13121>
-              <Frame13133 frame13122Props={frame131331Props.frame13122Props} />
-              <Frame13133 frame13122Props={frame131332Props.frame13122Props} />
-              <Frame13133 frame13122Props={frame131333Props.frame13122Props} />
-              <Frame13133 frame13122Props={frame131334Props.frame13122Props} />
-              <Frame13133 frame13122Props={frame131335Props.frame13122Props} />
-              <Frame13133 frame13122Props={frame131336Props.frame13122Props} />
-              <Frame1319 milesFloyd={frame13191Props.milesFloyd} />
-              <Frame1319 milesFloyd={frame13192Props.milesFloyd} />
-              <Frame1319 milesFloyd={frame13193Props.milesFloyd} />
+              {createStudentsFrames(students)}
             </Frame1336>
           </Frame1339>
           <Frame1416>
@@ -198,23 +164,13 @@ function TeacherClassesMobile(props) {
               </Frame1338>
               <Line17 src={line175} alt="Line 17" />
               <Frame12>
-                <Cards />
-                <Cards2 />
-                <Cards2 />
-                <Cards2 />
+                {createModelResponsesFrames(modelResponses)}
               </Frame12>
             </Frame1341>
           </Frame1416>
         </Frame14221>
       </Frame1422>
-      <Frame1420>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1420>
+      <FooterSmall/>
     </div>
   );
 }

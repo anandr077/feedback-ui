@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
 
 
-function Cards2(props) {
+function  Cards2(props) {
   const {modelResponse} = props
   return (
     <Cards>
       <Content>
         <PhysicsThermodyna>
-          {modelResponse.comment}
+          {modelResponse.response}
         </PhysicsThermodyna>
         <FundamentalsOfThermalPhysics>{modelResponse.assignmentTitle}</FundamentalsOfThermalPhysics>
       </Content>

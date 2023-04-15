@@ -1,41 +1,32 @@
 import React from "react";
-import Frame1285 from "../Frame1285";
-import Buttons from "../Buttons";
-import Frame1312 from "../Frame1312";
-import Frame1284 from "../Frame1284";
-import Frame1283 from "../Frame1283";
-import Frame1282 from "../Frame1282";
-import Frame12842 from "../Frame12842";
-import Frame12852 from "../Frame12852";
-import Frame1407 from "../Frame1407";
-import Frame12082 from "../Frame12082";
-import Frame1313 from "../Frame1313";
-import Frame1337 from "../Frame1337";
-import Frame12843 from "../Frame12843";
-import Frame12832 from "../Frame12832";
-import Frame12822 from "../Frame12822";
-import Frame13132 from "../Frame13132";
-import Group1205 from "../Group1205";
-import Cards from "../Cards";
-import Cards2 from "../Cards2";
-import Frame6 from "../Frame6";
 import styled from "styled-components";
+import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
+import Header from "../../Header";
+import Buttons from "../Buttons";
+import Frame12822 from "../Frame12822";
+import Frame12832 from "../Frame12832";
+import Frame12843 from "../Frame12843";
+import Frame1285 from "../Frame1285";
+import Frame13132 from "../Frame13132";
+import Frame1337 from "../Frame1337";
+import Frame6 from "../Frame6";
+import Group1205 from "../Group1205";
 import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansBoldShark64px,
-  IbmplexsansNormalChicago13px,
+  IbmplexsansBoldShark64px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalShark16px
 } from "../styledMixins";
+import { createModelResponsesFrames, createStudentsFrames } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesDesktop.css";
 
 function TeacherClassesDesktop(props) {
   const {
+    modelResponses,
+    students,
     title,
+    headerProps,
     x12Engadv3,
     frame12841,
     xclass,
     frame12842,
-    students,
     line171,
     line172,
     line18,
@@ -72,12 +63,7 @@ function TeacherClassesDesktop(props) {
   return (
     <div className="teacher-classes-desktop screen">
       <Frame1422>
-        {/* <TeacherDashboardHeader
-          logo={teacherDashboardHeaderProps.logo}
-          navElement1Props={teacherDashboardHeaderProps.navElement1Props}
-          navElement2Props={teacherDashboardHeaderProps.navElement2Props}
-          frame5Props={teacherDashboardHeaderProps.frame5Props}
-        /> */}
+        <Header headerProps={classesHomeHeaderProps}></Header>
         <Frame13121>
           <Title>{title}</Title>
         </Frame13121>
@@ -102,41 +88,11 @@ function TeacherClassesDesktop(props) {
         <Frame1417>
           <Frame1339>
             <Frame13371>
-              <Students>{students}</Students>
+              <Students>Students</Students>
             </Frame13371>
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>
-              <Frame13122>
-                <Frame13123>
-                  <Frame1312 boyleJonny={frame1312Props.boyleJonny} arrowdown2={frame1312Props.arrowdown2} />
-                  <Line171 src={line172} alt="Line 17" />
-                  <Frame1307>
-                    <Frame1284 />
-                    <Frame1283 />
-                    <Frame1282 />
-                  </Frame1307>
-                  <Line171 src={line18} alt="Line 18" />
-                  <Frame1307>
-                    <Frame12842 />
-                    <Frame12852 />
-                  </Frame1307>
-                  <Line171 src={line19} alt="Line 19" />
-                  <Frame14071>
-                    <Frame1407 frame1208Props={frame1407Props.frame1208Props} />
-                    <Line172 src={line173} alt="Line 17" />
-                    <Frame12082 arrowright={frame12082Props.arrowright} />
-                  </Frame14071>
-                </Frame13123>
-              </Frame13122>
-              <Frame1313 frame1312Props={frame13131Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13132Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13133Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13134Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13135Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13136Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13137Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13138Props.frame1312Props} />
-              <Frame1313 frame1312Props={frame13139Props.frame1312Props} />
+              {createStudentsFrames(students)}
             </Frame1336>
           </Frame1339>
           <Frame1416>
@@ -185,10 +141,7 @@ function TeacherClassesDesktop(props) {
               </Frame13371>
               <Line17 src={line176} alt="Line 17" />
               <Frame12>
-                <Cards />
-                <Cards2 />
-                <Cards2 />
-                <Cards2 />
+                {createModelResponsesFrames(modelResponses)}
               </Frame12>
             </Frame1339>
           </Frame1416>

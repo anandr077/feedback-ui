@@ -7,12 +7,14 @@ import TeacherClassesDesktop from "../TeacherClassesDesktop";
 import TeacherClassesLaptop from "../TeacherClassesLaptop";
 import TeacherClassesMobile from "../TeacherClassesMobile";
 import TeacherClassesTablet from "../TeacherClassesTablet";
-import {getModelResponsesForClass, getClasses} from "../../../service.js";
+import {getModelResponsesForClass, getClasses, getStudentsForClass} from "../../../service.js";
+import {classesHomeHeaderProps} from "../../../utils/headerProps.js"
 export default function TeacherClassesRoot() { 
   const { classIdFromUrl } = useParams();
   const [classId, setClassId] = useState(classIdFromUrl);
   
 
+  const [students, setStudents] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -25,13 +27,17 @@ export default function TeacherClassesRoot() {
     }
   }, [classId]);
   useEffect(() => {
-    getModelResponsesForClass(classId).then((result) => {
-        if (result) {
-            setModelResponses(result);
-
+    if (classId) {
+        Promise.all([
+            getModelResponsesForClass(classId),
+            getStudentsForClass(classId)
+        ]
+        ).then(([modelResponses, studentsResponse]) => {
+            setModelResponses(modelResponses);
+            setStudents(studentsResponse);
             setIsLoading(false);
-        }
-    });
+        })
+    }
   }, [classId]);
   console.log("loading: ", isLoading);
 
@@ -43,16 +49,16 @@ export default function TeacherClassesRoot() {
   return (
     <ReactiveRender
       mobile={
-        <TeacherClassesMobile {...{modelResponses,...teacherClassesMobileData}} />
+        <TeacherClassesMobile {...{modelResponses,students,headerProps:{classesHomeHeaderProps},...teacherClassesMobileData}} />
       }
       tablet={
-        <TeacherClassesTablet {...{modelResponses,...teacherClassesTabletData}} />
+        <TeacherClassesTablet {...{modelResponses,students,headerProps:{classesHomeHeaderProps},...teacherClassesTabletData}} />
       }
       laptop={
-        <TeacherClassesLaptop {...{modelResponses,...teacherClassesLaptopData}} />
+        <TeacherClassesLaptop {...{modelResponses,students,headerProps:{classesHomeHeaderProps},...teacherClassesLaptopData}} />
       }
       desktop={
-        <TeacherClassesDesktop {...{modelResponses,...teacherClassesDesktopData}} />
+        <TeacherClassesDesktop {...{modelResponses,students,headerProps:{classesHomeHeaderProps},...teacherClassesDesktopData}} />
       }
     />
   );
@@ -223,7 +229,6 @@ const teacherClassesDesktopData = {
     frame12841: "/img/frame-1284@2x.png",
     xclass: "Class",
     frame12842: "/img/frame-1284@2x.png",
-    students: "Students",
     line171: "/img/line-17-42.png",
     line172: "/img/line-17-43.png",
     line18: "/img/line-17-43.png",
@@ -391,7 +396,6 @@ const teacherClassesMobileData = {
     frame12842: "/img/frame-1284@2x.png",
     subject: "Subject",
     frame12843: "/img/frame-1284@2x.png",
-    students: "Students",
     line171: "/img/line-18@2x.png",
     line172: "/img/line-17-1@2x.png",
     line18: "/img/line-17-1@2x.png",
@@ -594,7 +598,6 @@ const teacherClassesLaptopData = {
     frame12841: "/img/frame-1284@2x.png",
     xclass: "Class",
     frame12842: "/img/frame-1284@2x.png",
-    students: "Students",
     line171: "/img/line-17-28.png",
     line172: "/img/line-17-29.png",
     line18: "/img/line-17-29.png",
@@ -806,7 +809,6 @@ const teacherClassesTabletData = {
     frame12841: "/img/frame-1284@2x.png",
     xclass: "Class",
     frame12842: "/img/frame-1284@2x.png",
-    students: "Students",
     line171: "/img/line-17-14.png",
     line172: "/img/line-17-15.png",
     line18: "/img/line-17-15.png",

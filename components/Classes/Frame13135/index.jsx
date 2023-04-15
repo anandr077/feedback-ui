@@ -4,12 +4,12 @@ import styled from "styled-components";
 
 
 function Frame13135(props) {
-  const { frame13123Props } = props;
+  const { title } = props;
 
   return (
     <Frame1313>
       <Frame1312>
-        <Frame13123 boyleJonny={frame13123Props.boyleJonny} arrowdown2={frame13123Props.arrowdown2} />
+        <Frame13123 title={title} arrowdown2="/img/arrowdown2-1@2x.png" />
       </Frame1312>
     </Frame1313>
   );

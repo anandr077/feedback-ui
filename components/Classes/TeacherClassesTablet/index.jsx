@@ -18,6 +18,7 @@ import Frame12832 from "../Frame12832";
 import Frame12822 from "../Frame12822";
 import Frame13138 from "../Frame13138";
 import Group1205 from "../Group1205";
+import Cards2 from "../Cards2";
 import Cards3 from "../Cards3";
 import Cards4 from "../Cards4";
 import styled from "styled-components";
@@ -29,16 +30,23 @@ import {
   IbmplexsansBoldShark36px,
 } from "../styledMixins";
 import "./TeacherClassesTablet.css";
+import HeaderSmall from "../../HeaderSmall";
+import Footer from "../../Footer";
+import FooterSmall from "../../FooterSmall";
+import { classesHomeHeaderProps } from "../../../utils/headerProps";
+import {createStudentsFrames, createModelResponsesFrames} from "../TeacherClassesRoot/methods";
 
 function TeacherClassesTablet(props) {
   const {
+    modelResponses,
+    students,
+    headerProps,
     frame5,
     title,
     x12Engadv3,
     frame12841,
     xclass,
     frame12842,
-    students,
     line171,
     line172,
     line18,
@@ -82,15 +90,7 @@ function TeacherClassesTablet(props) {
   return (
     <div className="teacher-classes-tablet screen">
       <Frame1422>
-        <Frame1350>
-          <Frame1349>
-            <Logo />
-          </Frame1349>
-          <Frame5>
-            <Notifications src={notificationsProps.src} className={notificationsProps.className} />
-            <Frame51 src={frame5} alt="Frame 5" />
-          </Frame5>
-        </Frame1350>
+        <HeaderSmall headerProps={classesHomeHeaderProps}></HeaderSmall>
         <Frame1312>
           <Title>{title}</Title>
         </Frame1312>
@@ -115,41 +115,11 @@ function TeacherClassesTablet(props) {
         <Frame1417>
           <Frame1339>
             <Frame1337>
-              <Students>{students}</Students>
+              <Students>Students</Students>
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>
-              <Frame13121>
-                <Frame13122>
-                  <Frame13124 boyleJonny={frame13124Props.boyleJonny} arrowdown2={frame13124Props.arrowdown2} />
-                  <Line171 src={line172} alt="Line 17" />
-                  <Frame1307>
-                    <Frame1284 />
-                    <Frame1283 />
-                    <Frame1282 />
-                  </Frame1307>
-                  <Line171 src={line18} alt="Line 18" />
-                  <Frame1307>
-                    <Frame12842 />
-                    <Frame12852 />
-                  </Frame1307>
-                  <Line171 src={line19} alt="Line 19" />
-                  <Frame14071>
-                    <Frame1407 frame1208Props={frame1407Props.frame1208Props} />
-                    <Line172 src={line173} alt="Line 17" />
-                    <Frame12082 arrowright={frame12082Props.arrowright} />
-                  </Frame14071>
-                </Frame13122>
-              </Frame13121>
-              <Frame13137 frame13124Props={frame131371Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131372Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131373Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131374Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131375Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131376Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131377Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131378Props.frame13124Props} />
-              <Frame13137 frame13124Props={frame131379Props.frame13124Props} />
+              {createStudentsFrames(students)}
             </Frame1336>
           </Frame1339>
           <Frame1416>
@@ -198,27 +168,16 @@ function TeacherClassesTablet(props) {
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
               <Frame12>
-                <Cards3 contentProps={cards3Props.contentProps} />
-                <Cards4 contentProps={cards41Props.contentProps} />
-                <Cards4 contentProps={cards42Props.contentProps} />
-                <Cards4 contentProps={cards43Props.contentProps} />
+                {createModelResponsesFrames(modelResponses)}
               </Frame12>
             </Frame1341>
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      <Frame1420>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1420>
+      <FooterSmall/>
     </div>
   );
 }
-
 const Frame1422 = styled.div`
   display: flex;
   flex-direction: column;

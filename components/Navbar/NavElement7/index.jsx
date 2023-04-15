@@ -3,13 +3,17 @@ import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
 
 function NavElement7(props) {
-  const { home, className } = props;
+  const { text, className, link } = props;
+  const redirectTo = () => {
+    window.location.href = link;
+  };
 
   return (
     <NavElement className={`nav-element-3 ${className || ""}`}>
       <Group1 className="group-1-3">
-        <Home className="home-2">{home}</Home>
+        <Home className="home-2">{text}</Home>
         <Exportsquare
+          onClick={redirectTo}
           className="exportsquare"
           src="/icons/redirectIcon.png"
           alt="exportsquare"
@@ -38,7 +42,7 @@ const Group1 = styled.div`
 
 const Home = styled.div`
   ${IbmplexsansNormalPersianIndigo20px}
-  width: 59px;
+  width: 300px;
   height: 26px;
   letter-spacing: 0;
   line-height: normal;

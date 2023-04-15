@@ -68,7 +68,7 @@ export const getCompletedTasks = async () => {
   })
     .then(handleErrors)
     .then((response) => response.json())
-    .then((data) => { 
+    .then((data) => {
       return data;
     })
     .catch(errorHandler);

@@ -12,9 +12,16 @@ import Frame13138 from "../Frame13138";
 import Frame13374 from "../Frame13374";
 import Group1205 from "../Group1205";
 import {
-  IbmplexsansBoldShark36px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
+  IbmplexsansBoldShark36px,
+  IbmplexsansMediumRiverBed24px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalShark16px,
 } from "../styledMixins";
-import { createModelResponsesFrames, createStudentsFrames } from "../TeacherClassesRoot/methods";
+import {
+  createModelResponsesFrames,
+  createStudentsFrames,
+} from "../TeacherClassesRoot/methods";
 import "./TeacherClassesTablet.css";
 import {
   createStudentsFrames,

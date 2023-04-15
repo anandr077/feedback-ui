@@ -3,19 +3,17 @@ import Frame62 from "../Frame62";
 import Content4 from "../Content4";
 import styled from "styled-components";
 
-
 function Cards10(props) {
   const { task } = props;
-  console.log("Tags " + task.tags)
+  console.log("Tags " + task.tags);
   const tagFrames = task.tags.map((tag) => {
-    
-    <Frame62 statusBubblesProps={tag} />
+    <Frame62 statusBubblesProps={tag} />;
   });
   return (
     <Cards>
       {tagFrames}
       <a href={task.link}>
-        <Content4 assignmentTitle={task.title} classTitle={task.classTitle}/>
+        <Content4 assignmentTitle={task.title} classTitle={task.classTitle} />
       </a>
     </Cards>
   );

@@ -4,31 +4,29 @@ import Cards6 from "../Cards6";
 import Cards7 from "../Cards7";
 import styled from "styled-components";
 import { groupBy, groupedData } from "lodash";
-import {dateOnly} from "../../../dates.js";
+import { dateOnly } from "../../../dates.js";
 import Cards10 from "../Cards10";
-
 
 function Frame1410(props) {
   const { tasks, className } = props;
-  const groups = groupBy(tasks, task=>dateOnly(task.completedAt));
-  console.log("groups "+ JSON.stringify(groups))
+  const groups = groupBy(tasks, (task) => dateOnly(task.completedAt));
+  console.log("groups " + JSON.stringify(groups));
   const frames = Object.keys(groups).map((key) => {
-    
-  const group = groups[key];
-  console.log("group "+ group)
-  const tasksFrames =   group.map((task) => {
-    return <Cards10 task={task} />;
-  });
-  return <Frame14101 className={`frame-1410 ${className || ""}`}>
-      <Frame1308 date={key}></Frame1308>
-      <Frame14101 className="frame-19">
-      <>{tasksFrames}</>
+    const group = groups[key];
+    console.log("group " + group);
+    const tasksFrames = group.map((task) => {
+      return <Cards10 task={task} />;
+    });
+    return (
+      <Frame14101 className={`frame-1410 ${className || ""}`}>
+        <Frame1308 date={key}></Frame1308>
+        <Frame14101 className="frame-19">
+          <>{tasksFrames}</>
+        </Frame14101>
       </Frame14101>
-    </Frame14101>
-  })
-  return (
-    <>{frames}</>
-  );
+    );
+  });
+  return <>{frames}</>;
 }
 
 const Frame14101 = styled.div`

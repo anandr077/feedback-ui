@@ -12,7 +12,10 @@ function CommentCard32(props) {
       onClick={() => onClick(comment)}
       className={`comment-card-4 ${className || ""}`}
     >
-      <ReviewsFrame132532 isShare={comment.type==='MODEL_RESPONSE'} reviewer={reviewer}/>
+      <ReviewsFrame132532
+        isShare={comment.type === "MODEL_RESPONSE"}
+        reviewer={reviewer}
+      />
       <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">
         {comment.comment}
       </HoremIpsumDolorSi>

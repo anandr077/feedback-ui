@@ -1,17 +1,22 @@
 import React from "react";
 import Buttons2 from "../Buttons2";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../styledMixins";
 
 function Cards() {
   return (
     <Cards1>
       <Content>
         <PhysicsThermodyna>
-          Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
+          Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin
+          lacus, ut interdum tellus elit sed risus.
         </PhysicsThermodyna>
-        <FundamentalsOfThermalPhysics>Physics - thermodynamics assignment questions</FundamentalsOfThermalPhysics>
+        <FundamentalsOfThermalPhysics>
+          Physics - thermodynamics assignment questions
+        </FundamentalsOfThermalPhysics>
       </Content>
       <Buttons2 />
     </Cards1>

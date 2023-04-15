@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
 
 function Buttons4(props) {
-  const {text, onClickFn} = props
+  const { text, onClickFn } = props;
   return (
     <Buttons>
       <Button onClick={onClickFn}>{text}</Button>

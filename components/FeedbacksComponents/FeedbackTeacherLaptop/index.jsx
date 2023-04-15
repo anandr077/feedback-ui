@@ -52,8 +52,8 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
- 
-  console.log("pageMode " + pageMode)
+
+  console.log("pageMode " + pageMode);
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
@@ -67,61 +67,68 @@ function FeedbackTeacherLaptop(props) {
     );
   });
   const modules = {
-    toolbar: (pageMode === "DRAFT" || pageMode === "REVISE")
+    toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
   };
-  console.log("modules.toolbar " + modules.toolbar)
-  console.log("modules.toolbar2 " + (pageMode === "EDITOR" || pageMode === "REVISE"))
-  const feedbackFrame = ()=> {
+  console.log("modules.toolbar " + modules.toolbar);
+  console.log(
+    "modules.toolbar2 " + (pageMode === "EDITOR" || pageMode === "REVISE")
+  );
+  const feedbackFrame = () => {
     if (pageMode === "DRAFT") {
-      return <></>
+      return <></>;
     }
-    console.log("pageMode feedbackFrame" + pageMode)
-    return <Frame1331>
-      <Frame1322>
-        <ReviewsFrame1320>
-          {frame13201Props.children}
-        </ReviewsFrame1320>
-        <ReviewsFrame1320 className={frame13202Props.className}>
-          {frame13202Props.children}
-        </ReviewsFrame1320>
-      </Frame1322>
-      <>
-        {showNewComment ? (
-          <>
-            <Screen onClick={() => methods.setShowNewComment(false)}></Screen>
-            {newCommentFrame}
-          </>
-        ) : (
-          <Frame1328>{commentsFrame}</Frame1328>
-        )}
-      </>
-    </Frame1331>
-  }
+    console.log("pageMode feedbackFrame" + pageMode);
+    return (
+      <Frame1331>
+        <Frame1322>
+          <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
+          <ReviewsFrame1320 className={frame13202Props.className}>
+            {frame13202Props.children}
+          </ReviewsFrame1320>
+        </Frame1322>
+        <>
+          {showNewComment ? (
+            <>
+              <Screen onClick={() => methods.setShowNewComment(false)}></Screen>
+              {newCommentFrame}
+            </>
+          ) : (
+            <Frame1328>{commentsFrame}</Frame1328>
+          )}
+        </>
+      </Frame1331>
+    );
+  };
   const submitButton = () => {
     if (pageMode === "DRAFT") {
-      return  <Buttons2
+      return (
+        <Buttons2
           button="Submit For Review"
           arrowright={true}
           onClickFn={() => methods.handleSaveSubmissionForReview()}
         ></Buttons2>
-      
+      );
     }
     if (pageMode === "REVIEW") {
-      return  <Buttons2
+      return (
+        <Buttons2
           button="Submit & Next"
           arrowright={true}
           onClickFn={() => methods.handleSubmissionReviewed()}
         ></Buttons2>
+      );
     }
     if (pageMode === "REVISE") {
-      return  <Buttons2
+      return (
+        <Buttons2
           button="Submit & Next"
           arrowright={true}
           onClickFn={() => methods.handleSubmissionClosed()}
         ></Buttons2>
+      );
     }
-    return <></>
-  }
+    return <></>;
+  };
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -162,19 +169,24 @@ function FeedbackTeacherLaptop(props) {
   });
   const tasksListsDropDown = methods.createTasksDropDown();
   const shareWithClassFrame = () => {
-    if (getUserRole() === "STUDENT")
-      return <></>
-    return <><Line6 src="/icons/line.png" alt="Line 6" />
+    if (getUserRole() === "STUDENT") return <></>;
+    return (
+      <>
+        <Line6 src="/icons/line.png" alt="Line 6" />
         <Frame1383>
           <Frame13311>
             <Frame1284 src="/icons/share.png" />
             <Share>{share}</Share>
           </Frame13311>
-          <Buttons4 text={"Share with class"} onClickFn={methods.handleShareWithClass}/>
+          <Buttons4
+            text={"Share with class"}
+            onClickFn={methods.handleShareWithClass}
+          />
         </Frame1383>
         <Line6 src="/icons/line.png" alt="Line 6" />
-        </>
-  }
+      </>
+    );
+  };
   const newCommentFrame = (
     <>
       <Frame1329>
@@ -191,16 +203,16 @@ function FeedbackTeacherLaptop(props) {
               ></TextInput>
             </TypeHere>
           </Frame1326>
-          
-          <SubmitCommentFrameRoot submitButtonOnClick={methods.handleAddComment}/>
+
+          <SubmitCommentFrameRoot
+            submitButtonOnClick={methods.handleAddComment}
+          />
           {shareWithClassFrame()}
         </Frame1406>
-        
       </Frame1329>
     </>
   );
-  
-  
+
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
@@ -230,7 +242,7 @@ function FeedbackTeacherLaptop(props) {
             {feedbackFrame()}
           </Frame1368>
           <Frame1370>
-          <Frame131612>{tasksListsDropDown}</Frame131612>
+            <Frame131612>{tasksListsDropDown}</Frame131612>
             {submitButton()}
           </Frame1370>
         </Frame1386>
@@ -240,15 +252,17 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function createSaveAnswerButton(question) {
-    if (pageMode === "REVIEW" || pageMode === "CLOSED") return <></>
-    return <SaveDraftButtonContainer>
-      <Buttons2
-        id={"saveAnswer_" + question.serialNumber}
-        button="Save Answer"
-        arrowright={true}
-        onClickFn={methods.handlesaveAnswer(question.serialNumber)}
-      ></Buttons2>
-    </SaveDraftButtonContainer>;
+    if (pageMode === "REVIEW" || pageMode === "CLOSED") return <></>;
+    return (
+      <SaveDraftButtonContainer>
+        <Buttons2
+          id={"saveAnswer_" + question.serialNumber}
+          button="Save Answer"
+          arrowright={true}
+          onClickFn={methods.handlesaveAnswer(question.serialNumber)}
+        ></Buttons2>
+      </SaveDraftButtonContainer>
+    );
   }
 }
 

@@ -5,9 +5,13 @@ import Frame1412 from "../Frame1412";
 import Frame6 from "../Frame6";
 import Header from "../../Header";
 import styled from "styled-components";
-import { IbmplexsansBoldShark64px, IbmplexsansNormalShark16px, IbmplexsansNormalChicago13px } from "../styledMixins";
+import {
+  IbmplexsansBoldShark64px,
+  IbmplexsansNormalShark16px,
+  IbmplexsansNormalChicago13px,
+} from "../styledMixins";
 import "./CompletedLaptop.css";
-import {completedHeaderProps} from "../../../utils/headerProps.js";
+import { completedHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
 function CompletedLaptop(props) {
   const {
@@ -29,7 +33,7 @@ function CompletedLaptop(props) {
   return (
     <div className="completed-laptop screen">
       <Frame1425>
-        <Header headerProps = {completedHeaderProps} />
+        <Header headerProps={completedHeaderProps} />
         <Frame1424>
           <Title>{title}</Title>
           <Frame1305>
@@ -41,12 +45,11 @@ function CompletedLaptop(props) {
           </Frame1305>
         </Frame1424>
         <Frame1413>
-          <Frame14103 tasks = {tasks} />
+          <Frame14103 tasks={tasks} />
           <Line18 src={line18} alt="Line 18" />
-          
         </Frame1413>
       </Frame1425>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -2,7 +2,6 @@ import React from "react";
 import Frame1208 from "../Frame1208";
 import styled from "styled-components";
 
-
 function Frame1407(props) {
   const { frame1208Props } = props;
 

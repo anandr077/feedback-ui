@@ -3,11 +3,19 @@ import styled from "styled-components";
 import Navigation from "../Navbar/Navigation";
 import Notifications from "../Notifications";
 import NotificationsBar from "../NotificationsMenu/NotificationsBar";
+import { getNotifications } from "../../service.js";
 
 export default function HeaderSmall(props) {
   const { headerProps } = props;
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [notifications, setNotifications] = React.useState([]);
+
+  React.useEffect(() => {
+    getNotifications().then((result) => {
+      setNotifications(result);
+    });
+  }, []);
 
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
@@ -27,7 +35,11 @@ export default function HeaderSmall(props) {
     return (
       <NavigationContainer>
         {" "}
-        <NotificationsBar />{" "}
+        <NotificationsBar
+          notifications={notifications}
+          type="small"
+          onCloseFn={handleNotificationClick}
+        />{" "}
       </NavigationContainer>
     );
   }
@@ -57,6 +69,15 @@ const NavigationContainer = styled.div`
   width: 100%;
   height: 100%;
   `;
+
+const Screen = styled.div`
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+`;
 
 const Frame1350 = styled.div`
   display: flex;

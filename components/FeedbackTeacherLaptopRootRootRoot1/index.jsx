@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "../Header";
-import {taskHeaderProps} from "../../utils/headerProps.js";
+import { taskHeaderProps } from "../../utils/headerProps.js";
 
 const FeedbackTeacherLaptopRootRootRoot1 = ({}) => {
   const ButtonsFunction = (e, name) => {

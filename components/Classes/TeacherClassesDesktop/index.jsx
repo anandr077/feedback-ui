@@ -12,9 +12,15 @@ import Frame1337 from "../Frame1337";
 import Frame6 from "../Frame6";
 import Group1205 from "../Group1205";
 import {
-  IbmplexsansBoldShark64px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalShark16px
+  IbmplexsansBoldShark64px,
+  IbmplexsansMediumRiverBed24px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalShark16px,
 } from "../styledMixins";
-import { createModelResponsesFrames, createStudentsFrames } from "../TeacherClassesRoot/methods";
+import {
+  createModelResponsesFrames,
+  createStudentsFrames,
+} from "../TeacherClassesRoot/methods";
 import "./TeacherClassesDesktop.css";
 
 function TeacherClassesDesktop(props) {
@@ -91,9 +97,7 @@ function TeacherClassesDesktop(props) {
               <Students>Students</Students>
             </Frame13371>
             <Line17 src={line171} alt="Line 17" />
-            <Frame1336>
-              {createStudentsFrames(students)}
-            </Frame1336>
+            <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
             <Frame1340>
@@ -110,22 +114,30 @@ function TeacherClassesDesktop(props) {
               <Line17 src={line175} alt="Line 17" />
               <Frame12844>
                 <Frame13132
-                  storytellingNotAnalysing={frame131321Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131321Props.storytellingNotAnalysing
+                  }
                   number={frame131321Props.number}
                   group1312={frame131321Props.group1312}
                 />
                 <Frame13132
-                  storytellingNotAnalysing={frame131322Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131322Props.storytellingNotAnalysing
+                  }
                   number={frame131322Props.number}
                   group1312={frame131322Props.group1312}
                 />
                 <Frame13132
-                  storytellingNotAnalysing={frame131323Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131323Props.storytellingNotAnalysing
+                  }
                   number={frame131323Props.number}
                   group1312={frame131323Props.group1312}
                 />
                 <Frame13132
-                  storytellingNotAnalysing={frame131324Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131324Props.storytellingNotAnalysing
+                  }
                   number={frame131324Props.number}
                   group1312={frame131324Props.group1312}
                 />
@@ -140,15 +152,15 @@ function TeacherClassesDesktop(props) {
                 <Group1205 arrowright={group1205Props.arrowright} />
               </Frame13371>
               <Line17 src={line176} alt="Line 17" />
-              <Frame12>
-                {createModelResponsesFrames(modelResponses)}
-              </Frame12>
+              <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
             </Frame1339>
           </Frame1416>
         </Frame1417>
       </Frame1422>
       <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
+        <X2021JeddleAllRightsReserved>
+          {x2021JeddleAllRightsReserved}
+        </X2021JeddleAllRightsReserved>
         <Frame6 />
       </Frame61>
     </div>

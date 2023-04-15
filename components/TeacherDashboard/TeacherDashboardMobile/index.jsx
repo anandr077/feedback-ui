@@ -57,8 +57,8 @@ function TeacherDashboardMobile(props) {
 
           <Frame1203>
             <Frame1348>
-            <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
-            <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
+              <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
+              <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
             </Frame1348>
           </Frame1203>
         </Frame1418>
@@ -77,7 +77,6 @@ function TeacherDashboardMobile(props) {
                 frame1283Props={frame131221Props.frame1283Props}
                 frame1282Props={frame131221Props.frame1282Props}
               />
-              
             </Frame1336>
           </Frame1339>
           <Frame1340>
@@ -100,13 +99,19 @@ function TeacherDashboardMobile(props) {
             </Frame1337>
             <Line17 src={line173} alt="Line 17" />
             <Frame1408>
-              <Frame13132 jonnyBoyleSubmittedAnAssignment={frame131321Props.jonnyBoyleSubmittedAnAssignment} />
+              <Frame13132
+                jonnyBoyleSubmittedAnAssignment={
+                  frame131321Props.jonnyBoyleSubmittedAnAssignment
+                }
+              />
             </Frame1408>
           </Frame1341>
         </Frame1417>
       </Frame1419>
       <Frame1420>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
+        <X2023JeddleAllRightsReserved>
+          {x2023JeddleAllRightsReserved}
+        </X2023JeddleAllRightsReserved>
         <Frame6>
           <MainWebsite>{mainWebsite}</MainWebsite>
           <Terms>{terms}</Terms>

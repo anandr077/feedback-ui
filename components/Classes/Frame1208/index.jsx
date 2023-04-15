@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet14px } from "../styledMixins";
 
-
 function Frame1208(props) {
   const { down } = props;
 

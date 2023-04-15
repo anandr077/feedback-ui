@@ -1,17 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../styledMixins";
 
-
-function  Cards2(props) {
-  const {modelResponse} = props
+function Cards2(props) {
+  const { modelResponse } = props;
   return (
     <Cards>
       <Content>
-        <PhysicsThermodyna>
-          {modelResponse.response}
-        </PhysicsThermodyna>
-        <FundamentalsOfThermalPhysics>{modelResponse.assignmentTitle}</FundamentalsOfThermalPhysics>
+        <PhysicsThermodyna>{modelResponse.response}</PhysicsThermodyna>
+        <FundamentalsOfThermalPhysics>
+          {modelResponse.assignmentTitle}
+        </FundamentalsOfThermalPhysics>
       </Content>
     </Cards>
   );

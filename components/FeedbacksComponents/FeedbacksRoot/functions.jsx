@@ -4,32 +4,28 @@ import "quill/dist/quill.snow.css";
 import { React } from "react";
 
 export function extractStudents(tasksResult) {
-    return tasksResult.map((task) => {
-      return {
-        name: task.studentName,
-        src: (
-          <Avatar
-            title={false}
-            size={25}
-            variant="beam"
-            name={task.studentName}
-            square={false} />
-        ),
-      };
-    });
+  return tasksResult.map((task) => {
+    return {
+      name: task.studentName,
+      src: (
+        <Avatar
+          title={false}
+          size={25}
+          variant="beam"
+          name={task.studentName}
+          square={false}
+        />
+      ),
+    };
+  });
 }
 
 export function getPageMode(isFeedbackPage, submission) {
-    console.log("submission.state" + submission.status)
-    console.log("submission.state" + submission.status)
-    if (!isFeedbackPage && submission.status === "DRAFT")
-      return "DRAFT"
-    if (!isFeedbackPage && submission.status === "SUBMITTED")
-      return "CLOSED"
-    if (isFeedbackPage && submission.status === "SUBMITTED")
-      return "REVIEW"
-    if (!isFeedbackPage && submission.status === "REVIEWED")
-      return "REVISE"
-    if (submission.status === "CLOSED")
-      return "CLOSED"
+  console.log("submission.state" + submission.status);
+  console.log("submission.state" + submission.status);
+  if (!isFeedbackPage && submission.status === "DRAFT") return "DRAFT";
+  if (!isFeedbackPage && submission.status === "SUBMITTED") return "CLOSED";
+  if (isFeedbackPage && submission.status === "SUBMITTED") return "REVIEW";
+  if (!isFeedbackPage && submission.status === "REVIEWED") return "REVISE";
+  if (submission.status === "CLOSED") return "CLOSED";
 }

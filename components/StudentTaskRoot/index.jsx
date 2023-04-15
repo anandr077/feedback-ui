@@ -5,18 +5,17 @@ import TasksStudentMobile from "../TasksStudentMobile";
 import TasksStudentTablet from "../TasksStudentTablet";
 import TasksLaptop from "../TasksLaptop";
 import TasksDesktop from "../TasksDesktop";
-import {taskHeaderProps} from "../../utils/headerProps.js";
+import { taskHeaderProps } from "../../utils/headerProps.js";
 
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-
   React.useEffect(() => {
     getTasks().then((result) => {
       if (result) {
-      setAllTasks(result);
-      setIsLoading(false);
+        setAllTasks(result);
+        setIsLoading(false);
       }
     });
   }, []);
@@ -24,8 +23,9 @@ export default function StudentTaskRoot() {
     return <div>Loading...</div>;
   }
   const outstandingTasks = allTasks.filter(
-    (task) => (task.progressStatus === "OUTSTANDING"
-  ||task.progressStatus === "REVIEWED")
+    (task) =>
+      task.progressStatus === "OUTSTANDING" ||
+      task.progressStatus === "REVIEWED"
   );
   const inProgressTasks = allTasks.filter(
     (task) => task.progressStatus === "DRAFT"
@@ -78,7 +78,6 @@ export default function StudentTaskRoot() {
     />
   );
 }
-
 
 const frame13041Data = {
   iconsaxLinearSort: "/img/iconsax-linear-sort@2x.png",

@@ -2,9 +2,20 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { React, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { addFeedback, getCommentsForSubmission, getSubmissionById, getTasks, getUserRole, markSubmissionReviewed as markSubmsissionReviewed, markSubmsissionClosed } from "../../../service";
+import {
+  addFeedback,
+  getCommentsForSubmission,
+  getSubmissionById,
+  getTasks,
+  getUserRole,
+  markSubmissionReviewed as markSubmsissionReviewed,
+  markSubmsissionClosed,
+} from "../../../service";
 import { saveAnswer, submitAssignment } from "../../../service.js";
-import { taskHeaderProps, assignmentsHeaderProps } from "../../../utils/headerProps.js";
+import {
+  taskHeaderProps,
+  assignmentsHeaderProps,
+} from "../../../utils/headerProps.js";
 import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
@@ -13,8 +24,7 @@ import { extractStudents, getPageMode } from "./functions";
 
 import ReviewsFrame129532 from "../ReviewsFrame129532";
 
-export default function FeedbacksRoot({isFeedbackPage}) {
-
+export default function FeedbacksRoot({ isFeedbackPage }) {
   const quillRefs = useRef([]);
   const newCommentFrameRef = useRef(null);
   const [showNotification, setShowNotification] = useState(false);
@@ -29,28 +39,31 @@ export default function FeedbacksRoot({isFeedbackPage}) {
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
 
-
   const isTeacher = getUserRole() === "TEACHER";
   useEffect(() => {
     Promise.all([
       getSubmissionById(id),
-      isTeacher ? getTasks(): Promise.resolve([]),
-      getCommentsForSubmission(id)
+      isTeacher ? getTasks() : Promise.resolve([]),
+      getCommentsForSubmission(id),
     ]).then(([submissionsResult, tasksResult, commentsResult]) => {
       setSubmission(submissionsResult);
       setStudents(extractStudents(tasksResult));
-      setStudentName(tasksResult.find((r) => r.id === submissionsResult.id)?.studentName ?? null);
+      setStudentName(
+        tasksResult.find((r) => r.id === submissionsResult.id)?.studentName ??
+          null
+      );
       setComments(commentsResult);
       setIsLoading(false);
-    })}, []);
-   
-  if (isLoading) {
-    return <Loader />
-  }
-  console.log("isFeedbackPage: " + isFeedbackPage)
+    });
+  }, []);
 
-  const pageMode = getPageMode(isFeedbackPage, submission)
-  console.log("pageMode: " + pageMode)
+  if (isLoading) {
+    return <Loader />;
+  }
+  console.log("isFeedbackPage: " + isFeedbackPage);
+
+  const pageMode = getPageMode(isFeedbackPage, submission);
+  console.log("pageMode: " + pageMode);
   const handleEditorMounted = (editor, index) => {
     console.log("Mounted " + JSON.stringify(editor) + " index " + index);
     quillRefs.current[index] = editor;
@@ -58,7 +71,7 @@ export default function FeedbacksRoot({isFeedbackPage}) {
 
   function handleKeyPress(event) {
     if (event.key === "Enter") {
-      handleAddComment()
+      handleAddComment();
     }
   }
   function handleAddComment() {
@@ -66,7 +79,7 @@ export default function FeedbacksRoot({isFeedbackPage}) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
       range: selectedRange,
-      type:"COMMENT"
+      type: "COMMENT",
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -81,7 +94,7 @@ export default function FeedbacksRoot({isFeedbackPage}) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
       range: selectedRange,
-      type:"MODEL_RESPONSE"
+      type: "MODEL_RESPONSE",
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -142,16 +155,17 @@ export default function FeedbacksRoot({isFeedbackPage}) {
         from: range.index,
         to: range.index + range.length,
       });
-      newCommentFrameRef.current?.focus()
+      newCommentFrameRef.current?.focus();
       setShowNewComment(true);
     }
   };
-  const noopSelectionChange = (serialNumber)=>(range) => {
+  const noopSelectionChange = (serialNumber) => (range) => {
     console.log("##editorOnX" + JSON.stringify(range));
   };
-  
-  const onSelectionChange = pageMode === "REVIEW" ? reviewerSelectionChange:noopSelectionChange ;
-  
+
+  const onSelectionChange =
+    pageMode === "REVIEW" ? reviewerSelectionChange : noopSelectionChange;
+
   const createTasksDropDown = () => {
     if (!isTeacher) {
       return <></>;
@@ -165,49 +179,88 @@ export default function FeedbacksRoot({isFeedbackPage}) {
       );
     }
   };
-  
+
   const methods = {
     handleShareWithClass,
     handleAddComment,
     setShowNewComment,
     handleEditorMounted,
-    handleKeyPress, 
-    handleSubmissionReviewed, 
-    handleSaveSubmissionForReview, 
+    handleKeyPress,
+    handleSubmissionReviewed,
+    handleSaveSubmissionForReview,
     handleSubmissionClosed,
     handleCommentSelected,
     handlesaveAnswer,
     createTasksDropDown,
     onSelectionChange,
-    setStudentName
+    setStudentName,
   };
 
   return (
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile
-          {...{ pageMode, newCommentFrameRef, methods, showNewComment,comments, studentName, students, submission,...feedbacksFeedbackTeacherMobileData }}
+          {...{
+            pageMode,
+            newCommentFrameRef,
+            methods,
+            showNewComment,
+            comments,
+            studentName,
+            students,
+            submission,
+            ...feedbacksFeedbackTeacherMobileData,
+          }}
         />
       }
       tablet={
         <FeedbackTeacherLaptop
-          {...{ pageMode, newCommentFrameRef, methods, showNewComment,comments, studentName, students, submission, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{
+            pageMode,
+            newCommentFrameRef,
+            methods,
+            showNewComment,
+            comments,
+            studentName,
+            students,
+            submission,
+            ...feedbacksFeedbackTeacherLaptopData,
+          }}
         />
       }
       laptop={
         <>
-        <FeedbackTeacherLaptop
-          {...{ pageMode, newCommentFrameRef, methods, showNewComment,comments,studentName, students, submission, ...feedbacksFeedbackTeacherLaptopData }}
-        />
+          <FeedbackTeacherLaptop
+            {...{
+              pageMode,
+              newCommentFrameRef,
+              methods,
+              showNewComment,
+              comments,
+              studentName,
+              students,
+              submission,
+              ...feedbacksFeedbackTeacherLaptopData,
+            }}
+          />
         </>
       }
       desktop={
         <FeedbackTeacherLaptop
-          {...{ pageMode, newCommentFrameRef, methods, showNewComment,comments,studentName, students, submission, ...feedbacksFeedbackTeacherLaptopData }}
+          {...{
+            pageMode,
+            newCommentFrameRef,
+            methods,
+            showNewComment,
+            comments,
+            studentName,
+            students,
+            submission,
+            ...feedbacksFeedbackTeacherLaptopData,
+          }}
         />
       }
     />
-    
   );
 }
 const isTeacher = getUserRole() === "TEACHER";
@@ -323,7 +376,7 @@ const feedbacksFrame13172Data = {
 };
 
 const feedbacksFeedbackTeacherLaptopData = {
-  headerProps: isTeacher?assignmentsHeaderProps:taskHeaderProps,
+  headerProps: isTeacher ? assignmentsHeaderProps : taskHeaderProps,
   physicsThermodyna: "Physics - thermodynamics assignment questions",
   frame1284: "/img/frame-1284@2x.png",
   q1PoremIpsumDolo:
@@ -420,7 +473,7 @@ const feedbacksFrame13171Data = {
 };
 
 const feedbacksFeedbackTeacherMobileData = {
-  headerProps: isTeacher?assignmentsHeaderProps:taskHeaderProps,
+  headerProps: isTeacher ? assignmentsHeaderProps : taskHeaderProps,
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   physicsThermodyna: "Physics - thermodynamics assignment questions",

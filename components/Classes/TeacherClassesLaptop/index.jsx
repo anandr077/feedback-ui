@@ -22,7 +22,10 @@ import "./TeacherClassesLaptop.css";
 import Header from "../../Header";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
-import {createStudentsFrames, createModelResponsesFrames} from "../TeacherClassesRoot/methods";
+import {
+  createStudentsFrames,
+  createModelResponsesFrames,
+} from "../TeacherClassesRoot/methods";
 
 function TeacherClassesLaptop(props) {
   const {
@@ -97,9 +100,7 @@ function TeacherClassesLaptop(props) {
               <Students>Students</Students>
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
-            <Frame1336>
-              {createStudentsFrames(students)}
-            </Frame1336>
+            <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
             <Frame1340>
@@ -116,22 +117,30 @@ function TeacherClassesLaptop(props) {
               <Line17 src={line175} alt="Line 17" />
               <Frame12844>
                 <Frame13136
-                  storytellingNotAnalysing={frame131361Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131361Props.storytellingNotAnalysing
+                  }
                   number={frame131361Props.number}
                   group1312={frame131361Props.group1312}
                 />
                 <Frame13136
-                  storytellingNotAnalysing={frame131362Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131362Props.storytellingNotAnalysing
+                  }
                   number={frame131362Props.number}
                   group1312={frame131362Props.group1312}
                 />
                 <Frame13136
-                  storytellingNotAnalysing={frame131363Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131363Props.storytellingNotAnalysing
+                  }
                   number={frame131363Props.number}
                   group1312={frame131363Props.group1312}
                 />
                 <Frame13136
-                  storytellingNotAnalysing={frame131364Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131364Props.storytellingNotAnalysing
+                  }
                   number={frame131364Props.number}
                   group1312={frame131364Props.group1312}
                 />
@@ -146,14 +155,12 @@ function TeacherClassesLaptop(props) {
                 <Group1205 arrowright={group1205Props.arrowright} />
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
-              <Frame12>
-                {createModelResponsesFrames(modelResponses)}
-              </Frame12>
+              <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
             </Frame1339>
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

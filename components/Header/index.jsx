@@ -4,6 +4,7 @@ import Notifications from "../Notifications";
 import UserIcon from "../UserIcon";
 import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
 import NotificationsBar from "../NotificationsMenu/NotificationsBar";
+import { getNotifications } from "../../service.js";
 
 import {
   IbmplexsansNormalPersianIndigo20px,
@@ -13,6 +14,7 @@ import {
 export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
+  const [notifications, setNotifications] = React.useState([]);
 
   const OnFirstButtonClick = () => {
     console.log("firstButton clicked");
@@ -34,6 +36,12 @@ export default function Header(props) {
     console.log("toggleDropDown");
     setDropDown(!dropDown);
   };
+
+  React.useEffect(() => {
+    getNotifications().then((result) => {
+      setNotifications(result);
+    });
+  }, []);
 
   return (
     <>
@@ -124,7 +132,7 @@ export default function Header(props) {
         <Screen onClick={handleNotificationClick}>
           <NavigationContainer>
             {" "}
-            <NotificationsBar />{" "}
+            <NotificationsBar notifications={notifications} />{" "}
           </NavigationContainer>
         </Screen>
       )}
@@ -145,15 +153,15 @@ const NavigationContainer = styled.div`
   right: 200px;
   top: 70px;
   z-index: 1;
-  background-color: var(--white);
   border-radius: 8px;
-  rbga(255, 255, 255, 0.5);
+  background-color: var(--white);
   align-self: stretch;
-  width: 300px;
-  height: 300px;
-  padding: 20px;
+  min-width: 300px;
   overflow-y: scroll;
-  `;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+  min-height: 100px;
+`;
+
 const Screen = styled.div`
   height: 100vh;
   width: 100vw;
@@ -161,7 +169,6 @@ const Screen = styled.div`
   top: 0;
   left: 0;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const DropDownContainer = styled.div`

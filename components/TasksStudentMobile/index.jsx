@@ -13,7 +13,7 @@ import "./TasksStudentMobile.css";
 import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 import React, { useState, useEffect } from "react";
-import {taskHeaderProps} from "../../utils/headerProps.js";
+import { taskHeaderProps } from "../../utils/headerProps.js";
 
 function TasksStudentMobile(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks } = props;

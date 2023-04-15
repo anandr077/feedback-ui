@@ -106,13 +106,19 @@ function TeacherDashboardTablet(props) {
             </Frame1337>
             <Line17 src={line173} alt="Line 17" />
             <Frame1408>
-              <Frame13133 jonnyBoyleSubmittedAnAssignment={frame131331Props.jonnyBoyleSubmittedAnAssignment} />
+              <Frame13133
+                jonnyBoyleSubmittedAnAssignment={
+                  frame131331Props.jonnyBoyleSubmittedAnAssignment
+                }
+              />
             </Frame1408>
           </Frame13411>
         </Frame1417>
       </Frame1419>
       <Frame1420>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
+        <X2023JeddleAllRightsReserved>
+          {x2023JeddleAllRightsReserved}
+        </X2023JeddleAllRightsReserved>
         <Frame6>
           <MainWebsite>{mainWebsite}</MainWebsite>
           <Terms>{terms}</Terms>

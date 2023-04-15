@@ -1,8 +1,10 @@
 import React from "react";
 import StatusBubbles5 from "../StatusBubbles5";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../styledMixins";
 
 function Cards5(props) {
   const { iconClock } = props;
@@ -13,8 +15,12 @@ function Cards5(props) {
         <StatusBubbles5 />
       </Frame6>
       <Content>
-        <PhysicsThermodyna>Physics - thermodynamics assignment questions (MCQ)</PhysicsThermodyna>
-        <FundamentalsOfThermalPhysics>Fundamentals of thermal physics</FundamentalsOfThermalPhysics>
+        <PhysicsThermodyna>
+          Physics - thermodynamics assignment questions (MCQ)
+        </PhysicsThermodyna>
+        <FundamentalsOfThermalPhysics>
+          Fundamentals of thermal physics
+        </FundamentalsOfThermalPhysics>
         <Frame1282>
           <IconClock src={iconClock} alt="icon-clock" />
           <DueOn2April2023>Due on 2 April 2023</DueOn2April2023>

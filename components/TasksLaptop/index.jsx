@@ -10,14 +10,10 @@ import "./TasksLaptop.css";
 import TaskCardContainer from "../TaskCardContainer";
 import Header from "../Header";
 import Footer from "../Footer";
-import {taskHeaderProps} from "../../utils/headerProps.js";
+import { taskHeaderProps } from "../../utils/headerProps.js";
 function TasksLaptop(props) {
-  const {
-    outstandingTasks,
-    inProgressTasks,
-    overdueTasks,
-    frame19Props,
-  } = props;
+  const { outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
+    props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={taskHeaderProps} />

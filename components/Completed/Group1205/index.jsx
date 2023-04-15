@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
 
-
 function Group1205(props) {
   const { arrowright, className } = props;
 

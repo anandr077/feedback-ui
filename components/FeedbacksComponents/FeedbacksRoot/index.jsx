@@ -27,7 +27,6 @@ import FeedBacksDropDown from "../FeedbacksDropDown";
 export default function FeedbacksRoot({ isFeedbackPage }) {
   const quillRefs = useRef([]);
   const newCommentFrameRef = useRef(null);
-  const [showNotification, setShowNotification] = useState(false);
   const [submission, setSubmission] = useState(null);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +37,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   const [selectedRange, setSelectedRange] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
+  const [nextUrl, setNextUrl] = useState("");
 
   const isTeacher = getUserRole() === "TEACHER";
   const [assignmentId, setAssignmentId] = useState(id);
@@ -50,10 +50,15 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     ]).then(([submissionsResult, tasksResult, commentsResult]) => {
       setSubmission(submissionsResult);
       setStudents(extractStudents(tasksResult));
+      const allExceptCurrent = tasksResult.filter(r => r.id != submissionsResult.id)
+      setNextUrl(allExceptCurrent[0]? "/feedbacks/" + allExceptCurrent[0]?.id :"/")
+      console.log("Next " + JSON.stringify(nextUrl))
+
       setStudentName(
         tasksResult.find((r) => r.id === submissionsResult.id)?.studentName ??
           null
       );
+      
       setComments(commentsResult);
       setIsLoading(false);
     });
@@ -109,7 +114,13 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
 
   function handleSubmissionReviewed() {
     markSubmsissionReviewed(submission.id).then(
-      (_) => (window.location.href = "/")
+      (_) => {
+        if (isTeacher) {
+          window.location.href = nextUrl
+        } else {
+          window.location.href = "/"
+        }
+      }
     );
   }
   const handleSaveSubmissionForReview = () => {

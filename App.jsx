@@ -33,13 +33,18 @@ function App() {
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>
+        <Route path="/assignments/:assignmentId/review">
+          <TaskDetail />
+        </Route>
         <Route path="/assignments/:assignmentId/start">
           <TaskDetail />
         </Route>
         <Route path="/assignments">
           <TeacherTaskRoot />
         </Route>
-
+        <Route path="/submissions">
+          <FeedbacksRoot isFeedbackPage={false} />
+        </Route>
         <Route path="/submissions/:id">
           <FeedbacksRoot isFeedbackPage={false} />
         </Route>

@@ -1,5 +1,11 @@
 import { css } from "styled-components";
-
+export const IbmplexsansNormalShark12px = css`
+  color: var(--shark);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-style: normal;
+`;
 export const IbmplexsansNormalRiverBed14px = css`
   color: var(--river-bed);
   font-family: var(--font-family-ibm_plex_sans);

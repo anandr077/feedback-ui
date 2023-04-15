@@ -4,13 +4,15 @@ import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 import { getTasks } from "../../../service";
 import { Avatar } from "@boringer-avatars/react";
 
-function ReviewsFrame129532(props) {
-  const { students, studentName } = props;
+function FeedBacksDropDown(props) {
+  const { students, studentName , showNewComment} = props;
   const [selectedStudentIcon, setSelectedStudentIcon] = React.useState(null);
 
   const [showOptions, setShowOptions] = React.useState(false);
 
   const toggleOptions = (event) => {
+    console.log("showNewComment is " + showNewComment);
+    
     console.log(
       "event.currentTarget.getAttribute()" +
         event.currentTarget.getAttribute("data-name")
@@ -83,7 +85,7 @@ const Frame131612 = styled.div`
   padding: 8px;
   position: relative;
   flex: 1;
-  background-color: var(--white);
+
   border-radius: 12px;
   border: 1px solid;
   border-color: var(--text);
@@ -121,7 +123,7 @@ const OptionsList = styled.div`
   background-color: var(--white);
   padding: 20px;
   border-radius: 8px;
-  height: 200px;
+  max-height: 200px;
   overflow-y: scroll;
 `;
 
@@ -143,4 +145,4 @@ const Frame12842 = styled.img`
   position: relative;
 `;
 
-export default ReviewsFrame129532;
+export default FeedBacksDropDown;

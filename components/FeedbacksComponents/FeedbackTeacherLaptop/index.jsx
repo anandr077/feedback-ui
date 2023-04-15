@@ -26,7 +26,6 @@ import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
-import ReviewsFrame129532 from "../ReviewsFrame129532";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
 import "./FeedbackTeacherLaptop.css";
 import { getUserName, getUserRole } from "../../../service";
@@ -36,6 +35,7 @@ function FeedbackTeacherLaptop(props) {
     pageMode,
     newCommentFrameRef,
     showNewComment,
+    hideNewCommentDiv,
     methods,
     comments,
     studentName,
@@ -69,6 +69,9 @@ function FeedbackTeacherLaptop(props) {
   console.log(
     "modules.toolbar2 " + (pageMode === "EDITOR" || pageMode === "REVISE")
   );
+
+
+
   const feedbackFrame = () => {
     if (pageMode === "DRAFT") {
       return <></>;
@@ -85,7 +88,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           {showNewComment ? (
             <>
-              <Screen onClick={() => methods.setShowNewComment(false)}></Screen>
+              <Screen onClick={methods.hideNewCommentDiv}></Screen>
               {newCommentFrame}
             </>
           ) : (
@@ -193,8 +196,6 @@ function FeedbackTeacherLaptop(props) {
                 id="newCommentInput"
                 ref={newCommentFrameRef}
                 placeholder="Comment here...."
-                // value={newCommentValue}
-                // onChange={handleInputChange}
                 onKeyPress={methods.handleKeyPress}
               ></TextInput>
             </TypeHere>
@@ -202,6 +203,7 @@ function FeedbackTeacherLaptop(props) {
 
           <SubmitCommentFrameRoot
             submitButtonOnClick={methods.handleAddComment}
+            cancelButtonOnClick={methods.hideNewCommentDiv}
           />
           {shareWithClassFrame()}
         </Frame1406>
@@ -242,8 +244,10 @@ function FeedbackTeacherLaptop(props) {
             {submitButton()}
           </Frame1370> */}
         </Frame1386>
-      </Frame1388>
+
       {tabletView ? <FooterSmall /> : <Footer />}
+
+      </Frame1388>
     </div>
   );
 
@@ -272,8 +276,8 @@ const SaveDraftButtonContainer = styled.div`
 
 const Screen = styled.div`
   position: fixed;
-  width: 100%;
-  height: 100%;
+  width: 200vw;
+  height: 200vh;
   top: 0;
   left: 0;
   z-index: 0;

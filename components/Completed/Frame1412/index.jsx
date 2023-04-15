@@ -4,7 +4,6 @@ import Cards10 from "../Cards10";
 import Cards11 from "../Cards11";
 import styled from "styled-components";
 
-
 function Frame1412(props) {
   const { frame1308Props, cards101Props, cards102Props } = props;
 

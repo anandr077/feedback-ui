@@ -4,17 +4,19 @@ import { IbmplexsansMediumBlack16px } from "../../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 
 function ReviewsFrame132532(props) {
-  const {isShare, reviewer} = props
-  const avatar = <Avatar
+  const { isShare, reviewer } = props;
+  const avatar = (
+    <Avatar
       title={false}
       size={25}
       variant="beam"
       name={reviewer}
       square={false}
     />
-  const shareIcon=  <Ellipse7 src="/icons/share.png" />
-  const commenterFrame =  isShare ? shareIcon : avatar
-  const reviewerFrame =  isShare ? "Shared with class" : reviewer
+  );
+  const shareIcon = <Ellipse7 src="/icons/share.png" />;
+  const commenterFrame = isShare ? shareIcon : avatar;
+  const reviewerFrame = isShare ? "Shared with class" : reviewer;
   return (
     <Frame1325>
       <Frame1324>

@@ -101,14 +101,20 @@ function TeacherDashboardLaptop(props) {
               </Frame1337>
               <Line17 src={line173} alt="Line 17" />
               <Frame1408>
-                <Frame13134 jonnyBoyleSubmittedAnAssignment={frame131341Props.jonnyBoyleSubmittedAnAssignment} />
+                <Frame13134
+                  jonnyBoyleSubmittedAnAssignment={
+                    frame131341Props.jonnyBoyleSubmittedAnAssignment
+                  }
+                />
               </Frame1408>
             </Frame13411>
           </Frame1416>
         </Frame1417>
       </Frame1419>
       <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
+        <X2021JeddleAllRightsReserved>
+          {x2021JeddleAllRightsReserved}
+        </X2021JeddleAllRightsReserved>
         <Frame6 />
       </Frame61>
     </div>

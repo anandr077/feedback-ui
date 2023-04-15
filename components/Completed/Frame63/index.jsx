@@ -2,7 +2,6 @@ import React from "react";
 import StatusBubbles6 from "../StatusBubbles6";
 import styled from "styled-components";
 
-
 function Frame63() {
   return (
     <Frame6>

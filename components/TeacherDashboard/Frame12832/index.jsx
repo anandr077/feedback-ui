@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansMediumTrendyPink14px, IbmplexsansMediumShark36px } from "../styledMixins";
-
+import {
+  IbmplexsansMediumTrendyPink14px,
+  IbmplexsansMediumShark36px,
+} from "../styledMixins";
 
 function Frame12832() {
   return (

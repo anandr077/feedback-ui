@@ -1,13 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../styledMixins";
 
 function Content2() {
   return (
     <Content>
-      <PhysicsThermodyna>Physics - thermodynamics assignment questions (MCQ)</PhysicsThermodyna>
-      <FundamentalsOfThermalPhysics>Fundamentals of thermal physics</FundamentalsOfThermalPhysics>
+      <PhysicsThermodyna>
+        Physics - thermodynamics assignment questions (MCQ)
+      </PhysicsThermodyna>
+      <FundamentalsOfThermalPhysics>
+        Fundamentals of thermal physics
+      </FundamentalsOfThermalPhysics>
     </Content>
   );
 }

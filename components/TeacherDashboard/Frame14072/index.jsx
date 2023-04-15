@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
 
-
 function Frame14072(props) {
   const { iconsaxLinearAdd, line17, arrowright } = props;
 
@@ -10,15 +9,16 @@ function Frame14072(props) {
     <Frame1407>
       <a href="/assignments/new">
         <Frame1205>
-        <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
-        <CreateNew>CREATE NEW</CreateNew>
-      </Frame1205>
+          <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
+          <CreateNew>CREATE NEW</CreateNew>
+        </Frame1205>
       </a>
       <Line17 src={line17} alt="Line 17" />
-      <a href="/assignments"><Frame1205>
-        <CreateNew>VIEW ALL</CreateNew>
-        <IconsaxLinearadd src={arrowright} alt="arrowright" />
-      </Frame1205>
+      <a href="/assignments">
+        <Frame1205>
+          <CreateNew>VIEW ALL</CreateNew>
+          <IconsaxLinearadd src={arrowright} alt="arrowright" />
+        </Frame1205>
       </a>
     </Frame1407>
   );

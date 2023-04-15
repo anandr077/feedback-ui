@@ -45,7 +45,7 @@ function TaskDetailDesktop(props) {
   return (
     <div className="task-detail-desktop screen">
       <Frame1391>
-      <Header headerProps={taskHeaderProps} />
+        <Header headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb />

@@ -8,7 +8,7 @@ import TaskDetailDesktop from "../TaskDetailDesktop";
 import { getAssigmentById, startSubmission } from "../../../service";
 import { useParams } from "react-router-dom";
 import { default as React, useEffect, useState } from "react";
-import {taskHeaderProps} from "../../../utils/headerProps.js";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
 
 export default function TaskDetail() {
   const { assignmentId } = useParams<{ assignmentId: string }>();
@@ -133,7 +133,7 @@ const frame12092Data = {
 };
 
 const taskDetailDesktopData = {
-  headerProps:taskHeaderProps,
+  headerProps: taskHeaderProps,
   frame1343: "/img/frame-1343@2x.png",
   title: "Assignment",
   physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",

@@ -12,8 +12,9 @@ import CompletedRoot from "./components/Completed/CompletedRoot";
 import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
 
 function App() {
-  const role = getUserRole()
-  const dashboard = role === "TEACHER" ? <TeacherDashboardRoot/>:<StudentDashboardRoot/>
+  const role = getUserRole();
+  const dashboard =
+    role === "TEACHER" ? <TeacherDashboardRoot /> : <StudentDashboardRoot />;
   return (
     <Router>
       <Switch>
@@ -48,9 +49,7 @@ function App() {
         <Route path="/feedbacks/:id">
           <FeedbacksRoot isFeedbackPage={true} />
         </Route>
-        <Route path="/">
-          {dashboard}
-        </Route>
+        <Route path="/">{dashboard}</Route>
       </Switch>
     </Router>
   );

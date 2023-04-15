@@ -13,7 +13,10 @@ import "./TeacherTasksStudentMobile.css";
 import HeaderSmall from "../../HeaderSmall";
 import FooterSmall from "../../FooterSmall";
 import React, { useState, useEffect } from "react";
-import {assignmentsHeaderProps, taskHeaderProps} from "../../../utils/headerProps.js";
+import {
+  assignmentsHeaderProps,
+  taskHeaderProps,
+} from "../../../utils/headerProps.js";
 
 function TeacherTasksStudentMobile(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks } = props;

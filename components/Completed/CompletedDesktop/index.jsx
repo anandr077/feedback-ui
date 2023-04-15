@@ -4,10 +4,14 @@ import Frame14103 from "../Frame14103";
 import Frame1412 from "../Frame1412";
 import Frame6 from "../Frame6";
 import styled from "styled-components";
-import { IbmplexsansBoldShark64px, IbmplexsansNormalShark16px, IbmplexsansNormalChicago13px } from "../styledMixins";
+import {
+  IbmplexsansBoldShark64px,
+  IbmplexsansNormalShark16px,
+  IbmplexsansNormalChicago13px,
+} from "../styledMixins";
 import "./CompletedDesktop.css";
 import Header from "../../Header";
-import {completedHeaderProps} from "../../../utils/headerProps.js";
+import { completedHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
 
 function CompletedDesktop(props) {
@@ -42,12 +46,11 @@ function CompletedDesktop(props) {
           </Frame1305>
         </Frame1424>
         <Frame1413>
-          <Frame14103 tasks = {tasks} />
+          <Frame14103 tasks={tasks} />
           <Line18 src={line18} alt="Line 18" />
-          
         </Frame1413>
       </Frame1425>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

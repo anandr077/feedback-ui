@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../styledMixins";
 
 function Content4(props) {
   const { assignmentTitle, classTitle } = props;

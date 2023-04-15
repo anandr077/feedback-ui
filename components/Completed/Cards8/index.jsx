@@ -3,7 +3,6 @@ import Frame62 from "../Frame62";
 import Content3 from "../Content3";
 import styled from "styled-components";
 
-
 function Cards8(props) {
   const { frame62Props } = props;
 

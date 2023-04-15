@@ -5,18 +5,20 @@ import TeacherTasksStudentMobile from "../TeacherTasksStudentMobile";
 import TeacherTasksStudentTablet from "../TeacherTasksStudentTablet";
 import TeacherTasksLaptop from "../TeacherTasksLaptop";
 import TeacherTasksDesktop from "../TeacherTasksDesktop";
-import {assignmentsHeaderProps, taskHeaderProps} from "../../../utils/headerProps.js";
+import {
+  assignmentsHeaderProps,
+  taskHeaderProps,
+} from "../../../utils/headerProps.js";
 
 export default function TeacherTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-
   React.useEffect(() => {
     getTasks().then((result) => {
       if (result) {
-      setAllTasks(result);
-      setIsLoading(false);
+        setAllTasks(result);
+        setIsLoading(false);
       }
     });
   }, []);
@@ -77,7 +79,6 @@ export default function TeacherTaskRoot() {
     />
   );
 }
-
 
 const frame13041Data = {
   iconsaxLinearSort: "/img/iconsax-linear-sort@2x.png",

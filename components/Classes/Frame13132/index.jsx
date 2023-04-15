@@ -2,14 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalShark16px } from "../styledMixins";
 
-
 function Frame13132(props) {
   const { storytellingNotAnalysing, number, group1312 } = props;
 
   return (
     <Frame1313>
       <Frame1312>
-        <StorytellingNotAnalysing>{storytellingNotAnalysing}</StorytellingNotAnalysing>
+        <StorytellingNotAnalysing>
+          {storytellingNotAnalysing}
+        </StorytellingNotAnalysing>
         <Number>{number}</Number>
       </Frame1312>
       <Group1312 src={group1312} alt="Group 1312" />

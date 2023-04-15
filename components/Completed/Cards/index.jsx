@@ -4,9 +4,13 @@ import StatusBubbles2 from "../StatusBubbles2";
 import Content from "../Content";
 import styled from "styled-components";
 
-
 function Cards(props) {
-  const { statusBubbles1Props, statusBubbles2Props, statusBubbles2Props2, contentProps } = props;
+  const {
+    statusBubbles1Props,
+    statusBubbles2Props,
+    statusBubbles2Props2,
+    contentProps,
+  } = props;
 
   return (
     <Cards1>

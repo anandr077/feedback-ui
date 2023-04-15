@@ -2,14 +2,16 @@ import React from "react";
 import Frame13124 from "../Frame13124";
 import styled from "styled-components";
 
-
 function Frame13137(props) {
   const { frame13124Props } = props;
 
   return (
     <Frame1313>
       <Frame1312>
-        <Frame13124 boyleJonny={frame13124Props.boyleJonny} arrowdown2={frame13124Props.arrowdown2} />
+        <Frame13124
+          boyleJonny={frame13124Props.boyleJonny}
+          arrowdown2={frame13124Props.arrowdown2}
+        />
       </Frame1312>
     </Frame1313>
   );

@@ -11,7 +11,7 @@ import ReactiveRender, { isMobileView } from "../ReactiveRender";
 import { assignmentsHeaderProps } from "../../utils/headerProps";
 import MCQQuestionFrame from "../MCQQuestionFrame";
 
-const createAssignmentHeaderProps = assignmentsHeaderProps
+const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment() {
   const [classes, setClasses] = React.useState([]);

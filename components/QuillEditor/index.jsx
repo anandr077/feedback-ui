@@ -15,8 +15,8 @@ const QuillEditor = React.forwardRef(
         editor.root.style.fontSize = "16px";
         editor.root.innerHTML = value;
 
-        editor.on('text-change', function(delta, oldDelta, source) {
-            var contents = editor.root.innerHTML;
+        editor.on("text-change", function (delta, oldDelta, source) {
+          var contents = editor.root.innerHTML;
         });
 
         editor.on("selection-change", (range1, range2) => {

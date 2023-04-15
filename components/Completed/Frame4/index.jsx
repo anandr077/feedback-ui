@@ -2,16 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../styledMixins";
 
-
 function Frame4(props) {
   const { className } = props;
 
   return (
     <Frame41 className={`frame-4 ${className || ""}`}>
-      <MaskGroup className="mask-group" src="/img/mask-group@2x.png" alt="Mask group" />
+      <MaskGroup
+        className="mask-group"
+        src="/img/mask-group@2x.png"
+        alt="Mask group"
+      />
       <Frame3 className="frame-3">
         <Name className="name">Eleanor Pena</Name>
-        <Frame27 className="frame-27" src="/img/frame-27@2x.png" alt="Frame 27" />
+        <Frame27
+          className="frame-27"
+          src="/img/frame-27@2x.png"
+          alt="Frame 27"
+        />
       </Frame3>
     </Frame41>
   );

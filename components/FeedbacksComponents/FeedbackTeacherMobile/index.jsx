@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import {
-  IbmplexsansMediumPersianIndigo20px, IbmplexsansNormalBlack16px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark20px
+  IbmplexsansMediumPersianIndigo20px,
+  IbmplexsansNormalBlack16px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalShark20px,
 } from "../../../styledMixins";
 import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
@@ -11,7 +15,7 @@ import Breadcrumb2 from "../Breadcrumb2";
 import ReviewsFrame1317 from "../ReviewsFrame1317";
 import ReviewsFrame131722 from "../ReviewsFrame131722";
 import "./FeedbackTeacherMobile.css";
-import {taskHeaderProps} from "../../../utils/headerProps.js";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
 function FeedbackTeacherMobile(props) {
   const {
     physicsThermodyna,

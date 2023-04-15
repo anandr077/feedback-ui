@@ -2,16 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
 
-
 function Group1205(props) {
   const { arrowright } = props;
 
   return (
-    <a href = "/classes">
-    <Group12051>
-      <ViewAll>VIEW ALL</ViewAll>
-      <Arrowright src={arrowright} alt="arrowright" />
-    </Group12051>
+    <a href="/classes">
+      <Group12051>
+        <ViewAll>VIEW ALL</ViewAll>
+        <Arrowright src={arrowright} alt="arrowright" />
+      </Group12051>
     </a>
   );
 }

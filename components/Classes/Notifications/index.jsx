@@ -1,14 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-
 function Notifications(props) {
   const { src, className } = props;
 
   return (
     <Notifications1 className={`notifications ${className || ""}`}>
       <OverlapGroup className="overlap-group">
-        <Notificationbing className="notificationbing" src={src} alt="notificationbing" />
+        <Notificationbing
+          className="notificationbing"
+          src={src}
+          alt="notificationbing"
+        />
         <Ellipse1 className="ellipse-1"></Ellipse1>
       </OverlapGroup>
     </Notifications1>

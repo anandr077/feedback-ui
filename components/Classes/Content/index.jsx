@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
-
+import {
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from "../styledMixins";
 
 function Content(props) {
   const { physicsThermodyna } = props;
@@ -9,7 +11,9 @@ function Content(props) {
   return (
     <Content1>
       <PhysicsThermodyna>{physicsThermodyna}</PhysicsThermodyna>
-      <FundamentalsOfThermalPhysics>Physics - thermodynamics assignment questions</FundamentalsOfThermalPhysics>
+      <FundamentalsOfThermalPhysics>
+        Physics - thermodynamics assignment questions
+      </FundamentalsOfThermalPhysics>
     </Content1>
   );
 }

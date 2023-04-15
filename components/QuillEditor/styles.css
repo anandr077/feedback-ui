@@ -1,8 +1,8 @@
-.ql-editor {
+/* .ql-editor {
   border: 1px solid black;
   border-color: black;
   border-radius: 0px 0px 8px 8px;
-}
+} */
 .ql-editor strong {
   font-weight: bold;
 }
@@ -12,7 +12,7 @@
 .ql-editor.ql-blank::before {
   color: black;
 }
-.ql-toolbar.ql-snow {
+/* .ql-toolbar.ql-snow {
   border: 1px solid black;
   border-color: black;
   border-radius: 8px 8px 0px 0px;
@@ -21,4 +21,4 @@
   border: 1px solid black;
   border-color: black;
   border-radius: 8px 8px 8px 8px;
-}
+} */

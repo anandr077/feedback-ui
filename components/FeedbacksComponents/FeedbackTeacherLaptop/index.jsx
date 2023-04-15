@@ -242,9 +242,8 @@ function FeedbackTeacherLaptop(props) {
             {submitButton()}
           </Frame1370>
         </Frame1386>
-
-        {tabletView ? <FooterSmall /> : <Footer />}
       </Frame1388>
+      {tabletView ? <FooterSmall /> : <Footer />}
     </div>
   );
 

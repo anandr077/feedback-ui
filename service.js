@@ -68,13 +68,13 @@ export const getCompletedTasks = async () => {
   })
     .then(handleErrors)
     .then((response) => response.json())
-    .then((data) => {
+    .then((data) => { 
       return data;
     })
     .catch(errorHandler);
 };
 export const getNotifications = async () => {
-  return await fetch(baseUrl + "/tasks/notifications", {
+  return await fetch(baseUrl + "/notifications", {
     method: "GET",
     withCredentials: true,
     credentials: "include",

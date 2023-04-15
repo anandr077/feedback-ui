@@ -1,40 +1,21 @@
 import React from "react";
-import Logo from "../Logo";
-import Notifications from "../Notifications";
-import Frame1285 from "../Frame1285";
-import Buttons from "../Buttons";
-import Frame13124 from "../Frame13124";
-import Frame1284 from "../Frame1284";
-import Frame1283 from "../Frame1283";
-import Frame1282 from "../Frame1282";
-import Frame12842 from "../Frame12842";
-import Frame12852 from "../Frame12852";
-import Frame1407 from "../Frame1407";
-import Frame12082 from "../Frame12082";
-import Frame13137 from "../Frame13137";
-import Frame13374 from "../Frame13374";
-import Frame12843 from "../Frame12843";
-import Frame12832 from "../Frame12832";
-import Frame12822 from "../Frame12822";
-import Frame13138 from "../Frame13138";
-import Group1205 from "../Group1205";
-import Cards2 from "../Cards2";
-import Cards3 from "../Cards3";
-import Cards4 from "../Cards4";
 import styled from "styled-components";
-import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansBoldShark36px,
-} from "../styledMixins";
-import "./TeacherClassesTablet.css";
-import HeaderSmall from "../../HeaderSmall";
-import Footer from "../../Footer";
-import FooterSmall from "../../FooterSmall";
 import { classesHomeHeaderProps } from "../../../utils/headerProps";
-import {createStudentsFrames, createModelResponsesFrames} from "../TeacherClassesRoot/methods";
+import FooterSmall from "../../FooterSmall";
+import HeaderSmall from "../../HeaderSmall";
+import Buttons from "../Buttons";
+import Frame12822 from "../Frame12822";
+import Frame12832 from "../Frame12832";
+import Frame12843 from "../Frame12843";
+import Frame1285 from "../Frame1285";
+import Frame13138 from "../Frame13138";
+import Frame13374 from "../Frame13374";
+import Group1205 from "../Group1205";
+import {
+  IbmplexsansBoldShark36px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
+} from "../styledMixins";
+import { createModelResponsesFrames, createStudentsFrames } from "../TeacherClassesRoot/methods";
+import "./TeacherClassesTablet.css";
 
 function TeacherClassesTablet(props) {
   const {

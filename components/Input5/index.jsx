@@ -9,7 +9,7 @@ function Input5(props) {
     <Input>
       <Label>Type of question</Label>
       <Frame1285>
-        <Input1>{input}</Input1>
+        <Input1>input</Input1>
         <Frame1284 src="/img/frame-1284-1@2x.png" alt="Frame 1284" />
       </Frame1285>
     </Input>

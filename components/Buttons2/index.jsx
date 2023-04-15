@@ -32,7 +32,7 @@ const Buttons = styled.div`
   background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
-  cursor: pointer;
+  cursor: copy;
 `;
 
 const Add = styled.img`

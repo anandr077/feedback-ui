@@ -346,6 +346,7 @@ const Buttons1 = styled.div`
   background-color: var(--royal-purple);
   border-radius: 30px;
   border: 1px solid;
+  cursor: pointer;
   &:hover {
     scale: 1.2;
     transition: 0.3s;

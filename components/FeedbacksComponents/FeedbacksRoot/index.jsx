@@ -125,7 +125,7 @@ export default function FeedbacksRoot({isFeedbackPage}) {
     }
   }
 
-  const handlesaveAnswer = (serialNumber) =>(_)=> {
+  const handlesaveAnswer = (serialNumber) => (_) => {
     const contents = quillRefs.current[serialNumber - 1].getContents();
     saveAnswer(submission.id, serialNumber, {
       answer: contents,
@@ -135,9 +135,8 @@ export default function FeedbacksRoot({isFeedbackPage}) {
     console.log(serialNumber);
   };
 
-  const reviewerSelectionChange = (serialNumber)=>(range) => {
+  const reviewerSelectionChange = (serialNumber) => (range) => {
     if (range && range.length > 0) {
-
       setNewCommentSerialNumber(serialNumber);
       setSelectedRange({
         from: range.index,
@@ -158,7 +157,12 @@ export default function FeedbacksRoot({isFeedbackPage}) {
       return <></>;
     } else {
       console.log("Creating ReviewsFrame129532");
-      return <ReviewsFrame129532 studentName={studentName} students={students}></ReviewsFrame129532>;
+      return (
+        <ReviewsFrame129532
+          studentName={studentName}
+          students={students}
+        ></ReviewsFrame129532>
+      );
     }
   };
   
@@ -205,8 +209,6 @@ export default function FeedbacksRoot({isFeedbackPage}) {
     />
     
   );
-
-  
 }
 const isTeacher = getUserRole() === "TEACHER";
 

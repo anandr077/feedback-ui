@@ -9,13 +9,23 @@ import {
 } from "../../styledMixins";
 
 export default function TheoryQuestionFrame(props) {
-  const { serialNumber, deleteQuestionFrameFn, questionDetails, size } = props;
+  const {
+    serialNumber,
+    deleteQuestionFrameFn,
+    questionDetails,
+    size,
+    UpdateQuestionFrame,
+  } = props;
   return (
     <>
       {size == "small" ? (
         <SmalllQuestionFrame>
           <Frame1295>
-            <Frame1297 number={serialNumber} />
+            <Frame1297
+              number={serialNumber}
+              UpdateQuestionFrame={UpdateQuestionFrame}
+              defaultType="TEXT"
+            />
             <DeleteButtonFrame>
               <DeleteButton
                 onClick={() => deleteQuestionFrameFn(serialNumber - 1)}
@@ -36,8 +46,11 @@ export default function TheoryQuestionFrame(props) {
                 />
               </QuestionFrame2>
             </InputQuestion>
-            
-            <Frame1291 questionDetails={questionDetails} serialNumber={serialNumber}/>
+
+            <Frame1291
+              questionDetails={questionDetails}
+              serialNumber={serialNumber}
+            />
           </Frame12891>
         </SmalllQuestionFrame>
       ) : (
@@ -77,9 +90,11 @@ export default function TheoryQuestionFrame(props) {
                 />
               </QuestionFrame1>
             </InputQuestion>
-            
 
-            <Frame1291 questionDetails={questionDetails} serialNumber={serialNumber}/>
+            <Frame1291
+              questionDetails={questionDetails}
+              serialNumber={serialNumber}
+            />
             {/* <Buttons3 /> */}
           </Frame1289>
         </QuestionFrame>
@@ -180,6 +195,7 @@ const DeleteButton = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const Line14 = styled.img`

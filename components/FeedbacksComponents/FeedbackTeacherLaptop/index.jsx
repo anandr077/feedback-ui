@@ -13,7 +13,7 @@ import {
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
   feedbacksIbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack16px
+  IbmplexsansNormalBlack16px,
 } from "../../../styledMixins";
 
 import Footer from "../../Footer";
@@ -38,7 +38,7 @@ function FeedbackTeacherLaptop(props) {
     showNewComment,
     methods,
     comments,
-    studentName, 
+    studentName,
     students,
     headerProps,
     submission,
@@ -153,7 +153,6 @@ function FeedbackTeacherLaptop(props) {
                 theme: "snow",
                 readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
               }}
-
             ></QuillEditor>
           </ToremIpsumDolorSi>
           {createSaveAnswerButton(question)}

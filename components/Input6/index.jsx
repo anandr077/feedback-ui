@@ -10,9 +10,9 @@ function Input6(props) {
 
   return (
     <Input>
-      <Label>{label}</Label>
+      <Label>label</Label>
       <Frame1285>
-        <Input1>{input}</Input1>
+        <Input1>label2</Input1>
       </Frame1285>
     </Input>
   );

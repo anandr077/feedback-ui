@@ -6,7 +6,7 @@ function Group1255(props) {
   const { className } = props;
 
   return (
-    <Group12551 className={`group-1255 ${className || ""}`}>
+    <Group12551>
       <Vector className="vector-1" src="/img/vector-1@2x.png" alt="Vector" />
       <Remove className="remove">Remove</Remove>
     </Group12551>

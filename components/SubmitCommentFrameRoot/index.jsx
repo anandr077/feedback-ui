@@ -13,7 +13,7 @@ const SubmitCommentFrameRoot = (props) => {
         <Text1>Submit</Text1>
       </SmallButton>
       <SmallButtonWhite
-        onClick={(e) => SmallButtonWhiteFunction(e, "SmallButtonWhite")}
+        onClick={(e) =>cancelButtonOnClick()}
       >
         <Text2>Cancel</Text2>
       </SmallButtonWhite>

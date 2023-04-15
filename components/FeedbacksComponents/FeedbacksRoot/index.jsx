@@ -22,7 +22,7 @@ import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
 
-import ReviewsFrame129532 from "../ReviewsFrame129532";
+import FeedBacksDropDown from "../FeedbacksDropDown";
 
 export default function FeedbacksRoot({ isFeedbackPage }) {
   const quillRefs = useRef([]);
@@ -75,6 +75,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     }
   }
   function handleAddComment() {
+    if(!document.getElementById("newCommentInput").value) return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
@@ -163,6 +164,10 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     console.log("##editorOnX" + JSON.stringify(range));
   };
 
+  const hideNewCommentDiv = () => {
+    setShowNewComment(false);
+  }
+
   const onSelectionChange =
     pageMode === "REVIEW" ? reviewerSelectionChange : noopSelectionChange;
 
@@ -172,10 +177,10 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     } else {
       console.log("Creating ReviewsFrame129532");
       return (
-        <ReviewsFrame129532
+        <FeedBacksDropDown
           studentName={studentName}
           students={students}
-        ></ReviewsFrame129532>
+        ></FeedBacksDropDown>
       );
     }
   };
@@ -184,6 +189,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     handleShareWithClass,
     handleAddComment,
     setShowNewComment,
+    hideNewCommentDiv,
     handleEditorMounted,
     handleKeyPress,
     handleSubmissionReviewed,

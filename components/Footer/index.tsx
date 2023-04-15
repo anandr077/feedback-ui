@@ -17,7 +17,7 @@ const FooterContainer = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 30px;
-  position: relative;
+  bottom: 0;
   align-self: stretch;
   background-color: var(--white);
 `;

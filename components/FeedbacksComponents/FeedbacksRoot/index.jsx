@@ -40,9 +40,11 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   const [newCommentValue, setNewCommentValue] = useState("");
 
   const isTeacher = getUserRole() === "TEACHER";
+  const [assignmentId, setAssignmentId] = useState(id);
   useEffect(() => {
+    console.log("##useEffect");
     Promise.all([
-      getSubmissionById(id),
+      getSubmissionById(assignmentId),
       isTeacher ? getTasks() : Promise.resolve([]),
       getCommentsForSubmission(id),
     ]).then(([submissionsResult, tasksResult, commentsResult]) => {
@@ -55,7 +57,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       setComments(commentsResult);
       setIsLoading(false);
     });
-  }, []);
+  }, [assignmentId]);
 
   if (isLoading) {
     return <Loader />;
@@ -168,6 +170,11 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     setShowNewComment(false);
   };
 
+  const studentUpdate = (student) => {
+    console.log("##studentUpdate" + JSON.stringify(student));
+    setStudentName(student);
+    // get assignment by student name or other way
+  };
   const onSelectionChange =
     pageMode === "REVIEW" ? reviewerSelectionChange : noopSelectionChange;
 
@@ -175,11 +182,11 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     if (!isTeacher) {
       return <></>;
     } else {
-      console.log("Creating ReviewsFrame129532");
       return (
         <FeedBacksDropDown
           studentName={studentName}
           students={students}
+          studentUpdate={studentUpdate}
         ></FeedBacksDropDown>
       );
     }
@@ -200,6 +207,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     createTasksDropDown,
     onSelectionChange,
     setStudentName,
+    studentUpdate,
   };
 
   return (

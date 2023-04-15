@@ -5,41 +5,24 @@ import { getTasks } from "../../../service";
 import { Avatar } from "@boringer-avatars/react";
 
 function FeedBacksDropDown(props) {
-  const { students, studentName, showNewComment } = props;
-  const [selectedStudentIcon, setSelectedStudentIcon] = React.useState(null);
-
+  const { students, studentName, studentUpdate } = props;
   const [showOptions, setShowOptions] = React.useState(false);
+  const [selectedStudentName, setSelectedStudentName] =
+    React.useState(studentName);
 
   const toggleOptions = (event) => {
-    console.log("showNewComment is " + showNewComment);
-
-    console.log(
-      "event.currentTarget.getAttribute()" +
-        event.currentTarget.getAttribute("data-name")
-    );
-    if (event.currentTarget.getAttribute("data-name") == null) {
-      // setStudentName(studentName);
-      setSelectedStudentIcon(selectedStudentIcon);
-    } else {
-      //setStudentName(event.currentTarget.getAttribute("data-name"));
-      setSelectedStudentIcon(event.currentTarget.getAttribute("data-icon"));
+    if (event.currentTarget.getAttribute("data-name")) {
+      setSelectedStudentName(event.currentTarget.getAttribute("data-name"));
     }
+    studentUpdate(event.currentTarget.getAttribute("data-name"));
     setShowOptions(!showOptions);
   };
-  console.log("Students are " + JSON.stringify(students));
+
   const options = students.map((student, index) => {
     return (
       <OptionCotainer
         key={index}
-        data-icon={
-          <Avatar
-            title={false}
-            size={25}
-            variant="beam"
-            name={student.name}
-            square={false}
-          />
-        }
+        data-name={student.name}
         onClick={toggleOptions}
       >
         <Avatar
@@ -58,20 +41,17 @@ function FeedBacksDropDown(props) {
     <Frame131612>
       <Frame1295>
         {showOptions ? (
-          <OptionsList>
-            {options}
-          </OptionsList>
+          <OptionsList>{options}</OptionsList>
         ) : (
           <SelectedOptionCotainer>
             <Avatar
               title={false}
               size={25}
               variant="beam"
-              name={studentName}
+              name={selectedStudentName}
               square={false}
             />
-            {/* <Ellipse10 src={selectedStudentIcon} /> */}
-            <Name>{studentName} </Name>
+            <Name>{selectedStudentName} </Name>
           </SelectedOptionCotainer>
         )}
       </Frame1295>

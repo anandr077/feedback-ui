@@ -1,64 +1,50 @@
 import React from "react";
-import TaskFrame1306 from "../../TaskFrame1306";
-import TaskFrame1353 from "../../TaskFrame1353";
 import styled from "styled-components";
 import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansSemiBoldRiverBed24px,
+  IbmplexsansBoldShark64px
 } from "../../../styledMixins";
-import "./TeacherTasksLaptop.css";
-import TaskCardContainer from "../../TaskCardContainer";
-import Header from "../../Header";
+import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
-import {assignmentsHeaderProps, taskHeaderProps} from "../../../utils/headerProps.js";
+import Header from "../../Header";
+import TaskCardContainer from "../../TaskCardContainer";
+import TaskFrame1306 from "../../TaskFrame1306";
+import TaskFrame1353 from "../../TaskFrame1353";
+import "./TeacherTasksLaptop.css";
 function TeacherTasksLaptop(props) {
   const {
-    outstandingTasks,
-    inProgressTasks,
-    overdueTasks,
-    frame19Props,
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
   } = props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
-        <Title>Tasks</Title>
+        <Title>Assignments</Title>
         <Frame1360>
           <TaskFrame1306 />
           <Frame1359>
             <Frame1358>
               <TaskFrame1353
-                outstanding="Outstanding"
-                number={outstandingTasks.length}
+                outstanding="Drafts"
+                number={drafts.length}
               />
-              <TaskCardContainer
-                allTasks={outstandingTasks}
-                className={frame19Props.className}
-                cardsProps={frame19Props.cardsProps}
-              />
+              <TaskCardContainer allTasks={drafts}/>
             </Frame1358>
             <Frame1358>
               <TaskFrame1353
-                outstanding="In Progress"
-                number={inProgressTasks.length}
+                outstanding="Awaiting submissions"
+                number={awaitingSubmissions.length}
               />
-              <TaskCardContainer
-                allTasks={inProgressTasks}
-                className={frame19Props.className}
-                cardsProps={frame19Props.cardsProps}
-              />
+              <TaskCardContainer allTasks={awaitingSubmissions}/>
             </Frame1358>
 
             <Frame1358>
               <TaskFrame1353
-                outstanding="Overdue"
-                number={overdueTasks.length}
+                outstanding="Feedback"
+                number={feedbacks.length}
               />
-              <TaskCardContainer
-                allTasks={overdueTasks}
-                className={frame19Props.className}
-                cardsProps={frame19Props.cardsProps}
-              />
+              <TaskCardContainer allTasks={feedbacks}/>
             </Frame1358>
           </Frame1359>
         </Frame1360>

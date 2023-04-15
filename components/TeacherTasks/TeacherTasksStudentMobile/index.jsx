@@ -1,44 +1,44 @@
-import React from "react";
-import Notifications from "../../Notifications";
-import TaskFrame1304 from "../../TaskFrame1304";
-import Tabs from "../../Tabs";
-import Tabs2 from "../../Tabs2";
-import TaskCardContainer from "../../TaskCardContainer";
+import { default as React, default as React, useState } from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansSemiBoldRiverBed24px,
-  IbmplexsansBoldShark36px,
+  IbmplexsansBoldShark36px, IbmplexsansSemiBoldRiverBed24px
 } from "../../../styledMixins";
-import "./TeacherTasksStudentMobile.css";
-import HeaderSmall from "../../HeaderSmall";
+import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import FooterSmall from "../../FooterSmall";
-import React, { useState, useEffect } from "react";
-import {assignmentsHeaderProps, taskHeaderProps} from "../../../utils/headerProps.js";
+import HeaderSmall from "../../HeaderSmall";
+import Tabs from "../../Tabs";
+import TaskCardContainer from "../../TaskCardContainer";
+import TaskFrame1304 from "../../TaskFrame1304";
+import "./TeacherTasksStudentMobile.css";
 
 function TeacherTasksStudentMobile(props) {
-  const { outstandingTasks, inProgressTasks, overdueTasks } = props;
-  const outstandingFrame = createTasksFrame(
-    "Outstanding",
-    outstandingTasks,
+  const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
+  } = props;
+  const draftsFrames = createTasksFrame(
+    "Drafts",
+    drafts,
     true,
     false,
-    false
+    false,
   );
-  const inProgressFrame = createTasksFrame(
-    "In Progress",
-    inProgressTasks,
+  const awaitingSubmissionsFrames = createTasksFrame(
+    "Awaiting submissions",
+    awaitingSubmissions,
     false,
     true,
-    false
+    false,
   );
-  const overdueFrame = createTasksFrame(
-    "Overdue",
-    overdueTasks,
+  const feedbacksFrames = createTasksFrame(
+    "Feedback",
+    feedbacks,
     false,
     false,
-    true
+    true,
   );
-  const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
+  const [tasksFrame, setTasksFrame] = useState(draftsFrames);
 
   return (
     <div className="tasks-student-mobile screen">
@@ -66,24 +66,24 @@ function TeacherTasksStudentMobile(props) {
         <Frame1364>
           <Frame1211>
             <Tabs
-              text={"Outstanding"}
+              text={"Drafts"}
               isSelected={isOutstanding}
               onClickFn={() => {
-                setTasksFrame(outstandingFrame);
+                setTasksFrame(draftsFrames);
               }}
             />
             <Tabs
-              text={"In Progress"}
+              text={"Awaiting submissions"}
               isSelected={isInProgress}
               onClickFn={() => {
-                setTasksFrame(inProgressFrame);
+                setTasksFrame(awaitingSubmissionsFrames);
               }}
             />
             <Tabs
-              text={"Overdue"}
+              text={"Feedback"}
               isSelected={isOverdue}
               onClickFn={() => {
-                setTasksFrame(overdueFrame);
+                setTasksFrame(feedbacksFrames);
               }}
             />
           </Frame1211>

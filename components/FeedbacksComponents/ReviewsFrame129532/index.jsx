@@ -97,6 +97,8 @@ const Frame1295 = styled.div`
   justify-content: flex-start;
   flex: 1;
   flex-direction: column;
+  z-index: 1;
+  padding: 8px;
 `;
 
 const OptionCotainer = styled.div`
@@ -114,11 +116,13 @@ const OptionsList = styled.div`
   position: absolute;
   z-index: 1;
   left: 0;
+  top: 100%;
   width: 100%;
-  left: 0.5em;
   background-color: var(--white);
-  opacity: 0.9;
-  width: 98%;
+  padding: 20px;
+  border-radius: 8px;
+  height: 200px;
+  overflow-y: scroll;
 `;
 
 const Ellipse10 = styled.img`

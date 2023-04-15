@@ -42,11 +42,7 @@ function FeedbackTeacherLaptop(props) {
     students,
     headerProps,
     submission,
-    frame1284,
-    line261,
-    line263,
     share,
-    line27,
     breadcrumb21Props,
     breadcrumb22Props,
     frame13201Props,
@@ -241,10 +237,10 @@ function FeedbackTeacherLaptop(props) {
             </Group1225>
             {feedbackFrame()}
           </Frame1368>
-          <Frame1370>
+          {/* <Frame1370>
             <Frame131612>{tasksListsDropDown}</Frame131612>
             {submitButton()}
-          </Frame1370>
+          </Frame1370> */}
         </Frame1386>
       </Frame1388>
       {tabletView ? <FooterSmall /> : <Footer />}
@@ -309,6 +305,8 @@ const Line6 = styled.img`
 const Frame131612 = styled.div`
   width: 100%;
   max-width: 300px;
+  display: flex;
+  z-index: 1;
 `;
 const Frame1295 = styled.div`
   display: flex;

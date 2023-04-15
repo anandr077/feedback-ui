@@ -237,10 +237,10 @@ function FeedbackTeacherLaptop(props) {
             </Group1225>
             {feedbackFrame()}
           </Frame1368>
-          {/* <Frame1370>
+          <Frame1370>
             <Frame131612>{tasksListsDropDown}</Frame131612>
             {submitButton()}
-          </Frame1370> */}
+          </Frame1370>
         </Frame1386>
 
         {tabletView ? <FooterSmall /> : <Footer />}

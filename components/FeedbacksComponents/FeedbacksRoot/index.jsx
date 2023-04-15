@@ -75,7 +75,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     }
   }
   function handleAddComment() {
-    if(!document.getElementById("newCommentInput").value) return;
+    if (!document.getElementById("newCommentInput").value) return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
@@ -166,7 +166,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
 
   const hideNewCommentDiv = () => {
     setShowNewComment(false);
-  }
+  };
 
   const onSelectionChange =
     pageMode === "REVIEW" ? reviewerSelectionChange : noopSelectionChange;

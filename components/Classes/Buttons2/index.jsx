@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet13px } from "../styledMixins";
 
-
 function Buttons2() {
   return (
     <Buttons>

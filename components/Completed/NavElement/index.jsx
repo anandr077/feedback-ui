@@ -2,14 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalWhite20px } from "../styledMixins";
 
-
 function NavElement(props) {
   const { className } = props;
 
   return (
     <NavElement1 className={`nav-element ${className || ""}`}>
       <Group1 className="group-1">
-        <IconHome className="icon-home" src="/img/home3@2x.png" alt="icon-home" />
+        <IconHome
+          className="icon-home"
+          src="/img/home3@2x.png"
+          alt="icon-home"
+        />
         <Place className="place">Home</Place>
       </Group1>
     </NavElement1>

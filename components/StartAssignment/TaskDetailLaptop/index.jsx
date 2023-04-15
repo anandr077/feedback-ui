@@ -22,7 +22,7 @@ import {
 import "./TaskDetailLaptop.css";
 import Footer from "../../Footer";
 import Header from "../../Header";
-import {taskHeaderProps} from "../../../utils/headerProps.js";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
 
 function TaskDetailLaptop(props) {
   const {

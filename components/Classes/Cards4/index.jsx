@@ -2,7 +2,6 @@ import React from "react";
 import Content from "../Content";
 import styled from "styled-components";
 
-
 function Cards4(props) {
   const { contentProps } = props;
 

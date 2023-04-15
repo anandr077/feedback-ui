@@ -13,7 +13,7 @@ import {
   IbmplexsansBoldShark36px,
 } from "../styledMixins";
 import "./CompletedMobile.css";
-import {completedHeaderProps} from "../../../utils/headerProps.js";
+import { completedHeaderProps } from "../../../utils/headerProps.js";
 import HeaderSmall from "../../HeaderSmall";
 
 function CompletedMobile(props) {
@@ -54,13 +54,14 @@ function CompletedMobile(props) {
           </Frame1305>
         </Frame1424>
         <Frame1413>
-          <Frame1410 tasks={tasks}  />
+          <Frame1410 tasks={tasks} />
           <Line18 src={line18} alt="Line 18" />
-          
         </Frame1413>
       </Frame1425>
       <Frame1420>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
+        <X2023JeddleAllRightsReserved>
+          {x2023JeddleAllRightsReserved}
+        </X2023JeddleAllRightsReserved>
         <Frame6>
           <MainWebsite>{mainWebsite}</MainWebsite>
           <Terms>{terms}</Terms>

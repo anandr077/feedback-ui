@@ -6,9 +6,14 @@ import Frame1282 from "../Frame1282";
 import styled from "styled-components";
 import { IbmplexsansMediumShark20px } from "../styledMixins";
 
-
 function Frame13122(props) {
-  const { x12Engadv3, frame1407Props, frame1284Props, frame1283Props, frame1282Props } = props;
+  const {
+    x12Engadv3,
+    frame1407Props,
+    frame1284Props,
+    frame1283Props,
+    frame1282Props,
+  } = props;
 
   return (
     <Frame1312>

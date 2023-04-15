@@ -3,7 +3,6 @@ import Frame63 from "../Frame63";
 import Content3 from "../Content3";
 import styled from "styled-components";
 
-
 function Cards9() {
   return (
     <Cards>

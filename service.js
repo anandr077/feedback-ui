@@ -252,7 +252,7 @@ export const saveAnswer = async (submissionId, serialNumber, answer) => {
 
 export const submitAssignment = async (submissionId) => {
   const s = JSON.stringify(submissionId);
-  
+
   const url =
     baseUrl + "/submissions/" + s.substring(1, s.length - 1) + "/submit";
   console.log("url " + url);
@@ -292,7 +292,6 @@ export const markSubmissionReviewed = async (submissionId) => {
     })
     .catch(errorHandler);
 };
-
 
 export const markSubmsissionClosed = async (submissionId) => {
   const s = JSON.stringify(submissionId);

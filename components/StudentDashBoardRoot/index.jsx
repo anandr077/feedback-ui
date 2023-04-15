@@ -5,7 +5,7 @@ import DashboardHomeStudentDesktop from "../DashboardHomeStudentDesktop";
 import DashboardHomeStudentTablet from "../DashboardHomeStudentTablet";
 import DashboardHomeStudentMobile from "../DashboardHomeStudentMobile";
 import { getTasks } from "../../service";
-import {homeHeaderProps} from "../../utils/headerProps.js";
+import { homeHeaderProps } from "../../utils/headerProps.js";
 
 export default function StudentDashboardRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -77,7 +77,6 @@ export default function StudentDashboardRoot() {
     />
   );
 }
-
 
 const group120523Data = {
   arrowright: "/img/arrowright@2x.png",

@@ -16,7 +16,7 @@ import {
 import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
-import {taskHeaderProps} from "../../utils/headerProps.js";
+import { taskHeaderProps } from "../../utils/headerProps.js";
 function CreateAAssignmentTablet(props) {
   const {
     addQuestionFrameFn,

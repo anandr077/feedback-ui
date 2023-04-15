@@ -2,7 +2,6 @@ import React from "react";
 import Frame13123 from "../Frame13123";
 import styled from "styled-components";
 
-
 function Frame13135(props) {
   const { title } = props;
 

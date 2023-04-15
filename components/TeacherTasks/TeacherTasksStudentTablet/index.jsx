@@ -15,7 +15,10 @@ import {
   IbmplexsansSemiBoldRiverBed24px,
 } from "../../../styledMixins";
 import "./TeacherTasksStudentTablet.css";
-import {assignmentsHeaderProps, taskHeaderProps} from "../../../utils/headerProps.js";
+import {
+  assignmentsHeaderProps,
+  taskHeaderProps,
+} from "../../../utils/headerProps.js";
 
 function TeacherTasksStudentTablet(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =

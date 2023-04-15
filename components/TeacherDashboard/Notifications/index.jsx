@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-
 function Notifications() {
   return (
     <Notifications1>
       <OverlapGroup>
-        <Notificationbing src="/img/notificationbing@2x.png" alt="notificationbing" />
+        <Notificationbing
+          src="/img/notificationbing@2x.png"
+          alt="notificationbing"
+        />
         <Ellipse1></Ellipse1>
       </OverlapGroup>
     </Notifications1>

@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansMediumWhite16px, IbmplexsansNormalShark20px, IbmplexsansNormalStack20px, IbmplexsansSemiBoldShark20px, IbmplexsansSemiBoldShark24px
+  IbmplexsansMediumWhite16px,
+  IbmplexsansNormalShark20px,
+  IbmplexsansNormalStack20px,
+  IbmplexsansSemiBoldShark20px,
+  IbmplexsansSemiBoldShark24px,
 } from "../../styledMixins";
 import { taskHeaderProps } from "../../utils/headerProps.js";
 import Breadcrumb from "../Breadcrumb";

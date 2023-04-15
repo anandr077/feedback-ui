@@ -19,7 +19,7 @@ import {
 } from "../styledMixins";
 import "./TaskDetailTablet.css";
 import HeaderSmall from "../../HeaderSmall";
-import {taskHeaderProps} from "../../../utils/headerProps.js";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
 function TaskDetailTablet(props) {
   const {
     assignment,

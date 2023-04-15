@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumShark20px } from "../styledMixins";
 
-
 function Frame1319(props) {
   const { milesFloyd } = props;
 

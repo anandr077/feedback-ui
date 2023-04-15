@@ -32,7 +32,10 @@ import "./TeacherClassesMobile.css";
 import HeaderSmall from "../../HeaderSmall";
 import { classesHomeHeaderProps } from "../../../utils/headerProps";
 import FooterSmall from "../../FooterSmall";
-import {createModelResponsesFrames, createStudentsFrames} from "../TeacherClassesRoot/methods";
+import {
+  createModelResponsesFrames,
+  createStudentsFrames,
+} from "../TeacherClassesRoot/methods";
 function TeacherClassesMobile(props) {
   const {
     modelResponses,
@@ -114,9 +117,7 @@ function TeacherClassesMobile(props) {
               <Students>Students</Students>
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
-            <Frame1336>
-              {createStudentsFrames(students)}
-            </Frame1336>
+            <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
             <Frame1340>
@@ -133,22 +134,30 @@ function TeacherClassesMobile(props) {
               <Line17 src={line174} alt="Line 17" />
               <Frame12844>
                 <Frame13134
-                  storytellingNotAnalysing={frame131341Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131341Props.storytellingNotAnalysing
+                  }
                   number={frame131341Props.number}
                   group1312={frame131341Props.group1312}
                 />
                 <Frame13134
-                  storytellingNotAnalysing={frame131342Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131342Props.storytellingNotAnalysing
+                  }
                   number={frame131342Props.number}
                   group1312={frame131342Props.group1312}
                 />
                 <Frame13134
-                  storytellingNotAnalysing={frame131343Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131343Props.storytellingNotAnalysing
+                  }
                   number={frame131343Props.number}
                   group1312={frame131343Props.group1312}
                 />
                 <Frame13134
-                  storytellingNotAnalysing={frame131344Props.storytellingNotAnalysing}
+                  storytellingNotAnalysing={
+                    frame131344Props.storytellingNotAnalysing
+                  }
                   number={frame131344Props.number}
                   group1312={frame131344Props.group1312}
                 />
@@ -160,17 +169,18 @@ function TeacherClassesMobile(props) {
                   <Crown src={crown} alt="crown" />
                   <ExemplarResponses>{exemplarResponses}</ExemplarResponses>
                 </Frame13124>
-                <Group1205 arrowright={group1205Props.arrowright} className={group1205Props.className} />
+                <Group1205
+                  arrowright={group1205Props.arrowright}
+                  className={group1205Props.className}
+                />
               </Frame1338>
               <Line17 src={line175} alt="Line 17" />
-              <Frame12>
-                {createModelResponsesFrames(modelResponses)}
-              </Frame12>
+              <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
             </Frame1341>
           </Frame1416>
         </Frame14221>
       </Frame1422>
-      <FooterSmall/>
+      <FooterSmall />
     </div>
   );
 }

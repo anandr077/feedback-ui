@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import "./SubmitCommentFrameRoot.css";
 const SubmitCommentFrameRoot = (props) => {
-  const {submitButtonOnClick, cancelButtonOnClick} = props;
- 
+  const { submitButtonOnClick, cancelButtonOnClick } = props;
+
   const SmallButtonWhiteFunction = (e, name) => {
     alert(`${name} was clicked`);
   };

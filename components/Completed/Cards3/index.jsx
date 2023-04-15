@@ -4,7 +4,6 @@ import StatusBubbles3 from "../StatusBubbles3";
 import Content from "../Content";
 import styled from "styled-components";
 
-
 function Cards3(props) {
   const { contentProps } = props;
 

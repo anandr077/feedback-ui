@@ -5,16 +5,11 @@ import { IbmplexsansNormalWhite16px } from "../styledMixins";
 
 function Cards(props) {
   const { title, link } = props;
+
   return (
     <Cards1>
       <Content>
         <DarrellInstructor>
-          <span className="ibmplexsans-normal-shark-16px">
-            Darrell(Instructor) from{" "}
-          </span>
-          <span className="ibmplexsans-normal-electric-violet-16px">
-            C programming mastery
-          </span>
           <span className="ibmplexsans-normal-shark-16px"> {title} </span>
         </DarrellInstructor>
         <a href={link}>
@@ -33,10 +28,10 @@ const Cards1 = styled.div`
   padding: 20px;
   position: relative;
   align-self: stretch;
-  background-color: var(--white);
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
-  width: 100%;
+  box-shadow: 0px 4px 16px #7200e01a;
+  border: 1px solid;
+  border-color: var(--electric-violet);
 `;
 
 const Content = styled.div`

@@ -15,7 +15,7 @@ import {
   IbmplexsansSemiBoldShark28px,
 } from "../styledMixins";
 import "./TaskDetailMobile.css";
-import {taskHeaderProps} from "../../../utils/headerProps.js";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
 
 function TaskDetailMobile(props) {
   const {

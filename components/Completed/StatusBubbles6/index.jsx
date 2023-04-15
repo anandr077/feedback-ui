@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumGreenHouse13px } from "../styledMixins";
 
-
 function StatusBubbles6() {
   return (
     <StatusBubbles>

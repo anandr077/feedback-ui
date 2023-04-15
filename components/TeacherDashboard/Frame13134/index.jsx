@@ -1,14 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalShark20px, IbmplexsansNormalTrendyPink14px } from "../styledMixins";
-
+import {
+  IbmplexsansNormalShark20px,
+  IbmplexsansNormalTrendyPink14px,
+} from "../styledMixins";
 
 function Frame13134(props) {
   const { jonnyBoyleSubmittedAnAssignment } = props;
 
   return (
     <Frame1313>
-      <JonnyBoyleSubmittedAnAssignment>{jonnyBoyleSubmittedAnAssignment}</JonnyBoyleSubmittedAnAssignment>
+      <JonnyBoyleSubmittedAnAssignment>
+        {jonnyBoyleSubmittedAnAssignment}
+      </JonnyBoyleSubmittedAnAssignment>
       <Frame1312>
         <X12ENGADV3>12-ENGADV-3</X12ENGADV3>
         <Line17 src="/img/line-17-16@2x.png" alt="Line 17" />

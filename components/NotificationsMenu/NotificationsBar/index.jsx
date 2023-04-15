@@ -85,9 +85,10 @@ const Frame15 = styled.div`
   padding: 10px;
   position: relative;
   align-self: stretch;
-  z-index: 1;
+  z-index: 10;
   height: 100%;
   flex-direction: column;
+  overflow: visible;
 `;
 
 export default NotificationsBar;

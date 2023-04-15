@@ -70,8 +70,6 @@ function FeedbackTeacherLaptop(props) {
     "modules.toolbar2 " + (pageMode === "EDITOR" || pageMode === "REVISE")
   );
 
-
-
   const feedbackFrame = () => {
     if (pageMode === "DRAFT") {
       return <></>;
@@ -245,8 +243,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1370> */}
         </Frame1386>
 
-      {tabletView ? <FooterSmall /> : <Footer />}
-
+        {tabletView ? <FooterSmall /> : <Footer />}
       </Frame1388>
     </div>
   );
@@ -310,7 +307,6 @@ const Frame131612 = styled.div`
   width: 100%;
   max-width: 300px;
   display: flex;
-  z-index: 1;
 `;
 const Frame1295 = styled.div`
   display: flex;
@@ -401,7 +397,7 @@ const Frame1386 = styled.div`
 
 const Frame1371 = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 60px;
   position: relative;
   align-self: stretch;

@@ -15,7 +15,11 @@ export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
   const [notifications, setNotifications] = React.useState([]);
-
+  React.useEffect(() => {
+    getNotifications().then((result) => {
+      setNotifications(result);
+    });
+  }, []);
   const OnFirstButtonClick = () => {
     console.log("firstButton clicked");
     window.location.href = headerProps.firstButton.redirect;
@@ -37,11 +41,7 @@ export default function Header(props) {
     setDropDown(!dropDown);
   };
 
-  React.useEffect(() => {
-    getNotifications().then((result) => {
-      setNotifications(result);
-    });
-  }, []);
+
 
   return (
     <>

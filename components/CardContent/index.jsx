@@ -1,22 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import {
+  IbmplexsansNormalShark12px,
   IbmplexsansNormalRiverBed14px,
   IbmplexsansNormalShark20px,
 } from "../../styledMixins";
 import { formattedDate } from "../../dates";
 function CardContent(props) {
   const { task } = props;
-
+  
   return (
     <Content>
-      <TaskTitle
-        onClick={() => {
-          window.location.href = `${task.link}`;
-        }}
-      >
-        {task.title}
-      </TaskTitle>
+      {createTitle(task)}
       <FundamentalsOfThermalPhysics>
         {task.classTitle}
       </FundamentalsOfThermalPhysics>
@@ -24,9 +19,56 @@ function CardContent(props) {
         <IconClock src="/img/clock@2x.png" alt="icon-clock" />
         <DueAt>{formattedDate(task.dueAt)}</DueAt>
       </Frame1282>
+      {createSubmissions(task)}
     </Content>
   );
 }
+
+function createTitle(task) {
+  if (task.link) {
+    return <a href={task.link}>
+      <TaskTitle>{task.title}</TaskTitle></a>
+  }
+  return <TaskTitle>{task.title}</TaskTitle>
+}
+function createSubmissions(task) {
+  if (task?.expectedSubmissions ?? 0) {
+    return <TaskTitle>
+      <Submissions>Submissions: {task.submissionCount} of {task.expectedSubmissions}</Submissions>
+    </TaskTitle>
+  }
+  return <></>
+}
+
+
+
+const Frame12121 = styled.div`
+  ${IbmplexsansNormalShark12px}
+  display: flex;
+  width: 339px;
+  align-items: flex-start;
+  gap: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const Submissions = styled.div`
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const Address = styled.div`
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  text-align: right;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 
 const Content = styled.div`
   display: flex;
@@ -45,7 +87,6 @@ const TaskTitle = styled.p`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
-  cursor: pointer;
 `;
 
 const FundamentalsOfThermalPhysics = styled.div`

@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { IbmplexsansNormalRiverBed14px, IbmplexsansNormalShark20px } from "../styledMixins";
 
 
-function Cards2() {
+function Cards2(props) {
+  const {modelResponse} = props
   return (
     <Cards>
       <Content>
         <PhysicsThermodyna>
-          Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a,
-          blandit ultrices nibh. Mauris sit amet magna...
+          {modelResponse.comment}
         </PhysicsThermodyna>
-        <FundamentalsOfThermalPhysics>Physics - thermodynamics assignment questions</FundamentalsOfThermalPhysics>
+        <FundamentalsOfThermalPhysics>{modelResponse.assignmentTitle}</FundamentalsOfThermalPhysics>
       </Content>
     </Cards>
   );

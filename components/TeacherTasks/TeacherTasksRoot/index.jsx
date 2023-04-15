@@ -27,7 +27,7 @@ export default function TeacherTaskRoot() {
     (task) => task.progressStatus === "OUTSTANDING"
   );
   const inProgressTasks = allTasks.filter(
-    (task) => task.progressStatus === "IN_PROGRESS"
+    (task) => task.progressStatus === "DRAFT"
   );
   const overdueTasks = allTasks.filter(
     (task) => task.progressStatus === "OVERDUE"

@@ -29,9 +29,11 @@ import {
 import "./TeacherClassesLaptop.css";
 import Header from "../../Header";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
+import Footer from "../../Footer";
 
 function TeacherClassesLaptop(props) {
   const {
+    modelResponses,
     title,
     x12Engadv3,
     frame12841,
@@ -182,21 +184,25 @@ function TeacherClassesLaptop(props) {
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
               <Frame12>
-                <Cards />
-                <Cards2 />
-                <Cards2 />
-                <Cards2 />
+                {createModelResponsesFrames(modelResponses)}
               </Frame12>
             </Frame1339>
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
+      <Footer/>
     </div>
   );
+}
+
+const createModelResponsesFrames = (modelResponses)=>{
+  console.log("createModelResponsesFrames " + modelResponses)
+ 
+  return <>{
+    modelResponses.map((modelResponse, index)=>{
+    return <Cards2 modelResponse={modelResponse} />
+  })}
+  </>
 }
 
 const Frame1422 = styled.div`

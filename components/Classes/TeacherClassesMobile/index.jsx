@@ -29,9 +29,11 @@ import {
   IbmplexsansBoldShark36px,
 } from "../styledMixins";
 import "./TeacherClassesMobile.css";
+import HeaderSmall from "../../HeaderSmall";
 
 function TeacherClassesMobile(props) {
   const {
+    headerProps,
     frame5,
     title,
     x12Engadv3,

@@ -163,6 +163,20 @@ export const getCommentsForSubmission = async (submissionId) => {
     .catch(errorHandler);
 };
 
+export const getModelResponsesForClass = async (classId) => {
+  return await fetch(baseUrl + "/classes/" + classId + "/modelResponses", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
+
 export const getClasses = async () => {
   return await fetch(baseUrl + "/classes", {
     method: "GET",

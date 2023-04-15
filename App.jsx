@@ -26,6 +26,9 @@ function App() {
         <Route path="/classes">
           <TeacherClassesRoot />
         </Route>
+        <Route path="/classes/:classId">
+          <TeacherClassesRoot />
+        </Route>
         <Route path="/assignments/new">
           <CreateAssignment />
         </Route>

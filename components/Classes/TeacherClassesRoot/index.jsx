@@ -1,29 +1,62 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import ReactiveRender from "../../ReactiveRender";
 import TeacherClassesDesktop from "../TeacherClassesDesktop";
 import TeacherClassesLaptop from "../TeacherClassesLaptop";
 import TeacherClassesMobile from "../TeacherClassesMobile";
 import TeacherClassesTablet from "../TeacherClassesTablet";
-
+import {getModelResponsesForClass, getClasses} from "../../../service.js";
 export default function TeacherClassesRoot() { 
+  const { classIdFromUrl } = useParams();
+  const [classId, setClassId] = useState(classIdFromUrl);
+  
+
+  const [modelResponses, setModelResponses] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!classId) {
+        getClasses()
+        .then((result) => {
+            setClassId(result[0].id)
+        })
+    }
+  }, [classId]);
+  useEffect(() => {
+    getModelResponsesForClass(classId).then((result) => {
+        if (result) {
+            setModelResponses(result);
+
+            setIsLoading(false);
+        }
+    });
+  }, [classId]);
+  console.log("loading: ", isLoading);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  console.log("x modelResponses: ", modelResponses);
   return (
     <ReactiveRender
       mobile={
-        <TeacherClassesMobile {...{...teacherClassesMobileData}} />
+        <TeacherClassesMobile {...{modelResponses,...teacherClassesMobileData}} />
       }
       tablet={
-        <TeacherClassesTablet {...{...teacherClassesTabletData}} />
+        <TeacherClassesTablet {...{modelResponses,...teacherClassesTabletData}} />
       }
       laptop={
-        <TeacherClassesLaptop {...{...teacherClassesLaptopData}} />
+        <TeacherClassesLaptop {...{modelResponses,...teacherClassesLaptopData}} />
       }
       desktop={
-        <TeacherClassesDesktop {...{...teacherClassesDesktopData}} />
+        <TeacherClassesDesktop {...{modelResponses,...teacherClassesDesktopData}} />
       }
     />
   );
 }
-
 const navElement1Data = {
     home3: "/img/home3@2x.png",
     place: "Home",
@@ -813,3 +846,5 @@ const teacherClassesTabletData = {
     cards42Props: cards43Data,
     cards43Props: cards44Data,
 };
+
+

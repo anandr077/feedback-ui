@@ -1,96 +1,92 @@
-import React from "react";
+import { default as React, default as React, useState } from "react";
 import styled from "styled-components";
-import TaskFrame1304 from "../../TaskFrame1304";
-import TaskCardContainer from "../../TaskCardContainer";
-import Notifications from "../../Notifications";
-import Tabs from "../../Tabs";
-import Tabs2 from "../../Tabs2";
 import Footer from "../../Footer";
 import HeaderSmall from "../../HeaderSmall";
-import { getUserName } from "../../../service";
-import React, { useState, useEffect } from "react";
+import Tabs from "../../Tabs";
+import TaskCardContainer from "../../TaskCardContainer";
+import TaskFrame1304 from "../../TaskFrame1304";
 
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansSemiBoldRiverBed24px,
+  IbmplexsansSemiBoldRiverBed24px
 } from "../../../styledMixins";
+import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import "./TeacherTasksStudentTablet.css";
-import {
-  assignmentsHeaderProps,
-  taskHeaderProps,
-} from "../../../utils/headerProps.js";
 
 function TeacherTasksStudentTablet(props) {
-  const { outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
-    props;
-  const outstandingFrame = createTasksFrame(
-    "Outstanding",
-    outstandingTasks,
+  const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
+  } = props;
+
+  const draftsFrames = createTasksFrame(
+    "Drafts",
+    drafts,
     true,
     false,
-    false
+    false,
   );
-  const inProgressFrame = createTasksFrame(
-    "In Progress",
-    inProgressTasks,
+  const awaitingSubmissionsFrames = createTasksFrame(
+    "Awaiting submissions",
+    awaitingSubmissions,
     false,
     true,
-    false
+    false,
   );
-  const overdueFrame = createTasksFrame(
-    "Overdue",
-    overdueTasks,
+  const feedbacksFrames = createTasksFrame(
+    "Feedback",
+    feedbacks,
     false,
     false,
-    true
+    true,
   );
-  const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
+  const [tasksFrame, setTasksFrame] = useState(draftsFrames);
 
   return (
     <div className="tasks-student-tablet screen">
       <HeaderSmall headerProps={assignmentsHeaderProps} />
       <Frame1365>
         <Frame1307>
-          <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
-          <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
+          <PageTitle>Assignments</PageTitle>
+          <TaskFrame1304/>
         </Frame1307>
         {tasksFrame}
       </Frame1365>
       <Footer />
     </div>
   );
-}
 
 function createTasksFrame(
   title,
   tasks,
   isOutstanding,
   isInProgress,
-  isOverdue
+  isOverdue,
 ) {
   return (
     <>
       <Frame1364>
         <Frame1211>
           <Tabs
-            text={"Outstanding"}
+            text={"Drafts"}
             isSelected={isOutstanding}
             onClickFn={() => {
-              setTasksFrame(outstandingFrame);
+              setTasksFrame(draftsFrames);
             }}
           />
           <Tabs
-            text={"In Progress"}
+            text={"Awaiting submissions"}
             isSelected={isInProgress}
             onClickFn={() => {
-              setTasksFrame(inProgressFrame);
+              setTasksFrame(awaitingSubmissionsFrames);
             }}
           />
           <Tabs
-            text={"Overdue"}
+            text={"Feedback"}
             isSelected={isOverdue}
             onClickFn={() => {
-              setTasksFrame(overdueFrame);
+              setTasksFrame(feedbacksFrames);
             }}
           />
         </Frame1211>
@@ -105,6 +101,8 @@ function createTasksFrame(
     </>
   );
 }
+}
+
 
 const Frame1365 = styled.div`
   display: flex;
@@ -188,5 +186,13 @@ const Number = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
+const PageTitle = styled.h1`
+  ${IbmplexsansBoldShark36px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: -0.72px;
+  line-height: 43.2px;
+  white-space: nowrap;
+`;
 export default TeacherTasksStudentTablet;

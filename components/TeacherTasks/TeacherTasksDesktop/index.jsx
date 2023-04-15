@@ -14,51 +14,44 @@ import { assignmentsHeaderProps } from "../../../utils/headerProps";
 
 function TeacherTasksDesktop(props) {
   const {
-    outstandingTasks,
-    inProgressTasks,
-    overdueTasks,
-    title,
-    frame1306Props,
-    frame19Props,
-    headerProps,
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
   } = props;
 
   return (
     <div className="tasks-desktop screen">
       <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
-        <Title>{title}</Title>
+        <Title>Assignments</Title>
         <Frame1360>
-          <TaskFrame1306 frame1304Props={frame1306Props.frame1304Props} />
+          <TaskFrame1306/>
           <Frame1359>
             <Frame1354>
               <TaskFrame1353
-                outstanding="Outstanding"
-                number={outstandingTasks.length}
+                outstanding="Drafts"
+                number={drafts.length}
               />
               <TaskCardContainer
-                allTasks={outstandingTasks}
-                className={frame19Props.className}
+                allTasks={drafts}
               />
             </Frame1354>
             <Frame1354>
               <TaskFrame1353
-                outstanding="In Progress"
-                number={inProgressTasks.length}
+                outstanding="Awaiting submissions"
+                number={awaitingSubmissions.length}
               />
               <TaskCardContainer
-                allTasks={inProgressTasks}
-                className={frame19Props.className}
+                allTasks={awaitingSubmissions}
               />
             </Frame1354>
             <Frame1358>
               <TaskFrame1353
-                outstanding="Overdue"
-                number={outstandingTasks.length}
+                outstanding="Feedback"
+                number={feedbacks.length}
               />
               <TaskCardContainer
-                allTasks={outstandingTasks}
-                className={frame19Props.className}
+                allTasks={feedbacks}
               />
             </Frame1358>
           </Frame1359>

@@ -1,5 +1,5 @@
 import React from "react";
-import { getTasks } from "../../../service";
+import { getAssignments, getTasks } from "../../../service";
 import ReactiveRender from "../../ReactiveRender";
 import TeacherTasksStudentMobile from "../TeacherTasksStudentMobile";
 import TeacherTasksStudentTablet from "../TeacherTasksStudentTablet";
@@ -11,37 +11,42 @@ import {
 } from "../../../utils/headerProps.js";
 
 export default function TeacherTaskRoot() {
-  const [allTasks, setAllTasks] = React.useState([]);
+  const [assignments, setAssignments] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    getTasks().then((result) => {
+    getAssignments().then((result) => {
       if (result) {
+<<<<<<< HEAD
+      setAssignments(result);
+      setIsLoading(false);
+=======
         setAllTasks(result);
         setIsLoading(false);
+>>>>>>> f4aa06fccd030e71261273e4b6e5ce947280618a
       }
     });
   }, []);
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  const outstandingTasks = allTasks.filter(
-    (task) => task.progressStatus === "OUTSTANDING"
+  const drafts = assignments.filter(
+    (assignment) => assignment.submissionsStatus === "DRAFT"
   );
-  const inProgressTasks = allTasks.filter(
-    (task) => task.progressStatus === "DRAFT"
+  const awaitingSubmissions = assignments.filter(
+    (assignment) => assignment.submissionsStatus === "AWAITING_SUBMISSIONS"
   );
-  const overdueTasks = allTasks.filter(
-    (task) => task.progressStatus === "OVERDUE"
+  const feedbacks = assignments.filter(
+    (assignment) => assignment.submissionsStatus === "FEEDBACK"
   );
   return (
     <ReactiveRender
       mobile={
         <TeacherTasksStudentMobile
           {...{
-            outstandingTasks,
-            inProgressTasks,
-            overdueTasks,
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             ...tasksStudentMobileData,
           }}
         />
@@ -49,9 +54,9 @@ export default function TeacherTaskRoot() {
       tablet={
         <TeacherTasksStudentTablet
           {...{
-            outstandingTasks,
-            inProgressTasks,
-            overdueTasks,
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             ...tasksStudentTabletData,
           }}
         />
@@ -59,9 +64,9 @@ export default function TeacherTaskRoot() {
       laptop={
         <TeacherTasksLaptop
           {...{
-            outstandingTasks,
-            inProgressTasks,
-            overdueTasks,
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             ...tasksLaptopData,
           }}
         />
@@ -69,9 +74,9 @@ export default function TeacherTaskRoot() {
       desktop={
         <TeacherTasksDesktop
           {...{
-            outstandingTasks,
-            inProgressTasks,
-            overdueTasks,
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             ...tasksDesktopData,
           }}
         />

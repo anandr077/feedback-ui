@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumRiverBed16px } from "../../styledMixins";
 
-function TaskFrame1304(props) {
+function TaskFrame1304() {
   return (
     <Frame13041>
       <IconsaxLinearsort

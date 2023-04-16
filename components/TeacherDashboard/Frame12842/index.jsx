@@ -5,11 +5,12 @@ import {
   IbmplexsansMediumShark36px,
 } from "../styledMixins";
 
-function Frame12842() {
+function Frame12842(props) {
+  const {title, count} = props
   return (
     <Frame1284>
-      <Drafts>DRAFTS</Drafts>
-      <Number>10</Number>
+      <Drafts>{title}</Drafts>
+      <Number>{count}</Number>
     </Frame1284>
   );
 }

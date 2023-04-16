@@ -1,26 +1,24 @@
 import React from "react";
-import Logo from "../Logo";
-import Notifications from "../Notifications";
-import Group1205 from "../Group1205";
-import Frame13122 from "../Frame13122";
-import Frame14072 from "../Frame14072";
-import Frame12842 from "../Frame12842";
-import Frame12832 from "../Frame12832";
-import Frame12822 from "../Frame12822";
-import Frame13132 from "../Frame13132";
 import styled from "styled-components";
+import { getUserName } from "../../../service";
+import { teacherHomeHeaderProps } from "../../../utils/headerProps";
+import HeaderSmall from "../../HeaderSmall";
+import Frame12842 from "../Frame12842";
+import Frame13122 from "../Frame13122";
+import Frame13132 from "../Frame13132";
+import Frame14072 from "../Frame14072";
+import Group1205 from "../Group1205";
 import {
-  IbmplexsansNormalPersianIndigo13px,
   IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px
 } from "../styledMixins";
 import "./TeacherDashboardMobile.css";
-import HeaderSmall from "../../HeaderSmall";
-import { teacherHomeHeaderProps } from "../../../utils/headerProps";
-import { getUserName } from "../../../service";
 
 function TeacherDashboardMobile(props) {
   const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
     frame5,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
@@ -90,8 +88,10 @@ function TeacherDashboardMobile(props) {
             </Frame13371>
             <Line17 src={line172} alt="Line 17" />
             <Frame1307>
-              <Frame12842 />
-            </Frame1307>
+              <Frame12842 title={'DRAFTS'} count = {drafts.length}/>
+              <Frame12842 title={'AWAITING SUBMISSIONS'} count = {awaitingSubmissions.length}/>
+              <Frame12842 title={'FEEDBACKS'} count = {feedbacks.length}/>
+             </Frame1307>
           </Frame1340>
           <Frame1341>
             <Frame1337>

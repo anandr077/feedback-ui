@@ -25,10 +25,6 @@ function CardContent(props) {
 }
 
 function createTitle(task) {
-  if (task.link) {
-    return <a href={task.link}>
-      <TaskTitle>{task.title ? task.title : task.response}</TaskTitle></a>
-  }
   return <TaskTitle>{task.title ?task.title : task.response}</TaskTitle>
 }
 

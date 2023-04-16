@@ -6,7 +6,7 @@ import {
 } from "../styledMixins";
 
 function Frame12842(props) {
-  const {title, count} = props
+  const { title, count } = props;
   return (
     <Frame1284>
       <Drafts>{title}</Drafts>

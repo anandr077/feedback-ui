@@ -30,6 +30,7 @@ const NavElement = styled.article`
   min-width: 330px;
   height: 54px;
   border-radius: 26.5px;
+  width: 100%;
 `;
 
 const Group1 = styled.div`
@@ -38,6 +39,7 @@ const Group1 = styled.div`
   margin-left: 16px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const Home = styled.div`

@@ -35,10 +35,6 @@ function FeedbackTeacherMobile(props) {
   const modules = {
     toolbar: false,
   };
-  const quillRefs = React.useRef([]);
-  const handleEditorMounted = (editor, index) => {
-    quillRefs.current[index] = editor;
-  };
 
   function createSaveAnswerButton(question) {
     if (pageMode === "REVIEW" || pageMode === "CLOSED") return <></>;
@@ -93,37 +89,6 @@ function FeedbackTeacherMobile(props) {
     );
   });
 
-  const submitButton = () => {
-    if (pageMode === "DRAFT") {
-      return (
-        <Buttons2
-          button="Submit For Review"
-          arrowright={true}
-          onClickFn={() => methods.handleSaveSubmissionForReview()}
-        ></Buttons2>
-      );
-    }
-    if (pageMode === "REVIEW") {
-      return (
-        <Buttons2
-          button="Submit & Next"
-          arrowright={true}
-          onClickFn={() => methods.handleSubmissionReviewed()}
-        ></Buttons2>
-      );
-    }
-    if (pageMode === "REVISE") {
-      return (
-        <Buttons2
-          button="Submit & Next"
-          arrowright={true}
-          onClickFn={() => methods.handleSubmissionClosed()}
-        ></Buttons2>
-      );
-    }
-    return <></>;
-  };
-
   const tasksListsDropDown = methods.createTasksDropDown();
 
   return (
@@ -142,7 +107,6 @@ function FeedbackTeacherMobile(props) {
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
               <Frame131612>{tasksListsDropDown}</Frame131612>
-              {submitButton()}
             </Frame1369>
           </Frame1371>
           <Frame1368>
@@ -154,7 +118,6 @@ function FeedbackTeacherMobile(props) {
           </Frame1368>
           <Frame1370>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-            {submitButton()}
           </Frame1370>
         </Frame1386>
       </Frame1388>

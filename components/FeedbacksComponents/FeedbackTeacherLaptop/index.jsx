@@ -1,4 +1,4 @@
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { sortBy } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -148,12 +148,15 @@ function FeedbackTeacherLaptop(props) {
       <>
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
-          <ToremIpsumDolorSi  onClick={()=>{
-                methods.onSelectionChange(answer.serialNumber)(quillRefs.current[answer.serialNumber - 1].getSelection())
-              }
-            } id={"quill_" + question.serialNumber}>
+          <ToremIpsumDolorSi
+            onClick={() => {
+              methods.onSelectionChange(answer.serialNumber)(
+                quillRefs.current[answer.serialNumber - 1].getSelection()
+              );
+            }}
+            id={"quill_" + question.serialNumber}
+          >
             <QuillEditor
-              
               ref={(editor) =>
                 methods.handleEditorMounted(editor, answer.serialNumber - 1)
               }

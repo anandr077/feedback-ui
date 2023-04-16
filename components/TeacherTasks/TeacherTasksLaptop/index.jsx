@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  IbmplexsansBoldShark64px
-} from "../../../styledMixins";
+import { IbmplexsansBoldShark64px } from "../../../styledMixins";
 import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
 import Header from "../../Header";
@@ -11,11 +9,7 @@ import TaskFrame1306 from "../../TaskFrame1306";
 import TaskFrame1353 from "../../TaskFrame1353";
 import "./TeacherTasksLaptop.css";
 function TeacherTasksLaptop(props) {
-  const {
-    drafts,
-    awaitingSubmissions,
-    feedbacks,
-  } = props;
+  const { drafts, awaitingSubmissions, feedbacks } = props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={assignmentsHeaderProps} />
@@ -25,26 +19,20 @@ function TeacherTasksLaptop(props) {
           <TaskFrame1306 />
           <Frame1359>
             <Frame1358>
-              <TaskFrame1353
-                outstanding="Drafts"
-                number={drafts.length}
-              />
-              <TaskCardContainer allTasks={drafts}/>
+              <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
+              <TaskCardContainer allTasks={drafts} />
             </Frame1358>
             <Frame1358>
               <TaskFrame1353
                 outstanding="Awaiting submissions"
                 number={awaitingSubmissions.length}
               />
-              <TaskCardContainer allTasks={awaitingSubmissions}/>
+              <TaskCardContainer allTasks={awaitingSubmissions} />
             </Frame1358>
 
             <Frame1358>
-              <TaskFrame1353
-                outstanding="Feedback"
-                number={feedbacks.length}
-              />
-              <TaskCardContainer allTasks={feedbacks}/>
+              <TaskFrame1353 outstanding="Feedback" number={feedbacks.length} />
+              <TaskCardContainer allTasks={feedbacks} />
             </Frame1358>
           </Frame1359>
         </Frame1360>

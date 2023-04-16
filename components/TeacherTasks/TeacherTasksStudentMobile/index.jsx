@@ -1,7 +1,8 @@
 import { default as React, default as React, useState } from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansBoldShark36px, IbmplexsansSemiBoldRiverBed24px
+  IbmplexsansBoldShark36px,
+  IbmplexsansSemiBoldRiverBed24px,
 } from "../../../styledMixins";
 import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import FooterSmall from "../../FooterSmall";
@@ -12,31 +13,21 @@ import TaskFrame1304 from "../../TaskFrame1304";
 import "./TeacherTasksStudentMobile.css";
 
 function TeacherTasksStudentMobile(props) {
-  const {
-    drafts,
-    awaitingSubmissions,
-    feedbacks,
-  } = props;
-  const draftsFrames = createTasksFrame(
-    "Drafts",
-    drafts,
-    true,
-    false,
-    false,
-  );
+  const { drafts, awaitingSubmissions, feedbacks } = props;
+  const draftsFrames = createTasksFrame("Drafts", drafts, true, false, false);
   const awaitingSubmissionsFrames = createTasksFrame(
     "Awaiting submissions",
     awaitingSubmissions,
     false,
     true,
-    false,
+    false
   );
   const feedbacksFrames = createTasksFrame(
     "Feedback",
     feedbacks,
     false,
     false,
-    true,
+    true
   );
   const [tasksFrame, setTasksFrame] = useState(draftsFrames);
 

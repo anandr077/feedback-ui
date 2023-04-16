@@ -16,13 +16,12 @@ export function extractStudents(tasksResult) {
           square={false}
         />
       ),
-      link: task.link
+      link: task.link,
     };
   });
 }
 
 export function getPageMode(isFeedbackPage, submission) {
-
   if (!isFeedbackPage && submission.status === "DRAFT") return "DRAFT";
   if (!isFeedbackPage && submission.status === "SUBMITTED") return "CLOSED";
   if (isFeedbackPage && submission.status === "SUBMITTED") return "REVIEW";

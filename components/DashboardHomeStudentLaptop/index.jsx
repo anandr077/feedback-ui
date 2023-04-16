@@ -78,9 +78,9 @@ function DashboardHomeStudentLaptop(props) {
           </Frame1339>
           <Frame1339>
             <Frame1337>
-                <Tasks>Model Responses</Tasks>
-                <DashboardGroup1205 className={group1205Props.className} />
-              </Frame1337>
+              <Tasks>Model Responses</Tasks>
+              <DashboardGroup1205 className={group1205Props.className} />
+            </Frame1337>
             <TaskCardContainer
               allTasks={modelResponses}
               line17={frame1340Props.line17}

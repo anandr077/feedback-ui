@@ -6,7 +6,7 @@ import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 
 function CommentCard32(props) {
   const { comment, className, reviewer, onClick, isClosable, onClose } = props;
-  console.log("isClosable " + isClosable)
+  console.log("isClosable " + isClosable);
   return (
     <CommentCard
       onClick={() => onClick(comment)}
@@ -15,7 +15,7 @@ function CommentCard32(props) {
       <ReviewsFrame132532
         isShare={comment.type === "MODEL_RESPONSE"}
         reviewer={reviewer}
-        isClosable = {isClosable}
+        isClosable={isClosable}
         onClose={onClose}
       />
       <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">

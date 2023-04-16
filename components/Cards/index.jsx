@@ -16,9 +16,9 @@ function TaskCard(props) {
 
 function tagsFrame() {
   if (task.tags) {
-    return <StatusBubbleContainer tags={task.tags?? []} />
+    return <StatusBubbleContainer tags={task.tags ?? []} />;
   }
-  return <></>
+  return <></>;
 }
 
 const StyledCard = styled.article`

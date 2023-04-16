@@ -481,6 +481,7 @@ const Frame1367 = styled.div`
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
   height: 500px;
+  overflow-y: scroll;
 `;
 
 const Frame1366 = styled.div`

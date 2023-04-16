@@ -13,6 +13,8 @@ import {
 import "./CompletedLaptop.css";
 import { completedHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
+import TaskCard from "../../TaskCard";
+
 function CompletedLaptop(props) {
   const {
     tasks,
@@ -29,7 +31,13 @@ function CompletedLaptop(props) {
     frame141032Props,
     frame6Props,
   } = props;
-
+  const cards = tasks.map((task) => {
+    return (
+      <a href={task.link}>
+        <TaskCard task={task} />
+      </a>
+    );
+  });
   return (
     <div className="completed-laptop screen">
       <Frame1425>
@@ -44,6 +52,7 @@ function CompletedLaptop(props) {
             <Frame1285 />
           </Frame1305>
         </Frame1424>
+        
         <Frame1413>
           <Frame14103 tasks={tasks} />
           <Line18 src={line18} alt="Line 18" />

@@ -6,16 +6,16 @@ import styled from "styled-components";
 import { groupBy, groupedData } from "lodash";
 import { dateOnly } from "../../../dates.js";
 import Cards10 from "../Cards10";
+import TaskCard from "../../TaskCard";
 
 function Frame1410(props) {
   const { tasks, className } = props;
   const groups = groupBy(tasks, (task) => dateOnly(task.completedAt));
-  console.log("groups " + JSON.stringify(groups));
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
     console.log("group " + group);
     const tasksFrames = group.map((task) => {
-      return <Cards10 task={task} />;
+      return <TaskCard task={task} />;
     });
     return (
       <Frame14101 className={`frame-1410 ${className || ""}`}>

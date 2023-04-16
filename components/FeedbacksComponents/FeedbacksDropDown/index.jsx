@@ -10,7 +10,13 @@ function FeedBacksDropDown(props) {
   const [selectedStudentName, setSelectedStudentName] =
     React.useState(studentName);
 
-  const toggleOptions = (event) => {
+  const toggleOptions = (link)=>(event) => {
+    studentUpdate(event.currentTarget.getAttribute("data-name"));
+    setShowOptions(!showOptions);
+    window.location.href = link
+  };
+
+  const showList = (event) => {
     if (event.currentTarget.getAttribute("data-name")) {
       setSelectedStudentName(event.currentTarget.getAttribute("data-name"));
     }
@@ -23,7 +29,7 @@ function FeedBacksDropDown(props) {
       <OptionCotainer
         key={index}
         data-name={student.name}
-        onClick={toggleOptions}
+        onClick={toggleOptions(student.link)}
       >
         <Avatar
           title={false}
@@ -38,7 +44,7 @@ function FeedBacksDropDown(props) {
   });
 
   return (
-    <Frame131612>
+    <Frame131612 onClick={showList}>
       <Frame1295>
         {showOptions ? (
           <OptionsList>{options}</OptionsList>
@@ -55,7 +61,7 @@ function FeedBacksDropDown(props) {
           </SelectedOptionCotainer>
         )}
       </Frame1295>
-      <Frame12842 src="/img/frame-1284@2x.png" onClick={toggleOptions} />
+      <Frame12842 src="/img/frame-1284@2x.png"  />
     </Frame131612>
   );
 }
@@ -73,6 +79,7 @@ const Frame131612 = styled.div`
   border-color: var(--text);
   flex-direction: row;
   justify-content: space-evenly;
+  cursor: pointer;
 `;
 const Frame1295 = styled.div`
   display: flex;

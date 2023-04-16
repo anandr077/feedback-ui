@@ -16,6 +16,7 @@ export function extractStudents(tasksResult) {
           square={false}
         />
       ),
+      link: task.link
     };
   });
 }

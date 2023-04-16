@@ -16,6 +16,7 @@ function DashboardHomeStudentTablet(props) {
     outstandingTasks,
     inProgressTasks,
     overdueTasks,
+    modelResponses,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     line171,
@@ -60,7 +61,7 @@ function DashboardHomeStudentTablet(props) {
           />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={[]} />
+            <TaskCardContainer allTasks={modelResponses} />
           </Frame11>
         </Frame1205>
       </Frame1351>

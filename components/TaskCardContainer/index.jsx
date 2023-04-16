@@ -5,7 +5,6 @@ import styled from "styled-components";
 function TaskCardContainer(props) {
   const { allTasks } = props;
   const cards = allTasks.map((task) => {
-    
     return <a href={task.link}><TaskCard task={task} /></a>;
   });
   return <CardContainer>{cards}</CardContainer>;

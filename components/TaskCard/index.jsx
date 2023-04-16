@@ -7,13 +7,20 @@ import styled from "styled-components";
 function TaskCard(props) {
   const { task } = props;
 
-  return (
-    <StyledCard>
-      <StatusBubbleContainer tags={task.tags} />
-      <CardContent task={task} />
-    </StyledCard>
-  );
+  
+  return <StyledCard>
+  {tagsFrame(task)}
+  <CardContent task={task} />
+  </StyledCard>;
 }
+function tagsFrame(task) {
+
+  if (task.tags && task.tags.length>0) {
+    return <StatusBubbleContainer tags={task?.tags ?? []} />
+  }
+  return <></>;
+}
+
 
 const StyledCard = styled.article`
   display: flex;

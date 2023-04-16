@@ -12,16 +12,21 @@ import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import ReviewsFrame1317 from "../ReviewsFrame1317";
-import ReviewsFrame131722 from "../ReviewsFrame131722";
+import Buttons2 from "../Buttons2";
+import QuillEditor from "../../QuillEditor";
 import "./FeedbackTeacherMobile.css";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
+
 function FeedbackTeacherMobile(props) {
   const {
-    physicsThermodyna,
-    frame12841,
+    pageMode,
+    newCommentFrameRef,
+    methods,
+    showNewComment,
+    comments,
+    studentName,
+    students,
     submission,
-    frame12842,
     breadcrumb21Props,
     breadcrumb22Props,
     frame13172Props,
@@ -35,6 +40,20 @@ function FeedbackTeacherMobile(props) {
     quillRefs.current[index] = editor;
   };
 
+  function createSaveAnswerButton(question) {
+    if (pageMode === "REVIEW" || pageMode === "CLOSED") return <></>;
+    return (
+      <SaveDraftButtonContainer>
+        <Buttons2
+          id={"saveAnswer_" + question.serialNumber}
+          button="Save Answer"
+          arrowright={true}
+          onClickFn={methods.handlesaveAnswer(question.serialNumber)}
+        ></Buttons2>
+      </SaveDraftButtonContainer>
+    );
+  }
+
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -42,113 +61,70 @@ function FeedbackTeacherMobile(props) {
     };
     const answer =
       submission.answers?.find(
-        (answer) => answer.questionSerialNumber === question.serialNumber
+        (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
-
+    const questionText = "Q" + question.serialNumber + ". " + question.question;
+    const answerValue = answer.answer.answer;
     return (
       <>
         <Frame1366>
-          <Q1PoremIpsumDolo>
-            {submission.assignment.questions[answer.serialNumber - 1].question}
-          </Q1PoremIpsumDolo>
-          <ToremIpsumDolorSi></ToremIpsumDolorSi>
-          <ReactQuill
-            ref={(editor) =>
-              handleEditorMounted(editor, answer.serialNumber - 1)
-            }
-            theme="snow"
-            value={answer.answer.answer}
-            className="ql-editor-feedbacks"
-            readOnly={true}
-            modules={modules}
-            onChangeSelection={(range, source, editor) => {
-              if (range && range.length > 0) {
-                console.log(range);
-                setNewCommentSerialNumber(answer.serialNumber);
-                setShowNewComment(true);
-                setSelectedRange({
-                  from: range.index,
-                  to: range.index + range.length,
-                });
+          <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
+          <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
+            <QuillEditor
+              ref={(editor) =>
+                methods.handleEditorMounted(editor, answer.serialNumber - 1)
               }
-            }}
-          />
+              comments={comments.filter((comment) => {
+                return comment.questionSerialNumber === answer.serialNumber;
+              })}
+              value={answerValue ? answerValue : ""}
+              onSelectionChange={methods.onSelectionChange(answer.serialNumber)}
+              // onChangeFn={methods.onChangeFn(question.serialNumber)}
+              options={{
+                modules: modules,
+                theme: "snow",
+                readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+              }}
+            ></QuillEditor>
+          </ToremIpsumDolorSi>
+          {createSaveAnswerButton(question)}
         </Frame1366>
       </>
     );
   });
 
-  const students = [
-    {
-      name: "Emily Brown",
-      src: "/studentIcons/1.png",
-    },
-    {
-      name: "Ethan Williams",
-      src: "/studentIcons/2.png",
-    },
-    {
-      name: "Sophia Davis",
-      src: "/studentIcons/3.png",
-    },
-    {
-      name: "Noah Johnson",
-      src: "/studentIcons/4.png",
-    },
-    {
-      name: "Madison Lee",
-      src: "/studentIcons/5.png",
-    },
-    {
-      name: "William Rodriguez",
-      src: "/studentIcons/6.png",
-    },
-    {
-      name: "Olivia Nguyen",
-      src: "/studentIcons/7.png",
-    },
-    {
-      name: "Alexander Taylor",
-      src: "/studentIcons/8.png",
-    },
-    {
-      name: "Isabella Kim",
-      src: "/studentIcons/9.png",
-    },
-    {
-      name: "Benjamin Chen",
-      src: "/studentIcons/10.png",
-    },
-  ];
-
-  const [showOptions, setShowOptions] = useState(false);
-  const [selectedStudentIcon, setSelectedStudentIcon] = useState(
-    students[0].src
-  );
-  const [selectedStudent, setSelectedStudent] = useState(students[0].name);
-  const toggleOptions = (event) => {
-    if (event.currentTarget.getAttribute("data-name") == null) {
-      setSelectedStudent(students[0].name);
-      setSelectedStudentIcon(students[0].src);
-    } else {
-      setSelectedStudent(event.currentTarget.getAttribute("data-name"));
-      setSelectedStudentIcon(event.currentTarget.getAttribute("data-icon"));
+  const submitButton = () => {
+    if (pageMode === "DRAFT") {
+      return (
+        <Buttons2
+          button="Submit For Review"
+          arrowright={true}
+          onClickFn={() => methods.handleSaveSubmissionForReview()}
+        ></Buttons2>
+      );
     }
-    setShowOptions(!showOptions);
+    if (pageMode === "REVIEW") {
+      return (
+        <Buttons2
+          button="Submit & Next"
+          arrowright={true}
+          onClickFn={() => methods.handleSubmissionReviewed()}
+        ></Buttons2>
+      );
+    }
+    if (pageMode === "REVISE") {
+      return (
+        <Buttons2
+          button="Submit & Next"
+          arrowright={true}
+          onClickFn={() => methods.handleSubmissionClosed()}
+        ></Buttons2>
+      );
+    }
+    return <></>;
   };
-  const options = students.map((student, index) => {
-    return (
-      <OptionCotainer
-        key={index}
-        data-name={student.name}
-        data-icon={student.src}
-        onClick={toggleOptions}
-      >
-        <Ellipse10 src={student.src} />
-        <Name>{student.name} </Name>
-      </OptionCotainer>
-    );
-  });
+
+  const tasksListsDropDown = methods.createTasksDropDown();
 
   return (
     <div className="feedback-teacher-mobile screen">
@@ -165,26 +141,8 @@ function FeedbackTeacherMobile(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame1369>
-              <Frame131612>
-                <Frame1295>
-                  {showOptions ? (
-                    <OptionsList>{options}</OptionsList>
-                  ) : (
-                    <OptionCotainer>
-                      <Ellipse10 src={selectedStudentIcon} />
-                      <Name>{selectedStudent} </Name>
-                    </OptionCotainer>
-                  )}
-                </Frame1295>
-                <Frame12842
-                  src="/img/frame-1284@2x.png"
-                  onClick={toggleOptions}
-                />
-              </Frame131612>
-              <ReviewsFrame131722
-                buttonsProps={frame13172Props.buttonsProps}
-                buttons2Props={frame13172Props.buttons2Props}
-              />
+              <Frame131612>{tasksListsDropDown}</Frame131612>
+              {submitButton()}
             </Frame1369>
           </Frame1371>
           <Frame1368>
@@ -195,30 +153,8 @@ function FeedbackTeacherMobile(props) {
             </Group1225>
           </Frame1368>
           <Frame1370>
-            {/* <Frame13161>
-              <ReviewsFrame129522 />
-              <Frame1284 src={frame12842} alt="Frame 1284" />
-            </Frame13161> */}
-            <Frame131612>
-              <Frame1295>
-                {showOptions ? (
-                  <OptionsList>{options}</OptionsList>
-                ) : (
-                  <OptionCotainer>
-                    <Ellipse10 src={selectedStudentIcon} />
-                    <Name>{selectedStudent} </Name>
-                  </OptionCotainer>
-                )}
-              </Frame1295>
-              <Frame12842
-                src="/img/frame-1284@2x.png"
-                onClick={toggleOptions}
-              />
-            </Frame131612>
-            <ReviewsFrame1317
-              buttonsProps={frame1317Props.buttonsProps}
-              buttons2Props={frame1317Props.buttons2Props}
-            />
+            <Frame131612>{tasksListsDropDown}</Frame131612>
+            {submitButton()}
           </Frame1370>
         </Frame1386>
       </Frame1388>
@@ -234,10 +170,7 @@ const Frame131612 = styled.div`
   padding: 8px;
   position: relative;
   flex: 1;
-  background-color: var(--white);
-  border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
+
   cursor: pointer;
   flex-direction: row;
   justify-content: space-evenly;

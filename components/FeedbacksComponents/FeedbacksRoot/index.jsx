@@ -71,7 +71,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("isFeedbackPage: " + isFeedbackPage);
+  console.log("##isFeedbackPage: " + isFeedbackPage);
 
   const pageMode = getPageMode(isFeedbackPage, submission);
   console.log("pageMode: " + pageMode);

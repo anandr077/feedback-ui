@@ -52,15 +52,19 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     ]).then(([submissionsResult, tasksResult, commentsResult]) => {
       setSubmission(submissionsResult);
       setStudents(extractStudents(tasksResult));
-      const allExceptCurrent = tasksResult.filter(r => r.id != submissionsResult.id)
-      setNextUrl(allExceptCurrent[0]? "/feedbacks/" + allExceptCurrent[0]?.id :"/")
-      console.log("Next " + JSON.stringify(nextUrl))
+      const allExceptCurrent = tasksResult.filter(
+        (r) => r.id != submissionsResult.id
+      );
+      setNextUrl(
+        allExceptCurrent[0] ? "/feedbacks/" + allExceptCurrent[0]?.id : "/"
+      );
+      console.log("Next " + JSON.stringify(nextUrl));
 
       setStudentName(
         tasksResult.find((r) => r.id === submissionsResult.id)?.studentName ??
           null
       );
-      
+
       setComments(commentsResult);
       setIsLoading(false);
     });
@@ -69,7 +73,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("isFeedbackPage: " + isFeedbackPage);
+  console.log("##isFeedbackPage: " + isFeedbackPage);
 
   const pageMode = getPageMode(isFeedbackPage, submission);
   console.log("pageMode: " + pageMode);
@@ -102,7 +106,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(comments.filter(c=>c.id!=commentId));
+      setComments(comments.filter((c) => c.id != commentId));
     });
   }
 
@@ -122,15 +126,13 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   }
 
   function handleSubmissionReviewed() {
-    markSubmsissionReviewed(submission.id).then(
-      (_) => {
-        if (isTeacher) {
-          window.location.href = nextUrl
-        } else {
-          window.location.href = "/"
-        }
+    markSubmsissionReviewed(submission.id).then((_) => {
+      if (isTeacher) {
+        window.location.href = nextUrl;
+      } else {
+        window.location.href = "/";
       }
-    );
+    });
   }
   const handleSaveSubmissionForReview = () => {
     submitAssignment(submission.id).then((_) => {
@@ -156,7 +158,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
         "quill_" + comment.questionSerialNumber
       );
       div.scrollIntoView({
-        behavior: 'auto',
+        behavior: 'smooth',
         block: 'center',
         inline: 'center'
       });
@@ -206,7 +208,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
 
   function highlightComment(div) {
     div.scrollIntoView({
-      behavior: 'auto',
+      behavior: 'smooth',
       block: 'center',
       inline: 'center'
     });

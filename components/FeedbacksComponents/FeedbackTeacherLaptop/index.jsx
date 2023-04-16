@@ -55,18 +55,16 @@ function FeedbackTeacherLaptop(props) {
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
-    const isClosable = pageMode === "REVIEW"
-    // commentCardRefs.current[index] = commentCardRefs.current[index] || React.createRef();
-
+    const isClosable = pageMode === "REVIEW";
     return (
       <CommentCard32
         // ref={commentCardRefs.current[index]}
         reviewer={getUserName()}
         comment={comment}
         onClick={(c) => methods.handleCommentSelected(c)}
-        isClosable = {isClosable}
-        onClose={()=>{
-          methods.handleDeleteComment(comment.id)
+        isClosable={isClosable}
+        onClose={() => {
+          methods.handleDeleteComment(comment.id);
         }}
       />
     );
@@ -226,12 +224,12 @@ function FeedbackTeacherLaptop(props) {
   return (
     <div className="feedback-teacher-laptop screen">
       <Frame1388>
+        {tabletView ? (
+          <HeaderSmall headerProps={headerProps} />
+        ) : (
+          <Header headerProps={headerProps} />
+        )}
         <Frame1387>
-          {tabletView ? (
-            <HeaderSmall headerProps={headerProps} />
-          ) : (
-            <Header headerProps={headerProps} />
-          )}
           <Frame1315>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
@@ -255,8 +253,8 @@ function FeedbackTeacherLaptop(props) {
             {submitButton()}
           </Frame1370>
         </Frame1386>
+        {tabletView ? <FooterSmall /> : <Footer />}
       </Frame1388>
-      {tabletView ? <FooterSmall /> : <Footer />}
     </div>
   );
 
@@ -405,6 +403,9 @@ const Frame1386 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  width: 80%;
+  max-width: 2000px;
+  left: 10%;
 `;
 
 const Frame1371 = styled.div`

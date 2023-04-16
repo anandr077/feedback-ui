@@ -8,17 +8,17 @@ import {
 import { formattedDate } from "../../dates";
 function CardContent(props) {
   const { task } = props;
-  
+  const datesFrame = task.dueAt?<Frame1282>
+  <IconClock src="/img/clock@2x.png" alt="icon-clock" />
+  <DueAt>{formattedDate(task.dueAt)}</DueAt>
+</Frame1282>:<></>
   return (
     <Content>
       {createTitle(task)}
       <FundamentalsOfThermalPhysics>
-        {task.classTitle}
+        {task.classTitle?task.classTitle:task.assignmentTitle}
       </FundamentalsOfThermalPhysics>
-      <Frame1282>
-        <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-        <DueAt>{formattedDate(task.dueAt)}</DueAt>
-      </Frame1282>
+      {datesFrame}
       {createSubmissions(task)}
     </Content>
   );
@@ -27,10 +27,11 @@ function CardContent(props) {
 function createTitle(task) {
   if (task.link) {
     return <a href={task.link}>
-      <TaskTitle>{task.title}</TaskTitle></a>
+      <TaskTitle>{task.title ? task.title : task.response}</TaskTitle></a>
   }
-  return <TaskTitle>{task.title}</TaskTitle>
+  return <TaskTitle>{task.title ?task.title : task.response}</TaskTitle>
 }
+
 function createSubmissions(task) {
   if (task?.expectedSubmissions ?? 0) {
     return <TaskTitle>
@@ -39,8 +40,6 @@ function createSubmissions(task) {
   }
   return <></>
 }
-
-
 
 const Frame12121 = styled.div`
   ${IbmplexsansNormalShark12px}

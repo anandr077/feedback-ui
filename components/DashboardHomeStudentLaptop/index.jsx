@@ -21,6 +21,7 @@ function DashboardHomeStudentLaptop(props) {
     outstandingTasks,
     inProgressTasks,
     overdueTasks,
+    modelResponses,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
@@ -76,7 +77,7 @@ function DashboardHomeStudentLaptop(props) {
             </Frame1336>
           </Frame1339>
           <ModelResponseCardContainer
-            allTasks={[]}
+            allTasks={modelResponses}
             line17={frame1340Props.line17}
             group1205Props={frame1340Props.group1205Props}
           />

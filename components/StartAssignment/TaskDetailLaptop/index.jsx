@@ -23,6 +23,7 @@ import "./TaskDetailLaptop.css";
 import Footer from "../../Footer";
 import Header from "../../Header";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
+import { formattedDate } from "../../../dates";
 
 function TaskDetailLaptop(props) {
   const {
@@ -59,16 +60,12 @@ function TaskDetailLaptop(props) {
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles text={assignment.dueAt} />
+              <StatusBubbles text={formattedDate(assignment.dueAt)} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
               <Frame11 text={assignment.questions.length} />
             </Frame28>
-            <Frame12094
-              topicsCovered={frame120942Props.topicsCovered}
-              moremIpsumDolorSi={frame120942Props.moremIpsumDolorSi}
-            />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
               <Buttons onClickFn={methods.onClickStartAssignment} />

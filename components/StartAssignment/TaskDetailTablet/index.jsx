@@ -1,25 +1,19 @@
 import React from "react";
-import Notifications from "../Notifications";
+import styled from "styled-components";
+import { formattedDate } from "../../../dates";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
+import HeaderSmall from "../../HeaderSmall";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
+import Buttons from "../Buttons";
+import Frame11 from "../Frame11";
+import Frame12093 from "../Frame12093";
 import GoBack from "../GoBack";
 import StatusBubbles from "../StatusBubbles";
-import Frame11 from "../Frame11";
-import Frame12 from "../Frame12";
-import Frame13 from "../Frame13";
-import Frame14 from "../Frame14";
-import Frame12093 from "../Frame12093";
-import Buttons from "../Buttons";
-import styled from "styled-components";
 import {
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark28px,
-  IbmplexsansBoldShark36px,
+  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansSemiBoldShark28px
 } from "../styledMixins";
 import "./TaskDetailTablet.css";
-import HeaderSmall from "../../HeaderSmall";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
 function TaskDetailTablet(props) {
   const {
     assignment,
@@ -57,7 +51,7 @@ function TaskDetailTablet(props) {
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles text={assignment.dueAt} />
+              <StatusBubbles text={formattedDate( assignment.dueAt)} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>

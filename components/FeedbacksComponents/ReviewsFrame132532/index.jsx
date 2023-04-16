@@ -4,7 +4,7 @@ import { IbmplexsansMediumBlack16px } from "../../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 
 function ReviewsFrame132532(props) {
-  const { isShare, reviewer } = props;
+  const { isShare, reviewer, isClosable, onClose } = props;
   const avatar = (
     <Avatar
       title={false}
@@ -14,6 +14,7 @@ function ReviewsFrame132532(props) {
       square={false}
     />
   );
+  const closeFrame = isClosable ? <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" /> : <></>
   const shareIcon = <Ellipse7 src="/icons/share.png" />;
   const commenterFrame = isShare ? shareIcon : avatar;
   const reviewerFrame = isShare ? "Shared with class" : reviewer;
@@ -23,7 +24,7 @@ function ReviewsFrame132532(props) {
         {commenterFrame}
         <Instructer>{reviewerFrame}</Instructer>
       </Frame1324>
-      <More src="/img/more@2x.png" alt="more" />
+      {closeFrame}
     </Frame1325>
   );
 }

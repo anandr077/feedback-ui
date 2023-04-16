@@ -4,6 +4,7 @@ import { React, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   addFeedback,
+  deleteFeedback,
   getCommentsForSubmission,
   getSubmissionById,
   getTasks,
@@ -94,6 +95,12 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       }
     });
     setShowNewComment(false);
+  }
+
+  function handleDeleteComment(commentId) {
+    deleteFeedback(submission.id, commentId).then((response) => {
+      setComments(comments.filter(c=>c.id!=commentId));
+    });
   }
 
   function handleShareWithClass() {
@@ -203,6 +210,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   };
 
   const methods = {
+    handleDeleteComment,
     handleShareWithClass,
     handleAddComment,
     setShowNewComment,

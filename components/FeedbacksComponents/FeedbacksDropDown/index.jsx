@@ -70,7 +70,6 @@ const Frame131612 = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px;
   position: relative;
   flex: 1;
   background-color: var(--white);

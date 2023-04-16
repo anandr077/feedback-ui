@@ -27,7 +27,11 @@ const StyledCard = styled.article`
   border-radius: 16px;
   border: 1px solid;
   border-color: var(--corn);
-  box-shadow: 0px 4px 16px #f4bf061a;
+  &: hover {
+    background: #F9F5FF;
+    border: 1px solid #7200E0;
+    box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
+  }
 `;
 
 export default TaskCard;

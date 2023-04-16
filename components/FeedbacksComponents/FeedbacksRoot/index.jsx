@@ -1,6 +1,6 @@
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import { React, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   addFeedback,
@@ -28,6 +28,8 @@ import FeedBacksDropDown from "../FeedbacksDropDown";
 export default function FeedbacksRoot({ isFeedbackPage }) {
   const quillRefs = useRef([]);
   const newCommentFrameRef = useRef(null);
+  const commentCardRefs = useRef([]);
+
   const [submission, setSubmission] = useState(null);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,7 +65,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       setIsLoading(false);
     });
   }, [assignmentId]);
-
+  
   if (isLoading) {
     return <Loader />;
   }
@@ -71,6 +73,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
 
   const pageMode = getPageMode(isFeedbackPage, submission);
   console.log("pageMode: " + pageMode);
+  
   const handleEditorMounted = (editor, index) => {
     console.log("Mounted " + JSON.stringify(editor) + " index " + index);
     quillRefs.current[index] = editor;
@@ -152,7 +155,11 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       const div = document.getElementById(
         "quill_" + comment.questionSerialNumber
       );
-      div.scrollIntoView({ behavior: "smooth" });
+      div.scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+      });
     } else {
       console.log("No range");
     }
@@ -169,16 +176,59 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   };
 
   const reviewerSelectionChange = (serialNumber) => (range) => {
-    if (range && range.length > 0) {
-      setNewCommentSerialNumber(serialNumber);
-      setSelectedRange({
-        from: range.index,
-        to: range.index + range.length,
-      });
-      newCommentFrameRef.current?.focus();
-      setShowNewComment(true);
+    if (range) {
+      const from= range.index;
+      const to = range.index + range.length;
+
+      const matchingComments = comments
+      .filter(comment => comment.questionSerialNumber === serialNumber)
+      .filter(comment=> {
+          return (comment.range.from <= from && comment.range.to >= to)
+        }
+      )
+      if (matchingComments && matchingComments.length  > 0) {
+          const matchingComment = matchingComments[0]
+          const div = document.getElementById(
+            "comment_" + matchingComment.id
+          );
+          highlightComment(div);
+      } else {
+        setNewCommentSerialNumber(serialNumber);
+        setSelectedRange({
+          from: from,
+          to: to,
+        });
+        newCommentFrameRef.current?.focus();
+        setShowNewComment(true);
+      }
     }
   };
+
+  function highlightComment(div) {
+    div.scrollIntoView({
+      behavior: 'auto',
+      block: 'center',
+      inline: 'center'
+    });
+    const originalBackground = div.style.background;
+    const originalBorder = div.style.border;
+    const originalBoxShadow = div.style.boxShadow;
+
+    // Set the new style properties
+    div.style.background = "#F9F5FF";
+    div.style.border = "1px solid #7200E0";
+    div.style.boxShadow = "0px 4px 16px rgba(114, 0, 224, 0.2)";
+    div.style.scale = 1.0003;
+
+    // Restore the original style properties after 5 seconds
+    setTimeout(() => {
+      div.style.background = originalBackground;
+      div.style.border = originalBorder;
+      div.style.boxShadow = originalBoxShadow;
+      div.style.scale = 1;
+
+    }, 2000);
+  }
   const noopSelectionChange = (serialNumber) => (range) => {
     console.log("##editorOnX" + JSON.stringify(range));
   };
@@ -233,6 +283,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       mobile={
         <FeedbackTeacherMobile
           {...{
+            quillRefs,
             pageMode,
             newCommentFrameRef,
             methods,
@@ -248,6 +299,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       tablet={
         <FeedbackTeacherLaptop
           {...{
+            quillRefs,
             pageMode,
             newCommentFrameRef,
             methods,
@@ -264,6 +316,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
         <>
           <FeedbackTeacherLaptop
             {...{
+              quillRefs,
               pageMode,
               newCommentFrameRef,
               methods,
@@ -280,6 +333,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       desktop={
         <FeedbackTeacherLaptop
           {...{
+            quillRefs,
             pageMode,
             newCommentFrameRef,
             methods,
@@ -294,6 +348,8 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       }
     />
   );
+
+  
 }
 const isTeacher = getUserRole() === "TEACHER";
 

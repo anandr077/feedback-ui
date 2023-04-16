@@ -1,4 +1,4 @@
-import { React, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import { sortBy } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -32,6 +32,7 @@ import { getUserName, getUserRole } from "../../../service";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    quillRefs,
     pageMode,
     newCommentFrameRef,
     showNewComment,
@@ -55,8 +56,11 @@ function FeedbackTeacherLaptop(props) {
     "range.from",
   ]).map((comment) => {
     const isClosable = pageMode === "REVIEW"
+    // commentCardRefs.current[index] = commentCardRefs.current[index] || React.createRef();
+
     return (
       <CommentCard32
+        // ref={commentCardRefs.current[index]}
         reviewer={getUserName()}
         comment={comment}
         onClick={(c) => methods.handleCommentSelected(c)}
@@ -146,8 +150,12 @@ function FeedbackTeacherLaptop(props) {
       <>
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
-          <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
+          <ToremIpsumDolorSi  onClick={()=>{
+                methods.onSelectionChange(answer.serialNumber)(quillRefs.current[answer.serialNumber - 1].getSelection())
+              }
+            } id={"quill_" + question.serialNumber}>
             <QuillEditor
+              
               ref={(editor) =>
                 methods.handleEditorMounted(editor, answer.serialNumber - 1)
               }
@@ -155,8 +163,7 @@ function FeedbackTeacherLaptop(props) {
                 return comment.questionSerialNumber === answer.serialNumber;
               })}
               value={answerValue ? answerValue : ""}
-              onSelectionChange={methods.onSelectionChange(answer.serialNumber)}
-              // onChangeFn={methods.onChangeFn(question.serialNumber)}
+              // onSelectionChange={methods.onSelectionChange(answer.serialNumber)}
               options={{
                 modules: modules,
                 theme: "snow",
@@ -472,6 +479,7 @@ const Frame1367 = styled.div`
   border-radius: 26px;
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
+  height: 500px;
 `;
 
 const Frame1366 = styled.div`
@@ -598,7 +606,7 @@ const Frame1331 = styled.div`
 
   background-color: var(--white);
   border-radius: 16px;
-  height: 900px;
+  height: 500px;
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;

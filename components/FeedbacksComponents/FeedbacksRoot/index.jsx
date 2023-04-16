@@ -1,6 +1,6 @@
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import React, {  useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   addFeedback,
@@ -69,7 +69,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       setIsLoading(false);
     });
   }, [assignmentId]);
-  
+
   if (isLoading) {
     return <Loader />;
   }
@@ -77,7 +77,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
 
   const pageMode = getPageMode(isFeedbackPage, submission);
   console.log("pageMode: " + pageMode);
-  
+
   const handleEditorMounted = (editor, index) => {
     console.log("Mounted " + JSON.stringify(editor) + " index " + index);
     quillRefs.current[index] = editor;
@@ -158,9 +158,9 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
         "quill_" + comment.questionSerialNumber
       );
       div.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center'
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
       });
     } else {
       console.log("No range");
@@ -205,9 +205,9 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
 
   function highlightComment(div) {
     div.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center'
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
     });
     const originalBackground = div.style.background;
     const originalBorder = div.style.border;
@@ -225,7 +225,6 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       div.style.border = originalBorder;
       div.style.boxShadow = originalBoxShadow;
       div.style.scale = 1;
-
     }, 2000);
   }
   const noopSelectionChange = (serialNumber) => (range) => {
@@ -347,8 +346,6 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       }
     />
   );
-
-  
 }
 const isTeacher = getUserRole() === "TEACHER";
 

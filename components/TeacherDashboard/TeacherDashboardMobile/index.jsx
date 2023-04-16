@@ -10,7 +10,8 @@ import Frame14072 from "../Frame14072";
 import Group1205 from "../Group1205";
 import {
   IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
 } from "../styledMixins";
 import "./TeacherDashboardMobile.css";
 
@@ -88,10 +89,13 @@ function TeacherDashboardMobile(props) {
             </Frame13371>
             <Line17 src={line172} alt="Line 17" />
             <Frame1307>
-              <Frame12842 title={'DRAFTS'} count = {drafts.length}/>
-              <Frame12842 title={'AWAITING SUBMISSIONS'} count = {awaitingSubmissions.length}/>
-              <Frame12842 title={'FEEDBACKS'} count = {feedbacks.length}/>
-             </Frame1307>
+              <Frame12842 title={"DRAFTS"} count={drafts.length} />
+              <Frame12842
+                title={"AWAITING SUBMISSIONS"}
+                count={awaitingSubmissions.length}
+              />
+              <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
+            </Frame1307>
           </Frame1340>
           <Frame1341>
             <Frame1337>

@@ -1,4 +1,4 @@
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { sortBy } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -141,10 +141,14 @@ function FeedbackTeacherLaptop(props) {
       <>
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
-          <ToremIpsumDolorSi  onClick={()=>{
-                methods.onSelectionChange(answer.serialNumber)(quillRefs.current[answer.serialNumber - 1].getSelection())
-              }
-            } id={"quill_" + question.serialNumber}>
+          <ToremIpsumDolorSi
+            onClick={() => {
+              methods.onSelectionChange(answer.serialNumber)(
+                quillRefs.current[answer.serialNumber - 1].getSelection()
+              );
+            }}
+            id={"quill_" + question.serialNumber}
+          >
             <QuillEditor
               ref={(editor) =>
                 methods.handleEditorMounted(editor, answer.serialNumber - 1)
@@ -472,6 +476,7 @@ const Frame1367 = styled.div`
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
   height: 500px;
+  overflow-y: scroll;
 `;
 
 const Frame1366 = styled.div`

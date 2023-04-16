@@ -8,15 +8,19 @@ import {
 import { formattedDate } from "../../dates";
 function CardContent(props) {
   const { task } = props;
-  const datesFrame = task.dueAt?<Frame1282>
-  <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-  <DueAt>{formattedDate(task.dueAt)}</DueAt>
-</Frame1282>:<></>
+  const datesFrame = task.dueAt ? (
+    <Frame1282>
+      <IconClock src="/img/clock@2x.png" alt="icon-clock" />
+      <DueAt>{formattedDate(task.dueAt)}</DueAt>
+    </Frame1282>
+  ) : (
+    <></>
+  );
   return (
     <Content>
       {createTitle(task)}
       <FundamentalsOfThermalPhysics>
-        {task.classTitle?task.classTitle:task.assignmentTitle}
+        {task.classTitle ? task.classTitle : task.assignmentTitle}
       </FundamentalsOfThermalPhysics>
       {datesFrame}
       {createSubmissions(task)}
@@ -25,16 +29,20 @@ function CardContent(props) {
 }
 
 function createTitle(task) {
-  return <TaskTitle>{task.title ?task.title : task.response}</TaskTitle>
+  return <TaskTitle>{task.title ? task.title : task.response}</TaskTitle>;
 }
 
 function createSubmissions(task) {
   if (task?.expectedSubmissions ?? 0) {
-    return <TaskTitle>
-      <Submissions>Submissions: {task.submissionCount} of {task.expectedSubmissions}</Submissions>
-    </TaskTitle>
+    return (
+      <TaskTitle>
+        <Submissions>
+          Submissions: {task.submissionCount} of {task.expectedSubmissions}
+        </Submissions>
+      </TaskTitle>
+    );
   }
-  return <></>
+  return <></>;
 }
 
 const Frame12121 = styled.div`

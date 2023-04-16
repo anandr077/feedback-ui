@@ -41,8 +41,6 @@ export default function Header(props) {
     setDropDown(!dropDown);
   };
 
-
-
   return (
     <>
       <Frame1344>

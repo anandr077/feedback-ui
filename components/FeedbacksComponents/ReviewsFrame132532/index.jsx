@@ -14,7 +14,11 @@ function ReviewsFrame132532(props) {
       square={false}
     />
   );
-  const closeFrame = isClosable ? <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" /> : <></>
+  const closeFrame = isClosable ? (
+    <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
+  ) : (
+    <></>
+  );
   const shareIcon = <Ellipse7 src="/icons/share.png" />;
   const commenterFrame = isShare ? shareIcon : avatar;
   const reviewerFrame = isShare ? "Shared with class" : reviewer;

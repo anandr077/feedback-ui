@@ -13,17 +13,15 @@ export default function StudentDashboardRoot() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    Promise.all([
-      getTasks(),
-      getModelResponses()
-    ])
-    .then(([result, modelResponses]) => {
-      if (result) {
-        setAllTasks(result.slice(0, 10));
-        setModelResponses(modelResponses);
-        setIsLoading(false);
+    Promise.all([getTasks(), getModelResponses()]).then(
+      ([result, modelResponses]) => {
+        if (result) {
+          setAllTasks(result.slice(0, 10));
+          setModelResponses(modelResponses);
+          setIsLoading(false);
+        }
       }
-    });
+    );
   }, []);
   if (isLoading) {
     return <div>Loading...</div>;

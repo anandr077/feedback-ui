@@ -11,7 +11,10 @@ import Frame12093 from "../Frame12093";
 import GoBack from "../GoBack";
 import StatusBubbles from "../StatusBubbles";
 import {
-  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansSemiBoldShark28px
+  IbmplexsansBoldShark36px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansSemiBoldShark28px,
 } from "../styledMixins";
 import "./TaskDetailTablet.css";
 function TaskDetailTablet(props) {
@@ -51,7 +54,7 @@ function TaskDetailTablet(props) {
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles text={formattedDate( assignment.dueAt)} />
+              <StatusBubbles text={formattedDate(assignment.dueAt)} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>

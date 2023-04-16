@@ -8,38 +8,28 @@ import TaskFrame1304 from "../../TaskFrame1304";
 
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansSemiBoldRiverBed24px
+  IbmplexsansSemiBoldRiverBed24px,
 } from "../../../styledMixins";
 import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import "./TeacherTasksStudentTablet.css";
 
 function TeacherTasksStudentTablet(props) {
-  const {
-    drafts,
-    awaitingSubmissions,
-    feedbacks,
-  } = props;
+  const { drafts, awaitingSubmissions, feedbacks } = props;
 
-  const draftsFrames = createTasksFrame(
-    "Drafts",
-    drafts,
-    true,
-    false,
-    false,
-  );
+  const draftsFrames = createTasksFrame("Drafts", drafts, true, false, false);
   const awaitingSubmissionsFrames = createTasksFrame(
     "Awaiting submissions",
     awaitingSubmissions,
     false,
     true,
-    false,
+    false
   );
   const feedbacksFrames = createTasksFrame(
     "Feedback",
     feedbacks,
     false,
     false,
-    true,
+    true
   );
   const [tasksFrame, setTasksFrame] = useState(draftsFrames);
 
@@ -49,7 +39,7 @@ function TeacherTasksStudentTablet(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Assignments</PageTitle>
-          <TaskFrame1304/>
+          <TaskFrame1304 />
         </Frame1307>
         {tasksFrame}
       </Frame1365>
@@ -57,52 +47,51 @@ function TeacherTasksStudentTablet(props) {
     </div>
   );
 
-function createTasksFrame(
-  title,
-  tasks,
-  isOutstanding,
-  isInProgress,
-  isOverdue,
-) {
-  return (
-    <>
-      <Frame1364>
-        <Frame1211>
-          <Tabs
-            text={"Drafts"}
-            isSelected={isOutstanding}
-            onClickFn={() => {
-              setTasksFrame(draftsFrames);
-            }}
-          />
-          <Tabs
-            text={"Awaiting submissions"}
-            isSelected={isInProgress}
-            onClickFn={() => {
-              setTasksFrame(awaitingSubmissionsFrames);
-            }}
-          />
-          <Tabs
-            text={"Feedback"}
-            isSelected={isOverdue}
-            onClickFn={() => {
-              setTasksFrame(feedbacksFrames);
-            }}
-          />
-        </Frame1211>
-        <Frame1363>
-          <Frame1362>
-            <Outstanding>{title}</Outstanding>
-            <Number>{tasks.length}</Number>
-          </Frame1362>
-          <TaskCardContainer allTasks={tasks} />
-        </Frame1363>
-      </Frame1364>
-    </>
-  );
+  function createTasksFrame(
+    title,
+    tasks,
+    isOutstanding,
+    isInProgress,
+    isOverdue
+  ) {
+    return (
+      <>
+        <Frame1364>
+          <Frame1211>
+            <Tabs
+              text={"Drafts"}
+              isSelected={isOutstanding}
+              onClickFn={() => {
+                setTasksFrame(draftsFrames);
+              }}
+            />
+            <Tabs
+              text={"Awaiting submissions"}
+              isSelected={isInProgress}
+              onClickFn={() => {
+                setTasksFrame(awaitingSubmissionsFrames);
+              }}
+            />
+            <Tabs
+              text={"Feedback"}
+              isSelected={isOverdue}
+              onClickFn={() => {
+                setTasksFrame(feedbacksFrames);
+              }}
+            />
+          </Frame1211>
+          <Frame1363>
+            <Frame1362>
+              <Outstanding>{title}</Outstanding>
+              <Number>{tasks.length}</Number>
+            </Frame1362>
+            <TaskCardContainer allTasks={tasks} />
+          </Frame1363>
+        </Frame1364>
+      </>
+    );
+  }
 }
-}
-
 
 const Frame1365 = styled.div`
   display: flex;

@@ -80,8 +80,8 @@ function DashboardHomeStudentDesktop(props) {
           </Frame1339>
           <Frame1339>
             <Frame1337>
-                <Tasks>Model Responses</Tasks>
-                <DashboardGroup1205 className={group1205Props.className} />
+              <Tasks>Model Responses</Tasks>
+              <DashboardGroup1205 className={group1205Props.className} />
             </Frame1337>
             <TaskCardContainer
               allTasks={modelResponses}

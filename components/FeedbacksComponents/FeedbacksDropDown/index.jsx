@@ -10,10 +10,10 @@ function FeedBacksDropDown(props) {
   const [selectedStudentName, setSelectedStudentName] =
     React.useState(studentName);
 
-  const toggleOptions = (link)=>(event) => {
+  const toggleOptions = (link) => (event) => {
     studentUpdate(event.currentTarget.getAttribute("data-name"));
     setShowOptions(!showOptions);
-    window.location.href = link
+    window.location.href = link;
   };
 
   const showList = (event) => {
@@ -61,7 +61,7 @@ function FeedBacksDropDown(props) {
           </SelectedOptionCotainer>
         )}
       </Frame1295>
-      <Frame12842 src="/img/frame-1284@2x.png"  />
+      <Frame12842 src="/img/frame-1284@2x.png" />
     </Frame131612>
   );
 }

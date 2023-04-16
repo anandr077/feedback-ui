@@ -176,11 +176,14 @@ export const addFeedback = async (submissionId, comment) => {
 };
 
 export const deleteFeedback = async (submissionId, commentId) => {
-  return await fetch(baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId, {
-    method: "DELETE",
-    withCredentials: true,
-    credentials: "include",
-  })
+  return await fetch(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
+    {
+      method: "DELETE",
+      withCredentials: true,
+      credentials: "include",
+    }
+  )
     .then(handleErrors)
     .then((response) => response.json())
     .then((data) => {

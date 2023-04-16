@@ -23,6 +23,9 @@ import { getUserName } from "../../../service";
 
 function TeacherDashboardTablet(props) {
   const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
     frame5,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
@@ -95,9 +98,9 @@ function TeacherDashboardTablet(props) {
             </Frame1337>
             <Line17 src={line172} alt="Line 17" />
             <Frame1307>
-              <Frame12842 />
-              <Frame12832 />
-              <Frame12822 />
+              <Frame12842 title={'DRAFTS'} count = {drafts.length}/>
+              <Frame12842 title={'AWAITING SUBMISSIONS'} count = {awaitingSubmissions.length}/>
+              <Frame12842 title={'FEEDBACKS'} count = {feedbacks.length}/>
             </Frame1307>
           </Frame1340>
           <Frame13411>

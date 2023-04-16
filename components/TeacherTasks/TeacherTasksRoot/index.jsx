@@ -17,8 +17,8 @@ export default function TeacherTaskRoot() {
   React.useEffect(() => {
     getAssignments().then((result) => {
       if (result) {
-      setAssignments(result);
-      setIsLoading(false);
+        setAssignments(result);
+        setIsLoading(false);
       }
     });
   }, []);

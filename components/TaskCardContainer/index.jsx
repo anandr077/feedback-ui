@@ -5,7 +5,8 @@ import styled from "styled-components";
 function TaskCardContainer(props) {
   const { allTasks } = props;
   const cards = allTasks.map((task) => {
-    return <TaskCard task={task} />;
+    
+    return <a href={task.link}><TaskCard task={task} /></a>;
   });
   return <CardContainer>{cards}</CardContainer>;
 }
@@ -19,6 +20,6 @@ const CardContainer = styled.div`
   gap: 20px;
   overflow-y: scroll;
   max-height: 480px;
+  padding: 0px 20px;
 `;
-
 export default TaskCardContainer;

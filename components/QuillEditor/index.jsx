@@ -55,7 +55,7 @@ const QuillEditor = React.forwardRef(
 
     return (
       <div className="quill-editor-container">
-        <div style={{ border: "1px solid black" }} ref={editorRef} />
+        <div ref={editorRef} />
       </div>
     );
   }

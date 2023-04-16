@@ -42,7 +42,6 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   const isTeacher = getUserRole() === "TEACHER";
   const [assignmentId, setAssignmentId] = useState(id);
   useEffect(() => {
-    console.log("##useEffect");
     Promise.all([
       getSubmissionById(assignmentId),
       isTeacher ? getTasks() : Promise.resolve([]),

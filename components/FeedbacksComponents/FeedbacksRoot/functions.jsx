@@ -22,8 +22,7 @@ export function extractStudents(tasksResult) {
 }
 
 export function getPageMode(isFeedbackPage, submission) {
-  console.log("submission.state" + submission.status);
-  console.log("submission.state" + submission.status);
+
   if (!isFeedbackPage && submission.status === "DRAFT") return "DRAFT";
   if (!isFeedbackPage && submission.status === "SUBMITTED") return "CLOSED";
   if (isFeedbackPage && submission.status === "SUBMITTED") return "REVIEW";

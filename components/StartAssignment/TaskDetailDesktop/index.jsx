@@ -21,6 +21,8 @@ import {
 } from "../styledMixins";
 import "./TaskDetailDesktop.css";
 import Header from "../../Header";
+import { formattedDate } from "../../../dates";
+import { taskHeaderProps } from "../../../utils/headerProps";
 
 function TaskDetailDesktop(props) {
   const {
@@ -58,16 +60,12 @@ function TaskDetailDesktop(props) {
           </Frame1389>
           <Frame12091>
             <Frame1210>
-              <StatusBubbles text={assignment.dueAt} />
+              <StatusBubbles text={formattedDate(assignment.dueAt)} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
               <Frame11 text={assignment.questions.length} />
             </Frame28>
-            <Frame1209
-              topicsCovered={frame12092Props.topicsCovered}
-              moremIpsumDolorSi={frame12092Props.moremIpsumDolorSi}
-            />
             <Frame12092>
               <Line11 src={line11} alt="Line 11" />
               <Buttons onClickFn={methods.onClickStartAssignment} />

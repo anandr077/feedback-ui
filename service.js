@@ -59,7 +59,19 @@ export const getTasks = async () => {
     })
     .catch(errorHandler);
 };
-
+export const getModelResponses = async () => {
+  return await fetch(baseUrl + "/feedbacks/modelResponses", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
 export const getCompletedTasks = async () => {
   return await fetch(baseUrl + "/completed-tasks", {
     method: "GET",

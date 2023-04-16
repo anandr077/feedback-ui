@@ -16,6 +16,7 @@ import {
 } from "../styledMixins";
 import "./TaskDetailMobile.css";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
+import { formattedDate } from "../../../dates";
 
 function TaskDetailMobile(props) {
   const {
@@ -53,17 +54,12 @@ function TaskDetailMobile(props) {
           </Frame1389>
           <Frame13901>
             <Frame1210>
-              <StatusBubbles text={assignment.dueAt} />
+              <StatusBubbles text={formattedDate(assignment.dueAt)} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
             </Frame1210>
             <Frame28>
               <Frame11 text={assignment.questions.length} />
             </Frame28>
-
-            <Frame12092
-              topicsCovered={frame120922Props.topicsCovered}
-              moremIpsumDolorSi={frame120922Props.moremIpsumDolorSi}
-            />
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
               <Buttons onClickFn={methods.onClickStartAssignment} />

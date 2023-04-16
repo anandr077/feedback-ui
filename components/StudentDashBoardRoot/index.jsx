@@ -4,17 +4,23 @@ import DashboardHomeStudentLaptop from "../DashboardHomeStudentLaptop";
 import DashboardHomeStudentDesktop from "../DashboardHomeStudentDesktop";
 import DashboardHomeStudentTablet from "../DashboardHomeStudentTablet";
 import DashboardHomeStudentMobile from "../DashboardHomeStudentMobile";
-import { getTasks } from "../../service";
+import { getTasks, getModelResponses } from "../../service";
 import { homeHeaderProps } from "../../utils/headerProps.js";
 
 export default function StudentDashboardRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
+  const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    getTasks().then((result) => {
+    Promise.all([
+      getTasks(),
+      getModelResponses()
+    ])
+    .then(([result, modelResponses]) => {
       if (result) {
         setAllTasks(result.slice(0, 10));
+        setModelResponses(modelResponses);
         setIsLoading(false);
       }
     });
@@ -40,6 +46,7 @@ export default function StudentDashboardRoot() {
             outstandingTasks,
             inProgressTasks,
             overdueTasks,
+            modelResponses,
             ...dashboardHomeStudentMobileData,
           }}
         />
@@ -50,6 +57,7 @@ export default function StudentDashboardRoot() {
             outstandingTasks,
             inProgressTasks,
             overdueTasks,
+            modelResponses,
             ...dashboardHomeStudentTabletData,
           }}
         />
@@ -60,6 +68,7 @@ export default function StudentDashboardRoot() {
             outstandingTasks,
             inProgressTasks,
             overdueTasks,
+            modelResponses,
             ...dashboardHomeStudentLaptopData,
           }}
         />
@@ -70,6 +79,7 @@ export default function StudentDashboardRoot() {
             outstandingTasks,
             inProgressTasks,
             overdueTasks,
+            modelResponses,
             ...dashboardHomeStudentDesktopData,
           }}
         />

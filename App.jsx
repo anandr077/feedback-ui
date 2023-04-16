@@ -42,9 +42,6 @@ function App() {
         <Route path="/assignments">
           <TeacherTaskRoot />
         </Route>
-        <Route path="/submissions">
-          <FeedbacksRoot isFeedbackPage={false} />
-        </Route>
         <Route path="/submissions/:id">
           <FeedbacksRoot isFeedbackPage={false} />
         </Route>

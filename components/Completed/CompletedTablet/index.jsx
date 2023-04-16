@@ -1,22 +1,14 @@
 import React from "react";
-import Notifications from "../Notifications";
+import styled from "styled-components";
+import { completedHeaderProps } from "../../../utils/headerProps.js";
+import Footer from "../../Footer";
+import HeaderSmall from "../../HeaderSmall";
 import Frame1285 from "../Frame1285";
 import Frame1410 from "../Frame1410";
-import Frame14102 from "../Frame14102";
-import Frame1308 from "../Frame1308";
-import Cards8 from "../Cards8";
-import Cards9 from "../Cards9";
-import styled from "styled-components";
 import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansBoldShark36px,
+  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
 } from "../styledMixins";
 import "./CompletedTablet.css";
-import { completedHeaderProps } from "../../../utils/headerProps.js";
-import { completedHeaderProps } from "../../../utils/headerProps.js";
-import HeaderSmall from "../../HeaderSmall";
 
 function CompletedTablet(props) {
   const {
@@ -60,16 +52,7 @@ function CompletedTablet(props) {
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
-      <Frame1420>
-        <X2023JeddleAllRightsReserved>
-          {x2023JeddleAllRightsReserved}
-        </X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1420>
+      <Footer></Footer>
     </div>
   );
 }

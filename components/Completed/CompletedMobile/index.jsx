@@ -15,6 +15,7 @@ import {
 import "./CompletedMobile.css";
 import { completedHeaderProps } from "../../../utils/headerProps.js";
 import HeaderSmall from "../../HeaderSmall";
+import Footer from "../../Footer";
 
 function CompletedMobile(props) {
   const {
@@ -58,16 +59,7 @@ function CompletedMobile(props) {
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
-      <Frame1420>
-        <X2023JeddleAllRightsReserved>
-          {x2023JeddleAllRightsReserved}
-        </X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1420>
+      <Footer></Footer>
     </div>
   );
 }

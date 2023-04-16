@@ -5,6 +5,7 @@ import Cards11 from "../Cards11";
 import styled from "styled-components";
 import { groupBy, groupedData } from "lodash";
 import { dateOnly } from "../../../dates.js";
+import TaskCard from "../../TaskCard";
 
 function Frame14103(props) {
   const { tasks } = props;
@@ -14,7 +15,7 @@ function Frame14103(props) {
     const group = groups[key];
     console.log("group " + group);
     const tasksFrames = group.map((task) => {
-      return <Cards10 task={task} />;
+      return <TaskCard task={task} />;
     });
     return (
       <Frame1410>

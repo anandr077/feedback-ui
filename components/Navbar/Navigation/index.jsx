@@ -74,7 +74,7 @@ function Navigation(props) {
         <NavElement42 button={headerProps.firstButton} />
         <NavElement42 button={headerProps.secondButton} />
         <NavElement42 button={headerProps.thirdButton} />
-        <NavElement7 text="View Profile" link="/jeddle/view-profile" />
+        <NavElement7 text={"View Profile"} link="/jeddle/view-profile" />
         <NavElement7
           text="Change Password"
           className={navigationData.navElement72Props.className}

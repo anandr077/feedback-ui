@@ -50,7 +50,6 @@ function FeedbackTeacherLaptop(props) {
     frame13202Props,
   } = props;
 
-  console.log("pageMode " + pageMode);
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
@@ -58,8 +57,7 @@ function FeedbackTeacherLaptop(props) {
     const isClosable = pageMode === "REVIEW";
     return (
       <CommentCard32
-        // ref={commentCardRefs.current[index]}
-        reviewer={getUserName()}
+        reviewer={comment.reviewerName}
         comment={comment}
         onClick={(c) => methods.handleCommentSelected(c)}
         isClosable={isClosable}
@@ -72,16 +70,11 @@ function FeedbackTeacherLaptop(props) {
   const modules = {
     toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
   };
-  console.log("modules.toolbar " + modules.toolbar);
-  console.log(
-    "modules.toolbar2 " + (pageMode === "EDITOR" || pageMode === "REVISE")
-  );
 
   const feedbackFrame = () => {
     if (pageMode === "DRAFT") {
       return <></>;
     }
-    console.log("pageMode feedbackFrame" + pageMode);
     return (
       <Frame1331>
         <Frame1322>
@@ -164,7 +157,6 @@ function FeedbackTeacherLaptop(props) {
                 return comment.questionSerialNumber === answer.serialNumber;
               })}
               value={answerValue ? answerValue : ""}
-              // onSelectionChange={methods.onSelectionChange(answer.serialNumber)}
               options={{
                 modules: modules,
                 theme: "snow",

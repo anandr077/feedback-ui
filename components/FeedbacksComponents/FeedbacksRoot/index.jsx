@@ -183,15 +183,15 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
       const to = range.index + range.length;
 
       const matchingComments = comments
-        .filter((comment) => comment.questionSerialNumber === serialNumber)
-        .filter((comment) => {
-          return comment.range.from <= from && comment.range.to >= to;
-        });
-      if (matchingComments && matchingComments.length > 0) {
-        const matchingComment = matchingComments[0];
-        const div = document.getElementById("comment_" + matchingComment.id);
-        highlightComment(div);
-      } else {
+          .filter(comment => comment.questionSerialNumber === serialNumber)
+          .filter(comment=> (comment.range.from <= from && comment.range.to >= to))
+      if (matchingComments && matchingComments.length  > 0) {
+          const matchingComment = matchingComments[0]
+          const div = document.getElementById(
+            "comment_" + matchingComment.id
+          );
+          highlightComment(div);
+      } else if (pageMode === "REVIEW") {
         setNewCommentSerialNumber(serialNumber);
         setSelectedRange({
           from: from,
@@ -241,7 +241,7 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
     // get assignment by student name or other way
   };
   const onSelectionChange =
-    pageMode === "REVIEW" ? reviewerSelectionChange : noopSelectionChange;
+    pageMode != "DRAFT" ? reviewerSelectionChange : noopSelectionChange;
 
   const createTasksDropDown = () => {
     if (!isTeacher) {

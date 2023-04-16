@@ -9,6 +9,7 @@ function CommentCard32(props) {
   console.log("isClosable " + isClosable);
   return (
     <CommentCard
+      id={"comment_" + comment.id}
       onClick={() => onClick(comment)}
       className={`comment-card-4 ${className || ""}`}
     >

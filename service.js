@@ -175,6 +175,19 @@ export const addFeedback = async (submissionId, comment) => {
     .catch(errorHandler);
 };
 
+export const deleteFeedback = async (submissionId, commentId) => {
+  return await fetch(baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId, {
+    method: "DELETE",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
 export const getCommentsForSubmission = async (submissionId) => {
   return await fetch(baseUrl + "/submissions/" + submissionId + "/comments", {
     method: "GET",

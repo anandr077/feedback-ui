@@ -54,11 +54,16 @@ function FeedbackTeacherLaptop(props) {
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
+    const isClosable = pageMode === "REVIEW"
     return (
       <CommentCard32
         reviewer={getUserName()}
         comment={comment}
         onClick={(c) => methods.handleCommentSelected(c)}
+        isClosable = {isClosable}
+        onClose={()=>{
+          methods.handleDeleteComment(comment.id)
+        }}
       />
     );
   });

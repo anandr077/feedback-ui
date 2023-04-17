@@ -59,10 +59,6 @@ export default function MCQQuestionFrame(props) {
           <OptionsQuestionFrame>{optionFrame}</OptionsQuestionFrame>
           {/* <Buttons4 /> */}
         </InputQuestion>
-        <Frame1291
-          questionDetails={questionDetails}
-          serialNumber={serialNumber}
-        />
       </Frame12891>
     </SmalllQuestionFrame>
   );

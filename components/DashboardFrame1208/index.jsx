@@ -9,9 +9,7 @@ function DashboardFrame1208(props) {
   return (
     <Frame12081>
       <Crown src="/img/crown@2x.png" alt="crown" />
-      <Tasks>
-        {tasks}
-      </Tasks>
+      <Tasks>{tasks}</Tasks>
     </Frame12081>
   );
 }

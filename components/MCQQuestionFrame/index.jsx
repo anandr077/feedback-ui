@@ -25,7 +25,7 @@ export default function MCQQuestionFrame(props) {
           id={"option_" + serialNumber + "_" + index}
           placeholder={"Option " + index}
         />
-        <Group1255 />
+        {/* <Group1255 /> */}
       </OptionsContainer>
     );
   });
@@ -46,18 +46,18 @@ export default function MCQQuestionFrame(props) {
         <Line141 src="/img/line-14@2x.png" />
       </Frame1295>
       <Frame12891>
-        <InputQuestion>
+        <InputQuestion id={"questionType_" + serialNumber} questionType="MCQ">
           <Label>Question</Label>
           <QuestionFrame2>
             <QuestionInputEditable
               id={"question_" + serialNumber}
               placeholder="Type Your Question here"
-              value={questionDetails?.question}
+              defaultValue={questionDetails?.question}
             />
           </QuestionFrame2>
           <Label>Options</Label>
           <OptionsQuestionFrame>{optionFrame}</OptionsQuestionFrame>
-          <Buttons4 />
+          {/* <Buttons4 /> */}
         </InputQuestion>
         <Frame1291
           questionDetails={questionDetails}

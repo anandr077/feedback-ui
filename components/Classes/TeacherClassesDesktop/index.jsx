@@ -22,9 +22,12 @@ import {
   createStudentsFrames,
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesDesktop.css";
+import ImageDropdownMenu from "../../ImageDropdownMenu"
 
 function TeacherClassesDesktop(props) {
   const {
+    setClassId,
+    classes,
     modelResponses,
     students,
     title,
@@ -75,20 +78,13 @@ function TeacherClassesDesktop(props) {
         </Frame13121>
         <Frame14221>
           <Frame1306>
-            <Frame12851>
-              <X12ENGADV3>{x12Engadv3}</X12ENGADV3>
-              <Frame12841 src={frame12841} alt="Frame 1284" />
-            </Frame12851>
+            <ImageDropdownMenu menuItems={classes} 
+            onItemSelected={(item)=>{
+              setClassId(item.id)
+            }}></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Frame1306>
-              <Frame12853>
-                <Class>{xclass}</Class>
-                <Frame12841 src={frame12842} alt="Frame 1284" />
-              </Frame12853>
-              <Frame1285 />
-            </Frame1306>
-            <Buttons />
+            <Buttons link="/assignments/new"/>
           </Frame1426>
         </Frame14221>
         <Frame1417>
@@ -101,7 +97,7 @@ function TeacherClassesDesktop(props) {
           </Frame1339>
           <Frame1416>
             <Frame1340>
-              <Frame1337 tasks={frame13371Props.tasks} />
+              <Frame1337 tasks={"Assignments"} />
               <Line17 src={line174} alt="Line 17" />
               <Frame1307>
                 <Frame12843 />

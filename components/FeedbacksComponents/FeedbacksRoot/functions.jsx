@@ -61,4 +61,5 @@ export function getSelfPageMode(submission) {
   if (submission.status === "SUBMITTED") return "CLOSED";
   if (submission.status === "REVIEWED") return "REVISE";
   if (submission.status === "CLOSED") return "CLOSED";
+  return "CLOSED"
 }

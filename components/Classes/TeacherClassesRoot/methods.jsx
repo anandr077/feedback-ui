@@ -1,13 +1,16 @@
-import Cards2 from "../Cards2";
+import TaskCardContainer from "../../TaskCardContainer";
 import Frame13135 from "../Frame13135";
 
 export const createModelResponsesFrames = (modelResponses) => {
   return (
-    <>
-      {modelResponses.map((modelResponse, index) => {
-        return <Cards2 modelResponse={modelResponse} />;
-      })}
-    </>
+    <TaskCardContainer
+              allTasks={modelResponses}
+            />
+    // <>
+    //   {modelResponses.map((modelResponse, index) => {
+    //     return <Cards2 modelResponse={modelResponse} />;
+    //   })}
+    // </>
   );
 };
 

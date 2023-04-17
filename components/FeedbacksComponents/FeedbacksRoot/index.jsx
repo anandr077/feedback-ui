@@ -27,10 +27,11 @@ import { extractStudents, getPageMode } from "./functions";
 import StatusLabel from "../../StatusLabel";
 
 import FeedBacksDropDown from "../FeedbacksDropDown";
+import { doc } from "prettier";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
-  const [labelText, setLabelText] = useState('Initial Label Text');
+  const [labelText, setLabelText] = useState("Start Typing...");
 
   const newCommentFrameRef = useRef(null);
 
@@ -101,9 +102,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return <Loader />;
   }
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  
+
   const handleChangeText = (change) => {
-    document.getElementById("statusLabelDiv").innerHTML=change
+    if (change === "All changes saved") {
+      document.getElementById("statusLabelIcon").style.backgroundImage =
+        'url("/icons/saved.png")';
+    }
+    document.getElementById("statusLabelDiv").innerHTML = change;
   };
 
   const handleEditorMounted = (editor, index) => {
@@ -195,13 +200,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handlesaveAnswer = (serialNumber) =>(contents)=> {
-    handleChangeText("Saving...")
+  const handlesaveAnswer = (serialNumber) => (contents) => {
+    handleChangeText("Saving...");
     saveAnswer(submission.id, serialNumber, {
       answer: contents,
     }).then((_) => {
-      console.log("Answer saved");
-      handleChangeText("Saved")
+      handleChangeText("All changes saved");
     });
     console.log(serialNumber);
   };

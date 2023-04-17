@@ -229,7 +229,7 @@ function FeedbackTeacherLaptop(props) {
               ></TextInput>
             </TypeHere>
           </Frame1326>
-          
+
           <SubmitCommentFrameRoot
             submitButtonOnClick={methods.handleAddComment}
             cancelButtonOnClick={methods.hideNewCommentDiv}
@@ -260,7 +260,7 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-            <StatusLabel key = "statusLabel" id = "statusLabel" text={labelText} />
+            <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
             {submitButton()}
           </Frame1371>
           <Frame1368>

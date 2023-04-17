@@ -6,7 +6,10 @@ import HeaderSmall from "../../HeaderSmall";
 import Frame1285 from "../Frame1285";
 import Frame1410 from "../Frame1410";
 import {
-  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
+  IbmplexsansBoldShark36px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalShark16px,
 } from "../styledMixins";
 import "./CompletedTablet.css";
 

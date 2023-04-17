@@ -46,29 +46,30 @@ export default function FeedbacksRoot({ isFeedbackPage, isAssignmentPage }) {
   const [assignmentId, setAssignmentId] = useState(id);
   useEffect(() => {
     Promise.all([
-      isAssignmentPage ? getSubmissionsByAssignmentId(assignmentId) : Promise.resolve([]),
+      isAssignmentPage
+        ? getSubmissionsByAssignmentId(assignmentId)
+        : Promise.resolve([]),
     ]).then(([submissionsResult]) => {
       if (isAssignmentPage) {
-        window.location.href = "/submissions/" + submissionsResult[0].id
+        window.location.href = "/submissions/" + submissionsResult[0].id;
       }
     });
   }, [assignmentId]);
   useEffect(() => {
-    Promise.all([
-      getSubmissionById(id),
-      getCommentsForSubmission(id),
-    ]).then(([submissionsResult, commentsResult]) => {
-      console.log("submissionsResult " + submissionsResult)
-      setSubmission(submissionsResult);
-      setComments(commentsResult);
-    }).finally(() => {
-      if (!isTeacher) {
-        setIsLoading(false);
-      }
-    });
+    Promise.all([getSubmissionById(id), getCommentsForSubmission(id)])
+      .then(([submissionsResult, commentsResult]) => {
+        console.log("submissionsResult " + submissionsResult);
+        setSubmission(submissionsResult);
+        setComments(commentsResult);
+      })
+      .finally(() => {
+        if (!isTeacher) {
+          setIsLoading(false);
+        }
+      });
   }, [assignmentId]);
   useEffect(() => {
-    console.log("Submissions " + submission)
+    console.log("Submissions " + submission);
     if (isTeacher && submission && submission.assignmentId) {
       getSubmissionsByAssignmentId(submission.assignmentId)
         .then((allSubmissions) => {
@@ -76,17 +77,21 @@ export default function FeedbacksRoot({ isFeedbackPage, isAssignmentPage }) {
           const allExceptCurrent = allSubmissions.filter(
             (r) => r.id != submission.id
           );
-          const nextUrl = allExceptCurrent[0] ? "/feedbacks/" + allExceptCurrent[0]?.id : "/"
-          console.log("allSubmissions " + JSON.stringify(allSubmissions))
+          const nextUrl = allExceptCurrent[0]
+            ? "/feedbacks/" + allExceptCurrent[0]?.id
+            : "/";
+          console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
-          const studentName = allSubmissions.find((r) => r.id === assignmentId)?.studentName ?? null
+          const studentName =
+            allSubmissions.find((r) => r.id === assignmentId)?.studentName ??
+            null;
           console.log("studentName " + studentName);
 
           setStudentName(studentName);
           setIsLoading(false);
-      }).finally(() => setIsLoading(false));;
+        })
+        .finally(() => setIsLoading(false));
     }
-    
   }, [submission]);
   if (isLoading) {
     return <Loader />;
@@ -201,14 +206,14 @@ export default function FeedbacksRoot({ isFeedbackPage, isAssignmentPage }) {
       const to = range.index + range.length;
 
       const matchingComments = comments
-          .filter(comment => comment.questionSerialNumber === serialNumber)
-          .filter(comment=> (comment.range.from <= from && comment.range.to >= to))
-      if (matchingComments && matchingComments.length  > 0) {
-          const matchingComment = matchingComments[0]
-          const div = document.getElementById(
-            "comment_" + matchingComment.id
-          );
-          highlightComment(div);
+        .filter((comment) => comment.questionSerialNumber === serialNumber)
+        .filter(
+          (comment) => comment.range.from <= from && comment.range.to >= to
+        );
+      if (matchingComments && matchingComments.length > 0) {
+        const matchingComment = matchingComments[0];
+        const div = document.getElementById("comment_" + matchingComment.id);
+        highlightComment(div);
       } else if (pageMode === "REVIEW") {
         setNewCommentSerialNumber(serialNumber);
         setSelectedRange({

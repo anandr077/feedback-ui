@@ -52,7 +52,7 @@ function CompletedLaptop(props) {
             <Frame1285 />
           </Frame1305>
         </Frame1424>
-        
+
         <Frame1413>
           <Frame14103 tasks={tasks} />
           <Line18 src={line18} alt="Line 18" />

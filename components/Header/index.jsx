@@ -33,7 +33,6 @@ export default function Header(props) {
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    // console.log("isNotificationOpen" + isNotificationOpen);
   };
 
   const toggleDropDown = () => {

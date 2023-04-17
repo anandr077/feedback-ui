@@ -4,19 +4,23 @@ import styled from "styled-components";
 import "./NotificationsBar.css";
 import Loader from "../../Loader";
 function NotificationsBar(props) {
-  const { notifications, type, onCloseFn } = props;
+  const { notifications, type, onCloseFn, loadingNotifications } = props;
+  console.log("##", loadingNotifications);
   if (notifications?.length === 0) {
     return (
       <>
         {type == "small" ? (
           <NavbarDiv>
-            {" "}
-            <Loader />{" "}
+            <Frame1409>
+              <Frame15>
+                {loadingNotifications ? <Loader /> : <Cards emptyCard={true} />}
+              </Frame15>
+              <MaskGroup src="/img/close.png" onClick={onCloseFn} />
+            </Frame1409>
           </NavbarDiv>
         ) : (
           <Frame16>
-            {" "}
-            <Cards emptyCard={true} />
+            {loadingNotifications ? <Loader /> : <Cards emptyCard={true} />}
           </Frame16>
         )}
       </>

@@ -1,7 +1,6 @@
 import Cards2 from "../Cards2";
 import Frame13135 from "../Frame13135";
 
-
 export const createModelResponsesFrames = (modelResponses) => {
   return (
     <>

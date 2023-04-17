@@ -61,6 +61,7 @@ const Cards2 = styled.div`
   border: 1px solid;
   border-color: var(--electric-violet);
   height: 100px;
+  width: 100%;
 `;
 
 const Content = styled.div`

@@ -23,12 +23,10 @@ export default function TeacherClassesRoot() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    
     getClasses().then((result) => {
       setClassId(result[0].id);
-      setClasses(result)
+      setClasses(result);
     });
-    
   }, [classId]);
   useEffect(() => {
     if (classId) {

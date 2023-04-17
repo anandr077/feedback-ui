@@ -64,8 +64,8 @@ export default function CreateAssignment() {
 
   function UpdateQuestionFrame(index, questionType) {
     setQuestionFrames((oldFrames) => {
-      const questionFramesBefore = oldFrames.filter((_, i) => i < index);
-      const questionFramesAfter = oldFrames.filter((_, i) => i > index);
+      const questionFramesBefore = oldFrames.filter((_, i) => i < index - 1);
+      const questionFramesAfter = oldFrames.filter((_, i) => i > index - 1);
       return [
         ...questionFramesBefore,
         createNewQuestionFrame(
@@ -80,7 +80,6 @@ export default function CreateAssignment() {
         ...questionFramesAfter,
       ];
     });
-    console.log("update" + questionType);
   }
 
   function createNewQuestionFrame(serialNumber, questionDetails) {
@@ -118,13 +117,43 @@ export default function CreateAssignment() {
 
     const serialNumbers = questionFrames.map((_, index) => index + 1);
     const questions = serialNumbers.map((serialNumber) => {
-      const question = {
-        serialNumber: serialNumber,
-        question: document.getElementById("question_" + serialNumber).value,
-        wordLimit: document.getElementById("wordLimit_" + serialNumber).value,
-        type: "TEXT",
-      };
-      return question;
+      const questionType = document.getElementById(
+        "option_" + serialNumber + "_1"
+      )
+        ? "MCQ"
+        : "TEXT";
+
+      if (questionType === "MCQ") {
+        const optionsIndex = [1, 2, 3, 4];
+
+        const options = optionsIndex.map((index) => {
+          const singleOption = {
+            questionSerialNumber: serialNumber,
+            optionSerialNumber: index,
+            option: document.getElementById(
+              "option_" + serialNumber + "_" + index
+            ).value,
+            isCorrect: true,
+          };
+          return singleOption;
+        });
+        const question = {
+          serialNumber: serialNumber,
+          question: document.getElementById("question_" + serialNumber).value,
+          wordLimit: document.getElementById("wordLimit_" + serialNumber).value,
+          type: questionType,
+          options: options,
+        };
+        return question;
+      } else {
+        const question = {
+          serialNumber: serialNumber,
+          question: document.getElementById("question_" + serialNumber).value,
+          wordLimit: document.getElementById("wordLimit_" + serialNumber).value,
+          type: questionType,
+        };
+        return question;
+      }
     });
 
     const assignment = {

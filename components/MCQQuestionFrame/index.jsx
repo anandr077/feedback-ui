@@ -20,12 +20,11 @@ export default function MCQQuestionFrame(props) {
 
   const optionFrame = options.map((index) => {
     return (
-      <OptionsContainer>
+      <OptionsContainer   key={index}>
         <OptionInputEditable
           id={"option_" + serialNumber + "_" + index}
           placeholder={"Option " + index}
         />
-        {/* <Group1255 /> */}
       </OptionsContainer>
     );
   });

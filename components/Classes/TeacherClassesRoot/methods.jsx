@@ -3,9 +3,7 @@ import Frame13135 from "../Frame13135";
 
 export const createModelResponsesFrames = (modelResponses) => {
   return (
-    <TaskCardContainer
-              allTasks={modelResponses}
-            />
+    <TaskCardContainer allTasks={modelResponses} />
     // <>
     //   {modelResponses.map((modelResponse, index) => {
     //     return <Cards2 modelResponse={modelResponse} />;

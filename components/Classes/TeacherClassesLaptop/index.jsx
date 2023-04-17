@@ -14,7 +14,10 @@ import Frame13136 from "../Frame13136";
 import Frame13373 from "../Frame13373";
 import Group1205 from "../Group1205";
 import {
-  IbmplexsansBoldShark64px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalShark16px
+  IbmplexsansBoldShark64px,
+  IbmplexsansMediumRiverBed24px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalShark16px,
 } from "../styledMixins";
 import { createStudentsFrames } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesLaptop.css";
@@ -73,13 +76,15 @@ function TeacherClassesLaptop(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            <ImageDropdownMenu menuItems={classes} 
-            onItemSelected={(item)=>{
-              setClassId(item.id)
-            }}></ImageDropdownMenu>
+            <ImageDropdownMenu
+              menuItems={classes}
+              onItemSelected={(item) => {
+                setClassId(item.id);
+              }}
+            ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Buttons link="/assignments/new"/>
+            <Buttons link="/assignments/new" />
           </Frame1426>
         </Frame14221>
         <Frame1417>
@@ -134,7 +139,7 @@ function TeacherClassesLaptop(props) {
                 />
               </Frame12844>
             </Frame1342>
-             <Frame1339>
+            <Frame1339>
               <Frame1337>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
@@ -145,7 +150,6 @@ function TeacherClassesLaptop(props) {
               <Line17 src={line176} alt="Line 17" />
               <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
             </Frame1339>
-         
           </Frame1416>
         </Frame1417>
       </Frame1422>

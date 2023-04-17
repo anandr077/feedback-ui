@@ -4,7 +4,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "./styles.css";
 
-const QuillEditor = React.forwardRef(({ comments, value, options }, ref) => {
+const QuillEditor = React.forwardRef(({ comments, value, options, debounceTime, onDebounce }, ref) => {
   const editorRef = useRef(null);
   const [editor, setEditor] = useState(null);
   useEffect(() => {
@@ -13,6 +13,25 @@ const QuillEditor = React.forwardRef(({ comments, value, options }, ref) => {
       editor.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
       editor.root.style.fontSize = "16px";
       editor.root.innerHTML = value;
+      
+      const debounce = (func, wait) => {
+        let timeout;
+        return function (...args) {
+          const context = this;
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+      };
+
+      const handleDebounce = () => {
+        onDebounce(editor.root.innerHTML);
+      };
+
+      const debouncedAction = debounce(handleDebounce, debounceTime);
+
+      editor.on('text-change', () => {
+        debouncedAction();
+      });
 
       comments.forEach((comment) => {
         if (comment.range) {
@@ -30,7 +49,7 @@ const QuillEditor = React.forwardRef(({ comments, value, options }, ref) => {
       });
       setEditor(editor);
     }
-  }, [value, options]);
+  }, [comments, value, options, debounceTime, onDebounce]);
 
   useImperativeHandle(ref, () => ({
     selectRange(range) {

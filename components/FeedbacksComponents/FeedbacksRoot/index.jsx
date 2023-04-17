@@ -24,11 +24,14 @@ import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
+import StatusLabel from "../../StatusLabel";
 
 import FeedBacksDropDown from "../FeedbacksDropDown";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
+  const [labelText, setLabelText] = useState('Initial Label Text');
+
   const newCommentFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
@@ -97,9 +100,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("Is Teacher " + isTeacher);
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  console.log("pageMode: " + pageMode);
+  
+  const handleChangeText = (change) => {
+    document.getElementById("statusLabelDiv").innerHTML=change
+  };
 
   const handleEditorMounted = (editor, index) => {
     console.log("Mounted " + JSON.stringify(editor) + " index " + index);
@@ -190,12 +195,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handlesaveAnswer = (serialNumber) => (_) => {
-    const contents = quillRefs.current[serialNumber - 1].getContents();
+  const handlesaveAnswer = (serialNumber) =>(contents)=> {
+    handleChangeText("Saving...")
     saveAnswer(submission.id, serialNumber, {
       answer: contents,
     }).then((_) => {
       console.log("Answer saved");
+      handleChangeText("Saved")
     });
     console.log(serialNumber);
   };
@@ -281,6 +287,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const methods = {
+    // createLabelTextFrame,
     handleDeleteComment,
     handleShareWithClass,
     handleAddComment,
@@ -304,6 +311,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       mobile={
         <FeedbackTeacherMobile
           {...{
+            // createLabelTextFrame,
             quillRefs,
             pageMode,
             newCommentFrameRef,
@@ -320,6 +328,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       tablet={
         <FeedbackTeacherLaptop
           {...{
+            // createLabelTextFrame,
             quillRefs,
             pageMode,
             newCommentFrameRef,
@@ -337,6 +346,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <>
           <FeedbackTeacherLaptop
             {...{
+              labelText,
+              // createLabelTextFrame,
               quillRefs,
               pageMode,
               newCommentFrameRef,
@@ -354,6 +365,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       desktop={
         <FeedbackTeacherLaptop
           {...{
+            // createLabelTextFrame,
             quillRefs,
             pageMode,
             newCommentFrameRef,

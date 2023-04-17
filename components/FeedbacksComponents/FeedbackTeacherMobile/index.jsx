@@ -21,6 +21,8 @@ import { taskHeaderProps } from "../../../utils/headerProps.js";
 
 function FeedbackTeacherMobile(props) {
   const {
+    labelText,
+    quillRefs,
     pageMode,
     methods,
     comments,

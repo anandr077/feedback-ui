@@ -16,17 +16,19 @@ import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
   const [classId, setClassId] = useState(classIdFromUrl);
+  const [classes, setClasses] = useState([]);
 
   const [students, setStudents] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (!classId) {
-      getClasses().then((result) => {
-        setClassId(result[0].id);
-      });
-    }
+    
+    getClasses().then((result) => {
+      setClassId(result[0].id);
+      setClasses(result)
+    });
+    
   }, [classId]);
   useEffect(() => {
     if (classId) {
@@ -72,6 +74,8 @@ export default function TeacherClassesRoot() {
       laptop={
         <TeacherClassesLaptop
           {...{
+            classes,
+            setClassId,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },

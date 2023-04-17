@@ -12,6 +12,7 @@ import Cards from "../Cards";
 import Cards2 from "../Cards2";
 import Frame6 from "../Frame6";
 import styled from "styled-components";
+import ImageDropdownMenu from "../../ImageDropdownMenu"
 import {
   IbmplexsansNormalShark16px,
   IbmplexsansMediumRiverBed24px,
@@ -29,6 +30,8 @@ import {
 
 function TeacherClassesLaptop(props) {
   const {
+    setClassId,
+    classes,
     modelResponses,
     students,
     title,
@@ -74,14 +77,17 @@ function TeacherClassesLaptop(props) {
       <Frame1422>
         <Header headerProps={classesHomeHeaderProps}></Header>
         <Frame1312>
-          <Title>{title}</Title>
+          <Title>Classes</Title>
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            <Frame12851>
-              <X12ENGADV3>{x12Engadv3}</X12ENGADV3>
-              <Frame12841 src={frame12841} alt="Frame 1284" />
-            </Frame12851>
+            {/* <div className="App"> */}
+            <ImageDropdownMenu menuItems={classes} 
+            onItemSelected={(item)=>{
+              setClassId(item.id)
+            }}></ImageDropdownMenu>
+            
+            
           </Frame1306>
           <Frame1426>
             <Frame1306>

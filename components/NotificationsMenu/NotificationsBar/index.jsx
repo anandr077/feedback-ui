@@ -14,7 +14,10 @@ function NotificationsBar(props) {
             <Loader />{" "}
           </NavbarDiv>
         ) : (
-          <Loader />
+          <Frame16>
+            {" "}
+            <Cards emptyCard={true} />
+          </Frame16>
         )}
       </>
     );
@@ -88,6 +91,15 @@ const Frame15 = styled.div`
   height: 100%;
   flex-direction: column;
   overflow: visible;
+`;
+const Frame16 = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  align-self: stretch;
+  z-index: 10;
+  flex-direction: column;
 `;
 
 export default NotificationsBar;

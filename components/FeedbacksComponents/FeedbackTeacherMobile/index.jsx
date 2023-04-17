@@ -20,35 +20,17 @@ import { taskHeaderProps } from "../../../utils/headerProps.js";
 function FeedbackTeacherMobile(props) {
   const {
     pageMode,
-    newCommentFrameRef,
     methods,
-    showNewComment,
     comments,
     studentName,
     students,
     submission,
     breadcrumb21Props,
     breadcrumb22Props,
-    frame13172Props,
-    frame1317Props,
   } = props;
   const modules = {
     toolbar: false,
   };
-
-  function createSaveAnswerButton(question) {
-    if (pageMode === "REVIEW" || pageMode === "CLOSED") return <></>;
-    return (
-      <SaveDraftButtonContainer>
-        <Buttons2
-          id={"saveAnswer_" + question.serialNumber}
-          button="Save Answer"
-          arrowright={true}
-          onClickFn={methods.handlesaveAnswer(question.serialNumber)}
-        ></Buttons2>
-      </SaveDraftButtonContainer>
-    );
-  }
 
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -83,7 +65,6 @@ function FeedbackTeacherMobile(props) {
               }}
             ></QuillEditor>
           </ToremIpsumDolorSi>
-          {createSaveAnswerButton(question)}
         </Frame1366>
       </>
     );

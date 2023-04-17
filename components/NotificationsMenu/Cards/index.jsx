@@ -4,19 +4,34 @@ import styled from "styled-components";
 import { IbmplexsansNormalWhite16px } from "../styledMixins";
 
 function Cards(props) {
-  const { title, link } = props;
+  const { title, link, emptyCard } = props;
 
   return (
-    <Cards1>
-      <Content>
-        <DarrellInstructor>
-          <span className="ibmplexsans-normal-shark-16px"> {title} </span>
-        </DarrellInstructor>
-        <a href={link}>
-          <Buttons />
-        </a>
-      </Content>
-    </Cards1>
+    <>
+      {emptyCard ? (
+        <Cards2>
+          <Content>
+            <DarrellInstructor>
+              <span className="ibmplexsans-normal-shark-16px">
+                {" "}
+                No New Notifications{" "}
+              </span>
+            </DarrellInstructor>
+          </Content>
+        </Cards2>
+      ) : (
+        <Cards1>
+          <Content>
+            <DarrellInstructor>
+              <span className="ibmplexsans-normal-shark-16px"> {title} </span>
+            </DarrellInstructor>
+            <a href={link}>
+              <Buttons />
+            </a>
+          </Content>
+        </Cards1>
+      )}
+    </>
   );
 }
 
@@ -32,6 +47,20 @@ const Cards1 = styled.div`
   box-shadow: 0px 4px 16px #7200e01a;
   border: 1px solid;
   border-color: var(--electric-violet);
+`;
+const Cards2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px;
+  position: relative;
+  align-self: stretch;
+  border-radius: 16px;
+  box-shadow: 0px 4px 16px #7200e01a;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  height: 100px;
 `;
 
 const Content = styled.div`

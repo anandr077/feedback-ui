@@ -12,6 +12,7 @@ import {
   getUserRole,
   markSubmissionReviewed as markSubmsissionReviewed,
   markSubmsissionClosed,
+  getUserId,
 } from "../../../service";
 import { saveAnswer, submitAssignment } from "../../../service.js";
 import {
@@ -26,7 +27,7 @@ import { extractStudents, getPageMode } from "./functions";
 
 import FeedBacksDropDown from "../FeedbacksDropDown";
 
-export default function FeedbacksRoot({ isFeedbackPage, isAssignmentPage }) {
+export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const newCommentFrameRef = useRef(null);
 
@@ -78,7 +79,7 @@ export default function FeedbacksRoot({ isFeedbackPage, isAssignmentPage }) {
             (r) => r.id != submission.id
           );
           const nextUrl = allExceptCurrent[0]
-            ? "/feedbacks/" + allExceptCurrent[0]?.id
+            ? "/submissions/" + allExceptCurrent[0]?.id
             : "/";
           console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
@@ -96,9 +97,8 @@ export default function FeedbacksRoot({ isFeedbackPage, isAssignmentPage }) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("##isFeedbackPage: " + isFeedbackPage);
 
-  const pageMode = getPageMode(isFeedbackPage, submission);
+  const pageMode = getPageMode(isTeacher, getUserId, submission);
   console.log("pageMode: " + pageMode);
 
   const handleEditorMounted = (editor, index) => {

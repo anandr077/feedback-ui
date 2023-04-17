@@ -34,7 +34,7 @@ function App() {
           <CreateAssignment />
         </Route>
         <Route path="/assignments/:assignmentId/review">
-          <FeedbacksRoot isFeedbackPage={true} isAssignmentPage={true} />
+          <FeedbacksRoot isAssignmentPage={true} />
         </Route>
         <Route path="/assignments/:assignmentId/start">
           <TaskDetail />
@@ -43,10 +43,7 @@ function App() {
           <TeacherTaskRoot />
         </Route>
         <Route path="/submissions/:id">
-          <FeedbacksRoot isFeedbackPage={false} isAssignmentPage={false} />
-        </Route>
-        <Route path="/feedbacks/:id">
-          <FeedbacksRoot isFeedbackPage={true} isAssignmentPage={false} />
+          <FeedbacksRoot  isAssignmentPage={false} />
         </Route>
         <Route path="/">{dashboard}</Route>
       </Switch>

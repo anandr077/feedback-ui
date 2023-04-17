@@ -97,8 +97,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   if (isLoading) {
     return <Loader />;
   }
-
-  const pageMode = getPageMode(isTeacher, getUserId, submission);
+  console.log("Is Teacher " + isTeacher)
+  const pageMode = getPageMode(isTeacher, getUserId(), submission);
   console.log("pageMode: " + pageMode);
 
   const handleEditorMounted = (editor, index) => {

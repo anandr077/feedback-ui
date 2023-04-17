@@ -156,7 +156,19 @@ export const getSubmissionById = async (submissionId) => {
     })
     .catch(errorHandler);
 };
-
+export const getSubmissionsByAssignmentId = async (assignmentId) => {
+  return await fetch(baseUrl + "/assignments/" + assignmentId + "/submissions", {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+  })
+    .then(handleErrors)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch(errorHandler);
+};
 export const addFeedback = async (submissionId, comment) => {
   return await fetch(baseUrl + "/submissions/" + submissionId + "/feedbacks", {
     method: "POST",

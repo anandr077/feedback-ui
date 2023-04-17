@@ -52,6 +52,8 @@ export default function TeacherClassesRoot() {
       mobile={
         <TeacherClassesMobile
           {...{
+            classes,
+            setClassId,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },
@@ -62,6 +64,8 @@ export default function TeacherClassesRoot() {
       tablet={
         <TeacherClassesTablet
           {...{
+            classes,
+            setClassId,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },
@@ -84,6 +88,8 @@ export default function TeacherClassesRoot() {
       desktop={
         <TeacherClassesDesktop
           {...{
+            classes,
+            setClassId,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },

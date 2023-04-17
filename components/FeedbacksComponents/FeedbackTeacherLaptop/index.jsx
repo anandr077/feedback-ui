@@ -13,6 +13,7 @@ import {
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
   feedbacksIbmplexsansNormalStack20px,
+  IbmplexsansNormalBlack14px,
   IbmplexsansNormalBlack16px,
 } from "../../../styledMixins";
 
@@ -27,6 +28,7 @@ import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
+import CheckBox from "@mui/material/CheckBox";
 import "./FeedbackTeacherLaptop.css";
 import { getUserName, getUserRole } from "../../../service";
 
@@ -126,6 +128,20 @@ function FeedbackTeacherLaptop(props) {
     }
     return <></>;
   };
+
+  const mcqAnswerFrame = (question) => {
+    const options = question.options.map((option) => {
+      console.log("##", option.option);
+      return (
+        <OptionCotainer>
+          <CheckBox />
+          <OptionText>{option.option}</OptionText>
+        </OptionCotainer>
+      );
+    });
+    return <OptionsRoot>{options}</OptionsRoot>;
+  };
+
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -137,34 +153,39 @@ function FeedbackTeacherLaptop(props) {
       ) || newAnswer;
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
+
     return (
       <>
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
-          <ToremIpsumDolorSi
-            onClick={() => {
-              methods.onSelectionChange(answer.serialNumber)(
-                quillRefs.current[answer.serialNumber - 1].getSelection()
-              );
-            }}
-            id={"quill_" + question.serialNumber}
-          >
-            <QuillEditor
-              ref={(editor) =>
-                methods.handleEditorMounted(editor, answer.serialNumber - 1)
-              }
-              comments={comments.filter((comment) => {
-                return comment.questionSerialNumber === answer.serialNumber;
-              })}
-              value={answerValue ? answerValue : ""}
-              options={{
-                modules: modules,
-                theme: "snow",
-                readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+          {question.type === "MCQ" ? (
+            mcqAnswerFrame(question)
+          ) : (
+            <ToremIpsumDolorSi
+              onClick={() => {
+                methods.onSelectionChange(answer.serialNumber)(
+                  quillRefs.current[answer.serialNumber - 1].getSelection()
+                );
               }}
-            ></QuillEditor>
-          </ToremIpsumDolorSi>
-          {createSaveAnswerButton(question)}
+              id={"quill_" + question.serialNumber}
+            >
+              <QuillEditor
+                ref={(editor) =>
+                  methods.handleEditorMounted(editor, answer.serialNumber - 1)
+                }
+                comments={comments.filter((comment) => {
+                  return comment.questionSerialNumber === answer.serialNumber;
+                })}
+                value={answerValue ? answerValue : ""}
+                options={{
+                  modules: modules,
+                  theme: "snow",
+                  readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+                }}
+              ></QuillEditor>
+            </ToremIpsumDolorSi>
+          )}
+          {/* {createSaveAnswerButton(question)} */}
         </Frame1366>
       </>
     );
@@ -320,13 +341,17 @@ const Frame1295 = styled.div`
   flex: 1;
   flex-direction: column;
 `;
-
+const OptionsRoot = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+`;
 const OptionCotainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  gap: 3em;
   justify-content: flex-start;
 `;
 const OptionsList = styled.div`
@@ -351,8 +376,8 @@ const Ellipse10 = styled.img`
   object-fit: cover;
 `;
 
-const Name = styled.div`
-  ${IbmplexsansNormalBlack16px}
+const OptionText = styled.div`
+  ${IbmplexsansNormalBlack14px}
 
   flex: 1;
   letter-spacing: 0;

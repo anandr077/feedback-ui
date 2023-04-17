@@ -4,7 +4,7 @@ import { getUserName } from "../../service";
 import {
   IbmplexsansBoldWhite72px,
   IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalWhite20px
+  IbmplexsansNormalWhite20px,
 } from "../../styledMixins";
 import DashboardFrame1284 from "../DashboardFrame1284";
 import DashboardGroup1205 from "../DashboardGroup1205";
@@ -80,9 +80,7 @@ function DashboardHomeStudentDesktop(props) {
               <Crown src="/img/crown@2x.png" alt="crown" />
               <Tasks>Model Responses</Tasks>
             </Frame1337>
-            <TaskCardContainer
-              allTasks={modelResponses}
-            />
+            <TaskCardContainer allTasks={modelResponses} />
           </Frame1339>
         </Frame1346>
       </Frame1347>

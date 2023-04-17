@@ -7,6 +7,7 @@ import {
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalShark20px,
+  IbmplexsansNormalBlack14px,
 } from "../../../styledMixins";
 import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
@@ -15,6 +16,7 @@ import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
 import QuillEditor from "../../QuillEditor";
 import "./FeedbackTeacherMobile.css";
+import CheckBox from "@mui/material/CheckBox";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
 
 function FeedbackTeacherMobile(props) {
@@ -32,6 +34,18 @@ function FeedbackTeacherMobile(props) {
     toolbar: false,
   };
 
+  const mcqAnswerFrame = (question) => {
+    const options = question.options.map((option) => {
+      console.log("##", option.option);
+      return (
+        <OptionCotainer>
+          <CheckBox />
+          <OptionText>{option.option}</OptionText>
+        </OptionCotainer>
+      );
+    });
+    return <OptionsRoot>{options}</OptionsRoot>;
+  };
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -47,24 +61,30 @@ function FeedbackTeacherMobile(props) {
       <>
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
-          <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
-            <QuillEditor
-              ref={(editor) =>
-                methods.handleEditorMounted(editor, answer.serialNumber - 1)
-              }
-              comments={comments.filter((comment) => {
-                return comment.questionSerialNumber === answer.serialNumber;
-              })}
-              value={answerValue ? answerValue : ""}
-              onSelectionChange={methods.onSelectionChange(answer.serialNumber)}
-              // onChangeFn={methods.onChangeFn(question.serialNumber)}
-              options={{
-                modules: modules,
-                theme: "snow",
-                readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
-              }}
-            ></QuillEditor>
-          </ToremIpsumDolorSi>
+          {question.type === "MCQ" ? (
+            mcqAnswerFrame(question)
+          ) : (
+            <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
+              <QuillEditor
+                ref={(editor) =>
+                  methods.handleEditorMounted(editor, answer.serialNumber - 1)
+                }
+                comments={comments.filter((comment) => {
+                  return comment.questionSerialNumber === answer.serialNumber;
+                })}
+                value={answerValue ? answerValue : ""}
+                onSelectionChange={methods.onSelectionChange(
+                  answer.serialNumber
+                )}
+                // onChangeFn={methods.onChangeFn(question.serialNumber)}
+                options={{
+                  modules: modules,
+                  theme: "snow",
+                  readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+                }}
+              ></QuillEditor>
+            </ToremIpsumDolorSi>
+          )}
         </Frame1366>
       </>
     );
@@ -107,6 +127,19 @@ function FeedbackTeacherMobile(props) {
   );
 }
 
+const OptionsRoot = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+`;
+const OptionCotainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+`;
 const Frame131612 = styled.div`
   display: flex;
   align-items: center;
@@ -128,13 +161,12 @@ const Frame1295 = styled.div`
   flex-direction: column;
 `;
 
-const OptionCotainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  width: 100%;
+const OptionText = styled.div`
+  ${IbmplexsansNormalBlack14px}
 
-  justify-content: flex-start;
+  flex: 1;
+  letter-spacing: 0;
+  line-height: normal;
 `;
 const OptionsList = styled.div`
   display: flex;

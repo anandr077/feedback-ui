@@ -28,7 +28,9 @@ export const login = async () => {
 export const getUserName = () => {
   return getCookie("user.name");
 };
-
+export const getUserId = () => {
+  return getCookie("userId");
+};
 export const getUserRole = () => {
   return getCookie("role");
 };

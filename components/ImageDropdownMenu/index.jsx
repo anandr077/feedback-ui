@@ -6,9 +6,10 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
 import { Avatar } from "@boringer-avatars/react";
 export const ImageDropdownMenu = (props) => {
-  const { menuItems, onItemSelected } = props;
+  const { menuItems, onItemSelected, withCheckbox } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(menuItems[0]);
 
@@ -28,7 +29,7 @@ export const ImageDropdownMenu = (props) => {
     <div>
       <StyledBox>
         {" "}
-        <IconButton
+        <StyledIconButton
           edge="start"
           color="inherit"
           aria-label="menu"
@@ -36,7 +37,7 @@ export const ImageDropdownMenu = (props) => {
         >
           <StyledListItemText primary={selectedItem.title} />
           <Frame12841 src="/img/frame-1284@2x.png" alt="Frame 1284" />
-        </IconButton>
+        </StyledIconButton>
       </StyledBox>
 
       <Menu
@@ -46,7 +47,9 @@ export const ImageDropdownMenu = (props) => {
       >
         {menuItems.map((item) => (
           <MenuItem key={item.id} onClick={() => handleClose(item)}>
+            {withCheckbox && <Checkbox />}
             <ListItemText primary={item.title} />
+
             <Avatar name="test" />
           </MenuItem>
         ))}
@@ -56,10 +59,11 @@ export const ImageDropdownMenu = (props) => {
 };
 const StyledBox = styled(Box)`
   display: flex;
-  width: 336px;
+  width: 370px;
   align-items: center;
   gap: 8px;
-  padding: 12px;
+  jystify-content: space-between;
+  padding: 0px 0px 0px 12px;
   position: relative;
   background-color: var(--white);
   border-radius: 8px;
@@ -68,6 +72,11 @@ const StyledBox = styled(Box)`
   box-shadow: 0px 4px 8px #2f1a720a;
   cursor: pointer;
 `;
+const StyledIconButton = styled(IconButton)`
+  width: 100%;
+  margin: 0;
+`;
+
 const Frame12851 = styled.div`
   display: flex;
   width: 336px;
@@ -93,7 +102,7 @@ const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}
   position: relative;
   flex: 1;
-  margin-top: -1px;
+
   letter-spacing: 0;
   line-height: normal;
 `;

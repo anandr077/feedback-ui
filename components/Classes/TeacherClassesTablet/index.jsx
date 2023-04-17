@@ -27,7 +27,7 @@ import {
   createStudentsFrames,
   createModelResponsesFrames,
 } from "../TeacherClassesRoot/methods";
-import ImageDropdownMenu from "../../ImageDropdownMenu"
+import ImageDropdownMenu from "../../ImageDropdownMenu";
 
 function TeacherClassesTablet(props) {
   const {
@@ -91,13 +91,15 @@ function TeacherClassesTablet(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            <ImageDropdownMenu menuItems={classes} 
-            onItemSelected={(item)=>{
-              setClassId(item.id)
-            }}></ImageDropdownMenu>
+            <ImageDropdownMenu
+              menuItems={classes}
+              onItemSelected={(item) => {
+                setClassId(item.id);
+              }}
+            ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Buttons link="/assignments/new"/>
+            <Buttons link="/assignments/new" />
           </Frame1426>
         </Frame14221>
         <Frame1417>

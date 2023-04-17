@@ -11,14 +11,18 @@ import Frame13134 from "../Frame13134";
 import Frame13372 from "../Frame13372";
 import Group1205 from "../Group1205";
 import {
-  IbmplexsansBoldShark36px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
+  IbmplexsansBoldShark36px,
+  IbmplexsansMediumRiverBed24px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalShark16px,
 } from "../styledMixins";
 import {
   createModelResponsesFrames,
-  createStudentsFrames
+  createStudentsFrames,
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesMobile.css";
-import ImageDropdownMenu from "../../ImageDropdownMenu"
+import ImageDropdownMenu from "../../ImageDropdownMenu";
 
 function TeacherClassesMobile(props) {
   const {
@@ -81,13 +85,15 @@ function TeacherClassesMobile(props) {
         <Frame14221>
           <Frame1306>
             {/* <div className="App"> */}
-            <ImageDropdownMenu menuItems={classes} 
-            onItemSelected={(item)=>{
-              setClassId(item.id)
-            }}></ImageDropdownMenu>
+            <ImageDropdownMenu
+              menuItems={classes}
+              onItemSelected={(item) => {
+                setClassId(item.id);
+              }}
+            ></ImageDropdownMenu>
           </Frame1306>
-          
-          <Buttons className={buttonsProps.className} link="/assignments/new"/>
+
+          <Buttons className={buttonsProps.className} link="/assignments/new" />
         </Frame14221>
         <Frame14221>
           <Frame1339>

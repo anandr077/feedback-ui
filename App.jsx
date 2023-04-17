@@ -43,7 +43,7 @@ function App() {
           <TeacherTaskRoot />
         </Route>
         <Route path="/submissions/:id">
-          <FeedbacksRoot  isAssignmentPage={false} />
+          <FeedbacksRoot isAssignmentPage={false} />
         </Route>
         <Route path="/">{dashboard}</Route>
       </Switch>

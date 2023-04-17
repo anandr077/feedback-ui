@@ -22,7 +22,7 @@ import {
   createStudentsFrames,
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesDesktop.css";
-import ImageDropdownMenu from "../../ImageDropdownMenu"
+import ImageDropdownMenu from "../../ImageDropdownMenu";
 
 function TeacherClassesDesktop(props) {
   const {
@@ -78,13 +78,15 @@ function TeacherClassesDesktop(props) {
         </Frame13121>
         <Frame14221>
           <Frame1306>
-            <ImageDropdownMenu menuItems={classes} 
-            onItemSelected={(item)=>{
-              setClassId(item.id)
-            }}></ImageDropdownMenu>
+            <ImageDropdownMenu
+              menuItems={classes}
+              onItemSelected={(item) => {
+                setClassId(item.id);
+              }}
+            ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Buttons link="/assignments/new"/>
+            <Buttons link="/assignments/new" />
           </Frame1426>
         </Frame14221>
         <Frame1417>

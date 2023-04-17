@@ -13,7 +13,7 @@ import StatusBubbles from "../StatusBubbles";
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark28px
+  IbmplexsansSemiBoldShark28px,
 } from "../styledMixins";
 import "./TaskDetailLaptop.css";
 

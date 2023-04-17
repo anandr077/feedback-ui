@@ -1,33 +1,25 @@
 import React from "react";
-import Frame1285 from "../Frame1285";
 import Buttons from "../Buttons";
 
-import Frame13373 from "../Frame13373";
-import Frame12843 from "../Frame12843";
-import Frame12832 from "../Frame12832";
-import Frame12822 from "../Frame12822";
-import Frame13136 from "../Frame13136";
-import Group1205 from "../Group1205";
-import Cards from "../Cards";
-import Cards2 from "../Cards2";
-import Frame6 from "../Frame6";
+import React from "react";
 import styled from "styled-components";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansBoldShark64px,
-  IbmplexsansNormalChicago13px,
-} from "../styledMixins";
-import "./TeacherClassesLaptop.css";
-import Header from "../../Header";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
+import Header from "../../Header";
+import ImageDropdownMenu from "../../ImageDropdownMenu";
+import Frame12822 from "../Frame12822";
+import Frame12832 from "../Frame12832";
+import Frame12843 from "../Frame12843";
+import Frame13136 from "../Frame13136";
+import Frame13373 from "../Frame13373";
+import Group1205 from "../Group1205";
 import {
-  createStudentsFrames,
-  createModelResponsesFrames,
-} from "../TeacherClassesRoot/methods";
+  IbmplexsansBoldShark64px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalShark16px
+} from "../styledMixins";
+import { createStudentsFrames } from "../TeacherClassesRoot/methods";
+import "./TeacherClassesLaptop.css";
 
+import { createModelResponsesFrames } from "../TeacherClassesRoot/methods";
 function TeacherClassesLaptop(props) {
   const {
     setClassId,
@@ -81,23 +73,13 @@ function TeacherClassesLaptop(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            {/* <div className="App"> */}
-            <ImageDropdownMenu
-              menuItems={classes}
-              onItemSelected={(item) => {
-                setClassId(item.id);
-              }}
-            ></ImageDropdownMenu>
+            <ImageDropdownMenu menuItems={classes} 
+            onItemSelected={(item)=>{
+              setClassId(item.id)
+            }}></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Frame1306>
-              <Frame12853>
-                <Class>{xclass}</Class>
-                <Frame12841 src={frame12842} alt="Frame 1284" />
-              </Frame12853>
-              <Frame1285 />
-            </Frame1306>
-            <Buttons />
+            <Buttons link="/assignments/new"/>
           </Frame1426>
         </Frame14221>
         <Frame1417>
@@ -110,7 +92,7 @@ function TeacherClassesLaptop(props) {
           </Frame1339>
           <Frame1416>
             <Frame1340>
-              <Frame13373 tasks={frame133731Props.tasks} />
+              <Frame13373 tasks="Assignments" />
               <Line17 src={line174} alt="Line 17" />
               <Frame1307>
                 <Frame12843 />
@@ -152,7 +134,7 @@ function TeacherClassesLaptop(props) {
                 />
               </Frame12844>
             </Frame1342>
-            <Frame1339>
+             <Frame1339>
               <Frame1337>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
@@ -163,6 +145,7 @@ function TeacherClassesLaptop(props) {
               <Line17 src={line176} alt="Line 17" />
               <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
             </Frame1339>
+         
           </Frame1416>
         </Frame1417>
       </Frame1422>

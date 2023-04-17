@@ -1,29 +1,21 @@
 import React from "react";
-import NavElement from "../NavElement";
-import Notifications from "../Notifications";
-import Frame4 from "../Frame4";
+import styled from "styled-components";
+import { formattedDate } from "../../../dates";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
+import Footer from "../../Footer";
+import Header from "../../Header";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
+import Buttons from "../Buttons";
+import Frame11 from "../Frame11";
 import GoBack from "../GoBack";
 import StatusBubbles from "../StatusBubbles";
-import Frame11 from "../Frame11";
-import Frame12 from "../Frame12";
-import Frame13 from "../Frame13";
-import Frame14 from "../Frame14";
-import Frame12094 from "../Frame12094";
-import Buttons from "../Buttons";
-import Frame6 from "../Frame6";
-import styled from "styled-components";
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark28px,
+  IbmplexsansSemiBoldShark28px
 } from "../styledMixins";
 import "./TaskDetailLaptop.css";
-import Footer from "../../Footer";
-import Header from "../../Header";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
-import { formattedDate } from "../../../dates";
 
 function TaskDetailLaptop(props) {
   const {

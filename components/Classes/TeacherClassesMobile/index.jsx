@@ -1,43 +1,29 @@
 import React from "react";
-import Logo from "../Logo";
-import Notifications from "../Notifications";
-import Buttons from "../Buttons";
-import Frame13122 from "../Frame13122";
-import Frame1284 from "../Frame1284";
-import Frame1283 from "../Frame1283";
-import Frame1282 from "../Frame1282";
-import Frame12842 from "../Frame12842";
-import Frame12852 from "../Frame12852";
-import Frame1208 from "../Frame1208";
-import Frame12082 from "../Frame12082";
-import Frame13133 from "../Frame13133";
-import Frame1319 from "../Frame1319";
-import Frame13372 from "../Frame13372";
-import Frame12843 from "../Frame12843";
-import Frame12832 from "../Frame12832";
-import Frame12822 from "../Frame12822";
-import Frame13134 from "../Frame13134";
-import Group1205 from "../Group1205";
-import Cards from "../Cards";
-import Cards2 from "../Cards2";
 import styled from "styled-components";
-import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansBoldShark36px,
-} from "../styledMixins";
-import "./TeacherClassesMobile.css";
-import HeaderSmall from "../../HeaderSmall";
 import { classesHomeHeaderProps } from "../../../utils/headerProps";
 import FooterSmall from "../../FooterSmall";
+import HeaderSmall from "../../HeaderSmall";
+import Buttons from "../Buttons";
+import Frame12822 from "../Frame12822";
+import Frame12832 from "../Frame12832";
+import Frame12843 from "../Frame12843";
+import Frame13134 from "../Frame13134";
+import Frame13372 from "../Frame13372";
+import Group1205 from "../Group1205";
+import {
+  IbmplexsansBoldShark36px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
+} from "../styledMixins";
 import {
   createModelResponsesFrames,
-  createStudentsFrames,
+  createStudentsFrames
 } from "../TeacherClassesRoot/methods";
+import "./TeacherClassesMobile.css";
+import ImageDropdownMenu from "../../ImageDropdownMenu"
+
 function TeacherClassesMobile(props) {
   const {
+    setClassId,
+    classes,
     modelResponses,
     students,
     headerProps,
@@ -94,22 +80,14 @@ function TeacherClassesMobile(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            <Frame1285>
-              <X12ENGADV3>{x12Engadv3}</X12ENGADV3>
-              <Frame12841 src={frame12841} alt="Frame 1284" />
-            </Frame1285>
+            {/* <div className="App"> */}
+            <ImageDropdownMenu menuItems={classes} 
+            onItemSelected={(item)=>{
+              setClassId(item.id)
+            }}></ImageDropdownMenu>
           </Frame1306>
-          <Frame1305>
-            <Frame12851>
-              <Class>{xclass}</Class>
-              <Frame12841 src={frame12842} alt="Frame 1284" />
-            </Frame12851>
-            <Frame12853>
-              <Class>{subject}</Class>
-              <Frame12841 src={frame12843} alt="Frame 1284" />
-            </Frame12853>
-          </Frame1305>
-          <Buttons className={buttonsProps.className} />
+          
+          <Buttons className={buttonsProps.className} link="/assignments/new"/>
         </Frame14221>
         <Frame14221>
           <Frame1339>

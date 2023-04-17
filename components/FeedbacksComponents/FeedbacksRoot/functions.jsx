@@ -27,4 +27,5 @@ export function getPageMode(isFeedbackPage, submission) {
   if (isFeedbackPage && submission.status === "SUBMITTED") return "REVIEW";
   if (!isFeedbackPage && submission.status === "REVIEWED") return "REVISE";
   if (submission.status === "CLOSED") return "CLOSED";
+  return "CLOSED"
 }

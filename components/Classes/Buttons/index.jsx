@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../styledMixins";
 
 function Buttons(props) {
-  const { className } = props;
+  const { className, link } = props;
 
   return (
-    <Buttons1 className={`buttons ${className || ""}`}>
+    <a href={link}>
+      <Buttons1 className={`buttons ${className || ""}`}>
       <Add className="add" src="/img/add@2x.png" alt="add" />
       <Button className="button">New assignment</Button>
     </Buttons1>
+    </a>
   );
 }
 

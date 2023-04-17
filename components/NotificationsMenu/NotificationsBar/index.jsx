@@ -11,12 +11,15 @@ function NotificationsBar(props) {
       <>
         {type == "small" ? (
           <NavbarDiv>
-            {" "}
-            {loadingNotifications ? <Loader /> : <Cards emptyCard={true} />}
+            <Frame1409>
+              <Frame15>
+                {loadingNotifications ? <Loader /> : <Cards emptyCard={true} />}
+              </Frame15>
+              <MaskGroup src="/img/close.png" onClick={onCloseFn} />
+            </Frame1409>
           </NavbarDiv>
         ) : (
           <Frame16>
-            {" "}
             {loadingNotifications ? <Loader /> : <Cards emptyCard={true} />}
           </Frame16>
         )}

@@ -10,10 +10,11 @@ export default function HeaderSmall(props) {
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [notifications, setNotifications] = React.useState([]);
-
+  const [loadingNotifications, setLoadingNotifications] = React.useState(true);
   React.useEffect(() => {
     getNotifications().then((result) => {
       setNotifications(result);
+      setLoadingNotifications(false);
     });
   }, []);
 
@@ -39,6 +40,7 @@ export default function HeaderSmall(props) {
           notifications={notifications}
           type="small"
           onCloseFn={handleNotificationClick}
+          loadingNotifications={loadingNotifications}
         />{" "}
       </NavigationContainer>
     );

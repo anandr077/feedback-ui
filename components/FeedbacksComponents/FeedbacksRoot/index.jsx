@@ -3,6 +3,7 @@ import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  getSubmissionsByAssignmentId,
   addFeedback,
   deleteFeedback,
   getCommentsForSubmission,
@@ -25,10 +26,9 @@ import { extractStudents, getPageMode } from "./functions";
 
 import FeedBacksDropDown from "../FeedbacksDropDown";
 
-export default function FeedbacksRoot({ isFeedbackPage }) {
+export default function FeedbacksRoot({ isFeedbackPage, isAssignmentPage }) {
   const quillRefs = useRef([]);
   const newCommentFrameRef = useRef(null);
-  const commentCardRefs = useRef([]);
 
   const [submission, setSubmission] = useState(null);
   const [students, setStudents] = useState([]);
@@ -46,30 +46,48 @@ export default function FeedbacksRoot({ isFeedbackPage }) {
   const [assignmentId, setAssignmentId] = useState(id);
   useEffect(() => {
     Promise.all([
-      getSubmissionById(assignmentId),
-      isTeacher ? getTasks() : Promise.resolve([]),
-      getCommentsForSubmission(id),
-    ]).then(([submissionsResult, tasksResult, commentsResult]) => {
-      setSubmission(submissionsResult);
-      setStudents(extractStudents(tasksResult));
-      const allExceptCurrent = tasksResult.filter(
-        (r) => r.id != submissionsResult.id
-      );
-      setNextUrl(
-        allExceptCurrent[0] ? "/feedbacks/" + allExceptCurrent[0]?.id : "/"
-      );
-      console.log("Next " + JSON.stringify(nextUrl));
-
-      setStudentName(
-        tasksResult.find((r) => r.id === submissionsResult.id)?.studentName ??
-          null
-      );
-
-      setComments(commentsResult);
-      setIsLoading(false);
+      isAssignmentPage ? getSubmissionsByAssignmentId(assignmentId) : Promise.resolve([]),
+    ]).then(([submissionsResult]) => {
+      if (isAssignmentPage) {
+        window.location.href = "/submissions/" + submissionsResult[0].id
+      }
     });
   }, [assignmentId]);
+  useEffect(() => {
+    Promise.all([
+      getSubmissionById(id),
+      getCommentsForSubmission(id),
+    ]).then(([submissionsResult, commentsResult]) => {
+      console.log("submissionsResult " + submissionsResult)
+      setSubmission(submissionsResult);
+      setComments(commentsResult);
+    }).finally(() => {
+      if (!isTeacher) {
+        setIsLoading(false);
+      }
+    });
+  }, [assignmentId]);
+  useEffect(() => {
+    console.log("Submissions " + submission)
+    if (isTeacher && submission && submission.assignmentId) {
+      getSubmissionsByAssignmentId(submission.assignmentId)
+        .then((allSubmissions) => {
+          setStudents(extractStudents(allSubmissions));
+          const allExceptCurrent = allSubmissions.filter(
+            (r) => r.id != submission.id
+          );
+          const nextUrl = allExceptCurrent[0] ? "/feedbacks/" + allExceptCurrent[0]?.id : "/"
+          console.log("allSubmissions " + JSON.stringify(allSubmissions))
+          setNextUrl(nextUrl);
+          const studentName = allSubmissions.find((r) => r.id === assignmentId)?.studentName ?? null
+          console.log("studentName " + studentName);
 
+          setStudentName(studentName);
+          setIsLoading(false);
+      }).finally(() => setIsLoading(false));;
+    }
+    
+  }, [submission]);
   if (isLoading) {
     return <Loader />;
   }

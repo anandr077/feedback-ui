@@ -7,10 +7,12 @@ function TaskCard(props) {
   const { task } = props;
 
   return (
-    <StyledCard>
-      {tagsFrame(task)}
-      <CardContent task={task} />
-    </StyledCard>
+    <a href={task.link}>
+      <StyledCard>
+        {tagsFrame(task)}
+        <CardContent task={task} />
+      </StyledCard>
+    </a>
   );
 }
 function tagsFrame(task) {

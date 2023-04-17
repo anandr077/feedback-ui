@@ -2,10 +2,11 @@ import React from "react";
 import Cards from "../Cards";
 import styled from "styled-components";
 import "./NotificationsBar.css";
+import { getNotifications, getTasks } from "../../../service.js";
 import Loader from "../../Loader";
 function NotificationsBar(props) {
   const { notifications, type, onCloseFn } = props;
-  if (notifications?.length === 0) {
+  if (notifications.length === 0) {
     return (
       <>
         {type == "small" ? (

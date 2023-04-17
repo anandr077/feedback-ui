@@ -151,12 +151,8 @@ function TeacherClassesMobile(props) {
               <Frame1338>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>{exemplarResponses}</ExemplarResponses>
+                  <ExemplarResponses>Model Responses</ExemplarResponses>
                 </Frame13124>
-                <Group1205
-                  arrowright={group1205Props.arrowright}
-                  className={group1205Props.className}
-                />
               </Frame1338>
               <Line17 src={line175} alt="Line 17" />
               <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>

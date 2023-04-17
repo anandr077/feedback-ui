@@ -56,7 +56,6 @@ function DashboardHomeStudentMobile(props) {
         <Frame1205>
           <DashboardFrame1208
             tasks="Model responses"
-            group12052Props={frame12082Props.group12052Props}
           />
           <Line17 src={line172} alt="Line 17" />
           <Frame11>
@@ -69,6 +68,11 @@ function DashboardHomeStudentMobile(props) {
   );
 }
 
+const Crown = styled.img`
+  position: relative;
+  min-width: 26px;
+  height: 26px;
+`;
 const Frame1352 = styled.div`
   display: flex;
   flex-direction: column;

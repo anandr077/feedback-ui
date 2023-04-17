@@ -73,7 +73,7 @@ export default function CreateAssignment() {
           (question = {
             serialNumber: index,
             question: document.getElementById("question_" + index).value,
-            wordLimit: document.getElementById("wordLimit_" + index).value,
+            wordLimit: document.getElementById("wordLimit_" + index)?.value,
             type: questionType,
           })
         ),

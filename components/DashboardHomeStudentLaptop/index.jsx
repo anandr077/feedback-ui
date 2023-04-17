@@ -78,8 +78,8 @@ function DashboardHomeStudentLaptop(props) {
           </Frame1339>
           <Frame1339>
             <Frame1337>
+              <Crown src="/img/crown@2x.png" alt="crown" />
               <Tasks>Model Responses</Tasks>
-              <DashboardGroup1205 className={group1205Props.className} />
             </Frame1337>
             <TaskCardContainer
               allTasks={modelResponses}
@@ -95,6 +95,11 @@ function DashboardHomeStudentLaptop(props) {
   );
 }
 
+const Crown = styled.img`
+  position: relative;
+  min-width: 26px;
+  height: 26px;
+`;
 const Frame1347 = styled.div`
   display: flex;
   flex-direction: column;

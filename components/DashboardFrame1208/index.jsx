@@ -4,23 +4,23 @@ import styled from "styled-components";
 import { IbmplexsansMediumRiverBed20px } from "../../styledMixins";
 
 function DashboardFrame1208(props) {
-  const { tasks, group12052Props } = props;
+  const { tasks } = props;
 
   return (
     <Frame12081>
-      <Tasks
-        onClick={() => {
-          alert("View All");
-          window.location.href = "/tasks";
-        }}
-      >
-        View All
+      <Crown src="/img/crown@2x.png" alt="crown" />
+      <Tasks>
+        {tasks}
       </Tasks>
-      <DashboardGroup12052 arrowright={group12052Props.arrowright} />
     </Frame12081>
   );
 }
 
+const Crown = styled.img`
+  position: relative;
+  min-width: 26px;
+  height: 26px;
+`;
 const Frame12081 = styled.div`
   display: flex;
   align-items: center;

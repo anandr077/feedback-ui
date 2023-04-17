@@ -1,21 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import { getUserName } from "../../service";
 import {
   IbmplexsansBoldWhite72px,
   IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalWhite20px,
+  IbmplexsansNormalWhite20px
 } from "../../styledMixins";
-import DashboardFrame12823 from "../DashboardFrame12823";
-import DashboardFrame1283 from "../DashboardFrame1283";
 import DashboardFrame1284 from "../DashboardFrame1284";
-import ModelResponseCardContainer from "../ModelResponseCardContainer";
 import DashboardGroup1205 from "../DashboardGroup1205";
 import "./DashboardHomeStudentDesktop.css";
-import { getUserName } from "../../service";
 
 import Footer from "../Footer";
-import TaskCardContainer from "../TaskCardContainer";
 import Header from "../Header";
+import TaskCardContainer from "../TaskCardContainer";
 
 function DashboardHomeStudentDesktop(props) {
   const {
@@ -80,13 +77,11 @@ function DashboardHomeStudentDesktop(props) {
           </Frame1339>
           <Frame1339>
             <Frame1337>
+              <Crown src="/img/crown@2x.png" alt="crown" />
               <Tasks>Model Responses</Tasks>
-              <DashboardGroup1205 className={group1205Props.className} />
             </Frame1337>
             <TaskCardContainer
               allTasks={modelResponses}
-              line17={frame1340Props.line17}
-              group1205Props={frame1340Props.group1205Props}
             />
           </Frame1339>
         </Frame1346>
@@ -96,6 +91,11 @@ function DashboardHomeStudentDesktop(props) {
   );
 }
 
+const Crown = styled.img`
+  position: relative;
+  min-width: 26px;
+  height: 26px;
+`;
 const Frame1347 = styled.div`
   display: flex;
   flex-direction: column;

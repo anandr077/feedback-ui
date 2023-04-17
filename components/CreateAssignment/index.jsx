@@ -140,7 +140,6 @@ export default function CreateAssignment() {
         const question = {
           serialNumber: serialNumber,
           question: document.getElementById("question_" + serialNumber).value,
-          wordLimit: document.getElementById("wordLimit_" + serialNumber).value,
           type: questionType,
           options: options,
         };

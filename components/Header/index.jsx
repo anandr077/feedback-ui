@@ -15,9 +15,11 @@ export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
   const [notifications, setNotifications] = React.useState([]);
+  const [loadingNotifications, setLoadingNotifications] = React.useState(true);
   React.useEffect(() => {
     getNotifications().then((result) => {
       setNotifications(result);
+      setLoadingNotifications(false);
     });
   }, []);
   const OnFirstButtonClick = () => {
@@ -129,7 +131,10 @@ export default function Header(props) {
         <Screen onClick={handleNotificationClick}>
           <NavigationContainer>
             {" "}
-            <NotificationsBar notifications={notifications} />{" "}
+            <NotificationsBar
+              notifications={notifications}
+              loadingNotifications={loadingNotifications}
+            />{" "}
           </NavigationContainer>
         </Screen>
       )}

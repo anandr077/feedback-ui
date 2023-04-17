@@ -12,7 +12,7 @@ import Cards from "../Cards";
 import Cards2 from "../Cards2";
 import Frame6 from "../Frame6";
 import styled from "styled-components";
-import ImageDropdownMenu from "../../ImageDropdownMenu"
+import ImageDropdownMenu from "../../ImageDropdownMenu";
 import {
   IbmplexsansNormalShark16px,
   IbmplexsansMediumRiverBed24px,
@@ -82,12 +82,12 @@ function TeacherClassesLaptop(props) {
         <Frame14221>
           <Frame1306>
             {/* <div className="App"> */}
-            <ImageDropdownMenu menuItems={classes} 
-            onItemSelected={(item)=>{
-              setClassId(item.id)
-            }}></ImageDropdownMenu>
-            
-            
+            <ImageDropdownMenu
+              menuItems={classes}
+              onItemSelected={(item) => {
+                setClassId(item.id);
+              }}
+            ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
             <Frame1306>

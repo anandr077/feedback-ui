@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { IbmplexsansNormalRiverBed14px } from "../../styledMixins";
 const StatusLabel = (props) => {
   const { text } = props;
-
   return (
     <StatusContainer>
       <Icon id="statusLabelIcon" />

@@ -103,10 +103,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const handleChangeText = (change, allSaved) => {
     if (allSaved) {
-      document.getElementById("statusLabelIcon")?.style.backgroundImage =
+      document.getElementById("statusLabelIcon").style.backgroundImage =
         'url("/icons/saved.png")';
     }else {
-    document.getElementById("statusLabelIcon")?.style.backgroundImage =
+    document.getElementById("statusLabelIcon").style.backgroundImage =
     'url("/icons/saving.png")';
     }
     document.getElementById("statusLabelDiv").innerHTML = change;
@@ -317,6 +317,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherMobile
           {...{
             // createLabelTextFrame,
+            labelText,
             quillRefs,
             pageMode,
             newCommentFrameRef,
@@ -334,6 +335,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             // createLabelTextFrame,
+            labelText,
             quillRefs,
             pageMode,
             newCommentFrameRef,
@@ -371,6 +373,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             // createLabelTextFrame,
+            labelText,
             quillRefs,
             pageMode,
             newCommentFrameRef,

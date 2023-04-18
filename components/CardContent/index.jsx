@@ -19,9 +19,9 @@ function CardContent(props) {
   return (
     <Content>
       {createTitle(task)}
-      <FundamentalsOfThermalPhysics>
-        {task.classTitle ? task.classTitle : task.assignmentTitle}
-      </FundamentalsOfThermalPhysics>
+      <ClassText>
+        {task.classTitle ? task.classTitle : task.assignmentTitle} 
+      </ClassText>
       {datesFrame}
       {createSubmissions(task)}
     </Content>
@@ -85,6 +85,7 @@ const Content = styled.div`
 
 const TaskTitle = styled.p`
   ${IbmplexsansNormalShark20px}
+  font-size: 16px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -92,8 +93,9 @@ const TaskTitle = styled.p`
   line-height: normal;
 `;
 
-const FundamentalsOfThermalPhysics = styled.div`
+const ClassText = styled.div`
   ${IbmplexsansNormalRiverBed14px}
+  font-size: 14px;
   position: relative;
   align-self: stretch;
   letter-spacing: 0.11px;
@@ -116,6 +118,7 @@ const IconClock = styled.img`
 
 const DueAt = styled.p`
   ${IbmplexsansNormalRiverBed14px}
+  font-size: 14px;
   position: relative;
   flex: 1;
   margin-top: -1px;

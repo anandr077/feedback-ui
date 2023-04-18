@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansMediumHorsesNeck13px } from "../../styledMixins";
 
 function StatusBubbles(props) {
   const { tag } = props;
@@ -25,7 +24,11 @@ const StatusBubble = styled.article`
 `;
 
 const StatusBubblesText = styled.div`
-  ${IbmplexsansMediumHorsesNeck13px}
+  color: var(--horses-neck);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 13px;
+  font-weight: 500;
+  font-style: normal;
   position: relative;
   width: fit-content;
   margin-top: -1px;

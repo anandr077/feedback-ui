@@ -29,7 +29,7 @@ import { doc } from "prettier";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
-  const [labelText, setLabelText] = useState("Start Typing...");
+  const [labelText, setLabelText] = useState("");
 
   const newCommentFrameRef = useRef(null);
 

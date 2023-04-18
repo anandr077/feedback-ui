@@ -159,7 +159,7 @@ function FeedbackTeacherLaptop(props) {
     return (
       <>
         <Frame1366>
-          <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
+          <QuestionText>{questionText}</QuestionText>
           {question.type === "MCQ" ? (
             mcqAnswerFrame(question)
           ) : (
@@ -294,6 +294,7 @@ function FeedbackTeacherLaptop(props) {
   }
 }
 
+
 const SaveDraftButtonContainer = styled.div`
   display: flex;
   align-items: center;
@@ -382,8 +383,9 @@ const Ellipse10 = styled.img`
 `;
 
 const OptionText = styled.div`
-  ${IbmplexsansNormalBlack14px}
-
+  ${IbmplexsansNormalBlack16px}
+  font-size: 16px;
+  font-weight: 500;
   flex: 1;
   letter-spacing: 0;
   line-height: normal;
@@ -518,8 +520,9 @@ const Frame1366 = styled.div`
   align-self: stretch;
 `;
 
-const Q1PoremIpsumDolo = styled.p`
+const QuestionText = styled.p`
   ${feedbacksIbmplexsansMediumPersianIndigo20px}
+  font-size: 20px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;

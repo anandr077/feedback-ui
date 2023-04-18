@@ -1,3 +1,6 @@
+import { useHistory } from "react-router-dom";
+
+
 const baseUrl = "http://localhost:8080";
 
 const fetchApi = async (url, options) => {
@@ -29,16 +32,6 @@ const patchApi = async (url, body, headers = {}) =>
 
 // ...
 
-export const login = async () => {
-  const token = getCookie("auth.access_token");
-  if (!token) {
-    const user = getCookie("userId");
-    return await postApi(baseUrl + "/users/login", {
-      username: user,
-      password: "password",
-    });
-  }
-};
 
 export const getUserName = () => getCookie("user.name");
 export const getUserId = () => getCookie("userId");
@@ -92,10 +85,40 @@ function errorHandler(response) {
 
 function handleErrors(response) {
   if (!response.ok) {
-    console.log(response);
-    login().then((data) => {
-      // window.location.reload();
-    });
+    return redirectToExternalIDP()
   }
   return response;
 }
+
+function redirectToExternalIDP() {
+
+  const clientId = "your_client_id";
+  const responseType = "code";
+  const redirectUri = encodeURIComponent("your_redirect_uri");
+  const state = "some_random_state";
+  const externalIDPLoginUrl = `https://jeddle.duxdigital.net/wp-json/moserver/authorize?response_type=code&client_id=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr&redirect_uri=http://localhost:1234/callback`;
+  window.location.href = externalIDPLoginUrl
+  // history.push(externalIDPLoginUrl);
+}
+
+export const exchangeCodeForToken = async (code) => {
+  const token = getCookie("auth.access_token");
+  if (!token) {
+
+    return await postApi(baseUrl +'/users/exchange', code);
+  }
+
+    
+};
+
+export const login = async () => {
+  const token = getCookie("auth.access_token");
+  if (!token) {
+    const user = getCookie("userId");
+    return await postApi(baseUrl + "/users/login", {
+      username: user,
+      password: "password",
+    });
+  }
+};
+

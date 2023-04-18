@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansMediumHorsesNeck13px } from "../../styledMixins";
 
 function StatusBubbles(props) {
   const { tag } = props;

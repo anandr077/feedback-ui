@@ -185,7 +185,7 @@ function FeedbackTeacherLaptop(props) {
               ></QuillEditor>
             </ToremIpsumDolorSi>
           )}
-          {/* {createSaveAnswerButton(question)} */}
+          {createSaveAnswerButton(question)}
         </Frame1366>
       </>
     );
@@ -500,7 +500,7 @@ const Frame1367 = styled.div`
   border-radius: 26px;
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
-  height: 500px;
+  // height: 500px;
   overflow-y: scroll;
 `;
 

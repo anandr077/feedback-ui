@@ -24,8 +24,6 @@ import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
-import StatusLabel from "../../StatusLabel";
-
 import FeedBacksDropDown from "../FeedbacksDropDown";
 import { doc } from "prettier";
 
@@ -103,10 +101,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
-  const handleChangeText = (change) => {
-    if (change === "All changes saved") {
+  const handleChangeText = (change, allSaved) => {
+    if (allSaved) {
       document.getElementById("statusLabelIcon").style.backgroundImage =
         'url("/icons/saved.png")';
+    }else {
+    document.getElementById("statusLabelIcon").style.backgroundImage =
+    'url("/icons/saving.png")';
     }
     document.getElementById("statusLabelDiv").innerHTML = change;
   };
@@ -201,11 +202,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const handlesaveAnswer = (serialNumber) => (contents) => {
-    handleChangeText("Saving...");
+    handleChangeText("Saving...", false);
     saveAnswer(submission.id, serialNumber, {
       answer: contents,
     }).then((_) => {
-      handleChangeText("All changes saved");
+      handleChangeText("All changes saved", true);
     });
     console.log(serialNumber);
   };

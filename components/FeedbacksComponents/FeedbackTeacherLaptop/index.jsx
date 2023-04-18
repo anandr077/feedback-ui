@@ -31,9 +31,11 @@ import ReviewsFrame1320 from "../ReviewsFrame1320";
 import CheckBox from "@mui/material/CheckBox";
 import "./FeedbackTeacherLaptop.css";
 import { getUserName, getUserRole } from "../../../service";
+import StatusLabel from "../../StatusLabel";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    labelText,
     quillRefs,
     pageMode,
     newCommentFrameRef,
@@ -182,6 +184,8 @@ function FeedbackTeacherLaptop(props) {
                   theme: "snow",
                   readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
                 }}
+                debounceTime={2000} 
+                onDebounce={methods.handlesaveAnswer(answer.serialNumber)}
               ></QuillEditor>
             </ToremIpsumDolorSi>
           )}
@@ -256,6 +260,7 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
             <Frame131612>{tasksListsDropDown}</Frame131612>
+            <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
             {submitButton()}
           </Frame1371>
           <Frame1368>

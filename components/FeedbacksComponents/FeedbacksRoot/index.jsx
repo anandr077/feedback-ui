@@ -24,11 +24,13 @@ import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
-
 import FeedBacksDropDown from "../FeedbacksDropDown";
+import { doc } from "prettier";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
+  const [labelText, setLabelText] = useState("Start Typing...");
+
   const newCommentFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
@@ -97,9 +99,18 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("Is Teacher " + isTeacher);
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  console.log("pageMode: " + pageMode);
+
+  const handleChangeText = (change, allSaved) => {
+    if (allSaved) {
+      document.getElementById("statusLabelIcon").style.backgroundImage =
+        'url("/icons/saved.png")';
+    }else {
+    document.getElementById("statusLabelIcon").style.backgroundImage =
+    'url("/icons/saving.png")';
+    }
+    document.getElementById("statusLabelDiv").innerHTML = change;
+  };
 
   const handleEditorMounted = (editor, index) => {
     console.log("Mounted " + JSON.stringify(editor) + " index " + index);
@@ -190,12 +201,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handlesaveAnswer = (serialNumber) => (_) => {
-    const contents = quillRefs.current[serialNumber - 1].getContents();
+  const handlesaveAnswer = (serialNumber) => (contents) => {
+    handleChangeText("Saving...", false);
     saveAnswer(submission.id, serialNumber, {
       answer: contents,
     }).then((_) => {
-      console.log("Answer saved");
+      handleChangeText("All changes saved", true);
     });
     console.log(serialNumber);
   };
@@ -281,6 +292,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const methods = {
+    // createLabelTextFrame,
     handleDeleteComment,
     handleShareWithClass,
     handleAddComment,
@@ -304,6 +316,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       mobile={
         <FeedbackTeacherMobile
           {...{
+            // createLabelTextFrame,
+            labelText,
             quillRefs,
             pageMode,
             newCommentFrameRef,
@@ -320,6 +334,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       tablet={
         <FeedbackTeacherLaptop
           {...{
+            // createLabelTextFrame,
+            labelText,
             quillRefs,
             pageMode,
             newCommentFrameRef,
@@ -337,6 +353,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <>
           <FeedbackTeacherLaptop
             {...{
+              labelText,
+              // createLabelTextFrame,
               quillRefs,
               pageMode,
               newCommentFrameRef,
@@ -354,6 +372,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       desktop={
         <FeedbackTeacherLaptop
           {...{
+            // createLabelTextFrame,
+            labelText,
             quillRefs,
             pageMode,
             newCommentFrameRef,

@@ -4,9 +4,6 @@ import "./ProfileDropdown.css";
 import styled from "styled-components";
 
 function ProfileDropdown() {
-  const deleteCookies = () => {
-    window.location.href = "/jeddle/logout";
-  };
   return (
     <>
       <ProfileDropDownElement text="View Profile" link="/jeddle/view-profile" />

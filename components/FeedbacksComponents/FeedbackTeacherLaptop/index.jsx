@@ -424,7 +424,6 @@ const Frame1386 = styled.div`
   position: relative;
   align-self: stretch;
   width: 80%;
-  max-width: 2000px;
   left: 10%;
 `;
 

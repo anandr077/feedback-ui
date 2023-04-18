@@ -176,16 +176,15 @@ const Screen = styled.div`
 const DropDownContainer = styled.div`
   position: absolute;
   top: 70px;
-  right: 10px;
+  right: 30px;
   z-index: 1;
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  padding: 8px 0;
-  height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 5px 2px 5px 2px;
 `;
 
 const Frame1344 = styled.div`

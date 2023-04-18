@@ -202,8 +202,8 @@ const MaskGroup = styled.img`
 const Frame1346 = styled.div`
   display: flex;
   width: 1441px;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 32px;
   position: relative;
 `;

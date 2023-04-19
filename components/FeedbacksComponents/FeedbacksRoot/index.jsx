@@ -26,6 +26,7 @@ import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
 import FeedBacksDropDown from "../FeedbacksDropDown";
 import { doc } from "prettier";
+import { range } from "lodash";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -249,7 +250,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           to: to,
         });
         newCommentFrameRef.current?.focus();
-        setShowNewComment(true);
+        if (from !== to) {
+          setShowNewComment(true);
+        }
       }
     }
   };

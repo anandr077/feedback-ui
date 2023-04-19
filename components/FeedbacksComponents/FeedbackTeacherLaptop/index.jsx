@@ -33,6 +33,7 @@ import "./FeedbackTeacherLaptop.css";
 import { getUserName, getUserRole } from "../../../service";
 import StatusLabel from "../../StatusLabel";
 import ShortcutsFrame from "../ShortcutsFrame";
+import OptionRemark from "../OptionRemark";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -135,12 +136,25 @@ function FeedbackTeacherLaptop(props) {
 
   const mcqAnswerFrame = (question) => {
     const options = question.options.map((option) => {
-      console.log("##", option.option);
       return (
-        <OptionCotainer>
-          <CheckBox />
-          <OptionText>{option.option}</OptionText>
-        </OptionCotainer>
+        <>
+          {pageMode === "REVIEW" || pageMode === "CLOSED" ? (
+            <ReviewCheckBoxContainer>
+              {" "}
+              <OptionCotainer>
+                <CheckBox disabled /> <OptionText>{option.option}</OptionText>{" "}
+              </OptionCotainer>
+              <OptionRemarkContainer>
+                <OptionRemark isCorrect={true} />
+              </OptionRemarkContainer>
+            </ReviewCheckBoxContainer>
+          ) : (
+            <OptionCotainer>
+              <CheckBox />
+              <OptionText>{option.option}</OptionText>{" "}
+            </OptionCotainer>
+          )}
+        </>
       );
     });
     return <OptionsRoot>{options}</OptionsRoot>;
@@ -287,6 +301,16 @@ function FeedbackTeacherLaptop(props) {
     </div>
   );
 }
+
+const ReviewCheckBoxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const OptionRemarkContainer = styled.div`
+  display: flex;
+  padding-left: 0.5em;
+  padding-bottom: 0.75em;
+`;
 
 const SaveDraftButtonContainer = styled.div`
   display: flex;

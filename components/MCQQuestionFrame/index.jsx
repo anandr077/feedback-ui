@@ -4,10 +4,12 @@ import Frame1297 from "../Frame1297";
 import {
   IbmplexsansNormalElectricViolet14px,
   IbmplexsansNormalShark20px,
+  IbmplexsansNormalFuscousGray14px,
 } from "../../styledMixins";
 import Frame1291 from "../Frame1291";
 import Buttons4 from "../Buttons4";
 import Group1255 from "../Group1255";
+import CheckBox from "@mui/material/CheckBox";
 
 export default function MCQQuestionFrame(props) {
   const {
@@ -25,6 +27,13 @@ export default function MCQQuestionFrame(props) {
           id={"option_" + serialNumber + "_" + index}
           placeholder={"Option " + index}
         />
+        <CheckBoxContainer>
+          <CheckBox
+            id={"option_checkbox_" + serialNumber + "_" + index}
+            label="label"
+          />
+          Correct Response
+        </CheckBoxContainer>
       </OptionsContainer>
     );
   });
@@ -63,12 +72,28 @@ export default function MCQQuestionFrame(props) {
   );
 }
 
-const OptionsContainer = styled.div`
+const CheckBoxContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  align-self: stretch;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.57;
+  letter-spacing: normal;
+  text-align: left;
+  color: #1e252a;
+  font-color: #1e252a;
+`;
+
+const OptionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
   padding: 13px 20px;
   align-self: stretch;
 `;

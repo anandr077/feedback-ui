@@ -1,6 +1,5 @@
 import { useHistory } from "react-router-dom";
 
-
 const baseUrl = "http://localhost:8080";
 
 const fetchApi = async (url, options) => {
@@ -32,7 +31,6 @@ const patchApi = async (url, body, headers = {}) =>
 
 // ...
 
-
 export const getUserName = () => getCookie("user.name");
 export const getUserId = () => getCookie("userId");
 export const getUserRole = () => getCookie("role");
@@ -46,21 +44,41 @@ export const getCookie = (name) => {
 };
 
 export const getTasks = async () => await getApi(baseUrl + "/tasks");
-export const getModelResponses = async () => await getApi(baseUrl + "/feedbacks/modelResponses");
-export const getCompletedTasks = async () => await getApi(baseUrl + "/completed-tasks");
-export const getNotifications = async () => await getApi(baseUrl + "/notifications");
-export const getAssignmentById = async (assignmentId) => await getApi(baseUrl + "/assignments/" + assignmentId);
-export const getAssignments = async () => await getApi(baseUrl + "/assignments");
-export const startSubmission = async (assignmentDetails) => await postApi(baseUrl + "/submissions", assignmentDetails);
-export const getSubmissionById = async (submissionId) => await getApi(baseUrl + "/submissions/" + submissionId);
-export const getSubmissionsByAssignmentId = async (assignmentId) => await getApi(baseUrl + "/assignments/" + assignmentId + "/submissions");
-export const addFeedback = async (submissionId, comment) => await postApi(baseUrl + "/submissions/" + submissionId + "/feedbacks", comment);
-export const deleteFeedback = async (submissionId, commentId) => await fetchApi(baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId, { method: "DELETE" });
-export const getCommentsForSubmission = async (submissionId) => await getApi(baseUrl + "/submissions/" + submissionId + "/comments");
-export const getModelResponsesForClass = async (classId) => await getApi(baseUrl + "/classes/" + classId + "/modelResponses");
-export const getStudentsForClass = async (classId) => await getApi(baseUrl + "/classes/" + classId + "/students");
+export const getModelResponses = async () =>
+  await getApi(baseUrl + "/feedbacks/modelResponses");
+export const getCompletedTasks = async () =>
+  await getApi(baseUrl + "/completed-tasks");
+export const getNotifications = async () =>
+  await getApi(baseUrl + "/notifications");
+export const getAssignmentById = async (assignmentId) =>
+  await getApi(baseUrl + "/assignments/" + assignmentId);
+export const getAssignments = async () =>
+  await getApi(baseUrl + "/assignments");
+export const startSubmission = async (assignmentDetails) =>
+  await postApi(baseUrl + "/submissions", assignmentDetails);
+export const getSubmissionById = async (submissionId) =>
+  await getApi(baseUrl + "/submissions/" + submissionId);
+export const getSubmissionsByAssignmentId = async (assignmentId) =>
+  await getApi(baseUrl + "/assignments/" + assignmentId + "/submissions");
+export const addFeedback = async (submissionId, comment) =>
+  await postApi(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks",
+    comment
+  );
+export const deleteFeedback = async (submissionId, commentId) =>
+  await fetchApi(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
+    { method: "DELETE" }
+  );
+export const getCommentsForSubmission = async (submissionId) =>
+  await getApi(baseUrl + "/submissions/" + submissionId + "/comments");
+export const getModelResponsesForClass = async (classId) =>
+  await getApi(baseUrl + "/classes/" + classId + "/modelResponses");
+export const getStudentsForClass = async (classId) =>
+  await getApi(baseUrl + "/classes/" + classId + "/students");
 export const getClasses = async () => await getApi(baseUrl + "/classes");
-export const createAssignment = async (assignment) => await postApi(baseUrl + "/assignments", assignment);
+export const createAssignment = async (assignment) =>
+  await postApi(baseUrl + "/assignments", assignment);
 export const saveAnswer = async (submissionId, serialNumber, answer) =>
   await patchApi(
     baseUrl + "/submissions/" + submissionId + "/answers/" + serialNumber,
@@ -85,30 +103,26 @@ function errorHandler(response) {
 
 function handleErrors(response) {
   if (!response.ok) {
-    return redirectToExternalIDP()
+    return redirectToExternalIDP();
   }
   return response;
 }
 
 function redirectToExternalIDP() {
-
   const clientId = "your_client_id";
   const responseType = "code";
   const redirectUri = encodeURIComponent("your_redirect_uri");
   const state = "some_random_state";
   const externalIDPLoginUrl = `https://jeddle.duxdigital.net/wp-json/moserver/authorize?response_type=code&client_id=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr&redirect_uri=http://localhost:1234/callback`;
-  window.location.href = externalIDPLoginUrl
+  window.location.href = externalIDPLoginUrl;
   // history.push(externalIDPLoginUrl);
 }
 
 export const exchangeCodeForToken = async (code) => {
   const token = getCookie("auth.access_token");
   if (!token) {
-
-    return await postApi(baseUrl +'/users/exchange', code);
+    return await postApi(baseUrl + "/users/exchange", code);
   }
-
-    
 };
 
 export const login = async () => {
@@ -121,4 +135,3 @@ export const login = async () => {
     });
   }
 };
-

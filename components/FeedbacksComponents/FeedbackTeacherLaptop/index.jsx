@@ -236,7 +236,10 @@ function FeedbackTeacherLaptop(props) {
             cancelButtonOnClick={methods.hideNewCommentDiv}
           />
           <Line6 src="/icons/line.png" alt="Line 6" />
-          <ShortcutsFrame shortcuts={shortcuts} />
+          <ShortcutsFrame
+            shortcuts={shortcuts}
+            handleShortcutAddComment={methods.handleShortcutAddComment}
+          />
           {shareWithClassFrame()}
         </Frame1406>
       </Frame1329>

@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
 function Shortcuts(props) {
-  const { shortcuts } = props;
+  const { shortcuts, handleShortcutAddComment } = props;
   const allshortcuts = shortcuts.map((shortcut) => {
     return (
-      <ShortcutBox>
+      <ShortcutBox onClick={() => handleShortcutAddComment(shortcut.text)}>
         <ShortcutText>{shortcut.text}</ShortcutText>
       </ShortcutBox>
     );

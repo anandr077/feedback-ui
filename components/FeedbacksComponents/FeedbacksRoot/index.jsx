@@ -140,6 +140,21 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
   }
 
+  function handleShortcutAddComment(commentText) {
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: commentText,
+      range: selectedRange,
+      type: "COMMENT",
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
+  }
+
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
       setComments(comments.filter((c) => c.id != commentId));
@@ -302,6 +317,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     hideNewCommentDiv,
     handleEditorMounted,
     handleKeyPress,
+    handleShortcutAddComment,
     handleSubmissionReviewed,
     handleSaveSubmissionForReview,
     handleSubmissionClosed,

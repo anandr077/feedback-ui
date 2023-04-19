@@ -102,14 +102,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
   const handleChangeText = (change, allSaved) => {
-    if (allSaved) {
-      document.getElementById("statusLabelIcon").style.backgroundImage =
-        'url("/icons/saved.png")';
-    }else {
-    document.getElementById("statusLabelIcon").style.backgroundImage =
-    'url("/icons/saving.png")';
+    if (document.getElementById("statusLabelIcon")) {
+      if (allSaved) {
+        document.getElementById("statusLabelIcon").style.backgroundImage =
+          'url("/icons/saved.png")';
+      } else {
+        document.getElementById("statusLabelIcon").style.backgroundImage =
+          'url("/icons/saving.png")';
+      }
+      document.getElementById("statusLabelDiv").innerHTML = change;
     }
-    document.getElementById("statusLabelDiv").innerHTML = change;
   };
 
   const handleEditorMounted = (editor, index) => {

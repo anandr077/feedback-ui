@@ -163,7 +163,7 @@ function FeedbackTeacherLaptop(props) {
           {question.type === "MCQ" ? (
             mcqAnswerFrame(question)
           ) : (
-            <ToremIpsumDolorSi
+            <QuillContainer
               onClick={() => {
                 methods.onSelectionChange(answer.serialNumber)(
                   quillRefs.current[answer.serialNumber - 1].getSelection()
@@ -184,12 +184,11 @@ function FeedbackTeacherLaptop(props) {
                   theme: "snow",
                   readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
                 }}
-                debounceTime={2000} 
+                debounceTime={2000}
                 onDebounce={methods.handlesaveAnswer(answer.serialNumber)}
               ></QuillEditor>
-            </ToremIpsumDolorSi>
+            </QuillContainer>
           )}
-          {createSaveAnswerButton(question)}
         </Frame1366>
       </>
     );
@@ -258,9 +257,15 @@ function FeedbackTeacherLaptop(props) {
         </Frame1387>
         <Frame1386>
           <Frame1371>
-            <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
+            <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-            <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
+            {!(pageMode === "REVIEW") && (
+              <StatusLabel
+                key="statusLabel"
+                id="statusLabel"
+                text={labelText}
+              />
+            )}
             {submitButton()}
           </Frame1371>
           <Frame1368>
@@ -269,31 +274,12 @@ function FeedbackTeacherLaptop(props) {
             </Group1225>
             {feedbackFrame()}
           </Frame1368>
-          <Frame1370>
-            <Frame131612>{tasksListsDropDown}</Frame131612>
-            {submitButton()}
-          </Frame1370>
         </Frame1386>
         {tabletView ? <FooterSmall /> : <Footer />}
       </Frame1388>
     </div>
   );
-
-  function createSaveAnswerButton(question) {
-    if (pageMode === "REVIEW" || pageMode === "CLOSED") return <></>;
-    return (
-      <SaveDraftButtonContainer>
-        <Buttons2
-          id={"saveAnswer_" + question.serialNumber}
-          button="Save Answer"
-          arrowright={true}
-          onClickFn={methods.handlesaveAnswer(question.serialNumber)}
-        ></Buttons2>
-      </SaveDraftButtonContainer>
-    );
-  }
 }
-
 
 const SaveDraftButtonContainer = styled.div`
   display: flex;
@@ -432,6 +418,8 @@ const Frame1386 = styled.div`
   align-self: stretch;
   width: 80%;
   left: 10%;
+  position: sticky;
+  height: 70vh;
 `;
 
 const Frame1371 = styled.div`
@@ -442,7 +430,7 @@ const Frame1371 = styled.div`
   align-self: stretch;
 `;
 
-const PhysicsThermodyna = styled.h1`
+const AssignmentTitle = styled.h1`
   ${feedbacksIbmplexsansBoldShark36px}
   position: relative;
   flex: 1;
@@ -506,7 +494,7 @@ const Frame1367 = styled.div`
   border-radius: 26px;
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
-  // height: 500px;
+  height: 550px;
   overflow-y: scroll;
 `;
 
@@ -530,7 +518,7 @@ const QuestionText = styled.p`
   line-height: normal;
 `;
 
-const ToremIpsumDolorSi = styled.p`
+const QuillContainer = styled.p`
   ${feedbacksIbmplexsansNormalShark20px}
   position: relative;
   align-self: stretch;
@@ -635,7 +623,7 @@ const Frame1331 = styled.div`
 
   background-color: var(--white);
   border-radius: 16px;
-  height: 500px;
+  height: 550px;
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;

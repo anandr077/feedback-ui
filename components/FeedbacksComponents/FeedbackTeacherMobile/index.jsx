@@ -87,7 +87,6 @@ function FeedbackTeacherMobile(props) {
               ></QuillEditor>
             </ToremIpsumDolorSi>
           )}
-         
         </Frame1366>
       </>
     );

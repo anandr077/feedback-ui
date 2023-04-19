@@ -20,7 +20,7 @@ function CardContent(props) {
     <Content>
       {createTitle(task)}
       <ClassText>
-        {task.classTitle ? task.classTitle : task.assignmentTitle} 
+        {task.classTitle ? task.classTitle : task.assignmentTitle}
       </ClassText>
       {datesFrame}
       {createSubmissions(task)}

@@ -19,8 +19,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/callback" >
-          <Callback/>
+        <Route path="/callback">
+          <Callback />
         </Route>
         <Route path="/tasks">
           <StudentTaskRoot />

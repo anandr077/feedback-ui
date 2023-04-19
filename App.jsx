@@ -10,6 +10,7 @@ import { getUserRole } from "./service";
 import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
 import CompletedRoot from "./components/Completed/CompletedRoot";
 import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
+import Callback from "./components/Callback";
 
 function App() {
   const role = getUserRole();
@@ -18,6 +19,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/callback" >
+          <Callback/>
+        </Route>
         <Route path="/tasks">
           <StudentTaskRoot />
         </Route>

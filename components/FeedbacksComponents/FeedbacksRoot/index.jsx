@@ -313,6 +313,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     studentUpdate,
   };
 
+  const shortcuts = [
+    { text: "Use More Techniques" },
+    { text: "Shorten quotes" },
+    { text: "This is too long" },
+    { text: "Great answer!" },
+    { text: "Nice!" },
+  ];
+
   return (
     <ReactiveRender
       mobile={
@@ -340,6 +348,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             labelText,
             quillRefs,
             pageMode,
+            shortcuts,
             newCommentFrameRef,
             methods,
             showNewComment,
@@ -359,6 +368,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               // createLabelTextFrame,
               quillRefs,
               pageMode,
+              shortcuts,
               newCommentFrameRef,
               methods,
               showNewComment,
@@ -378,6 +388,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             labelText,
             quillRefs,
             pageMode,
+            shortcuts,
             newCommentFrameRef,
             methods,
             showNewComment,

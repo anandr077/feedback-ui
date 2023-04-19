@@ -30,6 +30,7 @@ const SubmitCommentFrameRootRoot = styled.div`
   background-size: cover;
   background-blend-mode: ;
   background-image: ;
+  width: 100%;
 `;
 const SmallButton = styled.button`
   width: 50px;

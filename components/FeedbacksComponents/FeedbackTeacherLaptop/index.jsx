@@ -32,12 +32,14 @@ import CheckBox from "@mui/material/CheckBox";
 import "./FeedbackTeacherLaptop.css";
 import { getUserName, getUserRole } from "../../../service";
 import StatusLabel from "../../StatusLabel";
+import ShortcutsFrame from "../ShortcutsFrame";
 
 function FeedbackTeacherLaptop(props) {
   const {
     labelText,
     quillRefs,
     pageMode,
+    shortcuts,
     newCommentFrameRef,
     showNewComment,
     hideNewCommentDiv,
@@ -233,6 +235,8 @@ function FeedbackTeacherLaptop(props) {
             submitButtonOnClick={methods.handleAddComment}
             cancelButtonOnClick={methods.hideNewCommentDiv}
           />
+          <Line6 src="/icons/line.png" alt="Line 6" />
+          <ShortcutsFrame shortcuts={shortcuts} />
           {shareWithClassFrame()}
         </Frame1406>
       </Frame1329>
@@ -296,8 +300,6 @@ const Screen = styled.div`
   top: 0;
   left: 0;
   z-index: 0;
-
-  background-color: rgba(0, 0, 0, 0.5);
 `;
 const CommentContiner = styled.div`
   position: absolute;

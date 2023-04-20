@@ -21,6 +21,7 @@ const FooterContainer = styled.div`
   align-self: stretch;
   background-color: var(--white);
   height: 100px;
+
   width: 100%;
 `;
 

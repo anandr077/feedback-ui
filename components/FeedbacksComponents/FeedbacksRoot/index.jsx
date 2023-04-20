@@ -14,7 +14,7 @@ import {
   markSubmsissionClosed,
   getUserId,
 } from "../../../service";
-import { saveAnswer, submitAssignment } from "../../../service.js";
+import { saveAnswer, submitAssignmen, getShortcuts } from "../../../service.js";
 import {
   taskHeaderProps,
   assignmentsHeaderProps,
@@ -332,13 +332,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     studentUpdate,
   };
 
-  const shortcuts = [
-    { text: "Use More Techniques" },
-    { text: "Shorten quotes" },
-    { text: "This is too long" },
-    { text: "Great answer!" },
-    { text: "Nice!" },
-  ];
+  const shortcuts = getShortcuts();
 
   return (
     <ReactiveRender

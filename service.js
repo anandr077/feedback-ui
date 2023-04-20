@@ -135,3 +135,40 @@ export const login = async () => {
     });
   }
 };
+
+export const getShortcuts = () => {
+  const shortcuts = [
+    { text: "Use More Techniques" },
+    { text: "Shorten Quote" },
+    { text: "This is too long" },
+    { text: "Great answer!" },
+    { text: "Nice!" },
+    { text: "Remove" },
+    { text: "Shorten" },
+    { text: "Storytelling!" },
+    { text: "Incorrect syntax" },
+    { text: "Check grammar" },
+    { text: "Merge these sentences" },
+    { text: "Split into two sentences" },
+    { text: "Too clunky" },
+    { text: "Repetitive" },
+    { text: "Too abrupt" },
+    { text: "Change start" },
+    { text: "Be more specific" },
+    { text: "Expand on this" },
+    { text: "Avoid listing" },
+    { text: "Shorten quote" },
+    { text: "Quote does not flow" },
+    { text: "Quote does not prove your point" },
+    { text: "Add a technique" },
+    { text: "Use a different technique" },
+    { text: "Contextualise" },
+    { text: "Wrong technique" },
+    { text: "Refer to form" },
+    { text: "Evidence?" },
+    { text: "Link to question" },
+    { text: "Repeating the question" },
+    { text: "Use actual key terms of question" },
+  ];
+  return shortcuts;
+};

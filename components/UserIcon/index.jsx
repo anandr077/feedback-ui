@@ -56,6 +56,7 @@ const Frame41 = styled.div`
   justify-content: flex-end;
   gap: 12px;
   position: relative;
+  cursor: pointer;
 `;
 
 const MaskGroup = styled.img`

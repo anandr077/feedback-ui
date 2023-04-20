@@ -6,6 +6,7 @@ import {
   IbmplexsansNormalShark20px,
 } from "../../styledMixins";
 import { formattedDate } from "../../dates";
+
 function CardContent(props) {
   const { task } = props;
   const datesFrame = task.dueAt ? (

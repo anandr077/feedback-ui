@@ -28,58 +28,40 @@ import {
   createModelResponsesFrames,
 } from "../TeacherClassesRoot/methods";
 import ImageDropdownMenu from "../../ImageDropdownMenu";
-
+import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
+import Footer from "../../Footer";
+import Header from "../../Header";
+import Frame14072 from "../../TeacherDashboard/Frame14072";
+import Frame12842 from "../../TeacherDashboard/Frame12842";
+import ImageDropdownMenu from "../../ImageDropdownMenu";
+import Frame13136 from "../Frame13136";
+import Frame13373 from "../Frame13373";
 function TeacherClassesTablet(props) {
   const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
     setClassId,
     classes,
     modelResponses,
     students,
-    headerProps,
-    frame5,
+    
     title,
-    x12Engadv3,
-    frame12841,
-    xclass,
-    frame12842,
+    
     line171,
-    line172,
-    line18,
-    line19,
-    line173,
+    
     line174,
     line175,
     crown,
-    exemplarResponses,
     line176,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
-    notificationsProps,
-    frame13124Props,
-    frame1407Props,
-    frame12082Props,
-    frame131371Props,
-    frame131372Props,
-    frame131373Props,
-    frame131374Props,
-    frame131375Props,
-    frame131376Props,
-    frame131377Props,
-    frame131378Props,
-    frame131379Props,
+    
     frame133741Props,
     frame133742Props,
     frame131381Props,
     frame131382Props,
     frame131383Props,
     frame131384Props,
-    group1205Props,
-    cards3Props,
-    cards41Props,
-    cards42Props,
-    cards43Props,
+
   } = props;
 
   return (
@@ -112,12 +94,23 @@ function TeacherClassesTablet(props) {
           </Frame1339>
           <Frame1416>
             <Frame1340>
-              <Frame13374 tasks={frame133741Props.tasks} />
-              <Line17 src={line174} alt="Line 17" />
+              <Frame1337>
+                <Classes>Assignments</Classes>
+                <Frame14072
+                  showCreateNew={false}
+                  iconsaxLinearAdd= "/img/iconsax-linear-add-1@2x.png"
+                  line17= "/img/line-17-22@2x.png"
+                  arrowright= "/img/arrowright-8@2x.png"
+                />
+              </Frame1337>
+              <Line17 src={line176} alt="Line 17" />
               <Frame1307>
-                <Frame12843 />
-                <Frame12832 />
-                <Frame12822 />
+                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842
+                  title={"AWAITING SUBMISSIONS"}
+                  count={awaitingSubmissions.length}
+                />
+                <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             <Frame1342>
@@ -171,6 +164,18 @@ function TeacherClassesTablet(props) {
     </div>
   );
 }
+
+
+
+const Classes = styled.div`
+  ${IbmplexsansMediumRiverBed24px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
 const Frame1422 = styled.div`
   display: flex;
   flex-direction: column;

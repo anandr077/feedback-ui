@@ -3,76 +3,56 @@ import styled from "styled-components";
 import { classesHomeHeaderProps } from "../../../utils/headerProps";
 import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
+import ImageDropdownMenu from "../../ImageDropdownMenu";
 import Buttons from "../Buttons";
 import Frame12822 from "../Frame12822";
 import Frame12832 from "../Frame12832";
 import Frame12843 from "../Frame12843";
 import Frame13134 from "../Frame13134";
 import Frame13372 from "../Frame13372";
-import Group1205 from "../Group1205";
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalShark16px,
+  IbmplexsansNormalShark16px
 } from "../styledMixins";
 import {
   createModelResponsesFrames,
-  createStudentsFrames,
+  createStudentsFrames
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesMobile.css";
 import ImageDropdownMenu from "../../ImageDropdownMenu";
-
+import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
+import Footer from "../../Footer";
+import Header from "../../Header";
+import Frame14072 from "../../TeacherDashboard/Frame14072";
+import Frame12842 from "../../TeacherDashboard/Frame12842";
+import ImageDropdownMenu from "../../ImageDropdownMenu";
+import Frame13136 from "../Frame13136";
+import Frame13373 from "../Frame13373";
 function TeacherClassesMobile(props) {
   const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
     setClassId,
     classes,
     modelResponses,
     students,
-    headerProps,
-    frame5,
     title,
-    x12Engadv3,
-    frame12841,
-    xclass,
-    frame12842,
-    subject,
-    frame12843,
     line171,
-    line172,
-    line18,
-    line19,
     line173,
     line174,
     crown,
-    exemplarResponses,
     line175,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
-    notificationsProps,
     buttonsProps,
-    frame13122Props,
-    frame1208Props,
-    frame12082Props,
-    frame131331Props,
-    frame131332Props,
-    frame131333Props,
-    frame131334Props,
-    frame131335Props,
-    frame131336Props,
-    frame13191Props,
-    frame13192Props,
-    frame13193Props,
     frame133721Props,
     frame133722Props,
     frame131341Props,
     frame131342Props,
     frame131343Props,
     frame131344Props,
-    group1205Props,
   } = props;
 
   return (
@@ -105,12 +85,23 @@ function TeacherClassesMobile(props) {
           </Frame1339>
           <Frame1416>
             <Frame1340>
-              <Frame13372 tasks={frame133721Props.tasks} />
-              <Line17 src={line173} alt="Line 17" />
+              <Frame1337>
+                <Classes>Assignments</Classes>
+                <Frame14072
+                  showCreateNew={false}
+                  iconsaxLinearAdd= "/img/iconsax-linear-add-1@2x.png"
+                  line17= "/img/line-17-22@2x.png"
+                  arrowright= "/img/arrowright-8@2x.png"
+                />
+              </Frame1337>
+              <Line17 src={line175} alt="Line 17" />
               <Frame1307>
-                <Frame12843 />
-                <Frame12832 />
-                <Frame12822 />
+                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842
+                  title={"AWAITING SUBMISSIONS"}
+                  count={awaitingSubmissions.length}
+                />
+                <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             <Frame1342>
@@ -123,27 +114,6 @@ function TeacherClassesMobile(props) {
                   }
                   number={frame131341Props.number}
                   group1312={frame131341Props.group1312}
-                />
-                <Frame13134
-                  storytellingNotAnalysing={
-                    frame131342Props.storytellingNotAnalysing
-                  }
-                  number={frame131342Props.number}
-                  group1312={frame131342Props.group1312}
-                />
-                <Frame13134
-                  storytellingNotAnalysing={
-                    frame131343Props.storytellingNotAnalysing
-                  }
-                  number={frame131343Props.number}
-                  group1312={frame131343Props.group1312}
-                />
-                <Frame13134
-                  storytellingNotAnalysing={
-                    frame131344Props.storytellingNotAnalysing
-                  }
-                  number={frame131344Props.number}
-                  group1312={frame131344Props.group1312}
                 />
               </Frame12844>
             </Frame1342>
@@ -164,6 +134,15 @@ function TeacherClassesMobile(props) {
     </div>
   );
 }
+const Classes = styled.div`
+  ${IbmplexsansMediumRiverBed24px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
 
 const Frame1422 = styled.div`
   display: flex;

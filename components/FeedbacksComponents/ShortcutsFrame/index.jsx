@@ -25,7 +25,6 @@ const ShortcutsContainer = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   overflow: hidden;
-  cursor: pointer;
 `;
 
 const ShortcutBox = styled.div`
@@ -39,6 +38,7 @@ const ShortcutBox = styled.div`
   border-radius: 24.5px;
   border: 1px solid;
   border-color: var(--electric-violet);
+  cursor: pointer;
 `;
 
 const ShortcutText = styled.div`

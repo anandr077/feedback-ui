@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansMediumPersianIndigo16px } from "../../../styledMixins";
+import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
 function ReviewsFrame1320(props) {
   const { children, className } = props;
@@ -41,8 +41,9 @@ const Frame13201 = styled.div`
 `;
 
 const Feedback = styled.div`
-  ${IbmplexsansMediumPersianIndigo16px}
+${IbmplexsansNormalPersianIndigo14px}
   position: relative;
+
   width: fit-content;
   margin-top: -1px;
   letter-spacing: 0;

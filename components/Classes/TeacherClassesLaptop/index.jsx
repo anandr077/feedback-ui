@@ -6,13 +6,11 @@ import styled from "styled-components";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
 import Header from "../../Header";
+import Frame14072 from "../../TeacherDashboard/Frame14072";
+import Frame12842 from "../../TeacherDashboard/Frame12842";
 import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Frame12822 from "../Frame12822";
-import Frame12832 from "../Frame12832";
-import Frame12843 from "../Frame12843";
 import Frame13136 from "../Frame13136";
 import Frame13373 from "../Frame13373";
-import Group1205 from "../Group1205";
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansMediumRiverBed24px,
@@ -25,46 +23,19 @@ import "./TeacherClassesLaptop.css";
 import { createModelResponsesFrames } from "../TeacherClassesRoot/methods";
 function TeacherClassesLaptop(props) {
   const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
     setClassId,
     classes,
     modelResponses,
     students,
-    title,
-    x12Engadv3,
-    frame12841,
-    xclass,
-    frame12842,
     line171,
-    line172,
-    line18,
-    line19,
-    line173,
-    line174,
     line175,
     crown,
-    exemplarResponses,
     line176,
-    x2021JeddleAllRightsReserved,
-    teacherDashboardHeaderProps,
-    frame13123Props,
-    frame1407Props,
-    frame12082Props,
-    frame131351Props,
-    frame131352Props,
-    frame131353Props,
-    frame131354Props,
-    frame131355Props,
-    frame131356Props,
-    frame131357Props,
-    frame131358Props,
-    frame131359Props,
-    frame133731Props,
     frame133732Props,
     frame131361Props,
-    frame131362Props,
-    frame131363Props,
-    frame131364Props,
-    group1205Props,
   } = props;
 
   return (
@@ -97,12 +68,23 @@ function TeacherClassesLaptop(props) {
           </Frame1339>
           <Frame1416>
             <Frame1340>
-              <Frame13373 tasks="Assignments" />
-              <Line17 src={line174} alt="Line 17" />
+              <Frame1337>
+                <Classes>Assignments</Classes>
+                <Frame14072
+                  showCreateNew={false}
+                  iconsaxLinearAdd= "/img/iconsax-linear-add-1@2x.png"
+                  line17= "/img/line-17-22@2x.png"
+                  arrowright= "/img/arrowright-8@2x.png"
+                />
+              </Frame1337>
+              <Line17 src={line176} alt="Line 17" />
               <Frame1307>
-                <Frame12843 />
-                <Frame12832 />
-                <Frame12822 />
+                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842
+                  title={"AWAITING SUBMISSIONS"}
+                  count={awaitingSubmissions.length}
+                />
+                <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             <Frame1342>
@@ -115,27 +97,6 @@ function TeacherClassesLaptop(props) {
                   }
                   number={frame131361Props.number}
                   group1312={frame131361Props.group1312}
-                />
-                <Frame13136
-                  storytellingNotAnalysing={
-                    frame131362Props.storytellingNotAnalysing
-                  }
-                  number={frame131362Props.number}
-                  group1312={frame131362Props.group1312}
-                />
-                <Frame13136
-                  storytellingNotAnalysing={
-                    frame131363Props.storytellingNotAnalysing
-                  }
-                  number={frame131363Props.number}
-                  group1312={frame131363Props.group1312}
-                />
-                <Frame13136
-                  storytellingNotAnalysing={
-                    frame131364Props.storytellingNotAnalysing
-                  }
-                  number={frame131364Props.number}
-                  group1312={frame131364Props.group1312}
                 />
               </Frame12844>
             </Frame1342>
@@ -156,6 +117,16 @@ function TeacherClassesLaptop(props) {
     </div>
   );
 }
+
+
+const Classes = styled.div`
+  ${IbmplexsansMediumRiverBed24px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 
 const Frame1422 = styled.div`
   display: flex;

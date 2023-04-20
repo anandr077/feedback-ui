@@ -11,12 +11,14 @@ import {
   getModelResponsesForClass,
   getClasses,
   getStudentsForClass,
+  getAssignmentsByClassId,
 } from "../../../service.js";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
   const [classId, setClassId] = useState(classIdFromUrl);
   const [classes, setClasses] = useState([]);
+  const [assignments, setAssignments] = React.useState([]);
 
   const [students, setStudents] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
@@ -33,9 +35,11 @@ export default function TeacherClassesRoot() {
       Promise.all([
         getModelResponsesForClass(classId),
         getStudentsForClass(classId),
-      ]).then(([modelResponses, studentsResponse]) => {
+        getAssignmentsByClassId(classId)
+      ]).then(([modelResponses, studentsResponse, assignmentsResponse]) => {
         setModelResponses(modelResponses);
         setStudents(studentsResponse);
+        setAssignments(assignmentsResponse);
         setIsLoading(false);
       });
     }
@@ -46,14 +50,28 @@ export default function TeacherClassesRoot() {
     return <div>Loading...</div>;
   }
 
+  const drafts = assignments.filter(
+    (assignment) => assignment.submissionsStatus === "DRAFT"
+  );
+  const awaitingSubmissions = assignments.filter(
+    (assignment) => assignment.submissionsStatus === "AWAITING_SUBMISSIONS"
+  );
+  const feedbacks = assignments.filter(
+    (assignment) => assignment.submissionsStatus === "FEEDBACK"
+  );
+
   console.log("x modelResponses: ", modelResponses);
   return (
     <ReactiveRender
       mobile={
         <TeacherClassesMobile
           {...{
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             classes,
             setClassId,
+            assignments,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },
@@ -64,8 +82,12 @@ export default function TeacherClassesRoot() {
       tablet={
         <TeacherClassesTablet
           {...{
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             classes,
             setClassId,
+            assignments,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },
@@ -76,8 +98,12 @@ export default function TeacherClassesRoot() {
       laptop={
         <TeacherClassesLaptop
           {...{
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             classes,
             setClassId,
+            assignments,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },
@@ -88,8 +114,12 @@ export default function TeacherClassesRoot() {
       desktop={
         <TeacherClassesDesktop
           {...{
+            drafts,
+            awaitingSubmissions,
+            feedbacks,
             classes,
             setClassId,
+            assignments,
             modelResponses,
             students,
             headerProps: { classesHomeHeaderProps },

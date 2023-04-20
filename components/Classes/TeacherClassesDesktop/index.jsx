@@ -10,6 +10,8 @@ import Frame1285 from "../Frame1285";
 import Frame13132 from "../Frame13132";
 import Frame1337 from "../Frame1337";
 import Frame6 from "../Frame6";
+import Frame13136 from "../Frame13136";
+import Frame13373 from "../Frame13373";
 import Group1205 from "../Group1205";
 import {
   IbmplexsansBoldShark64px,
@@ -23,9 +25,14 @@ import {
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesDesktop.css";
 import ImageDropdownMenu from "../../ImageDropdownMenu";
+import Frame14072 from "../../TeacherDashboard/Frame14072";
+import Frame12842 from "../../TeacherDashboard/Frame12842";
 
 function TeacherClassesDesktop(props) {
   const {
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
     setClassId,
     classes,
     modelResponses,
@@ -98,15 +105,26 @@ function TeacherClassesDesktop(props) {
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
-            <Frame1340>
-              <Frame1337 tasks={"Assignments"} />
-              <Line17 src={line174} alt="Line 17" />
+            <Frame1342>
+              <Frame1337>
+                <ExemplarResponses>Assignments</ExemplarResponses>
+                <Frame14072
+                  showCreateNew={false}
+                  iconsaxLinearAdd= "/img/iconsax-linear-add-1@2x.png"
+                  line17= "/img/line-17-22@2x.png"
+                  arrowright= "/img/arrowright-8@2x.png"
+                />
+              </Frame1337>
+              <Line17 src={line176} alt="Line 17" />
               <Frame1307>
-                <Frame12843 />
-                <Frame12832 />
-                <Frame12822 />
+                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842
+                  title={"AWAITING SUBMISSIONS"}
+                  count={awaitingSubmissions.length}
+                />
+                <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
-            </Frame1340>
+            </Frame1342>
             <Frame1342>
               <Frame1337 tasks={frame13372Props.tasks} />
               <Line17 src={line175} alt="Line 17" />
@@ -117,27 +135,6 @@ function TeacherClassesDesktop(props) {
                   }
                   number={frame131321Props.number}
                   group1312={frame131321Props.group1312}
-                />
-                <Frame13132
-                  storytellingNotAnalysing={
-                    frame131322Props.storytellingNotAnalysing
-                  }
-                  number={frame131322Props.number}
-                  group1312={frame131322Props.group1312}
-                />
-                <Frame13132
-                  storytellingNotAnalysing={
-                    frame131323Props.storytellingNotAnalysing
-                  }
-                  number={frame131323Props.number}
-                  group1312={frame131323Props.group1312}
-                />
-                <Frame13132
-                  storytellingNotAnalysing={
-                    frame131324Props.storytellingNotAnalysing
-                  }
-                  number={frame131324Props.number}
-                  group1312={frame131324Props.group1312}
                 />
               </Frame12844>
             </Frame1342>
@@ -164,11 +161,29 @@ function TeacherClassesDesktop(props) {
   );
 }
 
+const Classes = styled.div`
+  ${IbmplexsansMediumRiverBed24px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
 const Frame1422 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 60px;
+  position: relative;
+  align-self: stretch;
+`;
+
+const Frame1312 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;

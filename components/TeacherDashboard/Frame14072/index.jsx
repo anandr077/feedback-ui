@@ -3,16 +3,12 @@ import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
 
 function Frame14072(props) {
-  const { iconsaxLinearAdd, line17, arrowright } = props;
+  const { showCreateNew, iconsaxLinearAdd, line17, arrowright } = props;
 
   return (
     <Frame1407>
-      <a href="/assignments/new">
-        <Frame1205>
-          <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
-          <CreateNew>CREATE NEW</CreateNew>
-        </Frame1205>
-      </a>
+      {createNewFrame(showCreateNew, iconsaxLinearAdd)}
+      
       <Line17 src={line17} alt="Line 17" />
       <a href="/assignments">
         <Frame1205>
@@ -23,7 +19,18 @@ function Frame14072(props) {
     </Frame1407>
   );
 }
+function createNewFrame(showCreateNew, iconsaxLinearAdd) {
 
+  if (showCreateNew) {
+    <a href="/assignments/new">
+        <Frame1205>
+        <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
+          <CreateNew>CREATE NEW</CreateNew>
+        </Frame1205>
+    </a>
+  }
+  return <></>
+}
 const Frame1407 = styled.div`
   display: flex;
   width: fit-content;
@@ -181,3 +188,5 @@ const Line173 = styled.img`
 `;
 
 export default Frame14072;
+
+

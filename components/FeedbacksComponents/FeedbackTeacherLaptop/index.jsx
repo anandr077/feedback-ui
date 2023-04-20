@@ -280,7 +280,7 @@ function FeedbackTeacherLaptop(props) {
           <Frame1371>
             <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-            {!(pageMode === "REVIEW") && (
+            {(pageMode === "DRAFT" || pageMode === "REVISE") && (
               <StatusLabel
                 key="statusLabel"
                 id="statusLabel"

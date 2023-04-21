@@ -21,31 +21,21 @@ import { getUserName } from "../../../service";
 
 function TeacherDashboardLaptop(props) {
   const {
+    classes,
     drafts,
     awaitingSubmissions,
     feedbacks,
-    keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
-    classes,
     line171,
-    line311,
-    tasks,
     line172,
     recentActivity,
     line173,
-    line312,
     x2021JeddleAllRightsReserved,
-    teacherDashboardHeaderProps,
     group1205Props,
     frame131241Props,
-    frame131242Props,
-    frame131243Props,
     frame14072Props,
     frame131341Props,
-    frame131342Props,
-    frame131343Props,
-    frame131344Props,
   } = props;
   const userName = getUserName();
   console.log("D  " + drafts);
@@ -67,18 +57,12 @@ function TeacherDashboardLaptop(props) {
         <Frame1417>
           <Frame1339>
             <Frame1337>
-              <Classes>{classes}</Classes>
+              <Classes>Classes</Classes>
               <Group1205 arrowright={group1205Props.arrowright} />
             </Frame1337>
-            <Line17 src={line171} alt="Line 17" />
+            <Line17 src={line172} alt="Line 17" />
             <Frame1336>
-              <Frame13124
-                x12Engadv3={frame131241Props.x12Engadv3}
-                frame1407Props={frame131241Props.frame1407Props}
-                frame1284Props={frame131241Props.frame1284Props}
-                frame1283Props={frame131241Props.frame1283Props}
-                frame1282Props={frame131241Props.frame1282Props}
-              />
+              {classesFrames(classes, frame131241Props)}
             </Frame1336>
           </Frame1339>
           <Frame1416>
@@ -125,6 +109,23 @@ function TeacherDashboardLaptop(props) {
       </Frame61>
     </div>
   );
+}
+function classesFrames(classes, frame131241Props) {
+  if (classes.length >0)  {
+    console.log("Classes " + JSON.stringify(classes))
+    return <>({classes.map(clazz=>{
+      return <Frame13124
+          key={"frame13124_" + clazz.id}
+          clazz={clazz}
+          x12Engadv3={frame131241Props.x12Engadv3}
+          frame1407Props={frame131241Props.frame1407Props}
+          frame1284Props={frame131241Props.frame1284Props}
+          frame1283Props={frame131241Props.frame1283Props}
+          frame1282Props={frame131241Props.frame1282Props} />
+        })})
+    </>
+  }
+  return <></>
 }
 
 const Frame1419 = styled.div`
@@ -373,3 +374,4 @@ const Frame61 = styled.div`
 `;
 
 export default TeacherDashboardLaptop;
+

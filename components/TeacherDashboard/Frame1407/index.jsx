@@ -3,19 +3,15 @@ import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet14px } from "../styledMixins";
 
 function Frame1407(props) {
-  const { arrowright1, line17, arrowright2 } = props;
+  const { arrowright1, line17 } = props;
 
   return (
     <Frame14071>
       <Frame1206>
-        <Place>MANAGE</Place>
+        <Place>View Details</Place>
         <Arrowright src={arrowright1} alt="arrowright" />
       </Frame1206>
-      <Line17 src={line17} alt="Line 17" />
-      <Frame1206>
-        <Place>ANALYTICS</Place>
-        <Arrowright src={arrowright2} alt="arrowright" />
-      </Frame1206>
+      <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
     </Frame14071>
   );
 }

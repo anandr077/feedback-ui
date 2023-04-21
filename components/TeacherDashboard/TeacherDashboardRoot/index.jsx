@@ -1,6 +1,6 @@
 import React from "react";
 import ReactiveRender from "../../ReactiveRender";
-import { getAssignments, getTasks } from "../../../service";
+import { getAssignments, getTasks, getClassesWithStudents } from "../../../service";
 import TeacherDashboardMobile from "../TeacherDashboardMobile";
 import TeacherDashboardTablet from "../TeacherDashboardTablet";
 import TeacherDashboardLaptop from "../TeacherDashboardLaptop";
@@ -8,12 +8,18 @@ import TeacherDashboardDesktop from "../TeacherDashboardDesktop";
 
 export default function TeacherDashboardRoot() {
   const [assignments, setAssignments] = React.useState([]);
+  const [classes, setClasses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    getAssignments().then((result) => {
+    Promise.all([
+      getAssignments(),
+      getClassesWithStudents()
+    ])
+    .then(([result, classesResult]) => {
       if (result) {
         setAssignments(result);
+        setClasses(classesResult);
         setIsLoading(false);
       }
     });
@@ -21,6 +27,7 @@ export default function TeacherDashboardRoot() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  console.log("classes "+ JSON.stringify(classes))
   const drafts = assignments.filter(
     (assignment) => assignment.submissionsStatus === "DRAFT"
   );
@@ -36,6 +43,7 @@ export default function TeacherDashboardRoot() {
       mobile={
         <TeacherDashboardMobile
           {...{
+            classes,
             drafts,
             awaitingSubmissions,
             feedbacks,
@@ -46,6 +54,7 @@ export default function TeacherDashboardRoot() {
       tablet={
         <TeacherDashboardTablet
           {...{
+            classes,
             drafts,
             awaitingSubmissions,
             feedbacks,
@@ -56,6 +65,7 @@ export default function TeacherDashboardRoot() {
       laptop={
         <TeacherDashboardLaptop
           {...{
+            classes,
             drafts,
             awaitingSubmissions,
             feedbacks,
@@ -66,6 +76,7 @@ export default function TeacherDashboardRoot() {
       desktop={
         <TeacherDashboardDesktop
           {...{
+            classes,
             drafts,
             awaitingSubmissions,
             feedbacks,
@@ -196,31 +207,6 @@ const frame13134Data = {
   jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
 };
 
-const teacherDashboardDesktpData = {
-  keepOrganizedWitho1: "Welcome, Teacher",
-  keepOrganizedWitho2:
-    "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  maskGroup: "/img/mask-group-3.png",
-  classes: "Classes",
-  line171: "/img/line-17-42.png",
-  line311: "/img/line-31-2@2x.png",
-  tasks: "Tasks",
-  line172: "/img/line-17-42.png",
-  recentActivity: "Recent Activity",
-  line173: "/img/line-17-42.png",
-  line312: "/img/line-31-2@2x.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-  teacherDashboardHeaderProps: teacherDashboardHeader1Data,
-  group1205Props: group12051Data,
-  frame13121Props: frame13121Data,
-  frame13122Props: frame13122Data,
-  frame13123Props: frame13123Data,
-  frame14072Props: frame140722Data,
-  frame13131Props: frame13131Data,
-  frame13132Props: frame13132Data,
-  frame13133Props: frame13133Data,
-  frame13134Props: frame13134Data,
-};
 
 const group12052Data = {
   arrowright: "/img/arrowright@2x.png",
@@ -326,34 +312,7 @@ const frame131325Data = {
   jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
 };
 
-const teacherDashboardMbileData = {
-  frame5: "/img/frame-5@2x.png",
-  keepOrganizedWitho1: "Welcome, Teacher",
-  keepOrganizedWitho2:
-    "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  maskGroup: "/img/mask-group@2x.png",
-  classes: "Classes",
-  line171: "/img/line-17@2x.png",
-  line311: "/img/line-31@2x.png",
-  tasks: "Tasks",
-  line172: "/img/line-17@2x.png",
-  recentActivity: "Recent Activity",
-  line173: "/img/line-17@2x.png",
-  line312: "/img/line-31@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
-  group1205Props: group12052Data,
-  frame131221Props: frame131222Data,
-  frame131222Props: frame131223Data,
-  frame131223Props: frame131224Data,
-  frame14072Props: frame140723Data,
-  frame131321Props: frame131322Data,
-  frame131322Props: frame131323Data,
-  frame131323Props: frame131324Data,
-  frame131324Props: frame131325Data,
-};
+
 
 const group12053Data = {
   arrowright: "/img/arrowright-8@2x.png",
@@ -459,34 +418,7 @@ const frame131335Data = {
   jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
 };
 
-const teacherDashboardTbletData = {
-  frame5: "/img/frame-5@2x.png",
-  keepOrganizedWitho1: "Welcome, Teacher",
-  keepOrganizedWitho2:
-    "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  maskGroup: "/img/mask-group-1.png",
-  classes: "Classes",
-  line171: "/img/line-17-14.png",
-  line311: "/img/line-31-2@2x.png",
-  tasks: "Tasks",
-  line172: "/img/line-17-14.png",
-  recentActivity: "Recent Activity",
-  line173: "/img/line-17-14.png",
-  line312: "/img/line-31-2@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
-  group1205Props: group12053Data,
-  frame131231Props: frame131232Data,
-  frame131232Props: frame131233Data,
-  frame131233Props: frame131234Data,
-  frame14072Props: frame140724Data,
-  frame131331Props: frame131332Data,
-  frame131332Props: frame131333Data,
-  frame131333Props: frame131334Data,
-  frame131334Props: frame131335Data,
-};
+
 
 const navElement23Data = {
   assignment: "/img/assignment@2x.png",
@@ -613,7 +545,6 @@ const teacherDashboardLptpData = {
   keepOrganizedWitho2:
     "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
   maskGroup: "/img/mask-group-2.png",
-  classes: "Classes",
   line171: "/img/line-17-28.png",
   line311: "/img/line-31-4@2x.png",
   tasks: "Tasks",
@@ -632,4 +563,88 @@ const teacherDashboardLptpData = {
   frame131342Props: frame131343Data,
   frame131343Props: frame131344Data,
   frame131344Props: frame131345Data,
+};
+
+const teacherDashboardDesktpData = {
+  frame131241Props: frame131241Data,
+  keepOrganizedWitho1: "Welcome, Teacher",
+  keepOrganizedWitho2:
+    "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  maskGroup: "/img/mask-group-3.png",
+  line171: "/img/line-17-42.png",
+  line311: "/img/line-31-2@2x.png",
+  tasks: "Tasks",
+  line172: "/img/line-17-42.png",
+  recentActivity: "Recent Activity",
+  line173: "/img/line-17-42.png",
+  line312: "/img/line-31-2@2x.png",
+  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  teacherDashboardHeaderProps: teacherDashboardHeader1Data,
+  group1205Props: group12051Data,
+  frame13121Props: frame13121Data,
+  frame13122Props: frame13122Data,
+  frame13123Props: frame13123Data,
+  frame14072Props: frame140722Data,
+  frame13131Props: frame13131Data,
+  frame13132Props: frame13132Data,
+  frame13133Props: frame13133Data,
+  frame13134Props: frame13134Data,
+};
+
+const teacherDashboardTbletData = {
+  frame131241Props: frame131241Data,
+  frame5: "/img/frame-5@2x.png",
+  keepOrganizedWitho1: "Welcome, Teacher",
+  keepOrganizedWitho2:
+    "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  maskGroup: "/img/mask-group-1.png",
+  line171: "/img/line-17-14.png",
+  line311: "/img/line-31-2@2x.png",
+  tasks: "Tasks",
+  line172: "/img/line-17-14.png",
+  recentActivity: "Recent Activity",
+  line173: "/img/line-17-14.png",
+  line312: "/img/line-31-2@2x.png",
+  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
+  mainWebsite: "Main Website",
+  terms: "Terms",
+  privacy: "Privacy",
+  group1205Props: group12053Data,
+  frame131231Props: frame131232Data,
+  frame131232Props: frame131233Data,
+  frame131233Props: frame131234Data,
+  frame14072Props: frame140724Data,
+  frame131331Props: frame131332Data,
+  frame131332Props: frame131333Data,
+  frame131333Props: frame131334Data,
+  frame131334Props: frame131335Data,
+};
+
+const teacherDashboardMbileData = {
+  frame131241Props: frame131241Data,
+  frame5: "/img/frame-5@2x.png",
+  keepOrganizedWitho1: "Welcome, Teacher",
+  keepOrganizedWitho2:
+    "Sorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  maskGroup: "/img/mask-group@2x.png",
+  line171: "/img/line-17@2x.png",
+  line311: "/img/line-31@2x.png",
+  tasks: "Tasks",
+  line172: "/img/line-17@2x.png",
+  recentActivity: "Recent Activity",
+  line173: "/img/line-17@2x.png",
+  line312: "/img/line-31@2x.png",
+  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
+  mainWebsite: "Main Website",
+  terms: "Terms",
+  privacy: "Privacy",
+  group1205Props: group12052Data,
+  frame131221Props: frame131222Data,
+  frame131222Props: frame131223Data,
+  frame131223Props: frame131224Data,
+  frame14072Props: frame140723Data,
+  frame131321Props: frame131322Data,
+  frame131322Props: frame131323Data,
+  frame131323Props: frame131324Data,
+  frame131324Props: frame131325Data,
 };

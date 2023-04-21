@@ -44,6 +44,7 @@ export const getCookie = (name) => {
 };
 
 export const getTasks = async () => await getApi(baseUrl + "/tasks");
+export const getClassesWithStudents = async () => await getApi(baseUrl + "/classes/all/details");
 export const getModelResponses = async () =>
   await getApi(baseUrl + "/feedbacks/modelResponses");
 export const getCompletedTasks = async () =>

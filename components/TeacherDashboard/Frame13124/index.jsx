@@ -8,32 +8,31 @@ import { IbmplexsansMediumShark20px } from "../styledMixins";
 
 function Frame13124(props) {
   const {
-    x12Engadv3,
+    clazz,
     frame1407Props,
-    frame1284Props,
-    frame1283Props,
-    frame1282Props,
   } = props;
 
   return (
+    <a href={"/classes/" + clazz.id}>
     <Frame1312>
       <Frame13121>
         <Frame13122>
-          <X12ENGADV3>{x12Engadv3}</X12ENGADV3>
+          <X12ENGADV3>{clazz.title}</X12ENGADV3>
           <Frame1407
             arrowright1={frame1407Props.arrowright1}
-            line17={frame1407Props.line17}
+            line17={"/img/line-17-22@2x.png"}
             arrowright2={frame1407Props.arrowright2}
           />
         </Frame13122>
-        <Line17 src="/img/line-17-29.png" alt="Line 17" />
+        <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
         <Frame1307>
-          <Frame1284 number={frame1284Props.number} />
-          <Frame1283 number={frame1283Props.number} />
-          <Frame1282 number={frame1282Props.number} />
+          <Frame1284 number={clazz.students.length} />
+          <Frame1283 number="-" />
+          <Frame1282 number="-" />
         </Frame1307>
       </Frame13121>
     </Frame1312>
+    </a>
   );
 }
 

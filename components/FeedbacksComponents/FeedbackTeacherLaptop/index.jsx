@@ -4,6 +4,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import Header from "../../Header";
 import QuillEditor from "../../QuillEditor";
+import CheckboxList from "../../CheckboxList";
 import styled from "styled-components";
 import {
   feedbacksIbmplexsansBoldShark36px,
@@ -136,32 +137,6 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
 
-  const mcqAnswerFrame = (question) => {
-    const options = question.options.map((option) => {
-      const id = "mcq_" + question.serialNumber + "_" + option.optionSerialNumber
-      return (
-        <>
-          {pageMode === "REVIEW" || pageMode === "CLOSED" ? (
-            <ReviewCheckBoxContainer>
-              {" "}
-              <OptionCotainer>
-                <CheckBox disabled /> <OptionText>{option.option}</OptionText>{" "}
-              </OptionCotainer>
-              <OptionRemarkContainer>
-                <OptionRemark isCorrect={true} />
-              </OptionRemarkContainer>
-            </ReviewCheckBoxContainer>
-          ) : (
-            <OptionCotainer>
-              <CheckBox id={id} onClick={(_)=>methods.handleSaveMCQAnswer(question)}/>
-              <OptionText>{option.option}</OptionText>{" "}
-            </OptionCotainer>
-          )}
-        </>
-      );
-    });
-    return <OptionsRoot>{options}</OptionsRoot>;
-  };
 
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -180,7 +155,7 @@ function FeedbackTeacherLaptop(props) {
         <Frame1366>
           <QuestionText>{questionText}</QuestionText>
           {question.type === "MCQ" ? (
-            mcqAnswerFrame(question)
+            <CheckboxList submission={submission} question={question} pageMode={pageMode} handleChangeText={methods.handleChangeText}/>
           ) : (
             <QuillContainer
               onClick={() => {

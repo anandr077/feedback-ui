@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import styled from "styled-components";
+import CheckboxList from "../../CheckboxList";
+
 import {
   IbmplexsansMediumPersianIndigo20px,
   IbmplexsansNormalBlack16px,
@@ -64,7 +66,7 @@ function FeedbackTeacherMobile(props) {
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
           {question.type === "MCQ" ? (
-            mcqAnswerFrame(question)
+            <CheckboxList submission={submission} question={question} pageMode={pageMode} handleChangeText={methods.handleChangeText}/>
           ) : (
             <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
               <QuillEditor

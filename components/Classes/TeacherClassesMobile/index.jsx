@@ -4,10 +4,9 @@ import { classesHomeHeaderProps } from "../../../utils/headerProps";
 import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
 import ImageDropdownMenu from "../../ImageDropdownMenu";
+import Frame12842 from "../../TeacherDashboard/Frame12842";
+import Frame14072 from "../../TeacherDashboard/Frame14072";
 import Buttons from "../Buttons";
-import Frame12822 from "../Frame12822";
-import Frame12832 from "../Frame12832";
-import Frame12843 from "../Frame12843";
 import Frame13134 from "../Frame13134";
 import Frame13372 from "../Frame13372";
 import {
@@ -15,22 +14,13 @@ import {
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalShark16px,
+  IbmplexsansNormalShark16px
 } from "../styledMixins";
 import {
   createModelResponsesFrames,
-  createStudentsFrames,
+  createStudentsFrames
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesMobile.css";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
-import Footer from "../../Footer";
-import Header from "../../Header";
-import Frame14072 from "../../TeacherDashboard/Frame14072";
-import Frame12842 from "../../TeacherDashboard/Frame12842";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Frame13136 from "../Frame13136";
-import Frame13373 from "../Frame13373";
 function TeacherClassesMobile(props) {
   const {
     drafts,

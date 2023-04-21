@@ -72,9 +72,9 @@ function TeacherClassesLaptop(props) {
                 <Classes>Assignments</Classes>
                 <Frame14072
                   showCreateNew={false}
-                  iconsaxLinearAdd= "/img/iconsax-linear-add-1@2x.png"
-                  line17= "/img/line-17-22@2x.png"
-                  arrowright= "/img/arrowright-8@2x.png"
+                  iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
+                  line17="/img/line-17-22@2x.png"
+                  arrowright="/img/arrowright-8@2x.png"
                 />
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
@@ -117,7 +117,6 @@ function TeacherClassesLaptop(props) {
     </div>
   );
 }
-
 
 const Classes = styled.div`
   ${IbmplexsansMediumRiverBed24px}

@@ -45,6 +45,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
   const [nextUrl, setNextUrl] = useState("");
+  const [commentHighlight, setCommentHighlight] = useState(false);
 
   const isTeacher = getUserRole() === "TEACHER";
   const [assignmentId, setAssignmentId] = useState(id);
@@ -263,24 +264,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       block: "center",
       inline: "center",
     });
-    const originalBackground = div.style.background;
-    const originalBorder = div.style.border;
-    const originalBoxShadow = div.style.boxShadow;
-
-    // Set the new style properties
     div.style.background = "#F9F5FF";
     div.style.border = "1px solid #7200E0";
     div.style.boxShadow = "0px 4px 16px rgba(114, 0, 224, 0.2)";
     div.style.scale = 1.0003;
-
-    // Restore the original style properties after 5 seconds
-    setTimeout(() => {
-      div.style.background = originalBackground;
-      div.style.border = originalBorder;
-      div.style.boxShadow = originalBoxShadow;
-      div.style.scale = 1;
-    }, 2000);
+    setCommentHighlight(true);
   }
+
+  const unhighlightComment = () => {
+    console.log("##unhighlightComment", comments.length);
+    if (comments.length > 0 && commentHighlight) {
+      comments.map((comment) => {
+        const div = document.getElementById("comment_" + comment.id);
+        div.style.background = "#FFFFFF";
+        div.style.border = "1px solid #E5E5E5";
+        div.style.boxShadow = "0px 4px 16px #7200e01a";
+        div.style.scale = 1;
+      });
+      setCommentHighlight(false);
+    }
+  };
+
   const noopSelectionChange = (serialNumber) => (range) => {
     console.log("##editorOnX" + JSON.stringify(range));
   };
@@ -330,6 +334,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     onSelectionChange,
     setStudentName,
     studentUpdate,
+    unhighlightComment,
   };
 
   const shortcuts = getShortcuts();

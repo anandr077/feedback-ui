@@ -263,7 +263,7 @@ function FeedbackTeacherLaptop(props) {
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
-      <Frame1388>
+      <Frame1388 onClick={methods.unhighlightComment}>
         {tabletView ? (
           <HeaderSmall headerProps={headerProps} />
         ) : (

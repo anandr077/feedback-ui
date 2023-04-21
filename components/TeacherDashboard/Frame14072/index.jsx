@@ -8,7 +8,7 @@ function Frame14072(props) {
   return (
     <Frame1407>
       {createNewFrame(showCreateNew, iconsaxLinearAdd)}
-      
+
       <Line17 src={line17} alt="Line 17" />
       <a href="/assignments">
         <Frame1205>
@@ -20,16 +20,15 @@ function Frame14072(props) {
   );
 }
 function createNewFrame(showCreateNew, iconsaxLinearAdd) {
-
   if (showCreateNew) {
     <a href="/assignments/new">
-        <Frame1205>
+      <Frame1205>
         <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
-          <CreateNew>CREATE NEW</CreateNew>
-        </Frame1205>
-    </a>
+        <CreateNew>CREATE NEW</CreateNew>
+      </Frame1205>
+    </a>;
   }
-  return <></>
+  return <></>;
 }
 const Frame1407 = styled.div`
   display: flex;
@@ -188,5 +187,3 @@ const Line173 = styled.img`
 `;
 
 export default Frame14072;
-
-

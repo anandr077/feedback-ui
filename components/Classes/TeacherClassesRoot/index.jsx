@@ -35,7 +35,7 @@ export default function TeacherClassesRoot() {
       Promise.all([
         getModelResponsesForClass(classId),
         getStudentsForClass(classId),
-        getAssignmentsByClassId(classId)
+        getAssignmentsByClassId(classId),
       ]).then(([modelResponses, studentsResponse, assignmentsResponse]) => {
         setModelResponses(modelResponses);
         setStudents(studentsResponse);

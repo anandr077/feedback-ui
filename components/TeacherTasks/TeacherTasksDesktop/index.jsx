@@ -57,6 +57,7 @@ const Frame1361 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark64px}
+  font-size: 50px;
   position: relative;
   width: fit-content;
   margin-top: -1px;
@@ -79,6 +80,7 @@ const Frame1359 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
+  min-height: 700px;
 `;
 
 const Frame1354 = styled.div`

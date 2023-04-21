@@ -138,6 +138,7 @@ function FeedbackTeacherLaptop(props) {
 
   const mcqAnswerFrame = (question) => {
     const options = question.options.map((option) => {
+      const id = "mcq_" + question.serialNumber + "_" + option.optionSerialNumber
       return (
         <>
           {pageMode === "REVIEW" || pageMode === "CLOSED" ? (
@@ -152,7 +153,7 @@ function FeedbackTeacherLaptop(props) {
             </ReviewCheckBoxContainer>
           ) : (
             <OptionCotainer>
-              <CheckBox />
+              <CheckBox id={id} onClick={(_)=>methods.handleSaveMCQAnswer(question)}/>
               <OptionText>{option.option}</OptionText>{" "}
             </OptionCotainer>
           )}

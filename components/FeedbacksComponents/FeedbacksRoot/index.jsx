@@ -3,6 +3,7 @@ import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  submitAssignment,
   getSubmissionsByAssignmentId,
   addFeedback,
   deleteFeedback,
@@ -229,6 +230,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     console.log(serialNumber);
   };
+  const handleSaveMCQAnswer = (question) => {
+    const checked = question.options.map(option=>{
+      const id = "mcq_" + question.serialNumber + "_" + option.optionSerialNumber
+      return {
+        serialNumber:option.optionSerialNumber,
+        option:option.option,
+        checked:document.getElementById(id).checked
+      }
+    }).filter(answer=>{
+      return answer.checked === true
+    })
+    handleChangeText("Saving...", false);
+    saveAnswer(submission.id, question.serialNumber, {
+        question: question.question,
+        selectedOptions:checked
+      
+    }).then((_) => {
+      handleChangeText("All changes saved", true);
+    });
+    console.log("checked " + JSON.stringify(checked));
+  };
 
   const reviewerSelectionChange = (serialNumber) => (range) => {
     if (range) {
@@ -316,6 +338,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const methods = {
+    handleSaveMCQAnswer,
     // createLabelTextFrame,
     handleDeleteComment,
     handleShareWithClass,

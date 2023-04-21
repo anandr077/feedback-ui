@@ -111,9 +111,9 @@ function errorHandler(response) {
 }
 
 function handleErrors(response) {
-  // if (!response.ok) {
-  //   return redirectToExternalIDP();
-  // }
+  if (!response.ok) {
+    return redirectToExternalIDP();
+  }
   return response;
 }
 

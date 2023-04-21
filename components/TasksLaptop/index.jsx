@@ -77,6 +77,7 @@ const Frame1361 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark64px}
+  font-size: 50px;
   position: relative;
   width: fit-content;
   margin-top: -1px;

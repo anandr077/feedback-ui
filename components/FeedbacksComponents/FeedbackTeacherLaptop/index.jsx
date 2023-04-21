@@ -34,6 +34,8 @@ import { getUserName, getUserRole } from "../../../service";
 import StatusLabel from "../../StatusLabel";
 import ShortcutsFrame from "../ShortcutsFrame";
 import OptionRemark from "../OptionRemark";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -259,7 +261,31 @@ function FeedbackTeacherLaptop(props) {
       </Frame1329>
     </>
   );
+  function downloadPDF() {
+    // Create a new jsPDF instance
+    const doc = new jsPDF();
 
+    // Get the HTML content that you want to convert to PDF
+    const element = document.getElementById("content");
+    const height = element.scrollHeight;
+
+    html2canvas(element, { height: height }).then((canvas) => {
+      // Create a new jsPDF instance
+      const doc = new jsPDF();
+
+      // Calculate the height of the canvas element
+      const canvasHeight = (canvas.height * 210) / canvas.width;
+
+      // Convert the canvas to a data URL using toDataURL
+      const imgData = canvas.toDataURL("image/png");
+
+      // Add the image to the PDF using the addImage method of jsPDF
+      doc.addImage(imgData, "PNG", 0, 0, 210, canvasHeight);
+
+      // Once the PDF is generated, use the save method to download it
+      doc.save("document.pdf");
+    });
+  }
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
@@ -275,6 +301,10 @@ function FeedbackTeacherLaptop(props) {
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
             <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
           </Frame1315>
+          {/* <Buttons2 
+            button="Download"
+            arrowright={true}
+            onClickFn={downloadPDF}/> */}
         </Frame1387>
         <Frame1386>
           <Frame1371>
@@ -289,7 +319,7 @@ function FeedbackTeacherLaptop(props) {
             )}
             {submitButton()}
           </Frame1371>
-          <Frame1368>
+          <Frame1368 id="content">
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>
@@ -448,7 +478,6 @@ const Frame1386 = styled.div`
   width: 80%;
   left: 10%;
   position: sticky;
-  height: 70vh;
 `;
 
 const Frame1371 = styled.div`
@@ -457,6 +486,11 @@ const Frame1371 = styled.div`
   gap: 60px;
   position: relative;
   align-self: stretch;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--white-pointer);
+  padding: 20px;
 `;
 
 const AssignmentTitle = styled.h1`
@@ -503,6 +537,7 @@ const Frame1368 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
+  min-height: 700px;
 `;
 
 const Group1225 = styled.div`
@@ -523,8 +558,8 @@ const Frame1367 = styled.div`
   border-radius: 26px;
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
-  height: 550px;
-  overflow-y: scroll;
+  // height: 550px;
+  // overflow-y: scroll;
 `;
 
 const Frame1366 = styled.div`
@@ -645,7 +680,7 @@ const Frame1331 = styled.div`
   width: 339px;
   align-items: flex-start;
   gap: 20px;
-  padding: 30px 30px 0px;
+  padding: 20px 20px;
 
   position: sticky;
   top: 0;
@@ -655,6 +690,9 @@ const Frame1331 = styled.div`
   height: 550px;
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Frame1322 = styled.div`

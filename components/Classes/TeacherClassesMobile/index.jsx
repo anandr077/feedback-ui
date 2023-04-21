@@ -15,11 +15,11 @@ import {
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalShark16px
+  IbmplexsansNormalShark16px,
 } from "../styledMixins";
 import {
   createModelResponsesFrames,
-  createStudentsFrames
+  createStudentsFrames,
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesMobile.css";
 import ImageDropdownMenu from "../../ImageDropdownMenu";
@@ -89,9 +89,9 @@ function TeacherClassesMobile(props) {
                 <Classes>Assignments</Classes>
                 <Frame14072
                   showCreateNew={false}
-                  iconsaxLinearAdd= "/img/iconsax-linear-add-1@2x.png"
-                  line17= "/img/line-17-22@2x.png"
-                  arrowright= "/img/arrowright-8@2x.png"
+                  iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
+                  line17="/img/line-17-22@2x.png"
+                  arrowright="/img/arrowright-8@2x.png"
                 />
               </Frame1337>
               <Line17 src={line175} alt="Line 17" />
@@ -142,7 +142,6 @@ const Classes = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 const Frame1422 = styled.div`
   display: flex;

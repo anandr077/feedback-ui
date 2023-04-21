@@ -1,6 +1,7 @@
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import { useParams } from "react-router-dom";
 import {
   submitAssignment,
@@ -28,6 +29,8 @@ import { extractStudents, getPageMode } from "./functions";
 import FeedBacksDropDown from "../FeedbacksDropDown";
 import { doc } from "prettier";
 import { range } from "lodash";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -336,7 +339,22 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       );
     }
   };
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    const content = document.getElementById("content");
+    const height = content.scrollHeight;
+    const scrollHeight = height - content.clientHeight;
 
+    if (scrollHeight > 0) {
+      window.scrollBy(0, scrollHeight);
+    }
+    html2canvas(content, { height: height }).then((canvas) => {
+      const canvasHeight = (canvas.height * 210) / canvas.width;
+      const imgData = canvas.toDataURL("image/png");
+      doc.addImage(imgData, "PNG", 0, 0, 210, canvasHeight);
+      doc.save(`${submission.assignment.title}.pdf`);
+    });
+  };
   const methods = {
     handleSaveMCQAnswer,
     // createLabelTextFrame,
@@ -358,6 +376,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setStudentName,
     studentUpdate,
     unhighlightComment,
+    downloadPDF,
   };
 
   const shortcuts = getShortcuts();

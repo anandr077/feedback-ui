@@ -34,8 +34,6 @@ import { getUserName, getUserRole } from "../../../service";
 import StatusLabel from "../../StatusLabel";
 import ShortcutsFrame from "../ShortcutsFrame";
 import OptionRemark from "../OptionRemark";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -262,31 +260,7 @@ function FeedbackTeacherLaptop(props) {
       </Frame1329>
     </>
   );
-  function downloadPDF() {
-    // Create a new jsPDF instance
-    const doc = new jsPDF();
 
-    // Get the HTML content that you want to convert to PDF
-    const element = document.getElementById("content");
-    const height = element.scrollHeight;
-
-    html2canvas(element, { height: height }).then((canvas) => {
-      // Create a new jsPDF instance
-      const doc = new jsPDF();
-
-      // Calculate the height of the canvas element
-      const canvasHeight = (canvas.height * 210) / canvas.width;
-
-      // Convert the canvas to a data URL using toDataURL
-      const imgData = canvas.toDataURL("image/png");
-
-      // Add the image to the PDF using the addImage method of jsPDF
-      doc.addImage(imgData, "PNG", 0, 0, 210, canvasHeight);
-
-      // Once the PDF is generated, use the save method to download it
-      doc.save("document.pdf");
-    });
-  }
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
@@ -302,14 +276,17 @@ function FeedbackTeacherLaptop(props) {
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
             <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
           </Frame1315>
-          {/* <Buttons2 
-            button="Download"
-            arrowright={true}
-            onClickFn={downloadPDF}/> */}
         </Frame1387>
-        <Frame1386>
+        <Frame1386 id="content">
           <Frame1371>
             <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+            {pageMode === "CLOSED" && (
+              <Buttons2
+                button="Download PDF"
+                download={true}
+                onClickFn={methods.downloadPDF}
+              />
+            )}
             <Frame131612>{tasksListsDropDown}</Frame131612>
             {(pageMode === "DRAFT" || pageMode === "REVISE") && (
               <StatusLabel
@@ -320,7 +297,7 @@ function FeedbackTeacherLaptop(props) {
             )}
             {submitButton()}
           </Frame1371>
-          <Frame1368 id="content">
+          <Frame1368>
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>

@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
 
 function Buttons2(props) {
-  const { button, arrowleft, arrowright, className, onClickFn } = props;
+  const { button, arrowleft, arrowright, download, className, onClickFn } =
+    props;
 
   return (
     <Buttons className={`buttons-1 ${className || ""}`}>
       {arrowLeft()}
+      {Download()}
       <Button onClick={onClickFn} className="button-1">
         {button}
       </Button>
@@ -32,6 +34,17 @@ function Buttons2(props) {
           className="arrowright"
           src={"/icons/arrowright.png"}
           alt="arrowright"
+        />
+      );
+    else return <></>;
+  }
+  function Download() {
+    if (download)
+      return (
+        <Arrowleft
+          className="arrowleft"
+          src={"/icons/download.png"}
+          alt="download"
         />
       );
     else return <></>;

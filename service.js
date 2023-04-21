@@ -69,10 +69,16 @@ export const addFeedback = async (submissionId, comment) =>
     comment
   );
 export const deleteFeedback = async (submissionId, commentId) =>
-  await fetchApi(
-    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
-    { method: "DELETE" }
-  );
+  {
+    const response = await fetch(baseUrl+"/submissions/" + submissionId + "/feedbacks/" + commentId, {
+      method: "DELETE",
+      withCredentials: true,
+      credentials: "include",
+    });
+  
+    handleErrors(response);
+    return response;
+  }
 export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + "/submissions/" + submissionId + "/comments");
 export const getModelResponsesForClass = async (classId) =>
@@ -105,9 +111,9 @@ function errorHandler(response) {
 }
 
 function handleErrors(response) {
-  if (!response.ok) {
-    return redirectToExternalIDP();
-  }
+  // if (!response.ok) {
+  //   return redirectToExternalIDP();
+  // }
   return response;
 }
 

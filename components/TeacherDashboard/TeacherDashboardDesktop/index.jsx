@@ -17,6 +17,7 @@ import {
 import "./TeacherDashboardDesktop.css";
 import { teacherHomeHeaderProps } from "../../../utils/headerProps";
 import Header from "../../Header";
+import Footer from "../../Footer";
 
 function TeacherDashboardDesktop(props) {
   const {
@@ -66,7 +67,7 @@ function TeacherDashboardDesktop(props) {
         <Frame1417>
           <Frame1339>
             <Frame1337>
-              <Classes>"Classes"</Classes>
+              <Classes>Classes</Classes>
               <Group1205 arrowright={group1205Props.arrowright} />
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
@@ -110,19 +111,14 @@ function TeacherDashboardDesktop(props) {
           </Frame1416>
         </Frame1417>
       </Frame1419>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>
-          {x2021JeddleAllRightsReserved}
-        </X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
+      <Footer />
     </div>
   );
 }
 function classesFrames(classes, frame131241Props) {
   if (classes.length >0)  {
     console.log("Classes " + JSON.stringify(classes))
-    return <>({classes.map(clazz=>{
+    return <>{classes.map(clazz=>{
       return <Frame13124
           key={"frame13124_" + clazz.id}
           clazz={clazz}
@@ -131,7 +127,7 @@ function classesFrames(classes, frame131241Props) {
           frame1284Props={frame131241Props.frame1284Props}
           frame1283Props={frame131241Props.frame1283Props}
           frame1282Props={frame131241Props.frame1282Props} />
-        })})
+        })}
     </>
   }
   return <></>

@@ -113,7 +113,7 @@ function TeacherDashboardLaptop(props) {
 function classesFrames(classes, frame131241Props) {
   if (classes.length >0)  {
     console.log("Classes " + JSON.stringify(classes))
-    return <>({classes.map(clazz=>{
+    return <>{classes.map(clazz=>{
       return <Frame13124
           key={"frame13124_" + clazz.id}
           clazz={clazz}
@@ -122,7 +122,7 @@ function classesFrames(classes, frame131241Props) {
           frame1284Props={frame131241Props.frame1284Props}
           frame1283Props={frame131241Props.frame1283Props}
           frame1282Props={frame131241Props.frame1282Props} />
-        })})
+        })}
     </>
   }
   return <></>

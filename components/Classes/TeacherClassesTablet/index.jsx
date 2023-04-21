@@ -45,23 +45,22 @@ function TeacherClassesTablet(props) {
     classes,
     modelResponses,
     students,
-    
+
     title,
-    
+
     line171,
-    
+
     line174,
     line175,
     crown,
     line176,
-    
+
     frame133741Props,
     frame133742Props,
     frame131381Props,
     frame131382Props,
     frame131383Props,
     frame131384Props,
-
   } = props;
 
   return (
@@ -98,9 +97,9 @@ function TeacherClassesTablet(props) {
                 <Classes>Assignments</Classes>
                 <Frame14072
                   showCreateNew={false}
-                  iconsaxLinearAdd= "/img/iconsax-linear-add-1@2x.png"
-                  line17= "/img/line-17-22@2x.png"
-                  arrowright= "/img/arrowright-8@2x.png"
+                  iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
+                  line17="/img/line-17-22@2x.png"
+                  arrowright="/img/arrowright-8@2x.png"
                 />
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
@@ -164,8 +163,6 @@ function TeacherClassesTablet(props) {
     </div>
   );
 }
-
-
 
 const Classes = styled.div`
   ${IbmplexsansMediumRiverBed24px}

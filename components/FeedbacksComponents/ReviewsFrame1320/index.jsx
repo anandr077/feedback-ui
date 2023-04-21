@@ -41,7 +41,7 @@ const Frame13201 = styled.div`
 `;
 
 const Feedback = styled.div`
-${IbmplexsansNormalPersianIndigo14px}
+  ${IbmplexsansNormalPersianIndigo14px}
   position: relative;
 
   width: fit-content;

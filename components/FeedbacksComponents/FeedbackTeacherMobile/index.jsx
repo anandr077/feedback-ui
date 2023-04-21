@@ -86,6 +86,8 @@ function FeedbackTeacherMobile(props) {
                   theme: "snow",
                   readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
                 }}
+                debounceTime={2000}
+                onDebounce={console.log}
               ></QuillEditor>
             </ToremIpsumDolorSi>
           )}

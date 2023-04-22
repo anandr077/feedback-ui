@@ -16,6 +16,11 @@ import GoBack2 from "../GoBack2";
 import Footer from "../Footer";
 import Header from "../Header";
 import "./CreateAAssignmentLaptop.css";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
+
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -23,6 +28,8 @@ function CreateAAssignmentLaptop(props) {
     questionFrames,
     publish,
     checkboxes,
+    feedbackMethodUpdate,
+    feedbackMethodValue,
     headerProps,
     line141,
     assignmentSettings,
@@ -95,12 +102,33 @@ function CreateAAssignmentLaptop(props) {
                     </Link>
                   </Frame12811>
                   <Frame12981>
-                    <Checkbox>
+                    {/* <Checkbox>
                       <Checkbox1>
                         <Rectangle43 id="peertopeer" type="checkbox" />
                       </Checkbox1>
                       <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
-                    </Checkbox>
+                    </Checkbox> */}
+                    {/* <FormControl> */}
+                    <RadioGroup
+                      value={feedbackMethodValue}
+                      onChange={(event) =>
+                        feedbackMethodUpdate(event.target.value)
+                      }
+                    >
+                      <FormControlLabel
+                        value="TEACHER"
+                        control={<Radio />}
+                        label="Teacher Feedback"
+                 
+                      />
+                      <FormControlLabel
+                        value="P2P"
+                        control={<Radio />}
+                        label="Peer to Peer (randomised)"
+
+                      />
+                    </RadioGroup>
+                    {/* </FormControl> */}
                   </Frame12981>
                 </Frame1299>
               </Frame1295>

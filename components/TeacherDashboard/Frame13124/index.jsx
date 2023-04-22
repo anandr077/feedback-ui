@@ -7,25 +7,23 @@ import styled from "styled-components";
 import { IbmplexsansMediumShark20px } from "../styledMixins";
 
 function Frame13124(props) {
-  const {
-    clazz,
-  } = props;
+  const { clazz } = props;
 
   return (
     <a href={"/classes/" + clazz.id}>
-    <Frame1312>
-      <Frame13121>
-        <Frame13122>
-          <X12ENGADV3>{clazz.title}</X12ENGADV3>
-        </Frame13122>
-        <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
-        <Frame1307>
-          <Frame1284 number={clazz.students.length} />
-          <Frame1283 number="-" />
-          <Frame1282 number="-" />
-        </Frame1307>
-      </Frame13121>
-    </Frame1312>
+      <Frame1312>
+        <Frame13121>
+          <Frame13122>
+            <X12ENGADV3>{clazz.title}</X12ENGADV3>
+          </Frame13122>
+          <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
+          <Frame1307>
+            <Frame1284 number={clazz.students.length} />
+            <Frame1283 number="-" />
+            <Frame1282 number="-" />
+          </Frame1307>
+        </Frame13121>
+      </Frame1312>
     </a>
   );
 }
@@ -58,7 +56,6 @@ const Frame13121 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
-  
 `;
 
 const Frame13122 = styled.div`

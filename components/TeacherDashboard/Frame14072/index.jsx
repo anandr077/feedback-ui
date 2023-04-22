@@ -21,12 +21,14 @@ function Frame14072(props) {
 }
 function createNewFrame(showCreateNew, iconsaxLinearAdd) {
   if (showCreateNew) {
-    return <a href="/assignments/new">
-      <Frame1205>
-        <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
-        <CreateNew>CREATE NEW</CreateNew>
-      </Frame1205>
-    </a>;
+    return (
+      <a href="/assignments/new">
+        <Frame1205>
+          <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
+          <CreateNew>CREATE NEW</CreateNew>
+        </Frame1205>
+      </a>
+    );
   }
   return <></>;
 }

@@ -14,11 +14,11 @@ import {
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalShark16px
+  IbmplexsansNormalShark16px,
 } from "../styledMixins";
 import {
   createModelResponsesFrames,
-  createStudentsFrames
+  createStudentsFrames,
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesMobile.css";
 function TeacherClassesMobile(props) {

@@ -1,13 +1,10 @@
-import React, {useState, useEffect} from 'react'
-import styled , {keyframes}from "styled-components";
-import {
-  IbmplexsansNormalBlack16px,
-} from "../FeedbacksComponents/../../styledMixins";
-
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import { IbmplexsansNormalBlack16px } from "../FeedbacksComponents/../../styledMixins";
 
 export default function ScreenPopup(props) {
-    const {message, setShowPopup} = props;
-    const [show, setShow] = useState(true);
+  const { message, setShowPopup, small } = props;
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,10 +18,23 @@ export default function ScreenPopup(props) {
     <>
       {show && (
         <Screen>
-          <PopupContainer>
-          <MaskGroup src="/img/close.png" onClick= {() => setShowPopup(false) } />
-          <PopupMessage>{message}</PopupMessage>
-          </PopupContainer>
+          {small ? (
+            <SmallPopupContainer>
+              <MaskGroup
+                src="/img/close.png"
+                onClick={() => setShowPopup(false)}
+              />
+              <PopupMessage>{message}</PopupMessage>
+            </SmallPopupContainer>
+          ) : (
+            <PopupContainer>
+              <MaskGroup
+                src="/img/close.png"
+                onClick={() => setShowPopup(false)}
+              />
+              <PopupMessage>{message}</PopupMessage>
+            </PopupContainer>
+          )}
         </Screen>
       )}
     </>
@@ -49,7 +59,6 @@ const slideOut = keyframes`
   }
 `;
 
-
 const Screen = styled.div`
   height: 100vh;
   width: 100vw;
@@ -61,15 +70,14 @@ const Screen = styled.div`
 `;
 
 const PopupContainer = styled.div`
-${IbmplexsansNormalBlack16px}
+  ${IbmplexsansNormalBlack16px}
   position: absolute;
-  bottom: 5%;
-  right: 5%;
-  transform: translate(-50%, -50%);
+  bottom: 50px;
+  right: 50px;
   z-index: 1;
   background-color: var(--white);
   border-radius: 8px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -78,9 +86,25 @@ ${IbmplexsansNormalBlack16px}
   gap: 20px;
   width: 300px;
   height: 100px;
-  `;
+`;
+const SmallPopupContainer = styled.div`
+  ${IbmplexsansNormalBlack16px}
+  position: absolute;
+  bottom: 15%;
+  z-index: 1;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+`;
 
-  const MaskGroup = styled.img`
+const MaskGroup = styled.img`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -96,6 +120,4 @@ const PopupMessage = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  
 `;
-

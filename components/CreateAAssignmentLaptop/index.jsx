@@ -21,8 +21,6 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import ScreenPopup from "../ScreenPopup";
 
-
-
 function CreateAAssignmentLaptop(props) {
   const {
     addQuestionFrameFn,
@@ -31,6 +29,7 @@ function CreateAAssignmentLaptop(props) {
     checkboxes,
     feedbackMethodUpdate,
     feedbackMethodValue,
+    feedbacksMethodContainer,
     showPopup,
     popupMessage,
     setShowPopup,
@@ -58,7 +57,9 @@ function CreateAAssignmentLaptop(props) {
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
         <Frame1378>
-          {showPopup && (<ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />)}
+          {showPopup && (
+            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />
+          )}
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
@@ -107,25 +108,7 @@ function CreateAAssignmentLaptop(props) {
                     </Link>
                   </Frame12811>
                   <Frame12981>
-                    <RadioGroup
-                      value={feedbackMethodValue}
-                      onChange={(event) =>
-                        feedbackMethodUpdate(event.target.value)
-                      }
-                    >
-                      <FormControlLabel
-                        value="TEACHER"
-                        control={<Radio />}
-                        label="Teacher Feedback"
-                 
-                      />
-                      <FormControlLabel
-                        value="P2P"
-                        control={<Radio />}
-                        label="Peer to Peer (randomised)"
-
-                      />
-                    </RadioGroup>
+                    {feedbacksMethodContainer}
                   </Frame12981>
                 </Frame1299>
               </Frame1295>

@@ -20,14 +20,17 @@ import { taskHeaderProps } from "../../utils/headerProps.js";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import ScreenPopup from "../ScreenPopup";
 function CreateAAssignmentTablet(props) {
   const {
     addQuestionFrameFn,
     questionFrames,
     publish,
     checkboxes,
-    feedbackMethodUpdate,
-    feedbackMethodValue,
+    feedbacksMethodContainer,
+    showPopup,
+    popupMessage,
+    setShowPopup,
     help1,
     help2,
     goBack21Props,
@@ -47,6 +50,9 @@ function CreateAAssignmentTablet(props) {
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
         <Frame1378>
+          {showPopup && (
+            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />
+          )}
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
@@ -90,25 +96,9 @@ function CreateAAssignmentTablet(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <RadioGroup
-                      value={feedbackMethodValue}
-                      onChange={(event) =>
-                        feedbackMethodUpdate(event.target.value)
-                      }
-                    >
-                      <FormControlLabel
-                        value="TEACHER"
-                        control={<Radio />}
-                        label="Teacher Feedback"
-                 
-                      />
-                      <FormControlLabel
-                        value="P2P"
-                        control={<Radio />}
-                        label="Peer to Peer (randomised)"
-
-                      />
-                    </RadioGroup>
+                  {
+                    feedbacksMethodContainer
+                  }
                 </Frame1299>
               </Frame1295>
             </Frame1294>

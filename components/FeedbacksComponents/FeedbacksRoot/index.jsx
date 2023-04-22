@@ -31,7 +31,7 @@ import { doc } from "prettier";
 import { range } from "lodash";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import {formattedDate} from "../../../dates"
+import { formattedDate } from "../../../dates";
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
@@ -348,8 +348,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
   const submissionStatusLabel = () => {
-    return "Created by : " + submission.assignment.teacherName + " | Due on : " + formattedDate(submission.assignment.dueAt)
-  }
+    return (
+      "Created by : " +
+      submission.assignment.teacherName +
+      " | Due on : " +
+      formattedDate(submission.assignment.dueAt)
+    );
+  };
   const methods = {
     submissionStatusLabel,
     isTeacher,

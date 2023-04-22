@@ -17,12 +17,20 @@ import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
 import { taskHeaderProps } from "../../utils/headerProps.js";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import ScreenPopup from "../ScreenPopup";
 function CreateAAssignmentTablet(props) {
   const {
     addQuestionFrameFn,
     questionFrames,
     publish,
     checkboxes,
+    feedbacksMethodContainer,
+    showPopup,
+    popupMessage,
+    setShowPopup,
     help1,
     help2,
     goBack21Props,
@@ -42,6 +50,9 @@ function CreateAAssignmentTablet(props) {
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
         <Frame1378>
+          {showPopup && (
+            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />
+          )}
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
@@ -85,12 +96,9 @@ function CreateAAssignmentTablet(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Checkbox>
-                    <Checkbox1>
-                      <Rectangle43 id="peertopeer" type="checkbox" />
-                    </Checkbox1>
-                    <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
-                  </Checkbox>
+                  {
+                    feedbacksMethodContainer
+                  }
                 </Frame1299>
               </Frame1295>
             </Frame1294>

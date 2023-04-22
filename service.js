@@ -44,7 +44,8 @@ export const getCookie = (name) => {
 };
 
 export const getTasks = async () => await getApi(baseUrl + "/tasks");
-export const getClassesWithStudents = async () => await getApi(baseUrl + "/classes/all/details");
+export const getClassesWithStudents = async () =>
+  await getApi(baseUrl + "/classes/all/details");
 export const getModelResponses = async () =>
   await getApi(baseUrl + "/feedbacks/modelResponses");
 export const getCompletedTasks = async () =>
@@ -68,17 +69,19 @@ export const addFeedback = async (submissionId, comment) =>
     baseUrl + "/submissions/" + submissionId + "/feedbacks",
     comment
   );
-export const deleteFeedback = async (submissionId, commentId) =>
-  {
-    const response = await fetch(baseUrl+"/submissions/" + submissionId + "/feedbacks/" + commentId, {
+export const deleteFeedback = async (submissionId, commentId) => {
+  const response = await fetch(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
+    {
       method: "DELETE",
       withCredentials: true,
       credentials: "include",
-    });
-  
-    handleErrors(response);
-    return response;
-  }
+    }
+  );
+
+  handleErrors(response);
+  return response;
+};
 export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + "/submissions/" + submissionId + "/comments");
 export const getModelResponsesForClass = async (classId) =>

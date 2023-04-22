@@ -3,93 +3,126 @@ import "quill/dist/quill.snow.css";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
-    feedbacksIbmplexsansBoldShark36px,
-    feedbacksIbmplexsansMediumPersianIndigo20px,
-    feedbacksIbmplexsansNormalBlack16px,
-    feedbacksIbmplexsansNormalChicago13px,
-    feedbacksIbmplexsansNormalMountainMist16px,
-    feedbacksIbmplexsansNormalShark20px,
-    feedbacksIbmplexsansNormalStack20px, IbmplexsansNormalBlack16px
+  feedbacksIbmplexsansBoldShark36px,
+  feedbacksIbmplexsansMediumPersianIndigo20px,
+  feedbacksIbmplexsansNormalBlack16px,
+  feedbacksIbmplexsansNormalChicago13px,
+  feedbacksIbmplexsansNormalMountainMist16px,
+  feedbacksIbmplexsansNormalShark20px,
+  feedbacksIbmplexsansNormalStack20px,
+  IbmplexsansNormalBlack16px,
 } from "../FeedbacksComponents/../../styledMixins";
 
 import CheckBox from "@mui/material/CheckBox";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";
-import {saveAnswer} from "../../service"
-export const CheckboxList = ({submission, question, pageMode, handleChangeText})=> {
-  const answerOptions = (submission.answers && submission.answers[question.serialNumber - 1]?.answer?.selectedOptions) 
-  ? submission.answers[question.serialNumber - 1].answer.selectedOptions.map(option => option.serialNumber) 
-  : [];
-    const [selectedOptions, setSelectedOptions] = useState(answerOptions);
+import { saveAnswer } from "../../service";
+export const CheckboxList = ({
+  submission,
+  question,
+  pageMode,
+  handleChangeText,
+}) => {
+  const answerOptions =
+    submission.answers &&
+    submission.answers[question.serialNumber - 1]?.answer?.selectedOptions
+      ? submission.answers[
+          question.serialNumber - 1
+        ].answer.selectedOptions.map((option) => option.serialNumber)
+      : [];
+  const [selectedOptions, setSelectedOptions] = useState(answerOptions);
 
   useEffect(() => {
-    handleSaveMCQAnswer (submission, question, handleChangeText, selectedOptions)
+    handleSaveMCQAnswer(
+      submission,
+      question,
+      handleChangeText,
+      selectedOptions
+    );
   }, [selectedOptions]);
-  
-  return mcqAnswerFrame( question, pageMode,  selectedOptions, setSelectedOptions)
-}
-const handleCheckboxChange= (setSelectedOptions)=>(event)=> {
-    const optionId = Number(event.target.value);
-    if (event.target.checked) {
-      setSelectedOptions((prevState) => [...prevState, optionId]);
-    } else {
-      setSelectedOptions((prevState) => prevState.filter((option) => option !== optionId));
-    }
-  }
-const handleSaveMCQAnswer = (submission, question, handleChangeText, answers) => {
-    const checked = question.options.map(option=>{
-      const id = "mcq_" + question.serialNumber + "_" + option.optionSerialNumber
-      return {
-        serialNumber:option.optionSerialNumber,
-        option:option.option,
-        checked:answers.includes(option.optionSerialNumber)
-      }
-    }).filter(answer=>{
-      return answer.checked === true
-    })
-    console.log("checked " + JSON.stringify(checked))
-    handleChangeText("Saving...", false);
-    saveAnswer(submission.id, question.serialNumber, {
-        question: question.question,
-        selectedOptions:checked
-      
-    }).then((_) => {
-      handleChangeText("All changes saved", true);
-    });
-  };
-const mcqAnswerFrame = ( question, pageMode,  selectedOptions, setSelectedOptions) => {
 
-    const options = question.options.map((option) => {
-      const checked = selectedOptions.includes(option.optionSerialNumber)
-      const isCorrect = option.isCorrect === checked
-      return (
-        <>
-          {pageMode === "REVIEW" || pageMode === "CLOSED" ? (
-            <ReviewCheckBoxContainer>
-              {" "}
-              <OptionCotainer>
-                <CheckBox checked={checked} disabled /> <OptionText>{option.option}</OptionText>{" "}
-              </OptionCotainer>
-              <OptionRemarkContainer>
-                <OptionRemark isCorrect={isCorrect} />
-              </OptionRemarkContainer>
-            </ReviewCheckBoxContainer>
-          ) : (
+  return mcqAnswerFrame(
+    question,
+    pageMode,
+    selectedOptions,
+    setSelectedOptions
+  );
+};
+const handleCheckboxChange = (setSelectedOptions) => (event) => {
+  const optionId = Number(event.target.value);
+  if (event.target.checked) {
+    setSelectedOptions((prevState) => [...prevState, optionId]);
+  } else {
+    setSelectedOptions((prevState) =>
+      prevState.filter((option) => option !== optionId)
+    );
+  }
+};
+const handleSaveMCQAnswer = (
+  submission,
+  question,
+  handleChangeText,
+  answers
+) => {
+  const checked = question.options
+    .map((option) => {
+      const id =
+        "mcq_" + question.serialNumber + "_" + option.optionSerialNumber;
+      return {
+        serialNumber: option.optionSerialNumber,
+        option: option.option,
+        checked: answers.includes(option.optionSerialNumber),
+      };
+    })
+    .filter((answer) => {
+      return answer.checked === true;
+    });
+  console.log("checked " + JSON.stringify(checked));
+  handleChangeText("Saving...", false);
+  saveAnswer(submission.id, question.serialNumber, {
+    question: question.question,
+    selectedOptions: checked,
+  }).then((_) => {
+    handleChangeText("All changes saved", true);
+  });
+};
+const mcqAnswerFrame = (
+  question,
+  pageMode,
+  selectedOptions,
+  setSelectedOptions
+) => {
+  const options = question.options.map((option) => {
+    const checked = selectedOptions.includes(option.optionSerialNumber);
+    const isCorrect = option.isCorrect === checked;
+    return (
+      <>
+        {pageMode === "REVIEW" || pageMode === "CLOSED" ? (
+          <ReviewCheckBoxContainer>
+            {" "}
             <OptionCotainer>
-              <CheckBox 
-                              value={option.optionSerialNumber}
-              checked={selectedOptions.includes(option.optionSerialNumber)}
-              onChange={handleCheckboxChange(setSelectedOptions)}
-                          />
+              <CheckBox checked={checked} disabled />{" "}
               <OptionText>{option.option}</OptionText>{" "}
             </OptionCotainer>
-          )}
-        </>
-      );
-    });
-    return <OptionsRoot>{options}</OptionsRoot>;
-  };
-export default CheckboxList
-
+            <OptionRemarkContainer>
+              <OptionRemark isCorrect={isCorrect} />
+            </OptionRemarkContainer>
+          </ReviewCheckBoxContainer>
+        ) : (
+          <OptionCotainer>
+            <CheckBox
+              value={option.optionSerialNumber}
+              checked={selectedOptions.includes(option.optionSerialNumber)}
+              onChange={handleCheckboxChange(setSelectedOptions)}
+            />
+            <OptionText>{option.option}</OptionText>{" "}
+          </OptionCotainer>
+        )}
+      </>
+    );
+  });
+  return <OptionsRoot>{options}</OptionsRoot>;
+};
+export default CheckboxList;
 
 const ReviewCheckBoxContainer = styled.div`
   display: flex;

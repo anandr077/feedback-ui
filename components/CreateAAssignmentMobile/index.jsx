@@ -17,6 +17,11 @@ import FooterSmall from "../FooterSmall";
 import GoBack from "../GoBack";
 import HeaderSmall from "../HeaderSmall";
 import "./CreateAAssignmentMobile.css";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
+import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentMobile(props) {
   const {
@@ -24,6 +29,12 @@ function CreateAAssignmentMobile(props) {
     questionFrames,
     publish,
     checkboxes,
+    feedbackMethodUpdate,
+    feedbackMethodValue,
+    feedbacksMethodContainer,
+    showPopup,
+    popupMessage,
+    setShowPopup,
     assignmentSettings,
     help1,
     feedbackMethod,
@@ -44,6 +55,13 @@ function CreateAAssignmentMobile(props) {
           <GoBack />
         </Frame1376>
         <Frame1378>
+          {showPopup && (
+            <ScreenPopup
+              message={popupMessage}
+              small={true}
+              setShowPopup={setShowPopup}
+            />
+          )}
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
@@ -89,12 +107,7 @@ function CreateAAssignmentMobile(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Checkbox>
-                    <Checkbox1>
-                      <Rectangle43 id="peertopeer" type="checkbox" />
-                    </Checkbox1>
-                    <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
-                  </Checkbox>
+                  {feedbacksMethodContainer}
                 </Frame1300>
               </Frame1295>
             </Frame1294>

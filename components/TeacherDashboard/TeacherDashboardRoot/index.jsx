@@ -1,6 +1,10 @@
 import React from "react";
 import ReactiveRender from "../../ReactiveRender";
-import { getAssignments, getTasks, getClassesWithStudents } from "../../../service";
+import {
+  getAssignments,
+  getTasks,
+  getClassesWithStudents,
+} from "../../../service";
 import TeacherDashboardMobile from "../TeacherDashboardMobile";
 import TeacherDashboardTablet from "../TeacherDashboardTablet";
 import TeacherDashboardLaptop from "../TeacherDashboardLaptop";
@@ -12,22 +16,20 @@ export default function TeacherDashboardRoot() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    Promise.all([
-      getAssignments(),
-      getClassesWithStudents()
-    ])
-    .then(([result, classesResult]) => {
-      if (result) {
-        setAssignments(result);
-        setClasses(classesResult);
-        setIsLoading(false);
+    Promise.all([getAssignments(), getClassesWithStudents()]).then(
+      ([result, classesResult]) => {
+        if (result) {
+          setAssignments(result);
+          setClasses(classesResult);
+          setIsLoading(false);
+        }
       }
-    });
+    );
   }, []);
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  console.log("classes "+ JSON.stringify(classes))
+  console.log("classes " + JSON.stringify(classes));
   const drafts = assignments.filter(
     (assignment) => assignment.submissionsStatus === "DRAFT"
   );
@@ -207,7 +209,6 @@ const frame13134Data = {
   jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
 };
 
-
 const group12052Data = {
   arrowright: "/img/arrowright@2x.png",
 };
@@ -312,8 +313,6 @@ const frame131325Data = {
   jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
 };
 
-
-
 const group12053Data = {
   arrowright: "/img/arrowright-8@2x.png",
 };
@@ -417,8 +416,6 @@ const frame131334Data = {
 const frame131335Data = {
   jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
 };
-
-
 
 const navElement23Data = {
   assignment: "/img/assignment@2x.png",

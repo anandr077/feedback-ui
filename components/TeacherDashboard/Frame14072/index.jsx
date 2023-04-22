@@ -21,7 +21,7 @@ function Frame14072(props) {
 }
 function createNewFrame(showCreateNew, iconsaxLinearAdd) {
   if (showCreateNew) {
-    <a href="/assignments/new">
+    return <a href="/assignments/new">
       <Frame1205>
         <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
         <CreateNew>CREATE NEW</CreateNew>

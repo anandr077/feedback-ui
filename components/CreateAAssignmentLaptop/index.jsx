@@ -19,6 +19,7 @@ import "./CreateAAssignmentLaptop.css";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import ScreenPopup from "../ScreenPopup";
 
 
 
@@ -30,6 +31,9 @@ function CreateAAssignmentLaptop(props) {
     checkboxes,
     feedbackMethodUpdate,
     feedbackMethodValue,
+    showPopup,
+    popupMessage,
+    setShowPopup,
     headerProps,
     line141,
     assignmentSettings,
@@ -54,6 +58,7 @@ function CreateAAssignmentLaptop(props) {
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
         <Frame1378>
+          {showPopup && (<ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />)}
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
@@ -102,13 +107,6 @@ function CreateAAssignmentLaptop(props) {
                     </Link>
                   </Frame12811>
                   <Frame12981>
-                    {/* <Checkbox>
-                      <Checkbox1>
-                        <Rectangle43 id="peertopeer" type="checkbox" />
-                      </Checkbox1>
-                      <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
-                    </Checkbox> */}
-                    {/* <FormControl> */}
                     <RadioGroup
                       value={feedbackMethodValue}
                       onChange={(event) =>
@@ -128,7 +126,6 @@ function CreateAAssignmentLaptop(props) {
 
                       />
                     </RadioGroup>
-                    {/* </FormControl> */}
                   </Frame12981>
                 </Frame1299>
               </Frame1295>

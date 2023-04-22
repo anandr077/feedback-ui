@@ -15,8 +15,10 @@ const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment() {
   const [classes, setClasses] = React.useState([]);
+  const [popupMessage, setPopupMessage] = React.useState("");
   const [feedbackMethodValue, setFeedbackMethodValue] =
     React.useState("TEACHER");
+  const [showPopup, setShowPopup] = React.useState(false);
 
   React.useEffect(() => {
     getClasses().then((res) => {
@@ -166,9 +168,19 @@ export default function CreateAssignment() {
       questions,
       reviewedBy,
     };
+    setPopupMessage("Assignment is being created");
+    setShowPopup(true);
     createAssignment(assignment).then((res) => {
-      console.log(res);
-      window.location.href = "/";
+      if(res.status === "PUBLISHED"){
+        setPopupMessage("Assignment Created Successfully");
+        setShowPopup(true);  
+      // window.location.href = "/";
+    }
+    else {
+      setPopupMessage("Assignment Creation Failed");
+      setShowPopup(true); 
+      return;
+    }
     });
   };
 
@@ -189,6 +201,7 @@ export default function CreateAssignment() {
     publish,
     checkboxes,
     feedbackMethodUpdate,
+    setShowPopup,
   };
 
   return (
@@ -198,6 +211,7 @@ export default function CreateAssignment() {
           {...{
             ...methods,
             feedbackMethodValue,
+            showPopup,
             ...createAAssignmentMobileData,
           }}
         />
@@ -207,6 +221,8 @@ export default function CreateAssignment() {
           {...{
             ...methods,
             feedbackMethodValue,
+            showPopup,
+            popupMessage,
             ...createAAssignmentTabletData,
           }}
         />
@@ -216,6 +232,8 @@ export default function CreateAssignment() {
           {...{
             ...methods,
             feedbackMethodValue,
+            showPopup,
+            popupMessage,
             ...createAAssignmentLaptopData,
           }}
         />
@@ -225,6 +243,8 @@ export default function CreateAssignment() {
           {...{
             ...methods,
             feedbackMethodValue,
+            showPopup,
+            popupMessage,
             ...createAAssignmentLaptopData,
           }}
         />

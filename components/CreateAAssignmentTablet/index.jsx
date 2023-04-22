@@ -17,12 +17,17 @@ import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
 import HeaderSmall from "../HeaderSmall";
 import { taskHeaderProps } from "../../utils/headerProps.js";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 function CreateAAssignmentTablet(props) {
   const {
     addQuestionFrameFn,
     questionFrames,
     publish,
     checkboxes,
+    feedbackMethodUpdate,
+    feedbackMethodValue,
     help1,
     help2,
     goBack21Props,
@@ -85,12 +90,25 @@ function CreateAAssignmentTablet(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Checkbox>
-                    <Checkbox1>
-                      <Rectangle43 id="peertopeer" type="checkbox" />
-                    </Checkbox1>
-                    <CheckBoxText>Peer to Peer (randomised) </CheckBoxText>
-                  </Checkbox>
+                  <RadioGroup
+                      value={feedbackMethodValue}
+                      onChange={(event) =>
+                        feedbackMethodUpdate(event.target.value)
+                      }
+                    >
+                      <FormControlLabel
+                        value="TEACHER"
+                        control={<Radio />}
+                        label="Teacher Feedback"
+                 
+                      />
+                      <FormControlLabel
+                        value="P2P"
+                        control={<Radio />}
+                        label="Peer to Peer (randomised)"
+
+                      />
+                    </RadioGroup>
                 </Frame1299>
               </Frame1295>
             </Frame1294>

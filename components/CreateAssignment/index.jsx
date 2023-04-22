@@ -166,10 +166,10 @@ export default function CreateAssignment() {
       questions,
       reviewedBy,
     };
-    // createAssignment(assignment).then((res) => {
-    //   console.log(res);
-    //   window.location.href = "/";
-    // });
+    createAssignment(assignment).then((res) => {
+      console.log(res);
+      window.location.href = "/";
+    });
   };
 
   const checkboxes = classes.map((clazz) => {

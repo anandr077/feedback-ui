@@ -15,6 +15,8 @@ const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment() {
   const [classes, setClasses] = React.useState([]);
+  const [feedbackMethodValue, setFeedbackMethodValue] =
+    React.useState("TEACHER");
 
   React.useEffect(() => {
     getClasses().then((res) => {
@@ -22,6 +24,9 @@ export default function CreateAssignment() {
     });
   }, []);
 
+  const feedbackMethodUpdate = (selectedMethod) => {
+    setFeedbackMethodValue(selectedMethod);
+  };
   const [questionFrames, setQuestionFrames] = React.useState([
     createNewQuestionFrame(1, null, "small"),
   ]);
@@ -107,8 +112,8 @@ export default function CreateAssignment() {
 
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
-    const peertopeer = document.getElementById("peertopeer").checked;
-    const reviewedBy = peertopeer ? "P2P" : "TEACHER";
+    // const peertopeer = document.getElementById("peertopeer").checked;
+    const reviewedBy = feedbackMethodValue;
     const classIds = classes
       .filter((clazz) => {
         return document.getElementById(clazz.id).checked;
@@ -161,10 +166,10 @@ export default function CreateAssignment() {
       questions,
       reviewedBy,
     };
-    createAssignment(assignment).then((res) => {
-      console.log(res);
-      window.location.href = "/";
-    });
+    // createAssignment(assignment).then((res) => {
+    //   console.log(res);
+    //   window.location.href = "/";
+    // });
   };
 
   const checkboxes = classes.map((clazz) => {
@@ -183,6 +188,7 @@ export default function CreateAssignment() {
     questionFrames,
     publish,
     checkboxes,
+    feedbackMethodUpdate,
   };
 
   return (
@@ -191,6 +197,7 @@ export default function CreateAssignment() {
         <CreateAAssignmentMobile
           {...{
             ...methods,
+            feedbackMethodValue,
             ...createAAssignmentMobileData,
           }}
         />
@@ -199,6 +206,7 @@ export default function CreateAssignment() {
         <CreateAAssignmentTablet
           {...{
             ...methods,
+            feedbackMethodValue,
             ...createAAssignmentTabletData,
           }}
         />
@@ -207,6 +215,7 @@ export default function CreateAssignment() {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
+            feedbackMethodValue,
             ...createAAssignmentLaptopData,
           }}
         />
@@ -215,6 +224,7 @@ export default function CreateAssignment() {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
+            feedbackMethodValue,
             ...createAAssignmentLaptopData,
           }}
         />

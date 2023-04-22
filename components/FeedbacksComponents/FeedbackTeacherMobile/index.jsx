@@ -39,7 +39,6 @@ function FeedbackTeacherMobile(props) {
     toolbar: false,
   };
 
-  
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -56,7 +55,12 @@ function FeedbackTeacherMobile(props) {
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
           {question.type === "MCQ" ? (
-            <CheckboxList submission={submission} question={question} pageMode={pageMode}  handleChangeText={methods.handleChangeText}/>
+            <CheckboxList
+              submission={submission}
+              question={question}
+              pageMode={pageMode}
+              handleChangeText={methods.handleChangeText}
+            />
           ) : (
             <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
               <QuillEditor
@@ -147,7 +151,7 @@ const StatusText = styled.p`
   // width: 714px;
   // height: 21px;
 
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -157,7 +161,6 @@ const StatusText = styled.p`
   letter-spacing: -0.025em;
 
   color: #979797;
-
 
   /* Inside auto layout */
 

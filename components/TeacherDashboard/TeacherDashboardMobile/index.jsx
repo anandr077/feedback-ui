@@ -50,19 +50,26 @@ function TeacherDashboardMobile(props) {
           <Frame1339>
             <Frame1337>
               <Classes>Classes</Classes>
-              <Group1205 link="/classes" label="VIEW ALL" arrowright={group1205Props.arrowright} />
+              <Group1205
+                link="/classes"
+                label="VIEW ALL"
+                arrowright={group1205Props.arrowright}
+              />
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
-            <Frame1336>
-              {classesFrames(classes, frame131241Props)}
-            </Frame1336>
+            <Frame1336>{classesFrames(classes, frame131241Props)}</Frame1336>
           </Frame1339>
-          {createAssignmentsFrame(group1205Props, line172, 
-            stats= [
-                {title:"DRAFTS", count:drafts.length },
-                {title:"AWAITING SUBMISSIONS", count:awaitingSubmissions.length },
-                {title:"FEEDBACKS", count:feedbacks.length }
-              ]
+          {createAssignmentsFrame(
+            group1205Props,
+            line172,
+            (stats = [
+              { title: "DRAFTS", count: drafts.length },
+              {
+                title: "AWAITING SUBMISSIONS",
+                count: awaitingSubmissions.length,
+              },
+              { title: "FEEDBACKS", count: feedbacks.length },
+            ])
           )}
           <Frame1341>
             <Frame1337>
@@ -79,59 +86,71 @@ function TeacherDashboardMobile(props) {
           </Frame1341>
         </Frame1417>
       </Frame1419>
-      <FooterSmall/>
+      <FooterSmall />
     </div>
   );
 }
 function createAssignmentsFrame(group1205Props, line172, stats) {
-  
-  return <Frame1339>
-    <Frame1337>
-      <Classes>Assignments</Classes>
-      
-      <Group1205 link = "/assignments/new" label="CREATE NEW" arrowleft={"/img/iconsax-linear-add-1@2x.png"} />
-      <Group1205 link = "/assignments" label="VIEW ALL" arrowright={group1205Props.arrowright} />
-    </Frame1337>
-    <Line17 src={line172} alt="Line 17" />
-    {createStatsFrame(stats)}
-  </Frame1339>;
+  return (
+    <Frame1339>
+      <Frame1337>
+        <Classes>Assignments</Classes>
+
+        <Group1205
+          link="/assignments/new"
+          label="CREATE NEW"
+          arrowleft={"/img/iconsax-linear-add-1@2x.png"}
+        />
+        <Group1205
+          link="/assignments"
+          label="VIEW ALL"
+          arrowright={group1205Props.arrowright}
+        />
+      </Frame1337>
+      <Line17 src={line172} alt="Line 17" />
+      {createStatsFrame(stats)}
+    </Frame1339>
+  );
 }
 
 function createStatsFrame(stats) {
-  const statsFrames = <>{stats.map(stat=>{
-    return <Frame12842 title={stat.title} count={stat.count} />
-  })}</>
-  return <Frame1307>
-    {statsFrames}
-  </Frame1307>;
+  const statsFrames = (
+    <>
+      {stats.map((stat) => {
+        return <Frame12842 title={stat.title} count={stat.count} />;
+      })}
+    </>
+  );
+  return <Frame1307>{statsFrames}</Frame1307>;
 }
 
 function classesFrames(classes, frame131241Props) {
-  
-    return <>{classes.map(clazz=>{
-      return <a href={"/classes/" + clazz.id}>
-    <Frame1312>
-      <Frame13121>
-        
-     
-
-        <Frame13122>
-          <X12ENGADV3>{clazz.title}</X12ENGADV3>
-        </Frame13122>
-        <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
-        {createStatsFrame(stats=[
-        {title:"STUDENTS", count:clazz.students.length },
-        {title:"PENDING TASKS", count:"-" },
-        {title:"DRAFTS", count:"-" }
-        ]
-        )}
-      </Frame13121>
-    </Frame1312>
-    </a>})}
-      </>
-  
+  return (
+    <>
+      {classes.map((clazz) => {
+        return (
+          <a href={"/classes/" + clazz.id}>
+            <Frame1312>
+              <Frame13121>
+                <Frame13122>
+                  <X12ENGADV3>{clazz.title}</X12ENGADV3>
+                </Frame13122>
+                <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
+                {createStatsFrame(
+                  (stats = [
+                    { title: "STUDENTS", count: clazz.students.length },
+                    { title: "PENDING TASKS", count: "-" },
+                    { title: "DRAFTS", count: "-" },
+                  ])
+                )}
+              </Frame13121>
+            </Frame1312>
+          </a>
+        );
+      })}
+    </>
+  );
 }
-
 
 const Frame1312 = styled.div`
   display: flex;
@@ -172,7 +191,6 @@ const Frame13121 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
-  
 `;
 
 const Frame13122 = styled.div`
@@ -192,8 +210,6 @@ const X12ENGADV3 = styled.div`
   letter-spacing: -0.5px;
   line-height: normal;
 `;
-
-
 
 const Frame1419 = styled.div`
   display: flex;

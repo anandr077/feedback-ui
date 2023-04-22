@@ -8,9 +8,9 @@ function Group1205(props) {
   return (
     <a href={link}>
       <Group12051>
-        {arrowleft ?  <Arrowright src={arrowleft}  />:<></>}
+        {arrowleft ? <Arrowright src={arrowleft} /> : <></>}
         <ViewAll>{label}</ViewAll>
-        {arrowright ?  <Arrowright src={arrowright}  />:<></>}
+        {arrowright ? <Arrowright src={arrowright} /> : <></>}
       </Group12051>
     </a>
   );

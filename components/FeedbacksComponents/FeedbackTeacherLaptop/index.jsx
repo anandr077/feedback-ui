@@ -137,7 +137,6 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
 
-
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -155,7 +154,12 @@ function FeedbackTeacherLaptop(props) {
         <Frame1366>
           <QuestionText>{questionText}</QuestionText>
           {question.type === "MCQ" ? (
-            <CheckboxList submission={submission} question={question} pageMode={pageMode} handleChangeText={methods.handleChangeText}/>
+            <CheckboxList
+              submission={submission}
+              question={question}
+              pageMode={pageMode}
+              handleChangeText={methods.handleChangeText}
+            />
           ) : (
             <QuillContainer
               onClick={() => {
@@ -188,12 +192,12 @@ function FeedbackTeacherLaptop(props) {
     );
   });
 
-  const tasksListsDropDown = ()=>{
+  const tasksListsDropDown = () => {
     if (isTeacher) {
-      return <Frame131612>{methods.createTasksDropDown()}</Frame131612>
-    } 
-    return <></>
-  }
+      return <Frame131612>{methods.createTasksDropDown()}</Frame131612>;
+    }
+    return <></>;
+  };
   const shareWithClassFrame = () => {
     if (getUserRole() === "STUDENT") return <></>;
     return (
@@ -307,7 +311,7 @@ const StatusText = styled.p`
   // width: 714px;
   // height: 21px;
 
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -317,7 +321,6 @@ const StatusText = styled.p`
   letter-spacing: -0.025em;
 
   color: #979797;
-
 
   /* Inside auto layout */
 

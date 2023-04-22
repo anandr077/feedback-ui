@@ -3,13 +3,14 @@ import styled from "styled-components";
 import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
 
 function Group1205(props) {
-  const { arrowright } = props;
+  const { arrowright, arrowleft, link, label } = props;
 
   return (
-    <a href="/classes">
+    <a href={link}>
       <Group12051>
-        <ViewAll>VIEW ALL</ViewAll>
-        <Arrowright src={arrowright} alt="arrowright" />
+        {arrowleft ?  <Arrowright src={arrowleft}  />:<></>}
+        <ViewAll>{label}</ViewAll>
+        {arrowright ?  <Arrowright src={arrowright}  />:<></>}
       </Group12051>
     </a>
   );

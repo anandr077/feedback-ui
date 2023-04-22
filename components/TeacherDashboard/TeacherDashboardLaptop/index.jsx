@@ -18,6 +18,7 @@ import "./TeacherDashboardLaptop.css";
 import Header from "../../Header";
 import { teacherHomeHeaderProps } from "../../../utils/headerProps";
 import { getUserName } from "../../../service";
+import Footer from "../../Footer";
 
 function TeacherDashboardLaptop(props) {
   const {
@@ -58,7 +59,7 @@ function TeacherDashboardLaptop(props) {
           <Frame1339>
             <Frame1337>
               <Classes>Classes</Classes>
-              <Group1205 arrowright={group1205Props.arrowright} />
+              <Group1205 link="/classes" label="VIEW ALL" arrowright={group1205Props.arrowright} />
             </Frame1337>
             <Line17 src={line172} alt="Line 17" />
             <Frame1336>
@@ -70,6 +71,7 @@ function TeacherDashboardLaptop(props) {
               <Frame1337>
                 <Classes>Assignments</Classes>
                 <Frame14072
+                  showCreateNew={true}
                   iconsaxLinearAdd={frame14072Props.iconsaxLinearAdd}
                   line17={frame14072Props.line17}
                   arrowright={frame14072Props.arrowright}
@@ -101,12 +103,7 @@ function TeacherDashboardLaptop(props) {
           </Frame1416>
         </Frame1417>
       </Frame1419>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>
-          {x2021JeddleAllRightsReserved}
-        </X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
+      <Footer/>
     </div>
   );
 }

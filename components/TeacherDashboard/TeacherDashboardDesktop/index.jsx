@@ -68,7 +68,7 @@ function TeacherDashboardDesktop(props) {
           <Frame1339>
             <Frame1337>
               <Classes>Classes</Classes>
-              <Group1205 arrowright={group1205Props.arrowright} />
+              <Group1205 link="/classes" label="VIEW ALL" arrowright={group1205Props.arrowright} />
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>
@@ -79,11 +79,9 @@ function TeacherDashboardDesktop(props) {
             <Frame1340>
               <Frame1337>
                 <Classes>Assignments</Classes>
-                <Frame14072
-                  iconsaxLinearAdd={frame14072Props.iconsaxLinearAdd}
-                  line17={frame14072Props.line17}
-                  arrowright={frame14072Props.arrowright}
-                />
+                <Group1205 link = "/assignments/new" label="CREATE NEW" arrowleft={"/img/iconsax-linear-add-1@2x.png"} />
+                <Group1205 link = "/assignments" label="VIEW ALL" arrowright={group1205Props.arrowright} />
+
               </Frame1337>
               <Line17 src={line172} alt="Line 17" />
               <Frame1307>

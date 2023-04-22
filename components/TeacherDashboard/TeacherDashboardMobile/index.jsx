@@ -7,6 +7,7 @@ import Frame12842 from "../Frame12842";
 import Frame13132 from "../Frame13132";
 import Group1205 from "../Group1205";
 import { IbmplexsansMediumShark20px } from "../styledMixins";
+import { IbmplexsansMediumShark20px } from "../styledMixins";
 
 import {
   IbmplexsansMediumRiverBed24px,
@@ -14,7 +15,7 @@ import {
   IbmplexsansNormalPersianIndigo13px,
 } from "../styledMixins";
 import "./TeacherDashboardMobile.css";
-import Footer from "../../Footer";
+import FooterSmall from "../../FooterSmall";
 
 function TeacherDashboardMobile(props) {
   const {
@@ -67,7 +68,7 @@ function TeacherDashboardMobile(props) {
           <Frame1339>
             <Frame1337>
               <Classes>Classes</Classes>
-              <Group1205 arrowright={group1205Props.arrowright} />
+              <Group1205 link="/classes" label="VIEW ALL" arrowright={group1205Props.arrowright} />
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>
@@ -96,7 +97,7 @@ function TeacherDashboardMobile(props) {
           </Frame1341>
         </Frame1417>
       </Frame1419>
-      <Footer/>
+      <FooterSmall/>
     </div>
   );
 }
@@ -105,7 +106,9 @@ function createAssignmentsFrame(group1205Props, line172, stats) {
   return <Frame1339>
     <Frame1337>
       <Classes>Assignments</Classes>
-      <Group1205 arrowright={group1205Props.arrowright} />
+      
+      <Group1205 link = "/assignments/new" label="CREATE NEW" arrowleft={"/img/iconsax-linear-add-1@2x.png"} />
+      <Group1205 link = "/assignments" label="VIEW ALL" arrowright={group1205Props.arrowright} />
     </Frame1337>
     <Line17 src={line172} alt="Line 17" />
     {createStatsFrame(stats)}
@@ -128,16 +131,7 @@ function classesFrames(classes, frame131241Props) {
     <Frame1312>
       <Frame13121>
         
-      {/* <Frame13124
-          key={"frame13124_" + clazz.id}
-          clazz={clazz}
-          x12Engadv3={frame131241Props.x12Engadv3}
-          frame1407Props={frame131241Props.frame1407Props}
-          frame1284Props={frame131241Props.frame1284Props}
-          frame1283Props={frame131241Props.frame1283Props}
-          frame1282Props={frame131241Props.frame1282Props} /> */}
-
-
+     
 
         <Frame13122>
           <X12ENGADV3>{clazz.title}</X12ENGADV3>
@@ -177,7 +171,18 @@ const Frame1312 = styled.div`
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
 `;
-
+const Frame1205 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+`;
+const IconsaxLinearAdd = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
 const Frame13121 = styled.div`
   display: flex;
   flex-direction: column;

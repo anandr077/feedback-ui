@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../Logo";
 import Notifications from "../Notifications";
 import Group1205 from "../Group1205";
+import FooterSmall from "../../FooterSmall";
 import Frame13123 from "../Frame13123";
 import Frame14072 from "../Frame14072";
 import Frame12842 from "../Frame12842";
@@ -76,7 +77,7 @@ function TeacherDashboardTablet(props) {
           <Frame1339>
             <Frame1337>
               <Classes>Classes</Classes>
-              <Group1205 arrowright={group1205Props.arrowright} />
+              <Group1205 link="/classes" label="VIEW ALL" arrowright={group1205Props.arrowright} />
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>
@@ -86,11 +87,9 @@ function TeacherDashboardTablet(props) {
           <Frame1340>
             <Frame1337>
               <Classes>Assignments</Classes>
-              <Frame14072
-                iconsaxLinearAdd={frame14072Props.iconsaxLinearAdd}
-                line17={frame14072Props.line17}
-                arrowright={frame14072Props.arrowright}
-              />
+              <Group1205 link = "/assignments/new" label="CREATE NEW" arrowleft={"/img/iconsax-linear-add-1@2x.png"} />
+              <Group1205 link = "/assignments" label="VIEW ALL" arrowright={group1205Props.arrowright} />
+
             </Frame1337>
             <Line17 src={line172} alt="Line 17" />
             <Frame1307>
@@ -117,16 +116,7 @@ function TeacherDashboardTablet(props) {
           </Frame13411>
         </Frame1417>
       </Frame1419>
-      <Frame1420>
-        <X2023JeddleAllRightsReserved>
-          {x2023JeddleAllRightsReserved}
-        </X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1420>
+      <FooterSmall/>
     </div>
   );
 }

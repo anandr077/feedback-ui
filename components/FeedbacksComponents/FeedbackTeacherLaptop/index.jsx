@@ -7,6 +7,7 @@ import QuillEditor from "../../QuillEditor";
 import CheckboxList from "../../CheckboxList";
 import styled from "styled-components";
 import {
+  IbmplexsansNormalFuscousGray14px,
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
   feedbacksIbmplexsansNormalBlack16px,
@@ -38,6 +39,7 @@ import OptionRemark from "../OptionRemark";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    isTeacher,
     labelText,
     quillRefs,
     pageMode,
@@ -186,7 +188,12 @@ function FeedbackTeacherLaptop(props) {
     );
   });
 
-  const tasksListsDropDown = methods.createTasksDropDown();
+  const tasksListsDropDown = ()=>{
+    if (isTeacher) {
+      return <Frame131612>{methods.createTasksDropDown()}</Frame131612>
+    } 
+    return <></>
+  }
   const shareWithClassFrame = () => {
     if (getUserRole() === "STUDENT") return <></>;
     return (
@@ -254,7 +261,10 @@ function FeedbackTeacherLaptop(props) {
         </Frame1387>
         <Frame1386 id="content">
           <Frame1371>
-            <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+            <TitleWrapper>
+              <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+              <StatusText>{methods.submissionStatusLabel()}</StatusText>
+            </TitleWrapper>
             {pageMode === "CLOSED" && (
               <Buttons2
                 button="Download PDF"
@@ -262,7 +272,7 @@ function FeedbackTeacherLaptop(props) {
                 onClickFn={methods.downloadPDF}
               />
             )}
-            <Frame131612>{tasksListsDropDown}</Frame131612>
+            {tasksListsDropDown()}
             {(pageMode === "DRAFT" || pageMode === "REVISE") && (
               <StatusLabel
                 key="statusLabel"
@@ -284,7 +294,38 @@ function FeedbackTeacherLaptop(props) {
     </div>
   );
 }
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: -0.9px;
+  line-height: normal;
+`;
+const StatusText = styled.p`
+  // width: 714px;
+  // height: 21px;
 
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  /* identical to box height */
+
+  letter-spacing: -0.025em;
+
+  color: #979797;
+
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+`;
 const ReviewCheckBoxContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -334,7 +375,7 @@ const Line6 = styled.img`
   object-fit: cover;
 `;
 const Frame131612 = styled.div`
-  width: 100%;
+  // width: 100%;
   max-width: 300px;
   display: flex;
 `;

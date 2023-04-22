@@ -9,7 +9,6 @@ import { IbmplexsansMediumShark20px } from "../styledMixins";
 function Frame13124(props) {
   const {
     clazz,
-    frame1407Props,
   } = props;
 
   return (
@@ -18,11 +17,6 @@ function Frame13124(props) {
       <Frame13121>
         <Frame13122>
           <X12ENGADV3>{clazz.title}</X12ENGADV3>
-          <Frame1407
-            arrowright1={frame1407Props.arrowright1}
-            line17={"/img/line-17-22@2x.png"}
-            arrowright2={frame1407Props.arrowright2}
-          />
         </Frame13122>
         <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
         <Frame1307>
@@ -50,6 +44,11 @@ const Frame1312 = styled.div`
   border: 1px solid;
   border-color: var(--electric-violet);
   box-shadow: 0px 4px 16px #7200e01a;
+  &: hover {
+    background: #f9f5ff;
+    border: 1px solid #7200e0;
+    box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
+  }
 `;
 
 const Frame13121 = styled.div`
@@ -59,6 +58,7 @@ const Frame13121 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  
 `;
 
 const Frame13122 = styled.div`

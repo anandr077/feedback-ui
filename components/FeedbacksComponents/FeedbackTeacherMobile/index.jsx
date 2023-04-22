@@ -4,6 +4,7 @@ import styled from "styled-components";
 import CheckboxList from "../../CheckboxList";
 
 import {
+  feedbacksIbmplexsansBoldShark36px,
   IbmplexsansMediumPersianIndigo20px,
   IbmplexsansNormalBlack16px,
   IbmplexsansNormalChicago13px,
@@ -38,18 +39,7 @@ function FeedbackTeacherMobile(props) {
     toolbar: false,
   };
 
-  const mcqAnswerFrame = (question) => {
-    const options = question.options.map((option) => {
-      console.log("##", option.option);
-      return (
-        <OptionCotainer>
-          <CheckBox />
-          <OptionText>{option.option}</OptionText>
-        </OptionCotainer>
-      );
-    });
-    return <OptionsRoot>{options}</OptionsRoot>;
-  };
+  
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -66,7 +56,7 @@ function FeedbackTeacherMobile(props) {
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
           {question.type === "MCQ" ? (
-            <CheckboxList submission={submission} question={question} pageMode={pageMode} handleChangeText={methods.handleChangeText}/>
+            <CheckboxList submission={submission} question={question} pageMode={pageMode}  handleChangeText={methods.handleChangeText}/>
           ) : (
             <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
               <QuillEditor
@@ -111,7 +101,10 @@ function FeedbackTeacherMobile(props) {
         </Frame1387>
         <Frame1386>
           <Frame1371>
-            <PhysicsThermodyna>{submission.assignment.title}</PhysicsThermodyna>
+            <TitleWrapper>
+              <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+              <StatusText>{methods.submissionStatusLabel()}</StatusText>
+            </TitleWrapper>
             <Frame1369>
               <Frame131612>{tasksListsDropDown}</Frame131612>
             </Frame1369>
@@ -133,6 +126,46 @@ function FeedbackTeacherMobile(props) {
   );
 }
 
+const AssignmentTitle = styled.h1`
+  ${feedbacksIbmplexsansBoldShark36px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: -0.9px;
+  line-height: normal;
+`;
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: -0.9px;
+  line-height: normal;
+`;
+const StatusText = styled.p`
+  // width: 714px;
+  // height: 21px;
+
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  /* identical to box height */
+
+  letter-spacing: -0.025em;
+
+  color: #979797;
+
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+`;
 const OptionsRoot = styled.div`
   width: 100%;
   display: flex;

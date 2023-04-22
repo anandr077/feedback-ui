@@ -16,11 +16,10 @@ import CheckBox from "@mui/material/CheckBox";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";
 import {saveAnswer} from "../../service"
 export const CheckboxList = ({submission, question, pageMode, handleChangeText})=> {
-
-    const [selectedOptions, setSelectedOptions] = useState(submission.answers[question.serialNumber - 1]
-        .answer
-        .selectedOptions
-        .map(option=>option.serialNumber));
+  const answerOptions = (submission.answers && submission.answers[question.serialNumber - 1]?.answer?.selectedOptions) 
+  ? submission.answers[question.serialNumber - 1].answer.selectedOptions.map(option => option.serialNumber) 
+  : [];
+    const [selectedOptions, setSelectedOptions] = useState(answerOptions);
 
   useEffect(() => {
     handleSaveMCQAnswer (submission, question, handleChangeText, selectedOptions)

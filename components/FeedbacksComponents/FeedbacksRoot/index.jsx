@@ -209,16 +209,23 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         length: comment.range.to - comment.range.from,
       };
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
-      quill.selectRange(range);
+      
 
       const div = document.getElementById(
         "quill_" + comment.questionSerialNumber
       );
+
+      quill.selectRange(range);
+      quill.focus();
+      
       div.scrollIntoView({
         behavior: "smooth",
         block: "center",
         inline: "center",
       });
+
+      
+      
     } else {
       console.log("No range");
     }
@@ -268,6 +275,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       block: "center",
       inline: "center",
     });
+    setTimeout(()=>{
+      div.style.background = "#FFFFFF";
+      div.style.border = "1px solid #E5E5E5";
+      div.style.boxShadow = "0px 4px 16px #7200e01a";
+      div.style.scale = 1;
+    }, 2000)
     div.style.background = "#F9F5FF";
     div.style.border = "1px solid #7200E0";
     div.style.boxShadow = "0px 4px 16px rgba(114, 0, 224, 0.2)";

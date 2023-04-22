@@ -10,7 +10,6 @@ function CommentCard32(props) {
   return (
     <CommentCard
       id={"comment_" + comment.id}
-      onClick={() => onClick(comment)}
       className={`comment-card-4 ${className || ""}`}
     >
       <ReviewsFrame132532
@@ -19,7 +18,7 @@ function CommentCard32(props) {
         isClosable={isClosable}
         onClose={onClose}
       />
-      <HoremIpsumDolorSi className="horem-ipsum-dolor-si-1">
+      <HoremIpsumDolorSi onClick={() => onClick(comment)} className="horem-ipsum-dolor-si-1">
         {comment.comment}
       </HoremIpsumDolorSi>
     </CommentCard>
@@ -39,7 +38,7 @@ const CommentCard = styled.article`
   border: 1px solid;
   border-color: var(--electric-violet);
   box-shadow: 0px 4px 16px #7200e01a;
-  cursor: pointer;
+  // cursor: pointer;
 
   &.comment-card-4.comment-card-5 {
     cursor: unset;
@@ -56,6 +55,7 @@ const HoremIpsumDolorSi = styled.div`
   align-self: stretch;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 export default CommentCard32;

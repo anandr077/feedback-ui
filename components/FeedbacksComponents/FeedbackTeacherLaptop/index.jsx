@@ -28,6 +28,7 @@ import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
+import FocussedInput from "../../FocussedInput";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
 import CheckBox from "@mui/material/CheckBox";
@@ -137,6 +138,21 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
 
+<<<<<<< HEAD
+  const createDebounceFunction = () => {
+    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+      return {
+        debounceTime:2000,
+        onDebounce:methods.handlesaveAnswer(answer.serialNumber)
+      }
+    }
+    return {
+      debounceTime:0,
+      onDebounce:console.log
+    }
+  }
+=======
+>>>>>>> 60315e6c54bbec6e57f90f3d232584880e459774
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -148,7 +164,7 @@ function FeedbackTeacherLaptop(props) {
       ) || newAnswer;
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
-
+    const debounce = createDebounceFunction
     return (
       <>
         <Frame1366>
@@ -182,8 +198,9 @@ function FeedbackTeacherLaptop(props) {
                   theme: "snow",
                   readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
                 }}
-                debounceTime={2000}
-                onDebounce={methods.handlesaveAnswer(answer.serialNumber)}
+
+                debounceTime={debounce.debounceTime}
+                onDebounce={debounce.onDebounce}
               ></QuillEditor>
             </QuillContainer>
           )}
@@ -223,12 +240,12 @@ function FeedbackTeacherLaptop(props) {
         <Frame1406>
           <Frame1326>
             <TypeHere>
-              <TextInput
+              <FocussedInput
                 id="newCommentInput"
                 ref={newCommentFrameRef}
                 placeholder="Comment here...."
                 onKeyPress={methods.handleKeyPress}
-              ></TextInput>
+              ></FocussedInput>
             </TypeHere>
           </Frame1326>
 
@@ -250,7 +267,7 @@ function FeedbackTeacherLaptop(props) {
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
-      <Frame1388 onClick={methods.unhighlightComment}>
+      <Frame1388>
         {tabletView ? (
           <HeaderSmall headerProps={headerProps} />
         ) : (
@@ -680,7 +697,7 @@ const Frame1331 = styled.div`
   padding: 20px 20px;
 
   position: sticky;
-  top: 0;
+  top: 100px;
 
   background-color: var(--white);
   border-radius: 16px;

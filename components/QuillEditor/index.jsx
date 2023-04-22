@@ -17,7 +17,9 @@ const QuillEditor = React.forwardRef(
 
         const debounce = (func, wait) => {
           let timeout;
+          
           return function (...args) {
+            console.log(args)
             const context = this;
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(context, args), wait);
@@ -27,12 +29,13 @@ const QuillEditor = React.forwardRef(
         const handleDebounce = () => {
           onDebounce(editor.root.innerHTML);
         };
+        if (debounceTime > 0) {
+          const debouncedAction = debounce(handleDebounce, debounceTime);
 
-        const debouncedAction = debounce(handleDebounce, debounceTime);
-
-        editor.on("text-change", () => {
-          debouncedAction();
-        });
+          editor.on("text-change", () => {
+            debouncedAction();
+          });
+        }
 
         comments.forEach((comment) => {
           if (comment.range) {
@@ -40,12 +43,22 @@ const QuillEditor = React.forwardRef(
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-            console.log(editor);
-            console.log("range " + JSON.stringify(range));
-            const result = editor.formatText(range.index, range.length, {
-              background: "#fff9c4",
+            
+
+            const highlight = document.createElement('span');
+            highlight.classList.add('quill-highlight');
+
+            // Surround the selected text with the highlight element
+            editor.formatText(range.index, range.length, {
+              'custom-highlight': true.valueOf,
+              'background': "#fff9c4",
             });
-            console.log("result " + JSON.stringify(result));
+
+            // Get all the highlight elements and remove the class name
+            const highlights = editor.root.querySelectorAll('.quill-highlight');
+            for (let i = 0; i < highlights.length; i++) {
+              highlights[i].classList.remove('quill-highlight');
+            }
           }
         });
         setEditor(editor);
@@ -62,6 +75,18 @@ const QuillEditor = React.forwardRef(
       },
       getSelection() {
         return editor.getSelection();
+      },
+      getLeaf(index) {
+        return editor.getLeaf(index);
+      },
+      getBounds(index, length) {
+        return editor.getBounds(index, length);
+      },
+      container() {
+        return editor.container;
+      },
+      focus() {
+        return editor.focus();
       },
     }));
 

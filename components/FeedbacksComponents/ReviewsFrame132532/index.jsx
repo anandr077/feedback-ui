@@ -68,6 +68,7 @@ const More = styled.img`
   position: relative;
   min-width: 24px;
   height: 24px;
+  cursor: pointer;
 `;
 
 export default ReviewsFrame132532;

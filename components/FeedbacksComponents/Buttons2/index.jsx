@@ -32,7 +32,7 @@ function Buttons2(props) {
       return (
         <Arrowright
           className="arrowright"
-          src={"/icons/arrowright.png"}
+          src={"/icons/arrowright@2x.png"}
           alt="arrowright"
         />
       );

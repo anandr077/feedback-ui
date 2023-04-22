@@ -10,13 +10,18 @@ import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import ReactiveRender, { isMobileView } from "../ReactiveRender";
 import { assignmentsHeaderProps } from "../../utils/headerProps";
 import MCQQuestionFrame from "../MCQQuestionFrame";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment() {
   const [classes, setClasses] = React.useState([]);
+  const [popupMessage, setPopupMessage] = React.useState("");
   const [feedbackMethodValue, setFeedbackMethodValue] =
     React.useState("TEACHER");
+  const [showPopup, setShowPopup] = React.useState(false);
 
   React.useEffect(() => {
     getClasses().then((res) => {
@@ -112,7 +117,6 @@ export default function CreateAssignment() {
 
   const publish = () => {
     const title = document.getElementById("assignmentName").value;
-    // const peertopeer = document.getElementById("peertopeer").checked;
     const reviewedBy = feedbackMethodValue;
     const classIds = classes
       .filter((clazz) => {
@@ -166,10 +170,20 @@ export default function CreateAssignment() {
       questions,
       reviewedBy,
     };
-    // createAssignment(assignment).then((res) => {
-    //   console.log(res);
-    //   window.location.href = "/";
-    // });
+    setPopupMessage("Assignment is being created");
+    setShowPopup(true);
+    createAssignment(assignment).then((res) => {
+      if(res.status === "PUBLISHED"){
+        setPopupMessage("Assignment Created Successfully");
+        setShowPopup(true);
+      // window.location.href = "/";
+    }
+    else {
+    setPopupMessage("Assignment Creation Failed");
+    setShowPopup(true);
+    return;
+    }
+    });
   };
 
   const checkboxes = classes.map((clazz) => {
@@ -183,13 +197,33 @@ export default function CreateAssignment() {
     );
   });
 
+  const feedbacksMethodContainer=  
+  <RadioGroup
+  value={feedbackMethodValue}
+  onChange={(event) =>
+    feedbackMethodUpdate(event.target.value)
+  }
+>
+  <FormControlLabel
+    value="TEACHER"
+    control={<Radio />}
+    label="Teacher Feedback"
+  />
+  <FormControlLabel
+    value="P2P"
+    control={<Radio />}
+    label="Peer to Peer (randomised)"
+  />
+</RadioGroup>;
+
   const methods = {
     addQuestionFrameFn,
     questionFrames,
     publish,
     checkboxes,
-    feedbackMethodUpdate,
+    setShowPopup,
   };
+
 
   return (
     <ReactiveRender
@@ -197,7 +231,9 @@ export default function CreateAssignment() {
         <CreateAAssignmentMobile
           {...{
             ...methods,
-            feedbackMethodValue,
+            showPopup,
+            popupMessage,
+            feedbacksMethodContainer,
             ...createAAssignmentMobileData,
           }}
         />
@@ -206,7 +242,9 @@ export default function CreateAssignment() {
         <CreateAAssignmentTablet
           {...{
             ...methods,
-            feedbackMethodValue,
+            showPopup,
+            popupMessage,
+            feedbacksMethodContainer,
             ...createAAssignmentTabletData,
           }}
         />
@@ -215,7 +253,9 @@ export default function CreateAssignment() {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
-            feedbackMethodValue,
+            showPopup,
+            popupMessage,
+            feedbacksMethodContainer,
             ...createAAssignmentLaptopData,
           }}
         />
@@ -224,7 +264,9 @@ export default function CreateAssignment() {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
-            feedbackMethodValue,
+            showPopup,
+            popupMessage,
+            feedbacksMethodContainer,
             ...createAAssignmentLaptopData,
           }}
         />

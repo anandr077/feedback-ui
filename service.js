@@ -106,6 +106,9 @@ export const markSubmissionReviewed = async (submissionId) =>
 export const markSubmsissionClosed = async (submissionId) =>
   await patchApi(baseUrl + "/submissions/" + submissionId + "/closed");
 
+export const updateFeedbackRange = async (submissionId, commentId, range) =>
+  await patchApi(baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId, range);
+
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
@@ -115,6 +118,7 @@ function errorHandler(response) {
 
 function handleErrors(response) {
   if (!response.ok) {
+    console.log(response)
     return redirectToExternalIDP();
   }
   return response;

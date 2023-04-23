@@ -79,7 +79,7 @@ function FeedbackTeacherLaptop(props) {
     );
   });
   const modules = {
-    toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
+    toolbar: pageMode === "DRAFT" || pageMode === "REVISE"
   };
 
   const feedbackFrame = () => {
@@ -138,33 +138,20 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
 
-<<<<<<< HEAD
-  const createDebounceFunction = () => {
-    if (pageMode === "DRAFT" || pageMode === "REVISE") {
-      return {
-        debounceTime:2000,
-        onDebounce:methods.handlesaveAnswer(answer.serialNumber)
-      }
-    }
-    return {
-      debounceTime:0,
-      onDebounce:console.log
-    }
-  }
-=======
->>>>>>> 60315e6c54bbec6e57f90f3d232584880e459774
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
       answer: "",
     };
+    
     const answer =
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
-    const debounce = createDebounceFunction
+    const debounce = methods.createDebounceFunction(answer)
+    
     return (
       <>
         <Frame1366>
@@ -183,25 +170,9 @@ function FeedbackTeacherLaptop(props) {
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
               }}
-              id={"quill_" + question.serialNumber}
-            >
-              <QuillEditor
-                ref={(editor) =>
-                  methods.handleEditorMounted(editor, answer.serialNumber - 1)
-                }
-                comments={comments.filter((comment) => {
-                  return comment.questionSerialNumber === answer.serialNumber;
-                })}
-                value={answerValue ? answerValue : ""}
-                options={{
-                  modules: modules,
-                  theme: "snow",
-                  readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
-                }}
-
-                debounceTime={debounce.debounceTime}
-                onDebounce={debounce.onDebounce}
-              ></QuillEditor>
+              id={"quill_" + answer.serialNumber}
+            > 
+              {createQuill(answer, answerValue, debounce)}
             </QuillContainer>
           )}
         </Frame1366>
@@ -314,6 +285,34 @@ function FeedbackTeacherLaptop(props) {
       </Frame1388>
     </div>
   );
+
+  function createQuill(answer, answerValue, debounce) {
+    
+      
+    if (quillRefs.current[answer.serialNumber - 1]) {
+      const editorContainer = document.getElementById("quill_" + answer.serialNumber)
+      //editorContainer.style.opacity = "0.5";
+      // alert("q " + JSON.stringify(q))
+      //return q
+    }
+    const q = React.useMemo(()=>{return <QuillEditor
+      ref={(editor) => methods.handleEditorMounted(editor, answer.serialNumber - 1)}
+      comments={comments.filter((comment) => {
+        return comment.questionSerialNumber === answer.serialNumber;
+      })}
+      value={answerValue ? answerValue : ""}
+      options={{
+        modules: modules,
+        theme: "snow",
+        readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+      }}
+
+      debounceTime={debounce.debounceTime}
+      onDebounce={debounce.onDebounce}
+    ></QuillEditor>}, pageMode === "REVIEW"?[comments]:[]);
+    // alert("q " + JSON.stringify(q))
+    return q;
+  }
 }
 const TitleWrapper = styled.div`
   display: flex;

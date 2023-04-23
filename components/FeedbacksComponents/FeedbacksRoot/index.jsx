@@ -3,7 +3,11 @@ import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useParams } from "react-router-dom";
+import _ from 'lodash';
+import { flatMap } from "lodash";
+
 import {
+  updateFeedbackRange,
   submitAssignment,
   getSubmissionsByAssignmentId,
   addFeedback,
@@ -32,6 +36,8 @@ import { range } from "lodash";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { formattedDate } from "../../../dates";
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
@@ -160,7 +166,55 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     setShowNewComment(false);
   }
+  const createDebounceFunction = (answer) => {
+    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+      return {
+        debounceTime:2000,
+        onDebounce:handleDebounce(answer)
+      }
+    }
+    return {
+      debounceTime:0,
+      onDebounce:console.log
+    }
+  }
 
+  const handleDebounce = (answer) =>(contents)=>{
+    handleChangeText("Saving...", false);
+    saveAnswer(submission.id, answer.serialNumber, {
+      answer: contents,
+    }).then((_) => {
+      if (pageMode === "DRAFT") {
+        handleChangeText("All changes saved", true);
+      } else {
+        const quill = quillRefs.current[answer.serialNumber - 1];
+      const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+
+      const transformedData = flatMap(Object.entries(highlightsWithCommentsData), ([commentId, highlights]) => {
+        return highlights.map((highlight) => {
+          const { content, range } = highlight;
+          return { commentId, range };
+        });
+      });
+      
+      const promises = transformedData.map(({ commentId, range }) => {
+        return updateFeedbackRange(submission.id, commentId, range);
+      });
+      
+      Promise.all(promises)
+        .then(results => {
+          console.log("results " + JSON.stringify(results))
+          getCommentsForSubmission(submission.id)
+          .then(cmts=>{
+            setComments(cmts)
+            handleChangeText("All changes saved", true);
+          })
+          
+        })
+      }
+      
+    });
+  }
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
       setComments(comments.filter((c) => c.id != commentId));
@@ -217,12 +271,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
       quill.selectRange(range);
       quill.focus();
-      
-      div.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
-      });
+      quill.scrollToHighlight(comment.id)
+      // div.scrollIntoView({
+      //   behavior: "smooth",
+      //   block: "center",
+      //   inline: "center",
+      // });
 
       
       
@@ -356,6 +410,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     );
   };
   const methods = {
+    createDebounceFunction,
     submissionStatusLabel,
     isTeacher,
     handleChangeText,

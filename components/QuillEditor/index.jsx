@@ -9,7 +9,6 @@ import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 const QuillEditor = React.forwardRef(
   ({ comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
-
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
     useEffect(() => {
@@ -83,6 +82,8 @@ const QuillEditor = React.forwardRef(
         });
         setEditor(editor);
         return () => {
+          editor.container.classList.add('inactive');
+          editor.enable(false);
           editor.off("text-change");
           editor.deleteText(0, editor.getLength()); // Clear the editor's content
           if (editorRef.current) {
@@ -90,7 +91,7 @@ const QuillEditor = React.forwardRef(
           }
         };
       }
-    }, [ options, debounceTime, onDebounce]);
+    }, [ comments, value, options, debounceTime, onDebounce]);
 
     useImperativeHandle(ref, () => ({
       getAllHighlightsWithComments() {

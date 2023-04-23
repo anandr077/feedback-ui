@@ -184,7 +184,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-      const quill = quillRefs.current[answer.serialNumber - 1];
+      if (pageMode === "DRAFT") {
+        handleChangeText("All changes saved", true);
+      } else {
+        const quill = quillRefs.current[answer.serialNumber - 1];
       const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
 
       const transformedData = flatMap(Object.entries(highlightsWithCommentsData), ([commentId, highlights]) => {
@@ -208,6 +211,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           })
           
         })
+      }
+      
     });
   }
   function handleDeleteComment(commentId) {

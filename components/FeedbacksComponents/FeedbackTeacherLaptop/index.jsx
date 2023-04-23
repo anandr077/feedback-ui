@@ -79,7 +79,7 @@ function FeedbackTeacherLaptop(props) {
     );
   });
   const modules = {
-    toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
+    toolbar: pageMode === "DRAFT" || pageMode === "REVISE"
   };
 
   const feedbackFrame = () => {
@@ -151,6 +151,7 @@ function FeedbackTeacherLaptop(props) {
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
     const debounce = methods.createDebounceFunction(answer)
+    
     return (
       <>
         <Frame1366>
@@ -169,25 +170,9 @@ function FeedbackTeacherLaptop(props) {
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
               }}
-              id={"quill_" + question.serialNumber}
-            >
-              <QuillEditor
-                ref={(editor) =>
-                  methods.handleEditorMounted(editor, answer.serialNumber - 1)
-                }
-                comments={comments.filter((comment) => {
-                  return comment.questionSerialNumber === answer.serialNumber;
-                })}
-                value={answerValue ? answerValue : ""}
-                options={{
-                  modules: modules,
-                  theme: "snow",
-                  readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
-                }}
-
-                debounceTime={debounce.debounceTime}
-                onDebounce={debounce.onDebounce}
-              ></QuillEditor>
+              id={"quill_" + answer.serialNumber}
+            > 
+              {createQuill(answer, answerValue, debounce)}
             </QuillContainer>
           )}
         </Frame1366>
@@ -300,6 +285,34 @@ function FeedbackTeacherLaptop(props) {
       </Frame1388>
     </div>
   );
+
+  function createQuill(answer, answerValue, debounce) {
+    
+      
+    if (quillRefs.current[answer.serialNumber - 1]) {
+      const editorContainer = document.getElementById("quill_" + answer.serialNumber)
+      //editorContainer.style.opacity = "0.5";
+      // alert("q " + JSON.stringify(q))
+      //return q
+    }
+    const q = React.useMemo(()=>{return <QuillEditor
+      ref={(editor) => methods.handleEditorMounted(editor, answer.serialNumber - 1)}
+      comments={comments.filter((comment) => {
+        return comment.questionSerialNumber === answer.serialNumber;
+      })}
+      value={answerValue ? answerValue : ""}
+      options={{
+        modules: modules,
+        theme: "snow",
+        readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+      }}
+
+      debounceTime={debounce.debounceTime}
+      onDebounce={debounce.onDebounce}
+    ></QuillEditor>}, pageMode === "REVIEW"?[comments]:[]);
+    // alert("q " + JSON.stringify(q))
+    return q;
+  }
 }
 const TitleWrapper = styled.div`
   display: flex;

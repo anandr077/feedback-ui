@@ -87,7 +87,7 @@ function FeedbackTeacherLaptop(props) {
       return <></>;
     }
     return (
-      <Frame1331>
+      <Frame1331 id ="feedbacksFrame">
         <Frame1322>
           <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
           <ReviewsFrame1320 className={frame13202Props.className}>
@@ -252,7 +252,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1315>
         </Frame1387>
         <Frame1386 id="content">
-          <Frame1371>
+          <Frame1371 id = "assignmentHeader">
             <TitleWrapper>
               <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
               <StatusText>{methods.submissionStatusLabel()}</StatusText>
@@ -274,7 +274,7 @@ function FeedbackTeacherLaptop(props) {
             )}
             {submitButton()}
           </Frame1371>
-          <Frame1368>
+          <Frame1368 id = "assignmentData">
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>

@@ -176,7 +176,7 @@ export default function CreateAssignment() {
       if(res.status === "PUBLISHED"){
         setPopupMessage("Assignment Created Successfully");
         setShowPopup(true);
-      // window.location.href = "/";
+      window.location.href = "/";
     }
     else {
     setPopupMessage("Assignment Creation Failed");

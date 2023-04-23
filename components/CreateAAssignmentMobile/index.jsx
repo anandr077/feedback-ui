@@ -392,7 +392,6 @@ const Frame1298 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
   position: relative;
   align-self: stretch;
 `;

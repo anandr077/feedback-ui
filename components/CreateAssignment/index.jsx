@@ -189,16 +189,10 @@ export default function CreateAssignment() {
 
   const checkboxes = classes.map((clazz) => {
     return (
-      <>
+      <CheckboxContainer>
       <CustomCheckbox key={clazz.id} id={clazz.id}/>
       <CheckBoxText>{clazz.title}</CheckBoxText>
-      </>
-      // <Checkbox>
-      //   <Checkbox1>
-      //     <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
-      //   </Checkbox1>
-        // <CheckBoxText>{clazz.title}</CheckBoxText>
-      // </Checkbox>
+      </CheckboxContainer>
     );
   });
 
@@ -277,6 +271,13 @@ export default function CreateAssignment() {
     />
   );
 }
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  flex-direction: row;`;
 
 const Checkbox = styled.article`
   display: flex;

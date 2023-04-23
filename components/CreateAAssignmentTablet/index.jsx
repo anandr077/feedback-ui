@@ -96,9 +96,7 @@ function CreateAAssignmentTablet(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  {
-                    feedbacksMethodContainer
-                  }
+                  {feedbacksMethodContainer}
                 </Frame1299>
               </Frame1295>
             </Frame1294>
@@ -374,11 +372,11 @@ const Help = styled.img`
 
 const Frame1298 = styled.div`
   display: flex;
-  align-items: flex-start;
-  gap: 20px;
+  align-items: center;
   position: relative;
   align-self: stretch;
   flex-wrap: wrap;
+  gap: 16px;
 `;
 
 export default CreateAAssignmentTablet;

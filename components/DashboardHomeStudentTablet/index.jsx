@@ -221,6 +221,7 @@ const Frame1351 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  min-height: 600px;
 `;
 
 const Frame1206 = styled.div`

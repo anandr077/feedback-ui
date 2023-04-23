@@ -9,7 +9,12 @@
 
 .ql-container .ql-cursor {
   opacity: 1 !important;
-  background-color: rgba(0, 0, 255, 0.2); /* Change the color and opacity as desired */
+  background-color: rgba(
+    0,
+    0,
+    255,
+    0.2
+  ); /* Change the color and opacity as desired */
 }
 .ql-editor strong {
   font-weight: bold;

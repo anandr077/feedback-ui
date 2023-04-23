@@ -6,8 +6,9 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
+
 import { Avatar } from "@boringer-avatars/react";
+import CustomCheckbox from "../CustomCheckBox";
 export const ImageDropdownMenu = (props) => {
   const { menuItems, onItemSelected, withCheckbox } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -47,7 +48,7 @@ export const ImageDropdownMenu = (props) => {
       >
         {menuItems.map((item) => (
           <MenuItem key={item.id} onClick={() => handleClose(item)}>
-            {withCheckbox && <Checkbox />}
+            {withCheckbox && <CustomCheckbox />}
             <ListItemText primary={item.title} />
 
             <Avatar name="test" />

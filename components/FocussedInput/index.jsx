@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 import { css } from "styled-components";
 import styled from "styled-components";
 
-const FocusedInput = ({id,  placeholder, onKeyPress}) => {
+const FocusedInput = ({ id, placeholder, onKeyPress }) => {
   // Create a ref for the input element
   const inputRef = useRef(null);
 
@@ -14,8 +14,13 @@ const FocusedInput = ({id,  placeholder, onKeyPress}) => {
   }, []);
 
   return (
-    <TextInput placeholder={placeholder} id={id} type="text" onKeyPress={onKeyPress} ref={inputRef}>
-    </TextInput>
+    <TextInput
+      placeholder={placeholder}
+      id={id}
+      type="text"
+      onKeyPress={onKeyPress}
+      ref={inputRef}
+    ></TextInput>
   );
 };
 

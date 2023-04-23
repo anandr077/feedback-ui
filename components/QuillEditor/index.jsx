@@ -19,39 +19,38 @@ const QuillEditor = React.forwardRef(
 
         editor.setContents(value ? JSON.parse(value) : []);
 
-
         const debounce = (func, wait) => {
           let timeout;
-          
+
           return function (...args) {
-            console.log(args)
+            console.log(args);
             const context = this;
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(context, args), wait);
           };
         };
-        
+
         const handleDebounce = () => {
           // Get the contents of the editor as a Delta object
-  const delta = editor.getContents();
+          const delta = editor.getContents();
 
-  // Filter out the highlight attributes from the Delta object
-  const filteredOps = delta.ops.map((op) => {
-    if (op.attributes && op.attributes.highlight) {
-      const newAttributes = { ...op.attributes };
-      delete newAttributes.highlight;
-      return { ...op, attributes: newAttributes };
-    }
-    return op;
-  });
-  
-  // Create a new Delta object with the filtered operations
-  const filteredDelta = new Quill.imports.delta(filteredOps);
+          // Filter out the highlight attributes from the Delta object
+          const filteredOps = delta.ops.map((op) => {
+            if (op.attributes && op.attributes.highlight) {
+              const newAttributes = { ...op.attributes };
+              delete newAttributes.highlight;
+              return { ...op, attributes: newAttributes };
+            }
+            return op;
+          });
 
-  // Convert the filtered Delta object to JSON
-  const jsonString = JSON.stringify(filteredDelta);
+          // Create a new Delta object with the filtered operations
+          const filteredDelta = new Quill.imports.delta(filteredOps);
 
-  onDebounce(jsonString);
+          // Convert the filtered Delta object to JSON
+          const jsonString = JSON.stringify(filteredDelta);
+
+          onDebounce(jsonString);
         };
 
         const updateComments = (delta, oldContents) => {
@@ -82,7 +81,7 @@ const QuillEditor = React.forwardRef(
         });
         setEditor(editor);
         return () => {
-          editor.container.classList.add('inactive');
+          editor.container.classList.add("inactive");
           editor.enable(false);
           editor.off("text-change");
           editor.deleteText(0, editor.getLength()); // Clear the editor's content
@@ -91,11 +90,11 @@ const QuillEditor = React.forwardRef(
           }
         };
       }
-    }, [ comments, value, options, debounceTime, onDebounce]);
+    }, [comments, value, options, debounceTime, onDebounce]);
 
     useImperativeHandle(ref, () => ({
       scrollToHighlight(commentId) {
-        return scrollToHighlight(commentId)
+        return scrollToHighlight(commentId);
       },
       getAllHighlightsWithComments() {
         return getHighlights(editor);
@@ -134,13 +133,15 @@ const QuillEditor = React.forwardRef(
 
 export default QuillEditor;
 function scrollToHighlight(commentId) {
-  const highlightSpan = document.querySelector(`span.quill-highlight[data-comment-id="${commentId}"]`);
+  const highlightSpan = document.querySelector(
+    `span.quill-highlight[data-comment-id="${commentId}"]`
+  );
 
   if (highlightSpan) {
     highlightSpan.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'nearest',
+      behavior: "smooth",
+      block: "center",
+      inline: "nearest",
     });
   } else {
     console.warn(`No highlight found for comment ID: ${commentId}`);
@@ -168,17 +169,19 @@ function getHighlights(editor) {
     }
   });
 
-  return Object.entries(highlightsWithComments).reduce((result, [commentId, highlights]) => {
-    result[commentId] = highlights.map(({ content, index, length }) => {
-      return {
-        // content: content,
-        range: {
-          from: index,
-          to: index + length,
-        },
-      };
-    });
-    return result;
-  }, {});
+  return Object.entries(highlightsWithComments).reduce(
+    (result, [commentId, highlights]) => {
+      result[commentId] = highlights.map(({ content, index, length }) => {
+        return {
+          // content: content,
+          range: {
+            from: index,
+            to: index + length,
+          },
+        };
+      });
+      return result;
+    },
+    {}
+  );
 }
-

@@ -17,9 +17,6 @@ import FooterSmall from "../FooterSmall";
 import GoBack from "../GoBack";
 import HeaderSmall from "../HeaderSmall";
 import "./CreateAAssignmentMobile.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 import ScreenPopup from "../ScreenPopup";
 
@@ -394,7 +391,6 @@ const Frame1298 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
   position: relative;
   align-self: stretch;
 `;

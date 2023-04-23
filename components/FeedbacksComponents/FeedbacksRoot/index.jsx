@@ -11,13 +11,19 @@ import {
   addFeedback,
   deleteFeedback,
   getCommentsForSubmission,
-  getSubmissionById, getSubmissionsByAssignmentId, getUserId, getUserRole,
+  getSubmissionById,
+  getSubmissionsByAssignmentId,
+  getUserId,
+  getUserRole,
   markSubmissionReviewed as markSubmsissionReviewed,
-  markSubmsissionClosed, submitAssignment, updateFeedbackRange
+  markSubmsissionClosed,
+  submitAssignment,
+  updateFeedbackRange,
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
-  assignmentsHeaderProps, taskHeaderProps
+  assignmentsHeaderProps,
+  taskHeaderProps,
 } from "../../../utils/headerProps.js";
 import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
@@ -157,17 +163,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const createDebounceFunction = (answer) => {
     if (pageMode === "DRAFT" || pageMode === "REVISE") {
       return {
-        debounceTime:2000,
-        onDebounce:handleDebounce(answer)
-      }
+        debounceTime: 2000,
+        onDebounce: handleDebounce(answer),
+      };
     }
     return {
-      debounceTime:0,
-      onDebounce:console.log
-    }
-  }
+      debounceTime: 0,
+      onDebounce: console.log,
+    };
+  };
 
-  const handleDebounce = (answer) =>(contents)=>{
+  const handleDebounce = (answer) => (contents) => {
     handleChangeText("Saving...", false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
@@ -176,33 +182,32 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         handleChangeText("All changes saved", true);
       } else {
         const quill = quillRefs.current[answer.serialNumber - 1];
-      const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+        const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
 
-      const transformedData = flatMap(Object.entries(highlightsWithCommentsData), ([commentId, highlights]) => {
-        return highlights.map((highlight) => {
-          const { content, range } = highlight;
-          return { commentId, range };
+        const transformedData = flatMap(
+          Object.entries(highlightsWithCommentsData),
+          ([commentId, highlights]) => {
+            return highlights.map((highlight) => {
+              const { content, range } = highlight;
+              return { commentId, range };
+            });
+          }
+        );
+
+        const promises = transformedData.map(({ commentId, range }) => {
+          return updateFeedbackRange(submission.id, commentId, range);
         });
-      });
-      
-      const promises = transformedData.map(({ commentId, range }) => {
-        return updateFeedbackRange(submission.id, commentId, range);
-      });
-      
-      Promise.all(promises)
-        .then(results => {
-          console.log("results " + JSON.stringify(results))
-          getCommentsForSubmission(submission.id)
-          .then(cmts=>{
-            setComments(cmts)
+
+        Promise.all(promises).then((results) => {
+          console.log("results " + JSON.stringify(results));
+          getCommentsForSubmission(submission.id).then((cmts) => {
+            setComments(cmts);
             handleChangeText("All changes saved", true);
-          })
-          
-        })
+          });
+        });
       }
-      
     });
-  }
+  };
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
       setComments(comments.filter((c) => c.id != commentId));
@@ -251,7 +256,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         length: comment.range.to - comment.range.from,
       };
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
-      
 
       const div = document.getElementById(
         "quill_" + comment.questionSerialNumber
@@ -259,15 +263,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
       quill.selectRange(range);
       quill.focus();
-      quill.scrollToHighlight(comment.id)
+      quill.scrollToHighlight(comment.id);
       // div.scrollIntoView({
       //   behavior: "smooth",
       //   block: "center",
       //   inline: "center",
       // });
-
-      
-      
     } else {
       console.log("No range");
     }
@@ -317,12 +318,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       block: "center",
       inline: "center",
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       div.style.background = "#FFFFFF";
       div.style.border = "1px solid #E5E5E5";
       div.style.boxShadow = "0px 4px 16px #7200e01a";
       div.style.scale = 1;
-    }, 2000)
+    }, 2000);
     div.style.background = "#F9F5FF";
     div.style.border = "1px solid #7200E0";
     div.style.boxShadow = "0px 4px 16px rgba(114, 0, 224, 0.2)";
@@ -394,7 +395,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     assignmentData.appendChild(feedbacksFrame);
   };
   function submissionStatusLabel() {
-    return getStatusMessage(submission, isTeacher?"TEACHER":getUserId() === submission.studentId? "SELF":"PEER")
+    return getStatusMessage(
+      submission,
+      isTeacher
+        ? "TEACHER"
+        : getUserId() === submission.studentId
+        ? "SELF"
+        : "PEER"
+    );
   }
   function getStatusMessage(submission, viewer) {
     if (submission.status === "DRAFT") {
@@ -428,18 +436,34 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       } else {
         reviewer = viewer === "TEACHER" ? submission.studentName : "Peer";
       }
-      return "Reviewed by: " + reviewer + " on: "+ formattedDate(submission.reviewedAt);
+      return (
+        "Reviewed by: " +
+        reviewer +
+        " on: " +
+        formattedDate(submission.reviewedAt)
+      );
     }
     if (submission.status === "CLOSED") {
       let closedBy;
       if (viewer === "PEER") {
         return "Reviewed by you on " + submission.reviewed;
       } else if (viewer === "SELF") {
-        closedBy = submission.assignment.reviewedBy === "TEACHER" ? submission.assignment.teacherName : "You";
+        closedBy =
+          submission.assignment.reviewedBy === "TEACHER"
+            ? submission.assignment.teacherName
+            : "You";
       } else {
-        closedBy = submission.assignment.reviewedBy === "TEACHER" ? submission.assignment.teacherName : submission.studentName;
+        closedBy =
+          submission.assignment.reviewedBy === "TEACHER"
+            ? submission.assignment.teacherName
+            : submission.studentName;
       }
-      return "Closed by: " + closedBy + " on: "+ formattedDate(submission.reviewedAt);;
+      return (
+        "Closed by: " +
+        closedBy +
+        " on: " +
+        formattedDate(submission.reviewedAt)
+      );
     }
   }
 

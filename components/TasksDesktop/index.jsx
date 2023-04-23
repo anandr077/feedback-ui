@@ -94,7 +94,7 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  min-height: 700px;
+  min-height: 600px;
 `;
 
 const Frame1359 = styled.div`

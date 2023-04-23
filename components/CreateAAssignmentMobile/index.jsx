@@ -18,7 +18,6 @@ import GoBack from "../GoBack";
 import HeaderSmall from "../HeaderSmall";
 import "./CreateAAssignmentMobile.css";
 
-
 import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentMobile(props) {

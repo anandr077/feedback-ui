@@ -24,8 +24,7 @@ function CreateAAssignmentLaptop(props) {
     questionFrames,
     publish,
     checkboxes,
-    feedbackMethodUpdate,
-    feedbackMethodValue,
+    dateSelectorFrame,
     feedbacksMethodContainer,
     showPopup,
     popupMessage,
@@ -105,6 +104,15 @@ function CreateAAssignmentLaptop(props) {
                     </Link>
                   </Frame12811>
                   <Frame12981>{feedbacksMethodContainer}</Frame12981>
+                </Frame1299>
+                <Frame1299>
+                  <Frame12811>
+                    <Classes>Due at</Classes>
+                    <Link to="/tooltip2">
+                      <Help src={help2} alt="help" />
+                    </Link>
+                  </Frame12811>
+                  <Frame12981>{dateSelectorFrame}</Frame12981>
                 </Frame1299>
               </Frame1295>
             </Frame1294>

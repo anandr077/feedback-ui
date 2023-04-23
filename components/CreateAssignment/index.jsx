@@ -14,6 +14,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CustomCheckbox from "../CustomCheckBox";
+import DateSelector from "../DateSelector";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -23,6 +24,8 @@ export default function CreateAssignment() {
   const [feedbackMethodValue, setFeedbackMethodValue] =
     React.useState("TEACHER");
   const [showPopup, setShowPopup] = React.useState(false);
+  const [selectedDate, setSelectedDate] = React.useState();
+  const [timeValue, setTimeValue] = React.useState();
 
   React.useEffect(() => {
     getClasses().then((res) => {
@@ -143,7 +146,9 @@ export default function CreateAssignment() {
             option: document.getElementById(
               "option_" + serialNumber + "_" + index
             ).value,
-            isCorrect: document.getElementById("option_checkbox_" + serialNumber + "_" + index).checked,
+            isCorrect: document.getElementById(
+              "option_checkbox_" + serialNumber + "_" + index
+            ).checked,
           };
           return singleOption;
         });
@@ -173,25 +178,26 @@ export default function CreateAssignment() {
     };
     setPopupMessage("Assignment is being created");
     setShowPopup(true);
-    console.log("##assignment", assignment);
-    // createAssignment(assignment).then((res) => {
-    //   if (res.status === "PUBLISHED") {
-    //     setPopupMessage("Assignment Created Successfully");
-    //     setShowPopup(true);
-    //     window.location.href = "/";
-    //   } else {
-    //     setPopupMessage("Assignment Creation Failed");
-    //     setShowPopup(true);
-    //     return;
-    //   }
-    // });
+    // console.log("##assignment", assignment);
+    // console.log("##time", timeValue);
+    createAssignment(assignment).then((res) => {
+      if (res.status === "PUBLISHED") {
+        setPopupMessage("Assignment Created Successfully");
+        setShowPopup(true);
+        window.location.href = "/";
+      } else {
+        setPopupMessage("Assignment Creation Failed");
+        setShowPopup(true);
+        return;
+      }
+    });
   };
 
   const checkboxes = classes.map((clazz) => {
     return (
       <CheckboxContainer>
-      <CustomCheckbox key={clazz.id} id={clazz.id}/>
-      <CheckBoxText>{clazz.title}</CheckBoxText>
+        <CustomCheckbox key={clazz.id} id={clazz.id} />
+        <CheckBoxText>{clazz.title}</CheckBoxText>
       </CheckboxContainer>
     );
   });
@@ -214,6 +220,15 @@ export default function CreateAssignment() {
     </RadioGroup>
   );
 
+  const dateSelectorFrame = (
+    <DateSelector
+      value={selectedDate}
+      onChange={(newValue) => setSelectedDate(newValue)}
+      timeValue={timeValue}
+      onTimeChange={(newTime) => setTimeValue(newTime)}
+    />
+  );
+
   const methods = {
     addQuestionFrameFn,
     questionFrames,
@@ -231,6 +246,7 @@ export default function CreateAssignment() {
             showPopup,
             popupMessage,
             feedbacksMethodContainer,
+            dateSelectorFrame,
             ...createAAssignmentMobileData,
           }}
         />
@@ -242,6 +258,7 @@ export default function CreateAssignment() {
             showPopup,
             popupMessage,
             feedbacksMethodContainer,
+            dateSelectorFrame,
             ...createAAssignmentTabletData,
           }}
         />
@@ -253,6 +270,7 @@ export default function CreateAssignment() {
             showPopup,
             popupMessage,
             feedbacksMethodContainer,
+            dateSelectorFrame,
             ...createAAssignmentLaptopData,
           }}
         />
@@ -264,6 +282,7 @@ export default function CreateAssignment() {
             showPopup,
             popupMessage,
             feedbacksMethodContainer,
+            dateSelectorFrame,
             ...createAAssignmentLaptopData,
           }}
         />
@@ -272,12 +291,44 @@ export default function CreateAssignment() {
   );
 }
 
+const DateContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+const TimeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  width: 200px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+const IconClock = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+`;
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
   flex: 1;
-  flex-direction: row;`;
+  flex-direction: row;
+`;
 
 const Checkbox = styled.article`
   display: flex;
@@ -302,8 +353,6 @@ const CheckBoxText = styled.div`
   line-height: normal;
   display: flex;
   align-items: center;
-  
-
 `;
 const Rectangle43 = styled.input`
   position: absolute;

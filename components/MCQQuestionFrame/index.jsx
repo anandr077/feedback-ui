@@ -33,12 +33,12 @@ export default function MCQQuestionFrame(props) {
           placeholder={"Option " + index}
         />
         <CheckBoxContainer>
-        <ThemeProvider theme={theme}>
-          <CustomCheckbox
-            id={"option_checkbox_" + serialNumber + "_" + index}
-            label="label"
-          />
-        </ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <CustomCheckbox
+              id={"option_checkbox_" + serialNumber + "_" + index}
+              label="label"
+            />
+          </ThemeProvider>
           Correct Response
         </CheckBoxContainer>
       </OptionsContainer>

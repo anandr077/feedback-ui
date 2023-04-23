@@ -7,7 +7,7 @@ const StyledCheckbox = styled(Checkbox)`
     color: #7200e0;
     padding: 5px;
     border-radius: 50%;
-    
+
     &.Mui-checked {
       color: #7200e0;
       background-color: #7200e0;
@@ -15,15 +15,14 @@ const StyledCheckbox = styled(Checkbox)`
     }
     &.Mui-checked:not(:hover) {
       color: #7200e0;
-      background-color: #FFFFFF;
+      background-color: #ffffff;
     }
     &:hover:not(.Mui-disabled) {
-      
       background-color: rgba(0, 0, 0, 0.04) !important;
     }
   }
 `;
 
 export default function CustomCheckbox(props) {
-  return <StyledCheckbox {...props}  />;
+  return <StyledCheckbox {...props} />;
 }

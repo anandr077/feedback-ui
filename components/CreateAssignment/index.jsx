@@ -13,6 +13,7 @@ import MCQQuestionFrame from "../MCQQuestionFrame";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import CustomCheckbox from "../CustomCheckBox";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -142,7 +143,7 @@ export default function CreateAssignment() {
             option: document.getElementById(
               "option_" + serialNumber + "_" + index
             ).value,
-            isCorrect: true,
+            isCorrect: document.getElementById("option_checkbox_" + serialNumber + "_" + index).checked,
           };
           return singleOption;
         });
@@ -172,27 +173,32 @@ export default function CreateAssignment() {
     };
     setPopupMessage("Assignment is being created");
     setShowPopup(true);
-    createAssignment(assignment).then((res) => {
-      if (res.status === "PUBLISHED") {
-        setPopupMessage("Assignment Created Successfully");
-        setShowPopup(true);
-        window.location.href = "/";
-      } else {
-        setPopupMessage("Assignment Creation Failed");
-        setShowPopup(true);
-        return;
-      }
-    });
+    console.log("##assignment", assignment);
+    // createAssignment(assignment).then((res) => {
+    //   if (res.status === "PUBLISHED") {
+    //     setPopupMessage("Assignment Created Successfully");
+    //     setShowPopup(true);
+    //     window.location.href = "/";
+    //   } else {
+    //     setPopupMessage("Assignment Creation Failed");
+    //     setShowPopup(true);
+    //     return;
+    //   }
+    // });
   };
 
   const checkboxes = classes.map((clazz) => {
     return (
-      <Checkbox>
-        <Checkbox1>
-          <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
-        </Checkbox1>
-        <CheckBoxText>{clazz.title}</CheckBoxText>
-      </Checkbox>
+      <>
+      <CustomCheckbox key={clazz.id} id={clazz.id}/>
+      <CheckBoxText>{clazz.title}</CheckBoxText>
+      </>
+      // <Checkbox>
+      //   <Checkbox1>
+      //     <Rectangle43 key={clazz.id} id={clazz.id} type="checkbox" />
+      //   </Checkbox1>
+        // <CheckBoxText>{clazz.title}</CheckBoxText>
+      // </Checkbox>
     );
   });
 
@@ -293,6 +299,10 @@ const CheckBoxText = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  align-items: center;
+  
+
 `;
 const Rectangle43 = styled.input`
   position: absolute;

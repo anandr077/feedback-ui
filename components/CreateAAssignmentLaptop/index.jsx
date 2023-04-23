@@ -317,7 +317,6 @@ const Help = styled.img`
 const Frame1298 = styled.div`
   display: flex;
   align-items: space-between;
-  gap: 20px;
   position: relative;
   align-self: stretch;
 `;

@@ -17,9 +17,7 @@ import FooterSmall from "../FooterSmall";
 import GoBack from "../GoBack";
 import HeaderSmall from "../HeaderSmall";
 import "./CreateAAssignmentMobile.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+
 
 import ScreenPopup from "../ScreenPopup";
 

@@ -16,9 +16,6 @@ import GoBack2 from "../GoBack2";
 import Footer from "../Footer";
 import Header from "../Header";
 import "./CreateAAssignmentLaptop.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentLaptop(props) {

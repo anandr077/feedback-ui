@@ -10,6 +10,11 @@ import Frame1291 from "../Frame1291";
 import Buttons4 from "../Buttons4";
 import Group1255 from "../Group1255";
 import CheckBox from "@mui/material/CheckBox";
+import CustomCheckbox from "../CustomCheckBox";
+import { ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+
+const theme = createTheme();
 
 export default function MCQQuestionFrame(props) {
   const {
@@ -28,10 +33,12 @@ export default function MCQQuestionFrame(props) {
           placeholder={"Option " + index}
         />
         <CheckBoxContainer>
-          <CheckBox
+        <ThemeProvider theme={theme}>
+          <CustomCheckbox
             id={"option_checkbox_" + serialNumber + "_" + index}
             label="label"
           />
+        </ThemeProvider>
           Correct Response
         </CheckBoxContainer>
       </OptionsContainer>

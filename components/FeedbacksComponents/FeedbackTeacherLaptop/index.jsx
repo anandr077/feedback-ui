@@ -79,7 +79,7 @@ function FeedbackTeacherLaptop(props) {
     );
   });
   const modules = {
-    toolbar: pageMode === "DRAFT" || pageMode === "REVISE"
+    toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
   };
 
   const feedbackFrame = () => {
@@ -87,7 +87,7 @@ function FeedbackTeacherLaptop(props) {
       return <></>;
     }
     return (
-      <Frame1331 id ="feedbacksFrame">
+      <Frame1331>
         <Frame1322>
           <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
           <ReviewsFrame1320 className={frame13202Props.className}>
@@ -143,15 +143,15 @@ function FeedbackTeacherLaptop(props) {
       serialNumber: question.serialNumber,
       answer: "",
     };
-    
+
     const answer =
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
-    const debounce = methods.createDebounceFunction(answer)
-    
+    const debounce = methods.createDebounceFunction(answer);
+
     return (
       <>
         <Frame1366>
@@ -171,7 +171,7 @@ function FeedbackTeacherLaptop(props) {
                 );
               }}
               id={"quill_" + answer.serialNumber}
-            > 
+            >
               {createQuill(answer, answerValue, debounce)}
             </QuillContainer>
           )}
@@ -252,12 +252,12 @@ function FeedbackTeacherLaptop(props) {
           </Frame1315>
         </Frame1387>
         <Frame1386 id="content">
-          <Frame1371 id = "assignmentHeader">
+          <Frame1371>
             <TitleWrapper>
               <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
               <StatusText>{methods.submissionStatusLabel()}</StatusText>
             </TitleWrapper>
-            {(!isTeacher && pageMode === "CLOSED") && (
+            {!isTeacher && pageMode === "CLOSED" && (
               <Buttons2
                 button="Download PDF"
                 download={true}
@@ -274,7 +274,7 @@ function FeedbackTeacherLaptop(props) {
             )}
             {submitButton()}
           </Frame1371>
-          <Frame1368 id = "assignmentData">
+          <Frame1368>
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>
@@ -287,29 +287,37 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function createQuill(answer, answerValue, debounce) {
-    
-      
     if (quillRefs.current[answer.serialNumber - 1]) {
-      const editorContainer = document.getElementById("quill_" + answer.serialNumber)
+      const editorContainer = document.getElementById(
+        "quill_" + answer.serialNumber
+      );
       //editorContainer.style.opacity = "0.5";
       // alert("q " + JSON.stringify(q))
       //return q
     }
-    const q = React.useMemo(()=>{return <QuillEditor
-      ref={(editor) => methods.handleEditorMounted(editor, answer.serialNumber - 1)}
-      comments={comments.filter((comment) => {
-        return comment.questionSerialNumber === answer.serialNumber;
-      })}
-      value={answerValue ? answerValue : ""}
-      options={{
-        modules: modules,
-        theme: "snow",
-        readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
-      }}
-
-      debounceTime={debounce.debounceTime}
-      onDebounce={debounce.onDebounce}
-    ></QuillEditor>}, pageMode === "REVIEW"?[comments]:[]);
+    const q = React.useMemo(
+      () => {
+        return (
+          <QuillEditor
+            ref={(editor) =>
+              methods.handleEditorMounted(editor, answer.serialNumber - 1)
+            }
+            comments={comments.filter((comment) => {
+              return comment.questionSerialNumber === answer.serialNumber;
+            })}
+            value={answerValue ? answerValue : ""}
+            options={{
+              modules: modules,
+              theme: "snow",
+              readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+            }}
+            debounceTime={debounce.debounceTime}
+            onDebounce={debounce.onDebounce}
+          ></QuillEditor>
+        );
+      },
+      pageMode === "REVIEW" ? [comments] : []
+    );
     // alert("q " + JSON.stringify(q))
     return q;
   }
@@ -394,7 +402,7 @@ const Line6 = styled.img`
   object-fit: cover;
 `;
 const Frame131612 = styled.div`
-  // width: 100%;
+  width: 100%;
   max-width: 300px;
   display: flex;
 `;
@@ -550,7 +558,7 @@ const Frame1368 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
-  min-height: 700px;
+  min-height: 600px;
 `;
 
 const Group1225 = styled.div`

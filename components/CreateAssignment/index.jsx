@@ -173,16 +173,15 @@ export default function CreateAssignment() {
     setPopupMessage("Assignment is being created");
     setShowPopup(true);
     createAssignment(assignment).then((res) => {
-      if(res.status === "PUBLISHED"){
+      if (res.status === "PUBLISHED") {
         setPopupMessage("Assignment Created Successfully");
         setShowPopup(true);
-      window.location.href = "/";
-    }
-    else {
-    setPopupMessage("Assignment Creation Failed");
-    setShowPopup(true);
-    return;
-    }
+        window.location.href = "/";
+      } else {
+        setPopupMessage("Assignment Creation Failed");
+        setShowPopup(true);
+        return;
+      }
     });
   };
 
@@ -197,24 +196,23 @@ export default function CreateAssignment() {
     );
   });
 
-  const feedbacksMethodContainer=  
-  <RadioGroup
-  value={feedbackMethodValue}
-  onChange={(event) =>
-    feedbackMethodUpdate(event.target.value)
-  }
->
-  <FormControlLabel
-    value="TEACHER"
-    control={<Radio />}
-    label="Teacher Feedback"
-  />
-  <FormControlLabel
-    value="P2P"
-    control={<Radio />}
-    label="Peer to Peer (randomised)"
-  />
-</RadioGroup>;
+  const feedbacksMethodContainer = (
+    <RadioGroup
+      value={feedbackMethodValue}
+      onChange={(event) => feedbackMethodUpdate(event.target.value)}
+    >
+      <FormControlLabel
+        value="TEACHER"
+        control={<Radio />}
+        label="Teacher Feedback"
+      />
+      <FormControlLabel
+        value="P2P"
+        control={<Radio />}
+        label="Peer to Peer (randomised)"
+      />
+    </RadioGroup>
+  );
 
   const methods = {
     addQuestionFrameFn,
@@ -223,7 +221,6 @@ export default function CreateAssignment() {
     checkboxes,
     setShowPopup,
   };
-
 
   return (
     <ReactiveRender

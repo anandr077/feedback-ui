@@ -96,9 +96,7 @@ function CreateAAssignmentTablet(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  {
-                    feedbacksMethodContainer
-                  }
+                  {feedbacksMethodContainer}
                 </Frame1299>
               </Frame1295>
             </Frame1294>

@@ -107,9 +107,7 @@ function CreateAAssignmentLaptop(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Frame12981>
-                    {feedbacksMethodContainer}
-                  </Frame12981>
+                  <Frame12981>{feedbacksMethodContainer}</Frame12981>
                 </Frame1299>
               </Frame1295>
             </Frame1294>

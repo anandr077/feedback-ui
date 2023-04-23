@@ -206,6 +206,7 @@ const Frame1346 = styled.div`
   justify-content: flex-start;
   gap: 32px;
   position: relative;
+  min-height: 600px;
 `;
 
 const Frame1339 = styled.div`

@@ -31,32 +31,8 @@ const QuillEditor = React.forwardRef(
             timeout = setTimeout(() => func.apply(context, args), wait);
           };
         };
-        const getAllHighlightsWithComments = () => {
-          const quillContainer = document.querySelector(".ql-container");
-
-          let highlightsWithComments = {};
-
-          // Get all highlight elements in the Quill container
-          const highlightElements = quillContainer.querySelectorAll(".quill-highlight");
         
-          highlightElements.forEach((element) => {
-            const commentId = element.getAttribute("data-comment-id");
-            const content = element.textContent;
-            const index = editor.getIndex(Quill.find(element));
-            const length = content.length;
-        
-            // Group highlights with the same comment id together
-            if (highlightsWithComments[commentId]) {
-              highlightsWithComments[commentId].push({ content, index, length });
-            } else {
-              highlightsWithComments[commentId] = [{ content, index, length }];
-            }
-          });
-        
-          return highlightsWithComments;
-        };
         const handleDebounce = () => {
-          alert(JSON.stringify(getAllHighlightsWithComments()))
           // Get the contents of the editor as a Delta object
   const delta = editor.getContents();
 
@@ -86,9 +62,10 @@ const QuillEditor = React.forwardRef(
         if (debounceTime > 0) {
           const debouncedAction = debounce(handleDebounce, debounceTime);
 
-          editor.on("text-change", (delta, oldContents) => {
-            debouncedAction();
-            //updateComments(delta, oldContents)
+          editor.on("text-change", (delta, oldContents, source) => {
+            if (source === "user") {
+              debouncedAction();
+            }
           });
         }
 
@@ -105,10 +82,20 @@ const QuillEditor = React.forwardRef(
           }
         });
         setEditor(editor);
+        return () => {
+          editor.off("text-change");
+          editor.deleteText(0, editor.getLength()); // Clear the editor's content
+          if (editorRef.current) {
+            editorRef.current.innerHTML = ""; // Remove the editor's container content
+          }
+        };
       }
-    }, [comments, value, options, debounceTime, onDebounce]);
+    }, [ options, debounceTime, onDebounce]);
 
     useImperativeHandle(ref, () => ({
+      getAllHighlightsWithComments() {
+        return getHighlights(editor);
+      },
       selectRange(range) {
         editor.setSelection(range.index, range.length, "silent");
         editor.focus();
@@ -142,3 +129,39 @@ const QuillEditor = React.forwardRef(
 );
 
 export default QuillEditor;
+function getHighlights(editor) {
+  const quillContainer = editor.container;
+
+  let highlightsWithComments = {};
+
+  // Get all highlight elements in the Quill container
+  const highlightElements = quillContainer.querySelectorAll(".quill-highlight");
+
+  highlightElements.forEach((element) => {
+    const commentId = element.getAttribute("data-comment-id");
+    const content = element.textContent;
+    const index = editor.getIndex(Quill.find(element));
+    const length = content.length;
+
+    // Group highlights with the same comment id together
+    if (highlightsWithComments[commentId]) {
+      highlightsWithComments[commentId].push({ content, index, length });
+    } else {
+      highlightsWithComments[commentId] = [{ content, index, length }];
+    }
+  });
+
+  return Object.entries(highlightsWithComments).reduce((result, [commentId, highlights]) => {
+    result[commentId] = highlights.map(({ content, index, length }) => {
+      return {
+        // content: content,
+        range: {
+          from: index,
+          to: index + length,
+        },
+      };
+    });
+    return result;
+  }, {});
+}
+

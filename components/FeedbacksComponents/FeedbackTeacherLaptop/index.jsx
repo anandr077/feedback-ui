@@ -138,30 +138,19 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
 
-  const createDebounceFunction = (answer) => {
-    if (pageMode === "DRAFT" || pageMode === "REVISE") {
-      return {
-        debounceTime:2000,
-        onDebounce:methods.handlesaveAnswer(answer.serialNumber)
-      }
-    }
-    return {
-      debounceTime:0,
-      onDebounce:console.log
-    }
-  }
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
       answer: "",
     };
+    
     const answer =
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
-    const debounce = createDebounceFunction(answer)
+    const debounce = methods.createDebounceFunction(answer)
     return (
       <>
         <Frame1366>

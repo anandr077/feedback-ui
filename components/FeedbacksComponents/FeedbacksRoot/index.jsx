@@ -1,42 +1,30 @@
+import { flatMap } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
 import { useParams } from "react-router-dom";
-import _ from 'lodash';
-import { flatMap } from "lodash";
 
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { formattedDate } from "../../../dates";
 import {
-  updateFeedbackRange,
-  submitAssignment,
-  getSubmissionsByAssignmentId,
   addFeedback,
   deleteFeedback,
   getCommentsForSubmission,
-  getSubmissionById,
-  getTasks,
-  getUserRole,
+  getSubmissionById, getSubmissionsByAssignmentId, getUserId, getUserRole,
   markSubmissionReviewed as markSubmsissionReviewed,
-  markSubmsissionClosed,
-  getUserId,
+  markSubmsissionClosed, submitAssignment, updateFeedbackRange
 } from "../../../service";
-import { saveAnswer, submitAssignmen, getShortcuts } from "../../../service.js";
+import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
-  taskHeaderProps,
-  assignmentsHeaderProps,
+  assignmentsHeaderProps, taskHeaderProps
 } from "../../../utils/headerProps.js";
 import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
+import FeedBacksDropDown from "../FeedbacksDropDown";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
-import FeedBacksDropDown from "../FeedbacksDropDown";
-import { doc } from "prettier";
-import { range } from "lodash";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import { formattedDate } from "../../../dates";
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -401,14 +389,56 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       doc.save(`${submission.assignment.title}.pdf`);
     });
   };
-  const submissionStatusLabel = () => {
-    return (
-      "Created by : " +
-      submission.assignment.teacherName +
-      " | Due on : " +
-      formattedDate(submission.assignment.dueAt)
-    );
-  };
+  function submissionStatusLabel() {
+    return getStatusMessage(submission, isTeacher?"TEACHER":getUserId() === submission.studentId? "SELF":"PEER")
+  }
+  function getStatusMessage(submission, viewer) {
+    if (submission.status === "DRAFT") {
+      return (
+        "Created by: " +
+        submission.assignment.teacherName +
+        " | Due on: " +
+        formattedDate(submission.assignment.dueAt)
+      );
+    }
+    if (submission.status === "SUBMITTED") {
+      let submitter;
+      if (viewer === "PEER") {
+        submitter = "Peer";
+      } else if (viewer === "SELF") {
+        submitter = "You";
+      } else {
+        submitter = submission.studentName;
+      }
+      return (
+        "Submitted by: " +
+        submitter +
+        " | Review due on: " +
+        formattedDate(submission.assignment.reviewDueAt)
+      );
+    }
+    if (submission.status === "REVIEWED") {
+      let reviewer;
+      if (submission.assignment.reviewedBy === "TEACHER") {
+        reviewer = submission.assignment.teacherName;
+      } else {
+        reviewer = viewer === "TEACHER" ? submission.studentName : "Peer";
+      }
+      return "Reviewed by: " + reviewer + " on: "+ formattedDate(submission.reviewedAt);
+    }
+    if (submission.status === "CLOSED") {
+      let closedBy;
+      if (viewer === "PEER") {
+        return "Reviewed by you on " + submission.reviewed;
+      } else if (viewer === "SELF") {
+        closedBy = submission.assignment.reviewedBy === "TEACHER" ? submission.assignment.teacherName : "You";
+      } else {
+        closedBy = submission.assignment.reviewedBy === "TEACHER" ? submission.assignment.teacherName : submission.studentName;
+      }
+      return "Closed by: " + closedBy + " on: "+ formattedDate(submission.reviewedAt);;
+    }
+  }
+
   const methods = {
     createDebounceFunction,
     submissionStatusLabel,
@@ -442,6 +472,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       mobile={
         <FeedbackTeacherMobile
           {...{
+            isTeacher,
             submissionStatusLabel,
             labelText,
             quillRefs,
@@ -460,6 +491,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       tablet={
         <FeedbackTeacherLaptop
           {...{
+            isTeacher,
             submissionStatusLabel,
             labelText,
             quillRefs,
@@ -480,6 +512,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <>
           <FeedbackTeacherLaptop
             {...{
+              isTeacher,
               submissionStatusLabel,
               labelText,
               quillRefs,
@@ -500,6 +533,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       desktop={
         <FeedbackTeacherLaptop
           {...{
+            isTeacher,
             submissionStatusLabel,
             labelText,
             quillRefs,

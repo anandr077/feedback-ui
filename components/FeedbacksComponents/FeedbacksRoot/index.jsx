@@ -376,6 +376,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const downloadPDF = () => {
     const doc = new jsPDF();
     const content = document.getElementById("content");
+    const assignmentData = content.querySelector("#assignmentData");
+    const feedbacksFrame = content.querySelector("#feedbacksFrame");
+    assignmentData.removeChild(feedbacksFrame);
     const height = content.scrollHeight;
     const scrollHeight = height - content.clientHeight;
 
@@ -388,6 +391,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       doc.addImage(imgData, "PNG", 0, 0, 210, canvasHeight);
       doc.save(`${submission.assignment.title}.pdf`);
     });
+    assignmentData.appendChild(feedbacksFrame);
   };
   function submissionStatusLabel() {
     return getStatusMessage(submission, isTeacher?"TEACHER":getUserId() === submission.studentId? "SELF":"PEER")

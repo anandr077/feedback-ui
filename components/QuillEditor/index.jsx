@@ -94,6 +94,9 @@ const QuillEditor = React.forwardRef(
     }, [ comments, value, options, debounceTime, onDebounce]);
 
     useImperativeHandle(ref, () => ({
+      scrollToHighlight(commentId) {
+        return scrollToHighlight(commentId)
+      },
       getAllHighlightsWithComments() {
         return getHighlights(editor);
       },
@@ -130,6 +133,19 @@ const QuillEditor = React.forwardRef(
 );
 
 export default QuillEditor;
+function scrollToHighlight(commentId) {
+  const highlightSpan = document.querySelector(`span.quill-highlight[data-comment-id="${commentId}"]`);
+
+  if (highlightSpan) {
+    highlightSpan.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest',
+    });
+  } else {
+    console.warn(`No highlight found for comment ID: ${commentId}`);
+  }
+}
 function getHighlights(editor) {
   const quillContainer = editor.container;
 

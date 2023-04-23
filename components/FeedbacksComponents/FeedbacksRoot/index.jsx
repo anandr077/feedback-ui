@@ -271,12 +271,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
       quill.selectRange(range);
       quill.focus();
-      
-      div.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
-      });
+      quill.scrollToHighlight(comment.id)
+      // div.scrollIntoView({
+      //   behavior: "smooth",
+      //   block: "center",
+      //   inline: "center",
+      // });
 
       
       

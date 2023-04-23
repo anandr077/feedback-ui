@@ -115,7 +115,8 @@ function errorHandler(response) {
 
 function handleErrors(response) {
   if (!response.ok) {
-    return redirectToExternalIDP();
+    console.log(response)
+    // return redirectToExternalIDP();
   }
   return response;
 }

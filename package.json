@@ -12,16 +12,18 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.0",
+    "jspdf": "2.5.1",
     "lodash": "^4.17.21",
     "query-string": "^8.1.0",
     "quill": "^1.3.7",
+    "quill-comment": "^1.3.0",
+    "quill-delta-to-html": "^0.12.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-quill": "^2.0.0",
     "react-responsive": "^9.0.2",
     "react-router-dom": "5.2.0",
-    "styled-components": "^5.3.9",
-    "jspdf": "2.5.1"
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.8.1",

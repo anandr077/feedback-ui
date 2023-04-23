@@ -5,7 +5,6 @@ const SubmitCommentFrameRoot = (props) => {
   const { submitButtonOnClick, cancelButtonOnClick } = props;
 
   const SmallButtonWhiteFunction = (e, name) => {
-    alert(`${name} was clicked`);
   };
   return (
     <SubmitCommentFrameRootRoot>

@@ -138,8 +138,7 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
 
-<<<<<<< HEAD
-  const createDebounceFunction = () => {
+  const createDebounceFunction = (answer) => {
     if (pageMode === "DRAFT" || pageMode === "REVISE") {
       return {
         debounceTime:2000,
@@ -151,8 +150,6 @@ function FeedbackTeacherLaptop(props) {
       onDebounce:console.log
     }
   }
-=======
->>>>>>> 60315e6c54bbec6e57f90f3d232584880e459774
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -164,7 +161,7 @@ function FeedbackTeacherLaptop(props) {
       ) || newAnswer;
     const questionText = "Q" + question.serialNumber + ". " + question.question;
     const answerValue = answer.answer.answer;
-    const debounce = createDebounceFunction
+    const debounce = createDebounceFunction(answer)
     return (
       <>
         <Frame1366>

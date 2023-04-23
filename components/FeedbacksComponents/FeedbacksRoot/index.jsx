@@ -32,6 +32,8 @@ import { range } from "lodash";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { formattedDate } from "../../../dates";
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");

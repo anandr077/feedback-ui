@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Step 4: Install any needed packages
-RUN npm install
+RUN npm install && npm ci
 
 # Step 5: Copy the rest of the project into the working directory
 COPY . .

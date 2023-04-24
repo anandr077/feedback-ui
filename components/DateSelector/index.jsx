@@ -4,6 +4,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MobileTimePicker } from "@mui/x-date-pickers";
 import styled from "styled-components";
+import {
+
+  IbmplexsansNormalShark20px,
+} from "../../styledMixins";
 
 export default function DateSelector(props) {
   const { value, onChange, timeValue, onTimeChange } = props;
@@ -12,9 +16,9 @@ export default function DateSelector(props) {
       <DateContainer>
         <DatePicker value={value} onChange={onChange} />
       </DateContainer>
-      <TimeContainer>
+      <DateContainer>
         <MobileTimePicker value={timeValue} onChange={onTimeChange} />
-      </TimeContainer>
+        </DateContainer>
     </LocalizationProvider>
   );
 }
@@ -30,23 +34,25 @@ const DateContainer = styled.div`
   overflow: hidden;
   border: 1px solid;
   height: 100%;
+  width: 170px;
   border-color: var(--text);
+  .MuiInputBase-root.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline legend {
+    color:  var(--text);
+  }
+  
+  .MuiInputBase-root.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-color: var(--text);
+  }
+  
+  .MuiInputBase-root.MuiOutlinedInput-root .MuiInputBase-input {
+    ${IbmplexsansNormalShark20px}
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border-radius: 12px;
+    border: 1px solid var(--text);
+  }
 `;
-const TimeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  width: 110px;
-  height: 100%;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 15px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: var(--light-mode-purple);
-`;
+
 const IconClock = styled.img`
   position: relative;
   min-width: 16px;

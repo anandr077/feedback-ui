@@ -3,7 +3,7 @@ FROM node:19.3.0
 
 # Step 2: Set the working directory to /app
 WORKDIR /app
-
+RUN npm install
 # Step 3: Copy package.json and package-lock.json (if available) into the working directory
 COPY package*.json ./
 

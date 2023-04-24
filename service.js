@@ -2,19 +2,15 @@ import { useHistory } from "react-router-dom";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "http://localhost:8080";
 const fetchApi = async (url, options) => {
-
-  try {
-    const response = await fetch(url, {
-      ...options,
-      withCredentials: true,
-      credentials: "include",
-    });
-    const data =  response.json();
-    handleResponse(response);
-    return data;
-  } catch (error) {
-    handleResponse(response, error);
-  }
+  const response = await fetch(url, {
+    ...options,
+    withCredentials: true,
+    credentials: "include",
+  });
+  const data =  response.json();
+  handleResponse(response);
+  return data;
+  
 };
 
 const getApi = async (url) =>  fetchApi(url, { method: "GET" });

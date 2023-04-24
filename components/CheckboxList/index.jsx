@@ -6,7 +6,7 @@ import {
   IbmplexsansNormalBlack16px
 } from "../FeedbacksComponents/../../styledMixins";
 
-import CheckBox from "@mui/material/CheckBox";
+import CustomCheckbox from "../CustomCheckbox";
 import { saveAnswer } from "../../service";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";
 export const CheckboxList = ({
@@ -93,7 +93,7 @@ const mcqAnswerFrame = (
           <ReviewCheckBoxContainer>
             {" "}
             <OptionCotainer>
-              <CheckBox checked={checked} disabled />{" "}
+              <CustomCheckbox checked={checked} disabled />{" "}
               <OptionText>{option.option}</OptionText>{" "}
             </OptionCotainer>
             <OptionRemarkContainer>
@@ -102,7 +102,7 @@ const mcqAnswerFrame = (
           </ReviewCheckBoxContainer>
         ) : (
           <OptionCotainer>
-            <CheckBox
+            <CustomCheckbox
               value={option.optionSerialNumber}
               checked={selectedOptions.includes(option.optionSerialNumber)}
               onChange={handleCheckboxChange(setSelectedOptions)}

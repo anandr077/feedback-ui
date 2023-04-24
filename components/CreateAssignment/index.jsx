@@ -16,6 +16,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import CustomCheckbox from "../CustomCheckBox";
 import DateSelector from "../DateSelector";
 
+
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment() {
@@ -203,21 +204,21 @@ export default function CreateAssignment() {
   });
 
   const feedbacksMethodContainer = (
-    <RadioGroup
+    <StyledRadioGroup
       value={feedbackMethodValue}
       onChange={(event) => feedbackMethodUpdate(event.target.value)}
     >
-      <FormControlLabel
+      <StyledFormControlLabel
         value="TEACHER"
         control={<Radio />}
         label="Teacher Feedback"
       />
-      <FormControlLabel
+      <StyledFormControlLabel
         value="P2P"
         control={<Radio />}
         label="Peer to Peer (randomised)"
       />
-    </RadioGroup>
+    </StyledRadioGroup>
   );
 
   const dateSelectorFrame = (
@@ -290,37 +291,29 @@ export default function CreateAssignment() {
     />
   );
 }
+const StyledRadioGroup = styled(RadioGroup)`
+  display: flex;
+  flex-direction: row;
+&.MuiFormGroup-root {
+    display: flex;
+    flex-direction: row;
+}
+`;
 
-const DateContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  padding: 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: var(--text);
-`;
-const TimeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  width: 200px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: var(--text);
-`;
-const IconClock = styled.img`
-  position: relative;
-  min-width: 16px;
-  height: 16px;
+const StyledFormControlLabel = styled(FormControlLabel)`
+margin-bottom: 8px;
+display: flex;
+flex-direction: row;
+.MuiTypography-root {
+  ${IbmplexsansNormalShark20px}
+}
+.MuiRadio-root {
+  color: var(--light-mode-purple);
+}
+.MuiRadio-colorPrimary.Mui-checked .MuiSvgIcon-root {
+  color: var(--light-mode-purple);
+}
+
 `;
 const CheckboxContainer = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import { flatMap } from "lodash";
+import { uniq, flatMap, map, filter,includes } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
@@ -25,6 +25,7 @@ import FeedBacksDropDown from "../FeedbacksDropDown";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
+import { PrintOutlined } from "@mui/icons-material";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -184,8 +185,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           return { commentId, range };
         });
       });
-      
-      const promises = transformedData.map(({ commentId, range }) => {
+      console.log("transformedData:", JSON.stringify(transformedData));
+
+      // Use Array.prototype.map to create an array of commentIds
+      const commentIdsArray = transformedData.map(({ commentId }) => commentId);
+      console.log("commentIdsArray:", JSON.stringify(commentIdsArray));
+
+      // Create a Set from the commentIdsArray
+      const transformedCommentIds = uniq(commentIdsArray);
+      console.log("transformedCommentIds:", JSON.stringify(transformedCommentIds));
+      const commentsForAnswer = comments.filter((comment)=>comment.questionSerialNumber === answer.serialNumber)
+      const missingComments = filter(commentsForAnswer, (comment) => !includes(commentIdsArray, comment.id));
+      const missingCommentsWithZeroRange = map(missingComments, (comment) => ({
+        commentId: comment.id,
+        range: { from: 0, to: 0 },
+      }));
+      console.log("missingCommentsWithZeroRange " + JSON.stringify(missingCommentsWithZeroRange))
+
+      const finalData = transformedData.concat(missingCommentsWithZeroRange);
+      const promises = finalData.map(({ commentId, range }) => {
         return updateFeedbackRange(submission.id, commentId, range);
       });
       

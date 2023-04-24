@@ -18,7 +18,10 @@ function CommentCard32(props) {
         isClosable={isClosable}
         onClose={onClose}
       />
-      <HoremIpsumDolorSi onClick={() => onClick(comment)} className="horem-ipsum-dolor-si-1">
+      <HoremIpsumDolorSi
+        onClick={() => onClick(comment)}
+        className="horem-ipsum-dolor-si-1"
+      >
         {comment.comment}
       </HoremIpsumDolorSi>
     </CommentCard>

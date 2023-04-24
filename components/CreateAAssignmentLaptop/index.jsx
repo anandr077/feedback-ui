@@ -16,9 +16,6 @@ import GoBack2 from "../GoBack2";
 import Footer from "../Footer";
 import Header from "../Header";
 import "./CreateAAssignmentLaptop.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentLaptop(props) {
@@ -27,8 +24,7 @@ function CreateAAssignmentLaptop(props) {
     questionFrames,
     publish,
     checkboxes,
-    feedbackMethodUpdate,
-    feedbackMethodValue,
+    dateSelectorFrame,
     feedbacksMethodContainer,
     showPopup,
     popupMessage,
@@ -107,9 +103,16 @@ function CreateAAssignmentLaptop(props) {
                       <Help src={help2} alt="help" />
                     </Link>
                   </Frame12811>
-                  <Frame12981>
-                    {feedbacksMethodContainer}
-                  </Frame12981>
+                  <Frame12981>{feedbacksMethodContainer}</Frame12981>
+                </Frame1299>
+                <Frame1299>
+                  <Frame12811>
+                    <Classes>Due at</Classes>
+                    <Link to="/tooltip2">
+                      <Help src={help2} alt="help" />
+                    </Link>
+                  </Frame12811>
+                  <Frame12981>{dateSelectorFrame}</Frame12981>
                 </Frame1299>
               </Frame1295>
             </Frame1294>
@@ -322,9 +325,9 @@ const Help = styled.img`
 const Frame1298 = styled.div`
   display: flex;
   align-items: space-between;
-  gap: 20px;
   position: relative;
   align-self: stretch;
+  gap: 16px;
 `;
 
 const Frame12981 = styled.div`

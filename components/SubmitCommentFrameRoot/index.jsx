@@ -4,8 +4,7 @@ import "./SubmitCommentFrameRoot.css";
 const SubmitCommentFrameRoot = (props) => {
   const { submitButtonOnClick, cancelButtonOnClick } = props;
 
-  const SmallButtonWhiteFunction = (e, name) => {
-  };
+  const SmallButtonWhiteFunction = (e, name) => {};
   return (
     <SubmitCommentFrameRootRoot>
       <SmallButton onClick={(e) => submitButtonOnClick()}>

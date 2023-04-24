@@ -26,7 +26,8 @@ function CreateAAssignmentMobile(props) {
     questionFrames,
     publish,
     checkboxes,
-
+    cleanformattingDiv,
+    cleanformattingTextBox,
     feedbacksMethodContainer,
     dateSelectorFrame,
     showPopup,
@@ -68,7 +69,7 @@ function CreateAAssignmentMobile(props) {
                 </Buttons1>
               </Frame12191> */}
             </Frame1372>
-            <Frame1374>
+            <Frame1374 id ="assignmentNameContainer" onClick={cleanformattingTextBox}>
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
             <Frame1294>
@@ -88,7 +89,7 @@ function CreateAAssignmentMobile(props) {
             <Frame1294>
               <Questions>{assignmentSettings}</Questions>
               <Frame1295>
-                <Frame1299>
+                <Frame1299 id = "classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>"Classes"</Classes>
                     <Link to="/tooltip1">
@@ -106,7 +107,7 @@ function CreateAAssignmentMobile(props) {
                   </Frame12811>
                   {feedbacksMethodContainer}
                 </Frame1300>
-                <Frame1300>
+                <Frame1300 id = "timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
                     <Link to="/tooltip2">

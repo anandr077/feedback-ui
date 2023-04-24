@@ -252,7 +252,7 @@ function FeedbackTeacherLaptop(props) {
               <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
               <StatusText>{methods.submissionStatusLabel()}</StatusText>
             </TitleWrapper>
-            {!isTeacher && pageMode === "CLOSED" && (
+            {pageMode === "CLOSED" && (
               <Buttons2
                 button="Download PDF"
                 download={true}

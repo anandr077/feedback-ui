@@ -26,9 +26,9 @@ function CreateAAssignmentMobile(props) {
     questionFrames,
     publish,
     checkboxes,
-    feedbackMethodUpdate,
-    feedbackMethodValue,
+
     feedbacksMethodContainer,
+    dateSelectorFrame,
     showPopup,
     popupMessage,
     setShowPopup,
@@ -105,6 +105,15 @@ function CreateAAssignmentMobile(props) {
                     </Link>
                   </Frame12811>
                   {feedbacksMethodContainer}
+                </Frame1300>
+                <Frame1300>
+                  <Frame12811>
+                    <Classes>Due at</Classes>
+                    <Link to="/tooltip2">
+                      <Help src={help2} alt="help" />
+                    </Link>
+                  </Frame12811>
+                  {dateSelectorFrame}
                 </Frame1300>
               </Frame1295>
             </Frame1294>

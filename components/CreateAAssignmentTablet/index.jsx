@@ -28,6 +28,7 @@ function CreateAAssignmentTablet(props) {
     publish,
     checkboxes,
     feedbacksMethodContainer,
+    dateSelectorFrame,
     showPopup,
     popupMessage,
     setShowPopup,
@@ -97,6 +98,15 @@ function CreateAAssignmentTablet(props) {
                     </Link>
                   </Frame12811>
                   {feedbacksMethodContainer}
+                </Frame1299>
+                <Frame1299>
+                  <Frame12811>
+                    <Classes>Due at</Classes>
+                    <Link to="/tooltip2">
+                      <Help src={help2} alt="help" />
+                    </Link>
+                  </Frame12811>
+                  {dateSelectorFrame}
                 </Frame1299>
               </Frame1295>
             </Frame1294>

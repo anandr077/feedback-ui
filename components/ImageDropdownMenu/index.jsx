@@ -8,7 +8,7 @@ import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
 
 import { Avatar } from "@boringer-avatars/react";
-import CustomCheckbox from "../CustomCheckBox";
+import CustomCheckbox from "../CustomCheckbox";
 export const ImageDropdownMenu = (props) => {
   const { menuItems, onItemSelected, withCheckbox } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);

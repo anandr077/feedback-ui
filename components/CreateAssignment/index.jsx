@@ -13,7 +13,7 @@ import MCQQuestionFrame from "../MCQQuestionFrame";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import CustomCheckbox from "../CustomCheckBox";
+import CustomCheckbox from "../CustomCheckbox";
 import DateSelector from "../DateSelector";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;

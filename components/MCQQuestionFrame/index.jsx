@@ -5,7 +5,7 @@ import {
   IbmplexsansNormalElectricViolet14px,
   IbmplexsansNormalShark20px
 } from "../../styledMixins";
-import CustomCheckbox from "../CustomCheckBox";
+import CustomCheckbox from "../CustomCheckbox";
 import Frame1297 from "../Frame1297";
 
 const theme = createTheme();

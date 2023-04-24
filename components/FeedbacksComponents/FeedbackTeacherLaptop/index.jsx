@@ -252,7 +252,7 @@ function FeedbackTeacherLaptop(props) {
               <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
               <StatusText>{methods.submissionStatusLabel()}</StatusText>
             </TitleWrapper>
-            {pageMode === "CLOSED" && (
+            {!isTeacher || pageMode === "CLOSED" && (
               <Buttons2
                 button="Download PDF"
                 download={true}
@@ -693,7 +693,7 @@ const Line26 = styled.img`
 const Frame1331 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 339px;
+  min-width: 339px;
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;

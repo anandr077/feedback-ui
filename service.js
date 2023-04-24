@@ -1,41 +1,69 @@
 import { useHistory } from "react-router-dom";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "http://localhost:8080";
+
+async function fetchData(url, options) {
+  try {
+    const response = await fetch(url, {
+      ...options,
+      withCredentials: true,
+      credentials: "include",
+    });
+    if (response.status === 401) {
+      return redirectToExternalIDP()
+    }
+    if (response.status === 404) {
+      throw new Error('Page not found');
+    }
+    if (response.status === 404) {
+      throw new Error('Page not found');
+    } else if (response.status === 500) {
+      throw new Error('Server error');
+    } else if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const isJson = response.headers.get('content-type')?.includes('application/json');
+    const data = isJson ? await response.json() : null;
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const fetchApi = async (url, options) => {
-  const response = await fetch(url, {
-    ...options,
-    withCredentials: true,
-    credentials: "include",
-  });
-  const data =  response.json();
-  handleResponse(response);
-  return data;
-  
+  return fetchData(url, options);
 };
 
 const getApi = async (url) =>  fetchApi(url, { method: "GET" });
 
 const postApi = async (url, body, headers = {}) => {
-  const response = await fetchApi(url, {
+  return await fetchApi(url, {
     method: "POST",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json", ...headers },
   });
 
-  await handleResponse(response);
-  return response.json();
 };
 const patchApi = async (url, body, headers = {}) => {
-  const response = await fetchApi(url, {
+  return await fetchApi(url, {
     method: "PATCH",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json", ...headers },
   });
 
-  await handleResponse(response);
-  return response;
+};
+const deleteApi = async (url, headers = {}) => {
+  return await fetchApi(url, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json", ...headers },
+  });
+
+
 };
 
+export const deleteFeedback = async (submissionId, commentId) => {  
+  return deleteApi(baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId);
+};
 
 // ...
 
@@ -77,19 +105,7 @@ export const addFeedback = async (submissionId, comment) =>
     baseUrl + "/submissions/" + submissionId + "/feedbacks",
     comment
   );
-export const deleteFeedback = async (submissionId, commentId) => {
-  const response = await fetch(
-    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
-    {
-      method: "DELETE",
-      withCredentials: true,
-      credentials: "include",
-    }
-  );
 
-  handleResponse(response);
-  return response;
-};
 export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + "/submissions/" + submissionId + "/comments");
 export const getModelResponsesForClass = async (classId) =>
@@ -123,24 +139,6 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
-function handleResponse(response, error) {
-    if (error) {
-      // Handle network errors or exceptions
-      alert(`Error: ${error}`);
-    } 
-    if (!response.ok) {
-      // Handle HTTP error responses
-      if (response.status === 401) {
-        alert("Redirecting")
-        redirectToExternalIDP();
-      } else {
-        alert(response.status)
-      }
-    } else {
-      // Return the response for OK responses
-      return response;
-    }
-}
 
 
 function redirectToExternalIDP() {

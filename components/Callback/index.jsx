@@ -7,7 +7,6 @@ const Callback = () => {
     const code = urlSearchParams.get("code");
 
     if (code) {
-      //   alert(code)
       exchangeCodeForToken(code).then(() => {
         window.location.href = "/";
       });

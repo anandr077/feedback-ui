@@ -282,14 +282,6 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function createQuill(answer, answerValue, debounce) {
-    if (quillRefs.current[answer.serialNumber - 1]) {
-      const editorContainer = document.getElementById(
-        "quill_" + answer.serialNumber
-      );
-      //editorContainer.style.opacity = "0.5";
-      // alert("q " + JSON.stringify(q))
-      //return q
-    }
     const q = React.useMemo(
       () => {
         return (
@@ -313,7 +305,6 @@ function FeedbackTeacherLaptop(props) {
       },
       pageMode === "REVIEW" ? [comments] : []
     );
-    // alert("q " + JSON.stringify(q))
     return q;
   }
 }

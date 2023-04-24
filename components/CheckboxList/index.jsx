@@ -3,19 +3,12 @@ import "quill/dist/quill.snow.css";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
-  feedbacksIbmplexsansBoldShark36px,
-  feedbacksIbmplexsansMediumPersianIndigo20px,
-  feedbacksIbmplexsansNormalBlack16px,
-  feedbacksIbmplexsansNormalChicago13px,
-  feedbacksIbmplexsansNormalMountainMist16px,
-  feedbacksIbmplexsansNormalShark20px,
-  feedbacksIbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack16px,
+  IbmplexsansNormalBlack16px
 } from "../FeedbacksComponents/../../styledMixins";
 
 import CheckBox from "@mui/material/CheckBox";
-import OptionRemark from "../FeedbacksComponents/OptionRemark";
 import { saveAnswer } from "../../service";
+import OptionRemark from "../FeedbacksComponents/OptionRemark";
 export const CheckboxList = ({
   submission,
   question,

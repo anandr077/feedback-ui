@@ -1,42 +1,37 @@
-import React, { useRef, useState } from "react";
 import { sortBy } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import Header from "../../Header";
-import QuillEditor from "../../QuillEditor";
-import CheckboxList from "../../CheckboxList";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansNormalFuscousGray14px,
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
   feedbacksIbmplexsansNormalBlack16px,
   feedbacksIbmplexsansNormalChicago13px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
-  feedbacksIbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack14px,
-  IbmplexsansNormalBlack16px,
+  feedbacksIbmplexsansNormalStack20px, IbmplexsansNormalBlack16px
 } from "../../../styledMixins";
+import CheckboxList from "../../CheckboxList";
+import Header from "../../Header";
+import QuillEditor from "../../QuillEditor";
 
+import { getUserRole } from "../../../service";
+import FocussedInput from "../../FocussedInput";
 import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
-import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import HeaderSmall from "../../HeaderSmall";
 import { isTabletView } from "../../ReactiveRender";
+import StatusLabel from "../../StatusLabel";
+import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
-import FocussedInput from "../../FocussedInput";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
-import CheckBox from "@mui/material/CheckBox";
-import "./FeedbackTeacherLaptop.css";
-import { getUserName, getUserRole } from "../../../service";
-import StatusLabel from "../../StatusLabel";
 import ShortcutsFrame from "../ShortcutsFrame";
-import OptionRemark from "../OptionRemark";
+import "./FeedbackTeacherLaptop.css";
 
 function FeedbackTeacherLaptop(props) {
   const {

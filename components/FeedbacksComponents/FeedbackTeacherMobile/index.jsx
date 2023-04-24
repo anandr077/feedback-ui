@@ -1,26 +1,21 @@
-import React, { useState } from "react";
-import ReactQuill from "react-quill";
+import React from "react";
 import styled from "styled-components";
 import CheckboxList from "../../CheckboxList";
 
 import {
   feedbacksIbmplexsansBoldShark36px,
-  IbmplexsansMediumPersianIndigo20px,
-  IbmplexsansNormalBlack16px,
+  IbmplexsansMediumPersianIndigo20px, IbmplexsansNormalBlack14px, IbmplexsansNormalBlack16px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalShark20px,
-  IbmplexsansNormalBlack14px,
+  IbmplexsansNormalShark20px
 } from "../../../styledMixins";
+import { taskHeaderProps } from "../../../utils/headerProps.js";
 import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
+import QuillEditor from "../../QuillEditor";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import Buttons2 from "../Buttons2";
-import QuillEditor from "../../QuillEditor";
 import "./FeedbackTeacherMobile.css";
-import CheckBox from "@mui/material/CheckBox";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
 
 function FeedbackTeacherMobile(props) {
   const {

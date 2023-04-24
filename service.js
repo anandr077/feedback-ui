@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "http://localhost:8080";
 const fetchApi = async (url, options) => {
 
   try {

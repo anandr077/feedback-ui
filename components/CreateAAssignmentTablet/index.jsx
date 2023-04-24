@@ -57,11 +57,11 @@ function CreateAAssignmentTablet(props) {
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
-              <Frame12191>
+              {/* <Frame12191>
                 <Buttons1>
                   <Button onClick={publish}>Publish</Button>
                 </Buttons1>
-              </Frame12191>
+              </Frame12191> */}
             </Frame1372>
             <Frame1374>
               <TextInput id="assignmentName"></TextInput>
@@ -109,7 +109,13 @@ function CreateAAssignmentTablet(props) {
                   {dateSelectorFrame}
                 </Frame1299>
               </Frame1295>
+         
             </Frame1294>
+            <Frame12191>
+                <Buttons1>
+                  <Button onClick={publish}>Publish</Button>
+                </Buttons1>
+            </Frame12191>
             <Frame1372>
               <GoBack2
                 caret={goBack22Props.caret}
@@ -190,7 +196,7 @@ const Buttons1 = styled.div`
   gap: 8px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--royal-purple);
+  background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
   &:hover {
@@ -214,7 +220,9 @@ const Frame12191 = styled.div`
   width: fit-content;
   align-items: center;
   gap: 24px;
-  position: relative;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 `;
 const Frame1379 = styled.div`
   display: flex;

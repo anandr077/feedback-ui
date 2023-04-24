@@ -29,10 +29,10 @@ const Buttons = styled.div`
   gap: 4px;
   padding: 8px 16px;
   position: relative;
-  background-color: var(--royal-purple);
+  background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
-  cursor: copy;
+  cursor: pointer;
 `;
 
 const Add = styled.img`

@@ -33,7 +33,7 @@ const patchApi = async (url, body, headers = {}) => {
   });
 
   await handleResponse(response);
-  return response.json();
+  return response;
 };
 
 

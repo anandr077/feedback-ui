@@ -283,8 +283,10 @@ const Frame1372 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
+  font-size: 36px;
   position: relative;
   flex: 1;
+  padding: 0px 0px 30px 0px;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;

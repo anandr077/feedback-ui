@@ -32,7 +32,12 @@ export default function CreateAssignment() {
       setClasses(res);
     });
   }, []);
-
+  const cleanformattingTextBox = (e) => {
+    e.currentTarget.style.border = "1px solid var(--text)";
+   }
+   const cleanformattingDiv = (e) => {
+     e.currentTarget.style.border = "1px solid #E0E0E0";
+    }
   const feedbackMethodUpdate = (selectedMethod) => {
     setFeedbackMethodValue(selectedMethod);
   };
@@ -95,7 +100,7 @@ export default function CreateAssignment() {
       ];
     });
   }
-
+  
   function createNewQuestionFrame(serialNumber, questionDetails) {
     return (
       <>
@@ -105,6 +110,8 @@ export default function CreateAssignment() {
             deleteQuestionFrameFn={deleteQuestionFrameFn}
             questionDetails={questionDetails}
             UpdateQuestionFrame={UpdateQuestionFrame}
+            cleanformattingTextBox = {cleanformattingTextBox}
+    cleanformattingDiv = {cleanformattingDiv}
           />
         ) : (
           <TheoryQuestionFrame
@@ -113,6 +120,8 @@ export default function CreateAssignment() {
             questionDetails={questionDetails}
             UpdateQuestionFrame={UpdateQuestionFrame}
             size="small"
+            cleanformattingTextBox = {cleanformattingTextBox}
+    cleanformattingDiv = {cleanformattingDiv}
           />
         )}
       </>
@@ -120,14 +129,24 @@ export default function CreateAssignment() {
   }
 
   const publish = () => {
+    let anyErrors = false;
     const title = document.getElementById("assignmentName").value;
+    if(title === ""){
+    const assignmentNameContainer = document.getElementById("assignmentNameContainer");
+    assignmentNameContainer.style.border = "1px solid red";
+    anyErrors = true;
+  }
     const reviewedBy = feedbackMethodValue;
     const classIds = classes
       .filter((clazz) => {
         return document.getElementById(clazz.id).checked;
       })
       .map((clazz) => clazz.id);
-
+    if(classIds.length === 0){
+    const classesContainer = document.getElementById("classesContainer");
+    classesContainer.style.border = "1px solid red";
+    anyErrors = true;
+    }
     const serialNumbers = questionFrames.map((_, index) => index + 1);
     const questions = serialNumbers.map((serialNumber) => {
       const questionType = document.getElementById(
@@ -169,6 +188,48 @@ export default function CreateAssignment() {
         return question;
       }
     });
+    questions.map((question) => {
+      if(question.question === ""){
+        const questionContainer = document.getElementById("questionContainer_"+question.serialNumber);
+        questionContainer.style.border = "1px solid red";
+        const questionTextBox = document.getElementById("question_textBox"+question.serialNumber);
+        questionTextBox.style.border = "1px solid red";
+        anyErrors = true;
+      }
+      if(question.type === "TEXT" && question.wordLimit === ""){
+        const questionContainer = document.getElementById("questionContainer_"+question.serialNumber);
+        questionContainer.style.border = "1px solid red";
+        const wordLimitContainer = document.getElementById("wordLimitTextBox_"+question.serialNumber);
+        wordLimitContainer.style.border = "1px solid red";
+        anyErrors = true;
+      }
+      if(question.type === "MCQ"){
+        const optionsIndex = [1, 2, 3, 4];
+        let isCorrectPresent = false;
+        optionsIndex.map((index) => {
+          if(question.options[index-1].option === ""){
+            const optionContainer = document.getElementById("option_"+question.serialNumber+"_"+index);
+            optionContainer.style.border = "1px solid red";
+            anyErrors = true;
+          }
+          question.options[index-1].isCorrect ? isCorrectPresent = true : null;
+        })
+        if(!isCorrectPresent){
+          const optionContainer = document.getElementById("optionFrame_" + question.serialNumber);
+          optionContainer.style.border = "1px solid red";
+          anyErrors = true;
+        }
+      }
+    });
+
+    if(!timeValue || !selectedDate){
+      const timeContainer = document.getElementById("timeContainer");
+      timeContainer.style.border = "1px solid red";
+      anyErrors = true;
+    }
+    if(questions.length === 0){
+      anyErrors = true;
+    }
 
     const assignment = {
       title,
@@ -176,21 +237,26 @@ export default function CreateAssignment() {
       questions,
       reviewedBy,
     };
-    setPopupMessage("Assignment is being created");
+    if(anyErrors){
+    setPopupMessage("Please fill all the required fields");
     setShowPopup(true);
-    // console.log("##assignment", assignment);
-    // console.log("##time", timeValue);
-    createAssignment(assignment).then((res) => {
-      if (res.status === "PUBLISHED") {
-        setPopupMessage("Assignment Created Successfully");
-        setShowPopup(true);
-        window.location.href = "/";
-      } else {
-        setPopupMessage("Assignment Creation Failed");
-        setShowPopup(true);
-        return;
-      }
-    });
+    return;
+  }
+  else{
+    console.log("##assignment", assignment);
+    return;
+    // createAssignment(assignment).then((res) => {
+    //   if (res.status === "PUBLISHED") {
+    //     setPopupMessage("Assignment Created Successfully");
+    //     setShowPopup(true);
+    //     window.location.href = "/";
+    //   } else {
+    //     setPopupMessage("Assignment Creation Failed");
+    //     setShowPopup(true);
+    //     return;
+    //   }
+    // });
+  }
   };
 
   const checkboxes = classes.map((clazz) => {
@@ -235,6 +301,8 @@ export default function CreateAssignment() {
     publish,
     checkboxes,
     setShowPopup,
+    cleanformattingTextBox,
+    cleanformattingDiv,
   };
 
   return (

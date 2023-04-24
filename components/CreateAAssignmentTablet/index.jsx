@@ -29,6 +29,8 @@ function CreateAAssignmentTablet(props) {
     checkboxes,
     feedbacksMethodContainer,
     dateSelectorFrame,
+    cleanformattingTextBox,
+    cleanformattingDiv,
     showPopup,
     popupMessage,
     setShowPopup,
@@ -63,7 +65,7 @@ function CreateAAssignmentTablet(props) {
                 </Buttons1>
               </Frame12191> */}
             </Frame1372>
-            <Frame1374>
+            <Frame1374 id ="assignmentNameContainer" onClick={cleanformattingTextBox}>
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
             <Frame1294>
@@ -81,7 +83,7 @@ function CreateAAssignmentTablet(props) {
             <Frame1294>
               <AssignmentSettings>Assignment Settings</AssignmentSettings>
               <Frame1295>
-                <Frame1299>
+                <Frame1299  id = "classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Classes</Classes>
                     <Link to="/tooltip1">
@@ -99,7 +101,7 @@ function CreateAAssignmentTablet(props) {
                   </Frame12811>
                   {feedbacksMethodContainer}
                 </Frame1299>
-                <Frame1299>
+                <Frame1299 id = "timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
                     <Link to="/tooltip2">
@@ -276,6 +278,7 @@ const Frame1372 = styled.div`
   gap: 30px;
   position: relative;
   align-self: stretch;
+  top: 30px;
 `;
 
 const Title = styled.h1`

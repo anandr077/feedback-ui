@@ -6,17 +6,17 @@ import {
 } from "../../styledMixins";
 
 function Frame1291(props) {
-  const { questionDetails, serialNumber } = props;
+  const { questionDetails, serialNumber, cleanformattingTextBox } = props;
   return (
     <Frame12911>
       <AnswerWordLimit className="answer-word-limit-1">
         Answer Word Limit
       </AnswerWordLimit>
-      <Frame1290>
+      <Frame1290 id = {"wordLimitTextBox_"+serialNumber} onClick={cleanformattingTextBox}>
         <input
           id={"wordLimit_" + serialNumber}
           value={questionDetails?.wordLimit}
-          type="text"
+          type="number"
           className="number-1"
           placeholder="1000"
           style={{

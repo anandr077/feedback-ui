@@ -363,7 +363,7 @@ const Buttons1 = styled.div`
   cursor: pointer;
   &:hover {
     scale: 1.2;
-    transition: 0.3s;
+    transition: 0.1s;
   }
 `;
 

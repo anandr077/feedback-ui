@@ -196,7 +196,7 @@ export default function CreateAssignment() {
         questionTextBox.style.border = "1px solid red";
         anyErrors = true;
       }
-      if(question.type === "TEXT" && question.wordLimit === ""){
+      if(question.type === "TEXT" && question.wordLimit < 0 || question.wordLimit === "" || question.wordLimit > 2000){
         const questionContainer = document.getElementById("questionContainer_"+question.serialNumber);
         questionContainer.style.border = "1px solid red";
         const wordLimitContainer = document.getElementById("wordLimitTextBox_"+question.serialNumber);
@@ -243,8 +243,6 @@ export default function CreateAssignment() {
     return;
   }
   else{
-    console.log("##assignment", assignment);
-    return;
     // createAssignment(assignment).then((res) => {
     //   if (res.status === "PUBLISHED") {
     //     setPopupMessage("Assignment Created Successfully");

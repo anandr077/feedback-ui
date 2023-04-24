@@ -1,33 +1,45 @@
 import { useHistory } from "react-router-dom";
 
 const baseUrl = "http://localhost:8080";
-
 const fetchApi = async (url, options) => {
-  const response = await fetch(url, {
-    ...options,
-    withCredentials: true,
-    credentials: "include",
-  });
 
-  handleErrors(response);
-  return await response.json();
+  try {
+    const response = await fetch(url, {
+      ...options,
+      withCredentials: true,
+      credentials: "include",
+    });
+    const data =  response.json();
+    handleResponse(response);
+    return data;
+  } catch (error) {
+    handleResponse(response, error);
+  }
 };
 
-const getApi = async (url) => await fetchApi(url, { method: "GET" });
+const getApi = async (url) =>  fetchApi(url, { method: "GET" });
 
-const postApi = async (url, body, headers = {}) =>
-  await fetchApi(url, {
+const postApi = async (url, body, headers = {}) => {
+  const response = await fetchApi(url, {
     method: "POST",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json", ...headers },
   });
 
-const patchApi = async (url, body, headers = {}) =>
-  await fetchApi(url, {
+  await handleResponse(response);
+  return response.json();
+};
+const patchApi = async (url, body, headers = {}) => {
+  const response = await fetchApi(url, {
     method: "PATCH",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json", ...headers },
   });
+
+  await handleResponse(response);
+  return response.json();
+};
+
 
 // ...
 
@@ -79,7 +91,7 @@ export const deleteFeedback = async (submissionId, commentId) => {
     }
   );
 
-  handleErrors(response);
+  handleResponse(response);
   return response;
 };
 export const getCommentsForSubmission = async (submissionId) =>
@@ -115,17 +127,25 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
-function errorHandler(response) {
-  console.log(response);
+function handleResponse(response, error) {
+    if (error) {
+      // Handle network errors or exceptions
+      alert(`Error: ${error}`);
+    } 
+    if (!response.ok) {
+      // Handle HTTP error responses
+      if (response.status === 401) {
+        alert("Redirecting")
+        redirectToExternalIDP();
+      } else {
+        alert(response.status)
+      }
+    } else {
+      // Return the response for OK responses
+      return response;
+    }
 }
 
-function handleErrors(response) {
-  if (!response.ok) {
-    console.log(response);
-    return redirectToExternalIDP();
-  }
-  return response;
-}
 
 function redirectToExternalIDP() {
   const clientId = "your_client_id";

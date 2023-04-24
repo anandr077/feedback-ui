@@ -22,7 +22,6 @@ export default function CompletedRoot() {
     return <div>Loading...</div>;
   }
 
-  console.log("completed tasks: ", tasks);
 
   return (
     <ReactiveRender

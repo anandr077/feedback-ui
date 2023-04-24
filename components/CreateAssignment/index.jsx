@@ -16,7 +16,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import CustomCheckbox from "../CustomCheckBox";
 import DateSelector from "../DateSelector";
 
-
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment() {
@@ -294,26 +293,25 @@ export default function CreateAssignment() {
 const StyledRadioGroup = styled(RadioGroup)`
   display: flex;
   flex-direction: row;
-&.MuiFormGroup-root {
+  &.MuiFormGroup-root {
     display: flex;
     flex-direction: row;
-}
+  }
 `;
 
 const StyledFormControlLabel = styled(FormControlLabel)`
-margin-bottom: 8px;
-display: flex;
-flex-direction: row;
-.MuiTypography-root {
-  ${IbmplexsansNormalShark20px}
-}
-.MuiRadio-root {
-  color: var(--light-mode-purple);
-}
-.MuiRadio-colorPrimary.Mui-checked .MuiSvgIcon-root {
-  color: var(--light-mode-purple);
-}
-
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  .MuiTypography-root {
+    ${IbmplexsansNormalShark20px}
+  }
+  .MuiRadio-root {
+    color: var(--light-mode-purple);
+  }
+  .MuiRadio-colorPrimary.Mui-checked .MuiSvgIcon-root {
+    color: var(--light-mode-purple);
+  }
 `;
 const CheckboxContainer = styled.div`
   display: flex;

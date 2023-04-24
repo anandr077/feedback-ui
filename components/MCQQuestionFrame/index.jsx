@@ -1,18 +1,12 @@
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React from "react";
 import styled from "styled-components";
-import Frame1297 from "../Frame1297";
 import {
   IbmplexsansNormalElectricViolet14px,
-  IbmplexsansNormalShark20px,
-  IbmplexsansNormalFuscousGray14px,
+  IbmplexsansNormalShark20px
 } from "../../styledMixins";
-import Frame1291 from "../Frame1291";
-import Buttons4 from "../Buttons4";
-import Group1255 from "../Group1255";
-import CheckBox from "@mui/material/CheckBox";
 import CustomCheckbox from "../CustomCheckBox";
-import { ThemeProvider } from "@mui/material/styles";
-import { createTheme } from "@mui/material/styles";
+import Frame1297 from "../Frame1297";
 
 const theme = createTheme();
 

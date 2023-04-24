@@ -27,6 +27,7 @@ function CreateAAssignmentLaptop(props) {
     dateSelectorFrame,
     feedbacksMethodContainer,
     showPopup,
+    dismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
     popupMessage,
@@ -57,7 +58,7 @@ function CreateAAssignmentLaptop(props) {
         </Frame1376>
         <Frame1378>
           {showPopup && (
-            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />
+            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} dismissable ={dismissable} />
           )}
           <Frame1375>
             <Frame1372>

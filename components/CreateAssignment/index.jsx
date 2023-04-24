@@ -24,6 +24,7 @@ export default function CreateAssignment() {
   const [feedbackMethodValue, setFeedbackMethodValue] =
     React.useState("TEACHER");
   const [showPopup, setShowPopup] = React.useState(false);
+  const [dismissable, setDismissable] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState();
   const [timeValue, setTimeValue] = React.useState();
 
@@ -239,6 +240,7 @@ export default function CreateAssignment() {
     };
     if(anyErrors){
     setPopupMessage("Please fill all the required fields");
+    setDismissable(true);
     setShowPopup(true);
     return;
   }
@@ -299,6 +301,7 @@ export default function CreateAssignment() {
     publish,
     checkboxes,
     setShowPopup,
+    setDismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
   };
@@ -311,6 +314,7 @@ export default function CreateAssignment() {
             ...methods,
             showPopup,
             popupMessage,
+            dismissable,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentMobileData,
@@ -322,6 +326,7 @@ export default function CreateAssignment() {
           {...{
             ...methods,
             showPopup,
+            dismissable,
             popupMessage,
             feedbacksMethodContainer,
             dateSelectorFrame,
@@ -334,6 +339,7 @@ export default function CreateAssignment() {
           {...{
             ...methods,
             showPopup,
+            dismissable,
             popupMessage,
             feedbacksMethodContainer,
             dateSelectorFrame,
@@ -346,6 +352,7 @@ export default function CreateAssignment() {
           {...{
             ...methods,
             showPopup,
+            dismissable,
             popupMessage,
             feedbacksMethodContainer,
             dateSelectorFrame,

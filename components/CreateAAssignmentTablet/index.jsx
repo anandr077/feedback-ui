@@ -32,6 +32,7 @@ function CreateAAssignmentTablet(props) {
     cleanformattingTextBox,
     cleanformattingDiv,
     showPopup,
+    dismissable,
     popupMessage,
     setShowPopup,
     help1,
@@ -54,7 +55,7 @@ function CreateAAssignmentTablet(props) {
         </Frame1376>
         <Frame1378>
           {showPopup && (
-            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />
+            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} dismissable= {dismissable} />
           )}
           <Frame1375>
             <Frame1372>
@@ -280,6 +281,7 @@ const Frame1372 = styled.div`
   position: relative;
   align-self: stretch;
   top: 30px;
+  max-width: 300px;
 `;
 
 const Title = styled.h1`

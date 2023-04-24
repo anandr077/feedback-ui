@@ -3,15 +3,20 @@ import styled, { keyframes } from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../FeedbacksComponents/../../styledMixins";
 
 export default function ScreenPopup(props) {
-  const { message, setShowPopup, small } = props;
+  const { message, setShowPopup, small, dismissable, setDismissable } = props;
   const [show, setShow] = useState(true);
-
+console.log("##dismissable", dismissable);
   useEffect(() => {
+    if(dismissable) { 
+      setShow(true)
+    }
+    else { 
     const timer = setTimeout(() => {
       setShow(false);
       setShowPopup(false);
     }, 2000);
     return () => clearTimeout(timer);
+  }
   }, []);
 
   return (
@@ -22,7 +27,7 @@ export default function ScreenPopup(props) {
             <SmallPopupContainer>
               <MaskGroup
                 src="/img/close.png"
-                onClick={() => setShowPopup(false)}
+                onClick={() => {setShowPopup(false); setDismissable(false)} }
               />
               <PopupMessage>{message}</PopupMessage>
             </SmallPopupContainer>

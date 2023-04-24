@@ -31,6 +31,7 @@ function CreateAAssignmentMobile(props) {
     feedbacksMethodContainer,
     dateSelectorFrame,
     showPopup,
+    dismissable,
     popupMessage,
     setShowPopup,
     assignmentSettings,
@@ -58,6 +59,7 @@ function CreateAAssignmentMobile(props) {
               message={popupMessage}
               small={true}
               setShowPopup={setShowPopup}
+              dismissable ={dismissable}
             />
           )}
           <Frame1375>

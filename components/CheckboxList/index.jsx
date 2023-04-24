@@ -5,8 +5,8 @@ import styled from "styled-components";
 import {
   IbmplexsansNormalBlack16px
 } from "../FeedbacksComponents/../../styledMixins";
-
-import CustomCheckbox from "../CustomCheckbox";
+import CustomCheckbox from "../../CustomCheckbox";
+import OptionRemark from "../FeedbacksComponents/OptionRemark";
 import { saveAnswer } from "../../service";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";
 export const CheckboxList = ({

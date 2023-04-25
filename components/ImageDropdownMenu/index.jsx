@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
+import { Avatar } from "@boringer-avatars/react";
 
 import { Avatar } from "@boringer-avatars/react";
 import CheckboxBordered from "../CheckboxBordered";
@@ -27,6 +28,9 @@ export const ImageDropdownMenu = (props) => {
   const handleClose = (item) => {
     setSelectedItem(item);
     setAnchorEl(null);
+    if (item.link) {
+      window.location.href = item.link
+    }
     if (onItemSelected) {
       onItemSelected(item);
     }
@@ -42,6 +46,13 @@ export const ImageDropdownMenu = (props) => {
           aria-label="menu"
           onClick={handleClick}
         >
+          <Avatar
+          title={false}
+          size={25}
+          variant="beam"
+          name={selectedItem.title}
+          square={false}
+        />
           <StyledListItemText primary={selectedItem.title} />
           <Frame12841 src="/img/frame-1284@2x.png" alt="Frame 1284" />
         </StyledIconButton>
@@ -55,9 +66,16 @@ export const ImageDropdownMenu = (props) => {
         {menuItems.map((item) => (
           <MenuItem key={item.id} onClick={() => handleClose(item)}>
             {withCheckbox && <CheckboxBordered />}
+            <Avatar
+              title={false}
+              size={25}
+              variant="beam"
+              name={selectedItem.title}
+              square={false}
+            />
             <ListItemText primary={item.title} />
 
-            <Avatar name="test" />
+            {/* <Avatar name="test" /> */}
           </MenuItem>
         ))}
       </Menu>

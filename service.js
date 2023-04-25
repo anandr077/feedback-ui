@@ -82,7 +82,7 @@ export const getCookie = (name) => {
   const cookieValue = document.cookie
     .split("; ")
     .find((cookie) => cookie.startsWith(`${name}=`));
-
+  console.log("Cookie " + name + " value " + cookieValue)
   return cookieValue ? cookieValue.split("=")[1] : null;
 };
 export const logout = async () => {
@@ -172,19 +172,9 @@ function redirectToExternalIDP() {
 
 export const exchangeCodeForToken = async (code) => {
   const token = getCookie("auth.access_token");
+  console.log("Read token " + token)
   if (!token) {
     return await postApi(baseUrl + "/users/exchange", code);
-  }
-};
-
-export const login = async () => {
-  const token = getCookie("auth.access_token");
-  if (!token) {
-    const user = getCookie("userId");
-    return await postApi(baseUrl + "/users/login", {
-      username: user,
-      password: "password",
-    });
   }
 };
 

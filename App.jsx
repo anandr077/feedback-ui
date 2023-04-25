@@ -22,8 +22,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    if (window.location.pathname === "/callback")
+    if (window.location.pathname === "/callback") {
+      setIsLoading(false)
       return
+    }
     const role = getUserRole()
     if (role) {
       setIsLoading(false)

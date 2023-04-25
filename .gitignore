@@ -38,6 +38,5 @@ packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
 .parcel-cache/*
 .parcel-cache/
-package-lock.json
 dist/
 dist/*

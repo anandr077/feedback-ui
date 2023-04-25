@@ -2,10 +2,8 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  IbmplexsansNormalBlack16px
-} from "../FeedbacksComponents/../../styledMixins";
-import CustomCheckbox from "../../CustomCheckbox";
+import { IbmplexsansNormalBlack16px } from "../FeedbacksComponents/../../styledMixins";
+import CustomCheckbox from "../CustomCheckbox";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";
 import { saveAnswer } from "../../service";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";

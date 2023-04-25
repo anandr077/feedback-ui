@@ -22,7 +22,6 @@ export default function CompletedRoot() {
     return <div>Loading...</div>;
   }
 
-
   return (
     <ReactiveRender
       mobile={<CompletedMobile {...{ tasks, ...completedMobileData }} />}

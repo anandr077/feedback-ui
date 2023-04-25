@@ -11,8 +11,12 @@ import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
 import CompletedRoot from "./components/Completed/CompletedRoot";
 import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
 import Callback from "./components/Callback";
+import ScreenPopup from "./components/ScreenPopup";
 
 function App() {
+  const [showPopup, setShowPopup] = React.useState(false);
+  const [dismissable, setDismissable] = React.useState(false);
+  const [popupMessage, setPopupMessage] = React.useState();
   const role = getUserRole();
   const dashboard =
     role === "TEACHER" ? <TeacherDashboardRoot /> : <StudentDashboardRoot />;
@@ -23,19 +27,45 @@ function App() {
           <Callback />
         </Route>
         <Route path="/tasks">
-          <StudentTaskRoot />
+          <>
+            <StudentTaskRoot />
+          </>
         </Route>
         <Route path="/completed">
           <CompletedRoot />
         </Route>
         <Route path="/classes">
-          <TeacherClassesRoot />
+          <>
+            {showPopup && (
+              <ScreenPopup
+                message={popupMessage}
+                setShowPopup={setShowPopup}
+                dismissable={dismissable}
+                setDismissable={setDismissable}
+              />
+            )}
+            <TeacherClassesRoot />
+          </>
         </Route>
         <Route path="/classes/:classId">
           <TeacherClassesRoot />
         </Route>
         <Route path="/assignments/new">
-          <CreateAssignment />
+          <>
+            {showPopup && (
+              <ScreenPopup
+                message={popupMessage}
+                setShowPopup={setShowPopup}
+                dismissable={dismissable}
+                setDismissable={setDismissable}
+              />
+            )}
+            <CreateAssignment
+              setShowPopup={setShowPopup}
+              setPopupMessage={setPopupMessage}
+              setDismissable={setDismissable}
+            />
+          </>
         </Route>
         <Route path="/assignments/:assignmentId/review">
           <FeedbacksRoot isAssignmentPage={true} />

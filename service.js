@@ -10,19 +10,21 @@ async function fetchData(url, options) {
       credentials: "include",
     });
     if (response.status === 401) {
-      return redirectToExternalIDP()
+      return redirectToExternalIDP();
     }
     if (response.status === 404) {
-      throw new Error('Page not found');
+      throw new Error("Page not found");
     }
     if (response.status === 404) {
-      throw new Error('Page not found');
+      throw new Error("Page not found");
     } else if (response.status === 500) {
-      throw new Error('Server error');
+      throw new Error("Server error");
     } else if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const isJson = response.headers.get('content-type')?.includes('application/json');
+    const isJson = response.headers
+      .get("content-type")
+      ?.includes("application/json");
     const data = isJson ? await response.json() : null;
     return data;
   } catch (error) {
@@ -34,7 +36,7 @@ const fetchApi = async (url, options) => {
   return fetchData(url, options);
 };
 
-const getApi = async (url) =>  fetchApi(url, { method: "GET" });
+const getApi = async (url) => fetchApi(url, { method: "GET" });
 
 const postApi = async (url, body, headers = {}) => {
   return await fetchApi(url, {
@@ -42,7 +44,6 @@ const postApi = async (url, body, headers = {}) => {
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json", ...headers },
   });
-
 };
 const patchApi = async (url, body, headers = {}) => {
   return await fetchApi(url, {
@@ -50,19 +51,18 @@ const patchApi = async (url, body, headers = {}) => {
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json", ...headers },
   });
-
 };
 const deleteApi = async (url, headers = {}) => {
   return await fetchApi(url, {
     method: "DELETE",
     headers: { "Content-Type": "application/json", ...headers },
   });
-
-
 };
 
-export const deleteFeedback = async (submissionId, commentId) => {  
-  return deleteApi(baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId);
+export const deleteFeedback = async (submissionId, commentId) => {
+  return deleteApi(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId
+  );
 };
 
 // ...
@@ -138,8 +138,6 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
 
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
-
-
 
 function redirectToExternalIDP() {
   const clientId = "your_client_id";

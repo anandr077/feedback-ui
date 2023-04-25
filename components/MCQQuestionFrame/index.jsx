@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import {
   IbmplexsansNormalElectricViolet14px,
-  IbmplexsansNormalShark20px
+  IbmplexsansNormalShark20px,
 } from "../../styledMixins";
 import CustomCheckbox from "../CustomCheckbox";
 import Frame1297 from "../Frame1297";
@@ -15,14 +15,15 @@ export default function MCQQuestionFrame(props) {
     serialNumber,
     deleteQuestionFrameFn,
     questionDetails,
-    UpdateQuestionFrame, cleanformattingTextBox,
+    UpdateQuestionFrame,
+    cleanformattingTextBox,
     cleanformattingDiv,
   } = props;
   const options = [1, 2, 3, 4];
 
   const optionFrame = options.map((index) => {
     return (
-      <OptionsContainer key={index} >
+      <OptionsContainer key={index}>
         <OptionInputEditable
           id={"option_" + serialNumber + "_" + index}
           placeholder={"Option " + index}
@@ -42,7 +43,10 @@ export default function MCQQuestionFrame(props) {
   });
 
   return (
-    <SmalllQuestionFrame id ={"questionContainer_"+serialNumber} onClick={cleanformattingDiv}>
+    <SmalllQuestionFrame
+      id={"questionContainer_" + serialNumber}
+      onClick={cleanformattingDiv}
+    >
       <Frame1295>
         <Frame1297
           number={serialNumber}
@@ -59,7 +63,10 @@ export default function MCQQuestionFrame(props) {
       <Frame12891>
         <InputQuestion id={"questionType_" + serialNumber} questionType="MCQ">
           <Label>Question</Label>
-          <QuestionFrame2 id = {"question_textBox"+serialNumber} onClick={cleanformattingTextBox}>
+          <QuestionFrame2
+            id={"question_textBox" + serialNumber}
+            onClick={cleanformattingTextBox}
+          >
             <QuestionInputEditable
               id={"question_" + serialNumber}
               placeholder="Type Your Question here"
@@ -67,7 +74,12 @@ export default function MCQQuestionFrame(props) {
             />
           </QuestionFrame2>
           <Label>Options</Label>
-          <OptionsQuestionFrame id = {"optionFrame_" + serialNumber} onClick={cleanformattingDiv}>{optionFrame}</OptionsQuestionFrame>
+          <OptionsQuestionFrame
+            id={"optionFrame_" + serialNumber}
+            onClick={cleanformattingDiv}
+          >
+            {optionFrame}
+          </OptionsQuestionFrame>
           {/* <Buttons4 /> */}
         </InputQuestion>
       </Frame12891>

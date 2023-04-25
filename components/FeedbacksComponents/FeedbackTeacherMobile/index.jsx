@@ -316,7 +316,7 @@ const Frame1386 = styled.div`
 const Frame1371 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: center;
   gap: 25px;
   position: relative;
@@ -370,7 +370,7 @@ const Frame1284 = styled.img`
 
 const Frame1368 = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 20px;
   position: relative;
   align-self: stretch;

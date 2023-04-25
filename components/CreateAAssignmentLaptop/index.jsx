@@ -92,28 +92,28 @@ function CreateAAssignmentLaptop(props) {
               <Frame1295>
                 <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
-                    <Classes>"Classes"</Classes>
-                    <Link to="/tooltip1">
+                    <Classes>Classes</Classes>
+                    {/* <Link to="/tooltip1">
                       <Help src={help1} alt="help" />
-                    </Link>
+                    </Link> */}
                   </Frame12811>
                   <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
                 <Frame1299>
                   <Frame12811>
                     <Classes>{feedbackMethod}</Classes>
-                    <Link to="/tooltip2">
+                    {/* <Link to="/tooltip2">
                       <Help src={help2} alt="help" />
-                    </Link>
+                    </Link> */}
                   </Frame12811>
                   <Frame12981>{feedbacksMethodContainer}</Frame12981>
                 </Frame1299>
                 <Frame1299 id="timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
-                    <Link to="/tooltip2">
+                    {/* <Link to="/tooltip2">
                       <Help src={help2} alt="help" />
-                    </Link>
+                    </Link> */}
                   </Frame12811>
                   <Frame12981>{dateSelectorFrame}</Frame12981>
                 </Frame1299>

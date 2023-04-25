@@ -4,10 +4,12 @@ import CheckboxList from "../../CheckboxList";
 
 import {
   feedbacksIbmplexsansBoldShark36px,
-  IbmplexsansMediumPersianIndigo20px, IbmplexsansNormalBlack14px, IbmplexsansNormalBlack16px,
+  IbmplexsansMediumPersianIndigo20px,
+  IbmplexsansNormalBlack14px,
+  IbmplexsansNormalBlack16px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalShark20px
+  IbmplexsansNormalShark20px,
 } from "../../../styledMixins";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
 import FooterSmall from "../../FooterSmall";

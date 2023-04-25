@@ -18,6 +18,10 @@ export default function ReactiveRender(props) {
   );
 }
 
+export function isMobileView() {
+  const isMobileView = useMediaQuery({ maxWidth: 1023 });
+  return isMobileView;
+}
 export function isTabletView() {
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   return isTabletView;

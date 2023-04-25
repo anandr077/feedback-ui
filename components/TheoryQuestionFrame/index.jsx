@@ -21,7 +21,10 @@ export default function TheoryQuestionFrame(props) {
   return (
     // <>
     //   {size == "small" ? (
-    <SmalllQuestionFrame id ={"questionContainer_"+serialNumber} onClick={cleanformattingDiv} >
+    <SmalllQuestionFrame
+      id={"questionContainer_" + serialNumber}
+      onClick={cleanformattingDiv}
+    >
       <Frame1295>
         <Frame1297
           number={serialNumber}
@@ -38,7 +41,10 @@ export default function TheoryQuestionFrame(props) {
       <Frame12891>
         <InputQuestion id={"questionType_" + serialNumber} questionType="TEXT">
           <Label>Question</Label>
-          <QuestionFrame2 id = {"question_textBox"+serialNumber} onClick={cleanformattingTextBox}>
+          <QuestionFrame2
+            id={"question_textBox" + serialNumber}
+            onClick={cleanformattingTextBox}
+          >
             <QuestionInputEditable
               id={"question_" + serialNumber}
               placeholder="Type Your Question here"
@@ -50,7 +56,7 @@ export default function TheoryQuestionFrame(props) {
         <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
-          cleanformattingTextBox= {cleanformattingTextBox}
+          cleanformattingTextBox={cleanformattingTextBox}
         />
       </Frame12891>
     </SmalllQuestionFrame>

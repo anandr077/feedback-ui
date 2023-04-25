@@ -10,11 +10,18 @@ import TeacherDashboardTablet from "../TeacherDashboardTablet";
 import TeacherDashboardLaptop from "../TeacherDashboardLaptop";
 import TeacherDashboardDesktop from "../TeacherDashboardDesktop";
 
-export default function TeacherDashboardRoot() {
+export default function TeacherDashboardRoot(props) {
+  const { setShowPopup, setPopupMessage, setDismissable} = props;
   const [assignments, setAssignments] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
+  const message = localStorage.getItem('assignment');
+  if(message){
+    setShowPopup(true);
+    setPopupMessage(message);
+    setDismissable(true);
+    localStorage.removeItem('assignment');
+  }
   React.useEffect(() => {
     Promise.all([getAssignments(), getClassesWithStudents()]).then(
       ([result, classesResult]) => {
@@ -24,6 +31,8 @@ export default function TeacherDashboardRoot() {
           setIsLoading(false);
         }
       }
+
+      
     );
   }, []);
   if (isLoading) {

@@ -12,7 +12,10 @@ function Frame1291(props) {
       <AnswerWordLimit className="answer-word-limit-1">
         Answer Word Limit
       </AnswerWordLimit>
-      <Frame1290 id = {"wordLimitTextBox_"+serialNumber} onClick={cleanformattingTextBox}>
+      <Frame1290
+        id={"wordLimitTextBox_" + serialNumber}
+        onClick={cleanformattingTextBox}
+      >
         <StyledIput
           id={"wordLimit_" + serialNumber}
           value={questionDetails?.wordLimit}
@@ -37,49 +40,49 @@ function Frame1291(props) {
 }
 
 const StyledIput = styled.input`
-.number-1::-webkit-inner-spin-button,
-.number-1::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+  .number-1::-webkit-inner-spin-button,
+  .number-1::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-.number-1 {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+  .number-1 {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
 
-.number-1:focus {
-  border-color: #4a90e2;
-}
+  .number-1:focus {
+    border-color: #4a90e2;
+  }
 
-.number-1:invalid {
-  border-color: #dd4b39;
-}
+  .number-1:invalid {
+    border-color: #dd4b39;
+  }
 
-.number-1 + button {
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 10px;
-  margin-left: 5px;
-}
+  .number-1 + button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px;
+    margin-left: 5px;
+  }
 
-.number-1 + button:hover {
-  background-color: #3e8e41;
-}
+  .number-1 + button:hover {
+    background-color: #3e8e41;
+  }
 
-.number-1 + button:active {
-  background-color: #4caf50;
-}
+  .number-1 + button:active {
+    background-color: #4caf50;
+  }
 
-.number-1 + button:first-child {
-  margin-right: 5px;
-}
+  .number-1 + button:first-child {
+    margin-right: 5px;
+  }
 `;
 const Frame12911 = styled.div`
   display: flex;

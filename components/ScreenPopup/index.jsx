@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../FeedbacksComponents/../../styledMixins";
+import { isMobileView } from "../ReactiveRender";
 
 export default function ScreenPopup(props) {
-  const { message, setShowPopup, small } = props;
+  const { message, setShowPopup, small, dismissable, setDismissable } = props;
   const [show, setShow] = useState(true);
-
+  console.log("##dismissable", dismissable);
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(false);
-      setShowPopup(false);
-    }, 2000);
-    return () => clearTimeout(timer);
+    if (dismissable) {
+      setShow(true);
+    } else {
+      const timer = setTimeout(() => {
+        setShow(false);
+        setShowPopup(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
     <>
       {show && (
         <Screen>
-          {small ? (
+          {isMobileView() ? (
             <SmallPopupContainer>
               <MaskGroup
                 src="/img/close.png"
-                onClick={() => setShowPopup(false)}
+                onClick={() => {
+                  setShowPopup(false);
+                  setDismissable(false);
+                }}
               />
               <PopupMessage>{message}</PopupMessage>
             </SmallPopupContainer>

@@ -18,12 +18,11 @@ import DateSelector from "../DateSelector";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
-export default function CreateAssignment() {
+export default function CreateAssignment(props) {
+  const { setShowPopup, setPopupMessage, setDismissable } = props;
   const [classes, setClasses] = React.useState([]);
-  const [popupMessage, setPopupMessage] = React.useState("");
   const [feedbackMethodValue, setFeedbackMethodValue] =
     React.useState("TEACHER");
-  const [showPopup, setShowPopup] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState();
   const [timeValue, setTimeValue] = React.useState();
 
@@ -34,10 +33,10 @@ export default function CreateAssignment() {
   }, []);
   const cleanformattingTextBox = (e) => {
     e.currentTarget.style.border = "1px solid var(--text)";
-   }
-   const cleanformattingDiv = (e) => {
-     e.currentTarget.style.border = "1px solid #E0E0E0";
-    }
+  };
+  const cleanformattingDiv = (e) => {
+    e.currentTarget.style.border = "1px solid #E0E0E0";
+  };
   const feedbackMethodUpdate = (selectedMethod) => {
     setFeedbackMethodValue(selectedMethod);
   };
@@ -100,7 +99,7 @@ export default function CreateAssignment() {
       ];
     });
   }
-  
+
   function createNewQuestionFrame(serialNumber, questionDetails) {
     return (
       <>
@@ -110,8 +109,8 @@ export default function CreateAssignment() {
             deleteQuestionFrameFn={deleteQuestionFrameFn}
             questionDetails={questionDetails}
             UpdateQuestionFrame={UpdateQuestionFrame}
-            cleanformattingTextBox = {cleanformattingTextBox}
-    cleanformattingDiv = {cleanformattingDiv}
+            cleanformattingTextBox={cleanformattingTextBox}
+            cleanformattingDiv={cleanformattingDiv}
           />
         ) : (
           <TheoryQuestionFrame
@@ -120,8 +119,8 @@ export default function CreateAssignment() {
             questionDetails={questionDetails}
             UpdateQuestionFrame={UpdateQuestionFrame}
             size="small"
-            cleanformattingTextBox = {cleanformattingTextBox}
-    cleanformattingDiv = {cleanformattingDiv}
+            cleanformattingTextBox={cleanformattingTextBox}
+            cleanformattingDiv={cleanformattingDiv}
           />
         )}
       </>
@@ -131,21 +130,23 @@ export default function CreateAssignment() {
   const publish = () => {
     let anyErrors = false;
     const title = document.getElementById("assignmentName").value;
-    if(title === ""){
-    const assignmentNameContainer = document.getElementById("assignmentNameContainer");
-    assignmentNameContainer.style.border = "1px solid red";
-    anyErrors = true;
-  }
+    if (title === "") {
+      const assignmentNameContainer = document.getElementById(
+        "assignmentNameContainer"
+      );
+      assignmentNameContainer.style.border = "1px solid red";
+      anyErrors = true;
+    }
     const reviewedBy = feedbackMethodValue;
     const classIds = classes
       .filter((clazz) => {
         return document.getElementById(clazz.id).checked;
       })
       .map((clazz) => clazz.id);
-    if(classIds.length === 0){
-    const classesContainer = document.getElementById("classesContainer");
-    classesContainer.style.border = "1px solid red";
-    anyErrors = true;
+    if (classIds.length === 0) {
+      const classesContainer = document.getElementById("classesContainer");
+      classesContainer.style.border = "1px solid red";
+      anyErrors = true;
     }
     const serialNumbers = questionFrames.map((_, index) => index + 1);
     const questions = serialNumbers.map((serialNumber) => {
@@ -189,45 +190,63 @@ export default function CreateAssignment() {
       }
     });
     questions.map((question) => {
-      if(question.question === ""){
-        const questionContainer = document.getElementById("questionContainer_"+question.serialNumber);
+      if (question.question === "") {
+        const questionContainer = document.getElementById(
+          "questionContainer_" + question.serialNumber
+        );
         questionContainer.style.border = "1px solid red";
-        const questionTextBox = document.getElementById("question_textBox"+question.serialNumber);
+        const questionTextBox = document.getElementById(
+          "question_textBox" + question.serialNumber
+        );
         questionTextBox.style.border = "1px solid red";
         anyErrors = true;
       }
-      if(question.type === "TEXT" && question.wordLimit < 0 || question.wordLimit === "" || question.wordLimit > 2000){
-        const questionContainer = document.getElementById("questionContainer_"+question.serialNumber);
+      if (
+        (question.type === "TEXT" && question.wordLimit < 0) ||
+        question.wordLimit === "" ||
+        question.wordLimit > 2000
+      ) {
+        const questionContainer = document.getElementById(
+          "questionContainer_" + question.serialNumber
+        );
         questionContainer.style.border = "1px solid red";
-        const wordLimitContainer = document.getElementById("wordLimitTextBox_"+question.serialNumber);
+        const wordLimitContainer = document.getElementById(
+          "wordLimitTextBox_" + question.serialNumber
+        );
         wordLimitContainer.style.border = "1px solid red";
         anyErrors = true;
       }
-      if(question.type === "MCQ"){
+      if (question.type === "MCQ") {
         const optionsIndex = [1, 2, 3, 4];
         let isCorrectPresent = false;
         optionsIndex.map((index) => {
-          if(question.options[index-1].option === ""){
-            const optionContainer = document.getElementById("option_"+question.serialNumber+"_"+index);
+          if (question.options[index - 1].option === "") {
+            const optionContainer = document.getElementById(
+              "option_" + question.serialNumber + "_" + index
+            );
             optionContainer.style.border = "1px solid red";
             anyErrors = true;
           }
-          question.options[index-1].isCorrect ? isCorrectPresent = true : null;
-        })
-        if(!isCorrectPresent){
-          const optionContainer = document.getElementById("optionFrame_" + question.serialNumber);
+          question.options[index - 1].isCorrect
+            ? (isCorrectPresent = true)
+            : null;
+        });
+        if (!isCorrectPresent) {
+          const optionContainer = document.getElementById(
+            "optionFrame_" + question.serialNumber
+          );
           optionContainer.style.border = "1px solid red";
           anyErrors = true;
         }
       }
     });
 
-    if(!timeValue || !selectedDate){
+    if (!timeValue || !selectedDate) {
       const timeContainer = document.getElementById("timeContainer");
       timeContainer.style.border = "1px solid red";
       anyErrors = true;
     }
-    if(questions.length === 0){
+    if (questions.length === 0) {
       anyErrors = true;
     }
 
@@ -237,24 +256,24 @@ export default function CreateAssignment() {
       questions,
       reviewedBy,
     };
-    if(anyErrors){
-    setPopupMessage("Please fill all the required fields");
-    setShowPopup(true);
-    return;
-  }
-  else{
-    // createAssignment(assignment).then((res) => {
-    //   if (res.status === "PUBLISHED") {
-    //     setPopupMessage("Assignment Created Successfully");
-    //     setShowPopup(true);
-    //     window.location.href = "/";
-    //   } else {
-    //     setPopupMessage("Assignment Creation Failed");
-    //     setShowPopup(true);
-    //     return;
-    //   }
-    // });
-  }
+    if (anyErrors) {
+      setPopupMessage("Please fill all the required fields");
+      setDismissable(true);
+      setShowPopup(true);
+      return;
+    } else {
+      createAssignment(assignment).then((res) => {
+        console.log("##",res);
+        if (res.status === "PUBLISHED") {
+          localStorage.setItem('assignment', res.id);
+          window.location.href = "/";
+        } else {
+          setPopupMessage("Assignment Creation Failed");
+          setShowPopup(true);
+          return;
+        }
+      });
+    }
   };
 
   const checkboxes = classes.map((clazz) => {
@@ -299,6 +318,7 @@ export default function CreateAssignment() {
     publish,
     checkboxes,
     setShowPopup,
+    setDismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
   };
@@ -309,8 +329,6 @@ export default function CreateAssignment() {
         <CreateAAssignmentMobile
           {...{
             ...methods,
-            showPopup,
-            popupMessage,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentMobileData,
@@ -321,8 +339,6 @@ export default function CreateAssignment() {
         <CreateAAssignmentTablet
           {...{
             ...methods,
-            showPopup,
-            popupMessage,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentTabletData,
@@ -333,8 +349,6 @@ export default function CreateAssignment() {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
-            showPopup,
-            popupMessage,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentLaptopData,
@@ -345,8 +359,6 @@ export default function CreateAssignment() {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
-            showPopup,
-            popupMessage,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentLaptopData,

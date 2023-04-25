@@ -24,7 +24,7 @@ const Buttons1 = styled.div`
   border: 1px solid;
   &:hover {
     scale: 1.2;
-    transition: 0.3s;
+    transition: 0.1s;
   }
 `;
 

@@ -27,6 +27,7 @@ function CreateAAssignmentLaptop(props) {
     dateSelectorFrame,
     feedbacksMethodContainer,
     showPopup,
+    dismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
     popupMessage,
@@ -41,7 +42,6 @@ function CreateAAssignmentLaptop(props) {
     buttons21Props,
     frame12973Props,
     goBack22Props,
-
   } = props;
 
   return (
@@ -56,9 +56,6 @@ function CreateAAssignmentLaptop(props) {
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
         <Frame1378>
-          {showPopup && (
-            <ScreenPopup message={popupMessage} setShowPopup={setShowPopup} />
-          )}
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
@@ -68,7 +65,10 @@ function CreateAAssignmentLaptop(props) {
                 </Buttons1>
               </Frame12191> */}
             </Frame1372>
-            <Frame1374 id="assignmentNameContainer" onClick={cleanformattingTextBox}>
+            <Frame1374
+              id="assignmentNameContainer"
+              onClick={cleanformattingTextBox}
+            >
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
             <Frame1294>
@@ -90,7 +90,7 @@ function CreateAAssignmentLaptop(props) {
             <Frame1294>
               <AssignmentSettings>{assignmentSettings}</AssignmentSettings>
               <Frame1295>
-                <Frame1299 id = "classesContainer" onClick={cleanformattingDiv}>
+                <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>"Classes"</Classes>
                     <Link to="/tooltip1">
@@ -108,7 +108,7 @@ function CreateAAssignmentLaptop(props) {
                   </Frame12811>
                   <Frame12981>{feedbacksMethodContainer}</Frame12981>
                 </Frame1299>
-                <Frame1299 id = "timeContainer" onClick={cleanformattingDiv}>
+                <Frame1299 id="timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
                     <Link to="/tooltip2">

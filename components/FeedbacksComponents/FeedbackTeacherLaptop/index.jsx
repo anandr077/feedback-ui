@@ -10,7 +10,8 @@ import {
   feedbacksIbmplexsansNormalChicago13px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
-  feedbacksIbmplexsansNormalStack20px, IbmplexsansNormalBlack16px
+  feedbacksIbmplexsansNormalStack20px,
+  IbmplexsansNormalBlack16px,
 } from "../../../styledMixins";
 import CheckboxList from "../../CheckboxList";
 import Header from "../../Header";

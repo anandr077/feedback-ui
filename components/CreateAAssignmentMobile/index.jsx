@@ -30,9 +30,6 @@ function CreateAAssignmentMobile(props) {
     cleanformattingTextBox,
     feedbacksMethodContainer,
     dateSelectorFrame,
-    showPopup,
-    popupMessage,
-    setShowPopup,
     assignmentSettings,
     help1,
     feedbackMethod,
@@ -53,13 +50,6 @@ function CreateAAssignmentMobile(props) {
           <GoBack />
         </Frame1376>
         <Frame1378>
-          {showPopup && (
-            <ScreenPopup
-              message={popupMessage}
-              small={true}
-              setShowPopup={setShowPopup}
-            />
-          )}
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
@@ -69,7 +59,10 @@ function CreateAAssignmentMobile(props) {
                 </Buttons1>
               </Frame12191> */}
             </Frame1372>
-            <Frame1374 id ="assignmentNameContainer" onClick={cleanformattingTextBox}>
+            <Frame1374
+              id="assignmentNameContainer"
+              onClick={cleanformattingTextBox}
+            >
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
             <Frame1294>
@@ -89,7 +82,7 @@ function CreateAAssignmentMobile(props) {
             <Frame1294>
               <Questions>{assignmentSettings}</Questions>
               <Frame1295>
-                <Frame1299 id = "classesContainer" onClick={cleanformattingDiv}>
+                <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>"Classes"</Classes>
                     <Link to="/tooltip1">
@@ -107,7 +100,7 @@ function CreateAAssignmentMobile(props) {
                   </Frame12811>
                   {feedbacksMethodContainer}
                 </Frame1300>
-                <Frame1300 id = "timeContainer" onClick={cleanformattingDiv}>
+                <Frame1300 id="timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
                     <Link to="/tooltip2">
@@ -167,9 +160,10 @@ const Buttons1 = styled.div`
   background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
+  cursor: pointer;
   &:hover {
     scale: 1.2;
-    transition: 0.3s;
+    transition: 0.1s;
   }
 `;
 const Checkbox1 = styled.div`

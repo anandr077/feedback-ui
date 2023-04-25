@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
 
-function NavElement8({onClick}) {
-  
+function NavElement8({ onClick }) {
   return (
     <NavElement onClick={onClick}>
       <Group1>

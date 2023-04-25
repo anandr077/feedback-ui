@@ -206,7 +206,6 @@ export default function CreateAssignment(props) {
       }
       if (
         (question.type === "TEXT" && question.wordLimit < 0) ||
-        question.wordLimit === "" ||
         question.wordLimit > 2000
       ) {
         const questionContainer = document.getElementById(
@@ -247,7 +246,6 @@ export default function CreateAssignment(props) {
       const timeContainer = document.getElementById("timeContainer");
       timeContainer.style.border = "1px solid red";
       anyErrors = true;
-      
     }
     if (questions.length === 0) {
       anyErrors = true;
@@ -258,7 +256,7 @@ export default function CreateAssignment(props) {
       classIds,
       questions,
       reviewedBy,
-      dueAt:combinedDateTime(selectedDate, timeValue)
+      dueAt: combinedDateTime(selectedDate, timeValue),
     };
     if (anyErrors) {
       setPopupMessage("Please fill all the required fields");
@@ -267,9 +265,9 @@ export default function CreateAssignment(props) {
       return;
     } else {
       createAssignment(assignment).then((res) => {
-        console.log("##",res);
+        console.log("##", res);
         if (res.status === "PUBLISHED") {
-          localStorage.setItem('assignment', res.id);
+          localStorage.setItem("assignment", res.id);
           window.location.href = "/";
         } else {
           setPopupMessage("Assignment Creation Failed");
@@ -279,9 +277,7 @@ export default function CreateAssignment(props) {
       });
     }
   };
-  
 
-  
   const checkboxes = classes.map((clazz) => {
     return (
       <CheckboxContainer>
@@ -308,16 +304,15 @@ export default function CreateAssignment(props) {
       />
     </StyledRadioGroup>
   );
-  const combinedDateTime = (selectedDate, timeValue)=>
+  const combinedDateTime = (selectedDate, timeValue) =>
     dayjs()
-    .year(selectedDate.year())
-    .month(selectedDate.month())
-    .date(selectedDate.date())
-    .hour(timeValue.hour())
-    .minute(timeValue.minute())
-    .toDate();
+      .year(selectedDate.year())
+      .month(selectedDate.month())
+      .date(selectedDate.date())
+      .hour(timeValue.hour())
+      .minute(timeValue.minute())
+      .toDate();
 
-  
   const dateSelectorFrame = (
     <DateSelector
       value={selectedDate}

@@ -19,7 +19,7 @@ import { teacherHomeHeaderProps } from "../../../utils/headerProps";
 import Header from "../../Header";
 import Footer from "../../Footer";
 import TaskCard from "../../TaskCard";
-import {  timeFirstFormattedDate } from "../../../dates";
+import { timeFirstFormattedDate } from "../../../dates";
 
 function TeacherDashboardDesktop(props) {
   const {
@@ -120,20 +120,18 @@ function TeacherDashboardDesktop(props) {
   );
 }
 function recentActivitiesFrame(notifications) {
-  const recentActivitiesFrames =  notifications.map(notification=>{
+  const recentActivitiesFrames = notifications.map((notification) => {
     const task = {
       link: notification.link,
       title: notification.title,
-      classTitle: notification.classTitle +" | at " + timeFirstFormattedDate(notification.dueAt) ,
-    }
-    return <TaskCard
-      task = {
-        task
-      } />
-  })
-  return <Frame1408>
-    {recentActivitiesFrames}
-  </Frame1408>;
+      classTitle:
+        notification.classTitle +
+        " | at " +
+        timeFirstFormattedDate(notification.dueAt),
+    };
+    return <TaskCard task={task} />;
+  });
+  return <Frame1408>{recentActivitiesFrames}</Frame1408>;
 }
 function classesFrames(classes, frame131241Props) {
   if (classes.length > 0) {

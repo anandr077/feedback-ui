@@ -20,7 +20,7 @@ import { teacherHomeHeaderProps } from "../../../utils/headerProps";
 import { getUserName } from "../../../service";
 import Footer from "../../Footer";
 import TaskCard from "../../TaskCard";
-import {  timeFirstFormattedDate } from "../../../dates";
+import { timeFirstFormattedDate } from "../../../dates";
 
 function TeacherDashboardLaptop(props) {
   const {
@@ -105,24 +105,20 @@ function TeacherDashboardLaptop(props) {
       <Footer />
     </div>
   );
-
-  
 }
 function recentActivitiesFrame(notifications) {
-  const recentActivitiesFrames =  notifications.map(notification=>{
+  const recentActivitiesFrames = notifications.map((notification) => {
     const task = {
       link: notification.link,
       title: notification.title,
-      classTitle: notification.classTitle +" | at " + timeFirstFormattedDate(notification.dueAt) ,
-    }
-    return <TaskCard
-      task = {
-        task
-      } />
-  })
-  return <Frame1408>
-    {recentActivitiesFrames}
-  </Frame1408>;
+      classTitle:
+        notification.classTitle +
+        " | at " +
+        timeFirstFormattedDate(notification.dueAt),
+    };
+    return <TaskCard task={task} />;
+  });
+  return <Frame1408>{recentActivitiesFrames}</Frame1408>;
 }
 function classesFrames(classes, frame131241Props) {
   if (classes.length > 0) {
@@ -147,8 +143,6 @@ function classesFrames(classes, frame131241Props) {
   }
   return <></>;
 }
-
-
 
 const Frame1419 = styled.div`
   display: flex;

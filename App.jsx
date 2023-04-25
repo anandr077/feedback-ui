@@ -13,14 +13,17 @@ import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
 import Callback from "./components/Callback";
 import ScreenPopup from "./components/ScreenPopup";
 import Loader from "./components/Loader";
+import { useLocation } from 'react-router-dom';
 
 function App() {
   const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();
   const [isLoading, setIsLoading] = useState(true);
-
+  
   useEffect(() => {
+    if (window.location.pathname === "/callback")
+      return
     const role = getUserRole()
     if (role) {
       setIsLoading(false)

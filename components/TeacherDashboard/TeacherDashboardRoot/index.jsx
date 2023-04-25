@@ -4,6 +4,7 @@ import {
   getAssignments,
   getTasks,
   getClassesWithStudents,
+  getNotifications,
 } from "../../../service";
 import TeacherDashboardMobile from "../TeacherDashboardMobile";
 import TeacherDashboardTablet from "../TeacherDashboardTablet";
@@ -14,6 +15,7 @@ export default function TeacherDashboardRoot(props) {
   const { setShowPopup, setPopupMessage, setDismissable} = props;
   const [assignments, setAssignments] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
+  const [notifications, setNotifications] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const message = localStorage.getItem('assignment');
   if(message){
@@ -23,16 +25,15 @@ export default function TeacherDashboardRoot(props) {
     localStorage.removeItem('assignment');
   }
   React.useEffect(() => {
-    Promise.all([getAssignments(), getClassesWithStudents()]).then(
-      ([result, classesResult]) => {
+    Promise.all([getAssignments(), getClassesWithStudents(), getNotifications()]).then(
+      ([result, classesResult, notificationsResult]) => {
         if (result) {
           setAssignments(result);
           setClasses(classesResult);
+          setNotifications(notificationsResult);
           setIsLoading(false);
         }
       }
-
-      
     );
   }, []);
   if (isLoading) {
@@ -54,6 +55,7 @@ export default function TeacherDashboardRoot(props) {
       mobile={
         <TeacherDashboardMobile
           {...{
+            notifications,
             classes,
             drafts,
             awaitingSubmissions,
@@ -65,6 +67,7 @@ export default function TeacherDashboardRoot(props) {
       tablet={
         <TeacherDashboardTablet
           {...{
+            notifications,
             classes,
             drafts,
             awaitingSubmissions,
@@ -76,6 +79,7 @@ export default function TeacherDashboardRoot(props) {
       laptop={
         <TeacherDashboardLaptop
           {...{
+            notifications,
             classes,
             drafts,
             awaitingSubmissions,
@@ -87,6 +91,7 @@ export default function TeacherDashboardRoot(props) {
       desktop={
         <TeacherDashboardDesktop
           {...{
+            notifications,
             classes,
             drafts,
             awaitingSubmissions,

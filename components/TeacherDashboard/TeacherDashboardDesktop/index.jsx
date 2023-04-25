@@ -18,9 +18,12 @@ import "./TeacherDashboardDesktop.css";
 import { teacherHomeHeaderProps } from "../../../utils/headerProps";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import TaskCard from "../../TaskCard";
+import {  timeFirstFormattedDate } from "../../../dates";
 
 function TeacherDashboardDesktop(props) {
   const {
+    notifications,
     classes,
     drafts,
     awaitingSubmissions,
@@ -107,13 +110,7 @@ function TeacherDashboardDesktop(props) {
                 <Classes>{recentActivity}</Classes>
               </Frame1337>
               <Line17 src={line173} alt="Line 17" />
-              <Frame1408>
-                <Frame1313
-                  jonnyBoyleSubmittedAnAssignment={
-                    frame13131Props.jonnyBoyleSubmittedAnAssignment
-                  }
-                />
-              </Frame1408>
+              {recentActivitiesFrame(notifications)}
             </Frame13411>
           </Frame1416>
         </Frame1417>
@@ -121,6 +118,22 @@ function TeacherDashboardDesktop(props) {
       <Footer />
     </div>
   );
+}
+function recentActivitiesFrame(notifications) {
+  const recentActivitiesFrames =  notifications.map(notification=>{
+    const task = {
+      link: notification.link,
+      title: notification.title,
+      classTitle: notification.classTitle +" | at " + timeFirstFormattedDate(notification.dueAt) ,
+    }
+    return <TaskCard
+      task = {
+        task
+      } />
+  })
+  return <Frame1408>
+    {recentActivitiesFrames}
+  </Frame1408>;
 }
 function classesFrames(classes, frame131241Props) {
   if (classes.length > 0) {

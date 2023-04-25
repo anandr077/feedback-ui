@@ -6,12 +6,12 @@ import {
 } from "../styledMixins";
 
 function Frame13134(props) {
-  const { jonnyBoyleSubmittedAnAssignment } = props;
+  const { notification } = props;
 
   return (
     <Frame1313>
       <JonnyBoyleSubmittedAnAssignment>
-        {jonnyBoyleSubmittedAnAssignment}
+        {notification.title}
       </JonnyBoyleSubmittedAnAssignment>
       <Frame1312>
         <X12ENGADV3>12-ENGADV-3</X12ENGADV3>

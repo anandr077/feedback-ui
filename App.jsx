@@ -18,8 +18,13 @@ function App() {
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();
   const role = getUserRole();
+  const popupMethods = {
+    setShowPopup,
+    setPopupMessage,
+    setDismissable
+  }
   const dashboard =
-    role === "TEACHER" ? <TeacherDashboardRoot /> : <StudentDashboardRoot />;
+    role === "TEACHER" ? <TeacherDashboardRoot {...popupMethods} /> : <StudentDashboardRoot />;
   return (
     <Router>
       <Switch>
@@ -79,7 +84,16 @@ function App() {
         <Route path="/submissions/:id">
           <FeedbacksRoot isAssignmentPage={false} />
         </Route>
-        <Route path="/">{dashboard}</Route>
+        <Route path="/"><>
+        {showPopup && (
+              <ScreenPopup
+                message={popupMessage}
+                setShowPopup={setShowPopup}
+                dismissable={dismissable}
+                setDismissable={setDismissable}
+              />
+            )}
+        {dashboard}</></Route>
       </Switch>
     </Router>
   );

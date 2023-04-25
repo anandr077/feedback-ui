@@ -262,17 +262,17 @@ export default function CreateAssignment(props) {
       setShowPopup(true);
       return;
     } else {
-      // createAssignment(assignment).then((res) => {
-      //   if (res.status === "PUBLISHED") {
-      //     setPopupMessage("Assignment Created Successfully");
-      //     setShowPopup(true);
-      //     window.location.href = "/";
-      //   } else {
-      //     setPopupMessage("Assignment Creation Failed");
-      //     setShowPopup(true);
-      //     return;
-      //   }
-      // });
+      createAssignment(assignment).then((res) => {
+        console.log("##",res);
+        if (res.status === "PUBLISHED") {
+          localStorage.setItem('assignment', res.id);
+          window.location.href = "/";
+        } else {
+          setPopupMessage("Assignment Creation Failed");
+          setShowPopup(true);
+          return;
+        }
+      });
     }
   };
 

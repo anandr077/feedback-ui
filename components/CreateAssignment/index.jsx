@@ -15,7 +15,7 @@ import MCQQuestionFrame from "../MCQQuestionFrame";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import CustomCheckbox from "../CustomCheckbox";
+import CheckboxBordered from "../CheckboxBordered";
 import DateSelector from "../DateSelector";
 import { formattedDate } from "../../dates";
 
@@ -285,7 +285,7 @@ export default function CreateAssignment(props) {
   const checkboxes = classes.map((clazz) => {
     return (
       <CheckboxContainer>
-        <CustomCheckbox key={clazz.id} id={clazz.id} />
+        <CheckboxBordered key={clazz.id} id={clazz.id} />
         <CheckBoxText>{clazz.title}</CheckBoxText>
       </CheckboxContainer>
     );

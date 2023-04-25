@@ -3,7 +3,7 @@ import "quill/dist/quill.snow.css";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../FeedbacksComponents/../../styledMixins";
-import CustomCheckbox from "../CustomCheckbox";
+import CheckboxBordered from "../CheckboxBordered";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";
 import { saveAnswer } from "../../service";
 import OptionRemark from "../FeedbacksComponents/OptionRemark";
@@ -91,7 +91,7 @@ const mcqAnswerFrame = (
           <ReviewCheckBoxContainer>
             {" "}
             <OptionCotainer>
-              <CustomCheckbox checked={checked} disabled />{" "}
+              <CheckboxBordered checked={checked} disabled />{" "}
               <OptionText>{option.option}</OptionText>{" "}
             </OptionCotainer>
             <OptionRemarkContainer>
@@ -100,7 +100,7 @@ const mcqAnswerFrame = (
           </ReviewCheckBoxContainer>
         ) : (
           <OptionCotainer>
-            <CustomCheckbox
+            <CheckboxBordered
               value={option.optionSerialNumber}
               checked={selectedOptions.includes(option.optionSerialNumber)}
               onChange={handleCheckboxChange(setSelectedOptions)}

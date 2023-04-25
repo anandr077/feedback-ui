@@ -5,7 +5,7 @@ import {
   IbmplexsansNormalElectricViolet14px,
   IbmplexsansNormalShark20px,
 } from "../../styledMixins";
-import CustomCheckbox from "../CustomCheckbox";
+import CheckboxBordered from "../CheckboxBordered";
 import Frame1297 from "../Frame1297";
 
 const theme = createTheme();
@@ -31,7 +31,7 @@ export default function MCQQuestionFrame(props) {
         />
         <CheckBoxContainer>
           <ThemeProvider theme={theme}>
-            <CustomCheckbox
+            <CheckboxBordered
               id={"option_checkbox_" + serialNumber + "_" + index}
               label="label"
             />

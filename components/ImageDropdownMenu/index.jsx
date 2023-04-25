@@ -8,7 +8,7 @@ import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
 
 import { Avatar } from "@boringer-avatars/react";
-import CustomCheckbox from "../CustomCheckbox";
+import CheckboxBordered from "../CheckboxBordered";
 export const ImageDropdownMenu = (props) => {
   // const menuItems = [
   //   {id: 1, title:"View Profile", onClick:()=>console.log()},
@@ -54,7 +54,7 @@ export const ImageDropdownMenu = (props) => {
       >
         {menuItems.map((item) => (
           <MenuItem key={item.id} onClick={() => handleClose(item)}>
-            {withCheckbox && <CustomCheckbox />}
+            {withCheckbox && <CheckboxBordered />}
             <ListItemText primary={item.title} />
 
             <Avatar name="test" />

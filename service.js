@@ -32,7 +32,9 @@ async function fetchData(url, options) {
     const isJson = response.headers
       .get("content-type")
       ?.includes("application/json");
+    // alert(isJson)
     const data = isJson ? await response.json() : null;
+    // alert(data)
     return data;
   } catch (error) {
     console.error(error);
@@ -78,12 +80,32 @@ export const getUserName = () => getCookie("user.name");
 export const getUserId = () => getCookie("userId");
 export const getUserRole = () => getCookie("role");
 
-export const getCookie = (name) => {
+export const getCookie =  (name) => {
   const cookieValue = document.cookie
     .split("; ")
     .find((cookie) => cookie.startsWith(`${name}=`));
-  console.log("Cookie " + name + " value " + cookieValue)
-  return cookieValue ? cookieValue.split("=")[1] : null;
+  if (cookieValue) {
+    console.log("Cookie " + name + " value " + cookieValue)
+    return cookieValue ? cookieValue.split("=")[1] : null;
+  } else {
+
+
+    const profile =  getProfile()
+    
+    if (profile) {
+      document.cookie = "user.name=" + profile.name+"; max-age=" + 86400 + "; path=/";
+      document.cookie = "userId=" + profile.userId+"; max-age=" + 86400 + "; path=/";
+      const role = profile.roles.length > 0 ? profile.roles[0] : "STUDENT";
+  
+      document.role = "userId=" + role+"; max-age=" + 86400 + "; path=/";
+      const cookieValue = document.cookie
+      .split("; ")
+      .find((cookie) => cookie.startsWith(`${name}=`));
+      return  cookieValue ? cookieValue.split("=")[1] : null;
+
+    }
+    return null;
+  }
 };
 export const logout = async () => {
   await postApi(baseUrl + "/users/logout").then(() => {
@@ -99,6 +121,7 @@ export const changePassword = async () => {
 export const account = async () => {
   window.location.href = jeddleBaseUrl + "/account";
 };
+export const getProfile = async () => await getApi(baseUrl + "/users/profile");
 export const getTasks = async () => await getApi(baseUrl + "/tasks");
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + "/classes/all/details");
@@ -171,11 +194,9 @@ function redirectToExternalIDP() {
 }
 
 export const exchangeCodeForToken = async (code) => {
-  const token = getCookie("auth.access_token");
-  console.log("Read token " + token)
-  if (!token) {
-    return await postApi(baseUrl + "/users/exchange", code);
-  }
+
+  return await postApi(baseUrl + "/users/exchange", code);
+  
 };
 
 export const getShortcuts = () => {

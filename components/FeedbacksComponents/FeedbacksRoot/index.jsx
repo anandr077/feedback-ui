@@ -31,7 +31,6 @@ import FeedBacksDropDown from "../FeedbacksDropDown";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
-import { PrintOutlined } from "@mui/icons-material";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);

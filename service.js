@@ -93,7 +93,7 @@ export const setProfileCookies = (profile) => {
   document.cookie = "user.name=" + profile.name + "; max-age=" + 86400 + "; path=/";
   document.cookie = "userId=" + profile.userId.value + "; max-age=" + 86400 + "; path=/";
   const role = profile?.roles?.[0] === "group_leader" ? "TEACHER" : "STUDENT";
-  document.cookie = "user.role=" + role + "; max-age=" + 86400 + "; path=/";
+  document.cookie = "role=" + role + "; max-age=" + 86400 + "; path=/";
   
 }
 export const logout = async () => {

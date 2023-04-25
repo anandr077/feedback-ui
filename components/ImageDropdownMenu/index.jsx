@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
-
+import {IbmplexsansNormalBlack16px} from "../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 import CheckboxBordered from "../CheckboxBordered";
 export const ImageDropdownMenu = (props) => {
@@ -53,17 +53,37 @@ export const ImageDropdownMenu = (props) => {
         //onClose={handleClose}
       >
         {menuItems.map((item) => (
-          <MenuItem key={item.id} onClick={() => handleClose(item)}>
-            {withCheckbox && <CheckboxBordered />}
-            <ListItemText primary={item.title} />
+          <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
+            {withCheckbox && <CustomCheckbox />}
+            <StyledListItemText primary={item.title} />
 
             <Avatar name="test" />
-          </MenuItem>
+          </StyledMenuItem>
         ))}
       </Menu>
     </div>
   );
 };
+
+export const IbmplexsansNormalShark16px = css`
+  color: var(--text);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-style: normal;
+`;
+const StyledMenuItem = styled(MenuItem)`
+  display: flex;
+  cursor: pointer;
+  width: 370px;
+  align-items: center;
+  .MuiTypography-root {
+    ${IbmplexsansNormalShark16px}
+    font-size: 14px;
+  
+  }
+ 
+  `;
 const StyledBox = styled(Box)`
   display: flex;
   width: 370px;
@@ -75,36 +95,25 @@ const StyledBox = styled(Box)`
   background-color: var(--white);
   border-radius: 8px;
   border: 1px solid;
-  border-color: var(--blue-chalk);
+  border-color: var(--light-mode-purple);
   box-shadow: 0px 4px 8px #2f1a720a;
   cursor: pointer;
+  color: var(--text);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-style: normal;
+  .MuiIconButton-root:hover {
+    background-color: #FFFFFF;
+  }
 `;
 const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;
 `;
 
-const Frame12851 = styled.div`
-  display: flex;
-  width: 336px;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  position: relative;
-  background-color: var(--white);
-  border-radius: 8px;
-  border: 1px solid;
-  border-color: var(--blue-chalk);
-  box-shadow: 0px 4px 8px #2f1a720a;
-  cursor: pointer;
-`;
-export const IbmplexsansNormalShark16px = css`
-  color: var(--text);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xs);
-  font-weight: 400;
-  font-style: normal;
-`;
+
+
 const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}
   position: relative;
@@ -112,14 +121,12 @@ const StyledListItemText = styled(ListItemText)`
 
   letter-spacing: 0;
   line-height: normal;
-`;
-const X12ENGADV3 = styled.div`
-  ${IbmplexsansNormalShark16px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  border-radius: 50%;
+
+  .MuiTypography-root {
+    ${IbmplexsansNormalShark16px}
+    font-size: 14px;
+  }
 `;
 const Frame12841 = styled.img`
   position: relative;

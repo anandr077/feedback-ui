@@ -21,10 +21,14 @@ function App() {
   const popupMethods = {
     setShowPopup,
     setPopupMessage,
-    setDismissable
-  }
+    setDismissable,
+  };
   const dashboard =
-    role === "TEACHER" ? <TeacherDashboardRoot {...popupMethods} /> : <StudentDashboardRoot />;
+    role === "TEACHER" ? (
+      <TeacherDashboardRoot {...popupMethods} />
+    ) : (
+      <StudentDashboardRoot />
+    );
   return (
     <Router>
       <Switch>
@@ -84,8 +88,9 @@ function App() {
         <Route path="/submissions/:id">
           <FeedbacksRoot isAssignmentPage={false} />
         </Route>
-        <Route path="/"><>
-        {showPopup && (
+        <Route path="/">
+          <>
+            {showPopup && (
               <ScreenPopup
                 message={popupMessage}
                 setShowPopup={setShowPopup}
@@ -93,7 +98,9 @@ function App() {
                 setDismissable={setDismissable}
               />
             )}
-        {dashboard}</></Route>
+            {dashboard}
+          </>
+        </Route>
       </Switch>
     </Router>
   );

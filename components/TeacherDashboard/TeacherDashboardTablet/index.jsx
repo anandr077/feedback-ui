@@ -12,7 +12,7 @@ import Frame13133 from "../Frame13133";
 import styled from "styled-components";
 import Frame13124 from "../Frame13124";
 import TaskCard from "../../TaskCard";
-import {  timeFirstFormattedDate } from "../../../dates";
+import { timeFirstFormattedDate } from "../../../dates";
 
 import {
   IbmplexsansMediumRiverBed24px,
@@ -127,20 +127,18 @@ function TeacherDashboardTablet(props) {
   );
 }
 function recentActivitiesFrame(notifications) {
-  const recentActivitiesFrames =  notifications.map(notification=>{
+  const recentActivitiesFrames = notifications.map((notification) => {
     const task = {
       link: notification.link,
       title: notification.title,
-      classTitle: notification.classTitle +" | at " + timeFirstFormattedDate(notification.dueAt) ,
-    }
-    return <TaskCard
-      task = {
-        task
-      } />
-  })
-  return <Frame1408>
-    {recentActivitiesFrames}
-  </Frame1408>;
+      classTitle:
+        notification.classTitle +
+        " | at " +
+        timeFirstFormattedDate(notification.dueAt),
+    };
+    return <TaskCard task={task} />;
+  });
+  return <Frame1408>{recentActivitiesFrames}</Frame1408>;
 }
 function classesFrames(classes, frame131241Props) {
   if (classes.length > 0) {

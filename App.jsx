@@ -6,17 +6,34 @@ import StudentTaskRoot from "./components/StudentTaskRoot";
 import TaskDetail from "./components/StartAssignment/TaskDetail";
 import FeedbacksRoot from "./components/FeedbacksComponents/FeedbacksRoot";
 import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboardRoot";
-import { getUserRole } from "./service";
+import { getProfile, getUserRole, setProfileCookies } from "./service";
 import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
 import CompletedRoot from "./components/Completed/CompletedRoot";
 import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
 import Callback from "./components/Callback";
 import ScreenPopup from "./components/ScreenPopup";
+import Loader from "./components/Loader";
 
 function App() {
   const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const role = getUserRole()
+    if (role) {
+      setIsLoading(false)
+      return
+    }
+    getProfile().then(result=>{
+      setProfileCookies(result)
+      setIsLoading(false)
+    })
+  },[])
+  if (isLoading) {
+    return <Loader/>;
+  }
   const role = getUserRole();
   const popupMethods = {
     setShowPopup,

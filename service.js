@@ -84,29 +84,18 @@ export const getCookie =  (name) => {
   const cookieValue = document.cookie
     .split("; ")
     .find((cookie) => cookie.startsWith(`${name}=`));
-  if (cookieValue) {
-    console.log("Cookie " + name + " value " + cookieValue)
-    return cookieValue ? cookieValue.split("=")[1] : null;
-  } else {
-
-
-    const profile =  getProfile()
-    
-    if (profile) {
-      document.cookie = "user.name=" + profile.name+"; max-age=" + 86400 + "; path=/";
-      document.cookie = "userId=" + profile.userId+"; max-age=" + 86400 + "; path=/";
-      const role = profile.roles.length > 0 ? profile.roles[0] : "STUDENT";
   
-      document.role = "userId=" + role+"; max-age=" + 86400 + "; path=/";
-      const cookieValue = document.cookie
-      .split("; ")
-      .find((cookie) => cookie.startsWith(`${name}=`));
-      return  cookieValue ? cookieValue.split("=")[1] : null;
-
-    }
-    return null;
-  }
+    return cookieValue ? cookieValue.split("=")[1] : null;
+  
 };
+export const setProfileCookies = (profile) => {
+  
+  document.cookie = "user.name=" + profile.name + "; max-age=" + 86400 + "; path=/";
+  document.cookie = "userId=" + profile.userId + "; max-age=" + 86400 + "; path=/";
+  const role = profile?.roles?.[0] ?? "STUDENT";
+  document.cookie = "user.role=" + role + "; max-age=" + 86400 + "; path=/";
+  
+}
 export const logout = async () => {
   await postApi(baseUrl + "/users/logout").then(() => {
     window.location.href =

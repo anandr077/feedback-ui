@@ -16,6 +16,7 @@ import Loader from "./components/Loader";
 import { useLocation } from 'react-router-dom';
 
 function App() {
+  alert("Test")
   const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();

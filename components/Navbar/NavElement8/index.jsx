@@ -2,13 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
 
-function NavElement8(props) {
-  const { children } = props;
-
+function NavElement8({onClick}) {
+  
   return (
-    <NavElement>
+    <NavElement onClick={onClick}>
       <Group1>
-        <Home>{children}</Home>
+        <Home>Logout</Home>
       </Group1>
     </NavElement>
   );

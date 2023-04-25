@@ -3,8 +3,12 @@ import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
 
 function NavElement7(props) {
-  const { text, className, link } = props;
+  const { text, className, link, onClick } = props;
   const redirectTo = () => {
+    if (onClick) {
+      onClick();
+      return;
+    }
     window.location.href = link;
   };
 

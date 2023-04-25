@@ -23,6 +23,6 @@ const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
-export default function CustomCheckbox(props) {
+export default function CheckboxBordered(props) {
   return <StyledCheckbox {...props} />;
 }

@@ -1,9 +1,13 @@
 import { useHistory } from "react-router-dom";
 
+// const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "http://localhost:8080";
-const jeddleBaseUrl = process.env.REACT_APP_JEDDLE_BASE_URL ?? "https://jeddle.duxdigital.net";
-const selfBaseUrl = process.env.REACT_APP_SELF_BASE_URL ?? "http://localhost:1234";
-const clientId = process.env.REACT_APP_CLIENT_ID ?? "glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr";
+const jeddleBaseUrl =
+  process.env.REACT_APP_JEDDLE_BASE_URL ?? "https://jeddle.duxdigital.net";
+const selfBaseUrl =
+  process.env.REACT_APP_SELF_BASE_URL ?? "http://localhost:1234";
+const clientId =
+  process.env.REACT_APP_CLIENT_ID ?? "glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr";
 
 async function fetchData(url, options) {
   try {
@@ -28,7 +32,9 @@ async function fetchData(url, options) {
     const isJson = response.headers
       .get("content-type")
       ?.includes("application/json");
+    // alert(isJson)
     const data = isJson ? await response.json() : null;
+    // alert(data)
     return data;
   } catch (error) {
     console.error(error);
@@ -79,13 +85,36 @@ export const getCookie = (name) => {
     .split("; ")
     .find((cookie) => cookie.startsWith(`${name}=`));
 
-  return cookieValue ? cookieValue.split("=")[1] : null;
+  if (cookieValue) {
+    console.log("Cookie " + name + " value " + cookieValue);
+    return cookieValue ? cookieValue.split("=")[1] : null;
+  } else {
+    return getProfile()
+      .then(profile => {
+        if (profile) {
+          document.cookie = "user.name=" + profile.name + "; max-age=" + 86400 + "; path=/";
+          document.cookie = "userId=" + profile.userId + "; max-age=" + 86400 + "; path=/";
+          const role = profile?.roles?.[0] ?? "STUDENT";
+          document.cookie = "user.role=" + role + "; max-age=" + 86400 + "; path=/";
+          const cookieValue = document.cookie
+            .split("; ")
+            .find((cookie) => cookie.startsWith(`${name}=`));
+          return cookieValue ? cookieValue.split("=")[1] : null;
+        }
+      })
+      .catch(error => {
+        console.error("Error getting profile:", error);
+      });
+  }
 };
+
 export const logout = async () => {
-  await postApi(baseUrl + "/users/logout")
-  .then(()=>{
-    window.location.href = jeddleBaseUrl + "/wp-login.php?action=logout&redirect_to=" + jeddleBaseUrl;
-  })
+  await postApi(baseUrl + "/users/logout").then(() => {
+    window.location.href =
+      jeddleBaseUrl +
+      "/wp-login.php?action=logout&redirect_to=" +
+      jeddleBaseUrl;
+  });
 };
 export const changePassword = async () => {
   window.location.href = jeddleBaseUrl + "/account/?action=newpassword";
@@ -93,6 +122,7 @@ export const changePassword = async () => {
 export const account = async () => {
   window.location.href = jeddleBaseUrl + "/account";
 };
+export const getProfile = async () => await getApi(baseUrl + "/users/profile");
 export const getTasks = async () => await getApi(baseUrl + "/tasks");
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + "/classes/all/details");
@@ -154,26 +184,20 @@ export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
 function redirectToExternalIDP() {
-  const externalIDPLoginUrl = jeddleBaseUrl + `/wp-json/moserver/authorize?response_type=code&client_id=` + clientId + `&redirect_uri=` + selfBaseUrl + `/callback`;
+  const externalIDPLoginUrl =
+    jeddleBaseUrl +
+    `/wp-json/moserver/authorize?response_type=code&client_id=` +
+    clientId +
+    `&redirect_uri=` +
+    selfBaseUrl +
+    `/callback`;
   window.location.href = externalIDPLoginUrl;
 }
 
 export const exchangeCodeForToken = async (code) => {
-  const token = getCookie("auth.access_token");
-  if (!token) {
-    return await postApi(baseUrl + "/users/exchange", code);
-  }
-};
 
-export const login = async () => {
-  const token = getCookie("auth.access_token");
-  if (!token) {
-    const user = getCookie("userId");
-    return await postApi(baseUrl + "/users/login", {
-      username: user,
-      password: "password",
-    });
-  }
+  return await postApi(baseUrl + "/users/exchange", code);
+  
 };
 
 export const getShortcuts = () => {

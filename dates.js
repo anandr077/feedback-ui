@@ -1,6 +1,3 @@
-
-
-
 export const timeFirstFormattedDate = (dateString) => {
   const date = new Date(dateString);
 
@@ -13,7 +10,7 @@ export const timeFirstFormattedDate = (dateString) => {
   const formattedTime = date.toLocaleString(undefined, {
     hour: "numeric",
     minute: "numeric",
-    hourCycle: 'h12',
+    hourCycle: "h12",
   });
 
   const day = ordinal(date.getDate());

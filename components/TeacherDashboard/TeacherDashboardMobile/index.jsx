@@ -18,7 +18,7 @@ import "./TeacherDashboardMobile.css";
 import FooterSmall from "../../FooterSmall";
 import { teacherHomeHeaderProps } from "../../../utils/headerProps";
 import { getUserName } from "../../../service";
-import {  timeFirstFormattedDate } from "../../../dates";
+import { timeFirstFormattedDate } from "../../../dates";
 import TaskCard from "../../TaskCard";
 
 function TeacherDashboardMobile(props) {
@@ -90,20 +90,18 @@ function TeacherDashboardMobile(props) {
   );
 }
 function recentActivitiesFrame(notifications) {
-  const recentActivitiesFrames =  notifications.map(notification=>{
+  const recentActivitiesFrames = notifications.map((notification) => {
     const task = {
       link: notification.link,
       title: notification.title,
-      classTitle: notification.classTitle +" | at " + timeFirstFormattedDate(notification.dueAt) ,
-    }
-    return <TaskCard
-      task = {
-        task
-      } />
-  })
-  return <Frame1408>
-    {recentActivitiesFrames}
-  </Frame1408>;
+      classTitle:
+        notification.classTitle +
+        " | at " +
+        timeFirstFormattedDate(notification.dueAt),
+    };
+    return <TaskCard task={task} />;
+  });
+  return <Frame1408>{recentActivitiesFrames}</Frame1408>;
 }
 function createAssignmentsFrame(group1205Props, line172, stats) {
   return (

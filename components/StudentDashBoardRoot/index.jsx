@@ -16,11 +16,20 @@ export default function StudentDashboardRoot() {
     Promise.all([getTasks(), getModelResponses()]).then(
       ([result, modelResponses]) => {
         if (result) {
+          
           setAllTasks(result.slice(0, 10));
-          setModelResponses(modelResponses);
-          setIsLoading(false);
+          
+          
+          
         }
+        if (modelResponses) {
+            setModelResponses([]);
+          
+          
+        }
+        setIsLoading(false);
       }
+      
     );
   }, []);
   if (isLoading) {

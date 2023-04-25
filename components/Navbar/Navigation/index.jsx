@@ -6,7 +6,7 @@ import NavElement7 from "../NavElement7";
 import NavElement8 from "../NavElement8";
 import styled from "styled-components";
 import "./Navigation.css";
-import { getUserName } from "../../../service";
+import { account, changePassword, getUserName, logout } from "../../../service";
 import { Avatar } from "@boringer-avatars/react";
 
 const group1Data = {
@@ -74,13 +74,14 @@ function Navigation(props) {
         <NavElement42 button={headerProps.firstButton} />
         <NavElement42 button={headerProps.secondButton} />
         <NavElement42 button={headerProps.thirdButton} />
-        <NavElement7 text={"View Profile"} link="/jeddle/view-profile" />
+        <NavElement7 text={"View Profile"} 
+        onClick={account()} />
         <NavElement7
           text="Change Password"
           className={navigationData.navElement72Props.className}
-          link="/jeddle/change-password"
+          onClick = {changePassword()}
         />
-        <NavElement8>{navigationData.navElement8Props.children}</NavElement8>
+        <NavElement8 onClick={()=>logout()}></NavElement8>
       </Frame5>
     </NavbarDiv>
   );

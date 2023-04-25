@@ -2,8 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
 function ProfileDropDownElement(props) {
-  const { text, link, noIcon } = props;
+  const { text, link, onClick, noIcon } = props;
   const redirectTo = () => {
+    if (onClick) {
+      onClick();
+      return;
+    }
     console.log("redirecting to " + link);
     window.location.href = link;
   };

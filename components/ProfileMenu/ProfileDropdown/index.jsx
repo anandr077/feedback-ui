@@ -2,21 +2,23 @@ import React from "react";
 import ProfileDropDownElement from "../ProfileDropDownElement";
 import "./ProfileDropdown.css";
 import styled from "styled-components";
+import { account, changePassword, logout } from "../../../service";
 
 function ProfileDropdown() {
   return (
     <>
-      <ProfileDropDownElement text="View Profile" link="/jeddle/view-profile" />
+      <ProfileDropDownElement text="View Profile" 
+      onClick={()=>account()} />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Change Password"
-        link="/jeddle/update-password"
+        onClick={()=>changePassword()}
       />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Logout"
         noIcon={true}
-        link="/jeddle/logout"
+        onClick={() => {logout()}}
       />
     </>
   );

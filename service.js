@@ -1,6 +1,9 @@
 import { useHistory } from "react-router-dom";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "http://localhost:8080";
+const jeddleBaseUrl = process.env.REACT_APP_JEDDLE_BASE_URL ?? "https://jeddle.duxdigital.net";
+const selfBaseUrl = process.env.REACT_APP_SELF_BASE_URL ?? "http://localhost:1234";
+const clientId = process.env.REACT_APP_CLIENT_ID ?? "glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr";
 
 async function fetchData(url, options) {
   try {
@@ -78,7 +81,18 @@ export const getCookie = (name) => {
 
   return cookieValue ? cookieValue.split("=")[1] : null;
 };
-
+export const logout = async () => {
+  await postApi(baseUrl + "/users/logout")
+  .then(()=>{
+    window.location.href = jeddleBaseUrl + "/wp-login.php?action=logout&redirect_to=" + jeddleBaseUrl;
+  })
+};
+export const changePassword = async () => {
+  window.location.href = jeddleBaseUrl + "/account/?action=newpassword";
+};
+export const account = async () => {
+  window.location.href = jeddleBaseUrl + "/account";
+};
 export const getTasks = async () => await getApi(baseUrl + "/tasks");
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + "/classes/all/details");
@@ -142,13 +156,8 @@ export const createSubmission = async (submission) =>
 
 
 function redirectToExternalIDP() {
-  const clientId = "your_client_id";
-  const responseType = "code";
-  const redirectUri = encodeURIComponent("your_redirect_uri");
-  const state = "some_random_state";
-  const externalIDPLoginUrl = `https://jeddle.duxdigital.net/wp-json/moserver/authorize?response_type=code&client_id=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr&redirect_uri=http://localhost:1234/callback`;
+  const externalIDPLoginUrl = jeddleBaseUrl + `/wp-json/moserver/authorize?response_type=code&client_id=` + clientId + `&redirect_uri=` + selfBaseUrl + `/callback`;
   window.location.href = externalIDPLoginUrl;
-  // history.push(externalIDPLoginUrl);
 }
 
 export const exchangeCodeForToken = async (code) => {

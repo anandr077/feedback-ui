@@ -22,7 +22,7 @@ export default function ScreenPopup(props) {
   return (
     <>
       {show && (
-        <Screen>
+        <>
           {isMobileView() ? (
             <SmallPopupContainer>
               <MaskGroup
@@ -43,7 +43,7 @@ export default function ScreenPopup(props) {
               <PopupMessage>{message}</PopupMessage>
             </PopupContainer>
           )}
-        </Screen>
+        </>
       )}
     </>
   );
@@ -58,28 +58,9 @@ const slideIn = keyframes`
   }
 `;
 
-const slideOut = keyframes`
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(100%);
-  }
-`;
-
-const Screen = styled.div`
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  animation: ${slideIn} 1s ease-in-out;
-`;
-
 const PopupContainer = styled.div`
   ${IbmplexsansNormalBlack16px}
-  position: absolute;
+  position: fixed;
   bottom: 50px;
   right: 50px;
   z-index: 1;
@@ -94,10 +75,11 @@ const PopupContainer = styled.div`
   gap: 20px;
   width: 300px;
   height: 100px;
+  animation: ${slideIn} 1s ease-in-out;
 `;
 const SmallPopupContainer = styled.div`
   ${IbmplexsansNormalBlack16px}
-  position: absolute;
+  position: fixed;
   bottom: 15%;
   z-index: 1;
   background-color: var(--white);
@@ -110,6 +92,7 @@ const SmallPopupContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 50px;
+  animation: ${slideIn} 1s ease-in-out;
 `;
 
 const MaskGroup = styled.img`

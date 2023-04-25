@@ -83,27 +83,27 @@ function CreateAAssignmentTablet(props) {
                 <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Classes</Classes>
-                    <Link to="/tooltip1">
+                    {/* <Link to="/tooltip1">
                       <Help src={help1} alt="help" />
-                    </Link>
+                    </Link> */}
                   </Frame12811>
                   <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
                 <Frame1299>
                   <Frame12811>
                     <Classes>Feedback Method</Classes>
-                    <Link to="/tooltip2">
+                    {/* <Link to="/tooltip2">
                       <Help src={help2} alt="help" />
-                    </Link>
+                    </Link> */}
                   </Frame12811>
                   {feedbacksMethodContainer}
                 </Frame1299>
                 <Frame1299 id="timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
-                    <Link to="/tooltip2">
+                    {/* <Link to="/tooltip2">
                       <Help src={help2} alt="help" />
-                    </Link>
+                    </Link> */}
                   </Frame12811>
                   {dateSelectorFrame}
                 </Frame1299>

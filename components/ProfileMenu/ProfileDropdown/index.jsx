@@ -7,18 +7,19 @@ import { account, changePassword, logout } from "../../../service";
 function ProfileDropdown() {
   return (
     <>
-      <ProfileDropDownElement text="View Profile" 
-      onClick={()=>account()} />
+      <ProfileDropDownElement text="View Profile" onClick={() => account()} />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Change Password"
-        onClick={()=>changePassword()}
+        onClick={() => changePassword()}
       />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Logout"
         noIcon={true}
-        onClick={() => {logout()}}
+        onClick={() => {
+          logout();
+        }}
       />
     </>
   );

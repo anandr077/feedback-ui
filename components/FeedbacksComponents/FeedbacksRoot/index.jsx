@@ -412,7 +412,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const content = document.getElementById("content");
     const assignmentData = content.querySelector("#assignmentData");
     const feedbacksFrame = content.querySelector("#feedbacksFrame");
+    const assignmentTitle = content.querySelector("#assignmentTitle");
+    console.log("##assignmentTitle", assignmentTitle);
+    const delteButton = assignmentTitle.querySelector("#deleteButton");
+    console.log("##assignmentTitle", delteButton);
     assignmentData.removeChild(feedbacksFrame);
+    assignmentTitle.removeChild(delteButton);
     const height = content.scrollHeight;
     const scrollHeight = height - content.clientHeight;
 
@@ -426,6 +431,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       doc.save(`${submission.assignment.title}.pdf`);
     });
     assignmentData.appendChild(feedbacksFrame);
+    assignmentTitle.appendChild(delteButton);
   };
   function submissionStatusLabel() {
     return getStatusMessage(

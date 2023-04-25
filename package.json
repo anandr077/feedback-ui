@@ -3,7 +3,8 @@
   "scripts": {
     "start": "parcel index.html",
     "serve": "http-server dist -p 3000",
-    "build": "parcel build index.html --public-url ./ --no-scope-hoist",
+    "build": "npm run build:app && cp _redirects dist/",
+    "build:app": "parcel build index.html  --public-url ./ --no-scope-hoist",
     "prettier:check": "npx prettier --check .",
     "prettier:format": "npx prettier --write ."
   },

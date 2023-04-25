@@ -84,7 +84,7 @@ function CreateAAssignmentMobile(props) {
               <Frame1295>
                 <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
-                    <Classes>"Classes"</Classes>
+                    <Classes>Classes</Classes>
                     <Link to="/tooltip1">
                       <Help src={help1} alt="help" />
                     </Link>

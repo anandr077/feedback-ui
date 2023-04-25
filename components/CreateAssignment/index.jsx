@@ -1,4 +1,6 @@
 import React from "react";
+import dayjs from "dayjs";
+
 import { useMediaQuery } from "react-responsive";
 import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
 import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
@@ -15,6 +17,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CustomCheckbox from "../CustomCheckbox";
 import DateSelector from "../DateSelector";
+import { formattedDate } from "../../dates";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -23,8 +26,8 @@ export default function CreateAssignment(props) {
   const [classes, setClasses] = React.useState([]);
   const [feedbackMethodValue, setFeedbackMethodValue] =
     React.useState("TEACHER");
-  const [selectedDate, setSelectedDate] = React.useState();
-  const [timeValue, setTimeValue] = React.useState();
+  const [selectedDate, setSelectedDate] = React.useState(dayjs().add(3, "day"));
+  const [timeValue, setTimeValue] = React.useState(dayjs().hour(12).minute(0));
 
   React.useEffect(() => {
     getClasses().then((res) => {
@@ -240,11 +243,11 @@ export default function CreateAssignment(props) {
         }
       }
     });
-
     if (!timeValue || !selectedDate) {
       const timeContainer = document.getElementById("timeContainer");
       timeContainer.style.border = "1px solid red";
       anyErrors = true;
+      
     }
     if (questions.length === 0) {
       anyErrors = true;
@@ -255,6 +258,7 @@ export default function CreateAssignment(props) {
       classIds,
       questions,
       reviewedBy,
+      dueAt:combinedDateTime(selectedDate, timeValue)
     };
     if (anyErrors) {
       setPopupMessage("Please fill all the required fields");
@@ -275,7 +279,9 @@ export default function CreateAssignment(props) {
       });
     }
   };
+  
 
+  
   const checkboxes = classes.map((clazz) => {
     return (
       <CheckboxContainer>
@@ -302,7 +308,16 @@ export default function CreateAssignment(props) {
       />
     </StyledRadioGroup>
   );
+  const combinedDateTime = (selectedDate, timeValue)=>
+    dayjs()
+    .year(selectedDate.year())
+    .month(selectedDate.month())
+    .date(selectedDate.date())
+    .hour(timeValue.hour())
+    .minute(timeValue.minute())
+    .toDate();
 
+  
   const dateSelectorFrame = (
     <DateSelector
       value={selectedDate}

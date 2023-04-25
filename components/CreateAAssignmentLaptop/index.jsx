@@ -59,11 +59,11 @@ function CreateAAssignmentLaptop(props) {
           <Frame1375>
             <Frame1372>
               <Title>Create Assignment</Title>
-              {/* <Frame12191>
+              <Frame12191>
                 <Buttons1>
                   <Button onClick={publish}>Publish</Button>
                 </Buttons1>
-              </Frame12191> */}
+              </Frame12191>
             </Frame1372>
             <Frame1374
               id="assignmentNameContainer"
@@ -92,7 +92,7 @@ function CreateAAssignmentLaptop(props) {
               <Frame1295>
                 <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
-                    <Classes>Classes</Classes>
+                    <Classes>"Classes"</Classes>
                     <Link to="/tooltip1">
                       <Help src={help1} alt="help" />
                     </Link>

@@ -10,6 +10,12 @@ import ListItemText from "@mui/material/ListItemText";
 import { Avatar } from "@boringer-avatars/react";
 import CustomCheckbox from "../CustomCheckbox";
 export const ImageDropdownMenu = (props) => {
+  // const menuItems = [
+  //   {id: 1, title:"View Profile", onClick:()=>console.log()},
+  //   {id: 2, title:"A", onClick:()=>console.log()},
+  //   {id: 1, title:"VVVV", onClick:()=>console.log()},
+  //   {id: 1, title:"DDDD", onClick:()=>console.log()},
+  // ]
   const { menuItems, onItemSelected, withCheckbox } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(menuItems[0]);

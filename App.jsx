@@ -27,7 +27,9 @@ function App() {
       return
     }
     getProfile().then(result=>{
-      setProfileCookies(result)
+      if (result) {
+        setProfileCookies(result)
+      }
       setIsLoading(false)
     })
   },[])

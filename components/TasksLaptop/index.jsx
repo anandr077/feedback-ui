@@ -20,7 +20,7 @@ function TasksLaptop(props) {
       <Frame1361>
         <Title>Tasks</Title>
         <Frame1360>
-          <TaskFrame1306 />
+          {/* <TaskFrame1306 /> */}
           <Frame1359>
             <Frame1358>
               <TaskFrame1353

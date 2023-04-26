@@ -48,15 +48,15 @@ function TasksStudentTablet(props) {
       <HeaderSmall headerProps={taskHeaderProps} />
       <Frame1365>
         <Frame1307>
-          <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
-          <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
+          <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
+          {/* <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} /> */}
         </Frame1307>
         {tasksFrame}
       </Frame1365>
       <Footer />
     </div>
   );
-}
+
 
 function createTasksFrame(
   title,
@@ -102,7 +102,7 @@ function createTasksFrame(
     </>
   );
 }
-
+}
 const Frame1365 = styled.div`
   display: flex;
   flex-direction: column;

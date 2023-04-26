@@ -8,75 +8,94 @@ import {
 import { formattedDate } from "../../dates";
 
 function CardContent(props) {
-  const { task ,small} = props;
+  const { task, small, exempler } = props;
+
   const datesFrame = task.dueAt ? (
     <>
-    {small ? 
-    <Frame1282>
-    <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
-    <SmallDueAt>{formattedDate(task.dueAt)}</SmallDueAt>
-  </Frame1282>
-    :
-    <Frame1282>
-      <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-      <DueAt>{formattedDate(task.dueAt)}</DueAt>
-    </Frame1282>
-    }
+      {small ? (
+        <Frame1282>
+          <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
+          <SmallDueAt>{formattedDate(task.dueAt)}</SmallDueAt>
+        </Frame1282>
+      ) : (
+        <Frame1282>
+          <IconClock src="/img/clock@2x.png" alt="icon-clock" />
+          <DueAt>{formattedDate(task.dueAt)}</DueAt>
+        </Frame1282>
+      )}
     </>
-    
   ) : (
     <></>
   );
 
-
-
-  return (
-    <Content>
-      {createTitle(task)}
-   {small ?
-    <SmallClassText>
-    {task.classTitle ? task.classTitle : task.assignmentTitle}
-  </SmallClassText>
-   :
-    <ClassText>
-    {task.classTitle ? task.classTitle : task.assignmentTitle}
-  </ClassText>}  
-      {datesFrame}
-      {createSubmissions(task)}
-    </Content>
-  );
-
-
-function createTitle(task) {
-  return<>{
-  small?(
-    <SmallTaskTitle>{task.title ? task.title : task.response}</SmallTaskTitle>
-  ): (<TaskTitle>{task.title ? task.title : task.response}</TaskTitle>)}</>
-}
-
-function createSubmissions(task) {
-  if (task?.expectedSubmissions ?? 0) {
+  function createTitle(task) {
     return (
       <>
-      { small ?
-        (<SmallTaskTitle>
-        <Submissions>
-          Submissions: {task.submissionCount} of {task.expectedSubmissions}
-        </Submissions>
-      </SmallTaskTitle>)
-        :
-        (
-        <TaskTitle>
-        <Submissions>
-          Submissions: {task.submissionCount} of {task.expectedSubmissions}
-        </Submissions>
-      </TaskTitle>)
-    }
-    </>
+        {small ? (
+          <SmallTaskTitle>
+            {task.title ? task.title : task.response}
+          </SmallTaskTitle>
+        ) : (
+          <TaskTitle>{task.title ? task.title : task.response}</TaskTitle>
+        )}
+      </>
     );
   }
-  return <></>;
-}
+
+  function createSubmissions(task) {
+    if (task?.expectedSubmissions ?? 0) {
+      return (
+        <>
+          {small ? (
+            <SmallTaskTitle>
+              <Submissions>
+                Submissions: {task.submissionCount} of{" "}
+                {task.expectedSubmissions}
+              </Submissions>
+            </SmallTaskTitle>
+          ) : (
+            <TaskTitle>
+              <Submissions>
+                Submissions: {task.submissionCount} of{" "}
+                {task.expectedSubmissions}
+              </Submissions>
+            </TaskTitle>
+          )}
+        </>
+      );
+    }
+    return <></>;
+  }
+
+  return (
+    <>
+      {exempler ? (
+        <Content>
+          <ExemplerTitleText>{task.assignmentTitle}</ExemplerTitleText>
+          <TaskTitle>{task.response}</TaskTitle>
+          <RemarkText> Remark</RemarkText>
+          <Remark>
+            Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.
+          </Remark>
+        </Content>
+      ) : (
+        <Content>
+          {createTitle(task)}
+          {small ? (
+            <SmallClassText>
+              {task.classTitle ? task.classTitle : task.assignmentTitle}
+            </SmallClassText>
+          ) : (
+            <ClassText>
+              {task.classTitle ? task.classTitle : task.assignmentTitle}
+            </ClassText>
+          )}
+          {datesFrame}
+          {createSubmissions(task)}
+        </Content>
+      )}
+    </>
+  );
 }
 
 const Frame12121 = styled.div`
@@ -88,6 +107,23 @@ const Frame12121 = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+`;
+
+const RemarkText = styled.div`
+  ${IbmplexsansNormalShark12px}
+  width: 501px;
+  height: 18px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7200e0;
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
 `;
 
 const Submissions = styled.div`
@@ -126,7 +162,17 @@ const TaskTitle = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
-
+const Remark = styled.p`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 15px;
+  font-style: italic;
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  font-color: #405059;
+`;
 const SmallTaskTitle = styled.p`
   ${IbmplexsansNormalShark20px}
   font-size: 13px;
@@ -148,6 +194,15 @@ const ClassText = styled.div`
 const SmallClassText = styled.div`
   ${IbmplexsansNormalRiverBed14px}
   font-size: 13px;
+  position: relative;
+  align-self: stretch;
+  letter-spacing: 0.11px;
+  line-height: normal;
+`;
+
+const ExemplerTitleText = styled.div`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 15px;
   position: relative;
   align-self: stretch;
   letter-spacing: 0.11px;

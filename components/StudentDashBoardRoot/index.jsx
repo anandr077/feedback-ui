@@ -8,7 +8,7 @@ import { getTasks, getModelResponses } from "../../service";
 import { homeHeaderProps } from "../../utils/headerProps.js";
 
 export default function StudentDashboardRoot(props) {
-  const {  setShowPopup,setPopupMessage, setDismissable} = props;
+  const { setShowPopup, setPopupMessage, setDismissable } = props;
   const [allTasks, setAllTasks] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -27,7 +27,8 @@ export default function StudentDashboardRoot(props) {
           setAllTasks(result.slice(0, 10));
         }
         if (modelResponses) {
-          setModelResponses([]);
+          console.log("##", modelResponses);
+          setModelResponses(modelResponses);
         }
         setIsLoading(false);
       }

@@ -58,7 +58,7 @@ function DashboardHomeStudentTablet(props) {
           <DashboardFrame12082 tasks="Model Responses" />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={modelResponses} />
+            <TaskCardContainer allTasks={modelResponses} exempler={true} />
           </Frame11>
         </Frame1205>
       </Frame1351>

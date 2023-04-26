@@ -47,7 +47,7 @@ function TaskDetailTablet(props) {
           <Frame29>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={assignment.title}/>
+            <Breadcrumb2 assignments={assignment.title} />
           </Frame29>
           <Frame1389>
             <Title>Assignment</Title>
@@ -72,7 +72,7 @@ function TaskDetailTablet(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <FooterSmall/>
+      <FooterSmall />
       {/* <Frame1392>
         <X2023JeddleAllRightsReserved>
           {x2023JeddleAllRightsReserved}

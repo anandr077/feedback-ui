@@ -68,7 +68,7 @@ function TaskDetailMobile(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-   <FooterSmall/>
+      <FooterSmall />
     </div>
   );
 }

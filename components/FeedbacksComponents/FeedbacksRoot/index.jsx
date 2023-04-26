@@ -272,7 +272,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   const handleSaveSubmissionForReview = () => {
     submitAssignment(submission.id).then((_) => {
-      localStorage.setItem("submission",submission.id );
+      localStorage.setItem("submission", submission.id);
       window.location.href = "/";
     });
   };
@@ -533,8 +533,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const shortcuts = getShortcuts();
-
-
 
   return (
     <ReactiveRender

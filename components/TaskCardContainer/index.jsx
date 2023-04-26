@@ -3,11 +3,11 @@ import TaskCard from "../TaskCard";
 import styled from "styled-components";
 
 function TaskCardContainer(props) {
-  const { allTasks } = props;
+  const { allTasks, exempler } = props;
   const cards = allTasks.map((task) => {
     return (
       <a href={task.link}>
-        <TaskCard task={task} />
+        <TaskCard task={task} exempler={exempler} />
       </a>
     );
   });
@@ -23,6 +23,6 @@ const CardContainer = styled.div`
   gap: 20px;
   overflow-y: scroll;
   max-height: 480px;
-  padding: 0px;
+  padding: 0px 0px 10px 0px;
 `;
 export default TaskCardContainer;

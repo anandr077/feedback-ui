@@ -76,6 +76,11 @@ function FeedbackTeacherLaptop(props) {
   });
   const modules = {
     toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
+    history: {
+      delay: 1000,
+      maxStack: 100,
+      userOnly: true,
+    },
   };
 
   const feedbackFrame = () => {
@@ -166,8 +171,15 @@ function FeedbackTeacherLaptop(props) {
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
               }}
+              onFocus={()=>console.log("Focus")}
               id={"quill_" + answer.serialNumber}
             >
+              {/* const quillContainer = editor.container.querySelector('.ql-editor');
+        quillContainer.addEventListener('focus', function() {
+          const hardcodedRange = { index: 5, length: 10 };
+          console.log("Hard coded selection")
+          editor.setSelection(hardcodedRange);
+        }); */}
               {createQuill(answer, answerValue, debounce)}
             </QuillContainer>
           )}

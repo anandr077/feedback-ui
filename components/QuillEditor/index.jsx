@@ -18,6 +18,8 @@ const QuillEditor = React.forwardRef(
         editor.root.style.fontSize = "16px";
 
         editor.setContents(value ? JSON.parse(value) : []);
+        
+        
 
         const debounce = (func, wait) => {
           let timeout;
@@ -67,6 +69,8 @@ const QuillEditor = React.forwardRef(
           });
         }
 
+
+
         comments.forEach((comment) => {
           if (comment.range) {
             const range = {
@@ -109,6 +113,37 @@ const QuillEditor = React.forwardRef(
       getSelection() {
         return editor.getSelection();
       },
+      getFormat(range) {
+        return editor.getFormat(range);
+      },
+      setFormat(range, format) {
+        return editor.format(range, format);
+      },
+      applyDelta( range, initialFormat) {
+        // alert(JSON.stringify("range " + JSON.stringify(range)));
+        // alert(JSON.stringify("initialFormat " + JSON.stringify(initialFormat)));
+
+        if (initialFormat) {
+          // Revert the background color change by restoring the initial format
+          const formatKeys = Object.keys(initialFormat);
+          if (formatKeys.includes("background")) {
+            editor.formatText(range.from, range.to - range.from, 'background', initialFormat.background);
+          } else {
+            editor.formatText(range.from, range.to - range.from, 'background', false);
+          }
+        }
+      },
+      setLostFocusColor(range) {
+        let lastContents = editor.getContents();
+
+        // Save the initial common format for the given range
+        const initialFormat = editor.getFormat(range.from, range.to - range.from);
+
+        // Apply the background color to the specified range
+        editor.formatText(range, 'background', '#C0C8D1');
+        return initialFormat
+      },
+      
       getLeaf(index) {
         return editor.getLeaf(index);
       },

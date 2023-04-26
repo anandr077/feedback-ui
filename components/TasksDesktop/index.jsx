@@ -28,7 +28,7 @@ function TasksDesktop(props) {
       <Frame1361>
         <Title>{title}</Title>
         <Frame1360>
-          <TaskFrame1306 frame1304Props={frame1306Props.frame1304Props} />
+          {/* <TaskFrame1306 frame1304Props={frame1306Props.frame1304Props} /> */}
           <Frame1359>
             <Frame1354>
               <TaskFrame1353

@@ -46,7 +46,7 @@ function TasksStudentMobile(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Task</PageTitle>
-          <TaskFrame1304 />
+          {/* <TaskFrame1304 /> */}
         </Frame1307>
         {tasksFrame}
       </Frame1365>
@@ -108,6 +108,7 @@ const Frame1365 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  min-height: 600px;
 `;
 
 const Frame1307 = styled.div`

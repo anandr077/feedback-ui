@@ -3,11 +3,11 @@ import TaskCard from "../TaskCard";
 import styled from "styled-components";
 
 function TaskCardContainer(props) {
-  const { allTasks } = props;
+  const { allTasks, exempler } = props;
   const cards = allTasks.map((task) => {
     return (
       <a href={task.link}>
-        <TaskCard task={task} />
+        <TaskCard task={task} exempler={exempler} />
       </a>
     );
   });

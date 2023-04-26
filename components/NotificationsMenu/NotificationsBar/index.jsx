@@ -27,9 +27,9 @@ function NotificationsBar(props) {
       </>
     );
   }
-  
+
   const notificationFrames = notifications.map((notification) => {
-    return <TaskCard task= {notification} small = {true}/>;
+    return <TaskCard task={notification} small={true} />;
   });
   console.log(notificationFrames);
   return (

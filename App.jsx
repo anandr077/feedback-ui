@@ -38,15 +38,13 @@ function App() {
               setIsLoading(false);
             }
           });
-       
         })
         .catch((e) => {});
     } else {
-      if(code) {
+      if (code) {
         window.location.href = "/#/";
       }
       setIsLoading(false);
-      
     }
   }, []);
   if (isLoading) {

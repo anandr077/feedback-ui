@@ -83,8 +83,9 @@ function DashboardHomeStudentLaptop(props) {
             </Frame1337>
             <TaskCardContainer
               allTasks={modelResponses}
-              line17={frame1340Props.line17}
-              group1205Props={frame1340Props.group1205Props}
+              exempler={true}
+              // line17={frame1340Props.line17}
+              // group1205Props={frame1340Props.group1205Props}
             />
           </Frame1339>
         </Frame1346>

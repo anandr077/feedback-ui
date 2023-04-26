@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { IbmplexsansNormalFuscousGray14px } from "../../../styledMixins";
 
 function Breadcrumb(props) {
-  const {text} = props;
+  const { text } = props;
   return (
     <Breadcrumb1>
       <Assignments>{text}</Assignments>

@@ -57,51 +57,50 @@ function TasksStudentTablet(props) {
     </div>
   );
 
-
-function createTasksFrame(
-  title,
-  tasks,
-  isOutstanding,
-  isInProgress,
-  isOverdue
-) {
-  return (
-    <>
-      <Frame1364>
-        <Frame1211>
-          <Tabs
-            text={"Outstanding"}
-            isSelected={isOutstanding}
-            onClickFn={() => {
-              setTasksFrame(outstandingFrame);
-            }}
-          />
-          <Tabs
-            text={"In Progress"}
-            isSelected={isInProgress}
-            onClickFn={() => {
-              setTasksFrame(inProgressFrame);
-            }}
-          />
-          <Tabs
-            text={"Overdue"}
-            isSelected={isOverdue}
-            onClickFn={() => {
-              setTasksFrame(overdueFrame);
-            }}
-          />
-        </Frame1211>
-        <Frame1363>
-          <Frame1362>
-            <Outstanding>{title}</Outstanding>
-            <Number>{tasks.length}</Number>
-          </Frame1362>
-          <TaskCardContainer allTasks={tasks} />
-        </Frame1363>
-      </Frame1364>
-    </>
-  );
-}
+  function createTasksFrame(
+    title,
+    tasks,
+    isOutstanding,
+    isInProgress,
+    isOverdue
+  ) {
+    return (
+      <>
+        <Frame1364>
+          <Frame1211>
+            <Tabs
+              text={"Outstanding"}
+              isSelected={isOutstanding}
+              onClickFn={() => {
+                setTasksFrame(outstandingFrame);
+              }}
+            />
+            <Tabs
+              text={"In Progress"}
+              isSelected={isInProgress}
+              onClickFn={() => {
+                setTasksFrame(inProgressFrame);
+              }}
+            />
+            <Tabs
+              text={"Overdue"}
+              isSelected={isOverdue}
+              onClickFn={() => {
+                setTasksFrame(overdueFrame);
+              }}
+            />
+          </Frame1211>
+          <Frame1363>
+            <Frame1362>
+              <Outstanding>{title}</Outstanding>
+              <Number>{tasks.length}</Number>
+            </Frame1362>
+            <TaskCardContainer allTasks={tasks} />
+          </Frame1363>
+        </Frame1364>
+      </>
+    );
+  }
 }
 const Frame1365 = styled.div`
   display: flex;

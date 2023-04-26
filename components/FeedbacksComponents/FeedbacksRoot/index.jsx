@@ -533,6 +533,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const shortcuts = getShortcuts();
 
+
+
   return (
     <ReactiveRender
       mobile={

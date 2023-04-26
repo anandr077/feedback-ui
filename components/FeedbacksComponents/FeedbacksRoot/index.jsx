@@ -33,7 +33,6 @@ import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
-  alert(isAssignmentPage)
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
 

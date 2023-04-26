@@ -9,64 +9,74 @@ const selfBaseUrl =
 const clientId =
   process.env.REACT_APP_CLIENT_ID ?? "glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr";
 
-async function fetchData(url, options) {
-  try {
-    const response = await fetch(url, {
-      ...options,
-      withCredentials: true,
-      credentials: "include",
-    });
-    if (response.status === 401) {
-      return redirectToExternalIDP();
+  async function fetchData(url, options, headers = {}) {
+    const defaultHeaders = new Headers();
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      defaultHeaders.append('Authorization', `Bearer ${token}`);
     }
-    if (response.status === 404) {
-      throw new Error("Page not found");
+  
+    const mergedHeaders = Object.assign(defaultHeaders, headers);
+    // alert("mergedHeaders "+ JSON.stringify(mergedHeaders) + " url " + url + "options" + JSON.stringify(options))  
+    try {
+      const response = await fetch(url, {
+        ...options,
+        withCredentials: true,
+        credentials: "include",
+        headers: mergedHeaders
+      });
+  
+      if (response.status === 401) {
+        //return redirectToExternalIDP();
+      }
+      if (response.status === 404) {
+        throw new Error("Page not found");
+      }
+      if (response.status === 404) {
+        throw new Error("Page not found");
+      } else if (response.status === 500) {
+        throw new Error("Server error");
+      } else if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const isJson = response.headers
+        .get("content-type")
+        ?.includes("application/json");
+      const data = isJson ? await response.json() : null;
+      return data;
+    } catch (error) {
+      console.error(error);
     }
-    if (response.status === 404) {
-      throw new Error("Page not found");
-    } else if (response.status === 500) {
-      throw new Error("Server error");
-    } else if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const isJson = response.headers
-      .get("content-type")
-      ?.includes("application/json");
-    // alert(isJson)
-    const data = isJson ? await response.json() : null;
-    // alert(data)
-    return data;
-  } catch (error) {
-    console.error(error);
   }
-}
-
-const fetchApi = async (url, options) => {
-  return fetchData(url, options);
-};
-
-const getApi = async (url) => fetchApi(url, { method: "GET" });
-
-const postApi = async (url, body, headers = {}) => {
-  return await fetchApi(url, {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json", ...headers },
-  });
-};
-const patchApi = async (url, body, headers = {}) => {
-  return await fetchApi(url, {
-    method: "PATCH",
-    body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json", ...headers },
-  });
-};
-const deleteApi = async (url, headers = {}) => {
-  return await fetchApi(url, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json", ...headers },
-  });
-};
+  
+  const fetchApi = async (url, options, headers) => {
+    return fetchData(url, options, headers);
+  };
+  
+  const getApi = async (url) => fetchApi(url, { method: "GET" });
+  
+  const postApi = async (url, body, headers = {}) => {
+    return await fetchApi(url, {
+      method: "POST",
+      body: JSON.stringify(body),
+      
+    }, { "Content-Type": "application/json", ...headers });
+  };
+  const patchApi = async (url, body, headers = {}) => {
+    return await fetchApi(url, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+      
+    },
+    { "Content-Type": "application/json", ...headers });
+  };
+  const deleteApi = async (url, headers = {}) => {
+    return await fetchApi(url, {
+      method: "DELETE",
+      
+    }, { "Content-Type": "application/json", ...headers });
+  };
 
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
@@ -96,8 +106,17 @@ export const setProfileCookies = (profile) => {
   document.cookie = "role=" + role + "; max-age=" + 86400 + "; path=/";
   
 }
+
+export const deleteProfileCookies = () => {
+  document.cookie = "user.name=; max-age=" + 0 + "; path=/";
+  document.cookie = "userId=; max-age=" + 0 + "; path=/";
+  document.cookie = "role=; max-age=" + 0 + "; path=/";
+}
 export const logout = async () => {
   await postApi(baseUrl + "/users/logout").then(() => {
+    deleteProfileCookies()
+    localStorage.removeItem('jwtToken');
+
     window.location.href =
       jeddleBaseUrl +
       "/wp-login.php?action=logout&redirect_to=" +
@@ -174,17 +193,16 @@ export const createSubmission = async (submission) =>
 function redirectToExternalIDP() {
   const externalIDPLoginUrl =
     jeddleBaseUrl +
-    `/wp-json/moserver/authorize?response_type=code&client_id=` +
+    "/wp-json/moserver/authorize?response_type=code&client_id=" +
     clientId +
-    `&redirect_uri=` +
-    selfBaseUrl +
-    `/callback`;
+    "&redirect_uri=" +
+    selfBaseUrl +"#callback";
   window.location.href = externalIDPLoginUrl;
 }
 
 export const exchangeCodeForToken = async (code) => {
-
-  return await postApi(baseUrl + "/users/exchange", code);
+  
+  return await getApi(baseUrl + "/users/exchange/" + code);
   
 };
 

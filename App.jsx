@@ -1,5 +1,5 @@
 import { default as React, default as React, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import CreateAssignment from "./components/CreateAssignment";
 import StudentDashboardRoot from "./components/StudentDashBoardRoot";
 import StudentTaskRoot from "./components/StudentTaskRoot";
@@ -16,7 +16,6 @@ import Loader from "./components/Loader";
 import { useLocation } from 'react-router-dom';
 
 function App() {
-  alert("Test")
   const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();

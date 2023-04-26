@@ -171,15 +171,8 @@ function FeedbackTeacherLaptop(props) {
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
               }}
-              onFocus={()=>console.log("Focus")}
               id={"quill_" + answer.serialNumber}
             >
-              {/* const quillContainer = editor.container.querySelector('.ql-editor');
-        quillContainer.addEventListener('focus', function() {
-          const hardcodedRange = { index: 5, length: 10 };
-          console.log("Hard coded selection")
-          editor.setSelection(hardcodedRange);
-        }); */}
               {createQuill(answer, answerValue, debounce)}
             </QuillContainer>
           )}

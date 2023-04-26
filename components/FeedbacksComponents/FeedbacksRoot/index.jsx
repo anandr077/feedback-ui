@@ -132,7 +132,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
-    quillRefs.current[newCommentSerialNumber-1].applyDelta(selectedRange, selectedRangeFormat)
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
 
     if (!document.getElementById("newCommentInput").value) return;
     addFeedback(submission.id, {
@@ -150,7 +150,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
-    quillRefs.current[newCommentSerialNumber-1].applyDelta(selectedRange, selectedRangeFormat)
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -167,7 +167,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShareWithClass() {
-    quillRefs.current[newCommentSerialNumber-1].applyDelta(selectedRange, selectedRangeFormat)
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -397,7 +397,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const hideNewCommentDiv = () => {
-    quillRefs.current[newCommentSerialNumber-1].applyDelta(selectedRange, selectedRangeFormat)
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
     
     setShowNewComment(false);
   };

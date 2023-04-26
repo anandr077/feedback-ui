@@ -119,27 +119,18 @@ const QuillEditor = React.forwardRef(
       setFormat(range, format) {
         return editor.format(range, format);
       },
-      applyDelta( range, initialFormat) {
-        // alert(JSON.stringify("range " + JSON.stringify(range)));
-        // alert(JSON.stringify("initialFormat " + JSON.stringify(initialFormat)));
-
-        if (initialFormat) {
-          // Revert the background color change by restoring the initial format
-          const formatKeys = Object.keys(initialFormat);
+      applyBackgroundFormat( range, format) {
+        if (format) {
+          const formatKeys = Object.keys(format);
           if (formatKeys.includes("background")) {
-            editor.formatText(range.from, range.to - range.from, 'background', initialFormat.background);
+            editor.formatText(range.from, range.to - range.from, 'background', format.background);
           } else {
             editor.formatText(range.from, range.to - range.from, 'background', false);
           }
         }
       },
       setLostFocusColor(range) {
-        let lastContents = editor.getContents();
-
-        // Save the initial common format for the given range
         const initialFormat = editor.getFormat(range.from, range.to - range.from);
-
-        // Apply the background color to the specified range
         editor.formatText(range, 'background', '#C0C8D1');
         return initialFormat
       },

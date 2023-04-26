@@ -60,7 +60,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         : Promise.resolve([]),
     ]).then(([submissionsResult]) => {
       if (isAssignmentPage) {
-        window.location.href = "/submissions/" + submissionsResult[0].id;
+        window.location.href = "#submissions/" + submissionsResult[0].id;
       }
     });
   }, [assignmentId]);
@@ -87,7 +87,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             (r) => r.id != submission.id
           );
           const nextUrl = allExceptCurrent[0]
-            ? "/submissions/" + allExceptCurrent[0]?.id
+            ? "#submissions/" + allExceptCurrent[0]?.id
             : "/";
           console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);

@@ -55,7 +55,7 @@ function TeacherClassesLaptop(props) {
             ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Buttons link="/assignments/new" />
+            <Buttons link="#assignments/new" />
           </Frame1426>
         </Frame14221>
         <Frame1417>

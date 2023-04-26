@@ -63,7 +63,7 @@ function TeacherClassesMobile(props) {
             ></ImageDropdownMenu>
           </Frame1306>
 
-          <Buttons className={buttonsProps.className} link="/assignments/new" />
+          <Buttons className={buttonsProps.className} link="#assignments/new" />
         </Frame14221>
         <Frame14221>
           <Frame1339>

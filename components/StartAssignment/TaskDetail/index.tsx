@@ -33,7 +33,7 @@ export default function TaskDetail() {
     onClickStartAssignment: (_) => {
       startSubmission({ assignmentId: assignment.id }).then((res) => {
         console.log("res " + res);
-        window.location.href = "/submissions/" + res.id;
+        window.location.href = "#submissions/" + res.id;
       });
     },
   };

@@ -8,7 +8,7 @@ function DashboardGroup12052(props) {
   return (
     <Group1205
       onClick={() => {
-        window.location.href = "/tasks";
+        window.location.href = "#tasks";
       }}
     >
       <ViewAll>VIEW ALL</ViewAll>

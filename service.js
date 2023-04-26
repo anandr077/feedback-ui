@@ -123,8 +123,6 @@ export const deleteFeedback = async (submissionId, commentId) => {
   );
 };
 
-// ...
-
 export const getUserName = () => getCookie("user.name");
 export const getUserId = () => getCookie("userId");
 export const getUserRole = () => getCookie("role");

@@ -13,49 +13,39 @@ import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
 import Callback from "./components/Callback";
 import ScreenPopup from "./components/ScreenPopup";
 import Loader from "./components/Loader";
-import { useLocation } from 'react-router-dom';
-import {exchangeCodeForToken} from './service'
+import { useLocation } from "react-router-dom";
+import { exchangeCodeForToken } from "./service";
 function App() {
   const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(() => {
     // alert("window.location.pathname " + window.location.pathname)
-    
-    
+
     const urlSearchParams = new URLSearchParams(window.location.search);
     const code = urlSearchParams.get("code");
 
     if (code) {
-      exchangeCodeForToken(code).then((response) => {
-        localStorage.setItem('jwtToken', response.jwttoken);
-        getProfile().then(result=>{
-          if (result) {
-            setProfileCookies(result)
-            setIsLoading(false)
-          }
-          
+      exchangeCodeForToken(code)
+        .then((response) => {
+          localStorage.setItem("jwtToken", response.jwttoken);
+          getProfile().then((result) => {
+            if (result) {
+              setProfileCookies(result);
+              setIsLoading(false);
+            }
+          });
+          //return;
         })
-        //return;
-      }).catch(e=>{
-
-      });
+        .catch((e) => {});
     } else {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-
-
-
-
-
-
-
-    
-  },[])
+  }, []);
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
   const role = getUserRole();
   const popupMethods = {

@@ -11,6 +11,7 @@ import {
 } from "../../../styledMixins";
 import "./TeacherTasksDesktop.css";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
+import Buttons from "../../Classes/Buttons";
 
 function TeacherTasksDesktop(props) {
   const { drafts, awaitingSubmissions, feedbacks } = props;
@@ -19,9 +20,16 @@ function TeacherTasksDesktop(props) {
     <div className="tasks-desktop screen">
       <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
-        <Title>Assignments</Title>
+        <TitleContainer>
+          <Title>Assignments</Title>
+          <ButtonContainer>
+            {" "}
+            <Buttons link="#assignments/new" />
+          </ButtonContainer>
+        </TitleContainer>
         <Frame1360>
-          <TaskFrame1306 />
+          {/* <TaskFrame1306 /> */}
+
           <Frame1359>
             <Frame1354>
               <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
@@ -45,6 +53,21 @@ function TeacherTasksDesktop(props) {
     </div>
   );
 }
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  max-width: 200px;
+  margin-right: 40px;
+`;
 
 const Frame1361 = styled.div`
   display: flex;

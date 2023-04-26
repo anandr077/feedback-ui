@@ -158,10 +158,10 @@ const NavigationContainer = styled.div`
   border-radius: 8px;
   background-color: var(--white);
   align-self: stretch;
-  min-width: 300px;
+
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  min-height: 100px;
+  max-height: 200px;
 `;
 
 const Screen = styled.div`

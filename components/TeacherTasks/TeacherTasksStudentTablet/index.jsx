@@ -12,6 +12,7 @@ import {
 } from "../../../styledMixins";
 import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import "./TeacherTasksStudentTablet.css";
+import Buttons from "../../Classes/Buttons";
 
 function TeacherTasksStudentTablet(props) {
   const { drafts, awaitingSubmissions, feedbacks } = props;
@@ -39,7 +40,10 @@ function TeacherTasksStudentTablet(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Assignments</PageTitle>
-          <TaskFrame1304 />
+          <ButtonContainer>
+            <Buttons link="#assignments/new" />{" "}
+          </ButtonContainer>
+          {/* <TaskFrame1304 /> */}
         </Frame1307>
         {tasksFrame}
       </Frame1365>
@@ -92,6 +96,11 @@ function TeacherTasksStudentTablet(props) {
     );
   }
 }
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  max-width: 200px;
+`;
 
 const Frame1365 = styled.div`
   display: flex;
@@ -101,6 +110,7 @@ const Frame1365 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  min-height: 600px;
 `;
 
 const Frame1307 = styled.div`

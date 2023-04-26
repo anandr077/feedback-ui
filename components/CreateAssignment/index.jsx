@@ -268,7 +268,7 @@ export default function CreateAssignment(props) {
         console.log("##", res);
         if (res.status === "PUBLISHED") {
           localStorage.setItem("assignment", res.id);
-          window.location.href = "/";
+          window.location.href = "#";
         } else {
           setPopupMessage("Assignment Creation Failed");
           setShowPopup(true);

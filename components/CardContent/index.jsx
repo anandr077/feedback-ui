@@ -8,42 +8,75 @@ import {
 import { formattedDate } from "../../dates";
 
 function CardContent(props) {
-  const { task } = props;
+  const { task ,small} = props;
   const datesFrame = task.dueAt ? (
+    <>
+    {small ? 
+    <Frame1282>
+    <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
+    <SmallDueAt>{formattedDate(task.dueAt)}</SmallDueAt>
+  </Frame1282>
+    :
     <Frame1282>
       <IconClock src="/img/clock@2x.png" alt="icon-clock" />
       <DueAt>{formattedDate(task.dueAt)}</DueAt>
     </Frame1282>
+    }
+    </>
+    
   ) : (
     <></>
   );
+
+
+
   return (
     <Content>
       {createTitle(task)}
-      <ClassText>
-        {task.classTitle ? task.classTitle : task.assignmentTitle}
-      </ClassText>
+   {small ?
+    <SmallClassText>
+    {task.classTitle ? task.classTitle : task.assignmentTitle}
+  </SmallClassText>
+   :
+    <ClassText>
+    {task.classTitle ? task.classTitle : task.assignmentTitle}
+  </ClassText>}  
       {datesFrame}
       {createSubmissions(task)}
     </Content>
   );
-}
+
 
 function createTitle(task) {
-  return <TaskTitle>{task.title ? task.title : task.response}</TaskTitle>;
+  return<>{
+  small?(
+    <SmallTaskTitle>{task.title ? task.title : task.response}</SmallTaskTitle>
+  ): (<TaskTitle>{task.title ? task.title : task.response}</TaskTitle>)}</>
 }
 
 function createSubmissions(task) {
   if (task?.expectedSubmissions ?? 0) {
     return (
-      <TaskTitle>
+      <>
+      { small ?
+        (<SmallTaskTitle>
         <Submissions>
           Submissions: {task.submissionCount} of {task.expectedSubmissions}
         </Submissions>
-      </TaskTitle>
+      </SmallTaskTitle>)
+        :
+        (
+        <TaskTitle>
+        <Submissions>
+          Submissions: {task.submissionCount} of {task.expectedSubmissions}
+        </Submissions>
+      </TaskTitle>)
+    }
+    </>
     );
   }
   return <></>;
+}
 }
 
 const Frame12121 = styled.div`
@@ -94,9 +127,27 @@ const TaskTitle = styled.p`
   line-height: normal;
 `;
 
+const SmallTaskTitle = styled.p`
+  ${IbmplexsansNormalShark20px}
+  font-size: 10px;
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 const ClassText = styled.div`
   ${IbmplexsansNormalRiverBed14px}
   font-size: 14px;
+  position: relative;
+  align-self: stretch;
+  letter-spacing: 0.11px;
+  line-height: normal;
+`;
+
+const SmallClassText = styled.div`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 10px;
   position: relative;
   align-self: stretch;
   letter-spacing: 0.11px;
@@ -116,10 +167,24 @@ const IconClock = styled.img`
   min-width: 16px;
   height: 16px;
 `;
+const SmallIconClock = styled.img`
+  position: relative;
+  min-width: 10px;
+  height: 10px;
+`;
 
 const DueAt = styled.p`
   ${IbmplexsansNormalRiverBed14px}
   font-size: 14px;
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0.11px;
+  line-height: normal;
+`;
+const SmallDueAt = styled.p`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 10px;
   position: relative;
   flex: 1;
   margin-top: -1px;

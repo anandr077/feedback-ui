@@ -7,6 +7,7 @@ import Header from "../../Header";
 import TaskCardContainer from "../../TaskCardContainer";
 import TaskFrame1306 from "../../TaskFrame1306";
 import TaskFrame1353 from "../../TaskFrame1353";
+import Buttons from "../../Classes/Buttons";
 import "./TeacherTasksLaptop.css";
 function TeacherTasksLaptop(props) {
   const { drafts, awaitingSubmissions, feedbacks } = props;
@@ -14,9 +15,15 @@ function TeacherTasksLaptop(props) {
     <div className="tasks-laptop screen">
       <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
-        <Title>Assignments</Title>
+        <TitleContainer>
+          <Title>Assignments</Title>
+          <ButtonContainer>
+            {" "}
+            <Buttons link="#assignments/new" />
+          </ButtonContainer>
+        </TitleContainer>
         <Frame1360>
-          <TaskFrame1306 />
+          {/* <TaskFrame1306 /> */}
           <Frame1359>
             <Frame1358>
               <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
@@ -42,7 +49,21 @@ function TeacherTasksLaptop(props) {
     </div>
   );
 }
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 80%;
+  left: 10%;
+`;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  max-width: 200px;
+  margin-right: 40px;
+`;
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;

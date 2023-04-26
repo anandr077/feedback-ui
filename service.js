@@ -9,113 +9,118 @@ const selfBaseUrl =
 const clientId =
   process.env.REACT_APP_CLIENT_ID ?? "glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr";
 
-  async function fetchData(url, options, headers = {}) {
-    const defaultHeaders = new Headers();
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      defaultHeaders.append('Authorization', `Bearer ${token}`);
-    }
-  
-    const mergedHeaders = Object.assign(defaultHeaders, headers);
-    try {
-      const response = await fetch(url, {
-        ...options,
-        withCredentials: true,
-        credentials: "include",
-        headers: mergedHeaders
-      });
-  
-      if (response.status === 401) {
-        return redirectToExternalIDP();
-      }
-      if (response.status === 404) {
-        throw new Error("Page not found");
-      }
-      if (response.status === 404) {
-        throw new Error("Page not found");
-      } else if (response.status === 500) {
-        throw new Error("Server error");
-      } else if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const isJson = response.headers
-        .get("content-type")
-        ?.includes("application/json");
-      const data = isJson ? await response.json() : null;
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
+async function fetchData(url, options, headers = {}) {
+  const defaultHeaders = new Headers();
+  const token = localStorage.getItem("jwtToken");
+  if (token) {
+    defaultHeaders.append("Authorization", `Bearer ${token}`);
   }
-  
 
-  async function modifyData(url, options = {}) {
-     
-    try {
-      const response = await fetch(url, {
-        ...options,
-        withCredentials: true,
-        credentials: "include"
-      });
-  
-      if (response.status === 401) {
-        return redirectToExternalIDP();
-      }
-      if (response.status === 404) {
-        throw new Error("Page not found");
-      }
-      if (response.status === 404) {
-        throw new Error("Page not found");
-      } else if (response.status === 500) {
-        throw new Error("Server error");
-      } else if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const isJson = response.headers
-        .get("content-type")
-        ?.includes("application/json");
-      const data = isJson ? await response.json() : null;
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  const fetchApi = async (url, options, headers) => {
-    return fetchData(url, options, headers);
-  };
-  
-  const getApi = async (url) => fetchApi(url, { method: "GET" });
-  
-  const postApi = async (url, body) => {
-    const token = localStorage.getItem('jwtToken');
-    
-  
-    return await modifyData(url, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${token}` },
-   } );
-  };
-  const patchApi = async (url, body) => {
-    const token = localStorage.getItem('jwtToken');
-
-    return await modifyData(url, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-      headers:{ "Content-Type": "application/json",  'Authorization': `Bearer ${token}`  }
-    },
-   );
-  };
-  const deleteApi = async (url) => {
-    const token = localStorage.getItem('jwtToken');
-
-    return await modifyData(url, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json",  'Authorization': `Bearer ${token}`  },
+  const mergedHeaders = Object.assign(defaultHeaders, headers);
+  try {
+    const response = await fetch(url, {
+      ...options,
+      withCredentials: true,
+      credentials: "include",
+      headers: mergedHeaders,
     });
-  };
+
+    if (response.status === 401) {
+      return redirectToExternalIDP();
+    }
+    if (response.status === 404) {
+      throw new Error("Page not found");
+    }
+    if (response.status === 404) {
+      throw new Error("Page not found");
+    } else if (response.status === 500) {
+      throw new Error("Server error");
+    } else if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const isJson = response.headers
+      .get("content-type")
+      ?.includes("application/json");
+    const data = isJson ? await response.json() : null;
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function modifyData(url, options = {}) {
+  try {
+    const response = await fetch(url, {
+      ...options,
+      withCredentials: true,
+      credentials: "include",
+    });
+
+    if (response.status === 401) {
+      return redirectToExternalIDP();
+    }
+    if (response.status === 404) {
+      throw new Error("Page not found");
+    }
+    if (response.status === 404) {
+      throw new Error("Page not found");
+    } else if (response.status === 500) {
+      throw new Error("Server error");
+    } else if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const isJson = response.headers
+      .get("content-type")
+      ?.includes("application/json");
+    const data = isJson ? await response.json() : null;
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+const fetchApi = async (url, options, headers) => {
+  return fetchData(url, options, headers);
+};
+
+const getApi = async (url) => fetchApi(url, { method: "GET" });
+
+const postApi = async (url, body) => {
+  const token = localStorage.getItem("jwtToken");
+
+  return await modifyData(url, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+const patchApi = async (url, body) => {
+  const token = localStorage.getItem("jwtToken");
+
+  return await modifyData(url, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+const deleteApi = async (url) => {
+  const token = localStorage.getItem("jwtToken");
+
+  return await modifyData(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
@@ -127,32 +132,31 @@ export const getUserName = () => getCookie("user.name");
 export const getUserId = () => getCookie("userId");
 export const getUserRole = () => getCookie("role");
 
-export const getCookie =  (name) => {
+export const getCookie = (name) => {
   const cookieValue = document.cookie
     .split("; ")
     .find((cookie) => cookie.startsWith(`${name}=`));
-  
-    return cookieValue ? cookieValue.split("=")[1] : null;
-  
+
+  return cookieValue ? cookieValue.split("=")[1] : null;
 };
 export const setProfileCookies = (profile) => {
-  
-  document.cookie = "user.name=" + profile.name + "; max-age=" + 86400 + "; path=/";
-  document.cookie = "userId=" + profile.userId.value + "; max-age=" + 86400 + "; path=/";
+  document.cookie =
+    "user.name=" + profile.name + "; max-age=" + 86400 + "; path=/";
+  document.cookie =
+    "userId=" + profile.userId.value + "; max-age=" + 86400 + "; path=/";
   const role = profile?.roles?.[0] === "group_leader" ? "TEACHER" : "STUDENT";
   document.cookie = "role=" + role + "; max-age=" + 86400 + "; path=/";
-  
-}
+};
 
 export const deleteProfileCookies = () => {
   document.cookie = "user.name=; max-age=" + 0 + "; path=/";
   document.cookie = "userId=; max-age=" + 0 + "; path=/";
   document.cookie = "role=; max-age=" + 0 + "; path=/";
-}
+};
 export const logout = async () => {
   await postApi(baseUrl + "/users/logout").then(() => {
-    deleteProfileCookies()
-    localStorage.removeItem('jwtToken');
+    deleteProfileCookies();
+    localStorage.removeItem("jwtToken");
 
     window.location.href =
       jeddleBaseUrl +
@@ -232,14 +236,13 @@ function redirectToExternalIDP() {
     jeddleBaseUrl +
     "/wp-json/moserver/authorize?response_type=code&client_id=" +
     clientId +
-    "&redirect_uri="+ selfBaseUrl; 
+    "&redirect_uri=" +
+    selfBaseUrl;
   window.location.href = externalIDPLoginUrl;
 }
 
 export const exchangeCodeForToken = async (code) => {
-  
   return await getApi(baseUrl + "/users/exchange/" + code);
-  
 };
 
 export const getShortcuts = () => {

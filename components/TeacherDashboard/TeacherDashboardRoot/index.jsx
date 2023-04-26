@@ -20,7 +20,7 @@ export default function TeacherDashboardRoot(props) {
   const message = localStorage.getItem("assignment");
   if (message) {
     setShowPopup(true);
-    setPopupMessage(message);
+    setPopupMessage("Assignment created successfully");
     setDismissable(true);
     localStorage.removeItem("assignment");
   }

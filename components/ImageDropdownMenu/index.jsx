@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
-import {IbmplexsansNormalBlack16px} from "../../styledMixins";
+import { IbmplexsansNormalBlack16px } from "../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 import CheckboxBordered from "../CheckboxBordered";
 export const ImageDropdownMenu = (props) => {
@@ -80,10 +80,8 @@ const StyledMenuItem = styled(MenuItem)`
   .MuiTypography-root {
     ${IbmplexsansNormalShark16px}
     font-size: 14px;
-  
   }
- 
-  `;
+`;
 const StyledBox = styled(Box)`
   display: flex;
   width: 370px;
@@ -104,15 +102,13 @@ const StyledBox = styled(Box)`
   font-weight: 400;
   font-style: normal;
   .MuiIconButton-root:hover {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 `;
 const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;
 `;
-
-
 
 const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}

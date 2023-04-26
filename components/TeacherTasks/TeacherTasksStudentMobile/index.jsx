@@ -11,6 +11,7 @@ import Tabs from "../../Tabs";
 import TaskCardContainer from "../../TaskCardContainer";
 import TaskFrame1304 from "../../TaskFrame1304";
 import "./TeacherTasksStudentMobile.css";
+import Buttons from "../../Classes/Buttons";
 
 function TeacherTasksStudentMobile(props) {
   const { drafts, awaitingSubmissions, feedbacks } = props;
@@ -36,8 +37,9 @@ function TeacherTasksStudentMobile(props) {
       <HeaderSmall headerProps={assignmentsHeaderProps} />
       <Frame1365>
         <Frame1307>
-          <PageTitle>Task</PageTitle>
-          <TaskFrame1304 />
+          <PageTitle>Assignments</PageTitle>
+          <Buttons link="#assignments/new" />
+          {/* <TaskFrame1304 /> */}
         </Frame1307>
         {tasksFrame}
       </Frame1365>
@@ -99,6 +101,7 @@ const Frame1365 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  min-height: 600px;
 `;
 
 const Frame1307 = styled.div`

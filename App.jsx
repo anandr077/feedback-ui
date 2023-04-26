@@ -62,7 +62,7 @@ function App() {
     role === "TEACHER" ? (
       <TeacherDashboardRoot {...popupMethods} />
     ) : (
-      <StudentDashboardRoot />
+      <StudentDashboardRoot {...popupMethods} />
     );
   return (
     <Router>

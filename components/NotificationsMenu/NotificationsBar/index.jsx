@@ -37,7 +37,7 @@ function NotificationsBar(props) {
       {type == "small" ? (
         <NavbarDiv>
           <Frame1409>
-            <Frame15>{notificationFrames}</Frame15>
+            <Frame16>{notificationFrames}</Frame16>
             <MaskGroup src="/img/close.png" onClick={onCloseFn} />
           </Frame1409>
         </NavbarDiv>
@@ -105,6 +105,7 @@ const Frame16 = styled.div`
   position: relative;
   align-self: stretch;
   z-index: 10;
+  gap: 10px;
   flex-direction: column;
 `;
 

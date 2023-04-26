@@ -26,8 +26,9 @@ function App() {
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const code = urlSearchParams.get("code");
+    const role = getUserRole();
 
-    if (code) {
+    if (code && role === null) {
       exchangeCodeForToken(code)
         .then((response) => {
           localStorage.setItem("jwtToken", response.jwttoken);
@@ -37,11 +38,15 @@ function App() {
               setIsLoading(false);
             }
           });
-          //return;
+       
         })
         .catch((e) => {});
     } else {
+      if(code) {
+        window.location.href = "/#/";
+      }
       setIsLoading(false);
+      
     }
   }, []);
   if (isLoading) {

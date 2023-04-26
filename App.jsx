@@ -14,7 +14,7 @@ import Callback from "./components/Callback";
 import ScreenPopup from "./components/ScreenPopup";
 import Loader from "./components/Loader";
 import { useLocation } from 'react-router-dom';
-
+import {exchangeCodeForToken} from './service'
 function App() {
   const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
@@ -22,21 +22,37 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    if (window.location.pathname === "/callback") {
+    // alert("window.location.pathname " + window.location.pathname)
+    
+    
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const code = urlSearchParams.get("code");
+
+    if (code) {
+      exchangeCodeForToken(code).then((response) => {
+        localStorage.setItem('jwtToken', response.jwttoken);
+        getProfile().then(result=>{
+          if (result) {
+            setProfileCookies(result)
+            setIsLoading(false)
+          }
+          
+        })
+        //return;
+      }).catch(e=>{
+
+      });
+    } else {
       setIsLoading(false)
-      return
     }
-    const role = getUserRole()
-    if (role) {
-      setIsLoading(false)
-      return
-    }
-    getProfile().then(result=>{
-      if (result) {
-        setProfileCookies(result)
-      }
-      setIsLoading(false)
-    })
+
+
+
+
+
+
+
+    
   },[])
   if (isLoading) {
     return <Loader/>;

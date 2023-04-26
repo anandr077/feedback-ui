@@ -17,7 +17,6 @@ const clientId =
     }
   
     const mergedHeaders = Object.assign(defaultHeaders, headers);
-    // alert("mergedHeaders "+ JSON.stringify(mergedHeaders) + " url " + url + "options" + JSON.stringify(options))  
     try {
       const response = await fetch(url, {
         ...options,
@@ -27,7 +26,7 @@ const clientId =
       });
   
       if (response.status === 401) {
-        // return redirectToExternalIDP();
+        return redirectToExternalIDP();
       }
       if (response.status === 404) {
         throw new Error("Page not found");
@@ -50,32 +49,72 @@ const clientId =
     }
   }
   
+
+  async function modifyData(url, options = {}) {
+     
+    try {
+      const response = await fetch(url, {
+        ...options,
+        withCredentials: true,
+        credentials: "include"
+      });
+  
+      if (response.status === 401) {
+        return redirectToExternalIDP();
+      }
+      if (response.status === 404) {
+        throw new Error("Page not found");
+      }
+      if (response.status === 404) {
+        throw new Error("Page not found");
+      } else if (response.status === 500) {
+        throw new Error("Server error");
+      } else if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const isJson = response.headers
+        .get("content-type")
+        ?.includes("application/json");
+      const data = isJson ? await response.json() : null;
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const fetchApi = async (url, options, headers) => {
     return fetchData(url, options, headers);
   };
   
   const getApi = async (url) => fetchApi(url, { method: "GET" });
   
-  const postApi = async (url, body, headers = {}) => {
-    return await fetchApi(url, {
+  const postApi = async (url, body) => {
+    const token = localStorage.getItem('jwtToken');
+    
+  
+    return await modifyData(url, {
       method: "POST",
       body: JSON.stringify(body),
-      
-    }, { "Content-Type": "application/json", ...headers });
+      headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${token}` },
+   } );
   };
-  const patchApi = async (url, body, headers = {}) => {
-    return await fetchApi(url, {
+  const patchApi = async (url, body) => {
+    const token = localStorage.getItem('jwtToken');
+
+    return await modifyData(url, {
       method: "PATCH",
       body: JSON.stringify(body),
-      
+      headers:{ "Content-Type": "application/json",  'Authorization': `Bearer ${token}`  }
     },
-    { "Content-Type": "application/json", ...headers });
+   );
   };
-  const deleteApi = async (url, headers = {}) => {
-    return await fetchApi(url, {
+  const deleteApi = async (url) => {
+    const token = localStorage.getItem('jwtToken');
+
+    return await modifyData(url, {
       method: "DELETE",
-      
-    }, { "Content-Type": "application/json", ...headers });
+      headers: { "Content-Type": "application/json",  'Authorization': `Bearer ${token}`  },
+    });
   };
 
 export const deleteFeedback = async (submissionId, commentId) => {
@@ -195,8 +234,7 @@ function redirectToExternalIDP() {
     jeddleBaseUrl +
     "/wp-json/moserver/authorize?response_type=code&client_id=" +
     clientId +
-    "&redirect_uri=" +
-    selfBaseUrl +"#callback";
+    "&redirect_uri="+ selfBaseUrl; 
   window.location.href = externalIDPLoginUrl;
 }
 

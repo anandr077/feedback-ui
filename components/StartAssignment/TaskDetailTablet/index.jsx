@@ -17,6 +17,7 @@ import {
   IbmplexsansSemiBoldShark28px,
 } from "../styledMixins";
 import "./TaskDetailTablet.css";
+import FooterSmall from "../../FooterSmall";
 function TaskDetailTablet(props) {
   const {
     assignment,
@@ -46,7 +47,7 @@ function TaskDetailTablet(props) {
           <Frame29>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+            <Breadcrumb2 assignments={assignment.title}/>
           </Frame29>
           <Frame1389>
             <Title>Assignment</Title>
@@ -60,10 +61,10 @@ function TaskDetailTablet(props) {
             <Frame28>
               <Frame11 text={assignment.questions.length} />
             </Frame28>
-            <Frame12093
+            {/* <Frame12093
               topicsCovered={frame120932Props.topicsCovered}
               moremIpsumDolorSi={frame120932Props.moremIpsumDolorSi}
-            />
+            /> */}
             <Frame1209>
               <Line11 src={line11} alt="Line 11" />
               <Buttons onClickFn={methods.onClickStartAssignment} />
@@ -71,7 +72,8 @@ function TaskDetailTablet(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <Frame1392>
+      <FooterSmall/>
+      {/* <Frame1392>
         <X2023JeddleAllRightsReserved>
           {x2023JeddleAllRightsReserved}
         </X2023JeddleAllRightsReserved>
@@ -80,7 +82,7 @@ function TaskDetailTablet(props) {
           <Terms>{terms}</Terms>
           <Terms>{privacy}</Terms>
         </Frame6>
-      </Frame1392>
+      </Frame1392> */}
     </div>
   );
 }
@@ -136,6 +138,7 @@ const Frame1390 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  min-height: 600px;
 `;
 
 const Frame29 = styled.div`

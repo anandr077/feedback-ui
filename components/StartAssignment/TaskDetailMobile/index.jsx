@@ -17,6 +17,7 @@ import {
 import "./TaskDetailMobile.css";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
 import { formattedDate } from "../../../dates";
+import FooterSmall from "../../FooterSmall";
 
 function TaskDetailMobile(props) {
   const {
@@ -67,16 +68,7 @@ function TaskDetailMobile(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <Frame1392>
-        <X2023JeddleAllRightsReserved>
-          {x2023JeddleAllRightsReserved}
-        </X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1392>
+   <FooterSmall/>
     </div>
   );
 }

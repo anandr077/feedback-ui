@@ -129,7 +129,7 @@ const TaskTitle = styled.p`
 
 const SmallTaskTitle = styled.p`
   ${IbmplexsansNormalShark20px}
-  font-size: 10px;
+  font-size: 13px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -147,7 +147,7 @@ const ClassText = styled.div`
 
 const SmallClassText = styled.div`
   ${IbmplexsansNormalRiverBed14px}
-  font-size: 10px;
+  font-size: 13px;
   position: relative;
   align-self: stretch;
   letter-spacing: 0.11px;
@@ -169,8 +169,8 @@ const IconClock = styled.img`
 `;
 const SmallIconClock = styled.img`
   position: relative;
-  min-width: 10px;
-  height: 10px;
+  min-width: 13px;
+  height: 13px;
 `;
 
 const DueAt = styled.p`
@@ -184,7 +184,7 @@ const DueAt = styled.p`
 `;
 const SmallDueAt = styled.p`
   ${IbmplexsansNormalRiverBed14px}
-  font-size: 10px;
+  font-size: 13px;
   position: relative;
   flex: 1;
   margin-top: -1px;

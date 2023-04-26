@@ -76,6 +76,11 @@ function FeedbackTeacherLaptop(props) {
   });
   const modules = {
     toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
+    history: {
+      delay: 1000,
+      maxStack: 100,
+      userOnly: true,
+    },
   };
 
   const feedbackFrame = () => {

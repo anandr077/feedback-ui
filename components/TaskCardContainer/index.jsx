@@ -23,6 +23,6 @@ const CardContainer = styled.div`
   gap: 20px;
   overflow-y: scroll;
   max-height: 480px;
-  padding: 0px;
+  padding: 0px 0px 10px 0px;
 `;
 export default TaskCardContainer;

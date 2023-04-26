@@ -3,6 +3,7 @@ import Cards from "../Cards";
 import styled from "styled-components";
 import "./NotificationsBar.css";
 import Loader from "../../Loader";
+import TaskCard from "../../TaskCard";
 function NotificationsBar(props) {
   const { notifications, type, onCloseFn, loadingNotifications } = props;
   console.log("##", loadingNotifications);
@@ -26,8 +27,9 @@ function NotificationsBar(props) {
       </>
     );
   }
+  
   const notificationFrames = notifications.map((notification) => {
-    return <Cards title={notification.title} link={notification.link} />;
+    return <TaskCard task= {notification} small = {true}/>;
   });
   console.log(notificationFrames);
   return (
@@ -85,7 +87,7 @@ const Frame4 = styled.div`
 
 const Frame15 = styled.div`
   display: flex;
-  width: 100%;
+  width: 300px;
   align-items: flex-start;
   gap: 10px;
   padding: 10px;

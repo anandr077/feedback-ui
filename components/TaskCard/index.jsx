@@ -4,13 +4,13 @@ import CardContent from "../CardContent";
 import styled from "styled-components";
 
 function TaskCard(props) {
-  const { task } = props;
+  const { task ,small} = props;
 
   return (
     <a href={task.link}>
       <StyledCard>
         {tagsFrame(task)}
-        <CardContent task={task} />
+        <CardContent task={task} small ={small}/>
       </StyledCard>
     </a>
   );

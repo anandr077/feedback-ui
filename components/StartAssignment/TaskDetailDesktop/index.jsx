@@ -52,7 +52,7 @@ function TaskDetailDesktop(props) {
           <Frame29>
             <Breadcrumb />
             <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+            <Breadcrumb2 assignments={assignment.title} />
           </Frame29>
           <Frame1389>
             <Title>Assignment</Title>
@@ -134,6 +134,7 @@ const Frame1390 = styled.div`
   padding: 0px 240px;
   position: relative;
   align-self: stretch;
+  min-height: 600px;
 `;
 
 const Frame29 = styled.div`

@@ -161,7 +161,7 @@ const NavigationContainer = styled.div`
 
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  max-height: 200px;
+  max-height: 300px;
 `;
 
 const Screen = styled.div`

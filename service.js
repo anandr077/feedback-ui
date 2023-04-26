@@ -27,7 +27,7 @@ const clientId =
       });
   
       if (response.status === 401) {
-        return redirectToExternalIDP();
+        // return redirectToExternalIDP();
       }
       if (response.status === 404) {
         throw new Error("Page not found");

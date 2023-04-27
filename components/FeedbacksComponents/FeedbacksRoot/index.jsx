@@ -168,6 +168,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function handleShareWithClass() {
     quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
+    if (!document.getElementById("newCommentInput").value) return;
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -351,7 +352,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const delta = quillRefs.current[serialNumber-1].setLostFocusColor(range);
           setSelectedRangeFormat(delta);
 
-          newCommentFrameRef.current?.focus();
+          // newCommentFrameRef.current?.focus();
         
           setShowNewComment(true);
         }

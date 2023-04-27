@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansMediumBlack16px } from "../../../styledMixins";
+import { feedbacksIbmplexsansMediumBlack16px } from "../../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 
 function ReviewsFrame132532(props) {
@@ -57,7 +57,7 @@ const Ellipse7 = styled.img`
 `;
 
 const Instructer = styled.div`
-  ${IbmplexsansMediumBlack16px}
+  ${feedbacksIbmplexsansMediumBlack16px}
   position: relative;
   flex: 1;
   letter-spacing: 0;

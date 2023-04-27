@@ -91,9 +91,9 @@ function FeedbackTeacherLaptop(props) {
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
           <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
-          <ReviewsFrame1320 className={frame13202Props.className}>
+          {/* <ReviewsFrame1320 className={frame13202Props.className}>
             {frame13202Props.children}
-          </ReviewsFrame1320>
+          </ReviewsFrame1320> */}
         </Frame1322>
         <>
           {showNewComment ? (

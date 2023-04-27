@@ -41,7 +41,7 @@ function Frame1297(props) {
                 <DropDown>
                   <>
                     <RichTextComponents2 onClick={setTypeTheory}>
-                      <Assignment2
+                      <Assignment2 
                         src="/img/assignment-4@2x.png"
                         alt="Assignment"
                       />
@@ -100,11 +100,13 @@ const RichTextComponents2 = styled.div`
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const Assignment2 = styled.img`
   position: relative;
   height: 24px;
+  cursor: pointer;
 `;
 
 const Text = styled.div`
@@ -113,6 +115,7 @@ const Text = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const Frame12971 = styled.div`

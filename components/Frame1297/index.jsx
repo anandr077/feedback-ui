@@ -33,7 +33,7 @@ function Frame1297(props) {
     <Frame12971>
       {/* <RichTextComponents src="/img/drag-icon@2x.png" /> */}
       <Frame1287>
-        <Frame1283>
+        <Frame1283 onClick={dropdown}>
           <Frame1282>
             <Frame1281>
               <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
@@ -58,15 +58,15 @@ function Frame1297(props) {
               ) : (
                 <>
                   {type == "TEXT" ? (
-                    <RichTextComponents2>
-                      <Assignment2
+                    <RichTextComponents2 onClick={dropdown}>
+                      <Assignment2  onClick={dropdown}
                         src="/img/assignment-4@2x.png"
                         alt="Assignment"
                       />
-                      <Text>Theory</Text>
+                      <Text  onClick={dropdown}>Theory</Text>
                     </RichTextComponents2>
                   ) : (
-                    <RichTextComponents2>
+                    <RichTextComponents2 onClick={dropdown}>
                       <Assignment2 src="/icons/mcqIcon.png" />
                       <Text>MCQ</Text>
                     </RichTextComponents2>
@@ -76,7 +76,7 @@ function Frame1297(props) {
             </Frame1281>
           </Frame1282>
           {!show && (
-            <Frame1284 onClick={dropdown} src="/img/frame-1284@2x.png" />
+            <Frame1284  src="/img/frame-1284@2x.png" />
           )}
         </Frame1283>
       </Frame1287>
@@ -142,6 +142,7 @@ const Frame1283 = styled.div`
   gap: 8px;
   position: relative;
   align-self: stretch;
+  cursor: pointer;
 `;
 
 const Frame1282 = styled.div`

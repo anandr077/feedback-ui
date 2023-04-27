@@ -44,7 +44,6 @@ export default function TeacherClassesRoot() {
       });
     }
   }, [classId]);
-  console.log("loading: ", isLoading);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -60,7 +59,6 @@ export default function TeacherClassesRoot() {
     (assignment) => assignment.submissionsStatus === "FEEDBACK"
   );
 
-  console.log("x modelResponses: ", modelResponses);
   return (
     <ReactiveRender
       mobile={

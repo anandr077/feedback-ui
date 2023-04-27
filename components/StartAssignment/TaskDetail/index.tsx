@@ -23,7 +23,6 @@ export default function TaskDetail() {
       setIsLoading(false);
     });
   }, []);
-  console.log("Loading: " + isLoading);
   if (isLoading) {
     return <div>Loading...</div>;
   }

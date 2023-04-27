@@ -1,11 +1,10 @@
-import { uniq, flatMap, map, filter, includes } from "lodash";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { filter, flatMap, includes, map, uniq } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { formattedDate } from "../../../dates";
 import {
   addFeedback,
@@ -18,16 +17,16 @@ import {
   markSubmissionReviewed as markSubmsissionReviewed,
   markSubmsissionClosed,
   submitAssignment,
-  updateFeedbackRange,
+  updateFeedbackRange
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
   assignmentsHeaderProps,
-  taskHeaderProps,
+  taskHeaderProps
 } from "../../../utils/headerProps.js";
+import ImageDropdownMenu from "../../ImageDropdownMenu";
 import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
-import FeedBacksDropDown from "../FeedbacksDropDown";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
@@ -415,12 +414,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     if (!isTeacher) {
       return <></>;
     } else {
-      return (
-        <FeedBacksDropDown
-          studentName={studentName}
-          students={students}
-          studentUpdate={studentUpdate}
-        ></FeedBacksDropDown>
+      const menuItems=students.map((student) => {
+        return {
+          id: student.id,
+          title: student.name,
+          link: student.link
+        };
+      })
+      return (<ImageDropdownMenu
+          menuItems={menuItems}
+      ></ImageDropdownMenu>
       );
     }
   };

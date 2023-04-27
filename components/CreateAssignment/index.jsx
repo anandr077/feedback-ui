@@ -27,7 +27,6 @@ export default function CreateAssignment(props) {
   const [feedbackMethodValue, setFeedbackMethodValue] =
     React.useState("TEACHER");
   const [selectedDate, setSelectedDate] = React.useState(dayjs().add(3, "day"));
-  const [timeValue, setTimeValue] = React.useState(dayjs().hour(12).minute(0));
 
   React.useEffect(() => {
     getClasses().then((res) => {
@@ -242,7 +241,7 @@ export default function CreateAssignment(props) {
         }
       }
     });
-    if (!timeValue || !selectedDate) {
+    if (!selectedDate) {
       const timeContainer = document.getElementById("timeContainer");
       timeContainer.style.border = "1px solid red";
       anyErrors = true;
@@ -256,7 +255,7 @@ export default function CreateAssignment(props) {
       classIds,
       questions,
       reviewedBy,
-      dueAt: combinedDateTime(selectedDate, timeValue),
+      dueAt: selectedDate,
     };
     if (anyErrors) {
       setPopupMessage("Please fill all the required fields");
@@ -304,21 +303,12 @@ export default function CreateAssignment(props) {
       />
     </StyledRadioGroup>
   );
-  const combinedDateTime = (selectedDate, timeValue) =>
-    dayjs()
-      .year(selectedDate.year())
-      .month(selectedDate.month())
-      .date(selectedDate.date())
-      .hour(timeValue.hour())
-      .minute(timeValue.minute())
-      .toDate();
+  
 
   const dateSelectorFrame = (
     <DateSelector
       value={selectedDate}
       onChange={(newValue) => setSelectedDate(newValue)}
-      timeValue={timeValue}
-      onTimeChange={(newTime) => setTimeValue(newTime)}
     />
   );
 

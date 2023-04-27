@@ -5,17 +5,28 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MobileTimePicker } from "@mui/x-date-pickers";
 import styled from "styled-components";
 import { IbmplexsansNormalShark20px } from "../../styledMixins";
+// import {MobileTimePicker} from "@mui/x-date-pickers/MobileTimePicker";
+import TextField from "@mui/material/TextField";
+import dayjs from "dayjs";
+import {DesktopDateTimePicker} from "@mui/x-date-pickers/DesktopDateTimePicker";
 
 export default function DateSelector(props) {
-  const { value, onChange, timeValue, onTimeChange } = props;
+  const { value, onChange } = props;
+  const now = dayjs();
+  const minDateTime = now.startOf("minute").add(Math.ceil(now.minute() / 30) * 30, "minute");
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <TimeDateContainer>
         <DateContainer>
-          <DatePicker value={value} onChange={onChange} />
-        </DateContainer>
-        <DateContainer>
-          <MobileTimePicker value={timeValue} onChange={onTimeChange} />
+        <DesktopDateTimePicker
+            inputFormat="MM/dd/yyyy HH:mm"
+            value={value || dayjs()}
+            onChange={onChange}
+            // renderInput={(params) => <TextField {...params} />}
+            ampm={false}
+            minDateTime={minDateTime}
+          />
         </DateContainer>
       </TimeDateContainer>
     </LocalizationProvider>
@@ -41,7 +52,7 @@ const DateContainer = styled.div`
   overflow: hidden;
   border: 1px solid;
   height: 100%;
-  width: 170px;
+  width: 190px;
   border-color: var(--text);
   .MuiInputBase-root.MuiOutlinedInput-root
     .MuiOutlinedInput-notchedOutline

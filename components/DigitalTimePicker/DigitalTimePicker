@@ -1,0 +1,23 @@
+import { useState } from 'react';
+import { TimePicker } from '@material-ui/pickers';
+
+function DigitalTimePicker() {
+  const [selectedTime, setSelectedTime] = useState(null);
+
+  const handleTimeChange = (time) => {
+    setSelectedTime(time);
+  };
+
+  return (
+    <TimePicker
+      value={selectedTime}
+      onChange={handleTimeChange}
+      label="Digital Time Picker"
+      inputVariant="outlined"
+      ampm={false}
+      format="HH:mm"
+      autoOk={true}
+      minutesStep={30}
+    />
+  );
+}

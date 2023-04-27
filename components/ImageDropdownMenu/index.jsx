@@ -193,44 +193,6 @@ const FlexContainer = styled('div')`
   }
 `;
 
-
-
-
-
-
-// const StyledBox = styled(Box)`
-//   display: flex;
-//   width: auto;
-//   min-width: 100px;
-//   align-items: center;
-//   gap: 8px;
-//   justify-content: space-between;
-//   padding: 0px 0px 0px 12px;
-//   position: relative;
-//   background-color: var(--white);
-//   border-radius: 8px;
-//   border: 1px solid;
-//   border-color: var(--light-mode-purple);
-//   box-shadow: 0px 4px 8px #2f1a720a;
-//   cursor: pointer;
-//   font-family: var(--font-family-ibm_plex_sans);
-//   font-size: var(--font-size-xs);
-//   font-weight: 400;
-//   font-style: normal;
-  
-//   .text-container {
-//     white-space: nowrap;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     flex-grow: 1; // Add this to make the container take up available space
-//   }
-
-//   .MuiIconButton-root:hover {
-//     background-color: #ffffff;
-//   }
-// `;
-
-
 const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;

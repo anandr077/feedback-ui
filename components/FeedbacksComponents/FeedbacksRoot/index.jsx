@@ -83,7 +83,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       getSubmissionsByAssignmentId(submission.assignmentId)
         .then((allSubmissions) => {
           setStudents(extractStudents(allSubmissions));
-          setStudents(extractStudents(allSubmissions));
           const allExceptCurrent = allSubmissions.filter(
             (r) => r.id != submission.id
           );
@@ -425,12 +424,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       return (<ImageDropdownMenu
           menuItems={menuItems}
       ></ImageDropdownMenu>
-      // return (
-      //   <FeedBacksDropDown
-      //     studentName={studentName}
-      //     students={students}
-      //     studentUpdate={studentUpdate}
-      //   ></FeedBacksDropDown>
       );
     }
   };

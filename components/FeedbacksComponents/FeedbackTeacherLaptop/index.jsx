@@ -76,6 +76,11 @@ function FeedbackTeacherLaptop(props) {
   });
   const modules = {
     toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
+    history: {
+      delay: 1000,
+      maxStack: 100,
+      userOnly: true,
+    },
   };
 
   const feedbackFrame = () => {
@@ -83,12 +88,12 @@ function FeedbackTeacherLaptop(props) {
       return <></>;
     }
     return (
-      <Frame1331 id ="feedbacksFrame">
+      <Frame1331 id="feedbacksFrame">
         <Frame1322>
           <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
-          <ReviewsFrame1320 className={frame13202Props.className}>
+          {/* <ReviewsFrame1320 className={frame13202Props.className}>
             {frame13202Props.children}
-          </ReviewsFrame1320>
+          </ReviewsFrame1320> */}
         </Frame1322>
         <>
           {showNewComment ? (
@@ -242,24 +247,26 @@ function FeedbackTeacherLaptop(props) {
         )}
         <Frame1387>
           <Frame1315>
-            <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+            <Breadcrumb text={isTeacher ? "Assignments" : "Tasks"} />
+            <Breadcrumb2
+              assignments={isTeacher ? "Submission" : "Assignment"}
+            />
+            <Breadcrumb2 assignments={submission.assignment.title} />
           </Frame1315>
         </Frame1387>
         <Frame1386 id="content">
-          <Frame1371 id = "assignmentTitle">
+          <Frame1371 id="assignmentTitle">
             <TitleWrapper>
               <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
               <StatusText>{methods.submissionStatusLabel()}</StatusText>
             </TitleWrapper>
             {!isTeacher && pageMode === "CLOSED" && (
-              <div id = "deleteButton">
-              <Buttons2 
-                button="Download PDF"
-                download={true}
-                onClickFn={methods.downloadPDF}
-              />
+              <div id="deleteButton">
+                <Buttons2
+                  button="Download PDF"
+                  download={true}
+                  onClickFn={methods.downloadPDF}
+                />
               </div>
             )}
             {tasksListsDropDown()}
@@ -272,7 +279,7 @@ function FeedbackTeacherLaptop(props) {
             )}
             {submitButton()}
           </Frame1371>
-          <Frame1368 id = "assignmentData">
+          <Frame1368 id="assignmentData">
             <Group1225>
               <Frame1367>{answerFrames}</Frame1367>
             </Group1225>

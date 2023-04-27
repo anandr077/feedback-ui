@@ -10,7 +10,7 @@ function Frame13124(props) {
   const { clazz } = props;
 
   return (
-    <a href={"/classes/" + clazz.id}>
+    <a href={"#classes/" + clazz.id}>
       <Frame1312>
         <Frame13121>
           <Frame13122>

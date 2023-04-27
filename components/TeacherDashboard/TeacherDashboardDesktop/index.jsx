@@ -72,7 +72,7 @@ function TeacherDashboardDesktop(props) {
             <Frame1337>
               <Classes>Classes</Classes>
               <Group1205
-                link="/classes"
+                link="#classes"
                 label="VIEW ALL"
                 arrowright={group1205Props.arrowright}
               />
@@ -85,12 +85,12 @@ function TeacherDashboardDesktop(props) {
               <Frame1337>
                 <Classes>Assignments</Classes>
                 <Group1205
-                  link="/assignments/new"
+                  link="#assignments/new"
                   label="CREATE NEW"
                   arrowleft={"/img/iconsax-linear-add-1@2x.png"}
                 />
                 <Group1205
-                  link="/assignments"
+                  link="#assignments"
                   label="VIEW ALL"
                   arrowright={group1205Props.arrowright}
                 />

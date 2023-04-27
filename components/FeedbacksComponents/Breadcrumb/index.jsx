@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalFuscousGray14px } from "../../../styledMixins";
 
-function Breadcrumb() {
+function Breadcrumb(props) {
+  const { text } = props;
   return (
     <Breadcrumb1>
-      <Assignments>Assignments</Assignments>
+      <Assignments>{text}</Assignments>
     </Breadcrumb1>
   );
 }

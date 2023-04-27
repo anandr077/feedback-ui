@@ -7,80 +7,123 @@ import React from "react";
 import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
 import { Avatar } from "@boringer-avatars/react";
+import { Popover } from '@mui/material';
 
 import {IbmplexsansNormalBlack16px} from "../../styledMixins";
+import { IbmplexsansNormalBlack16px } from "../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 import CheckboxBordered from "../CheckboxBordered";
 export const ImageDropdownMenu = (props) => {
   // const menuItems = [
-  //   {id: 1, title:"View Profile", onClick:()=>console.log()},
-  //   {id: 2, title:"A", onClick:()=>console.log()},
-  //   {id: 1, title:"VVVV", onClick:()=>console.log()},
-  //   {id: 1, title:"DDDD", onClick:()=>console.log()},
+  //   {id: 1, title:"View Profile", onClick:()=>console.log("V")},
+  //   {id: 2, title:"A", onClick:()=>console.log("A")},
+  //   {id: 3, title:"VVVV", onClick:()=>console.log("V")},
+  //   {id: 4, title:"DDDD", onClick:()=>console.log("FFF")},
   // ]
-  const { menuItems, onItemSelected, withCheckbox } = props;
+  // const {   onItemSelected, withCheckbox } = props;
+  const {  menuItems, onItemSelected, withCheckbox } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(menuItems[0]);
+  const menuRef = React.useRef(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  
   const handleClose = (item) => {
-    setSelectedItem(item);
-    setAnchorEl(null);
-    if (item.link) {
-      window.location.href = item.link
-    }
-    if (onItemSelected) {
-      onItemSelected(item);
+    if (item) {
+      setSelectedItem(item);
+      setAnchorEl(null);
+      if (item.link) {
+        window.location.href = item.link;
+      }
+      if (onItemSelected) {
+        onItemSelected(item);
+      }
+    } else {
+      setSelectedItem(menuItems[0]);
+      setAnchorEl(null);
     }
   };
+  
 
   return (
     <div>
-      <StyledBox>
-        {" "}
-        <StyledIconButton
+    <StyledBox>
+      <FlexContainer>
+        <IconButton
           edge="start"
           color="inherit"
           aria-label="menu"
           onClick={handleClick}
         >
           <Avatar
-          title={false}
-          size={25}
-          variant="beam"
-          name={selectedItem.title}
-          square={false}
-        />
-          <StyledListItemText primary={selectedItem.title} />
+            title={false}
+            size={25}
+            variant="beam"
+            name={selectedItem.title}
+            square={false}
+          />
+        </IconButton>
+        <div className="text-container" onClick={handleClick}>
+          <p>
+            <StyledListItemText primary={selectedItem.title} />
+          </p>
+        </div>
+        <IconButton onClick={handleClick}>
           <Frame12841 src="/img/frame-1284@2x.png" alt="Frame 1284" />
-        </StyledIconButton>
-      </StyledBox>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        //onClose={handleClose}
-      >
-        {menuItems.map((item) => (
-          <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
+        </IconButton>
+      </FlexContainer>
+    </StyledBox>
+    <Menu
+      anchorEl={anchorEl}
+      open={Boolean(anchorEl)}
+      onClose={() => setAnchorEl(null)}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      getContentAnchorEl={null}
+      ref={menuRef}
+    >
+      {menuItems.map((item) => (
+        <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
           {withCheckbox && <CustomCheckbox />}
-            <StyledListItemText primary={item.title} />
-            <Avatar
-              title={false}
-              size={25}
-              variant="beam"
-              name={item.title}
-              square={false}
-            />
-
-            {/* <Avatar name="test" /> */}
-          </StyledMenuItem>
-        ))}
-      </Menu>
-    </div>
+          <Avatar
+            title={false}
+            size={25}
+            variant="beam"
+            name={item.title}
+            square={false}
+          />
+          <div className="text-container">
+            <p>
+              <StyledListItemText primary={item.title} />
+            </p>
+          </div>
+        </StyledMenuItem>
+      ))}
+    </Menu>
+    <style>{`
+      .text-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+  
+      .text-container:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+  
+      .text-container p {
+        margin: 0;
+      }
+    `}</style>
+  </div>
   );
 };
 
@@ -92,23 +135,8 @@ export const IbmplexsansNormalShark16px = css`
   font-style: normal;
 `;
 const StyledMenuItem = styled(MenuItem)`
-  display: flex;
-  cursor: pointer;
-  width: 370px;
+display: flex;
   align-items: center;
-  .MuiTypography-root {
-    ${IbmplexsansNormalShark16px}
-    font-size: 14px;
-  
-  }
- 
-  `;
-const StyledBox = styled(Box)`
-  display: flex;
-  width: 370px;
-  align-items: center;
-  gap: 8px;
-  jystify-content: space-between;
   padding: 0px 0px 0px 12px;
   position: relative;
   background-color: var(--white);
@@ -122,16 +150,91 @@ const StyledBox = styled(Box)`
   font-size: var(--font-size-xs);
   font-weight: 400;
   font-style: normal;
-  .MuiIconButton-root:hover {
-    background-color: #FFFFFF;
+  .MuiTypography-root {
+    ${IbmplexsansNormalShark16px}
+    font-size: 14px;
   }
 `;
+
+const StyledBox = styled(Box)`
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 0px 12px;
+  position: relative;
+  background-color: var(--white);
+  border-radius: 8px;
+  border: 1px solid;
+  border-color: var(--light-mode-purple);
+  box-shadow: 0px 4px 8px #2f1a720a;
+  cursor: pointer;
+  color: var(--text);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  font-style: normal;
+  .MuiTypography-root {
+    ${IbmplexsansNormalShark16px}
+    font-size: 14px;
+  }
+`;
+
+const FlexContainer = styled('div')`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+
+  .text-container {
+    display: inline-block;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+
+
+
+
+
+// const StyledBox = styled(Box)`
+//   display: flex;
+//   width: auto;
+//   min-width: 100px;
+//   align-items: center;
+//   gap: 8px;
+//   justify-content: space-between;
+//   padding: 0px 0px 0px 12px;
+//   position: relative;
+//   background-color: var(--white);
+//   border-radius: 8px;
+//   border: 1px solid;
+//   border-color: var(--light-mode-purple);
+//   box-shadow: 0px 4px 8px #2f1a720a;
+//   cursor: pointer;
+//   font-family: var(--font-family-ibm_plex_sans);
+//   font-size: var(--font-size-xs);
+//   font-weight: 400;
+//   font-style: normal;
+  
+//   .text-container {
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     flex-grow: 1; // Add this to make the container take up available space
+//   }
+
+//   .MuiIconButton-root:hover {
+//     background-color: #ffffff;
+//   }
+// `;
+
+
 const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;
 `;
-
-
 
 const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}

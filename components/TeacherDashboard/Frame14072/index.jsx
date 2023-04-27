@@ -10,7 +10,7 @@ function Frame14072(props) {
       {createNewFrame(showCreateNew, iconsaxLinearAdd)}
 
       <Line17 src={line17} alt="Line 17" />
-      <a href="/assignments">
+      <a href="#assignments">
         <Frame1205>
           <CreateNew>VIEW ALL</CreateNew>
           <IconsaxLinearadd src={arrowright} alt="arrowright" />
@@ -22,7 +22,7 @@ function Frame14072(props) {
 function createNewFrame(showCreateNew, iconsaxLinearAdd) {
   if (showCreateNew) {
     return (
-      <a href="/assignments/new">
+      <a href="#assignments/new">
         <Frame1205>
           <IconsaxLinearadd src={iconsaxLinearAdd} alt="Iconsax/Linear/add" />
           <CreateNew>CREATE NEW</CreateNew>

@@ -18,6 +18,8 @@ const QuillEditor = React.forwardRef(
         editor.root.style.fontSize = "16px";
 
         editor.setContents(value ? JSON.parse(value) : []);
+        
+        
 
         const debounce = (func, wait) => {
           let timeout;
@@ -67,6 +69,8 @@ const QuillEditor = React.forwardRef(
           });
         }
 
+
+
         comments.forEach((comment) => {
           if (comment.range) {
             const range = {
@@ -109,6 +113,28 @@ const QuillEditor = React.forwardRef(
       getSelection() {
         return editor.getSelection();
       },
+      getFormat(range) {
+        return editor.getFormat(range);
+      },
+      setFormat(range, format) {
+        return editor.format(range, format);
+      },
+      applyBackgroundFormat( range, format) {
+        if (format) {
+          const formatKeys = Object.keys(format);
+          if (formatKeys.includes("background")) {
+            editor.formatText(range.from, range.to - range.from, 'background', format.background);
+          } else {
+            editor.formatText(range.from, range.to - range.from, 'background', false);
+          }
+        }
+      },
+      setLostFocusColor(range) {
+        const initialFormat = editor.getFormat(range.from, range.to - range.from);
+        editor.formatText(range, 'background', '#C0C8D1');
+        return initialFormat
+      },
+      
       getLeaf(index) {
         return editor.getLeaf(index);
       },

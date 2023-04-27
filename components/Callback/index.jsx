@@ -7,9 +7,13 @@ const Callback = () => {
     const code = urlSearchParams.get("code");
 
     if (code) {
-      exchangeCodeForToken(code).then(() => {
-        window.location.href = "/";
-      });
+      exchangeCodeForToken(code)
+        .then((response) => {
+          localStorage.setItem("jwtToken", response.jwttoken);
+
+          window.location.href = "/";
+        })
+        .catch((e) => {});
     }
   }, []);
 

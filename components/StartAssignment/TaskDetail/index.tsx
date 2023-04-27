@@ -23,7 +23,6 @@ export default function TaskDetail() {
       setIsLoading(false);
     });
   }, []);
-  console.log("Loading: " + isLoading);
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -33,7 +32,7 @@ export default function TaskDetail() {
     onClickStartAssignment: (_) => {
       startSubmission({ assignmentId: assignment.id }).then((res) => {
         console.log("res " + res);
-        window.location.href = "/submissions/" + res.id;
+        window.location.href = "#submissions/" + res.id;
       });
     },
   };

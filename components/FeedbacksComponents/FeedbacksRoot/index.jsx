@@ -32,7 +32,6 @@ import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getPageMode } from "./functions";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
-  alert(isAssignmentPage)
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
 
@@ -46,6 +45,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
+  const [selectedRangeFormat, setSelectedRangeFormat] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
   const [nextUrl, setNextUrl] = useState("");
@@ -60,7 +60,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         : Promise.resolve([]),
     ]).then(([submissionsResult]) => {
       if (isAssignmentPage) {
-        window.location.href = "/submissions/" + submissionsResult[0].id;
+        window.location.href = "#submissions/" + submissionsResult[0].id;
       }
     });
   }, [assignmentId]);
@@ -88,7 +88,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             (r) => r.id != submission.id
           );
           const nextUrl = allExceptCurrent[0]
-            ? "/submissions/" + allExceptCurrent[0]?.id
+            ? "#submissions/" + allExceptCurrent[0]?.id
             : "/";
           console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
@@ -132,6 +132,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
+
     if (!document.getElementById("newCommentInput").value) return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -148,11 +150,31 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
+
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText,
       range: selectedRange,
       type: "COMMENT",
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
+  }
+
+  function handleShareWithClass() {
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
+    if (!document.getElementById("newCommentInput").value) return;
+
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: document.getElementById("newCommentInput").value,
+      range: selectedRange,
+      type: "MODEL_RESPONSE",
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -247,20 +269,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
 
-  function handleShareWithClass() {
-    addFeedback(submission.id, {
-      questionSerialNumber: newCommentSerialNumber,
-      feedback: document.getElementById("newCommentInput").value,
-      range: selectedRange,
-      type: "MODEL_RESPONSE",
-    }).then((response) => {
-      if (response) {
-        setComments([...comments, response]);
-        setNewCommentValue("");
-      }
-    });
-    setShowNewComment(false);
-  }
+  
 
   function handleSubmissionReviewed() {
     markSubmsissionReviewed(submission.id).then((_) => {
@@ -273,6 +282,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   const handleSaveSubmissionForReview = () => {
     submitAssignment(submission.id).then((_) => {
+      localStorage.setItem("submission", submission.id);
       window.location.href = "/";
     });
   };
@@ -319,6 +329,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const reviewerSelectionChange = (serialNumber) => (range) => {
     if (range) {
+      
       const from = range.index;
       const to = range.index + range.length;
 
@@ -332,13 +343,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const div = document.getElementById("comment_" + matchingComment.id);
         highlightComment(div);
       } else if (pageMode === "REVIEW") {
-        setNewCommentSerialNumber(serialNumber);
-        setSelectedRange({
-          from: from,
-          to: to,
-        });
-        newCommentFrameRef.current?.focus();
         if (from !== to) {
+          setNewCommentSerialNumber(serialNumber);
+          setSelectedRange({
+            from: from,
+            to: to,
+          });
+          const delta = quillRefs.current[serialNumber-1].setLostFocusColor(range);
+          setSelectedRangeFormat(delta);
+
+          // newCommentFrameRef.current?.focus();
+        
           setShowNewComment(true);
         }
       }
@@ -383,6 +398,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const hideNewCommentDiv = () => {
+    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
+    
     setShowNewComment(false);
   };
 

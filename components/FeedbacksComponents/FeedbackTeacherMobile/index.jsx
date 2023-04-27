@@ -117,9 +117,9 @@ function FeedbackTeacherMobile(props) {
               </Frame1367>
             </Group1225>
           </Frame1368>
-          <Frame1370>
+          {/* <Frame1370>
             <Frame131612>{tasksListsDropDown}</Frame131612>
-          </Frame1370>
+          </Frame1370> */}
         </Frame1386>
       </Frame1388>
       <FooterSmall />

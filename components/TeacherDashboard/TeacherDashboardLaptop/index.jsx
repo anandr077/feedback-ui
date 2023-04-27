@@ -63,7 +63,7 @@ function TeacherDashboardLaptop(props) {
             <Frame1337>
               <Classes>Classes</Classes>
               <Group1205
-                link="/classes"
+                link="#classes"
                 label="VIEW ALL"
                 arrowright={group1205Props.arrowright}
               />

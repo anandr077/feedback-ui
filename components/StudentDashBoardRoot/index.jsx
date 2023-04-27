@@ -7,29 +7,31 @@ import DashboardHomeStudentMobile from "../DashboardHomeStudentMobile";
 import { getTasks, getModelResponses } from "../../service";
 import { homeHeaderProps } from "../../utils/headerProps.js";
 
-export default function StudentDashboardRoot() {
+export default function StudentDashboardRoot(props) {
+  const { setShowPopup, setPopupMessage, setDismissable } = props;
   const [allTasks, setAllTasks] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const message = localStorage.getItem("submission");
+  if (message) {
+    setShowPopup(true);
+    setPopupMessage("Assignment Submitted Successfully");
+    setDismissable(true);
+    localStorage.removeItem("submission");
+  }
 
   React.useEffect(() => {
     Promise.all([getTasks(), getModelResponses()]).then(
       ([result, modelResponses]) => {
         if (result) {
-          
           setAllTasks(result.slice(0, 10));
-          
-          
-          
         }
         if (modelResponses) {
-            setModelResponses([]);
-          
-          
+          console.log("##", modelResponses);
+          setModelResponses(modelResponses);
         }
         setIsLoading(false);
       }
-      
     );
   }, []);
   if (isLoading) {

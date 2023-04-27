@@ -56,7 +56,7 @@ function TeacherDashboardMobile(props) {
             <Frame1337>
               <Classes>Classes</Classes>
               <Group1205
-                link="/classes"
+                link="#classes"
                 label="VIEW ALL"
                 arrowright={group1205Props.arrowright}
               />
@@ -110,12 +110,12 @@ function createAssignmentsFrame(group1205Props, line172, stats) {
         <Classes>Assignments</Classes>
 
         <Group1205
-          link="/assignments/new"
+          link="#assignments/new"
           label="CREATE NEW"
           arrowleft={"/img/iconsax-linear-add-1@2x.png"}
         />
         <Group1205
-          link="/assignments"
+          link="#assignments"
           label="VIEW ALL"
           arrowright={group1205Props.arrowright}
         />
@@ -142,7 +142,7 @@ function classesFrames(classes, frame131241Props) {
     <>
       {classes.map((clazz) => {
         return (
-          <a href={"/classes/" + clazz.id}>
+          <a href={"#classes/" + clazz.id}>
             <Frame1312>
               <Frame13121>
                 <Frame13122>

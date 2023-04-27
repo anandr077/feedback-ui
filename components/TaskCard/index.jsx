@@ -4,13 +4,13 @@ import CardContent from "../CardContent";
 import styled from "styled-components";
 
 function TaskCard(props) {
-  const { task } = props;
+  const { task, small, exempler } = props;
 
   return (
     <a href={task.link}>
       <StyledCard>
-        {tagsFrame(task)}
-        <CardContent task={task} />
+        {exempler ? <></> : tagsFrame(task)}
+        <CardContent task={task} small={small} exempler={exempler} />
       </StyledCard>
     </a>
   );
@@ -31,9 +31,10 @@ const StyledCard = styled.article`
   position: relative;
   align-self: stretch;
   background-color: var(--white);
-  border-radius: 16px;
-  border: 1px solid;
   border-color: var(--corn);
+  border: 1px solid rgba(219, 87, 87, 0.2);
+
+  border-radius: 16px;
   &: hover {
     background: #f9f5ff;
     border: 1px solid #7200e0;

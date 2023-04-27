@@ -48,61 +48,60 @@ function TasksStudentTablet(props) {
       <HeaderSmall headerProps={taskHeaderProps} />
       <Frame1365>
         <Frame1307>
-          <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
-          <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} />
+          <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
+          {/* <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} /> */}
         </Frame1307>
         {tasksFrame}
       </Frame1365>
       <Footer />
     </div>
   );
-}
 
-function createTasksFrame(
-  title,
-  tasks,
-  isOutstanding,
-  isInProgress,
-  isOverdue
-) {
-  return (
-    <>
-      <Frame1364>
-        <Frame1211>
-          <Tabs
-            text={"Outstanding"}
-            isSelected={isOutstanding}
-            onClickFn={() => {
-              setTasksFrame(outstandingFrame);
-            }}
-          />
-          <Tabs
-            text={"In Progress"}
-            isSelected={isInProgress}
-            onClickFn={() => {
-              setTasksFrame(inProgressFrame);
-            }}
-          />
-          <Tabs
-            text={"Overdue"}
-            isSelected={isOverdue}
-            onClickFn={() => {
-              setTasksFrame(overdueFrame);
-            }}
-          />
-        </Frame1211>
-        <Frame1363>
-          <Frame1362>
-            <Outstanding>{title}</Outstanding>
-            <Number>{tasks.length}</Number>
-          </Frame1362>
-          <TaskCardContainer allTasks={tasks} />
-        </Frame1363>
-      </Frame1364>
-    </>
-  );
+  function createTasksFrame(
+    title,
+    tasks,
+    isOutstanding,
+    isInProgress,
+    isOverdue
+  ) {
+    return (
+      <>
+        <Frame1364>
+          <Frame1211>
+            <Tabs
+              text={"Outstanding"}
+              isSelected={isOutstanding}
+              onClickFn={() => {
+                setTasksFrame(outstandingFrame);
+              }}
+            />
+            <Tabs
+              text={"In Progress"}
+              isSelected={isInProgress}
+              onClickFn={() => {
+                setTasksFrame(inProgressFrame);
+              }}
+            />
+            <Tabs
+              text={"Overdue"}
+              isSelected={isOverdue}
+              onClickFn={() => {
+                setTasksFrame(overdueFrame);
+              }}
+            />
+          </Frame1211>
+          <Frame1363>
+            <Frame1362>
+              <Outstanding>{title}</Outstanding>
+              <Number>{tasks.length}</Number>
+            </Frame1362>
+            <TaskCardContainer allTasks={tasks} />
+          </Frame1363>
+        </Frame1364>
+      </>
+    );
+  }
 }
-
 const Frame1365 = styled.div`
   display: flex;
   flex-direction: column;

@@ -8,7 +8,7 @@ function DashboardGroup1205(props) {
   return (
     <Group12051
       onClick={() => {
-        window.location.href = "/tasks";
+        window.location.href = "#tasks";
       }}
       className={`group-1205 ${className || ""}`}
     >

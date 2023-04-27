@@ -6,6 +6,7 @@ import {
   IbmplexsansNormalShark16px,
   IbmplexsansNormalShark20px,
 } from "../../styledMixins";
+import ImageDropdownMenu from "../ImageDropdownMenu";
 
 function Frame1297(props) {
   const { number, UpdateQuestionFrame, defaultType } = props;
@@ -37,42 +38,7 @@ function Frame1297(props) {
           <Frame1282>
             <Frame1281>
               <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
-              {show ? (
-                <DropDown>
-                  <>
-                    <RichTextComponents2 onClick={setTypeTheory}>
-                      <Assignment2
-                        src="/img/assignment-4@2x.png"
-                        alt="Assignment"
-                      />
-                      <Text>Theory</Text>
-                    </RichTextComponents2>
-                  </>
-                  <>
-                    <RichTextComponents2 onClick={setTypeMCQ}>
-                      <Assignment2 src="/icons/mcqIcon.png" />
-                      <Text>MCQ</Text>
-                    </RichTextComponents2>
-                  </>
-                </DropDown>
-              ) : (
-                <>
-                  {type == "TEXT" ? (
-                    <RichTextComponents2>
-                      <Assignment2
-                        src="/img/assignment-4@2x.png"
-                        alt="Assignment"
-                      />
-                      <Text>Theory</Text>
-                    </RichTextComponents2>
-                  ) : (
-                    <RichTextComponents2>
-                      <Assignment2 src="/icons/mcqIcon.png" />
-                      <Text>MCQ</Text>
-                    </RichTextComponents2>
-                  )}
-                </>
-              )}
+              {createQuestionTypeSelector(setTypeTheory, setTypeMCQ)}
             </Frame1281>
           </Frame1282>
           {!show && (
@@ -82,6 +48,14 @@ function Frame1297(props) {
       </Frame1287>
     </Frame12971>
   );
+}
+
+const createQuestionTypeSelector = ({setTypeTheory, setTypeMCQ})=>{
+  const menuItems = [
+    {id: 1, title:"FREE RESPONSE", onClick:onClick={setTypeTheory}},
+    {id: 2, title:"MCQ", onClick:onClick={setTypeMCQ}},
+  ]
+  return <ImageDropdownMenu menuItems={menuItems}></ImageDropdownMenu>
 }
 
 const DropDown = styled.div`

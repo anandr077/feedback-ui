@@ -20,10 +20,12 @@ import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentLaptop(props) {
   const {
-    addQuestionFrameFn,
+    addQuestion,
     questionFrames,
+    handleTitleChange,
     publish,
     checkboxes,
+    checkedClasses,
     dateSelectorFrame,
     feedbacksMethodContainer,
     showPopup,
@@ -68,6 +70,7 @@ function CreateAAssignmentLaptop(props) {
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
+              onChange={handleTitleChange}
             >
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
@@ -76,12 +79,12 @@ function CreateAAssignmentLaptop(props) {
                 <Questions>Questions</Questions>
               </Frame1372>
 
-              <Frame1295>{questionFrames}</Frame1295>
+              <Frame1295>{questionFrames()}</Frame1295>
               <Frame1296>
                 <Buttons2
                   add={buttons21Props.add}
                   label="Add a new question"
-                  onClickFn={addQuestionFrameFn}
+                  onClickFn={addQuestion}
                 />
               </Frame1296>
             </Frame1294>
@@ -101,19 +104,13 @@ function CreateAAssignmentLaptop(props) {
                 </Frame1299>
                 <Frame1299>
                   <Frame12811>
-                    <Classes>{feedbackMethod}</Classes>
-                    {/* <Link to="/tooltip2">
-                      <Help src={help2} alt="help" />
-                    </Link> */}
+                    <Classes>{feedbackMethod}</Classes>   
                   </Frame12811>
                   <Frame12981>{feedbacksMethodContainer}</Frame12981>
                 </Frame1299>
                 <Frame1299 id="timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
-                    {/* <Link to="/tooltip2">
-                      <Help src={help2} alt="help" />
-                    </Link> */}
                   </Frame12811>
                   <Frame12981>{dateSelectorFrame}</Frame12981>
                 </Frame1299>

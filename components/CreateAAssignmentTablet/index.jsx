@@ -23,10 +23,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import ScreenPopup from "../ScreenPopup";
 function CreateAAssignmentTablet(props) {
   const {
-    addQuestionFrameFn,
+    addQuestion,
+    handleTitleChange,
     questionFrames,
     publish,
     checkboxes,
+    checkedClasses,
     feedbacksMethodContainer,
     dateSelectorFrame,
     cleanformattingTextBox,
@@ -62,6 +64,7 @@ function CreateAAssignmentTablet(props) {
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
+              onChange={handleTitleChange}
             >
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
@@ -72,7 +75,7 @@ function CreateAAssignmentTablet(props) {
               <Frame1295>{questionFrames}</Frame1295>
               <Buttons2
                 add={buttons21Props.add}
-                onClickFn={addQuestionFrameFn}
+                onClickFn={addQuestion}
               />
             </Frame1294>
           </Frame1375>

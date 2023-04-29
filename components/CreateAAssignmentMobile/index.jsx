@@ -22,10 +22,12 @@ import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentMobile(props) {
   const {
-    addQuestionFrameFn,
+    handleTitleChange,
+    addQuestion,
     questionFrames,
     publish,
     checkboxes,
+    checkedClasses,
     cleanformattingDiv,
     cleanformattingTextBox,
     feedbacksMethodContainer,
@@ -62,6 +64,7 @@ function CreateAAssignmentMobile(props) {
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
+              onChange={handleTitleChange}
             >
               <TextInput id="assignmentName"></TextInput>
             </Frame1374>
@@ -73,7 +76,7 @@ function CreateAAssignmentMobile(props) {
               <Frame1296>
                 <Buttons2
                   add={buttons22Props.add}
-                  onClickFn={addQuestionFrameFn}
+                  onClickFn={addQuestion}
                 />
               </Frame1296>
             </Frame1294>

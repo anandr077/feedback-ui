@@ -13,16 +13,13 @@ export default function TheoryQuestionFrame(props) {
     serialNumber,
     deleteQuestionFrameFn,
     questionDetails,
-    size,
     UpdateQuestionFrame,
+    updateQuestion,
     cleanformattingTextBox,
     cleanformattingDiv,
   } = props;
   return (
-    // <>
-    //   {size == "small" ? (
     <SmalllQuestionFrame
-      id={"questionContainer_" + serialNumber}
       onClick={cleanformattingDiv}
     >
       <Frame1295>
@@ -32,7 +29,7 @@ export default function TheoryQuestionFrame(props) {
           defaultType="TEXT"
         />
         <DeleteButtonFrame>
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber - 1)}>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
             Delete
           </DeleteButton>
         </DeleteButtonFrame>
@@ -47,70 +44,22 @@ export default function TheoryQuestionFrame(props) {
           >
             <QuestionInputEditable
               id={"question_" + serialNumber}
+              value = {questionDetails?.question}
+              onChange={(e) => updateQuestion(serialNumber, e.target.value)}
               placeholder="Type Your Question here"
-              defaultValue={questionDetails?.question}
             />
           </QuestionFrame2>
         </InputQuestion>
 
-        <Frame1291
+        {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
           cleanformattingTextBox={cleanformattingTextBox}
-        />
+        /> */}
       </Frame12891>
     </SmalllQuestionFrame>
   );
 }
-// ) : (
-//   <QuestionFrame>
-//     <Frame1295>
-//       <Frame12973
-//         number={serialNumber}
-//         frame1284="/img/frame-1284-7@2x.png"
-//       />
-//       <DeleteButtonFrame>
-//         <DeleteButton
-//           onClick={() => deleteQuestionFrameFn(serialNumber - 1)}
-//         >
-//           Delete
-//         </DeleteButton>
-//       </DeleteButtonFrame>
-//       <Line14 src="/img/line-14-4.png" alt="Line 14" />
-//     </Frame1295>
-
-//     <Frame1289>
-//       <InputQuestion>
-//         <Label>Type of question</Label>
-//         <QuestionFrame1>
-//           <QuestionInput id={"questionType_" + serialNumber}>
-//             Theory
-//           </QuestionInput>
-//         </QuestionFrame1>
-//       </InputQuestion>
-
-//       <InputQuestion>
-//         <Label>Question</Label>
-//         <QuestionFrame1>
-//           <QuestionInputEditable
-//             id={"question_" + serialNumber}
-//             placeholder="Type Your Question here"
-//             defaultValue={questionDetails?.question}
-//           />
-//         </QuestionFrame1>
-//       </InputQuestion>
-
-//       <Frame1291
-//         questionDetails={questionDetails}
-//         serialNumber={serialNumber}
-//       />
-//       {/* <Buttons3 /> */}
-//     </Frame1289>
-//   </QuestionFrame>
-// )}
-// </>
-// );
-// }
 
 const SmalllQuestionFrame = styled.div`
   display: flex;

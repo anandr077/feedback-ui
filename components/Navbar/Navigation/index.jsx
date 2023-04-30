@@ -74,11 +74,11 @@ function Navigation(props) {
         <NavElement42 button={headerProps.firstButton} />
         <NavElement42 button={headerProps.secondButton} />
         <NavElement42 button={headerProps.thirdButton} />
-        <NavElement7 text={"View Profile"} onClick={account()} />
+        <NavElement7 text={"View Profile"} onClick={()=>account()} />
         <NavElement7
           text="Change Password"
           className={navigationData.navElement72Props.className}
-          onClick={changePassword()}
+          onClick={()=>changePassword()}
         />
         <NavElement8 onClick={() => logout()}></NavElement8>
       </Frame5>

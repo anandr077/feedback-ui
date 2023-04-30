@@ -54,7 +54,6 @@ function loginUsing(code) {
       
     })
     .catch((e) => {
-      alert("err " + JSON.stringify(e))
      });
 }
 export default withAuth;

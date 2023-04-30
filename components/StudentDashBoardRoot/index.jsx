@@ -8,16 +8,16 @@ import { getTasks, getModelResponses } from "../../service";
 import { homeHeaderProps } from "../../utils/headerProps.js";
 
 export default function StudentDashboardRoot(props) {
-  const { setShowPopup, setPopupMessage, setDismissable } = props;
+  // const { setShowPopup, setPopupMessage, setDismissable } = props;
   const [allTasks, setAllTasks] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const message = localStorage.getItem("submission");
   if (message) {
-    setShowPopup(true);
-    setPopupMessage("Assignment Submitted Successfully");
-    setDismissable(true);
-    localStorage.removeItem("submission");
+    // setShowPopup(true);
+    // setPopupMessage("Assignment Submitted Successfully");
+    // setDismissable(true);
+    // localStorage.removeItem("submission");
   }
 
   React.useEffect(() => {

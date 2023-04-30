@@ -17,40 +17,18 @@ import { useLocation } from "react-router-dom";
 import { exchangeCodeForToken } from "./service";
 import withAuth from "./components/WithAuth";
 function App() {
-  // const [showPopup, setShowPopup] = React.useState(false);
+  const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const urlSearchParams = new URLSearchParams(window.location.search);
-  //   const code = urlSearchParams.get("code");
-  //   const role = getUserRole();
-
-  //   if (code && role === null) {
-  //     exchangeCodeForToken(code)
-  //       .then((response) => {
-  //         localStorage.setItem("jwtToken", response.jwttoken);
-  //         getProfile().then((result) => {
-  //           if (result) {
-  //             setProfileCookies(result);
-  //             setIsLoading(false);
-  //           }
-  //         });
-  //       })
-  //       .catch((e) => {});
-  //   } else {
-  //     if (code) {
-  //       window.location.href = "/#/";
-  //     }
-  //     setIsLoading(false);
-  //   }
-  // }, []);
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
   const role = getUserRole();
-  
+  const popupMethods = {
+    setShowPopup,
+    setPopupMessage,
+    setDismissable,
+  };
+
   const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
   const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = withAuth(StudentTaskRoot);
@@ -61,13 +39,12 @@ function App() {
   const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
   // const protectedStudentDashboard = withAuth(<StudentDashboardRoot {...popupMethods} />)
-  const Dashboard = ({ role, ...popupMethods }) => {
-    const dashboard = role === "TEACHER" ? (
+  const Dashboard = ({role, ...popupMethods}) => {
+    const dashboard = role === "TEACHER" ? 
       <ProtectedTeacherDashboard {...popupMethods} />
-    ) : (
+     : 
       <ProtectedStudentDashboard {...popupMethods} />
-    );
-  
+    ;
     return (
       <div>
         {dashboard}
@@ -82,33 +59,33 @@ function App() {
         </Route> */}
         <Route path="/tasks">
           <>
-          (<ProtectedStudentTaskRoot />)
+          <ProtectedStudentTaskRoot />
           </>
         </Route>
         <Route path="/completed">
-        (<ProtectedCompletedRoot />)
+        <ProtectedCompletedRoot />
         </Route>
         <Route path="/classes">
           <ProtectedTeacherClassesRoot />
          
         </Route>
         <Route path="/classes/:classId">
-        (<ProtectedTeacherClassesRoot />)
+        <ProtectedTeacherClassesRoot />
         </Route>
         <Route path="/assignments/:assignmentId/start">
-        (<ProtectedTaskDetail />)
+        <ProtectedTaskDetail />
         </Route>
         <Route path="/assignments/:assignmentId">
         <ProtectedCreateAssignment />
         </Route>
         <Route path="/assignments">
-        (<ProtectedTeacherTaskRoot />)
+        <ProtectedTeacherTaskRoot />
         </Route>
         <Route path="/submissions/:id">
-        (<ProtectedFeedbacksRoot isAssignmentPage={false} />)
+        <ProtectedFeedbacksRoot isAssignmentPage={false} />
         </Route>
         <Route path="/">
-        {Dashboard}
+        {Dashboard({role, popupMethods})}
         </Route>
       </Switch>
     </Router>

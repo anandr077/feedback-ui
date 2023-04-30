@@ -143,6 +143,7 @@ export const deleteFeedback = async (submissionId, commentId) => {
 export const getUserName = () => getCookie("user.name");
 export const getUserId = () => getCookie("userId");
 export const getUserRole = () => getCookie("role");
+export const getAuthToken = () => localStorage.getItem("jwtToken");
 
 export const getCookie = (name) => {
   const cookieValue = document.cookie
@@ -152,12 +153,12 @@ export const getCookie = (name) => {
   return cookieValue ? cookieValue.split("=")[1] : null;
 };
 export const setProfileCookies = (profile) => {
+  localStorage.setItem("jwtToken", profile.token);
   document.cookie =
     "user.name=" + profile.name + "; max-age=" + 86400 + "; path=/";
   document.cookie =
-    "userId=" + profile.userId.value + "; max-age=" + 86400 + "; path=/";
-  const role = profile?.roles?.[0] === "group_leader" ? "TEACHER" : "STUDENT";
-  document.cookie = "role=" + role + "; max-age=" + 86400 + "; path=/";
+    "userId=" + profile.userId + "; max-age=" + 86400 + "; path=/";
+  document.cookie = "role=" + profile.role + "; max-age=" + 86400 + "; path=/";
 };
 
 export const deleteProfileCookies = () => {
@@ -173,7 +174,7 @@ export const logout = async () => {
     window.location.href =
       jeddleBaseUrl +
       "/wp-login.php?action=logout&redirect_to=" +
-      jeddleBaseUrl;
+      selfBaseUrl;
   });
 };
 export const changePassword = async () => {
@@ -247,7 +248,7 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
-function redirectToExternalIDP() {
+export function redirectToExternalIDP() {
   const externalIDPLoginUrl =
     jeddleBaseUrl +
     "/wp-json/moserver/authorize?response_type=code&client_id=" +

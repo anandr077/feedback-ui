@@ -15,119 +15,100 @@ import ScreenPopup from "./components/ScreenPopup";
 import Loader from "./components/Loader";
 import { useLocation } from "react-router-dom";
 import { exchangeCodeForToken } from "./service";
+import withAuth from "./components/WithAuth";
 function App() {
-  const [showPopup, setShowPopup] = React.useState(false);
+  // const [showPopup, setShowPopup] = React.useState(false);
   const [dismissable, setDismissable] = React.useState(false);
   const [popupMessage, setPopupMessage] = React.useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const code = urlSearchParams.get("code");
-    const role = getUserRole();
+  // useEffect(() => {
+  //   const urlSearchParams = new URLSearchParams(window.location.search);
+  //   const code = urlSearchParams.get("code");
+  //   const role = getUserRole();
 
-    if (code && role === null) {
-      exchangeCodeForToken(code)
-        .then((response) => {
-          localStorage.setItem("jwtToken", response.jwttoken);
-          getProfile().then((result) => {
-            if (result) {
-              setProfileCookies(result);
-              setIsLoading(false);
-            }
-          });
-        })
-        .catch((e) => {});
-    } else {
-      if (code) {
-        window.location.href = "/#/";
-      }
-      setIsLoading(false);
-    }
-  }, []);
-  if (isLoading) {
-    return <Loader />;
-  }
+  //   if (code && role === null) {
+  //     exchangeCodeForToken(code)
+  //       .then((response) => {
+  //         localStorage.setItem("jwtToken", response.jwttoken);
+  //         getProfile().then((result) => {
+  //           if (result) {
+  //             setProfileCookies(result);
+  //             setIsLoading(false);
+  //           }
+  //         });
+  //       })
+  //       .catch((e) => {});
+  //   } else {
+  //     if (code) {
+  //       window.location.href = "/#/";
+  //     }
+  //     setIsLoading(false);
+  //   }
+  // }, []);
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   const role = getUserRole();
-  const popupMethods = {
-    setShowPopup,
-    setPopupMessage,
-    setDismissable,
-  };
-  const dashboard =
-    role === "TEACHER" ? (
-      <TeacherDashboardRoot {...popupMethods} />
+  
+  const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
+  const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
+  const ProtectedStudentTaskRoot = withAuth(StudentTaskRoot);
+  const ProtectedCompletedRoot = withAuth(CompletedRoot);
+  const ProtectedTeacherClassesRoot = withAuth(TeacherClassesRoot);
+  const ProtectedTaskDetail = withAuth(TaskDetail);
+  const ProtectedCreateAssignment = withAuth(CreateAssignment);
+  const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
+  const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
+  // const protectedStudentDashboard = withAuth(<StudentDashboardRoot {...popupMethods} />)
+  const Dashboard = ({ role, ...popupMethods }) => {
+    const dashboard = role === "TEACHER" ? (
+      <ProtectedTeacherDashboard {...popupMethods} />
     ) : (
-      <StudentDashboardRoot {...popupMethods} />
+      <ProtectedStudentDashboard {...popupMethods} />
     );
+  
+    return (
+      <div>
+        {dashboard}
+      </div>
+    );
+  };
   return (
     <Router>
       <Switch>
-        <Route path="/callback">
+        {/* <Route path="/callback">
           <Callback />
-        </Route>
+        </Route> */}
         <Route path="/tasks">
           <>
-            <StudentTaskRoot />
+          (<ProtectedStudentTaskRoot />)
           </>
         </Route>
         <Route path="/completed">
-          <CompletedRoot />
+        (<ProtectedCompletedRoot />)
         </Route>
         <Route path="/classes">
-          <>
-            {showPopup && (
-              <ScreenPopup
-                message={popupMessage}
-                setShowPopup={setShowPopup}
-                dismissable={dismissable}
-                setDismissable={setDismissable}
-              />
-            )}
-            <TeacherClassesRoot />
-          </>
+          <ProtectedTeacherClassesRoot />
+         
         </Route>
         <Route path="/classes/:classId">
-          <TeacherClassesRoot />
+        (<ProtectedTeacherClassesRoot />)
         </Route>
         <Route path="/assignments/:assignmentId/start">
-          <TaskDetail />
+        (<ProtectedTaskDetail />)
         </Route>
         <Route path="/assignments/:assignmentId">
-          <>
-            {showPopup && (
-              <ScreenPopup
-                message={popupMessage}
-                setShowPopup={setShowPopup}
-                dismissable={dismissable}
-                setDismissable={setDismissable}
-              />
-            )}
-            <CreateAssignment
-              setShowPopup={setShowPopup}
-              setPopupMessage={setPopupMessage}
-              setDismissable={setDismissable}
-            />
-          </>
+        <ProtectedCreateAssignment />
         </Route>
         <Route path="/assignments">
-          <TeacherTaskRoot />
+        (<ProtectedTeacherTaskRoot />)
         </Route>
         <Route path="/submissions/:id">
-          <FeedbacksRoot isAssignmentPage={false} />
+        (<ProtectedFeedbacksRoot isAssignmentPage={false} />)
         </Route>
         <Route path="/">
-          <>
-            {showPopup && (
-              <ScreenPopup
-                message={popupMessage}
-                setShowPopup={setShowPopup}
-                dismissable={dismissable}
-                setDismissable={setDismissable}
-              />
-            )}
-            {dashboard}
-          </>
+        {Dashboard}
         </Route>
       </Switch>
     </Router>

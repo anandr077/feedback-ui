@@ -62,7 +62,7 @@ function CreateAAssignmentMobile(props) {
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput id="assignmentName"></TextInput>
+              <TextInput id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1293>

@@ -22,7 +22,7 @@ function Frame1297(props) {
   return (
     <Frame12971>
       <Frame1287>
-        <Frame1283>
+        <Frame1283 onClick={dropdown}>
           <Frame1282>
             <Frame1281>
               <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
@@ -62,11 +62,13 @@ const RichTextComponents2 = styled.div`
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const Assignment2 = styled.img`
   position: relative;
   height: 24px;
+  cursor: pointer;
 `;
 
 const Text = styled.div`
@@ -75,6 +77,7 @@ const Text = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const Frame12971 = styled.div`
@@ -101,6 +104,7 @@ const Frame1283 = styled.div`
   gap: 8px;
   position: relative;
   align-self: stretch;
+  cursor: pointer;
 `;
 
 const Frame1282 = styled.div`

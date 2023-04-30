@@ -8,6 +8,7 @@ import {
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
   IbmplexsansSemiBoldShark24px,
+  IbmplexsansMediumElectricViolet20px
 } from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
@@ -24,25 +25,18 @@ function CreateAAssignmentLaptop(props) {
     questionFrames,
     handleTitleChange,
     publish,
+    saveDraft,
     checkboxes,
-    checkedClasses,
+    assignment,
     dateSelectorFrame,
     feedbacksMethodContainer,
-    showPopup,
-    dismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
-    popupMessage,
-    setShowPopup,
     headerProps,
-    line141,
     assignmentSettings,
-    help1,
     feedbackMethod,
-    help2,
     goBack21Props,
     buttons21Props,
-    frame12973Props,
     goBack22Props,
   } = props;
 
@@ -56,23 +50,20 @@ function CreateAAssignmentLaptop(props) {
             <Breadcrumb2 />
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
+          
         </Frame1376>
-        <Frame1378>
+        <Frame1376Sticky>
+          {titleAndSaveButtons(assignment, saveDraft, publish)}
+        </Frame1376Sticky>
+        <Frame1378 readOnly={assignment.status!= "DRAFT"}>
           <Frame1375>
-            <Frame1372>
-              <Title>Create Assignment</Title>
-              <Frame12191>
-                <Buttons1>
-                  <Button onClick={publish}>Publish</Button>
-                </Buttons1>
-              </Frame12191>
-            </Frame1372>
+            
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput id="assignmentName"></TextInput>
+              <TextInput id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1372>
@@ -122,20 +113,50 @@ function CreateAAssignmentLaptop(props) {
                 className={goBack22Props.className}
               />
               <Frame12191>
-                <Buttons1>
-                  <Button onClick={publish}>Publish</Button>
-                </Buttons1>
+              <Frame1372>
+                {saveButtons(assignment, saveDraft, publish)}
+              </Frame1372>
               </Frame12191>
             </Frame1372>
           </Frame1377>
         </Frame1378>
+        
       </Frame1379>
-
+      
       <Footer />
     </div>
   );
+
+  
 }
 
+function titleAndSaveButtons(assignment, saveDraft, publish) {
+  const title =   (assignment.status === "DRAFT")?<Title>Create Assignment</Title>:<></>
+  return <Frame1372>
+    {title}
+    {saveButtons(assignment, saveDraft, publish)}
+  </Frame1372>;
+}
+const saveButtons = (assignment, saveDraft, publish)=> {
+  if (assignment.status === "DRAFT") {
+  return <Frame12191>
+    <Link onClick={saveDraft}>Save as draft</Link>
+    <Buttons1>
+      <Button onClick={publish}>Publish</Button>
+    </Buttons1>
+  </Frame12191>
+  } 
+  return <></>
+}
+const Link = styled.div`
+  ${IbmplexsansMediumElectricViolet20px}
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  text-align: right;
+  letter-spacing: -0.5px;
+  line-height: normal;
+`;
 const Frame1379 = styled.div`
   display: flex;
   flex-direction: column;
@@ -152,6 +173,24 @@ const Frame1376 = styled.div`
   gap: 30px;
   padding: 0px 60px;
   position: relative;
+  align-self: stretch;
+`;
+const Frame1376Sticky = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+  padding: 0px 60px;
+  // position: sticky;
+  top:0;
+  z-index: 1;
+  background-color: var(--white-pointer);  border-radius: 16px;
+  var(--light-mode-purple)
+  overflow-y: scroll;
+  box-shadow: 0px 4px 22px #2f1a720a;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   align-self: stretch;
 `;
 
@@ -171,6 +210,7 @@ const Frame1378 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  ${(props) => props.readOnly && "pointer-events: none; opacity: 0.5;"}
 `;
 
 const Frame1375 = styled.div`
@@ -186,8 +226,8 @@ const Frame1372 = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
-  position: relative;
   align-self: stretch;
+  z-index: 1;
 `;
 
 const Title = styled.h1`

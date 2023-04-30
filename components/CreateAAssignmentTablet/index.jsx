@@ -23,9 +23,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import ScreenPopup from "../ScreenPopup";
 function CreateAAssignmentTablet(props) {
   const {
+    assignment,
     addQuestion,
     handleTitleChange,
     questionFrames,
+    saveDraft,
     publish,
     checkboxes,
     checkedClasses,
@@ -51,28 +53,21 @@ function CreateAAssignmentTablet(props) {
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
-        <Frame1378>
+        <Frame1378  readOnly={assignment.status!= "DRAFT"}>
           <Frame1375>
-            <Frame1372>
-              <Title>Create Assignment</Title>
-              {/* <Frame12191>
-                <Buttons1>
-                  <Button onClick={publish}>Publish</Button>
-                </Buttons1>
-              </Frame12191> */}
-            </Frame1372>
+            {titleAndSaveButtons(assignment, saveDraft, publish)}
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput id="assignmentName"></TextInput>
+              <TextInput id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
               </Frame1372>
-              <Frame1295>{questionFrames}</Frame1295>
+              <Frame1295>{questionFrames()}</Frame1295>
               <Buttons2
                 add={buttons21Props.add}
                 onClickFn={addQuestion}
@@ -112,25 +107,45 @@ function CreateAAssignmentTablet(props) {
                 </Frame1299>
               </Frame1295>
             </Frame1294>
-            <Frame12191>
-              <Buttons1>
-                <Button onClick={publish}>Publish</Button>
-              </Buttons1>
-            </Frame12191>
+
             <Frame1372>
-              <GoBack2
-                caret={goBack22Props.caret}
-                className={goBack22Props.className}
-              />
+              <Frame12191>
+              <Frame1372WithTop>
+                {saveButtons(assignment, saveDraft, publish)}
+              </Frame1372WithTop>
+              </Frame12191>
             </Frame1372>
           </Frame1377>
         </Frame1378>
+        <GoBack2
+                caret={goBack22Props.caret}
+                className={goBack22Props.className}
+        />
       </Frame1379>
       <FooterSmall />
     </div>
   );
 }
+function titleAndSaveButtons(assignment, saveDraft, publish) {
+  const title =   (assignment.status === "DRAFT")?<Title>Create Assignment</Title>:<></>
 
+  return <Frame1372>
+    {title}
+    {saveButtons(assignment, saveDraft, publish)}
+  </Frame1372>;
+}
+function saveButtons(assignment, saveDraft, publish) {
+  if (assignment.status === "DRAFT") {
+    return <Frame12191>
+      <Link onClick={saveDraft}>Save as draft</Link>
+
+      <Buttons1>
+        <Button onClick={publish}>Publish</Button>
+      </Buttons1>
+    </Frame12191>;
+  }
+  return <></>
+}
 const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}
   position: relative;
@@ -261,6 +276,7 @@ const Frame1378 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  ${(props) => props.readOnly && "pointer-events: none; opacity: 0.5;"}
 `;
 
 const Frame1375 = styled.div`
@@ -274,12 +290,26 @@ const Frame1375 = styled.div`
 
 const Frame1372 = styled.div`
   display: flex;
+  flex-direction: row;
+
   align-items: center;
   gap: 30px;
   position: relative;
   align-self: stretch;
-  top: 30px;
-  max-width: 300px;
+  // top: 30px;
+  min-width: 300px;
+`;
+
+const Frame1372WithTop = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  align-self: stretch;
+  top: 20px;
+  min-width: 300px;
 `;
 
 const Title = styled.h1`
@@ -404,3 +434,5 @@ const Frame1298 = styled.div`
 `;
 
 export default CreateAAssignmentTablet;
+
+

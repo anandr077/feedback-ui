@@ -32,7 +32,8 @@
     "react-quill": "^2.0.0",
     "react-responsive": "^9.0.2",
     "react-router-dom": "5.2.0",
-    "styled-components": "^5.3.10"
+    "styled-components": "^5.3.10",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.8.1",

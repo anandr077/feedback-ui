@@ -1,10 +1,8 @@
 import React from "react";
-import RichTextComponents from "../RichTextComponents";
-import Frame1280 from "../Frame1280";
 import styled from "styled-components";
 import {
   IbmplexsansNormalShark16px,
-  IbmplexsansNormalShark20px,
+  IbmplexsansNormalShark20px
 } from "../../styledMixins";
 import ImageDropdownMenu from "../ImageDropdownMenu";
 

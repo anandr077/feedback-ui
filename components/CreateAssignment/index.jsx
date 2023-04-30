@@ -1,12 +1,14 @@
 import dayjs from "dayjs";
 import React from "react";
+import { useParams } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import styled from "styled-components";
-import { getClasses, createAssignment } from "../../service";
-import { IbmplexsansNormalShark20px } from "../../styledMixins";
+import { getClasses, createAssignment, updateAssignment, getAssignmentById, publishAssignment } from "../../service";
+import { IbmplexsansNormalShark20px, IbmplexsansBoldShark64px } from "../../styledMixins";
 import { assignmentsHeaderProps } from "../../utils/headerProps";
 import CheckboxBordered from "../CheckboxBordered";
 import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
@@ -20,8 +22,9 @@ import TheoryQuestionFrame from "../TheoryQuestionFrame";
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
-  const { setShowPopup, setPopupMessage, setDismissable } = props;
-  const [assignment, setAssignment] = React.useState({
+  const { assignmentId } = useParams();
+  const draft =   {
+    id:uuidv4(),
     title: "",
     classIds: [],
     questions:[{
@@ -34,11 +37,45 @@ export default function CreateAssignment(props) {
         { questionSerialNumber:1, optionSerialNumber:3, option:"", isCorrect: false },
         { questionSerialNumber:1, optionSerialNumber:4, option:"", isCorrect: false }
       ],
-     }],
+    }],
     reviewedBy:"TEACHER",
+    status:"DRAFT",
     dueAt: dayjs().add(3, "day"),
-  });
+  }
+  const [assignment, setAssignment] = React.useState(draft)
 
+  const { setShowPopup, setPopupMessage, setDismissable } = props;
+  
+
+
+  
+  const  getAssignment = async (id) => {
+    if (id === 'new') {
+      return   draft;
+    } else {
+      return await getAssignmentById(id);
+    }
+    
+  }
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [classes, setClasses] = React.useState([]);
+
+  React.useEffect(() => {
+    Promise.all([getClasses(), getAssignment(assignmentId)])
+    .then(([classesResult, assignmentResult]) => {
+      console.log(JSON.stringify(assignmentResult))
+      setAssignment((prevState) => ({
+        ...prevState,
+        ...assignmentResult,
+        classIds: assignmentResult.classIds ?? [],
+      }));
+      setClasses(classesResult);
+      setIsLoading(false);
+    });
+  }, [assignmentId]);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleTitleChange = (e) => {
     const newTitle = e.target.value;
@@ -50,13 +87,6 @@ export default function CreateAssignment(props) {
   const updateDueAt = (newDueAt) => {
     setAssignment((prevAssignment) => ({ ...prevAssignment, dueAt: newDueAt }));
   };
-  const [classes, setClasses] = React.useState([]);
-
-  React.useEffect(() => {
-    getClasses().then((res) => {
-      setClasses(res);
-    });
-  }, []);
   const cleanformattingTextBox = (e) => {
     e.currentTarget.style.border = "1px solid var(--text)";
   };
@@ -196,40 +226,38 @@ export default function CreateAssignment(props) {
     });
   };
   
-  
-
-  const publish = () => {
-    let anyErrors = false;
-    
-    if (anyErrors) {
-      setPopupMessage("Please fill all the required fields");
-      setDismissable(true);
-      setShowPopup(true);
-      return;
-    } else {
-      console.log(JSON.stringify(assignment))
-      const processedQuestions = assignment.questions.map((question) => {
-        return {
-          ...question,
-          options: question.type === 'TEXT' ? [] : question.options,
-        };
-      });
-    
-      const processedAssignment = { ...assignment, questions: processedQuestions };
-    
-      createAssignment(processedAssignment).then((res) => {
+  const saveDraft = () => {
+      updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
-        if (res.status === "PUBLISHED") {
-          localStorage.setItem("assignment", res.id);
-          window.location.href = "#assignments";
+        if (res.status === "DRAFT") {
+          setPopupMessage("Draft saved");
+          setShowPopup(true);
+          return;
         } else {
-          setPopupMessage("Assignment Creation Failed");
+          setPopupMessage("Something went wrong, please try again.");
           setShowPopup(true);
           return;
         }
       });
-    }
+    
   };
+
+  const publish = () => {
+    saveDraft()
+    console.log(assignment.id)  
+    publishAssignment(assignment.id).then((res) => {
+      console.log("##", res);
+      if (res.status === "PUBLISHED") {
+        localStorage.setItem("assignment", res.id);
+        window.location.href = "#assignments";
+      } else {
+        setPopupMessage("Assignment Creation Failed");
+        setShowPopup(true);
+        return;
+      }
+    });
+  }
+      
 
   const checkboxes = classes.map((clazz) => {
     
@@ -268,17 +296,21 @@ export default function CreateAssignment(props) {
 
   const dateSelectorFrame = (
     <DateSelector
-      value={assignment.dueAt}
+      value={dayjs(assignment.dueAt)}
       onChange={(newValue) => updateDueAt(newValue)}
     />
   );
 
+
+  
   const methods = {
+    assignment,
     handleTitleChange,
     addQuestion,
     questionFrames,
     handleClassCheckboxChange,
     publish,
+    saveDraft,
     checkboxes,
     setShowPopup,
     setDismissable,
@@ -306,6 +338,7 @@ export default function CreateAssignment(props) {
           {...{
             ...methods,
             classes,
+            assignment,
             checkedClasses:assignment.classIds,
             feedbacksMethodContainer,
             dateSelectorFrame,
@@ -318,6 +351,7 @@ export default function CreateAssignment(props) {
           {...{
             ...methods,
             classes,
+            assignment,
             checkedClasses:assignment.classIds,
             feedbacksMethodContainer,
             dateSelectorFrame,
@@ -330,6 +364,7 @@ export default function CreateAssignment(props) {
           {...{
             ...methods,
             classes,
+            assignment,
             checkedClasses:assignment.classIds,
             feedbacksMethodContainer,
             dateSelectorFrame,
@@ -340,6 +375,14 @@ export default function CreateAssignment(props) {
     />
   );
 }
+const Title = styled.h1`
+  ${IbmplexsansBoldShark64px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: -1.6px;
+  line-height: normal;
+`;
 const StyledRadioGroup = styled(RadioGroup)`
   display: flex;
   flex-direction: row;

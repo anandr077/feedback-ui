@@ -8,6 +8,7 @@ import {
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
   IbmplexsansSemiBoldShark24px,
+  IbmplexsansMediumElectricViolet16px
 } from "../../styledMixins";
 import { taskHeaderProps } from "../../utils/headerProps.js";
 import Breadcrumb from "../Breadcrumb";
@@ -22,9 +23,11 @@ import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentMobile(props) {
   const {
+    assignment,
     handleTitleChange,
     addQuestion,
     questionFrames,
+    saveDraft,
     publish,
     checkboxes,
     checkedClasses,
@@ -51,16 +54,9 @@ function CreateAAssignmentMobile(props) {
           </Frame1315>
           <GoBack />
         </Frame1376>
-        <Frame1378>
+        <Frame1378  readOnly={assignment.status!= "DRAFT"}>
           <Frame1375>
-            <Frame1372>
-              <Title>Create Assignment</Title>
-              {/* <Frame12191>
-                <Buttons1>
-                  <Button onClick={publish}>Publish</Button>
-                </Buttons1>
-              </Frame12191> */}
-            </Frame1372>
+            {titleAndSaveButtons(assignment, saveDraft, publish)}
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
@@ -72,7 +68,7 @@ function CreateAAssignmentMobile(props) {
               <Frame1293>
                 <Questions>Questions</Questions>
               </Frame1293>
-              <Frame1295>{questionFrames}</Frame1295>
+              <Frame1295>{questionFrames()}</Frame1295>
               <Frame1296>
                 <Buttons2
                   add={buttons22Props.add}
@@ -117,20 +113,48 @@ function CreateAAssignmentMobile(props) {
             <Frame1373>
               {/* <Frame1219 /> */}
               <Frame12191>
-                <Buttons1>
-                  <Button onClick={publish}>Publish</Button>
-                </Buttons1>
+              <Frame1372>
+                {saveButtons(assignment, saveDraft, publish)}
+              </Frame1372>
               </Frame12191>
-              <GoBack className={goBackProps.className} />
             </Frame1373>
           </Frame1377>
         </Frame1378>
+        <GoBack className={goBackProps.className} />
       </Frame1379>
       <FooterSmall />
     </div>
   );
 }
+function titleAndSaveButtons(assignment, saveDraft, publish) {
+  const title =   (assignment.status === "DRAFT")?<Title>Create Assignment</Title>:<></>
 
+  return <Frame1372>
+    
+    {title}
+    {saveButtons(assignment, saveDraft, publish)}
+  </Frame1372>;
+}
+function saveButtons(assignment, saveDraft, publish) {
+    if (assignment.status === "DRAFT") {
+      return <Frame12191>
+        <Link onClick={saveDraft}>Save as draft</Link>
+
+        <Buttons1>
+          <Button onClick={publish}>Publish</Button>
+        </Buttons1>
+      </Frame12191>;
+    }
+    return <></>
+}
+const Link = styled.div`
+  ${IbmplexsansMediumElectricViolet16px}
+  position: relative;
+  width: fit-content;
+  text-align: right;
+  letter-spacing: -0.4px;
+  line-height: normal;
+`;
 const Frame12191 = styled.div`
   display: flex;
   width: fit-content;
@@ -257,6 +281,7 @@ const Frame1378 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  ${(props) => props.readOnly && "pointer-events: none; opacity: 0.5;"}
 `;
 
 const Frame1375 = styled.div`
@@ -270,8 +295,8 @@ const Frame1375 = styled.div`
 
 const Frame1372 = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  // align-items: center;
   justify-content: space-between;
   gap: 20px;
   position: relative;
@@ -433,3 +458,4 @@ const Frame1373 = styled.div`
 `;
 
 export default CreateAAssignmentMobile;
+

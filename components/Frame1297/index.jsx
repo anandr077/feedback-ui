@@ -7,7 +7,7 @@ import {
 import ImageDropdownMenu from "../ImageDropdownMenu";
 
 function Frame1297(props) {
-  const { number, UpdateQuestionFrame, defaultType } = props;
+  const { dropdown, number, UpdateQuestionFrame, defaultType } = props;
   const [type, setType] = React.useState(defaultType);
 
   const setTypeTheory = () => {

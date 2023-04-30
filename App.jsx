@@ -90,6 +90,9 @@ function App() {
         <Route path="/classes/:classId">
           <TeacherClassesRoot />
         </Route>
+        <Route path="/assignments/:assignmentId/start">
+          <TaskDetail />
+        </Route>
         <Route path="/assignments/:assignmentId">
           <>
             {showPopup && (
@@ -106,9 +109,6 @@ function App() {
               setDismissable={setDismissable}
             />
           </>
-        </Route>
-        <Route path="/assignments/:assignmentId/start">
-          <TaskDetail />
         </Route>
         <Route path="/assignments">
           <TeacherTaskRoot />

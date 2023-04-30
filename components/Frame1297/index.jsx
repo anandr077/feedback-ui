@@ -1,87 +1,49 @@
 import React from "react";
-import RichTextComponents from "../RichTextComponents";
-import Frame1280 from "../Frame1280";
 import styled from "styled-components";
 import {
   IbmplexsansNormalShark16px,
-  IbmplexsansNormalShark20px,
+  IbmplexsansNormalShark20px
 } from "../../styledMixins";
+import ImageDropdownMenu from "../ImageDropdownMenu";
 
 function Frame1297(props) {
   const { number, UpdateQuestionFrame, defaultType } = props;
   const [type, setType] = React.useState(defaultType);
-  const [show, setShow] = React.useState(false);
 
-  const dropdown = () => {
-    setShow(!show);
-  };
   const setTypeTheory = () => {
     setType("TEXT");
-
     UpdateQuestionFrame(number, "TEXT");
-
-    setShow(false);
   };
 
   const setTypeMCQ = () => {
-    console.log("MCQ");
     setType("MCQ");
     UpdateQuestionFrame(number, "MCQ");
-    setShow(false);
   };
   return (
     <Frame12971>
-      {/* <RichTextComponents src="/img/drag-icon@2x.png" /> */}
       <Frame1287>
         <Frame1283 onClick={dropdown}>
           <Frame1282>
             <Frame1281>
               <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
-              {show ? (
-                <DropDown>
-                  <>
-                    <RichTextComponents2 onClick={setTypeTheory}>
-                      <Assignment2 
-                        src="/img/assignment-4@2x.png"
-                        alt="Assignment"
-                      />
-                      <Text>Theory</Text>
-                    </RichTextComponents2>
-                  </>
-                  <>
-                    <RichTextComponents2 onClick={setTypeMCQ}>
-                      <Assignment2 src="/icons/mcqIcon.png" />
-                      <Text>MCQ</Text>
-                    </RichTextComponents2>
-                  </>
-                </DropDown>
-              ) : (
-                <>
-                  {type == "TEXT" ? (
-                    <RichTextComponents2 onClick={dropdown}>
-                      <Assignment2  onClick={dropdown}
-                        src="/img/assignment-4@2x.png"
-                        alt="Assignment"
-                      />
-                      <Text  onClick={dropdown}>Theory</Text>
-                    </RichTextComponents2>
-                  ) : (
-                    <RichTextComponents2 onClick={dropdown}>
-                      <Assignment2 src="/icons/mcqIcon.png" />
-                      <Text>MCQ</Text>
-                    </RichTextComponents2>
-                  )}
-                </>
-              )}
             </Frame1281>
           </Frame1282>
-          {!show && (
-            <Frame1284  src="/img/frame-1284@2x.png" />
+          { (
+              createQuestionTypeSelector(type, setTypeTheory, setTypeMCQ)
           )}
         </Frame1283>
       </Frame1287>
     </Frame12971>
   );
+}
+
+const createQuestionTypeSelector = (type, setTypeTheory, setTypeMCQ)=>{
+  const menuItems = [
+    {id: 1, image:"/img/assignment-4@2x.png", title:"FREE RESPONSE", onClick:setTypeTheory},
+    {id: 2, image:"/icons/mcqIcon.png", title:"MCQ", onClick:setTypeMCQ},
+  ]
+  const selectedIndex = type === "MCQ"? 1:0 
+  return <ImageDropdownMenu selectedIndex={selectedIndex} menuItems={menuItems}></ImageDropdownMenu>
 }
 
 const DropDown = styled.div`

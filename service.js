@@ -98,6 +98,18 @@ const postApi = async (url, body) => {
     },
   });
 };
+const putApi = async (url, body) => {
+  const token = localStorage.getItem("jwtToken");
+
+  return await modifyData(url, {
+    method: "PUT",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 const patchApi = async (url, body) => {
   const token = localStorage.getItem("jwtToken");
 
@@ -207,6 +219,10 @@ export const getStudentsForClass = async (classId) =>
 export const getClasses = async () => await getApi(baseUrl + "/classes");
 export const createAssignment = async (assignment) =>
   await postApi(baseUrl + "/assignments", assignment);
+export const publishAssignment = async (id, update) =>
+  await patchApi(baseUrl + "/assignments/" + id + "/publish", update);
+export const updateAssignment = async (id, assignment) =>
+  await putApi(baseUrl + "/assignments/" + id, assignment);
 export const saveAnswer = async (submissionId, serialNumber, answer) =>
   await patchApi(
     baseUrl + "/submissions/" + submissionId + "/answers/" + serialNumber,

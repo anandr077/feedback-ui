@@ -1,286 +1,276 @@
-import React from "react";
 import dayjs from "dayjs";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
-import { useMediaQuery } from "react-responsive";
-import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
-import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
-import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../styledMixins";
-import { getClasses, createAssignment } from "../../service";
-import TheoryQuestionFrame from "../TheoryQuestionFrame";
-import ReactiveRender, { isMobileView } from "../ReactiveRender";
-import { assignmentsHeaderProps } from "../../utils/headerProps";
-import MCQQuestionFrame from "../MCQQuestionFrame";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import styled from "styled-components";
+import { getClasses, createAssignment, updateAssignment, getAssignmentById, publishAssignment } from "../../service";
+import { IbmplexsansNormalShark20px, IbmplexsansBoldShark64px } from "../../styledMixins";
+import { assignmentsHeaderProps } from "../../utils/headerProps";
 import CheckboxBordered from "../CheckboxBordered";
+import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
+import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
+import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
 import DateSelector from "../DateSelector";
-import { formattedDate } from "../../dates";
+import MCQQuestionFrame from "../MCQQuestionFrame";
+import ReactiveRender from "../ReactiveRender";
+import TheoryQuestionFrame from "../TheoryQuestionFrame";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
+  const { assignmentId } = useParams();
+  const draft =   {
+    id:uuidv4(),
+    title: "",
+    classIds: [],
+    questions:[{
+      serialNumber: 1, 
+      question: "", 
+      type: "TEXT",
+      options: [
+        { questionSerialNumber:1, optionSerialNumber:1, option:"", isCorrect: false },
+        { questionSerialNumber:1, optionSerialNumber:2, option:"", isCorrect: false },
+        { questionSerialNumber:1, optionSerialNumber:3, option:"", isCorrect: false },
+        { questionSerialNumber:1, optionSerialNumber:4, option:"", isCorrect: false }
+      ],
+    }],
+    reviewedBy:"TEACHER",
+    status:"DRAFT",
+    dueAt: dayjs().add(3, "day"),
+  }
+  const [assignment, setAssignment] = React.useState(draft)
+
   const { setShowPopup, setPopupMessage, setDismissable } = props;
+  
+
+
+  
+  const  getAssignment = async (id) => {
+    if (id === 'new') {
+      return   draft;
+    } else {
+      return await getAssignmentById(id);
+    }
+    
+  }
+  const [isLoading, setIsLoading] = React.useState(true);
   const [classes, setClasses] = React.useState([]);
-  const [feedbackMethodValue, setFeedbackMethodValue] =
-    React.useState("TEACHER");
-  const [selectedDate, setSelectedDate] = React.useState(dayjs().add(3, "day"));
 
   React.useEffect(() => {
-    getClasses().then((res) => {
-      setClasses(res);
+    Promise.all([getClasses(), getAssignment(assignmentId)])
+    .then(([classesResult, assignmentResult]) => {
+      console.log(JSON.stringify(assignmentResult))
+      setAssignment((prevState) => ({
+        ...prevState,
+        ...assignmentResult,
+        classIds: assignmentResult.classIds ?? [],
+      }));
+      setClasses(classesResult);
+      setIsLoading(false);
     });
-  }, []);
+  }, [assignmentId]);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const handleTitleChange = (e) => {
+    const newTitle = e.target.value;
+    setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
+  };
+  const feedbackMethodUpdate = (newReviewedBy) => {
+    setAssignment((prevAssignment) => ({ ...prevAssignment, reviewedBy: newReviewedBy }));
+  };
+  const updateDueAt = (newDueAt) => {
+    setAssignment((prevAssignment) => ({ ...prevAssignment, dueAt: newDueAt }));
+  };
   const cleanformattingTextBox = (e) => {
     e.currentTarget.style.border = "1px solid var(--text)";
   };
   const cleanformattingDiv = (e) => {
     e.currentTarget.style.border = "1px solid #E0E0E0";
   };
-  const feedbackMethodUpdate = (selectedMethod) => {
-    setFeedbackMethodValue(selectedMethod);
-  };
-  const [questionFrames, setQuestionFrames] = React.useState([
-    createNewQuestionFrame(1, null, "small"),
-  ]);
-
-  const addQuestionFrameFn = () => {
-    const newQuestionFrame = createNewQuestionFrame(
-      questionFrames.length + 1,
-      null,
-      "small"
-    );
-
-    setQuestionFrames((oldFrames) => [...oldFrames, newQuestionFrame]);
-  };
-
-  function deleteQuestionFrameFn(index) {
-    setQuestionFrames((oldFrames) => {
-      console.log("questionFrames.size", oldFrames.length);
-      console.log("index", index);
-      const questionFramesBefore = oldFrames.filter((_, i) => i < index);
-      const questionFramesAfter = oldFrames
-        .filter((_, i) => i > index)
-        .map((_, i) => {
-          return createNewQuestionFrame(
-            index + i + 1,
-            (question = {
-              serialNumber: index + i + 1,
-              question: document.getElementById("question_" + (index + i + 2))
-                .value,
-              wordLimit: document.getElementById("wordLimit_" + (index + i + 2))
-                .value,
-              type: "TEXT",
-            })
-          );
-        });
-      console.log("questionFramesBefore", questionFramesBefore.length);
-      console.log("questionFramesAfter", questionFramesAfter.length);
-      return [...questionFramesBefore, ...questionFramesAfter];
-    });
+ 
+  const questionFrames = () => {
+    return assignment.questions.map(question=>questionFrame(question))
   }
-
-  function UpdateQuestionFrame(index, questionType) {
-    setQuestionFrames((oldFrames) => {
-      const questionFramesBefore = oldFrames.filter((_, i) => i < index - 1);
-      const questionFramesAfter = oldFrames.filter((_, i) => i > index - 1);
-      return [
-        ...questionFramesBefore,
-        createNewQuestionFrame(
-          index,
-          (question = {
-            serialNumber: index,
-            question: document.getElementById("question_" + index).value,
-            wordLimit: document.getElementById("wordLimit_" + index)?.value,
-            type: questionType,
-          })
-        ),
-        ...questionFramesAfter,
-      ];
-    });
-  }
-
-  function createNewQuestionFrame(serialNumber, questionDetails) {
+  const questionFrame = (question) => {
     return (
-      <>
-        {questionDetails?.type === "MCQ" ? (
-          <MCQQuestionFrame
-            serialNumber={serialNumber}
-            deleteQuestionFrameFn={deleteQuestionFrameFn}
-            questionDetails={questionDetails}
-            UpdateQuestionFrame={UpdateQuestionFrame}
-            cleanformattingTextBox={cleanformattingTextBox}
-            cleanformattingDiv={cleanformattingDiv}
-          />
-        ) : (
-          <TheoryQuestionFrame
-            serialNumber={serialNumber}
-            deleteQuestionFrameFn={deleteQuestionFrameFn}
-            questionDetails={questionDetails}
-            UpdateQuestionFrame={UpdateQuestionFrame}
-            size="small"
-            cleanformattingTextBox={cleanformattingTextBox}
-            cleanformattingDiv={cleanformattingDiv}
-          />
-        )}
-      </>
+      question?.type === "MCQ" ? (
+        <MCQQuestionFrame
+          serialNumber={question.serialNumber}
+          deleteQuestionFrameFn={deleteQuestion}
+          questionDetails={question}
+          UpdateQuestionFrame={updateQuestionType}
+          updateQuestion={updateQuestion}
+          cleanformattingTextBox={cleanformattingTextBox}
+          cleanformattingDiv={cleanformattingDiv}
+          onOptionChange={updateMCQOption}
+          options={question.options}
+        />
+      ) : (
+        <TheoryQuestionFrame
+          serialNumber={question.serialNumber}
+          deleteQuestionFrameFn={deleteQuestion}
+          questionDetails={question}
+          UpdateQuestionFrame={updateQuestionType}
+          updateQuestion={updateQuestion}
+          cleanformattingTextBox={cleanformattingTextBox}
+          cleanformattingDiv={cleanformattingDiv}
+        />
+      )
     );
   }
+  
 
-  const publish = () => {
-    let anyErrors = false;
-    const title = document.getElementById("assignmentName").value;
-    if (title === "") {
-      const assignmentNameContainer = document.getElementById(
-        "assignmentNameContainer"
+
+  function addQuestion() {
+    const newId = assignment.questions.length + 1;
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      questions: [
+        ...prevAssignment.questions,
+        {
+          serialNumber: newId,
+          question: "",
+          type: "TEXT",
+          options: [
+            { questionSerialNumber: newId, optionSerialNumber: 1, option: "", isCorrect: false },
+            { questionSerialNumber: newId, optionSerialNumber: 2, option: "", isCorrect: false },
+            { questionSerialNumber: newId, optionSerialNumber: 3, option: "", isCorrect: false },
+            { questionSerialNumber: newId, optionSerialNumber: 4, option: "", isCorrect: false },
+          ],
+        },
+      ],
+    }));
+  }
+
+  function deleteQuestion(serialNumber) {
+    setAssignment((prevAssignment) => {
+      const newQuestions = prevAssignment.questions.filter(
+        (question) => question.serialNumber !== serialNumber
       );
-      assignmentNameContainer.style.border = "1px solid red";
-      anyErrors = true;
-    }
-    const reviewedBy = feedbackMethodValue;
-    const classIds = classes
-      .filter((clazz) => {
-        return document.getElementById(clazz.id).checked;
-      })
-      .map((clazz) => clazz.id);
-    if (classIds.length === 0) {
-      const classesContainer = document.getElementById("classesContainer");
-      classesContainer.style.border = "1px solid red";
-      anyErrors = true;
-    }
-    const serialNumbers = questionFrames.map((_, index) => index + 1);
-    const questions = serialNumbers.map((serialNumber) => {
-      const questionType = document.getElementById(
-        "option_" + serialNumber + "_1"
-      )
-        ? "MCQ"
-        : "TEXT";
-
-      if (questionType === "MCQ") {
-        const optionsIndex = [1, 2, 3, 4];
-
-        const options = optionsIndex.map((index) => {
-          const singleOption = {
-            questionSerialNumber: serialNumber,
-            optionSerialNumber: index,
-            option: document.getElementById(
-              "option_" + serialNumber + "_" + index
-            ).value,
-            isCorrect: document.getElementById(
-              "option_checkbox_" + serialNumber + "_" + index
-            ).checked,
-          };
-          return singleOption;
-        });
-        const question = {
-          serialNumber: serialNumber,
-          question: document.getElementById("question_" + serialNumber).value,
-          type: questionType,
-          options: options,
-        };
-        return question;
-      } else {
-        const question = {
-          serialNumber: serialNumber,
-          question: document.getElementById("question_" + serialNumber).value,
-          wordLimit: document.getElementById("wordLimit_" + serialNumber).value,
-          type: questionType,
-        };
-        return question;
-      }
-    });
-    questions.map((question) => {
-      if (question.question === "") {
-        const questionContainer = document.getElementById(
-          "questionContainer_" + question.serialNumber
-        );
-        questionContainer.style.border = "1px solid red";
-        const questionTextBox = document.getElementById(
-          "question_textBox" + question.serialNumber
-        );
-        questionTextBox.style.border = "1px solid red";
-        anyErrors = true;
-      }
-      if (
-        (question.type === "TEXT" && question.wordLimit < 0) ||
-        question.wordLimit > 2000
-      ) {
-        const questionContainer = document.getElementById(
-          "questionContainer_" + question.serialNumber
-        );
-        questionContainer.style.border = "1px solid red";
-        const wordLimitContainer = document.getElementById(
-          "wordLimitTextBox_" + question.serialNumber
-        );
-        wordLimitContainer.style.border = "1px solid red";
-        anyErrors = true;
-      }
-      if (question.type === "MCQ") {
-        const optionsIndex = [1, 2, 3, 4];
-        let isCorrectPresent = false;
-        optionsIndex.map((index) => {
-          if (question.options[index - 1].option === "") {
-            const optionContainer = document.getElementById(
-              "option_" + question.serialNumber + "_" + index
-            );
-            optionContainer.style.border = "1px solid red";
-            anyErrors = true;
+      return {
+        ...prevAssignment,
+        questions: newQuestions.map((question, index) => {
+          if (question.serialNumber > serialNumber) {
+            // Update the questionSerialNumber for the options as well
+            const updatedOptions = question.options.map((option) => ({
+              ...option,
+              questionSerialNumber: index + 1,
+            }));
+            return {
+              ...question,
+              serialNumber: index + 1,
+              options: updatedOptions,
+            };
           }
-          question.options[index - 1].isCorrect
-            ? (isCorrectPresent = true)
-            : null;
-        });
-        if (!isCorrectPresent) {
-          const optionContainer = document.getElementById(
-            "optionFrame_" + question.serialNumber
-          );
-          optionContainer.style.border = "1px solid red";
-          anyErrors = true;
-        }
+          return question;
+        }),
+      };
+    });
+  }
+
+  function updateMCQOption(questionSerialNumber, optionSerialNumber, newOption, newIsCorrect) {
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      questions: prevAssignment.questions.map((question) =>
+        question.serialNumber === questionSerialNumber
+          ? {
+              ...question,
+              options: question.options.map((o) =>
+                o.optionSerialNumber === optionSerialNumber
+                  ? { ...o, option: newOption, isCorrect: newIsCorrect }
+                  : o
+              ),
+            }
+          : question
+      ),
+    }));
+  }
+
+  function updateQuestion(id, newContent) {
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      questions: prevAssignment.questions.map((q) =>
+        q.serialNumber === id ? { ...q, question: newContent } : q
+      ),
+    }));
+  }
+
+
+  function updateQuestionType(id, newType) {
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      questions: prevAssignment.questions.map((question) =>
+        question.serialNumber === id ? { ...question, type: newType } : question
+      ),
+    }));
+  }
+
+
+  const handleClassCheckboxChange = (classId, isChecked) => {
+    console.log("isChecked " + isChecked + " class" + classId);
+    setAssignment((prevAssignment) => {
+      if (isChecked) {
+        return { ...prevAssignment, classIds: [...prevAssignment.classIds, classId] };
+      } else {
+        return {
+          ...prevAssignment,
+          classIds: prevAssignment.classIds.filter((id) => id !== classId),
+        };
       }
     });
-    if (!selectedDate) {
-      const timeContainer = document.getElementById("timeContainer");
-      timeContainer.style.border = "1px solid red";
-      anyErrors = true;
-    }
-    if (questions.length === 0) {
-      anyErrors = true;
-    }
-
-    const assignment = {
-      title,
-      classIds,
-      questions,
-      reviewedBy,
-      dueAt: selectedDate,
-    };
-    if (anyErrors) {
-      setPopupMessage("Please fill all the required fields");
-      setDismissable(true);
-      setShowPopup(true);
-      return;
-    } else {
-      createAssignment(assignment).then((res) => {
+  };
+  
+  const saveDraft = () => {
+      updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
-        if (res.status === "PUBLISHED") {
-          localStorage.setItem("assignment", res.id);
-          window.location.href = "#";
+        if (res.status === "DRAFT") {
+          setPopupMessage("Draft saved");
+          setShowPopup(true);
+          return;
         } else {
-          setPopupMessage("Assignment Creation Failed");
+          setPopupMessage("Something went wrong, please try again.");
           setShowPopup(true);
           return;
         }
       });
-    }
+    
   };
 
+  const publish = () => {
+    saveDraft()
+    console.log(assignment.id)  
+    publishAssignment(assignment.id).then((res) => {
+      console.log("##", res);
+      if (res.status === "PUBLISHED") {
+        localStorage.setItem("assignment", res.id);
+        window.location.href = "#assignments";
+      } else {
+        setPopupMessage("Assignment Creation Failed");
+        setShowPopup(true);
+        return;
+      }
+    });
+  }
+      
+
   const checkboxes = classes.map((clazz) => {
+    
+    const isChecked = assignment.classIds.includes(clazz.id);
+
     return (
       <CheckboxContainer>
-        <CheckboxBordered key={clazz.id} id={clazz.id} />
+        <CheckboxBordered 
+          key={clazz.id} 
+          id={clazz.id} 
+          checked={isChecked}
+          onChange={(e) => handleClassCheckboxChange(clazz.id, e.target.checked)}
+          />
         <CheckBoxText>{clazz.title}</CheckBoxText>
       </CheckboxContainer>
     );
@@ -288,7 +278,7 @@ export default function CreateAssignment(props) {
 
   const feedbacksMethodContainer = (
     <StyledRadioGroup
-      value={feedbackMethodValue}
+      value={assignment.reviewedBy}
       onChange={(event) => feedbackMethodUpdate(event.target.value)}
     >
       <StyledFormControlLabel
@@ -303,19 +293,24 @@ export default function CreateAssignment(props) {
       />
     </StyledRadioGroup>
   );
-  
 
   const dateSelectorFrame = (
     <DateSelector
-      value={selectedDate}
-      onChange={(newValue) => setSelectedDate(newValue)}
+      value={dayjs(assignment.dueAt)}
+      onChange={(newValue) => updateDueAt(newValue)}
     />
   );
 
+
+  
   const methods = {
-    addQuestionFrameFn,
+    assignment,
+    handleTitleChange,
+    addQuestion,
     questionFrames,
+    handleClassCheckboxChange,
     publish,
+    saveDraft,
     checkboxes,
     setShowPopup,
     setDismissable,
@@ -329,6 +324,9 @@ export default function CreateAssignment(props) {
         <CreateAAssignmentMobile
           {...{
             ...methods,
+            classes,
+            checkedClasses:assignment.classIds,
+            assignment,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentMobileData,
@@ -339,6 +337,9 @@ export default function CreateAssignment(props) {
         <CreateAAssignmentTablet
           {...{
             ...methods,
+            classes,
+            assignment,
+            checkedClasses:assignment.classIds,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentTabletData,
@@ -349,6 +350,9 @@ export default function CreateAssignment(props) {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
+            classes,
+            assignment,
+            checkedClasses:assignment.classIds,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentLaptopData,
@@ -359,6 +363,9 @@ export default function CreateAssignment(props) {
         <CreateAAssignmentLaptop
           {...{
             ...methods,
+            classes,
+            assignment,
+            checkedClasses:assignment.classIds,
             feedbacksMethodContainer,
             dateSelectorFrame,
             ...createAAssignmentLaptopData,
@@ -368,6 +375,14 @@ export default function CreateAssignment(props) {
     />
   );
 }
+const Title = styled.h1`
+  ${IbmplexsansBoldShark64px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: -1.6px;
+  line-height: normal;
+`;
 const StyledRadioGroup = styled(RadioGroup)`
   display: flex;
   flex-direction: row;

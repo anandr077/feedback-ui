@@ -10,30 +10,39 @@ import Frame1297 from "../Frame1297";
 
 const theme = createTheme();
 
-export default function MCQQuestionFrame(props) {
+export default function /*  */MCQQuestionFrame(props) {
   const {
     serialNumber,
     deleteQuestionFrameFn,
     questionDetails,
     UpdateQuestionFrame,
+    updateQuestion,
     cleanformattingTextBox,
     cleanformattingDiv,
+    onOptionChange,
+    options
   } = props;
-  const options = [1, 2, 3, 4];
-
-  const optionFrame = options.map((index) => {
+  const handleOptionChange = (optionSerialNumber, newOption, newIsCorrect) => {
+    onOptionChange(serialNumber, optionSerialNumber, newOption, newIsCorrect);
+  };
+ 
+  const optionFrame = options.map((option, index) => {
     return (
       <OptionsContainer key={index}>
         <OptionInputEditable
           id={"option_" + serialNumber + "_" + index}
-          placeholder={"Option " + index}
+          placeholder={"Option " + (index + 1)}
           onClick={cleanformattingDiv}
+          value={option.option}
+          onChange={(e) => handleOptionChange(option.optionSerialNumber, e.target.value, option.isCorrect)}
         />
         <CheckBoxContainer>
           <ThemeProvider theme={theme}>
             <CheckboxBordered
               id={"option_checkbox_" + serialNumber + "_" + index}
               label="label"
+              checked={option.isCorrect}
+              onChange={(e) => handleOptionChange(option.optionSerialNumber, option.option, e.target.checked)}
             />
           </ThemeProvider>
           Correct Response
@@ -54,7 +63,7 @@ export default function MCQQuestionFrame(props) {
           defaultType="MCQ"
         />
         <DeleteButtonFrame>
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber - 1)}>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
             Delete
           </DeleteButton>
         </DeleteButtonFrame>
@@ -70,7 +79,8 @@ export default function MCQQuestionFrame(props) {
             <QuestionInputEditable
               id={"question_" + serialNumber}
               placeholder="Type Your Question here"
-              defaultValue={questionDetails?.question}
+              onChange={(e) => updateQuestion(serialNumber, e.target.value)}
+              value={questionDetails?.question}
             />
           </QuestionFrame2>
           <Label>Options</Label>

@@ -7,6 +7,7 @@ export default function ScreenPopup(props) {
   const { message, setShowPopup, small, dismissable, setDismissable } = props;
   const [show, setShow] = useState(true);
   console.log("##dismissable", dismissable);
+  const isMobile = isMobileView()
   useEffect(() => {
     if (dismissable) {
       setShow(true);
@@ -23,7 +24,7 @@ export default function ScreenPopup(props) {
     <>
       {show && (
         <>
-          {isMobileView() ? (
+          {isMobile ? (
             <SmallPopupContainer>
               <MaskGroup
                 src="/img/close.png"

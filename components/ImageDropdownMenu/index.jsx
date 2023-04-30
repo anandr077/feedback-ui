@@ -21,11 +21,10 @@ export const ImageDropdownMenu = (props) => {
   //   {id: 4, title:"DDDD", onClick:()=>console.log("FFF")},
   // ]
   // const {   onItemSelected, withCheckbox } = props;
-  const {  menuItems, onItemSelected, withCheckbox } = props;
+  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedItem, setSelectedItem] = React.useState(menuItems[0]);
+  const [selectedItem, setSelectedItem] = React.useState(selectedIndex?menuItems[selectedIndex]:menuItems[0]);
   const menuRef = React.useRef(null);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -36,6 +35,11 @@ export const ImageDropdownMenu = (props) => {
       setAnchorEl(null);
       if (item.link) {
         window.location.href = item.link;
+        return 
+      }
+      if (item.onClick) {
+        item.onClick(item);
+        return 
       }
       if (onItemSelected) {
         onItemSelected(item);
@@ -45,25 +49,18 @@ export const ImageDropdownMenu = (props) => {
       setAnchorEl(null);
     }
   };
-  
 
   return (
     <div>
     <StyledBox>
-      <FlexContainer>
+      <FlexContainer onClick={handleClick}>
         <IconButton
           edge="start"
           color="inherit"
           aria-label="menu"
           onClick={handleClick}
         >
-          <Avatar
-            title={false}
-            size={25}
-            variant="beam"
-            name={selectedItem.title}
-            square={false}
-          />
+          {createImageFrame(selectedItem, showAvatar)}
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
@@ -93,13 +90,7 @@ export const ImageDropdownMenu = (props) => {
       {menuItems.map((item) => (
         <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
           {withCheckbox && <CustomCheckbox />}
-          <Avatar
-            title={false}
-            size={25}
-            variant="beam"
-            name={item.title}
-            square={false}
-          />
+          {createImageFrame(item, showAvatar)}
           <div className="text-container">
             <p>
               <StyledListItemText primary={item.title} />
@@ -218,3 +209,17 @@ const Frame12841 = styled.img`
   height: 16px;
 `;
 export default ImageDropdownMenu;
+function createImageFrame(selectedItem, showAvatar) {
+  if (selectedItem.image) {
+    return  <Frame12841 src={selectedItem.image} alt="Frame 1284" />
+  }
+  if (!showAvatar)
+    return <></>
+  return <Avatar
+    title={false}
+    size={25}
+    variant="beam"
+    name={selectedItem.title}
+    square={false} />;
+}
+

@@ -22,8 +22,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // alert("window.location.pathname " + window.location.pathname)
-
     const urlSearchParams = new URLSearchParams(window.location.search);
     const code = urlSearchParams.get("code");
     const role = getUserRole();
@@ -92,7 +90,10 @@ function App() {
         <Route path="/classes/:classId">
           <TeacherClassesRoot />
         </Route>
-        <Route path="/assignments/new">
+        <Route path="/assignments/:assignmentId/start">
+          <TaskDetail />
+        </Route>
+        <Route path="/assignments/:assignmentId">
           <>
             {showPopup && (
               <ScreenPopup
@@ -108,12 +109,6 @@ function App() {
               setDismissable={setDismissable}
             />
           </>
-        </Route>
-        <Route path="/assignments/:assignmentId/review">
-          <FeedbacksRoot isAssignmentPage={true} />
-        </Route>
-        <Route path="/assignments/:assignmentId/start">
-          <TaskDetail />
         </Route>
         <Route path="/assignments">
           <TeacherTaskRoot />

@@ -6,14 +6,16 @@ function GoBack2(props) {
   const { caret, className } = props;
 
   return (
-    <a href="javascript:history.back()">
+    
       <GoBack className={`go-back-2 ${className || ""}`}>
         <Caret className="caret-2" src={caret} alt="caret" />
+        <a href="javascript:history.back()">
         <BackToPreviousPage className="back-to-previous-page-1">
           back to previous page
         </BackToPreviousPage>
+        </a>
       </GoBack>
-    </a>
+    
   );
 }
 

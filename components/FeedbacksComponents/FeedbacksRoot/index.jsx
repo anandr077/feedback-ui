@@ -423,6 +423,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       })
       return (<ImageDropdownMenu
           menuItems={menuItems}
+          showAvatar={true}
       ></ImageDropdownMenu>
       );
     }

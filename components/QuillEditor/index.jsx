@@ -4,8 +4,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "./styles.css";
 import HighlightBlot from "./HighlightBlot";
-import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
-
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 const QuillEditor = React.forwardRef(
   ({ comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
@@ -17,7 +16,7 @@ const QuillEditor = React.forwardRef(
         editor.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
         editor.root.style.fontSize = "16px";
 
-        editor.setContents(value ? JSON.parse(value) : []);
+        editor.root.innerHTML = value;
         
         
 
@@ -51,8 +50,12 @@ const QuillEditor = React.forwardRef(
 
           // Convert the filtered Delta object to JSON
           const jsonString = JSON.stringify(filteredDelta);
+          var cfg = {};
 
-          onDebounce(jsonString);
+          var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
+
+          var html = converter.convert(); 
+          onDebounce(html);
         };
 
         const updateComments = (delta, oldContents) => {

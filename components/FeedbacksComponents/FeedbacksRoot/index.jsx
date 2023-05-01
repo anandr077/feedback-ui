@@ -441,44 +441,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const assignmentData = content.querySelector("#assignmentData");
     const feedbacksFrame = content.querySelector("#feedbacksFrame");
     const assignmentTitle = content.querySelector("#assignmentTitle");
-    // console.log("##assignmentTitle", assignmentTitle);
     const delteButton = assignmentTitle.querySelector("#deleteButton");
-    // console.log("##assignmentTitle", delteButton);
     assignmentData.removeChild(feedbacksFrame);
     assignmentTitle.removeChild(delteButton);
-    // const height = content.scrollHeight;
-    // const scrollHeight = height - content.clientHeight;
-
-    // const answerFrames = document.getElementById("answers");
-    // answerFrames.appendChild(assignmentTitle);
-
-    // if (scrollHeight > 0) {
-    //   window.scrollBy(0, scrollHeight);
-    // }
-    // html2canvas(content, { height: height }).then((canvas) => {
-    //   const canvasHeight = (canvas.height * 210) / canvas.width;
-    //   const imgData = canvas.toDataURL("image/png");
-    //   doc.addImage(imgData, "PNG", 0, 0, 210, canvasHeight);
-    //   doc.save(`${submission.assignment.title}.pdf`);
-    // });
-
-
-//     window.jsPDF = window.jspdf.jsPDF;
-
-// var doc = new jsPDF();
-	
-// Source HTMLElement or a string containing HTML.
-// var elementHTML = document.querySelector("#contnet");
 
 const options = {
-  pagesplit: true, // enable page splitting
+  pagesplit: true, 
   callback: function (doc) {
-    doc.save(`${submission.assignment.title}.pdf`); // save the pdf with a filename
+    doc.save(`${submission.assignment.title}.pdf`); 
   },
   x: 0,
   y: 0,
-  width: 200, //target width in the PDF document
-  windowWidth: 1200 //window width in CSS pixels
+  width: 200, 
+  windowWidth: 1200 
 };
 doc.html(content, options).then(() => {
   assignmentData.appendChild(feedbacksFrame);

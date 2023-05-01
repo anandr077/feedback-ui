@@ -62,7 +62,7 @@ function CreateAAssignmentMobile(props) {
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput id="assignmentName" value={assignment.title}></TextInput>
+              <TextInput  placeholder="Type assignment title here" id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1293>
@@ -138,7 +138,7 @@ function titleAndSaveButtons(assignment, saveDraft, publish) {
 function saveButtons(assignment, saveDraft, publish) {
     if (assignment.status === "DRAFT") {
       return <Frame12191>
-        <Link onClick={saveDraft}>Save as draft</Link>
+        <SLink onClick={saveDraft}>Save as draft</SLink>
 
         <Buttons1>
           <Button onClick={publish}>Publish</Button>
@@ -147,13 +147,14 @@ function saveButtons(assignment, saveDraft, publish) {
     }
     return <></>
 }
-const Link = styled.div`
+const SLink = styled.div`
   ${IbmplexsansMediumElectricViolet16px}
   position: relative;
   width: fit-content;
   text-align: right;
   letter-spacing: -0.4px;
   line-height: normal;
+  cursor: pointer;
 `;
 const Frame12191 = styled.div`
   display: flex;

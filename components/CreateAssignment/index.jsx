@@ -18,7 +18,7 @@ import DateSelector from "../DateSelector";
 import MCQQuestionFrame from "../MCQQuestionFrame";
 import ReactiveRender from "../ReactiveRender";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
-
+import SnackbarContext from "../SnackbarContext"
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -44,7 +44,7 @@ export default function CreateAssignment(props) {
   }
   const [assignment, setAssignment] = React.useState(draft)
 
-  const { setShowPopup, setPopupMessage, setDismissable } = props;
+  const { showSnackbar } = React.useContext(SnackbarContext);
   
 
 
@@ -227,15 +227,14 @@ export default function CreateAssignment(props) {
   };
   
   const saveDraft = () => {
+
       updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
         if (res.status === "DRAFT") {
-          setPopupMessage("Draft saved");
-          setShowPopup(true);
+          showSnackbar('Assignment saved');
           return;
         } else {
-          setPopupMessage("Something went wrong, please try again.");
-          setShowPopup(true);
+          showSnackbar('Could not save assignment');
           return;
         }
       });
@@ -243,19 +242,21 @@ export default function CreateAssignment(props) {
   };
 
   const publish = () => {
-    saveDraft()
-    console.log(assignment.id)  
-    publishAssignment(assignment.id).then((res) => {
-      console.log("##", res);
-      if (res.status === "PUBLISHED") {
-        localStorage.setItem("assignment", res.id);
-        window.location.href = "#assignments";
-      } else {
-        setPopupMessage("Assignment Creation Failed");
-        setShowPopup(true);
-        return;
-      }
+    updateAssignment(assignment.id, assignment)
+    .then((_) => {
+      publishAssignment(assignment.id).then((res) => {
+        console.log("##", res);
+        if (res.status === "PUBLISHED") {
+          showSnackbar('Assignment published' );
+          window.location.href = "#assignments";
+        } else {
+          // setPopupMessage("Assignment Creation Failed");
+          // setShowPopup(true);
+          return;
+        }
+      });
     });
+    
   }
       
 
@@ -312,8 +313,8 @@ export default function CreateAssignment(props) {
     publish,
     saveDraft,
     checkboxes,
-    setShowPopup,
-    setDismissable,
+    // setShowPopup,
+    // setDismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
   };

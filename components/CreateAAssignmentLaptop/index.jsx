@@ -63,7 +63,7 @@ function CreateAAssignmentLaptop(props) {
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput id="assignmentName" value={assignment.title}></TextInput>
+              <TextInput placeholder="Type assignment title here" id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1372>
@@ -140,7 +140,7 @@ function titleAndSaveButtons(assignment, saveDraft, publish) {
 const saveButtons = (assignment, saveDraft, publish)=> {
   if (assignment.status === "DRAFT") {
   return <Frame12191>
-    <Link onClick={saveDraft}>Save as draft</Link>
+    <SLink onClick={e=>saveDraft(e)}>Save as draft</SLink>
     <Buttons1>
       <Button onClick={publish}>Publish</Button>
     </Buttons1>
@@ -148,7 +148,7 @@ const saveButtons = (assignment, saveDraft, publish)=> {
   } 
   return <></>
 }
-const Link = styled.div`
+const SLink = styled.div`
   ${IbmplexsansMediumElectricViolet20px}
   position: relative;
   width: fit-content;
@@ -156,6 +156,7 @@ const Link = styled.div`
   text-align: right;
   letter-spacing: -0.5px;
   line-height: normal;
+  cursor: pointer;
 `;
 const Frame1379 = styled.div`
   display: flex;

@@ -1,26 +1,20 @@
 import React from "react";
-import Group1205 from "../Group1205";
+import styled from "styled-components";
+import { timeFirstFormattedDate } from "../../../dates";
+import { getUserName } from "../../../service";
+import { teacherHomeHeaderProps } from "../../../utils/headerProps";
+import Footer from "../../Footer";
+import Header from "../../Header";
+import TaskCard from "../../TaskCard";
+import Frame12842 from "../Frame12842";
 import Frame13124 from "../Frame13124";
 import Frame14072 from "../Frame14072";
-import Frame12842 from "../Frame12842";
-import Frame12832 from "../Frame12832";
-import Frame12822 from "../Frame12822";
-import Frame13134 from "../Frame13134";
-import Frame6 from "../Frame6";
-import styled from "styled-components";
+import Group1205 from "../Group1205";
 import {
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansBoldWhite72px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansNormalWhite20px,
+  IbmplexsansBoldWhite72px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px,
+  IbmplexsansNormalWhite20px
 } from "../styledMixins";
 import "./TeacherDashboardLaptop.css";
-import Header from "../../Header";
-import { teacherHomeHeaderProps } from "../../../utils/headerProps";
-import { getUserName } from "../../../service";
-import Footer from "../../Footer";
-import TaskCard from "../../TaskCard";
-import { timeFirstFormattedDate } from "../../../dates";
 
 function TeacherDashboardLaptop(props) {
   const {

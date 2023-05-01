@@ -230,12 +230,12 @@ export default function CreateAssignment(props) {
       updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
         if (res.status === "DRAFT") {
-          setPopupMessage("Draft saved");
-          setShowPopup(true);
+          // setPopupMessage("Draft saved");
+          // setShowPopup(true);
           return;
         } else {
-          setPopupMessage("Something went wrong, please try again.");
-          setShowPopup(true);
+          // setPopupMessage("Something went wrong, please try again.");
+          // setShowPopup(true);
           return;
         }
       });

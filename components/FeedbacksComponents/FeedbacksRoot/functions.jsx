@@ -63,7 +63,7 @@ export function getSelfPageMode(submission) {
 }
 
 export const  getComments =   (submission) => {
-  alert(JSON.stringify(submission.status))
+  // alert(JSON.stringify(submission.status))
   if (submission.status === "DRAFT") {
     return Promise.all([])
   }
@@ -75,6 +75,6 @@ export const  getComments =   (submission) => {
     }
   }
   const comments  = getCommentsForSubmission(submission.id)
-  alert("comments" + JSON.stringify(comments))
+  // alert("comments" + JSON.stringify(comments))
   return comments
 }

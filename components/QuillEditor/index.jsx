@@ -15,8 +15,9 @@ const QuillEditor = React.forwardRef(
         const editor = new Quill(editorRef.current, options);
         editor.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
         editor.root.style.fontSize = "16px";
-
-        editor.root.innerHTML = value;
+        alert("Value is " + value)
+        const delta = editor.clipboard.convert(value);
+        editor.setContents(delta);
         
         
 
@@ -50,11 +51,16 @@ const QuillEditor = React.forwardRef(
 
           // Convert the filtered Delta object to JSON
           const jsonString = JSON.stringify(filteredDelta);
-          var cfg = {};
+          alert(jsonString)
+          const cfg = {
+            multiLineParagraph: true, // Set this to true if you want to preserve multiline paragraphs
+            multiLineCodeblock: true  // Set this to true if you want to preserve multiline code blocks
+          };
 
           var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
 
           var html = converter.convert(); 
+          alert(html)
           onDebounce(html);
         };
 
@@ -80,7 +86,7 @@ const QuillEditor = React.forwardRef(
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-            alert("Highlighting "+ JSON.stringify(comment))
+            // alert("Highlighting "+ JSON.stringify(comment))
             editor.formatText(range.index, range.length, {
               highlight: comment.id,
             });

@@ -137,7 +137,9 @@ const DeleteButtonFrame = styled.div`
   gap: 12px;
   position: relative;
   align-self: stretch;
-  left: 1em;
+  //left: 1em;
+  padding: 0px 12px 0px 12px;
+
   &.frame-1280-5.frame-1280-6 {
     opacity: 0;
   }

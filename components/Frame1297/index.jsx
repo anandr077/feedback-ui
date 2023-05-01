@@ -22,7 +22,7 @@ function Frame1297(props) {
   return (
     <Frame12971>
       <Frame1287>
-        <Frame1283 onClick={dropdown}>
+        <Frame1283>
           <Frame1282>
             <Frame1281>
               <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
@@ -84,7 +84,7 @@ const Frame12971 = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0px 12px 0px 8px;
+  padding: 0px 12px 0px 12px;
   position: relative;
   align-self: stretch;
 `;
@@ -104,7 +104,7 @@ const Frame1283 = styled.div`
   gap: 8px;
   position: relative;
   align-self: stretch;
-  cursor: pointer;
+  // cursor: pointer;
 `;
 
 const Frame1282 = styled.div`
@@ -143,6 +143,7 @@ const Frame1281 = styled.div`
   gap: 12px;
   position: relative;
   align-self: stretch;
+  // left: 0.5em;
 `;
 
 const RichTextComponents1 = styled.div`

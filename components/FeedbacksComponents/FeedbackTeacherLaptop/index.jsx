@@ -292,6 +292,7 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function createQuill(answer, answerValue, debounce) {
+    console.log("All comments "+ JSON.stringify(comments))
     const q = React.useMemo(
       () => {
         return (

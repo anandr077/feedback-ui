@@ -76,7 +76,7 @@ const QuillEditor = React.forwardRef(
         }
 
 
-
+        console.log("Highlighting " + JSON.stringify(comments))
         comments.forEach((comment) => {
           if (comment.range) {
             const range = {

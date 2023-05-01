@@ -62,19 +62,20 @@ export function getSelfPageMode(submission) {
   return "CLOSED";
 }
 
-export const  getComments =   (submission) => {
-  // alert(JSON.stringify(submission.status))
-  if (submission.status === "DRAFT") {
-    return Promise.all([])
+export const getComments = async (submission) => {
+  console.log("getComments" + JSON.stringify(submission?.id))
+  try {
+    const isDraft = submission.status === "DRAFT";
+    const isTeacher = getUserRole() === "TEACHER";
+    const comments = isDraft
+      ? await Promise.successful([])
+      : submission.status === "SUBMITTED" && !isTeacher
+      ? await Promise.successful([])
+      : await getCommentsForSubmission(submission.id);
+    console.log("Comments:" + JSON.stringify(comments));
+    return comments;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
-  const isTeacher = getUserRole() === "TEACHER";
-
-  if (submission.status === "SUBMITTED") {
-    if (!isTeacher) {
-      return Promise.all([])
-    }
-  }
-  const comments  = getCommentsForSubmission(submission.id)
-  // alert("comments" + JSON.stringify(comments))
-  return comments
-}
+};

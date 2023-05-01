@@ -18,7 +18,7 @@ import DateSelector from "../DateSelector";
 import MCQQuestionFrame from "../MCQQuestionFrame";
 import ReactiveRender from "../ReactiveRender";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
-
+import SnackbarContext from "../SnackbarContext"
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -44,7 +44,7 @@ export default function CreateAssignment(props) {
   }
   const [assignment, setAssignment] = React.useState(draft)
 
-  const { setShowPopup, setPopupMessage, setDismissable } = props;
+  const { showSnackbar } = React.useContext(SnackbarContext);
   
 
 
@@ -226,16 +226,17 @@ export default function CreateAssignment(props) {
     });
   };
   
-  const saveDraft = () => {
+  const saveDraft = (event) => {
+      event.stopPropagation();
+
       updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
+        alert()
         if (res.status === "DRAFT") {
-          setPopupMessage("Draft saved");
-          setShowPopup(true);
+          showSnackbar('Assignment saved successfully');
           return;
         } else {
-          setPopupMessage("Something went wrong, please try again.");
-          setShowPopup(true);
+          showSnackbar('Assignment save failed');
           return;
         }
       });
@@ -251,8 +252,8 @@ export default function CreateAssignment(props) {
         localStorage.setItem("assignment", res.id);
         window.location.href = "#assignments";
       } else {
-        setPopupMessage("Assignment Creation Failed");
-        setShowPopup(true);
+        // setPopupMessage("Assignment Creation Failed");
+        // setShowPopup(true);
         return;
       }
     });
@@ -312,8 +313,8 @@ export default function CreateAssignment(props) {
     publish,
     saveDraft,
     checkboxes,
-    setShowPopup,
-    setDismissable,
+    // setShowPopup,
+    // setDismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
   };

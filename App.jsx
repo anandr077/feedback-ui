@@ -1,4 +1,4 @@
-import { default as React, default as React, useEffect, useState } from "react";
+import { default as React, default as React, useEffect,useContext, useState } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import CreateAssignment from "./components/CreateAssignment";
 import StudentDashboardRoot from "./components/StudentDashBoardRoot";
@@ -16,18 +16,21 @@ import Loader from "./components/Loader";
 import { useLocation } from "react-router-dom";
 import { exchangeCodeForToken } from "./service";
 import withAuth from "./components/WithAuth";
+import ReactDOM from 'react-dom';
+import { Snackbar } from '@mui/material';
+import SnackbarContext from './components/SnackbarContext';
+
 function App() {
-  const [showPopup, setShowPopup] = React.useState(false);
-  const [dismissable, setDismissable] = React.useState(false);
-  const [popupMessage, setPopupMessage] = React.useState();
+  const { snackbarOpen, snackbarMessage, closeSnackbar } = useContext(SnackbarContext);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const role = getUserRole();
-  const popupMethods = {
-    setShowPopup,
-    setPopupMessage,
-    setDismissable,
-  };
+  // const popupMethods = {
+  //   setShowPopup,
+  //   setPopupMessage,
+  //   setDismissable,
+  // };
 
   const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
   const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
@@ -52,6 +55,7 @@ function App() {
     );
   };
   return (
+    <>
     <Router>
       <Switch>
         {/* <Route path="/callback">
@@ -85,10 +89,17 @@ function App() {
         <ProtectedFeedbacksRoot isAssignmentPage={false} />
         </Route>
         <Route path="/">
-        {Dashboard({role, popupMethods})}
+        {Dashboard({role})}
         </Route>
       </Switch>
     </Router>
+    <Snackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        onClose={closeSnackbar}
+        autoHideDuration={3000}
+      />
+    </>
   );
 }
 export default App;

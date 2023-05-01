@@ -78,7 +78,7 @@ export const taskHeaderProps = {
     redirect: "/",
   },
   secondButton: {
-    text: "Task",
+    text: "Tasks",
     icon: "/icons/taskIconUnselected.png",
     iconSelected: "/icons/taskIconWhite.png",
     selected: true,
@@ -102,7 +102,7 @@ export const completedHeaderProps = {
     redirect: "/",
   },
   secondButton: {
-    text: "Task",
+    text: "Tasks",
     icon: "/icons/taskIconUnselected.png",
     iconSelected: "/icons/taskIconWhite.png",
     selected: false,
@@ -125,7 +125,7 @@ export const homeHeaderProps = {
     redirect: "/",
   },
   secondButton: {
-    text: "Task",
+    text: "Tasks",
     icon: "/icons/taskIconUnselected.png",
     iconSelected: "/icons/taskIconWhite.png",
     selected: false,

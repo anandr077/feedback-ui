@@ -20,6 +20,7 @@
     "@mui/x-date-pickers": "^6.2.1",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
+    "html2pdf.js": "^0.10.1",
     "http-server": "^14.1.1",
     "jspdf": "2.5.1",
     "lodash": "^4.17.21",

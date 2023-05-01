@@ -12,18 +12,11 @@ import TeacherDashboardLaptop from "../TeacherDashboardLaptop";
 import TeacherDashboardDesktop from "../TeacherDashboardDesktop";
 
 export default function TeacherDashboardRoot(props) {
-  const { setShowPopup, setPopupMessage, setDismissable } = props;
   const [assignments, setAssignments] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const message = localStorage.getItem("assignment");
-  if (message) {
-    setShowPopup(true);
-    setPopupMessage("Assignment created successfully");
-    setDismissable(true);
-    localStorage.removeItem("assignment");
-  }
+  
   React.useEffect(() => {
     Promise.all([
       getAssignments(),

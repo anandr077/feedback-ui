@@ -46,7 +46,7 @@ export default function TheoryQuestionFrame(props) {
               id={"question_" + serialNumber}
               value = {questionDetails?.question}
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
-              placeholder="Type Your Question here"
+              placeholder="Type question here"
             />
           </QuestionFrame2>
         </InputQuestion>

@@ -21,16 +21,9 @@ import { Snackbar } from '@mui/material';
 import SnackbarContext from './components/SnackbarContext';
 
 function App() {
-  const { snackbarOpen, snackbarMessage, closeSnackbar } = useContext(SnackbarContext);
-
-  const [isLoading, setIsLoading] = useState(true);
 
   const role = getUserRole();
-  // const popupMethods = {
-  //   setShowPopup,
-  //   setPopupMessage,
-  //   setDismissable,
-  // };
+
 
   const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
   const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
@@ -41,12 +34,11 @@ function App() {
   const ProtectedCreateAssignment = withAuth(CreateAssignment);
   const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
-  // const protectedStudentDashboard = withAuth(<StudentDashboardRoot {...popupMethods} />)
-  const Dashboard = ({role, ...popupMethods}) => {
+  const Dashboard = ({role}) => {
     const dashboard = role === "TEACHER" ? 
-      <ProtectedTeacherDashboard {...popupMethods} />
+      <ProtectedTeacherDashboard />
      : 
-      <ProtectedStudentDashboard {...popupMethods} />
+      <ProtectedStudentDashboard />
     ;
     return (
       <div>
@@ -93,12 +85,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
-    <Snackbar
-        open={snackbarOpen}
-        message={snackbarMessage}
-        onClose={closeSnackbar}
-        autoHideDuration={3000}
-      />
+    
     </>
   );
 }

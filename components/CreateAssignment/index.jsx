@@ -226,17 +226,15 @@ export default function CreateAssignment(props) {
     });
   };
   
-  const saveDraft = (event) => {
-      event.stopPropagation();
+  const saveDraft = () => {
 
       updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
-        alert()
         if (res.status === "DRAFT") {
-          showSnackbar('Assignment saved successfully');
+          showSnackbar('Assignment saved');
           return;
         } else {
-          showSnackbar('Assignment save failed');
+          showSnackbar('Could not save assignment');
           return;
         }
       });
@@ -244,19 +242,21 @@ export default function CreateAssignment(props) {
   };
 
   const publish = () => {
-    saveDraft()
-    console.log(assignment.id)  
-    publishAssignment(assignment.id).then((res) => {
-      console.log("##", res);
-      if (res.status === "PUBLISHED") {
-        localStorage.setItem("assignment", res.id);
-        window.location.href = "#assignments";
-      } else {
-        // setPopupMessage("Assignment Creation Failed");
-        // setShowPopup(true);
-        return;
-      }
+    updateAssignment(assignment.id, assignment)
+    .then((_) => {
+      publishAssignment(assignment.id).then((res) => {
+        console.log("##", res);
+        if (res.status === "PUBLISHED") {
+          showSnackbar('Assignment published' );
+          window.location.href = "#assignments";
+        } else {
+          // setPopupMessage("Assignment Creation Failed");
+          // setShowPopup(true);
+          return;
+        }
+      });
     });
+    
   }
       
 

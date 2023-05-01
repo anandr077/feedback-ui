@@ -63,7 +63,7 @@ function CreateAAssignmentLaptop(props) {
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput id="assignmentName" value={assignment.title}></TextInput>
+              <TextInput placeholder="Type assignment title here" id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1372>

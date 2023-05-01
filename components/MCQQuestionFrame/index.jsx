@@ -78,7 +78,7 @@ export default function /*  */MCQQuestionFrame(props) {
           >
             <QuestionInputEditable
               id={"question_" + serialNumber}
-              placeholder="Type Your Question here"
+              placeholder="Type question here"
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
               value={questionDetails?.question}
             />

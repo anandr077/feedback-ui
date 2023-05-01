@@ -127,6 +127,8 @@ export const IbmplexsansNormalShark16px = css`
 `;
 const StyledMenuItem = styled(MenuItem)`
 display: flex;
+  gap: 12px;
+  
   align-items: center;
   padding: 0px 0px 0px 12px;
   position: relative;

@@ -75,7 +75,7 @@ function CardContent(props) {
           <TaskTitle>{task.response}</TaskTitle>
           <RemarkText> Remark</RemarkText>
           <Remark>
-            Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.
+            {task.comment}
           </Remark>
         </Content>
       ) : (

@@ -9,7 +9,6 @@ import { formattedDate } from "../../../dates";
 import {
   addFeedback,
   deleteFeedback,
-  getCommentsForSubmission,
   getSubmissionById,
   getSubmissionsByAssignmentId,
   getUserId,
@@ -29,7 +28,7 @@ import Loader from "../../Loader";
 import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
-import { extractStudents, getPageMode } from "./functions";
+import { extractStudents, getComments, getPageMode } from "./functions";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -65,17 +64,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }, [assignmentId]);
   useEffect(() => {
-    Promise.all([getSubmissionById(id), getCommentsForSubmission(id)])
-      .then(([submissionsResult, commentsResult]) => {
+    Promise.all([getSubmissionById(id)])
+      .then(([submissionsResult]) => {
         console.log("submissionsResult " + submissionsResult);
         setSubmission(submissionsResult);
-        setComments(commentsResult);
+        getComments(submissionsResult).then((commentsResult) =>{
+          setComments(commentsResult);
+        }).finally(() => {
+          if (!isTeacher) {
+            setIsLoading(false);
+          }
+        });
       })
-      .finally(() => {
-        if (!isTeacher) {
-          setIsLoading(false);
-        }
-      });
+      
   }, [assignmentId]);
   useEffect(() => {
     console.log("Submissions " + submission);
@@ -254,7 +255,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
         Promise.all(promises).then((results) => {
           console.log("results " + JSON.stringify(results));
-          getCommentsForSubmission(submission.id).then((cmts) => {
+          getComments(submission).then((cmts) => {
             setComments(cmts);
             handleChangeText("All changes saved", true);
           });

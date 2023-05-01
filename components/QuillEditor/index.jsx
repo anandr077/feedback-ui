@@ -80,7 +80,7 @@ const QuillEditor = React.forwardRef(
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-
+            alert("Highlighting "+ JSON.stringify(comment))
             editor.formatText(range.index, range.length, {
               highlight: comment.id,
             });

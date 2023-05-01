@@ -2,6 +2,7 @@ import { Avatar } from "@boringer-avatars/react";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { React } from "react";
+import { getCommentsForSubmission, getUserRole } from "../../../service";
 
 export function extractStudents(tasksResult) {
   return tasksResult.map((task) => {
@@ -59,4 +60,21 @@ export function getSelfPageMode(submission) {
   if (submission.status === "REVIEWED") return "REVISE";
   if (submission.status === "CLOSED") return "CLOSED";
   return "CLOSED";
+}
+
+export const  getComments =   (submission) => {
+  alert(JSON.stringify(submission.status))
+  if (submission.status === "DRAFT") {
+    return Promise.all([])
+  }
+  const isTeacher = getUserRole() === "TEACHER";
+
+  if (submission.status === "SUBMITTED") {
+    if (!isTeacher) {
+      return Promise.all([])
+    }
+  }
+  const comments  = getCommentsForSubmission(submission.id)
+  alert("comments" + JSON.stringify(comments))
+  return comments
 }

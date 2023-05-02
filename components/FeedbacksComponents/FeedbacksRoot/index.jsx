@@ -51,29 +51,36 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
 
   const isTeacher = getUserRole() === "TEACHER";
-  
+  const [assignmentId, setAssignmentId] = useState(id);
   useEffect(() => {
-    getSubmissionById(id).then((r)=>{
-      return getComments(r).then((c) =>{
-        return [r, c]
-      })
-    })
-      .then(([submissionsResult, commentsResult]) => {
+    Promise.all([
+      isAssignmentPage
+        ? getSubmissionsByAssignmentId(assignmentId)
+        : Promise.resolve([]),
+    ]).then(([submissionsResult]) => {
+      if (isAssignmentPage) {
+        window.location.href = "#submissions/" + submissionsResult[0].id;
+      }
+    });
+  }, [assignmentId]);
+  useEffect(() => {
+    Promise.all([getSubmissionById(id)])
+      .then(([submissionsResult]) => {
         console.log("submissionsResult " + submissionsResult);
         setSubmission(submissionsResult);
-        setComments(commentsResult);
-      }).finally(() => {
+        getComments(submissionsResult).then((commentsResult) =>{
+          setComments(commentsResult);
+        }).finally(() => {
           if (!isTeacher) {
-            console.log("Setting is loading for !isTeacher")
             setIsLoading(false);
           }
         });
+      })
       
-      
-  }, [id]);
+  }, [assignmentId]);
   useEffect(() => {
     console.log("Submissions " + submission);
-    if (isTeacher && submission && submission?.assignmentId) {
+    if (isTeacher && submission && submission.assignmentId) {
       getSubmissionsByAssignmentId(submission.assignmentId)
         .then((allSubmissions) => {
           setStudents(extractStudents(allSubmissions));
@@ -83,26 +90,22 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const nextUrl = allExceptCurrent[0]
             ? "#submissions/" + allExceptCurrent[0]?.id
             : "/";
-          // console.log("allSubmissions " + JSON.stringify(allSubmissions));
+          console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
           const studentName =
-            allSubmissions.find((r) => r.id === submission.assignmentId)?.studentName ??
+            allSubmissions.find((r) => r.id === assignmentId)?.studentName ??
             null;
           console.log("studentName " + studentName);
 
           setStudentName(studentName);
-          
+          setIsLoading(false);
         })
-        .finally(() => {
-          console.log("Setting is loading " + isLoading)
-          setIsLoading(false)
-        });
+        .finally(() => setIsLoading(false));
     }
   }, [submission]);
   if (isLoading) {
     return <Loader />;
   }
-  console.log("Loading finished " + JSON.stringify(comments) + " isLoading " + isLoading)
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
   const handleChangeText = (change, allSaved) => {
@@ -431,32 +434,96 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       orientation: 'p',
       unit: 'mm',
       format: 'a4',
-      margin: 0
+    margin:{
+      top: 20,
+      bottom: 20,
+      left: 20,
+      right: 20,
+    },
     });
-    const content = document.getElementById("content");
-   
-    const assignmentData = content.querySelector("#assignmentData");
-    const feedbacksFrame = content.querySelector("#feedbacksFrame");
-    const assignmentTitle = content.querySelector("#assignmentTitle");
-    const delteButton = assignmentTitle.querySelector("#deleteButton");
-    assignmentData.removeChild(feedbacksFrame);
-    assignmentTitle.removeChild(delteButton);
 
+    console.log("##",submission);
+
+    const totalpdf = document.createElement("div");
+    
+    const title = document.createElement('div');
+
+    title.style.fontSize = '40px';
+    title.style.fontWeight = 'bold';
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '50px';
+
+    title.textContent = submission.assignment.title;
+    totalpdf.appendChild(title);
+
+    const assignmentQuestions = new Array(submission.assignment.questions.length+1);
+    const assignmentAnswers = new Array(submission.assignment.questions.length+1);
+    submission.assignment.questions.map((question) => {
+      assignmentQuestions[question.serialNumber]= question.question;
+      if(question.type === "MCQ")
+      {
+        const options = document.createElement('div');
+        question.options.map((option) => {
+          const optiondiv = document.createElement('div');
+          optiondiv.style.fontSize = option.isCorrect?'25px':'20px';
+          optiondiv.style.fontWeight = option.isCorrect?'bold':'normal';
+          optiondiv.style.color = option.isCorrect?'green':'black';
+          
+          optiondiv.style.marginBottom = '10px';
+          optiondiv.textContent = option.option;
+          options.appendChild(optiondiv);
+          
+        });
+        assignmentAnswers[question.serialNumber]= options;
+      }
+      console.log(assignmentAnswers[question.serialNumber]);
+    });
+  
+    
+    submission.answers.map((answer) => {
+    const parser = new DOMParser();
+   const htmlContent = answer.answer.answer;
+   const parsedContent = parser.parseFromString(htmlContent, 'text/html').body.textContent;
+   if(answer.answer.answer)
+   {assignmentAnswers[answer.serialNumber]= parsedContent;}
+ });
+ for (let i = 1; i < assignmentQuestions.length; i++) {
+  const question = document.createElement('div');
+  question.style.fontSize = '25px';
+  question.style.fontWeight = 'bold';
+  question.style.marginBottom = '10px';
+  question.textContent = i + ". " + assignmentQuestions[i];
+  totalpdf.appendChild(question);
+
+  const answer = document.createElement('div');
+  answer.style.border = '1px solid black';
+  answer.style.padding = '10px';
+  answer.style.fontSize = '20px';
+  answer.style.marginBottom = '40px';
+  if (assignmentAnswers[i] instanceof HTMLElement) {
+    answer.appendChild(assignmentAnswers[i]);
+  } else {
+    answer.textContent = assignmentAnswers[i];
+  }
+  // answer.textContent = assignmentAnswers[i];
+  console.log("##",assignmentAnswers[i]);
+  totalpdf.appendChild(answer);
+ }
+
+ 
 const options = {
-  pagesplit: true, 
+
   callback: function (doc) {
     doc.save(`${submission.assignment.title}.pdf`); 
   },
-  x: 0,
-  y: 0,
-  width: 200, 
-  windowWidth: 1200 
+  x: 10,
+  y: 10,
+  width: 170, 
+  windowWidth: 1180 
 };
-doc.html(content, options).then(() => {
-  assignmentData.appendChild(feedbacksFrame);
-    assignmentTitle.appendChild(delteButton);
-});
-  
+
+doc.html(totalpdf, options);
+
   };
 
 

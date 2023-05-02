@@ -6,6 +6,12 @@ import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { formattedDate } from "../../../dates";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
+import styled from "styled-components";
 import {
   addFeedback,
   deleteFeedback,
@@ -16,12 +22,12 @@ import {
   markSubmissionReviewed as markSubmsissionReviewed,
   markSubmsissionClosed,
   submitAssignment,
-  updateFeedbackRange
+  updateFeedbackRange,
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
   assignmentsHeaderProps,
-  taskHeaderProps
+  taskHeaderProps,
 } from "../../../utils/headerProps.js";
 import ImageDropdownMenu from "../../ImageDropdownMenu";
 import Loader from "../../Loader";
@@ -29,10 +35,18 @@ import ReactiveRender from "../../ReactiveRender";
 import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getComments, getPageMode } from "./functions";
+import { TextField } from "@mui/material";
+import {
+  IbmplexsansMediumCongressBlue13px,
+  IbmplexsansNormalShark20px,
+} from "../../../styledMixins";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
+  const [showShareWithClass, setShowShareWithClass] = useState(false);
+  const [exemplerComment, setExemplerComment] = useState("");
+  const [isValidComment, setIsValidComment] = useState(true);
 
   const newCommentFrameRef = useRef(null);
 
@@ -64,19 +78,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }, [assignmentId]);
   useEffect(() => {
-    Promise.all([getSubmissionById(id)])
-      .then(([submissionsResult]) => {
-        console.log("submissionsResult " + submissionsResult);
-        setSubmission(submissionsResult);
-        getComments(submissionsResult).then((commentsResult) =>{
+    Promise.all([getSubmissionById(id)]).then(([submissionsResult]) => {
+      console.log("submissionsResult " + submissionsResult);
+      setSubmission(submissionsResult);
+      getComments(submissionsResult)
+        .then((commentsResult) => {
           setComments(commentsResult);
-        }).finally(() => {
+        })
+        .finally(() => {
           if (!isTeacher) {
             setIsLoading(false);
           }
         });
-      })
-      
+    });
   }, [assignmentId]);
   useEffect(() => {
     console.log("Submissions " + submission);
@@ -132,7 +146,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
-    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
+    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
+      selectedRange,
+      selectedRangeFormat
+    );
 
     if (!document.getElementById("newCommentInput").value) return;
     addFeedback(submission.id, {
@@ -150,7 +167,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
-    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
+    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
+      selectedRange,
+      selectedRangeFormat
+    );
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -166,13 +186,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
   }
 
-  function handleShareWithClass() {
-    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
-    if (!document.getElementById("newCommentInput").value) return;
-
+  const addExemplerComment = () => {
+    if (exemplerComment === "") {
+      setIsValidComment(false);
+      return;
+    }
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: document.getElementById("newCommentInput").value,
+      feedback: exemplerComment,
       range: selectedRange,
       type: "MODEL_RESPONSE",
     }).then((response) => {
@@ -182,6 +203,52 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }
     });
     setShowNewComment(false);
+    setExemplerComment("");
+    setShowShareWithClass(false);
+  };
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setExemplerComment(value);
+    setIsValidComment(value !== "");
+  };
+  const sharewithclassdialog = (
+    <Dialog
+      onClose={() => {
+        setShowShareWithClass(false);
+        setShowNewComment(false);
+        setExemplerComment("");
+      }}
+      open={showShareWithClass}
+    >
+      <Box padding={2}>
+        <StyledTextField
+          label="Exempler remark"
+          variant="outlined"
+          value={exemplerComment}
+          onChange={handleInputChange}
+          error={!isValidComment}
+          helperText={!isValidComment ? "Please enter remark here" : ""}
+        />
+        <DialogActions>
+          <SubmitCommentFrameRoot
+            submitButtonOnClick={addExemplerComment}
+            cancelButtonOnClick={() => {
+              setShowShareWithClass(false);
+              setShowNewComment(false);
+              setExemplerComment("");
+            }}
+          />
+        </DialogActions>
+      </Box>
+    </Dialog>
+  );
+
+  function handleShareWithClass() {
+    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
+      selectedRange,
+      selectedRangeFormat
+    );
+    setShowShareWithClass(true);
   }
   const createDebounceFunction = (answer) => {
     if (pageMode === "DRAFT" || pageMode === "REVISE") {
@@ -269,8 +336,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
 
-  
-
   function handleSubmissionReviewed() {
     markSubmsissionReviewed(submission.id).then((_) => {
       if (isTeacher) {
@@ -329,7 +394,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const reviewerSelectionChange = (serialNumber) => (range) => {
     if (range) {
-      
       const from = range.index;
       const to = range.index + range.length;
 
@@ -349,11 +413,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             from: from,
             to: to,
           });
-          const delta = quillRefs.current[serialNumber-1].setLostFocusColor(range);
+          const delta =
+            quillRefs.current[serialNumber - 1].setLostFocusColor(range);
           setSelectedRangeFormat(delta);
 
           // newCommentFrameRef.current?.focus();
-        
+
           setShowNewComment(true);
         }
       }
@@ -398,8 +463,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const hideNewCommentDiv = () => {
-    quillRefs.current[newCommentSerialNumber-1].applyBackgroundFormat(selectedRange, selectedRangeFormat)
-    
+    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
+      selectedRange,
+      selectedRangeFormat
+    );
+
     setShowNewComment(false);
   };
 
@@ -415,118 +483,117 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     if (!isTeacher) {
       return <></>;
     } else {
-      const menuItems=students.map((student) => {
+      const menuItems = students.map((student) => {
         return {
           id: student.id,
           title: student.name,
-          link: student.link
+          link: student.link,
         };
-      })
-      return (<ImageDropdownMenu
+      });
+      return (
+        <ImageDropdownMenu
           menuItems={menuItems}
           showAvatar={true}
-      ></ImageDropdownMenu>
+        ></ImageDropdownMenu>
       );
     }
   };
   const downloadPDF = () => {
     const doc = new jsPDF({
-      orientation: 'p',
-      unit: 'mm',
-      format: 'a4',
-    margin:{
-      top: 20,
-      bottom: 20,
-      left: 20,
-      right: 20,
-    },
+      orientation: "p",
+      unit: "mm",
+      format: "a4",
+      margin: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      },
     });
 
-    console.log("##",submission);
+    console.log("##", submission);
 
     const totalpdf = document.createElement("div");
-    
-    const title = document.createElement('div');
 
-    title.style.fontSize = '40px';
-    title.style.fontWeight = 'bold';
-    title.style.textAlign = 'center';
-    title.style.marginBottom = '50px';
+    const title = document.createElement("div");
+
+    title.style.fontSize = "40px";
+    title.style.fontWeight = "bold";
+    title.style.textAlign = "center";
+    title.style.marginBottom = "50px";
 
     title.textContent = submission.assignment.title;
     totalpdf.appendChild(title);
 
-    const assignmentQuestions = new Array(submission.assignment.questions.length+1);
-    const assignmentAnswers = new Array(submission.assignment.questions.length+1);
+    const assignmentQuestions = new Array(
+      submission.assignment.questions.length + 1
+    );
+    const assignmentAnswers = new Array(
+      submission.assignment.questions.length + 1
+    );
     submission.assignment.questions.map((question) => {
-      assignmentQuestions[question.serialNumber]= question.question;
-      if(question.type === "MCQ")
-      {
-        const options = document.createElement('div');
+      assignmentQuestions[question.serialNumber] = question.question;
+      if (question.type === "MCQ") {
+        const options = document.createElement("div");
         question.options.map((option) => {
-          const optiondiv = document.createElement('div');
-          optiondiv.style.fontSize = option.isCorrect?'25px':'20px';
-          optiondiv.style.fontWeight = option.isCorrect?'bold':'normal';
-          optiondiv.style.color = option.isCorrect?'green':'black';
-          
-          optiondiv.style.marginBottom = '10px';
+          const optiondiv = document.createElement("div");
+          optiondiv.style.fontSize = option.isCorrect ? "25px" : "20px";
+          optiondiv.style.fontWeight = option.isCorrect ? "bold" : "normal";
+          optiondiv.style.color = option.isCorrect ? "green" : "black";
+
+          optiondiv.style.marginBottom = "10px";
           optiondiv.textContent = option.option;
           options.appendChild(optiondiv);
-          
         });
-        assignmentAnswers[question.serialNumber]= options;
+        assignmentAnswers[question.serialNumber] = options;
       }
       console.log(assignmentAnswers[question.serialNumber]);
     });
-  
-    
+
     submission.answers.map((answer) => {
-    const parser = new DOMParser();
-   const htmlContent = answer.answer.answer;
-   const parsedContent = parser.parseFromString(htmlContent, 'text/html').body.textContent;
-   if(answer.answer.answer)
-   {assignmentAnswers[answer.serialNumber]= parsedContent;}
- });
- for (let i = 1; i < assignmentQuestions.length; i++) {
-  const question = document.createElement('div');
-  question.style.fontSize = '25px';
-  question.style.fontWeight = 'bold';
-  question.style.marginBottom = '10px';
-  question.textContent = i + ". " + assignmentQuestions[i];
-  totalpdf.appendChild(question);
+      const parser = new DOMParser();
+      const htmlContent = answer.answer.answer;
+      const parsedContent = parser.parseFromString(htmlContent, "text/html")
+        .body.textContent;
+      if (answer.answer.answer) {
+        assignmentAnswers[answer.serialNumber] = parsedContent;
+      }
+    });
+    for (let i = 1; i < assignmentQuestions.length; i++) {
+      const question = document.createElement("div");
+      question.style.fontSize = "25px";
+      question.style.fontWeight = "bold";
+      question.style.marginBottom = "10px";
+      question.textContent = i + ". " + assignmentQuestions[i];
+      totalpdf.appendChild(question);
 
-  const answer = document.createElement('div');
-  answer.style.border = '1px solid black';
-  answer.style.padding = '10px';
-  answer.style.fontSize = '20px';
-  answer.style.marginBottom = '40px';
-  if (assignmentAnswers[i] instanceof HTMLElement) {
-    answer.appendChild(assignmentAnswers[i]);
-  } else {
-    answer.textContent = assignmentAnswers[i];
-  }
-  // answer.textContent = assignmentAnswers[i];
-  console.log("##",assignmentAnswers[i]);
-  totalpdf.appendChild(answer);
- }
+      const answer = document.createElement("div");
+      answer.style.border = "1px solid black";
+      answer.style.padding = "10px";
+      answer.style.fontSize = "20px";
+      answer.style.marginBottom = "40px";
+      if (assignmentAnswers[i] instanceof HTMLElement) {
+        answer.appendChild(assignmentAnswers[i]);
+      } else {
+        answer.textContent = assignmentAnswers[i];
+      }
+      // answer.textContent = assignmentAnswers[i];
+      console.log("##", assignmentAnswers[i]);
+      totalpdf.appendChild(answer);
+    }
 
- 
-const options = {
+    const options = {
+      callback: function (doc) {
+        doc.save(`${submission.assignment.title}.pdf`);
+      },
+      x: 10,
+      y: 10,
+      width: 170,
+      windowWidth: 1180,
+    };
 
-  callback: function (doc) {
-    doc.save(`${submission.assignment.title}.pdf`); 
-  },
-  x: 10,
-  y: 10,
-  width: 170, 
-  windowWidth: 1180 
-};
-
-doc.html(totalpdf, options);
-
+    doc.html(totalpdf, options);
   };
-
-
 
   function submissionStatusLabel() {
     return getStatusMessage(
@@ -646,6 +713,7 @@ doc.html(totalpdf, options);
             studentName,
             students,
             submission,
+            sharewithclassdialog,
             ...feedbacksFeedbackTeacherMobileData,
           }}
         />
@@ -666,6 +734,7 @@ doc.html(totalpdf, options);
             studentName,
             students,
             submission,
+            sharewithclassdialog,
             ...feedbacksFeedbackTeacherLaptopData,
           }}
         />
@@ -687,6 +756,7 @@ doc.html(totalpdf, options);
               studentName,
               students,
               submission,
+              sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
             }}
           />
@@ -708,6 +778,7 @@ doc.html(totalpdf, options);
             studentName,
             students,
             submission,
+            sharewithclassdialog,
             ...feedbacksFeedbackTeacherLaptopData,
           }}
         />
@@ -715,6 +786,29 @@ doc.html(totalpdf, options);
     />
   );
 }
+
+const StyledTextField = styled(TextField)`
+  width: 100%;
+  margin-bottom: 20px;
+  .MuiOutlinedInput-root {
+    ${IbmplexsansNormalShark20px}
+    border-radius: 0px;
+    border-color: var(--light-mode-purple);
+  }
+  .MuiOutlinedInput-root {
+    border-color: var(--light-mode-purple);
+  }
+  label {
+    ${IbmplexsansNormalShark20px}
+    color: var(--light-mode-purple);
+    border-color: var(--light-mode-purple);
+  }
+  .MuiInputBase-input {
+    ${IbmplexsansNormalShark20px}
+    border-color:var(--light-mode-purple);
+  }
+`;
+
 const isTeacher = getUserRole() === "TEACHER";
 
 const feedbacksNavElement1Data = {

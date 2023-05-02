@@ -51,6 +51,7 @@ function FeedbackTeacherLaptop(props) {
     headerProps,
     submission,
     share,
+    sharewithclassdialog,
     breadcrumb21Props,
     breadcrumb22Props,
     frame13201Props,
@@ -239,6 +240,7 @@ function FeedbackTeacherLaptop(props) {
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <div className="feedback-teacher-laptop screen">
+      {sharewithclassdialog}
       <Frame1388>
         {tabletView ? (
           <HeaderSmall headerProps={headerProps} />
@@ -281,7 +283,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1371>
           <Frame1368 id="assignmentData">
             <Group1225 id="answers">
-              <Frame1367 >{answerFrames}</Frame1367>
+              <Frame1367>{answerFrames}</Frame1367>
             </Group1225>
             {feedbackFrame()}
           </Frame1368>
@@ -292,7 +294,7 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function createQuill(answer, answerValue, debounce) {
-    console.log("All comments "+ JSON.stringify(comments))
+    console.log("All comments " + JSON.stringify(comments));
     const q = React.useMemo(
       () => {
         return (
@@ -300,7 +302,6 @@ function FeedbackTeacherLaptop(props) {
             ref={(editor) =>
               methods.handleEditorMounted(editor, answer.serialNumber - 1)
             }
-            
             comments={comments.filter((comment) => {
               return comment.questionSerialNumber === answer.serialNumber;
             })}

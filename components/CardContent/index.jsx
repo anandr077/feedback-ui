@@ -50,14 +50,14 @@ function CardContent(props) {
             <SmallTaskTitle>
               <Submissions>
                 Submissions: {task.submissionCount} of{" "}
-                {task.expectedSubmissions}
+                {task.expectedSubmissions} | Reviewed: {task.reviewCount} of {task.submissionCount} 
               </Submissions>
             </SmallTaskTitle>
           ) : (
             <TaskTitle>
               <Submissions>
-                Submissions: {task.submissionCount} of{" "}
-                {task.expectedSubmissions}
+              Submissions: {task.submissionCount} of{" "}
+                {task.expectedSubmissions} | Reviewed: {task.reviewCount} of {task.submissionCount} 
               </Submissions>
             </TaskTitle>
           )}

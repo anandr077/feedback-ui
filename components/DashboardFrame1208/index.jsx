@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { IbmplexsansMediumRiverBed20px } from "../../styledMixins";
 
 function DashboardFrame1208(props) {
-  const { tasks } = props;
+  const { tasks, exempler } = props;
 
   return (
     <Frame12081>
-      <Crown src="/img/crown@2x.png" alt="crown" />
+      {exempler && <Crown src="/img/crown@2x.png" alt="crown" />}
       <Tasks>{tasks}</Tasks>
     </Frame12081>
   );
@@ -30,6 +30,7 @@ const Frame12081 = styled.div`
 
 const Tasks = styled.div`
   ${IbmplexsansMediumRiverBed20px}
+  font-size: 20px;
   position: relative;
   flex: 1;
   margin-top: -1px;

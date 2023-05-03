@@ -233,6 +233,7 @@ const Frame1337 = styled.div`
 
 const Tasks = styled.div`
   ${IbmplexsansMediumRiverBed24px}
+  font-size: 24px;
   position: relative;
   flex: 1;
   margin-top: -1px;

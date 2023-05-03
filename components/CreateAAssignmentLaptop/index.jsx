@@ -184,7 +184,7 @@ const Frame1376Sticky = styled.div`
   padding: 0px 60px;
   // position: sticky;
   top:0;
-  z-index: 1;
+  // z-index: 1;
   background-color: var(--white-pointer);  border-radius: 16px;
   var(--light-mode-purple)
   overflow-y: scroll;

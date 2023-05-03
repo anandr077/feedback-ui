@@ -142,7 +142,7 @@ function TeacherClassesDesktop(props) {
               <Frame13371>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Model Responses</ExemplarResponses>
+                  <ExemplarResponses>Exemplary Responses</ExemplarResponses>
                 </Frame13124>
               </Frame13371>
               <Line17 src={line176} alt="Line 17" />

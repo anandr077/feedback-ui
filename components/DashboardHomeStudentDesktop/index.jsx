@@ -78,7 +78,7 @@ function DashboardHomeStudentDesktop(props) {
           <Frame1339>
             <Frame1337>
               <Crown src="/img/crown@2x.png" alt="crown" />
-              <Tasks>Model Responses</Tasks>
+              <Tasks>Exemplary Responses</Tasks>
             </Frame1337>
             <Frame20>
             <TaskCardContainer allTasks={modelResponses} exempler={true} />

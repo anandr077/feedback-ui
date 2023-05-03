@@ -247,7 +247,7 @@ export default function CreateAssignment(props) {
       publishAssignment(assignment.id).then((res) => {
         console.log("##", res);
         if (res.status === "PUBLISHED") {
-          showSnackbar('Assignment published' );
+          showSnackbar('Assignment published', res.link);
           window.location.href = "#assignments";
         } else {
           // setPopupMessage("Assignment Creation Failed");

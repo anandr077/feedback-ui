@@ -20,6 +20,7 @@ export default function TheoryQuestionFrame(props) {
   } = props;
   return (
     <SmalllQuestionFrame
+      id={"questionContainer_" + serialNumber}
       onClick={cleanformattingDiv}
     >
       <Frame1295>

@@ -32,7 +32,7 @@ export default function /*  */MCQQuestionFrame(props) {
         <OptionInputEditable
           id={"option_" + serialNumber + "_" + index}
           placeholder={"Option " + (index + 1)}
-          onClick={cleanformattingDiv}
+          onClick={cleanformattingTextBox}
           value={option.option}
           onChange={(e) => handleOptionChange(option.optionSerialNumber, e.target.value, option.isCorrect)}
         />

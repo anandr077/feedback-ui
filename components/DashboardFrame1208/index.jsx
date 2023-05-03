@@ -16,13 +16,13 @@ function DashboardFrame1208(props) {
 
 const Crown = styled.img`
   position: relative;
-  min-width: 26px;
-  height: 26px;
+  min-width: 24px;
+  height: 24px;
 `;
 const Frame12081 = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
   padding: 0px 16px;
   position: relative;
   align-self: stretch;

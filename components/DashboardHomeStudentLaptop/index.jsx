@@ -67,6 +67,7 @@ function DashboardHomeStudentLaptop(props) {
                 />
               </Frame1307>
               <Line17 src="/img/line-17-4.png" alt="Line 16" />
+              <TaskInsideFrame>
               <TaskCardContainer
                 allTasks={[
                   ...overdueTasks,
@@ -74,6 +75,7 @@ function DashboardHomeStudentLaptop(props) {
                   ...inProgressTasks,
                 ]}
               />
+              </TaskInsideFrame>
             </Frame1336>
           </Frame1339>
           <Frame1339>
@@ -81,12 +83,16 @@ function DashboardHomeStudentLaptop(props) {
               <Crown src="/icons/exemplary_response.png" alt="crown" />
               <Tasks>Exemplary Responses</Tasks>
             </Frame1337>
+         
+            <Line18 src="/img/line-17-6.png" alt="Line 16" />
+            <InsideFrame>
             <TaskCardContainer
               allTasks={modelResponses}
               exempler={true}
               // line17={frame1340Props.line17}
               // group1205Props={frame1340Props.group1205Props}
             />
+            </InsideFrame>
           </Frame1339>
         </Frame1346>
       </Frame1347>
@@ -96,10 +102,28 @@ function DashboardHomeStudentLaptop(props) {
   );
 }
 
+const TaskInsideFrame = styled.div`
+ display: flex;
+  flex-direction: column;
+  height: 493px;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0px 20px;
+  position: relative;
+  align-self: stretch;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+  `;
+const InsideFrame = styled.div`
+  padding: 0px 20px;`;
 const Crown = styled.img`
   position: relative;
-  min-width: 26px;
-  height: 26px;
+  min-width: 24px;
+  height: 24px;
 `;
 const Frame1347 = styled.div`
   display: flex;
@@ -222,7 +246,7 @@ const Frame1339 = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
-  padding: 20px 10px 20px 10px;
+  padding: 20px 0px;
   position: relative;
   flex: 1;
   background-color: var(--white);
@@ -234,7 +258,7 @@ const Frame1339 = styled.div`
 const Frame1337 = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
@@ -257,7 +281,13 @@ const Line17 = styled.img`
   height: 1px;
   object-fit: cover;
 `;
-
+const Line18 = styled.img`
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 1px;
+  object-fit: cover;
+`;
 const Frame1336 = styled.div`
   display: flex;
   flex-direction: column;

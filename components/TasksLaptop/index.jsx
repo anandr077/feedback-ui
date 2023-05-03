@@ -10,14 +10,14 @@ import TaskCardContainer from "../TaskCardContainer";
 import TaskFrame1353 from "../TaskFrame1353";
 import "./TasksLaptop.css";
 function TasksLaptop(props) {
-  const { outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
+  const { menuItems, filterTasks,outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
     props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={taskHeaderProps} />
       <Frame1361>
         <Title>Tasks</Title>
-        <Frame1360>
+        <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>        <Frame1360>
           {/* <TaskFrame1306 /> */}
           <Frame1359>
             <Frame1358>

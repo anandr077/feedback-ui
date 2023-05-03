@@ -11,7 +11,8 @@ function TaskCardContainer(props) {
       </a>
     );
   });
-  return <CardContainer>{cards}</CardContainer>;
+  return exempler ? (<ExemplerCardContainer>{cards}</ExemplerCardContainer>) :
+  (<CardContainer>{cards}</CardContainer>);
 }
 
 const CardContainer = styled.div`
@@ -23,6 +24,23 @@ const CardContainer = styled.div`
   gap: 20px;
   overflow-y: scroll;
   max-height: 480px;
+  padding: 0px 0px 10px 0px;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+  
+`;
+const ExemplerCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
+  overflow-y: scroll;
+  max-height: 615px;
   padding: 0px 0px 10px 0px;
 
   &::-webkit-scrollbar {

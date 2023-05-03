@@ -80,7 +80,9 @@ function DashboardHomeStudentDesktop(props) {
               <Crown src="/img/crown@2x.png" alt="crown" />
               <Tasks>Model Responses</Tasks>
             </Frame1337>
+            <Frame20>
             <TaskCardContainer allTasks={modelResponses} exempler={true} />
+            </Frame20>
           </Frame1339>
         </Frame1346>
       </Frame1347>
@@ -274,6 +276,22 @@ const Frame19 = styled.div`
   display: flex;
   flex-direction: column;
   height: 493px;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0px 20px;
+  position: relative;
+  align-self: stretch;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+`;
+const Frame20 = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 610px;
   align-items: flex-start;
   gap: 20px;
   padding: 0px 20px;

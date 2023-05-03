@@ -46,7 +46,7 @@ function TaskDetailMobile(props) {
         <Frame1390>
           <Frame29>
             <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
+            {/* <Breadcrumb2 assignments={breadcrumb21Props.assignments} /> */}
             <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
           </Frame29>
           <Frame1389>

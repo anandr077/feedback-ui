@@ -104,7 +104,7 @@ function TeacherClassesLaptop(props) {
               <Frame1337>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Model Responses</ExemplarResponses>
+                  <ExemplarResponses>Exemplary Responses</ExemplarResponses>
                 </Frame13124>
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />

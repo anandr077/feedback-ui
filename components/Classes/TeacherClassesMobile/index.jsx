@@ -111,7 +111,7 @@ function TeacherClassesMobile(props) {
               <Frame1338>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Model Responses</ExemplarResponses>
+                  <ExemplarResponses>Exemplary Responses</ExemplarResponses>
                 </Frame13124>
               </Frame1338>
               <Line17 src={line175} alt="Line 17" />

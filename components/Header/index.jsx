@@ -243,7 +243,10 @@ const HeaderButtonInnnerContainer = styled.div`
   gap: 8px;
   min-width: 88px;
   height: 26px;
-  margin-right: -2px;
+
+  align-items: center;
+  justify-content: center;
+
 `;
 
 const IconContainer = styled.img`
@@ -254,7 +257,7 @@ const IconContainer = styled.img`
 
 const ButtonText = styled.div`
   ${IbmplexsansNormalPersianIndigo20px}
-  width: 54px;
+ 
   height: 26px;
   letter-spacing: 0;
   line-height: normal;
@@ -264,7 +267,7 @@ const ButtonText = styled.div`
 
 const SelectedButtonText = styled.div`
   ${IbmplexsansNormalWhite20px}
-  width: 54px;
+
   height: 26px;
   letter-spacing: 0;
   line-height: normal;

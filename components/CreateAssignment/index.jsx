@@ -19,6 +19,7 @@ import MCQQuestionFrame from "../MCQQuestionFrame";
 import ReactiveRender from "../ReactiveRender";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import SnackbarContext from "../SnackbarContext"
+import { tr } from "date-fns/locale";
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -241,7 +242,81 @@ export default function CreateAssignment(props) {
     
   };
 
+  const isTitleValid = () => {
+    if(assignment.title){
+      return true;
+    }
+    else {
+      document.getElementById("assignmentNameContainer");
+    assignmentNameContainer.style.border = "1px solid red";
+      return false;
+    }
+  }
+  const isQuestionsValid = () => {
+    let invalidQuestion = false;
+    const questions= assignment.questions;
+    questions.map((question) => {
+      if(question.question === ""){
+        const questionContainer = document.getElementById("questionContainer_"+question.serialNumber);
+        questionContainer.style.border = "1px solid red";
+        const questionTextBox = document.getElementById("question_textBox"+question.serialNumber);
+        questionTextBox.style.border = "1px solid red";
+        invalidQuestion = true;
+      }
+      if(question.type === "MCQ"){
+        let isCorrectPresent = false;
+        question.options.map((option, index) => {
+          if(option.option === ""){
+            const optionTextBox = document.getElementById("option_"+question.serialNumber+"_"+index);
+            optionTextBox.style.border = "1px solid red";
+            invalidQuestion = true;
+          }
+          if(option.isCorrect){
+            isCorrectPresent = true;
+          }
+        });
+        if(!isCorrectPresent){
+          const optionContainer = document.getElementById("optionFrame_" + question.serialNumber);
+          optionContainer.style.border = "1px solid red";
+          invalidQuestion = true;
+        }
+      }
+    });
+    return invalidQuestion ? false : true;
+  }
+
+  const isClassesValid = () => {
+    if(assignment.classIds.length > 0){
+      return true;
+    }
+    else {
+    const classesContainer = document.getElementById("classesContainer");
+    classesContainer.style.border = "1px solid red";
+    return false;
+    }
+  }
+
+  const isDateValid = () => {
+    if(assignment.dueAt - Date.now() > 1800000) {
+      return true;
+    }
+    else {
+      const dueDateContainer = document.getElementById("timeContainer");
+      dueDateContainer.style.border = "1px solid red";
+      return false;
+    }
+  }
+
+  const  isAssignmentValid = () => {
+    isTitleValid();
+    isQuestionsValid();
+    isClassesValid();
+    isDateValid();
+   return (isTitleValid() && isQuestionsValid() && isClassesValid() && isDateValid()) ? true : false;
+  }
+
   const publish = () => {
+    if(isAssignmentValid()){
     updateAssignment(assignment.id, assignment)
     .then((_) => {
       publishAssignment(assignment.id).then((res) => {
@@ -256,6 +331,10 @@ export default function CreateAssignment(props) {
         }
       });
     });
+  }
+  else {
+    showSnackbar('Please fill all the fields');
+  }
     
   }
       

@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { IbmplexsansNormalFuscousGray14px } from "../../../styledMixins";
 
 function Breadcrumb(props) {
-  const { text } = props;
+  const { text, link } = props;
   return (
-    <Breadcrumb1>
+    <Breadcrumb1 onClick={()=> window.location.href=link}>
       <Assignments>{text}</Assignments>
     </Breadcrumb1>
   );
@@ -17,6 +17,7 @@ const Breadcrumb1 = styled.article`
   align-items: center;
   gap: 4px;
   position: relative;
+  cursor: pointer;
 `;
 
 const Assignments = styled.div`

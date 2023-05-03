@@ -19,6 +19,7 @@ const Breadcrumb = styled.article`
   align-items: center;
   gap: 4px;
   position: relative;
+  cursor: pointer;
 `;
 
 const Caret = styled.img`

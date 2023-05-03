@@ -51,7 +51,7 @@ function TaskDetailDesktop(props) {
         <Frame1390>
           <Frame29>
             <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
+            {/* <Breadcrumb2 assignments={breadcrumb21Props.assignments} /> */}
             <Breadcrumb2 assignments={assignment.title} />
           </Frame29>
           <Frame1389>

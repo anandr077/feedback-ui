@@ -11,7 +11,7 @@ import { default as React, useEffect, useState } from "react";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
 
 export default function TaskDetail() {
-  const { assignmentId } = useParams<{ assignmentId: string }>();
+  const { assignmentId } = useParams();
 
   const [assignment, setAssigment] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);

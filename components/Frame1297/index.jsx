@@ -39,8 +39,8 @@ function Frame1297(props) {
 
 const createQuestionTypeSelector = (type, setTypeTheory, setTypeMCQ)=>{
   const menuItems = [
-    {id: 1, image:"/img/assignment-4@2x.png", title:"Free Response", onClick:setTypeTheory},
-    {id: 2, image:"/icons/mcqIcon.png", title:"MCQ", onClick:setTypeMCQ},
+    {id: 1, image:"/img/assignment-4@2x.png", title:"Free response", onClick:setTypeTheory},
+    {id: 2, image:"/icons/mcqIcon.png", title:"Multiple choice", onClick:setTypeMCQ},
   ]
   const selectedIndex = type === "MCQ"? 1:0 
   return <ImageDropdownMenu selectedIndex={selectedIndex} menuItems={menuItems}></ImageDropdownMenu>

@@ -8,7 +8,7 @@ function DashboardFrame12082(props) {
 
   return (
     <Frame1208>
-     {exempler &&  <Crown src="/img/crown@2x.png" alt="crown" />}
+     {exempler &&  <Crown src="/icons/exemplary_response.png" alt="crown" />}
       <Tasks>{tasks}</Tasks>
     </Frame1208>
   );

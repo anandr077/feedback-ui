@@ -77,7 +77,7 @@ function DashboardHomeStudentDesktop(props) {
           </Frame1339>
           <Frame1339>
             <Frame1337>
-              <Crown src="/img/crown@2x.png" alt="crown" />
+              <Crown src="/icons/exemplary_response.png" alt="crown" />
               <Tasks>Exemplary Responses</Tasks>
             </Frame1337>
             <Frame20>

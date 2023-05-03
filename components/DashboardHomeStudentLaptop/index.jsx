@@ -222,14 +222,13 @@ const Frame1339 = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
-  padding: 20px 0px;
+  padding: 20px 10px 20px 10px;
   position: relative;
   flex: 1;
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0px 4px 16px #7200e01a;
   max-height: 100vh;
-  padding: 10px;
 `;
 
 const Frame1337 = styled.div`

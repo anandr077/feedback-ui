@@ -24,5 +24,11 @@ const CardContainer = styled.div`
   overflow-y: scroll;
   max-height: 480px;
   padding: 0px 0px 10px 0px;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+  
 `;
 export default TaskCardContainer;

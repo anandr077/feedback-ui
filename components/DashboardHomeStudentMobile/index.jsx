@@ -54,7 +54,7 @@ function DashboardHomeStudentMobile(props) {
           </Frame11>
         </Frame1205>
         <Frame1205>
-          <DashboardFrame1208 tasks="Model responses" />
+          <DashboardFrame1208 tasks="Model responses"  exempler={true}/>
           <Line17 src="/img/line-17@2x.png" alt="Line 17" />
           <Frame11>
             <TaskCardContainer allTasks={modelResponses} exempler={true} />

@@ -162,6 +162,10 @@ const NavigationContainer = styled.div`
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
   max-height: 300px;
+   &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 
 const Screen = styled.div`

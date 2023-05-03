@@ -21,7 +21,7 @@ function NotificationsBar(props) {
           </NavbarDiv>
         ) : (
           <Frame16>
-            {loadingNotifications ? <Loader /> : <Cards emptyCard={true} />}
+            {loadingNotifications ? <Loader /> : <Frame15><Cards emptyCard={true} /></Frame15>}
           </Frame16>
         )}
       </>

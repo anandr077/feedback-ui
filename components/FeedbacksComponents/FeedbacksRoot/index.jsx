@@ -65,36 +65,56 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
 
   const isTeacher = getUserRole() === "TEACHER";
-  const [assignmentId, setAssignmentId] = useState(id);
+  // const [assignmentId, setAssignmentId] = useState(id);
+  // useEffect(() => {
+  //   Promise.all([
+  //     isAssignmentPage
+  //       ? getSubmissionsByAssignmentId(assignmentId)
+  //       : Promise.resolve([]),
+  //   ]).then(([submissionsResult]) => {
+  //     if (isAssignmentPage) {
+  //       window.location.href = "#submissions/" + submissionsResult[0].id;
+  //     }
+  //   });
+  // }, [assignmentId]);
+  // useEffect(() => {
+  //   Promise.all([getSubmissionById(id)]).then(([submissionsResult]) => {
+  //     console.log("submissionsResult " + submissionsResult);
+  //     setSubmission(submissionsResult);
+  //     getComments(submissionsResult)
+  //       .then((commentsResult) => {
+  //         setComments(commentsResult);
+  //       })
+  //       .finally(() => {
+  //         if (!isTeacher) {
+  //           setIsLoading(false);
+  //         }
+  //       });
+  //   });
+  // }, [assignmentId]);
+
   useEffect(() => {
-    Promise.all([
-      isAssignmentPage
-        ? getSubmissionsByAssignmentId(assignmentId)
-        : Promise.resolve([]),
-    ]).then(([submissionsResult]) => {
-      if (isAssignmentPage) {
-        window.location.href = "#submissions/" + submissionsResult[0].id;
-      }
-    });
-  }, [assignmentId]);
-  useEffect(() => {
-    Promise.all([getSubmissionById(id)]).then(([submissionsResult]) => {
-      console.log("submissionsResult " + submissionsResult);
-      setSubmission(submissionsResult);
-      getComments(submissionsResult)
-        .then((commentsResult) => {
-          setComments(commentsResult);
-        })
-        .finally(() => {
+    getSubmissionById(id).then((r)=>{
+      return getComments(r).then((c) =>{
+        return [r, c]
+      })
+    })
+      .then(([submissionsResult, commentsResult]) => {
+        console.log("submissionsResult " + submissionsResult);
+        setSubmission(submissionsResult);
+        setComments(commentsResult);
+      }).finally(() => {
           if (!isTeacher) {
+            console.log("Setting is loading for !isTeacher")
             setIsLoading(false);
           }
         });
-    });
-  }, [assignmentId]);
+  }, [id]);
+
+
   useEffect(() => {
     console.log("Submissions " + submission);
-    if (isTeacher && submission && submission.assignmentId) {
+    if (isTeacher && submission && submission?.assignmentId) {
       getSubmissionsByAssignmentId(submission.assignmentId)
         .then((allSubmissions) => {
           setStudents(extractStudents(allSubmissions));
@@ -104,22 +124,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const nextUrl = allExceptCurrent[0]
             ? "#submissions/" + allExceptCurrent[0]?.id
             : "/";
-          console.log("allSubmissions " + JSON.stringify(allSubmissions));
+          // console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
           const studentName =
-            allSubmissions.find((r) => r.id === assignmentId)?.studentName ??
+          allSubmissions.find((r) => r.id === submission.assignmentId)?.studentName ??
             null;
           console.log("studentName " + studentName);
 
           setStudentName(studentName);
-          setIsLoading(false);
         })
-        .finally(() => setIsLoading(false));
-    }
+        .finally(() => {
+          console.log("Setting is loading " + isLoading)
+          setIsLoading(false)
+        });
+      }
   }, [submission]);
+
   if (isLoading) {
     return <Loader />;
   }
+  console.log("Loading finished " + JSON.stringify(comments) + " isLoading " + isLoading)
+
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
   const handleChangeText = (change, allSaved) => {

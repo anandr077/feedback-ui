@@ -4,7 +4,7 @@ import { IbmplexsansNormalFuscousGray14px } from "../../styledMixins";
 
 function Breadcrumb2() {
   return (
-    <Breadcrumb>
+    <Breadcrumb onClick={() => window.location.href="/#/assignments/new"}>
       <Caret src="/img/caret@2x.png" alt="caret" />
       <Assignments>Create Assignment</Assignments>
     </Breadcrumb>
@@ -17,6 +17,7 @@ const Breadcrumb = styled.article`
   align-items: center;
   gap: 4px;
   position: relative;
+  cursor: pointer;
 `;
 
 const Caret = styled.img`

@@ -80,6 +80,7 @@ function DashboardHomeStudentDesktop(props) {
               <Crown src="/icons/exemplary_response.png" alt="crown" />
               <Tasks>Exemplary Responses</Tasks>
             </Frame1337>
+            <Line18 src="/img/line-17-6.png" alt="Line 16" />
             <Frame20>
             <TaskCardContainer allTasks={modelResponses} exempler={true} />
             </Frame20>
@@ -93,8 +94,8 @@ function DashboardHomeStudentDesktop(props) {
 
 const Crown = styled.img`
   position: relative;
-  min-width: 26px;
-  height: 26px;
+  min-width: 24px;
+  height: 24px;
 `;
 const Frame1347 = styled.div`
   display: flex;
@@ -205,7 +206,7 @@ const Frame1346 = styled.div`
   display: flex;
   width: 1441px;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 32px;
   position: relative;
   min-height: 600px;
@@ -227,7 +228,7 @@ const Frame1339 = styled.div`
 const Frame1337 = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
@@ -247,6 +248,12 @@ const Line17 = styled.img`
   position: relative;
   align-self: stretch;
   min-width: 828px;
+  height: 1px;
+  object-fit: cover;
+`;
+const Line18 = styled.img`
+  position: relative;
+  align-self: stretch;
   height: 1px;
   object-fit: cover;
 `;
@@ -291,7 +298,7 @@ const Frame19 = styled.div`
 const Frame20 = styled.div`
   display: flex;
   flex-direction: column;
-  height: 610px;
+  height: 595px;
   align-items: flex-start;
   gap: 20px;
   padding: 0px 20px;

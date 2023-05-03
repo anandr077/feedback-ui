@@ -68,8 +68,8 @@ const NavigationContainer = styled.div`
   background-color: var(--white);
   rbga(255, 255, 255, 0.5);
   align-self: stretch;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 200vh;
   `;
 
 const Screen = styled.div`

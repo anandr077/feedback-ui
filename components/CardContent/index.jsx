@@ -73,7 +73,7 @@ function CardContent(props) {
         <Content>
           <ExemplerTitleText>{task.assignmentTitle}</ExemplerTitleText>
           <TaskTitle>{task.response}</TaskTitle>
-          <RemarkText> Remark</RemarkText>
+          <RemarkText>Teacher comment</RemarkText>
           <Remark>
             {task.comment}
           </Remark>
@@ -124,6 +124,7 @@ const RemarkText = styled.div`
   order: 0;
   align-self: stretch;
   flex-grow: 0;
+  margin-top: 10px;
 `;
 
 const Submissions = styled.div`

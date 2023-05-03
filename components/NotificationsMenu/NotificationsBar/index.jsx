@@ -72,9 +72,12 @@ const Frame1409 = styled.div`
   background-color: var(--white);
 `;
 const MaskGroup = styled.img`
-  position: relative;
-  min-width: 48px;
+  position: sticky;
+  top: 0;
+  right: 0;
   height: 48px;
+  width: 48px;
+
 `;
 
 const Frame4 = styled.div`

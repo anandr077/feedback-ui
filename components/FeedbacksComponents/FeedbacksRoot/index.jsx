@@ -37,7 +37,6 @@ import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getComments, getPageMode } from "./functions";
 import { TextField } from "@mui/material";
 import {
-  IbmplexsansMediumCongressBlue13px,
   IbmplexsansNormalShark20px,
 } from "../../../styledMixins";
 
@@ -45,7 +44,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
   const [showShareWithClass, setShowShareWithClass] = useState(false);
-  const [exemplerComment, setExemplerComment] = useState("");
+  const [exemplarComment, setExemplerComment] = useState("");
   const [isValidComment, setIsValidComment] = useState(true);
 
   const newCommentFrameRef = useRef(null);
@@ -65,33 +64,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
 
   const isTeacher = getUserRole() === "TEACHER";
-  // const [assignmentId, setAssignmentId] = useState(id);
-  // useEffect(() => {
-  //   Promise.all([
-  //     isAssignmentPage
-  //       ? getSubmissionsByAssignmentId(assignmentId)
-  //       : Promise.resolve([]),
-  //   ]).then(([submissionsResult]) => {
-  //     if (isAssignmentPage) {
-  //       window.location.href = "#submissions/" + submissionsResult[0].id;
-  //     }
-  //   });
-  // }, [assignmentId]);
-  // useEffect(() => {
-  //   Promise.all([getSubmissionById(id)]).then(([submissionsResult]) => {
-  //     console.log("submissionsResult " + submissionsResult);
-  //     setSubmission(submissionsResult);
-  //     getComments(submissionsResult)
-  //       .then((commentsResult) => {
-  //         setComments(commentsResult);
-  //       })
-  //       .finally(() => {
-  //         if (!isTeacher) {
-  //           setIsLoading(false);
-  //         }
-  //       });
-  //   });
-  // }, [assignmentId]);
 
   useEffect(() => {
     getSubmissionById(id).then((r)=>{
@@ -212,13 +184,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const addExemplerComment = () => {
-    if (exemplerComment === "") {
+    if (exemplarComment === "") {
       setIsValidComment(false);
       return;
     }
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: exemplerComment,
+      feedback: exemplarComment,
       range: selectedRange,
       type: "MODEL_RESPONSE",
     }).then((response) => {
@@ -247,12 +219,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     >
       <Box padding={2}>
         <StyledTextField
-          label="Exempler remark"
+          label="Add comment"
           variant="outlined"
-          value={exemplerComment}
+          value={exemplarComment}
           onChange={handleInputChange}
           error={!isValidComment}
-          helperText={!isValidComment ? "Please enter remark here" : ""}
+          helperText={!isValidComment ? "Please enter your comment here" : ""}
         />
         <DialogActions>
           <SubmitCommentFrameRoot

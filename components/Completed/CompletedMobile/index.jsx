@@ -1,43 +1,25 @@
 import React from "react";
-import Notifications from "../Notifications";
+import styled from "styled-components";
+import { completedHeaderProps } from "../../../utils/headerProps.js";
+import Footer from "../../Footer";
+import FooterSmall from "../../FooterSmall";
+import HeaderSmall from "../../HeaderSmall";
 import Frame1285 from "../Frame1285";
 import Frame1410 from "../Frame1410";
-import Frame1308 from "../Frame1308";
-import Cards6 from "../Cards6";
-import Cards7 from "../Cards7";
-import styled from "styled-components";
 import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansBoldShark36px,
+  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
 } from "../styledMixins";
 import "./CompletedMobile.css";
-import { completedHeaderProps } from "../../../utils/headerProps.js";
-import HeaderSmall from "../../HeaderSmall";
-import Footer from "../../Footer";
-
 function CompletedMobile(props) {
   const {
-    tasks,
-    frame1349,
-    frame5,
+    id,
+    groups,
     title,
+    exemplar,
+    setPublishActionCompleted,
     subject,
     frame1284,
-    line18,
-    line19,
-    line20,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
-    notificationsProps,
-    frame14101Props,
-    frame1308Props,
-    cards61Props,
-    cards62Props,
-    frame14102Props,
+    line18
   } = props;
 
   return (
@@ -55,11 +37,11 @@ function CompletedMobile(props) {
           </Frame1305>
         </Frame1424>
         <Frame1413>
-          <Frame1410 tasks={tasks} />
+          <Frame1410 id={id}  groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
-      <Footer></Footer>
+      <FooterSmall></FooterSmall>
     </div>
   );
 }

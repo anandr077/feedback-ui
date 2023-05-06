@@ -1,8 +1,6 @@
 import React from "react";
 import Frame1285 from "../Frame1285";
 import Frame14103 from "../Frame14103";
-import Frame1412 from "../Frame1412";
-import Frame6 from "../Frame6";
 import Header from "../../Header";
 import styled from "styled-components";
 import {
@@ -13,31 +11,18 @@ import {
 import "./CompletedLaptop.css";
 import { completedHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
-import TaskCard from "../../TaskCard";
-
 function CompletedLaptop(props) {
   const {
-    tasks,
+    id,
+    groups,
     title,
+    exemplar,
+    setPublishActionCompleted,
     subject,
     frame1284,
-    line18,
-    line19,
-    line20,
-    x2021JeddleAllRightsReserved,
-    teacherDashboardHeaderProps,
-    frame141031Props,
-    frame1412Props,
-    frame141032Props,
-    frame6Props,
+    line18
   } = props;
-  const cards = tasks.map((task) => {
-    return (
-      <a href={task.link}>
-        <TaskCard task={task} />
-      </a>
-    );
-  });
+  console.log("setPublishActionCompleted in CL"+ setPublishActionCompleted)
   return (
     <div className="completed-laptop screen">
       <Frame1425>
@@ -54,7 +39,7 @@ function CompletedLaptop(props) {
         </Frame1424>
 
         <Frame1413>
-          <Frame14103 tasks={tasks} />
+          <Frame14103 id={id} groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>

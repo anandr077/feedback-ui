@@ -4,30 +4,16 @@ import CompletedDesktop from "../CompletedDesktop";
 import CompletedLaptop from "../CompletedLaptop";
 import CompletedMobile from "../CompletedMobile";
 import CompletedTablet from "../CompletedTablet";
-import { getCompletedTasks } from "../../../service.js";
 
-export default function CompletedRoot() {
-  const [tasks, setTasks] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    getCompletedTasks().then((result) => {
-      if (result) {
-        setTasks(result);
-        setIsLoading(false);
-      }
-    });
-  }, []);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
+export default function CompletedRoot(props) {
+  const {title, groups,exemplar, id, setPublishActionCompleted} = props
+  console.log("CompletedRoot "+ setPublishActionCompleted)
   return (
     <ReactiveRender
-      mobile={<CompletedMobile {...{ tasks, ...completedMobileData }} />}
-      tablet={<CompletedTablet {...{ tasks, ...completedTabletData }} />}
-      laptop={<CompletedLaptop {...{ tasks, ...completedLaptopData }} />}
-      desktop={<CompletedDesktop {...{ tasks, ...completedDesktopData }} />}
+      mobile={<CompletedMobile {...{ title,groups, exemplar,id, setPublishActionCompleted,...completedMobileData }} />}
+      tablet={<CompletedTablet {...{ title,groups, exemplar,id, setPublishActionCompleted, ...completedTabletData }} />}
+      laptop={<CompletedLaptop {...{ title,groups, exemplar,id, setPublishActionCompleted, ...completedLaptopData }} />}
+      desktop={<CompletedDesktop {...{ title,groups, exemplar,id, setPublishActionCompleted, ...completedDesktopData }} />}
     />
   );
 }
@@ -588,7 +574,6 @@ const frame65Data = {
 };
 
 const completedLaptopData = {
-  title: "Completed",
   subject: "Subject",
   frame1284: "/img/frame-1284@2x.png",
   line18: "/img/line-18-3.png",

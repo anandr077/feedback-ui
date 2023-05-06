@@ -7,8 +7,9 @@ import { IbmplexsansMediumRiverBed24px } from "../../styledMixins";
 function ModelResponseCardContainer(props) {
   const { allTasks, group1205Props, line17 } = props;
   const cards = allTasks.map((task) => {
-    return <TaskCard task={task} />;
+    return <TaskCard task={cardContents(task)} />;
   });
+
   return (
     <Frame13401>
       <Frame1338>
@@ -19,6 +20,20 @@ function ModelResponseCardContainer(props) {
       <Frame12>{cards}</Frame12>
     </Frame13401>
   );
+}
+
+function cardContents(exemplar) {
+  return  {
+    title:exemplar.assignmentTitle,
+    para:exemplar.response,
+    subTitle:"Teacher's Comment",
+    subPara:exemplar.comment,
+    // date:formattedDate(task.dueAt),
+    // status1:"Submissions: 20 of 40",
+    // status2:"Reviewed: 10 of 20",
+  };;
+  
+  
 }
 
 const Frame13401 = styled.div`

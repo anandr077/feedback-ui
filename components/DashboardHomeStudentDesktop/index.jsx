@@ -82,7 +82,7 @@ function DashboardHomeStudentDesktop(props) {
             </Frame1337>
             <Line18 src="/img/line-17-6.png" alt="Line 16" />
             <Frame20>
-            <TaskCardContainer allTasks={modelResponses} exempler={true} />
+            <TaskCardContainer allTasks={modelResponses} exemplar={true} />
             </Frame20>
           </Frame1339>
         </Frame1346>

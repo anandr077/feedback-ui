@@ -8,94 +8,105 @@ import {
 import { formattedDate } from "../../dates";
 
 function CardContent(props) {
-  const { task, small, exempler } = props;
+  const {  task, small } = props;
+  const sampleTask = {
+    title:"Fundamentals of thermal physics",
+    para:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...",
+    subTitle:"Teacher's Comment",
+    subPara:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.",
+    date:"2 April 2023",
+    status1:"Submissions: 20 of 40",
+    status2:"Reviewed: 10 of 20",
+  }
+  return (
+    <>   
+        <Content>
+          {createTitle(small, task.title)}
+          {createPara(small, task.para)}
+          {createSubtitle(task.subTitle)}
+          {createSubPara(task.subPara)}
+          {date(small, task.date)}
+          {createStatus(small, task.status1)}
+          {createStatus(small, task.status2)}
+        </Content>
+    </>
+  );
 
-  const datesFrame = task.dueAt ? (
+  
+}
+
+
+function createTitle(small, title) {
+  if (!title) return <></>
+  return  small ? (
+    <SmallClassText>
+      {title}
+    </SmallClassText>
+  ) : (
+    <ClassText>
+      {title}
+    </ClassText>
+  )
+}
+
+function createPara(small, para) {
+  if (!para) return <></>
+  return (
     <>
+      {small ? (
+        <SmallTaskTitle>
+          {para}
+        </SmallTaskTitle>
+      ) : (
+        <TaskTitle>{para}</TaskTitle>
+      )}
+    </>
+  );
+}
+
+function createSubtitle(subTitle) {
+  if (!subTitle) return <></>
+  return <RemarkText>{subTitle}</RemarkText>
+}
+
+function createSubPara(subPara) {
+  if (!subPara) return <></> 
+  return <Remark>{subPara}</Remark>
+}
+
+function date(small, date) {
+  if (!date) return <></> 
+
+  return <>
       {small ? (
         <Frame1282>
           <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
-          <SmallDueAt>{formattedDate(task.dueAt)}</SmallDueAt>
+          <SmallDueAt>{formattedDate(date)}</SmallDueAt>
         </Frame1282>
       ) : (
         <Frame1282>
           <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-          <DueAt>{formattedDate(task.dueAt)}</DueAt>
+          <DueAt>{formattedDate(date)}</DueAt>
         </Frame1282>
       )}
-    </>
+    </>;
+}
+
+
+  // Submissions: {task.submissionCount} of{" "}
+  // {task.expectedSubmissions} | Reviewed: {task.reviewCount} of {task.submissionCount}
+function createStatus(small, status) {
+  if (!status) return <></>
+
+  return  small ? (
+    <SmallClassText>
+      {status}
+    </SmallClassText>
   ) : (
-    <></>
-  );
-
-  function createTitle(task) {
-    return (
-      <>
-        {small ? (
-          <SmallTaskTitle>
-            {task.title ? task.title : task.response}
-          </SmallTaskTitle>
-        ) : (
-          <TaskTitle>{task.title ? task.title : task.response}</TaskTitle>
-        )}
-      </>
-    );
-  }
-
-  function createSubmissions(task) {
-    if (task?.expectedSubmissions ?? 0) {
-      return (
-        <>
-          {small ? (
-            <SmallTaskTitle>
-              <Submissions>
-                Submissions: {task.submissionCount} of{" "}
-                {task.expectedSubmissions} | Reviewed: {task.reviewCount} of {task.submissionCount} 
-              </Submissions>
-            </SmallTaskTitle>
-          ) : (
-            <TaskTitle>
-              <Submissions>
-              Submissions: {task.submissionCount} of{" "}
-                {task.expectedSubmissions} | Reviewed: {task.reviewCount} of {task.submissionCount} 
-              </Submissions>
-            </TaskTitle>
-          )}
-        </>
-      );
-    }
-    return <></>;
-  }
-
-  return (
-    <>
-      {exempler ? (
-        <Content>
-          <ExemplerTitleText>{task.assignmentTitle}</ExemplerTitleText>
-          <TaskTitle>{task.response}</TaskTitle>
-          <RemarkText>Teacher comment</RemarkText>
-          <Remark>
-            {task.comment}
-          </Remark>
-        </Content>
-      ) : (
-        <Content>
-          {createTitle(task)}
-          {small ? (
-            <SmallClassText>
-              {task.classTitle ? task.classTitle : task.assignmentTitle}
-            </SmallClassText>
-          ) : (
-            <ClassText>
-              {task.classTitle ? task.classTitle : task.assignmentTitle}
-            </ClassText>
-          )}
-          {datesFrame}
-          {createSubmissions(task)}
-        </Content>
-      )}
-    </>
-  );
+    <ClassText>
+      {status}
+    </ClassText>
+  )
 }
 
 const Frame12121 = styled.div`
@@ -111,7 +122,7 @@ const Frame12121 = styled.div`
 
 const RemarkText = styled.div`
   ${IbmplexsansNormalShark12px}
-  width: 501px;
+  // width: 501px;
   height: 18px;
   font-style: normal;
   font-weight: 500;

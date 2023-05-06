@@ -5,13 +5,10 @@ import {
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalWhite20px,
 } from "../../styledMixins";
-import DashboardFrame12823 from "../DashboardFrame12823";
-import DashboardFrame1283 from "../DashboardFrame1283";
 import DashboardFrame1284 from "../DashboardFrame1284";
 import DashboardGroup1205 from "../DashboardGroup1205";
 import Footer from "../Footer";
 import Header from "../Header";
-import ModelResponseCardContainer from "../ModelResponseCardContainer";
 import TaskCardContainer from "../TaskCardContainer";
 import "./DashboardHomeStudentLaptop.css";
 import { getUserName } from "../../service";
@@ -88,7 +85,7 @@ function DashboardHomeStudentLaptop(props) {
             <InsideFrame>
             <TaskCardContainer
               allTasks={modelResponses}
-              exempler={true}
+              exemplar={true}
               // line17={frame1340Props.line17}
               // group1205Props={frame1340Props.group1205Props}
             />

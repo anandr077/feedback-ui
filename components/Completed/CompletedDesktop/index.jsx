@@ -16,19 +16,14 @@ import Footer from "../../Footer";
 
 function CompletedDesktop(props) {
   const {
-    tasks,
+    id,
+    groups,
     title,
+    exemplar,
+    setPublishActionCompleted,
     subject,
     frame1284,
-    line18,
-    line19,
-    line20,
-    x2021JeddleAllRightsReserved,
-    teacherDashboardHeaderProps,
-    frame141031Props,
-    frame1412Props,
-    frame141032Props,
-    frame6Props,
+    line18
   } = props;
 
   return (
@@ -46,7 +41,7 @@ function CompletedDesktop(props) {
           </Frame1305>
         </Frame1424>
         <Frame1413>
-          <Frame14103 tasks={tasks} />
+          <Frame14103 id={id}  groups={groups} exemplar={ exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>

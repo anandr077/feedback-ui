@@ -2,13 +2,14 @@ import { default as React, default as React, useEffect,useContext, useState } fr
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import CreateAssignment from "./components/CreateAssignment";
 import StudentDashboardRoot from "./components/StudentDashBoardRoot";
+import ExemplarResponsesPage from "./components/ExemplarResponsesPage";
 import StudentTaskRoot from "./components/StudentTaskRoot";
 import TaskDetail from "./components/StartAssignment/TaskDetail";
 import FeedbacksRoot from "./components/FeedbacksComponents/FeedbacksRoot";
 import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboardRoot";
 import { getProfile, getUserRole, setProfileCookies } from "./service";
 import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
-import CompletedRoot from "./components/Completed/CompletedRoot";
+import CompletedPage from "./components/CompletedPage";
 import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
 import Callback from "./components/Callback";
 import ScreenPopup from "./components/ScreenPopup";
@@ -28,12 +29,13 @@ function App() {
   const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
   const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = withAuth(StudentTaskRoot);
-  const ProtectedCompletedRoot = withAuth(CompletedRoot);
+  const ProtectedCompletedRoot = withAuth(CompletedPage);
   const ProtectedTeacherClassesRoot = withAuth(TeacherClassesRoot);
   const ProtectedTaskDetail = withAuth(TaskDetail);
   const ProtectedCreateAssignment = withAuth(CreateAssignment);
   const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
+  const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
   const Dashboard = ({role}) => {
     const dashboard = role === "TEACHER" ? 
       <ProtectedTeacherDashboard />
@@ -76,6 +78,9 @@ function App() {
         </Route>
         <Route path="/assignments">
         <ProtectedTeacherTaskRoot />
+        </Route>
+        <Route path="/exemplarResponses">
+        <ProtectedExemplarResponsesPage />
         </Route>
         <Route path="/submissions/:id">
         <ProtectedFeedbacksRoot isAssignmentPage={false} />

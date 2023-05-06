@@ -15,25 +15,15 @@ import "./CompletedTablet.css";
 
 function CompletedTablet(props) {
   const {
-    tasks,
-    frame1349,
-    frame5,
+    id,
+    groups,
     title,
+    exemplar,
+    setPublishActionCompleted,
     subject,
     frame1284,
     line18,
-    line19,
-    line20,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
-    notificationsProps,
-    frame141021Props,
-    frame1308Props,
-    cards81Props,
-    cards82Props,
-    frame141022Props,
+    
   } = props;
 
   return (
@@ -51,7 +41,7 @@ function CompletedTablet(props) {
           </Frame1305>
         </Frame1424>
         <Frame1413>
-          <Frame1410 tasks={tasks} />
+          <Frame1410 id={id} groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>

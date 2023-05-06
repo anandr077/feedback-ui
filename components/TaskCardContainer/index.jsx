@@ -3,15 +3,15 @@ import TaskCard from "../TaskCard";
 import styled from "styled-components";
 
 function TaskCardContainer(props) {
-  const { allTasks, exempler } = props;
+  const { allTasks, exemplar } = props;
   const cards = allTasks.map((task) => {
     return (
       <a href={task.link}>
-        <TaskCard task={task} exempler={exempler} />
+        <TaskCard task={task} exemplar={exemplar} />
       </a>
     );
   });
-  return exempler ? (<ExemplerCardContainer>{cards}</ExemplerCardContainer>) :
+  return exemplar ? (<ExemplerCardContainer>{cards}</ExemplerCardContainer>) :
   (<CardContainer>{cards}</CardContainer>);
 }
 

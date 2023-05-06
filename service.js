@@ -244,7 +244,18 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
     baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
     range
   );
-
+export const publishModelResponse = async (feedbackId) =>
+  await patchApi(
+    baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/publish"
+  );
+export const unpublishModelResponse = async (feedbackId) =>
+  await patchApi(
+    baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/unpublish"
+  );
+export const denyModelResponse = async (feedbackId) =>
+  await patchApi(
+    baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/deny"
+  );
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 

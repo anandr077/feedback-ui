@@ -33,6 +33,7 @@
     "react-quill": "^2.0.0",
     "react-responsive": "^9.0.2",
     "react-router-dom": "5.2.0",
+    "react-scroll-into-view": "^1.12.1",
     "styled-components": "^5.3.10",
     "uuid": "^9.0.0"
   },

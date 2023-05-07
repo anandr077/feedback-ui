@@ -10,9 +10,9 @@ export default function FooterSmall() {
     <SmallFooterContainer>
       <SmallFooterText> © 2023 Jeddle. All rights reserved.</SmallFooterText>
       <SmallFooterLinksContainer>
-        <MainWebsite>Main Website</MainWebsite>
-        <Terms>Terms</Terms>
-        <Terms>Privacy</Terms>
+      <a href="https://jeddle.com/"><MainWebsite>Main Website</MainWebsite></a>
+      <a href="https://jeddle.com/terms-conditions/"><Terms>Terms</Terms></a>
+      <a href="https://jeddle.com/privacy-policy/"><Terms>Privacy</Terms></a>
       </SmallFooterLinksContainer>
     </SmallFooterContainer>
   );

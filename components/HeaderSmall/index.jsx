@@ -48,7 +48,7 @@ export default function HeaderSmall(props) {
   return (
     <>
       <Frame1350>
-        <Frame1349 src="/img/frame-1349@2x.png" />
+        <a href="#"><Frame1349 src="/img/frame-1349@2x.png" /></a>
         <Frame5>
           <Notifications
             src="/img/notificationbing@2x.png"

@@ -113,8 +113,8 @@ function FeedbackTeacherLaptop(props) {
     if (pageMode === "DRAFT") {
       return (
         <Buttons2
-          button="Submit For Review"
-          arrowright={true}
+          button="Submit"
+          // arrowright={true}
           onClickFn={() => methods.handleSaveSubmissionForReview()}
         ></Buttons2>
       );
@@ -122,8 +122,8 @@ function FeedbackTeacherLaptop(props) {
     if (pageMode === "REVIEW") {
       return (
         <Buttons2
-          button="Submit & Next"
-          arrowright={true}
+          button="Submit"
+          // arrowright={true}
           onClickFn={() => methods.handleSubmissionReviewed()}
         ></Buttons2>
       );

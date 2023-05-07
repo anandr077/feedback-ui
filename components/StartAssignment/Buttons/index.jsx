@@ -6,8 +6,8 @@ function Buttons(props) {
   const { onClickFn } = props;
   return (
     <Buttons1 onClick={onClickFn}>
-      <Button>Start Assignment</Button>
-      <Arrowright src="/icons/arrowright.png" alt="arrowright" />
+      <Button>Start Assignment1</Button>
+      <Arrowright src="/img/arrowright@2x copy 3.png" alt="arrowright" />
     </Buttons1>
   );
 }

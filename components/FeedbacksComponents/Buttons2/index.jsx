@@ -32,7 +32,7 @@ function Buttons2(props) {
       return (
         <Arrowright
           className="arrowright"
-          src={"/icons/arrowright@2x.png"}
+          src={"/img/arrowright@2x copy 3.png"}
           alt="arrowright"
         />
       );
@@ -63,6 +63,10 @@ const Buttons = styled.article`
   border-radius: 30px;
   border: 1px solid;
   cursor: pointer;
+  &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
 `;
 
 const Button = styled.div`

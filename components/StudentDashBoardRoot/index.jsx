@@ -6,19 +6,14 @@ import DashboardHomeStudentTablet from "../DashboardHomeStudentTablet";
 import DashboardHomeStudentMobile from "../DashboardHomeStudentMobile";
 import { getTasks, getModelResponses } from "../../service";
 import { homeHeaderProps } from "../../utils/headerProps.js";
+import { limitParagraph } from "../../utils/strings";
+import _ from "lodash";
 
 export default function StudentDashboardRoot(props) {
-  // const { setShowPopup, setPopupMessage, setDismissable } = props;
   const [allTasks, setAllTasks] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const message = localStorage.getItem("submission");
-  if (message) {
-    // setShowPopup(true);
-    // setPopupMessage("Assignment Submitted Successfully");
-    // setDismissable(true);
-    // localStorage.removeItem("submission");
-  }
+  
 
   React.useEffect(() => {
     Promise.all([getTasks(), getModelResponses()]).then(
@@ -28,7 +23,14 @@ export default function StudentDashboardRoot(props) {
         }
         if (modelResponses) {
           console.log("##", modelResponses);
-          setModelResponses(modelResponses);
+          const firstTen = modelResponses.slice(0, 10)
+          const trimmedResponses = _.map(firstTen, (obj) => ({
+            ...obj,
+            response: limitParagraph(obj.response, 200)
+          }));
+          setModelResponses(
+            trimmedResponses
+          );
         }
         setIsLoading(false);
       }

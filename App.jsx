@@ -1,25 +1,17 @@
-import { default as React, default as React, useEffect,useContext, useState } from "react";
+import { default as React, default as React } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import CreateAssignment from "./components/CreateAssignment";
-import StudentDashboardRoot from "./components/StudentDashBoardRoot";
-import ExemplarResponsesPage from "./components/ExemplarResponsesPage";
-import StudentTaskRoot from "./components/StudentTaskRoot";
-import TaskDetail from "./components/StartAssignment/TaskDetail";
-import FeedbacksRoot from "./components/FeedbacksComponents/FeedbacksRoot";
-import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboardRoot";
-import { getProfile, getUserRole, setProfileCookies } from "./service";
-import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
-import CompletedPage from "./components/CompletedPage";
 import TeacherClassesRoot from "./components/Classes/TeacherClassesRoot";
-import Callback from "./components/Callback";
-import ScreenPopup from "./components/ScreenPopup";
-import Loader from "./components/Loader";
-import { useLocation } from "react-router-dom";
-import { exchangeCodeForToken } from "./service";
+import CompletedPage from "./components/CompletedPage";
+import CreateAssignment from "./components/CreateAssignment";
+import ExemplarResponsesPage from "./components/ExemplarResponsesPage";
+import FeedbacksRoot from "./components/FeedbacksComponents/FeedbacksRoot";
+import TaskDetail from "./components/StartAssignment/TaskDetail";
+import StudentDashboardRoot from "./components/StudentDashBoardRoot";
+import StudentTaskRoot from "./components/StudentTaskRoot";
+import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboardRoot";
+import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
 import withAuth from "./components/WithAuth";
-import ReactDOM from 'react-dom';
-import { Snackbar } from '@mui/material';
-import SnackbarContext from './components/SnackbarContext';
+import { getUserRole } from "./service";
 
 function App() {
 

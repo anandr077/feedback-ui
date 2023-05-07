@@ -9,7 +9,7 @@ function Frame14072(props) {
     <Frame1407>
       {createNewFrame(showCreateNew, iconsaxLinearAdd)}
 
-      <Line17 src={line17} alt="Line 17" />
+      {line(line17)}
       <a href="#assignments">
         <Frame1205>
           <CreateNew>VIEW ALL</CreateNew>
@@ -18,6 +18,12 @@ function Frame14072(props) {
       </a>
     </Frame1407>
   );
+
+  function line(line17) {
+    if (line17)
+      return <Line17 src={line17} alt="Line 17" />;
+    return <></>
+  }
 }
 function createNewFrame(showCreateNew, iconsaxLinearAdd) {
   if (showCreateNew) {

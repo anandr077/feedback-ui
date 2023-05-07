@@ -98,7 +98,7 @@ function TeacherClassesTablet(props) {
                 <Frame14072
                   showCreateNew={false}
                   iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
-                  line17="/img/line-17-22@2x.png"
+                  // line17="/img/line-17-22@2x.png"
                   arrowright="/img/arrowright-8@2x.png"
                 />
               </Frame1337>
@@ -112,7 +112,7 @@ function TeacherClassesTablet(props) {
                 <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
-            <Frame1342>
+            {/* <Frame1342>
               <Frame13374 tasks={frame133742Props.tasks} />
               <Line17 src={line175} alt="Line 17" />
               <Frame12844>
@@ -145,7 +145,7 @@ function TeacherClassesTablet(props) {
                   group1312={frame131384Props.group1312}
                 />
               </Frame12844>
-            </Frame1342>
+            </Frame1342> */}
             <Frame1341>
               <Frame1337>
                 <Frame13123>

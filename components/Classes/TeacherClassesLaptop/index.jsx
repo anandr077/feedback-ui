@@ -73,7 +73,7 @@ function TeacherClassesLaptop(props) {
                 <Frame14072
                   showCreateNew={false}
                   iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
-                  line17="/img/line-17-22@2x.png"
+                  // line17="/img/line-17-22@2x.png"
                   arrowright="/img/arrowright-8@2x.png"
                 />
               </Frame1337>
@@ -87,20 +87,7 @@ function TeacherClassesLaptop(props) {
                 <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
-            <Frame1342>
-              <Frame13373 tasks={frame133732Props.tasks} />
-              <Line17 src={line175} alt="Line 17" />
-              <Frame12844>
-                <Frame13136
-                  storytellingNotAnalysing={
-                    frame131361Props.storytellingNotAnalysing
-                  }
-                  number={frame131361Props.number}
-                  group1312={frame131361Props.group1312}
-                />
-              </Frame12844>
-            </Frame1342>
-            <Frame1339>
+            <Frame1339Exemplar>
               <Frame1337>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
@@ -109,7 +96,7 @@ function TeacherClassesLaptop(props) {
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
               <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
-            </Frame1339>
+            </Frame1339Exemplar>
           </Frame1416>
         </Frame1417>
       </Frame1422>
@@ -283,7 +270,21 @@ const Frame1339 = styled.div`
   border-radius: 12px;
   box-shadow: 0px 4px 16px #7200e01a;
 `;
+const Frame1339Exemplar = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  padding: 20px 0px;
+  position: relative;
+  // max-height: 615px;
 
+  flex: 1;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
 const Frame1337 = styled.div`
   display: flex;
   align-items: center;
@@ -449,6 +450,7 @@ const Frame12 = styled.div`
   align-self: stretch;
   overflow: hidden;
   overflow-y: scroll;
+  // background-color: red;
 
   &::-webkit-scrollbar {
     width: 0;

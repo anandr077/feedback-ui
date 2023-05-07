@@ -17,14 +17,14 @@ function TeacherTasksStudentMobile(props) {
   const { drafts, awaitingSubmissions, feedbacks } = props;
   const draftsFrames = createTasksFrame("Drafts", drafts, true, false, false);
   const awaitingSubmissionsFrames = createTasksFrame(
-    "Awaiting submissions",
+    "Active",
     awaitingSubmissions,
     false,
     true,
     false
   );
   const feedbacksFrames = createTasksFrame(
-    "Feedback",
+    "Closed",
     feedbacks,
     false,
     false,
@@ -66,14 +66,14 @@ function TeacherTasksStudentMobile(props) {
               }}
             />
             <Tabs
-              text={"Awaiting submissions"}
+              text={"Active"}
               isSelected={isInProgress}
               onClickFn={() => {
                 setTasksFrame(awaitingSubmissionsFrames);
               }}
             />
             <Tabs
-              text={"Feedback"}
+              text={"Closed"}
               isSelected={isOverdue}
               onClickFn={() => {
                 setTasksFrame(feedbacksFrames);

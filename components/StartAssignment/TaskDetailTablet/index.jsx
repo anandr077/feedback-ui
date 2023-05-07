@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { formattedDate } from "../../../dates";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
 import HeaderSmall from "../../HeaderSmall";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import Buttons from "../Buttons";
 import Frame11 from "../Frame11";
 import Frame12093 from "../Frame12093";
@@ -46,8 +46,7 @@ function TaskDetailTablet(props) {
         <Frame1390>
           <Frame29>
             <Breadcrumb />
-            {/* <Breadcrumb2 assignments={breadcrumb21Props.assignments} /> */}
-            <Breadcrumb2 assignments={assignment.title} />
+            <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>
             <Title>Assignment</Title>

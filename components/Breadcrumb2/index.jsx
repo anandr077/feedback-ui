@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalFuscousGray14px } from "../../styledMixins";
 
-function Breadcrumb2() {
+function Breadcrumb2(props) {
+  const { title } = props;
+
   return (
     <Breadcrumb onClick={() => window.location.href="/#/assignments/new"}>
       <Caret src="/img/caret@2x.png" alt="caret" />
-      <Assignments>Create Assignment</Assignments>
+      <Assignments>{title}</Assignments>
     </Breadcrumb>
   );
 }

@@ -50,7 +50,7 @@ function CreateAAssignmentTablet(props) {
         <Frame1376>
           <Frame1315>
             <Breadcrumb />
-            <Breadcrumb2 />
+            <Breadcrumb2 title={assignment.title} />
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>

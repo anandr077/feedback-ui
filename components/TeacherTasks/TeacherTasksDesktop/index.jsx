@@ -36,13 +36,13 @@ function TeacherTasksDesktop(props) {
             </Frame1354>
             <Frame1354>
               <TaskFrame1353
-                outstanding="Awaiting submissions"
+                outstanding="Active"
                 number={awaitingSubmissions.length}
               />
               <TaskCardContainer allTasks={awaitingSubmissions} />
             </Frame1354>
             <Frame1358>
-              <TaskFrame1353 outstanding="Feedback" number={feedbacks.length} />
+              <TaskFrame1353 outstanding="Closed" number={feedbacks.length} />
               <TaskCardContainer allTasks={feedbacks} />
             </Frame1358>
           </Frame1359>

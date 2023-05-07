@@ -41,7 +41,7 @@ export default function ReactiveRender(props) {
     open={snackbarOpen}
     message={snackbarMessage}
     onClose={closeSnackbar}
-    autoHideDuration={10000}
+    autoHideDuration={6000}
     action={action}
   />
       {isMobileView && mobile}

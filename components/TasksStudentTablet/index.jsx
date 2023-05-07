@@ -1,22 +1,17 @@
-import React from "react";
+import { default as React, default as React, useState } from "react";
 import styled from "styled-components";
-import TaskFrame1304 from "../TaskFrame1304";
-import TaskCardContainer from "../TaskCardContainer";
-import Notifications from "../Notifications";
-import Tabs from "../Tabs";
-import Tabs2 from "../Tabs2";
-import Footer from "../Footer";
-import HeaderSmall from "../HeaderSmall";
-import { getUserName } from "../../service";
-import React, { useState, useEffect } from "react";
 import CheckboxGroup from "../CheckboxGroup";
+import HeaderSmall from "../HeaderSmall";
+import Tabs from "../Tabs";
+import TaskCardContainer from "../TaskCardContainer";
 
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansSemiBoldRiverBed24px,
+  IbmplexsansSemiBoldRiverBed24px
 } from "../../styledMixins";
-import "./TasksStudentTablet.css";
 import { taskHeaderProps } from "../../utils/headerProps.js";
+import FooterSmall from "../FooterSmall";
+import "./TasksStudentTablet.css";
 
 function TasksStudentTablet(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
@@ -54,7 +49,7 @@ function TasksStudentTablet(props) {
         </Frame1307>
         {createTasksFrame(tasksFrame.title, tasksFrame.tasks)}
       </Frame1365>
-      <Footer />
+      <FooterSmall />
     </div>
   );
 

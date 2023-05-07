@@ -8,18 +8,23 @@ import Header from "../../Header";
 import TaskCardContainer from "../../TaskCardContainer";
 import TaskFrame1353 from "../../TaskFrame1353";
 import "./TeacherTasksLaptop.css";
+import CheckboxGroup from "../../CheckboxGroup";
+
 function TeacherTasksLaptop(props) {
-  const { drafts, awaitingSubmissions, feedbacks } = props;
+  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks } = props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
-          <ButtonContainer>
-            {" "}
-            <Buttons link="#tasks/new" />
-          </ButtonContainer>
+            <Frame1315>
+              <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>
+              <ButtonContainer>
+                {" "}
+                <Buttons link="#tasks/new" />
+              </ButtonContainer>
+            </Frame1315>
         </TitleContainer>
         <Frame1360>
           {/* <TaskFrame1306 /> */}
@@ -48,6 +53,24 @@ function TeacherTasksLaptop(props) {
     </div>
   );
 }
+const TitleWrapper = styled.div`
+  display: flex;
+  // align-items: flex-start;
+  flex-direction: row;
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: -0.9px;
+  line-height: normal;
+`;
+const Frame1315 = styled.div`
+  display: flex;
+  // align-items: flex-start;
+  // gap: 4px;
+  // padding: 0px 0px 0px 60px;
+  position: relative;
+  align-self: stretch;
+`;
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -59,6 +82,7 @@ const TitleContainer = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   max-width: 200px;
   margin-right: 40px;

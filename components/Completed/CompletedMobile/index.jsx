@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { completedHeaderProps } from "../../../utils/headerProps.js";
-import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
 import Frame1285 from "../Frame1285";
@@ -10,8 +9,12 @@ import {
   IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
 } from "../styledMixins";
 import "./CompletedMobile.css";
+import CheckboxGroup from "../../CheckboxGroup";
+
 function CompletedMobile(props) {
   const {
+    menuItems, 
+    filterTasks,
     id,
     groups,
     title,
@@ -28,13 +31,7 @@ function CompletedMobile(props) {
         <HeaderSmall headerProps={completedHeaderProps}></HeaderSmall>
         <Frame1424>
           <Title>{title}</Title>
-          <Frame1305>
-            <Frame12851>
-              <Subject>{subject}</Subject>
-              <Frame1284 src={frame1284} alt="Frame 1284" />
-            </Frame12851>
-            <Frame1285 />
-          </Frame1305>
+          {createFilter()}
         </Frame1424>
         <Frame1413>
           <Frame1410 id={id}  groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
@@ -44,6 +41,11 @@ function CompletedMobile(props) {
       <FooterSmall></FooterSmall>
     </div>
   );
+  function createFilter() {
+    if (exemplar)
+      return <></>
+    return <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>;
+  }
 }
 
 const Frame1425 = styled.div`

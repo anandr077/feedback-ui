@@ -59,12 +59,12 @@ const CheckboxGroup = ({ data, onChange }) => {
         {/* <Checkbox
           checked={selectedItems.some((selectedItem) => selectedItem.value === item.value)}
         /> */}
-         {/* <CheckboxContainer> */}
+         <CheckboxContainer>
           <CheckboxBordered 
             checked={selectedItems.some((selectedItem) => selectedItem.value === item.value)}
             />
           <CheckBoxText>{item.value.title}</CheckBoxText>
-        {/* </CheckboxContainer> */}
+        </CheckboxContainer>
         {/* <div className="text-container"> */}
           <StyledListItemText primary={item.label} />
         {/* </div> */}
@@ -116,7 +116,7 @@ const StyledMenuItem = styled(MenuItem)`
   display: flex;
   // gap: 12px;
   
-  align-items: center;
+  // align-items: center;
   padding: 0px 0px 0px 12px;
   position: relative;
   background-color: var(--white);
@@ -203,7 +203,7 @@ margin-top: -1px;
 letter-spacing: 0;
 line-height: normal;
 display: flex;
-align-items: center;
+// align-items: center;
 `;
 
 function filterText(selectedItems) {
@@ -213,17 +213,19 @@ function filterText(selectedItems) {
 
 
 const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative;
-  flex: 1;
-  flex-direction: row;
+  // display: flex;
+  // align-items: center;
+  // display: flex;
+  // align-items: center;
+  // position: relative;
+  // flex: 1;
+  // flex-direction: row;
   // bg-color: red;
 `;
 
 const Checkbox = styled.article`
   display: flex;
-  align-items: center;
+  // align-items: center;
   // gap: 16px;
   position: relative;
   flex: 1;
@@ -242,7 +244,7 @@ const CheckBoxText = styled.div`
   letter-spacing: 0;
   line-height: normal;
   display: flex;
-  align-items: center;
+  // align-items: center;
 `;
 
 // const CheckBoxText = styled.div`

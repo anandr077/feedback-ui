@@ -46,11 +46,11 @@ export default function StudentTaskRoot() {
 
   const menuItems = [
     {
-      name: 'TASKS',
-      title: 'Tasks',
+      name: 'TYPES',
+      title: 'Types',
       items: [
-        { value: 'ASSIGNMENT', label: 'Assignments' , category: 'TASKS'  },
-        { value: 'REVIEW', label: 'Reviews' , category: 'TASKS' },
+        { value: 'ASSIGNMENT', label: 'Tasks' , category: 'TYPES'  },
+        { value: 'REVIEW', label: 'Reviews' , category: 'TYPES' },
       ],
     },
     {
@@ -63,11 +63,11 @@ export default function StudentTaskRoot() {
   const filterTasks = (selectedItems) =>{
     console.log("selectedItems " + JSON.stringify(selectedItems))
     const groupedData = _.groupBy(selectedItems, 'category');
-    let tasksValues = _.map(_.get(groupedData, 'TASKS'), 'value');
-    if (tasksValues.length === 0) {
-      tasksValues = ["REVIEW", "ASSIGNMENT" ]
+    let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
+    if (typesValues.length === 0) {
+      typesValues = ["REVIEW", "ASSIGNMENT" ]
     }
-    const filteredTasks = _.filter(allTasks, (task) => _.includes(tasksValues, task.type));
+    const filteredTasks = _.filter(allTasks, (task) => _.includes(typesValues, task.type));
 
     let classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
     if (classesValues.length === 0) {
@@ -75,7 +75,6 @@ export default function StudentTaskRoot() {
     }
 
     const filteredClasses = _.filter(filteredTasks, (task) => _.includes(classesValues, task.classId));
-    // alert(JSON.stringify(filteredTasks))
     setFilteredTasks(filteredClasses)
     
   }

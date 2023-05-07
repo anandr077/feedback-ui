@@ -1,4 +1,4 @@
-import { default as React, default as React, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Footer from "../../Footer";
 import HeaderSmall from "../../HeaderSmall";
@@ -13,26 +13,19 @@ import {
 import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
 import "./TeacherTasksStudentTablet.css";
 import Buttons from "../../Classes/Buttons";
+import CheckboxGroup from "../../CheckboxGroup";
 
 function TeacherTasksStudentTablet(props) {
-  const { drafts, awaitingSubmissions, feedbacks } = props;
+  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks } = props;
+  const [tasksFrame, setTasksFrame] = useState(null);
 
-  const draftsFrames = createTasksFrame("Drafts", drafts, true, false, false);
-  const awaitingSubmissionsFrames = createTasksFrame(
-    "Active",
-    awaitingSubmissions,
-    false,
-    true,
-    false
-  );
-  const feedbacksFrames = createTasksFrame(
-    "Closed",
-    feedbacks,
-    false,
-    false,
-    true
-  );
-  const [tasksFrame, setTasksFrame] = useState(draftsFrames);
+  useEffect(() => {
+    setTasksFrame(createTasksFrame("Drafts", drafts, true, false, false));
+  }, [drafts]);
+
+  function updateTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue) {
+    setTasksFrame(createTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue));
+  }
 
   return (
     <div className="tasks-student-tablet screen">
@@ -40,6 +33,7 @@ function TeacherTasksStudentTablet(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Tasks</PageTitle>
+          <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>
           <ButtonContainer>
             <Buttons link="#tasks/new" />{" "}
           </ButtonContainer>
@@ -66,21 +60,21 @@ function TeacherTasksStudentTablet(props) {
               text={"Drafts"}
               isSelected={isOutstanding}
               onClickFn={() => {
-                setTasksFrame(draftsFrames);
+                updateTasksFrame("Drafts", drafts, true, false, false);
               }}
             />
             <Tabs
               text={"Active"}
               isSelected={isInProgress}
               onClickFn={() => {
-                setTasksFrame(awaitingSubmissionsFrames);
+                updateTasksFrame("Active", awaitingSubmissions, false, true, false);
               }}
             />
             <Tabs
               text={"Closed"}
               isSelected={isOverdue}
               onClickFn={() => {
-                setTasksFrame(feedbacksFrames);
+                updateTasksFrame("Closed", feedbacks, false, false, true);
               }}
             />
           </Frame1211>
@@ -96,6 +90,7 @@ function TeacherTasksStudentTablet(props) {
     );
   }
 }
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;

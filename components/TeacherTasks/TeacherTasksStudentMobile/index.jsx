@@ -12,25 +12,19 @@ import TaskCardContainer from "../../TaskCardContainer";
 import TaskFrame1304 from "../../TaskFrame1304";
 import "./TeacherTasksStudentMobile.css";
 import Buttons from "../../Classes/Buttons";
+import CheckboxGroup from "../../CheckboxGroup";
 
 function TeacherTasksStudentMobile(props) {
-  const { drafts, awaitingSubmissions, feedbacks } = props;
-  const draftsFrames = createTasksFrame("Drafts", drafts, true, false, false);
-  const awaitingSubmissionsFrames = createTasksFrame(
-    "Active",
-    awaitingSubmissions,
-    false,
-    true,
-    false
-  );
-  const feedbacksFrames = createTasksFrame(
-    "Closed",
-    feedbacks,
-    false,
-    false,
-    true
-  );
-  const [tasksFrame, setTasksFrame] = useState(draftsFrames);
+  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks } = props;
+  const [tasksFrame, setTasksFrame] = useState(null);
+
+  React.useEffect(() => {
+    setTasksFrame(createTasksFrame("Drafts", drafts, true, false, false));
+  }, [drafts]);
+
+  function updateTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue) {
+    setTasksFrame(createTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue));
+  }
 
   return (
     <div className="tasks-student-mobile screen">
@@ -38,6 +32,8 @@ function TeacherTasksStudentMobile(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Tasks</PageTitle>
+          <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>
+
           <Buttons link="#tasks/new" />
           {/* <TaskFrame1304 /> */}
         </Frame1307>
@@ -62,21 +58,21 @@ function TeacherTasksStudentMobile(props) {
               text={"Drafts"}
               isSelected={isOutstanding}
               onClickFn={() => {
-                setTasksFrame(draftsFrames);
+                updateTasksFrame("Drafts", drafts, true, false, false);
               }}
             />
             <Tabs
               text={"Active"}
               isSelected={isInProgress}
               onClickFn={() => {
-                setTasksFrame(awaitingSubmissionsFrames);
+                updateTasksFrame("Active", awaitingSubmissions, false, true, false);
               }}
             />
             <Tabs
               text={"Closed"}
               isSelected={isOverdue}
               onClickFn={() => {
-                setTasksFrame(feedbacksFrames);
+                updateTasksFrame("Closed", feedbacks, false, false, true);
               }}
             />
           </Frame1211>
@@ -92,6 +88,7 @@ function TeacherTasksStudentMobile(props) {
     );
   }
 }
+
 
 const Frame1365 = styled.div`
   display: flex;

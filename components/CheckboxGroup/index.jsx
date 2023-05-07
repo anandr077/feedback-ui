@@ -10,14 +10,14 @@ import Menu from '@mui/material/Menu';
 import { Avatar } from "@boringer-avatars/react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import ListItemText from "@mui/material/ListItemText";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import React from "react";
 import styled, { css } from "styled-components";
 import CheckboxBordered from "../CheckboxBordered";
+import { IbmplexsansNormalShark20px, IbmplexsansBoldShark64px } from "../../styledMixins";
 
 import { IbmplexsansNormalShark20px, IbmplexsansBoldShark64px } from "../../styledMixins";
+
+
+import { IbmplexsansNormalShark16px, IbmplexsansNormalShark20px, IbmplexsansBoldShark64px } from "../../styledMixins";
 
 const CheckboxGroup = ({ data, onChange }) => {
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -104,23 +104,11 @@ const CheckboxGroup = ({ data, onChange }) => {
 };
 
 export default CheckboxGroup;
-
-export const IbmplexsansNormalShark16px = css`
-  color: var(--text);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xs);
-  font-weight: 400;
-  font-style: normal;
-`;
 const StyledMenuItem = styled(MenuItem)`
   display: flex;
-  // gap: 12px;
-  
-  // align-items: center;
   padding: 0px 0px 0px 12px;
   position: relative;
   background-color: var(--white);
-  // background-color: red;
   border-radius: 8px;
   border: 1px solid;
   border-color: var(--light-mode-purple);
@@ -138,6 +126,10 @@ const StyledMenuItem = styled(MenuItem)`
 `;
 
 const StyledBox = styled(Box)`
+  justify-content: flex-end;
+  max-width: 200px;
+  margin-right: 10px;
+  // height:40px;
   display: flex;
   align-items: center;
   padding: 0px 0px 0px 12px;
@@ -160,10 +152,10 @@ const StyledBox = styled(Box)`
 `;
 
 const FlexContainer = styled('div')`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-grow: 1;
+  // display: flex;
+  // align-items: center;
+  // // gap: 8px;
+  // flex-grow: 1;
 
   .text-container {
     display: inline-block;
@@ -184,76 +176,37 @@ const StyledListItemText = styled(ListItemText)`
   position: relative;
   flex: 1;
 
-  letter-spacing: 0;
-  line-height: normal;
-  border-radius: 50%;
+  // letter-spacing: 0;
+  // line-height: normal;
+  // border-radius: 50%;
 
-  .MuiTypography-root {
-    ${IbmplexsansNormalShark16px}
-    font-size: 14px;
-  }
+  // .MuiTypography-root {
+  //   ${IbmplexsansNormalShark16px}
+  //   font-size: 14px;
+  // }
 `;
-
-
 const StyledListSubheader = styled(ListSubheader)`
-${IbmplexsansNormalShark20px}
-position: relative;
-flex: 1;
-margin-top: -1px;
-letter-spacing: 0;
-line-height: normal;
-display: flex;
-// align-items: center;
-`;
-
-function filterText(selectedItems) {
-  // alert(JSON.stringify(selectedItems))
-  return  `Filters (${selectedItems.length})`
-}
-
-
-const CheckboxContainer = styled.div`
-  // display: flex;
-  // align-items: center;
-  // display: flex;
-  // align-items: center;
-  // position: relative;
-  // flex: 1;
-  // flex-direction: row;
-  // bg-color: red;
-`;
-
-const Checkbox = styled.article`
-  display: flex;
-  // align-items: center;
-  // gap: 16px;
-  position: relative;
-  flex: 1;
-`;
-
-const Checkbox1 = styled.div`
-  position: relative;
-  // min-width: 20px;
-  // height: 20px;
-`;
-
-const CheckBoxText = styled.div`
   ${IbmplexsansNormalShark20px}
   position: relative;
   margin-top: -1px;
   letter-spacing: 0;
-  line-height: normal;
-  display: flex;
-  // align-items: center;
+  // line-height: normal;
+  // display: flex;
 `;
 
-// const CheckBoxText = styled.div`
-//   ${IbmplexsansNormalShark20px}
-//   position: relative;
-//   // flex: 1;
-//   margin-top: -1px;
-//   letter-spacing: 0;
-//   line-height: normal;
-//   display: flex;
-//   align-items: center;
-// `;
+function filterText(selectedItems) {
+  return `Filters (${selectedItems.length})`;
+}
+
+const CheckboxContainer = styled.div`
+`;
+
+const CheckBoxText = styled.div`
+  ${IbmplexsansNormalShark20px}
+  // position: relative;
+  // margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  // display: flex;
+`;
+

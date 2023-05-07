@@ -32,17 +32,9 @@ function TeacherClassesMobile(props) {
     students,
     title,
     line171,
-    line173,
-    line174,
     crown,
     line175,
-    buttonsProps,
-    frame133721Props,
-    frame133722Props,
-    frame131341Props,
-    frame131342Props,
-    frame131343Props,
-    frame131344Props,
+    buttonsProps
   } = props;
 
   return (
@@ -80,7 +72,7 @@ function TeacherClassesMobile(props) {
                 <Frame14072
                   showCreateNew={false}
                   iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
-                  line17="/img/line-17-22@2x.png"
+                  // line17="/img/line-17-22@2x.png"
                   arrowright="/img/arrowright-8@2x.png"
                 />
               </Frame1337>
@@ -94,7 +86,7 @@ function TeacherClassesMobile(props) {
                 <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
-            <Frame1342>
+            {/* <Frame1342>
               <Frame13372 tasks={frame133722Props.tasks} />
               <Line17 src={line174} alt="Line 17" />
               <Frame12844>
@@ -106,7 +98,7 @@ function TeacherClassesMobile(props) {
                   group1312={frame131341Props.group1312}
                 />
               </Frame12844>
-            </Frame1342>
+            </Frame1342> */}
             <Frame1341>
               <Frame1338>
                 <Frame13124>

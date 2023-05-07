@@ -25,7 +25,7 @@ const CardContainer = styled.div`
   overflow-y: scroll;
   max-height: 480px;
   padding: 0px 0px 10px 0px;
-
+  // background-color: red;
   &::-webkit-scrollbar {
     width: 0;
     display: none;
@@ -40,13 +40,13 @@ const ExemplerCardContainer = styled.div`
   align-items: center;
   gap: 20px;
   overflow-y: scroll;
-  max-height: 615px;
+  max-height: 865px;
   padding: 0px 0px 10px 0px;
 
   &::-webkit-scrollbar {
     width: 0;
     display: none;
   }
-  
+  // background-color: red;
 `;
 export default TaskCardContainer;

@@ -2,31 +2,24 @@ import React from "react";
 import styled from "styled-components";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 import Header from "../../Header";
+import ImageDropdownMenu from "../../ImageDropdownMenu";
+import Frame12842 from "../../TeacherDashboard/Frame12842";
+import Frame14072 from "../../TeacherDashboard/Frame14072";
 import Buttons from "../Buttons";
-import Frame12822 from "../Frame12822";
-import Frame12832 from "../Frame12832";
-import Frame12843 from "../Frame12843";
-import Frame1285 from "../Frame1285";
 import Frame13132 from "../Frame13132";
 import Frame1337 from "../Frame1337";
 import Frame6 from "../Frame6";
-import Frame13136 from "../Frame13136";
-import Frame13373 from "../Frame13373";
-import Group1205 from "../Group1205";
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
-  IbmplexsansNormalShark16px,
+  IbmplexsansNormalShark16px
 } from "../styledMixins";
 import {
   createModelResponsesFrames,
-  createStudentsFrames,
+  createStudentsFrames
 } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesDesktop.css";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Frame14072 from "../../TeacherDashboard/Frame14072";
-import Frame12842 from "../../TeacherDashboard/Frame12842";
 
 function TeacherClassesDesktop(props) {
   const {
@@ -111,7 +104,7 @@ function TeacherClassesDesktop(props) {
                 <Frame14072
                   showCreateNew={false}
                   iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
-                  line17="/img/line-17-22@2x.png"
+                  // line17="/img/line-17-22@2x.png"
                   arrowright="/img/arrowright-8@2x.png"
                 />
               </Frame1337>

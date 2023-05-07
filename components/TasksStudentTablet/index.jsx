@@ -21,7 +21,7 @@ function TasksStudentTablet(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
     props;
   const outstandingFrame = createTasksFrame(
-    "Outstanding",
+    "Not Started",
     outstandingTasks,
     true,
     false,
@@ -69,7 +69,7 @@ function TasksStudentTablet(props) {
         <Frame1364>
           <Frame1211>
             <Tabs
-              text={"Outstanding"}
+              text={"Not Started"}
               isSelected={isOutstanding}
               onClickFn={() => {
                 setTasksFrame(outstandingFrame);

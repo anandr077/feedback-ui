@@ -51,7 +51,7 @@ function DashboardHomeStudentLaptop(props) {
             <Frame1336>
               <Frame1307>
                 <DashboardFrame1284
-                  title={"OUTSTANDING"}
+                  title={"NOT STARTED"}
                   count={outstandingTasks.length}
                 />
                 <DashboardFrame1284

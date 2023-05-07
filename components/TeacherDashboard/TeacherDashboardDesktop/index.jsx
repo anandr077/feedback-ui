@@ -99,10 +99,10 @@ function TeacherDashboardDesktop(props) {
               <Frame1307>
                 <Frame12842 title={"DRAFTS"} count={drafts.length} />
                 <Frame12842
-                  title={"AWAITING SUBMISSIONS"}
+                  title={"ACTIVE"}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
+                <Frame12842 title={"CLOSED"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             <Frame13411>

@@ -18,7 +18,7 @@ import { taskHeaderProps } from "../../utils/headerProps.js";
 function TasksStudentMobile(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks } = props;
   const outstandingFrame = createTasksFrame(
-    "Outstanding",
+    "Not Started",
     outstandingTasks,
     true,
     false,
@@ -66,7 +66,7 @@ function TasksStudentMobile(props) {
         <Frame1364>
           <Frame1211>
             <Tabs
-              text={"Outstanding"}
+              text={"Not Started"}
               isSelected={isOutstanding}
               onClickFn={() => {
                 setTasksFrame(outstandingFrame);

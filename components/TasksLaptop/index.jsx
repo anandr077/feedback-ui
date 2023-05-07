@@ -22,7 +22,7 @@ function TasksLaptop(props) {
           <Frame1359>
             <Frame1358>
               <TaskFrame1353
-                outstanding="Outstanding"
+                outstanding="Not Started"
                 number={outstandingTasks.length}
               />
               <TaskCardContainer

@@ -31,7 +31,7 @@ function TasksDesktop(props) {
           <Frame1359>
             <Frame1354>
               <TaskFrame1353
-                outstanding="Outstanding"
+                outstanding="Not Started"
                 number={outstandingTasks.length}
               />
               <TaskCardContainer

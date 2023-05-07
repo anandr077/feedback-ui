@@ -70,10 +70,10 @@ function TeacherDashboardMobile(props) {
             (stats = [
               { title: "DRAFTS", count: drafts.length },
               {
-                title: "AWAITING SUBMISSIONS",
+                title: "ACTIVE",
                 count: awaitingSubmissions.length,
               },
-              { title: "FEEDBACKS", count: feedbacks.length },
+              { title: "CLOSED", count: feedbacks.length },
             ])
           )}
           <Frame1341>

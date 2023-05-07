@@ -14,6 +14,7 @@ import HeaderSmall from "../HeaderSmall";
 import FooterSmall from "../FooterSmall";
 import React, { useState, useEffect } from "react";
 import { taskHeaderProps } from "../../utils/headerProps.js";
+import CheckboxGroup from "../CheckboxGroup";
 
 function TasksStudentMobile(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks } = props;
@@ -40,27 +41,34 @@ function TasksStudentMobile(props) {
   );
   const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
 
-  return (
-    <div className="tasks-student-mobile screen">
-      <HeaderSmall headerProps={taskHeaderProps} />
-      <Frame1365>
-        <Frame1307>
-          <PageTitle>Task</PageTitle>
-          {/* <TaskFrame1304 /> */}
-        </Frame1307>
-        {tasksFrame}
-      </Frame1365>
-      <FooterSmall />
-    </div>
-  );
+  const frames = [
+    { title: "Outstanding", tasks: outstandingTasks },
+    { title: "In Progress", tasks: inProgressTasks },
+    { title: "Overdue", tasks: overdueTasks },
+  ];
 
-  function createTasksFrame(
-    title,
-    tasks,
-    isOutstanding,
-    isInProgress,
-    isOverdue
-  ) {
+  const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
+  const tasksFrame = frames[currentFrameIndex];
+
+  return createTasksContainerFrame(filterTasks, menuItems, tasksFrame);
+
+  function createTasksContainerFrame(filterTasks, menuItems, tasksFrame) {
+    return (
+      <div className="tasks-student-mobile screen">
+        <HeaderSmall headerProps={taskHeaderProps} />
+        <Frame1365>
+          <Frame1307>
+            <PageTitle>Tasks</PageTitle>
+            <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>
+          </Frame1307>
+          {createTasksFrame(tasksFrame.title, tasksFrame.tasks)}
+        </Frame1365>
+        <FooterSmall />
+      </div>
+    );
+  }
+
+  function createTasksFrame(title, tasks) {
     return (
       <>
         <Frame1364>
@@ -99,6 +107,7 @@ function TasksStudentMobile(props) {
     );
   }
 }
+
 
 const Frame1365 = styled.div`
   display: flex;
@@ -187,3 +196,4 @@ const Frame6 = styled.div`
 `;
 
 export default TasksStudentMobile;
+

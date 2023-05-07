@@ -61,6 +61,7 @@ export default function StudentTaskRoot() {
   ];
 
   const filterTasks = (selectedItems) =>{
+    console.log("selectedItems " + JSON.stringify(selectedItems))
     const groupedData = _.groupBy(selectedItems, 'category');
     let tasksValues = _.map(_.get(groupedData, 'TASKS'), 'value');
     if (tasksValues.length === 0) {

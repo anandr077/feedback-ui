@@ -16,8 +16,11 @@ function TasksLaptop(props) {
     <div className="tasks-laptop screen">
       <Header headerProps={taskHeaderProps} />
       <Frame1361>
-        <Title>Tasks</Title>
-        <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>        <Frame1360>
+        <TitleContainer>
+          <Title>Tasks</Title>
+          <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>     
+        </TitleContainer>   
+        <Frame1360>
           {/* <TaskFrame1306 /> */}
           <Frame1359>
             <Frame1358>
@@ -62,7 +65,14 @@ function TasksLaptop(props) {
     </div>
   );
 }
-
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 80%;
+  left: 10%;
+`;
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;

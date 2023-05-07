@@ -9,6 +9,7 @@ import Footer from "../Footer";
 import HeaderSmall from "../HeaderSmall";
 import { getUserName } from "../../service";
 import React, { useState, useEffect } from "react";
+import CheckboxGroup from "../CheckboxGroup";
 
 import {
   IbmplexsansBoldShark36px,
@@ -49,21 +50,15 @@ function TasksStudentTablet(props) {
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
-          {/* <TaskFrame1304 iconsaxLinearSort={frame1304Props.iconsaxLinearSort} /> */}
+          <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>
         </Frame1307>
-        {tasksFrame}
+        {createTasksFrame(tasksFrame.title, tasksFrame.tasks)}
       </Frame1365>
       <Footer />
     </div>
   );
 
-  function createTasksFrame(
-    title,
-    tasks,
-    isOutstanding,
-    isInProgress,
-    isOverdue
-  ) {
+  function createTasksFrame(title, tasks) {
     return (
       <>
         <Frame1364>
@@ -102,6 +97,7 @@ function TasksStudentTablet(props) {
     );
   }
 }
+
 const Frame1365 = styled.div`
   display: flex;
   flex-direction: column;

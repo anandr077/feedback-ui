@@ -249,10 +249,7 @@ function FeedbackTeacherLaptop(props) {
         )}
         <Frame1387>
           <Frame1315>
-            <Breadcrumb text={isTeacher ? "Assignments" : "Tasks"} link={isTeacher ? "/#/assignments" : "/#/tasks"} />
-            {/* <Breadcrumb2
-              assignments={isTeacher ? "Submission" : "Assignment"}
-            /> */}
+            <Breadcrumb text={"Tasks"} link={"/#/tasks"} />
             <Breadcrumb2 assignments={submission.assignment.title} />
           </Frame1315>
         </Frame1387>

@@ -37,8 +37,8 @@ function TeacherTasksStudentMobile(props) {
       <HeaderSmall headerProps={assignmentsHeaderProps} />
       <Frame1365>
         <Frame1307>
-          <PageTitle>Assignments</PageTitle>
-          <Buttons link="#assignments/new" />
+          <PageTitle>Tasks</PageTitle>
+          <Buttons link="#tasks/new" />
           {/* <TaskFrame1304 /> */}
         </Frame1307>
         {tasksFrame}

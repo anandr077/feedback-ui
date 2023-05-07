@@ -4,11 +4,10 @@ import styled from "styled-components";
 import { IbmplexsansMediumRiverBed24px } from "../styledMixins";
 
 function Frame1337(props) {
-  const { tasks } = props;
 
   return (
     <Frame13371>
-      <Tasks>{tasks}</Tasks>
+      <Tasks>Tasks</Tasks>
       <Frame14072 />
     </Frame13371>
   );

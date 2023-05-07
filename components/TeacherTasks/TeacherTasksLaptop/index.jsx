@@ -2,12 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansBoldShark64px } from "../../../styledMixins";
 import { assignmentsHeaderProps } from "../../../utils/headerProps.js";
+import Buttons from "../../Classes/Buttons";
 import Footer from "../../Footer";
 import Header from "../../Header";
 import TaskCardContainer from "../../TaskCardContainer";
-import TaskFrame1306 from "../../TaskFrame1306";
 import TaskFrame1353 from "../../TaskFrame1353";
-import Buttons from "../../Classes/Buttons";
 import "./TeacherTasksLaptop.css";
 function TeacherTasksLaptop(props) {
   const { drafts, awaitingSubmissions, feedbacks } = props;
@@ -16,10 +15,10 @@ function TeacherTasksLaptop(props) {
       <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
         <TitleContainer>
-          <Title>Assignments</Title>
+          <Title>Tasks</Title>
           <ButtonContainer>
             {" "}
-            <Buttons link="#assignments/new" />
+            <Buttons link="#tasks/new" />
           </ButtonContainer>
         </TitleContainer>
         <Frame1360>

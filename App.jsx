@@ -40,36 +40,40 @@ function App() {
       </div>
     );
   };
+
+  const Tasks = ({role}) => {
+    const tasks = role === "TEACHER" ? 
+      <ProtectedTeacherTaskRoot />
+     : 
+      <ProtectedStudentTaskRoot />
+    ;
+    return (
+      <div>
+        {tasks}
+      </div>
+    );
+  };
   return (
     <>
     <Router>
       <Switch>
-        {/* <Route path="/callback">
-          <Callback />
-        </Route> */}
-        <Route path="/tasks">
-          <>
-          <ProtectedStudentTaskRoot />
-          </>
-        </Route>
         <Route path="/completed">
         <ProtectedCompletedRoot />
         </Route>
         <Route path="/classes">
           <ProtectedTeacherClassesRoot />
-         
         </Route>
         <Route path="/classes/:classId">
         <ProtectedTeacherClassesRoot />
         </Route>
-        <Route path="/assignments/:assignmentId/start">
+        <Route path="/tasks/:assignmentId/start">
         <ProtectedTaskDetail />
         </Route>
-        <Route path="/assignments/:assignmentId">
+        <Route path="/tasks/:assignmentId">
         <ProtectedCreateAssignment />
         </Route>
-        <Route path="/assignments">
-        <ProtectedTeacherTaskRoot />
+        <Route path="/tasks">
+        {Tasks({role})}
         </Route>
         <Route path="/exemplarResponses">
         <ProtectedExemplarResponsesPage />

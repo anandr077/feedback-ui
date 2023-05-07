@@ -62,7 +62,7 @@ function CreateAAssignmentMobile(props) {
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput  placeholder="Type assignment title here" id="assignmentName" value={assignment.title}></TextInput>
+              <TextInput  placeholder="Type task title here" id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1293>
@@ -127,7 +127,7 @@ function CreateAAssignmentMobile(props) {
   );
 }
 function titleAndSaveButtons(assignment, saveDraft, publish) {
-  const title =   (assignment.status === "DRAFT")?<Title>Create Assignment</Title>:<></>
+  const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
 
   return <Frame1372>
     

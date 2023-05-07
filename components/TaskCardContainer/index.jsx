@@ -40,7 +40,7 @@ const ExemplerCardContainer = styled.div`
   align-items: center;
   gap: 20px;
   overflow-y: scroll;
-  max-height: 865px;
+  max-height: 615px;
   padding: 0px 0px 10px 0px;
 
   &::-webkit-scrollbar {

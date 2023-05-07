@@ -9,7 +9,7 @@ function Buttons(props) {
     <a href={link}>
       <Buttons1 className={`buttons ${className || ""}`}>
         <Add className="add" src="/img/add@2x.png" alt="add" />
-        <Button className="button">New assignment</Button>
+        <Button className="button">New task</Button>
       </Buttons1>
     </a>
   );

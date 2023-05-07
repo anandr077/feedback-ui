@@ -7,11 +7,11 @@ export const classesHomeHeaderProps = {
     redirect: "/",
   },
   secondButton: {
-    text: "Assignments",
+    text: "Tasks",
     icon: "/icons/assignmentUnselected.png",
     iconSelected: "/icons/assignmentWhite.png",
     selected: false,
-    redirect: "#assignments",
+    redirect: "#tasks",
   },
   thirdButton: {
     text: "Classes",
@@ -31,11 +31,11 @@ export const teacherHomeHeaderProps = {
     redirect: "/",
   },
   secondButton: {
-    text: "Assignments",
+    text: "Tasks",
     icon: "/icons/assignmentUnselected.png",
     iconSelected: "/icons/assignmentWhite.png",
     selected: false,
-    redirect: "#assignments",
+    redirect: "#tasks",
   },
   thirdButton: {
     text: "Classes",
@@ -55,11 +55,11 @@ export const assignmentsHeaderProps = {
     redirect: "/",
   },
   secondButton: {
-    text: "Assignments",
+    text: "Tasks",
     icon: "/icons/assignmentUnselected.png",
     iconSelected: "/icons/assignmentWhite.png",
     selected: true,
-    redirect: "#assignments",
+    redirect: "#tasks",
   },
   thirdButton: {
     text: "Classes",

@@ -26,8 +26,8 @@ export default function TeacherClassesRoot() {
 
   React.useEffect(() => {
     getClasses().then((result) => {
-      setClassId(result[0].id);
-      setClasses(result);
+        setClassId(result[0].id);
+        setClasses(result);
     });
   }, [classId]);
   useEffect(() => {

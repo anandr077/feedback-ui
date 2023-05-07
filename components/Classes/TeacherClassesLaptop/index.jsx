@@ -55,7 +55,7 @@ function TeacherClassesLaptop(props) {
             ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Buttons link="#assignments/new" />
+            <Buttons link="#tasks/new" />
           </Frame1426>
         </Frame14221>
         <Frame1417>
@@ -69,7 +69,7 @@ function TeacherClassesLaptop(props) {
           <Frame1416>
             <Frame1340>
               <Frame1337>
-                <Classes>Assignments</Classes>
+                <Classes>Tasks</Classes>
                 <Frame14072
                   showCreateNew={false}
                   iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
@@ -249,7 +249,7 @@ const ExemplarResponses = styled.div`
 
 const Frame1417 = styled.div`
   display: flex;
-  height: 1176px;
+  height: 955px;
   align-items: flex-start;
   gap: 32px;
   padding: 0px 60px;

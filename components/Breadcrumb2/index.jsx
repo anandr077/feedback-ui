@@ -6,7 +6,7 @@ function Breadcrumb2(props) {
   const { title } = props;
 
   return (
-    <Breadcrumb onClick={() => window.location.href="/#/assignments/new"}>
+    <Breadcrumb onClick={() => window.location.href="/#/tasks/new"}>
       <Caret src="/img/caret@2x.png" alt="caret" />
       <Assignments>{title}</Assignments>
     </Breadcrumb>

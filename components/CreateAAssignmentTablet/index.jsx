@@ -62,7 +62,7 @@ function CreateAAssignmentTablet(props) {
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput  placeholder="Type assignment title here"  id="assignmentName" value={assignment.title}></TextInput>
+              <TextInput  placeholder="Type task title here"  id="assignmentName" value={assignment.title}></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1372>
@@ -77,7 +77,7 @@ function CreateAAssignmentTablet(props) {
           </Frame1375>
           <Frame1377>
             <Frame1294>
-              <AssignmentSettings>Assignment Settings</AssignmentSettings>
+              <AssignmentSettings>Task Settings</AssignmentSettings>
               <Frame1295>
                 <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
@@ -128,7 +128,7 @@ function CreateAAssignmentTablet(props) {
   );
 }
 function titleAndSaveButtons(assignment, saveDraft, publish) {
-  const title =   (assignment.status === "DRAFT")?<Title>Create Assignment</Title>:<></>
+  const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
 
   return <Frame1372>
     {title}

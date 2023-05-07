@@ -86,7 +86,7 @@ function TeacherClassesDesktop(props) {
             ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Buttons link="#assignments/new" />
+            <Buttons link="#tasks/new" />
           </Frame1426>
         </Frame14221>
         <Frame1417>
@@ -100,13 +100,6 @@ function TeacherClassesDesktop(props) {
           <Frame1416>
             <Frame1342>
               <Frame1337>
-                <ExemplarResponses>Assignments</ExemplarResponses>
-                <Frame14072
-                  showCreateNew={false}
-                  iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
-                  // line17="/img/line-17-22@2x.png"
-                  arrowright="/img/arrowright-8@2x.png"
-                />
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
               <Frame1307>
@@ -118,19 +111,7 @@ function TeacherClassesDesktop(props) {
                 <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1342>
-            <Frame1342>
-              <Frame1337 tasks={frame13372Props.tasks} />
-              <Line17 src={line175} alt="Line 17" />
-              <Frame12844>
-                <Frame13132
-                  storytellingNotAnalysing={
-                    frame131321Props.storytellingNotAnalysing
-                  }
-                  number={frame131321Props.number}
-                  group1312={frame131321Props.group1312}
-                />
-              </Frame12844>
-            </Frame1342>
+            
             <Frame1339>
               <Frame13371>
                 <Frame13124>

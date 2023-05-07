@@ -4,8 +4,8 @@ import { formattedDate } from "../../../dates";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
 import Header from "../../Header";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import Buttons from "../Buttons";
 import Frame11 from "../Frame11";
 import GoBack from "../GoBack";
@@ -13,7 +13,7 @@ import StatusBubbles from "../StatusBubbles";
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark28px,
+  IbmplexsansSemiBoldShark28px
 } from "../styledMixins";
 import "./TaskDetailLaptop.css";
 
@@ -44,7 +44,7 @@ function TaskDetailLaptop(props) {
           <Frame29>
             <Breadcrumb />
             {/* <Breadcrumb2 assignments={breadcrumb21Props.assignments} /> */}
-            <Breadcrumb2 assignments={assignment.title} />
+            <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>
             <Title>Assignment</Title>
@@ -126,7 +126,7 @@ const Frame1390 = styled.div`
 
 const Frame29 = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
   position: relative;
   align-self: stretch;

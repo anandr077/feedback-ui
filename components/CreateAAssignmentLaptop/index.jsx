@@ -1,23 +1,19 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansMediumWhite16px,
+  IbmplexsansBoldShark64px, IbmplexsansMediumElectricViolet20px, IbmplexsansMediumWhite16px,
   IbmplexsansNormalShark20px,
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
-  IbmplexsansSemiBoldShark24px,
-  IbmplexsansMediumElectricViolet20px
+  IbmplexsansSemiBoldShark24px
 } from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
-import GoBack2 from "../GoBack2";
 import Footer from "../Footer";
+import GoBack2 from "../GoBack2";
 import Header from "../Header";
 import "./CreateAAssignmentLaptop.css";
-import ScreenPopup from "../ScreenPopup";
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -47,10 +43,9 @@ function CreateAAssignmentLaptop(props) {
         <Frame1376>
           <Frame1315>
             <Breadcrumb />
-            <Breadcrumb2 />
+            <Breadcrumb2 title={assignment.title} />
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
-          
         </Frame1376>
         <Frame1376Sticky>
           {titleAndSaveButtons(assignment, saveDraft, publish)}

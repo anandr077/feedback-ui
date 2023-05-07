@@ -50,7 +50,7 @@ function CreateAAssignmentMobile(props) {
         <Frame1376>
           <Frame1315>
             <Breadcrumb />
-            <Breadcrumb2 />
+            <Breadcrumb2 title={assignment.title} />
           </Frame1315>
           <GoBack />
         </Frame1376>

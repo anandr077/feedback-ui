@@ -45,7 +45,7 @@ export default function Header(props) {
   return (
     <>
       <Frame1344>
-        <Frame1343 src="/img/frame-1343@2x.png" alt="Frame 1343" />
+        <a href="#"><Frame1343 src="/img/frame-1343@2x.png" alt="Frame 1343" /></a>
         <Frame5>
           {headerProps.firstButton.selected ? (
             <HeaderButtonSelected onClick={OnFirstButtonClick}>

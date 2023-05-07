@@ -5,9 +5,9 @@ import { IbmplexsansNormalPersianIndigo13px } from "../../styledMixins";
 function FooterLinks() {
   return (
     <FooterLinksContainer>
-      <MainWebsite>Main Website</MainWebsite>
-      <MainWebsite>Terms</MainWebsite>
-      <MainWebsite>Privacy</MainWebsite>
+      <a href="https://jeddle.com/"><MainWebsite>Main Website</MainWebsite></a>
+      <a href="https://jeddle.com/terms-conditions/"><MainWebsite>Terms</MainWebsite></a>
+      <a href="https://jeddle.com/privacy-policy/"><MainWebsite>Privacy</MainWebsite></a>
     </FooterLinksContainer>
   );
 }

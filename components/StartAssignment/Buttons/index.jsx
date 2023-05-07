@@ -6,8 +6,8 @@ function Buttons(props) {
   const { onClickFn } = props;
   return (
     <Buttons1 onClick={onClickFn}>
-      <Button>Start Assignment</Button>
-      <Arrowright src="/icons/arrowright.png" alt="arrowright" />
+      <Button>Start Assignment1</Button>
+      <Arrowright src="/img/arrowright@2x copy 3.png" alt="arrowright" />
     </Buttons1>
   );
 }
@@ -24,6 +24,10 @@ const Buttons1 = styled.div`
   border-radius: 30px;
   border: 1px solid;
   cursor: pointer;
+  &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
 `;
 
 const Button = styled.div`

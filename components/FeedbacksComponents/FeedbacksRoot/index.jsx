@@ -850,8 +850,8 @@ const feedbacksButtons7Data = {
 };
 
 const feedbacksButtons25Data = {
-  button: "Submit & Next",
-  arrowright: "/img/arrowright@2x.png",
+  button: "Submit",
+  // arrowright: "/img/arrowright@2x.png",
   className: "buttons-4",
 };
 
@@ -981,8 +981,8 @@ const feedbacksButtons1Data = {
 };
 
 const feedbacksButtons21Data = {
-  button: "Submit & Next",
-  arrowright: "/img/arrowright-2@2x.png",
+  button: "Submit",
+  // arrowright: "/img/arrowright-2@2x.png",
   className: "",
 };
 

@@ -4,8 +4,8 @@ import { IbmplexsansNormalFuscousGray14px } from "../../styledMixins";
 
 function Breadcrumb() {
   return (
-    <Breadcrumb1 onClick={()=> window.location.href="/#/assignments/"}>
-      <Assignments>Assignments</Assignments>
+    <Breadcrumb1 onClick={()=> window.location.href="/#/tasks/"}>
+      <Assignments>Tasks</Assignments>
     </Breadcrumb1>
   );
 }

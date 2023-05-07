@@ -107,15 +107,15 @@ function createAssignmentsFrame(group1205Props, line172, stats) {
   return (
     <Frame1339>
       <Frame1337>
-        <Classes>Assignments</Classes>
+        <Classes>Tasks</Classes>
 
         <Group1205
-          link="#assignments/new"
+          link="#tasks/new"
           label="CREATE NEW"
           arrowleft={"/img/iconsax-linear-add-1@2x.png"}
         />
         <Group1205
-          link="#assignments"
+          link="#tasks"
           label="VIEW ALL"
           arrowright={group1205Props.arrowright}
         />

@@ -1,17 +1,16 @@
 import React from "react";
-import TaskFrame1306 from "../../TaskFrame1306";
-import TaskFrame1353 from "../../TaskFrame1353";
-import TaskCardContainer from "../../TaskCardContainer";
-import Header from "../../Header";
-import Footer from "../../Footer";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark64px,
-  IbmplexsansSemiBoldRiverBed24px,
+  IbmplexsansSemiBoldRiverBed24px
 } from "../../../styledMixins";
-import "./TeacherTasksDesktop.css";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import Buttons from "../../Classes/Buttons";
+import Footer from "../../Footer";
+import Header from "../../Header";
+import TaskCardContainer from "../../TaskCardContainer";
+import TaskFrame1353 from "../../TaskFrame1353";
+import "./TeacherTasksDesktop.css";
 
 function TeacherTasksDesktop(props) {
   const { drafts, awaitingSubmissions, feedbacks } = props;
@@ -21,10 +20,10 @@ function TeacherTasksDesktop(props) {
       <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
         <TitleContainer>
-          <Title>Assignments</Title>
+          <Title>Tasks</Title>
           <ButtonContainer>
             {" "}
-            <Buttons link="#assignments/new" />
+            <Buttons link="#tasks/new" />
           </ButtonContainer>
         </TitleContainer>
         <Frame1360>

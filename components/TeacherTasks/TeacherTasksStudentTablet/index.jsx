@@ -39,9 +39,9 @@ function TeacherTasksStudentTablet(props) {
       <HeaderSmall headerProps={assignmentsHeaderProps} />
       <Frame1365>
         <Frame1307>
-          <PageTitle>Assignments</PageTitle>
+          <PageTitle>Tasks</PageTitle>
           <ButtonContainer>
-            <Buttons link="#assignments/new" />{" "}
+            <Buttons link="#tasks/new" />{" "}
           </ButtonContainer>
           {/* <TaskFrame1304 /> */}
         </Frame1307>

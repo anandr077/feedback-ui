@@ -1,16 +1,14 @@
 import React from "react";
-import TaskFrame1306 from "../TaskFrame1306";
-import TaskFrame1353 from "../TaskFrame1353";
 import styled from "styled-components";
 import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansSemiBoldRiverBed24px,
+  IbmplexsansBoldShark64px
 } from "../../styledMixins";
-import "./TasksLaptop.css";
-import TaskCardContainer from "../TaskCardContainer";
-import Header from "../Header";
-import Footer from "../Footer";
 import { taskHeaderProps } from "../../utils/headerProps.js";
+import Footer from "../Footer";
+import Header from "../Header";
+import TaskCardContainer from "../TaskCardContainer";
+import TaskFrame1353 from "../TaskFrame1353";
+import "./TasksLaptop.css";
 function TasksLaptop(props) {
   const { outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
     props;

@@ -68,7 +68,7 @@ function TeacherDashboardLaptop(props) {
           <Frame1416>
             <Frame1340>
               <Frame1337>
-                <Classes>Assignments</Classes>
+                <Classes>Tasks</Classes>
                 <Frame14072
                   showCreateNew={true}
                   iconsaxLinearAdd={frame14072Props.iconsaxLinearAdd}

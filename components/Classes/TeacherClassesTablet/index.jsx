@@ -80,7 +80,7 @@ function TeacherClassesTablet(props) {
             ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>
-            <Buttons link="#assignments/new" />
+            <Buttons link="#tasks/new" />
           </Frame1426>
         </Frame14221>
         <Frame1417>
@@ -94,7 +94,7 @@ function TeacherClassesTablet(props) {
           <Frame1416>
             <Frame1340>
               <Frame1337>
-                <Classes>Assignments</Classes>
+                <Classes>Tasks</Classes>
                 <Frame14072
                   showCreateNew={false}
                   iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"

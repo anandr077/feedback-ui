@@ -50,7 +50,7 @@ function TaskDetailMobile(props) {
           </Frame29>
           <Frame1389>
             <GoBack caret={goBackProps.caret} />
-            <Title>Assignment</Title>
+            <Title>Task</Title>
           </Frame1389>
           <Frame13901>
             <Frame1210>

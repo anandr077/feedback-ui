@@ -232,10 +232,10 @@ export default function CreateAssignment(props) {
       updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
         if (res.status === "DRAFT") {
-          showSnackbar('Assignment saved');
+          showSnackbar('Task saved');
           return;
         } else {
-          showSnackbar('Could not save assignment');
+          showSnackbar('Could not save task');
           return;
         }
       });
@@ -322,8 +322,8 @@ export default function CreateAssignment(props) {
       publishAssignment(assignment.id).then((res) => {
         console.log("##", res);
         if (res.status === "PUBLISHED") {
-          showSnackbar('Assignment published', res.link);
-          window.location.href = "#assignments";
+          showSnackbar('Task published', res.link);
+          window.location.href = "#tasks";
         } else {
           // setPopupMessage("Assignment Creation Failed");
           // setShowPopup(true);
@@ -778,7 +778,7 @@ const richTextComponents33Data = {
 const createAAssignmentLaptopData = {
   headerProps: createAssignmentHeaderProps,
   logo: "/img/logo-1@2x.png",
-  title: "Create Assignment",
+  title: "Create Task",
   nameOfAssignment: "Name of assignment",
   line141: "/img/line-14-4.png",
   text11: "3.",
@@ -786,7 +786,7 @@ const createAAssignmentLaptopData = {
   frame1284: "/img/frame-1284-7@2x.png",
   line142: "/img/line-14-4.png",
   options: "Options",
-  assignmentSettings: "Assignment Settings",
+  assignmentSettings: "Task Settings",
   classes: "Classes",
   help1: "/img/help@2x.png",
   feedbackMethod: "Feedback Method",
@@ -1012,7 +1012,7 @@ const goBack2Data = {
 const createAAssignmentMobileData = {
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
-  title: "Create Assignment",
+  title: "Create Task",
   nameOfAssignment: "Name of assignment",
   questions: "Questions",
   line141: "/img/line-14@2x.png",
@@ -1025,7 +1025,7 @@ const createAAssignmentMobileData = {
   frame1284: "/img/frame-1284@2x.png",
   line142: "/img/line-14@2x.png",
   options: "Options",
-  assignmentSettings: "Assignment Settings",
+  assignmentSettings: "Task Settings",
   classes: "Classes",
   help1: "/img/help@2x.png",
   feedbackMethod: "Feedback Method",

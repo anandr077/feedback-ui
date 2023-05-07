@@ -47,7 +47,7 @@ function TaskDetailDesktop(props) {
             <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>
-            <Title>Assignment</Title>
+            <Title>Task</Title>
             <GoBack caret={goBackProps.caret} />
           </Frame1389>
           <Frame12091>

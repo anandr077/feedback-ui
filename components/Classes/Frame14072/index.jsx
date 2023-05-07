@@ -6,7 +6,7 @@ function Frame14072() {
   return (
     <Frame1407>
       <Frame1206>
-        <a href="#assignments">
+        <a href="#tasks">
           <ViewAll>VIEW ALL</ViewAll>
         </a>
         <Arrowright src="/img/arrowright-8@2x.png" alt="arrowright" />

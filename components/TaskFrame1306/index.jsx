@@ -12,7 +12,7 @@ function TaskFrame1306() {
         <Frame1282>
           <Task>Task:</Task>
           <Frame1285>
-            <Assignment>Assignment</Assignment>
+            <Assignment>Tasks</Assignment>
             <Frame1284 src="/img/frame-1284@2x.png" />
           </Frame1285>
         </Frame1282>

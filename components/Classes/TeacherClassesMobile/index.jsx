@@ -55,7 +55,7 @@ function TeacherClassesMobile(props) {
             ></ImageDropdownMenu>
           </Frame1306>
 
-          <Buttons className={buttonsProps.className} link="#assignments/new" />
+          <Buttons className={buttonsProps.className} link="#tasks/new" />
         </Frame14221>
         <Frame14221>
           <Frame1339>
@@ -68,7 +68,7 @@ function TeacherClassesMobile(props) {
           <Frame1416>
             <Frame1340>
               <Frame1337>
-                <Classes>Assignments</Classes>
+                <Classes>Tasks</Classes>
                 <Frame14072
                   showCreateNew={false}
                   iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"

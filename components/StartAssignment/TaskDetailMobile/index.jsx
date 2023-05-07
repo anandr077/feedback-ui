@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import HeaderSmall from "../../HeaderSmall";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import Buttons from "../Buttons";
 import Frame11 from "../Frame11";
 import Frame12092 from "../Frame12092";
@@ -46,8 +46,7 @@ function TaskDetailMobile(props) {
         <Frame1390>
           <Frame29>
             <Breadcrumb />
-            {/* <Breadcrumb2 assignments={breadcrumb21Props.assignments} /> */}
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+            <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>
             <GoBack caret={goBackProps.caret} />

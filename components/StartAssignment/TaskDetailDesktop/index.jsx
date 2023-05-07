@@ -1,28 +1,21 @@
 import React from "react";
-import NavElement from "../NavElement";
-import Notifications from "../Notifications";
-import Frame4 from "../Frame4";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import styled from "styled-components";
+import { formattedDate } from "../../../dates";
+import { taskHeaderProps } from "../../../utils/headerProps";
+import Header from "../../Header";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
+import Buttons from "../Buttons";
+import Frame11 from "../Frame11";
+import Frame6 from "../Frame6";
 import GoBack from "../GoBack";
 import StatusBubbles from "../StatusBubbles";
-import Frame11 from "../Frame11";
-import Frame12 from "../Frame12";
-import Frame13 from "../Frame13";
-import Frame14 from "../Frame14";
-import Frame1209 from "../Frame1209";
-import Buttons from "../Buttons";
-import Frame6 from "../Frame6";
-import styled from "styled-components";
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark28px,
+  IbmplexsansSemiBoldShark28px
 } from "../styledMixins";
 import "./TaskDetailDesktop.css";
-import Header from "../../Header";
-import { formattedDate } from "../../../dates";
-import { taskHeaderProps } from "../../../utils/headerProps";
 
 function TaskDetailDesktop(props) {
   const {
@@ -51,8 +44,7 @@ function TaskDetailDesktop(props) {
         <Frame1390>
           <Frame29>
             <Breadcrumb />
-            {/* <Breadcrumb2 assignments={breadcrumb21Props.assignments} /> */}
-            <Breadcrumb2 assignments={assignment.title} />
+            <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>
             <Title>Assignment</Title>

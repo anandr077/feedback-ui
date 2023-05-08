@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getUserName } from "../../service";
 import {
   IbmplexsansBoldWhite36px,
-  IbmplexsansNormalWhite14px,
+  IbmplexsansNormalWhite20px,
 } from "../../styledMixins";
 import DashboardFrame12082 from "../DashboardFrame12082";
 import FooterSmall from "../FooterSmall";
@@ -186,6 +186,7 @@ const Frame1348 = styled.div`
 
 const KeepOrganizedWitho = styled.h1`
   ${IbmplexsansBoldWhite36px}
+  font-size: 36px;
   position: relative;
   align-self: stretch;
   height: 34.06922912597656px;
@@ -197,7 +198,7 @@ const KeepOrganizedWitho = styled.h1`
 `;
 
 const KeepOrganizedWitho1 = styled.p`
-  ${IbmplexsansNormalWhite14px}
+  ${IbmplexsansNormalWhite20px}
   position: relative;
   align-self: stretch;
   text-align: center;

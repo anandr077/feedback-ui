@@ -6,14 +6,17 @@ import CompletedMobile from "../CompletedMobile";
 import CompletedTablet from "../CompletedTablet";
 
 export default function CompletedRoot(props) {
-  const {title, groups,exemplar, id, setPublishActionCompleted} = props
+  const { menuItems, filterTasks, title, groups,exemplar, id, setPublishActionCompleted} = props
   console.log("CompletedRoot "+ setPublishActionCompleted)
+  
+  
+
   return (
     <ReactiveRender
-      mobile={<CompletedMobile {...{ title,groups, exemplar,id, setPublishActionCompleted,...completedMobileData }} />}
-      tablet={<CompletedTablet {...{ title,groups, exemplar,id, setPublishActionCompleted, ...completedTabletData }} />}
-      laptop={<CompletedLaptop {...{ title,groups, exemplar,id, setPublishActionCompleted, ...completedLaptopData }} />}
-      desktop={<CompletedDesktop {...{ title,groups, exemplar,id, setPublishActionCompleted, ...completedDesktopData }} />}
+      mobile={<CompletedMobile {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted,...completedMobileData }} />}
+      tablet={<CompletedTablet {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted, ...completedTabletData }} />}
+      laptop={<CompletedLaptop {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted, ...completedLaptopData }} />}
+      desktop={<CompletedDesktop {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted, ...completedDesktopData }} />}
     />
   );
 }

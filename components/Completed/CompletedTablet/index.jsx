@@ -12,9 +12,13 @@ import {
   IbmplexsansNormalShark16px,
 } from "../styledMixins";
 import "./CompletedTablet.css";
+import CheckboxGroup from "../../CheckboxGroup";
+import FooterSmall from "../../FooterSmall";
 
 function CompletedTablet(props) {
   const {
+    menuItems, 
+    filterTasks,
     id,
     groups,
     title,
@@ -32,22 +36,21 @@ function CompletedTablet(props) {
         <HeaderSmall headerProps={completedHeaderProps}></HeaderSmall>
         <Frame1424>
           <Title>{title}</Title>
-          <Frame1305>
-            <Frame12851>
-              <Subject>{subject}</Subject>
-              <Frame1284 src={frame1284} alt="Frame 1284" />
-            </Frame12851>
-            <Frame1285 />
-          </Frame1305>
+          {createFilter()}
         </Frame1424>
         <Frame1413>
           <Frame1410 id={id} groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
-          <Line18 src={line18} alt="Line 18" />
+          {/* <Line18 src={line18} alt="Line 18" /> */}
         </Frame1413>
       </Frame1425>
-      <Footer></Footer>
+      <FooterSmall></FooterSmall>
     </div>
   );
+  function createFilter() {
+    if (exemplar)
+      return <></>
+    return <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>;
+  }
 }
 
 const Frame1425 = styled.div`

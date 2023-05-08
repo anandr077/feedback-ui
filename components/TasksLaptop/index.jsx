@@ -9,14 +9,18 @@ import Header from "../Header";
 import TaskCardContainer from "../TaskCardContainer";
 import TaskFrame1353 from "../TaskFrame1353";
 import "./TasksLaptop.css";
+import CheckboxGroup from "../CheckboxGroup";
 function TasksLaptop(props) {
-  const { outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
+  const { menuItems, filterTasks,outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
     props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={taskHeaderProps} />
       <Frame1361>
-        <Title>Tasks</Title>
+        <TitleContainer>
+          <Title>Tasks</Title>
+          <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>     
+        </TitleContainer>   
         <Frame1360>
           {/* <TaskFrame1306 /> */}
           <Frame1359>
@@ -62,7 +66,14 @@ function TasksLaptop(props) {
     </div>
   );
 }
-
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 80%;
+  left: 10%;
+`;
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;

@@ -11,8 +11,12 @@ import {
 import "./CompletedLaptop.css";
 import { completedHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
+import CheckboxGroup from "../../CheckboxGroup";
+
 function CompletedLaptop(props) {
   const {
+    menuItems, 
+    filterTasks, 
     id,
     groups,
     title,
@@ -29,23 +33,25 @@ function CompletedLaptop(props) {
         <Header headerProps={completedHeaderProps} />
         <Frame1424>
           <Title>{title}</Title>
-          <Frame1305>
-            <Frame12851>
-              <Subject>{subject}</Subject>
-              <Frame1284 src={frame1284} alt="Frame 1284" />
-            </Frame12851>
-            <Frame1285 />
-          </Frame1305>
+          
+          {createFilter()}
+
         </Frame1424>
 
         <Frame1413>
           <Frame14103 id={id} groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
-          <Line18 src={line18} alt="Line 18" />
+          {/* <Line18 src={line18} alt="Line 18" /> */}
         </Frame1413>
       </Frame1425>
       <Footer />
     </div>
   );
+
+  function createFilter() {
+    if (exemplar)
+      return <></>
+    return <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>;
+  }
 }
 
 const Frame1425 = styled.div`

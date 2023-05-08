@@ -1,5 +1,5 @@
 import React from "react";
-import { getAssignments, getTasks } from "../../../service";
+import { getAssignments, getClasses } from "../../../service";
 import ReactiveRender from "../../ReactiveRender";
 import TeacherTasksStudentMobile from "../TeacherTasksStudentMobile";
 import TeacherTasksStudentTablet from "../TeacherTasksStudentTablet";
@@ -9,15 +9,21 @@ import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from "../../../utils/headerProps.js";
+import _ from 'lodash';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [filteredTasks, setFilteredTasks] = React.useState([]);
+  const [classes, setClasses] = React.useState([]);
 
   React.useEffect(() => {
-    getAssignments().then((result) => {
+    Promise.all([getAssignments(), getClasses()])
+    .then(([result, classes]) => {
       if (result) {
         setAssignments(result);
+        setClasses(classes);
+        setFilteredTasks(result);
         setIsLoading(false);
       }
     });
@@ -25,20 +31,54 @@ export default function TeacherTaskRoot() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  const drafts = assignments.filter(
+  const drafts = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === "DRAFT"
   );
-  const awaitingSubmissions = assignments.filter(
+  const awaitingSubmissions = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === "AWAITING_SUBMISSIONS"
   );
-  const feedbacks = assignments.filter(
+  const feedbacks = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === "FEEDBACK"
   );
+
+  const classesItems = classes.map(clazz=>{
+    return {value:clazz.id , label:clazz.title, category: 'CLASSES'}
+  })
+
+  const menuItems = [
+    {
+      name: 'CLASSES',
+      title: 'Classes',
+      items: classesItems,
+    },
+  ];
+
+  const filterTasks = (selectedItems) =>{
+    console.log("selectedItems " + JSON.stringify(selectedItems))
+    const groupedData = _.groupBy(selectedItems, 'category');
+    
+    const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
+
+    console.log("classesValues " + JSON.stringify(classesValues));
+
+    const filteredAssignments = _.filter(assignments, (assignment) => {
+      if (_.isEmpty(classesValues)) {
+        return true;
+      }
+      return _.some(assignment.classIds, (classId) => _.includes(classesValues, classId));
+    });
+    console.log(filteredAssignments);
+    
+    setFilteredTasks(filteredAssignments)
+  }
+
   return (
     <ReactiveRender
       mobile={
         <TeacherTasksStudentMobile
           {...{
+            menuItems,
+            filterTasks,
             drafts,
             awaitingSubmissions,
             feedbacks,
@@ -49,6 +89,8 @@ export default function TeacherTaskRoot() {
       tablet={
         <TeacherTasksStudentTablet
           {...{
+            menuItems,
+            filterTasks,
             drafts,
             awaitingSubmissions,
             feedbacks,
@@ -59,6 +101,8 @@ export default function TeacherTaskRoot() {
       laptop={
         <TeacherTasksLaptop
           {...{
+            menuItems,
+            filterTasks,
             drafts,
             awaitingSubmissions,
             feedbacks,
@@ -69,6 +113,8 @@ export default function TeacherTaskRoot() {
       desktop={
         <TeacherTasksDesktop
           {...{
+            menuItems,
+            filterTasks,
             drafts,
             awaitingSubmissions,
             feedbacks,

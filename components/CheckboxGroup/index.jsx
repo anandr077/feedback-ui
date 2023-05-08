@@ -168,7 +168,7 @@ const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;
   && {
-    padding: 0px 5px 0px 5px;
+    padding: 3px 10px 3px 10px;
   }
   
 `;

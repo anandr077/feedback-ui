@@ -2,16 +2,22 @@ import React from "react";
 import styled from "styled-components";
 
 function Notifications(props) {
-  const { src, onClickFn } = props;
+  const { src, onClickFn, showNewNotifications } = props;
 
   return (
     <Notifications1 onClick={onClickFn}>
       <OverlapGroup>
         <Notificationbing src={src} alt="notificationbing" />
-        <Ellipse1></Ellipse1>
+        {createShowNewNotifications(showNewNotifications)}
       </OverlapGroup>
     </Notifications1>
   );
+
+  function createShowNewNotifications(showNewNotifications) {
+    if (showNewNotifications)
+      return <Ellipse1></Ellipse1>;
+    return <></>
+  }
 }
 
 const Notifications1 = styled.div`

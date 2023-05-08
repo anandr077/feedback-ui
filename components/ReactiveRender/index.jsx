@@ -27,7 +27,7 @@ export default function ReactiveRender(props) {
       <IconButton
         size="small"
         aria-label="close"
-        color="inherit"
+        color="#FFFFFF"
         onClick={closeSnackbar}
       >
         <CloseIcon fontSize="small" />

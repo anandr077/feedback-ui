@@ -9,23 +9,21 @@ import Header from "../Header";
 import TaskCardContainer from "../TaskCardContainer";
 import TaskFrame1353 from "../TaskFrame1353";
 import "./TasksDesktop.css";
+import { taskHeaderProps } from "../../utils/headerProps.js";
+import CheckboxGroup from "../CheckboxGroup";
 
 function TasksDesktop(props) {
-  const {
-    outstandingTasks,
-    inProgressTasks,
-    overdueTasks,
-    title,
-    frame1306Props,
-    frame19Props,
-    headerProps,
-  } = props;
+  const { menuItems, filterTasks,outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
+  props;
 
   return (
     <div className="tasks-desktop screen">
-      <Header headerProps={headerProps} />
+      <Header headerProps={taskHeaderProps} />
       <Frame1361>
-        <Title>{title}</Title>
+        <TitleContainer>
+          <Title>Tasks</Title>
+          <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>     
+        </TitleContainer>
         <Frame1360>
           {/* <TaskFrame1306 frame1304Props={frame1306Props.frame1304Props} /> */}
           <Frame1359>
@@ -35,7 +33,7 @@ function TasksDesktop(props) {
                 number={outstandingTasks.length}
               />
               <TaskCardContainer
-                allTasks={outstandingTasks}
+                allTasks={overdueTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
@@ -66,6 +64,14 @@ function TasksDesktop(props) {
     </div>
   );
 }
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+`;
 
 const Frame1361 = styled.div`
   display: flex;

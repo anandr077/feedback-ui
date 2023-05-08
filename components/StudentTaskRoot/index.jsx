@@ -1,20 +1,25 @@
 import React from "react";
-import { getTasks } from "../../service";
+import { getTasks, getClasses } from "../../service";
 import ReactiveRender from "../ReactiveRender";
 import TasksStudentMobile from "../TasksStudentMobile";
 import TasksStudentTablet from "../TasksStudentTablet";
 import TasksLaptop from "../TasksLaptop";
 import TasksDesktop from "../TasksDesktop";
 import { taskHeaderProps } from "../../utils/headerProps.js";
-
+import _ from 'lodash';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [classes, setClasses] = React.useState([]);
+  const [filteredTasks, setFilteredTasks] = React.useState([]);
 
+  const [isLoading, setIsLoading] = React.useState(true);
   React.useEffect(() => {
-    getTasks().then((result) => {
+    Promise.all([getTasks(), getClasses()]).then(([result, classes]) => {
+      console.log("Running")
       if (result) {
         setAllTasks(result);
+        setClasses(classes);
+        setFilteredTasks(result);
         setIsLoading(false);
       }
     });
@@ -22,22 +27,64 @@ export default function StudentTaskRoot() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  const outstandingTasks = allTasks.filter(
+  const outstandingTasks = filteredTasks.filter(
     (task) =>
       task.progressStatus === "OUTSTANDING" ||
       task.progressStatus === "REVIEWED"
   );
-  const inProgressTasks = allTasks.filter(
+  const inProgressTasks = filteredTasks.filter(
     (task) => task.progressStatus === "DRAFT"
   );
-  const overdueTasks = allTasks.filter(
+  const overdueTasks = filteredTasks.filter(
     (task) => task.progressStatus === "OVERDUE"
   );
+
+
+  const classesItems = classes.map(clazz=>{
+    return {value:clazz.id , label:clazz.title, category: 'CLASSES'}
+  })
+
+  const menuItems = [
+    {
+      name: 'TYPES',
+      title: 'Types',
+      items: [
+        { value: 'ASSIGNMENT', label: 'Tasks' , category: 'TYPES'  },
+        { value: 'REVIEW', label: 'Reviews' , category: 'TYPES' },
+      ],
+    },
+    {
+      name: 'CLASSES',
+      title: 'Classes',
+      items: classesItems,
+    },
+  ];
+
+  const filterTasks = (selectedItems) =>{
+    console.log("selectedItems " + JSON.stringify(selectedItems))
+    const groupedData = _.groupBy(selectedItems, 'category');
+    let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
+    if (typesValues.length === 0) {
+      typesValues = ["REVIEW", "ASSIGNMENT" ]
+    }
+    const filteredTasks = _.filter(allTasks, (task) => _.includes(typesValues, task.type));
+
+    let classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
+    if (classesValues.length === 0) {
+      classesValues = classes.map(clazz=>clazz.id)
+    }
+
+    const filteredClasses = _.filter(filteredTasks, (task) => _.includes(classesValues, task.classId));
+    setFilteredTasks(filteredClasses)
+    
+  }
   return (
     <ReactiveRender
       mobile={
         <TasksStudentMobile
           {...{
+            menuItems,
+            filterTasks,
             outstandingTasks,
             inProgressTasks,
             overdueTasks,
@@ -48,6 +95,8 @@ export default function StudentTaskRoot() {
       tablet={
         <TasksStudentTablet
           {...{
+            menuItems,
+            filterTasks,
             outstandingTasks,
             inProgressTasks,
             overdueTasks,
@@ -58,6 +107,8 @@ export default function StudentTaskRoot() {
       laptop={
         <TasksLaptop
           {...{
+            menuItems,
+            filterTasks,
             outstandingTasks,
             inProgressTasks,
             overdueTasks,
@@ -68,6 +119,8 @@ export default function StudentTaskRoot() {
       desktop={
         <TasksDesktop
           {...{
+            menuItems,
+            filterTasks,
             outstandingTasks,
             inProgressTasks,
             overdueTasks,

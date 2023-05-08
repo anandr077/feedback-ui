@@ -249,6 +249,7 @@ export default function CreateAssignment(props) {
     else {
       document.getElementById("assignmentNameContainer");
     assignmentNameContainer.style.border = "1px solid red";
+    showSnackbar('Please enter task title');
       return false;
     }
   }
@@ -262,23 +263,33 @@ export default function CreateAssignment(props) {
         const questionTextBox = document.getElementById("question_textBox"+question.serialNumber);
         questionTextBox.style.border = "1px solid red";
         invalidQuestion = true;
+        showSnackbar('Please enter Question '+question.serialNumber+'.');
+        return false;
       }
       if(question.type === "MCQ"){
         let isCorrectPresent = false;
         question.options.map((option, index) => {
+          console.log("##option.option", option.option);
           if(option.option === ""){
             const optionTextBox = document.getElementById("option_"+question.serialNumber+"_"+index);
             optionTextBox.style.border = "1px solid red";
             invalidQuestion = true;
+            
           }
           if(option.isCorrect){
             isCorrectPresent = true;
           }
         });
+        if(invalidQuestion){
+          showSnackbar('Please enter options for Question '+question.serialNumber+'.');
+          return false;
+        }
         if(!isCorrectPresent){
           const optionContainer = document.getElementById("optionFrame_" + question.serialNumber);
           optionContainer.style.border = "1px solid red";
           invalidQuestion = true;
+          showSnackbar('Please select atleast one correct option for Question '+question.serialNumber+'.');
+          return false;
         }
       }
     });
@@ -292,17 +303,18 @@ export default function CreateAssignment(props) {
     else {
     const classesContainer = document.getElementById("classesContainer");
     classesContainer.style.border = "1px solid red";
-    return false;
+    showSnackbar('Please select atleast one class');
     }
   }
 
   const isDateValid = () => {
-    if(assignment.dueAt - Date.now() > 1800000) {
+    if(assignment.dueAt - Date.now() > 3600000) {
       return true;
     }
     else {
       const dueDateContainer = document.getElementById("timeContainer");
       dueDateContainer.style.border = "1px solid red";
+      showSnackbar('Please choose due time at least one hour from now.');
       return false;
     }
   }
@@ -325,15 +337,14 @@ export default function CreateAssignment(props) {
           showSnackbar('Task published', res.link);
           window.location.href = "#tasks";
         } else {
-          // setPopupMessage("Assignment Creation Failed");
-          // setShowPopup(true);
+          showSnackbar('Task creation failed', res.link);
           return;
         }
       });
     });
   }
   else {
-    showSnackbar('Please fill all the fields');
+    // showSnackbar('Please fill all the fields');
   }
     
   }
@@ -779,7 +790,7 @@ const createAAssignmentLaptopData = {
   headerProps: createAssignmentHeaderProps,
   logo: "/img/logo-1@2x.png",
   title: "Create Task",
-  nameOfAssignment: "Name of assignment",
+  nameOfAssignment: "Name of task",
   line141: "/img/line-14-4.png",
   text11: "3.",
   toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -1013,7 +1024,7 @@ const createAAssignmentMobileData = {
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
   title: "Create Task",
-  nameOfAssignment: "Name of assignment",
+  nameOfAssignment: "Name of task",
   questions: "Questions",
   line141: "/img/line-14@2x.png",
   answerWordLimit: "Answer Word Limit",

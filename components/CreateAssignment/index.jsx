@@ -263,7 +263,7 @@ export default function CreateAssignment(props) {
         const questionTextBox = document.getElementById("question_textBox"+question.serialNumber);
         questionTextBox.style.border = "1px solid red";
         invalidQuestion = true;
-        showSnackbar('Question '+question.serialNumber+'.  text is empty');
+        showSnackbar('Please enter Question '+question.serialNumber+'.');
         return false;
       }
       if(question.type === "MCQ"){
@@ -274,19 +274,21 @@ export default function CreateAssignment(props) {
             const optionTextBox = document.getElementById("option_"+question.serialNumber+"_"+index);
             optionTextBox.style.border = "1px solid red";
             invalidQuestion = true;
-            showSnackbar('Please enter option '+ option.optionSerialNumber+' for question '+question.serialNumber);
-            return false;
+            
           }
           if(option.isCorrect){
             isCorrectPresent = true;
           }
         });
+        if(invalidQuestion){
+          showSnackbar('Please enter options for Question '+question.serialNumber+'.');
+          return false;
+        }
         if(!isCorrectPresent){
           const optionContainer = document.getElementById("optionFrame_" + question.serialNumber);
           optionContainer.style.border = "1px solid red";
           invalidQuestion = true;
-          showSnackbar('Please select atleast one correct option for question '+question.serialNumber);
-        
+          showSnackbar('Please select atleast one correct option for Question '+question.serialNumber+'.');
           return false;
         }
       }
@@ -301,7 +303,7 @@ export default function CreateAssignment(props) {
     else {
     const classesContainer = document.getElementById("classesContainer");
     classesContainer.style.border = "1px solid red";
-    showSnackbar('Please select atleast one classes');
+    showSnackbar('Please select atleast one class');
     }
   }
 
@@ -312,7 +314,7 @@ export default function CreateAssignment(props) {
     else {
       const dueDateContainer = document.getElementById("timeContainer");
       dueDateContainer.style.border = "1px solid red";
-      showSnackbar('Please choose a time that is at least 1 hour from now.');
+      showSnackbar('Please choose due time at least one hour from now.');
       return false;
     }
   }

@@ -9,6 +9,7 @@ import Header from "../Header";
 import TaskCardContainer from "../TaskCardContainer";
 import TaskFrame1353 from "../TaskFrame1353";
 import "./TasksLaptop.css";
+import CheckboxGroup from "../CheckboxGroup";
 function TasksLaptop(props) {
   const { menuItems, filterTasks,outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
     props;

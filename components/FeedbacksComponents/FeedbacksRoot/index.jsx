@@ -605,62 +605,61 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function getStatusMessage(submission, viewer) {
     if (submission.status === "DRAFT") {
       return (
-        "Created by: " +
+        "Created by " +
         submission.assignment.teacherName +
-        " | Due on: " +
+        " | Due on " +
         formattedDate(submission.assignment.dueAt)
       );
     }
     if (submission.status === "SUBMITTED") {
       let submitter;
       if (viewer === "PEER") {
-        submitter = "Peer";
+        submitter = "your peer";
       } else if (viewer === "SELF") {
-        submitter = "You";
+        submitter = "you";
       } else {
         submitter = submission.studentName;
       }
       return (
-        "Submitted by: " +
+        "Submitted by " +
         submitter +
-        " | Review due on: " +
+        " | Review due on " +
         formattedDate(submission.assignment.reviewDueAt)
       );
     }
     if (submission.status === "REVIEWED") {
       let reviewer;
       if (submission.assignment.reviewedBy === "TEACHER") {
-        reviewer = submission.assignment.teacherName;
+        if (viewer === "TEACHER") {
+          reviewer = "you";
+        }
+        else {
+          reviewer = submission.assignment.teacherName;
+        }
       } else {
-        reviewer = viewer === "TEACHER" ? submission.studentName : "Peer";
+        reviewer = "your peer";
       }
       return (
-        "Reviewed by: " +
+        "Reviewed by " +
         reviewer +
-        " on: " +
+        " on " +
         formattedDate(submission.reviewedAt)
       );
     }
     if (submission.status === "CLOSED") {
       let closedBy;
       if (viewer === "PEER") {
-        return "Reviewed by you on " + submission.reviewed;
+        closedBy =  "your peer";
       } else if (viewer === "SELF") {
-        closedBy =
-          submission.assignment.reviewedBy === "TEACHER"
-            ? submission.assignment.teacherName
-            : "You";
+        closedBy = "you";
       } else {
-        closedBy =
-          submission.assignment.reviewedBy === "TEACHER"
-            ? submission.assignment.teacherName
-            : submission.studentName;
+        closedBy = submission.studentName;
       }
       return (
-        "Closed by: " +
+        "Closed by " +
         closedBy +
-        " on: " +
-        formattedDate(submission.reviewedAt)
+        " on " +
+        formattedDate(submission.closedAt)
       );
     }
   }

@@ -116,7 +116,21 @@ const TaskInsideFrame = styled.div`
   }
   `;
 const InsideFrame = styled.div`
-  padding: 0px 20px;`;
+display: flex;
+  flex-direction: column;
+  height: 595px;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0px 20px;
+  position: relative;
+  align-self: stretch;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+`;
 const Crown = styled.img`
   position: relative;
   min-width: 24px;

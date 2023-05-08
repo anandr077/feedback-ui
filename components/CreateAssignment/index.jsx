@@ -232,7 +232,7 @@ export default function CreateAssignment(props) {
       updateAssignment(assignment.id, assignment).then((res) => {
         console.log("##", res);
         if (res.status === "DRAFT") {
-          showSnackbar('Assignment saved');
+          showSnackbar('Task saved');
           return;
         } else {
           showSnackbar('Could not save assignment');
@@ -322,8 +322,8 @@ export default function CreateAssignment(props) {
       publishAssignment(assignment.id).then((res) => {
         console.log("##", res);
         if (res.status === "PUBLISHED") {
-          showSnackbar('Assignment published', res.link);
-          window.location.href = "#assignments";
+          showSnackbar('Task published', res.link);
+          window.location.href = "#task";
         } else {
           // setPopupMessage("Assignment Creation Failed");
           // setShowPopup(true);
@@ -786,7 +786,7 @@ const createAAssignmentLaptopData = {
   frame1284: "/img/frame-1284-7@2x.png",
   line142: "/img/line-14-4.png",
   options: "Options",
-  assignmentSettings: "Assignment Settings",
+  assignmentSettings: "Task Settings",
   classes: "Classes",
   help1: "/img/help@2x.png",
   feedbackMethod: "Feedback Method",
@@ -1025,7 +1025,7 @@ const createAAssignmentMobileData = {
   frame1284: "/img/frame-1284@2x.png",
   line142: "/img/line-14@2x.png",
   options: "Options",
-  assignmentSettings: "Assignment Settings",
+  assignmentSettings: "Task Settings",
   classes: "Classes",
   help1: "/img/help@2x.png",
   feedbackMethod: "Feedback Method",

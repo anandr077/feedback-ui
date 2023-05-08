@@ -235,7 +235,7 @@ export default function CreateAssignment(props) {
           showSnackbar('Task saved');
           return;
         } else {
-          showSnackbar('Could not save assignment');
+          showSnackbar('Could not save task');
           return;
         }
       });
@@ -323,7 +323,7 @@ export default function CreateAssignment(props) {
         console.log("##", res);
         if (res.status === "PUBLISHED") {
           showSnackbar('Task published', res.link);
-          window.location.href = "#task";
+          window.location.href = "#tasks";
         } else {
           // setPopupMessage("Assignment Creation Failed");
           // setShowPopup(true);
@@ -778,8 +778,8 @@ const richTextComponents33Data = {
 const createAAssignmentLaptopData = {
   headerProps: createAssignmentHeaderProps,
   logo: "/img/logo-1@2x.png",
-  title: "Create Assignment",
-  nameOfAssignment: "Name of assignment",
+  title: "Create Task",
+  nameOfAssignment: "Name of task",
   line141: "/img/line-14-4.png",
   text11: "3.",
   toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -1012,8 +1012,8 @@ const goBack2Data = {
 const createAAssignmentMobileData = {
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
-  title: "Create Assignment",
-  nameOfAssignment: "Name of assignment",
+  title: "Create Task",
+  nameOfAssignment: "Name of task",
   questions: "Questions",
   line141: "/img/line-14@2x.png",
   answerWordLimit: "Answer Word Limit",

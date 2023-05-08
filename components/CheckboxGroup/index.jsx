@@ -77,14 +77,12 @@ const CheckboxGroup = ({ data, onChange }) => {
       <FormControl sx={{ m: 1 }}>
         <StyledBox>
         <FlexContainer onClick={handleClick}>
-          <IconButton 
+          <StyledIconButton 
           onClick={handleClick} 
-          // variant="outlined" 
-          edge="start"
-            color="inherit"
-            aria-label="menu">
+         >
+          
               <StyledListItemText>{filterText(selectedItems)}</StyledListItemText>
-          </IconButton>
+          </StyledIconButton>
           </FlexContainer>
           </StyledBox>
           <Menu
@@ -106,7 +104,6 @@ const CheckboxGroup = ({ data, onChange }) => {
 export default CheckboxGroup;
 const StyledMenuItem = styled(MenuItem)`
   display: flex;
-  padding: 0px 0px 0px 12px;
   position: relative;
   background-color: var(--white);
   border-radius: 8px;
@@ -125,6 +122,8 @@ const StyledMenuItem = styled(MenuItem)`
   }
 `;
 
+
+
 const StyledBox = styled(Box)`
   justify-content: flex-end;
   max-width: 200px;
@@ -132,7 +131,6 @@ const StyledBox = styled(Box)`
   // height:40px;
   display: flex;
   align-items: center;
-  padding: 0px 0px 0px 12px;
   position: relative;
   background-color: var(--white);
   border-radius: 8px;
@@ -169,6 +167,10 @@ const FlexContainer = styled('div')`
 const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;
+  && {
+    padding: 0px 5px 0px 5px;
+  }
+  
 `;
 
 const StyledListItemText = styled(ListItemText)`
@@ -184,6 +186,9 @@ const StyledListItemText = styled(ListItemText)`
   //   ${IbmplexsansNormalShark16px}
   //   font-size: 14px;
   // }
+  .MuiButtonBase-root{
+    padding: 0px;
+  }
 `;
 const StyledListSubheader = styled(ListSubheader)`
   ${IbmplexsansNormalShark20px}

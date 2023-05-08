@@ -58,7 +58,7 @@ function TeacherTasksDesktop(props) {
 }
 const Frame1315 = styled.div`
   display: flex;
-  // align-items: flex-start;
+  align-items: center;
   // gap: 4px;
   // padding: 0px 0px 0px 60px;
   position: relative;

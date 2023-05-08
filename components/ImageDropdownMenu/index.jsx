@@ -1,12 +1,18 @@
-import { Avatar } from "@boringer-avatars/react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import styled, { css } from "styled-components";
+import ListItemText from "@mui/material/ListItemText";
+import { Avatar } from "@boringer-avatars/react";
+import { Popover } from '@mui/material';
 
+import {IbmplexsansNormalBlack16px} from "../../styledMixins";
+import { IbmplexsansNormalBlack16px } from "../../styledMixins";
+import { Avatar } from "@boringer-avatars/react";
+import CheckboxBordered from "../CheckboxBordered";
 export const ImageDropdownMenu = (props) => {
   // const menuItems = [
   //   {id: 1, title:"View Profile", onClick:()=>console.log("V")},
@@ -112,22 +118,6 @@ export const ImageDropdownMenu = (props) => {
   );
 };
 
-
-export default ImageDropdownMenu;
-function createImageFrame(selectedItem, showAvatar) {
-  if (selectedItem.image) {
-    return  <Frame12841 src={selectedItem.image} alt="Frame 1284" />
-  }
-  if (!showAvatar)
-    return <></>
-  return <Avatar
-    title={false}
-    size={25}
-    variant="beam"
-    name={selectedItem.title}
-    square={false} />;
-}
-
 export const IbmplexsansNormalShark16px = css`
   color: var(--text);
   font-family: var(--font-family-ibm_plex_sans);
@@ -220,3 +210,18 @@ const Frame12841 = styled.img`
   min-width: 16px;
   height: 16px;
 `;
+export default ImageDropdownMenu;
+function createImageFrame(selectedItem, showAvatar) {
+  if (selectedItem.image) {
+    return  <Frame12841 src={selectedItem.image} alt="Frame 1284" />
+  }
+  if (!showAvatar)
+    return <></>
+  return <Avatar
+    title={false}
+    size={25}
+    variant="beam"
+    name={selectedItem.title}
+    square={false} />;
+}
+

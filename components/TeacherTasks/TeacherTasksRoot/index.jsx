@@ -10,6 +10,7 @@ import {
   taskHeaderProps,
 } from "../../../utils/headerProps.js";
 import _ from 'lodash';
+import Loader from "../../Loader";
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -29,7 +30,7 @@ export default function TeacherTaskRoot() {
     });
   }, []);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   const drafts = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === "DRAFT"

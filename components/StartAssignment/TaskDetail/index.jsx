@@ -9,6 +9,7 @@ import { getAssignmentById, startSubmission } from "../../../service";
 import { useParams } from "react-router-dom";
 import { default as React, useEffect, useState } from "react";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
+import Loader from "../../Loader";
 
 export default function TaskDetail() {
   const { assignmentId } = useParams();
@@ -24,7 +25,7 @@ export default function TaskDetail() {
     });
   }, []);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   console.log("Loadr: " + isLoading);
 

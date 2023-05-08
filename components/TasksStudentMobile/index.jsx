@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useRef, useEffect, useState} from "react";
 import Notifications from "../Notifications";
 import TaskFrame1304 from "../TaskFrame1304";
 import Tabs from "../Tabs";
@@ -17,42 +17,58 @@ import { taskHeaderProps } from "../../utils/headerProps.js";
 import CheckboxGroup from "../CheckboxGroup";
 
 function TasksStudentMobile(props) {
-  const { outstandingTasks, inProgressTasks, overdueTasks } = props;
-  const outstandingFrame = createTasksFrame(
-    "Not Started",
-    outstandingTasks,
-    true,
-    false,
-    false
-  );
-  const inProgressFrame = createTasksFrame(
-    "In Progress",
-    inProgressTasks,
-    false,
-    true,
-    false
-  );
-  const overdueFrame = createTasksFrame(
-    "Overdue",
-    overdueTasks,
-    false,
-    false,
-    true
-  );
-  const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
+  // const { outstandingTasks, inProgressTasks, overdueTasks } = props;
+  // const outstandingFrame = createTasksFrame(
+  //   "Not Started",
+  //   outstandingTasks,
+  //   true,
+  //   false,
+  //   false
+  // );
+  // const inProgressFrame = createTasksFrame(
+  //   "In Progress",
+  //   inProgressTasks,
+  //   false,
+  //   true,
+  //   false
+  // );
+  // const overdueFrame = createTasksFrame(
+  //   "Overdue",
+  //   overdueTasks,
+  //   false,
+  //   false,
+  //   true
+  // );
+  // const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
 
-  const frames = [
-    { title: "Outstanding", tasks: outstandingTasks },
-    { title: "In Progress", tasks: inProgressTasks },
-    { title: "Overdue", tasks: overdueTasks },
-  ];
+  // const frames = [
+  //   { title: "Outstanding", tasks: outstandingTasks },
+  //   { title: "In Progress", tasks: inProgressTasks },
+  //   { title: "Overdue", tasks: overdueTasks },
+  // ];
 
-  const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
-  const tasksFrame = frames[currentFrameIndex];
+  // const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
+  // const tasksFrame = frames[currentFrameIndex];
+const {menuItems, filterTasks, outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
+    props;
+    const prevProps = useRef(props);
+    const [isOutstanding, setIsOutstanding] = useState(true);
+    const [isInProgress, setIsInProgress] = useState(false);
+    const [isOverdue, setIsOverdue] = useState(false);
+    const [task, setTask] = useState(outstandingTasks);
+    const [title,setTittle] = useState("Not Started");
 
-  return createTasksContainerFrame(filterTasks, menuItems, tasksFrame);
+const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outstandingTasks, true, false, false));
+    useEffect(() => {
+       setTasksFrame (createTasksFrame(title,task, isOutstanding, isInProgress, isOverdue))
+      if (prevProps.current !== props) {
+        isOutstanding && setTask(outstandingTasks);
+        isInProgress && setTask(inProgressTasks);
+        isOverdue && setTask(overdueTasks);
+      }
+      prevProps.current = props;
+    }, [ title, task, isOutstanding, isInProgress, isOverdue, menuItems]);
 
-  function createTasksContainerFrame(filterTasks, menuItems, tasksFrame) {
     return (
       <div className="tasks-student-mobile screen">
         <HeaderSmall headerProps={taskHeaderProps} />
@@ -61,14 +77,14 @@ function TasksStudentMobile(props) {
             <PageTitle>Tasks</PageTitle>
             <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>
           </Frame1307>
-          {createTasksFrame(tasksFrame.title, tasksFrame.tasks)}
+          {taskFrame}
         </Frame1365>
         <FooterSmall />
       </div>
     );
-  }
+  
 
-  function createTasksFrame(title, tasks) {
+  function createTasksFrame(title, tasks , isOutstanding, isInProgress, isOverdue) {
     return (
       <>
         <Frame1364>
@@ -77,21 +93,33 @@ function TasksStudentMobile(props) {
               text={"Not Started"}
               isSelected={isOutstanding}
               onClickFn={() => {
-                setTasksFrame(outstandingFrame);
+                setIsOutstanding(true);
+                setIsInProgress(false);
+                setIsOverdue(false);
+                setTittle("Not Started");
+                setTask(outstandingTasks);
               }}
             />
             <Tabs
               text={"In Progress"}
               isSelected={isInProgress}
               onClickFn={() => {
-                setTasksFrame(inProgressFrame);
+                setIsOutstanding(false);
+                setIsInProgress(true);
+                setIsOverdue(false);
+                setTittle("In Progress");
+                setTask(inProgressTasks);
               }}
             />
             <Tabs
               text={"Overdue"}
               isSelected={isOverdue}
               onClickFn={() => {
-                setTasksFrame(overdueFrame);
+                setIsOutstanding(false);
+                setIsInProgress(false);
+                setIsOverdue(true);
+                setTittle("Overdue");
+                setTask(overdueTasks);
               }}
             />
           </Frame1211>
@@ -106,8 +134,8 @@ function TasksStudentMobile(props) {
       </>
     );
   }
-}
 
+}
 
 const Frame1365 = styled.div`
   display: flex;

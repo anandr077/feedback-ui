@@ -112,7 +112,7 @@ const frame12082Data = {
 const dashboardHomeStudentMobileData = {
   keepOrganizedWitho1: "Welcome, Eleanor",
   keepOrganizedWitho2:
-    "Facilitate collaborative marking and feedback for your classes",
+    "Keep track of your school work and improve your writing through our collaborative marking tools",
   frame12082Props: frame12082Data,
 };
 
@@ -135,7 +135,7 @@ const frame120822Data = {
 const dashboardHomeStudentTabletData = {
   keepOrganizedWitho1: "Welcome, Eleanor",
   keepOrganizedWitho2:
-    "Facilitate collaborative marking and feedback for your classes",
+    "Keep track of your school work and improve your writing through our collaborative marking tools",
   frame120821Props: frame120822Data,
   frame120822Props: frame120823Data,
 };
@@ -154,7 +154,7 @@ const frame13402Data = {
 const dashboardHomeStudentLaptopData = {
   keepOrganizedWitho1: "Welcome, Eleanor",
   keepOrganizedWitho2:
-    "Facilitate collaborative marking and feedback for your classes",
+    "Keep track of your school work and improve your writing through our collaborative marking tools",
   maskGroup: "/img/mask-group-2.png",
   group1205Props: group12055Data,
   frame1340Props: frame13402Data,
@@ -188,7 +188,7 @@ const frame13401Data = {
 const dashboardHomeStudentDesktopData = {
   keepOrganizedWitho1: "Welcome, Eleanor",
   keepOrganizedWitho2:
-    "Facilitate collaborative marking and feedback for your classes",
+    "Keep track of your school work and improve your writing through our collaborative marking tools",
   maskGroup: "/img/mask-group-3.png",
   group1205Props: group12053Data,
   frame1340Props: frame13401Data,

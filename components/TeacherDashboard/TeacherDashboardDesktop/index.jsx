@@ -20,6 +20,7 @@ import Header from "../../Header";
 import Footer from "../../Footer";
 import TaskCard from "../../TaskCard";
 import { timeFirstFormattedDate } from "../../../dates";
+import { getUserName } from "../../../service";
 
 function TeacherDashboardDesktop(props) {
   const {
@@ -51,7 +52,7 @@ function TeacherDashboardDesktop(props) {
     frame13133Props,
     frame13134Props,
   } = props;
-
+  const userName = getUserName();
   return (
     <div className="teacher-dashboard-desktp screen">
       <Frame1419>
@@ -60,7 +61,7 @@ function TeacherDashboardDesktop(props) {
           <Frame13121>
             <Frame1342>
               <Frame1341>
-                <KeepOrganizedWitho>{keepOrganizedWitho1}</KeepOrganizedWitho>
+                <KeepOrganizedWitho>Welcome {userName} </KeepOrganizedWitho>
                 <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
               </Frame1341>
               <MaskGroup src={maskGroup} alt="Mask Group" />

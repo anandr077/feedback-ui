@@ -120,7 +120,7 @@ const Frame1358 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  padding: 20px 20px 0px;
+  padding: 20px;
   position: relative;
   flex: 1;
   width: 100%;

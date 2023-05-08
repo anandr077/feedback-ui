@@ -127,7 +127,7 @@ const dashboardHomeStudentData = {
   keepOrganizedWithoContainer: "/img/mask-group-1.png",
   keepOrganizedWitho1: "Welcome, Eleanor",
   keepOrganizedWitho2:
-    "Your dashboard contains all the vital information you need to start learning right away",
+    "Facilitate collaborative marking and feedback for your classes",
   tasks: "Tasks",
   exemplarResponses: "Exemplar responses",
   x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",

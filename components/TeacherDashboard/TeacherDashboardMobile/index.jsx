@@ -6,8 +6,8 @@ import HeaderSmall from "../../HeaderSmall";
 import Frame12842 from "../Frame12842";
 import Frame13132 from "../Frame13132";
 import Group1205 from "../Group1205";
-import { IbmplexsansMediumShark20px } from "../styledMixins";
-import { IbmplexsansMediumShark20px } from "../styledMixins";
+
+import { IbmplexsansMediumShark20px, IbmplexsansBoldWhite36px}  from "../../../styledMixins";
 
 import {
   IbmplexsansMediumRiverBed24px,
@@ -300,14 +300,11 @@ const Frame1348 = styled.div`
 `;
 
 const KeepOrganizedWitho = styled.h1`
+  ${IbmplexsansBoldWhite36px}
   position: relative;
   align-self: stretch;
   height: 34.06922912597656px;
   margin-top: -1px;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 700;
-  color: var(--white);
-  font-size: var(--font-size-xxxl);
   text-align: center;
   letter-spacing: -0.72px;
   line-height: 43.2px;

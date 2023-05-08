@@ -17,38 +17,6 @@ import { taskHeaderProps } from "../../utils/headerProps.js";
 import CheckboxGroup from "../CheckboxGroup";
 
 function TasksStudentMobile(props) {
-  // const { outstandingTasks, inProgressTasks, overdueTasks } = props;
-  // const outstandingFrame = createTasksFrame(
-  //   "Not Started",
-  //   outstandingTasks,
-  //   true,
-  //   false,
-  //   false
-  // );
-  // const inProgressFrame = createTasksFrame(
-  //   "In Progress",
-  //   inProgressTasks,
-  //   false,
-  //   true,
-  //   false
-  // );
-  // const overdueFrame = createTasksFrame(
-  //   "Overdue",
-  //   overdueTasks,
-  //   false,
-  //   false,
-  //   true
-  // );
-  // const [tasksFrame, setTasksFrame] = useState(outstandingFrame);
-
-  // const frames = [
-  //   { title: "Outstanding", tasks: outstandingTasks },
-  //   { title: "In Progress", tasks: inProgressTasks },
-  //   { title: "Overdue", tasks: overdueTasks },
-  // ];
-
-  // const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
-  // const tasksFrame = frames[currentFrameIndex];
 const {menuItems, filterTasks, outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
     props;
     const prevProps = useRef(props);

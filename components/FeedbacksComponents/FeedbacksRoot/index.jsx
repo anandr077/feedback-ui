@@ -217,8 +217,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }}
       open={showShareWithClass}
     >
-      <Box padding={2}>
+      <Box padding={4}>
         <StyledTextField
+          multiline
           label="Add comment"
           variant="outlined"
           value={exemplarComment}

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { exchangeCodeForToken } from "../../service.js";
+import Loader from "../Loader";
 
 const Callback = () => {
   useEffect(() => {
@@ -17,7 +18,7 @@ const Callback = () => {
     }
   }, []);
 
-  return <div>Processing...</div>;
+  return <Loader/>;
 };
 
 export default Callback;

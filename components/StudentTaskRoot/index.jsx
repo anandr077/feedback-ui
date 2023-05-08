@@ -7,6 +7,7 @@ import TasksLaptop from "../TasksLaptop";
 import TasksDesktop from "../TasksDesktop";
 import { taskHeaderProps } from "../../utils/headerProps.js";
 import _ from 'lodash';
+import Loader from "../Loader";
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
@@ -25,7 +26,7 @@ export default function StudentTaskRoot() {
     });
   }, []);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   const outstandingTasks = filteredTasks.filter(
     (task) =>

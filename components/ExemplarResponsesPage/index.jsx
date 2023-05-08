@@ -5,6 +5,7 @@ import CompletedRoot from "../Completed/CompletedRoot";
 import { groupBy, groupedData } from "lodash";
 import { dateOnly } from "../../dates.js";
 import { useLocation } from "react-router-dom";
+import Loader from "../Loader";
 
 export default function ExemplarResponsesPage(props) {
     const [exemplarResponses, setExemplarResponses] = React.useState([]);
@@ -42,7 +43,7 @@ export default function ExemplarResponsesPage(props) {
     }
     }, [publishActionCompleted]);
     if (isLoading) {
-      return <div>Loading...</div>;
+      return <Loader/>;
     }
     const groups = groupBy(exemplarResponses, (task) => dateOnly(task.reviewedAt));
     console.log("setPublishActionCompleted p", setPublishActionCompleted)

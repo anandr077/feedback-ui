@@ -20,6 +20,7 @@ import ReactiveRender from "../ReactiveRender";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import SnackbarContext from "../SnackbarContext"
 import { tr } from "date-fns/locale";
+import Loader from "../Loader";
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -75,7 +76,7 @@ export default function CreateAssignment(props) {
     });
   }, [assignmentId]);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   const handleTitleChange = (e) => {

@@ -14,14 +14,14 @@ function NotificationsBar(props) {
           <NavbarDiv>
             <Frame1409>
               <Frame15>
-                {loadingNotifications ? <Loader /> : <Cards emptyCard={true} />}
+                {loadingNotifications ?<div>Loading...</div> : <Cards emptyCard={true} />}
               </Frame15>
               <MaskGroup src="/img/close.png" onClick={onCloseFn} />
             </Frame1409>
           </NavbarDiv>
         ) : (
           <Frame16>
-            {loadingNotifications ? <Loader /> : <Frame15><Cards emptyCard={true} /></Frame15>}
+            {loadingNotifications ? <div>Loading...</div> : <Frame15><Cards emptyCard={true} /></Frame15>}
           </Frame16>
         )}
       </>

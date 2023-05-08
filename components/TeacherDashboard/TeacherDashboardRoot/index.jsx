@@ -10,6 +10,7 @@ import TeacherDashboardMobile from "../TeacherDashboardMobile";
 import TeacherDashboardTablet from "../TeacherDashboardTablet";
 import TeacherDashboardLaptop from "../TeacherDashboardLaptop";
 import TeacherDashboardDesktop from "../TeacherDashboardDesktop";
+import Loader from "../../Loader";
 
 export default function TeacherDashboardRoot(props) {
   const [assignments, setAssignments] = React.useState([]);
@@ -32,7 +33,7 @@ export default function TeacherDashboardRoot(props) {
     });
   }, []);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   console.log("classes " + JSON.stringify(classes));
   const drafts = assignments.filter(

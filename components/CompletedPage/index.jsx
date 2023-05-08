@@ -5,7 +5,7 @@ import CompletedRoot from "../Completed/CompletedRoot";
 import { groupBy, groupedData } from "lodash";
 import { dateOnly } from "../../dates.js";
 import _ from 'lodash';
-
+import Loader from "../Loader";
 export default function CompletedPage() {
     const [tasks, setTasks] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -22,7 +22,7 @@ export default function CompletedPage() {
       });
     }, []);
     if (isLoading) {
-      return <div>Loading...</div>;
+      return <Loader/>;
     }
     const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));
     const menuItems = [

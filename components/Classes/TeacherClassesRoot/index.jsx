@@ -14,6 +14,7 @@ import {
   getAssignmentsByClassId,
 } from "../../../service.js";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
+import Loader from "../../Loader";
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
   const [classId, setClassId] = useState(classIdFromUrl);
@@ -46,7 +47,7 @@ export default function TeacherClassesRoot() {
   }, [classId]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   const drafts = assignments.filter(

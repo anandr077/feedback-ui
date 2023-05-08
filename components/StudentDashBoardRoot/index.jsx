@@ -8,6 +8,7 @@ import { getTasks, getModelResponses } from "../../service";
 import { homeHeaderProps } from "../../utils/headerProps.js";
 import { limitParagraph } from "../../utils/strings";
 import _ from "lodash";
+import Loader from "../Loader";
 
 export default function StudentDashboardRoot(props) {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -37,7 +38,7 @@ export default function StudentDashboardRoot(props) {
     );
   }, []);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   const outstandingTasks = allTasks.filter(
     (task) => task.progressStatus === "OUTSTANDING"

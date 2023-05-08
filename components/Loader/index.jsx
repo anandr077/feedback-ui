@@ -1,13 +1,15 @@
 import React from "react";
+import Lottie from "lottie-react";
+import animationData from "./data.json";
+import "@lottiefiles/lottie-player";
 
 export default function Loader() {
-  const myDiv = document.getElementById("myDiv");
-
-  // fetch('/Users/adityachondke/Projects/Freelance/Jeddle/feedbackUIAnimaap/components/Loader/data.html')
-  //   .then(response => response.text())
-  //   .then(html => {
-  //     myDiv.innerHTML = html;
-  //   });
-
-  return <div id="loader">Loading ...</div>;
+  return <lottie-player
+  autoplay
+  loop
+  mode="normal"
+  src="./icons/data.json"
+  style={{ width: "100vw", height: "100vh" }}
+>
+</lottie-player>;
 }

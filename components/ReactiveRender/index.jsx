@@ -14,7 +14,8 @@ export default function ReactiveRender(props) {
   const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
   const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
-  const linkButton = snackbarLink ? <Button color="secondary" size="small" 
+  const linkButton = snackbarLink ? <Button color="secondary"
+  style={{ color: 'white' }} size="small" 
   onClick={()=>{
     window.location.href = snackbarLink
     closeSnackbar()
@@ -27,10 +28,10 @@ export default function ReactiveRender(props) {
       <IconButton
         size="small"
         aria-label="close"
-        color="#FFFFFF"
+        style={{ color: "white"}}
         onClick={closeSnackbar}
       >
-        <CloseIcon fontSize="small" />
+        <CloseIcon fontSize="small"  style={{ color: "white"}} />
       </IconButton>
     </React.Fragment>
   );

@@ -637,7 +637,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewer = submission.assignment.teacherName;
         }
       } else {
-        reviewer = "your peer";
+        if (viewer === "PEER") {
+          reviewer = "you";
+        } else {
+          reviewer = "your peer";
+        }
       }
       return (
         "Reviewed by " +

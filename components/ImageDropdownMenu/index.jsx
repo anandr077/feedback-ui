@@ -34,6 +34,7 @@ export const ImageDropdownMenu = (props) => {
       setSelectedItem(item);
       setAnchorEl(null);
       if (item.link) {
+        alert("hrefing")
         window.location.href = item.link;
         return 
       }

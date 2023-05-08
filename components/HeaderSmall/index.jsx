@@ -53,6 +53,7 @@ export default function HeaderSmall(props) {
           <Notifications
             src="/img/notificationbing@2x.png"
             onClickFn={handleNotificationClick}
+            showNewNotifications = {notifications?.length > 0}
           />
           <Frame51 src="/img/frame-5@2x.png" onClick={handleMenuClick} />
         </Frame5>

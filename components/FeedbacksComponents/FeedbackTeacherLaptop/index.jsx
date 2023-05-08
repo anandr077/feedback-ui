@@ -131,8 +131,8 @@ function FeedbackTeacherLaptop(props) {
     if (pageMode === "REVISE") {
       return (
         <Buttons2
-          button="RESUBMIT"
-          arrowright={true}
+          button="Resubmit"
+          // arrowright={true}
           onClickFn={() => methods.handleSubmissionClosed()}
         ></Buttons2>
       );

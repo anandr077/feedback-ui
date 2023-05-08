@@ -121,6 +121,7 @@ export default function Header(props) {
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}
+            showNewNotifications = {notifications?.length > 0}
           />
           <div onClick={toggleDropDown}>
             <UserIcon maskGroup="/img/mask-group-1@2x.png" />

@@ -487,10 +487,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           link: student.link,
         };
       });
+      const selectedItemIndex = menuItems.findIndex((menuItem) => {
+        return menuItem.id === submission.id;
+      });
+      console.log("menuItems" +JSON.stringify(menuItems) + " selectedItemIndex " + selectedItemIndex)
+
       return (
         <ImageDropdownMenu
           menuItems={menuItems}
           showAvatar={true}
+          selectedIndex={selectedItemIndex}
         ></ImageDropdownMenu>
       );
     }
@@ -637,7 +643,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewer = submission.assignment.teacherName;
         }
       } else {
-        reviewer = "your peer";
+        if (viewer === "PEER") {
+          reviewer = "you";
+        } else {
+          reviewer = "your peer";
+        }
       }
       return (
         "Reviewed by " +

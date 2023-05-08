@@ -7,6 +7,7 @@ import { getCommentsForSubmission, getUserRole } from "../../../service";
 export function extractStudents(tasksResult) {
   return tasksResult.map((task) => {
     return {
+      id: task.id,
       name: task.studentName,
       src: (
         <Avatar

@@ -562,7 +562,6 @@ const Group1225 = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  width : 80%
 `;
 
 const Frame1367 = styled.div`
@@ -719,6 +718,9 @@ const Frame1322 = styled.div`
   gap: 8px;
   position: relative;
   align-self: stretch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Frame1329 = styled.div`
@@ -824,6 +826,9 @@ const Frame1328 = styled.div`
   flex: 1;
   align-self: stretch;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Frame1370 = styled.div`

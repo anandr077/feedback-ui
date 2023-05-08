@@ -59,7 +59,6 @@ const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outsta
               text={"Not Started"}
               isSelected={isOutstanding}
               onClickFn={() => {
-                // setTasksFrame(outstandingFrame);
                 setIsOutstanding(true);
                 setIsInProgress(false);
                 setIsOverdue(false);
@@ -71,7 +70,6 @@ const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outsta
               text={"In Progress"}
               isSelected={isInProgress}
               onClickFn={() => {
-                // setTasksFrame(inProgressFrame);
                 setIsOutstanding(false);
                 setIsInProgress(true);
                 setIsOverdue(false);
@@ -83,7 +81,6 @@ const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outsta
               text={"Overdue"}
               isSelected={isOverdue}
               onClickFn={() => {
-                // setTasksFrame(overdueFrame);
                 setIsOutstanding(false);
                 setIsInProgress(false);
                 setIsOverdue(true);

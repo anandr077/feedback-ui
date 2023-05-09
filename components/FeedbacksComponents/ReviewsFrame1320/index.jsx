@@ -38,6 +38,9 @@ const Frame13201 = styled.div`
   &.frame-1320.frame-1320-2 {
     background-color: unset;
   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Feedback = styled.div`
@@ -48,6 +51,9 @@ const Feedback = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default ReviewsFrame1320;

@@ -326,6 +326,7 @@ const TitleWrapper = styled.div`
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
+  gap:10px;
 `;
 const StatusText = styled.p`
   // width: 714px;

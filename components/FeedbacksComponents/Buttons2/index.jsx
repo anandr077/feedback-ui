@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
+import DownloadingOutlinedIcon from '@mui/icons-material/DownloadingOutlined';
 
 function Buttons2(props) {
   const { button, arrowleft, arrowright, download, className, onClickFn } =
@@ -41,11 +42,7 @@ function Buttons2(props) {
   function Download() {
     if (download)
       return (
-        <Arrowleft
-          className="arrowleft"
-          src={"/icons/download.png"}
-          alt="download"
-        />
+      <DownloadingOutlinedIcon style={{color:"white" }}/>
       );
     else return <></>;
   }

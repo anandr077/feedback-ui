@@ -562,6 +562,7 @@ const Group1225 = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  width: 70%;
 `;
 
 const Frame1367 = styled.div`

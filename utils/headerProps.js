@@ -1,141 +1,66 @@
-export const classesHomeHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Tasks",
-    icon: "/icons/assignmentUnselected.png",
-    iconSelected: "/icons/assignmentWhite.png",
-    selected: false,
-    redirect: "#tasks",
-  },
-  thirdButton: {
-    text: "Classes",
-    icon: "/icons/classesUnselected.png",
-    iconSelected: "/icons/classesWhite.png",
-    selected: true,
-    redirect: "#classes",
-  },
-};
+import { getUserRole } from "../service";
 
-export const teacherHomeHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: true,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Tasks",
-    icon: "/icons/assignmentUnselected.png",
-    iconSelected: "/icons/assignmentWhite.png",
-    selected: false,
-    redirect: "#tasks",
-  },
-  thirdButton: {
-    text: "Classes",
-    icon: "/icons/classesUnselected.png",
-    iconSelected: "/icons/classesWhite.png",
-    selected: false,
-    redirect: "#classes",
-  },
-};
+const isTeacher = getUserRole() === "TEACHER";
 
-export const assignmentsHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Tasks",
-    icon: "/icons/assignmentUnselected.png",
-    iconSelected: "/icons/assignmentWhite.png",
-    selected: true,
-    redirect: "#tasks",
-  },
-  thirdButton: {
-    text: "Classes",
-    icon: "/icons/classesUnselected.png",
-    iconSelected: "/icons/classesWhite.png",
-    selected: false,
-    redirect: "#classes",
-  },
-};
-export const taskHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Tasks",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: true,
-    redirect: "#tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "",
-    selected: false,
-    redirect: "#completed",
-  },
-};
+const teacherTabs = (first, second, third) => {
+  return {firstButton: {
+      text: "Home",
+      icon: "/icons/homeIconUnselected.png",
+      iconSelected: "/icons/homeIconWhite.png",
+      selected: first,
+      redirect: "/",
+    },
+    secondButton: {
+      text: "Tasks",
+      icon: "/icons/assignmentUnselected.png",
+      iconSelected: "/icons/assignmentWhite.png",
+      selected: second,
+      redirect: "#tasks",
+    },
+    thirdButton: {
+      text: "Classes",
+      icon: "/icons/classesUnselected.png",
+      iconSelected: "/icons/classesWhite.png",
+      selected: third,
+      redirect: "#classes",
+    }
+  }
+}
 
-export const completedHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: false,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Tasks",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: false,
-    redirect: "#tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "/icons/submissionIconWhite.png",
-    selected: true,
-    redirect: "#completed",
-  },
-};
-export const homeHeaderProps = {
-  firstButton: {
-    text: "Home",
-    icon: "/icons/homeIconUnselected.png",
-    iconSelected: "/icons/homeIconWhite.png",
-    selected: true,
-    redirect: "/",
-  },
-  secondButton: {
-    text: "Tasks",
-    icon: "/icons/taskIconUnselected.png",
-    iconSelected: "/icons/taskIconWhite.png",
-    selected: false,
-    redirect: "#tasks",
-  },
-  thirdButton: {
-    text: "Completed",
-    icon: "/icons/submissionIconUnselected.png",
-    iconSelected: "icons/submissionIconWhite.png",
-    selected: false,
-    redirect: "#completed",
-  },
-};
+const studentTabs = (first, second, third) => {
+  return {
+    firstButton: {
+      text: "Home",
+      icon: "/icons/homeIconUnselected.png",
+      iconSelected: "/icons/homeIconWhite.png",
+      selected: first,
+      redirect: "/",
+    },
+    secondButton: {
+      text: "Tasks",
+      icon: "/icons/taskIconUnselected.png",
+      iconSelected: "/icons/taskIconWhite.png",
+      selected: second,
+      redirect: "#tasks",
+    },
+    thirdButton: {
+      text: "Completed",
+      icon: "/icons/submissionIconUnselected.png",
+      iconSelected: "icons/submissionIconWhite.png",
+      selected: third,
+      redirect: "#completed",
+    }
+  }
+}
+export const teacherHomeHeaderProps = teacherTabs(true, false, false)
+export const assignmentsHeaderProps = teacherTabs(false, true, false)
+export const classesHomeHeaderProps = teacherTabs(false, false, true)
+
+export const homeHeaderProps = studentTabs(true, false, false)
+export const taskHeaderProps = studentTabs(false, true, false)
+export const completedHeaderProps = (exemplar) => {
+  if (exemplar)
+    return isTeacher? teacherTabs(false, false, false):studentTabs(false, false, false)
+  return studentTabs(false, false, true)
+}
+

@@ -32,7 +32,7 @@ function CompletedDesktop(props) {
   return (
     <div className="completed-desktop screen">
       <Frame1425>
-        <Header headerProps={completedHeaderProps} />
+        <Header headerProps={completedHeaderProps(exemplar)} />
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}

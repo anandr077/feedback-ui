@@ -30,7 +30,7 @@ function CompletedLaptop(props) {
   return (
     <div className="completed-laptop screen">
       <Frame1425>
-        <Header headerProps={completedHeaderProps} />
+        <Header headerProps={completedHeaderProps(exemplar)} />
         <Frame1424>
           <Title>{title}</Title>
           

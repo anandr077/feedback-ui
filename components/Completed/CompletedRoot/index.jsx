@@ -129,7 +129,7 @@ const dashboardHomeStudentData = {
   keepOrganizedWitho2:
     "Facilitate collaborative marking and feedback for your classes",
   tasks: "Tasks",
-  exemplarResponses: "Exemplar responses",
+  exemplarResponses: "Exemplary Responses",
   x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
   navElement21Props: navElement21Data,
   navElement22Props: navElement22Data,

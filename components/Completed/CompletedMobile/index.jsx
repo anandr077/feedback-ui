@@ -28,7 +28,7 @@ function CompletedMobile(props) {
   return (
     <div className="completed-mobile screen">
       <Frame1425>
-        <HeaderSmall headerProps={completedHeaderProps}></HeaderSmall>
+        <HeaderSmall headerProps={completedHeaderProps(exemplar)}></HeaderSmall>
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}

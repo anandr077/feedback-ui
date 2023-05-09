@@ -33,7 +33,7 @@ function CompletedTablet(props) {
   return (
     <div className="completed-tablet screen">
       <Frame1425>
-        <HeaderSmall headerProps={completedHeaderProps}></HeaderSmall>
+        <HeaderSmall headerProps={completedHeaderProps(exemplar)}></HeaderSmall>
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}

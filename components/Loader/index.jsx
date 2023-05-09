@@ -10,7 +10,7 @@ export default function Loader() {
           autoplay
           loop
           mode="normal"
-          src="./icons/data.json"
+          src="./icons/loader.json"
         ></lottie-player>
       </LottieContainer>
       <StyledText>Making sure everything looks good...</StyledText>

@@ -264,7 +264,7 @@ export default function CreateAssignment(props) {
         const questionTextBox = document.getElementById("question_textBox"+question.serialNumber);
         questionTextBox.style.border = "1px solid red";
         invalidQuestion = true;
-        showSnackbar('Please enter Question '+question.serialNumber+'.');
+        showSnackbar('Please enter Question '+question.serialNumber);
         return false;
       }
       if(question.type === "MCQ"){
@@ -282,14 +282,14 @@ export default function CreateAssignment(props) {
           }
         });
         if(invalidQuestion){
-          showSnackbar('Please enter options for Question '+question.serialNumber+'.');
+          showSnackbar('Please enter options for Question '+question.serialNumber);
           return false;
         }
         if(!isCorrectPresent){
           const optionContainer = document.getElementById("optionFrame_" + question.serialNumber);
           optionContainer.style.border = "1px solid red";
           invalidQuestion = true;
-          showSnackbar('Please select atleast one correct option for Question '+question.serialNumber+'.');
+          showSnackbar('Please select atleast one correct option for Question '+question.serialNumber);
           return false;
         }
       }

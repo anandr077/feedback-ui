@@ -34,7 +34,7 @@ export const feedbacksIbmplexsansNormalStack20px = css`
   font-style: normal;
 `;
 
-const TextInput = styled.input`
+const TextInput = styled.textarea`
   ${feedbacksIbmplexsansNormalStack20px}
   position: relative;
   flex: 1;
@@ -45,4 +45,5 @@ const TextInput = styled.input`
   box-shadow: 0px;
   outline: none;
   transition: 0.15s;
+  width: 100%;
 `;

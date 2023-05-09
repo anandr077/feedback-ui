@@ -572,7 +572,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       totalpdf.appendChild(question);
 
       const answer = document.createElement("div");
-      answer.style.border = "1px solid black";
+      // answer.style.border = "1px solid black";
       answer.style.padding = "10px";
       answer.style.fontSize = "20px";
       answer.style.marginBottom = "40px";
@@ -590,10 +590,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       callback: function (doc) {
         doc.save(`${submission.assignment.title}.pdf`);
       },
-      x: 10,
+      x: 20,
       y: 10,
       width: 170,
-      windowWidth: 1180,
+      windowWidth: 1180
     };
 
     doc.html(totalpdf, options);

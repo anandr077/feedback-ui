@@ -27,6 +27,10 @@ const ShortcutsContainer = styled.div`
   overflow: hidden;
   height: 200px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 
 const ShortcutBox = styled.div`

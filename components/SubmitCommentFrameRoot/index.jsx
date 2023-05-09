@@ -86,7 +86,7 @@ const SmallButtonWhite = styled.button`
   border-color: #7200e0;
   background-color: "red";
   box-sizing: content-box;
-  // background-color: transparent;
+  background-color: transparent;
   background-position: 50% 50%;
   background-size: cover;
   background-blend-mode: ;

@@ -217,7 +217,7 @@ function FeedbackTeacherLaptop(props) {
                 id="newCommentInput"
                 ref={newCommentFrameRef}
                 placeholder="Comment here...."
-                onKeyPress={methods.handleKeyPress}
+                // onKeyPress={methods.handleKeyPress}
               ></FocussedInput>
             </TypeHere>
           </Frame1326>
@@ -326,6 +326,7 @@ const TitleWrapper = styled.div`
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
+  gap:10px;
 `;
 const StatusText = styled.p`
   // width: 714px;
@@ -562,6 +563,7 @@ const Group1225 = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  width: 70%;
 `;
 
 const Frame1367 = styled.div`

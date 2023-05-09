@@ -217,7 +217,7 @@ function FeedbackTeacherLaptop(props) {
                 id="newCommentInput"
                 ref={newCommentFrameRef}
                 placeholder="Comment here...."
-                onKeyPress={methods.handleKeyPress}
+                // onKeyPress={methods.handleKeyPress}
               ></FocussedInput>
             </TypeHere>
           </Frame1326>

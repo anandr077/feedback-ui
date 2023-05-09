@@ -107,7 +107,7 @@ const defaultComment = {
             </>
           ) : (
             <Frame1328>
-            { comments.length ==0 && isTeacher && <CommentCard32
+            { comments.length ==0 && isTeacher && pageMode == "REVIEW" && <CommentCard32
             reviewer="Jeddle"
             comment={defaultComment}
             onClick={() => {}}

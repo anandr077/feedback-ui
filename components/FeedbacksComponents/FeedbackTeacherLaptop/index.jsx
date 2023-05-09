@@ -110,6 +110,7 @@ const defaultComment = {
             { comments.length ==0 && <CommentCard32
             reviewer="Jeddle"
             comment={defaultComment}
+            onClick={() => {}}
           />}
           {commentsFrame}</Frame1328>
           )}

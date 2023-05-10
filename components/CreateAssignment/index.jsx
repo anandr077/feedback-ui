@@ -244,7 +244,8 @@ export default function CreateAssignment(props) {
   };
 
   const isTitleValid = () => {
-    if(assignment.title){
+    assignment.title = assignment.title.trim();
+    if(assignment.title.length > 0){
       return true;
     }
     else {
@@ -258,7 +259,8 @@ export default function CreateAssignment(props) {
     let invalidQuestion = false;
     const questions= assignment.questions;
     questions.map((question) => {
-      if(question.question === ""){
+      question.question = question.question.trim();
+      if(question.question.length ===0){
         const questionContainer = document.getElementById("questionContainer_"+question.serialNumber);
         questionContainer.style.border = "1px solid red";
         const questionTextBox = document.getElementById("question_textBox"+question.serialNumber);
@@ -271,7 +273,8 @@ export default function CreateAssignment(props) {
         let isCorrectPresent = false;
         question.options.map((option, index) => {
           console.log("##option.option", option.option);
-          if(option.option === ""){
+          option.option = option.option.trim();
+          if(option.option.length === 0 ){
             const optionTextBox = document.getElementById("option_"+question.serialNumber+"_"+index);
             optionTextBox.style.border = "1px solid red";
             invalidQuestion = true;

@@ -83,7 +83,10 @@ function FeedbackTeacherLaptop(props) {
       userOnly: true,
     },
   };
-
+const defaultComment = {
+    reviewerName: "Jeddle",
+    comment: "Please select text to share feedback",
+}
   const feedbackFrame = () => {
     if (pageMode === "DRAFT") {
       return <></>;
@@ -103,7 +106,13 @@ function FeedbackTeacherLaptop(props) {
               {newCommentFrame}
             </>
           ) : (
-            <Frame1328>{commentsFrame}</Frame1328>
+            <Frame1328>
+            { comments.length ==0 && isTeacher && pageMode == "REVIEW" && <CommentCard32
+            reviewer="Jeddle"
+            comment={defaultComment}
+            onClick={() => {}}
+          />}
+          {commentsFrame}</Frame1328>
           )}
         </>
       </Frame1331>

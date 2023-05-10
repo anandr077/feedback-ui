@@ -502,39 +502,35 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       );
     }
   };
+  
   const downloadPDF = () => {
     const doc = new jsPDF({
       orientation: "p",
       unit: "mm",
       format: "a4",
       margin: {
-        top: 20,
-        bottom: 20,
-        left: 20,
-        right: 20,
+        top: 0,
+        bottom: 10,
+        left: 0,
+        right: 0,
       },
     });
-
-    console.log("##", submission);
-
+  
+  
+  
     const totalpdf = document.createElement("div");
-
+  
     const title = document.createElement("div");
-
     title.style.fontSize = "40px";
     title.style.fontWeight = "bold";
     title.style.textAlign = "center";
     title.style.marginBottom = "50px";
-
     title.textContent = submission.assignment.title;
     totalpdf.appendChild(title);
+  
 
-    const assignmentQuestions = new Array(
-      submission.assignment.questions.length + 1
-    );
-    const assignmentAnswers = new Array(
-      submission.assignment.questions.length + 1
-    );
+    const assignmentQuestions = new Array(submission.assignment.questions.length + 1);
+    const assignmentAnswers = new Array(submission.assignment.questions.length + 1);
     submission.assignment.questions.map((question) => {
       assignmentQuestions[question.serialNumber] = question.question;
       if (question.type === "MCQ") {
@@ -544,21 +540,20 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           optiondiv.style.fontSize = option.isCorrect ? "25px" : "20px";
           optiondiv.style.fontWeight = option.isCorrect ? "bold" : "normal";
           optiondiv.style.color = option.isCorrect ? "green" : "black";
-
+  
           optiondiv.style.marginBottom = "10px";
           optiondiv.textContent = option.option;
           options.appendChild(optiondiv);
         });
         assignmentAnswers[question.serialNumber] = options;
       }
-      console.log(assignmentAnswers[question.serialNumber]);
     });
-
+  
     submission.answers.map((answer) => {
       const parser = new DOMParser();
       const htmlContent = answer.answer.answer;
-      const parsedContent = parser.parseFromString(htmlContent, "text/html")
-        .body.textContent;
+      const parsedContent = parser.parseFromString(htmlContent, "text/html").body
+        .textContent;
       if (answer.answer.answer) {
         assignmentAnswers[answer.serialNumber] = parsedContent;
       }
@@ -570,32 +565,32 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       question.style.marginBottom = "10px";
       question.textContent = i + ". " + assignmentQuestions[i];
       totalpdf.appendChild(question);
-
+  
       const answer = document.createElement("div");
       // answer.style.border = "1px solid black";
       answer.style.padding = "10px";
-      answer.style.fontSize = "20px";
+      answer.style.fontSize = "25px";
       answer.style.marginBottom = "40px";
       if (assignmentAnswers[i] instanceof HTMLElement) {
         answer.appendChild(assignmentAnswers[i]);
       } else {
         answer.textContent = assignmentAnswers[i];
       }
-      // answer.textContent = assignmentAnswers[i];
-      console.log("##", assignmentAnswers[i]);
       totalpdf.appendChild(answer);
     }
-
+  
     const options = {
       callback: function (doc) {
         doc.save(`${submission.assignment.title}.pdf`);
       },
-      x: 20,
-      y: 10,
+      x: 0,
+      y: 0,
       width: 170,
-      windowWidth: 1180
+      windowWidth: 1180,
+      margin: 20, // Set a single margin value for all sides
+      autoSize: true, // Automatically adjust content to fit within the available space
     };
-
+  
     doc.html(totalpdf, options);
   };
 

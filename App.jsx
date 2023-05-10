@@ -11,6 +11,7 @@ import StudentTaskRoot from "./components/StudentTaskRoot";
 import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboardRoot";
 import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
 import withAuth from "./components/WithAuth";
+import PageNotFound from "./components/PageNotFound";
 import { getUserRole } from "./service";
 
 function App() {
@@ -80,6 +81,9 @@ function App() {
         </Route>
         <Route path="/submissions/:id">
         <ProtectedFeedbacksRoot isAssignmentPage={false} />
+        </Route>
+        <Route path="/pagenotfound">
+        <PageNotFound />
         </Route>
         <Route path="/">
         {Dashboard({role})}

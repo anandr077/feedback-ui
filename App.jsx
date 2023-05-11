@@ -12,6 +12,7 @@ import TeacherDashboardRoot from "./components/TeacherDashboard/TeacherDashboard
 import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
 import withAuth from "./components/WithAuth";
 import PageNotFound from "./components/PageNotFound";
+import { Redirect } from "react-router-dom";
 import { getUserRole } from "./service";
 
 function App() {
@@ -82,12 +83,13 @@ function App() {
         <Route path="/submissions/:id">
         <ProtectedFeedbacksRoot isAssignmentPage={false} />
         </Route>
-        <Route path="/pagenotfound">
+        <Route path="/404">
         <PageNotFound />
         </Route>
-        <Route path="/">
+        <Route exact path="/">
         {Dashboard({role})}
         </Route>
+        <Redirect to="/404" />
       </Switch>
     </Router>
     

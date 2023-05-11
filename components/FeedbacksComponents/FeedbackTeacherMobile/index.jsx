@@ -95,9 +95,9 @@ function FeedbackTeacherMobile(props) {
         <Frame1387>
           <HeaderSmall headerProps={taskHeaderProps} />
           <Frame1315>
-            <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+          <Breadcrumb text={"Tasks"} link={"/#/tasks"} />
+            <Breadcrumb2 assignments="Feedback"/>
+            <Breadcrumb2 assignments={submission.assignment.title} />
           </Frame1315>
         </Frame1387>
         <Frame1386>

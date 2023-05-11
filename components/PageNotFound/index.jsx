@@ -3,19 +3,19 @@ import Header from '../Header'
 import HeaderSmall from '../HeaderSmall'
 import Footer from '../Footer'
 import FooterSmall from '../FooterSmall'
-import { homeHeaderProps , teacherHomeHeaderProps} from '../../utils/headerProps'
+import { completedHeaderProps} from '../../utils/headerProps'
 import ReactiveRender from '../ReactiveRender'
 import { getUserRole } from '../../service'
 import styled from "styled-components";
 
 export default function PageNotFound() {
     const isTeacher = getUserRole() === "TEACHER";
-    const headerProps = !isTeacher ? teacherHomeHeaderProps: homeHeaderProps;
+
   return (
     <ReactiveRender
       mobile={
         <>
-        <HeaderSmall headerProps={headerProps}/>
+        <HeaderSmall headerProps={completedHeaderProps(true)}/>
         <Container>
         <ImageContainerSmall/>
         <TextMainSmall>Looks like you’re lost</TextMainSmall>
@@ -28,7 +28,7 @@ export default function PageNotFound() {
       }
       tablet={
         <>
-        <HeaderSmall headerProps={headerProps}/>
+        <HeaderSmall headerProps={completedHeaderProps(true)}/>
         <Container>
         <ImageContainerSmall/>
         <TextMainSmall>Looks like you’re lost</TextMainSmall>
@@ -39,7 +39,7 @@ export default function PageNotFound() {
       }
       laptop={
         <>
-        <Header headerProps={headerProps} />
+        <Header headerProps={completedHeaderProps(true)} />
 
         <Container>
         <ImageContainer/>
@@ -52,7 +52,7 @@ export default function PageNotFound() {
       }
       desktop={
         <>
-        <Header headerProps={headerProps} />
+        <Header headerProps={completedHeaderProps(true)} />
       
         <Container>
         <ImageContainer/>

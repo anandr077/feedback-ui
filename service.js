@@ -176,8 +176,7 @@ export const deleteProfileCookies = () => {
 };
 export const logout = async () => {
   await postApi(baseUrl + "/users/logout").then(() => {
-    deleteProfileCookies();
-    localStorage.removeItem("jwtToken");
+    logoutLocal();
 
     window.location.href =
       jeddleBaseUrl +
@@ -267,7 +266,13 @@ export const denyModelResponse = async (feedbackId) =>
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
+function logoutLocal() {
+  deleteProfileCookies();
+  localStorage.removeItem("jwtToken");
+}
+
 export function redirectToExternalIDP() {
+  logoutLocal()
   const externalIDPLoginUrl =
     jeddleBaseUrl +
     "/wp-json/moserver/authorize?response_type=code&client_id=" +

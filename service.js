@@ -29,13 +29,16 @@ async function fetchData(url, options, headers = {}) {
       return redirectToExternalIDP();
     }
     if (response.status === 404) {
-      throw new Error("Page not found");
-    }
-    if (response.status === 404) {
+      window.location.href = selfBaseUrl + "/#/404";
+      window.location.reload();
       throw new Error("Page not found");
     } else if (response.status === 500) {
+      window.location.href = selfBaseUrl + "/#/404";
+      window.location.reload();
       throw new Error("Server error");
     } else if (!response.ok) {
+      window.location.href = selfBaseUrl + "/#/404";
+      window.location.reload();
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -43,6 +46,11 @@ async function fetchData(url, options, headers = {}) {
       .get("content-type")
       ?.includes("application/json");
     const data = isJson ? await response.json() : null;
+    if(data === null) {
+      window.location.href = selfBaseUrl + "/#/404";
+      window.location.reload();
+      throw new Error("Page not found");
+    }
     return data;
   } catch (error) {
     console.error(error);

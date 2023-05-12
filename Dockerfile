@@ -3,6 +3,7 @@ FROM node:19.3.0
 
 # Step 2: Set the working directory to /app
 WORKDIR /app
+
 # Step 3: Copy package.json and package-lock.json (if available) into the working directory
 COPY package*.json ./
 
@@ -18,5 +19,9 @@ RUN npm run build
 # Step 7: Expose the desired port for your app
 EXPOSE 3000
 
-# Step 8: Start the app using the http-server
-CMD ["npm", "run", "serve"]
+# Step 8: Create a custom script to read environment variables and start the development server
+COPY start.sh /app
+RUN chmod +x /app/start.sh
+
+# Step 9: Start the app using the custom script
+CMD ["/app/start.sh"]

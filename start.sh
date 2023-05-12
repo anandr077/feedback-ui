@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SELF_BASE_URL=${REACT_APP_SELF_BASE_URL:-http://localhost:1234}
+export REACT_APP_SELF_BASE_URL=$SELF_BASE_URL
+
+JEDDLE_BASE_URL=${REACT_APP_JEDDLE_BASE_URL:-https://jeddle.duxdigital.net}
+export REACT_APP_JEDDLE_BASE_URL=$JEDDLE_BASE_URL
+
+API_BASE_URL=${REACT_APP_API_BASE_URL:-http://localhost:8080}
+export REACT_APP_API_BASE_URL=$API_BASE_URL
+
+
+npm run serve

@@ -14,7 +14,8 @@ export default function StudentDashboardRoot(props) {
   const [allTasks, setAllTasks] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  
+  const [publishActionCompleted, setPublishActionCompleted] = React.useState(false);
+
 
   React.useEffect(() => {
     Promise.all([getTasks(), getModelResponses()]).then(
@@ -37,6 +38,24 @@ export default function StudentDashboardRoot(props) {
       }
     );
   }, []);
+
+  React.useEffect(() => {
+    if (publishActionCompleted) {
+      getModelResponses().then((modelResponses) => {
+        if (modelResponses) {
+          console.log("##", modelResponses);
+          const firstTen = modelResponses.slice(0, 10)
+          const trimmedResponses = _.map(firstTen, (obj) => ({
+            ...obj,
+            response: limitParagraph(obj.response, 200)
+          }));
+          setModelResponses(trimmedResponses);
+          setIsLoading(false);
+        }
+      });
+      setPublishActionCompleted(false);
+  }
+  }, [publishActionCompleted]);
   if (isLoading) {
     return <Loader/>;
   }
@@ -59,6 +78,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
+            setPublishActionCompleted,
             ...dashboardHomeStudentMobileData,
           }}
         />
@@ -70,6 +90,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
+            setPublishActionCompleted,
             ...dashboardHomeStudentTabletData,
           }}
         />
@@ -81,6 +102,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
+            setPublishActionCompleted,
             ...dashboardHomeStudentLaptopData,
           }}
         />
@@ -92,6 +114,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
+            setPublishActionCompleted,
             ...dashboardHomeStudentDesktopData,
           }}
         />

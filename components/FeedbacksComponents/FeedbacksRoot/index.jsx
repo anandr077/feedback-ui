@@ -72,7 +72,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       })
     })
       .then(([submissionsResult, commentsResult]) => {
-        console.log("submissionsResult " + submissionsResult);
+        console.log("submissionsResult " + JSON.stringify(submissionsResult));
         setSubmission(submissionsResult);
         setComments(commentsResult);
       }).finally(() => {
@@ -85,9 +85,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   useEffect(() => {
-    console.log("Submissions " + submission);
-    if (isTeacher && submission && submission?.assignmentId) {
-      getSubmissionsByAssignmentId(submission.assignmentId)
+    console.log("Submissions " + JSON.stringify(submission));
+    console.log("isTeacher " + isTeacher);
+    if (isTeacher && submission && submission?.assignment.id) {
+      getSubmissionsByAssignmentId(submission.assignment.id)
         .then((allSubmissions) => {
           setStudents(extractStudents(allSubmissions));
           const allExceptCurrent = allSubmissions.filter(
@@ -99,7 +100,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           // console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
           const studentName =
-          allSubmissions.find((r) => r.id === submission.assignmentId)?.studentName ??
+          allSubmissions.find((r) => r.id === submission.assignment.id)?.studentName ??
             null;
           console.log("studentName " + studentName);
 

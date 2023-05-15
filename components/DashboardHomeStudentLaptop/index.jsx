@@ -19,6 +19,7 @@ function DashboardHomeStudentLaptop(props) {
     inProgressTasks,
     overdueTasks,
     modelResponses,
+    setPublishActionCompleted,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
@@ -86,6 +87,7 @@ function DashboardHomeStudentLaptop(props) {
             <TaskCardContainer
               allTasks={modelResponses}
               exemplar={true}
+              setPublishActionCompleted={setPublishActionCompleted}
               // line17={frame1340Props.line17}
               // group1205Props={frame1340Props.group1205Props}
             />

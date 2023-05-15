@@ -30,14 +30,11 @@ export default function ExemplarResponsesPage(props) {
     }, []); 
     React.useEffect(() => {
       if (publishActionCompleted) {
-
         getModelResponses().then((result) => {
           if (result) {
             setExemplarResponses(result);
             setIsLoading(false);
-          
           }
-         
         });
         setPublishActionCompleted(false);
     }

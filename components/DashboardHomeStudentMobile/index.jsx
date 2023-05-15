@@ -18,6 +18,7 @@ function DashboardHomeStudentMobile(props) {
     inProgressTasks,
     overdueTasks,
     modelResponses,
+    setPublishActionCompleted,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     line172,
@@ -57,7 +58,7 @@ function DashboardHomeStudentMobile(props) {
           <DashboardFrame1208 tasks="Exemplary Responses"  exemplar={true}/>
           <Line17 src="/img/line-17@2x.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={modelResponses} exemplar={true} />
+            <TaskCardContainer allTasks={modelResponses} exemplar={true} setPublishActionCompleted={setPublishActionCompleted} />
           </Frame11>
         </Frame1205>
       </Frame1351>

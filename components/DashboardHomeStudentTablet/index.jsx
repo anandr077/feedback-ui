@@ -17,6 +17,7 @@ function DashboardHomeStudentTablet(props) {
     inProgressTasks,
     overdueTasks,
     modelResponses,
+    setPublishActionCompleted,
     keepOrganizedWitho1,
     keepOrganizedWitho2,
     line171,
@@ -49,7 +50,7 @@ function DashboardHomeStudentTablet(props) {
               allTasks={[
                 ...overdueTasks,
                 ...outstandingTasks,
-                ...inProgressTasks,
+                ...inProgressTasks
               ]}
             />
           </Frame11>
@@ -58,7 +59,7 @@ function DashboardHomeStudentTablet(props) {
           <DashboardFrame12082 tasks="Exemplary Responses" exemplar={true} />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={modelResponses} exemplar={true} />
+            <TaskCardContainer allTasks={modelResponses} exemplar={true} setPublishActionCompleted={setPublishActionCompleted} />
           </Frame11>
         </Frame1205>
       </Frame1351>

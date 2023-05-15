@@ -312,7 +312,7 @@ export default function CreateAssignment(props) {
   }
 
   const isDateValid = () => {
-    if(assignment.dueAt - Date.now() > 3600000) {
+    if (assignment.dueAt - Date.now() > 3600000) {
       return true;
     }
     else {

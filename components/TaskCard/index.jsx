@@ -34,8 +34,8 @@ const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
       .then((res) => {
       console.log("##", res);
       if (res.status === "DENIED") {
-        showSnackbar("Response won't be shared with your class", res.link);
         setPublishActionCompleted(true)
+        showSnackbar("Response won't be shared with your class", res.link);
       } else {
         // setPopupMessage("Assignment Creation Failed");
         // setShowPopup(true);
@@ -50,8 +50,8 @@ const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
           .then((res) => {
           console.log("##", res);
           if (res.status === "PUBLISHED") {
-            showSnackbar("Response shared with your class", res.link);
             setPublishActionCompleted(true)
+            showSnackbar("Response shared with your class", res.link);
           } else {
             // setPopupMessage("Assignment Creation Failed");
             // setShowPopup(true);
@@ -68,7 +68,7 @@ function createTaskCard(task, refContainer, isSelected, exemplar, small, showSna
     if (task.status === "AWAITING_APPROVAL") {
     return <StyledCard  ref={refContainer} isSelected={isSelected}>
           <TaskTitle>Congratulations,<br/>
-          Teacher has marked part of your response as an exemplar!
+          Teacher has marked part of your response as exemplary!
           </TaskTitle>
         <a href={task.link}>
             <StyledCard>

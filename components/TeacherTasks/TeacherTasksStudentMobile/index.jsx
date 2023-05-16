@@ -107,6 +107,7 @@ const Frame1307 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  flex-wrap: wrap;
 `;
 
 const PageTitle = styled.h1`
@@ -137,6 +138,7 @@ const Frame1211 = styled.div`
   align-self: stretch;
   background-color: var(--blue-chalk);
   border-radius: 24px;
+  flex-wrap: wrap;
 `;
 
 const Frame1362 = styled.div`

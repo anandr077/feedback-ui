@@ -31,7 +31,7 @@ const NavElement = styled.article`
   position: relative;
   display: flex;
   align-self: stretch;
-  min-width: 330px;
+
   height: 54px;
   border-radius: 26.5px;
   width: 100%;
@@ -39,7 +39,7 @@ const NavElement = styled.article`
 
 const Group1 = styled.div`
   margin-top: 14px;
-  width: 300px;
+
   margin-left: 16px;
   display: flex;
   justify-content: space-between;
@@ -48,7 +48,7 @@ const Group1 = styled.div`
 
 const Home = styled.div`
   ${IbmplexsansNormalPersianIndigo20px}
-  width: 300px;
+
   height: 26px;
   letter-spacing: 0;
   line-height: normal;

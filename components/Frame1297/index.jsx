@@ -105,6 +105,7 @@ const Frame1283 = styled.div`
   position: relative;
   align-self: stretch;
   // cursor: pointer;
+  flex-wrap: wrap;
 `;
 
 const Frame1282 = styled.div`

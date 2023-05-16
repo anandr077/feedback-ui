@@ -14,6 +14,8 @@ import Header from "../../Header";
 import { completedHeaderProps } from "../../../utils/headerProps.js";
 import Footer from "../../Footer";
 import CheckboxGroup from "../../CheckboxGroup";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 
 function CompletedDesktop(props) {
   const {
@@ -28,11 +30,14 @@ function CompletedDesktop(props) {
     frame1284,
     line18
   } = props;
-
   return (
     <div className="completed-desktop screen">
       <Frame1425>
         <Header headerProps={completedHeaderProps(exemplar)} />
+        {exemplar && <Frame1315>
+        <Breadcrumb text={"Home"} link={"/#"} />
+        <Breadcrumb2 title="Exemplar Responses" exempler= {exemplar} />
+        </Frame1315>}
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}
@@ -51,7 +56,14 @@ function CompletedDesktop(props) {
     return <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>;
   }
 }
-
+const Frame1315 = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0px 0px 0px 60px;
+  position: relative;
+  align-self: stretch;
+`;
 const Frame1425 = styled.div`
   display: flex;
   flex-direction: column;

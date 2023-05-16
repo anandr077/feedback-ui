@@ -7,7 +7,7 @@ import CompletedTablet from "../CompletedTablet";
 
 export default function CompletedRoot(props) {
   const { menuItems, filterTasks, title, groups,exemplar, id, setPublishActionCompleted} = props
-  console.log("CompletedRoot "+ setPublishActionCompleted)
+
   
   
 
@@ -224,7 +224,6 @@ const frame14102Data = {
 const completedMobileData = {
   frame1349: "/img/frame-1349@2x.png",
   frame5: "/img/frame-5@2x.png",
-  title: "Completed",
   subject: "Subject",
   frame1284: "/img/frame-1284@2x.png",
   line18: "/img/line-18@2x.png",
@@ -319,7 +318,6 @@ const frame141023Data = {
 const completedTabletData = {
   frame1349: "/img/frame-1349-1.png",
   frame5: "/img/frame-5@2x.png",
-  title: "Completed",
   subject: "Subject",
   frame1284: "/img/frame-1284@2x.png",
   line18: "/img/line-17-14.png",
@@ -450,7 +448,6 @@ const frame64Data = {
 };
 
 const completedDesktopData = {
-  title: "Completed",
   subject: "Subject",
   frame1284: "/img/frame-1284@2x.png",
   line18: "/img/line-18-2.png",

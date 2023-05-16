@@ -14,6 +14,9 @@ import {
 import "./CompletedTablet.css";
 import CheckboxGroup from "../../CheckboxGroup";
 import FooterSmall from "../../FooterSmall";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
+
 
 function CompletedTablet(props) {
   const {
@@ -34,6 +37,10 @@ function CompletedTablet(props) {
     <div className="completed-tablet screen">
       <Frame1425>
         <HeaderSmall headerProps={completedHeaderProps(exemplar)}></HeaderSmall>
+        {exemplar && <Frame1315>
+        <Breadcrumb text={"Home"} link={"/#"} />
+        <Breadcrumb2 title="Exemplar Responses" exempler= {exemplar} />
+        </Frame1315>}
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}
@@ -52,6 +59,16 @@ function CompletedTablet(props) {
     return <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>;
   }
 }
+
+
+const Frame1315 = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0px 0px 0px 60px;
+  position: relative;
+  align-self: stretch;
+`;
 
 const Frame1425 = styled.div`
   display: flex;

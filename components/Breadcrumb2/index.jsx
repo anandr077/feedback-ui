@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { IbmplexsansNormalFuscousGray14px } from "../../styledMixins";
 
 function Breadcrumb2(props) {
-  const { title } = props;
+  const { title , exempler ,id} = props;
 
   return (
-    <Breadcrumb onClick={() => window.location.href="/#/tasks/new"}>
+    <Breadcrumb onClick={() => window.location.href= exempler ? "/#/exemplarResponses" : window.location}>
       <Caret src="/img/caret@2x.png" alt="caret" />
       <Assignments>{title}</Assignments>
     </Breadcrumb>

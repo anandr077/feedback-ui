@@ -108,17 +108,19 @@ const Frame51 = styled.img`
 
 const Frame1424 = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: 20px;
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  flex-wrap: wrap;
 `;
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
+  font-size: 36px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -177,7 +179,7 @@ const Frame1413 = styled.div`
 const Line18 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 350px;
+
   height: 1px;
   object-fit: cover;
 `;

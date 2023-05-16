@@ -10,7 +10,7 @@ import {
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalShark16px,
-} from "../styledMixins";
+} from "../../../styledMixins";
 import "./CompletedTablet.css";
 import CheckboxGroup from "../../CheckboxGroup";
 import FooterSmall from "../../FooterSmall";
@@ -124,6 +124,7 @@ const Frame1424 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
+  font-size: 36px;
   position: relative;
   flex: 1;
   margin-top: -1px;

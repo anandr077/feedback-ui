@@ -218,7 +218,6 @@ const Frame6 = styled.div`
 const Line11 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 350px;
   height: 1px;
   margin-top: -1px;
   object-fit: cover;

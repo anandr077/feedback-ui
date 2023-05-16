@@ -59,6 +59,7 @@ function TeacherDashboardMobile(props) {
                 link="#classes"
                 label="VIEW ALL"
                 arrowright={group1205Props.arrowright}
+                small = {true}
               />
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
@@ -113,11 +114,13 @@ function createAssignmentsFrame(group1205Props, line172, stats) {
           link="#tasks/new"
           label="CREATE NEW"
           arrowleft={"/img/iconsax-linear-add-1@2x.png"}
+          small = {true}
         />
         <Group1205
           link="#tasks"
           label="VIEW ALL"
           arrowright={group1205Props.arrowright}
+          small = {true}
         />
       </Frame1337>
       <Line17 src={line172} alt="Line 17" />
@@ -354,6 +357,7 @@ const Frame1339 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0px 4px 16px #7200e01a;
+  
 `;
 
 const Frame1337 = styled.div`
@@ -363,6 +367,7 @@ const Frame1337 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  flex-wrap: wrap;
 `;
 
 const Classes = styled.div`
@@ -376,7 +381,7 @@ const Classes = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 350px;
+  
   height: 1px;
   object-fit: cover;
 `;

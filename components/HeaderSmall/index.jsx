@@ -98,6 +98,8 @@ const Frame1349 = styled.img`
   align-self: stretch;
   height: 37.48846435546875px;
   margin-left: -1.75px;
+  width: 100%;
+  max-width: 242px;
 `;
 
 const Frame5 = styled.div`

@@ -5,6 +5,5 @@
   display: flex;
   flex-direction: column;
   gap: 140px;
-  min-width: 390px;
   position: relative;
 }

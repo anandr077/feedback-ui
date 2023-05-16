@@ -4,7 +4,7 @@ import CheckboxList from "../../CheckboxList";
 
 import {
   feedbacksIbmplexsansBoldShark36px,
-  IbmplexsansMediumPersianIndigo20px,
+  feedbacksIbmplexsansMediumPersianIndigo20px,
   IbmplexsansNormalBlack14px,
   IbmplexsansNormalBlack16px,
   IbmplexsansNormalChicago13px,
@@ -409,7 +409,8 @@ const Frame1366 = styled.div`
 `;
 
 const Q1PoremIpsumDolo = styled.p`
-  ${IbmplexsansMediumPersianIndigo20px}
+   ${feedbacksIbmplexsansMediumPersianIndigo20px}
+  font-size: 20px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;

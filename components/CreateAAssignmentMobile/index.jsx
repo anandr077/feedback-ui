@@ -49,7 +49,7 @@ function CreateAAssignmentMobile(props) {
         <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb />
+            <Breadcrumb text = "Task" link = "/#/tasks"/>
             <Breadcrumb2 title={assignment.title} />
           </Frame1315>
           <GoBack />

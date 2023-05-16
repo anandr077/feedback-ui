@@ -42,8 +42,8 @@ function TaskDetailLaptop(props) {
         <Header headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
-            <Breadcrumb />
-            <Breadcrumb2 title={assignment.title} />
+            <Breadcrumb text = "Task" link = "/#/tasks"/>
+            <Breadcrumb2 title={assignment.title}/>
           </Frame29>
           <Frame1389>
             <Title>Task</Title>

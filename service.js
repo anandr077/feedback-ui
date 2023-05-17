@@ -185,10 +185,10 @@ export const logout = async () => {
   });
 };
 export const changePassword = async () => {
-  window.location.href = jeddleBaseUrl + "/account/?action=newpassword";
+  window.open(jeddleBaseUrl + "/account/?action=newpassword");
 };
 export const account = async () => {
-  window.location.href = jeddleBaseUrl + "/account";
+  window.open(jeddleBaseUrl + "/account");
 };
 export const getProfile = async () => await getApi(baseUrl + "/users/profile");
 export const getTasks = async () => await getApi(baseUrl + "/tasks");

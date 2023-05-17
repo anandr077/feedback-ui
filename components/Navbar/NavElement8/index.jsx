@@ -19,6 +19,7 @@ const NavElement = styled.article`
 
   height: 54px;
   border-radius: 26.5px;
+  cursor: pointer;
 `;
 
 const Group1 = styled.div`

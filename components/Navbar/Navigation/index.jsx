@@ -88,7 +88,7 @@ function Navigation(props) {
 
 const NavbarDiv = styled.div`
   display: flex;
-  width: 100pct;
+  width: 100%;
   align-items: flex-start;
   gap: 20px;
   padding: 16px 20px;
@@ -99,7 +99,7 @@ const NavbarDiv = styled.div`
 `;
 const Frame1409 = styled.div`
   display: flex;
-  width: 100pct;
+  width: 100%;
   align-items: flex-start;
   gap: 20px;
   padding: 16px 20px;

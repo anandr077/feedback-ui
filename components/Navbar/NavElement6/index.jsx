@@ -14,7 +14,7 @@ const NavElement = styled.article`
   position: relative;
   display: flex;
   align-self: stretch;
-  min-width: 330px;
+
   height: 54px;
   border-radius: 26.5px;
 `;

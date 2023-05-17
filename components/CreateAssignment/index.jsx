@@ -325,10 +325,6 @@ export default function CreateAssignment(props) {
   }
 
   const  isAssignmentValid = () => {
-    isTitleValid();
-    isQuestionsValid();
-    isClassesValid();
-    isDateValid();
    return (isTitleValid() && isQuestionsValid() && isClassesValid() && isDateValid()) ? true : false;
   }
 

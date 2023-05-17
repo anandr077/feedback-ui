@@ -13,11 +13,13 @@ import TeacherTaskRoot from "./components/TeacherTasks/TeacherTasksRoot";
 import withAuth from "./components/WithAuth";
 import PageNotFound from "./components/PageNotFound";
 import { Redirect } from "react-router-dom";
-import { getUserRole } from "./service";
+import { getUserRole, getUserName} from "./service";
 
 function App() {
 
   const role = getUserRole();
+  const userName = getUserName();
+  userName && (document.title= "Jeddle - "+userName);
 
 
   const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);

@@ -122,29 +122,6 @@ const cards54Data = {
   iconClock: "/img/clock-2@2x.png",
 };
 
-const dashboardHomeStudentData = {
-  logo: "/img/logo@2x.png",
-  keepOrganizedWithoContainer: "/img/mask-group-1.png",
-  keepOrganizedWitho1: "Welcome, Eleanor",
-  keepOrganizedWitho2:
-    "Facilitate collaborative marking and feedback for your classes",
-  tasks: "Tasks",
-  exemplarResponses: "Exemplary Responses",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
-  navElement21Props: navElement21Data,
-  navElement22Props: navElement22Data,
-  notificationsProps: notifications1Data,
-  group12051Props: group12051Data,
-  group12052Props: group12052Data,
-  cardsProps: cardsData,
-  cards2Props: cards2Data,
-  cards3Props: cards3Data,
-  cards4Props: cards4Data,
-  cards51Props: cards51Data,
-  cards52Props: cards52Data,
-  cards53Props: cards53Data,
-  cards54Props: cards54Data,
-};
 
 const notifications2Data = {
   src: "/img/notificationbing-1@2x.png",

@@ -13,7 +13,7 @@ export default function Loader() {
           src="./icons/loader.json"
         ></lottie-player>
       </LottieContainer>
-      <StyledText>Making sure everything looks good...</StyledText>
+      <StyledText>Loading brain power...</StyledText>
     </Container>
   );
 }

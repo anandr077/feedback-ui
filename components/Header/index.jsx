@@ -45,7 +45,7 @@ export default function Header(props) {
   return (
     <>
       <Frame1344>
-        <a href="#"><Frame1343 src="/img/frame-1343@2x.png" alt="Frame 1343" /></a>
+        <a href="#"><Frame1343 src="/icons/header-logo.png" alt="Frame 1343" /></a>
         <Frame5>
           {headerProps.firstButton.selected ? (
             <HeaderButtonSelected onClick={OnFirstButtonClick}>
@@ -204,7 +204,6 @@ const Frame1344 = styled.div`
 
 const Frame1343 = styled.img`
   position: relative;
-  min-width: 241.7498779296875px;
   height: 43.499969482421875px;
   margin-left: -1.75px;
 `;

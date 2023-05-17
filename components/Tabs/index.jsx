@@ -29,6 +29,7 @@ const Tabs1 = styled.article`
   position: relative;
   background-color: var(--light-mode-purple);
   border-radius: 16px;
+  cursor: pointer;
 `;
 
 const UnselectedTabs = styled.article`
@@ -39,6 +40,7 @@ const UnselectedTabs = styled.article`
   padding: 4px 16px 5px;
   position: relative;
   border-radius: 16px;
+  cursor: pointer;
 
   &.tabs-1.tabs-3 {
     margin-left: -1px;

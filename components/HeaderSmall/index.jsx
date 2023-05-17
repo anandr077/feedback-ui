@@ -48,7 +48,7 @@ export default function HeaderSmall(props) {
   return (
     <>
       <Frame1350>
-        <a href="#"><Frame1349 src="/img/frame-1349@2x.png" /></a>
+        <a href="#"><Frame1349 src="icons/header-logo.png" /></a>
         <Frame5>
           <Notifications
             src="/img/notificationbing@2x.png"
@@ -96,10 +96,10 @@ const Frame1350 = styled.div`
 const Frame1349 = styled.img`
   position: relative;
   align-self: stretch;
-  height: 37.48846435546875px;
+  height: 43.499969482421875px;
   margin-left: -1.75px;
   width: 100%;
-  max-width: 223.75px;
+  max-width: 170px;
 `;
 
 const Frame5 = styled.div`

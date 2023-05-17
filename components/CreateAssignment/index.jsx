@@ -312,7 +312,8 @@ export default function CreateAssignment(props) {
   }
 
   const isDateValid = () => {
-    if (assignment.dueAt - Date.now() > 3600000) {
+    const assignmentDate = new Date(assignment.dueAt);
+    if (assignmentDate.getTime() - Date.now() > 3600000) {
       return true;
     }
     else {
@@ -324,10 +325,6 @@ export default function CreateAssignment(props) {
   }
 
   const  isAssignmentValid = () => {
-    isTitleValid();
-    isQuestionsValid();
-    isClassesValid();
-    isDateValid();
    return (isTitleValid() && isQuestionsValid() && isClassesValid() && isDateValid()) ? true : false;
   }
 

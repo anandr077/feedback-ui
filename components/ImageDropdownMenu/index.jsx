@@ -21,7 +21,7 @@ export const ImageDropdownMenu = (props) => {
   //   {id: 4, title:"DDDD", onClick:()=>console.log("FFF")},
   // ]
   // const {   onItemSelected, withCheckbox } = props;
-  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar } = props;
+  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(selectedIndex?menuItems[selectedIndex]:menuItems[0]);
   const menuRef = React.useRef(null);
@@ -54,7 +54,26 @@ export const ImageDropdownMenu = (props) => {
   return (
     <div>
     <StyledBox>
-      <FlexContainer onClick={handleClick}>
+     { small ?
+     <FlexContainerSmall onClick={handleClick}>
+     <IconButton
+       edge="start"
+       color="inherit"
+       aria-label="menu"
+       onClick={handleClick}
+     >
+       {createImageFrame(selectedItem, showAvatar)}
+     </IconButton>
+     <div className="text-container" onClick={handleClick}>
+       <p>
+         <StyledListItemText primary={selectedItem.title} />
+       </p>
+     </div>
+     <IconButton onClick={handleClick}>
+       <Frame12841 src="/img/frame-1284@2x.png" alt="Frame 1284" />
+     </IconButton>
+   </FlexContainerSmall>
+     :<FlexContainer onClick={handleClick}>
         <IconButton
           edge="start"
           color="inherit"
@@ -72,6 +91,7 @@ export const ImageDropdownMenu = (props) => {
           <Frame12841 src="/img/frame-1284@2x.png" alt="Frame 1284" />
         </IconButton>
       </FlexContainer>
+      }
     </StyledBox>
     <Menu
       anchorEl={anchorEl}
@@ -177,7 +197,21 @@ const FlexContainer = styled('div')`
   align-items: center;
   gap: 8px;
   flex-grow: 1;
+  .text-container {
+    display: inline-block;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
 
+const FlexContainerSmall = styled('div')`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  max-width: 250px;
   .text-container {
     display: inline-block;
     flex-grow: 1;

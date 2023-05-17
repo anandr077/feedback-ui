@@ -13,7 +13,7 @@ function NavElement7(props) {
   };
 
   return (
-    <NavElement className={`nav-element-3 ${className || ""}`}>
+    <NavElement className={`nav-element-3 ${className || ""}`}  onClick={redirectTo}>
       <Group1 className="group-1-3">
         <Home className="home-2">{text}</Home>
         <Exportsquare
@@ -35,6 +35,7 @@ const NavElement = styled.article`
   height: 54px;
   border-radius: 26.5px;
   width: 100%;
+  cursor: pointer;
 `;
 
 const Group1 = styled.div`

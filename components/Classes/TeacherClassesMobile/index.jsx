@@ -52,6 +52,7 @@ function TeacherClassesMobile(props) {
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
+              small={true}
             ></ImageDropdownMenu>
           </Frame1306>
 
@@ -326,7 +327,6 @@ const Frame1337 = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 350px;
   height: 1px;
   object-fit: cover;
 `;

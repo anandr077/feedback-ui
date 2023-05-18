@@ -8,7 +8,6 @@ function ProfileDropDownElement(props) {
       onClick();
       return;
     }
-    console.log("redirecting to " + link);
     window.location.href = link;
   };
   return (

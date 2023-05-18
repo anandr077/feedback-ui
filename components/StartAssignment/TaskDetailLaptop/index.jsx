@@ -35,7 +35,6 @@ function TaskDetailLaptop(props) {
     frame120941Props,
     frame120942Props,
   } = props;
-  console.log("Assignment: ", assignment);
   return (
     <div className="task-detail-laptop screen">
       <Frame1391>

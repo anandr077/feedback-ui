@@ -20,7 +20,6 @@ const withAuth = (WrappedComponent) => {
         getUserId() !== null &&
         getUserName() !== null &&
         getUserRole() !== null;
-      console.log("isLoggedIn " + isLoggedIn)
       const hasAuthToken = getAuthToken();
 
       if (!isLoggedIn || !hasAuthToken) {

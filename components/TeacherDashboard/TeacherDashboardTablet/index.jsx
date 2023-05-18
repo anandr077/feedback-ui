@@ -142,7 +142,6 @@ function recentActivitiesFrame(notifications) {
 }
 function classesFrames(classes, frame131241Props) {
   if (classes.length > 0) {
-    console.log("Classes " + JSON.stringify(classes));
     return (
       <>
         {classes.map((clazz) => {

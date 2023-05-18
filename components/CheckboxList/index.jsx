@@ -67,7 +67,6 @@ const handleSaveMCQAnswer = (
     .filter((answer) => {
       return answer.checked === true;
     });
-  console.log("checked " + JSON.stringify(checked));
   handleChangeText("Saving...", false);
   saveAnswer(submission.id, question.serialNumber, {
     question: question.question,

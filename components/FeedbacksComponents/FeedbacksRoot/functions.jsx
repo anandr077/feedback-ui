@@ -64,7 +64,6 @@ export function getSelfPageMode(submission) {
 }
 
 export const getComments = async (submission) => {
-  console.log("getComments" + JSON.stringify(submission?.id))
   try {
     const isDraft = submission.status === "DRAFT";
     const isTeacher = getUserRole() === "TEACHER";
@@ -73,7 +72,6 @@ export const getComments = async (submission) => {
       : submission.status === "SUBMITTED" && !isTeacher
       ? await Promise.successful([])
       : await getCommentsForSubmission(submission.id);
-    console.log("Comments:" + JSON.stringify(comments));
     return comments;
   } catch (error) {
     console.error(error);

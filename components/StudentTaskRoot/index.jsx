@@ -16,7 +16,6 @@ export default function StudentTaskRoot() {
   const [isLoading, setIsLoading] = React.useState(true);
   React.useEffect(() => {
     Promise.all([getTasks(), getClasses()]).then(([result, classes]) => {
-      console.log("Running")
       if (result) {
         setAllTasks(result);
         setClasses(classes);
@@ -62,7 +61,6 @@ export default function StudentTaskRoot() {
   ];
 
   const filterTasks = (selectedItems) =>{
-    console.log("selectedItems " + JSON.stringify(selectedItems))
     const groupedData = _.groupBy(selectedItems, 'category');
     let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
     if (typesValues.length === 0) {

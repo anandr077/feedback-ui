@@ -28,7 +28,6 @@ function CompletedLaptop(props) {
     frame1284,
     line18
   } = props;
-  console.log("setPublishActionCompleted in CL"+ setPublishActionCompleted)
   return (
     <div className="completed-laptop screen">
       <Frame1425>

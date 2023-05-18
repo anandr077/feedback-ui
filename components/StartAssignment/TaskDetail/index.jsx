@@ -19,7 +19,6 @@ export default function TaskDetail() {
 
   React.useEffect(() => {
     getAssignmentById(assignmentId).then((res) => {
-      console.log("Assignment " + JSON.stringify(res));
       setAssigment(res);
       setIsLoading(false);
     });
@@ -27,12 +26,10 @@ export default function TaskDetail() {
   if (isLoading) {
     return <Loader/>;
   }
-  console.log("Loadr: " + isLoading);
 
   const methods = {
     onClickStartAssignment: (_) => {
       startSubmission({ assignmentId: assignment.id }).then((res) => {
-        console.log("res " + res);
         window.location.href = "#submissions/" + res.id;
       });
     },

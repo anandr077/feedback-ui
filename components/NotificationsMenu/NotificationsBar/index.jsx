@@ -6,7 +6,6 @@ import Loader from "../../Loader";
 import TaskCard from "../../TaskCard";
 function NotificationsBar(props) {
   const { notifications, type, onCloseFn, loadingNotifications } = props;
-  console.log("##", loadingNotifications);
   if (notifications?.length === 0) {
     return (
       <>
@@ -31,7 +30,6 @@ function NotificationsBar(props) {
   const notificationFrames = notifications.map((notification) => {
     return <TaskCard task={notification} small={true} />;
   });
-  console.log(notificationFrames);
   return (
     <>
       {type == "small" ? (

@@ -13,7 +13,6 @@ function TaskCard(props) {
  const { showSnackbar } = React.useContext(SnackbarContext);
 
  const { task, small, exemplar, isSelected, setPublishActionCompleted } = props;
- console.log("setPublishActionCompleted in TC" + setPublishActionCompleted)
  const refContainer = useRef(null); 
  useEffect(() => { 
   if (isSelected) {
@@ -32,7 +31,6 @@ const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
     <SLink onClick={e=>{
       denyModelResponse(id)
       .then((res) => {
-      console.log("##", res);
       if (res.status === "DENIED") {
         setPublishActionCompleted(true)
         showSnackbar("Response won't be shared with your class", res.link);
@@ -48,7 +46,6 @@ const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
       <Button onClick={e=>{
         publishModelResponse(id)
           .then((res) => {
-          console.log("##", res);
           if (res.status === "PUBLISHED") {
             setPublishActionCompleted(true)
             showSnackbar("Response shared with your class", res.link);

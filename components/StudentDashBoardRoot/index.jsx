@@ -24,7 +24,6 @@ export default function StudentDashboardRoot(props) {
           setAllTasks(result.slice(0, 10));
         }
         if (modelResponses) {
-          console.log("##", modelResponses);
           const firstTen = modelResponses.slice(0, 10)
           const trimmedResponses = _.map(firstTen, (obj) => ({
             ...obj,
@@ -43,7 +42,6 @@ export default function StudentDashboardRoot(props) {
     if (publishActionCompleted) {
       getModelResponses().then((modelResponses) => {
         if (modelResponses) {
-          console.log("##", modelResponses);
           const firstTen = modelResponses.slice(0, 10)
           const trimmedResponses = _.map(firstTen, (obj) => ({
             ...obj,

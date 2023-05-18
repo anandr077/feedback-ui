@@ -65,7 +65,6 @@ export default function CreateAssignment(props) {
   React.useEffect(() => {
     Promise.all([getClasses(), getAssignment(assignmentId)])
     .then(([classesResult, assignmentResult]) => {
-      console.log(JSON.stringify(assignmentResult))
       setAssignment((prevState) => ({
         ...prevState,
         ...assignmentResult,
@@ -215,7 +214,6 @@ export default function CreateAssignment(props) {
 
 
   const handleClassCheckboxChange = (classId, isChecked) => {
-    console.log("isChecked " + isChecked + " class" + classId);
     setAssignment((prevAssignment) => {
       if (isChecked) {
         return { ...prevAssignment, classIds: [...prevAssignment.classIds, classId] };
@@ -231,7 +229,6 @@ export default function CreateAssignment(props) {
   const saveDraft = () => {
 
       updateAssignment(assignment.id, assignment).then((res) => {
-        console.log("##", res);
         if (res.status === "DRAFT") {
           showSnackbar('Task saved');
           return;
@@ -272,7 +269,6 @@ export default function CreateAssignment(props) {
       if(question.type === "MCQ"){
         let isCorrectPresent = false;
         question.options.map((option, index) => {
-          console.log("##option.option", option.option);
           option.option = option.option.trim();
           if(option.option.length === 0 ){
             const optionTextBox = document.getElementById("option_"+question.serialNumber+"_"+index);
@@ -333,7 +329,6 @@ export default function CreateAssignment(props) {
     updateAssignment(assignment.id, assignment)
     .then((_) => {
       publishAssignment(assignment.id).then((res) => {
-        console.log("##", res);
         if (res.status === "PUBLISHED") {
           showSnackbar('Task published', res.link);
           window.location.href = "#tasks";

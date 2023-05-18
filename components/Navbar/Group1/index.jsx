@@ -4,7 +4,6 @@ import { IbmplexsansNormalPersianIndigo20px } from "../../../styledMixins";
 
 function Group1(props) {
   const { iconHome, text, isSelected } = props;
-  console.log("isSelected: " + isSelected + " text " + text);
   if (isSelected) {
     return (
       <Group11>

@@ -288,8 +288,8 @@ export const exchangeCodeForToken = async (code) => {
 
 export const getShortcuts = () => {
   const shortcuts = [
-    { text: "Use More Techniques" },
-    { text: "Shorten Quote" },
+    { text: "Use more techniques" },
+    { text: "Shorten quote" },
     { text: "This is too long" },
     { text: "Great answer!" },
     { text: "Nice!" },
@@ -318,7 +318,7 @@ export const getShortcuts = () => {
     { text: "Evidence?" },
     { text: "Link to question" },
     { text: "Repeating the question" },
-    { text: "Use actual key terms of question" },
+    { text: "Use actual key terms of question" }
   ];
   return shortcuts;
 };

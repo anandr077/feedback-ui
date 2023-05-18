@@ -59,8 +59,9 @@ function FeedbackTeacherMobile(props) {
               handleChangeText={methods.handleChangeText}
             />
           ) : (
-            <ToremIpsumDolorSi id={"quill_" + question.serialNumber}>
+            <ToremIpsumDolorSi id={"quillContainer_" + submission.id + "_" + question.serialNumber}>
               <QuillEditor
+                id={"quillEditor_" + submission.id + "_" + question.serialNumber}
                 ref={(editor) =>
                   methods.handleEditorMounted(editor, answer.serialNumber - 1)
                 }

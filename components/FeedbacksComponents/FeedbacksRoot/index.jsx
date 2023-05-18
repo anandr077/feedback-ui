@@ -347,9 +347,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       };
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
 
-      const div = document.getElementById(
-        "quill_" + comment.questionSerialNumber
-      );
+      
 
       quill.selectRange(range);
       quill.focus();

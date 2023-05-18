@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 function Cards10(props) {
   const { task } = props;
-  console.log("Tags " + task.tags);
   const tagFrames = task.tags.map((tag) => {
     <Frame62 statusBubblesProps={tag} />;
   });

@@ -72,12 +72,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       })
     })
       .then(([submissionsResult, commentsResult]) => {
-        console.log("submissionsResult " + JSON.stringify(submissionsResult));
         setSubmission(submissionsResult);
         setComments(commentsResult);
       }).finally(() => {
           if (!isTeacher) {
-            console.log("Setting is loading for !isTeacher")
             setIsLoading(false);
           }
         });
@@ -85,8 +83,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   useEffect(() => {
-    console.log("Submissions " + JSON.stringify(submission));
-    console.log("isTeacher " + isTeacher);
     if (isTeacher && submission && submission?.assignment.id) {
       getSubmissionsByAssignmentId(submission.assignment.id)
         .then((allSubmissions) => {
@@ -102,12 +98,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const studentName =
           allSubmissions.find((r) => r.id === submission.assignment.id)?.studentName ??
             null;
-          console.log("studentName " + studentName);
 
           setStudentName(studentName);
         })
         .finally(() => {
-          console.log("Setting is loading " + isLoading)
           setIsLoading(false)
         });
       }
@@ -116,7 +110,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("Loading finished " + JSON.stringify(comments) + " isLoading " + isLoading)
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
@@ -134,7 +127,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleEditorMounted = (editor, index) => {
-    console.log("Mounted " + JSON.stringify(editor) + " index " + index);
     quillRefs.current[index] = editor;
   };
 
@@ -287,14 +279,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const commentIdsArray = transformedData.map(
           ({ commentId }) => commentId
         );
-        console.log("commentIdsArray:", JSON.stringify(commentIdsArray));
 
         // Create a Set from the commentIdsArray
         const transformedCommentIds = uniq(commentIdsArray);
-        console.log(
-          "transformedCommentIds:",
-          JSON.stringify(transformedCommentIds)
-        );
+
         const commentsForAnswer = comments.filter(
           (comment) => comment.questionSerialNumber === answer.serialNumber
         );
@@ -309,18 +297,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             range: { from: 0, to: 0 },
           })
         );
-        console.log(
-          "missingCommentsWithZeroRange " +
-            JSON.stringify(missingCommentsWithZeroRange)
-        );
-
+        
         const finalData = transformedData.concat(missingCommentsWithZeroRange);
         const promises = finalData.map(({ commentId, range }) => {
           return updateFeedbackRange(submission.id, commentId, range);
         });
 
         Promise.all(promises).then((results) => {
-          console.log("results " + JSON.stringify(results));
           getComments(submission).then((cmts) => {
             setComments(cmts);
             handleChangeText("All changes saved", true);
@@ -377,7 +360,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       //   inline: "center",
       // });
     } else {
-      console.log("No range");
     }
   }
 
@@ -388,7 +370,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((_) => {
       handleChangeText("All changes saved", true);
     });
-    console.log(serialNumber);
   };
 
   const reviewerSelectionChange = (serialNumber) => (range) => {
@@ -444,7 +425,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const unhighlightComment = () => {
-    console.log("##unhighlightComment", comments.length);
     if (comments.length > 0 && commentHighlight) {
       comments.map((comment) => {
         const div = document.getElementById("comment_" + comment.id);
@@ -458,7 +438,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const noopSelectionChange = (serialNumber) => (range) => {
-    console.log("##editorOnX" + JSON.stringify(range));
   };
 
   const hideNewCommentDiv = () => {
@@ -471,7 +450,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const studentUpdate = (student) => {
-    console.log("##studentUpdate" + JSON.stringify(student));
     setStudentName(student);
     // get assignment by student name or other way
   };
@@ -492,8 +470,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       const selectedItemIndex = menuItems.findIndex((menuItem) => {
         return menuItem.id === submission.id;
       });
-      console.log("menuItems" +JSON.stringify(menuItems) + " selectedItemIndex " + selectedItemIndex)
-
+      console.log("menuItems", JSON.stringify(menuItems));
       return (
         <ImageDropdownMenu
           menuItems={menuItems}

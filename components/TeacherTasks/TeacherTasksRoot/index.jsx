@@ -55,12 +55,10 @@ export default function TeacherTaskRoot() {
   ];
 
   const filterTasks = (selectedItems) =>{
-    console.log("selectedItems " + JSON.stringify(selectedItems))
     const groupedData = _.groupBy(selectedItems, 'category');
     
     const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
 
-    console.log("classesValues " + JSON.stringify(classesValues));
 
     const filteredAssignments = _.filter(assignments, (assignment) => {
       if (_.isEmpty(classesValues)) {
@@ -68,7 +66,6 @@ export default function TeacherTaskRoot() {
       }
       return _.some(assignment.classIds, (classId) => _.includes(classesValues, classId));
     });
-    console.log(filteredAssignments);
     
     setFilteredTasks(filteredAssignments)
   }

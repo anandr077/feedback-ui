@@ -23,19 +23,22 @@ export const ImageDropdownMenu = (props) => {
   // const {   onItemSelected, withCheckbox } = props;
   const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedItem, setSelectedItem] = React.useState(selectedIndex?menuItems[selectedIndex]:menuItems[0]);
+  const [selectedItem, setSelectedItem] = React.useState(selectedIndex === undefined?menuItems[0]:menuItems[selectedIndex]);
   const menuRef = React.useRef(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
+  React.useEffect(() => {
+    setSelectedItem(menuItems[selectedIndex] || menuItems[0]);
+  }, [selectedIndex]);
+ 
   const handleClose = (item) => {
     if (item) {
       setSelectedItem(item);
       setAnchorEl(null);
       if (item.link) {
         window.location.href = item.link;
-         window.location.reload();
+        //  window.location.reload();
         return 
       }
       if (item.onClick) {

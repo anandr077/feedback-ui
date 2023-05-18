@@ -23,7 +23,6 @@ export default function Header(props) {
     });
   }, []);
   const OnFirstButtonClick = () => {
-    console.log("firstButton clicked");
     window.location.href = headerProps.firstButton.redirect;
   };
   const OnSecondButtonClick = () => {

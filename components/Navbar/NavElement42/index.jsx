@@ -5,7 +5,6 @@ import styled from "styled-components";
 function NavElement42(props) {
   const { button } = props;
   const icon = button.selected ? button.iconSelected : button.icon;
-  console.log(button.text);
   if (button.selected) {
     return (
       <a href={button.redirect}>

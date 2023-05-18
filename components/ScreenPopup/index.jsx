@@ -6,7 +6,6 @@ import { isMobileView } from "../ReactiveRender";
 export default function ScreenPopup(props) {
   const { message, setShowPopup, small, dismissable, setDismissable } = props;
   const [show, setShow] = useState(true);
-  console.log("##dismissable", dismissable);
   const isMobile = isMobileView()
   useEffect(() => {
     if (dismissable) {

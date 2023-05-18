@@ -35,7 +35,6 @@ export default function TeacherDashboardRoot(props) {
   if (isLoading) {
     return <Loader/>;
   }
-  console.log("classes " + JSON.stringify(classes));
   const drafts = assignments.filter(
     (assignment) => assignment.submissionsStatus === "DRAFT"
   );

@@ -38,7 +38,6 @@ function TeacherDashboardLaptop(props) {
     frame131341Props,
   } = props;
   const userName = getUserName();
-  console.log("D  " + drafts);
   return (
     <div className="teacher-dashboard-lptp screen">
       <Frame1419>
@@ -118,7 +117,6 @@ function recentActivitiesFrame(notifications) {
 }
 function classesFrames(classes, frame131241Props) {
   if (classes.length > 0) {
-    console.log("Classes " + JSON.stringify(classes));
     return (
       <>
         {classes.map((clazz) => {

@@ -6,11 +6,9 @@ import Frame1308 from "../Frame1308";
 function Frame14103(props) {
 
   const {  id, groups, exemplar, setPublishActionCompleted } = props;
-  console.log("setPublishActionCompleted in 14102 " + JSON.stringify(setPublishActionCompleted));
   
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
-    console.log("group " + group);
     const tasksFrames = group.map((task) => {
       
       return (

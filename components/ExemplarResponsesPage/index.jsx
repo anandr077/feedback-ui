@@ -14,7 +14,6 @@ export default function ExemplarResponsesPage(props) {
     const [publishActionCompleted, setPublishActionCompleted] = React.useState(false);
 
     const l = useLocation();
-    console.log(l)
     React.useEffect(() => {
       const exemplarResponseId = new URLSearchParams(l.search).get("id");    
       setId(exemplarResponseId)
@@ -43,7 +42,6 @@ export default function ExemplarResponsesPage(props) {
       return <Loader/>;
     }
     const groups = groupBy(exemplarResponses, (task) => dateOnly(task.reviewedAt));
-    console.log("setPublishActionCompleted p", setPublishActionCompleted)
     return (
       <CompletedRoot title="Exemplary Responses" tasks={exemplarResponses} groups={groups} exemplar={true} id={id} setPublishActionCompleted={setPublishActionCompleted}></CompletedRoot>
     );

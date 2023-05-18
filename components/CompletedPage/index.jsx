@@ -38,7 +38,6 @@ export default function CompletedPage() {
   
 
   const filterTasks = (selectedItems) =>{
-    console.log("selectedItems " + JSON.stringify(selectedItems))
     const groupedData = _.groupBy(selectedItems, 'category');
     let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
     

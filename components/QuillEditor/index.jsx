@@ -25,7 +25,6 @@ const QuillEditor = React.forwardRef(
           let timeout;
 
           return function (...args) {
-            console.log(args);
             const context = this;
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(context, args), wait);
@@ -78,8 +77,6 @@ const QuillEditor = React.forwardRef(
           });
         }
 
-
-        console.log("Highlighting " + JSON.stringify(comments))
         comments.forEach((comment) => {
           if (comment.range) {
             const range = {

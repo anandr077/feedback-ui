@@ -11,9 +11,11 @@ import Frame13124 from "../Frame13124";
 import Frame14072 from "../Frame14072";
 import Group1205 from "../Group1205";
 import {
-  IbmplexsansBoldWhite72px, IbmplexsansMediumRiverBed24px, IbmplexsansNormalChicago13px,
-  IbmplexsansNormalWhite20px
+  IbmplexsansMediumRiverBed24px, 
+  IbmplexsansNormalChicago13px,
 } from "../styledMixins";
+import {DashboardIbmplexsansNormalWhite20px, 
+  DashboardIbmplexsansBoldWhite72px} from "../../../styledMixins";
 import "./TeacherDashboardLaptop.css";
 
 function TeacherDashboardLaptop(props) {
@@ -192,7 +194,7 @@ const Frame1341 = styled.div`
 `;
 
 const KeepOrganizedWitho = styled.h1`
-  ${IbmplexsansBoldWhite72px}
+  ${DashboardIbmplexsansBoldWhite72px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -203,7 +205,7 @@ const KeepOrganizedWitho = styled.h1`
 `;
 
 const KeepOrganizedWitho1 = styled.p`
-  ${IbmplexsansNormalWhite20px}
+  ${DashboardIbmplexsansNormalWhite20px}
   position: relative;
   align-self: stretch;
   text-align: center;

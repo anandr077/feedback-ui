@@ -604,7 +604,7 @@ const teacherDashboardTbletData = {
   keepOrganizedWitho1: "Welcome, Teacher",
   keepOrganizedWitho2:
     "Lighten the load with our collaborate feedback and marking tools.",
-  maskGroup: "/img/mask-group-1.png",
+  maskGroup: "/img/mask-group-2.png",
   line171: "/img/line-17-14.png",
   line311: "/img/line-31-2@2x.png",
   tasks: "Tasks",

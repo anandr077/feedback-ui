@@ -3,7 +3,8 @@ import styled from "styled-components";
 import {
   IbmplexsansBoldWhite72px,
   IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalWhite20px,
+  DashboardIbmplexsansNormalWhite20px,
+  DashboardIbmplexsansBoldWhite72px,
 } from "../../styledMixins";
 import DashboardFrame1284 from "../DashboardFrame1284";
 import DashboardGroup1205 from "../DashboardGroup1205";
@@ -216,7 +217,7 @@ const Frame1341 = styled.div`
 `;
 
 const KeepOrganizedWitho = styled.h1`
-  ${IbmplexsansBoldWhite72px}
+  ${DashboardIbmplexsansBoldWhite72px}
   position: relative;
   width: fit-content;
   margin-top: -1px;
@@ -227,7 +228,7 @@ const KeepOrganizedWitho = styled.h1`
 `;
 
 const KeepOrganizedWitho1 = styled.p`
-  ${IbmplexsansNormalWhite20px}
+ ${DashboardIbmplexsansNormalWhite20px}
   position: relative;
   width: fit-content;
   text-align: center;

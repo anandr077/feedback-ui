@@ -23,8 +23,7 @@ export const ImageDropdownMenu = (props) => {
   // const {   onItemSelected, withCheckbox } = props;
   const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const a = selectedIndex === undefined?menuItems[0]:menuItems[selectedIndex];
-  const [selectedItem, setSelectedItem] = React.useState(a);
+  const [selectedItem, setSelectedItem] = React.useState(selectedIndex === undefined?menuItems[0]:menuItems[selectedIndex]);
   const menuRef = React.useRef(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -32,10 +31,7 @@ export const ImageDropdownMenu = (props) => {
   React.useEffect(() => {
     setSelectedItem(menuItems[selectedIndex] || menuItems[0]);
   }, [selectedIndex]);
-  console.log("a  " , JSON.stringify(a))
-  console.log("selectedItem  " , JSON.stringify(selectedItem))
-  console.log("selectedIndex  " , selectedIndex)
-  
+ 
   const handleClose = (item) => {
     if (item) {
       setSelectedItem(item);

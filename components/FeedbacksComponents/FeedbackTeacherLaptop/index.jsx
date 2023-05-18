@@ -187,9 +187,9 @@ const defaultNonReviewComment = {
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
               }}
-              id={"quill_" + answer.serialNumber}
+              id={"quillContainer_" +submission.id + "_" + answer.serialNumber}
             >
-              {createQuill(answer, answerValue, debounce)}
+              {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
         </Frame1366>
@@ -306,11 +306,12 @@ const defaultNonReviewComment = {
     </div>
   );
 
-  function createQuill(answer, answerValue, debounce) {
+  function createQuill(submission, answer, answerValue, debounce) {
     const q = React.useMemo(
       () => {
         return (
           <QuillEditor
+            id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
             ref={(editor) =>
               methods.handleEditorMounted(editor, answer.serialNumber - 1)
             }

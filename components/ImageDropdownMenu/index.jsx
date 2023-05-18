@@ -38,7 +38,7 @@ export const ImageDropdownMenu = (props) => {
       setAnchorEl(null);
       if (item.link) {
         window.location.href = item.link;
-        //  window.location.reload();
+         window.location.reload();
         return 
       }
       if (item.onClick) {

@@ -150,9 +150,12 @@ const KeepOrganizedWitho = styled.h1`
 `;
 
 const KeepOrganizedWitho1 = styled.p`
-  ${IbmplexsansNormalWhite14px}
   position: relative;
   align-self: stretch;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  color: var(--white);
+  font-size: var(--font-size-m);
   text-align: center;
   letter-spacing: 0;
   line-height: normal;

@@ -21,6 +21,7 @@ import {
   IbmplexsansBoldWhite72px,
   IbmplexsansNormalChicago13px,
 } from "../styledMixins";
+import {DashboardIbmplexsansBoldWhite72px, DashboardIbmplexsansNormalWhite20px} from "../../../styledMixins";
 import "./TeacherDashboardTablet.css";
 import HeaderSmall from "../../HeaderSmall";
 import { teacherHomeHeaderProps } from "../../../utils/headerProps";
@@ -252,7 +253,7 @@ const Frame1341 = styled.div`
 `;
 
 const KeepOrganizedWitho = styled.h1`
-  ${IbmplexsansBoldWhite72px}
+  ${DashboardIbmplexsansBoldWhite72px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -263,7 +264,7 @@ const KeepOrganizedWitho = styled.h1`
 `;
 
 const KeepOrganizedWitho1 = styled.p`
-  ${IbmplexsansNormalWhite20px}
+  ${DashboardIbmplexsansNormalWhite20px}
   position: relative;
   align-self: stretch;
   text-align: center;
@@ -282,8 +283,8 @@ const Terms = styled.div`
 const MaskGroup = styled.img`
   position: absolute;
   top: calc(50% - 130px);
-  left: calc(50% - 512px);
-  width: 1024px;
+  left: calc(50% - 720px);
+  width: 1440px;
   height: 260px;
 `;
 

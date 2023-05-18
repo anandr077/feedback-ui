@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { getUserName } from "../../service";
 import {
-  IbmplexsansBoldWhite36px,
-  IbmplexsansNormalWhite20px,
+  DashboardIbmplexsansBoldWhite72px,
+  DashboardIbmplexsansNormalWhite20px
 } from "../../styledMixins";
 import DashboardFrame12082 from "../DashboardFrame12082";
 import FooterSmall from "../FooterSmall";
@@ -36,6 +36,7 @@ function DashboardHomeStudentTablet(props) {
             <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
             <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
           </Frame1348>
+          <MaskGroup src="/img/mask-group-2.png" alt="Mask Group" />
         </Frame1203>
       </Frame1352>
       <Frame1351>
@@ -186,20 +187,19 @@ const Frame1348 = styled.div`
 `;
 
 const KeepOrganizedWitho = styled.h1`
-  ${IbmplexsansBoldWhite36px}
-  font-size: 36px;
+  ${DashboardIbmplexsansBoldWhite72px}
+  
   position: relative;
   align-self: stretch;
-  height: 34.06922912597656px;
   margin-top: -1px;
   text-align: center;
-  letter-spacing: -0.72px;
-  line-height: 43.2px;
+  letter-spacing: -1.44px;
+  line-height: 86.4px;
   white-space: nowrap;
 `;
 
 const KeepOrganizedWitho1 = styled.p`
-  ${IbmplexsansNormalWhite20px}
+  ${DashboardIbmplexsansNormalWhite20px}
   position: relative;
   align-self: stretch;
   text-align: center;
@@ -208,11 +208,11 @@ const KeepOrganizedWitho1 = styled.p`
 `;
 
 const MaskGroup = styled.img`
-  position: absolute;
-  top: calc(50% - 94px);
-  left: calc(50% - 175px);
-  width: 350px;
-  height: 206px;
+   position: absolute;
+  top: calc(50% - 130px);
+  left: calc(50% - 720px);
+  width: 1440px;
+  height: 260px;
 `;
 
 const Frame1351 = styled.div`

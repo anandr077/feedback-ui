@@ -134,6 +134,23 @@ export const IbmplexsansNormalWhite20px = css`
   font-style: normal;
 `;
 
+export const DashboardIbmplexsansNormalWhite20px = css`
+  color: var(--white);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  font-style: normal;
+`;
+
+export const DashboardIbmplexsansBoldWhite72px = css`
+  color: var(--white);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xxxxl);
+  font-weight: 700;
+  font-style: normal;
+`;
+
+
 export const IbmplexsansMediumElectricViolet14px = css`
   color: var(--light-mode-purple);
   font-family: var(--font-family-ibm_plex_sans);

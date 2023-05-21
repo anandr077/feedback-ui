@@ -153,6 +153,9 @@ const QuillEditor = React.forwardRef(
       focus() {
         return editor.focus();
       },
+      disable() {
+        return editor.enable(false);
+      },
     }));
 
     return (

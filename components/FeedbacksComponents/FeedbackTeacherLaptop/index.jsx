@@ -32,11 +32,13 @@ import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
+import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
 
 function FeedbackTeacherLaptop(props) {
   const {
     isTeacher,
+    showLoader,
     labelText,
     quillRefs,
     pageMode,
@@ -253,7 +255,8 @@ const defaultNonReviewComment = {
   );
 
   const [tabletView, setTabletView] = useState(isTabletView());
-  return (
+  return (<>
+    {showLoader && <Screen2> <Loader/></Screen2>}
     <div className="feedback-teacher-laptop screen">
       {sharewithclassdialog}
       <Frame1388>
@@ -304,6 +307,7 @@ const defaultNonReviewComment = {
         {tabletView ? <FooterSmall /> : <Footer />}
       </Frame1388>
     </div>
+    </>
   );
 
   function createQuill(submission, answer, answerValue, debounce) {
@@ -391,6 +395,16 @@ const Screen = styled.div`
   top: 0;
   left: 0;
   z-index: 0;
+`;
+
+const Screen2 = styled.div`
+  position: fixed;
+  width: 200vw;
+  height: 200vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255,1);
+  z-index: 1;
 `;
 const CommentContiner = styled.div`
   position: absolute;

@@ -46,6 +46,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [showShareWithClass, setShowShareWithClass] = useState(false);
   const [exemplarComment, setExemplerComment] = useState("");
   const [isValidComment, setIsValidComment] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
 
   const newCommentFrameRef = useRef(null);
 
@@ -331,11 +332,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const handleSaveSubmissionForReview = () => {
     disableAllEditors();
     handleChangeText("Saving...", false);
+    setShowLoader(true);
+    
     setTimeout(()=>{
       submitAssignment(submission.id).then((_) => {
           window.location.href = "/";
+          showLoader(false);
       });
     }, 4000)
+    
   };
   function disableAllEditors() {
     submission.assignment.questions
@@ -720,6 +725,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            showLoader,
             submissionStatusLabel,
             labelText,
             quillRefs,
@@ -742,6 +748,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               isTeacher,
+              showLoader,
               submissionStatusLabel,
               labelText,
               quillRefs,
@@ -764,6 +771,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            showLoader,
             submissionStatusLabel,
             labelText,
             quillRefs,

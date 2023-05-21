@@ -39,6 +39,7 @@ import { TextField } from "@mui/material";
 import {
   IbmplexsansNormalShark20px,
 } from "../../../styledMixins";
+import SnackbarContext from "../../SnackbarContext"
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -46,6 +47,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [showShareWithClass, setShowShareWithClass] = useState(false);
   const [exemplarComment, setExemplerComment] = useState("");
   const [isValidComment, setIsValidComment] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const newCommentFrameRef = useRef(null);
 
@@ -331,11 +334,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const handleSaveSubmissionForReview = () => {
     disableAllEditors();
     handleChangeText("Saving...", false);
+    setShowLoader(true);
+    showSnackbar("Submitting assignment...");
+    
     setTimeout(()=>{
       submitAssignment(submission.id).then((_) => {
           window.location.href = "/";
+          showLoader(false);
       });
     }, 4000)
+    
   };
   function disableAllEditors() {
     submission.assignment.questions
@@ -720,6 +728,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            showLoader,
             submissionStatusLabel,
             labelText,
             quillRefs,
@@ -742,6 +751,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               isTeacher,
+              showLoader,
               submissionStatusLabel,
               labelText,
               quillRefs,
@@ -764,6 +774,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            showLoader,
             submissionStatusLabel,
             labelText,
             quillRefs,

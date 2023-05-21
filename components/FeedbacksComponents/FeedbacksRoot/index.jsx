@@ -359,9 +359,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function handleSubmissionClosed() {
     disableAllEditors();
     handleChangeText("Saving...", false);
+    setShowLoader(true);
+    showSnackbar("Submitting assignment...");
     setTimeout(()=>{
       markSubmsissionClosed(submission.id).then(
-        (_) => (window.location.href = "/")
+        (_) => {window.location.href = "/"
+        showLoader(false);
+      }
       );
     }, 4000)
     

@@ -92,7 +92,7 @@ const defaultReviewComment = {
 
 const defaultNonReviewComment = {
   reviewerName: "Jeddle",
-  comment: "Your feedback will appear here",
+  comment: "Feedback will appear here",
 }
 
   const feedbackFrame = () => {

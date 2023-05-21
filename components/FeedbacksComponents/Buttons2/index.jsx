@@ -8,10 +8,10 @@ function Buttons2(props) {
     props;
 
   return (
-    <Buttons className={`buttons-1 ${className || ""}`}>
+    <Buttons className={`buttons-1 ${className || ""}`} onClick={onClickFn} >
       {arrowLeft()}
       {Download()}
-      <Button onClick={onClickFn} className="button-1">
+      <Button className="button-1">
         {button}
       </Button>
       {arrowRight()}

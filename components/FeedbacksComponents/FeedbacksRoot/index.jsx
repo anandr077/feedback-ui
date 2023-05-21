@@ -39,6 +39,7 @@ import { TextField } from "@mui/material";
 import {
   IbmplexsansNormalShark20px,
 } from "../../../styledMixins";
+import SnackbarContext from "../../SnackbarContext"
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -47,6 +48,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [exemplarComment, setExemplerComment] = useState("");
   const [isValidComment, setIsValidComment] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const newCommentFrameRef = useRef(null);
 
@@ -333,6 +335,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
+    showSnackbar("Submitting assignment...");
     
     setTimeout(()=>{
       submitAssignment(submission.id).then((_) => {

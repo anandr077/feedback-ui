@@ -127,6 +127,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleEditorMounted = (editor, index) => {
+    // alert("handleEditorMounted" + JSON.stringify(editor) + " " + index);
     quillRefs.current[index] = editor;
   };
 
@@ -328,15 +329,34 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
   const handleSaveSubmissionForReview = () => {
-    submitAssignment(submission.id).then((_) => {
-      localStorage.setItem("submission", submission.id);
-      window.location.href = "/";
-    });
+    disableAllEditors();
+    handleChangeText("Saving...", false);
+    setTimeout(()=>{
+      submitAssignment(submission.id).then((_) => {
+          window.location.href = "/";
+      });
+    }, 4000)
   };
+  function disableAllEditors() {
+    submission.assignment.questions
+      .filter(question => question.type === "TEXT")
+      .forEach(question => {
+        // alert(JSON.stringify(question))
+        const quill = quillRefs.current[question.serialNumber - 1];
+        // alert(JSON.stringify(quillRefs.current))
+        quill.disable();
+      });
+  }
+
   function handleSubmissionClosed() {
-    markSubmsissionClosed(submission.id).then(
-      (_) => (window.location.href = "/")
-    );
+    disableAllEditors();
+    handleChangeText("Saving...", false);
+    setTimeout(()=>{
+      markSubmsissionClosed(submission.id).then(
+        (_) => (window.location.href = "/")
+      );
+    }, 4000)
+    
   }
 
   function handleCommentSelected(comment) {

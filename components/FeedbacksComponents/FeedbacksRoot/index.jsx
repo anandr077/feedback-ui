@@ -324,10 +324,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function handleSubmissionReviewed() {
     markSubmsissionReviewed(submission.id).then((_) => {
-      if (isTeacher) {
-        window.location.href = nextUrl;
+      showSnackbar("Task reviewed...", window.location.href);
+      if (isTeacher) { 
+       window.location.href = nextUrl==='/'?"/#":nextUrl;
       } else {
-        window.location.href = "/";
+        window.location.href = "/#";
       }
     });
   }
@@ -335,12 +336,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
-    showSnackbar("Submitting assignment...");
+    showSnackbar("Submitting task...");
     
     setTimeout(()=>{
       submitAssignment(submission.id).then((_) => {
-          window.location.href = "/";
-          showLoader(false);
+        showSnackbar("Task submitted...", window.location.href);
+        window.location.href = "/#";
+        setShowLoader(false);
       });
     }, 4000)
     
@@ -360,13 +362,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
-    showSnackbar("Submitting assignment...");
+    showSnackbar("Submitting task...");
     setTimeout(()=>{
       markSubmsissionClosed(submission.id).then(
-        (_) => {window.location.href = "/"
-        showLoader(false);
-      }
-      );
+        (_) => {
+          showSnackbar("Task completed...", window.location.href);
+          window.location.href = "/#";
+          setShowLoader(false);
+        });
     }, 4000)
     
   }

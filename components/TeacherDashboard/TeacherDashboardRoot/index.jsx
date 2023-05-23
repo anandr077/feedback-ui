@@ -549,7 +549,7 @@ const frame131345Data = {
 const teacherDashboardLptpData = {
   keepOrganizedWitho1: "Welcome, Teacher",
   keepOrganizedWitho2:
-    "Lighten the load with our collaborate feedback and marking tools.",
+    "Lighten the load with our collaborative feedback and marking tools.",
   maskGroup: "/img/mask-group-2.png",
   line171: "/img/line-17-28.png",
   line311: "/img/line-31-4@2x.png",
@@ -575,7 +575,7 @@ const teacherDashboardDesktpData = {
   frame131241Props: frame131241Data,
   keepOrganizedWitho1: "Welcome, Teacher",
   keepOrganizedWitho2:
-    "Lighten the load with our collaborate feedback and marking tools.",
+    "Lighten the load with our collaborative feedback and marking tools.",
   maskGroup: "/img/mask-group-3.png",
   line171: "/img/line-17-42.png",
   line311: "/img/line-31-2@2x.png",
@@ -602,7 +602,7 @@ const teacherDashboardTbletData = {
   frame5: "/img/frame-5@2x.png",
   keepOrganizedWitho1: "Welcome, Teacher",
   keepOrganizedWitho2:
-    "Lighten the load with our collaborate feedback and marking tools.",
+    "Lighten the load with our collaborative feedback and marking tools.",
   maskGroup: "/img/mask-group-2.png",
   line171: "/img/line-17-14.png",
   line311: "/img/line-31-2@2x.png",
@@ -631,7 +631,7 @@ const teacherDashboardMbileData = {
   frame5: "/img/frame-5@2x.png",
   keepOrganizedWitho1: "Welcome, Teacher",
   keepOrganizedWitho2:
-    "Lighten the load with our collaborate feedback and marking tools.",
+    "Lighten the load with our collaborative feedback and marking tools.",
   maskGroup: "/img/mask-group@2x.png",
   line171: "/img/line-17@2x.png",
   line311: "/img/line-31@2x.png",

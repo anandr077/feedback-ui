@@ -162,11 +162,13 @@ export const getCookie = (name) => {
 };
 export const setProfileCookies = (profile) => {
   localStorage.setItem("jwtToken", profile.token);
+  const expiry = 30 * 24 * 60 * 60
+
   document.cookie =
-    "user.name=" + profile.name + "; max-age=" + 86400 + "; path=/";
+    "user.name=" + profile.name + "; max-age=" + expiry *  + "; path=/";
   document.cookie =
-    "userId=" + profile.userId + "; max-age=" + 86400 + "; path=/";
-  document.cookie = "role=" + profile.role + "; max-age=" + 86400 + "; path=/";
+    "userId=" + profile.userId + "; max-age=" + expiry + "; path=/";
+  document.cookie = "role=" + profile.role + "; max-age=" + expiry + "; path=/";
 };
 
 export const deleteProfileCookies = () => {

@@ -20,7 +20,7 @@ steps:
   - '--platform'
   - 'managed'
   - '--allow-unauthenticated'
-  - '--set-env-vars'
+  - '--update-env-vars'
   - 'APP_ENV=staging'
 
 # Setting the timeout value

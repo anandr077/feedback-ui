@@ -1,0 +1,27 @@
+steps:
+# Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--build-arg', 'APP_ENV=staging', '-t', 'gcr.io/$PROJECT_ID/feedbacksui', '.']
+
+# Push the Docker image to Google Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/feedbacksui']
+
+# Deploy the Docker image to Google Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'run'
+  - 'deploy'
+  - 'feedbacksui'
+  - '--image'
+  - 'gcr.io/$PROJECT_ID/feedbacksui'
+  - '--region'
+  - 'asia-northeast1'
+  - '--platform'
+  - 'managed'
+  - '--allow-unauthenticated'
+  - '--set-env-vars'
+  - 'APP_ENV=staging'
+
+# Setting the timeout value
+timeout: '1200s'  # 20 minutes. Adjust as needed.

@@ -1,9 +1,7 @@
 steps:
 # Build the Docker image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--build-arg', '--build-arg="APP_CONF=$_APP_CONF"', '-t', 'gcr.io/$PROJECT_ID/feedbacksui', '.']
-substitutions:
-  _APP_CONF: staging
+  args: ['build', '--build-arg', 'APP_ENV=staging', '-t', 'gcr.io/$PROJECT_ID/feedbacksui', '.']
 # Push the Docker image to Google Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/feedbacksui']

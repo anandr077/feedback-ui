@@ -2,8 +2,8 @@
 FROM node:19.3.0
 
 
-ARG APP_CONF=dev
-ENV APP_ENV=$APP_CONF
+ARG APP_ENV
+ENV APP_ENV=$APP_ENV
 # Step 2: Set the working directory to /app
 WORKDIR /app
 

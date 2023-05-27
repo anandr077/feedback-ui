@@ -1,11 +1,4 @@
 #!/bin/bash
-
-if [ "$APP_ENV" = "production" ] ; then
-    source .env.prod
-elif [ "$APP_ENV" = "dev" ] ; then
-    source .env.dev
-else
-    source .env.staging
-fi
-
-npm run serve
+npm install --save-dev env-cmd
+npm run build:$APP_ENV
+npm run serve:$APP_ENV

@@ -1,6 +1,9 @@
 # Step 1: Use the specified Node.js runtime as the parent image
 FROM node:19.3.0
 
+
+ARG APP_CONF=dev
+ENV APP_ENV=$APP_CONF
 # Step 2: Set the working directory to /app
 WORKDIR /app
 

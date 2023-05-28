@@ -5,8 +5,8 @@
     "serve": "http-server dist -p 3000",
     "build": "npm run build:app && cp _redirects dist/",
     "build:app": "parcel build index.html --public-url ./ --no-scope-hoist",
-    "build:staging": "env-cmd -f .env.staging npm run build:app && cp _redirects dist/",
-    "serve:staging": "env-cmd -f .env.staging npm run serve",
+    "build:staging": "env-cmd -f ./.env.staging npm run build:app && cp _redirects dist/",
+    "serve:staging": "env-cmd -f ./.env.staging npm run serve",
     "prettier:check": "npx prettier --check .",
     "prettier:format": "npx prettier --write ."
   },
@@ -41,14 +41,14 @@
     "react-router-dom": "5.2.0",
     "react-scroll-into-view": "^1.12.1",
     "styled-components": "^5.3.10",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "env-cmd": "^10.1.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.8.1",
     "browserslist": "4.19.3",
     "buffer": "^5.7.1",
     "cross-env": "^7.0.3",
-    "env-cmd": "^10.1.0",
     "prettier": "2.8.4",
     "process": "^0.11.10"
   }

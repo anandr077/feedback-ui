@@ -2,11 +2,11 @@
   "name": "react-package",
   "scripts": {
     "start": "parcel index.html",
-    "serve": "http-server dist -p 3000",
     "build": "npm run build:app && cp _redirects dist/",
     "build:app": "parcel build index.html --public-url ./ --no-scope-hoist",
-    "build:staging": "env-cmd -f ./.env.staging npm run build:app && cp _redirects dist/",
-    "serve:staging": "env-cmd -f ./.env.staging npm run serve",
+    "build:staging": "REACT_APP_API_BASE_URL=https://feedbacks-backend-leso2wocda-ts.a.run.app REACT_APP_JEDDLE_BASE_URL=https://jeddle.duxdigital.net REACT_APP_SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app REACT_APP_CLIENT_ID=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr npm run build:app && cp _redirects dist/",
+    "serve": "http-server dist -p 3000",
+    "serve:staging": "REACT_APP_API_BASE_URL=https://feedbacks-backend-leso2wocda-ts.a.run.app REACT_APP_JEDDLE_BASE_URL=https://jeddle.duxdigital.net REACT_APP_SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app REACT_APP_CLIENT_ID=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr npm run serve",
     "prettier:check": "npx prettier --check .",
     "prettier:format": "npx prettier --write ."
   },

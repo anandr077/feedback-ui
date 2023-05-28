@@ -5,4 +5,4 @@ export REACT_APP_SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app
 export SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app
 export REACT_APP_CLIENT_ID=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr
 
-npm run serve
+npm run serve:staging

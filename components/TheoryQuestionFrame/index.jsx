@@ -6,6 +6,7 @@ import Frame1297 from "../Frame1297";
 import {
   IbmplexsansNormalElectricViolet14px,
   IbmplexsansNormalShark20px,
+  IbmplexsansNormalShark16px
 } from "../../styledMixins";
 
 export default function TheoryQuestionFrame(props) {
@@ -51,7 +52,19 @@ export default function TheoryQuestionFrame(props) {
             />
           </QuestionFrame2>
         </InputQuestion>
-
+        <QuestionFrame2>
+          <Frame1321>
+            <Ellipse14></Ellipse14>
+            <Structure>Structure</Structure>
+          </Frame1321>
+          <Frame1321>
+            <Ellipse141></Ellipse141>
+            <Structure>Context</Structure>
+          </Frame1321>
+          <Frame1323>
+            <Add src="/img/add-1@2x.png" alt="add" />
+          </Frame1323>
+      </QuestionFrame2>
         {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
@@ -62,6 +75,61 @@ export default function TheoryQuestionFrame(props) {
   );
 }
 
+
+const Frame1321 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  position: relative;
+  background-color: var(--gallery);
+  border-radius: 24px;
+  border: 1px solid;
+  border-color: var(--mercury);
+`;
+
+const Ellipse14 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: #e39a99;
+  border-radius: 10px;
+`;
+
+const Structure = styled.div`
+  ${IbmplexsansNormalShark16px}
+  position: relative;
+  width: fit-content;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+`;
+
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: #b9d7a7;
+  border-radius: 10px;
+`;
+
+const Frame1323 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  position: relative;
+  background-color: var(--dark-purple);
+  border-radius: 24px;
+`;
+
+const Add = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
 const SmalllQuestionFrame = styled.div`
   display: flex;
   flex-direction: column;

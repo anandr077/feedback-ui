@@ -324,3 +324,23 @@ export const getShortcuts = () => {
   ];
   return shortcuts;
 };
+
+export const getFocusAreas = () =>{
+  return  [
+    {
+      id: 1,
+      title:"Structure",
+      color: "#123456"
+    },
+    {
+      id: 2,
+      title: "Context",
+      color: "#fbb123"
+    },
+    {
+      id: 3,
+      title: "Flow",
+      color: "#fbb223"
+    }
+  ]
+}

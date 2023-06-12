@@ -60,11 +60,12 @@ const CheckboxGroup = ({ data, onChange }) => {
           checked={selectedItems.some((selectedItem) => selectedItem.value === item.value)}
         /> */}
          <CheckboxContainer>
-          <CheckboxBordered 
+          <CheckboxBordered
             checked={selectedItems.some((selectedItem) => selectedItem.value === item.value)}
             />
           <CheckBoxText>{item.value.title}</CheckBoxText>
         </CheckboxContainer>
+        {focusAreaColor(item)}
         {/* <div className="text-container"> */}
           <StyledListItemText primary={item.label} />
         {/* </div> */}
@@ -77,10 +78,10 @@ const CheckboxGroup = ({ data, onChange }) => {
       <FormControl sx={{ m: 1 }}>
         <StyledBox>
         <FlexContainer onClick={handleClick}>
-          <StyledIconButton 
-          onClick={handleClick} 
+          <StyledIconButton
+          onClick={handleClick}
          >
-          
+
               <StyledListItemText>{filterText(selectedItems)}</StyledListItemText>
           </StyledIconButton>
           </FlexContainer>
@@ -170,7 +171,7 @@ const StyledIconButton = styled(IconButton)`
   && {
     padding: 3px 10px 3px 10px;
   }
-  
+
 `;
 
 const StyledListItemText = styled(ListItemText)`
@@ -213,5 +214,19 @@ const CheckBoxText = styled.div`
   letter-spacing: 0;
   line-height: normal;
   // display: flex;
+`;
+
+function focusAreaColor(item){
+  if(item.color){
+    return <Ellipse141 backgroundColor={item.color}></Ellipse141>
+  }
+}
+
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
 `;
 

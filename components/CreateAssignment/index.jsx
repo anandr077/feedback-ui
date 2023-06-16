@@ -30,6 +30,8 @@ import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import SnackbarContext from "../SnackbarContext";
 import { tr } from "date-fns/locale";
 import Loader from "../Loader";
+import FocusAreaDialog from "./Dialog/newFocusArea";
+import { getFocusAreas, updateNewFocusAreas, getAllColors } from "../../service";
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -69,7 +71,7 @@ export default function CreateAssignment(props) {
             isCorrect: false,
           },
         ],
-        focusAreas: [1,2],
+        focusAreas: [1, 2],
       },
     ],
     reviewedBy: "TEACHER",
@@ -77,6 +79,8 @@ export default function CreateAssignment(props) {
     dueAt: dayjs().add(3, "day"),
   };
   const [assignment, setAssignment] = React.useState(draft);
+
+  const [openFocusAreaDialog, setOpenFocusAreaDialog] = React.useState(false);
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -89,6 +93,8 @@ export default function CreateAssignment(props) {
   };
   const [isLoading, setIsLoading] = React.useState(true);
   const [classes, setClasses] = React.useState([]);
+  const [allFocusAreas, setAllFocusAreas] = React.useState([]);
+  const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([])
 
   React.useEffect(() => {
     Promise.all([getClasses(), getAssignment(assignmentId)]).then(
@@ -103,6 +109,13 @@ export default function CreateAssignment(props) {
       }
     );
   }, [assignmentId]);
+
+  React.useEffect(()=>{
+    setAllFocusAreas(getFocusAreas());
+    setAllFocusAreasColors(getAllColors());
+  });
+
+
   if (isLoading) {
     return <Loader />;
   }
@@ -153,6 +166,8 @@ export default function CreateAssignment(props) {
         updateFocusAreas={updateFocusAreas}
         cleanformattingTextBox={cleanformattingTextBox}
         cleanformattingDiv={cleanformattingDiv}
+        createNewFocusArea={createNewFocusArea}
+        allFocusAreas={allFocusAreas}
       />
     );
   };
@@ -272,6 +287,18 @@ export default function CreateAssignment(props) {
         q.serialNumber === id ? { ...q, focusAreas: newFocusAreas } : q
       ),
     }));
+  }
+
+  function createNewFocusArea() {
+    setOpenFocusAreaDialog(true);
+  }
+
+  function addNewFocusArea(title, description, selectedColor) {
+    setOpenFocusAreaDialog(false);
+    if(title!=="" && selectedColor!==""){
+      updateNewFocusAreas(title, selectedColor, description);
+      setAllFocusAreas(getFocusAreas());
+    }
   }
 
   const handleClassCheckboxChange = (classId, isChecked) => {
@@ -477,60 +504,63 @@ export default function CreateAssignment(props) {
   };
 
   return (
-    <ReactiveRender
-      mobile={
-        <CreateAAssignmentMobile
-          {...{
-            ...methods,
-            classes,
-            checkedClasses: assignment.classIds,
-            assignment,
-            feedbacksMethodContainer,
-            dateSelectorFrame,
-            ...createAAssignmentMobileData,
-          }}
-        />
-      }
-      tablet={
-        <CreateAAssignmentTablet
-          {...{
-            ...methods,
-            classes,
-            assignment,
-            checkedClasses: assignment.classIds,
-            feedbacksMethodContainer,
-            dateSelectorFrame,
-            ...createAAssignmentTabletData,
-          }}
-        />
-      }
-      laptop={
-        <CreateAAssignmentLaptop
-          {...{
-            ...methods,
-            classes,
-            assignment,
-            checkedClasses: assignment.classIds,
-            feedbacksMethodContainer,
-            dateSelectorFrame,
-            ...createAAssignmentLaptopData,
-          }}
-        />
-      }
-      desktop={
-        <CreateAAssignmentLaptop
-          {...{
-            ...methods,
-            classes,
-            assignment,
-            checkedClasses: assignment.classIds,
-            feedbacksMethodContainer,
-            dateSelectorFrame,
-            ...createAAssignmentLaptopData,
-          }}
-        />
-      }
-    />
+    <>
+      <ReactiveRender
+        mobile={
+          <CreateAAssignmentMobile
+            {...{
+              ...methods,
+              classes,
+              checkedClasses: assignment.classIds,
+              assignment,
+              feedbacksMethodContainer,
+              dateSelectorFrame,
+              ...createAAssignmentMobileData,
+            }}
+          />
+        }
+        tablet={
+          <CreateAAssignmentTablet
+            {...{
+              ...methods,
+              classes,
+              assignment,
+              checkedClasses: assignment.classIds,
+              feedbacksMethodContainer,
+              dateSelectorFrame,
+              ...createAAssignmentTabletData,
+            }}
+          />
+        }
+        laptop={
+          <CreateAAssignmentLaptop
+            {...{
+              ...methods,
+              classes,
+              assignment,
+              checkedClasses: assignment.classIds,
+              feedbacksMethodContainer,
+              dateSelectorFrame,
+              ...createAAssignmentLaptopData,
+            }}
+          />
+        }
+        desktop={
+          <CreateAAssignmentLaptop
+            {...{
+              ...methods,
+              classes,
+              assignment,
+              checkedClasses: assignment.classIds,
+              feedbacksMethodContainer,
+              dateSelectorFrame,
+              ...createAAssignmentLaptopData,
+            }}
+          />
+        }
+      />
+      {openFocusAreaDialog && <FocusAreaDialog handleData={addNewFocusArea} colors={allFocusAreasColors} />}
+    </>
   );
 }
 const Title = styled.h1`

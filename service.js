@@ -46,7 +46,7 @@ async function fetchData(url, options, headers = {}) {
       .get("content-type")
       ?.includes("application/json");
     const data = isJson ? await response.json() : null;
-    if(data === null) {
+    if (data === null) {
       window.location.href = selfBaseUrl + "/#/404";
       window.location.reload();
       throw new Error("Page not found");
@@ -162,10 +162,10 @@ export const getCookie = (name) => {
 };
 export const setProfileCookies = (profile) => {
   localStorage.setItem("jwtToken", profile.token);
-  const expiry = 30 * 24 * 60 * 60
+  const expiry = 30 * 24 * 60 * 60;
 
   document.cookie =
-    "user.name=" + profile.name + "; max-age=" + expiry *  + "; path=/";
+    "user.name=" + profile.name + "; max-age=" + expiry * +"; path=/";
   document.cookie =
     "userId=" + profile.userId + "; max-age=" + expiry + "; path=/";
   document.cookie = "role=" + profile.role + "; max-age=" + expiry + "; path=/";
@@ -181,9 +181,7 @@ export const logout = async () => {
     logoutLocal();
 
     window.location.href =
-      jeddleBaseUrl +
-      "/wp-login.php?action=logout&redirect_to=" +
-      selfBaseUrl;
+      jeddleBaseUrl + "/wp-login.php?action=logout&redirect_to=" + selfBaseUrl;
   });
 };
 export const changePassword = async () => {
@@ -262,9 +260,7 @@ export const unpublishModelResponse = async (feedbackId) =>
     baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/unpublish"
   );
 export const denyModelResponse = async (feedbackId) =>
-  await patchApi(
-    baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/deny"
-  );
+  await patchApi(baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/deny");
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
@@ -274,7 +270,7 @@ function logoutLocal() {
 }
 
 export function redirectToExternalIDP() {
-  logoutLocal()
+  logoutLocal();
   const externalIDPLoginUrl =
     jeddleBaseUrl +
     "/wp-json/moserver/authorize?response_type=code&client_id=" +
@@ -320,27 +316,55 @@ export const getShortcuts = () => {
     { text: "Evidence?" },
     { text: "Link to question" },
     { text: "Repeating the question" },
-    { text: "Use actual key terms of question" }
+    { text: "Use actual key terms of question" },
   ];
   return shortcuts;
 };
+let FocusAreas = [
+  {
+    id: 1,
+    title: "Structure",
+    color: "#123456",
+    description:"",
+  },
+  {
+    id: 2,
+    title: "Context",
+    color: "#fbb123",
+    description:"",
+  },
+  {
+    id: 3,
+    title: "Flow",
+    color: "#fbb223",
+    description:"",
+  },
+];
+export const getFocusAreas = () => {
+  return FocusAreas;
+};
 
-export const getFocusAreas = () =>{
-  return  [
-    {
-      id: 1,
-      title:"Structure",
-      color: "#123456"
-    },
-    {
-      id: 2,
-      title: "Context",
-      color: "#fbb123"
-    },
-    {
-      id: 3,
-      title: "Flow",
-      color: "#fbb223"
-    }
-  ]
+export const updateNewFocusAreas = (title, color, description) =>{
+  const obj = {
+    id: FocusAreas.length + 1,
+    title: title,
+    color: color,
+    description: description,
+  }
+  FocusAreas.push(obj);
+}
+
+export const getAllColors = () => {
+  return [
+    { name: "Red", value: "#FF0000" },
+    { name: "Green", value: "#00FF00" },
+    { name: "Blue", value: "#0000FF" },
+    { name: "Yellow", value: "#FFFF00" },
+    { name: "Magenta", value: "#FF00FF" },
+    { name: "Cyan", value: "#00FFFF" },
+    { name: "Orange", value: "#FFA500" },
+    { name: "Purple", value: "#800080" },
+    { name: "Dark Green", value: "#008000" },
+    { name: "Navy", value: "#000080" },
+  ];
 }

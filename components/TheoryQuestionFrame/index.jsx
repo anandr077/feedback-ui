@@ -8,7 +8,6 @@ import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalShark16px,
 } from "../../styledMixins";
-import { getFocusAreas } from "../../service";
 import CheckboxGroup from "../CheckboxGroup";
 
 export default function TheoryQuestionFrame(props) {
@@ -21,6 +20,8 @@ export default function TheoryQuestionFrame(props) {
     cleanformattingTextBox,
     cleanformattingDiv,
     updateFocusAreas,
+    createNewFocusArea,
+    allFocusAreas,
   } = props;
   return (
     <SmalllQuestionFrame
@@ -55,7 +56,13 @@ export default function TheoryQuestionFrame(props) {
             />
           </QuestionFrame2>
         </InputQuestion>
-        {createFocusAreasFrame(serialNumber, updateFocusAreas, questionDetails.focusAreas)}
+        {createFocusAreasFrame(
+          serialNumber,
+          updateFocusAreas,
+          questionDetails.focusAreas,
+          createNewFocusArea,
+          allFocusAreas
+        )}
         {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
@@ -283,27 +290,48 @@ const QuestionInputEditable = styled.input`
   outline: none;
   transition: 0.15s;
 `;
-function createFocusAreasFrame(serialNumber,updateFocusAreas, presentFocusAreas) {
+function createFocusAreasFrame(
+  serialNumber,
+  updateFocusAreas,
+  presentFocusAreas,
+  createNewFocusArea,
+  allFocusAreas
+) {
+  const focusAreaItems = allFocusAreas.map((focusArea) => {
+    return {
+      value: focusArea.id,
+      label: focusArea.title,
+      color: focusArea.color,
+      category: "FOCUS_AREAS",
+    };
+  });
+
+  const menuItems = [
+    {
+      name: "FOCUS_AREAS",
+      title: "Focus Areas",
+      items: focusAreaItems,
+    },
+  ];
   return (
     <QuestionFrame2>
-      {createFocusAreaTags(presentFocusAreas)}
-      <Frame1323>
-        <Add src="/img/add-1@2x.png" alt="add" />
-      </Frame1323>
-      {/* <ImageDropdownMenu menuItems={getFocusAreas()}></ImageDropdownMenu> */}
       <CheckboxGroup
         onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
         data={menuItems}
+        dropDownText="+ Add"
+        addCreateNewButton={true}
+        backgroundColor={"#25222A"}
+        textColor={"var(--white)"}
+        openDialogForNewEvent={createNewFocusArea}
       ></CheckboxGroup>
+      {createFocusAreaTags(allFocusAreas, presentFocusAreas)}
     </QuestionFrame2>
   );
 }
 
-function createFocusAreaTags(presentFocusAreas) {
-  const allFocusAreas = getFocusAreas();
+function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
   return presentFocusAreas.map((focusArea) => {
     const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
-    console.log("unitFocusArea",unitFocusArea);
     return (
       <Frame1321>
         <Ellipse141 backgroundColor={unitFocusArea.color}></Ellipse141>
@@ -313,23 +341,10 @@ function createFocusAreaTags(presentFocusAreas) {
   });
 }
 
-const focusAreaItems = getFocusAreas().map((focusArea) => {
-  return {
-    value: focusArea.id,
-    label: focusArea.title,
-    color: focusArea.color,
-    category: "FOCUS_AREAS",
+const getSelectedFocusArea =
+  (serialNUmber, updateFocusAreas) => (selectedFocusArea) => {
+    updateFocusAreas(
+      serialNUmber,
+      selectedFocusArea.map((x) => x.value)
+    );
   };
-});
-
-const menuItems = [
-  {
-    name: "FOCUS_AREAS",
-    title: "Focus Areas",
-    items: focusAreaItems,
-  },
-];
-
-const getSelectedFocusArea = (serialNUmber, updateFocusAreas) => (selectedFocusArea) => {
-  updateFocusAreas(serialNUmber, selectedFocusArea.map(x=>x.value))
-}

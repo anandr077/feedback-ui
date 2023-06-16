@@ -28,7 +28,6 @@ import MCQQuestionFrame from "../MCQQuestionFrame";
 import ReactiveRender from "../ReactiveRender";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import SnackbarContext from "../SnackbarContext";
-import { tr } from "date-fns/locale";
 import Loader from "../Loader";
 import FocusAreaDialog from "./Dialog/newFocusArea";
 import { getFocusAreas, updateNewFocusAreas, getAllColors } from "../../service";
@@ -71,7 +70,7 @@ export default function CreateAssignment(props) {
             isCorrect: false,
           },
         ],
-        focusAreas: [1, 2],
+        focusAreas: [1, 2]
       },
     ],
     reviewedBy: "TEACHER",
@@ -113,7 +112,7 @@ export default function CreateAssignment(props) {
   React.useEffect(()=>{
     setAllFocusAreas(getFocusAreas());
     setAllFocusAreasColors(getAllColors());
-  });
+  }, []);
 
 
   if (isLoading) {

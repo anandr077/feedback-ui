@@ -208,6 +208,7 @@ export default function CreateAssignment(props) {
               isCorrect: false,
             },
           ],
+          focusAreas: [],
         },
       ],
     }));

@@ -86,27 +86,18 @@ const Frame1321 = styled.div`
   border-color: var(--mercury);
 `;
 
-const Ellipse14 = styled.div`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-  background-color: #e39a99;
-  border-radius: 10px;
-`;
-
 const Structure = styled.div`
   ${IbmplexsansNormalShark16px}
   position: relative;
   width: fit-content;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: var(--font-family-ibm_plex_sans);
   white-space: nowrap;
 `;
 
 const Ellipse141 = styled.div`
   position: relative;
-  min-width: 20px;
-  height: 20px;
+  min-width: 12px;
+  height: 12px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
 `;

@@ -134,6 +134,8 @@ const CheckboxGroup = ({
 export default CheckboxGroup;
 const StyledMenuItem = styled(MenuItem)`
   display: flex;
+  gap: 6px;
+  width: 250px;
   position: relative;
   background-color: var(--white);
   border-radius: 8px;
@@ -232,7 +234,8 @@ function filterText(selectedItems, dropDownText) {
   return `Filters (${selectedItems.length})`;
 }
 
-const CheckboxContainer = styled.div``;
+const CheckboxContainer = styled.div`
+`;
 
 const CheckBoxText = styled.div`
   ${IbmplexsansNormalShark20px}
@@ -257,8 +260,8 @@ function addCreateNewInstanceButton(addCreateNewButton, openDialogForNewEvent) {
 
 const Ellipse141 = styled.div`
   position: relative;
-  min-width: 20px;
-  height: 20px;
+  min-width: 12px;
+  height: 12px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
 `;

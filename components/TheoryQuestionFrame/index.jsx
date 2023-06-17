@@ -6,7 +6,9 @@ import Frame1297 from "../Frame1297";
 import {
   IbmplexsansNormalElectricViolet14px,
   IbmplexsansNormalShark20px,
+  IbmplexsansNormalShark16px,
 } from "../../styledMixins";
+import CheckboxGroup from "../CheckboxGroup";
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -17,6 +19,9 @@ export default function TheoryQuestionFrame(props) {
     updateQuestion,
     cleanformattingTextBox,
     cleanformattingDiv,
+    updateFocusAreas,
+    createNewFocusArea,
+    allFocusAreas,
   } = props;
   return (
     <SmalllQuestionFrame
@@ -45,13 +50,19 @@ export default function TheoryQuestionFrame(props) {
           >
             <QuestionInputEditable
               id={"question_" + serialNumber}
-              value = {questionDetails?.question}
+              value={questionDetails?.question}
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
               placeholder="Type question here"
             />
           </QuestionFrame2>
         </InputQuestion>
-
+        {createFocusAreasFrame(
+          serialNumber,
+          updateFocusAreas,
+          questionDetails.focusAreas,
+          createNewFocusArea,
+          allFocusAreas
+        )}
         {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
@@ -62,6 +73,60 @@ export default function TheoryQuestionFrame(props) {
   );
 }
 
+const Frame1321 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  position: relative;
+  background-color: var(--gallery);
+  border-radius: 24px;
+  border: 1px solid;
+  border-color: var(--mercury);
+`;
+
+const Ellipse14 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: #e39a99;
+  border-radius: 10px;
+`;
+
+const Structure = styled.div`
+  ${IbmplexsansNormalShark16px}
+  position: relative;
+  width: fit-content;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+`;
+
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
+`;
+
+const Frame1323 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  position: relative;
+  background-color: var(--dark-purple);
+  border-radius: 24px;
+`;
+
+const Add = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
 const SmalllQuestionFrame = styled.div`
   display: flex;
   flex-direction: column;
@@ -225,3 +290,61 @@ const QuestionInputEditable = styled.input`
   outline: none;
   transition: 0.15s;
 `;
+function createFocusAreasFrame(
+  serialNumber,
+  updateFocusAreas,
+  presentFocusAreas,
+  createNewFocusArea,
+  allFocusAreas
+) {
+  const focusAreaItems = allFocusAreas.map((focusArea) => {
+    return {
+      value: focusArea.id,
+      label: focusArea.title,
+      color: focusArea.color,
+      category: "FOCUS_AREAS",
+    };
+  });
+
+  const menuItems = [
+    {
+      name: "FOCUS_AREAS",
+      title: "Focus Areas",
+      items: focusAreaItems,
+    },
+  ];
+  return (
+    <QuestionFrame2>
+      <CheckboxGroup
+        onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
+        data={menuItems}
+        dropDownText="+ Add"
+        addCreateNewButton={true}
+        backgroundColor={"#25222A"}
+        textColor={"var(--white)"}
+        openDialogForNewEvent={createNewFocusArea}
+      ></CheckboxGroup>
+      {createFocusAreaTags(allFocusAreas, presentFocusAreas)}
+    </QuestionFrame2>
+  );
+}
+
+function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
+  return presentFocusAreas.map((focusArea) => {
+    const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
+    return (
+      <Frame1321>
+        <Ellipse141 backgroundColor={unitFocusArea.color}></Ellipse141>
+        <Structure>{unitFocusArea.title}</Structure>
+      </Frame1321>
+    );
+  });
+}
+
+const getSelectedFocusArea =
+  (serialNUmber, updateFocusAreas) => (selectedFocusArea) => {
+    updateFocusAreas(
+      serialNUmber,
+      selectedFocusArea.map((x) => x.value)
+    );
+  };

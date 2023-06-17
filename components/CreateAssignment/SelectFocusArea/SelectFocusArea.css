@@ -1,0 +1,12 @@
+.select-focus-area {
+  align-items: center;
+  background-color: var(--white);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 252px;
+  padding: 12px 0px;
+  position: relative;
+}
+

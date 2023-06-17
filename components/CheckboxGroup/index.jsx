@@ -36,10 +36,9 @@ const CheckboxGroup = ({
   backgroundColor,
   textColor,
   openDialogForNewEvent,
+  previouslySelectedItems=[],
 }) => {
-  const [selectedItems, setSelectedItems] = React.useState([]);
-
-
+  const [selectedItems, setSelectedItems] = React.useState(previouslySelectedItems);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {

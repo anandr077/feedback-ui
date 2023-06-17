@@ -314,6 +314,10 @@ function createFocusAreasFrame(
         backgroundColor={"#25222A"}
         textColor={"var(--white)"}
         openDialogForNewEvent={createNewFocusArea}
+        previouslySelectedItems={presentFocusAreas.map((value) => ({
+          value,
+          category: "FOCUS_AREAS",
+        }))}
       ></CheckboxGroup>
       {createFocusAreaTags(allFocusAreas, presentFocusAreas)}
     </QuestionFrame2>

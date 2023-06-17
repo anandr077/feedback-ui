@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import styled, { css } from "styled-components";
 import CheckboxBordered from "../CheckboxBordered";
+import "./index.css";
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansBoldShark64px,
@@ -36,9 +37,11 @@ const CheckboxGroup = ({
   backgroundColor,
   textColor,
   openDialogForNewEvent,
-  previouslySelectedItems=[],
+  previouslySelectedItems = [],
 }) => {
-  const [selectedItems, setSelectedItems] = React.useState(previouslySelectedItems);
+  const [selectedItems, setSelectedItems] = React.useState(
+    previouslySelectedItems
+  );
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -119,7 +122,7 @@ const CheckboxGroup = ({
             "aria-labelledby": "grouped-select",
           }}
         >
-          {menuContent}
+          <div className="customMenuContent">{menuContent}</div>
           {addCreateNewInstanceButton(
             addCreateNewButton,
             openDialogForNewEvent
@@ -233,8 +236,7 @@ function filterText(selectedItems, dropDownText) {
   return `Filters (${selectedItems.length})`;
 }
 
-const CheckboxContainer = styled.div`
-`;
+const CheckboxContainer = styled.div``;
 
 const CheckBoxText = styled.div`
   ${IbmplexsansNormalShark20px}
@@ -280,5 +282,5 @@ const CreateNew = styled.div`
   font-size: 16px;
   line-height: 21px;
   color: #ffffff;
-  margin: 10px
+  margin: 10px;
 `;

@@ -28,7 +28,6 @@ import MCQQuestionFrame from "../MCQQuestionFrame";
 import ReactiveRender from "../ReactiveRender";
 import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import SnackbarContext from "../SnackbarContext";
-import { tr } from "date-fns/locale";
 import Loader from "../Loader";
 import FocusAreaDialog from "./Dialog/newFocusArea";
 import { getFocusAreas, updateNewFocusAreas, getAllColors } from "../../service";
@@ -36,43 +35,13 @@ const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
   const { assignmentId } = useParams();
+
   const draft = {
     id: uuidv4(),
     title: "",
     classIds: [],
     questions: [
-      {
-        serialNumber: 1,
-        question: "",
-        type: "TEXT",
-        options: [
-          {
-            questionSerialNumber: 1,
-            optionSerialNumber: 1,
-            option: "",
-            isCorrect: false,
-          },
-          {
-            questionSerialNumber: 1,
-            optionSerialNumber: 2,
-            option: "",
-            isCorrect: false,
-          },
-          {
-            questionSerialNumber: 1,
-            optionSerialNumber: 3,
-            option: "",
-            isCorrect: false,
-          },
-          {
-            questionSerialNumber: 1,
-            optionSerialNumber: 4,
-            option: "",
-            isCorrect: false,
-          },
-        ],
-        focusAreas: [1, 2],
-      },
+      newQuestion(1)
     ],
     reviewedBy: "TEACHER",
     status: "DRAFT",
@@ -97,14 +66,16 @@ export default function CreateAssignment(props) {
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([])
 
   React.useEffect(() => {
-    Promise.all([getClasses(), getAssignment(assignmentId)]).then(
-      ([classesResult, assignmentResult]) => {
+    Promise.all([getClasses(), getAssignment(assignmentId), getFocusAreas(),getAllColors() ]).then(
+      ([classesResult, assignmentResult, focusAreas, colors]) => {
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
           classIds: assignmentResult.classIds ?? [],
         }));
         setClasses(classesResult);
+        setAllFocusAreas(focusAreas);
+        setAllFocusAreasColors(colors);
         setIsLoading(false);
       }
     );
@@ -113,7 +84,7 @@ export default function CreateAssignment(props) {
   React.useEffect(()=>{
     setAllFocusAreas(getFocusAreas());
     setAllFocusAreasColors(getAllColors());
-  });
+  }, []);
 
 
   if (isLoading) {
@@ -210,6 +181,7 @@ export default function CreateAssignment(props) {
           ],
           focusAreas: [],
         },
+        newQuestion(newId)
       ],
     }));
   }
@@ -563,6 +535,41 @@ export default function CreateAssignment(props) {
       {openFocusAreaDialog && <FocusAreaDialog handleData={addNewFocusArea} colors={allFocusAreasColors} />}
     </>
   );
+}
+
+const newQuestion = (serialNumber) => {
+  return {
+    serialNumber: serialNumber,
+    question: "",
+    type: "TEXT",
+    options: [
+      {
+        questionSerialNumber: 1,
+        optionSerialNumber: 1,
+        option: "",
+        isCorrect: false,
+      },
+      {
+        questionSerialNumber: 1,
+        optionSerialNumber: 2,
+        option: "",
+        isCorrect: false,
+      },
+      {
+        questionSerialNumber: 1,
+        optionSerialNumber: 3,
+        option: "",
+        isCorrect: false,
+      },
+      {
+        questionSerialNumber: 1,
+        optionSerialNumber: 4,
+        option: "",
+        isCorrect: false,
+      },
+    ],
+    focusAreas: [1, 2]
+  }
 }
 const Title = styled.h1`
   ${IbmplexsansBoldShark64px}

@@ -14,6 +14,9 @@ import withAuth from "./components/WithAuth";
 import PageNotFound from "./components/PageNotFound";
 import { Redirect } from "react-router-dom";
 import { getUserRole, getUserName} from "./service";
+import AccountSettingsMarkingCriteriaDeskt from "./components/Settings/AccountSettingsMarkingCriteriaDeskt";
+import AccountSettingsRoot from "./components/Settings/AccountSettingRoot";
+import CreateNewMarkingCriteriaRoot from "./components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot";
 
 function App() {
 
@@ -61,6 +64,12 @@ function App() {
     <>
     <Router>
       <Switch>
+        <Route path="/settings">
+          <AccountSettingsRoot />
+        </Route>
+        <Route path="/markingCriterias">
+          <CreateNewMarkingCriteriaRoot />
+        </Route>
         <Route path="/completed">
         <ProtectedCompletedRoot />
         </Route>

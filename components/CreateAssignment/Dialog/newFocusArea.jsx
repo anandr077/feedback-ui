@@ -8,7 +8,7 @@ export default function FocusAreaDialog({ handleData, colors }) {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [selectedColor, setSelectedColor] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [error, setError] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -16,13 +16,12 @@ export default function FocusAreaDialog({ handleData, colors }) {
     setTitle("");
     setDescription("");
     setSelectedColor("");
-    setError("");
+    setError(false);
   };
 
   const handleSubmit = () => {
     if (!title || !selectedColor) {
-      setError("Please fill in all the required fields.");
-      alert("Please fill in all the required fields.");
+      setError(true);
     } else {
       handleClose();
     }
@@ -56,6 +55,7 @@ export default function FocusAreaDialog({ handleData, colors }) {
               error={error && !title}
               required
             />
+            {error && !title && <ErrorMessage>Please enter a title</ErrorMessage>}
             <TextArea
               id="description"
               value={description}
@@ -75,6 +75,9 @@ export default function FocusAreaDialog({ handleData, colors }) {
                 </option>
               ))}
             </Select>
+            {error && !selectedColor && (
+              <ErrorMessage>Please select a color for the focus area</ErrorMessage>
+            )}
           </GroupedInputs>
         </DialogContent>
         <Save onClick={handleSubmit}>Save focus area</Save>
@@ -157,4 +160,8 @@ const Ellipse141 = styled("span")`
   height: 20px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
+`;
+
+const ErrorMessage = styled("span")`
+  color: red;
 `;

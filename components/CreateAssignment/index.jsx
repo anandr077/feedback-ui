@@ -149,38 +149,6 @@ export default function CreateAssignment(props) {
       ...prevAssignment,
       questions: [
         ...prevAssignment.questions,
-        {
-          serialNumber: newId,
-          question: "",
-          type: "TEXT",
-          options: [
-            {
-              questionSerialNumber: newId,
-              optionSerialNumber: 1,
-              option: "",
-              isCorrect: false,
-            },
-            {
-              questionSerialNumber: newId,
-              optionSerialNumber: 2,
-              option: "",
-              isCorrect: false,
-            },
-            {
-              questionSerialNumber: newId,
-              optionSerialNumber: 3,
-              option: "",
-              isCorrect: false,
-            },
-            {
-              questionSerialNumber: newId,
-              optionSerialNumber: 4,
-              option: "",
-              isCorrect: false,
-            },
-          ],
-          focusAreas: [],
-        },
         newQuestion(newId)
       ],
     }));

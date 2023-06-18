@@ -43,6 +43,7 @@ function FeedbackTeacherLaptop(props) {
     quillRefs,
     pageMode,
     shortcuts,
+    focusAreas,
     newCommentFrameRef,
     showNewComment,
     hideNewCommentDiv,
@@ -96,22 +97,17 @@ const defaultNonReviewComment = {
 }
 
   const feedbackFrame = () => {
-    if (pageMode === "DRAFT") {
-      return <></>;
-    }
+   
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
           <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
-          {/* <ReviewsFrame1320 className={frame13202Props.className}>
-            {frame13202Props.children}
-          </ReviewsFrame1320> */}
         </Frame1322>
         <>
           {showNewComment ? (
             <>
               <Screen onClick={methods.hideNewCommentDiv}></Screen>
-              {newCommentFrame}
+              {(newCommentFrame())}
             </>
           ) : (
             <Frame1328>
@@ -224,8 +220,15 @@ const defaultNonReviewComment = {
       </>
     );
   };
-  const newCommentFrame = (
-    <>
+  const newCommentFrame = () => {
+    if(pageMode === "DRAFT" || pageMode === "REVISE") {
+      return authorNewComment()
+    }
+
+    return reviewerNewComment()
+  }
+  function reviewerNewComment() {
+    return <>
       <Frame1329>
         <Frame1406>
           <Frame1326>
@@ -234,26 +237,36 @@ const defaultNonReviewComment = {
                 id="newCommentInput"
                 ref={newCommentFrameRef}
                 placeholder="Comment here...."
-                // onKeyPress={methods.handleKeyPress}
               ></FocussedInput>
             </TypeHere>
           </Frame1326>
 
           <SubmitCommentFrameRoot
             submitButtonOnClick={methods.handleAddComment}
-            cancelButtonOnClick={methods.hideNewCommentDiv}
-          />
+            cancelButtonOnClick={methods.hideNewCommentDiv} />
           <Line6 src="/icons/line.png" alt="Line 6" />
           <ShortcutsFrame
             shortcuts={shortcuts}
-            handleShortcutAddComment={methods.handleShortcutAddComment}
-          />
+            handleShortcutAddComment={methods.handleShortcutAddComment} />
           {shareWithClassFrame()}
         </Frame1406>
       </Frame1329>
-    </>
-  );
+    </>;
+  }
 
+  function authorNewComment() {
+    return <>
+      <Frame1329>
+        <Frame1406>
+          <Line6 src="/icons/line.png" alt="Line 6" />
+          <ShortcutsFrame
+            focusAreas={focusAreas}
+            handleShortcutAddComment={methods.handleFocusAreaComment} />
+          {shareWithClassFrame()}
+        </Frame1406>
+      </Frame1329>
+    </>;
+  }
   const [tabletView, setTabletView] = useState(isTabletView());
   return (<>
     {showLoader && <Screen2> <Loader/></Screen2>}
@@ -311,31 +324,23 @@ const defaultNonReviewComment = {
   );
 
   function createQuill(submission, answer, answerValue, debounce) {
-    const q = React.useMemo(
-      () => {
-        return (
-          <QuillEditor
-            id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
-            ref={(editor) =>
-              methods.handleEditorMounted(editor, answer.serialNumber - 1)
-            }
-            comments={comments.filter((comment) => {
-              return comment.questionSerialNumber === answer.serialNumber;
-            })}
-            value={answerValue ? answerValue : ""}
-            options={{
-              modules: modules,
-              theme: "snow",
-              readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
-            }}
-            debounceTime={debounce.debounceTime}
-            onDebounce={debounce.onDebounce}
-          ></QuillEditor>
-        );
-      },
-      pageMode === "REVIEW" ? [comments] : []
-    );
-    return q;
+    return <QuillEditor
+      id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
+      ref={(editor) =>
+        methods.handleEditorMounted(editor, answer.serialNumber - 1)
+      }
+      comments={comments.filter((comment) => {
+        return comment.questionSerialNumber === answer.serialNumber;
+      })}
+      value={answerValue ? answerValue : ""}
+      options={{
+        modules: modules,
+        theme: "snow",
+        readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+      }}
+      debounceTime={debounce.debounceTime}
+      onDebounce={debounce.onDebounce}
+    ></QuillEditor>;
   }
 }
 const TitleWrapper = styled.div`

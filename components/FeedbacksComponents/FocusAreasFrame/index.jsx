@@ -3,28 +3,20 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
-function Shortcuts(props) {
-  const { focusAreas, shortcuts, handleShortcutAddComment } = props;
-  const shortcutsFrames = shortcuts?.map((shortcut) => {
+function FocusAreas(props) {
+  const { focusAreas } = props;
+  const allFocusAreas = focusAreas.map((focusArea) => {
     return (
-      <ShortcutBox onClick={() => handleShortcutAddComment(shortcut.text)}>
-        <ShortcutText>{shortcut.text}</ShortcutText>
-      </ShortcutBox>
+      <>
+        <FocusAreasBox onClick={() => handleShortcutAddComment(focusArea.title)}>
+          <FocusAreasText>{focusArea.text}</FocusAreasText>
+        </FocusAreasBox>
+      </>
     );
   });
-  const focusAreasFrames = focusAreas?.map((focusArea) => {
-    return (
-      <ShortcutBox onClick={() => handleShortcutAddComment(focusArea.title)}>
-        <ShortcutText>{focusArea.title}</ShortcutText>
-      </ShortcutBox>
-    );
-  });
-  if (focusAreas) {
-    return <ShortcutsContainer>{focusAreasFrames}</ShortcutsContainer>;
-  }
-  return <ShortcutsContainer>{shortcutsFrames}</ShortcutsContainer>;
+  return <FocusAreasContainer>{allFocusAreas}</FocusAreasContainer>;
 }
-const ShortcutsContainer = styled.div`
+const FocusAreasContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -43,7 +35,7 @@ const ShortcutsContainer = styled.div`
   }
 `;
 
-const ShortcutBox = styled.div`
+const FocusAreasBox = styled.div`
   display: flex;
   width: fit-content;
   align-items: flex-start;
@@ -57,7 +49,7 @@ const ShortcutBox = styled.div`
   cursor: pointer;
 `;
 
-const ShortcutText = styled.div`
+const FocusAreasText = styled.div`
   ${IbmplexsansNormalPersianIndigo14px}
   position: relative;
   width: fit-content;
@@ -66,4 +58,4 @@ const ShortcutText = styled.div`
   line-height: normal;
 `;
 
-export default Shortcuts;
+export default FocusAreas;

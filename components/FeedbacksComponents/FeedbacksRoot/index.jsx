@@ -15,6 +15,7 @@ import styled from "styled-components";
 import {
   addFeedback,
   deleteFeedback,
+  getFocusAreas,
   getSubmissionById,
   getSubmissionsByAssignmentId,
   getUserId,
@@ -58,6 +59,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const { id } = useParams();
   const [studentName, setStudentName] = useState(null);
   const [comments, setComments] = useState([]);
+  const [focusAreas, setFocusAreas] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedRangeFormat, setSelectedRangeFormat] = useState(null);
@@ -69,21 +71,20 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const isTeacher = getUserRole() === "TEACHER";
 
   useEffect(() => {
-    getSubmissionById(id).then((r)=>{
-      return getComments(r).then((c) =>{
-        return [r, c]
-      })
-    })
-      .then(([submissionsResult, commentsResult]) => {
-        setSubmission(submissionsResult);
-        setComments(commentsResult);
-      }).finally(() => {
-          if (!isTeacher) {
-            setIsLoading(false);
-          }
-        });
+    Promise.all([
+      getSubmissionById(id),
+      getComments(id),
+      getFocusAreas()
+    ]).then(([submissionsResult, commentsResult, focusAreas])=>{
+      setSubmission(submissionsResult);
+      setComments(commentsResult);
+      setFocusAreas(focusAreas);
+    }).finally(() => {
+      if (!isTeacher) {
+        setIsLoading(false);
+      }
+    });
   }, [id]);
-
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
@@ -140,6 +141,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
+    
     quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
       selectedRange,
       selectedRangeFormat
@@ -171,6 +173,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: commentText,
       range: selectedRange,
       type: "COMMENT",
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
+  }
+  function handleFocusAreaComment(commentText) {
+    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
+      selectedRange,
+      selectedRangeFormat
+    );
+
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: commentText,
+      range: selectedRange,
+      type: "FOCUS_AREA",
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -419,7 +440,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const matchingComment = matchingComments[0];
         const div = document.getElementById("comment_" + matchingComment.id);
         highlightComment(div);
-      } else if (pageMode === "REVIEW") {
+      } else  {
         if (from !== to) {
           setNewCommentSerialNumber(serialNumber);
           setSelectedRange({
@@ -486,8 +507,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setStudentName(student);
     // get assignment by student name or other way
   };
-  const onSelectionChange =
-    pageMode != "DRAFT" ? reviewerSelectionChange : noopSelectionChange;
+  const onSelectionChange = reviewerSelectionChange;
 
   const createTasksDropDown = () => {
     if (!isTeacher) {
@@ -694,6 +714,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleEditorMounted,
     handleKeyPress,
     handleShortcutAddComment,
+    handleFocusAreaComment,
     handleSubmissionReviewed,
     handleSaveSubmissionForReview,
     handleSubmissionClosed,
@@ -741,6 +762,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             quillRefs,
             pageMode,
             shortcuts,
+            focusAreas,
             newCommentFrameRef,
             methods,
             showNewComment,
@@ -763,6 +785,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               labelText,
               quillRefs,
               pageMode,
+              focusAreas,
               shortcuts,
               newCommentFrameRef,
               methods,
@@ -787,6 +810,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             quillRefs,
             pageMode,
             shortcuts,
+            focusAreas, 
             newCommentFrameRef,
             methods,
             showNewComment,

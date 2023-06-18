@@ -3,12 +3,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import styled from "styled-components";
+
 export default function FocusAreaDialog({ handleData, colors }) {
   const [open, setOpen] = React.useState(true);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [selectedColor, setSelectedColor] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [error, setError] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -16,13 +17,12 @@ export default function FocusAreaDialog({ handleData, colors }) {
     setTitle("");
     setDescription("");
     setSelectedColor("");
-    setError("");
+    setError(false);
   };
 
   const handleSubmit = () => {
     if (!title || !selectedColor) {
-      setError("Please fill in all the required fields.");
-      alert("Please fill in all the required fields.");
+      setError(true);
     } else {
       handleClose();
     }
@@ -36,8 +36,8 @@ export default function FocusAreaDialog({ handleData, colors }) {
     setDescription(e.target.value);
   };
 
-  const handleColorChange = (e) => {
-    setSelectedColor(e.target.value);
+  const handleColorChange = (color) => {
+    setSelectedColor(color);
   };
 
   return (
@@ -56,25 +56,37 @@ export default function FocusAreaDialog({ handleData, colors }) {
               error={error && !title}
               required
             />
+            {error && !title && (
+              <ErrorMessage>Please enter a title</ErrorMessage>
+            )}
             <TextArea
               id="description"
               value={description}
               onChange={handleDescriptionChange}
               placeholder="Add short description"
             />
-            <Select
-              value={selectedColor}
-              onChange={handleColorChange}
-              error={error && !selectedColor}
-            >
-              <option value="">Pick a colour for focus area*</option>
-              {colors.map((color) => (
-                <option key={color.value} value={color.value}>
-                  <Ellipse141 backgroundColor={color.value}/>
-                  {color.name}
-                </option>
-              ))}
-            </Select>
+            <ParentColorBox>
+              <div>Pick focus area color*</div>
+              <SelectColorBox>
+                {colors.map((color) => {
+                  return (
+                    <Ellipse141
+                      onClick={(e) => handleColorChange(color.value)}
+                      backgroundColor={color.value}
+                      style={{ cursor: "pointer" }}
+                    />
+                  );
+                })}
+              </SelectColorBox>
+              <ShowSelectedColor>
+                SelectedColor: <Ellipse141 backgroundColor={selectedColor} />
+              </ShowSelectedColor>
+              {error && !selectedColor && (
+                <ErrorMessage>
+                  Please select a color for the focus area
+                </ErrorMessage>
+              )}
+            </ParentColorBox>
           </GroupedInputs>
         </DialogContent>
         <Save onClick={handleSubmit}>Save focus area</Save>
@@ -118,17 +130,31 @@ const TextArea = styled("textarea")`
   color: #1e252a;
   font-family: "IBM Plex Sans", sans-serif;
 `;
-
-const Select = styled("select")`
-  border: 1px solid #1e252a;
-  border-radius: 8px;
-  padding: 9px 12px;
-  width: 257px;
-  height: 42px;
+const ParentColorBox = styled("div")`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #979797;
+  font-family: "IBM Plex Sans", sans-serif;
+`;
+
+const SelectColorBox = styled("div")`
+  box-sizing: border-box;
+  border: 1px solid #1e252a;
+  border-radius: 8px;
+  padding: 9px 12px;
+  width: 257px;
+  height: fit-content;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
+const ShowSelectedColor = styled("div")`
+  display: flex;
+  gap: 6px;
+  align-items: center;
 `;
 
 const Save = styled("div")`
@@ -149,12 +175,16 @@ const Save = styled("div")`
   align-items: center;
   margin-left: 24px;
   margin-bottom: 12px;
+  cursor: pointer;
 `;
 
-const Ellipse141 = styled("span")`
-  position: relative;
-  min-width: 20px;
+const Ellipse141 = styled("div")`
+  width: 20px;
   height: 20px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
+`;
+
+const ErrorMessage = styled("span")`
+  color: red;
 `;

@@ -42,15 +42,15 @@ export default function TeacherTaskRoot() {
     (assignment) => assignment.submissionsStatus === "FEEDBACK"
   );
 
-  const focusAreaItems = focusAreas.map(focusArea=>{
-    return {value:focusArea.id , label:focusArea.title, category: 'FOCUS_AREAS'}
+  const classesItems = classes.map(clazz=>{
+    return {value:clazz.id , label:clazz.title, category: 'CLASSES'}
   })
 
   const menuItems = [
     {
-      name: 'FOCUS_AREAS',
-      title: 'Focus Areas',
-      items: focusAreaItems,
+      name: 'CLASSES',
+      title: 'Classes',
+      items: classesItems,
     },
   ];
 

@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import styled, { css } from "styled-components";
 import CheckboxBordered from "../CheckboxBordered";
+import "./index.css";
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansBoldShark64px,
@@ -36,10 +37,11 @@ const CheckboxGroup = ({
   backgroundColor,
   textColor,
   openDialogForNewEvent,
+  previouslySelectedItems = [],
 }) => {
-  const [selectedItems, setSelectedItems] = React.useState([]);
-
-
+  const [selectedItems, setSelectedItems] = React.useState(
+    previouslySelectedItems
+  );
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -120,7 +122,7 @@ const CheckboxGroup = ({
             "aria-labelledby": "grouped-select",
           }}
         >
-          {menuContent}
+          <div className="customMenuContent">{menuContent}</div>
           {addCreateNewInstanceButton(
             addCreateNewButton,
             openDialogForNewEvent
@@ -134,6 +136,8 @@ const CheckboxGroup = ({
 export default CheckboxGroup;
 const StyledMenuItem = styled(MenuItem)`
   display: flex;
+  gap: 6px;
+  width: 250px;
   position: relative;
   background-color: var(--white);
   border-radius: 8px;
@@ -257,8 +261,8 @@ function addCreateNewInstanceButton(addCreateNewButton, openDialogForNewEvent) {
 
 const Ellipse141 = styled.div`
   position: relative;
-  min-width: 20px;
-  height: 20px;
+  min-width: 12px;
+  height: 12px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
 `;
@@ -278,5 +282,5 @@ const CreateNew = styled.div`
   font-size: 16px;
   line-height: 21px;
   color: #ffffff;
-  margin: 10px
+  margin: 10px;
 `;

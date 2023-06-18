@@ -35,7 +35,7 @@ const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
   const { assignmentId } = useParams();
-  
+
   const draft = {
     id: uuidv4(),
     title: "",

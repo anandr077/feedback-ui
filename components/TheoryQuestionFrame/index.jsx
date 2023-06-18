@@ -56,13 +56,16 @@ export default function TheoryQuestionFrame(props) {
             />
           </QuestionFrame2>
         </InputQuestion>
-        {createFocusAreasFrame(
-          serialNumber,
-          updateFocusAreas,
-          questionDetails.focusAreas,
-          createNewFocusArea,
-          allFocusAreas
-        )}
+        <FocusAreasFrame>
+          <div>Focus areas</div>
+          {createFocusAreasFrame(
+            serialNumber,
+            updateFocusAreas,
+            questionDetails.focusAreas,
+            createNewFocusArea,
+            allFocusAreas
+          )}
+        </FocusAreasFrame>
         {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
@@ -73,6 +76,17 @@ export default function TheoryQuestionFrame(props) {
   );
 }
 
+const FocusAreasFrame = styled.div`
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+  font-family: var(--font-family-ibm_plex_sans);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+`;
+
 const Frame1321 = styled.div`
   display: flex;
   width: fit-content;
@@ -80,26 +94,22 @@ const Frame1321 = styled.div`
   gap: 4px;
   padding: 8px 10px;
   position: relative;
-  background-color: var(--gallery);
+  background-color: #EFEEF1;
   border-radius: 24px;
-  border: 1px solid;
-  border-color: var(--mercury);
-`;
-
-const Ellipse14 = styled.div`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-  background-color: #e39a99;
-  border-radius: 10px;
+  border: 1px solid #E6E6E6;
+  height: 36px;
+  box-sizing: border-box;
+  margin: 8px;
 `;
 
 const Structure = styled.div`
   ${IbmplexsansNormalShark16px}
   position: relative;
   width: fit-content;
-  letter-spacing: 0;
-  line-height: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  font-family: var(--font-family-ibm_plex_sans);
   white-space: nowrap;
 `;
 
@@ -170,6 +180,19 @@ const QuestionFrame2 = styled.div`
   border-radius: 12px;
   border: 1px solid;
   border-color: var(--text);
+`;
+
+const ShowFocusArea = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+  flex-wrap: wrap;
+  min-height: 56px;
 `;
 
 const QuestionFrame = styled.div`
@@ -314,7 +337,7 @@ function createFocusAreasFrame(
     },
   ];
   return (
-    <QuestionFrame2>
+    <ShowFocusArea>
       <CheckboxGroup
         onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
         data={menuItems}
@@ -323,9 +346,13 @@ function createFocusAreasFrame(
         backgroundColor={"#25222A"}
         textColor={"var(--white)"}
         openDialogForNewEvent={createNewFocusArea}
+        previouslySelectedItems={presentFocusAreas.map((value) => ({
+          value,
+          category: "FOCUS_AREAS",
+        }))}
       ></CheckboxGroup>
       {createFocusAreaTags(allFocusAreas, presentFocusAreas)}
-    </QuestionFrame2>
+    </ShowFocusArea>
   );
 }
 

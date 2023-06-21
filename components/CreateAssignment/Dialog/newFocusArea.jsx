@@ -71,8 +71,8 @@ export default function FocusAreaDialog({ handleData, colors }) {
                 {colors.map((color) => {
                   return (
                     <Ellipse141
-                      onClick={(e) => handleColorChange(color.value)}
-                      backgroundColor={color.value}
+                      onClick={(e) => handleColorChange(color)}
+                      backgroundColor={color}
                       style={{ cursor: "pointer" }}
                     />
                   );

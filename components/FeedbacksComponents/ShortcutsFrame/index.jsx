@@ -5,6 +5,7 @@ import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
 function Shortcuts(props) {
   const { focusAreas, shortcuts, handleShortcutAddComment } = props;
+  
   const shortcutsFrames = shortcuts?.map((shortcut) => {
     return (
       <ShortcutBox onClick={() => handleShortcutAddComment(shortcut.text)}>
@@ -14,7 +15,7 @@ function Shortcuts(props) {
   });
   const focusAreasFrames = focusAreas?.map((focusArea) => {
     return (
-      <ShortcutBox onClick={() => handleShortcutAddComment(focusArea.title)}>
+      <ShortcutBox onClick={() => handleShortcutAddComment(focusArea)}>
         <ShortcutText>{focusArea.title}</ShortcutText>
       </ShortcutBox>
     );

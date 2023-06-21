@@ -3,6 +3,8 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { filter, groupBy, groupedData } from "lodash";
+
 import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
@@ -37,6 +39,7 @@ import "./FeedbackTeacherLaptop.css";
 
 function FeedbackTeacherLaptop(props) {
   const {
+    newCommentSerialNumber,
     isTeacher,
     showLoader,
     labelText,
@@ -255,6 +258,13 @@ const defaultNonReviewComment = {
   }
 
   function authorNewComment() {
+    console.log("SSS" + submission.assignment.questions[newCommentSerialNumber-1].focusAreaIds)
+    console.log("FA" + newCommentSerialNumber)
+    const focusAreas = submission.assignment.focusAreas.filter(fa=>{
+      return submission.assignment.questions[newCommentSerialNumber-1]
+      .focusAreaIds
+      .includes(fa.id)
+    })
     return <>
       <Frame1329>
         <Frame1406>
@@ -262,7 +272,7 @@ const defaultNonReviewComment = {
           <ShortcutsFrame
             focusAreas={focusAreas}
             handleShortcutAddComment={methods.handleFocusAreaComment} />
-          {shareWithClassFrame()}
+          {/* {shareWithClassFrame()} */}
         </Frame1406>
       </Frame1329>
     </>;

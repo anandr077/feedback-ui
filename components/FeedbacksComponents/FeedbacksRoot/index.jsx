@@ -15,7 +15,6 @@ import styled from "styled-components";
 import {
   addFeedback,
   deleteFeedback,
-  getFocusAreas,
   getSubmissionById,
   getSubmissionsByAssignmentId,
   getUserId,
@@ -59,7 +58,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const { id } = useParams();
   const [studentName, setStudentName] = useState(null);
   const [comments, setComments] = useState([]);
-  const [focusAreas, setFocusAreas] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedRangeFormat, setSelectedRangeFormat] = useState(null);
@@ -73,12 +71,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   useEffect(() => {
     Promise.all([
       getSubmissionById(id),
-      getComments(id),
-      getFocusAreas()
-    ]).then(([submissionsResult, commentsResult, focusAreas])=>{
+      getComments(id)
+    ]).then(([submissionsResult, commentsResult])=>{
       setSubmission(submissionsResult);
       setComments(commentsResult);
-      setFocusAreas(focusAreas);
     }).finally(() => {
       if (!isTeacher) {
         setIsLoading(false);
@@ -181,7 +177,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     setShowNewComment(false);
   }
-  function handleFocusAreaComment(commentText) {
+  function handleFocusAreaComment(focusArea) {
     quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
       selectedRange,
       selectedRangeFormat
@@ -189,9 +185,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: commentText,
+      feedback: focusArea.title,
       range: selectedRange,
       type: "FOCUS_AREA",
+      color: focusArea.color,
+      focusAreaId: focusArea.id
+       
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -735,6 +734,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       mobile={
         <FeedbackTeacherMobile
           {...{
+            newCommentSerialNumber,
             isTeacher,
             submissionStatusLabel,
             labelText,
@@ -755,6 +755,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       tablet={
         <FeedbackTeacherLaptop
           {...{
+            newCommentSerialNumber,
+
             isTeacher,
             showLoader,
             submissionStatusLabel,
@@ -762,7 +764,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             quillRefs,
             pageMode,
             shortcuts,
-            focusAreas,
             newCommentFrameRef,
             methods,
             showNewComment,
@@ -780,12 +781,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               isTeacher,
+              newCommentSerialNumber,
+
               showLoader,
               submissionStatusLabel,
               labelText,
               quillRefs,
               pageMode,
-              focusAreas,
               shortcuts,
               newCommentFrameRef,
               methods,
@@ -804,13 +806,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            newCommentSerialNumber,
             showLoader,
             submissionStatusLabel,
             labelText,
             quillRefs,
             pageMode,
             shortcuts,
-            focusAreas, 
             newCommentFrameRef,
             methods,
             showNewComment,

@@ -1,21 +1,10 @@
 import React from "react";
-import NavElement from "../NavElement";
-import NavElement2 from "../NavElement2";
-import Frame4 from "../Frame4";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import GoBack from "../GoBack";
 import Frame1372 from "../Frame1372";
-import Input from "../Input";
 import Frame1281 from "../Frame1281";
-import StatusBubbles from "../StatusBubbles";
-import Input2 from "../Input2";
-import StatusBubbles2 from "../StatusBubbles2";
-import CriteriaLevelInput from "../CriteriaLevelInput";
-import CriteriaLevelInput9 from "../CriteriaLevelInput9";
 import Buttons2 from "../Buttons2";
-import CriteriaLevelInput10 from "../CriteriaLevelInput10";
-import Frame6 from "../Frame6";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px, IbmplexsansNormalStack20px} from "../../../styledMixins";
 import "./CreateNewMarkingCriteriaLaptop.css";
@@ -23,28 +12,16 @@ import Header from "../../Header";
 import Footer from "../../Footer";
 
 
+
 function CreateNewMarkingCriteriaLaptop(props) {
   const {
-    logo,
-    notifications,
-    line15,
-    x2021JeddleAllRightsReserved,
-    navElement1Props,
-    navElement2Props,
     breadcrumb21Props,
     breadcrumb22Props,
     frame1372Props,
-    input1Props,
-    criteriaLevelInput1Props,
-    criteriaLevelInput2Props,
-    buttons21Props,
-    statusBubblesProps,
-    input2Props,
-    buttons22Props,
-    buttons23Props,
-    headerProps
+    headerProps,
+    criterias,
+    addCriteria
   } = props;
-
   return (
     <div className="account-settings-marking-criteria-create-new-laptop screen">
       <Frame1379>
@@ -58,7 +35,7 @@ function CreateNewMarkingCriteriaLaptop(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372 className={frame1372Props.className} />
+        <Frame1372 className={frame1372Props.className} />
           <TitleContainer
               id="markingCriteriaTitleContainer"
           >
@@ -66,30 +43,9 @@ function CreateNewMarkingCriteriaLaptop(props) {
           </TitleContainer>
           <Frame1302>
             <Frame1281 />
-            <Line15 src={line15} alt="Line 15" />
-            <CriteriaContainer>
-              <StatusBubbles />
-              <CriteriaTitle>
-              <CriteriaTitleInput
-              placeholder="Answering the question"
-            />
-            </CriteriaTitle>
-              <Frame12851>
-                <StatusBubbles2 />
-                <CriteriaLevelInput
-                  anAnswerOfThisLevelContains={criteriaLevelInput1Props.anAnswerOfThisLevelContains}
-                  frame1285Props={criteriaLevelInput1Props.frame1285Props}
-                />
-                <CriteriaLevelInput
-                  anAnswerOfThisLevelContains={criteriaLevelInput2Props.anAnswerOfThisLevelContains}
-                  frame1285Props={criteriaLevelInput2Props.frame1285Props}
-                />
-                <CriteriaLevelInput9 />
-                <Buttons2 add={buttons21Props.add} button={buttons21Props.button} />
-              </Frame12851>
-            </CriteriaContainer>
-       
-            <Buttons2 add={buttons23Props.add} button={buttons23Props.button} className={buttons23Props.className} />
+            <Line15 src='/img/line-14@2x.png' alt="Line 15" />
+            {criterias}
+            <Buttons2 text='Add criteria' onClickFn={addCriteria} />
           </Frame1302>
         </Frame1376>
       </Frame1379>
@@ -256,7 +212,7 @@ const CriteriaContainer = styled.div`
   box-shadow: 0px 4px 16px #7200e01a;
 `;
 
-const Frame12851 = styled.div`
+const LevelsBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

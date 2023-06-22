@@ -17,8 +17,11 @@ import Buttons2 from "../Buttons2";
 import CriteriaLevelInput10 from "../CriteriaLevelInput10";
 import Frame6 from "../Frame6";
 import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../../styledMixins";
+import { IbmplexsansNormalChicago13px, IbmplexsansNormalStack20px} from "../../../styledMixins";
 import "./CreateNewMarkingCriteriaLaptop.css";
+import Header from "../../Header";
+import Footer from "../../Footer";
+
 
 function CreateNewMarkingCriteriaLaptop(props) {
   const {
@@ -39,27 +42,13 @@ function CreateNewMarkingCriteriaLaptop(props) {
     input2Props,
     buttons22Props,
     buttons23Props,
+    headerProps
   } = props;
 
   return (
     <div className="account-settings-marking-criteria-create-new-laptop screen">
       <Frame1379>
-        <Frame41>
-          <Logo src={logo} alt="Logo" />
-          <Frame5>
-            <NavElement home3={navElement1Props.home3} place={navElement1Props.place} />
-            <NavElement2 />
-            <NavElement
-              home3={navElement2Props.home3}
-              place={navElement2Props.place}
-              className={navElement2Props.className}
-            />
-          </Frame5>
-          <Frame51>
-            <Notifications src={notifications} alt="Notifications" />
-            <Frame4 />
-          </Frame51>
-        </Frame41>
+      <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb />
@@ -70,13 +59,21 @@ function CreateNewMarkingCriteriaLaptop(props) {
         </Frame1376>
         <Frame1376>
           <Frame1372 className={frame1372Props.className} />
-          <Input>{input1Props.children}</Input>
+          <TitleContainer
+              id="markingCriteriaTitleContainer"
+          >
+          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
+          </TitleContainer>
           <Frame1302>
             <Frame1281 />
             <Line15 src={line15} alt="Line 15" />
-            <Frame1285>
+            <CriteriaContainer>
               <StatusBubbles />
-              <Input2 />
+              <CriteriaTitle>
+              <CriteriaTitleInput
+              placeholder="Answering the question"
+            />
+            </CriteriaTitle>
               <Frame12851>
                 <StatusBubbles2 />
                 <CriteriaLevelInput
@@ -90,29 +87,66 @@ function CreateNewMarkingCriteriaLaptop(props) {
                 <CriteriaLevelInput9 />
                 <Buttons2 add={buttons21Props.add} button={buttons21Props.button} />
               </Frame12851>
-            </Frame1285>
-            <Frame1286>
-              <StatusBubbles className={statusBubblesProps.className} />
-              <Input>{input2Props.children}</Input>
-              <Frame12851>
-                <StatusBubbles2 />
-                <CriteriaLevelInput10 />
-                <CriteriaLevelInput10 />
-                <CriteriaLevelInput9 />
-                <Buttons2 add={buttons22Props.add} button={buttons22Props.button} />
-              </Frame12851>
-            </Frame1286>
+            </CriteriaContainer>
+       
             <Buttons2 add={buttons23Props.add} button={buttons23Props.button} className={buttons23Props.className} />
           </Frame1302>
         </Frame1376>
       </Frame1379>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
+      <Footer />
+
     </div>
   );
 }
+const TextInput = styled.input`
+  ${IbmplexsansNormalStack20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+const TitleContainer = styled.div`
+display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const CriteriaTitleInput = styled.input`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+const CriteriaTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
 
 const Frame1379 = styled.div`
   display: flex;
@@ -206,7 +240,7 @@ const Line15 = styled.img`
   object-fit: cover;
 `;
 
-const Frame1285 = styled.div`
+const CriteriaContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -23,4 +23,31 @@ const CriteriaLevelInput = styled.div`
   align-self: stretch;
 `;
 
+const LevelTitle = styled.div`
+  display: flex;
+  width: 278px;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const LevelDetails = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  flex: 1;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+
 export default CriteriaLevelInput9;

@@ -4,7 +4,9 @@ import CreateNewMarkingCriteriaTablet from "../CreateNewMarkingCriteriaTablet";
 import CreateNewMarkingCriteriaLaptop from "../CreateNewMarkingCriteriaLaptop";
 import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
+import { assignmentsHeaderProps } from "../../../utils/headerProps";
 
+const headerProps = assignmentsHeaderProps;
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   return (
@@ -16,7 +18,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         <CreateNewMarkingCriteriaTablet {...accountSettingsMarkingCriteriaCreat3Data} />
       }
       laptop={
-        <CreateNewMarkingCriteriaLaptop {...accountSettingsMarkingCriteriaCreat4Data} />
+        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps}}/>
       }
       desktop={
         <CreateNewMarkingCriteriaDesktop {...accountSettingsMarkingCriteriaCreat4Data} />

@@ -17,7 +17,7 @@ function Frame1372(props) {
 
 const Frame13721 = styled.div`
   display: flex;
-  width: 1440px;
+  width: 100%;
   align-items: center;
   gap: 30px;
   position: relative;

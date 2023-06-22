@@ -8,7 +8,7 @@ function Buttons2(props) {
 
   return (
     <Buttons className={`buttons-1 ${className || ""}`}>
-      <Add className="add" src={add} alt="add" />
+      <Add className="add" src="/icons/add.svg" alt="add" />
       <Button className="button-1">{button}</Button>
     </Buttons>
   );

@@ -4,13 +4,21 @@ import { IbmplexsansMediumElectricViolet16px } from "../../../styledMixins";
 
 
 function Buttons2(props) {
-  const { add, button, className } = props;
+  const { text , small, onClickFn} = props;
 
   return (
-    <Buttons className={`buttons-1 ${className || ""}`}>
-      <Add className="add" src={add} alt="add" />
-      <Button className="button-1">{button}</Button>
-    </Buttons>
+    <>
+    {small ?
+    <Buttons onClick={onClickFn} >
+      <Add src="/icons/add.svg" alt="add" />
+      <Button  >{text}</Button>
+    </Buttons> :
+    <ButtonsLarge onClick={onClickFn} >
+      <Add src="/icons/add.svg" alt="add" />
+      <Button >{text}</Button>
+    </ButtonsLarge>
+    }
+    </>
   );
 }
 
@@ -25,27 +33,22 @@ const Buttons = styled.div`
   border-radius: 30px;
   border: 1.5px solid;
   border-color: var(--light-mode-purple);
-
-  &.buttons-1.buttons-3 {
-    align-self: stretch;
-    width: unset;
-  }
-
-  &.buttons-1.buttons-4 {
-    align-self: stretch;
-    width: unset;
-  }
-
-  &.buttons-1.buttons-5 {
-    align-self: stretch;
-    width: unset;
-  }
-
-  &.buttons-1.buttons-6 {
-    align-self: stretch;
-    width: unset;
-  }
 `;
+
+const ButtonsLarge = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 16px;
+  position: relative;
+  border-radius: 30px;
+  border: 1.5px solid;
+  border-color: var(--light-mode-purple);
+  align-self: stretch;
+  width: unset;`
+  ;
 
 const Add = styled.img`
   position: relative;

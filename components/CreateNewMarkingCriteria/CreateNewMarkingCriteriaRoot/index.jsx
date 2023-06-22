@@ -1,25 +1,102 @@
-import React from "react";
+import React ,{useState} from "react";
 import CreateNewMarkingCriteriaDesktop from "../CreateNewMarkingCriteriaDesktop";
 import CreateNewMarkingCriteriaTablet from "../CreateNewMarkingCriteriaTablet";
 import CreateNewMarkingCriteriaLaptop from "../CreateNewMarkingCriteriaLaptop";
 import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
+import { assignmentsHeaderProps } from "../../../utils/headerProps";
+import CriteriaContainer from "../CriteriaContainer";
+import { FunctionsSharp } from "@mui/icons-material";
 
+const headerProps = assignmentsHeaderProps;
 
 export default function CreateNewMarkingCriteriaRoot(props) {
+
+  const [markingCriterias, setMarkingCriterias] = useState({
+    name: "",
+    criterias: [
+      {
+        id: "0",
+        name: "",
+        levels: [
+          {
+            id: "0",
+            name: "",
+            description: "",
+          },
+        ],
+      },
+    ]
+  });
+
+function addCriteria() {
+  const newCriteria = {
+    id: markingCriterias.criterias.length,
+    name: "",
+    levels: [
+      {
+        id: "0",
+        name: "",
+        description: "",
+      },
+    ],
+  };
+  setMarkingCriterias({ ...markingCriterias, criterias: [...markingCriterias.criterias, newCriteria] });
+}
+
+const addLevel = (criteriaId) => {
+  const newLevel = {
+    id: markingCriterias.criterias[criteriaId].levels.length,
+    name: "",
+    description: "",
+  };
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === criteriaId) {
+      return {
+        ...criteria,
+        levels: [...criteria.levels, newLevel]
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
+const deleteLevel = (criteriaId, levelId) => {
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === criteriaId) {
+      return {
+        ...criteria,
+        levels: criteria.levels.filter((level, index) => {
+          if(index !== levelId) {console.log("level", level, "index", index)}
+          return index !== levelId;
+        })
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+};
+
+const criterias = markingCriterias.criterias.map((criteria, index) => {
+  return (
+    <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel}/>
+  )
+});
+
   return (
     <ReactiveRender
       mobile={
-        <CreateNewMarkingCriteriaMobile {...accountSettingsMarkingCriteriaCreat2Data} />
+        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel}} />
       }
       tablet={
-        <CreateNewMarkingCriteriaTablet {...accountSettingsMarkingCriteriaCreat3Data} />
+        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel}} />
       }
       laptop={
-        <CreateNewMarkingCriteriaLaptop {...accountSettingsMarkingCriteriaCreat4Data} />
+        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel}}/>
       }
       desktop={
-        <CreateNewMarkingCriteriaDesktop {...accountSettingsMarkingCriteriaCreat4Data} />
+        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel}} />
       }
     />
   );

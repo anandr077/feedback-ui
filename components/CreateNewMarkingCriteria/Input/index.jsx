@@ -8,9 +8,9 @@ function Input(props) {
 
   return (
     <Input1>
-      <Frame1285>
+      {/* <Frame1285> */}
         <Input2>{children}</Input2>
-      </Frame1285>
+      {/* </Frame1285> */}
     </Input1>
   );
 }

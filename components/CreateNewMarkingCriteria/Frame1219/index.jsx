@@ -8,7 +8,7 @@ function Frame1219() {
   return (
     <Frame12191>
       <Frame1322>
-        <IconTrash src="/img/align-left-align-center-justify-justify-left-trash-can@2x.png" alt="icon-trash" />
+        <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
         <Delete>Delete</Delete>
       </Frame1322>
       <Buttons />

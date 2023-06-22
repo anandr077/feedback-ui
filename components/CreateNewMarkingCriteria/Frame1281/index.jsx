@@ -21,6 +21,7 @@ const Frame12811 = styled.div`
 
 const CreateCriteria = styled.div`
   ${IbmplexsansSemiBoldShark20px}
+  font-size: 20px;
   position: relative;
   width: fit-content;
   margin-top: -1px;

@@ -1,21 +1,10 @@
 import React from "react";
-import NavElement from "../NavElement";
-import NavElement2 from "../NavElement2";
-import Frame4 from "../Frame4";
 import Breadcrumb from "../../Breadcrumb";
 import Breadcrumb2 from "../../Breadcrumb2";
 import GoBack from "../GoBack";
 import Frame1372 from "../Frame1372";
-import Input from "../Input";
 import Frame1281 from "../Frame1281";
-import StatusBubbles from "../StatusBubbles";
-import Input2 from "../Input2";
-import StatusBubbles2 from "../StatusBubbles2";
-import CriteriaLevelInput from "../CriteriaLevelInput";
-import CriteriaLevelInput2 from "../CriteriaLevelInput2";
 import Buttons2 from "../Buttons2";
-import CriteriaLevelInput3 from "../CriteriaLevelInput3";
-import Frame6 from "../Frame6";
 import styled from "styled-components";
 import { IbmplexsansNormalChicago13px, IbmplexsansNormalStack20px } from "../../../styledMixins";
 import "./CreateNewMarkingCriteriaDesktop.css";
@@ -24,8 +13,6 @@ import Footer from "../../Footer";
 
 function CreateNewMarkingCriteriaDesktop(props) {
   const {
-    breadcrumb21Props,
-    breadcrumb22Props,
     headerProps,
     criterias,
     addCriteria

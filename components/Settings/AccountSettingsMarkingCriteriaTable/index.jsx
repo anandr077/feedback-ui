@@ -1,8 +1,5 @@
 import React from "react";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
 import Buttons from "../Buttons";
-import Cards2 from "../Cards2";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark36px,
@@ -18,8 +15,6 @@ import SettingsNav from "../SettingsNav";
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
     line14,
-    breadcrumbProps,
-    breadcrumb2Props,
     buttonsProps,
     headerProps,
     markingCriteriaList,

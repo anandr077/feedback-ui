@@ -25,7 +25,8 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     sidebarNav,
     showMarkingCriteria,
     showShortcuts,
-    showUserSettings
+    showUserSettings,
+    breadCrumbs
   } = props;
 
   return (
@@ -34,8 +35,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
       <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb>{breadcrumbProps.children}</Breadcrumb>
-            <Breadcrumb2 caret={breadcrumb2Props.caret} assignments={breadcrumb2Props.assignments} />
+            {breadCrumbs}
           </Frame1315>
         </Frame1376>
         <Frame1378>

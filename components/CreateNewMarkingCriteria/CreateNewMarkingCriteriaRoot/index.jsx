@@ -97,6 +97,7 @@ const criterias = markingCriterias.criterias.map((criteria, index) => {
   )
 });
 
+
   return (
     <ReactiveRender
       mobile={

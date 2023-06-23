@@ -2,8 +2,8 @@ import React from "react";
 import NavElement from "../NavElement";
 import NavElement2 from "../NavElement2";
 import Frame4 from "../Frame4";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import GoBack from "../GoBack";
 import Frame1372 from "../Frame1372";
 import Input from "../Input";
@@ -24,20 +24,8 @@ import Footer from "../../Footer";
 
 function CreateNewMarkingCriteriaDesktop(props) {
   const {
-
-    line15,
-    x2021JeddleAllRightsReserved,
-  
     breadcrumb21Props,
     breadcrumb22Props,
-    input1Props,
-    criteriaLevelInput1Props,
-    criteriaLevelInput2Props,
-    buttons21Props,
-    statusBubblesProps,
-    input2Props,
-    buttons22Props,
-    buttons23Props,
     headerProps,
     criterias,
     addCriteria
@@ -49,9 +37,9 @@ function CreateNewMarkingCriteriaDesktop(props) {
         <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+          <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
+          <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
+            <Breadcrumb2 title ="Create New"  />
           </Frame1315>
           <GoBack />
         </Frame1376>

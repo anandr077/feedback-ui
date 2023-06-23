@@ -6,7 +6,6 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import { FunctionsSharp } from "@mui/icons-material";
 
 const headerProps = assignmentsHeaderProps;
 
@@ -97,6 +96,7 @@ const criterias = markingCriterias.criterias.map((criteria, index) => {
     <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel} deleteCriteria={deleteCriteria}/>
   )
 });
+
 
   return (
     <ReactiveRender

@@ -3,13 +3,23 @@ import styled from "styled-components";
 import { IbmplexsansNormalFuscousGray14px } from "../../styledMixins";
 
 function Breadcrumb2(props) {
-  const { title , exempler ,id} = props;
+  const { title , exempler, link } = props;
 
-  return (
-    <Breadcrumb onClick={() => window.location.href= exempler ? "/#/exemplarResponses" : window.location}>
+  return (<>
+    {
+      link ? 
+      (<Breadcrumb onClick={()=> window.location.href=link}>
       <Caret src="/img/caret@2x.png" alt="caret" />
       <Assignments>{title}</Assignments>
-    </Breadcrumb>
+      </Breadcrumb>
+    ) 
+    :
+      (<Breadcrumb onClick={() => window.location.href= exempler ? "/#/exemplarResponses" : window.location}>
+      <Caret src="/img/caret@2x.png" alt="caret" />
+      <Assignments>{title}</Assignments>
+       </Breadcrumb>)
+    }
+    </>
   );
 }
 

@@ -6,6 +6,11 @@ import { IbmplexsansNormalWhite20px, IbmplexsansNormalPersianIndigo20px } from "
 function SettingsNav(props) {
   const { setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings } = props;
 
+  if(!showMarkingCriteria && !showShortcuts && !showUserSettings) {
+    setShowMarkingCriteria(true);
+    setShowShortcuts(false);
+    setShowUserSettings(false);
+  }
 
   const selectUserSettings = () => {
     setShowMarkingCriteria(false);

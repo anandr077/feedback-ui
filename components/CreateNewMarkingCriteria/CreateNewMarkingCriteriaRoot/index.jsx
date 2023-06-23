@@ -51,6 +51,14 @@ function addCriteria() {
   setMarkingCriterias({ ...markingCriterias, criterias: [...markingCriterias.criterias, newCriteria] });
 }
 
+function deleteCriteria(criteriaId) { 
+  const newCriterias = markingCriterias.criterias.filter((criteria, index) => {
+    return index != criteriaId;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+
+}
+
 const addLevel = (criteriaId) => {
   const newLevel = {
     id: markingCriterias.criterias[criteriaId].levels.length,
@@ -86,7 +94,7 @@ const deleteLevel = (criteriaId, levelId) => {
 
 const criterias = markingCriterias.criterias.map((criteria, index) => {
   return (
-    <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel}/>
+    <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel} deleteCriteria={deleteCriteria}/>
   )
 });
 

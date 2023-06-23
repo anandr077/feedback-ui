@@ -65,7 +65,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
               <Frame1302>
               <Title1>
                 <MarkingCriteria>Marking Criteria</MarkingCriteria>
-                <Buttons  text="Create New"  />
+                <Buttons  text="Create New"  link={"/#/markingCriterias"}/>
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>

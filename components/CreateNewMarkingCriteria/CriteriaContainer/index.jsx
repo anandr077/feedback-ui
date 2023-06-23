@@ -6,10 +6,9 @@ import LevelContainer from "../LevelContainer";
 import Buttons2 from "../Buttons2";
 
 function CriteriaContainer(props) {
-    const {criteriaId, levels, addLevel, deleteLevel} = props;
+    const {criteriaId, levels, addLevel, deleteLevel, deleteCriteria } = props;
 
-   
-
+  
     const addLevelUpdate = () => {
         addLevel(criteriaId);
     }
@@ -19,6 +18,12 @@ function CriteriaContainer(props) {
         deleteLevel(criteriaId, levelId);
     }
 
+   const deleteCriteriaUpdate= () => {
+    console.log("deleteCriteriaUpdate", criteriaId);
+        deleteCriteria(criteriaId);
+    }
+   
+
 
     const levelsList = levels.map((level, index) => {
       return <LevelContainer key={index} levelId={index} deleteLevelUpdate={deleteLevelUpdate} />
@@ -26,7 +31,11 @@ function CriteriaContainer(props) {
 
   return (
     <CriteriaContainerInner>
-        <StatusBubbles />
+      <BubblesContainer>
+      <StatusBubbles />
+      <StatusBubbles deleteBubble={true} deleteCriteriaUpdate={deleteCriteriaUpdate}/>
+      </BubblesContainer>
+
         <CriteriaTitle>
             <CriteriaTitleInput
                 placeholder="Answering the question"
@@ -40,6 +49,11 @@ function CriteriaContainer(props) {
     </CriteriaContainerInner>
   )
 }
+
+const BubblesContainer = styled.div`
+display: flex;
+align-items: flex-start;
+gap: 4px;`;
 
 const CriteriaContainerInner = styled.div`
   display: flex;

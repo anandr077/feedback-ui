@@ -7,9 +7,9 @@ function Buttons(props) {
   const { text, className, link , noIcon} = props;
 
   return (
-    <Buttons1 className={`buttons ${className || ""}`}>
+    <Buttons1 className={`buttons ${className || ""}`} onClick={()=> window.location.href=link}>
      {!noIcon && <Add className="add" src="/img/add@2x.png" alt="add" />}
-      <Button className="button" onClick={()=> window.location.href=link}>{text}</Button>
+      <Button className="button" >{text}</Button>
     </Buttons1>
   );
 }

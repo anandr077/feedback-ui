@@ -4,8 +4,23 @@ import AccountSettingsMarkingCriteriaDeskt from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaTable3 from "../AccountSettingsMarkingCriteriaTable3";
 import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriteriaTable";
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
+import { assignmentsHeaderProps } from "../../../utils/headerProps";
+import MarkingCriteriaCard from "../MarkingCriteriaCard";
+
+const headerProps = assignmentsHeaderProps;
 
 export default function AccountSettingsRoot(props) {
+
+    const markingCriteriaArray = [];
+
+        for (let i = 0; i < 10; i++) {
+        markingCriteriaArray.push(`Marking Criteria ${i + 1}`);
+        }
+
+    const markingCriteriaList = markingCriteriaArray.map((markingCriteria, index) => (
+        <MarkingCriteriaCard key={index} title={markingCriteria} />
+    ));
+
 
 return (
     <ReactiveRender
@@ -13,13 +28,13 @@ return (
         <AccountSettingsMarkingCriteriaTable {...accountSettingsMarkingCriteriaTableData} />
       }
       tablet={
-        <AccountSettingsMarkingCriteriaTable3 {...accountSettingsMarkingCriteriaTable3Data} />
+        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList}} />
       }
       laptop={
-        <AccountSettingsMarkingCriteriaLapto {...accountSettingsMarkingCriteriaLaptoData} />
+        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList}} />
       }
       desktop={
-        <AccountSettingsMarkingCriteriaDeskt {...accountSettingsMarkingCriteriaDesktData} />
+        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList}} />
       }
     />
   );

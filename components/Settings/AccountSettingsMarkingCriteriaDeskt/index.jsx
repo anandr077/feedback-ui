@@ -1,9 +1,6 @@
 import React from "react";
-import NavElement from "../NavElement";
-import Frame4 from "../Frame4";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import Frame1322 from "../Frame1322";
 import Buttons from "../Buttons";
 import Cards from "../Cards";
 import Frame6 from "../Frame6";
@@ -14,52 +11,23 @@ import {
   IbmplexsansNormalChicago13px,
 } from "../../../styledMixins";
 import "./AccountSettingsMarkingCriteriaDeskt.css";
+import Header from "../../Header";
+import Footer from "../../Footer";
+import SettingsNav from "../SettingsNav";
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
-    logo,
-    notifications,
-    title,
-    markingCriteria,
     line14,
-    x2021JeddleAllRightsReserved,
-    navElement1Props,
-    navElement2Props,
-    navElement3Props,
     breadcrumbProps,
     breadcrumb2Props,
-    frame1322Props,
-    buttonsProps,
-    cards1Props,
-    cards2Props,
-    cards3Props,
-    cards4Props,
-    cards5Props,
+    headerProps,
+    markingCriteriaList,
   } = props;
 
   return (
     <div className="account-settings-marking-criteria-desktop screen">
       <Frame1379>
-        <Frame41>
-          <Logo src={logo} alt="Logo" />
-          <Frame5>
-            <NavElement home3={navElement1Props.home3} place={navElement1Props.place} />
-            <NavElement
-              home3={navElement2Props.home3}
-              place={navElement2Props.place}
-              className={navElement2Props.className}
-            />
-            <NavElement
-              home3={navElement3Props.home3}
-              place={navElement3Props.place}
-              className={navElement3Props.className}
-            />
-          </Frame5>
-          <Frame51>
-            <Notifications src={notifications} alt="Notifications" />
-            <Frame4 />
-          </Frame51>
-        </Frame41>
+      <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb>{breadcrumbProps.children}</Breadcrumb>
@@ -68,36 +36,44 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
         </Frame1376>
         <Frame1378>
           <Frame1372>
-            <Title>{title}</Title>
+            <Title>Account Settings</Title>
           </Frame1372>
           <Frame13221>
-            <Frame1322
-              vericalNav1Props={frame1322Props.vericalNav1Props}
-              vericalNav2Props={frame1322Props.vericalNav2Props}
-              vericalNav2Props2={frame1322Props.vericalNav2Props2}
+             <SettingsNav
+             accountSettings={true}
             />
             <Frame1302>
               <Title1>
-                <MarkingCriteria>{markingCriteria}</MarkingCriteria>
-                <Buttons add={buttonsProps.add} button={buttonsProps.button} />
+                <MarkingCriteria>Marking Criteria</MarkingCriteria>
+                <Buttons text="Create New" />
               </Title1>
               <Line14 src={line14} alt="Line 14" />
-              <Cards systemDefault={cards1Props.systemDefault} />
-              <Cards systemDefault={cards2Props.systemDefault} />
-              <Cards systemDefault={cards3Props.systemDefault} />
-              <Cards systemDefault={cards4Props.systemDefault} />
-              <Cards systemDefault={cards5Props.systemDefault} />
-            </Frame1302>
+              <MarkingCriteriaList>
+                {markingCriteriaList}
+              </MarkingCriteriaList>
+              </Frame1302>
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
+      <Footer/>
     </div>
   );
 }
+
+const MarkingCriteriaList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  align-self: stretch;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+`;
 
 const Frame1379 = styled.div`
   display: flex;

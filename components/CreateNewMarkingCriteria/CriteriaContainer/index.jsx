@@ -52,9 +52,10 @@ const CriteriaContainerInner = styled.div`
   align-self: stretch;
   background-color: var(--white);
   border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet-2);
   box-shadow: 0px 4px 16px #7200e01a;
+  border-radius: 16px;
+  border: 1px solid rgba(114, 0, 224, 0.20);
+  background: #FFF;
 `;
 
 const CriteriaTitle = styled.div`

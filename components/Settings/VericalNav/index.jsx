@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansMediumPersianIndigo20px } from "../../../styledMixins";
+import { IbmplexsansMediumPersianIndigo20px ,   
+  IbmplexsansNormalPersianIndigo20px,
+  IbmplexsansNormalWhite20px,} from "../../../styledMixins";
 
 
 function VericalNav(props) {
@@ -22,10 +24,11 @@ const VericalNav1 = styled.article`
   position: relative;
   background-color: var(--white-pointer);
   border-radius: 38px;
+  cursor: pointer;
 `;
 
 const Label = styled.div`
-  ${IbmplexsansMediumPersianIndigo20px}
+  ${IbmplexsansNormalPersianIndigo20px}
   position: relative;
   width: fit-content;
   margin-top: -1px;

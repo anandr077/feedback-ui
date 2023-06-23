@@ -13,12 +13,13 @@ function LevelContainer(props) {
       <LevelDetails>
         <LevelTextInput placeholder="An answer of this level should..."/>
       </LevelDetails>
-      <RemoveButtonContainer>
+    { (levelId != 0 && levelId != 1) && <RemoveButtonContainer>
         <ButtonInnerContainer onClick={() => deleteLevelUpdate(levelId)}>
           <ButtonImage src="/icons/delete-vector.svg" alt="Vector" />
           <ButtonText>Remove</ButtonText>
         </ButtonInnerContainer>
     </RemoveButtonContainer>
+    }
     </SingleLevelContainer>
   );
 }
@@ -75,6 +76,7 @@ const RemoveButtonContainer = styled.div`
   display: flex;
   min-width: 79px;
   height: 21px;
+  cursor: pointer;
 `;
 
 const ButtonInnerContainer = styled.div`

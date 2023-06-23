@@ -17,26 +17,20 @@ import SettingsNav from "../SettingsNav";
 
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
-    title,
-    userSettings,
-    frame12841,
-    markingCriteria,
-    frame12842,
     line14,
-    shortcuts,
-    frame12843,
     breadcrumbProps,
     breadcrumb2Props,
     buttonsProps,
     headerProps,
     markingCriteriaList,
-    shortcutList
+    shortcutList,
+    setShowMarkingCriteria,
+    setShowShortcuts,
+    setShowUserSettings,
+    showMarkingCriteria,
+    showShortcuts,
+    showUserSettings
   } = props;
-
-
-  const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(false);
-  const [showUserSettings, setShowUserSettings] = React.useState(false);
-  const [showShortcuts, setShowShortcuts] = React.useState(false);
 
   
   return (
@@ -51,7 +45,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
         </Frame1376>
         <Frame1378>
           <Frame1372>
-            <Title>{title}</Title>
+            <Title>Account Settings</Title>
           </Frame1372>
           <Frame1322>
           {
@@ -142,7 +136,7 @@ const ShortcutInputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 13px 20px;
+  padding: 11px 18px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);

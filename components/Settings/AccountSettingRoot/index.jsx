@@ -8,6 +8,7 @@ import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
 import { getShortcuts } from "../../../service.js";
 import Shortcut from "../Shortcut";
+import SettingsNav from "../SettingsNav";
 
 const headerProps = assignmentsHeaderProps;
 
@@ -28,21 +29,36 @@ export default function AccountSettingsRoot(props) {
         <Shortcut key={index} label={shortcut.text} />
     ));
 
-    console.log(shortcutList);
+
+
+
+    const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(true);
+    const [showUserSettings, setShowUserSettings] = React.useState(false);
+    const [showShortcuts, setShowShortcuts] = React.useState(false);
+
+    const sidebarNav = <SettingsNav 
+    setShowMarkingCriteria={setShowMarkingCriteria} 
+    setShowShortcuts={setShowShortcuts} 
+    setShowUserSettings={setShowUserSettings}
+    showMarkingCriteria={showMarkingCriteria}
+    showUserSettings={showUserSettings}
+    showShortcuts={showShortcuts} />;
+
+
 
 return (
     <ReactiveRender
       mobile={
-        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, shortcutList}} />
+        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, shortcutList, setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings}} />
       }
       tablet={
-        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList}} />
+        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings }} />
       }
       laptop={
-        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList}} />
+        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList , shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings}} />
       }
       desktop={
-        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList}} />
+        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings}} />
       }
     />
   );

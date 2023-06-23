@@ -2,18 +2,17 @@ import React from "react";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import Buttons from "../Buttons";
-import Cards from "../Cards";
-import Frame6 from "../Frame6";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalChicago13px,
+  IbmplexsansNormalElectricViolet14px
 } from "../../../styledMixins";
 import "./AccountSettingsMarkingCriteriaDeskt.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
-import SettingsNav from "../SettingsNav";
+
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -22,6 +21,11 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     breadcrumb2Props,
     headerProps,
     markingCriteriaList,
+    shortcutList,
+    sidebarNav,
+    showMarkingCriteria,
+    showShortcuts,
+    showUserSettings
   } = props;
 
   return (
@@ -39,19 +43,54 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
             <Title>Account Settings</Title>
           </Frame1372>
           <Frame13221>
-             <SettingsNav
-             accountSettings={true}
-            />
-            <Frame1302>
+          {sidebarNav}
+              <>
+            {
+              showUserSettings && (
+                <UserSettingFrame>
+                <Title1>
+                <MarkingCriteria>User Settings</MarkingCriteria>
+                <UserSettingLinkContainer>
+                <UserSettingLink href="/#/">Edit in user profile 
+                </UserSettingLink>
+                <RedictIcon src="/icons/redirecticon.svg" alt="Redirect Icon" />
+               </UserSettingLinkContainer> 
+              </Title1>
+              </UserSettingFrame>
+              )
+            }
+            {showMarkingCriteria && (
+              <Frame1302>
               <Title1>
                 <MarkingCriteria>Marking Criteria</MarkingCriteria>
-                <Buttons text="Create New" />
+                <Buttons  text="Create New"  />
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>
-                {markingCriteriaList}
-              </MarkingCriteriaList>
-              </Frame1302>
+              {markingCriteriaList}
+            </MarkingCriteriaList>
+            </Frame1302>
+            )
+            }
+            {showShortcuts && (
+              <Frame1302>
+              <Title1>
+                <MarkingCriteria>Shortcuts</MarkingCriteria>
+                <ShortcutInputContainer>
+            <ShortcutInput
+                placeholder="Enter new shortcut"
+            />
+        </ShortcutInputContainer>
+                <Buttons  text="Create shortcut" noIcon={true} />
+
+              </Title1>
+              <Line14 src={line14} alt="Line 14" />
+              <MarkingCriteriaList>
+              {shortcutList}
+            </MarkingCriteriaList>
+            </Frame1302>
+            )}
+         </>
           </Frame13221>
         </Frame1378>
       </Frame1379>
@@ -60,6 +99,67 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
   );
 }
 
+const RedictIcon = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+`;
+const UserSettingLinkContainer = styled.div`
+display: flex;
+height: 31px;
+align-items: center;
+gap: 8px;
+align-self: stretch;
+cursor: pointer;
+`;
+
+const UserSettingLink = styled.div`
+${IbmplexsansNormalElectricViolet14px}
+font-size: 14px;
+`;
+
+const UserSettingFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 30px;
+  position: relative;
+  flex: 1;
+  align-self: auto;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+
+
+const ShortcutInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 11px 18px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const ShortcutInput = styled.input`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
 const MarkingCriteriaList = styled.div`
   display: flex;
   flex-direction: column;

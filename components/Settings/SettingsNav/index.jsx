@@ -4,29 +4,48 @@ import { IbmplexsansNormalWhite20px, IbmplexsansNormalPersianIndigo20px } from "
 
 
 function SettingsNav(props) {
-  const { userSettings, accountSettings, shortcuts } = props;
+  const { setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings } = props;
+
+
+  const selectUserSettings = () => {
+    setShowMarkingCriteria(false);
+    setShowShortcuts(false);
+    setShowUserSettings(true);
+  }
+
+  const selectMarkingCriteria = () => {
+    setShowMarkingCriteria(true);
+    setShowShortcuts(false);
+    setShowUserSettings(false);
+  }
+
+  const selectShortcuts = () => {
+    setShowMarkingCriteria(false);
+    setShowShortcuts(true);
+    setShowUserSettings(false);
+  }
 
   return (<Frame13221>
-  {userSettings &&
+  {showUserSettings &&
     (<>
-      <SelectedContainer> <SelectedLabel> User Settings</SelectedLabel> </SelectedContainer>
-      <UnselectedContainer> <UnselectedLabel> Account Settings</UnselectedLabel> </UnselectedContainer>
-      <UnselectedContainer> <UnselectedLabel> Shortcuts</UnselectedLabel> </UnselectedContainer>
+      <SelectedContainer onClick={selectUserSettings}> <SelectedLabel> User Settings</SelectedLabel> </SelectedContainer>
+      <UnselectedContainer  onClick={selectMarkingCriteria}> <UnselectedLabel> Marking Criteria</UnselectedLabel> </UnselectedContainer>
+      <UnselectedContainer onClick={selectShortcuts}> <UnselectedLabel> Shortcuts</UnselectedLabel> </UnselectedContainer>
       </>
     )
     }
-    {accountSettings && (
+    {showMarkingCriteria && (
       <>
-      <UnselectedContainer> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
-      <SelectedContainer> <SelectedLabel> Account Settings</SelectedLabel> </SelectedContainer>
-      <UnselectedContainer> <UnselectedLabel> Shortcuts</UnselectedLabel> </UnselectedContainer>
+      <UnselectedContainer onClick={selectUserSettings}> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
+      <SelectedContainer onClick={selectMarkingCriteria}> <SelectedLabel> Marking Criteria</SelectedLabel> </SelectedContainer>
+      <UnselectedContainer onClick={selectShortcuts} > <UnselectedLabel> Shortcuts</UnselectedLabel> </UnselectedContainer>
       </>
     )}
     {
-      shortcuts && (  <>
-      <UnselectedContainer> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
-      <UnselectedContainer> <UnselectedLabel> Account Settings</UnselectedLabel> </UnselectedContainer>
-      <SelectedContainer> <SelectedLabel> Shortcuts</SelectedLabel> </SelectedContainer>
+      showShortcuts && (  <>
+      <UnselectedContainer onClick={selectUserSettings}> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
+      <UnselectedContainer onClick={selectMarkingCriteria}> <UnselectedLabel> Marking Criteria</UnselectedLabel> </UnselectedContainer>
+      <SelectedContainer onClick={selectShortcuts}> <SelectedLabel> Shortcuts</SelectedLabel> </SelectedContainer>
       </>
       )
     }

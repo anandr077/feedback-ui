@@ -6,49 +6,37 @@ import Cards2 from "../Cards2";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansMediumPersianIndigo20px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalElectricViolet14px,
 } from "../../../styledMixins";
 import "./AccountSettingsMarkingCriteriaTable.css";
+import FooterSmall from "../../FooterSmall";
+import HeaderSmall from "../../HeaderSmall";
+import SettingsNav from "../SettingsNav";
 
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
-    frame1349,
-    notifications,
-    frame5,
-    title,
-    userSettings,
-    frame12841,
-    markingCriteria,
-    frame12842,
     line14,
-    shortcuts,
-    frame12843,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
     breadcrumbProps,
     breadcrumb2Props,
     buttonsProps,
-    cards21Props,
-    cards22Props,
-    cards23Props,
-    cards24Props,
-    cards25Props,
+    headerProps,
+    markingCriteriaList,
+    shortcutList,
+    setShowMarkingCriteria,
+    setShowShortcuts,
+    setShowUserSettings,
+    showMarkingCriteria,
+    showShortcuts,
+    showUserSettings
   } = props;
 
+  
   return (
     <div className="account-settings-marking-criteria-tablet-2 screen">
       <Frame1379>
-        <Frame1350>
-          <Frame1349 src={frame1349} alt="Frame 1349" />
-          <Frame5>
-            <Notifications src={notifications} alt="Notifications" />
-            <Notifications src={frame5} alt="Frame 5" />
-          </Frame5>
-        </Frame1350>
+        <HeaderSmall headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb>{breadcrumbProps.children}</Breadcrumb>
@@ -57,48 +45,152 @@ function AccountSettingsMarkingCriteriaTable(props) {
         </Frame1376>
         <Frame1378>
           <Frame1372>
-            <Title>{title}</Title>
+            <Title>Account Settings</Title>
           </Frame1372>
           <Frame1322>
-            <VericalNav>
-              <UserSettings>{userSettings}</UserSettings>
-              <Frame1284 src={frame12841} alt="Frame 1284" />
-            </VericalNav>
-            <VericalNav1>
+          {
+            showUserSettings ?(
+              <ActiveSetting>
               <Frame13221>
-                <UserSettings>{markingCriteria}</UserSettings>
-                <Frame1284 src={frame12842} alt="Frame 1284" />
+                <SettingTitle>User Settings</SettingTitle>
+                <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" onClick={()=> {setShowUserSettings(false)}} />
+              </Frame13221>
+              <Frame1302>
+               <UserSettingLinkContainer>
+                <UserSettingLink href="/#/">Edit in user profile 
+                </UserSettingLink>
+                <RedictIcon src="/icons/redirecticon.svg" alt="Redirect Icon" />
+               </UserSettingLinkContainer> 
+              </Frame1302>
+              </ActiveSetting>
+            ):
+            (
+            <InactiveSetting>
+              <SettingTitle>User Settings</SettingTitle>
+              <Frame1284 src="/icons/collapsed.svg"  alt="Frame 1284" onClick={()=> {setShowUserSettings(true)}} />
+            </InactiveSetting>)
+          }
+           {
+            showMarkingCriteria ? (
+             <ActiveSetting>
+              <Frame13221>
+                <SettingTitle>MarkingCriteria</SettingTitle>
+                <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" onClick={()=> {setShowMarkingCriteria(false)}} />
               </Frame13221>
               <Frame1302>
                 <Title1>
-                  <Buttons add={buttonsProps.add} button={buttonsProps.button} className={buttonsProps.className} />
+                  <Buttons text="Create New" className={buttonsProps.className} link={"/#/markingCriterias"} />
                 </Title1>
                 <Line14 src={line14} alt="Line 14" />
-                <Cards2 systemDefault={cards21Props.systemDefault} />
-                <Cards2 systemDefault={cards22Props.systemDefault} className={cards22Props.className} />
-                <Cards2 systemDefault={cards23Props.systemDefault} />
-                <Cards2 systemDefault={cards24Props.systemDefault} className={cards24Props.className} />
-                <Cards2 systemDefault={cards25Props.systemDefault} className={cards25Props.className} />
+                <MarkingCriteriaList>
+                  {markingCriteriaList}
+                </MarkingCriteriaList>
               </Frame1302>
-            </VericalNav1>
-            <VericalNav>
-              <UserSettings>{shortcuts}</UserSettings>
-              <Frame1284 src={frame12843} alt="Frame 1284" />
-            </VericalNav>
+            </ActiveSetting>
+            ) :(
+              <InactiveSetting>
+              <SettingTitle>MarkingCriteria</SettingTitle>
+              <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284" onClick={()=> {setShowMarkingCriteria(true)}}/>
+            </InactiveSetting>
+            )
+            }
+            {
+              showShortcuts ? (
+                
+                <ActiveSetting>
+              <Frame13221>
+                <SettingTitle>Shortcuts</SettingTitle>
+                <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" onClick={()=> {setShowShortcuts(false)}} />
+              </Frame13221>
+              <Frame1302>
+              <ShortcutInputContainer>
+            <ShortcutInput
+                placeholder="Enter new shortcut"
+            />
+        </ShortcutInputContainer>
+                <Title1>
+                  <Buttons text="Create shortcut" className={buttonsProps.className} noIcon={true} />
+                </Title1>
+                <Line14 src={line14} alt="Line 14" />
+                <MarkingCriteriaList>
+                {shortcutList}
+                </MarkingCriteriaList>
+              </Frame1302>
+            </ActiveSetting>
+              
+              ):(
+            <InactiveSetting>
+              <SettingTitle>Shortcuts</SettingTitle>
+              <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284"  onClick={()=> {setShowShortcuts(true)}}/>
+            </InactiveSetting>)
+            }
           </Frame1322>
         </Frame1378>
       </Frame1379>
-      <Frame1420>
-        <X2023JeddleAllRightsReserved>{x2023JeddleAllRightsReserved}</X2023JeddleAllRightsReserved>
-        <Frame6>
-          <MainWebsite>{mainWebsite}</MainWebsite>
-          <Terms>{terms}</Terms>
-          <Terms>{privacy}</Terms>
-        </Frame6>
-      </Frame1420>
+     <FooterSmall/>
     </div>
   );
 }
+
+const ShortcutInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 11px 18px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const ShortcutInput = styled.input`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
+
+const MarkingCriteriaList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  align-self: stretch;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+`;
+
+const RedictIcon = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+`;
+const UserSettingLinkContainer = styled.div`
+display: flex;
+height: 31px;
+align-items: center;
+gap: 8px;
+align-self: stretch;
+cursor: pointer;
+`;
+
+const UserSettingLink = styled.div`
+${IbmplexsansNormalElectricViolet14px}
+font-size: 14px;
+`;
 
 const Frame1379 = styled.div`
   display: flex;
@@ -197,7 +289,7 @@ const Frame1322 = styled.div`
   align-self: stretch;
 `;
 
-const VericalNav = styled.div`
+const InactiveSetting = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -206,11 +298,10 @@ const VericalNav = styled.div`
   align-self: stretch;
   background-color: var(--blue-chalk);
   border-radius: 16px;
-  cursor: pointer;
 `;
 
-const UserSettings = styled.div`
-  ${IbmplexsansMediumPersianIndigo20px}
+const SettingTitle = styled.div`
+  ${IbmplexsansNormalPersianIndigo13px}
   position: relative;
   flex: 1;
   margin-top: -1px;
@@ -222,9 +313,10 @@ const Frame1284 = styled.img`
   position: relative;
   min-width: 24px;
   height: 24px;
+  cursor: pointer;
 `;
 
-const VericalNav1 = styled.div`
+const ActiveSetting = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

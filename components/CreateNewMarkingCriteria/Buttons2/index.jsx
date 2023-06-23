@@ -33,6 +33,7 @@ const Buttons = styled.div`
   border-radius: 30px;
   border: 1.5px solid;
   border-color: var(--light-mode-purple);
+  cursor: pointer;
 `;
 
 const ButtonsLarge = styled.div`
@@ -47,8 +48,9 @@ const ButtonsLarge = styled.div`
   border: 1.5px solid;
   border-color: var(--light-mode-purple);
   align-self: stretch;
-  width: unset;`
-  ;
+  width: unset;
+  cursor: pointer;
+  `;
 
 const Add = styled.img`
   position: relative;

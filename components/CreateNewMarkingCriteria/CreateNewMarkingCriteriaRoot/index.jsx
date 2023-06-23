@@ -12,36 +12,51 @@ const headerProps = assignmentsHeaderProps;
 
 export default function CreateNewMarkingCriteriaRoot(props) {
 
-  const [markingCriterias, setMarkingCriterias] = useState({
-    name: "",
-    criterias: [
-      {
-        id: "0",
-        name: "",
-        levels: [
-          {
-            id: "0",
-            name: "",
-            description: "",
-          },
-        ],
-      },
-    ]
-  });
-
-function addCriteria() {
-  const newCriteria = {
-    id: markingCriterias.criterias.length,
+const getNewCriteria = (criteriaId) => {
+  return {
+    id: {criteriaId},
     name: "",
     levels: [
       {
-        id: "0",
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
         name: "",
         description: "",
       },
     ],
   };
+}
+
+const getDefaultCriteria = () => {
+  const criteria = getNewCriteria(0);
+  return { 
+    name:"",
+   criterias: [criteria] };
+}
+
+
+const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
+
+function addCriteria() {
+  const newCriteria = getNewCriteria(markingCriterias.criterias.length);
   setMarkingCriterias({ ...markingCriterias, criterias: [...markingCriterias.criterias, newCriteria] });
+}
+
+function deleteCriteria(criteriaId) { 
+  const newCriterias = markingCriterias.criterias.filter((criteria, index) => {
+    return index != criteriaId;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+
 }
 
 const addLevel = (criteriaId) => {
@@ -68,8 +83,7 @@ const deleteLevel = (criteriaId, levelId) => {
       return {
         ...criteria,
         levels: criteria.levels.filter((level, index) => {
-          if(index !== levelId) {console.log("level", level, "index", index)}
-          return index !== levelId;
+          return index != levelId;
         })
       }
     }
@@ -80,7 +94,7 @@ const deleteLevel = (criteriaId, levelId) => {
 
 const criterias = markingCriterias.criterias.map((criteria, index) => {
   return (
-    <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel}/>
+    <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel} deleteCriteria={deleteCriteria}/>
   )
 });
 

@@ -1,65 +1,37 @@
 import React from "react";
-import NavElement from "../NavElement";
-import Frame4 from "../Frame4";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
-import Frame1322 from "../Frame1322";
+import SettingsNav from "../SettingsNav";
 import Buttons from "../Buttons";
-import Cards4 from "../Cards4";
-import Frame6 from "../Frame6";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalChicago13px,
+  IbmplexsansNormalElectricViolet14px
 } from "../../../styledMixins";
 import "./AccountSettingsMarkingCriteriaLapto.css";
+import Header from "../../Header";
+import Footer from "../../Footer";
 
 function AccountSettingsMarkingCriteriaLapto(props) {
   const {
-    logo,
-    notifications,
-    title,
-    markingCriteria,
     line14,
-    x2021JeddleAllRightsReserved,
-    navElement1Props,
-    navElement2Props,
-    navElement3Props,
     breadcrumbProps,
     breadcrumb2Props,
-    frame1322Props,
-    buttonsProps,
-    cards41Props,
-    cards42Props,
-    cards43Props,
-    cards44Props,
-    cards45Props,
+    headerProps,
+    markingCriteriaList,
+    shortcutList,
+    sidebarNav,
+    showMarkingCriteria,
+    showShortcuts,
+    showUserSettings
   } = props;
 
   return (
     <div className="account-settings-marking-criteria-laptop screen">
       <Frame1379>
-        <Frame41>
-          <Logo src={logo} alt="Logo" />
-          <Frame5>
-            <NavElement home3={navElement1Props.home3} place={navElement1Props.place} />
-            <NavElement
-              home3={navElement2Props.home3}
-              place={navElement2Props.place}
-              className={navElement2Props.className}
-            />
-            <NavElement
-              home3={navElement3Props.home3}
-              place={navElement3Props.place}
-              className={navElement3Props.className}
-            />
-          </Frame5>
-          <Frame51>
-            <Notifications src={notifications} alt="Notifications" />
-            <Frame4 />
-          </Frame51>
-        </Frame41>
+        <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb>{breadcrumbProps.children}</Breadcrumb>
@@ -68,36 +40,143 @@ function AccountSettingsMarkingCriteriaLapto(props) {
         </Frame1376>
         <Frame1378>
           <Frame1372>
-            <Title>{title}</Title>
+            <Title>Account Settings</Title>
           </Frame1372>
           <Frame13221>
-            <Frame1322
-              vericalNav1Props={frame1322Props.vericalNav1Props}
-              vericalNav2Props={frame1322Props.vericalNav2Props}
-              vericalNav2Props2={frame1322Props.vericalNav2Props2}
-            />
-            <Frame1302>
+          {sidebarNav}
+            <>
+            {
+              showUserSettings && (
+                <UserSettingFrame>
+                <Title1>
+                <MarkingCriteria>User Settings</MarkingCriteria>
+                <UserSettingLinkContainer>
+                <UserSettingLink href="/#/">Edit in user profile 
+                </UserSettingLink>
+                <RedictIcon src="/icons/redirecticon.svg" alt="Redirect Icon" />
+               </UserSettingLinkContainer> 
+              </Title1>
+              </UserSettingFrame>
+              )
+            }
+            {showMarkingCriteria && (
+              <Frame1302>
               <Title1>
-                <MarkingCriteria>{markingCriteria}</MarkingCriteria>
-                <Buttons add={buttonsProps.add} button={buttonsProps.button} />
+                <MarkingCriteria>Marking Criteria</MarkingCriteria>
+                <Buttons  text="Create New"  link={"/#/markingCriterias"} />
               </Title1>
               <Line14 src={line14} alt="Line 14" />
-              <Cards4 systemDefault={cards41Props.systemDefault} />
-              <Cards4 systemDefault={cards42Props.systemDefault} />
-              <Cards4 systemDefault={cards43Props.systemDefault} />
-              <Cards4 systemDefault={cards44Props.systemDefault} />
-              <Cards4 systemDefault={cards45Props.systemDefault} />
+              <MarkingCriteriaList>
+              {markingCriteriaList}
+            </MarkingCriteriaList>
             </Frame1302>
+            )
+            }
+            {showShortcuts && (
+              <Frame1302>
+              <Title1>
+                <MarkingCriteria>Shortcuts</MarkingCriteria>
+                <ShortcutInputContainer>
+            <ShortcutInput
+                placeholder="Enter new shortcut"
+            />
+        </ShortcutInputContainer>
+                <Buttons  text="Create shortcut" noIcon={true} />
+
+              </Title1>
+              <Line14 src={line14} alt="Line 14" />
+              <MarkingCriteriaList>
+              {shortcutList}
+            </MarkingCriteriaList>
+            </Frame1302>
+            )}
+         </>
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>{x2021JeddleAllRightsReserved}</X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
+ <Footer />
     </div>
   );
 }
+
+const RedictIcon = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+`;
+const UserSettingLinkContainer = styled.div`
+display: flex;
+height: 31px;
+align-items: center;
+gap: 8px;
+align-self: stretch;
+cursor: pointer;
+`;
+
+const UserSettingLink = styled.div`
+${IbmplexsansNormalElectricViolet14px}
+font-size: 14px;
+`;
+
+const UserSettingFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 30px;
+  position: relative;
+  flex: 1;
+  align-self: auto;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+
+
+const ShortcutInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 11px 18px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
+
+const ShortcutInput = styled.input`
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
+
+const MarkingCriteriaList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  align-self: stretch;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+`;
+
 
 const Frame1379 = styled.div`
   display: flex;
@@ -207,7 +286,7 @@ const Frame1302 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
   padding: 30px;
   position: relative;

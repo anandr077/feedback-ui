@@ -13,6 +13,7 @@ import {
   updateAssignment,
   getAssignmentById,
   publishAssignment,
+  addFocusArea,
 } from "../../service";
 import {
   IbmplexsansNormalShark20px,
@@ -30,7 +31,7 @@ import TheoryQuestionFrame from "../TheoryQuestionFrame";
 import SnackbarContext from "../SnackbarContext";
 import Loader from "../Loader";
 import FocusAreaDialog from "./Dialog/newFocusArea";
-import { getFocusAreas, updateNewFocusAreas, getAllColors } from "../../service";
+import { getFocusAreas, addNewFocusArea, getAllColors } from "../../service";
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -80,11 +81,6 @@ export default function CreateAssignment(props) {
       }
     );
   }, [assignmentId]);
-
-  React.useEffect(()=>{
-    setAllFocusAreas(getFocusAreas());
-    setAllFocusAreasColors(getAllColors());
-  }, []);
 
 
   if (isLoading) {
@@ -225,7 +221,7 @@ export default function CreateAssignment(props) {
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        q.serialNumber === id ? { ...q, focusAreas: newFocusAreas } : q
+        q.serialNumber === id ? { ...q, focusAreaIds: newFocusAreas } : q
       ),
     }));
   }
@@ -234,11 +230,18 @@ export default function CreateAssignment(props) {
     setOpenFocusAreaDialog(true);
   }
 
-  function addNewFocusArea(title, description, selectedColor) {
+  function addNewFocusArea(title, description, color) {
     setOpenFocusAreaDialog(false);
-    if(title!=="" && selectedColor!==""){
-      updateNewFocusAreas(title, selectedColor, description);
-      setAllFocusAreas(getFocusAreas());
+    if(title!=="" && color!==""){
+      addFocusArea({
+        title,
+        description,
+        color
+      }).then((response)=>{
+        if (response) {
+          setAllFocusAreas([...allFocusAreas, response]);
+        }
+      });
     }
   }
 
@@ -536,7 +539,7 @@ const newQuestion = (serialNumber) => {
         isCorrect: false,
       },
     ],
-    focusAreas: [1, 2]
+    focusAreaIds: []
   }
 }
 const Title = styled.h1`

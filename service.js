@@ -340,31 +340,28 @@ let FocusAreas = [
     description:"",
   },
 ];
-export const getFocusAreas = () => {
-  return FocusAreas;
+export const getFocusAreas = async () => {
+  return await getApi(baseUrl + "/feedbacks/focusAreas");
 };
 
-export const updateNewFocusAreas = (title, color, description) =>{
-  const obj = {
-    id: FocusAreas.length + 1,
-    title: title,
-    color: color,
-    description: description,
-  }
-  FocusAreas.push(obj);
-}
-
+export const addFocusArea = async (focusArea) =>
+  await postApi(baseUrl + "/feedbacks/focusAreas", focusArea);
+  
 export const getAllColors = () => {
   return [
-    { name: "Red", value: "#FF0000" },
-    { name: "Green", value: "#00FF00" },
-    { name: "Blue", value: "#0000FF" },
-    { name: "Yellow", value: "#FFFF00" },
-    { name: "Magenta", value: "#FF00FF" },
-    { name: "Cyan", value: "#00FFFF" },
-    { name: "Orange", value: "#FFA500" },
-    { name: "Purple", value: "#800080" },
-    { name: "Dark Green", value: "#008000" },
-    { name: "Navy", value: "#000080" },
+    "#E39A99",
+    "#D76766",
+    "#F4CB9B",
+    "#EFB269",
+    "#B9D7A7",
+    "#98C47B",
+    "#A6C4C9",
+    "#7CA5AF",
+    "#A4C5E9",
+    "#78A8DD",
+    "#B3A7D7",
+    "#8D7CC4",
+    "#D1A6BE",
+    "#BC7CA1"
   ];
 }

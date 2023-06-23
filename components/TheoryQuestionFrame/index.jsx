@@ -1,14 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import Frame12973 from "../Frame12973";
-import Frame1291 from "../Frame1291";
-import Frame1297 from "../Frame1297";
 import {
-  IbmplexsansNormalElectricViolet14px,
-  IbmplexsansNormalShark20px,
-  IbmplexsansNormalShark16px,
+  IbmplexsansNormalElectricViolet14px, IbmplexsansNormalShark16px, IbmplexsansNormalShark20px
 } from "../../styledMixins";
 import CheckboxGroup from "../CheckboxGroup";
+import Frame1297 from "../Frame1297";
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -61,7 +57,7 @@ export default function TheoryQuestionFrame(props) {
           {createFocusAreasFrame(
             serialNumber,
             updateFocusAreas,
-            questionDetails.focusAreas,
+            questionDetails.focusAreaIds,
             createNewFocusArea,
             allFocusAreas
           )}
@@ -346,7 +342,7 @@ function createFocusAreasFrame(
         backgroundColor={"#25222A"}
         textColor={"var(--white)"}
         openDialogForNewEvent={createNewFocusArea}
-        previouslySelectedItems={presentFocusAreas.map((value) => ({
+        previouslySelectedItems={presentFocusAreas?.map((value) => ({
           value,
           category: "FOCUS_AREAS",
         }))}
@@ -357,7 +353,10 @@ function createFocusAreasFrame(
 }
 
 function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
-  return presentFocusAreas.map((focusArea) => {
+  return presentFocusAreas?.map((focusArea) => {
+    console.log("presentFocusAreas" + JSON.stringify(presentFocusAreas))
+    console.log("allFocusAreas" + JSON.stringify(allFocusAreas))
+    console.log("focusArea" + JSON.stringify(focusArea))
     const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
     return (
       <Frame1321>

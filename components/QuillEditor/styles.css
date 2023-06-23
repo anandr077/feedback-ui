@@ -25,16 +25,6 @@
 .ql-editor.ql-blank::before {
   color: black;
 }
-/* .ql-toolbar.ql-snow {
-  border: 1px solid black;
-  border-color: black;
-  border-radius: 8px 8px 0px 0px;
-}
-.quill-editor-container {
-  border: 1px solid black;
-  border-color: black;
-  border-radius: 8px 8px 8px 8px;
-} */
 .quill-highlight {
-  background-color: #fff9c4;
+  background-color: #2f37a1;
 }

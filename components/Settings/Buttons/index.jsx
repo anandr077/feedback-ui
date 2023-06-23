@@ -4,12 +4,12 @@ import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
 
 
 function Buttons(props) {
-  const { text, className } = props;
+  const { text, className, link , noIcon} = props;
 
   return (
     <Buttons1 className={`buttons ${className || ""}`}>
-      <Add className="add" src="/img/add@2x.png" alt="add" />
-      <Button className="button">{text}</Button>
+     {!noIcon && <Add className="add" src="/img/add@2x.png" alt="add" />}
+      <Button className="button" onClick={()=> window.location.href=link}>{text}</Button>
     </Buttons1>
   );
 }

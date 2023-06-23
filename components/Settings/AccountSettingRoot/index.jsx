@@ -6,6 +6,8 @@ import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
+import { getShortcuts } from "../../../service.js";
+import Shortcut from "../Shortcut";
 
 const headerProps = assignmentsHeaderProps;
 
@@ -21,11 +23,17 @@ export default function AccountSettingsRoot(props) {
         <MarkingCriteriaCard key={index} title={markingCriteria} />
     ));
 
+    const shortcuts = getShortcuts();
+    const shortcutList = shortcuts.map((shortcut, index) => (
+        <Shortcut key={index} label={shortcut.text} />
+    ));
+
+    console.log(shortcutList);
 
 return (
     <ReactiveRender
       mobile={
-        <AccountSettingsMarkingCriteriaTable {...accountSettingsMarkingCriteriaTableData} />
+        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, shortcutList}} />
       }
       tablet={
         <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList}} />

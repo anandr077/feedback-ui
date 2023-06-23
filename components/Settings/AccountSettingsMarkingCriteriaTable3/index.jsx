@@ -3,7 +3,6 @@ import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
 import SettingsNav from "../SettingsNav";
 import Buttons from "../Buttons";
-import Cards3 from "../Cards3";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark36px,

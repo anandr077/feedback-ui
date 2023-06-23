@@ -74,7 +74,6 @@ export default function TheoryQuestionFrame(props) {
 
 const FocusAreasFrame = styled.div`
   font-weight: 400;
-  font-size: 20px;
   line-height: 26px;
   font-family: var(--font-family-ibm_plex_sans);
   display: flex;

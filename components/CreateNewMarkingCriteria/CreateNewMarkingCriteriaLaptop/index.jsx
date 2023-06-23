@@ -1,6 +1,6 @@
 import React from "react";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import GoBack from "../GoBack";
 import Frame1372 from "../Frame1372";
 import Frame1281 from "../Frame1281";
@@ -28,9 +28,9 @@ function CreateNewMarkingCriteriaLaptop(props) {
       <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+            <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
+            <Breadcrumb2 title ="Marking Criteria"  />
+            <Breadcrumb2 title ="Create New"  />
           </Frame1315>
           <GoBack />
         </Frame1376>

@@ -1,15 +1,11 @@
 import React from "react";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import GoBack from "../GoBack";
 import Frame1281 from "../Frame1281";
 import Buttons2 from "../Buttons2";
 import styled from "styled-components";
 import {
-  IbmplexsansBoldShark36px,
-  IbmplexsansNormalElectricViolet16px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalStack20px
 } from "../../../styledMixins";
 import "./CreateNewMarkingCriteriaTablet.css";
@@ -19,8 +15,6 @@ import Frame1372 from "../Frame1372";
 
 function CreateNewMarkingCriteriaTablet(props) {
   const {
-    breadcrumb21Props,
-    breadcrumb22Props,
     headerProps,
     criterias,
     addCriteria
@@ -32,9 +26,9 @@ function CreateNewMarkingCriteriaTablet(props) {
         <HeaderSmall headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+          <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
+            <Breadcrumb2 title ="Marking Criteria"  />
+            <Breadcrumb2 title ="Create New"  />
           </Frame1315>
           <GoBack />
         </Frame1376>

@@ -6,7 +6,6 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import { FunctionsSharp } from "@mui/icons-material";
 
 const headerProps = assignmentsHeaderProps;
 

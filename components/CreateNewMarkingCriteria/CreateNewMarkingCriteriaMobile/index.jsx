@@ -21,7 +21,9 @@ function CreateNewMarkingCriteriaMobile(props) {
     criterias,
     addCriteria,
     saveMarkingCriteria,
-    handleTitleChange
+    handleTitleChange,
+    isUpdating,
+    markingCriterias
   } = props;
 
   return (
@@ -32,20 +34,19 @@ function CreateNewMarkingCriteriaMobile(props) {
           <Frame1315>
           <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
             <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
-            <Breadcrumb2 title ="Create New"  />
+            <Breadcrumb2 title ={isUpdating?"Updating Marking Criteria":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
         <Frame1376>
           <Frame1372>
-            <Title>{title}</Title>
-            <Frame1219 saveMethod={saveMarkingCriteria} />
+            <Title>{isUpdating? 'Updating marking criteria' :'Create new marking criteria'}</Title>
+            <Frame1219 saveMethod={saveMarkingCriteria}  isUpdating={isUpdating}/>
           </Frame1372>
           <TitleContainer
               id="markingCriteriaTitleContainer"
-              onChange={handleTitleChange}
           >
-          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
+          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" value={markingCriterias.title}  onChange={handleTitleChange} ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

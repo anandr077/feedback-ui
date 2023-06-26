@@ -67,7 +67,10 @@ function App() {
         <Route path="/settings">
           <AccountSettingsRoot />
         </Route>
-        <Route path="/markingCriterias">
+        <Route path="/markingCriterias/new">
+          <CreateNewMarkingCriteriaRoot />
+        </Route>
+        <Route path="/markingCriterias/:markingCriteriaId">
           <CreateNewMarkingCriteriaRoot />
         </Route>
         <Route path="/completed">

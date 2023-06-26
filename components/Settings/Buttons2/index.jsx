@@ -3,10 +3,12 @@ import styled from "styled-components";
 import {IbmplexsansNormalElectricViolet14px } from "../../../styledMixins";
 
 
-function Buttons2() {
+function Buttons2(props) {
+  const { markingCriteriaId } = props;
+  
   return (
     <ButtonsContainer>
-    <Buttons>
+    <Buttons onClick={()=> window.location.href=`/#/markingCriterias/${markingCriteriaId}`}>
       <ViewDetails>View and edit</ViewDetails>
       <Arrowright src="/img/arrowright@2x.png" alt="arrowright" />
     </Buttons>

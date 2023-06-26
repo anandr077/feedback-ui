@@ -19,7 +19,9 @@ function CreateNewMarkingCriteriaTablet(props) {
     criterias,
     addCriteria,
     saveMarkingCriteria,
-    handleTitleChange
+    handleTitleChange,
+    isUpdating,
+    markingCriterias
   } = props;
 
   return (
@@ -30,17 +32,16 @@ function CreateNewMarkingCriteriaTablet(props) {
           <Frame1315>
           <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
           <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
-            <Breadcrumb2 title ="Create New"  />
+          <Breadcrumb2 title ={isUpdating?"Updating Marking Criteria":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372 saveMethod={saveMarkingCriteria} />
+          <Frame1372 saveMethod={saveMarkingCriteria} isUpdating={isUpdating}/>
           <TitleContainer
               id="markingCriteriaTitleContainer"
-              onChange={handleTitleChange}
           >
-          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
+          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" value={markingCriterias.title} onChange={handleTitleChange}></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

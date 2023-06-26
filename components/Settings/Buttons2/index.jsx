@@ -5,7 +5,7 @@ import {deleteMarkingCriteria } from "../../../service.js";
 
 
 function Buttons2(props) {
-  const { markingCriteriaId } = props;
+  const { markingCriteriaId , deleteMarkingCriteriaHandler } = props;
   
   return (
     <ButtonsContainer>
@@ -13,7 +13,7 @@ function Buttons2(props) {
       <ViewDetails>View and edit</ViewDetails>
       <Arrowright src="/img/arrowright@2x.png" alt="arrowright" />
     </Buttons>
-    <DeleteButtonContainer onClick={()=> {deleteMarkingCriteria(markingCriteriaId); window.location.reload()}}>
+    <DeleteButtonContainer onClick={()=> {deleteMarkingCriteriaHandler(markingCriteriaId);}}>
     <Arrowright src="/icons/delete-logo.svg" alt="delete" />
     </DeleteButtonContainer>
       </ButtonsContainer>

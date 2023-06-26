@@ -9,6 +9,7 @@ import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
 import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria} from "../../../service";
 import Loader from "../../Loader";
+import SnackbarContext from "../../SnackbarContext";
 
 const headerProps = assignmentsHeaderProps;
 
@@ -18,6 +19,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [isUpdating, setIsUpdating] = React.useState(false);
 
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
 const getNewCriteria = (criteriaId) => {
   return {
@@ -127,13 +129,18 @@ const saveMarkingCriteria = () => {
     })
   }
   isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
-  window.location.href = "/#/settings";
+  showSnackbar(isUpdating? "Marking Criteria Updated Successfully" :"Marking Criteria Created Successfully" );
+  window.location.href = "/#settings";
 }
 
 const deleteMarkingCriteriaMethod = () => {
-  deleteMarkingCriteria(markingCriteriaId);
-  window.location.href = "/#/settings";
-  window.location.reload();
+  deleteMarkingCriteria(markingCriteriaId).then(() => {
+    showSnackbar("Marking Criteria Deleted Successfully");
+    window.location.href = "/#settings";
+  }).catch((error) => {
+    showSnackbar("An error occured while deleting marking criteria");
+  });
+  
 }
 
 const handleTitleChange = (event) => {

@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import ReactiveRender from "../../ReactiveRender";
 import AccountSettingsMarkingCriteriaDeskt from "../AccountSettingsMarkingCriteriaDeskt";
 import AccountSettingsMarkingCriteriaTable3 from "../AccountSettingsMarkingCriteriaTable3";
@@ -7,12 +6,13 @@ import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
-import { getAllMarkingCriteria, getShortcuts } from "../../../service.js";
+import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria } from "../../../service.js";
 import Shortcut from "../Shortcut";
 import SettingsNav from "../SettingsNav";
 import Breadcrumb from "../../Breadcrumb";
 import Breadcrumb2 from "../../Breadcrumb2";
 import Loader from "../../Loader";
+import SnackbarContext from "../../SnackbarContext";
 
 const headerProps = assignmentsHeaderProps;
 
@@ -22,7 +22,8 @@ export default function AccountSettingsRoot(props) {
     const [markingCriterias, setMarkingCriterias] = React.useState([]);
     const [shortcuts, setShortcuts] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    
+
+    const { showSnackbar } = React.useContext(SnackbarContext);
     
     React.useEffect(() => {
         Promise.all([ getAllMarkingCriteria() , getShortcuts() ]).then(
@@ -37,8 +38,18 @@ export default function AccountSettingsRoot(props) {
       }, []);
 
       
+    const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
+        deleteMarkingCriteria(markingCriteriaId).then(() => {
+            window.location.reload();
+            showSnackbar("Marking Criteria Deleted Successfully");
+        }
+        ).catch((error) => {
+            showSnackbar("Error Deleting Marking Criteria");
+        });
+    }
+
      const markingCriteriaList= markingCriterias?.map((markingCriteria, index) => (
-        <MarkingCriteriaCard key={index} title={markingCriteria.title} markingCriteriaId={markingCriteria.id} />
+        <MarkingCriteriaCard key={index} title={markingCriteria.title} markingCriteriaId={markingCriteria.id} deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}/>
       ));
 
 

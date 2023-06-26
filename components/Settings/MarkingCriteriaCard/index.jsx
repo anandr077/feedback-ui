@@ -5,12 +5,12 @@ import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 
 
 function MarkingCriteriaCard(props) {
-  const { title, markingCriteriaId } = props;
+  const { title, markingCriteriaId,  deleteMarkingCriteriaHandler} = props;
 
   return (
     <MarkingCriteriaEntry>
       <Title>{title}</Title>
-      <Buttons2 markingCriteriaId={markingCriteriaId}/>
+      <Buttons2 markingCriteriaId={markingCriteriaId} deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}/>
     </MarkingCriteriaEntry>
   );
 }

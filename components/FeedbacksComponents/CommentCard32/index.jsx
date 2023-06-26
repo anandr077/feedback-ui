@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ReviewsFrame132532 from "../ReviewsFrame132532";
 import styled from "styled-components";
 import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
+import { Avatar } from "@boringer-avatars/react";
 
 function CommentCard32(props) {
   const {
@@ -18,8 +19,6 @@ function CommentCard32(props) {
     handleReplyComment,
   } = props;
 
-  console.log("props comm: ", props);
-
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
 
@@ -32,7 +31,7 @@ function CommentCard32(props) {
   }
 
   function handleSubmitClick() {
-    handleReplyComment(inputValue, comment.id);
+    handleReplyComment(inputValue, comment.id, comment.questionSerialNumber);
     setInputValue("");
     setIsReplyClicked(false);
   }
@@ -46,16 +45,14 @@ function CommentCard32(props) {
       return (
         <ReplyCommentWrapper>
           <ProfileWrapper>
-            <img
-              src="https://lh5.googleusercontent.com/-1J9_PnZ0SBI/AAAAAAAAAAI/AAAAAAAAHNw/K6MUe90HuQc/s96-c/photo.jpg"
-              alt="image"
-              style={{
-                height: "24px",
-                width: "24px",
-                borderRadius: "50%",
-              }}
+            <Avatar
+              title={false}
+              size={25}
+              variant="beam"
+              name={reply.reviewerName}
+              square={false}
             />
-            <div>Testing</div>
+            <div>{reply.reviewerName}</div>
           </ProfileWrapper>
           <div>{reply.feedback}</div>
         </ReplyCommentWrapper>

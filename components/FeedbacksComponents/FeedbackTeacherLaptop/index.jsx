@@ -63,13 +63,14 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  console.log("props: ",props);
+  const [isFeedback, setFeedback] = React.useState(true);
+  const [isResolvedClick, setResolvedClick] = React.useState(false);
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
     const isClosable = pageMode === "REVIEW";
-    return (
+    return isFeedback && comment.status !== "RESOLVED" ? (
       <CommentCard32
         reviewer={comment.reviewerName}
         comment={comment}
@@ -83,6 +84,22 @@ function FeedbackTeacherLaptop(props) {
         isResolved={comment.status}
         isTeacher={isTeacher}
       />
+    ) : isResolvedClick && comment.status === "RESOLVED" ? (
+      <CommentCard32
+        reviewer={comment.reviewerName}
+        comment={comment}
+        onClick={(c) => methods.handleCommentSelected(c)}
+        isClosable={isClosable}
+        onClose={() => {
+          methods.handleDeleteComment(comment.id);
+        }}
+        onResolved={methods.handleResolvedComment}
+        handleReplyComment={methods.handleReplyComment}
+        isResolved={comment.status}
+        isTeacher={isTeacher}
+      />
+    ) : (
+      <></>
     );
   });
   const modules = {
@@ -107,7 +124,15 @@ function FeedbackTeacherLaptop(props) {
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
-          <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
+          <ReviewsFrame1320
+            setFeedback={setFeedback}
+            setResolvedClick={setResolvedClick}
+            isFeedback={isFeedback}
+            isResolvedClick={isResolvedClick}
+            isTeacher={isTeacher}
+          >
+            {frame13201Props.children}
+          </ReviewsFrame1320>
         </Frame1322>
         <>
           {showNewComment ? (

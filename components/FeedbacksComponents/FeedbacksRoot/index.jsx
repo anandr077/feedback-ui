@@ -23,6 +23,7 @@ import {
   markSubmsissionClosed,
   submitAssignment,
   updateFeedbackRange,
+  getUserName,
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -351,12 +352,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setComments(updatedComments);
   }
 
-  function handleReplyComment(replyComment, commentId) {
+  function handleReplyComment(replyComment, commentId, serialNumber) {
     const newCommant = {
-      questionSerialNumber: 1,
+      questionSerialNumber: serialNumber,
       feedback: replyComment,
-      range: 111,
+      range: {from: 0, to: 0},
       type: "COMMENT",
+      reviewerId:getUserId(),
+      reviewerName:getUserName(),
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -934,7 +937,7 @@ const feedbacksFrame1366422Data = {
 };
 
 const feedbacksFrame13203Data = {
-  children: "Feedback",
+  children: ["Feedback", "Resolved"],
 };
 
 const feedbacksFrame13204Data = {

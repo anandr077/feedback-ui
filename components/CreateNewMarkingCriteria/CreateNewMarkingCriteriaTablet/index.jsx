@@ -19,6 +19,7 @@ function CreateNewMarkingCriteriaTablet(props) {
     criterias,
     addCriteria,
     saveMarkingCriteria,
+    deleteMarkingCriteriaMethod,
     handleTitleChange,
     isUpdating,
     markingCriterias
@@ -37,7 +38,7 @@ function CreateNewMarkingCriteriaTablet(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372 saveMethod={saveMarkingCriteria} isUpdating={isUpdating}/>
+          <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating}/>
           <TitleContainer
               id="markingCriteriaTitleContainer"
           >

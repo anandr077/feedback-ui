@@ -5,12 +5,12 @@ import { IbmplexsansBoldShark36px } from "../../../styledMixins";
 
 
 function Frame1372(props) {
-  const { className , saveMethod, isUpdating} = props;
+  const { className , saveMethod, deleteMethod, isUpdating} = props;
 
   return (
     <Frame13721 className={`frame-1372 ${className || ""}`}>
       <Title className="title">{isUpdating? 'Updating marking criteria' :'Create new marking criteria'}</Title>
-      <Frame1219 saveMethod={saveMethod} isUpdating={isUpdating} />
+      <Frame1219 saveMethod={saveMethod} deleteMethod={deleteMethod} isUpdating={isUpdating} />
     </Frame13721>
   );
 }

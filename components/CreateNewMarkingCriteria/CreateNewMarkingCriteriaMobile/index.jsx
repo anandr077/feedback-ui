@@ -21,6 +21,7 @@ function CreateNewMarkingCriteriaMobile(props) {
     criterias,
     addCriteria,
     saveMarkingCriteria,
+    deleteMarkingCriteriaMethod,
     handleTitleChange,
     isUpdating,
     markingCriterias
@@ -41,7 +42,7 @@ function CreateNewMarkingCriteriaMobile(props) {
         <Frame1376>
           <Frame1372>
             <Title>{isUpdating? 'Updating marking criteria' :'Create new marking criteria'}</Title>
-            <Frame1219 saveMethod={saveMarkingCriteria}  isUpdating={isUpdating}/>
+            <Frame1219 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod}  isUpdating={isUpdating}/>
           </Frame1372>
           <TitleContainer
               id="markingCriteriaTitleContainer"

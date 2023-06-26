@@ -1,4 +1,5 @@
 import React ,{useState} from "react";
+import { useParams } from "react-router-dom";
 import CreateNewMarkingCriteriaDesktop from "../CreateNewMarkingCriteriaDesktop";
 import CreateNewMarkingCriteriaTablet from "../CreateNewMarkingCriteriaTablet";
 import CreateNewMarkingCriteriaLaptop from "../CreateNewMarkingCriteriaLaptop";
@@ -6,11 +7,17 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import {createNewMarkingCriteria, getAllMarkingCriteria} from "../../../service";
+import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria} from "../../../service";
+import Loader from "../../Loader";
 
 const headerProps = assignmentsHeaderProps;
 
 export default function CreateNewMarkingCriteriaRoot(props) {
+  const { markingCriteriaId } = useParams();
+
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [isUpdating, setIsUpdating] = React.useState(false);
+
 
 const getNewCriteria = (criteriaId) => {
   return {
@@ -44,6 +51,18 @@ const getDefaultCriteria = () => {
 }
 
 const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria)
+
+React.useEffect(() => {
+  Promise.all([ getAllMarkingCriteria() ]).then(
+    ([result]) => {
+      if (result.filter((criteria) => criteria.id === markingCriteriaId).length > 0) {
+          setMarkingCriterias(result[0]);
+          setIsUpdating(true);
+        }
+        setIsLoading(false);
+    }
+  );
+}, []);
 
 
 function addCriteria() {
@@ -107,7 +126,8 @@ const saveMarkingCriteria = () => {
       }
     })
   }
-  createNewMarkingCriteria(markingCriteria);
+  isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
+  alert("Marking Criteria Saved");
 }
 
 const handleTitleChange = (event) => {
@@ -180,16 +200,16 @@ const criterias = markingCriterias.criterias.map((criteria, index) => {
   return (
     <ReactiveRender
       mobile={
-        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}} />
+        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange, isUpdating, markingCriterias}} />
       }
       tablet={
-        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}} />
+        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange, isUpdating, markingCriterias}} />
       }
       laptop={
-        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}}/>
+        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange, isUpdating, markingCriterias}}/>
       }
       desktop={
-        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}} />
+        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange,isUpdating, markingCriterias}} />
       }
     />
   );

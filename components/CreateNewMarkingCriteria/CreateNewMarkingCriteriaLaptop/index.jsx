@@ -10,6 +10,7 @@ import { IbmplexsansNormalChicago13px, IbmplexsansNormalStack20px} from "../../.
 import "./CreateNewMarkingCriteriaLaptop.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import { is } from "date-fns/locale";
 
 
 
@@ -20,7 +21,9 @@ function CreateNewMarkingCriteriaLaptop(props) {
     criterias,
     addCriteria,
     saveMarkingCriteria,
-    handleTitleChange
+    handleTitleChange,
+    isUpdating,
+    markingCriterias
   } = props;
   return (
     <div className="account-settings-marking-criteria-create-new-laptop screen">
@@ -30,17 +33,17 @@ function CreateNewMarkingCriteriaLaptop(props) {
           <Frame1315>
             <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
             <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
-            <Breadcrumb2 title ="Create New"  />
+            <Breadcrumb2 title ={isUpdating?"Updating Marking Criteria":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
         <Frame1376>
-        <Frame1372 className={frame1372Props.className} saveMethod={saveMarkingCriteria} />
+        <Frame1372 className={frame1372Props.className} saveMethod={saveMarkingCriteria} isUpdating={isUpdating} />
           <TitleContainer
               id="markingCriteriaTitleContainer"
-              onChange={handleTitleChange}
           >
-          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
+          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" value={markingCriterias.title}
+              onChange={handleTitleChange} ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import ReactiveRender from "../../ReactiveRender";
 import AccountSettingsMarkingCriteriaDeskt from "../AccountSettingsMarkingCriteriaDeskt";
 import AccountSettingsMarkingCriteriaTable3 from "../AccountSettingsMarkingCriteriaTable3";
@@ -6,33 +7,46 @@ import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
-import { getShortcuts } from "../../../service.js";
+import { getAllMarkingCriteria, getShortcuts } from "../../../service.js";
 import Shortcut from "../Shortcut";
 import SettingsNav from "../SettingsNav";
 import Breadcrumb from "../../Breadcrumb";
 import Breadcrumb2 from "../../Breadcrumb2";
+import Loader from "../../Loader";
 
 const headerProps = assignmentsHeaderProps;
 
 export default function AccountSettingsRoot(props) {
 
-    const markingCriteriaArray = [];
 
-        for (let i = 0; i < 10; i++) {
-        markingCriteriaArray.push(`Marking Criteria ${i + 1}`);
-        }
+    const [markingCriterias, setMarkingCriterias] = React.useState([]);
+    const [shortcuts, setShortcuts] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+    
+    
+    React.useEffect(() => {
+        Promise.all([ getAllMarkingCriteria() , getShortcuts() ]).then(
+          ([result, shortcuts]) => {
+            if (result) {
+                setMarkingCriterias(result);
+              }
+              setShortcuts(shortcuts);
+              setIsLoading(false);
+          }
+        );
+      }, []);
 
-    const markingCriteriaList = markingCriteriaArray.map((markingCriteria, index) => (
-        <MarkingCriteriaCard key={index} title={markingCriteria} />
-    ));
-
-    const shortcuts = getShortcuts();
-    const shortcutList = shortcuts.map((shortcut, index) => (
-        <Shortcut key={index} label={shortcut.text} />
-    ));
+      
+     const markingCriteriaList= markingCriterias?.map((markingCriteria, index) => (
+        <MarkingCriteriaCard key={index} title={markingCriteria.title} markingCriteriaId={markingCriteria.id} />
+      ));
 
 
-
+     ;
+      const shortcutList = shortcuts.map((shortcut, index) => (
+          <Shortcut key={index} label={shortcut.text} />
+      ));
+  
 
     const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(true);
     const [showUserSettings, setShowUserSettings] = React.useState(false);
@@ -53,6 +67,10 @@ const breadCrumbs = <>
 }
 </>
 
+if (isLoading) {
+    return <Loader/>;
+  }
+
 return (
     <ReactiveRender
       mobile={
@@ -66,8 +84,7 @@ return (
       }
       desktop={
         <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
-      }
-    />
+      }markingCriteriaList />
   );
 }
 

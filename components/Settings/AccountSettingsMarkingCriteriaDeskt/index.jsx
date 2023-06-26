@@ -63,7 +63,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               <Frame1302>
               <Title1>
                 <MarkingCriteria>Marking Criteria</MarkingCriteria>
-                <Buttons  text="Create New"  link={"/#/markingCriterias"} />
+                <Buttons  text="Create New"  link={"/#/markingCriterias/new"} />
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>

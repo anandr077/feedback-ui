@@ -4,7 +4,7 @@ import { IbmplexsansNormalElectricViolet16px , IbmplexsansMediumWhite16px} from 
 
 
 function Frame1219(props) {
-  const {saveMethod} = props;
+  const {saveMethod, isUpdating} = props;
   return (
     <Frame12191>
       <Frame1322>
@@ -12,7 +12,7 @@ function Frame1219(props) {
         <Delete>Delete</Delete>
       </Frame1322>
       <Buttons1>
-      <Button onClick={saveMethod}>Save Criteria</Button>
+      <Button onClick={saveMethod}>{isUpdating?'Update Criteria':'Save Criteria'}</Button>
     </Buttons1>
     </Frame12191>
   );

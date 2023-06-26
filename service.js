@@ -221,10 +221,11 @@ export const addFeedback = async (submissionId, comment) =>
 export const createNewMarkingCriteria = async (markingCriteria) =>{
   await postApi(baseUrl + "/teachers/markingCriteria", markingCriteria);
 };
+export const updateMarkingCriteria = async (markingCriteria, markingCriteriaId) =>{
+  await postApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId, markingCriteria);
+};
 
-export const getAllMarkingCriteria = async () =>{
-  await getApi(baseUrl + "/teachers/markingCriteria");
-}
+export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 
 export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + "/submissions/" + submissionId + "/comments");

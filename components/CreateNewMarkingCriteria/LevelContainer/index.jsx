@@ -4,14 +4,14 @@ import { IbmplexsansNormalElectricViolet16px } from "../../../styledMixins";
 
 
 function LevelContainer(props) {
-  const { levelId, deleteLevelUpdate } = props;
+  const { levelId, criteriaId, deleteLevelUpdate , level, updateLevelName, updateLevelDescription } = props;
   return (
     <SingleLevelContainer>
       <LevelTitle>
-        <LevelTextInput placeholder="Level Name"/>
+        <LevelTextInput placeholder="Level Name" value={level?.name} onChange={(e) => updateLevelName(criteriaId, levelId, e.target.value)}/>
       </LevelTitle>
       <LevelDetails>
-        <LevelTextInput placeholder="An answer of this level should..."/>
+        <LevelTextInput placeholder="An answer of this level should..." value={level?.description} onChange={(e) => updateLevelDescription(criteriaId, levelId, e.target.value)}/>
       </LevelDetails>
     { (levelId != 0 && levelId != 1) && <RemoveButtonContainer>
         <ButtonInnerContainer onClick={() => deleteLevelUpdate(levelId)}>

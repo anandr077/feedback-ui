@@ -15,12 +15,12 @@ import Footer from "../../Footer";
 
 function CreateNewMarkingCriteriaLaptop(props) {
   const {
-    breadcrumb21Props,
-    breadcrumb22Props,
     frame1372Props,
     headerProps,
     criterias,
-    addCriteria
+    addCriteria,
+    saveMarkingCriteria,
+    handleTitleChange
   } = props;
   return (
     <div className="account-settings-marking-criteria-create-new-laptop screen">
@@ -35,9 +35,10 @@ function CreateNewMarkingCriteriaLaptop(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-        <Frame1372 className={frame1372Props.className} />
+        <Frame1372 className={frame1372Props.className} saveMethod={saveMarkingCriteria} />
           <TitleContainer
               id="markingCriteriaTitleContainer"
+              onChange={handleTitleChange}
           >
           <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
           </TitleContainer>

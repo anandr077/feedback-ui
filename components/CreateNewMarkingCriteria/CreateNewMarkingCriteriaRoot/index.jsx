@@ -6,6 +6,7 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
+import {createNewMarkingCriteria, getAllMarkingCriteria} from "../../../service";
 
 const headerProps = assignmentsHeaderProps;
 
@@ -14,7 +15,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 const getNewCriteria = (criteriaId) => {
   return {
     id: {criteriaId},
-    name: "",
+    title: "",
     levels: [
       {
         id: "",
@@ -38,12 +39,12 @@ const getNewCriteria = (criteriaId) => {
 const getDefaultCriteria = () => {
   const criteria = getNewCriteria(0);
   return { 
-    name:"",
+   title:"",
    criterias: [criteria] };
 }
 
+const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria)
 
-const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
 
 function addCriteria() {
   const newCriteria = getNewCriteria(markingCriterias.criterias.length);
@@ -91,9 +92,87 @@ const deleteLevel = (criteriaId, levelId) => {
   setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
 };
 
+const saveMarkingCriteria = () => {
+  const markingCriteria = {
+    title: markingCriterias.title,
+    criterias: markingCriterias.criterias.map((criteria) => {
+      return {
+        title: criteria.title,
+        levels: criteria.levels.map((level) => {
+          return {
+            name: level.name,
+            description: level.description,
+          }
+        })
+      }
+    })
+  }
+  createNewMarkingCriteria(markingCriteria);
+}
+
+const handleTitleChange = (event) => {
+  setMarkingCriterias({ ...markingCriterias, title: event.target.value });
+}
+
+const updateCriteriaTitle = (id, newTitle ) => {
+  console.log(newTitle);
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === id) {
+      return {
+        ...criteria,
+        title: newTitle
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
+const updateLevelName = (criteriaId, levelId, newName) => {
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === criteriaId) {
+      return {
+        ...criteria,
+        levels: criteria.levels.map((level, index) => {
+          if (index === levelId) {
+            return {
+              ...level,
+              name: newName
+            }
+          }
+          return level;
+        })
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
+const updateLevelDescription = (criteriaId, levelId, newDescription) => {
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === criteriaId) {
+      return {
+        ...criteria,
+        levels: criteria.levels.map((level, index) => {
+          if (index === levelId) {
+            return {
+              ...level,
+              description: newDescription
+            }
+          }
+          return level;
+        })
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
 const criterias = markingCriterias.criterias.map((criteria, index) => {
   return (
-    <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel} deleteCriteria={deleteCriteria}/>
+    <CriteriaContainer key={index} criteriaId={index} addLevel={addLevel} deleteLevel={deleteLevel} deleteCriteria={deleteCriteria} criteria={criteria} updateCriteriaTitle={updateCriteriaTitle} updateLevelName={updateLevelName} updateLevelDescription={updateLevelDescription}/>
   )
 });
 
@@ -101,16 +180,16 @@ const criterias = markingCriterias.criterias.map((criteria, index) => {
   return (
     <ReactiveRender
       mobile={
-        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel}} />
+        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}} />
       }
       tablet={
-        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel}} />
+        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}} />
       }
       laptop={
-        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel}}/>
+        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}}/>
       }
       desktop={
-        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel}} />
+        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange}} />
       }
     />
   );

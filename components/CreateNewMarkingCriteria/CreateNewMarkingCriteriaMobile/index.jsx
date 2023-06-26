@@ -19,7 +19,9 @@ function CreateNewMarkingCriteriaMobile(props) {
     title,
     headerProps,
     criterias,
-    addCriteria
+    addCriteria,
+    saveMarkingCriteria,
+    handleTitleChange
   } = props;
 
   return (
@@ -37,10 +39,11 @@ function CreateNewMarkingCriteriaMobile(props) {
         <Frame1376>
           <Frame1372>
             <Title>{title}</Title>
-            <Frame1219 />
+            <Frame1219 saveMethod={saveMarkingCriteria} />
           </Frame1372>
           <TitleContainer
               id="markingCriteriaTitleContainer"
+              onChange={handleTitleChange}
           >
           <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
           </TitleContainer>

@@ -5,12 +5,12 @@ import { IbmplexsansBoldShark36px } from "../../../styledMixins";
 
 
 function Frame1372(props) {
-  const { className } = props;
+  const { className , saveMethod} = props;
 
   return (
     <Frame13721 className={`frame-1372 ${className || ""}`}>
       <Title className="title">Create new marking criteria</Title>
-      <Frame1219 />
+      <Frame1219 saveMethod={saveMethod} />
     </Frame13721>
   );
 }

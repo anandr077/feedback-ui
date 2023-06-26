@@ -36,10 +36,8 @@ import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getComments, getPageMode } from "./functions";
 import { TextField } from "@mui/material";
-import {
-  IbmplexsansNormalShark20px,
-} from "../../../styledMixins";
-import SnackbarContext from "../../SnackbarContext"
+import { IbmplexsansNormalShark20px } from "../../../styledMixins";
+import SnackbarContext from "../../SnackbarContext";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -69,17 +67,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const isTeacher = getUserRole() === "TEACHER";
 
   useEffect(() => {
-    Promise.all([
-      getSubmissionById(id),
-      getComments(id)
-    ]).then(([submissionsResult, commentsResult])=>{
-      setSubmission(submissionsResult);
-      setComments(commentsResult);
-    }).finally(() => {
-      if (!isTeacher) {
-        setIsLoading(false);
-      }
-    });
+    Promise.all([getSubmissionById(id), getComments(id)])
+      .then(([submissionsResult, commentsResult]) => {
+        setSubmission(submissionsResult);
+        const allComments = commentsResult.map((c) => {
+          return { ...c, reply: [] };
+        });
+        setComments(allComments);
+      })
+      .finally(() => {
+        if (!isTeacher) {
+          setIsLoading(false);
+        }
+      });
   }, [id]);
 
   useEffect(() => {
@@ -96,15 +96,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           // console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
           const studentName =
-          allSubmissions.find((r) => r.id === submission.assignment.id)?.studentName ??
-            null;
+            allSubmissions.find((r) => r.id === submission.assignment.id)
+              ?.studentName ?? null;
 
           setStudentName(studentName);
         })
         .finally(() => {
-          setIsLoading(false)
+          setIsLoading(false);
         });
-      }
+    }
   }, [submission]);
 
   if (isLoading) {
@@ -137,7 +137,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
-    
     quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
       selectedRange,
       selectedRangeFormat
@@ -189,8 +188,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       range: selectedRange,
       type: "FOCUS_AREA",
       color: focusArea.color,
-      focusAreaId: focusArea.id
-       
+      focusAreaId: focusArea.id,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -321,7 +319,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             range: { from: 0, to: 0 },
           })
         );
-        
+
         const finalData = transformedData.concat(missingCommentsWithZeroRange);
         const promises = finalData.map(({ commentId, range }) => {
           return updateFeedbackRange(submission.id, commentId, range);
@@ -336,17 +334,44 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }
     });
   };
+
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
       setComments(comments.filter((c) => c.id != commentId));
     });
   }
 
+  function handleResolvedComment(commentId) {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        return { ...comment, status: "RESOLVED" };
+      }
+      return comment;
+    });
+    setComments(updatedComments);
+  }
+
+  function handleReplyComment(replyComment, commentId) {
+    const newCommant = {
+      questionSerialNumber: 1,
+      feedback: replyComment,
+      range: 111,
+      type: "COMMENT",
+    };
+    const addReplyComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        return { ...comment, reply: [...comment.reply, newCommant]};
+      }
+      return comment;
+    });
+    setComments(addReplyComments);
+  }
+
   function handleSubmissionReviewed() {
     markSubmsissionReviewed(submission.id).then((_) => {
       showSnackbar("Task reviewed...", window.location.href);
-      if (isTeacher) { 
-       window.location.href = nextUrl==='/'?"/#":nextUrl;
+      if (isTeacher) {
+        window.location.href = nextUrl === "/" ? "/#" : nextUrl;
       } else {
         window.location.href = "/#";
       }
@@ -357,20 +382,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleChangeText("Saving...", false);
     setShowLoader(true);
     showSnackbar("Submitting task...");
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
         showSnackbar("Task submitted...", window.location.href);
         window.location.href = "/#";
         setShowLoader(false);
       });
-    }, 4000)
-    
+    }, 4000);
   };
   function disableAllEditors() {
     submission.assignment.questions
-      .filter(question => question.type === "TEXT")
-      .forEach(question => {
+      .filter((question) => question.type === "TEXT")
+      .forEach((question) => {
         // alert(JSON.stringify(question))
         const quill = quillRefs.current[question.serialNumber - 1];
         // alert(JSON.stringify(quillRefs.current))
@@ -383,15 +407,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleChangeText("Saving...", false);
     setShowLoader(true);
     showSnackbar("Submitting task...");
-    setTimeout(()=>{
-      markSubmsissionClosed(submission.id).then(
-        (_) => {
-          showSnackbar("Task completed...", window.location.href);
-          window.location.href = "/#";
-          setShowLoader(false);
-        });
-    }, 4000)
-    
+    setTimeout(() => {
+      markSubmsissionClosed(submission.id).then((_) => {
+        showSnackbar("Task completed...", window.location.href);
+        window.location.href = "/#";
+        setShowLoader(false);
+      });
+    }, 4000);
   }
 
   function handleCommentSelected(comment) {
@@ -401,8 +423,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         length: comment.range.to - comment.range.from,
       };
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
-
-      
 
       quill.selectRange(range);
       quill.focus();
@@ -439,7 +459,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const matchingComment = matchingComments[0];
         const div = document.getElementById("comment_" + matchingComment.id);
         highlightComment(div);
-      } else  {
+      } else {
         if (from !== to) {
           setNewCommentSerialNumber(serialNumber);
           setSelectedRange({
@@ -490,8 +510,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
-  const noopSelectionChange = (serialNumber) => (range) => {
-  };
+  const noopSelectionChange = (serialNumber) => (range) => {};
 
   const hideNewCommentDiv = () => {
     quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
@@ -532,7 +551,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       );
     }
   };
-  
+
   const downloadPDF = () => {
     const doc = new jsPDF({
       orientation: "p",
@@ -545,11 +564,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         right: 0,
       },
     });
-  
-  
-  
+
     const totalpdf = document.createElement("div");
-  
+
     const title = document.createElement("div");
     title.style.fontSize = "40px";
     title.style.fontWeight = "bold";
@@ -557,10 +574,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     title.style.marginBottom = "50px";
     title.textContent = submission.assignment.title;
     totalpdf.appendChild(title);
-  
 
-    const assignmentQuestions = new Array(submission.assignment.questions.length + 1);
-    const assignmentAnswers = new Array(submission.assignment.questions.length + 1);
+    const assignmentQuestions = new Array(
+      submission.assignment.questions.length + 1
+    );
+    const assignmentAnswers = new Array(
+      submission.assignment.questions.length + 1
+    );
     submission.assignment.questions.map((question) => {
       assignmentQuestions[question.serialNumber] = question.question;
       if (question.type === "MCQ") {
@@ -570,7 +590,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           optiondiv.style.fontSize = option.isCorrect ? "25px" : "20px";
           optiondiv.style.fontWeight = option.isCorrect ? "bold" : "normal";
           optiondiv.style.color = option.isCorrect ? "green" : "black";
-  
+
           optiondiv.style.marginBottom = "10px";
           optiondiv.textContent = option.option;
           options.appendChild(optiondiv);
@@ -578,12 +598,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         assignmentAnswers[question.serialNumber] = options;
       }
     });
-  
+
     submission.answers.map((answer) => {
       const parser = new DOMParser();
       const htmlContent = answer.answer.answer;
-      const parsedContent = parser.parseFromString(htmlContent, "text/html").body
-        .textContent;
+      const parsedContent = parser.parseFromString(htmlContent, "text/html")
+        .body.textContent;
       if (answer.answer.answer) {
         assignmentAnswers[answer.serialNumber] = parsedContent;
       }
@@ -595,7 +615,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       question.style.marginBottom = "10px";
       question.textContent = i + ". " + assignmentQuestions[i];
       totalpdf.appendChild(question);
-  
+
       const answer = document.createElement("div");
       // answer.style.border = "1px solid black";
       answer.style.padding = "10px";
@@ -608,7 +628,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }
       totalpdf.appendChild(answer);
     }
-  
+
     const options = {
       callback: function (doc) {
         doc.save(`${submission.assignment.title}.pdf`);
@@ -620,7 +640,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       margin: 20, // Set a single margin value for all sides
       autoSize: true, // Automatically adjust content to fit within the available space
     };
-  
+
     doc.html(totalpdf, options);
   };
 
@@ -664,8 +684,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (submission.assignment.reviewedBy === "TEACHER") {
         if (viewer === "TEACHER") {
           reviewer = "you";
-        }
-        else {
+        } else {
           reviewer = submission.assignment.teacherName;
         }
       } else {
@@ -685,17 +704,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     if (submission.status === "CLOSED") {
       let closedBy;
       if (viewer === "PEER") {
-        closedBy =  "your peer";
+        closedBy = "your peer";
       } else if (viewer === "SELF") {
         closedBy = "you";
       } else {
         closedBy = submission.studentName;
       }
       return (
-        "Closed by " +
-        closedBy +
-        " on " +
-        formattedDate(submission.closedAt)
+        "Closed by " + closedBy + " on " + formattedDate(submission.closedAt)
       );
     }
   }
@@ -725,6 +741,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     studentUpdate,
     unhighlightComment,
     downloadPDF,
+    handleResolvedComment,
+    handleReplyComment,
   };
 
   const shortcuts = getShortcuts();

@@ -63,7 +63,7 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-
+  console.log("props: ",props);
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
@@ -78,6 +78,10 @@ function FeedbackTeacherLaptop(props) {
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
+        onResolved={methods.handleResolvedComment}
+        handleReplyComment={methods.handleReplyComment}
+        isResolved={comment.status}
+        isTeacher={isTeacher}
       />
     );
   });
@@ -89,18 +93,17 @@ function FeedbackTeacherLaptop(props) {
       userOnly: true,
     },
   };
-const defaultReviewComment = {
+  const defaultReviewComment = {
     reviewerName: "Jeddle",
     comment: "Please select text to share feedback",
-}
+  };
 
-const defaultNonReviewComment = {
-  reviewerName: "Jeddle",
-  comment: "Feedback will appear here",
-}
+  const defaultNonReviewComment = {
+    reviewerName: "Jeddle",
+    comment: "Feedback will appear here",
+  };
 
   const feedbackFrame = () => {
-   
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
@@ -110,16 +113,31 @@ const defaultNonReviewComment = {
           {showNewComment ? (
             <>
               <Screen onClick={methods.hideNewCommentDiv}></Screen>
-              {(newCommentFrame())}
+              {newCommentFrame()}
             </>
           ) : (
             <Frame1328>
-            { comments.length ==0 ?
-            pageMode == "REVIEW" ? <CommentCard32 reviewer="Jeddle" comment={defaultReviewComment}onClick={() => {}}/> 
-            : <CommentCard32 reviewer="Jeddle" comment={defaultNonReviewComment}onClick={() => {}}/>
-            :<></>
-          }
-          {commentsFrame}</Frame1328>
+              {comments.length == 0 ? (
+                pageMode == "REVIEW" ? (
+                  <CommentCard32
+                    reviewer="Jeddle"
+                    comment={defaultReviewComment}
+                    onClick={() => {}}
+                    isTeacher={isTeacher}
+                  />
+                ) : (
+                  <CommentCard32
+                    reviewer="Jeddle"
+                    comment={defaultNonReviewComment}
+                    onClick={() => {}}
+                    isTeacher={isTeacher}
+                  />
+                )
+              ) : (
+                <></>
+              )}
+              {commentsFrame}
+            </Frame1328>
           )}
         </>
       </Frame1331>
@@ -188,7 +206,7 @@ const defaultNonReviewComment = {
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
               }}
-              id={"quillContainer_" +submission.id + "_" + answer.serialNumber}
+              id={"quillContainer_" + submission.id + "_" + answer.serialNumber}
             >
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
@@ -224,133 +242,151 @@ const defaultNonReviewComment = {
     );
   };
   const newCommentFrame = () => {
-    if(pageMode === "DRAFT" || pageMode === "REVISE") {
-      return authorNewComment()
+    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+      return authorNewComment();
     }
 
-    return reviewerNewComment()
-  }
+    return reviewerNewComment();
+  };
   function reviewerNewComment() {
-    return <>
-      <Frame1329>
-        <Frame1406>
-          <Frame1326>
-            <TypeHere>
-              <FocussedInput
-                id="newCommentInput"
-                ref={newCommentFrameRef}
-                placeholder="Comment here...."
-              ></FocussedInput>
-            </TypeHere>
-          </Frame1326>
+    return (
+      <>
+        <Frame1329>
+          <Frame1406>
+            <Frame1326>
+              <TypeHere>
+                <FocussedInput
+                  id="newCommentInput"
+                  ref={newCommentFrameRef}
+                  placeholder="Comment here...."
+                ></FocussedInput>
+              </TypeHere>
+            </Frame1326>
 
-          <SubmitCommentFrameRoot
-            submitButtonOnClick={methods.handleAddComment}
-            cancelButtonOnClick={methods.hideNewCommentDiv} />
-          <Line6 src="/icons/line.png" alt="Line 6" />
-          <ShortcutsFrame
-            shortcuts={shortcuts}
-            handleShortcutAddComment={methods.handleShortcutAddComment} />
-          {shareWithClassFrame()}
-        </Frame1406>
-      </Frame1329>
-    </>;
+            <SubmitCommentFrameRoot
+              submitButtonOnClick={methods.handleAddComment}
+              cancelButtonOnClick={methods.hideNewCommentDiv}
+            />
+            <Line6 src="/icons/line.png" alt="Line 6" />
+            <ShortcutsFrame
+              shortcuts={shortcuts}
+              handleShortcutAddComment={methods.handleShortcutAddComment}
+            />
+            {shareWithClassFrame()}
+          </Frame1406>
+        </Frame1329>
+      </>
+    );
   }
 
   function authorNewComment() {
-    console.log("SSS" + submission.assignment.questions[newCommentSerialNumber-1].focusAreaIds)
-    console.log("FA" + newCommentSerialNumber)
-    const focusAreas = submission.assignment.focusAreas.filter(fa=>{
-      return submission.assignment.questions[newCommentSerialNumber-1]
-      .focusAreaIds
-      .includes(fa.id)
-    })
-    return <>
-      <Frame1329>
-        <Frame1406>
-          <Line6 src="/icons/line.png" alt="Line 6" />
-          <ShortcutsFrame
-            focusAreas={focusAreas}
-            handleShortcutAddComment={methods.handleFocusAreaComment} />
-          {/* {shareWithClassFrame()} */}
-        </Frame1406>
-      </Frame1329>
-    </>;
+    console.log(
+      "SSS" +
+        submission.assignment.questions[newCommentSerialNumber - 1].focusAreaIds
+    );
+    console.log("FA" + newCommentSerialNumber);
+    const focusAreas = submission.assignment.focusAreas.filter((fa) => {
+      return submission.assignment.questions[
+        newCommentSerialNumber - 1
+      ].focusAreaIds.includes(fa.id);
+    });
+    return (
+      <>
+        <Frame1329>
+          <Frame1406>
+            <Line6 src="/icons/line.png" alt="Line 6" />
+            <ShortcutsFrame
+              focusAreas={focusAreas}
+              handleShortcutAddComment={methods.handleFocusAreaComment}
+            />
+            {/* {shareWithClassFrame()} */}
+          </Frame1406>
+        </Frame1329>
+      </>
+    );
   }
   const [tabletView, setTabletView] = useState(isTabletView());
-  return (<>
-    {showLoader && <Screen2> <Loader/></Screen2>}
-    <div className="feedback-teacher-laptop screen">
-      {sharewithclassdialog}
-      <Frame1388>
-        {tabletView ? (
-          <HeaderSmall headerProps={headerProps} />
-        ) : (
-          <Header headerProps={headerProps} />
-        )}
-        <Frame1387>
-          <Frame1315>
-            <Breadcrumb text={"Tasks"} link={"/#/tasks"} />
-            {/* <Breadcrumb2 assignments="Feedback"/> */}
-            <Breadcrumb2 assignments={submission.assignment.title} />
-          </Frame1315>
-        </Frame1387>
-        <Frame1386 id="content">
-          <Frame1371 id="assignmentTitle">
-            <TitleWrapper>
-              <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-              <StatusText>{methods.submissionStatusLabel()}</StatusText>
-            </TitleWrapper>
-            {!isTeacher && pageMode === "CLOSED" && (
-              <div id="deleteButton">
-                <Buttons2
-                  button="Download PDF"
-                  download={true}
-                  onClickFn={methods.downloadPDF}
+  return (
+    <>
+      {showLoader && (
+        <Screen2>
+          {" "}
+          <Loader />
+        </Screen2>
+      )}
+      <div className="feedback-teacher-laptop screen">
+        {sharewithclassdialog}
+        <Frame1388>
+          {tabletView ? (
+            <HeaderSmall headerProps={headerProps} />
+          ) : (
+            <Header headerProps={headerProps} />
+          )}
+          <Frame1387>
+            <Frame1315>
+              <Breadcrumb text={"Tasks"} link={"/#/tasks"} />
+              {/* <Breadcrumb2 assignments="Feedback"/> */}
+              <Breadcrumb2 assignments={submission.assignment.title} />
+            </Frame1315>
+          </Frame1387>
+          <Frame1386 id="content">
+            <Frame1371 id="assignmentTitle">
+              <TitleWrapper>
+                <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+                <StatusText>{methods.submissionStatusLabel()}</StatusText>
+              </TitleWrapper>
+              {!isTeacher && pageMode === "CLOSED" && (
+                <div id="deleteButton">
+                  <Buttons2
+                    button="Download PDF"
+                    download={true}
+                    onClickFn={methods.downloadPDF}
+                  />
+                </div>
+              )}
+              {tasksListsDropDown()}
+              {(pageMode === "DRAFT" || pageMode === "REVISE") && (
+                <StatusLabel
+                  key="statusLabel"
+                  id="statusLabel"
+                  text={labelText}
                 />
-              </div>
-            )}
-            {tasksListsDropDown()}
-            {(pageMode === "DRAFT" || pageMode === "REVISE") && (
-              <StatusLabel
-                key="statusLabel"
-                id="statusLabel"
-                text={labelText}
-              />
-            )}
-            {submitButton()}
-          </Frame1371>
-          <Frame1368 id="assignmentData">
-            <Group1225 id="answers">
-              <Frame1367>{answerFrames}</Frame1367>
-            </Group1225>
-            {feedbackFrame()}
-          </Frame1368>
-        </Frame1386>
-        {tabletView ? <FooterSmall /> : <Footer />}
-      </Frame1388>
-    </div>
+              )}
+              {submitButton()}
+            </Frame1371>
+            <Frame1368 id="assignmentData">
+              <Group1225 id="answers">
+                <Frame1367>{answerFrames}</Frame1367>
+              </Group1225>
+              {feedbackFrame()}
+            </Frame1368>
+          </Frame1386>
+          {tabletView ? <FooterSmall /> : <Footer />}
+        </Frame1388>
+      </div>
     </>
   );
 
   function createQuill(submission, answer, answerValue, debounce) {
-    return <QuillEditor
-      id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
-      ref={(editor) =>
-        methods.handleEditorMounted(editor, answer.serialNumber - 1)
-      }
-      comments={comments.filter((comment) => {
-        return comment.questionSerialNumber === answer.serialNumber;
-      })}
-      value={answerValue ? answerValue : ""}
-      options={{
-        modules: modules,
-        theme: "snow",
-        readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
-      }}
-      debounceTime={debounce.debounceTime}
-      onDebounce={debounce.onDebounce}
-    ></QuillEditor>;
+    return (
+      <QuillEditor
+        id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
+        ref={(editor) =>
+          methods.handleEditorMounted(editor, answer.serialNumber - 1)
+        }
+        comments={comments.filter((comment) => {
+          return comment.questionSerialNumber === answer.serialNumber;
+        })}
+        value={answerValue ? answerValue : ""}
+        options={{
+          modules: modules,
+          theme: "snow",
+          readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+        }}
+        debounceTime={debounce.debounceTime}
+        onDebounce={debounce.onDebounce}
+      ></QuillEditor>
+    );
   }
 }
 const TitleWrapper = styled.div`
@@ -361,7 +397,7 @@ const TitleWrapper = styled.div`
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
-  gap:10px;
+  gap: 10px;
 `;
 const StatusText = styled.p`
   // width: 714px;
@@ -418,7 +454,7 @@ const Screen2 = styled.div`
   height: 200vh;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255,1);
+  background-color: rgba(255, 255, 255, 1);
   z-index: 1;
 `;
 const CommentContiner = styled.div`

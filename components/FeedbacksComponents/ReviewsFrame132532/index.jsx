@@ -4,7 +4,29 @@ import { feedbacksIbmplexsansMediumBlack16px } from "../../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 
 function ReviewsFrame132532(props) {
-  const { isShare, reviewer, isClosable, onClose } = props;
+  const {
+    isShare,
+    reviewer,
+    isClosable,
+    onClose,
+    isTeacher,
+    onResolved,
+    isResolved,
+    comment
+  } = props;
+  const [isResolveHovered, setIsResolveHovered] = React.useState(false);
+
+  const handleMouseEnter = () => {
+    setIsResolveHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsResolveHovered(false);
+  };
+
+  const handleClick = () => {
+    onResolved(comment.id);
+  };
   const avatar = (
     <Avatar
       title={false}
@@ -16,6 +38,21 @@ function ReviewsFrame132532(props) {
   );
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
+  ) : !isTeacher && isResolved !== "RESOLVED" ? (
+    <Wrapper>
+      <More
+        src={
+          isResolveHovered
+            ? "/icons/resolve-tick-purple.png"
+            : "/icons/resolve-tick-grey.png"
+        }
+        alt="resolve"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+      />
+      {isResolveHovered && <Tooltip>Resolve</Tooltip>}
+    </Wrapper>
   ) : (
     <></>
   );
@@ -69,6 +106,22 @@ const More = styled.img`
   min-width: 24px;
   height: 24px;
   cursor: pointer;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
+
+const Tooltip = styled.div`
+  position: absolute;
+  background: #1e252a;
+  color: #ffffff;
+  padding: 2px 6px 2px 6px;
+  font-family: "IBM Plex Sans";
+  border-radius: 4px;
+  top: -15px;
+  right: -5px;
+  z-index: 99;
 `;
 
 export default ReviewsFrame132532;

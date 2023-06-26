@@ -15,7 +15,9 @@ function CreateNewMarkingCriteriaDesktop(props) {
   const {
     headerProps,
     criterias,
-    addCriteria
+    addCriteria,
+    saveMarkingCriteria,
+    handleTitleChange
   } = props;
 
   return (
@@ -31,10 +33,11 @@ function CreateNewMarkingCriteriaDesktop(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372 />
+          <Frame1372 saveMethod={saveMarkingCriteria} />
        
            <TitleContainer
               id="markingCriteriaTitleContainer"
+              onChange={handleTitleChange}
           >
           <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
           </TitleContainer>

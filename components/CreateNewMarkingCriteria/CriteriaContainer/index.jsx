@@ -6,7 +6,7 @@ import LevelContainer from "../LevelContainer";
 import Buttons2 from "../Buttons2";
 
 function CriteriaContainer(props) {
-    const {criteriaId, levels, addLevel, deleteLevel, deleteCriteria } = props;
+    const {criteriaId,  addLevel, deleteLevel, deleteCriteria, criteria, updateCriteriaTitle,updateLevelName, updateLevelDescription } = props;
 
   
     const addLevelUpdate = () => {
@@ -25,8 +25,8 @@ function CriteriaContainer(props) {
    
 
 
-    const levelsList = levels.map((level, index) => {
-      return <LevelContainer key={index} levelId={index} deleteLevelUpdate={deleteLevelUpdate} />
+    const levelsList = criteria.levels.map((level, index) => {
+      return <LevelContainer key={index} levelId={index} criteriaId ={criteriaId} deleteLevelUpdate={deleteLevelUpdate} level={level} updateLevelName={updateLevelName} updateLevelDescription={updateLevelDescription}/>
   });
 
   return (
@@ -39,6 +39,9 @@ function CriteriaContainer(props) {
         <CriteriaTitle>
             <CriteriaTitleInput
                 placeholder="Answering the question"
+                id="criteriaName"
+                value={criteria?.title}
+                onChange={(e) => updateCriteriaTitle(criteriaId, e.target.value)}
             />
         </CriteriaTitle>
         <LevelsBox>

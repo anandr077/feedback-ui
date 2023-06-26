@@ -218,6 +218,14 @@ export const addFeedback = async (submissionId, comment) =>
     comment
   );
 
+export const createNewMarkingCriteria = async (markingCriteria) =>{
+  await postApi(baseUrl + "/teachers/markingCriteria", markingCriteria);
+};
+
+export const getAllMarkingCriteria = async () =>{
+  await getApi(baseUrl + "/teachers/markingCriteria");
+}
+
 export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + "/submissions/" + submissionId + "/comments");
 export const getModelResponsesForClass = async (classId) =>

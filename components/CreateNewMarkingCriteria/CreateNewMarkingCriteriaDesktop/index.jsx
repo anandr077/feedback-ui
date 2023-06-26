@@ -18,6 +18,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
     addCriteria,
     saveMarkingCriteria,
     handleTitleChange,
+  deleteMarkingCriteriaMethod,
     isUpdating,
     markingCriterias
   } = props;
@@ -35,7 +36,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372 saveMethod={saveMarkingCriteria} isUpdating={isUpdating} />
+          <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating} />
        
            <TitleContainer
               id="markingCriteriaTitleContainer"

@@ -7,7 +7,7 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria} from "../../../service";
+import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria} from "../../../service";
 import Loader from "../../Loader";
 
 const headerProps = assignmentsHeaderProps;
@@ -127,7 +127,13 @@ const saveMarkingCriteria = () => {
     })
   }
   isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
-  alert("Marking Criteria Saved");
+  window.location.href = "/#/settings";
+}
+
+const deleteMarkingCriteriaMethod = () => {
+  deleteMarkingCriteria(markingCriteriaId);
+  window.location.href = "/#/settings";
+  window.location.reload();
 }
 
 const handleTitleChange = (event) => {
@@ -196,20 +202,24 @@ const criterias = markingCriterias.criterias.map((criteria, index) => {
   )
 });
 
+if(isLoading) {
+  return <Loader />;
+}
+
 
   return (
     <ReactiveRender
       mobile={
-        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange, isUpdating, markingCriterias}} />
+        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria,deleteMarkingCriteriaMethod, handleTitleChange, isUpdating, markingCriterias}} />
       }
       tablet={
-        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange, isUpdating, markingCriterias}} />
+        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, deleteMarkingCriteriaMethod, handleTitleChange, isUpdating, markingCriterias}} />
       }
       laptop={
-        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange, isUpdating, markingCriterias}}/>
+        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, deleteMarkingCriteriaMethod, handleTitleChange, isUpdating, markingCriterias}}/>
       }
       desktop={
-        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, handleTitleChange,isUpdating, markingCriterias}} />
+        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria,deleteMarkingCriteriaMethod, handleTitleChange,isUpdating, markingCriterias}} />
       }
     />
   );

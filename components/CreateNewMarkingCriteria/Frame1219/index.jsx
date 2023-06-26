@@ -1,16 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalElectricViolet16px , IbmplexsansMediumWhite16px} from "../../../styledMixins";
+import {deleteMarkingCriteria } from "../../../service.js";
 
 
 function Frame1219(props) {
-  const {saveMethod, isUpdating} = props;
+  const {saveMethod, deleteMethod, isUpdating} = props;
   return (
     <Frame12191>
-      <Frame1322>
+     { isUpdating && <Frame1322 onClick={deleteMethod}>
         <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
         <Delete>Delete</Delete>
       </Frame1322>
+      }
       <Buttons1>
       <Button onClick={saveMethod}>{isUpdating?'Update Criteria':'Save Criteria'}</Button>
     </Buttons1>

@@ -35,6 +35,8 @@ function App() {
   const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
   const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
+  const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
+  const ProtectedSettings = withAuth(AccountSettingsRoot);
   const Dashboard = ({role}) => {
     const dashboard = role === "TEACHER" ? 
       <ProtectedTeacherDashboard />
@@ -65,13 +67,13 @@ function App() {
     <Router>
       <Switch>
         <Route path="/settings">
-          <AccountSettingsRoot />
+          <ProtectedSettings />
         </Route>
         <Route path="/markingCriterias/new">
-          <CreateNewMarkingCriteriaRoot />
+          <ProtectedMarkingCriteria />
         </Route>
         <Route path="/markingCriterias/:markingCriteriaId">
-          <CreateNewMarkingCriteriaRoot />
+          <ProtectedMarkingCriteria />
         </Route>
         <Route path="/completed">
         <ProtectedCompletedRoot />

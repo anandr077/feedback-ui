@@ -224,6 +224,10 @@ export const createNewMarkingCriteria = async (markingCriteria) =>{
 export const updateMarkingCriteria = async (markingCriteria, markingCriteriaId) =>{
   await postApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId, markingCriteria);
 };
+export const deleteMarkingCriteria = async (markingCriteriaId) =>{
+  await deleteApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId);
+};
+
 
 export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {IbmplexsansNormalElectricViolet14px } from "../../../styledMixins";
+import {deleteMarkingCriteria } from "../../../service.js";
 
 
 function Buttons2(props) {
@@ -12,7 +13,7 @@ function Buttons2(props) {
       <ViewDetails>View and edit</ViewDetails>
       <Arrowright src="/img/arrowright@2x.png" alt="arrowright" />
     </Buttons>
-    <DeleteButtonContainer>
+    <DeleteButtonContainer onClick={()=> {deleteMarkingCriteria(markingCriteriaId); window.location.reload()}}>
     <Arrowright src="/icons/delete-logo.svg" alt="delete" />
     </DeleteButtonContainer>
       </ButtonsContainer>
@@ -66,6 +67,7 @@ gap: 10px;
 border-radius: 6px;
 border: 1px solid #DE2B2B;
 background: #FFF;
+cursor: pointer;
 `;
 
 

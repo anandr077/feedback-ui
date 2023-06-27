@@ -4,24 +4,98 @@ import AccountSettingsMarkingCriteriaDeskt from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaTable3 from "../AccountSettingsMarkingCriteriaTable3";
 import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriteriaTable";
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
+import { assignmentsHeaderProps } from "../../../utils/headerProps";
+import MarkingCriteriaCard from "../MarkingCriteriaCard";
+import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria } from "../../../service.js";
+import Shortcut from "../Shortcut";
+import SettingsNav from "../SettingsNav";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
+import Loader from "../../Loader";
+import SnackbarContext from "../../SnackbarContext";
+
+const headerProps = assignmentsHeaderProps;
 
 export default function AccountSettingsRoot(props) {
+
+
+    const [markingCriterias, setMarkingCriterias] = React.useState([]);
+    const [shortcuts, setShortcuts] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    const { showSnackbar } = React.useContext(SnackbarContext);
+    
+    React.useEffect(() => {
+        Promise.all([ getAllMarkingCriteria() , getShortcuts() ]).then(
+          ([result, shortcuts]) => {
+            if (result) {
+                setMarkingCriterias(result);
+              }
+              setShortcuts(shortcuts);
+              setIsLoading(false);
+          }
+        );
+      }, []);
+
+      
+    const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
+        deleteMarkingCriteria(markingCriteriaId).then(() => {
+            window.location.reload();
+            showSnackbar("Marking Criteria Deleted Successfully");
+        }
+        ).catch((error) => {
+            showSnackbar("Error Deleting Marking Criteria");
+        });
+    }
+
+     const markingCriteriaList= markingCriterias?.map((markingCriteria, index) => (
+        <MarkingCriteriaCard key={index} title={markingCriteria.title} markingCriteriaId={markingCriteria.id} deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}/>
+      ));
+
+
+     ;
+      const shortcutList = shortcuts.map((shortcut, index) => (
+          <Shortcut key={index} label={shortcut.text} />
+      ));
+  
+
+    const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(true);
+    const [showUserSettings, setShowUserSettings] = React.useState(false);
+    const [showShortcuts, setShowShortcuts] = React.useState(false);
+
+    const sidebarNav = <SettingsNav 
+    setShowMarkingCriteria={setShowMarkingCriteria} 
+    setShowShortcuts={setShowShortcuts} 
+    setShowUserSettings={setShowUserSettings}
+    showMarkingCriteria={showMarkingCriteria}
+    showUserSettings={showUserSettings}
+    showShortcuts={showShortcuts} />;
+
+const breadCrumbs = <>          
+<Breadcrumb text ="Account Settings" link={"/#/settings"}/>
+{ (showMarkingCriteria || showUserSettings || showShortcuts ) 
+&& <Breadcrumb2 title ={showMarkingCriteria ? "Marking Criteria" : showShortcuts ? "Shortcuts" : "User Settings" } />
+}
+</>
+
+if (isLoading) {
+    return <Loader/>;
+  }
 
 return (
     <ReactiveRender
       mobile={
-        <AccountSettingsMarkingCriteriaTable {...accountSettingsMarkingCriteriaTableData} />
+        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, shortcutList, setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }
       tablet={
-        <AccountSettingsMarkingCriteriaTable3 {...accountSettingsMarkingCriteriaTable3Data} />
+        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs }} />
       }
       laptop={
-        <AccountSettingsMarkingCriteriaLapto {...accountSettingsMarkingCriteriaLaptoData} />
+        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList , shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }
       desktop={
-        <AccountSettingsMarkingCriteriaDeskt {...accountSettingsMarkingCriteriaDesktData} />
-      }
-    />
+        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+      }markingCriteriaList />
   );
 }
 

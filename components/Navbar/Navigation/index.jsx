@@ -80,6 +80,11 @@ function Navigation(props) {
           className={navigationData.navElement72Props.className}
           onClick={()=>changePassword()}
         />
+         <NavElement7
+          text="Settings"
+          className={navigationData.navElement72Props.className}
+          onClick={()=>window.location.href = "/#/settings"}
+        />
         <NavElement8 onClick={() => logout()}></NavElement8>
       </Frame5>
     </NavbarDiv>

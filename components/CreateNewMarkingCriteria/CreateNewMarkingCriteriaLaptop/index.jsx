@@ -1,6 +1,6 @@
 import React from "react";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import GoBack from "../GoBack";
 import Frame1372 from "../Frame1372";
 import Frame1281 from "../Frame1281";
@@ -10,17 +10,21 @@ import { IbmplexsansNormalChicago13px, IbmplexsansNormalStack20px} from "../../.
 import "./CreateNewMarkingCriteriaLaptop.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import { is } from "date-fns/locale";
 
 
 
 function CreateNewMarkingCriteriaLaptop(props) {
   const {
-    breadcrumb21Props,
-    breadcrumb22Props,
     frame1372Props,
     headerProps,
     criterias,
-    addCriteria
+    addCriteria,
+    saveMarkingCriteria,
+    deleteMarkingCriteriaMethod,
+    handleTitleChange,
+    isUpdating,
+    markingCriterias
   } = props;
   return (
     <div className="account-settings-marking-criteria-create-new-laptop screen">
@@ -28,18 +32,19 @@ function CreateNewMarkingCriteriaLaptop(props) {
       <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+            <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
+            <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
+            <Breadcrumb2 title ={isUpdating?"Updating Marking Criteria":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
         <Frame1376>
-        <Frame1372 className={frame1372Props.className} />
+        <Frame1372 className={frame1372Props.className} saveMethod={saveMarkingCriteria} deleteMethod= {deleteMarkingCriteriaMethod} isUpdating={isUpdating} />
           <TitleContainer
               id="markingCriteriaTitleContainer"
           >
-          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
+          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" value={markingCriterias.title}
+              onChange={handleTitleChange} ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

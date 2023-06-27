@@ -1,22 +1,13 @@
 import React from "react";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
+import Breadcrumb from "../../Breadcrumb";
+import Breadcrumb2 from "../../Breadcrumb2";
 import GoBack from "../GoBack";
 import Frame1219 from "../Frame1219";
-import Input from "../Input";
 import Frame1281 from "../Frame1281";
-import StatusBubbles from "../StatusBubbles";
-import Input2 from "../Input2";
-import StatusBubbles2 from "../StatusBubbles2";
-import CriteriaLevelInput4 from "../CriteriaLevelInput4";
-import CriteriaLevelInput5 from "../CriteriaLevelInput5";
 import Buttons2 from "../Buttons2";
-import CriteriaLevelInput6 from "../CriteriaLevelInput6";
 import styled from "styled-components";
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalStack20px
 } from "../../../styledMixins";
 import "./CreateNewMarkingCriteriaMobile.css";
@@ -26,11 +17,14 @@ import HeaderSmall from "../../HeaderSmall";
 function CreateNewMarkingCriteriaMobile(props) {
   const {
     title,
-    breadcrumb21Props,
-    breadcrumb22Props,
     headerProps,
     criterias,
-    addCriteria
+    addCriteria,
+    saveMarkingCriteria,
+    deleteMarkingCriteriaMethod,
+    handleTitleChange,
+    isUpdating,
+    markingCriterias
   } = props;
 
   return (
@@ -39,21 +33,21 @@ function CreateNewMarkingCriteriaMobile(props) {
         <HeaderSmall headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb />
-            <Breadcrumb2 assignments={breadcrumb21Props.assignments} />
-            <Breadcrumb2 assignments={breadcrumb22Props.assignments} />
+          <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
+            <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
+            <Breadcrumb2 title ={isUpdating?"Updating Marking Criteria":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
         <Frame1376>
           <Frame1372>
-            <Title>{title}</Title>
-            <Frame1219 />
+            <Title>{isUpdating? 'Updating marking criteria' :'Create new marking criteria'}</Title>
+            <Frame1219 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod}  isUpdating={isUpdating}/>
           </Frame1372>
           <TitleContainer
               id="markingCriteriaTitleContainer"
           >
-          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" ></TextInput>
+          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" value={markingCriterias.title}  onChange={handleTitleChange} ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

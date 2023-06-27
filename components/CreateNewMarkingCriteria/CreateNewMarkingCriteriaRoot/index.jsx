@@ -1,4 +1,5 @@
 import React ,{useState} from "react";
+import { useParams } from "react-router-dom";
 import CreateNewMarkingCriteriaDesktop from "../CreateNewMarkingCriteriaDesktop";
 import CreateNewMarkingCriteriaTablet from "../CreateNewMarkingCriteriaTablet";
 import CreateNewMarkingCriteriaLaptop from "../CreateNewMarkingCriteriaLaptop";
@@ -6,42 +7,77 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import { FunctionsSharp } from "@mui/icons-material";
+import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria} from "../../../service";
+import Loader from "../../Loader";
+import SnackbarContext from "../../SnackbarContext";
 
 const headerProps = assignmentsHeaderProps;
 
 export default function CreateNewMarkingCriteriaRoot(props) {
+  const { markingCriteriaId } = useParams();
 
-  const [markingCriterias, setMarkingCriterias] = useState({
-    name: "",
-    criterias: [
-      {
-        id: "0",
-        name: "",
-        levels: [
-          {
-            id: "0",
-            name: "",
-            description: "",
-          },
-        ],
-      },
-    ]
-  });
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [isUpdating, setIsUpdating] = React.useState(false);
 
-function addCriteria() {
-  const newCriteria = {
-    id: markingCriterias.criterias.length,
-    name: "",
+  const { showSnackbar } = React.useContext(SnackbarContext);
+
+const getNewCriteria = (criteriaId) => {
+  return {
+    id: {criteriaId},
+    title: "",
     levels: [
       {
-        id: "0",
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
         name: "",
         description: "",
       },
     ],
   };
+}
+
+const getDefaultCriteria = () => {
+  const criteria = getNewCriteria(0);
+  return { 
+   title:"",
+   criterias: [criteria] };
+}
+
+const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria)
+
+React.useEffect(() => {
+  Promise.all([ getAllMarkingCriteria() ]).then(
+    ([result]) => {
+      if (result.filter((criteria) => criteria.id === markingCriteriaId).length > 0) {
+          setMarkingCriterias(result[0]);
+          setIsUpdating(true);
+        }
+        setIsLoading(false);
+    }
+  );
+}, []);
+
+
+function addCriteria() {
+  const newCriteria = getNewCriteria(markingCriterias.criterias.length);
   setMarkingCriterias({ ...markingCriterias, criterias: [...markingCriterias.criterias, newCriteria] });
+}
+
+function deleteCriteria(criteriaId) { 
+  const newCriterias = markingCriterias.criterias.filter((criteria, index) => {
+    return index != criteriaId;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+
 }
 
 const addLevel = (criteriaId) => {
@@ -68,8 +104,7 @@ const deleteLevel = (criteriaId, levelId) => {
       return {
         ...criteria,
         levels: criteria.levels.filter((level, index) => {
-          if(index !== levelId) {console.log("level", level, "index", index)}
-          return index !== levelId;
+          return index != levelId;
         })
       }
     }
@@ -78,25 +113,120 @@ const deleteLevel = (criteriaId, levelId) => {
   setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
 };
 
+const saveMarkingCriteria = () => {
+  const markingCriteria = {
+    title: markingCriterias.title,
+    criterias: markingCriterias.criterias.map((criteria) => {
+      return {
+        title: criteria.title,
+        levels: criteria.levels.map((level) => {
+          return {
+            name: level.name,
+            description: level.description,
+          }
+        })
+      }
+    })
+  }
+  isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
+  showSnackbar(isUpdating? "Marking Criteria Updated Successfully" :"Marking Criteria Created Successfully" );
+  window.location.href = "/#settings";
+}
+
+const deleteMarkingCriteriaMethod = () => {
+  deleteMarkingCriteria(markingCriteriaId).then(() => {
+    showSnackbar("Marking Criteria Deleted Successfully");
+    window.location.href = "/#settings";
+  }).catch((error) => {
+    showSnackbar("An error occured while deleting marking criteria");
+  });
+  
+}
+
+const handleTitleChange = (event) => {
+  setMarkingCriterias({ ...markingCriterias, title: event.target.value });
+}
+
+const updateCriteriaTitle = (id, newTitle ) => {
+  console.log(newTitle);
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === id) {
+      return {
+        ...criteria,
+        title: newTitle
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
+const updateLevelName = (criteriaId, levelId, newName) => {
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === criteriaId) {
+      return {
+        ...criteria,
+        levels: criteria.levels.map((level, index) => {
+          if (index === levelId) {
+            return {
+              ...level,
+              name: newName
+            }
+          }
+          return level;
+        })
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
+const updateLevelDescription = (criteriaId, levelId, newDescription) => {
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === criteriaId) {
+      return {
+        ...criteria,
+        levels: criteria.levels.map((level, index) => {
+          if (index === levelId) {
+            return {
+              ...level,
+              description: newDescription
+            }
+          }
+          return level;
+        })
+      }
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
 const criterias = markingCriterias.criterias.map((criteria, index) => {
   return (
-    <CriteriaContainer key={index} criteriaId={index} levels={criteria.levels} addLevel={addLevel} deleteLevel={deleteLevel}/>
+    <CriteriaContainer key={index} criteriaId={index} addLevel={addLevel} deleteLevel={deleteLevel} deleteCriteria={deleteCriteria} criteria={criteria} updateCriteriaTitle={updateCriteriaTitle} updateLevelName={updateLevelName} updateLevelDescription={updateLevelDescription}/>
   )
 });
+
+if(isLoading) {
+  return <Loader />;
+}
+
 
   return (
     <ReactiveRender
       mobile={
-        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel}} />
+        <CreateNewMarkingCriteriaMobile {...{...accountSettingsMarkingCriteriaCreat2Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria,deleteMarkingCriteriaMethod, handleTitleChange, isUpdating, markingCriterias}} />
       }
       tablet={
-        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel}} />
+        <CreateNewMarkingCriteriaTablet {...{...accountSettingsMarkingCriteriaCreat3Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, deleteMarkingCriteriaMethod, handleTitleChange, isUpdating, markingCriterias}} />
       }
       laptop={
-        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel}}/>
+        <CreateNewMarkingCriteriaLaptop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria, deleteMarkingCriteriaMethod, handleTitleChange, isUpdating, markingCriterias}}/>
       }
       desktop={
-        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel}} />
+        <CreateNewMarkingCriteriaDesktop {...{...accountSettingsMarkingCriteriaCreat4Data, headerProps, criterias, addCriteria, addLevel, saveMarkingCriteria,deleteMarkingCriteriaMethod, handleTitleChange,isUpdating, markingCriterias}} />
       }
     />
   );

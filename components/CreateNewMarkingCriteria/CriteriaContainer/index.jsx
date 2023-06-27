@@ -6,10 +6,9 @@ import LevelContainer from "../LevelContainer";
 import Buttons2 from "../Buttons2";
 
 function CriteriaContainer(props) {
-    const {criteriaId, levels, addLevel, deleteLevel} = props;
+    const {criteriaId,  addLevel, deleteLevel, deleteCriteria, criteria, updateCriteriaTitle,updateLevelName, updateLevelDescription } = props;
 
-   
-
+  
     const addLevelUpdate = () => {
         addLevel(criteriaId);
     }
@@ -19,17 +18,30 @@ function CriteriaContainer(props) {
         deleteLevel(criteriaId, levelId);
     }
 
+   const deleteCriteriaUpdate= () => {
+    console.log("deleteCriteriaUpdate", criteriaId);
+        deleteCriteria(criteriaId);
+    }
+   
 
-    const levelsList = levels.map((level, index) => {
-      return <LevelContainer key={index} levelId={index} deleteLevelUpdate={deleteLevelUpdate} />
+
+    const levelsList = criteria.levels.map((level, index) => {
+      return <LevelContainer key={index} levelId={index} criteriaId ={criteriaId} deleteLevelUpdate={deleteLevelUpdate} level={level} updateLevelName={updateLevelName} updateLevelDescription={updateLevelDescription}/>
   });
 
   return (
     <CriteriaContainerInner>
-        <StatusBubbles />
+      <BubblesContainer>
+      <StatusBubbles />
+      <StatusBubbles deleteBubble={true} deleteCriteriaUpdate={deleteCriteriaUpdate}/>
+      </BubblesContainer>
+
         <CriteriaTitle>
             <CriteriaTitleInput
                 placeholder="Answering the question"
+                id="criteriaName"
+                value={criteria?.title}
+                onChange={(e) => updateCriteriaTitle(criteriaId, e.target.value)}
             />
         </CriteriaTitle>
         <LevelsBox>
@@ -40,6 +52,11 @@ function CriteriaContainer(props) {
     </CriteriaContainerInner>
   )
 }
+
+const BubblesContainer = styled.div`
+display: flex;
+align-items: flex-start;
+gap: 4px;`;
 
 const CriteriaContainerInner = styled.div`
   display: flex;
@@ -52,9 +69,10 @@ const CriteriaContainerInner = styled.div`
   align-self: stretch;
   background-color: var(--white);
   border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet-2);
   box-shadow: 0px 4px 16px #7200e01a;
+  border-radius: 16px;
+  border: 1px solid rgba(114, 0, 224, 0.20);
+  background: #FFF;
 `;
 
 const CriteriaTitle = styled.div`

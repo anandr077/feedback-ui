@@ -4,18 +4,18 @@ import styled from "styled-components";
 import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 
 
-function Cards4(props) {
-  const { systemDefault } = props;
+function MarkingCriteriaCard(props) {
+  const { title, markingCriteriaId,  deleteMarkingCriteriaHandler} = props;
 
   return (
-    <Cards>
-      <SystemDefault>{systemDefault}</SystemDefault>
-      <Buttons2 />
-    </Cards>
+    <MarkingCriteriaEntry>
+      <Title>{title}</Title>
+      <Buttons2 markingCriteriaId={markingCriteriaId} deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}/>
+    </MarkingCriteriaEntry>
   );
 }
 
-const Cards = styled.div`
+const MarkingCriteriaEntry = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -24,12 +24,13 @@ const Cards = styled.div`
   align-self: stretch;
   background-color: var(--white);
   border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--wild-sand);
+border: 1px solid #F3F3F3;
+  background: #FFF;
   box-shadow: 0px 4px 22px #2f1a720a;
+  border-radius: 16px;
 `;
 
-const SystemDefault = styled.div`
+const Title = styled.div`
   ${IbmplexsansNormalShark20px}
   position: relative;
   flex: 1;
@@ -38,4 +39,4 @@ const SystemDefault = styled.div`
   line-height: normal;
 `;
 
-export default Cards4;
+export default MarkingCriteriaCard;

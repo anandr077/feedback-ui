@@ -4,12 +4,12 @@ import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
 
 
 function Buttons(props) {
-  const { add, button, className } = props;
+  const { text, className, link , noIcon} = props;
 
   return (
-    <Buttons1 className={`buttons ${className || ""}`}>
-      <Add className="add" src={add} alt="add" />
-      <Button className="button">{button}</Button>
+    <Buttons1 className={`buttons ${className || ""}`} onClick={()=> window.location.href=link}>
+     {!noIcon && <Add className="add" src="/img/add@2x.png" alt="add" />}
+      <Button className="button" >{text}</Button>
     </Buttons1>
   );
 }
@@ -25,7 +25,7 @@ const Buttons1 = styled.div`
   background-color: var(--light-mode-purple);
   border-radius: 30px;
   border: 1px solid;
-
+  cursor: pointer;
   &.buttons.buttons-1 {
     align-self: stretch;
     width: unset;

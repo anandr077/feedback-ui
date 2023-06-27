@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansMediumWhite20px } from "../../../styledMixins";
+import { IbmplexsansNormalWhite20px } from "../../../styledMixins";
 
 
 function VericalNav2(props) {
@@ -25,7 +25,7 @@ const VericalNav = styled.article`
 `;
 
 const Label = styled.div`
-  ${IbmplexsansMediumWhite20px}
+  ${IbmplexsansNormalWhite20px}
   position: relative;
   width: fit-content;
   margin-top: -1px;
@@ -45,7 +45,7 @@ const VericalNav1 = styled.article`
 `;
 
 const Label1 = styled.div`
-  ${IbmplexsansMediumWhite20px}
+  ${IbmplexsansNormalWhite20px}
   position: relative;
   width: fit-content;
   margin-top: -1px;
@@ -65,7 +65,7 @@ const VericalNav3 = styled.article`
 `;
 
 const Label2 = styled.div`
-  ${IbmplexsansMediumWhite20px}
+  ${IbmplexsansNormalWhite20px}
   position: relative;
   width: fit-content;
   margin-top: -1px;

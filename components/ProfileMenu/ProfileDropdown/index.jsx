@@ -15,6 +15,11 @@ function ProfileDropdown() {
       />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
+        text="Settings"
+        onClick={() => window.location.href = "/#/settings"}
+      />
+      <Line6 src="/icons/line.png" alt="Line 6" />
+      <ProfileDropDownElement
         text="Logout"
         noIcon={true}
         onClick={() => {

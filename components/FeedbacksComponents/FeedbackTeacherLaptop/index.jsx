@@ -310,7 +310,7 @@ function FeedbackTeacherLaptop(props) {
         submission.assignment.questions[newCommentSerialNumber - 1].focusAreaIds
     );
     console.log("FA" + newCommentSerialNumber);
-    const focusAreas = submission.assignment.focusAreas.filter((fa) => {
+    const focusAreas = submission.assignment.focusAreas?.filter((fa) => {
       return submission.assignment.questions[
         newCommentSerialNumber - 1
       ].focusAreaIds.includes(fa.id);

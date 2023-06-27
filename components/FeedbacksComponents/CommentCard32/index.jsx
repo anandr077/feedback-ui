@@ -81,7 +81,7 @@ function CommentCard32(props) {
       >
         {comment.comment}
       </HoremIpsumDolorSi>
-      {comment.reply.length > 0 && showReply()}
+      {comment?.reply?.length > 0 && showReply()}
       {isResolved !== "RESOLVED" && !isReplyClicked && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />

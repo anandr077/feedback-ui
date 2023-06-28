@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ReviewsFrame132532 from "../ReviewsFrame132532";
 import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
+import { IbmplexsansNormalBlack16px, feedbacksIbmplexsansMediumBlack16px } from "../../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 
 function CommentCard32(props) {
@@ -41,25 +41,25 @@ function CommentCard32(props) {
   }
 
   function showReply() {
-    return comment.reply.map((reply) => {
+    return comment.replies.map((reply) => {
       return (
         <ReplyCommentWrapper>
           <ProfileWrapper>
             <Avatar
               title={false}
-              size={25}
+              size={23}
               variant="beam"
               name={reply.reviewerName}
               square={false}
             />
-            <div>{reply.reviewerName}</div>
+            <ReviewerName>{reply.reviewerName}</ReviewerName>
           </ProfileWrapper>
-          <div>{reply.feedback}</div>
+          <CommentTextSmall >{reply.comment}</CommentTextSmall>
         </ReplyCommentWrapper>
       );
     });
   }
-
+console.log("##comment", comment)
   return (
     <CommentCard
       id={"comment_" + comment.id}
@@ -75,13 +75,17 @@ function CommentCard32(props) {
         isResolved={isResolved}
         comment={comment}
       />
-      <HoremIpsumDolorSi
+      <CommentText
         onClick={() => onClick(comment)}
         className="horem-ipsum-dolor-si-1"
       >
         {comment.comment}
-      </HoremIpsumDolorSi>
-      {comment?.reply?.length > 0 && showReply()}
+      </CommentText>
+
+      {comment.replies?.length > 0 
+      && showReply()
+      }
+
       {isResolved !== "RESOLVED" && !isReplyClicked && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />
@@ -119,6 +123,14 @@ function CommentCard32(props) {
   );
 }
 
+const ReviewerName = styled.div`
+  ${feedbacksIbmplexsansMediumBlack16px}
+  position: relative;
+  flex: 1;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
 const CommentCard = styled.article`
   display: flex;
   flex-direction: column;
@@ -143,8 +155,18 @@ const CommentCard = styled.article`
   }
 `;
 
-const HoremIpsumDolorSi = styled.div`
+const CommentText = styled.div`
   ${IbmplexsansNormalBlack16px}
+  position: relative;
+  align-self: stretch;
+  letter-spacing: 0;
+  line-height: normal;
+  cursor: pointer;
+`;
+
+const CommentTextSmall = styled.div`
+  ${IbmplexsansNormalBlack16px}
+  font-size: 14px;
   position: relative;
   align-self: stretch;
   letter-spacing: 0;
@@ -218,6 +240,7 @@ const ReplyCommentWrapper = styled.div`
   flex-direction: column;
   gap: 8px;
   font-family: IBM Plex Sans;
+  margin-left: 20px;
 `;
 
 const ProfileWrapper = styled.div`

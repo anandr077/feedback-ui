@@ -218,6 +218,12 @@ export const addFeedback = async (submissionId, comment) =>
     comment
   );
 
+  export const updateFeedback = async (submissionId, commentId,comment) =>
+  await postApi(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
+    comment
+  );
+
 export const createNewMarkingCriteria = async (markingCriteria) =>{
   await postApi(baseUrl + "/teachers/markingCriteria", markingCriteria);
 };

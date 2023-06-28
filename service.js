@@ -219,10 +219,13 @@ export const addFeedback = async (submissionId, comment) =>
   );
 
   export const updateFeedback = async (submissionId, commentId,comment) =>
-  await postApi(
+  await putApi(
     baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
     comment
   );
+
+  export const resolveFeedback = async (feedbackId) =>
+  await patchApi(baseUrl + "/feedbacks/comment/" + feedbackId + "/resolve");
 
 export const createNewMarkingCriteria = async (markingCriteria) =>{
   await postApi(baseUrl + "/teachers/markingCriteria", markingCriteria);
@@ -280,6 +283,7 @@ export const unpublishModelResponse = async (feedbackId) =>
   );
 export const denyModelResponse = async (feedbackId) =>
   await patchApi(baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/deny");
+
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 

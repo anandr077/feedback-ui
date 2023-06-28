@@ -15,6 +15,7 @@ import styled from "styled-components";
 import {
   addFeedback,
   updateFeedback,
+  resolveFeedback,
   deleteFeedback,
   getSubmissionById,
   getSubmissionsByAssignmentId,
@@ -350,6 +351,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function handleResolvedComment(commentId) {
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
+        resolveFeedback(commentId);
         return { ...comment, status: "RESOLVED" };
       }
       return comment;

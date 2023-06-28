@@ -39,7 +39,10 @@ const Buttons = styled.div`
   border: 1px solid;
   border-color: var(--light-mode-purple);
   cursor: pointer;
-  
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const ViewDetails = styled.div`
@@ -68,6 +71,10 @@ border-radius: 6px;
 border: 1px solid #DE2B2B;
 background: #FFF;
 cursor: pointer;
+transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 

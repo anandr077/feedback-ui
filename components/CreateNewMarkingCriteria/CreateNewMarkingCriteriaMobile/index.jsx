@@ -35,13 +35,13 @@ function CreateNewMarkingCriteriaMobile(props) {
           <Frame1315>
           <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
             <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
-            <Breadcrumb2 title ={isUpdating?"Updating Marking Criteria":"Create New"}  />
+            <Breadcrumb2 title ={isUpdating?"Update Marking Criteria":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
         <Frame1376>
           <Frame1372>
-            <Title>{isUpdating? 'Updating marking criteria' :'Create new marking criteria'}</Title>
+            <Title>{isUpdating? 'Update Marking Criteria' :'Create new marking criteria'}</Title>
             <Frame1219 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod}  isUpdating={isUpdating}/>
           </Frame1372>
           <TitleContainer

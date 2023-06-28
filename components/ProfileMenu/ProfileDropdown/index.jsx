@@ -2,9 +2,10 @@ import React from "react";
 import ProfileDropDownElement from "../ProfileDropDownElement";
 import "./ProfileDropdown.css";
 import styled from "styled-components";
-import { account, changePassword, logout } from "../../../service";
+import { account, changePassword, logout, getUserRole } from "../../../service";
 
 function ProfileDropdown() {
+  const role = getUserRole();
   return (
     <>
       <ProfileDropDownElement text="View Profile" onClick={() => account()} />
@@ -13,11 +14,16 @@ function ProfileDropdown() {
         text="Change Password"
         onClick={() => changePassword()}
       />
-      <Line6 src="/icons/line.png" alt="Line 6" />
-      <ProfileDropDownElement
-        text="Settings"
-        onClick={() => window.location.href = "/#/settings"}
-      />
+      { role === "TEACHER" && (
+        <>
+          <Line6 src="/icons/line.png" alt="Line 6" />
+          <ProfileDropDownElement
+          text="Settings"
+          noIcon={true}
+          onClick={() => window.location.href = "/#/settings"}
+        />
+        </>
+      )}
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Logout"

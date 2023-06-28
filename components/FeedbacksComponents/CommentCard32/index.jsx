@@ -17,6 +17,7 @@ function CommentCard32(props) {
     onResolved,
     isResolved,
     handleReplyComment,
+    isDefaultCard
   } = props;
 
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
@@ -86,7 +87,7 @@ console.log("##comment", comment)
       && showReply()
       }
 
-      {isResolved !== "RESOLVED" && !isReplyClicked && (
+      {isResolved !== "RESOLVED" && !isReplyClicked && !isDefaultCard && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />
           <div>Reply</div>

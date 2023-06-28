@@ -398,6 +398,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
     setExemplerComment("");
     setShowShareWithClass(false);
+    window.location.reload();
   }
 
   function handleSubmissionReviewed() {

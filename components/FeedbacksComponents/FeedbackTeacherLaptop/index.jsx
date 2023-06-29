@@ -36,6 +36,7 @@ import ReviewsFrame1320 from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
 import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
+import { tr } from "date-fns/locale";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -148,6 +149,7 @@ function FeedbackTeacherLaptop(props) {
                     reviewer="Jeddle"
                     comment={defaultReviewComment}
                     onClick={() => {}}
+                    isDefaultCard={true}
                     isTeacher={isTeacher}
                     defaultComment={true}
                   />
@@ -156,6 +158,7 @@ function FeedbackTeacherLaptop(props) {
                     reviewer="Jeddle"
                     comment={defaultNonReviewComment}
                     onClick={() => {}}
+                    isDefaultCard={true}
                     isTeacher={isTeacher}
                     defaultComment={true}
                   />

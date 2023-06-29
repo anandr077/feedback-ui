@@ -14,6 +14,8 @@ import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import styled from "styled-components";
 import {
   addFeedback,
+  updateFeedback,
+  resolveFeedback,
   deleteFeedback,
   getSubmissionById,
   getSubmissionsByAssignmentId,
@@ -73,7 +75,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       .then(([submissionsResult, commentsResult]) => {
         setSubmission(submissionsResult);
         const allComments = commentsResult.map((c) => {
-          return { ...c, reply: [] };
+          return { ...c };
         });
         setComments(allComments);
       })
@@ -150,6 +152,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: document.getElementById("newCommentInput").value,
       range: selectedRange,
       type: "COMMENT",
+      replies: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -170,6 +173,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: commentText,
       range: selectedRange,
       type: "COMMENT",
+      replies: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -191,6 +195,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: "FOCUS_AREA",
       color: focusArea.color,
       focusAreaId: focusArea.id,
+      replies: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -210,6 +215,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: exemplarComment,
       range: selectedRange,
       type: "MODEL_RESPONSE",
+      replies: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -346,6 +352,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function handleResolvedComment(commentId) {
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
+        resolveFeedback(commentId);
         return { ...comment, status: "RESOLVED" };
       }
       return comment;
@@ -354,21 +361,45 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleReplyComment(replyComment, commentId, serialNumber) {
-    const newCommant = {
+    const replyCommentObject = {
       questionSerialNumber: serialNumber,
-      feedback: replyComment,
+      comment: replyComment,
       range: {from: 0, to: 0},
       type: "COMMENT",
       reviewerId:getUserId(),
       reviewerName:getUserName(),
+      replies:[]
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
-        return { ...comment, reply: [...comment.reply, newCommant]};
+        const commentToUpdate= 
+        comment.replies === undefined ? 
+        { ...comment, replies: [replyCommentObject]} :
+        { ...comment, replies: [...comment.replies,replyCommentObject]}
+  
+            updateFeedback(submission.id, commentId, {
+              questionSerialNumber: commentToUpdate.questionSerialNumber,
+              feedback: commentToUpdate.comment,
+              range: commentToUpdate.range,
+              type: commentToUpdate.type,
+              replies: commentToUpdate.replies,
+              reviewerId: commentToUpdate.reviewerId,
+            })
+            .then((response) => {
+            if (response) {
+              return commentToUpdate;
+            }
+          });
       }
       return comment;
     });
+
     setComments(addReplyComments);
+    setNewCommentValue("");
+    setShowNewComment(false);
+    setExemplerComment("");
+    setShowShareWithClass(false);
+    window.location.reload();
   }
 
   function handleSubmissionReviewed() {

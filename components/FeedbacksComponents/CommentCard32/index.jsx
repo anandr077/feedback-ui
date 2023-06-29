@@ -17,6 +17,7 @@ function CommentCard32(props) {
     onResolved,
     isResolved,
     handleReplyComment,
+    defaultComment = false,
   } = props;
 
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
@@ -43,19 +44,37 @@ function CommentCard32(props) {
   function showReply() {
     return comment.reply.map((reply) => {
       return (
-        <ReplyCommentWrapper>
-          <ProfileWrapper>
-            <Avatar
-              title={false}
-              size={25}
-              variant="beam"
-              name={reply.reviewerName}
-              square={false}
-            />
-            <div>{reply.reviewerName}</div>
-          </ProfileWrapper>
-          <div>{reply.feedback}</div>
-        </ReplyCommentWrapper>
+        // <ReplyCommentWrapper>
+        //   <ProfileWrapper>
+        //     <Avatar
+        //       title={false}
+        //       size={25}
+        //       variant="beam"
+        //       name={reply.reviewerName}
+        //       square={false}
+        //     />
+        //     <div>{reply.reviewerName}</div>
+        //   </ProfileWrapper>
+        //   <div>{reply.feedback}</div>
+        // </ReplyCommentWrapper>
+        <>
+          <ReviewsFrame132532
+            isShare={comment.type === "MODEL_RESPONSE"}
+            reviewer={reply.reviewerName}
+            isClosable={isClosable}
+            onClose={onClose}
+            isTeacher={isTeacher}
+            onResolved={onResolved}
+            isResolved={true}
+            comment={reply}
+          />
+          <HoremIpsumDolorSi
+            onClick={() => onClick(comment)}
+            className="horem-ipsum-dolor-si-1"
+          >
+            {comment.comment}
+          </HoremIpsumDolorSi>
+        </>
       );
     });
   }
@@ -82,7 +101,7 @@ function CommentCard32(props) {
         {comment.comment}
       </HoremIpsumDolorSi>
       {comment?.reply?.length > 0 && showReply()}
-      {isResolved !== "RESOLVED" && !isReplyClicked && (
+      {isResolved !== "RESOLVED" && !isReplyClicked && !defaultComment && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />
           <div>Reply</div>
@@ -218,6 +237,9 @@ const ReplyCommentWrapper = styled.div`
   flex-direction: column;
   gap: 8px;
   font-family: IBM Plex Sans;
+  padding-top: 12px;
+  border-top: 1px solid #f1e6fc;
+  width: 100%;
 `;
 
 const ProfileWrapper = styled.div`

@@ -149,6 +149,7 @@ function FeedbackTeacherLaptop(props) {
                     comment={defaultReviewComment}
                     onClick={() => {}}
                     isTeacher={isTeacher}
+                    defaultComment={true}
                   />
                 ) : (
                   <CommentCard32
@@ -156,6 +157,7 @@ function FeedbackTeacherLaptop(props) {
                     comment={defaultNonReviewComment}
                     onClick={() => {}}
                     isTeacher={isTeacher}
+                    defaultComment={true}
                   />
                 )
               ) : (

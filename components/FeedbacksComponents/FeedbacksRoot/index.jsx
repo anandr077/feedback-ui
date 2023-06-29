@@ -41,6 +41,7 @@ import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 import SnackbarContext from "../../SnackbarContext";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
+  console.log("getUserId:", getUserId());
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
   const [showShareWithClass, setShowShareWithClass] = useState(false);

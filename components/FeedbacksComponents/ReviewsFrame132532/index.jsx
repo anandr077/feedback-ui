@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { feedbacksIbmplexsansMediumBlack16px } from "../../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
+import { getUserId } from "../../../service";
 
 function ReviewsFrame132532(props) {
   const {
@@ -12,10 +13,12 @@ function ReviewsFrame132532(props) {
     isTeacher,
     onResolved,
     isResolved,
-    comment
+    comment,
   } = props;
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
+  const [isMoreClicked, setIsMoreClicked] = React.useState(false);
 
+  console.log("props: ", props);
   const handleMouseEnter = () => {
     setIsResolveHovered(true);
   };
@@ -27,6 +30,19 @@ function ReviewsFrame132532(props) {
   const handleClick = () => {
     onResolved(comment.id);
   };
+
+  const handleMoreClick = () => {
+    setIsMoreClicked(!isMoreClicked);
+  };
+
+  const handleEditClick = () => {
+    console.log("edit clicked...");
+  };
+
+  const handleDeleteClick = () => {
+    console.log("delete clicked...");
+  };
+
   const avatar = (
     <Avatar
       title={false}
@@ -56,6 +72,20 @@ function ReviewsFrame132532(props) {
   ) : (
     <></>
   );
+  const openEditDeleteTemplate = isMoreClicked ? (
+    <MoreOptionsWrapper>
+      <MoreOptions onClick={handleEditClick}>
+        <More src="/icons/edit-purple-icon.svg" />
+        <div>Edit</div>
+      </MoreOptions>
+      <MoreOptions onClick={handleDeleteClick}>
+        <More src="/icons/delete-purple-icon.svg" />
+        <div>Delete</div>
+      </MoreOptions>
+    </MoreOptionsWrapper>
+  ) : (
+    <></>
+  );
   const shareIcon = <Ellipse7 src="/icons/share.png" />;
   const commenterFrame = isShare ? shareIcon : avatar;
   const reviewerFrame = isShare ? "Shared with class" : reviewer;
@@ -66,6 +96,10 @@ function ReviewsFrame132532(props) {
         <Instructer>{reviewerFrame}</Instructer>
       </Frame1324>
       {closeFrame}
+      {getUserId() === comment.reviewerId && isResolved !== "RESOLVED" && (
+        <More onClick={handleMoreClick} src="/icons/three-dot.svg" />
+      )}
+      {openEditDeleteTemplate}
     </Frame1325>
   );
 }
@@ -121,7 +155,33 @@ const Tooltip = styled.div`
   border-radius: 4px;
   top: -15px;
   right: -5px;
-  z-index: 99;
+  z-index: 2;
+`;
+
+const MoreOptionsWrapper = styled.div`
+  position: absolute;
+  right: -5px;
+  top: 20px;
+  display: inline-flex;
+  padding: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(114, 0, 224, 0.1);
+  background: #fff;
+  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
+  z-index: 2;
+`;
+
+const MoreOptions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #7200e0;
+  font-size: 16px;
+  font-family: IBM Plex Sans;
+  cursor: pointer;
 `;
 
 export default ReviewsFrame132532;

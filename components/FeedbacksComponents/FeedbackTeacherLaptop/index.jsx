@@ -80,6 +80,7 @@ function FeedbackTeacherLaptop(props) {
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
+        deleteReplyComment={methods.handleDeleteReplyComment}
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
@@ -94,6 +95,7 @@ function FeedbackTeacherLaptop(props) {
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
+        deleteReplyComment={methods.handleDeleteReplyComment}
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
@@ -149,7 +151,6 @@ function FeedbackTeacherLaptop(props) {
                     reviewer="Jeddle"
                     comment={defaultReviewComment}
                     onClick={() => {}}
-                    isDefaultCard={true}
                     isTeacher={isTeacher}
                     defaultComment={true}
                   />
@@ -158,7 +159,6 @@ function FeedbackTeacherLaptop(props) {
                     reviewer="Jeddle"
                     comment={defaultNonReviewComment}
                     onClick={() => {}}
-                    isDefaultCard={true}
                     isTeacher={isTeacher}
                     defaultComment={true}
                   />

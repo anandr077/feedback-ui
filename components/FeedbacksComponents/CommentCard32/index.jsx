@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ReviewsFrame132532 from "../ReviewsFrame132532";
 import styled from "styled-components";
-import { IbmplexsansNormalBlack16px, feedbacksIbmplexsansMediumBlack16px } from "../../../styledMixins";
-import { Avatar } from "@boringer-avatars/react";
+import {
+  IbmplexsansNormalBlack16px,
+  feedbacksIbmplexsansMediumBlack16px,
+} from "../../../styledMixins";
 
 function CommentCard32(props) {
   const {
@@ -18,10 +20,24 @@ function CommentCard32(props) {
     isResolved,
     handleReplyComment,
     defaultComment = false,
+    deleteReplyComment,
   } = props;
 
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
+  const [editCommentType, setEditCommentType] = React.useState("");
+  const [editReplyIndex, setEditReplyIndex] = React.useState(null);
+  const [editButtonActive, setEditButtonActive] = React.useState(false);
+
+  const handleEditComment = (commentType, inputValue, index = null) => {
+    setEditButtonActive(true);
+    setEditCommentType(commentType);
+    if (commentType === "replies") {
+      setEditReplyIndex(index);
+    }
+    setInputValue(inputValue);
+    setIsReplyClicked(true);
+  };
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -39,46 +55,79 @@ function CommentCard32(props) {
 
   function handleCancelClick() {
     setIsReplyClicked(false);
+    setEditButtonActive(false);
+    setInputValue("");
   }
 
   function showReply() {
-    return comment.replies.map((reply) => {
+    return comment.replies.map((reply, index) => {
       return (
-        // <ReplyCommentWrapper>
-        //   <ProfileWrapper>
-        //     <Avatar
-        //       title={false}
-        //       size={25}
-        //       variant="beam"
-        //       name={reply.reviewerName}
-        //       square={false}
-        //     />
-        //     <div>{reply.reviewerName}</div>
-        //   </ProfileWrapper>
-        //   <div>{reply.feedback}</div>
-        // </ReplyCommentWrapper>
-        <>
+        <ReplyCommentWrapper>
           <ReviewsFrame132532
             isShare={comment.type === "MODEL_RESPONSE"}
             reviewer={reply.reviewerName}
-            isClosable={isClosable}
-            onClose={onClose}
+            onClose={() => {}}
             isTeacher={isTeacher}
             onResolved={onResolved}
-            isResolved={true}
+            isResolved={"RESOLVED"}
             comment={reply}
+            deleteReplyComment={deleteReplyComment}
+            commentType={"replies"}
+            index={index}
+            commentId={comment.id}
+            handleEditComment={handleEditComment}
           />
-          <HoremIpsumDolorSi
+          <CommentText
             onClick={() => onClick(comment)}
             className="horem-ipsum-dolor-si-1"
           >
-            {comment.comment}
-          </HoremIpsumDolorSi>
-        </>
+            {editButtonActive &&
+            editCommentType === "replies" &&
+            index === editReplyIndex
+              ? inputComment()
+              : reply.comment}
+          </CommentText>
+        </ReplyCommentWrapper>
       );
     });
   }
-console.log("##comment", comment)
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    // Handle the click event without the default behavior
+  };
+
+  document.getElementById('comment_input')?.addEventListener("click", handleClick);
+
+  function inputComment() {
+    return (
+      <ReplyInputWrapper id="comment_input">
+        <Input
+          type="text"
+          placeholder="Type here..."
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <ButtonWrapper>
+          <InputButton
+            backgroundColor={"#7200E0"}
+            textColor={"#ffffff"}
+            onClick={handleSubmitClick}
+          >
+            Submit
+          </InputButton>
+          <InputButton
+            backgroundColor={"#ffffff"}
+            textColor={"#7200E0"}
+            onClick={handleCancelClick}
+          >
+            Cancel
+          </InputButton>
+        </ButtonWrapper>
+      </ReplyInputWrapper>
+    );
+  }
+  console.log("##comment", comment);
   return (
     <CommentCard
       id={"comment_" + comment.id}
@@ -93,6 +142,8 @@ console.log("##comment", comment)
         onResolved={onResolved}
         isResolved={isResolved}
         comment={comment}
+        defaultComment={defaultComment}
+        handleEditComment={handleEditComment}
       />
       <CommentText
         onClick={() => onClick(comment)}
@@ -100,7 +151,7 @@ console.log("##comment", comment)
       >
         {comment.comment}
       </CommentText>
-      {comment?.reply?.length > 0 && showReply()}
+      {comment.replies?.length > 0 && showReply()}
       {isResolved !== "RESOLVED" && !isReplyClicked && !defaultComment && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />
@@ -108,43 +159,10 @@ console.log("##comment", comment)
         </Reply>
       )}
 
-      {isReplyClicked && (
-        <ReplyInputWrapper>
-          <Input
-            type="text"
-            placeholder="Type here..."
-            value={inputValue}
-            onChange={handleInputChange}
-          />
-          <ButtonWrapper>
-            <InputButton
-              backgroundColor={"#7200E0"}
-              textColor={"#ffffff"}
-              onClick={handleSubmitClick}
-            >
-              Submit
-            </InputButton>
-            <InputButton
-              backgroundColor={"#ffffff"}
-              textColor={"#7200E0"}
-              onClick={handleCancelClick}
-            >
-              Cancel
-            </InputButton>
-          </ButtonWrapper>
-        </ReplyInputWrapper>
-      )}
+      {isReplyClicked && !editButtonActive && inputComment()}
     </CommentCard>
   );
 }
-
-const ReviewerName = styled.div`
-  ${feedbacksIbmplexsansMediumBlack16px}
-  position: relative;
-  flex: 1;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 
 const CommentCard = styled.article`
   display: flex;
@@ -172,16 +190,6 @@ const CommentCard = styled.article`
 
 const CommentText = styled.div`
   ${IbmplexsansNormalBlack16px}
-  position: relative;
-  align-self: stretch;
-  letter-spacing: 0;
-  line-height: normal;
-  cursor: pointer;
-`;
-
-const CommentTextSmall = styled.div`
-  ${IbmplexsansNormalBlack16px}
-  font-size: 14px;
   position: relative;
   align-self: stretch;
   letter-spacing: 0;
@@ -258,12 +266,6 @@ const ReplyCommentWrapper = styled.div`
   padding-top: 12px;
   border-top: 1px solid #f1e6fc;
   width: 100%;
-`;
-
-const ProfileWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
 `;
 
 export default CommentCard32;

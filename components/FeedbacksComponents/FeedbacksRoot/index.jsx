@@ -364,32 +364,31 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const replyCommentObject = {
       questionSerialNumber: serialNumber,
       comment: replyComment,
-      range: {from: 0, to: 0},
+      range: { from: 0, to: 0 },
       type: "COMMENT",
-      reviewerId:getUserId(),
-      reviewerName:getUserName(),
-      replies:[]
+      reviewerId: getUserId(),
+      reviewerName: getUserName(),
+      replies: [],
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
-        const commentToUpdate= 
-        comment.replies === undefined ? 
-        { ...comment, replies: [replyCommentObject]} :
-        { ...comment, replies: [...comment.replies,replyCommentObject]}
-  
-            updateFeedback(submission.id, commentId, {
-              questionSerialNumber: commentToUpdate.questionSerialNumber,
-              feedback: commentToUpdate.comment,
-              range: commentToUpdate.range,
-              type: commentToUpdate.type,
-              replies: commentToUpdate.replies,
-              reviewerId: commentToUpdate.reviewerId,
-            })
-            .then((response) => {
-            if (response) {
-              return commentToUpdate;
-            }
-          });
+        const commentToUpdate =
+          comment.replies === undefined
+            ? { ...comment, replies: [replyCommentObject] }
+            : { ...comment, replies: [...comment.replies, replyCommentObject] };
+
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: commentToUpdate.questionSerialNumber,
+          feedback: commentToUpdate.comment,
+          range: commentToUpdate.range,
+          type: commentToUpdate.type,
+          replies: commentToUpdate.replies,
+          reviewerId: commentToUpdate.reviewerId,
+        }).then((response) => {
+          if (response) {
+            return commentToUpdate;
+          }
+        });
       }
       return comment;
     });
@@ -399,6 +398,30 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
     setExemplerComment("");
     setShowShareWithClass(false);
+    window.location.reload();
+  }
+
+  function handleDeleteReplyComment(commentId, replyCommentIndex) {
+    const deleteReplyComment = comments.map((c) => {
+      if (c.id === commentId) {
+        const updatedReplies = [...c.replies];
+        updatedReplies.splice(replyCommentIndex, 1);
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: c.questionSerialNumber,
+          feedback: c.comment,
+          range: c.range,
+          type: c.type,
+          replies: updatedReplies,
+          reviewerId: c.reviewerId,
+        }).then((response) => {
+          if (response) {
+            return c;
+          }
+        });
+      }
+      return c;
+    });
+    setComments(deleteReplyComment);
     window.location.reload();
   }
 
@@ -778,6 +801,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     downloadPDF,
     handleResolvedComment,
     handleReplyComment,
+    handleDeleteReplyComment,
   };
 
   const shortcuts = getShortcuts();

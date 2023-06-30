@@ -14,6 +14,12 @@ function ReviewsFrame132532(props) {
     onResolved,
     isResolved,
     comment,
+    defaultComment,
+    deleteReplyComment,
+    commentType = "",
+    index = null,
+    commentId = null,
+    handleEditComment
   } = props;
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
@@ -36,11 +42,22 @@ function ReviewsFrame132532(props) {
   };
 
   const handleEditClick = () => {
+    if(commentType === 'replies'){
+      handleEditComment('replies', comment.comment, index);
+    }else{
+      handleEditComment('parent_comment', comment.comment);
+    }
+    setIsMoreClicked(false);
     console.log("edit clicked...");
   };
 
   const handleDeleteClick = () => {
-    console.log("delete clicked...");
+    if (commentType === "replies") {
+      deleteReplyComment(commentId, index);
+    } else {
+      onClose();
+    }
+    setIsMoreClicked(false);
   };
 
   const avatar = (
@@ -52,26 +69,25 @@ function ReviewsFrame132532(props) {
       square={false}
     />
   );
-  const closeFrame = isClosable ? (
-    <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
-  ) : !isTeacher && isResolved !== "RESOLVED" ? (
-    <Wrapper>
-      <More
-        src={
-          isResolveHovered
-            ? "/icons/resolve-tick-purple.png"
-            : "/icons/resolve-tick-grey.png"
-        }
-        alt="resolve"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
-      />
-      {isResolveHovered && <Tooltip>Resolve</Tooltip>}
-    </Wrapper>
-  ) : (
-    <></>
-  );
+  const resolveFrame =
+    !isTeacher && isResolved !== "RESOLVED" && !defaultComment ? (
+      <Wrapper>
+        <More
+          src={
+            isResolveHovered
+              ? "/icons/resolve-tick-purple.png"
+              : "/icons/resolve-tick-grey.png"
+          }
+          alt="resolve"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
+        />
+        {isResolveHovered && <Tooltip>Resolve</Tooltip>}
+      </Wrapper>
+    ) : (
+      <></>
+    );
   const openEditDeleteTemplate = isMoreClicked ? (
     <MoreOptionsWrapper>
       <MoreOptions onClick={handleEditClick}>
@@ -95,8 +111,8 @@ function ReviewsFrame132532(props) {
         {commenterFrame}
         <Instructer>{reviewerFrame}</Instructer>
       </Frame1324>
-      {closeFrame}
-      {getUserId() === comment.reviewerId && isResolved !== "RESOLVED" && (
+      {resolveFrame}
+      {getUserId() === comment.reviewerId && !defaultComment && (
         <More onClick={handleMoreClick} src="/icons/three-dot.svg" />
       )}
       {openEditDeleteTemplate}

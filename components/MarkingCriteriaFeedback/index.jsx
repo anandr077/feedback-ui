@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ImageDropdownMenu from '../ImageDropdownMenu'
 
 export default function MarkingCriteriaFeedback(props) {
-    const {markingCriteria, small} = props;
+    const {markingCriteria, small, questionSerialNumber,handleMarkingCriteriaLevelFeedback} = props;
     const markingCriteriaCardsComponent = markingCriteria.criterias?.map((criteria, index) => {
         return (
             <SingleMarkingCriteriaContainer key={index}>
@@ -12,7 +12,7 @@ export default function MarkingCriteriaFeedback(props) {
               fullWidth={true}
               menuItems={criteria.levels}
               onItemSelected={(item) => {
-              
+                handleMarkingCriteriaLevelFeedback(questionSerialNumber, index, item.name)
               }}
             ></ImageDropdownMenu>
             </SingleMarkingCriteriaContainer> 

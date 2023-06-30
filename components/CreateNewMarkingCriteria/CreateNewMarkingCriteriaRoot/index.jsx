@@ -119,6 +119,7 @@ const saveMarkingCriteria = () => {
     criterias: markingCriterias.criterias.map((criteria) => {
       return {
         title: criteria.title,
+        selectedLevel: "",
         levels: criteria.levels.map((level) => {
           return {
             name: level.name,

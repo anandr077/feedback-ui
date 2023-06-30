@@ -26,6 +26,7 @@ import {
   submitAssignment,
   updateFeedbackRange,
   getUserName,
+  updateAssignment,
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -41,6 +42,7 @@ import { extractStudents, getComments, getPageMode } from "./functions";
 import { TextField } from "@mui/material";
 import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 import SnackbarContext from "../../SnackbarContext";
+import { sub } from "date-fns";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -748,6 +750,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
+
+  function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
+    console.log(submission.assignment.id)
+    submission.assignment.questions[questionSerialNumber - 1].markingCriteria.criterias[criteriaSerialNumber].selectedLevel= selectedLevel
+    
+  }
+
+  
+
   const methods = {
     createDebounceFunction,
     submissionStatusLabel,
@@ -775,6 +786,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     downloadPDF,
     handleResolvedComment,
     handleReplyComment,
+    handleMarkingCriteriaLevelFeedback
   };
 
   const shortcuts = getShortcuts();

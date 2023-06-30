@@ -240,7 +240,16 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
-          {submission.status === "SUBMITTED" && getUserId() === submission.reviewerId  &&  submission.assignment.questions[answer.serialNumber - 1].markingCriteria.title && <MarkingCriteriaFeedback markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria} small={smallMarkingCriteria} ></MarkingCriteriaFeedback>}
+          {submission.status === "SUBMITTED" && 
+          getUserId() === submission.reviewerId  &&  
+          submission.assignment.questions[answer.serialNumber - 1].markingCriteria.title && 
+          <MarkingCriteriaFeedback
+           markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria} 
+           small={smallMarkingCriteria}
+           questionSerialNumber={answer.serialNumber} 
+           handleMarkingCriteriaLevelFeedback={methods.handleMarkingCriteriaLevelFeedback}
+           />
+           }
         </Frame1366>
       </>
     );

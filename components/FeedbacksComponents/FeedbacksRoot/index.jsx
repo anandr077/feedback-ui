@@ -806,7 +806,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             newCommentSerialNumber,
-
+            smallMarkingCriteria: true,
             isTeacher,
             showLoader,
             submissionStatusLabel,
@@ -832,7 +832,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             {...{
               isTeacher,
               newCommentSerialNumber,
-
               showLoader,
               submissionStatusLabel,
               labelText,

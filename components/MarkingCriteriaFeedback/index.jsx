@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ImageDropdownMenu from '../ImageDropdownMenu'
 
 export default function MarkingCriteriaFeedback(props) {
-    const {markingCriteria} = props;
+    const {markingCriteria, small} = props;
     const markingCriteriaCardsComponent = markingCriteria.criterias?.map((criteria, index) => {
         return (
             <SingleMarkingCriteriaContainer key={index}>
@@ -20,9 +20,17 @@ export default function MarkingCriteriaFeedback(props) {
         });
 
   return (
+    <>
+    { small?
+      <MarkingCriteriaContainerSmall>
+      {markingCriteriaCardsComponent}
+      </MarkingCriteriaContainerSmall>
+      :
     <MarkingCriteriaContainer>
       {markingCriteriaCardsComponent}
     </MarkingCriteriaContainer>
+    }
+    </>
   )
 }
 
@@ -62,9 +70,21 @@ border-radius: 16px;
 border: 1px solid rgba(114, 0, 224, 0.10);
 background: #FFF;
 box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.10);
-flex-wrap: wrap;
-justify-content: space-evenly;
 display: grid;
-grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
-grid-gap: 20px; 
+grid-template-columns: repeat(3, 1fr); 
+grid-gap: 10px; 
+`;
+
+const MarkingCriteriaContainerSmall = styled.div`
+padding: 20px;
+align-items: flex-start;
+gap: 20px;
+align-self: stretch;
+border-radius: 16px;
+border: 1px solid rgba(114, 0, 224, 0.10);
+background: #FFF;
+box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.10);
+display: grid;
+grid-template-columns: repeat(2, 1fr); 
+grid-gap: 10px; 
 `;

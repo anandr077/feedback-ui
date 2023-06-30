@@ -41,6 +41,7 @@ import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
 function FeedbackTeacherLaptop(props) {
   const {
     newCommentSerialNumber,
+    smallMarkingCriteria,
     isTeacher,
     showLoader,
     labelText,
@@ -239,7 +240,7 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
-          {submission.status === "SUBMITTED" && getUserId() === submission.reviewerId  &&  submission.assignment.questions[answer.serialNumber - 1].markingCriteria.title && <MarkingCriteriaFeedback markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria} ></MarkingCriteriaFeedback>}
+          {submission.status === "SUBMITTED" && getUserId() === submission.reviewerId  &&  submission.assignment.questions[answer.serialNumber - 1].markingCriteria.title && <MarkingCriteriaFeedback markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria} small={smallMarkingCriteria} ></MarkingCriteriaFeedback>}
         </Frame1366>
       </>
     );

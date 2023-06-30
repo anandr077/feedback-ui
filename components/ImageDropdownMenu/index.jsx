@@ -69,7 +69,7 @@ export const ImageDropdownMenu = (props) => {
      </IconButton>
      <div className="text-container" onClick={handleClick}>
        <p>
-         <StyledListItemText primary={selectedItem.title} />
+         <StyledListItemText primary={selectedItem.title || selectedItem.name} />
        </p>
      </div>
      <IconButton onClick={handleClick}>
@@ -87,7 +87,7 @@ export const ImageDropdownMenu = (props) => {
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
-            <StyledListItemText primary={selectedItem.title} />
+            <StyledListItemText primary={selectedItem.title || selectedItem.name} />
           </p>
         </div>
         <IconButton onClick={handleClick}>
@@ -106,7 +106,9 @@ export const ImageDropdownMenu = (props) => {
         vertical: 'bottom',
         horizontal: 'right',
       }}
-      transformOrigin={ fullWidth? {}:{
+      transformOrigin={ fullWidth? {
+        vertical: 'top',
+      }:{
         vertical: 'top',
         horizontal: 'right',
       }}
@@ -119,7 +121,7 @@ export const ImageDropdownMenu = (props) => {
           {createImageFrame(item, showAvatar)}
           <div className="text-container">
             <p>
-              <StyledListItemText primary={item.title} />
+              <StyledListItemText primary={item.title || item.name} />
             </p>
           </div>
         </StyledMenuItem>

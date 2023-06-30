@@ -67,6 +67,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [newCommentValue, setNewCommentValue] = useState("");
   const [nextUrl, setNextUrl] = useState("");
   const [commentHighlight, setCommentHighlight] = useState(false);
+  const [editingComment, setEditingComment] = useState(false);
 
   const isTeacher = getUserRole() === "TEACHER";
 
@@ -129,6 +130,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       document.getElementById("statusLabelDiv").innerHTML = change;
     }
   };
+
+  const handleEditingComment = () => {
+    console.log("####called");
+    setEditingComment(true);
+
+
+  }
 
   const handleEditorMounted = (editor, index) => {
     // alert("handleEditorMounted" + JSON.stringify(editor) + " " + index);
@@ -475,7 +483,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleCommentSelected(comment) {
-    if (comment.range) {
+    if (comment.range && !editingComment) {
       const range = {
         index: comment.range.from,
         length: comment.range.to - comment.range.from,
@@ -802,6 +810,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleResolvedComment,
     handleReplyComment,
     handleDeleteReplyComment,
+    handleEditingComment,
   };
 
   const shortcuts = getShortcuts();
@@ -833,7 +842,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             newCommentSerialNumber,
-
+            setEditingComment,
             isTeacher,
             showLoader,
             submissionStatusLabel,
@@ -859,7 +868,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             {...{
               isTeacher,
               newCommentSerialNumber,
-
+              setEditingComment,
               showLoader,
               submissionStatusLabel,
               labelText,
@@ -885,6 +894,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             isTeacher,
             newCommentSerialNumber,
             showLoader,
+            setEditingComment,
             submissionStatusLabel,
             labelText,
             quillRefs,

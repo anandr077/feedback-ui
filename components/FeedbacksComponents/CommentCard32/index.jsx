@@ -21,6 +21,7 @@ function CommentCard32(props) {
     handleReplyComment,
     defaultComment = false,
     deleteReplyComment,
+    handleEditingComment,
   } = props;
 
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
@@ -31,6 +32,7 @@ function CommentCard32(props) {
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
+    handleEditingComment()
     setEditCommentType(commentType);
     if (commentType === "replies") {
       setEditReplyIndex(index);
@@ -40,6 +42,7 @@ function CommentCard32(props) {
   };
 
   const handleInputChange = (event) => {
+    event.preventDefault();
     setInputValue(event.target.value);
   };
 
@@ -50,6 +53,7 @@ function CommentCard32(props) {
   function handleSubmitClick() {
     handleReplyComment(inputValue, comment.id, comment.questionSerialNumber);
     setInputValue("");
+    setEditingComment();
     setIsReplyClicked(false);
   }
 
@@ -57,6 +61,7 @@ function CommentCard32(props) {
     setIsReplyClicked(false);
     setEditButtonActive(false);
     setInputValue("");
+    setEditingComment();
   }
 
   function showReply() {
@@ -92,12 +97,6 @@ function CommentCard32(props) {
     });
   }
 
-  const handleClick = (event) => {
-    event.preventDefault();
-    // Handle the click event without the default behavior
-  };
-
-  document.getElementById('comment_input')?.addEventListener("click", handleClick);
 
   function inputComment() {
     return (
@@ -105,7 +104,7 @@ function CommentCard32(props) {
         <Input
           type="text"
           placeholder="Type here..."
-          value={inputValue}
+          defaultValue={inputValue}
           onChange={handleInputChange}
         />
         <ButtonWrapper>

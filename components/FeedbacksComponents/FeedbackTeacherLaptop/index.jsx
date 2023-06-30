@@ -63,6 +63,7 @@ function FeedbackTeacherLaptop(props) {
     breadcrumb22Props,
     frame13201Props,
     frame13202Props,
+    setEditingComment,
   } = props;
   const [isFeedback, setFeedback] = React.useState(true);
   const [isResolvedClick, setResolvedClick] = React.useState(false);
@@ -80,6 +81,7 @@ function FeedbackTeacherLaptop(props) {
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
+        handleEditingComment={methods.handleEditingComment}
         deleteReplyComment={methods.handleDeleteReplyComment}
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
@@ -95,6 +97,7 @@ function FeedbackTeacherLaptop(props) {
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
+        handleEditingComment={methods.handleEditingComment}
         deleteReplyComment={methods.handleDeleteReplyComment}
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}

@@ -60,7 +60,6 @@ function CommentCard32(props) {
       );
     });
   }
-console.log("##comment", comment)
   return (
     <CommentCard
       id={"comment_" + comment.id}

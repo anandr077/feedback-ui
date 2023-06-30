@@ -148,7 +148,6 @@ const handleTitleChange = (event) => {
 }
 
 const updateCriteriaTitle = (id, newTitle ) => {
-  console.log(newTitle);
   const newCriterias = markingCriterias.criterias.map((criteria, index) => {
     if (index === id) {
       return {

@@ -141,6 +141,7 @@ export default function CreateAssignment(props) {
         createNewFocusArea={createNewFocusArea}
         allFocusAreas={allFocusAreas}
         allMarkingCriterias={allMarkingCriterias}
+        updateMarkingCriteria={updateMarkingCriteria}
       />
     );
   };
@@ -210,6 +211,15 @@ export default function CreateAssignment(props) {
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
         q.serialNumber === id ? { ...q, question: newContent } : q
+      ),
+    }));
+  }
+
+  function updateMarkingCriteria(id, markingCriteria) {
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      questions: prevAssignment.questions.map((q) =>
+        q.serialNumber === id ? { ...q, markingCriteria: markingCriteria } : q
       ),
     }));
   }
@@ -545,6 +555,7 @@ const newQuestion = (serialNumber) => {
         isCorrect: false,
       },
     ],
+    markingCriteria:{},
     focusAreaIds: []
   }
 }

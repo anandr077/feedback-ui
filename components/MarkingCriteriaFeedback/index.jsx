@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import ImageDropdownMenu from '../ImageDropdownMenu'
-import { tr } from 'date-fns/locale';
 
 export default function MarkingCriteriaFeedback(props) {
     const {markingCriteria} = props;
-    const markingCriteriaCardsComponent = markingCriteria.criterias.map((criteria, index) => {
+    const markingCriteriaCardsComponent = markingCriteria.criterias?.map((criteria, index) => {
         return (
             <SingleMarkingCriteriaContainer key={index}>
             <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>
@@ -13,14 +12,12 @@ export default function MarkingCriteriaFeedback(props) {
               fullWidth={true}
               menuItems={criteria.levels}
               onItemSelected={(item) => {
-                console.log(item);
+              
               }}
             ></ImageDropdownMenu>
             </SingleMarkingCriteriaContainer> 
             )
         });
-
-
 
   return (
     <MarkingCriteriaContainer>

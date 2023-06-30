@@ -7,11 +7,6 @@ import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
 
 function Frame4(props) {
   const name = getUserName();
-  // const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  // const handleMenuClick = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  //   console.log(isMenuOpen);
-  // };
   const header = (
     <Frame41>
       <Avatar

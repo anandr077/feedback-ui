@@ -20,7 +20,12 @@ export default function TheoryQuestionFrame(props) {
     createNewFocusArea,
     allFocusAreas,
     allMarkingCriterias,
+    updateMarkingCriteria
   } = props;
+
+  const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
+    return item.title===questionDetails.markingCriteria.title 
+  });
   return (
     <SmalllQuestionFrame
       id={"questionContainer_" + serialNumber}
@@ -71,13 +76,24 @@ export default function TheoryQuestionFrame(props) {
           cleanformattingTextBox={cleanformattingTextBox}
         /> */}
         <MarkingCriteriaSelectionContainer>
+        {questionDetails.markingCriteria.title ?
         <ImageDropdownMenu
               fullWidth={true}
               menuItems={allMarkingCriterias}
+              selectedIndex={selectedMarkingCriteriaIndex}
               onItemSelected={(item) => {
-                console.log(item);
+                updateMarkingCriteria(serialNumber, item)
               }}
             ></ImageDropdownMenu>
+            :
+            <ImageDropdownMenu
+              fullWidth={true}
+              menuItems={allMarkingCriterias}
+              onItemSelected={(item) => {
+                updateMarkingCriteria(serialNumber, item)
+              }}
+            ></ImageDropdownMenu>
+        }
         </MarkingCriteriaSelectionContainer>
       </Frame12891>
     </SmalllQuestionFrame>

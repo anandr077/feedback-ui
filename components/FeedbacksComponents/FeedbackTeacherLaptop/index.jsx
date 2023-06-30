@@ -19,7 +19,7 @@ import CheckboxList from "../../CheckboxList";
 import Header from "../../Header";
 import QuillEditor from "../../QuillEditor";
 
-import { getUserRole } from "../../../service";
+import { getUserRole , getUserId} from "../../../service";
 import FocussedInput from "../../FocussedInput";
 import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
@@ -36,7 +36,7 @@ import ReviewsFrame1320 from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
 import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
-import { tr } from "date-fns/locale";
+import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -239,6 +239,7 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
+          {submission.status === "SUBMITTED" && getUserId() === submission.reviewerId  &&  submission.assignment.questions[answer.serialNumber - 1].markingCriteria.title && <MarkingCriteriaFeedback markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria} ></MarkingCriteriaFeedback>}
         </Frame1366>
       </>
     );

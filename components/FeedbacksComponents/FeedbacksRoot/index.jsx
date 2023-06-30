@@ -96,7 +96,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const nextUrl = allExceptCurrent[0]
             ? "#submissions/" + allExceptCurrent[0]?.id
             : "/";
-          // console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
           const studentName =
             allSubmissions.find((r) => r.id === submission.assignment.id)
@@ -575,7 +574,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       const selectedItemIndex = menuItems.findIndex((menuItem) => {
         return menuItem.id === submission.id;
       });
-      console.log("menuItems", JSON.stringify(menuItems));
       return (
         <ImageDropdownMenu
           menuItems={menuItems}

@@ -22,6 +22,8 @@ function CommentCard32(props) {
     defaultComment = false,
     deleteReplyComment,
     handleEditingComment,
+    updateParentComment,
+    updateChildComment,
   } = props;
 
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
@@ -32,7 +34,7 @@ function CommentCard32(props) {
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
-    handleEditingComment()
+    handleEditingComment(true);
     setEditCommentType(commentType);
     if (commentType === "replies") {
       setEditReplyIndex(index);
@@ -51,17 +53,26 @@ function CommentCard32(props) {
   }
 
   function handleSubmitClick() {
-    handleReplyComment(inputValue, comment.id, comment.questionSerialNumber);
+    if (editButtonActive) {
+      if (editCommentType === "replies") {
+        updateChildComment(comment.id, editReplyIndex, inputValue);
+      } else if (editCommentType === "parent_comment") {
+        updateParentComment(inputValue, comment.id);
+      }
+    } else {
+      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber);
+    }
     setInputValue("");
-    setEditingComment();
     setIsReplyClicked(false);
+    setEditButtonActive(false);
+    handleEditingComment(false);
   }
 
   function handleCancelClick() {
     setIsReplyClicked(false);
     setEditButtonActive(false);
     setInputValue("");
-    setEditingComment();
+    handleEditingComment(false);
   }
 
   function showReply() {
@@ -97,7 +108,6 @@ function CommentCard32(props) {
     });
   }
 
-
   function inputComment() {
     return (
       <ReplyInputWrapper id="comment_input">
@@ -126,7 +136,6 @@ function CommentCard32(props) {
       </ReplyInputWrapper>
     );
   }
-  console.log("##comment", comment);
   return (
     <CommentCard
       id={"comment_" + comment.id}
@@ -148,7 +157,9 @@ function CommentCard32(props) {
         onClick={() => onClick(comment)}
         className="horem-ipsum-dolor-si-1"
       >
-        {comment.comment}
+        {editButtonActive && editCommentType === "parent_comment"
+          ? inputComment()
+          : comment.comment}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
       {isResolved !== "RESOLVED" && !isReplyClicked && !defaultComment && (

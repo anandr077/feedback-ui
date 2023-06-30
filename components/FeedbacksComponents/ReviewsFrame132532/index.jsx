@@ -24,7 +24,6 @@ function ReviewsFrame132532(props) {
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
 
-  console.log("props: ", props);
   const handleMouseEnter = () => {
     setIsResolveHovered(true);
   };
@@ -48,7 +47,6 @@ function ReviewsFrame132532(props) {
       handleEditComment('parent_comment', comment.comment);
     }
     setIsMoreClicked(false);
-    console.log("edit clicked...");
   };
 
   const handleDeleteClick = () => {

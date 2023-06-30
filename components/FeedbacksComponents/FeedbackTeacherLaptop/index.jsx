@@ -63,7 +63,6 @@ function FeedbackTeacherLaptop(props) {
     breadcrumb22Props,
     frame13201Props,
     frame13202Props,
-    setEditingComment,
   } = props;
   const [isFeedback, setFeedback] = React.useState(true);
   const [isResolvedClick, setResolvedClick] = React.useState(false);
@@ -87,6 +86,8 @@ function FeedbackTeacherLaptop(props) {
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
         isTeacher={isTeacher}
+        updateParentComment={methods.updateParentComment}
+        updateChildComment={methods.updateChildComment}
       />
     ) : isResolvedClick && comment.status === "RESOLVED" ? (
       <CommentCard32
@@ -103,6 +104,8 @@ function FeedbackTeacherLaptop(props) {
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
         isTeacher={isTeacher}
+        updateParentComment={methods.updateParentComment}
+        updateChildComment={methods.updateChildComment}
       />
     ) : (
       <></>

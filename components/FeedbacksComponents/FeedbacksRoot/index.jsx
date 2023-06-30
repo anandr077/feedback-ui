@@ -43,7 +43,6 @@ import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 import SnackbarContext from "../../SnackbarContext";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
-  console.log("getUserId:", getUserId());
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState("");
   const [showShareWithClass, setShowShareWithClass] = useState(false);
@@ -131,12 +130,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
-  const handleEditingComment = () => {
-    console.log("####called");
-    setEditingComment(true);
-
-
-  }
+  const handleEditingComment = (flag) => {
+    setEditingComment(flag);
+  };
 
   const handleEditorMounted = (editor, index) => {
     // alert("handleEditorMounted" + JSON.stringify(editor) + " " + index);
@@ -406,6 +402,65 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
     setExemplerComment("");
     setShowShareWithClass(false);
+    window.location.reload();
+  }
+
+  function updateParentComment(comment, commentId) {
+    const updatedComment = comments.map((c) => {
+      if (c.id === commentId) {
+        const commentToUpdate = { ...c, comment: comment };
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: commentToUpdate.questionSerialNumber,
+          feedback: commentToUpdate.comment,
+          range: commentToUpdate.range,
+          type: commentToUpdate.type,
+          replies:
+            commentToUpdate?.replies === undefined
+              ? []
+              : commentToUpdate?.replies,
+          reviewerId: commentToUpdate.reviewerId,
+        }).then((response) => {
+          if (response) {
+            return commentToUpdate;
+          }
+        });
+      }
+      return c;
+    });
+
+    setComments(updatedComment);
+    setNewCommentValue("");
+    setShowNewComment(false);
+    setExemplerComment("");
+    setShowShareWithClass(false);
+    window.location.reload();
+  }
+
+  function updateChildComment(commentId, replyCommentIndex, comment) {
+    const updatedReplyComment = comments.map((c) => {
+      if (c.id === commentId) {
+        const updatedReplies = [...c.replies];
+        updatedReplies[replyCommentIndex] = {
+          ...updatedReplies[replyCommentIndex],
+          comment: comment,
+        };
+
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: c.questionSerialNumber,
+          feedback: c.comment,
+          range: c.range,
+          type: c.type,
+          replies: updatedReplies,
+          reviewerId: c.reviewerId,
+        }).then((response) => {
+          if (response) {
+            return c;
+          }
+        });
+      }
+      return c;
+    });
+    setComments(updatedReplyComment);
     window.location.reload();
   }
 
@@ -811,6 +866,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleReplyComment,
     handleDeleteReplyComment,
     handleEditingComment,
+    updateParentComment,
+    updateChildComment,
   };
 
   const shortcuts = getShortcuts();
@@ -842,7 +899,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             newCommentSerialNumber,
-            setEditingComment,
             isTeacher,
             showLoader,
             submissionStatusLabel,
@@ -868,7 +924,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             {...{
               isTeacher,
               newCommentSerialNumber,
-              setEditingComment,
               showLoader,
               submissionStatusLabel,
               labelText,
@@ -894,7 +949,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             isTeacher,
             newCommentSerialNumber,
             showLoader,
-            setEditingComment,
             submissionStatusLabel,
             labelText,
             quillRefs,

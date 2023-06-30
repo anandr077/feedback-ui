@@ -126,6 +126,7 @@ export default function CreateAssignment(props) {
         cleanformattingDiv={cleanformattingDiv}
         onOptionChange={updateMCQOption}
         options={question.options}
+        allMarkingCriterias={allMarkingCriterias}
       />
     ) : (
       <TheoryQuestionFrame

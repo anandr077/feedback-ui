@@ -20,7 +20,8 @@ export default function /*  */MCQQuestionFrame(props) {
     cleanformattingTextBox,
     cleanformattingDiv,
     onOptionChange,
-    options
+    options,
+    allMarkingCriterias
   } = props;
   const handleOptionChange = (optionSerialNumber, newOption, newIsCorrect) => {
     onOptionChange(serialNumber, optionSerialNumber, newOption, newIsCorrect);

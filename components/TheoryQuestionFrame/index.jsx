@@ -72,7 +72,7 @@ export default function TheoryQuestionFrame(props) {
         /> */}
         <MarkingCriteriaSelectionContainer>
         <ImageDropdownMenu
-        styles={{width: "100%"}}
+              fullWidth={true}
               menuItems={allMarkingCriterias}
               onItemSelected={(item) => {
                 console.log(item);

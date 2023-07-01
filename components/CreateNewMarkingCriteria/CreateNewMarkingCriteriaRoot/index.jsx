@@ -114,6 +114,10 @@ const deleteLevel = (criteriaId, levelId) => {
 };
 
 const saveMarkingCriteria = () => {
+  if(markingCriterias.title === "") {
+    showSnackbar("Please enter a title for the marking criteria");
+    return ;
+  }
   const markingCriteria = {
     title: markingCriterias.title,
     criterias: markingCriterias.criterias.map((criteria) => {

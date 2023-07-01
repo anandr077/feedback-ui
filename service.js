@@ -237,6 +237,12 @@ export const deleteMarkingCriteria = async (markingCriteriaId) =>{
   await deleteApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId);
 };
 
+export const addMarkingCriteriaFeedback = async (submissionId, markingCriterias) =>
+  await postApi(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks/markingCriteras",
+    markingCriterias
+  );
+
 
 export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 

@@ -27,6 +27,7 @@ import {
   updateFeedbackRange,
   getUserName,
   updateAssignment,
+  addMarkingCriteriaFeedback,
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -157,7 +158,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: document.getElementById("newCommentInput").value,
       range: selectedRange,
       type: "COMMENT",
-      replies: [],
+      replies: []
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -178,7 +179,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: commentText,
       range: selectedRange,
       type: "COMMENT",
-      replies: [],
+      replies: []
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -200,7 +201,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: "FOCUS_AREA",
       color: focusArea.color,
       focusAreaId: focusArea.id,
-      replies: [],
+      replies: []
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -220,7 +221,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: exemplarComment,
       range: selectedRange,
       type: "MODEL_RESPONSE",
-      replies: [],
+      replies: []
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -373,7 +374,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: "COMMENT",
       reviewerId: getUserId(),
       reviewerName: getUserName(),
-      replies: [],
+      replies: []
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -843,16 +844,28 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  function handleMarkingCriteriaLevelFeedback(
-    questionSerialNumber,
-    criteriaSerialNumber,
-    selectedLevel
-  ) {
-    console.log(submission.assignment.id);
-    submission.assignment.questions[
-      questionSerialNumber - 1
-    ].markingCriteria.criterias[criteriaSerialNumber].selectedLevel =
-      selectedLevel;
+
+  function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
+    console.log(submission.assignment.id)
+
+   const allMarkingCriteriasRequest = submission.assignment.questions.map((question) => {
+      return {
+        questionSerialNumber: question.serialNumber,
+        markingCriteria: question.markingCriteria
+      }
+    });
+
+    console.log("###",allMarkingCriteriasRequest)
+
+      addMarkingCriteriaFeedback(submission.id, {
+        type: "MARKING_CRITERIA",
+        criteraFeedbacks:allMarkingCriteriasRequest
+      }).then((response) => {
+        if (response) {
+         console.log("###",response)
+        }
+      });
+    
   }
 
   const methods = {

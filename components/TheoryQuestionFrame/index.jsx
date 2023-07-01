@@ -24,7 +24,7 @@ export default function TheoryQuestionFrame(props) {
   } = props;
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
-    return item.title===questionDetails.markingCriteria.title 
+    return item.title===questionDetails.markingCriteria?.title 
   });
   return (
     <SmalllQuestionFrame
@@ -60,7 +60,7 @@ export default function TheoryQuestionFrame(props) {
           </QuestionFrame2>
         </InputQuestion>
         <FocusAreasFrame>
-          <div>Focus areas</div>
+          <Label>Focus areas</Label>
           {createFocusAreasFrame(
             serialNumber,
             updateFocusAreas,
@@ -75,7 +75,9 @@ export default function TheoryQuestionFrame(props) {
           serialNumber={serialNumber}
           cleanformattingTextBox={cleanformattingTextBox}
         /> */}
+
         <MarkingCriteriaSelectionContainer>
+        <Label>Marking Criteria</Label>
         {questionDetails.markingCriteria.title ?
         <ImageDropdownMenu
               fullWidth={true}
@@ -106,6 +108,7 @@ const MarkingCriteriaSelectionContainer = styled.div`
   align-items: flex-start;
   margin-top: 16px;
   width: 100%;
+  gap: 14px;
 `;
 
 const FocusAreasFrame = styled.div`
@@ -306,6 +309,7 @@ const InputQuestion = styled.div`
 `;
 
 const Label = styled.div`
+ ${IbmplexsansNormalShark20px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;

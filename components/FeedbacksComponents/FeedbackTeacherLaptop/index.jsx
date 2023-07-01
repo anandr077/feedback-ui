@@ -252,7 +252,7 @@ function FeedbackTeacherLaptop(props) {
           )}
           {submission.status === "SUBMITTED" &&
           getUserId() === submission.reviewerId  &&
-          submission.assignment.questions[answer.serialNumber - 1].markingCriteria.title &&
+          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title &&
           <MarkingCriteriaFeedback
            markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
            small={smallMarkingCriteria}

@@ -10,7 +10,8 @@ function ReviewsFrame1320(props) {
     setResolvedClick,
     isFeedback,
     isResolvedClick,
-    isTeacher
+    isTeacher,
+    comments,
   } = props;
   function handleFeedback() {
     setFeedback(true);
@@ -21,6 +22,16 @@ function ReviewsFrame1320(props) {
     setFeedback(false);
     setResolvedClick(true);
   }
+
+  function resolvedComment() {
+    let resolvedCount = 0;
+    for (const comment of comments) {
+      if (comment.status === "RESOLVED") {
+        resolvedCount++;
+      }
+    }
+    return resolvedCount;
+  }
   return (
     <Frame13201 className={`frame-1320 ${className || ""}`}>
       <Feedback
@@ -30,13 +41,16 @@ function ReviewsFrame1320(props) {
       >
         {children[0]}
       </Feedback>
-      {!isTeacher && <Feedback
-        className="feedback"
-        onClick={handleResolved}
-        style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
-      >
-        {children[1]}
-      </Feedback>}
+      {!isTeacher && (
+        <Feedback
+          className="feedback"
+          onClick={handleResolved}
+          style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
+        >
+          {children[1]}
+          {"(" + resolvedComment() + ")"}
+        </Feedback>
+      )}
     </Frame13201>
   );
 }
@@ -45,7 +59,7 @@ const Frame13201 = styled.div`
   display: flex;
   width: fit-content;
   align-items: flex-start;
-  gap: 10px;
+  gap: 20px;
   padding: 4px 12px;
   position: relative;
   overflow: hidden;

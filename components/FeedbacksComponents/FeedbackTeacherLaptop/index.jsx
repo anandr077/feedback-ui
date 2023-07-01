@@ -139,6 +139,7 @@ function FeedbackTeacherLaptop(props) {
             isFeedback={isFeedback}
             isResolvedClick={isResolvedClick}
             isTeacher={isTeacher}
+            comments={comments}
           >
             {frame13201Props.children}
           </ReviewsFrame1320>

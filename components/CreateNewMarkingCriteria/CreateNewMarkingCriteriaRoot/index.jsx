@@ -119,6 +119,7 @@ const saveMarkingCriteria = () => {
     criterias: markingCriterias.criterias.map((criteria) => {
       return {
         title: criteria.title,
+        selectedLevel: "",
         levels: criteria.levels.map((level) => {
           return {
             name: level.name,
@@ -148,7 +149,6 @@ const handleTitleChange = (event) => {
 }
 
 const updateCriteriaTitle = (id, newTitle ) => {
-  console.log(newTitle);
   const newCriterias = markingCriterias.criterias.map((criteria, index) => {
     if (index === id) {
       return {

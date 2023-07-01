@@ -21,7 +21,7 @@ export const ImageDropdownMenu = (props) => {
   //   {id: 4, title:"DDDD", onClick:()=>console.log("FFF")},
   // ]
   // const {   onItemSelected, withCheckbox } = props;
-  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small } = props;
+  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small, fullWidth } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(selectedIndex === undefined?menuItems[0]:menuItems[selectedIndex]);
   const menuRef = React.useRef(null);
@@ -55,8 +55,8 @@ export const ImageDropdownMenu = (props) => {
   };
 
   return (
-    <div>
-    <StyledBox>
+    <div style={fullWidth ? { width: "100%" } : {}}>
+    <StyledBox style={fullWidth ? { borderColor: "var(--text)" } : { borderColor: "var(--light-mode-purple)"}}>
      { small ?
      <FlexContainerSmall onClick={handleClick}>
      <IconButton
@@ -69,7 +69,7 @@ export const ImageDropdownMenu = (props) => {
      </IconButton>
      <div className="text-container" onClick={handleClick}>
        <p>
-         <StyledListItemText primary={selectedItem.title} />
+         <StyledListItemText primary={selectedItem.title || selectedItem.name} />
        </p>
      </div>
      <IconButton onClick={handleClick}>
@@ -87,7 +87,7 @@ export const ImageDropdownMenu = (props) => {
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
-            <StyledListItemText primary={selectedItem.title} />
+            <StyledListItemText primary={selectedItem.title || selectedItem.name} />
           </p>
         </div>
         <IconButton onClick={handleClick}>
@@ -100,11 +100,15 @@ export const ImageDropdownMenu = (props) => {
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
       onClose={() => setAnchorEl(null)}
-      anchorOrigin={{
+      anchorOrigin={ fullWidth? {
+        vertical: 'bottom',
+      }:{
         vertical: 'bottom',
         horizontal: 'right',
       }}
-      transformOrigin={{
+      transformOrigin={ fullWidth? {
+        vertical: 'top',
+      }:{
         vertical: 'top',
         horizontal: 'right',
       }}
@@ -117,7 +121,7 @@ export const ImageDropdownMenu = (props) => {
           {createImageFrame(item, showAvatar)}
           <div className="text-container">
             <p>
-              <StyledListItemText primary={item.title} />
+              <StyledListItemText primary={item.title || item.name} />
             </p>
           </div>
         </StyledMenuItem>

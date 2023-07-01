@@ -14,12 +14,10 @@ function CriteriaContainer(props) {
     }
 
     const deleteLevelUpdate = (levelId) => {
-      console.log("deleteLevelUpdate", levelId);
         deleteLevel(criteriaId, levelId);
     }
 
    const deleteCriteriaUpdate= () => {
-    console.log("deleteCriteriaUpdate", criteriaId);
         deleteCriteria(criteriaId);
     }
    

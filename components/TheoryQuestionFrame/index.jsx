@@ -24,7 +24,7 @@ export default function TheoryQuestionFrame(props) {
   } = props;
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
-    return item.title===questionDetails.markingCriteria.title 
+    return item.title===questionDetails.markingCriteria?.title 
   });
   return (
     <SmalllQuestionFrame

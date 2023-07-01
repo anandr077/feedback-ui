@@ -5,6 +5,7 @@ import {
 } from "../../styledMixins";
 import CheckboxGroup from "../CheckboxGroup";
 import Frame1297 from "../Frame1297";
+import ImageDropdownMenu from "../ImageDropdownMenu";
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -18,7 +19,13 @@ export default function TheoryQuestionFrame(props) {
     updateFocusAreas,
     createNewFocusArea,
     allFocusAreas,
+    allMarkingCriterias,
+    updateMarkingCriteria
   } = props;
+
+  const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
+    return item.title===questionDetails.markingCriteria.title 
+  });
   return (
     <SmalllQuestionFrame
       id={"questionContainer_" + serialNumber}
@@ -62,15 +69,44 @@ export default function TheoryQuestionFrame(props) {
             allFocusAreas
           )}
         </FocusAreasFrame>
+        
         {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
           cleanformattingTextBox={cleanformattingTextBox}
         /> */}
+        <MarkingCriteriaSelectionContainer>
+        {questionDetails.markingCriteria.title ?
+        <ImageDropdownMenu
+              fullWidth={true}
+              menuItems={allMarkingCriterias}
+              selectedIndex={selectedMarkingCriteriaIndex}
+              onItemSelected={(item) => {
+                updateMarkingCriteria(serialNumber, item)
+              }}
+            ></ImageDropdownMenu>
+            :
+            <ImageDropdownMenu
+              fullWidth={true}
+              menuItems={allMarkingCriterias}
+              onItemSelected={(item) => {
+                updateMarkingCriteria(serialNumber, item)
+              }}
+            ></ImageDropdownMenu>
+        }
+        </MarkingCriteriaSelectionContainer>
       </Frame12891>
     </SmalllQuestionFrame>
   );
 }
+
+const MarkingCriteriaSelectionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 16px;
+  width: 100%;
+`;
 
 const FocusAreasFrame = styled.div`
   font-weight: 400;

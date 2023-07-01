@@ -14,6 +14,7 @@ import {
   getAssignmentById,
   publishAssignment,
   addFocusArea,
+  getAllMarkingCriteria,
 } from "../../service";
 import {
   IbmplexsansNormalShark20px,
@@ -32,6 +33,7 @@ import SnackbarContext from "../SnackbarContext";
 import Loader from "../Loader";
 import FocusAreaDialog from "./Dialog/newFocusArea";
 import { getFocusAreas, addNewFocusArea, getAllColors } from "../../service";
+import { set } from "lodash";
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -65,15 +67,17 @@ export default function CreateAssignment(props) {
   const [classes, setClasses] = React.useState([]);
   const [allFocusAreas, setAllFocusAreas] = React.useState([]);
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([])
+  const [allMarkingCriterias, setAllMarkingCriterias,] = React.useState([])
 
   React.useEffect(() => {
-    Promise.all([getClasses(), getAssignment(assignmentId), getFocusAreas(),getAllColors() ]).then(
-      ([classesResult, assignmentResult, focusAreas, colors]) => {
+    Promise.all([getClasses(), getAssignment(assignmentId), getFocusAreas(),getAllColors(),getAllMarkingCriteria() ]).then(
+      ([classesResult, assignmentResult, focusAreas, colors, markingCriteriasResult]) => {
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
           classIds: assignmentResult.classIds ?? [],
         }));
+        setAllMarkingCriterias(markingCriteriasResult),
         setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
@@ -122,6 +126,7 @@ export default function CreateAssignment(props) {
         cleanformattingDiv={cleanformattingDiv}
         onOptionChange={updateMCQOption}
         options={question.options}
+        allMarkingCriterias={allMarkingCriterias}
       />
     ) : (
       <TheoryQuestionFrame
@@ -135,6 +140,8 @@ export default function CreateAssignment(props) {
         cleanformattingDiv={cleanformattingDiv}
         createNewFocusArea={createNewFocusArea}
         allFocusAreas={allFocusAreas}
+        allMarkingCriterias={allMarkingCriterias}
+        updateMarkingCriteria={updateMarkingCriteria}
       />
     );
   };
@@ -204,6 +211,15 @@ export default function CreateAssignment(props) {
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
         q.serialNumber === id ? { ...q, question: newContent } : q
+      ),
+    }));
+  }
+
+  function updateMarkingCriteria(id, markingCriteria) {
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      questions: prevAssignment.questions.map((q) =>
+        q.serialNumber === id ? { ...q, markingCriteria: markingCriteria } : q
       ),
     }));
   }
@@ -539,6 +555,7 @@ const newQuestion = (serialNumber) => {
         isCorrect: false,
       },
     ],
+    markingCriteria:{},
     focusAreaIds: []
   }
 }

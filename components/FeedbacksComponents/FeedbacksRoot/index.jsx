@@ -26,6 +26,7 @@ import {
   submitAssignment,
   updateFeedbackRange,
   getUserName,
+  updateAssignment,
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -41,6 +42,7 @@ import { extractStudents, getComments, getPageMode } from "./functions";
 import { TextField } from "@mui/material";
 import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 import SnackbarContext from "../../SnackbarContext";
+import { sub } from "date-fns";
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -97,7 +99,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const nextUrl = allExceptCurrent[0]
             ? "#submissions/" + allExceptCurrent[0]?.id
             : "/";
-          // console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
           const studentName =
             allSubmissions.find((r) => r.id === submission.assignment.id)
@@ -662,7 +663,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       const selectedItemIndex = menuItems.findIndex((menuItem) => {
         return menuItem.id === submission.id;
       });
-      console.log("menuItems", JSON.stringify(menuItems));
       return (
         <ImageDropdownMenu
           menuItems={menuItems}
@@ -837,6 +837,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
+
+  function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
+    console.log(submission.assignment.id)
+    submission.assignment.questions[questionSerialNumber - 1].markingCriteria.criterias[criteriaSerialNumber].selectedLevel= selectedLevel
+
+  }
+
+
+
   const methods = {
     createDebounceFunction,
     submissionStatusLabel,
@@ -868,6 +877,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleEditingComment,
     updateParentComment,
     updateChildComment,
+    handleMarkingCriteriaLevelFeedback
   };
 
   const shortcuts = getShortcuts();
@@ -899,6 +909,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             newCommentSerialNumber,
+            smallMarkingCriteria: true,
             isTeacher,
             showLoader,
             submissionStatusLabel,

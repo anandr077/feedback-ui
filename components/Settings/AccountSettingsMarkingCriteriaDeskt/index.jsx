@@ -283,7 +283,7 @@ const Frame1302 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
   padding: 30px;
   position: relative;

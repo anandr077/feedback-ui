@@ -36,6 +36,7 @@ import ReviewsFrame1320 from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
 import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
+import { tr } from "date-fns/locale";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -63,13 +64,14 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  console.log("props: ",props);
+  const [isFeedback, setFeedback] = React.useState(true);
+  const [isResolvedClick, setResolvedClick] = React.useState(false);
   const commentsFrame = sortBy(comments, [
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
     const isClosable = pageMode === "REVIEW";
-    return (
+    return isFeedback && comment.status !== "RESOLVED" ? (
       <CommentCard32
         reviewer={comment.reviewerName}
         comment={comment}
@@ -78,11 +80,35 @@ function FeedbackTeacherLaptop(props) {
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
+        handleEditingComment={methods.handleEditingComment}
+        deleteReplyComment={methods.handleDeleteReplyComment}
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
         isTeacher={isTeacher}
+        updateParentComment={methods.updateParentComment}
+        updateChildComment={methods.updateChildComment}
       />
+    ) : isResolvedClick && comment.status === "RESOLVED" ? (
+      <CommentCard32
+        reviewer={comment.reviewerName}
+        comment={comment}
+        onClick={(c) => methods.handleCommentSelected(c)}
+        isClosable={isClosable}
+        onClose={() => {
+          methods.handleDeleteComment(comment.id);
+        }}
+        handleEditingComment={methods.handleEditingComment}
+        deleteReplyComment={methods.handleDeleteReplyComment}
+        onResolved={methods.handleResolvedComment}
+        handleReplyComment={methods.handleReplyComment}
+        isResolved={comment.status}
+        isTeacher={isTeacher}
+        updateParentComment={methods.updateParentComment}
+        updateChildComment={methods.updateChildComment}
+      />
+    ) : (
+      <></>
     );
   });
   const modules = {
@@ -107,7 +133,16 @@ function FeedbackTeacherLaptop(props) {
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
-          <ReviewsFrame1320>{frame13201Props.children}</ReviewsFrame1320>
+          <ReviewsFrame1320
+            setFeedback={setFeedback}
+            setResolvedClick={setResolvedClick}
+            isFeedback={isFeedback}
+            isResolvedClick={isResolvedClick}
+            isTeacher={isTeacher}
+            comments={comments}
+          >
+            {frame13201Props.children}
+          </ReviewsFrame1320>
         </Frame1322>
         <>
           {showNewComment ? (
@@ -124,6 +159,7 @@ function FeedbackTeacherLaptop(props) {
                     comment={defaultReviewComment}
                     onClick={() => {}}
                     isTeacher={isTeacher}
+                    defaultComment={true}
                   />
                 ) : (
                   <CommentCard32
@@ -131,6 +167,7 @@ function FeedbackTeacherLaptop(props) {
                     comment={defaultNonReviewComment}
                     onClick={() => {}}
                     isTeacher={isTeacher}
+                    defaultComment={true}
                   />
                 )
               ) : (
@@ -285,7 +322,7 @@ function FeedbackTeacherLaptop(props) {
         submission.assignment.questions[newCommentSerialNumber - 1].focusAreaIds
     );
     console.log("FA" + newCommentSerialNumber);
-    const focusAreas = submission.assignment.focusAreas.filter((fa) => {
+    const focusAreas = submission.assignment.focusAreas?.filter((fa) => {
       return submission.assignment.questions[
         newCommentSerialNumber - 1
       ].focusAreaIds.includes(fa.id);

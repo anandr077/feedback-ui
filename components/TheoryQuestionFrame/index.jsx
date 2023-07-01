@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Frame12973 from "../Frame12973";
-import Frame1291 from "../Frame1291";
-import Frame1297 from "../Frame1297";
 import {
-  IbmplexsansNormalElectricViolet14px,
-  IbmplexsansNormalShark20px,
+  IbmplexsansNormalElectricViolet14px, IbmplexsansNormalShark16px, IbmplexsansNormalShark20px
 } from "../../styledMixins";
+import CheckboxGroup from "../CheckboxGroup";
+import Frame1297 from "../Frame1297";
+import ImageDropdownMenu from "../ImageDropdownMenu";
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -17,7 +16,16 @@ export default function TheoryQuestionFrame(props) {
     updateQuestion,
     cleanformattingTextBox,
     cleanformattingDiv,
+    updateFocusAreas,
+    createNewFocusArea,
+    allFocusAreas,
+    allMarkingCriterias,
+    updateMarkingCriteria
   } = props;
+
+  const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
+    return item.title===questionDetails.markingCriteria?.title 
+  });
   return (
     <SmalllQuestionFrame
       id={"questionContainer_" + serialNumber}
@@ -45,23 +53,124 @@ export default function TheoryQuestionFrame(props) {
           >
             <QuestionInputEditable
               id={"question_" + serialNumber}
-              value = {questionDetails?.question}
+              value={questionDetails?.question}
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
               placeholder="Type question here"
             />
           </QuestionFrame2>
         </InputQuestion>
-
+        <FocusAreasFrame>
+          <Label>Focus areas</Label>
+          {createFocusAreasFrame(
+            serialNumber,
+            updateFocusAreas,
+            questionDetails.focusAreaIds,
+            createNewFocusArea,
+            allFocusAreas
+          )}
+        </FocusAreasFrame>
+        
         {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
           cleanformattingTextBox={cleanformattingTextBox}
         /> */}
+
+        <MarkingCriteriaSelectionContainer>
+        <Label>Marking Criteria</Label>
+        {questionDetails.markingCriteria.title ?
+        <ImageDropdownMenu
+              fullWidth={true}
+              menuItems={allMarkingCriterias}
+              selectedIndex={selectedMarkingCriteriaIndex}
+              onItemSelected={(item) => {
+                updateMarkingCriteria(serialNumber, item)
+              }}
+            ></ImageDropdownMenu>
+            :
+            <ImageDropdownMenu
+              fullWidth={true}
+              menuItems={allMarkingCriterias}
+              onItemSelected={(item) => {
+                updateMarkingCriteria(serialNumber, item)
+              }}
+            ></ImageDropdownMenu>
+        }
+        </MarkingCriteriaSelectionContainer>
       </Frame12891>
     </SmalllQuestionFrame>
   );
 }
 
+const MarkingCriteriaSelectionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 16px;
+  width: 100%;
+  gap: 14px;
+`;
+
+const FocusAreasFrame = styled.div`
+  font-weight: 400;
+  line-height: 26px;
+  font-family: var(--font-family-ibm_plex_sans);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+`;
+
+const Frame1321 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  position: relative;
+  background-color: #EFEEF1;
+  border-radius: 24px;
+  border: 1px solid #E6E6E6;
+  height: 36px;
+  box-sizing: border-box;
+  margin: 8px;
+`;
+
+const Structure = styled.div`
+  ${IbmplexsansNormalShark16px}
+  position: relative;
+  width: fit-content;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  font-family: var(--font-family-ibm_plex_sans);
+  white-space: nowrap;
+`;
+
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
+`;
+
+const Frame1323 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  position: relative;
+  background-color: var(--dark-purple);
+  border-radius: 24px;
+`;
+
+const Add = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
 const SmalllQuestionFrame = styled.div`
   display: flex;
   flex-direction: column;
@@ -105,6 +214,19 @@ const QuestionFrame2 = styled.div`
   border-radius: 12px;
   border: 1px solid;
   border-color: var(--text);
+`;
+
+const ShowFocusArea = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+  flex-wrap: wrap;
+  min-height: 56px;
 `;
 
 const QuestionFrame = styled.div`
@@ -187,6 +309,7 @@ const InputQuestion = styled.div`
 `;
 
 const Label = styled.div`
+ ${IbmplexsansNormalShark20px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -225,3 +348,68 @@ const QuestionInputEditable = styled.input`
   outline: none;
   transition: 0.15s;
 `;
+function createFocusAreasFrame(
+  serialNumber,
+  updateFocusAreas,
+  presentFocusAreas,
+  createNewFocusArea,
+  allFocusAreas
+) {
+  const focusAreaItems = allFocusAreas.map((focusArea) => {
+    return {
+      value: focusArea.id,
+      label: focusArea.title,
+      color: focusArea.color,
+      category: "FOCUS_AREAS",
+    };
+  });
+
+  const menuItems = [
+    {
+      name: "FOCUS_AREAS",
+      title: "Focus Areas",
+      items: focusAreaItems,
+    },
+  ];
+  return (
+    <ShowFocusArea>
+      <CheckboxGroup
+        onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
+        data={menuItems}
+        dropDownText="+ Add"
+        addCreateNewButton={true}
+        backgroundColor={"#25222A"}
+        textColor={"var(--white)"}
+        openDialogForNewEvent={createNewFocusArea}
+        previouslySelectedItems={presentFocusAreas?.map((value) => ({
+          value,
+          category: "FOCUS_AREAS",
+        }))}
+      ></CheckboxGroup>
+      {createFocusAreaTags(allFocusAreas, presentFocusAreas)}
+    </ShowFocusArea>
+  );
+}
+
+function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
+  return presentFocusAreas?.map((focusArea) => {
+    console.log("presentFocusAreas" + JSON.stringify(presentFocusAreas))
+    console.log("allFocusAreas" + JSON.stringify(allFocusAreas))
+    console.log("focusArea" + JSON.stringify(focusArea))
+    const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
+    return (
+      <Frame1321>
+        <Ellipse141 backgroundColor={unitFocusArea.color}></Ellipse141>
+        <Structure>{unitFocusArea.title}</Structure>
+      </Frame1321>
+    );
+  });
+}
+
+const getSelectedFocusArea =
+  (serialNUmber, updateFocusAreas) => (selectedFocusArea) => {
+    updateFocusAreas(
+      serialNUmber,
+      selectedFocusArea.map((x) => x.value)
+    );
+  };

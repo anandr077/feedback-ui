@@ -51,8 +51,7 @@ function CreateAAssignmentLaptop(props) {
           {titleAndSaveButtons(assignment, saveDraft, publish)}
         </Frame1376Sticky>
         <Frame1378 readOnly={assignment.status!= "DRAFT"}>
-          <Frame1375>
-            
+          <Frame1375>            
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}

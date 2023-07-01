@@ -46,7 +46,7 @@ async function fetchData(url, options, headers = {}) {
       .get("content-type")
       ?.includes("application/json");
     const data = isJson ? await response.json() : null;
-    if(data === null) {
+    if (data === null) {
       window.location.href = selfBaseUrl + "/#/404";
       window.location.reload();
       throw new Error("Page not found");
@@ -162,10 +162,10 @@ export const getCookie = (name) => {
 };
 export const setProfileCookies = (profile) => {
   localStorage.setItem("jwtToken", profile.token);
-  const expiry = 30 * 24 * 60 * 60
+  const expiry = 30 * 24 * 60 * 60;
 
   document.cookie =
-    "user.name=" + profile.name + "; max-age=" + expiry *  + "; path=/";
+    "user.name=" + profile.name + "; max-age=" + expiry * +"; path=/";
   document.cookie =
     "userId=" + profile.userId + "; max-age=" + expiry + "; path=/";
   document.cookie = "role=" + profile.role + "; max-age=" + expiry + "; path=/";
@@ -181,9 +181,7 @@ export const logout = async () => {
     logoutLocal();
 
     window.location.href =
-      jeddleBaseUrl +
-      "/wp-login.php?action=logout&redirect_to=" +
-      selfBaseUrl;
+      jeddleBaseUrl + "/wp-login.php?action=logout&redirect_to=" + selfBaseUrl;
   });
 };
 export const changePassword = async () => {
@@ -219,6 +217,28 @@ export const addFeedback = async (submissionId, comment) =>
     baseUrl + "/submissions/" + submissionId + "/feedbacks",
     comment
   );
+
+  export const updateFeedback = async (submissionId, commentId,comment) =>
+  await putApi(
+    baseUrl + "/submissions/" + submissionId + "/feedbacks/" + commentId,
+    comment
+  );
+
+  export const resolveFeedback = async (feedbackId) =>
+  await patchApi(baseUrl + "/feedbacks/comment/" + feedbackId + "/resolve");
+
+export const createNewMarkingCriteria = async (markingCriteria) =>{
+  await postApi(baseUrl + "/teachers/markingCriteria", markingCriteria);
+};
+export const updateMarkingCriteria = async (markingCriteria, markingCriteriaId) =>{
+  await postApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId, markingCriteria);
+};
+export const deleteMarkingCriteria = async (markingCriteriaId) =>{
+  await deleteApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId);
+};
+
+
+export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 
 export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + "/submissions/" + submissionId + "/comments");
@@ -262,9 +282,8 @@ export const unpublishModelResponse = async (feedbackId) =>
     baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/unpublish"
   );
 export const denyModelResponse = async (feedbackId) =>
-  await patchApi(
-    baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/deny"
-  );
+  await patchApi(baseUrl + "/feedbacks/modelResponses/" + feedbackId + "/deny");
+
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + "/submissions", submission);
 
@@ -274,7 +293,7 @@ function logoutLocal() {
 }
 
 export function redirectToExternalIDP() {
-  logoutLocal()
+  logoutLocal();
   const externalIDPLoginUrl =
     jeddleBaseUrl +
     "/wp-json/moserver/authorize?response_type=code&client_id=" +
@@ -320,7 +339,52 @@ export const getShortcuts = () => {
     { text: "Evidence?" },
     { text: "Link to question" },
     { text: "Repeating the question" },
-    { text: "Use actual key terms of question" }
+    { text: "Use actual key terms of question" },
   ];
   return shortcuts;
 };
+let FocusAreas = [
+  {
+    id: 1,
+    title: "Structure",
+    color: "#123456",
+    description:"",
+  },
+  {
+    id: 2,
+    title: "Context",
+    color: "#fbb123",
+    description:"",
+  },
+  {
+    id: 3,
+    title: "Flow",
+    color: "#fbb223",
+    description:"",
+  },
+];
+export const getFocusAreas = async () => {
+  return await getApi(baseUrl + "/feedbacks/focusAreas");
+};
+
+export const addFocusArea = async (focusArea) =>
+  await postApi(baseUrl + "/feedbacks/focusAreas", focusArea);
+  
+export const getAllColors = () => {
+  return [
+    "#E39A99",
+    "#D76766",
+    "#F4CB9B",
+    "#EFB269",
+    "#B9D7A7",
+    "#98C47B",
+    "#A6C4C9",
+    "#7CA5AF",
+    "#A4C5E9",
+    "#78A8DD",
+    "#B3A7D7",
+    "#8D7CC4",
+    "#D1A6BE",
+    "#BC7CA1"
+  ];
+}

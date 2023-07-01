@@ -4,15 +4,26 @@ import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
 function Shortcuts(props) {
-  const { shortcuts, handleShortcutAddComment } = props;
-  const allshortcuts = shortcuts.map((shortcut) => {
+  const { focusAreas, shortcuts, handleShortcutAddComment } = props;
+  
+  const shortcutsFrames = shortcuts?.map((shortcut) => {
     return (
       <ShortcutBox onClick={() => handleShortcutAddComment(shortcut.text)}>
         <ShortcutText>{shortcut.text}</ShortcutText>
       </ShortcutBox>
     );
   });
-  return <ShortcutsContainer>{allshortcuts}</ShortcutsContainer>;
+  const focusAreasFrames = focusAreas?.map((focusArea) => {
+    return (
+      <ShortcutBox onClick={() => handleShortcutAddComment(focusArea)}>
+        <ShortcutText>{focusArea.title}</ShortcutText>
+      </ShortcutBox>
+    );
+  });
+  if (focusAreas) {
+    return <ShortcutsContainer>{focusAreasFrames}</ShortcutsContainer>;
+  }
+  return <ShortcutsContainer>{shortcutsFrames}</ShortcutsContainer>;
 }
 const ShortcutsContainer = styled.div`
   display: flex;

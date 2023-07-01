@@ -5,109 +5,108 @@ import "quill/dist/quill.snow.css";
 import "./styles.css";
 import HighlightBlot from "./HighlightBlot";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+
 const QuillEditor = React.forwardRef(
   ({ comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
+
     useEffect(() => {
-      if (editorRef.current) {
-        const editor = new Quill(editorRef.current, options);
-        editor.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
-        editor.root.style.fontSize = "16px";
-        // alert("Value is " + value)
-        const delta = editor.clipboard.convert(value);
-        editor.setContents(delta);
-        
-        
+      if (editorRef.current && !editor) {
+        const quillInstance = new Quill(editorRef.current, options);
+        quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
+        quillInstance.root.style.fontSize = "16px";
 
-        const debounce = (func, wait) => {
-          let timeout;
+        const delta = quillInstance.clipboard.convert(value);
+        quillInstance.setContents(delta);
 
-          return function (...args) {
-            const context = this;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(context, args), wait);
-          };
-        };
+        setEditor(quillInstance);
+      }
+    }, [editor, editorRef, options, value]);
 
-        const handleDebounce = () => {
-          // Get the contents of the editor as a Delta object
-          const delta = editor.getContents();
-
-          // Filter out the highlight attributes from the Delta object
-          const filteredOps = delta.ops.map((op) => {
-            if (op.attributes && op.attributes.highlight) {
-              const newAttributes = { ...op.attributes };
-              delete newAttributes.highlight;
-              return { ...op, attributes: newAttributes };
-            }
-            return op;
-          });
-
-          // Create a new Delta object with the filtered operations
-          const filteredDelta = new Quill.imports.delta(filteredOps);
-
-          // Convert the filtered Delta object to JSON
-          const jsonString = JSON.stringify(filteredDelta);
-          // alert(jsonString)
-          const cfg = {
-            multiLineParagraph: true, // Set this to true if you want to preserve multiline paragraphs
-            multiLineCodeblock: true  // Set this to true if you want to preserve multiline code blocks
-          };
-
-          var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
-
-          var html = converter.convert(); 
-          // alert(html)
-          onDebounce(html);
-        };
-
-        const updateComments = (delta, oldContents) => {
-          // onDebounce(editor.root.innerHTML);
-        };
-
-        if (debounceTime > 0) {
-          const debouncedAction = debounce(handleDebounce, debounceTime);
-
-          editor.on("text-change", (delta, oldContents, source) => {
-            if (source === "user") {
-              debouncedAction();
-            }
-          });
-        }
-
+    useEffect(() => {
+      if (editor) {
         comments.forEach((comment) => {
           if (comment.range) {
             const range = {
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-            // alert("Highlighting "+ JSON.stringify(comment))
-            editor.formatText(range.index, range.length, {
-              highlight: comment.id,
+            editor.formatText(range.index, range.length, 'highlight', {
+              id: comment.id,
+              color: comment.color?comment.color:'#2f37a1'
             });
           }
         });
-        setEditor(editor);
-        return () => {
-          editor.container.classList.add("inactive");
-          editor.enable(false);
-          editor.off("text-change");
-          editor.deleteText(0, editor.getLength()); // Clear the editor's content
-          if (editorRef.current) {
-            editorRef.current.innerHTML = ""; // Remove the editor's container content
-          }
-        };
       }
-    }, [comments, value, options, debounceTime, onDebounce]);
+    }, [comments, editor]);
+    
+    useEffect(() => {
+      if(editor) {
+      const debounce = (func, wait) => {
+        let timeout;
 
+        return function (...args) {
+          const context = this;
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+      };
+
+      const handleDebounce = () => {
+        // Get the contents of the editor as a Delta object
+        const delta = editor.getContents();
+
+        // Filter out the highlight attributes from the Delta object
+        const filteredOps = delta.ops.map((op) => {
+          if (op.attributes && op.attributes.highlight) {
+            const newAttributes = { ...op.attributes };
+            delete newAttributes.highlight;
+            return { ...op, attributes: newAttributes };
+          }
+          return op;
+        });
+
+        // Create a new Delta object with the filtered operations
+        const filteredDelta = new Quill.imports.delta(filteredOps);
+
+        // Convert the filtered Delta object to JSON
+        const jsonString = JSON.stringify(filteredDelta);
+        // alert(jsonString)
+        const cfg = {
+          multiLineParagraph: true, // Set this to true if you want to preserve multiline paragraphs
+          multiLineCodeblock: true  // Set this to true if you want to preserve multiline code blocks
+        };
+
+        var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
+
+        var html = converter.convert(); 
+        // alert(html)
+        onDebounce(html);
+      };
+
+      const updateComments = (delta, oldContents) => {
+        // onDebounce(editor.root.innerHTML);
+      };
+
+      if (debounceTime > 0) {
+        const debouncedAction = debounce(handleDebounce, debounceTime);
+
+        editor.on("text-change", (delta, oldContents, source) => {
+          if (source === "user") {
+            debouncedAction();
+          }
+        });
+      }
+      }
+    }, [editor]);
     useImperativeHandle(ref, () => ({
       scrollToHighlight(commentId) {
-        return scrollToHighlight(commentId);
+        scrollToHighlight(commentId);
       },
       getAllHighlightsWithComments() {
-        return getHighlights(editor);
+        getHighlights(editor);
       },
       selectRange(range) {
         editor.setSelection(range.index, range.length, "silent");
@@ -125,7 +124,7 @@ const QuillEditor = React.forwardRef(
       setFormat(range, format) {
         return editor.format(range, format);
       },
-      applyBackgroundFormat( range, format) {
+      applyBackgroundFormat(range, format) {
         if (format) {
           const formatKeys = Object.keys(format);
           if (formatKeys.includes("background")) {
@@ -140,7 +139,6 @@ const QuillEditor = React.forwardRef(
         editor.formatText(range, 'background', '#C0C8D1');
         return initialFormat
       },
-      
       getLeaf(index) {
         return editor.getLeaf(index);
       },
@@ -167,6 +165,7 @@ const QuillEditor = React.forwardRef(
 );
 
 export default QuillEditor;
+
 function scrollToHighlight(commentId) {
   const highlightSpan = document.querySelector(
     `span.quill-highlight[data-comment-id="${commentId}"]`
@@ -182,12 +181,12 @@ function scrollToHighlight(commentId) {
     console.warn(`No highlight found for comment ID: ${commentId}`);
   }
 }
+
 function getHighlights(editor) {
   const quillContainer = editor.container;
 
   let highlightsWithComments = {};
 
-  // Get all highlight elements in the Quill container
   const highlightElements = quillContainer.querySelectorAll(".quill-highlight");
 
   highlightElements.forEach((element) => {
@@ -196,7 +195,6 @@ function getHighlights(editor) {
     const index = editor.getIndex(Quill.find(element));
     const length = content.length;
 
-    // Group highlights with the same comment id together
     if (highlightsWithComments[commentId]) {
       highlightsWithComments[commentId].push({ content, index, length });
     } else {
@@ -208,7 +206,6 @@ function getHighlights(editor) {
     (result, [commentId, highlights]) => {
       result[commentId] = highlights.map(({ content, index, length }) => {
         return {
-          // content: content,
           range: {
             from: index,
             to: index + length,

@@ -1,0 +1,12 @@
+.account-settings-marking-criteria-create-new-laptop {
+  align-items: flex-start;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 123px;
+  min-width: 1440px;
+  overflow: hidden;
+  position: relative;
+}
+

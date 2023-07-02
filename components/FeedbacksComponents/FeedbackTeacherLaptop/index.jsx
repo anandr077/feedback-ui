@@ -65,7 +65,6 @@ function FeedbackTeacherLaptop(props) {
     frame13201Props,
     frame13202Props,
   } = props;
-  console.log("submission: ", submission);
   const [isFeedback, setFeedback] = React.useState(true);
   const [isResolvedClick, setResolvedClick] = React.useState(false);
   const commentsFrame = sortBy(comments, [

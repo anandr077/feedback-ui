@@ -23,6 +23,21 @@ function ReviewsFrame132532(props) {
   } = props;
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
+  const componentRef = React.useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (componentRef.current && !componentRef.current.contains(event.target)) {
+      setIsMoreClicked(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   const handleMouseEnter = () => {
     setIsResolveHovered(true);
@@ -111,7 +126,7 @@ function ReviewsFrame132532(props) {
       </Frame1324>
       {resolveFrame}
       {getUserId() === comment.reviewerId && !defaultComment && (
-        <More onClick={handleMoreClick} src="/icons/three-dot.svg" />
+        <More onClick={handleMoreClick} src="/icons/three-dot.svg" ref={componentRef}/>
       )}
       {openEditDeleteTemplate}
     </Frame1325>

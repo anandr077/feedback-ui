@@ -18,6 +18,10 @@ const headerProps = completedHeaderProps(true);
 
 export default function AccountSettingsRoot(props) {
 
+    if(window.localStorage.getItem("markingCriteria") === "true"){
+        window.location.reload();
+        window.localStorage.removeItem("markingCriteria");
+    }
 
     const [markingCriterias, setMarkingCriterias] = React.useState([]);
     const [shortcuts, setShortcuts] = React.useState([]);

@@ -50,6 +50,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
             {criterias}
             <Buttons2 text='Add criteria' onClickFn={addCriteria} />
            </Frame1302>
+           <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating} withoutTitle={true} />
         </Frame1376>
       </Frame1379>
    <Footer/>

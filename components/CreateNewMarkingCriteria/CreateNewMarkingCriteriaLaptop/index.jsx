@@ -10,7 +10,7 @@ import { IbmplexsansNormalChicago13px, IbmplexsansNormalStack20px} from "../../.
 import "./CreateNewMarkingCriteriaLaptop.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
-import { is } from "date-fns/locale";
+import Frame1219 from "../Frame1219";
 
 
 
@@ -39,7 +39,7 @@ function CreateNewMarkingCriteriaLaptop(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-        <Frame1372 className={frame1372Props.className} saveMethod={saveMarkingCriteria} deleteMethod= {deleteMarkingCriteriaMethod} isUpdating={isUpdating} />
+        <Frame1372 className={frame1372Props.className} saveMethod={saveMarkingCriteria} deleteMethod= {deleteMarkingCriteriaMethod} isUpdating={isUpdating}/>
           <TitleContainer
               id="markingCriteriaTitleContainer"
           >
@@ -52,6 +52,7 @@ function CreateNewMarkingCriteriaLaptop(props) {
             {criterias}
             <Buttons2 text='Add criteria' onClickFn={addCriteria} />
           </Frame1302>
+          <Frame1372 className={frame1372Props.className} saveMethod={saveMarkingCriteria} deleteMethod= {deleteMarkingCriteriaMethod} isUpdating={isUpdating} withoutTitle={true}/>
         </Frame1376>
       </Frame1379>
       <Footer />
@@ -59,6 +60,8 @@ function CreateNewMarkingCriteriaLaptop(props) {
     </div>
   );
 }
+
+
 const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}
   position: relative;

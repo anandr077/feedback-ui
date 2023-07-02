@@ -84,11 +84,35 @@ const deleteLevel = (criteriaId, levelId) => {
   setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
 };
 
-const saveMarkingCriteria = () => {
-  if(markingCriterias.title === "") {
+const validateMarkingCriteria = () => {
+  if(markingCriterias.title === "" || markingCriterias.title === undefined) {
     showSnackbar("Please enter a title for the marking criteria");
-    return ;
+    return false;
   }
+  if(markingCriterias.criterias.length === 0) {
+    showSnackbar("Please add at least one criteria");
+    return false;
+  }
+
+  markingCriterias.criterias.forEach((criteria, indexout) => {
+    console.log("##",criteria.title);
+    if(criteria.title === undefined || criteria.title === "") {
+      showSnackbar(`Please enter a title for criteria ${indexout + 1}`);
+      return false;
+    }
+    criteria.levels.forEach((level, index) => {
+      if(level.name == undefined || level.name === "") {
+        showSnackbar(`Please enter a name for all level in criteria ${indexout + 1}`);
+        return false;
+      }
+    });
+  });
+
+  return true;
+};
+
+const saveMarkingCriteria = () => {
+  if(validateMarkingCriteria()) {
   const markingCriteria = {
     title: markingCriterias.title,
     criterias: markingCriterias.criterias.map((criteria) => {
@@ -106,13 +130,21 @@ const saveMarkingCriteria = () => {
   }
   isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
   showSnackbar(isUpdating? "Marking Criteria Updated Successfully" :"Marking Criteria Created Successfully" );
+  window.localStorage.setItem("markingCriteria", "true");
   window.location.href = "/#settings";
+  }
+  else{
+    
+  }
+
 }
 
 const deleteMarkingCriteriaMethod = () => {
   deleteMarkingCriteria(markingCriteriaId).then(() => {
     showSnackbar("Marking Criteria Deleted Successfully");
+    window.localStorage.setItem("markingCriteria", "true");
     window.location.href = "/#settings";
+    
   }).catch((error) => {
     showSnackbar("An error occured while deleting marking criteria");
   });

@@ -35,7 +35,7 @@ function CreateNewMarkingCriteriaMobile(props) {
           <Frame1315>
           <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
             <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
-            <Breadcrumb2 title ={isUpdating?"Update Marking Criteria":"Create New"}  />
+            <Breadcrumb2 title ={isUpdating?"Update":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
@@ -55,12 +55,26 @@ function CreateNewMarkingCriteriaMobile(props) {
             {criterias}
             <Buttons2 text='Add criteria' onClickFn={addCriteria} />
            </Frame1302>
+           <BottomButtonContainer>
+           <Frame1219 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod}  isUpdating={isUpdating}/>
+           </BottomButtonContainer>
+         
         </Frame1376>
       </Frame1379>
       <FooterSmall/>
     </div>
   );
 }
+
+
+const BottomButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px;
+  position: relative;
+  align-self: stretch;
+`;
 
 const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}

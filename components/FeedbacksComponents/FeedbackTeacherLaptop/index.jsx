@@ -38,10 +38,12 @@ import FocusAreasFrame from "../FocusAreasFrame";
 import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
 import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
+import MarkingCriteriaFeedbackReadOnly from "../../MarkingCriteriaFeedbacKReadOnly";
 
 function FeedbackTeacherLaptop(props) {
   const {
     newCommentSerialNumber,
+    markingCriteriaFeedback,
     smallMarkingCriteria,
     isTeacher,
     showLoader,
@@ -59,6 +61,8 @@ function FeedbackTeacherLaptop(props) {
     sharewithclassdialog,
     frame13201Props,
   } = props;
+
+
   const [isFeedback, setFeedback] = React.useState(true);
   const [isResolvedClick, setResolvedClick] = React.useState(false);
   const commentsFrame = sortBy(comments, [
@@ -268,6 +272,17 @@ function FeedbackTeacherLaptop(props) {
     return <></>
    
   };
+
+  const getMarkingCriteriaFeedback = (questionSerialNumber) => {
+    
+    const selectedFeedback= markingCriteriaFeedback.map((feedback) =>{
+    if(feedback.questionSerialNumber === questionSerialNumber){
+      return feedback;
+    }
+  });
+  return selectedFeedback[selectedFeedback.length-1]?.markingCriteria;
+  }
+
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -306,16 +321,26 @@ function FeedbackTeacherLaptop(props) {
             </QuillContainer>
           )}
           {createFocusAreasLabel(question.focusAreaIds)}
-          {submission.status === "SUBMITTED" &&
-          getUserId() === submission.reviewerId  &&
-          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title &&
-          
+          {(submission.status === "SUBMITTED") && 
+          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
+          submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
           <MarkingCriteriaFeedback
            markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
            small={smallMarkingCriteria}
            questionSerialNumber={answer.serialNumber}
            handleMarkingCriteriaLevelFeedback={methods.handleMarkingCriteriaLevelFeedback}
            />
+           }
+           {
+              submission.status === "REVIEWED" &&
+              markingCriteriaFeedback.length > 0 &&
+              submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
+              <MarkingCriteriaFeedbackReadOnly
+              allmarkingCriteriaFeedback={markingCriteriaFeedback} 
+              small={smallMarkingCriteria}
+              questionSerialNumber={answer.serialNumber}
+              >
+              </MarkingCriteriaFeedbackReadOnly>
            }
         </Frame1366>
       </>

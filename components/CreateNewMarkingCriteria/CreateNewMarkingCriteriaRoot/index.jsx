@@ -5,13 +5,13 @@ import CreateNewMarkingCriteriaTablet from "../CreateNewMarkingCriteriaTablet";
 import CreateNewMarkingCriteriaLaptop from "../CreateNewMarkingCriteriaLaptop";
 import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
-import { assignmentsHeaderProps } from "../../../utils/headerProps";
+import { completedHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria} from "../../../service";
+import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria, getDefaultCriteria, getNewCriteria} from "../../../service";
 import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
 
-const headerProps = assignmentsHeaderProps;
+const headerProps = completedHeaderProps(true);
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
@@ -21,44 +21,15 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
-const getNewCriteria = (criteriaId) => {
-  return {
-    id: {criteriaId},
-    title: "",
-    levels: [
-      {
-        id: "",
-        name: "",
-        description: "",
-      },
-      {
-        id: "",
-        name: "",
-        description: "",
-      },
-      {
-        id: "",
-        name: "",
-        description: "",
-      },
-    ],
-  };
-}
-
-const getDefaultCriteria = () => {
-  const criteria = getNewCriteria(0);
-  return { 
-   title:"",
-   criterias: [criteria] };
-}
 
 const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria)
 
 React.useEffect(() => {
   Promise.all([ getAllMarkingCriteria() ]).then(
     ([result]) => {
-      if (result.filter((criteria) => criteria.id === markingCriteriaId).length > 0) {
-          setMarkingCriterias(result[0]);
+      const loadedMarkingCriteria = result.filter((criteria) => criteria.id === markingCriteriaId);
+        if(loadedMarkingCriteria.length > 0) {
+          setMarkingCriterias(loadedMarkingCriteria[0]);
           setIsUpdating(true);
         }
         setIsLoading(false);
@@ -113,11 +84,35 @@ const deleteLevel = (criteriaId, levelId) => {
   setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
 };
 
-const saveMarkingCriteria = () => {
-  if(markingCriterias.title === "") {
+const validateMarkingCriteria = () => {
+  if(markingCriterias.title === "" || markingCriterias.title === undefined) {
     showSnackbar("Please enter a title for the marking criteria");
-    return ;
+    return false;
   }
+  if(markingCriterias.criterias.length === 0) {
+    showSnackbar("Please add at least one criteria");
+    return false;
+  }
+
+  markingCriterias.criterias.forEach((criteria, indexout) => {
+    console.log("##",criteria.title);
+    if(criteria.title === undefined || criteria.title === "") {
+      showSnackbar(`Please enter a title for criteria ${indexout + 1}`);
+      return false;
+    }
+    criteria.levels.forEach((level, index) => {
+      if(level.name == undefined || level.name === "") {
+        showSnackbar(`Please enter a name for all level in criteria ${indexout + 1}`);
+        return false;
+      }
+    });
+  });
+
+  return true;
+};
+
+const saveMarkingCriteria = () => {
+  if(validateMarkingCriteria()) {
   const markingCriteria = {
     title: markingCriterias.title,
     criterias: markingCriterias.criterias.map((criteria) => {
@@ -135,13 +130,21 @@ const saveMarkingCriteria = () => {
   }
   isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
   showSnackbar(isUpdating? "Marking Criteria Updated Successfully" :"Marking Criteria Created Successfully" );
+  window.localStorage.setItem("markingCriteria", "true");
   window.location.href = "/#settings";
+  }
+  else{
+    
+  }
+
 }
 
 const deleteMarkingCriteriaMethod = () => {
   deleteMarkingCriteria(markingCriteriaId).then(() => {
     showSnackbar("Marking Criteria Deleted Successfully");
+    window.localStorage.setItem("markingCriteria", "true");
     window.location.href = "/#settings";
+    
   }).catch((error) => {
     showSnackbar("An error occured while deleting marking criteria");
   });

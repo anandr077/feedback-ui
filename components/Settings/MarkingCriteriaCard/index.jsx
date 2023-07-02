@@ -6,6 +6,7 @@ import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 
 function MarkingCriteriaCard(props) {
   const { title, markingCriteriaId,  deleteMarkingCriteriaHandler} = props;
+ 
 
   return (
     <MarkingCriteriaEntry>

@@ -510,7 +510,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const validateMarkingCriteria = () => {
     let invalid = true;
     submission.assignment.questions.map((question)=>{
-      if(question.markingCriteria?.title !="" && question.markingCriteria?.title !=null && question.markingCriteria?.title !=undefined){   
+      if(question.markingCriteria.title !="" && question.markingCriteria.criterias){   
         question.markingCriteria.criterias.map((criteria)=>{
           if(!criteria.selectedLevel){
             showSnackbar("Marking criteria feedback missing for question " + question.serialNumber);
@@ -526,8 +526,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
    if(submission.assignment.questions[0].markingCriteria?.title !=""){
     if(validateMarkingCriteria()){
          submission.assignment.questions.map((question)=>{
-          const markingCriteriaRequest = question.markingCriteria;
+          if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
 
+          const markingCriteriaRequest = question.markingCriteria;
               addFeedback(submission.id, {
               questionSerialNumber: newCommentSerialNumber,
               feedback: "Marking Criteria Feedback",
@@ -540,14 +541,18 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   console.log("###response", response);
                 }
               });
-            });
-      
+            }
+
+          });
+          
+
+
         markSubmsissionReviewed(submission.id).then((_) => {
           showSnackbar("Task reviewed...", window.location.href);
           if (isTeacher) {
-            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+            // window.location.href = nextUrl === "/" ? "/#" : nextUrl;
           } else {
-            window.location.href = "/#";
+            // window.location.href = "/#";
           }
         });
 

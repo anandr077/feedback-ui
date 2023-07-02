@@ -7,7 +7,7 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { completedHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria, getDefaultCriteria} from "../../../service";
+import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria, getDefaultCriteria, getNewCriteria} from "../../../service";
 import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
 

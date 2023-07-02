@@ -3,7 +3,14 @@ import styled from 'styled-components'
 import ImageDropdownMenu from '../ImageDropdownMenu'
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
-    const {markingCriteria, small} = props;
+    const {allmarkingCriteriaFeedback, small, questionSerialNumber} = props;
+    const selectedMarkingCriteria = allmarkingCriteriaFeedback.map((feedback) =>{
+      if(feedback.questionSerialNumber === questionSerialNumber){
+        return feedback;
+      }
+});
+const markingCriteria = selectedMarkingCriteria[selectedMarkingCriteria.length-1].markingCriteria;
+
     const markingCriteriaCardsComponent = markingCriteria.criterias?.map((criteria, index) => {
         return (
             <SingleMarkingCriteriaContainer key={index}>

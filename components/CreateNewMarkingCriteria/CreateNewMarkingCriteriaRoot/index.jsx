@@ -7,7 +7,7 @@ import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
 import { assignmentsHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
-import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria} from "../../../service";
+import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria, getDefaultCriteria} from "../../../service";
 import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
 
@@ -21,36 +21,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
-const getNewCriteria = (criteriaId) => {
-  return {
-    id: {criteriaId},
-    title: "",
-    levels: [
-      {
-        id: "",
-        name: "",
-        description: "",
-      },
-      {
-        id: "",
-        name: "",
-        description: "",
-      },
-      {
-        id: "",
-        name: "",
-        description: "",
-      },
-    ],
-  };
-}
-
-const getDefaultCriteria = () => {
-  const criteria = getNewCriteria(0);
-  return { 
-   title:"",
-   criterias: [criteria] };
-}
 
 const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria)
 

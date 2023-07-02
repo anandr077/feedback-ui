@@ -237,12 +237,6 @@ export const deleteMarkingCriteria = async (markingCriteriaId) =>{
   await deleteApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId);
 };
 
-export const addMarkingCriteriaFeedback = async (submissionId, markingCriterias) =>
-  await postApi(
-    baseUrl + "/submissions/" + submissionId + "/feedbacks/markingCriteras",
-    markingCriterias
-  );
-
 
 export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 
@@ -393,4 +387,35 @@ export const getAllColors = () => {
     "#D1A6BE",
     "#BC7CA1"
   ];
+}
+
+export const getNewCriteria = (criteriaId) => {
+  return {
+    id: {criteriaId},
+    title: "",
+    levels: [
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+    ],
+  };
+}
+
+export const getDefaultCriteria = () => {
+  const criteria = getNewCriteria(0);
+  return { 
+   title:"",
+   criterias: [criteria] };
 }

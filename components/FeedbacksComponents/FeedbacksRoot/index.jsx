@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { filter, flatMap, includes, map, uniq } from "lodash";
+import { filter, flatMap, includes, map, set, uniq } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
@@ -26,8 +26,7 @@ import {
   submitAssignment,
   updateFeedbackRange,
   getUserName,
-  updateAssignment,
-  addMarkingCriteriaFeedback,
+  getDefaultCriteria
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -70,8 +69,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [nextUrl, setNextUrl] = useState("");
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
+  const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
 
   const isTeacher = getUserRole() === "TEACHER";
+  const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id)])
@@ -80,7 +81,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const allComments = commentsResult.map((c) => {
           return { ...c };
         });
-        setComments(allComments);
+        const feedbackComments= allComments.filter((c) => c.type === "COMMENT");
+        setComments(feedbackComments);
+        const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
+        setMarkingCriteriaFeedback(markingCriteriaFeedback);
       })
       .finally(() => {
         if (!isTeacher) {
@@ -151,14 +155,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       selectedRange,
       selectedRangeFormat
     );
-
+    
+   
     if (!document.getElementById("newCommentInput").value) return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
       range: selectedRange,
       type: "COMMENT",
-      replies: []
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -179,7 +185,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: commentText,
       range: selectedRange,
       type: "COMMENT",
-      replies: []
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -201,7 +208,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: "FOCUS_AREA",
       color: focusArea.color,
       focusAreaId: focusArea.id,
-      replies: []
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -221,7 +229,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: exemplarComment,
       range: selectedRange,
       type: "MODEL_RESPONSE",
-      replies: []
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -341,7 +350,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
         Promise.all(promises).then((results) => {
           getComments(submission).then((cmts) => {
-            setComments(cmts);
+            setComments(comments.filter((c) => c.type === "COMMENT"));
             handleChangeText("All changes saved", true);
           });
         });
@@ -374,7 +383,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: "COMMENT",
       reviewerId: getUserId(),
       reviewerName: getUserName(),
-      replies: []
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -390,6 +400,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           type: commentToUpdate.type,
           replies: commentToUpdate.replies,
           reviewerId: commentToUpdate.reviewerId,
+          markingCriteria: defaultMarkingCriteria
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>
@@ -496,7 +507,54 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
 
+  const validateMarkingCriteria = () => {
+    let invalid = true;
+    submission.assignment.questions.map((question)=>{
+      if(question.markingCriteria?.title !="" && question.markingCriteria?.title !=null && question.markingCriteria?.title !=undefined){   
+        question.markingCriteria.criterias.map((criteria)=>{
+          if(!criteria.selectedLevel){
+            showSnackbar("Marking criteria feedback missing for question " + question.serialNumber);
+            invalid = false;
+          }
+        })  
+      }
+    }); 
+ return invalid;
+  };
+
   function handleSubmissionReviewed() {
+   if(submission.assignment.questions[0].markingCriteria?.title !=""){
+    if(validateMarkingCriteria()){
+         submission.assignment.questions.map((question)=>{
+          const markingCriteriaRequest = question.markingCriteria;
+
+              addFeedback(submission.id, {
+              questionSerialNumber: newCommentSerialNumber,
+              feedback: "Marking Criteria Feedback",
+              range: selectedRange,
+              type: "MARKING_CRITERIA",
+              replies: [],
+              markingCriteria: markingCriteriaRequest,
+              }).then((response) => {
+                if (response) {
+                  console.log("###response", response);
+                }
+              });
+            });
+      
+        markSubmsissionReviewed(submission.id).then((_) => {
+          showSnackbar("Task reviewed...", window.location.href);
+          if (isTeacher) {
+            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+          } else {
+            window.location.href = "/#";
+          }
+        });
+
+    }
+  }
+  else {
+
     markSubmsissionReviewed(submission.id).then((_) => {
       showSnackbar("Task reviewed...", window.location.href);
       if (isTeacher) {
@@ -505,6 +563,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         window.location.href = "/#";
       }
     });
+
+  }
+
+
+
+    
   }
   const handleSaveSubmissionForReview = () => {
     disableAllEditors();
@@ -846,26 +910,23 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
-    console.log(submission.assignment.id)
 
-   const allMarkingCriteriasRequest = submission.assignment.questions.map((question) => {
-      return {
-        questionSerialNumber: question.serialNumber,
-        markingCriteria: question.markingCriteria
-      }
-    });
+   const markingCriteriaToUpdate = submission.assignment.questions[questionSerialNumber-1].markingCriteria;
+   markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel=selectedLevel;
 
-    console.log("###",allMarkingCriteriasRequest)
+    // addFeedback(submission.id, {
+    //   questionSerialNumber: newCommentSerialNumber,
+    //   feedback: "Marking Criteria Feedback",
+    //   range: selectedRange,
+    //   type: "MARKING_CRITERIA",
+    //   replies: [],
+    //   markingCriteria: markingCriteriaToUpdate,
+    // }).then((response) => {
+    //   if (response) {
+    //     console.log("###response", response);
+    //   }
+    // });
 
-      addMarkingCriteriaFeedback(submission.id, {
-        type: "MARKING_CRITERIA",
-        criteraFeedbacks:allMarkingCriteriasRequest
-      }).then((response) => {
-        if (response) {
-         console.log("###",response)
-        }
-      });
-    
   }
 
   const methods = {
@@ -932,6 +993,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           {...{
             newCommentSerialNumber,
             smallMarkingCriteria: true,
+            markingCriteriaFeedback,
             isTeacher,
             showLoader,
             submissionStatusLabel,
@@ -956,6 +1018,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               isTeacher,
+              markingCriteriaFeedback,
               newCommentSerialNumber,
               showLoader,
               submissionStatusLabel,
@@ -980,6 +1043,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            markingCriteriaFeedback,
             newCommentSerialNumber,
             showLoader,
             submissionStatusLabel,

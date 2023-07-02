@@ -342,9 +342,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   function handleDeleteComment(commentId) {
-    deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(comments.filter((c) => c.id != commentId));
-    });
+    deleteFeedback(submission.id, commentId)
+      .then((response) => {
+        setComments(comments.filter((c) => c.id != commentId));
+      });
   }
 
   function handleResolvedComment(commentId) {

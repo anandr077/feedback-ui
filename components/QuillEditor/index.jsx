@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect, useImperativeHandle } from "react";
+import { filter, flatMap, includes, map, uniq } from "lodash";
+
 import Quill from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -28,6 +30,7 @@ const QuillEditor = React.forwardRef(
 
     useEffect(() => {
       if (editor) {
+        removeAllHighlights(editor)
         comments.forEach((comment) => {
           if (comment.range) {
             const range = {
@@ -175,10 +178,28 @@ function scrollToHighlight(commentId) {
     console.warn(`No highlight found for comment ID: ${commentId}`);
   }
 }
+function removeAllHighlights(editor) {
+  const quillContainer = editor.container;
+
+  // Get all highlight elements in the Quill container
+  const highlightElements = getHighlights(editor);
+  console.log("element " + JSON.stringify(highlightElements));
+  const transformedData = flatMap(
+    Object.entries(highlightElements),
+    ([commentId, highlights]) => {
+      return highlights.map((highlight) => {
+        const { content, range } = highlight;
+        editor.formatText(range.from, range.to - range.from, "highlight", false);
+        console.log("e " + JSON.stringify(highlight));
+
+        return { commentId, range };
+      });
+    }
+  );
+}
 
 function getHighlights(editor) {
   const quillContainer = editor.container;
-  const quillContents = editor.getContents();
 
   let highlightsWithComments = {};
 

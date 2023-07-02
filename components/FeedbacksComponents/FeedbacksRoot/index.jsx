@@ -294,57 +294,50 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-      if (pageMode === "DRAFT") {
-        handleChangeText("All changes saved", true);
-      } else {
         const quill = quillRefs.current[answer.serialNumber - 1];
         const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-
+        console.log("getAllHighlightsWithComments" + JSON.stringify(highlightsWithCommentsData))
         const transformedData = flatMap(
-          Object.entries(highlightsWithCommentsData),
-          ([commentId, highlights]) => {
-            return highlights.map((highlight) => {
-              const { content, range } = highlight;
-              return { commentId, range };
-            });
-          }
-        );
+            Object.entries(highlightsWithCommentsData),
+            ([commentId, highlights]) => {
+              return highlights.map((highlight) => {
+                const { content, range } = highlight;
+                return { commentId, range };
+              });
+            }
+          );
 
-        // Use Array.prototype.map to create an array of commentIds
-        const commentIdsArray = transformedData.map(
-          ({ commentId }) => commentId
-        );
+          // Use Array.prototype.map to create an array of commentIds
+          const commentIdsArray = transformedData.map(
+            ({ commentId }) => commentId
+          );
 
-        // Create a Set from the commentIdsArray
-        const transformedCommentIds = uniq(commentIdsArray);
+          const commentsForAnswer = comments.filter(
+            (comment) => comment.questionSerialNumber === answer.serialNumber
+          );
+          const missingComments = filter(
+            commentsForAnswer,
+            (comment) => !includes(commentIdsArray, comment.id)
+          );
+          const missingCommentsWithZeroRange = map(
+            missingComments,
+            (comment) => ({
+              commentId: comment.id,
+              range: { from: 0, to: 0 },
+            })
+          );
 
-        const commentsForAnswer = comments.filter(
-          (comment) => comment.questionSerialNumber === answer.serialNumber
-        );
-        const missingComments = filter(
-          commentsForAnswer,
-          (comment) => !includes(commentIdsArray, comment.id)
-        );
-        const missingCommentsWithZeroRange = map(
-          missingComments,
-          (comment) => ({
-            commentId: comment.id,
-            range: { from: 0, to: 0 },
-          })
-        );
-
-        const finalData = transformedData.concat(missingCommentsWithZeroRange);
-        const promises = finalData.map(({ commentId, range }) => {
-          return updateFeedbackRange(submission.id, commentId, range);
-        });
-
-        Promise.all(promises).then((results) => {
-          getComments(submission).then((cmts) => {
-            setComments(cmts);
-            handleChangeText("All changes saved", true);
+          const finalData = transformedData.concat(missingCommentsWithZeroRange);
+          const promises = finalData.map(({ commentId, range }) => {
+            return updateFeedbackRange(submission.id, commentId, range);
           });
-        });
-      }
+
+          Promise.all(promises).then((results) => {
+            getComments(submission.id).then((cmts) => {
+              setComments(comments ? comments : []);
+              handleChangeText("All changes saved", true);
+            });
+          });
     });
   };
 
@@ -591,9 +584,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const delta =
             quillRefs.current[serialNumber - 1].setLostFocusColor(range);
           setSelectedRangeFormat(delta);
-
-          // newCommentFrameRef.current?.focus();
-
           setShowNewComment(true);
         }
       }

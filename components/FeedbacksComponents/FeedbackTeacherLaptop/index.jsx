@@ -422,7 +422,7 @@ function FeedbackTeacherLaptop(props) {
         ref={(editor) =>
           methods.handleEditorMounted(editor, answer.serialNumber - 1)
         }
-        comments={comments.filter((comment) => {
+        comments={comments?.filter((comment) => {
           return comment.questionSerialNumber === answer.serialNumber;
         })}
         value={answerValue ? answerValue : ""}

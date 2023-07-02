@@ -35,6 +35,10 @@ const Frame1322 = styled.div`
   gap: 4px;
   position: relative;
   cursor: pointer;
+   &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
 `;
 
 const IconTrash = styled.img`
@@ -64,6 +68,10 @@ const Buttons1 = styled.div`
   border-radius: 30px;
   border: 1px solid;
   cursor: pointer;
+   &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
 `;
 
 const Button = styled.div`

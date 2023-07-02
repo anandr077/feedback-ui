@@ -1,12 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import {IbmplexsansNormalElectricViolet14px } from "../../../styledMixins";
-import {deleteMarkingCriteria } from "../../../service.js";
 
 
 function Buttons2(props) {
   const { markingCriteriaId , deleteMarkingCriteriaHandler } = props;
-  
   return (
     <ButtonsContainer>
     <Buttons onClick={()=> window.location.href=`/#/markingCriterias/${markingCriteriaId}`}>

@@ -33,7 +33,7 @@ function CreateNewMarkingCriteriaTablet(props) {
           <Frame1315>
           <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
           <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
-          <Breadcrumb2 title ={isUpdating?"Update Marking Criteria":"Create New"}  />
+          <Breadcrumb2 title ={isUpdating?"Update":"Create New"}  />
           </Frame1315>
           <GoBack />
         </Frame1376>
@@ -50,6 +50,7 @@ function CreateNewMarkingCriteriaTablet(props) {
             {criterias}
             <Buttons2 text='Add criteria' onClickFn={addCriteria} />
            </Frame1302>
+           <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating} withoutTitle={true}/>
         </Frame1376>
       </Frame1379>
       <FooterSmall/>

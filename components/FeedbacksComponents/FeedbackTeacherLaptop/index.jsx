@@ -34,6 +34,7 @@ import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
 import ReviewsFrame1320 from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
+import FocusAreasFrame from "../FocusAreasFrame";
 import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
 import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
@@ -48,22 +49,15 @@ function FeedbackTeacherLaptop(props) {
     quillRefs,
     pageMode,
     shortcuts,
-    focusAreas,
     newCommentFrameRef,
     showNewComment,
-    hideNewCommentDiv,
     methods,
     comments,
-    studentName,
-    students,
     headerProps,
     submission,
     share,
     sharewithclassdialog,
-    breadcrumb21Props,
-    breadcrumb22Props,
     frame13201Props,
-    frame13202Props,
   } = props;
   const [isFeedback, setFeedback] = React.useState(true);
   const [isResolvedClick, setResolvedClick] = React.useState(false);
@@ -71,13 +65,37 @@ function FeedbackTeacherLaptop(props) {
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
-    const isClosable = pageMode === "REVIEW";
+    console.log("Comment " + JSON.stringify(comment))
+    if (comment.type === "FOCUS_AREA") {
+      if (pageMode === "DRAFT" || pageMode === "REVISE") {
+        return <CommentCard32
+                    reviewer={comment.reviewerName}
+                    comment={comment}
+                    onClick={() => {}}
+                    isTeacher={isTeacher}
+                    defaultComment={false}
+                  />
+      //   return <CommentCard32
+      //   reviewer={comment.reviewerName}
+      //   comment={comment}
+      //   onClick={(c) => methods.handleCommentSelected(c)}
+      //   onClose={() => {
+      //     methods.handleDeleteComment(comment.id);
+      //   }}
+      //   handleReplyComment={methods.handleReplyComment}
+      //   isResolved={false}
+      //   showResolveButton = {false}
+      //   isTeacher={false}        
+      // />
+      }
+      return <></>
+    }
     return isFeedback && comment.status !== "RESOLVED" ? (
+
       <CommentCard32
         reviewer={comment.reviewerName}
         comment={comment}
         onClick={(c) => methods.handleCommentSelected(c)}
-        isClosable={isClosable}
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
@@ -86,6 +104,7 @@ function FeedbackTeacherLaptop(props) {
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
+        showResolveButton = {pageMode === "REVISE" }
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
@@ -95,7 +114,6 @@ function FeedbackTeacherLaptop(props) {
         reviewer={comment.reviewerName}
         comment={comment}
         onClick={(c) => methods.handleCommentSelected(c)}
-        isClosable={isClosable}
         onClose={() => {
           methods.handleDeleteComment(comment.id);
         }}
@@ -104,6 +122,7 @@ function FeedbackTeacherLaptop(props) {
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
+        showResolveButton = {false}
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
@@ -129,8 +148,10 @@ function FeedbackTeacherLaptop(props) {
     reviewerName: "Jeddle",
     comment: "Feedback will appear here",
   };
-
   const feedbackFrame = () => {
+    if (pageMode == "DRAFT" || pageMode == "REVISE") {
+      return focusAreasFrame()
+    }
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
@@ -181,6 +202,32 @@ function FeedbackTeacherLaptop(props) {
       </Frame1331>
     );
   };
+  const focusAreasFrame = () => {
+    return (
+      <Frame1331 id="focusAreasFrame">
+        <Frame1322>
+          <ReviewsFrame1320 isFocusAreas="true">
+
+
+           
+          </ReviewsFrame1320>
+        </Frame1322>
+        <>
+          {showNewComment ? (
+            <>
+              <Screen onClick={methods.hideNewCommentDiv}></Screen>
+              {newCommentFrame()}
+            </>
+          ): (
+            <Frame1328>
+              {commentsFrame}
+            </Frame1328>
+          )
+          }
+        </>
+      </Frame1331>
+    );
+  };
   const submitButton = () => {
     if (pageMode === "DRAFT") {
       return (
@@ -195,7 +242,6 @@ function FeedbackTeacherLaptop(props) {
       return (
         <Buttons2
           button="Submit"
-          // arrowright={true}
           onClickFn={() => methods.handleSubmissionReviewed()}
         ></Buttons2>
       );
@@ -204,14 +250,24 @@ function FeedbackTeacherLaptop(props) {
       return (
         <Buttons2
           button="Resubmit"
-          // arrowright={true}
           onClickFn={() => methods.handleSubmissionClosed()}
         ></Buttons2>
       );
     }
     return <></>;
   };
-
+  const createFocusAreasLabel = (focusAreas) => {
+    console.log("fa " + focusAreas)
+    if (focusAreas ) {
+      const label = <Label>Focus areas : </Label>
+      const all = focusAreas?.map(fa=>{
+        fa
+      })
+      return <>{label}{all}</>;
+    }
+    return <></>
+   
+  };
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -249,9 +305,11 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
+          {createFocusAreasLabel(question.focusAreaIds)}
           {submission.status === "SUBMITTED" &&
           getUserId() === submission.reviewerId  &&
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title &&
+          
           <MarkingCriteriaFeedback
            markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
            small={smallMarkingCriteria}
@@ -263,7 +321,7 @@ function FeedbackTeacherLaptop(props) {
       </>
     );
   });
-
+  
   const tasksListsDropDown = () => {
     if (isTeacher) {
       return <Frame131612>{methods.createTasksDropDown()}</Frame131612>;
@@ -291,7 +349,7 @@ function FeedbackTeacherLaptop(props) {
   };
   const newCommentFrame = () => {
     if (pageMode === "DRAFT" || pageMode === "REVISE") {
-      return authorNewComment();
+      return selectFocusArea();
     }
 
     return reviewerNewComment();
@@ -327,12 +385,7 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 
-  function authorNewComment() {
-    console.log(
-      "SSS" +
-        submission.assignment.questions[newCommentSerialNumber - 1].focusAreaIds
-    );
-    console.log("FA" + newCommentSerialNumber);
+  function selectFocusArea() {
     const focusAreas = submission.assignment.focusAreas?.filter((fa) => {
       return submission.assignment.questions[
         newCommentSerialNumber - 1
@@ -343,9 +396,9 @@ function FeedbackTeacherLaptop(props) {
         <Frame1329>
           <Frame1406>
             <Line6 src="/icons/line.png" alt="Line 6" />
-            <ShortcutsFrame
+            <FocusAreasFrame
               focusAreas={focusAreas}
-              handleShortcutAddComment={methods.handleFocusAreaComment}
+              handleAddFocusArea={methods.handleFocusAreaComment}
             />
             {/* {shareWithClassFrame()} */}
           </Frame1406>
@@ -381,7 +434,7 @@ function FeedbackTeacherLaptop(props) {
             <Frame1371 id="assignmentTitle">
               <TitleWrapper>
                 <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-                <StatusText>{methods.submissionStatusLabel()}| <div>Hello</div></StatusText>
+                <StatusText>{methods.submissionStatusLabel()}</StatusText>
               </TitleWrapper>
               {!isTeacher && pageMode === "CLOSED" && (
                 <div id="deleteButton">
@@ -437,6 +490,14 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+const Label = styled.div`
+ ${feedbacksIbmplexsansNormalShark20px}
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -464,22 +525,15 @@ const StatusText = styled.p`
   display: flex;
   gap: 4px;
 `;
-const ReviewCheckBoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const OptionRemarkContainer = styled.div`
-  display: flex;
-  padding-left: 0.5em;
-  padding-bottom: 0.75em;
-`;
-
-const SaveDraftButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 190%;
+const RoundedContainer = styled.div`
+display: flex;
+padding: 12px 16px;
+align-items: flex-start;
+gap: 10px;
+align-self: stretch;
+border-radius: 24.5px;
+border: 1px solid #E6CCFF;
+background: #F1E7FF;
 `;
 
 const Screen = styled.div`

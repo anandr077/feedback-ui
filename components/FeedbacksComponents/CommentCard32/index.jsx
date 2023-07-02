@@ -13,7 +13,6 @@ function CommentCard32(props) {
     className,
     reviewer,
     onClick,
-    isClosable,
     onClose,
     isTeacher,
     onResolved,
@@ -146,8 +145,7 @@ function CommentCard32(props) {
     >
       <ReviewsFrame132532
         isShare={comment.type === "MODEL_RESPONSE"}
-        reviewer={reviewer}
-        isClosable={isClosable}
+        reviewer={reviewer}        
         onClose={onClose}
         isTeacher={isTeacher}
         onResolved={onResolved}

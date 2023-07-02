@@ -37,8 +37,10 @@ const QuillEditor = React.forwardRef(
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
+            console.log("Highlighting "+ comment.color)
             editor.formatText(range.index, range.length, {
-              highlight: comment.id
+              highlight: comment.id,
+              background: comment.color ? comment.color:'#fff9c4'
             });
           }
         });

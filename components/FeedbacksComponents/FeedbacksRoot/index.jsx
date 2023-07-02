@@ -334,7 +334,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
           Promise.all(promises).then((results) => {
             getComments(submission.id).then((cmts) => {
-              setComments(comments ? comments : []);
+              setComments(cmts ? cmts : []);
               handleChangeText("All changes saved", true);
             });
           });

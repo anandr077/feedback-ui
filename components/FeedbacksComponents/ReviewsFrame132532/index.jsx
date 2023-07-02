@@ -8,11 +8,11 @@ function ReviewsFrame132532(props) {
   const {
     isShare,
     reviewer,
-    isClosable,
     onClose,
     isTeacher,
     onResolved,
     isResolved,
+    showResolveButton,
     comment,
     defaultComment,
     deleteReplyComment,
@@ -83,7 +83,7 @@ function ReviewsFrame132532(props) {
     />
   );
   const resolveFrame =
-    !isTeacher && isResolved !== "RESOLVED" && !defaultComment ? (
+    showResolveButton ? (
       <Wrapper>
         <More
           src={

@@ -910,23 +910,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
-
    const markingCriteriaToUpdate = submission.assignment.questions[questionSerialNumber-1].markingCriteria;
    markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel=selectedLevel;
-
-    // addFeedback(submission.id, {
-    //   questionSerialNumber: newCommentSerialNumber,
-    //   feedback: "Marking Criteria Feedback",
-    //   range: selectedRange,
-    //   type: "MARKING_CRITERIA",
-    //   replies: [],
-    //   markingCriteria: markingCriteriaToUpdate,
-    // }).then((response) => {
-    //   if (response) {
-    //     console.log("###response", response);
-    //   }
-    // });
-
   }
 
   const methods = {

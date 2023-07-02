@@ -5,13 +5,13 @@ import CreateNewMarkingCriteriaTablet from "../CreateNewMarkingCriteriaTablet";
 import CreateNewMarkingCriteriaLaptop from "../CreateNewMarkingCriteriaLaptop";
 import CreateNewMarkingCriteriaMobile from "../CreateNewMarkingCriteriaMobile";
 import ReactiveRender from "../../ReactiveRender";
-import { assignmentsHeaderProps } from "../../../utils/headerProps";
+import { completedHeaderProps } from "../../../utils/headerProps";
 import CriteriaContainer from "../CriteriaContainer";
 import {createNewMarkingCriteria, getAllMarkingCriteria, updateMarkingCriteria, deleteMarkingCriteria, getDefaultCriteria} from "../../../service";
 import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
 
-const headerProps = assignmentsHeaderProps;
+const headerProps = completedHeaderProps(true);
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
@@ -27,8 +27,9 @@ const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria)
 React.useEffect(() => {
   Promise.all([ getAllMarkingCriteria() ]).then(
     ([result]) => {
-      if (result.filter((criteria) => criteria.id === markingCriteriaId).length > 0) {
-          setMarkingCriterias(result[0]);
+      const loadedMarkingCriteria = result.filter((criteria) => criteria.id === markingCriteriaId);
+        if(loadedMarkingCriteria.length > 0) {
+          setMarkingCriterias(loadedMarkingCriteria[0]);
           setIsUpdating(true);
         }
         setIsLoading(false);

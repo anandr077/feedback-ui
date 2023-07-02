@@ -4,7 +4,7 @@ import AccountSettingsMarkingCriteriaDeskt from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaTable3 from "../AccountSettingsMarkingCriteriaTable3";
 import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriteriaTable";
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
-import { assignmentsHeaderProps } from "../../../utils/headerProps";
+import { completedHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
 import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria } from "../../../service.js";
 import Shortcut from "../Shortcut";
@@ -14,7 +14,7 @@ import Breadcrumb2 from "../../Breadcrumb2";
 import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
 
-const headerProps = assignmentsHeaderProps;
+const headerProps = completedHeaderProps(true);
 
 export default function AccountSettingsRoot(props) {
 

@@ -254,7 +254,7 @@ const Frame12841 = styled.img`
 `;
 export default ImageDropdownMenu;
 function createImageFrame(selectedItem, showAvatar) {
-  if (selectedItem.image) {
+  if (selectedItem?.image) {
     return  <Frame12841 src={selectedItem.image} alt="Frame 1284" />
   }
   if (!showAvatar)

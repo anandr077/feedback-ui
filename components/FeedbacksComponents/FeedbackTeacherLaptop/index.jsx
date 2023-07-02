@@ -275,7 +275,7 @@ function FeedbackTeacherLaptop(props) {
            }
            {
               submission.status === "REVIEWED" &&
-              markingCriteriaFeedback.length > 0 &&
+              markingCriteriaFeedback?.length > 0 &&
               submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
               <MarkingCriteriaFeedbackReadOnly
               allmarkingCriteriaFeedback={markingCriteriaFeedback} 

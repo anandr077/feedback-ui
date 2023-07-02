@@ -384,19 +384,20 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: commentToUpdate.reviewerId,
         }).then((response) => {
           if (response) {
-            return commentToUpdate;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return comment;
     });
 
-    setComments(addReplyComments);
     setNewCommentValue("");
     setShowNewComment(false);
     setExemplerComment("");
     setShowShareWithClass(false);
-    window.location.reload();
   }
 
   function updateParentComment(comment, commentId) {
@@ -415,19 +416,20 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: commentToUpdate.reviewerId,
         }).then((response) => {
           if (response) {
-            return commentToUpdate;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return c;
     });
 
-    setComments(updatedComment);
     setNewCommentValue("");
     setShowNewComment(false);
     setExemplerComment("");
     setShowShareWithClass(false);
-    window.location.reload();
   }
 
   function updateChildComment(commentId, replyCommentIndex, comment) {
@@ -438,6 +440,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           ...updatedReplies[replyCommentIndex],
           comment: comment,
         };
+        const commentToUpdate = { ...c, replies: updatedReplies };
 
         updateFeedback(submission.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
@@ -448,14 +451,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: c.reviewerId,
         }).then((response) => {
           if (response) {
-            return c;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return c;
     });
-    setComments(updatedReplyComment);
-    window.location.reload();
   }
 
   function handleDeleteReplyComment(commentId, replyCommentIndex) {
@@ -463,6 +467,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
         updatedReplies.splice(replyCommentIndex, 1);
+        const commentToUpdate = { ...c, replies: updatedReplies };
         updateFeedback(submission.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
@@ -472,14 +477,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: c.reviewerId,
         }).then((response) => {
           if (response) {
-            return c;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return c;
     });
-    setComments(deleteReplyComment);
-    window.location.reload();
   }
 
   function handleSubmissionReviewed() {
@@ -827,14 +833,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-
-  function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
-    console.log(submission.assignment.id)
-    submission.assignment.questions[questionSerialNumber - 1].markingCriteria.criterias[criteriaSerialNumber].selectedLevel= selectedLevel
-
+  function handleMarkingCriteriaLevelFeedback(
+    questionSerialNumber,
+    criteriaSerialNumber,
+    selectedLevel
+  ) {
+    console.log(submission.assignment.id);
+    submission.assignment.questions[
+      questionSerialNumber - 1
+    ].markingCriteria.criterias[criteriaSerialNumber].selectedLevel =
+      selectedLevel;
   }
-
-
 
   const methods = {
     createDebounceFunction,
@@ -867,7 +876,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleEditingComment,
     updateParentComment,
     updateChildComment,
-    handleMarkingCriteriaLevelFeedback
+    handleMarkingCriteriaLevelFeedback,
   };
 
   const shortcuts = getShortcuts();

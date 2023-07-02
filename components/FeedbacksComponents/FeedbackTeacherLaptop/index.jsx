@@ -249,13 +249,13 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
-          {submission.status === "SUBMITTED" && 
-          getUserId() === submission.reviewerId  &&  
-          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
+          {submission.status === "SUBMITTED" &&
+          getUserId() === submission.reviewerId  &&
+          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title &&
           <MarkingCriteriaFeedback
-           markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria} 
+           markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
            small={smallMarkingCriteria}
-           questionSerialNumber={answer.serialNumber} 
+           questionSerialNumber={answer.serialNumber}
            handleMarkingCriteriaLevelFeedback={methods.handleMarkingCriteriaLevelFeedback}
            />
            }
@@ -381,7 +381,7 @@ function FeedbackTeacherLaptop(props) {
             <Frame1371 id="assignmentTitle">
               <TitleWrapper>
                 <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-                <StatusText>{methods.submissionStatusLabel()}</StatusText>
+                <StatusText>{methods.submissionStatusLabel()}| <div>Hello</div></StatusText>
               </TitleWrapper>
               {!isTeacher && pageMode === "CLOSED" && (
                 <div id="deleteButton">
@@ -461,13 +461,8 @@ const StatusText = styled.p`
   letter-spacing: -0.025em;
 
   color: #979797;
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
+  display: flex;
+  gap: 4px;
 `;
 const ReviewCheckBoxContainer = styled.div`
   display: flex;

@@ -53,6 +53,9 @@ function CommentCard32(props) {
   }
 
   function handleSubmitClick() {
+    if (inputValue === "" || inputValue === null || inputValue === undefined) {
+      return;
+    }
     if (editButtonActive) {
       if (editCommentType === "replies") {
         updateChildComment(comment.id, editReplyIndex, inputValue);

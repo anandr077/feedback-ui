@@ -19,13 +19,13 @@ export default function PreviewDialog({ setMarkingCriteriaPreviewDialog,  criter
           <div className="dialog-container">
             {criterias.map((criteria, index) => (
               <div className="parent-container" key={index}>
-                <div className="title">{criteria.title}</div>
+                <div className="title">{criteria?.title}</div>
                 <div className="content-card">
                   <div className="data">
                     {criteria.levels.map((level, index) => (
                       <React.Fragment key={index}>
-                        <div className="heading">{level.name}</div>
-                        <div className="content">{level.description}</div>
+                        <div className="heading">{level?.name}</div>
+                        <div className="content">{level?.description}</div>
                       </React.Fragment>
                     ))}
                   </div>

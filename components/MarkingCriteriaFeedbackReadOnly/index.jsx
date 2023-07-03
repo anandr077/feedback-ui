@@ -9,9 +9,9 @@ export default function MarkingCriteriaFeedbackReadOnly(props) {
         return feedback;
       }
 });
-const markingCriteria = selectedMarkingCriteria[selectedMarkingCriteria.length-1].markingCriteria;
+const markingCriteria = selectedMarkingCriteria[selectedMarkingCriteria.length-1]?.markingCriteria;
 
-    const markingCriteriaCardsComponent = markingCriteria.criterias?.map((criteria, index) => {
+    const markingCriteriaCardsComponent = markingCriteria?.criterias?.map((criteria, index) => {
         return (
             <SingleMarkingCriteriaContainer key={index}>
             <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>

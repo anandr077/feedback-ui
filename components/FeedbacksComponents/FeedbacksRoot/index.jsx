@@ -304,29 +304,26 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-      if (pageMode === "DRAFT") {
-        handleChangeText("All changes saved", true);
-      } else {
         const quill = quillRefs.current[answer.serialNumber - 1];
         const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-
+        console.log("getAllHighlightsWithComments" + JSON.stringify(highlightsWithCommentsData))
         const transformedData = flatMap(
-          Object.entries(highlightsWithCommentsData),
-          ([commentId, highlights]) => {
-            return highlights.map((highlight) => {
-              const { content, range } = highlight;
-              return { commentId, range };
-            });
-          }
-        );
+            Object.entries(highlightsWithCommentsData),
+            ([commentId, highlights]) => {
+              return highlights.map((highlight) => {
+                const { content, range } = highlight;
+                return { commentId, range };
+              });
+            }
+          );
 
-        // Use Array.prototype.map to create an array of commentIds
-        const commentIdsArray = transformedData.map(
-          ({ commentId }) => commentId
-        );
+          // Use Array.prototype.map to create an array of commentIds
+          const commentIdsArray = transformedData.map(
+            ({ commentId }) => commentId
+          );
 
-        // Create a Set from the commentIdsArray
-        const transformedCommentIds = uniq(commentIdsArray);
+
+
 
         const commentsForAnswer = comments.filter(
           (comment) => comment.questionSerialNumber === answer.serialNumber
@@ -350,18 +347,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
         Promise.all(promises).then((results) => {
           getComments(submission).then((cmts) => {
-            setComments(comments.filter((c) => c.type === "COMMENT"));
-            handleChangeText("All changes saved", true);
+            const cmts2 = (cmts ? cmts : []);
+            setComments(cmts2.filter((c) => c.type === "COMMENT"));
           });
         });
-      }
+      
     });
   };
 
   function handleDeleteComment(commentId) {
-    deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(comments.filter((c) => c.id != commentId));
-    });
+    deleteFeedback(submission.id, commentId)
+      .then((response) => {
+        setComments(comments.filter((c) => c.id != commentId));
+      });
   }
 
   function handleResolvedComment(commentId) {
@@ -667,9 +665,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const delta =
             quillRefs.current[serialNumber - 1].setLostFocusColor(range);
           setSelectedRangeFormat(delta);
-
-          // newCommentFrameRef.current?.focus();
-
           setShowNewComment(true);
         }
       }
@@ -1056,6 +1051,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     />
   );
 }
+const isTeacher = getUserRole() === "TEACHER";
 
 const StyledTextField = styled(TextField)`
   width: 100%;
@@ -1079,7 +1075,6 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-const isTeacher = getUserRole() === "TEACHER";
 
 const feedbacksNavElement1Data = {
   home3: "/img/home3-1@2x.png",
@@ -1309,4 +1304,5 @@ const feedbacksFeedbackTeacherMobileData = {
   frame136621Props: feedbacksFrame1366221Data,
   frame136622Props: feedbacksFrame1366222Data,
   frame1317Props: feedbacksFrame13171Data,
-};
+}
+

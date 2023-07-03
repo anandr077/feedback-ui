@@ -1,11 +1,14 @@
 import React, { useRef, useState, useEffect, useImperativeHandle } from "react";
+import { filter, flatMap, includes, map, uniq } from "lodash";
+
 import Quill from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "./styles.css";
 import HighlightBlot from "./HighlightBlot";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
-
+import { Map } from 'immutable';
+import { groupBy, mapValues, filter } from 'lodash';
 const QuillEditor = React.forwardRef(
   ({ comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
@@ -27,15 +30,17 @@ const QuillEditor = React.forwardRef(
 
     useEffect(() => {
       if (editor) {
+        removeAllHighlights(editor)
         comments.forEach((comment) => {
           if (comment.range) {
             const range = {
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-            editor.formatText(range.index, range.length, 'highlight', {
-              id: comment.id,
-              color: comment.color?comment.color:'#2f37a1'
+            console.log("Highlighting "+ comment.color)
+            editor.formatText(range.index, range.length, {
+              highlight: comment.id,
+              background: comment.color ? comment.color:'#fff9c4'
             });
           }
         });
@@ -71,8 +76,6 @@ const QuillEditor = React.forwardRef(
         // Create a new Delta object with the filtered operations
         const filteredDelta = new Quill.imports.delta(filteredOps);
 
-        // Convert the filtered Delta object to JSON
-        const jsonString = JSON.stringify(filteredDelta);
         // alert(jsonString)
         const cfg = {
           multiLineParagraph: true, // Set this to true if you want to preserve multiline paragraphs
@@ -84,10 +87,6 @@ const QuillEditor = React.forwardRef(
         var html = converter.convert(); 
         // alert(html)
         onDebounce(html);
-      };
-
-      const updateComments = (delta, oldContents) => {
-        // onDebounce(editor.root.innerHTML);
       };
 
       if (debounceTime > 0) {
@@ -106,7 +105,7 @@ const QuillEditor = React.forwardRef(
         scrollToHighlight(commentId);
       },
       getAllHighlightsWithComments() {
-        getHighlights(editor);
+        return getHighlights(editor);
       },
       selectRange(range) {
         editor.setSelection(range.index, range.length, "silent");
@@ -181,12 +180,32 @@ function scrollToHighlight(commentId) {
     console.warn(`No highlight found for comment ID: ${commentId}`);
   }
 }
+function removeAllHighlights(editor) {
+  const quillContainer = editor.container;
+
+  // Get all highlight elements in the Quill container
+  const highlightElements = getHighlights(editor);
+  console.log("element " + JSON.stringify(highlightElements));
+  const transformedData = flatMap(
+    Object.entries(highlightElements),
+    ([commentId, highlights]) => {
+      return highlights.map((highlight) => {
+        const { content, range } = highlight;
+        editor.formatText(range.from, range.to - range.from, "highlight", false);
+        console.log("e " + JSON.stringify(highlight));
+
+        return { commentId, range };
+      });
+    }
+  );
+}
 
 function getHighlights(editor) {
   const quillContainer = editor.container;
 
   let highlightsWithComments = {};
 
+  // Get all highlight elements in the Quill container
   const highlightElements = quillContainer.querySelectorAll(".quill-highlight");
 
   highlightElements.forEach((element) => {
@@ -195,6 +214,7 @@ function getHighlights(editor) {
     const index = editor.getIndex(Quill.find(element));
     const length = content.length;
 
+    // Group highlights with the same comment id together
     if (highlightsWithComments[commentId]) {
       highlightsWithComments[commentId].push({ content, index, length });
     } else {
@@ -202,7 +222,7 @@ function getHighlights(editor) {
     }
   });
 
-  return Object.entries(highlightsWithComments).reduce(
+  const formattedHighlights = Object.entries(highlightsWithComments).reduce(
     (result, [commentId, highlights]) => {
       result[commentId] = highlights.map(({ content, index, length }) => {
         return {
@@ -216,4 +236,7 @@ function getHighlights(editor) {
     },
     {}
   );
+
+  return formattedHighlights;
 }
+

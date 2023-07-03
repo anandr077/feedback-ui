@@ -78,6 +78,7 @@ function FeedbackTeacherLaptop(props) {
                     onClick={() => {}}
                     isTeacher={isTeacher}
                     defaultComment={false}
+                    pageMode={pageMode}
                   />
       }
       return <></>
@@ -100,6 +101,7 @@ function FeedbackTeacherLaptop(props) {
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
+        pageMode={pageMode}
       />
     ) : isResolvedClick && comment.status === "RESOLVED" ? (
       <CommentCard32
@@ -118,6 +120,7 @@ function FeedbackTeacherLaptop(props) {
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
+        pageMode={pageMode}
       />
     ) : (
       <></>

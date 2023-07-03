@@ -641,7 +641,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const reviewerSelectionChange = (serialNumber) => (range) => {
-    if (range) {
+    if (range && pageMode != "CLOSED") {
       const from = range.index;
       const to = range.index + range.length;
 

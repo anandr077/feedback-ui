@@ -347,11 +347,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
         Promise.all(promises).then((results) => {
           getComments(submission).then((cmts) => {
-            setComments(cmts.filter((c) => c.type === "COMMENT"));
-            handleChangeText("All changes saved", true);
+            const cmts2 = (cmts ? cmts : []);
+            setComments(cmts2.filter((c) => c.type === "COMMENT"));
           });
+        });
+      
     });
-  });
+  };
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId)
@@ -1049,6 +1051,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     />
   );
 }
+const isTeacher = getUserRole() === "TEACHER";
 
 const StyledTextField = styled(TextField)`
   width: 100%;
@@ -1302,4 +1305,4 @@ const feedbacksFeedbackTeacherMobileData = {
   frame136622Props: feedbacksFrame1366222Data,
   frame1317Props: feedbacksFrame13171Data,
 }
-}
+

@@ -38,7 +38,7 @@ import FocusAreasFrame from "../FocusAreasFrame";
 import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
 import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
-import MarkingCriteriaFeedbackReadOnly from "../../MarkingCriteriaFeedbacKReadOnly";
+import MarkingCriteriaFeedbackReadOnly from "../../MarkingCriteriaFeedbackReadOnly";
 
 function FeedbackTeacherLaptop(props) {
   const {

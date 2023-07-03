@@ -4,6 +4,7 @@ import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
 function ReviewsFrame1320(props) {
   const {
+    isFocusAreas,
     children,
     className,
     setFeedback,
@@ -31,6 +32,27 @@ function ReviewsFrame1320(props) {
       }
     }
     return resolvedCount;
+  }
+  if (isFocusAreas) {
+    return <Frame13201 className={`frame-1320 ${className || ""}`}>
+      <Feedback
+        className="feedback"
+        onClick={handleFeedback}
+        style={{ color: "#301B72" }}
+      >
+        Focus areas
+      </Feedback>
+      {/* {!isTeacher && (
+        <Feedback
+          className="feedback"
+          onClick={handleResolved}
+          style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
+        >
+          {children[1]}
+          {"(" + resolvedComment() + ")"}
+        </Feedback>
+      )} */}
+    </Frame13201>
   }
   return (
     <Frame13201 className={`frame-1320 ${className || ""}`}>

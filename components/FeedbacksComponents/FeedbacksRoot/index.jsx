@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { filter, flatMap, includes, map, uniq } from "lodash";
+import { filter, flatMap, includes, map, set, uniq } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
@@ -26,7 +26,7 @@ import {
   submitAssignment,
   updateFeedbackRange,
   getUserName,
-  updateAssignment,
+  getDefaultCriteria
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -69,8 +69,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [nextUrl, setNextUrl] = useState("");
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
+  const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
 
   const isTeacher = getUserRole() === "TEACHER";
+  const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id)])
@@ -79,7 +81,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const allComments = commentsResult.map((c) => {
           return { ...c };
         });
-        setComments(allComments);
+        const feedbackComments= allComments.filter((c) => c.type === "COMMENT");
+        setComments(feedbackComments);
+        const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
+        setMarkingCriteriaFeedback(markingCriteriaFeedback);
       })
       .finally(() => {
         if (!isTeacher) {
@@ -150,7 +155,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       selectedRange,
       selectedRangeFormat
     );
-
+    
+   
     if (!document.getElementById("newCommentInput").value) return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -158,6 +164,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       range: selectedRange,
       type: "COMMENT",
       replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -179,6 +186,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       range: selectedRange,
       type: "COMMENT",
       replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -201,6 +209,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       color: focusArea.color,
       focusAreaId: focusArea.id,
       replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -221,6 +230,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       range: selectedRange,
       type: "MODEL_RESPONSE",
       replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -294,29 +304,26 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-      if (pageMode === "DRAFT") {
-        handleChangeText("All changes saved", true);
-      } else {
         const quill = quillRefs.current[answer.serialNumber - 1];
         const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-
+        console.log("getAllHighlightsWithComments" + JSON.stringify(highlightsWithCommentsData))
         const transformedData = flatMap(
-          Object.entries(highlightsWithCommentsData),
-          ([commentId, highlights]) => {
-            return highlights.map((highlight) => {
-              const { content, range } = highlight;
-              return { commentId, range };
-            });
-          }
-        );
+            Object.entries(highlightsWithCommentsData),
+            ([commentId, highlights]) => {
+              return highlights.map((highlight) => {
+                const { content, range } = highlight;
+                return { commentId, range };
+              });
+            }
+          );
 
-        // Use Array.prototype.map to create an array of commentIds
-        const commentIdsArray = transformedData.map(
-          ({ commentId }) => commentId
-        );
+          // Use Array.prototype.map to create an array of commentIds
+          const commentIdsArray = transformedData.map(
+            ({ commentId }) => commentId
+          );
 
-        // Create a Set from the commentIdsArray
-        const transformedCommentIds = uniq(commentIdsArray);
+
+
 
         const commentsForAnswer = comments.filter(
           (comment) => comment.questionSerialNumber === answer.serialNumber
@@ -340,18 +347,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
         Promise.all(promises).then((results) => {
           getComments(submission).then((cmts) => {
-            setComments(cmts);
-            handleChangeText("All changes saved", true);
+            const cmts2 = (cmts ? cmts : []);
+            setComments(cmts2.filter((c) => c.type === "COMMENT"));
           });
         });
-      }
+      
     });
   };
 
   function handleDeleteComment(commentId) {
-    deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(comments.filter((c) => c.id != commentId));
-    });
+    deleteFeedback(submission.id, commentId)
+      .then((response) => {
+        setComments(comments.filter((c) => c.id != commentId));
+      });
   }
 
   function handleResolvedComment(commentId) {
@@ -374,6 +382,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       reviewerId: getUserId(),
       reviewerName: getUserName(),
       replies: [],
+      markingCriteria: defaultMarkingCriteria,
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -389,21 +398,23 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           type: commentToUpdate.type,
           replies: commentToUpdate.replies,
           reviewerId: commentToUpdate.reviewerId,
+          markingCriteria: defaultMarkingCriteria
         }).then((response) => {
           if (response) {
-            return commentToUpdate;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return comment;
     });
 
-    setComments(addReplyComments);
     setNewCommentValue("");
     setShowNewComment(false);
     setExemplerComment("");
     setShowShareWithClass(false);
-    window.location.reload();
   }
 
   function updateParentComment(comment, commentId) {
@@ -422,19 +433,20 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: commentToUpdate.reviewerId,
         }).then((response) => {
           if (response) {
-            return commentToUpdate;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return c;
     });
 
-    setComments(updatedComment);
     setNewCommentValue("");
     setShowNewComment(false);
     setExemplerComment("");
     setShowShareWithClass(false);
-    window.location.reload();
   }
 
   function updateChildComment(commentId, replyCommentIndex, comment) {
@@ -445,6 +457,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           ...updatedReplies[replyCommentIndex],
           comment: comment,
         };
+        const commentToUpdate = { ...c, replies: updatedReplies };
 
         updateFeedback(submission.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
@@ -455,14 +468,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: c.reviewerId,
         }).then((response) => {
           if (response) {
-            return c;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return c;
     });
-    setComments(updatedReplyComment);
-    window.location.reload();
   }
 
   function handleDeleteReplyComment(commentId, replyCommentIndex) {
@@ -470,6 +484,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
         updatedReplies.splice(replyCommentIndex, 1);
+        const commentToUpdate = { ...c, replies: updatedReplies };
         updateFeedback(submission.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
@@ -479,17 +494,70 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: c.reviewerId,
         }).then((response) => {
           if (response) {
-            return c;
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
           }
         });
       }
       return c;
     });
-    setComments(deleteReplyComment);
-    window.location.reload();
   }
 
+  const validateMarkingCriteria = () => {
+    let invalid = true;
+    submission.assignment.questions.map((question)=>{
+      if(question.markingCriteria.title !="" && question.markingCriteria.criterias){   
+        question.markingCriteria.criterias.map((criteria)=>{
+          if(!criteria.selectedLevel){
+            showSnackbar("Marking criteria feedback missing for question " + question.serialNumber);
+            invalid = false;
+          }
+        })  
+      }
+    }); 
+ return invalid;
+  };
+
   function handleSubmissionReviewed() {
+   if(submission.assignment.questions[0].markingCriteria?.title !=""){
+    if(validateMarkingCriteria()){
+         submission.assignment.questions.map((question)=>{
+          if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
+
+          const markingCriteriaRequest = question.markingCriteria;
+              addFeedback(submission.id, {
+              questionSerialNumber: newCommentSerialNumber,
+              feedback: "Marking Criteria Feedback",
+              range: selectedRange,
+              type: "MARKING_CRITERIA",
+              replies: [],
+              markingCriteria: markingCriteriaRequest,
+              }).then((response) => {
+                if (response) {
+                  console.log("###response", response);
+                }
+              });
+            }
+
+          });
+          
+
+
+        markSubmsissionReviewed(submission.id).then((_) => {
+          showSnackbar("Task reviewed...", window.location.href);
+          if (isTeacher) {
+            // window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+          } else {
+            // window.location.href = "/#";
+          }
+        });
+
+    }
+  }
+  else {
+
     markSubmsissionReviewed(submission.id).then((_) => {
       showSnackbar("Task reviewed...", window.location.href);
       if (isTeacher) {
@@ -498,6 +566,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         window.location.href = "/#";
       }
     });
+
+  }
+
+
+
+    
   }
   const handleSaveSubmissionForReview = () => {
     disableAllEditors();
@@ -591,9 +665,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const delta =
             quillRefs.current[serialNumber - 1].setLostFocusColor(range);
           setSelectedRangeFormat(delta);
-
-          // newCommentFrameRef.current?.focus();
-
           setShowNewComment(true);
         }
       }
@@ -839,12 +910,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
-    console.log(submission.assignment.id)
-    submission.assignment.questions[questionSerialNumber - 1].markingCriteria.criterias[criteriaSerialNumber].selectedLevel= selectedLevel
-
+   const markingCriteriaToUpdate = submission.assignment.questions[questionSerialNumber-1].markingCriteria;
+   markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel=selectedLevel;
   }
-
-
 
   const methods = {
     createDebounceFunction,
@@ -877,7 +945,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleEditingComment,
     updateParentComment,
     updateChildComment,
-    handleMarkingCriteriaLevelFeedback
+    handleMarkingCriteriaLevelFeedback,
   };
 
   const shortcuts = getShortcuts();
@@ -910,6 +978,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           {...{
             newCommentSerialNumber,
             smallMarkingCriteria: true,
+            markingCriteriaFeedback,
             isTeacher,
             showLoader,
             submissionStatusLabel,
@@ -934,6 +1003,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               isTeacher,
+              markingCriteriaFeedback,
               newCommentSerialNumber,
               showLoader,
               submissionStatusLabel,
@@ -958,6 +1028,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            markingCriteriaFeedback,
             newCommentSerialNumber,
             showLoader,
             submissionStatusLabel,
@@ -980,6 +1051,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     />
   );
 }
+const isTeacher = getUserRole() === "TEACHER";
 
 const StyledTextField = styled(TextField)`
   width: 100%;
@@ -1003,7 +1075,6 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-const isTeacher = getUserRole() === "TEACHER";
 
 const feedbacksNavElement1Data = {
   home3: "/img/home3-1@2x.png",
@@ -1233,4 +1304,5 @@ const feedbacksFeedbackTeacherMobileData = {
   frame136621Props: feedbacksFrame1366221Data,
   frame136622Props: feedbacksFrame1366222Data,
   frame1317Props: feedbacksFrame13171Data,
-};
+}
+

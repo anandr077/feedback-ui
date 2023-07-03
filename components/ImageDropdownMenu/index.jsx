@@ -21,7 +21,7 @@ export const ImageDropdownMenu = (props) => {
   //   {id: 4, title:"DDDD", onClick:()=>console.log("FFF")},
   // ]
   // const {   onItemSelected, withCheckbox } = props;
-  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small, fullWidth } = props;
+  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small, fullWidth, primaryText } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(selectedIndex === undefined?menuItems[0]:menuItems[selectedIndex]);
   const menuRef = React.useRef(null);
@@ -87,7 +87,7 @@ export const ImageDropdownMenu = (props) => {
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
-            <StyledListItemText primary={selectedItem.title || selectedItem.name} />
+            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem.title || selectedItem.name)} />
           </p>
         </div>
         <IconButton onClick={handleClick}>
@@ -254,7 +254,7 @@ const Frame12841 = styled.img`
 `;
 export default ImageDropdownMenu;
 function createImageFrame(selectedItem, showAvatar) {
-  if (selectedItem.image) {
+  if (selectedItem?.image) {
     return  <Frame12841 src={selectedItem.image} alt="Frame 1284" />
   }
   if (!showAvatar)

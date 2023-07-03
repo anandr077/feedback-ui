@@ -91,6 +91,7 @@ export default function TheoryQuestionFrame(props) {
             <ImageDropdownMenu
               fullWidth={true}
               menuItems={allMarkingCriterias}
+              primaryText="Select Marking Criteria"
               onItemSelected={(item) => {
                 updateMarkingCriteria(serialNumber, item)
               }}

@@ -388,3 +388,34 @@ export const getAllColors = () => {
     "#BC7CA1"
   ];
 }
+
+export const getNewCriteria = (criteriaId) => {
+  return {
+    id: {criteriaId},
+    title: "",
+    levels: [
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+      {
+        id: "",
+        name: "",
+        description: "",
+      },
+    ],
+  };
+}
+
+export const getDefaultCriteria = () => {
+  const criteria = getNewCriteria(0);
+  return { 
+   title:"",
+   criterias: [criteria] };
+}

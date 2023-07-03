@@ -69,7 +69,7 @@ function FeedbackTeacherLaptop(props) {
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
-    console.log("Comment " + JSON.stringify(comment))
+    console.log("Comment " ,comment)
     if (comment.type === "FOCUS_AREA") {
       if (pageMode === "DRAFT" || pageMode === "REVISE") {
         return <CommentCard32
@@ -79,18 +79,6 @@ function FeedbackTeacherLaptop(props) {
                     isTeacher={isTeacher}
                     defaultComment={false}
                   />
-      //   return <CommentCard32
-      //   reviewer={comment.reviewerName}
-      //   comment={comment}
-      //   onClick={(c) => methods.handleCommentSelected(c)}
-      //   onClose={() => {
-      //     methods.handleDeleteComment(comment.id);
-      //   }}
-      //   handleReplyComment={methods.handleReplyComment}
-      //   isResolved={false}
-      //   showResolveButton = {false}
-      //   isTeacher={false}        
-      // />
       }
       return <></>
     }
@@ -207,13 +195,11 @@ function FeedbackTeacherLaptop(props) {
     );
   };
   const focusAreasFrame = () => {
+    console.log("FA frame", comments)
     return (
       <Frame1331 id="focusAreasFrame">
         <Frame1322>
           <ReviewsFrame1320 isFocusAreas="true">
-
-
-           
           </ReviewsFrame1320>
         </Frame1322>
         <>
@@ -264,10 +250,10 @@ function FeedbackTeacherLaptop(props) {
     
     const label = <Label>Focus areas : </Label>
     const all = focusAreas?.map(fa=>{
-      return <><Ellipse141 backgroundColor={fa.color}></Ellipse141><Label>{fa.title}</Label></>
+      return <FocusAreasLabelContainer><Ellipse141 backgroundColor={fa.color}></Ellipse141><Label>{fa.title}</Label></FocusAreasLabelContainer>
     })
     
-    return <>{label}{all}</>;
+    return <FocusAreasLabelContainer>{label}{all}</FocusAreasLabelContainer>;
     
   };
 
@@ -513,10 +499,17 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+
+const FocusAreasLabelContainer = styled.div`
+  display:flex;
+  gap:5px;
+  flex-direction:row;
+  align-items:center;
+`;
 const Ellipse141 = styled.div`
   position: relative;
-  min-width: 20px;
-  height: 20px;
+  min-width: 15px;
+  height: 15px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
 `;

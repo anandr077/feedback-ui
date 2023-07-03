@@ -484,6 +484,15 @@ function FeedbackTeacherLaptop(props) {
                   />
                 </AwaitFeedbackContainer>
               )}
+              {isTeacher && pageMode === "CLOSED" && submission.status != "CLOSED" &&(
+                <AwaitFeedbackContainer id="deleteButton">
+                <StatusLabel
+                  key="statusLabel"
+                  id="statusLabel"
+                  text="Awaiting Submission"
+                />
+                </AwaitFeedbackContainer>
+              )}
               {tasksListsDropDown()}
               {(pageMode === "DRAFT" || pageMode === "REVISE") && (
                 <StatusLabel

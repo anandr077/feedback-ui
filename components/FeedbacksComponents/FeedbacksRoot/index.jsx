@@ -122,7 +122,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  console.log("###pageMode", pageMode);
 
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById("statusLabelIcon")) {

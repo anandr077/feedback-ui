@@ -11,7 +11,6 @@ export default function MarkingCriteriaFeedbackReadOnly(props) {
       }
 });
 const markingCriteria = selectedMarkingCriteria[selectedMarkingCriteria.length-1]?.markingCriteria;
-console.log("###AMCF",allmarkingCriteriaFeedback);
     const markingCriteriaCardsComponent = markingCriteria?.criterias?.map((criteria, index) => {
         return (
             <SingleMarkingCriteriaContainer key={index}>

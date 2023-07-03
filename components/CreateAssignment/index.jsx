@@ -54,9 +54,7 @@ export default function CreateAssignment(props) {
   const [openFocusAreaDialog, setOpenFocusAreaDialog] = React.useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     React.useState(false);
-  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(
-    []
-  );
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState([]);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const getAssignment = async (id) => {
@@ -92,6 +90,7 @@ export default function CreateAssignment(props) {
           ...assignmentResult,
           classIds: assignmentResult.classIds ?? [],
         }));
+        markingCriteriasResult.push({title: "No Marking Criteria", id: "no_marking_criteria"});
         setAllMarkingCriterias(markingCriteriasResult),
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);

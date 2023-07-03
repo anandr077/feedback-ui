@@ -544,14 +544,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
           });
           
-
-
         markSubmsissionReviewed(submission.id).then((_) => {
           showSnackbar("Task reviewed...", window.location.href);
           if (isTeacher) {
-            // window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
           } else {
-            // window.location.href = "/#";
+            window.location.href = "/#";
           }
         });
 

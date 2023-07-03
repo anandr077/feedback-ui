@@ -126,7 +126,7 @@ const group120523Data = {
 };
 
 const frame12082Data = {
-  tasks: "Exemplary Responses",
+  tasks: "Exemplars",
   group12052Props: group120523Data,
 };
 
@@ -142,7 +142,7 @@ const group120525Data = {
 };
 
 const frame120823Data = {
-  tasks: "Exemplary Responses",
+  tasks: "Exemplars",
   group12052Props: group120525Data,
 };
 const group120524Data = {

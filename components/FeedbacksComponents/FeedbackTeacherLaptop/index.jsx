@@ -307,6 +307,7 @@ function FeedbackTeacherLaptop(props) {
           {createFocusAreasLabel(question.focusAreas)}
           {(submission.status === "SUBMITTED") && 
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
+          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title != "No Marking Criteria" &&
           submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
           <MarkingCriteriaFeedback
            markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}

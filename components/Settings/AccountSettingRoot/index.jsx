@@ -18,16 +18,28 @@ const headerProps = completedHeaderProps(true);
 
 export default function AccountSettingsRoot(props) {
 
-    if(window.localStorage.getItem("markingCriteria") === "true"){
-        window.location.reload();
-        window.localStorage.removeItem("markingCriteria");
+    const { showSnackbar } = React.useContext(SnackbarContext);
+
+
+    if(window.localStorage.getItem("markingCriteria")){
+            Promise.all([ getAllMarkingCriteria() , getShortcuts() ]).then(
+              ([result, shortcuts]) => {
+                if (result) {
+                    setMarkingCriterias(result);
+                  }
+                  setShortcuts(shortcuts);
+                  setIsLoading(false);
+              }
+            );
+          window.localStorage.removeItem("markingCriteria");
     }
+
 
     const [markingCriterias, setMarkingCriterias] = React.useState([]);
     const [shortcuts, setShortcuts] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
 
-    const { showSnackbar } = React.useContext(SnackbarContext);
+    
     
     React.useEffect(() => {
         Promise.all([ getAllMarkingCriteria() , getShortcuts() ]).then(

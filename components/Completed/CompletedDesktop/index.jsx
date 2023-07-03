@@ -36,7 +36,7 @@ function CompletedDesktop(props) {
         <Header headerProps={completedHeaderProps(exemplar)} />
         {exemplar && <Frame1315>
         <Breadcrumb text={"Home"} link={"/#"} />
-        <Breadcrumb2 title="Exemplar Responses" exempler= {exemplar} />
+        <Breadcrumb2 title="Exemplars" exempler= {exemplar} />
         </Frame1315>}
         <Frame1424>
           <Title>{title}</Title>

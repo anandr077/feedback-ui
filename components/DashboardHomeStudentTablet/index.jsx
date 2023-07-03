@@ -57,7 +57,7 @@ function DashboardHomeStudentTablet(props) {
           </Frame11>
         </Frame1206>
         <Frame1205>
-          <DashboardFrame12082 tasks="Exemplary Responses" exemplar={true} />
+          <DashboardFrame12082 tasks="Exemplars" exemplar={true} />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
             <TaskCardContainer allTasks={modelResponses} exemplar={true} setPublishActionCompleted={setPublishActionCompleted} />

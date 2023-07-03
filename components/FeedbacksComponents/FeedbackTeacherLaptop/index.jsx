@@ -78,6 +78,7 @@ function FeedbackTeacherLaptop(props) {
                     onClick={() => {}}
                     isTeacher={isTeacher}
                     defaultComment={false}
+                    pageMode={pageMode}
                   />
       }
       return <></>
@@ -100,6 +101,7 @@ function FeedbackTeacherLaptop(props) {
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
+        pageMode={pageMode}
       />
     ) : isResolvedClick && comment.status === "RESOLVED" ? (
       <CommentCard32
@@ -118,6 +120,7 @@ function FeedbackTeacherLaptop(props) {
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
+        pageMode={pageMode}
       />
     ) : (
       <></>
@@ -223,25 +226,36 @@ function FeedbackTeacherLaptop(props) {
       return (
         <Buttons2
           button="Submit"
-          // arrowright={true}
           onClickFn={() => methods.handleSaveSubmissionForReview()}
         ></Buttons2>
       );
     }
     if (pageMode === "REVIEW") {
       return (
+        <ButtonsContainer>
         <Buttons2
-          button="Submit"
+          button="Submit Feedback"
           onClickFn={() => methods.handleSubmissionReviewed()}
         ></Buttons2>
+        <Buttons2
+          button="Submit Feedback & Close"
+          onClickFn={() => methods.handleSubmissionClosed()}
+        ></Buttons2>
+        </ButtonsContainer>
       );
     }
     if (pageMode === "REVISE") {
       return (
+        <>
         <Buttons2
           button="Resubmit"
+          onClickFn={() => methods.handleSaveSubmissionForReview()}
+        ></Buttons2>
+        <Buttons2
+          button="Submit & Close"
           onClickFn={() => methods.handleSubmissionClosed()}
         ></Buttons2>
+        </>
       );
     }
     return <></>;
@@ -309,6 +323,7 @@ function FeedbackTeacherLaptop(props) {
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title != "No Marking Criteria" &&
           submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
+          submission.reviewerId === getUserId() &&
           <MarkingCriteriaFeedback
            markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
            small={smallMarkingCriteria}
@@ -501,6 +516,17 @@ function FeedbackTeacherLaptop(props) {
   }
 }
 
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  align-self: stretch;
+  gap : 25px;
+  line-height: normal;
+`;
+
 const FocusAreasLabelContainer = styled.div`
   display:flex;
   gap:5px;
@@ -601,7 +627,6 @@ const Line6 = styled.img`
   object-fit: cover;
 `;
 const Frame131612 = styled.div`
-  width: 100%;
   max-width: 300px;
   display: flex;
 `;

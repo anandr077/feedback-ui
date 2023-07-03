@@ -529,7 +529,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
           const markingCriteriaRequest = question.markingCriteria;
               addFeedback(submission.id, {
-              questionSerialNumber: newCommentSerialNumber,
+              questionSerialNumber: question.serialNumber,
               feedback: "Marking Criteria Feedback",
               range: selectedRange,
               type: "MARKING_CRITERIA",
@@ -641,7 +641,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const reviewerSelectionChange = (serialNumber) => (range) => {
-    if (range) {
+    if (range && pageMode != "CLOSED") {
       const from = range.index;
       const to = range.index + range.length;
 

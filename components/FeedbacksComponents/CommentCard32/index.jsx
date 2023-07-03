@@ -23,6 +23,7 @@ function CommentCard32(props) {
     handleEditingComment,
     updateParentComment,
     updateChildComment,
+    pageMode
   } = props;
 
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
@@ -162,7 +163,8 @@ function CommentCard32(props) {
       {isResolved !== "RESOLVED" && 
       !isReplyClicked && 
       !defaultComment &&
-      comment.type != "FOCUS_AREA"
+      comment.type != "FOCUS_AREA" &&
+      pageMode != "CLOSED"
       && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />

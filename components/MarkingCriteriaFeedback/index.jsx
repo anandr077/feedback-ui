@@ -9,7 +9,7 @@ export default function MarkingCriteriaFeedback(props) {
             <SingleMarkingCriteriaContainer key={index}>
             <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>
             <ImageDropdownMenu
-              fullWidth={true}
+              markingCriteriaType={true}
               menuItems={criteria.levels}
               onItemSelected={(item) => {
                 handleMarkingCriteriaLevelFeedback(questionSerialNumber, index, item.name)

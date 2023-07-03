@@ -229,7 +229,7 @@ function FeedbackTeacherLaptop(props) {
     }
     if (pageMode === "REVIEW") {
       return (
-        <>
+        <ButtonsContainer>
         <Buttons2
           button="Submit Feedback"
           onClickFn={() => methods.handleSubmissionReviewed()}
@@ -238,7 +238,7 @@ function FeedbackTeacherLaptop(props) {
           button="Submit Feedback & Close"
           onClickFn={() => methods.handleSubmissionClosed()}
         ></Buttons2>
-        </>
+        </ButtonsContainer>
       );
     }
     if (pageMode === "REVISE") {
@@ -320,6 +320,7 @@ function FeedbackTeacherLaptop(props) {
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title != "No Marking Criteria" &&
           submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
+          submission.reviewerId === getUserId() &&
           <MarkingCriteriaFeedback
            markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
            small={smallMarkingCriteria}
@@ -512,6 +513,17 @@ function FeedbackTeacherLaptop(props) {
   }
 }
 
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  align-self: stretch;
+  gap : 25px;
+  line-height: normal;
+`;
+
 const FocusAreasLabelContainer = styled.div`
   display:flex;
   gap:5px;
@@ -612,7 +624,6 @@ const Line6 = styled.img`
   object-fit: cover;
 `;
 const Frame131612 = styled.div`
-  width: 100%;
   max-width: 300px;
   display: flex;
 `;

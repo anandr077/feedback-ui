@@ -56,7 +56,7 @@ export const ImageDropdownMenu = (props) => {
 
   return (
     <div style={fullWidth ? { width: "100%" } : {}}>
-    <StyledBox style={fullWidth ? { borderColor: "var(--text)" } : { borderColor: "var(--light-mode-purple)"}}>
+    <StyledBox style={fullWidth ? { borderColor: "var(--text)", padding:"7px" } : { borderColor: "var(--light-mode-purple)"}}>
      { small ?
      <FlexContainerSmall onClick={handleClick}>
      <IconButton
@@ -87,7 +87,7 @@ export const ImageDropdownMenu = (props) => {
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
-            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem.title || selectedItem.name)} />
+            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem.title || selectedItem.name)}/>
           </p>
         </div>
         <IconButton onClick={handleClick}>
@@ -114,6 +114,7 @@ export const ImageDropdownMenu = (props) => {
       }}
       getContentAnchorEl={null}
       ref={menuRef}
+      sx={fullWidth ? { "& .MuiPaper-root": { minWidth: "81%" } } : {}}
     >
       {menuItems.map((item) => (
         <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
@@ -156,7 +157,6 @@ export const IbmplexsansNormalShark16px = css`
 const StyledMenuItem = styled(MenuItem)`
 display: flex;
   gap: 12px;
-  
   align-items: center;
   padding: 0px 0px 0px 12px;
   position: relative;
@@ -245,6 +245,7 @@ const StyledListItemText = styled(ListItemText)`
   .MuiTypography-root {
     ${IbmplexsansNormalShark16px}
     font-size: 14px;
+    
   }
 `;
 const Frame12841 = styled.img`

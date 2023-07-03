@@ -234,10 +234,13 @@ export default function CreateAssignment(props) {
   }
 
   function updateFocusAreas(id, newFocusAreas) {
+    const focusAreas = allFocusAreas.filter((focusArea) => newFocusAreas.includes(focusArea.id));
+    console.log("focusAreas", focusAreas)
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        q.serialNumber === id ? { ...q, focusAreaIds: newFocusAreas } : q
+        
+        q.serialNumber === id ? { ...q, focusAreaIds: newFocusAreas, focusAreas } : q
       ),
     }));
   }
@@ -278,6 +281,7 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
+    
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === "DRAFT") {
         showSnackbar("Task saved");
@@ -556,7 +560,8 @@ const newQuestion = (serialNumber) => {
       },
     ],
     markingCriteria:{},
-    focusAreaIds: []
+    focusAreaIds: [],
+    focusAreas: []
   }
 }
 const Title = styled.h1`

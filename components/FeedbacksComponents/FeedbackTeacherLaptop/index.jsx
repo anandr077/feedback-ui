@@ -261,16 +261,14 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
   const createFocusAreasLabel = (focusAreas) => {
-    console.log("fa " + focusAreas)
-    if (focusAreas ) {
-      const label = <Label>Focus areas : </Label>
-      const all = focusAreas?.map(fa=>{
-        fa
-      })
-      return <>{label}{all}</>;
-    }
-    return <></>
-   
+    
+    const label = <Label>Focus areas : </Label>
+    const all = focusAreas?.map(fa=>{
+      return <><Ellipse141 backgroundColor={fa.color}></Ellipse141><Label>{fa.title}</Label></>
+    })
+    
+    return <>{label}{all}</>;
+    
   };
 
   const getMarkingCriteriaFeedback = (questionSerialNumber) => {
@@ -320,7 +318,7 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
-          {createFocusAreasLabel(question.focusAreaIds)}
+          {createFocusAreasLabel(question.focusAreas)}
           {(submission.status === "SUBMITTED") && 
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
           submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
@@ -515,6 +513,13 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
+`;
 const Label = styled.div`
  ${feedbacksIbmplexsansNormalShark20px}
   position: relative;

@@ -223,25 +223,36 @@ function FeedbackTeacherLaptop(props) {
       return (
         <Buttons2
           button="Submit"
-          // arrowright={true}
           onClickFn={() => methods.handleSaveSubmissionForReview()}
         ></Buttons2>
       );
     }
     if (pageMode === "REVIEW") {
       return (
+        <>
         <Buttons2
-          button="Submit"
+          button="Submit Feedback"
           onClickFn={() => methods.handleSubmissionReviewed()}
         ></Buttons2>
+        <Buttons2
+          button="Submit Feedback & Close"
+          onClickFn={() => methods.handleSubmissionClosed()}
+        ></Buttons2>
+        </>
       );
     }
     if (pageMode === "REVISE") {
       return (
+        <>
         <Buttons2
           button="Resubmit"
+          onClickFn={() => methods.handleSaveSubmissionForReview()}
+        ></Buttons2>
+        <Buttons2
+          button="Submit & Close"
           onClickFn={() => methods.handleSubmissionClosed()}
         ></Buttons2>
+        </>
       );
     }
     return <></>;

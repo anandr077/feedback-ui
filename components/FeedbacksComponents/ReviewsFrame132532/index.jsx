@@ -17,7 +17,8 @@ function ReviewsFrame132532(props) {
     commentType = "",
     index = null,
     commentId = null,
-    handleEditComment
+    handleEditComment,
+    pageMode
   } = props;
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
@@ -126,6 +127,7 @@ function ReviewsFrame132532(props) {
       {getUserId() === comment.reviewerId && 
       !defaultComment && 
       comment.type != "FOCUS_AREA" &&
+      pageMode != "CLOSED" &&
       (
         <More onClick={handleMoreClick} src="/icons/three-dot.svg" ref={componentRef}/>
       )}

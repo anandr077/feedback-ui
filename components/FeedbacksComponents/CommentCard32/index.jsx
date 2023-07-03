@@ -95,6 +95,7 @@ function CommentCard32(props) {
             index={index}
             commentId={comment.id}
             handleEditComment={handleEditComment}
+            pageMode={pageMode}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -152,6 +153,7 @@ function CommentCard32(props) {
         comment={comment}
         defaultComment={defaultComment}
         handleEditComment={handleEditComment}
+        pageMode={pageMode}
       />
       <CommentText
         onClick={() => onClick(comment)}

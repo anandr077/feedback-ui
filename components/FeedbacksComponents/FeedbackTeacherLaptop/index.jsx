@@ -461,7 +461,7 @@ function FeedbackTeacherLaptop(props) {
                 <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
                 <StatusText>{methods.submissionStatusLabel()}</StatusText>
               </TitleWrapper>
-              {!isTeacher && pageMode === "CLOSED" && (
+              {!isTeacher && pageMode === "CLOSED" && submission.status === "CLOSED" &&(
                 <div id="deleteButton">
                   <Buttons2
                     button="Download PDF"
@@ -469,6 +469,20 @@ function FeedbackTeacherLaptop(props) {
                     onClickFn={methods.downloadPDF}
                   />
                 </div>
+              )}
+              {!isTeacher && pageMode === "CLOSED" && submission.status != "CLOSED" &&(
+                <AwaitFeedbackContainer id="deleteButton">
+                <StatusLabel
+                  key="statusLabel"
+                  id="statusLabel"
+                  text="Awaiting Feedback"
+                />
+                  <Buttons2
+                    button="Download PDF"
+                    download={true}
+                    onClickFn={methods.downloadPDF}
+                  />
+                </AwaitFeedbackContainer>
               )}
               {tasksListsDropDown()}
               {(pageMode === "DRAFT" || pageMode === "REVISE") && (
@@ -515,6 +529,17 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+
+const AwaitFeedbackContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  align-self: stretch;
+  gap : 25px;
+  line-height: normal;
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;

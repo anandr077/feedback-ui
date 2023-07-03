@@ -69,7 +69,7 @@ function FeedbackTeacherLaptop(props) {
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
-    console.log("Comment " + JSON.stringify(comment))
+    console.log("Comment " ,comment)
     if (comment.type === "FOCUS_AREA") {
       if (pageMode === "DRAFT" || pageMode === "REVISE") {
         return <CommentCard32
@@ -79,18 +79,6 @@ function FeedbackTeacherLaptop(props) {
                     isTeacher={isTeacher}
                     defaultComment={false}
                   />
-      //   return <CommentCard32
-      //   reviewer={comment.reviewerName}
-      //   comment={comment}
-      //   onClick={(c) => methods.handleCommentSelected(c)}
-      //   onClose={() => {
-      //     methods.handleDeleteComment(comment.id);
-      //   }}
-      //   handleReplyComment={methods.handleReplyComment}
-      //   isResolved={false}
-      //   showResolveButton = {false}
-      //   isTeacher={false}        
-      // />
       }
       return <></>
     }
@@ -207,13 +195,11 @@ function FeedbackTeacherLaptop(props) {
     );
   };
   const focusAreasFrame = () => {
+    console.log("FA frame", comments)
     return (
       <Frame1331 id="focusAreasFrame">
         <Frame1322>
           <ReviewsFrame1320 isFocusAreas="true">
-
-
-           
           </ReviewsFrame1320>
         </Frame1322>
         <>
@@ -261,16 +247,14 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
   const createFocusAreasLabel = (focusAreas) => {
-    console.log("fa " + focusAreas)
-    if (focusAreas ) {
-      const label = <Label>Focus areas : </Label>
-      const all = focusAreas?.map(fa=>{
-        fa
-      })
-      return <>{label}{all}</>;
-    }
-    return <></>
-   
+    
+    const label = <Label>Focus areas : </Label>
+    const all = focusAreas?.map(fa=>{
+      return <FocusAreasLabelContainer><Ellipse141 backgroundColor={fa.color}></Ellipse141><Label>{fa.title}</Label></FocusAreasLabelContainer>
+    })
+    
+    return <FocusAreasLabelContainer>{label}{all}</FocusAreasLabelContainer>;
+    
   };
 
   const getMarkingCriteriaFeedback = (questionSerialNumber) => {
@@ -320,7 +304,7 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
-          {createFocusAreasLabel(question.focusAreaIds)}
+          {createFocusAreasLabel(question.focusAreas)}
           {(submission.status === "SUBMITTED") && 
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title != "No Marking Criteria" &&
@@ -516,6 +500,20 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+
+const FocusAreasLabelContainer = styled.div`
+  display:flex;
+  gap:5px;
+  flex-direction:row;
+  align-items:center;
+`;
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 15px;
+  height: 15px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
+`;
 const Label = styled.div`
  ${feedbacksIbmplexsansNormalShark20px}
   position: relative;

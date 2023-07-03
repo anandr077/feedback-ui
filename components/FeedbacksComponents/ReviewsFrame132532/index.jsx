@@ -9,9 +9,7 @@ function ReviewsFrame132532(props) {
     isShare,
     reviewer,
     onClose,
-    isTeacher,
     onResolved,
-    isResolved,
     showResolveButton,
     comment,
     defaultComment,
@@ -116,8 +114,8 @@ function ReviewsFrame132532(props) {
     <></>
   );
   const shareIcon = <Ellipse7 src="/icons/share.png" />;
-  const commenterFrame = isShare ? shareIcon : avatar;
-  const reviewerFrame = isShare ? "Shared with class" : reviewer;
+  const commenterFrame = createCommenterFrame();
+  const reviewerFrame = createReviewerFrame();
   return (
     <Frame1325>
       <Frame1324>
@@ -125,13 +123,44 @@ function ReviewsFrame132532(props) {
         <Instructer>{reviewerFrame}</Instructer>
       </Frame1324>
       {resolveFrame}
-      {getUserId() === comment.reviewerId && !defaultComment && (
+      {getUserId() === comment.reviewerId && 
+      !defaultComment && 
+      comment.type != "FOCUS_AREA" &&
+      (
         <More onClick={handleMoreClick} src="/icons/three-dot.svg" ref={componentRef}/>
       )}
       {openEditDeleteTemplate}
     </Frame1325>
   );
+
+  function createReviewerFrame() {
+    if (isShare) {
+      return "Shared with class" 
+    }
+    if (comment.type === "FOCUS_AREA") {
+      return comment.comment
+    }
+    return isShare ? "Shared with class" : reviewer;
+  }
+
+  function createCommenterFrame() {
+    if (isShare) {
+      return shareIcon;
+    }
+    if (comment.type === "FOCUS_AREA") {
+      return <Ellipse141 backgroundColor={comment.color}></Ellipse141>
+    }
+    return avatar;
+  }
 }
+
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
+`;
 
 const Frame1325 = styled.div`
   display: flex;

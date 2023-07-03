@@ -369,23 +369,21 @@ export const getFocusAreas = async () => {
 
 export const addFocusArea = async (focusArea) =>
   await postApi(baseUrl + "/feedbacks/focusAreas", focusArea);
-  
+
 export const getAllColors = () => {
   return [
-    "#E39A99",
-    "#D76766",
-    "#F4CB9B",
-    "#EFB269",
-    "#B9D7A7",
-    "#98C47B",
-    "#A6C4C9",
-    "#7CA5AF",
-    "#A4C5E9",
-    "#78A8DD",
-    "#B3A7D7",
-    "#8D7CC4",
-    "#D1A6BE",
-    "#BC7CA1"
+    "#F0C8C8",
+    "#F6DEDE",
+    "#F8DBB9",
+    "#FBECDA",
+    "#D0E4C4",
+    "#E5F0DF",
+    "#C0DFE4",
+    "#D9ECEF",
+    "#D7D1EA",
+    "#E7E3F2",
+    "#B5CFED",
+    "#D3E2F4"
   ];
 }
 

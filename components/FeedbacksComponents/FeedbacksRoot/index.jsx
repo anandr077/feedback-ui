@@ -81,7 +81,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const allComments = commentsResult.map((c) => {
           return { ...c };
         });
-        const feedbackComments= allComments.filter((c) => c.type === "COMMENT");
+        const feedbackComments= allComments.filter((c) => c.type === "COMMENT" || c.type === "FOCUS_AREA");
         setComments(feedbackComments);
         const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
@@ -305,6 +305,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       answer: contents,
     }).then((_) => {
         const quill = quillRefs.current[answer.serialNumber - 1];
+        // consraole.log(quill)
         const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
         console.log("getAllHighlightsWithComments" + JSON.stringify(highlightsWithCommentsData))
         const transformedData = flatMap(
@@ -652,7 +653,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
         const div = document.getElementById("comment_" + matchingComment.id);
-        highlightComment(div);
+        if (div) {
+          highlightComment(div);
+        }
       } else {
         if (from !== to) {
           setNewCommentSerialNumber(serialNumber);

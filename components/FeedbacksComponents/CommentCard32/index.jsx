@@ -147,9 +147,7 @@ function CommentCard32(props) {
         isShare={comment.type === "MODEL_RESPONSE"}
         reviewer={reviewer}        
         onClose={onClose}
-        isTeacher={isTeacher}
         onResolved={onResolved}
-        isResolved={isResolved}
         comment={comment}
         defaultComment={defaultComment}
         handleEditComment={handleEditComment}
@@ -158,12 +156,14 @@ function CommentCard32(props) {
         onClick={() => onClick(comment)}
         className="horem-ipsum-dolor-si-1"
       >
-        {editButtonActive && editCommentType === "parent_comment"
-          ? inputComment()
-          : comment.comment}
+        {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
-      {isResolved !== "RESOLVED" && !isReplyClicked && !defaultComment && (
+      {isResolved !== "RESOLVED" && 
+      !isReplyClicked && 
+      !defaultComment &&
+      comment.type != "FOCUS_AREA"
+      && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />
           <div>Reply</div>
@@ -173,6 +173,17 @@ function CommentCard32(props) {
       {isReplyClicked && !editButtonActive && inputComment()}
     </CommentCard>
   );
+
+  function showComment() {
+    if (comment.type === "FOCUS_AREA" ){
+      return <></>
+    }
+    if (editButtonActive && editCommentType === "parent_comment") {
+      return inputComment()
+    } else {
+      return comment.comment;
+    }
+  }
 }
 
 const CommentCard = styled.article`

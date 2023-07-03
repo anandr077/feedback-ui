@@ -40,8 +40,17 @@ const QuillEditor = React.forwardRef(
             console.log("Highlighting "+ comment.color)
             editor.formatText(range.index, range.length, {
               highlight: comment.id,
-              background: comment.color ? comment.color:'#fff9c4'
+              background: createBackground()
             });
+          }
+
+          function createBackground() {
+            if (comment.color !== undefined && comment.color !== null) {
+              console.log("")
+              return comment.color;
+            }
+            console.log("No color " + comment.id);
+            return '#fff9c4';
           }
         });
       }
@@ -125,6 +134,7 @@ const QuillEditor = React.forwardRef(
       },
       applyBackgroundFormat(range, format) {
         if (format) {
+          console.log("applyBackgroundFormat")
           const formatKeys = Object.keys(format);
           if (formatKeys.includes("background")) {
             editor.formatText(range.from, range.to - range.from, 'background', format.background);
@@ -134,6 +144,7 @@ const QuillEditor = React.forwardRef(
         }
       },
       setLostFocusColor(range) {
+        console.log("setLostFocusColor")
         const initialFormat = editor.getFormat(range.from, range.to - range.from);
         editor.formatText(range, 'background', '#C0C8D1');
         return initialFormat
@@ -181,18 +192,19 @@ function scrollToHighlight(commentId) {
   }
 }
 function removeAllHighlights(editor) {
-  const quillContainer = editor.container;
 
   // Get all highlight elements in the Quill container
   const highlightElements = getHighlights(editor);
-  console.log("element " + JSON.stringify(highlightElements));
-  const transformedData = flatMap(
+  console.log("removeAllHighlights ", highlightElements);
+  flatMap(
     Object.entries(highlightElements),
     ([commentId, highlights]) => {
       return highlights.map((highlight) => {
         const { content, range } = highlight;
-        editor.formatText(range.from, range.to - range.from, "highlight", false);
-        console.log("e " + JSON.stringify(highlight));
+        console.log("Rem " , range)
+        // editor.formatText(range.from, range.to - range.from, 
+        //   "highlight", false);
+          editor.removeFormat(range.from, range.to - range.from, "highlight");
 
         return { commentId, range };
       });
@@ -211,6 +223,7 @@ function getHighlights(editor) {
   highlightElements.forEach((element) => {
     const commentId = element.getAttribute("data-comment-id");
     const content = element.textContent;
+    console.log("content", content)
     const index = editor.getIndex(Quill.find(element));
     const length = content.length;
 

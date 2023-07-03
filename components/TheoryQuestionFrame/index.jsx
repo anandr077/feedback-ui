@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansNormalElectricViolet14px, IbmplexsansNormalShark16px, IbmplexsansNormalShark20px
+  IbmplexsansNormalElectricViolet14px,
+  IbmplexsansNormalShark16px,
+  IbmplexsansNormalShark20px,
 } from "../../styledMixins";
 import CheckboxGroup from "../CheckboxGroup";
 import Frame1297 from "../Frame1297";
@@ -20,11 +22,12 @@ export default function TheoryQuestionFrame(props) {
     createNewFocusArea,
     allFocusAreas,
     allMarkingCriterias,
-    updateMarkingCriteria
+    updateMarkingCriteria,
+    handleMarkingCriteriaPreview,
   } = props;
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
-    return item.title===questionDetails.markingCriteria?.title 
+    return item.title === questionDetails.markingCriteria?.title;
   });
   return (
     <SmalllQuestionFrame
@@ -69,7 +72,7 @@ export default function TheoryQuestionFrame(props) {
             allFocusAreas
           )}
         </FocusAreasFrame>
-        
+
         {/* <Frame1291
           questionDetails={questionDetails}
           serialNumber={serialNumber}
@@ -77,26 +80,37 @@ export default function TheoryQuestionFrame(props) {
         /> */}
 
         <MarkingCriteriaSelectionContainer>
-        <Label>Marking Criteria</Label>
-        {questionDetails.markingCriteria.title ?
-        <ImageDropdownMenu
-              fullWidth={true}
-              menuItems={allMarkingCriterias}
-              selectedIndex={selectedMarkingCriteriaIndex}
-              onItemSelected={(item) => {
-                updateMarkingCriteria(serialNumber, item)
-              }}
-            ></ImageDropdownMenu>
-            :
-            <ImageDropdownMenu
-              fullWidth={true}
-              menuItems={allMarkingCriterias}
-              primaryText="Select Marking Criteria"
-              onItemSelected={(item) => {
-                updateMarkingCriteria(serialNumber, item)
-              }}
-            ></ImageDropdownMenu>
-        }
+          <Label>Marking Criteria</Label>
+          <MarkingCriteriaFrame>
+            {questionDetails.markingCriteria.title ? (
+              <ImageDropdownMenu
+                fullWidth={true}
+                menuItems={allMarkingCriterias}
+                selectedIndex={selectedMarkingCriteriaIndex}
+                onItemSelected={(item) => {
+                  updateMarkingCriteria(serialNumber, item);
+                }}
+              ></ImageDropdownMenu>
+            ) : (
+              <ImageDropdownMenu
+                fullWidth={true}
+                menuItems={allMarkingCriterias}
+                primaryText="Select Marking Criteria"
+                onItemSelected={(item) => {
+                  updateMarkingCriteria(serialNumber, item);
+                }}
+              ></ImageDropdownMenu>
+            )}
+            <Preview
+              onClick={() =>
+                handleMarkingCriteriaPreview(
+                  questionDetails.markingCriteria?.criterias
+                )
+              }
+            >
+              <img src="/icons/preview-eye.png" alt="eye" />
+            </Preview>
+          </MarkingCriteriaFrame>
         </MarkingCriteriaSelectionContainer>
       </Frame12891>
     </SmalllQuestionFrame>
@@ -129,9 +143,9 @@ const Frame1321 = styled.div`
   gap: 4px;
   padding: 8px 10px;
   position: relative;
-  background-color: #EFEEF1;
+  background-color: #efeef1;
   border-radius: 24px;
-  border: 1px solid #E6E6E6;
+  border: 1px solid #e6e6e6;
   height: 36px;
   box-sizing: border-box;
   margin: 8px;
@@ -310,7 +324,7 @@ const InputQuestion = styled.div`
 `;
 
 const Label = styled.div`
- ${IbmplexsansNormalShark20px}
+  ${IbmplexsansNormalShark20px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -349,6 +363,20 @@ const QuestionInputEditable = styled.input`
   outline: none;
   transition: 0.15s;
 `;
+
+const MarkingCriteriaFrame = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+const Preview = styled.div`
+  background: #7200e0;
+  padding: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+`;
+
 function createFocusAreasFrame(
   serialNumber,
   updateFocusAreas,
@@ -394,9 +422,9 @@ function createFocusAreasFrame(
 
 function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
   return presentFocusAreas?.map((focusArea) => {
-    console.log("presentFocusAreas" + JSON.stringify(presentFocusAreas))
-    console.log("allFocusAreas" + JSON.stringify(allFocusAreas))
-    console.log("focusArea" + JSON.stringify(focusArea))
+    console.log("presentFocusAreas" + JSON.stringify(presentFocusAreas));
+    console.log("allFocusAreas" + JSON.stringify(allFocusAreas));
+    console.log("focusArea" + JSON.stringify(focusArea));
     const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
     return (
       <Frame1321>

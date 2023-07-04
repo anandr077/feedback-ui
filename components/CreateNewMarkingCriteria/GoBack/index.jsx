@@ -5,12 +5,14 @@ import { IbmplexsansMediumElectricViolet20px } from "../../../styledMixins";
 
 function GoBack() {
   return (
-    <a href="javascript:history.back()">
+    
       <GoBack1>
         <Caret src="/img/caret-2@2x.png" alt="caret" />
+        <a href="javascript:history.back()">
         <BackToPreviousPage>back to previous page</BackToPreviousPage>
+        </a>
       </GoBack1>
-    </a>
+ 
   );
 }
 
@@ -21,7 +23,7 @@ const GoBack1 = styled.div`
   position: relative;
   align-self: stretch;
   border-radius: 24px;
-  cursor: pointer;
+
 `;
 
 const Caret = styled.img`
@@ -38,6 +40,7 @@ const BackToPreviousPage = styled.div`
   text-align: right;
   letter-spacing: -0.5px;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const GoBack2 = styled.div`

@@ -13,6 +13,7 @@ import {
   IbmplexsansSemiBoldShark20px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
+  IbmplexsansNormalElectricViolet16px
 } from "../../styledMixins";
 import "./CreateAAssignmentTablet.css";
 import FooterSmall from "../FooterSmall";
@@ -29,6 +30,7 @@ function CreateAAssignmentTablet(props) {
     handleTitleChange,
     questionFrames,
     saveDraft,
+    deleteAssignmentHandler,
     publish,
     checkboxes,
     checkedClasses,
@@ -43,6 +45,33 @@ function CreateAAssignmentTablet(props) {
     goBack22Props,
   } = props;
 
+  function titleAndSaveButtons(assignment, saveDraft, publish) {
+    const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
+  
+    return <TitleContainer>
+      {title}
+      {saveButtons(assignment, saveDraft, publish)}
+    </TitleContainer>;
+  }
+  function saveButtons(assignment, saveDraft, publish) {
+    if (assignment.status === "DRAFT") {
+      return <Frame12191>
+        <SLink onClick={saveDraft}>Save as draft</SLink>
+        <Buttons1>
+          <Button onClick={publish}>Publish</Button>
+        </Buttons1>
+      </Frame12191>;
+    }
+    return (<DeleteButtonContainer>
+      <Frame1322 onClick={deleteAssignmentHandler} >
+        <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
+        <Delete>Delete</Delete>
+      </Frame1322>
+    </DeleteButtonContainer> );
+  }
+
+
+
   return (
     <div className="create-a-assignment-tablet screen">
       <Frame1379>
@@ -54,9 +83,9 @@ function CreateAAssignmentTablet(props) {
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
+        {titleAndSaveButtons(assignment, saveDraft, publish)}
         <Frame1378  readOnly={assignment.status!= "DRAFT"}>
           <Frame1375>
-            {titleAndSaveButtons(assignment, saveDraft, publish)}
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
@@ -127,26 +156,56 @@ function CreateAAssignmentTablet(props) {
     </div>
   );
 }
-function titleAndSaveButtons(assignment, saveDraft, publish) {
-  const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
 
-  return <Frame1372>
-    {title}
-    {saveButtons(assignment, saveDraft, publish)}
-  </Frame1372>;
-}
-function saveButtons(assignment, saveDraft, publish) {
-  if (assignment.status === "DRAFT") {
-    return <Frame12191>
-      <SLink onClick={saveDraft}>Save as draft</SLink>
+const TitleContainer = styled.div`
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  position: relative;
+  margin-top: 16px;
+`;
 
-      <Buttons1>
-        <Button onClick={publish}>Publish</Button>
-      </Buttons1>
-    </Frame12191>;
+
+const DeleteButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+`;
+
+const Frame1322 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+   &:hover {
+    scale: 1.2;
+    transition: 0.1s;
   }
-  return <></>
-}
+`;
+const IconTrash = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
+const Delete = styled.div`
+  ${IbmplexsansNormalElectricViolet16px}
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+
+
 const SLink = styled.div`
   ${IbmplexsansMediumElectricViolet20px}
   position: relative;
@@ -156,6 +215,10 @@ const SLink = styled.div`
   letter-spacing: -0.5px;
   line-height: normal;
   cursor: pointer;
+   &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
 `;
 const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}
@@ -302,13 +365,13 @@ const Frame1375 = styled.div`
 const Frame1372 = styled.div`
   display: flex;
   flex-direction: row;
-
   align-items: center;
   gap: 30px;
   position: relative;
   align-self: stretch;
   // top: 30px;
   min-width: 300px;
+  z-index: 10;
 `;
 
 const Frame1372WithTop = styled.div`
@@ -328,7 +391,6 @@ const Title = styled.h1`
   font-size: 36px;
   position: relative;
   flex: 1;
-  padding: 0px 0px 30px 0px;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;

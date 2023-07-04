@@ -14,7 +14,6 @@ import withAuth from "./components/WithAuth";
 import PageNotFound from "./components/PageNotFound";
 import { Redirect } from "react-router-dom";
 import { getUserRole, getUserName} from "./service";
-import AccountSettingsMarkingCriteriaDeskt from "./components/Settings/AccountSettingsMarkingCriteriaDeskt";
 import AccountSettingsRoot from "./components/Settings/AccountSettingRoot";
 import CreateNewMarkingCriteriaRoot from "./components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot";
 

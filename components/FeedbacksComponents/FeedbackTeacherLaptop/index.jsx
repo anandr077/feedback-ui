@@ -69,30 +69,17 @@ function FeedbackTeacherLaptop(props) {
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
-    console.log("Comment " + JSON.stringify(comment))
+    console.log("Comment " ,comment)
     if (comment.type === "FOCUS_AREA") {
-      if (pageMode === "DRAFT" || pageMode === "REVISE") {
-        return <CommentCard32
-                    reviewer={comment.reviewerName}
-                    comment={comment}
-                    onClick={() => {}}
-                    isTeacher={isTeacher}
-                    defaultComment={false}
-                  />
-      //   return <CommentCard32
-      //   reviewer={comment.reviewerName}
-      //   comment={comment}
-      //   onClick={(c) => methods.handleCommentSelected(c)}
-      //   onClose={() => {
-      //     methods.handleDeleteComment(comment.id);
-      //   }}
-      //   handleReplyComment={methods.handleReplyComment}
-      //   isResolved={false}
-      //   showResolveButton = {false}
-      //   isTeacher={false}        
-      // />
-      }
-      return <></>
+      return <CommentCard32
+                  reviewer={comment.reviewerName}
+                  comment={comment}
+                  onClick={(c) => methods.handleCommentSelected(c)}
+                  isTeacher={isTeacher}
+                  defaultComment={false}
+                  pageMode={pageMode}
+                />
+      
     }
     return isFeedback && comment.status !== "RESOLVED" ? (
 
@@ -112,6 +99,7 @@ function FeedbackTeacherLaptop(props) {
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
+        pageMode={pageMode}
       />
     ) : isResolvedClick && comment.status === "RESOLVED" ? (
       <CommentCard32
@@ -130,6 +118,7 @@ function FeedbackTeacherLaptop(props) {
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
+        pageMode={pageMode}
       />
     ) : (
       <></>
@@ -153,9 +142,6 @@ function FeedbackTeacherLaptop(props) {
     comment: "Feedback will appear here",
   };
   const feedbackFrame = () => {
-    if (pageMode == "DRAFT" || pageMode == "REVISE") {
-      return focusAreasFrame()
-    }
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
@@ -206,71 +192,51 @@ function FeedbackTeacherLaptop(props) {
       </Frame1331>
     );
   };
-  const focusAreasFrame = () => {
-    return (
-      <Frame1331 id="focusAreasFrame">
-        <Frame1322>
-          <ReviewsFrame1320 isFocusAreas="true">
-
-
-           
-          </ReviewsFrame1320>
-        </Frame1322>
-        <>
-          {showNewComment ? (
-            <>
-              <Screen onClick={methods.hideNewCommentDiv}></Screen>
-              {newCommentFrame()}
-            </>
-          ): (
-            <Frame1328>
-              {commentsFrame}
-            </Frame1328>
-          )
-          }
-        </>
-      </Frame1331>
-    );
-  };
+  
   const submitButton = () => {
     if (pageMode === "DRAFT") {
       return (
         <Buttons2
           button="Submit"
-          // arrowright={true}
           onClickFn={() => methods.handleSaveSubmissionForReview()}
         ></Buttons2>
       );
     }
     if (pageMode === "REVIEW") {
       return (
+        <ButtonsContainer>
         <Buttons2
-          button="Submit"
+          button="Submit Feedback"
           onClickFn={() => methods.handleSubmissionReviewed()}
         ></Buttons2>
+        <Buttons2
+          button="Submit Feedback & Close"
+          onClickFn={() => methods.handleSubmissionClosed()}
+        ></Buttons2>
+        </ButtonsContainer>
       );
     }
     if (pageMode === "REVISE") {
       return (
+        <>
         <Buttons2
-          button="Resubmit"
-          onClickFn={() => methods.handleSubmissionClosed()}
+          button="Submit"
+          onClickFn={() => methods.handleSaveSubmissionForReview()}
         ></Buttons2>
+        </>
       );
     }
     return <></>;
   };
   const createFocusAreasLabel = (focusAreas) => {
-    console.log("fa " + focusAreas)
-    if (focusAreas ) {
-      const label = <Label>Focus areas : </Label>
-      const all = focusAreas?.map(fa=>{
-        fa
-      })
-      return <>{label}{all}</>;
-    }
-    return <></>
-   
+    
+    const label = <Label>Focus areas : </Label>
+    const all = focusAreas?.map(fa=>{
+      return <FocusAreasLabelContainer><Ellipse141 backgroundColor={fa.color}></Ellipse141><Label>{fa.title}</Label></FocusAreasLabelContainer>
+    })
+    
+    return <FocusAreasLabelContainer>{label}{all}</FocusAreasLabelContainer>;
+    
   };
 
   const getMarkingCriteriaFeedback = (questionSerialNumber) => {
@@ -320,10 +286,12 @@ function FeedbackTeacherLaptop(props) {
               {createQuill(submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
-          {createFocusAreasLabel(question.focusAreaIds)}
+          {createFocusAreasLabel(question.focusAreas)}
           {(submission.status === "SUBMITTED") && 
           submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
+          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title != "No Marking Criteria" &&
           submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
+          submission.reviewerId === getUserId() &&
           <MarkingCriteriaFeedback
            markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
            small={smallMarkingCriteria}
@@ -461,7 +429,7 @@ function FeedbackTeacherLaptop(props) {
                 <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
                 <StatusText>{methods.submissionStatusLabel()}</StatusText>
               </TitleWrapper>
-              {!isTeacher && pageMode === "CLOSED" && (
+              {!isTeacher && pageMode === "CLOSED" && submission.status === "CLOSED" &&(
                 <div id="deleteButton">
                   <Buttons2
                     button="Download PDF"
@@ -469,6 +437,29 @@ function FeedbackTeacherLaptop(props) {
                     onClickFn={methods.downloadPDF}
                   />
                 </div>
+              )}
+              {!isTeacher && pageMode === "CLOSED" && submission.status != "CLOSED" &&(
+                <AwaitFeedbackContainer id="deleteButton">
+                <StatusLabel
+                  key="statusLabel"
+                  id="statusLabel"
+                  text="Awaiting Feedback"
+                />
+                  <Buttons2
+                    button="Download PDF"
+                    download={true}
+                    onClickFn={methods.downloadPDF}
+                  />
+                </AwaitFeedbackContainer>
+              )}
+              {isTeacher && pageMode === "CLOSED" && submission.status != "CLOSED" &&(
+                <AwaitFeedbackContainer id="deleteButton">
+                <StatusLabel
+                  key="statusLabel"
+                  id="statusLabel"
+                  text="Awaiting Submission"
+                />
+                </AwaitFeedbackContainer>
               )}
               {tasksListsDropDown()}
               {(pageMode === "DRAFT" || pageMode === "REVISE") && (
@@ -515,6 +506,42 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+
+const AwaitFeedbackContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  align-self: stretch;
+  gap : 25px;
+  line-height: normal;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  align-self: stretch;
+  gap : 25px;
+  line-height: normal;
+`;
+
+const FocusAreasLabelContainer = styled.div`
+  display:flex;
+  gap:5px;
+  flex-direction:row;
+  align-items:center;
+`;
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 15px;
+  height: 15px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
+`;
 const Label = styled.div`
  ${feedbacksIbmplexsansNormalShark20px}
   position: relative;
@@ -602,7 +629,6 @@ const Line6 = styled.img`
   object-fit: cover;
 `;
 const Frame131612 = styled.div`
-  width: 100%;
   max-width: 300px;
   display: flex;
 `;

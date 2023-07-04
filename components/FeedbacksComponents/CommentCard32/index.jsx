@@ -23,6 +23,7 @@ function CommentCard32(props) {
     handleEditingComment,
     updateParentComment,
     updateChildComment,
+    pageMode
   } = props;
 
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
@@ -94,6 +95,8 @@ function CommentCard32(props) {
             index={index}
             commentId={comment.id}
             handleEditComment={handleEditComment}
+            pageMode={pageMode}
+            onClick={onClick}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -145,25 +148,33 @@ function CommentCard32(props) {
     >
       <ReviewsFrame132532
         isShare={comment.type === "MODEL_RESPONSE"}
+        showResolveButton = {
+          comment.type === "COMMENT" &&
+          pageMode === "REVISE" &&
+          comment.status != "RESOLVED"
+        }
         reviewer={reviewer}        
         onClose={onClose}
-        isTeacher={isTeacher}
         onResolved={onResolved}
-        isResolved={isResolved}
         comment={comment}
         defaultComment={defaultComment}
         handleEditComment={handleEditComment}
+        pageMode={pageMode}
+        onClick={onClick}
       />
       <CommentText
         onClick={() => onClick(comment)}
         className="horem-ipsum-dolor-si-1"
       >
-        {editButtonActive && editCommentType === "parent_comment"
-          ? inputComment()
-          : comment.comment}
+        {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
-      {isResolved !== "RESOLVED" && !isReplyClicked && !defaultComment && (
+      {isResolved !== "RESOLVED" && 
+      !isReplyClicked && 
+      !defaultComment &&
+      comment.type != "FOCUS_AREA" &&
+      pageMode != "CLOSED"
+      && (
         <Reply onClick={handleReplyClick}>
           <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />
           <div>Reply</div>
@@ -173,6 +184,17 @@ function CommentCard32(props) {
       {isReplyClicked && !editButtonActive && inputComment()}
     </CommentCard>
   );
+
+  function showComment() {
+    if (comment.type === "FOCUS_AREA" ){
+      return <></>
+    }
+    if (editButtonActive && editCommentType === "parent_comment") {
+      return inputComment()
+    } else {
+      return comment.comment;
+    }
+  }
 }
 
 const CommentCard = styled.article`

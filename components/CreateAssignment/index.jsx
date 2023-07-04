@@ -15,6 +15,7 @@ import {
   publishAssignment,
   addFocusArea,
   getAllMarkingCriteria,
+  deleteAssignment
 } from "../../service";
 import {
   IbmplexsansNormalShark20px,
@@ -34,6 +35,7 @@ import Loader from "../Loader";
 import FocusAreaDialog from "./Dialog/newFocusArea";
 import { getFocusAreas, addNewFocusArea, getAllColors } from "../../service";
 import { set } from "lodash";
+import PreviewDialog from "../Shared/Dialogs/preview/previewCard";
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
@@ -43,9 +45,7 @@ export default function CreateAssignment(props) {
     id: uuidv4(),
     title: "",
     classIds: [],
-    questions: [
-      newQuestion(1)
-    ],
+    questions: [newQuestion(1)],
     reviewedBy: "TEACHER",
     status: "DRAFT",
     dueAt: dayjs().add(3, "day"),
@@ -53,7 +53,9 @@ export default function CreateAssignment(props) {
   const [assignment, setAssignment] = React.useState(draft);
 
   const [openFocusAreaDialog, setOpenFocusAreaDialog] = React.useState(false);
-
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+    React.useState(false);
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState([]);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const getAssignment = async (id) => {
@@ -66,19 +68,32 @@ export default function CreateAssignment(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [classes, setClasses] = React.useState([]);
   const [allFocusAreas, setAllFocusAreas] = React.useState([]);
-  const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([])
-  const [allMarkingCriterias, setAllMarkingCriterias,] = React.useState([])
+  const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([]);
+  const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
 
   React.useEffect(() => {
-    Promise.all([getClasses(), getAssignment(assignmentId), getFocusAreas(),getAllColors(),getAllMarkingCriteria() ]).then(
-      ([classesResult, assignmentResult, focusAreas, colors, markingCriteriasResult]) => {
+    Promise.all([
+      getClasses(),
+      getAssignment(assignmentId),
+      getFocusAreas(),
+      getAllColors(),
+      getAllMarkingCriteria(),
+    ]).then(
+      ([
+        classesResult,
+        assignmentResult,
+        focusAreas,
+        colors,
+        markingCriteriasResult,
+      ]) => {
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
           classIds: assignmentResult.classIds ?? [],
         }));
+        markingCriteriasResult.unshift({ title: "No Marking Criteria", id: "no_marking_criteria" });
         setAllMarkingCriterias(markingCriteriasResult),
-        setClasses(classesResult);
+          setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
         setIsLoading(false);
@@ -86,9 +101,16 @@ export default function CreateAssignment(props) {
     );
   }, [assignmentId]);
 
-
   if (isLoading) {
     return <Loader />;
+  }
+
+  function handleMarkingCriteriaPreview(criterias) {
+    if (criterias === undefined) {
+      return;
+    }
+    setCurrentMarkingCriteria(criterias);
+    setMarkingCriteriaPreviewDialog(true);
   }
 
   const handleTitleChange = (e) => {
@@ -142,6 +164,7 @@ export default function CreateAssignment(props) {
         allFocusAreas={allFocusAreas}
         allMarkingCriterias={allMarkingCriterias}
         updateMarkingCriteria={updateMarkingCriteria}
+        handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
       />
     );
   };
@@ -150,10 +173,7 @@ export default function CreateAssignment(props) {
     const newId = assignment.questions.length + 1;
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
-      questions: [
-        ...prevAssignment.questions,
-        newQuestion(newId)
-      ],
+      questions: [...prevAssignment.questions, newQuestion(newId)],
     }));
   }
 
@@ -234,10 +254,13 @@ export default function CreateAssignment(props) {
   }
 
   function updateFocusAreas(id, newFocusAreas) {
+    const focusAreas = allFocusAreas.filter((focusArea) => newFocusAreas.includes(focusArea.id));
+    console.log("focusAreas", focusAreas)
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        q.serialNumber === id ? { ...q, focusAreaIds: newFocusAreas } : q
+        
+        q.serialNumber === id ? { ...q, focusAreaIds: newFocusAreas, focusAreas } : q
       ),
     }));
   }
@@ -248,12 +271,12 @@ export default function CreateAssignment(props) {
 
   function addNewFocusArea(title, description, color) {
     setOpenFocusAreaDialog(false);
-    if(title!=="" && color!==""){
+    if (title !== "" && color !== "") {
       addFocusArea({
         title,
         description,
-        color
-      }).then((response)=>{
+        color,
+      }).then((response) => {
         if (response) {
           setAllFocusAreas([...allFocusAreas, response]);
         }
@@ -278,6 +301,7 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
+    
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === "DRAFT") {
         showSnackbar("Task saved");
@@ -405,6 +429,20 @@ export default function CreateAssignment(props) {
     }
   };
 
+  const deleteAssignmentHandler = () => {
+      updateAssignment(assignment.id, assignment).then((_) => {
+        deleteAssignment(assignment.id).then((res) => {
+          if (res.status === "DELETED") {
+            showSnackbar("Task deleted");
+            window.location.href = "#tasks";
+          } else {
+            showSnackbar("Task deletion failed");
+            return;
+          }
+        });
+      });
+  };
+
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);
 
@@ -461,6 +499,7 @@ export default function CreateAssignment(props) {
     // setDismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
+    deleteAssignmentHandler,
   };
 
   return (
@@ -519,7 +558,18 @@ export default function CreateAssignment(props) {
           />
         }
       />
-      {openFocusAreaDialog && <FocusAreaDialog handleData={addNewFocusArea} colors={allFocusAreasColors} />}
+      {openFocusAreaDialog && (
+        <FocusAreaDialog
+          handleData={addNewFocusArea}
+          colors={allFocusAreasColors}
+        />
+      )}
+      {openMarkingCriteriaPreviewDialog && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          criterias={currentMarkingCriteria}
+        />
+      )}
     </>
   );
 }
@@ -556,7 +606,8 @@ const newQuestion = (serialNumber) => {
       },
     ],
     markingCriteria:{},
-    focusAreaIds: []
+    focusAreaIds: [],
+    focusAreas: []
   }
 }
 const Title = styled.h1`

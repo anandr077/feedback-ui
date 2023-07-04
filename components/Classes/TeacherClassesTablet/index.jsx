@@ -150,7 +150,7 @@ function TeacherClassesTablet(props) {
               <Frame1337>
                 <Frame13123>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Exemplary Responses</ExemplarResponses>
+                  <ExemplarResponses>Exemplars</ExemplarResponses>
                 </Frame13123>
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />

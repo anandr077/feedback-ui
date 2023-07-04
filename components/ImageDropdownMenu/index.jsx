@@ -21,7 +21,7 @@ export const ImageDropdownMenu = (props) => {
   //   {id: 4, title:"DDDD", onClick:()=>console.log("FFF")},
   // ]
   // const {   onItemSelected, withCheckbox } = props;
-  const { selectedIndex, menuItems, onItemSelected, withCheckbox, showAvatar, small, fullWidth, primaryText } = props;
+  const { selectedIndex, markingCriteriaType,menuItems, onItemSelected, withCheckbox, showAvatar, small, fullWidth, primaryText } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(selectedIndex === undefined?menuItems[0]:menuItems[selectedIndex]);
   const menuRef = React.useRef(null);
@@ -56,7 +56,7 @@ export const ImageDropdownMenu = (props) => {
 
   return (
     <div style={fullWidth ? { width: "100%" } : {}}>
-    <StyledBox style={fullWidth ? { borderColor: "var(--text)" } : { borderColor: "var(--light-mode-purple)"}}>
+    <StyledBox style={fullWidth ? { borderColor: "var(--text)", padding:"7px" } : { borderColor: "var(--light-mode-purple)"}}>
      { small ?
      <FlexContainerSmall onClick={handleClick}>
      <IconButton
@@ -87,7 +87,7 @@ export const ImageDropdownMenu = (props) => {
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
-            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem.title || selectedItem.name)} />
+            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem.title || selectedItem.name)}/>
           </p>
         </div>
         <IconButton onClick={handleClick}>
@@ -100,20 +100,15 @@ export const ImageDropdownMenu = (props) => {
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
       onClose={() => setAnchorEl(null)}
-      anchorOrigin={ fullWidth? {
+      anchorOrigin={{
         vertical: 'bottom',
-      }:{
-        vertical: 'bottom',
-        horizontal: 'right',
       }}
-      transformOrigin={ fullWidth? {
+      transformOrigin={{
         vertical: 'top',
-      }:{
-        vertical: 'top',
-        horizontal: 'right',
       }}
       getContentAnchorEl={null}
       ref={menuRef}
+      sx={fullWidth ? { "& .MuiPaper-root": { minWidth: "81%" } } : markingCriteriaType? { "& .MuiPaper-root": { minWidth: "10%" } } : {} }
     >
       {menuItems.map((item) => (
         <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
@@ -156,7 +151,6 @@ export const IbmplexsansNormalShark16px = css`
 const StyledMenuItem = styled(MenuItem)`
 display: flex;
   gap: 12px;
-  
   align-items: center;
   padding: 0px 0px 0px 12px;
   position: relative;
@@ -245,6 +239,7 @@ const StyledListItemText = styled(ListItemText)`
   .MuiTypography-root {
     ${IbmplexsansNormalShark16px}
     font-size: 14px;
+    
   }
 `;
 const Frame12841 = styled.img`

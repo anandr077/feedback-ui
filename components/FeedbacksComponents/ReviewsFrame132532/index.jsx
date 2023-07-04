@@ -9,9 +9,7 @@ function ReviewsFrame132532(props) {
     isShare,
     reviewer,
     onClose,
-    isTeacher,
     onResolved,
-    isResolved,
     showResolveButton,
     comment,
     defaultComment,
@@ -19,7 +17,9 @@ function ReviewsFrame132532(props) {
     commentType = "",
     index = null,
     commentId = null,
-    handleEditComment
+    handleEditComment,
+    pageMode,
+    onClick
   } = props;
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
@@ -116,22 +116,56 @@ function ReviewsFrame132532(props) {
     <></>
   );
   const shareIcon = <Ellipse7 src="/icons/share.png" />;
-  const commenterFrame = isShare ? shareIcon : avatar;
-  const reviewerFrame = isShare ? "Shared with class" : reviewer;
+  const commenterFrame = createCommenterFrame();
+  const reviewerFrame = createReviewerFrame();
   return (
     <Frame1325>
       <Frame1324>
         {commenterFrame}
-        <Instructer>{reviewerFrame}</Instructer>
+        <Instructer  onClick={()=>onClick(comment)}>
+          {reviewerFrame}
+        </Instructer>
       </Frame1324>
       {resolveFrame}
-      {getUserId() === comment.reviewerId && !defaultComment && (
+      {getUserId() === comment.reviewerId && 
+      !defaultComment && 
+      comment.type != "FOCUS_AREA" &&
+      pageMode != "CLOSED" &&
+      (
         <More onClick={handleMoreClick} src="/icons/three-dot.svg" ref={componentRef}/>
       )}
       {openEditDeleteTemplate}
     </Frame1325>
   );
+
+  function createReviewerFrame() {
+    if (isShare) {
+      return "Shared with class" 
+    }
+    if (comment.type === "FOCUS_AREA") {
+      return comment.comment
+    }
+    return isShare ? "Shared with class" : reviewer;
+  }
+
+  function createCommenterFrame() {
+    if (isShare) {
+      return shareIcon;
+    }
+    if (comment.type === "FOCUS_AREA") {
+      return <Ellipse141 backgroundColor={comment.color}></Ellipse141>
+    }
+    return avatar;
+  }
 }
+
+const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: 10px;
+`;
 
 const Frame1325 = styled.div`
   display: flex;
@@ -162,6 +196,7 @@ const Instructer = styled.div`
   flex: 1;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const More = styled.img`

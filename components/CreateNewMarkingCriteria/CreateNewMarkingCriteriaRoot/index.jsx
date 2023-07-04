@@ -85,30 +85,30 @@ const deleteLevel = (criteriaId, levelId) => {
 };
 
 const validateMarkingCriteria = () => {
+  let isValid = true;
   if(markingCriterias.title === "" || markingCriterias.title === undefined) {
     showSnackbar("Please enter a title for the marking criteria");
-    return false;
+    isValid = false;
   }
   if(markingCriterias.criterias.length === 0) {
     showSnackbar("Please add at least one criteria");
-    return false;
+    isValid = false;
   }
 
   markingCriterias.criterias.forEach((criteria, indexout) => {
-    console.log("##",criteria.title);
     if(criteria.title === undefined || criteria.title === "") {
       showSnackbar(`Please enter a title for criteria ${indexout + 1}`);
-      return false;
+      isValid = false;
     }
-    criteria.levels.forEach((level, index) => {
+    criteria.levels.forEach((level) => {
       if(level.name == undefined || level.name === "") {
         showSnackbar(`Please enter a name for all level in criteria ${indexout + 1}`);
-        return false;
+        isValid = false;
       }
     });
   });
 
-  return true;
+  return isValid;
 };
 
 const saveMarkingCriteria = () => {
@@ -131,10 +131,10 @@ const saveMarkingCriteria = () => {
   isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
   showSnackbar(isUpdating? "Marking Criteria Updated Successfully" :"Marking Criteria Created Successfully" );
   window.localStorage.setItem("markingCriteria", "true");
-  window.location.href = "/#settings";
+  window.location.href = "#settings";
   }
   else{
-    
+    return;
   }
 
 }

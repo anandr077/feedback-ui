@@ -17,7 +17,7 @@ import CheckboxGroup from "../../CheckboxGroup";
 import FooterSmall from "../../FooterSmall";
 
 function TeacherTasksStudentTablet(props) {
-  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks } = props;
+  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks,  showDeletePopuphandler } = props;
   const [tasksFrame, setTasksFrame] = useState(null);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ function TeacherTasksStudentTablet(props) {
               <Outstanding>{title}</Outstanding>
               <Number>{tasks.length}</Number>
             </Frame1362>
-            <TaskCardContainer allTasks={tasks} />
+            <TaskCardContainer allTasks={tasks} showDeletePopuphandler={showDeletePopuphandler} />
           </Frame1363>
         </Frame1364>
       </>

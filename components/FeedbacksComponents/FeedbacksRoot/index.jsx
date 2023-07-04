@@ -347,9 +347,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         });
 
         Promise.all(promises).then((results) => {
-          getComments(submission).then((cmts) => {
+          getComments(submission.id).then((cmts) => {
+            console.log("cmts", cmts)
             const cmts2 = (cmts ? cmts : []);
-            setComments(cmts2.filter((c) => c.type === "COMMENT"));
+            setComments(cmts2);
+            handleChangeText("All changes saved", true);
           });
         });
       

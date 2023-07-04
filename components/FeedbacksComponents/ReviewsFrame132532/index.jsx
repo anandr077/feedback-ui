@@ -18,7 +18,8 @@ function ReviewsFrame132532(props) {
     index = null,
     commentId = null,
     handleEditComment,
-    pageMode
+    pageMode,
+    onClick
   } = props;
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
@@ -121,7 +122,9 @@ function ReviewsFrame132532(props) {
     <Frame1325>
       <Frame1324>
         {commenterFrame}
-        <Instructer>{reviewerFrame}</Instructer>
+        <Instructer  onClick={()=>onClick(comment)}>
+          {reviewerFrame}
+        </Instructer>
       </Frame1324>
       {resolveFrame}
       {getUserId() === comment.reviewerId && 
@@ -193,6 +196,7 @@ const Instructer = styled.div`
   flex: 1;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const More = styled.img`

@@ -71,17 +71,15 @@ function FeedbackTeacherLaptop(props) {
   ]).map((comment) => {
     console.log("Comment " ,comment)
     if (comment.type === "FOCUS_AREA") {
-      if (pageMode === "DRAFT" || pageMode === "REVISE") {
-        return <CommentCard32
-                    reviewer={comment.reviewerName}
-                    comment={comment}
-                    onClick={() => {}}
-                    isTeacher={isTeacher}
-                    defaultComment={false}
-                    pageMode={pageMode}
-                  />
-      }
-      return <></>
+      return <CommentCard32
+                  reviewer={comment.reviewerName}
+                  comment={comment}
+                  onClick={(c) => methods.handleCommentSelected(c)}
+                  isTeacher={isTeacher}
+                  defaultComment={false}
+                  pageMode={pageMode}
+                />
+      
     }
     return isFeedback && comment.status !== "RESOLVED" ? (
 
@@ -144,9 +142,6 @@ function FeedbackTeacherLaptop(props) {
     comment: "Feedback will appear here",
   };
   const feedbackFrame = () => {
-    if (pageMode == "DRAFT" || pageMode == "REVISE") {
-      return focusAreasFrame()
-    }
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
@@ -197,30 +192,7 @@ function FeedbackTeacherLaptop(props) {
       </Frame1331>
     );
   };
-  const focusAreasFrame = () => {
-    console.log("FA frame", comments)
-    return (
-      <Frame1331 id="focusAreasFrame">
-        <Frame1322>
-          <ReviewsFrame1320 isFocusAreas="true">
-          </ReviewsFrame1320>
-        </Frame1322>
-        <>
-          {showNewComment ? (
-            <>
-              <Screen onClick={methods.hideNewCommentDiv}></Screen>
-              {newCommentFrame()}
-            </>
-          ): (
-            <Frame1328>
-              {commentsFrame}
-            </Frame1328>
-          )
-          }
-        </>
-      </Frame1331>
-    );
-  };
+  
   const submitButton = () => {
     if (pageMode === "DRAFT") {
       return (
@@ -248,12 +220,8 @@ function FeedbackTeacherLaptop(props) {
       return (
         <>
         <Buttons2
-          button="Resubmit"
+          button="Submit"
           onClickFn={() => methods.handleSaveSubmissionForReview()}
-        ></Buttons2>
-        <Buttons2
-          button="Submit & Close"
-          onClickFn={() => methods.handleSubmissionClosed()}
         ></Buttons2>
         </>
       );

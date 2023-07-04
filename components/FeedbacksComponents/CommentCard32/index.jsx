@@ -96,6 +96,7 @@ function CommentCard32(props) {
             commentId={comment.id}
             handleEditComment={handleEditComment}
             pageMode={pageMode}
+            onClick={onClick}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -147,6 +148,11 @@ function CommentCard32(props) {
     >
       <ReviewsFrame132532
         isShare={comment.type === "MODEL_RESPONSE"}
+        showResolveButton = {
+          comment.type === "COMMENT" &&
+          pageMode === "REVISE" &&
+          comment.status != "RESOLVED"
+        }
         reviewer={reviewer}        
         onClose={onClose}
         onResolved={onResolved}
@@ -154,6 +160,7 @@ function CommentCard32(props) {
         defaultComment={defaultComment}
         handleEditComment={handleEditComment}
         pageMode={pageMode}
+        onClick={onClick}
       />
       <CommentText
         onClick={() => onClick(comment)}

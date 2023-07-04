@@ -113,8 +113,18 @@ export const ImageDropdownMenu = (props) => {
       }}
       getContentAnchorEl={null}
       ref={menuRef}
-      sx={fullWidth ? { "& .MuiPaper-root": { minWidth: "81%" } } : markingCriteriaType? { "& .MuiPaper-root": { minWidth: "10%", borderRadius:"12px" } } : {} }
-    >
+      sx={{
+    // Add the ":hover" pseudo-class selector and set the color to purple
+    "& .MuiPaper-root": {
+      minWidth: fullWidth ? "81%" : markingCriteriaType ? "10%" : undefined,
+      borderRadius: markingCriteriaType ? "12px" : undefined,
+    },
+    "& .MuiMenu-paper .MuiList-root .MuiMenuItem-root:hover": {
+      backgroundColor: "#F1E7FF",
+    },
+    
+  }}
+  >
       {menuItems.map((item) => (
 
         <>
@@ -166,8 +176,10 @@ const MarkingOptionContainer = styled.div`
   gap: 4px;
   padding: 8px 12px;
   width: 100%;
+ 
   .MuiListItemText-root {
     margin: 0;
+      
   }
 `;
 

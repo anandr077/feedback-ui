@@ -8,13 +8,16 @@ import { useRef, useEffect } from "react";
 import SnackbarContext from "../SnackbarContext"
 
 import StatusBubbleContainer from "../StatusBubblesContainer";
-import { denyModelResponse, publishModelResponse } from "../../service";
+import { denyModelResponse, publishModelResponse, getUserRole, getUserId } from "../../service";
 
 function TaskCard(props) {
  const { showSnackbar } = React.useContext(SnackbarContext);
 
  const { task, small, exemplar, isSelected, setPublishActionCompleted, showDeletePopuphandler } = props;
 
+ const role = getUserRole();
+ const userId = getUserId();
+ 
 
  const refContainer = useRef(null); 
  useEffect(() => { 
@@ -119,9 +122,11 @@ function tagsFrame(task) {
   if (task.tags && task.tags.length > 0) {
     return <BubbleContainer> 
     <StatusBubbleContainer tags={task?.tags ?? []} />
-    <DeleteButtonContainer onClick={(event) => handleDelete(event, task)}>
+   { role === "TEACHER" && 
+   userId === task.teacherId &&
+   <DeleteButtonContainer onClick={(event) => handleDelete(event, task)}>
     <Arrowright src="/icons/delete-assignment.svg" alt="delete" />
-    </DeleteButtonContainer>
+    </DeleteButtonContainer>}
     </BubbleContainer> 
   }
   return <></>;

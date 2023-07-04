@@ -15,6 +15,7 @@ import {
   publishAssignment,
   addFocusArea,
   getAllMarkingCriteria,
+  deleteAssignment
 } from "../../service";
 import {
   IbmplexsansNormalShark20px,
@@ -90,7 +91,7 @@ export default function CreateAssignment(props) {
           ...assignmentResult,
           classIds: assignmentResult.classIds ?? [],
         }));
-        markingCriteriasResult.push({title: "No Marking Criteria", id: "no_marking_criteria"});
+        markingCriteriasResult.unshift({ title: "No Marking Criteria", id: "no_marking_criteria" });
         setAllMarkingCriterias(markingCriteriasResult),
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);
@@ -428,6 +429,20 @@ export default function CreateAssignment(props) {
     }
   };
 
+  const deleteAssignmentHandler = () => {
+      updateAssignment(assignment.id, assignment).then((_) => {
+        deleteAssignment(assignment.id).then((res) => {
+          if (res.status === "DELETED") {
+            showSnackbar("Task deleted");
+            window.location.href = "#tasks";
+          } else {
+            showSnackbar("Task deletion failed");
+            return;
+          }
+        });
+      });
+  };
+
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);
 
@@ -484,6 +499,7 @@ export default function CreateAssignment(props) {
     // setDismissable,
     cleanformattingTextBox,
     cleanformattingDiv,
+    deleteAssignmentHandler,
   };
 
   return (

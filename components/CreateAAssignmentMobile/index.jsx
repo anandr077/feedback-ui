@@ -43,6 +43,7 @@ function CreateAAssignmentMobile(props) {
     help2,
     buttons22Props,
     goBackProps,
+    showDeletePopuphandler,
   } = props;
 
 
@@ -65,7 +66,7 @@ function CreateAAssignmentMobile(props) {
         </Frame12191>;
       }
       return (<DeleteButtonContainer>
-        <Frame1322 onClick={deleteAssignmentHandler} >
+        <Frame1322 onClick={showDeletePopuphandler} >
           <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
           <Delete>Delete</Delete>
         </Frame1322>

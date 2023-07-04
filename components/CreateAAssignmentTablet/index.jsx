@@ -43,6 +43,7 @@ function CreateAAssignmentTablet(props) {
     goBack21Props,
     buttons21Props,
     goBack22Props,
+    showDeletePopuphandler,
   } = props;
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
@@ -63,7 +64,7 @@ function CreateAAssignmentTablet(props) {
       </Frame12191>;
     }
     return (<DeleteButtonContainer>
-      <Frame1322 onClick={deleteAssignmentHandler} >
+      <Frame1322 onClick={showDeletePopuphandler} >
         <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
         <Delete>Delete</Delete>
       </Frame1322>

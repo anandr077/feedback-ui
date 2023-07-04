@@ -36,10 +36,14 @@ import FocusAreaDialog from "./Dialog/newFocusArea";
 import { getFocusAreas, addNewFocusArea, getAllColors } from "../../service";
 import { set } from "lodash";
 import PreviewDialog from "../Shared/Dialogs/preview/previewCard";
+import DeleteAssignmentPopup from "../DeleteAssignmentPopUp";
+
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
   const { assignmentId } = useParams();
+
+  const [showDeletePopup, setShowDeletePopup] = React.useState(false);
 
   const draft = {
     id: uuidv4(),
@@ -486,6 +490,13 @@ export default function CreateAssignment(props) {
     />
   );
 
+  const hidedeletePopup = () => { 
+    setShowDeletePopup(false);
+  }
+  const showDeletePopuphandler = (assignmentId) => {
+    setShowDeletePopup(true);
+  }
+
   const methods = {
     assignment,
     handleTitleChange,
@@ -500,10 +511,12 @@ export default function CreateAssignment(props) {
     cleanformattingTextBox,
     cleanformattingDiv,
     deleteAssignmentHandler,
+    showDeletePopuphandler,
   };
 
   return (
     <>
+    {showDeletePopup &&  <DeleteAssignmentPopup assignmentId={assignment} hidedeletePopup={hidedeletePopup}/>}
       <ReactiveRender
         mobile={
           <CreateAAssignmentMobile

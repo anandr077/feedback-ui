@@ -11,12 +11,15 @@ import {
 } from "../../../utils/headerProps.js";
 import _ from 'lodash';
 import Loader from "../../Loader";
+import DeleteAssignmentPopup from "../../DeleteAssignmentPopUp";
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
+  const [showDeletePopup, setShowDeletePopup] = React.useState(false);
+  const [selectedAssignment, setSelectedAssignment] = React.useState(null);
 
   React.useEffect(() => {
     Promise.all([getAssignments(), getClasses()])
@@ -32,6 +35,7 @@ export default function TeacherTaskRoot() {
   if (isLoading) {
     return <Loader/>;
   }
+
   const drafts = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === "DRAFT"
   );
@@ -69,8 +73,16 @@ export default function TeacherTaskRoot() {
     
     setFilteredTasks(filteredAssignments)
   }
-
+  const hidedeletePopup = () => { 
+    setShowDeletePopup(false);
+  }
+  const showDeletePopuphandler = (assignmentId) => {
+    setSelectedAssignment(assignmentId);
+    setShowDeletePopup(true);
+  }
   return (
+    <>
+     {showDeletePopup &&  <DeleteAssignmentPopup assignmentId={selectedAssignment} hidedeletePopup={hidedeletePopup}/>}
     <ReactiveRender
       mobile={
         <TeacherTasksStudentMobile
@@ -80,6 +92,7 @@ export default function TeacherTaskRoot() {
             drafts,
             awaitingSubmissions,
             feedbacks,
+            showDeletePopuphandler,
             ...tasksStudentMobileData,
           }}
         />
@@ -91,6 +104,7 @@ export default function TeacherTaskRoot() {
             filterTasks,
             drafts,
             awaitingSubmissions,
+            showDeletePopuphandler,
             feedbacks,
             ...tasksStudentTabletData,
           }}
@@ -104,6 +118,10 @@ export default function TeacherTaskRoot() {
             drafts,
             awaitingSubmissions,
             feedbacks,
+            showDeletePopuphandler,
+            showDeletePopup,
+            hidedeletePopup,
+            selectedAssignment,
             ...tasksLaptopData,
           }}
         />
@@ -116,11 +134,13 @@ export default function TeacherTaskRoot() {
             drafts,
             awaitingSubmissions,
             feedbacks,
+            showDeletePopuphandler,
             ...tasksDesktopData,
           }}
         />
       }
     />
+    </>
   );
 }
 

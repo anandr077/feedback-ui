@@ -9,10 +9,13 @@ import SnackbarContext from "../SnackbarContext"
 
 import StatusBubbleContainer from "../StatusBubblesContainer";
 import { denyModelResponse, publishModelResponse } from "../../service";
+
 function TaskCard(props) {
  const { showSnackbar } = React.useContext(SnackbarContext);
 
- const { task, small, exemplar, isSelected, setPublishActionCompleted } = props;
+ const { task, small, exemplar, isSelected, setPublishActionCompleted, showDeletePopuphandler } = props;
+
+
  const refContainer = useRef(null); 
  useEffect(() => { 
   if (isSelected) {
@@ -21,10 +24,7 @@ function TaskCard(props) {
   }
  );
   
-  return (
-    createTaskCard(task, refContainer, isSelected, exemplar, small, showSnackbar, setPublishActionCompleted)
-  );
-}
+
 
 const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
   return <Frame12191>
@@ -107,12 +107,64 @@ function cardContents(task, exemplar, acceptExemplar) {
     // status2:"Reviewed: 10 of 20",
   };
 }
+
+const handleDelete = (event, task) => {
+  event.stopPropagation();
+  event.preventDefault();
+  showDeletePopuphandler(task);
+};
+
+
 function tagsFrame(task) {
   if (task.tags && task.tags.length > 0) {
-    return <StatusBubbleContainer tags={task?.tags ?? []} />;
+    return <BubbleContainer> 
+    <StatusBubbleContainer tags={task?.tags ?? []} />
+    <DeleteButtonContainer onClick={(event) => handleDelete(event, task)}>
+    <Arrowright src="/icons/delete-assignment.svg" alt="delete" />
+    </DeleteButtonContainer>
+    </BubbleContainer> 
   }
   return <></>;
 }
+
+
+  return (<>
+    {createTaskCard(task, refContainer, isSelected, exemplar, small, showSnackbar, setPublishActionCompleted)}
+    </>
+  );
+}
+
+
+const Arrowright = styled.img`
+  position: relative;
+  min-width: 12px;
+  height: 12px;
+`;
+
+const DeleteButtonContainer = styled.div`
+display: flex;
+padding: 6px 7px;
+align-items: flex-start;
+gap: 10px;
+border-radius: 6px;
+border: 1px solid #B3A9BC;
+background: #FFF;
+cursor: pointer;
+transition: all 0.2s ease-in-out;
+z-index: 1;
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+const BubbleContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  position: relative;
+  margin-bottom: 8px;
+`;
 
 
 const TaskTitle = styled.p`

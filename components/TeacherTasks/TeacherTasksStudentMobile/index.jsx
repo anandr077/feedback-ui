@@ -15,7 +15,7 @@ import Buttons from "../../Classes/Buttons";
 import CheckboxGroup from "../../CheckboxGroup";
 
 function TeacherTasksStudentMobile(props) {
-  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks } = props;
+  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks, showDeletePopuphandler } = props;
   const [tasksFrame, setTasksFrame] = useState(null);
 
   React.useEffect(() => {
@@ -81,7 +81,7 @@ function TeacherTasksStudentMobile(props) {
               <SectionTitle>{title}</SectionTitle>
               <Number>{tasks.length}</Number>
             </Frame1362>
-            <TaskCardContainer allTasks={tasks} />
+            <TaskCardContainer allTasks={tasks} showDeletePopuphandler={showDeletePopuphandler}/>
           </Frame1364>
         </Frame1364>
       </>

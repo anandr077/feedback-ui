@@ -12,13 +12,7 @@ import { IbmplexsansNormalBlack16px, IbmplexsansSemiBoldShark20px } from "../../
 import { Avatar } from "@boringer-avatars/react";
 import CheckboxBordered from "../CheckboxBordered";
 export const ImageDropdownMenu = (props) => {
-  // const menuItems = [
-  //   {id: 1, title:"View Profile", onClick:()=>console.log("V")},
-  //   {id: 2, title:"A", onClick:()=>console.log("A")},
-  //   {id: 3, title:"VVVV", onClick:()=>console.log("V")},
-  //   {id: 4, title:"DDDD", onClick:()=>console.log("FFF")},
-  // ]
-  // const {   onItemSelected, withCheckbox } = props;
+
   const { selectedIndex, markingCriteriaType,menuItems, onItemSelected, withCheckbox, showAvatar, small, fullWidth, primaryText } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedItem, setSelectedItem] = React.useState(selectedIndex === undefined?menuItems[0]:menuItems[selectedIndex]);
@@ -114,13 +108,19 @@ export const ImageDropdownMenu = (props) => {
       getContentAnchorEl={null}
       ref={menuRef}
       sx={{
-    // Add the ":hover" pseudo-class selector and set the color to purple
+
     "& .MuiPaper-root": {
       minWidth: fullWidth ? "81%" : markingCriteriaType ? "10%" : undefined,
       borderRadius: markingCriteriaType ? "12px" : undefined,
     },
-    "& .MuiMenu-paper .MuiList-root .MuiMenuItem-root:hover": {
-      backgroundColor: "#F1E7FF",
+    "& .MuiMenu-paper": {
+      "& .MuiList-root": {
+        paddingTop: 0,  // remove top padding
+        paddingBottom: 0,  // remove bottom padding
+      },
+      "& .MuiMenuItem-root:hover": {
+        backgroundColor: "#F1E7FF",
+      },
     },
     
   }}

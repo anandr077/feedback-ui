@@ -41,4 +41,3 @@ export const dateOnly = (dateString) => {
     year: "numeric",
   });
 };
-

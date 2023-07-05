@@ -95,7 +95,7 @@ function cardContents(task, exemplar, acceptExemplar) {
       para:task.title,
       // subTitle:"Teacher's Comment",
       // subPara:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.",
-      date:task.reviewDueAt?task.reviewDueAt:task.dueAt,
+      date:task.dueAt,
       status1:task.submissionCount?`Submissions: ${task.submissionCount} of ${task.expectedSubmissions}`:null,
       status2:task.submissionCount?`Reviewed: ${task.reviewCount} of ${task.submissionCount}`:null,
     };

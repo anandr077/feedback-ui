@@ -6,7 +6,7 @@ import SnackbarContext from "../SnackbarContext";
 import { isMobileView } from "../ReactiveRender";
 import DateSelector from '../DateSelector';
 import { IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
-import { set } from 'lodash';
+
 
 export default function ExtendAssignmentPopup(props) {
 
@@ -15,7 +15,7 @@ export default function ExtendAssignmentPopup(props) {
   const {assignment, hideDateExtendPopup} = props;
 
   const [dueAt, setDueAt] = React.useState(assignment?.dueAt);
-
+  
   const extendDueAtHandler = () => {
     extendDueAtAssignment(assignment.id,{
         dueAt: dueAt,

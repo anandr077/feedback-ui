@@ -6,9 +6,13 @@ import {
   IbmplexsansNormalShark20px,
 } from "../../styledMixins";
 import { formattedDate } from "../../dates";
+import { getUserRole } from "../../service";
 
 function CardContent(props) {
-  const {  task, small } = props;
+  const { task, small, taskDetails , showDateExtendPopuphandler} = props;
+  const role = getUserRole();
+
+
   const sampleTask = {
     title:"Fundamentals of thermal physics",
     para:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...",
@@ -18,6 +22,96 @@ function CardContent(props) {
     status1:"Submissions: 20 of 40",
     status2:"Reviewed: 10 of 20",
   }
+
+  function createTitle(small, title) {
+    if (!title) return <></>
+    return  small ? (
+      <SmallClassText>
+        {title}
+      </SmallClassText>
+    ) : (
+      <ClassText>
+        {title}
+      </ClassText>
+    )
+  }
+  
+  function createPara(small, para) {
+    if (!para) return <></>
+    return (
+      <>
+        {small ? (
+          <SmallTaskTitle>
+            {para}
+          </SmallTaskTitle>
+        ) : (
+          <TaskTitle>{para}</TaskTitle>
+        )}
+      </>
+    );
+  }
+  
+  function createSubtitle(subTitle) {
+    if (!subTitle) return <></>
+    return <RemarkText>{subTitle}</RemarkText>
+  }
+  
+  function createSubPara(subPara) {
+    if (!subPara) return <></> 
+    return <Remark>{subPara}</Remark>
+  }
+  
+
+  const handleDateUpdate = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    showDateExtendPopuphandler(taskDetails);
+    
+  };
+
+
+  function date(small, date) {
+    if (!date) return <></> 
+  
+    return <>
+        {small ? (
+          <Frame1282>
+            <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
+            <SmallDueAt>{formattedDate(date)}</SmallDueAt>
+          </Frame1282>
+        ) : role === "TEACHER"? 
+        (
+          <Frame1282Hover onClick={(event) => handleDateUpdate(event, task)}>
+            <IconClock src="/img/clock@2x.png" alt="icon-clock" />
+            <DueAt>{formattedDate(date)}</DueAt>
+          </Frame1282Hover>
+        )
+        :(
+          <Frame1282>
+            <IconClock src="/img/clock@2x.png" alt="icon-clock" />
+            <DueAt>{formattedDate(date)}</DueAt>
+          </Frame1282>
+        )
+        }
+      </>;
+  }
+  
+
+  function createStatus(small, status) {
+    if (!status) return <></>
+  
+    return  small ? (
+      <SmallClassText>
+        {status}
+      </SmallClassText>
+    ) : (
+      <ClassText>
+        {status}
+      </ClassText>
+    )
+  }
+
+
   return (
     <>   
         <Content>
@@ -36,78 +130,7 @@ function CardContent(props) {
 }
 
 
-function createTitle(small, title) {
-  if (!title) return <></>
-  return  small ? (
-    <SmallClassText>
-      {title}
-    </SmallClassText>
-  ) : (
-    <ClassText>
-      {title}
-    </ClassText>
-  )
-}
 
-function createPara(small, para) {
-  if (!para) return <></>
-  return (
-    <>
-      {small ? (
-        <SmallTaskTitle>
-          {para}
-        </SmallTaskTitle>
-      ) : (
-        <TaskTitle>{para}</TaskTitle>
-      )}
-    </>
-  );
-}
-
-function createSubtitle(subTitle) {
-  if (!subTitle) return <></>
-  return <RemarkText>{subTitle}</RemarkText>
-}
-
-function createSubPara(subPara) {
-  if (!subPara) return <></> 
-  return <Remark>{subPara}</Remark>
-}
-
-function date(small, date) {
-  if (!date) return <></> 
-
-  return <>
-      {small ? (
-        <Frame1282>
-          <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
-          <SmallDueAt>{formattedDate(date)}</SmallDueAt>
-        </Frame1282>
-      ) : (
-        <Frame1282>
-          <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-          <DueAt>{formattedDate(date)}</DueAt>
-        </Frame1282>
-      )}
-    </>;
-}
-
-
-  // Submissions: {task.submissionCount} of{" "}
-  // {task.expectedSubmissions} | Reviewed: {task.reviewCount} of {task.submissionCount}
-function createStatus(small, status) {
-  if (!status) return <></>
-
-  return  small ? (
-    <SmallClassText>
-      {status}
-    </SmallClassText>
-  ) : (
-    <ClassText>
-      {status}
-    </ClassText>
-  )
-}
 
 const Frame12121 = styled.div`
   ${IbmplexsansNormalShark12px}
@@ -227,6 +250,19 @@ const Frame1282 = styled.div`
   gap: 5px;
   position: relative;
   align-self: stretch;
+`;
+
+const Frame1282Hover = styled.div`
+  display: flex;
+  width:fit-content;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  align-self: stretch;
+  transition: all 0.2s ease-in-out;
+    &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const IconClock = styled.img`

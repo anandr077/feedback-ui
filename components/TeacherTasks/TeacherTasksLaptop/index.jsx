@@ -9,10 +9,9 @@ import TaskCardContainer from "../../TaskCardContainer";
 import TaskFrame1353 from "../../TaskFrame1353";
 import "./TeacherTasksLaptop.css";
 import CheckboxGroup from "../../CheckboxGroup";
-import DeleteAssignmentPopup from "../../DeleteAssignmentPopUp";
 
 function TeacherTasksLaptop(props) {
-  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks, showDeletePopuphandler} = props;
+  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks, showDeletePopuphandler, showDateExtendPopuphandler} = props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={assignmentsHeaderProps} />
@@ -32,19 +31,19 @@ function TeacherTasksLaptop(props) {
           <Frame1359>
             <Frame1358>
               <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
-              <TaskCardContainer allTasks={drafts} showDeletePopuphandler={showDeletePopuphandler}/>
+              <TaskCardContainer allTasks={drafts} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
             </Frame1358>
             <Frame1358>
               <TaskFrame1353
                 outstanding="Active"
                 number={awaitingSubmissions.length}
               />
-              <TaskCardContainer allTasks={awaitingSubmissions} showDeletePopuphandler={showDeletePopuphandler}/>
+              <TaskCardContainer allTasks={awaitingSubmissions} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
             </Frame1358>
 
             <Frame1358>
               <TaskFrame1353 outstanding="Closed" number={feedbacks.length} />
-              <TaskCardContainer allTasks={feedbacks} showDeletePopuphandler={showDeletePopuphandler}/>
+              <TaskCardContainer allTasks={feedbacks} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
             </Frame1358>
           </Frame1359>
         </Frame1360>

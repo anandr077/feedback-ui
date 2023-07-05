@@ -331,7 +331,9 @@ export default function CreateAssignment(props) {
   const isQuestionsValid = () => {
     let invalidQuestion = false;
     const questions = assignment.questions;
+
     questions.map((question) => {
+      if(question.question){
       question.question = question.question.trim();
       if (question.question.length === 0) {
         const questionContainer = document.getElementById(
@@ -379,6 +381,21 @@ export default function CreateAssignment(props) {
           );
           return false;
         }
+      }
+      }
+      else{
+        const questionContainer = document.getElementById(
+          "questionContainer_" + question.serialNumber
+        );
+        questionContainer.style.border = "1px solid red";
+        const questionTextBox = document.getElementById(
+          "question_textBox" + question.serialNumber
+        );
+        questionTextBox.style.border = "1px solid red";
+        invalidQuestion = true;
+        showSnackbar("Please enter Question " + question.serialNumber);
+        return false;
+        return false;
       }
     });
     return invalidQuestion ? false : true;

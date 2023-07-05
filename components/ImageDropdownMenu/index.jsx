@@ -8,9 +8,7 @@ import styled, { css } from "styled-components";
 import ListItemText from "@mui/material/ListItemText";
 import { Avatar } from "@boringer-avatars/react";
 import { Popover } from '@mui/material';
-
-import {IbmplexsansNormalBlack16px} from "../../styledMixins";
-import { IbmplexsansNormalBlack16px } from "../../styledMixins";
+import { IbmplexsansNormalBlack16px, IbmplexsansSemiBoldShark20px } from "../../styledMixins";
 import { Avatar } from "@boringer-avatars/react";
 import CheckboxBordered from "../CheckboxBordered";
 export const ImageDropdownMenu = (props) => {
@@ -54,6 +52,14 @@ export const ImageDropdownMenu = (props) => {
     }
   };
   console.log("selectedItem", selectedItem)
+
+  const getItem = (item) => {
+    return<>
+    {item.name}
+    {item.discription && <div className="discription">{item.discription}</div>}
+    </>
+  };
+
   return (
     <div style={fullWidth ? { width: "100%" } : {}}>
     <StyledBox style={fullWidth ? { borderColor: "var(--text)", padding:"7px" } : { borderColor: "var(--light-mode-purple)"}}>
@@ -108,9 +114,30 @@ export const ImageDropdownMenu = (props) => {
       }}
       getContentAnchorEl={null}
       ref={menuRef}
-      sx={fullWidth ? { "& .MuiPaper-root": { minWidth: "81%" } } : markingCriteriaType? { "& .MuiPaper-root": { minWidth: "10%" } } : {} }
-    >
+      sx={{
+    // Add the ":hover" pseudo-class selector and set the color to purple
+    "& .MuiPaper-root": {
+      minWidth: fullWidth ? "81%" : markingCriteriaType ? "10%" : undefined,
+      borderRadius: markingCriteriaType ? "12px" : undefined,
+    },
+    "& .MuiMenu-paper .MuiList-root .MuiMenuItem-root:hover": {
+      backgroundColor: "#F1E7FF",
+    },
+    
+  }}
+  >
       {menuItems.map((item) => (
+
+        <>
+        {
+          markingCriteriaType ?
+          <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
+            <MarkingOptionContainer>
+              <StyledListItemTextBold primary={item.name} />
+              <StyledListItemText primary={item.description} />
+            </MarkingOptionContainer>
+          </StyledMenuItem>
+          :
         <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
           {withCheckbox && <CustomCheckbox />}
           {createImageFrame(item, showAvatar)}
@@ -120,6 +147,8 @@ export const ImageDropdownMenu = (props) => {
             </p>
           </div>
         </StyledMenuItem>
+        }
+        </>
       ))}
     </Menu>
     <style>{`
@@ -140,6 +169,21 @@ export const ImageDropdownMenu = (props) => {
   </div>
   );
 };
+
+
+const MarkingOptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px;
+  width: 100%;
+ 
+  .MuiListItemText-root {
+    margin: 0;
+      
+  }
+`;
+
 
 export const IbmplexsansNormalShark16px = css`
   color: var(--text);
@@ -238,6 +282,22 @@ const StyledListItemText = styled(ListItemText)`
 
   .MuiTypography-root {
     ${IbmplexsansNormalShark16px}
+    font-size: 14px;
+    
+  }
+`;
+
+const StyledListItemTextBold = styled(ListItemText)`
+  ${IbmplexsansSemiBoldShark20px}
+  position: relative;
+  flex: 1;
+
+  letter-spacing: 0;
+  line-height: normal;
+  border-radius: 50%;
+
+  .MuiTypography-root {
+    ${IbmplexsansSemiBoldShark20px}
     font-size: 14px;
     
   }

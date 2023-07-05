@@ -7,3 +7,27 @@
   gap: 140px;
   position: relative;
 }
+
+.focus-area {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  gap: 4px;
+  border-radius: 6px;
+  border: 1px solid #f1e7ff;
+  background: linear-gradient(90deg, #fff 0%, #f1e7ff 100%);
+}
+
+.image{
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  color: #1e252a;
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

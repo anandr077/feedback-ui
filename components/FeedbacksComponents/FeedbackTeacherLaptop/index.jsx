@@ -19,7 +19,7 @@ import CheckboxList from "../../CheckboxList";
 import Header from "../../Header";
 import QuillEditor from "../../QuillEditor";
 
-import { getUserRole , getUserId} from "../../../service";
+import { getUserRole, getUserId } from "../../../service";
 import FocussedInput from "../../FocussedInput";
 import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
@@ -61,16 +61,17 @@ function FeedbackTeacherLaptop(props) {
     sharewithclassdialog,
     frame13201Props,
   } = props;
+
   const [isFeedback, setFeedback] = React.useState(true);
   const [isResolved, setResolved] = React.useState(false);
   const [isFocusAreas, setFocusAreas] = React.useState(false);
   const commentsForSelectedTab = selectTabComments(isFeedback, isResolved, isFocusAreas, comments)
-
+  
   const commentsFrame = sortBy(commentsForSelectedTab, [
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
-    console.log("Comment " ,comment)
+    console.log("Comment ", comment);
     if (comment.type === "FOCUS_AREA") {
       return <CommentCard32
                   reviewer={comment.reviewerName}
@@ -97,7 +98,7 @@ function FeedbackTeacherLaptop(props) {
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
-        showResolveButton = {pageMode === "REVISE" }
+        showResolveButton={pageMode === "REVISE"}
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
@@ -116,7 +117,7 @@ function FeedbackTeacherLaptop(props) {
         onResolved={methods.handleResolvedComment}
         handleReplyComment={methods.handleReplyComment}
         isResolved={comment.status}
-        showResolveButton = {false}
+        showResolveButton={false}
         isTeacher={isTeacher}
         updateParentComment={methods.updateParentComment}
         updateChildComment={methods.updateChildComment}
@@ -195,7 +196,7 @@ function FeedbackTeacherLaptop(props) {
       </Frame1331>
     );
   };
-  
+
   const submitButton = () => {
     if (pageMode === "DRAFT") {
       return (
@@ -208,49 +209,56 @@ function FeedbackTeacherLaptop(props) {
     if (pageMode === "REVIEW") {
       return (
         <ButtonsContainer>
-        <Buttons2
-          button="Submit Feedback"
-          onClickFn={() => methods.handleSubmissionReviewed()}
-        ></Buttons2>
-        <Buttons2
-          button="Submit Feedback & Close"
-          onClickFn={() => methods.handleSubmissionClosed()}
-        ></Buttons2>
+          <Buttons2
+            button="Submit Feedback"
+            onClickFn={() => methods.handleSubmissionReviewed()}
+          ></Buttons2>
+          <Buttons2
+            button="Submit Feedback & Close"
+            onClickFn={() => methods.handleSubmissionClosed()}
+          ></Buttons2>
         </ButtonsContainer>
       );
     }
     if (pageMode === "REVISE") {
       return (
         <>
-        <Buttons2
-          button="Submit"
-          onClickFn={() => methods.handleSaveSubmissionForReview()}
-        ></Buttons2>
+          <Buttons2
+            button="Submit"
+            onClickFn={() => methods.handleSaveSubmissionForReview()}
+          ></Buttons2>
         </>
       );
     }
     return <></>;
   };
   const createFocusAreasLabel = (focusAreas) => {
-    
-    const label = <Label>Focus areas : </Label>
-    const all = focusAreas?.map(fa=>{
-      return <FocusAreasLabelContainer><Ellipse141 backgroundColor={fa.color}></Ellipse141><Label>{fa.title}</Label></FocusAreasLabelContainer>
-    })
-    
-    return <FocusAreasLabelContainer>{label}{all}</FocusAreasLabelContainer>;
-    
+    const label = <Label>Focus areas : </Label>;
+    const all = focusAreas?.map((fa) => {
+      return (
+        <FocusAreasLabelContainer>
+          <Ellipse141 backgroundColor={fa.color}></Ellipse141>
+          <Label>{fa.title}</Label>
+        </FocusAreasLabelContainer>
+      );
+    });
+
+    return (
+      <FocusAreasLabelContainer>
+        {label}
+        {all}
+      </FocusAreasLabelContainer>
+    );
   };
 
   const getMarkingCriteriaFeedback = (questionSerialNumber) => {
-    
-    const selectedFeedback= markingCriteriaFeedback.map((feedback) =>{
-    if(feedback.questionSerialNumber === questionSerialNumber){
-      return feedback;
-    }
-  });
-  return selectedFeedback[selectedFeedback.length-1]?.markingCriteria;
-  }
+    const selectedFeedback = markingCriteriaFeedback.map((feedback) => {
+      if (feedback.questionSerialNumber === questionSerialNumber) {
+        return feedback;
+      }
+    });
+    return selectedFeedback[selectedFeedback.length - 1]?.markingCriteria;
+  };
 
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -290,34 +298,41 @@ function FeedbackTeacherLaptop(props) {
             </QuillContainer>
           )}
           {createFocusAreasLabel(question.focusAreas)}
-          {(submission.status === "SUBMITTED") && 
-          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title && 
-          submission.assignment.questions[answer.serialNumber - 1].markingCriteria?.title != "No Marking Criteria" &&
-          submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
-          submission.reviewerId === getUserId() &&
-          <MarkingCriteriaFeedback
-           markingCriteria={ submission.assignment.questions[answer.serialNumber - 1].markingCriteria}
-           small={smallMarkingCriteria}
-           questionSerialNumber={answer.serialNumber}
-           handleMarkingCriteriaLevelFeedback={methods.handleMarkingCriteriaLevelFeedback}
-           />
-           }
-           {
-              submission.status === "REVIEWED" &&
-              markingCriteriaFeedback?.length > 0 &&
-              submission.assignment.questions[answer.serialNumber -1].type != "MCQ" &&
+          {submission.status === "SUBMITTED" &&
+            submission.assignment.questions[answer.serialNumber - 1]
+              .markingCriteria?.title &&
+            submission.assignment.questions[answer.serialNumber - 1]
+              .markingCriteria?.title != "No Marking Criteria" &&
+            submission.assignment.questions[answer.serialNumber - 1].type !=
+              "MCQ" &&
+            submission.reviewerId === getUserId() && (
+              <MarkingCriteriaFeedback
+                markingCriteria={
+                  submission.assignment.questions[answer.serialNumber - 1]
+                    .markingCriteria
+                }
+                small={smallMarkingCriteria}
+                questionSerialNumber={answer.serialNumber}
+                handleMarkingCriteriaLevelFeedback={
+                  methods.handleMarkingCriteriaLevelFeedback
+                }
+              />
+            )}
+          {submission.status === "REVIEWED" &&
+            markingCriteriaFeedback?.length > 0 &&
+            submission.assignment.questions[answer.serialNumber - 1].type !=
+              "MCQ" && (
               <MarkingCriteriaFeedbackReadOnly
-              allmarkingCriteriaFeedback={markingCriteriaFeedback} 
-              small={smallMarkingCriteria}
-              questionSerialNumber={answer.serialNumber}
-              >
-              </MarkingCriteriaFeedbackReadOnly>
-           }
+                allmarkingCriteriaFeedback={markingCriteriaFeedback}
+                small={smallMarkingCriteria}
+                questionSerialNumber={answer.serialNumber}
+              ></MarkingCriteriaFeedbackReadOnly>
+            )}
         </Frame1366>
       </>
     );
   });
-  
+
   const tasksListsDropDown = () => {
     if (isTeacher) {
       return <Frame131612>{methods.createTasksDropDown()}</Frame131612>;
@@ -387,20 +402,19 @@ function FeedbackTeacherLaptop(props) {
         newCommentSerialNumber - 1
       ].focusAreaIds.includes(fa.id);
     });
-    return (
-      <>
-        <Frame1329>
-          <Frame1406>
-            <Line6 src="/icons/line.png" alt="Line 6" />
-            <FocusAreasFrame
-              focusAreas={focusAreas}
-              handleAddFocusArea={methods.handleFocusAreaComment}
-            />
-            {/* {shareWithClassFrame()} */}
-          </Frame1406>
-        </Frame1329>
-      </>
-    );
+    const focusAreasFrame = <>
+    <Frame1329>
+      <Frame1406>
+        <Line6 src="/icons/line.png" alt="Line 6" />
+        <FocusAreasFrame
+          focusAreas={focusAreas}
+          handleAddFocusArea={methods.handleFocusAreaComment}
+        />
+      </Frame1406>
+    </Frame1329>
+  </>
+
+    return (focusAreasFrame);
   }
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
@@ -430,40 +444,74 @@ function FeedbackTeacherLaptop(props) {
             <Frame1371 id="assignmentTitle">
               <TitleWrapper>
                 <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-                <StatusText>{methods.submissionStatusLabel()}</StatusText>
+                <StatusText>
+                  <div>{methods.submissionStatusLabel()}</div> |
+                  <div className="focus-area">
+                    <div className="image">
+                      {submission.assignment?.focusAreas[0] ? (
+                        <Ellipse141
+                          backgroundColor={
+                            submission.assignment?.focusAreas[0].color
+                          }
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {submission.assignment?.focusAreas[1] ? (
+                        <Ellipse141
+                          backgroundColor={
+                            submission.assignment?.focusAreas[1].color
+                          }
+                          style={{ marginLeft: "-8px" }}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    <div className="text">
+                      {submission.assignment?.focusAreas.length} focus areas
+                    </div>
+                  </div>
+                </StatusText>
               </TitleWrapper>
-              {!isTeacher && pageMode === "CLOSED" && submission.status === "CLOSED" &&(
-                <div id="deleteButton">
-                  <Buttons2
-                    button="Download PDF"
-                    download={true}
-                    onClickFn={methods.downloadPDF}
-                  />
-                </div>
-              )}
-              {!isTeacher && pageMode === "CLOSED" && submission.status != "CLOSED" &&(
-                <AwaitFeedbackContainer id="deleteButton">
-                <StatusLabel
-                  key="statusLabel"
-                  id="statusLabel"
-                  text="Awaiting Feedback"
-                />
-                  <Buttons2
-                    button="Download PDF"
-                    download={true}
-                    onClickFn={methods.downloadPDF}
-                  />
-                </AwaitFeedbackContainer>
-              )}
-              {isTeacher && pageMode === "CLOSED" && submission.status != "CLOSED" &&(
-                <AwaitFeedbackContainer id="deleteButton">
-                <StatusLabel
-                  key="statusLabel"
-                  id="statusLabel"
-                  text="Awaiting Submission"
-                />
-                </AwaitFeedbackContainer>
-              )}
+              {!isTeacher &&
+                pageMode === "CLOSED" &&
+                submission.status === "CLOSED" && (
+                  <div id="deleteButton">
+                    <Buttons2
+                      button="Download PDF"
+                      download={true}
+                      onClickFn={methods.downloadPDF}
+                    />
+                  </div>
+                )}
+              {!isTeacher &&
+                pageMode === "CLOSED" &&
+                submission.status != "CLOSED" && (
+                  <AwaitFeedbackContainer id="deleteButton">
+                    <StatusLabel
+                      key="statusLabel"
+                      id="statusLabel"
+                      text="Awaiting Feedback"
+                    />
+                    <Buttons2
+                      button="Download PDF"
+                      download={true}
+                      onClickFn={methods.downloadPDF}
+                    />
+                  </AwaitFeedbackContainer>
+                )}
+              {isTeacher &&
+                pageMode === "CLOSED" &&
+                submission.status != "CLOSED" && (
+                  <AwaitFeedbackContainer id="deleteButton">
+                    <StatusLabel
+                      key="statusLabel"
+                      id="statusLabel"
+                      text="Awaiting Submission"
+                    />
+                  </AwaitFeedbackContainer>
+                )}
               {tasksListsDropDown()}
               {(pageMode === "DRAFT" || pageMode === "REVISE") && (
                 <StatusLabel
@@ -529,7 +577,7 @@ const AwaitFeedbackContainer = styled.div`
   justify-content: flex-end;
   position: relative;
   align-self: stretch;
-  gap : 25px;
+  gap: 25px;
   line-height: normal;
 `;
 
@@ -540,15 +588,15 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
   position: relative;
   align-self: stretch;
-  gap : 25px;
+  gap: 25px;
   line-height: normal;
 `;
 
 const FocusAreasLabelContainer = styled.div`
-  display:flex;
-  gap:5px;
-  flex-direction:row;
-  align-items:center;
+  display: flex;
+  gap: 5px;
+  flex-direction: row;
+  align-items: center;
 `;
 const Ellipse141 = styled.div`
   position: relative;
@@ -558,7 +606,7 @@ const Ellipse141 = styled.div`
   border-radius: 10px;
 `;
 const Label = styled.div`
- ${feedbacksIbmplexsansNormalShark20px}
+  ${feedbacksIbmplexsansNormalShark20px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -575,7 +623,7 @@ const TitleWrapper = styled.div`
   line-height: normal;
   gap: 10px;
 `;
-const StatusText = styled.p`
+const StatusText = styled.div`
   // width: 714px;
   // height: 21px;
 
@@ -590,17 +638,18 @@ const StatusText = styled.p`
 
   color: #979797;
   display: flex;
+  align-items: center;
   gap: 4px;
 `;
 const RoundedContainer = styled.div`
-display: flex;
-padding: 12px 16px;
-align-items: flex-start;
-gap: 10px;
-align-self: stretch;
-border-radius: 24.5px;
-border: 1px solid #E6CCFF;
-background: #F1E7FF;
+  display: flex;
+  padding: 12px 16px;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 24.5px;
+  border: 1px solid #e6ccff;
+  background: #f1e7ff;
 `;
 
 const Screen = styled.div`

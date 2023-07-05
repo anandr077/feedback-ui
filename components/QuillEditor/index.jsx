@@ -14,7 +14,7 @@ const QuillEditor = React.forwardRef(
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
-    console.log("comments", comments)
+    
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
@@ -22,6 +22,7 @@ const QuillEditor = React.forwardRef(
         quillInstance.root.style.fontSize = "16px";
 
         const delta = quillInstance.clipboard.convert(value);
+        console.log("value", value)
         quillInstance.setContents(delta);
 
         setEditor(quillInstance);
@@ -91,6 +92,8 @@ const QuillEditor = React.forwardRef(
           multiLineCodeblock: true  // Set this to true if you want to preserve multiline code blocks
         };
 
+        const originalDelta = editor.clipboard.convert(value);
+        console.log("diff", originalDelta.diff(filteredDelta))
         var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
 
         var html = converter.convert(); 
@@ -144,10 +147,15 @@ const QuillEditor = React.forwardRef(
         }
       },
       setLostFocusColor(range) {
-        console.log("setLostFocusColor")
         const initialFormat = editor.getFormat(range.from, range.to - range.from);
         editor.formatText(range, 'background', '#C0C8D1');
         return initialFormat
+      },
+      setCommentColor(commentId, range, color) {
+        editor.formatText(range.from, range.to - range.from, {
+          background: color,
+          commentId: commentId,
+        });
       },
       getLeaf(index) {
         return editor.getLeaf(index);

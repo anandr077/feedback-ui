@@ -16,15 +16,12 @@ export default function ExtendAssignmentPopup(props) {
 
   const [dueAt, setDueAt] = React.useState(assignment?.dueAt);
 
-
-
   const extendDueAtHandler = () => {
     extendDueAtAssignment(assignment.id,{
         dueAt: dueAt,
     }).then((res) => {
-        console.log("###",res);
-        // window.location.href = "#tasks";
-        // window.location.reload();
+        window.location.href = "#tasks";
+        window.location.reload();
       });    
       hideDateExtendPopup();
       showSnackbar("Task due date extended");

@@ -53,7 +53,7 @@ export const ImageDropdownMenu = (props) => {
       setAnchorEl(null);
     }
   };
-
+  console.log("selectedItem", selectedItem)
   return (
     <div style={fullWidth ? { width: "100%" } : {}}>
     <StyledBox style={fullWidth ? { borderColor: "var(--text)", padding:"7px" } : { borderColor: "var(--light-mode-purple)"}}>
@@ -87,7 +87,7 @@ export const ImageDropdownMenu = (props) => {
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
-            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem.title || selectedItem.name)}/>
+            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem?.title || selectedItem?.name)}/>
           </p>
         </div>
         <IconButton onClick={handleClick}>

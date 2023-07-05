@@ -1141,9 +1141,6 @@ const feedbacksFrame1366422Data = {
     "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
 };
 
-const feedbacksFrame13203Data = {
-  children: ["Feedback", "Resolved"],
-};
 
 const feedbacksFrame13204Data = {
   children: "Shortcuts",
@@ -1210,7 +1207,6 @@ const feedbacksFeedbackTeacherLaptopData = {
   frame13172Props: feedbacksFrame1317224Data,
   frame136641Props: feedbacksFrame1366421Data,
   frame136642Props: feedbacksFrame1366422Data,
-  frame13201Props: feedbacksFrame13203Data,
   frame13202Props: feedbacksFrame13204Data,
   frame1333Props: feedbacksFrame13332Data,
   commentCard31Props: feedbacksCommentCard321Data,

@@ -14,7 +14,7 @@ const QuillEditor = React.forwardRef(
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
-
+    console.log("comments", comments)
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);

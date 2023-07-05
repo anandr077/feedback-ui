@@ -161,6 +161,7 @@ function CommentCard32(props) {
         handleEditComment={handleEditComment}
         pageMode={pageMode}
         onClick={onClick}
+        isClosable = {comment.type === "FOCUS_AREA" && (pageMode==="DRAFT" || pageMode==="REVISE")}
       />
       <CommentText
         onClick={() => onClick(comment)}

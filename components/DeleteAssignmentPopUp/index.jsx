@@ -22,19 +22,19 @@ export default function DeleteAssignmentPopup(props) {
       showSnackbar("Task deleted");
 };
 
-const textContent = `Are you sure you want to permanently delete ${assignmentId.title} ?`;
+const textContent = `Are you sure you want to permanently delete ${assignmentId.title}?`;
 
 const content =<><TitleContainer>
 <Arrowright src="/icons/trash-can.svg" alt="delete" />
-<DeleteTitle>Delete Task</DeleteTitle>
+<DeleteTitle>Delete task</DeleteTitle>
 </TitleContainer>
 <Line141 src="/img/line-14@2x.png" />
 <TextContent>{textContent}</TextContent>
 <ButtonsContainer>
 <CancelButton onClick={ ()=> hidedeletePopup()}>Cancel</CancelButton>
 <DeleteButton onClick={deleteAssignmentHandler}>
-<Arrowright src="/icons/trash-can-white.svg" alt="delete" />
-Delete
+<ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
+Delete permanently
 </DeleteButton>
 </ButtonsContainer>
 </>;
@@ -92,6 +92,11 @@ const Arrowright = styled.img`
   height: 20px;
 `;
 
+const ArrowrightSmall = styled.img`
+  position: relative;
+  min-width: 18px;
+  height: 18px;
+`;
 const CancelButton = styled.div`
 ${IbmplexsansSemiBoldWhite16px}
 display: inline-flex;
@@ -105,7 +110,7 @@ background: var(--light-mode-purple, #7200E0);
 cursor: pointer;
 transition: all 0.2s ease-in-out;
 &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     }
 `;
 
@@ -122,7 +127,7 @@ background: #CC2929;
 cursor: pointer;
 transition: all 0.2s ease-in-out;   
 &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     }
 `;
 

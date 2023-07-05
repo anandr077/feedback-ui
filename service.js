@@ -253,6 +253,8 @@ export const publishAssignment = async (id, update) =>
   await patchApi(baseUrl + "/assignments/" + id + "/publish", update);
 export const deleteAssignment = async (id, update) =>
   await patchApi(baseUrl + "/assignments/" + id + "/delete", update);
+  export const extendDueAtAssignment = async (id, extendDueAt) =>
+  await patchApi(baseUrl + "/assignments/" + id + "/extend", extendDueAt);
 export const updateAssignment = async (id, assignment) =>
   await putApi(baseUrl + "/assignments/" + id, assignment);
 export const saveAnswer = async (submissionId, serialNumber, answer) =>

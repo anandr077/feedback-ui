@@ -331,7 +331,6 @@ export default function CreateAssignment(props) {
   const isQuestionsValid = () => {
     let invalidQuestion = false;
     const questions = assignment.questions;
-
     questions.map((question) => {
       if(question.question){
       question.question = question.question.trim();

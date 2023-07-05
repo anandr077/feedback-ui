@@ -1,39 +1,54 @@
 import React from 'react'
+import dayjs from "dayjs";
 import styled from "styled-components";
-import {deleteAssignment, updateAssignment} from "../../service";
+import {extendDueAtAssignment} from "../../service";
 import SnackbarContext from "../SnackbarContext";
 import { isMobileView } from "../ReactiveRender";
-import { IbmplexsansNormalShark20px , IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
+import DateSelector from '../DateSelector';
+import { IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
+import { set } from 'lodash';
 
-export default function DeleteAssignmentPopup(props) {
+export default function ExtendAssignmentPopup(props) {
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
-  const {assignment, hidedeletePopup} = props;
+  const {assignment, hideDateExtendPopup} = props;
 
-  const deleteAssignmentHandler = () => {
-      deleteAssignment(assignment.id).then((res) => {
-        window.location.href = "#tasks";
-        window.location.reload();
+  const [dueAt, setDueAt] = React.useState(assignment?.dueAt);
+
+
+
+  const extendDueAtHandler = () => {
+    extendDueAtAssignment(assignment.id,{
+        dueAt: dueAt,
+    }).then((res) => {
+        console.log("###",res);
+        // window.location.href = "#tasks";
+        // window.location.reload();
       });    
-      hidedeletePopup();
-      showSnackbar("Task deleted");
+      hideDateExtendPopup();
+      showSnackbar("Task due date extended");
 };
 
-const textContent = `Are you sure you want to permanently delete ${assignment?.title}?`;
+const dateSelectorFrame = (
+    <DateSelector
+      value={dayjs(assignment?.dueAt)}
+      onChange={(newValue) => setDueAt(newValue)}
+    />
+  );
+
+const textContent = `Set new due date for ${assignment?.title}`;
 
 const content =<><TitleContainer>
-<Arrowright src="/icons/trash-can.svg" alt="delete" />
-<DeleteTitle>Delete task</DeleteTitle>
+<Arrowright src="/icons/clock.svg" alt="clock" />
+<DeleteTitle>Extend task</DeleteTitle>
 </TitleContainer>
 <Line141 src="/img/line-14@2x.png" />
 <TextContent>{textContent}</TextContent>
+<TextContent>{dateSelectorFrame}</TextContent>
 <ButtonsContainer>
-<CancelButton onClick={ ()=> hidedeletePopup()}>Cancel</CancelButton>
-<DeleteButton onClick={deleteAssignmentHandler}>
-<ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
-Delete permanently
-</DeleteButton>
+<CancelButton onClick={ ()=> hideDateExtendPopup()}>Cancel</CancelButton>
+<CancelButton onClick={ ()=> extendDueAtHandler()}>Extend</CancelButton>
 </ButtonsContainer>
 </>;
 
@@ -75,7 +90,7 @@ justify-content: flex-end;
 gap: 20px;
 margin-bottom: 20px;
 margin-right: 40px;
-padding-top: 50px;
+padding-top: 30px;
 `;
 
 const IconTrash = styled.img`

@@ -12,6 +12,7 @@ import {
 import _ from 'lodash';
 import Loader from "../../Loader";
 import DeleteAssignmentPopup from "../../DeleteAssignmentPopUp";
+import ExtendAssignmentPopup from "../../ExtendAssignmentPopup";
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -20,6 +21,7 @@ export default function TeacherTaskRoot() {
   const [classes, setClasses] = React.useState([]);
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
+  const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
 
   React.useEffect(() => {
     Promise.all([getAssignments(), getClasses()])
@@ -76,13 +78,25 @@ export default function TeacherTaskRoot() {
   const hidedeletePopup = () => { 
     setShowDeletePopup(false);
   }
-  const showDeletePopuphandler = (assignmentId) => {
-    setSelectedAssignment(assignmentId);
+  const showDeletePopuphandler = (assignment) => {
+    setSelectedAssignment(assignment);
     setShowDeletePopup(true);
   }
+
+  const showDateExtendPopuphandler = (assignment) => {
+    setSelectedAssignment(assignment);
+    setShowDateExtendPopup(true);
+  }
+  const hideDateExtendPopup = () => { 
+    setShowDateExtendPopup(false);
+  }
+
+
   return (
     <>
-     {showDeletePopup &&  <DeleteAssignmentPopup assignmentId={selectedAssignment} hidedeletePopup={hidedeletePopup}/>}
+     {showDeletePopup &&  <DeleteAssignmentPopup assignment={selectedAssignment} hidedeletePopup={hidedeletePopup}/>}
+     {showDateExtendPopup &&  <ExtendAssignmentPopup assignment={selectedAssignment} hideDateExtendPopup={hideDateExtendPopup}/>}
+    
     <ReactiveRender
       mobile={
         <TeacherTasksStudentMobile
@@ -93,6 +107,7 @@ export default function TeacherTaskRoot() {
             awaitingSubmissions,
             feedbacks,
             showDeletePopuphandler,
+            showDateExtendPopuphandler,
             ...tasksStudentMobileData,
           }}
         />
@@ -105,6 +120,7 @@ export default function TeacherTaskRoot() {
             drafts,
             awaitingSubmissions,
             showDeletePopuphandler,
+            showDateExtendPopuphandler,
             feedbacks,
             ...tasksStudentTabletData,
           }}
@@ -119,6 +135,7 @@ export default function TeacherTaskRoot() {
             awaitingSubmissions,
             feedbacks,
             showDeletePopuphandler,
+            showDateExtendPopuphandler,
             showDeletePopup,
             hidedeletePopup,
             selectedAssignment,
@@ -135,6 +152,7 @@ export default function TeacherTaskRoot() {
             awaitingSubmissions,
             feedbacks,
             showDeletePopuphandler,
+            showDateExtendPopuphandler,
             ...tasksDesktopData,
           }}
         />

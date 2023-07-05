@@ -444,7 +444,8 @@ function FeedbackTeacherLaptop(props) {
                   <div>{methods.submissionStatusLabel()}</div> |
                   <div className="focus-area">
                     <div className="image">
-                      {submission.assignment?.focusAreas[0] ? (
+                      {submission.assignment?.focusAreas &&
+                      submission.assignment.focusAreas.length >= 1 ? (
                         <Ellipse141
                           backgroundColor={
                             submission.assignment?.focusAreas[0].color
@@ -453,7 +454,8 @@ function FeedbackTeacherLaptop(props) {
                       ) : (
                         <></>
                       )}
-                      {submission.assignment?.focusAreas[1] ? (
+                      {submission.assignment?.focusAreas &&
+                      submission.assignment.focusAreas.length >= 2 ? (
                         <Ellipse141
                           backgroundColor={
                             submission.assignment?.focusAreas[1].color

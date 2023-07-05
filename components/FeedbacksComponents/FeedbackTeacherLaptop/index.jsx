@@ -467,7 +467,7 @@ function FeedbackTeacherLaptop(props) {
                       )}
                     </div>
                     <div className="text">
-                      {submission.assignment?.focusAreas.length} focus areas
+                      {submission.assignment?.focusAreas?.length || 0} focus areas
                     </div>
                   </div>
                 </StatusText>

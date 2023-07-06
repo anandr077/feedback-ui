@@ -323,7 +323,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const quill = quillRefs.current[answer.serialNumber - 1];
     // consraole.log(quill)
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-    console.log("getAllHighlightsWithComments" + JSON.stringify(highlightsWithCommentsData));
     const transformedData = flatMap(
       Object.entries(highlightsWithCommentsData),
       ([commentId, highlights]) => {
@@ -333,14 +332,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         });
       }
     );
-    console.log("getAllHighlightsWithComments 1", transformedData);
 
     // Use Array.prototype.map to create an array of commentIds
     const commentIdsArray = transformedData.map(
       ({ commentId }) => commentId
     );
 
-    console.log("getAllHighlightsWithComments 2", commentIdsArray);
 
 
     const commentsForAnswer = comments.filter(
@@ -350,7 +347,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       commentsForAnswer,
       (comment) => !includes(commentIdsArray, comment.id)
     );
-    console.log("getAllHighlightsWithComments 3", missingComments);
 
     const missingCommentsWithZeroRange = map(
       missingComments,

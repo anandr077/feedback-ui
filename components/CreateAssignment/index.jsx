@@ -37,6 +37,7 @@ import { getFocusAreas, addNewFocusArea, getAllColors } from "../../service";
 import { set } from "lodash";
 import PreviewDialog from "../Shared/Dialogs/preview/previewCard";
 import DeleteAssignmentPopup from "../DeleteAssignmentPopUp";
+import GeneralPopup from "../GeneralPopup";
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -44,6 +45,7 @@ export default function CreateAssignment(props) {
   const { assignmentId } = useParams();
 
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
+  const [showPublishPopup, setShowPublishPopup] = React.useState(false);
 
   const draft = {
     id: uuidv4(),
@@ -432,6 +434,7 @@ export default function CreateAssignment(props) {
   };
 
   const publish = () => {
+    setShowPublishPopup(false);
     if (isAssignmentValid()) {
       updateAssignment(assignment.id, assignment).then((_) => {
         publishAssignment(assignment.id).then((res) => {
@@ -512,7 +515,12 @@ export default function CreateAssignment(props) {
   const showDeletePopuphandler = (assignmentId) => {
     setShowDeletePopup(true);
   }
-
+  const hidePublishPopup = () => { 
+    setShowPublishPopup(false);
+  }
+  const showPublishPopuphandler = (assignmentId) => {
+    setShowPublishPopup(true);
+  }
   const methods = {
     assignment,
     handleTitleChange,
@@ -528,11 +536,13 @@ export default function CreateAssignment(props) {
     cleanformattingDiv,
     deleteAssignmentHandler,
     showDeletePopuphandler,
+    showPublishPopuphandler
   };
 
   return (
     <>
-    {showDeletePopup &&  <DeleteAssignmentPopup assignmentId={assignment} hidedeletePopup={hidedeletePopup}/>}
+    {showDeletePopup &&  <DeleteAssignmentPopup assignment={assignment} hidedeletePopup={hidedeletePopup}/>}
+    {showPublishPopup  && <GeneralPopup hidePopup={hidePublishPopup} title="Publish Task" textContent="Are you sure you want to publish this task?" buttonText="Publish" confirmButtonAction={publish} />}
       <ReactiveRender
         mobile={
           <CreateAAssignmentMobile

@@ -44,24 +44,25 @@ function CreateAAssignmentMobile(props) {
     buttons22Props,
     goBackProps,
     showDeletePopuphandler,
+    showPublishPopuphandler,
   } = props;
 
 
-  function titleAndSaveButtons(assignment, saveDraft, publish) {
+  function titleAndSaveButtons(assignment, saveDraft, publish,showPublishPopuphandler) {
     const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
   
     return <TitleContainer>
       {title}
-      {saveButtons(assignment, saveDraft, publish)}
+      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
     </TitleContainer>;
   }
-  function saveButtons(assignment, saveDraft, publish) {
+  function saveButtons(assignment, saveDraft, publish, showPublishPopuphandler) {
       if (assignment.status === "DRAFT") {
         return <Frame12191>
           <SLink onClick={saveDraft}>Save as draft</SLink>
   
           <Buttons1>
-            <Button onClick={publish}>Publish</Button>
+            <Button onClick={showPublishPopuphandler}>Publish</Button>
           </Buttons1>
         </Frame12191>;
       }
@@ -85,7 +86,7 @@ function CreateAAssignmentMobile(props) {
           </Frame1315>
           <GoBack />
         </Frame1376>
-        {titleAndSaveButtons(assignment, saveDraft, publish)}
+        {titleAndSaveButtons(assignment, saveDraft, publish,showPublishPopuphandler)}
         <Frame1378  readOnly={assignment.status!= "DRAFT"}>
           <Frame1375>
             <Frame1374
@@ -145,7 +146,7 @@ function CreateAAssignmentMobile(props) {
               {/* <Frame1219 /> */}
               <Frame12191>
               <Frame1372>
-                {saveButtons(assignment, saveDraft, publish)}
+                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
               </Frame1372>
               </Frame12191>
             </Frame1373>

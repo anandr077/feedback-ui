@@ -154,7 +154,7 @@ function CreateAAssignmentLaptop(props) {
 
 const TitleContainer = styled.div`
   display: flex;
-  width: 90%;
+  width: 93%;
   align-items: center;
   justify-content: space-between;
   gap: 4px;

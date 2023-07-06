@@ -5,24 +5,23 @@ import Quill from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "./styles.css";
-import HighlightedCommentBlot from "./HighlightedCommentBlot";
+import HighlightBlot from "./HighlightBlot";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { Map } from 'immutable';
 import { groupBy, mapValues, filter } from 'lodash';
 const QuillEditor = React.forwardRef(
   ({ comments, value, options, debounceTime, onDebounce }, ref) => {
-    Quill.register(HighlightedCommentBlot);
-
+    Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
-    
+
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
         quillInstance.root.style.fontSize = "16px";
+
         const delta = quillInstance.clipboard.convert(value);
-        console.log("delta init", delta);
         quillInstance.setContents(delta);
 
         setEditor(quillInstance);
@@ -31,14 +30,20 @@ const QuillEditor = React.forwardRef(
 
     useEffect(() => {
       if (editor) {
-        console.log("value", value)
-        // 
         removeAllHighlights(editor)
-
         comments.forEach((comment) => {
-          console.log("comment.id", comment.id)
           if (comment.range) {
-            setCommentColor(editor, comment.id, comment.range, createBackground())
+            const range = {
+              index: comment.range.from,
+              length: comment.range.to - comment.range.from,
+            };
+            console.log("Highlighting "+ comment.color)
+            editor.formatText(range.index, range.length, {
+              highlight: {
+                commentId: comment.id,
+                background: createBackground()
+              }
+            });
           }
 
           function createBackground() {
@@ -68,13 +73,20 @@ const QuillEditor = React.forwardRef(
       const handleDebounce = () => {
         // Get the contents of the editor as a Delta object
         const delta = editor.getContents();
-        const filteredOps = removeHighlightBlots(delta)
+        console.log("delta", delta)
+        // Filter out the highlight attributes from the Delta object
+        const filteredOps = delta.ops.map((op) => {
+          if (op.attributes && op.attributes.highlight) {
+            const { background, highlight, ...newAttributes } = op.attributes;
+            return { ...op, attributes: newAttributes };
+          }
+          return op;
+        });
         
+        console.log("delta", filteredOps)
         // Create a new Delta object with the filtered operations
         const filteredDelta = new Quill.imports.delta(filteredOps);
-        console.log("filteredDelta", filteredDelta)
-        console.log("delta", delta)
-        console.log("diff", delta.diff(filteredDelta))
+
         // alert(jsonString)
         const cfg = {
           multiLineParagraph: true, // Set this to true if you want to preserve multiline paragraphs
@@ -82,8 +94,9 @@ const QuillEditor = React.forwardRef(
         };
 
         var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
+
         var html = converter.convert(); 
-        console.log(html)
+        // alert(html)
         onDebounce(html);
       };
 
@@ -133,12 +146,10 @@ const QuillEditor = React.forwardRef(
         }
       },
       setLostFocusColor(range) {
+        console.log("setLostFocusColor")
         const initialFormat = editor.getFormat(range.from, range.to - range.from);
         editor.formatText(range, 'background', '#C0C8D1');
         return initialFormat
-      },
-      setCommentColor(commentId, range, color) {
-        setCommentColor(editor, commentId, range, color)
       },
       getLeaf(index) {
         return editor.getLeaf(index);
@@ -166,13 +177,7 @@ const QuillEditor = React.forwardRef(
 );
 
 export default QuillEditor;
-function setCommentColor(editor, commentId, range, color) {
-  console.log("setCommentColor range", range)
-  console.log("setCommentColor color", color)
-  editor.formatText(range.to - range.from, {
-    highlight: color,
-    commentId: commentId
-  });}
+
 function scrollToHighlight(commentId) {
   const highlightSpan = document.querySelector(
     `span.quill-highlight[data-comment-id="${commentId}"]`
@@ -188,57 +193,61 @@ function scrollToHighlight(commentId) {
     console.warn(`No highlight found for comment ID: ${commentId}`);
   }
 }
-
-function removeMetadataFromDelta(delta) {
-  delta.ops.forEach(op => {
-    if (op.attributes && op.attributes.commentId) {
-      delete op.attributes.commentId;
-    }
-  });
-
-  return delta;
-}
-
 function removeAllHighlights(editor) {
 
-  const blotNodes = document.querySelectorAll('.ql-highlight');
-  blotNodes.forEach((node) => {
-    node.style.display = 'none';
-  });
+  // Get all highlight elements in the Quill container
+  const highlightElements = getHighlights(editor);
+  console.log("removeAllHighlights ", highlightElements);
+  flatMap(
+    Object.entries(highlightElements),
+    ([commentId, highlights]) => {
+      return highlights.map((highlight) => {
+        const { content, range } = highlight;
+        console.log("Rem " , range)
+        editor.removeFormat(range.from, range.to - range.from, "highlight");
+        return { commentId, range };
+      });
+    }
+  );
 }
 
 function getHighlights(editor) {
-  const highlightNodes = editor.container.querySelectorAll('.ql-highlight');
-  const highlights = [];
+  const quillContainer = editor.container;
 
-  highlightNodes.forEach((node) => {
-    const commentId = node.getAttribute('data-comment-id');
-    const content = node.textContent;
-    const range = editor.getIndex(node);
+  let highlightsWithComments = {};
 
-    highlights.push({
-      content,
-      range: {
-        index: range,
-        length: content.length
-      },
-      commentId
-    });
-  });
+  // Get all highlight elements in the Quill container
+  const highlightElements = quillContainer.querySelectorAll(".quill-highlight");
 
-  return highlights;
-}
+  highlightElements.forEach((element) => {
+    const commentId = element.getAttribute("data-comment-id");
+    const content = element.textContent;
+    console.log("content", content)
+    const index = editor.getIndex(Quill.find(element));
+    const length = content.length;
 
-
-function removeHighlightBlots(delta) {
-  const filteredOps = delta.ops.filter(op => {
-    if (op.attributes && op.attributes.highlight) {
-      return false;
+    // Group highlights with the same comment id together
+    if (highlightsWithComments[commentId]) {
+      highlightsWithComments[commentId].push({ content, index, length });
+    } else {
+      highlightsWithComments[commentId] = [{ content, index, length }];
     }
-    return true;
   });
 
-  return filteredOps;
+  const formattedHighlights = Object.entries(highlightsWithComments).reduce(
+    (result, [commentId, highlights]) => {
+      result[commentId] = highlights.map(({ content, index, length }) => {
+        return {
+          range: {
+            from: index,
+            to: index + length,
+          },
+        };
+      });
+      return result;
+    },
+    {}
+  );
+
+  return formattedHighlights;
 }
-
-

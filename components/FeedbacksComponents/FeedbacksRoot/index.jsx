@@ -310,21 +310,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
   
 
-
-
-
-
-
-
-
-
-
   function updateCommentsRange(answer) {
     const quill = quillRefs.current[answer.serialNumber - 1];
     // consraole.log(quill)
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+    console.log("highlightsWithCommentsData", highlightsWithCommentsData)
+    const mergedHighlights = {};
+
+    Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
+      const mergedRange = {
+        range: {
+          from: ranges[0].range.from,
+          to: ranges[ranges.length - 1].range.to
+        }
+      };
+      mergedHighlights[commentId] = [mergedRange];
+    });
+
+    console.log("mergedHighlights", mergedHighlights)
+
     const transformedData = flatMap(
-      Object.entries(highlightsWithCommentsData),
+      Object.entries(mergedHighlights),
       ([commentId, highlights]) => {
         return highlights.map((highlight) => {
           const { content, range } = highlight;
@@ -332,13 +338,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         });
       }
     );
+    console.log("transformedData", transformedData)
+
 
     // Use Array.prototype.map to create an array of commentIds
     const commentIdsArray = transformedData.map(
       ({ commentId }) => commentId
     );
-
-
+    console.log("commentIdsArray", commentIdsArray)
 
     const commentsForAnswer = comments.filter(
       (comment) => comment.questionSerialNumber === answer.serialNumber
@@ -357,6 +364,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     );
 
     const finalData = transformedData.concat(missingCommentsWithZeroRange);
+    console.log("finalData", finalData)
+
     const promises = finalData.map(({ commentId, range }) => {
       return updateFeedbackRange(submission.id, commentId, range);
     });

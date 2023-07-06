@@ -37,6 +37,7 @@ function CreateAAssignmentLaptop(props) {
     buttons21Props,
     goBack22Props,
     showDeletePopuphandler,
+    showPublishPopuphandler
   } = props;
 
   
@@ -44,15 +45,15 @@ function CreateAAssignmentLaptop(props) {
     const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
     return <TitleContainer>
       {title}
-      {saveButtons(assignment, saveDraft, publish)}
+      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
     </TitleContainer>;
   }
-  const saveButtons = (assignment, saveDraft, publish)=> {
+  const saveButtons = (assignment, saveDraft, publish, showPublishPopuphandler)=> {
     if (assignment.status === "DRAFT") {
     return <Frame12191>
       <SLink onClick={e=>saveDraft(e)}>Save as draft</SLink>
       <Buttons1>
-        <Button onClick={publish}>Publish</Button>
+        <Button onClick={showPublishPopuphandler}>Publish</Button>
       </Buttons1>
     </Frame12191>
     } 
@@ -136,7 +137,7 @@ function CreateAAssignmentLaptop(props) {
               />
               <Frame12191>
               <Frame1372>
-                {saveButtons(assignment, saveDraft, publish)}
+                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
               </Frame1372>
               </Frame12191>
             </Frame1372>

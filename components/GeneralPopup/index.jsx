@@ -1,41 +1,22 @@
 import React from 'react'
 import styled from "styled-components";
-import {deleteAssignment, updateAssignment} from "../../service";
-import SnackbarContext from "../SnackbarContext";
 import { isMobileView } from "../ReactiveRender";
-import { IbmplexsansNormalShark20px , IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
+import { IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
 
-export default function DeleteAssignmentPopup(props) {
+export default function GeneralPopup(props) {
 
-  const { showSnackbar } = React.useContext(SnackbarContext);
-
-  const {assignment, hidedeletePopup} = props;
-
-  console.log("###assignment", assignment);
-
-  const deleteAssignmentHandler = () => {
-      deleteAssignment(assignment.id).then((res) => {
-        window.location.href = "#tasks";
-        window.location.reload();
-      });    
-      hidedeletePopup();
-      showSnackbar("Task deleted");
-};
-
-const textContent = `Are you sure you want to permanently delete ${assignment?.title}?`;
+const {hidePopup, buttonText, textContent, title, confirmButtonAction} = props;
 
 const content =<><TitleContainer>
-<Arrowright src="/icons/trash-can.svg" alt="delete" />
-<DeleteTitle>Delete task</DeleteTitle>
+<DeleteTitle>{title}</DeleteTitle>
 </TitleContainer>
 <Line141 src="/img/line-14@2x.png" />
 <TextContent>{textContent}</TextContent>
 <ButtonsContainer>
-<CancelButton onClick={ ()=> hidedeletePopup()}>Cancel</CancelButton>
-<DeleteButton onClick={deleteAssignmentHandler}>
-<ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
-Delete permanently
-</DeleteButton>
+<ProceedButton onClick={ ()=> hidePopup()}>Cancel</ProceedButton>
+<CancelButton onClick={()=> confirmButtonAction()}>
+{buttonText}
+</CancelButton>
 </ButtonsContainer>
 </>;
 
@@ -114,7 +95,7 @@ transition: all 0.2s ease-in-out;
     }
 `;
 
-const DeleteButton = styled.div`
+const ProceedButton = styled.div`
 ${IbmplexsansSemiBoldWhite16px}
 display: inline-flex;
 padding: 8px 16px;

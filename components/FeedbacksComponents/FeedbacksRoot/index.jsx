@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import styled from "styled-components";
+import GeneralPopup from "../../GeneralPopup";
 
 import {
   addFeedback,
@@ -43,7 +44,7 @@ import { extractStudents, getComments, getPageMode } from "./functions";
 import { TextField } from "@mui/material";
 import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 import SnackbarContext from "../../SnackbarContext";
-import { sub } from "date-fns";
+
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -71,6 +72,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
+
+  const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
 
   const isTeacher = getUserRole() === "TEACHER";
   const defaultMarkingCriteria = getDefaultCriteria();
@@ -599,6 +602,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     
   }
   const handleSaveSubmissionForReview = () => {
+    setShowSubmitPopup(false);
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
@@ -940,6 +944,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
    const markingCriteriaToUpdate = submission.assignment.questions[questionSerialNumber-1].markingCriteria;
    markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel=selectedLevel;
   }
+  
+
+  const hideSubmitPopup = () => { 
+    setShowSubmitPopup(false);
+  }
+  const showSubmitPopuphandler = (assignmentId) => {
+    setShowSubmitPopup(true);
+  }
 
   const methods = {
     createDebounceFunction,
@@ -973,11 +985,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateParentComment,
     updateChildComment,
     handleMarkingCriteriaLevelFeedback,
+    showSubmitPopuphandler
   };
 
   const shortcuts = getShortcuts();
 
   return (
+    <>
+    {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent="Are you sure you want to submit task?" buttonText="Submit" confirmButtonAction={handleSaveSubmissionForReview} />}
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile
@@ -1076,6 +1091,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         />
       }
     />
+    </>
   );
 }
 

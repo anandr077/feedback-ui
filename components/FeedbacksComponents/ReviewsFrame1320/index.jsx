@@ -49,8 +49,8 @@ function ReviewsFrame1320(props) {
         onClick={handleResolved}
         style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
       >
-        {children[1]}
-        {"(" + resolvedComment() + ")"}
+        <span>{children[1]} </span>
+        <span>{"(" + resolvedComment() + ")"}</span>
       </Feedback>
       
     </Frame13201>
@@ -98,6 +98,8 @@ const Feedback = styled.div`
     display: none;
   }
   cursor: pointer;
+  display: flex;
+  gap: 2px;
 `;
 
 export default ReviewsFrame1320;

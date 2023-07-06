@@ -19,8 +19,14 @@ function ReviewsFrame132532(props) {
     commentId = null,
     handleEditComment,
     pageMode,
-    onClick
+    onClick,
+    isClosable
   } = props;
+  const closeFrame = isClosable ? (
+    <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
+  ) : (
+    <></>
+  );
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
   const componentRef = React.useRef(null);
@@ -134,6 +140,9 @@ function ReviewsFrame132532(props) {
       (
         <More onClick={handleMoreClick} src="/icons/three-dot.svg" ref={componentRef}/>
       )}
+      
+      {closeFrame}
+      
       {openEditDeleteTemplate}
     </Frame1325>
   );

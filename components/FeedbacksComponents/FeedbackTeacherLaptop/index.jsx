@@ -32,7 +32,7 @@ import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
-import ReviewsFrame1320 from "../ReviewsFrame1320";
+import Tabs from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
 import FocusAreasFrame from "../FocusAreasFrame";
 import Loader from "../../Loader";
@@ -63,23 +63,27 @@ function FeedbackTeacherLaptop(props) {
   } = props;
 
   const [isFeedback, setFeedback] = React.useState(true);
-  const [isResolvedClick, setResolvedClick] = React.useState(false);
-  const commentsFrame = sortBy(comments, [
+  const [isResolved, setResolved] = React.useState(false);
+  const [isFocusAreas, setFocusAreas] = React.useState(false);
+  const commentsForSelectedTab = selectTabComments(isFeedback, isResolved, isFocusAreas, comments)
+  
+  const commentsFrame = sortBy(commentsForSelectedTab, [
     "questionSerialNumber",
     "range.from",
   ]).map((comment) => {
     console.log("Comment ", comment);
     if (comment.type === "FOCUS_AREA") {
-      return (
-        <CommentCard32
-          reviewer={comment.reviewerName}
-          comment={comment}
-          onClick={(c) => methods.handleCommentSelected(c)}
-          isTeacher={isTeacher}
-          defaultComment={false}
-          pageMode={pageMode}
-        />
-      );
+      return <CommentCard32
+                  reviewer={comment.reviewerName}
+                  comment={comment}
+                  onClick={(c) => methods.handleCommentSelected(c)}
+                  isTeacher={isTeacher}
+                  defaultComment={false}
+                  pageMode={pageMode}
+                  onClose={() => {
+                    methods.handleDeleteComment(comment.id);
+                  }}
+                />
     }
     return isFeedback && comment.status !== "RESOLVED" ? (
       <CommentCard32
@@ -100,7 +104,7 @@ function FeedbackTeacherLaptop(props) {
         updateChildComment={methods.updateChildComment}
         pageMode={pageMode}
       />
-    ) : isResolvedClick && comment.status === "RESOLVED" ? (
+    ) : isResolved && comment.status === "RESOLVED" ? (
       <CommentCard32
         reviewer={comment.reviewerName}
         comment={comment}
@@ -144,16 +148,17 @@ function FeedbackTeacherLaptop(props) {
     return (
       <Frame1331 id="feedbacksFrame">
         <Frame1322>
-          <ReviewsFrame1320
+          <Tabs
             setFeedback={setFeedback}
-            setResolvedClick={setResolvedClick}
+            setResolved={setResolved}
+            setFocusAreas={setFocusAreas}
             isFeedback={isFeedback}
-            isResolvedClick={isResolvedClick}
+            isFocusAreas={isFocusAreas}
+            isResolvedClick={isResolved}
             isTeacher={isTeacher}
             comments={comments}
           >
-            {frame13201Props.children}
-          </ReviewsFrame1320>
+          </Tabs>
         </Frame1322>
         <>
           {showNewComment ? (
@@ -397,20 +402,19 @@ function FeedbackTeacherLaptop(props) {
         newCommentSerialNumber - 1
       ].focusAreaIds.includes(fa.id);
     });
-    return (
-      <>
-        <Frame1329>
-          <Frame1406>
-            <Line6 src="/icons/line.png" alt="Line 6" />
-            <FocusAreasFrame
-              focusAreas={focusAreas}
-              handleAddFocusArea={methods.handleFocusAreaComment}
-            />
-            {/* {shareWithClassFrame()} */}
-          </Frame1406>
-        </Frame1329>
-      </>
-    );
+    const focusAreasFrame = <>
+    <Frame1329>
+      <Frame1406>
+        <Line6 src="/icons/line.png" alt="Line 6" />
+        <FocusAreasFrame
+          focusAreas={focusAreas}
+          handleAddFocusArea={methods.handleFocusAreaComment}
+        />
+      </Frame1406>
+    </Frame1329>
+  </>
+
+    return (focusAreasFrame);
   }
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
@@ -540,7 +544,7 @@ function FeedbackTeacherLaptop(props) {
         ref={(editor) =>
           methods.handleEditorMounted(editor, answer.serialNumber - 1)
         }
-        comments={comments?.filter((comment) => {
+        comments={commentsForSelectedTab?.filter((comment) => {
           return comment.questionSerialNumber === answer.serialNumber;
         })}
         value={answerValue ? answerValue : ""}
@@ -555,7 +559,19 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+const selectTabComments=(isFeedback, isResolved, isFocusAreas, comments) => {
+  console.log("selectTabComments")
+  if (isFocusAreas) {
+    return comments.filter(comment => comment.type === "FOCUS_AREA")
+  }
+  if (isResolved) {
+    return comments.filter(comment => comment.status ==="RESOLVED")
+  }
+  const c = comments.filter(comment => comment.type !== "FOCUS_AREA" )
+  console.log("c" ,  c)
 
+  return c
+}
 const AwaitFeedbackContainer = styled.div`
   display: flex;
   flex-direction: row;

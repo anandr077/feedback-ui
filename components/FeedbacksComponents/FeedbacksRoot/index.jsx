@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import styled from "styled-components";
+
 import {
   addFeedback,
   updateFeedback,
@@ -304,59 +305,80 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-        const quill = quillRefs.current[answer.serialNumber - 1];
-        // consraole.log(quill)
-        const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-        console.log("getAllHighlightsWithComments" + JSON.stringify(highlightsWithCommentsData))
-        const transformedData = flatMap(
-            Object.entries(highlightsWithCommentsData),
-            ([commentId, highlights]) => {
-              return highlights.map((highlight) => {
-                const { content, range } = highlight;
-                return { commentId, range };
-              });
-            }
-          );
-
-          // Use Array.prototype.map to create an array of commentIds
-          const commentIdsArray = transformedData.map(
-            ({ commentId }) => commentId
-          );
-
-
-
-
-        const commentsForAnswer = comments.filter(
-          (comment) => comment.questionSerialNumber === answer.serialNumber
-        );
-        const missingComments = filter(
-          commentsForAnswer,
-          (comment) => !includes(commentIdsArray, comment.id)
-        );
-        const missingCommentsWithZeroRange = map(
-          missingComments,
-          (comment) => ({
-            commentId: comment.id,
-            range: { from: 0, to: 0 },
-          })
-        );
-
-        const finalData = transformedData.concat(missingCommentsWithZeroRange);
-        const promises = finalData.map(({ commentId, range }) => {
-          return updateFeedbackRange(submission.id, commentId, range);
-        });
-
-        Promise.all(promises).then((results) => {
-          getComments(submission.id).then((cmts) => {
-            console.log("cmts", cmts)
-            const cmts2 = (cmts ? cmts : []);
-            setComments(cmts2);
-            handleChangeText("All changes saved", true);
-          });
-        });
-      
+        return updateCommentsRange(answer);
     });
   };
+  
+
+  function updateCommentsRange(answer) {
+    const quill = quillRefs.current[answer.serialNumber - 1];
+    // consraole.log(quill)
+    const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+    console.log("highlightsWithCommentsData", highlightsWithCommentsData)
+    const mergedHighlights = {};
+
+    Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
+      const mergedRange = {
+        range: {
+          from: ranges[0].range.from,
+          to: ranges[ranges.length - 1].range.to
+        }
+      };
+      mergedHighlights[commentId] = [mergedRange];
+    });
+
+    console.log("mergedHighlights", mergedHighlights)
+
+    const transformedData = flatMap(
+      Object.entries(mergedHighlights),
+      ([commentId, highlights]) => {
+        return highlights.map((highlight) => {
+          const { content, range } = highlight;
+          return { commentId, range };
+        });
+      }
+    );
+    console.log("transformedData", transformedData)
+
+
+    // Use Array.prototype.map to create an array of commentIds
+    const commentIdsArray = transformedData.map(
+      ({ commentId }) => commentId
+    );
+    console.log("commentIdsArray", commentIdsArray)
+
+    const commentsForAnswer = comments.filter(
+      (comment) => comment.questionSerialNumber === answer.serialNumber
+    );
+    const missingComments = filter(
+      commentsForAnswer,
+      (comment) => !includes(commentIdsArray, comment.id)
+    );
+
+    const missingCommentsWithZeroRange = map(
+      missingComments,
+      (comment) => ({
+        commentId: comment.id,
+        range: { from: 0, to: 0 },
+      })
+    );
+
+    const finalData = transformedData.concat(missingCommentsWithZeroRange);
+    console.log("finalData", finalData)
+
+    const promises = finalData.map(({ commentId, range }) => {
+      return updateFeedbackRange(submission.id, commentId, range);
+    });
+
+    Promise.all(promises).then((results) => {
+      getComments(submission.id).then((cmts) => {
+        console.log("cmts", cmts);
+        const cmts2 = (cmts ? cmts : []);
+        setComments(cmts2);
+        handleChangeText("All changes saved", true);
+      });
+    });
+  }
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId)
@@ -1141,9 +1163,6 @@ const feedbacksFrame1366422Data = {
     "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
 };
 
-const feedbacksFrame13203Data = {
-  children: ["Feedback", "Resolved"],
-};
 
 const feedbacksFrame13204Data = {
   children: "Shortcuts",
@@ -1210,7 +1229,6 @@ const feedbacksFeedbackTeacherLaptopData = {
   frame13172Props: feedbacksFrame1317224Data,
   frame136641Props: feedbacksFrame1366421Data,
   frame136642Props: feedbacksFrame1366422Data,
-  frame13201Props: feedbacksFrame13203Data,
   frame13202Props: feedbacksFrame13204Data,
   frame1333Props: feedbacksFrame13332Data,
   commentCard31Props: feedbacksCommentCard321Data,

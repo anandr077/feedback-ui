@@ -2,26 +2,32 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
-function ReviewsFrame1320(props) {
+function Tabs(props) {
   const {
-    isFocusAreas,
-    children,
     className,
     setFeedback,
-    setResolvedClick,
+    setResolved,
+    setFocusAreas,
+    isFocusAreas,
     isFeedback,
     isResolvedClick,
-    isTeacher,
     comments,
   } = props;
+  function handleFocusAreas() {
+    setFeedback(false);
+    setResolved(false);
+    setFocusAreas(true);
+  }
   function handleFeedback() {
     setFeedback(true);
-    setResolvedClick(false);
+    setResolved(false);
+    setFocusAreas(false);
   }
 
   function handleResolved() {
     setFeedback(false);
-    setResolvedClick(true);
+    setResolved(true);
+    setFocusAreas(false);
   }
 
   function resolvedComment() {
@@ -41,7 +47,7 @@ function ReviewsFrame1320(props) {
         onClick={handleFeedback}
         style={{ color: isFeedback ? "#301B72" : "#79738C" }}
       >
-        {children[0]}
+        {"Feedback"}
       </Feedback>
       
       <Feedback
@@ -49,10 +55,16 @@ function ReviewsFrame1320(props) {
         onClick={handleResolved}
         style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
       >
-        <span>{children[1]} </span>
-        <span>{"(" + resolvedComment() + ")"}</span>
+        {"Resolved"}
+        {"(" + resolvedComment() + ")"}
       </Feedback>
-      
+      <Feedback
+        className="feedback"
+        onClick={handleFocusAreas}
+        style={{ color: isFocusAreas ? "#301B72" : "#79738C" }}
+      >
+        {"Focus Areas"}
+      </Feedback>
     </Frame13201>
   );
 }
@@ -102,4 +114,4 @@ const Feedback = styled.div`
   gap: 2px;
 `;
 
-export default ReviewsFrame1320;
+export default Tabs;

@@ -39,8 +39,10 @@ const QuillEditor = React.forwardRef(
             };
             console.log("Highlighting "+ comment.color)
             editor.formatText(range.index, range.length, {
-              highlight: comment.id,
-              background: createBackground()
+              highlight: {
+                commentId: comment.id,
+                background: createBackground()
+              }
             });
           }
 
@@ -71,17 +73,17 @@ const QuillEditor = React.forwardRef(
       const handleDebounce = () => {
         // Get the contents of the editor as a Delta object
         const delta = editor.getContents();
-
+        console.log("delta", delta)
         // Filter out the highlight attributes from the Delta object
         const filteredOps = delta.ops.map((op) => {
           if (op.attributes && op.attributes.highlight) {
-            const newAttributes = { ...op.attributes };
-            delete newAttributes.highlight;
+            const { background, highlight, ...newAttributes } = op.attributes;
             return { ...op, attributes: newAttributes };
           }
           return op;
         });
-
+        
+        console.log("delta", filteredOps)
         // Create a new Delta object with the filtered operations
         const filteredDelta = new Quill.imports.delta(filteredOps);
 
@@ -202,10 +204,7 @@ function removeAllHighlights(editor) {
       return highlights.map((highlight) => {
         const { content, range } = highlight;
         console.log("Rem " , range)
-        // editor.formatText(range.from, range.to - range.from, 
-        //   "highlight", false);
-          editor.removeFormat(range.from, range.to - range.from, "highlight");
-
+        editor.removeFormat(range.from, range.to - range.from, "highlight");
         return { commentId, range };
       });
     }
@@ -252,4 +251,3 @@ function getHighlights(editor) {
 
   return formattedHighlights;
 }
-

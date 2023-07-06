@@ -45,6 +45,7 @@ export const ImageDropdownMenu = (props) => {
       setAnchorEl(null);
     }
   };
+  console.log("selectedItem", selectedItem)
 
   const getItem = (item) => {
     return<>
@@ -86,7 +87,7 @@ export const ImageDropdownMenu = (props) => {
         </IconButton>
         <div className="text-container" onClick={handleClick}>
           <p>
-            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem.title || selectedItem.name)}/>
+            <StyledListItemText primary=  {primaryText ? primaryText:( selectedItem?.title || selectedItem?.name)}/>
           </p>
         </div>
         <IconButton onClick={handleClick}>

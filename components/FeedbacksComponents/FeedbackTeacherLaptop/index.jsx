@@ -202,7 +202,7 @@ function FeedbackTeacherLaptop(props) {
       return (
         <Buttons2
           button="Submit"
-          onClickFn={() => methods.handleSaveSubmissionForReview()}
+          onClickFn={() => methods.showSubmitPopuphandler()}
         ></Buttons2>
       );
     }
@@ -225,7 +225,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           <Buttons2
             button="Submit"
-            onClickFn={() => methods.handleSaveSubmissionForReview()}
+            onClickFn={() => methods.showSubmitPopuphandler()}
           ></Buttons2>
         </>
       );

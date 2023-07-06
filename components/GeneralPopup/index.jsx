@@ -13,10 +13,10 @@ const content =<><TitleContainer>
 <Line141 src="/img/line-14@2x.png" />
 <TextContent>{textContent}</TextContent>
 <ButtonsContainer>
-<CancelButton onClick={ ()=> hidePopup()}>Cancel</CancelButton>
-<ProceedButton onClick={()=> confirmButtonAction()}>
+<ProceedButton onClick={ ()=> hidePopup()}>Cancel</ProceedButton>
+<CancelButton onClick={()=> confirmButtonAction()}>
 {buttonText}
-</ProceedButton>
+</CancelButton>
 </ButtonsContainer>
 </>;
 

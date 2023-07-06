@@ -56,7 +56,7 @@ function Tabs(props) {
         style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
       >
         {"Resolved"}
-        {" (" + resolvedComment() + ")"}
+        {"(" + resolvedComment() + ")"}
       </Feedback>
       <Feedback
         className="feedback"
@@ -110,6 +110,8 @@ const Feedback = styled.div`
     display: none;
   }
   cursor: pointer;
+  display: flex;
+  gap: 2px;
 `;
 
 export default Tabs;

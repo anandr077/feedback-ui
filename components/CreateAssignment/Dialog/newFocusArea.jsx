@@ -63,10 +63,10 @@ export default function FocusAreaDialog({ handleData, colors }) {
               id="description"
               value={description}
               onChange={handleDescriptionChange}
-              placeholder="Add short description"
+              placeholder="Add short description(optional)"
             />
             <ParentColorBox>
-              <div>Pick focus area color*</div>
+              <div>Pick focus area colour*</div>
               <SelectColorBox>
                 {colors.map((color) => {
                   return (
@@ -79,7 +79,7 @@ export default function FocusAreaDialog({ handleData, colors }) {
                 })}
               </SelectColorBox>
               <ShowSelectedColor>
-                SelectedColor: <Ellipse141 backgroundColor={selectedColor} />
+                Selected Colour: <Ellipse141 backgroundColor={selectedColor} />
               </ShowSelectedColor>
               {error && !selectedColor && (
                 <ErrorMessage>

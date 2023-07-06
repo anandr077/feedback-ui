@@ -13,7 +13,7 @@ import { denyModelResponse, publishModelResponse, getUserRole, getUserId } from 
 function TaskCard(props) {
  const { showSnackbar } = React.useContext(SnackbarContext);
 
- const { task, small, exemplar, isSelected, setPublishActionCompleted, showDeletePopuphandler } = props;
+ const { task, small, exemplar, isSelected, setPublishActionCompleted, showDeletePopuphandler, showDateExtendPopuphandler} = props;
 
  const role = getUserRole();
  const userId = getUserId();
@@ -83,7 +83,7 @@ function createTaskCard(task, refContainer, isSelected, exemplar, small, showSna
   return <a href={task.link}>
     <StyledCard ref={refContainer} isSelected={isSelected}>
       {exemplar ? <></> : tagsFrame(task)}
-      <CardContent task={cardContents(task, exemplar)} small={small} />
+      <CardContent task={cardContents(task, exemplar)} taskDetails={task} showDateExtendPopuphandler={showDateExtendPopuphandler} small={small} />
     </StyledCard>
   </a>;
 }
@@ -95,7 +95,7 @@ function cardContents(task, exemplar, acceptExemplar) {
       para:task.title,
       // subTitle:"Teacher's Comment",
       // subPara:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.",
-      date:task.reviewDueAt?task.reviewDueAt:task.dueAt,
+      date:task.dueAt,
       status1:task.submissionCount?`Submissions: ${task.submissionCount} of ${task.expectedSubmissions}`:null,
       status2:task.submissionCount?`Reviewed: ${task.reviewCount} of ${task.submissionCount}`:null,
     };

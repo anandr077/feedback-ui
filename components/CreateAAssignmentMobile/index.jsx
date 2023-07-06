@@ -161,7 +161,7 @@ function CreateAAssignmentMobile(props) {
 const TitleContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  width: 93%;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
@@ -366,11 +366,16 @@ const Frame1372 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
+  font-size: 36px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
 `;
 
 const Frame1374 = styled.div`

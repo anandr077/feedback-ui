@@ -255,16 +255,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }}
       open={showShareWithClass}
     >
-      <Box padding={4}>
+    <DialogContiner>
         <StyledTextField
           multiline
-          label="Add comment"
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
           error={!isValidComment}
-          helperText={!isValidComment ? "Please enter your comment here" : ""}
+          helperText={!isValidComment ? "Field cannot be empty" : "Enter response to share with class"}
         />
+        <ActionButtonsContainer>
         <DialogActions>
           <SubmitCommentFrameRoot
             submitButtonOnClick={addExemplerComment}
@@ -275,7 +275,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             }}
           />
         </DialogActions>
-      </Box>
+        </ActionButtonsContainer>
+  
+      </DialogContiner>
     </Dialog>
   );
 
@@ -1054,30 +1056,49 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     />
   );
 }
+
+
 const isTeacher = getUserRole() === "TEACHER";
+
+const ActionButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-self: flex-end;
+  margin-left:100px;
+
+  gap: 20px;
+  width: 100%;
+`;
+
+const DialogContiner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px 10px 20px;
+  gap: 20px;
+`;
+
+
 
 const StyledTextField = styled(TextField)`
   width: 100%;
-  margin-bottom: 20px;
+
   .MuiOutlinedInput-root {
-    ${IbmplexsansNormalShark20px}
-    border-radius: 0px;
-    border-color: var(--light-mode-purple);
+    border-radius: 10px; /* Set your desired border radius value */
+    border-color:  #F1E7FF;
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: var(--light-mode-purple) ; 
+    }
   }
-  .MuiOutlinedInput-root {
-    border-color: var(--light-mode-purple);
-  }
-  label {
-    ${IbmplexsansNormalShark20px}
-    color: var(--light-mode-purple);
-    border-color: var(--light-mode-purple);
-  }
+
   .MuiInputBase-input {
-    ${IbmplexsansNormalShark20px}
-    border-color:var(--light-mode-purple);
+   border-color:  #F1E7FF;
   }
 `;
-
 
 const feedbacksNavElement1Data = {
   home3: "/img/home3-1@2x.png",

@@ -233,6 +233,9 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
   const createFocusAreasLabel = (focusAreas) => {
+    if (focusAreas?.size === 0) {
+      return <></>
+    }
     const label = <Label>Focus areas : </Label>;
     const all = focusAreas?.map((fa) => {
       return (

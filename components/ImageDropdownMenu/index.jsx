@@ -111,8 +111,9 @@ export const ImageDropdownMenu = (props) => {
       sx={{
 
     "& .MuiPaper-root": {
-      minWidth: fullWidth ? "81%" : markingCriteriaType ? "10%" : undefined,
+      minWidth: fullWidth ? "81%" :  undefined,
       borderRadius: markingCriteriaType ? "12px" : undefined,
+      width: markingCriteriaType ? "20%" : undefined,
     },
     "& .MuiMenu-paper": {
       "& .MuiList-root": {
@@ -133,8 +134,8 @@ export const ImageDropdownMenu = (props) => {
           markingCriteriaType ?
           <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
             <MarkingOptionContainer>
-              <StyledListItemTextBold primary={item.name} />
-              <StyledListItemText primary={item.description} />
+              <StyledListItemTextBold primary={item.name} secondary ={item.description} />
+              {/* <StyledListItemText secondary=/> */}
             </MarkingOptionContainer>
           </StyledMenuItem>
           :
@@ -151,21 +152,6 @@ export const ImageDropdownMenu = (props) => {
         </>
       ))}
     </Menu>
-    <style>{`
-      .text-container {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
-  
-      .text-container:hover {
-        background-color: rgba(0, 0, 0, 0.04);
-      }
-  
-      .text-container p {
-        margin: 0;
-      }
-    `}</style>
   </div>
   );
 };
@@ -299,9 +285,24 @@ const StyledListItemTextBold = styled(ListItemText)`
   .MuiTypography-root {
     ${IbmplexsansSemiBoldShark20px}
     font-size: 14px;
-    
+    font-weight: bold; 
+  }
+
+  .MuiTypography-root.MuiListItemText-secondary {
+    font-weight: normal;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    word-break: break-word;
+    white-space: normal;
   }
 `;
+
+
+
+
+
+
 const Frame12841 = styled.img`
   position: relative;
   min-width: 16px;

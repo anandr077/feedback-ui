@@ -9,25 +9,33 @@ import SnackbarContext from "../SnackbarContext"
 
 import StatusBubbleContainer from "../StatusBubblesContainer";
 import { denyModelResponse, publishModelResponse, getUserRole, getUserId } from "../../service";
+import { set } from "lodash";
 
 function TaskCard(props) {
  const { showSnackbar } = React.useContext(SnackbarContext);
+
+ const [showMoreOptions, setShowMoreOptions] = React.useState(false);
 
  const { task, small, exemplar, isSelected, setPublishActionCompleted, showDeletePopuphandler, showDateExtendPopuphandler} = props;
 
  const role = getUserRole();
  const userId = getUserId();
  
+ const handleClickOutside = (event) => {
+  if (refContainer.current && !refContainer.current.contains(event.target)) {
+    setShowMoreOptions(false);
+  }
+};
 
  const refContainer = useRef(null); 
  useEffect(() => { 
+  document.addEventListener('click', handleClickOutside);
   if (isSelected) {
     refContainer.current.scrollIntoView({ behavior: "smooth", block: "start" }); 
   }
   }
  );
   
-
 
 const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
   return <Frame12191>
@@ -83,7 +91,7 @@ function createTaskCard(task, refContainer, isSelected, exemplar, small, showSna
   return <a href={task.link}>
     <StyledCard ref={refContainer} isSelected={isSelected}>
       {exemplar ? <></> : tagsFrame(task)}
-      <CardContent task={cardContents(task, exemplar)} taskDetails={task} showDateExtendPopuphandler={showDateExtendPopuphandler} small={small} />
+      <CardContent task={cardContents(task, exemplar)} small={small} />
     </StyledCard>
   </a>;
 }
@@ -111,12 +119,26 @@ function cardContents(task, exemplar, acceptExemplar) {
   };
 }
 
+const handleMore = (event, task) => {
+  event.stopPropagation();
+  event.preventDefault();
+  // showDeletePopuphandler(task);
+  setShowMoreOptions(!showMoreOptions);
+};
+
 const handleDelete = (event, task) => {
   event.stopPropagation();
   event.preventDefault();
   showDeletePopuphandler(task);
-};
+}
 
+
+const handleDateUpdate = (event, task) => {
+  event.stopPropagation();
+  event.preventDefault();
+  showDateExtendPopuphandler(task);
+  
+};
 
 function tagsFrame(task) {
   if (task.tags && task.tags.length > 0) {
@@ -124,21 +146,33 @@ function tagsFrame(task) {
     <StatusBubbleContainer tags={task?.tags ?? []} />
    { role === "TEACHER" && 
    userId === task.teacherId &&
-   <DeleteButtonContainer onClick={(event) => handleDelete(event, task)}>
-    <Arrowright src="/icons/delete-assignment.svg" alt="delete" />
+   <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
+    <IconContainer src="/icons/three-dot.svg" alt="delete" />
     </DeleteButtonContainer>}
+    {showMoreOptions && moreOptions}
     </BubbleContainer> 
   }
   return<>{ role === "TEACHER" && 
  userId === task.teacherId &&
  <DeleteButtonContainerOnly >
- <DeleteButtonContainer onClick={(event) => handleDelete(event, task)}>
-  <Arrowright src="/icons/delete-assignment.svg" alt="delete" />
+ <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
+  <IconContainer src="/icons/three-dot.svg" alt="delete" />
   </DeleteButtonContainer>
   </DeleteButtonContainerOnly>}
+  {showMoreOptions && moreOptions}
 </>;
 }
 
+const moreOptions= <MoreOptionsWrapper>
+<MoreOptions onClick={(event) => handleDateUpdate(event,task)} >
+  <IconContainer src="/icons/edit-purple-icon.svg" />
+  <div>Extend</div>
+</MoreOptions>
+<MoreOptions onClick={(event) => handleDelete(event,task)} >
+  <IconContainer src="/icons/delete-purple-icon.svg" />
+  <div>Delete</div>
+</MoreOptions>
+</MoreOptionsWrapper>;
 
   return (<>
     {createTaskCard(task, refContainer, isSelected, exemplar, small, showSnackbar, setPublishActionCompleted)}
@@ -146,26 +180,52 @@ function tagsFrame(task) {
   );
 }
 
+const MoreOptionsWrapper = styled.div`
+  position: absolute;
+  right: 2px;
+  top: 18px;
+  display: inline-flex;
+  padding: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(114, 0, 224, 0.1);
+  background: #fff;
+  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
+  z-index: 2;
+`;
 
-const Arrowright = styled.img`
+const MoreOptions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #7200e0;
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
+const IconContainer = styled.img`
   position: relative;
-  min-width: 12px;
-  height: 12px;
+  min-width: 20px;
+  height: 20px;
 `;
 
 const DeleteButtonContainer = styled.div`
 display: flex;
-padding: 6px 7px;
+
 align-items: flex-start;
-gap: 10px;
-border-radius: 6px;
-border: 1px solid #B3A9BC;
-background: #FFF;
+
 cursor: pointer;
 transition: all 0.2s ease-in-out;
 z-index: 1;
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.3);
   }
 `;
 

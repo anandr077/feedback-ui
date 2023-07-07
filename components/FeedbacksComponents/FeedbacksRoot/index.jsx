@@ -962,22 +962,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const hideSubmitPopup = () => { 
     setShowSubmitPopup(false);
   }
-  const showSubmitPopuphandler = (method) => {
-    
+  const showSubmitPopuphandler = (method) => { 
     setShowSubmitPopup(true);
-    console.log("###showSubmitPopuphandler",method);
     setMethodToCall(method);
     if(method === "SubmitForReview"){
       setPopupText("Are you sure you want to submit this task for review?");
-      // setMethodToCall(() => handleSaveSubmissionForReview())
     }
     else if(method === "SubmitReview"){
       setPopupText("Are you sure you want to submit feedback for this task?");
-      // setMethodToCall(()=> handleSubmissionReviewed())
     }
     else if(method === "CloseSubmission"){
       setPopupText("Are you sure you want to close this task?");
-      // setMethodToCall(handleSubmissionClosed)
     }
     
   }

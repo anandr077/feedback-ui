@@ -318,7 +318,7 @@ function FeedbackTeacherLaptop(props) {
                 }
               />
             )}
-          {submission.status === "REVIEWED" &&
+          {(submission.status === "REVIEWED" || submission.status=== "CLOSED" )&&
             markingCriteriaFeedback?.length > 0 &&
             submission.assignment.questions[answer.serialNumber - 1].type !=
               "MCQ" && (

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalElectricViolet16px } from "../../../styledMixins";
+import { IbmplexsansNormalElectricViolet16px, feedbacksIbmplexsansNormalStack20px } from "../../../styledMixins";
 
 
 function LevelContainer(props) {
@@ -11,7 +11,7 @@ function LevelContainer(props) {
         <LevelTextInput placeholder="Level Name" value={level?.name} onChange={(e) => updateLevelName(criteriaId, levelId, e.target.value)}/>
       </LevelTitle>
       <LevelDetails>
-        <LevelTextInput placeholder="An answer of this level should..." value={level?.description} onChange={(e) => updateLevelDescription(criteriaId, levelId, e.target.value)}/>
+        <LevelTextDiscription placeholder="An answer of this level should..." value={level?.description} onChange={(e) => updateLevelDescription(criteriaId, levelId, e.target.value)}/>
       </LevelDetails>
     { (levelId != 0 && levelId != 1) && <RemoveButtonContainer>
         <ButtonInnerContainer onClick={() => deleteLevelUpdate(levelId)}>
@@ -27,7 +27,7 @@ function LevelContainer(props) {
 const SingleLevelContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   position: relative;
   align-self: stretch;
@@ -71,6 +71,19 @@ const LevelTextInput = styled.input`
   transition: 0.15s;
 `;
 
+const LevelTextDiscription = styled.textarea`
+  ${feedbacksIbmplexsansNormalStack20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
 const RemoveButtonContainer = styled.div`
   position: relative;
   display: flex;
@@ -85,6 +98,7 @@ const ButtonInnerContainer = styled.div`
   align-items: center;
   min-width: 81px;
   gap: 5px;
+  margin-top: 20px;
 `;
 
 const ButtonImage = styled.img`

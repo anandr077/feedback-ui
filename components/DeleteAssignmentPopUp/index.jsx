@@ -11,8 +11,6 @@ export default function DeleteAssignmentPopup(props) {
 
   const {assignment, hidedeletePopup} = props;
 
-  console.log("###assignment", assignment);
-
   const deleteAssignmentHandler = () => {
       deleteAssignment(assignment.id).then((res) => {
         window.location.href = "#tasks";

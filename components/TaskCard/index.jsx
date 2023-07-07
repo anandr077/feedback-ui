@@ -129,7 +129,14 @@ function tagsFrame(task) {
     </DeleteButtonContainer>}
     </BubbleContainer> 
   }
-  return <></>;
+  return<>{ role === "TEACHER" && 
+ userId === task.teacherId &&
+ <DeleteButtonContainerOnly >
+ <DeleteButtonContainer onClick={(event) => handleDelete(event, task)}>
+  <Arrowright src="/icons/delete-assignment.svg" alt="delete" />
+  </DeleteButtonContainer>
+  </DeleteButtonContainerOnly>}
+</>;
 }
 
 
@@ -161,6 +168,15 @@ z-index: 1;
     transform: scale(1.2);
   }
 `;
+
+
+const DeleteButtonContainerOnly = styled.div`
+display: flex;
+width: 100%;
+justify-content: flex-end;
+`;
+
+
 const BubbleContainer = styled.div`
   display: flex;
   width: 100%;

@@ -135,7 +135,6 @@ export const ImageDropdownMenu = (props) => {
           <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
             <MarkingOptionContainer>
               <StyledListItemTextBold primary={item.name} secondary ={item.description} />
-              {/* <StyledListItemText secondary=/> */}
             </MarkingOptionContainer>
           </StyledMenuItem>
           :

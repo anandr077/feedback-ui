@@ -24,6 +24,7 @@ export default function /*  */MCQQuestionFrame(props) {
     allMarkingCriterias
   } = props;
   const handleOptionChange = (optionSerialNumber, newOption, newIsCorrect) => {
+    if(newOption.length > 140 ){ return;}
     onOptionChange(serialNumber, optionSerialNumber, newOption, newIsCorrect);
   };
  
@@ -79,7 +80,7 @@ export default function /*  */MCQQuestionFrame(props) {
           >
             <QuestionInputEditable
               id={"question_" + serialNumber}
-              placeholder="Type question here"
+              placeholder="Type question here (500 characters max)"
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
               value={questionDetails?.question}
             />
@@ -122,8 +123,10 @@ const OptionsContainer = styled.div`
   gap: 5px;
   padding: 13px 20px;
   align-self: stretch;
+  width: 100%;
 `;
 const OptionInputEditable = styled.input`
+${IbmplexsansNormalShark20px}
   position: relative;
   flex: 1;
   margin-top: -1px;
@@ -140,7 +143,8 @@ const OptionInputEditable = styled.input`
   width: 100%;
 `;
 
-const QuestionInputEditable = styled.input`
+const QuestionInputEditable = styled.textarea`
+${IbmplexsansNormalShark20px}
   position: relative;
   flex: 1;
   margin-top: -1px;

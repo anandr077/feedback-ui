@@ -74,6 +74,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
+  const [methodTocall,setMethodToCall] = React.useState(null);
+  const [popupText,setPopupText] = React.useState(null);
 
   const isTeacher = getUserRole() === "TEACHER";
   const defaultMarkingCriteria = getDefaultCriteria();
@@ -551,6 +553,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   function handleSubmissionReviewed() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
    if(submission.assignment.questions[0].markingCriteria?.title !=""){
     if(validateMarkingCriteria()){
          submission.assignment.questions.map((question)=>{
@@ -603,6 +609,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   const handleSaveSubmissionForReview = () => {
     setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
@@ -628,6 +637,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionClosed() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
@@ -949,8 +962,24 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const hideSubmitPopup = () => { 
     setShowSubmitPopup(false);
   }
-  const showSubmitPopuphandler = (assignmentId) => {
+  const showSubmitPopuphandler = (method) => {
+    
     setShowSubmitPopup(true);
+    console.log("###showSubmitPopuphandler",method);
+    setMethodToCall(method);
+    if(method === "SubmitForReview"){
+      setPopupText("Are you sure you want to submit this task for review?");
+      // setMethodToCall(() => handleSaveSubmissionForReview())
+    }
+    else if(method === "SubmitReview"){
+      setPopupText("Are you sure you want to submit feedback for this task?");
+      // setMethodToCall(()=> handleSubmissionReviewed())
+    }
+    else if(method === "CloseSubmission"){
+      setPopupText("Are you sure you want to close this task?");
+      // setMethodToCall(handleSubmissionClosed)
+    }
+    
   }
 
   const methods = {
@@ -992,7 +1021,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   return (
     <>
-    {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent="Are you sure you want to submit task?" buttonText="Submit" confirmButtonAction={handleSaveSubmissionForReview} />}
+    {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent={popupText} buttonText="Submit" 
+    confirmButtonAction=
+    {methodTocall==="SubmitForReview"?handleSaveSubmissionForReview
+    :(methodTocall==="SubmitReview"?handleSubmissionReviewed
+    :(methodTocall==="CloseSubmission"? handleSubmissionClosed:""))} />}
+
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile

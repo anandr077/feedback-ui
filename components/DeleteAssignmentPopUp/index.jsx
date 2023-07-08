@@ -11,8 +11,6 @@ export default function DeleteAssignmentPopup(props) {
 
   const {assignment, hidedeletePopup} = props;
 
-  console.log("###assignment", assignment);
-
   const deleteAssignmentHandler = () => {
       deleteAssignment(assignment.id).then((res) => {
         window.location.href = "#tasks";
@@ -147,7 +145,7 @@ const DeleteAssignmentPopupContainer = styled.div`
 display: flex;
 justify-content: flex-start;
 flex-direction: column;
-width: 600px;
+width: 500px;
 z-index: 1000;
 align-items: center;
 position: fixed;

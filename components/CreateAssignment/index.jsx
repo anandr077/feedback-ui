@@ -120,6 +120,9 @@ export default function CreateAssignment(props) {
   }
 
   const handleTitleChange = (e) => {
+    if(e.target.value.length > 140) {
+      return;
+    }
     const newTitle = e.target.value;
     setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
   };
@@ -233,6 +236,9 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestion(id, newContent) {
+    if(newContent.length > 500) {
+      return;
+    }
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>

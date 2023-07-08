@@ -58,7 +58,7 @@ export default function TheoryQuestionFrame(props) {
               id={"question_" + serialNumber}
               value={questionDetails?.question}
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
-              placeholder="Type question here"
+              placeholder="Type question here (500 characters max)"
             />
           </QuestionFrame2>
         </InputQuestion>
@@ -352,8 +352,10 @@ const QuestionInput = styled.div`
   line-height: normal;
 `;
 
-const QuestionInputEditable = styled.input`
+const QuestionInputEditable = styled.textarea`
+${IbmplexsansNormalShark20px}
   position: relative;
+  width:100%;
   flex: 1;
   margin-top: -1px;
   letter-spacing: 0;

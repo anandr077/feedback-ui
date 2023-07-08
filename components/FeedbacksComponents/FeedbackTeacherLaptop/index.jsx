@@ -133,7 +133,7 @@ function FeedbackTeacherLaptop(props) {
       return (
         <Buttons2
           button="Submit"
-          onClickFn={() => methods.showSubmitPopuphandler()}
+          onClickFn={() => methods.showSubmitPopuphandler("SubmitForReview")}
         ></Buttons2>
       );
     }
@@ -142,11 +142,11 @@ function FeedbackTeacherLaptop(props) {
         <ButtonsContainer>
           <Buttons2
             button="Submit Feedback"
-            onClickFn={() => methods.handleSubmissionReviewed()}
+            onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
           ></Buttons2>
           <Buttons2
             button="Submit Feedback & Close"
-            onClickFn={() => methods.handleSubmissionClosed()}
+            onClickFn={() =>  methods.showSubmitPopuphandler("CloseSubmission")}
           ></Buttons2>
         </ButtonsContainer>
       );
@@ -156,7 +156,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           <Buttons2
             button="Submit"
-            onClickFn={() => methods.showSubmitPopuphandler()}
+            onClickFn={() => methods.showSubmitPopuphandler("SubmitForReview")}
           ></Buttons2>
         </>
       );
@@ -245,8 +245,10 @@ function FeedbackTeacherLaptop(props) {
                 }
               />
             )}
-          {submission.status === "REVIEWED" &&
+          {(submission.status === "REVIEWED" || submission.status=== "CLOSED" )&&
             markingCriteriaFeedback?.length > 0 &&
+            submission.assignment.questions[answer.serialNumber - 1]
+              .markingCriteria?.title != "No Marking Criteria" &&
             submission.assignment.questions[answer.serialNumber - 1].type !=
               "MCQ" && (
               <MarkingCriteriaFeedbackReadOnly

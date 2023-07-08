@@ -128,7 +128,7 @@ const DeleteAssignmentPopupContainer = styled.div`
 display: flex;
 justify-content: flex-start;
 flex-direction: column;
-width: 600px;
+width: 500px;
 z-index: 1000;
 align-items: center;
 position: fixed;

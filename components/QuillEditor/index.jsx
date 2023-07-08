@@ -6,12 +6,14 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "./styles.css";
 import HighlightBlot from "./HighlightBlot";
+import CustomTooltip from "./CustomTooltip";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { Map } from 'immutable';
 import { groupBy, mapValues, filter } from 'lodash';
 const QuillEditor = React.forwardRef(
   ({ comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
+
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
 
@@ -38,17 +40,21 @@ const QuillEditor = React.forwardRef(
               length: comment.range.to - comment.range.from,
             };
             console.log("Highlighting "+ comment.color)
-            editor.formatText(range.index, range.length, {
-              highlight: {
-                commentId: comment.id,
-                background: createBackground()
-              }
-            });
+            console.log("comment.isHidden "+ comment.isHidden )
+            console.log("range ", range )
+            
+              editor.formatText(range.index, range.length, {
+                highlight: {
+                  commentId: comment.id,
+                  background: createBackground(),
+                  isVisible: !comment.isHidden
+                }
+              });
+
           }
 
           function createBackground() {
             if (comment.color !== undefined && comment.color !== null) {
-              console.log("")
               return comment.color;
             }
             console.log("No color " + comment.id);
@@ -218,7 +224,10 @@ function getHighlights(editor) {
 
   // Get all highlight elements in the Quill container
   const highlightElements = quillContainer.querySelectorAll(".quill-highlight");
+  const metaElements = quillContainer.querySelectorAll('span[data-comment-id]:not(.quill-highlight)');
 
+  console.log("highlightElements ", highlightElements)
+  console.log("metaElements ", metaElements)
   highlightElements.forEach((element) => {
     const commentId = element.getAttribute("data-comment-id");
     const content = element.textContent;

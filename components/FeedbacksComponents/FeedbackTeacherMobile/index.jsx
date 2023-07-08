@@ -21,16 +21,10 @@ import "./FeedbackTeacherMobile.css";
 
 function FeedbackTeacherMobile(props) {
   const {
-    labelText,
-    quillRefs,
     pageMode,
     methods,
     comments,
-    studentName,
-    students,
     submission,
-    breadcrumb21Props,
-    breadcrumb22Props,
   } = props;
   const modules = {
     toolbar: false,
@@ -69,9 +63,7 @@ function FeedbackTeacherMobile(props) {
                   return comment.questionSerialNumber === answer.serialNumber;
                 })}
                 value={answerValue ? answerValue : ""}
-                onSelectionChange={methods.onSelectionChange(
-                  answer.serialNumber
-                )}
+                onSelectionChange={(_)=>{}}
                 // onChangeFn={methods.onChangeFn(question.serialNumber)}
                 options={{
                   modules: modules,

@@ -85,7 +85,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const allComments = commentsResult.map((c) => {
           return { ...c };
         });
-        const feedbackComments= allComments.filter((c) => c.type === "COMMENT" || c.type === "FOCUS_AREA");
+        const feedbackComments= allComments.filter((c) => c.type !== "MARKING_CRITERIA");
         setComments(feedbackComments);
         const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
@@ -317,7 +317,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function updateCommentsRange(answer) {
     const quill = quillRefs.current[answer.serialNumber - 1];
-    // consraole.log(quill)
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
     console.log("highlightsWithCommentsData", highlightsWithCommentsData)
     const mergedHighlights = {};
@@ -377,9 +376,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     Promise.all(promises).then((results) => {
       getComments(submission.id).then((cmts) => {
-        console.log("cmts", cmts);
-        const cmts2 = (cmts ? cmts : []);
-        setComments(cmts2);
+        setComments(cmts.filter((c) => c.type !== "MARKING_CRITERIA"));
         handleChangeText("All changes saved", true);
       });
     });
@@ -670,12 +667,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
 
-  const reviewerSelectionChange = (serialNumber) => (range) => {
-    if (range && pageMode != "CLOSED") {
+  const reviewerSelectionChange = (visibleComment, serialNumber) => (range) => {
+    if (range) {
       const from = range.index;
       const to = range.index + range.length;
 
-      const matchingComments = comments
+      const matchingComments = visibleComment
         .filter((comment) => comment.questionSerialNumber === serialNumber)
         .filter(
           (comment) => comment.range.from <= from && comment.range.to >= to

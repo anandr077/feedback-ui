@@ -52,7 +52,7 @@ export default function FocusAreaDialog({ handleData, colors }) {
               type="text"
               value={title}
               onChange={handleTitleChange}
-              placeholder="Enter title*"
+              placeholder="Add title *"
               error={error && !title}
               required
             />
@@ -63,7 +63,7 @@ export default function FocusAreaDialog({ handleData, colors }) {
               id="description"
               value={description}
               onChange={handleDescriptionChange}
-              placeholder="Add short description(optional)"
+              placeholder="Add short description (optional)"
             />
             <ParentColorBox>
               <div>Pick focus area colour*</div>
@@ -79,7 +79,7 @@ export default function FocusAreaDialog({ handleData, colors }) {
                 })}
               </SelectColorBox>
               <ShowSelectedColor>
-                Selected Colour: <Ellipse141 backgroundColor={selectedColor} />
+                Selected colour <Ellipse141 backgroundColor={selectedColor} />
               </ShowSelectedColor>
               {error && !selectedColor && (
                 <ErrorMessage>

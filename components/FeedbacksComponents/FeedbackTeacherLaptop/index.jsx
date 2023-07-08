@@ -61,8 +61,8 @@ function FeedbackTeacherLaptop(props) {
     sharewithclassdialog,
   } = props;
 
-  const [isFeedback, setFeedback] = React.useState(true);
-  const [isFocusAreas, setFocusAreas] = React.useState(false);
+  const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
+  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
   const [isShowResolved, setShowResolved] = useState(false);
   const handleShowResolvedToggle = (event) => {
     setShowResolved(event.target.checked);
@@ -106,8 +106,8 @@ function FeedbackTeacherLaptop(props) {
             isFocusAreas={isFocusAreas}
             isTeacher={isTeacher}
             comments={comments}
-          >
-            
+            showFeedbacks = {pageMode !== "DRAFT"}
+          > 
           </Tabs>
         </Frame1322>
         <>
@@ -216,7 +216,7 @@ function FeedbackTeacherLaptop(props) {
                 methods.onSelectionChange(createVisibleComments(), answer.serialNumber)(
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
-                quillRefs.current[answer.serialNumber - 1].focus();
+                // quillRefs.current[answer.serialNumber - 1].focus();
 
               }}
               id={"quillContainer_" + submission.id + "_" + answer.serialNumber}
@@ -289,9 +289,10 @@ function FeedbackTeacherLaptop(props) {
   };
   const newCommentFrame = () => {
     if (pageMode === "DRAFT" || pageMode === "REVISE") {
+      // setFocusAreas(true)
       return selectFocusArea();
     }
-
+    // setFeedback(true)
     return reviewerNewComment();
   };
 
@@ -581,14 +582,6 @@ function FeedbackTeacherLaptop(props) {
   }
 }
 const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comments) => {
-  if (pageMode === "DRAFT") {
-    return comments.map(comment=>{
-      if (comment.type !== "FOCUS_AREA") {
-        return {...comment, isHidden: true}
-      }
-      return comment
-    })
-  }
   if (isFocusAreas) {
     return comments.map(comment=>{
       if (comment.type !== "FOCUS_AREA") {
@@ -724,21 +717,7 @@ const Screen2 = styled.div`
   background-color: rgba(255, 255, 255, 1);
   z-index: 1;
 `;
-const CommentContiner = styled.div`
-  position: absolute;
-  right: 60px;
-  top: 200px;
-  z-index: 100;
-  width: 400px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: var(--white);
-  border-radius: 10px;
-  padding: 1em;
-`;
+
 const Line6 = styled.img`
   position: relative;
   align-self: stretch;
@@ -770,40 +749,8 @@ const OptionCotainer = styled.div`
   width: 100%;
   justify-content: flex-start;
 `;
-const OptionsList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  width: 100%;
-  left: 0.5em;
-  background-color: var(--white);
-  opacity: 0.9;
-  width: 98%;
-  max-height: 300px;
-  overflow-y: scroll;
-`;
 
-const Ellipse10 = styled.img`
-  min-width: 30px;
-  height: 30px;
-  object-fit: cover;
-`;
 
-const OptionText = styled.div`
-  ${IbmplexsansNormalBlack16px}
-  font-size: 16px;
-  font-weight: 500;
-  flex: 1;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame12842 = styled.img`
-  position: relative;
-`;
 
 const Frame1388 = styled.div`
   display: flex;
@@ -853,7 +800,7 @@ const Frame1371 = styled.div`
   align-self: stretch;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: var(--white-pointer);
   padding: 20px;
 `;
@@ -955,6 +902,7 @@ const QuillContainer = styled.p`
   letter-spacing: 0;
   line-height: normal;
   width: 100%;
+  z-index: 1
 `;
 
 const Group1307 = styled.div`

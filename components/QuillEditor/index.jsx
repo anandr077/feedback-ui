@@ -39,17 +39,14 @@ const QuillEditor = React.forwardRef(
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-            console.log("Highlighting "+ comment.color)
-            console.log("comment.isHidden "+ comment.isHidden )
-            console.log("range ", range )
             
-              editor.formatText(range.index, range.length, {
-                highlight: {
-                  commentId: comment.id,
-                  background: createBackground(),
-                  isVisible: !comment.isHidden
-                }
-              });
+            editor.formatText(range.index, range.length, {
+              highlight: {
+                commentId: comment.id,
+                background: createBackground(),
+                isVisible: !comment.isHidden
+              }
+            });
 
           }
 
@@ -210,7 +207,7 @@ function removeAllHighlights(editor) {
       return highlights.map((highlight) => {
         const { content, range } = highlight;
         console.log("Rem " , range)
-        editor.removeFormat(range.from, range.to - range.from, "highlight");
+        // editor.removeFormat(range.from, range.to - range.from, "highlight");
         return { commentId, range };
       });
     }

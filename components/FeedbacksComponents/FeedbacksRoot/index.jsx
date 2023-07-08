@@ -744,7 +744,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
-  const noopSelectionChange = (serialNumber) => (range) => {};
 
   const hideNewCommentDiv = () => {
     quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(

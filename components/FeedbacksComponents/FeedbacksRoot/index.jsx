@@ -65,7 +65,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
-  const [selectedRangeFormat, setSelectedRangeFormat] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
   const [nextUrl, setNextUrl] = useState("");
@@ -87,7 +86,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const allComments = commentsResult.map((c) => {
           return { ...c };
         });
-        const feedbackComments= allComments.filter((c) => c.type === "COMMENT" || c.type === "FOCUS_AREA");
+        const feedbackComments= allComments.filter((c) => c.type !== "MARKING_CRITERIA");
         setComments(feedbackComments);
         const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
@@ -157,13 +156,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-    
-   
-    if (!document.getElementById("newCommentInput").value) return;
+    if (!document.getElementById("newCommentInput").value)
+      return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
@@ -181,10 +175,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -202,11 +192,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
   }
   function handleFocusAreaComment(focusArea) {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
@@ -288,10 +273,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   );
 
   function handleShareWithClass() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
     setShowShareWithClass(true);
   }
   const createDebounceFunction = (answer) => {
@@ -319,7 +300,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function updateCommentsRange(answer) {
     const quill = quillRefs.current[answer.serialNumber - 1];
-    // consraole.log(quill)
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
     console.log("highlightsWithCommentsData", highlightsWithCommentsData)
     const mergedHighlights = {};
@@ -379,9 +359,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     Promise.all(promises).then((results) => {
       getComments(submission.id).then((cmts) => {
-        console.log("cmts", cmts);
-        const cmts2 = (cmts ? cmts : []);
-        setComments(cmts2);
+        setComments(cmts.filter((c) => c.type !== "MARKING_CRITERIA"));
         handleChangeText("All changes saved", true);
       });
     });
@@ -683,12 +661,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
 
-  const reviewerSelectionChange = (serialNumber) => (range) => {
-    if (range && pageMode != "CLOSED") {
+  const reviewerSelectionChange = (visibleComment, serialNumber) => (range) => {
+    if (range) {
       const from = range.index;
       const to = range.index + range.length;
 
-      const matchingComments = comments
+      const matchingComments = visibleComment
         .filter((comment) => comment.questionSerialNumber === serialNumber)
         .filter(
           (comment) => comment.range.from <= from && comment.range.to >= to
@@ -706,9 +684,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             from: from,
             to: to,
           });
-          const delta =
-            quillRefs.current[serialNumber - 1].setLostFocusColor(range);
-          setSelectedRangeFormat(delta);
           setShowNewComment(true);
         }
       }
@@ -747,14 +722,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
-  const noopSelectionChange = (serialNumber) => (range) => {};
 
   const hideNewCommentDiv = () => {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
     setShowNewComment(false);
   };
 

@@ -1,10 +1,10 @@
+import Switch from '@mui/material/Switch';
 import { sortBy } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import React, { useState } from "react";
+import "quill/dist/quill.bubble.css";
+import { default as React, default as React, useState } from "react";
 import styled from "styled-components";
-import { filter, groupBy, groupedData } from "lodash";
-
 import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
@@ -13,17 +13,20 @@ import {
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
   feedbacksIbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack16px,
+  IbmplexsansNormalBlack16px
 } from "../../../styledMixins";
 import CheckboxList from "../../CheckboxList";
 import Header from "../../Header";
 import QuillEditor from "../../QuillEditor";
 
-import { getUserRole, getUserId } from "../../../service";
+import { getUserId, getUserRole } from "../../../service";
 import FocussedInput from "../../FocussedInput";
 import Footer from "../../Footer";
 import FooterSmall from "../../FooterSmall";
 import HeaderSmall from "../../HeaderSmall";
+import Loader from "../../Loader";
+import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
+import MarkingCriteriaFeedbackReadOnly from "../../MarkingCriteriaFeedbackReadOnly";
 import { isTabletView } from "../../ReactiveRender";
 import StatusLabel from "../../StatusLabel";
 import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
@@ -32,13 +35,10 @@ import Breadcrumb2 from "../Breadcrumb2";
 import Buttons2 from "../Buttons2";
 import Buttons4 from "../Buttons4";
 import CommentCard32 from "../CommentCard32";
+import FocusAreasFrame from "../FocusAreasFrame";
 import Tabs from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
-import FocusAreasFrame from "../FocusAreasFrame";
-import Loader from "../../Loader";
 import "./FeedbackTeacherLaptop.css";
-import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
-import MarkingCriteriaFeedbackReadOnly from "../../MarkingCriteriaFeedbackReadOnly";
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -59,74 +59,17 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
-    frame13201Props,
   } = props;
 
-  const [isFeedback, setFeedback] = React.useState(true);
-  const [isResolved, setResolved] = React.useState(false);
-  const [isFocusAreas, setFocusAreas] = React.useState(false);
-  const commentsForSelectedTab = selectTabComments(isFeedback, isResolved, isFocusAreas, comments)
+  const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
+  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
+  const [isShowResolved, setShowResolved] = useState(false);
+  const handleShowResolvedToggle = (event) => {
+    setShowResolved(event.target.checked);
+  };
+
+  const commentsForSelectedTab = selectTabComments(pageMode, isFeedback, isShowResolved, isFocusAreas, comments)
   
-  const commentsFrame = sortBy(commentsForSelectedTab, [
-    "questionSerialNumber",
-    "range.from",
-  ]).map((comment) => {
-    console.log("Comment ", comment);
-    if (comment.type === "FOCUS_AREA") {
-      return <CommentCard32
-                  reviewer={comment.reviewerName}
-                  comment={comment}
-                  onClick={(c) => methods.handleCommentSelected(c)}
-                  isTeacher={isTeacher}
-                  defaultComment={false}
-                  pageMode={pageMode}
-                  onClose={() => {
-                    methods.handleDeleteComment(comment.id);
-                  }}
-                />
-    }
-    return isFeedback && comment.status !== "RESOLVED" ? (
-      <CommentCard32
-        reviewer={comment.reviewerName}
-        comment={comment}
-        onClick={(c) => methods.handleCommentSelected(c)}
-        onClose={() => {
-          methods.handleDeleteComment(comment.id);
-        }}
-        handleEditingComment={methods.handleEditingComment}
-        deleteReplyComment={methods.handleDeleteReplyComment}
-        onResolved={methods.handleResolvedComment}
-        handleReplyComment={methods.handleReplyComment}
-        isResolved={comment.status}
-        showResolveButton={pageMode === "REVISE"}
-        isTeacher={isTeacher}
-        updateParentComment={methods.updateParentComment}
-        updateChildComment={methods.updateChildComment}
-        pageMode={pageMode}
-      />
-    ) : isResolved && comment.status === "RESOLVED" ? (
-      <CommentCard32
-        reviewer={comment.reviewerName}
-        comment={comment}
-        onClick={(c) => methods.handleCommentSelected(c)}
-        onClose={() => {
-          methods.handleDeleteComment(comment.id);
-        }}
-        handleEditingComment={methods.handleEditingComment}
-        deleteReplyComment={methods.handleDeleteReplyComment}
-        onResolved={methods.handleResolvedComment}
-        handleReplyComment={methods.handleReplyComment}
-        isResolved={comment.status}
-        showResolveButton={false}
-        isTeacher={isTeacher}
-        updateParentComment={methods.updateParentComment}
-        updateChildComment={methods.updateChildComment}
-        pageMode={pageMode}
-      />
-    ) : (
-      <></>
-    );
-  });
   const modules = {
     toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
     history: {
@@ -135,14 +78,22 @@ function FeedbackTeacherLaptop(props) {
       userOnly: true,
     },
   };
-  const defaultReviewComment = {
+  const reviewerDefaultComment = {
     reviewerName: "Jeddle",
     comment: "Please select text to share feedback",
   };
 
-  const defaultNonReviewComment = {
+  const authorDefaultReviewComment = {
     reviewerName: "Jeddle",
     comment: "Feedback will appear here",
+  };
+  const reviewerDefaultFocusAreasComment = {
+    reviewerName: "Jeddle",
+    comment: "Focus areas will appear here",
+  };
+  const authorDefaultFocusAreasReviewComment = {
+    reviewerName: "Jeddle",
+    comment: "Please select text to highlight focus areas",
   };
   const feedbackFrame = () => {
     return (
@@ -150,46 +101,26 @@ function FeedbackTeacherLaptop(props) {
         <Frame1322>
           <Tabs
             setFeedback={setFeedback}
-            setResolved={setResolved}
-            setFocusAreas={setFocusAreas}
             isFeedback={isFeedback}
+            setFocusAreas={setFocusAreas}
             isFocusAreas={isFocusAreas}
-            isResolvedClick={isResolved}
             isTeacher={isTeacher}
             comments={comments}
-          >
+            showFeedbacks = {pageMode !== "DRAFT"}
+          > 
           </Tabs>
         </Frame1322>
         <>
           {showNewComment ? (
             <>
-              <Screen onClick={methods.hideNewCommentDiv}></Screen>
+              {/* <Screen onClick={methods.hideNewCommentDiv}></Screen> */}
               {newCommentFrame()}
             </>
           ) : (
             <Frame1328>
-              {comments.length == 0 ? (
-                pageMode == "REVIEW" ? (
-                  <CommentCard32
-                    reviewer="Jeddle"
-                    comment={defaultReviewComment}
-                    onClick={() => {}}
-                    isTeacher={isTeacher}
-                    defaultComment={true}
-                  />
-                ) : (
-                  <CommentCard32
-                    reviewer="Jeddle"
-                    comment={defaultNonReviewComment}
-                    onClick={() => {}}
-                    isTeacher={isTeacher}
-                    defaultComment={true}
-                  />
-                )
-              ) : (
-                <></>
-              )}
-              {commentsFrame}
+              <>{showResolvedToggle(isFeedback, isShowResolved, handleShowResolvedToggle)}
+              {createCommentsFrame()}
+                </>
             </Frame1328>
           )}
         </>
@@ -254,15 +185,6 @@ function FeedbackTeacherLaptop(props) {
     );
   };
 
-  const getMarkingCriteriaFeedback = (questionSerialNumber) => {
-    const selectedFeedback = markingCriteriaFeedback.map((feedback) => {
-      if (feedback.questionSerialNumber === questionSerialNumber) {
-        return feedback;
-      }
-    });
-    return selectedFeedback[selectedFeedback.length - 1]?.markingCriteria;
-  };
-
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -291,13 +213,13 @@ function FeedbackTeacherLaptop(props) {
           ) : (
             <QuillContainer
               onClick={() => {
-                methods.onSelectionChange(answer.serialNumber)(
+                methods.onSelectionChange(createVisibleComments(), answer.serialNumber)(
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
               }}
               id={"quillContainer_" + submission.id + "_" + answer.serialNumber}
             >
-              {createQuill(submission, answer, answerValue, debounce)}
+              {createQuill("quillContainer_" + submission.id + "_" + answer.serialNumber, submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
           {createFocusAreasLabel(question.focusAreas)}
@@ -365,12 +287,107 @@ function FeedbackTeacherLaptop(props) {
   };
   const newCommentFrame = () => {
     if (pageMode === "DRAFT" || pageMode === "REVISE") {
+      // setFocusAreas(true)
       return selectFocusArea();
     }
-
+    // setFeedback(true)
     return reviewerNewComment();
   };
+
+  function createDefaultCommentText() {
+    if (isFocusAreas ) {
+      if (pageMode === "DRAFT" || pageMode === "REVISE") {
+        return authorDefaultFocusAreasReviewComment
+      }
+      return reviewerDefaultFocusAreasComment
+    }
+    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+      return authorDefaultReviewComment
+    }
+    return reviewerDefaultComment
+  }
+
+  function createCommentsFrame() {
+    const visibleComments =  createVisibleComments()
+    if (visibleComments.length === 0) {
+      return <CommentCard32
+                    reviewer="Jeddle"
+                    comment={createDefaultCommentText()}
+                    onClick={() => {}}
+                    isTeacher={isTeacher}
+                    defaultComment={true}
+                  />
+    }
+    return sortBy(visibleComments, [
+      "questionSerialNumber",
+      "range.from",
+    ]).map((comment) => {
+      console.log("Comment ", comment);
+      if (comment.type === "FOCUS_AREA") {
+        return <CommentCard32
+          reviewer={comment.reviewerName}
+          comment={comment}
+          onClick={(c) => methods.handleCommentSelected(c)}
+          isTeacher={isTeacher}
+          defaultComment={false}
+          pageMode={pageMode}
+          onClose={() => {
+            methods.handleDeleteComment(comment.id);
+          } } />;
+      }
+
+      return isFeedback && comment.status !== "RESOLVED" ? (
+
+
+        <CommentCard32
+          reviewer={comment.reviewerName}
+          comment={comment}
+          onClick={(c) => methods.handleCommentSelected(c)}
+          onClose={() => {
+            methods.handleDeleteComment(comment.id);
+          } }
+          handleEditingComment={methods.handleEditingComment}
+          deleteReplyComment={methods.handleDeleteReplyComment}
+          onResolved={methods.handleResolvedComment}
+          handleReplyComment={methods.handleReplyComment}
+          isResolved={comment.status}
+          showResolveButton={pageMode === "REVISE"}
+          isTeacher={isTeacher}
+          updateParentComment={methods.updateParentComment}
+          updateChildComment={methods.updateChildComment}
+          pageMode={pageMode} />
+      ) : comment.status === "RESOLVED" ? (
+        <CommentCard32
+          reviewer={comment.reviewerName}
+          comment={comment}
+          onClick={(c) => methods.handleCommentSelected(c)}
+          onClose={() => {
+            methods.handleDeleteComment(comment.id);
+          } }
+          handleEditingComment={methods.handleEditingComment}
+          deleteReplyComment={methods.handleDeleteReplyComment}
+          onResolved={methods.handleResolvedComment}
+          handleReplyComment={methods.handleReplyComment}
+          isResolved={comment.status}
+          showResolveButton={false}
+          isTeacher={isTeacher}
+          updateParentComment={methods.updateParentComment}
+          updateChildComment={methods.updateChildComment}
+          pageMode={pageMode} />
+
+      ) : (
+        <></>
+      );
+    });
+  }
+
+  function createVisibleComments() {
+    return commentsForSelectedTab.filter(comment => !comment.isHidden);
+  }
+
   function reviewerNewComment() {
+    if (pageMode === "CLOSED")
+      return <></>
     return (
       <>
         <Frame1329>
@@ -496,11 +513,6 @@ function FeedbackTeacherLaptop(props) {
                 pageMode === "CLOSED" &&
                 submission.status != "CLOSED" && (
                   <AwaitFeedbackContainer id="deleteButton">
-                    <StatusLabel
-                      key="statusLabel"
-                      id="statusLabel"
-                      text="Awaiting Feedback"
-                    />
                     <Buttons2
                       button="Download PDF"
                       download={true}
@@ -542,7 +554,7 @@ function FeedbackTeacherLaptop(props) {
     </>
   );
 
-  function createQuill(submission, answer, answerValue, debounce) {
+  function createQuill(containerName, submission, answer, answerValue, debounce) {
     return (
       <QuillEditor
         id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
@@ -560,22 +572,46 @@ function FeedbackTeacherLaptop(props) {
         }}
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}
+        containerName={containerName}
       ></QuillEditor>
     );
   }
 }
-const selectTabComments=(isFeedback, isResolved, isFocusAreas, comments) => {
-  console.log("selectTabComments")
+const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comments) => {
   if (isFocusAreas) {
-    return comments.filter(comment => comment.type === "FOCUS_AREA")
+    return comments.map(comment=>{
+      if (comment.type !== "FOCUS_AREA") {
+        return {...comment, isHidden: true}
+      }
+      return comment
+    })
   }
-  if (isResolved) {
-    return comments.filter(comment => comment.status ==="RESOLVED")
+  if (showResolved) {
+    return comments.map(comment=>{
+      if (comment.type === "FOCUS_AREA") {
+        return {...comment, isHidden: true}
+      }
+      return comment
+    })
   }
-  const c = comments.filter(comment => comment.type !== "FOCUS_AREA" )
-  console.log("c" ,  c)
+  return comments.map(comment=>{
+    if ( comment.type === "FOCUS_AREA" || comment.status === "RESOLVED") {
+      return {...comment, isHidden: true}
+    }
+    return comment
+  })
+}
 
-  return c
+function showResolvedToggle(isFeedback, isShowResolved, handleShowResolvedToggle) {
+  if (isFeedback) { 
+    return <div align = "right">
+      <Label>Show resolved</Label>
+      {/* Show resolved */}
+      <Switch
+        checked={isShowResolved} onChange={handleShowResolvedToggle} />
+    </div>;
+  }
+  return <></>
 }
 const AwaitFeedbackContainer = styled.div`
   display: flex;
@@ -677,21 +713,7 @@ const Screen2 = styled.div`
   background-color: rgba(255, 255, 255, 1);
   z-index: 1;
 `;
-const CommentContiner = styled.div`
-  position: absolute;
-  right: 60px;
-  top: 200px;
-  z-index: 100;
-  width: 400px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: var(--white);
-  border-radius: 10px;
-  padding: 1em;
-`;
+
 const Line6 = styled.img`
   position: relative;
   align-self: stretch;
@@ -723,40 +745,8 @@ const OptionCotainer = styled.div`
   width: 100%;
   justify-content: flex-start;
 `;
-const OptionsList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  width: 100%;
-  left: 0.5em;
-  background-color: var(--white);
-  opacity: 0.9;
-  width: 98%;
-  max-height: 300px;
-  overflow-y: scroll;
-`;
 
-const Ellipse10 = styled.img`
-  min-width: 30px;
-  height: 30px;
-  object-fit: cover;
-`;
 
-const OptionText = styled.div`
-  ${IbmplexsansNormalBlack16px}
-  font-size: 16px;
-  font-weight: 500;
-  flex: 1;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame12842 = styled.img`
-  position: relative;
-`;
 
 const Frame1388 = styled.div`
   display: flex;
@@ -806,7 +796,7 @@ const Frame1371 = styled.div`
   align-self: stretch;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: var(--white-pointer);
   padding: 20px;
 `;
@@ -908,6 +898,7 @@ const QuillContainer = styled.p`
   letter-spacing: 0;
   line-height: normal;
   width: 100%;
+  z-index: 1
 `;
 
 const Group1307 = styled.div`

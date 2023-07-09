@@ -10,17 +10,22 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { Map } from 'immutable';
 import { groupBy, mapValues, filter } from 'lodash';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce }, ref) => {
+  ({ containerName, comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
+    // Quill.register('modules/clipboard', PlainClipboard, true);
+
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
 
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
+
+        
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
         quillInstance.root.style.fontSize = "16px";
-
+  
+      
         const delta = quillInstance.clipboard.convert(value);
         quillInstance.setContents(delta);
 
@@ -37,18 +42,19 @@ const QuillEditor = React.forwardRef(
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-            console.log("Highlighting "+ comment.color)
+            
             editor.formatText(range.index, range.length, {
               highlight: {
                 commentId: comment.id,
-                background: createBackground()
+                background: createBackground(),
+                isVisible: !comment.isHidden
               }
             });
+
           }
 
           function createBackground() {
             if (comment.color !== undefined && comment.color !== null) {
-              console.log("")
               return comment.color;
             }
             console.log("No color " + comment.id);
@@ -203,7 +209,6 @@ function removeAllHighlights(editor) {
     ([commentId, highlights]) => {
       return highlights.map((highlight) => {
         const { content, range } = highlight;
-        console.log("Rem " , range)
         editor.removeFormat(range.from, range.to - range.from, "highlight");
         return { commentId, range };
       });
@@ -218,7 +223,10 @@ function getHighlights(editor) {
 
   // Get all highlight elements in the Quill container
   const highlightElements = quillContainer.querySelectorAll(".quill-highlight");
+  const metaElements = quillContainer.querySelectorAll('span[data-comment-id]:not(.quill-highlight)');
 
+  console.log("highlightElements ", highlightElements)
+  console.log("metaElements ", metaElements)
   highlightElements.forEach((element) => {
     const commentId = element.getAttribute("data-comment-id");
     const content = element.textContent;

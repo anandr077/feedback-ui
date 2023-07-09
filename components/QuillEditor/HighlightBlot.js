@@ -6,7 +6,9 @@ class HighlightBlot extends Inline {
   static create(value) {
     const node = super.create();
     node.setAttribute('data-comment-id', value.commentId);
-    node.style.backgroundColor = value.background;
+    if (value.isVisible) {
+      node.style.backgroundColor = value.background;
+    }
     node.classList.add('quill-highlight');
     return node;
   }

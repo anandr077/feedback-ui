@@ -161,6 +161,7 @@ function CommentCard32(props) {
         handleEditComment={handleEditComment}
         pageMode={pageMode}
         onClick={onClick}
+        isClosable = {comment.type === "FOCUS_AREA" && (pageMode==="DRAFT" || pageMode==="REVISE")}
       />
       <CommentText
         onClick={() => onClick(comment)}
@@ -176,7 +177,7 @@ function CommentCard32(props) {
       pageMode != "CLOSED"
       && (
         <Reply onClick={handleReplyClick}>
-          <img src="/icons/reply-purple-curved-arrow.png" alt="reply" />
+          <img src="/icons/reply.svg" alt="reply" />
           <div>Reply</div>
         </Reply>
       )}
@@ -254,6 +255,7 @@ const Input = styled.input`
 const Reply = styled.div`
   display: flex;
   padding: 4px 8px;
+  margin-top: 6px;
   justify-content: center;
   align-items: center;
   gap: 2px;

@@ -19,8 +19,14 @@ function ReviewsFrame132532(props) {
     commentId = null,
     handleEditComment,
     pageMode,
-    onClick
+    onClick,
+    isClosable
   } = props;
+  const closeFrame = isClosable ? (
+    <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
+  ) : (
+    <></>
+  );
   const [isResolveHovered, setIsResolveHovered] = React.useState(false);
   const [isMoreClicked, setIsMoreClicked] = React.useState(false);
   const componentRef = React.useRef(null);
@@ -134,6 +140,9 @@ function ReviewsFrame132532(props) {
       (
         <More onClick={handleMoreClick} src="/icons/three-dot.svg" ref={componentRef}/>
       )}
+      
+      {closeFrame}
+      
       {openEditDeleteTemplate}
     </Frame1325>
   );
@@ -201,8 +210,8 @@ const Instructer = styled.div`
 
 const More = styled.img`
   position: relative;
-  min-width: 24px;
-  height: 24px;
+  min-width: 16px;
+  height: 16px;
   cursor: pointer;
 `;
 
@@ -225,7 +234,7 @@ const Tooltip = styled.div`
 const MoreOptionsWrapper = styled.div`
   position: absolute;
   right: -5px;
-  top: 20px;
+  top: 10px;
   display: inline-flex;
   padding: 8px;
   flex-direction: column;
@@ -241,9 +250,9 @@ const MoreOptionsWrapper = styled.div`
 const MoreOptions = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   color: #7200e0;
-  font-size: 16px;
+  font-size: 14px;
   font-family: IBM Plex Sans;
   cursor: pointer;
 `;

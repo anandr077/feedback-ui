@@ -43,29 +43,31 @@ function CreateAAssignmentMobile(props) {
     help2,
     buttons22Props,
     goBackProps,
+    showDeletePopuphandler,
+    showPublishPopuphandler,
   } = props;
 
 
-  function titleAndSaveButtons(assignment, saveDraft, publish) {
+  function titleAndSaveButtons(assignment, saveDraft, publish,showPublishPopuphandler) {
     const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
   
     return <TitleContainer>
       {title}
-      {saveButtons(assignment, saveDraft, publish)}
+      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
     </TitleContainer>;
   }
-  function saveButtons(assignment, saveDraft, publish) {
+  function saveButtons(assignment, saveDraft, publish, showPublishPopuphandler) {
       if (assignment.status === "DRAFT") {
         return <Frame12191>
           <SLink onClick={saveDraft}>Save as draft</SLink>
   
           <Buttons1>
-            <Button onClick={publish}>Publish</Button>
+            <Button onClick={showPublishPopuphandler}>Publish</Button>
           </Buttons1>
         </Frame12191>;
       }
       return (<DeleteButtonContainer>
-        <Frame1322 onClick={deleteAssignmentHandler} >
+        <Frame1322 onClick={showDeletePopuphandler} >
           <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
           <Delete>Delete</Delete>
         </Frame1322>
@@ -84,7 +86,7 @@ function CreateAAssignmentMobile(props) {
           </Frame1315>
           <GoBack />
         </Frame1376>
-        {titleAndSaveButtons(assignment, saveDraft, publish)}
+        {titleAndSaveButtons(assignment, saveDraft, publish,showPublishPopuphandler)}
         <Frame1378  readOnly={assignment.status!= "DRAFT"}>
           <Frame1375>
             <Frame1374
@@ -144,7 +146,7 @@ function CreateAAssignmentMobile(props) {
               {/* <Frame1219 /> */}
               <Frame12191>
               <Frame1372>
-                {saveButtons(assignment, saveDraft, publish)}
+                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
               </Frame1372>
               </Frame12191>
             </Frame1373>
@@ -160,7 +162,7 @@ function CreateAAssignmentMobile(props) {
 const TitleContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  width: 93%;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
@@ -365,11 +367,16 @@ const Frame1372 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
+  font-size: 36px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
 `;
 
 const Frame1374 = styled.div`

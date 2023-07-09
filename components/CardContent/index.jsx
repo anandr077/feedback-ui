@@ -8,7 +8,10 @@ import {
 import { formattedDate } from "../../dates";
 
 function CardContent(props) {
-  const {  task, small } = props;
+  const { task, small } = props;
+
+
+
   const sampleTask = {
     title:"Fundamentals of thermal physics",
     para:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...",
@@ -18,6 +21,81 @@ function CardContent(props) {
     status1:"Submissions: 20 of 40",
     status2:"Reviewed: 10 of 20",
   }
+
+  function createTitle(small, title) {
+    if (!title) return <></>
+    return  small ? (
+      <SmallClassText>
+        {title}
+      </SmallClassText>
+    ) : (
+      <ClassText>
+        {title}
+      </ClassText>
+    )
+  }
+  
+  function createPara(small, para) {
+    if (!para) return <></>
+    return (
+      <>
+        {small ? (
+          <SmallTaskTitle>
+            {para}
+          </SmallTaskTitle>
+        ) : (
+          <TaskTitle>{para}</TaskTitle>
+        )}
+      </>
+    );
+  }
+  
+  function createSubtitle(subTitle) {
+    if (!subTitle) return <></>
+    return <RemarkText>{subTitle}</RemarkText>
+  }
+  
+  function createSubPara(subPara) {
+    if (!subPara) return <></> 
+    return <Remark>{subPara}</Remark>
+  }
+
+
+  function date(small, date) {
+    if (!date) return <></> 
+  
+    return <>
+        {small ? (
+          <Frame1282>
+            <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
+            <SmallDueAt>{formattedDate(date)}</SmallDueAt>
+          </Frame1282>
+        ) :(
+          <Frame1282>
+            <IconClock src="/img/clock@2x.png" alt="icon-clock" />
+            <DueAt>{formattedDate(date)}</DueAt>
+          </Frame1282>
+        )
+        }
+      </>;
+  }
+  
+
+  function createStatus(small, status) {
+    if (!status) return <></>
+  
+    return  small ? (
+      <SmallClassText>
+        {status}
+      </SmallClassText>
+    ) : (
+      <ClassText>
+        {status}
+      </ClassText>
+    )
+  }
+
+
   return (
     <>   
         <Content>
@@ -36,89 +114,7 @@ function CardContent(props) {
 }
 
 
-function createTitle(small, title) {
-  if (!title) return <></>
-  return  small ? (
-    <SmallClassText>
-      {title}
-    </SmallClassText>
-  ) : (
-    <ClassText>
-      {title}
-    </ClassText>
-  )
-}
 
-function createPara(small, para) {
-  if (!para) return <></>
-  return (
-    <>
-      {small ? (
-        <SmallTaskTitle>
-          {para}
-        </SmallTaskTitle>
-      ) : (
-        <TaskTitle>{para}</TaskTitle>
-      )}
-    </>
-  );
-}
-
-function createSubtitle(subTitle) {
-  if (!subTitle) return <></>
-  return <RemarkText>{subTitle}</RemarkText>
-}
-
-function createSubPara(subPara) {
-  if (!subPara) return <></> 
-  return <Remark>{subPara}</Remark>
-}
-
-function date(small, date) {
-  if (!date) return <></> 
-
-  return <>
-      {small ? (
-        <Frame1282>
-          <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
-          <SmallDueAt>{formattedDate(date)}</SmallDueAt>
-        </Frame1282>
-      ) : (
-        <Frame1282>
-          <IconClock src="/img/clock@2x.png" alt="icon-clock" />
-          <DueAt>{formattedDate(date)}</DueAt>
-        </Frame1282>
-      )}
-    </>;
-}
-
-
-  // Submissions: {task.submissionCount} of{" "}
-  // {task.expectedSubmissions} | Reviewed: {task.reviewCount} of {task.submissionCount}
-function createStatus(small, status) {
-  if (!status) return <></>
-
-  return  small ? (
-    <SmallClassText>
-      {status}
-    </SmallClassText>
-  ) : (
-    <ClassText>
-      {status}
-    </ClassText>
-  )
-}
-
-const Frame12121 = styled.div`
-  ${IbmplexsansNormalShark12px}
-  display: flex;
-  width: 339px;
-  align-items: flex-start;
-  gap: 4px;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
 
 const RemarkText = styled.div`
   ${IbmplexsansNormalShark12px}
@@ -138,22 +134,7 @@ const RemarkText = styled.div`
   margin-top: 10px;
 `;
 
-const Submissions = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 
-const Address = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 
 const Content = styled.div`
   display: flex;
@@ -229,6 +210,7 @@ const Frame1282 = styled.div`
   align-self: stretch;
 `;
 
+
 const IconClock = styled.img`
   position: relative;
   min-width: 16px;
@@ -259,54 +241,5 @@ const SmallDueAt = styled.p`
   line-height: normal;
 `;
 
-const Content2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 4px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const PhysicsThermodyna1 = styled.p`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const FundamentalsOfThermalPhysics1 = styled.div`
-  ${IbmplexsansNormalRiverBed14px}
-  position: relative;
-  align-self: stretch;
-  letter-spacing: 0.11px;
-  line-height: normal;
-`;
-
-const Frame12821 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const IconClock1 = styled.img`
-  position: relative;
-  min-width: 16px;
-  height: 16px;
-`;
-
-const DueOn2April20231 = styled.p`
-  ${IbmplexsansNormalRiverBed14px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0.11px;
-  line-height: normal;
-`;
 
 export default CardContent;

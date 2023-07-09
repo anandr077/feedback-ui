@@ -36,6 +36,8 @@ function CreateAAssignmentLaptop(props) {
     goBack21Props,
     buttons21Props,
     goBack22Props,
+    showDeletePopuphandler,
+    showPublishPopuphandler
   } = props;
 
   
@@ -43,20 +45,20 @@ function CreateAAssignmentLaptop(props) {
     const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
     return <TitleContainer>
       {title}
-      {saveButtons(assignment, saveDraft, publish)}
+      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
     </TitleContainer>;
   }
-  const saveButtons = (assignment, saveDraft, publish)=> {
+  const saveButtons = (assignment, saveDraft, publish, showPublishPopuphandler)=> {
     if (assignment.status === "DRAFT") {
     return <Frame12191>
       <SLink onClick={e=>saveDraft(e)}>Save as draft</SLink>
       <Buttons1>
-        <Button onClick={publish}>Publish</Button>
+        <Button onClick={showPublishPopuphandler}>Publish</Button>
       </Buttons1>
     </Frame12191>
     } 
     return  (<DeleteButtonContainer>
-              <Frame1322 onClick={deleteAssignmentHandler} >
+              <Frame1322 onClick={showDeletePopuphandler} >
                 <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
                 <Delete>Delete</Delete>
               </Frame1322>
@@ -135,7 +137,7 @@ function CreateAAssignmentLaptop(props) {
               />
               <Frame12191>
               <Frame1372>
-                {saveButtons(assignment, saveDraft, publish)}
+                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
               </Frame1372>
               </Frame12191>
             </Frame1372>
@@ -153,7 +155,7 @@ function CreateAAssignmentLaptop(props) {
 
 const TitleContainer = styled.div`
   display: flex;
-  width: 90%;
+  width: 93%;
   align-items: center;
   justify-content: space-between;
   gap: 4px;

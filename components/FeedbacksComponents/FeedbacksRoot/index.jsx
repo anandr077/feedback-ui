@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import styled from "styled-components";
+import GeneralPopup from "../../GeneralPopup";
+
 import {
   addFeedback,
   updateFeedback,
@@ -42,7 +44,7 @@ import { extractStudents, getComments, getPageMode } from "./functions";
 import { TextField } from "@mui/material";
 import { IbmplexsansNormalShark20px } from "../../../styledMixins";
 import SnackbarContext from "../../SnackbarContext";
-import { sub } from "date-fns";
+
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -63,13 +65,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
-  const [selectedRangeFormat, setSelectedRangeFormat] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
   const [nextUrl, setNextUrl] = useState("");
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
+
+  const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
+  const [methodTocall,setMethodToCall] = React.useState(null);
+  const [popupText,setPopupText] = React.useState(null);
 
   const isTeacher = getUserRole() === "TEACHER";
   const defaultMarkingCriteria = getDefaultCriteria();
@@ -81,7 +86,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const allComments = commentsResult.map((c) => {
           return { ...c };
         });
-        const feedbackComments= allComments.filter((c) => c.type === "COMMENT" || c.type === "FOCUS_AREA");
+        const feedbackComments= allComments.filter((c) => c.type !== "MARKING_CRITERIA");
         setComments(feedbackComments);
         const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
@@ -151,13 +156,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-    
-   
-    if (!document.getElementById("newCommentInput").value) return;
+    if (!document.getElementById("newCommentInput").value)
+      return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
@@ -175,10 +175,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -196,11 +192,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
   }
   function handleFocusAreaComment(focusArea) {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
@@ -255,16 +246,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }}
       open={showShareWithClass}
     >
-      <Box padding={4}>
+    <DialogContiner>
         <StyledTextField
           multiline
-          label="Add comment"
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
           error={!isValidComment}
-          helperText={!isValidComment ? "Please enter your comment here" : ""}
+          helperText={!isValidComment ? "Field cannot be empty" : "Enter response to share with class"}
         />
+        <ActionButtonsContainer>
         <DialogActions>
           <SubmitCommentFrameRoot
             submitButtonOnClick={addExemplerComment}
@@ -275,15 +266,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             }}
           />
         </DialogActions>
-      </Box>
+        </ActionButtonsContainer>
+  
+      </DialogContiner>
     </Dialog>
   );
 
   function handleShareWithClass() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
     setShowShareWithClass(true);
   }
   const createDebounceFunction = (answer) => {
@@ -304,59 +293,77 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-        const quill = quillRefs.current[answer.serialNumber - 1];
-        // consraole.log(quill)
-        const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-        console.log("getAllHighlightsWithComments" + JSON.stringify(highlightsWithCommentsData))
-        const transformedData = flatMap(
-            Object.entries(highlightsWithCommentsData),
-            ([commentId, highlights]) => {
-              return highlights.map((highlight) => {
-                const { content, range } = highlight;
-                return { commentId, range };
-              });
-            }
-          );
-
-          // Use Array.prototype.map to create an array of commentIds
-          const commentIdsArray = transformedData.map(
-            ({ commentId }) => commentId
-          );
-
-
-
-
-        const commentsForAnswer = comments.filter(
-          (comment) => comment.questionSerialNumber === answer.serialNumber
-        );
-        const missingComments = filter(
-          commentsForAnswer,
-          (comment) => !includes(commentIdsArray, comment.id)
-        );
-        const missingCommentsWithZeroRange = map(
-          missingComments,
-          (comment) => ({
-            commentId: comment.id,
-            range: { from: 0, to: 0 },
-          })
-        );
-
-        const finalData = transformedData.concat(missingCommentsWithZeroRange);
-        const promises = finalData.map(({ commentId, range }) => {
-          return updateFeedbackRange(submission.id, commentId, range);
-        });
-
-        Promise.all(promises).then((results) => {
-          getComments(submission.id).then((cmts) => {
-            console.log("cmts", cmts)
-            const cmts2 = (cmts ? cmts : []);
-            setComments(cmts2);
-            handleChangeText("All changes saved", true);
-          });
-        });
-      
+        return updateCommentsRange(answer);
     });
   };
+  
+
+  function updateCommentsRange(answer) {
+    const quill = quillRefs.current[answer.serialNumber - 1];
+    const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+    console.log("highlightsWithCommentsData", highlightsWithCommentsData)
+    const mergedHighlights = {};
+
+    Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
+      const mergedRange = {
+        range: {
+          from: ranges[0].range.from,
+          to: ranges[ranges.length - 1].range.to
+        }
+      };
+      mergedHighlights[commentId] = [mergedRange];
+    });
+
+    console.log("mergedHighlights", mergedHighlights)
+
+    const transformedData = flatMap(
+      Object.entries(mergedHighlights),
+      ([commentId, highlights]) => {
+        return highlights.map((highlight) => {
+          const { content, range } = highlight;
+          return { commentId, range };
+        });
+      }
+    );
+    console.log("transformedData", transformedData)
+
+
+    // Use Array.prototype.map to create an array of commentIds
+    const commentIdsArray = transformedData.map(
+      ({ commentId }) => commentId
+    );
+    console.log("commentIdsArray", commentIdsArray)
+
+    const commentsForAnswer = comments.filter(
+      (comment) => comment.questionSerialNumber === answer.serialNumber
+    );
+    const missingComments = filter(
+      commentsForAnswer,
+      (comment) => !includes(commentIdsArray, comment.id)
+    );
+
+    const missingCommentsWithZeroRange = map(
+      missingComments,
+      (comment) => ({
+        commentId: comment.id,
+        range: { from: 0, to: 0 },
+      })
+    );
+
+    const finalData = transformedData.concat(missingCommentsWithZeroRange);
+    console.log("finalData", finalData)
+
+    const promises = finalData.map(({ commentId, range }) => {
+      return updateFeedbackRange(submission.id, commentId, range);
+    });
+
+    Promise.all(promises).then((results) => {
+      getComments(submission.id).then((cmts) => {
+        setComments(cmts.filter((c) => c.type !== "MARKING_CRITERIA"));
+        handleChangeText("All changes saved", true);
+      });
+    });
+  }
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId)
@@ -524,6 +531,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   function handleSubmissionReviewed() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
    if(submission.assignment.questions[0].markingCriteria?.title !=""){
     if(validateMarkingCriteria()){
          submission.assignment.questions.map((question)=>{
@@ -575,6 +586,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     
   }
   const handleSaveSubmissionForReview = () => {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
@@ -600,6 +615,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionClosed() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
@@ -642,12 +661,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
 
-  const reviewerSelectionChange = (serialNumber) => (range) => {
-    if (range && pageMode != "CLOSED") {
+  const reviewerSelectionChange = (visibleComment, serialNumber) => (range) => {
+    if (range) {
       const from = range.index;
       const to = range.index + range.length;
 
-      const matchingComments = comments
+      const matchingComments = visibleComment
         .filter((comment) => comment.questionSerialNumber === serialNumber)
         .filter(
           (comment) => comment.range.from <= from && comment.range.to >= to
@@ -665,9 +684,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             from: from,
             to: to,
           });
-          const delta =
-            quillRefs.current[serialNumber - 1].setLostFocusColor(range);
-          setSelectedRangeFormat(delta);
           setShowNewComment(true);
         }
       }
@@ -706,14 +722,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
-  const noopSelectionChange = (serialNumber) => (range) => {};
 
   const hideNewCommentDiv = () => {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
     setShowNewComment(false);
   };
 
@@ -916,6 +926,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
    const markingCriteriaToUpdate = submission.assignment.questions[questionSerialNumber-1].markingCriteria;
    markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel=selectedLevel;
   }
+  
+
+  const hideSubmitPopup = () => { 
+    setShowSubmitPopup(false);
+  }
+  const showSubmitPopuphandler = (method) => { 
+    setShowSubmitPopup(true);
+    setMethodToCall(method);
+    if(method === "SubmitForReview"){
+      setPopupText("Are you sure you want to submit this task for review?");
+    }
+    else if(method === "SubmitReview"){
+      setPopupText("Are you sure you want to submit feedback for this task?");
+    }
+    else if(method === "CloseSubmission"){
+      setPopupText("Are you sure you want to close this task?");
+    }
+    
+  }
 
   const methods = {
     createDebounceFunction,
@@ -949,11 +978,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateParentComment,
     updateChildComment,
     handleMarkingCriteriaLevelFeedback,
+    showSubmitPopuphandler
   };
 
   const shortcuts = getShortcuts();
 
   return (
+    <>
+    {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent={popupText} buttonText="Submit" 
+    confirmButtonAction=
+    {methodTocall==="SubmitForReview"?handleSaveSubmissionForReview
+    :(methodTocall==="SubmitReview"?handleSubmissionReviewed
+    :(methodTocall==="CloseSubmission"? handleSubmissionClosed:""))} />}
+
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile
@@ -1052,32 +1089,52 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         />
       }
     />
+    </>
   );
 }
+
+
 const isTeacher = getUserRole() === "TEACHER";
+
+const ActionButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-self: flex-end;
+  margin-left:100px;
+
+  gap: 20px;
+  width: 100%;
+`;
+
+const DialogContiner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px 10px 20px;
+  gap: 20px;
+`;
+
+
 
 const StyledTextField = styled(TextField)`
   width: 100%;
-  margin-bottom: 20px;
+
   .MuiOutlinedInput-root {
-    ${IbmplexsansNormalShark20px}
-    border-radius: 0px;
-    border-color: var(--light-mode-purple);
+    border-radius: 10px; /* Set your desired border radius value */
+    border-color:  #F1E7FF;
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: var(--light-mode-purple) ; 
+    }
   }
-  .MuiOutlinedInput-root {
-    border-color: var(--light-mode-purple);
-  }
-  label {
-    ${IbmplexsansNormalShark20px}
-    color: var(--light-mode-purple);
-    border-color: var(--light-mode-purple);
-  }
+
   .MuiInputBase-input {
-    ${IbmplexsansNormalShark20px}
-    border-color:var(--light-mode-purple);
+   border-color:  #F1E7FF;
   }
 `;
-
 
 const feedbacksNavElement1Data = {
   home3: "/img/home3-1@2x.png",
@@ -1141,9 +1198,6 @@ const feedbacksFrame1366422Data = {
     "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
 };
 
-const feedbacksFrame13203Data = {
-  children: ["Feedback", "Resolved"],
-};
 
 const feedbacksFrame13204Data = {
   children: "Shortcuts",
@@ -1210,7 +1264,6 @@ const feedbacksFeedbackTeacherLaptopData = {
   frame13172Props: feedbacksFrame1317224Data,
   frame136641Props: feedbacksFrame1366421Data,
   frame136642Props: feedbacksFrame1366422Data,
-  frame13201Props: feedbacksFrame13203Data,
   frame13202Props: feedbacksFrame13204Data,
   frame1333Props: feedbacksFrame13332Data,
   commentCard31Props: feedbacksCommentCard321Data,

@@ -2,57 +2,30 @@ import React from "react";
 import styled from "styled-components";
 import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
 
-function ReviewsFrame1320(props) {
+function Tabs(props) {
   const {
-    isFocusAreas,
-    children,
     className,
     setFeedback,
-    setResolvedClick,
+    setFocusAreas,
+    isFocusAreas,
     isFeedback,
-    isResolvedClick,
-    isTeacher,
-    comments,
+    showFeedbacks = true
   } = props;
+
+  function handleFocusAreas() {
+    setFeedback(false);
+    setFocusAreas(true);
+  }
   function handleFeedback() {
     setFeedback(true);
-    setResolvedClick(false);
+    setFocusAreas(false);
   }
 
-  function handleResolved() {
-    setFeedback(false);
-    setResolvedClick(true);
-  }
-
-  function resolvedComment() {
-    let resolvedCount = 0;
-    for (const comment of comments) {
-      if (comment.status === "RESOLVED") {
-        resolvedCount++;
-      }
-    }
-    return resolvedCount;
-  }
   
   return (
     <Frame13201 className={`frame-1320 ${className || ""}`}>
-      <Feedback
-        className="feedback"
-        onClick={handleFeedback}
-        style={{ color: isFeedback ? "#301B72" : "#79738C" }}
-      >
-        {children[0]}
-      </Feedback>
-      
-      <Feedback
-        className="feedback"
-        onClick={handleResolved}
-        style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
-      >
-        {children[1]}
-        {"(" + resolvedComment() + ")"}
-      </Feedback>
-      
+      {showFeedbacks && createTab("Feedback", handleFeedback, isFeedback)}
+      {createTab("Focus areas", handleFocusAreas, isFocusAreas)}
     </Frame13201>
   );
 }
@@ -98,6 +71,19 @@ const Feedback = styled.div`
     display: none;
   }
   cursor: pointer;
+  display: flex;
+  gap: 2px;
 `;
+function createTab(title, onClick, isSelected) {
+  return <Feedback
+    className="feedback"
+    onClick={onClick}
+    style={{ color: isSelected ? "#301B72" : "#79738C" }}
+  >
+    {title}
+  </Feedback>;
+}
 
-export default ReviewsFrame1320;
+export default Tabs;
+
+

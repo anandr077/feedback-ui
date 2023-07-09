@@ -18,7 +18,7 @@ const SubmitCommentFrameRoot = (props) => {
 };
 
 const SubmitCommentFrameRootRoot = styled.div`
-  gap: 8px;
+  gap: 15px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -52,8 +52,10 @@ const SmallButton = styled.button`
   box-sizing: content-box;
   background-color: #7200e0;
   cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+ 
+  &:hover {
+    scale: 1.2;
+    transition: 0.1s;
   }
 `;
 const Text1 = styled.div`
@@ -92,8 +94,10 @@ const SmallButtonWhite = styled.button`
   background-blend-mode: ;
   background-image: ;
   cursor: pointer;
-  &: hover {
-    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+
+  &:hover {
+    scale: 1.2;
+    transition: 0.1s;
   }
 `;
 const Text2 = styled.div`

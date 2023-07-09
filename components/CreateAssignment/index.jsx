@@ -36,10 +36,16 @@ import FocusAreaDialog from "./Dialog/newFocusArea";
 import { getFocusAreas, addNewFocusArea, getAllColors } from "../../service";
 import { set } from "lodash";
 import PreviewDialog from "../Shared/Dialogs/preview/previewCard";
+import DeleteAssignmentPopup from "../DeleteAssignmentPopUp";
+import GeneralPopup from "../GeneralPopup";
+
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
   const { assignmentId } = useParams();
+
+  const [showDeletePopup, setShowDeletePopup] = React.useState(false);
+  const [showPublishPopup, setShowPublishPopup] = React.useState(false);
 
   const draft = {
     id: uuidv4(),
@@ -114,6 +120,9 @@ export default function CreateAssignment(props) {
   }
 
   const handleTitleChange = (e) => {
+    if(e.target.value.length > 140) {
+      return;
+    }
     const newTitle = e.target.value;
     setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
   };
@@ -227,6 +236,9 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestion(id, newContent) {
+    if(newContent.length > 500) {
+      return;
+    }
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
@@ -328,6 +340,7 @@ export default function CreateAssignment(props) {
     let invalidQuestion = false;
     const questions = assignment.questions;
     questions.map((question) => {
+      if(question.question){
       question.question = question.question.trim();
       if (question.question.length === 0) {
         const questionContainer = document.getElementById(
@@ -376,6 +389,21 @@ export default function CreateAssignment(props) {
           return false;
         }
       }
+      }
+      else{
+        const questionContainer = document.getElementById(
+          "questionContainer_" + question.serialNumber
+        );
+        questionContainer.style.border = "1px solid red";
+        const questionTextBox = document.getElementById(
+          "question_textBox" + question.serialNumber
+        );
+        questionTextBox.style.border = "1px solid red";
+        invalidQuestion = true;
+        showSnackbar("Please enter Question " + question.serialNumber);
+        return false;
+        return false;
+      }
     });
     return invalidQuestion ? false : true;
   };
@@ -412,6 +440,7 @@ export default function CreateAssignment(props) {
   };
 
   const publish = () => {
+    setShowPublishPopup(false);
     if (isAssignmentValid()) {
       updateAssignment(assignment.id, assignment).then((_) => {
         publishAssignment(assignment.id).then((res) => {
@@ -486,6 +515,18 @@ export default function CreateAssignment(props) {
     />
   );
 
+  const hidedeletePopup = () => { 
+    setShowDeletePopup(false);
+  }
+  const showDeletePopuphandler = (assignmentId) => {
+    setShowDeletePopup(true);
+  }
+  const hidePublishPopup = () => { 
+    setShowPublishPopup(false);
+  }
+  const showPublishPopuphandler = (assignmentId) => {
+    setShowPublishPopup(true);
+  }
   const methods = {
     assignment,
     handleTitleChange,
@@ -500,10 +541,14 @@ export default function CreateAssignment(props) {
     cleanformattingTextBox,
     cleanformattingDiv,
     deleteAssignmentHandler,
+    showDeletePopuphandler,
+    showPublishPopuphandler
   };
 
   return (
     <>
+    {showDeletePopup &&  <DeleteAssignmentPopup assignment={assignment} hidedeletePopup={hidedeletePopup}/>}
+    {showPublishPopup  && <GeneralPopup hidePopup={hidePublishPopup} title="Publish Task" textContent="Are you sure you want to publish this task?" buttonText="Publish" confirmButtonAction={publish} />}
       <ReactiveRender
         mobile={
           <CreateAAssignmentMobile

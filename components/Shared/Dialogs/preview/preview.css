@@ -1,12 +1,7 @@
-.dialog-container{
-  display: flex;
-  gap: 20px;
-}
 .parent-container {
   display: flex;
   gap: 20px;
   flex-direction: column;
-  align-items: center;
 }
 
 .title {
@@ -16,8 +11,18 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  height: 290px;
-  overflow: auto;
+  display: flex;
+  gap: 20px;
+}
+
+.data-parent{
+  display: flex;
+  gap: 20px;
+}
+
+.column-width{
+  flex: 1;
+  flex-basis: 0;
 }
 
 .content-card {
@@ -32,13 +37,10 @@
 
 .data {
   display: flex;
-  padding: 10px 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
-  height: 1180px;
-  overflow: auto;
 }
 
 .heading {
@@ -48,8 +50,6 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  height: 70px;
-  overflow: auto;
 }
 
 .content {
@@ -60,6 +60,4 @@
   font-weight: 400;
   line-height: normal;
   opacity: 0.7;
-  height: 302px;
-  overflow: auto;
 }

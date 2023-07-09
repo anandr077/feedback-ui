@@ -6,13 +6,13 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "./styles.css";
 import HighlightBlot from "./HighlightBlot";
-import CustomTooltip from "./CustomTooltip";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { Map } from 'immutable';
 import { groupBy, mapValues, filter } from 'lodash';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce }, ref) => {
+  ({ containerName, comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
+    // Quill.register('modules/clipboard', PlainClipboard, true);
 
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
@@ -20,9 +20,12 @@ const QuillEditor = React.forwardRef(
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
+
+        
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
         quillInstance.root.style.fontSize = "16px";
-
+  
+      
         const delta = quillInstance.clipboard.convert(value);
         quillInstance.setContents(delta);
 
@@ -206,8 +209,7 @@ function removeAllHighlights(editor) {
     ([commentId, highlights]) => {
       return highlights.map((highlight) => {
         const { content, range } = highlight;
-        console.log("Rem " , range)
-        // editor.removeFormat(range.from, range.to - range.from, "highlight");
+        editor.removeFormat(range.from, range.to - range.from, "highlight");
         return { commentId, range };
       });
     }

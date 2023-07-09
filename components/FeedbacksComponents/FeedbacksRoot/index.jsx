@@ -65,7 +65,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
-  const [selectedRangeFormat, setSelectedRangeFormat] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
   const [nextUrl, setNextUrl] = useState("");
@@ -157,13 +156,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-    
-   
-    if (!document.getElementById("newCommentInput").value) return;
+    if (!document.getElementById("newCommentInput").value)
+      return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
@@ -181,10 +175,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -202,11 +192,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowNewComment(false);
   }
   function handleFocusAreaComment(focusArea) {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
@@ -288,10 +273,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   );
 
   function handleShareWithClass() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
     setShowShareWithClass(true);
   }
   const createDebounceFunction = (answer) => {
@@ -703,9 +684,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             from: from,
             to: to,
           });
-          const delta =
-            quillRefs.current[serialNumber - 1].setLostFocusColor(range);
-          setSelectedRangeFormat(delta);
           setShowNewComment(true);
         }
       }
@@ -746,11 +724,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   const hideNewCommentDiv = () => {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
     setShowNewComment(false);
   };
 

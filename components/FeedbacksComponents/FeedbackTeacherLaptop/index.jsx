@@ -113,7 +113,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           {showNewComment ? (
             <>
-              <Screen onClick={methods.hideNewCommentDiv}></Screen>
+              {/* <Screen onClick={methods.hideNewCommentDiv}></Screen> */}
               {newCommentFrame()}
             </>
           ) : (
@@ -216,12 +216,10 @@ function FeedbackTeacherLaptop(props) {
                 methods.onSelectionChange(createVisibleComments(), answer.serialNumber)(
                   quillRefs.current[answer.serialNumber - 1].getSelection()
                 );
-                // quillRefs.current[answer.serialNumber - 1].focus();
-
               }}
               id={"quillContainer_" + submission.id + "_" + answer.serialNumber}
             >
-              {createQuill(submission, answer, answerValue, debounce)}
+              {createQuill("quillContainer_" + submission.id + "_" + answer.serialNumber, submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
           {createFocusAreasLabel(question.focusAreas)}
@@ -388,6 +386,8 @@ function FeedbackTeacherLaptop(props) {
   }
 
   function reviewerNewComment() {
+    if (pageMode === "CLOSED")
+      return <></>
     return (
       <>
         <Frame1329>
@@ -513,11 +513,6 @@ function FeedbackTeacherLaptop(props) {
                 pageMode === "CLOSED" &&
                 submission.status != "CLOSED" && (
                   <AwaitFeedbackContainer id="deleteButton">
-                    <StatusLabel
-                      key="statusLabel"
-                      id="statusLabel"
-                      text="Awaiting Feedback"
-                    />
                     <Buttons2
                       button="Download PDF"
                       download={true}
@@ -559,7 +554,7 @@ function FeedbackTeacherLaptop(props) {
     </>
   );
 
-  function createQuill(submission, answer, answerValue, debounce) {
+  function createQuill(containerName, submission, answer, answerValue, debounce) {
     return (
       <QuillEditor
         id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
@@ -577,6 +572,7 @@ function FeedbackTeacherLaptop(props) {
         }}
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}
+        containerName={containerName}
       ></QuillEditor>
     );
   }

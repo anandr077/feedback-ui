@@ -4,7 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import styled from "styled-components";
 import "./preview.css";
-import { groupBy, groupedData, flatten } from "lodash";
+import { groupBy, groupedData, flatten, chain } from "lodash";
 
 export default function PreviewDialog({ setMarkingCriteriaPreviewDialog,  criterias}) {
   console.log("criterias: " + criterias);
@@ -23,9 +23,9 @@ export default function PreviewDialog({ setMarkingCriteriaPreviewDialog,  criter
             <tr>
               {createHeading(criterias)}
             </tr>
-            <tr>
-              
-            </tr>
+            
+            {createLevels(criterias)}
+            
           </table>
         </DialogContent>
       </Dialog>
@@ -40,23 +40,51 @@ const createHeading = (criterias) => {
 
 const createLevels = (criterias) => {
 
-  let groups = _.groupBy(_.flatten(criterias.map((criteria, criteriaIndex) => {
-    return criteria.levels.map((level, levelIndex) => {
-        return {
-            criteriaIndex: criteriaIndex,
-            levelIndex: levelIndex,
-            title: criteria.title,
-            levelName: level.name,
-            levelDescription: level.description,
-        };
-    });
-})), 'levelName');
+  let groupedArray = chain(criterias)
+  .flatMap((criteria, criteriaIndex) => 
+    criteria.levels.map((level, levelIndex) => ({
+      criteriaIndex: criteriaIndex,
+      levelIndex: levelIndex,
+      title: criteria.title,
+      levelName: level.name,
+      levelDescription: level.description
+    }))
+  )
+  .groupBy('levelIndex')
+  .map((items, name) => ({ name, items }))
+  .value();
+  console.log("groupedArray", groupedArray);
+  return groupedArray.map(g=>{
+    return <tr>
+        {createRows(g)}
+      </tr>
+  })
+}
 
-console.log("groups", groups);
+const createRows = (group) => {
+  return group.items.map(item=>{
+    return <td>{item.levelName}<br/>{item.levelDescription}</td>
+  })
 }
 
 
-
+{/* <table>
+  <tr>
+    <td>Create new marking criteria</td>
+    <td>Create new markin</td>
+    <td>C3</td>
+  </tr>
+  <tr>
+    <td>Create new marking criteria Create new marking criteria Create new marking criteria Create new marking criteria Create new marking criteria Create new marking criteria</td><td>Create new marking criteria Create new marking criteria Create new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteria</td><td>Create new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteria</td><td>Create new marking criteriaCreate new marking criteriaCreate new marking criteria</td><td>Create new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteria</td><td>Create new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteria</td>
+    <td>Create new marking criteria</td>
+  </tr>
+  <tr>
+    <td>Create new marking criteria Create new marking criteria Create new marking criteria</td>
+  </tr>
+  <tr>
+    <td>Create new marking criteria Create new marking criteria Create new marking criteriaCreate new marking criteriaCreate new marking criteriaCreate new marking criteria</td>
+  </tr>
+</table> */}
 
 
 /**

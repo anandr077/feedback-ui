@@ -6,65 +6,26 @@ function Tabs(props) {
   const {
     className,
     setFeedback,
-    setResolved,
     setFocusAreas,
     isFocusAreas,
     isFeedback,
-    isResolvedClick,
-    comments,
+    showFeedbacks = true
   } = props;
+
   function handleFocusAreas() {
     setFeedback(false);
-    setResolved(false);
     setFocusAreas(true);
   }
   function handleFeedback() {
     setFeedback(true);
-    setResolved(false);
     setFocusAreas(false);
   }
 
-  function handleResolved() {
-    setFeedback(false);
-    setResolved(true);
-    setFocusAreas(false);
-  }
-
-  function resolvedComment() {
-    let resolvedCount = 0;
-    for (const comment of comments) {
-      if (comment.status === "RESOLVED") {
-        resolvedCount++;
-      }
-    }
-    return resolvedCount;
-  }
   
   return (
     <Frame13201 className={`frame-1320 ${className || ""}`}>
-      <Feedback
-        className="feedback"
-        onClick={handleFeedback}
-        style={{ color: isFeedback ? "#301B72" : "#79738C" }}
-      >
-        {"Feedback"}
-      </Feedback>
-      
-      <Feedback
-        className="feedback"
-        onClick={handleResolved}
-        style={{ color: isResolvedClick ? "#301B72" : "#79738C" }}
-      >
-        {"Resolved"}
-        {"(" + resolvedComment() + ")"}
-      </Feedback>
-      <Feedback
-        className="feedback"
-        onClick={handleFocusAreas}
-        style={{ color: isFocusAreas ? "#301B72" : "#79738C" }}
-      >
-        {"Focus Areas"}
-      </Feedback>
+      {showFeedbacks && createTab("Feedback", handleFeedback, isFeedback)}
+      {createTab("Focus areas", handleFocusAreas, isFocusAreas)}
     </Frame13201>
   );
 }
@@ -113,5 +74,16 @@ const Feedback = styled.div`
   display: flex;
   gap: 2px;
 `;
+function createTab(title, onClick, isSelected) {
+  return <Feedback
+    className="feedback"
+    onClick={onClick}
+    style={{ color: isSelected ? "#301B72" : "#79738C" }}
+  >
+    {title}
+  </Feedback>;
+}
 
 export default Tabs;
+
+

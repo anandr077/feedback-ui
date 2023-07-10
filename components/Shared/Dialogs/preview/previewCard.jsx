@@ -1,10 +1,8 @@
-import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import styled from "styled-components";
+import { chain } from "lodash";
+import * as React from "react";
 import "./preview.css";
-import { groupBy, groupedData, flatten, chain } from "lodash";
 
 export default function PreviewDialog({
   setMarkingCriteriaPreviewDialog,
@@ -51,18 +49,27 @@ const createLevels = (criterias) => {
     .groupBy("levelIndex")
     .map((items, name) => ({ name, items }))
     .value();
-  return groupedArray.map((g) => {
-    return <tr className="data-parent">{createRows(g)}</tr>;
+
+  return groupedArray.map((group) => {
+    let rowItems = Array(criterias.length).fill(null);
+    group.items.forEach((item) => {
+      rowItems[item.criteriaIndex] = item;
+    });
+    return <tr className="data-parent">{createRows(rowItems)}</tr>;
   });
 };
 
-const createRows = (group) => {
-  return group.items.map((item) => {
-    return (
-      <td className="data column-width">
-        <div className="heading">{item.levelName}</div>
-        <div className="content">{item.levelDescription}</div>
-      </td>
-    );
+const createRows = (items) => {
+  return items.map((item) => {
+    if (item) {
+      return (
+        <td className="data column-width">
+          <div className="heading">{item.levelName}</div>
+          <div className="content">{item.levelDescription}</div>
+        </td>
+      );
+    } else {
+      return <td className="data column-width"></td>;
+    }
   });
 };

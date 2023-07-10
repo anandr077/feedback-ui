@@ -4,6 +4,7 @@ import {deleteAssignment, updateAssignment} from "../../service";
 import SnackbarContext from "../SnackbarContext";
 import { isMobileView } from "../ReactiveRender";
 import { IbmplexsansNormalShark20px , IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
+import { DialogContent, Dialog } from '@mui/material';
 
 export default function DeleteAssignmentPopup(props) {
 
@@ -37,7 +38,9 @@ Delete permanently
 </ButtonsContainer>
 </>;
 
-  return (<>
+  return ( <Dialog open={open} onClose={()=> hidedeletePopup()}>
+  <DialogContent>
+
   {
 isMobileView() ? <DeleteAssignmentPopupContainerSmall>
 {content}
@@ -48,7 +51,8 @@ isMobileView() ? <DeleteAssignmentPopupContainerSmall>
     </DeleteAssignmentPopupContainer>
 
   }
-  </>
+  </DialogContent>
+  </Dialog>
    
   )
 }

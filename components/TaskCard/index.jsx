@@ -165,7 +165,7 @@ function tagsFrame(task) {
 
 const moreOptions= <MoreOptionsWrapper>
 <MoreOptions onClick={(event) => handleDateUpdate(event,task)} >
-  <IconContainer src="/icons/edit-purple-icon.svg" />
+  <IconContainer src="/icons/clock-purple.svg" />
   <div>Extend</div>
 </MoreOptions>
 <MoreOptions onClick={(event) => handleDelete(event,task)} >

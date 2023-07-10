@@ -79,6 +79,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const isTeacher = getUserRole() === "TEACHER";
   const defaultMarkingCriteria = getDefaultCriteria();
 
+
+
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id)])
       .then(([submissionsResult, commentsResult]) => {
@@ -127,6 +129,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
+
 
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById("statusLabelIcon")) {
@@ -515,6 +518,21 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
 
+if(pageMode === "REVIEW"){
+  setDefaultMarkingCriteria();
+}
+  
+function setDefaultMarkingCriteria(){
+  submission.assignment.questions.map((question)=>{
+    if(question.markingCriteria.title !="" && question.markingCriteria.criterias){  
+      question.markingCriteria.criterias.map((criteria)=>{
+        criteria.selectedLevel = criteria.levels[0];
+      }); 
+    }
+});
+}
+
+
   const validateMarkingCriteria = () => {
     let invalid = true;
     submission.assignment.questions.map((question)=>{
@@ -535,29 +553,28 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setMethodToCall(null);
     setPopupText("");
 
-   if(submission.assignment.questions[0].markingCriteria?.title !=""){
     if(validateMarkingCriteria()){
-         submission.assignment.questions.map((question)=>{
-          if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
 
-          const markingCriteriaRequest = question.markingCriteria;
-              addFeedback(submission.id, {
-              questionSerialNumber: question.serialNumber,
-              feedback: "Marking Criteria Feedback",
-              range: selectedRange,
-              type: "MARKING_CRITERIA",
-              replies: [],
-              markingCriteria: markingCriteriaRequest,
-              }).then((response) => {
-                if (response) {
-                  console.log("###response", response);
-                }
-              });
+          submission.assignment.questions.map((question)=>{
+            if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
+                  const markingCriteriaRequest = question.markingCriteria;
+                        addFeedback(submission.id, {
+                        questionSerialNumber: question.serialNumber,
+                        feedback: "Marking Criteria Feedback",
+                        range: selectedRange,
+                        type: "MARKING_CRITERIA",
+                        replies: [],
+                        markingCriteria: markingCriteriaRequest,
+                        }).then((response) => {
+                          if (response) {
+                            console.log("###response", response);
+                          }
+                        });
+                      }
             }
-
-          });
+          );
           
-        markSubmsissionReviewed(submission.id).then((_) => {
+      markSubmsissionReviewed(submission.id).then((_) => {
           showSnackbar("Task reviewed...", window.location.href);
           if (isTeacher) {
             window.location.href = nextUrl === "/" ? "/#" : nextUrl;
@@ -567,24 +584,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         });
 
     }
-  }
-  else {
-
-    markSubmsissionReviewed(submission.id).then((_) => {
-      showSnackbar("Task reviewed...", window.location.href);
-      if (isTeacher) {
-        window.location.href = nextUrl === "/" ? "/#" : nextUrl;
-      } else {
-        window.location.href = "/#";
-      }
-    });
-
-  }
+}
 
 
-
-    
-  }
   const handleSaveSubmissionForReview = () => {
     setShowSubmitPopup(false);
     setMethodToCall(null);

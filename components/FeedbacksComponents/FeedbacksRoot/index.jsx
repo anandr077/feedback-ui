@@ -518,19 +518,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
 
-if(pageMode === "REVIEW"){
-  setDefaultMarkingCriteria();
-}
-  
-function setDefaultMarkingCriteria(){
-  submission.assignment.questions.map((question)=>{
-    if(question.markingCriteria.title !="" && question.markingCriteria.criterias){  
-      question.markingCriteria.criterias.map((criteria)=>{
-        criteria.selectedLevel = criteria.levels[0];
-      }); 
-    }
-});
-}
 
 
   const validateMarkingCriteria = () => {
@@ -539,8 +526,7 @@ function setDefaultMarkingCriteria(){
       if(question.markingCriteria.title !="" && question.markingCriteria.criterias){   
         question.markingCriteria.criterias.map((criteria)=>{
           if(!criteria.selectedLevel){
-            showSnackbar("Marking criteria feedback missing for question " + question.serialNumber);
-            invalid = false;
+            criteria.selectedLevel = criteria.levels[0].name;
           }
         })  
       }
@@ -557,6 +543,7 @@ function setDefaultMarkingCriteria(){
 
           submission.assignment.questions.map((question)=>{
             if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
+              
                   const markingCriteriaRequest = question.markingCriteria;
                         addFeedback(submission.id, {
                         questionSerialNumber: question.serialNumber,

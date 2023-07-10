@@ -1,32 +1,21 @@
-import React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import ListSubheader from "@mui/material/ListSubheader";
-import FormControl from "@mui/material/FormControl";
-import Checkbox from "@mui/material/Checkbox";
-import ListItemText from "@mui/material/ListItemText";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import { Avatar } from "@boringer-avatars/react";
 import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
-import styled, { css } from "styled-components";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import React from "react";
+import styled from "styled-components";
+import {
+  IbmplexsansNormalShark20px
+} from "../../styledMixins";
 import CheckboxBordered from "../CheckboxBordered";
 import "./index.css";
-import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansBoldShark64px,
-} from "../../styledMixins";
+
 
 import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansBoldShark64px,
-} from "../../styledMixins";
-
-import {
-  IbmplexsansNormalShark16px,
-  IbmplexsansNormalShark20px,
-  IbmplexsansBoldShark64px,
+  IbmplexsansNormalShark16px
 } from "../../styledMixins";
 
 const CheckboxGroup = ({
@@ -75,16 +64,13 @@ const CheckboxGroup = ({
     <StyledListSubheader key={`category-${index}`}>
       {category.title}
     </StyledListSubheader>,
-    ...category.items.map((item) => (
+    ...category.items?.map((item) => (
       <StyledMenuItem
         key={item.value.title}
         onClick={(event) =>
           handleMenuItemClick(event, item.value, category.name)
         }
       >
-        {/* <Checkbox
-          checked={selectedItems.some((selectedItem) => selectedItem.value === item.value)}
-        /> */}
         <CheckboxContainer>
           <CheckboxBordered
             checked={selectedItems.some(
@@ -94,9 +80,7 @@ const CheckboxGroup = ({
           <CheckBoxText>{item.value.title}</CheckBoxText>
         </CheckboxContainer>
         {focusAreaColor(item)}
-        {/* <div className="text-container"> */}
         <StyledListItemText primary={item.label} />
-        {/* </div> */}
       </StyledMenuItem>
     )),
   ]);

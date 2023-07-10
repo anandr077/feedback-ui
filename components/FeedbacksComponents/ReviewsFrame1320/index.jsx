@@ -13,10 +13,12 @@ function Tabs(props) {
   } = props;
 
   function handleFocusAreas() {
+    console.log("handleFocusAreas")
     setFeedback(false);
     setFocusAreas(true);
   }
   function handleFeedback() {
+    console.log("handleFeedback")
     setFeedback(true);
     setFocusAreas(false);
   }

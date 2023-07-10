@@ -6,6 +6,7 @@ import SnackbarContext from "../SnackbarContext";
 import { isMobileView } from "../ReactiveRender";
 import DateSelector from '../DateSelector';
 import { IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
+import { DialogContent, Dialog } from '@mui/material';
 
 
 export default function ExtendAssignmentPopup(props) {
@@ -49,7 +50,8 @@ const content =<><TitleContainer>
 </ButtonsContainer>
 </>;
 
-  return (<>
+  return (<Dialog open={open} onClose={()=> hideDateExtendPopup()}>
+  <DialogContent>
   {
 isMobileView() ? <DeleteAssignmentPopupContainerSmall>
 {content}
@@ -58,9 +60,9 @@ isMobileView() ? <DeleteAssignmentPopupContainerSmall>
     <DeleteAssignmentPopupContainer>
     {content}
     </DeleteAssignmentPopupContainer>
-
   }
-  </>
+</DialogContent>
+</Dialog>
    
   )
 }

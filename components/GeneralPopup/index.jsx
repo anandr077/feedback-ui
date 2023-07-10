@@ -2,6 +2,8 @@ import React from 'react'
 import styled from "styled-components";
 import { isMobileView } from "../ReactiveRender";
 import { IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
+import { DialogContent, Dialog } from '@mui/material';
+
 
 export default function GeneralPopup(props) {
 
@@ -20,7 +22,8 @@ const content =<><TitleContainer>
 </ButtonsContainer>
 </>;
 
-  return (<>
+  return (<Dialog open={open} onClose={()=> hidePopup()}>
+  <DialogContent>
   {
 isMobileView() ? <DeleteAssignmentPopupContainerSmall>
 {content}
@@ -31,7 +34,8 @@ isMobileView() ? <DeleteAssignmentPopupContainerSmall>
     </DeleteAssignmentPopupContainer>
 
   }
-  </>
+  </DialogContent>
+  </Dialog>
    
   )
 }

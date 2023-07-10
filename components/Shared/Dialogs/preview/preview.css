@@ -1,7 +1,3 @@
-.dialog-container{
-  display: flex;
-  gap: 20px;
-}
 .parent-container {
   display: flex;
   gap: 20px;
@@ -15,21 +11,29 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  display: flex;
+  gap: 20px;
+}
+
+.data-parent{
+  display: flex;
+  gap: 20px;
+}
+
+.column-width{
+  flex: 1;
+  flex-basis: 0;
 }
 
 .content-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: stretch;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
+  padding: 8px 12px;
 }
 
 .data {
   display: flex;
-  padding: 10px 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;

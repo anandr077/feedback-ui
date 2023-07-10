@@ -129,7 +129,7 @@ const saveMarkingCriteria = () => {
     })
   }
   isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
-  showSnackbar(isUpdating? "Marking Criteria Updated Successfully" :"Marking Criteria Created Successfully" );
+  showSnackbar(isUpdating? "Marking criteria updated" :"Marking criteria created" );
   window.localStorage.setItem("markingCriteria", "true");
   window.location.href = "#settings";
   }
@@ -141,7 +141,7 @@ const saveMarkingCriteria = () => {
 
 const deleteMarkingCriteriaMethod = () => {
   deleteMarkingCriteria(markingCriteriaId).then(() => {
-    showSnackbar("Marking Criteria Deleted Successfully");
+    showSnackbar("Marking criteria deleted");
     window.localStorage.setItem("markingCriteria", "true");
     window.location.href = "/#settings";
     

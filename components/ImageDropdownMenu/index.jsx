@@ -76,7 +76,7 @@ export const ImageDropdownMenu = (props) => {
        <Frame12841 src="/img/frame-1284@2x.png" alt="Frame 1284" />
      </IconButton>
    </FlexContainerSmall>
-     :<FlexContainer onClick={handleClick}>
+     :<FlexContainer onClick={handleClick} style={markingCriteriaType ? { width: "100px" } : {}}>
         <IconButton
           edge="start"
           color="inherit"

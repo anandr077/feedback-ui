@@ -1,39 +1,95 @@
 import React from 'react'
 import styled from 'styled-components'
-import ImageDropdownMenu from '../ImageDropdownMenu'
+import { chain, set } from "lodash";
+import "./markingcriteria.css";
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
     const {allmarkingCriteriaFeedback, small, questionSerialNumber} = props;
+    const [selectedMarkingCriteria, setSelectedMarkingCriteria] = React.useState([]);
+    const [criterias, setCriterias] = React.useState([]);
  
-    const selectedMarkingCriteria = allmarkingCriteriaFeedback.map((feedback) =>{
-      if(feedback.questionSerialNumber === questionSerialNumber){
-        return feedback;
-      }
+    React.useEffect(() => {
+      setSelectedMarkingCriteria([]);
+    const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter((markingCriteriaFeedback) => { 
+      return markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber;
 });
-const markingCriteria = selectedMarkingCriteria[selectedMarkingCriteria.length-1]?.markingCriteria;
-    const markingCriteriaCardsComponent = markingCriteria?.criterias?.map((criteria, index) => {
-        return (
-            <SingleMarkingCriteriaContainer key={index}>
-            <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>
-            <SelectedLevelContainer>{criteria.selectedLevel}</SelectedLevelContainer>
-            </SingleMarkingCriteriaContainer> 
-            )
-        });
+const criterias = selectedMarkingCriteria[selectedMarkingCriteria.length-1]?.markingCriteria?.criterias;
+setCriterias(criterias);
+setSelectedMarkingCriteria(selectedMarkingCriteria);
+}, []);
+
 
   return (
-    <>
-    { small?
-      <MarkingCriteriaContainerSmall>
-      {markingCriteriaCardsComponent}
-      </MarkingCriteriaContainerSmall>
-      :
+    
     <MarkingCriteriaContainer>
-      {markingCriteriaCardsComponent}
+      <table className="marking-criteria-parent-container">
+            <tr className="marking-criteria-title">{createHeading(criterias)}</tr>
+            {createLevels(criterias)}
+          </table>
     </MarkingCriteriaContainer>
-    }
-    </>
   )
 }
+
+const createHeading = (criterias) => {
+  return criterias?.map((criteria) => {
+    return <td className="marking-criteria-column-width">{criteria?.title}</td>;
+  });
+};
+
+const createLevels = (criterias) => {
+  let groupedArray = chain(criterias)
+    .flatMap((criteria, criteriaIndex) => {
+      const selectedLevel= criteria.selectedLevel;
+      return criteria?.levels.map((level, levelIndex) => {
+      return ({
+        criteriaIndex: criteriaIndex,
+        levelIndex: levelIndex,
+        title: criteria?.title,
+        levelName: level.name,
+        levelDescription: level.description,
+        selectedLevel: level.name === selectedLevel,
+      });
+     } )
+    }
+    )
+    .groupBy("levelIndex")
+    .map((items, name) => ({ name, items }))
+    .value();
+
+  return groupedArray.map((group) => {
+    let rowItems = Array(criterias.length).fill(null);
+    group.items.forEach((item) => {
+      rowItems[item.criteriaIndex] = item;
+    });
+    return <tr className="marking-criteria-data-parent">{createRows(rowItems)}</tr>;
+  });
+};
+
+const createRows = (items) => {
+  return items.map((item) => {
+    if (item) {
+      return (
+        <>
+        { item.selectedLevel ?
+          (<td className="marking-criteria-data marking-criteria-column-width-selected">
+          <div className="marking-criteria-heading">{item.levelName}</div>
+          <div className="marking-criteria-content">{item.levelDescription}</div>
+        </td>)
+        :
+        (<td className="marking-criteria-data marking-criteria-column-width">
+          <div className="marking-criteria-heading">{item.levelName}</div>
+          <div className="marking-criteria-content">{item.levelDescription}</div>
+        </td>)
+        }
+        </>
+      );
+    } else {
+      return <td className="marking-criteria-data marking-criteria-column-width"></td>;
+    }
+  });
+};
+
+
 const SelectedLevelContainer = styled.div`
   display: flex;
   align-items: center;
@@ -85,21 +141,7 @@ border-radius: 16px;
 border: 1px solid rgba(114, 0, 224, 0.10);
 background: #FFF;
 box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.10);
-display: grid;
-grid-template-columns: repeat(3, 1fr); 
+display: flex;
 grid-gap: 10px; 
 `;
 
-const MarkingCriteriaContainerSmall = styled.div`
-padding: 20px;
-align-items: flex-start;
-gap: 20px;
-align-self: stretch;
-border-radius: 16px;
-border: 1px solid rgba(114, 0, 224, 0.10);
-background: #FFF;
-box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.10);
-display: grid;
-grid-template-columns: repeat(2, 1fr); 
-grid-gap: 10px; 
-`;

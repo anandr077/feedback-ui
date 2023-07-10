@@ -57,10 +57,10 @@ export default function AccountSettingsRoot(props) {
     const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
         deleteMarkingCriteria(markingCriteriaId).then(() => {
             window.location.reload();
-            showSnackbar("Marking Criteria Deleted Successfully");
+            showSnackbar("Marking criteria deleted");
         }
         ).catch((error) => {
-            showSnackbar("Error Deleting Marking Criteria");
+            showSnackbar("Error deleting marking criteria");
         });
     }
 

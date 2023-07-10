@@ -60,9 +60,16 @@ function FeedbackTeacherLaptop(props) {
     share,
     sharewithclassdialog,
   } = props;
+  console.log("rerender")
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
+  React.useEffect(() => {
+    if(showNewComment) {
+      handleTabChange();
+    }
+  }, [showNewComment]);
+
   const [isShowResolved, setShowResolved] = useState(false);
   const handleShowResolvedToggle = (event) => {
     setShowResolved(event.target.checked);
@@ -109,20 +116,24 @@ function FeedbackTeacherLaptop(props) {
             showFeedbacks = {pageMode !== "DRAFT"}
           > 
           </Tabs>
+         
         </Frame1322>
+        <Line6 src="/icons/line.png" alt="Line 6" />
         <>
-          {showNewComment ? (
+        {showNewComment ? (
+          <>
+            <Screen onClick={methods.hideNewCommentDiv}></Screen>
+            {newCommentFrame()}
+          </>
+        ) : (
+          <Frame1328>
             <>
-              {/* <Screen onClick={methods.hideNewCommentDiv}></Screen> */}
-              {newCommentFrame()}
-            </>
-          ) : (
-            <Frame1328>
-              <>{showResolvedToggle(isFeedback, isShowResolved, handleShowResolvedToggle)}
+              {showResolvedToggle(isFeedback, isShowResolved, handleShowResolvedToggle)}
               {createCommentsFrame()}
-                </>
-            </Frame1328>
-          )}
+            </>
+          </Frame1328>
+        )}
+
         </>
       </Frame1331>
     );
@@ -285,14 +296,25 @@ function FeedbackTeacherLaptop(props) {
       </>
     );
   };
-  const newCommentFrame = () => {
+  const handleTabChange = () => {
+    console.log("handleStateChange")
     if (pageMode === "DRAFT" || pageMode === "REVISE") {
-      // setFocusAreas(true)
-      return selectFocusArea();
+      setFeedback(false);
+      setFocusAreas(true);
+    } else {
+      setFeedback(true);
+      setFocusAreas(false);
     }
-    // setFeedback(true)
+  }
+  const newCommentFrame = () => {
+    console.log("newCommentFrame")
+    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+      return selectFocusArea();
+    } 
     return reviewerNewComment();
   };
+  
+
 
   function createDefaultCommentText() {
     if (isFocusAreas ) {
@@ -406,7 +428,7 @@ function FeedbackTeacherLaptop(props) {
               submitButtonOnClick={methods.handleAddComment}
               cancelButtonOnClick={methods.hideNewCommentDiv}
             />
-            <Line6 src="/icons/line.png" alt="Line 6" />
+            
             <ShortcutsFrame
               shortcuts={shortcuts}
               handleShortcutAddComment={methods.handleShortcutAddComment}
@@ -427,7 +449,6 @@ function FeedbackTeacherLaptop(props) {
     const focusAreasFrame = <>
     <Frame1329>
       <Frame1406>
-        <Line6 src="/icons/line.png" alt="Line 6" />
         <FocusAreasFrame
           focusAreas={focusAreas}
           handleAddFocusArea={methods.handleFocusAreaComment}
@@ -604,7 +625,12 @@ const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comme
 
 function showResolvedToggle(isFeedback, isShowResolved, handleShowResolvedToggle) {
   if (isFeedback) { 
-    return <div align = "right">
+    return <div style={{
+      display:"flex", 
+      flexDirection: "row", 
+      alignItems:"center",
+      alignContent:"center"
+      }}>
       <Label>Show resolved</Label>
       {/* Show resolved */}
       <Switch
@@ -655,6 +681,8 @@ const Label = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  align-items: center;
 `;
 const TitleWrapper = styled.div`
   display: flex;
@@ -1151,5 +1179,7 @@ const X2021JeddleAllRightsReserved = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
+
+
 
 export default FeedbackTeacherLaptop;

@@ -166,7 +166,7 @@ function tagsFrame(task) {
 const moreOptions= <MoreOptionsWrapper>
 <MoreOptions onClick={(event) => handleDateUpdate(event,task)} >
   <IconContainer src="/icons/clock-purple.svg" />
-  <div>Extend</div>
+  <div>Change due time</div>
 </MoreOptions>
 <MoreOptions onClick={(event) => handleDelete(event,task)} >
   <IconContainer src="/icons/delete-purple-icon.svg" />
@@ -206,7 +206,7 @@ const MoreOptions = styled.div`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 `;
 

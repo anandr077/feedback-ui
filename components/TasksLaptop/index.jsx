@@ -11,7 +11,11 @@ import TaskFrame1353 from "../TaskFrame1353";
 import "./TasksLaptop.css";
 import CheckboxGroup from "../CheckboxGroup";
 function TasksLaptop(props) {
-  const { menuItems, filterTasks,outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
+  const { menuItems, filterTasks,
+    assignmedTasks,
+    inProgressTasks,
+    inReviewTasks,
+     frame19Props } =
     props;
   return (
     <div className="tasks-laptop screen">
@@ -26,18 +30,18 @@ function TasksLaptop(props) {
           <Frame1359>
             <Frame1358>
               <TaskFrame1353
-                outstanding="Not Started"
-                number={outstandingTasks.length}
+                outstanding="Assigned"
+                number={assignmedTasks.length}
               />
               <TaskCardContainer
-                allTasks={outstandingTasks}
+                allTasks={assignmedTasks}
                 className={frame19Props.className}
                 cardsProps={frame19Props.cardsProps}
               />
             </Frame1358>
             <Frame1358>
               <TaskFrame1353
-                outstanding="In Progress"
+                outstanding="In Draft"
                 number={inProgressTasks.length}
               />
               <TaskCardContainer
@@ -49,11 +53,11 @@ function TasksLaptop(props) {
 
             <Frame1358>
               <TaskFrame1353
-                outstanding="Overdue"
-                number={overdueTasks.length}
+                outstanding="In Review"
+                number={inReviewTasks.length}
               />
               <TaskCardContainer
-                allTasks={overdueTasks}
+                allTasks={inReviewTasks}
                 className={frame19Props.className}
                 cardsProps={frame19Props.cardsProps}
               />

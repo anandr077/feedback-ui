@@ -13,7 +13,11 @@ import { taskHeaderProps } from "../../utils/headerProps.js";
 import CheckboxGroup from "../CheckboxGroup";
 
 function TasksDesktop(props) {
-  const { menuItems, filterTasks,outstandingTasks, inProgressTasks, overdueTasks, frame19Props } =
+  const { menuItems, filterTasks,
+    assignmedTasks,
+    inProgressTasks,
+    inReviewTasks,
+    frame19Props } =
   props;
 
   return (
@@ -29,17 +33,17 @@ function TasksDesktop(props) {
           <Frame1359>
             <Frame1354>
               <TaskFrame1353
-                outstanding="Not Started"
-                number={outstandingTasks.length}
-              />
+               outstanding="Assigned"
+               number={assignmedTasks.length}
+             />
               <TaskCardContainer
-                allTasks={overdueTasks}
+                allTasks={assignmedTasks}
                 className={frame19Props.className}
               />
             </Frame1354>
             <Frame1354>
               <TaskFrame1353
-                outstanding="In Progress"
+                outstanding="In Draft"
                 number={inProgressTasks.length}
               />
               <TaskCardContainer
@@ -49,11 +53,11 @@ function TasksDesktop(props) {
             </Frame1354>
             <Frame1358>
               <TaskFrame1353
-                outstanding="Overdue"
-                number={outstandingTasks.length}
+                outstanding="In Review"
+                number={inReviewTasks.length}
               />
               <TaskCardContainer
-                allTasks={outstandingTasks}
+                allTasks={inReviewTasks}
                 className={frame19Props.className}
               />
             </Frame1358>

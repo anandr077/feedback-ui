@@ -15,25 +15,30 @@ import "./TasksStudentTablet.css";
 import { set } from "lodash";
 
 function TasksStudentTablet(props) {
-  const {menuItems, filterTasks, outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
+  const {menuItems, 
+    filterTasks, 
+    assignmedTasks,
+    inProgressTasks,
+    inReviewTasks
+    } =
     props;
     const prevProps = useRef(props);
-    const [isOutstanding, setIsOutstanding] = useState(true);
+    const [isAssigned, setIsAssigned] = useState(true);
     const [isInProgress, setIsInProgress] = useState(false);
-    const [isOverdue, setIsOverdue] = useState(false);
-    const [task, setTask] = useState(outstandingTasks);
+    const [isInReview, setIsInReview] = useState(false);
+    const [task, setTask] = useState(assignmedTasks);
     const [title,setTittle] = useState("Not Started");
 
-const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outstandingTasks, true, false, false));
+const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",assignmedTasks, true, false, false));
     useEffect(() => {
-       setTasksFrame (createTasksFrame(title,task, isOutstanding, isInProgress, isOverdue))
+       setTasksFrame (createTasksFrame(title,task, isAssigned, isInProgress, isInReview))
       if (prevProps.current !== props) {
-        isOutstanding && setTask(outstandingTasks);
+        isAssigned && setTask(assignmedTasks);
         isInProgress && setTask(inProgressTasks);
-        isOverdue && setTask(overdueTasks);
+        isInReview && setTask(inReviewTasks);
       }
       prevProps.current = props;
-    }, [ title, task, isOutstanding, isInProgress, isOverdue, menuItems]);
+    }, [ title, task, isAssigned, isInProgress, isInReview, menuItems]);
   
 
   return (
@@ -56,36 +61,36 @@ const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outsta
         <Frame1364>
           <Frame1211>
             <Tabs
-              text={"Not Started"}
+              text={"Assigned"}
               isSelected={isOutstanding}
               onClickFn={() => {
-                setIsOutstanding(true);
+                setIsAssigned(true);
                 setIsInProgress(false);
-                setIsOverdue(false);
-                setTittle("Not Started");
-                setTask(outstandingTasks);
+                setIsInReview(false);
+                setTittle("Assigned");
+                setTask(assignmedTasks);
               }}
             />
             <Tabs
-              text={"In Progress"}
+              text={"In Draft"}
               isSelected={isInProgress}
               onClickFn={() => {
-                setIsOutstanding(false);
+                setIsAssigned(false);
                 setIsInProgress(true);
-                setIsOverdue(false);
-                setTittle("In Progress");
+                setIsInReview(false);
+                setTittle("In Draft");
                 setTask(inProgressTasks);
               }}
             />
             <Tabs
-              text={"Overdue"}
+              text={"In Review"}
               isSelected={isOverdue}
               onClickFn={() => {
-                setIsOutstanding(false);
+                setIsAssigned(false);
                 setIsInProgress(false);
-                setIsOverdue(true);
-                setTittle("Overdue");
-                setTask(overdueTasks);
+                setIsInReview(true);
+                setTittle("In Review");
+                setTask(inReviewTasks);
               }}
             />
           </Frame1211>

@@ -69,12 +69,12 @@ function FeedbackTeacherLaptop(props) {
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() => {
     const flattenedQuestions = flatMap(submission.assignment.questions, 
-      question => question.focusAreaIds.map(focusAreaId => ({ serialNumber: question.serialNumber, focusAreaId }))
+      question => question.focusAreaIds?.map(focusAreaId => ({ serialNumber: question.serialNumber, focusAreaId }))
     );
   
     const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
     return Object.keys(groupedBySerialNumber).reduce((grouped, serialNumber) => {
-      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(item => item.focusAreaId);
+      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(item => item?.focusAreaId);
       return grouped;
     }, {});
   });
@@ -166,13 +166,14 @@ function FeedbackTeacherLaptop(props) {
     if (pageMode === "REVIEW") {
       return (
         <ButtonsContainer>
+          <CheckboxBordered 
+            checked={false}
+            onChange={()=>{}}
+          />
+          <Label>Request</Label>
           <Buttons2
-            button="Submit Feedback"
+            button="Submit"
             onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
-          ></Buttons2>
-          <Buttons2
-            button="Submit Feedback & Close"
-            onClickFn={() =>  methods.showSubmitPopuphandler("CloseSubmission")}
           ></Buttons2>
         </ButtonsContainer>
       );
@@ -496,7 +497,14 @@ function FeedbackTeacherLaptop(props) {
   }
 
   function selectFocusArea() {
-    const focusAreas = submission.assignment.focusAreas?.filter((fa) => {
+    console.log("q", submission.assignment.questions)
+    const allFocusAreas = flatMap(submission.assignment.questions, 
+      question => question.focusAreas
+    );
+    console.log("allFocusAreas", allFocusAreas)
+
+    const focusAreas = allFocusAreas?.filter((fa) => {
+      console.log("id", fa.id)
       return submission.assignment.questions[
         newCommentSerialNumber - 1
       ].focusAreaIds.includes(fa.id);
@@ -569,7 +577,9 @@ function FeedbackTeacherLaptop(props) {
                       )}
                     </div>
                     <div className="text">
-                      {submission.assignment?.focusAreas?.length || 0} focus areas
+                      { 
+                      flatMap(submission.assignment.questions, question => question.focusAreas)?.length
+                      } focus areas
                     </div>
                   </div>
                 </StatusText>

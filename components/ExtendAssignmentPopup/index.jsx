@@ -25,7 +25,7 @@ export default function ExtendAssignmentPopup(props) {
         window.location.reload();
       });    
       hideDateExtendPopup();
-      showSnackbar("Task due date extended");
+      showSnackbar("Task due time changed");
 };
 
 const dateSelectorFrame = (
@@ -35,18 +35,18 @@ const dateSelectorFrame = (
     />
   );
 
-const textContent = `Set new due date for ${assignment?.title}`;
+const textContent = `Set new due time for ${assignment?.title}`;
 
 const content =<><TitleContainer>
 <Arrowright src="/icons/clock.svg" alt="clock" />
-<DeleteTitle>Extend task</DeleteTitle>
+<DeleteTitle>Change due time</DeleteTitle>
 </TitleContainer>
 <Line141 src="/img/line-14@2x.png" />
 <TextContent>{textContent}</TextContent>
 <TextContent>{dateSelectorFrame}</TextContent>
 <ButtonsContainer>
 <CancelButton onClick={ ()=> hideDateExtendPopup()}>Cancel</CancelButton>
-<CancelButton onClick={ ()=> extendDueAtHandler()}>Extend</CancelButton>
+<CancelButton onClick={ ()=> extendDueAtHandler()}>Change</CancelButton>
 </ButtonsContainer>
 </>;
 

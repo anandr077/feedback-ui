@@ -1,41 +1,40 @@
-import React ,{useRef, useEffect, useState} from "react";
-import Notifications from "../Notifications";
-import TaskFrame1304 from "../TaskFrame1304";
-import Tabs from "../Tabs";
-import Tabs2 from "../Tabs2";
-import TaskCardContainer from "../TaskCardContainer";
+import { default as React, default as React, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansSemiBoldRiverBed24px,
-  IbmplexsansBoldShark36px,
+  IbmplexsansBoldShark36px, IbmplexsansSemiBoldRiverBed24px
 } from "../../styledMixins";
-import "./TasksStudentMobile.css";
-import HeaderSmall from "../HeaderSmall";
-import FooterSmall from "../FooterSmall";
-import React, { useState, useEffect } from "react";
 import { taskHeaderProps } from "../../utils/headerProps.js";
 import CheckboxGroup from "../CheckboxGroup";
+import FooterSmall from "../FooterSmall";
+import HeaderSmall from "../HeaderSmall";
+import Tabs from "../Tabs";
+import TaskCardContainer from "../TaskCardContainer";
+import "./TasksStudentMobile.css";
 
 function TasksStudentMobile(props) {
-const {menuItems, filterTasks, outstandingTasks, inProgressTasks, overdueTasks, frame1304Props } =
+const {menuItems, filterTasks,
+  assignmedTasks,
+  inProgressTasks,
+  inReviewTasks
+} =
     props;
     const prevProps = useRef(props);
-    const [isOutstanding, setIsOutstanding] = useState(true);
+    const [isAssigned, setIsAssigned] = useState(true);
     const [isInProgress, setIsInProgress] = useState(false);
-    const [isOverdue, setIsOverdue] = useState(false);
-    const [task, setTask] = useState(outstandingTasks);
-    const [title,setTittle] = useState("Not Started");
+    const [isInReview, setIsInReview] = useState(false);
+    const [task, setTask] = useState(assignmedTasks);
+    const [title,setTittle] = useState("Assigned");
 
-const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outstandingTasks, true, false, false));
+const [taskFrame,setTasksFrame] = useState(createTasksFrame("Assigned",assignmedTasks, true, false, false));
     useEffect(() => {
-       setTasksFrame (createTasksFrame(title,task, isOutstanding, isInProgress, isOverdue))
+       setTasksFrame (createTasksFrame(title,task, isAssigned, isInProgress, isInReview))
       if (prevProps.current !== props) {
-        isOutstanding && setTask(outstandingTasks);
+        isAssigned && setTask(assignmedTasks);
         isInProgress && setTask(inProgressTasks);
-        isOverdue && setTask(overdueTasks);
+        isInReview && setTask(inReviewTasks);
       }
       prevProps.current = props;
-    }, [ title, task, isOutstanding, isInProgress, isOverdue, menuItems]);
+    }, [ title, task, isAssigned, isInProgress, isInReview, menuItems]);
 
     return (
       <div className="tasks-student-mobile screen">
@@ -58,36 +57,36 @@ const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",outsta
         <Frame1364>
           <Frame1211>
             <Tabs
-              text={"Not Started"}
+              text={"Assigned"}
               isSelected={isOutstanding}
               onClickFn={() => {
-                setIsOutstanding(true);
+                setIsAssigned(true);
                 setIsInProgress(false);
-                setIsOverdue(false);
-                setTittle("Not Started");
-                setTask(outstandingTasks);
+                setIsInReview(false);
+                setTittle("Assigned");
+                setTask(assignmedTasks);
               }}
             />
             <Tabs
-              text={"In Progress"}
+              text={"In Draft"}
               isSelected={isInProgress}
               onClickFn={() => {
-                setIsOutstanding(false);
+                setIsAssigned(false);
                 setIsInProgress(true);
-                setIsOverdue(false);
-                setTittle("In Progress");
+                setIsInReview(false);
+                setTittle("In Draft");
                 setTask(inProgressTasks);
               }}
             />
             <Tabs
-              text={"Overdue"}
+              text={"In Review"}
               isSelected={isOverdue}
               onClickFn={() => {
-                setIsOutstanding(false);
+                setIsAssigned(false);
                 setIsInProgress(false);
-                setIsOverdue(true);
-                setTittle("Overdue");
-                setTask(overdueTasks);
+                setIsInReview(true);
+                setTittle("In Review");
+                setTask(inReviewTasks);
               }}
             />
           </Frame1211>

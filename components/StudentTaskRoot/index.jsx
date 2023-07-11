@@ -27,16 +27,15 @@ export default function StudentTaskRoot() {
   if (isLoading) {
     return <Loader/>;
   }
-  const outstandingTasks = filteredTasks.filter(
+  const assignmedTasks = filteredTasks.filter(
     (task) =>
-      task.progressStatus === "OUTSTANDING" ||
-      task.progressStatus === "REVIEWED"
+      task.progressStatus === "ASSIGNED"
   );
   const inProgressTasks = filteredTasks.filter(
     (task) => task.progressStatus === "DRAFT"
   );
-  const overdueTasks = filteredTasks.filter(
-    (task) => task.progressStatus === "OVERDUE"
+  const inReviewTasks = filteredTasks.filter(
+    (task) => task.progressStatus === "REVIEW"
   );
 
 
@@ -84,9 +83,9 @@ export default function StudentTaskRoot() {
           {...{
             menuItems,
             filterTasks,
-            outstandingTasks,
+            assignmedTasks,
             inProgressTasks,
-            overdueTasks,
+            inReviewTasks,
             ...tasksStudentMobileData,
           }}
         />
@@ -96,9 +95,9 @@ export default function StudentTaskRoot() {
           {...{
             menuItems,
             filterTasks,
-            outstandingTasks,
+            assignmedTasks,
             inProgressTasks,
-            overdueTasks,
+            inReviewTasks,
             ...tasksStudentTabletData,
           }}
         />
@@ -108,9 +107,9 @@ export default function StudentTaskRoot() {
           {...{
             menuItems,
             filterTasks,
-            outstandingTasks,
+            assignmedTasks,
             inProgressTasks,
-            overdueTasks,
+            inReviewTasks,
             ...tasksLaptopData,
           }}
         />
@@ -120,9 +119,9 @@ export default function StudentTaskRoot() {
           {...{
             menuItems,
             filterTasks,
-            outstandingTasks,
+            assignmedTasks,
             inProgressTasks,
-            overdueTasks,
+            inReviewTasks,
             ...tasksDesktopData,
           }}
         />

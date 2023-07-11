@@ -69,12 +69,12 @@ function FeedbackTeacherLaptop(props) {
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() => {
     const flattenedQuestions = flatMap(submission.assignment.questions, 
-      question => question.focusAreaIds.map(focusAreaId => ({ serialNumber: question.serialNumber, focusAreaId }))
+      question => question.focusAreaIds?.map(focusAreaId => ({ serialNumber: question.serialNumber, focusAreaId }))
     );
   
     const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
     return Object.keys(groupedBySerialNumber).reduce((grouped, serialNumber) => {
-      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(item => item.focusAreaId);
+      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(item => item?.focusAreaId);
       return grouped;
     }, {});
   });

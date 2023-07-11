@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {
-  IbmplexsansNormalShark20px, IbmplexsansMediumElectricViolet20px, IbmplexsansMediumWhite16px
+  IbmplexsansNormalShark20px, IbmplexsansMediumElectricViolet20px, IbmplexsansMediumWhite16px, IbmplexsansSemiBoldShark20px
 } from "../../styledMixins";
 import CardContent from "../CardContent";
 import { useRef, useEffect } from "react";
@@ -72,12 +72,17 @@ const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
   </Frame12191>
 }
 function createTaskCard(task, refContainer, isSelected, exemplar, small, showSnackbar, setPublishActionCompleted) {
+ 
   if (exemplar) {
+    console.log("###task", task);
     if (task.status === "AWAITING_APPROVAL") {
     return <StyledCard  ref={refContainer} isSelected={isSelected}>
           <TaskTitle>Congratulations,<br/>
           Teacher has marked part of your response as exemplary!
           </TaskTitle>
+          <TaskTitleBold>
+          {task.submissionDetails?.assignment?.title}
+          </TaskTitleBold>
         <a href={task.link}>
             <StyledCard>
               <CardContent task={cardContents(task, exemplar)} small={small} />
@@ -257,6 +262,17 @@ const TaskTitle = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
+
+const TaskTitleBold = styled.p`
+  ${IbmplexsansSemiBoldShark20px}
+  font-size: 16px;
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
 const Frame12191 = styled.div`
   display: flex;
   width: fit-content;

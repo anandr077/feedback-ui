@@ -1,5 +1,5 @@
 import Switch from '@mui/material/Switch';
-import { sortBy } from "lodash";
+import { sortBy, some, without, union  } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
@@ -39,6 +39,9 @@ import FocusAreasFrame from "../FocusAreasFrame";
 import Tabs from "../ReviewsFrame1320";
 import ShortcutsFrame from "../ShortcutsFrame";
 import "./FeedbackTeacherLaptop.css";
+import CheckboxGroup from '../../CheckboxGroup';
+import CheckboxBordered from '../../CheckboxBordered';
+import { groupBy, flatMap } from 'lodash';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -64,6 +67,18 @@ function FeedbackTeacherLaptop(props) {
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
+  const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() => {
+    const flattenedQuestions = flatMap(submission.assignment.questions, 
+      question => question.focusAreaIds.map(focusAreaId => ({ serialNumber: question.serialNumber, focusAreaId }))
+    );
+  
+    const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
+    return Object.keys(groupedBySerialNumber).reduce((grouped, serialNumber) => {
+      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(item => item.focusAreaId);
+      return grouped;
+    }, {});
+  });
+  
   React.useEffect(() => {
     if(showNewComment) {
       handleTabChange();
@@ -75,7 +90,7 @@ function FeedbackTeacherLaptop(props) {
     setShowResolved(event.target.checked);
   };
 
-  const commentsForSelectedTab = selectTabComments(pageMode, isFeedback, isShowResolved, isFocusAreas, comments)
+  const commentsForSelectedTab = selectTabComments(pageMode, isFeedback, isShowResolved, isFocusAreas, comments, groupedFocusAreaIds)
   
   const modules = {
     toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
@@ -174,14 +189,54 @@ function FeedbackTeacherLaptop(props) {
     }
     return <></>;
   };
-  const createFocusAreasLabel = (focusAreas) => {
-    if (focusAreas?.size === 0) {
+  
+
+  const handleCheckboxChange = (serialNumber, focusAreaId) => event => {
+    const isChecked = event.target.checked;
+
+    console.log("isChecked", isChecked)
+    setGroupedFocusAreaIds(prevState => {
+      if (isChecked) {
+        return {
+          ...prevState,
+          [serialNumber]: [...prevState[serialNumber], focusAreaId]
+        };
+      } else {
+        const a = {
+          ...prevState,
+          [serialNumber]: prevState[serialNumber].filter(id => id !== focusAreaId)
+        }
+        console.log("anew", a)
+        return a;
+      }
+    });
+  };
+    
+
+  
+  const isChecked = (serialNumber, focusAreaId) => {
+    return !!groupedFocusAreaIds[serialNumber] && groupedFocusAreaIds[serialNumber].includes(focusAreaId);
+  };
+
+  const createFocusAreasLabel = (serialNumber, focusAreas) => {
+    if (focusAreas === null)
+      return <></>
+    if (focusAreas === undefined)
+      return <></>
+    if (focusAreas.length <= 0) {
       return <></>
     }
     const label = <Label>Focus areas : </Label>;
+    
+    
     const all = focusAreas?.map((fa) => {
       return (
         <FocusAreasLabelContainer>
+          <CheckboxBordered 
+            checked={isChecked(serialNumber, fa.id)}
+            onChange={handleCheckboxChange(serialNumber, fa.id)}
+          />
+          
           <Ellipse141 backgroundColor={fa.color}></Ellipse141>
           <Label>{fa.title}</Label>
         </FocusAreasLabelContainer>
@@ -233,7 +288,7 @@ function FeedbackTeacherLaptop(props) {
               {createQuill("quillContainer_" + submission.id + "_" + answer.serialNumber, submission, answer, answerValue, debounce)}
             </QuillContainer>
           )}
-          {createFocusAreasLabel(question.focusAreas)}
+          {createFocusAreasLabel(question.serialNumber, question.focusAreas)}
           {submission.status === "SUBMITTED" &&
             submission.assignment.questions[answer.serialNumber - 1]
               .markingCriteria?.title &&
@@ -598,14 +653,17 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
-const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comments) => {
+const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comments, groupedFocusAreaIds) => {
   if (isFocusAreas) {
-    return comments.map(comment=>{
+    return comments.map(comment => {
       if (comment.type !== "FOCUS_AREA") {
-        return {...comment, isHidden: true}
+        return { ...comment, isHidden: true };
       }
-      return comment
-    })
+      const { focusAreaId, questionSerialNumber } = comment;
+      const focusAreaIdsForQuestion = groupedFocusAreaIds[questionSerialNumber] || [];
+      const isHidden = !focusAreaIdsForQuestion.includes(focusAreaId);
+      return { ...comment, isHidden };
+    });
   }
   if (showResolved) {
     return comments.map(comment=>{

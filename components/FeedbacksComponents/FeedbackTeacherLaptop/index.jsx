@@ -166,14 +166,13 @@ function FeedbackTeacherLaptop(props) {
     if (pageMode === "REVIEW") {
       return (
         <ButtonsContainer>
-          <CheckboxBordered 
-            checked={false}
-            onChange={()=>{}}
-          />
-          <Label>Request</Label>
           <Buttons2
-            button="Submit"
+            button="Request changes"
             onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
+          ></Buttons2>
+          <Buttons2
+            button="Submit & Close"
+            onClickFn={() => methods.showSubmitPopuphandler("CloseSubmission")}
           ></Buttons2>
         </ButtonsContainer>
       );
@@ -499,15 +498,16 @@ function FeedbackTeacherLaptop(props) {
   function selectFocusArea() {
     console.log("q", submission.assignment.questions)
     const allFocusAreas = flatMap(submission.assignment.questions, 
-      question => question.focusAreas
+      question => question.focusAreas ? question.focusAreas : []
     );
+    
     console.log("allFocusAreas", allFocusAreas)
 
     const focusAreas = allFocusAreas?.filter((fa) => {
       console.log("id", fa.id)
       return submission.assignment.questions[
         newCommentSerialNumber - 1
-      ].focusAreaIds.includes(fa.id);
+      ]?.focusAreaIds?.includes(fa.id);
     });
     const focusAreasFrame = <>
     <Frame1329>

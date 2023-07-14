@@ -38,7 +38,7 @@ export default function TheoryQuestionFrame(props) {
         <Frame1297
           number={serialNumber}
           UpdateQuestionFrame={UpdateQuestionFrame}
-          defaultType="TEXT"
+          defaultType={questionDetails.questionType}
         />
         <DeleteButtonFrame>
           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
@@ -407,7 +407,7 @@ function createFocusAreasFrame(
       <CheckboxGroup
         onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
         data={menuItems}
-        dropDownText="+ Add"
+        dropDownText="+ Select"
         addCreateNewButton={true}
         backgroundColor={"#25222A"}
         textColor={"var(--white)"}

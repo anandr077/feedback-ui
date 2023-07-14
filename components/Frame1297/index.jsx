@@ -5,6 +5,7 @@ import {
   IbmplexsansNormalShark20px
 } from "../../styledMixins";
 import ImageDropdownMenu from "../ImageDropdownMenu";
+import { set } from "lodash";
 
 function Frame1297(props) {
   const { dropdown, number, UpdateQuestionFrame, defaultType } = props;
@@ -19,6 +20,11 @@ function Frame1297(props) {
     setType("MCQ");
     UpdateQuestionFrame(number, "MCQ");
   };
+
+  const setTypeEssay = () => {
+    setType("ESSAY");
+    UpdateQuestionFrame(number, "ESSAY");
+  };
   return (
     <Frame12971>
       <Frame1287>
@@ -29,7 +35,7 @@ function Frame1297(props) {
             </Frame1281>
           </Frame1282>
           { (
-              createQuestionTypeSelector(type, setTypeTheory, setTypeMCQ)
+              createQuestionTypeSelector(type, setTypeTheory, setTypeMCQ, setTypeEssay)
           )}
         </Frame1283>
       </Frame1287>
@@ -39,10 +45,11 @@ function Frame1297(props) {
 
 const createQuestionTypeSelector = (type, setTypeTheory, setTypeMCQ)=>{
   const menuItems = [
-    {id: 1, image:"/img/assignment-4@2x.png", title:"Free response", onClick:setTypeTheory},
-    {id: 2, image:"/icons/mcqIcon.png", title:"Multiple choice", onClick:setTypeMCQ},
+    {id: 1, image:"/img/assignment-4@2x.png", title:"Short response", onClick:setTypeTheory},
+    {id: 2, image:"/img/assignment-4@2x.png", title:"Extended response", onClick:setTypeEssay},
+    {id: 3, image:"/icons/mcqIcon.png", title:"Multiple choice", onClick:setTypeMCQ},
   ]
-  const selectedIndex = type === "MCQ"? 1:0 
+  const selectedIndex = type === "MCQ"? 3 : type === "ESSAY"? 2 : 1;
   return <ImageDropdownMenu selectedIndex={selectedIndex} menuItems={menuItems}></ImageDropdownMenu>
 }
 

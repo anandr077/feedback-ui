@@ -74,7 +74,6 @@ const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
 function createTaskCard(task, refContainer, isSelected, exemplar, small, showSnackbar, setPublishActionCompleted) {
  
   if (exemplar) {
-    console.log("###task", task);
     if (task.status === "AWAITING_APPROVAL") {
     return <StyledCard  ref={refContainer} isSelected={isSelected}>
           <TaskTitle>Congratulations,<br/>
@@ -88,15 +87,15 @@ function createTaskCard(task, refContainer, isSelected, exemplar, small, showSna
               <CardContent task={cardContents(task, exemplar)} small={small} />
             </StyledCard> 
         </a>
-        <TaskTitle>Are you happy to share this with your class?</TaskTitle>
+        <TaskTitle>Are you happy to share this with your {task?.classTitle}?</TaskTitle>
         {saveButtons(task.id, showSnackbar, setPublishActionCompleted)}
     </StyledCard>
     }
   }
   return <a href={task.link}>
     <StyledCard ref={refContainer} isSelected={isSelected}>
-      {exemplar ? <></> : tagsFrame(task)}
-      <CardContent task={cardContents(task, exemplar)} small={small} />
+      {exemplar ? tagsFrameExempler(task) : tagsFrame(task)}
+      <CardContent task={cardContents(task, exemplar)} small={small} exemplar={exemplar}/>
     </StyledCard>
   </a>;
 }
@@ -118,6 +117,7 @@ function cardContents(task, exemplar, acceptExemplar) {
     para:task.response,
     subTitle:"Teacher's Comment",
     subPara:task.comment,
+    assignmentName: task.submissionDetails?.assignment?.title
     // date:formattedDate(task.dueAt),
     // status1:"Submissions: 20 of 40",
     // status2:"Reviewed: 10 of 20",
@@ -168,6 +168,15 @@ function tagsFrame(task) {
 </>;
 }
 
+
+function tagsFrameExempler(task) {
+  const title =[]
+  title.push({name:task.classTitle});
+    return <BubbleContainer> 
+    <StatusBubbleContainer tags={title} />
+    </BubbleContainer> 
+  
+}
 const moreOptions= <MoreOptionsWrapper>
 <MoreOptions onClick={(event) => handleDateUpdate(event,task)} >
   <IconContainer src="/icons/clock-purple.svg" />

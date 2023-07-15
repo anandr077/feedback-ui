@@ -5,7 +5,7 @@ import TaskDetailMobile from "../TaskDetailMobile";
 import TaskDetailTablet from "../TaskDetailTablet";
 import TaskDetailLaptop from "../TaskDetailLaptop";
 import TaskDetailDesktop from "../TaskDetailDesktop";
-import { getAssignmentById, startSubmission } from "../../../service";
+import { getAssignmentById, startSubmission, getClasses } from "../../../service";
 import { useParams } from "react-router-dom";
 import { default as React, useEffect, useState } from "react";
 import { taskHeaderProps } from "../../../utils/headerProps.js";
@@ -16,10 +16,13 @@ export default function TaskDetail() {
 
   const [assignment, setAssigment] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [clazzName, setClazzName] = useState(null);
+  
 
   React.useEffect(() => {
-    getAssignmentById(assignmentId).then((res) => {
-      setAssigment(res);
+    Promise.all([getAssignmentById(assignmentId), getClasses()]).then(([assignment, classes]) => {
+      setAssigment(assignment);
+      setClazzName(classes.find(c => assignment.classIds.includes(c.id))?.title);
       setIsLoading(false);
     });
   }, []);
@@ -41,6 +44,7 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
             ...taskDetailMobileData,
           }}
         />
@@ -50,6 +54,7 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
             ...taskDetailTabletData,
           }}
         />
@@ -59,6 +64,8 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
+            clazzName,
             ...taskDetailLaptopData,
           }}
         />
@@ -68,6 +75,7 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
             ...taskDetailDesktopData,
           }}
         />

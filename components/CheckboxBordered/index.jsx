@@ -20,6 +20,12 @@ const StyledCheckbox = styled(Checkbox)`
     &:hover:not(.Mui-disabled) {
       background-color: rgba(0, 0, 0, 0.04) !important;
     }
+    & .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
+      font-size: 1.2rem; 
+    }
+    & .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium path {
+      fill: var(--light-mode-purple); 
+    }
   }
 `;
 

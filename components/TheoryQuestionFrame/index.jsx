@@ -38,7 +38,7 @@ export default function TheoryQuestionFrame(props) {
         <Frame1297
           number={serialNumber}
           UpdateQuestionFrame={UpdateQuestionFrame}
-          defaultType="TEXT"
+          defaultType={questionDetails.type}
         />
         <DeleteButtonFrame>
           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
@@ -156,7 +156,7 @@ const Structure = styled.div`
   position: relative;
   width: fit-content;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 21px;
   font-family: var(--font-family-ibm_plex_sans);
   white-space: nowrap;
@@ -164,8 +164,8 @@ const Structure = styled.div`
 
 const Ellipse141 = styled.div`
   position: relative;
-  min-width: 20px;
-  height: 20px;
+  min-width: 18px;
+  height: 18px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
 `;
@@ -407,7 +407,7 @@ function createFocusAreasFrame(
       <CheckboxGroup
         onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
         data={menuItems}
-        dropDownText="+ Add"
+        dropDownText="+ Select"
         addCreateNewButton={true}
         backgroundColor={"#25222A"}
         textColor={"var(--white)"}

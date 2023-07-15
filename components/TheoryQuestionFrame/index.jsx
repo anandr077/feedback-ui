@@ -38,7 +38,7 @@ export default function TheoryQuestionFrame(props) {
         <Frame1297
           number={serialNumber}
           UpdateQuestionFrame={UpdateQuestionFrame}
-          defaultType={questionDetails.questionType}
+          defaultType={questionDetails.type}
         />
         <DeleteButtonFrame>
           <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>

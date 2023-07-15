@@ -43,13 +43,13 @@ function Frame1297(props) {
   );
 }
 
-const createQuestionTypeSelector = (type, setTypeTheory, setTypeMCQ)=>{
+const createQuestionTypeSelector = (type, setTypeTheory, setTypeMCQ, setTypeEssay )=>{
   const menuItems = [
-    {id: 1, image:"/img/assignment-4@2x.png", title:"Short response", onClick:setTypeTheory},
-    {id: 2, image:"/img/assignment-4@2x.png", title:"Extended response", onClick:setTypeEssay},
-    {id: 3, image:"/icons/mcqIcon.png", title:"Multiple choice", onClick:setTypeMCQ},
+    {id: 0, image:"/img/assignment-4@2x.png", title:"Short response", onClick:setTypeTheory},
+    {id: 1, image:"/img/assignment-4@2x.png", title:"Extended response", onClick:setTypeEssay},
+    {id: 2, image:"/icons/mcqIcon.png", title:"Multiple choice", onClick:setTypeMCQ},
   ]
-  const selectedIndex = type === "MCQ"? 3 : type === "ESSAY"? 2 : 1;
+  const selectedIndex = type === "MCQ"? 2 : type === "ESSAY"? 1 : 0;
   return <ImageDropdownMenu selectedIndex={selectedIndex} menuItems={menuItems}></ImageDropdownMenu>
 }
 

@@ -18,7 +18,7 @@ function Frame13124(props) {
           </Frame13122>
           <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
           <Frame1307>
-            <Frame1284 number={clazz.students.length} />
+            <Frame1284 number={clazz.students?.length} />
             <Frame1283 number="-" />
             <Frame1282 number="-" />
           </Frame1307>

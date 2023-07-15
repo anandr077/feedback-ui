@@ -23,6 +23,7 @@ function TaskDetailMobile(props) {
   const {
     assignment,
     methods,
+    clazzName,
     frame1349,
     frame5,
     title,
@@ -56,6 +57,8 @@ function TaskDetailMobile(props) {
             <Frame1210>
               <StatusBubbles text={formattedDate(assignment.dueAt)} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
+              {clazzName && <ClazzName>{clazzName}</ClazzName>}
+              
             </Frame1210>
             <Frame28>
               <Frame11 text={assignment.questions.length} />
@@ -178,6 +181,15 @@ const Frame1210 = styled.div`
 
 const PhysicsThermodyna = styled.p`
   ${IbmplexsansSemiBoldShark28px}
+  position: relative;
+  align-self: stretch;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+const ClazzName = styled.p`
+  ${IbmplexsansSemiBoldShark28px}
+  font-size: 15px;
   position: relative;
   align-self: stretch;
   letter-spacing: 0;

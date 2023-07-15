@@ -156,7 +156,7 @@ const Structure = styled.div`
   position: relative;
   width: fit-content;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 21px;
   font-family: var(--font-family-ibm_plex_sans);
   white-space: nowrap;
@@ -164,8 +164,8 @@ const Structure = styled.div`
 
 const Ellipse141 = styled.div`
   position: relative;
-  min-width: 20px;
-  height: 20px;
+  min-width: 18px;
+  height: 18px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
 `;

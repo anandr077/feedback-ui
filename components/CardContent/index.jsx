@@ -8,7 +8,7 @@ import {
 import { formattedDate } from "../../dates";
 
 function CardContent(props) {
-  const { task, small } = props;
+  const { task, small, exempler } = props;
 
 
 

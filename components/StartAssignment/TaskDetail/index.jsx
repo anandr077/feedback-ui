@@ -16,15 +16,14 @@ export default function TaskDetail() {
 
   const [assignment, setAssigment] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [allClasses, setAllClasses] = useState([]);
+  const [clazzName, setClazzName] = useState(null);
+  
 
   React.useEffect(() => {
-    getAssignmentById(assignmentId).then((res) => {
-      setAssigment(res);
+    Promise.all([getAssignmentById(assignmentId), getClasses()]).then(([assignment, classes]) => {
+      setAssigment(assignment);
+      setClazzName(classes.find(c => assignment.classIds.includes(c.id))?.title);
       setIsLoading(false);
-    });
-    getClasses().then((res) => {
-      allClasses.push(res);
     });
   }, []);
   if (isLoading) {
@@ -45,6 +44,7 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
             ...taskDetailMobileData,
           }}
         />
@@ -54,6 +54,7 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
             ...taskDetailTabletData,
           }}
         />
@@ -63,6 +64,8 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
+            clazzName,
             ...taskDetailLaptopData,
           }}
         />
@@ -72,6 +75,7 @@ export default function TaskDetail() {
           {...{
             assignment,
             methods,
+            clazzName,
             ...taskDetailDesktopData,
           }}
         />

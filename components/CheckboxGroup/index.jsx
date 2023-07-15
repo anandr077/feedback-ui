@@ -12,11 +12,7 @@ import {
 } from "../../styledMixins";
 import CheckboxBordered from "../CheckboxBordered";
 import "./index.css";
-
-
-import {
-  IbmplexsansNormalShark16px
-} from "../../styledMixins";
+import {IbmplexsansNormalShark16px} from "../../styledMixins";
 
 const CheckboxGroup = ({
   data,
@@ -252,6 +248,7 @@ const Ellipse141 = styled.div`
 `;
 
 const CreateNew = styled.div`
+${IbmplexsansNormalShark16px}
   display: flex;
   justify-content: center;
   align-items: center;

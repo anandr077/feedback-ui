@@ -1,5 +1,5 @@
 import Switch from '@mui/material/Switch';
-import { sortBy, some, without, union  } from "lodash";
+import { sortBy, some, without, union, uniqBy  } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
@@ -524,12 +524,12 @@ function FeedbackTeacherLaptop(props) {
     
     console.log("allFocusAreas", allFocusAreas)
 
-    const focusAreas = allFocusAreas?.filter((fa) => {
+    const focusAreas = uniqBy(allFocusAreas?.filter((fa) => {
       console.log("id", fa.id)
       return submission.assignment.questions[
         newCommentSerialNumber - 1
       ]?.focusAreaIds?.includes(fa.id);
-    });
+    }), 'id');
     const focusAreasFrame = <>
     <Frame1329>
       <Frame1406>

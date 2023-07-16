@@ -407,7 +407,7 @@ function createFocusAreasFrame(
       <CheckboxGroup
         onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
         data={menuItems}
-        dropDownText="+ Select"
+        dropDownText="Select"
         addCreateNewButton={true}
         backgroundColor={"#25222A"}
         textColor={"var(--white)"}

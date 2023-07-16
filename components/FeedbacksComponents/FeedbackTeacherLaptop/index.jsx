@@ -164,25 +164,46 @@ function FeedbackTeacherLaptop(props) {
       );
     }
     if (pageMode === "REVIEW") {
-      return (
-        <ButtonsContainer>
-          <Buttons2
-            button="Request changes"
-            onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
-          ></Buttons2>
-          <Buttons2
-            button="Submit & Close"
-            onClickFn={() => methods.showSubmitPopuphandler("CloseSubmission")}
-          ></Buttons2>
-        </ButtonsContainer>
-      );
+      if (isTeacher) {
+        return (
+          <ButtonsContainer>
+            <Buttons2
+              button="Request resubmission"
+              onClickFn={() => methods.showSubmitPopuphandler("RequestResubmission")}
+            ></Buttons2>
+            <Buttons2
+              button="Submit"
+              onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
+            ></Buttons2>
+          </ButtonsContainer>
+        );
+      } else {
+        return (
+          <ButtonsContainer>
+            <Buttons2
+              button="Submit"
+              onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
+            ></Buttons2>
+          </ButtonsContainer>
+        );
+      }
     }
     if (pageMode === "REVISE") {
+      if (submission.status === "RESUBMISSION_REQUESTED") {
+        return (
+          <>
+            <Buttons2
+              button="Submit"
+              onClickFn={() => methods.showSubmitPopuphandler("SubmitForReview")}
+            ></Buttons2>
+          </>
+        );
+      }
       return (
         <>
           <Buttons2
-            button="Submit"
-            onClickFn={() => methods.showSubmitPopuphandler("SubmitForReview")}
+            button="Mark as complete"
+            onClickFn={() => methods.showSubmitPopuphandler("CloseSubmission")}
           ></Buttons2>
         </>
       );
@@ -606,17 +627,7 @@ function FeedbackTeacherLaptop(props) {
                     />
                   </AwaitFeedbackContainer>
                 )}
-              {isTeacher &&
-                pageMode === "CLOSED" &&
-                submission.status != "CLOSED" && (
-                  <AwaitFeedbackContainer id="deleteButton">
-                    <StatusLabel
-                      key="statusLabel"
-                      id="statusLabel"
-                      text="Awaiting Submission"
-                    />
-                  </AwaitFeedbackContainer>
-                )}
+              
               {tasksListsDropDown()}
               {(pageMode === "DRAFT" || pageMode === "REVISE") && (
                 <StatusLabel

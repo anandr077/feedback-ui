@@ -268,6 +268,8 @@ export const submitAssignment = async (submissionId) =>
 
 export const markSubmissionReviewed = async (submissionId) =>
   await patchApi(baseUrl + "/submissions/" + submissionId + "/reviewed");
+export const markSubmissionRequestSubmission = async (submissionId) =>
+  await patchApi(baseUrl + "/submissions/" + submissionId + "/requestResubmission");
 
 export const markSubmsissionClosed = async (submissionId) =>
   await patchApi(baseUrl + "/submissions/" + submissionId + "/closed");

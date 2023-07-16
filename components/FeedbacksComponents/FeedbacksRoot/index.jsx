@@ -28,7 +28,8 @@ import {
   submitAssignment,
   updateFeedbackRange,
   getUserName,
-  getDefaultCriteria
+  getDefaultCriteria,
+  markSubmissionRequestSubmission
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -571,8 +572,45 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         });
 
     }
-}
+  }
+  function handleRequestResubmission() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
 
+    if(validateMarkingCriteria()){
+
+          submission.assignment.questions.map((question)=>{
+            if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
+              
+                  const markingCriteriaRequest = question.markingCriteria;
+                        addFeedback(submission.id, {
+                        questionSerialNumber: question.serialNumber,
+                        feedback: "Marking Criteria Feedback",
+                        range: selectedRange,
+                        type: "MARKING_CRITERIA",
+                        replies: [],
+                        markingCriteria: markingCriteriaRequest,
+                        }).then((response) => {
+                          if (response) {
+                            console.log("###response", response);
+                          }
+                        });
+                    }
+            }
+          );
+          
+        markSubmissionRequestSubmission(submission.id).then((_) => {
+          showSnackbar("Resubmission requested...", window.location.href);
+          if (isTeacher) {
+            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+          } else {
+            window.location.href = "/#";
+          }
+        });
+
+    }
+  }
 
   const handleSaveSubmissionForReview = () => {
     setShowSubmitPopup(false);
@@ -873,7 +911,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         formattedDate(submission.assignment.reviewDueAt)
       );
     }
-    if (submission.status === "REVIEWED") {
+    if (submission.status === "REVIEWED" || submission.status === "RESUBMISSION_REQUESTED") {
       let reviewer;
       if (submission.assignment.reviewedBy === "TEACHER") {
         if (viewer === "TEACHER") {
@@ -895,6 +933,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         formattedDate(submission.reviewedAt)
       );
     }
+    
     if (submission.status === "CLOSED") {
       let closedBy;
       if (viewer === "PEER") {
@@ -929,8 +968,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     else if(method === "SubmitReview"){
       setPopupText("Are you sure you want to submit feedback for this task?");
     }
+    else if(method === "RequestResubmission"){
+      setPopupText("Are you sure you want to request resubmission for this task?");
+    }
     else if(method === "CloseSubmission"){
-      setPopupText("Are you sure you want to close this task?");
+      setPopupText("Are you sure you want to mark this task as complete?");
     }
     
   }
@@ -976,9 +1018,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     <>
     {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent={popupText} buttonText="Submit" 
     confirmButtonAction=
-    {methodTocall==="SubmitForReview"?handleSaveSubmissionForReview
-    :(methodTocall==="SubmitReview"?handleSubmissionReviewed
-    :(methodTocall==="CloseSubmission"? handleSubmissionClosed:""))} />}
+    {submissionFunction()} />}
 
     <ReactiveRender
       mobile={
@@ -1080,6 +1120,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     />
     </>
   );
+
+  function submissionFunction() {
+    if (methodTocall === "CloseSubmission") {
+      return handleSubmissionClosed
+    }
+    if (methodTocall === "SubmitReview") {
+      return handleSubmissionReviewed
+    }
+    if (methodTocall === "SubmitForReview") {
+      return handleSaveSubmissionForReview
+    }
+    return handleRequestResubmission;
+  }
 }
 
 

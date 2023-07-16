@@ -30,7 +30,7 @@ export function getPageMode(isTeacher, user, submission) {
 
 export function getTeacherPageMode(submission) {
   if (submission.status === "DRAFT") return "CLOSED";
-  if (submission.status === "REVIEWED") return "CLOSED";
+  if (submission.status === "REVIEWED" || submission.status === "RESUBMISSION_REQUESTED") return "CLOSED";
   if (submission.status === "CLOSED") return "CLOSED";
   if (submission.assignment.reviewedBy === "P2P") {
     return "CLOSED";
@@ -58,7 +58,7 @@ export function getP2PPageMode(user, submission) {
 export function getSelfPageMode(submission) {
   if (submission.status === "DRAFT") return "DRAFT";
   if (submission.status === "SUBMITTED") return "CLOSED";
-  if (submission.status === "REVIEWED") return "REVISE";
+  if (submission.status === "REVIEWED" || submission.status === "RESUBMISSION_REQUESTED") return "REVISE";
   if (submission.status === "CLOSED") return "CLOSED";
   return "CLOSED";
 }

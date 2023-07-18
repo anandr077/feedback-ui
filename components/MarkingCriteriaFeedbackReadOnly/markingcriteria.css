@@ -7,7 +7,7 @@
   
   .marking-criteria-title {
     color: #301b72;
-    font-size: 15px;
+    font-size: 20px;
     font-family: IBM Plex Sans;
     font-style: normal;
     font-weight: 700;
@@ -52,7 +52,7 @@
   
   .marking-criteria-heading {
     color: #1e252a;
-    font-size: 12px;
+    font-size: 18px;
     font-family: IBM Plex Sans;
     font-style: normal;
     font-weight: 500;
@@ -61,7 +61,7 @@
   
   .marking-criteria-content {
     color: var(--text, #1e252a);
-    font-size: 10px;
+    font-size: 16px;
     font-family: IBM Plex Sans;
     font-style: normal;
     font-weight: 400;

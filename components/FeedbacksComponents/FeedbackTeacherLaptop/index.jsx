@@ -330,7 +330,8 @@ function FeedbackTeacherLaptop(props) {
                 }
               />
             )}
-          {(submission.status === "REVIEWED" || submission.status=== "CLOSED" )&&
+          {(submission.status === "REVIEWED" || submission.status=== "CLOSED" ||
+          submission.status === "RESUBMISSION_REQUESTED") &&
             markingCriteriaFeedback?.length > 0 &&
             submission.assignment.questions[answer.serialNumber - 1]
               .markingCriteria?.title != "No Marking Criteria" &&

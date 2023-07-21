@@ -63,7 +63,14 @@ function FeedbackTeacherLaptop(props) {
     share,
     sharewithclassdialog,
   } = props;
-  console.log("rerender")
+
+
+  const focusAreasCount = submission.assignment.questions
+  .flatMap(question => question.focusAreas)
+  .filter(focusArea => focusArea !== undefined) 
+  .length; 
+
+  console.log("###", flatMap(submission.assignment.questions, question => question.focusAreas)?.length)
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
@@ -573,11 +580,14 @@ function FeedbackTeacherLaptop(props) {
               <TitleWrapper>
                 <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
                 <StatusText>
-                  <div>{methods.submissionStatusLabel()}</div> |
-                  <div className="focus-area">
+                  <div>{methods.submissionStatusLabel()}</div> 
+                 { focusAreasCount > 0 && 
+                 <div className="focus-area">
                     <div className="image">
                       {submission.assignment?.focusAreas &&
-                      submission.assignment.focusAreas.length >= 1 ? (
+                      submission.assignment.focusAreas.length >= 1 && 
+                      focusAreasCount > 0
+                       ? (
                         <Ellipse141
                           backgroundColor={
                             submission.assignment?.focusAreas[0].color
@@ -587,7 +597,8 @@ function FeedbackTeacherLaptop(props) {
                         <></>
                       )}
                       {submission.assignment?.focusAreas &&
-                      submission.assignment.focusAreas.length >= 2 ? (
+                      submission.assignment.focusAreas.length >= 2 
+                      ? (
                         <Ellipse141
                           backgroundColor={
                             submission.assignment?.focusAreas[1].color
@@ -600,10 +611,11 @@ function FeedbackTeacherLaptop(props) {
                     </div>
                     <div className="text">
                       { 
-                      flatMap(submission.assignment.questions, question => question.focusAreas)?.length
+                        focusAreasCount
                       } focus areas
                     </div>
                   </div>
+                  }
                 </StatusText>
               </TitleWrapper>
               {!isTeacher &&
@@ -746,6 +758,7 @@ const FocusAreasLabelContainer = styled.div`
   gap: 5px;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 `;
 const Ellipse141 = styled.div`
   position: relative;

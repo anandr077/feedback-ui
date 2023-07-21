@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 function StatusBubblesContainer(props) {
   const { tags } = props;
-  console.log("###",tags);
   const statusBubbles = tags.map((tag) => {
     return <StatusBubbles tag={tag} />;
   });

@@ -57,6 +57,8 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
 gap: 8px;
+height: 100%;
+justify-content: space-between;
 `;
 
 

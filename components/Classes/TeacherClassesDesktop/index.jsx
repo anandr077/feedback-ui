@@ -105,10 +105,10 @@ function TeacherClassesDesktop(props) {
               <Frame1307>
                 <Frame12842 title={"DRAFTS"} count={drafts.length} />
                 <Frame12842
-                  title={"AWAITING SUBMISSIONS"}
+                  title={"SUBMISSIONS"}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
+                <Frame12842 title={"REVIEWS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1342>
             
@@ -116,7 +116,7 @@ function TeacherClassesDesktop(props) {
               <Frame13371>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Exemplary Responses</ExemplarResponses>
+                  <ExemplarResponses>Exemplars</ExemplarResponses>
                 </Frame13124>
               </Frame13371>
               <Line17 src={line176} alt="Line 17" />

@@ -81,17 +81,17 @@ function TeacherClassesLaptop(props) {
               <Frame1307>
                 <Frame12842 title={"DRAFTS"} count={drafts.length} />
                 <Frame12842
-                  title={"AWAITING SUBMISSIONS"}
+                  title={"SUBMISSIONS"}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"FEEDBACKS"} count={feedbacks.length} />
+                <Frame12842 title={"REVIEWS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             <Frame1339Exemplar>
               <Frame1337>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Exemplary Responses</ExemplarResponses>
+                  <ExemplarResponses>Exemplars</ExemplarResponses>
                 </Frame13124>
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />

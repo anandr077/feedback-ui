@@ -13,7 +13,7 @@ function ModelResponseCardContainer(props) {
   return (
     <Frame13401>
       <Frame1338>
-        <ExemplarResponses>Exemplary Responses</ExemplarResponses>
+        <ExemplarResponses>Exemplars</ExemplarResponses>
         <DashboardGroup1205 className={group1205Props.className} />
       </Frame1338>
       <Line17 src={line17} alt="Line 17" />

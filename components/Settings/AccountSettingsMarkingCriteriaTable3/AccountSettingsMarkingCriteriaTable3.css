@@ -1,0 +1,12 @@
+.account-settings-u45-marking-criteria-u45-tablet {
+  align-items: flex-start;
+  background-color: var(--white-pointer-2);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 123px;
+  min-width: 1024px;
+  overflow: hidden;
+  position: relative;
+}
+

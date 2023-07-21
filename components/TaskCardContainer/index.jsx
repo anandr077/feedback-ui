@@ -3,11 +3,11 @@ import TaskCard from "../TaskCard";
 import styled from "styled-components";
 
 function TaskCardContainer(props) {
-  const { allTasks, exemplar, setPublishActionCompleted } = props;
+  const { allTasks, exemplar, setPublishActionCompleted, showDeletePopuphandler, showDateExtendPopuphandler } = props;
   const cards = allTasks.map((task) => {
     return (
       <a href={task.link}>
-        <TaskCard task={task} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted} />
+        <TaskCard task={task} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
       </a>
     );
   });

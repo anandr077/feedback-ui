@@ -14,6 +14,8 @@ import withAuth from "./components/WithAuth";
 import PageNotFound from "./components/PageNotFound";
 import { Redirect } from "react-router-dom";
 import { getUserRole, getUserName} from "./service";
+import AccountSettingsRoot from "./components/Settings/AccountSettingRoot";
+import CreateNewMarkingCriteriaRoot from "./components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot";
 
 function App() {
 
@@ -32,6 +34,8 @@ function App() {
   const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
   const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
+  const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
+  const ProtectedSettings = withAuth(AccountSettingsRoot);
   const Dashboard = ({role}) => {
     const dashboard = role === "TEACHER" ? 
       <ProtectedTeacherDashboard />
@@ -61,6 +65,15 @@ function App() {
     <>
     <Router>
       <Switch>
+        <Route path="/settings">
+          <ProtectedSettings />
+        </Route>
+        <Route path="/markingCriterias/new">
+          <ProtectedMarkingCriteria />
+        </Route>
+        <Route path="/markingCriterias/:markingCriteriaId">
+          <ProtectedMarkingCriteria />
+        </Route>
         <Route path="/completed">
         <ProtectedCompletedRoot />
         </Route>

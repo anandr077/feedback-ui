@@ -43,6 +43,6 @@ export default function ExemplarResponsesPage(props) {
     }
     const groups = groupBy(exemplarResponses, (task) => dateOnly(task.reviewedAt));
     return (
-      <CompletedRoot title="Exemplary Responses" tasks={exemplarResponses} groups={groups} exemplar={true} id={id} setPublishActionCompleted={setPublishActionCompleted}></CompletedRoot>
+      <CompletedRoot title="Exemplars" tasks={exemplarResponses} groups={groups} exemplar={true} id={id} setPublishActionCompleted={setPublishActionCompleted}></CompletedRoot>
     );
   }

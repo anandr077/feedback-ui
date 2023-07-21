@@ -79,7 +79,7 @@ function DashboardHomeStudentLaptop(props) {
           <Frame1339>
             <Frame1337>
               <Crown src="/icons/exemplary_response.png" alt="crown" />
-              <Tasks>Exemplary Responses</Tasks>
+              <Tasks>Exemplars</Tasks>
             </Frame1337>
          
             <Line18 src="/img/line-17-6.png" alt="Line 16" />

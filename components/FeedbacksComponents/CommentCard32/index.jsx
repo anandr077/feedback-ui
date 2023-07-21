@@ -2,10 +2,145 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ReviewsFrame132532 from "../ReviewsFrame132532";
 import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
+import {
+  IbmplexsansNormalBlack16px,
+  feedbacksIbmplexsansMediumBlack16px,
+} from "../../../styledMixins";
 
 function CommentCard32(props) {
-  const { comment, className, reviewer, onClick, isClosable, onClose } = props;
+  const {
+    comment,
+    className,
+    reviewer,
+    onClick,
+    onClose,
+    isTeacher,
+    onResolved,
+    isResolved,
+    handleReplyComment,
+    defaultComment = false,
+    deleteReplyComment,
+    handleEditingComment,
+    updateParentComment,
+    updateChildComment,
+    pageMode
+  } = props;
+
+  const [isReplyClicked, setIsReplyClicked] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
+  const [editCommentType, setEditCommentType] = React.useState("");
+  const [editReplyIndex, setEditReplyIndex] = React.useState(null);
+  const [editButtonActive, setEditButtonActive] = React.useState(false);
+
+  const handleEditComment = (commentType, inputValue, index = null) => {
+    setEditButtonActive(true);
+    handleEditingComment(true);
+    setEditCommentType(commentType);
+    if (commentType === "replies") {
+      setEditReplyIndex(index);
+    }
+    setInputValue(inputValue);
+    setIsReplyClicked(true);
+  };
+
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    setInputValue(event.target.value);
+  };
+
+  function handleReplyClick() {
+    setIsReplyClicked(true);
+  }
+
+  function handleSubmitClick() {
+    if (inputValue === "" || inputValue === null || inputValue === undefined) {
+      return;
+    }
+    if (editButtonActive) {
+      if (editCommentType === "replies") {
+        updateChildComment(comment.id, editReplyIndex, inputValue);
+      } else if (editCommentType === "parent_comment") {
+        updateParentComment(inputValue, comment.id);
+      }
+    } else {
+      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber);
+    }
+    setInputValue("");
+    setIsReplyClicked(false);
+    setEditButtonActive(false);
+    handleEditingComment(false);
+  }
+
+  function handleCancelClick() {
+    setIsReplyClicked(false);
+    setEditButtonActive(false);
+    setInputValue("");
+    handleEditingComment(false);
+  }
+
+  function showReply() {
+    return comment.replies.map((reply, index) => {
+      return (
+        <ReplyCommentWrapper>
+          <ReviewsFrame132532
+            isShare={comment.type === "MODEL_RESPONSE"}
+            reviewer={reply.reviewerName}
+            onClose={() => {}}
+            isTeacher={isTeacher}
+            onResolved={onResolved}
+            isResolved={"RESOLVED"}
+            comment={reply}
+            deleteReplyComment={deleteReplyComment}
+            commentType={"replies"}
+            index={index}
+            commentId={comment.id}
+            handleEditComment={handleEditComment}
+            pageMode={pageMode}
+            onClick={onClick}
+          />
+          <CommentText
+            onClick={() => onClick(comment)}
+            className="horem-ipsum-dolor-si-1"
+          >
+            {editButtonActive &&
+            editCommentType === "replies" &&
+            index === editReplyIndex
+              ? inputComment()
+              : reply.comment}
+          </CommentText>
+        </ReplyCommentWrapper>
+      );
+    });
+  }
+
+  function inputComment() {
+    return (
+      <ReplyInputWrapper id="comment_input">
+        <Input
+          type="text"
+          placeholder="Type here..."
+          defaultValue={inputValue}
+          onChange={handleInputChange}
+        />
+        <ButtonWrapper>
+          <InputButton
+            backgroundColor={"#7200E0"}
+            textColor={"#ffffff"}
+            onClick={handleSubmitClick}
+          >
+            Submit
+          </InputButton>
+          <InputButton
+            backgroundColor={"#ffffff"}
+            textColor={"#7200E0"}
+            onClick={handleCancelClick}
+          >
+            Cancel
+          </InputButton>
+        </ButtonWrapper>
+      </ReplyInputWrapper>
+    );
+  }
   return (
     <CommentCard
       id={"comment_" + comment.id}
@@ -13,18 +148,54 @@ function CommentCard32(props) {
     >
       <ReviewsFrame132532
         isShare={comment.type === "MODEL_RESPONSE"}
-        reviewer={reviewer}
-        isClosable={isClosable}
+        showResolveButton = {
+          comment.type === "COMMENT" &&
+          pageMode === "REVISE" &&
+          comment.status != "RESOLVED"
+        }
+        reviewer={reviewer}        
         onClose={onClose}
+        onResolved={onResolved}
+        comment={comment}
+        defaultComment={defaultComment}
+        handleEditComment={handleEditComment}
+        pageMode={pageMode}
+        onClick={onClick}
+        isClosable = {comment.type === "FOCUS_AREA" && (pageMode==="DRAFT" || pageMode==="REVISE")}
       />
-      <HoremIpsumDolorSi
+      <CommentText
         onClick={() => onClick(comment)}
         className="horem-ipsum-dolor-si-1"
       >
-        {comment.comment}
-      </HoremIpsumDolorSi>
+        {showComment()}
+      </CommentText>
+      {comment.replies?.length > 0 && showReply()}
+      {isResolved !== "RESOLVED" && 
+      !isReplyClicked && 
+      !defaultComment &&
+      comment.type != "FOCUS_AREA" &&
+      pageMode != "CLOSED"
+      && (
+        <Reply onClick={handleReplyClick}>
+          <img src="/icons/reply.svg" alt="reply" />
+          <div>Reply</div>
+        </Reply>
+      )}
+
+      {isReplyClicked && !editButtonActive && inputComment()}
     </CommentCard>
   );
+
+  function showComment() {
+    if (comment.type === "FOCUS_AREA" ){
+      return <></>
+    }
+    if (editButtonActive && editCommentType === "parent_comment") {
+      return inputComment()
+    } else {
+      return comment.comment;
+    }
+  }
 }
 
 const CommentCard = styled.article`
@@ -51,13 +222,85 @@ const CommentCard = styled.article`
   }
 `;
 
-const HoremIpsumDolorSi = styled.div`
+const CommentText = styled.div`
   ${IbmplexsansNormalBlack16px}
   position: relative;
   align-self: stretch;
   letter-spacing: 0;
   line-height: normal;
   cursor: pointer;
+`;
+
+const ReplyInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  font-family: "IBM Plex Sans";
+`;
+
+const Input = styled.input`
+  width: 100%;
+  display: flex;
+  padding: 8px 8px 8px 12px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid #1e252a;
+  background: #fff;
+`;
+
+const Reply = styled.div`
+  display: flex;
+  padding: 4px 8px;
+  margin-top: 6px;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  border-radius: 14px;
+  border: 1px solid #7200e0;
+  color: #7200e0;
+  font-family: "IBM Plex Sans";
+  font-weight: 500;
+  font-size: 13px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+`;
+
+const InputButton = styled.div`
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 30px;
+  border: 1px solid #7200e0;
+  background: ${(props) => props.backgroundColor};
+  cursor: pointer;
+  color: ${(props) => props.textColor};
+  text-align: center;
+  font-size: 16px;
+  font-family: IBM Plex Sans;
+  font-weight: 500;
+`;
+
+const ReplyCommentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: IBM Plex Sans;
+  padding-top: 12px;
+  border-top: 1px solid #f1e6fc;
+  width: 100%;
 `;
 
 export default CommentCard32;

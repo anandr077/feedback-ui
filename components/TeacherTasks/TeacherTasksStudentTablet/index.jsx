@@ -17,11 +17,11 @@ import CheckboxGroup from "../../CheckboxGroup";
 import FooterSmall from "../../FooterSmall";
 
 function TeacherTasksStudentTablet(props) {
-  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks } = props;
+  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks,  showDeletePopuphandler, showDateExtendPopuphandler } = props;
   const [tasksFrame, setTasksFrame] = useState(null);
 
   useEffect(() => {
-    setTasksFrame(createTasksFrame("Drafts", drafts, true, false, false));
+    setTasksFrame(createTasksFrame("Active", awaitingSubmissions, false, true, false));
   }, [drafts]);
 
   function updateTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue) {
@@ -84,7 +84,7 @@ function TeacherTasksStudentTablet(props) {
               <Outstanding>{title}</Outstanding>
               <Number>{tasks.length}</Number>
             </Frame1362>
-            <TaskCardContainer allTasks={tasks} />
+            <TaskCardContainer allTasks={tasks} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler} />
           </Frame1363>
         </Frame1364>
       </>

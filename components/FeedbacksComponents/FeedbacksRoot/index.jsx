@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { filter, flatMap, includes, map, uniq } from "lodash";
+import { filter, flatMap, includes, map, set, uniq } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
@@ -12,8 +12,12 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
 import styled from "styled-components";
+import GeneralPopup from "../../GeneralPopup";
+
 import {
   addFeedback,
+  updateFeedback,
+  resolveFeedback,
   deleteFeedback,
   getSubmissionById,
   getSubmissionsByAssignmentId,
@@ -23,6 +27,9 @@ import {
   markSubmsissionClosed,
   submitAssignment,
   updateFeedbackRange,
+  getUserName,
+  getDefaultCriteria,
+  markSubmissionRequestSubmission
 } from "../../../service";
 import { getShortcuts, saveAnswer } from "../../../service.js";
 import {
@@ -36,10 +43,9 @@ import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
 import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
 import { extractStudents, getComments, getPageMode } from "./functions";
 import { TextField } from "@mui/material";
-import {
-  IbmplexsansNormalShark20px,
-} from "../../../styledMixins";
-import SnackbarContext from "../../SnackbarContext"
+import { IbmplexsansNormalShark20px } from "../../../styledMixins";
+import SnackbarContext from "../../SnackbarContext";
+
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
@@ -60,30 +66,40 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
-  const [selectedRangeFormat, setSelectedRangeFormat] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [newCommentValue, setNewCommentValue] = useState("");
   const [nextUrl, setNextUrl] = useState("");
   const [commentHighlight, setCommentHighlight] = useState(false);
+  const [editingComment, setEditingComment] = useState(false);
+  const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
+
+  const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
+  const [methodTocall,setMethodToCall] = React.useState(null);
+  const [popupText,setPopupText] = React.useState(null);
 
   const isTeacher = getUserRole() === "TEACHER";
+  const defaultMarkingCriteria = getDefaultCriteria();
+
+
 
   useEffect(() => {
-    getSubmissionById(id).then((r)=>{
-      return getComments(r).then((c) =>{
-        return [r, c]
-      })
-    })
+    Promise.all([getSubmissionById(id), getComments(id)])
       .then(([submissionsResult, commentsResult]) => {
         setSubmission(submissionsResult);
-        setComments(commentsResult);
-      }).finally(() => {
-          if (!isTeacher) {
-            setIsLoading(false);
-          }
+        const allComments = commentsResult.map((c) => {
+          return { ...c };
         });
+        const feedbackComments= allComments.filter((c) => c.type !== "MARKING_CRITERIA");
+        setComments(feedbackComments);
+        const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
+        setMarkingCriteriaFeedback(markingCriteriaFeedback);
+      })
+      .finally(() => {
+        if (!isTeacher) {
+          setIsLoading(false);
+        }
+      });
   }, [id]);
-
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
@@ -96,18 +112,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           const nextUrl = allExceptCurrent[0]
             ? "#submissions/" + allExceptCurrent[0]?.id
             : "/";
-          // console.log("allSubmissions " + JSON.stringify(allSubmissions));
           setNextUrl(nextUrl);
           const studentName =
-          allSubmissions.find((r) => r.id === submission.assignment.id)?.studentName ??
-            null;
+            allSubmissions.find((r) => r.id === submission.assignment.id)
+              ?.studentName ?? null;
 
           setStudentName(studentName);
         })
         .finally(() => {
-          setIsLoading(false)
+          setIsLoading(false);
         });
-      }
+    }
   }, [submission]);
 
   if (isLoading) {
@@ -115,6 +130,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
+
 
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById("statusLabelIcon")) {
@@ -129,6 +145,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
+  const handleEditingComment = (flag) => {
+    setEditingComment(flag);
+  };
+
   const handleEditorMounted = (editor, index) => {
     // alert("handleEditorMounted" + JSON.stringify(editor) + " " + index);
     quillRefs.current[index] = editor;
@@ -140,17 +160,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
   function handleAddComment() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
-    if (!document.getElementById("newCommentInput").value) return;
+    if (!document.getElementById("newCommentInput").value)
+      return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById("newCommentInput").value,
       range: selectedRange,
       type: "COMMENT",
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -161,16 +179,32 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText,
       range: selectedRange,
       type: "COMMENT",
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
+  }
+  function handleFocusAreaComment(focusArea) {
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: focusArea.title,
+      range: selectedRange,
+      type: "FOCUS_AREA",
+      color: focusArea.color,
+      focusAreaId: focusArea.id,
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -190,6 +224,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       feedback: exemplarComment,
       range: selectedRange,
       type: "MODEL_RESPONSE",
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -214,16 +250,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }}
       open={showShareWithClass}
     >
-      <Box padding={4}>
+    <DialogContiner>
         <StyledTextField
           multiline
-          label="Add comment"
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
           error={!isValidComment}
-          helperText={!isValidComment ? "Please enter your comment here" : ""}
+          helperText={!isValidComment ? "Field cannot be empty" : "Enter response to share with class"}
         />
+        <ActionButtonsContainer>
         <DialogActions>
           <SubmitCommentFrameRoot
             submitButtonOnClick={addExemplerComment}
@@ -234,15 +270,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             }}
           />
         </DialogActions>
-      </Box>
+        </ActionButtonsContainer>
+  
+      </DialogContiner>
     </Dialog>
   );
 
   function handleShareWithClass() {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
     setShowShareWithClass(true);
   }
   const createDebounceFunction = (answer) => {
@@ -263,94 +297,343 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-      if (pageMode === "DRAFT") {
-        handleChangeText("All changes saved", true);
-      } else {
-        const quill = quillRefs.current[answer.serialNumber - 1];
-        const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-
-        const transformedData = flatMap(
-          Object.entries(highlightsWithCommentsData),
-          ([commentId, highlights]) => {
-            return highlights.map((highlight) => {
-              const { content, range } = highlight;
-              return { commentId, range };
-            });
-          }
-        );
-
-        // Use Array.prototype.map to create an array of commentIds
-        const commentIdsArray = transformedData.map(
-          ({ commentId }) => commentId
-        );
-
-        // Create a Set from the commentIdsArray
-        const transformedCommentIds = uniq(commentIdsArray);
-
-        const commentsForAnswer = comments.filter(
-          (comment) => comment.questionSerialNumber === answer.serialNumber
-        );
-        const missingComments = filter(
-          commentsForAnswer,
-          (comment) => !includes(commentIdsArray, comment.id)
-        );
-        const missingCommentsWithZeroRange = map(
-          missingComments,
-          (comment) => ({
-            commentId: comment.id,
-            range: { from: 0, to: 0 },
-          })
-        );
-        
-        const finalData = transformedData.concat(missingCommentsWithZeroRange);
-        const promises = finalData.map(({ commentId, range }) => {
-          return updateFeedbackRange(submission.id, commentId, range);
-        });
-
-        Promise.all(promises).then((results) => {
-          getComments(submission).then((cmts) => {
-            setComments(cmts);
-            handleChangeText("All changes saved", true);
-          });
-        });
-      }
+        return updateCommentsRange(answer);
     });
   };
-  function handleDeleteComment(commentId) {
-    deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(comments.filter((c) => c.id != commentId));
+  
+
+  function updateCommentsRange(answer) {
+    const quill = quillRefs.current[answer.serialNumber - 1];
+    const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+    console.log("highlightsWithCommentsData", highlightsWithCommentsData)
+    const mergedHighlights = {};
+
+    Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
+      const mergedRange = {
+        range: {
+          from: ranges[0].range.from,
+          to: ranges[ranges.length - 1].range.to
+        }
+      };
+      mergedHighlights[commentId] = [mergedRange];
+    });
+
+    console.log("mergedHighlights", mergedHighlights)
+
+    const transformedData = flatMap(
+      Object.entries(mergedHighlights),
+      ([commentId, highlights]) => {
+        return highlights.map((highlight) => {
+          const { content, range } = highlight;
+          return { commentId, range };
+        });
+      }
+    );
+    console.log("transformedData", transformedData)
+
+
+    // Use Array.prototype.map to create an array of commentIds
+    const commentIdsArray = transformedData.map(
+      ({ commentId }) => commentId
+    );
+    console.log("commentIdsArray", commentIdsArray)
+
+    const commentsForAnswer = comments.filter(
+      (comment) => comment.questionSerialNumber === answer.serialNumber
+    );
+    const missingComments = filter(
+      commentsForAnswer,
+      (comment) => !includes(commentIdsArray, comment.id)
+    );
+
+    const missingCommentsWithZeroRange = map(
+      missingComments,
+      (comment) => ({
+        commentId: comment.id,
+        range: { from: 0, to: 0 },
+      })
+    );
+
+    const finalData = transformedData.concat(missingCommentsWithZeroRange);
+    console.log("finalData", finalData)
+
+    const promises = finalData.map(({ commentId, range }) => {
+      return updateFeedbackRange(submission.id, commentId, range);
+    });
+
+    Promise.all(promises).then((results) => {
+      getComments(submission.id).then((cmts) => {
+        setComments(cmts.filter((c) => c.type !== "MARKING_CRITERIA"));
+        handleChangeText("All changes saved", true);
+      });
     });
   }
 
-  function handleSubmissionReviewed() {
-    markSubmsissionReviewed(submission.id).then((_) => {
-      showSnackbar("Task reviewed...", window.location.href);
-      if (isTeacher) { 
-       window.location.href = nextUrl==='/'?"/#":nextUrl;
-      } else {
-        window.location.href = "/#";
+  function handleDeleteComment(commentId) {
+    deleteFeedback(submission.id, commentId)
+      .then((response) => {
+        setComments(comments.filter((c) => c.id != commentId));
+      });
+  }
+
+  function handleResolvedComment(commentId) {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        resolveFeedback(commentId);
+        return { ...comment, status: "RESOLVED" };
       }
+      return comment;
+    });
+    setComments(updatedComments);
+  }
+
+  function handleReplyComment(replyComment, commentId, serialNumber) {
+    const replyCommentObject = {
+      questionSerialNumber: serialNumber,
+      comment: replyComment,
+      range: { from: 0, to: 0 },
+      type: "COMMENT",
+      reviewerId: getUserId(),
+      reviewerName: getUserName(),
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
+    };
+    const addReplyComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        const commentToUpdate =
+          comment.replies === undefined
+            ? { ...comment, replies: [replyCommentObject] }
+            : { ...comment, replies: [...comment.replies, replyCommentObject] };
+
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: commentToUpdate.questionSerialNumber,
+          feedback: commentToUpdate.comment,
+          range: commentToUpdate.range,
+          type: commentToUpdate.type,
+          replies: commentToUpdate.replies,
+          reviewerId: commentToUpdate.reviewerId,
+          markingCriteria: defaultMarkingCriteria
+        }).then((response) => {
+          if (response) {
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
+          }
+        });
+      }
+      return comment;
+    });
+
+    setNewCommentValue("");
+    setShowNewComment(false);
+    setExemplerComment("");
+    setShowShareWithClass(false);
+  }
+
+  function updateParentComment(comment, commentId) {
+    const updatedComment = comments.map((c) => {
+      if (c.id === commentId) {
+        const commentToUpdate = { ...c, comment: comment };
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: commentToUpdate.questionSerialNumber,
+          feedback: commentToUpdate.comment,
+          range: commentToUpdate.range,
+          type: commentToUpdate.type,
+          replies:
+            commentToUpdate?.replies === undefined
+              ? []
+              : commentToUpdate?.replies,
+          reviewerId: commentToUpdate.reviewerId,
+        }).then((response) => {
+          if (response) {
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
+          }
+        });
+      }
+      return c;
+    });
+
+    setNewCommentValue("");
+    setShowNewComment(false);
+    setExemplerComment("");
+    setShowShareWithClass(false);
+  }
+
+  function updateChildComment(commentId, replyCommentIndex, comment) {
+    const updatedReplyComment = comments.map((c) => {
+      if (c.id === commentId) {
+        const updatedReplies = [...c.replies];
+        updatedReplies[replyCommentIndex] = {
+          ...updatedReplies[replyCommentIndex],
+          comment: comment,
+        };
+        const commentToUpdate = { ...c, replies: updatedReplies };
+
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: c.questionSerialNumber,
+          feedback: c.comment,
+          range: c.range,
+          type: c.type,
+          replies: updatedReplies,
+          reviewerId: c.reviewerId,
+        }).then((response) => {
+          if (response) {
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
+          }
+        });
+      }
+      return c;
     });
   }
+
+  function handleDeleteReplyComment(commentId, replyCommentIndex) {
+    const deleteReplyComment = comments.map((c) => {
+      if (c.id === commentId) {
+        const updatedReplies = [...c.replies];
+        updatedReplies.splice(replyCommentIndex, 1);
+        const commentToUpdate = { ...c, replies: updatedReplies };
+        updateFeedback(submission.id, commentId, {
+          questionSerialNumber: c.questionSerialNumber,
+          feedback: c.comment,
+          range: c.range,
+          type: c.type,
+          replies: updatedReplies,
+          reviewerId: c.reviewerId,
+        }).then((response) => {
+          if (response) {
+            const updatedComments = comments.map((c) =>
+              c.id === commentId ? commentToUpdate : c
+            );
+            setComments(updatedComments);
+          }
+        });
+      }
+      return c;
+    });
+  }
+
+
+
+  const validateMarkingCriteria = () => {
+    let invalid = true;
+    submission.assignment.questions.map((question)=>{
+      if(question.markingCriteria.title !="" && question.markingCriteria.criterias){   
+        question.markingCriteria.criterias.map((criteria)=>{
+          if(!criteria.selectedLevel){
+            criteria.selectedLevel = criteria.levels[0].name;
+          }
+        })  
+      }
+    }); 
+ return invalid;
+  };
+
+  function handleSubmissionReviewed() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
+    if(validateMarkingCriteria()){
+
+          submission.assignment.questions.map((question)=>{
+            if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
+              
+                  const markingCriteriaRequest = question.markingCriteria;
+                        addFeedback(submission.id, {
+                        questionSerialNumber: question.serialNumber,
+                        feedback: "Marking Criteria Feedback",
+                        range: selectedRange,
+                        type: "MARKING_CRITERIA",
+                        replies: [],
+                        markingCriteria: markingCriteriaRequest,
+                        }).then((response) => {
+                          if (response) {
+                            console.log("###response", response);
+                          }
+                        });
+                      }
+            }
+          );
+          
+      markSubmsissionReviewed(submission.id).then((_) => {
+          showSnackbar("Task reviewed...", window.location.href);
+          if (isTeacher) {
+            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+          } else {
+            window.location.href = "/#";
+          }
+        });
+
+    }
+  }
+  function handleRequestResubmission() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
+    if(validateMarkingCriteria()){
+
+          submission.assignment.questions.map((question)=>{
+            if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
+              
+                  const markingCriteriaRequest = question.markingCriteria;
+                        addFeedback(submission.id, {
+                        questionSerialNumber: question.serialNumber,
+                        feedback: "Marking Criteria Feedback",
+                        range: selectedRange,
+                        type: "MARKING_CRITERIA",
+                        replies: [],
+                        markingCriteria: markingCriteriaRequest,
+                        }).then((response) => {
+                          if (response) {
+                            console.log("###response", response);
+                          }
+                        });
+                    }
+            }
+          );
+          
+        markSubmissionRequestSubmission(submission.id).then((_) => {
+          showSnackbar("Resubmission requested...", window.location.href);
+          if (isTeacher) {
+            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+          } else {
+            window.location.href = "/#";
+          }
+        });
+
+    }
+  }
+
   const handleSaveSubmissionForReview = () => {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
     showSnackbar("Submitting task...");
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
         showSnackbar("Task submitted...", window.location.href);
         window.location.href = "/#";
         setShowLoader(false);
       });
-    }, 4000)
-    
+    }, 4000);
   };
   function disableAllEditors() {
     submission.assignment.questions
-      .filter(question => question.type === "TEXT")
-      .forEach(question => {
+      .filter((question) => question.type === "TEXT")
+      .forEach((question) => {
         // alert(JSON.stringify(question))
         const quill = quillRefs.current[question.serialNumber - 1];
         // alert(JSON.stringify(quillRefs.current))
@@ -359,30 +642,30 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionClosed() {
+    setShowSubmitPopup(false);
+    setMethodToCall(null);
+    setPopupText("");
+
     disableAllEditors();
     handleChangeText("Saving...", false);
     setShowLoader(true);
     showSnackbar("Submitting task...");
-    setTimeout(()=>{
-      markSubmsissionClosed(submission.id).then(
-        (_) => {
-          showSnackbar("Task completed...", window.location.href);
-          window.location.href = "/#";
-          setShowLoader(false);
-        });
-    }, 4000)
-    
+    setTimeout(() => {
+      markSubmsissionClosed(submission.id).then((_) => {
+        showSnackbar("Task completed...", window.location.href);
+        window.location.href = "/#";
+        setShowLoader(false);
+      });
+    }, 4000);
   }
 
   function handleCommentSelected(comment) {
-    if (comment.range) {
+    if (comment.range && !editingComment) {
       const range = {
         index: comment.range.from,
         length: comment.range.to - comment.range.from,
       };
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
-
-      
 
       quill.selectRange(range);
       quill.focus();
@@ -405,12 +688,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
 
-  const reviewerSelectionChange = (serialNumber) => (range) => {
+  const reviewerSelectionChange = (visibleComment, serialNumber) => (range) => {
     if (range) {
       const from = range.index;
       const to = range.index + range.length;
 
-      const matchingComments = comments
+      const matchingComments = visibleComment
         .filter((comment) => comment.questionSerialNumber === serialNumber)
         .filter(
           (comment) => comment.range.from <= from && comment.range.to >= to
@@ -418,20 +701,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
         const div = document.getElementById("comment_" + matchingComment.id);
-        highlightComment(div);
-      } else if (pageMode === "REVIEW") {
+        if (div) {
+          highlightComment(div);
+        }
+      } else {
         if (from !== to) {
           setNewCommentSerialNumber(serialNumber);
           setSelectedRange({
             from: from,
             to: to,
           });
-          const delta =
-            quillRefs.current[serialNumber - 1].setLostFocusColor(range);
-          setSelectedRangeFormat(delta);
-
-          // newCommentFrameRef.current?.focus();
-
           setShowNewComment(true);
         }
       }
@@ -470,15 +749,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
-  const noopSelectionChange = (serialNumber) => (range) => {
-  };
 
   const hideNewCommentDiv = () => {
-    quillRefs.current[newCommentSerialNumber - 1].applyBackgroundFormat(
-      selectedRange,
-      selectedRangeFormat
-    );
-
     setShowNewComment(false);
   };
 
@@ -486,8 +758,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setStudentName(student);
     // get assignment by student name or other way
   };
-  const onSelectionChange =
-    pageMode != "DRAFT" ? reviewerSelectionChange : noopSelectionChange;
+  const onSelectionChange = reviewerSelectionChange;
 
   const createTasksDropDown = () => {
     if (!isTeacher) {
@@ -503,7 +774,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       const selectedItemIndex = menuItems.findIndex((menuItem) => {
         return menuItem.id === submission.id;
       });
-      console.log("menuItems", JSON.stringify(menuItems));
       return (
         <ImageDropdownMenu
           menuItems={menuItems}
@@ -513,7 +783,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       );
     }
   };
-  
+
   const downloadPDF = () => {
     const doc = new jsPDF({
       orientation: "p",
@@ -526,11 +796,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         right: 0,
       },
     });
-  
-  
-  
+
     const totalpdf = document.createElement("div");
-  
+
     const title = document.createElement("div");
     title.style.fontSize = "40px";
     title.style.fontWeight = "bold";
@@ -538,10 +806,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     title.style.marginBottom = "50px";
     title.textContent = submission.assignment.title;
     totalpdf.appendChild(title);
-  
 
-    const assignmentQuestions = new Array(submission.assignment.questions.length + 1);
-    const assignmentAnswers = new Array(submission.assignment.questions.length + 1);
+    const assignmentQuestions = new Array(
+      submission.assignment.questions.length + 1
+    );
+    const assignmentAnswers = new Array(
+      submission.assignment.questions.length + 1
+    );
     submission.assignment.questions.map((question) => {
       assignmentQuestions[question.serialNumber] = question.question;
       if (question.type === "MCQ") {
@@ -551,7 +822,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           optiondiv.style.fontSize = option.isCorrect ? "25px" : "20px";
           optiondiv.style.fontWeight = option.isCorrect ? "bold" : "normal";
           optiondiv.style.color = option.isCorrect ? "green" : "black";
-  
+
           optiondiv.style.marginBottom = "10px";
           optiondiv.textContent = option.option;
           options.appendChild(optiondiv);
@@ -559,12 +830,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         assignmentAnswers[question.serialNumber] = options;
       }
     });
-  
+
     submission.answers.map((answer) => {
       const parser = new DOMParser();
       const htmlContent = answer.answer.answer;
-      const parsedContent = parser.parseFromString(htmlContent, "text/html").body
-        .textContent;
+      const parsedContent = parser.parseFromString(htmlContent, "text/html")
+        .body.textContent;
       if (answer.answer.answer) {
         assignmentAnswers[answer.serialNumber] = parsedContent;
       }
@@ -576,7 +847,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       question.style.marginBottom = "10px";
       question.textContent = i + ". " + assignmentQuestions[i];
       totalpdf.appendChild(question);
-  
+
       const answer = document.createElement("div");
       // answer.style.border = "1px solid black";
       answer.style.padding = "10px";
@@ -589,7 +860,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }
       totalpdf.appendChild(answer);
     }
-  
+
     const options = {
       callback: function (doc) {
         doc.save(`${submission.assignment.title}.pdf`);
@@ -601,7 +872,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       margin: 20, // Set a single margin value for all sides
       autoSize: true, // Automatically adjust content to fit within the available space
     };
-  
+
     doc.html(totalpdf, options);
   };
 
@@ -640,13 +911,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         formattedDate(submission.assignment.reviewDueAt)
       );
     }
-    if (submission.status === "REVIEWED") {
+    if (submission.status === "REVIEWED" || submission.status === "RESUBMISSION_REQUESTED") {
       let reviewer;
       if (submission.assignment.reviewedBy === "TEACHER") {
         if (viewer === "TEACHER") {
           reviewer = "you";
-        }
-        else {
+        } else {
           reviewer = submission.assignment.teacherName;
         }
       } else {
@@ -663,22 +933,48 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         formattedDate(submission.reviewedAt)
       );
     }
+    
     if (submission.status === "CLOSED") {
       let closedBy;
       if (viewer === "PEER") {
-        closedBy =  "your peer";
+        closedBy = "your peer";
       } else if (viewer === "SELF") {
         closedBy = "you";
       } else {
         closedBy = submission.studentName;
       }
       return (
-        "Closed by " +
-        closedBy +
-        " on " +
-        formattedDate(submission.closedAt)
+        "Closed by " + closedBy + " on " + formattedDate(submission.closedAt)
       );
     }
+  }
+
+
+  function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
+   const markingCriteriaToUpdate = submission.assignment.questions[questionSerialNumber-1].markingCriteria;
+   markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel=selectedLevel;
+  }
+  
+
+  const hideSubmitPopup = () => { 
+    setShowSubmitPopup(false);
+  }
+  const showSubmitPopuphandler = (method) => { 
+    setShowSubmitPopup(true);
+    setMethodToCall(method);
+    if(method === "SubmitForReview"){
+      setPopupText("Are you sure you want to submit this task for review?");
+    }
+    else if(method === "SubmitReview"){
+      setPopupText("Are you sure you want to submit feedback for this task?");
+    }
+    else if(method === "RequestResubmission"){
+      setPopupText("Are you sure you want to request resubmission for this task?");
+    }
+    else if(method === "CloseSubmission"){
+      setPopupText("Are you sure you want to mark this task as complete?");
+    }
+    
   }
 
   const methods = {
@@ -694,6 +990,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleEditorMounted,
     handleKeyPress,
     handleShortcutAddComment,
+    handleFocusAreaComment,
     handleSubmissionReviewed,
     handleSaveSubmissionForReview,
     handleSubmissionClosed,
@@ -705,15 +1002,29 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     studentUpdate,
     unhighlightComment,
     downloadPDF,
+    handleResolvedComment,
+    handleReplyComment,
+    handleDeleteReplyComment,
+    handleEditingComment,
+    updateParentComment,
+    updateChildComment,
+    handleMarkingCriteriaLevelFeedback,
+    showSubmitPopuphandler
   };
 
   const shortcuts = getShortcuts();
 
   return (
+    <>
+    {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent={popupText} buttonText="Submit" 
+    confirmButtonAction=
+    {submissionFunction()} />}
+
     <ReactiveRender
       mobile={
         <FeedbackTeacherMobile
           {...{
+            newCommentSerialNumber,
             isTeacher,
             submissionStatusLabel,
             labelText,
@@ -734,6 +1045,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       tablet={
         <FeedbackTeacherLaptop
           {...{
+            newCommentSerialNumber,
+            smallMarkingCriteria: true,
+            markingCriteriaFeedback,
             isTeacher,
             showLoader,
             submissionStatusLabel,
@@ -758,6 +1072,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               isTeacher,
+              markingCriteriaFeedback,
+              newCommentSerialNumber,
               showLoader,
               submissionStatusLabel,
               labelText,
@@ -781,6 +1097,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <FeedbackTeacherLaptop
           {...{
             isTeacher,
+            markingCriteriaFeedback,
+            newCommentSerialNumber,
             showLoader,
             submissionStatusLabel,
             labelText,
@@ -800,32 +1118,65 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         />
       }
     />
+    </>
   );
+
+  function submissionFunction() {
+    if (methodTocall === "CloseSubmission") {
+      return handleSubmissionClosed
+    }
+    if (methodTocall === "SubmitReview") {
+      return handleSubmissionReviewed
+    }
+    if (methodTocall === "SubmitForReview") {
+      return handleSaveSubmissionForReview
+    }
+    return handleRequestResubmission;
+  }
 }
+
+
+const isTeacher = getUserRole() === "TEACHER";
+
+const ActionButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-self: flex-end;
+  margin-left:100px;
+
+  gap: 20px;
+  width: 100%;
+`;
+
+const DialogContiner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px 10px 20px;
+  gap: 20px;
+`;
+
+
 
 const StyledTextField = styled(TextField)`
   width: 100%;
-  margin-bottom: 20px;
+
   .MuiOutlinedInput-root {
-    ${IbmplexsansNormalShark20px}
-    border-radius: 0px;
-    border-color: var(--light-mode-purple);
+    border-radius: 10px; /* Set your desired border radius value */
+    border-color:  #F1E7FF;
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: var(--light-mode-purple) ; 
+    }
   }
-  .MuiOutlinedInput-root {
-    border-color: var(--light-mode-purple);
-  }
-  label {
-    ${IbmplexsansNormalShark20px}
-    color: var(--light-mode-purple);
-    border-color: var(--light-mode-purple);
-  }
+
   .MuiInputBase-input {
-    ${IbmplexsansNormalShark20px}
-    border-color:var(--light-mode-purple);
+   border-color:  #F1E7FF;
   }
 `;
-
-const isTeacher = getUserRole() === "TEACHER";
 
 const feedbacksNavElement1Data = {
   home3: "/img/home3-1@2x.png",
@@ -889,9 +1240,6 @@ const feedbacksFrame1366422Data = {
     "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
 };
 
-const feedbacksFrame13203Data = {
-  children: "Feedback",
-};
 
 const feedbacksFrame13204Data = {
   children: "Shortcuts",
@@ -958,7 +1306,6 @@ const feedbacksFeedbackTeacherLaptopData = {
   frame13172Props: feedbacksFrame1317224Data,
   frame136641Props: feedbacksFrame1366421Data,
   frame136642Props: feedbacksFrame1366422Data,
-  frame13201Props: feedbacksFrame13203Data,
   frame13202Props: feedbacksFrame13204Data,
   frame1333Props: feedbacksFrame13332Data,
   commentCard31Props: feedbacksCommentCard321Data,
@@ -1055,4 +1402,5 @@ const feedbacksFeedbackTeacherMobileData = {
   frame136621Props: feedbacksFrame1366221Data,
   frame136622Props: feedbacksFrame1366222Data,
   frame1317Props: feedbacksFrame13171Data,
-};
+}
+

@@ -21,7 +21,7 @@ EXPOSE 3000
 
 # Step 8: Create a custom script to read environment variables and start the development server
 COPY start.sh /app
-RUN chmod +x /app/start.sh
+RUN chmod +x /app/start-staging.sh
 
 # Step 9: Start the app using the custom script
-CMD ["/app/start.sh"]
+CMD ["/app/start-staging-cr.sh"]

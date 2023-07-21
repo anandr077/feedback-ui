@@ -5,7 +5,8 @@ import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
-  IbmplexsansSemiBoldShark24px
+  IbmplexsansSemiBoldShark24px,
+  IbmplexsansNormalElectricViolet16px
 } from "../../styledMixins";
 import Breadcrumb from "../Breadcrumb";
 import Breadcrumb2 from "../Breadcrumb2";
@@ -25,6 +26,7 @@ function CreateAAssignmentLaptop(props) {
     checkboxes,
     assignment,
     dateSelectorFrame,
+    deleteAssignmentHandler,
     feedbacksMethodContainer,
     cleanformattingTextBox,
     cleanformattingDiv,
@@ -34,7 +36,36 @@ function CreateAAssignmentLaptop(props) {
     goBack21Props,
     buttons21Props,
     goBack22Props,
+    showDeletePopuphandler,
+    showPublishPopuphandler
   } = props;
+
+  
+  function titleAndSaveButtons(assignment, saveDraft, publish) {
+    const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
+    return <TitleContainer>
+      {title}
+      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
+    </TitleContainer>;
+  }
+  const saveButtons = (assignment, saveDraft, publish, showPublishPopuphandler)=> {
+    if (assignment.status === "DRAFT") {
+    return <Frame12191>
+      <SLink onClick={e=>saveDraft(e)}>Save as draft</SLink>
+      <Buttons1>
+        <Button onClick={showPublishPopuphandler}>Publish</Button>
+      </Buttons1>
+    </Frame12191>
+    } 
+    return  (<DeleteButtonContainer>
+              <Frame1322 onClick={showDeletePopuphandler} >
+                <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
+                <Delete>Delete</Delete>
+              </Frame1322>
+            </DeleteButtonContainer> );
+  }
+
+
 
   return (
     <div className="create-a-assignment-laptop screen">
@@ -47,12 +78,9 @@ function CreateAAssignmentLaptop(props) {
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
-        <Frame1376Sticky>
           {titleAndSaveButtons(assignment, saveDraft, publish)}
-        </Frame1376Sticky>
         <Frame1378 readOnly={assignment.status!= "DRAFT"}>
-          <Frame1375>
-            
+          <Frame1375>            
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
@@ -109,7 +137,7 @@ function CreateAAssignmentLaptop(props) {
               />
               <Frame12191>
               <Frame1372>
-                {saveButtons(assignment, saveDraft, publish)}
+                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
               </Frame1372>
               </Frame12191>
             </Frame1372>
@@ -125,24 +153,54 @@ function CreateAAssignmentLaptop(props) {
   
 }
 
-function titleAndSaveButtons(assignment, saveDraft, publish) {
-  const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
-  return <Frame1372>
-    {title}
-    {saveButtons(assignment, saveDraft, publish)}
-  </Frame1372>;
-}
-const saveButtons = (assignment, saveDraft, publish)=> {
-  if (assignment.status === "DRAFT") {
-  return <Frame12191>
-    <SLink onClick={e=>saveDraft(e)}>Save as draft</SLink>
-    <Buttons1>
-      <Button onClick={publish}>Publish</Button>
-    </Buttons1>
-  </Frame12191>
-  } 
-  return <></>
-}
+const TitleContainer = styled.div`
+  display: flex;
+  width: 93%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  position: relative;
+  margin-top: 16px;
+`;
+
+const DeleteButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+`;
+
+const Frame1322 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+   &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
+`;
+const IconTrash = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
+const Delete = styled.div`
+  ${IbmplexsansNormalElectricViolet16px}
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+
+
 const SLink = styled.div`
   ${IbmplexsansMediumElectricViolet20px}
   position: relative;
@@ -152,6 +210,10 @@ const SLink = styled.div`
   letter-spacing: -0.5px;
   line-height: normal;
   cursor: pointer;
+   &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
 `;
 const Frame1379 = styled.div`
   display: flex;
@@ -177,7 +239,7 @@ const Frame1376Sticky = styled.div`
   align-items: flex-start;
   gap: 30px;
   padding: 0px 60px;
-  // position: sticky;
+  ${'' /* // position: sticky; */}
   top:0;
   // z-index: 1;
   background-color: var(--white-pointer);  border-radius: 16px;
@@ -228,6 +290,7 @@ const Frame1372 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark64px}
+  font-size: 45px;
   position: relative;
   flex: 1;
   margin-top: -1px;

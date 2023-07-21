@@ -8,7 +8,7 @@ import {
 function Frame12832() {
   return (
     <Frame1283>
-      <AwaitingSubmission>AWAITING SUBMISSION</AwaitingSubmission>
+      <AwaitingSubmission></AwaitingSubmission>
       <Number>4</Number>
     </Frame1283>
   );

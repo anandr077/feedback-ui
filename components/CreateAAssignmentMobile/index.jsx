@@ -8,7 +8,8 @@ import {
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
   IbmplexsansSemiBoldShark24px,
-  IbmplexsansMediumElectricViolet16px
+  IbmplexsansMediumElectricViolet16px,
+  IbmplexsansNormalElectricViolet16px
 } from "../../styledMixins";
 import { taskHeaderProps } from "../../utils/headerProps.js";
 import Breadcrumb from "../Breadcrumb";
@@ -28,6 +29,7 @@ function CreateAAssignmentMobile(props) {
     addQuestion,
     questionFrames,
     saveDraft,
+    deleteAssignmentHandler,
     publish,
     checkboxes,
     checkedClasses,
@@ -41,7 +43,37 @@ function CreateAAssignmentMobile(props) {
     help2,
     buttons22Props,
     goBackProps,
+    showDeletePopuphandler,
+    showPublishPopuphandler,
   } = props;
+
+
+  function titleAndSaveButtons(assignment, saveDraft, publish,showPublishPopuphandler) {
+    const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
+  
+    return <TitleContainer>
+      {title}
+      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
+    </TitleContainer>;
+  }
+  function saveButtons(assignment, saveDraft, publish, showPublishPopuphandler) {
+      if (assignment.status === "DRAFT") {
+        return <Frame12191>
+          <SLink onClick={saveDraft}>Save as draft</SLink>
+  
+          <Buttons1>
+            <Button onClick={showPublishPopuphandler}>Publish</Button>
+          </Buttons1>
+        </Frame12191>;
+      }
+      return (<DeleteButtonContainer>
+        <Frame1322 onClick={showDeletePopuphandler} >
+          <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
+          <Delete>Delete</Delete>
+        </Frame1322>
+      </DeleteButtonContainer> );
+  }
+
 
   return (
     <div className="create-a-assignment-mobile screen">
@@ -54,9 +86,9 @@ function CreateAAssignmentMobile(props) {
           </Frame1315>
           <GoBack />
         </Frame1376>
+        {titleAndSaveButtons(assignment, saveDraft, publish,showPublishPopuphandler)}
         <Frame1378  readOnly={assignment.status!= "DRAFT"}>
           <Frame1375>
-            {titleAndSaveButtons(assignment, saveDraft, publish)}
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
@@ -114,7 +146,7 @@ function CreateAAssignmentMobile(props) {
               {/* <Frame1219 /> */}
               <Frame12191>
               <Frame1372>
-                {saveButtons(assignment, saveDraft, publish)}
+                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
               </Frame1372>
               </Frame12191>
             </Frame1373>
@@ -126,27 +158,56 @@ function CreateAAssignmentMobile(props) {
     </div>
   );
 }
-function titleAndSaveButtons(assignment, saveDraft, publish) {
-  const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
 
-  return <Frame1372>
-    
-    {title}
-    {saveButtons(assignment, saveDraft, publish)}
-  </Frame1372>;
-}
-function saveButtons(assignment, saveDraft, publish) {
-    if (assignment.status === "DRAFT") {
-      return <Frame12191>
-        <SLink onClick={saveDraft}>Save as draft</SLink>
+const TitleContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 93%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  position: relative;
+  margin-top: 16px;
+`;
 
-        <Buttons1>
-          <Button onClick={publish}>Publish</Button>
-        </Buttons1>
-      </Frame12191>;
-    }
-    return <></>
-}
+
+const DeleteButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+`;
+
+const Frame1322 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+   &:hover {
+    scale: 1.2;
+    transition: 0.1s;
+  }
+`;
+const IconTrash = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
+const Delete = styled.div`
+  ${IbmplexsansNormalElectricViolet16px}
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+
+
 const SLink = styled.div`
   ${IbmplexsansMediumElectricViolet16px}
   position: relative;
@@ -306,11 +367,16 @@ const Frame1372 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
+  font-size: 36px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
 `;
 
 const Frame1374 = styled.div`

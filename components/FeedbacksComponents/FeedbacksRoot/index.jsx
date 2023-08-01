@@ -412,6 +412,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           type: commentToUpdate.type,
           replies: commentToUpdate.replies,
           reviewerId: commentToUpdate.reviewerId,
+          color: commentToUpdate.color,
+          focusAreaId: commentToUpdate.focusAreaId,
           markingCriteria: defaultMarkingCriteria
         }).then((response) => {
           if (response) {
@@ -440,6 +442,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
           type: commentToUpdate.type,
+          color: commentToUpdate.color,
+          focusAreaId: commentToUpdate.focusAreaId,
           replies:
             commentToUpdate?.replies === undefined
               ? []
@@ -479,6 +483,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           range: c.range,
           type: c.type,
           replies: updatedReplies,
+          focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
         }).then((response) => {
           if (response) {
@@ -505,6 +510,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           range: c.range,
           type: c.type,
           replies: updatedReplies,
+          focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
         }).then((response) => {
           if (response) {
@@ -702,7 +708,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const matchingComment = matchingComments[0];
         const div = document.getElementById("comment_" + matchingComment.id);
         if (div) {
-          highlightComment(div);
+          highlightComment(matchingComment.color, div);
         }
       } else {
         if (from !== to) {
@@ -717,14 +723,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   };
 
-  function highlightComment(div) {
+  function highlightComment(color, div) {
     div.scrollIntoView({
       behavior: "smooth",
       block: "center",
       inline: "center",
     });
     setTimeout(() => {
-      div.style.background = "#FFFFFF";
+      div.style.background = color?color: "#FFFFFF";
       div.style.border = "1px solid #E5E5E5";
       div.style.boxShadow = "0px 4px 16px #7200e01a";
       div.style.scale = 1;

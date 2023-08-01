@@ -143,6 +143,7 @@ function CommentCard32(props) {
   }
   return (
     <CommentCard
+      bgColor={comment.color}
       id={"comment_" + comment.id}
       className={`comment-card-4 ${className || ""}`}
     >
@@ -173,7 +174,6 @@ function CommentCard32(props) {
       {isResolved !== "RESOLVED" && 
       !isReplyClicked && 
       !defaultComment &&
-      comment.type != "FOCUS_AREA" &&
       pageMode != "CLOSED"
       && (
         <Reply onClick={handleReplyClick}>
@@ -187,9 +187,6 @@ function CommentCard32(props) {
   );
 
   function showComment() {
-    if (comment.type === "FOCUS_AREA" ){
-      return <></>
-    }
     if (editButtonActive && editCommentType === "parent_comment") {
       return inputComment()
     } else {
@@ -206,12 +203,11 @@ const CommentCard = styled.article`
   padding: 16px;
   position: relative;
   align-self: stretch;
-  background-color: var(--white);
+  background-color: ${props => props.bgColor || 'var(--white)'}; // default is var(--white) if no bgColor prop is provided
   border-radius: 16px;
   border: 1px solid;
   border-color: var(--electric-violet);
   box-shadow: 0px 4px 16px #7200e01a;
-  // cursor: pointer;
 
   &.comment-card-4.comment-card-5 {
     cursor: unset;
@@ -221,6 +217,7 @@ const CommentCard = styled.article`
     cursor: unset;
   }
 `;
+
 
 const CommentText = styled.div`
   ${IbmplexsansNormalBlack16px}

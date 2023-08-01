@@ -431,20 +431,24 @@ function FeedbackTeacherLaptop(props) {
       console.log("Comment ", comment);
       if (comment.type === "FOCUS_AREA") {
         return <CommentCard32
-          reviewer={comment.reviewerName}
-          comment={comment}
-          onClick={(c) => methods.handleCommentSelected(c)}
-          isTeacher={isTeacher}
-          defaultComment={false}
-          pageMode={pageMode}
-          onClose={() => {
-            methods.handleDeleteComment(comment.id);
-          } } />;
+        reviewer={comment.reviewerName}
+        comment={comment}
+        onClick={(c) => methods.handleCommentSelected(c)}
+        onClose={() => {
+          methods.handleDeleteComment(comment.id);
+        } }
+        handleEditingComment={methods.handleEditingComment}
+        deleteReplyComment={methods.handleDeleteReplyComment}
+        onResolved={methods.handleResolvedComment}
+        handleReplyComment={methods.handleReplyComment}
+        isResolved={comment.status}
+        showResolveButton={false}
+        isTeacher={isTeacher}
+        updateParentComment={methods.updateParentComment}
+        updateChildComment={methods.updateChildComment}
+        pageMode={pageMode} />;
       }
-
       return isFeedback && comment.status !== "RESOLVED" ? (
-
-
         <CommentCard32
           reviewer={comment.reviewerName}
           comment={comment}
@@ -688,7 +692,9 @@ function FeedbackTeacherLaptop(props) {
   }
 }
 const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comments, groupedFocusAreaIds) => {
-  if (isFocusAreas) {
+  console.log("selectTabComments", comments)
+  console.log("isFocusAreas", isFocusAreas)
+  if (isFocusAreas) {    
     return comments.map(comment => {
       if (comment.type !== "FOCUS_AREA") {
         return { ...comment, isHidden: true };
@@ -696,6 +702,8 @@ const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comme
       const { focusAreaId, questionSerialNumber } = comment;
       const focusAreaIdsForQuestion = groupedFocusAreaIds[questionSerialNumber] || [];
       const isHidden = !focusAreaIdsForQuestion.includes(focusAreaId);
+      console.log("focusAreaIdsForQuestion" , focusAreaIdsForQuestion)
+      console.log("Comment "+comment.id +" isHiddent "+isHidden)
       return { ...comment, isHidden };
     });
   }

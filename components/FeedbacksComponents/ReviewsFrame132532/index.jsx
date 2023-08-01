@@ -151,18 +151,12 @@ function ReviewsFrame132532(props) {
     if (isShare) {
       return "Shared with class" 
     }
-    if (comment.type === "FOCUS_AREA") {
-      return comment.comment
-    }
     return isShare ? "Shared with class" : reviewer;
   }
 
   function createCommenterFrame() {
     if (isShare) {
       return shareIcon;
-    }
-    if (comment.type === "FOCUS_AREA") {
-      return <Ellipse141 backgroundColor={comment.color}></Ellipse141>
     }
     return avatar;
   }

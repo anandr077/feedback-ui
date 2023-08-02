@@ -6,13 +6,14 @@ import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
 import { completedHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
-import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria } from "../../../service.js";
+import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria, getSmartAnnotations } from "../../../service.js";
 import Shortcut from "../Shortcut";
 import SettingsNav from "../SettingsNav";
 import Breadcrumb from "../../Breadcrumb";
 import Breadcrumb2 from "../../Breadcrumb2";
 import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
+import { set } from "lodash";
 
 const headerProps = completedHeaderProps(true);
 
@@ -22,12 +23,13 @@ export default function AccountSettingsRoot(props) {
 
 
     if(window.localStorage.getItem("markingCriteria")){
-            Promise.all([ getAllMarkingCriteria() , getShortcuts() ]).then(
-              ([result, shortcuts]) => {
+            Promise.all([ getAllMarkingCriteria() , getShortcuts(), getSmartAnnotations() ]).then(
+              ([result, shortcuts, smartAnnotations]) => {
                 if (result) {
                     setMarkingCriterias(result);
                   }
                   setShortcuts(shortcuts);
+                  setSmartAnnotations(smartAnnotations);
                   setIsLoading(false);
               }
             );
@@ -37,17 +39,19 @@ export default function AccountSettingsRoot(props) {
 
     const [markingCriterias, setMarkingCriterias] = React.useState([]);
     const [shortcuts, setShortcuts] = React.useState([]);
+    const [smartAnnotations, setSmartAnnotations] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
 
     
     
     React.useEffect(() => {
-        Promise.all([ getAllMarkingCriteria() , getShortcuts() ]).then(
-          ([result, shortcuts]) => {
+        Promise.all([ getAllMarkingCriteria() , getShortcuts() , getSmartAnnotations()]).then(
+          ([result, shortcuts, smartAnnotation]) => {
             if (result) {
                 setMarkingCriterias(result);
               }
               setShortcuts(shortcuts);
+              setSmartAnnotations(smartAnnotation);
               setIsLoading(false);
           }
         );
@@ -69,9 +73,8 @@ export default function AccountSettingsRoot(props) {
       ));
 
 
-     ;
-      const shortcutList = shortcuts.map((shortcut, index) => (
-          <Shortcut key={index} label={shortcut.text} />
+      const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
+          <Shortcut key={index} smartAnnotation={smartAnnotation} />
       ));
   
 
@@ -90,7 +93,7 @@ export default function AccountSettingsRoot(props) {
 const breadCrumbs = <>          
 <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
 { (showMarkingCriteria || showUserSettings || showShortcuts ) 
-&& <Breadcrumb2 title ={showMarkingCriteria ? "Marking Criteria" : showShortcuts ? "Shortcuts" : "User Settings" } />
+&& <Breadcrumb2 title ={showMarkingCriteria ? "Marking Criteria" : showShortcuts ? "Smart Annotations" : "User Settings" } />
 }
 </>
 
@@ -150,7 +153,7 @@ const vericalNav21Data = {
 };
 
 const vericalNav3Data = {
-    children: "Shortcuts",
+    children: "Smart Annotations",
 };
 
 const frame13221Data = {
@@ -253,7 +256,7 @@ const accountSettingsMarkingCriteriaTableData = {
     markingCriteria: "Marking Criteria",
     frame12842: "/img/frame-1284-1@2x.png",
     line14: "/img/line-14@2x.png",
-    shortcuts: "Shortcuts",
+    shortcuts: "Smart Annotations",
     frame12843: "/img/frame-1284@2x.png",
     x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
     mainWebsite: "Main Website",

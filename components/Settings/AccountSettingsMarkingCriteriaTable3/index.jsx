@@ -77,13 +77,10 @@ function AccountSettingsMarkingCriteriaTable3(props) {
             {showShortcuts && (
               <Frame1302>
               <Title1>
-                <MarkingCriteria>Shortcuts</MarkingCriteria>
-                <ShortcutInputContainer>
-            <ShortcutInput
-                placeholder="Enter new shortcut"
-            />
-        </ShortcutInputContainer>
-                <Buttons  text="Create shortcut" noIcon={true} />
+                <MarkingCriteria>Smart Annotations</MarkingCriteria>
+
+
+                <Buttons  text="Create New" />
 
               </Title1>
               <Line14 src={line14} alt="Line 14" />

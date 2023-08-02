@@ -39,10 +39,7 @@ const Buttons1 = styled.div`
     align-self: stretch;
     width: unset;
   }
-   &:hover {
-    scale: 1.2;
-    transition: 0.1s;
-  }
+  
 `;
 
 const ButtonsMobile = styled.div`

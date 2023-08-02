@@ -28,20 +28,35 @@ function Shortcut(props) {
         { isExpanded 
         ?
         <SmartAnnotationContainer onClick={toggleSection}>
+       <TtitleContainer>
         <Title>{smartAnnotation.title}</Title>
+        <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
+        </TtitleContainer>
         <Line14 src="/img/line-14.png" alt="Line 14" />
         {suggestions}
         </SmartAnnotationContainer> 
         :
         <SmartAnnotationTitleContainer onClick={toggleSection}>
         <Title>{smartAnnotation.title}</Title>
-        
+        <Arrowdown2 src="/img/arrowdown2-1@2x.png" alt="arrowdown2" />
         </SmartAnnotationTitleContainer>
         }
 </>     
     );
 
 }
+
+const TtitleContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    `;
+
+const Arrowdown2 = styled.img`
+  position: relative;
+  min-width: 24px;
+  height: 24px;
+`;
 
 const Title = styled.div`
   ${IbmplexsansNormalShark20px}

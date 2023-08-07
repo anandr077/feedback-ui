@@ -77,10 +77,7 @@ function App() {
         <Route path="/completed">
         <ProtectedCompletedRoot />
         </Route>
-        <Route path="/classes">
-          <ProtectedTeacherClassesRoot />
-        </Route>
-        <Route path="/classes/:classId">
+        <Route path="/classes/:classIdFromUrl?">
         <ProtectedTeacherClassesRoot />
         </Route>
         <Route path="/tasks/:assignmentId/start">

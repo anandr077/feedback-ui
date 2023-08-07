@@ -17,6 +17,7 @@ import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 import Loader from "../../Loader";
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
+
   const [classId, setClassId] = useState(classIdFromUrl);
   const [classes, setClasses] = useState([]);
   const [assignments, setAssignments] = React.useState([]);
@@ -27,10 +28,14 @@ export default function TeacherClassesRoot() {
 
   React.useEffect(() => {
     getClasses().then((result) => {
-        setClassId(result[0].id);
+        if (classIdFromUrl) {
+          setClassId(classIdFromUrl);
+        } else {
+          setClassId(result[0].id);
+        }
         setClasses(result);
     });
-  }, [classId]);
+  }, []);
   useEffect(() => {
     if (classId) {
       Promise.all([
@@ -59,7 +64,7 @@ export default function TeacherClassesRoot() {
   const feedbacks = assignments.filter(
     (assignment) => assignment.submissionsStatus === "FEEDBACK"
   );
-
+  const selectedClassIndex = getSelectedClassIndex(classes, classId)
   return (
     <ReactiveRender
       mobile={
@@ -73,6 +78,7 @@ export default function TeacherClassesRoot() {
             assignments,
             modelResponses,
             students,
+            selectedClassIndex,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesMobileData,
           }}
@@ -89,6 +95,7 @@ export default function TeacherClassesRoot() {
             assignments,
             modelResponses,
             students,
+            selectedClassIndex,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesTabletData,
           }}
@@ -105,6 +112,7 @@ export default function TeacherClassesRoot() {
             assignments,
             modelResponses,
             students,
+            selectedClassIndex,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesLaptopData,
           }}
@@ -121,6 +129,7 @@ export default function TeacherClassesRoot() {
             assignments,
             modelResponses,
             students,
+            selectedClassIndex,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesDesktopData,
           }}
@@ -128,6 +137,10 @@ export default function TeacherClassesRoot() {
       }
     />
   );
+}
+
+const getSelectedClassIndex = (classes, id) => {
+  return classes.findIndex(cls => cls.id === id);
 }
 const navElement1Data = {
   home3: "/img/home3@2x.png",

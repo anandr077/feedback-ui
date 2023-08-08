@@ -67,10 +67,13 @@ function FeedbackTeacherLaptop(props) {
   } = props;
 
 
+  const onSuggestionClickFn = (smartAnnotation, index) => () => {
+    return methods.handleShortcutAddComment
+  }
 
   const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
-    <SmartAnotation key={index} smartAnnotation={smartAnnotation} />
-));
+    <SmartAnotation key={index} smartAnnotation={smartAnnotation} onSuggestionClick={methods.handleShortcutAddComment} />
+  ));
 
   const focusAreasCount = submission.assignment.questions
   .flatMap(question => question.focusAreas)
@@ -708,8 +711,7 @@ const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comme
       const { focusAreaId, questionSerialNumber } = comment;
       const focusAreaIdsForQuestion = groupedFocusAreaIds[questionSerialNumber] || [];
       const isHidden = !focusAreaIdsForQuestion.includes(focusAreaId);
-      console.log("focusAreaIdsForQuestion" , focusAreaIdsForQuestion)
-      console.log("Comment "+comment.id +" isHiddent "+isHidden)
+
       return { ...comment, isHidden };
     });
   }

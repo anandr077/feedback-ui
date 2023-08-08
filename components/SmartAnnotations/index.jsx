@@ -4,7 +4,7 @@ import { IbmplexsansNormalShark20px , IbmplexsansNormalElectricViolet14px} from 
 import { debounce, set } from "lodash";
 
 function SmartAnotation(props) {
-    const {smartAnnotation , UpdateSmartAnotationHandler, settingsMode, deleteAnnotationHandler} =props;
+    const {smartAnnotation , UpdateSmartAnotationHandler, settingsMode, deleteAnnotationHandler, onSuggestionClick} =props;
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(null);
@@ -70,7 +70,7 @@ function SmartAnotation(props) {
     (
         <SuggestionsContainer
             key={index}
-            onDoubleClick={() => handleSuggestionDoubleClick(index)}
+            onDoubleClick={() => handleSuggestionDoubleClick(index)}            
             isSelected={selectedSuggestionIndex === index}
         >
             {editingIndex === index ? (
@@ -90,8 +90,8 @@ function SmartAnotation(props) {
                 </DeleteButton>
         </SuggestionsContainer>
     ): (
-      <SuggestionsContainer key={index}>
-        <SuggestionsLabel>{suggestion.description}</SuggestionsLabel>
+      <SuggestionsContainer key={index} onClick = {onClickFn(currentSmartAnnotation, index)} >
+        <SuggestionsLabel >{suggestion.description}</SuggestionsLabel>
       </SuggestionsContainer>
     )
     );
@@ -131,6 +131,12 @@ function SmartAnotation(props) {
 </>     
     );
 
+
+  function onClickFn(smartAnnotation, index) {
+    if (onSuggestionClick)
+     return ()=>onSuggestionClick(smartAnnotation.title + "\n\n" +smartAnnotation.suggestions[index].description); 
+    else return () => { };
+  }
 }
 
 

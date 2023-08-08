@@ -44,7 +44,14 @@ function SmartAnotation(props) {
     };
 
     const handleDeleteSuggestion = (index) => {
-        currentSmartAnnotation.suggestions.splice(index, 1);
+        // currentSmartAnnotation.suggestions.splice(index, 1);
+        const updatedSuggestions = [...currentSmartAnnotation.suggestions];
+        updatedSuggestions.splice(index, 1);
+    
+        setCurrentSmartAnnotation((prevState) => ({
+            ...prevState,
+            suggestions: updatedSuggestions,
+        }));
         UpdateSmartAnotationHandler(currentSmartAnnotation);
     };
     

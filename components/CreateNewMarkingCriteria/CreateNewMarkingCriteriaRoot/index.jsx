@@ -130,8 +130,8 @@ const saveMarkingCriteria = () => {
   }
   isUpdating? updateMarkingCriteria(markingCriteria, markingCriteriaId) :createNewMarkingCriteria(markingCriteria);
   showSnackbar(isUpdating? "Marking criteria updated" :"Marking criteria created" );
-  window.localStorage.setItem("markingCriteria", "true");
-  window.location.href = "#settings";
+  // window.localStorage.setItem("markingCriteria", "true");
+  // window.location.href = "#settings";
   }
   else{
     return;

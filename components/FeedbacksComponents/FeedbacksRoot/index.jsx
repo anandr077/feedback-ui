@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { filter, flatMap, includes, map, set, uniq } from "lodash";
+import { filter, flatMap, get, includes, map, set, uniq } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
@@ -31,7 +31,7 @@ import {
   getDefaultCriteria,
   markSubmissionRequestSubmission
 } from "../../../service";
-import { getShortcuts, saveAnswer } from "../../../service.js";
+import { getShortcuts, saveAnswer, getSmartAnnotations } from "../../../service.js";
 import {
   assignmentsHeaderProps,
   taskHeaderProps,
@@ -1020,6 +1020,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const shortcuts = getShortcuts();
 
+  const smartAnnotations = getSmartAnnotations();
+
   return (
     <>
     {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent={popupText} buttonText="Submit" 
@@ -1036,6 +1038,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             labelText,
             quillRefs,
             pageMode,
+            smartAnnotations,
             newCommentFrameRef,
             methods,
             showNewComment,
@@ -1061,6 +1064,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             quillRefs,
             pageMode,
             shortcuts,
+            smartAnnotations,
             newCommentFrameRef,
             methods,
             showNewComment,
@@ -1086,6 +1090,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               quillRefs,
               pageMode,
               shortcuts,
+              smartAnnotations,
               newCommentFrameRef,
               methods,
               showNewComment,
@@ -1108,6 +1113,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             showLoader,
             submissionStatusLabel,
             labelText,
+            smartAnnotations,
             quillRefs,
             pageMode,
             shortcuts,

@@ -43,13 +43,18 @@ function SmartAnotation(props) {
         }
     };
 
+    const handleDeleteSuggestion = (index) => {
+        currentSmartAnnotation.suggestions.splice(index, 1);
+        UpdateSmartAnotationHandler(currentSmartAnnotation);
+    };
+    
+
     const addNewSuggestions = () => {
         const newSuggestion = {
             description: "",
         };
         currentSmartAnnotation.suggestions.push(newSuggestion);
         setEditingIndex(currentSmartAnnotation.suggestions.length - 1);
-
         setSelectedSuggestionIndex(currentSmartAnnotation.suggestions.length - 1);
         UpdateSmartAnotationHandler(currentSmartAnnotation);
     }
@@ -74,6 +79,11 @@ function SmartAnotation(props) {
             ) : (
                 <SuggestionsLabel>{suggestion.description}</SuggestionsLabel>
             )}
+            <DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button" 
+                               isSelected={selectedSuggestionIndex === index} // Pass isSelected prop
+                    onClick={() => handleDeleteSuggestion(index)}
+                >
+                </DeleteButton>
         </SuggestionsContainer>
     ): (
       <SuggestionsContainer key={index}>
@@ -137,6 +147,7 @@ const Arrowdown2 = styled.img`
   min-width: 24px;
   height: 24px;
 `;
+
 const PlusImage = styled.img`
   position: relative;
   min-width: 20px;
@@ -194,6 +205,7 @@ const SuggestionsContainer = styled.div`
   display: flex;
   padding: 12px 16px;
   align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
   align-self: stretch;
   border-radius: 12px;
@@ -225,6 +237,18 @@ const ButtonContainer = styled.div`
   justify-content:flex-start;
   flex-direction: row;
  background: #FFFFFF;
+`;
+
+
+const DeleteButton = styled.img`
+    cursor: pointer;
+    display: none; 
+    min-width: 15px;
+    height: 15px;
+
+    ${SuggestionsContainer}:hover & {
+        display: block; 
+    }
 `;
 
 

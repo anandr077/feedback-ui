@@ -21,7 +21,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     breadcrumb2Props,
     headerProps,
     markingCriteriaList,
-    shortcutList,
+    smartAnnotationsFrame,
     sidebarNav,
     showMarkingCriteria,
     showShortcuts,
@@ -82,7 +82,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>
-              {shortcutList}
+              {smartAnnotationsFrame}
             </MarkingCriteriaList>
             </Frame1302>
             )}

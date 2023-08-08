@@ -4,7 +4,7 @@ import { IbmplexsansNormalShark20px , IbmplexsansNormalElectricViolet14px} from 
 import { debounce, set } from "lodash";
 
 function SmartAnotation(props) {
-    const {smartAnnotation , UpdateSmartAnotationHandler, settingsMode} =props;
+    const {smartAnnotation , UpdateSmartAnotationHandler, settingsMode, deleteAnnotationHandler} =props;
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(null);
@@ -48,6 +48,10 @@ function SmartAnotation(props) {
         UpdateSmartAnotationHandler(currentSmartAnnotation);
     };
     
+    const handleDeleteAnnotation = () => {
+       
+        deleteAnnotationHandler(currentSmartAnnotation.id);
+    }
 
     const addNewSuggestions = () => {
         const newSuggestion = {
@@ -98,16 +102,25 @@ function SmartAnotation(props) {
         ?
         <SmartAnnotationContainer >
        <TtitleContainer onClick={toggleSection}>
-        <Title>{currentSmartAnnotation.title}</Title>
-        <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
+        <Title>{currentSmartAnnotation.title}
+       
+        
+        
+        </Title>
+       
+        {/* <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" /> */}
+        <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()}/>
         </TtitleContainer>
         <Line14 src="/img/line-14.png" alt="Line 14" />
         {suggestionsFrame}
         <Line14 src="/img/line-14.png" alt="Line 14" />
-        <ButtonContainer>
+
+        {  settingsMode &&
+         <ButtonContainer>
         <PlusImage src="/img/add-violet.svg" alt="plus" />
         <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
         </ButtonContainer>
+        }
         </SmartAnnotationContainer> 
         :
         <SmartAnnotationTitleContainer onClick={toggleSection}>
@@ -251,6 +264,13 @@ const DeleteButton = styled.img`
     }
 `;
 
+const DeleteButton2 = styled.img`
+    cursor: pointer;
+    min-width: 20px;
+    height: 20px;
+
+    
+`;
 
 
 export default SmartAnotation;

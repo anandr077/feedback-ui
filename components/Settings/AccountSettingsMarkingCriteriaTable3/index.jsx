@@ -22,12 +22,13 @@ function AccountSettingsMarkingCriteriaTable3(props) {
     breadcrumb2Props,
     headerProps,
     markingCriteriaList,
-    shortcutList,
     sidebarNav,
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
-    breadCrumbs
+    showCreateSmartAnnotationPopupHandler,
+    breadCrumbs,
+    smartAnnotationsFrame
   } = props;
 
 
@@ -80,12 +81,12 @@ function AccountSettingsMarkingCriteriaTable3(props) {
                 <MarkingCriteria>Smart Annotations</MarkingCriteria>
 
 
-                <Buttons  text="Create New" />
+                <Buttons  text="Create New"  onClickMethod={showCreateSmartAnnotationPopupHandler}/>
 
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>
-              {shortcutList}
+              {smartAnnotationsFrame}
             </MarkingCriteriaList>
             </Frame1302>
             )}

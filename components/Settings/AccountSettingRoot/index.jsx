@@ -6,7 +6,8 @@ import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
 import { completedHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
-import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria, getSmartAnnotations, createNewSmartAnnotation, updateSmartAnnotation } from "../../../service.js";
+import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria, 
+    getSmartAnnotations, createNewSmartAnnotation, updateSmartAnnotation, deleteSmartAnnotation } from "../../../service.js";
 import SmartAnotation from "../../../components/SmartAnnotations";
 import SettingsNav from "../SettingsNav";
 import Breadcrumb from "../../Breadcrumb";
@@ -15,6 +16,7 @@ import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
 import { set } from "lodash";
 import GeneralPopup from "../../GeneralPopup";
+import { RssFeed } from "@mui/icons-material";
 
 const headerProps = completedHeaderProps(true);
 
@@ -51,6 +53,7 @@ export default function AccountSettingsRoot(props) {
     const [shortcuts, setShortcuts] = React.useState([]);
     const [smartAnnotations, setSmartAnnotations] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
+    const [smartAnnotationsFrame , setSmartAnnotationsFrame] = React.useState(null);
 
     
     
@@ -66,6 +69,17 @@ export default function AccountSettingsRoot(props) {
           }
         );
       }, []);
+
+
+      React.useEffect(() => {
+        if(smartAnnotations){
+            console.log("###Rerendering ", smartAnnotations.length);
+            const annotationsFram = smartAnnotations.map((smartAnnotation, index) => (
+                <SmartAnotation key={index} smartAnnotation={smartAnnotation}  UpdateSmartAnotationHandler={UpdateSmartAnotationHandler} settingsMode={true} deleteAnnotationHandler ={deleteAnnotationHandler}/>
+            ));
+            setSmartAnnotationsFrame(annotationsFram);
+        }
+      },[smartAnnotations]);
 
       
     const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
@@ -87,16 +101,30 @@ export default function AccountSettingsRoot(props) {
                         description: " Sample Suggestion 1"
                     },
                     {
-                        description: " Sample Suggestion 1"
+                        description: " Sample Suggestion 2"
                     },
                     {
-                        description: " Sample Suggestion 1"
+                        description: " Sample Suggestion 3"
                     }
                 ]
               }
-              createNewSmartAnnotation(smartAnnotationRequest).then((res) => {    
-                showSnackbar("Smart annotation updated");
-                setSmartAnnotations([smartAnnotationRequest , ...smartAnnotations]);
+              createNewSmartAnnotation(smartAnnotationRequest).then((result) => {    
+           
+                showSnackbar("Smart annotation created");
+                hideCreateSmartAnnotatiosnPopup();
+
+           
+
+                const createdAnnotation = {
+                    id: result.id.value,
+                    title: result.title.value,
+                    suggestions: result.suggestions,
+                    teacherId: result.teacherId.value
+
+                }
+            
+                setSmartAnnotations([createdAnnotation , ...smartAnnotations]);
+            
             
               }).catch((error) => {
                 showSnackbar("Error updating smart annotation");
@@ -119,6 +147,18 @@ export default function AccountSettingsRoot(props) {
           }).catch((error) => {
             showSnackbar("Error updating smart annotation");
           });
+    }
+
+    const deleteAnnotationHandler = (smartAnnotationId) => {
+        deleteSmartAnnotation(smartAnnotationId).then(() => {
+            showSnackbar("Smart annotation deleted");
+            window.location.reload();
+            // setSmartAnnotations(
+            //     smartAnnotations.filter((smartAnnotation) => smartAnnotation.id !== smartAnnotationId));
+        }
+        ).catch((error) => {
+            showSnackbar("Error deleting smart annotation");
+        });
     }
 
      const markingCriteriaList= markingCriterias?.map((markingCriteria, index) => (
@@ -160,17 +200,21 @@ return (<>
     { showCreateSmartAnnotationPopup  && <GeneralPopup hidePopup={hideCreateSmartAnnotatiosnPopup} title="Create smart annotations"  buttonText="Create" createSmartAnnotationHandler={createSmartAnnotationHandler}  smartAnnotation= {true}/>}
     <ReactiveRender
       mobile={
-        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, shortcutList, showCreateSmartAnnotationPopupHandler, setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, 
+            smartAnnotationsFrame, showCreateSmartAnnotationPopupHandler, setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }
       tablet={
-        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList, shortcutList, showCreateSmartAnnotationPopupHandler, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs }} />
+        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , 
+        headerProps, markingCriteriaList, smartAnnotationsFrame, showCreateSmartAnnotationPopupHandler, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs }} />
       }
       laptop={
-        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList , showCreateSmartAnnotationPopupHandler, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, 
+        headerProps, markingCriteriaList , showCreateSmartAnnotationPopupHandler, smartAnnotationsFrame, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }
       desktop={
-        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList, showCreateSmartAnnotationPopupHandler,shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
-      }markingCriteriaList />
+        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , 
+        headerProps, markingCriteriaList, showCreateSmartAnnotationPopupHandler,smartAnnotationsFrame, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+      } />
       </>
   );
 }

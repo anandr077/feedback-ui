@@ -26,7 +26,9 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
-    breadCrumbs
+    showCreateSmartAnnotationPopupHandler,
+    breadCrumbs,
+    smartAnnotationsFrame
   } = props;
 
   return (
@@ -77,12 +79,12 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               <Title1>
                 <MarkingCriteria>Smart Annotations</MarkingCriteria>
                 
-                <Buttons  text="Create New" />
+                <Buttons  text="Create New"  onClickMethod={showCreateSmartAnnotationPopupHandler}/>
 
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>
-              {shortcutList}
+              {smartAnnotationsFrame}
             </MarkingCriteriaList>
             </Frame1302>
             )}

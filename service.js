@@ -237,6 +237,19 @@ export const deleteMarkingCriteria = async (markingCriteriaId) =>{
   await deleteApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId);
 };
 
+export const createNewSmartAnnotation= async (smartAnnotation) =>{
+  return await postApi(baseUrl + "/teachers/smartAnnotation", smartAnnotation);
+};
+
+export const updateSmartAnnotation = async (smartAnnotation, smartAnnotationId) =>{
+ return postApi(baseUrl + "/teachers/smartAnnotation/"+smartAnnotationId, smartAnnotation);
+};
+
+export const deleteSmartAnnotation = async (smartAnnotationId) =>{
+  await deleteApi(baseUrl + "/teachers/smartAnnotation/"+smartAnnotationId);
+};
+
+export const getSmartAnnotations = async () => await getApi(baseUrl + "/teachers/smartAnnotation");
 
 export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 
@@ -334,6 +347,14 @@ export const getShortcuts = () => {
   ];
   return shortcuts;
 };
+
+
+
+
+
+
+
+
 let FocusAreas = [
   {
     id: 1,

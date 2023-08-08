@@ -31,6 +31,7 @@ function TeacherClassesDesktop(props) {
     modelResponses,
     students,
     title,
+    selectedClassIndex,
     headerProps,
     x12Engadv3,
     frame12841,
@@ -83,6 +84,7 @@ function TeacherClassesDesktop(props) {
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
+              selectedIndex={selectedClassIndex}
             ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>

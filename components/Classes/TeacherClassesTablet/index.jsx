@@ -47,7 +47,7 @@ function TeacherClassesTablet(props) {
     students,
 
     title,
-
+    selectedClassIndex,
     line171,
 
     line174,
@@ -77,6 +77,7 @@ function TeacherClassesTablet(props) {
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
+              selectedIndex={selectedClassIndex}
             ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>

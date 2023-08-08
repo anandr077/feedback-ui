@@ -35,7 +35,7 @@ function SettingsNav(props) {
     (<>
       <SelectedContainer onClick={selectUserSettings}> <SelectedLabel> User Settings</SelectedLabel> </SelectedContainer>
       <UnselectedContainer  onClick={selectMarkingCriteria}> <UnselectedLabel> Marking Criteria</UnselectedLabel> </UnselectedContainer>
-      <UnselectedContainer onClick={selectShortcuts}> <UnselectedLabel> Shortcuts</UnselectedLabel> </UnselectedContainer>
+      <UnselectedContainer onClick={selectShortcuts}> <UnselectedLabel> Smart Annotations</UnselectedLabel> </UnselectedContainer>
       </>
     )
     }
@@ -43,14 +43,14 @@ function SettingsNav(props) {
       <>
       <UnselectedContainer onClick={selectUserSettings}> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
       <SelectedContainer onClick={selectMarkingCriteria}> <SelectedLabel> Marking Criteria</SelectedLabel> </SelectedContainer>
-      <UnselectedContainer onClick={selectShortcuts} > <UnselectedLabel> Shortcuts</UnselectedLabel> </UnselectedContainer>
+      <UnselectedContainer onClick={selectShortcuts} > <UnselectedLabel> Smart Annotations</UnselectedLabel> </UnselectedContainer>
       </>
     )}
     {
       showShortcuts && (  <>
       <UnselectedContainer onClick={selectUserSettings}> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
       <UnselectedContainer onClick={selectMarkingCriteria}> <UnselectedLabel> Marking Criteria</UnselectedLabel> </UnselectedContainer>
-      <SelectedContainer onClick={selectShortcuts}> <SelectedLabel> Shortcuts</SelectedLabel> </SelectedContainer>
+      <SelectedContainer onClick={selectShortcuts}> <SelectedLabel> Smart Annotations</SelectedLabel> </SelectedContainer>
       </>
       )
     }

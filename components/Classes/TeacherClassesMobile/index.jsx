@@ -31,6 +31,7 @@ function TeacherClassesMobile(props) {
     modelResponses,
     students,
     title,
+    selectedClassIndex,
     line171,
     crown,
     line175,
@@ -52,6 +53,7 @@ function TeacherClassesMobile(props) {
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
+              selectedIndex={selectedClassIndex}
               small={true}
             ></ImageDropdownMenu>
           </Frame1306>

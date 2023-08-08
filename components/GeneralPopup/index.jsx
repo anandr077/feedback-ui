@@ -1,24 +1,38 @@
-import React from 'react'
+import React , {useState} from 'react'
 import styled from "styled-components";
 import { isMobileView } from "../ReactiveRender";
-import { IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px} from "../../styledMixins";
+import { IbmplexsansSemiBoldShark24px, IbmplexsansSemiBoldWhite16px, IbmplexsansNormalShark20px} from "../../styledMixins";
 import { DialogContent, Dialog } from '@mui/material';
 
 
 export default function GeneralPopup(props) {
 
-const {hidePopup, buttonText, textContent, title, confirmButtonAction} = props;
+const {hidePopup, buttonText, textContent, title, confirmButtonAction, smartAnnotation, createSmartAnnotationHandler} = props;
+
+const [annotationTitle, setAnnotationTitle] = useState('');
+
+const handleInputChange = (event) => {
+  setAnnotationTitle(event.target.value);
+};
+
+
 
 const content =<><TitleContainer>
 <DeleteTitle>{title}</DeleteTitle>
 </TitleContainer>
 <Line141 src="/img/line-14@2x.png" />
-<TextContent>{textContent}</TextContent>
+{ textContent && <TextContent>{textContent}</TextContent>}
+{smartAnnotation && <TextFrame><TextInput onChange={handleInputChange}></TextInput></TextFrame>}
 <ButtonsContainer>
 <ProceedButton onClick={ ()=> hidePopup()}>Cancel</ProceedButton>
-<CancelButton onClick={()=> confirmButtonAction()}>
+{smartAnnotation ? 
+<CancelButton onClick={()=> createSmartAnnotationHandler(annotationTitle)}>
 {buttonText}
 </CancelButton>
+: 
+<CancelButton onClick={()=> confirmButtonAction()}>
+{buttonText}
+</CancelButton>}
 </ButtonsContainer>
 </>;
 
@@ -31,6 +45,7 @@ isMobileView() ? <DeleteAssignmentPopupContainerSmall>
 :
     <DeleteAssignmentPopupContainer>
     {content}
+   
     </DeleteAssignmentPopupContainer>
 
   }
@@ -39,6 +54,39 @@ isMobileView() ? <DeleteAssignmentPopupContainerSmall>
    
   )
 }
+
+
+
+const TextFrame = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 10px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+  width : 70%;
+  left: 5%;
+  margin-top: 20px;
+`;
+
+const TextInput = styled.input`
+${IbmplexsansNormalShark20px}
+  position: relative;
+  width:100%;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
 
 const DeleteTitle = styled.div`
 display: flex;

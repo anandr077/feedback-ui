@@ -21,11 +21,12 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     breadcrumb2Props,
     headerProps,
     markingCriteriaList,
-    shortcutList,
+    smartAnnotationsFrame,
     sidebarNav,
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
+    showCreateSmartAnnotationPopupHandler,
     breadCrumbs
   } = props;
   return (
@@ -74,18 +75,14 @@ function AccountSettingsMarkingCriteriaLapto(props) {
             {showShortcuts && (
               <Frame1302>
               <Title1>
-                <MarkingCriteria>Shortcuts</MarkingCriteria>
-                <ShortcutInputContainer>
-            <ShortcutInput
-                placeholder="Enter new shortcut"
-            />
-        </ShortcutInputContainer>
-                <Buttons  text="Create shortcut" noIcon={true} />
+                <MarkingCriteria>Smart Annotations</MarkingCriteria>
+               
+                <Buttons  text="Create new" onClickMethod={showCreateSmartAnnotationPopupHandler} />
 
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>
-              {shortcutList}
+              {smartAnnotationsFrame}
             </MarkingCriteriaList>
             </Frame1302>
             )}

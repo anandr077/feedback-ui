@@ -30,6 +30,7 @@ function TeacherClassesLaptop(props) {
     classes,
     modelResponses,
     students,
+    selectedClassIndex,
     line171,
     line175,
     crown,
@@ -52,6 +53,7 @@ function TeacherClassesLaptop(props) {
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
+              selectedIndex={selectedClassIndex}
             ></ImageDropdownMenu>
           </Frame1306>
           <Frame1426>

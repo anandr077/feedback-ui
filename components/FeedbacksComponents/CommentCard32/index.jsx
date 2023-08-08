@@ -98,15 +98,10 @@ function CommentCard32(props) {
             pageMode={pageMode}
             onClick={onClick}
           />
-          <CommentText
-            onClick={() => onClick(comment)}
-            className="horem-ipsum-dolor-si-1"
-          >
-            {editButtonActive &&
-            editCommentType === "replies" &&
-            index === editReplyIndex
-              ? inputComment()
-              : reply.comment}
+          <CommentText onClick={() => onClick(comment)} className="horem-ipsum-dolor-si-1">
+            {editButtonActive && editCommentType === "replies" && index === editReplyIndex
+              ? <NewlineText text={inputComment()} />
+              : <NewlineText text={reply.comment} />}
           </CommentText>
         </ReplyCommentWrapper>
       );
@@ -194,6 +189,21 @@ function CommentCard32(props) {
     }
   }
 }
+function NewlineText({ text }) {
+  const newText = text.split('\n').map((str, index, array) => 
+    index === array.length - 1 ? str : <>
+      {str}
+      <br />
+    </>
+  );
+  
+  return <>{newText}</>;
+}
+
+
+const BoldText = styled.span`
+  font-weight: bold;
+`;
 
 const CommentCard = styled.article`
   display: flex;
@@ -225,6 +235,7 @@ const CommentText = styled.div`
   align-self: stretch;
   letter-spacing: 0;
   line-height: normal;
+  white-space: pre-line;
   cursor: pointer;
 `;
 

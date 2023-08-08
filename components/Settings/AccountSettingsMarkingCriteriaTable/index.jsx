@@ -18,14 +18,15 @@ function AccountSettingsMarkingCriteriaTable(props) {
     buttonsProps,
     headerProps,
     markingCriteriaList,
-    shortcutList,
     setShowMarkingCriteria,
     setShowShortcuts,
     setShowUserSettings,
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
-    breadCrumbs
+    showCreateSmartAnnotationPopupHandler,
+    breadCrumbs,
+    smartAnnotationsFrame
   } = props;
 
   
@@ -94,21 +95,17 @@ function AccountSettingsMarkingCriteriaTable(props) {
                 
                 <ActiveSetting>
               <Frame13221>
-                <SettingTitle>Shortcuts</SettingTitle>
+                <SettingTitle>Smart Annotations</SettingTitle>
                 <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" onClick={()=> {setShowShortcuts(false)}} />
               </Frame13221>
               <Frame1302>
-              <ShortcutInputContainer>
-            <ShortcutInput
-                placeholder="Enter new shortcut"
-            />
-        </ShortcutInputContainer>
+             
                 <Title1>
-                  <Buttons text="Create shortcut" className={buttonsProps.className} noIcon={true} />
+                  <Buttons text="Create New" className={buttonsProps.className} onClickMethod={showCreateSmartAnnotationPopupHandler}/>
                 </Title1>
                 <Line14 src={line14} alt="Line 14" />
                 <MarkingCriteriaList>
-                {shortcutList}
+                {smartAnnotationsFrame}
                 </MarkingCriteriaList>
               </Frame1302>
             </ActiveSetting>

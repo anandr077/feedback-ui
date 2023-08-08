@@ -42,6 +42,7 @@ import "./FeedbackTeacherLaptop.css";
 import CheckboxGroup from '../../CheckboxGroup';
 import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
+import SmartAnotation from '../../../components/SmartAnnotations';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -54,6 +55,7 @@ function FeedbackTeacherLaptop(props) {
     quillRefs,
     pageMode,
     shortcuts,
+    smartAnnotations,
     newCommentFrameRef,
     showNewComment,
     methods,
@@ -64,6 +66,11 @@ function FeedbackTeacherLaptop(props) {
     sharewithclassdialog,
   } = props;
 
+
+
+  const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
+    <SmartAnotation key={index} smartAnnotation={smartAnnotation} />
+));
 
   const focusAreasCount = submission.assignment.questions
   .flatMap(question => question.focusAreas)
@@ -491,6 +498,8 @@ function FeedbackTeacherLaptop(props) {
     });
   }
 
+
+
   function createVisibleComments() {
     return commentsForSelectedTab.filter(comment => !comment.isHidden);
   }
@@ -517,10 +526,7 @@ function FeedbackTeacherLaptop(props) {
               cancelButtonOnClick={methods.hideNewCommentDiv}
             />
             
-            <ShortcutsFrame
-              shortcuts={shortcuts}
-              handleShortcutAddComment={methods.handleShortcutAddComment}
-            />
+            {shortcutList}
             {shareWithClassFrame()}
           </Frame1406>
         </Frame1329>

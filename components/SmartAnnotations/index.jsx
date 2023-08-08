@@ -65,7 +65,7 @@ function SmartAnotation(props) {
 
 
     const suggestionsFrame =  
-    currentSmartAnnotation?.suggestions?.map((suggestion, index) =>
+    currentSmartAnnotation.suggestions?.map((suggestion, index) =>
     settingsMode ? 
     (
         <SuggestionsContainer

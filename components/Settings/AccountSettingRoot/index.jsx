@@ -112,6 +112,7 @@ export default function AccountSettingsRoot(props) {
            
                 showSnackbar("Smart annotation created");
                 hideCreateSmartAnnotatiosnPopup();
+                window.location.reload();
 
            
 

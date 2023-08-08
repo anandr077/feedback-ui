@@ -61,7 +61,7 @@ function SmartAnotation(props) {
 
 
     const suggestionsFrame =  
-    currentSmartAnnotation.suggestions.map((suggestion, index) =>
+    currentSmartAnnotation.suggestions?.map((suggestion, index) =>
     settingsMode ? 
     (
         <SuggestionsContainer
@@ -80,7 +80,7 @@ function SmartAnotation(props) {
                 <SuggestionsLabel>{suggestion.description}</SuggestionsLabel>
             )}
             <DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button" 
-                               isSelected={selectedSuggestionIndex === index} // Pass isSelected prop
+                               isSelected={selectedSuggestionIndex === index }
                     onClick={() => handleDeleteSuggestion(index)}
                 >
                 </DeleteButton>

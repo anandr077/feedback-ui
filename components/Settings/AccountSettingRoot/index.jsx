@@ -14,6 +14,7 @@ import Breadcrumb2 from "../../Breadcrumb2";
 import Loader from "../../Loader";
 import SnackbarContext from "../../SnackbarContext";
 import { set } from "lodash";
+import GeneralPopup from "../../GeneralPopup";
 
 const headerProps = completedHeaderProps(true);
 
@@ -21,6 +22,15 @@ export default function AccountSettingsRoot(props) {
 
     const { showSnackbar } = React.useContext(SnackbarContext);
 
+    const [showCreateSmartAnnotationPopup, setShowCreateSmartAnnotationPopup] = React.useState(false);
+
+
+    const hideCreateSmartAnnotatiosnPopup = () => {
+        setShowCreateSmartAnnotationPopup(false);
+    }
+    const showCreateSmartAnnotationPopupHandler = () => {
+        setShowCreateSmartAnnotationPopup(true);
+    }
 
     if(window.localStorage.getItem("markingCriteria")){
             Promise.all([ getAllMarkingCriteria() , getShortcuts(), getSmartAnnotations() ]).then(
@@ -69,12 +79,25 @@ export default function AccountSettingsRoot(props) {
     }
 
 
-    const createSmartAnnotation = (smartAnnotation) => {
+    const createSmartAnnotationHandler = (title) => {
             const smartAnnotationRequest = {
-                title: smartAnnotation.title
+                title: title,
+                suggestions: [
+                    {
+                        description: " Sample Suggestion 1"
+                    },
+                    {
+                        description: " Sample Suggestion 1"
+                    },
+                    {
+                        description: " Sample Suggestion 1"
+                    }
+                ]
               }
-              createNewSmartAnnotation(smartAnnotationRequest).then(() => {    
+              createNewSmartAnnotation(smartAnnotationRequest).then((res) => {    
                 showSnackbar("Smart annotation updated");
+                setSmartAnnotations([smartAnnotationRequest , ...smartAnnotations]);
+            
               }).catch((error) => {
                 showSnackbar("Error updating smart annotation");
               });
@@ -134,19 +157,19 @@ if (isLoading) {
   }
 
 return (<>
- 
+    { showCreateSmartAnnotationPopup  && <GeneralPopup hidePopup={hideCreateSmartAnnotatiosnPopup} title="Create smart annotations"  buttonText="Create" createSmartAnnotationHandler={createSmartAnnotationHandler}  smartAnnotation= {true}/>}
     <ReactiveRender
       mobile={
-        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, shortcutList, createSmartAnnotation, setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+        <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, shortcutList, showCreateSmartAnnotationPopupHandler, setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }
       tablet={
-        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList, shortcutList, createSmartAnnotation, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs }} />
+        <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList, shortcutList, showCreateSmartAnnotationPopupHandler, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs }} />
       }
       laptop={
-        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList , createSmartAnnotation, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList , showCreateSmartAnnotationPopupHandler, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }
       desktop={
-        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList, createSmartAnnotation,shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+        <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList, showCreateSmartAnnotationPopupHandler,shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }markingCriteriaList />
       </>
   );

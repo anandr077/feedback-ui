@@ -26,7 +26,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
-    saveSmartAnnotation,
+    showCreateSmartAnnotationPopupHandler,
     breadCrumbs
   } = props;
   return (
@@ -77,7 +77,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
               <Title1>
                 <MarkingCriteria>Smart Annotations</MarkingCriteria>
                
-                <Buttons  text="Create new" onClickMethod={saveSmartAnnotation} />
+                <Buttons  text="Create new" onClickMethod={showCreateSmartAnnotationPopupHandler} />
 
               </Title1>
               <Line14 src={line14} alt="Line 14" />

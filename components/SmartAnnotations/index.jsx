@@ -49,7 +49,6 @@ function SmartAnotation(props) {
     };
     
     const handleDeleteAnnotation = () => {
-       
         deleteAnnotationHandler(currentSmartAnnotation.id);
     }
 

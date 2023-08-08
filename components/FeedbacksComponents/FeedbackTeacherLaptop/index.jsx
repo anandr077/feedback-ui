@@ -42,7 +42,7 @@ import "./FeedbackTeacherLaptop.css";
 import CheckboxGroup from '../../CheckboxGroup';
 import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
-import Shortcut from '../../Settings/Shortcut';
+import SmartAnotation from '../../../components/SmartAnnotations';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -66,8 +66,10 @@ function FeedbackTeacherLaptop(props) {
     sharewithclassdialog,
   } = props;
 
+
+
   const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
-    <Shortcut key={index} smartAnnotation={smartAnnotation} />
+    <SmartAnotation key={index} smartAnnotation={smartAnnotation} />
 ));
 
   const focusAreasCount = submission.assignment.questions
@@ -524,10 +526,6 @@ function FeedbackTeacherLaptop(props) {
               cancelButtonOnClick={methods.hideNewCommentDiv}
             />
             
-            {/* <ShortcutsFrame
-              shortcuts={shortcuts}
-              handleShortcutAddComment={methods.handleShortcutAddComment}
-            /> */}
             {shortcutList}
             {shareWithClassFrame()}
           </Frame1406>

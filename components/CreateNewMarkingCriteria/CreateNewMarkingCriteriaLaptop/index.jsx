@@ -14,7 +14,8 @@ import Frame1219 from "../Frame1219";
 
 
 
-function CreateNewMarkingCriteriaLaptop(props) {
+function 
+CreateNewMarkingCriteriaLaptop(props) {
   const {
     frame1372Props,
     headerProps,
@@ -22,6 +23,7 @@ function CreateNewMarkingCriteriaLaptop(props) {
     addCriteria,
     saveMarkingCriteria,
     deleteMarkingCriteriaMethod,
+    saveSmartAnnotation,
     handleTitleChange,
     isUpdating,
     markingCriterias

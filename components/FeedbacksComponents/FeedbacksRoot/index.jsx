@@ -59,6 +59,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const newCommentFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
+  const [smartAnnotations, setSmartAnnotations] = useState([]);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
@@ -83,8 +84,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   useEffect(() => {
-    Promise.all([getSubmissionById(id), getComments(id)])
-      .then(([submissionsResult, commentsResult]) => {
+    Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
+      .then(([submissionsResult, commentsResult, smartAnnotationResult]) => {
         setSubmission(submissionsResult);
         const allComments = commentsResult.map((c) => {
           return { ...c };
@@ -93,6 +94,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setComments(feedbackComments);
         const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
+        setSmartAnnotations(smartAnnotationResult);
       })
       .finally(() => {
         if (!isTeacher) {
@@ -1020,7 +1022,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const shortcuts = getShortcuts();
 
-  const smartAnnotations = getSmartAnnotations();
+
 
   return (
     <>

@@ -4,17 +4,27 @@ import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
 
 
 function Buttons(props) {
-  const { text, className, link , noIcon, mobile} = props;
+  const { text, className, link , noIcon, mobile, onClickMethod} = props;
+
+ const  handleClick = () => {
+
+    if (link) {
+        window.location.href = link;
+    } else  {
+        onClickMethod();
+    }
+};
+
 
   return (
     <>
     {mobile ?
-    <ButtonsMobile className={`buttons ${className || ""}`} onClick={()=> window.location.href=link}>
+    <ButtonsMobile className={`buttons ${className || ""}`} onClick={handleClick}>
     {!noIcon && <Add className="add" src="/img/add@2x.png" alt="add" />}
       <Button className="button" >{text}</Button>
     </ButtonsMobile>
      :
-    <Buttons1 className={`buttons ${className || ""}`} onClick={()=> window.location.href=link}>
+    <Buttons1 className={`buttons ${className || ""}`} onClick={handleClick}>
      {!noIcon && <Add className="add" src="/img/add@2x.png" alt="add" />}
       <Button className="button" >{text}</Button>
     </Buttons1>

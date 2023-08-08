@@ -237,6 +237,11 @@ export const deleteMarkingCriteria = async (markingCriteriaId) =>{
   await deleteApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId);
 };
 
+export const createNewSmartAnnotation= async (smartAnnotation) =>{
+  await postApi(baseUrl + "/teachers/smartAnnotation", smartAnnotation);
+};
+
+export const getSmartAnnotations = async () => await getApi(baseUrl + "/teachers/smartAnnotation");
 
 export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 
@@ -333,141 +338,6 @@ export const getShortcuts = () => {
     {text: "Syntax for creative effect" },
   ];
   return shortcuts;
-};
-
-
-export const getSmartAnnotations = () => {
-  const smartAnnotations = [
-    {
-      title: "Use of evidence",
-      suggestions: [
-        "Shorten the quotation",
-        "Cut out words from the beginning and/or end of the quotation",
-        "Fragment this quotation into smaller parts and integrate into different sections",
-      ],
-    },
-    {
-      title: "Selection of evidence",
-      suggestions: [
-        "Choose specific examples that directly support your point",
-        "Prioritize recent and relevant evidence",
-        "Balance between different types of evidence (statistics, anecdotes, expert opinions)",
-      ],
-    },
-    {
-      title: "Contextualise evidence",
-      suggestions: [
-        "Provide background information for the evidence",
-        "Explain the significance of the evidence in relation to your argument",
-        "Connect the evidence to the broader theme or topic",
-      ],
-    },
-    {
-      title: "Incorrect syntax",
-      suggestions: [
-        "Review basic grammar and sentence structure",
-        "Use punctuation appropriately to clarify your ideas",
-        "Avoid run-on sentences and sentence fragments",
-      ],
-    },
-    {
-      title: "Overcomplicated syntax",
-      suggestions: [
-        "Simplify complex sentence structures",
-        "Break down long sentences into shorter, clearer ones",
-        "Focus on clarity and readability",
-      ],
-    },
-    {
-      title: "Paragraph cohesion",
-      suggestions: [
-        "Use transitional phrases to connect ideas between paragraphs",
-        "Start each paragraph with a clear topic sentence",
-        "Ensure each paragraph contributes to the overall argument",
-      ],
-    },
-    {
-      title: "Use of techniques",
-      suggestions: [
-        "Identify and analyze literary techniques used in the text",
-        "Explain how these techniques contribute to the author's purpose",
-        "Link techniques to specific examples from the text",
-      ],
-    },
-    {
-      title: "Lack of specificity",
-      suggestions: [
-        "Provide concrete and detailed examples to support your points",
-        "Avoid vague statements and generalizations",
-        "Use specific language and vivid descriptions",
-      ],
-    },
-    {
-      title: "Reference to the question",
-      suggestions: [
-        "Ensure your response directly addresses the prompt or question",
-        "Use key terms from the question in your answer",
-        "Stay focused on the main topic and avoid tangential discussions",
-      ],
-    },
-    {
-      title: "Analytical tone",
-      suggestions: [
-        "Maintain a critical and objective tone throughout your response",
-        "Avoid personal anecdotes and emotional language",
-        "Provide thoughtful analysis and interpretation of the text",
-      ],
-    },
-    {
-      title: "Concision and precision",
-      suggestions: [
-        "Eliminate unnecessary repetition and wordiness",
-        "Edit sentences to convey ideas in a clear and concise manner",
-        "Choose precise language to communicate your points effectively",
-      ],
-    },
-    {
-      title: "Use of Context",
-      suggestions: [
-        "Discuss the historical, cultural, and social context of the text",
-        "Explain how the context influences the themes and characters",
-        "Connect the context to specific events or details in the text",
-      ],
-    },
-    {
-      title: "Setting",
-      suggestions: [
-        "Describe the physical and social setting of the text",
-        "Explain how the setting contributes to the mood and atmosphere",
-        "Analyze the significance of the setting in relation to the story",
-      ],
-    },
-    {
-      title: "Character",
-      suggestions: [
-        "Analyze the motivations, traits, and development of characters",
-        "Explain how characters drive the plot and contribute to themes",
-        "Provide textual evidence to support your character analysis",
-      ],
-    },
-    {
-      title: "Plot",
-      suggestions: [
-        "Summarize the main events and conflicts in the plot",
-        "Identify key turning points and moments of climax",
-        "Discuss how the plot structure impacts the reader's experience",
-      ],
-    },
-    {
-      title: "Syntax for creative effect",
-      suggestions: [
-        "Explore how the author's syntax influences the reader's interpretation",
-        "Discuss the use of sentence length, rhythm, and punctuation for effect",
-        "Analyze how syntax contributes to the overall style and tone of the text",
-      ],
-    },
-  ];
-  return smartAnnotations;
 };
 
 

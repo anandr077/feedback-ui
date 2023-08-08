@@ -6,8 +6,8 @@ import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
 import { completedHeaderProps } from "../../../utils/headerProps";
 import MarkingCriteriaCard from "../MarkingCriteriaCard";
-import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria, getSmartAnnotations } from "../../../service.js";
-import Shortcut from "../Shortcut";
+import { getAllMarkingCriteria, getShortcuts, deleteMarkingCriteria, getSmartAnnotations, createNewSmartAnnotation } from "../../../service.js";
+import SmartAnotation from "../../../components/SmartAnnotations";
 import SettingsNav from "../SettingsNav";
 import Breadcrumb from "../../Breadcrumb";
 import Breadcrumb2 from "../../Breadcrumb2";
@@ -36,6 +36,24 @@ export default function AccountSettingsRoot(props) {
           window.localStorage.removeItem("markingCriteria");
     }
 
+
+const saveSmartAnnotation = () => {
+
+    smartAnnotations.map((smartAnnotation) => {
+        const smartAnnotationRequest = {
+            title: smartAnnotation.title,
+            suggestions: smartAnnotation.suggestions.map((suggestion) => {
+              return {
+                description: suggestion 
+              }
+            })
+          }
+          createNewSmartAnnotation(smartAnnotationRequest);
+    });
+  
+  
+  }
+  
 
     const [markingCriterias, setMarkingCriterias] = React.useState([]);
     const [shortcuts, setShortcuts] = React.useState([]);
@@ -74,7 +92,7 @@ export default function AccountSettingsRoot(props) {
 
 
       const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
-          <Shortcut key={index} smartAnnotation={smartAnnotation} />
+          <SmartAnotation key={index} smartAnnotation={smartAnnotation} />
       ));
   
 
@@ -110,7 +128,7 @@ return (
         <AccountSettingsMarkingCriteriaTable3 {...{...accountSettingsMarkingCriteriaTable3Data , headerProps, markingCriteriaList, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs }} />
       }
       laptop={
-        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList , shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
+        <AccountSettingsMarkingCriteriaLapto {...{...accountSettingsMarkingCriteriaLaptoData, headerProps, markingCriteriaList , saveSmartAnnotation, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />
       }
       desktop={
         <AccountSettingsMarkingCriteriaDeskt {...{...accountSettingsMarkingCriteriaDesktData , headerProps, markingCriteriaList, shortcutList, sidebarNav, showMarkingCriteria,showShortcuts,showUserSettings, breadCrumbs}} />

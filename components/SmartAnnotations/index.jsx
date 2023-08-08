@@ -1,15 +1,14 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import {  feedbacksIbmplexsansNormalPersianIndigo16px, IbmplexsansNormalShark20px } from "../../../styledMixins";
+import {  feedbacksIbmplexsansNormalPersianIndigo16px, IbmplexsansNormalShark20px } from "../../styledMixins";
 import { get } from "lodash";
 
-function Shortcut(props) {
+function SmartAnotation(props) {
     const {smartAnnotation} =props;
 
     const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleSection = () => {
-    console.log("######toggleSection");
     setIsExpanded(!isExpanded);
   };
 
@@ -17,7 +16,7 @@ function Shortcut(props) {
 
     const suggestions =smartAnnotation.suggestions.map((suggestion) => (
           <SuggestionsContainer>
-            <SuggestionsLabel>{suggestion}</SuggestionsLabel>
+            <SuggestionsLabel>{suggestion.description}</SuggestionsLabel>
           </SuggestionsContainer>
         ));
     
@@ -119,4 +118,4 @@ ${feedbacksIbmplexsansNormalPersianIndigo16px}
 color: var(--light-mode-purple, #7200E0);
 `;
 
-export default Shortcut;
+export default SmartAnotation;

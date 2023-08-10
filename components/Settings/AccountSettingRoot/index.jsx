@@ -27,33 +27,10 @@ export default function AccountSettingsRoot(props) {
     const [showCreateSmartAnnotationPopup, setShowCreateSmartAnnotationPopup] = React.useState(false);
 
 
-    const hideCreateSmartAnnotatiosnPopup = () => {
-        setShowCreateSmartAnnotationPopup(false);
-    }
-    const showCreateSmartAnnotationPopupHandler = () => {
-        setShowCreateSmartAnnotationPopup(true);
-    }
-
-    if(window.localStorage.getItem("markingCriteria")){
-            Promise.all([ getAllMarkingCriteria() , getShortcuts(), getSmartAnnotations() ]).then(
-              ([result, shortcuts, smartAnnotations]) => {
-                if (result) {
-                    setMarkingCriterias(result);
-                  }
-                  setShortcuts(shortcuts);
-                  setSmartAnnotations(smartAnnotations);
-                  setIsLoading(false);
-              }
-            );
-          window.localStorage.removeItem("markingCriteria");
-    }
-  
-
     const [markingCriterias, setMarkingCriterias] = React.useState([]);
     const [shortcuts, setShortcuts] = React.useState([]);
     const [smartAnnotations, setSmartAnnotations] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    const [smartAnnotationsFrame , setSmartAnnotationsFrame] = React.useState(null);
 
     
     
@@ -69,19 +46,32 @@ export default function AccountSettingsRoot(props) {
           }
         );
       }, []);
-
-
-      React.useEffect(() => {
-        if(smartAnnotations){
-            console.log("###Rerendering ", smartAnnotations.length);
-            const annotationsFram = smartAnnotations.map((smartAnnotation, index) => (
-                <SmartAnotation key={index} smartAnnotation={smartAnnotation}  UpdateSmartAnotationHandler={UpdateSmartAnotationHandler} settingsMode={true} deleteAnnotationHandler ={deleteAnnotationHandler}/>
-            ));
-            setSmartAnnotationsFrame(annotationsFram);
-        }
-      },[smartAnnotations]);
-
-      
+    const hideCreateSmartAnnotatiosnPopup = () => {
+        setShowCreateSmartAnnotationPopup(false);
+    }
+    const showCreateSmartAnnotationPopupHandler = () => {
+        setShowCreateSmartAnnotationPopup(true);
+    }
+    const smartAnnotationsFrame = () => {
+        const all = smartAnnotations.map((sa, index) => 
+            <SmartAnotation key={Math.random()} smartAnnotation={sa}  UpdateSmartAnotationHandler={UpdateSmartAnotationHandler} settingsMode={true} deleteAnnotationHandler ={deleteAnnotationHandler}/>
+        );   
+        return all;
+    }
+    if(window.localStorage.getItem("markingCriteria")){
+            Promise.all([ getAllMarkingCriteria() , getShortcuts(), getSmartAnnotations() ]).then(
+              ([result, shortcuts, smartAnnotations]) => {
+                if (result) {
+                    setMarkingCriterias(result);
+                  }
+                  setShortcuts(shortcuts);
+                  setSmartAnnotations(smartAnnotations);
+                  setIsLoading(false);
+              }
+            );
+          window.localStorage.removeItem("markingCriteria");
+    }
+  
     const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
         deleteMarkingCriteria(markingCriteriaId).then(() => {
             window.location.reload();
@@ -93,7 +83,8 @@ export default function AccountSettingsRoot(props) {
     }
 
 
-    const createSmartAnnotationHandler = (title) => {
+    const createSmartAnnotationHandler = (title) =>{
+            console.log("Title", title)
             const smartAnnotationRequest = {
                 title: title,
                 suggestions: [
@@ -107,29 +98,25 @@ export default function AccountSettingsRoot(props) {
                         description: " Sample Suggestion 3"
                     }
                 ]
-              }
-              createNewSmartAnnotation(smartAnnotationRequest).then((result) => {    
+            }
+            createNewSmartAnnotation(smartAnnotationRequest).then((result) => {    
            
-                showSnackbar("Smart annotation created");
+                showSnackbar("Smart annotation created", result);
                 hideCreateSmartAnnotatiosnPopup();
-                window.location.reload();
+                    const createdAnnotation = {
+                        id: result.id.value,
+                        title: result.title.value,
+                        suggestions: result.suggestions,
+                        teacherId: result.teacherId.value
 
-           
-
-                const createdAnnotation = {
-                    id: result.id.value,
-                    title: result.title.value,
-                    suggestions: result.suggestions,
-                    teacherId: result.teacherId.value
-
-                }
-            
-                setSmartAnnotations([createdAnnotation , ...smartAnnotations]);
-            
-            
-              }).catch((error) => {
-                showSnackbar("Error updating smart annotation");
-              });
+                    }
+                    console.log("smartAnnotations ss", smartAnnotations)
+                    console.log("createdAnnotation ss", createdAnnotation)
+                    setSmartAnnotations(sa=>[createdAnnotation , ...sa]);
+                
+                }).catch((error) => {
+                    showSnackbar("Error updating smart annotation");
+                });
         }
     
     
@@ -151,11 +138,14 @@ export default function AccountSettingsRoot(props) {
     }
 
     const deleteAnnotationHandler = (smartAnnotationId) => {
-        deleteSmartAnnotation(smartAnnotationId).then(() => {
-            showSnackbar("Smart annotation deleted");
-            window.location.reload();
-            // setSmartAnnotations(
-            //     smartAnnotations.filter((smartAnnotation) => smartAnnotation.id !== smartAnnotationId));
+        console.log("Deleting ", smartAnnotationId)
+        deleteSmartAnnotation(smartAnnotationId).then((result) => {
+            
+            console.log("smartAnnotations before delete", smartAnnotations)
+            setSmartAnnotations(s=>s.filter((smartAnnotation) => smartAnnotation.id !== smartAnnotationId));
+            console.log("smartAnnotations after delete", smartAnnotations)
+            showSnackbar("Smart annotation deleted");            
+
         }
         ).catch((error) => {
             showSnackbar("Error deleting smart annotation");
@@ -163,12 +153,9 @@ export default function AccountSettingsRoot(props) {
     }
 
      const markingCriteriaList= markingCriterias?.map((markingCriteria, index) => (
-        <MarkingCriteriaCard key={index} title={markingCriteria.title} markingCriteriaId={markingCriteria.id} deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}/>
+        <MarkingCriteriaCard key={Math.random()} title={markingCriteria.title} markingCriteriaId={markingCriteria.id} deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}/>
       ));
 
-      const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
-          <SmartAnotation key={index} smartAnnotation={smartAnnotation}  UpdateSmartAnotationHandler={UpdateSmartAnotationHandler} settingsMode={true}/>
-      ));
 
 
   
@@ -219,6 +206,7 @@ return (<>
       </>
   );
 }
+
 
 const navElement1Data = {
     home3: "/img/home3@2x.png",

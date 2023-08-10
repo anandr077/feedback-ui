@@ -15,6 +15,7 @@ function SmartAnotation(props) {
     const textInputRef = useRef(null);
 
     useEffect(() => {
+        console.log("editingIndex", editingIndex)
         if (editingIndex !== null) {
             textInputRef.current.focus();
         }
@@ -24,36 +25,7 @@ function SmartAnotation(props) {
         setIsExpanded(!isExpanded);
     };
 
-    const handleSuggestionDoubleClick = (index) => {
-        setSelectedSuggestionIndex(index);
-        setEditingIndex(index);
-        setEditedText(smartAnnotation.suggestions[index].description);
-    };
-
-    const handleTextChange = (event) => {
-        setEditedText(event.target.value);
-        currentSmartAnnotation.suggestions[editingIndex].description = event.target.value;
-    };
-
-    const saveEditedText = () => {
-        if (editingIndex !== null) {
-            setEditingIndex(null);
-            setSelectedSuggestionIndex(null);
-            UpdateSmartAnotationHandler(currentSmartAnnotation);
-        }
-    };
-
-    const handleDeleteSuggestion = (index) => {
-        // currentSmartAnnotation.suggestions.splice(index, 1);
-        const updatedSuggestions = [...currentSmartAnnotation.suggestions];
-        updatedSuggestions.splice(index, 1);
     
-        setCurrentSmartAnnotation((prevState) => ({
-            ...prevState,
-            suggestions: updatedSuggestions,
-        }));
-        UpdateSmartAnotationHandler(currentSmartAnnotation);
-    };
     
     const handleDeleteAnnotation = () => {
        
@@ -71,83 +43,113 @@ function SmartAnotation(props) {
     }
 
 
-    const suggestionsFrame =  
-    currentSmartAnnotation.suggestions?.map((suggestion, index) =>
+    
+
+    return (
+        <>{ isExpanded ? expandedSmartAnnotationContainer() :collapsedSmartAnnotationContainer()}</>     
+    );
+
+
+  function collapsedSmartAnnotationContainer() {
+    return <SmartAnnotationTitleContainer onClick={toggleSection}>
+      <Title>{currentSmartAnnotation.title}</Title>
+      <Arrowdown2 src="/img/arrowdown2-1@2x.png" alt="arrowdown2" />
+    </SmartAnnotationTitleContainer>;
+  }
+
+  function expandedSmartAnnotationContainer() {
+    console.log("Expanded", currentSmartAnnotation)
+    return <SmartAnnotationContainer>
+      <TtitleContainer onClick={toggleSection}>
+        <Title>{currentSmartAnnotation.title}
+
+
+
+        </Title>
+
+        {/* <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" /> */}
+        <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} />
+      </TtitleContainer>
+      <Line14 src="/img/line-14.png" alt="Line 14" />
+      {createSuggestionsFrame(currentSmartAnnotation, settingsMode, selectedSuggestionIndex, setCurrentSmartAnnotation, UpdateSmartAnotationHandler, editingIndex)}
+      <Line14 src="/img/line-14.png" alt="Line 14" />
+
+      {settingsMode &&
+        <ButtonContainer>
+          <PlusImage src="/img/add-violet.svg" alt="plus" />
+          <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
+        </ButtonContainer>}
+    </SmartAnnotationContainer>;
+  }
+
+
+}
+
+
+const createSuggestionsFrame = (currentSmartAnnotation, settingsMode, selectedSuggestionIndex, setCurrentSmartAnnotation, UpdateSmartAnotationHandler, editingIndex) => {
+  console.log("currentSmartAnnotation", currentSmartAnnotation)
+  console.log("settingsMode", settingsMode)
+  console.log("selectedSuggestionIndex", selectedSuggestionIndex)
+  return currentSmartAnnotation.suggestions?.map((suggestion, index) =>
     settingsMode ? 
     (
         <SuggestionsContainer
-            key={index}
-            onDoubleClick={() => handleSuggestionDoubleClick(index)}            
+            key={Math.random()}
             isSelected={selectedSuggestionIndex === index}
         >
-            {editingIndex === index ? (
-                <TextInputEditable
-                    ref={textInputRef}
-                    value={editedText}
-                    onChange={handleTextChange}
-                    onBlur={saveEditedText}
-                />
-            ) : (
+            {(
                 <SuggestionsLabel>{suggestion.description}</SuggestionsLabel>
             )}
-            <DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button" 
+            <><DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button" 
                                isSelected={selectedSuggestionIndex === index }
                     onClick={() => handleDeleteSuggestion(index)}
+            ></DeleteButton>
+            <DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button" 
+                               isSelected={selectedSuggestionIndex === index }
+                    onClick={() => handleDeleteSuggestion(UpdateSmartAnotationHandler, currentSmartAnnotation, setCurrentSmartAnnotation, index)}
                 >
-                </DeleteButton>
+                </DeleteButton></>
         </SuggestionsContainer>
     ): (
-      <SuggestionsContainer key={index} onClick = {onClickFn(currentSmartAnnotation, index)} >
+      <SuggestionsContainer key={Math.random()} onClick = {onClickFn(currentSmartAnnotation, index)} >
         <SuggestionsLabel >{suggestion.description}</SuggestionsLabel>
       </SuggestionsContainer>
     )
     );
-
-    return (
-        <>
-        { isExpanded 
-        ?
-        <SmartAnnotationContainer >
-       <TtitleContainer onClick={toggleSection}>
-        <Title>{currentSmartAnnotation.title}
-       
-        
-        
-        </Title>
-       
-        {/* <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" /> */}
-        <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()}/>
-        </TtitleContainer>
-        <Line14 src="/img/line-14.png" alt="Line 14" />
-        {suggestionsFrame}
-        <Line14 src="/img/line-14.png" alt="Line 14" />
-
-        {  settingsMode &&
-         <ButtonContainer>
-        <PlusImage src="/img/add-violet.svg" alt="plus" />
-        <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
-        </ButtonContainer>
-        }
-        </SmartAnnotationContainer> 
-        :
-        <SmartAnnotationTitleContainer onClick={toggleSection}>
-        <Title>{currentSmartAnnotation.title}</Title>
-        <Arrowdown2 src="/img/arrowdown2-1@2x.png" alt="arrowdown2" />
-        </SmartAnnotationTitleContainer>
-        }
-</>     
-    );
-
-
-  function onClickFn(smartAnnotation, index) {
-    if (onSuggestionClick)
-     return ()=>onSuggestionClick(smartAnnotation.title + "\n\n" +smartAnnotation.suggestions[index].description); 
-    else return () => { };
-  }
+}
+const onClickFn = (onSuggestionClick, smartAnnotation, index)=> {
+  if (onSuggestionClick)
+   return ()=>onSuggestionClick(smartAnnotation.title + "\n\n" +smartAnnotation.suggestions[index].description); 
+  else return () => { };
 }
 
+const handleSuggestionDoubleClick = (index) =>() => {
+  setSelectedSuggestionIndex(index);
+  setEditingIndex(index);
+  setEditedText(smartAnnotation.suggestions[index].description);
+};
 
+const handleTextChange = (event) => {
+  setEditedText(event.target.value);
+  currentSmartAnnotation.suggestions[editingIndex].description = event.target.value;
+};
 
+const saveEditedText = (currentSmartAnnotation) => {
+  UpdateSmartAnotationHandler(currentSmartAnnotation);
+  
+};
+
+const handleDeleteSuggestion = (UpdateSmartAnotationHandler, currentSmartAnnotation, setCurrentSmartAnnotation, index) => {
+  // currentSmartAnnotation.suggestions.splice(index, 1);
+  const updatedSuggestions = [...currentSmartAnnotation.suggestions];
+  updatedSuggestions.splice(index, 1);
+
+  setCurrentSmartAnnotation((prevState) => ({
+      ...prevState,
+      suggestions: updatedSuggestions,
+  }));
+  UpdateSmartAnotationHandler(currentSmartAnnotation);
+};
 const TextInputEditable = styled.textarea`
 ${IbmplexsansNormalShark20px}
   position: relative;

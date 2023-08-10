@@ -1,8 +1,9 @@
 import React from "react";
 import { Chart, ArcElement } from "chart.js";
-import { Doughnut, Pie } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import "./index.css";
 import ProgressBar from "../ProgressBar";
+import randomColor from "randomcolor";
 
 Chart.register(ArcElement);
 
@@ -14,7 +15,7 @@ export default function AnnotationAnalytics(props) {
     labels: labels,
     datasets: [
       {
-        backgroundColor: ["#83ce83", "#959595", "#f96a5d"],
+        backgroundColor: randomColor({ count: data.length }),
         data: data,
       },
     ],
@@ -43,7 +44,7 @@ export default function AnnotationAnalytics(props) {
           <div className="line"></div>
           <div className="graph-container">
             <div className="graph">
-              <Doughnut data={chartData} />
+              <Pie data={chartData} />
             </div>
             <div className="legend">
               {legendItems}

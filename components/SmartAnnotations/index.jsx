@@ -9,7 +9,7 @@ function SmartAnotation(props) {
 
   const { smartAnnotation, smartAnnotationIndex, smartAnnotationUpdateIndex, UpdateSmartAnotationHandler, settingsMode, deleteAnnotationHandler, onSuggestionClick } = props;
 
-  const [isExpanded, setIsExpanded] = useState(smartAnnotationUpdateIndex === smartAnnotationIndex);
+  const [isExpanded, setIsExpanded] = useState(smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] = useState(smartAnnotation);
 
   const toggleSection = () => {
@@ -55,7 +55,12 @@ function SmartAnotation(props) {
         (<SmartAnnotationContainer>
           <TtitleContainer onClick={toggleSection}>
          {currentSmartAnnotation.title}
-          <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} />
+
+         { settingsMode ? 
+          <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} /> 
+          :
+          <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
+          }
       </TtitleContainer>
       <Line14 src="/img/line-14.png" alt="Line 14" />
  

@@ -26,6 +26,8 @@ export default function AccountSettingsRoot(props) {
 
     const [showCreateSmartAnnotationPopup, setShowCreateSmartAnnotationPopup] = React.useState(false);
 
+    const [smartAnnotationUpdateIndex , setSmartAnnotationUpdateIndex] = React.useState(-1);
+
 
     const [markingCriterias, setMarkingCriterias] = React.useState([]);
     const [shortcuts, setShortcuts] = React.useState([]);
@@ -54,7 +56,7 @@ export default function AccountSettingsRoot(props) {
     }
     const smartAnnotationsFrame = () => {
         const all = smartAnnotations.map((sa, index) => 
-            <SmartAnotation key={Math.random()} smartAnnotation={sa}  UpdateSmartAnotationHandler={UpdateSmartAnotationHandler} settingsMode={true} deleteAnnotationHandler ={deleteAnnotationHandler}/>
+            <SmartAnotation key={Math.random()} smartAnnotationIndex = {index} smartAnnotationUpdateIndex ={smartAnnotationUpdateIndex} smartAnnotation={sa}  UpdateSmartAnotationHandler={UpdateSmartAnotationHandler} settingsMode={true} deleteAnnotationHandler ={deleteAnnotationHandler}/>
         );   
         return all;
     }
@@ -84,7 +86,7 @@ export default function AccountSettingsRoot(props) {
 
 
     const createSmartAnnotationHandler = (title) =>{
-            console.log("Title", title)
+
             const smartAnnotationRequest = {
                 title: title,
                 suggestions: [
@@ -106,12 +108,10 @@ export default function AccountSettingsRoot(props) {
                     const createdAnnotation = {
                         id: result.id.value,
                         title: result.title.value,
-                        suggestions: result.suggestions,
+                        suggestions: smartAnnotationRequest.suggestions,
                         teacherId: result.teacherId.value
 
                     }
-                    console.log("smartAnnotations ss", smartAnnotations)
-                    console.log("createdAnnotation ss", createdAnnotation)
                     setSmartAnnotations(sa=>[createdAnnotation , ...sa]);
                 
                 }).catch((error) => {
@@ -121,7 +121,7 @@ export default function AccountSettingsRoot(props) {
     
     
 
-    const UpdateSmartAnotationHandler = (smartAnnotation) => {
+    const UpdateSmartAnotationHandler = (smartAnnotation, index) => {
         const smartAnnotationRequest = {
             title: smartAnnotation.title,
             suggestions: smartAnnotation.suggestions.map((suggestion) => {
@@ -132,6 +132,7 @@ export default function AccountSettingsRoot(props) {
           }
           updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id).then(() => {   
             showSnackbar("Smart annotation updated");
+            setSmartAnnotationUpdateIndex(index)
           }).catch((error) => {
             showSnackbar("Error updating smart annotation");
           });

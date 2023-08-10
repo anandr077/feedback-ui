@@ -1,53 +1,55 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { IbmplexsansNormalShark20px , IbmplexsansNormalElectricViolet14px} from "../../styledMixins";
+import { IbmplexsansNormalShark20px, IbmplexsansNormalElectricViolet14px } from "../../styledMixins";
 import { debounce, set } from "lodash";
+import { ContactPageSharp } from "@mui/icons-material";
 
 function SmartAnotation(props) {
-    const {smartAnnotation , UpdateSmartAnotationHandler, settingsMode, deleteAnnotationHandler, onSuggestionClick} =props;
+  const { smartAnnotation, UpdateSmartAnotationHandler, settingsMode, deleteAnnotationHandler, onSuggestionClick } = props;
 
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(null);
-    const [editingIndex, setEditingIndex] = useState(null);
-    const [editedText, setEditedText] = useState("");
-    const [currentSmartAnnotation, setCurrentSmartAnnotation] = useState(smartAnnotation);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editedText, setEditedText] = useState("");
+  const [currentSmartAnnotation, setCurrentSmartAnnotation] = useState(smartAnnotation);
 
-    const textInputRef = useRef(null);
 
-    useEffect(() => {
-        console.log("editingIndex", editingIndex)
-        if (editingIndex !== null) {
-            textInputRef.current.focus();
-        }
-    }, [editingIndex]);
+  const textInputRef = useRef(null);
 
-    const toggleSection = () => {
-        setIsExpanded(!isExpanded);
+  useEffect(() => {
+    if (editingIndex !== null) {
+      textInputRef.current.focus();
+    }
+  }, [editingIndex]);
+
+
+
+  const toggleSection = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+
+
+  const handleDeleteAnnotation = () => {
+    deleteAnnotationHandler(currentSmartAnnotation.id);
+  }
+
+  const addNewSuggestions = () => {
+    const newSuggestion = {
+      description: "",
     };
-
-    
-    
-    const handleDeleteAnnotation = () => {
-       
-        deleteAnnotationHandler(currentSmartAnnotation.id);
-    }
-
-    const addNewSuggestions = () => {
-        const newSuggestion = {
-            description: "",
-        };
-        currentSmartAnnotation.suggestions.push(newSuggestion);
-        setEditingIndex(currentSmartAnnotation.suggestions.length - 1);
-        setSelectedSuggestionIndex(currentSmartAnnotation.suggestions.length - 1);
-        UpdateSmartAnotationHandler(currentSmartAnnotation);
-    }
+    currentSmartAnnotation.suggestions.push(newSuggestion);
+    setEditingIndex(currentSmartAnnotation.suggestions.length - 1);
+    setSelectedSuggestionIndex(currentSmartAnnotation.suggestions.length - 1);
+    UpdateSmartAnotationHandler(currentSmartAnnotation);
+  }
 
 
-    
-
-    return (
-        <>{ isExpanded ? expandedSmartAnnotationContainer() :collapsedSmartAnnotationContainer()}</>     
-    );
+  return (
+    <>{isExpanded ?
+      expandedSmartAnnotationContainer() :
+      collapsedSmartAnnotationContainer()}</>
+  );
 
 
   function collapsedSmartAnnotationContainer() {
@@ -62,16 +64,13 @@ function SmartAnotation(props) {
     return <SmartAnnotationContainer>
       <TtitleContainer onClick={toggleSection}>
         <Title>{currentSmartAnnotation.title}
-
-
-
         </Title>
-
-        {/* <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" /> */}
         <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} />
       </TtitleContainer>
       <Line14 src="/img/line-14.png" alt="Line 14" />
-      {createSuggestionsFrame(currentSmartAnnotation, settingsMode, selectedSuggestionIndex, setCurrentSmartAnnotation, UpdateSmartAnotationHandler, editingIndex)}
+      {createSuggestionsFrame(currentSmartAnnotation, settingsMode, selectedSuggestionIndex, setSelectedSuggestionIndex, setCurrentSmartAnnotation,
+        UpdateSmartAnotationHandler, editingIndex, setEditingIndex,
+        editedText, setEditedText, textInputRef)}
       <Line14 src="/img/line-14.png" alt="Line 14" />
 
       {settingsMode &&
@@ -86,70 +85,95 @@ function SmartAnotation(props) {
 }
 
 
-const createSuggestionsFrame = (currentSmartAnnotation, settingsMode, selectedSuggestionIndex, setCurrentSmartAnnotation, UpdateSmartAnotationHandler, editingIndex) => {
-  console.log("currentSmartAnnotation", currentSmartAnnotation)
-  console.log("settingsMode", settingsMode)
-  console.log("selectedSuggestionIndex", selectedSuggestionIndex)
+
+
+const createSuggestionsFrame = (currentSmartAnnotation, settingsMode, selectedSuggestionIndex, setSelectedSuggestionIndex,
+  setCurrentSmartAnnotation, UpdateSmartAnotationHandler, editingIndex, setEditingIndex,
+  editedText, setEditedText, textInputRef) => {
+
+
   return currentSmartAnnotation.suggestions?.map((suggestion, index) =>
-    settingsMode ? 
-    (
+    settingsMode ?
+      (
         <SuggestionsContainer
-            key={Math.random()}
-            isSelected={selectedSuggestionIndex === index}
-        >
-            {(
-                <SuggestionsLabel>{suggestion.description}</SuggestionsLabel>
-            )}
-            <><DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button" 
-                               isSelected={selectedSuggestionIndex === index }
-                    onClick={() => handleDeleteSuggestion(index)}
+          key={Math.random()}
+          isSelected={selectedSuggestionIndex === index}
+        > {editingIndex === index ? (
+          <TextInputEditable
+            ref={textInputRef}
+            value={editedText}
+            onChange={() => handleTextChange(event, setEditedText, currentSmartAnnotation, editingIndex, setSelectedSuggestionIndex, setEditingIndex, index, textInputRef)}
+            onBlur={() => saveEditedText(currentSmartAnnotation, UpdateSmartAnotationHandler, setEditingIndex, setSelectedSuggestionIndex)}
+          />
+        ) :
+          (
+            <SuggestionsLabel>{suggestion.description}</SuggestionsLabel>
+          )}
+          <ButtonContainer>
+            <DeleteButton src="/icons/edit-purple-icon.svg" alt="delete-button"
+              isSelected={selectedSuggestionIndex === index}
+              onClick={() => handleAnnotationEdit(index, setEditedText, currentSmartAnnotation, setSelectedSuggestionIndex, setEditingIndex)}
             ></DeleteButton>
-            <DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button" 
-                               isSelected={selectedSuggestionIndex === index }
-                    onClick={() => handleDeleteSuggestion(UpdateSmartAnotationHandler, currentSmartAnnotation, setCurrentSmartAnnotation, index)}
-                >
-                </DeleteButton></>
+            <DeleteButton src="/icons/delete-purple-icon.svg" alt="delete-button"
+              isSelected={selectedSuggestionIndex === index}
+              onClick={() => handleDeleteSuggestion(UpdateSmartAnotationHandler, currentSmartAnnotation, setCurrentSmartAnnotation, index)}
+            ></DeleteButton>
+          </ButtonContainer>
         </SuggestionsContainer>
-    ): (
-      <SuggestionsContainer key={Math.random()} onClick = {onClickFn(currentSmartAnnotation, index)} >
-        <SuggestionsLabel >{suggestion.description}</SuggestionsLabel>
-      </SuggestionsContainer>
-    )
-    );
+      ) : (
+        <SuggestionsContainer key={Math.random()} onClick={onClickFn(currentSmartAnnotation, index)} >
+          <SuggestionsLabel >{suggestion.description}</SuggestionsLabel>
+        </SuggestionsContainer>
+      )
+  );
 }
-const onClickFn = (onSuggestionClick, smartAnnotation, index)=> {
+
+const onClickFn = (onSuggestionClick, smartAnnotation, index) => {
   if (onSuggestionClick)
-   return ()=>onSuggestionClick(smartAnnotation.title + "\n\n" +smartAnnotation.suggestions[index].description); 
+    return () => onSuggestionClick(smartAnnotation.title + "\n\n" + smartAnnotation.suggestions[index].description);
   else return () => { };
 }
 
-const handleSuggestionDoubleClick = (index) =>() => {
-  setSelectedSuggestionIndex(index);
-  setEditingIndex(index);
-  setEditedText(smartAnnotation.suggestions[index].description);
-};
 
-const handleTextChange = (event) => {
-  setEditedText(event.target.value);
-  currentSmartAnnotation.suggestions[editingIndex].description = event.target.value;
-};
 
-const saveEditedText = (currentSmartAnnotation) => {
+const saveEditedText = (currentSmartAnnotation, UpdateSmartAnotationHandler, setEditingIndex, setSelectedSuggestionIndex) => {
   UpdateSmartAnotationHandler(currentSmartAnnotation);
-  
+  setEditingIndex(null);
+  setSelectedSuggestionIndex(null);
 };
 
 const handleDeleteSuggestion = (UpdateSmartAnotationHandler, currentSmartAnnotation, setCurrentSmartAnnotation, index) => {
-  // currentSmartAnnotation.suggestions.splice(index, 1);
   const updatedSuggestions = [...currentSmartAnnotation.suggestions];
   updatedSuggestions.splice(index, 1);
 
   setCurrentSmartAnnotation((prevState) => ({
-      ...prevState,
-      suggestions: updatedSuggestions,
+    ...prevState,
+    suggestions: updatedSuggestions,
   }));
   UpdateSmartAnotationHandler(currentSmartAnnotation);
 };
+
+const handleAnnotationEdit = (index, setEditedText, currentSmartAnnotation, setSelectedSuggestionIndex, setEditingIndex) => {
+  setSelectedSuggestionIndex(index);
+  setEditingIndex(index);
+  setEditedText(currentSmartAnnotation.suggestions[index].description);
+};
+
+
+const handleTextChange = (event, setEditedText, currentSmartAnnotation, editingIndex, setSelectedSuggestionIndex, setEditingIndex, index, textInputRef) => {
+  setEditedText(event.target.value);
+  currentSmartAnnotation.suggestions[editingIndex].description = event.target.value;
+  if (editingIndex !== index) {
+    setEditingIndex(index);
+    setSelectedSuggestionIndex(index);
+  }
+  if (textInputRef.current) {
+    textInputRef.current.focus();
+  }
+};
+
+
+
 const TextInputEditable = styled.textarea`
 ${IbmplexsansNormalShark20px}
   position: relative;
@@ -191,6 +215,7 @@ const Title = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const Line14 = styled.img`
@@ -201,7 +226,7 @@ const Line14 = styled.img`
   object-fit: cover;
 `;
 
-const SmartAnnotationContainer  = styled.div`
+const SmartAnnotationContainer = styled.div`
 display: flex;
 padding: 16px;
 flex-direction: column;
@@ -212,7 +237,7 @@ border-radius: 12px;
 border: 1px solid #F1E7FF;
 background: #FFF;
 box-shadow: 0px 2px 14px 0px rgba(114, 0, 224, 0.10);
-cursor: pointer;
+
 `;
 
 const SmartAnnotationTitleContainer = styled.div`
@@ -239,7 +264,7 @@ const SuggestionsContainer = styled.div`
   border-radius: 12px;
   border: 1px solid #595959;
  background: #FFFFFF;
-cursor: pointer;
+
 
   ${({ isSelected }) => isSelected && `
     border: none;
@@ -260,7 +285,7 @@ cursor: pointer;
 
 const ButtonContainer = styled.div`
   display: flex;
-  gap: 3px;
+  gap: 7px;
   align-items: center;
   justify-content:flex-start;
   flex-direction: row;
@@ -270,7 +295,7 @@ const ButtonContainer = styled.div`
 
 const DeleteButton = styled.img`
     cursor: pointer;
-    display: none; 
+    display: block; 
     min-width: 15px;
     height: 15px;
 
@@ -286,6 +311,7 @@ const DeleteButton2 = styled.img`
 
     
 `;
+
 
 
 export default SmartAnotation;

@@ -17,23 +17,23 @@ const handleInputChange = (event) => {
 
 
 
-const content =<><TitleContainer>
-<DeleteTitle>{title}</DeleteTitle>
-</TitleContainer>
-<Line141 src="/img/line-14@2x.png" />
-{ textContent && <TextContent>{textContent}</TextContent>}
-{smartAnnotation && <TextFrame><TextInput onChange={handleInputChange}></TextInput></TextFrame>}
-<ButtonsContainer>
-<ProceedButton onClick={ ()=> hidePopup()}>Cancel</ProceedButton>
-{smartAnnotation ? 
-<CancelButton onClick={()=> createSmartAnnotationHandler(annotationTitle)}>
-{buttonText}
-</CancelButton>
+  const content = <>
+    <TitleContainer>
+      <DeleteTitle>{title}</DeleteTitle>
+    </TitleContainer>
+    <Line141 src="/img/line-14@2x.png" />
+    { textContent && <TextContent>{textContent}</TextContent>}
+    {smartAnnotation && <TextFrame><TextInput onChange={handleInputChange}></TextInput></TextFrame>}
+    <ButtonsContainer>
+      <ProceedButton onClick={ ()=> hidePopup()}>Cancel</ProceedButton>
+      {smartAnnotation ? <CancelButton onClick={()=> createSmartAnnotationHandler(annotationTitle)}>
+            {buttonText}
+            </CancelButton>
 : 
-<CancelButton onClick={()=> confirmButtonAction()}>
-{buttonText}
-</CancelButton>}
-</ButtonsContainer>
+      <CancelButton onClick={()=> confirmButtonAction()}>
+      {buttonText}
+      </CancelButton>}
+    </ButtonsContainer>
 </>;
 
   return (<Dialog open={open} onClose={()=> hidePopup()}>

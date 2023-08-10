@@ -86,7 +86,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
               </Title1>
               <Line14 src={line14} alt="Line 14" />
               <MarkingCriteriaList>
-              {smartAnnotationsFrame}
+              {smartAnnotationsFrame()}
             </MarkingCriteriaList>
             </Frame1302>
             )}

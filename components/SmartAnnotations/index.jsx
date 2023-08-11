@@ -11,6 +11,13 @@ function SmartAnotation(props) {
 
   const [isExpanded, setIsExpanded] = useState(smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] = useState(smartAnnotation);
+  const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
+  const [editedText, setEditedText] = useState("");
+
+    const handleTextChange = (event) => {
+        setEditedText(event.target.value);
+    };
+
 
   const toggleSection = () => {
     setIsExpanded(!isExpanded);
@@ -49,6 +56,13 @@ function SmartAnotation(props) {
     else return () => { };
   }
 
+  const onClickNewSuggestionComment = () =>  {
+    if(editedText.trim() === "") return;
+    onSuggestionClick(smartAnnotation.title + "\n\n" + editedText);
+    setEditedText("");
+    setNewSmartAnnotationEdit(false);
+  }
+
   return (
     <>
       {isExpanded ?
@@ -76,14 +90,36 @@ function SmartAnotation(props) {
                 addNewSuggestions={addNewSuggestions}></SmartAnnotationSuggestion>
             })
           }
-        
+        {
+          newSmartAnnotationEdit && 
+          <TextInputEditable
+    value={editedText}
+    onChange={() => handleTextChange(event)}>
+    </TextInputEditable>
+
+        }
           <Line14 src="/img/line-14.png" alt="Line 14" />
 
-{settingsMode &&
-  <ButtonContainer>
+{settingsMode ? 
+(<ButtonContainer>
     <PlusImage src="/img/add-violet.svg" alt="plus" />
     <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
-  </ButtonContainer>}
+  </ButtonContainer>
+) : 
+newSmartAnnotationEdit ?
+(
+  <ButtonContainer>
+    <PlusImage src="/img/add-violet.svg" alt="plus" />
+    <ButtonLabel onClick={onClickNewSuggestionComment}>Add Comment</ButtonLabel>
+  </ButtonContainer>
+)
+: ( 
+  <ButtonContainer>
+    <PlusImage src="/img/add-violet.svg" alt="plus" />
+    <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>New Suggestion</ButtonLabel>
+  </ButtonContainer>
+)
+  }
         </SmartAnnotationContainer>)
         :
         <SmartAnnotationTitleContainer onClick={toggleSection}>
@@ -97,6 +133,22 @@ function SmartAnotation(props) {
 }
 
 export default SmartAnotation;
+
+
+const TextInputEditable = styled.textarea`
+${IbmplexsansNormalShark20px}
+  position: relative;
+  width:100%;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
 
 const SmartAnnotationContainer  = styled.div`
 display: flex;

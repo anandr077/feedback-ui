@@ -32,6 +32,8 @@ function CommentCard32(props) {
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
 
+  console.log("##comment", comment.comment.includes("\n\n"));
+
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
     handleEditingComment(true);
@@ -163,7 +165,7 @@ function CommentCard32(props) {
         onClick={() => onClick(comment)}
         className="horem-ipsum-dolor-si-1"
       >
-        {showComment()}
+      {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
       {isResolved !== "RESOLVED" && 
@@ -185,7 +187,15 @@ function CommentCard32(props) {
     if (editButtonActive && editCommentType === "parent_comment") {
       return inputComment()
     } else {
+      if(comment.comment.includes("\n\n")){
+        const commentArray = comment.comment.split("\n\n");
+        return <>
+          <p><BoldText>{commentArray[0]}</BoldText></p>
+          <NewlineText text={commentArray[1]} />
+        </>
+      }else {
       return comment.comment;
+      }
     }
   }
 }

@@ -34,7 +34,7 @@ childrens.forEach((element, key) => {
           <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
       </TtitleContainer>
       <Line14 src="/img/line-14.png" alt="Line 14" />
-{suggestionsAnalyticsData}
+        {suggestionsAnalyticsData}
 
         </SmartAnnotationContainer>)
         :

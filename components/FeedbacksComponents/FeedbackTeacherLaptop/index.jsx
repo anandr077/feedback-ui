@@ -76,7 +76,6 @@ function FeedbackTeacherLaptop(props) {
   .filter(focusArea => focusArea !== undefined) 
   .length; 
 
-  console.log("###", flatMap(submission.assignment.questions, question => question.focusAreas)?.length)
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");

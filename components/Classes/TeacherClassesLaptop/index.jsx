@@ -92,16 +92,6 @@ function TeacherClassesLaptop(props) {
               </Frame1307>
             </Frame1340>
            {annotationAnalyticsFrame}
-            {/* <Frame1339Exemplar>
-              <Frame1337>
-                <Frame13124>
-                  <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Analytics</ExemplarResponses>
-                </Frame13124>
-              </Frame1337>
-              <Line17 src={line176} alt="Line 17" />
-              <Frame12><AnnotationAnalytics/></Frame12>
-            </Frame1339Exemplar> */}
           </Frame1416>
         </Frame1417>
       </Frame1422>

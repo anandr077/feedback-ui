@@ -19,6 +19,7 @@ import {
 } from "../styledMixins";
 import { createStudentsFrames } from "../TeacherClassesRoot/methods";
 import "./TeacherClassesLaptop.css";
+import AnnotationAnalytics from "../../Analytics";
 
 import { createModelResponsesFrames } from "../TeacherClassesRoot/methods";
 function TeacherClassesLaptop(props) {
@@ -89,16 +90,17 @@ function TeacherClassesLaptop(props) {
                 <Frame12842 title={"REVIEWS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
-            <Frame1339Exemplar>
+            <AnnotationAnalytics/>
+            {/* <Frame1339Exemplar>
               <Frame1337>
                 <Frame13124>
                   <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Exemplars</ExemplarResponses>
+                  <ExemplarResponses>Analytics</ExemplarResponses>
                 </Frame13124>
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
-              <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
-            </Frame1339Exemplar>
+              <Frame12><AnnotationAnalytics/></Frame12>
+            </Frame1339Exemplar> */}
           </Frame1416>
         </Frame1417>
       </Frame1422>

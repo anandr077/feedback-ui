@@ -197,6 +197,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     setShowNewComment(false);
   }
+
+  function handleShortcutAddCommentSmartAnnotaion(commentText) {
+
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: commentText,
+      range: selectedRange,
+      type: "SMART_ANNOTATION",
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
+  }
+
   function handleFocusAreaComment(focusArea) {
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -998,6 +1017,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleEditorMounted,
     handleKeyPress,
     handleShortcutAddComment,
+    handleShortcutAddCommentSmartAnnotaion,
     handleFocusAreaComment,
     handleSubmissionReviewed,
     handleSaveSubmissionForReview,

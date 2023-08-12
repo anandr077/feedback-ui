@@ -88,7 +88,7 @@ function TeacherDashboardLaptop(props) {
                 <Frame12842 title={"CLOSED"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
-            <AnnotationAnalytics/>
+            {/* <AnnotationAnalytics/> */}
             <Frame13411>
               <Frame1337>
                 <Classes>{recentActivity}</Classes>

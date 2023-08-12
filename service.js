@@ -227,6 +227,30 @@ export const addFeedback = async (submissionId, comment) =>
   export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + "/feedbacks/comment/" + feedbackId + "/resolve");
 
+
+
+  export const getSmartAnnotaionAnalyticsByClassId = async (classId) =>{
+  let smartAnnotationsMap = new Map();
+  const feedbacks = await getApi(baseUrl + "/feedbacks/" + classId + "/analytics");
+  await feedbacks.forEach((feedback) => {
+    const splits = feedback.comment.split("\n\n");
+    const title = splits[0].trim();
+    const suggestion = splits[1].trim();
+    if(smartAnnotationsMap.get(title)) {
+      if(smartAnnotationsMap.get(title).get(suggestion)){
+        smartAnnotationsMap.get(title).set(suggestion, smartAnnotationsMap.get(title).get(suggestion)+1);
+      }
+      else {
+        smartAnnotationsMap.get(title).set(suggestion, 1);
+      }
+    }else {
+      smartAnnotationsMap.set(title, new Map([[suggestion, 1]]));
+    }
+  });
+  return smartAnnotationsMap;
+  };
+
+
 export const createNewMarkingCriteria = async (markingCriteria) =>{
   await postApi(baseUrl + "/teachers/markingCriteria", markingCriteria);
 };

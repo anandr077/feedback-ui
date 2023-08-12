@@ -12,9 +12,11 @@ import {
   getClasses,
   getStudentsForClass,
   getAssignmentsByClassId,
+  getSmartAnnotaionAnalyticsByClassId
 } from "../../../service.js";
 import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
 import Loader from "../../Loader";
+import AnnotationAnalytics from "../../Analytics";
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
@@ -25,6 +27,7 @@ export default function TeacherClassesRoot() {
   const [students, setStudents] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] = React.useState([]);
 
   React.useEffect(() => {
     getClasses().then((result) => {
@@ -42,10 +45,12 @@ export default function TeacherClassesRoot() {
         getModelResponsesForClass(classId),
         getStudentsForClass(classId),
         getAssignmentsByClassId(classId),
-      ]).then(([modelResponses, studentsResponse, assignmentsResponse]) => {
+        getSmartAnnotaionAnalyticsByClassId(classId),
+      ]).then(([modelResponses, studentsResponse, assignmentsResponse, smartAnnotationAnalytics]) => {
         setModelResponses(modelResponses);
         setStudents(studentsResponse);
         setAssignments(assignmentsResponse);
+        setSmartAnnotationAnalytics(smartAnnotationAnalytics);
         setIsLoading(false);
       });
     }
@@ -54,6 +59,8 @@ export default function TeacherClassesRoot() {
   if (isLoading) {
     return <Loader/>;
   }
+
+  const annotationAnalyticsFrame = <AnnotationAnalytics smartAnnotationAnalytics = {smartAnnotationAnalytics}/>;
 
   const drafts = assignments.filter(
     (assignment) => assignment.submissionsStatus === "DRAFT"
@@ -113,6 +120,7 @@ export default function TeacherClassesRoot() {
             modelResponses,
             students,
             selectedClassIndex,
+            annotationAnalyticsFrame,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesLaptopData,
           }}

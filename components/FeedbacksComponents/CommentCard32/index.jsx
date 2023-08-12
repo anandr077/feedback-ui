@@ -147,7 +147,7 @@ function CommentCard32(props) {
       <ReviewsFrame132532
         isShare={comment.type === "MODEL_RESPONSE"}
         showResolveButton = {
-          comment.type === "COMMENT" &&
+          (comment.type === "COMMENT" || comment.type === "SMART_ANNOTATION") &&
           pageMode === "REVISE" &&
           comment.status != "RESOLVED"
         }

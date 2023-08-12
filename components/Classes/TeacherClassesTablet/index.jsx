@@ -45,22 +45,20 @@ function TeacherClassesTablet(props) {
     classes,
     modelResponses,
     students,
-
     title,
     selectedClassIndex,
     line171,
-
     line174,
     line175,
     crown,
     line176,
-
     frame133741Props,
     frame133742Props,
     frame131381Props,
     frame131382Props,
     frame131383Props,
     frame131384Props,
+    annotationAnalyticsFrame
   } = props;
 
   return (
@@ -148,14 +146,15 @@ function TeacherClassesTablet(props) {
               </Frame12844>
             </Frame1342> */}
             <Frame1341>
-              <Frame1337>
+              {/* <Frame1337>
                 <Frame13123>
                   <Crown src={crown} alt="crown" />
                   <ExemplarResponses>Exemplars</ExemplarResponses>
                 </Frame13123>
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
-              <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
+              <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12> */}
+              {annotationAnalyticsFrame}
             </Frame1341>
           </Frame1416>
         </Frame1417>

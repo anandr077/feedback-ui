@@ -86,6 +86,7 @@ export default function TeacherClassesRoot() {
             modelResponses,
             students,
             selectedClassIndex,
+            annotationAnalyticsFrame,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesMobileData,
           }}
@@ -103,6 +104,7 @@ export default function TeacherClassesRoot() {
             modelResponses,
             students,
             selectedClassIndex,
+            annotationAnalyticsFrame,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesTabletData,
           }}
@@ -138,6 +140,7 @@ export default function TeacherClassesRoot() {
             modelResponses,
             students,
             selectedClassIndex,
+            annotationAnalyticsFrame,
             headerProps: { classesHomeHeaderProps },
             ...teacherClassesDesktopData,
           }}

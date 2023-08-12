@@ -17,6 +17,7 @@ import {
 import {DashboardIbmplexsansNormalWhite20px, 
   DashboardIbmplexsansBoldWhite72px} from "../../../styledMixins";
 import "./TeacherDashboardLaptop.css";
+import AnnotationAnalytics from "../../Analytics";
 
 function TeacherDashboardLaptop(props) {
   const {
@@ -87,6 +88,7 @@ function TeacherDashboardLaptop(props) {
                 <Frame12842 title={"CLOSED"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
+            {/* <AnnotationAnalytics/> */}
             <Frame13411>
               <Frame1337>
                 <Classes>{recentActivity}</Classes>

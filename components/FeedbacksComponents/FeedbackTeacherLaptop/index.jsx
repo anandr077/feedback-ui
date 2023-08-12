@@ -67,12 +67,8 @@ function FeedbackTeacherLaptop(props) {
   } = props;
 
 
-  const onSuggestionClickFn = (smartAnnotation, index) => () => {
-    return methods.handleShortcutAddComment
-  }
-
   const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
-    <SmartAnotation key={index} smartAnnotation={smartAnnotation} onSuggestionClick={methods.handleShortcutAddComment} />
+    <SmartAnotation key={index} smartAnnotation={smartAnnotation} onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion} />
   ));
 
   const focusAreasCount = submission.assignment.questions

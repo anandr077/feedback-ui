@@ -8,8 +8,20 @@ import randomColor from "randomcolor";
 Chart.register(ArcElement);
 
 export default function AnnotationAnalytics(props) {
-  const data = [9, 5, 3];
-  const labels = ["Newly Added", "Edited", "Deleted"];
+  const {smartAnnotationAnalytics} = props;
+  let data = [];
+  let labels = [];
+
+  smartAnnotationAnalytics.forEach((element, key, index) => {
+    let sum = 0;
+    element.forEach((item) => {
+      sum += item;
+    }
+    );
+    data.push(sum);
+    labels.push(key);
+});
+
 
   const chartData = {
     labels: labels,

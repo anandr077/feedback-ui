@@ -38,6 +38,7 @@ function TeacherClassesLaptop(props) {
     line176,
     frame133732Props,
     frame131361Props,
+    annotationAnalyticsFrame
   } = props;
 
   return (
@@ -90,7 +91,7 @@ function TeacherClassesLaptop(props) {
                 <Frame12842 title={"REVIEWS"} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
-            <AnnotationAnalytics/>
+           {annotationAnalyticsFrame}
             {/* <Frame1339Exemplar>
               <Frame1337>
                 <Frame13124>

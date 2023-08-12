@@ -184,7 +184,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: commentText,
+      feedback: commentText.trim(),
       range: selectedRange,
       type: "COMMENT",
       replies: [],

@@ -211,8 +211,9 @@ function NewlineText({ text }) {
 }
 
 
-const BoldText = styled.span`
+const BoldText = styled.div`
   font-weight: bold;
+  padding-bottom: 1em;
 `;
 
 const CommentCard = styled.article`

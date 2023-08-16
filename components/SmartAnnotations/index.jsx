@@ -14,9 +14,9 @@ function SmartAnotation(props) {
   const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
   const [editedText, setEditedText] = useState("");
 
-    const handleTextChange = (event) => {
-        setEditedText(event.target.value);
-    };
+  const handleTextChange = (event) => {
+    setEditedText(event.target.value);
+  };
 
 
   const toggleSection = () => {
@@ -33,7 +33,7 @@ function SmartAnotation(props) {
   const handleDeleteSuggestion = (index) => {
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.suggestions.splice(index, 1);
-    
+
     UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex);
   }
 
@@ -56,8 +56,8 @@ function SmartAnotation(props) {
     else return () => { };
   }
 
-  const onClickNewSuggestionComment = () =>  {
-    if(editedText.trim() === "") return;
+  const onClickNewSuggestionComment = () => {
+    if (editedText.trim() === "") return;
     onSuggestionClick(smartAnnotation.title + "\n\n" + editedText);
     setEditedText("");
     setNewSmartAnnotationEdit(false);
@@ -68,16 +68,16 @@ function SmartAnotation(props) {
       {isExpanded ?
         (<SmartAnnotationContainer>
           <TtitleContainer onClick={toggleSection}>
-         {currentSmartAnnotation.title}
+            <Title>{currentSmartAnnotation.title}</Title>
 
-         { settingsMode ? 
-          <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} /> 
-          :
-          <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
-          }
-      </TtitleContainer>
-      <Line14 src="/img/line-14.png" alt="Line 14" />
- 
+            {settingsMode ?
+              <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} />
+              :
+              <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
+            }
+          </TtitleContainer>
+          <Line14 src="/img/line-14.png" alt="Line 14" />
+
           {
             smartAnnotation?.suggestions?.map((suggestion, index) => {
               return <SmartAnnotationSuggestion key={Math.random()} onClickFn={onClickFn}
@@ -90,36 +90,40 @@ function SmartAnotation(props) {
                 addNewSuggestions={addNewSuggestions}></SmartAnnotationSuggestion>
             })
           }
-        {
-          newSmartAnnotationEdit && 
-          <TextInputEditable
-    value={editedText}
-    onChange={() => handleTextChange(event)}>
-    </TextInputEditable>
+          {
+            newSmartAnnotationEdit &&
+            <TextBox>
+              <TextInputEditable
+                value={editedText}
+                onChange={() => handleTextChange(event)}>
+              </TextInputEditable>
+            </TextBox>
 
-        }
+          }
           <Line14 src="/img/line-14.png" alt="Line 14" />
 
-{settingsMode ? 
-(<ButtonContainer>
-    <PlusImage src="/img/add-violet.svg" alt="plus" />
-    <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
-  </ButtonContainer>
-) : 
-newSmartAnnotationEdit ?
-(
-  <ButtonContainer>
-    <PlusImage src="/img/add-violet.svg" alt="plus" />
-    <ButtonLabel onClick={onClickNewSuggestionComment}>Add Comment</ButtonLabel>
-  </ButtonContainer>
-)
-: ( 
-  <ButtonContainer>
-    <PlusImage src="/img/add-violet.svg" alt="plus" />
-    <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>New Suggestion</ButtonLabel>
-  </ButtonContainer>
-)
-  }
+          {settingsMode ?
+            (<ButtonContainer>
+              <PlusImage src="/img/add-violet.svg" alt="plus" />
+              <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
+            </ButtonContainer>
+            ) :
+            newSmartAnnotationEdit ?
+              (
+                <ButtonWrapper>
+                  <SubmitButton
+                    onClick={onClickNewSuggestionComment} >
+                    Submit
+                  </SubmitButton>
+                </ButtonWrapper>
+              )
+              : (
+                <ButtonContainer>
+                  <PlusImage src="/img/add-violet.svg" alt="plus" />
+                  <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>Other suggestion</ButtonLabel>
+                </ButtonContainer>
+              )
+          }
         </SmartAnnotationContainer>)
         :
         <SmartAnnotationTitleContainer onClick={toggleSection}>
@@ -149,8 +153,20 @@ ${IbmplexsansNormalShark20px}
   transition: 0.15s;
 `;
 
+const TextBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 20px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: var(--text);
+`;
 
-const SmartAnnotationContainer  = styled.div`
+const SmartAnnotationContainer = styled.div`
 display: flex;
 padding: 16px;
 flex-direction: column;
@@ -242,4 +258,33 @@ const Arrowdown2 = styled.img`
   position: relative;
   min-width: 24px;
   height: 24px;
+`;
+
+
+const SubmitButton = styled.div`
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 30px;
+  border: 1px solid #7200e0;
+  color: #FFFFFF;
+  background: #7200E0;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  font-family: IBM Plex Sans;
+  font-weight: 500;
+  :hover {
+    scale: 1.1;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
 `;

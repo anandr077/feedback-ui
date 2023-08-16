@@ -108,12 +108,35 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       getSubmissionsByAssignmentId(submission.assignment.id)
         .then((allSubmissions) => {
           setStudents(extractStudents(allSubmissions));
-          const allExceptCurrent = allSubmissions.filter(
-            (r) => r.id != submission.id
-          );
-          const nextUrl = allExceptCurrent[0]
-            ? "#submissions/" + allExceptCurrent[0]?.id
+          // const allExceptCurrent = allSubmissions.filter(
+          //   (r) => r.id != submission.id
+          // );
+
+          let currentSubmissionIndex = 0;
+          const allExceptCurrent =  allSubmissions.map((r, index) => {
+            if(r.id != submission.id){
+              return r;
+            }else {
+              currentSubmissionIndex = index;
+            }
+          });
+
+          let nextSubmissionIndex = currentSubmissionIndex + 1;
+          while(nextSubmissionIndex > 0 && nextSubmissionIndex < allExceptCurrent.length){
+            if(allExceptCurrent[nextSubmissionIndex]?.status === "SUBMITTED"){
+              break;
+            }else {
+              nextSubmissionIndex++;
+            }
+          }
+          if(nextSubmissionIndex >= allExceptCurrent.length){
+            nextSubmissionIndex = 0;
+          }
+
+          const nextUrl = allExceptCurrent[nextSubmissionIndex] 
+            ? "#submissions/" + allExceptCurrent[nextSubmissionIndex]?.id
             : "/";
+            
           setNextUrl(nextUrl);
           const studentName =
             allSubmissions.find((r) => r.id === submission.assignment.id)
@@ -631,6 +654,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           showSnackbar("Resubmission requested...", window.location.href);
           if (isTeacher) {
             window.location.href = nextUrl === "/" ? "/#" : nextUrl;
+            window.location.reload();
           } else {
             window.location.href = "/#";
           }

@@ -68,7 +68,7 @@ function SmartAnotation(props) {
       {isExpanded ?
         (<SmartAnnotationContainer>
           <TtitleContainer onClick={toggleSection}>
-         {currentSmartAnnotation.title}
+          <Title>{currentSmartAnnotation.title}</Title>
 
          { settingsMode ? 
           <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} /> 

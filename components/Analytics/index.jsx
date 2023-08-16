@@ -39,7 +39,6 @@ smartAnnotationAnalytics.forEach((element, key) => {
 });
 
 
-
   const chartData = {
     labels: labels,
     datasets: [
@@ -58,7 +57,10 @@ smartAnnotationAnalytics.forEach((element, key) => {
           backgroundColor: chartData.datasets[0].backgroundColor[index],
         }}
       ></div>
-      <div className="legend-label">{`${label}: ${percentages[index]}%`}</div>
+      <div className="legend-label-container">
+      <div className="legend-label">{label}</div>
+      <div className="legend-label">{percentages[index]}</div>
+      </div>
     </div>
   ));
 

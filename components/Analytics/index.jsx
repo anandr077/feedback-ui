@@ -43,7 +43,7 @@ smartAnnotationAnalytics.forEach((element, key) => {
     labels: labels,
     datasets: [
       {
-        backgroundColor: randomColor({ count: data.length }),
+        backgroundColor: randomColor({  count: labels.length, hue: '#7200E0' }),
         data: percentages,
       },
     ],
@@ -57,7 +57,10 @@ smartAnnotationAnalytics.forEach((element, key) => {
           backgroundColor: chartData.datasets[0].backgroundColor[index],
         }}
       ></div>
-      <div className="legend-label">{`${label}: ${percentages[index]}%`}</div>
+      <div className="legend-label-container">
+      <div className="legend-label">{label}</div>
+      <div className="legend-label">{percentages[index]}</div>
+      </div>
     </div>
   ));
 
@@ -67,21 +70,17 @@ smartAnnotationAnalytics.forEach((element, key) => {
         <div className="heading-text">Smart Annotations</div>
         <div className="line"></div>
         <div className="graph-data">
-          <div className="subheading-text">Overall Usage</div>
-          <div className="line"></div>
           <div className="graph-container">
             <div className="graph">
               <Pie data={chartData} />
             </div>
             <div className="legend">
               {legendItems}
-              {/* <div className="legend-label">{`Total: ${total}`}</div> */}
             </div>
           </div>
         </div>
         <div className="progress">
 {smartAnnotationAnalyticsData}
-          {/* <ProgressBar title={"Total"} count={10} total={20} /> */}
         </div>
       </div>
     </>

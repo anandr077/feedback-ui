@@ -36,7 +36,9 @@
 .graph-container {
     display: flex;
     align-items: center;
-    gap: 48px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
 }
 
 .graph-data {
@@ -75,6 +77,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
 }
 
 .legend-color {
@@ -90,4 +93,16 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+.legend-label-container{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+}
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

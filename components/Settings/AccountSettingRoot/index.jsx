@@ -186,7 +186,7 @@ if (isLoading) {
   }
 
 return (<>
-    { showCreateSmartAnnotationPopup  && <GeneralPopup hidePopup={hideCreateSmartAnnotatiosnPopup} title="Create smart annotations"  buttonText="Create" createSmartAnnotationHandler={createSmartAnnotationHandler}  smartAnnotation= {true}/>}
+    { showCreateSmartAnnotationPopup  && <GeneralPopup hidePopup={hideCreateSmartAnnotatiosnPopup} title="Create smart annotations" textContent="Area of feedback" buttonText="Create" createSmartAnnotationHandler={createSmartAnnotationHandler}  smartAnnotation= {true}/>}
     <ReactiveRender
       mobile={
         <AccountSettingsMarkingCriteriaTable {...{...accountSettingsMarkingCriteriaTableData, headerProps, markingCriteriaList, 

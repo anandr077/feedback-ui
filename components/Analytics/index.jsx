@@ -12,7 +12,6 @@ Chart.register(ArcElement);
 export default function AnnotationAnalytics(props) {
   const {smartAnnotationAnalytics} = props;
  
-
   let data = [];
   let labels = [];
 
@@ -23,21 +22,25 @@ export default function AnnotationAnalytics(props) {
     }
     );
     data.push(sum);
-  labels.push(key);
+    labels.push(key);
 });
 
+
+const sortedDataIndices = data.map((_, index) => index)
+    .sort((a, b) => data[b] - data[a]);
+data = sortedDataIndices.map(index => data[index]);
+labels = sortedDataIndices.map(index => labels[index]);
 
 const total = data.reduce((sum, value) => sum + value, 0);
-const percentages = data.map(num => ((num / total) * 100).toFixed(2));
+const percentages = data.map(num => ((num / total) * 100).toFixed(0));
+
 
 const smartAnnotationAnalyticsData = [];
-let count = 0;
-smartAnnotationAnalytics.forEach((element, key) => {
-  const jsxElement = <SmartAnotationAnalytics title={key} childrens={element} total= {data[count]} />;
+labels.map((label, index) => {
+  const element = smartAnnotationAnalytics.get(label);
+  const jsxElement = <SmartAnotationAnalytics title={label} childrens={element} total= {data[index]} />;
   smartAnnotationAnalyticsData.push(jsxElement);
-  count++;
 });
-
 
   const chartData = {
     labels: labels,
@@ -59,7 +62,7 @@ smartAnnotationAnalytics.forEach((element, key) => {
       ></div>
       <div className="legend-label-container">
       <div className="legend-label">{label}</div>
-      <div className="legend-label">{percentages[index]}</div>
+      <div className="legend-label-percentage">{percentages[index]}%</div>
       </div>
     </div>
   ));
@@ -80,7 +83,7 @@ smartAnnotationAnalytics.forEach((element, key) => {
           </div>
         </div>
         <div className="progress">
-{smartAnnotationAnalyticsData}
+            {smartAnnotationAnalyticsData}
         </div>
       </div>
     </>

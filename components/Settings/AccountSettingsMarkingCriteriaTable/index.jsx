@@ -24,7 +24,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
-    showCreateSmartAnnotationPopupHandler,
+    createSmartAnnotationHandler,
     breadCrumbs,
     smartAnnotationsFrame
   } = props;
@@ -101,7 +101,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
               <Frame1302>
              
                 <Title1>
-                  <Buttons text="Create New" className={buttonsProps.className} onClickMethod={showCreateSmartAnnotationPopupHandler}/>
+                  <Buttons text="Create New" className={buttonsProps.className} onClickMethod={createSmartAnnotationHandler}/>
                 </Title1>
                 <Line14 src={line14} alt="Line 14" />
                 <MarkingCriteriaList>

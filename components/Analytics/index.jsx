@@ -28,7 +28,7 @@ export default function AnnotationAnalytics(props) {
 
 
 const total = data.reduce((sum, value) => sum + value, 0);
-const percentages = data.map(num => ((num / total) * 100).toFixed(2));
+const percentages = data.map(num => ((num / total) * 100).toFixed(0));
 
 const smartAnnotationAnalyticsData = [];
 let count = 0;
@@ -59,7 +59,7 @@ smartAnnotationAnalytics.forEach((element, key) => {
       ></div>
       <div className="legend-label-container">
       <div className="legend-label">{label}</div>
-      <div className="legend-label">{percentages[index]}</div>
+      <div className="legend-label-percentage">{percentages[index]}%</div>
       </div>
     </div>
   ));
@@ -80,7 +80,7 @@ smartAnnotationAnalytics.forEach((element, key) => {
           </div>
         </div>
         <div className="progress">
-{smartAnnotationAnalyticsData}
+            {smartAnnotationAnalyticsData}
         </div>
       </div>
     </>

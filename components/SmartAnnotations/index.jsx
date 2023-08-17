@@ -13,11 +13,18 @@ function SmartAnotation(props) {
   const [currentSmartAnnotation, setCurrentSmartAnnotation] = useState(smartAnnotation);
   const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
   const [editedText, setEditedText] = useState("");
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [editTitle, setEditTitle] = useState(smartAnnotation.title);
+
+
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);
   };
 
+  const handleTitleTextChange = (event) => {
+    setEditTitle(event.target.value);
+  }
 
   const toggleSection = () => {
     setIsExpanded(!isExpanded);
@@ -30,10 +37,18 @@ function SmartAnotation(props) {
     UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex);
   }
 
+  const saveEditedSmartAnnotation = (updatedText) => {
+    if (updatedText.trim() === "") return;
+    const newSmartAnnotation = { ...currentSmartAnnotation };
+    newSmartAnnotation.title = updatedText;
+    setCurrentSmartAnnotation(newSmartAnnotation);
+    setEditTitle(updatedText);
+    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex);
+  }
+
   const handleDeleteSuggestion = (index) => {
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.suggestions.splice(index, 1);
-
     UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex);
   }
 
@@ -67,11 +82,23 @@ function SmartAnotation(props) {
     <>
       {isExpanded ?
         (<SmartAnnotationContainer>
-          <TtitleContainer onClick={toggleSection}>
-            <Title>{currentSmartAnnotation.title}</Title>
+          <TtitleContainer >
+           { editingTitle ?
+            <TextInputEditable
+              value={editTitle}
+              onChange={() => handleTitleTextChange(event)}
+              onBlur={() => saveEditedSmartAnnotation(editTitle)}>
+          </TextInputEditable>
+           : <Title onClick={toggleSection}>{editTitle}</Title>
+           }
 
             {settingsMode ?
+            <ButtonContainer>
+            <DeleteButton2 src="/icons/edit-purple-icon.svg" alt="delete-button"
+              onClick={() => setEditingTitle(true) }>
+              </DeleteButton2>
               <DeleteButton2 src="/icons/delete-purple-icon.svg" alt="delete-button" onClick={() => handleDeleteAnnotation()} />
+              </ButtonContainer>
               :
               <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
             }
@@ -127,7 +154,7 @@ function SmartAnotation(props) {
         </SmartAnnotationContainer>)
         :
         <SmartAnnotationTitleContainer onClick={toggleSection}>
-          <Title>{currentSmartAnnotation.title}</Title>
+          <Title>{editTitle}</Title>
           <Arrowdown2 src="/img/arrowdown2-1@2x.png" alt="arrowdown2" />
         </SmartAnnotationTitleContainer>
       }

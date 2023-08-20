@@ -84,13 +84,11 @@ function SmartAnotation(props) {
         (<SmartAnnotationContainer>
           <TtitleContainer >
            { editingTitle ?
-            <TextBox>
             <TextInputEditable
               value={editTitle}
               onChange={() => handleTitleTextChange(event)}
               onBlur={() => saveEditedSmartAnnotation(editTitle)}>
           </TextInputEditable>
-          </TextBox>
            : <Title onClick={toggleSection}>{editTitle}</Title>
            }
 

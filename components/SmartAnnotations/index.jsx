@@ -204,7 +204,6 @@ border-radius: 12px;
 border: 1px solid #F1E7FF;
 background: #FFF;
 box-shadow: 0px 2px 14px 0px rgba(114, 0, 224, 0.10);
-cursor: pointer;
 `;
 
 const ButtonContainer = styled.div`
@@ -279,6 +278,7 @@ const Title = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  cursor: pointer;
 `;
 
 const Arrowdown2 = styled.img`

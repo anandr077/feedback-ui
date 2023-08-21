@@ -71,6 +71,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-height: 440px;
+    overflow-y: scroll;
 }
 
 .legend-item {

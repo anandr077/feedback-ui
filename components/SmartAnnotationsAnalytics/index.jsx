@@ -62,7 +62,6 @@ border-radius: 12px;
 border: 1px solid #F1E7FF;
 background: #FFF;
 box-shadow: 0px 2px 14px 0px rgba(114, 0, 224, 0.10);
-cursor: pointer;
 `;
 
 
@@ -70,6 +69,7 @@ const TtitleContainer = styled.div`
     display: flex;
     justify-content: space-between;
     width: 100%;
+    cursor: pointer;
 `;
 
 

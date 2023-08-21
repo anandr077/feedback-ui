@@ -43,9 +43,9 @@ export default function SmartAnnotationSuggestion(props) {
     )
     :
     (
-    <SuggestionsContainer  onClick={onClickFn(index)} >
+    <SuggestionsContainerComments  onClick={onClickFn(index)} >
           <SuggestionsLabel >{editedText}</SuggestionsLabel>
-    </SuggestionsContainer>
+    </SuggestionsContainerComments>
     )
     }
     </>
@@ -94,7 +94,20 @@ ${IbmplexsansNormalShark20px}
   border-radius: 12px;
   border: 1px solid #595959;
  background: #FFFFFF;
+`;
 
+const SuggestionsContainerComments = styled.div`
+${IbmplexsansNormalShark20px}
+  display: flex;
+  padding: 12px 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 12px;
+  border: 1px solid #595959;
+ background: #FFFFFF;
+ cursor: pointer;
 `;
 
 const SuggestionsContainerSelected = styled.div`

@@ -42,6 +42,7 @@ import "./FeedbackTeacherLaptop.css";
 import CheckboxGroup from '../../CheckboxGroup';
 import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
+import SmartAnotation from '../../../components/SmartAnnotations';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -54,6 +55,7 @@ function FeedbackTeacherLaptop(props) {
     quillRefs,
     pageMode,
     shortcuts,
+    smartAnnotations,
     newCommentFrameRef,
     showNewComment,
     methods,
@@ -65,12 +67,15 @@ function FeedbackTeacherLaptop(props) {
   } = props;
 
 
+  const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
+    <SmartAnotation key={index} smartAnnotation={smartAnnotation} onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion} />
+  ));
+
   const focusAreasCount = submission.assignment.questions
   .flatMap(question => question.focusAreas)
   .filter(focusArea => focusArea !== undefined) 
   .length; 
 
-  console.log("###", flatMap(submission.assignment.questions, question => question.focusAreas)?.length)
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
@@ -491,6 +496,8 @@ function FeedbackTeacherLaptop(props) {
     });
   }
 
+
+
   function createVisibleComments() {
     return commentsForSelectedTab.filter(comment => !comment.isHidden);
   }
@@ -517,10 +524,7 @@ function FeedbackTeacherLaptop(props) {
               cancelButtonOnClick={methods.hideNewCommentDiv}
             />
             
-            <ShortcutsFrame
-              shortcuts={shortcuts}
-              handleShortcutAddComment={methods.handleShortcutAddComment}
-            />
+            {shortcutList}
             {shareWithClassFrame()}
           </Frame1406>
         </Frame1329>
@@ -702,8 +706,7 @@ const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comme
       const { focusAreaId, questionSerialNumber } = comment;
       const focusAreaIdsForQuestion = groupedFocusAreaIds[questionSerialNumber] || [];
       const isHidden = !focusAreaIdsForQuestion.includes(focusAreaId);
-      console.log("focusAreaIdsForQuestion" , focusAreaIdsForQuestion)
-      console.log("Comment "+comment.id +" isHiddent "+isHidden)
+
       return { ...comment, isHidden };
     });
   }

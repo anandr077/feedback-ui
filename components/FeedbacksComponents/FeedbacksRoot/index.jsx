@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { filter, flatMap, includes, map, set, uniq } from "lodash";
+import { filter, flatMap, get, includes, map, set, uniq } from "lodash";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import React, { useEffect, useRef, useState } from "react";
@@ -31,7 +31,7 @@ import {
   getDefaultCriteria,
   markSubmissionRequestSubmission
 } from "../../../service";
-import { getShortcuts, saveAnswer } from "../../../service.js";
+import { getShortcuts, saveAnswer, getSmartAnnotations } from "../../../service.js";
 import {
   assignmentsHeaderProps,
   taskHeaderProps,
@@ -59,6 +59,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const newCommentFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
+  const [smartAnnotations, setSmartAnnotations] = useState([]);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
@@ -83,8 +84,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
 
   useEffect(() => {
-    Promise.all([getSubmissionById(id), getComments(id)])
-      .then(([submissionsResult, commentsResult]) => {
+    Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
+      .then(([submissionsResult, commentsResult, smartAnnotationResult]) => {
         setSubmission(submissionsResult);
         const allComments = commentsResult.map((c) => {
           return { ...c };
@@ -93,6 +94,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setComments(feedbackComments);
         const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
+        setSmartAnnotations(smartAnnotationResult);
       })
       .finally(() => {
         if (!isTeacher) {
@@ -205,7 +207,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: commentText,
+      feedback: commentText.trim(),
       range: selectedRange,
       type: "COMMENT",
       replies: [],
@@ -218,6 +220,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     setShowNewComment(false);
   }
+
+  function handleShortcutAddCommentSmartAnnotaion(commentText) {
+
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: commentText,
+      range: selectedRange,
+      type: "SMART_ANNOTATION",
+      replies: [],
+      markingCriteria: defaultMarkingCriteria,
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue("");
+      }
+    });
+    setShowNewComment(false);
+  }
+
   function handleFocusAreaComment(focusArea) {
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -1020,6 +1041,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleEditorMounted,
     handleKeyPress,
     handleShortcutAddComment,
+    handleShortcutAddCommentSmartAnnotaion,
     handleFocusAreaComment,
     handleSubmissionReviewed,
     handleSaveSubmissionForReview,
@@ -1044,6 +1066,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const shortcuts = getShortcuts();
 
+
+
   return (
     <>
     {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent={popupText} buttonText="Submit" 
@@ -1060,6 +1084,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             labelText,
             quillRefs,
             pageMode,
+            smartAnnotations,
             newCommentFrameRef,
             methods,
             showNewComment,
@@ -1085,6 +1110,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             quillRefs,
             pageMode,
             shortcuts,
+            smartAnnotations,
             newCommentFrameRef,
             methods,
             showNewComment,
@@ -1110,6 +1136,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               quillRefs,
               pageMode,
               shortcuts,
+              smartAnnotations,
               newCommentFrameRef,
               methods,
               showNewComment,
@@ -1132,6 +1159,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             showLoader,
             submissionStatusLabel,
             labelText,
+            smartAnnotations,
             quillRefs,
             pageMode,
             shortcuts,

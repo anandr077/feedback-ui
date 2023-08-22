@@ -15,11 +15,15 @@ export default function PageNotFound() {
     <ReactiveRender
       mobile={
         <>
-        <HeaderSmall headerProps={completedHeaderProps(true)}/>
+
         <Container>
         <ImageContainerSmall/>
         <TextMainSmall>Looks like you’re lost</TextMainSmall>
         <TextSubSmall>The page you were looking for was not found</TextSubSmall>
+        <HomeButtonContiner> 
+      <IconSmall src="/icons/homeIconUnselected.png"/>
+      <CustomLink href='/#/'><GoHomeLinkSmall>Go back home</GoHomeLinkSmall></CustomLink>
+      </HomeButtonContiner>
     </Container>
     <FooterContainer> <FooterSmall/></FooterContainer>
     </>
@@ -28,23 +32,31 @@ export default function PageNotFound() {
       }
       tablet={
         <>
-        <HeaderSmall headerProps={completedHeaderProps(true)}/>
+
         <Container>
         <ImageContainerSmall/>
         <TextMainSmall>Looks like you’re lost</TextMainSmall>
         <TextSubSmall>The page you were looking for was not found</TextSubSmall>
+        <HomeButtonContiner> 
+      <IconSmall src="/icons/homeIconUnselected.png"/>
+      <CustomLink href='/#/'><GoHomeLinkSmall>Go back home</GoHomeLinkSmall></CustomLink>
+      </HomeButtonContiner>
     </Container>
     <FooterContainer> <FooterSmall/></FooterContainer>
     </>
       }
       laptop={
         <>
-        <Header headerProps={completedHeaderProps(true)} />
+
 
         <Container>
         <ImageContainer/>
         <TextMain>Looks like you’re lost</TextMain>
         <TextSub>The page you were looking for was not found</TextSub>
+       <HomeButtonContiner> 
+      <Icon src="/icons/homeIconUnselected.png"/>
+      <CustomLink href='/#/'><GoHomeLink>Go back home</GoHomeLink></CustomLink>
+      </HomeButtonContiner>
     </Container>
     <FooterContainer><Footer/></FooterContainer>
 
@@ -52,12 +64,16 @@ export default function PageNotFound() {
       }
       desktop={
         <>
-        <Header headerProps={completedHeaderProps(true)} />
+   
       
         <Container>
         <ImageContainer/>
         <TextMain>Looks like you’re lost</TextMain>
         <TextSub>The page you were looking for was not found</TextSub>
+        <HomeButtonContiner> 
+      <Icon src="/icons/homeIconUnselected.png"/>
+      <CustomLink href='/#/'><GoHomeLink>Go back home</GoHomeLink></CustomLink>
+      </HomeButtonContiner>
     </Container>
     <FooterContainer><Footer/></FooterContainer>
    
@@ -68,6 +84,37 @@ export default function PageNotFound() {
   )
 }
 
+const CustomLink = styled.a`
+  text-decoration: none;
+`;
+
+const HomeButtonContiner = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 10px;
+  width: 100%;
+  padding: 0px 0px 10px 0px;
+:hover {
+  scale: 1.2;
+  transition: 0.3s;
+}
+  `;
+
+
+const Icon = styled.img`
+  position: relative;
+  min-width: 24px;
+  height: 24px;
+`;
+
+const IconSmall = styled.img`
+  position: relative;
+  min-width: 13px;
+  height: 13px;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -145,6 +192,25 @@ color: #1E252A;
 flex: none;
 order: 1;
 `;
+
+const GoHomeLink = styled.div`
+height: 26px;
+font-family: "IBM Plex Sans", sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 26px;
+`;
+
+const GoHomeLinkSmall = styled.div`
+height: 13px;
+font-family: "IBM Plex Sans", sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 13px;
+`;
+
 const TextSubSmall = styled.div`width: 400px;
 height: 13px;
 font-family: "IBM Plex Sans", sans-serif;
@@ -164,4 +230,6 @@ const FooterContainer = styled.div`
   bottom: 0;
   width: 100%;
   z-index: 0;
+  height: 60px;
+
   `;

@@ -227,6 +227,30 @@ export const addFeedback = async (submissionId, comment) =>
   export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + "/feedbacks/comment/" + feedbackId + "/resolve");
 
+
+
+  export const getSmartAnnotaionAnalyticsByClassId = async (classId) =>{
+  let smartAnnotationsMap = new Map();
+  const feedbacks = await getApi(baseUrl + "/feedbacks/" + classId + "/analytics");
+  await feedbacks.forEach((feedback) => {
+    const splits = feedback.comment.split("\n\n");
+    const title = splits[0].trim();
+    const suggestion = splits[1]?.trim();
+    if(smartAnnotationsMap.get(title)) {
+      if(smartAnnotationsMap.get(title).get(suggestion)){
+        smartAnnotationsMap.get(title).set(suggestion, smartAnnotationsMap.get(title).get(suggestion)+1);
+      }
+      else {
+        smartAnnotationsMap.get(title).set(suggestion, 1);
+      }
+    }else {
+      smartAnnotationsMap.set(title, new Map([[suggestion, 1]]));
+    }
+  });
+  return smartAnnotationsMap;
+  };
+
+
 export const createNewMarkingCriteria = async (markingCriteria) =>{
   await postApi(baseUrl + "/teachers/markingCriteria", markingCriteria);
 };
@@ -237,6 +261,19 @@ export const deleteMarkingCriteria = async (markingCriteriaId) =>{
   await deleteApi(baseUrl + "/teachers/markingCriteria/"+markingCriteriaId);
 };
 
+export const createNewSmartAnnotation= async (smartAnnotation) =>{
+  return await postApi(baseUrl + "/teachers/smartAnnotation", smartAnnotation);
+};
+
+export const updateSmartAnnotation = async (smartAnnotation, smartAnnotationId) =>{
+ return postApi(baseUrl + "/teachers/smartAnnotation/"+smartAnnotationId, smartAnnotation);
+};
+
+export const deleteSmartAnnotation = async (smartAnnotationId) =>{
+  await deleteApi(baseUrl + "/teachers/smartAnnotation/"+smartAnnotationId);
+};
+
+export const getSmartAnnotations = async () => await getApi(baseUrl + "/teachers/smartAnnotation");
 
 export const getAllMarkingCriteria = async () => await getApi(baseUrl + "/teachers/markingCriteria");
 
@@ -334,6 +371,14 @@ export const getShortcuts = () => {
   ];
   return shortcuts;
 };
+
+
+
+
+
+
+
+
 let FocusAreas = [
   {
     id: 1,

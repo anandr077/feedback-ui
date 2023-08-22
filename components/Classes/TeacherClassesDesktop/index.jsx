@@ -68,6 +68,7 @@ function TeacherClassesDesktop(props) {
     frame131323Props,
     frame131324Props,
     group1205Props,
+    annotationAnalyticsFrame
   } = props;
 
   return (
@@ -115,14 +116,7 @@ function TeacherClassesDesktop(props) {
             </Frame1342>
             
             <Frame1339>
-              <Frame13371>
-                <Frame13124>
-                  <Crown src={crown} alt="crown" />
-                  <ExemplarResponses>Exemplars</ExemplarResponses>
-                </Frame13124>
-              </Frame13371>
-              <Line17 src={line176} alt="Line 17" />
-              <Frame12>{createModelResponsesFrames(modelResponses)}</Frame12>
+            {annotationAnalyticsFrame}
             </Frame1339>
           </Frame1416>
         </Frame1417>

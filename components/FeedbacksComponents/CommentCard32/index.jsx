@@ -32,6 +32,8 @@ function CommentCard32(props) {
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
 
+  console.log("##comment", comment.comment.includes("\n\n"));
+
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
     handleEditingComment(true);
@@ -98,15 +100,10 @@ function CommentCard32(props) {
             pageMode={pageMode}
             onClick={onClick}
           />
-          <CommentText
-            onClick={() => onClick(comment)}
-            className="horem-ipsum-dolor-si-1"
-          >
-            {editButtonActive &&
-            editCommentType === "replies" &&
-            index === editReplyIndex
-              ? inputComment()
-              : reply.comment}
+          <CommentText onClick={() => onClick(comment)} className="horem-ipsum-dolor-si-1">
+            {editButtonActive && editCommentType === "replies" && index === editReplyIndex
+              ? <NewlineText text={inputComment()} />
+              : <NewlineText text={reply.comment} />}
           </CommentText>
         </ReplyCommentWrapper>
       );
@@ -150,7 +147,7 @@ function CommentCard32(props) {
       <ReviewsFrame132532
         isShare={comment.type === "MODEL_RESPONSE"}
         showResolveButton = {
-          comment.type === "COMMENT" &&
+          (comment.type === "COMMENT" || comment.type === "SMART_ANNOTATION") &&
           pageMode === "REVISE" &&
           comment.status != "RESOLVED"
         }
@@ -168,7 +165,7 @@ function CommentCard32(props) {
         onClick={() => onClick(comment)}
         className="horem-ipsum-dolor-si-1"
       >
-        {showComment()}
+      {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
       {isResolved !== "RESOLVED" && 
@@ -190,10 +187,34 @@ function CommentCard32(props) {
     if (editButtonActive && editCommentType === "parent_comment") {
       return inputComment()
     } else {
+      if(comment.comment.includes("\n\n")){
+        const commentArray = comment.comment.split("\n\n");
+        return <>
+          <p><BoldText>{commentArray[0]}</BoldText></p>
+          <NewlineText text={commentArray[1]} />
+        </>
+      }else {
       return comment.comment;
+      }
     }
   }
 }
+function NewlineText({ text }) {
+  const newText = text.split('\n').map((str, index, array) => 
+    index === array.length - 1 ? str : <>
+      {str}
+      <br />
+    </>
+  );
+  
+  return <>{newText}</>;
+}
+
+
+const BoldText = styled.div`
+  font-weight: bold;
+  padding-bottom: 1em;
+`;
 
 const CommentCard = styled.article`
   display: flex;
@@ -225,6 +246,7 @@ const CommentText = styled.div`
   align-self: stretch;
   letter-spacing: 0;
   line-height: normal;
+  white-space: pre-line;
   cursor: pointer;
 `;
 

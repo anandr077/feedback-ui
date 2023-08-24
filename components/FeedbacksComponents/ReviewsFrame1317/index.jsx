@@ -1,7 +1,7 @@
-import React from "react";
-import Buttons from "../Buttons";
-import Buttons2 from "../Buttons2";
-import styled from "styled-components";
+import React from 'react';
+import Buttons from '../Buttons';
+import Buttons2 from '../Buttons2';
+import styled from 'styled-components';
 
 function ReviewsFrame1317(props) {
   const { buttonsProps, buttons2Props } = props;

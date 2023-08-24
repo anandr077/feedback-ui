@@ -1,22 +1,22 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../styledMixins';
 
 function Frame12973(props) {
   const { number, frame1284, richTextComponentsProps } = props;
 
-  const [type, setType] = React.useState("TEXT");
+  const [type, setType] = React.useState('TEXT');
   const [show, setShow] = React.useState(false);
   const dropdown = () => {
     setShow(!show);
   };
   const setTypeTheory = () => {
-    setType("TEXT");
+    setType('TEXT');
     setShow(false);
   };
 
   const setTypeMCQ = () => {
-    setType("MCQ");
+    setType('MCQ');
     setShow(false);
   };
   return (
@@ -42,7 +42,7 @@ function Frame12973(props) {
                 </DropDown>
               ) : (
                 <>
-                  {type === "TEXT" ? (
+                  {type === 'TEXT' ? (
                     <RichTextComponents2>
                       <Assignment2
                         src="/img/assignment-4@2x.png"

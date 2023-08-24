@@ -1,12 +1,12 @@
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../FeedbacksComponents/../../styledMixins";
-import CheckboxBordered from "../CheckboxBordered";
-import OptionRemark from "../FeedbacksComponents/OptionRemark";
-import { saveAnswer } from "../../service";
-import OptionRemark from "../FeedbacksComponents/OptionRemark";
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack16px } from '../FeedbacksComponents/../../styledMixins';
+import CheckboxBordered from '../CheckboxBordered';
+import OptionRemark from '../FeedbacksComponents/OptionRemark';
+import { saveAnswer } from '../../service';
+import OptionRemark from '../FeedbacksComponents/OptionRemark';
 export const CheckboxList = ({
   submission,
   question,
@@ -57,7 +57,7 @@ const handleSaveMCQAnswer = (
   const checked = question.options
     .map((option) => {
       const id =
-        "mcq_" + question.serialNumber + "_" + option.optionSerialNumber;
+        'mcq_' + question.serialNumber + '_' + option.optionSerialNumber;
       return {
         serialNumber: option.optionSerialNumber,
         option: option.option,
@@ -67,12 +67,12 @@ const handleSaveMCQAnswer = (
     .filter((answer) => {
       return answer.checked === true;
     });
-  handleChangeText("Saving...", false);
+  handleChangeText('Saving...', false);
   saveAnswer(submission.id, question.serialNumber, {
     question: question.question,
     selectedOptions: checked,
   }).then((_) => {
-    handleChangeText("All changes saved", true);
+    handleChangeText('All changes saved', true);
   });
 };
 const mcqAnswerFrame = (
@@ -86,12 +86,12 @@ const mcqAnswerFrame = (
     const isCorrect = option.isCorrect === checked;
     return (
       <>
-        {pageMode === "REVIEW" || pageMode === "CLOSED" ? (
+        {pageMode === 'REVIEW' || pageMode === 'CLOSED' ? (
           <ReviewCheckBoxContainer>
-            {" "}
+            {' '}
             <OptionCotainer>
-              <CheckboxBordered checked={checked} disabled />{" "}
-              <OptionText>{option.option}</OptionText>{" "}
+              <CheckboxBordered checked={checked} disabled />{' '}
+              <OptionText>{option.option}</OptionText>{' '}
             </OptionCotainer>
             <OptionRemarkContainer>
               <OptionRemark isCorrect={isCorrect} />
@@ -104,7 +104,7 @@ const mcqAnswerFrame = (
               checked={selectedOptions.includes(option.optionSerialNumber)}
               onChange={handleCheckboxChange(setSelectedOptions)}
             />
-            <OptionText>{option.option}</OptionText>{" "}
+            <OptionText>{option.option}</OptionText>{' '}
           </OptionCotainer>
         )}
       </>

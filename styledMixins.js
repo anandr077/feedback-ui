@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 export const IbmplexsansNormalShark12px = css`
   color: var(--shark);
   font-family: var(--font-family-ibm_plex_sans);
@@ -149,7 +149,6 @@ export const DashboardIbmplexsansBoldWhite72px = css`
   font-weight: 700;
   font-style: normal;
 `;
-
 
 export const IbmplexsansMediumElectricViolet14px = css`
   color: var(--light-mode-purple);

@@ -1,8 +1,7 @@
-import React from "react";
-import Frame12852 from "../Frame12852";
-import Frame12862 from "../Frame12862";
-import styled from "styled-components";
-
+import React from 'react';
+import Frame12852 from '../Frame12852';
+import Frame12862 from '../Frame12862';
+import styled from 'styled-components';
 
 function CriteriaLevelInput8() {
   return (

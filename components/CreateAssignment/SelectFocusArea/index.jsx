@@ -1,8 +1,8 @@
-import React from "react";
-import Checkbox from "../Checkbox";
-import styled from "styled-components";
-import { IbmplexsansNormalMountainMist16px } from "../../styledMixins";
-import "./SelectFocusArea.css";
+import React from 'react';
+import Checkbox from '../Checkbox';
+import styled from 'styled-components';
+import { IbmplexsansNormalMountainMist16px } from '../../styledMixins';
+import './SelectFocusArea.css';
 
 function SelectFocusArea(props) {
   const {
@@ -26,11 +26,26 @@ function SelectFocusArea(props) {
       <Line34 src={line34} alt="Line 34" />
       <Frame1321>
         <Checkbox frame1441Props={checkbox1Props.frame1441Props} />
-        <Checkbox className={checkbox2Props.className} frame1441Props={checkbox2Props.frame1441Props} />
-        <Checkbox className={checkbox3Props.className} frame1441Props={checkbox3Props.frame1441Props} />
-        <Checkbox className={checkbox4Props.className} frame1441Props={checkbox4Props.frame1441Props} />
-        <Checkbox className={checkbox5Props.className} frame1441Props={checkbox5Props.frame1441Props} />
-        <Checkbox className={checkbox6Props.className} frame1441Props={checkbox6Props.frame1441Props} />
+        <Checkbox
+          className={checkbox2Props.className}
+          frame1441Props={checkbox2Props.frame1441Props}
+        />
+        <Checkbox
+          className={checkbox3Props.className}
+          frame1441Props={checkbox3Props.frame1441Props}
+        />
+        <Checkbox
+          className={checkbox4Props.className}
+          frame1441Props={checkbox4Props.frame1441Props}
+        />
+        <Checkbox
+          className={checkbox5Props.className}
+          frame1441Props={checkbox5Props.frame1441Props}
+        />
+        <Checkbox
+          className={checkbox6Props.className}
+          frame1441Props={checkbox6Props.frame1441Props}
+        />
       </Frame1321>
     </div>
   );

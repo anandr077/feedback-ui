@@ -1,23 +1,23 @@
-import React from "react";
-import styled from "styled-components";
-import HeaderSmall from "../../HeaderSmall";
-import Breadcrumb from "../../Breadcrumb";
-import Breadcrumb2 from "../../Breadcrumb2";
-import Buttons from "../Buttons";
-import Frame11 from "../Frame11";
-import Frame12092 from "../Frame12092";
-import GoBack from "../GoBack";
-import StatusBubbles from "../StatusBubbles";
+import React from 'react';
+import styled from 'styled-components';
+import HeaderSmall from '../../HeaderSmall';
+import Breadcrumb from '../../Breadcrumb';
+import Breadcrumb2 from '../../Breadcrumb2';
+import Buttons from '../Buttons';
+import Frame11 from '../Frame11';
+import Frame12092 from '../Frame12092';
+import GoBack from '../GoBack';
+import StatusBubbles from '../StatusBubbles';
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansSemiBoldShark28px,
-} from "../styledMixins";
-import "./TaskDetailMobile.css";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
-import { formattedDate } from "../../../dates";
-import FooterSmall from "../../FooterSmall";
+} from '../styledMixins';
+import './TaskDetailMobile.css';
+import { taskHeaderProps } from '../../../utils/headerProps.js';
+import { formattedDate } from '../../../dates';
+import FooterSmall from '../../FooterSmall';
 
 function TaskDetailMobile(props) {
   const {
@@ -46,7 +46,7 @@ function TaskDetailMobile(props) {
         <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
-            <Breadcrumb text = "Task" link = "/#/tasks"/>
+            <Breadcrumb text="Task" link="/#/tasks" />
             <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>
@@ -58,7 +58,6 @@ function TaskDetailMobile(props) {
               <StatusBubbles text={formattedDate(assignment.dueAt)} />
               <PhysicsThermodyna>{assignment.title}</PhysicsThermodyna>
               {clazzName && <ClazzName>{clazzName}</ClazzName>}
-              
             </Frame1210>
             <Frame28>
               <Frame11 text={assignment.questions.length} />

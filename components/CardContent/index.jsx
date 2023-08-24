@@ -1,120 +1,102 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalShark12px,
   IbmplexsansNormalRiverBed14px,
   IbmplexsansNormalShark20px,
-} from "../../styledMixins";
-import { formattedDate } from "../../dates";
+} from '../../styledMixins';
+import { formattedDate } from '../../dates';
 
 function CardContent(props) {
   const { task, small, exempler } = props;
 
-
-
   const sampleTask = {
-    title:"Fundamentals of thermal physics",
-    para:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...",
-    subTitle:"Teacher's Comment",
-    subPara:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.",
-    date:"2 April 2023",
-    status1:"Submissions: 20 of 40",
-    status2:"Reviewed: 10 of 20",
-  }
+    title: 'Fundamentals of thermal physics',
+    para: 'Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...',
+    subTitle: "Teacher's Comment",
+    subPara:
+      'Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.',
+    date: '2 April 2023',
+    status1: 'Submissions: 20 of 40',
+    status2: 'Reviewed: 10 of 20',
+  };
 
   function createTitle(small, title) {
-    if (!title) return <></>
-    return  small ? (
-      <SmallClassText>
-        {title}
-      </SmallClassText>
+    if (!title) return <></>;
+    return small ? (
+      <SmallClassText>{title}</SmallClassText>
     ) : (
-      <ClassText>
-        {title}
-      </ClassText>
-    )
+      <ClassText>{title}</ClassText>
+    );
   }
-  
+
   function createPara(small, para) {
-    if (!para) return <></>
+    if (!para) return <></>;
     return (
       <>
         {small ? (
-          <SmallTaskTitle>
-            {para}
-          </SmallTaskTitle>
+          <SmallTaskTitle>{para}</SmallTaskTitle>
         ) : (
           <TaskTitle>{para}</TaskTitle>
         )}
       </>
     );
   }
-  
+
   function createSubtitle(subTitle) {
-    if (!subTitle) return <></>
-    return <RemarkText>{subTitle}</RemarkText>
-  }
-  
-  function createSubPara(subPara) {
-    if (!subPara) return <></> 
-    return <Remark>{subPara}</Remark>
+    if (!subTitle) return <></>;
+    return <RemarkText>{subTitle}</RemarkText>;
   }
 
+  function createSubPara(subPara) {
+    if (!subPara) return <></>;
+    return <Remark>{subPara}</Remark>;
+  }
 
   function date(small, date) {
-    if (!date) return <></> 
-  
-    return <>
+    if (!date) return <></>;
+
+    return (
+      <>
         {small ? (
           <Frame1282>
             <SmallIconClock src="/img/clock@2x.png" alt="icon-clock" />
             <SmallDueAt>{formattedDate(date)}</SmallDueAt>
           </Frame1282>
-        ) :(
+        ) : (
           <Frame1282>
             <IconClock src="/img/clock@2x.png" alt="icon-clock" />
             <DueAt>{formattedDate(date)}</DueAt>
           </Frame1282>
-        )
-        }
-      </>;
+        )}
+      </>
+    );
   }
-  
 
   function createStatus(small, status) {
-    if (!status) return <></>
-  
-    return  small ? (
-      <SmallClassText>
-        {status}
-      </SmallClassText>
+    if (!status) return <></>;
+
+    return small ? (
+      <SmallClassText>{status}</SmallClassText>
     ) : (
-      <ClassText>
-        {status}
-      </ClassText>
-    )
+      <ClassText>{status}</ClassText>
+    );
   }
 
-
   return (
-    <>   
-        <Content>
-          {createTitle(small, task.title)}
-          {createPara(small, task.para)}
-          {createSubtitle(task.subTitle)}
-          {createSubPara(task.subPara)}
-          {date(small, task.date)}
-          {createStatus(small, task.status1)}
-          {createStatus(small, task.status2)}
-        </Content>
+    <>
+      <Content>
+        {createTitle(small, task.title)}
+        {createPara(small, task.para)}
+        {createSubtitle(task.subTitle)}
+        {createSubPara(task.subPara)}
+        {date(small, task.date)}
+        {createStatus(small, task.status1)}
+        {createStatus(small, task.status2)}
+      </Content>
     </>
   );
-
-  
 }
-
-
-
 
 const RemarkText = styled.div`
   ${IbmplexsansNormalShark12px}
@@ -133,8 +115,6 @@ const RemarkText = styled.div`
   flex-grow: 0;
   margin-top: 10px;
 `;
-
-
 
 const Content = styled.div`
   display: flex;
@@ -210,7 +190,6 @@ const Frame1282 = styled.div`
   align-self: stretch;
 `;
 
-
 const IconClock = styled.img`
   position: relative;
   min-width: 16px;
@@ -240,6 +219,5 @@ const SmallDueAt = styled.p`
   letter-spacing: 0.11px;
   line-height: normal;
 `;
-
 
 export default CardContent;

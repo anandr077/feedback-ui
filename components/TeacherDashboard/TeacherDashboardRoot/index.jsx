@@ -1,23 +1,23 @@
-import React from "react";
-import ReactiveRender from "../../ReactiveRender";
+import React from 'react';
+import ReactiveRender from '../../ReactiveRender';
 import {
   getAssignments,
   getTasks,
   getClassesWithStudents,
   getNotifications,
-} from "../../../service";
-import TeacherDashboardMobile from "../TeacherDashboardMobile";
-import TeacherDashboardTablet from "../TeacherDashboardTablet";
-import TeacherDashboardLaptop from "../TeacherDashboardLaptop";
-import TeacherDashboardDesktop from "../TeacherDashboardDesktop";
-import Loader from "../../Loader";
+} from '../../../service';
+import TeacherDashboardMobile from '../TeacherDashboardMobile';
+import TeacherDashboardTablet from '../TeacherDashboardTablet';
+import TeacherDashboardLaptop from '../TeacherDashboardLaptop';
+import TeacherDashboardDesktop from '../TeacherDashboardDesktop';
+import Loader from '../../Loader';
 
 export default function TeacherDashboardRoot(props) {
   const [assignments, setAssignments] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  
+
   React.useEffect(() => {
     Promise.all([
       getAssignments(),
@@ -33,16 +33,16 @@ export default function TeacherDashboardRoot(props) {
     });
   }, []);
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
   const drafts = assignments.filter(
-    (assignment) => assignment.submissionsStatus === "DRAFT"
+    (assignment) => assignment.submissionsStatus === 'DRAFT'
   );
   const awaitingSubmissions = assignments.filter(
-    (assignment) => assignment.submissionsStatus === "AWAITING_SUBMISSIONS"
+    (assignment) => assignment.submissionsStatus === 'AWAITING_SUBMISSIONS'
   );
   const feedbacks = assignments.filter(
-    (assignment) => assignment.submissionsStatus === "FEEDBACK"
+    (assignment) => assignment.submissionsStatus === 'FEEDBACK'
   );
 
   return (
@@ -99,14 +99,14 @@ export default function TeacherDashboardRoot(props) {
   );
 }
 const navElement21Data = {
-  assignment: "/img/assignment@2x.png",
-  home: "Assignments",
+  assignment: '/img/assignment@2x.png',
+  home: 'Assignments',
 };
 
 const navElement22Data = {
-  assignment: "/img/subject@2x.png",
-  home: "Classes",
-  className: "nav-element-2",
+  assignment: '/img/subject@2x.png',
+  home: 'Classes',
+  className: 'nav-element-2',
 };
 
 const teacherDashboardHeader1Data = {
@@ -115,29 +115,29 @@ const teacherDashboardHeader1Data = {
 };
 
 const group12051Data = {
-  arrowright: "/img/arrowright@2x.png",
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const frame14071Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame12841Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame12831Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame12821Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame13121Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame14071Data,
   frame1284Props: frame12841Data,
   frame1283Props: frame12831Data,
@@ -145,25 +145,25 @@ const frame13121Data = {
 };
 
 const frame14072Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame12842Data = {
-  number: "16",
+  number: '16',
 };
 
 const frame12832Data = {
-  number: "2",
+  number: '2',
 };
 
 const frame12822Data = {
-  number: "1",
+  number: '1',
 };
 
 const frame13122Data = {
-  x12Engadv3: "9-CHEM-3",
+  x12Engadv3: '9-CHEM-3',
   frame1407Props: frame14072Data,
   frame1284Props: frame12842Data,
   frame1283Props: frame12832Data,
@@ -171,25 +171,25 @@ const frame13122Data = {
 };
 
 const frame14073Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame12843Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame12833Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame12823Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame13123Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame14073Data,
   frame1284Props: frame12843Data,
   frame1283Props: frame12833Data,
@@ -197,51 +197,51 @@ const frame13123Data = {
 };
 
 const frame140722Data = {
-  iconsaxLinearAdd: "/img/iconsax-linear-add-1@2x.png",
-  line17: "/img/line-17-22@2x.png",
-  arrowright: "/img/arrowright-8@2x.png",
+  iconsaxLinearAdd: '/img/iconsax-linear-add-1@2x.png',
+  line17: '/img/line-17-22@2x.png',
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const frame13131Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame13132Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const frame13133Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame13134Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const group12052Data = {
-  arrowright: "/img/arrowright@2x.png",
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const frame14074Data = {
-  arrowright1: "/img/arrowright-1@2x.png",
-  line17: "/img/line-17-2@2x.png",
-  arrowright2: "/img/arrowright-1@2x.png",
+  arrowright1: '/img/arrowright-1@2x.png',
+  line17: '/img/line-17-2@2x.png',
+  arrowright2: '/img/arrowright-1@2x.png',
 };
 
 const frame12844Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame12834Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame12824Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame131222Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame14074Data,
   frame1284Props: frame12844Data,
   frame1283Props: frame12834Data,
@@ -249,25 +249,25 @@ const frame131222Data = {
 };
 
 const frame14075Data = {
-  arrowright1: "/img/arrowright-1@2x.png",
-  line17: "/img/line-17-2@2x.png",
-  arrowright2: "/img/arrowright-1@2x.png",
+  arrowright1: '/img/arrowright-1@2x.png',
+  line17: '/img/line-17-2@2x.png',
+  arrowright2: '/img/arrowright-1@2x.png',
 };
 
 const frame12845Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame12835Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame12825Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame131223Data = {
-  x12Engadv3: "9-CHEM-3",
+  x12Engadv3: '9-CHEM-3',
   frame1407Props: frame14075Data,
   frame1284Props: frame12845Data,
   frame1283Props: frame12835Data,
@@ -275,25 +275,25 @@ const frame131223Data = {
 };
 
 const frame14076Data = {
-  arrowright1: "/img/arrowright-1@2x.png",
-  line17: "/img/line-17-2@2x.png",
-  arrowright2: "/img/arrowright-1@2x.png",
+  arrowright1: '/img/arrowright-1@2x.png',
+  line17: '/img/line-17-2@2x.png',
+  arrowright2: '/img/arrowright-1@2x.png',
 };
 
 const frame12846Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame12836Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame12826Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame131224Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame14076Data,
   frame1284Props: frame12846Data,
   frame1283Props: frame12836Data,
@@ -301,51 +301,51 @@ const frame131224Data = {
 };
 
 const frame140723Data = {
-  iconsaxLinearAdd: "/img/iconsax-linear-add@2x.png",
-  line17: "/img/line-17-8@2x.png",
-  arrowright: "/img/arrowright@2x.png",
+  iconsaxLinearAdd: '/img/iconsax-linear-add@2x.png',
+  line17: '/img/line-17-8@2x.png',
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const frame131322Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame131323Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const frame131324Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame131325Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const group12053Data = {
-  arrowright: "/img/arrowright-8@2x.png",
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const frame14077Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame12847Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame12837Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame12827Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame131232Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame14077Data,
   frame1284Props: frame12847Data,
   frame1283Props: frame12837Data,
@@ -353,25 +353,25 @@ const frame131232Data = {
 };
 
 const frame14078Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame12848Data = {
-  number: "16",
+  number: '16',
 };
 
 const frame12838Data = {
-  number: "2",
+  number: '2',
 };
 
 const frame12828Data = {
-  number: "1",
+  number: '1',
 };
 
 const frame131233Data = {
-  x12Engadv3: "9-CHEM-3",
+  x12Engadv3: '9-CHEM-3',
   frame1407Props: frame14078Data,
   frame1284Props: frame12848Data,
   frame1283Props: frame12838Data,
@@ -379,25 +379,25 @@ const frame131233Data = {
 };
 
 const frame14079Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame12849Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame12839Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame12829Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame131234Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame14079Data,
   frame1284Props: frame12849Data,
   frame1283Props: frame12839Data,
@@ -405,36 +405,36 @@ const frame131234Data = {
 };
 
 const frame140724Data = {
-  iconsaxLinearAdd: "/img/iconsax-linear-add-1@2x.png",
-  line17: "/img/line-17-22@2x.png",
-  arrowright: "/img/arrowright-8@2x.png",
+  iconsaxLinearAdd: '/img/iconsax-linear-add-1@2x.png',
+  line17: '/img/line-17-22@2x.png',
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const frame131332Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame131333Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const frame131334Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame131335Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const navElement23Data = {
-  assignment: "/img/assignment@2x.png",
-  home: "Assignments",
+  assignment: '/img/assignment@2x.png',
+  home: 'Assignments',
 };
 
 const navElement24Data = {
-  assignment: "/img/subject@2x.png",
-  home: "Classes",
-  className: "nav-element-4",
+  assignment: '/img/subject@2x.png',
+  home: 'Classes',
+  className: 'nav-element-4',
 };
 
 const teacherDashboardHeader2Data = {
@@ -443,29 +443,29 @@ const teacherDashboardHeader2Data = {
 };
 
 const group12054Data = {
-  arrowright: "/img/arrowright-8@2x.png",
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const frame140710Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame128410Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame128310Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame128210Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame131241Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame140710Data,
   frame1284Props: frame128410Data,
   frame1283Props: frame128310Data,
@@ -473,25 +473,25 @@ const frame131241Data = {
 };
 
 const frame140711Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame128411Data = {
-  number: "16",
+  number: '16',
 };
 
 const frame128311Data = {
-  number: "2",
+  number: '2',
 };
 
 const frame128211Data = {
-  number: "1",
+  number: '1',
 };
 
 const frame131242Data = {
-  x12Engadv3: "9-CHEM-3",
+  x12Engadv3: '9-CHEM-3',
   frame1407Props: frame140711Data,
   frame1284Props: frame128411Data,
   frame1283Props: frame128311Data,
@@ -499,25 +499,25 @@ const frame131242Data = {
 };
 
 const frame140712Data = {
-  arrowright1: "/img/arrowright-9@2x.png",
-  line17: "/img/line-17-16@2x.png",
-  arrowright2: "/img/arrowright-9@2x.png",
+  arrowright1: '/img/arrowright-9@2x.png',
+  line17: '/img/line-17-16@2x.png',
+  arrowright2: '/img/arrowright-9@2x.png',
 };
 
 const frame128412Data = {
-  number: "10",
+  number: '10',
 };
 
 const frame128312Data = {
-  number: "4",
+  number: '4',
 };
 
 const frame128212Data = {
-  number: "3",
+  number: '3',
 };
 
 const frame131243Data = {
-  x12Engadv3: "12-ENGADV-3",
+  x12Engadv3: '12-ENGADV-3',
   frame1407Props: frame140712Data,
   frame1284Props: frame128412Data,
   frame1283Props: frame128312Data,
@@ -525,40 +525,40 @@ const frame131243Data = {
 };
 
 const frame140725Data = {
-  iconsaxLinearAdd: "/img/iconsax-linear-add-1@2x.png",
-  line17: "/img/line-17-22@2x.png",
-  arrowright: "/img/arrowright-8@2x.png",
+  iconsaxLinearAdd: '/img/iconsax-linear-add-1@2x.png',
+  line17: '/img/line-17-22@2x.png',
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const frame131342Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame131343Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const frame131344Data = {
-  jonnyBoyleSubmittedAnAssignment: "Jonny Boyle submitted an assignment",
+  jonnyBoyleSubmittedAnAssignment: 'Jonny Boyle submitted an assignment',
 };
 
 const frame131345Data = {
-  jonnyBoyleSubmittedAnAssignment: "Japan Mehta submitted feedback",
+  jonnyBoyleSubmittedAnAssignment: 'Japan Mehta submitted feedback',
 };
 
 const teacherDashboardLptpData = {
-  keepOrganizedWitho1: "Welcome, Teacher",
+  keepOrganizedWitho1: 'Welcome, Teacher',
   keepOrganizedWitho2:
-    "Lighten the load with our collaborative feedback and marking tools.",
-  maskGroup: "/img/mask-group-2.png",
-  line171: "/img/line-17-28.png",
-  line311: "/img/line-31-4@2x.png",
-  tasks: "Tasks",
-  line172: "/img/line-17-28.png",
-  recentActivity: "Recent Activity",
-  line173: "/img/line-17-28.png",
-  line312: "/img/line-31-2@2x.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+    'Lighten the load with our collaborative feedback and marking tools.',
+  maskGroup: '/img/mask-group-2.png',
+  line171: '/img/line-17-28.png',
+  line311: '/img/line-31-4@2x.png',
+  tasks: 'Tasks',
+  line172: '/img/line-17-28.png',
+  recentActivity: 'Recent Activity',
+  line173: '/img/line-17-28.png',
+  line312: '/img/line-31-2@2x.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   teacherDashboardHeaderProps: teacherDashboardHeader2Data,
   group1205Props: group12054Data,
   frame131241Props: frame131241Data,
@@ -573,18 +573,18 @@ const teacherDashboardLptpData = {
 
 const teacherDashboardDesktpData = {
   frame131241Props: frame131241Data,
-  keepOrganizedWitho1: "Welcome, Teacher",
+  keepOrganizedWitho1: 'Welcome, Teacher',
   keepOrganizedWitho2:
-    "Lighten the load with our collaborative feedback and marking tools.",
-  maskGroup: "/img/mask-group-3.png",
-  line171: "/img/line-17-42.png",
-  line311: "/img/line-31-2@2x.png",
-  tasks: "Tasks",
-  line172: "/img/line-17-42.png",
-  recentActivity: "Recent Activity",
-  line173: "/img/line-17-42.png",
-  line312: "/img/line-31-2@2x.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+    'Lighten the load with our collaborative feedback and marking tools.',
+  maskGroup: '/img/mask-group-3.png',
+  line171: '/img/line-17-42.png',
+  line311: '/img/line-31-2@2x.png',
+  tasks: 'Tasks',
+  line172: '/img/line-17-42.png',
+  recentActivity: 'Recent Activity',
+  line173: '/img/line-17-42.png',
+  line312: '/img/line-31-2@2x.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   teacherDashboardHeaderProps: teacherDashboardHeader1Data,
   group1205Props: group12051Data,
   frame13121Props: frame13121Data,
@@ -599,22 +599,22 @@ const teacherDashboardDesktpData = {
 
 const teacherDashboardTbletData = {
   frame131241Props: frame131241Data,
-  frame5: "/img/frame-5@2x.png",
-  keepOrganizedWitho1: "Welcome, Teacher",
+  frame5: '/img/frame-5@2x.png',
+  keepOrganizedWitho1: 'Welcome, Teacher',
   keepOrganizedWitho2:
-    "Lighten the load with our collaborative feedback and marking tools.",
-  maskGroup: "/img/mask-group-2.png",
-  line171: "/img/line-17-14.png",
-  line311: "/img/line-31-2@2x.png",
-  tasks: "Tasks",
-  line172: "/img/line-17-14.png",
-  recentActivity: "Recent Activity",
-  line173: "/img/line-17-14.png",
-  line312: "/img/line-31-2@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+    'Lighten the load with our collaborative feedback and marking tools.',
+  maskGroup: '/img/mask-group-2.png',
+  line171: '/img/line-17-14.png',
+  line311: '/img/line-31-2@2x.png',
+  tasks: 'Tasks',
+  line172: '/img/line-17-14.png',
+  recentActivity: 'Recent Activity',
+  line173: '/img/line-17-14.png',
+  line312: '/img/line-31-2@2x.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   group1205Props: group12053Data,
   frame131231Props: frame131232Data,
   frame131232Props: frame131233Data,
@@ -628,22 +628,22 @@ const teacherDashboardTbletData = {
 
 const teacherDashboardMbileData = {
   frame131241Props: frame131241Data,
-  frame5: "/img/frame-5@2x.png",
-  keepOrganizedWitho1: "Welcome, Teacher",
+  frame5: '/img/frame-5@2x.png',
+  keepOrganizedWitho1: 'Welcome, Teacher',
   keepOrganizedWitho2:
-    "Lighten the load with our collaborative feedback and marking tools.",
-  maskGroup: "/img/mask-group@2x.png",
-  line171: "/img/line-17@2x.png",
-  line311: "/img/line-31@2x.png",
-  tasks: "Tasks",
-  line172: "/img/line-17@2x.png",
-  recentActivity: "Recent Activity",
-  line173: "/img/line-17@2x.png",
-  line312: "/img/line-31@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+    'Lighten the load with our collaborative feedback and marking tools.',
+  maskGroup: '/img/mask-group@2x.png',
+  line171: '/img/line-17@2x.png',
+  line311: '/img/line-31@2x.png',
+  tasks: 'Tasks',
+  line172: '/img/line-17@2x.png',
+  recentActivity: 'Recent Activity',
+  line173: '/img/line-17@2x.png',
+  line312: '/img/line-31@2x.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   group1205Props: group12052Data,
   frame131221Props: frame131222Data,
   frame131222Props: frame131223Data,

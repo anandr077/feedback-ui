@@ -1,20 +1,27 @@
-import React from "react";
-import styled from "styled-components";
-import {IbmplexsansNormalElectricViolet14px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalElectricViolet14px } from '../../../styledMixins';
 
 function Buttons2(props) {
-  const { markingCriteriaId , deleteMarkingCriteriaHandler } = props;
+  const { markingCriteriaId, deleteMarkingCriteriaHandler } = props;
   return (
     <ButtonsContainer>
-    <Buttons onClick={()=> window.location.href=`/#/markingCriterias/${markingCriteriaId}`}>
-      <ViewDetails>View and edit</ViewDetails>
-      <Arrowright src="/img/arrowright@2x.png" alt="arrowright" />
-    </Buttons>
-    <DeleteButtonContainer onClick={()=> {deleteMarkingCriteriaHandler(markingCriteriaId);}}>
-    <Arrowright src="/icons/delete-logo.svg" alt="delete" />
-    </DeleteButtonContainer>
-      </ButtonsContainer>
+      <Buttons
+        onClick={() =>
+          (window.location.href = `/#/markingCriterias/${markingCriteriaId}`)
+        }
+      >
+        <ViewDetails>View and edit</ViewDetails>
+        <Arrowright src="/img/arrowright@2x.png" alt="arrowright" />
+      </Buttons>
+      <DeleteButtonContainer
+        onClick={() => {
+          deleteMarkingCriteriaHandler(markingCriteriaId);
+        }}
+      >
+        <Arrowright src="/icons/delete-logo.svg" alt="delete" />
+      </DeleteButtonContainer>
+    </ButtonsContainer>
   );
 }
 
@@ -61,19 +68,18 @@ const Arrowright = styled.img`
 `;
 
 const DeleteButtonContainer = styled.div`
-display: flex;
-padding: 6px 7px;
-align-items: flex-start;
-gap: 10px;
-border-radius: 6px;
-border: 1px solid #DE2B2B;
-background: #FFF;
-cursor: pointer;
-transition: all 0.2s ease-in-out;
+  display: flex;
+  padding: 6px 7px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 6px;
+  border: 1px solid #de2b2b;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
   &:hover {
     transform: scale(1.1);
   }
 `;
-
 
 export default Buttons2;

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { feedbacksIbmplexsansMediumBlack16px } from "../../../styledMixins";
-import { Avatar } from "@boringer-avatars/react";
-import { getUserId } from "../../../service";
+import React from 'react';
+import styled from 'styled-components';
+import { feedbacksIbmplexsansMediumBlack16px } from '../../../styledMixins';
+import { Avatar } from '@boringer-avatars/react';
+import { getUserId } from '../../../service';
 
 function ReviewsFrame132532(props) {
   const {
@@ -14,13 +14,13 @@ function ReviewsFrame132532(props) {
     comment,
     defaultComment,
     deleteReplyComment,
-    commentType = "",
+    commentType = '',
     index = null,
     commentId = null,
     handleEditComment,
     pageMode,
     onClick,
-    isClosable
+    isClosable,
   } = props;
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
@@ -62,16 +62,16 @@ function ReviewsFrame132532(props) {
   };
 
   const handleEditClick = () => {
-    if(commentType === 'replies'){
+    if (commentType === 'replies') {
       handleEditComment('replies', comment.comment, index);
-    }else{
+    } else {
       handleEditComment('parent_comment', comment.comment);
     }
     setIsMoreClicked(false);
   };
 
   const handleDeleteClick = () => {
-    if (commentType === "replies") {
+    if (commentType === 'replies') {
       deleteReplyComment(commentId, index);
     } else {
       onClose();
@@ -88,25 +88,24 @@ function ReviewsFrame132532(props) {
       square={false}
     />
   );
-  const resolveFrame =
-    showResolveButton ? (
-      <Wrapper>
-        <More
-          src={
-            isResolveHovered
-              ? "/icons/resolve-tick-purple.png"
-              : "/icons/resolve-tick-grey.png"
-          }
-          alt="resolve"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleClick}
-        />
-        {isResolveHovered && <Tooltip>Resolve</Tooltip>}
-      </Wrapper>
-    ) : (
-      <></>
-    );
+  const resolveFrame = showResolveButton ? (
+    <Wrapper>
+      <More
+        src={
+          isResolveHovered
+            ? '/icons/resolve-tick-purple.png'
+            : '/icons/resolve-tick-grey.png'
+        }
+        alt="resolve"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+      />
+      {isResolveHovered && <Tooltip>Resolve</Tooltip>}
+    </Wrapper>
+  ) : (
+    <></>
+  );
   const openEditDeleteTemplate = isMoreClicked ? (
     <MoreOptionsWrapper>
       <MoreOptions onClick={handleEditClick}>
@@ -128,30 +127,33 @@ function ReviewsFrame132532(props) {
     <Frame1325>
       <Frame1324>
         {commenterFrame}
-        <Instructer  onClick={()=>onClick(comment)}>
+        <Instructer onClick={() => onClick(comment)}>
           {reviewerFrame}
         </Instructer>
       </Frame1324>
       {resolveFrame}
-      {getUserId() === comment.reviewerId && 
-      !defaultComment && 
-      comment.type != "FOCUS_AREA" &&
-      pageMode != "CLOSED" &&
-      (
-        <More onClick={handleMoreClick} src="/icons/three-dot.svg" ref={componentRef}/>
-      )}
-      
+      {getUserId() === comment.reviewerId &&
+        !defaultComment &&
+        comment.type != 'FOCUS_AREA' &&
+        pageMode != 'CLOSED' && (
+          <More
+            onClick={handleMoreClick}
+            src="/icons/three-dot.svg"
+            ref={componentRef}
+          />
+        )}
+
       {closeFrame}
-      
+
       {openEditDeleteTemplate}
     </Frame1325>
   );
 
   function createReviewerFrame() {
     if (isShare) {
-      return "Shared with class" 
+      return 'Shared with class';
     }
-    return isShare ? "Shared with class" : reviewer;
+    return isShare ? 'Shared with class' : reviewer;
   }
 
   function createCommenterFrame() {
@@ -218,7 +220,7 @@ const Tooltip = styled.div`
   background: #1e252a;
   color: #ffffff;
   padding: 2px 6px 2px 6px;
-  font-family: "IBM Plex Sans";
+  font-family: 'IBM Plex Sans';
   border-radius: 4px;
   top: -15px;
   right: -5px;

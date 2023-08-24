@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalMountainMist20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalMountainMist20px } from '../../../styledMixins';
 
 function Input(props) {
   const { children } = props;
@@ -9,7 +8,7 @@ function Input(props) {
   return (
     <Input1>
       {/* <Frame1285> */}
-        <Input2>{children}</Input2>
+      <Input2>{children}</Input2>
       {/* </Frame1285> */}
     </Input1>
   );

@@ -1,30 +1,33 @@
-import React from "react";
-import styled from "styled-components";
-import {
-  IbmplexsansBoldShark64px
-} from "../../styledMixins";
-import { taskHeaderProps } from "../../utils/headerProps.js";
-import Footer from "../Footer";
-import Header from "../Header";
-import TaskCardContainer from "../TaskCardContainer";
-import TaskFrame1353 from "../TaskFrame1353";
-import "./TasksLaptop.css";
-import CheckboxGroup from "../CheckboxGroup";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansBoldShark64px } from '../../styledMixins';
+import { taskHeaderProps } from '../../utils/headerProps.js';
+import Footer from '../Footer';
+import Header from '../Header';
+import TaskCardContainer from '../TaskCardContainer';
+import TaskFrame1353 from '../TaskFrame1353';
+import './TasksLaptop.css';
+import CheckboxGroup from '../CheckboxGroup';
 function TasksLaptop(props) {
-  const { menuItems, filterTasks,
+  const {
+    menuItems,
+    filterTasks,
     assignmedTasks,
     inProgressTasks,
     inReviewTasks,
-     frame19Props } =
-    props;
+    frame19Props,
+  } = props;
   return (
     <div className="tasks-laptop screen">
       <Header headerProps={taskHeaderProps} />
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
-          <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>     
-        </TitleContainer>   
+          <CheckboxGroup
+            onChange={filterTasks}
+            data={menuItems}
+          ></CheckboxGroup>
+        </TitleContainer>
         <Frame1360>
           {/* <TaskFrame1306 /> */}
           <Frame1359>

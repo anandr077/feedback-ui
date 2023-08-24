@@ -1,17 +1,15 @@
-import React from "react";
-import Breadcrumb from "../../Breadcrumb";
-import Breadcrumb2 from "../../Breadcrumb2";
-import GoBack from "../GoBack";
-import Frame1281 from "../Frame1281";
-import Buttons2 from "../Buttons2";
-import styled from "styled-components";
-import {
-  IbmplexsansNormalStack20px
-} from "../../../styledMixins";
-import "./CreateNewMarkingCriteriaTablet.css";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
-import Frame1372 from "../Frame1372";
+import React from 'react';
+import Breadcrumb from '../../Breadcrumb';
+import Breadcrumb2 from '../../Breadcrumb2';
+import GoBack from '../GoBack';
+import Frame1281 from '../Frame1281';
+import Buttons2 from '../Buttons2';
+import styled from 'styled-components';
+import { IbmplexsansNormalStack20px } from '../../../styledMixins';
+import './CreateNewMarkingCriteriaTablet.css';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
+import Frame1372 from '../Frame1372';
 
 function CreateNewMarkingCriteriaTablet(props) {
   const {
@@ -22,7 +20,7 @@ function CreateNewMarkingCriteriaTablet(props) {
     deleteMarkingCriteriaMethod,
     handleTitleChange,
     isUpdating,
-    markingCriterias
+    markingCriterias,
   } = props;
 
   return (
@@ -31,29 +29,41 @@ function CreateNewMarkingCriteriaTablet(props) {
         <HeaderSmall headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-          <Breadcrumb text ="Account Settings" link={"/#/settings"}/>
-          <Breadcrumb2 title ="Marking Criteria" link={"/#/settings"} />
-          <Breadcrumb2 title ={isUpdating?"Update":"Create New"}  />
+            <Breadcrumb text="Account Settings" link={'/#/settings'} />
+            <Breadcrumb2 title="Marking Criteria" link={'/#/settings'} />
+            <Breadcrumb2 title={isUpdating ? 'Update' : 'Create New'} />
           </Frame1315>
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating}/>
-          <TitleContainer
-              id="markingCriteriaTitleContainer"
-          >
-          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" value={markingCriterias.title} onChange={handleTitleChange}></TextInput>
+          <Frame1372
+            saveMethod={saveMarkingCriteria}
+            deleteMethod={deleteMarkingCriteriaMethod}
+            isUpdating={isUpdating}
+          />
+          <TitleContainer id="markingCriteriaTitleContainer">
+            <TextInput
+              placeholder="Name of marking criteria"
+              id="markingCriteriaName"
+              value={markingCriterias.title}
+              onChange={handleTitleChange}
+            ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />
-            <Line15 src='/img/line-14@2x.png' alt="Line 15" />
+            <Line15 src="/img/line-14@2x.png" alt="Line 15" />
             {criterias}
-            <Buttons2 text='Add criteria' onClickFn={addCriteria} />
-           </Frame1302>
-           <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating} withoutTitle={true}/>
+            <Buttons2 text="Add criteria" onClickFn={addCriteria} />
+          </Frame1302>
+          <Frame1372
+            saveMethod={saveMarkingCriteria}
+            deleteMethod={deleteMarkingCriteriaMethod}
+            isUpdating={isUpdating}
+            withoutTitle={true}
+          />
         </Frame1376>
       </Frame1379>
-      <FooterSmall/>
+      <FooterSmall />
     </div>
   );
 }
@@ -72,7 +82,7 @@ const TextInput = styled.input`
 `;
 
 const TitleContainer = styled.div`
-display: flex;
+  display: flex;
   align-items: center;
   gap: 20px;
   padding: 13px 20px;
@@ -92,7 +102,6 @@ const Frame1379 = styled.div`
   align-self: stretch;
 `;
 
-
 const Frame1376 = styled.div`
   display: flex;
   flex-direction: column;
@@ -110,10 +119,6 @@ const Frame1315 = styled.div`
   position: relative;
   align-self: stretch;
 `;
-
-
-
-
 
 const Frame1302 = styled.div`
   display: flex;
@@ -138,12 +143,5 @@ const Line15 = styled.img`
   height: 1px;
   object-fit: cover;
 `;
-
-
-
-
-
-
-
 
 export default CreateNewMarkingCriteriaTablet;

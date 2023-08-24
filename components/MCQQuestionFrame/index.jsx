@@ -1,16 +1,16 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import React from "react";
-import styled from "styled-components";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalElectricViolet14px,
   IbmplexsansNormalShark20px,
-} from "../../styledMixins";
-import CheckboxBordered from "../CheckboxBordered";
-import Frame1297 from "../Frame1297";
+} from '../../styledMixins';
+import CheckboxBordered from '../CheckboxBordered';
+import Frame1297 from '../Frame1297';
 
 const theme = createTheme();
 
-export default function /*  */MCQQuestionFrame(props) {
+export default function /*  */ MCQQuestionFrame(props) {
   const {
     serialNumber,
     deleteQuestionFrameFn,
@@ -21,30 +21,44 @@ export default function /*  */MCQQuestionFrame(props) {
     cleanformattingDiv,
     onOptionChange,
     options,
-    allMarkingCriterias
+    allMarkingCriterias,
   } = props;
   const handleOptionChange = (optionSerialNumber, newOption, newIsCorrect) => {
-    if(newOption.length > 140 ){ return;}
+    if (newOption.length > 140) {
+      return;
+    }
     onOptionChange(serialNumber, optionSerialNumber, newOption, newIsCorrect);
   };
- 
+
   const optionFrame = options.map((option, index) => {
     return (
       <OptionsContainer key={index}>
         <OptionInputEditable
-          id={"option_" + serialNumber + "_" + index}
-          placeholder={"Option " + (index + 1)}
+          id={'option_' + serialNumber + '_' + index}
+          placeholder={'Option ' + (index + 1)}
           onClick={cleanformattingTextBox}
           value={option.option}
-          onChange={(e) => handleOptionChange(option.optionSerialNumber, e.target.value, option.isCorrect)}
+          onChange={(e) =>
+            handleOptionChange(
+              option.optionSerialNumber,
+              e.target.value,
+              option.isCorrect
+            )
+          }
         />
         <CheckBoxContainer>
           <ThemeProvider theme={theme}>
             <CheckboxBordered
-              id={"option_checkbox_" + serialNumber + "_" + index}
+              id={'option_checkbox_' + serialNumber + '_' + index}
               label="label"
               checked={option.isCorrect}
-              onChange={(e) => handleOptionChange(option.optionSerialNumber, option.option, e.target.checked)}
+              onChange={(e) =>
+                handleOptionChange(
+                  option.optionSerialNumber,
+                  option.option,
+                  e.target.checked
+                )
+              }
             />
           </ThemeProvider>
           Correct Response
@@ -55,7 +69,7 @@ export default function /*  */MCQQuestionFrame(props) {
 
   return (
     <SmalllQuestionFrame
-      id={"questionContainer_" + serialNumber}
+      id={'questionContainer_' + serialNumber}
       onClick={cleanformattingDiv}
     >
       <Frame1295>
@@ -72,14 +86,14 @@ export default function /*  */MCQQuestionFrame(props) {
         <Line141 src="/img/line-14@2x.png" />
       </Frame1295>
       <Frame12891>
-        <InputQuestion id={"questionType_" + serialNumber} questionType="MCQ">
+        <InputQuestion id={'questionType_' + serialNumber} questionType="MCQ">
           <Label>Question</Label>
           <QuestionFrame2
-            id={"question_textBox" + serialNumber}
+            id={'question_textBox' + serialNumber}
             onClick={cleanformattingTextBox}
           >
             <QuestionInputEditable
-              id={"question_" + serialNumber}
+              id={'question_' + serialNumber}
               placeholder="Type question here (500 characters max)"
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
               value={questionDetails?.question}
@@ -87,7 +101,7 @@ export default function /*  */MCQQuestionFrame(props) {
           </QuestionFrame2>
           <Label>Options</Label>
           <OptionsQuestionFrame
-            id={"optionFrame_" + serialNumber}
+            id={'optionFrame_' + serialNumber}
             onClick={cleanformattingDiv}
           >
             {optionFrame}
@@ -126,7 +140,7 @@ const OptionsContainer = styled.div`
   width: 100%;
 `;
 const OptionInputEditable = styled.input`
-${IbmplexsansNormalShark20px}
+  ${IbmplexsansNormalShark20px}
   position: relative;
   flex: 1;
   margin-top: -1px;
@@ -144,7 +158,7 @@ ${IbmplexsansNormalShark20px}
 `;
 
 const QuestionInputEditable = styled.textarea`
-${IbmplexsansNormalShark20px}
+  ${IbmplexsansNormalShark20px}
   position: relative;
   flex: 1;
   margin-top: -1px;

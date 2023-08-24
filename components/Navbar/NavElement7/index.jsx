@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo20px } from '../styledMixins';
 
 function NavElement7(props) {
   const { text, className, link, onClick } = props;
@@ -13,7 +13,10 @@ function NavElement7(props) {
   };
 
   return (
-    <NavElement className={`nav-element-3 ${className || ""}`}  onClick={redirectTo}>
+    <NavElement
+      className={`nav-element-3 ${className || ''}`}
+      onClick={redirectTo}
+    >
       <Group1 className="group-1-3">
         <Home className="home-2">{text}</Home>
         <Exportsquare

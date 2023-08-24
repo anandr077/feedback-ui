@@ -15,5 +15,5 @@ MetaBlot.blotName = 'meta';
 MetaBlot.tagName = 'span';
 
 Quill.register({
-  'formats/meta': MetaBlot
+  'formats/meta': MetaBlot,
 });

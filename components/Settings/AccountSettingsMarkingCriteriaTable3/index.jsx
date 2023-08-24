@@ -1,19 +1,19 @@
-import React from "react";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
-import SettingsNav from "../SettingsNav";
-import Buttons from "../Buttons";
-import styled from "styled-components";
+import React from 'react';
+import Breadcrumb from '../Breadcrumb';
+import Breadcrumb2 from '../Breadcrumb2';
+import SettingsNav from '../SettingsNav';
+import Buttons from '../Buttons';
+import styled from 'styled-components';
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalElectricViolet14px
-} from "../../../styledMixins";
-import "./AccountSettingsMarkingCriteriaTable3.css";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
+  IbmplexsansNormalElectricViolet14px,
+} from '../../../styledMixins';
+import './AccountSettingsMarkingCriteriaTable3.css';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
 
 function AccountSettingsMarkingCriteriaTable3(props) {
   const {
@@ -28,18 +28,15 @@ function AccountSettingsMarkingCriteriaTable3(props) {
     showUserSettings,
     createSmartAnnotationHandler,
     breadCrumbs,
-    smartAnnotationsFrame
+    smartAnnotationsFrame,
   } = props;
-
 
   return (
     <div className="account-settings-u45-marking-criteria-u45-tablet screen">
       <Frame1379>
-      <HeaderSmall headerProps={headerProps} />
+        <HeaderSmall headerProps={headerProps} />
         <Frame1376>
-          <Frame1315>
-            {breadCrumbs}
-          </Frame1315>
+          <Frame1315>{breadCrumbs}</Frame1315>
         </Frame1376>
         <Frame1378>
           <Frame1372>
@@ -48,53 +45,58 @@ function AccountSettingsMarkingCriteriaTable3(props) {
           <Frame13221>
             {sidebarNav}
             <>
-            {
-              showUserSettings && (
+              {showUserSettings && (
                 <UserSettingFrame>
-                <Title1>
-                <MarkingCriteria>User Settings</MarkingCriteria>
-                <UserSettingLinkContainer>
-                <UserSettingLink href="/#/">Edit in user profile 
-                </UserSettingLink>
-                <RedictIcon src="/icons/redirecticon.svg" alt="Redirect Icon" />
-               </UserSettingLinkContainer> 
-              </Title1>
-              </UserSettingFrame>
-              )
-            }
-            {showMarkingCriteria && (
-              <Frame1302>
-              <Title1>
-                <MarkingCriteria>Marking Criteria</MarkingCriteria>
-                <Buttons  text="Create New"  link={"/#/markingCriterias/new"}/>
-              </Title1>
-              <Line14 src={line14} alt="Line 14" />
-              <MarkingCriteriaList>
-              {markingCriteriaList}
-            </MarkingCriteriaList>
-            </Frame1302>
-            )
-            }
-            {showShortcuts && (
-              <Frame1302>
-              <Title1>
-                <MarkingCriteria>Smart Annotations</MarkingCriteria>
+                  <Title1>
+                    <MarkingCriteria>User Settings</MarkingCriteria>
+                    <UserSettingLinkContainer>
+                      <UserSettingLink href="/#/">
+                        Edit in user profile
+                      </UserSettingLink>
+                      <RedictIcon
+                        src="/icons/redirecticon.svg"
+                        alt="Redirect Icon"
+                      />
+                    </UserSettingLinkContainer>
+                  </Title1>
+                </UserSettingFrame>
+              )}
+              {showMarkingCriteria && (
+                <Frame1302>
+                  <Title1>
+                    <MarkingCriteria>Marking Criteria</MarkingCriteria>
+                    <Buttons
+                      text="Create New"
+                      link={'/#/markingCriterias/new'}
+                    />
+                  </Title1>
+                  <Line14 src={line14} alt="Line 14" />
+                  <MarkingCriteriaList>
+                    {markingCriteriaList}
+                  </MarkingCriteriaList>
+                </Frame1302>
+              )}
+              {showShortcuts && (
+                <Frame1302>
+                  <Title1>
+                    <MarkingCriteria>Smart Annotations</MarkingCriteria>
 
-
-                <Buttons  text="Create New"  onClickMethod={createSmartAnnotationHandler}/>
-
-              </Title1>
-              <Line14 src={line14} alt="Line 14" />
-              <MarkingCriteriaList>
-              {smartAnnotationsFrame()}
-            </MarkingCriteriaList>
-            </Frame1302>
-            )}
-         </>
+                    <Buttons
+                      text="Create New"
+                      onClickMethod={createSmartAnnotationHandler}
+                    />
+                  </Title1>
+                  <Line14 src={line14} alt="Line 14" />
+                  <MarkingCriteriaList>
+                    {smartAnnotationsFrame()}
+                  </MarkingCriteriaList>
+                </Frame1302>
+              )}
+            </>
           </Frame13221>
         </Frame1378>
       </Frame1379>
-    <FooterSmall/>
+      <FooterSmall />
     </div>
   );
 }
@@ -105,17 +107,17 @@ const RedictIcon = styled.img`
   height: 16px;
 `;
 const UserSettingLinkContainer = styled.div`
-display: flex;
-height: 31px;
-align-items: center;
-gap: 8px;
-align-self: stretch;
-cursor: pointer;
+  display: flex;
+  height: 31px;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  cursor: pointer;
 `;
 
 const UserSettingLink = styled.div`
-${IbmplexsansNormalElectricViolet14px}
-font-size: 14px;
+  ${IbmplexsansNormalElectricViolet14px}
+  font-size: 14px;
 `;
 
 const ShortcutInputContainer = styled.div`
@@ -142,7 +144,6 @@ const ShortcutInput = styled.input`
   outline: none;
   transition: 0.15s;
 `;
-
 
 const MarkingCriteriaList = styled.div`
   display: flex;
@@ -288,7 +289,6 @@ const UserSettingFrame = styled.div`
   border-color: var(--electric-violet);
   box-shadow: 0px 4px 16px #7200e01a;
 `;
-
 
 const Title1 = styled.div`
   display: flex;

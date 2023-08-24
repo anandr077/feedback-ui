@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumRiverBed16px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumRiverBed16px } from '../../styledMixins';
 
 function TaskFrame1304() {
   return (

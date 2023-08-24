@@ -1,22 +1,22 @@
-import * as React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import styled from "styled-components";
+import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import styled from 'styled-components';
 
 export default function FocusAreaDialog({ handleData, colors }) {
   const [open, setOpen] = React.useState(true);
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [selectedColor, setSelectedColor] = React.useState("");
+  const [title, setTitle] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [selectedColor, setSelectedColor] = React.useState('');
   const [error, setError] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
     handleData(title, description, selectedColor);
-    setTitle("");
-    setDescription("");
-    setSelectedColor("");
+    setTitle('');
+    setDescription('');
+    setSelectedColor('');
     setError(false);
   };
 
@@ -73,7 +73,7 @@ export default function FocusAreaDialog({ handleData, colors }) {
                     <Ellipse141
                       onClick={(e) => handleColorChange(color)}
                       backgroundColor={color}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                     />
                   );
                 })}
@@ -94,13 +94,13 @@ export default function FocusAreaDialog({ handleData, colors }) {
     </>
   );
 }
-const GroupedInputs = styled("div")`
+const GroupedInputs = styled('div')`
   display: flex;
   flex-direction: column;
   gap: 10px;
   justify-content: center;
 `;
-const Input = styled("input")`
+const Input = styled('input')`
   border: 1px solid #1e252a;
   border-radius: 8px;
   padding: 9px 12px;
@@ -111,10 +111,10 @@ const Input = styled("input")`
   width: 257px;
   height: 42px;
   box-sizing: border-box;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
 `;
 
-const TextArea = styled("textarea")`
+const TextArea = styled('textarea')`
   padding: 9px 12px;
   width: 257px;
   height: 80px;
@@ -128,17 +128,17 @@ const TextArea = styled("textarea")`
   font-size: 16px;
   line-height: 24px;
   color: #1e252a;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
 `;
-const ParentColorBox = styled("div")`
+const ParentColorBox = styled('div')`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #979797;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
 `;
 
-const SelectColorBox = styled("div")`
+const SelectColorBox = styled('div')`
   box-sizing: border-box;
   border: 1px solid #1e252a;
   border-radius: 8px;
@@ -151,13 +151,13 @@ const SelectColorBox = styled("div")`
   flex-wrap: wrap;
 `;
 
-const ShowSelectedColor = styled("div")`
+const ShowSelectedColor = styled('div')`
   display: flex;
   gap: 6px;
   align-items: center;
 `;
 
-const Save = styled("div")`
+const Save = styled('div')`
   padding: 8px 16px;
   width: 257px;
   height: 37px;
@@ -169,7 +169,7 @@ const Save = styled("div")`
   font-size: 16px;
   line-height: 21px;
   color: #ffffff;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -178,13 +178,13 @@ const Save = styled("div")`
   cursor: pointer;
 `;
 
-const Ellipse141 = styled("div")`
+const Ellipse141 = styled('div')`
   width: 20px;
   height: 20px;
   background-color: ${(props) => props.backgroundColor};
   border-radius: 10px;
 `;
 
-const ErrorMessage = styled("span")`
+const ErrorMessage = styled('span')`
   color: red;
 `;

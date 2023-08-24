@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumBlack16px } from "../../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumBlack16px } from '../../../styledMixins';
 
 function ReviewsFrame132522() {
   return (

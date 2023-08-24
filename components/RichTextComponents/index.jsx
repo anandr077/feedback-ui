@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function RichTextComponents(props) {
   const { src, className } = props;
 
   return (
     <RichTextComponents1
-      className={`rich-text-components-2 ${className || ""}`}
+      className={`rich-text-components-2 ${className || ''}`}
     >
       <DragIcon className="drag-icon" src={src} alt="Drag-icon" />
     </RichTextComponents1>

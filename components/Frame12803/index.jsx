@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalElectricViolet14px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalElectricViolet14px } from '../../styledMixins';
 
 function Frame12803(props) {
   const { className } = props;
 
   return (
-    <Frame1280 className={`frame-1280-5 ${className || ""}`}>
+    <Frame1280 className={`frame-1280-5 ${className || ''}`}>
       <Edit className="edit-2">Edit</Edit>
       <Edit className="duplicate-2">Duplicate</Edit>
       <Edit className="delete-2">Delete</Edit>

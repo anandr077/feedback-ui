@@ -1,6 +1,6 @@
-import React from "react";
-import BulletList from "../BulletList";
-import styled from "styled-components";
+import React from 'react';
+import BulletList from '../BulletList';
+import styled from 'styled-components';
 
 function RichTextComponents3(props) {
   const { bulletListProps } = props;

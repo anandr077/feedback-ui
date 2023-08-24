@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansMediumTrendyPink14px,
   IbmplexsansMediumShark36px,
-} from "../styledMixins";
+} from '../styledMixins';
 
 function Frame12842(props) {
   const { title, count } = props;

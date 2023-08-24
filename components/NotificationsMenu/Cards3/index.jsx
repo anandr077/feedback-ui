@@ -1,7 +1,7 @@
-import React from "react";
-import Buttons from "../Buttons";
-import styled from "styled-components";
-import { IbmplexsansNormalWhite16px } from "../styledMixins";
+import React from 'react';
+import Buttons from '../Buttons';
+import styled from 'styled-components';
+import { IbmplexsansNormalWhite16px } from '../styledMixins';
 
 function Cards3() {
   return (
@@ -9,7 +9,7 @@ function Cards3() {
       <Content>
         <YouHaveReceivedA>
           <span className="ibmplexsans-normal-shark-16px">
-            You have received a new theory assignment on{" "}
+            You have received a new theory assignment on{' '}
           </span>
           <span className="ibmplexsans-normal-electric-violet-16px">
             fundamentals of thermal physics

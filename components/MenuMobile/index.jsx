@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function MenuMobile() {
   return (
@@ -51,7 +51,7 @@ function NavElement2(props) {
   const { tasksquare, home, className } = props;
 
   return (
-    <article className={`nav-element-1-1 ${className || ""}`}>
+    <article className={`nav-element-1-1 ${className || ''}`}>
       <div className="group-1-1">
         <img className="tasksquare" src={tasksquare} alt="tasksquare" />
         <div className="homeibmplexsans-normal-persian-indigo-20px">{home}</div>
@@ -64,7 +64,7 @@ function NavElement3(props) {
   const { home, className } = props;
 
   return (
-    <article className={`nav-element-2-1 ${className || ""}`}>
+    <article className={`nav-element-2-1 ${className || ''}`}>
       <div className="group-1-2">
         <div className="home-1ibmplexsans-normal-persian-indigo-20px">
           {home}

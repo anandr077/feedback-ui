@@ -1,91 +1,111 @@
-import { default as React, default as React, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
 import {
-  IbmplexsansBoldShark36px, IbmplexsansSemiBoldRiverBed24px
-} from "../../styledMixins";
-import { taskHeaderProps } from "../../utils/headerProps.js";
-import CheckboxGroup from "../CheckboxGroup";
-import FooterSmall from "../FooterSmall";
-import HeaderSmall from "../HeaderSmall";
-import Tabs from "../Tabs";
-import TaskCardContainer from "../TaskCardContainer";
-import "./TasksStudentMobile.css";
+  default as React,
+  default as React,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import styled from 'styled-components';
+import {
+  IbmplexsansBoldShark36px,
+  IbmplexsansSemiBoldRiverBed24px,
+} from '../../styledMixins';
+import { taskHeaderProps } from '../../utils/headerProps.js';
+import CheckboxGroup from '../CheckboxGroup';
+import FooterSmall from '../FooterSmall';
+import HeaderSmall from '../HeaderSmall';
+import Tabs from '../Tabs';
+import TaskCardContainer from '../TaskCardContainer';
+import './TasksStudentMobile.css';
 
 function TasksStudentMobile(props) {
-const {menuItems, filterTasks,
-  assignmedTasks,
-  inProgressTasks,
-  inReviewTasks
-} =
-    props;
-    const prevProps = useRef(props);
-    const [isAssigned, setIsAssigned] = useState(true);
-    const [isInProgress, setIsInProgress] = useState(false);
-    const [isInReview, setIsInReview] = useState(false);
-    const [task, setTask] = useState(assignmedTasks);
-    const [title,setTittle] = useState("Assigned");
+  const {
+    menuItems,
+    filterTasks,
+    assignmedTasks,
+    inProgressTasks,
+    inReviewTasks,
+  } = props;
+  const prevProps = useRef(props);
+  const [isAssigned, setIsAssigned] = useState(true);
+  const [isInProgress, setIsInProgress] = useState(false);
+  const [isInReview, setIsInReview] = useState(false);
+  const [task, setTask] = useState(assignmedTasks);
+  const [title, setTittle] = useState('Assigned');
 
-const [taskFrame,setTasksFrame] = useState(createTasksFrame("Assigned",assignmedTasks, true, false, false));
-    useEffect(() => {
-       setTasksFrame (createTasksFrame(title,task, isAssigned, isInProgress, isInReview))
-      if (prevProps.current !== props) {
-        isAssigned && setTask(assignmedTasks);
-        isInProgress && setTask(inProgressTasks);
-        isInReview && setTask(inReviewTasks);
-      }
-      prevProps.current = props;
-    }, [ title, task, isAssigned, isInProgress, isInReview, menuItems]);
-
-    return (
-      <div className="tasks-student-mobile screen">
-        <HeaderSmall headerProps={taskHeaderProps} />
-        <Frame1365>
-          <Frame1307>
-            <PageTitle>Tasks</PageTitle>
-            <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>
-          </Frame1307>
-          {taskFrame}
-        </Frame1365>
-        <FooterSmall />
-      </div>
+  const [taskFrame, setTasksFrame] = useState(
+    createTasksFrame('Assigned', assignmedTasks, true, false, false)
+  );
+  useEffect(() => {
+    setTasksFrame(
+      createTasksFrame(title, task, isAssigned, isInProgress, isInReview)
     );
-  
+    if (prevProps.current !== props) {
+      isAssigned && setTask(assignmedTasks);
+      isInProgress && setTask(inProgressTasks);
+      isInReview && setTask(inReviewTasks);
+    }
+    prevProps.current = props;
+  }, [title, task, isAssigned, isInProgress, isInReview, menuItems]);
 
-  function createTasksFrame(title, tasks , isOutstanding, isInProgress, isOverdue) {
+  return (
+    <div className="tasks-student-mobile screen">
+      <HeaderSmall headerProps={taskHeaderProps} />
+      <Frame1365>
+        <Frame1307>
+          <PageTitle>Tasks</PageTitle>
+          <CheckboxGroup
+            onChange={filterTasks}
+            data={menuItems}
+          ></CheckboxGroup>
+        </Frame1307>
+        {taskFrame}
+      </Frame1365>
+      <FooterSmall />
+    </div>
+  );
+
+  function createTasksFrame(
+    title,
+    tasks,
+    isOutstanding,
+    isInProgress,
+    isOverdue
+  ) {
     return (
       <>
         <Frame1364>
           <Frame1211>
             <Tabs
-              text={"Assigned"}
+              text={'Assigned'}
               isSelected={isOutstanding}
               onClickFn={() => {
                 setIsAssigned(true);
                 setIsInProgress(false);
                 setIsInReview(false);
-                setTittle("Assigned");
+                setTittle('Assigned');
                 setTask(assignmedTasks);
               }}
             />
             <Tabs
-              text={"In Draft"}
+              text={'In Draft'}
               isSelected={isInProgress}
               onClickFn={() => {
                 setIsAssigned(false);
                 setIsInProgress(true);
                 setIsInReview(false);
-                setTittle("In Draft");
+                setTittle('In Draft');
                 setTask(inProgressTasks);
               }}
             />
             <Tabs
-              text={"In Review"}
+              text={'In Review'}
               isSelected={isOverdue}
               onClickFn={() => {
                 setIsAssigned(false);
                 setIsInProgress(false);
                 setIsInReview(true);
-                setTittle("In Review");
+                setTittle('In Review');
                 setTask(inReviewTasks);
               }}
             />
@@ -101,7 +121,6 @@ const [taskFrame,setTasksFrame] = useState(createTasksFrame("Assigned",assignmed
       </>
     );
   }
-
 }
 
 const Frame1365 = styled.div`
@@ -193,4 +212,3 @@ const Frame6 = styled.div`
 `;
 
 export default TasksStudentMobile;
-

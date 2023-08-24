@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../styledMixins";
-import FooterLinks from "../FooterLinks";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalChicago13px } from '../../styledMixins';
+import FooterLinks from '../FooterLinks';
 
 export default function Footer() {
   return (

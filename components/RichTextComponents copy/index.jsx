@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function RichTextComponents(props) {
   const { src, className } = props;
 
   return (
-    <RichTextComponents1 className={`rich-text-components ${className || ""}`}>
+    <RichTextComponents1 className={`rich-text-components ${className || ''}`}>
       <Undo className="undo" src={src} alt="undo" />
     </RichTextComponents1>
   );

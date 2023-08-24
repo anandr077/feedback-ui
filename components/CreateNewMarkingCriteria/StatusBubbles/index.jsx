@@ -1,24 +1,25 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumWhite16px } from '../../../styledMixins';
 
 function StatusBubbles(props) {
-  const { className , deleteBubble, deleteCriteriaUpdate } = props;
-
+  const { className, deleteBubble, deleteCriteriaUpdate } = props;
 
   return (
     <>
-    {deleteBubble ?(
-      <StatusBubbles2 className={`status-bubbles ${className || ""}`} onClick={deleteCriteriaUpdate}>
-      <CloseIcon src="/icons/closecircle.svg" alt="deleteIcon" />
-      <Criteria className="criteria">Remove</Criteria>
-    </StatusBubbles2>
-    ):(
-    <StatusBubbles1 className={`status-bubbles ${className || ""}`}>
-      <Criteria className="criteria">Criteria</Criteria>
-    </StatusBubbles1>)
-    }
+      {deleteBubble ? (
+        <StatusBubbles2
+          className={`status-bubbles ${className || ''}`}
+          onClick={deleteCriteriaUpdate}
+        >
+          <CloseIcon src="/icons/closecircle.svg" alt="deleteIcon" />
+          <Criteria className="criteria">Remove</Criteria>
+        </StatusBubbles2>
+      ) : (
+        <StatusBubbles1 className={`status-bubbles ${className || ''}`}>
+          <Criteria className="criteria">Criteria</Criteria>
+        </StatusBubbles1>
+      )}
     </>
   );
 }
@@ -31,8 +32,8 @@ const StatusBubbles1 = styled.div`
   padding: 3px 8px;
   position: relative;
   border-radius: 0px 0px 11.5px 11.5px;
-  border: 1px solid #E3CCF9;
-  background: var(--light-mode-purple, #7200E0);
+  border: 1px solid #e3ccf9;
+  background: var(--light-mode-purple, #7200e0);
 
   &.status-bubbles.status-bubbles-1 {
     border-color: var(--perfume);
@@ -60,10 +61,10 @@ const StatusBubbles2 = styled.div`
   position: relative;
   background-color: var(--light-mode-purple);
   border-radius: 0px 0px 11.5px 11.5px;
-  border: 1px solid #E3CCF9;
-  background: #CC2929;
+  border: 1px solid #e3ccf9;
+  background: #cc2929;
   cursor: pointer;
-  
+
   &.status-bubbles.status-bubbles-1 {
     border-color: var(--perfume);
   }

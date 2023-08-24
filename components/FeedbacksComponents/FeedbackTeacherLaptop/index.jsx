@@ -1,10 +1,10 @@
 import Switch from '@mui/material/Switch';
-import { sortBy, some, without, union, uniqBy  } from "lodash";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import { default as React, default as React, useState } from "react";
-import styled from "styled-components";
+import { sortBy, some, without, union, uniqBy } from 'lodash';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import { default as React, default as React, useState } from 'react';
+import styled from 'styled-components';
 import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
@@ -13,32 +13,32 @@ import {
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
   feedbacksIbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack16px
-} from "../../../styledMixins";
-import CheckboxList from "../../CheckboxList";
-import Header from "../../Header";
-import QuillEditor from "../../QuillEditor";
+  IbmplexsansNormalBlack16px,
+} from '../../../styledMixins';
+import CheckboxList from '../../CheckboxList';
+import Header from '../../Header';
+import QuillEditor from '../../QuillEditor';
 
-import { getUserId, getUserRole } from "../../../service";
-import FocussedInput from "../../FocussedInput";
-import Footer from "../../Footer";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
-import Loader from "../../Loader";
-import MarkingCriteriaFeedback from "../../MarkingCriteriaFeedback";
-import MarkingCriteriaFeedbackReadOnly from "../../MarkingCriteriaFeedbackReadOnly";
-import { isTabletView } from "../../ReactiveRender";
-import StatusLabel from "../../StatusLabel";
-import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
-import Buttons2 from "../Buttons2";
-import Buttons4 from "../Buttons4";
-import CommentCard32 from "../CommentCard32";
-import FocusAreasFrame from "../FocusAreasFrame";
-import Tabs from "../ReviewsFrame1320";
-import ShortcutsFrame from "../ShortcutsFrame";
-import "./FeedbackTeacherLaptop.css";
+import { getUserId, getUserRole } from '../../../service';
+import FocussedInput from '../../FocussedInput';
+import Footer from '../../Footer';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
+import Loader from '../../Loader';
+import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
+import MarkingCriteriaFeedbackReadOnly from '../../MarkingCriteriaFeedbackReadOnly';
+import { isTabletView } from '../../ReactiveRender';
+import StatusLabel from '../../StatusLabel';
+import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
+import Breadcrumb from '../Breadcrumb';
+import Breadcrumb2 from '../Breadcrumb2';
+import Buttons2 from '../Buttons2';
+import Buttons4 from '../Buttons4';
+import CommentCard32 from '../CommentCard32';
+import FocusAreasFrame from '../FocusAreasFrame';
+import Tabs from '../ReviewsFrame1320';
+import ShortcutsFrame from '../ShortcutsFrame';
+import './FeedbackTeacherLaptop.css';
 import CheckboxGroup from '../../CheckboxGroup';
 import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
@@ -66,33 +66,44 @@ function FeedbackTeacherLaptop(props) {
     sharewithclassdialog,
   } = props;
 
-
   const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
-    <SmartAnotation key={index} smartAnnotation={smartAnnotation} onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion} />
+    <SmartAnotation
+      key={index}
+      smartAnnotation={smartAnnotation}
+      onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+    />
   ));
 
   const focusAreasCount = submission.assignment.questions
-  .flatMap(question => question.focusAreas)
-  .filter(focusArea => focusArea !== undefined) 
-  .length; 
+    .flatMap((question) => question.focusAreas)
+    .filter((focusArea) => focusArea !== undefined).length;
 
-
-  const [isFeedback, setFeedback] = React.useState(pageMode !== "DRAFT");
-  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === "DRAFT");
+  const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
+  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() => {
-    const flattenedQuestions = flatMap(submission.assignment.questions, 
-      question => question.focusAreaIds?.map(focusAreaId => ({ serialNumber: question.serialNumber, focusAreaId }))
+    const flattenedQuestions = flatMap(
+      submission.assignment.questions,
+      (question) =>
+        question.focusAreaIds?.map((focusAreaId) => ({
+          serialNumber: question.serialNumber,
+          focusAreaId,
+        }))
     );
-  
+
     const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
-    return Object.keys(groupedBySerialNumber).reduce((grouped, serialNumber) => {
-      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(item => item?.focusAreaId);
-      return grouped;
-    }, {});
+    return Object.keys(groupedBySerialNumber).reduce(
+      (grouped, serialNumber) => {
+        grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(
+          (item) => item?.focusAreaId
+        );
+        return grouped;
+      },
+      {}
+    );
   });
-  
+
   React.useEffect(() => {
-    if(showNewComment) {
+    if (showNewComment) {
       handleTabChange();
     }
   }, [showNewComment]);
@@ -102,10 +113,17 @@ function FeedbackTeacherLaptop(props) {
     setShowResolved(event.target.checked);
   };
 
-  const commentsForSelectedTab = selectTabComments(pageMode, isFeedback, isShowResolved, isFocusAreas, comments, groupedFocusAreaIds)
-  
+  const commentsForSelectedTab = selectTabComments(
+    pageMode,
+    isFeedback,
+    isShowResolved,
+    isFocusAreas,
+    comments,
+    groupedFocusAreaIds
+  );
+
   const modules = {
-    toolbar: pageMode === "DRAFT" || pageMode === "REVISE",
+    toolbar: pageMode === 'DRAFT' || pageMode === 'REVISE',
     history: {
       delay: 1000,
       maxStack: 100,
@@ -113,21 +131,21 @@ function FeedbackTeacherLaptop(props) {
     },
   };
   const reviewerDefaultComment = {
-    reviewerName: "Jeddle",
-    comment: "Please select text to share feedback",
+    reviewerName: 'Jeddle',
+    comment: 'Please select text to share feedback',
   };
 
   const authorDefaultReviewComment = {
-    reviewerName: "Jeddle",
-    comment: "Feedback will appear here",
+    reviewerName: 'Jeddle',
+    comment: 'Feedback will appear here',
   };
   const reviewerDefaultFocusAreasComment = {
-    reviewerName: "Jeddle",
-    comment: "Focus areas will appear here",
+    reviewerName: 'Jeddle',
+    comment: 'Focus areas will appear here',
   };
   const authorDefaultFocusAreasReviewComment = {
-    reviewerName: "Jeddle",
-    comment: "Please select text to highlight focus areas",
+    reviewerName: 'Jeddle',
+    comment: 'Please select text to highlight focus areas',
   };
   const feedbackFrame = () => {
     return (
@@ -140,52 +158,55 @@ function FeedbackTeacherLaptop(props) {
             isFocusAreas={isFocusAreas}
             isTeacher={isTeacher}
             comments={comments}
-            showFeedbacks = {pageMode !== "DRAFT"}
-          > 
-          </Tabs>
-         
+            showFeedbacks={pageMode !== 'DRAFT'}
+          ></Tabs>
         </Frame1322>
         <Line6 src="/icons/line.png" alt="Line 6" />
         <>
-        {showNewComment ? (
-          <>
-            <Screen onClick={methods.hideNewCommentDiv}></Screen>
-            {newCommentFrame()}
-          </>
-        ) : (
-          <Frame1328>
+          {showNewComment ? (
             <>
-              {showResolvedToggle(isFeedback, isShowResolved, handleShowResolvedToggle)}
-              {createCommentsFrame()}
+              <Screen onClick={methods.hideNewCommentDiv}></Screen>
+              {newCommentFrame()}
             </>
-          </Frame1328>
-        )}
-
+          ) : (
+            <Frame1328>
+              <>
+                {showResolvedToggle(
+                  isFeedback,
+                  isShowResolved,
+                  handleShowResolvedToggle
+                )}
+                {createCommentsFrame()}
+              </>
+            </Frame1328>
+          )}
         </>
       </Frame1331>
     );
   };
 
   const submitButton = () => {
-    if (pageMode === "DRAFT") {
+    if (pageMode === 'DRAFT') {
       return (
         <Buttons2
           button="Submit"
-          onClickFn={() => methods.showSubmitPopuphandler("SubmitForReview")}
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
         ></Buttons2>
       );
     }
-    if (pageMode === "REVIEW") {
+    if (pageMode === 'REVIEW') {
       if (isTeacher) {
         return (
           <ButtonsContainer>
             <Buttons2
               button="Request resubmission"
-              onClickFn={() => methods.showSubmitPopuphandler("RequestResubmission")}
+              onClickFn={() =>
+                methods.showSubmitPopuphandler('RequestResubmission')
+              }
             ></Buttons2>
             <Buttons2
               button="Submit"
-              onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
+              onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
             ></Buttons2>
           </ButtonsContainer>
         );
@@ -194,19 +215,21 @@ function FeedbackTeacherLaptop(props) {
           <ButtonsContainer>
             <Buttons2
               button="Submit"
-              onClickFn={() => methods.showSubmitPopuphandler("SubmitReview")}
+              onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
             ></Buttons2>
           </ButtonsContainer>
         );
       }
     }
-    if (pageMode === "REVISE") {
-      if (submission.status === "RESUBMISSION_REQUESTED") {
+    if (pageMode === 'REVISE') {
+      if (submission.status === 'RESUBMISSION_REQUESTED') {
         return (
           <>
             <Buttons2
               button="Submit"
-              onClickFn={() => methods.showSubmitPopuphandler("SubmitForReview")}
+              onClickFn={() =>
+                methods.showSubmitPopuphandler('SubmitForReview')
+              }
             ></Buttons2>
           </>
         );
@@ -215,61 +238,60 @@ function FeedbackTeacherLaptop(props) {
         <>
           <Buttons2
             button="Mark as complete"
-            onClickFn={() => methods.showSubmitPopuphandler("CloseSubmission")}
+            onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
           ></Buttons2>
         </>
       );
     }
     return <></>;
   };
-  
 
-  const handleCheckboxChange = (serialNumber, focusAreaId) => event => {
+  const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
 
-    console.log("isChecked", isChecked)
-    setGroupedFocusAreaIds(prevState => {
+    console.log('isChecked', isChecked);
+    setGroupedFocusAreaIds((prevState) => {
       if (isChecked) {
         return {
           ...prevState,
-          [serialNumber]: [...prevState[serialNumber], focusAreaId]
+          [serialNumber]: [...prevState[serialNumber], focusAreaId],
         };
       } else {
         const a = {
           ...prevState,
-          [serialNumber]: prevState[serialNumber].filter(id => id !== focusAreaId)
-        }
-        console.log("anew", a)
+          [serialNumber]: prevState[serialNumber].filter(
+            (id) => id !== focusAreaId
+          ),
+        };
+        console.log('anew', a);
         return a;
       }
     });
   };
-    
 
-  
   const isChecked = (serialNumber, focusAreaId) => {
-    return !!groupedFocusAreaIds[serialNumber] && groupedFocusAreaIds[serialNumber].includes(focusAreaId);
+    return (
+      !!groupedFocusAreaIds[serialNumber] &&
+      groupedFocusAreaIds[serialNumber].includes(focusAreaId)
+    );
   };
 
   const createFocusAreasLabel = (serialNumber, focusAreas) => {
-    if (focusAreas === null)
-      return <></>
-    if (focusAreas === undefined)
-      return <></>
+    if (focusAreas === null) return <></>;
+    if (focusAreas === undefined) return <></>;
     if (focusAreas.length <= 0) {
-      return <></>
+      return <></>;
     }
     const label = <Label>Focus areas : </Label>;
-    
-    
+
     const all = focusAreas?.map((fa) => {
       return (
         <FocusAreasLabelContainer>
-          <CheckboxBordered 
+          <CheckboxBordered
             checked={isChecked(serialNumber, fa.id)}
             onChange={handleCheckboxChange(serialNumber, fa.id)}
           />
-          
+
           <Ellipse141 backgroundColor={fa.color}></Ellipse141>
           <Label>{fa.title}</Label>
         </FocusAreasLabelContainer>
@@ -287,14 +309,14 @@ function FeedbackTeacherLaptop(props) {
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
-      answer: "",
+      answer: '',
     };
 
     const answer =
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
-    const questionText = "Q" + question.serialNumber + ". " + question.question;
+    const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
     const debounce = methods.createDebounceFunction(answer);
 
@@ -302,7 +324,7 @@ function FeedbackTeacherLaptop(props) {
       <>
         <Frame1366>
           <QuestionText>{questionText}</QuestionText>
-          {question.type === "MCQ" ? (
+          {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}
               question={question}
@@ -312,23 +334,30 @@ function FeedbackTeacherLaptop(props) {
           ) : (
             <QuillContainer
               onClick={() => {
-                methods.onSelectionChange(createVisibleComments(), answer.serialNumber)(
-                  quillRefs.current[answer.serialNumber - 1].getSelection()
-                );
+                methods.onSelectionChange(
+                  createVisibleComments(),
+                  answer.serialNumber
+                )(quillRefs.current[answer.serialNumber - 1].getSelection());
               }}
-              id={"quillContainer_" + submission.id + "_" + answer.serialNumber}
+              id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
             >
-              {createQuill("quillContainer_" + submission.id + "_" + answer.serialNumber, submission, answer, answerValue, debounce)}
+              {createQuill(
+                'quillContainer_' + submission.id + '_' + answer.serialNumber,
+                submission,
+                answer,
+                answerValue,
+                debounce
+              )}
             </QuillContainer>
           )}
           {createFocusAreasLabel(question.serialNumber, question.focusAreas)}
-          {submission.status === "SUBMITTED" &&
+          {submission.status === 'SUBMITTED' &&
             submission.assignment.questions[answer.serialNumber - 1]
               .markingCriteria?.title &&
             submission.assignment.questions[answer.serialNumber - 1]
-              .markingCriteria?.title != "No Marking Criteria" &&
+              .markingCriteria?.title != 'No Marking Criteria' &&
             submission.assignment.questions[answer.serialNumber - 1].type !=
-              "MCQ" &&
+              'MCQ' &&
             submission.reviewerId === getUserId() && (
               <MarkingCriteriaFeedback
                 markingCriteria={
@@ -342,13 +371,14 @@ function FeedbackTeacherLaptop(props) {
                 }
               />
             )}
-          {(submission.status === "REVIEWED" || submission.status=== "CLOSED" ||
-          submission.status === "RESUBMISSION_REQUESTED") &&
+          {(submission.status === 'REVIEWED' ||
+            submission.status === 'CLOSED' ||
+            submission.status === 'RESUBMISSION_REQUESTED') &&
             markingCriteriaFeedback?.length > 0 &&
             submission.assignment.questions[answer.serialNumber - 1]
-              .markingCriteria?.title != "No Marking Criteria" &&
+              .markingCriteria?.title != 'No Marking Criteria' &&
             submission.assignment.questions[answer.serialNumber - 1].type !=
-              "MCQ" && (
+              'MCQ' && (
               <MarkingCriteriaFeedbackReadOnly
                 allmarkingCriteriaFeedback={markingCriteriaFeedback}
                 small={smallMarkingCriteria}
@@ -367,7 +397,7 @@ function FeedbackTeacherLaptop(props) {
     return <></>;
   };
   const shareWithClassFrame = () => {
-    if (getUserRole() === "STUDENT") return <></>;
+    if (getUserRole() === 'STUDENT') return <></>;
     return (
       <>
         <Line6 src="/icons/line.png" alt="Line 6" />
@@ -377,7 +407,7 @@ function FeedbackTeacherLaptop(props) {
             <Share>{share}</Share>
           </Frame13311>
           <Buttons4
-            text={"Share with class"}
+            text={'Share with class'}
             onClickFn={methods.handleShareWithClass}
           />
         </Frame1383>
@@ -386,125 +416,125 @@ function FeedbackTeacherLaptop(props) {
     );
   };
   const handleTabChange = () => {
-    console.log("handleStateChange")
-    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+    console.log('handleStateChange');
+    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
       setFeedback(false);
       setFocusAreas(true);
     } else {
       setFeedback(true);
       setFocusAreas(false);
     }
-  }
+  };
   const newCommentFrame = () => {
-    console.log("newCommentFrame")
-    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+    console.log('newCommentFrame');
+    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
       return selectFocusArea();
-    } 
+    }
     return reviewerNewComment();
   };
-  
-
 
   function createDefaultCommentText() {
-    if (isFocusAreas ) {
-      if (pageMode === "DRAFT" || pageMode === "REVISE") {
-        return authorDefaultFocusAreasReviewComment
+    if (isFocusAreas) {
+      if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+        return authorDefaultFocusAreasReviewComment;
       }
-      return reviewerDefaultFocusAreasComment
+      return reviewerDefaultFocusAreasComment;
     }
-    if (pageMode === "DRAFT" || pageMode === "REVISE") {
-      return authorDefaultReviewComment
+    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+      return authorDefaultReviewComment;
     }
-    return reviewerDefaultComment
+    return reviewerDefaultComment;
   }
 
   function createCommentsFrame() {
-    const visibleComments =  createVisibleComments()
+    const visibleComments = createVisibleComments();
     if (visibleComments.length === 0) {
-      return <CommentCard32
-                    reviewer="Jeddle"
-                    comment={createDefaultCommentText()}
-                    onClick={() => {}}
-                    isTeacher={isTeacher}
-                    defaultComment={true}
-                  />
-    }
-    return sortBy(visibleComments, [
-      "questionSerialNumber",
-      "range.from",
-    ]).map((comment) => {
-      console.log("Comment ", comment);
-      if (comment.type === "FOCUS_AREA") {
-        return <CommentCard32
-        reviewer={comment.reviewerName}
-        comment={comment}
-        onClick={(c) => methods.handleCommentSelected(c)}
-        onClose={() => {
-          methods.handleDeleteComment(comment.id);
-        } }
-        handleEditingComment={methods.handleEditingComment}
-        deleteReplyComment={methods.handleDeleteReplyComment}
-        onResolved={methods.handleResolvedComment}
-        handleReplyComment={methods.handleReplyComment}
-        isResolved={comment.status}
-        showResolveButton={false}
-        isTeacher={isTeacher}
-        updateParentComment={methods.updateParentComment}
-        updateChildComment={methods.updateChildComment}
-        pageMode={pageMode} />;
-      }
-      return isFeedback && comment.status !== "RESOLVED" ? (
+      return (
         <CommentCard32
-          reviewer={comment.reviewerName}
-          comment={comment}
-          onClick={(c) => methods.handleCommentSelected(c)}
-          onClose={() => {
-            methods.handleDeleteComment(comment.id);
-          } }
-          handleEditingComment={methods.handleEditingComment}
-          deleteReplyComment={methods.handleDeleteReplyComment}
-          onResolved={methods.handleResolvedComment}
-          handleReplyComment={methods.handleReplyComment}
-          isResolved={comment.status}
-          showResolveButton={pageMode === "REVISE"}
+          reviewer="Jeddle"
+          comment={createDefaultCommentText()}
+          onClick={() => {}}
           isTeacher={isTeacher}
-          updateParentComment={methods.updateParentComment}
-          updateChildComment={methods.updateChildComment}
-          pageMode={pageMode} />
-      ) : comment.status === "RESOLVED" ? (
-        <CommentCard32
-          reviewer={comment.reviewerName}
-          comment={comment}
-          onClick={(c) => methods.handleCommentSelected(c)}
-          onClose={() => {
-            methods.handleDeleteComment(comment.id);
-          } }
-          handleEditingComment={methods.handleEditingComment}
-          deleteReplyComment={methods.handleDeleteReplyComment}
-          onResolved={methods.handleResolvedComment}
-          handleReplyComment={methods.handleReplyComment}
-          isResolved={comment.status}
-          showResolveButton={false}
-          isTeacher={isTeacher}
-          updateParentComment={methods.updateParentComment}
-          updateChildComment={methods.updateChildComment}
-          pageMode={pageMode} />
-
-      ) : (
-        <></>
+          defaultComment={true}
+        />
       );
-    });
+    }
+    return sortBy(visibleComments, ['questionSerialNumber', 'range.from']).map(
+      (comment) => {
+        console.log('Comment ', comment);
+        if (comment.type === 'FOCUS_AREA') {
+          return (
+            <CommentCard32
+              reviewer={comment.reviewerName}
+              comment={comment}
+              onClick={(c) => methods.handleCommentSelected(c)}
+              onClose={() => {
+                methods.handleDeleteComment(comment.id);
+              }}
+              handleEditingComment={methods.handleEditingComment}
+              deleteReplyComment={methods.handleDeleteReplyComment}
+              onResolved={methods.handleResolvedComment}
+              handleReplyComment={methods.handleReplyComment}
+              isResolved={comment.status}
+              showResolveButton={false}
+              isTeacher={isTeacher}
+              updateParentComment={methods.updateParentComment}
+              updateChildComment={methods.updateChildComment}
+              pageMode={pageMode}
+            />
+          );
+        }
+        return isFeedback && comment.status !== 'RESOLVED' ? (
+          <CommentCard32
+            reviewer={comment.reviewerName}
+            comment={comment}
+            onClick={(c) => methods.handleCommentSelected(c)}
+            onClose={() => {
+              methods.handleDeleteComment(comment.id);
+            }}
+            handleEditingComment={methods.handleEditingComment}
+            deleteReplyComment={methods.handleDeleteReplyComment}
+            onResolved={methods.handleResolvedComment}
+            handleReplyComment={methods.handleReplyComment}
+            isResolved={comment.status}
+            showResolveButton={pageMode === 'REVISE'}
+            isTeacher={isTeacher}
+            updateParentComment={methods.updateParentComment}
+            updateChildComment={methods.updateChildComment}
+            pageMode={pageMode}
+          />
+        ) : comment.status === 'RESOLVED' ? (
+          <CommentCard32
+            reviewer={comment.reviewerName}
+            comment={comment}
+            onClick={(c) => methods.handleCommentSelected(c)}
+            onClose={() => {
+              methods.handleDeleteComment(comment.id);
+            }}
+            handleEditingComment={methods.handleEditingComment}
+            deleteReplyComment={methods.handleDeleteReplyComment}
+            onResolved={methods.handleResolvedComment}
+            handleReplyComment={methods.handleReplyComment}
+            isResolved={comment.status}
+            showResolveButton={false}
+            isTeacher={isTeacher}
+            updateParentComment={methods.updateParentComment}
+            updateChildComment={methods.updateChildComment}
+            pageMode={pageMode}
+          />
+        ) : (
+          <></>
+        );
+      }
+    );
   }
 
-
-
   function createVisibleComments() {
-    return commentsForSelectedTab.filter(comment => !comment.isHidden);
+    return commentsForSelectedTab.filter((comment) => !comment.isHidden);
   }
 
   function reviewerNewComment() {
-    if (pageMode === "CLOSED")
-      return <></>
+    if (pageMode === 'CLOSED') return <></>;
     return (
       <>
         <Frame1329>
@@ -523,7 +553,7 @@ function FeedbackTeacherLaptop(props) {
               submitButtonOnClick={methods.handleAddComment}
               cancelButtonOnClick={methods.hideNewCommentDiv}
             />
-            
+
             {shortcutList}
             {shareWithClassFrame()}
           </Frame1406>
@@ -533,38 +563,43 @@ function FeedbackTeacherLaptop(props) {
   }
 
   function selectFocusArea() {
-    console.log("q", submission.assignment.questions)
-    const allFocusAreas = flatMap(submission.assignment.questions, 
-      question => question.focusAreas ? question.focusAreas : []
+    console.log('q', submission.assignment.questions);
+    const allFocusAreas = flatMap(submission.assignment.questions, (question) =>
+      question.focusAreas ? question.focusAreas : []
     );
-    
-    console.log("allFocusAreas", allFocusAreas)
 
-    const focusAreas = uniqBy(allFocusAreas?.filter((fa) => {
-      console.log("id", fa.id)
-      return submission.assignment.questions[
-        newCommentSerialNumber - 1
-      ]?.focusAreaIds?.includes(fa.id);
-    }), 'id');
-    const focusAreasFrame = <>
-    <Frame1329>
-      <Frame1406>
-        <FocusAreasFrame
-          focusAreas={focusAreas}
-          handleAddFocusArea={methods.handleFocusAreaComment}
-        />
-      </Frame1406>
-    </Frame1329>
-  </>
+    console.log('allFocusAreas', allFocusAreas);
 
-    return (focusAreasFrame);
+    const focusAreas = uniqBy(
+      allFocusAreas?.filter((fa) => {
+        console.log('id', fa.id);
+        return submission.assignment.questions[
+          newCommentSerialNumber - 1
+        ]?.focusAreaIds?.includes(fa.id);
+      }),
+      'id'
+    );
+    const focusAreasFrame = (
+      <>
+        <Frame1329>
+          <Frame1406>
+            <FocusAreasFrame
+              focusAreas={focusAreas}
+              handleAddFocusArea={methods.handleFocusAreaComment}
+            />
+          </Frame1406>
+        </Frame1329>
+      </>
+    );
+
+    return focusAreasFrame;
   }
   const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <>
       {showLoader && (
         <Screen2>
-          {" "}
+          {' '}
           <Loader />
         </Screen2>
       )}
@@ -578,7 +613,7 @@ function FeedbackTeacherLaptop(props) {
           )}
           <Frame1387>
             <Frame1315>
-              <Breadcrumb text={"Tasks"} link={"/#/tasks"} />
+              <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
               {/* <Breadcrumb2 assignments="Feedback"/> */}
               <Breadcrumb2 assignments={submission.assignment.title} />
             </Frame1315>
@@ -588,47 +623,41 @@ function FeedbackTeacherLaptop(props) {
               <TitleWrapper>
                 <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
                 <StatusText>
-                  <div>{methods.submissionStatusLabel()}</div> 
-                 { focusAreasCount > 0 && 
-                 <div className="focus-area">
-                    <div className="image">
-                      {submission.assignment?.focusAreas &&
-                      submission.assignment.focusAreas.length >= 1 && 
-                      focusAreasCount > 0
-                       ? (
-                        <Ellipse141
-                          backgroundColor={
-                            submission.assignment?.focusAreas[0].color
-                          }
-                        />
-                      ) : (
-                        <></>
-                      )}
-                      {submission.assignment?.focusAreas &&
-                      submission.assignment.focusAreas.length >= 2 
-                      ? (
-                        <Ellipse141
-                          backgroundColor={
-                            submission.assignment?.focusAreas[1].color
-                          }
-                          style={{ marginLeft: "-8px" }}
-                        />
-                      ) : (
-                        <></>
-                      )}
+                  <div>{methods.submissionStatusLabel()}</div>
+                  {focusAreasCount > 0 && (
+                    <div className="focus-area">
+                      <div className="image">
+                        {submission.assignment?.focusAreas &&
+                        submission.assignment.focusAreas.length >= 1 &&
+                        focusAreasCount > 0 ? (
+                          <Ellipse141
+                            backgroundColor={
+                              submission.assignment?.focusAreas[0].color
+                            }
+                          />
+                        ) : (
+                          <></>
+                        )}
+                        {submission.assignment?.focusAreas &&
+                        submission.assignment.focusAreas.length >= 2 ? (
+                          <Ellipse141
+                            backgroundColor={
+                              submission.assignment?.focusAreas[1].color
+                            }
+                            style={{ marginLeft: '-8px' }}
+                          />
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                      <div className="text">{focusAreasCount} focus areas</div>
                     </div>
-                    <div className="text">
-                      { 
-                        focusAreasCount
-                      } focus areas
-                    </div>
-                  </div>
-                  }
+                  )}
                 </StatusText>
               </TitleWrapper>
               {!isTeacher &&
-                pageMode === "CLOSED" &&
-                submission.status === "CLOSED" && (
+                pageMode === 'CLOSED' &&
+                submission.status === 'CLOSED' && (
                   <div id="deleteButton">
                     <Buttons2
                       button="Download PDF"
@@ -638,8 +667,8 @@ function FeedbackTeacherLaptop(props) {
                   </div>
                 )}
               {!isTeacher &&
-                pageMode === "CLOSED" &&
-                submission.status != "CLOSED" && (
+                pageMode === 'CLOSED' &&
+                submission.status != 'CLOSED' && (
                   <AwaitFeedbackContainer id="deleteButton">
                     <Buttons2
                       button="Download PDF"
@@ -648,9 +677,9 @@ function FeedbackTeacherLaptop(props) {
                     />
                   </AwaitFeedbackContainer>
                 )}
-              
+
               {tasksListsDropDown()}
-              {(pageMode === "DRAFT" || pageMode === "REVISE") && (
+              {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
                 <StatusLabel
                   key="statusLabel"
                   id="statusLabel"
@@ -672,21 +701,27 @@ function FeedbackTeacherLaptop(props) {
     </>
   );
 
-  function createQuill(containerName, submission, answer, answerValue, debounce) {
+  function createQuill(
+    containerName,
+    submission,
+    answer,
+    answerValue,
+    debounce
+  ) {
     return (
       <QuillEditor
-        id={"quillEditor_" + submission.id + "_" + answer.serialNumber}
+        id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
         ref={(editor) =>
           methods.handleEditorMounted(editor, answer.serialNumber - 1)
         }
         comments={commentsForSelectedTab?.filter((comment) => {
           return comment.questionSerialNumber === answer.serialNumber;
         })}
-        value={answerValue ? answerValue : ""}
+        value={answerValue ? answerValue : ''}
         options={{
           modules: modules,
-          theme: "snow",
-          readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+          theme: 'snow',
+          readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
         }}
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}
@@ -695,52 +730,67 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
-const selectTabComments=(pageMode, isFeedback, showResolved, isFocusAreas, comments, groupedFocusAreaIds) => {
-  console.log("selectTabComments", comments)
-  console.log("isFocusAreas", isFocusAreas)
-  if (isFocusAreas) {    
-    return comments.map(comment => {
-      if (comment.type !== "FOCUS_AREA") {
+const selectTabComments = (
+  pageMode,
+  isFeedback,
+  showResolved,
+  isFocusAreas,
+  comments,
+  groupedFocusAreaIds
+) => {
+  console.log('selectTabComments', comments);
+  console.log('isFocusAreas', isFocusAreas);
+  if (isFocusAreas) {
+    return comments.map((comment) => {
+      if (comment.type !== 'FOCUS_AREA') {
         return { ...comment, isHidden: true };
       }
       const { focusAreaId, questionSerialNumber } = comment;
-      const focusAreaIdsForQuestion = groupedFocusAreaIds[questionSerialNumber] || [];
+      const focusAreaIdsForQuestion =
+        groupedFocusAreaIds[questionSerialNumber] || [];
       const isHidden = !focusAreaIdsForQuestion.includes(focusAreaId);
 
       return { ...comment, isHidden };
     });
   }
   if (showResolved) {
-    return comments.map(comment=>{
-      if (comment.type === "FOCUS_AREA") {
-        return {...comment, isHidden: true}
+    return comments.map((comment) => {
+      if (comment.type === 'FOCUS_AREA') {
+        return { ...comment, isHidden: true };
       }
-      return comment
-    })
+      return comment;
+    });
   }
-  return comments.map(comment=>{
-    if ( comment.type === "FOCUS_AREA" || comment.status === "RESOLVED") {
-      return {...comment, isHidden: true}
+  return comments.map((comment) => {
+    if (comment.type === 'FOCUS_AREA' || comment.status === 'RESOLVED') {
+      return { ...comment, isHidden: true };
     }
-    return comment
-  })
-}
+    return comment;
+  });
+};
 
-function showResolvedToggle(isFeedback, isShowResolved, handleShowResolvedToggle) {
-  if (isFeedback) { 
-    return <div style={{
-      display:"flex", 
-      flexDirection: "row", 
-      alignItems:"center",
-      alignContent:"center"
-      }}>
-      <Label>Show resolved</Label>
-      {/* Show resolved */}
-      <Switch
-        checked={isShowResolved} onChange={handleShowResolvedToggle} />
-    </div>;
+function showResolvedToggle(
+  isFeedback,
+  isShowResolved,
+  handleShowResolvedToggle
+) {
+  if (isFeedback) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignContent: 'center',
+        }}
+      >
+        <Label>Show resolved</Label>
+        {/* Show resolved */}
+        <Switch checked={isShowResolved} onChange={handleShowResolvedToggle} />
+      </div>
+    );
   }
-  return <></>
+  return <></>;
 }
 const AwaitFeedbackContainer = styled.div`
   display: flex;
@@ -802,7 +852,7 @@ const StatusText = styled.div`
   // width: 714px;
   // height: 21px;
 
-  font-family: "IBM Plex Sans";
+  font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -877,8 +927,6 @@ const OptionCotainer = styled.div`
   width: 100%;
   justify-content: flex-start;
 `;
-
-
 
 const Frame1388 = styled.div`
   display: flex;
@@ -1030,7 +1078,7 @@ const QuillContainer = styled.p`
   letter-spacing: 0;
   line-height: normal;
   width: 100%;
-  z-index: 1
+  z-index: 1;
 `;
 
 const Group1307 = styled.div`
@@ -1283,7 +1331,5 @@ const X2021JeddleAllRightsReserved = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
-
-
 
 export default FeedbackTeacherLaptop;

@@ -1,15 +1,15 @@
-import React from "react";
-import Frame5 from "../ReviewsFrame5";
-import Notifications from "../Notifications";
-import Frame4 from "../ReviewsFrame41";
-import styled from "styled-components";
+import React from 'react';
+import Frame5 from '../ReviewsFrame5';
+import Notifications from '../Notifications';
+import Frame4 from '../ReviewsFrame41';
+import styled from 'styled-components';
 
 function TeacherDashboardHeader2(props) {
   const { logo, className, frame5Props, frame4Props } = props;
 
   return (
     <TeacherDashboardHeader
-      className={`teacher-dashboard-header-1 ${className || ""}`}
+      className={`teacher-dashboard-header-1 ${className || ''}`}
     >
       <Logo className="logo-1" src={logo} alt="Logo" />
       <Frame5

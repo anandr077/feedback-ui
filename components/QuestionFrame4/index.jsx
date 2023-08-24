@@ -1,6 +1,6 @@
-import React from "react";
-import Frame12973 from "../Frame12973";
-import styled from "styled-components";
+import React from 'react';
+import Frame12973 from '../Frame12973';
+import styled from 'styled-components';
 
 function QuestionFrame4(props) {
   const { frame12973Props } = props;

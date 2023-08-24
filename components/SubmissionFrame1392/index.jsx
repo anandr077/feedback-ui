@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalChicago13px,
-} from "../../styledMixins";
+} from '../../styledMixins';
 
 function SubmissionFrame1392() {
   return (

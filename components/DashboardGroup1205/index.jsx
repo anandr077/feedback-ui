@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet16px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet16px } from '../../styledMixins';
 
 function DashboardGroup1205(props) {
   const { className } = props;
@@ -8,9 +8,9 @@ function DashboardGroup1205(props) {
   return (
     <Group12051
       onClick={() => {
-        window.location.href = "#tasks";
+        window.location.href = '#tasks';
       }}
-      className={`group-1205 ${className || ""}`}
+      className={`group-1205 ${className || ''}`}
     >
       <ViewAll className="view-all">VIEW ALL</ViewAll>
       <Arrowright

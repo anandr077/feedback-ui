@@ -1,12 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalWhite20px, IbmplexsansNormalPersianIndigo20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import {
+  IbmplexsansNormalWhite20px,
+  IbmplexsansNormalPersianIndigo20px,
+} from '../../../styledMixins';
 
 function SettingsNav(props) {
-  const { setShowMarkingCriteria,setShowShortcuts,setShowUserSettings,showMarkingCriteria,showShortcuts,showUserSettings } = props;
+  const {
+    setShowMarkingCriteria,
+    setShowShortcuts,
+    setShowUserSettings,
+    showMarkingCriteria,
+    showShortcuts,
+    showUserSettings,
+  } = props;
 
-  if(!showMarkingCriteria && !showShortcuts && !showUserSettings) {
+  if (!showMarkingCriteria && !showShortcuts && !showUserSettings) {
     setShowMarkingCriteria(true);
     setShowShortcuts(false);
     setShowUserSettings(false);
@@ -16,44 +25,70 @@ function SettingsNav(props) {
     setShowMarkingCriteria(false);
     setShowShortcuts(false);
     setShowUserSettings(true);
-  }
+  };
 
   const selectMarkingCriteria = () => {
     setShowMarkingCriteria(true);
     setShowShortcuts(false);
     setShowUserSettings(false);
-  }
+  };
 
   const selectShortcuts = () => {
     setShowMarkingCriteria(false);
     setShowShortcuts(true);
     setShowUserSettings(false);
-  }
+  };
 
-  return (<Frame13221>
-  {showUserSettings &&
-    (<>
-      <SelectedContainer onClick={selectUserSettings}> <SelectedLabel> User Settings</SelectedLabel> </SelectedContainer>
-      <UnselectedContainer  onClick={selectMarkingCriteria}> <UnselectedLabel> Marking Criteria</UnselectedLabel> </UnselectedContainer>
-      <UnselectedContainer onClick={selectShortcuts}> <UnselectedLabel> Smart Annotations</UnselectedLabel> </UnselectedContainer>
-      </>
-    )
-    }
-    {showMarkingCriteria && (
-      <>
-      <UnselectedContainer onClick={selectUserSettings}> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
-      <SelectedContainer onClick={selectMarkingCriteria}> <SelectedLabel> Marking Criteria</SelectedLabel> </SelectedContainer>
-      <UnselectedContainer onClick={selectShortcuts} > <UnselectedLabel> Smart Annotations</UnselectedLabel> </UnselectedContainer>
-      </>
-    )}
-    {
-      showShortcuts && (  <>
-      <UnselectedContainer onClick={selectUserSettings}> <UnselectedLabel> User Settings</UnselectedLabel> </UnselectedContainer>
-      <UnselectedContainer onClick={selectMarkingCriteria}> <UnselectedLabel> Marking Criteria</UnselectedLabel> </UnselectedContainer>
-      <SelectedContainer onClick={selectShortcuts}> <SelectedLabel> Smart Annotations</SelectedLabel> </SelectedContainer>
-      </>
-      )
-    }
+  return (
+    <Frame13221>
+      {showUserSettings && (
+        <>
+          <SelectedContainer onClick={selectUserSettings}>
+            {' '}
+            <SelectedLabel> User Settings</SelectedLabel>{' '}
+          </SelectedContainer>
+          <UnselectedContainer onClick={selectMarkingCriteria}>
+            {' '}
+            <UnselectedLabel> Marking Criteria</UnselectedLabel>{' '}
+          </UnselectedContainer>
+          <UnselectedContainer onClick={selectShortcuts}>
+            {' '}
+            <UnselectedLabel> Smart Annotations</UnselectedLabel>{' '}
+          </UnselectedContainer>
+        </>
+      )}
+      {showMarkingCriteria && (
+        <>
+          <UnselectedContainer onClick={selectUserSettings}>
+            {' '}
+            <UnselectedLabel> User Settings</UnselectedLabel>{' '}
+          </UnselectedContainer>
+          <SelectedContainer onClick={selectMarkingCriteria}>
+            {' '}
+            <SelectedLabel> Marking Criteria</SelectedLabel>{' '}
+          </SelectedContainer>
+          <UnselectedContainer onClick={selectShortcuts}>
+            {' '}
+            <UnselectedLabel> Smart Annotations</UnselectedLabel>{' '}
+          </UnselectedContainer>
+        </>
+      )}
+      {showShortcuts && (
+        <>
+          <UnselectedContainer onClick={selectUserSettings}>
+            {' '}
+            <UnselectedLabel> User Settings</UnselectedLabel>{' '}
+          </UnselectedContainer>
+          <UnselectedContainer onClick={selectMarkingCriteria}>
+            {' '}
+            <UnselectedLabel> Marking Criteria</UnselectedLabel>{' '}
+          </UnselectedContainer>
+          <SelectedContainer onClick={selectShortcuts}>
+            {' '}
+            <SelectedLabel> Smart Annotations</SelectedLabel>{' '}
+          </SelectedContainer>
+        </>
+      )}
     </Frame13221>
   );
 }
@@ -88,7 +123,6 @@ const UnselectedLabel = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 const SelectedContainer = styled.article`
   display: flex;

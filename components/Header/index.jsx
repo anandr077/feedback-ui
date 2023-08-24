@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import Notifications from "../Notifications";
-import UserIcon from "../UserIcon";
-import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
-import NotificationsBar from "../NotificationsMenu/NotificationsBar";
-import { getNotifications } from "../../service.js";
+import React from 'react';
+import styled from 'styled-components';
+import Notifications from '../Notifications';
+import UserIcon from '../UserIcon';
+import ProfileDropdown from '../ProfileMenu/ProfileDropdown';
+import NotificationsBar from '../NotificationsMenu/NotificationsBar';
+import { getNotifications } from '../../service.js';
 
 import {
   IbmplexsansNormalPersianIndigo20px,
   IbmplexsansNormalWhite20px,
-} from "../../styledMixins";
+} from '../../styledMixins';
 
 export default function Header(props) {
   const { headerProps } = props;
@@ -37,14 +37,16 @@ export default function Header(props) {
   };
 
   const toggleDropDown = () => {
-    console.log("toggleDropDown");
+    console.log('toggleDropDown');
     setDropDown(!dropDown);
   };
 
   return (
     <>
       <Frame1344>
-        <a href="#"><Frame1343 src="/icons/header-logo.png" alt="Frame 1343" /></a>
+        <a href="#">
+          <Frame1343 src="/icons/header-logo.png" alt="Frame 1343" />
+        </a>
         <Frame5>
           {headerProps.firstButton.selected ? (
             <HeaderButtonSelected onClick={OnFirstButtonClick}>
@@ -120,7 +122,7 @@ export default function Header(props) {
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}
-            showNewNotifications = {notifications?.length > 0}
+            showNewNotifications={notifications?.length > 0}
           />
           <div onClick={toggleDropDown}>
             <UserIcon maskGroup="/img/mask-group-1@2x.png" />
@@ -130,11 +132,11 @@ export default function Header(props) {
       {isNotificationOpen && (
         <Screen onClick={handleNotificationClick}>
           <NavigationContainer>
-            {" "}
+            {' '}
             <NotificationsBar
               notifications={notifications}
               loadingNotifications={loadingNotifications}
-            />{" "}
+            />{' '}
           </NavigationContainer>
         </Screen>
       )}
@@ -162,7 +164,7 @@ const NavigationContainer = styled.div`
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
   max-height: 300px;
-   &::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     width: 0;
     display: none;
   }
@@ -245,7 +247,6 @@ const HeaderButtonInnnerContainer = styled.div`
 
   align-items: center;
   justify-content: center;
-
 `;
 
 const IconContainer = styled.img`
@@ -256,7 +257,7 @@ const IconContainer = styled.img`
 
 const ButtonText = styled.div`
   ${IbmplexsansNormalPersianIndigo20px}
- 
+
   height: 26px;
   letter-spacing: 0;
   line-height: normal;

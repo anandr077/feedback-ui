@@ -1,8 +1,8 @@
-import React from "react";
-import StudentsList2 from "../StudentsList2";
-import styled from "styled-components";
-import { IbmplexsansNormalMountainMist16px } from "../../../styledMixins";
-import "./StudentsList.css";
+import React from 'react';
+import StudentsList2 from '../StudentsList2';
+import styled from 'styled-components';
+import { IbmplexsansNormalMountainMist16px } from '../../../styledMixins';
+import './StudentsList.css';
 
 function StudentsList(props) {
   const {

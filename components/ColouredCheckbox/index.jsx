@@ -1,13 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../../styledMixins';
 
 function ColouredCheckbox(props) {
   const { children, className } = props;
 
   return (
-    <Checkbox1 className={`checkbox ${className || ""}`}>
+    <Checkbox1 className={`checkbox ${className || ''}`}>
       <Ellipse14 className="ellipse-14"></Ellipse14>
       <LightRed className="light-red">{children}</LightRed>
     </Checkbox1>

@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
-import GoBack2 from "../GoBack2";
-import Buttons2 from "../Buttons2";
-import styled from "styled-components";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Breadcrumb from '../Breadcrumb';
+import Breadcrumb2 from '../Breadcrumb2';
+import GoBack2 from '../GoBack2';
+import Buttons2 from '../Buttons2';
+import styled from 'styled-components';
 import {
   IbmplexsansMediumElectricViolet20px,
   IbmplexsansNormalShark20px,
@@ -13,16 +13,16 @@ import {
   IbmplexsansSemiBoldShark20px,
   IbmplexsansBoldShark36px,
   IbmplexsansMediumWhite16px,
-  IbmplexsansNormalElectricViolet16px
-} from "../../styledMixins";
-import "./CreateAAssignmentTablet.css";
-import FooterSmall from "../FooterSmall";
-import HeaderSmall from "../HeaderSmall";
-import { taskHeaderProps } from "../../utils/headerProps.js";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import ScreenPopup from "../ScreenPopup";
+  IbmplexsansNormalElectricViolet16px,
+} from '../../styledMixins';
+import './CreateAAssignmentTablet.css';
+import FooterSmall from '../FooterSmall';
+import HeaderSmall from '../HeaderSmall';
+import { taskHeaderProps } from '../../utils/headerProps.js';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import ScreenPopup from '../ScreenPopup';
 function CreateAAssignmentTablet(props) {
   const {
     assignment,
@@ -47,32 +47,47 @@ function CreateAAssignmentTablet(props) {
     showPublishPopuphandler,
   } = props;
 
-  function titleAndSaveButtons(assignment, saveDraft, publish, showPublishPopuphandler) {
-    const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
-  
-    return <TitleContainer>
-      {title}
-      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
-    </TitleContainer>;
+  function titleAndSaveButtons(
+    assignment,
+    saveDraft,
+    publish,
+    showPublishPopuphandler
+  ) {
+    const title =
+      assignment.status === 'DRAFT' ? <Title>Create Task</Title> : <></>;
+
+    return (
+      <TitleContainer>
+        {title}
+        {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
+      </TitleContainer>
+    );
   }
-  function saveButtons(assignment, saveDraft, publish, showPublishPopuphandler) {
-    if (assignment.status === "DRAFT") {
-      return <Frame12191>
-        <SLink onClick={saveDraft}>Save as draft</SLink>
-        <Buttons1>
-          <Button onClick={showPublishPopuphandler}>Publish</Button>
-        </Buttons1>
-      </Frame12191>;
+  function saveButtons(
+    assignment,
+    saveDraft,
+    publish,
+    showPublishPopuphandler
+  ) {
+    if (assignment.status === 'DRAFT') {
+      return (
+        <Frame12191>
+          <SLink onClick={saveDraft}>Save as draft</SLink>
+          <Buttons1>
+            <Button onClick={showPublishPopuphandler}>Publish</Button>
+          </Buttons1>
+        </Frame12191>
+      );
     }
-    return (<DeleteButtonContainer>
-      <Frame1322 onClick={showDeletePopuphandler} >
-        <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
-        <Delete>Delete</Delete>
-      </Frame1322>
-    </DeleteButtonContainer> );
+    return (
+      <DeleteButtonContainer>
+        <Frame1322 onClick={showDeletePopuphandler}>
+          <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
+          <Delete>Delete</Delete>
+        </Frame1322>
+      </DeleteButtonContainer>
+    );
   }
-
-
 
   return (
     <div className="create-a-assignment-tablet screen">
@@ -80,30 +95,36 @@ function CreateAAssignmentTablet(props) {
         <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb text = "Task" link = "/#/tasks"/>
+            <Breadcrumb text="Task" link="/#/tasks" />
             <Breadcrumb2 title={assignment.title} />
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
-        {titleAndSaveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
-        <Frame1378  readOnly={assignment.status!= "DRAFT"}>
+        {titleAndSaveButtons(
+          assignment,
+          saveDraft,
+          publish,
+          showPublishPopuphandler
+        )}
+        <Frame1378 readOnly={assignment.status != 'DRAFT'}>
           <Frame1375>
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput  placeholder="Type task title here"  id="assignmentName" value={assignment.title}></TextInput>
+              <TextInput
+                placeholder="Type task title here"
+                id="assignmentName"
+                value={assignment.title}
+              ></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
               </Frame1372>
               <Frame1295>{questionFrames()}</Frame1295>
-              <Buttons2
-                add={buttons21Props.add}
-                onClickFn={addQuestion}
-              />
+              <Buttons2 add={buttons21Props.add} onClickFn={addQuestion} />
             </Frame1294>
           </Frame1375>
           <Frame1377>
@@ -142,16 +163,21 @@ function CreateAAssignmentTablet(props) {
 
             <Frame1372>
               <Frame12191>
-              <Frame1372WithTop>
-                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
-              </Frame1372WithTop>
+                <Frame1372WithTop>
+                  {saveButtons(
+                    assignment,
+                    saveDraft,
+                    publish,
+                    showPublishPopuphandler
+                  )}
+                </Frame1372WithTop>
               </Frame12191>
             </Frame1372>
           </Frame1377>
         </Frame1378>
         <GoBack2
-                caret={goBack22Props.caret}
-                className={goBack22Props.className}
+          caret={goBack22Props.caret}
+          className={goBack22Props.className}
         />
       </Frame1379>
       <FooterSmall />
@@ -168,7 +194,6 @@ const TitleContainer = styled.div`
   position: relative;
   margin-top: 16px;
 `;
-
 
 const DeleteButtonContainer = styled.div`
   display: flex;
@@ -187,7 +212,7 @@ const Frame1322 = styled.div`
   gap: 4px;
   position: relative;
   cursor: pointer;
-   &:hover {
+  &:hover {
     scale: 1.2;
     transition: 0.1s;
   }
@@ -206,8 +231,6 @@ const Delete = styled.div`
   line-height: normal;
 `;
 
-
-
 const SLink = styled.div`
   ${IbmplexsansMediumElectricViolet20px}
   position: relative;
@@ -217,7 +240,7 @@ const SLink = styled.div`
   letter-spacing: -0.5px;
   line-height: normal;
   cursor: pointer;
-   &:hover {
+  &:hover {
     scale: 1.2;
     transition: 0.1s;
   }
@@ -352,7 +375,7 @@ const Frame1378 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
-  ${(props) => props.readOnly && "pointer-events: none; opacity: 0.5;"}
+  ${(props) => props.readOnly && 'pointer-events: none; opacity: 0.5;'}
 `;
 
 const Frame1375 = styled.div`
@@ -509,5 +532,3 @@ const Frame1298 = styled.div`
 `;
 
 export default CreateAAssignmentTablet;
-
-

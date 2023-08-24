@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalBlack20px,
-} from "../../styledMixins";
+} from '../../styledMixins';
 
 function Frame1291(props) {
   const { questionDetails, serialNumber, cleanformattingTextBox } = props;
@@ -13,19 +13,19 @@ function Frame1291(props) {
         Answer Word Limit
       </AnswerWordLimit>
       <Frame1290
-        id={"wordLimitTextBox_" + serialNumber}
+        id={'wordLimitTextBox_' + serialNumber}
         onClick={cleanformattingTextBox}
       >
         <StyledIput
-          id={"wordLimit_" + serialNumber}
+          id={'wordLimit_' + serialNumber}
           value={questionDetails?.wordLimit}
           type="number"
           className="number-1"
           placeholder="1000"
           style={{
-            borderColor: "transparent",
-            boxShadow: "0px",
-            outline: "none",
+            borderColor: 'transparent',
+            boxShadow: '0px',
+            outline: 'none',
           }}
         />
         {/* <Number className="number-1">1000</Number> */}

@@ -1,20 +1,22 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
-  IbmplexsansBoldShark64px, IbmplexsansMediumElectricViolet20px, IbmplexsansMediumWhite16px,
+  IbmplexsansBoldShark64px,
+  IbmplexsansMediumElectricViolet20px,
+  IbmplexsansMediumWhite16px,
   IbmplexsansNormalShark20px,
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
   IbmplexsansSemiBoldShark24px,
-  IbmplexsansNormalElectricViolet16px
-} from "../../styledMixins";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
-import Buttons2 from "../Buttons2";
-import Footer from "../Footer";
-import GoBack2 from "../GoBack2";
-import Header from "../Header";
-import "./CreateAAssignmentLaptop.css";
+  IbmplexsansNormalElectricViolet16px,
+} from '../../styledMixins';
+import Breadcrumb from '../Breadcrumb';
+import Breadcrumb2 from '../Breadcrumb2';
+import Buttons2 from '../Buttons2';
+import Footer from '../Footer';
+import GoBack2 from '../GoBack2';
+import Header from '../Header';
+import './CreateAAssignmentLaptop.css';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -37,35 +39,44 @@ function CreateAAssignmentLaptop(props) {
     buttons21Props,
     goBack22Props,
     showDeletePopuphandler,
-    showPublishPopuphandler
+    showPublishPopuphandler,
   } = props;
 
-  
   function titleAndSaveButtons(assignment, saveDraft, publish) {
-    const title =   (assignment.status === "DRAFT")?<Title>Create Task</Title>:<></>
-    return <TitleContainer>
-      {title}
-      {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
-    </TitleContainer>;
+    const title =
+      assignment.status === 'DRAFT' ? <Title>Create Task</Title> : <></>;
+    return (
+      <TitleContainer>
+        {title}
+        {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
+      </TitleContainer>
+    );
   }
-  const saveButtons = (assignment, saveDraft, publish, showPublishPopuphandler)=> {
-    if (assignment.status === "DRAFT") {
-    return <Frame12191>
-      <SLink onClick={e=>saveDraft(e)}>Save as draft</SLink>
-      <Buttons1>
-        <Button onClick={showPublishPopuphandler}>Publish</Button>
-      </Buttons1>
-    </Frame12191>
-    } 
-    return  (<DeleteButtonContainer>
-              <Frame1322 onClick={showDeletePopuphandler} >
-                <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
-                <Delete>Delete</Delete>
-              </Frame1322>
-            </DeleteButtonContainer> );
-  }
-
-
+  const saveButtons = (
+    assignment,
+    saveDraft,
+    publish,
+    showPublishPopuphandler
+  ) => {
+    if (assignment.status === 'DRAFT') {
+      return (
+        <Frame12191>
+          <SLink onClick={(e) => saveDraft(e)}>Save as draft</SLink>
+          <Buttons1>
+            <Button onClick={showPublishPopuphandler}>Publish</Button>
+          </Buttons1>
+        </Frame12191>
+      );
+    }
+    return (
+      <DeleteButtonContainer>
+        <Frame1322 onClick={showDeletePopuphandler}>
+          <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
+          <Delete>Delete</Delete>
+        </Frame1322>
+      </DeleteButtonContainer>
+    );
+  };
 
   return (
     <div className="create-a-assignment-laptop screen">
@@ -73,20 +84,24 @@ function CreateAAssignmentLaptop(props) {
         <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
-            <Breadcrumb text = "Task" link = "/#/tasks"/>
+            <Breadcrumb text="Task" link="/#/tasks" />
             <Breadcrumb2 title={assignment.title} />
           </Frame1315>
           <GoBack2 caret={goBack21Props.caret} />
         </Frame1376>
-          {titleAndSaveButtons(assignment, saveDraft, publish)}
-        <Frame1378 readOnly={assignment.status!= "DRAFT"}>
-          <Frame1375>            
+        {titleAndSaveButtons(assignment, saveDraft, publish)}
+        <Frame1378 readOnly={assignment.status != 'DRAFT'}>
+          <Frame1375>
             <Frame1374
               id="assignmentNameContainer"
               onClick={cleanformattingTextBox}
               onChange={handleTitleChange}
             >
-              <TextInput placeholder="Type task title here" id="assignmentName" value={assignment.title}></TextInput>
+              <TextInput
+                placeholder="Type task title here"
+                id="assignmentName"
+                value={assignment.title}
+              ></TextInput>
             </Frame1374>
             <Frame1294>
               <Frame1372>
@@ -118,7 +133,7 @@ function CreateAAssignmentLaptop(props) {
                 </Frame1299>
                 <Frame1299>
                   <Frame12811>
-                    <Classes>{feedbackMethod}</Classes>   
+                    <Classes>{feedbackMethod}</Classes>
                   </Frame12811>
                   <Frame12981>{feedbacksMethodContainer}</Frame12981>
                 </Frame1299>
@@ -136,21 +151,23 @@ function CreateAAssignmentLaptop(props) {
                 className={goBack22Props.className}
               />
               <Frame12191>
-              <Frame1372>
-                {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
-              </Frame1372>
+                <Frame1372>
+                  {saveButtons(
+                    assignment,
+                    saveDraft,
+                    publish,
+                    showPublishPopuphandler
+                  )}
+                </Frame1372>
               </Frame12191>
             </Frame1372>
           </Frame1377>
         </Frame1378>
-        
       </Frame1379>
-      
+
       <Footer />
     </div>
   );
-
-  
 }
 
 const TitleContainer = styled.div`
@@ -180,7 +197,7 @@ const Frame1322 = styled.div`
   gap: 4px;
   position: relative;
   cursor: pointer;
-   &:hover {
+  &:hover {
     scale: 1.2;
     transition: 0.1s;
   }
@@ -199,8 +216,6 @@ const Delete = styled.div`
   line-height: normal;
 `;
 
-
-
 const SLink = styled.div`
   ${IbmplexsansMediumElectricViolet20px}
   position: relative;
@@ -210,7 +225,7 @@ const SLink = styled.div`
   letter-spacing: -0.5px;
   line-height: normal;
   cursor: pointer;
-   &:hover {
+  &:hover {
     scale: 1.2;
     transition: 0.1s;
   }
@@ -268,7 +283,7 @@ const Frame1378 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
-  ${(props) => props.readOnly && "pointer-events: none; opacity: 0.5;"}
+  ${(props) => props.readOnly && 'pointer-events: none; opacity: 0.5;'}
 `;
 
 const Frame1375 = styled.div`

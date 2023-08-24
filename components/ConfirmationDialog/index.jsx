@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export function ConfirmationDialog(props) {
   const [show, setShow] = useState(false);
@@ -20,16 +20,16 @@ export function ConfirmationDialog(props) {
     return (
       <div
         style={{
-          position: "fixed",
-          bottom: "0",
-          left: "0",
-          width: "100%",
-          backgroundColor: "#f2f2f2",
-          padding: "20px",
-          textAlign: "center",
+          position: 'fixed',
+          bottom: '0',
+          left: '0',
+          width: '100%',
+          backgroundColor: '#f2f2f2',
+          padding: '20px',
+          textAlign: 'center',
         }}
       >
-        {props.message}{" "}
+        {props.message}{' '}
         {props.link && (
           <a href={props.link} target="_blank" rel="noopener noreferrer">
             {props.linkText}

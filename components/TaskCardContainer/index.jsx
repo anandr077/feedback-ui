@@ -1,18 +1,33 @@
-import React from "react";
-import TaskCard from "../TaskCard";
-import styled from "styled-components";
+import React from 'react';
+import TaskCard from '../TaskCard';
+import styled from 'styled-components';
 
 function TaskCardContainer(props) {
-  const { allTasks, exemplar, setPublishActionCompleted, showDeletePopuphandler, showDateExtendPopuphandler } = props;
+  const {
+    allTasks,
+    exemplar,
+    setPublishActionCompleted,
+    showDeletePopuphandler,
+    showDateExtendPopuphandler,
+  } = props;
   const cards = allTasks.map((task) => {
     return (
       <a href={task.link}>
-        <TaskCard task={task} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
+        <TaskCard
+          task={task}
+          exemplar={exemplar}
+          setPublishActionCompleted={setPublishActionCompleted}
+          showDeletePopuphandler={showDeletePopuphandler}
+          showDateExtendPopuphandler={showDateExtendPopuphandler}
+        />
       </a>
     );
   });
-  return exemplar ? (<ExemplerCardContainer>{cards}</ExemplerCardContainer>) :
-  (<CardContainer>{cards}</CardContainer>);
+  return exemplar ? (
+    <ExemplerCardContainer>{cards}</ExemplerCardContainer>
+  ) : (
+    <CardContainer>{cards}</CardContainer>
+  );
 }
 
 const CardContainer = styled.div`
@@ -30,7 +45,6 @@ const CardContainer = styled.div`
     width: 0;
     display: none;
   }
-  
 `;
 const ExemplerCardContainer = styled.div`
   display: flex;

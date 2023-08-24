@@ -1,15 +1,19 @@
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../styledMixins";
-import ReactiveRender from "../../ReactiveRender";
-import TaskDetailMobile from "../TaskDetailMobile";
-import TaskDetailTablet from "../TaskDetailTablet";
-import TaskDetailLaptop from "../TaskDetailLaptop";
-import TaskDetailDesktop from "../TaskDetailDesktop";
-import { getAssignmentById, startSubmission, getClasses } from "../../../service";
-import { useParams } from "react-router-dom";
-import { default as React, useEffect, useState } from "react";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
-import Loader from "../../Loader";
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../styledMixins';
+import ReactiveRender from '../../ReactiveRender';
+import TaskDetailMobile from '../TaskDetailMobile';
+import TaskDetailTablet from '../TaskDetailTablet';
+import TaskDetailLaptop from '../TaskDetailLaptop';
+import TaskDetailDesktop from '../TaskDetailDesktop';
+import {
+  getAssignmentById,
+  startSubmission,
+  getClasses,
+} from '../../../service';
+import { useParams } from 'react-router-dom';
+import { default as React, useEffect, useState } from 'react';
+import { taskHeaderProps } from '../../../utils/headerProps.js';
+import Loader from '../../Loader';
 
 export default function TaskDetail() {
   const { assignmentId } = useParams();
@@ -17,23 +21,26 @@ export default function TaskDetail() {
   const [assignment, setAssigment] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [clazzName, setClazzName] = useState(null);
-  
 
   React.useEffect(() => {
-    Promise.all([getAssignmentById(assignmentId), getClasses()]).then(([assignment, classes]) => {
-      setAssigment(assignment);
-      setClazzName(classes.find(c => assignment.classIds.includes(c.id))?.title);
-      setIsLoading(false);
-    });
+    Promise.all([getAssignmentById(assignmentId), getClasses()]).then(
+      ([assignment, classes]) => {
+        setAssigment(assignment);
+        setClazzName(
+          classes.find((c) => assignment.classIds.includes(c.id))?.title
+        );
+        setIsLoading(false);
+      }
+    );
   }, []);
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   const methods = {
     onClickStartAssignment: (_) => {
       startSubmission({ assignmentId: assignment.id }).then((res) => {
-        window.location.href = "#submissions/" + res.id;
+        window.location.href = '#submissions/' + res.id;
       });
     },
   };
@@ -85,47 +92,47 @@ export default function TaskDetail() {
 }
 
 const goBack2Data = {
-  className: "go-back-1",
-  caret: "/img/caret-5@2x.png",
+  className: 'go-back-1',
+  caret: '/img/caret-5@2x.png',
 };
 
 const navElement1Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement2Data = {
-  home3: "/img/tasksquare@2x.png",
-  place: "Tasks",
-  className: "nav-element-1",
+  home3: '/img/tasksquare@2x.png',
+  place: 'Tasks',
+  className: 'nav-element-1',
 };
 
 const navElement3Data = {
-  home3: "/img/clipboardtick@2x.png",
-  place: "Completed",
-  className: "nav-element-2",
+  home3: '/img/clipboardtick@2x.png',
+  place: 'Completed',
+  className: 'nav-element-2',
 };
 
 const breadcrumb21Data = {
-  assignments: "Assignments",
+  assignments: 'Assignments',
 };
 
 const breadcrumb22Data = {
-  assignments: "Physics - thermodynamics assignment questions (Theory)",
+  assignments: 'Physics - thermodynamics assignment questions (Theory)',
 };
 
 const goBack1Data = {
-  caret: "/img/caret-5@2x.png",
+  caret: '/img/caret-5@2x.png',
 };
 
 const frame12091Data = {
-  topicsCovered: "Topics covered:",
+  topicsCovered: 'Topics covered:',
   moremIpsumDolorSi:
-    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+    'Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.',
 };
 
 const frame12092Data = {
-  topicsCovered: "Note from the instructor:",
+  topicsCovered: 'Note from the instructor:',
   moremIpsumDolorSi: (
     <React.Fragment>
       Norem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -139,11 +146,11 @@ const frame12092Data = {
 
 const taskDetailDesktopData = {
   headerProps: taskHeaderProps,
-  frame1343: "/img/frame-1343@2x.png",
-  title: "Assignment",
-  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-  line11: "/img/line-11-3.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  frame1343: '/img/frame-1343@2x.png',
+  title: 'Assignment',
+  physicsThermodyna: 'Physics - thermodynamics assignment questions (Theory)',
+  line11: '/img/line-11-3.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   navElement1Props: navElement1Data,
   navElement2Props: navElement2Data,
   navElement3Props: navElement3Data,
@@ -155,21 +162,21 @@ const taskDetailDesktopData = {
 };
 
 const breadcrumb23Data = {
-  assignments: "Assignments",
+  assignments: 'Assignments',
 };
 
 const breadcrumb24Data = {
-  assignments: "Physics - thermodynamics...",
+  assignments: 'Physics - thermodynamics...',
 };
 
 const frame120922Data = {
-  topicsCovered: "Topics covered:",
+  topicsCovered: 'Topics covered:',
   moremIpsumDolorSi:
-    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+    'Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.',
 };
 
 const frame120923Data = {
-  topicsCovered: "Note from the instructor:",
+  topicsCovered: 'Note from the instructor:',
   moremIpsumDolorSi: (
     <React.Fragment>
       Norem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -182,15 +189,15 @@ const frame120923Data = {
 };
 
 const taskDetailMobileData = {
-  frame1349: "/img/frame-1349@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  title: "Assignment",
-  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-  line11: "/img/line-11@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame1349: '/img/frame-1349@2x.png',
+  frame5: '/img/frame-5@2x.png',
+  title: 'Assignment',
+  physicsThermodyna: 'Physics - thermodynamics assignment questions (Theory)',
+  line11: '/img/line-11@2x.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   breadcrumb21Props: breadcrumb23Data,
   breadcrumb22Props: breadcrumb24Data,
   goBackProps: goBack2Data,
@@ -199,25 +206,25 @@ const taskDetailMobileData = {
 };
 
 const breadcrumb25Data = {
-  assignments: "Assignments",
+  assignments: 'Assignments',
 };
 
 const breadcrumb26Data = {
-  assignments: "Physics - thermodynamics assignment questions (Theory)",
+  assignments: 'Physics - thermodynamics assignment questions (Theory)',
 };
 
 const goBack3Data = {
-  caret: "/img/caret-5@2x.png",
+  caret: '/img/caret-5@2x.png',
 };
 
 const frame120931Data = {
-  topicsCovered: "Topics covered:",
+  topicsCovered: 'Topics covered:',
   moremIpsumDolorSi:
-    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+    'Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.',
 };
 
 const frame120932Data = {
-  topicsCovered: "Note from the instructor:",
+  topicsCovered: 'Note from the instructor:',
   moremIpsumDolorSi: (
     <React.Fragment>
       Norem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -230,15 +237,15 @@ const frame120932Data = {
 };
 
 const taskDetailTabletData = {
-  frame1349: "/img/frame-1349-1.png",
-  frame5: "/img/frame-5@2x.png",
-  title: "Assignment",
-  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-  line11: "/img/line-11-1.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame1349: '/img/frame-1349-1.png',
+  frame5: '/img/frame-5@2x.png',
+  title: 'Assignment',
+  physicsThermodyna: 'Physics - thermodynamics assignment questions (Theory)',
+  line11: '/img/line-11-1.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   breadcrumb21Props: breadcrumb25Data,
   breadcrumb22Props: breadcrumb26Data,
   goBackProps: goBack3Data,
@@ -247,42 +254,42 @@ const taskDetailTabletData = {
 };
 
 const navElement4Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement5Data = {
-  home3: "/img/tasksquare@2x.png",
-  place: "Tasks",
-  className: "nav-element-4",
+  home3: '/img/tasksquare@2x.png',
+  place: 'Tasks',
+  className: 'nav-element-4',
 };
 
 const navElement6Data = {
-  home3: "/img/clipboardtick@2x.png",
-  place: "Completed",
-  className: "nav-element-5",
+  home3: '/img/clipboardtick@2x.png',
+  place: 'Completed',
+  className: 'nav-element-5',
 };
 
 const breadcrumb27Data = {
-  assignments: "Assignments",
+  assignments: 'Assignments',
 };
 
 const breadcrumb28Data = {
-  assignments: "Physics - thermodynamics assignment questions (Theory)",
+  assignments: 'Physics - thermodynamics assignment questions (Theory)',
 };
 
 const goBack4Data = {
-  caret: "/img/caret-5@2x.png",
+  caret: '/img/caret-5@2x.png',
 };
 
 const frame120941Data = {
-  topicsCovered: "Topics covered:",
+  topicsCovered: 'Topics covered:',
   moremIpsumDolorSi:
-    "Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+    'Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.',
 };
 
 const frame120942Data = {
-  topicsCovered: "Note from the instructor:",
+  topicsCovered: 'Note from the instructor:',
   moremIpsumDolorSi: (
     <React.Fragment>
       Norem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -296,11 +303,11 @@ const frame120942Data = {
 
 const taskDetailLaptopData = {
   headerProps: taskHeaderProps,
-  frame1343: "/img/frame-1343@2x.png",
-  title: "Assignment",
-  physicsThermodyna: "Physics - thermodynamics assignment questions (Theory)",
-  line11: "/img/line-11-2.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  frame1343: '/img/frame-1343@2x.png',
+  title: 'Assignment',
+  physicsThermodyna: 'Physics - thermodynamics assignment questions (Theory)',
+  line11: '/img/line-11-2.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   navElement1Props: navElement4Data,
   navElement2Props: navElement5Data,
   navElement3Props: navElement6Data,
@@ -348,112 +355,112 @@ const Rectangle43 = styled.input`
 `;
 
 const navElement23Data = {
-  tasksquare: "/img/home3-1@2x.png",
-  home: "Home",
-  className: "nav-element-8",
+  tasksquare: '/img/home3-1@2x.png',
+  home: 'Home',
+  className: 'nav-element-8',
 };
 
 const navElement3Data1 = {
-  iconHome: "/img/assignment-8@2x.png",
-  place: "Assignments",
-  className: "nav-element-1",
+  iconHome: '/img/assignment-8@2x.png',
+  place: 'Assignments',
+  className: 'nav-element-1',
 };
 
 const navElement24Data = {
-  tasksquare: "/img/subject@2x.png",
-  home: "Classes",
-  className: "nav-element-9",
+  tasksquare: '/img/subject@2x.png',
+  home: 'Classes',
+  className: 'nav-element-9',
 };
 
 const frame42Data1 = {
-  maskGroup: "/img/mask-group-5@2x.png",
-  className: "frame-4-1",
+  maskGroup: '/img/mask-group-5@2x.png',
+  className: 'frame-4-1',
 };
 
 const goBack24Data = {
-  caret: "/img/caret-1@2x.png",
+  caret: '/img/caret-1@2x.png',
 };
 
 const buttons25Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const input53Data = {
-  input: "Theory",
+  input: 'Theory',
 };
 
 const input65Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const input66Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const input54Data = {
-  input: "MCQ",
+  input: 'MCQ',
 };
 
 const input67Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const group12559Data = {
-  className: "group-1255-6",
+  className: 'group-1255-6',
 };
 
 const input81Data = {
-  option1: "Option 1",
+  option1: 'Option 1',
   group1255Props: group12559Data,
 };
 
 const group125510Data = {
-  className: "group-1255-7",
+  className: 'group-1255-7',
 };
 
 const input82Data = {
-  option1: "Option 2",
+  option1: 'Option 2',
   group1255Props: group125510Data,
 };
 
 const group125511Data = {
-  className: "group-1255-8",
+  className: 'group-1255-8',
 };
 
 const input83Data = {
-  option1: "Option 3",
+  option1: 'Option 3',
   group1255Props: group125511Data,
 };
 
 const group125512Data = {
-  className: "group-1255-9",
+  className: 'group-1255-9',
 };
 
 const input84Data = {
-  option1: "Option 4",
+  option1: 'Option 4',
   group1255Props: group125512Data,
 };
 
 const input68Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const richTextComponents14Data = {
-  src: "/img/drag-icon-8@2x.png",
-  className: "rich-text-components-5",
+  src: '/img/drag-icon-8@2x.png',
+  className: 'rich-text-components-5',
 };
 
 const frame128035Data = {
-  className: "",
+  className: '',
 };
 
 const frame129734Data = {
-  text9: "4.",
-  frame1284: "/img/frame-1284-9@2x.png",
+  text9: '4.',
+  frame1284: '/img/frame-1284-9@2x.png',
   richTextComponentsProps: richTextComponents14Data,
   frame12803Props: frame128035Data,
 };
@@ -463,70 +470,70 @@ const questionFrame42Data = {
 };
 
 const frame128036Data = {
-  className: "frame-1280-7",
+  className: 'frame-1280-7',
 };
 
 const buttons26Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const checkbox38Data = {
-  className: "checkbox-15",
+  className: 'checkbox-15',
 };
 
 const checkbox39Data = {
-  className: "checkbox-16",
+  className: 'checkbox-16',
 };
 
 const checkbox310Data = {
-  className: "checkbox-17",
+  className: 'checkbox-17',
 };
 
 const checkbox311Data = {
-  className: "checkbox-18",
+  className: 'checkbox-18',
 };
 
 const checkbox312Data = {
-  className: "checkbox-19",
+  className: 'checkbox-19',
 };
 
 const checkbox313Data = {
-  className: "checkbox-20",
+  className: 'checkbox-20',
 };
 
 const goBack25Data = {
-  caret: "/img/caret-5@2x.png",
-  className: "go-back-5",
+  caret: '/img/caret-5@2x.png',
+  className: 'go-back-5',
 };
 
 const frame6622Data = {
-  className: "frame-6-6",
+  className: 'frame-6-6',
 };
 
 const dropdown1Data = {
-  heading: "Heading",
+  heading: 'Heading',
 };
 
 const dropdown2Data = {
-  heading: "IBM Plex Sans",
-  className: "dropdown-1",
+  heading: 'IBM Plex Sans',
+  className: 'dropdown-1',
 };
 
 const dropdown3Data = {
-  heading: "20px",
-  className: "dropdown-2",
+  heading: '20px',
+  className: 'dropdown-2',
 };
 const richTextComponents12Data = {
-  src: "/img/redo@2x.png",
-  className: "rich-text-components-11",
+  src: '/img/redo@2x.png',
+  className: 'rich-text-components-11',
 };
 const frame128033Data = {
-  className: "frame-1280-6",
+  className: 'frame-1280-6',
 };
 
 const frame129733Data = {
-  text9: "2.",
-  frame1284: "/img/frame-1284-9@2x.png",
+  text9: '2.',
+  frame1284: '/img/frame-1284-9@2x.png',
   richTextComponentsProps: richTextComponents12Data,
   frame12803Props: frame128033Data,
 };
@@ -536,13 +543,13 @@ const questionFrame41Data = {
 };
 
 const richTextComponents15Data = {
-  src: "/img/underline@2x.png",
-  className: "rich-text-components-14",
+  src: '/img/underline@2x.png',
+  className: 'rich-text-components-14',
 };
 
 const frame129735Data = {
-  text9: "5.",
-  frame1284: "/img/frame-1284-9@2x.png",
+  text9: '5.',
+  frame1284: '/img/frame-1284-9@2x.png',
   richTextComponentsProps: richTextComponents15Data,
   frame12803Props: frame128036Data,
 };
@@ -552,101 +559,101 @@ const questionFrame43Data = {
 };
 
 const notifications4Data1 = {
-  src: "/img/notificationbing-2@2x.png",
+  src: '/img/notificationbing-2@2x.png',
 };
 
 const richTextComponents11Data = {
-  src: "/img/undo@2x.png",
-  className: "rich-text-components-10",
+  src: '/img/undo@2x.png',
+  className: 'rich-text-components-10',
 };
 
 const frame128032Data = {
-  className: "",
+  className: '',
 };
 
 const frame129732Data = {
-  text9: "1.",
-  frame1284: "/img/frame-1284-7@2x.png",
+  text9: '1.',
+  frame1284: '/img/frame-1284-7@2x.png',
   richTextComponentsProps: richTextComponents11Data,
   frame12803Props: frame128032Data,
 };
 
 const richTextComponents13Data = {
-  src: "/img/bold@2x.png",
-  className: "rich-text-components-12",
+  src: '/img/bold@2x.png',
+  className: 'rich-text-components-12',
 };
 
 const richTextComponents33Data = {
-  src: "/img/bold-1@2x.png",
-  className: "rich-text-components-29",
+  src: '/img/bold-1@2x.png',
+  className: 'rich-text-components-29',
 };
 
 const goBack22Data = {
-  caret: "/img/caret-1@2x.png",
+  caret: '/img/caret-1@2x.png',
 };
 
 const buttons23Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const richTextComponents6Data = {
-  src: "/img/drag-icon-5@2x.png",
-  className: "",
+  src: '/img/drag-icon-5@2x.png',
+  className: '',
 };
 
 const frame128022Data = {
-  className: "",
+  className: '',
 };
 
 const frame129722Data = {
-  text6: "1.",
-  frame1284: "/img/frame-1284-7@2x.png",
+  text6: '1.',
+  frame1284: '/img/frame-1284-7@2x.png',
   richTextComponentsProps: richTextComponents6Data,
   frame12802Props: frame128022Data,
 };
 
 const goBack23Data = {
-  caret: "/img/caret-5@2x.png",
-  className: "go-back-3",
+  caret: '/img/caret-5@2x.png',
+  className: 'go-back-3',
 };
 
 const notifications2Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const buttons21Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const richTextComponents1Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12971Data = {
-  text1: "1.",
+  text1: '1.',
   richTextComponentsProps: richTextComponents1Data,
 };
 
 const input1Data = {
-  input: "Theory",
+  input: 'Theory',
 };
 
 const input21Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const input22Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const richTextComponents2Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12972Data = {
-  text1: "2.",
+  text1: '2.',
   richTextComponentsProps: richTextComponents2Data,
 };
 
@@ -655,11 +662,11 @@ const questionFrame1Data = {
 };
 
 const richTextComponents3Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const group251Data = {
-  src: "/img/vector@2x.png",
+  src: '/img/vector@2x.png',
 };
 
 const bulletList1Data = {
@@ -667,41 +674,41 @@ const bulletList1Data = {
 };
 
 const input3Data = {
-  input: "MCQ",
+  input: 'MCQ',
 };
 
 const input32Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const input41Data = {
-  option1: "Option 1",
+  option1: 'Option 1',
 };
 
 const input42Data = {
-  option1: "Option 2",
+  option1: 'Option 2',
 };
 
 const input43Data = {
-  option1: "Option 3",
+  option1: 'Option 3',
 };
 
 const input44Data = {
-  option1: "Option 4",
+  option1: 'Option 4',
 };
 
 const input23Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const richTextComponents4Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12973Data = {
-  text1: "4.",
+  text1: '4.',
   richTextComponentsProps: richTextComponents4Data,
 };
 
@@ -710,11 +717,11 @@ const questionFrame2Data = {
 };
 
 const richTextComponents5Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12974Data = {
-  text1: "5.",
+  text1: '5.',
   richTextComponentsProps: richTextComponents5Data,
 };
 
@@ -723,29 +730,29 @@ const questionFrame3Data = {
 };
 
 const buttons22Data = {
-  add: "/img/add-2@2x.png",
+  add: '/img/add-2@2x.png',
 };
 
 const checkbox2Data = {
-  className: "checkbox-2",
+  className: 'checkbox-2',
 };
 
 const checkbox3Data = {
-  className: "checkbox-3",
+  className: 'checkbox-3',
 };
 
 const checkbox4Data = {
-  className: "checkbox-4",
+  className: 'checkbox-4',
 };
 
 const checkbox5Data = {
-  className: "checkbox-5",
+  className: 'checkbox-5',
 };
 
 const checkbox6Data = {
-  className: "checkbox-6",
+  className: 'checkbox-6',
 };
 
 const radioBoxData = {
-  label: "Peer to Peer (randomised)",
+  label: 'Peer to Peer (randomised)',
 };

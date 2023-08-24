@@ -1,21 +1,26 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalElectricViolet16px , IbmplexsansMediumWhite16px} from "../../../styledMixins";
-import {deleteMarkingCriteria } from "../../../service.js";
-
+import React from 'react';
+import styled from 'styled-components';
+import {
+  IbmplexsansNormalElectricViolet16px,
+  IbmplexsansMediumWhite16px,
+} from '../../../styledMixins';
+import { deleteMarkingCriteria } from '../../../service.js';
 
 function Frame1219(props) {
-  const {saveMethod, deleteMethod, isUpdating} = props;
+  const { saveMethod, deleteMethod, isUpdating } = props;
   return (
     <Frame12191>
-     { isUpdating && <Frame1322 onClick={deleteMethod}>
-        <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
-        <Delete>Delete</Delete>
-      </Frame1322>
-      }
+      {isUpdating && (
+        <Frame1322 onClick={deleteMethod}>
+          <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
+          <Delete>Delete</Delete>
+        </Frame1322>
+      )}
       <Buttons1>
-      <Button onClick={saveMethod}>{isUpdating?'Update Criteria':'Save Criteria'}</Button>
-    </Buttons1>
+        <Button onClick={saveMethod}>
+          {isUpdating ? 'Update Criteria' : 'Save Criteria'}
+        </Button>
+      </Buttons1>
     </Frame12191>
   );
 }
@@ -35,7 +40,7 @@ const Frame1322 = styled.div`
   gap: 4px;
   position: relative;
   cursor: pointer;
-   &:hover {
+  &:hover {
     scale: 1.2;
     transition: 0.1s;
   }
@@ -68,7 +73,7 @@ const Buttons1 = styled.div`
   border-radius: 30px;
   border: 1px solid;
   cursor: pointer;
-   &:hover {
+  &:hover {
     scale: 1.2;
     transition: 0.1s;
   }
@@ -83,7 +88,5 @@ const Button = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
-
 
 export default Frame1219;

@@ -1,7 +1,7 @@
-import React from "react";
-import Checkbox from "../Checkbox";
-import styled from "styled-components";
-import "./SelectColor.css";
+import React from 'react';
+import Checkbox from '../Checkbox';
+import styled from 'styled-components';
+import './SelectColor.css';
 
 function SelectColor(props) {
   const {
@@ -27,25 +27,53 @@ function SelectColor(props) {
     <div className="select-color screen">
       <Frame1321>
         <Frame1369>
-          <PickAColourForFocusArea>{pickAColourForFocusArea}</PickAColourForFocusArea>
+          <PickAColourForFocusArea>
+            {pickAColourForFocusArea}
+          </PickAColourForFocusArea>
         </Frame1369>
       </Frame1321>
       <Line34 src={line34} alt="Line 34" />
       <Frame13211>
         <Checkbox>{checkbox1Props.children}</Checkbox>
-        <Checkbox className={checkbox2Props.className}>{checkbox2Props.children}</Checkbox>
-        <Checkbox className={checkbox3Props.className}>{checkbox3Props.children}</Checkbox>
-        <Checkbox className={checkbox4Props.className}>{checkbox4Props.children}</Checkbox>
-        <Checkbox className={checkbox5Props.className}>{checkbox5Props.children}</Checkbox>
-        <Checkbox className={checkbox6Props.className}>{checkbox6Props.children}</Checkbox>
-        <Checkbox className={checkbox7Props.className}>{checkbox7Props.children}</Checkbox>
-        <Checkbox className={checkbox8Props.className}>{checkbox8Props.children}</Checkbox>
-        <Checkbox className={checkbox9Props.className}>{checkbox9Props.children}</Checkbox>
-        <Checkbox className={checkbox10Props.className}>{checkbox10Props.children}</Checkbox>
-        <Checkbox className={checkbox11Props.className}>{checkbox11Props.children}</Checkbox>
-        <Checkbox className={checkbox12Props.className}>{checkbox12Props.children}</Checkbox>
-        <Checkbox className={checkbox13Props.className}>{checkbox13Props.children}</Checkbox>
-        <Checkbox className={checkbox14Props.className}>{checkbox14Props.children}</Checkbox>
+        <Checkbox className={checkbox2Props.className}>
+          {checkbox2Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox3Props.className}>
+          {checkbox3Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox4Props.className}>
+          {checkbox4Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox5Props.className}>
+          {checkbox5Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox6Props.className}>
+          {checkbox6Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox7Props.className}>
+          {checkbox7Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox8Props.className}>
+          {checkbox8Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox9Props.className}>
+          {checkbox9Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox10Props.className}>
+          {checkbox10Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox11Props.className}>
+          {checkbox11Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox12Props.className}>
+          {checkbox12Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox13Props.className}>
+          {checkbox13Props.children}
+        </Checkbox>
+        <Checkbox className={checkbox14Props.className}>
+          {checkbox14Props.children}
+        </Checkbox>
       </Frame13211>
     </div>
   );

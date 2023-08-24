@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumShark20px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumShark20px } from '../styledMixins';
 
 function Frame1312(props) {
   const { boyleJonny, arrowdown2 } = props;

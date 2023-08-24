@@ -1,18 +1,18 @@
-import React from "react";
-import { getAssignments, getClasses } from "../../../service";
-import ReactiveRender from "../../ReactiveRender";
-import TeacherTasksStudentMobile from "../TeacherTasksStudentMobile";
-import TeacherTasksStudentTablet from "../TeacherTasksStudentTablet";
-import TeacherTasksLaptop from "../TeacherTasksLaptop";
-import TeacherTasksDesktop from "../TeacherTasksDesktop";
+import React from 'react';
+import { getAssignments, getClasses } from '../../../service';
+import ReactiveRender from '../../ReactiveRender';
+import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
+import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
+import TeacherTasksLaptop from '../TeacherTasksLaptop';
+import TeacherTasksDesktop from '../TeacherTasksDesktop';
 import {
   assignmentsHeaderProps,
   taskHeaderProps,
-} from "../../../utils/headerProps.js";
+} from '../../../utils/headerProps.js';
 import _ from 'lodash';
-import Loader from "../../Loader";
-import DeleteAssignmentPopup from "../../DeleteAssignmentPopUp";
-import ExtendAssignmentPopup from "../../ExtendAssignmentPopup";
+import Loader from '../../Loader';
+import DeleteAssignmentPopup from '../../DeleteAssignmentPopUp';
+import ExtendAssignmentPopup from '../../ExtendAssignmentPopup';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -24,8 +24,7 @@ export default function TeacherTaskRoot() {
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
 
   React.useEffect(() => {
-    Promise.all([getAssignments(), getClasses()])
-    .then(([result, classes]) => {
+    Promise.all([getAssignments(), getClasses()]).then(([result, classes]) => {
       if (result) {
         setAssignments(result);
         setClasses(classes);
@@ -35,22 +34,22 @@ export default function TeacherTaskRoot() {
     });
   }, []);
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   const drafts = filteredTasks.filter(
-    (assignment) => assignment.submissionsStatus === "DRAFT"
+    (assignment) => assignment.submissionsStatus === 'DRAFT'
   );
   const awaitingSubmissions = filteredTasks.filter(
-    (assignment) => assignment.submissionsStatus === "AWAITING_SUBMISSIONS"
+    (assignment) => assignment.submissionsStatus === 'AWAITING_SUBMISSIONS'
   );
   const feedbacks = filteredTasks.filter(
-    (assignment) => assignment.submissionsStatus === "FEEDBACK"
+    (assignment) => assignment.submissionsStatus === 'FEEDBACK'
   );
 
-  const classesItems = classes.map(clazz=>{
-    return {value:clazz.id , label:clazz.title, category: 'CLASSES'}
-  })
+  const classesItems = classes.map((clazz) => {
+    return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
+  });
 
   const menuItems = [
     {
@@ -60,124 +59,134 @@ export default function TeacherTaskRoot() {
     },
   ];
 
-  const filterTasks = (selectedItems) =>{
+  const filterTasks = (selectedItems) => {
     const groupedData = _.groupBy(selectedItems, 'category');
-    
-    const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
 
+    const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
 
     const filteredAssignments = _.filter(assignments, (assignment) => {
       if (_.isEmpty(classesValues)) {
         return true;
       }
-      return _.some(assignment.classIds, (classId) => _.includes(classesValues, classId));
+      return _.some(assignment.classIds, (classId) =>
+        _.includes(classesValues, classId)
+      );
     });
-    
-    setFilteredTasks(filteredAssignments)
-  }
-  const hidedeletePopup = () => { 
+
+    setFilteredTasks(filteredAssignments);
+  };
+  const hidedeletePopup = () => {
     setShowDeletePopup(false);
-  }
+  };
   const showDeletePopuphandler = (assignment) => {
     setSelectedAssignment(assignment);
     setShowDeletePopup(true);
-  }
+  };
 
   const showDateExtendPopuphandler = (assignment) => {
     setSelectedAssignment(assignment);
     setShowDateExtendPopup(true);
-  }
-  const hideDateExtendPopup = () => { 
+  };
+  const hideDateExtendPopup = () => {
     setShowDateExtendPopup(false);
-  }
-
+  };
 
   return (
     <>
-     {showDeletePopup &&  <DeleteAssignmentPopup assignment={selectedAssignment} hidedeletePopup={hidedeletePopup}/>}
-     {showDateExtendPopup &&  <ExtendAssignmentPopup assignment={selectedAssignment} hideDateExtendPopup={hideDateExtendPopup}/>}
-    
-    <ReactiveRender
-      mobile={
-        <TeacherTasksStudentMobile
-          {...{
-            menuItems,
-            filterTasks,
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
-            showDeletePopuphandler,
-            showDateExtendPopuphandler,
-            ...tasksStudentMobileData,
-          }}
+      {showDeletePopup && (
+        <DeleteAssignmentPopup
+          assignment={selectedAssignment}
+          hidedeletePopup={hidedeletePopup}
         />
-      }
-      tablet={
-        <TeacherTasksStudentTablet
-          {...{
-            menuItems,
-            filterTasks,
-            drafts,
-            awaitingSubmissions,
-            showDeletePopuphandler,
-            showDateExtendPopuphandler,
-            feedbacks,
-            ...tasksStudentTabletData,
-          }}
+      )}
+      {showDateExtendPopup && (
+        <ExtendAssignmentPopup
+          assignment={selectedAssignment}
+          hideDateExtendPopup={hideDateExtendPopup}
         />
-      }
-      laptop={
-        <TeacherTasksLaptop
-          {...{
-            menuItems,
-            filterTasks,
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
-            showDeletePopuphandler,
-            showDateExtendPopuphandler,
-            showDeletePopup,
-            hidedeletePopup,
-            selectedAssignment,
-            ...tasksLaptopData,
-          }}
-        />
-      }
-      desktop={
-        <TeacherTasksDesktop
-          {...{
-            menuItems,
-            filterTasks,
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
-            showDeletePopuphandler,
-            showDateExtendPopuphandler,
-            ...tasksDesktopData,
-          }}
-        />
-      }
-    />
+      )}
+
+      <ReactiveRender
+        mobile={
+          <TeacherTasksStudentMobile
+            {...{
+              menuItems,
+              filterTasks,
+              drafts,
+              awaitingSubmissions,
+              feedbacks,
+              showDeletePopuphandler,
+              showDateExtendPopuphandler,
+              ...tasksStudentMobileData,
+            }}
+          />
+        }
+        tablet={
+          <TeacherTasksStudentTablet
+            {...{
+              menuItems,
+              filterTasks,
+              drafts,
+              awaitingSubmissions,
+              showDeletePopuphandler,
+              showDateExtendPopuphandler,
+              feedbacks,
+              ...tasksStudentTabletData,
+            }}
+          />
+        }
+        laptop={
+          <TeacherTasksLaptop
+            {...{
+              menuItems,
+              filterTasks,
+              drafts,
+              awaitingSubmissions,
+              feedbacks,
+              showDeletePopuphandler,
+              showDateExtendPopuphandler,
+              showDeletePopup,
+              hidedeletePopup,
+              selectedAssignment,
+              ...tasksLaptopData,
+            }}
+          />
+        }
+        desktop={
+          <TeacherTasksDesktop
+            {...{
+              menuItems,
+              filterTasks,
+              drafts,
+              awaitingSubmissions,
+              feedbacks,
+              showDeletePopuphandler,
+              showDateExtendPopuphandler,
+              ...tasksDesktopData,
+            }}
+          />
+        }
+      />
     </>
   );
 }
 
 const frame13041Data = {
-  iconsaxLinearSort: "/img/iconsax-linear-sort@2x.png",
+  iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
 };
 const tabs23Data = {
-  children: "In progress",
-  className: "tabs-3",
+  children: 'In progress',
+  className: 'tabs-3',
 };
 const tabs24Data = {
-  children: "Overdue",
-  className: "tabs-4",
+  children: 'Overdue',
+  className: 'tabs-4',
 };
 const statusBubbles28Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 const statusBubbles32Data = {
-  star1: "/img/star1@2x.png",
+  star1: '/img/star1@2x.png',
 };
 
 const frame66Data = {
@@ -186,7 +195,7 @@ const frame66Data = {
 };
 
 const content6Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards6Data = {
@@ -195,11 +204,11 @@ const cards6Data = {
 };
 
 const statusBubbles29Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const statusBubbles210Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const frame622Data = {
@@ -208,7 +217,7 @@ const frame622Data = {
 };
 
 const content7Data = {
-  dueOn2April2023: "Due on 10 April 2023",
+  dueOn2April2023: 'Due on 10 April 2023',
 };
 
 const cards22Data = {
@@ -217,7 +226,7 @@ const cards22Data = {
 };
 
 const statusBubbles211Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const frame632Data = {
@@ -225,7 +234,7 @@ const frame632Data = {
 };
 
 const content8Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards32Data = {
@@ -234,7 +243,7 @@ const cards32Data = {
 };
 
 const statusBubbles212Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const frame642Data = {
@@ -242,7 +251,7 @@ const frame642Data = {
 };
 
 const content9Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards42Data = {
@@ -251,11 +260,11 @@ const cards42Data = {
 };
 
 const statusBubbles213Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const statusBubbles214Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const frame652Data = {
@@ -264,7 +273,7 @@ const frame652Data = {
 };
 
 const content10Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards52Data = {
@@ -273,7 +282,7 @@ const cards52Data = {
 };
 
 const frame192Data = {
-  className: "frame-19-1",
+  className: 'frame-19-1',
   cardsProps: cards6Data,
   cards2Props: cards22Data,
   cards3Props: cards32Data,
@@ -290,23 +299,23 @@ const tasksStudentMobileData = {
 };
 
 const frame13042Data = {
-  iconsaxLinearSort: "/img/iconsax-linear-sort@2x.png",
+  iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
 };
 
 const tabs25Data = {
-  children: "In progress",
+  children: 'In progress',
 };
 
 const tabs26Data = {
-  children: "Overdue",
+  children: 'Overdue',
 };
 
 const statusBubbles215Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const statusBubbles33Data = {
-  star1: "/img/star1-1@2x.png",
+  star1: '/img/star1-1@2x.png',
 };
 
 const frame67Data = {
@@ -315,7 +324,7 @@ const frame67Data = {
 };
 
 const content22Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards62Data = {
@@ -324,11 +333,11 @@ const cards62Data = {
 };
 
 const statusBubbles216Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const statusBubbles217Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const frame623Data = {
@@ -337,7 +346,7 @@ const frame623Data = {
 };
 
 const content23Data = {
-  dueOn2April2023: "Due on 10 April 2023",
+  dueOn2April2023: 'Due on 10 April 2023',
 };
 
 const cards7Data = {
@@ -346,7 +355,7 @@ const cards7Data = {
 };
 
 const statusBubbles218Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const frame633Data = {
@@ -354,7 +363,7 @@ const frame633Data = {
 };
 
 const content24Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards8Data = {
@@ -363,7 +372,7 @@ const cards8Data = {
 };
 
 const statusBubbles219Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const frame643Data = {
@@ -371,7 +380,7 @@ const frame643Data = {
 };
 
 const content25Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards9Data = {
@@ -380,11 +389,11 @@ const cards9Data = {
 };
 
 const statusBubbles220Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const statusBubbles221Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const frame653Data = {
@@ -393,7 +402,7 @@ const frame653Data = {
 };
 
 const content26Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards10Data = {
@@ -401,18 +410,18 @@ const cards10Data = {
   content2Props: content26Data,
 };
 const notifications3Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 const tasksStudentTabletData = {
-  frame1349: "/img/frame-1349-1.png",
-  frame5: "/img/frame-5@2x.png",
-  keepOrganizedWitho: "Tasks",
-  outstanding: "Outstanding",
-  number: "5",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame1349: '/img/frame-1349-1.png',
+  frame5: '/img/frame-5@2x.png',
+  keepOrganizedWitho: 'Tasks',
+  outstanding: 'Outstanding',
+  number: '5',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   notificationsProps: notifications3Data,
   frame1304Props: frame13042Data,
   tabs21Props: tabs25Data,
@@ -426,19 +435,19 @@ const tasksStudentTabletData = {
 };
 
 const tabs21Data = {
-  children: "In progress",
+  children: 'In progress',
 };
 
 const tabs22Data = {
-  children: "Overdue",
+  children: 'Overdue',
 };
 
 const statusBubbles21Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const statusBubbles31Data = {
-  star1: "/img/star1@2x.png",
+  star1: '/img/star1@2x.png',
 };
 const frame61Data = {
   statusBubbles2Props: statusBubbles21Data,
@@ -446,7 +455,7 @@ const frame61Data = {
 };
 
 const content1Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards1Data = {
@@ -455,11 +464,11 @@ const cards1Data = {
 };
 
 const statusBubbles22Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const statusBubbles23Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const frame621Data = {
@@ -468,7 +477,7 @@ const frame621Data = {
 };
 
 const content2Data = {
-  dueOn2April2023: "Due on 10 April 2023",
+  dueOn2April2023: 'Due on 10 April 2023',
 };
 
 const cards21Data = {
@@ -477,7 +486,7 @@ const cards21Data = {
 };
 
 const statusBubbles24Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const frame631Data = {
@@ -485,7 +494,7 @@ const frame631Data = {
 };
 
 const content3Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards31Data = {
@@ -494,7 +503,7 @@ const cards31Data = {
 };
 
 const statusBubbles25Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const frame641Data = {
@@ -502,7 +511,7 @@ const frame641Data = {
 };
 
 const content4Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards41Data = {
@@ -511,11 +520,11 @@ const cards41Data = {
 };
 
 const statusBubbles26Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const statusBubbles27Data = {
-  children: "Theory",
+  children: 'Theory',
 };
 
 const frame651Data = {
@@ -524,7 +533,7 @@ const frame651Data = {
 };
 
 const content5Data = {
-  dueOn2April2023: "Due on 2 April 2023",
+  dueOn2April2023: 'Due on 2 April 2023',
 };
 
 const cards51Data = {
@@ -545,58 +554,58 @@ const tasksLaptopData = {
 };
 
 const navElement4Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement5Data = {
-  home3: "/img/tasksquare@2x.png",
-  place: "Tasks",
-  className: "nav-element-4",
+  home3: '/img/tasksquare@2x.png',
+  place: 'Tasks',
+  className: 'nav-element-4',
 };
 
 const navElement6Data = {
-  home3: "/img/clipboardtick@2x.png",
-  place: "Completed",
-  className: "nav-element-5",
+  home3: '/img/clipboardtick@2x.png',
+  place: 'Completed',
+  className: 'nav-element-5',
 };
 
 const notifications4Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const notifications1Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const navElement1Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement2Data = {
-  home3: "/img/tasksquare@2x.png",
-  place: "Tasks",
-  className: "nav-element-1",
+  home3: '/img/tasksquare@2x.png',
+  place: 'Tasks',
+  className: 'nav-element-1',
 };
 
 const navElement3Data = {
-  home3: "/img/clipboardtick@2x.png",
-  place: "Completed",
-  className: "nav-element-2",
+  home3: '/img/clipboardtick@2x.png',
+  place: 'Completed',
+  className: 'nav-element-2',
 };
 
 const frame41Data = {
-  maskGroup: "/img/mask-group@2x.png",
+  maskGroup: '/img/mask-group@2x.png',
 };
 const frame13043Data = {
-  iconsaxLinearSort: "/img/iconsax-linear-sort-2@2x.png",
+  iconsaxLinearSort: '/img/iconsax-linear-sort-2@2x.png',
 };
 const frame13061Data = {
   frame1304Props: frame13043Data,
 };
 const tasksDesktopData = {
-  title: "Tasks",
+  title: 'Tasks',
   frame1306Props: frame13061Data,
   frame19Props: frame192Data,
   headerProps: taskHeaderProps,

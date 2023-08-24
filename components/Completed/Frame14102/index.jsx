@@ -1,8 +1,8 @@
-import React from "react";
-import Frame1308 from "../Frame1308";
-import Cards8 from "../Cards8";
-import Cards9 from "../Cards9";
-import styled from "styled-components";
+import React from 'react';
+import Frame1308 from '../Frame1308';
+import Cards8 from '../Cards8';
+import Cards9 from '../Cards9';
+import styled from 'styled-components';
 
 function Frame14102(props) {
   const { frame1308Props, cards8Props } = props;

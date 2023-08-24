@@ -1,18 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet20px } from '../../../styledMixins';
 
 function GoBack() {
   return (
-    
-      <GoBack1>
-        <Caret src="/img/caret-2@2x.png" alt="caret" />
-        <a href="javascript:history.back()">
+    <GoBack1>
+      <Caret src="/img/caret-2@2x.png" alt="caret" />
+      <a href="javascript:history.back()">
         <BackToPreviousPage>back to previous page</BackToPreviousPage>
-        </a>
-      </GoBack1>
- 
+      </a>
+    </GoBack1>
   );
 }
 
@@ -23,7 +20,6 @@ const GoBack1 = styled.div`
   position: relative;
   align-self: stretch;
   border-radius: 24px;
-
 `;
 
 const Caret = styled.img`

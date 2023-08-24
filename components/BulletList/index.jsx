@@ -1,12 +1,12 @@
-import React from "react";
-import Group25 from "../Group25";
-import styled from "styled-components";
+import React from 'react';
+import Group25 from '../Group25';
+import styled from 'styled-components';
 
 function BulletList(props) {
   const { className, group25Props } = props;
 
   return (
-    <BulletList1 className={`bullet-list ${className || ""}`}>
+    <BulletList1 className={`bullet-list ${className || ''}`}>
       <Group25 src={group25Props.src} />
     </BulletList1>
   );

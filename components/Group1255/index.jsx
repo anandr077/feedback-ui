@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalElectricViolet16px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalElectricViolet16px } from '../../styledMixins';
 
 function Group1255(props) {
   const { className } = props;

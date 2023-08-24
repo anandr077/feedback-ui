@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import { getUserName } from "../../service";
+import React from 'react';
+import styled from 'styled-components';
+import { getUserName } from '../../service';
 import {
   DashboardIbmplexsansBoldWhite72px,
-  DashboardIbmplexsansNormalWhite20px
-} from "../../styledMixins";
-import DashboardFrame12082 from "../DashboardFrame12082";
-import FooterSmall from "../FooterSmall";
-import HeaderSmall from "../HeaderSmall";
-import TaskCardContainer from "../TaskCardContainer";
-import "./DashboardHomeStudentTablet.css";
-import { homeHeaderProps } from "../../utils/headerProps";
+  DashboardIbmplexsansNormalWhite20px,
+} from '../../styledMixins';
+import DashboardFrame12082 from '../DashboardFrame12082';
+import FooterSmall from '../FooterSmall';
+import HeaderSmall from '../HeaderSmall';
+import TaskCardContainer from '../TaskCardContainer';
+import './DashboardHomeStudentTablet.css';
+import { homeHeaderProps } from '../../utils/headerProps';
 function DashboardHomeStudentTablet(props) {
   const {
     outstandingTasks,
@@ -51,7 +51,7 @@ function DashboardHomeStudentTablet(props) {
               allTasks={[
                 ...overdueTasks,
                 ...outstandingTasks,
-                ...inProgressTasks
+                ...inProgressTasks,
               ]}
             />
           </Frame11>
@@ -60,7 +60,11 @@ function DashboardHomeStudentTablet(props) {
           <DashboardFrame12082 tasks="Exemplars" exemplar={true} />
           <Line17 src="/img/line-17-2.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={modelResponses} exemplar={true} setPublishActionCompleted={setPublishActionCompleted} />
+            <TaskCardContainer
+              allTasks={modelResponses}
+              exemplar={true}
+              setPublishActionCompleted={setPublishActionCompleted}
+            />
           </Frame11>
         </Frame1205>
       </Frame1351>
@@ -188,7 +192,7 @@ const Frame1348 = styled.div`
 
 const KeepOrganizedWitho = styled.h1`
   ${DashboardIbmplexsansBoldWhite72px}
-  
+
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -208,7 +212,7 @@ const KeepOrganizedWitho1 = styled.p`
 `;
 
 const MaskGroup = styled.img`
-   position: absolute;
+  position: absolute;
   top: calc(50% - 130px);
   left: calc(50% - 720px);
   width: 1440px;

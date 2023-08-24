@@ -1,7 +1,7 @@
-import React from "react";
-import Frame14072 from "../Frame14072";
-import styled from "styled-components";
-import { IbmplexsansMediumRiverBed24px } from "../styledMixins";
+import React from 'react';
+import Frame14072 from '../Frame14072';
+import styled from 'styled-components';
+import { IbmplexsansMediumRiverBed24px } from '../styledMixins';
 
 function Frame13373(props) {
   const { tasks } = props;

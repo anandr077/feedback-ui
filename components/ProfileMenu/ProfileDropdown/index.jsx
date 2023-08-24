@@ -1,8 +1,8 @@
-import React from "react";
-import ProfileDropDownElement from "../ProfileDropDownElement";
-import "./ProfileDropdown.css";
-import styled from "styled-components";
-import { account, changePassword, logout, getUserRole } from "../../../service";
+import React from 'react';
+import ProfileDropDownElement from '../ProfileDropDownElement';
+import './ProfileDropdown.css';
+import styled from 'styled-components';
+import { account, changePassword, logout, getUserRole } from '../../../service';
 
 function ProfileDropdown() {
   const role = getUserRole();
@@ -14,14 +14,14 @@ function ProfileDropdown() {
         text="Change Password"
         onClick={() => changePassword()}
       />
-      { role === "TEACHER" && (
+      {role === 'TEACHER' && (
         <>
           <Line6 src="/icons/line.png" alt="Line 6" />
           <ProfileDropDownElement
-          text="Settings"
-          noIcon={true}
-          onClick={() => window.location.href = "/#/settings"}
-        />
+            text="Settings"
+            noIcon={true}
+            onClick={() => (window.location.href = '/#/settings')}
+          />
         </>
       )}
       <Line6 src="/icons/line.png" alt="Line 6" />

@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansSemiBoldBlack16px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansSemiBoldBlack16px } from '../../styledMixins';
 
 function Tabs2(props) {
   const { children, className } = props;
 
   return (
-    <Tabs className={`tabs-1 ${className || ""}`}>
+    <Tabs className={`tabs-1 ${className || ''}`}>
       <ToDo>{children}</ToDo>
     </Tabs>
   );

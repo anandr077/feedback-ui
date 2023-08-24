@@ -1,18 +1,16 @@
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import IconButton from "@mui/material/IconButton";
-import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import React from "react";
-import styled from "styled-components";
-import {
-  IbmplexsansNormalShark20px
-} from "../../styledMixins";
-import CheckboxBordered from "../CheckboxBordered";
-import "./index.css";
-import {IbmplexsansNormalShark16px} from "../../styledMixins";
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../styledMixins';
+import CheckboxBordered from '../CheckboxBordered';
+import './index.css';
+import { IbmplexsansNormalShark16px } from '../../styledMixins';
 
 const CheckboxGroup = ({
   data,
@@ -99,7 +97,7 @@ const CheckboxGroup = ({
           open={Boolean(anchorEl)}
           onClose={handleClose}
           MenuListProps={{
-            "aria-labelledby": "grouped-select",
+            'aria-labelledby': 'grouped-select',
           }}
         >
           <div className="customMenuContent">{menuContent}</div>
@@ -144,7 +142,7 @@ const StyledBox = styled(Box)`
   display: flex;
   align-items: center;
   position: relative;
-  background-color: ${(props) => props.backgroundColor || "var(--white)"};
+  background-color: ${(props) => props.backgroundColor || 'var(--white)'};
   border-radius: 8px;
   border: 1px solid;
   border-color: var(--light-mode-purple);
@@ -161,7 +159,7 @@ const StyledBox = styled(Box)`
   }
 `;
 
-const FlexContainer = styled("div")`
+const FlexContainer = styled('div')`
   // display: flex;
   // align-items: center;
   // // gap: 8px;
@@ -194,7 +192,7 @@ const StyledListItemText = styled(ListItemText)`
   // border-radius: 50%;
 
   .MuiTypography-root {
-    color: ${(props) => props.textColor || "var(--text)"};
+    color: ${(props) => props.textColor || 'var(--text)'};
   }
   .MuiButtonBase-root {
     padding: 0px;
@@ -248,7 +246,7 @@ const Ellipse141 = styled.div`
 `;
 
 const CreateNew = styled.div`
-${IbmplexsansNormalShark16px}
+  ${IbmplexsansNormalShark16px}
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansMediumElectricViolet14px,
   IbmplexsansMediumShark36px,
-} from "../../styledMixins";
+} from '../../styledMixins';
 
 function DashboardFrame1284(props) {
   const { title, count } = props;

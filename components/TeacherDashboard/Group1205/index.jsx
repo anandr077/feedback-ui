@@ -1,25 +1,25 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet16px } from '../styledMixins';
 
 function Group1205(props) {
   const { arrowright, arrowleft, link, label, small } = props;
 
   return (
     <a href={link}>
-     {small ? 
-     <Group12051Small>
-        {arrowleft ? <ArrowrightSmall src={arrowleft} /> : <></>}
-        <ViewAllSmall>{label}</ViewAllSmall>
-        {arrowright ? <ArrowrightSmall src={arrowright} /> : <></>}
-      </Group12051Small>
-      : 
-      <Group12051>
-        {arrowleft ? <Arrowright src={arrowleft} /> : <></>}
-        <ViewAll>{label}</ViewAll>
-        {arrowright ? <Arrowright src={arrowright} /> : <></>}
-      </Group12051>
-      }
+      {small ? (
+        <Group12051Small>
+          {arrowleft ? <ArrowrightSmall src={arrowleft} /> : <></>}
+          <ViewAllSmall>{label}</ViewAllSmall>
+          {arrowright ? <ArrowrightSmall src={arrowright} /> : <></>}
+        </Group12051Small>
+      ) : (
+        <Group12051>
+          {arrowleft ? <Arrowright src={arrowleft} /> : <></>}
+          <ViewAll>{label}</ViewAll>
+          {arrowright ? <Arrowright src={arrowright} /> : <></>}
+        </Group12051>
+      )}
     </a>
   );
 }

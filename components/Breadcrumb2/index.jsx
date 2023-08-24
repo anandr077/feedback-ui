@@ -1,24 +1,29 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalFuscousGray14px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalFuscousGray14px } from '../../styledMixins';
 
 function Breadcrumb2(props) {
-  const { title , exempler, link } = props;
+  const { title, exempler, link } = props;
 
-  return (<>
-    {
-      link ? 
-      (<Breadcrumb onClick={()=> window.location.href=link}>
-      <Caret src="/img/caret@2x.png" alt="caret" />
-      <Assignments>{title}</Assignments>
-      </Breadcrumb>
-    ) 
-    :
-      (<Breadcrumb onClick={() => window.location.href= exempler ? "/#/exemplarResponses" : window.location}>
-      <Caret src="/img/caret@2x.png" alt="caret" />
-      <Assignments>{title}</Assignments>
-       </Breadcrumb>)
-    }
+  return (
+    <>
+      {link ? (
+        <Breadcrumb onClick={() => (window.location.href = link)}>
+          <Caret src="/img/caret@2x.png" alt="caret" />
+          <Assignments>{title}</Assignments>
+        </Breadcrumb>
+      ) : (
+        <Breadcrumb
+          onClick={() =>
+            (window.location.href = exempler
+              ? '/#/exemplarResponses'
+              : window.location)
+          }
+        >
+          <Caret src="/img/caret@2x.png" alt="caret" />
+          <Assignments>{title}</Assignments>
+        </Breadcrumb>
+      )}
     </>
   );
 }

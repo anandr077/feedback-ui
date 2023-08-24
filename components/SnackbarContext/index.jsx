@@ -21,7 +21,15 @@ export const SnackbarProvider = ({ children }) => {
   };
 
   return (
-    <SnackbarContext.Provider value={{ snackbarOpen, snackbarMessage, snackbarLink, showSnackbar, closeSnackbar }}>
+    <SnackbarContext.Provider
+      value={{
+        snackbarOpen,
+        snackbarMessage,
+        snackbarLink,
+        showSnackbar,
+        closeSnackbar,
+      }}
+    >
       {children}
     </SnackbarContext.Provider>
   );

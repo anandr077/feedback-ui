@@ -1,7 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack20px, IbmplexsansNormalShark20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import {
+  IbmplexsansNormalBlack20px,
+  IbmplexsansNormalShark20px,
+} from '../../../styledMixins';
 
 function CriteriaLevelInput4(props) {
   const { high, providesASkilfulA } = props;

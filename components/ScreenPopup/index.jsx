@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../FeedbacksComponents/../../styledMixins";
-import { isMobileView } from "../ReactiveRender";
+import React, { useState, useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { IbmplexsansNormalBlack16px } from '../FeedbacksComponents/../../styledMixins';
+import { isMobileView } from '../ReactiveRender';
 
 export default function ScreenPopup(props) {
   const { message, setShowPopup, small, dismissable, setDismissable } = props;
   const [show, setShow] = useState(true);
-  const isMobile = isMobileView()
+  const isMobile = isMobileView();
   useEffect(() => {
     if (dismissable) {
       setShow(true);

@@ -1,22 +1,22 @@
-import React from "react";
-import Frame1407 from "../Frame1407";
-import Frame1284 from "../Frame1284";
-import Frame1283 from "../Frame1283";
-import Frame1282 from "../Frame1282";
-import styled from "styled-components";
-import { IbmplexsansMediumShark20px } from "../styledMixins";
+import React from 'react';
+import Frame1407 from '../Frame1407';
+import Frame1284 from '../Frame1284';
+import Frame1283 from '../Frame1283';
+import Frame1282 from '../Frame1282';
+import styled from 'styled-components';
+import { IbmplexsansMediumShark20px } from '../styledMixins';
 
 function Frame13124(props) {
   const { clazz } = props;
 
   return (
-    <a href={"#classes/" + clazz.id}>
+    <a href={'#classes/' + clazz.id}>
       <Frame1312>
         <Frame13121>
           <Frame13122>
             <X12ENGADV3>{clazz.title}</X12ENGADV3>
           </Frame13122>
-          <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
+          <Line17 src={'/img/line-17-22@2x.png'} alt="Line 17" />
           <Frame1307>
             <Frame1284 number={clazz.students?.length} />
             <Frame1283 number="-" />

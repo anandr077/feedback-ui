@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import "./HighlightHover.css";
+import React from 'react';
+import styled from 'styled-components';
+import './HighlightHover.css';
 
 function HighlightHover() {
   return (

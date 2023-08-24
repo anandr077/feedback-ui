@@ -1,12 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalMountainMist20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalMountainMist20px } from '../../../styledMixins';
 
 function Frame12862() {
   return (
     <Frame1286>
-      <AnAnswerOfThisLevelContains>An answer of this level should...</AnAnswerOfThisLevelContains>
+      <AnAnswerOfThisLevelContains>
+        An answer of this level should...
+      </AnAnswerOfThisLevelContains>
     </Frame1286>
   );
 }

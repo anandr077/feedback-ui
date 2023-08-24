@@ -1,41 +1,41 @@
-import React from "react";
-import styled from "styled-components";
-import { classesHomeHeaderProps } from "../../../utils/headerProps";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
-import Buttons from "../Buttons";
-import Frame12822 from "../Frame12822";
-import Frame12832 from "../Frame12832";
-import Frame12843 from "../Frame12843";
-import Frame1285 from "../Frame1285";
-import Frame13138 from "../Frame13138";
-import Frame13374 from "../Frame13374";
-import Group1205 from "../Group1205";
+import React from 'react';
+import styled from 'styled-components';
+import { classesHomeHeaderProps } from '../../../utils/headerProps';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
+import Buttons from '../Buttons';
+import Frame12822 from '../Frame12822';
+import Frame12832 from '../Frame12832';
+import Frame12843 from '../Frame12843';
+import Frame1285 from '../Frame1285';
+import Frame13138 from '../Frame13138';
+import Frame13374 from '../Frame13374';
+import Group1205 from '../Group1205';
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalShark16px,
-} from "../styledMixins";
+} from '../styledMixins';
 import {
   createModelResponsesFrames,
   createStudentsFrames,
-} from "../TeacherClassesRoot/methods";
-import "./TeacherClassesTablet.css";
+} from '../TeacherClassesRoot/methods';
+import './TeacherClassesTablet.css';
 import {
   createStudentsFrames,
   createModelResponsesFrames,
-} from "../TeacherClassesRoot/methods";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
-import Footer from "../../Footer";
-import Header from "../../Header";
-import Frame14072 from "../../TeacherDashboard/Frame14072";
-import Frame12842 from "../../TeacherDashboard/Frame12842";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Frame13136 from "../Frame13136";
-import Frame13373 from "../Frame13373";
+} from '../TeacherClassesRoot/methods';
+import ImageDropdownMenu from '../../ImageDropdownMenu';
+import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
+import Footer from '../../Footer';
+import Header from '../../Header';
+import Frame14072 from '../../TeacherDashboard/Frame14072';
+import Frame12842 from '../../TeacherDashboard/Frame12842';
+import ImageDropdownMenu from '../../ImageDropdownMenu';
+import Frame13136 from '../Frame13136';
+import Frame13373 from '../Frame13373';
 function TeacherClassesTablet(props) {
   const {
     drafts,
@@ -58,7 +58,7 @@ function TeacherClassesTablet(props) {
     frame131382Props,
     frame131383Props,
     frame131384Props,
-    annotationAnalyticsFrame
+    annotationAnalyticsFrame,
   } = props;
 
   return (
@@ -103,12 +103,12 @@ function TeacherClassesTablet(props) {
               </Frame1337>
               <Line17 src={line176} alt="Line 17" />
               <Frame1307>
-                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842 title={'DRAFTS'} count={drafts.length} />
                 <Frame12842
-                  title={"SUBMISSIONS"}
+                  title={'SUBMISSIONS'}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"REVIEWS"} count={feedbacks.length} />
+                <Frame12842 title={'REVIEWS'} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             {/* <Frame1342>

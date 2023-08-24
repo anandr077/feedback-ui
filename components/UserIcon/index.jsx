@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../../styledMixins";
-import { Avatar } from "@boringer-avatars/react";
-import { getUserName } from "../../service";
-import ProfileDropdown from "../ProfileMenu/ProfileDropdown";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack16px } from '../../styledMixins';
+import { Avatar } from '@boringer-avatars/react';
+import { getUserName } from '../../service';
+import ProfileDropdown from '../ProfileMenu/ProfileDropdown';
 
 function Frame4(props) {
   const name = getUserName();
@@ -25,7 +25,7 @@ function Frame4(props) {
   );
   return (
     <>
-      {" "}
+      {' '}
       <Frame41>
         <Avatar
           title={false}

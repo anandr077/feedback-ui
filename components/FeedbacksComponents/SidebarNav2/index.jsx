@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalGraniteGray16px } from "../../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalGraniteGray16px } from '../../../styledMixins';
 
 function SidebarNav2(props) {
   const { className } = props;
 
   return (
-    <SidebarNav className={`sidebar-nav-1 ${className || ""}`}>
+    <SidebarNav className={`sidebar-nav-1 ${className || ''}`}>
       <IconsaxLineararrowright2
         className="iconsax-lineararrowright2-1"
         src="/img/iconsax-linear-arrowright2-1@2x.png"

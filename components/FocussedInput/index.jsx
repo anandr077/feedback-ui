@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import { css } from "styled-components";
-import styled from "styled-components";
+import React, { useRef, useEffect } from 'react';
+import { css } from 'styled-components';
+import styled from 'styled-components';
 
 const FocusedInput = ({ id, placeholder, onKeyPress }) => {
   // Create a ref for the input element

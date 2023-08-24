@@ -1,7 +1,7 @@
-import React from "react";
-import Content from "../Content";
-import Buttons2 from "../Buttons2";
-import styled from "styled-components";
+import React from 'react';
+import Content from '../Content';
+import Buttons2 from '../Buttons2';
+import styled from 'styled-components';
 
 function Cards3(props) {
   const { contentProps } = props;

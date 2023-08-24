@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function Notifications(props) {
   const { src, className } = props;
 
   return (
-    <Notifications1 className={`notifications ${className || ""}`}>
+    <Notifications1 className={`notifications ${className || ''}`}>
       <OverlapGroup className="overlap-group">
         <Notificationbing
           className="notificationbing"

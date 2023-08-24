@@ -1,6 +1,6 @@
-import React from "react";
-import Dropdown from "../Dropdown";
-import styled from "styled-components";
+import React from 'react';
+import Dropdown from '../Dropdown';
+import styled from 'styled-components';
 
 function SubmissionGroup25(props) {
   const { dropdown1Props, dropdown2Props, dropdown3Props } = props;

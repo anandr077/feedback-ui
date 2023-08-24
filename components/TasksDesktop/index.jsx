@@ -1,24 +1,26 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansBoldShark64px,
-  IbmplexsansSemiBoldRiverBed24px
-} from "../../styledMixins";
-import Footer from "../Footer";
-import Header from "../Header";
-import TaskCardContainer from "../TaskCardContainer";
-import TaskFrame1353 from "../TaskFrame1353";
-import "./TasksDesktop.css";
-import { taskHeaderProps } from "../../utils/headerProps.js";
-import CheckboxGroup from "../CheckboxGroup";
+  IbmplexsansSemiBoldRiverBed24px,
+} from '../../styledMixins';
+import Footer from '../Footer';
+import Header from '../Header';
+import TaskCardContainer from '../TaskCardContainer';
+import TaskFrame1353 from '../TaskFrame1353';
+import './TasksDesktop.css';
+import { taskHeaderProps } from '../../utils/headerProps.js';
+import CheckboxGroup from '../CheckboxGroup';
 
 function TasksDesktop(props) {
-  const { menuItems, filterTasks,
+  const {
+    menuItems,
+    filterTasks,
     assignmedTasks,
     inProgressTasks,
     inReviewTasks,
-    frame19Props } =
-  props;
+    frame19Props,
+  } = props;
 
   return (
     <div className="tasks-desktop screen">
@@ -26,16 +28,19 @@ function TasksDesktop(props) {
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
-          <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>     
+          <CheckboxGroup
+            onChange={filterTasks}
+            data={menuItems}
+          ></CheckboxGroup>
         </TitleContainer>
         <Frame1360>
           {/* <TaskFrame1306 frame1304Props={frame1306Props.frame1304Props} /> */}
           <Frame1359>
             <Frame1354>
               <TaskFrame1353
-               outstanding="Assigned"
-               number={assignmedTasks.length}
-             />
+                outstanding="Assigned"
+                number={assignmedTasks.length}
+              />
               <TaskCardContainer
                 allTasks={assignmedTasks}
                 className={frame19Props.className}

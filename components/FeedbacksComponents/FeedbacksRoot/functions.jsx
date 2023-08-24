@@ -1,8 +1,8 @@
-import { Avatar } from "@boringer-avatars/react";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import { React } from "react";
-import { getCommentsForSubmission, getUserRole } from "../../../service";
+import { Avatar } from '@boringer-avatars/react';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import { React } from 'react';
+import { getCommentsForSubmission, getUserRole } from '../../../service';
 
 export function extractStudents(tasksResult) {
   return tasksResult.map((task) => {
@@ -29,17 +29,21 @@ export function getPageMode(isTeacher, user, submission) {
 }
 
 export function getTeacherPageMode(submission) {
-  if (submission.status === "DRAFT") return "CLOSED";
-  if (submission.status === "REVIEWED" || submission.status === "RESUBMISSION_REQUESTED") return "CLOSED";
-  if (submission.status === "CLOSED") return "CLOSED";
-  if (submission.assignment.reviewedBy === "P2P") {
-    return "CLOSED";
+  if (submission.status === 'DRAFT') return 'CLOSED';
+  if (
+    submission.status === 'REVIEWED' ||
+    submission.status === 'RESUBMISSION_REQUESTED'
+  )
+    return 'CLOSED';
+  if (submission.status === 'CLOSED') return 'CLOSED';
+  if (submission.assignment.reviewedBy === 'P2P') {
+    return 'CLOSED';
   }
-  return "REVIEW";
+  return 'REVIEW';
 }
 
 export function getStudentPageMode(user, submission) {
-  if (submission.assignment.reviewedBy === "P2P") {
+  if (submission.assignment.reviewedBy === 'P2P') {
     return getP2PPageMode(user, submission);
   }
   return getSelfPageMode(submission);
@@ -49,18 +53,22 @@ export function getP2PPageMode(user, submission) {
   if (user === submission.studentId) {
     return getSelfPageMode(submission);
   }
-  if (submission.status === "DRAFT") return "CLOSED";
-  if (submission.status === "SUBMITTED") return "REVIEW";
-  if (submission.status === "REVIEWED") return "CLOSED";
-  if (submission.status === "CLOSED") return "CLOSED";
+  if (submission.status === 'DRAFT') return 'CLOSED';
+  if (submission.status === 'SUBMITTED') return 'REVIEW';
+  if (submission.status === 'REVIEWED') return 'CLOSED';
+  if (submission.status === 'CLOSED') return 'CLOSED';
 }
 
 export function getSelfPageMode(submission) {
-  if (submission.status === "DRAFT") return "DRAFT";
-  if (submission.status === "SUBMITTED") return "CLOSED";
-  if (submission.status === "REVIEWED" || submission.status === "RESUBMISSION_REQUESTED") return "REVISE";
-  if (submission.status === "CLOSED") return "CLOSED";
-  return "CLOSED";
+  if (submission.status === 'DRAFT') return 'DRAFT';
+  if (submission.status === 'SUBMITTED') return 'CLOSED';
+  if (
+    submission.status === 'REVIEWED' ||
+    submission.status === 'RESUBMISSION_REQUESTED'
+  )
+    return 'REVISE';
+  if (submission.status === 'CLOSED') return 'CLOSED';
+  return 'CLOSED';
 }
 
 export const getComments = async (submissionId) => {

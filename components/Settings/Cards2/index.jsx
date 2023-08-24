@@ -1,15 +1,16 @@
-import React from "react";
-import Buttons2 from "../Buttons2";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../../styledMixins";
-
+import React from 'react';
+import Buttons2 from '../Buttons2';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 function Cards2(props) {
   const { systemDefault, className } = props;
 
   return (
-    <Cards className={`cards-1 ${className || ""}`}>
-      <SystemDefault className="system-default-1">{systemDefault}</SystemDefault>
+    <Cards className={`cards-1 ${className || ''}`}>
+      <SystemDefault className="system-default-1">
+        {systemDefault}
+      </SystemDefault>
       <Buttons2 />
     </Cards>
   );

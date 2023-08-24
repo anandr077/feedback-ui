@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../styledMixins';
 
 function Checkbox3(props) {
   const { className } = props;
 
   return (
-    <Checkbox className={`checkbox-8 ${className || ""}`}>
+    <Checkbox className={`checkbox-8 ${className || ''}`}>
       <Checkbox1 className="checkbox-9">
         <Rectangle43 />
         {/* <Vector className="vector-3" src="/img/vector-5@2x.png" alt="Vector" /> */}

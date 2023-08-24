@@ -1,7 +1,7 @@
-import React from "react";
-import TaskFrame1304 from "../TaskFrame1304";
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../../styledMixins";
+import React from 'react';
+import TaskFrame1304 from '../TaskFrame1304';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../../styledMixins';
 
 function TaskFrame1306() {
   return (

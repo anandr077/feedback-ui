@@ -1,6 +1,6 @@
-import React from "react";
-import Group1 from "../Group1";
-import styled from "styled-components";
+import React from 'react';
+import Group1 from '../Group1';
+import styled from 'styled-components';
 
 function NavElement42(props) {
   const { button } = props;
@@ -36,7 +36,7 @@ const NavElement = styled.article`
   position: relative;
   display: flex;
   align-self: stretch;
-  
+
   height: 54px;
   background-color: var(--royal-purple);
   border-radius: 26.5px;
@@ -47,7 +47,7 @@ const UnselectedNavElement = styled.article`
   position: relative;
   display: flex;
   align-self: stretch;
- 
+
   height: 54px;
   border-radius: 26.5px;
 `;

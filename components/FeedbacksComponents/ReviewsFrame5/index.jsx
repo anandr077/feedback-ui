@@ -1,6 +1,6 @@
-import React from "react";
-import NavElement from "../NavElement";
-import styled from "styled-components";
+import React from 'react';
+import NavElement from '../NavElement';
+import styled from 'styled-components';
 
 function Frame5(props) {
   const { navElement1Props, navElement2Props, navElement3Props } = props;

@@ -1,14 +1,14 @@
-import React from "react";
-import DashboardGroup12052 from "../DashboardGroup12052";
-import styled from "styled-components";
-import { IbmplexsansMediumRiverBed24px } from "../../styledMixins";
+import React from 'react';
+import DashboardGroup12052 from '../DashboardGroup12052';
+import styled from 'styled-components';
+import { IbmplexsansMediumRiverBed24px } from '../../styledMixins';
 
 function DashboardFrame12082(props) {
   const { tasks, exemplar } = props;
 
   return (
     <Frame1208>
-     {exemplar &&  <Crown src="/icons/exemplary_response.png" alt="crown" />}
+      {exemplar && <Crown src="/icons/exemplary_response.png" alt="crown" />}
       <Tasks>{tasks}</Tasks>
     </Frame1208>
   );

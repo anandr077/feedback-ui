@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalFuscousGray14px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalFuscousGray14px } from '../styledMixins';
 
 function Breadcrumb() {
   return (
-    <Breadcrumb1 onClick={()=> window.location.href="/#/tasks"}>
+    <Breadcrumb1 onClick={() => (window.location.href = '/#/tasks')}>
       <Assignments>Tasks</Assignments>
     </Breadcrumb1>
   );

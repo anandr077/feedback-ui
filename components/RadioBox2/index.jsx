@@ -1,7 +1,7 @@
-import React from "react";
-import Checkbox2 from "../Checkbox2";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../styledMixins";
+import React from 'react';
+import Checkbox2 from '../Checkbox2';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../styledMixins';
 
 function RadioBox2() {
   return (

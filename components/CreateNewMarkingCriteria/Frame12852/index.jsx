@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalMountainMist20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalMountainMist20px } from '../../../styledMixins';
 
 function Frame12852() {
   return (

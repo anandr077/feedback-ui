@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet14px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet14px } from '../styledMixins';
 
 function Frame12082(props) {
   const { arrowright } = props;

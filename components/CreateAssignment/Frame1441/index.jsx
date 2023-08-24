@@ -1,13 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../../styledMixins';
 
 function Frame1441(props) {
   const { children, className } = props;
 
   return (
-    <Frame14411 className={`frame-1441 ${className || ""}`}>
+    <Frame14411 className={`frame-1441 ${className || ''}`}>
       <Ellipse14 className="ellipse-14-1"></Ellipse14>
       <Structure className="structure">{children}</Structure>
     </Frame14411>

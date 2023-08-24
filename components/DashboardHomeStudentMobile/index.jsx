@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansBoldWhite36px,
   IbmplexsansNormalWhite14px,
-} from "../../styledMixins";
-import FooterSmall from "../FooterSmall";
-import DashboardFrame1208 from "../DashboardFrame1208";
-import TaskCardContainer from "../TaskCardContainer";
-import HeaderSmall from "../HeaderSmall";
-import "./DashboardHomeStudentMobile.css";
-import { getUserName } from "../../service";
-import { homeHeaderProps } from "../../utils/headerProps";
+} from '../../styledMixins';
+import FooterSmall from '../FooterSmall';
+import DashboardFrame1208 from '../DashboardFrame1208';
+import TaskCardContainer from '../TaskCardContainer';
+import HeaderSmall from '../HeaderSmall';
+import './DashboardHomeStudentMobile.css';
+import { getUserName } from '../../service';
+import { homeHeaderProps } from '../../utils/headerProps';
 
 function DashboardHomeStudentMobile(props) {
   const {
@@ -55,10 +55,14 @@ function DashboardHomeStudentMobile(props) {
           </Frame11>
         </Frame1205>
         <Frame1205>
-          <DashboardFrame1208 tasks="Exemplars"  exemplar={true}/>
+          <DashboardFrame1208 tasks="Exemplars" exemplar={true} />
           <Line17 src="/img/line-17@2x.png" alt="Line 17" />
           <Frame11>
-            <TaskCardContainer allTasks={modelResponses} exemplar={true} setPublishActionCompleted={setPublishActionCompleted} />
+            <TaskCardContainer
+              allTasks={modelResponses}
+              exemplar={true}
+              setPublishActionCompleted={setPublishActionCompleted}
+            />
           </Frame11>
         </Frame1205>
       </Frame1351>

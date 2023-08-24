@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalElectricViolet14px,
-} from "../../styledMixins";
-import SmartAnnotationSuggestion from "../SmartAnnotationSuggestion";
-import { set } from "lodash";
+} from '../../styledMixins';
+import SmartAnnotationSuggestion from '../SmartAnnotationSuggestion';
+import { set } from 'lodash';
 
 function SmartAnotation(props) {
   const {
@@ -25,7 +25,7 @@ function SmartAnotation(props) {
   const [currentSmartAnnotation, setCurrentSmartAnnotation] =
     useState(smartAnnotation);
   const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
-  const [editedText, setEditedText] = useState("");
+  const [editedText, setEditedText] = useState('');
   const [editingTitle, setEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(smartAnnotation.title);
 
@@ -49,7 +49,7 @@ function SmartAnotation(props) {
   };
 
   const saveEditedSmartAnnotation = (updatedText) => {
-    if (updatedText.trim() === "") return;
+    if (updatedText.trim() === '') return;
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.title = updatedText;
     setCurrentSmartAnnotation(newSmartAnnotation);
@@ -69,7 +69,7 @@ function SmartAnotation(props) {
 
   const addNewSuggestions = () => {
     const newSuggestion = {
-      description: "",
+      description: '',
     };
     currentSmartAnnotation.suggestions.push(newSuggestion);
     UpdateSmartAnotationHandler(currentSmartAnnotation, smartAnnotationIndex);
@@ -80,27 +80,27 @@ function SmartAnotation(props) {
       return () =>
         onSuggestionClick(
           smartAnnotation.title +
-            "\n\n" +
+            '\n\n' +
             smartAnnotation.suggestions[index].description
         );
     else return () => {};
   };
 
   const onClickNewSuggestionComment = () => {
-    if (editedText.trim() === "") return;
-    onSuggestionClick(smartAnnotation.title + "\n\n" + editedText);
-    setEditedText("");
+    if (editedText.trim() === '') return;
+    onSuggestionClick(smartAnnotation.title + '\n\n' + editedText);
+    setEditedText('');
     setNewSmartAnnotationEdit(false);
   };
 
   const cloneSmartAnnotation = () => {
     let { title, suggestions } = smartAnnotation;
-    title = title + " clone";
+    title = title + ' clone';
     createSmartAnnotation({ title: title, suggestions: suggestions });
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       saveEditedSmartAnnotation(editTitle);
     }
   };

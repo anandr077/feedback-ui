@@ -1,22 +1,22 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-import ReactiveRender from "../../ReactiveRender";
-import TeacherClassesDesktop from "../TeacherClassesDesktop";
-import TeacherClassesLaptop from "../TeacherClassesLaptop";
-import TeacherClassesMobile from "../TeacherClassesMobile";
-import TeacherClassesTablet from "../TeacherClassesTablet";
+import ReactiveRender from '../../ReactiveRender';
+import TeacherClassesDesktop from '../TeacherClassesDesktop';
+import TeacherClassesLaptop from '../TeacherClassesLaptop';
+import TeacherClassesMobile from '../TeacherClassesMobile';
+import TeacherClassesTablet from '../TeacherClassesTablet';
 import {
   getModelResponsesForClass,
   getClasses,
   getStudentsForClass,
   getAssignmentsByClassId,
-  getSmartAnnotaionAnalyticsByClassId
-} from "../../../service.js";
-import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
-import Loader from "../../Loader";
-import AnnotationAnalytics from "../../Analytics";
+  getSmartAnnotaionAnalyticsByClassId,
+} from '../../../service.js';
+import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
+import Loader from '../../Loader';
+import AnnotationAnalytics from '../../Analytics';
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
@@ -27,16 +27,17 @@ export default function TeacherClassesRoot() {
   const [students, setStudents] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] = React.useState([]);
+  const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] =
+    React.useState([]);
 
   React.useEffect(() => {
     getClasses().then((result) => {
-        if (classIdFromUrl) {
-          setClassId(classIdFromUrl);
-        } else {
-          setClassId(result[0].id);
-        }
-        setClasses(result);
+      if (classIdFromUrl) {
+        setClassId(classIdFromUrl);
+      } else {
+        setClassId(result[0].id);
+      }
+      setClasses(result);
     });
   }, []);
   useEffect(() => {
@@ -46,32 +47,41 @@ export default function TeacherClassesRoot() {
         getStudentsForClass(classId),
         getAssignmentsByClassId(classId),
         getSmartAnnotaionAnalyticsByClassId(classId),
-      ]).then(([modelResponses, studentsResponse, assignmentsResponse, smartAnnotationAnalytics]) => {
-        setModelResponses(modelResponses);
-        setStudents(studentsResponse);
-        setAssignments(assignmentsResponse);
-        setSmartAnnotationAnalytics(smartAnnotationAnalytics);
-        setIsLoading(false);
-      });
+      ]).then(
+        ([
+          modelResponses,
+          studentsResponse,
+          assignmentsResponse,
+          smartAnnotationAnalytics,
+        ]) => {
+          setModelResponses(modelResponses);
+          setStudents(studentsResponse);
+          setAssignments(assignmentsResponse);
+          setSmartAnnotationAnalytics(smartAnnotationAnalytics);
+          setIsLoading(false);
+        }
+      );
     }
   }, [classId]);
 
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
-  const annotationAnalyticsFrame = <AnnotationAnalytics smartAnnotationAnalytics = {smartAnnotationAnalytics}/>;
+  const annotationAnalyticsFrame = (
+    <AnnotationAnalytics smartAnnotationAnalytics={smartAnnotationAnalytics} />
+  );
 
   const drafts = assignments.filter(
-    (assignment) => assignment.submissionsStatus === "DRAFT"
+    (assignment) => assignment.submissionsStatus === 'DRAFT'
   );
   const awaitingSubmissions = assignments.filter(
-    (assignment) => assignment.submissionsStatus === "AWAITING_SUBMISSIONS"
+    (assignment) => assignment.submissionsStatus === 'AWAITING_SUBMISSIONS'
   );
   const feedbacks = assignments.filter(
-    (assignment) => assignment.submissionsStatus === "FEEDBACK"
+    (assignment) => assignment.submissionsStatus === 'FEEDBACK'
   );
-  const selectedClassIndex = getSelectedClassIndex(classes, classId)
+  const selectedClassIndex = getSelectedClassIndex(classes, classId);
   return (
     <ReactiveRender
       mobile={
@@ -151,21 +161,21 @@ export default function TeacherClassesRoot() {
 }
 
 const getSelectedClassIndex = (classes, id) => {
-  return classes.findIndex(cls => cls.id === id);
-}
+  return classes.findIndex((cls) => cls.id === id);
+};
 const navElement1Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement2Data = {
-  home3: "/img/assignment@2x.png",
-  place: "Assignments",
-  className: "nav-element-1",
+  home3: '/img/assignment@2x.png',
+  place: 'Assignments',
+  className: 'nav-element-1',
 };
 
 const notifications1Data = {
-  src: "/img/notificationbing-2@2x.png",
+  src: '/img/notificationbing-2@2x.png',
 };
 
 const frame51Data = {
@@ -173,19 +183,19 @@ const frame51Data = {
 };
 
 const teacherDashboardHeader1Data = {
-  logo: "/img/logo-1@2x.png",
+  logo: '/img/logo-1@2x.png',
   navElement1Props: navElement1Data,
   navElement2Props: navElement2Data,
   frame5Props: frame51Data,
 };
 
 const frame13121Data = {
-  boyleJonny: "Boyle, Jonny",
-  arrowdown2: "/img/arrowdown2@2x.png",
+  boyleJonny: 'Boyle, Jonny',
+  arrowdown2: '/img/arrowdown2@2x.png',
 };
 
 const frame12081Data = {
-  down: "/img/down-1@2x.png",
+  down: '/img/down-1@2x.png',
 };
 
 const frame14071Data = {
@@ -193,12 +203,12 @@ const frame14071Data = {
 };
 
 const frame120821Data = {
-  arrowright: "/img/arrowright-9@2x.png",
+  arrowright: '/img/arrowright-9@2x.png',
 };
 
 const frame13122Data = {
-  boyleJonny: "Mehta, Japan",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Mehta, Japan',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13131Data = {
@@ -206,8 +216,8 @@ const frame13131Data = {
 };
 
 const frame13123Data = {
-  boyleJonny: "Murphy, Kathryn",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Murphy, Kathryn',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13132Data = {
@@ -215,8 +225,8 @@ const frame13132Data = {
 };
 
 const frame13124Data = {
-  boyleJonny: "Williamson, Cameron",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Williamson, Cameron',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13133Data = {
@@ -224,8 +234,8 @@ const frame13133Data = {
 };
 
 const frame13125Data = {
-  boyleJonny: "Jones, Jacob",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Jones, Jacob',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13134Data = {
@@ -233,8 +243,8 @@ const frame13134Data = {
 };
 
 const frame13126Data = {
-  boyleJonny: "Fox, Robert",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Fox, Robert',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13135Data = {
@@ -242,8 +252,8 @@ const frame13135Data = {
 };
 
 const frame13127Data = {
-  boyleJonny: "Lane, Devon",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Lane, Devon',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13136Data = {
@@ -251,8 +261,8 @@ const frame13136Data = {
 };
 
 const frame13128Data = {
-  boyleJonny: "Miles, Floyd",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Miles, Floyd',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13137Data = {
@@ -260,8 +270,8 @@ const frame13137Data = {
 };
 
 const frame13129Data = {
-  boyleJonny: "Russell, Dianne",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Russell, Dianne',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13138Data = {
@@ -269,8 +279,8 @@ const frame13138Data = {
 };
 
 const frame131210Data = {
-  boyleJonny: "Pena, Eleanor",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Pena, Eleanor',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame13139Data = {
@@ -278,58 +288,58 @@ const frame13139Data = {
 };
 
 const frame13371Data = {
-  tasks: "Tasks",
+  tasks: 'Tasks',
 };
 
 const frame13372Data = {
-  tasks: "Feedback",
+  tasks: 'Feedback',
 };
 
 const frame131322Data = {
-  storytellingNotAnalysing: "Storytelling, not analysing",
-  number: "32",
-  group1312: "/img/group-1312-12.png",
+  storytellingNotAnalysing: 'Storytelling, not analysing',
+  number: '32',
+  group1312: '/img/group-1312-12.png',
 };
 
 const frame131323Data = {
-  storytellingNotAnalysing: "Add a technique",
-  number: "18",
-  group1312: "/img/group-1312-13.png",
+  storytellingNotAnalysing: 'Add a technique',
+  number: '18',
+  group1312: '/img/group-1312-13.png',
 };
 
 const frame131324Data = {
-  storytellingNotAnalysing: "Shorten Quote",
-  number: "26",
-  group1312: "/img/group-1312-14.png",
+  storytellingNotAnalysing: 'Shorten Quote',
+  number: '26',
+  group1312: '/img/group-1312-14.png',
 };
 
 const frame131325Data = {
-  storytellingNotAnalysing: "Repeating the same point",
-  number: "11",
-  group1312: "/img/group-1312-15.png",
+  storytellingNotAnalysing: 'Repeating the same point',
+  number: '11',
+  group1312: '/img/group-1312-15.png',
 };
 
 const group12051Data = {
-  arrowright: "/img/arrowright-8@2x.png",
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const teacherClassesDesktopData = {
-  title: "Classes",
-  x12Engadv3: "12-ENGADV-3",
-  frame12841: "/img/frame-1284@2x.png",
-  xclass: "Class",
-  frame12842: "/img/frame-1284@2x.png",
-  line171: "/img/line-17-42.png",
-  line172: "/img/line-17-43.png",
-  line18: "/img/line-17-43.png",
-  line19: "/img/line-17-43.png",
-  line173: "/img/line-17-16@2x.png",
-  line174: "/img/line-17-42.png",
-  line175: "/img/line-17-42.png",
-  crown: "/icons/exemplary_response.png",
-  exemplarResponses: "Exemplars",
-  line176: "/img/line-17-42.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  title: 'Classes',
+  x12Engadv3: '12-ENGADV-3',
+  frame12841: '/img/frame-1284@2x.png',
+  xclass: 'Class',
+  frame12842: '/img/frame-1284@2x.png',
+  line171: '/img/line-17-42.png',
+  line172: '/img/line-17-43.png',
+  line18: '/img/line-17-43.png',
+  line19: '/img/line-17-43.png',
+  line173: '/img/line-17-16@2x.png',
+  line174: '/img/line-17-42.png',
+  line175: '/img/line-17-42.png',
+  crown: '/icons/exemplary_response.png',
+  exemplarResponses: 'Exemplars',
+  line176: '/img/line-17-42.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   teacherDashboardHeaderProps: teacherDashboardHeader1Data,
   frame1312Props: frame13121Data,
   frame1407Props: frame14071Data,
@@ -353,30 +363,30 @@ const teacherClassesDesktopData = {
 };
 
 const notifications2Data = {
-  src: "/img/notificationbing@2x.png",
-  className: "notifications-1",
+  src: '/img/notificationbing@2x.png',
+  className: 'notifications-1',
 };
 
 const buttons3Data = {
-  className: "buttons-1",
+  className: 'buttons-1',
 };
 
 const frame131222Data = {
-  boyleJonny: "Boyle, Jonny",
-  arrowdown2: "/img/arrowdown2@2x.png",
+  boyleJonny: 'Boyle, Jonny',
+  arrowdown2: '/img/arrowdown2@2x.png',
 };
 
 const frame12083Data = {
-  down: "/img/down@2x.png",
+  down: '/img/down@2x.png',
 };
 
 const frame120822Data = {
-  arrowright: "/img/arrowright@2x.png",
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const frame131223Data = {
-  boyleJonny: "Mehta, Japan",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Mehta, Japan',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131332Data = {
@@ -384,8 +394,8 @@ const frame131332Data = {
 };
 
 const frame131224Data = {
-  boyleJonny: "Murphy, Kathryn",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Murphy, Kathryn',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131333Data = {
@@ -393,8 +403,8 @@ const frame131333Data = {
 };
 
 const frame131225Data = {
-  boyleJonny: "Williamson, Cameron",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Williamson, Cameron',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131334Data = {
@@ -402,8 +412,8 @@ const frame131334Data = {
 };
 
 const frame131226Data = {
-  boyleJonny: "Jones, Jacob",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Jones, Jacob',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131335Data = {
@@ -411,8 +421,8 @@ const frame131335Data = {
 };
 
 const frame131227Data = {
-  boyleJonny: "Fox, Robert",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Fox, Robert',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131336Data = {
@@ -420,8 +430,8 @@ const frame131336Data = {
 };
 
 const frame131228Data = {
-  boyleJonny: "Lane, Devon",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Lane, Devon',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131337Data = {
@@ -429,76 +439,76 @@ const frame131337Data = {
 };
 
 const frame13191Data = {
-  milesFloyd: "Miles, Floyd",
+  milesFloyd: 'Miles, Floyd',
 };
 
 const frame13192Data = {
-  milesFloyd: "Russell, Dianne",
+  milesFloyd: 'Russell, Dianne',
 };
 
 const frame13193Data = {
-  milesFloyd: "Pena, Eleanor",
+  milesFloyd: 'Pena, Eleanor',
 };
 
 const frame133722Data = {
-  tasks: "Tasks",
+  tasks: 'Tasks',
 };
 
 const frame133723Data = {
-  tasks: "Feedback",
+  tasks: 'Feedback',
 };
 
 const frame131342Data = {
-  storytellingNotAnalysing: "Storytelling, not analysing",
-  number: "32",
-  group1312: "/img/group-1312@2x.png",
+  storytellingNotAnalysing: 'Storytelling, not analysing',
+  number: '32',
+  group1312: '/img/group-1312@2x.png',
 };
 
 const frame131343Data = {
-  storytellingNotAnalysing: "Add a technique",
-  number: "18",
-  group1312: "/img/group-1312-1@2x.png",
+  storytellingNotAnalysing: 'Add a technique',
+  number: '18',
+  group1312: '/img/group-1312-1@2x.png',
 };
 
 const frame131344Data = {
-  storytellingNotAnalysing: "Shorten Quote",
-  number: "26",
-  group1312: "/img/group-1312-2@2x.png",
+  storytellingNotAnalysing: 'Shorten Quote',
+  number: '26',
+  group1312: '/img/group-1312-2@2x.png',
 };
 
 const frame131345Data = {
-  storytellingNotAnalysing: "Repeating the same point",
-  number: "11",
-  group1312: "/img/group-1312-3@2x.png",
+  storytellingNotAnalysing: 'Repeating the same point',
+  number: '11',
+  group1312: '/img/group-1312-3@2x.png',
 };
 
 const group12052Data = {
-  arrowright: "/img/arrowright-8@2x.png",
-  className: "group-1206-1",
+  arrowright: '/img/arrowright-8@2x.png',
+  className: 'group-1206-1',
 };
 
 const teacherClassesMobileData = {
-  frame5: "/img/frame-5@2x.png",
-  title: "Classes",
-  x12Engadv3: "12-ENGADV-3",
-  frame12841: "/img/frame-1284@2x.png",
-  xclass: "Class",
-  frame12842: "/img/frame-1284@2x.png",
-  subject: "Subject",
-  frame12843: "/img/frame-1284@2x.png",
-  line171: "/img/line-18@2x.png",
-  line172: "/img/line-17-1@2x.png",
-  line18: "/img/line-17-1@2x.png",
-  line19: "/img/line-17-1@2x.png",
-  line173: "/img/line-18@2x.png",
-  line174: "/img/line-18@2x.png",
-  crown: "/icons/exemplary_response.png",
-  exemplarResponses: "Exemplars",
-  line175: "/img/line-18@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame5: '/img/frame-5@2x.png',
+  title: 'Classes',
+  x12Engadv3: '12-ENGADV-3',
+  frame12841: '/img/frame-1284@2x.png',
+  xclass: 'Class',
+  frame12842: '/img/frame-1284@2x.png',
+  subject: 'Subject',
+  frame12843: '/img/frame-1284@2x.png',
+  line171: '/img/line-18@2x.png',
+  line172: '/img/line-17-1@2x.png',
+  line18: '/img/line-17-1@2x.png',
+  line19: '/img/line-17-1@2x.png',
+  line173: '/img/line-18@2x.png',
+  line174: '/img/line-18@2x.png',
+  crown: '/icons/exemplary_response.png',
+  exemplarResponses: 'Exemplars',
+  line175: '/img/line-18@2x.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   notificationsProps: notifications2Data,
   buttonsProps: buttons3Data,
   frame13122Props: frame131222Data,
@@ -523,18 +533,18 @@ const teacherClassesMobileData = {
 };
 
 const navElement3Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement4Data = {
-  home3: "/img/assignment@2x.png",
-  place: "Assignments",
-  className: "nav-element-3",
+  home3: '/img/assignment@2x.png',
+  place: 'Assignments',
+  className: 'nav-element-3',
 };
 
 const notifications3Data = {
-  src: "/img/notificationbing-2@2x.png",
+  src: '/img/notificationbing-2@2x.png',
 };
 
 const frame52Data = {
@@ -542,19 +552,19 @@ const frame52Data = {
 };
 
 const teacherDashboardHeader2Data = {
-  logo: "/img/logo@2x.png",
+  logo: '/img/logo@2x.png',
   navElement1Props: navElement3Data,
   navElement1Props2: navElement4Data,
   frame5Props: frame52Data,
 };
 
 const frame131232Data = {
-  boyleJonny: "Boyle, Jonny",
-  arrowdown2: "/img/arrowdown2@2x.png",
+  boyleJonny: 'Boyle, Jonny',
+  arrowdown2: '/img/arrowdown2@2x.png',
 };
 
 const frame12084Data = {
-  down: "/img/down-1@2x.png",
+  down: '/img/down-1@2x.png',
 };
 
 const frame14073Data = {
@@ -562,12 +572,12 @@ const frame14073Data = {
 };
 
 const frame120823Data = {
-  arrowright: "/img/arrowright-9@2x.png",
+  arrowright: '/img/arrowright-9@2x.png',
 };
 
 const frame131233Data = {
-  boyleJonny: "Mehta, Japan",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Mehta, Japan',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131352Data = {
@@ -575,8 +585,8 @@ const frame131352Data = {
 };
 
 const frame131234Data = {
-  boyleJonny: "Murphy, Kathryn",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Murphy, Kathryn',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131353Data = {
@@ -584,8 +594,8 @@ const frame131353Data = {
 };
 
 const frame131235Data = {
-  boyleJonny: "Williamson, Cameron",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Williamson, Cameron',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131354Data = {
@@ -593,8 +603,8 @@ const frame131354Data = {
 };
 
 const frame131236Data = {
-  boyleJonny: "Jones, Jacob",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Jones, Jacob',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131355Data = {
@@ -602,8 +612,8 @@ const frame131355Data = {
 };
 
 const frame131237Data = {
-  boyleJonny: "Fox, Robert",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Fox, Robert',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131356Data = {
@@ -611,8 +621,8 @@ const frame131356Data = {
 };
 
 const frame131238Data = {
-  boyleJonny: "Lane, Devon",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Lane, Devon',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131357Data = {
@@ -620,8 +630,8 @@ const frame131357Data = {
 };
 
 const frame131239Data = {
-  boyleJonny: "Miles, Floyd",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Miles, Floyd',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131358Data = {
@@ -629,8 +639,8 @@ const frame131358Data = {
 };
 
 const frame1312310Data = {
-  boyleJonny: "Russell, Dianne",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Russell, Dianne',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131359Data = {
@@ -638,8 +648,8 @@ const frame131359Data = {
 };
 
 const frame1312311Data = {
-  boyleJonny: "Pena, Eleanor",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Pena, Eleanor',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame1313510Data = {
@@ -647,58 +657,58 @@ const frame1313510Data = {
 };
 
 const frame133731Data = {
-  tasks: "Tasks",
+  tasks: 'Tasks',
 };
 
 const frame133732Data = {
-  tasks: "Feedback",
+  tasks: 'Feedback',
 };
 
 const frame131362Data = {
-  storytellingNotAnalysing: "Storytelling, not analysing",
-  number: "32",
-  group1312: "/img/group-1312-8.png",
+  storytellingNotAnalysing: 'Storytelling, not analysing',
+  number: '32',
+  group1312: '/img/group-1312-8.png',
 };
 
 const frame131363Data = {
-  storytellingNotAnalysing: "Add a technique",
-  number: "18",
-  group1312: "/img/group-1312-9.png",
+  storytellingNotAnalysing: 'Add a technique',
+  number: '18',
+  group1312: '/img/group-1312-9.png',
 };
 
 const frame131364Data = {
-  storytellingNotAnalysing: "Shorten Quote",
-  number: "26",
-  group1312: "/img/group-1312-10.png",
+  storytellingNotAnalysing: 'Shorten Quote',
+  number: '26',
+  group1312: '/img/group-1312-10.png',
 };
 
 const frame131365Data = {
-  storytellingNotAnalysing: "Repeating the same point",
-  number: "11",
-  group1312: "/img/group-1312-11.png",
+  storytellingNotAnalysing: 'Repeating the same point',
+  number: '11',
+  group1312: '/img/group-1312-11.png',
 };
 
 const group12053Data = {
-  arrowright: "/img/arrowright-8@2x.png",
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const teacherClassesLaptopData = {
-  title: "Classes",
-  x12Engadv3: "12-ENGADV-3",
-  frame12841: "/img/frame-1284@2x.png",
-  xclass: "Class",
-  frame12842: "/img/frame-1284@2x.png",
-  line171: "/img/line-17-28.png",
-  line172: "/img/line-17-29.png",
-  line18: "/img/line-17-29.png",
-  line19: "/img/line-17-29.png",
-  line173: "/img/line-17-16@2x.png",
-  line174: "/img/line-17-28.png",
-  line175: "/img/line-17-28.png",
-  crown: "/icons/exemplary_response.png",
-  exemplarResponses: "Exemplars",
-  line176: "/img/line-17-28.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  title: 'Classes',
+  x12Engadv3: '12-ENGADV-3',
+  frame12841: '/img/frame-1284@2x.png',
+  xclass: 'Class',
+  frame12842: '/img/frame-1284@2x.png',
+  line171: '/img/line-17-28.png',
+  line172: '/img/line-17-29.png',
+  line18: '/img/line-17-29.png',
+  line19: '/img/line-17-29.png',
+  line173: '/img/line-17-16@2x.png',
+  line174: '/img/line-17-28.png',
+  line175: '/img/line-17-28.png',
+  crown: '/icons/exemplary_response.png',
+  exemplarResponses: 'Exemplars',
+  line176: '/img/line-17-28.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   teacherDashboardHeaderProps: teacherDashboardHeader2Data,
   frame13123Props: frame131232Data,
   frame1407Props: frame14073Data,
@@ -722,17 +732,17 @@ const teacherClassesLaptopData = {
 };
 
 const notifications4Data = {
-  src: "/img/notificationbing@2x.png",
-  className: "notifications-3",
+  src: '/img/notificationbing@2x.png',
+  className: 'notifications-3',
 };
 
 const frame131242Data = {
-  boyleJonny: "Boyle, Jonny",
-  arrowdown2: "/img/arrowdown2@2x.png",
+  boyleJonny: 'Boyle, Jonny',
+  arrowdown2: '/img/arrowdown2@2x.png',
 };
 
 const frame12085Data = {
-  down: "/img/down-1@2x.png",
+  down: '/img/down-1@2x.png',
 };
 
 const frame14074Data = {
@@ -740,12 +750,12 @@ const frame14074Data = {
 };
 
 const frame120824Data = {
-  arrowright: "/img/arrowright-9@2x.png",
+  arrowright: '/img/arrowright-9@2x.png',
 };
 
 const frame131243Data = {
-  boyleJonny: "Mehta, Japan",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Mehta, Japan',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131372Data = {
@@ -753,8 +763,8 @@ const frame131372Data = {
 };
 
 const frame131244Data = {
-  boyleJonny: "Murphy, Kathryn",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Murphy, Kathryn',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131373Data = {
@@ -762,8 +772,8 @@ const frame131373Data = {
 };
 
 const frame131245Data = {
-  boyleJonny: "Williamson, Cameron",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Williamson, Cameron',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131374Data = {
@@ -771,8 +781,8 @@ const frame131374Data = {
 };
 
 const frame131246Data = {
-  boyleJonny: "Jones, Jacob",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Jones, Jacob',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131375Data = {
@@ -780,8 +790,8 @@ const frame131375Data = {
 };
 
 const frame131247Data = {
-  boyleJonny: "Fox, Robert",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Fox, Robert',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131376Data = {
@@ -789,8 +799,8 @@ const frame131376Data = {
 };
 
 const frame131248Data = {
-  boyleJonny: "Lane, Devon",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Lane, Devon',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131377Data = {
@@ -798,8 +808,8 @@ const frame131377Data = {
 };
 
 const frame131249Data = {
-  boyleJonny: "Miles, Floyd",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Miles, Floyd',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131378Data = {
@@ -807,8 +817,8 @@ const frame131378Data = {
 };
 
 const frame1312410Data = {
-  boyleJonny: "Russell, Dianne",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Russell, Dianne',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame131379Data = {
@@ -816,8 +826,8 @@ const frame131379Data = {
 };
 
 const frame1312411Data = {
-  boyleJonny: "Pena, Eleanor",
-  arrowdown2: "/img/arrowdown2-1@2x.png",
+  boyleJonny: 'Pena, Eleanor',
+  arrowdown2: '/img/arrowdown2-1@2x.png',
 };
 
 const frame1313710Data = {
@@ -825,44 +835,44 @@ const frame1313710Data = {
 };
 
 const frame133741Data = {
-  tasks: "Tasks",
+  tasks: 'Tasks',
 };
 
 const frame133742Data = {
-  tasks: "Feedback",
+  tasks: 'Feedback',
 };
 
 const frame131382Data = {
-  storytellingNotAnalysing: "Storytelling, not analysing",
-  number: "32",
-  group1312: "/img/group-1312-4.png",
+  storytellingNotAnalysing: 'Storytelling, not analysing',
+  number: '32',
+  group1312: '/img/group-1312-4.png',
 };
 
 const frame131383Data = {
-  storytellingNotAnalysing: "Add a technique",
-  number: "18",
-  group1312: "/img/group-1312-5.png",
+  storytellingNotAnalysing: 'Add a technique',
+  number: '18',
+  group1312: '/img/group-1312-5.png',
 };
 
 const frame131384Data = {
-  storytellingNotAnalysing: "Shorten Quote",
-  number: "26",
-  group1312: "/img/group-1312-6.png",
+  storytellingNotAnalysing: 'Shorten Quote',
+  number: '26',
+  group1312: '/img/group-1312-6.png',
 };
 
 const frame131385Data = {
-  storytellingNotAnalysing: "Repeating the same point",
-  number: "11",
-  group1312: "/img/group-1312-7.png",
+  storytellingNotAnalysing: 'Repeating the same point',
+  number: '11',
+  group1312: '/img/group-1312-7.png',
 };
 
 const group12054Data = {
-  arrowright: "/img/arrowright-8@2x.png",
+  arrowright: '/img/arrowright-8@2x.png',
 };
 
 const content1Data = {
   physicsThermodyna:
-    "Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.",
+    'Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.',
 };
 
 const cards32Data = {
@@ -871,7 +881,7 @@ const cards32Data = {
 
 const content2Data = {
   physicsThermodyna:
-    "Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...",
+    'Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...',
 };
 
 const cards42Data = {
@@ -880,7 +890,7 @@ const cards42Data = {
 
 const content3Data = {
   physicsThermodyna:
-    "Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...",
+    'Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...',
 };
 
 const cards43Data = {
@@ -889,7 +899,7 @@ const cards43Data = {
 
 const content4Data = {
   physicsThermodyna:
-    "Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...",
+    'Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...',
 };
 
 const cards44Data = {
@@ -897,26 +907,26 @@ const cards44Data = {
 };
 
 const teacherClassesTabletData = {
-  frame5: "/img/frame-5@2x.png",
-  title: "Classes",
-  x12Engadv3: "12-ENGADV-3",
-  frame12841: "/img/frame-1284@2x.png",
-  xclass: "Class",
-  frame12842: "/img/frame-1284@2x.png",
-  line171: "/img/line-17-14.png",
-  line172: "/img/line-17-15.png",
-  line18: "/img/line-17-15.png",
-  line19: "/img/line-17-15.png",
-  line173: "/img/line-17-16@2x.png",
-  line174: "/img/line-17-14.png",
-  line175: "/img/line-17-14.png",
-  crown: "/icons/exemplary_response.png",
-  exemplarResponses: "Exemplars",
-  line176: "/img/line-17-14.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame5: '/img/frame-5@2x.png',
+  title: 'Classes',
+  x12Engadv3: '12-ENGADV-3',
+  frame12841: '/img/frame-1284@2x.png',
+  xclass: 'Class',
+  frame12842: '/img/frame-1284@2x.png',
+  line171: '/img/line-17-14.png',
+  line172: '/img/line-17-15.png',
+  line18: '/img/line-17-15.png',
+  line19: '/img/line-17-15.png',
+  line173: '/img/line-17-16@2x.png',
+  line174: '/img/line-17-14.png',
+  line175: '/img/line-17-14.png',
+  crown: '/icons/exemplary_response.png',
+  exemplarResponses: 'Exemplars',
+  line176: '/img/line-17-14.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   notificationsProps: notifications4Data,
   frame13124Props: frame131242Data,
   frame1407Props: frame14074Data,

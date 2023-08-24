@@ -1,7 +1,7 @@
-import React from "react";
-import Buttons from "../Buttons";
-import styled from "styled-components";
-import { IbmplexsansNormalElectricViolet16px } from "../../styledMixins";
+import React from 'react';
+import Buttons from '../Buttons';
+import styled from 'styled-components';
+import { IbmplexsansNormalElectricViolet16px } from '../../styledMixins';
 
 function Frame1219() {
   return (

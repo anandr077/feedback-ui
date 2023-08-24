@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 function Frame1285(props) {
   const { children } = props;

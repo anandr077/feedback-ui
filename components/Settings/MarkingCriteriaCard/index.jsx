@@ -1,17 +1,18 @@
-import React from "react";
-import Buttons2 from "../Buttons2";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../../styledMixins";
-
+import React from 'react';
+import Buttons2 from '../Buttons2';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 function MarkingCriteriaCard(props) {
-  const { title, markingCriteriaId,  deleteMarkingCriteriaHandler} = props;
- 
+  const { title, markingCriteriaId, deleteMarkingCriteriaHandler } = props;
 
   return (
     <MarkingCriteriaEntry>
       <Title>{title}</Title>
-      <Buttons2 markingCriteriaId={markingCriteriaId} deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}/>
+      <Buttons2
+        markingCriteriaId={markingCriteriaId}
+        deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
+      />
     </MarkingCriteriaEntry>
   );
 }
@@ -25,8 +26,8 @@ const MarkingCriteriaEntry = styled.div`
   align-self: stretch;
   background-color: var(--white);
   border-radius: 16px;
-border: 1px solid #F3F3F3;
-  background: #FFF;
+  border: 1px solid #f3f3f3;
+  background: #fff;
   box-shadow: 0px 4px 22px #2f1a720a;
   border-radius: 16px;
 `;

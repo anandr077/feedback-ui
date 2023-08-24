@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 export const IbmplexsansMediumTrendyPink14px = css`
   color: var(--trendy-pink);

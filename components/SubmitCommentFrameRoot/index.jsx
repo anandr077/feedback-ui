@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import "./SubmitCommentFrameRoot.css";
+import React from 'react';
+import styled from 'styled-components';
+import './SubmitCommentFrameRoot.css';
 const SubmitCommentFrameRoot = (props) => {
   const { submitButtonOnClick, cancelButtonOnClick } = props;
 
@@ -52,7 +52,7 @@ const SmallButton = styled.button`
   box-sizing: content-box;
   background-color: #7200e0;
   cursor: pointer;
- 
+
   &:hover {
     scale: 1.2;
     transition: 0.1s;
@@ -86,7 +86,7 @@ const SmallButtonWhite = styled.button`
   border-left-width: 1.5px;
   border-style: solid;
   border-color: #7200e0;
-  background-color: "red";
+  background-color: 'red';
   box-sizing: content-box;
   background-color: transparent;
   background-position: 50% 50%;

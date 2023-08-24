@@ -1,8 +1,11 @@
-import React from "react";
-import Buttons from "../Buttons";
-import styled from "styled-components";
-import { IbmplexsansNormalMountainMist16px, IbmplexsansNormalShark16px } from "../../styledMixins";
-import "./AddDescription.css";
+import React from 'react';
+import Buttons from '../Buttons';
+import styled from 'styled-components';
+import {
+  IbmplexsansNormalMountainMist16px,
+  IbmplexsansNormalShark16px,
+} from '../../styledMixins';
+import './AddDescription.css';
 
 function AddDescription(props) {
   const { xnew, line34, addShortDescription, buttonsProps } = props;

@@ -1,7 +1,7 @@
-import React from "react";
-import ReviewsFrame1316 from "../ReviewsFrame1316";
-import ReviewsFrame1317 from "../ReviewsFrame1317";
-import styled from "styled-components";
+import React from 'react';
+import ReviewsFrame1316 from '../ReviewsFrame1316';
+import ReviewsFrame1317 from '../ReviewsFrame1317';
+import styled from 'styled-components';
 
 function ReviewsFrame1370(props) {
   const { frame1317Props } = props;

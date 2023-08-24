@@ -35,5 +35,5 @@
   --font-size-xxxl: 36px;
   --font-size-xxxxl: 64px;
 
-  --font-family-ibm_plex_sans: "IBM Plex Sans", Helvetica;
+  --font-family-ibm_plex_sans: 'IBM Plex Sans', Helvetica;
 }

@@ -1,15 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import ReviewsFrame1325 from "../ReviewsFrame1325";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import ReviewsFrame1325 from '../ReviewsFrame1325';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 
 function CommentCard3(props) {
   const { horemIpsumDolorSi, className, frame1325Props } = props;
 
   return (
     <Link to="/highlight-hover">
-      <CommentCard className={`comment-card-7 ${className || ""}`}>
+      <CommentCard className={`comment-card-7 ${className || ''}`}>
         <ReviewsFrame1325
           ellipse7={frame1325Props.ellipse7}
           more={frame1325Props.more}

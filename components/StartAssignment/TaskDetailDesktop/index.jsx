@@ -1,21 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import { formattedDate } from "../../../dates";
-import { taskHeaderProps } from "../../../utils/headerProps";
-import Header from "../../Header";
-import Breadcrumb from "../../Breadcrumb";
-import Breadcrumb2 from "../../Breadcrumb2";
-import Buttons from "../Buttons";
-import Frame11 from "../Frame11";
-import Frame6 from "../Frame6";
-import GoBack from "../GoBack";
-import StatusBubbles from "../StatusBubbles";
+import React from 'react';
+import styled from 'styled-components';
+import { formattedDate } from '../../../dates';
+import { taskHeaderProps } from '../../../utils/headerProps';
+import Header from '../../Header';
+import Breadcrumb from '../../Breadcrumb';
+import Breadcrumb2 from '../../Breadcrumb2';
+import Buttons from '../Buttons';
+import Frame11 from '../Frame11';
+import Frame6 from '../Frame6';
+import GoBack from '../GoBack';
+import StatusBubbles from '../StatusBubbles';
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansNormalChicago13px,
-  IbmplexsansSemiBoldShark28px
-} from "../styledMixins";
-import "./TaskDetailDesktop.css";
+  IbmplexsansSemiBoldShark28px,
+} from '../styledMixins';
+import './TaskDetailDesktop.css';
 
 function TaskDetailDesktop(props) {
   const {
@@ -44,7 +44,7 @@ function TaskDetailDesktop(props) {
         <Header headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
-            <Breadcrumb text = "Task" link = "/#/tasks"/>
+            <Breadcrumb text="Task" link="/#/tasks" />
             <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>
@@ -188,7 +188,6 @@ const PhysicsThermodyna = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 const ClazzName = styled.p`
   ${IbmplexsansSemiBoldShark28px}

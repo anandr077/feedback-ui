@@ -1,7 +1,7 @@
-import React from "react";
-import Checkbox2 from "../Checkbox2";
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../../styledMixins";
+import React from 'react';
+import Checkbox2 from '../Checkbox2';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../../styledMixins';
 
 function RadioBox(props) {
   const { label } = props;

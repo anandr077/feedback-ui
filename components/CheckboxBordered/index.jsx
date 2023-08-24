@@ -1,6 +1,6 @@
-import React from "react";
-import Checkbox from "@mui/material/Checkbox";
-import styled from "styled-components";
+import React from 'react';
+import Checkbox from '@mui/material/Checkbox';
+import styled from 'styled-components';
 
 const StyledCheckbox = styled(Checkbox)`
   &.MuiCheckbox-root {
@@ -21,10 +21,10 @@ const StyledCheckbox = styled(Checkbox)`
       background-color: rgba(0, 0, 0, 0.04) !important;
     }
     & .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
-      font-size: 1.2rem; 
+      font-size: 1.2rem;
     }
     & .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium path {
-      fill: var(--light-mode-purple); 
+      fill: var(--light-mode-purple);
     }
   }
 `;

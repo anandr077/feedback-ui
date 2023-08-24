@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansMediumShark14px,
   IbmplexsansMediumTrendyPink14px,
-} from "../styledMixins";
+} from '../styledMixins';
 
 function Frame12852() {
   return (

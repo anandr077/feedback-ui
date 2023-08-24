@@ -1,7 +1,7 @@
-import React from "react";
-import Frame63 from "../Frame63";
-import Content2 from "../Content2";
-import styled from "styled-components";
+import React from 'react';
+import Frame63 from '../Frame63';
+import Content2 from '../Content2';
+import styled from 'styled-components';
 
 function Cards7() {
   return (

@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo14px } from '../../../styledMixins';
 
 function FocusAreasFrame(props) {
   const { focusAreas, handleAddFocusArea } = props;
-  console.log("focusAreas" + JSON.stringify(focusAreas))
+  console.log('focusAreas' + JSON.stringify(focusAreas));
   const allFocusAreas = focusAreas?.map((focusArea) => {
     return (
       <>
         <FocusAreasBox onClick={() => handleAddFocusArea(focusArea)}>
-        <Ellipse141 backgroundColor={focusArea.color}></Ellipse141>
+          <Ellipse141 backgroundColor={focusArea.color}></Ellipse141>
           <FocusAreasText>{focusArea.title}</FocusAreasText>
         </FocusAreasBox>
       </>
@@ -51,10 +51,10 @@ const FocusAreasBox = styled.div`
   gap: 10px;
   padding: 6px 12px;
   position: relative;
-  background-color: #E6E6E6;
+  background-color: #e6e6e6;
   border-radius: 24.5px;
   border: 1px solid;
-  border-color: #E6E6E6;
+  border-color: #e6e6e6;
   cursor: pointer;
   width: 100%;
 `;

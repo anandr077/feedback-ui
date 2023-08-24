@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumWhite16px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumWhite16px } from '../../styledMixins';
 
 function Buttons2(props) {
   const { type, add, label, onClickFn } = props;
   return (
     <>
-      {type === "previous" ? (
+      {type === 'previous' ? (
         <Buttons onClick={onClickFn}>
           <Add src={add} alt="add" />
           <Button>{label} </Button>

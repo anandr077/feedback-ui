@@ -1,6 +1,6 @@
-import React from "react";
-import Group13 from "../Group13";
-import styled from "styled-components";
+import React from 'react';
+import Group13 from '../Group13';
+import styled from 'styled-components';
 
 function NavElement6() {
   return (

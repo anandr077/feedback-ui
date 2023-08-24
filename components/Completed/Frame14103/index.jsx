@@ -1,23 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import TaskCard from "../../TaskCard";
-import Frame1308 from "../Frame1308";
+import React from 'react';
+import styled from 'styled-components';
+import TaskCard from '../../TaskCard';
+import Frame1308 from '../Frame1308';
 
 function Frame14103(props) {
+  const { id, groups, exemplar, setPublishActionCompleted } = props;
 
-  const {  id, groups, exemplar, setPublishActionCompleted } = props;
-  
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
     const tasksFrames = group.map((task) => {
-      
       return (
-          <TaskCard
-            task={task}
-            exemplar={exemplar}
-            isSelected={task.id === id }
-            setPublishActionCompleted={setPublishActionCompleted}
-          />
+        <TaskCard
+          task={task}
+          exemplar={exemplar}
+          isSelected={task.id === id}
+          setPublishActionCompleted={setPublishActionCompleted}
+        />
       );
     });
     return (

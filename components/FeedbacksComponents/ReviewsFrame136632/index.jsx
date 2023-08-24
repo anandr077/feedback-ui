@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansMediumPersianIndigo20px,
-} from "../../../styledMixins";
+} from '../../../styledMixins';
 
 function ReviewsFrame136632(props) {
   const { q2PoremIpsumDolo } = props;

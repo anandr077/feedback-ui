@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo13px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo13px } from '../styledMixins';
 
 function Frame6(props) {
   const { className } = props;
 
   return (
-    <Frame61 className={`frame-6-5 ${className || ""}`}>
+    <Frame61 className={`frame-6-5 ${className || ''}`}>
       <MainWebsite className="main-website">Main Website</MainWebsite>
       <MainWebsite className="terms">Terms</MainWebsite>
       <MainWebsite className="privacy">Privacy</MainWebsite>

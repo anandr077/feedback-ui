@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../../styledMixins";
-import "./CreateNewFocusArea.css";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../../styledMixins';
+import './CreateNewFocusArea.css';
 
 function CreateNewFocusArea(props) {
   const { xnew, line34, add, createNewFocusAreaNew } = props;

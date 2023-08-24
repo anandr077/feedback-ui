@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import "@lottiefiles/lottie-player";
+import React from 'react';
+import styled from 'styled-components';
+import '@lottiefiles/lottie-player';
 
 export default function Loader() {
   return (
@@ -43,7 +43,7 @@ const LottieContainer = styled.div`
 const StyledText = styled.div`
   width: 326px;
   height: 26px;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 15px;

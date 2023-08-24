@@ -1,11 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalPersianIndigo14px,
   IbmplexsansNormalShark14px,
-} from "../../styledMixins";
-import "./Tooltip1.css";
+} from '../../styledMixins';
+import './Tooltip1.css';
 
 function Tooltip1(props) {
   const { help, tip, selectTheClassesW } = props;

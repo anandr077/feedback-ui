@@ -1,7 +1,7 @@
-import React from "react";
-import FooterFrame662 from "../FooterFrame662";
-import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../styledMixins";
+import React from 'react';
+import FooterFrame662 from '../FooterFrame662';
+import styled from 'styled-components';
+import { IbmplexsansNormalChicago13px } from '../../styledMixins';
 
 function Frame65(props) {
   const { frame662Props } = props;

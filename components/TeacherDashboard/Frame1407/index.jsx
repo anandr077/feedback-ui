@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet14px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet14px } from '../styledMixins';
 
 function Frame1407(props) {
   const { arrowright1, line17 } = props;
@@ -11,7 +11,7 @@ function Frame1407(props) {
         <Place>View Details</Place>
         <Arrowright src={arrowright1} alt="arrowright" />
       </Frame1206>
-      <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
+      <Line17 src={'/img/line-17-22@2x.png'} alt="Line 17" />
     </Frame14071>
   );
 }

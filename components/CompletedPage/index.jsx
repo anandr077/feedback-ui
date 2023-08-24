@@ -1,55 +1,61 @@
-import React from "react";
-import { getCompletedTasks } from "../../service.js";
-import ReactiveRender from "../ReactiveRender";
-import CompletedRoot from "../Completed/CompletedRoot";
-import { groupBy, groupedData } from "lodash";
-import { dateOnly } from "../../dates.js";
+import React from 'react';
+import { getCompletedTasks } from '../../service.js';
+import ReactiveRender from '../ReactiveRender';
+import CompletedRoot from '../Completed/CompletedRoot';
+import { groupBy, groupedData } from 'lodash';
+import { dateOnly } from '../../dates.js';
 import _ from 'lodash';
-import Loader from "../Loader";
+import Loader from '../Loader';
 export default function CompletedPage() {
-    const [tasks, setTasks] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [filteredTasks, setFilteredTasks] = React.useState([]);
+  const [tasks, setTasks] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [filteredTasks, setFilteredTasks] = React.useState([]);
 
-    React.useEffect(() => {
-      getCompletedTasks().then((result) => {
-        if (result) {        
-          setTasks(result);
-          setFilteredTasks(result);
+  React.useEffect(() => {
+    getCompletedTasks().then((result) => {
+      if (result) {
+        setTasks(result);
+        setFilteredTasks(result);
 
-          setIsLoading(false);
-        }
-      });
-    }, []);
-    if (isLoading) {
-      return <Loader/>;
-    }
-    const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));
-    const menuItems = [
-      {
-        name: 'TYPES',
-        title: 'Types',
-        items: [
-          { value: 'ASSIGNMENT', label: 'Tasks' , category: 'TYPES'  },
-          { value: 'REVIEW', label: 'Reviews' , category: 'TYPES' },
-        ],
-      },
-    ];
-  
+        setIsLoading(false);
+      }
+    });
+  }, []);
+  if (isLoading) {
+    return <Loader />;
+  }
+  const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));
+  const menuItems = [
+    {
+      name: 'TYPES',
+      title: 'Types',
+      items: [
+        { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
+        { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
+      ],
+    },
+  ];
 
-  const filterTasks = (selectedItems) =>{
+  const filterTasks = (selectedItems) => {
     const groupedData = _.groupBy(selectedItems, 'category');
     let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
-    
+
     if (typesValues.length === 0) {
-      typesValues = ["REVIEW", "ASSIGNMENT" ]
+      typesValues = ['REVIEW', 'ASSIGNMENT'];
     }
-    const filteredTasks = _.filter(tasks, (task) => _.includes(typesValues, task.type));
-
-    setFilteredTasks(filteredTasks)
-  }
-
-    return (
-      <CompletedRoot menuItems = {menuItems} filterTasks = {filterTasks} groups={groups} title="Completed"></CompletedRoot>
+    const filteredTasks = _.filter(tasks, (task) =>
+      _.includes(typesValues, task.type)
     );
-  }
+
+    setFilteredTasks(filteredTasks);
+  };
+
+  return (
+    <CompletedRoot
+      menuItems={menuItems}
+      filterTasks={filterTasks}
+      groups={groups}
+      title="Completed"
+    ></CompletedRoot>
+  );
+}

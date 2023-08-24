@@ -1,18 +1,18 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansBoldWhite72px,
   IbmplexsansMediumRiverBed24px,
   DashboardIbmplexsansNormalWhite20px,
   DashboardIbmplexsansBoldWhite72px,
-} from "../../styledMixins";
-import DashboardFrame1284 from "../DashboardFrame1284";
-import DashboardGroup1205 from "../DashboardGroup1205";
-import Footer from "../Footer";
-import Header from "../Header";
-import TaskCardContainer from "../TaskCardContainer";
-import "./DashboardHomeStudentLaptop.css";
-import { getUserName } from "../../service";
+} from '../../styledMixins';
+import DashboardFrame1284 from '../DashboardFrame1284';
+import DashboardGroup1205 from '../DashboardGroup1205';
+import Footer from '../Footer';
+import Header from '../Header';
+import TaskCardContainer from '../TaskCardContainer';
+import './DashboardHomeStudentLaptop.css';
+import { getUserName } from '../../service';
 
 function DashboardHomeStudentLaptop(props) {
   const {
@@ -52,27 +52,27 @@ function DashboardHomeStudentLaptop(props) {
             <Frame1336>
               <Frame1307>
                 <DashboardFrame1284
-                  title={"NOT STARTED"}
+                  title={'NOT STARTED'}
                   count={outstandingTasks.length}
                 />
                 <DashboardFrame1284
-                  title={"IN PROGRESS"}
+                  title={'IN PROGRESS'}
                   count={inProgressTasks.length}
                 />
                 <DashboardFrame1284
-                  title={"OVERDUE"}
+                  title={'OVERDUE'}
                   count={overdueTasks.length}
                 />
               </Frame1307>
               <Line17 src="/img/line-17-4.png" alt="Line 16" />
               <TaskInsideFrame>
-              <TaskCardContainer
-                allTasks={[
-                  ...overdueTasks,
-                  ...outstandingTasks,
-                  ...inProgressTasks,
-                ]}
-              />
+                <TaskCardContainer
+                  allTasks={[
+                    ...overdueTasks,
+                    ...outstandingTasks,
+                    ...inProgressTasks,
+                  ]}
+                />
               </TaskInsideFrame>
             </Frame1336>
           </Frame1339>
@@ -81,16 +81,16 @@ function DashboardHomeStudentLaptop(props) {
               <Crown src="/icons/exemplary_response.png" alt="crown" />
               <Tasks>Exemplars</Tasks>
             </Frame1337>
-         
+
             <Line18 src="/img/line-17-6.png" alt="Line 16" />
             <InsideFrame>
-            <TaskCardContainer
-              allTasks={modelResponses}
-              exemplar={true}
-              setPublishActionCompleted={setPublishActionCompleted}
-              // line17={frame1340Props.line17}
-              // group1205Props={frame1340Props.group1205Props}
-            />
+              <TaskCardContainer
+                allTasks={modelResponses}
+                exemplar={true}
+                setPublishActionCompleted={setPublishActionCompleted}
+                // line17={frame1340Props.line17}
+                // group1205Props={frame1340Props.group1205Props}
+              />
             </InsideFrame>
           </Frame1339>
         </Frame1346>
@@ -102,7 +102,7 @@ function DashboardHomeStudentLaptop(props) {
 }
 
 const TaskInsideFrame = styled.div`
- display: flex;
+  display: flex;
   flex-direction: column;
   height: 493px;
   align-items: flex-start;
@@ -116,9 +116,9 @@ const TaskInsideFrame = styled.div`
     width: 0;
     display: none;
   }
-  `;
+`;
 const InsideFrame = styled.div`
-display: flex;
+  display: flex;
   flex-direction: column;
   height: 595px;
   align-items: flex-start;
@@ -227,7 +227,7 @@ const KeepOrganizedWitho = styled.h1`
 `;
 
 const KeepOrganizedWitho1 = styled.p`
- ${DashboardIbmplexsansNormalWhite20px}
+  ${DashboardIbmplexsansNormalWhite20px}
   position: relative;
   width: fit-content;
   text-align: center;

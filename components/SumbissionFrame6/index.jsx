@@ -1,7 +1,7 @@
-import React from "react";
-import SubmissionFrame63 from "../Frame63";
-import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../styledMixins";
+import React from 'react';
+import SubmissionFrame63 from '../Frame63';
+import styled from 'styled-components';
+import { IbmplexsansNormalChicago13px } from '../../styledMixins';
 
 function SubmissionFrame6() {
   return (

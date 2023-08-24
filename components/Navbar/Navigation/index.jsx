@@ -1,16 +1,16 @@
-import React from "react";
-import NavElement42 from "../NavElement42";
-import NavElement52 from "../NavElement52";
-import NavElement6 from "../NavElement6";
-import NavElement7 from "../NavElement7";
-import NavElement8 from "../NavElement8";
-import styled from "styled-components";
-import "./Navigation.css";
-import { account, changePassword, getUserName, logout } from "../../../service";
-import { Avatar } from "@boringer-avatars/react";
+import React from 'react';
+import NavElement42 from '../NavElement42';
+import NavElement52 from '../NavElement52';
+import NavElement6 from '../NavElement6';
+import NavElement7 from '../NavElement7';
+import NavElement8 from '../NavElement8';
+import styled from 'styled-components';
+import './Navigation.css';
+import { account, changePassword, getUserName, logout } from '../../../service';
+import { Avatar } from '@boringer-avatars/react';
 
 const group1Data = {
-  iconHome: "/img/home3-1@2x.png",
+  iconHome: '/img/home3-1@2x.png',
 };
 
 const navElement42Data = {
@@ -18,25 +18,25 @@ const navElement42Data = {
 };
 
 const navElement71Data = {
-  home: "Profile",
+  home: 'Profile',
 };
 
 const navElement72Data = {
-  home: "Change Password",
-  className: "nav-element-4",
+  home: 'Change Password',
+  className: 'nav-element-4',
 };
 
 const navElement8Data = {
-  children: "Logout",
+  children: 'Logout',
 };
 
 function Navigation(props) {
   const name = getUserName();
   const { headerProps, onCloseFn } = props;
   const navigationData = {
-    maskGroup: "/img/mask-group-2@2x.png",
-    name: "Eleanor Pena",
-    iconClose: "/img/close.png",
+    maskGroup: '/img/mask-group-2@2x.png',
+    name: 'Eleanor Pena',
+    iconClose: '/img/close.png',
     navElement4Props: navElement42Data,
     navElement71Props: navElement71Data,
     navElement72Props: navElement72Data,
@@ -74,16 +74,16 @@ function Navigation(props) {
         <NavElement42 button={headerProps.firstButton} />
         <NavElement42 button={headerProps.secondButton} />
         <NavElement42 button={headerProps.thirdButton} />
-        <NavElement7 text={"View Profile"} onClick={()=>account()} />
+        <NavElement7 text={'View Profile'} onClick={() => account()} />
         <NavElement7
           text="Change Password"
           className={navigationData.navElement72Props.className}
-          onClick={()=>changePassword()}
+          onClick={() => changePassword()}
         />
-         <NavElement7
+        <NavElement7
           text="Settings"
           className={navigationData.navElement72Props.className}
-          onClick={()=>window.location.href = "/#/settings"}
+          onClick={() => (window.location.href = '/#/settings')}
         />
         <NavElement8 onClick={() => logout()}></NavElement8>
       </Frame5>

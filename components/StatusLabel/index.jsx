@@ -1,7 +1,7 @@
 // CustomLabel.js
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalRiverBed14px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalRiverBed14px } from '../../styledMixins';
 const StatusLabel = (props) => {
   const { text } = props;
   return (
@@ -25,7 +25,7 @@ const StatusContainer = styled.div`
 const Icon = styled.div`
   width: 20px;
   height: 20px;
-  background-image: url("/icons/saving.png");
+  background-image: url('/icons/saving.png');
   background-size: contain;
   background-repeat: no-repeat;
 `;

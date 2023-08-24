@@ -1,23 +1,25 @@
-import React from "react";
-import styled from "styled-components";
-import { timeFirstFormattedDate } from "../../../dates";
-import { getUserName } from "../../../service";
-import { teacherHomeHeaderProps } from "../../../utils/headerProps";
-import Footer from "../../Footer";
-import Header from "../../Header";
-import TaskCard from "../../TaskCard";
-import Frame12842 from "../Frame12842";
-import Frame13124 from "../Frame13124";
-import Frame14072 from "../Frame14072";
-import Group1205 from "../Group1205";
+import React from 'react';
+import styled from 'styled-components';
+import { timeFirstFormattedDate } from '../../../dates';
+import { getUserName } from '../../../service';
+import { teacherHomeHeaderProps } from '../../../utils/headerProps';
+import Footer from '../../Footer';
+import Header from '../../Header';
+import TaskCard from '../../TaskCard';
+import Frame12842 from '../Frame12842';
+import Frame13124 from '../Frame13124';
+import Frame14072 from '../Frame14072';
+import Group1205 from '../Group1205';
 import {
-  IbmplexsansMediumRiverBed24px, 
+  IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
-} from "../styledMixins";
-import {DashboardIbmplexsansNormalWhite20px, 
-  DashboardIbmplexsansBoldWhite72px} from "../../../styledMixins";
-import "./TeacherDashboardLaptop.css";
-import AnnotationAnalytics from "../../Analytics";
+} from '../styledMixins';
+import {
+  DashboardIbmplexsansNormalWhite20px,
+  DashboardIbmplexsansBoldWhite72px,
+} from '../../../styledMixins';
+import './TeacherDashboardLaptop.css';
+import AnnotationAnalytics from '../../Analytics';
 
 function TeacherDashboardLaptop(props) {
   const {
@@ -80,12 +82,12 @@ function TeacherDashboardLaptop(props) {
               </Frame1337>
               <Line17 src={line172} alt="Line 17" />
               <Frame1307>
-                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842 title={'DRAFTS'} count={drafts.length} />
                 <Frame12842
-                  title={"ACTIVE"}
+                  title={'ACTIVE'}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"CLOSED"} count={feedbacks.length} />
+                <Frame12842 title={'CLOSED'} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             {/* <AnnotationAnalytics/> */}
@@ -110,7 +112,7 @@ function recentActivitiesFrame(notifications) {
       title: notification.title,
       classTitle:
         notification.classTitle +
-        " | at " +
+        ' | at ' +
         timeFirstFormattedDate(notification.dueAt),
     };
     return <TaskCard task={task} />;
@@ -124,7 +126,7 @@ function classesFrames(classes, frame131241Props) {
         {classes.map((clazz) => {
           return (
             <Frame13124
-              key={"frame13124_" + clazz.id}
+              key={'frame13124_' + clazz.id}
               clazz={clazz}
               x12Engadv3={frame131241Props.x12Engadv3}
               frame1407Props={frame131241Props.frame1407Props}

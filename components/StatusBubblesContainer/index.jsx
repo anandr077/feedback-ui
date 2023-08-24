@@ -1,6 +1,6 @@
-import React from "react";
-import StatusBubbles from "../StatusBubbles";
-import styled from "styled-components";
+import React from 'react';
+import StatusBubbles from '../StatusBubbles';
+import styled from 'styled-components';
 
 function StatusBubblesContainer(props) {
   const { tags } = props;

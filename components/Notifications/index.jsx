@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function Notifications(props) {
   const { src, onClickFn, showNewNotifications } = props;
@@ -14,9 +14,8 @@ function Notifications(props) {
   );
 
   function createShowNewNotifications(showNewNotifications) {
-    if (showNewNotifications)
-      return <Ellipse1></Ellipse1>;
-    return <></>
+    if (showNewNotifications) return <Ellipse1></Ellipse1>;
+    return <></>;
   }
 }
 

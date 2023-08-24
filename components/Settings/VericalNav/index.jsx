@@ -1,9 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumPersianIndigo20px ,   
+import React from 'react';
+import styled from 'styled-components';
+import {
+  IbmplexsansMediumPersianIndigo20px,
   IbmplexsansNormalPersianIndigo20px,
-  IbmplexsansNormalWhite20px,} from "../../../styledMixins";
-
+  IbmplexsansNormalWhite20px,
+} from '../../../styledMixins';
 
 function VericalNav(props) {
   const { children } = props;

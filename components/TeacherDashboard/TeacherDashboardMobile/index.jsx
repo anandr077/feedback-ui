@@ -1,25 +1,28 @@
-import React from "react";
-import styled from "styled-components";
-import { getUserName } from "../../../service";
-import { teacherHomeHeaderProps } from "../../../utils/headerProps";
-import HeaderSmall from "../../HeaderSmall";
-import Frame12842 from "../Frame12842";
-import Frame13132 from "../Frame13132";
-import Group1205 from "../Group1205";
+import React from 'react';
+import styled from 'styled-components';
+import { getUserName } from '../../../service';
+import { teacherHomeHeaderProps } from '../../../utils/headerProps';
+import HeaderSmall from '../../HeaderSmall';
+import Frame12842 from '../Frame12842';
+import Frame13132 from '../Frame13132';
+import Group1205 from '../Group1205';
 
-import { IbmplexsansMediumShark20px, IbmplexsansBoldWhite36px}  from "../../../styledMixins";
+import {
+  IbmplexsansMediumShark20px,
+  IbmplexsansBoldWhite36px,
+} from '../../../styledMixins';
 
 import {
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
-} from "../styledMixins";
-import "./TeacherDashboardMobile.css";
-import FooterSmall from "../../FooterSmall";
-import { teacherHomeHeaderProps } from "../../../utils/headerProps";
-import { getUserName } from "../../../service";
-import { timeFirstFormattedDate } from "../../../dates";
-import TaskCard from "../../TaskCard";
+} from '../styledMixins';
+import './TeacherDashboardMobile.css';
+import FooterSmall from '../../FooterSmall';
+import { teacherHomeHeaderProps } from '../../../utils/headerProps';
+import { getUserName } from '../../../service';
+import { timeFirstFormattedDate } from '../../../dates';
+import TaskCard from '../../TaskCard';
 
 function TeacherDashboardMobile(props) {
   const {
@@ -59,7 +62,7 @@ function TeacherDashboardMobile(props) {
                 link="#classes"
                 label="VIEW ALL"
                 arrowright={group1205Props.arrowright}
-                small = {true}
+                small={true}
               />
             </Frame1337>
             <Line17 src={line171} alt="Line 17" />
@@ -69,12 +72,12 @@ function TeacherDashboardMobile(props) {
             group1205Props,
             line172,
             (stats = [
-              { title: "DRAFTS", count: drafts.length },
+              { title: 'DRAFTS', count: drafts.length },
               {
-                title: "ACTIVE",
+                title: 'ACTIVE',
                 count: awaitingSubmissions.length,
               },
-              { title: "CLOSED", count: feedbacks.length },
+              { title: 'CLOSED', count: feedbacks.length },
             ])
           )}
           <Frame1341>
@@ -97,7 +100,7 @@ function recentActivitiesFrame(notifications) {
       title: notification.title,
       classTitle:
         notification.classTitle +
-        " | at " +
+        ' | at ' +
         timeFirstFormattedDate(notification.dueAt),
     };
     return <TaskCard task={task} />;
@@ -113,14 +116,14 @@ function createAssignmentsFrame(group1205Props, line172, stats) {
         <Group1205
           link="#tasks/new"
           label="CREATE NEW"
-          arrowleft={"/img/iconsax-linear-add-1@2x.png"}
-          small = {true}
+          arrowleft={'/img/iconsax-linear-add-1@2x.png'}
+          small={true}
         />
         <Group1205
           link="#tasks"
           label="VIEW ALL"
           arrowright={group1205Props.arrowright}
-          small = {true}
+          small={true}
         />
       </Frame1337>
       <Line17 src={line172} alt="Line 17" />
@@ -145,18 +148,18 @@ function classesFrames(classes, frame131241Props) {
     <>
       {classes.map((clazz) => {
         return (
-          <a href={"#classes/" + clazz.id}>
+          <a href={'#classes/' + clazz.id}>
             <Frame1312>
               <Frame13121>
                 <Frame13122>
                   <X12ENGADV3>{clazz.title}</X12ENGADV3>
                 </Frame13122>
-                <Line17 src={"/img/line-17-22@2x.png"} alt="Line 17" />
+                <Line17 src={'/img/line-17-22@2x.png'} alt="Line 17" />
                 {createStatsFrame(
                   (stats = [
-                    { title: "STUDENTS", count: clazz.students.length },
-                    { title: "PENDING TASKS", count: "-" },
-                    { title: "DRAFTS", count: "-" },
+                    { title: 'STUDENTS', count: clazz.students.length },
+                    { title: 'PENDING TASKS', count: '-' },
+                    { title: 'DRAFTS', count: '-' },
                   ])
                 )}
               </Frame13121>
@@ -357,7 +360,6 @@ const Frame1339 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0px 4px 16px #7200e01a;
-  
 `;
 
 const Frame1337 = styled.div`
@@ -381,7 +383,7 @@ const Classes = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-  
+
   height: 1px;
   object-fit: cover;
 `;

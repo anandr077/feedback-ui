@@ -1,14 +1,14 @@
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import { chain } from "lodash";
-import * as React from "react";
-import "./preview.css";
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import { chain } from 'lodash';
+import * as React from 'react';
+import './preview.css';
 
 export default function PreviewDialog({
   setMarkingCriteriaPreviewDialog,
   criterias,
 }) {
-  console.log("criterias: " + criterias);
+  console.log('criterias: ' + criterias);
   const [open, setOpen] = React.useState(true);
   const handleClose = () => {
     setOpen(false);
@@ -46,7 +46,7 @@ const createLevels = (criterias) => {
         levelDescription: level.description,
       }))
     )
-    .groupBy("levelIndex")
+    .groupBy('levelIndex')
     .map((items, name) => ({ name, items }))
     .value();
 

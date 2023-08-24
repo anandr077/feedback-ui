@@ -15,12 +15,12 @@
   gap: 20px;
 }
 
-.data-parent{
+.data-parent {
   display: flex;
   gap: 20px;
 }
 
-.column-width{
+.column-width {
   flex: 1;
   flex-basis: 0;
 }

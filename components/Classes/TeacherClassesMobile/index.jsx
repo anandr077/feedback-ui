@@ -1,26 +1,26 @@
-import React from "react";
-import styled from "styled-components";
-import { classesHomeHeaderProps } from "../../../utils/headerProps";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Frame12842 from "../../TeacherDashboard/Frame12842";
-import Frame14072 from "../../TeacherDashboard/Frame14072";
-import Buttons from "../Buttons";
-import Frame13134 from "../Frame13134";
-import Frame13372 from "../Frame13372";
+import React from 'react';
+import styled from 'styled-components';
+import { classesHomeHeaderProps } from '../../../utils/headerProps';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
+import ImageDropdownMenu from '../../ImageDropdownMenu';
+import Frame12842 from '../../TeacherDashboard/Frame12842';
+import Frame14072 from '../../TeacherDashboard/Frame14072';
+import Buttons from '../Buttons';
+import Frame13134 from '../Frame13134';
+import Frame13372 from '../Frame13372';
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalShark16px,
-} from "../styledMixins";
+} from '../styledMixins';
 import {
   createModelResponsesFrames,
   createStudentsFrames,
-} from "../TeacherClassesRoot/methods";
-import "./TeacherClassesMobile.css";
+} from '../TeacherClassesRoot/methods';
+import './TeacherClassesMobile.css';
 function TeacherClassesMobile(props) {
   const {
     drafts,
@@ -36,7 +36,7 @@ function TeacherClassesMobile(props) {
     crown,
     line175,
     buttonsProps,
-    annotationAnalyticsFrame
+    annotationAnalyticsFrame,
   } = props;
 
   return (
@@ -82,12 +82,12 @@ function TeacherClassesMobile(props) {
               </Frame1337>
               <Line17 src={line175} alt="Line 17" />
               <Frame1307>
-                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842 title={'DRAFTS'} count={drafts.length} />
                 <Frame12842
-                  title={"SUBMISSIONS"}
+                  title={'SUBMISSIONS'}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"REVIEWS"} count={feedbacks.length} />
+                <Frame12842 title={'REVIEWS'} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             {/* <Frame1342>
@@ -103,9 +103,7 @@ function TeacherClassesMobile(props) {
                 />
               </Frame12844>
             </Frame1342> */}
-            <Frame1341>
-            {annotationAnalyticsFrame}
-            </Frame1341>
+            <Frame1341>{annotationAnalyticsFrame}</Frame1341>
           </Frame1416>
         </Frame14221>
       </Frame1422>

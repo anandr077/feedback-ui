@@ -1,8 +1,8 @@
-import TaskCardContainer from "../../TaskCardContainer";
-import Frame13135 from "../Frame13135";
+import TaskCardContainer from '../../TaskCardContainer';
+import Frame13135 from '../Frame13135';
 
 export const createModelResponsesFrames = (modelResponses) => {
-  return <TaskCardContainer allTasks={modelResponses} exemplar={true}/>;
+  return <TaskCardContainer allTasks={modelResponses} exemplar={true} />;
 };
 
 export const createStudentsFrames = (students) => {

@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo14px } from '../../../styledMixins';
 
 function Tabs(props) {
   const {
@@ -9,25 +9,24 @@ function Tabs(props) {
     setFocusAreas,
     isFocusAreas,
     isFeedback,
-    showFeedbacks = true
+    showFeedbacks = true,
   } = props;
 
   function handleFocusAreas() {
-    console.log("handleFocusAreas")
+    console.log('handleFocusAreas');
     setFeedback(false);
     setFocusAreas(true);
   }
   function handleFeedback() {
-    console.log("handleFeedback")
+    console.log('handleFeedback');
     setFeedback(true);
     setFocusAreas(false);
   }
 
-  
   return (
-    <Frame13201 className={`frame-1320 ${className || ""}`}>
-      {showFeedbacks && createTab("Feedback", handleFeedback, isFeedback)}
-      {createTab("Focus areas", handleFocusAreas, isFocusAreas)}
+    <Frame13201 className={`frame-1320 ${className || ''}`}>
+      {showFeedbacks && createTab('Feedback', handleFeedback, isFeedback)}
+      {createTab('Focus areas', handleFocusAreas, isFocusAreas)}
     </Frame13201>
   );
 }
@@ -77,15 +76,15 @@ const Feedback = styled.div`
   gap: 2px;
 `;
 function createTab(title, onClick, isSelected) {
-  return <Feedback
-    className="feedback"
-    onClick={onClick}
-    style={{ color: isSelected ? "#301B72" : "#79738C" }}
-  >
-    {title}
-  </Feedback>;
+  return (
+    <Feedback
+      className="feedback"
+      onClick={onClick}
+      style={{ color: isSelected ? '#301B72' : '#79738C' }}
+    >
+      {title}
+    </Feedback>
+  );
 }
 
 export default Tabs;
-
-

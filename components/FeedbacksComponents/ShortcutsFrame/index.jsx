@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo14px } from '../../../styledMixins';
 
 function Shortcuts(props) {
   const { focusAreas, shortcuts, handleShortcutAddComment } = props;
-  
+
   const shortcutsFrames = shortcuts?.map((shortcut) => {
     return (
       <ShortcutBox onClick={() => handleShortcutAddComment(shortcut.text)}>

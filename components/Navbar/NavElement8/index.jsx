@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo20px } from '../styledMixins';
 
 function NavElement8({ onClick }) {
   return (

@@ -1,26 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import TeacherDashboardHeader2 from "../TeacherDashboardHeader2";
-import ReviewsFrame1315 from "../ReviewsFrame1315";
-import ReviewsFrame1295 from "../ReviewsFrame1295";
-import ReviewsFrame1317 from "../ReviewsFrame1317";
-import ReviewsFrame1311 from "../ReviewsFrame1311";
-import SidebarNav from "../SidebarNav";
-import SidebarNav2 from "../SidebarNav2";
-import ReviewsFrame1366 from "../ReviewsFrame1366";
-import ReviewsFrame1322 from "../ReviewsFrame1322";
-import Buttons42 from "../Buttons42";
-import ReviewsFrame12973 from "../ReviewsFrame12973";
-import ReviewsFrame1370 from "../ReviewsFrame1370";
-import ReviewsFrame6 from "../ReviewsFrame6";
-import styled from "styled-components";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import TeacherDashboardHeader2 from '../TeacherDashboardHeader2';
+import ReviewsFrame1315 from '../ReviewsFrame1315';
+import ReviewsFrame1295 from '../ReviewsFrame1295';
+import ReviewsFrame1317 from '../ReviewsFrame1317';
+import ReviewsFrame1311 from '../ReviewsFrame1311';
+import SidebarNav from '../SidebarNav';
+import SidebarNav2 from '../SidebarNav2';
+import ReviewsFrame1366 from '../ReviewsFrame1366';
+import ReviewsFrame1322 from '../ReviewsFrame1322';
+import Buttons42 from '../Buttons42';
+import ReviewsFrame12973 from '../ReviewsFrame12973';
+import ReviewsFrame1370 from '../ReviewsFrame1370';
+import ReviewsFrame6 from '../ReviewsFrame6';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalMountainMist16px,
   IbmplexsansNormalShark20px,
   IbmplexsansMediumPersianIndigo20px,
   IbmplexsansBoldShark36px,
-} from "../../../styledMixins";
-import "./FeedbackWireframeTeacher2.css";
+} from '../../../styledMixins';
+import './FeedbackWireframeTeacher2.css';
 
 function FeedbackWireframeTeacher2(props) {
   const {

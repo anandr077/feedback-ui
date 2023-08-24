@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumBlack16px } from "../../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumBlack16px } from '../../../styledMixins';
 
 function Buttons42(props) {
   const { children, className } = props;
 
   return (
-    <Buttons className={`buttons-6 ${className || ""}`}>
+    <Buttons className={`buttons-6 ${className || ''}`}>
       <Button className="button-2">{children}</Button>
     </Buttons>
   );

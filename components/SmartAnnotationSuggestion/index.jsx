@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { IbmplexsansNormalShark20px } from "../../styledMixins";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { IbmplexsansNormalShark20px } from '../../styledMixins';
+import styled from 'styled-components';
 
 export default function SmartAnnotationSuggestion(props) {
   const {
@@ -20,7 +20,7 @@ export default function SmartAnnotationSuggestion(props) {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       saveEditedSuggestion(editedText, index);
     }
   };

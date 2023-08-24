@@ -1,16 +1,16 @@
-import React from "react";
-import Buttons from "../Buttons";
-import styled from "styled-components";
+import React from 'react';
+import Buttons from '../Buttons';
+import styled from 'styled-components';
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalElectricViolet14px,
-} from "../../../styledMixins";
-import "./AccountSettingsMarkingCriteriaTable.css";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
-import SettingsNav from "../SettingsNav";
+} from '../../../styledMixins';
+import './AccountSettingsMarkingCriteriaTable.css';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
+import SettingsNav from '../SettingsNav';
 
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
@@ -26,100 +26,138 @@ function AccountSettingsMarkingCriteriaTable(props) {
     showUserSettings,
     createSmartAnnotationHandler,
     breadCrumbs,
-    smartAnnotationsFrame
+    smartAnnotationsFrame,
   } = props;
 
-  
   return (
     <div className="account-settings-marking-criteria-tablet-2 screen">
       <Frame1379>
         <HeaderSmall headerProps={headerProps} />
         <Frame1376>
-          <Frame1315>
-            {breadCrumbs}
-          </Frame1315>
+          <Frame1315>{breadCrumbs}</Frame1315>
         </Frame1376>
         <Frame1378>
           <Frame1372>
             <Title>Account Settings</Title>
           </Frame1372>
           <Frame1322>
-          {
-            showUserSettings ?(
+            {showUserSettings ? (
               <ActiveSetting>
-              <Frame13221>
-                <SettingTitle>User Settings</SettingTitle>
-                <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" onClick={()=> {setShowUserSettings(false)}} />
-              </Frame13221>
-              <Frame1302>
-               <UserSettingLinkContainer>
-                <UserSettingLink href="/#/">Edit in user profile 
-                </UserSettingLink>
-                <RedictIcon src="/icons/redirecticon.svg" alt="Redirect Icon" />
-               </UserSettingLinkContainer> 
-              </Frame1302>
+                <Frame13221>
+                  <SettingTitle>User Settings</SettingTitle>
+                  <Frame1284
+                    src="/icons/expanded.svg"
+                    alt="Frame 1284"
+                    onClick={() => {
+                      setShowUserSettings(false);
+                    }}
+                  />
+                </Frame13221>
+                <Frame1302>
+                  <UserSettingLinkContainer>
+                    <UserSettingLink href="/#/">
+                      Edit in user profile
+                    </UserSettingLink>
+                    <RedictIcon
+                      src="/icons/redirecticon.svg"
+                      alt="Redirect Icon"
+                    />
+                  </UserSettingLinkContainer>
+                </Frame1302>
               </ActiveSetting>
-            ):
-            (
-            <InactiveSetting>
-              <SettingTitle>User Settings</SettingTitle>
-              <Frame1284 src="/icons/collapsed.svg"  alt="Frame 1284" onClick={()=> {setShowUserSettings(true)}} />
-            </InactiveSetting>)
-          }
-           {
-            showMarkingCriteria ? (
-             <ActiveSetting>
-              <Frame13221>
-                <SettingTitle>MarkingCriteria</SettingTitle>
-                <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" onClick={()=> {setShowMarkingCriteria(false)}} />
-              </Frame13221>
-              <Frame1302>
-                <Title1>
-                  <Buttons text="Create New" className={buttonsProps.className} link={"/#/markingCriterias/new"} mobile={true} />
-                </Title1>
-                <Line14 src={line14} alt="Line 14" />
-                <MarkingCriteriaList>
-                  {markingCriteriaList}
-                </MarkingCriteriaList>
-              </Frame1302>
-            </ActiveSetting>
-            ) :(
+            ) : (
               <InactiveSetting>
-              <SettingTitle>MarkingCriteria</SettingTitle>
-              <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284" onClick={()=> {setShowMarkingCriteria(true)}}/>
-            </InactiveSetting>
-            )
-            }
-            {
-              showShortcuts ? (
-                
-                <ActiveSetting>
-              <Frame13221>
-                <SettingTitle>Smart Annotations</SettingTitle>
-                <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" onClick={()=> {setShowShortcuts(false)}} />
-              </Frame13221>
-              <Frame1302>
-             
-                <Title1>
-                  <Buttons text="Create New" className={buttonsProps.className} onClickMethod={createSmartAnnotationHandler}/>
-                </Title1>
-                <Line14 src={line14} alt="Line 14" />
-                <MarkingCriteriaList>
-                {smartAnnotationsFrame()}
-                </MarkingCriteriaList>
-              </Frame1302>
-            </ActiveSetting>
-              
-              ):(
-            <InactiveSetting>
-              <SettingTitle>Shortcuts</SettingTitle>
-              <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284"  onClick={()=> {setShowShortcuts(true)}}/>
-            </InactiveSetting>)
-            }
+                <SettingTitle>User Settings</SettingTitle>
+                <Frame1284
+                  src="/icons/collapsed.svg"
+                  alt="Frame 1284"
+                  onClick={() => {
+                    setShowUserSettings(true);
+                  }}
+                />
+              </InactiveSetting>
+            )}
+            {showMarkingCriteria ? (
+              <ActiveSetting>
+                <Frame13221>
+                  <SettingTitle>MarkingCriteria</SettingTitle>
+                  <Frame1284
+                    src="/icons/expanded.svg"
+                    alt="Frame 1284"
+                    onClick={() => {
+                      setShowMarkingCriteria(false);
+                    }}
+                  />
+                </Frame13221>
+                <Frame1302>
+                  <Title1>
+                    <Buttons
+                      text="Create New"
+                      className={buttonsProps.className}
+                      link={'/#/markingCriterias/new'}
+                      mobile={true}
+                    />
+                  </Title1>
+                  <Line14 src={line14} alt="Line 14" />
+                  <MarkingCriteriaList>
+                    {markingCriteriaList}
+                  </MarkingCriteriaList>
+                </Frame1302>
+              </ActiveSetting>
+            ) : (
+              <InactiveSetting>
+                <SettingTitle>MarkingCriteria</SettingTitle>
+                <Frame1284
+                  src="/icons/collapsed.svg"
+                  alt="Frame 1284"
+                  onClick={() => {
+                    setShowMarkingCriteria(true);
+                  }}
+                />
+              </InactiveSetting>
+            )}
+            {showShortcuts ? (
+              <ActiveSetting>
+                <Frame13221>
+                  <SettingTitle>Smart Annotations</SettingTitle>
+                  <Frame1284
+                    src="/icons/expanded.svg"
+                    alt="Frame 1284"
+                    onClick={() => {
+                      setShowShortcuts(false);
+                    }}
+                  />
+                </Frame13221>
+                <Frame1302>
+                  <Title1>
+                    <Buttons
+                      text="Create New"
+                      className={buttonsProps.className}
+                      onClickMethod={createSmartAnnotationHandler}
+                    />
+                  </Title1>
+                  <Line14 src={line14} alt="Line 14" />
+                  <MarkingCriteriaList>
+                    {smartAnnotationsFrame()}
+                  </MarkingCriteriaList>
+                </Frame1302>
+              </ActiveSetting>
+            ) : (
+              <InactiveSetting>
+                <SettingTitle>Shortcuts</SettingTitle>
+                <Frame1284
+                  src="/icons/collapsed.svg"
+                  alt="Frame 1284"
+                  onClick={() => {
+                    setShowShortcuts(true);
+                  }}
+                />
+              </InactiveSetting>
+            )}
           </Frame1322>
         </Frame1378>
       </Frame1379>
-     <FooterSmall/>
+      <FooterSmall />
     </div>
   );
 }
@@ -149,7 +187,6 @@ const ShortcutInput = styled.input`
   transition: 0.15s;
 `;
 
-
 const MarkingCriteriaList = styled.div`
   display: flex;
   flex-direction: column;
@@ -171,17 +208,17 @@ const RedictIcon = styled.img`
   height: 16px;
 `;
 const UserSettingLinkContainer = styled.div`
-display: flex;
-height: 31px;
-align-items: center;
-gap: 8px;
-align-self: stretch;
-cursor: pointer;
+  display: flex;
+  height: 31px;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  cursor: pointer;
 `;
 
 const UserSettingLink = styled.div`
-${IbmplexsansNormalElectricViolet14px}
-font-size: 14px;
+  ${IbmplexsansNormalElectricViolet14px}
+  font-size: 14px;
 `;
 
 const Frame1379 = styled.div`

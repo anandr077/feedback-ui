@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo14px } from "../../../styledMixins";
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo14px } from '../../../styledMixins';
 
 export default function OptionRemark(props) {
   const { isCorrect } = props;
   return (
     <>
-      {" "}
+      {' '}
       {isCorrect ? (
         <CorrectOptionBox>
           <IconContainer src="/icons/correct.png" />
@@ -63,7 +63,7 @@ const InCorrectOptionBox = styled.div`
 
 const RemarkText = styled.div`
   height: 17px;
-  font-family: "IBM Plex Sans";
+  font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 500;
   font-size: 13px;

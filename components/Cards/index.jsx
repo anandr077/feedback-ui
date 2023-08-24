@@ -1,7 +1,7 @@
-import React from "react";
-import StatusBubbleContainer from "../StatusBubblesContainer";
-import CardContent from "../CardContent";
-import styled from "styled-components";
+import React from 'react';
+import StatusBubbleContainer from '../StatusBubblesContainer';
+import CardContent from '../CardContent';
+import styled from 'styled-components';
 
 function TaskCard(props) {
   const { task } = props;

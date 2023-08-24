@@ -1,8 +1,7 @@
-import React from "react";
-import Frame1285 from "../Frame1285";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack20px } from "../../../styledMixins";
-
+import React from 'react';
+import Frame1285 from '../Frame1285';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack20px } from '../../../styledMixins';
 
 function CriteriaLevelInput(props) {
   const { anAnswerOfThisLevelContains, frame1285Props } = props;
@@ -11,7 +10,9 @@ function CriteriaLevelInput(props) {
     <CriteriaLevelInput1>
       <Frame1285>{frame1285Props.children}</Frame1285>
       <Frame1286>
-        <AnAnswerOfThisLevelContains>{anAnswerOfThisLevelContains}</AnAnswerOfThisLevelContains>
+        <AnAnswerOfThisLevelContains>
+          {anAnswerOfThisLevelContains}
+        </AnAnswerOfThisLevelContains>
       </Frame1286>
       <Frame1442></Frame1442>
     </CriteriaLevelInput1>

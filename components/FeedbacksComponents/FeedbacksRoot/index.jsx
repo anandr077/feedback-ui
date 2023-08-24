@@ -1,18 +1,18 @@
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { filter, flatMap, get, includes, map, set, uniq } from "lodash";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import { formattedDate } from "../../../dates";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import SubmitCommentFrameRoot from "../../SubmitCommentFrameRoot";
-import styled from "styled-components";
-import GeneralPopup from "../../GeneralPopup";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { filter, flatMap, get, includes, map, set, uniq } from 'lodash';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { formattedDate } from '../../../dates';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
+import styled from 'styled-components';
+import GeneralPopup from '../../GeneralPopup';
 
 import {
   addFeedback,
@@ -29,29 +29,32 @@ import {
   updateFeedbackRange,
   getUserName,
   getDefaultCriteria,
-  markSubmissionRequestSubmission
-} from "../../../service";
-import { getShortcuts, saveAnswer, getSmartAnnotations } from "../../../service.js";
+  markSubmissionRequestSubmission,
+} from '../../../service';
+import {
+  getShortcuts,
+  saveAnswer,
+  getSmartAnnotations,
+} from '../../../service.js';
 import {
   assignmentsHeaderProps,
   taskHeaderProps,
-} from "../../../utils/headerProps.js";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Loader from "../../Loader";
-import ReactiveRender from "../../ReactiveRender";
-import FeedbackTeacherLaptop from "../FeedbackTeacherLaptop";
-import FeedbackTeacherMobile from "../FeedbackTeacherMobile";
-import { extractStudents, getComments, getPageMode } from "./functions";
-import { TextField } from "@mui/material";
-import { IbmplexsansNormalShark20px } from "../../../styledMixins";
-import SnackbarContext from "../../SnackbarContext";
-
+} from '../../../utils/headerProps.js';
+import ImageDropdownMenu from '../../ImageDropdownMenu';
+import Loader from '../../Loader';
+import ReactiveRender from '../../ReactiveRender';
+import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
+import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
+import { extractStudents, getComments, getPageMode } from './functions';
+import { TextField } from '@mui/material';
+import { IbmplexsansNormalShark20px } from '../../../styledMixins';
+import SnackbarContext from '../../SnackbarContext';
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
-  const [labelText, setLabelText] = useState("");
+  const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
-  const [exemplarComment, setExemplerComment] = useState("");
+  const [exemplarComment, setExemplerComment] = useState('');
   const [isValidComment, setIsValidComment] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -68,20 +71,18 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
-  const [newCommentValue, setNewCommentValue] = useState("");
-  const [nextUrl, setNextUrl] = useState("");
+  const [newCommentValue, setNewCommentValue] = useState('');
+  const [nextUrl, setNextUrl] = useState('');
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
-  const [methodTocall,setMethodToCall] = React.useState(null);
-  const [popupText,setPopupText] = React.useState(null);
+  const [methodTocall, setMethodToCall] = React.useState(null);
+  const [popupText, setPopupText] = React.useState(null);
 
-  const isTeacher = getUserRole() === "TEACHER";
+  const isTeacher = getUserRole() === 'TEACHER';
   const defaultMarkingCriteria = getDefaultCriteria();
-
-
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
@@ -90,9 +91,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const allComments = commentsResult.map((c) => {
           return { ...c };
         });
-        const feedbackComments= allComments.filter((c) => c.type !== "MARKING_CRITERIA");
+        const feedbackComments = allComments.filter(
+          (c) => c.type !== 'MARKING_CRITERIA'
+        );
         setComments(feedbackComments);
-        const markingCriteriaFeedback= allComments.filter((c) => c.type === "MARKING_CRITERIA");
+        const markingCriteriaFeedback = allComments.filter(
+          (c) => c.type === 'MARKING_CRITERIA'
+        );
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
         setSmartAnnotations(smartAnnotationResult);
       })
@@ -113,30 +118,33 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           // );
 
           let currentSubmissionIndex = 0;
-          const allExceptCurrent =  allSubmissions.map((r, index) => {
-            if(r.id != submission.id){
+          const allExceptCurrent = allSubmissions.map((r, index) => {
+            if (r.id != submission.id) {
               return r;
-            }else {
+            } else {
               currentSubmissionIndex = index;
             }
           });
 
           let nextSubmissionIndex = currentSubmissionIndex + 1;
-          while(nextSubmissionIndex > 0 && nextSubmissionIndex < allExceptCurrent.length){
-            if(allExceptCurrent[nextSubmissionIndex]?.status === "SUBMITTED"){
+          while (
+            nextSubmissionIndex > 0 &&
+            nextSubmissionIndex < allExceptCurrent.length
+          ) {
+            if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
               break;
-            }else {
+            } else {
               nextSubmissionIndex++;
             }
           }
-          if(nextSubmissionIndex >= allExceptCurrent.length){
+          if (nextSubmissionIndex >= allExceptCurrent.length) {
             nextSubmissionIndex = 0;
           }
 
-          const nextUrl = allExceptCurrent[nextSubmissionIndex] 
-            ? "#submissions/" + allExceptCurrent[nextSubmissionIndex]?.id
-            : "/";
-            
+          const nextUrl = allExceptCurrent[nextSubmissionIndex]
+            ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
+            : '/';
+
           setNextUrl(nextUrl);
           const studentName =
             allSubmissions.find((r) => r.id === submission.assignment.id)
@@ -156,17 +164,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
-
   const handleChangeText = (change, allSaved) => {
-    if (document.getElementById("statusLabelIcon")) {
+    if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {
-        document.getElementById("statusLabelIcon").style.backgroundImage =
+        document.getElementById('statusLabelIcon').style.backgroundImage =
           'url("/icons/saved.png")';
       } else {
-        document.getElementById("statusLabelIcon").style.backgroundImage =
+        document.getElementById('statusLabelIcon').style.backgroundImage =
           'url("/icons/saving.png")';
       }
-      document.getElementById("statusLabelDiv").innerHTML = change;
+      document.getElementById('statusLabelDiv').innerHTML = change;
     }
   };
 
@@ -180,60 +187,57 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   function handleKeyPress(event) {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleAddComment();
     }
   }
   function handleAddComment() {
-    if (!document.getElementById("newCommentInput").value)
-      return;
+    if (!document.getElementById('newCommentInput').value) return;
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: document.getElementById("newCommentInput").value,
+      feedback: document.getElementById('newCommentInput').value,
       range: selectedRange,
-      type: "COMMENT",
+      type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue("");
+        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
   }
 
   function handleShortcutAddComment(commentText) {
-
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText.trim(),
       range: selectedRange,
-      type: "COMMENT",
+      type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue("");
+        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
   }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
-
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText,
       range: selectedRange,
-      type: "SMART_ANNOTATION",
+      type: 'SMART_ANNOTATION',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue("");
+        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
@@ -244,7 +248,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
       range: selectedRange,
-      type: "FOCUS_AREA",
+      type: 'FOCUS_AREA',
       color: focusArea.color,
       focusAreaId: focusArea.id,
       replies: [],
@@ -252,14 +256,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue("");
+        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
   }
 
   const addExemplerComment = () => {
-    if (exemplarComment === "") {
+    if (exemplarComment === '') {
       setIsValidComment(false);
       return;
     }
@@ -267,55 +271,58 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: exemplarComment,
       range: selectedRange,
-      type: "MODEL_RESPONSE",
+      type: 'MODEL_RESPONSE',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue("");
+        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
-    setExemplerComment("");
+    setExemplerComment('');
     setShowShareWithClass(false);
   };
   const handleInputChange = (event) => {
     const value = event.target.value;
     setExemplerComment(value);
-    setIsValidComment(value !== "");
+    setIsValidComment(value !== '');
   };
   const sharewithclassdialog = (
     <Dialog
       onClose={() => {
         setShowShareWithClass(false);
         setShowNewComment(false);
-        setExemplerComment("");
+        setExemplerComment('');
       }}
       open={showShareWithClass}
     >
-    <DialogContiner>
+      <DialogContiner>
         <StyledTextField
           multiline
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
           error={!isValidComment}
-          helperText={!isValidComment ? "Field cannot be empty" : "Enter response to share with class"}
+          helperText={
+            !isValidComment
+              ? 'Field cannot be empty'
+              : 'Enter response to share with class'
+          }
         />
         <ActionButtonsContainer>
-        <DialogActions>
-          <SubmitCommentFrameRoot
-            submitButtonOnClick={addExemplerComment}
-            cancelButtonOnClick={() => {
-              setShowShareWithClass(false);
-              setShowNewComment(false);
-              setExemplerComment("");
-            }}
-          />
-        </DialogActions>
+          <DialogActions>
+            <SubmitCommentFrameRoot
+              submitButtonOnClick={addExemplerComment}
+              cancelButtonOnClick={() => {
+                setShowShareWithClass(false);
+                setShowNewComment(false);
+                setExemplerComment('');
+              }}
+            />
+          </DialogActions>
         </ActionButtonsContainer>
-  
       </DialogContiner>
     </Dialog>
   );
@@ -324,7 +331,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowShareWithClass(true);
   }
   const createDebounceFunction = (answer) => {
-    if (pageMode === "DRAFT" || pageMode === "REVISE") {
+    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
       return {
         debounceTime: 2000,
         onDebounce: handleDebounce(answer),
@@ -337,32 +344,31 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleDebounce = (answer) => (contents) => {
-    handleChangeText("Saving...", false);
+    handleChangeText('Saving...', false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-        return updateCommentsRange(answer);
+      return updateCommentsRange(answer);
     });
   };
-  
 
   function updateCommentsRange(answer) {
     const quill = quillRefs.current[answer.serialNumber - 1];
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-    console.log("highlightsWithCommentsData", highlightsWithCommentsData)
+    console.log('highlightsWithCommentsData', highlightsWithCommentsData);
     const mergedHighlights = {};
 
     Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
       const mergedRange = {
         range: {
           from: ranges[0].range.from,
-          to: ranges[ranges.length - 1].range.to
-        }
+          to: ranges[ranges.length - 1].range.to,
+        },
       };
       mergedHighlights[commentId] = [mergedRange];
     });
 
-    console.log("mergedHighlights", mergedHighlights)
+    console.log('mergedHighlights', mergedHighlights);
 
     const transformedData = flatMap(
       Object.entries(mergedHighlights),
@@ -373,14 +379,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         });
       }
     );
-    console.log("transformedData", transformedData)
-
+    console.log('transformedData', transformedData);
 
     // Use Array.prototype.map to create an array of commentIds
-    const commentIdsArray = transformedData.map(
-      ({ commentId }) => commentId
-    );
-    console.log("commentIdsArray", commentIdsArray)
+    const commentIdsArray = transformedData.map(({ commentId }) => commentId);
+    console.log('commentIdsArray', commentIdsArray);
 
     const commentsForAnswer = comments.filter(
       (comment) => comment.questionSerialNumber === answer.serialNumber
@@ -390,16 +393,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       (comment) => !includes(commentIdsArray, comment.id)
     );
 
-    const missingCommentsWithZeroRange = map(
-      missingComments,
-      (comment) => ({
-        commentId: comment.id,
-        range: { from: 0, to: 0 },
-      })
-    );
+    const missingCommentsWithZeroRange = map(missingComments, (comment) => ({
+      commentId: comment.id,
+      range: { from: 0, to: 0 },
+    }));
 
     const finalData = transformedData.concat(missingCommentsWithZeroRange);
-    console.log("finalData", finalData)
+    console.log('finalData', finalData);
 
     const promises = finalData.map(({ commentId, range }) => {
       return updateFeedbackRange(submission.id, commentId, range);
@@ -407,24 +407,23 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     Promise.all(promises).then((results) => {
       getComments(submission.id).then((cmts) => {
-        setComments(cmts.filter((c) => c.type !== "MARKING_CRITERIA"));
-        handleChangeText("All changes saved", true);
+        setComments(cmts.filter((c) => c.type !== 'MARKING_CRITERIA'));
+        handleChangeText('All changes saved', true);
       });
     });
   }
 
   function handleDeleteComment(commentId) {
-    deleteFeedback(submission.id, commentId)
-      .then((response) => {
-        setComments(comments.filter((c) => c.id != commentId));
-      });
+    deleteFeedback(submission.id, commentId).then((response) => {
+      setComments(comments.filter((c) => c.id != commentId));
+    });
   }
 
   function handleResolvedComment(commentId) {
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
         resolveFeedback(commentId);
-        return { ...comment, status: "RESOLVED" };
+        return { ...comment, status: 'RESOLVED' };
       }
       return comment;
     });
@@ -436,7 +435,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: serialNumber,
       comment: replyComment,
       range: { from: 0, to: 0 },
-      type: "COMMENT",
+      type: 'COMMENT',
       reviewerId: getUserId(),
       reviewerName: getUserName(),
       replies: [],
@@ -458,7 +457,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: commentToUpdate.reviewerId,
           color: commentToUpdate.color,
           focusAreaId: commentToUpdate.focusAreaId,
-          markingCriteria: defaultMarkingCriteria
+          markingCriteria: defaultMarkingCriteria,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>
@@ -471,9 +470,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       return comment;
     });
 
-    setNewCommentValue("");
+    setNewCommentValue('');
     setShowNewComment(false);
-    setExemplerComment("");
+    setExemplerComment('');
     setShowShareWithClass(false);
   }
 
@@ -505,9 +504,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       return c;
     });
 
-    setNewCommentValue("");
+    setNewCommentValue('');
     setShowNewComment(false);
-    setExemplerComment("");
+    setExemplerComment('');
     setShowShareWithClass(false);
   }
 
@@ -569,121 +568,120 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
 
-
-
   const validateMarkingCriteria = () => {
     let invalid = true;
-    submission.assignment.questions.map((question)=>{
-      if(question.markingCriteria.title !="" && question.markingCriteria.criterias){   
-        question.markingCriteria.criterias.map((criteria)=>{
-          if(!criteria.selectedLevel){
+    submission.assignment.questions.map((question) => {
+      if (
+        question.markingCriteria.title != '' &&
+        question.markingCriteria.criterias
+      ) {
+        question.markingCriteria.criterias.map((criteria) => {
+          if (!criteria.selectedLevel) {
             criteria.selectedLevel = criteria.levels[0].name;
           }
-        })  
+        });
       }
-    }); 
- return invalid;
+    });
+    return invalid;
   };
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
-    setPopupText("");
+    setPopupText('');
 
-    if(validateMarkingCriteria()){
-
-          submission.assignment.questions.map((question)=>{
-            if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
-              
-                  const markingCriteriaRequest = question.markingCriteria;
-                        addFeedback(submission.id, {
-                        questionSerialNumber: question.serialNumber,
-                        feedback: "Marking Criteria Feedback",
-                        range: selectedRange,
-                        type: "MARKING_CRITERIA",
-                        replies: [],
-                        markingCriteria: markingCriteriaRequest,
-                        }).then((response) => {
-                          if (response) {
-                            console.log("###response", response);
-                          }
-                        });
-                      }
+    if (validateMarkingCriteria()) {
+      submission.assignment.questions.map((question) => {
+        if (
+          question.markingCriteria?.title != '' &&
+          question.markingCriteria.criterias
+        ) {
+          const markingCriteriaRequest = question.markingCriteria;
+          addFeedback(submission.id, {
+            questionSerialNumber: question.serialNumber,
+            feedback: 'Marking Criteria Feedback',
+            range: selectedRange,
+            type: 'MARKING_CRITERIA',
+            replies: [],
+            markingCriteria: markingCriteriaRequest,
+          }).then((response) => {
+            if (response) {
+              console.log('###response', response);
             }
-          );
-          
-      markSubmsissionReviewed(submission.id).then((_) => {
-          showSnackbar("Task reviewed...", window.location.href);
-          if (isTeacher) {
-            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
-          } else {
-            window.location.href = "/#";
-          }
-        });
+          });
+        }
+      });
 
+      markSubmsissionReviewed(submission.id).then((_) => {
+        showSnackbar('Task reviewed...', window.location.href);
+        if (isTeacher) {
+          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+        } else {
+          window.location.href = '/#';
+        }
+      });
     }
   }
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
-    setPopupText("");
+    setPopupText('');
 
-    if(validateMarkingCriteria()){
-
-          submission.assignment.questions.map((question)=>{
-            if(question.markingCriteria?.title !="" && question.markingCriteria.criterias){
-              
-                  const markingCriteriaRequest = question.markingCriteria;
-                        addFeedback(submission.id, {
-                        questionSerialNumber: question.serialNumber,
-                        feedback: "Marking Criteria Feedback",
-                        range: selectedRange,
-                        type: "MARKING_CRITERIA",
-                        replies: [],
-                        markingCriteria: markingCriteriaRequest,
-                        }).then((response) => {
-                          if (response) {
-                            console.log("###response", response);
-                          }
-                        });
-                    }
+    if (validateMarkingCriteria()) {
+      submission.assignment.questions.map((question) => {
+        if (
+          question.markingCriteria?.title != '' &&
+          question.markingCriteria.criterias
+        ) {
+          const markingCriteriaRequest = question.markingCriteria;
+          addFeedback(submission.id, {
+            questionSerialNumber: question.serialNumber,
+            feedback: 'Marking Criteria Feedback',
+            range: selectedRange,
+            type: 'MARKING_CRITERIA',
+            replies: [],
+            markingCriteria: markingCriteriaRequest,
+          }).then((response) => {
+            if (response) {
+              console.log('###response', response);
             }
-          );
-          
-        markSubmissionRequestSubmission(submission.id).then((_) => {
-          showSnackbar("Resubmission requested...", window.location.href);
-          if (isTeacher) {
-            window.location.href = nextUrl === "/" ? "/#" : nextUrl;
-            window.location.reload();
-          } else {
-            window.location.href = "/#";
-          }
-        });
+          });
+        }
+      });
 
+      markSubmissionRequestSubmission(submission.id).then((_) => {
+        showSnackbar('Resubmission requested...', window.location.href);
+        if (isTeacher) {
+          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+          window.location.reload();
+        } else {
+          window.location.href = '/#';
+        }
+      });
     }
   }
 
   const handleSaveSubmissionForReview = () => {
     setShowSubmitPopup(false);
     setMethodToCall(null);
-    setPopupText("");
+    setPopupText('');
 
     disableAllEditors();
-    handleChangeText("Saving...", false);
+    handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar("Submitting task...");
+    showSnackbar('Submitting task...');
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
-        showSnackbar("Task submitted...", window.location.href);
-        window.location.href = "/#";
+        showSnackbar('Task submitted...', window.location.href);
+        window.location.href = '/#';
         setShowLoader(false);
       });
     }, 4000);
   };
   function disableAllEditors() {
     submission.assignment.questions
-      .filter((question) => question.type === "TEXT")
+      .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         // alert(JSON.stringify(question))
         const quill = quillRefs.current[question.serialNumber - 1];
@@ -695,16 +693,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function handleSubmissionClosed() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
-    setPopupText("");
+    setPopupText('');
 
     disableAllEditors();
-    handleChangeText("Saving...", false);
+    handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar("Submitting task...");
+    showSnackbar('Submitting task...');
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
-        showSnackbar("Task completed...", window.location.href);
-        window.location.href = "/#";
+        showSnackbar('Task completed...', window.location.href);
+        window.location.href = '/#';
         setShowLoader(false);
       });
     }, 4000);
@@ -731,11 +729,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const handlesaveAnswer = (serialNumber) => (contents) => {
-    handleChangeText("Saving...", false);
+    handleChangeText('Saving...', false);
     saveAnswer(submission.id, serialNumber, {
       answer: contents,
     }).then((_) => {
-      handleChangeText("All changes saved", true);
+      handleChangeText('All changes saved', true);
     });
   };
 
@@ -751,7 +749,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         );
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
-        const div = document.getElementById("comment_" + matchingComment.id);
+        const div = document.getElementById('comment_' + matchingComment.id);
         if (div) {
           highlightComment(matchingComment.color, div);
         }
@@ -770,19 +768,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function highlightComment(color, div) {
     div.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "center",
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center',
     });
     setTimeout(() => {
-      div.style.background = color?color: "#FFFFFF";
-      div.style.border = "1px solid #E5E5E5";
-      div.style.boxShadow = "0px 4px 16px #7200e01a";
+      div.style.background = color ? color : '#FFFFFF';
+      div.style.border = '1px solid #E5E5E5';
+      div.style.boxShadow = '0px 4px 16px #7200e01a';
       div.style.scale = 1;
     }, 2000);
-    div.style.background = "#F9F5FF";
-    div.style.border = "1px solid #7200E0";
-    div.style.boxShadow = "0px 4px 16px rgba(114, 0, 224, 0.2)";
+    div.style.background = '#F9F5FF';
+    div.style.border = '1px solid #7200E0';
+    div.style.boxShadow = '0px 4px 16px rgba(114, 0, 224, 0.2)';
     div.style.scale = 1.0003;
     setCommentHighlight(true);
   }
@@ -790,16 +788,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const unhighlightComment = () => {
     if (comments.length > 0 && commentHighlight) {
       comments.map((comment) => {
-        const div = document.getElementById("comment_" + comment.id);
-        div.style.background = "#FFFFFF";
-        div.style.border = "1px solid #E5E5E5";
-        div.style.boxShadow = "0px 4px 16px #7200e01a";
+        const div = document.getElementById('comment_' + comment.id);
+        div.style.background = '#FFFFFF';
+        div.style.border = '1px solid #E5E5E5';
+        div.style.boxShadow = '0px 4px 16px #7200e01a';
         div.style.scale = 1;
       });
       setCommentHighlight(false);
     }
   };
-
 
   const hideNewCommentDiv = () => {
     setShowNewComment(false);
@@ -837,9 +834,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const downloadPDF = () => {
     const doc = new jsPDF({
-      orientation: "p",
-      unit: "mm",
-      format: "a4",
+      orientation: 'p',
+      unit: 'mm',
+      format: 'a4',
       margin: {
         top: 0,
         bottom: 10,
@@ -848,13 +845,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       },
     });
 
-    const totalpdf = document.createElement("div");
+    const totalpdf = document.createElement('div');
 
-    const title = document.createElement("div");
-    title.style.fontSize = "40px";
-    title.style.fontWeight = "bold";
-    title.style.textAlign = "center";
-    title.style.marginBottom = "50px";
+    const title = document.createElement('div');
+    title.style.fontSize = '40px';
+    title.style.fontWeight = 'bold';
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '50px';
     title.textContent = submission.assignment.title;
     totalpdf.appendChild(title);
 
@@ -866,15 +863,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     );
     submission.assignment.questions.map((question) => {
       assignmentQuestions[question.serialNumber] = question.question;
-      if (question.type === "MCQ") {
-        const options = document.createElement("div");
+      if (question.type === 'MCQ') {
+        const options = document.createElement('div');
         question.options.map((option) => {
-          const optiondiv = document.createElement("div");
-          optiondiv.style.fontSize = option.isCorrect ? "25px" : "20px";
-          optiondiv.style.fontWeight = option.isCorrect ? "bold" : "normal";
-          optiondiv.style.color = option.isCorrect ? "green" : "black";
+          const optiondiv = document.createElement('div');
+          optiondiv.style.fontSize = option.isCorrect ? '25px' : '20px';
+          optiondiv.style.fontWeight = option.isCorrect ? 'bold' : 'normal';
+          optiondiv.style.color = option.isCorrect ? 'green' : 'black';
 
-          optiondiv.style.marginBottom = "10px";
+          optiondiv.style.marginBottom = '10px';
           optiondiv.textContent = option.option;
           options.appendChild(optiondiv);
         });
@@ -885,25 +882,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     submission.answers.map((answer) => {
       const parser = new DOMParser();
       const htmlContent = answer.answer.answer;
-      const parsedContent = parser.parseFromString(htmlContent, "text/html")
+      const parsedContent = parser.parseFromString(htmlContent, 'text/html')
         .body.textContent;
       if (answer.answer.answer) {
         assignmentAnswers[answer.serialNumber] = parsedContent;
       }
     });
     for (let i = 1; i < assignmentQuestions.length; i++) {
-      const question = document.createElement("div");
-      question.style.fontSize = "25px";
-      question.style.fontWeight = "bold";
-      question.style.marginBottom = "10px";
-      question.textContent = i + ". " + assignmentQuestions[i];
+      const question = document.createElement('div');
+      question.style.fontSize = '25px';
+      question.style.fontWeight = 'bold';
+      question.style.marginBottom = '10px';
+      question.textContent = i + '. ' + assignmentQuestions[i];
       totalpdf.appendChild(question);
 
-      const answer = document.createElement("div");
+      const answer = document.createElement('div');
       // answer.style.border = "1px solid black";
-      answer.style.padding = "10px";
-      answer.style.fontSize = "25px";
-      answer.style.marginBottom = "40px";
+      answer.style.padding = '10px';
+      answer.style.fontSize = '25px';
+      answer.style.marginBottom = '40px';
       if (assignmentAnswers[i] instanceof HTMLElement) {
         answer.appendChild(assignmentAnswers[i]);
       } else {
@@ -931,102 +928,107 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return getStatusMessage(
       submission,
       isTeacher
-        ? "TEACHER"
+        ? 'TEACHER'
         : getUserId() === submission.studentId
-        ? "SELF"
-        : "PEER"
+        ? 'SELF'
+        : 'PEER'
     );
   }
   function getStatusMessage(submission, viewer) {
-    if (submission.status === "DRAFT") {
+    if (submission.status === 'DRAFT') {
       return (
-        "Created by " +
+        'Created by ' +
         submission.assignment.teacherName +
-        " | Due on " +
+        ' | Due on ' +
         formattedDate(submission.assignment.dueAt)
       );
     }
-    if (submission.status === "SUBMITTED") {
+    if (submission.status === 'SUBMITTED') {
       let submitter;
-      if (viewer === "PEER") {
-        submitter = "your peer";
-      } else if (viewer === "SELF") {
-        submitter = "you";
+      if (viewer === 'PEER') {
+        submitter = 'your peer';
+      } else if (viewer === 'SELF') {
+        submitter = 'you';
       } else {
         submitter = submission.studentName;
       }
       return (
-        "Submitted by " +
+        'Submitted by ' +
         submitter +
-        " | Review due on " +
+        ' | Review due on ' +
         formattedDate(submission.assignment.reviewDueAt)
       );
     }
-    if (submission.status === "REVIEWED" || submission.status === "RESUBMISSION_REQUESTED") {
+    if (
+      submission.status === 'REVIEWED' ||
+      submission.status === 'RESUBMISSION_REQUESTED'
+    ) {
       let reviewer;
-      if (submission.assignment.reviewedBy === "TEACHER") {
-        if (viewer === "TEACHER") {
-          reviewer = "you";
+      if (submission.assignment.reviewedBy === 'TEACHER') {
+        if (viewer === 'TEACHER') {
+          reviewer = 'you';
         } else {
           reviewer = submission.assignment.teacherName;
         }
       } else {
-        if (viewer === "PEER") {
-          reviewer = "you";
+        if (viewer === 'PEER') {
+          reviewer = 'you';
         } else {
-          reviewer = "your peer";
+          reviewer = 'your peer';
         }
       }
       return (
-        "Reviewed by " +
+        'Reviewed by ' +
         reviewer +
-        " on " +
+        ' on ' +
         formattedDate(submission.reviewedAt)
       );
     }
-    
-    if (submission.status === "CLOSED") {
+
+    if (submission.status === 'CLOSED') {
       let closedBy;
-      if (viewer === "PEER") {
-        closedBy = "your peer";
-      } else if (viewer === "SELF") {
-        closedBy = "you";
+      if (viewer === 'PEER') {
+        closedBy = 'your peer';
+      } else if (viewer === 'SELF') {
+        closedBy = 'you';
       } else {
         closedBy = submission.studentName;
       }
       return (
-        "Closed by " + closedBy + " on " + formattedDate(submission.closedAt)
+        'Closed by ' + closedBy + ' on ' + formattedDate(submission.closedAt)
       );
     }
   }
 
-
-  function handleMarkingCriteriaLevelFeedback(questionSerialNumber, criteriaSerialNumber, selectedLevel) {
-   const markingCriteriaToUpdate = submission.assignment.questions[questionSerialNumber-1].markingCriteria;
-   markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel=selectedLevel;
+  function handleMarkingCriteriaLevelFeedback(
+    questionSerialNumber,
+    criteriaSerialNumber,
+    selectedLevel
+  ) {
+    const markingCriteriaToUpdate =
+      submission.assignment.questions[questionSerialNumber - 1].markingCriteria;
+    markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel =
+      selectedLevel;
   }
-  
 
-  const hideSubmitPopup = () => { 
+  const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
-  }
-  const showSubmitPopuphandler = (method) => { 
+  };
+  const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
     setMethodToCall(method);
-    if(method === "SubmitForReview"){
-      setPopupText("Are you sure you want to submit this task for review?");
+    if (method === 'SubmitForReview') {
+      setPopupText('Are you sure you want to submit this task for review?');
+    } else if (method === 'SubmitReview') {
+      setPopupText('Are you sure you want to submit feedback for this task?');
+    } else if (method === 'RequestResubmission') {
+      setPopupText(
+        'Are you sure you want to request resubmission for this task?'
+      );
+    } else if (method === 'CloseSubmission') {
+      setPopupText('Are you sure you want to mark this task as complete?');
     }
-    else if(method === "SubmitReview"){
-      setPopupText("Are you sure you want to submit feedback for this task?");
-    }
-    else if(method === "RequestResubmission"){
-      setPopupText("Are you sure you want to request resubmission for this task?");
-    }
-    else if(method === "CloseSubmission"){
-      setPopupText("Are you sure you want to mark this task as complete?");
-    }
-    
-  }
+  };
 
   const methods = {
     createDebounceFunction,
@@ -1061,75 +1063,53 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateParentComment,
     updateChildComment,
     handleMarkingCriteriaLevelFeedback,
-    showSubmitPopuphandler
+    showSubmitPopuphandler,
   };
 
   const shortcuts = getShortcuts();
 
-
-
   return (
     <>
-    {showSubmitPopup && <GeneralPopup hidePopup={hideSubmitPopup} title="Submit Task" textContent={popupText} buttonText="Submit" 
-    confirmButtonAction=
-    {submissionFunction()} />}
+      {showSubmitPopup && (
+        <GeneralPopup
+          hidePopup={hideSubmitPopup}
+          title="Submit Task"
+          textContent={popupText}
+          buttonText="Submit"
+          confirmButtonAction={submissionFunction()}
+        />
+      )}
 
-    <ReactiveRender
-      mobile={
-        <FeedbackTeacherMobile
-          {...{
-            newCommentSerialNumber,
-            isTeacher,
-            submissionStatusLabel,
-            labelText,
-            quillRefs,
-            pageMode,
-            smartAnnotations,
-            newCommentFrameRef,
-            methods,
-            showNewComment,
-            comments,
-            studentName,
-            students,
-            submission,
-            sharewithclassdialog,
-            ...feedbacksFeedbackTeacherMobileData,
-          }}
-        />
-      }
-      tablet={
-        <FeedbackTeacherLaptop
-          {...{
-            newCommentSerialNumber,
-            smallMarkingCriteria: true,
-            markingCriteriaFeedback,
-            isTeacher,
-            showLoader,
-            submissionStatusLabel,
-            labelText,
-            quillRefs,
-            pageMode,
-            shortcuts,
-            smartAnnotations,
-            newCommentFrameRef,
-            methods,
-            showNewComment,
-            comments,
-            studentName,
-            students,
-            submission,
-            sharewithclassdialog,
-            ...feedbacksFeedbackTeacherLaptopData,
-          }}
-        />
-      }
-      laptop={
-        <>
+      <ReactiveRender
+        mobile={
+          <FeedbackTeacherMobile
+            {...{
+              newCommentSerialNumber,
+              isTeacher,
+              submissionStatusLabel,
+              labelText,
+              quillRefs,
+              pageMode,
+              smartAnnotations,
+              newCommentFrameRef,
+              methods,
+              showNewComment,
+              comments,
+              studentName,
+              students,
+              submission,
+              sharewithclassdialog,
+              ...feedbacksFeedbackTeacherMobileData,
+            }}
+          />
+        }
+        tablet={
           <FeedbackTeacherLaptop
             {...{
-              isTeacher,
-              markingCriteriaFeedback,
               newCommentSerialNumber,
+              smallMarkingCriteria: true,
+              markingCriteriaFeedback,
+              isTeacher,
               showLoader,
               submissionStatusLabel,
               labelText,
@@ -1148,53 +1128,78 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               ...feedbacksFeedbackTeacherLaptopData,
             }}
           />
-        </>
-      }
-      desktop={
-        <FeedbackTeacherLaptop
-          {...{
-            isTeacher,
-            markingCriteriaFeedback,
-            newCommentSerialNumber,
-            showLoader,
-            submissionStatusLabel,
-            labelText,
-            smartAnnotations,
-            quillRefs,
-            pageMode,
-            shortcuts,
-            newCommentFrameRef,
-            methods,
-            showNewComment,
-            comments,
-            studentName,
-            students,
-            submission,
-            sharewithclassdialog,
-            ...feedbacksFeedbackTeacherLaptopData,
-          }}
-        />
-      }
-    />
+        }
+        laptop={
+          <>
+            <FeedbackTeacherLaptop
+              {...{
+                isTeacher,
+                markingCriteriaFeedback,
+                newCommentSerialNumber,
+                showLoader,
+                submissionStatusLabel,
+                labelText,
+                quillRefs,
+                pageMode,
+                shortcuts,
+                smartAnnotations,
+                newCommentFrameRef,
+                methods,
+                showNewComment,
+                comments,
+                studentName,
+                students,
+                submission,
+                sharewithclassdialog,
+                ...feedbacksFeedbackTeacherLaptopData,
+              }}
+            />
+          </>
+        }
+        desktop={
+          <FeedbackTeacherLaptop
+            {...{
+              isTeacher,
+              markingCriteriaFeedback,
+              newCommentSerialNumber,
+              showLoader,
+              submissionStatusLabel,
+              labelText,
+              smartAnnotations,
+              quillRefs,
+              pageMode,
+              shortcuts,
+              newCommentFrameRef,
+              methods,
+              showNewComment,
+              comments,
+              studentName,
+              students,
+              submission,
+              sharewithclassdialog,
+              ...feedbacksFeedbackTeacherLaptopData,
+            }}
+          />
+        }
+      />
     </>
   );
 
   function submissionFunction() {
-    if (methodTocall === "CloseSubmission") {
-      return handleSubmissionClosed
+    if (methodTocall === 'CloseSubmission') {
+      return handleSubmissionClosed;
     }
-    if (methodTocall === "SubmitReview") {
-      return handleSubmissionReviewed
+    if (methodTocall === 'SubmitReview') {
+      return handleSubmissionReviewed;
     }
-    if (methodTocall === "SubmitForReview") {
-      return handleSaveSubmissionForReview
+    if (methodTocall === 'SubmitForReview') {
+      return handleSaveSubmissionForReview;
     }
     return handleRequestResubmission;
   }
 }
 
-
-const isTeacher = getUserRole() === "TEACHER";
+const isTeacher = getUserRole() === 'TEACHER';
 
 const ActionButtonsContainer = styled.div`
   display: flex;
@@ -1202,7 +1207,7 @@ const ActionButtonsContainer = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
   align-self: flex-end;
-  margin-left:100px;
+  margin-left: 100px;
 
   gap: 20px;
   width: 100%;
@@ -1217,48 +1222,46 @@ const DialogContiner = styled.div`
   gap: 20px;
 `;
 
-
-
 const StyledTextField = styled(TextField)`
   width: 100%;
 
   .MuiOutlinedInput-root {
     border-radius: 10px; /* Set your desired border radius value */
-    border-color:  #F1E7FF;
+    border-color: #f1e7ff;
 
     &.Mui-focused .MuiOutlinedInput-notchedOutline {
-      border-color: var(--light-mode-purple) ; 
+      border-color: var(--light-mode-purple);
     }
   }
 
   .MuiInputBase-input {
-   border-color:  #F1E7FF;
+    border-color: #f1e7ff;
   }
 `;
 
 const feedbacksNavElement1Data = {
-  home3: "/img/home3-1@2x.png",
-  place: "Home",
+  home3: '/img/home3-1@2x.png',
+  place: 'Home',
 };
 
 const feedbacksNavElement2Data = {
-  home3: "/img/assignment@2x.png",
-  place: "Assignments",
-  className: "nav-element-1",
+  home3: '/img/assignment@2x.png',
+  place: 'Assignments',
+  className: 'nav-element-1',
 };
 
 const feedbacksNavElement3Data = {
-  home3: "/img/subject-1@2x.png",
-  place: "Classes",
-  className: "nav-element-2",
+  home3: '/img/subject-1@2x.png',
+  place: 'Classes',
+  className: 'nav-element-2',
 };
 
 const feedbacksFrame41Data = {
-  maskGroup: "/img/mask-group-1@2x.png",
+  maskGroup: '/img/mask-group-1@2x.png',
 };
 
 const feedbacksTeacherDashboardHeader22Data = {
-  logo: "/img/logo-1@2x.png",
+  logo: '/img/logo-1@2x.png',
   navElement1Props: feedbacksNavElement1Data,
   navElement2Props: feedbacksNavElement2Data,
   navElement3Props: feedbacksNavElement3Data,
@@ -1266,21 +1269,21 @@ const feedbacksTeacherDashboardHeader22Data = {
 };
 
 const feedbacksBreadcrumb25Data = {
-  assignments: "Feedback",
+  assignments: 'Feedback',
 };
 
 const feedbacksBreadcrumb26Data = {
-  assignments: "Physics - thermodynamics assignment questions",
+  assignments: 'Physics - thermodynamics assignment questions',
 };
 
 const feedbacksButtons7Data = {
-  arrowleft: "/img/arrowleft@2x.png",
+  arrowleft: '/img/arrowleft@2x.png',
 };
 
 const feedbacksButtons25Data = {
-  button: "Submit",
+  button: 'Submit',
   // arrowright: "/img/arrowright@2x.png",
-  className: "buttons-4",
+  className: 'buttons-4',
 };
 
 const feedbacksFrame1317224Data = {
@@ -1290,52 +1293,51 @@ const feedbacksFrame1317224Data = {
 
 const feedbacksFrame1366421Data = {
   q2PoremIpsumDolo:
-    "Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+    'Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 
 const feedbacksFrame1366422Data = {
   q2PoremIpsumDolo:
-    "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+    'Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 
-
 const feedbacksFrame13204Data = {
-  children: "Shortcuts",
-  className: "frame-1321-1",
+  children: 'Shortcuts',
+  className: 'frame-1321-1',
 };
 
 const feedbacksFrame13332Data = {
-  className: "frame-1333-2",
+  className: 'frame-1333-2',
 };
 
 const feedbacksCommentCard321Data = {
-  horemIpsumDolorSi: "Use More Techniques",
+  horemIpsumDolorSi: 'Use More Techniques',
 };
 
 const feedbacksCommentCard322Data = {
   horemIpsumDolorSi:
-    "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
+    'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
 };
 
 const feedbacksCommentCard323Data = {
   horemIpsumDolorSi:
-    "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
-  className: "comment-card-5",
+    'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
+  className: 'comment-card-5',
 };
 
 const feedbacksCommentCard324Data = {
   horemIpsumDolorSi:
-    "Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.",
-  className: "comment-card-6",
+    'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
+  className: 'comment-card-6',
 };
 
 const feedbacksButtons8Data = {
-  arrowleft: "/img/arrowleft@2x.png",
+  arrowleft: '/img/arrowleft@2x.png',
 };
 
 const feedbacksButtons26Data = {
-  button: "Next",
-  arrowright: "/img/arrowright@2x.png",
+  button: 'Next',
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const feedbacksFrame13172Data = {
@@ -1345,19 +1347,19 @@ const feedbacksFrame13172Data = {
 
 const feedbacksFeedbackTeacherLaptopData = {
   headerProps: isTeacher ? assignmentsHeaderProps : taskHeaderProps,
-  physicsThermodyna: "Physics - thermodynamics assignment questions",
-  frame1284: "/img/frame-1284@2x.png",
+  physicsThermodyna: 'Physics - thermodynamics assignment questions',
+  frame1284: '/img/frame-1284@2x.png',
   q1PoremIpsumDolo:
-    "Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?",
-  line261: "/img/line-26-8.png",
-  line262: "/img/line-26-8.png",
-  typeHere: "Type here....",
-  iconsaxLinearMicrophone2: "/img/iconsax-linear-microphone2-1@2x.png",
-  line263: "/img/line-26-10@2x.png",
-  iconsaxLinearShare: "/img/iconsax-linear-share@2x.png",
-  share: "Share",
-  line27: "/img/line-26-10@2x.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+    'Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?',
+  line261: '/img/line-26-8.png',
+  line262: '/img/line-26-8.png',
+  typeHere: 'Type here....',
+  iconsaxLinearMicrophone2: '/img/iconsax-linear-microphone2-1@2x.png',
+  line263: '/img/line-26-10@2x.png',
+  iconsaxLinearShare: '/img/iconsax-linear-share@2x.png',
+  share: 'Share',
+  line27: '/img/line-26-10@2x.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   teacherDashboardHeader2Props: feedbacksTeacherDashboardHeader22Data,
   breadcrumb21Props: feedbacksBreadcrumb25Data,
   breadcrumb22Props: feedbacksBreadcrumb26Data,
@@ -1374,16 +1376,16 @@ const feedbacksFeedbackTeacherLaptopData = {
 };
 
 const richTextComponents15Data = {
-  src: "/img/underline@2x.png",
-  className: "rich-text-components-14",
+  src: '/img/underline@2x.png',
+  className: 'rich-text-components-14',
 };
 
 const frame128036Data = {
-  className: "frame-1280-7",
+  className: 'frame-1280-7',
 };
 const frame129735Data = {
-  text9: "5.",
-  frame1284: "/img/frame-1284-9@2x.png",
+  text9: '5.',
+  frame1284: '/img/frame-1284-9@2x.png',
   richTextComponentsProps: richTextComponents15Data,
   frame12803Props: frame128036Data,
 };
@@ -1393,21 +1395,21 @@ const questionFrame43Data = {
 };
 
 const feedbacksBreadcrumb21Data = {
-  assignments: "Feedback",
+  assignments: 'Feedback',
 };
 
 const feedbacksBreadcrumb22Data = {
-  assignments: "Physics - thermodynami...",
+  assignments: 'Physics - thermodynami...',
 };
 
 const feedbacksButtons1Data = {
-  arrowleft: "/img/arrowleft-2@2x.png",
+  arrowleft: '/img/arrowleft-2@2x.png',
 };
 
 const feedbacksButtons21Data = {
-  button: "Submit",
+  button: 'Submit',
   // arrowright: "/img/arrowright-2@2x.png",
-  className: "",
+  className: '',
 };
 
 const feedbacksFrame1317221Data = {
@@ -1417,21 +1419,21 @@ const feedbacksFrame1317221Data = {
 
 const feedbacksFrame1366221Data = {
   q2PoremIpsumDolo:
-    "Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+    'Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 
 const feedbacksFrame1366222Data = {
   q2PoremIpsumDolo:
-    "Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.",
+    'Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 
 const feedbacksButtons3Data = {
-  arrowleft: "/img/arrowleft-3@2x.png",
+  arrowleft: '/img/arrowleft-3@2x.png',
 };
 
 const feedbacksButtons22Data = {
-  button: "Next",
-  arrowright: "/img/arrowright-3@2x.png",
+  button: 'Next',
+  arrowright: '/img/arrowright-3@2x.png',
 };
 
 const feedbacksFrame13171Data = {
@@ -1441,24 +1443,23 @@ const feedbacksFrame13171Data = {
 
 const feedbacksFeedbackTeacherMobileData = {
   headerProps: isTeacher ? assignmentsHeaderProps : taskHeaderProps,
-  frame1349: "/img/frame-1349@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  physicsThermodyna: "Physics - thermodynamics assignment questions",
-  frame12841: "/img/frame-1284@2x.png",
+  frame1349: '/img/frame-1349@2x.png',
+  frame5: '/img/frame-5@2x.png',
+  physicsThermodyna: 'Physics - thermodynamics assignment questions',
+  frame12841: '/img/frame-1284@2x.png',
   q1PoremIpsumDolo:
-    "Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?",
-  line261: "/img/line-26-2@2x.png",
-  line262: "/img/line-26-2@2x.png",
-  frame12842: "/img/frame-1284@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+    'Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?',
+  line261: '/img/line-26-2@2x.png',
+  line262: '/img/line-26-2@2x.png',
+  frame12842: '/img/frame-1284@2x.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   breadcrumb21Props: feedbacksBreadcrumb21Data,
   breadcrumb22Props: feedbacksBreadcrumb22Data,
   frame13172Props: feedbacksFrame1317221Data,
   frame136621Props: feedbacksFrame1366221Data,
   frame136622Props: feedbacksFrame1366222Data,
   frame1317Props: feedbacksFrame13171Data,
-}
-
+};

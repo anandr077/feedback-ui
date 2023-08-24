@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalElectricViolet16px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalElectricViolet16px } from '../../../styledMixins';
 
 function Frame1442() {
   return (
@@ -43,6 +42,5 @@ const Remove = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 export default Frame1442;

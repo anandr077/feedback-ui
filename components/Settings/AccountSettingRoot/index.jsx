@@ -1,11 +1,11 @@
-import React from "react";
-import ReactiveRender from "../../ReactiveRender";
-import AccountSettingsMarkingCriteriaDeskt from "../AccountSettingsMarkingCriteriaDeskt";
-import AccountSettingsMarkingCriteriaTable3 from "../AccountSettingsMarkingCriteriaTable3";
-import AccountSettingsMarkingCriteriaTable from "../AccountSettingsMarkingCriteriaTable";
-import AccountSettingsMarkingCriteriaLapto from "../AccountSettingsMarkingCriteriaLapto";
-import { completedHeaderProps } from "../../../utils/headerProps";
-import MarkingCriteriaCard from "../MarkingCriteriaCard";
+import React from 'react';
+import ReactiveRender from '../../ReactiveRender';
+import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
+import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
+import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
+import AccountSettingsMarkingCriteriaLapto from '../AccountSettingsMarkingCriteriaLapto';
+import { completedHeaderProps } from '../../../utils/headerProps';
+import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
   getAllMarkingCriteria,
   getShortcuts,
@@ -14,16 +14,16 @@ import {
   createNewSmartAnnotation,
   updateSmartAnnotation,
   deleteSmartAnnotation,
-} from "../../../service.js";
-import SmartAnotation from "../../../components/SmartAnnotations";
-import SettingsNav from "../SettingsNav";
-import Breadcrumb from "../../Breadcrumb";
-import Breadcrumb2 from "../../Breadcrumb2";
-import Loader from "../../Loader";
-import SnackbarContext from "../../SnackbarContext";
-import { set } from "lodash";
-import GeneralPopup from "../../GeneralPopup";
-import { RssFeed } from "@mui/icons-material";
+} from '../../../service.js';
+import SmartAnotation from '../../../components/SmartAnnotations';
+import SettingsNav from '../SettingsNav';
+import Breadcrumb from '../../Breadcrumb';
+import Breadcrumb2 from '../../Breadcrumb2';
+import Loader from '../../Loader';
+import SnackbarContext from '../../SnackbarContext';
+import { set } from 'lodash';
+import GeneralPopup from '../../GeneralPopup';
+import { RssFeed } from '@mui/icons-material';
 
 const headerProps = completedHeaderProps(true);
 
@@ -68,7 +68,7 @@ export default function AccountSettingsRoot(props) {
     ));
     return all;
   };
-  if (window.localStorage.getItem("markingCriteria")) {
+  if (window.localStorage.getItem('markingCriteria')) {
     Promise.all([
       getAllMarkingCriteria(),
       getShortcuts(),
@@ -81,32 +81,32 @@ export default function AccountSettingsRoot(props) {
       setSmartAnnotations(smartAnnotations);
       setIsLoading(false);
     });
-    window.localStorage.removeItem("markingCriteria");
+    window.localStorage.removeItem('markingCriteria');
   }
 
   const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
         window.location.reload();
-        showSnackbar("Marking criteria deleted");
+        showSnackbar('Marking criteria deleted');
       })
       .catch((error) => {
-        showSnackbar("Error deleting marking criteria");
+        showSnackbar('Error deleting marking criteria');
       });
   };
 
   const createSmartAnnotationHandler = () => {
     const smartAnnotationRequest = {
-      title: "Sample Smart Annotation Title",
+      title: 'Sample Smart Annotation Title',
       suggestions: [
         {
-          description: " Sample Suggestion 1",
+          description: ' Sample Suggestion 1',
         },
         {
-          description: " Sample Suggestion 2",
+          description: ' Sample Suggestion 2',
         },
         {
-          description: " Sample Suggestion 3",
+          description: ' Sample Suggestion 3',
         },
       ],
     };
@@ -116,7 +116,7 @@ export default function AccountSettingsRoot(props) {
   const createSmartAnnotation = (newSmartAnnotation) => {
     createNewSmartAnnotation(newSmartAnnotation)
       .then((result) => {
-        showSnackbar("Smart annotation created", result);
+        showSnackbar('Smart annotation created', result);
         const createdAnnotation = {
           id: result.id.value,
           title: result.title.value,
@@ -127,7 +127,7 @@ export default function AccountSettingsRoot(props) {
         setSmartAnnotationUpdateIndex(0);
       })
       .catch((error) => {
-        showSnackbar("Error updating smart annotation");
+        showSnackbar('Error updating smart annotation');
       });
   };
 
@@ -142,7 +142,7 @@ export default function AccountSettingsRoot(props) {
     };
     updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
       .then(() => {
-        showSnackbar("Smart annotation updated");
+        showSnackbar('Smart annotation updated');
         setSmartAnnotationUpdateIndex(index);
         const updatedAnnotation = [...smartAnnotations];
         updatedAnnotation[index] = smartAnnotation;
@@ -150,25 +150,25 @@ export default function AccountSettingsRoot(props) {
         smartAnnotationsFrame();
       })
       .catch((error) => {
-        showSnackbar("Error updating smart annotation");
+        showSnackbar('Error updating smart annotation');
       });
   };
 
   const deleteAnnotationHandler = (smartAnnotationId) => {
-    console.log("Deleting ", smartAnnotationId);
+    console.log('Deleting ', smartAnnotationId);
     deleteSmartAnnotation(smartAnnotationId)
       .then((result) => {
-        console.log("smartAnnotations before delete", smartAnnotations);
+        console.log('smartAnnotations before delete', smartAnnotations);
         setSmartAnnotations((s) =>
           s.filter(
             (smartAnnotation) => smartAnnotation.id !== smartAnnotationId
           )
         );
-        console.log("smartAnnotations after delete", smartAnnotations);
-        showSnackbar("Smart annotation deleted");
+        console.log('smartAnnotations after delete', smartAnnotations);
+        showSnackbar('Smart annotation deleted');
       })
       .catch((error) => {
-        showSnackbar("Error deleting smart annotation");
+        showSnackbar('Error deleting smart annotation');
       });
   };
 
@@ -200,15 +200,15 @@ export default function AccountSettingsRoot(props) {
 
   const breadCrumbs = (
     <>
-      <Breadcrumb text="Account Settings" link={"/#/settings"} />
+      <Breadcrumb text="Account Settings" link={'/#/settings'} />
       {(showMarkingCriteria || showUserSettings || showShortcuts) && (
         <Breadcrumb2
           title={
             showMarkingCriteria
-              ? "Marking Criteria"
+              ? 'Marking Criteria'
               : showShortcuts
-              ? "Smart Annotations"
-              : "User Settings"
+              ? 'Smart Annotations'
+              : 'User Settings'
           }
         />
       )}
@@ -294,41 +294,41 @@ export default function AccountSettingsRoot(props) {
 }
 
 const navElement1Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement2Data = {
-  home3: "/img/assignment@2x.png",
-  place: "Assignments",
-  className: "nav-element-1",
+  home3: '/img/assignment@2x.png',
+  place: 'Assignments',
+  className: 'nav-element-1',
 };
 
 const navElement3Data = {
-  home3: "/img/subject@2x.png",
-  place: "Classes",
-  className: "nav-element-2",
+  home3: '/img/subject@2x.png',
+  place: 'Classes',
+  className: 'nav-element-2',
 };
 
 const breadcrumb1Data = {
-  children: "Account Settings",
+  children: 'Account Settings',
 };
 
 const breadcrumb21Data = {
-  caret: "/img/caret@2x.png",
-  assignments: "Marking Criteria",
+  caret: '/img/caret@2x.png',
+  assignments: 'Marking Criteria',
 };
 
 const vericalNav1Data = {
-  children: "User Settings",
+  children: 'User Settings',
 };
 
 const vericalNav21Data = {
-  children: "Marking Criteria",
+  children: 'Marking Criteria',
 };
 
 const vericalNav3Data = {
-  children: "Smart Annotations",
+  children: 'Smart Annotations',
 };
 
 const frame13221Data = {
@@ -338,37 +338,37 @@ const frame13221Data = {
 };
 
 const buttons1Data = {
-  add: "/img/add@2x.png",
-  button: "Create new",
+  add: '/img/add@2x.png',
+  button: 'Create new',
 };
 
 const cards1Data = {
-  systemDefault: "System Default",
+  systemDefault: 'System Default',
 };
 
 const cards2Data = {
-  systemDefault: "My new marking criteria",
+  systemDefault: 'My new marking criteria',
 };
 
 const cards3Data = {
-  systemDefault: "Untitled-1",
+  systemDefault: 'Untitled-1',
 };
 
 const cards4Data = {
-  systemDefault: "English language chapter 3",
+  systemDefault: 'English language chapter 3',
 };
 
 const cards5Data = {
-  systemDefault: "Physics friction theroy",
+  systemDefault: 'Physics friction theroy',
 };
 
 const accountSettingsMarkingCriteriaDesktData = {
-  logo: "/img/logo@2x.png",
-  notifications: "/img/notifications@2x.png",
-  title: "Account Settings",
-  markingCriteria: "Marking Criteria",
-  line14: "/img/line-14.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  logo: '/img/logo@2x.png',
+  notifications: '/img/notifications@2x.png',
+  title: 'Account Settings',
+  markingCriteria: 'Marking Criteria',
+  line14: '/img/line-14.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   navElement1Props: navElement1Data,
   navElement2Props: navElement2Data,
   navElement3Props: navElement3Data,
@@ -384,59 +384,59 @@ const accountSettingsMarkingCriteriaDesktData = {
 };
 
 const breadcrumb3Data = {
-  children: "Account Settings",
+  children: 'Account Settings',
 };
 
 const breadcrumb22Data = {
-  caret: "/img/caret@2x.png",
-  assignments: "Marking Criteria",
+  caret: '/img/caret@2x.png',
+  assignments: 'Marking Criteria',
 };
 
 const buttons3Data = {
-  add: "/img/add@2x.png",
-  button: "Create new",
-  className: "buttons-1",
+  add: '/img/add@2x.png',
+  button: 'Create new',
+  className: 'buttons-1',
 };
 
 const cards22Data = {
-  systemDefault: "System Default",
+  systemDefault: 'System Default',
 };
 
 const cards23Data = {
-  systemDefault: "My new marking criteria",
-  className: "cards-2",
+  systemDefault: 'My new marking criteria',
+  className: 'cards-2',
 };
 
 const cards24Data = {
-  systemDefault: "Untitled-1",
+  systemDefault: 'Untitled-1',
 };
 
 const cards25Data = {
-  systemDefault: "English language chapter 3",
-  className: "cards-4",
+  systemDefault: 'English language chapter 3',
+  className: 'cards-4',
 };
 
 const cards26Data = {
-  systemDefault: "Physics friction theroy",
-  className: "cards-5",
+  systemDefault: 'Physics friction theroy',
+  className: 'cards-5',
 };
 
 const accountSettingsMarkingCriteriaTableData = {
-  frame1349: "/img/frame-1349@2x.png",
-  notifications: "/img/notifications@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  title: "Account Settings",
-  userSettings: "User Settings",
-  frame12841: "/img/frame-1284@2x.png",
-  markingCriteria: "Marking Criteria",
-  frame12842: "/img/frame-1284-1@2x.png",
-  line14: "/img/line-14@2x.png",
-  shortcuts: "Smart Annotations",
-  frame12843: "/img/frame-1284@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame1349: '/img/frame-1349@2x.png',
+  notifications: '/img/notifications@2x.png',
+  frame5: '/img/frame-5@2x.png',
+  title: 'Account Settings',
+  userSettings: 'User Settings',
+  frame12841: '/img/frame-1284@2x.png',
+  markingCriteria: 'Marking Criteria',
+  frame12842: '/img/frame-1284-1@2x.png',
+  line14: '/img/line-14@2x.png',
+  shortcuts: 'Smart Annotations',
+  frame12843: '/img/frame-1284@2x.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   breadcrumbProps: breadcrumb3Data,
   breadcrumb2Props: breadcrumb22Data,
   buttonsProps: buttons3Data,
@@ -448,24 +448,24 @@ const accountSettingsMarkingCriteriaTableData = {
 };
 
 const breadcrumb4Data = {
-  children: "Account Settings",
+  children: 'Account Settings',
 };
 
 const breadcrumb23Data = {
-  caret: "/img/caret@2x.png",
-  assignments: "Marking Criteria",
+  caret: '/img/caret@2x.png',
+  assignments: 'Marking Criteria',
 };
 
 const vericalNav4Data = {
-  children: "User Settings",
+  children: 'User Settings',
 };
 
 const vericalNav22Data = {
-  children: "Marking Criteria",
+  children: 'Marking Criteria',
 };
 
 const vericalNav5Data = {
-  children: "Shortcuts",
+  children: 'Shortcuts',
 };
 
 const frame13222Data = {
@@ -475,41 +475,41 @@ const frame13222Data = {
 };
 
 const buttons4Data = {
-  add: "/img/add@2x.png",
-  button: "Create new",
+  add: '/img/add@2x.png',
+  button: 'Create new',
 };
 
 const cards32Data = {
-  systemDefault: "System Default",
+  systemDefault: 'System Default',
 };
 
 const cards33Data = {
-  systemDefault: "My new marking criteria",
+  systemDefault: 'My new marking criteria',
 };
 
 const cards34Data = {
-  systemDefault: "Untitled-1",
+  systemDefault: 'Untitled-1',
 };
 
 const cards35Data = {
-  systemDefault: "English language chapter 3",
+  systemDefault: 'English language chapter 3',
 };
 
 const cards36Data = {
-  systemDefault: "Physics friction theroy",
+  systemDefault: 'Physics friction theroy',
 };
 
 const accountSettingsMarkingCriteriaTable3Data = {
-  frame1349: "/img/frame-1349-1.png",
-  notifications: "/img/notifications@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  title: "Account Settings",
-  markingCriteria: "Marking Criteria",
-  line14: "/img/line-14-1.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame1349: '/img/frame-1349-1.png',
+  notifications: '/img/notifications@2x.png',
+  frame5: '/img/frame-5@2x.png',
+  title: 'Account Settings',
+  markingCriteria: 'Marking Criteria',
+  line14: '/img/line-14-1.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   breadcrumbProps: breadcrumb4Data,
   breadcrumb2Props: breadcrumb23Data,
   frame1322Props: frame13222Data,
@@ -522,41 +522,41 @@ const accountSettingsMarkingCriteriaTable3Data = {
 };
 
 const navElement4Data = {
-  home3: "/img/home3@2x.png",
-  place: "Home",
+  home3: '/img/home3@2x.png',
+  place: 'Home',
 };
 
 const navElement5Data = {
-  home3: "/img/assignment@2x.png",
-  place: "Assignments",
-  className: "nav-element-4",
+  home3: '/img/assignment@2x.png',
+  place: 'Assignments',
+  className: 'nav-element-4',
 };
 
 const navElement6Data = {
-  home3: "/img/subject@2x.png",
-  place: "Classes",
-  className: "nav-element-5",
+  home3: '/img/subject@2x.png',
+  place: 'Classes',
+  className: 'nav-element-5',
 };
 
 const breadcrumb5Data = {
-  children: "Account Settings",
+  children: 'Account Settings',
 };
 
 const breadcrumb24Data = {
-  caret: "/img/caret@2x.png",
-  assignments: "Marking Criteria",
+  caret: '/img/caret@2x.png',
+  assignments: 'Marking Criteria',
 };
 
 const vericalNav6Data = {
-  children: "User Settings",
+  children: 'User Settings',
 };
 
 const vericalNav23Data = {
-  children: "Marking Criteria",
+  children: 'Marking Criteria',
 };
 
 const vericalNav7Data = {
-  children: "Shortcuts",
+  children: 'Shortcuts',
 };
 
 const frame13223Data = {
@@ -566,37 +566,37 @@ const frame13223Data = {
 };
 
 const buttons5Data = {
-  add: "/img/add@2x.png",
-  button: "Create new",
+  add: '/img/add@2x.png',
+  button: 'Create new',
 };
 
 const cards42Data = {
-  systemDefault: "System Default",
+  systemDefault: 'System Default',
 };
 
 const cards43Data = {
-  systemDefault: "My new marking criteria",
+  systemDefault: 'My new marking criteria',
 };
 
 const cards44Data = {
-  systemDefault: "Untitled-1",
+  systemDefault: 'Untitled-1',
 };
 
 const cards45Data = {
-  systemDefault: "English language chapter 3",
+  systemDefault: 'English language chapter 3',
 };
 
 const cards46Data = {
-  systemDefault: "Physics friction theroy",
+  systemDefault: 'Physics friction theroy',
 };
 
 const accountSettingsMarkingCriteriaLaptoData = {
-  logo: "/img/logo@2x.png",
-  notifications: "/img/notifications@2x.png",
-  title: "Account Settings",
-  markingCriteria: "Marking Criteria",
-  line14: "/img/line-14-2.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  logo: '/img/logo@2x.png',
+  notifications: '/img/notifications@2x.png',
+  title: 'Account Settings',
+  markingCriteria: 'Marking Criteria',
+  line14: '/img/line-14-2.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   navElement1Props: navElement4Data,
   navElement2Props: navElement5Data,
   navElement3Props: navElement6Data,

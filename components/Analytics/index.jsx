@@ -1,17 +1,16 @@
-import React , {useEffect, useState} from "react";
-import { Chart, ArcElement } from "chart.js";
-import { Pie } from "react-chartjs-2";
-import "./index.css";
-import ProgressBar from "../ProgressBar";
-import randomColor from "randomcolor";
-import SmartAnotationAnalytics from "../SmartAnnotationsAnalytics";
-
+import React, { useEffect, useState } from 'react';
+import { Chart, ArcElement } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+import './index.css';
+import ProgressBar from '../ProgressBar';
+import randomColor from 'randomcolor';
+import SmartAnotationAnalytics from '../SmartAnnotationsAnalytics';
 
 Chart.register(ArcElement);
 
 export default function AnnotationAnalytics(props) {
-  const {smartAnnotationAnalytics} = props;
- 
+  const { smartAnnotationAnalytics } = props;
+
   let data = [];
   let labels = [];
 
@@ -19,39 +18,43 @@ export default function AnnotationAnalytics(props) {
     let sum = 0;
     element.forEach((item) => {
       sum += item;
-    }
-    );
+    });
     data.push(sum);
     labels.push(key);
-});
+  });
 
-
-const sortedDataIndices = data.map((_, index) => index)
+  const sortedDataIndices = data
+    .map((_, index) => index)
     .sort((a, b) => data[b] - data[a]);
-data = sortedDataIndices.map(index => data[index]);
-labels = sortedDataIndices.map(index => labels[index]);
+  data = sortedDataIndices.map((index) => data[index]);
+  labels = sortedDataIndices.map((index) => labels[index]);
 
-const total = data.reduce((sum, value) => sum + value, 0);
-const percentages = data.map(num => ((num / total) * 100).toFixed(0));
+  const total = data.reduce((sum, value) => sum + value, 0);
+  const percentages = data.map((num) => ((num / total) * 100).toFixed(0));
 
-
-const smartAnnotationAnalyticsData = [];
-labels.map((label, index) => {
-  const element = smartAnnotationAnalytics.get(label);
-  const jsxElement = <SmartAnotationAnalytics title={label} childrens={element} total= {data[index]} />;
-  smartAnnotationAnalyticsData.push(jsxElement);
-});
+  const smartAnnotationAnalyticsData = [];
+  labels.map((label, index) => {
+    const element = smartAnnotationAnalytics.get(label);
+    const jsxElement = (
+      <SmartAnotationAnalytics
+        title={label}
+        childrens={element}
+        total={data[index]}
+      />
+    );
+    smartAnnotationAnalyticsData.push(jsxElement);
+  });
 
   const chartData = {
     labels: labels,
     datasets: [
       {
-        backgroundColor: randomColor({  count: labels.length, hue: '#7200E0' }),
+        backgroundColor: randomColor({ count: labels.length, hue: '#7200E0' }),
         data: percentages,
       },
     ],
   };
- 
+
   const legendItems = labels.map((label, index) => (
     <div key={index} className="legend-item">
       <div
@@ -61,8 +64,8 @@ labels.map((label, index) => {
         }}
       ></div>
       <div className="legend-label-container">
-      <div className="legend-label">{label}</div>
-      <div className="legend-label-percentage">{percentages[index]}%</div>
+        <div className="legend-label">{label}</div>
+        <div className="legend-label-percentage">{percentages[index]}%</div>
       </div>
     </div>
   ));
@@ -77,14 +80,10 @@ labels.map((label, index) => {
             <div className="graph">
               <Pie data={chartData} />
             </div>
-            <div className="legend">
-              {legendItems}
-            </div>
+            <div className="legend">{legendItems}</div>
           </div>
         </div>
-        <div className="progress">
-            {smartAnnotationAnalyticsData}
-        </div>
+        <div className="progress">{smartAnnotationAnalyticsData}</div>
       </div>
     </>
   );

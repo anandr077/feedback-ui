@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import Navigation from "../Navbar/Navigation";
-import Notifications from "../Notifications";
-import NotificationsBar from "../NotificationsMenu/NotificationsBar";
-import { getNotifications } from "../../service.js";
+import React from 'react';
+import styled from 'styled-components';
+import Navigation from '../Navbar/Navigation';
+import Notifications from '../Notifications';
+import NotificationsBar from '../NotificationsMenu/NotificationsBar';
+import { getNotifications } from '../../service.js';
 
 export default function HeaderSmall(props) {
   const { headerProps } = props;
@@ -27,7 +27,7 @@ export default function HeaderSmall(props) {
   if (isMenuOpen) {
     return (
       <NavigationContainer>
-        {" "}
+        {' '}
         <Navigation headerProps={headerProps} onCloseFn={handleMenuClick} />
       </NavigationContainer>
     );
@@ -35,25 +35,27 @@ export default function HeaderSmall(props) {
   if (isNotificationOpen) {
     return (
       <NavigationContainer>
-        {" "}
+        {' '}
         <NotificationsBar
           notifications={notifications}
           type="small"
           onCloseFn={handleNotificationClick}
           loadingNotifications={loadingNotifications}
-        />{" "}
+        />{' '}
       </NavigationContainer>
     );
   }
   return (
     <>
       <Frame1350>
-        <a href="#"><Frame1349 src="icons/header-logo.png" /></a>
+        <a href="#">
+          <Frame1349 src="icons/header-logo.png" />
+        </a>
         <Frame5>
           <Notifications
             src="/img/notificationbing@2x.png"
             onClickFn={handleNotificationClick}
-            showNewNotifications = {notifications?.length > 0}
+            showNewNotifications={notifications?.length > 0}
           />
           <Frame51 src="/img/frame-5@2x.png" onClick={handleMenuClick} />
         </Frame5>

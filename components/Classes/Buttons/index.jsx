@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumWhite16px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumWhite16px } from '../styledMixins';
 
 function Buttons(props) {
   const { className, link } = props;
 
   return (
     <a href={link}>
-      <Buttons1 className={`buttons ${className || ""}`}>
+      <Buttons1 className={`buttons ${className || ''}`}>
         <Add className="add" src="/img/add@2x.png" alt="add" />
         <Button className="button">New task</Button>
       </Buttons1>

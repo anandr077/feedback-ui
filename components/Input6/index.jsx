@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalMountainMist20px,
-} from "../../styledMixins";
+} from '../../styledMixins';
 
 function Input6(props) {
   const { label, input } = props;

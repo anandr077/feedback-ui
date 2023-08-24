@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalPersianIndigo20px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalPersianIndigo20px } from '../styledMixins';
 
 function NavElement2(props) {
   const { assignment, home, className } = props;
 
   return (
-    <NavElement className={`nav-element-1 ${className || ""}`}>
+    <NavElement className={`nav-element-1 ${className || ''}`}>
       <Group1 className="group-1-1">
         <Assignment className="assignment" src={assignment} alt="Assignment" />
         <Home className="home">{home}</Home>

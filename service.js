@@ -252,7 +252,7 @@ export const getSmartAnnotaionAnalyticsByClassId = async (classId) => {
 };
 
 export const createNewMarkingCriteria = async (markingCriteria) => {
-  await postApi(baseUrl + '/teachers/markingCriteria', markingCriteria);
+  return await postApi(baseUrl + '/teachers/markingCriteria', markingCriteria);
 };
 export const updateMarkingCriteria = async (
   markingCriteria,

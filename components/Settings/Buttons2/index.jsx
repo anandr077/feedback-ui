@@ -3,9 +3,14 @@ import styled from 'styled-components';
 import { IbmplexsansNormalElectricViolet14px } from '../../../styledMixins';
 
 function Buttons2(props) {
-  const { markingCriteriaId, deleteMarkingCriteriaHandler } = props;
+  const {
+    markingCriteriaId,
+    deleteMarkingCriteriaHandler,
+    cloneMarkingCriteria,
+  } = props;
   return (
     <ButtonsContainer>
+      <Buttons onClick={() => cloneMarkingCriteria()}>Clone</Buttons>
       <Buttons
         onClick={() =>
           (window.location.href = `/#/markingCriterias/${markingCriteriaId}`)

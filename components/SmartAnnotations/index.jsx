@@ -99,6 +99,12 @@ function SmartAnotation(props) {
     createSmartAnnotation({ title: title, suggestions: suggestions });
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      saveEditedSmartAnnotation(editTitle);
+    }
+  };
+
   return (
     <>
       {isExpanded ? (
@@ -109,6 +115,7 @@ function SmartAnotation(props) {
                 value={editTitle}
                 onChange={() => handleTitleTextChange(event)}
                 onBlur={() => saveEditedSmartAnnotation(editTitle)}
+                onKeyPress={handleKeyPress}
               ></TextInputEditable>
             ) : (
               <Title onClick={toggleSection}>{editTitle}</Title>
@@ -184,7 +191,12 @@ function SmartAnotation(props) {
           )}
         </SmartAnnotationContainer>
       ) : (
-        <SmartAnnotationTitleContainer onClick={toggleSection}>
+        <SmartAnnotationTitleContainer
+          onClick={() => {
+            toggleSection();
+            setEditingTitle(true);
+          }}
+        >
           <Title>{editTitle}</Title>
           <Arrowdown2 src="/img/arrowdown2-1@2x.png" alt="arrowdown2" />
         </SmartAnnotationTitleContainer>

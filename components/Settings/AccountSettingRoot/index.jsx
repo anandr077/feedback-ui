@@ -205,7 +205,7 @@ export default function AccountSettingsRoot(props) {
         <Breadcrumb2
           title={
             showMarkingCriteria
-              ? 'Marking Criteria'
+              ? 'Marking Methodologies'
               : showShortcuts
               ? 'Smart Annotations'
               : 'User Settings'

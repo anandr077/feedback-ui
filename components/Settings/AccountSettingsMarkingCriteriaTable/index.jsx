@@ -94,7 +94,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
                     <Buttons
                       text="Create New"
                       className={buttonsProps.className}
-                      link={'/#/markingCriterias/new'}
+                      link={'/#/markingMethodologies/rubrics/new'}
                       mobile={true}
                     />
                   </Title1>

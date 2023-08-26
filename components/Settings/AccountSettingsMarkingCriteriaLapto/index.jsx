@@ -62,10 +62,10 @@ function AccountSettingsMarkingCriteriaLapto(props) {
               {showMarkingCriteria && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Marking Criteria</MarkingCriteria>
+                    <MarkingCriteria>Marking Methodologies</MarkingCriteria>
                     <Buttons
                       text="Create New"
-                      link={'/#/markingCriterias/new'}
+                      link={'/#/markingMethodologies/strengths-and-targets/new'}
                     />
                   </Title1>
                   <Line14 src={line14} alt="Line 14" />

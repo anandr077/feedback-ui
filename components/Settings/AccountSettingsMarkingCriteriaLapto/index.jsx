@@ -28,6 +28,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     showUserSettings,
     createSmartAnnotationHandler,
     breadCrumbs,
+    setOpenMarkingMethodologyDialog,
   } = props;
   return (
     <div className="account-settings-marking-criteria-laptop screen">
@@ -65,7 +66,9 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                     <MarkingCriteria>Marking Methodologies</MarkingCriteria>
                     <Buttons
                       text="Create New"
-                      link={'/#/markingMethodologies/strengths-and-targets/new'}
+                      onClickMethod={() =>
+                        setOpenMarkingMethodologyDialog(true)
+                      }
                     />
                   </Title1>
                   <Line14 src={line14} alt="Line 14" />

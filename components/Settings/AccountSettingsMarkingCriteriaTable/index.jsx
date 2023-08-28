@@ -27,6 +27,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
     createSmartAnnotationHandler,
     breadCrumbs,
     smartAnnotationsFrame,
+    setOpenMarkingMethodologyDialog,
   } = props;
 
   return (
@@ -94,7 +95,9 @@ function AccountSettingsMarkingCriteriaTable(props) {
                     <Buttons
                       text="Create New"
                       className={buttonsProps.className}
-                      link={'/#/markingMethodologies/rubrics/new'}
+                      onClickMethod={() =>
+                        setOpenMarkingMethodologyDialog(true)
+                      }
                       mobile={true}
                     />
                   </Title1>

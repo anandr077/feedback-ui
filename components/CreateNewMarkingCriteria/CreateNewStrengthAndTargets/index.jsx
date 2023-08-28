@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './style.css';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
@@ -6,6 +6,7 @@ import { completedHeaderProps } from '../../../utils/headerProps';
 import Header from '../../Header';
 import GoBack from '../GoBack';
 import { useState } from 'react';
+import HeaderSmall from '../../HeaderSmall';
 
 export default function CreateNewStrengthAndTargets() {
   const Strengths_And_Traget_Data = {
@@ -213,9 +214,27 @@ export default function CreateNewStrengthAndTargets() {
     console.log('strengthsAndTargetData:', strengthsAndTargetData);
   };
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className="parent-container">
-      <Header headerProps={headerProps} />
+      {screenWidth > 1439 ? (
+        <Header headerProps={headerProps} />
+      ) : (
+        <HeaderSmall headerProps={headerProps} />
+      )}
       <div className="child-container">
         <div className="breadcrumb">
           <Breadcrumb text="Account Settings" link={'/#/settings'} />

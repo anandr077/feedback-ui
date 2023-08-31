@@ -64,8 +64,8 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
+    MARKING_METHODOLOGY_TYPE,
   } = props;
-
   const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
     <SmartAnotation
       key={index}
@@ -383,6 +383,7 @@ function FeedbackTeacherLaptop(props) {
                 allmarkingCriteriaFeedback={markingCriteriaFeedback}
                 small={smallMarkingCriteria}
                 questionSerialNumber={answer.serialNumber}
+                type={MARKING_METHODOLOGY_TYPE.Strengths_And_Targets}
               ></MarkingCriteriaFeedbackReadOnly>
             )}
         </Frame1366>

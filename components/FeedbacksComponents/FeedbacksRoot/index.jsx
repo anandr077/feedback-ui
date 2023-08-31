@@ -50,6 +50,11 @@ import { TextField } from '@mui/material';
 import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 import SnackbarContext from '../../SnackbarContext';
 
+const MARKING_METHODOLOGY_TYPE = {
+  Rubrics: 'rubrics',
+  Strengths_And_Targets: 'strengthsAndTargets',
+};
+
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
@@ -1100,6 +1105,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               submission,
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherMobileData,
+              MARKING_METHODOLOGY_TYPE,
             }}
           />
         }
@@ -1126,6 +1132,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               submission,
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
+              MARKING_METHODOLOGY_TYPE,
             }}
           />
         }
@@ -1152,6 +1159,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                 submission,
                 sharewithclassdialog,
                 ...feedbacksFeedbackTeacherLaptopData,
+                MARKING_METHODOLOGY_TYPE,
               }}
             />
           </>
@@ -1178,6 +1186,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               submission,
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
+              MARKING_METHODOLOGY_TYPE,
             }}
           />
         }

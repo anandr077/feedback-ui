@@ -4,12 +4,33 @@ import { chain, set } from 'lodash';
 import './markingcriteria.css';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
-  const { allmarkingCriteriaFeedback, small, questionSerialNumber } = props;
+  const dummyStrengthTargetData = {
+    strengthAndTargetCriterias: [
+      {
+        title: 'Engagement with the question',
+        strengths: ['strength 1', 'strength 2'],
+        targets: ['target 1', 'target 2', 'target 2'],
+      },
+      {
+        title: 'Title 2',
+        strengths: ['strength 3', 'strength 4'],
+        targets: ['target 3', 'target 4'],
+      },
+    ],
+    selected: {
+      strength: [
+        [0, 1],
+        [1, 0],
+      ],
+      target: [[1, 1]],
+    },
+  };
+  const { allmarkingCriteriaFeedback, small, questionSerialNumber, type } =
+    props;
   const [selectedMarkingCriteria, setSelectedMarkingCriteria] = React.useState(
     []
   );
   const [criterias, setCriterias] = React.useState([]);
-
   React.useEffect(() => {
     setSelectedMarkingCriteria([]);
     const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
@@ -19,6 +40,7 @@ export default function MarkingCriteriaFeedbackReadOnly(props) {
         );
       }
     );
+
     const criterias =
       selectedMarkingCriteria[selectedMarkingCriteria.length - 1]
         ?.markingCriteria?.criterias;
@@ -29,20 +51,107 @@ export default function MarkingCriteriaFeedbackReadOnly(props) {
   return (
     <MarkingCriteriaContainer>
       <table className="marking-criteria-parent-container">
-        <tr className="marking-criteria-title">{createHeading(criterias)}</tr>
-        {createLevels(criterias)}
+        <tr className="marking-criteria-title">
+          {type == 'rubrics'
+            ? createRubricsHeading(criterias)
+            : createStrengthTargetHeading()}
+        </tr>
+        {type == 'rubrics'
+          ? createRubricsLevels(criterias)
+          : createStrengthTargetLevels(dummyStrengthTargetData)}
       </table>
     </MarkingCriteriaContainer>
   );
 }
 
-const createHeading = (criterias) => {
+function createStrengthTargetHeading() {
+  return (
+    <>
+      <td className="marking-criteria-column-width">Strength 1</td>
+      <td className="marking-criteria-column-width">Strength 2</td>
+      <td className="marking-criteria-column-width">Targets</td>
+    </>
+  );
+}
+
+function createStrengthTargetLevels(dummyStrengthTargetData) {
+  const { strengthAndTargetCriterias, selected } = dummyStrengthTargetData;
+  console.log(
+    'strengthAndTargetCriterias: ',
+    strengthAndTargetCriterias,
+    selected.strength[0]
+  );
+  return (
+    <div>
+      {strengthAndTargetCriterias.map((criteria, index) => (
+        <tr className="marking-criteria-data-parent">
+          <td
+            key={index}
+            className="marking-criteria-data marking-criteria-column-width"
+          >
+            <div className="marking-criteria-heading">{criteria.title}</div>
+            {criteria.strengths.map((strength, sIndex) => (
+              <div>
+                {selected.strength[index][0] == index &&
+                selected.strength[index][1] == sIndex ? (
+                  <div className="marking-criteria-content marking-criteria-column-width-selected">
+                    {strength}
+                  </div>
+                ) : (
+                  <div className="marking-criteria-content">{strength}</div>
+                )}
+              </div>
+            ))}
+          </td>
+          <td
+            key={index}
+            className="marking-criteria-data marking-criteria-column-width"
+          >
+            <div className="marking-criteria-heading">{criteria.title}</div>
+            {criteria.strengths.map((strength, sIndex) => (
+              <div>
+                {selected.strength[index][0] == index &&
+                selected.strength[index][1] == sIndex ? (
+                  <div className="marking-criteria-content marking-criteria-column-width-selected">
+                    {strength}
+                  </div>
+                ) : (
+                  <div className="marking-criteria-content">{strength}</div>
+                )}
+              </div>
+            ))}
+          </td>
+          <td
+            key={index}
+            className="marking-criteria-data marking-criteria-column-width"
+          >
+            <div className="marking-criteria-heading">{criteria.title}</div>
+            {criteria.targets.map((target, sIndex) => (
+              <div>
+                {selected.target[0][0] == index &&
+                selected.target[0][1] == sIndex ? (
+                  <div className="marking-criteria-content marking-criteria-column-width-selected">
+                    {target}
+                  </div>
+                ) : (
+                  <div className="marking-criteria-content">{target}</div>
+                )}
+              </div>
+            ))}
+          </td>
+        </tr>
+      ))}
+    </div>
+  );
+}
+
+const createRubricsHeading = (criterias) => {
   return criterias?.map((criteria) => {
     return <td className="marking-criteria-column-width">{criteria?.title}</td>;
   });
 };
 
-const createLevels = (criterias) => {
+const createRubricsLevels = (criterias) => {
   let groupedArray = chain(criterias)
     .flatMap((criteria, criteriaIndex) => {
       const selectedLevel = criteria.selectedLevel;

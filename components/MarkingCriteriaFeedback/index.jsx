@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImageDropdownMenu from '../ImageDropdownMenu';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import './style.css';
 
 export default function MarkingCriteriaFeedback(props) {
   const {
@@ -9,6 +15,27 @@ export default function MarkingCriteriaFeedback(props) {
     questionSerialNumber,
     handleMarkingCriteriaLevelFeedback,
   } = props;
+  const Strength_And_Target_Feedback = [
+    'First Strength',
+    'Second Strength',
+    'Target',
+  ];
+  const strengthAndTargetCriterias = [
+    {
+      title: 'Engagement with the question',
+      strengths: ['strength 1', 'strength 2'],
+      targets: ['target 1', 'target 2', 'target 5'],
+    },
+    {
+      title: 'Title 2',
+      strengths: ['strength 3', 'strength 4'],
+      targets: ['target 3', 'target 4'],
+    },
+  ];
+  const selectedStrengthsAndTargets = {
+    strength: [],
+    target: [],
+  };
   const markingCriteriaCardsComponent = markingCriteria.criterias?.map(
     (criteria, index) => {
       return (
@@ -29,6 +56,81 @@ export default function MarkingCriteriaFeedback(props) {
       );
     }
   );
+  const [strengthAndTargetSelection, setStrengthAndTargetSelection] =
+    React.useState(selectedStrengthsAndTargets);
+
+  const handleSelect = (index, cIndex, sIndex, criteriatype) => {
+    setStrengthAndTargetSelection((prevState) => {
+      const newState = { ...prevState };
+      newState[criteriatype][index] = [cIndex, sIndex];
+      return newState;
+    });
+    console.log('strengthAndTargetSelection: ', strengthAndTargetSelection);
+  };
+
+  const strengthAndTargetsCardComponent = Strength_And_Target_Feedback?.map(
+    (heading, index) => {
+      return (
+        <SingleMarkingCriteriaContainer key={index}>
+          <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              {index == 0 || index == 1 ? 'Strength' : 'Target'}
+            </InputLabel>
+            <Select
+              id={`strength-target-select-${index}`}
+              value={selectedStrengthsAndTargets.strength[index]}
+              label={`Strength And Target ${index}`}
+            >
+              {strengthAndTargetCriterias?.map((criteria, cIndex) => {
+                return (
+                  <div>
+                    <div className="criteria-heading">{criteria.title}</div>
+                    {index == 0 || index == 1
+                      ? criteria.strengths.map((strength, sIndex) => {
+                          return (
+                            <div>
+                              <MenuItem
+                                className="criteria-option"
+                                value={strength}
+                                onClick={(e) =>
+                                  handleSelect(
+                                    index,
+                                    cIndex,
+                                    sIndex,
+                                    'strength'
+                                  )
+                                }
+                              >
+                                {strength}
+                              </MenuItem>
+                            </div>
+                          );
+                        })
+                      : criteria.targets.map((target, sIndex) => {
+                          return (
+                            <div>
+                              <MenuItem
+                                className="criteria-option"
+                                value={target}
+                                onClick={(e) =>
+                                  handleSelect(0, cIndex, sIndex, 'target')
+                                }
+                              >
+                                {target}
+                              </MenuItem>
+                            </div>
+                          );
+                        })}
+                  </div>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </SingleMarkingCriteriaContainer>
+      );
+    }
+  );
 
   return (
     <>
@@ -38,7 +140,7 @@ export default function MarkingCriteriaFeedback(props) {
         </MarkingCriteriaContainerSmall>
       ) : (
         <MarkingCriteriaContainer>
-          {markingCriteriaCardsComponent}
+          {strengthAndTargetsCardComponent}
         </MarkingCriteriaContainer>
       )}
     </>

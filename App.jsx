@@ -16,6 +16,7 @@ import { Redirect } from 'react-router-dom';
 import { getUserRole, getUserName } from './service';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
+import PortfolioPage from './components/PortfolioPage';
 
 function App() {
   const role = getUserRole();
@@ -25,7 +26,8 @@ function App() {
   const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
   const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = withAuth(StudentTaskRoot);
-  const ProtectedCompletedRoot = withAuth(CompletedPage);
+  //const ProtectedCompletedRoot = withAuth(CompletedPage);
+  const ProtectedPortfolioRoot = withAuth(PortfolioPage);
   const ProtectedTeacherClassesRoot = withAuth(TeacherClassesRoot);
   const ProtectedTaskDetail = withAuth(TaskDetail);
   const ProtectedCreateAssignment = withAuth(CreateAssignment);
@@ -66,8 +68,8 @@ function App() {
           <Route path="/markingCriterias/:markingCriteriaId">
             <ProtectedMarkingCriteria />
           </Route>
-          <Route path="/completed">
-            <ProtectedCompletedRoot />
+          <Route path="/portfolio">
+            <ProtectedPortfolioRoot />
           </Route>
           <Route path="/classes/:classIdFromUrl?">
             <ProtectedTeacherClassesRoot />

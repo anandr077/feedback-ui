@@ -45,7 +45,7 @@ const studentTabs = (first, second, third) => {
       redirect: '#tasks',
     },
     thirdButton: {
-      text: 'Completed',
+      text: 'Portfolio',
       icon: '/icons/submissionIconUnselected.png',
       iconSelected: 'icons/submissionIconWhite.png',
       selected: third,
@@ -60,9 +60,10 @@ export const classesHomeHeaderProps = teacherTabs(false, false, true);
 export const homeHeaderProps = studentTabs(true, false, false);
 export const taskHeaderProps = studentTabs(false, true, false);
 export const completedHeaderProps = (exemplar) => {
-  if (exemplar)
+  if (exemplar) {
     return isTeacher
       ? teacherTabs(false, false, false)
       : studentTabs(false, false, false);
+  }
   return studentTabs(false, false, true);
 };

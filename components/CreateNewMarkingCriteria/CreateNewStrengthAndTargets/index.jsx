@@ -10,7 +10,7 @@ import HeaderSmall from '../../HeaderSmall';
 
 export default function CreateNewStrengthAndTargets() {
   const Strengths_And_Traget_Data = {
-    id: 1,
+    // id: 1,
     title: 'Engagement with the question',
     strengths: ['', ''],
     targets: ['', ''],
@@ -236,16 +236,12 @@ export default function CreateNewStrengthAndTargets() {
         <HeaderSmall headerProps={headerProps} />
       )}
       <div className="child-container">
-        <div className="breadcrumb">
-          <Breadcrumb text="Account Settings" link={'/#/settings'} />
-          <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
-          <Breadcrumb2 title="Create New" />
-        </div>
+        {createBreadcrumb()}
         <GoBack />
         <div className="heading">
           <div className="heading-text">Create new marking criteria</div>
           <button className="save" onClick={saveData}>
-            Save Criteria
+            Save criteria
           </button>
         </div>
         <input
@@ -267,3 +263,11 @@ export default function CreateNewStrengthAndTargets() {
     </div>
   );
 }
+const createBreadcrumb = () => {
+  return <div className="breadcrumb">
+    <Breadcrumb text="Account Settings" link={'/#/settings'} />
+    <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
+    <Breadcrumb2 title="Create new" />
+  </div>;
+}
+

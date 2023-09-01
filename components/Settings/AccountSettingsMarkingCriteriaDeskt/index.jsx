@@ -66,7 +66,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                   <Title1>
                     <MarkingCriteria>Marking Methodologies</MarkingCriteria>
                     <Buttons
-                      text="Create New"
+                      text="Create new"
                       onClickMethod={() =>
                         setOpenMarkingMethodologyDialog(true)
                       }
@@ -84,7 +84,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     <MarkingCriteria>Smart Annotations</MarkingCriteria>
 
                     <Buttons
-                      text="Create New"
+                      text="Create new"
                       onClickMethod={createSmartAnnotationHandler}
                     />
                   </Title1>

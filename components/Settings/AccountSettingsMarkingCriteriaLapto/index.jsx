@@ -65,7 +65,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                   <Title1>
                     <MarkingCriteria>Marking Methodologies</MarkingCriteria>
                     <Buttons
-                      text="Create New"
+                      text="Create new"
                       onClickMethod={() =>
                         setOpenMarkingMethodologyDialog(true)
                       }

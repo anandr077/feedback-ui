@@ -1,36 +1,36 @@
 .criteria-heading {
-    color: var(--text, #1E252A);
-    font-family: IBM Plex Sans;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+  color: var(--text, #1e252a);
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
 .criteria-option {
-    color: var(--text, #1E252A);
-    font-family: IBM Plex Sans;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    opacity: 0.6;
+  color: var(--text, #1e252a);
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  opacity: 0.6;
 }
 
 .css-1ka5eyc-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #F1E7FF;
-    background: #FFF;
-    box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.10);
-    width: 400px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #f1e7ff;
+  background: #fff;
+  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
+  width: 400px;
 }
 
 .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
-    white-space: normal !important;
+  white-space: normal !important;
 }
 
 .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover {
-    background-color: #f1e7ff !important;
-    border-radius: 12px;
+  background-color: #f1e7ff !important;
+  border-radius: 12px;
 }

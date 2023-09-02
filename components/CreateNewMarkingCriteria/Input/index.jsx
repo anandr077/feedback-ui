@@ -1,4 +1,3 @@
-
 import React from 'react';
 import styled from 'styled-components';
 import { IbmplexsansNormalMountainMist20px } from '../../../styledMixins';
@@ -24,7 +23,6 @@ const Input1 = styled.div`
   align-self: stretch;
 `;
 
-
 const Input2 = styled.div`
   ${IbmplexsansNormalMountainMist20px}
   position: relative;
@@ -33,6 +31,5 @@ const Input2 = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 export default Input;

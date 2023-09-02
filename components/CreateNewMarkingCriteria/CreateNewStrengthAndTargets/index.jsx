@@ -7,7 +7,10 @@ import Header from '../../Header';
 import GoBack from '../GoBack';
 import { useState } from 'react';
 import HeaderSmall from '../../HeaderSmall';
-import { createNewMarkingCriteria, getMarkingMethodology } from '../../../service';
+import {
+  createNewMarkingCriteria,
+  getMarkingMethodology,
+} from '../../../service';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CreateNewStrengthAndTargets() {
@@ -27,12 +30,14 @@ export default function CreateNewStrengthAndTargets() {
 
   const [isLoading, setIsLoading] = React.useState(true);
   React.useEffect(() => {
-    Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(([result]) => {
-      setMarkingMethodology(result)
-      setIsLoading(false);
-    });
+    Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
+      ([result]) => {
+        setMarkingMethodology(result);
+        setIsLoading(false);
+      }
+    );
   }, []);
-  console.log('markingMethodology:', markingMethodology)
+  console.log('markingMethodology:', markingMethodology);
 
   const STRENGTHS = 'strengths';
   const TARGETS = 'targets';
@@ -41,8 +46,6 @@ export default function CreateNewStrengthAndTargets() {
   const [title, setTitle] = useState(
     'Untitled strengths and targets criteria_001'
   );
-
-
 
   const [criteriaSets, setCriteriaSets] = useState([0]);
 
@@ -118,7 +121,13 @@ export default function CreateNewStrengthAndTargets() {
           {strengthsAndTargetData[index].strengths.map((value, childIndex) => {
             return (
               <div className="criteria-option">
-                {input(value, handleCriteriaOptionChange, childIndex, index, STRENGTHS)}
+                {input(
+                  value,
+                  handleCriteriaOptionChange,
+                  childIndex,
+                  index,
+                  STRENGTHS
+                )}
                 {childIndex >= 2 && (
                   <div
                     className="remove-option"
@@ -224,35 +233,37 @@ export default function CreateNewStrengthAndTargets() {
     ) : (
       <HeaderSmall headerProps={headerProps} />
     );
-  }
+  };
   const createBreadcrumb = () => {
-    return <div className="breadcrumb">
-      <Breadcrumb text="Account Settings" link={'/#/settings'} />
-      <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
-      <Breadcrumb2 title="Create new" />
-    </div>;
-  }
+    return (
+      <div className="breadcrumb">
+        <Breadcrumb text="Account Settings" link={'/#/settings'} />
+        <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
+        <Breadcrumb2 title="Create new" />
+      </div>
+    );
+  };
 
   const allCriteriaFrames = () => {
-    return <div className="form-container">
-      <div className="subheading">Create Criteria</div>
-      <div className="border"></div>
-      {criteriaSets.map((index) => createCriteria(index))}
-      <div className="add-criteria" onClick={handleAddCriteria}>
-        + Add criteria
+    return (
+      <div className="form-container">
+        <div className="subheading">Create Criteria</div>
+        <div className="border"></div>
+        {criteriaSets.map((index) => createCriteria(index))}
+        <div className="add-criteria" onClick={handleAddCriteria}>
+          + Add criteria
+        </div>
       </div>
-    </div>;
-  }
+    );
+  };
   const saveData = () => {
     createNewMarkingCriteria({
       title: title,
       type: 'STRENGTHS_TARGETS',
-      strengthsTargetsCriterias: strengthsAndTargetData
-    }).then(
-      (response) => {
-        console.log('response:', response);
-      }
-    )
+      strengthsTargetsCriterias: strengthsAndTargetData,
+    }).then((response) => {
+      console.log('response:', response);
+    });
     // console.log('strengthsAndTargetData:', strengthsAndTargetData);
   };
 
@@ -284,51 +295,64 @@ export default function CreateNewStrengthAndTargets() {
   );
 }
 
-
-
 const titleAndSaveButton = (saveData) => {
-  return <div className="heading">
-    <div className="heading-text">Create new marking criteria</div>
-    <button className="save" onClick={saveData}>
-      Save criteria
-    </button>
-  </div>;
-}
-
+  return (
+    <div className="heading">
+      <div className="heading-text">Create new marking criteria</div>
+      <button className="save" onClick={saveData}>
+        Save criteria
+      </button>
+    </div>
+  );
+};
 
 const inputTitle = (title, onChange) => {
-  return <input
-    type="text"
-    className="title-input"
-    placeholder="Enter Title"
-    value={title}
-    onChange={onChange} />;
-}
+  return (
+    <input
+      type="text"
+      className="title-input"
+      placeholder="Enter Title"
+      value={title}
+      onChange={onChange}
+    />
+  );
+};
 
-function input(value, handleCriteriaOptionChange, childIndex, index, STRENGTHS) {
-  return <input
-    type="text"
-    className="title-input"
-    placeholder="An answer of this level should..."
-    value={value}
-    onChange={(e) => handleCriteriaOptionChange(e, childIndex, index, STRENGTHS)} />;
+function input(
+  value,
+  handleCriteriaOptionChange,
+  childIndex,
+  index,
+  STRENGTHS
+) {
+  return (
+    <input
+      type="text"
+      className="title-input"
+      placeholder="An answer of this level should..."
+      value={value}
+      onChange={(e) =>
+        handleCriteriaOptionChange(e, childIndex, index, STRENGTHS)
+      }
+    />
+  );
 }
-
 
 const getMarkingMethodologyForId = async (id) => {
   if (id === 'new') {
     return {
       title: 'Untitled marking methodology',
       type: 'STRENGTHS_TARGETS',
-      strengthsTargetsCriterias: [{
-        title: 'Engagement with the question',
-        type: 'STRENGTHS_TARGETS',
-        strengths: ['', ''],
-        targets: ['', ''],
-      }]
+      strengthsTargetsCriterias: [
+        {
+          title: 'Engagement with the question',
+          type: 'STRENGTHS_TARGETS',
+          strengths: ['', ''],
+          targets: ['', ''],
+        },
+      ],
     };
   } else {
-    return await getMarkingMethodology(id)
+    return await getMarkingMethodology(id);
   }
-}
-
+};

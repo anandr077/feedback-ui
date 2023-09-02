@@ -7,15 +7,33 @@ import Header from '../../Header';
 import GoBack from '../GoBack';
 import { useState } from 'react';
 import HeaderSmall from '../../HeaderSmall';
-import { createNewMarkingCriteria } from '../../../service';
+import { createNewMarkingCriteria, getMarkingMethodology } from '../../../service';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CreateNewStrengthAndTargets() {
+  const { markingMethodologyId } = useParams();
+  // USE THIS OBJECT -> markingMethodology
+  const [markingMethodology, setMarkingMethodology] = useState({});
   const Strengths_And_Traget_Data = {
     id: 1,
     title: 'Engagement with the question',
     strengths: ['', ''],
     targets: ['', ''],
   };
+  // NOT THIS
+  const [strengthsAndTargetData, setStrengthsAndTargetData] = useState([
+    Strengths_And_Traget_Data,
+  ]);
+
+  const [isLoading, setIsLoading] = React.useState(true);
+  React.useEffect(() => {
+    Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(([result]) => {
+      setMarkingMethodology(result)
+      setIsLoading(false);
+    });
+  }, []);
+  console.log('markingMethodology:', markingMethodology)
+
   const STRENGTHS = 'strengths';
   const TARGETS = 'targets';
 
@@ -24,9 +42,7 @@ export default function CreateNewStrengthAndTargets() {
     'Untitled strengths and targets criteria_001'
   );
 
-  const [strengthsAndTargetData, setStrengthsAndTargetData] = useState([
-    Strengths_And_Traget_Data,
-  ]);
+
 
   const [criteriaSets, setCriteriaSets] = useState([0]);
 
@@ -102,15 +118,7 @@ export default function CreateNewStrengthAndTargets() {
           {strengthsAndTargetData[index].strengths.map((value, childIndex) => {
             return (
               <div className="criteria-option">
-                <input
-                  type="text"
-                  className="title-input"
-                  placeholder="An answer of this level should..."
-                  value={value}
-                  onChange={(e) =>
-                    handleCriteriaOptionChange(e, childIndex, index, STRENGTHS)
-                  }
-                />
+                {input(value, handleCriteriaOptionChange, childIndex, index, STRENGTHS)}
                 {childIndex >= 2 && (
                   <div
                     className="remove-option"
@@ -210,7 +218,7 @@ export default function CreateNewStrengthAndTargets() {
       </div>
     );
   };
-  const  header = () => {
+  const header = () => {
     return screenWidth > 1439 ? (
       <Header headerProps={headerProps} />
     ) : (
@@ -224,7 +232,7 @@ export default function CreateNewStrengthAndTargets() {
       <Breadcrumb2 title="Create new" />
     </div>;
   }
-  
+
   const allCriteriaFrames = () => {
     return <div className="form-container">
       <div className="subheading">Create Criteria</div>
@@ -278,7 +286,7 @@ export default function CreateNewStrengthAndTargets() {
 
 
 
-const titleAndSaveButton = (saveData) =>{
+const titleAndSaveButton = (saveData) => {
   return <div className="heading">
     <div className="heading-text">Create new marking criteria</div>
     <button className="save" onClick={saveData}>
@@ -287,12 +295,40 @@ const titleAndSaveButton = (saveData) =>{
   </div>;
 }
 
-const inputTitle = (title, handleTitleChange) => {
+
+const inputTitle = (title, onChange) => {
   return <input
     type="text"
     className="title-input"
     placeholder="Enter Title"
     value={title}
-    onChange={handleTitleChange} />;
+    onChange={onChange} />;
+}
+
+function input(value, handleCriteriaOptionChange, childIndex, index, STRENGTHS) {
+  return <input
+    type="text"
+    className="title-input"
+    placeholder="An answer of this level should..."
+    value={value}
+    onChange={(e) => handleCriteriaOptionChange(e, childIndex, index, STRENGTHS)} />;
+}
+
+
+const getMarkingMethodologyForId = async (id) => {
+  if (id === 'new') {
+    return {
+      title: 'Untitled marking methodology',
+      type: 'STRENGTHS_TARGETS',
+      strengthsTargetsCriterias: [{
+        title: 'Engagement with the question',
+        type: 'STRENGTHS_TARGETS',
+        strengths: ['', ''],
+        targets: ['', ''],
+      }]
+    };
+  } else {
+    return await getMarkingMethodology(id)
+  }
 }
 

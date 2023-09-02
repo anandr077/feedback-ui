@@ -288,6 +288,9 @@ export const deleteSmartAnnotation = async (smartAnnotationId) => {
 export const getSmartAnnotations = async () =>
   await getApi(baseUrl + '/teachers/smartAnnotation');
 
+export const getMarkingMethodology = async (id) =>
+  await getApi(baseUrl + '/teachers/markingCriterias/' + id);
+
 export const getAllMarkingCriteria = async () =>
   await getApi(baseUrl + '/teachers/markingCriteria');
 

@@ -72,6 +72,9 @@ function App() {
           <Route path="/markingCriterias/:markingCriteriaId">
             <ProtectedMarkingCriteria />
           </Route>
+          <Route path="/markingMethodologies/strengths-and-targets/:markingMethodologyId">
+            <ProtectedStrengthAndTarget />
+          </Route>
           <Route path="/completed">
             <ProtectedCompletedRoot />
           </Route>

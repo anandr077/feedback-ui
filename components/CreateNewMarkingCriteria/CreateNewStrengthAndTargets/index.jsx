@@ -7,10 +7,11 @@ import Header from '../../Header';
 import GoBack from '../GoBack';
 import { useState } from 'react';
 import HeaderSmall from '../../HeaderSmall';
+import { createNewMarkingCriteria } from '../../../service';
 
 export default function CreateNewStrengthAndTargets() {
   const Strengths_And_Traget_Data = {
-    // id: 1,
+    id: 1,
     title: 'Engagement with the question',
     strengths: ['', ''],
     targets: ['', ''],
@@ -209,9 +210,42 @@ export default function CreateNewStrengthAndTargets() {
       </div>
     );
   };
-
+  const  header = () => {
+    return screenWidth > 1439 ? (
+      <Header headerProps={headerProps} />
+    ) : (
+      <HeaderSmall headerProps={headerProps} />
+    );
+  }
+  const createBreadcrumb = () => {
+    return <div className="breadcrumb">
+      <Breadcrumb text="Account Settings" link={'/#/settings'} />
+      <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
+      <Breadcrumb2 title="Create new" />
+    </div>;
+  }
+  
+  const allCriteriaFrames = () => {
+    return <div className="form-container">
+      <div className="subheading">Create Criteria</div>
+      <div className="border"></div>
+      {criteriaSets.map((index) => createCriteria(index))}
+      <div className="add-criteria" onClick={handleAddCriteria}>
+        + Add criteria
+      </div>
+    </div>;
+  }
   const saveData = () => {
-    console.log('strengthsAndTargetData:', strengthsAndTargetData);
+    createNewMarkingCriteria({
+      title: title,
+      type: 'STRENGTHS_TARGETS',
+      strengthsTargetsCriterias: strengthsAndTargetData
+    }).then(
+      (response) => {
+        console.log('response:', response);
+      }
+    )
+    // console.log('strengthsAndTargetData:', strengthsAndTargetData);
   };
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -230,44 +264,35 @@ export default function CreateNewStrengthAndTargets() {
 
   return (
     <div className="parent-container">
-      {screenWidth > 1439 ? (
-        <Header headerProps={headerProps} />
-      ) : (
-        <HeaderSmall headerProps={headerProps} />
-      )}
+      {header()}
       <div className="child-container">
         {createBreadcrumb()}
         <GoBack />
-        <div className="heading">
-          <div className="heading-text">Create new marking criteria</div>
-          <button className="save" onClick={saveData}>
-            Save criteria
-          </button>
-        </div>
-        <input
-          type="text"
-          className="title-input"
-          placeholder="Enter Title"
-          value={title}
-          onChange={handleTitleChange}
-        />
-        <div className="form-container">
-          <div className="subheading">Create Criteria</div>
-          <div className="border"></div>
-          {criteriaSets.map((index) => createCriteria(index))}
-          <div className="add-criteria" onClick={handleAddCriteria}>
-            + Add criteria
-          </div>
-        </div>
+        {titleAndSaveButton(saveData)}
+        {inputTitle(title, handleTitleChange)}
+        {allCriteriaFrames()}
       </div>
     </div>
   );
 }
-const createBreadcrumb = () => {
-  return <div className="breadcrumb">
-    <Breadcrumb text="Account Settings" link={'/#/settings'} />
-    <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
-    <Breadcrumb2 title="Create new" />
+
+
+
+const titleAndSaveButton = (saveData) =>{
+  return <div className="heading">
+    <div className="heading-text">Create new marking criteria</div>
+    <button className="save" onClick={saveData}>
+      Save criteria
+    </button>
   </div>;
+}
+
+const inputTitle = (title, handleTitleChange) => {
+  return <input
+    type="text"
+    className="title-input"
+    placeholder="Enter Title"
+    value={title}
+    onChange={handleTitleChange} />;
 }
 

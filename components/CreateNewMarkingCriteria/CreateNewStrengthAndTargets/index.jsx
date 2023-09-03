@@ -9,70 +9,84 @@ import { useState } from 'react';
 import HeaderSmall from '../../HeaderSmall';
 import {
   createNewMarkingCriteria,
+  deleteMarkingCriteria,
   getMarkingMethodology,
+  updateMarkingCriteria,
 } from '../../../service';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
+
   // USE THIS OBJECT -> markingMethodology
-  const [markingMethodology, setMarkingMethodology] = useState({});
+  const [markingMethodology, setMarkingMethodology] = useState({
+    title: 'Untitled marking methodology',
+    type: 'STRENGTHS_TARGETS',
+    strengthsTargetsCriterias: [
+      {
+        title: 'Engagement with the question',
+        strengths: ['', ''],
+        targets: ['', ''],
+      },
+    ],
+  });
+
   const Strengths_And_Traget_Data = {
-    id: 1,
     title: 'Engagement with the question',
     strengths: ['', ''],
     targets: ['', ''],
   };
-  // NOT THIS
-  const [strengthsAndTargetData, setStrengthsAndTargetData] = useState([
-    Strengths_And_Traget_Data,
-  ]);
 
   const [isLoading, setIsLoading] = React.useState(true);
+
   React.useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
       ([result]) => {
-        setMarkingMethodology(result);
+        setMarkingMethodology(result[0]);
         setIsLoading(false);
       }
     );
   }, []);
-  console.log('markingMethodology:', markingMethodology);
 
   const STRENGTHS = 'strengths';
   const TARGETS = 'targets';
 
   const headerProps = completedHeaderProps(true);
-  const [title, setTitle] = useState(
-    'Untitled strengths and targets criteria_001'
-  );
 
   const [criteriaSets, setCriteriaSets] = useState([0]);
 
   const handleCriteriaChange = (e, index) => {
-    const updatedData = [...strengthsAndTargetData];
-    updatedData[index].title = e.target.value;
-    setStrengthsAndTargetData(updatedData);
+    const updatedData = { ...markingMethodology };
+    updatedData.strengthsTargetsCriterias[index].title = e.target.value;
+    setMarkingMethodology(updatedData);
   };
 
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    const updatedData = { ...markingMethodology };
+    updatedData.title = e.target.value;
+    setMarkingMethodology(updatedData);
   };
 
   const handleAddCriteria = () => {
     const newData = {
       ...Strengths_And_Traget_Data,
-      id: strengthsAndTargetData.length + 1,
     };
-    setStrengthsAndTargetData([...strengthsAndTargetData, newData]);
+    const updatedData = { ...markingMethodology };
+    updatedData.strengthsTargetsCriterias = [
+      ...updatedData.strengthsTargetsCriterias,
+      newData,
+    ];
+    setMarkingMethodology(updatedData);
     setCriteriaSets([...criteriaSets, criteriaSets.length]);
   };
 
   const removeCriteria = (indexToDelete) => {
-    const updatedData = strengthsAndTargetData.filter(
-      (_, index) => index !== indexToDelete
-    );
-    setStrengthsAndTargetData(updatedData);
+    const updatedData = { markingMethodology };
+    updatedData.strengthsTargetsCriterias =
+      markingMethodology.strengthsTargetsCriterias.filter(
+        (_, index) => index !== indexToDelete
+      );
+    setMarkingMethodology(updatedData);
 
     const updateCriteriaSets = criteriaSets.filter(
       (_, index) => index !== indexToDelete
@@ -81,36 +95,44 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const handleAddOption = (index, type) => {
-    const updatedData = [...strengthsAndTargetData];
+    const updatedData = { ...markingMethodology };
     if (type === STRENGTHS) {
-      updatedData[index].strengths.push('');
+      updatedData.strengthsTargetsCriterias[index].strengths.push('');
     }
     if (type === TARGETS) {
-      updatedData[index].targets.push('');
+      updatedData.strengthsTargetsCriterias[index].targets.push('');
     }
-    setStrengthsAndTargetData(updatedData);
+    setMarkingMethodology(updatedData);
   };
 
   const removeAddOption = (childIndex, index, type) => {
-    const updatedData = [...strengthsAndTargetData];
+    const updatedData = { ...markingMethodology };
     if (type === STRENGTHS) {
-      updatedData[index].strengths.splice(childIndex, 1);
+      updatedData.strengthsTargetsCriterias[index].strengths.splice(
+        childIndex,
+        1
+      );
     }
     if (type === TARGETS) {
-      updatedData[index].targets.splice(childIndex, 1);
+      updatedData.strengthsTargetsCriterias[index].targets.splice(
+        childIndex,
+        1
+      );
     }
-    setStrengthsAndTargetData(updatedData);
+    setMarkingMethodology(updatedData);
   };
 
   const handleCriteriaOptionChange = (e, childIndex, index, type) => {
-    const updatedData = [...strengthsAndTargetData];
+    const updatedData = { ...markingMethodology };
     if (type === STRENGTHS) {
-      updatedData[index].strengths[childIndex] = e.target.value;
+      updatedData.strengthsTargetsCriterias[index].strengths[childIndex] =
+        e.target.value;
     }
     if (type === TARGETS) {
-      updatedData[index].targets[childIndex] = e.target.value;
+      updatedData.strengthsTargetsCriterias[index].targets[childIndex] =
+        e.target.value;
     }
-    setStrengthsAndTargetData(updatedData);
+    setMarkingMethodology(updatedData);
   };
 
   const createStrengthsAndTargets = (index) => {
@@ -118,30 +140,32 @@ export default function CreateNewStrengthAndTargets() {
       <div className="strength-and-target-container">
         <div className="strength">
           <div className="strength-text">Strengths</div>
-          {strengthsAndTargetData[index].strengths.map((value, childIndex) => {
-            return (
-              <div className="criteria-option">
-                {input(
-                  value,
-                  handleCriteriaOptionChange,
-                  childIndex,
-                  index,
-                  STRENGTHS
-                )}
-                {childIndex >= 2 && (
-                  <div
-                    className="remove-option"
-                    onClick={() =>
-                      removeAddOption(childIndex, index, STRENGTHS)
-                    }
-                  >
-                    <img src="/icons/delete-vector.svg" alt="delete" />
-                    Remove
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {markingMethodology.strengthsTargetsCriterias[index].strengths.map(
+            (value, childIndex) => {
+              return (
+                <div className="criteria-option">
+                  {input(
+                    value,
+                    handleCriteriaOptionChange,
+                    childIndex,
+                    index,
+                    STRENGTHS
+                  )}
+                  {childIndex >= 2 && (
+                    <div
+                      className="remove-option"
+                      onClick={() =>
+                        removeAddOption(childIndex, index, STRENGTHS)
+                      }
+                    >
+                      <img src="/icons/delete-vector.svg" alt="delete" />
+                      Remove
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          )}
 
           <div
             className="add-criteria"
@@ -153,30 +177,34 @@ export default function CreateNewStrengthAndTargets() {
         </div>
         <div className="target">
           <div className="target-text">Targets</div>
-          {strengthsAndTargetData[index].targets.map((value, childIndex) => {
-            return (
-              <div className="criteria-option">
-                <input
-                  type="text"
-                  className="title-input"
-                  placeholder="An answer of this level should..."
-                  value={value}
-                  onChange={(e) =>
-                    handleCriteriaOptionChange(e, childIndex, index, TARGETS)
-                  }
-                />
-                {childIndex >= 2 && (
-                  <div
-                    className="remove-option"
-                    onClick={() => removeAddOption(childIndex, index, TARGETS)}
-                  >
-                    <img src="/icons/delete-vector.svg" alt="delete" />
-                    Remove
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {markingMethodology.strengthsTargetsCriterias[index].targets.map(
+            (value, childIndex) => {
+              return (
+                <div className="criteria-option">
+                  <input
+                    type="text"
+                    className="title-input"
+                    placeholder="An answer of this level should..."
+                    value={value}
+                    onChange={(e) =>
+                      handleCriteriaOptionChange(e, childIndex, index, TARGETS)
+                    }
+                  />
+                  {childIndex >= 2 && (
+                    <div
+                      className="remove-option"
+                      onClick={() =>
+                        removeAddOption(childIndex, index, TARGETS)
+                      }
+                    >
+                      <img src="/icons/delete-vector.svg" alt="delete" />
+                      Remove
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          )}
           <div
             className="add-criteria"
             onClick={() => handleAddOption(index, TARGETS)}
@@ -193,10 +221,7 @@ export default function CreateNewStrengthAndTargets() {
       <div className="criteria-container">
         <div className="remove-and-criteria">
           <div className="criteria">Criteria</div>
-          <div
-            className="remove"
-            onClick={() => removeCriteria(index, strengthsAndTargetData)}
-          >
+          <div className="remove" onClick={() => removeCriteria(index)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -219,7 +244,9 @@ export default function CreateNewStrengthAndTargets() {
           type="text"
           className="title-input"
           placeholder="Enter Criteria"
-          value={strengthsAndTargetData[index].title}
+          value={
+            markingMethodology?.strengthsTargetsCriterias[index]?.title || ''
+          }
           onChange={(e) => handleCriteriaChange(e, index)}
           style={{ marginTop: '20px' }}
         />
@@ -234,12 +261,14 @@ export default function CreateNewStrengthAndTargets() {
       <HeaderSmall headerProps={headerProps} />
     );
   };
-  const createBreadcrumb = () => {
+  const createBreadcrumb = (markingMethodologyId) => {
     return (
       <div className="breadcrumb">
         <Breadcrumb text="Account Settings" link={'/#/settings'} />
         <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
-        <Breadcrumb2 title="Create new" />
+        <Breadcrumb2
+          title={markingMethodologyId === 'new' ? 'Create new' : 'Update'}
+        />
       </div>
     );
   };
@@ -256,15 +285,18 @@ export default function CreateNewStrengthAndTargets() {
       </div>
     );
   };
-  const saveData = () => {
-    createNewMarkingCriteria({
-      title: title,
-      type: 'STRENGTHS_TARGETS',
-      strengthsTargetsCriterias: strengthsAndTargetData,
-    }).then((response) => {
-      console.log('response:', response);
-    });
-    // console.log('strengthsAndTargetData:', strengthsAndTargetData);
+  const saveData = (markingMethodologyId) => {
+    if (markingMethodologyId === 'new') {
+      createNewMarkingCriteria(markingMethodology).then((response) => {
+        window.location.href = '/#/settings';
+      });
+    } else {
+      updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
+        (response) => {
+          window.location.href = '/#/settings';
+        }
+      );
+    }
   };
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -285,23 +317,42 @@ export default function CreateNewStrengthAndTargets() {
     <div className="parent-container">
       {header()}
       <div className="child-container">
-        {createBreadcrumb()}
+        {createBreadcrumb(markingMethodologyId)}
         <GoBack />
-        {titleAndSaveButton(saveData)}
-        {inputTitle(title, handleTitleChange)}
+        {titleAndSaveButton(saveData, markingMethodologyId)}
+        {inputTitle(markingMethodology?.title, handleTitleChange)}
         {allCriteriaFrames()}
       </div>
     </div>
   );
 }
 
-const titleAndSaveButton = (saveData) => {
+const handleDelete = (id) => {
+  deleteMarkingCriteria(id).then(() => {
+    window.location.href = '/#/settings';
+  });
+};
+
+const titleAndSaveButton = (saveData, markingMethodologyId = 'new') => {
   return (
     <div className="heading">
       <div className="heading-text">Create new marking criteria</div>
-      <button className="save" onClick={saveData}>
-        Save criteria
-      </button>
+      <div className="delete-and-save">
+        {markingMethodologyId != 'new' ? (
+          <div
+            className="delete"
+            onClick={() => handleDelete(markingMethodologyId)}
+          >
+            <img src="/icons/trashcan.svg" alt="icon-trash" />
+            <div>Delete</div>
+          </div>
+        ) : (
+          ''
+        )}
+        <button className="save" onClick={() => saveData(markingMethodologyId)}>
+          {markingMethodologyId === 'new' ? 'Save criteria' : 'Update criteria'}
+        </button>
+      </div>
     </div>
   );
 };
@@ -340,18 +391,19 @@ function input(
 
 const getMarkingMethodologyForId = async (id) => {
   if (id === 'new') {
-    return {
-      title: 'Untitled marking methodology',
-      type: 'STRENGTHS_TARGETS',
-      strengthsTargetsCriterias: [
-        {
-          title: 'Engagement with the question',
-          type: 'STRENGTHS_TARGETS',
-          strengths: ['', ''],
-          targets: ['', ''],
-        },
-      ],
-    };
+    return [
+      {
+        title: 'Untitled marking methodology',
+        type: 'STRENGTHS_TARGETS',
+        strengthsTargetsCriterias: [
+          {
+            title: 'Engagement with the question',
+            strengths: ['', ''],
+            targets: ['', ''],
+          },
+        ],
+      },
+    ];
   } else {
     return await getMarkingMethodology(id);
   }

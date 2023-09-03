@@ -4,61 +4,38 @@ import { chain, set } from 'lodash';
 import './markingcriteria.css';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
-  const dummyStrengthTargetData = {
-    strengthAndTargetCriterias: [
-      {
-        title: 'Engagement with the question',
-        strengths: ['strength 1', 'strength 2'],
-        targets: ['target 1', 'target 2', 'target 2'],
-      },
-      {
-        title: 'Title 2',
-        strengths: ['strength 3', 'strength 4'],
-        targets: ['target 3', 'target 4'],
-      },
-    ],
-    selected: {
-      strength: [
-        [0, 1],
-        [1, 0],
-      ],
-      target: [[1, 1]],
-    },
-  };
-  const { allmarkingCriteriaFeedback, small, questionSerialNumber, type } =
-    props;
-  const [selectedMarkingCriteria, setSelectedMarkingCriteria] = React.useState(
-    []
-  );
-  const [criterias, setCriterias] = React.useState([]);
-  React.useEffect(() => {
-    setSelectedMarkingCriteria([]);
-    const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
-      (markingCriteriaFeedback) => {
-        return (
-          markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
-        );
-      }
-    );
+  
+  const { allmarkingCriteriaFeedback, questionSerialNumber } = props;
 
-    const criterias =
+  console.log("allmarkingCriteriaFeedback", allmarkingCriteriaFeedback)
+  console.log("questionSerialNumber", questionSerialNumber)
+  const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
+    (markingCriteriaFeedback) => {
+      return (
+        markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
+      );
+    }
+  )[0]; 
+  const criterias =
       selectedMarkingCriteria[selectedMarkingCriteria.length - 1]
         ?.markingCriteria?.criterias;
-    setCriterias(criterias);
-    setSelectedMarkingCriteria(selectedMarkingCriteria);
-  }, []);
+  console.log('selectedMarkingCriteria', selectedMarkingCriteria);
 
+  console.log("criterias", criterias)
   return (
     <MarkingCriteriaContainer>
       <table className="marking-criteria-parent-container">
         <tr className="marking-criteria-title">
-          {type == 'rubrics'
+          {selectedMarkingCriteria.type === 'RUBRICS'
             ? createRubricsHeading(criterias)
             : createStrengthTargetHeading()}
         </tr>
-        {type == 'rubrics'
+        {selectedMarkingCriteria.type === 'RUBRICS'
           ? createRubricsLevels(criterias)
-          : createStrengthTargetLevels(dummyStrengthTargetData)}
+          : createStrengthTargetLevels(
+              selectedMarkingCriteria.markingCriteria.strengthsTargetsCriterias,
+              selectedMarkingCriteria.markingCriteria.selectedStrengthsAndTargets
+            )}
       </table>
     </MarkingCriteriaContainer>
   );
@@ -74,13 +51,8 @@ function createStrengthTargetHeading() {
   );
 }
 
-function createStrengthTargetLevels(dummyStrengthTargetData) {
-  const { strengthAndTargetCriterias, selected } = dummyStrengthTargetData;
-  console.log(
-    'strengthAndTargetCriterias: ',
-    strengthAndTargetCriterias,
-    selected.strength[0]
-  );
+function createStrengthTargetLevels(strengthAndTargetCriterias, selected) {
+  console.log('strengthAndTargetCriterias: ', strengthAndTargetCriterias);
   return (
     <div>
       {strengthAndTargetCriterias.map((criteria, index) => (
@@ -92,8 +64,8 @@ function createStrengthTargetLevels(dummyStrengthTargetData) {
             <div className="marking-criteria-heading">{criteria.title}</div>
             {criteria.strengths.map((strength, sIndex) => (
               <div>
-                {selected.strength[index][0] == index &&
-                selected.strength[index][1] == sIndex ? (
+                {selected.strengths[index][0] == index &&
+                selected.strengths[index][1] == sIndex ? (
                   <div className="marking-criteria-content marking-criteria-column-width-selected">
                     {strength}
                   </div>
@@ -110,8 +82,8 @@ function createStrengthTargetLevels(dummyStrengthTargetData) {
             <div className="marking-criteria-heading">{criteria.title}</div>
             {criteria.strengths.map((strength, sIndex) => (
               <div>
-                {selected.strength[index][0] == index &&
-                selected.strength[index][1] == sIndex ? (
+                {selected.strengths[index][0] == index &&
+                selected.strengths[index][1] == sIndex ? (
                   <div className="marking-criteria-content marking-criteria-column-width-selected">
                     {strength}
                   </div>
@@ -128,8 +100,8 @@ function createStrengthTargetLevels(dummyStrengthTargetData) {
             <div className="marking-criteria-heading">{criteria.title}</div>
             {criteria.targets.map((target, sIndex) => (
               <div>
-                {selected.target[0][0] == index &&
-                selected.target[0][1] == sIndex ? (
+                {selected.targets[0][0] == index &&
+                selected.targets[0][1] == sIndex ? (
                   <div className="marking-criteria-content marking-criteria-column-width-selected">
                     {target}
                   </div>
@@ -152,6 +124,7 @@ const createRubricsHeading = (criterias) => {
 };
 
 const createRubricsLevels = (criterias) => {
+  console.log('criteria: ', criterias);
   let groupedArray = chain(criterias)
     .flatMap((criteria, criteriaIndex) => {
       const selectedLevel = criteria.selectedLevel;
@@ -211,44 +184,6 @@ const createRows = (items) => {
   });
 };
 
-const SelectedLevelContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 8px 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 8px;
-  border: 1px solid;
-  border-color: var(--text);
-`;
-
-const MarkingCriteriaCardLabel = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-const SingleMarkingCriteriaContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  gap: 8px;
-`;
 
 const MarkingCriteriaContainer = styled.div`
   padding: 20px;

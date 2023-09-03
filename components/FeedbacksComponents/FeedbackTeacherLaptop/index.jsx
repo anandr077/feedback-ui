@@ -369,6 +369,9 @@ function FeedbackTeacherLaptop(props) {
                 handleMarkingCriteriaLevelFeedback={
                   methods.handleMarkingCriteriaLevelFeedback
                 }
+                handleStrengthsTargetsFeedback = {
+                  methods.handleStrengthsTargetsFeedback
+                }
               />
             )}
           {(submission.status === 'REVIEWED' ||
@@ -383,7 +386,6 @@ function FeedbackTeacherLaptop(props) {
                 allmarkingCriteriaFeedback={markingCriteriaFeedback}
                 small={smallMarkingCriteria}
                 questionSerialNumber={answer.serialNumber}
-                type={MARKING_METHODOLOGY_TYPE.Strengths_And_Targets}
               ></MarkingCriteriaFeedbackReadOnly>
             )}
         </Frame1366>

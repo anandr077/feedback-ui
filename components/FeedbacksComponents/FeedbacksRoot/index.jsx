@@ -595,11 +595,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setMethodToCall(null);
     setPopupText('');
 
-    if (validateMarkingCriteria()) {
+    // if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
         if (
           question.markingCriteria?.title != '' &&
-          question.markingCriteria.criterias
+          question.markingCriteria.criterias || question.markingCriteria.strengthsTargetsCriterias
         ) {
           const markingCriteriaRequest = question.markingCriteria;
           addFeedback(submission.id, {
@@ -619,13 +619,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
       markSubmsissionReviewed(submission.id).then((_) => {
         showSnackbar('Task reviewed...', window.location.href);
-        if (isTeacher) {
-          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-        } else {
-          window.location.href = '/#';
-        }
+        // if (isTeacher) {
+        //   window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+        // } else {
+        //   window.location.href = '/#';
+        // }
       });
-    }
+    // }
   }
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
@@ -1016,6 +1016,39 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       selectedLevel;
   }
 
+  function handleStrengthsTargetsFeedbackS1(
+    
+  ) {
+    console.log('e is', e)
+    const markingCriteriaToUpdate =
+    submission.assignment.questions[0].markingCriteria;
+    markingCriteriaToUpdate.selectedStrengthsAndTargets = {
+      strengths: [
+        [0, 1],
+        [1, 0],
+      ],
+      targets: [[1, 1]],
+    };
+    console.log('markingCriteriaToUpdate', markingCriteriaToUpdate);
+  }
+  const handleStrengthsTargetsFeedback=(
+    questionSerialNumber,
+    criteriaIndex,  
+  )=>(e)=> {
+    console.log('e is', e.target.value)
+
+    const markingCriteriaToUpdate =
+    submission.assignment.questions.filter(q=>q.questionSerialNumber===questionSerialNumber)
+      .markingCriteria;
+    markingCriteriaToUpdate.selectedStrengthsAndTargets = {
+      strengths: [
+        [0, 1],
+        [1, 0],
+      ],
+      targets: [[1, 1]],
+    };
+    console.log('markingCriteriaToUpdate', markingCriteriaToUpdate);
+  }
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -1068,6 +1101,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateParentComment,
     updateChildComment,
     handleMarkingCriteriaLevelFeedback,
+    handleStrengthsTargetsFeedback,
     showSubmitPopuphandler,
   };
 

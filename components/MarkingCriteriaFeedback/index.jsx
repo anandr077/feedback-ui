@@ -1,37 +1,19 @@
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import React from 'react';
 import styled from 'styled-components';
+import GroupedSelect from '../GroupedSelect';
 import ImageDropdownMenu from '../ImageDropdownMenu';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import './style.css';
 
 export default function MarkingCriteriaFeedback(props) {
   const {
     markingCriteria,
-    small,
     questionSerialNumber,
     handleMarkingCriteriaLevelFeedback,
+    handleStrengthsTargetsFeedback
   } = props;
-  const Strength_And_Target_Feedback = [
-    'First Strength',
-    'Second Strength',
-    'Target',
-  ];
-  const strengthAndTargetCriterias = [
-    {
-      title: 'Engagement with the question',
-      strengths: ['strength 1', 'strength 2'],
-      targets: ['target 1', 'target 2', 'target 5'],
-    },
-    {
-      title: 'Title 2',
-      strengths: ['strength 3', 'strength 4'],
-      targets: ['target 3', 'target 4'],
-    },
-  ];
+  const strengthAndTargetCriterias = markingCriteria.strengthsTargetsCriterias;
   const selectedStrengthsAndTargets = {
     strength: [],
     target: [],
@@ -59,7 +41,7 @@ export default function MarkingCriteriaFeedback(props) {
   const [strengthAndTargetSelection, setStrengthAndTargetSelection] =
     React.useState(selectedStrengthsAndTargets);
 
-  const handleSelect = (index, cIndex, sIndex, criteriatype) => {
+  const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
     setStrengthAndTargetSelection((prevState) => {
       const newState = { ...prevState };
       newState[criteriatype][index] = [cIndex, sIndex];
@@ -68,83 +50,101 @@ export default function MarkingCriteriaFeedback(props) {
     console.log('strengthAndTargetSelection: ', strengthAndTargetSelection);
   };
 
-  const strengthAndTargetsCardComponent = Strength_And_Target_Feedback?.map(
-    (heading, index) => {
-      return (
-        <SingleMarkingCriteriaContainer key={index}>
-          <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              {index == 0 || index == 1 ? 'Strength' : 'Target'}
-            </InputLabel>
-            <Select
-              id={`strength-target-select-${index}`}
-              value={selectedStrengthsAndTargets.strength[index]}
-              label={`Strength And Target ${index}`}
-            >
-              {strengthAndTargetCriterias?.map((criteria, cIndex) => {
-                return (
-                  <div>
-                    <div className="criteria-heading">{criteria.title}</div>
-                    {index == 0 || index == 1
-                      ? criteria.strengths.map((strength, sIndex) => {
-                          return (
-                            <div>
-                              <MenuItem
-                                className="criteria-option"
-                                value={strength}
-                                onClick={(e) =>
-                                  handleSelect(
-                                    index,
-                                    cIndex,
-                                    sIndex,
-                                    'strength'
-                                  )
-                                }
-                              >
-                                {strength}
-                              </MenuItem>
-                            </div>
-                          );
-                        })
-                      : criteria.targets.map((target, sIndex) => {
-                          return (
-                            <div>
-                              <MenuItem
-                                className="criteria-option"
-                                value={target}
-                                onClick={(e) =>
-                                  handleSelect(0, cIndex, sIndex, 'target')
-                                }
-                              >
-                                {target}
-                              </MenuItem>
-                            </div>
-                          );
-                        })}
-                  </div>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </SingleMarkingCriteriaContainer>
-      );
-    }
-  );
+  const strengthAndTargetsCardComponent = [
+    singleStrengthTargetsContainer('strengths', 'First Strength'),
+    singleStrengthTargetsContainer('strengths', 'Second Strength'), 
+    singleStrengthTargetsContainer('targets', 'Target')
+  ]
 
   return (
     <>
-      {small ? (
+      {markingCriteria.type==='RUBRICS' ? (
+        // <GroupedSelect></GroupedSelect>
         <MarkingCriteriaContainerSmall>
           {markingCriteriaCardsComponent}
         </MarkingCriteriaContainerSmall>
       ) : (
         <MarkingCriteriaContainer>
+          
           {strengthAndTargetsCardComponent}
         </MarkingCriteriaContainer>
       )}
     </>
   );
+
+  function singleStrengthTargetsContainer(type, heading, index) {
+    return <SingleMarkingCriteriaContainer>
+      <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
+      <GroupedSelect label={heading} onClick={handleStrengthsTargetsFeedback} groups={createGroup(type)}/>
+      {/* <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">
+          {index == 0 || index == 1 ? 'Strength' : 'Target'}
+        </InputLabel>
+        {strengthTargetsSelect(index)}
+      </FormControl> */}
+    </SingleMarkingCriteriaContainer>;
+  }
+  
+  function createGroup(type) {
+    return strengthAndTargetCriterias?.map(criteria=>{
+      return {
+        label: criteria.title,
+        options: criteria[type].map(strength=>{
+          return {
+            label: strength,
+            value: strength
+          }
+        })
+      } 
+    })
+  }
+  function strengthTargetsSelect(index) {
+    return <Select
+      id={`strength-target-select-${index}`}
+      // value={selectedStrengthsAndTargets.strength[index]}
+      label={`Strength And Target ${index}`}
+    >
+      {strengthAndTargetCriterias?.map((criteria, cIndex) => {
+        return (
+          <div>
+            <div className="criteria-heading">{criteria.title}</div>
+            {index == 0 || index == 1
+              ? criteria.strengths.map((strength, sIndex) => {
+                return (
+                  menuItem(strength, cIndex, sIndex, 'strength')
+                );
+              })
+              : criteria.targets.map((target, sIndex) => {
+                return (
+                  menuItem(target, cIndex, sIndex, 'target')
+                );
+              })}
+          </div>
+        );
+      })}
+    </Select>;
+
+    
+
+    function menuItem(item, cIndex, sIndex, type) {
+      return <div>
+        <MenuItem
+          className="criteria-option"
+          value={item}
+          onClick={(e) => handleSelect(
+            e,
+            index,
+            cIndex,
+            sIndex,
+            type
+          )
+          }
+        >
+          {item}
+        </MenuItem>
+      </div>;
+    }
+  }
 }
 
 const MarkingCriteriaCardLabel = styled.div`

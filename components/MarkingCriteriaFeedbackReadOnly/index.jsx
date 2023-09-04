@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { chain, set } from 'lodash';
 import './markingcriteria.css';
+import StrengthsTargets from '../StrengthsTargets';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
   
@@ -33,36 +34,16 @@ function heading(selectedMarkingCriteria) {
   if (selectedMarkingCriteria?.markingCriteria?.type === 'RUBRICS') {
     return createRubricsHeading(selectedMarkingCriteria?.markingCriteria?.criterias)
   }
-  return createStrengthTargetHeading();
+  return <></>;
 }
 
 function body(selectedMarkingCriteria) {
-  return selectedMarkingCriteria.markingCriteria.type === 'RUBRICS'
-    ? createRubricsLevels(selectedMarkingCriteria?.markingCriteria?.criterias)
-    : createStrengthTargetLevels(
-      selectedMarkingCriteria,
-      selectedMarkingCriteria.markingCriteria.strengthsTargetsCriterias,
-      selectedMarkingCriteria.markingCriteria.selectedStrengthsAndTargets
-    );
+  if (selectedMarkingCriteria.markingCriteria.type === 'RUBRICS')
+    return  createRubricsLevels(selectedMarkingCriteria?.markingCriteria?.criterias)
+
+  return <StrengthsTargets strengths={selectedMarkingCriteria?.markingCriteria?.selectedStrengths} targets={selectedMarkingCriteria?.markingCriteria?.selectedTargets}></StrengthsTargets>;
 }
 
-function createStrengthTargetHeading() {
-  return (
-    <>
-      <td className="marking-criteria-column-width">Strength 1</td>
-      <td className="marking-criteria-column-width">Strength 2</td>
-      <td className="marking-criteria-column-width">Targets</td>
-    </>
-  );
-}
-
-function createStrengthTargetLevels(selectedMarkingCriteria, strengthAndTargetCriterias, selected) {
-  console.log('selectedMarkingCriteria.type: ', selectedMarkingCriteria.type);
-  console.log('strengthAndTargetCriterias: ', strengthAndTargetCriterias);
-  return (
-    <>({JSON.stringify(selectedMarkingCriteria.type + " " + strengthAndTargetCriterias)})</>
-  );
-}
 
 const createRubricsHeading = (criterias) => {
   return criterias?.map((criteria) => {

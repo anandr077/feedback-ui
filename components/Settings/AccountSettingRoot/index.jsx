@@ -174,13 +174,12 @@ export default function AccountSettingsRoot(props) {
         showSnackbar('Error deleting smart annotation');
       });
   };
-
+  console.log('markingCriterias:', markingCriterias);
   const markingCriteriaList = markingCriterias?.map(
     (markingCriteria, index) => (
       <MarkingCriteriaCard
         key={Math.random()}
-        title={markingCriteria.title}
-        markingCriteriaId={markingCriteria.id}
+        markingCriteria={markingCriteria}
         deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
       />
     )

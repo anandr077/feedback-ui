@@ -285,7 +285,7 @@ const MoreOptions = styled.div`
   font-family: IBM Plex Sans;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  &:hover {
+  &:hover{
     transform: scale(1.1);
   }
 `;
@@ -408,7 +408,7 @@ const StyledCard = styled.article`
   border: 1px solid rgba(219, 87, 87, 0.2);
 
   border-radius: 16px;
-  &: hover {
+  &:hover {
     background: #f9f5ff;
     border: 1px solid #7200e0;
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);

@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { IbmplexsansNormalElectricViolet14px } from '../../../styledMixins';
 
 function Buttons2(props) {
-  const { markingCriteriaId, deleteMarkingCriteriaHandler } = props;
+  const { markingCriteriaId, deleteMarkingCriteriaHandler, type } = props;
+
   return (
     <ButtonsContainer>
       <Buttons
         onClick={() =>
-          (window.location.href = `/#/markingCriterias/${markingCriteriaId}`)
+          (window.location.href =
+            type == 'RUBRICS'
+              ? `/#/markingCriterias/rubrics/${markingCriteriaId}`
+              : `/#/markingMethodologies/strengths-and-targets/${markingCriteriaId}`)
         }
       >
         <ViewDetails>View and edit</ViewDetails>

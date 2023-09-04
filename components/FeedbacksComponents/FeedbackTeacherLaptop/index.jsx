@@ -384,8 +384,7 @@ function FeedbackTeacherLaptop(props) {
               'MCQ' && (
               <MarkingCriteriaFeedbackReadOnly
                 allmarkingCriteriaFeedback={markingCriteriaFeedback}
-                small={smallMarkingCriteria}
-                questionSerialNumber={answer.serialNumber}
+                questionSerialNumber={question.serialNumber}
               ></MarkingCriteriaFeedbackReadOnly>
             )}
         </Frame1366>

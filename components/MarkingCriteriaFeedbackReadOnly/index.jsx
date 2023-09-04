@@ -10,35 +10,40 @@ export default function MarkingCriteriaFeedbackReadOnly(props) {
   console.log("allmarkingCriteriaFeedback", allmarkingCriteriaFeedback)
   console.log("questionSerialNumber", questionSerialNumber)
   const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
-    (markingCriteriaFeedback) => {
-      return (
-        markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
-      );
-    }
+    (markingCriteriaFeedback) => 
+      markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
   )[0]; 
-  const criterias =
-      selectedMarkingCriteria[selectedMarkingCriteria.length - 1]
-        ?.markingCriteria?.criterias;
-  console.log('selectedMarkingCriteria', selectedMarkingCriteria);
+  console.log("selectedMarkingCriteria", selectedMarkingCriteria)
 
-  console.log("criterias", criterias)
+  
   return (
     <MarkingCriteriaContainer>
       <table className="marking-criteria-parent-container">
         <tr className="marking-criteria-title">
-          {selectedMarkingCriteria.type === 'RUBRICS'
-            ? createRubricsHeading(criterias)
-            : createStrengthTargetHeading()}
+          {heading(selectedMarkingCriteria)}
         </tr>
-        {selectedMarkingCriteria.type === 'RUBRICS'
-          ? createRubricsLevels(criterias)
-          : createStrengthTargetLevels(
-              selectedMarkingCriteria.markingCriteria.strengthsTargetsCriterias,
-              selectedMarkingCriteria.markingCriteria.selectedStrengthsAndTargets
-            )}
+        {body(selectedMarkingCriteria)}
       </table>
     </MarkingCriteriaContainer>
   );
+}
+
+function heading(selectedMarkingCriteria) {
+  console.log("selectedMarkingCriteria.", selectedMarkingCriteria.markingCriteria.type)
+  if (selectedMarkingCriteria?.markingCriteria?.type === 'RUBRICS') {
+    return createRubricsHeading(selectedMarkingCriteria?.markingCriteria?.criterias)
+  }
+  return createStrengthTargetHeading();
+}
+
+function body(selectedMarkingCriteria) {
+  return selectedMarkingCriteria.markingCriteria.type === 'RUBRICS'
+    ? createRubricsLevels(selectedMarkingCriteria?.markingCriteria?.criterias)
+    : createStrengthTargetLevels(
+      selectedMarkingCriteria,
+      selectedMarkingCriteria.markingCriteria.strengthsTargetsCriterias,
+      selectedMarkingCriteria.markingCriteria.selectedStrengthsAndTargets
+    );
 }
 
 function createStrengthTargetHeading() {
@@ -51,69 +56,11 @@ function createStrengthTargetHeading() {
   );
 }
 
-function createStrengthTargetLevels(strengthAndTargetCriterias, selected) {
+function createStrengthTargetLevels(selectedMarkingCriteria, strengthAndTargetCriterias, selected) {
+  console.log('selectedMarkingCriteria.type: ', selectedMarkingCriteria.type);
   console.log('strengthAndTargetCriterias: ', strengthAndTargetCriterias);
   return (
-    <div>
-      {strengthAndTargetCriterias.map((criteria, index) => (
-        <tr className="marking-criteria-data-parent">
-          <td
-            key={index}
-            className="marking-criteria-data marking-criteria-column-width"
-          >
-            <div className="marking-criteria-heading">{criteria.title}</div>
-            {criteria.strengths.map((strength, sIndex) => (
-              <div>
-                {selected.strengths[index][0] == index &&
-                selected.strengths[index][1] == sIndex ? (
-                  <div className="marking-criteria-content marking-criteria-column-width-selected">
-                    {strength}
-                  </div>
-                ) : (
-                  <div className="marking-criteria-content">{strength}</div>
-                )}
-              </div>
-            ))}
-          </td>
-          <td
-            key={index}
-            className="marking-criteria-data marking-criteria-column-width"
-          >
-            <div className="marking-criteria-heading">{criteria.title}</div>
-            {criteria.strengths.map((strength, sIndex) => (
-              <div>
-                {selected.strengths[index][0] == index &&
-                selected.strengths[index][1] == sIndex ? (
-                  <div className="marking-criteria-content marking-criteria-column-width-selected">
-                    {strength}
-                  </div>
-                ) : (
-                  <div className="marking-criteria-content">{strength}</div>
-                )}
-              </div>
-            ))}
-          </td>
-          <td
-            key={index}
-            className="marking-criteria-data marking-criteria-column-width"
-          >
-            <div className="marking-criteria-heading">{criteria.title}</div>
-            {criteria.targets.map((target, sIndex) => (
-              <div>
-                {selected.targets[0][0] == index &&
-                selected.targets[0][1] == sIndex ? (
-                  <div className="marking-criteria-content marking-criteria-column-width-selected">
-                    {target}
-                  </div>
-                ) : (
-                  <div className="marking-criteria-content">{target}</div>
-                )}
-              </div>
-            ))}
-          </td>
-        </tr>
-      ))}
-    </div>
+    <>({JSON.stringify(selectedMarkingCriteria.type + " " + strengthAndTargetCriterias)})</>
   );
 }
 

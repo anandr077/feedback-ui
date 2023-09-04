@@ -1,0 +1,124 @@
+import styled from 'styled-components'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+
+const GroupSelect = styled.select`
+  width: 95%;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid #1E252A;
+  color: #1E252A;
+  border-radius: 12px;
+  padding: 0px 20px;
+  cursor: pointer;
+`
+
+const Optgroup = styled.optgroup`
+  background-color: white !important;
+  box-shadow: 0 2px 8px rgba(239, 232, 245, 1) !important;
+  border: 1px solid #F1E7FF !important;
+`
+
+// const OptGroupOption = styled.option`
+//   cursor: pointer !important;
+//   background-color: white !important;
+//   border-radius: 8px !important;
+//   margin: 0 10px !important;
+//   &:hover{
+//     background-color: #EEE2F0 !important;
+//   }
+// `
+
+
+//custom group select
+const CustomGroupSelectDiv = styled.div`
+  position: relative;
+  width: 100%;
+`
+
+const CustomOptionDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  overflow-x: hidden;
+  height: 50px;
+  background-color: transparent;
+  border: 1px solid #6304BF;
+  color: #1E252A;
+  border-radius: 12px;
+  padding: 0 15px;
+  cursor: pointer;
+`
+
+const CustomHiddenOptions = styled.div`
+  position: absolute;
+  top: 100%;
+  width: calc(100% + 10%);
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(239, 232, 245, 1);
+  border: 1px solid #F1E7FF;
+  padding: 10px 20px;
+  border-radius: 10px;
+  z-index: 1000;
+`
+
+const OptGroupOption = styled.div`
+  margin-bottom: 10px;
+`
+
+const OptionLabel = styled.h4`
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #1E252A;
+  &:last-child{
+    margin-bottom: 0px;
+  }
+`
+
+const CustomOpt = styled.p`
+   padding: 5px 10px;
+   border-radius: 5px;
+   cursor: pointer;
+
+   &:hover{
+    background-color: #EDE8F5;
+   }
+`
+
+const StyledArrowDownIcon = styled(KeyboardArrowDownIcon)`
+  font-size: 24px; 
+  font-weight: 400;
+  transition: color 0.3s; 
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: white;
+  display: grid;
+  place-items: center;
+  cursor: pointer; 
+
+  &:hover {
+    background-color: #F3F3F3;
+  }
+`;
+
+const ArrowDownIconWithHover = () => {
+  return <StyledArrowDownIcon />;
+};
+
+export {
+    GroupSelect,
+    Optgroup,
+    OptGroupOption,
+
+
+    CustomGroupSelectDiv,
+    CustomOptionDiv,
+    CustomHiddenOptions,
+    OptionLabel,
+    CustomOpt,
+}
+
+export default ArrowDownIconWithHover;

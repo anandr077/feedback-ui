@@ -389,7 +389,6 @@ function FeedbackTeacherLaptop(props) {
               ></MarkingCriteriaFeedbackReadOnly>
             )}
         </Frame1366>
-
         <StrengthsTargets />
       </>
     );

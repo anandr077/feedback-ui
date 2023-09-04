@@ -162,6 +162,8 @@ const MarkingCriteriaCardLabel = styled.div`
 const SingleMarkingCriteriaContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: hidden;
   align-self: stretch;
   color: var(--text, #1e252a);
   font-size: 14px;

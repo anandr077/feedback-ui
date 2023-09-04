@@ -19,11 +19,11 @@ export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
   // USE THIS OBJECT -> markingMethodology
   const [markingMethodology, setMarkingMethodology] = useState({
-    title: 'Untitled marking methodology',
+    title: '',
     type: 'STRENGTHS_TARGETS',
     strengthsTargetsCriterias: [
       {
-        title: 'Engagement with the question',
+        title: '',
         strengths: ['', ''],
         targets: ['', ''],
       },
@@ -31,7 +31,7 @@ export default function CreateNewStrengthAndTargets() {
   });
 
   const Strengths_And_Traget_Data = {
-    title: 'Engagement with the question',
+    title: '',
     strengths: ['', ''],
     targets: ['', ''],
   };
@@ -393,11 +393,11 @@ const getMarkingMethodologyForId = async (id) => {
   if (id === 'new') {
     return [
       {
-        title: 'Untitled marking methodology',
+        title: '',
         type: 'STRENGTHS_TARGETS',
         strengthsTargetsCriterias: [
           {
-            title: 'Engagement with the question',
+            title: '',
             strengths: ['', ''],
             targets: ['', ''],
           },

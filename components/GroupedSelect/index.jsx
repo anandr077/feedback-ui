@@ -68,30 +68,6 @@ export default function GroupedSelect(props) {
         </Select>
       </FormControl> */}
       
-      {/* <GroupSelect onChange={onClick} name="GroupSelect">
-        <option aria-label="None" value="">Choose Your option</option>
-        {groups ?
-          groups.map((group, idx) => (
-            <Optgroup key={idx} label={group.label}>
-              {group.options.map((option) => (
-                <OptGroupOption key={option.value} value={option.value}>
-                  {option.label}
-                </OptGroupOption>
-              ))}
-            </Optgroup>
-          ))
-         :
-         dummyGroups.map((group, index) => (
-          <Optgroup key={index} label={group.label}>
-            {group.options.map((option) => (
-              <OptGroupOption  key={option.value} value={option.value}>
-                {option.label}
-              </OptGroupOption>
-            ))}
-          </Optgroup>
-        ))
-        }
-      </GroupSelect> */}
 
       <CustomGroupSelectDiv>
           <CustomOptionDiv onClick={()=> setShowOptions(!showOptions)}>

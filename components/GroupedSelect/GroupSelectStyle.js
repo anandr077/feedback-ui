@@ -2,34 +2,6 @@ import styled from 'styled-components'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
-const GroupSelect = styled.select`
-  width: 95%;
-  height: 40px;
-  background-color: transparent;
-  border: 1px solid #1E252A;
-  color: #1E252A;
-  border-radius: 12px;
-  padding: 0px 20px;
-  cursor: pointer;
-`
-
-const Optgroup = styled.optgroup`
-  background-color: white !important;
-  box-shadow: 0 2px 8px rgba(239, 232, 245, 1) !important;
-  border: 1px solid #F1E7FF !important;
-`
-
-// const OptGroupOption = styled.option`
-//   cursor: pointer !important;
-//   background-color: white !important;
-//   border-radius: 8px !important;
-//   margin: 0 10px !important;
-//   &:hover{
-//     background-color: #EEE2F0 !important;
-//   }
-// `
-
-
 //custom group select
 const CustomGroupSelectDiv = styled.div`
   position: relative;

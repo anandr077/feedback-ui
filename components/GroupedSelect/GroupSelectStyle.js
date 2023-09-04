@@ -87,11 +87,7 @@ const ArrowDownIconWithHover = () => {
 };
 
 export {
-    GroupSelect,
-    Optgroup,
     OptGroupOption,
-
-
     CustomGroupSelectDiv,
     CustomOptionDiv,
     CustomHiddenOptions,

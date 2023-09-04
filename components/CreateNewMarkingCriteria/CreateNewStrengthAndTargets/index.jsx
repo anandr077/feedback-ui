@@ -46,7 +46,6 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
-  console.log('MarkingMethodology', markingMethodology);
   const STRENGTHS = 'strengths';
   const TARGETS = 'targets';
 
@@ -284,7 +283,35 @@ export default function CreateNewStrengthAndTargets() {
       </div>
     );
   };
+
+  function validateStrengthsTargets(strengthAndTargetdata) {
+    if (!strengthAndTargetdata.title.trim()) {
+      return false;
+    }
+    for (const criteria of strengthAndTargetdata.strengthsTargetsCriterias) {
+      if (!criteria.title.trim()) {
+        return false;
+      }
+
+      if (criteria.strengths.length < 2 || criteria.targets.length < 2) {
+        return false;
+      }
+
+      if (
+        criteria.strengths.some((strength) => !strength.trim()) ||
+        criteria.targets.some((target) => !target.trim())
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   const saveData = (markingMethodologyId) => {
+    if (!validateStrengthsTargets(markingMethodology)) {
+      console.log('Not Saving...', markingMethodology);
+      return;
+    }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
         window.location.href = '/#/settings';
@@ -389,7 +416,6 @@ function input(
 }
 
 const getMarkingMethodologyForId = async (id) => {
-  console.log('id', id);
   if (id === 'new') {
     return [
       {

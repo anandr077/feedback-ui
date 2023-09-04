@@ -370,7 +370,7 @@ function FeedbackTeacherLaptop(props) {
                   methods.handleMarkingCriteriaLevelFeedback
                 }
                 handleStrengthsTargetsFeedback = {
-                  methods.handleStrengthsTargetsFeedback
+                  methods.handleStrengthsTargetsFeedback(question.serialNumber)
                 }
               />
             )}

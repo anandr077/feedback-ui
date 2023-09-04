@@ -10,6 +10,14 @@ export default function GroupedSelect(props) {
     onClick
   } = props;
 
+  
+  const handleChange = (event) => {
+    const selectedValue = event.target.value;
+    const [groupId, actualValue] = selectedValue.split('-');
+
+    onClick(groups[groupId], actualValue);
+  };
+
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -19,13 +27,13 @@ export default function GroupedSelect(props) {
           defaultValue=""
           id="grouped-native-select"
           label="Grouping"
-          onChange={onClick}
+          onChange={handleChange}
         >
           <option aria-label="None" value="" />
           {groups.map((group, index) => (
             <optgroup key={index} label={group.label}>
               {group.options.map((option) => (
-                <option  key={option.value} value={option.value}>
+                <option key={option.value} value={`${index}-${option.value}`}>
                   {option.label}
                 </option>
               ))}

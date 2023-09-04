@@ -263,6 +263,16 @@ export const updateMarkingCriteria = async (
     markingCriteria
   );
 };
+
+export const updateStrength = async (
+  markingCriteriaId,
+  strength
+) => {
+  await patchApi(
+    baseUrl + '/teachers/markingCriteria/' + markingCriteriaId + '/selectedStrengths',
+    strength
+  );
+};
 export const deleteMarkingCriteria = async (markingCriteriaId) => {
   await deleteApi(baseUrl + '/teachers/markingCriteria/' + markingCriteriaId);
 };

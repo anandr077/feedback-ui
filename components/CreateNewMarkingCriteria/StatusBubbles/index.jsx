@@ -13,11 +13,11 @@ function StatusBubbles(props) {
           onClick={deleteCriteriaUpdate}
         >
           <CloseIcon src="/icons/closecircle.svg" alt="deleteIcon" />
-          <Criteria className="criteria">Remove</Criteria>
+          <Criteria>Remove</Criteria>
         </StatusBubbles2>
       ) : (
         <StatusBubbles1 className={`status-bubbles ${className || ''}`}>
-          <Criteria className="criteria">Criteria</Criteria>
+          <Criteria>Criteria</Criteria>
         </StatusBubbles1>
       )}
     </>

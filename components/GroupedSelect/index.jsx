@@ -3,11 +3,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import React, * as React from 'react';
 import {
-  GroupSelect,
-  Optgroup,
   OptGroupOption,
-
-
   CustomGroupSelectDiv,
   CustomOptionDiv,
   CustomHiddenOptions,
@@ -71,7 +67,7 @@ export default function GroupedSelect(props) {
 
       <CustomGroupSelectDiv>
           <CustomOptionDiv onClick={()=> setShowOptions(!showOptions)}>
-             <p style={{whiteSpace: 'nowrap', width: '70%', userSelect: 'none'}}>{selectOption}</p>
+             <p style={{whiteSpace: 'nowrap', width: '70%', userSelect: 'none'}}>{selectOption}sssssssssssdddddddddddddddddddddd</p>
              <ArrowDownIconWithHover />
           </CustomOptionDiv>
           <CustomHiddenOptions style={showOptions ? {display: 'block'} : {display: 'none'}}>

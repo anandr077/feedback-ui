@@ -33,7 +33,21 @@ const CustomHiddenOptions = styled.div`
   border: 1px solid #F1E7FF;
   padding: 10px 20px;
   border-radius: 10px;
+  max-height: 400px;
+  overflow-y: scroll;
   z-index: 1000;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; 
+  
+  &::-webkit-scrollbar {
+    width: 0; 
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent; 
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent; 
+  }
 `
 
 const OptGroupOption = styled.div`
@@ -87,11 +101,7 @@ const ArrowDownIconWithHover = () => {
 };
 
 export {
-    GroupSelect,
-    Optgroup,
     OptGroupOption,
-
-
     CustomGroupSelectDiv,
     CustomOptionDiv,
     CustomHiddenOptions,

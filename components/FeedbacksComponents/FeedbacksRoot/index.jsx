@@ -614,7 +614,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   function submitMarkingCriteriaInputs(question) {
     if (question.markingCriteria?.title != '') {
-        if (question.markingCriteria?.criterias) {
+      if (question.markingCriteria?.criterias) {
           const markingCriteriaRequest = question.markingCriteria;
           return submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
       }
@@ -1042,6 +1042,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const handleStrengthsTargetsFeedback =
     (questionSerialNumber) => (index) => (group, value) => {
+      console.log("handleStrengthsTargetsFeedback", questionSerialNumber, index, group, value)
       const criteriaType = index === 2 ? 'target' : 'strength';
       const criteriaIndex = index === 2 ? 0 : index;
       setNewMarkingCriterias(prevState=>{

@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 //custom group select
 const CustomGroupSelectDiv = styled.div`
   position: relative;
-  width: 100%;
+  width: min(100%, 180px);
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet');
   font-family: 'IBM Plex Sans', sans-serif;
 `
@@ -14,7 +13,7 @@ const CustomOptionDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
+  width: 100%;
   overflow-x: hidden;
   height: 50px;
   background-color: transparent;
@@ -28,24 +27,25 @@ const CustomOptionDiv = styled.div`
 `
 
 const CustomOptionTitle = styled.p`
-  flex: 1;
-  max-width: 90%;
+  width: min(80%, 180px) ;
   overflow: hidden; 
   text-overflow: ellipsis;
   user-select: none;
+  white-space: nowrap;
 `
 
 const CustomHiddenOptions = styled.div`
   position: absolute;
   top: 100%;
   width: calc(100% + 20%);
-  max-width: 180%;
+  max-width: 300px;
+  min-width: 180px;
   background-color: white;
   box-shadow: 0 4px 16px rgba(239, 232, 245, 1);
   background-color: #FEFEFE;
   border: 1px solid #F1E7FF;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: 10px !important;
   max-height: 400px;
   overflow-y: scroll;
   z-index: 1000;
@@ -99,16 +99,15 @@ const CustomOptLavel = styled.p`
   margin-bottom: 5px;
 `
 
-const StyledArrowDownIcon = styled(KeyboardArrowDownIcon)`
-  font-size: 24px; 
-  font-weight: 400;
+const ArrowDownIcon = styled.div`
   transition: color 0.3s; 
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   border-radius: 50%;
   background-color: white;
   display: grid;
   place-items: center;
+  margin-right: -10px;
   cursor: pointer; 
 
   &:hover {
@@ -116,9 +115,6 @@ const StyledArrowDownIcon = styled(KeyboardArrowDownIcon)`
   }
 `;
 
-const ArrowDownIconWithHover = () => {
-  return <StyledArrowDownIcon />;
-};
 
 export {
     OptGroupOption,
@@ -128,7 +124,6 @@ export {
     OptionLabel,
     CustomOpt,
     CustomOptionTitle,
-    CustomOptLavel
+    CustomOptLavel,
+    ArrowDownIcon
 }
-
-export default ArrowDownIconWithHover;

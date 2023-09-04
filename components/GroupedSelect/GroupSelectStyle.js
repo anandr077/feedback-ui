@@ -6,6 +6,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const CustomGroupSelectDiv = styled.div`
   position: relative;
   width: 100%;
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet');
+  font-family: 'IBM Plex Sans', sans-serif;
 `
 
 const CustomOptionDiv = styled.div`
@@ -20,13 +22,24 @@ const CustomOptionDiv = styled.div`
   color: #1E252A;
   border-radius: 12px;
   padding: 0 15px;
+  white-space: nowrap;
+  background-color: white;
   cursor: pointer;
+`
+
+const CustomOptionTitle = styled.p`
+  flex: 1;
+  max-width: 90%;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  user-select: none;
 `
 
 const CustomHiddenOptions = styled.div`
   position: absolute;
   top: 100%;
   width: calc(100% + 20%);
+  max-width: 180%;
   background-color: white;
   box-shadow: 0 4px 16px rgba(239, 232, 245, 1);
   background-color: #FEFEFE;
@@ -66,7 +79,7 @@ const OptionLabel = styled.h4`
   }
 `
 
-const CustomOpt = styled.p`
+const CustomOpt = styled.div`
    padding: 10px 15px;
    border-radius: 7px;
    background-color: white;
@@ -77,6 +90,13 @@ const CustomOpt = styled.p`
    &:hover{
     background-color: #dec6ff;
    }
+`
+
+const CustomOptLavel = styled.p`
+  font-size: 14px;
+  font-weight: bold;
+  color: #232b31;
+  margin-bottom: 5px;
 `
 
 const StyledArrowDownIcon = styled(KeyboardArrowDownIcon)`
@@ -107,6 +127,8 @@ export {
     CustomHiddenOptions,
     OptionLabel,
     CustomOpt,
+    CustomOptionTitle,
+    CustomOptLavel
 }
 
 export default ArrowDownIconWithHover;

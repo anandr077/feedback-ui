@@ -9,7 +9,9 @@ import {
   CustomHiddenOptions,
   OptionLabel,
   CustomOpt,
-  ArrowDownIconWithHover
+  ArrowDownIconWithHover,
+  CustomOptionTitle,
+  CustomOptLavel
 } from './GroupSelectStyle'
 import ArrowDownIconWithHover from './GroupSelectStyle';
 import { useState} from 'react';
@@ -20,6 +22,7 @@ export default function GroupedSelect(props) {
   console.log({'group:':  groups}, {"label": onClick});
   const [showOptions, setShowOptions] = useState(false)
   const [selectOption, setSelectOption] = useState('Choose your option')
+
 
 
   
@@ -42,7 +45,7 @@ export default function GroupedSelect(props) {
           onChange={handleChange}
         >
           <option aria-label="None" value="" />
-          {groups ? groups.map((group, index) => (
+          {groups && groups.map((group, index) => (
             <optgroup key={index} label={group.label}>
               {group.options.map((option) => (
                 <option key={option.value} value={`${index}-${option.value}`}>
@@ -50,24 +53,14 @@ export default function GroupedSelect(props) {
                 </option>
               ))}
             </optgroup>
-          )) : 
-          dummyGroups.map((group, index) => (
-            <optgroup key={index} label={group.label}>
-              {group.options.map((option) => (
-                <option  key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </optgroup>
-          ))  
-          }
+          ))}
         </Select>
       </FormControl> */}
       
 
       <CustomGroupSelectDiv>
           <CustomOptionDiv onClick={()=> setShowOptions(!showOptions)}>
-             <p style={{whiteSpace: 'nowrap', width: '70%', userSelect: 'none'}}>{selectOption}sssssssssssdddddddddddddddddddddd</p>
+             <CustomOptionTitle>{selectOption}</CustomOptionTitle>
              <ArrowDownIconWithHover />
           </CustomOptionDiv>
           <CustomHiddenOptions style={showOptions ? {display: 'block'} : {display: 'none'}}>
@@ -75,16 +68,19 @@ export default function GroupedSelect(props) {
               groups &&
               groups.map((group, idx)=>(
                 <OptGroupOption key={idx}>
-                    <OptionLabel>{group.lavel}</OptionLabel>
+                    <OptionLabel>{group.lavel}</OptionLabel> 
                     {
-                      group.options.map((option) =>(
+                      group.options.map((option, index) =>(
                         <CustomOpt 
-                          key={option.value} 
-                          onClick={()=> {
-                            setSelectOption(option.label)
-                            setShowOptions(!showOptions)
-                          }}
-                        >{option.label}</CustomOpt>
+                        key={index}
+                        onClick={()=> {
+                          setSelectOption(option.label)
+                          setShowOptions(!showOptions)
+                        }}
+                        >
+                          <CustomOptLavel>{option.label}</CustomOptLavel>
+                          <p>{option.value}</p>
+                        </CustomOpt>
                       ))
                     }
                 </OptGroupOption>

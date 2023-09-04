@@ -614,14 +614,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   function submitMarkingCriteriaInputs(question) {
     if (question.markingCriteria?.title != '') {
-        if (question.markingCriteria?.criterias) {
+      if (question.markingCriteria?.criterias) {
           const markingCriteriaRequest = question.markingCriteria;
-          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest).then((response) => {
-            if (response) {
-              console.log('###response', response);
-              submitReview();
-            }
-          });
+          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
       }
       if (question.markingCriteria.strengthsTargetsCriterias) {
         const markingCriteriaRequest = question.markingCriteria;
@@ -1047,6 +1042,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const handleStrengthsTargetsFeedback =
     (questionSerialNumber) => (index) => (group, value) => {
+      console.log("handleStrengthsTargetsFeedback", questionSerialNumber, index, group, value)
       const criteriaType = index === 2 ? 'target' : 'strength';
       const criteriaIndex = index === 2 ? 0 : index;
       setNewMarkingCriterias(prevState=>{
@@ -1062,7 +1058,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
-  };
+  }; 
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
     setMethodToCall(method);
@@ -1135,6 +1131,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherMobile
             {...{
               newCommentSerialNumber,
+              markingCriteriaFeedback,
+
               isTeacher,
               submissionStatusLabel,
               labelText,
@@ -1158,7 +1156,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               newCommentSerialNumber,
-              smallMarkingCriteria: true,
               markingCriteriaFeedback,
               isTeacher,
               showLoader,

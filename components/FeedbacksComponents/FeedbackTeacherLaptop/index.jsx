@@ -43,6 +43,7 @@ import CheckboxGroup from '../../CheckboxGroup';
 import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
 import SmartAnotation from '../../../components/SmartAnnotations';
+import StrengthsTargets from '../../StrengthsTargets';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -291,7 +292,6 @@ function FeedbackTeacherLaptop(props) {
             checked={isChecked(serialNumber, fa.id)}
             onChange={handleCheckboxChange(serialNumber, fa.id)}
           />
-
           <Ellipse141 backgroundColor={fa.color}></Ellipse141>
           <Label>{fa.title}</Label>
         </FocusAreasLabelContainer>
@@ -388,6 +388,7 @@ function FeedbackTeacherLaptop(props) {
               ></MarkingCriteriaFeedbackReadOnly>
             )}
         </Frame1366>
+        <StrengthsTargets />
       </>
     );
   });

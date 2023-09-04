@@ -18,6 +18,7 @@ import QuillEditor from '../../QuillEditor';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherMobile.css';
+import StrengthsTargets from '../../StrengthsTargets';
 
 function FeedbackTeacherMobile(props) {
   const { pageMode, methods, comments, submission } = props;
@@ -108,6 +109,7 @@ function FeedbackTeacherMobile(props) {
             <Group1225>
               <Frame1367>
                 <Frame1366>{answerFrames}</Frame1366>
+                <StrengthsTargets />
               </Frame1367>
             </Group1225>
           </Frame1368>

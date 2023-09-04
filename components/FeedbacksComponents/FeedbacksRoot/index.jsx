@@ -1058,7 +1058,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
-  };
+  }; 
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
     setMethodToCall(method);

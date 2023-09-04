@@ -16,30 +16,15 @@ import {
   ArrowDownIconWithHover
 } from './GroupSelectStyle'
 import ArrowDownIconWithHover from './GroupSelectStyle';
-import { useState } from 'react';
+import { useState} from 'react';
 
-
-const dummyGroups = [
-  {
-    label: 'Group 1',
-    options: [
-      { value: 'option1', label: 'Option 1-1' },
-      { value: 'option2', label: 'Option 1-2' },
-    ],
-  },
-  {
-    label: 'Group 2',
-    options: [
-      { value: 'option3', label: 'Option 2-1' },
-      { value: 'option4', label: 'Option 2-2' },
-    ],
-  },
-];
 
 export default function GroupedSelect(props) {
   const { label, groups, onClick } = props;
   console.log({'group:':  groups}, {"label": onClick});
   const [showOptions, setShowOptions] = useState(false)
+  const [selectOption, setSelectOption] = useState('Choose your option')
+
 
   
   const handleChange = (event) => {
@@ -110,32 +95,28 @@ export default function GroupedSelect(props) {
 
       <CustomGroupSelectDiv>
           <CustomOptionDiv onClick={()=> setShowOptions(!showOptions)}>
-             <p style={{whiteSpace: 'nowrap', width: '70%', userSelect: 'none'}}>Choose your option</p>
+             <p style={{whiteSpace: 'nowrap', width: '70%', userSelect: 'none'}}>{selectOption}</p>
              <ArrowDownIconWithHover />
           </CustomOptionDiv>
           <CustomHiddenOptions style={showOptions ? {display: 'block'} : {display: 'none'}}>
             {
-              groups ? 
+              groups &&
               groups.map((group, idx)=>(
                 <OptGroupOption key={idx}>
                     <OptionLabel>{group.lavel}</OptionLabel>
                     {
                       group.options.map((option) =>(
-                        <CustomOpt key={option.value}>{option.label}</CustomOpt>
+                        <CustomOpt 
+                          key={option.value} 
+                          onClick={()=> {
+                            setSelectOption(option.label)
+                            setShowOptions(!showOptions)
+                          }}
+                        >{option.label}</CustomOpt>
                       ))
                     }
                 </OptGroupOption>
-              )) :
-              dummyGroups.map((group, idx)=>(
-                <OptGroupOption key={idx} >
-                    <OptionLabel>{group.label}</OptionLabel>
-                    {
-                      group.options.map((option) =>(
-                        <CustomOpt key={option.value}>{option.label}</CustomOpt>
-                      ))
-                    }
-                </OptGroupOption>
-              ))
+              )) 
             }
           </CustomHiddenOptions>
       </CustomGroupSelectDiv>

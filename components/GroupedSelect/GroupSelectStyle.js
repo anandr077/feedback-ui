@@ -54,9 +54,10 @@ const CustomOptionDiv = styled.div`
 const CustomHiddenOptions = styled.div`
   position: absolute;
   top: 100%;
-  width: calc(100% + 10%);
+  width: calc(100% + 20%);
   background-color: white;
-  box-shadow: 0 2px 8px rgba(239, 232, 245, 1);
+  box-shadow: 0 4px 16px rgba(239, 232, 245, 1);
+  background-color: #FEFEFE;
   border: 1px solid #F1E7FF;
   padding: 10px 20px;
   border-radius: 10px;
@@ -65,6 +66,8 @@ const CustomHiddenOptions = styled.div`
 
 const OptGroupOption = styled.div`
   margin-bottom: 10px;
+  width: 100%;
+  overflow-wrap: break-word;
 `
 
 const OptionLabel = styled.h4`
@@ -78,12 +81,15 @@ const OptionLabel = styled.h4`
 `
 
 const CustomOpt = styled.p`
-   padding: 5px 10px;
-   border-radius: 5px;
+   padding: 10px 15px;
+   border-radius: 7px;
+   background-color: white;
+   box-shadow: 0 2px 4px rgba(239, 232, 245, 1);
+   margin-bottom: 5px;
    cursor: pointer;
 
    &:hover{
-    background-color: #EDE8F5;
+    background-color: #dec6ff;
    }
 `
 

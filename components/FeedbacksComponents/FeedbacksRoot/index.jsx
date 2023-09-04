@@ -616,12 +616,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     if (question.markingCriteria?.title != '') {
         if (question.markingCriteria?.criterias) {
           const markingCriteriaRequest = question.markingCriteria;
-          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest).then((response) => {
-            if (response) {
-              console.log('###response', response);
-              submitReview();
-            }
-          });
+          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
       }
       if (question.markingCriteria.strengthsTargetsCriterias) {
         const markingCriteriaRequest = question.markingCriteria;

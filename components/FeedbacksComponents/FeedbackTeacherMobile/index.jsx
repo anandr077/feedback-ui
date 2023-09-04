@@ -18,6 +18,7 @@ import QuillEditor from '../../QuillEditor';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherMobile.css';
+import StrengthsTargets from '../../StrengthsTargets';
 
 function FeedbackTeacherMobile(props) {
   const { pageMode, methods, comments, submission } = props;

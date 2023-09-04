@@ -116,12 +116,10 @@ export default function CreateAssignment(props) {
     return <Loader />;
   }
 
-  function handleMarkingCriteriaPreview(criterias) {
-    if (criterias === undefined) {
-      return;
-    }
-    setCurrentMarkingCriteria(criterias);
-    setMarkingCriteriaPreviewDialog(true);
+  function handleMarkingCriteriaPreview(markingCriteria) {
+    console.log('Marking criteria: ', markingCriteria);
+    setCurrentMarkingCriteria(markingCriteria);
+    setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
 
   const handleTitleChange = (e) => {
@@ -274,7 +272,6 @@ export default function CreateAssignment(props) {
     const focusAreas = allFocusAreas.filter((focusArea) =>
       newFocusAreas.includes(focusArea.id)
     );
-    console.log('focusAreas', focusAreas);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
@@ -631,7 +628,7 @@ export default function CreateAssignment(props) {
       {openMarkingCriteriaPreviewDialog && (
         <PreviewDialog
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
-          criterias={currentMarkingCriteria}
+          markingCriterias={currentMarkingCriteria}
         />
       )}
     </>

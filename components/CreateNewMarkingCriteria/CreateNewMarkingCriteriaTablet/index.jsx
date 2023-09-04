@@ -31,7 +31,7 @@ function CreateNewMarkingCriteriaTablet(props) {
           <Frame1315>
             <Breadcrumb text="Account Settings" link={'/#/settings'} />
             <Breadcrumb2 title="Marking Criteria" link={'/#/settings'} />
-            <Breadcrumb2 title={isUpdating ? 'Update' : 'Create New'} />
+            <Breadcrumb2 title={isUpdating ? 'Update' : 'Create new'} />
           </Frame1315>
           <GoBack />
         </Frame1376>

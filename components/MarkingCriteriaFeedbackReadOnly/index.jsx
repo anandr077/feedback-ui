@@ -2,47 +2,57 @@ import React from 'react';
 import styled from 'styled-components';
 import { chain, set } from 'lodash';
 import './markingcriteria.css';
+import StrengthsTargets from '../StrengthsTargets';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
-  const { allmarkingCriteriaFeedback, small, questionSerialNumber } = props;
-  const [selectedMarkingCriteria, setSelectedMarkingCriteria] = React.useState(
-    []
-  );
-  const [criterias, setCriterias] = React.useState([]);
+  
+  const { allmarkingCriteriaFeedback, questionSerialNumber } = props;
 
-  React.useEffect(() => {
-    setSelectedMarkingCriteria([]);
-    const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
-      (markingCriteriaFeedback) => {
-        return (
-          markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
-        );
-      }
-    );
-    const criterias =
-      selectedMarkingCriteria[selectedMarkingCriteria.length - 1]
-        ?.markingCriteria?.criterias;
-    setCriterias(criterias);
-    setSelectedMarkingCriteria(selectedMarkingCriteria);
-  }, []);
+  console.log("allmarkingCriteriaFeedback", allmarkingCriteriaFeedback)
+  console.log("questionSerialNumber", questionSerialNumber)
+  const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
+    (markingCriteriaFeedback) => 
+      markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
+  )[0]; 
+  console.log("selectedMarkingCriteria", selectedMarkingCriteria)
 
+  
   return (
     <MarkingCriteriaContainer>
       <table className="marking-criteria-parent-container">
-        <tr className="marking-criteria-title">{createHeading(criterias)}</tr>
-        {createLevels(criterias)}
+        <tr className="marking-criteria-title">
+          {heading(selectedMarkingCriteria)}
+        </tr>
+        {body(selectedMarkingCriteria)}
       </table>
     </MarkingCriteriaContainer>
   );
 }
 
-const createHeading = (criterias) => {
+function heading(selectedMarkingCriteria) {
+  console.log("selectedMarkingCriteria.", selectedMarkingCriteria.markingCriteria.type)
+  if (selectedMarkingCriteria?.markingCriteria?.type === 'RUBRICS') {
+    return createRubricsHeading(selectedMarkingCriteria?.markingCriteria?.criterias)
+  }
+  return <></>;
+}
+
+function body(selectedMarkingCriteria) {
+  if (selectedMarkingCriteria.markingCriteria.type === 'RUBRICS')
+    return  createRubricsLevels(selectedMarkingCriteria?.markingCriteria?.criterias)
+
+  return <StrengthsTargets strengths={selectedMarkingCriteria?.markingCriteria?.selectedStrengths} targets={selectedMarkingCriteria?.markingCriteria?.selectedTargets}></StrengthsTargets>;
+}
+
+
+const createRubricsHeading = (criterias) => {
   return criterias?.map((criteria) => {
     return <td className="marking-criteria-column-width">{criteria?.title}</td>;
   });
 };
 
-const createLevels = (criterias) => {
+const createRubricsLevels = (criterias) => {
+  console.log('criteria: ', criterias);
   let groupedArray = chain(criterias)
     .flatMap((criteria, criteriaIndex) => {
       const selectedLevel = criteria.selectedLevel;
@@ -102,44 +112,6 @@ const createRows = (items) => {
   });
 };
 
-const SelectedLevelContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 8px 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 8px;
-  border: 1px solid;
-  border-color: var(--text);
-`;
-
-const MarkingCriteriaCardLabel = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-const SingleMarkingCriteriaContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  gap: 8px;
-`;
 
 const MarkingCriteriaContainer = styled.div`
   padding: 20px;

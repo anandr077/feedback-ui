@@ -235,6 +235,26 @@
   opacity: 0.7;
 }
 
+.delete-and-save {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.delete {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+  color: var(--light-mode-purple);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+}
+
+.delete:hover {
+  opacity: 0.6;
+}
+
 @media screen and (max-width: 1439px) {
   .child-container {
     width: 100%;

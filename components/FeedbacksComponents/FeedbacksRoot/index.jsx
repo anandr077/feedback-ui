@@ -1,6 +1,6 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { filter, flatMap, get, includes, map, set, uniq } from 'lodash';
+import { filter, flatMap, get, includes, map, set, uniq, get, cloneDeep } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -81,6 +81,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
+  const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -577,10 +578,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     let invalid = true;
     submission.assignment.questions.map((question) => {
       if (
-        question.markingCriteria.title != '' &&
-        question.markingCriteria.criterias
+        (question?.markingCriteria?.title != '' &&
+          question?.markingCriteria?.criterias || 
+          question.markingCriteria.strengthsTargetsCriterias)
       ) {
-        question.markingCriteria.criterias.map((criteria) => {
+        question.markingCriteria?.criterias?.map((criteria) => {
           if (!criteria.selectedLevel) {
             criteria.selectedLevel = criteria.levels[0].name;
           }
@@ -589,44 +591,71 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     return invalid;
   };
+  function convertToSelectedAttribute(selectedArray) {
+    return selectedArray.map((item, index) => ({
+        index,
+        criteria: item.label,
+        attribute: item.value
+    }));
+  }
+
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
 
-    // if (validateMarkingCriteria()) {
+    if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
-        if (
-          question.markingCriteria?.title != '' &&
-          question.markingCriteria.criterias || question.markingCriteria.strengthsTargetsCriterias
-        ) {
+        submitMarkingCriteriaInputs(question);
+      });
+    }
+    submitReview();
+  }
+  function submitMarkingCriteriaInputs(question) {
+    if (question.markingCriteria?.title != '') {
+        if (question.markingCriteria?.criterias) {
           const markingCriteriaRequest = question.markingCriteria;
-          addFeedback(submission.id, {
-            questionSerialNumber: question.serialNumber,
-            feedback: 'Marking Criteria Feedback',
-            range: selectedRange,
-            type: 'MARKING_CRITERIA',
-            replies: [],
-            markingCriteria: markingCriteriaRequest,
-          }).then((response) => {
+          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest).then((response) => {
             if (response) {
               console.log('###response', response);
+              submitReview();
             }
           });
-        }
-      });
-
-      markSubmsissionReviewed(submission.id).then((_) => {
-        showSnackbar('Task reviewed...', window.location.href);
-        // if (isTeacher) {
-        //   window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-        // } else {
-        //   window.location.href = '/#';
-        // }
-      });
-    // }
+      }
+      if (question.markingCriteria.strengthsTargetsCriterias) {
+        const markingCriteriaRequest = question.markingCriteria;
+        const selectedStrengths = get(newMarkingCriterias, `${question.serialNumber}.selectedStrengths`);
+        const selectedTargets = get(newMarkingCriterias, `${question.serialNumber}.selectedTargets`); 
+        markingCriteriaRequest.selectedStrengths = convertToSelectedAttribute(selectedStrengths);
+        markingCriteriaRequest.selectedTargets = convertToSelectedAttribute(selectedTargets);
+        submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
+      }
+    }
   }
+  function submitReview() {
+    markSubmsissionReviewed(submission.id).then((_) => {
+      showSnackbar('Task reviewed...', window.location.href);
+      if (isTeacher) {
+        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+      } else {
+        window.location.href = '/#';
+      }
+    });
+  }
+
+  function submitMarkingCriteriaFeedback(question, markingCriteriaRequest) {
+    return addFeedback(submission.id, {
+      questionSerialNumber: question.serialNumber,
+      feedback: 'Marking Criteria Feedback',
+      range: selectedRange,
+      type: 'MARKING_CRITERIA',
+      replies: [],
+      markingCriteria: markingCriteriaRequest,
+    });
+  }
+
+  
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
@@ -1016,39 +1045,21 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       selectedLevel;
   }
 
-  function handleStrengthsTargetsFeedbackS1(
-    
-  ) {
-    console.log('e is', e)
-    const markingCriteriaToUpdate =
-    submission.assignment.questions[0].markingCriteria;
-    markingCriteriaToUpdate.selectedStrengthsAndTargets = {
-      strengths: [
-        [0, 1],
-        [1, 0],
-      ],
-      targets: [[1, 1]],
-    };
-    console.log('markingCriteriaToUpdate', markingCriteriaToUpdate);
-  }
-  const handleStrengthsTargetsFeedback=(
-    questionSerialNumber,
-    criteriaIndex,  
-  )=>(e)=> {
-    console.log('e is', e.target.value)
+  const handleStrengthsTargetsFeedback =
+    (questionSerialNumber) => (index) => (group, value) => {
+      const criteriaType = index === 2 ? 'target' : 'strength';
+      const criteriaIndex = index === 2 ? 0 : index;
+      setNewMarkingCriterias(prevState=>{
+        const label = group.label;
+        let newState = cloneDeep(prevState);
+        let path = `${questionSerialNumber}.${criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'}[${criteriaIndex}]`;
+        newState = set(newState, path, { label, value });
+        console.log("newState", newState)
 
-    const markingCriteriaToUpdate =
-    submission.assignment.questions.filter(q=>q.questionSerialNumber===questionSerialNumber)
-      .markingCriteria;
-    markingCriteriaToUpdate.selectedStrengthsAndTargets = {
-      strengths: [
-        [0, 1],
-        [1, 0],
-      ],
-      targets: [[1, 1]],
+        return newState;
+      })
+      console.log('setNewMarkingCriterias', newMarkingCriterias);
     };
-    console.log('markingCriteriaToUpdate', markingCriteriaToUpdate);
-  }
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };

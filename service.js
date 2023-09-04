@@ -252,15 +252,25 @@ export const getSmartAnnotaionAnalyticsByClassId = async (classId) => {
 };
 
 export const createNewMarkingCriteria = async (markingCriteria) => {
-  await postApi(baseUrl + '/teachers/markingCriteria', markingCriteria);
+  return await postApi(baseUrl + '/teachers/markingCriteria', markingCriteria);
 };
 export const updateMarkingCriteria = async (
   markingCriteria,
   markingCriteriaId
 ) => {
-  await postApi(
+  return await postApi(
     baseUrl + '/teachers/markingCriteria/' + markingCriteriaId,
     markingCriteria
+  );
+};
+
+export const updateStrength = async (
+  markingCriteriaId,
+  strength
+) => {
+  await patchApi(
+    baseUrl + '/teachers/markingCriteria/' + markingCriteriaId + '/selectedStrengths',
+    strength
   );
 };
 export const deleteMarkingCriteria = async (markingCriteriaId) => {

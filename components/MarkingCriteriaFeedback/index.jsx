@@ -51,9 +51,9 @@ export default function MarkingCriteriaFeedback(props) {
   };
 
   const strengthAndTargetsCardComponent = [
-    singleStrengthTargetsContainer('strengths', 'First Strength'),
-    singleStrengthTargetsContainer('strengths', 'Second Strength'), 
-    singleStrengthTargetsContainer('targets', 'Target')
+    singleStrengthTargetsContainer('strengths', 'First Strength', 0),
+    singleStrengthTargetsContainer('strengths', 'Second Strength', 1), 
+    singleStrengthTargetsContainer('targets', 'Target', 2)
   ]
 
   return (
@@ -75,7 +75,7 @@ export default function MarkingCriteriaFeedback(props) {
   function singleStrengthTargetsContainer(type, heading, index) {
     return <SingleMarkingCriteriaContainer>
       <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
-      <GroupedSelect label={heading} onClick={handleStrengthsTargetsFeedback} groups={createGroup(type)}/>
+      <GroupedSelect label={heading} onClick={handleStrengthsTargetsFeedback(index)} groups={createGroup(type)}/>
       {/* <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">
           {index == 0 || index == 1 ? 'Strength' : 'Target'}

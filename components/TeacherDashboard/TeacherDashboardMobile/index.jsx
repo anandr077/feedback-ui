@@ -185,7 +185,7 @@ const Frame1312 = styled.div`
   border: 1px solid;
   border-color: var(--electric-violet);
   box-shadow: 0px 4px 16px #7200e01a;
-  &: hover {
+  &:hover {
     background: #f9f5ff;
     border: 1px solid #7200e0;
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);

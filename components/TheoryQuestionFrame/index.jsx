@@ -102,11 +102,9 @@ export default function TheoryQuestionFrame(props) {
               ></ImageDropdownMenu>
             )}
             <Preview
-              onClick={() =>
-                handleMarkingCriteriaPreview(
-                  questionDetails.markingCriteria?.criterias
-                )
-              }
+              onClick={() => {
+                handleMarkingCriteriaPreview(questionDetails.markingCriteria);
+              }}
             >
               <img src="/icons/preview-eye.png" alt="eye" />
             </Preview>

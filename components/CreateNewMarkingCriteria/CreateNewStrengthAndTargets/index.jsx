@@ -17,7 +17,6 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
-  console.log()
   // USE THIS OBJECT -> markingMethodology
   const [markingMethodology, setMarkingMethodology] = useState({
     title: 'Untitled marking methodology',
@@ -47,7 +46,7 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
-  console.log("MarkingMethodology", markingMethodology  )
+  console.log('MarkingMethodology', markingMethodology);
   const STRENGTHS = 'strengths';
   const TARGETS = 'targets';
 
@@ -390,7 +389,7 @@ function input(
 }
 
 const getMarkingMethodologyForId = async (id) => {
-  console.log("id", id)
+  console.log('id', id);
   if (id === 'new') {
     return [
       {

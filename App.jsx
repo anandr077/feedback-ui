@@ -16,6 +16,7 @@ import { Redirect } from 'react-router-dom';
 import { getUserRole, getUserName } from './service';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
+import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
 
 function App() {
   const role = getUserRole();
@@ -34,6 +35,8 @@ function App() {
   const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = withAuth(AccountSettingsRoot);
+  const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
+
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
@@ -60,11 +63,14 @@ function App() {
           <Route path="/settings">
             <ProtectedSettings />
           </Route>
-          <Route path="/markingCriterias/new">
+          <Route path="/markingMethodologies/rubrics/new">
             <ProtectedMarkingCriteria />
           </Route>
-          <Route path="/markingCriterias/:markingCriteriaId">
+          <Route path="/markingCriterias/rubrics/:markingCriteriaId">
             <ProtectedMarkingCriteria />
+          </Route>
+          <Route path="/markingMethodologies/strengths-and-targets/:markingMethodologyId">
+            <ProtectedStrengthAndTarget />
           </Route>
           <Route path="/completed">
             <ProtectedCompletedRoot />

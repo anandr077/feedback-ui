@@ -24,6 +24,7 @@ import SnackbarContext from '../../SnackbarContext';
 import { set } from 'lodash';
 import GeneralPopup from '../../GeneralPopup';
 import { RssFeed } from '@mui/icons-material';
+import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
 
 const headerProps = completedHeaderProps(true);
 
@@ -37,6 +38,8 @@ export default function AccountSettingsRoot(props) {
   const [shortcuts, setShortcuts] = React.useState([]);
   const [smartAnnotations, setSmartAnnotations] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
+    React.useState(false);
 
   React.useEffect(() => {
     Promise.all([
@@ -171,13 +174,12 @@ export default function AccountSettingsRoot(props) {
         showSnackbar('Error deleting smart annotation');
       });
   };
-
+  console.log('markingCriterias:', markingCriterias);
   const markingCriteriaList = markingCriterias?.map(
     (markingCriteria, index) => (
       <MarkingCriteriaCard
         key={Math.random()}
-        title={markingCriteria.title}
-        markingCriteriaId={markingCriteria.id}
+        markingCriteria={markingCriteria}
         deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
       />
     )
@@ -205,7 +207,7 @@ export default function AccountSettingsRoot(props) {
         <Breadcrumb2
           title={
             showMarkingCriteria
-              ? 'Marking Criteria'
+              ? 'Marking Methodologies'
               : showShortcuts
               ? 'Smart Annotations'
               : 'User Settings'
@@ -237,6 +239,7 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
@@ -253,6 +256,7 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
@@ -269,6 +273,7 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
@@ -285,10 +290,16 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
       />
+      {openMarkingMethodologyDialog && (
+        <MarkingMethodologyDialog
+          setOpenMarkingMethodologyDialog={setOpenMarkingMethodologyDialog}
+        />
+      )}
     </>
   );
 }

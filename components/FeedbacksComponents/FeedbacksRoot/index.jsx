@@ -1135,6 +1135,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherMobile
             {...{
               newCommentSerialNumber,
+              markingCriteriaFeedback,
+
               isTeacher,
               submissionStatusLabel,
               labelText,
@@ -1158,7 +1160,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               newCommentSerialNumber,
-              smallMarkingCriteria: true,
               markingCriteriaFeedback,
               isTeacher,
               showLoader,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { 
-  StrTarContainer, 
   StrTarHeading,
   StrTarBody,
   StrTarTitle,

@@ -607,44 +607,55 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
-        if (
-          (question.markingCriteria?.title != '' &&
-            question.markingCriteria.criterias) ||
-          question.markingCriteria.strengthsTargetsCriterias
-        ) {
-          const markingCriteriaRequest = question.markingCriteria;
-          
-          const selectedStrengths = get(newMarkingCriterias, `${question.serialNumber}.selectedStrengths`);
-          const selectedTargets = get(newMarkingCriterias, `${question.serialNumber}.selectedTargets`);          console.log("newMarkingCriterias", newMarkingCriterias)
-          console.log("selectedStrengths", selectedStrengths)
-          console.log("selectedTargets", selectedTargets)
-
-          markingCriteriaRequest.selectedStrengths = convertToSelectedAttribute(selectedStrengths);
-          markingCriteriaRequest.selectedTargets = convertToSelectedAttribute(selectedTargets);
-          addFeedback(submission.id, {
-            questionSerialNumber: question.serialNumber,
-            feedback: 'Marking Criteria Feedback',
-            range: selectedRange,
-            type: 'MARKING_CRITERIA',
-            replies: [],
-            markingCriteria: markingCriteriaRequest,
-          }).then((response) => {
-            if (response) {
-              console.log('###response', response);
-              // markSubmsissionReviewed(submission.id).then((_) => {
-              //   showSnackbar('Task reviewed...', window.location.href);
-              //   if (isTeacher) {
-              //     window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-              //   } else {
-              //     window.location.href = '/#';
-              //   }
-              // });
-            }
-          });
-        }
+        submitMarkingCriteriaInputs(question);
       });
     }
+    submitReview();
   }
+  function submitMarkingCriteriaInputs(question) {
+    if (question.markingCriteria?.title != '') {
+        if (question.markingCriteria?.criterias) {
+          const markingCriteriaRequest = question.markingCriteria;
+          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest).then((response) => {
+            if (response) {
+              console.log('###response', response);
+              submitReview();
+            }
+          });
+      }
+      if (question.markingCriteria.strengthsTargetsCriterias) {
+        const markingCriteriaRequest = question.markingCriteria;
+        const selectedStrengths = get(newMarkingCriterias, `${question.serialNumber}.selectedStrengths`);
+        const selectedTargets = get(newMarkingCriterias, `${question.serialNumber}.selectedTargets`); 
+        markingCriteriaRequest.selectedStrengths = convertToSelectedAttribute(selectedStrengths);
+        markingCriteriaRequest.selectedTargets = convertToSelectedAttribute(selectedTargets);
+        submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
+      }
+    }
+  }
+  function submitReview() {
+    markSubmsissionReviewed(submission.id).then((_) => {
+      showSnackbar('Task reviewed...', window.location.href);
+      if (isTeacher) {
+        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+      } else {
+        window.location.href = '/#';
+      }
+    });
+  }
+
+  function submitMarkingCriteriaFeedback(question, markingCriteriaRequest) {
+    return addFeedback(submission.id, {
+      questionSerialNumber: question.serialNumber,
+      feedback: 'Marking Criteria Feedback',
+      range: selectedRange,
+      type: 'MARKING_CRITERIA',
+      replies: [],
+      markingCriteria: markingCriteriaRequest,
+    });
+  }
+
+  
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
     setMethodToCall(null);

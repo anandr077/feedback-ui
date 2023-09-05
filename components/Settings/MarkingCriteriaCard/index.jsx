@@ -4,7 +4,11 @@ import styled from 'styled-components';
 import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 function MarkingCriteriaCard(props) {
-  const { markingCriteria, deleteMarkingCriteriaHandler } = props;
+  const {
+    markingCriteria,
+    deleteMarkingCriteriaHandler,
+    cloneMarkingCriteria,
+  } = props;
   return (
     <MarkingCriteriaEntry>
       <MarkingCriteriaEntryHeading>
@@ -12,6 +16,7 @@ function MarkingCriteriaCard(props) {
         <Buttons2
           markingCriteriaId={markingCriteria.id}
           deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
+          cloneMarkingCriteria={cloneMarkingCriteria}
           type={markingCriteria.type}
         />
       </MarkingCriteriaEntryHeading>

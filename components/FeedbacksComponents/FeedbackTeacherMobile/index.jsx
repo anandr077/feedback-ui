@@ -109,7 +109,6 @@ function FeedbackTeacherMobile(props) {
             <Group1225>
               <Frame1367>
                 <Frame1366>{answerFrames}</Frame1366>
-                <StrengthsTargets />
               </Frame1367>
             </Group1225>
           </Frame1368>

@@ -17,14 +17,13 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
-  console.log()
   // USE THIS OBJECT -> markingMethodology
   const [markingMethodology, setMarkingMethodology] = useState({
-    title: 'Untitled marking methodology',
+    title: '',
     type: 'STRENGTHS_TARGETS',
     strengthsTargetsCriterias: [
       {
-        title: 'Engagement with the question',
+        title: '',
         strengths: ['', ''],
         targets: ['', ''],
       },
@@ -32,7 +31,7 @@ export default function CreateNewStrengthAndTargets() {
   });
 
   const Strengths_And_Traget_Data = {
-    title: 'Engagement with the question',
+    title: '',
     strengths: ['', ''],
     targets: ['', ''],
   };
@@ -47,7 +46,7 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
-  console.log("MarkingMethodology", markingMethodology  )
+  console.log('MarkingMethodology', markingMethodology);
   const STRENGTHS = 'strengths';
   const TARGETS = 'targets';
 
@@ -390,15 +389,15 @@ function input(
 }
 
 const getMarkingMethodologyForId = async (id) => {
-  console.log("id", id)
+  console.log('id', id);
   if (id === 'new') {
     return [
       {
-        title: 'Untitled marking methodology',
+        title: '',
         type: 'STRENGTHS_TARGETS',
         strengthsTargetsCriterias: [
           {
-            title: 'Engagement with the question',
+            title: '',
             strengths: ['', ''],
             targets: ['', ''],
           },

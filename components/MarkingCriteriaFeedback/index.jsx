@@ -65,7 +65,6 @@ export default function MarkingCriteriaFeedback(props) {
         </MarkingCriteriaContainerSmall>
       ) : (
         <MarkingCriteriaContainer>
-          
           {strengthAndTargetsCardComponent}
         </MarkingCriteriaContainer>
       )}
@@ -176,16 +175,20 @@ const SingleMarkingCriteriaContainer = styled.div`
 
 const MarkingCriteriaContainer = styled.div`
   padding: 20px;
+  flex: 1; 
+  display: flex;
+  flex-wrap: wrap; 
+  align-self: stretch;
   align-items: flex-start;
   gap: 20px;
-  align-self: stretch;
   border-radius: 16px;
   border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
+  
+  > div {
+    flex: 0 1 calc(30% - 10px); 
+  }
 `;
 
 const MarkingCriteriaContainerSmall = styled.div`

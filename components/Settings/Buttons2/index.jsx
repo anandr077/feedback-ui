@@ -3,10 +3,20 @@ import styled from 'styled-components';
 import { IbmplexsansNormalElectricViolet14px } from '../../../styledMixins';
 
 function Buttons2(props) {
-  const { markingCriteriaId, deleteMarkingCriteriaHandler, type } = props;
+  const {
+    markingCriteriaId,
+    deleteMarkingCriteriaHandler,
+    cloneMarkingCriteria,
+    type,
+  } = props;
 
   return (
     <ButtonsContainer>
+      <Arrowright
+        onClick={() => cloneMarkingCriteria()}
+        src="/img/copy@2x.png"
+        alt="copy"
+      />
       <Buttons
         onClick={() =>
           (window.location.href =
@@ -69,6 +79,7 @@ const Arrowright = styled.img`
   position: relative;
   min-width: 12px;
   height: 12px;
+  cursor: pointer;
 `;
 
 const DeleteButtonContainer = styled.div`

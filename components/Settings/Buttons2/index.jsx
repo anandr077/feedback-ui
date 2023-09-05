@@ -7,12 +7,16 @@ function Buttons2(props) {
     markingCriteriaId,
     deleteMarkingCriteriaHandler,
     cloneMarkingCriteria,
+    type,
   } = props;
-  const { markingCriteriaId, deleteMarkingCriteriaHandler, type } = props;
 
   return (
     <ButtonsContainer>
-      <Buttons onClick={() => cloneMarkingCriteria()}>Clone</Buttons>
+      <Arrowright
+        onClick={() => cloneMarkingCriteria()}
+        src="/img/copy@2x.png"
+        alt="copy"
+      />
       <Buttons
         onClick={() =>
           (window.location.href =
@@ -75,6 +79,7 @@ const Arrowright = styled.img`
   position: relative;
   min-width: 12px;
   height: 12px;
+  cursor: pointer;
 `;
 
 const DeleteButtonContainer = styled.div`

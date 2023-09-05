@@ -1,62 +1,97 @@
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import * as React from 'react';
-import React, { useState, useEffect } from 'react';
-
+import arrowImg from '../../static/img/frame-1284@2x.png';
+import React, * as React from 'react';
+import {
+  OptGroupOption,
+  CustomGroupSelectDiv,
+  CustomOptionDiv,
+  CustomHiddenOptions,
+  OptionLabel,
+  CustomOpt,
+  CustomOptionTitle,
+  CustomOptLavel,
+  ArrowDownIcon,
+} from './GroupSelectStyle';
+import { useState, useEffect, useRef } from 'react';
 
 export default function GroupedSelect(props) {
   const { label, groups, onClick } = props;
-  console.log({'group:':  groups}, {"label": onClick});
-  const [showOptions, setShowOptions] = useState(false)
-  const [selectOption, setSelectOption] = useState('Choose your option')
-  let firstOptionLabel = '';
-  let firstOptionValue = '';
-  if (groups.length > 0 && groups[0].options.length > 0) {
-    firstOptionLabel = groups[0].options[0].label;
-    firstOptionValue = `0-${groups[0].options[0].value}`;
-  }
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectOption, setSelectOption] = useState('');
+  const customHiddenOptionsRef = useRef(null);
 
   useEffect(() => {
-    if (firstOptionValue) {
-      const [groupId, actualValue] = firstOptionValue.split('-');
-      onClick(groups[parseInt(groupId)], actualValue);
+    function handleClickOutside(event) {
+      if (
+        customHiddenOptionsRef.current &&
+        !customHiddenOptionsRef.current.contains(event.target)
+      ) {
+        setShowOptions(false);
+      }
     }
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
-  
-  const handleChange = (event) => {
-    const selectedValue = event.target.value;
+
+  console.log(groups);
+
+  const handleClick = (event, option) => {
+    const selectedValue = event;
     const [groupId, actualValue] = selectedValue.split('-');
 
     onClick(groups[groupId], actualValue);
+    console.log(groups[groupId], actualValue);
+
+    setSelectOption(option);
+    setShowOptions(!showOptions);
   };
 
   return (
-    <div style={{width: '100%'}}>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel htmlFor="grouped-native-select">{label}</InputLabel>
-        <Select
-          native
-          defaultValue={firstOptionValue}
-          id="grouped-native-select"
-          label="Grouping"
-          onChange={handleChange}
-        >
-          <option aria-label="None" value="" />
-          {groups.map((group, index) => (
-            <optgroup key={index} label={group.label}>
-              {group.options.map((option) => (
-                <option key={option.value} value={`${index}-${option.value}`}>
-                  {option.label}
-                </option>
-              ))}
-            </optgroup>
-          ))
-          }
-        </Select>
-      </FormControl>
-      
-
-    </div>
+    <CustomGroupSelectDiv>
+      <CustomOptionDiv onClick={() => setShowOptions(!showOptions)}>
+        <CustomOptionTitle>
+          {selectOption === ''
+            ? groups && groups[0].options[0].value
+            : selectOption}
+        </CustomOptionTitle>
+        <ArrowDownIcon>
+          <img
+            src={arrowImg}
+            style={{ width: '15px', height: '15px' }}
+            alt="arrow"
+          />
+        </ArrowDownIcon>
+      </CustomOptionDiv>
+      <CustomHiddenOptions
+        ref={customHiddenOptionsRef}
+        style={showOptions ? { display: 'block' } : { display: 'none' }}
+      >
+        {groups &&
+          groups.map((group, index) => {
+            const isHeading = group.label;
+            return (
+              <OptGroupOption key={index}>
+                <CustomOptLavel>
+                  {isHeading}
+                </CustomOptLavel>
+                {group.options.map((option, idx) => (
+                  <CustomOpt
+                    key={idx}
+                    onClick={() => {
+                      handleClick(`${index}-${option.value}`, option.value);
+                    }}
+                  >
+                    <p>
+                      {option.value}
+                    </p>
+                  </CustomOpt>
+                ))}
+              </OptGroupOption>
+            );
+          })}
+      </CustomHiddenOptions>
+    </CustomGroupSelectDiv>
   );
 }

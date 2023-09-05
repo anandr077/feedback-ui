@@ -359,7 +359,7 @@ function FeedbackTeacherLaptop(props) {
             submission.assignment.questions[answer.serialNumber - 1].type !=
               'MCQ' &&
             submission.reviewerId === getUserId() && (
-              <MarkingCriteriaFeedback
+                <MarkingCriteriaFeedback
                 markingCriteria={
                   submission.assignment.questions[answer.serialNumber - 1]
                     .markingCriteria
@@ -1334,5 +1334,6 @@ const X2021JeddleAllRightsReserved = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
+
 
 export default FeedbackTeacherLaptop;

@@ -29,17 +29,17 @@ async function fetchData(url, options, headers = {}) {
       return redirectToExternalIDP();
     }
     if (response.status === 404) {
-      window.location.href = selfBaseUrl + '/#/404';
-      window.location.reload();
-      throw new Error('Page not found');
+      // window.location.href = selfBaseUrl + '/#/404';
+      // window.location.reload();
+      // throw new Error('Page not found');
     } else if (response.status === 500) {
       window.location.href = selfBaseUrl + '/#/404';
       window.location.reload();
       throw new Error('Server error');
     } else if (!response.ok) {
-      window.location.href = selfBaseUrl + '/#/404';
-      window.location.reload();
-      throw new Error(`HTTP error! status: ${response.status}`);
+      // window.location.href = selfBaseUrl + '/#/404';
+      // window.location.reload();
+      // throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const isJson = response.headers
@@ -258,9 +258,19 @@ export const updateMarkingCriteria = async (
   markingCriteria,
   markingCriteriaId
 ) => {
-  await postApi(
+  return await postApi(
     baseUrl + '/teachers/markingCriteria/' + markingCriteriaId,
     markingCriteria
+  );
+};
+
+export const updateStrength = async (
+  markingCriteriaId,
+  strength
+) => {
+  await patchApi(
+    baseUrl + '/teachers/markingCriteria/' + markingCriteriaId + '/selectedStrengths',
+    strength
   );
 };
 export const deleteMarkingCriteria = async (markingCriteriaId) => {
@@ -287,6 +297,9 @@ export const deleteSmartAnnotation = async (smartAnnotationId) => {
 
 export const getSmartAnnotations = async () =>
   await getApi(baseUrl + '/teachers/smartAnnotation');
+
+export const getMarkingMethodology = async (id) =>
+  await getApi(baseUrl + '/teachers/markingCriterias/' + id);
 
 export const getAllMarkingCriteria = async () =>
   await getApi(baseUrl + '/teachers/markingCriteria');

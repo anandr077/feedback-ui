@@ -341,7 +341,7 @@ const breadcrumb21Data = {
 };
 
 const breadcrumb22Data = {
-  assignments: 'Create New',
+  assignments: 'Create new',
 };
 
 const input1Data = {
@@ -416,7 +416,7 @@ const breadcrumb23Data = {
 };
 
 const breadcrumb24Data = {
-  assignments: 'Create New',
+  assignments: 'Create new',
 };
 
 const input4Data = {
@@ -546,7 +546,7 @@ const breadcrumb25Data = {
 };
 
 const breadcrumb26Data = {
-  assignments: 'Create New',
+  assignments: 'Create new',
 };
 
 const input6Data = {
@@ -638,7 +638,7 @@ const breadcrumb27Data = {
 };
 
 const breadcrumb28Data = {
-  assignments: 'Create New',
+  assignments: 'Create new',
 };
 
 const frame13722Data = {

@@ -14,9 +14,11 @@ import {
   updateMarkingCriteria,
 } from '../../../service';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import SnackbarContext from '../../SnackbarContext';
 
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
+  const { showSnackbar } = React.useContext(SnackbarContext);
   // USE THIS OBJECT -> markingMethodology
   const [markingMethodology, setMarkingMethodology] = useState({
     title: '',
@@ -286,14 +288,17 @@ export default function CreateNewStrengthAndTargets() {
 
   function validateStrengthsTargets(strengthAndTargetdata) {
     if (!strengthAndTargetdata.title.trim()) {
+      showSnackbar('Please Enter Title for Marking Criteria');
       return false;
     }
     for (const criteria of strengthAndTargetdata.strengthsTargetsCriterias) {
       if (!criteria.title.trim()) {
+        showSnackbar('Please Enter criteria title');
         return false;
       }
 
       if (criteria.strengths.length < 2 || criteria.targets.length < 2) {
+        showSnackbar('You have to enter at least two option for each category');
         return false;
       }
 
@@ -301,6 +306,7 @@ export default function CreateNewStrengthAndTargets() {
         criteria.strengths.some((strength) => !strength.trim()) ||
         criteria.targets.some((target) => !target.trim())
       ) {
+        showSnackbar('Strength or Target option field cannot be empty');
         return false;
       }
     }
@@ -309,16 +315,17 @@ export default function CreateNewStrengthAndTargets() {
 
   const saveData = (markingMethodologyId) => {
     if (!validateStrengthsTargets(markingMethodology)) {
-      console.log('Not Saving...', markingMethodology);
       return;
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
+        showSnackbar('Strengths and Targets Created');
         window.location.href = '/#/settings';
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
+          showSnackbar('Strengths and Targets Updated');
           window.location.href = '/#/settings';
         }
       );

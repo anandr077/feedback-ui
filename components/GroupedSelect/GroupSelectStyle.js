@@ -15,7 +15,7 @@ const CustomOptionDiv = styled.div`
   align-items: center;
   width: 100%;
   overflow-x: hidden;
-  height: 50px;
+  height: 38px;
   background-color: transparent;
   border: 1px solid #6304BF;
   color: #1E252A;

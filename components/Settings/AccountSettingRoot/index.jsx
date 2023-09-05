@@ -14,6 +14,7 @@ import {
   createNewSmartAnnotation,
   updateSmartAnnotation,
   deleteSmartAnnotation,
+  createNewMarkingCriteria,
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -174,13 +175,33 @@ export default function AccountSettingsRoot(props) {
         showSnackbar('Error deleting smart annotation');
       });
   };
-  console.log('markingCriterias:', markingCriterias);
+
+  const createMarkingCriteria = (markingCriteria) => {
+    let { title, criterias } = markingCriteria;
+    title = title + ' clone';
+    createNewMarkingCriteria({ title, criterias })
+      .then((res) => {
+        showSnackbar('Cloned Marking Criteria');
+        const createdMarkingCriteria = {
+          id: res.id.value,
+          title: res.title.value,
+          criterias: res.criterias,
+          teacherId: res.teacherId.value,
+        };
+        setMarkingCriterias((mc) => [createdMarkingCriteria, ...mc]);
+      })
+      .catch((err) => {
+        showSnackbar('Error Cloning Marking Criteria');
+      });
+  };
+
   const markingCriteriaList = markingCriterias?.map(
     (markingCriteria, index) => (
       <MarkingCriteriaCard
         key={Math.random()}
         markingCriteria={markingCriteria}
         deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
+        cloneMarkingCriteria={() => createMarkingCriteria(markingCriteria)}
       />
     )
   );

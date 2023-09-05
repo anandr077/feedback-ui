@@ -11,7 +11,7 @@ import {
   CustomOptLavel,
   ArrowDownIcon,
 } from './GroupSelectStyle';
-import { useState, useEffect, useRef  } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function GroupedSelect(props) {
   const { label, groups, onClick } = props;
@@ -42,8 +42,7 @@ export default function GroupedSelect(props) {
     const [groupId, actualValue] = selectedValue.split('-');
 
     onClick(groups[groupId], actualValue);
-
-    console.log()
+    console.log(groups[groupId], actualValue);
 
     setSelectOption(option);
     setShowOptions(!showOptions);
@@ -54,7 +53,7 @@ export default function GroupedSelect(props) {
       <CustomOptionDiv onClick={() => setShowOptions(!showOptions)}>
         <CustomOptionTitle>
           {selectOption === ''
-            ? groups && groups[0].options[0].label
+            ? groups && groups[0].options[0].value
             : selectOption}
         </CustomOptionTitle>
         <ArrowDownIcon>
@@ -70,27 +69,28 @@ export default function GroupedSelect(props) {
         style={showOptions ? { display: 'block' } : { display: 'none' }}
       >
         {groups &&
-          groups.map((group, index) => (
-            <OptGroupOption key={index}>
-              {group.options.map((option, idx) => (
-                <CustomOpt
-                  key={idx}
-                  onClick={() => {
-                    handleClick(`${index}-${option.value}`, option.label);
-                  }}
-                >
-                  <CustomOptLavel>{option.label}</CustomOptLavel>
-                  {typeof option.value === 'string' ? (
-                    <p>{option.value}</p>
-                  ) : (
-                    option.value.map((opt, subIndex) => (
-                      <p key={subIndex}>{opt}</p>
-                    ))
-                  )}
-                </CustomOpt>
-              ))}
-            </OptGroupOption>
-          ))}
+          groups.map((group, index) => {
+            const isHeading = group.label;
+            return (
+              <OptGroupOption key={index}>
+                <CustomOptLavel>
+                  {isHeading}
+                </CustomOptLavel>
+                {group.options.map((option, idx) => (
+                  <CustomOpt
+                    key={idx}
+                    onClick={() => {
+                      handleClick(`${index}-${option.value}`, option.value);
+                    }}
+                  >
+                    <p>
+                      {option.value}
+                    </p>
+                  </CustomOpt>
+                ))}
+              </OptGroupOption>
+            );
+          })}
       </CustomHiddenOptions>
     </CustomGroupSelectDiv>
   );

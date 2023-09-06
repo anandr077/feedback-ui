@@ -177,17 +177,23 @@ export default function AccountSettingsRoot(props) {
   };
 
   const createMarkingCriteria = (markingCriteria) => {
-    let { title, criterias } = markingCriteria;
+    let { title } = markingCriteria;
     title = title + ' clone';
-    createNewMarkingCriteria({ title, criterias })
+    const createdMarkingCriteria = {
+      title: title,
+      type: markingCriteria.type,
+    };
+    if (markingCriteria.type === 'RUBRICS') {
+      createdMarkingCriteria.criterias = markingCriteria.criterias;
+    } else {
+      createdMarkingCriteria.strengthsTargetsCriterias =
+        markingCriteria.strengthsTargetsCriterias;
+    }
+    createNewMarkingCriteria(createdMarkingCriteria)
       .then((res) => {
+        createdMarkingCriteria.id = res.id.value;
+        createdMarkingCriteria.teacherId = res.teacherId.value;
         showSnackbar('Cloned Marking Criteria');
-        const createdMarkingCriteria = {
-          id: res.id.value,
-          title: res.title.value,
-          criterias: res.criterias,
-          teacherId: res.teacherId.value,
-        };
         setMarkingCriterias((mc) => [createdMarkingCriteria, ...mc]);
       })
       .catch((err) => {
@@ -228,7 +234,7 @@ export default function AccountSettingsRoot(props) {
         <Breadcrumb2
           title={
             showMarkingCriteria
-              ? 'Marking Methodologies'
+              ? 'Marking Templates'
               : showShortcuts
               ? 'Smart Annotations'
               : 'User Settings'

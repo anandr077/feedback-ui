@@ -16,6 +16,12 @@ import {
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
 
+const Strengths_And_Traget_Data = {
+  title: '',
+  strengths: [''],
+  targets: [''],
+};
+
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -23,20 +29,8 @@ export default function CreateNewStrengthAndTargets() {
   const [markingMethodology, setMarkingMethodology] = useState({
     title: '',
     type: 'STRENGTHS_TARGETS',
-    strengthsTargetsCriterias: [
-      {
-        title: '',
-        strengths: ['', ''],
-        targets: ['', ''],
-      },
-    ],
+    strengthsTargetsCriterias: [{ ...Strengths_And_Traget_Data }],
   });
-
-  const Strengths_And_Traget_Data = {
-    title: '',
-    strengths: ['', ''],
-    targets: ['', ''],
-  };
 
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -76,12 +70,13 @@ export default function CreateNewStrengthAndTargets() {
       ...updatedData.strengthsTargetsCriterias,
       newData,
     ];
+    console.log('updatedData: ', updatedData);
     setMarkingMethodology(updatedData);
     setCriteriaSets([...criteriaSets, criteriaSets.length]);
   };
 
   const removeCriteria = (indexToDelete) => {
-    const updatedData = { markingMethodology };
+    const updatedData = { ...markingMethodology };
     updatedData.strengthsTargetsCriterias =
       markingMethodology.strengthsTargetsCriterias.filter(
         (_, index) => index !== indexToDelete
@@ -96,6 +91,7 @@ export default function CreateNewStrengthAndTargets() {
 
   const handleAddOption = (index, type) => {
     const updatedData = { ...markingMethodology };
+
     if (type === STRENGTHS) {
       updatedData.strengthsTargetsCriterias[index].strengths.push('');
     }
@@ -151,7 +147,7 @@ export default function CreateNewStrengthAndTargets() {
                     index,
                     STRENGTHS
                   )}
-                  {childIndex >= 2 && (
+                  {childIndex >= 1 && (
                     <div
                       className="remove-option"
                       onClick={() =>
@@ -184,13 +180,14 @@ export default function CreateNewStrengthAndTargets() {
                   <input
                     type="text"
                     className="title-input"
-                    placeholder="An answer of this level should..."
+                    placeholder="You need to..."
                     value={value}
                     onChange={(e) =>
                       handleCriteriaOptionChange(e, childIndex, index, TARGETS)
                     }
+                    style={{ fontWeight: 'bold' }}
                   />
-                  {childIndex >= 2 && (
+                  {childIndex >= 1 && (
                     <div
                       className="remove-option"
                       onClick={() =>
@@ -220,7 +217,7 @@ export default function CreateNewStrengthAndTargets() {
     return (
       <div className="criteria-container">
         <div className="remove-and-criteria">
-          <div className="criteria">Criteria</div>
+          <div className="criteria">Evaluation Area</div>
           <div className="remove" onClick={() => removeCriteria(index)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +240,7 @@ export default function CreateNewStrengthAndTargets() {
         <input
           type="text"
           className="title-input"
-          placeholder="Enter Criteria"
+          placeholder="Enter an evaluation area for this set of strengths and weaknesses"
           value={
             markingMethodology?.strengthsTargetsCriterias[index]?.title || ''
           }
@@ -265,7 +262,7 @@ export default function CreateNewStrengthAndTargets() {
     return (
       <div className="breadcrumb">
         <Breadcrumb text="Account Settings" link={'/#/settings'} />
-        <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
+        <Breadcrumb2 title="Marking Templates" link={'/#/settings'} />
         <Breadcrumb2
           title={markingMethodologyId === 'new' ? 'Create new' : 'Update'}
         />
@@ -276,11 +273,11 @@ export default function CreateNewStrengthAndTargets() {
   const allCriteriaFrames = () => {
     return (
       <div className="form-container">
-        <div className="subheading">Create Criteria</div>
+        <div className="subheading">Strengths and Targets</div>
         <div className="border"></div>
         {criteriaSets.map((index) => createCriteria(index))}
         <div className="add-criteria" onClick={handleAddCriteria}>
-          + Add criteria
+          + Add evaluation area
         </div>
       </div>
     );
@@ -297,7 +294,7 @@ export default function CreateNewStrengthAndTargets() {
         return false;
       }
 
-      if (criteria.strengths.length < 2 || criteria.targets.length < 2) {
+      if (criteria.strengths.length < 1 || criteria.targets.length < 1) {
         showSnackbar('You have to enter at least two option for each category');
         return false;
       }
@@ -369,7 +366,7 @@ const handleDelete = (id) => {
 const titleAndSaveButton = (saveData, markingMethodologyId = 'new') => {
   return (
     <div className="heading">
-      <div className="heading-text">Create new marking criteria</div>
+      <div className="heading-text">Create new marking template</div>
       <div className="delete-and-save">
         {markingMethodologyId != 'new' ? (
           <div
@@ -395,7 +392,7 @@ const inputTitle = (title, onChange) => {
     <input
       type="text"
       className="title-input"
-      placeholder="Enter Title"
+      placeholder="Name a marking template"
       value={title}
       onChange={onChange}
     />
@@ -413,11 +410,12 @@ function input(
     <input
       type="text"
       className="title-input"
-      placeholder="An answer of this level should..."
+      placeholder=" You have effectively..."
       value={value}
       onChange={(e) =>
         handleCriteriaOptionChange(e, childIndex, index, STRENGTHS)
       }
+      style={{ fontWeight: 'bold' }}
     />
   );
 }
@@ -428,13 +426,7 @@ const getMarkingMethodologyForId = async (id) => {
       {
         title: '',
         type: 'STRENGTHS_TARGETS',
-        strengthsTargetsCriterias: [
-          {
-            title: '',
-            strengths: ['', ''],
-            targets: ['', ''],
-          },
-        ],
+        strengthsTargetsCriterias: [{ ...Strengths_And_Traget_Data }],
       },
     ];
   } else {

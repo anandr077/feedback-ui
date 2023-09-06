@@ -21,8 +21,8 @@ function Frame1372(props) {
         <Frame13721 className={`frame-1372 ${className || ''}`}>
           <Title className="title">
             {isUpdating
-              ? 'Update Marking Criteria'
-              : 'Create new marking criteria'}
+              ? 'Update marking template'
+              : 'Create new marking template'}
           </Title>
           <Frame1219
             saveMethod={saveMethod}

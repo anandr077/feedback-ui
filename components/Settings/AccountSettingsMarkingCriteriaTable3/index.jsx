@@ -65,7 +65,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
               {showMarkingCriteria && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Marking Methodologies</MarkingCriteria>
+                    <MarkingCriteria>Marking Templates</MarkingCriteria>
                     <Buttons
                       text="Create new"
                       onClickMethod={() =>

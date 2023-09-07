@@ -26,12 +26,17 @@ const PortfolioSideBar = () => {
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
   const subActionBtnRef = useRef(null);
+  const mainActionBtnRef = useRef(null);
 
 
+  //this userEffect controll the delete and edit button click outside of the button. if user clicks outside of the button this useEffect closes the button box
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (subActionBtnRef.current && !subActionBtnRef.current.contains(event.target)) {
         setActionMenuSubIndex(null);
+      }
+      if (mainActionBtnRef.current && !mainActionBtnRef.current.contains(event.target)) {
+        setActionMenuMainIndex(null);
       }
     };
 
@@ -139,6 +144,7 @@ const PortfolioSideBar = () => {
                   ),
                     e.stopPropagation();
                 }}
+                ref={mainActionBtnRef}
               >
                 <MoreHorizIcon />
               </span>

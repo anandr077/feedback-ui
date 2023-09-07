@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { portfolioHeaderProps } from '../../utils/headerProps';
+import downLoadImg from '../../static/icons/document-download@2x.png'
+import previewImg from '../../static/icons/preview@2x.png'
+import deleteImg from '../../static/icons/trash-can@2x.png'
 import Header from '../Header';
 import HeaderSmall from '../HeaderSmall';
 import FooterSmall from '../FooterSmall';
-import Footer from '../Footer';
+import Footer from '../Footer'; 
 
 import {
   PortfolioBody,
@@ -22,15 +25,26 @@ import {
   RecentWork,
   RecentWorkTitle,
   DocumentBox,
+  DocumentBoxWrapper,
   DocumentTextFrame,
   ModalBody,
   ModalContainer,
-  DocumentTitle
+  DocumentTitle,
+  PortHeadDropDown,
+  SideNavContainer,
+  NewDocBtnText,
+  NewDocBtnImg,
+  RecentWorkPara,
+  RecentBtns,
+  RecentBtnImg,
+  AllFilesContainer,
+  DocumentBtns
 } from './PortfolioStyle';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import AddCircleIcon from '../../static/icons/add-circle.png';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
+import PortfolioSideBar from './PortfolioSideBar';
 
 //dummy data for portfolio
 const recentWork = [
@@ -49,11 +63,7 @@ const recentWork = [
   {
     title: 'Lorem ipsum - document name full size',
     desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
+  }
 ];
 
 //dummy data for the portfolio
@@ -126,6 +136,8 @@ const documentStatusStyle = (status) => {
 const PortfolioPage = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1440);
   const [showModal, setShowModal] = useState(false);
+  const [numColumns, setNumColumns] = useState(4);
+  const [displayedWork, setDisplayedWork] = useState(recentWork);
 
   useEffect(() => {
     const handleResize = () => {
@@ -139,6 +151,30 @@ const PortfolioPage = () => {
     };
   }, []);
 
+  //slice recentWork array based on the screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1450) {
+        setNumColumns(4);
+      } else if (window.innerWidth >= 576) {
+        setNumColumns(3);
+      } else {
+        setNumColumns(4);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    setDisplayedWork(recentWork.slice(0, numColumns));
+  }, [numColumns]);
+
   return (
     <>
       {isSmallScreen ? (
@@ -146,12 +182,15 @@ const PortfolioPage = () => {
       ) : (
         <Header headerProps={portfolioHeaderProps} />
       )}
-      <PortfolioBody>
-        <PortfolioContainer>
+      <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
+        <PortfolioBody>
+          {/*
+          Portfolio Header starts from here.......
+        */}
           <PortfolioHeader>
             <PortfolioHeading>My Portfolio</PortfolioHeading>
             <PortHeadingLeft>
-              <div style={{ display: 'flex', gap: '20px' }}>
+              <PortHeadDropDown>
                 <SelectStyle name="sort">
                   <option value="" disabled selected hidden>
                     Sort
@@ -168,73 +207,103 @@ const PortfolioPage = () => {
                   <option value="two">Two</option>
                   <option value="=three">Three</option>
                 </SelectStyle>
-              </div>
-              <NewDocumentBtn onClick={()=> setShowModal(!showModal)}>+ New Document</NewDocumentBtn>
+              </PortHeadDropDown>
+              <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
+                + New Document
+              </NewDocumentBtn>
             </PortHeadingLeft>
           </PortfolioHeader>
 
-          {/*all work code is here*/}
-          <WorkContainer>
-            <WorkHeader>
-              <RecentTag>Recent</RecentTag>
-              <AllWorkBtn>
-                All works <ArrowForwardIcon style={{ fontSize: '16px' }} />
-              </AllWorkBtn>
-            </WorkHeader>
-            <AllWorkBoxes>
-              <NewDocBtn>
-                <img
-                  src={AddCircleIcon}
-                  style={{ width: '60px', height: '60px' }}
-                  alt="Button Icon"
-                />
-                <p style={{ color: '#505050', fontSize: '16px' }}>
-                  New Document
-                </p>
-              </NewDocBtn>
-              {recentWork.map((work, idx) => (
-                <RecentWork key={idx}>
-                  <p
-                    style={{
-                      padding: '16px',
-                      color: '#505050',
-                      fontSize: '12px',
-                      lineHeight: '15px',
-                      fontWeight: '400',
-                    }}
-                  >
-                    {work.desc.slice(0, 400)}
-                  </p>
-                  <RecentWorkTitle>{work.title}</RecentWorkTitle>
-                </RecentWork>
-              ))}
-            </AllWorkBoxes>
-          </WorkContainer>
+          {/*
+          Portfolio Container starts from here.......
+        */}
+          <PortfolioContainer>
+            <SideNavContainer>
+              <PortfolioSideBar />
+            </SideNavContainer>
 
-          {/*Document section code is here*/}
-          <div>
-            {documentsArray.map((document, idx) => (
-              <DocumentBox key={idx}>
-                <DocumentTextFrame>
-                  {document.desc.slice(0, 170)}...
-                </DocumentTextFrame>
-                <div>
-                  {document.status ? (
-                    <p style={documentStatusStyle(document.status)}>
-                      {document.status}
-                    </p>
-                  ) : (
-                    ''
-                  )}
-                  <DocumentTitle>
-                    {document.title}
-                  </DocumentTitle>
-                </div>
-              </DocumentBox>
-            ))}
-          </div>
-        </PortfolioContainer>
-      </PortfolioBody>
+            <div style={{width: '100%'}}>
+              {/*all work code is here*/}
+              <WorkContainer>
+                <WorkHeader>
+                  <RecentTag>Recent</RecentTag>
+                  <AllWorkBtn>
+                    All works <ArrowForwardIcon style={{ fontSize: '16px' }} />
+                  </AllWorkBtn>
+                </WorkHeader>
+                <AllWorkBoxes>
+                  <NewDocBtn>
+                    <NewDocBtnImg
+                      src={AddCircleIcon}
+                      alt="Button Icon"
+                      className="NewDocBtnImg"
+                    ></NewDocBtnImg>
+                    <NewDocBtnText>New Document</NewDocBtnText>
+                  </NewDocBtn>
+                  {displayedWork.map((work, idx) => (
+                    <RecentWork key={idx}>
+                      <RecentWorkPara>
+                        {work.desc.slice(0, 400)}
+                      </RecentWorkPara>
+                      <RecentWorkTitle>{work.title}</RecentWorkTitle>
+                      <div class="recent-hover">
+                          <RecentBtns>
+                            <RecentBtnImg src={previewImg}></RecentBtnImg>
+                            View
+                          </RecentBtns>
+                          <RecentBtns>
+                            <RecentBtnImg src={downLoadImg}></RecentBtnImg>
+                            Download
+                          </RecentBtns>
+                      </div>
+                    </RecentWork>
+                  ))}
+                </AllWorkBoxes>
+              </WorkContainer>
+
+              {/*Document section code is here*/}
+              <AllFilesContainer>
+                <h3 style={{color: '#405059', fontSize: '24px', fontWeight: '500', marginBottom: '20px'}}>All files</h3>
+                {documentsArray.map((document, idx) => (
+                  <DocumentBox key={idx}>
+                    <DocumentBoxWrapper>
+                        <DocumentTextFrame>
+                          {document.desc.slice(0, 170)}...
+                        </DocumentTextFrame>
+                        <div>
+                          {document.status ? (
+                            <p style={documentStatusStyle(document.status)}>
+                              {document.status}
+                            </p>
+                          ) : (
+                            ''
+                          )}
+                          <DocumentTitle>{document.title}</DocumentTitle>
+                        </div>
+                    </DocumentBoxWrapper>
+                    <DocumentBtns>
+                        <button>
+                          <img src={previewImg} alt="Preview Button" />
+                          <p>View</p>
+                        </button>
+                        <button>
+                          <img src={downLoadImg} alt="Download Button" />
+                          <p>Download</p>
+                        </button>
+                        <button>
+                          <img src={deleteImg} alt="Delete Button" />
+                          <p>Delete</p>
+                        </button>
+                    </DocumentBtns>
+                  </DocumentBox>
+                ))}
+              </AllFilesContainer>
+            </div>
+          </PortfolioContainer>
+        </PortfolioBody>
+      </div>
+
+      {/*Footer is displayed here based on the isSmallScreen state*/}
       {isSmallScreen ? <FooterSmall /> : <Footer />}
 
       {showModal && (
@@ -259,9 +328,16 @@ const PortfolioPage = () => {
               >
                 New Document
               </p>
-              <CloseIcon style={{ cursor: 'pointer' }} onClick={()=> setShowModal(!showModal)}/>
+              <CloseIcon
+                style={{ cursor: 'pointer' }}
+                onClick={() => setShowModal(!showModal)}
+              />
             </div>
-            <PortfolioForm subjects={options} setShowModal={setShowModal} showModal={showModal} />
+            <PortfolioForm
+              subjects={options}
+              setShowModal={setShowModal}
+              showModal={showModal}
+            />
           </ModalContainer>
         </ModalBody>
       )}

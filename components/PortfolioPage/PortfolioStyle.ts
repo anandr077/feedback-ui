@@ -101,6 +101,9 @@ const PortfolioContainer = styled.div`
     margin-top: 60px;
     gap: 30px;
   }
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 //Side navbar code
@@ -109,7 +112,11 @@ const SideNavContainer = styled.nav`
   min-width: 245px;
 
   @media (max-width: 768px) {
-    display: none;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px 24px;
+    border: 1px solid #F2E6FE;
   }
 `;
 

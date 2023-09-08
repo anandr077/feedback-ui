@@ -1048,7 +1048,6 @@ const Frame1367 = styled.div`
   padding: 30px 0px;
   background-color: var(--white);
   border-radius: 26px;
-  overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
   // height: 550px;
   // overflow-y: scroll;

@@ -1,19 +1,15 @@
+import { Avatar } from '@boringer-avatars/react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
 import styled, { css } from 'styled-components';
-import ListItemText from '@mui/material/ListItemText';
-import { Avatar } from '@boringer-avatars/react';
-import { Popover } from '@mui/material';
 import {
-  IbmplexsansNormalBlack16px,
-  IbmplexsansSemiBoldShark20px,
+  IbmplexsansSemiBoldShark20px
 } from '../../styledMixins';
-import { Avatar } from '@boringer-avatars/react';
-import CheckboxBordered from '../CheckboxBordered';
+
 export const ImageDropdownMenu = (props) => {
   const {
     selectedIndex,
@@ -26,19 +22,19 @@ export const ImageDropdownMenu = (props) => {
     fullWidth,
     primaryText,
   } = props;
+
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedItem, setSelectedItem] = React.useState(
-    selectedIndex === undefined ? menuItems[0] : menuItems[selectedIndex]
-  );
+  const initialSelectedItem = selectedIndex === undefined ? findFirstSelectableItem(menuItems) : menuItems[selectedIndex];
+  const [selectedItem, setSelectedItem] = React.useState(initialSelectedItem);
+
+  
   const menuRef = React.useRef(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  React.useEffect(() => {
-    setSelectedItem(menuItems[selectedIndex] || menuItems[0]);
-  }, [selectedIndex]);
+ 
 
-  const handleClose = (item) => {
+  const handleClose = (item) => {    
     if (item) {
       setSelectedItem(item);
       setAnchorEl(null);
@@ -60,18 +56,11 @@ export const ImageDropdownMenu = (props) => {
     }
   };
   console.log('selectedItem', selectedItem);
-
-  const getItem = (item) => {
-    return (
-      <>
-        {item.name}
-        {item.discription && (
-          <div className="discription">{item.discription}</div>
-        )}
-      </>
-    );
-  };
-
+  React.useEffect(() => {
+    if (onItemSelected) {
+      onItemSelected(selectedItem);
+    }
+  }, []); 
   return (
     <div style={fullWidth ? { width: '100%' } : {}}>
       <StyledBox
@@ -161,8 +150,12 @@ export const ImageDropdownMenu = (props) => {
           },
         }}
       >
-        {menuItems.map((item) => (
-          <>
+        {menuItems.map((item) => {
+          if (item.heading) {
+            return withHeadings(item, handleClose, markingCriteriaType, withCheckbox, showAvatar);
+          } else {
+            // If the entry is a single item
+            return <>
             {markingCriteriaType ? (
               <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
                 <MarkingOptionContainer>
@@ -184,11 +177,74 @@ export const ImageDropdownMenu = (props) => {
               </StyledMenuItem>
             )}
           </>
-        ))}
+          }
+        })}
       </Menu>
     </div>
   );
 };
+function withHeadings(entry, handleClose, markingCriteriaType, withCheckbox, showAvatar) {
+  return <div key={entry.heading}>
+    {/* Render the heading */}
+    <StyledMenuItem disabled>{entry.heading}</StyledMenuItem>
+
+    {/* Render the items under the heading */}
+    {entry.items.map((item) => (
+      <StyledMenuItem
+        key={item.id}
+        onClick={() => handleClose(item)}
+      >
+        {markingCriteriaType ? (
+          <MarkingOptionContainer>
+            <StyledListItemTextBold
+              primary={item.name}
+              secondary={item.description} />
+          </MarkingOptionContainer>
+        ) : (
+          <>
+            {withCheckbox && <CustomCheckbox />}
+            {createImageFrame(item, showAvatar)}
+            <div className="text-container">
+              <p>
+                <StyledListItemText
+                  primary={item.title || item.name} />
+              </p>
+            </div>
+          </>
+        )}
+      </StyledMenuItem>
+    ))}
+  </div>;
+}
+
+function createImageFrame(selectedItem, showAvatar) {
+  if (selectedItem?.image) {
+    return <Frame12841 src={selectedItem.image} alt="Frame 1284" />;
+  }
+  if (!showAvatar) return <></>;
+  return (
+    <Avatar
+      title={false}
+      size={25}
+      variant="beam"
+      name={selectedItem.title}
+      square={false}
+    />
+  );
+}
+const findFirstSelectableItem = (menuItems) => {
+    for (let entry of menuItems) {
+      if (entry.heading) {
+        if (entry.items && entry.items.length > 0) {
+          return entry.items[0];
+        }
+      } else {
+        return entry;
+      }
+    }
+    return null;
+};
+
 
 const MarkingOptionContainer = styled.div`
   display: flex;
@@ -265,6 +321,8 @@ const FlexContainer = styled('div')`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    /* width:100%; */
+    /* max-width: 420px; */
   }
 `;
 
@@ -281,11 +339,6 @@ const FlexContainerSmall = styled('div')`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`;
-
-const StyledIconButton = styled(IconButton)`
-  width: 100%;
-  margin: 0;
 `;
 
 const StyledListItemText = styled(ListItemText)`
@@ -334,18 +387,3 @@ const Frame12841 = styled.img`
   height: 16px;
 `;
 export default ImageDropdownMenu;
-function createImageFrame(selectedItem, showAvatar) {
-  if (selectedItem?.image) {
-    return <Frame12841 src={selectedItem.image} alt="Frame 1284" />;
-  }
-  if (!showAvatar) return <></>;
-  return (
-    <Avatar
-      title={false}
-      size={25}
-      variant="beam"
-      name={selectedItem.title}
-      square={false}
-    />
-  );
-}

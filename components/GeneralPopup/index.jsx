@@ -20,9 +20,14 @@ export default function GeneralPopup(props) {
   } = props;
 
   const [annotationTitle, setAnnotationTitle] = useState('');
+  const [confirmed, setConfirmed] = useState(false);
 
   const handleInputChange = (event) => {
     setAnnotationTitle(event.target.value);
+  };
+
+  const handleConfirmation = (e) => {
+    setConfirmed(e.target.checked);
   };
 
   const content = (
@@ -37,16 +42,36 @@ export default function GeneralPopup(props) {
           <TextInput onChange={handleInputChange}></TextInput>
         </TextFrame>
       )}
+      <div style={{ marginTop: '20px' }}>
+        <input
+          type="checkbox"
+          checked={confirmed}
+          onChange={handleConfirmation}
+          name="confirm"
+          style={{ marginRight: '5px' }}
+        />
+        <label for="confirm">Confirm your submission</label>
+      </div>
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>
         {smartAnnotation ? (
           <CancelButton
-            onClick={() => createSmartAnnotationHandler(annotationTitle)}
+            onClick={() =>{
+              if(confirmed){
+                createSmartAnnotationHandler(annotationTitle)
+              }
+            }}
           >
             {buttonText}
           </CancelButton>
         ) : (
-          <CancelButton onClick={() => confirmButtonAction()}>
+          <CancelButton 
+              onClick={() => {
+                if(confirmed){
+                  confirmButtonAction()
+                }
+              }}
+          >
             {buttonText}
           </CancelButton>
         )}
@@ -123,7 +148,7 @@ const ButtonsContainer = styled.div`
   gap: 20px;
   margin-bottom: 20px;
   margin-right: 40px;
-  padding-top: 50px;
+  padding-top: 20px;
 `;
 
 const IconTrash = styled.img`

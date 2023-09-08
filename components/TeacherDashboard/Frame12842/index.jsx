@@ -4,11 +4,17 @@ import {
   IbmplexsansMediumTrendyPink14px,
   IbmplexsansMediumShark36px,
 } from '../styledMixins';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 function Frame12842(props) {
   const { title, count } = props;
+  const history = useHistory()
+
+  const handleClick = () =>{
+    history.push('tasks')
+  }
   return (
-    <Frame1284>
+    <Frame1284 onClick={handleClick}>
       <Drafts>{title}</Drafts>
       <Number>{count}</Number>
     </Frame1284>
@@ -23,6 +29,11 @@ const Frame1284 = styled.div`
   justify-content: center;
   gap: 4px;
   position: relative;
+  cursor: pointer;
+
+  &:hover{
+   color: #7303e1;
+  }
 `;
 
 const Drafts = styled.div`

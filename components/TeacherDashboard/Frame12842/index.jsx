@@ -14,26 +14,32 @@ function Frame12842(props) {
     history.push('tasks')
   }
   return (
-    <Frame1284 onClick={handleClick}>
-      <Drafts>{title}</Drafts>
-      <Number>{count}</Number>
-    </Frame1284>
+    <TaskAnchor href="tasks#/tasks"  onClick={handleClick}>
+      <Frame1284>
+        <Drafts>{title}</Drafts>
+        <Number>{count}</Number>
+      </Frame1284>
+    </TaskAnchor>
   );
 }
 
-const Frame1284 = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  position: relative;
-  cursor: pointer;
+const TaskAnchor = styled.a`
+  color: #7F6598;
 
   &:hover{
    color: #7303e1;
   }
+`
+
+const Frame1284 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
 `;
 
 const Drafts = styled.div`

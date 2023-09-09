@@ -8,21 +8,38 @@ function Buttons2(props) {
     deleteMarkingCriteriaHandler,
     cloneMarkingCriteria,
     type,
+    setMarkingCriteriaPreviewDialog,
   } = props;
 
   return (
     <ButtonsContainer>
-      <Arrowright
+      <img
+        src="/icons/preview-eye.png"
+        alt="preview"
+        style={{
+          background: '#7200e0',
+          cursor: 'pointer',
+          padding: '4px',
+          borderRadius: '12px',
+        }}
+        onClick={() => setMarkingCriteriaPreviewDialog(true)}
+      />
+      <img
         onClick={() => cloneMarkingCriteria()}
         src="/img/copy@2x.png"
         alt="copy"
+        style={{
+          cursor: 'pointer',
+          height: '32px',
+          width: '32px',
+        }}
       />
       <Buttons
         onClick={() =>
           (window.location.href =
             type == 'RUBRICS'
               ? `/#/markingCriterias/rubrics/${markingCriteriaId}`
-              : `/#/markingMethodologies/strengths-and-targets/${markingCriteriaId}`)
+              : `/#/markingTemplates/strengths-and-targets/${markingCriteriaId}`)
         }
       >
         <ViewDetails>View and edit</ViewDetails>

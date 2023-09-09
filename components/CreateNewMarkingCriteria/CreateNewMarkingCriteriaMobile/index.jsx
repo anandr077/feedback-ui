@@ -43,8 +43,8 @@ function CreateNewMarkingCriteriaMobile(props) {
           <Frame1372>
             <Title>
               {isUpdating
-                ? 'Update Marking Criteria'
-                : 'Create new marking criteria'}
+                ? 'Update marking template'
+                : 'Create new marking template'}
             </Title>
             <Frame1219
               saveMethod={saveMarkingCriteria}
@@ -54,7 +54,7 @@ function CreateNewMarkingCriteriaMobile(props) {
           </Frame1372>
           <TitleContainer id="markingCriteriaTitleContainer">
             <TextInput
-              placeholder="Name of marking criteria"
+              placeholder="Name of marking template"
               id="markingCriteriaName"
               value={markingCriterias.title}
               onChange={handleTitleChange}

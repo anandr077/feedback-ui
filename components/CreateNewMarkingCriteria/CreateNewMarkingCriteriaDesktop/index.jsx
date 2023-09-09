@@ -47,7 +47,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
 
           <TitleContainer id="markingCriteriaTitleContainer">
             <TextInput
-              placeholder="Name of marking criteria"
+              placeholder="Name of marking template"
               id="markingCriteriaName"
               value={markingCriterias.title}
               onChange={handleTitleChange}

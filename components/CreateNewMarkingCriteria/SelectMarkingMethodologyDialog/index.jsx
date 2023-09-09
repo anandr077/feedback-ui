@@ -25,17 +25,17 @@ export default function MarkingMethodologyDialog({
               <div
                 className="rubrics"
                 onClick={() =>
-                  (window.location.href = '/#/markingMethodologies/rubrics/new')
+                  (window.location.href = '/#/markingTemplates/rubrics/new')
                 }
               >
                 <img src="/img/rubrics.svg" alt="rubrics" />
-                Rubrics
+                Rubric
               </div>
               <div
                 className="strength-target"
                 onClick={() =>
                   (window.location.href =
-                    '/#/markingMethodologies/strengths-and-targets/new')
+                    '/#/markingTemplates/strengths-and-targets/new')
                 }
               >
                 <img src="/img/strengths-and-targets.svg" alt="s&t" />

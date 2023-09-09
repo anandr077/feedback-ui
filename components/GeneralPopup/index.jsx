@@ -42,7 +42,7 @@ export default function GeneralPopup(props) {
           <TextInput onChange={handleInputChange}></TextInput>
         </TextFrame>
       )}
-      <div style={{ marginTop: '20px' }}>
+      <ConfirmSubmit>
         <input
           type="checkbox"
           checked={confirmed}
@@ -50,8 +50,8 @@ export default function GeneralPopup(props) {
           name="confirm"
           style={{ marginRight: '5px' }}
         />
-        <label for="confirm">Confirm your submission</label>
-      </div>
+        <label for="confirm">Text in the ticket</label>
+      </ConfirmSubmit>
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>
         {smartAnnotation ? (
@@ -261,3 +261,8 @@ const Line141 = styled.img`
   height: 1px;
   object-fit: cover;
 `;
+
+const ConfirmSubmit = styled.div`
+  margin: 20px auto;
+  width: 90%;
+`

@@ -35,7 +35,7 @@ function CreateNewMarkingCriteriaLaptop(props) {
         <Frame1376>
           <Frame1315>
             <Breadcrumb text="Account Settings" link={'/#/settings'} />
-            <Breadcrumb2 title="Marking Methodologies" link={'/#/settings'} />
+            <Breadcrumb2 title="Marking Templates" link={'/#/settings'} />
             <Breadcrumb2 title={isUpdating ? 'Update' : 'Create new'} />
           </Frame1315>
           <GoBack />
@@ -49,7 +49,7 @@ function CreateNewMarkingCriteriaLaptop(props) {
           />
           <TitleContainer id="markingCriteriaTitleContainer">
             <TextInput
-              placeholder="Name of marking criteria"
+              placeholder="Name of marking template"
               id="markingCriteriaName"
               value={markingCriterias.title}
               onChange={handleTitleChange}

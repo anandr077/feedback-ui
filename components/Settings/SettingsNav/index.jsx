@@ -49,7 +49,7 @@ function SettingsNav(props) {
           </SelectedContainer>
           <UnselectedContainer onClick={selectMarkingCriteria}>
             {' '}
-            <UnselectedLabel> Marking Methodologies</UnselectedLabel>{' '}
+            <UnselectedLabel> Marking Templates</UnselectedLabel>{' '}
           </UnselectedContainer>
           <UnselectedContainer onClick={selectShortcuts}>
             {' '}
@@ -65,7 +65,7 @@ function SettingsNav(props) {
           </UnselectedContainer>
           <SelectedContainer onClick={selectMarkingCriteria}>
             {' '}
-            <SelectedLabel> Marking Methodologies</SelectedLabel>{' '}
+            <SelectedLabel> Marking Templates</SelectedLabel>{' '}
           </SelectedContainer>
           <UnselectedContainer onClick={selectShortcuts}>
             {' '}
@@ -81,7 +81,7 @@ function SettingsNav(props) {
           </UnselectedContainer>
           <UnselectedContainer onClick={selectMarkingCriteria}>
             {' '}
-            <UnselectedLabel> Marking Methodologies</UnselectedLabel>{' '}
+            <UnselectedLabel> Marking Templates</UnselectedLabel>{' '}
           </UnselectedContainer>
           <SelectedContainer onClick={selectShortcuts}>
             {' '}

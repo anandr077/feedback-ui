@@ -1124,7 +1124,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           hidePopup={hideSubmitPopup}
           title="Submit Task"
           textContent={popupText}
-          buttonText="Submit"
+          buttonText="Acknowledge and Submit"
           confirmButtonAction={submissionFunction()}
         />
       )}

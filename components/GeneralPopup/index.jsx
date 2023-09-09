@@ -20,15 +20,15 @@ export default function GeneralPopup(props) {
   } = props;
 
   const [annotationTitle, setAnnotationTitle] = useState('');
-  const [confirmed, setConfirmed] = useState(false);
+  // const [confirmed, setConfirmed] = useState(false);
 
   const handleInputChange = (event) => {
     setAnnotationTitle(event.target.value);
   };
 
-  const handleConfirmation = (e) => {
-    setConfirmed(e.target.checked);
-  };
+  // const handleConfirmation = (e) => {
+  //   setConfirmed(e.target.checked);
+  // };
 
   const content = (
     <>
@@ -43,34 +43,32 @@ export default function GeneralPopup(props) {
         </TextFrame>
       )}
       <ConfirmSubmit>
-        <input
+        <PlagiarismText>
+          Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness.
+        </PlagiarismText>
+        <PlagiarismText>
+          By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form.
+        </PlagiarismText>
+        {/* <input
           type="checkbox"
           checked={confirmed}
           onChange={handleConfirmation}
           name="confirm"
-          style={{ marginRight: '5px' }}
+          style={{marginRight: '5px'}}
         />
-        <label for="confirm">Text in the ticket</label>
+        <label for="confirm">I acknowledge</label> */}
       </ConfirmSubmit>
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>
         {smartAnnotation ? (
           <CancelButton
-            onClick={() =>{
-              if(confirmed){
-                createSmartAnnotationHandler(annotationTitle)
-              }
-            }}
+            onClick={() =>createSmartAnnotationHandler(annotationTitle)}
           >
             {buttonText}
           </CancelButton>
         ) : (
           <CancelButton 
-              onClick={() => {
-                if(confirmed){
-                  confirmButtonAction()
-                }
-              }}
+              onClick={() => confirmButtonAction()}
           >
             {buttonText}
           </CancelButton>
@@ -263,6 +261,13 @@ const Line141 = styled.img`
 `;
 
 const ConfirmSubmit = styled.div`
-  margin: 20px auto;
+  margin: 20px auto 0;
   width: 90%;
+`
+
+const PlagiarismText = styled.p`
+  margin-bottom: 15px;
+  color: #3A3A3A;
+  font-size: 14px;
+  line-height: 20px;
 `

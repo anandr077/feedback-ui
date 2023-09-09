@@ -20,15 +20,11 @@ export default function GeneralPopup(props) {
   } = props;
 
   const [annotationTitle, setAnnotationTitle] = useState('');
-  // const [confirmed, setConfirmed] = useState(false);
 
   const handleInputChange = (event) => {
     setAnnotationTitle(event.target.value);
   };
 
-  // const handleConfirmation = (e) => {
-  //   setConfirmed(e.target.checked);
-  // };
 
   const content = (
     <>
@@ -49,14 +45,6 @@ export default function GeneralPopup(props) {
         <PlagiarismText>
           By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form.
         </PlagiarismText>
-        {/* <input
-          type="checkbox"
-          checked={confirmed}
-          onChange={handleConfirmation}
-          name="confirm"
-          style={{marginRight: '5px'}}
-        />
-        <label for="confirm">I acknowledge</label> */}
       </ConfirmSubmit>
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>

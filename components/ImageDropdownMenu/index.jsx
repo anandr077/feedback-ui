@@ -318,7 +318,7 @@ const FlexContainer = styled('div')`
   .text-container {
     display: inline-block;
     flex-grow: 1;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
     /* width:100%; */

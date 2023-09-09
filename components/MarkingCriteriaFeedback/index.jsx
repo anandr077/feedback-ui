@@ -2,10 +2,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import React from 'react';
 import styled from 'styled-components';
-import GroupedSelect from '../GroupedSelect';
+import { createMenuItems } from '../../features/strengthsTargets';
 import ImageDropdownMenu from '../ImageDropdownMenu';
 import './style.css';
-import { createMenuItems } from '../../features/strengthsTargets';
 
 export default function MarkingCriteriaFeedback(props) {
   const {
@@ -51,12 +50,12 @@ export default function MarkingCriteriaFeedback(props) {
     console.log('strengthAndTargetSelection: ', strengthAndTargetSelection);
   };
 
-  const strengthAndTargetsCardComponent = [
+  const strengthAndTargetsCardComponent = ()=> [
     singleStrengthTargetsContainer('strengths', 'First Strength', 0),
     singleStrengthTargetsContainer('strengths', 'Second Strength', 1),
     singleStrengthTargetsContainer('targets', 'Target', 2),
   ];
-
+  console.log("markingCriteria.type: ", markingCriteria.type)
   return (
     <>
       {markingCriteria.type === 'RUBRICS' ? (
@@ -66,7 +65,7 @@ export default function MarkingCriteriaFeedback(props) {
         </MarkingCriteriaContainerSmall>
       ) : (
         <MarkingCriteriaContainer>
-          {strengthAndTargetsCardComponent}
+          {strengthAndTargetsCardComponent()}
         </MarkingCriteriaContainer>
       )}
     </>

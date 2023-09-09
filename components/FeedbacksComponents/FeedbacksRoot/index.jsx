@@ -592,10 +592,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return invalid;
   };
   function convertToSelectedAttribute(selectedArray) {
+    console.log('selectedArray', selectedArray)
     return selectedArray.map((item, index) => ({
         index,
         criteria: item.label,
-        attribute: item.value
+        attribute: item.value.name
     }));
   }
 
@@ -1041,12 +1042,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const handleStrengthsTargetsFeedback =
-    (questionSerialNumber) => (index) => (group, value) => {
-      console.log("handleStrengthsTargetsFeedback", questionSerialNumber, index, group, value)
+    (questionSerialNumber) => (index) => (value) => {
+      console.log("handleStrengthsTargetsFeedback", questionSerialNumber, index, value)
       const criteriaType = index === 2 ? 'target' : 'strength';
       const criteriaIndex = index === 2 ? 0 : index;
       setNewMarkingCriterias(prevState=>{
-        const label = group.label;
+        const label = value.heading;
+        console.log("label", label)
+
         let newState = cloneDeep(prevState);
         let path = `${questionSerialNumber}.${criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'}[${criteriaIndex}]`;
         newState = set(newState, path, { label, value });
@@ -1054,7 +1057,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
         return newState;
       })
-      console.log('setNewMarkingCriterias', newMarkingCriterias);
+      // console.log('setNewMarkingCriterias', newMarkingCriterias);
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);

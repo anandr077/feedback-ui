@@ -25,6 +25,7 @@ export default function GeneralPopup(props) {
     setAnnotationTitle(event.target.value);
   };
 
+
   const content = (
     <>
       <TitleContainer>
@@ -37,16 +38,26 @@ export default function GeneralPopup(props) {
           <TextInput onChange={handleInputChange}></TextInput>
         </TextFrame>
       )}
+      <ConfirmSubmit>
+        <PlagiarismText>
+          Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness.
+        </PlagiarismText>
+        <PlagiarismText>
+          By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form.
+        </PlagiarismText>
+      </ConfirmSubmit>
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>
         {smartAnnotation ? (
           <CancelButton
-            onClick={() => createSmartAnnotationHandler(annotationTitle)}
+            onClick={() =>createSmartAnnotationHandler(annotationTitle)}
           >
             {buttonText}
           </CancelButton>
         ) : (
-          <CancelButton onClick={() => confirmButtonAction()}>
+          <CancelButton 
+              onClick={() => confirmButtonAction()}
+          >
             {buttonText}
           </CancelButton>
         )}
@@ -123,7 +134,7 @@ const ButtonsContainer = styled.div`
   gap: 20px;
   margin-bottom: 20px;
   margin-right: 40px;
-  padding-top: 50px;
+  padding-top: 20px;
 `;
 
 const IconTrash = styled.img`
@@ -236,3 +247,15 @@ const Line141 = styled.img`
   height: 1px;
   object-fit: cover;
 `;
+
+const ConfirmSubmit = styled.div`
+  margin: 20px auto 0;
+  width: 90%;
+`
+
+const PlagiarismText = styled.p`
+  margin-bottom: 15px;
+  color: #3A3A3A;
+  font-size: 14px;
+  line-height: 20px;
+`

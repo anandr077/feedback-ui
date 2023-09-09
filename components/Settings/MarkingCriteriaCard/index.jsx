@@ -1,7 +1,8 @@
-import React from 'react';
+import { React, useState } from 'react';
 import Buttons2 from '../Buttons2';
 import styled from 'styled-components';
 import { IbmplexsansNormalShark20px } from '../../../styledMixins';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 
 function MarkingCriteriaCard(props) {
   const {
@@ -9,6 +10,8 @@ function MarkingCriteriaCard(props) {
     deleteMarkingCriteriaHandler,
     cloneMarkingCriteria,
   } = props;
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+    useState(false);
   return (
     <MarkingCriteriaEntry>
       <MarkingCriteriaEntryHeading>
@@ -18,13 +21,20 @@ function MarkingCriteriaCard(props) {
           deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
           cloneMarkingCriteria={cloneMarkingCriteria}
           type={markingCriteria.type}
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
         />
       </MarkingCriteriaEntryHeading>
       <TypeText>
         {markingCriteria.type === 'RUBRICS'
-          ? 'Rubrics'
+          ? 'Rubric'
           : 'Strengths and Targets'}
       </TypeText>
+      {openMarkingCriteriaPreviewDialog && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={markingCriteria}
+        />
+      )}
     </MarkingCriteriaEntry>
   );
 }

@@ -345,7 +345,7 @@ const breadcrumb22Data = {
 };
 
 const input1Data = {
-  children: 'Name of marking criteria',
+  children: 'Name of marking template',
 };
 
 const frame12851Data = {
@@ -420,7 +420,7 @@ const breadcrumb24Data = {
 };
 
 const input4Data = {
-  children: 'Name of marking criteria',
+  children: 'Name of marking template',
 };
 
 const criteriaLevelInput41Data = {
@@ -515,7 +515,7 @@ const accountSettingsMarkingCriteriaCreat2Data = {
   frame1349: '/img/frame-1349@2x.png',
   notifications: '/img/notifications@2x.png',
   frame5: '/img/frame-5@2x.png',
-  title: 'Create new marking criteria',
+  title: 'Create new marking template',
   line151: '/img/line-15-1@2x.png',
   line152: '/img/line-15-2@2x.png',
   line161: '/img/line-15-2@2x.png',
@@ -550,7 +550,7 @@ const breadcrumb26Data = {
 };
 
 const input6Data = {
-  children: 'Name of marking criteria',
+  children: 'Name of marking template',
 };
 
 const frame12854Data = {
@@ -601,7 +601,7 @@ const accountSettingsMarkingCriteriaCreat3Data = {
   frame1349: '/img/frame-1349-1.png',
   notifications: '/img/notifications@2x.png',
   frame5: '/img/frame-5@2x.png',
-  title: 'Create new marking criteria',
+  title: 'Create new marking template',
   alignLeftAlignCenterJustifyJustifyL:
     '/img/align-left-align-center-justify-justify-left-trash-can-2@2x.png',
   xdelete: 'Delete',
@@ -646,7 +646,7 @@ const frame13722Data = {
 };
 
 const input8Data = {
-  children: 'Name of marking criteria',
+  children: 'Name of marking template',
 };
 
 const frame12856Data = {

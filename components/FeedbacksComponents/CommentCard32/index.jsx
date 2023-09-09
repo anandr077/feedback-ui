@@ -32,7 +32,7 @@ function CommentCard32(props) {
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
 
-  console.log('##comment', comment.comment.includes('\n\n'));
+  // console.log('##comment', comment.comment.includes('\n\n'));
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
@@ -196,7 +196,7 @@ function CommentCard32(props) {
     if (editButtonActive && editCommentType === 'parent_comment') {
       return inputComment();
     } else {
-      if (comment.comment.includes('\n\n')) {
+      if (comment?.comment?.includes('\n\n')) {
         const commentArray = comment.comment.split('\n\n');
         return (
           <>

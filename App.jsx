@@ -63,13 +63,13 @@ function App() {
           <Route path="/settings">
             <ProtectedSettings />
           </Route>
-          <Route path="/markingMethodologies/rubrics/new">
+          <Route path="/markingTemplates/rubrics/new">
             <ProtectedMarkingCriteria />
           </Route>
           <Route path="/markingCriterias/rubrics/:markingCriteriaId">
             <ProtectedMarkingCriteria />
           </Route>
-          <Route path="/markingMethodologies/strengths-and-targets/:markingMethodologyId">
+          <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
             <ProtectedStrengthAndTarget />
           </Route>
           <Route path="/completed">

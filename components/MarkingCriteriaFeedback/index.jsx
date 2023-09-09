@@ -2,7 +2,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import React from 'react';
 import styled from 'styled-components';
-import GroupedSelect from '../GroupedSelect';
+import { createMenuItems } from '../../features/strengthsTargets';
 import ImageDropdownMenu from '../ImageDropdownMenu';
 import './style.css';
 
@@ -11,7 +11,7 @@ export default function MarkingCriteriaFeedback(props) {
     markingCriteria,
     questionSerialNumber,
     handleMarkingCriteriaLevelFeedback,
-    handleStrengthsTargetsFeedback
+    handleStrengthsTargetsFeedback,
   } = props;
   const strengthAndTargetCriterias = markingCriteria.strengthsTargetsCriterias;
   const selectedStrengthsAndTargets = {
@@ -50,98 +50,84 @@ export default function MarkingCriteriaFeedback(props) {
     console.log('strengthAndTargetSelection: ', strengthAndTargetSelection);
   };
 
-  const strengthAndTargetsCardComponent = [
+  const strengthAndTargetsCardComponent = ()=> [
     singleStrengthTargetsContainer('strengths', 'First Strength', 0),
-    singleStrengthTargetsContainer('strengths', 'Second Strength', 1), 
-    singleStrengthTargetsContainer('targets', 'Target', 2)
-  ]
-
+    singleStrengthTargetsContainer('strengths', 'Second Strength', 1),
+    singleStrengthTargetsContainer('targets', 'Target', 2),
+  ];
+  console.log("markingCriteria.type: ", markingCriteria.type)
   return (
     <>
-      {markingCriteria.type==='RUBRICS' ? (
+      {markingCriteria.type === 'RUBRICS' ? (
         // <GroupedSelect></GroupedSelect>
         <MarkingCriteriaContainerSmall>
           {markingCriteriaCardsComponent}
         </MarkingCriteriaContainerSmall>
       ) : (
         <MarkingCriteriaContainer>
-          {strengthAndTargetsCardComponent}
+          {strengthAndTargetsCardComponent()}
         </MarkingCriteriaContainer>
       )}
     </>
   );
 
   function singleStrengthTargetsContainer(type, heading, index) {
-    return <SingleMarkingCriteriaContainer>
-      <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
-      <GroupedSelect label={heading} onClick={handleStrengthsTargetsFeedback(index)} groups={createGroup(type)}/>
-      {/* <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">
-          {index == 0 || index == 1 ? 'Strength' : 'Target'}
-        </InputLabel>
-        {strengthTargetsSelect(index)}
-      </FormControl> */}
-    </SingleMarkingCriteriaContainer>;
-  }
-  
-  function createGroup(type) {
-    return strengthAndTargetCriterias?.map(criteria=>{
-      return {
-        label: criteria.title,
-        options: criteria[type].map(strength=>{
-          return {
-            label: strength,
-            value: strength
-          }
-        })
-      } 
-    })
-  }
-  function strengthTargetsSelect(index) {
-    return <Select
-      id={`strength-target-select-${index}`}
-      // value={selectedStrengthsAndTargets.strength[index]}
-      label={`Strength And Target ${index}`}
-    >
-      {strengthAndTargetCriterias?.map((criteria, cIndex) => {
-        return (
-          <div>
-            <div className="criteria-heading">{criteria.title}</div>
-            {index == 0 || index == 1
-              ? criteria.strengths.map((strength, sIndex) => {
-                return (
-                  menuItem(strength, cIndex, sIndex, 'strength')
-                );
-              })
-              : criteria.targets.map((target, sIndex) => {
-                return (
-                  menuItem(target, cIndex, sIndex, 'target')
-                );
-              })}
-          </div>
-        );
-      })}
-    </Select>;
+    return (
+      <SingleMarkingCriteriaContainer>
+        <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
 
-    
+        <ImageDropdownMenu
+          menuItems={createMenuItems(strengthAndTargetCriterias, type)}
+          onItemSelected={(item) => {
+            console.log('item selected: ', item);
+            handleStrengthsTargetsFeedback(index)(item)
+          }}
+          
+        ></ImageDropdownMenu>
+
+      </SingleMarkingCriteriaContainer>
+    );
+  }
+
+  
+  
+
+  function strengthTargetsSelect(index) {
+    return (
+      <Select
+        id={`strength-target-select-${index}`}
+        // value={selectedStrengthsAndTargets.strength[index]}
+        label={`Strength And Target ${index}`}
+      >
+        {strengthAndTargetCriterias?.map((criteria, cIndex) => {
+          return (
+            <div>
+              <div className="criteria-heading">{criteria.title}</div>
+              {index == 0 || index == 1
+                ? criteria.strengths.map((strength, sIndex) => {
+                    return menuItem(strength, cIndex, sIndex, 'strength');
+                  })
+                : criteria.targets.map((target, sIndex) => {
+                    return menuItem(target, cIndex, sIndex, 'target');
+                  })}
+            </div>
+          );
+        })}
+      </Select>
+    );
 
     function menuItem(item, cIndex, sIndex, type) {
-      return <div>
-        <MenuItem
-          className="criteria-option"
-          value={item}
-          onClick={(e) => handleSelect(
-            e,
-            index,
-            cIndex,
-            sIndex,
-            type
-          )
-          }
-        >
-          {item}
-        </MenuItem>
-      </div>;
+      return (
+        <div>
+          <MenuItem
+            className="criteria-option"
+            value={item}
+            onClick={(e) => handleSelect(e, index, cIndex, sIndex, type)}
+          >
+            {item}
+          </MenuItem>
+        </div>
+      );
     }
   }
 }
@@ -177,7 +163,8 @@ const MarkingCriteriaContainer = styled.div`
   padding: 20px;
   flex: 1; 
   display: flex;
-  flex-wrap: wrap; 
+  flex-direction: column;
+  flex-wrap: wrap;
   align-self: stretch;
   align-items: flex-start;
   gap: 20px;
@@ -185,9 +172,9 @@ const MarkingCriteriaContainer = styled.div`
   border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  
+
   > div {
-    flex: 0 1 calc(30% - 10px); 
+    flex: 0 1 calc(30% - 10px);
   }
 `;
 

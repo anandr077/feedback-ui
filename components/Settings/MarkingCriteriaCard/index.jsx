@@ -8,7 +8,7 @@ function MarkingCriteriaCard(props) {
   const {
     markingCriteria,
     deleteMarkingCriteriaHandler,
-    cloneMarkingCriteria,
+    cloneMarkingCriteria
   } = props;
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
@@ -50,7 +50,7 @@ const MarkingCriteriaEntry = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  padding: 25px;
+  padding: 30px 20px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);

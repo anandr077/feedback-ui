@@ -194,7 +194,15 @@ export default function AccountSettingsRoot(props) {
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
         showSnackbar('Cloned Marking Criteria');
-        setMarkingCriterias((mc) => [createdMarkingCriteria, ...mc]);
+ 
+        const index = markingCriterias.findIndex(
+          (mc) => mc.id === markingCriteria.id
+        )
+        if(index !== -1){
+           const updatedMarkingCriterias = [...markingCriterias];
+           updatedMarkingCriterias.splice(index, 0, createdMarkingCriteria)
+           setMarkingCriterias(updatedMarkingCriterias)
+        }
       })
       .catch((err) => {
         showSnackbar('Error Cloning Marking Criteria');

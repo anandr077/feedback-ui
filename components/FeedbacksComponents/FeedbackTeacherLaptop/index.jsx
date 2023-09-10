@@ -43,6 +43,7 @@ import CheckboxGroup from '../../CheckboxGroup';
 import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
 import SmartAnotation from '../../../components/SmartAnnotations';
+import StrengthsTargets from '../../StrengthsTargets';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -64,8 +65,8 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
+    MARKING_METHODOLOGY_TYPE,
   } = props;
-
   const shortcutList = smartAnnotations.map((smartAnnotation, index) => (
     <SmartAnotation
       key={index}
@@ -291,7 +292,6 @@ function FeedbackTeacherLaptop(props) {
             checked={isChecked(serialNumber, fa.id)}
             onChange={handleCheckboxChange(serialNumber, fa.id)}
           />
-
           <Ellipse141 backgroundColor={fa.color}></Ellipse141>
           <Label>{fa.title}</Label>
         </FocusAreasLabelContainer>
@@ -351,40 +351,8 @@ function FeedbackTeacherLaptop(props) {
             </QuillContainer>
           )}
           {createFocusAreasLabel(question.serialNumber, question.focusAreas)}
-          {submission.status === 'SUBMITTED' &&
-            submission.assignment.questions[answer.serialNumber - 1]
-              .markingCriteria?.title &&
-            submission.assignment.questions[answer.serialNumber - 1]
-              .markingCriteria?.title != 'No Marking Criteria' &&
-            submission.assignment.questions[answer.serialNumber - 1].type !=
-              'MCQ' &&
-            submission.reviewerId === getUserId() && (
-              <MarkingCriteriaFeedback
-                markingCriteria={
-                  submission.assignment.questions[answer.serialNumber - 1]
-                    .markingCriteria
-                }
-                small={smallMarkingCriteria}
-                questionSerialNumber={answer.serialNumber}
-                handleMarkingCriteriaLevelFeedback={
-                  methods.handleMarkingCriteriaLevelFeedback
-                }
-              />
-            )}
-          {(submission.status === 'REVIEWED' ||
-            submission.status === 'CLOSED' ||
-            submission.status === 'RESUBMISSION_REQUESTED') &&
-            markingCriteriaFeedback?.length > 0 &&
-            submission.assignment.questions[answer.serialNumber - 1]
-              .markingCriteria?.title != 'No Marking Criteria' &&
-            submission.assignment.questions[answer.serialNumber - 1].type !=
-              'MCQ' && (
-              <MarkingCriteriaFeedbackReadOnly
-                allmarkingCriteriaFeedback={markingCriteriaFeedback}
-                small={smallMarkingCriteria}
-                questionSerialNumber={answer.serialNumber}
-              ></MarkingCriteriaFeedbackReadOnly>
-            )}
+          {createAddMarkingCriteriaOption(submission, answer, smallMarkingCriteria, methods, question)}
+          {createShowMarkingCriteriasFrame(submission, markingCriteriaFeedback, answer, question)}
         </Frame1366>
       </>
     );
@@ -769,6 +737,41 @@ const selectTabComments = (
   });
 };
 
+function createShowMarkingCriteriasFrame(submission, markingCriteriaFeedback, answer, question) {
+  return (submission.status === 'REVIEWED' ||
+    submission.status === 'CLOSED' ||
+    submission.status === 'RESUBMISSION_REQUESTED') &&
+    markingCriteriaFeedback?.length > 0 &&
+    submission.assignment.questions[answer.serialNumber - 1]
+      .markingCriteria?.title != 'No Marking Criteria' &&
+    submission.assignment.questions[answer.serialNumber - 1].type !=
+    'MCQ' && (
+      <MarkingCriteriaFeedbackReadOnly
+        allmarkingCriteriaFeedback={markingCriteriaFeedback}
+        questionSerialNumber={question.serialNumber}
+      ></MarkingCriteriaFeedbackReadOnly>
+    );
+}
+
+function createAddMarkingCriteriaOption(submission, answer, smallMarkingCriteria, methods, question) {
+  return submission.status === 'SUBMITTED' &&
+    submission.assignment.questions[answer.serialNumber - 1]
+      .markingCriteria?.title &&
+    submission.assignment.questions[answer.serialNumber - 1]
+      .markingCriteria?.title != 'No Marking Criteria' &&
+    submission.assignment.questions[answer.serialNumber - 1].type !=
+    'MCQ' &&
+    submission.reviewerId === getUserId() && (
+      <MarkingCriteriaFeedback
+        markingCriteria={submission.assignment.questions[answer.serialNumber - 1]
+          .markingCriteria}
+        small={smallMarkingCriteria}
+        questionSerialNumber={answer.serialNumber}
+        handleMarkingCriteriaLevelFeedback={methods.handleMarkingCriteriaLevelFeedback}
+        handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback(question.serialNumber)} />
+    );
+}
+
 function showResolvedToggle(
   isFeedback,
   isShowResolved,
@@ -1045,7 +1048,6 @@ const Frame1367 = styled.div`
   padding: 30px 0px;
   background-color: var(--white);
   border-radius: 26px;
-  overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
   // height: 550px;
   // overflow-y: scroll;
@@ -1331,5 +1333,6 @@ const X2021JeddleAllRightsReserved = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
+
 
 export default FeedbackTeacherLaptop;

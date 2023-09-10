@@ -14,6 +14,7 @@ import {
   createNewSmartAnnotation,
   updateSmartAnnotation,
   deleteSmartAnnotation,
+  createNewMarkingCriteria,
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -24,6 +25,7 @@ import SnackbarContext from '../../SnackbarContext';
 import { set } from 'lodash';
 import GeneralPopup from '../../GeneralPopup';
 import { RssFeed } from '@mui/icons-material';
+import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
 
 const headerProps = completedHeaderProps(true);
 
@@ -37,6 +39,8 @@ export default function AccountSettingsRoot(props) {
   const [shortcuts, setShortcuts] = React.useState([]);
   const [smartAnnotations, setSmartAnnotations] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
+    React.useState(false);
 
   React.useEffect(() => {
     Promise.all([
@@ -172,13 +176,38 @@ export default function AccountSettingsRoot(props) {
       });
   };
 
+  const createMarkingCriteria = (markingCriteria) => {
+    let { title } = markingCriteria;
+    title = title + ' clone';
+    const createdMarkingCriteria = {
+      title: title,
+      type: markingCriteria.type,
+    };
+    if (markingCriteria.type === 'RUBRICS') {
+      createdMarkingCriteria.criterias = markingCriteria.criterias;
+    } else {
+      createdMarkingCriteria.strengthsTargetsCriterias =
+        markingCriteria.strengthsTargetsCriterias;
+    }
+    createNewMarkingCriteria(createdMarkingCriteria)
+      .then((res) => {
+        createdMarkingCriteria.id = res.id.value;
+        createdMarkingCriteria.teacherId = res.teacherId.value;
+        showSnackbar('Cloned Marking Criteria');
+        setMarkingCriterias((mc) => [createdMarkingCriteria, ...mc]);
+      })
+      .catch((err) => {
+        showSnackbar('Error Cloning Marking Criteria');
+      });
+  };
+
   const markingCriteriaList = markingCriterias?.map(
     (markingCriteria, index) => (
       <MarkingCriteriaCard
         key={Math.random()}
-        title={markingCriteria.title}
-        markingCriteriaId={markingCriteria.id}
+        markingCriteria={markingCriteria}
         deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
+        cloneMarkingCriteria={() => createMarkingCriteria(markingCriteria)}
       />
     )
   );
@@ -205,7 +234,7 @@ export default function AccountSettingsRoot(props) {
         <Breadcrumb2
           title={
             showMarkingCriteria
-              ? 'Marking Criteria'
+              ? 'Marking Templates'
               : showShortcuts
               ? 'Smart Annotations'
               : 'User Settings'
@@ -237,6 +266,7 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
@@ -253,6 +283,7 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
@@ -269,6 +300,7 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
@@ -285,10 +317,16 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              setOpenMarkingMethodologyDialog,
             }}
           />
         }
       />
+      {openMarkingMethodologyDialog && (
+        <MarkingMethodologyDialog
+          setOpenMarkingMethodologyDialog={setOpenMarkingMethodologyDialog}
+        />
+      )}
     </>
   );
 }

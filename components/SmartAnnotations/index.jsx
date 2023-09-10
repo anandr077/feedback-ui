@@ -124,8 +124,8 @@ function SmartAnotation(props) {
             {settingsMode ? (
               <ButtonContainer>
                 <DeleteButton2
-                  src="/icons/edit-purple-icon.svg"
-                  alt="edit-button"
+                  src="/img/copy@2x.png"
+                  alt="copy"
                   onClick={() => cloneSmartAnnotation()}
                 ></DeleteButton2>
                 <DeleteButton2

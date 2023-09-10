@@ -13,22 +13,28 @@ function MarkingCriteriaCard(props) {
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
   return (
-    <MarkingCriteriaEntry>
+    <MarkingCriteriaEntry onClick={() =>
+      (window.location.href =
+        markingCriteria.type == 'RUBRICS'
+          ? `/#/markingCriterias/rubrics/${markingCriteria.id}`
+          : `/#/markingTemplates/strengths-and-targets/${markingCriteria.id}`)
+    }>
       <MarkingCriteriaEntryHeading>
-        <Title>{markingCriteria.title}</Title>
+        <div>
+          <Title>{markingCriteria.title}</Title>
+          <TypeText>
+            {markingCriteria.type === 'RUBRICS'
+              ? 'Rubric'
+              : 'Strengths and Targets'}
+          </TypeText>
+        </div>
         <Buttons2
           markingCriteriaId={markingCriteria.id}
           deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
           cloneMarkingCriteria={cloneMarkingCriteria}
-          type={markingCriteria.type}
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
         />
       </MarkingCriteriaEntryHeading>
-      <TypeText>
-        {markingCriteria.type === 'RUBRICS'
-          ? 'Rubric'
-          : 'Strengths and Targets'}
-      </TypeText>
       {openMarkingCriteriaPreviewDialog && (
         <PreviewDialog
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
@@ -44,7 +50,7 @@ const MarkingCriteriaEntry = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  padding: 20px;
+  padding: 25px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
@@ -53,11 +59,18 @@ const MarkingCriteriaEntry = styled.div`
   background: #fff;
   box-shadow: 0px 4px 22px #2f1a720a;
   border-radius: 16px;
+  cursor: pointer;
+
+  &:hover{
+    border-color: #7200E0;
+    background-color: #F9F5FF;
+  }
 `;
 
 const MarkingCriteriaEntryHeading = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
   position: relative;
   align-self: stretch;

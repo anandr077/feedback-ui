@@ -1,6 +1,6 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { filter, flatMap, get, includes, map, set, uniq } from 'lodash';
+import { filter, flatMap, get, includes, map, set, uniq, get, cloneDeep } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -50,12 +50,16 @@ import { TextField } from '@mui/material';
 import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 import SnackbarContext from '../../SnackbarContext';
 
+const MARKING_METHODOLOGY_TYPE = {
+  Rubrics: 'rubrics',
+  Strengths_And_Targets: 'strengthsAndTargets',
+};
+
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
   const [exemplarComment, setExemplerComment] = useState('');
-  const [isValidComment, setIsValidComment] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -76,6 +80,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
+  const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -263,13 +268,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const addExemplerComment = () => {
-    if (exemplarComment === '') {
-      setIsValidComment(false);
-      return;
-    }
+    const comment = exemplarComment || "No comment";
+
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: exemplarComment,
+      feedback: comment,
       range: selectedRange,
       type: 'MODEL_RESPONSE',
       replies: [],
@@ -287,7 +290,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const handleInputChange = (event) => {
     const value = event.target.value;
     setExemplerComment(value);
-    setIsValidComment(value !== '');
   };
   const sharewithclassdialog = (
     <Dialog
@@ -304,12 +306,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
-          error={!isValidComment}
-          helperText={
-            !isValidComment
-              ? 'Field cannot be empty'
-              : 'Enter response to share with class'
-          }
+          helperText={'Add a note for your class to accompany this example'}
         />
         <ActionButtonsContainer>
           <DialogActions>
@@ -572,10 +569,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     let invalid = true;
     submission.assignment.questions.map((question) => {
       if (
-        question.markingCriteria.title != '' &&
-        question.markingCriteria.criterias
+        (question?.markingCriteria?.title != '' &&
+          question?.markingCriteria?.criterias || 
+          question.markingCriteria.strengthsTargetsCriterias)
       ) {
-        question.markingCriteria.criterias.map((criteria) => {
+        question.markingCriteria?.criterias?.map((criteria) => {
           if (!criteria.selectedLevel) {
             criteria.selectedLevel = criteria.levels[0].name;
           }
@@ -584,6 +582,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     return invalid;
   };
+  function convertToSelectedAttribute(selectedArray) {
+    console.log('selectedArray', selectedArray)
+    return selectedArray.map((item, index) => ({
+        index,
+        criteria: item.label,
+        attribute: item.value.name
+    }));
+  }
+
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
@@ -592,36 +599,50 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
-        if (
-          question.markingCriteria?.title != '' &&
-          question.markingCriteria.criterias
-        ) {
-          const markingCriteriaRequest = question.markingCriteria;
-          addFeedback(submission.id, {
-            questionSerialNumber: question.serialNumber,
-            feedback: 'Marking Criteria Feedback',
-            range: selectedRange,
-            type: 'MARKING_CRITERIA',
-            replies: [],
-            markingCriteria: markingCriteriaRequest,
-          }).then((response) => {
-            if (response) {
-              console.log('###response', response);
-            }
-          });
-        }
-      });
-
-      markSubmsissionReviewed(submission.id).then((_) => {
-        showSnackbar('Task reviewed...', window.location.href);
-        if (isTeacher) {
-          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-        } else {
-          window.location.href = '/#';
-        }
+        submitMarkingCriteriaInputs(question);
       });
     }
+    submitReview();
   }
+  function submitMarkingCriteriaInputs(question) {
+    if (question.markingCriteria?.title != '') {
+      if (question.markingCriteria?.criterias) {
+          const markingCriteriaRequest = question.markingCriteria;
+          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
+      }
+      if (question.markingCriteria.strengthsTargetsCriterias) {
+        const markingCriteriaRequest = question.markingCriteria;
+        const selectedStrengths = get(newMarkingCriterias, `${question.serialNumber}.selectedStrengths`);
+        const selectedTargets = get(newMarkingCriterias, `${question.serialNumber}.selectedTargets`); 
+        markingCriteriaRequest.selectedStrengths = convertToSelectedAttribute(selectedStrengths);
+        markingCriteriaRequest.selectedTargets = convertToSelectedAttribute(selectedTargets);
+        submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
+      }
+    }
+  }
+  function submitReview() {
+    markSubmsissionReviewed(submission.id).then((_) => {
+      showSnackbar('Task reviewed...', window.location.href);
+      if (isTeacher) {
+        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+      } else {
+        window.location.href = '/#';
+      }
+    });
+  }
+
+  function submitMarkingCriteriaFeedback(question, markingCriteriaRequest) {
+    return addFeedback(submission.id, {
+      questionSerialNumber: question.serialNumber,
+      feedback: 'Marking Criteria Feedback',
+      range: selectedRange,
+      type: 'MARKING_CRITERIA',
+      replies: [],
+      markingCriteria: markingCriteriaRequest,
+    });
+  }
+
+  
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
@@ -1011,9 +1032,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       selectedLevel;
   }
 
+  const handleStrengthsTargetsFeedback =
+    (questionSerialNumber) => (index) => (value) => {
+      console.log("handleStrengthsTargetsFeedback", questionSerialNumber, index, value)
+      const criteriaType = index === 2 ? 'target' : 'strength';
+      const criteriaIndex = index === 2 ? 0 : index;
+      setNewMarkingCriterias(prevState=>{
+        const label = value.heading;
+        console.log("label", label)
+
+        let newState = cloneDeep(prevState);
+        let path = `${questionSerialNumber}.${criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'}[${criteriaIndex}]`;
+        newState = set(newState, path, { label, value });
+        console.log("newState", newState)
+
+        return newState;
+      })
+      // console.log('setNewMarkingCriterias', newMarkingCriterias);
+    };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
-  };
+  }; 
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
     setMethodToCall(method);
@@ -1063,6 +1102,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateParentComment,
     updateChildComment,
     handleMarkingCriteriaLevelFeedback,
+    handleStrengthsTargetsFeedback,
     showSubmitPopuphandler,
   };
 
@@ -1075,7 +1115,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           hidePopup={hideSubmitPopup}
           title="Submit Task"
           textContent={popupText}
-          buttonText="Submit"
+          buttonText="Acknowledge and Submit"
           confirmButtonAction={submissionFunction()}
         />
       )}
@@ -1085,6 +1125,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherMobile
             {...{
               newCommentSerialNumber,
+              markingCriteriaFeedback,
+
               isTeacher,
               submissionStatusLabel,
               labelText,
@@ -1100,6 +1142,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               submission,
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherMobileData,
+              MARKING_METHODOLOGY_TYPE,
             }}
           />
         }
@@ -1107,7 +1150,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <FeedbackTeacherLaptop
             {...{
               newCommentSerialNumber,
-              smallMarkingCriteria: true,
               markingCriteriaFeedback,
               isTeacher,
               showLoader,
@@ -1126,6 +1168,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               submission,
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
+              MARKING_METHODOLOGY_TYPE,
             }}
           />
         }
@@ -1152,6 +1195,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                 submission,
                 sharewithclassdialog,
                 ...feedbacksFeedbackTeacherLaptopData,
+                MARKING_METHODOLOGY_TYPE,
               }}
             />
           </>
@@ -1178,6 +1222,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               submission,
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
+              MARKING_METHODOLOGY_TYPE,
             }}
           />
         }

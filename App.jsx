@@ -16,7 +16,7 @@ import { Redirect } from 'react-router-dom';
 import { getUserRole, getUserName } from './service';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
-import PortfolioPage from './components/PortfolioPage';
+import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
 
 function App() {
   const role = getUserRole();
@@ -26,8 +26,7 @@ function App() {
   const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
   const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = withAuth(StudentTaskRoot);
-  //const ProtectedCompletedRoot = withAuth(CompletedPage);
-  const ProtectedPortfolioRoot = withAuth(PortfolioPage);
+  const ProtectedCompletedRoot = withAuth(CompletedPage);
   const ProtectedTeacherClassesRoot = withAuth(TeacherClassesRoot);
   const ProtectedTaskDetail = withAuth(TaskDetail);
   const ProtectedCreateAssignment = withAuth(CreateAssignment);
@@ -36,6 +35,8 @@ function App() {
   const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = withAuth(AccountSettingsRoot);
+  const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
+
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
@@ -62,14 +63,17 @@ function App() {
           <Route path="/settings">
             <ProtectedSettings />
           </Route>
-          <Route path="/markingCriterias/new">
+          <Route path="/markingTemplates/rubrics/new">
             <ProtectedMarkingCriteria />
           </Route>
-          <Route path="/markingCriterias/:markingCriteriaId">
+          <Route path="/markingCriterias/rubrics/:markingCriteriaId">
             <ProtectedMarkingCriteria />
           </Route>
-          <Route path="/portfolio">
-            <ProtectedPortfolioRoot />
+          <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
+            <ProtectedStrengthAndTarget />
+          </Route>
+          <Route path="/completed">
+            <ProtectedCompletedRoot />
           </Route>
           <Route path="/classes/:classIdFromUrl?">
             <ProtectedTeacherClassesRoot />

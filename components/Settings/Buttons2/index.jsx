@@ -3,12 +3,43 @@ import styled from 'styled-components';
 import { IbmplexsansNormalElectricViolet14px } from '../../../styledMixins';
 
 function Buttons2(props) {
-  const { markingCriteriaId, deleteMarkingCriteriaHandler } = props;
+  const {
+    markingCriteriaId,
+    deleteMarkingCriteriaHandler,
+    cloneMarkingCriteria,
+    type,
+    setMarkingCriteriaPreviewDialog,
+  } = props;
+
   return (
     <ButtonsContainer>
+      <img
+        src="/icons/preview-eye.png"
+        alt="preview"
+        style={{
+          background: '#7200e0',
+          cursor: 'pointer',
+          padding: '4px',
+          borderRadius: '12px',
+        }}
+        onClick={() => setMarkingCriteriaPreviewDialog(true)}
+      />
+      <img
+        onClick={() => cloneMarkingCriteria()}
+        src="/img/copy@2x.png"
+        alt="copy"
+        style={{
+          cursor: 'pointer',
+          height: '32px',
+          width: '32px',
+        }}
+      />
       <Buttons
         onClick={() =>
-          (window.location.href = `/#/markingCriterias/${markingCriteriaId}`)
+          (window.location.href =
+            type == 'RUBRICS'
+              ? `/#/markingCriterias/rubrics/${markingCriteriaId}`
+              : `/#/markingTemplates/strengths-and-targets/${markingCriteriaId}`)
         }
       >
         <ViewDetails>View and edit</ViewDetails>
@@ -65,6 +96,7 @@ const Arrowright = styled.img`
   position: relative;
   min-width: 12px;
   height: 12px;
+  cursor: pointer;
 `;
 
 const DeleteButtonContainer = styled.div`

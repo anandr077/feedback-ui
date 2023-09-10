@@ -29,6 +29,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
     createSmartAnnotationHandler,
     breadCrumbs,
     smartAnnotationsFrame,
+    setOpenMarkingMethodologyDialog,
   } = props;
 
   return (
@@ -64,10 +65,12 @@ function AccountSettingsMarkingCriteriaTable3(props) {
               {showMarkingCriteria && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Marking Criteria</MarkingCriteria>
+                    <MarkingCriteria>Marking Templates</MarkingCriteria>
                     <Buttons
-                      text="Create New"
-                      link={'/#/markingCriterias/new'}
+                      text="Create new"
+                      onClickMethod={() =>
+                        setOpenMarkingMethodologyDialog(true)
+                      }
                     />
                   </Title1>
                   <Line14 src={line14} alt="Line 14" />
@@ -82,7 +85,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
                     <MarkingCriteria>Smart Annotations</MarkingCriteria>
 
                     <Buttons
-                      text="Create New"
+                      text="Create new"
                       onClickMethod={createSmartAnnotationHandler}
                     />
                   </Title1>

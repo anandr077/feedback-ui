@@ -193,11 +193,10 @@ export default function AccountSettingsRoot(props) {
       .then((res) => {
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
-        showSnackbar('Cloned Marking Criteria');
-        setMarkingCriterias((mc) => [createdMarkingCriteria, ...mc]);
+        showSnackbar('Copied marking template', markingCriteriaUrl(res.id.value, res.type.value));        
       })
       .catch((err) => {
-        showSnackbar('Error Cloning Marking Criteria');
+        showSnackbar('Error cloning marking template');
       });
   };
 
@@ -330,7 +329,11 @@ export default function AccountSettingsRoot(props) {
     </>
   );
 }
-
+function markingCriteriaUrl(id, type) {
+  return type === 'RUBRICS'
+    ? `/#/markingCriterias/rubrics/${id}`
+    : `/#/markingTemplates/strengths-and-targets/${id}`;
+}
 const navElement1Data = {
   home3: '/img/home3@2x.png',
   place: 'Home',

@@ -351,8 +351,19 @@ function FeedbackTeacherLaptop(props) {
             </QuillContainer>
           )}
           {createFocusAreasLabel(question.serialNumber, question.focusAreas)}
-          {createAddMarkingCriteriaOption(submission, answer, smallMarkingCriteria, methods, question)}
-          {createShowMarkingCriteriasFrame(submission, markingCriteriaFeedback, answer, question)}
+          {createAddMarkingCriteriaOption(
+            submission,
+            answer,
+            smallMarkingCriteria,
+            methods,
+            question
+          )}
+          {createShowMarkingCriteriasFrame(
+            submission,
+            markingCriteriaFeedback,
+            answer,
+            question
+          )}
         </Frame1366>
       </>
     );
@@ -737,39 +748,59 @@ const selectTabComments = (
   });
 };
 
-function createShowMarkingCriteriasFrame(submission, markingCriteriaFeedback, answer, question) {
-  return (submission.status === 'REVIEWED' ||
-    submission.status === 'CLOSED' ||
-    submission.status === 'RESUBMISSION_REQUESTED') &&
+function createShowMarkingCriteriasFrame(
+  submission,
+  markingCriteriaFeedback,
+  answer,
+  question
+) {
+  return (
+    (submission.status === 'REVIEWED' ||
+      submission.status === 'CLOSED' ||
+      submission.status === 'RESUBMISSION_REQUESTED') &&
     markingCriteriaFeedback?.length > 0 &&
-    submission.assignment.questions[answer.serialNumber - 1]
-      .markingCriteria?.title != 'No Marking Criteria' &&
-    submission.assignment.questions[answer.serialNumber - 1].type !=
-    'MCQ' && (
+    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
+      ?.title != 'No Marking Criteria' &&
+    submission.assignment.questions[answer.serialNumber - 1].type != 'MCQ' && (
       <MarkingCriteriaFeedbackReadOnly
         allmarkingCriteriaFeedback={markingCriteriaFeedback}
         questionSerialNumber={question.serialNumber}
       ></MarkingCriteriaFeedbackReadOnly>
-    );
+    )
+  );
 }
 
-function createAddMarkingCriteriaOption(submission, answer, smallMarkingCriteria, methods, question) {
-  return submission.status === 'SUBMITTED' &&
-    submission.assignment.questions[answer.serialNumber - 1]
-      .markingCriteria?.title &&
-    submission.assignment.questions[answer.serialNumber - 1]
-      .markingCriteria?.title != 'No Marking Criteria' &&
-    submission.assignment.questions[answer.serialNumber - 1].type !=
-    'MCQ' &&
+function createAddMarkingCriteriaOption(
+  submission,
+  answer,
+  smallMarkingCriteria,
+  methods,
+  question
+) {
+  return (
+    submission.status === 'SUBMITTED' &&
+    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
+      ?.title &&
+    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
+      ?.title != 'No Marking Criteria' &&
+    submission.assignment.questions[answer.serialNumber - 1].type != 'MCQ' &&
     submission.reviewerId === getUserId() && (
       <MarkingCriteriaFeedback
-        markingCriteria={submission.assignment.questions[answer.serialNumber - 1]
-          .markingCriteria}
+        markingCriteria={
+          submission.assignment.questions[answer.serialNumber - 1]
+            .markingCriteria
+        }
         small={smallMarkingCriteria}
         questionSerialNumber={answer.serialNumber}
-        handleMarkingCriteriaLevelFeedback={methods.handleMarkingCriteriaLevelFeedback}
-        handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback(question.serialNumber)} />
-    );
+        handleMarkingCriteriaLevelFeedback={
+          methods.handleMarkingCriteriaLevelFeedback
+        }
+        handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback(
+          question.serialNumber
+        )}
+      />
+    )
+  );
 }
 
 function showResolvedToggle(
@@ -1333,6 +1364,5 @@ const X2021JeddleAllRightsReserved = styled.p`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 export default FeedbackTeacherLaptop;

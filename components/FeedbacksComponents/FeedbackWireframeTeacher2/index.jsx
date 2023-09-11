@@ -171,7 +171,7 @@ function FeedbackWireframeTeacher2(props) {
 const Frame1371 = styled.div`
   display: flex;
   margin-left: 240px;
-  width: 1440px;
+  width: 1200px;
   height: 94px;
   position: relative;
   margin-top: 30px;

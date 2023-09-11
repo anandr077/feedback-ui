@@ -11,8 +11,8 @@ export default function ReactiveRender(props) {
 
   const { mobile, tablet, laptop, desktop } = props;
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
-  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
-  const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
+  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
+  const isLaptopView = useMediaQuery({ minWidth: 1200, maxWidth: 1919 });
   const isDesktopView = useMediaQuery({ minWidth: 1920 });
   const linkButton = snackbarLink ? <Button color="secondary"
   style={{ color: 'white' }} size="small" 
@@ -58,12 +58,12 @@ export function isMobileView() {
   return isMobileView;
 }
 export function isTabletView() {
-  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1439 });
+  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
   return isTabletView;
 }
 
 export function isLaptopView() {
-  const isLaptopView = useMediaQuery({ minWidth: 1440, maxWidth: 1919 });
+  const isLaptopView = useMediaQuery({ minWidth: 1200, maxWidth: 1919 });
   return isLaptopView;
 }
 

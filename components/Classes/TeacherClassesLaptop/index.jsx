@@ -67,7 +67,7 @@ function TeacherClassesLaptop(props) {
             <Frame1337>
               <Students>Students</Students>
             </Frame1337>
-            <Line17 src={line171} alt="Line 17" />
+            <Line18 src={line171} alt="Line 17" />
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
@@ -294,6 +294,15 @@ const Line17 = styled.img`
   align-self: stretch;
   min-width: 644px;
   height: 1px;
+  object-fit: cover;
+`;
+
+const Line18 = styled.img`
+position: relative;
+  align-self: stretch;
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
   object-fit: cover;
 `;
 

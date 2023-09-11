@@ -8,18 +8,15 @@ function MarkingCriteriaCard(props) {
   const {
     markingCriteria,
     deleteMarkingCriteriaHandler,
-    cloneMarkingCriteria
+    cloneMarkingCriteria,
   } = props;
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
   return (
-    <MarkingCriteriaEntry onClick={() =>
-      (window.location.href =
-        markingCriteria.type == 'RUBRICS'
-          ? `/#/markingCriterias/rubrics/${markingCriteria.id}`
-          : `/#/markingTemplates/strengths-and-targets/${markingCriteria.id}`)
-    }>
-      <MarkingCriteriaEntryHeading>
+    <MarkingCriteriaEntry>
+      <MarkingCriteriaEntryHeading
+        onClick={()=>navigateToMarkingCriteriaUrl(markingCriteria.id, markingCriteria.type)}
+      >
         <div>
           <Title>{markingCriteria.title}</Title>
           <TypeText>
@@ -61,9 +58,9 @@ const MarkingCriteriaEntry = styled.div`
   border-radius: 16px;
   cursor: pointer;
 
-  &:hover{
-    border-color: #7200E0;
-    background-color: #F9F5FF;
+  &:hover {
+    border-color: #7200e0;
+    background-color: #f9f5ff;
   }
 `;
 
@@ -95,3 +92,11 @@ const Title = styled.div`
 `;
 
 export default MarkingCriteriaCard;
+function navigateToMarkingCriteriaUrl(id, type) {
+  window.location.href = markingCriteriaUrl(id, type);
+}
+function markingCriteriaUrl(id, type) {
+  return type == 'RUBRICS'
+    ? `/#/markingCriterias/rubrics/${id}`
+    : `/#/markingTemplates/strengths-and-targets/${id}`;
+}

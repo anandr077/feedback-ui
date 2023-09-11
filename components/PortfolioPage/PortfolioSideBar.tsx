@@ -143,8 +143,8 @@ const PortfolioSideBar = () => {
             className="FolderInputBox"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleAddFolder(true)}
-            placeholder="New Folder |"
+            onKeyDown={(e) => e.key === 'Enter' && inputValue.trim() !== '' && handleAddFolder(true)}
+            placeholder="New Folder"
           />
           <button
             onClick={() => {
@@ -310,10 +310,10 @@ function mainFolderContainer(
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) =>
-                  e.key === 'Enter' && handleAddFolder(false, mainIndex)
+                  e.key === 'Enter' && inputValue.trim() !== '' && handleAddFolder(false, mainIndex)
                 }
                 className="FolderInputBox"
-                placeholder="New Folder |"
+                placeholder="New Folder"
               />
               <button
                 className="newFolderBtn"

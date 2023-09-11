@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { portfolioHeaderProps } from '../../utils/headerProps';
-import downLoadImg from '../../static/icons/document-download@2x.png'
-import previewImg from '../../static/icons/preview@2x.png'
-import deleteImg from '../../static/icons/trash-can@2x.png'
+import downLoadImg from '../../static/icons/document-download@2x.png';
+import previewImg from '../../static/icons/preview@2x.png';
+import deleteImg from '../../static/icons/trash-can@2x.png';
 import Header from '../Header';
 import HeaderSmall from '../HeaderSmall';
 import FooterSmall from '../FooterSmall';
-import Footer from '../Footer'; 
+import Footer from '../Footer';
 
 import {
   PortfolioBody,
@@ -38,7 +38,7 @@ import {
   RecentBtns,
   RecentBtnImg,
   AllFilesContainer,
-  DocumentBtns
+  DocumentBtns,
 } from './PortfolioStyle';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import AddCircleIcon from '../../static/icons/add-circle.png';
@@ -63,7 +63,7 @@ const recentWork = [
   {
     title: 'Lorem ipsum - document name full size',
     desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  }
+  },
 ];
 
 //dummy data for the portfolio
@@ -165,9 +165,9 @@ const PortfolioPage = () => {
 
     handleResize();
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -182,124 +182,20 @@ const PortfolioPage = () => {
       ) : (
         <Header headerProps={portfolioHeaderProps} />
       )}
+
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
-          {/*
-          Portfolio Header starts from here.......
-        */}
-          <PortfolioHeader>
-            <PortfolioHeading>My Portfolio</PortfolioHeading>
-            <PortHeadingLeft>
-              <PortHeadDropDown>
-                <SelectStyle name="sort">
-                  <option value="" disabled selected hidden>
-                    Sort
-                  </option>
-                  <option value="one">One</option>
-                  <option value="two">Two</option>
-                  <option value="=three">Three</option>
-                </SelectStyle>
-                <SelectStyle name="status">
-                  <option value="" disabled selected hidden>
-                    Status
-                  </option>
-                  <option value="one">One</option>
-                  <option value="two">Two</option>
-                  <option value="=three">Three</option>
-                </SelectStyle>
-              </PortHeadDropDown>
-              <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
-                + New Document
-              </NewDocumentBtn>
-            </PortHeadingLeft>
-          </PortfolioHeader>
+          {portfolioHeader(setShowModal, showModal)}
 
-          {/*
-          Portfolio Container starts from here.......
-        */}
           <PortfolioContainer>
+
             <SideNavContainer>
               <PortfolioSideBar />
             </SideNavContainer>
 
-            <div style={{width: '100%'}}>
-              {/*all work code is here*/}
-              <WorkContainer>
-                <WorkHeader>
-                  <RecentTag>Recent</RecentTag>
-                  <AllWorkBtn>
-                    All works <ArrowForwardIcon style={{ fontSize: '16px' }} />
-                  </AllWorkBtn>
-                </WorkHeader>
-                <AllWorkBoxes>
-                  <NewDocBtn>
-                    <NewDocBtnImg
-                      src={AddCircleIcon}
-                      alt="Button Icon"
-                      className="NewDocBtnImg"
-                    ></NewDocBtnImg>
-                    <NewDocBtnText>New Document</NewDocBtnText>
-                  </NewDocBtn>
-                  {displayedWork.map((work, idx) => (
-                    <RecentWork key={idx}>
-                      <RecentWorkPara>
-                        {work.desc.slice(0, 400)}
-                      </RecentWorkPara>
-                      <RecentWorkTitle>{work.title}</RecentWorkTitle>
-                      <div class="recent-hover">
-                          <RecentBtns>
-                            <RecentBtnImg src={previewImg}></RecentBtnImg>
-                            View
-                          </RecentBtns>
-                          <RecentBtns>
-                            <RecentBtnImg src={downLoadImg}></RecentBtnImg>
-                            Download
-                          </RecentBtns>
-                      </div>
-                    </RecentWork>
-                  ))}
-                </AllWorkBoxes>
-              </WorkContainer>
-
-              {/*Document section code is here*/}
-              <AllFilesContainer>
-                <h3 style={{color: '#405059', fontSize: '24px', fontWeight: '500', marginBottom: '20px'}}>All files</h3>
-                {documentsArray.map((document, idx) => (
-                  <DocumentBox key={idx}>
-                    <DocumentBoxWrapper>
-                        <DocumentTextFrame>
-                          {document.desc.slice(0, 170)}...
-                        </DocumentTextFrame>
-                        <div>
-                          {document.status ? (
-                            <p style={documentStatusStyle(document.status)}>
-                              {document.status}
-                            </p>
-                          ) : (
-                            ''
-                          )}
-                          <DocumentTitle>{document.title}</DocumentTitle>
-                        </div>
-                    </DocumentBoxWrapper>
-                    <DocumentBtns>
-                        <button>
-                          <img src={previewImg} alt="Preview Button" />
-                          <p>View</p>
-                        </button>
-                        <button>
-                          <img src={downLoadImg} alt="Download Button" />
-                          <p>Download</p>
-                        </button>
-                        <button>
-                          <img src={deleteImg} alt="Delete Button" />
-                          <p>Delete</p>
-                        </button>
-                    </DocumentBtns>
-                  </DocumentBox>
-                ))}
-              </AllFilesContainer>
-            </div>
+            {workContainerFunc(displayedWork)}
           </PortfolioContainer>
+
         </PortfolioBody>
       </div>
 
@@ -307,42 +203,175 @@ const PortfolioPage = () => {
       {isSmallScreen ? <FooterSmall /> : <Footer />}
 
       {showModal && (
-        <ModalBody>
-          <ModalContainer>
-            <div
-              style={{
-                padding: '0 16px 16px',
-                borderBottom: '1px solid #F1E6FC',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <p
-                style={{
-                  color: '#505050',
-                  fontSize: '20px',
-                  fontWeight: '400',
-                  lineHeight: '26px',
-                }}
-              >
-                New Document
-              </p>
-              <CloseIcon
-                style={{ cursor: 'pointer' }}
-                onClick={() => setShowModal(!showModal)}
-              />
-            </div>
-            <PortfolioForm
-              subjects={options}
-              setShowModal={setShowModal}
-              showModal={showModal}
-            />
-          </ModalContainer>
-        </ModalBody>
+        newDocumentModal(setShowModal, showModal)
       )}
     </>
   );
 };
 
 export default PortfolioPage;
+
+
+
+function workContainerFunc(displayedWork: { title: string; desc: string; }[]) {
+  return <div style={{ width: '100%' }}>
+    {/*all work code is here*/}
+    <WorkContainer>
+      <WorkHeader>
+        <RecentTag>Recent</RecentTag>
+        <AllWorkBtn>
+          All works <ArrowForwardIcon style={{ fontSize: '16px' }} />
+        </AllWorkBtn>
+      </WorkHeader>
+      <AllWorkBoxes>
+        
+        <NewDocBtn>
+          <NewDocBtnImg
+            src={AddCircleIcon}
+            alt="Button Icon"
+            className="NewDocBtnImg"
+          ></NewDocBtnImg>
+          <NewDocBtnText>New Document</NewDocBtnText>
+        </NewDocBtn>
+
+        {displayedWork.map((work, idx) => (
+          <RecentWork key={idx}>
+            <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
+            <RecentWorkTitle>{work.title}</RecentWorkTitle>
+            <div className="recent-hover">
+              <RecentBtns>
+                <RecentBtnImg src={previewImg}></RecentBtnImg>
+                View
+              </RecentBtns>
+              <RecentBtns>
+                <RecentBtnImg src={downLoadImg}></RecentBtnImg>
+                Download
+              </RecentBtns>
+            </div>
+          </RecentWork>
+        ))}
+      </AllWorkBoxes>
+    </WorkContainer>
+
+    {/*Document section code is here*/}
+    {allFilesContainer()}
+  </div>;
+}
+
+function allFilesContainer() {
+  return <AllFilesContainer>
+    <h3
+      style={{
+        color: '#405059',
+        fontSize: '24px',
+        fontWeight: '500',
+        marginBottom: '20px',
+      }}
+    >
+      All files
+    </h3>
+    {documentsArray.map((document, idx) => (
+      <DocumentBox key={idx}>
+        <DocumentBoxWrapper>
+          <DocumentTextFrame>
+            {document.desc.slice(0, 170)}...
+          </DocumentTextFrame>
+          <div>
+            {document.status ? (
+              <p style={documentStatusStyle(document.status)}>
+                {document.status}
+              </p>
+            ) : (
+              ''
+            )}
+            <DocumentTitle>{document.title}</DocumentTitle>
+          </div>
+        </DocumentBoxWrapper>
+        <DocumentBtns>
+          <button>
+            <img src={previewImg} alt="Preview Button" />
+            <p>View</p>
+          </button>
+          <button>
+            <img src={downLoadImg} alt="Download Button" />
+            <p>Download</p>
+          </button>
+          <button>
+            <img src={deleteImg} alt="Delete Button" />
+            <p>Delete</p>
+          </button>
+        </DocumentBtns>
+      </DocumentBox>
+    ))}
+  </AllFilesContainer>;
+}
+
+function newDocumentModal(setShowModal: React.Dispatch<React.SetStateAction<boolean>>, showModal: boolean) {
+  return <ModalBody>
+    <ModalContainer>
+      <div
+        style={{
+          padding: '0 16px 16px',
+          borderBottom: '1px solid #F1E6FC',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <p
+          style={{
+            color: '#505050',
+            fontSize: '20px',
+            fontWeight: '400',
+            lineHeight: '26px',
+          }}
+        >
+          New Document
+        </p>
+        <CloseIcon
+          style={{ cursor: 'pointer' }}
+          onClick={() => setShowModal(!showModal)} 
+        />
+      </div>
+      <PortfolioForm
+        subjects={options}
+        setShowModal={setShowModal}
+        showModal={showModal} 
+      />
+    </ModalContainer>
+  </ModalBody>;
+}
+
+function portfolioHeader(
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  showModal: boolean
+) {
+  return (
+    <PortfolioHeader>
+      <PortfolioHeading>My Portfolio</PortfolioHeading>
+      <PortHeadingLeft>
+        <PortHeadDropDown>
+          <SelectStyle name="sort">
+            <option value="" disabled selected hidden>
+              Sort
+            </option>
+            <option value="one">One</option>
+            <option value="two">Two</option>
+            <option value="=three">Three</option>
+          </SelectStyle>
+          <SelectStyle name="status">
+            <option value="" disabled selected hidden>
+              Status
+            </option>
+            <option value="one">One</option>
+            <option value="two">Two</option>
+            <option value="=three">Three</option>
+          </SelectStyle>
+        </PortHeadDropDown>
+        <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
+          + New Document
+        </NewDocumentBtn>
+      </PortHeadingLeft>
+    </PortfolioHeader>
+  );
+}

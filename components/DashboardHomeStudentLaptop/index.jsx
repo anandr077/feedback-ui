@@ -239,7 +239,7 @@ const MaskGroup = styled.img`
   position: absolute;
   top: calc(50% - 130px);
   left: calc(50% - 720px);
-  width: 1440px;
+  width: 1200px;
   height: 260px;
 `;
 

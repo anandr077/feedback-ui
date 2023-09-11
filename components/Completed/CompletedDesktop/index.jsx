@@ -142,7 +142,7 @@ const Frame1413 = styled.div`
 const Line18 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 1440px;
+  min-width: 1200px;
   height: 1px;
   object-fit: cover;
 `;

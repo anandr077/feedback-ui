@@ -36,10 +36,11 @@ function CriteriaContainer(props) {
 
         <CriteriaTitle>
             <CriteriaTitleInput
-                placeholder="Answering the question"
+                placeholder="Answering the question (max 140 characters)"
                 id="criteriaName"
                 value={criteria?.title}
                 onChange={(e) => updateCriteriaTitle(criteriaId, e.target.value)}
+                maxLength='140'
             />
         </CriteriaTitle>
         <LevelsBox>

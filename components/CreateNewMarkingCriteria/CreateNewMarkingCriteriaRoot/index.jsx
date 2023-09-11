@@ -155,16 +155,10 @@ const deleteMarkingCriteriaMethod = () => {
 }
 
 const handleTitleChange = (event) => {
-  if(event.target.value.length > 140) {
-    return;
-  }
   setMarkingCriterias({ ...markingCriterias, title: event.target.value });
 }
 
 const updateCriteriaTitle = (id, newTitle ) => {
-  if(newTitle.length > 140) {
-    return;
-  }
   const newCriterias = markingCriterias.criterias.map((criteria, index) => {
     if (index === id) {
       return {
@@ -178,9 +172,7 @@ const updateCriteriaTitle = (id, newTitle ) => {
 }
 
 const updateLevelName = (criteriaId, levelId, newName) => {
-  if(newName.length > 30) {
-    return;
-  }
+ 
   const newCriterias = markingCriterias.criterias.map((criteria, index) => {
     if (index === criteriaId) {
       return {

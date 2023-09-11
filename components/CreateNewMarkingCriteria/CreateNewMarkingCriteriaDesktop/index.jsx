@@ -41,8 +41,8 @@ function CreateNewMarkingCriteriaDesktop(props) {
            <TitleContainer
               id="markingCriteriaTitleContainer"
           >
-          <TextInput placeholder="Name of marking criteria" id="markingCriteriaName" value={markingCriterias.title}
-              onChange={handleTitleChange} ></TextInput>
+          <TextInput placeholder="Name of marking criteria (max 140 characters)" id="markingCriteriaName" value={markingCriterias.title}
+              onChange={handleTitleChange}   maxLength='140' ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

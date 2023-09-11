@@ -8,10 +8,16 @@ function LevelContainer(props) {
   return (
     <SingleLevelContainer>
       <LevelTitle>
-        <LevelTextInput placeholder="Level Name" value={level?.name} onChange={(e) => updateLevelName(criteriaId, levelId, e.target.value)}/>
+        <LevelTextInput 
+        placeholder="Level Name (max 30 characters)" value={level?.name} onChange={(e) => updateLevelName(criteriaId, levelId, e.target.value)}
+        maxLength='30'
+        />
       </LevelTitle>
       <LevelDetails>
-        <LevelTextDiscription placeholder="An answer of this level should..." value={level?.description} onChange={(e) => updateLevelDescription(criteriaId, levelId, e.target.value)}/>
+        <LevelTextDiscription placeholder="An answer of this level should...(max 200 characters)" 
+        value={level?.description} onChange={(e) => updateLevelDescription(criteriaId, levelId, e.target.value)}
+        maxLength='30'
+        />
       </LevelDetails>
     { (levelId != 0 && levelId != 1) && <RemoveButtonContainer>
         <ButtonInnerContainer onClick={() => deleteLevelUpdate(levelId)}>

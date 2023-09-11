@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { IbmplexsansSemiBoldShark20px } from '../../styledMixins';
-
 export const ImageDropdownMenu = (props) => {
   const {
     selectedIndex,
@@ -161,8 +160,7 @@ export const ImageDropdownMenu = (props) => {
           },
         }}
       >
-        <TextField
-          label="Search"
+        <StyledTextField
           variant="outlined"
           value={searchInput}
           onChange={handleSearchInputChange}
@@ -422,4 +420,14 @@ const Frame12841 = styled.img`
   min-width: 16px;
   height: 16px;
 `;
+
+const StyledTextField = styled(TextField)`
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 10px;
+  }
+  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 10px;
+  }
+`;
+
 export default ImageDropdownMenu;

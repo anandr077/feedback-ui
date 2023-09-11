@@ -78,7 +78,7 @@ function TeacherDashboardLaptop(props) {
                   arrowright={frame14072Props.arrowright}
                 />
               </Frame1337>
-              <Line17 src={line172} alt="Line 17" />
+              <Line18 src={line172} alt="Line 17" />
               <Frame1307>
                 <Frame12842 title={"DRAFTS"} count={drafts.length} />
                 <Frame12842
@@ -93,7 +93,7 @@ function TeacherDashboardLaptop(props) {
               <Frame1337>
                 <Classes>{recentActivity}</Classes>
               </Frame1337>
-              <Line17 src={line173} alt="Line 17" />
+              <Line18 src={line173} alt="Line 17" />
               {recentActivitiesFrame(notifications)}
             </Frame13411>
           </Frame1416>
@@ -276,6 +276,15 @@ const Line17 = styled.img`
   align-self: stretch;
   min-width: 644px;
   height: 1px;
+  object-fit: cover;
+`;
+
+const Line18 = styled.img`
+position: relative;
+  align-self: stretch;
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
   object-fit: cover;
 `;
 

@@ -60,7 +60,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
   const [exemplarComment, setExemplerComment] = useState('');
-  const [isValidComment, setIsValidComment] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -269,13 +268,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const addExemplerComment = () => {
-    if (exemplarComment === '') {
-      setIsValidComment(false);
-      return;
-    }
+    const comment = exemplarComment || "No comment";
+
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: exemplarComment,
+      feedback: comment,
       range: selectedRange,
       type: 'MODEL_RESPONSE',
       replies: [],
@@ -293,7 +290,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const handleInputChange = (event) => {
     const value = event.target.value;
     setExemplerComment(value);
-    setIsValidComment(value !== '');
   };
   const sharewithclassdialog = (
     <Dialog
@@ -310,12 +306,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
-          error={!isValidComment}
-          helperText={
-            !isValidComment
-              ? 'Field cannot be empty'
-              : 'Enter response to share with class'
-          }
+          helperText={'Add a note for your class to accompany this example'}
         />
         <ActionButtonsContainer>
           <DialogActions>
@@ -1124,7 +1115,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           hidePopup={hideSubmitPopup}
           title="Submit Task"
           textContent={popupText}
-          buttonText="Submit"
+          buttonText="Acknowledge and Submit"
           confirmButtonAction={submissionFunction()}
         />
       )}

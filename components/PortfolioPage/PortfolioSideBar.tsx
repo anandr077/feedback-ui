@@ -127,7 +127,7 @@ const PortfolioSideBar = () => {
           handleAddFolder
         )
       )}
-      {!showInput.main && (
+      {!showInput.main && data.length < 10 && (
         <button
           className={`newFolderBtn ${showNavMenu ? 'showBtn' : 'hideBtn'}`}
           onClick={() =>
@@ -287,7 +287,7 @@ function mainFolderContainer(
             setShowInput
           )
         )}
-      {showSubfolders === mainIndex && (
+      {showSubfolders === mainIndex && folder.files.length < 10 && (
         <div style={{ marginLeft: '20px' }}>
           {showInput.sub !== mainIndex && (
             <button

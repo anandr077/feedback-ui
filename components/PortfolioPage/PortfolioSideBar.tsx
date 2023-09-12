@@ -8,6 +8,7 @@ import menuIcon from '../../static/icons/menuBar.png';
 import editSM from '../../static/icons/EditSM.png';
 import deleteSM from '../../static/icons/deleteSM.png';
 import './portfolioSideBar.css';
+import { getPortfolio } from '../../service';
 
 const PortfolioSideBar = () => {
   const [data, setData] = useState(sidebarData.files);
@@ -50,7 +51,15 @@ const PortfolioSideBar = () => {
       window.removeEventListener('click', handleClickOutside);
     };
   }, []);
-
+  useEffect(() => {
+    Promise.all([
+      getPortfolio(),
+    ]).then(([result]) => {
+      if (result) {
+        console.log("result", result);
+      }
+    });
+  }, []);
   const handleDeleteMainFolder = (index) => {
     const newData = [...data];
     newData.splice(index, 1);

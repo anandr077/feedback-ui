@@ -16,7 +16,8 @@ import {
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
 import Loader from '../../Loader';
-
+const STRENGTHS = 'strengths';
+const TARGETS = 'targets';
 const Strengths_And_Traget_Data = {
   title: '',
   strengths: [''],
@@ -26,7 +27,6 @@ const Strengths_And_Traget_Data = {
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
   const { showSnackbar } = React.useContext(SnackbarContext);
-  // USE THIS OBJECT -> markingMethodology
   const [markingMethodology, setMarkingMethodology] = useState({
     title: '',
     type: 'STRENGTHS_TARGETS',
@@ -34,7 +34,19 @@ export default function CreateNewStrengthAndTargets() {
   });
 
   const [isLoading, setIsLoading] = React.useState(true);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   React.useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
       ([result]) => {
@@ -46,8 +58,10 @@ export default function CreateNewStrengthAndTargets() {
   if (isLoading) {
     return <Loader />;
   }
-  const STRENGTHS = 'strengths';
-  const TARGETS = 'targets';
+
+
+
+
 
   const headerProps = completedHeaderProps(true);
 
@@ -65,14 +79,6 @@ export default function CreateNewStrengthAndTargets() {
 
   const handleAddCriteria = () => {
     console.log('Adding criteria');
-    // const newData = {
-    //   ...Strengths_And_Traget_Data,
-    // };
-    // const updatedData = { ...markingMethodology };
-    // updatedData.strengthsTargetsCriterias = [
-    //   ...updatedData.strengthsTargetsCriterias,
-    //   newData,
-    // ];
     setMarkingMethodology((oldMarkingTemplate) => {
       console.log('oldMarkingTemplate methodology: ', oldMarkingTemplate);
 
@@ -80,7 +86,11 @@ export default function CreateNewStrengthAndTargets() {
         ...oldMarkingTemplate,
         strengthsTargetsCriterias: [
           ...oldMarkingTemplate.strengthsTargetsCriterias,
-          Strengths_And_Traget_Data,
+          {
+            title: '',
+            strengths: [''],
+            targets: [''],
+          }
         ],
       };
       console.log('newMarkingTemplate: ', newMarkingTemplate);
@@ -140,6 +150,7 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const createStrengthsAndTargets = (criteria, index) => {
+    console.log("createStrengthsAndTargets", criteria, index)
     return (
       <div className="strength-and-target-container">
         <div className="strength">
@@ -216,7 +227,8 @@ export default function CreateNewStrengthAndTargets() {
     );
   };
   const createCriteria = (criteria, index) => {
-    return (
+    console.log("createCriteria", criteria, index)
+    return <>
       <div className="criteria-container">
         <div className="remove-and-criteria">
           <div className="criteria">Evaluation Area</div>
@@ -249,7 +261,7 @@ export default function CreateNewStrengthAndTargets() {
         />
         {createStrengthsAndTargets(criteria, index)}
       </div>
-    );
+      </>;
   };
   const header = () => {
     return screenWidth > 1439 ? (
@@ -278,7 +290,7 @@ export default function CreateNewStrengthAndTargets() {
         {markingMethodology?.strengthsTargetsCriterias?.map((criteria, index) =>
           createCriteria(criteria, index)
         )}
-        <div className="add-criteria" onClick={() => alert('Alert!!')}>
+        <div className="add-criteria" onClick={() => handleAddCriteria()}>
           + Add evaluation area
         </div>
       </div>
@@ -312,38 +324,25 @@ export default function CreateNewStrengthAndTargets() {
     return true;
   }
 
-  const saveData = (markingMethodologyId) => {
+  const saveData = () => {
     if (!validateStrengthsTargets(markingMethodology)) {
       return;
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
-        showSnackbar('Strengths and Targets Created');
+        showSnackbar('Strengths and Targets Created', '/#/markingTemplates/strengths-and-targets/'+response.id.value);
         window.location.href = '/#/settings';
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
-          showSnackbar('Strengths and Targets Updated');
+          showSnackbar('Strengths and Targets Updated', '/#/markingTemplates/strengths-and-targets/'+response.id.value);
           window.location.href = '/#/settings';
         }
       );
     }
   };
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
     <div className="parent-container">
@@ -381,7 +380,7 @@ const titleAndSaveButton = (saveData, markingMethodologyId = 'new') => {
         ) : (
           ''
         )}
-        <button className="save" onClick={() => saveData(markingMethodologyId)}>
+        <button className="save" onClick={() => saveData()}>
           {markingMethodologyId === 'new' ? 'Save criteria' : 'Update criteria'}
         </button>
       </div>

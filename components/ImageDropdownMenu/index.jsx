@@ -164,6 +164,7 @@ export const ImageDropdownMenu = (props) => {
           variant="outlined"
           value={searchInput}
           onChange={handleSearchInputChange}
+          onKeyDown={(e) => e.stopPropagation()}
           fullWidth
         />
         {filteredMenuItems.map((item) => {

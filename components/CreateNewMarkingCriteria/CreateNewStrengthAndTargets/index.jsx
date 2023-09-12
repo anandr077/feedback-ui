@@ -15,7 +15,9 @@ import {
 } from '../../../service';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
-
+import Loader from '../../Loader';
+const STRENGTHS = 'strengths';
+const TARGETS = 'targets';
 const Strengths_And_Traget_Data = {
   title: '',
   strengths: [''],
@@ -25,7 +27,6 @@ const Strengths_And_Traget_Data = {
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
   const { showSnackbar } = React.useContext(SnackbarContext);
-  // USE THIS OBJECT -> markingMethodology
   const [markingMethodology, setMarkingMethodology] = useState({
     title: '',
     type: 'STRENGTHS_TARGETS',
@@ -33,7 +34,19 @@ export default function CreateNewStrengthAndTargets() {
   });
 
   const [isLoading, setIsLoading] = React.useState(true);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   React.useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
       ([result]) => {
@@ -42,12 +55,15 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
-  const STRENGTHS = 'strengths';
-  const TARGETS = 'targets';
+  if (isLoading) {
+    return <Loader />;
+  }
+
+
+
+
 
   const headerProps = completedHeaderProps(true);
-
-  const [criteriaSets, setCriteriaSets] = useState([0]);
 
   const handleCriteriaChange = (e, index) => {
     const updatedData = { ...markingMethodology };
@@ -62,17 +78,24 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const handleAddCriteria = () => {
-    const newData = {
-      ...Strengths_And_Traget_Data,
-    };
-    const updatedData = { ...markingMethodology };
-    updatedData.strengthsTargetsCriterias = [
-      ...updatedData.strengthsTargetsCriterias,
-      newData,
-    ];
-    console.log('updatedData: ', updatedData);
-    setMarkingMethodology(updatedData);
-    setCriteriaSets([...criteriaSets, criteriaSets.length]);
+    console.log('Adding criteria');
+    setMarkingMethodology((oldMarkingTemplate) => {
+      console.log('oldMarkingTemplate methodology: ', oldMarkingTemplate);
+
+      const newMarkingTemplate = {
+        ...oldMarkingTemplate,
+        strengthsTargetsCriterias: [
+          ...oldMarkingTemplate.strengthsTargetsCriterias,
+          {
+            title: '',
+            strengths: [''],
+            targets: [''],
+          }
+        ],
+      };
+      console.log('newMarkingTemplate: ', newMarkingTemplate);
+      return newMarkingTemplate;
+    });
   };
 
   const removeCriteria = (indexToDelete) => {
@@ -82,11 +105,6 @@ export default function CreateNewStrengthAndTargets() {
         (_, index) => index !== indexToDelete
       );
     setMarkingMethodology(updatedData);
-
-    const updateCriteriaSets = criteriaSets.filter(
-      (_, index) => index !== indexToDelete
-    );
-    setCriteriaSets(updateCriteriaSets);
   };
 
   const handleAddOption = (index, type) => {
@@ -131,37 +149,36 @@ export default function CreateNewStrengthAndTargets() {
     setMarkingMethodology(updatedData);
   };
 
-  const createStrengthsAndTargets = (index) => {
+  const createStrengthsAndTargets = (criteria, index) => {
+    console.log("createStrengthsAndTargets", criteria, index)
     return (
       <div className="strength-and-target-container">
         <div className="strength">
           <div className="strength-text">Strengths</div>
-          {markingMethodology.strengthsTargetsCriterias[index].strengths.map(
-            (value, childIndex) => {
-              return (
-                <div className="criteria-option">
-                  {input(
-                    value,
-                    handleCriteriaOptionChange,
-                    childIndex,
-                    index,
-                    STRENGTHS
-                  )}
-                  {childIndex >= 1 && (
-                    <div
-                      className="remove-option"
-                      onClick={() =>
-                        removeAddOption(childIndex, index, STRENGTHS)
-                      }
-                    >
-                      <img src="/icons/delete-vector.svg" alt="delete" />
-                      Remove
-                    </div>
-                  )}
-                </div>
-              );
-            }
-          )}
+          {criteria.strengths.map((value, childIndex) => {
+            return (
+              <div className="criteria-option">
+                {input(
+                  value,
+                  handleCriteriaOptionChange,
+                  childIndex,
+                  index,
+                  STRENGTHS
+                )}
+                {childIndex >= 1 && (
+                  <div
+                    className="remove-option"
+                    onClick={() =>
+                      removeAddOption(childIndex, index, STRENGTHS)
+                    }
+                  >
+                    <img src="/icons/delete-vector.svg" alt="delete" />
+                    Remove
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
           <div
             className="add-criteria"
@@ -173,35 +190,31 @@ export default function CreateNewStrengthAndTargets() {
         </div>
         <div className="target">
           <div className="target-text">Targets</div>
-          {markingMethodology.strengthsTargetsCriterias[index].targets.map(
-            (value, childIndex) => {
-              return (
-                <div className="criteria-option">
-                  <input
-                    type="text"
-                    className="title-input"
-                    placeholder="You need to..."
-                    value={value}
-                    onChange={(e) =>
-                      handleCriteriaOptionChange(e, childIndex, index, TARGETS)
-                    }
-                    style={{ fontWeight: 'bold' }}
-                  />
-                  {childIndex >= 1 && (
-                    <div
-                      className="remove-option"
-                      onClick={() =>
-                        removeAddOption(childIndex, index, TARGETS)
-                      }
-                    >
-                      <img src="/icons/delete-vector.svg" alt="delete" />
-                      Remove
-                    </div>
-                  )}
-                </div>
-              );
-            }
-          )}
+          {criteria.targets.map((value, childIndex) => {
+            return (
+              <div className="criteria-option">
+                <input
+                  type="text"
+                  className="title-input"
+                  placeholder="You need to..."
+                  value={value}
+                  onChange={(e) =>
+                    handleCriteriaOptionChange(e, childIndex, index, TARGETS)
+                  }
+                  style={{ fontWeight: 'bold' }}
+                />
+                {childIndex >= 1 && (
+                  <div
+                    className="remove-option"
+                    onClick={() => removeAddOption(childIndex, index, TARGETS)}
+                  >
+                    <img src="/icons/delete-vector.svg" alt="delete" />
+                    Remove
+                  </div>
+                )}
+              </div>
+            );
+          })}
           <div
             className="add-criteria"
             onClick={() => handleAddOption(index, TARGETS)}
@@ -213,8 +226,9 @@ export default function CreateNewStrengthAndTargets() {
       </div>
     );
   };
-  const createCriteria = (index) => {
-    return (
+  const createCriteria = (criteria, index) => {
+    console.log("createCriteria", criteria, index)
+    return <>
       <div className="criteria-container">
         <div className="remove-and-criteria">
           <div className="criteria">Evaluation Area</div>
@@ -241,15 +255,13 @@ export default function CreateNewStrengthAndTargets() {
           type="text"
           className="title-input"
           placeholder="Enter an evaluation area for this set of strengths and weaknesses"
-          value={
-            markingMethodology?.strengthsTargetsCriterias[index]?.title || ''
-          }
+          value={criteria?.title || ''}
           onChange={(e) => handleCriteriaChange(e, index)}
           style={{ marginTop: '20px' }}
         />
-        {createStrengthsAndTargets(index)}
+        {createStrengthsAndTargets(criteria, index)}
       </div>
-    );
+      </>;
   };
   const header = () => {
     return screenWidth > 1439 ? (
@@ -275,8 +287,10 @@ export default function CreateNewStrengthAndTargets() {
       <div className="form-container">
         <div className="subheading">Strengths and Targets</div>
         <div className="border"></div>
-        {criteriaSets.map((index) => createCriteria(index))}
-        <div className="add-criteria" onClick={handleAddCriteria}>
+        {markingMethodology?.strengthsTargetsCriterias?.map((criteria, index) =>
+          createCriteria(criteria, index)
+        )}
+        <div className="add-criteria" onClick={() => handleAddCriteria()}>
           + Add evaluation area
         </div>
       </div>
@@ -310,38 +324,25 @@ export default function CreateNewStrengthAndTargets() {
     return true;
   }
 
-  const saveData = (markingMethodologyId) => {
+  const saveData = () => {
     if (!validateStrengthsTargets(markingMethodology)) {
       return;
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
-        showSnackbar('Strengths and Targets Created');
+        showSnackbar('Strengths and Targets Created', '/#/markingTemplates/strengths-and-targets/'+response.id.value);
         window.location.href = '/#/settings';
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
-          showSnackbar('Strengths and Targets Updated');
+          showSnackbar('Strengths and Targets Updated', '/#/markingTemplates/strengths-and-targets/'+response.id.value);
           window.location.href = '/#/settings';
         }
       );
     }
   };
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
     <div className="parent-container">
@@ -379,7 +380,7 @@ const titleAndSaveButton = (saveData, markingMethodologyId = 'new') => {
         ) : (
           ''
         )}
-        <button className="save" onClick={() => saveData(markingMethodologyId)}>
+        <button className="save" onClick={() => saveData()}>
           {markingMethodologyId === 'new' ? 'Save criteria' : 'Update criteria'}
         </button>
       </div>

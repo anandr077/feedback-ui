@@ -33,21 +33,34 @@ export default function PreviewDialog({
                   <div className="option-container">
                     <div className="data" style={{ width: '50%' }}>
                       <div className="title">Strengths</div>
-                      <div className="data">
-                        {criteria.strengths.map((strength) => (
-                          <div className="content">{strength}</div>
-                        ))}
-                      </div>
                     </div>
                     <div className="data" style={{ width: '50%' }}>
                       <div className="title">Targets</div>
-                      <div className="data">
-                        {criteria.targets.map((target) => (
-                          <div className="content">{target}</div>
-                        ))}
-                      </div>
                     </div>
                   </div>
+                  {Array.from({
+                    length: Math.max(
+                      criteria.strengths.length,
+                      criteria.targets.length
+                    ),
+                  }).map((_, index) => (
+                    <div className="option-container" key={index}>
+                      <div className="data" style={{ width: '50%' }}>
+                        {index < criteria.strengths.length && (
+                          <div className="content">
+                            {criteria.strengths[index]}
+                          </div>
+                        )}
+                      </div>
+                      <div className="data" style={{ width: '50%' }}>
+                        {index < criteria.targets.length && (
+                          <div className="content">
+                            {criteria.targets[index]}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>

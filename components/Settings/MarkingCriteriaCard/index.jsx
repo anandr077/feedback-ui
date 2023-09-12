@@ -14,21 +14,24 @@ function MarkingCriteriaCard(props) {
     useState(false);
   return (
     <MarkingCriteriaEntry>
-      <MarkingCriteriaEntryHeading>
-        <Title>{markingCriteria.title}</Title>
+      <MarkingCriteriaEntryHeading
+        onClick={()=>navigateToMarkingCriteriaUrl(markingCriteria.id, markingCriteria.type)}
+      >
+        <div>
+          <Title>{markingCriteria.title}</Title>
+          <TypeText>
+            {markingCriteria.type === 'RUBRICS'
+              ? 'Rubric'
+              : 'Strengths and Targets'}
+          </TypeText>
+        </div>
         <Buttons2
           markingCriteriaId={markingCriteria.id}
           deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
           cloneMarkingCriteria={cloneMarkingCriteria}
-          type={markingCriteria.type}
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
         />
       </MarkingCriteriaEntryHeading>
-      <TypeText>
-        {markingCriteria.type === 'RUBRICS'
-          ? 'Rubric'
-          : 'Strengths and Targets'}
-      </TypeText>
       {openMarkingCriteriaPreviewDialog && (
         <PreviewDialog
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
@@ -44,7 +47,7 @@ const MarkingCriteriaEntry = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  padding: 20px;
+  padding: 30px 20px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
@@ -53,11 +56,18 @@ const MarkingCriteriaEntry = styled.div`
   background: #fff;
   box-shadow: 0px 4px 22px #2f1a720a;
   border-radius: 16px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #7200e0;
+    background-color: #f9f5ff;
+  }
 `;
 
 const MarkingCriteriaEntryHeading = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
   position: relative;
   align-self: stretch;
@@ -82,3 +92,11 @@ const Title = styled.div`
 `;
 
 export default MarkingCriteriaCard;
+function navigateToMarkingCriteriaUrl(id, type) {
+  window.location.href = markingCriteriaUrl(id, type);
+}
+function markingCriteriaUrl(id, type) {
+  return type == 'RUBRICS'
+    ? `/#/markingCriterias/rubrics/${id}`
+    : `/#/markingTemplates/strengths-and-targets/${id}`;
+}

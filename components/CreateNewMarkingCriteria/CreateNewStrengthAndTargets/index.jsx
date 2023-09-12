@@ -15,6 +15,7 @@ import {
 } from '../../../service';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
+import Loader from '../../Loader';
 
 const Strengths_And_Traget_Data = {
   title: '',
@@ -42,12 +43,13 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
+  if (isLoading) {
+    return <Loader />;
+  }
   const STRENGTHS = 'strengths';
   const TARGETS = 'targets';
 
   const headerProps = completedHeaderProps(true);
-
-  const [criteriaSets, setCriteriaSets] = useState([0]);
 
   const handleCriteriaChange = (e, index) => {
     const updatedData = { ...markingMethodology };
@@ -62,17 +64,28 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const handleAddCriteria = () => {
-    const newData = {
-      ...Strengths_And_Traget_Data,
-    };
-    const updatedData = { ...markingMethodology };
-    updatedData.strengthsTargetsCriterias = [
-      ...updatedData.strengthsTargetsCriterias,
-      newData,
-    ];
-    console.log('updatedData: ', updatedData);
-    setMarkingMethodology(updatedData);
-    setCriteriaSets([...criteriaSets, criteriaSets.length]);
+    console.log('Adding criteria');
+    // const newData = {
+    //   ...Strengths_And_Traget_Data,
+    // };
+    // const updatedData = { ...markingMethodology };
+    // updatedData.strengthsTargetsCriterias = [
+    //   ...updatedData.strengthsTargetsCriterias,
+    //   newData,
+    // ];
+    setMarkingMethodology((oldMarkingTemplate) => {
+      console.log('oldMarkingTemplate methodology: ', oldMarkingTemplate);
+
+      const newMarkingTemplate = {
+        ...oldMarkingTemplate,
+        strengthsTargetsCriterias: [
+          ...oldMarkingTemplate.strengthsTargetsCriterias,
+          Strengths_And_Traget_Data,
+        ],
+      };
+      console.log('newMarkingTemplate: ', newMarkingTemplate);
+      return newMarkingTemplate;
+    });
   };
 
   const removeCriteria = (indexToDelete) => {
@@ -82,11 +95,6 @@ export default function CreateNewStrengthAndTargets() {
         (_, index) => index !== indexToDelete
       );
     setMarkingMethodology(updatedData);
-
-    const updateCriteriaSets = criteriaSets.filter(
-      (_, index) => index !== indexToDelete
-    );
-    setCriteriaSets(updateCriteriaSets);
   };
 
   const handleAddOption = (index, type) => {
@@ -131,37 +139,35 @@ export default function CreateNewStrengthAndTargets() {
     setMarkingMethodology(updatedData);
   };
 
-  const createStrengthsAndTargets = (index) => {
+  const createStrengthsAndTargets = (criteria, index) => {
     return (
       <div className="strength-and-target-container">
         <div className="strength">
           <div className="strength-text">Strengths</div>
-          {markingMethodology.strengthsTargetsCriterias[index].strengths.map(
-            (value, childIndex) => {
-              return (
-                <div className="criteria-option">
-                  {input(
-                    value,
-                    handleCriteriaOptionChange,
-                    childIndex,
-                    index,
-                    STRENGTHS
-                  )}
-                  {childIndex >= 1 && (
-                    <div
-                      className="remove-option"
-                      onClick={() =>
-                        removeAddOption(childIndex, index, STRENGTHS)
-                      }
-                    >
-                      <img src="/icons/delete-vector.svg" alt="delete" />
-                      Remove
-                    </div>
-                  )}
-                </div>
-              );
-            }
-          )}
+          {criteria.strengths.map((value, childIndex) => {
+            return (
+              <div className="criteria-option">
+                {input(
+                  value,
+                  handleCriteriaOptionChange,
+                  childIndex,
+                  index,
+                  STRENGTHS
+                )}
+                {childIndex >= 1 && (
+                  <div
+                    className="remove-option"
+                    onClick={() =>
+                      removeAddOption(childIndex, index, STRENGTHS)
+                    }
+                  >
+                    <img src="/icons/delete-vector.svg" alt="delete" />
+                    Remove
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
           <div
             className="add-criteria"
@@ -173,35 +179,31 @@ export default function CreateNewStrengthAndTargets() {
         </div>
         <div className="target">
           <div className="target-text">Targets</div>
-          {markingMethodology.strengthsTargetsCriterias[index].targets.map(
-            (value, childIndex) => {
-              return (
-                <div className="criteria-option">
-                  <input
-                    type="text"
-                    className="title-input"
-                    placeholder="You need to..."
-                    value={value}
-                    onChange={(e) =>
-                      handleCriteriaOptionChange(e, childIndex, index, TARGETS)
-                    }
-                    style={{ fontWeight: 'bold' }}
-                  />
-                  {childIndex >= 1 && (
-                    <div
-                      className="remove-option"
-                      onClick={() =>
-                        removeAddOption(childIndex, index, TARGETS)
-                      }
-                    >
-                      <img src="/icons/delete-vector.svg" alt="delete" />
-                      Remove
-                    </div>
-                  )}
-                </div>
-              );
-            }
-          )}
+          {criteria.targets.map((value, childIndex) => {
+            return (
+              <div className="criteria-option">
+                <input
+                  type="text"
+                  className="title-input"
+                  placeholder="You need to..."
+                  value={value}
+                  onChange={(e) =>
+                    handleCriteriaOptionChange(e, childIndex, index, TARGETS)
+                  }
+                  style={{ fontWeight: 'bold' }}
+                />
+                {childIndex >= 1 && (
+                  <div
+                    className="remove-option"
+                    onClick={() => removeAddOption(childIndex, index, TARGETS)}
+                  >
+                    <img src="/icons/delete-vector.svg" alt="delete" />
+                    Remove
+                  </div>
+                )}
+              </div>
+            );
+          })}
           <div
             className="add-criteria"
             onClick={() => handleAddOption(index, TARGETS)}
@@ -213,7 +215,7 @@ export default function CreateNewStrengthAndTargets() {
       </div>
     );
   };
-  const createCriteria = (index) => {
+  const createCriteria = (criteria, index) => {
     return (
       <div className="criteria-container">
         <div className="remove-and-criteria">
@@ -241,13 +243,11 @@ export default function CreateNewStrengthAndTargets() {
           type="text"
           className="title-input"
           placeholder="Enter an evaluation area for this set of strengths and weaknesses"
-          value={
-            markingMethodology?.strengthsTargetsCriterias[index]?.title || ''
-          }
+          value={criteria?.title || ''}
           onChange={(e) => handleCriteriaChange(e, index)}
           style={{ marginTop: '20px' }}
         />
-        {createStrengthsAndTargets(index)}
+        {createStrengthsAndTargets(criteria, index)}
       </div>
     );
   };
@@ -275,8 +275,10 @@ export default function CreateNewStrengthAndTargets() {
       <div className="form-container">
         <div className="subheading">Strengths and Targets</div>
         <div className="border"></div>
-        {criteriaSets.map((index) => createCriteria(index))}
-        <div className="add-criteria" onClick={handleAddCriteria}>
+        {markingMethodology?.strengthsTargetsCriterias?.map((criteria, index) =>
+          createCriteria(criteria, index)
+        )}
+        <div className="add-criteria" onClick={() => alert('Alert!!')}>
           + Add evaluation area
         </div>
       </div>

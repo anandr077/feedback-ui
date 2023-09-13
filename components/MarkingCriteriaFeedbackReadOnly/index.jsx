@@ -5,18 +5,16 @@ import './markingcriteria.css';
 import StrengthsTargets from '../StrengthsTargets';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
-  
   const { allmarkingCriteriaFeedback, questionSerialNumber } = props;
 
-  console.log("allmarkingCriteriaFeedback", allmarkingCriteriaFeedback)
-  console.log("questionSerialNumber", questionSerialNumber)
+  console.log('allmarkingCriteriaFeedback', allmarkingCriteriaFeedback);
+  console.log('questionSerialNumber', questionSerialNumber);
   const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
-    (markingCriteriaFeedback) => 
+    (markingCriteriaFeedback) =>
       markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
-  )[0]; 
-  console.log("selectedMarkingCriteria", selectedMarkingCriteria)
+  )[0];
+  console.log('selectedMarkingCriteria', selectedMarkingCriteria);
 
-  
   return (
     <MarkingCriteriaContainer>
       <table className="marking-criteria-parent-container">
@@ -30,20 +28,31 @@ export default function MarkingCriteriaFeedbackReadOnly(props) {
 }
 
 function heading(selectedMarkingCriteria) {
-  console.log("selectedMarkingCriteria.", selectedMarkingCriteria.markingCriteria.type)
+  console.log(
+    'selectedMarkingCriteria.',
+    selectedMarkingCriteria.markingCriteria.type
+  );
   if (selectedMarkingCriteria?.markingCriteria?.type === 'RUBRICS') {
-    return createRubricsHeading(selectedMarkingCriteria?.markingCriteria?.criterias)
+    return createRubricsHeading(
+      selectedMarkingCriteria?.markingCriteria?.criterias
+    );
   }
   return <></>;
 }
 
 function body(selectedMarkingCriteria) {
   if (selectedMarkingCriteria.markingCriteria.type === 'RUBRICS')
-    return  createRubricsLevels(selectedMarkingCriteria?.markingCriteria?.criterias)
+    return createRubricsLevels(
+      selectedMarkingCriteria?.markingCriteria?.criterias
+    );
 
-  return <StrengthsTargets strengths={selectedMarkingCriteria?.markingCriteria?.selectedStrengths} targets={selectedMarkingCriteria?.markingCriteria?.selectedTargets}></StrengthsTargets>;
+  return (
+    <StrengthsTargets
+      strengths={selectedMarkingCriteria?.markingCriteria?.selectedStrengths}
+      targets={selectedMarkingCriteria?.markingCriteria?.selectedTargets}
+    ></StrengthsTargets>
+  );
 }
-
 
 const createRubricsHeading = (criterias) => {
   return criterias?.map((criteria) => {
@@ -111,7 +120,6 @@ const createRows = (items) => {
     }
   });
 };
-
 
 const MarkingCriteriaContainer = styled.div`
   padding: 20px;

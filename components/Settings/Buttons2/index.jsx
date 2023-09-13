@@ -7,54 +7,88 @@ function Buttons2(props) {
     markingCriteriaId,
     deleteMarkingCriteriaHandler,
     cloneMarkingCriteria,
-    type,
     setMarkingCriteriaPreviewDialog,
   } = props;
 
   return (
     <ButtonsContainer>
-      <img
-        src="/icons/preview-eye.png"
-        alt="preview"
-        style={{
-          background: '#7200e0',
-          cursor: 'pointer',
-          padding: '4px',
-          borderRadius: '12px',
-        }}
-        onClick={() => setMarkingCriteriaPreviewDialog(true)}
-      />
-      <img
-        onClick={() => cloneMarkingCriteria()}
-        src="/img/copy@2x.png"
-        alt="copy"
-        style={{
-          cursor: 'pointer',
-          height: '32px',
-          width: '32px',
-        }}
-      />
-      <Buttons
-        onClick={() =>
-          (window.location.href =
-            type == 'RUBRICS'
-              ? `/#/markingCriterias/rubrics/${markingCriteriaId}`
-              : `/#/markingTemplates/strengths-and-targets/${markingCriteriaId}`)
-        }
-      >
-        <ViewDetails>View and edit</ViewDetails>
-        <Arrowright src="/img/arrowright@2x.png" alt="arrowright" />
-      </Buttons>
-      <DeleteButtonContainer
-        onClick={() => {
-          deleteMarkingCriteriaHandler(markingCriteriaId);
-        }}
-      >
-        <Arrowright src="/icons/delete-logo.svg" alt="delete" />
-      </DeleteButtonContainer>
+      <TooltipWrapper>
+        <Buttons>
+          <img
+            src="/icons/preview-eye.png"
+            alt="preview"
+            style={{
+              background: '#7200e0',
+              cursor: 'pointer',
+              borderRadius: '6px',
+              height: '12px',
+              width: '12px',
+            }}
+            onClick={(e) => {
+              setMarkingCriteriaPreviewDialog(true);
+              e.stopPropagation();
+            }}
+          />
+        </Buttons>
+        <span className="tooltip-text">Preview</span>
+      </TooltipWrapper>
+      <TooltipWrapper>
+        <Buttons>
+          <img
+            onClick={(e) => {
+              cloneMarkingCriteria();
+              e.stopPropagation();
+            }}
+            src="/img/copy@2x.png"
+            alt="copy"
+            style={{
+              cursor: 'pointer',
+              height: '12px',
+              width: '12px',
+            }}
+          />
+        </Buttons>
+        <span className="tooltip-text">Copy</span>
+      </TooltipWrapper>
+      <TooltipWrapper>
+        <DeleteButtonContainer
+          onClick={(e) => {
+            deleteMarkingCriteriaHandler(markingCriteriaId);
+            e.stopPropagation();
+          }}
+        >
+          <Arrowright src="/icons/delete-logo.svg" alt="delete" />
+        </DeleteButtonContainer>
+        <span className="tooltip-text">Delete</span>
+      </TooltipWrapper>
     </ButtonsContainer>
   );
 }
+
+const TooltipWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  &:hover .tooltip-text {
+    visibility: visible;
+  }
+
+  .tooltip-text {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px;
+    position: absolute;
+    z-index: 100;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -69,9 +103,9 @@ const Buttons = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 4px 8px;
+  padding: 6px 7px;
   position: relative;
-  border-radius: 14px;
+  border-radius: 6px;
   border: 1px solid;
   border-color: var(--light-mode-purple);
   cursor: pointer;
@@ -81,16 +115,6 @@ const Buttons = styled.div`
   }
 `;
 
-const ViewDetails = styled.div`
-  ${IbmplexsansNormalElectricViolet14px}
-  font-size: 13px;
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 
 const Arrowright = styled.img`
   position: relative;

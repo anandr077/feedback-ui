@@ -8,10 +8,10 @@ import menuIcon from '../../static/icons/menuBar.png';
 import editSM from '../../static/icons/EditSM.png';
 import deleteSM from '../../static/icons/deleteSM.png';
 import './portfolioSideBar.css';
-import { getPortfolio } from '../../service';
+import { getPortfolio, updatePortfolio } from '../../service';
 
 const PortfolioSideBar = () => {
-  const [data, setData] = useState(sidebarData.files);
+  const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showInput, setShowInput] = useState({
@@ -51,15 +51,18 @@ const PortfolioSideBar = () => {
       window.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     Promise.all([
       getPortfolio(),
     ]).then(([result]) => {
       if (result) {
         console.log("result", result);
+        setData(result.files)
       }
     });
   }, []);
+  
   const handleDeleteMainFolder = (index) => {
     const newData = [...data];
     newData.splice(index, 1);
@@ -75,14 +78,26 @@ const PortfolioSideBar = () => {
     setShowInput({ ...showInput, editMain: null });
   };
 
-  const handleAddFolder = (isMain, index = null) => {
+  const handleAddFolder = async(isMain, index = null) => {
     const newData = [...data];
     if (isMain) {
-      newData.push({ title: inputValue, type: 'Folder', files: [] });
+      newData.push({ title: inputValue, type: 'FOLDER', files: [] });
     } else {
-      newData[index].files.push({ title: inputValue, type: 'File' });
+      newData[index].files.push({ title: inputValue, type: 'FILE' });
     }
-    setData(newData);
+
+    try{
+      setData(newData);
+      
+      const result = await updatePortfolio({files: newData})
+      if(result){
+        console.log("updatePortfolio:", result);
+        setData(result.files);
+      }
+    }catch(error){
+      console.log('error:', error)
+    }
+
     setInputValue('');
     setShowInput({ main: false, sub: null, edit: null, editMain: null });
   };
@@ -280,7 +295,7 @@ function mainFolderContainer(
         </span>
       )}
       {showSubfolders === mainIndex &&
-        folder.files.map((subFolder, subIndex) =>
+        folder.files && folder.files.map((subFolder, subIndex) =>
           subFolderContainer(
             subIndex,
             showInput,
@@ -296,7 +311,7 @@ function mainFolderContainer(
             setShowInput
           )
         )}
-      {showSubfolders === mainIndex && folder.files.length < 10 && (
+      {showSubfolders === mainIndex && folder.files && folder.files.length < 10 && (
         <div style={{ marginLeft: '20px' }}>
           {showInput.sub !== mainIndex && (
             <button

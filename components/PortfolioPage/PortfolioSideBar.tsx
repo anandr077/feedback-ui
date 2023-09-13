@@ -11,7 +11,7 @@ import './portfolioSideBar.css';
 import { getPortfolio, updatePortfolio } from '../../service';
 
 const PortfolioSideBar = () => {
-  const [data, setData] = useState([]);
+  const [portfolio, setPortfolio] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showInput, setShowInput] = useState({
@@ -58,70 +58,82 @@ const PortfolioSideBar = () => {
     ]).then(([result]) => {
       if (result) {
         console.log("result", result);
-        setData(result.files)
+        setPortfolio(result)
       }
     });
   }, []);
+
   
-  const handleDeleteMainFolder = (index) => {
-    const newData = [...data];
-    newData.splice(index, 1);
-    setData(newData);
+  const handleDeleteMainFolder = (indexToDelete) => {
+     const updatedData = { ...portfolio };
+      updatedData.files =
+      portfolio.files.filter(
+          (_, index) => index !== indexToDelete
+        );
+      
+      updatePortfolio(updatedData)
+      .then((result)=>{
+         console.log(result)
+         setPortfolio(result)
+      })
+
     setActionMenuMainIndex(null);
   };
 
+  
+
   const handleSaveEditMainFolder = (index) => {
-    const newData = [...data];
-    newData[index].title = inputValue;
-    setData(newData);
-    setInputValue('');
-    setShowInput({ ...showInput, editMain: null });
+    // const newData = [...portfolio];
+    // newData[index].title = inputValue;
+    // setData(newData);
+    // setInputValue('');
+    // setShowInput({ ...showInput, editMain: null });
   };
 
   const handleAddFolder = async(isMain, index = null) => {
-    const newData = [...data];
-    if (isMain) {
-      newData.push({ title: inputValue, type: 'FOLDER', files: [] });
-    } else {
-      newData[index].files.push({ title: inputValue, type: 'FILE' });
-    }
+    // const newData = [...data];
+    // if (isMain) {
+    //   newData.push({ title: inputValue, type: 'FOLDER', files: [] });
+    // } else {
+    //   newData[index].files.push({ title: inputValue, type: 'FILE' });
+    // }
 
-    try{
-      setData(newData);
+    // try{
+    //   setData(newData);
       
-      const result = await updatePortfolio({files: newData})
-      if(result){
-        console.log("updatePortfolio:", result);
-        setData(result.files);
-      }
-    }catch(error){
-      console.log('error:', error)
-    }
+    //   const result = await updatePortfolio({files: newData})
+    //   if(result){
+    //     console.log("updatePortfolio:", result);
+    //     setData(result.files);
+    //   }
+    // }catch(error){
+    //   console.log('error:', error)
+    // }
 
-    setInputValue('');
-    setShowInput({ main: false, sub: null, edit: null, editMain: null });
+    // setInputValue('');
+    // setShowInput({ main: false, sub: null, edit: null, editMain: null });
   };
 
   const handleDeleteSubfolder = (mainIndex, subIndex) => {
-    const newData = [...data];
-    newData[mainIndex].files.splice(subIndex, 1);
-    setData(newData);
-    setActionMenuSubIndex(null);
+    // const newData = [...data];
+    // newData[mainIndex].files.splice(subIndex, 1);
+    // setData(newData);
+    // setActionMenuSubIndex(null);
   };
 
   const handleSaveEditSubfolder = (mainIndex, subIndex) => {
-    const newData = [...data];
-    newData[mainIndex].files[subIndex].title = inputValue;
-    setData(newData);
-    setInputValue('');
-    setShowInput({ ...showInput, edit: null });
+    // const newData = [...data];
+    // newData[mainIndex].files[subIndex].title = inputValue;
+    // setData(newData);
+    // setInputValue('');
+    // setShowInput({ ...showInput, edit: null });
   };
 
   return (
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
 
-      {data.map((folder, mainIndex) =>
+      {portfolio?.files?.map((folder, mainIndex) =>
         mainFolderContainer(
           mainIndex,
           showNavMenu,
@@ -151,7 +163,7 @@ const PortfolioSideBar = () => {
           handleAddFolder
         )
       )}
-      {!showInput.main && data.length < 10 && (
+      {!showInput.main && portfolio?.files?.length < 10 && (
         <button
           className={`newFolderBtn ${showNavMenu ? 'showBtn' : 'hideBtn'}`}
           onClick={() =>

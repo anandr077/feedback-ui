@@ -47,15 +47,13 @@ export default function MarkingCriteriaFeedback(props) {
       newState[criteriatype][index] = [cIndex, sIndex];
       return newState;
     });
-    console.log('strengthAndTargetSelection: ', strengthAndTargetSelection);
   };
 
-  const strengthAndTargetsCardComponent = ()=> [
+  const strengthAndTargetsCardComponent = () => [
     singleStrengthTargetsContainer('strengths', 'First Strength', 0),
     singleStrengthTargetsContainer('strengths', 'Second Strength', 1),
     singleStrengthTargetsContainer('targets', 'Target', 2),
   ];
-  console.log("markingCriteria.type: ", markingCriteria.type)
   return (
     <>
       {markingCriteria.type === 'RUBRICS' ? (
@@ -79,18 +77,15 @@ export default function MarkingCriteriaFeedback(props) {
         <ImageDropdownMenu
           menuItems={createMenuItems(strengthAndTargetCriterias, type)}
           onItemSelected={(item) => {
-            console.log('item selected: ', item);
-            handleStrengthsTargetsFeedback(index)(item)
+            if (item) {
+              handleStrengthsTargetsFeedback(index)(item);
+            }
           }}
-          
+          noDefaultSelected={index === 1 ? true : false}
         ></ImageDropdownMenu>
-
       </SingleMarkingCriteriaContainer>
     );
   }
-
-  
-  
 
   function strengthTargetsSelect(index) {
     return (
@@ -161,7 +156,7 @@ const SingleMarkingCriteriaContainer = styled.div`
 
 const MarkingCriteriaContainer = styled.div`
   padding: 20px;
-  flex: 1; 
+  flex: 1;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;

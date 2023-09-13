@@ -135,6 +135,7 @@ const ButtonsContainer = styled.div`
   margin-bottom: 20px;
   margin-right: 40px;
   padding-top: 20px;
+  font-family: IBM Plex Sans;
 `;
 
 const IconTrash = styled.img`
@@ -258,4 +259,5 @@ const PlagiarismText = styled.p`
   color: #3A3A3A;
   font-size: 14px;
   line-height: 20px;
+  font-family: IBM Plex Sans;
 `

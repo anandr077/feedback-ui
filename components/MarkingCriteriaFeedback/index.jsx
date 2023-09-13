@@ -3,7 +3,7 @@ import Select from '@mui/material/Select';
 import React from 'react';
 import styled from 'styled-components';
 import { createMenuItems } from '../../features/strengthsTargets';
-import ImageDropdownMenu from '../ImageDropdownMenu';
+import DropdownMenu from '../DropdownMenu';
 import './style.css';
 
 export default function MarkingCriteriaFeedback(props) {
@@ -23,7 +23,7 @@ export default function MarkingCriteriaFeedback(props) {
       return (
         <SingleMarkingCriteriaContainer key={index}>
           <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>
-          <ImageDropdownMenu
+          <DropdownMenu
             markingCriteriaType={true}
             menuItems={criteria.levels}
             onItemSelected={(item) => {
@@ -33,7 +33,7 @@ export default function MarkingCriteriaFeedback(props) {
                 item.name
               );
             }}
-          ></ImageDropdownMenu>
+          ></DropdownMenu>
         </SingleMarkingCriteriaContainer>
       );
     }
@@ -74,7 +74,7 @@ export default function MarkingCriteriaFeedback(props) {
       <SingleMarkingCriteriaContainer>
         <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
 
-        <ImageDropdownMenu
+        <DropdownMenu
           menuItems={createMenuItems(strengthAndTargetCriterias, type)}
           onItemSelected={(item) => {
             if (item) {
@@ -82,7 +82,7 @@ export default function MarkingCriteriaFeedback(props) {
             }
           }}
           noDefaultSelected={index === 1 ? true : false}
-        ></ImageDropdownMenu>
+        ></DropdownMenu>
       </SingleMarkingCriteriaContainer>
     );
   }

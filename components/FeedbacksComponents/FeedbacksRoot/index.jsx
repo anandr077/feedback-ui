@@ -46,7 +46,7 @@ import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../../utils/headerProps.js';
-import ImageDropdownMenu from '../../ImageDropdownMenu';
+import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
@@ -582,6 +582,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     return invalid;
   };
+
+  function hasDuplicateAttributes(arr) {
+    const attributeSet = new Set();
+
+    for (const item of arr) {
+      if (attributeSet.has(item.attribute)) {
+        return true;
+      }
+      attributeSet.add(item.attribute);
+    }
+
+    return false;
+  }
   function convertToSelectedAttribute(selectedArray) {
     return selectedArray.map((item, index) => ({
       index,
@@ -594,14 +607,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-
+    let isDuplicate = false;
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
         submitMarkingCriteriaInputs(question);
       });
     }
-    submitReview();
+    submission.assignment.questions.map((question) => {
+      if (hasDuplicateAttributes(question.markingCriteria.selectedStrengths)) {
+        showSnackbar(
+          'Please select different strength in question number ' +
+            question.serialNumber
+        );
+        setShowSubmitPopup(false);
+        isDuplicate = true;
+      }
+    });
+    if (!isDuplicate) {
+      submitReview();
+    }
   }
+
   function submitMarkingCriteriaInputs(question) {
     if (question.markingCriteria?.title != '') {
       if (question.markingCriteria?.criterias) {
@@ -652,7 +678,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
         if (
@@ -848,11 +873,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         return menuItem.id === submission.id;
       });
       return (
-        <ImageDropdownMenu
+        <DropdownMenu
           menuItems={menuItems}
           showAvatar={true}
           selectedIndex={selectedItemIndex}
-        ></ImageDropdownMenu>
+        ></DropdownMenu>
       );
     }
   };
@@ -1047,7 +1072,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
         }[${criteriaIndex}]`;
         newState = set(newState, path, { label, value });
-
         return newState;
       });
     };

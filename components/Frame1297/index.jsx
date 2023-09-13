@@ -4,7 +4,7 @@ import {
   IbmplexsansNormalShark16px,
   IbmplexsansNormalShark20px,
 } from '../../styledMixins';
-import ImageDropdownMenu from '../ImageDropdownMenu';
+import DropdownMenu from '../DropdownMenu';
 import { set } from 'lodash';
 
 function Frame1297(props) {
@@ -74,10 +74,10 @@ const createQuestionTypeSelector = (
   ];
   const selectedIndex = type === 'MCQ' ? 2 : type === 'ESSAY' ? 1 : 0;
   return (
-    <ImageDropdownMenu
+    <DropdownMenu
       selectedIndex={selectedIndex}
       menuItems={menuItems}
-    ></ImageDropdownMenu>
+    ></DropdownMenu>
   );
 };
 

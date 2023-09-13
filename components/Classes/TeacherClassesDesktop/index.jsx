@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
 import Header from '../../Header';
-import ImageDropdownMenu from '../../ImageDropdownMenu';
+import DropdownMenu from '../../DropdownMenu';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
 import Frame14072 from '../../TeacherDashboard/Frame14072';
 import Buttons from '../Buttons';
@@ -80,13 +80,13 @@ function TeacherClassesDesktop(props) {
         </Frame13121>
         <Frame14221>
           <Frame1306>
-            <ImageDropdownMenu
+            <DropdownMenu
               menuItems={classes}
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
               selectedIndex={selectedClassIndex}
-            ></ImageDropdownMenu>
+            ></DropdownMenu>
           </Frame1306>
           <Frame1426>
             <Buttons link="#tasks/new" />

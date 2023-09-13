@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { IbmplexsansSemiBoldShark20px } from '../../styledMixins';
-export const ImageDropdownMenu = (props) => {
+export const DropdownMenu = (props) => {
   const {
     selectedIndex,
     markingCriteriaType,
@@ -435,4 +435,4 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-export default ImageDropdownMenu;
+export default DropdownMenu;

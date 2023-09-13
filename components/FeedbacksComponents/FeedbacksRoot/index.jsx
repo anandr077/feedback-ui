@@ -46,7 +46,7 @@ import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../../utils/headerProps.js';
-import ImageDropdownMenu from '../../ImageDropdownMenu';
+import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
@@ -873,11 +873,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         return menuItem.id === submission.id;
       });
       return (
-        <ImageDropdownMenu
+        <DropdownMenu
           menuItems={menuItems}
           showAvatar={true}
           selectedIndex={selectedItemIndex}
-        ></ImageDropdownMenu>
+        ></DropdownMenu>
       );
     }
   };

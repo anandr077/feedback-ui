@@ -8,7 +8,7 @@ import Footer from '../../Footer';
 import Header from '../../Header';
 import Frame14072 from '../../TeacherDashboard/Frame14072';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
-import ImageDropdownMenu from '../../ImageDropdownMenu';
+import DropdownMenu from '../../DropdownMenu';
 import Frame13136 from '../Frame13136';
 import Frame13373 from '../Frame13373';
 import {
@@ -50,13 +50,13 @@ function TeacherClassesLaptop(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            <ImageDropdownMenu
+            <DropdownMenu
               menuItems={classes}
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
               selectedIndex={selectedClassIndex}
-            ></ImageDropdownMenu>
+            ></DropdownMenu>
           </Frame1306>
           <Frame1426>
             <Buttons link="#tasks/new" />

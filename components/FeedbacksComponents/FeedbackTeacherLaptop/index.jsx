@@ -3,9 +3,7 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 import { default as React, default as React, useState } from 'react';
-import {
-  IbmplexsansNormalBlack16px,
-} from '../../../styledMixins';
+import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import CheckboxList from '../../CheckboxList';
 import Header from '../../Header';
 import QuillEditor from '../../QuillEditor';
@@ -35,7 +33,44 @@ import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import StrengthsTargets from '../../StrengthsTargets';
-import { Frame1331, Frame1322, Line6, Screen, Frame1328, showResolvedToggle, ButtonsContainer, Label, FocusAreasLabelContainer, Ellipse141, Frame1366, QuestionText, QuillContainer, Frame131612, Frame1383, Frame13311, Frame1284, Share, Frame1329, Frame1406, Frame1326, TypeHere, Screen2, Frame1388, Frame1387, Frame1315, Frame1386, Frame1371, TitleWrapper, AssignmentTitle, StatusText, AwaitFeedbackContainer, Frame1368, Group1225, Frame1367 } from './style';
+import {
+  Frame1331,
+  Frame1322,
+  Line6,
+  Screen,
+  Frame1328,
+  showResolvedToggle,
+  ButtonsContainer,
+  Label,
+  FocusAreasLabelContainer,
+  Ellipse141,
+  Frame1366,
+  QuestionText,
+  QuillContainer,
+  Frame131612,
+  Frame1383,
+  Frame13311,
+  Frame1284,
+  Share,
+  Frame1329,
+  Frame1406,
+  Frame1326,
+  TypeHere,
+  Screen2,
+  Frame1388,
+  Frame1387,
+  Frame1315,
+  Frame1386,
+  Frame1371,
+  TitleWrapper,
+  AssignmentTitle,
+  StatusText,
+  AwaitFeedbackContainer,
+  Frame1368,
+  Group1225,
+  Frame1367,
+} from './style';
+import AnswersFrame from '../AnswersFrame';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -115,14 +150,6 @@ function FeedbackTeacherLaptop(props) {
     groupedFocusAreaIds
   );
 
-  const modules = {
-    toolbar: pageMode === 'DRAFT' || pageMode === 'REVISE',
-    history: {
-      delay: 1000,
-      maxStack: 100,
-      userOnly: true,
-    },
-  };
   const reviewerDefaultComment = {
     reviewerName: 'Jeddle',
     comment: 'Please select text to share feedback',
@@ -262,105 +289,6 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
-  const isChecked = (serialNumber, focusAreaId) => {
-    return (
-      !!groupedFocusAreaIds[serialNumber] &&
-      groupedFocusAreaIds[serialNumber].includes(focusAreaId)
-    );
-  };
-
-  const createFocusAreasLabel = (serialNumber, focusAreas) => {
-    if (focusAreas === null) return <></>;
-    if (focusAreas === undefined) return <></>;
-    if (focusAreas.length <= 0) {
-      return <></>;
-    }
-    const label = <Label>Focus areas : </Label>;
-
-    const all = focusAreas?.map((fa) => {
-      return (
-        <FocusAreasLabelContainer>
-          <CheckboxBordered
-            checked={isChecked(serialNumber, fa.id)}
-            onChange={handleCheckboxChange(serialNumber, fa.id)}
-          />
-          <Ellipse141 backgroundColor={fa.color}></Ellipse141>
-          <Label>{fa.title}</Label>
-        </FocusAreasLabelContainer>
-      );
-    });
-
-    return (
-      <FocusAreasLabelContainer>
-        {label}
-        {all}
-      </FocusAreasLabelContainer>
-    );
-  };
-
-  const answerFrames = submission.assignment.questions.map((question) => {
-    const newAnswer = {
-      serialNumber: question.serialNumber,
-      answer: '',
-    };
-
-    const answer =
-      submission.answers?.find(
-        (answer) => answer.serialNumber === question.serialNumber
-      ) || newAnswer;
-    const questionText = 'Q' + question.serialNumber + '. ' + question.question;
-    const answerValue = answer.answer.answer;
-    const debounce = methods.createDebounceFunction(answer);
-
-    return (
-      <>
-        <Frame1366>
-          <QuestionText>{questionText}</QuestionText>
-          {question.type === 'MCQ' ? (
-            <CheckboxList
-              submission={submission}
-              question={question}
-              pageMode={pageMode}
-              handleChangeText={methods.handleChangeText}
-            />
-          ) : (
-            <QuillContainer
-              onClick={() => {
-                methods.onSelectionChange(
-                  createVisibleComments(),
-                  answer.serialNumber
-                )(quillRefs.current[answer.serialNumber - 1].getSelection());
-              }}
-              id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
-            >
-              {createQuill(
-                'quillContainer_' + submission.id + '_' + answer.serialNumber,
-                submission,
-                answer,
-                answerValue,
-                debounce
-              )}
-            </QuillContainer>
-          )}
-          {createFocusAreasLabel(question.serialNumber, question.focusAreas)}
-          {createAddMarkingCriteriaOption(
-            submission,
-            answer,
-            smallMarkingCriteria,
-            methods,
-            question
-          )}
-          {createShowMarkingCriteriasFrame(
-            submission,
-            markingCriteriaFeedback,
-            answer,
-            question
-          )}
-        </Frame1366>
-      </>
-    );
-  });
-
   const tasksListsDropDown = () => {
     if (isTeacher) {
       return <Frame131612>{methods.createTasksDropDown()}</Frame131612>;
@@ -415,6 +343,9 @@ function FeedbackTeacherLaptop(props) {
       return authorDefaultReviewComment;
     }
     return reviewerDefaultComment;
+  }
+  function createVisibleComments() {
+    return commentsForSelectedTab.filter((comment) => !comment.isHidden);
   }
 
   function createCommentsFrame() {
@@ -498,10 +429,6 @@ function FeedbackTeacherLaptop(props) {
         );
       }
     );
-  }
-
-  function createVisibleComments() {
-    return commentsForSelectedTab.filter((comment) => !comment.isHidden);
   }
 
   function reviewerNewComment() {
@@ -661,7 +588,28 @@ function FeedbackTeacherLaptop(props) {
             </Frame1371>
             <Frame1368 id="assignmentData">
               <Group1225 id="answers">
-                <Frame1367>{answerFrames}</Frame1367>
+                <Frame1367>
+                  <AnswersFrame
+                    quillRefs={quillRefs}
+                    markingCriteriaFeedback={markingCriteriaFeedback}
+                    smallMarkingCriteria={smallMarkingCriteria}
+                    handleCheckboxChange={handleCheckboxChange}
+                    groupedFocusAreaIds={groupedFocusAreaIds}
+                    pageMode={pageMode}
+                    submission={submission}
+                    commentsForSelectedTab={commentsForSelectedTab}
+                    createDebounceFunction={methods.createDebounceFunction}
+                    handleChangeText={methods.handleChangeText}
+                    onSelectionChange={methods.onSelectionChange}
+                    handleMarkingCriteriaLevelFeedback={
+                      methods.handleMarkingCriteriaLevelFeedback
+                    }
+                    handleStrengthsTargetsFeedback={
+                      methods.handleStrengthsTargetsFeedback
+                    }
+                    handleEditorMounted={methods.handleEditorMounted}
+                  ></AnswersFrame>
+                </Frame1367>
               </Group1225>
               {feedbackFrame()}
             </Frame1368>
@@ -671,35 +619,6 @@ function FeedbackTeacherLaptop(props) {
       </div>
     </>
   );
-
-  function createQuill(
-    containerName,
-    submission,
-    answer,
-    answerValue,
-    debounce
-  ) {
-    return (
-      <QuillEditor
-        id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
-        ref={(editor) =>
-          methods.handleEditorMounted(editor, answer.serialNumber - 1)
-        }
-        comments={commentsForSelectedTab?.filter((comment) => {
-          return comment.questionSerialNumber === answer.serialNumber;
-        })}
-        value={answerValue ? answerValue : ''}
-        options={{
-          modules: modules,
-          theme: 'snow',
-          readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
-        }}
-        debounceTime={debounce.debounceTime}
-        onDebounce={debounce.onDebounce}
-        containerName={containerName}
-      ></QuillEditor>
-    );
-  }
 }
 const selectTabComments = (
   pageMode,
@@ -739,60 +658,5 @@ const selectTabComments = (
     return comment;
   });
 };
-
-function createShowMarkingCriteriasFrame(
-  submission,
-  markingCriteriaFeedback,
-  answer,
-  question
-) {
-  return (
-    (submission.status === 'REVIEWED' ||
-      submission.status === 'CLOSED' ||
-      submission.status === 'RESUBMISSION_REQUESTED') &&
-    markingCriteriaFeedback?.length > 0 &&
-    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
-      ?.title != 'No Marking Criteria' &&
-    submission.assignment.questions[answer.serialNumber - 1].type != 'MCQ' && (
-      <MarkingCriteriaFeedbackReadOnly
-        allmarkingCriteriaFeedback={markingCriteriaFeedback}
-        questionSerialNumber={question.serialNumber}
-      ></MarkingCriteriaFeedbackReadOnly>
-    )
-  );
-}
-
-function createAddMarkingCriteriaOption(
-  submission,
-  answer,
-  smallMarkingCriteria,
-  methods,
-  question
-) {
-  return (
-    submission.status === 'SUBMITTED' &&
-    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
-      ?.title &&
-    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
-      ?.title != 'No Marking Criteria' &&
-    submission.assignment.questions[answer.serialNumber - 1].type != 'MCQ' &&
-    submission.reviewerId === getUserId() && (
-      <MarkingCriteriaFeedback
-        markingCriteria={
-          submission.assignment.questions[answer.serialNumber - 1]
-            .markingCriteria
-        }
-        small={smallMarkingCriteria}
-        questionSerialNumber={answer.serialNumber}
-        handleMarkingCriteriaLevelFeedback={
-          methods.handleMarkingCriteriaLevelFeedback
-        }
-        handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback(
-          question.serialNumber
-        )}
-      />
-    )
-  );
-}
 
 export default FeedbackTeacherLaptop;

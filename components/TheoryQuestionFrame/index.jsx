@@ -7,7 +7,7 @@ import {
 } from '../../styledMixins';
 import CheckboxGroup from '../CheckboxGroup';
 import Frame1297 from '../Frame1297';
-import ImageDropdownMenu from '../ImageDropdownMenu';
+import DropdownMenu from '../DropdownMenu';
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -83,23 +83,23 @@ export default function TheoryQuestionFrame(props) {
           <Label>Marking Criteria</Label>
           <MarkingCriteriaFrame>
             {questionDetails.markingCriteria.title ? (
-              <ImageDropdownMenu
+              <DropdownMenu
                 fullWidth={true}
                 menuItems={allMarkingCriterias}
                 selectedIndex={selectedMarkingCriteriaIndex}
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);
                 }}
-              ></ImageDropdownMenu>
+              ></DropdownMenu>
             ) : (
-              <ImageDropdownMenu
+              <DropdownMenu
                 fullWidth={true}
                 menuItems={allMarkingCriterias}
                 primaryText="Select Marking Criteria"
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);
                 }}
-              ></ImageDropdownMenu>
+              ></DropdownMenu>
             )}
             <Preview
               onClick={() => {

@@ -83,52 +83,60 @@ const PortfolioSideBar = () => {
   
 
   const handleSaveEditMainFolder = (index) => {
-    // const newData = [...portfolio];
-    // newData[index].title = inputValue;
-    // setData(newData);
-    // setInputValue('');
-    // setShowInput({ ...showInput, editMain: null });
+    const updatedData = { ...portfolio };
+    updatedData.files[index].title = inputValue;
+    updatePortfolio(updatedData)
+    .then((result)=>{
+        console.log(result)
+        setPortfolio(result)
+      });
+
+    setShowInput({ ...showInput, editMain: null });
   };
 
   const handleAddFolder = async(isMain, index = null) => {
-    // const newData = [...data];
-    // if (isMain) {
-    //   newData.push({ title: inputValue, type: 'FOLDER', files: [] });
-    // } else {
-    //   newData[index].files.push({ title: inputValue, type: 'FILE' });
-    // }
-
-    // try{
-    //   setData(newData);
-      
-    //   const result = await updatePortfolio({files: newData})
-    //   if(result){
-    //     console.log("updatePortfolio:", result);
-    //     setData(result.files);
-    //   }
-    // }catch(error){
-    //   console.log('error:', error)
-    // }
-
-    // setInputValue('');
-    // setShowInput({ main: false, sub: null, edit: null, editMain: null });
+    const updatedData = { ...portfolio };
+    if (isMain) {
+      updatedData.files.push({ title: inputValue, type: 'FOLDER'});
+    } else {
+      if (!updatedData.files[index].files) {
+        updatedData.files[index].files = [];
+      }
+      updatedData.files[index].files.push({ title: inputValue, type: 'FOLDER' });
+    }
+    updatePortfolio(updatedData)
+    .then((result)=>{
+        console.log(result)
+        setPortfolio(result)
+        setInputValue('');
+        setShowInput({ main: false, sub: null, edit: null, editMain: null });
+      }); 
+    
   };
 
   const handleDeleteSubfolder = (mainIndex, subIndex) => {
-    // const newData = [...data];
-    // newData[mainIndex].files.splice(subIndex, 1);
-    // setData(newData);
-    // setActionMenuSubIndex(null);
+    const updatedData = { ...portfolio };
+    updatedData.files[mainIndex].files =  portfolio.files[mainIndex].files.filter(
+      (_, index) => index !== subIndex
+    );
+    updatePortfolio(updatedData).then((result)=>{
+        console.log(result)
+        setPortfolio(result)
+        setActionMenuSubIndex(null);
+      });
   };
 
   const handleSaveEditSubfolder = (mainIndex, subIndex) => {
-    // const newData = [...data];
-    // newData[mainIndex].files[subIndex].title = inputValue;
-    // setData(newData);
-    // setInputValue('');
-    // setShowInput({ ...showInput, edit: null });
+    const updatedData = { ...portfolio };
+    updatedData.files[mainIndex].files[subIndex].title = inputValue;
+    updatePortfolio(updatedData).then((result)=>{
+        console.log(result)
+        setPortfolio(result)
+        setInputValue('');
+        setShowInput({ ...showInput, edit: null });
+      });
   };
-
+  
   return (
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
@@ -323,7 +331,7 @@ function mainFolderContainer(
             setShowInput
           )
         )}
-      {showSubfolders === mainIndex && folder.files && folder.files.length < 10 && (
+      {showSubfolders === mainIndex  && (
         <div style={{ marginLeft: '20px' }}>
           {showInput.sub !== mainIndex && (
             <button

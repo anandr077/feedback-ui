@@ -10,7 +10,8 @@ import deleteSM from '../../static/icons/deleteSM.png';
 import './portfolioSideBar.css';
 import { getPortfolio, updatePortfolio } from '../../service';
 
-const PortfolioSideBar = ({getAllFiles, portfolio, setPortfolio}) => {
+const PortfolioSideBar = ({getAllFiles}) => {
+  const [portfolio, setPortfolio] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showInput, setShowInput] = useState({
@@ -25,6 +26,7 @@ const PortfolioSideBar = ({getAllFiles, portfolio, setPortfolio}) => {
   const [showArrowUp, setShowArrowUp] = useState(false);
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
+  const [activeSubFolder, setActiveSubFolder] = useState(null)
   const subActionBtnRef = useRef(null);
   const mainActionBtnRef = useRef(null);
 
@@ -49,6 +51,17 @@ const PortfolioSideBar = ({getAllFiles, portfolio, setPortfolio}) => {
     return () => {
       window.removeEventListener('click', handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    Promise.all([
+      getPortfolio(),
+    ]).then(([result]) => {
+      if (result) {
+        console.log("result", result);
+        setPortfolio(result)
+      }
+    });
   }, []);
 
   
@@ -124,6 +137,11 @@ const PortfolioSideBar = ({getAllFiles, portfolio, setPortfolio}) => {
         setShowInput({ ...showInput, edit: null });
       });
   };
+
+  const handleSubFolderClick = (id) =>{
+    setActiveSubFolder(id)
+    console.log('id is')
+  }
   
   return (
     <div className="sideNavbar">
@@ -131,6 +149,8 @@ const PortfolioSideBar = ({getAllFiles, portfolio, setPortfolio}) => {
 
       {portfolio?.files?.map((folder, mainIndex) =>
         mainFolderContainer(
+          handleSubFolderClick,
+          activeSubFolder,
           getAllFiles,
           mainIndex,
           showNavMenu,
@@ -198,6 +218,8 @@ const PortfolioSideBar = ({getAllFiles, portfolio, setPortfolio}) => {
 export default PortfolioSideBar;
 
 function mainFolderContainer(
+  handleSubFolderClick,
+  activeSubFolder,
   getAllFiles,
   mainIndex: number,
   showNavMenu: boolean,
@@ -307,6 +329,8 @@ function mainFolderContainer(
       {showSubfolders === mainIndex &&
         folder.files && folder.files.map((subFolder, subIndex) =>
           subFolderContainer(
+            handleSubFolderClick,
+            activeSubFolder,
             getAllFiles,
             subIndex,
             showInput,
@@ -369,6 +393,8 @@ function mainFolderContainer(
 }
 
 function subFolderContainer(
+  handleSubFolderClick,
+  activeSubFolder,
   getAllFiles,
   subIndex: number,
   showInput: { main: boolean; sub: null; edit: null; editMain: null },
@@ -394,12 +420,13 @@ function subFolderContainer(
     <div
       className="folder subFolder"
       key={subIndex}
-      style={{ marginLeft: '20px' }}
+      style={{backgroundColor: activeSubFolder === subIndex ? '#F1E7FF' : '', marginLeft: '20px'}}
     >
       <span 
           className="subFolder-Content"
           onClick={()=>{
-            getAllFiles(subFolder?.files)
+            getAllFiles(subFolder?.files);
+            handleSubFolderClick(subIndex);
           }}
       >
         {showInput.edit !== subIndex ? (

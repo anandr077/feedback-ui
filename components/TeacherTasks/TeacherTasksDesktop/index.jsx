@@ -107,7 +107,7 @@ const ButtonContainer = styled.div`
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 1200px;
   align-items: flex-start;
   gap: 40px;
   position: relative;

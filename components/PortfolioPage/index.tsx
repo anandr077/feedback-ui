@@ -138,6 +138,12 @@ const PortfolioPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [numColumns, setNumColumns] = useState(4);
   const [displayedWork, setDisplayedWork] = useState(recentWork);
+  const [allFiles, setAllFiles] = useState(documentsArray)
+
+  const getAllFiles = (files) =>{
+      let res = files !== undefined ? files : documentsArray
+      setAllFiles(res)
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -190,10 +196,10 @@ const PortfolioPage = () => {
           <PortfolioContainer>
 
             <SideNavContainer>
-              <PortfolioSideBar />
+              <PortfolioSideBar getAllFiles={getAllFiles} />
             </SideNavContainer>
 
-            {workContainerFunc(displayedWork)}
+            {workContainerFunc(displayedWork, allFiles)}
           </PortfolioContainer>
 
         </PortfolioBody>
@@ -213,7 +219,7 @@ export default PortfolioPage;
 
 
 
-function workContainerFunc(displayedWork: { title: string; desc: string; }[]) {
+function workContainerFunc(displayedWork: { title: string; desc: string; }[], allFiles) {
   return <div style={{ width: '100%' }}>
     {/*all work code is here*/}
     <WorkContainer>
@@ -254,11 +260,11 @@ function workContainerFunc(displayedWork: { title: string; desc: string; }[]) {
     </WorkContainer>
 
     {/*Document section code is here*/}
-    {allFilesContainer()}
+    {allFilesContainer(allFiles)}
   </div>;
 }
 
-function allFilesContainer() {
+function allFilesContainer(allFiles) {
   return <AllFilesContainer>
     <h3
       style={{
@@ -270,7 +276,7 @@ function allFilesContainer() {
     >
       All files
     </h3>
-    {documentsArray.map((document, idx) => (
+    {allFiles.map((document, idx) => (
       <DocumentBox key={idx}>
         <DocumentBoxWrapper>
           <DocumentTextFrame>
@@ -291,14 +297,17 @@ function allFilesContainer() {
           <button>
             <img src={previewImg} alt="Preview Button" />
             <p>View</p>
+            <span>View</span>
           </button>
           <button>
             <img src={downLoadImg} alt="Download Button" />
             <p>Download</p>
+            <span>Download</span>
           </button>
           <button>
             <img src={deleteImg} alt="Delete Button" />
             <p>Delete</p>
+            <span>Delete</span>
           </button>
         </DocumentBtns>
       </DocumentBox>

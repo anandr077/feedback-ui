@@ -10,7 +10,7 @@ import deleteSM from '../../static/icons/deleteSM.png';
 import './portfolioSideBar.css';
 import { getPortfolio, updatePortfolio } from '../../service';
 
-const PortfolioSideBar = () => {
+const PortfolioSideBar = ({getAllFiles}) => {
   const [portfolio, setPortfolio] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [showSubfolders, setShowSubfolders] = useState(null);
@@ -143,6 +143,7 @@ const PortfolioSideBar = () => {
 
       {portfolio?.files?.map((folder, mainIndex) =>
         mainFolderContainer(
+          getAllFiles,
           mainIndex,
           showNavMenu,
           isActive,
@@ -209,6 +210,7 @@ const PortfolioSideBar = () => {
 export default PortfolioSideBar;
 
 function mainFolderContainer(
+  getAllFiles,
   mainIndex: number,
   showNavMenu: boolean,
   isActive: number,
@@ -317,6 +319,7 @@ function mainFolderContainer(
       {showSubfolders === mainIndex &&
         folder.files && folder.files.map((subFolder, subIndex) =>
           subFolderContainer(
+            getAllFiles,
             subIndex,
             showInput,
             subFolder,
@@ -378,6 +381,7 @@ function mainFolderContainer(
 }
 
 function subFolderContainer(
+  getAllFiles,
   subIndex: number,
   showInput: { main: boolean; sub: null; edit: null; editMain: null },
   subFolder: { title: string; type: string; preview: string },
@@ -404,7 +408,12 @@ function subFolderContainer(
       key={subIndex}
       style={{ marginLeft: '20px' }}
     >
-      <span className="subFolder-Content">
+      <span 
+          className="subFolder-Content"
+          onClick={()=>{
+            getAllFiles(subFolder?.files)
+          }}
+      >
         {showInput.edit !== subIndex ? (
           subFolder.title
         ) : (

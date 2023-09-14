@@ -426,6 +426,7 @@ const DocumentBtns = styled.div`
     border: none;
     background-color: transparent;
     transition: transform 0.5s ease-in-out;
+    position: relative;
 
     p {
       display: none;
@@ -439,6 +440,21 @@ const DocumentBtns = styled.div`
       height: 24px;
     }
 
+    span{
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      padding: 4px;
+      z-index: 100;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      display: none;
+    }
+
     @media (max-width: 992px) {
       p {
         display: block;
@@ -448,6 +464,16 @@ const DocumentBtns = styled.div`
     &:hover {
       img {
         transform: scale(1.1);
+      }
+
+      span {
+          display: block;
+      }
+
+      @media (max-width: 992px) {
+        span {
+          display: none;
+        }
       }
     }
   }

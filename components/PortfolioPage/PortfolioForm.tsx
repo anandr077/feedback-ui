@@ -8,12 +8,12 @@ import {
     InputArrowBtn,
     OptionsDiv,
     OptionDiv,
-    SubmitBtn
+    SubmitBtn,
 }from './PortfolioFormStyle'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-const PortfolioForm = ({subjects, showModal, setShowModal}) => {
+const PortfolioForm = ({subjects, showModal, setShowModal, handleCreateDocument}) => {
     const [subjectValue, setSubjectValue] = useState('')
     const [docName, setDocName] = useState('')
     const [hiddenOptions, setHiddenOptions] = useState(true)
@@ -77,7 +77,7 @@ const PortfolioForm = ({subjects, showModal, setShowModal}) => {
                     </OptionsDiv>
                 </InputContainer>
              </FormDiv>
-             <SubmitBtn type='submit'>Create Document</SubmitBtn>
+             <SubmitBtn  onClick={e=>handleCreateDocument(docName, subjectValue)} type='submit'>Create Document</SubmitBtn>
     </ModalForm>
   )
 }

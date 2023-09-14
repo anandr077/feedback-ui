@@ -10,8 +10,7 @@ import deleteSM from '../../static/icons/deleteSM.png';
 import './portfolioSideBar.css';
 import { getPortfolio, updatePortfolio } from '../../service';
 
-const PortfolioSideBar = ({getAllFiles}) => {
-  const [portfolio, setPortfolio] = useState(null);
+const PortfolioSideBar = ({getAllFiles, portfolio, setPortfolio}) => {
   const [inputValue, setInputValue] = useState('');
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showInput, setShowInput] = useState({
@@ -50,17 +49,6 @@ const PortfolioSideBar = ({getAllFiles}) => {
     return () => {
       window.removeEventListener('click', handleClickOutside);
     };
-  }, []);
-
-  useEffect(() => {
-    Promise.all([
-      getPortfolio(),
-    ]).then(([result]) => {
-      if (result) {
-        console.log("result", result);
-        setPortfolio(result)
-      }
-    });
   }, []);
 
   

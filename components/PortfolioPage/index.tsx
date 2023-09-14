@@ -45,6 +45,7 @@ import AddCircleIcon from '../../static/icons/add-circle.png';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
 import PortfolioSideBar from './PortfolioSideBar';
+import { getPortfolio } from '../../service';
 
 //dummy data for portfolio
 const recentWork = [
@@ -134,12 +135,22 @@ const documentStatusStyle = (status) => {
 };
 
 const PortfolioPage = () => {
+  const [portfolio, setPortfolio] = useState(null);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1440);
   const [showModal, setShowModal] = useState(false);
   const [numColumns, setNumColumns] = useState(4);
   const [displayedWork, setDisplayedWork] = useState(recentWork);
   const [allFiles, setAllFiles] = useState(documentsArray)
-
+  useEffect(() => {
+    Promise.all([
+      getPortfolio(),
+    ]).then(([result]) => {
+      if (result) {
+        console.log("result", result);
+        setPortfolio(result)
+      }
+    });
+  }, []);
   const getAllFiles = (files) =>{
       let res = files !== undefined ? files : documentsArray
       setAllFiles(res)
@@ -196,7 +207,7 @@ const PortfolioPage = () => {
           <PortfolioContainer>
 
             <SideNavContainer>
-              <PortfolioSideBar getAllFiles={getAllFiles} />
+              <PortfolioSideBar getAllFiles={getAllFiles} portfolio={portfolio} setPortfolio={setPortfolio}/>
             </SideNavContainer>
 
             {workContainerFunc(displayedWork, allFiles)}
@@ -217,7 +228,9 @@ const PortfolioPage = () => {
 
 export default PortfolioPage;
 
-
+const handleCreateDocument = (docName, subjectValue) => {
+  
+}
 
 function workContainerFunc(displayedWork: { title: string; desc: string; }[], allFiles) {
   return <div style={{ width: '100%' }}>
@@ -346,6 +359,7 @@ function newDocumentModal(setShowModal: React.Dispatch<React.SetStateAction<bool
         subjects={options}
         setShowModal={setShowModal}
         showModal={showModal} 
+        handleCreateDocument = {handleCreateDocument}
       />
     </ModalContainer>
   </ModalBody>;

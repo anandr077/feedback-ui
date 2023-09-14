@@ -10,8 +10,14 @@ import deleteSM from '../../static/icons/deleteSM.png';
 import './portfolioSideBar.css';
 import { getPortfolio, updatePortfolio } from '../../service';
 
-const PortfolioSideBar = ({getAllFiles, newDocument}) => {
-  const [portfolio, setPortfolio] = useState(null);
+const PortfolioSideBar = ({
+  portfolio,
+  setPortfolio,
+  activeMainIndex,
+  activeSubFolderIndex,
+  setActiveMainIndex,
+  setActiveSubFolderIndex,
+}) => {
   const [inputValue, setInputValue] = useState('');
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showInput, setShowInput] = useState({
@@ -22,11 +28,10 @@ const PortfolioSideBar = ({getAllFiles, newDocument}) => {
   });
   const [actionMenuMainIndex, setActionMenuMainIndex] = useState(null);
   const [actionMenuSubIndex, setActionMenuSubIndex] = useState(null);
-  const [isActive, setIsActive] = useState(0);
+
   const [showArrowUp, setShowArrowUp] = useState(false);
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
-  const [activeSubFolder, setActiveSubFolder] = useState(null)
   const subActionBtnRef = useRef(null);
   const mainActionBtnRef = useRef(null);
 
@@ -54,95 +59,88 @@ const PortfolioSideBar = ({getAllFiles, newDocument}) => {
   }, []);
 
   useEffect(() => {
-    Promise.all([
-      getPortfolio(),
-    ]).then(([result]) => {
+    Promise.all([getPortfolio()]).then(([result]) => {
       if (result) {
-        console.log("result", result);
-        setPortfolio(result)
+        console.log('result', result);
+        setPortfolio(result);
       }
     });
   }, []);
 
-  
   const handleDeleteMainFolder = (indexToDelete) => {
-     const updatedData = { ...portfolio };
-      updatedData.files =
-      portfolio.files.filter(
-          (_, index) => index !== indexToDelete
-        );
-      
-      updatePortfolio(updatedData)
-      .then((result)=>{
-         console.log(result)
-         setPortfolio(result)
-      })
+    const updatedData = { ...portfolio };
+    updatedData.files = portfolio.files.filter(
+      (_, index) => index !== indexToDelete
+    );
+
+    updatePortfolio(updatedData).then((result) => {
+      console.log(result);
+      setPortfolio(result);
+    });
 
     setActionMenuMainIndex(null);
   };
 
-  
-
   const handleSaveEditMainFolder = (index) => {
     const updatedData = { ...portfolio };
     updatedData.files[index].title = inputValue;
-    updatePortfolio(updatedData)
-    .then((result)=>{
-        console.log(result)
-        setPortfolio(result)
-      });
+    updatePortfolio(updatedData).then((result) => {
+      console.log(result);
+      setPortfolio(result);
+    });
 
     setShowInput({ ...showInput, editMain: null });
   };
 
-  const handleAddFolder = async(isMain, index = null) => {
+  const handleAddFolder = async (isMain, index = null) => {
     const updatedData = { ...portfolio };
     if (isMain) {
-      updatedData.files.push({ title: inputValue, type: 'FOLDER'});
+      updatedData.files.push({ title: inputValue, type: 'FOLDER' });
     } else {
       if (!updatedData.files[index].files) {
         updatedData.files[index].files = [];
       }
-      updatedData.files[index].files.push({ title: inputValue, type: 'FOLDER' });
+      updatedData.files[index].files.push({
+        title: inputValue,
+        type: 'FOLDER',
+      });
     }
-    updatePortfolio(updatedData)
-    .then((result)=>{
-        console.log(result)
-        setPortfolio(result)
-        setInputValue('');
-        setShowInput({ main: false, sub: null, edit: null, editMain: null });
-      }); 
-    
+    updatePortfolio(updatedData).then((result) => {
+      console.log(result);
+      setPortfolio(result);
+      setInputValue('');
+      setShowInput({ main: false, sub: null, edit: null, editMain: null });
+    });
   };
 
   const handleDeleteSubfolder = (mainIndex, subIndex) => {
     const updatedData = { ...portfolio };
-    updatedData.files[mainIndex].files =  portfolio.files[mainIndex].files.filter(
-      (_, index) => index !== subIndex
-    );
-    updatePortfolio(updatedData).then((result)=>{
-        console.log(result)
-        setPortfolio(result)
-        setActionMenuSubIndex(null);
-      });
+    updatedData.files[mainIndex].files = portfolio.files[
+      mainIndex
+    ].files.filter((_, index) => index !== subIndex);
+    updatePortfolio(updatedData).then((result) => {
+      console.log(result);
+      setPortfolio(result);
+      setActionMenuSubIndex(null);
+    });
   };
 
   const handleSaveEditSubfolder = (mainIndex, subIndex) => {
     const updatedData = { ...portfolio };
     updatedData.files[mainIndex].files[subIndex].title = inputValue;
-    updatePortfolio(updatedData).then((result)=>{
-        console.log(result)
-        setPortfolio(result)
-        setInputValue('');
-        setShowInput({ ...showInput, edit: null });
-      });
+    updatePortfolio(updatedData).then((result) => {
+      console.log(result);
+      setPortfolio(result);
+      setInputValue('');
+      setShowInput({ ...showInput, edit: null });
+    });
   };
 
-  const handleSubFolderClick = (id) =>{
-    setActiveSubFolder(id)
-    console.log('id is', id)
-  }
-  
+  const handleSubFolderClick = (id) => {
+    setActiveSubFolderIndex(id);
+    console.log('id is', id);
+  };
+
   return (
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
@@ -150,14 +148,13 @@ const PortfolioSideBar = ({getAllFiles, newDocument}) => {
       {portfolio?.files?.map((folder, mainIndex) =>
         mainFolderContainer(
           handleSubFolderClick,
-          activeSubFolder,
-          getAllFiles,
+          activeSubFolderIndex,
           mainIndex,
           showNavMenu,
-          isActive,
+          activeMainIndex,
           setShowSubfolders,
           showSubfolders,
-          setIsActive,
+          setActiveMainIndex,
           setShowArrowUp,
           showArrowUp,
           showInput,
@@ -196,7 +193,11 @@ const PortfolioSideBar = ({getAllFiles, newDocument}) => {
             className="FolderInputBox"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && inputValue.trim() !== '' && handleAddFolder(true)}
+            onKeyDown={(e) =>
+              e.key === 'Enter' &&
+              inputValue.trim() !== '' &&
+              handleAddFolder(true)
+            }
             placeholder="New Folder"
           />
           <button
@@ -220,7 +221,6 @@ export default PortfolioSideBar;
 function mainFolderContainer(
   handleSubFolderClick,
   activeSubFolder,
-  getAllFiles,
   mainIndex: number,
   showNavMenu: boolean,
   isActive: number,
@@ -327,11 +327,11 @@ function mainFolderContainer(
         </span>
       )}
       {showSubfolders === mainIndex &&
-        folder.files && folder.files.map((subFolder, subIndex) =>
+        folder.files &&
+        folder.files.map((subFolder, subIndex) =>
           subFolderContainer(
             handleSubFolderClick,
             activeSubFolder,
-            getAllFiles,
             subIndex,
             showInput,
             subFolder,
@@ -346,7 +346,7 @@ function mainFolderContainer(
             setShowInput
           )
         )}
-      {showSubfolders === mainIndex  && (
+      {showSubfolders === mainIndex && (
         <div style={{ marginLeft: '20px' }}>
           {showInput.sub !== mainIndex && (
             <button
@@ -369,7 +369,9 @@ function mainFolderContainer(
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) =>
-                  e.key === 'Enter' && inputValue.trim() !== '' && handleAddFolder(false, mainIndex)
+                  e.key === 'Enter' &&
+                  inputValue.trim() !== '' &&
+                  handleAddFolder(false, mainIndex)
                 }
                 className="FolderInputBox"
                 placeholder="New Folder"
@@ -395,7 +397,6 @@ function mainFolderContainer(
 function subFolderContainer(
   handleSubFolderClick,
   activeSubFolder,
-  getAllFiles,
   subIndex: number,
   showInput: { main: boolean; sub: null; edit: null; editMain: null },
   subFolder: { title: string; type: string; preview: string },
@@ -420,14 +421,16 @@ function subFolderContainer(
     <div
       className="folder subFolder"
       key={subIndex}
-      style={{backgroundColor: activeSubFolder === subIndex ? '#F1E7FF' : '', marginLeft: '20px'}}
+      style={{
+        backgroundColor: activeSubFolder === subIndex ? '#F1E7FF' : '',
+        marginLeft: '20px',
+      }}
     >
-      <span 
-          className="subFolder-Content"
-          onClick={()=>{
-            getAllFiles(subFolder?.files);
-            handleSubFolderClick(subIndex);
-          }}
+      <span
+        className="subFolder-Content"
+        onClick={() => {
+          handleSubFolderClick(subIndex);
+        }}
       >
         {showInput.edit !== subIndex ? (
           subFolder.title

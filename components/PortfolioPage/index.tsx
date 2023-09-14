@@ -46,50 +46,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
 import PortfolioSideBar from './PortfolioSideBar';
 import { getPortfolio } from '../../service';
+import Loader from '../Loader';
 
 //dummy data for portfolio
 const recentWork = [
   {
     title: 'Lorem ipsum - document name full size',
     desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
+  }
 ];
 
-//dummy data for the portfolio
-const documentsArray = [
-  {
-    title: 'Lorem ipsum - document name full size',
-    status: '',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    status: '',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    status: 'Feedback',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    status: 'Peer-Review',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-];
+
 
 //options for the new document modal
 const options = [
@@ -140,20 +107,19 @@ const PortfolioPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [numColumns, setNumColumns] = useState(4);
   const [displayedWork, setDisplayedWork] = useState(recentWork);
-  const [allFiles, setAllFiles] = useState(documentsArray);
-  const [newDocument, setNewDocument] = useState(null);
+  const [activeMainIndex, setActiveMainIndex] = useState(0);
+  const [activeSubFolderIndex, setActiveSubFolderIndex] = useState(0);
+  const [isLoading, setIsLoading] = React.useState(true);
+
   useEffect(() => {
     Promise.all([getPortfolio()]).then(([result]) => {
       if (result) {
         console.log('result', result);
         setPortfolio(result);
+        setIsLoading(false);
       }
     });
   }, []);
-  const getAllFiles = (files) => {
-    let res = files !== undefined ? files : documentsArray;
-    setAllFiles(res);
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -190,6 +156,105 @@ const PortfolioPage = () => {
   useEffect(() => {
     setDisplayedWork(recentWork.slice(0, numColumns));
   }, [numColumns]);
+  if (isLoading) {
+    return <Loader />;
+  }
+  const allFiles = getDocuments(portfolio, activeMainIndex, activeSubFolderIndex);
+
+  const handleCreateDocument = (docName, subjectValue) => {
+    console.log('activeMainIndex', activeMainIndex);
+    console.log('activeSubFolderIndex', activeSubFolderIndex);
+    console.log('docName', docName);
+    console.log('subjectValue', subjectValue);
+    const newPortfolio = addFile(
+      portfolio,
+      activeMainIndex,
+      activeSubFolderIndex,
+      docName
+    );
+    console.log('newPortfolio', newPortfolio);
+    setPortfolio(newPortfolio);
+  };
+  function addFile(
+    portfolio,
+    mainIndex: number,
+    subFolderIndex: number,
+    fileName: string
+  ) {
+    // Clone the data for immutability
+    const newData = { ...portfolio, files: [...portfolio.files] };
+
+    // Ensure the mainIndex is within bounds
+    if (
+      mainIndex < 0 ||
+      mainIndex >= newData.files.length ||
+      newData.files[mainIndex].type !== 'FOLDER'
+    ) {
+      throw new Error('Invalid mainIndex!');
+    }
+
+    const mainFolder = {
+      ...newData.files[mainIndex],
+      files: [...(newData.files[mainIndex].files || [])],
+    };
+    newData.files[mainIndex] = mainFolder;
+
+    // Ensure the subFolderIndex is within bounds and is a folder
+    if (
+      subFolderIndex < 0 ||
+      subFolderIndex >= mainFolder.files.length ||
+      mainFolder.files[subFolderIndex].type !== 'FOLDER'
+    ) {
+      throw new Error('Invalid subFolderIndex!');
+    }
+
+    const subFolder = {
+      ...mainFolder.files[subFolderIndex],
+      files: [...(mainFolder.files[subFolderIndex].files || [])],
+    };
+    mainFolder.files[subFolderIndex] = subFolder;
+
+    // Add the new file
+    const newFile = {
+      type: 'DOCUMENT',
+      title: fileName,
+      status: '',
+      description: 'The description',
+    };
+    subFolder.files.push(newFile);
+
+    return newData;
+  }
+  function getDocuments(
+    data,
+    mainIndex: number,
+    subFolderIndex: number
+  ) {
+    if (
+      mainIndex < 0 ||
+      mainIndex >= data.files.length ||
+      data?.files[mainIndex]?.type !== 'FOLDER'
+    ) {
+      throw new Error('Invalid mainIndex!');
+    }
+
+    const mainFolder = data.files[mainIndex];
+
+    // if (
+    //   subFolderIndex < 0 ||
+    //   subFolderIndex >= mainFolder.files.length ||
+    //   mainFolder.files[subFolderIndex].type !== 'FOLDER'
+    // ) {
+    //   throw new Error('Invalid subFolderIndex!');
+    // }
+
+    const subFolder = mainFolder.files[subFolderIndex];
+
+    if (!subFolder?.files) return [];
+
+    // Filter out files of type 'DOCUMENT'
+    return subFolder?.files?.filter((file) => file.type === 'DOCUMENT');
+  }
 
   return (
     <>
@@ -201,19 +266,12 @@ const PortfolioPage = () => {
 
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
-          {portfolioHeader(setShowModal, showModal)}
+          {mobileBurgerMenu(setShowModal, showModal)}
 
           <PortfolioContainer>
-            <SideNavContainer>
-              <PortfolioSideBar
-                getAllFiles={getAllFiles}
-                portfolio={portfolio}
-                setPortfolio={setPortfolio}
-                newDocument={newDocument}
-              />
-            </SideNavContainer>
+            {sidebar(portfolio, setPortfolio, activeMainIndex, activeSubFolderIndex, setActiveMainIndex, setActiveSubFolderIndex)}
 
-            {workContainerFunc(displayedWork, allFiles)}
+            {documentsContainerFunc(displayedWork, allFiles)}
           </PortfolioContainer>
         </PortfolioBody>
       </div>
@@ -221,19 +279,27 @@ const PortfolioPage = () => {
       {/*Footer is displayed here based on the isSmallScreen state*/}
       {isSmallScreen ? <FooterSmall /> : <Footer />}
 
-      {showModal && newDocumentModal(setShowModal, showModal, setNewDocument)}
+      {showModal &&
+        newDocumentModal(setShowModal, showModal, handleCreateDocument)}
     </>
   );
 };
 
 export default PortfolioPage;
 
-const handleCreateDocument = (docName, subjectValue) => {
-  setNewDocument(docName, subjectValue);
-  console.log(docName, subjectValue)
-};
+function sidebar(portfolio, setPortfolio: React.Dispatch<React.SetStateAction<null>>, activeMainIndex: number, activeSubFolderIndex: number, setActiveMainIndex: React.Dispatch<React.SetStateAction<number>>, setActiveSubFolderIndex: React.Dispatch<React.SetStateAction<number>>) {
+  return <SideNavContainer>
+    <PortfolioSideBar
+      portfolio={portfolio}
+      setPortfolio={setPortfolio}
+      activeMainIndex={activeMainIndex}
+      activeSubFolderIndex={activeSubFolderIndex}
+      setActiveMainIndex={setActiveMainIndex}
+      setActiveSubFolderIndex={setActiveSubFolderIndex} />
+  </SideNavContainer>;
+}
 
-function workContainerFunc(
+function documentsContainerFunc(
   displayedWork: { title: string; desc: string }[],
   allFiles
 ) {
@@ -243,9 +309,6 @@ function workContainerFunc(
       <WorkContainer>
         <WorkHeader>
           <RecentTag>Recent</RecentTag>
-          <AllWorkBtn>
-            All works <ArrowForwardIcon style={{ fontSize: '16px' }} />
-          </AllWorkBtn>
         </WorkHeader>
         <AllWorkBoxes>
           <NewDocBtn>
@@ -299,7 +362,7 @@ function allFilesContainer(allFiles) {
         <DocumentBox key={idx}>
           <DocumentBoxWrapper>
             <DocumentTextFrame>
-              {document.desc.slice(0, 170)}...
+              {document.description.slice(0, 170)}...
             </DocumentTextFrame>
             <div>
               {document.status ? (
@@ -337,7 +400,8 @@ function allFilesContainer(allFiles) {
 
 function newDocumentModal(
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  showModal: boolean
+  showModal: boolean,
+  handleCreateDocument
 ) {
   return (
     <ModalBody>
@@ -377,7 +441,7 @@ function newDocumentModal(
   );
 }
 
-function portfolioHeader(
+function mobileBurgerMenu(
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
   showModal: boolean
 ) {

@@ -4,13 +4,11 @@ import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import React from 'react';
 import styled, { css } from 'styled-components';
-import {
-  IbmplexsansSemiBoldShark20px
-} from '../../styledMixins';
-
-export const ImageDropdownMenu = (props) => {
+import { IbmplexsansSemiBoldShark20px } from '../../styledMixins';
+export const DropdownMenu = (props) => {
   const {
     selectedIndex,
     markingCriteriaType,
@@ -21,20 +19,34 @@ export const ImageDropdownMenu = (props) => {
     small,
     fullWidth,
     primaryText,
+    noDefaultSelected = false,
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const initialSelectedItem = selectedIndex === undefined ? findFirstSelectableItem(menuItems) : menuItems[selectedIndex];
+  const [searchInput, setSearchInput] = React.useState('');
+  const [filteredMenuItems, setFilteredMenuItems] = React.useState(menuItems);
+
+  const handleSearchInputChange = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredItems = menuItems.filter((item) => {
+      return item.title.toLowerCase().includes(searchTerm);
+    });
+    setSearchInput(searchTerm);
+    setFilteredMenuItems(filteredItems);
+  };
+
+  const initialSelectedItem =
+    selectedIndex === undefined
+      ? findFirstSelectableItem(menuItems, noDefaultSelected)
+      : menuItems[selectedIndex];
   const [selectedItem, setSelectedItem] = React.useState(initialSelectedItem);
 
-  
   const menuRef = React.useRef(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
- 
 
-  const handleClose = (item) => {    
+  const handleClose = (item) => {
     if (item) {
       setSelectedItem(item);
       setAnchorEl(null);
@@ -55,12 +67,11 @@ export const ImageDropdownMenu = (props) => {
       setAnchorEl(null);
     }
   };
-  console.log('selectedItem', selectedItem);
   React.useEffect(() => {
     if (onItemSelected) {
       onItemSelected(selectedItem);
     }
-  }, []); 
+  }, []);
   return (
     <div style={fullWidth ? { width: '100%' } : {}}>
       <StyledBox
@@ -150,71 +161,97 @@ export const ImageDropdownMenu = (props) => {
           },
         }}
       >
-        {menuItems.map((item) => {
+        <StyledTextField
+          variant="outlined"
+          value={searchInput}
+          onChange={handleSearchInputChange}
+          onKeyDown={(e) => e.stopPropagation()}
+          fullWidth
+        />
+        {filteredMenuItems.map((item) => {
           if (item.heading) {
-            return withHeadings(item, handleClose, markingCriteriaType, withCheckbox, showAvatar);
+            return withHeadings(
+              item,
+              handleClose,
+              markingCriteriaType,
+              withCheckbox,
+              showAvatar
+            );
           } else {
             // If the entry is a single item
-            return <>
-            {markingCriteriaType ? (
-              <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
-                <MarkingOptionContainer>
-                  <StyledListItemTextBold
-                    primary={item.name}
-                    secondary={item.description}
-                  />
-                </MarkingOptionContainer>
-              </StyledMenuItem>
-            ) : (
-              <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
-                {withCheckbox && <CustomCheckbox />}
-                {createImageFrame(item, showAvatar)}
-                <div className="text-container">
-                  <p>
-                    <StyledListItemText primary={item.title || item.name} />
-                  </p>
-                </div>
-              </StyledMenuItem>
-            )}
-          </>
+            return (
+              <>
+                {markingCriteriaType ? (
+                  <StyledMenuItem
+                    key={item.id}
+                    onClick={() => handleClose(item)}
+                  >
+                    <MarkingOptionContainer>
+                      <StyledListItemTextBold
+                        primary={item.name}
+                        secondary={item.description}
+                      />
+                    </MarkingOptionContainer>
+                  </StyledMenuItem>
+                ) : (
+                  <StyledMenuItem
+                    key={item.id}
+                    onClick={() => handleClose(item)}
+                  >
+                    {withCheckbox && <CustomCheckbox />}
+                    {createImageFrame(item, showAvatar)}
+                    <div className="text-container">
+                      <p>
+                        <StyledListItemText primary={item.title || item.name} />
+                      </p>
+                    </div>
+                  </StyledMenuItem>
+                )}
+              </>
+            );
           }
         })}
       </Menu>
     </div>
   );
 };
-function withHeadings(entry, handleClose, markingCriteriaType, withCheckbox, showAvatar) {
-  return <div key={entry.heading}>
-    {/* Render the heading */}
-    <StyledMenuItem disabled>{entry.heading}</StyledMenuItem>
+function withHeadings(
+  entry,
+  handleClose,
+  markingCriteriaType,
+  withCheckbox,
+  showAvatar
+) {
+  return (
+    <div key={entry.heading}>
+      {/* Render the heading */}
+      <StyledMenuItem disabled>{entry.heading}</StyledMenuItem>
 
-    {/* Render the items under the heading */}
-    {entry.items.map((item) => (
-      <StyledMenuItem
-        key={item.id}
-        onClick={() => handleClose(item)}
-      >
-        {markingCriteriaType ? (
-          <MarkingOptionContainer>
-            <StyledListItemTextBold
-              primary={item.name}
-              secondary={item.description} />
-          </MarkingOptionContainer>
-        ) : (
-          <>
-            {withCheckbox && <CustomCheckbox />}
-            {createImageFrame(item, showAvatar)}
-            <div className="text-container">
-              <p>
-                <StyledListItemText
-                  primary={item.title || item.name} />
-              </p>
-            </div>
-          </>
-        )}
-      </StyledMenuItem>
-    ))}
-  </div>;
+      {/* Render the items under the heading */}
+      {entry.items.map((item) => (
+        <StyledMenuItem key={item.id} onClick={() => handleClose(item)}>
+          {markingCriteriaType ? (
+            <MarkingOptionContainer>
+              <StyledListItemTextBold
+                primary={item.name}
+                secondary={item.description}
+              />
+            </MarkingOptionContainer>
+          ) : (
+            <>
+              {withCheckbox && <CustomCheckbox />}
+              {createImageFrame(item, showAvatar)}
+              <div className="text-container">
+                <p>
+                  <StyledListItemText primary={item.title || item.name} />
+                </p>
+              </div>
+            </>
+          )}
+        </StyledMenuItem>
+      ))}
+    </div>
+  );
 }
 
 function createImageFrame(selectedItem, showAvatar) {
@@ -232,19 +269,21 @@ function createImageFrame(selectedItem, showAvatar) {
     />
   );
 }
-const findFirstSelectableItem = (menuItems) => {
-    for (let entry of menuItems) {
-      if (entry.heading) {
-        if (entry.items && entry.items.length > 0) {
-          return entry.items[0];
-        }
-      } else {
-        return entry;
-      }
-    }
+const findFirstSelectableItem = (menuItems, noDefaultSelected) => {
+  if (noDefaultSelected) {
     return null;
+  }
+  for (let entry of menuItems) {
+    if (entry.heading) {
+      if (entry.items && entry.items.length > 0) {
+        return entry.items[0];
+      }
+    } else {
+      return entry;
+    }
+  }
+  return null;
 };
-
 
 const MarkingOptionContainer = styled.div`
   display: flex;
@@ -386,4 +425,14 @@ const Frame12841 = styled.img`
   min-width: 16px;
   height: 16px;
 `;
-export default ImageDropdownMenu;
+
+const StyledTextField = styled(TextField)`
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 10px;
+  }
+  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 10px;
+  }
+`;
+
+export default DropdownMenu;

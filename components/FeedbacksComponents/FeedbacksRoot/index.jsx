@@ -1,6 +1,14 @@
-import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { filter, flatMap, get, includes, map, set, uniq, get, cloneDeep } from 'lodash';
+import {
+  filter,
+  flatMap,
+  get,
+  includes,
+  map,
+  set,
+  get,
+  cloneDeep,
+} from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -8,8 +16,6 @@ import { useParams } from 'react-router-dom';
 import { formattedDate } from '../../../dates';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import styled from 'styled-components';
 import GeneralPopup from '../../GeneralPopup';
@@ -40,7 +46,7 @@ import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../../utils/headerProps.js';
-import ImageDropdownMenu from '../../ImageDropdownMenu';
+import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
@@ -60,7 +66,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
   const [exemplarComment, setExemplerComment] = useState('');
-  const [isValidComment, setIsValidComment] = useState(true);
   const [showLoader, setShowLoader] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -269,13 +274,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const addExemplerComment = () => {
-    if (exemplarComment === '') {
-      setIsValidComment(false);
-      return;
-    }
+    const comment = exemplarComment || 'No comment';
+
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
-      feedback: exemplarComment,
+      feedback: comment,
       range: selectedRange,
       type: 'MODEL_RESPONSE',
       replies: [],
@@ -293,7 +296,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const handleInputChange = (event) => {
     const value = event.target.value;
     setExemplerComment(value);
-    setIsValidComment(value !== '');
   };
   const sharewithclassdialog = (
     <Dialog
@@ -310,12 +312,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
-          error={!isValidComment}
-          helperText={
-            !isValidComment
-              ? 'Field cannot be empty'
-              : 'Enter response to share with class'
-          }
+          helperText={'Add a note for your class to accompany this example'}
         />
         <ActionButtonsContainer>
           <DialogActions>
@@ -361,7 +358,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function updateCommentsRange(answer) {
     const quill = quillRefs.current[answer.serialNumber - 1];
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-    console.log('highlightsWithCommentsData', highlightsWithCommentsData);
     const mergedHighlights = {};
 
     Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
@@ -374,8 +370,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       mergedHighlights[commentId] = [mergedRange];
     });
 
-    console.log('mergedHighlights', mergedHighlights);
-
     const transformedData = flatMap(
       Object.entries(mergedHighlights),
       ([commentId, highlights]) => {
@@ -385,11 +379,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         });
       }
     );
-    console.log('transformedData', transformedData);
 
     // Use Array.prototype.map to create an array of commentIds
     const commentIdsArray = transformedData.map(({ commentId }) => commentId);
-    console.log('commentIdsArray', commentIdsArray);
 
     const commentsForAnswer = comments.filter(
       (comment) => comment.questionSerialNumber === answer.serialNumber
@@ -405,7 +397,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }));
 
     const finalData = transformedData.concat(missingCommentsWithZeroRange);
-    console.log('finalData', finalData);
 
     const promises = finalData.map(({ commentId, range }) => {
       return updateFeedbackRange(submission.id, commentId, range);
@@ -579,8 +570,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     submission.assignment.questions.map((question) => {
       if (
         (question?.markingCriteria?.title != '' &&
-          question?.markingCriteria?.criterias || 
-          question.markingCriteria.strengthsTargetsCriterias)
+          question?.markingCriteria?.criterias) ||
+        question.markingCriteria.strengthsTargetsCriterias
       ) {
         question.markingCriteria?.criterias?.map((criteria) => {
           if (!criteria.selectedLevel) {
@@ -591,41 +582,73 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     return invalid;
   };
+
+  function hasDuplicateAttributes(arr) {
+    const attributeSet = new Set();
+
+    for (const item of arr) {
+      if (attributeSet.has(item.attribute)) {
+        return true;
+      }
+      attributeSet.add(item.attribute);
+    }
+
+    return false;
+  }
   function convertToSelectedAttribute(selectedArray) {
-    console.log('selectedArray', selectedArray)
     return selectedArray.map((item, index) => ({
-        index,
-        criteria: item.label,
-        attribute: item.value.name
+      index,
+      criteria: item.label,
+      attribute: item.value.name,
     }));
   }
-
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-
+    let isDuplicate = false;
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
         submitMarkingCriteriaInputs(question);
       });
     }
-    submitReview();
+    submission.assignment.questions.map((question) => {
+      if (hasDuplicateAttributes(question.markingCriteria.selectedStrengths)) {
+        showSnackbar(
+          'Please select different strength in question number ' +
+            question.serialNumber
+        );
+        setShowSubmitPopup(false);
+        isDuplicate = true;
+      }
+    });
+    if (!isDuplicate) {
+      submitReview();
+    }
   }
+
   function submitMarkingCriteriaInputs(question) {
     if (question.markingCriteria?.title != '') {
       if (question.markingCriteria?.criterias) {
-          const markingCriteriaRequest = question.markingCriteria;
-          return submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
+        const markingCriteriaRequest = question.markingCriteria;
+        return submitMarkingCriteriaFeedback(question, markingCriteriaRequest);
       }
       if (question.markingCriteria.strengthsTargetsCriterias) {
         const markingCriteriaRequest = question.markingCriteria;
-        const selectedStrengths = get(newMarkingCriterias, `${question.serialNumber}.selectedStrengths`);
-        const selectedTargets = get(newMarkingCriterias, `${question.serialNumber}.selectedTargets`); 
-        markingCriteriaRequest.selectedStrengths = convertToSelectedAttribute(selectedStrengths);
-        markingCriteriaRequest.selectedTargets = convertToSelectedAttribute(selectedTargets);
-        submitMarkingCriteriaFeedback(question, markingCriteriaRequest)
+        const selectedStrengths = get(
+          newMarkingCriterias,
+          `${question.serialNumber}.selectedStrengths`
+        );
+        const selectedTargets = get(
+          newMarkingCriterias,
+          `${question.serialNumber}.selectedTargets`
+        );
+        markingCriteriaRequest.selectedStrengths =
+          convertToSelectedAttribute(selectedStrengths);
+        markingCriteriaRequest.selectedTargets =
+          convertToSelectedAttribute(selectedTargets);
+        submitMarkingCriteriaFeedback(question, markingCriteriaRequest);
       }
     }
   }
@@ -651,12 +674,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   }
 
-  
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
         if (
@@ -673,7 +694,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             markingCriteria: markingCriteriaRequest,
           }).then((response) => {
             if (response) {
-              console.log('###response', response);
             }
           });
         }
@@ -853,11 +873,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         return menuItem.id === submission.id;
       });
       return (
-        <ImageDropdownMenu
+        <DropdownMenu
           menuItems={menuItems}
           showAvatar={true}
           selectedIndex={selectedItemIndex}
-        ></ImageDropdownMenu>
+        ></DropdownMenu>
       );
     }
   };
@@ -1043,25 +1063,21 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const handleStrengthsTargetsFeedback =
     (questionSerialNumber) => (index) => (value) => {
-      console.log("handleStrengthsTargetsFeedback", questionSerialNumber, index, value)
       const criteriaType = index === 2 ? 'target' : 'strength';
       const criteriaIndex = index === 2 ? 0 : index;
-      setNewMarkingCriterias(prevState=>{
+      setNewMarkingCriterias((prevState) => {
         const label = value.heading;
-        console.log("label", label)
-
         let newState = cloneDeep(prevState);
-        let path = `${questionSerialNumber}.${criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'}[${criteriaIndex}]`;
+        let path = `${questionSerialNumber}.${
+          criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
+        }[${criteriaIndex}]`;
         newState = set(newState, path, { label, value });
-        console.log("newState", newState)
-
         return newState;
-      })
-      // console.log('setNewMarkingCriterias', newMarkingCriterias);
+      });
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
-  }; 
+  };
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
     setMethodToCall(method);

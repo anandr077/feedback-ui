@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { classesHomeHeaderProps } from '../../../utils/headerProps';
 import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
-import ImageDropdownMenu from '../../ImageDropdownMenu';
+import DropdownMenu from '../../DropdownMenu';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
 import Frame14072 from '../../TeacherDashboard/Frame14072';
 import Buttons from '../Buttons';
@@ -49,14 +49,14 @@ function TeacherClassesMobile(props) {
         <Frame14221>
           <Frame1306>
             {/* <div className="App"> */}
-            <ImageDropdownMenu
+            <DropdownMenu
               menuItems={classes}
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
               selectedIndex={selectedClassIndex}
               small={true}
-            ></ImageDropdownMenu>
+            ></DropdownMenu>
           </Frame1306>
 
           <Buttons className={buttonsProps.className} link="#tasks/new" />

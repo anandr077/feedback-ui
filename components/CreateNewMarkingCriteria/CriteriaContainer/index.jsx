@@ -53,19 +53,20 @@ function CriteriaContainer(props) {
         />
       </BubblesContainer>
 
-      <CriteriaTitle>
-        <CriteriaTitleInput
-          placeholder="Answering the question"
-          id="criteriaName"
-          value={criteria?.title}
-          onChange={(e) => updateCriteriaTitle(criteriaId, e.target.value)}
-        />
-      </CriteriaTitle>
-      <LevelsBox>
-        <StatusBubbles2 />
-        {levelsList}
-        <Buttons2 text="Add level" small={true} onClickFn={addLevelUpdate} />
-      </LevelsBox>
+        <CriteriaTitle>
+            <CriteriaTitleInput
+                placeholder="Answering the question (max 140 characters)"
+                id="criteriaName"
+                value={criteria?.title}
+                onChange={(e) => updateCriteriaTitle(criteriaId, e.target.value)}
+                maxLength='140'
+            />
+        </CriteriaTitle>
+        <LevelsBox>
+            <StatusBubbles2 />
+            {levelsList}
+            <Buttons2 text='Add level' small={true} onClickFn={addLevelUpdate}  />
+        </LevelsBox>
     </CriteriaContainerInner>
   );
 }

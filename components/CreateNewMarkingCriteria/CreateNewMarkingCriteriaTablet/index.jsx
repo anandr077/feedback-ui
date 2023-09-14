@@ -36,18 +36,13 @@ function CreateNewMarkingCriteriaTablet(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372
-            saveMethod={saveMarkingCriteria}
-            deleteMethod={deleteMarkingCriteriaMethod}
-            isUpdating={isUpdating}
-          />
-          <TitleContainer id="markingCriteriaTitleContainer">
-            <TextInput
-              placeholder="Name of marking template"
-              id="markingCriteriaName"
-              value={markingCriterias.title}
-              onChange={handleTitleChange}
-            ></TextInput>
+          <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating}/>
+          <TitleContainer
+              id="markingCriteriaTitleContainer"
+          >
+          <TextInput placeholder="Name of marking template (max 140 characters)" id="markingCriteriaName" value={markingCriterias.title} 
+          onChange={handleTitleChange}
+          maxLength='140'></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

@@ -46,7 +46,7 @@ const PortfolioForm = ({subjects, showModal, setShowModal, handleCreateDocument}
 
     const handleSubmit = (e) =>{
         e.preventDefault()
-        console.log(docName, subjectValue)
+        handleCreateDocument(docName, subjectValue)
         setShowModal(!showModal)
     }
 
@@ -77,7 +77,7 @@ const PortfolioForm = ({subjects, showModal, setShowModal, handleCreateDocument}
                     </OptionsDiv>
                 </InputContainer>
              </FormDiv>
-             <SubmitBtn  onClick={e=>handleCreateDocument(docName, subjectValue)} type='submit'>Create Document</SubmitBtn>
+             <SubmitBtn type='submit'>Create Document</SubmitBtn>
     </ModalForm>
   )
 }

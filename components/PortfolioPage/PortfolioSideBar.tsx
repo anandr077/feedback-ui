@@ -10,7 +10,7 @@ import deleteSM from '../../static/icons/deleteSM.png';
 import './portfolioSideBar.css';
 import { getPortfolio, updatePortfolio } from '../../service';
 
-const PortfolioSideBar = ({getAllFiles}) => {
+const PortfolioSideBar = ({getAllFiles, newDocument}) => {
   const [portfolio, setPortfolio] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [showSubfolders, setShowSubfolders] = useState(null);
@@ -140,7 +140,7 @@ const PortfolioSideBar = ({getAllFiles}) => {
 
   const handleSubFolderClick = (id) =>{
     setActiveSubFolder(id)
-    console.log('id is')
+    console.log('id is', id)
   }
   
   return (

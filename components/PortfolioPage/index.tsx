@@ -140,21 +140,20 @@ const PortfolioPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [numColumns, setNumColumns] = useState(4);
   const [displayedWork, setDisplayedWork] = useState(recentWork);
-  const [allFiles, setAllFiles] = useState(documentsArray)
+  const [allFiles, setAllFiles] = useState(documentsArray);
+  const [newDocument, setNewDocument] = useState(null);
   useEffect(() => {
-    Promise.all([
-      getPortfolio(),
-    ]).then(([result]) => {
+    Promise.all([getPortfolio()]).then(([result]) => {
       if (result) {
-        console.log("result", result);
-        setPortfolio(result)
+        console.log('result', result);
+        setPortfolio(result);
       }
     });
   }, []);
-  const getAllFiles = (files) =>{
-      let res = files !== undefined ? files : documentsArray
-      setAllFiles(res)
-  }
+  const getAllFiles = (files) => {
+    let res = files !== undefined ? files : documentsArray;
+    setAllFiles(res);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -205,23 +204,24 @@ const PortfolioPage = () => {
           {portfolioHeader(setShowModal, showModal)}
 
           <PortfolioContainer>
-
             <SideNavContainer>
-              <PortfolioSideBar getAllFiles={getAllFiles} portfolio={portfolio} setPortfolio={setPortfolio}/>
+              <PortfolioSideBar
+                getAllFiles={getAllFiles}
+                portfolio={portfolio}
+                setPortfolio={setPortfolio}
+                newDocument={newDocument}
+              />
             </SideNavContainer>
 
             {workContainerFunc(displayedWork, allFiles)}
           </PortfolioContainer>
-
         </PortfolioBody>
       </div>
 
       {/*Footer is displayed here based on the isSmallScreen state*/}
       {isSmallScreen ? <FooterSmall /> : <Footer />}
 
-      {showModal && (
-        newDocumentModal(setShowModal, showModal)
-      )}
+      {showModal && newDocumentModal(setShowModal, showModal, setNewDocument)}
     </>
   );
 };
@@ -229,140 +229,152 @@ const PortfolioPage = () => {
 export default PortfolioPage;
 
 const handleCreateDocument = (docName, subjectValue) => {
-  
-}
+  setNewDocument(docName, subjectValue);
+  console.log(docName, subjectValue)
+};
 
-function workContainerFunc(displayedWork: { title: string; desc: string; }[], allFiles) {
-  return <div style={{ width: '100%' }}>
-    {/*all work code is here*/}
-    <WorkContainer>
-      <WorkHeader>
-        <RecentTag>Recent</RecentTag>
-        <AllWorkBtn>
-          All works <ArrowForwardIcon style={{ fontSize: '16px' }} />
-        </AllWorkBtn>
-      </WorkHeader>
-      <AllWorkBoxes>
-        
-        <NewDocBtn>
-          <NewDocBtnImg
-            src={AddCircleIcon}
-            alt="Button Icon"
-            className="NewDocBtnImg"
-          ></NewDocBtnImg>
-          <NewDocBtnText>New Document</NewDocBtnText>
-        </NewDocBtn>
+function workContainerFunc(
+  displayedWork: { title: string; desc: string }[],
+  allFiles
+) {
+  return (
+    <div style={{ width: '100%' }}>
+      {/*all work code is here*/}
+      <WorkContainer>
+        <WorkHeader>
+          <RecentTag>Recent</RecentTag>
+          <AllWorkBtn>
+            All works <ArrowForwardIcon style={{ fontSize: '16px' }} />
+          </AllWorkBtn>
+        </WorkHeader>
+        <AllWorkBoxes>
+          <NewDocBtn>
+            <NewDocBtnImg
+              src={AddCircleIcon}
+              alt="Button Icon"
+              className="NewDocBtnImg"
+            ></NewDocBtnImg>
+            <NewDocBtnText>New Document</NewDocBtnText>
+          </NewDocBtn>
 
-        {displayedWork.map((work, idx) => (
-          <RecentWork key={idx}>
-            <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
-            <RecentWorkTitle>{work.title}</RecentWorkTitle>
-            <div className="recent-hover">
-              <RecentBtns>
-                <RecentBtnImg src={previewImg}></RecentBtnImg>
-                View
-              </RecentBtns>
-              <RecentBtns>
-                <RecentBtnImg src={downLoadImg}></RecentBtnImg>
-                Download
-              </RecentBtns>
-            </div>
-          </RecentWork>
-        ))}
-      </AllWorkBoxes>
-    </WorkContainer>
+          {displayedWork.map((work, idx) => (
+            <RecentWork key={idx}>
+              <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
+              <RecentWorkTitle>{work.title}</RecentWorkTitle>
+              <div className="recent-hover">
+                <RecentBtns>
+                  <RecentBtnImg src={previewImg}></RecentBtnImg>
+                  View
+                </RecentBtns>
+                <RecentBtns>
+                  <RecentBtnImg src={downLoadImg}></RecentBtnImg>
+                  Download
+                </RecentBtns>
+              </div>
+            </RecentWork>
+          ))}
+        </AllWorkBoxes>
+      </WorkContainer>
 
-    {/*Document section code is here*/}
-    {allFilesContainer(allFiles)}
-  </div>;
+      {/*Document section code is here*/}
+      {allFilesContainer(allFiles)}
+    </div>
+  );
 }
 
 function allFilesContainer(allFiles) {
-  return <AllFilesContainer>
-    <h3
-      style={{
-        color: '#405059',
-        fontSize: '24px',
-        fontWeight: '500',
-        marginBottom: '20px',
-      }}
-    >
-      All files
-    </h3>
-    {allFiles.map((document, idx) => (
-      <DocumentBox key={idx}>
-        <DocumentBoxWrapper>
-          <DocumentTextFrame>
-            {document.desc.slice(0, 170)}...
-          </DocumentTextFrame>
-          <div>
-            {document.status ? (
-              <p style={documentStatusStyle(document.status)}>
-                {document.status}
-              </p>
-            ) : (
-              ''
-            )}
-            <DocumentTitle>{document.title}</DocumentTitle>
-          </div>
-        </DocumentBoxWrapper>
-        <DocumentBtns>
-          <button>
-            <img src={previewImg} alt="Preview Button" />
-            <p>View</p>
-            <span>View</span>
-          </button>
-          <button>
-            <img src={downLoadImg} alt="Download Button" />
-            <p>Download</p>
-            <span>Download</span>
-          </button>
-          <button>
-            <img src={deleteImg} alt="Delete Button" />
-            <p>Delete</p>
-            <span>Delete</span>
-          </button>
-        </DocumentBtns>
-      </DocumentBox>
-    ))}
-  </AllFilesContainer>;
-}
-
-function newDocumentModal(setShowModal: React.Dispatch<React.SetStateAction<boolean>>, showModal: boolean) {
-  return <ModalBody>
-    <ModalContainer>
-      <div
+  return (
+    <AllFilesContainer>
+      <h3
         style={{
-          padding: '0 16px 16px',
-          borderBottom: '1px solid #F1E6FC',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          color: '#405059',
+          fontSize: '24px',
+          fontWeight: '500',
+          marginBottom: '20px',
         }}
       >
-        <p
+        All files
+      </h3>
+      {allFiles.map((document, idx) => (
+        <DocumentBox key={idx}>
+          <DocumentBoxWrapper>
+            <DocumentTextFrame>
+              {document.desc.slice(0, 170)}...
+            </DocumentTextFrame>
+            <div>
+              {document.status ? (
+                <p style={documentStatusStyle(document.status)}>
+                  {document.status}
+                </p>
+              ) : (
+                ''
+              )}
+              <DocumentTitle>{document.title}</DocumentTitle>
+            </div>
+          </DocumentBoxWrapper>
+          <DocumentBtns>
+            <button>
+              <img src={previewImg} alt="Preview Button" />
+              <p>View</p>
+              <span>View</span>
+            </button>
+            <button>
+              <img src={downLoadImg} alt="Download Button" />
+              <p>Download</p>
+              <span>Download</span>
+            </button>
+            <button>
+              <img src={deleteImg} alt="Delete Button" />
+              <p>Delete</p>
+              <span>Delete</span>
+            </button>
+          </DocumentBtns>
+        </DocumentBox>
+      ))}
+    </AllFilesContainer>
+  );
+}
+
+function newDocumentModal(
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  showModal: boolean
+) {
+  return (
+    <ModalBody>
+      <ModalContainer>
+        <div
           style={{
-            color: '#505050',
-            fontSize: '20px',
-            fontWeight: '400',
-            lineHeight: '26px',
+            padding: '0 16px 16px',
+            borderBottom: '1px solid #F1E6FC',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          New Document
-        </p>
-        <CloseIcon
-          style={{ cursor: 'pointer' }}
-          onClick={() => setShowModal(!showModal)} 
+          <p
+            style={{
+              color: '#505050',
+              fontSize: '20px',
+              fontWeight: '400',
+              lineHeight: '26px',
+            }}
+          >
+            New Document
+          </p>
+          <CloseIcon
+            style={{ cursor: 'pointer' }}
+            onClick={() => setShowModal(!showModal)}
+          />
+        </div>
+        <PortfolioForm
+          subjects={options}
+          setShowModal={setShowModal}
+          showModal={showModal}
+          handleCreateDocument={handleCreateDocument}
         />
-      </div>
-      <PortfolioForm
-        subjects={options}
-        setShowModal={setShowModal}
-        showModal={showModal} 
-        handleCreateDocument = {handleCreateDocument}
-      />
-    </ModalContainer>
-  </ModalBody>;
+      </ModalContainer>
+    </ModalBody>
+  );
 }
 
 function portfolioHeader(

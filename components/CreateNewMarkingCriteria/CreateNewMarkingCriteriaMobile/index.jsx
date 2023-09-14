@@ -52,13 +52,10 @@ function CreateNewMarkingCriteriaMobile(props) {
               isUpdating={isUpdating}
             />
           </Frame1372>
-          <TitleContainer id="markingCriteriaTitleContainer">
-            <TextInput
-              placeholder="Name of marking template"
-              id="markingCriteriaName"
-              value={markingCriterias.title}
-              onChange={handleTitleChange}
-            ></TextInput>
+          <TitleContainer
+              id="markingCriteriaTitleContainer"
+          >
+          <TextInput placeholder="Name of marking template (max 140 characters)" id="markingCriteriaName" value={markingCriterias.title}  onChange={handleTitleChange}  maxLength='140' ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />

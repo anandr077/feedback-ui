@@ -7,7 +7,7 @@ import Header from '../Header';
 import HeaderSmall from '../HeaderSmall';
 import FooterSmall from '../FooterSmall';
 import Footer from '../Footer';
-import { updatePortfolio } from '../../service';
+import { updatePortfolio, getPortfolio } from '../../service';
 
 import {
   PortfolioBody,
@@ -47,7 +47,6 @@ import AddCircleIcon from '../../static/icons/add-circle.png';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
 import PortfolioSideBar from './PortfolioSideBar';
-import { getPortfolio } from '../../service';
 import Loader from '../Loader';
 import { useQuery } from 'react-query';
 
@@ -109,7 +108,7 @@ const initailState = {
   activeSubFolderIndex: 0,
 };
 
-function reducer(state, action) {
+function reducer(state: any, action: any) {
   switch (action.type) {
     case 'setPortfolio':
       return { ...state, portfolio: action.payload };
@@ -117,7 +116,7 @@ function reducer(state, action) {
       return { ...state, isLoading: action.payload };
     case 'setActiveMainIndex':
       return { ...state, activeMainIndex: action.payload };
-    case 'activeSubFolderIndex':
+    case 'setActiveSubFolderIndex':
       return { ...state, activeSubFolderIndex: action.payload };
     default:
       throw new Error();
@@ -135,6 +134,14 @@ const PortfolioPage = () => {
   //const [activeMainIndex, setActiveMainIndex] = useState(0);
   //const [activeSubFolderIndex, setActiveSubFolderIndex] = useState(0);
   //const [isLoading, setIsLoading] = React.useState(true);
+
+  // const { isLoading, isError, data, error } = useQuery({
+  //   queryKey: ['portfolio'],
+  //   queryFn: async () =>{
+  //     const data = await getPortfolio()
+  //     dispatch({ type: 'setPortfolio', payload: data });
+  //   }
+  // })
 
   useEffect(() => {
     Promise.all([getPortfolio()]).then(([result]) => {
@@ -192,6 +199,7 @@ const PortfolioPage = () => {
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
+
 
   const handleCreateDocument = (docName, subjectValue) => {
     console.log('activeMainIndex', state.activeMainIndex);
@@ -272,13 +280,13 @@ const PortfolioPage = () => {
 
     const mainFolder = data?.files[mainIndex];
 
-    if (
-      subFolderIndex < 0 ||
-      subFolderIndex >= mainFolder.files.length ||
-      mainFolder?.files[subFolderIndex].type !== 'FOLDER'
-    ) {
-      throw new Error('Invalid subFolderIndex!');
-    }
+    // if (
+    //   subFolderIndex < 0 ||
+    //   subFolderIndex >= mainFolder.files.length ||
+    //   mainFolder?.files[subFolderIndex].type !== 'FOLDER'
+    // ) {
+    //   throw new Error('Invalid subFolderIndex!');
+    // }
 
     const subFolder = mainFolder?.files?.[subFolderIndex];
 
@@ -307,7 +315,7 @@ const PortfolioPage = () => {
               state.activeMainIndex,
               state.activeSubFolderIndex,
               (mainIndex) => dispatch({type: 'setActiveMainIndex', payload: mainIndex }),
-              (subFolderIndex) => dispatch({type: 'setActiveSubFolderIndex', payload: subFolder})
+              (subFolderIndex) => dispatch({type: 'setActiveSubFolderIndex', payload: subFolderIndex})
             )}
 
             {documentsContainerFunc(displayedWork, allFiles)}

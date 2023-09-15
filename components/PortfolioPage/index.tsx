@@ -135,25 +135,26 @@ const PortfolioPage = () => {
   //const [activeSubFolderIndex, setActiveSubFolderIndex] = useState(0);
   //const [isLoading, setIsLoading] = React.useState(true);
 
-  // const { isLoading, isError, data, error } = useQuery({
-  //   queryKey: ['portfolio'],
-  //   queryFn: async () =>{
-  //     const data = await getPortfolio()
-  //     dispatch({ type: 'setPortfolio', payload: data });
-  //   }
-  // })
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['portfolio'],
+    queryFn: async () =>{
+      const data = await getPortfolio()
+      dispatch({ type: 'setPortfolio', payload: data });
+    }
+  })
 
-  useEffect(() => {
-    Promise.all([getPortfolio()]).then(([result]) => {
-      if (result) {
-        console.log('result', result);
-        dispatch({ type: 'setPortfolio', payload: result });
-        dispatch({ type: 'loading', payload: false });
-        // setPortfolio(result);
-        // setIsLoading(false);
-      }
-    });
-  }, []);
+
+  // useEffect(() => {
+  //   Promise.all([getPortfolio()]).then(([result]) => {
+  //     if (result) {
+  //       console.log('result', result);
+  //       dispatch({ type: 'setPortfolio', payload: result });
+  //       dispatch({ type: 'loading', payload: false });
+  //       // setPortfolio(result);
+  //       // setIsLoading(false);
+  //     }
+  //   });
+  // }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -191,9 +192,11 @@ const PortfolioPage = () => {
     setDisplayedWork(recentWork.slice(0, numColumns));
   }, [numColumns]);
 
-  if (state.isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
+
+  
   const allFiles = getDocuments(
     state.portfolio,
     state.activeMainIndex,

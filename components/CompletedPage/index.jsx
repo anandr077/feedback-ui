@@ -1,6 +1,5 @@
 import React from 'react';
 import { getCompletedTasks } from '../../service.js';
-import ReactiveRender from '../ReactiveRender';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy, groupedData } from 'lodash';
 import { dateOnly } from '../../dates.js';

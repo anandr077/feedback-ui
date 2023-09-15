@@ -19,7 +19,6 @@ import {
   SelectStyle,
   WorkContainer,
   WorkHeader,
-  AllWorkBtn,
   RecentTag,
   AllWorkBoxes,
   NewDocBtn,
@@ -42,7 +41,6 @@ import {
   DocumentBtns,
   NoFileDiv,
 } from './PortfolioStyle';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import AddCircleIcon from '../../static/icons/add-circle.png';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
@@ -126,15 +124,11 @@ function reducer(state: any, action: any) {
 const PortfolioPage = () => {
   const [state, dispatch] = useReducer(reducer, initailState);
 
-  //const [portfolio, setPortfolio] = useState(null);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1440);
   const [showModal, setShowModal] = useState(false);
   const [numColumns, setNumColumns] = useState(4);
   const [displayedWork, setDisplayedWork] = useState(recentWork);
-  //const [activeMainIndex, setActiveMainIndex] = useState(0);
-  //const [activeSubFolderIndex, setActiveSubFolderIndex] = useState(0);
-  //const [isLoading, setIsLoading] = React.useState(true);
-
+ 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
     queryFn: async () =>{
@@ -143,18 +137,6 @@ const PortfolioPage = () => {
     }
   })
 
-
-  // useEffect(() => {
-  //   Promise.all([getPortfolio()]).then(([result]) => {
-  //     if (result) {
-  //       console.log('result', result);
-  //       dispatch({ type: 'setPortfolio', payload: result });
-  //       dispatch({ type: 'loading', payload: false });
-  //       // setPortfolio(result);
-  //       // setIsLoading(false);
-  //     }
-  //   });
-  // }, []);
 
   useEffect(() => {
     const handleResize = () => {

@@ -1,21 +1,15 @@
-import React, { useRef, useState, useEffect, useImperativeHandle } from 'react';
-import { filter, flatMap, includes, map, uniq } from 'lodash';
+import { flatMap } from 'lodash';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import Quill from 'quill';
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import './styles.css';
 import HighlightBlot from './HighlightBlot';
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
-import { Map } from 'immutable';
-import { groupBy, mapValues, filter } from 'lodash';
+import './styles.css';
 const QuillEditor = React.forwardRef(
-  (
-    { containerName, comments, value, options, debounceTime, onDebounce },
-    ref
-  ) => {
+  ({ comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
-    // Quill.register('modules/clipboard', PlainClipboard, true);
 
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
@@ -57,7 +51,6 @@ const QuillEditor = React.forwardRef(
             if (comment.color !== undefined && comment.color !== null) {
               return comment.color;
             }
-            console.log('No color ' + comment.id);
             return '#fff9c4';
           }
         });

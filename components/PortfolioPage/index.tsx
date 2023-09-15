@@ -7,6 +7,7 @@ import Header from '../Header';
 import HeaderSmall from '../HeaderSmall';
 import FooterSmall from '../FooterSmall';
 import Footer from '../Footer';
+import { updatePortfolio } from '../../service'
 
 import {
   PortfolioBody,
@@ -39,6 +40,7 @@ import {
   RecentBtnImg,
   AllFilesContainer,
   DocumentBtns,
+  NoFileDiv
 } from './PortfolioStyle';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import AddCircleIcon from '../../static/icons/add-circle.png';
@@ -173,8 +175,13 @@ const PortfolioPage = () => {
       docName
     );
     console.log('newPortfolio', newPortfolio);
-    setPortfolio(newPortfolio);
+    updatePortfolio(newPortfolio)
+    .then(result =>{
+      setPortfolio(result);
+      console.log('successful')
+    })
   };
+  
   function addFile(
     portfolio,
     mainIndex: number,
@@ -248,7 +255,7 @@ const PortfolioPage = () => {
     //   throw new Error('Invalid subFolderIndex!');
     // }
 
-    const subFolder = mainFolder.files[subFolderIndex];
+    const subFolder = mainFolder?.files?.[subFolderIndex];
 
     if (!subFolder?.files) return [];
 
@@ -358,11 +365,14 @@ function allFilesContainer(allFiles) {
       >
         All files
       </h3>
-      {allFiles.map((document, idx) => (
+      {
+      allFiles.length === 0 ? 
+      <NoFileDiv>No files</NoFileDiv> :
+      allFiles.map((document, idx) => (
         <DocumentBox key={idx}>
           <DocumentBoxWrapper>
             <DocumentTextFrame>
-              {document.description.slice(0, 170)}...
+              {document?.description?.slice(0, 170)}...
             </DocumentTextFrame>
             <div>
               {document.status ? (

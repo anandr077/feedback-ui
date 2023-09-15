@@ -157,34 +157,24 @@ const AllWorkBtn = styled.button`
 
 const AllWorkBoxes = styled.div`
   margin-top: 30px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  justify-content: space-between;
+  min-width: 200px;
+  display: flex;
   gap: 17px;
 
-  @media (max-width: 1440px) {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    justify-content: space-between;
-  }
 
   @media (max-width: 1290px) {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 10px;
-    justify-content: flex-start;
   }
 
-  @media (max-width: 765px) {
-    justify-content: start;
-  }
 
   @media (max-width: 576px) {
-    grid-template-columns: repeat(2, 1fr); /* For screens <= 576px: 2 columns */
     gap: 25px;
-  }
+  } 
 `;
 
 const NewDocBtn = styled.button`
   max-width: 213px;
+  width: 210px;
   height: 275px;
   display: flex;
   flex-direction: column;
@@ -210,6 +200,7 @@ const NewDocBtn = styled.button`
 
   @media (max-width: 1024px) {
     max-width: 149px;
+    width: 145px;
     height: 192px;
     border-radius: 8px;
     border-width: 0.7px;
@@ -485,6 +476,20 @@ const DocumentBtns = styled.div`
   }
 `;
 
+const NoFileDiv = styled.div`
+   background-color: white;
+   height: 300px;
+   width: 100%;
+   border: 1px solid #f1e7ff;
+   border-radius: 12px;
+   box-shadow: 0px 2px 2px rgba(184, 111, 255, 0.1);
+   display: grid;
+   place-items: center;
+   font-size: 50px;
+   font-family: 'IBM Plex Sans', sans-serif;
+   color: rgba(86, 92, 96, 0.5);
+`
+
 const ModalBody = styled.div`
   position: fixed;
   top: 0;
@@ -539,4 +544,5 @@ export {
   RecentBtnImg,
   AllFilesContainer,
   DocumentBtns,
+  NoFileDiv
 };

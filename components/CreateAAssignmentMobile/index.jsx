@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   IbmplexsansBoldShark36px,
@@ -19,8 +18,6 @@ import FooterSmall from '../FooterSmall';
 import GoBack from '../GoBack';
 import HeaderSmall from '../HeaderSmall';
 import './CreateAAssignmentMobile.css';
-
-import ScreenPopup from '../ScreenPopup';
 
 function CreateAAssignmentMobile(props) {
   const {
@@ -137,27 +134,18 @@ function CreateAAssignmentMobile(props) {
                 <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Classes</Classes>
-                    {/* <Link to="/tooltip1">
-                      <Help src={help1} alt="help" />
-                    </Link> */}
                   </Frame12811>
                   <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
                 <Frame1300>
                   <Frame12811>
                     <Classes>{feedbackMethod}</Classes>
-                    {/* <Link to="/tooltip2">
-                      <Help src={help2} alt="help" />
-                    </Link> */}
                   </Frame12811>
                   {feedbacksMethodContainer}
                 </Frame1300>
                 <Frame1300 id="timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
-                    {/* <Link to="/tooltip2">
-                      <Help src={help2} alt="help" />
-                    </Link> */}
                   </Frame12811>
                   {dateSelectorFrame}
                 </Frame1300>
@@ -279,50 +267,7 @@ const Buttons1 = styled.div`
     transition: 0.1s;
   }
 `;
-const Checkbox1 = styled.div`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
 
-const Rectangle43 = styled.input`
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  top: -1px;
-  left: -1px;
-  background-color: var(--white);
-
-  border: 1px solid;
-  border-color: var(--light-mode-purple);
-  font: inherit;
-  color: currentColor;
-  width: 1.25em;
-  height: 1.25em;
-  border: 1em solid currentColor;
-  border-radius: 1em;
-  transform: translateY(-0.075em);
-  &:checked {
-    border-color: red;
-    background-color: red;
-  }
-`;
-const Checkbox = styled.article`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  flex: 1;
-`;
-
-const CheckBoxText = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 const Button = styled.div`
   ${IbmplexsansMediumWhite16px}
   position: relative;
@@ -505,13 +450,6 @@ const Classes = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
-`;
-
-const Help = styled.img`
-  position: relative;
-  min-width: 24px;
-  height: 24px;
-  cursor: pointer;
 `;
 
 const Frame1298 = styled.div`

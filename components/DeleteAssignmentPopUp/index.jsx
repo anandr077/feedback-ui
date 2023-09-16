@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { deleteAssignment, updateAssignment } from '../../service';
+import { deleteAssignment } from '../../service';
 import SnackbarContext from '../SnackbarContext';
-import { isMobileView } from '../ReactiveRender';
 import {
   IbmplexsansSemiBoldShark24px,
   IbmplexsansSemiBoldWhite16px,
@@ -46,15 +45,9 @@ export default function DeleteAssignmentPopup(props) {
   return (
     <Dialog open={open} onClose={() => hidedeletePopup()}>
       <DialogContent>
-        {isMobileView() ? (
-          <DeleteAssignmentPopupContainerSmall>
-            {content}
-          </DeleteAssignmentPopupContainerSmall>
-        ) : (
-          <DeleteAssignmentPopupContainer>
-            {content}
-          </DeleteAssignmentPopupContainer>
-        )}
+        <DeleteAssignmentPopupContainer>
+          {content}
+        </DeleteAssignmentPopupContainer>
       </DialogContent>
     </Dialog>
   );
@@ -144,28 +137,11 @@ const DeleteAssignmentPopupContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  width: 500px;
   z-index: 1000;
   align-items: center;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-`;
-
-const DeleteAssignmentPopupContainerSmall = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  width: 90%;
-  top: 50%;
-  left: 50%;
-  z-index: 1000;
   transform: translate(-50%, -50%);
   border-radius: 12px;
   background: #fff;

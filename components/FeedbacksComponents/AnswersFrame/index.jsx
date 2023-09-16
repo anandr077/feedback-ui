@@ -1,7 +1,12 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, default as React, default as React } from 'react';
+import {
+  default as React,
+  default as React,
+  default as React,
+  default as React,
+} from 'react';
 import CheckboxList from '../../CheckboxList';
 import QuillEditor from '../../QuillEditor';
 
@@ -11,25 +16,96 @@ import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
 import MarkingCriteriaFeedbackReadOnly from '../../MarkingCriteriaFeedbackReadOnly';
 import '../FeedbackTeacherLaptop';
 import {
-    Ellipse141,
-    FocusAreasLabelContainer,
-    Frame1366,
-    Label,
-    QuestionText,
-    QuillContainer
+  Ellipse141,
+  FocusAreasLabelContainer,
+  Frame1366,
+  Frame1367,
+  Group1225,
+  Label,
+  QuestionText,
+  QuillContainer
 } from '../FeedbackTeacherLaptop/style';
 
+export function answersFrame(
+  quillRefs,
+  markingCriteriaFeedback,
+  smallMarkingCriteria,
+  handleCheckboxChange,
+  groupedFocusAreaIds,
+  pageMode,
+  submission,
+  commentsForSelectedTab,
+  methods
+) {
+  return (
+    <AnswersFrame
+      quillRefs={quillRefs}
+      markingCriteriaFeedback={markingCriteriaFeedback}
+      smallMarkingCriteria={smallMarkingCriteria}
+      handleCheckboxChange={handleCheckboxChange}
+      groupedFocusAreaIds={groupedFocusAreaIds}
+      pageMode={pageMode}
+      submission={submission}
+      commentsForSelectedTab={commentsForSelectedTab}
+      createDebounceFunction={methods.createDebounceFunction}
+      handleChangeText={methods.handleChangeText}
+      onSelectionChange={methods.onSelectionChange}
+      handleMarkingCriteriaLevelFeedback={
+        methods.handleMarkingCriteriaLevelFeedback
+      }
+      handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback}
+      handleEditorMounted={methods.handleEditorMounted}
+    ></AnswersFrame>
+  );
+}
+
 function AnswersFrame(props) {
-  const { quillRefs, markingCriteriaFeedback, smallMarkingCriteria, handleCheckboxChange, groupedFocusAreaIds, pageMode, submission, commentsForSelectedTab, createDebounceFunction, handleChangeText, onSelectionChange, handleMarkingCriteriaLevelFeedback, handleStrengthsTargetsFeedback,handleEditorMounted } = props;
-  return answerFrames(quillRefs, markingCriteriaFeedback, smallMarkingCriteria, handleCheckboxChange, groupedFocusAreaIds, pageMode, submission, commentsForSelectedTab, createDebounceFunction, handleChangeText, onSelectionChange, handleMarkingCriteriaLevelFeedback, handleStrengthsTargetsFeedback,handleEditorMounted);
+  const {
+    quillRefs,
+    markingCriteriaFeedback,
+    smallMarkingCriteria,
+    handleCheckboxChange,
+    groupedFocusAreaIds,
+    pageMode,
+    submission,
+    commentsForSelectedTab,
+    createDebounceFunction,
+    handleChangeText,
+    onSelectionChange,
+    handleMarkingCriteriaLevelFeedback,
+    handleStrengthsTargetsFeedback,
+    handleEditorMounted,
+  } = props;
+  return (
+    <Group1225 id="answers">
+      <Frame1367>
+        {answerFrames(
+          quillRefs,
+          markingCriteriaFeedback,
+          smallMarkingCriteria,
+          handleCheckboxChange,
+          groupedFocusAreaIds,
+          pageMode,
+          submission,
+          commentsForSelectedTab,
+          createDebounceFunction,
+          handleChangeText,
+          onSelectionChange,
+          handleMarkingCriteriaLevelFeedback,
+          handleStrengthsTargetsFeedback,
+          handleEditorMounted
+        )}
+      </Frame1367>
+    </Group1225>
+  );
 }
 
 function createVisibleComments(commentsForSelectedTab) {
-    return commentsForSelectedTab.filter((comment) => !comment.isHidden);
+  return commentsForSelectedTab.filter((comment) => !comment.isHidden);
 }
 
-const createModules = (pageMode)=>{ 
-    return {
+const createModules = (pageMode) => {
+  return {
     toolbar: pageMode === 'DRAFT' || pageMode === 'REVISE',
     history: {
       delay: 1000,
@@ -37,8 +113,23 @@ const createModules = (pageMode)=>{
       userOnly: true,
     },
   };
-}
-const answerFrames = ( quillRefs, markingCriteriaFeedback, smallMarkingCriteria, handleCheckboxChange, groupedFocusAreaIds, pageMode, submission, commentsForSelectedTab, createDebounceFunction, handleChangeText, onSelectionChange, handleMarkingCriteriaLevelFeedback, handleStrengthsTargetsFeedback,handleEditorMounted) => {
+};
+const answerFrames = (
+  quillRefs,
+  markingCriteriaFeedback,
+  smallMarkingCriteria,
+  handleCheckboxChange,
+  groupedFocusAreaIds,
+  pageMode,
+  submission,
+  commentsForSelectedTab,
+  createDebounceFunction,
+  handleChangeText,
+  onSelectionChange,
+  handleMarkingCriteriaLevelFeedback,
+  handleStrengthsTargetsFeedback,
+  handleEditorMounted
+) => {
   return submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -80,13 +171,18 @@ const answerFrames = ( quillRefs, markingCriteriaFeedback, smallMarkingCriteria,
                 submission,
                 answer,
                 answerValue,
-                commentsForSelectedTab, 
+                commentsForSelectedTab,
                 debounce,
                 handleEditorMounted
               )}
             </QuillContainer>
           )}
-          {createFocusAreasLabel(handleCheckboxChange, groupedFocusAreaIds,question.serialNumber, question.focusAreas)}
+          {createFocusAreasLabel(
+            handleCheckboxChange,
+            groupedFocusAreaIds,
+            question.serialNumber,
+            question.focusAreas
+          )}
           {createAddMarkingCriteriaOption(
             submission,
             answer,
@@ -107,7 +203,12 @@ const answerFrames = ( quillRefs, markingCriteriaFeedback, smallMarkingCriteria,
   });
 };
 
-const createFocusAreasLabel = (handleCheckboxChange, groupedFocusAreaIds, serialNumber, focusAreas) => {
+const createFocusAreasLabel = (
+  handleCheckboxChange,
+  groupedFocusAreaIds,
+  serialNumber,
+  focusAreas
+) => {
   if (focusAreas === null) return <></>;
   if (focusAreas === undefined) return <></>;
   if (focusAreas.length <= 0) {
@@ -136,13 +237,20 @@ const createFocusAreasLabel = (handleCheckboxChange, groupedFocusAreaIds, serial
   );
 };
 
-function createQuill(pageMode, containerName, submission, answer, answerValue, commentsForSelectedTab, debounce, handleEditorMounted) {
+function createQuill(
+  pageMode,
+  containerName,
+  submission,
+  answer,
+  answerValue,
+  commentsForSelectedTab,
+  debounce,
+  handleEditorMounted
+) {
   return (
     <QuillEditor
       id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
-      ref={(editor) =>
-        handleEditorMounted(editor, answer.serialNumber - 1)
-      }
+      ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
       comments={commentsForSelectedTab?.filter((comment) => {
         return comment.questionSerialNumber === answer.serialNumber;
       })}
@@ -204,9 +312,7 @@ function createAddMarkingCriteriaOption(
         }
         small={smallMarkingCriteria}
         questionSerialNumber={answer.serialNumber}
-        handleMarkingCriteriaLevelFeedback={
-          handleMarkingCriteriaLevelFeedback
-        }
+        handleMarkingCriteriaLevelFeedback={handleMarkingCriteriaLevelFeedback}
         handleStrengthsTargetsFeedback={handleStrengthsTargetsFeedback(
           question.serialNumber
         )}
@@ -215,10 +321,10 @@ function createAddMarkingCriteriaOption(
   );
 }
 const isChecked = (groupedFocusAreaIds, serialNumber, focusAreaId) => {
-    return (
-      !!groupedFocusAreaIds[serialNumber] &&
-      groupedFocusAreaIds[serialNumber].includes(focusAreaId)
-    );
-  };
+  return (
+    !!groupedFocusAreaIds[serialNumber] &&
+    groupedFocusAreaIds[serialNumber].includes(focusAreaId)
+  );
+};
 
 export default AnswersFrame;

@@ -1,8 +1,7 @@
-import React from "react";
-import Frame12852 from "../Frame12852";
-import Frame12863 from "../Frame12863";
-import styled from "styled-components";
-
+import React from 'react';
+import Frame12852 from '../Frame12852';
+import Frame12863 from '../Frame12863';
+import styled from 'styled-components';
 
 function CriteriaLevelInput10() {
   return (

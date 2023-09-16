@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumWhite16px } from "../../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumWhite16px } from '../../../styledMixins';
 import DownloadingOutlinedIcon from '@mui/icons-material/DownloadingOutlined';
 
 function Buttons2(props) {
@@ -8,12 +8,10 @@ function Buttons2(props) {
     props;
 
   return (
-    <Buttons className={`buttons-1 ${className || ""}`} onClick={onClickFn} >
+    <Buttons className={`buttons-1 ${className || ''}`} onClick={onClickFn}>
       {arrowLeft()}
       {Download()}
-      <Button className="button-1">
-        {button}
-      </Button>
+      <Button className="button-1">{button}</Button>
       {arrowRight()}
     </Buttons>
   );
@@ -22,7 +20,7 @@ function Buttons2(props) {
       return (
         <Arrowleft
           className="arrowleft"
-          src={"/icons/arrowleft.png"}
+          src={'/icons/arrowleft.png'}
           alt="arrowleft"
         />
       );
@@ -33,17 +31,14 @@ function Buttons2(props) {
       return (
         <Arrowright
           className="arrowright"
-          src={"/img/arrowright@2x copy 3.png"}
+          src={'/img/arrowright@2x copy 3.png'}
           alt="arrowright"
         />
       );
     else return <></>;
   }
   function Download() {
-    if (download)
-      return (
-      <DownloadingOutlinedIcon style={{color:"white" }}/>
-      );
+    if (download) return <DownloadingOutlinedIcon style={{ color: 'white' }} />;
     else return <></>;
   }
 }

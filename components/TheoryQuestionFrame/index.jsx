@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalElectricViolet14px,
   IbmplexsansNormalShark16px,
   IbmplexsansNormalShark20px,
-} from "../../styledMixins";
-import CheckboxGroup from "../CheckboxGroup";
-import Frame1297 from "../Frame1297";
-import ImageDropdownMenu from "../ImageDropdownMenu";
+} from '../../styledMixins';
+import CheckboxGroup from '../CheckboxGroup';
+import Frame1297 from '../Frame1297';
+import DropdownMenu from '../DropdownMenu';
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -31,7 +31,7 @@ export default function TheoryQuestionFrame(props) {
   });
   return (
     <SmalllQuestionFrame
-      id={"questionContainer_" + serialNumber}
+      id={'questionContainer_' + serialNumber}
       onClick={cleanformattingDiv}
     >
       <Frame1295>
@@ -48,14 +48,14 @@ export default function TheoryQuestionFrame(props) {
         <Line141 src="/img/line-14@2x.png" />
       </Frame1295>
       <Frame12891>
-        <InputQuestion id={"questionType_" + serialNumber} questionType="TEXT">
+        <InputQuestion id={'questionType_' + serialNumber} questionType="TEXT">
           <Label>Question</Label>
           <QuestionFrame2
-            id={"question_textBox" + serialNumber}
+            id={'question_textBox' + serialNumber}
             onClick={cleanformattingTextBox}
           >
             <QuestionInputEditable
-              id={"question_" + serialNumber}
+              id={'question_' + serialNumber}
               value={questionDetails?.question}
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
               placeholder="Type question here (500 characters max)"
@@ -83,30 +83,28 @@ export default function TheoryQuestionFrame(props) {
           <Label>Marking Criteria</Label>
           <MarkingCriteriaFrame>
             {questionDetails.markingCriteria.title ? (
-              <ImageDropdownMenu
+              <DropdownMenu
                 fullWidth={true}
                 menuItems={allMarkingCriterias}
                 selectedIndex={selectedMarkingCriteriaIndex}
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);
                 }}
-              ></ImageDropdownMenu>
+              ></DropdownMenu>
             ) : (
-              <ImageDropdownMenu
+              <DropdownMenu
                 fullWidth={true}
                 menuItems={allMarkingCriterias}
                 primaryText="Select Marking Criteria"
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);
                 }}
-              ></ImageDropdownMenu>
+              ></DropdownMenu>
             )}
             <Preview
-              onClick={() =>
-                handleMarkingCriteriaPreview(
-                  questionDetails.markingCriteria?.criterias
-                )
-              }
+              onClick={() => {
+                handleMarkingCriteriaPreview(questionDetails.markingCriteria);
+              }}
             >
               <img src="/icons/preview-eye.png" alt="eye" />
             </Preview>
@@ -353,9 +351,9 @@ const QuestionInput = styled.div`
 `;
 
 const QuestionInputEditable = styled.textarea`
-${IbmplexsansNormalShark20px}
+  ${IbmplexsansNormalShark20px}
   position: relative;
-  width:100%;
+  width: 100%;
   flex: 1;
   margin-top: -1px;
   letter-spacing: 0;
@@ -391,14 +389,14 @@ function createFocusAreasFrame(
       value: focusArea.id,
       label: focusArea.title,
       color: focusArea.color,
-      category: "FOCUS_AREAS",
+      category: 'FOCUS_AREAS',
     };
   });
 
   const menuItems = [
     {
-      name: "FOCUS_AREAS",
-      title: "Focus Areas",
+      name: 'FOCUS_AREAS',
+      title: 'Focus Areas',
       items: focusAreaItems,
     },
   ];
@@ -409,12 +407,12 @@ function createFocusAreasFrame(
         data={menuItems}
         dropDownText="Select"
         addCreateNewButton={true}
-        backgroundColor={"#25222A"}
-        textColor={"var(--white)"}
+        backgroundColor={'#25222A'}
+        textColor={'var(--white)'}
         openDialogForNewEvent={createNewFocusArea}
         previouslySelectedItems={presentFocusAreas?.map((value) => ({
           value,
-          category: "FOCUS_AREAS",
+          category: 'FOCUS_AREAS',
         }))}
       ></CheckboxGroup>
       {createFocusAreaTags(allFocusAreas, presentFocusAreas)}
@@ -424,9 +422,9 @@ function createFocusAreasFrame(
 
 function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
   return presentFocusAreas?.map((focusArea) => {
-    console.log("presentFocusAreas" + JSON.stringify(presentFocusAreas));
-    console.log("allFocusAreas" + JSON.stringify(allFocusAreas));
-    console.log("focusArea" + JSON.stringify(focusArea));
+    console.log('presentFocusAreas' + JSON.stringify(presentFocusAreas));
+    console.log('allFocusAreas' + JSON.stringify(allFocusAreas));
+    console.log('focusArea' + JSON.stringify(focusArea));
     const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
     return (
       <Frame1321>

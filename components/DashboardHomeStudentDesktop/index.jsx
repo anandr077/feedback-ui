@@ -1,18 +1,18 @@
-import React from "react";
-import styled from "styled-components";
-import { getUserName } from "../../service";
+import React from 'react';
+import styled from 'styled-components';
+import { getUserName } from '../../service';
 import {
   IbmplexsansBoldWhite72px,
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalWhite20px,
-} from "../../styledMixins";
-import DashboardFrame1284 from "../DashboardFrame1284";
-import DashboardGroup1205 from "../DashboardGroup1205";
-import "./DashboardHomeStudentDesktop.css";
+} from '../../styledMixins';
+import DashboardFrame1284 from '../DashboardFrame1284';
+import DashboardGroup1205 from '../DashboardGroup1205';
+import './DashboardHomeStudentDesktop.css';
 
-import Footer from "../Footer";
-import Header from "../Header";
-import TaskCardContainer from "../TaskCardContainer";
+import Footer from '../Footer';
+import Header from '../Header';
+import TaskCardContainer from '../TaskCardContainer';
 
 function DashboardHomeStudentDesktop(props) {
   const {
@@ -52,15 +52,15 @@ function DashboardHomeStudentDesktop(props) {
             <Frame1336>
               <Frame1307>
                 <DashboardFrame1284
-                  title={"NOT STARTED"}
+                  title={'NOT STARTED'}
                   count={outstandingTasks.length}
                 />
                 <DashboardFrame1284
-                  title={"IN PROGRESS"}
+                  title={'IN PROGRESS'}
                   count={inProgressTasks.length}
                 />
                 <DashboardFrame1284
-                  title={"OVERDUE"}
+                  title={'OVERDUE'}
                   count={overdueTasks.length}
                 />
               </Frame1307>
@@ -83,7 +83,11 @@ function DashboardHomeStudentDesktop(props) {
             </Frame1337>
             <Line18 src="/img/line-17-6.png" alt="Line 16" />
             <Frame20>
-            <TaskCardContainer allTasks={modelResponses} exemplar={true} setPublishActionCompleted={setPublishActionCompleted} />
+              <TaskCardContainer
+                allTasks={modelResponses}
+                exemplar={true}
+                setPublishActionCompleted={setPublishActionCompleted}
+              />
             </Frame20>
           </Frame1339>
         </Frame1346>

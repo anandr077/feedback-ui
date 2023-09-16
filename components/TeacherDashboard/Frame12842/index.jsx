@@ -1,28 +1,45 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansMediumTrendyPink14px,
   IbmplexsansMediumShark36px,
-} from "../styledMixins";
+} from '../styledMixins';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 function Frame12842(props) {
   const { title, count } = props;
+  const history = useHistory()
+
+  const handleClick = () =>{
+    history.push('tasks')
+  }
   return (
-    <Frame1284>
-      <Drafts>{title}</Drafts>
-      <Number>{count}</Number>
-    </Frame1284>
+    <TaskAnchor href="tasks#/tasks"  onClick={handleClick}>
+      <Frame1284>
+        <Drafts>{title}</Drafts>
+        <Number>{count}</Number>
+      </Frame1284>
+    </TaskAnchor>
   );
 }
 
+const TaskAnchor = styled.a`
+  color: #7F6598;
+
+  &:hover{
+   color: #7303e1;
+  }
+`
+
 const Frame1284 = styled.div`
   display: flex;
-  flex-direction: column;
   width: fit-content;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   gap: 4px;
   position: relative;
+  cursor: pointer;
 `;
 
 const Drafts = styled.div`

@@ -1,8 +1,7 @@
-import React from "react";
-import Buttons2 from "../Buttons2";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../../styledMixins";
-
+import React from 'react';
+import Buttons2 from '../Buttons2';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 function Cards(props) {
   const { systemDefault } = props;

@@ -1,23 +1,23 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet16px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet16px } from '../../../styledMixins';
 
 function Buttons2(props) {
-  const { text , small, onClickFn} = props;
+  const { text, small, onClickFn } = props;
 
   return (
     <>
-    {small ?
-    <Buttons onClick={onClickFn} >
-      <Add src="/icons/add.svg" alt="add" />
-      <Button  >{text}</Button>
-    </Buttons> :
-    <ButtonsLarge onClick={onClickFn} >
-      <Add src="/icons/add.svg" alt="add" />
-      <Button >{text}</Button>
-    </ButtonsLarge>
-    }
+      {small ? (
+        <Buttons onClick={onClickFn}>
+          <Add src="/icons/add.svg" alt="add" />
+          <Button>{text}</Button>
+        </Buttons>
+      ) : (
+        <ButtonsLarge onClick={onClickFn}>
+          <Add src="/icons/add.svg" alt="add" />
+          <Button>{text}</Button>
+        </ButtonsLarge>
+      )}
     </>
   );
 }
@@ -50,7 +50,7 @@ const ButtonsLarge = styled.div`
   align-self: stretch;
   width: unset;
   cursor: pointer;
-  `;
+`;
 
 const Add = styled.img`
   position: relative;

@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack16px } from '../styledMixins';
 
 function Frame4(props) {
   const { className } = props;
 
   return (
-    <Frame41 className={`frame-4 ${className || ""}`}>
+    <Frame41 className={`frame-4 ${className || ''}`}>
       <MaskGroup
         className="mask-group"
         src="/img/mask-group@2x.png"

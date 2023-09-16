@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalRiverBed14px,
   IbmplexsansNormalShark20px,
-} from "../styledMixins";
+} from '../styledMixins';
 
 function Cards2(props) {
   const { modelResponse } = props;

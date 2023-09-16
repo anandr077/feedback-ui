@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansNormalTrendyPink14px,
-} from "../styledMixins";
+} from '../styledMixins';
 
 function Frame13134(props) {
   const { notification } = props;

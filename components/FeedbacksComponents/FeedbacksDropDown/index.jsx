@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
-import { getTasks } from "../../../service";
-import { Avatar } from "@boringer-avatars/react";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
+import { getTasks } from '../../../service';
+import { Avatar } from '@boringer-avatars/react';
 
 function FeedBacksDropDown(props) {
   const { students, studentName, studentUpdate } = props;
@@ -11,16 +11,16 @@ function FeedBacksDropDown(props) {
     React.useState(studentName);
 
   const toggleOptions = (link) => (event) => {
-    studentUpdate(event.currentTarget.getAttribute("data-name"));
+    studentUpdate(event.currentTarget.getAttribute('data-name'));
     setShowOptions(!showOptions);
     window.location.href = link;
   };
 
   const showList = (event) => {
-    if (event.currentTarget.getAttribute("data-name")) {
-      setSelectedStudentName(event.currentTarget.getAttribute("data-name"));
+    if (event.currentTarget.getAttribute('data-name')) {
+      setSelectedStudentName(event.currentTarget.getAttribute('data-name'));
     }
-    studentUpdate(event.currentTarget.getAttribute("data-name"));
+    studentUpdate(event.currentTarget.getAttribute('data-name'));
     setShowOptions(!showOptions);
   };
 

@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet16px } from '../styledMixins';
 
 function Frame14072(props) {
   const { showCreateNew, iconsaxLinearAdd, line17, arrowright } = props;
@@ -20,9 +20,8 @@ function Frame14072(props) {
   );
 
   function line(line17) {
-    if (line17)
-      return <Line17 src={line17} alt="Line 17" />;
-    return <></>
+    if (line17) return <Line17 src={line17} alt="Line 17" />;
+    return <></>;
   }
 }
 function createNewFrame(showCreateNew, iconsaxLinearAdd) {

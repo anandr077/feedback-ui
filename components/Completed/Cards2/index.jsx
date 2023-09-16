@@ -1,9 +1,9 @@
-import React from "react";
-import StatusBubbles3 from "../StatusBubbles3";
-import StatusBubbles from "../StatusBubbles";
-import StatusBubbles4 from "../StatusBubbles4";
-import Content from "../Content";
-import styled from "styled-components";
+import React from 'react';
+import StatusBubbles3 from '../StatusBubbles3';
+import StatusBubbles from '../StatusBubbles';
+import StatusBubbles4 from '../StatusBubbles4';
+import Content from '../Content';
+import styled from 'styled-components';
 
 function Cards2(props) {
   const { statusBubblesProps, statusBubbles4Props, contentProps } = props;

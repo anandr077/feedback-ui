@@ -15,12 +15,12 @@
   gap: 20px;
 }
 
-.data-parent{
+.data-parent {
   display: flex;
   gap: 20px;
 }
 
-.column-width{
+.column-width {
   flex: 1;
   flex-basis: 0;
 }
@@ -57,4 +57,12 @@
   font-weight: 400;
   line-height: normal;
   opacity: 0.7;
+}
+
+.option-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
 }

@@ -1,7 +1,7 @@
-import React from "react";
-import Frame62 from "../Frame62";
-import Content2 from "../Content2";
-import styled from "styled-components";
+import React from 'react';
+import Frame62 from '../Frame62';
+import Content2 from '../Content2';
+import styled from 'styled-components';
 
 function Cards6(props) {
   const { task } = props;

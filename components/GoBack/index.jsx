@@ -1,20 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet16px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet16px } from '../../styledMixins';
 
 function GoBack(props) {
   const { className } = props;
 
   return (
-      <GoBack1 className={`go-back ${className || ""}`}>
-        <Caret className="caret-1" src="/img/caret-1@2x.png" alt="caret" />
-        <a href="javascript:history.back()">
-
+    <GoBack1 className={`go-back ${className || ''}`}>
+      <Caret className="caret-1" src="/img/caret-1@2x.png" alt="caret" />
+      <a href="javascript:history.back()">
         <BackToPreviousPage className="back-to-previous-page">
           back to previous page
         </BackToPreviousPage>
-        </a>
-      </GoBack1>
+      </a>
+    </GoBack1>
   );
 }
 

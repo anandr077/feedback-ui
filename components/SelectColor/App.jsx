@@ -1,8 +1,7 @@
-
-import { css } from "styled-components";
-import React from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import SelectColor from "SelectColor";
+import { css } from 'styled-components';
+import React from 'react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import SelectColor from 'SelectColor';
 
 function App() {
   return (
@@ -18,14 +17,11 @@ function App() {
 
 export default App;
 const checkbox1Data = {
-    children: "Light Red",
+  children: 'Light Red',
 };
-
-
 
 const selectColorData = {
-    pickAColourForFocusArea: "Pick a colour for focus area",
-    line34: "/img/line-34@2x.png",
-    checkbox1Props: checkbox1Data
+  pickAColourForFocusArea: 'Pick a colour for focus area',
+  line34: '/img/line-34@2x.png',
+  checkbox1Props: checkbox1Data,
 };
-

@@ -1,10 +1,9 @@
-import React from "react";
-import Frame14072 from "../Frame14072";
-import styled from "styled-components";
-import { IbmplexsansMediumRiverBed24px } from "../styledMixins";
+import React from 'react';
+import Frame14072 from '../Frame14072';
+import styled from 'styled-components';
+import { IbmplexsansMediumRiverBed24px } from '../styledMixins';
 
 function Frame1337(props) {
-
   return (
     <Frame13371>
       <Tasks>Tasks</Tasks>

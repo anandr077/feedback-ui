@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumElectricViolet16px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumElectricViolet16px } from '../styledMixins';
 
 function Group1205(props) {
   const { arrowright, className } = props;
 
   return (
-    <Group1206 className={`group-1206 ${className || ""}`}>
+    <Group1206 className={`group-1206 ${className || ''}`}>
       <ViewAll className="view-all-1">VIEW ALL</ViewAll>
       <Arrowright className="arrowright-2" src={arrowright} alt="arrowright" />
     </Group1206>

@@ -1,7 +1,7 @@
-import React from "react";
-import Buttons from "../Buttons";
-import styled from "styled-components";
-import { IbmplexsansNormalWhite16px } from "../styledMixins";
+import React from 'react';
+import Buttons from '../Buttons';
+import styled from 'styled-components';
+import { IbmplexsansNormalWhite16px } from '../styledMixins';
 
 function Cards(props) {
   const { title, link, emptyCard } = props;
@@ -13,8 +13,8 @@ function Cards(props) {
           <Content>
             <DarrellInstructor>
               <span className="ibmplexsans-normal-shark-16px">
-                {" "}
-                No New Notifications{" "}
+                {' '}
+                No New Notifications{' '}
               </span>
             </DarrellInstructor>
           </Content>

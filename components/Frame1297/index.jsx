@@ -1,29 +1,29 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalShark16px,
-  IbmplexsansNormalShark20px
-} from "../../styledMixins";
-import ImageDropdownMenu from "../ImageDropdownMenu";
-import { set } from "lodash";
+  IbmplexsansNormalShark20px,
+} from '../../styledMixins';
+import DropdownMenu from '../DropdownMenu';
+import { set } from 'lodash';
 
 function Frame1297(props) {
   const { dropdown, number, UpdateQuestionFrame, defaultType } = props;
   const [type, setType] = React.useState(defaultType);
 
   const setTypeTheory = () => {
-    setType("TEXT");
-    UpdateQuestionFrame(number, "TEXT");
+    setType('TEXT');
+    UpdateQuestionFrame(number, 'TEXT');
   };
 
   const setTypeMCQ = () => {
-    setType("MCQ");
-    UpdateQuestionFrame(number, "MCQ");
+    setType('MCQ');
+    UpdateQuestionFrame(number, 'MCQ');
   };
 
   const setTypeEssay = () => {
-    setType("ESSAY");
-    UpdateQuestionFrame(number, "ESSAY");
+    setType('ESSAY');
+    UpdateQuestionFrame(number, 'ESSAY');
   };
   return (
     <Frame12971>
@@ -34,8 +34,11 @@ function Frame1297(props) {
               <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
             </Frame1281>
           </Frame1282>
-          { (
-              createQuestionTypeSelector(type, setTypeTheory, setTypeMCQ, setTypeEssay)
+          {createQuestionTypeSelector(
+            type,
+            setTypeTheory,
+            setTypeMCQ,
+            setTypeEssay
           )}
         </Frame1283>
       </Frame1287>
@@ -43,15 +46,40 @@ function Frame1297(props) {
   );
 }
 
-const createQuestionTypeSelector = (type, setTypeTheory, setTypeMCQ, setTypeEssay )=>{
+const createQuestionTypeSelector = (
+  type,
+  setTypeTheory,
+  setTypeMCQ,
+  setTypeEssay
+) => {
   const menuItems = [
-    {id: 0, image:"/img/assignment-4@2x.png", title:"Short response", onClick:setTypeTheory},
-    {id: 1, image:"/img/assignment-4@2x.png", title:"Extended response", onClick:setTypeEssay},
-    {id: 2, image:"/icons/mcqIcon.png", title:"Multiple choice", onClick:setTypeMCQ},
-  ]
-  const selectedIndex = type === "MCQ"? 2 : type === "ESSAY"? 1 : 0;
-  return <ImageDropdownMenu selectedIndex={selectedIndex} menuItems={menuItems}></ImageDropdownMenu>
-}
+    {
+      id: 0,
+      image: '/img/assignment-4@2x.png',
+      title: 'Short response',
+      onClick: setTypeTheory,
+    },
+    {
+      id: 1,
+      image: '/img/assignment-4@2x.png',
+      title: 'Extended response',
+      onClick: setTypeEssay,
+    },
+    {
+      id: 2,
+      image: '/icons/mcqIcon.png',
+      title: 'Multiple choice',
+      onClick: setTypeMCQ,
+    },
+  ];
+  const selectedIndex = type === 'MCQ' ? 2 : type === 'ESSAY' ? 1 : 0;
+  return (
+    <DropdownMenu
+      selectedIndex={selectedIndex}
+      menuItems={menuItems}
+    ></DropdownMenu>
+  );
+};
 
 const DropDown = styled.div`
   position: absolute;

@@ -1,25 +1,25 @@
-import React from "react";
-import styled from "styled-components";
-import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
-import Header from "../../Header";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Frame12842 from "../../TeacherDashboard/Frame12842";
-import Frame14072 from "../../TeacherDashboard/Frame14072";
-import Buttons from "../Buttons";
-import Frame13132 from "../Frame13132";
-import Frame1337 from "../Frame1337";
-import Frame6 from "../Frame6";
+import React from 'react';
+import styled from 'styled-components';
+import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
+import Header from '../../Header';
+import DropdownMenu from '../../DropdownMenu';
+import Frame12842 from '../../TeacherDashboard/Frame12842';
+import Frame14072 from '../../TeacherDashboard/Frame14072';
+import Buttons from '../Buttons';
+import Frame13132 from '../Frame13132';
+import Frame1337 from '../Frame1337';
+import Frame6 from '../Frame6';
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalChicago13px,
-  IbmplexsansNormalShark16px
-} from "../styledMixins";
+  IbmplexsansNormalShark16px,
+} from '../styledMixins';
 import {
   createModelResponsesFrames,
-  createStudentsFrames
-} from "../TeacherClassesRoot/methods";
-import "./TeacherClassesDesktop.css";
+  createStudentsFrames,
+} from '../TeacherClassesRoot/methods';
+import './TeacherClassesDesktop.css';
 
 function TeacherClassesDesktop(props) {
   const {
@@ -68,7 +68,7 @@ function TeacherClassesDesktop(props) {
     frame131323Props,
     frame131324Props,
     group1205Props,
-    annotationAnalyticsFrame
+    annotationAnalyticsFrame,
   } = props;
 
   return (
@@ -80,13 +80,13 @@ function TeacherClassesDesktop(props) {
         </Frame13121>
         <Frame14221>
           <Frame1306>
-            <ImageDropdownMenu
+            <DropdownMenu
               menuItems={classes}
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
               selectedIndex={selectedClassIndex}
-            ></ImageDropdownMenu>
+            ></DropdownMenu>
           </Frame1306>
           <Frame1426>
             <Buttons link="#tasks/new" />
@@ -102,22 +102,19 @@ function TeacherClassesDesktop(props) {
           </Frame1339>
           <Frame1416>
             <Frame1342>
-              <Frame1337>
-              </Frame1337>
+              <Frame1337></Frame1337>
               <Line17 src={line176} alt="Line 17" />
               <Frame1307>
-                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842 title={'DRAFTS'} count={drafts.length} />
                 <Frame12842
-                  title={"SUBMISSIONS"}
+                  title={'SUBMISSIONS'}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"REVIEWS"} count={feedbacks.length} />
+                <Frame12842 title={'REVIEWS'} count={feedbacks.length} />
               </Frame1307>
             </Frame1342>
-            
-            <Frame1339>
-            {annotationAnalyticsFrame}
-            </Frame1339>
+
+            <Frame1339>{annotationAnalyticsFrame}</Frame1339>
           </Frame1416>
         </Frame1417>
       </Frame1422>

@@ -1,23 +1,23 @@
-import React from "react";
-import styled from "styled-components";
-import { formattedDate } from "../../../dates";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
-import HeaderSmall from "../../HeaderSmall";
-import Breadcrumb from "../../Breadcrumb";
-import Breadcrumb2 from "../../Breadcrumb2";
-import Buttons from "../Buttons";
-import Frame11 from "../Frame11";
-import Frame12093 from "../Frame12093";
-import GoBack from "../GoBack";
-import StatusBubbles from "../StatusBubbles";
+import React from 'react';
+import styled from 'styled-components';
+import { formattedDate } from '../../../dates';
+import { taskHeaderProps } from '../../../utils/headerProps.js';
+import HeaderSmall from '../../HeaderSmall';
+import Breadcrumb from '../../Breadcrumb';
+import Breadcrumb2 from '../../Breadcrumb2';
+import Buttons from '../Buttons';
+import Frame11 from '../Frame11';
+import Frame12093 from '../Frame12093';
+import GoBack from '../GoBack';
+import StatusBubbles from '../StatusBubbles';
 import {
   IbmplexsansBoldShark36px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansSemiBoldShark28px,
-} from "../styledMixins";
-import "./TaskDetailTablet.css";
-import FooterSmall from "../../FooterSmall";
+} from '../styledMixins';
+import './TaskDetailTablet.css';
+import FooterSmall from '../../FooterSmall';
 function TaskDetailTablet(props) {
   const {
     assignment,
@@ -46,7 +46,7 @@ function TaskDetailTablet(props) {
         <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
-            <Breadcrumb text = "Task" link = "/#/tasks"/>
+            <Breadcrumb text="Task" link="/#/tasks" />
             <Breadcrumb2 title={assignment.title} />
           </Frame29>
           <Frame1389>

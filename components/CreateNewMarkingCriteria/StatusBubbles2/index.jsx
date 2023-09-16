@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { feedbacksIbmplexsansMediumPersianIndigo16px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import { feedbacksIbmplexsansMediumPersianIndigo16px } from '../../../styledMixins';
 
 function StatusBubbles2() {
   return (

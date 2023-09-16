@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import CheckboxList from "../../CheckboxList";
+import React from 'react';
+import styled from 'styled-components';
+import CheckboxList from '../../CheckboxList';
 
 import {
   feedbacksIbmplexsansBoldShark36px,
@@ -10,22 +10,18 @@ import {
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalShark20px,
-} from "../../../styledMixins";
-import { taskHeaderProps } from "../../../utils/headerProps.js";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
-import QuillEditor from "../../QuillEditor";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
-import "./FeedbackTeacherMobile.css";
+} from '../../../styledMixins';
+import { taskHeaderProps } from '../../../utils/headerProps.js';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
+import QuillEditor from '../../QuillEditor';
+import Breadcrumb from '../Breadcrumb';
+import Breadcrumb2 from '../Breadcrumb2';
+import './FeedbackTeacherMobile.css';
+import StrengthsTargets from '../../StrengthsTargets';
 
 function FeedbackTeacherMobile(props) {
-  const {
-    pageMode,
-    methods,
-    comments,
-    submission,
-  } = props;
+  const { pageMode, methods, comments, submission } = props;
   const modules = {
     toolbar: false,
   };
@@ -33,19 +29,19 @@ function FeedbackTeacherMobile(props) {
   const answerFrames = submission.assignment.questions.map((question) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
-      answer: "",
+      answer: '',
     };
     const answer =
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
-    const questionText = "Q" + question.serialNumber + ". " + question.question;
+    const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
     return (
       <>
         <Frame1366>
           <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
-          {question.type === "MCQ" ? (
+          {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}
               question={question}
@@ -53,22 +49,28 @@ function FeedbackTeacherMobile(props) {
               handleChangeText={methods.handleChangeText}
             />
           ) : (
-            <ToremIpsumDolorSi id={"quillContainer_" + submission.id + "_" + question.serialNumber}>
+            <ToremIpsumDolorSi
+              id={
+                'quillContainer_' + submission.id + '_' + question.serialNumber
+              }
+            >
               <QuillEditor
-                id={"quillEditor_" + submission.id + "_" + question.serialNumber}
+                id={
+                  'quillEditor_' + submission.id + '_' + question.serialNumber
+                }
                 ref={(editor) =>
                   methods.handleEditorMounted(editor, answer.serialNumber - 1)
                 }
                 comments={comments.filter((comment) => {
                   return comment.questionSerialNumber === answer.serialNumber;
                 })}
-                value={answerValue ? answerValue : ""}
-                onSelectionChange={(_)=>{}}
+                value={answerValue ? answerValue : ''}
+                onSelectionChange={(_) => {}}
                 // onChangeFn={methods.onChangeFn(question.serialNumber)}
                 options={{
                   modules: modules,
-                  theme: "snow",
-                  readOnly: pageMode === "REVIEW" || pageMode === "CLOSED",
+                  theme: 'snow',
+                  readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
                 }}
                 debounceTime={0}
                 onDebounce={console.log}
@@ -88,7 +90,7 @@ function FeedbackTeacherMobile(props) {
         <Frame1387>
           <HeaderSmall headerProps={taskHeaderProps} />
           <Frame1315>
-          <Breadcrumb text={"Tasks"} link={"/#/tasks"} />
+            <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
             {/* <Breadcrumb2 assignments="Feedback"/> */}
             <Breadcrumb2 assignments={submission.assignment.title} />
           </Frame1315>
@@ -142,7 +144,7 @@ const StatusText = styled.p`
   // width: 714px;
   // height: 21px;
 
-  font-family: "IBM Plex Sans";
+  font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -402,7 +404,7 @@ const Frame1366 = styled.div`
 `;
 
 const Q1PoremIpsumDolo = styled.p`
-   ${feedbacksIbmplexsansMediumPersianIndigo20px}
+  ${feedbacksIbmplexsansMediumPersianIndigo20px}
   font-size: 20px;
   position: relative;
   align-self: stretch;

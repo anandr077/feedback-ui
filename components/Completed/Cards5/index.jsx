@@ -1,10 +1,10 @@
-import React from "react";
-import StatusBubbles5 from "../StatusBubbles5";
-import styled from "styled-components";
+import React from 'react';
+import StatusBubbles5 from '../StatusBubbles5';
+import styled from 'styled-components';
 import {
   IbmplexsansNormalRiverBed14px,
   IbmplexsansNormalShark20px,
-} from "../styledMixins";
+} from '../styledMixins';
 
 function Cards5(props) {
   const { iconClock } = props;

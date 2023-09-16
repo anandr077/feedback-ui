@@ -1,26 +1,26 @@
-import React from "react";
-import Group1205 from "../Group1205";
-import Frame13124 from "../Frame13124";
-import Frame14072 from "../Frame14072";
-import Frame12842 from "../Frame12842";
-import Frame12832 from "../Frame12832";
-import Frame12822 from "../Frame12822";
-import Frame1313 from "../Frame1313";
-import Frame6 from "../Frame6";
-import styled from "styled-components";
+import React from 'react';
+import Group1205 from '../Group1205';
+import Frame13124 from '../Frame13124';
+import Frame14072 from '../Frame14072';
+import Frame12842 from '../Frame12842';
+import Frame12832 from '../Frame12832';
+import Frame12822 from '../Frame12822';
+import Frame1313 from '../Frame1313';
+import Frame6 from '../Frame6';
+import styled from 'styled-components';
 import {
   IbmplexsansMediumRiverBed24px,
   IbmplexsansBoldWhite72px,
   IbmplexsansNormalChicago13px,
   IbmplexsansNormalWhite20px,
-} from "../styledMixins";
-import "./TeacherDashboardDesktop.css";
-import { teacherHomeHeaderProps } from "../../../utils/headerProps";
-import Header from "../../Header";
-import Footer from "../../Footer";
-import TaskCard from "../../TaskCard";
-import { timeFirstFormattedDate } from "../../../dates";
-import { getUserName } from "../../../service";
+} from '../styledMixins';
+import './TeacherDashboardDesktop.css';
+import { teacherHomeHeaderProps } from '../../../utils/headerProps';
+import Header from '../../Header';
+import Footer from '../../Footer';
+import TaskCard from '../../TaskCard';
+import { timeFirstFormattedDate } from '../../../dates';
+import { getUserName } from '../../../service';
 
 function TeacherDashboardDesktop(props) {
   const {
@@ -88,7 +88,7 @@ function TeacherDashboardDesktop(props) {
                 <Group1205
                   link="#tasks/new"
                   label="CREATE NEW"
-                  arrowleft={"/img/iconsax-linear-add-1@2x.png"}
+                  arrowleft={'/img/iconsax-linear-add-1@2x.png'}
                 />
                 <Group1205
                   link="#tasks"
@@ -98,12 +98,12 @@ function TeacherDashboardDesktop(props) {
               </Frame1337>
               <Line17 src={line172} alt="Line 17" />
               <Frame1307>
-                <Frame12842 title={"DRAFTS"} count={drafts.length} />
+                <Frame12842 title={'DRAFTS'} count={drafts.length} />
                 <Frame12842
-                  title={"ACTIVE"}
+                  title={'ACTIVE'}
                   count={awaitingSubmissions.length}
                 />
-                <Frame12842 title={"CLOSED"} count={feedbacks.length} />
+                <Frame12842 title={'CLOSED'} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
             <Frame13411>
@@ -127,7 +127,7 @@ function recentActivitiesFrame(notifications) {
       title: notification.title,
       classTitle:
         notification.classTitle +
-        " | at " +
+        ' | at ' +
         timeFirstFormattedDate(notification.dueAt),
     };
     return <TaskCard task={task} />;
@@ -141,7 +141,7 @@ function classesFrames(classes, frame131241Props) {
         {classes.map((clazz) => {
           return (
             <Frame13124
-              key={"frame13124_" + clazz.id}
+              key={'frame13124_' + clazz.id}
               clazz={clazz}
               x12Engadv3={frame131241Props.x12Engadv3}
               frame1407Props={frame131241Props.frame1407Props}

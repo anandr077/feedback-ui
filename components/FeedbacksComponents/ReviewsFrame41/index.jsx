@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack16px } from "../../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 
 function Frame4(props) {
   const { maskGroup, className } = props;
 
   return (
-    <ReviewsFrame41 className={`frame-4 ${className || ""}`}>
+    <ReviewsFrame41 className={`frame-4 ${className || ''}`}>
       <MaskGroup className="mask-group" src={maskGroup} alt="Mask group" />
       <Frame3 className="frame-3">
         <Name className="name-3">Eleanor Pena</Name>

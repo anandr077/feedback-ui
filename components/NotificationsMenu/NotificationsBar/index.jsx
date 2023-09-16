@@ -1,26 +1,36 @@
-import React from "react";
-import Cards from "../Cards";
-import styled from "styled-components";
-import "./NotificationsBar.css";
-import Loader from "../../Loader";
-import TaskCard from "../../TaskCard";
+import React from 'react';
+import Cards from '../Cards';
+import styled from 'styled-components';
+import './NotificationsBar.css';
+import Loader from '../../Loader';
+import TaskCard from '../../TaskCard';
 function NotificationsBar(props) {
   const { notifications, type, onCloseFn, loadingNotifications } = props;
   if (notifications?.length === 0) {
     return (
       <>
-        {type == "small" ? (
+        {type == 'small' ? (
           <NavbarDiv>
             <Frame1409>
               <Frame15>
-                {loadingNotifications ?<div>Loading...</div> : <Cards emptyCard={true} />}
+                {loadingNotifications ? (
+                  <div>Loading...</div>
+                ) : (
+                  <Cards emptyCard={true} />
+                )}
               </Frame15>
               <MaskGroup src="/img/close.png" onClick={onCloseFn} />
             </Frame1409>
           </NavbarDiv>
         ) : (
           <Frame16>
-            {loadingNotifications ? <div>Loading...</div> : <Frame15><Cards emptyCard={true} /></Frame15>}
+            {loadingNotifications ? (
+              <div>Loading...</div>
+            ) : (
+              <Frame15>
+                <Cards emptyCard={true} />
+              </Frame15>
+            )}
           </Frame16>
         )}
       </>
@@ -32,7 +42,7 @@ function NotificationsBar(props) {
   });
   return (
     <>
-      {type == "small" ? (
+      {type == 'small' ? (
         <NavbarDiv>
           <Frame1409>
             <Frame16>{notificationFrames}</Frame16>
@@ -75,7 +85,6 @@ const MaskGroup = styled.img`
   right: 0;
   height: 48px;
   width: 48px;
-
 `;
 
 const Frame4 = styled.div`

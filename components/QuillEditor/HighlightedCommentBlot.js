@@ -1,6 +1,6 @@
-import Quill from "quill";
+import Quill from 'quill';
 
-const Inline = Quill.import("blots/inline");
+const Inline = Quill.import('blots/inline');
 class HighlightedCommentBlot extends Inline {
   static blotName = 'highlight';
   static tagName = 'span';

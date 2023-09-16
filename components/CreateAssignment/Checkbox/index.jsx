@@ -1,18 +1,19 @@
-import React from "react";
-import Frame1441 from "../Frame1441";
-import styled from "styled-components";
-
+import React from 'react';
+import Frame1441 from '../Frame1441';
+import styled from 'styled-components';
 
 function Checkbox(props) {
   const { className, frame1441Props } = props;
 
   return (
-    <Checkbox1 className={`checkbox-1 ${className || ""}`}>
+    <Checkbox1 className={`checkbox-1 ${className || ''}`}>
       <Checkbox2 className="checkbox-2">
         <Rectangle43 className="rectangle-43"></Rectangle43>
         <Vector className="vector" src="/img/vector@2x.png" alt="Vector" />
       </Checkbox2>
-      <Frame1441 className={frame1441Props.className}>{frame1441Props.children}</Frame1441>
+      <Frame1441 className={frame1441Props.className}>
+        {frame1441Props.children}
+      </Frame1441>
     </Checkbox1>
   );
 }

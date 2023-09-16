@@ -1,63 +1,120 @@
-import React from "react";
-import ReactiveRender from "../../ReactiveRender";
-import CompletedDesktop from "../CompletedDesktop";
-import CompletedLaptop from "../CompletedLaptop";
-import CompletedMobile from "../CompletedMobile";
-import CompletedTablet from "../CompletedTablet";
+import React from 'react';
+import ReactiveRender from '../../ReactiveRender';
+import CompletedDesktop from '../CompletedDesktop';
+import CompletedLaptop from '../CompletedLaptop';
+import CompletedMobile from '../CompletedMobile';
+import CompletedTablet from '../CompletedTablet';
 
 export default function CompletedRoot(props) {
-  const { menuItems, filterTasks, title, groups,exemplar, id, setPublishActionCompleted} = props
-
-  
-  
+  const {
+    menuItems,
+    filterTasks,
+    title,
+    groups,
+    exemplar,
+    id,
+    setPublishActionCompleted,
+  } = props;
 
   return (
     <ReactiveRender
-      mobile={<CompletedMobile {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted,...completedMobileData }} />}
-      tablet={<CompletedTablet {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted, ...completedTabletData }} />}
-      laptop={<CompletedLaptop {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted, ...completedLaptopData }} />}
-      desktop={<CompletedDesktop {...{ menuItems, filterTasks, title,groups, exemplar,id, setPublishActionCompleted, ...completedDesktopData }} />}
+      mobile={
+        <CompletedMobile
+          {...{
+            menuItems,
+            filterTasks,
+            title,
+            groups,
+            exemplar,
+            id,
+            setPublishActionCompleted,
+            ...completedMobileData,
+          }}
+        />
+      }
+      tablet={
+        <CompletedTablet
+          {...{
+            menuItems,
+            filterTasks,
+            title,
+            groups,
+            exemplar,
+            id,
+            setPublishActionCompleted,
+            ...completedTabletData,
+          }}
+        />
+      }
+      laptop={
+        <CompletedLaptop
+          {...{
+            menuItems,
+            filterTasks,
+            title,
+            groups,
+            exemplar,
+            id,
+            setPublishActionCompleted,
+            ...completedLaptopData,
+          }}
+        />
+      }
+      desktop={
+        <CompletedDesktop
+          {...{
+            menuItems,
+            filterTasks,
+            title,
+            groups,
+            exemplar,
+            id,
+            setPublishActionCompleted,
+            ...completedDesktopData,
+          }}
+        />
+      }
     />
   );
 }
 const navElement21Data = {
-  tasksquare: "/img/tasksquare@2x.png",
-  home: "Tasks",
+  tasksquare: '/img/tasksquare@2x.png',
+  home: 'Tasks',
 };
 
 const navElement22Data = {
-  tasksquare: "/img/clipboardtick@2x.png",
-  home: "Completed",
-  className: "nav-element-4",
+  tasksquare: '/img/clipboardtick@2x.png',
+  home: 'Completed',
+  className: 'nav-element-4',
 };
 
 const notifications1Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const group12051Data = {
-  arrowright: "/img/arrowright@2x.png",
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const group12052Data = {
-  arrowright: "/img/arrowright-8@2x.png",
-  className: "group-1206",
+  arrowright: '/img/arrowright-8@2x.png',
+  className: 'group-1206',
 };
 
 const statusBubbles1Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const statusBubbles2Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const statusBubbles22Data = {
-  children: "Overdue",
+  children: 'Overdue',
 };
 
 const content1Data = {
-  iconClock: "/img/clock@2x.png",
+  iconClock: '/img/clock@2x.png',
 };
 
 const cardsData = {
@@ -68,15 +125,15 @@ const cardsData = {
 };
 
 const statusBubbles4Data = {
-  children: "MCQ",
+  children: 'MCQ',
 };
 
 const statusBubbles42Data = {
-  children: "Due in 3 days",
+  children: 'Due in 3 days',
 };
 
 const content2Data = {
-  iconClock: "/img/clock@2x.png",
+  iconClock: '/img/clock@2x.png',
 };
 
 const cards2Data = {
@@ -86,7 +143,7 @@ const cards2Data = {
 };
 
 const content3Data = {
-  iconClock: "/img/clock-2@2x.png",
+  iconClock: '/img/clock-2@2x.png',
 };
 
 const cards3Data = {
@@ -94,11 +151,11 @@ const cards3Data = {
 };
 
 const statusBubbles7Data = {
-  children: "Due tomorrow",
+  children: 'Due tomorrow',
 };
 
 const content4Data = {
-  iconClock: "/img/clock-2@2x.png",
+  iconClock: '/img/clock-2@2x.png',
 };
 
 const cards4Data = {
@@ -107,32 +164,31 @@ const cards4Data = {
 };
 
 const cards51Data = {
-  iconClock: "/img/clock@2x.png",
+  iconClock: '/img/clock@2x.png',
 };
 
 const cards52Data = {
-  iconClock: "/img/clock@2x.png",
+  iconClock: '/img/clock@2x.png',
 };
 
 const cards53Data = {
-  iconClock: "/img/clock-2@2x.png",
+  iconClock: '/img/clock-2@2x.png',
 };
 
 const cards54Data = {
-  iconClock: "/img/clock-2@2x.png",
+  iconClock: '/img/clock-2@2x.png',
 };
 
-
 const notifications2Data = {
-  src: "/img/notificationbing-1@2x.png",
+  src: '/img/notificationbing-1@2x.png',
 };
 
 const frame13081Data = {
-  children: "20 Mar 2023",
+  children: '20 Mar 2023',
 };
 
 const statusBubbles8Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame621Data = {
@@ -149,11 +205,11 @@ const frame14101Data = {
 };
 
 const frame13082Data = {
-  children: "22 Mar 2023",
+  children: '22 Mar 2023',
 };
 
 const statusBubbles9Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame622Data = {
@@ -165,7 +221,7 @@ const cards62Data = {
 };
 
 const statusBubbles10Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame623Data = {
@@ -177,11 +233,11 @@ const cards63Data = {
 };
 
 const frame13083Data = {
-  children: "23 Mar 2023",
+  children: '23 Mar 2023',
 };
 
 const statusBubbles11Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame624Data = {
@@ -193,23 +249,23 @@ const cards64Data = {
 };
 
 const frame14102Data = {
-  className: "frame-1413-1",
+  className: 'frame-1413-1',
   frame1308Props: frame13083Data,
   cards6Props: cards64Data,
 };
 
 const completedMobileData = {
-  frame1349: "/img/frame-1349@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  subject: "Subject",
-  frame1284: "/img/frame-1284@2x.png",
-  line18: "/img/line-18@2x.png",
-  line19: "/img/line-18@2x.png",
-  line20: "/img/line-18@2x.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame1349: '/img/frame-1349@2x.png',
+  frame5: '/img/frame-5@2x.png',
+  subject: 'Subject',
+  frame1284: '/img/frame-1284@2x.png',
+  line18: '/img/line-18@2x.png',
+  line19: '/img/line-18@2x.png',
+  line20: '/img/line-18@2x.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   notificationsProps: notifications2Data,
   frame14101Props: frame14101Data,
   frame1308Props: frame13082Data,
@@ -219,15 +275,15 @@ const completedMobileData = {
 };
 
 const notifications3Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const frame13084Data = {
-  children: "20 Mar 2023",
+  children: '20 Mar 2023',
 };
 
 const statusBubbles12Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame625Data = {
@@ -244,11 +300,11 @@ const frame141022Data = {
 };
 
 const frame13085Data = {
-  children: "22 Mar 2023",
+  children: '22 Mar 2023',
 };
 
 const statusBubbles13Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame626Data = {
@@ -260,7 +316,7 @@ const cards82Data = {
 };
 
 const statusBubbles14Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame627Data = {
@@ -272,11 +328,11 @@ const cards83Data = {
 };
 
 const frame13086Data = {
-  children: "23 Mar 2023",
+  children: '23 Mar 2023',
 };
 
 const statusBubbles15Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame628Data = {
@@ -293,17 +349,17 @@ const frame141023Data = {
 };
 
 const completedTabletData = {
-  frame1349: "/img/frame-1349-1.png",
-  frame5: "/img/frame-5@2x.png",
-  subject: "Subject",
-  frame1284: "/img/frame-1284@2x.png",
-  line18: "/img/line-17-14.png",
-  line19: "/img/line-17-14.png",
-  line20: "/img/line-17-14.png",
-  x2023JeddleAllRightsReserved: "© 2023 Jeddle. All rights reserved.",
-  mainWebsite: "Main Website",
-  terms: "Terms",
-  privacy: "Privacy",
+  frame1349: '/img/frame-1349-1.png',
+  frame5: '/img/frame-5@2x.png',
+  subject: 'Subject',
+  frame1284: '/img/frame-1284@2x.png',
+  line18: '/img/line-17-14.png',
+  line19: '/img/line-17-14.png',
+  line20: '/img/line-17-14.png',
+  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
+  mainWebsite: 'Main Website',
+  terms: 'Terms',
+  privacy: 'Privacy',
   notificationsProps: notifications3Data,
   frame141021Props: frame141022Data,
   frame1308Props: frame13085Data,
@@ -313,27 +369,27 @@ const completedTabletData = {
 };
 
 const navElement23Data = {
-  tasksquare: "/img/home3-1@2x.png",
-  home: "Home",
-  className: "nav-element-5",
+  tasksquare: '/img/home3-1@2x.png',
+  home: 'Home',
+  className: 'nav-element-5',
 };
 
 const navElement3Data = {
-  className: "nav-element-1",
+  className: 'nav-element-1',
 };
 
 const navElement24Data = {
-  tasksquare: "/img/subject@2x.png",
-  home: "Classes",
-  className: "nav-element-6",
+  tasksquare: '/img/subject@2x.png',
+  home: 'Classes',
+  className: 'nav-element-6',
 };
 
 const notifications4Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const frame42Data = {
-  className: "frame-4-1",
+  className: 'frame-4-1',
 };
 
 const teacherDashboardHeader1Data = {
@@ -345,11 +401,11 @@ const teacherDashboardHeader1Data = {
 };
 
 const frame13087Data = {
-  children: "20 Mar 2023",
+  children: '20 Mar 2023',
 };
 
 const statusBubbles16Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame629Data = {
@@ -366,11 +422,11 @@ const frame141031Data = {
 };
 
 const frame13088Data = {
-  children: "22 Mar 2023",
+  children: '22 Mar 2023',
 };
 
 const statusBubbles17Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame6210Data = {
@@ -382,7 +438,7 @@ const cards102Data = {
 };
 
 const statusBubbles18Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame6211Data = {
@@ -400,11 +456,11 @@ const frame14121Data = {
 };
 
 const frame13089Data = {
-  children: "23 Mar 2023",
+  children: '23 Mar 2023',
 };
 
 const statusBubbles19Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame6212Data = {
@@ -421,16 +477,16 @@ const frame141032Data = {
 };
 
 const frame64Data = {
-  className: "frame-6-6",
+  className: 'frame-6-6',
 };
 
 const completedDesktopData = {
-  subject: "Subject",
-  frame1284: "/img/frame-1284@2x.png",
-  line18: "/img/line-18-2.png",
-  line19: "/img/line-18-2.png",
-  line20: "/img/line-18-2.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  subject: 'Subject',
+  frame1284: '/img/frame-1284@2x.png',
+  line18: '/img/line-18-2.png',
+  line19: '/img/line-18-2.png',
+  line20: '/img/line-18-2.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   teacherDashboardHeaderProps: teacherDashboardHeader1Data,
   frame141031Props: frame141031Data,
   frame1412Props: frame14121Data,
@@ -439,27 +495,27 @@ const completedDesktopData = {
 };
 
 const navElement25Data = {
-  tasksquare: "/img/home3-1@2x.png",
-  home: "Home",
-  className: "nav-element-7",
+  tasksquare: '/img/home3-1@2x.png',
+  home: 'Home',
+  className: 'nav-element-7',
 };
 
 const navElement4Data = {
-  className: "nav-element-2",
+  className: 'nav-element-2',
 };
 
 const navElement26Data = {
-  tasksquare: "/img/subject@2x.png",
-  home: "Classes",
-  className: "nav-element-8",
+  tasksquare: '/img/subject@2x.png',
+  home: 'Classes',
+  className: 'nav-element-8',
 };
 
 const notifications5Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const frame43Data = {
-  className: "frame-4-2",
+  className: 'frame-4-2',
 };
 
 const teacherDashboardHeader2Data = {
@@ -471,11 +527,11 @@ const teacherDashboardHeader2Data = {
 };
 
 const frame130810Data = {
-  children: "20 Mar 2023",
+  children: '20 Mar 2023',
 };
 
 const statusBubbles20Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame6213Data = {
@@ -492,11 +548,11 @@ const frame141033Data = {
 };
 
 const frame130811Data = {
-  children: "22 Mar 2023",
+  children: '22 Mar 2023',
 };
 
 const statusBubbles21Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame6214Data = {
@@ -508,7 +564,7 @@ const cards106Data = {
 };
 
 const statusBubbles23Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame6215Data = {
@@ -526,11 +582,11 @@ const frame14122Data = {
 };
 
 const frame130812Data = {
-  children: "23 Mar 2023",
+  children: '23 Mar 2023',
 };
 
 const statusBubbles24Data = {
-  children: "Assignment",
+  children: 'Assignment',
 };
 
 const frame6216Data = {
@@ -547,16 +603,16 @@ const frame141034Data = {
 };
 
 const frame65Data = {
-  className: "frame-6-6",
+  className: 'frame-6-6',
 };
 
 const completedLaptopData = {
-  subject: "Subject",
-  frame1284: "/img/frame-1284@2x.png",
-  line18: "/img/line-18-3.png",
-  line19: "/img/line-18-3.png",
-  line20: "/img/line-18-3.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  subject: 'Subject',
+  frame1284: '/img/frame-1284@2x.png',
+  line18: '/img/line-18-3.png',
+  line19: '/img/line-18-3.png',
+  line20: '/img/line-18-3.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   teacherDashboardHeaderProps: teacherDashboardHeader2Data,
   frame141031Props: frame141033Data,
   frame1412Props: frame14122Data,

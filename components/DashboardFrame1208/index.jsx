@@ -1,7 +1,7 @@
-import React from "react";
-import DashboardGroup12052 from "../DashboardGroup12052";
-import styled from "styled-components";
-import { IbmplexsansMediumRiverBed20px } from "../../styledMixins";
+import React from 'react';
+import DashboardGroup12052 from '../DashboardGroup12052';
+import styled from 'styled-components';
+import { IbmplexsansMediumRiverBed20px } from '../../styledMixins';
 
 function DashboardFrame1208(props) {
   const { tasks, exemplar } = props;

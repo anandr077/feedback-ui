@@ -1,12 +1,12 @@
-import dayjs from "dayjs";
-import React from "react";
-import { useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import dayjs from 'dayjs';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import styled from "styled-components";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import styled from 'styled-components';
 import {
   getClasses,
   createAssignment,
@@ -15,29 +15,29 @@ import {
   publishAssignment,
   addFocusArea,
   getAllMarkingCriteria,
-  deleteAssignment
-} from "../../service";
+  deleteAssignment,
+} from '../../service';
 import {
   IbmplexsansNormalShark20px,
   IbmplexsansBoldShark64px,
-} from "../../styledMixins";
-import { assignmentsHeaderProps } from "../../utils/headerProps";
-import CheckboxBordered from "../CheckboxBordered";
-import CreateAAssignmentLaptop from "../CreateAAssignmentLaptop";
-import CreateAAssignmentMobile from "../CreateAAssignmentMobile";
-import CreateAAssignmentTablet from "../CreateAAssignmentTablet";
-import DateSelector from "../DateSelector";
-import MCQQuestionFrame from "../MCQQuestionFrame";
-import ReactiveRender from "../ReactiveRender";
-import TheoryQuestionFrame from "../TheoryQuestionFrame";
-import SnackbarContext from "../SnackbarContext";
-import Loader from "../Loader";
-import FocusAreaDialog from "./Dialog/newFocusArea";
-import { getFocusAreas, addNewFocusArea, getAllColors } from "../../service";
-import { set } from "lodash";
-import PreviewDialog from "../Shared/Dialogs/preview/previewCard";
-import DeleteAssignmentPopup from "../DeleteAssignmentPopUp";
-import GeneralPopup from "../GeneralPopup";
+} from '../../styledMixins';
+import { assignmentsHeaderProps } from '../../utils/headerProps';
+import CheckboxBordered from '../CheckboxBordered';
+import CreateAAssignmentLaptop from '../CreateAAssignmentLaptop';
+import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
+import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
+import DateSelector from '../DateSelector';
+import MCQQuestionFrame from '../MCQQuestionFrame';
+import ReactiveRender from '../ReactiveRender';
+import TheoryQuestionFrame from '../TheoryQuestionFrame';
+import SnackbarContext from '../SnackbarContext';
+import Loader from '../Loader';
+import FocusAreaDialog from './Dialog/newFocusArea';
+import { getFocusAreas, addNewFocusArea, getAllColors } from '../../service';
+import { set } from 'lodash';
+import PreviewDialog from '../Shared/Dialogs/preview/previewCard';
+import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
+import GeneralPopup from '../GeneralPopup';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -49,23 +49,25 @@ export default function CreateAssignment(props) {
 
   const draft = {
     id: uuidv4(),
-    title: "",
+    title: '',
     classIds: [],
     questions: [newQuestion(1)],
-    reviewedBy: "TEACHER",
-    status: "DRAFT",
-    dueAt: dayjs().add(3, "day"),
+    reviewedBy: 'TEACHER',
+    status: 'DRAFT',
+    dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
 
   const [openFocusAreaDialog, setOpenFocusAreaDialog] = React.useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     React.useState(false);
-  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState([]);
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(
+    []
+  );
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const getAssignment = async (id) => {
-    if (id === "new") {
+    if (id === 'new') {
       return draft;
     } else {
       return await getAssignmentById(id);
@@ -97,7 +99,10 @@ export default function CreateAssignment(props) {
           ...assignmentResult,
           classIds: assignmentResult.classIds ?? [],
         }));
-        markingCriteriasResult.unshift({ title: "No Marking Criteria", id: "no_marking_criteria" });
+        markingCriteriasResult.unshift({
+          title: 'No Marking Criteria',
+          id: 'no_marking_criteria',
+        });
         setAllMarkingCriterias(markingCriteriasResult),
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);
@@ -111,16 +116,14 @@ export default function CreateAssignment(props) {
     return <Loader />;
   }
 
-  function handleMarkingCriteriaPreview(criterias) {
-    if (criterias === undefined) {
-      return;
-    }
-    setCurrentMarkingCriteria(criterias);
-    setMarkingCriteriaPreviewDialog(true);
+  function handleMarkingCriteriaPreview(markingCriteria) {
+    console.log('Marking criteria: ', markingCriteria);
+    setCurrentMarkingCriteria(markingCriteria);
+    setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
 
   const handleTitleChange = (e) => {
-    if(e.target.value.length > 140) {
+    if (e.target.value.length > 140) {
       return;
     }
     const newTitle = e.target.value;
@@ -136,17 +139,17 @@ export default function CreateAssignment(props) {
     setAssignment((prevAssignment) => ({ ...prevAssignment, dueAt: newDueAt }));
   };
   const cleanformattingTextBox = (e) => {
-    e.currentTarget.style.border = "1px solid var(--text)";
+    e.currentTarget.style.border = '1px solid var(--text)';
   };
   const cleanformattingDiv = (e) => {
-    e.currentTarget.style.border = "1px solid #E0E0E0";
+    e.currentTarget.style.border = '1px solid #E0E0E0';
   };
 
   const questionFrames = () => {
     return assignment.questions.map((question) => questionFrame(question));
   };
   const questionFrame = (question) => {
-    return question?.type === "MCQ" ? (
+    return question?.type === 'MCQ' ? (
       <MCQQuestionFrame
         serialNumber={question.serialNumber}
         deleteQuestionFrameFn={deleteQuestion}
@@ -236,7 +239,7 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestion(id, newContent) {
-    if(newContent.length > 500) {
+    if (newContent.length > 500) {
       return;
     }
     setAssignment((prevAssignment) => ({
@@ -266,13 +269,15 @@ export default function CreateAssignment(props) {
   }
 
   function updateFocusAreas(id, newFocusAreas) {
-    const focusAreas = allFocusAreas.filter((focusArea) => newFocusAreas.includes(focusArea.id));
-    console.log("focusAreas", focusAreas)
+    const focusAreas = allFocusAreas.filter((focusArea) =>
+      newFocusAreas.includes(focusArea.id)
+    );
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        
-        q.serialNumber === id ? { ...q, focusAreaIds: newFocusAreas, focusAreas } : q
+        q.serialNumber === id
+          ? { ...q, focusAreaIds: newFocusAreas, focusAreas }
+          : q
       ),
     }));
   }
@@ -283,7 +288,7 @@ export default function CreateAssignment(props) {
 
   function addNewFocusArea(title, description, color) {
     setOpenFocusAreaDialog(false);
-    if (title !== "" && color !== "") {
+    if (title !== '' && color !== '') {
       addFocusArea({
         title,
         description,
@@ -313,13 +318,12 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
-    
     updateAssignment(assignment.id, assignment).then((res) => {
-      if (res.status === "DRAFT") {
-        showSnackbar("Task saved");
+      if (res.status === 'DRAFT') {
+        showSnackbar('Task saved');
         return;
       } else {
-        showSnackbar("Could not save task");
+        showSnackbar('Could not save task');
         return;
       }
     });
@@ -330,9 +334,9 @@ export default function CreateAssignment(props) {
     if (assignment.title.length > 0) {
       return true;
     } else {
-      document.getElementById("assignmentNameContainer");
-      assignmentNameContainer.style.border = "1px solid red";
-      showSnackbar("Please enter task title");
+      document.getElementById('assignmentNameContainer');
+      assignmentNameContainer.style.border = '1px solid red';
+      showSnackbar('Please enter task title');
       return false;
     }
   };
@@ -340,67 +344,66 @@ export default function CreateAssignment(props) {
     let invalidQuestion = false;
     const questions = assignment.questions;
     questions.map((question) => {
-      if(question.question){
-      question.question = question.question.trim();
-      if (question.question.length === 0) {
-        const questionContainer = document.getElementById(
-          "questionContainer_" + question.serialNumber
-        );
-        questionContainer.style.border = "1px solid red";
-        const questionTextBox = document.getElementById(
-          "question_textBox" + question.serialNumber
-        );
-        questionTextBox.style.border = "1px solid red";
-        invalidQuestion = true;
-        showSnackbar("Please enter Question " + question.serialNumber);
-        return false;
-      }
-      if (question.type === "MCQ") {
-        let isCorrectPresent = false;
-        question.options.map((option, index) => {
-          option.option = option.option.trim();
-          if (option.option.length === 0) {
-            const optionTextBox = document.getElementById(
-              "option_" + question.serialNumber + "_" + index
-            );
-            optionTextBox.style.border = "1px solid red";
-            invalidQuestion = true;
-          }
-          if (option.isCorrect) {
-            isCorrectPresent = true;
-          }
-        });
-        if (invalidQuestion) {
-          showSnackbar(
-            "Please enter options for Question " + question.serialNumber
+      if (question.question) {
+        question.question = question.question.trim();
+        if (question.question.length === 0) {
+          const questionContainer = document.getElementById(
+            'questionContainer_' + question.serialNumber
           );
-          return false;
-        }
-        if (!isCorrectPresent) {
-          const optionContainer = document.getElementById(
-            "optionFrame_" + question.serialNumber
+          questionContainer.style.border = '1px solid red';
+          const questionTextBox = document.getElementById(
+            'question_textBox' + question.serialNumber
           );
-          optionContainer.style.border = "1px solid red";
+          questionTextBox.style.border = '1px solid red';
           invalidQuestion = true;
-          showSnackbar(
-            "Please select atleast one correct option for Question " +
-              question.serialNumber
-          );
+          showSnackbar('Please enter Question ' + question.serialNumber);
           return false;
         }
-      }
-      }
-      else{
+        if (question.type === 'MCQ') {
+          let isCorrectPresent = false;
+          question.options.map((option, index) => {
+            option.option = option.option.trim();
+            if (option.option.length === 0) {
+              const optionTextBox = document.getElementById(
+                'option_' + question.serialNumber + '_' + index
+              );
+              optionTextBox.style.border = '1px solid red';
+              invalidQuestion = true;
+            }
+            if (option.isCorrect) {
+              isCorrectPresent = true;
+            }
+          });
+          if (invalidQuestion) {
+            showSnackbar(
+              'Please enter options for Question ' + question.serialNumber
+            );
+            return false;
+          }
+          if (!isCorrectPresent) {
+            const optionContainer = document.getElementById(
+              'optionFrame_' + question.serialNumber
+            );
+            optionContainer.style.border = '1px solid red';
+            invalidQuestion = true;
+            showSnackbar(
+              'Please select atleast one correct option for Question ' +
+                question.serialNumber
+            );
+            return false;
+          }
+        }
+      } else {
         const questionContainer = document.getElementById(
-          "questionContainer_" + question.serialNumber
+          'questionContainer_' + question.serialNumber
         );
-        questionContainer.style.border = "1px solid red";
+        questionContainer.style.border = '1px solid red';
         const questionTextBox = document.getElementById(
-          "question_textBox" + question.serialNumber
+          'question_textBox' + question.serialNumber
         );
-        questionTextBox.style.border = "1px solid red";
+        questionTextBox.style.border = '1px solid red';
         invalidQuestion = true;
-        showSnackbar("Please enter Question " + question.serialNumber);
+        showSnackbar('Please enter Question ' + question.serialNumber);
         return false;
         return false;
       }
@@ -412,9 +415,9 @@ export default function CreateAssignment(props) {
     if (assignment.classIds.length > 0) {
       return true;
     } else {
-      const classesContainer = document.getElementById("classesContainer");
-      classesContainer.style.border = "1px solid red";
-      showSnackbar("Please select atleast one class");
+      const classesContainer = document.getElementById('classesContainer');
+      classesContainer.style.border = '1px solid red';
+      showSnackbar('Please select atleast one class');
     }
   };
 
@@ -423,9 +426,9 @@ export default function CreateAssignment(props) {
     if (assignmentDate.getTime() - Date.now() > 3600000) {
       return true;
     } else {
-      const dueDateContainer = document.getElementById("timeContainer");
-      dueDateContainer.style.border = "1px solid red";
-      showSnackbar("Please choose due time at least one hour from now.");
+      const dueDateContainer = document.getElementById('timeContainer');
+      dueDateContainer.style.border = '1px solid red';
+      showSnackbar('Please choose due time at least one hour from now.');
       return false;
     }
   };
@@ -444,11 +447,11 @@ export default function CreateAssignment(props) {
     if (isAssignmentValid()) {
       updateAssignment(assignment.id, assignment).then((_) => {
         publishAssignment(assignment.id).then((res) => {
-          if (res.status === "PUBLISHED") {
-            showSnackbar("Task published", res.link);
-            window.location.href = "#tasks";
+          if (res.status === 'PUBLISHED') {
+            showSnackbar('Task published', res.link);
+            window.location.href = '#tasks';
           } else {
-            showSnackbar("Task creation failed", res.link);
+            showSnackbar('Task creation failed', res.link);
             return;
           }
         });
@@ -459,17 +462,17 @@ export default function CreateAssignment(props) {
   };
 
   const deleteAssignmentHandler = () => {
-      updateAssignment(assignment.id, assignment).then((_) => {
-        deleteAssignment(assignment.id).then((res) => {
-          if (res.status === "DELETED") {
-            showSnackbar("Task deleted");
-            window.location.href = "#tasks";
-          } else {
-            showSnackbar("Task deletion failed");
-            return;
-          }
-        });
+    updateAssignment(assignment.id, assignment).then((_) => {
+      deleteAssignment(assignment.id).then((res) => {
+        if (res.status === 'DELETED') {
+          showSnackbar('Task deleted');
+          window.location.href = '#tasks';
+        } else {
+          showSnackbar('Task deletion failed');
+          return;
+        }
       });
+    });
   };
 
   const checkboxes = classes.map((clazz) => {
@@ -515,18 +518,18 @@ export default function CreateAssignment(props) {
     />
   );
 
-  const hidedeletePopup = () => { 
+  const hidedeletePopup = () => {
     setShowDeletePopup(false);
-  }
+  };
   const showDeletePopuphandler = (assignmentId) => {
     setShowDeletePopup(true);
-  }
-  const hidePublishPopup = () => { 
+  };
+  const hidePublishPopup = () => {
     setShowPublishPopup(false);
-  }
+  };
   const showPublishPopuphandler = (assignmentId) => {
     setShowPublishPopup(true);
-  }
+  };
   const methods = {
     assignment,
     handleTitleChange,
@@ -542,13 +545,26 @@ export default function CreateAssignment(props) {
     cleanformattingDiv,
     deleteAssignmentHandler,
     showDeletePopuphandler,
-    showPublishPopuphandler
+    showPublishPopuphandler,
   };
 
   return (
     <>
-    {showDeletePopup &&  <DeleteAssignmentPopup assignment={assignment} hidedeletePopup={hidedeletePopup}/>}
-    {showPublishPopup  && <GeneralPopup hidePopup={hidePublishPopup} title="Publish Task" textContent="Are you sure you want to publish this task?" buttonText="Publish" confirmButtonAction={publish} />}
+      {showDeletePopup && (
+        <DeleteAssignmentPopup
+          assignment={assignment}
+          hidedeletePopup={hidedeletePopup}
+        />
+      )}
+      {showPublishPopup && (
+        <GeneralPopup
+          hidePopup={hidePublishPopup}
+          title="Publish Task"
+          textContent="Are you sure you want to publish this task?"
+          buttonText="Publish"
+          confirmButtonAction={publish}
+        />
+      )}
       <ReactiveRender
         mobile={
           <CreateAAssignmentMobile
@@ -612,7 +628,7 @@ export default function CreateAssignment(props) {
       {openMarkingCriteriaPreviewDialog && (
         <PreviewDialog
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
-          criterias={currentMarkingCriteria}
+          markingCriterias={currentMarkingCriteria}
         />
       )}
     </>
@@ -622,39 +638,39 @@ export default function CreateAssignment(props) {
 const newQuestion = (serialNumber) => {
   return {
     serialNumber: serialNumber,
-    question: "",
-    type: "TEXT",
+    question: '',
+    type: 'TEXT',
     options: [
       {
         questionSerialNumber: 1,
         optionSerialNumber: 1,
-        option: "",
+        option: '',
         isCorrect: false,
       },
       {
         questionSerialNumber: 1,
         optionSerialNumber: 2,
-        option: "",
+        option: '',
         isCorrect: false,
       },
       {
         questionSerialNumber: 1,
         optionSerialNumber: 3,
-        option: "",
+        option: '',
         isCorrect: false,
       },
       {
         questionSerialNumber: 1,
         optionSerialNumber: 4,
-        option: "",
+        option: '',
         isCorrect: false,
       },
     ],
-    markingCriteria:{},
+    markingCriteria: {},
     focusAreaIds: [],
-    focusAreas: []
-  }
-}
+    focusAreas: [],
+  };
+};
 const Title = styled.h1`
   ${IbmplexsansBoldShark64px}
   position: relative;
@@ -742,112 +758,112 @@ const Rectangle43 = styled.input`
 `;
 
 const navElement23Data = {
-  tasksquare: "/img/home3-1@2x.png",
-  home: "Home",
-  className: "nav-element-8",
+  tasksquare: '/img/home3-1@2x.png',
+  home: 'Home',
+  className: 'nav-element-8',
 };
 
 const navElement3Data1 = {
-  iconHome: "/img/assignment-8@2x.png",
-  place: "Assignments",
-  className: "nav-element-1",
+  iconHome: '/img/assignment-8@2x.png',
+  place: 'Assignments',
+  className: 'nav-element-1',
 };
 
 const navElement24Data = {
-  tasksquare: "/img/subject@2x.png",
-  home: "Classes",
-  className: "nav-element-9",
+  tasksquare: '/img/subject@2x.png',
+  home: 'Classes',
+  className: 'nav-element-9',
 };
 
 const frame42Data1 = {
-  maskGroup: "/img/mask-group-5@2x.png",
-  className: "frame-4-1",
+  maskGroup: '/img/mask-group-5@2x.png',
+  className: 'frame-4-1',
 };
 
 const goBack24Data = {
-  caret: "/img/caret-1@2x.png",
+  caret: '/img/caret-1@2x.png',
 };
 
 const buttons25Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const input53Data = {
-  input: "Theory",
+  input: 'Theory',
 };
 
 const input65Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const input66Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const input54Data = {
-  input: "MCQ",
+  input: 'MCQ',
 };
 
 const input67Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const group12559Data = {
-  className: "group-1255-6",
+  className: 'group-1255-6',
 };
 
 const input81Data = {
-  option1: "Option 1",
+  option1: 'Option 1',
   group1255Props: group12559Data,
 };
 
 const group125510Data = {
-  className: "group-1255-7",
+  className: 'group-1255-7',
 };
 
 const input82Data = {
-  option1: "Option 2",
+  option1: 'Option 2',
   group1255Props: group125510Data,
 };
 
 const group125511Data = {
-  className: "group-1255-8",
+  className: 'group-1255-8',
 };
 
 const input83Data = {
-  option1: "Option 3",
+  option1: 'Option 3',
   group1255Props: group125511Data,
 };
 
 const group125512Data = {
-  className: "group-1255-9",
+  className: 'group-1255-9',
 };
 
 const input84Data = {
-  option1: "Option 4",
+  option1: 'Option 4',
   group1255Props: group125512Data,
 };
 
 const input68Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const richTextComponents14Data = {
-  src: "/img/drag-icon-8@2x.png",
-  className: "rich-text-components-5",
+  src: '/img/drag-icon-8@2x.png',
+  className: 'rich-text-components-5',
 };
 
 const frame128035Data = {
-  className: "",
+  className: '',
 };
 
 const frame129734Data = {
-  text9: "4.",
-  frame1284: "/img/frame-1284-9@2x.png",
+  text9: '4.',
+  frame1284: '/img/frame-1284-9@2x.png',
   richTextComponentsProps: richTextComponents14Data,
   frame12803Props: frame128035Data,
 };
@@ -857,70 +873,70 @@ const questionFrame42Data = {
 };
 
 const frame128036Data = {
-  className: "frame-1280-7",
+  className: 'frame-1280-7',
 };
 
 const buttons26Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const checkbox38Data = {
-  className: "checkbox-15",
+  className: 'checkbox-15',
 };
 
 const checkbox39Data = {
-  className: "checkbox-16",
+  className: 'checkbox-16',
 };
 
 const checkbox310Data = {
-  className: "checkbox-17",
+  className: 'checkbox-17',
 };
 
 const checkbox311Data = {
-  className: "checkbox-18",
+  className: 'checkbox-18',
 };
 
 const checkbox312Data = {
-  className: "checkbox-19",
+  className: 'checkbox-19',
 };
 
 const checkbox313Data = {
-  className: "checkbox-20",
+  className: 'checkbox-20',
 };
 
 const goBack25Data = {
-  caret: "/img/caret-5@2x.png",
-  className: "go-back-5",
+  caret: '/img/caret-5@2x.png',
+  className: 'go-back-5',
 };
 
 const frame6622Data = {
-  className: "frame-6-6",
+  className: 'frame-6-6',
 };
 
 const dropdown1Data = {
-  heading: "Heading",
+  heading: 'Heading',
 };
 
 const dropdown2Data = {
-  heading: "IBM Plex Sans",
-  className: "dropdown-1",
+  heading: 'IBM Plex Sans',
+  className: 'dropdown-1',
 };
 
 const dropdown3Data = {
-  heading: "20px",
-  className: "dropdown-2",
+  heading: '20px',
+  className: 'dropdown-2',
 };
 const richTextComponents12Data = {
-  src: "/img/redo@2x.png",
-  className: "rich-text-components-11",
+  src: '/img/redo@2x.png',
+  className: 'rich-text-components-11',
 };
 const frame128033Data = {
-  className: "frame-1280-6",
+  className: 'frame-1280-6',
 };
 
 const frame129733Data = {
-  text9: "2.",
-  frame1284: "/img/frame-1284-9@2x.png",
+  text9: '2.',
+  frame1284: '/img/frame-1284-9@2x.png',
   richTextComponentsProps: richTextComponents12Data,
   frame12803Props: frame128033Data,
 };
@@ -930,13 +946,13 @@ const questionFrame41Data = {
 };
 
 const richTextComponents15Data = {
-  src: "/img/underline@2x.png",
-  className: "rich-text-components-14",
+  src: '/img/underline@2x.png',
+  className: 'rich-text-components-14',
 };
 
 const frame129735Data = {
-  text9: "5.",
-  frame1284: "/img/frame-1284-9@2x.png",
+  text9: '5.',
+  frame1284: '/img/frame-1284-9@2x.png',
   richTextComponentsProps: richTextComponents15Data,
   frame12803Props: frame128036Data,
 };
@@ -946,52 +962,52 @@ const questionFrame43Data = {
 };
 
 const notifications4Data1 = {
-  src: "/img/notificationbing-2@2x.png",
+  src: '/img/notificationbing-2@2x.png',
 };
 
 const richTextComponents11Data = {
-  src: "/img/undo@2x.png",
-  className: "rich-text-components-10",
+  src: '/img/undo@2x.png',
+  className: 'rich-text-components-10',
 };
 
 const frame128032Data = {
-  className: "",
+  className: '',
 };
 
 const frame129732Data = {
-  text9: "1.",
-  frame1284: "/img/frame-1284-7@2x.png",
+  text9: '1.',
+  frame1284: '/img/frame-1284-7@2x.png',
   richTextComponentsProps: richTextComponents11Data,
   frame12803Props: frame128032Data,
 };
 
 const richTextComponents13Data = {
-  src: "/img/bold@2x.png",
-  className: "rich-text-components-12",
+  src: '/img/bold@2x.png',
+  className: 'rich-text-components-12',
 };
 
 const richTextComponents33Data = {
-  src: "/img/bold-1@2x.png",
-  className: "rich-text-components-29",
+  src: '/img/bold-1@2x.png',
+  className: 'rich-text-components-29',
 };
 
 const createAAssignmentLaptopData = {
   headerProps: createAssignmentHeaderProps,
-  logo: "/img/logo-1@2x.png",
-  title: "Create Task",
-  nameOfAssignment: "Name of task",
-  line141: "/img/line-14-4.png",
-  text11: "3.",
-  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
-  frame1284: "/img/frame-1284-7@2x.png",
-  line142: "/img/line-14-4.png",
-  options: "Options",
-  assignmentSettings: "Task Settings",
-  classes: "Classes",
-  help1: "/img/help@2x.png",
-  feedbackMethod: "Feedback Method",
-  help2: "/img/help@2x.png",
-  x2021JeddleAllRightsReserved: "© 2021 Jeddle. All rights reserved.",
+  logo: '/img/logo-1@2x.png',
+  title: 'Create Task',
+  nameOfAssignment: 'Name of task',
+  line141: '/img/line-14-4.png',
+  text11: '3.',
+  toremIpsumDolorSi: 'Torem ipsum dolor sit amet, consectetur adipiscing elit.',
+  frame1284: '/img/frame-1284-7@2x.png',
+  line142: '/img/line-14-4.png',
+  options: 'Options',
+  assignmentSettings: 'Task Settings',
+  classes: 'Classes',
+  help1: '/img/help@2x.png',
+  feedbackMethod: 'Feedback Method',
+  help2: '/img/help@2x.png',
+  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   navElement21Props: navElement23Data,
   navElementProps: navElement3Data1,
   navElement22Props: navElement24Data,
@@ -1027,38 +1043,38 @@ const createAAssignmentLaptopData = {
 };
 
 const goBack22Data = {
-  caret: "/img/caret-1@2x.png",
+  caret: '/img/caret-1@2x.png',
 };
 
 const buttons23Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const richTextComponents6Data = {
-  src: "/img/drag-icon-5@2x.png",
-  className: "",
+  src: '/img/drag-icon-5@2x.png',
+  className: '',
 };
 
 const frame128022Data = {
-  className: "",
+  className: '',
 };
 
 const frame129722Data = {
-  text6: "1.",
-  frame1284: "/img/frame-1284-7@2x.png",
+  text6: '1.',
+  frame1284: '/img/frame-1284-7@2x.png',
   richTextComponentsProps: richTextComponents6Data,
   frame12802Props: frame128022Data,
 };
 
 const goBack23Data = {
-  caret: "/img/caret-5@2x.png",
-  className: "go-back-3",
+  caret: '/img/caret-5@2x.png',
+  className: 'go-back-3',
 };
 
 const createAAssignmentTabletData = {
-  line141: "/img/line-14-2.png",
-  help1: "/img/help@2x.png",
-  help2: "/img/help@2x.png",
+  line141: '/img/line-14-2.png',
+  help1: '/img/help@2x.png',
+  help2: '/img/help@2x.png',
   goBack21Props: goBack22Data,
   buttons21Props: buttons23Data,
   frame12972Props: frame129722Data,
@@ -1066,42 +1082,42 @@ const createAAssignmentTabletData = {
 };
 
 const notifications2Data = {
-  src: "/img/notificationbing@2x.png",
+  src: '/img/notificationbing@2x.png',
 };
 
 const buttons21Data = {
-  add: "/img/add@2x.png",
+  add: '/img/add@2x.png',
 };
 
 const richTextComponents1Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12971Data = {
-  text1: "1.",
+  text1: '1.',
   richTextComponentsProps: richTextComponents1Data,
 };
 
 const input1Data = {
-  input: "Theory",
+  input: 'Theory',
 };
 
 const input21Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const input22Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const richTextComponents2Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12972Data = {
-  text1: "2.",
+  text1: '2.',
   richTextComponentsProps: richTextComponents2Data,
 };
 
@@ -1110,11 +1126,11 @@ const questionFrame1Data = {
 };
 
 const richTextComponents3Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const group251Data = {
-  src: "/img/vector@2x.png",
+  src: '/img/vector@2x.png',
 };
 
 const bulletList1Data = {
@@ -1122,41 +1138,41 @@ const bulletList1Data = {
 };
 
 const input3Data = {
-  input: "MCQ",
+  input: 'MCQ',
 };
 
 const input32Data = {
-  label: "Question",
-  input: "Enter question",
+  label: 'Question',
+  input: 'Enter question',
 };
 
 const input41Data = {
-  option1: "Option 1",
+  option1: 'Option 1',
 };
 
 const input42Data = {
-  option1: "Option 2",
+  option1: 'Option 2',
 };
 
 const input43Data = {
-  option1: "Option 3",
+  option1: 'Option 3',
 };
 
 const input44Data = {
-  option1: "Option 4",
+  option1: 'Option 4',
 };
 
 const input23Data = {
-  label: "Hint (optional)",
-  input: "Enter hint",
+  label: 'Hint (optional)',
+  input: 'Enter hint',
 };
 
 const richTextComponents4Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12973Data = {
-  text1: "4.",
+  text1: '4.',
   richTextComponentsProps: richTextComponents4Data,
 };
 
@@ -1165,11 +1181,11 @@ const questionFrame2Data = {
 };
 
 const richTextComponents5Data = {
-  src: "/img/drag-icon@2x.png",
+  src: '/img/drag-icon@2x.png',
 };
 
 const frame12974Data = {
-  text1: "5.",
+  text1: '5.',
   richTextComponentsProps: richTextComponents5Data,
 };
 
@@ -1178,58 +1194,58 @@ const questionFrame3Data = {
 };
 
 const buttons22Data = {
-  add: "/img/add-2@2x.png",
+  add: '/img/add-2@2x.png',
 };
 
 const checkbox2Data = {
-  className: "checkbox-2",
+  className: 'checkbox-2',
 };
 
 const checkbox3Data = {
-  className: "checkbox-3",
+  className: 'checkbox-3',
 };
 
 const checkbox4Data = {
-  className: "checkbox-4",
+  className: 'checkbox-4',
 };
 
 const checkbox5Data = {
-  className: "checkbox-5",
+  className: 'checkbox-5',
 };
 
 const checkbox6Data = {
-  className: "checkbox-6",
+  className: 'checkbox-6',
 };
 
 const radioBoxData = {
-  label: "Peer to Peer (randomised)",
+  label: 'Peer to Peer (randomised)',
 };
 
 const goBack2Data = {
-  className: "go-back-1",
+  className: 'go-back-1',
 };
 
 const createAAssignmentMobileData = {
-  frame1349: "/img/frame-1349@2x.png",
-  frame5: "/img/frame-5@2x.png",
-  title: "Create Task",
-  nameOfAssignment: "Name of task",
-  questions: "Questions",
-  line141: "/img/line-14@2x.png",
-  answerWordLimit: "Answer Word Limit",
-  number: "1000",
-  group1280: "/img/group-1280@2x.png",
-  text3: "3.",
-  toremIpsumDolorSi: "Torem ipsum dolor sit amet, consectetur adipiscing elit.",
-  mcq: "MCQ",
-  frame1284: "/img/frame-1284@2x.png",
-  line142: "/img/line-14@2x.png",
-  options: "Options",
-  assignmentSettings: "Task Settings",
-  classes: "Classes",
-  help1: "/img/help@2x.png",
-  feedbackMethod: "Feedback Method",
-  help2: "/img/help@2x.png",
+  frame1349: '/img/frame-1349@2x.png',
+  frame5: '/img/frame-5@2x.png',
+  title: 'Create Task',
+  nameOfAssignment: 'Name of task',
+  questions: 'Questions',
+  line141: '/img/line-14@2x.png',
+  answerWordLimit: 'Answer Word Limit',
+  number: '1000',
+  group1280: '/img/group-1280@2x.png',
+  text3: '3.',
+  toremIpsumDolorSi: 'Torem ipsum dolor sit amet, consectetur adipiscing elit.',
+  mcq: 'MCQ',
+  frame1284: '/img/frame-1284@2x.png',
+  line142: '/img/line-14@2x.png',
+  options: 'Options',
+  assignmentSettings: 'Task Settings',
+  classes: 'Classes',
+  help1: '/img/help@2x.png',
+  feedbackMethod: 'Feedback Method',
+  help2: '/img/help@2x.png',
   notificationsProps: notifications2Data,
   buttons21Props: buttons21Data,
   frame1297Props: frame12971Data,

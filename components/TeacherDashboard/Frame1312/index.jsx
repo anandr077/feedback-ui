@@ -1,10 +1,10 @@
-import React from "react";
-import Frame1407 from "../Frame1407";
-import Frame1284 from "../Frame1284";
-import Frame1283 from "../Frame1283";
-import Frame1282 from "../Frame1282";
-import styled from "styled-components";
-import { IbmplexsansMediumShark20px } from "../styledMixins";
+import React from 'react';
+import Frame1407 from '../Frame1407';
+import Frame1284 from '../Frame1284';
+import Frame1283 from '../Frame1283';
+import Frame1282 from '../Frame1282';
+import styled from 'styled-components';
+import { IbmplexsansMediumShark20px } from '../styledMixins';
 
 function Frame1312(props) {
   const {

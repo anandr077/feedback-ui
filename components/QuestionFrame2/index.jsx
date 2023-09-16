@@ -1,9 +1,9 @@
-import React from "react";
-import RichTextComponents from "../RichTextComponents";
-import RichTextComponents2 from "../RichTextComponents2";
-import Frame12802 from "../Frame12802";
-import styled from "styled-components";
-import { IbmplexsansNormalShark20px } from "../../styledMixins";
+import React from 'react';
+import RichTextComponents from '../RichTextComponents';
+import RichTextComponents2 from '../RichTextComponents2';
+import Frame12802 from '../Frame12802';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../styledMixins';
 
 function QuestionFrame2(props) {
   const {

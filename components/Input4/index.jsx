@@ -1,7 +1,7 @@
-import React from "react";
-import Group1255 from "../Group1255";
-import styled from "styled-components";
-import { IbmplexsansNormalMountainMist16px } from "../../styledMixins";
+import React from 'react';
+import Group1255 from '../Group1255';
+import styled from 'styled-components';
+import { IbmplexsansNormalMountainMist16px } from '../../styledMixins';
 
 function Input4(props) {
   const { option1 } = props;

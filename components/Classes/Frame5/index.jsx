@@ -1,7 +1,7 @@
-import React from "react";
-import Notifications from "../Notifications";
-import Frame4 from "../Frame4";
-import styled from "styled-components";
+import React from 'react';
+import Notifications from '../Notifications';
+import Frame4 from '../Frame4';
+import styled from 'styled-components';
 
 function Frame5(props) {
   const { notificationsProps } = props;

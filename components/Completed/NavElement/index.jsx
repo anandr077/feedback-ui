@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalWhite20px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalWhite20px } from '../styledMixins';
 
 function NavElement(props) {
   const { className } = props;
 
   return (
-    <NavElement1 className={`nav-element ${className || ""}`}>
+    <NavElement1 className={`nav-element ${className || ''}`}>
       <Group1 className="group-1">
         <IconHome
           className="icon-home"

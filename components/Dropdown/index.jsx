@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalBlack14px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalBlack14px } from '../../styledMixins';
 
 function Dropdown(props) {
   const { heading, className } = props;
 
   return (
-    <Dropdown1 className={`dropdown ${className || ""}`}>
+    <Dropdown1 className={`dropdown ${className || ''}`}>
       <Heading className="heading">{heading}</Heading>
       <Vector className="vector" src="/img/vector@2x.png" alt="Vector" />
     </Dropdown1>

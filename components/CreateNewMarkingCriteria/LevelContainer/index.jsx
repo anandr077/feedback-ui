@@ -1,10 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalElectricViolet16px, feedbacksIbmplexsansNormalStack20px } from "../../../styledMixins";
-
+import React from 'react';
+import styled from 'styled-components';
+import {
+  IbmplexsansNormalElectricViolet16px,
+  feedbacksIbmplexsansNormalStack20px,
+} from '../../../styledMixins';
 
 function LevelContainer(props) {
-  const { levelId, criteriaId, deleteLevelUpdate , level, updateLevelName, updateLevelDescription } = props;
+  const {
+    levelId,
+    criteriaId,
+    deleteLevelUpdate,
+    level,
+    updateLevelName,
+    updateLevelDescription,
+  } = props;
   return (
     <SingleLevelContainer>
       <LevelTitle>
@@ -19,13 +28,14 @@ function LevelContainer(props) {
         maxLength='30'
         />
       </LevelDetails>
-    { (levelId != 0 && levelId != 1) && <RemoveButtonContainer>
-        <ButtonInnerContainer onClick={() => deleteLevelUpdate(levelId)}>
-          <ButtonImage src="/icons/delete-vector.svg" alt="Vector" />
-          <ButtonText>Remove</ButtonText>
-        </ButtonInnerContainer>
-    </RemoveButtonContainer>
-    }
+      {levelId != 0 && levelId != 1 && (
+        <RemoveButtonContainer>
+          <ButtonInnerContainer onClick={() => deleteLevelUpdate(levelId)}>
+            <ButtonImage src="/icons/delete-vector.svg" alt="Vector" />
+            <ButtonText>Remove</ButtonText>
+          </ButtonInnerContainer>
+        </RemoveButtonContainer>
+      )}
     </SingleLevelContainer>
   );
 }
@@ -121,6 +131,5 @@ const ButtonText = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-
 
 export default LevelContainer;

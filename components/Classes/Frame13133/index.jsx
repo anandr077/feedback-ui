@@ -1,6 +1,6 @@
-import React from "react";
-import Frame13122 from "../Frame13122";
-import styled from "styled-components";
+import React from 'react';
+import Frame13122 from '../Frame13122';
+import styled from 'styled-components';
 
 function Frame13133(props) {
   const { frame13122Props } = props;

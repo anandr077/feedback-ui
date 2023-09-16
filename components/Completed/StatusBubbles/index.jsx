@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansMediumPersianIndigo13px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansMediumPersianIndigo13px } from '../styledMixins';
 
 function StatusBubbles(props) {
   const { children } = props;

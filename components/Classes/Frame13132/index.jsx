@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../styledMixins';
 
 function Frame13132(props) {
   const { storytellingNotAnalysing, number, group1312 } = props;

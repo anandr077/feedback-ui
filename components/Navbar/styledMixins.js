@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 export const IbmplexsansNormalPersianIndigo20px = css`
   color: var(--royal-purple);

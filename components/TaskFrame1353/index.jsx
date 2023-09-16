@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansSemiBoldRiverBed24px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansSemiBoldRiverBed24px } from '../../styledMixins';
 
 function TaskFrame1353(props) {
   const { outstanding, number } = props;

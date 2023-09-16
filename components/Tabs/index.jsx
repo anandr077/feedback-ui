@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { IbmplexsansSemiBoldWhite16px } from "../../styledMixins";
-import styled from "styled-components";
-import { IbmplexsansSemiBoldBlack16px } from "../../styledMixins";
+import React from 'react';
+import styled from 'styled-components';
+import { IbmplexsansSemiBoldWhite16px } from '../../styledMixins';
+import styled from 'styled-components';
+import { IbmplexsansSemiBoldBlack16px } from '../../styledMixins';
 
 function Tabs(props) {
   const { text, isSelected, onClickFn } = props;

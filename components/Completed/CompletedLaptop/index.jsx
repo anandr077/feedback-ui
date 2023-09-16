@@ -1,24 +1,24 @@
-import React from "react";
-import Frame1285 from "../Frame1285";
-import Frame14103 from "../Frame14103";
-import Header from "../../Header";
-import styled from "styled-components";
+import React from 'react';
+import Frame1285 from '../Frame1285';
+import Frame14103 from '../Frame14103';
+import Header from '../../Header';
+import styled from 'styled-components';
 import {
   IbmplexsansBoldShark64px,
   IbmplexsansNormalShark16px,
   IbmplexsansNormalChicago13px,
-} from "../styledMixins";
-import "./CompletedLaptop.css";
-import { completedHeaderProps } from "../../../utils/headerProps.js";
-import Footer from "../../Footer";
-import CheckboxGroup from "../../CheckboxGroup";
-import Breadcrumb from "../../Breadcrumb";
-import Breadcrumb2 from "../../Breadcrumb2";
+} from '../styledMixins';
+import './CompletedLaptop.css';
+import { completedHeaderProps } from '../../../utils/headerProps.js';
+import Footer from '../../Footer';
+import CheckboxGroup from '../../CheckboxGroup';
+import Breadcrumb from '../../Breadcrumb';
+import Breadcrumb2 from '../../Breadcrumb2';
 
 function CompletedLaptop(props) {
   const {
-    menuItems, 
-    filterTasks, 
+    menuItems,
+    filterTasks,
     id,
     groups,
     title,
@@ -26,25 +26,31 @@ function CompletedLaptop(props) {
     setPublishActionCompleted,
     subject,
     frame1284,
-    line18
+    line18,
   } = props;
   return (
     <div className="completed-laptop screen">
       <Frame1425>
         <Header headerProps={completedHeaderProps(exemplar)} />
-        {exemplar && <Frame1315>
-        <Breadcrumb text={"Home"} link={"/#"} />
-        <Breadcrumb2 title="Exemplars" exempler= {exemplar} />
-        </Frame1315>}
+        {exemplar && (
+          <Frame1315>
+            <Breadcrumb text={'Home'} link={'/#'} />
+            <Breadcrumb2 title="Exemplars" exempler={exemplar} />
+          </Frame1315>
+        )}
         <Frame1424>
           <Title>{title}</Title>
-          
-          {createFilter()}
 
+          {createFilter()}
         </Frame1424>
 
         <Frame1413>
-          <Frame14103 id={id} groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
+          <Frame14103
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
           {/* <Line18 src={line18} alt="Line 18" /> */}
         </Frame1413>
       </Frame1425>
@@ -53,9 +59,10 @@ function CompletedLaptop(props) {
   );
 
   function createFilter() {
-    if (exemplar)
-      return <></>
-    return <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>;
+    if (exemplar) return <></>;
+    return (
+      <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>
+    );
   }
 }
 

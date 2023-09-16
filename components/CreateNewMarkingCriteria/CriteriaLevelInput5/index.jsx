@@ -1,8 +1,7 @@
-import React from "react";
-import Frame12853 from "../Frame12853";
-import Frame1442 from "../Frame1442";
-import styled from "styled-components";
-
+import React from 'react';
+import Frame12853 from '../Frame12853';
+import Frame1442 from '../Frame1442';
+import styled from 'styled-components';
 
 function CriteriaLevelInput5(props) {
   const { frame128531Props, frame128532Props } = props;

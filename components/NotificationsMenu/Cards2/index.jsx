@@ -1,7 +1,7 @@
-import React from "react";
-import Buttons from "../Buttons";
-import styled from "styled-components";
-import { IbmplexsansNormalShark16px } from "../styledMixins";
+import React from 'react';
+import Buttons from '../Buttons';
+import styled from 'styled-components';
+import { IbmplexsansNormalShark16px } from '../styledMixins';
 
 function Cards2() {
   return (

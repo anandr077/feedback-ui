@@ -1,20 +1,28 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   IbmplexsansBoldShark64px,
-  IbmplexsansSemiBoldRiverBed24px
-} from "../../../styledMixins";
-import { assignmentsHeaderProps } from "../../../utils/headerProps";
-import Buttons from "../../Classes/Buttons";
-import Footer from "../../Footer";
-import Header from "../../Header";
-import TaskCardContainer from "../../TaskCardContainer";
-import TaskFrame1353 from "../../TaskFrame1353";
-import "./TeacherTasksDesktop.css";
-import CheckboxGroup from "../../CheckboxGroup";
+  IbmplexsansSemiBoldRiverBed24px,
+} from '../../../styledMixins';
+import { assignmentsHeaderProps } from '../../../utils/headerProps';
+import Buttons from '../../Classes/Buttons';
+import Footer from '../../Footer';
+import Header from '../../Header';
+import TaskCardContainer from '../../TaskCardContainer';
+import TaskFrame1353 from '../../TaskFrame1353';
+import './TeacherTasksDesktop.css';
+import CheckboxGroup from '../../CheckboxGroup';
 
 function TeacherTasksDesktop(props) {
-  const { menuItems, filterTasks, drafts, awaitingSubmissions, feedbacks, showDeletePopuphandler, showDateExtendPopuphandler } = props;
+  const {
+    menuItems,
+    filterTasks,
+    drafts,
+    awaitingSubmissions,
+    feedbacks,
+    showDeletePopuphandler,
+    showDateExtendPopuphandler,
+  } = props;
 
   return (
     <div className="tasks-desktop screen">
@@ -23,9 +31,12 @@ function TeacherTasksDesktop(props) {
         <TitleContainer>
           <Title>Tasks</Title>
           <Frame1315>
-            <CheckboxGroup onChange={filterTasks} data = {menuItems}></CheckboxGroup>
+            <CheckboxGroup
+              onChange={filterTasks}
+              data={menuItems}
+            ></CheckboxGroup>
             <ButtonContainer>
-              {" "}
+              {' '}
               <Buttons link="#tasks/new" />
             </ButtonContainer>
           </Frame1315>
@@ -36,18 +47,30 @@ function TeacherTasksDesktop(props) {
           <Frame1359>
             <Frame1354>
               <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
-              <TaskCardContainer allTasks={drafts} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
+              <TaskCardContainer
+                allTasks={drafts}
+                showDeletePopuphandler={showDeletePopuphandler}
+                showDateExtendPopuphandler={showDateExtendPopuphandler}
+              />
             </Frame1354>
             <Frame1354>
               <TaskFrame1353
                 outstanding="Active"
                 number={awaitingSubmissions.length}
               />
-              <TaskCardContainer allTasks={awaitingSubmissions} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
+              <TaskCardContainer
+                allTasks={awaitingSubmissions}
+                showDeletePopuphandler={showDeletePopuphandler}
+                showDateExtendPopuphandler={showDateExtendPopuphandler}
+              />
             </Frame1354>
             <Frame1358>
               <TaskFrame1353 outstanding="Closed" number={feedbacks.length} />
-              <TaskCardContainer allTasks={feedbacks} showDeletePopuphandler={showDeletePopuphandler} showDateExtendPopuphandler={showDateExtendPopuphandler}/>
+              <TaskCardContainer
+                allTasks={feedbacks}
+                showDeletePopuphandler={showDeletePopuphandler}
+                showDateExtendPopuphandler={showDateExtendPopuphandler}
+              />
             </Frame1358>
           </Frame1359>
         </Frame1360>

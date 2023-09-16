@@ -1,45 +1,48 @@
-import { default as React,  useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import CheckboxGroup from "../CheckboxGroup";
-import HeaderSmall from "../HeaderSmall";
-import Tabs from "../Tabs";
-import TaskCardContainer from "../TaskCardContainer";
+import { default as React, useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import CheckboxGroup from '../CheckboxGroup';
+import HeaderSmall from '../HeaderSmall';
+import Tabs from '../Tabs';
+import TaskCardContainer from '../TaskCardContainer';
 
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansSemiBoldRiverBed24px
-} from "../../styledMixins";
-import { taskHeaderProps } from "../../utils/headerProps.js";
-import FooterSmall from "../FooterSmall";
-import "./TasksStudentTablet.css";
-import { set } from "lodash";
+  IbmplexsansSemiBoldRiverBed24px,
+} from '../../styledMixins';
+import { taskHeaderProps } from '../../utils/headerProps.js';
+import FooterSmall from '../FooterSmall';
+import './TasksStudentTablet.css';
+import { set } from 'lodash';
 
 function TasksStudentTablet(props) {
-  const {menuItems, 
-    filterTasks, 
+  const {
+    menuItems,
+    filterTasks,
     assignmedTasks,
     inProgressTasks,
-    inReviewTasks
-    } =
-    props;
-    const prevProps = useRef(props);
-    const [isAssigned, setIsAssigned] = useState(true);
-    const [isInProgress, setIsInProgress] = useState(false);
-    const [isInReview, setIsInReview] = useState(false);
-    const [task, setTask] = useState(assignmedTasks);
-    const [title,setTittle] = useState("Not Started");
+    inReviewTasks,
+  } = props;
+  const prevProps = useRef(props);
+  const [isAssigned, setIsAssigned] = useState(true);
+  const [isInProgress, setIsInProgress] = useState(false);
+  const [isInReview, setIsInReview] = useState(false);
+  const [task, setTask] = useState(assignmedTasks);
+  const [title, setTittle] = useState('Not Started');
 
-const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",assignmedTasks, true, false, false));
-    useEffect(() => {
-       setTasksFrame (createTasksFrame(title,task, isAssigned, isInProgress, isInReview))
-      if (prevProps.current !== props) {
-        isAssigned && setTask(assignmedTasks);
-        isInProgress && setTask(inProgressTasks);
-        isInReview && setTask(inReviewTasks);
-      }
-      prevProps.current = props;
-    }, [ title, task, isAssigned, isInProgress, isInReview, menuItems]);
-  
+  const [taskFrame, setTasksFrame] = useState(
+    createTasksFrame('Not Started', assignmedTasks, true, false, false)
+  );
+  useEffect(() => {
+    setTasksFrame(
+      createTasksFrame(title, task, isAssigned, isInProgress, isInReview)
+    );
+    if (prevProps.current !== props) {
+      isAssigned && setTask(assignmedTasks);
+      isInProgress && setTask(inProgressTasks);
+      isInReview && setTask(inReviewTasks);
+    }
+    prevProps.current = props;
+  }, [title, task, isAssigned, isInProgress, isInReview, menuItems]);
 
   return (
     <div className="tasks-student-tablet screen">
@@ -47,49 +50,58 @@ const [taskFrame,setTasksFrame] = useState(createTasksFrame("Not Started",assign
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
-          <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>
+          <CheckboxGroup
+            onChange={filterTasks}
+            data={menuItems}
+          ></CheckboxGroup>
         </Frame1307>
-      {taskFrame}
+        {taskFrame}
       </Frame1365>
       <FooterSmall />
     </div>
   );
 
-  function createTasksFrame(title, tasks, isOutstanding, isInProgress, isOverdue) {
+  function createTasksFrame(
+    title,
+    tasks,
+    isOutstanding,
+    isInProgress,
+    isOverdue
+  ) {
     return (
       <>
         <Frame1364>
           <Frame1211>
             <Tabs
-              text={"Assigned"}
+              text={'Assigned'}
               isSelected={isOutstanding}
               onClickFn={() => {
                 setIsAssigned(true);
                 setIsInProgress(false);
                 setIsInReview(false);
-                setTittle("Assigned");
+                setTittle('Assigned');
                 setTask(assignmedTasks);
               }}
             />
             <Tabs
-              text={"In Draft"}
+              text={'In Draft'}
               isSelected={isInProgress}
               onClickFn={() => {
                 setIsAssigned(false);
                 setIsInProgress(true);
                 setIsInReview(false);
-                setTittle("In Draft");
+                setTittle('In Draft');
                 setTask(inProgressTasks);
               }}
             />
             <Tabs
-              text={"In Review"}
+              text={'In Review'}
               isSelected={isOverdue}
               onClickFn={() => {
                 setIsAssigned(false);
                 setIsInProgress(false);
                 setIsInReview(true);
-                setTittle("In Review");
+                setTittle('In Review');
                 setTask(inReviewTasks);
               }}
             />

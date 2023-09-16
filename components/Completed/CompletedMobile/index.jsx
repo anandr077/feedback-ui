@@ -1,21 +1,24 @@
-import React from "react";
-import styled from "styled-components";
-import { completedHeaderProps } from "../../../utils/headerProps.js";
-import FooterSmall from "../../FooterSmall";
-import HeaderSmall from "../../HeaderSmall";
-import Frame1285 from "../Frame1285";
-import Frame1410 from "../Frame1410";
+import React from 'react';
+import styled from 'styled-components';
+import { completedHeaderProps } from '../../../utils/headerProps.js';
+import FooterSmall from '../../FooterSmall';
+import HeaderSmall from '../../HeaderSmall';
+import Frame1285 from '../Frame1285';
+import Frame1410 from '../Frame1410';
 import {
-  IbmplexsansBoldShark36px, IbmplexsansNormalChicago13px, IbmplexsansNormalPersianIndigo13px, IbmplexsansNormalShark16px
-} from "../styledMixins";
-import "./CompletedMobile.css";
-import CheckboxGroup from "../../CheckboxGroup";
-import Breadcrumb from "../../Breadcrumb";
-import Breadcrumb2 from "../../Breadcrumb2";
+  IbmplexsansBoldShark36px,
+  IbmplexsansNormalChicago13px,
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalShark16px,
+} from '../styledMixins';
+import './CompletedMobile.css';
+import CheckboxGroup from '../../CheckboxGroup';
+import Breadcrumb from '../../Breadcrumb';
+import Breadcrumb2 from '../../Breadcrumb2';
 
 function CompletedMobile(props) {
   const {
-    menuItems, 
+    menuItems,
     filterTasks,
     id,
     groups,
@@ -24,23 +27,30 @@ function CompletedMobile(props) {
     setPublishActionCompleted,
     subject,
     frame1284,
-    line18
+    line18,
   } = props;
 
   return (
     <div className="completed-mobile screen">
       <Frame1425>
         <HeaderSmall headerProps={completedHeaderProps(exemplar)}></HeaderSmall>
-        {exemplar && <Frame1315>
-        <Breadcrumb text={"Home"} link={"/#"} />
-        <Breadcrumb2 title="Exemplars" exempler= {exemplar} />
-        </Frame1315>}
+        {exemplar && (
+          <Frame1315>
+            <Breadcrumb text={'Home'} link={'/#'} />
+            <Breadcrumb2 title="Exemplars" exempler={exemplar} />
+          </Frame1315>
+        )}
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}
         </Frame1424>
         <Frame1413>
-          <Frame1410 id={id}  groups={groups} exemplar={exemplar} setPublishActionCompleted={setPublishActionCompleted}/>
+          <Frame1410
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
@@ -48,9 +58,10 @@ function CompletedMobile(props) {
     </div>
   );
   function createFilter() {
-    if (exemplar)
-      return <></>
-    return <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>;
+    if (exemplar) return <></>;
+    return (
+      <CheckboxGroup onChange={filterTasks} data={menuItems}></CheckboxGroup>
+    );
   }
 }
 

@@ -1,13 +1,13 @@
-import React from "react";
-import ReviewsFrame622 from "../ReviewsFrame622";
-import styled from "styled-components";
-import { IbmplexsansNormalChicago13px } from "../../../styledMixins";
+import React from 'react';
+import ReviewsFrame622 from '../ReviewsFrame622';
+import styled from 'styled-components';
+import { IbmplexsansNormalChicago13px } from '../../../styledMixins';
 
 function ReviewsFrame6(props) {
   const { className } = props;
 
   return (
-    <Frame61 className={`frame-6-4 ${className || ""}`}>
+    <Frame61 className={`frame-6-4 ${className || ''}`}>
       <X2021JeddleAllRightsReserved className="x2021-jeddle-all-rights-reserved-1">
         © 2021 Jeddle. All rights reserved.
       </X2021JeddleAllRightsReserved>

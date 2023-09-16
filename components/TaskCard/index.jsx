@@ -1,195 +1,261 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
-  IbmplexsansNormalShark20px, IbmplexsansMediumElectricViolet20px, IbmplexsansMediumWhite16px, IbmplexsansSemiBoldShark20px
-} from "../../styledMixins";
-import CardContent from "../CardContent";
-import { useRef, useEffect } from "react";
-import SnackbarContext from "../SnackbarContext"
+  IbmplexsansNormalShark20px,
+  IbmplexsansMediumElectricViolet20px,
+  IbmplexsansMediumWhite16px,
+  IbmplexsansSemiBoldShark20px,
+} from '../../styledMixins';
+import CardContent from '../CardContent';
+import { useRef, useEffect } from 'react';
+import SnackbarContext from '../SnackbarContext';
 
-import StatusBubbleContainer from "../StatusBubblesContainer";
-import { denyModelResponse, publishModelResponse, getUserRole, getUserId } from "../../service";
-import { set } from "lodash";
+import StatusBubbleContainer from '../StatusBubblesContainer';
+import {
+  denyModelResponse,
+  publishModelResponse,
+  getUserRole,
+  getUserId,
+} from '../../service';
+import { set } from 'lodash';
 
 function TaskCard(props) {
- const { showSnackbar } = React.useContext(SnackbarContext);
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
- const [showMoreOptions, setShowMoreOptions] = React.useState(false);
+  const [showMoreOptions, setShowMoreOptions] = React.useState(false);
 
- const { task, small, exemplar, isSelected, setPublishActionCompleted, showDeletePopuphandler, showDateExtendPopuphandler} = props;
+  const {
+    task,
+    small,
+    exemplar,
+    isSelected,
+    setPublishActionCompleted,
+    showDeletePopuphandler,
+    showDateExtendPopuphandler,
+  } = props;
 
- const role = getUserRole();
- const userId = getUserId();
- 
- const handleClickOutside = (event) => {
-  if (refContainer.current && !refContainer.current.contains(event.target)) {
-    setShowMoreOptions(false);
-  }
-};
+  const role = getUserRole();
+  const userId = getUserId();
 
- const refContainer = useRef(null); 
- useEffect(() => { 
-  document.addEventListener('click', handleClickOutside);
-  if (isSelected) {
-    refContainer.current.scrollIntoView({ behavior: "smooth", block: "start" }); 
-  }
-  }
- );
-  
-
-const saveButtons = (id, showSnackbar, setPublishActionCompleted)=> {
-  return <Frame12191>
-    <SLink onClick={e=>{
-      denyModelResponse(id)
-      .then((res) => {
-      if (res.status === "DENIED") {
-        setPublishActionCompleted(true)
-        showSnackbar("Response won't be shared with your class", res.link);
-      } else {
-        // setPopupMessage("Assignment Creation Failed");
-        // setShowPopup(true);
-        return;
-      }
-    });
+  const handleClickOutside = (event) => {
+    if (refContainer.current && !refContainer.current.contains(event.target)) {
+      setShowMoreOptions(false);
     }
-    }>No</SLink>
-    <Buttons1>
-      <Button onClick={e=>{
-        publishModelResponse(id)
-          .then((res) => {
-          if (res.status === "PUBLISHED") {
-            setPublishActionCompleted(true)
-            showSnackbar("Response shared with your class", res.link);
-          } else {
-            // setPopupMessage("Assignment Creation Failed");
-            // setShowPopup(true);
-            return;
-          }
-        });
-      }
-      }>Yes</Button>
-    </Buttons1>
-  </Frame12191>
-}
-function createTaskCard(task, refContainer, isSelected, exemplar, small, showSnackbar, setPublishActionCompleted) {
- 
-  if (exemplar) {
-    if (task.status === "AWAITING_APPROVAL") {
-    return <StyledCard  ref={refContainer} isSelected={isSelected}>
-          <TaskTitle>Congratulations,<br/>
-          Teacher has marked part of your response as exemplary!
-          </TaskTitle>
-          <TaskTitleBold>
-          {task.submissionDetails?.assignment?.title}
-          </TaskTitleBold>
-        <a href={task.link}>
-            <StyledCard>
-              <CardContent task={cardContents(task, exemplar)} small={small} />
-            </StyledCard> 
-        </a>
-        <TaskTitle>Are you happy to share this with your {task?.classTitle}?</TaskTitle>
-        {saveButtons(task.id, showSnackbar, setPublishActionCompleted)}
-    </StyledCard>
-    }
-  }
-  return <a href={task.link}>
-    <StyledCard ref={refContainer} isSelected={isSelected}>
-      {exemplar ? tagsFrameExempler(task) : tagsFrame(task)}
-      <CardContent task={cardContents(task, exemplar)} small={small} exemplar={exemplar}/>
-    </StyledCard>
-  </a>;
-}
+  };
 
-function cardContents(task, exemplar, acceptExemplar) {
-  if (!exemplar) {
-    return  {
-      title:task.classTitle,
-      para:task.title,
-      // subTitle:"Teacher's Comment",
-      // subPara:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.",
-      date:task.dueAt,
-      status1:task.submissionCount?`Submissions: ${task.submissionCount} of ${task.expectedSubmissions}`:null,
-      status2:task.submissionCount?`Reviewed: ${task.reviewCount} of ${task.submissionCount}`:null,
+  const refContainer = useRef(null);
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    if (isSelected) {
+      refContainer.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  });
+
+  const saveButtons = (id, showSnackbar, setPublishActionCompleted) => {
+    return (
+      <Frame12191>
+        <SLink
+          onClick={(e) => {
+            denyModelResponse(id).then((res) => {
+              if (res.status === 'DENIED') {
+                setPublishActionCompleted(true);
+                showSnackbar(
+                  "Response won't be shared with your class",
+                  res.link
+                );
+              } else {
+                // setPopupMessage("Assignment Creation Failed");
+                // setShowPopup(true);
+                return;
+              }
+            });
+          }}
+        >
+          No
+        </SLink>
+        <Buttons1>
+          <Button
+            onClick={(e) => {
+              publishModelResponse(id).then((res) => {
+                if (res.status === 'PUBLISHED') {
+                  setPublishActionCompleted(true);
+                  showSnackbar('Response shared with your class', res.link);
+                } else {
+                  // setPopupMessage("Assignment Creation Failed");
+                  // setShowPopup(true);
+                  return;
+                }
+              });
+            }}
+          >
+            Yes
+          </Button>
+        </Buttons1>
+      </Frame12191>
+    );
+  };
+  function createTaskCard(
+    task,
+    refContainer,
+    isSelected,
+    exemplar,
+    small,
+    showSnackbar,
+    setPublishActionCompleted
+  ) {
+    if (exemplar) {
+      if (task.status === 'AWAITING_APPROVAL') {
+        return (
+          <StyledCard ref={refContainer} isSelected={isSelected}>
+            <TaskTitle>
+              Congratulations,
+              <br />
+              Teacher has marked part of your response as exemplary!
+            </TaskTitle>
+            <TaskTitleBold>
+              {task.submissionDetails?.assignment?.title}
+            </TaskTitleBold>
+            <a href={task.link}>
+              <StyledCard>
+                <CardContent
+                  task={cardContents(task, exemplar)}
+                  small={small}
+                />
+              </StyledCard>
+            </a>
+            <TaskTitle>
+              Are you happy to share this with your {task?.classTitle}?
+            </TaskTitle>
+            {saveButtons(task.id, showSnackbar, setPublishActionCompleted)}
+          </StyledCard>
+        );
+      }
+    }
+    return (
+      <a href={task.link}>
+        <StyledCard ref={refContainer} isSelected={isSelected}>
+          {exemplar ? tagsFrameExempler(task) : tagsFrame(task)}
+          <CardContent
+            task={cardContents(task, exemplar)}
+            small={small}
+            exemplar={exemplar}
+          />
+        </StyledCard>
+      </a>
+    );
+  }
+
+  function cardContents(task, exemplar, acceptExemplar) {
+    if (!exemplar) {
+      return {
+        title: task.classTitle,
+        para: task.title,
+        // subTitle:"Teacher's Comment",
+        // subPara:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.",
+        date: task.dueAt,
+        status1: task.submissionCount
+          ? `Submissions: ${task.submissionCount} of ${task.expectedSubmissions}`
+          : null,
+        status2: task.submissionCount
+          ? `Reviewed: ${task.reviewCount} of ${task.submissionCount}`
+          : null,
+      };
+    }
+    return {
+      title: task.assignmentTitle,
+      para: task.response,
+      subTitle: "Teacher's Comment",
+      subPara: task.comment,
+      assignmentName: task.submissionDetails?.assignment?.title,
+      // date:formattedDate(task.dueAt),
+      // status1:"Submissions: 20 of 40",
+      // status2:"Reviewed: 10 of 20",
     };
   }
-  return  {
-    title:task.assignmentTitle,
-    para:task.response,
-    subTitle:"Teacher's Comment",
-    subPara:task.comment,
-    assignmentName: task.submissionDetails?.assignment?.title
-    // date:formattedDate(task.dueAt),
-    // status1:"Submissions: 20 of 40",
-    // status2:"Reviewed: 10 of 20",
+
+  const handleMore = (event, task) => {
+    event.stopPropagation();
+    event.preventDefault();
+    // showDeletePopuphandler(task);
+    setShowMoreOptions(!showMoreOptions);
   };
-}
 
-const handleMore = (event, task) => {
-  event.stopPropagation();
-  event.preventDefault();
-  // showDeletePopuphandler(task);
-  setShowMoreOptions(!showMoreOptions);
-};
+  const handleDelete = (event, task) => {
+    event.stopPropagation();
+    event.preventDefault();
+    showDeletePopuphandler(task);
+  };
 
-const handleDelete = (event, task) => {
-  event.stopPropagation();
-  event.preventDefault();
-  showDeletePopuphandler(task);
-}
+  const handleDateUpdate = (event, task) => {
+    event.stopPropagation();
+    event.preventDefault();
+    showDateExtendPopuphandler(task);
+  };
 
-
-const handleDateUpdate = (event, task) => {
-  event.stopPropagation();
-  event.preventDefault();
-  showDateExtendPopuphandler(task);
-  
-};
-
-function tagsFrame(task) {
-  if (task.tags && task.tags.length > 0) {
-    return <BubbleContainer> 
-    <StatusBubbleContainer tags={task?.tags ?? []} />
-   { role === "TEACHER" && 
-   userId === task.teacherId &&
-   <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
-    <IconContainer src="/icons/three-dot.svg" alt="delete" />
-    </DeleteButtonContainer>}
-    {showMoreOptions && moreOptions}
-    </BubbleContainer> 
+  function tagsFrame(task) {
+    if (task.tags && task.tags.length > 0) {
+      return (
+        <BubbleContainer>
+          <StatusBubbleContainer tags={task?.tags ?? []} />
+          {role === 'TEACHER' && userId === task.teacherId && (
+            <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
+              <IconContainer src="/icons/three-dot.svg" alt="delete" />
+            </DeleteButtonContainer>
+          )}
+          {showMoreOptions && moreOptions}
+        </BubbleContainer>
+      );
+    }
+    return (
+      <>
+        {role === 'TEACHER' && userId === task.teacherId && (
+          <DeleteButtonContainerOnly>
+            <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
+              <IconContainer src="/icons/three-dot.svg" alt="delete" />
+            </DeleteButtonContainer>
+          </DeleteButtonContainerOnly>
+        )}
+        {showMoreOptions && moreOptions}
+      </>
+    );
   }
-  return<>{ role === "TEACHER" && 
- userId === task.teacherId &&
- <DeleteButtonContainerOnly >
- <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
-  <IconContainer src="/icons/three-dot.svg" alt="delete" />
-  </DeleteButtonContainer>
-  </DeleteButtonContainerOnly>}
-  {showMoreOptions && moreOptions}
-</>;
-}
 
+  function tagsFrameExempler(task) {
+    const title = [];
+    title.push({ name: task.classTitle });
+    return (
+      <BubbleContainer>
+        <StatusBubbleContainer tags={title} />
+      </BubbleContainer>
+    );
+  }
+  const moreOptions = (
+    <MoreOptionsWrapper>
+      <MoreOptions onClick={(event) => handleDateUpdate(event, task)}>
+        <IconContainer src="/icons/clock-purple.svg" />
+        <div>Change due time</div>
+      </MoreOptions>
+      <MoreOptions onClick={(event) => handleDelete(event, task)}>
+        <IconContainer src="/icons/delete-purple-icon.svg" />
+        <div>Delete</div>
+      </MoreOptions>
+    </MoreOptionsWrapper>
+  );
 
-function tagsFrameExempler(task) {
-  const title =[]
-  title.push({name:task.classTitle});
-    return <BubbleContainer> 
-    <StatusBubbleContainer tags={title} />
-    </BubbleContainer> 
-  
-}
-const moreOptions= <MoreOptionsWrapper>
-<MoreOptions onClick={(event) => handleDateUpdate(event,task)} >
-  <IconContainer src="/icons/clock-purple.svg" />
-  <div>Change due time</div>
-</MoreOptions>
-<MoreOptions onClick={(event) => handleDelete(event,task)} >
-  <IconContainer src="/icons/delete-purple-icon.svg" />
-  <div>Delete</div>
-</MoreOptions>
-</MoreOptionsWrapper>;
-
-  return (<>
-    {createTaskCard(task, refContainer, isSelected, exemplar, small, showSnackbar, setPublishActionCompleted)}
+  return (
+    <>
+      {createTaskCard(
+        task,
+        refContainer,
+        isSelected,
+        exemplar,
+        small,
+        showSnackbar,
+        setPublishActionCompleted
+      )}
     </>
   );
 }
@@ -231,25 +297,23 @@ const IconContainer = styled.img`
 `;
 
 const DeleteButtonContainer = styled.div`
-display: flex;
+  display: flex;
 
-align-items: flex-start;
+  align-items: flex-start;
 
-cursor: pointer;
-transition: all 0.2s ease-in-out;
-z-index: 1;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  z-index: 1;
   &:hover {
     transform: scale(1.3);
   }
 `;
 
-
 const DeleteButtonContainerOnly = styled.div`
-display: flex;
-width: 100%;
-justify-content: flex-end;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
 `;
-
 
 const BubbleContainer = styled.div`
   display: flex;
@@ -260,7 +324,6 @@ const BubbleContainer = styled.div`
   position: relative;
   margin-bottom: 8px;
 `;
-
 
 const TaskTitle = styled.p`
   ${IbmplexsansNormalShark20px}
@@ -350,7 +413,6 @@ const StyledCard = styled.article`
     border: 1px solid #7200e0;
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
-  
 `;
 
 export default TaskCard;

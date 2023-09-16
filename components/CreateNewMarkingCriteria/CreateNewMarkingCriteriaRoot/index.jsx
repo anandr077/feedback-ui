@@ -165,52 +165,44 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       });
   };
 
-  const handleTitleChange = (event) => {
-    if (event.target.value.length > 140) {
-      return;
-    }
-    setMarkingCriterias({ ...markingCriterias, title: event.target.value });
-  };
+const handleTitleChange = (event) => {
+  setMarkingCriterias({ ...markingCriterias, title: event.target.value });
+}
 
-  const updateCriteriaTitle = (id, newTitle) => {
-    if (newTitle.length > 140) {
-      return;
-    }
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
-      if (index === id) {
-        return {
-          ...criteria,
-          title: newTitle,
-        };
+const updateCriteriaTitle = (id, newTitle ) => {
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === id) {
+      return {
+        ...criteria,
+        title: newTitle
       }
-      return criteria;
-    });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
-  };
-
-  const updateLevelName = (criteriaId, levelId, newName) => {
-    if (newName.length > 30) {
-      return;
     }
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
-      if (index === criteriaId) {
-        return {
-          ...criteria,
-          levels: criteria.levels.map((level, index) => {
-            if (index === levelId) {
-              return {
-                ...level,
-                name: newName,
-              };
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
+
+const updateLevelName = (criteriaId, levelId, newName) => {
+ 
+  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    if (index === criteriaId) {
+      return {
+        ...criteria,
+        levels: criteria.levels.map((level, index) => {
+          if (index === levelId) {
+            return {
+              ...level,
+              name: newName
             }
-            return level;
-          }),
-        };
+          }
+          return level;
+        })
       }
-      return criteria;
-    });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
-  };
+    }
+    return criteria;
+  });
+  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+}
 
   const updateLevelDescription = (criteriaId, levelId, newDescription) => {
     if (newDescription.length > 200) {

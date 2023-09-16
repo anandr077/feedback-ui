@@ -50,8 +50,8 @@ export default function MarkingCriteriaFeedback(props) {
   };
 
   const strengthAndTargetsCardComponent = () => [
-    singleStrengthTargetsContainer('strengths', 'First Strength', 0),
-    singleStrengthTargetsContainer('strengths', 'Second Strength', 1),
+    singleStrengthTargetsContainer('strengths', 'Strength', 0),
+    singleStrengthTargetsContainer('strengths', 'Strength', 1),
     singleStrengthTargetsContainer('targets', 'Target', 2),
   ];
   return (

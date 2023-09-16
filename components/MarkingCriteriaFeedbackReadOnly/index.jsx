@@ -123,5 +123,5 @@ const MarkingCriteriaContainer = styled.div`
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   display: flex;
   grid-gap: 10px;
-  overflow: scroll;
+  overflow-x: scroll;
 `;

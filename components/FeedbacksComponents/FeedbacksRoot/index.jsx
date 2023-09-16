@@ -124,10 +124,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       getSubmissionsByAssignmentId(submission.assignment.id)
         .then((allSubmissions) => {
           setStudents(extractStudents(allSubmissions));
-          // const allExceptCurrent = allSubmissions.filter(
-          //   (r) => r.id != submission.id
-          // );
-
           let currentSubmissionIndex = 0;
           const allExceptCurrent = allSubmissions.map((r, index) => {
             if (r.id != submission.id) {
@@ -193,7 +189,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleEditorMounted = (editor, index) => {
-    // alert("handleEditorMounted" + JSON.stringify(editor) + " " + index);
     quillRefs.current[index] = editor;
   };
 

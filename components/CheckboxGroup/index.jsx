@@ -13,6 +13,12 @@ import {
 import CheckboxBordered from "../CheckboxBordered";
 import "./index.css";
 import {IbmplexsansNormalShark16px} from "../../styledMixins";
+import editIcon from '../../static/icons/taskEditicon.png';
+import colored from '../../static/icons/ColoredEditIcon.png';
+import deleteIcon from '../../static/icons/taskDeleteIcon.png';
+import ColoredTrascan from '../../static/icons/ColoredTrascan.png';
+// import BorderColorIcon from '@mui/icons-material/BorderColor';
+// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const CheckboxGroup = ({
   data,
@@ -28,6 +34,9 @@ const CheckboxGroup = ({
     previouslySelectedItems
   );
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [hover, setHover] = React.useState(false);
+  const [editHover, setEditHover] = React.useState(Array.from({ length: (data[0].items.length) }, () => false));
+  const [trashHover, setTrashHover] = React.useState(Array.from({ length: (data[0].items.length) }, () => false));
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,11 +65,41 @@ const CheckboxGroup = ({
     }
   };
 
+  const handleMouseEnter =(index,state) => {
+    if(state){
+      const updatedElements = [...editHover];
+    updatedElements[index] = true;
+    setEditHover(updatedElements);
+    }
+    else{
+      const updatedElements = [...trashHover];
+    updatedElements[index] = true;
+    setTrashHover(updatedElements);
+
+    }
+    
+  };
+  const handleMouseLeave =(index,state) => {
+    if(state){
+         const updatedElements = [...editHover];
+    updatedElements[index] = false;
+    setEditHover(updatedElements);
+    }
+    else{
+      const updatedElements = [...trashHover];
+    updatedElements[index] = false;
+    setTrashHover(updatedElements);
+    }
+ 
+
+  };
+
   const menuContent = data.flatMap((category, index) => [
     <StyledListSubheader key={`category-${index}`}>
       {category.title}
     </StyledListSubheader>,
-    ...category.items?.map((item) => (
+    ...category.items?.map((item,index) => (
+      <FocusAreadiv>
       <StyledMenuItem
         key={item.value.title}
         onClick={(event) =>
@@ -78,6 +117,14 @@ const CheckboxGroup = ({
         {focusAreaColor(item)}
         <StyledListItemText primary={item.label} />
       </StyledMenuItem>
+      <Icondiv>
+        {/* <StyledEditButton src={editHover[index] ? colored : editIcon} onMouseEnter={() => handleMouseEnter(index,true)}
+        onMouseLeave={() => handleMouseLeave(index,true)} /> */}
+        <StyledDeleteButton src={trashHover[index]? ColoredTrascan :deleteIcon} onMouseEnter={() => handleMouseEnter(index,false)}
+        onMouseLeave={() => handleMouseLeave(index,false)} />
+        </Icondiv>
+      </FocusAreadiv>
+      
     )),
   ]);
 
@@ -116,6 +163,7 @@ const CheckboxGroup = ({
 export default CheckboxGroup;
 const StyledMenuItem = styled(MenuItem)`
   display: flex;
+  // flex-Wrap: wrap;
   gap: 6px;
   width: 250px;
   position: relative;
@@ -188,13 +236,22 @@ const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}
   position: relative;
   flex: 1;
+  // border:2px solid yellow;
+  // background-Color:blue;
+  // display:flex;
+  // flex-Wrap: wrap;
 
   // letter-spacing: 0;
   // line-height: normal;
   // border-radius: 50%;
+  // span{
+  //   flex-wrap:wrap;
+  //   background-Color:blue;
+  // }
 
   .MuiTypography-root {
     color: ${(props) => props.textColor || "var(--text)"};
+    white-space: normal; 
   }
   .MuiButtonBase-root {
     padding: 0px;
@@ -264,4 +321,34 @@ ${IbmplexsansNormalShark16px}
   line-height: 21px;
   color: #ffffff;
   margin: 10px;
+`;
+const FocusAreadiv = styled.div`
+  display:flex;
+  padding:0px 20px 0px 0px;
+`;
+
+const Icondiv = styled.div`
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  gap:5px;
+  // padding:0px 10px 0px 0px;
+  // border:1px solid red;
+`;
+const StyledEditButton = styled.img`
+  width: 16px;
+  height: 16px;
+  margin: 0;
+   cursor: pointer;
+  color:#979797;
+  
+  
+`;
+const StyledDeleteButton = styled.img`
+  width: 16px;
+  height: 16px;
+   cursor: pointer;
+  margin: 0;
+  color:#979797;
+  
 `;

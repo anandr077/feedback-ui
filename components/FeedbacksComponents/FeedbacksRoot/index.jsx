@@ -53,7 +53,6 @@ import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
 import { TextField } from '@mui/material';
-import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 import SnackbarContext from '../../SnackbarContext';
 
 const MARKING_METHODOLOGY_TYPE = {
@@ -769,11 +768,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       quill.selectRange(range);
       quill.focus();
       quill.scrollToHighlight(comment.id);
-      // div.scrollIntoView({
-      //   behavior: "smooth",
-      //   block: "center",
-      //   inline: "center",
-      // });
     } else {
     }
   }
@@ -1445,25 +1439,6 @@ const feedbacksFeedbackTeacherLaptopData = {
   frame1317Props: feedbacksFrame13172Data,
 };
 
-const richTextComponents15Data = {
-  src: '/img/underline@2x.png',
-  className: 'rich-text-components-14',
-};
-
-const frame128036Data = {
-  className: 'frame-1280-7',
-};
-const frame129735Data = {
-  text9: '5.',
-  frame1284: '/img/frame-1284-9@2x.png',
-  richTextComponentsProps: richTextComponents15Data,
-  frame12803Props: frame128036Data,
-};
-
-const questionFrame43Data = {
-  frame12973Props: frame129735Data,
-};
-
 const feedbacksBreadcrumb21Data = {
   assignments: 'Feedback',
 };
@@ -1478,7 +1453,6 @@ const feedbacksButtons1Data = {
 
 const feedbacksButtons21Data = {
   button: 'Submit',
-  // arrowright: "/img/arrowright-2@2x.png",
   className: '',
 };
 

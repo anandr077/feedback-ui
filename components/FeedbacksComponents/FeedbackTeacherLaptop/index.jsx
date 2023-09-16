@@ -1,5 +1,5 @@
 import Switch from '@mui/material/Switch';
-import { sortBy, some, without, union, uniqBy } from 'lodash';
+import { sortBy, uniqBy } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
@@ -9,11 +9,8 @@ import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
   feedbacksIbmplexsansNormalBlack16px,
-  feedbacksIbmplexsansNormalChicago13px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
-  feedbacksIbmplexsansNormalStack20px,
-  IbmplexsansNormalBlack16px,
 } from '../../../styledMixins';
 import CheckboxList from '../../CheckboxList';
 import Header from '../../Header';
@@ -37,13 +34,10 @@ import Buttons4 from '../Buttons4';
 import CommentCard32 from '../CommentCard32';
 import FocusAreasFrame from '../FocusAreasFrame';
 import Tabs from '../ReviewsFrame1320';
-import ShortcutsFrame from '../ShortcutsFrame';
 import './FeedbackTeacherLaptop.css';
-import CheckboxGroup from '../../CheckboxGroup';
 import CheckboxBordered from '../../CheckboxBordered';
 import { groupBy, flatMap } from 'lodash';
 import SmartAnotation from '../../../components/SmartAnnotations';
-import StrengthsTargets from '../../StrengthsTargets';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -250,7 +244,6 @@ function FeedbackTeacherLaptop(props) {
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
 
-    console.log('isChecked', isChecked);
     setGroupedFocusAreaIds((prevState) => {
       if (isChecked) {
         return {
@@ -264,7 +257,6 @@ function FeedbackTeacherLaptop(props) {
             (id) => id !== focusAreaId
           ),
         };
-        console.log('anew', a);
         return a;
       }
     });
@@ -395,7 +387,6 @@ function FeedbackTeacherLaptop(props) {
     );
   };
   const handleTabChange = () => {
-    console.log('handleStateChange');
     if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
       setFeedback(false);
       setFocusAreas(true);
@@ -405,7 +396,6 @@ function FeedbackTeacherLaptop(props) {
     }
   };
   const newCommentFrame = () => {
-    console.log('newCommentFrame');
     if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
       return selectFocusArea();
     }
@@ -440,7 +430,6 @@ function FeedbackTeacherLaptop(props) {
     }
     return sortBy(visibleComments, ['questionSerialNumber', 'range.from']).map(
       (comment) => {
-        console.log('Comment ', comment);
         if (comment.type === 'FOCUS_AREA') {
           return (
             <CommentCard32
@@ -542,16 +531,12 @@ function FeedbackTeacherLaptop(props) {
   }
 
   function selectFocusArea() {
-    console.log('q', submission.assignment.questions);
     const allFocusAreas = flatMap(submission.assignment.questions, (question) =>
       question.focusAreas ? question.focusAreas : []
     );
 
-    console.log('allFocusAreas', allFocusAreas);
-
     const focusAreas = uniqBy(
       allFocusAreas?.filter((fa) => {
-        console.log('id', fa.id);
         return submission.assignment.questions[
           newCommentSerialNumber - 1
         ]?.focusAreaIds?.includes(fa.id);
@@ -593,7 +578,6 @@ function FeedbackTeacherLaptop(props) {
           <Frame1387>
             <Frame1315>
               <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
-              {/* <Breadcrumb2 assignments="Feedback"/> */}
               <Breadcrumb2 assignments={submission.assignment.title} />
             </Frame1315>
           </Frame1387>
@@ -717,8 +701,6 @@ const selectTabComments = (
   comments,
   groupedFocusAreaIds
 ) => {
-  console.log('selectTabComments', comments);
-  console.log('isFocusAreas', isFocusAreas);
   if (isFocusAreas) {
     return comments.map((comment) => {
       if (comment.type !== 'FOCUS_AREA') {
@@ -883,15 +865,11 @@ const TitleWrapper = styled.div`
   gap: 10px;
 `;
 const StatusText = styled.div`
-  // width: 714px;
-  // height: 21px;
-
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 21px;
-  /* identical to box height */
 
   letter-spacing: -0.025em;
 
@@ -899,16 +877,6 @@ const StatusText = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-`;
-const RoundedContainer = styled.div`
-  display: flex;
-  padding: 12px 16px;
-  align-items: flex-start;
-  gap: 10px;
-  align-self: stretch;
-  border-radius: 24.5px;
-  border: 1px solid #e6ccff;
-  background: #f1e7ff;
 `;
 
 const Screen = styled.div`
@@ -940,26 +908,6 @@ const Line6 = styled.img`
 const Frame131612 = styled.div`
   max-width: 300px;
   display: flex;
-`;
-const Frame1295 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex: 1;
-  flex-direction: column;
-`;
-const OptionsRoot = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-`;
-const OptionCotainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  width: 100%;
-  justify-content: flex-start;
 `;
 
 const Frame1388 = styled.div`
@@ -1024,29 +972,6 @@ const AssignmentTitle = styled.h1`
   line-height: normal;
 `;
 
-const Frame1369 = styled.div`
-  display: flex;
-  width: 581px;
-  align-items: center;
-  gap: 30px;
-  position: relative;
-`;
-
-const Frame13161 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-  position: relative;
-  flex: 1;
-  background-color: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: var(--text);
-  cursor: pointer;
-`;
-
 const Frame1284 = styled.img`
   position: relative;
   min-width: 20px;
@@ -1080,8 +1005,6 @@ const Frame1367 = styled.div`
   background-color: var(--white);
   border-radius: 26px;
   box-shadow: 0px 4px 22px #2f1a720a;
-  // height: 550px;
-  // overflow-y: scroll;
 `;
 
 const Frame1366 = styled.div`
@@ -1112,89 +1035,6 @@ const QuillContainer = styled.p`
   line-height: normal;
   width: 100%;
   z-index: 1;
-`;
-
-const Group1307 = styled.div`
-  position: absolute;
-  top: 74px;
-  left: 60px;
-  width: 793px;
-  height: 51px;
-`;
-
-const OverlapGroup = styled.div`
-  position: relative;
-  height: 51px;
-`;
-
-const Rectangle546 = styled.div`
-  position: absolute;
-  width: 620px;
-  height: 26px;
-  top: 0;
-  left: 173px;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-
-const Rectangle547 = styled.div`
-  position: absolute;
-  width: 262px;
-  height: 26px;
-  top: 25px;
-  left: 0;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-
-const Group1308 = styled.div`
-  position: absolute;
-  top: 309px;
-  left: 60px;
-  width: 808px;
-  height: 76px;
-  mix-blend-mode: multiply;
-`;
-
-const OverlapGroup1 = styled.div`
-  position: relative;
-  height: 76px;
-`;
-
-const Rectangle5471 = styled.div`
-  position: absolute;
-  width: 808px;
-  height: 26px;
-  top: 25px;
-  left: 0;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-
-const Rectangle548 = styled.div`
-  position: absolute;
-  width: 82px;
-  height: 26px;
-  top: 50px;
-  left: 0;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-
-const Line26 = styled.img`
-  position: relative;
-  align-self: stretch;
-
-  height: 1px;
-  object-fit: cover;
 `;
 
 const Frame1331 = styled.div`
@@ -1267,31 +1107,6 @@ const TypeHere = styled.div`
   flex: 1;
   letter-spacing: 0;
 `;
-const TextInput = styled.input`
-  ${feedbacksIbmplexsansNormalStack20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  border-color: transparent;
-  box-shadow: 0px;
-  outline: none;
-  transition: 0.15s;
-`;
-const IconsaxLinearmicrophone2 = styled.img`
-  position: relative;
-  min-width: 30px;
-  height: 30px;
-`;
-
-const Line261 = styled.img`
-  position: relative;
-  align-self: stretch;
-  width: 100%;
-  height: 1px;
-  object-fit: cover;
-`;
 
 const Frame1383 = styled.div`
   display: flex;
@@ -1319,9 +1134,6 @@ const Share = styled.div`
   line-height: normal;
 `;
 
-const FeedbackWithCommentsFrame = styled.div`
-  position: sticky;
-`;
 const Frame1328 = styled.div`
   display: flex;
   flex-direction: column;
@@ -1335,34 +1147,6 @@ const Frame1328 = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const Frame1370 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 30px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame6 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2021JeddleAllRightsReserved = styled.p`
-  ${feedbacksIbmplexsansNormalChicago13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default FeedbackTeacherLaptop;

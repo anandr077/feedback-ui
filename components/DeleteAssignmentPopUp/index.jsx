@@ -4,7 +4,6 @@ import { deleteAssignment, updateAssignment } from '../../service';
 import SnackbarContext from '../SnackbarContext';
 import { isMobileView } from '../ReactiveRender';
 import {
-  IbmplexsansNormalShark20px,
   IbmplexsansSemiBoldShark24px,
   IbmplexsansSemiBoldWhite16px,
 } from '../../styledMixins';
@@ -84,12 +83,6 @@ const ButtonsContainer = styled.div`
   margin-bottom: 20px;
   margin-right: 40px;
   padding-top: 50px;
-`;
-
-const IconTrash = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
 `;
 
 const Arrowright = styled.img`

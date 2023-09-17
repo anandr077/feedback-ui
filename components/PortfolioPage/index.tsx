@@ -260,7 +260,7 @@ const PortfolioPage = () => {
 
       updatePortfolio(newData).then((result) => {
         dispatch({ type: 'setPortfolio', payload: result });
-        window.location.href = '#documents/' + document.id;
+        // window.location.href = '#documents/' + document.id;
       });
     });
   }
@@ -270,7 +270,7 @@ const PortfolioPage = () => {
       mainIndex >= data?.files?.length ||
       data?.files[mainIndex]?.type !== 'FOLDER'
     ) {
-      throw new Error('Invalid mainIndex!');
+      return []
     }
 
     const mainFolder = data?.files[mainIndex];
@@ -319,7 +319,7 @@ const PortfolioPage = () => {
                 })
             )}
 
-            {documentsContainerFunc(displayedWork, allFiles)}
+            {documentsContainerFunc(displayedWork, allFiles, showModal, setShowModal)}
           </PortfolioContainer>
         </PortfolioBody>
       </div>
@@ -359,7 +359,9 @@ function sidebar(
 
 function documentsContainerFunc(
   displayedWork: { title: string; desc: string }[],
-  allFiles
+  allFiles,
+  showModal,
+  setShowModal
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -369,7 +371,7 @@ function documentsContainerFunc(
           <RecentTag>Recent</RecentTag>
         </WorkHeader>
         <AllWorkBoxes>
-          <NewDocBtn>
+          <NewDocBtn onClick={() => setShowModal(!showModal)}>
             <NewDocBtnImg
               src={AddCircleIcon}
               alt="Button Icon"

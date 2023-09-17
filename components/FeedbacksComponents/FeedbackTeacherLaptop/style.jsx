@@ -6,7 +6,7 @@ import {
   feedbacksIbmplexsansNormalChicago13px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
-  feedbacksIbmplexsansNormalStack20px
+  feedbacksIbmplexsansNormalStack20px,
 } from '../../../styledMixins';
 
 export const AwaitFeedbackContainer = styled.div`
@@ -503,4 +503,19 @@ const X2021JeddleAllRightsReserved = styled.p`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+`;
+export const SelectFeedbackMethod = styled.div`
+  display: flex;
+  width: fit-content;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
+  position: absolute;
+  white-space: nowrap;
+  top: 65px
 `;

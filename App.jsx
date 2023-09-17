@@ -5,6 +5,7 @@ import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
 import ExemplarResponsesPage from './components/ExemplarResponsesPage';
 import FeedbacksRoot from './components/FeedbacksComponents/FeedbacksRoot';
+import DocumentRoot from './components/FeedbacksComponents/DocumentRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
 import StudentDashboardRoot from './components/StudentDashBoardRoot';
 import StudentTaskRoot from './components/StudentTaskRoot';
@@ -35,6 +36,7 @@ function App() {
   const ProtectedCreateAssignment = withAuth(CreateAssignment);
   const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
+  const ProtectedDocumentRoot = withAuth(DocumentRoot);
   const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = withAuth(AccountSettingsRoot);
@@ -96,6 +98,9 @@ function App() {
             </Route>
             <Route path="/submissions/:id">
               <ProtectedFeedbacksRoot isAssignmentPage={false} />
+            </Route>
+            <Route path="/documents/:id">
+              <ProtectedDocumentRoot/>
             </Route>
             <Route path="/404">
               <PageNotFound />

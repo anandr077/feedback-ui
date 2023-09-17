@@ -25,7 +25,6 @@ export function answersFrameNoMC(
   commentsForSelectedTab,
   methods
 ) {
-  console.log('methods', methods);
   return (
     <AnswersFrameNoMC
       quillRefs={quillRefs}
@@ -110,7 +109,6 @@ const answerFrames = (
     return (
       <>
         <Frame1366>
-          <QuestionText>{questionText}</QuestionText>
           {
             <QuillContainer
               onClick={() => {

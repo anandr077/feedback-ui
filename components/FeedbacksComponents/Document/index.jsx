@@ -4,26 +4,23 @@ import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useState } from 'react';
 import Header from '../../Header';
 
-import { flatMap, groupBy } from 'lodash';
 import Footer from '../../Footer';
 import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
-import Loader from '../../Loader';
 import { isTabletView } from '../../ReactiveRender';
 import { answersFrameNoMC } from '../AnswersFrameNoMC';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import '../FeedbackTeacherLaptop/FeedbackTeacherLaptop.css';
 import { contextBar } from '../FeedbackTeacherLaptop/contextBar';
-import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import {
   Frame1315,
   Frame1368,
   Frame1386,
   Frame1387,
   Frame1388,
-  Screen2,
 } from '../FeedbackTeacherLaptop/style';
+import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 
 function Document(props) {
   const {
@@ -47,6 +44,7 @@ function Document(props) {
   } = props;
 
   const [isShowResolved, setShowResolved] = useState(false);
+  const [isShowSelectType, setShowSelectType] = useState(true);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -59,6 +57,8 @@ function Document(props) {
           {header(tabletView, headerProps)}
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
+            isShowSelectType,
+            setShowSelectType,
             submission,
             methods,
             isTeacher,
@@ -78,7 +78,6 @@ function Document(props) {
             newCommentFrameRef,
             share,
             smartAnnotations
-
           )}
           {footer(tabletView)}
         </Frame1388>
@@ -119,6 +118,8 @@ function footer(tabletView) {
 }
 
 function answersAndFeedbacks(
+  isShowSelectType,
+  setShowSelectType,
   submission,
   methods,
   isTeacher,
@@ -139,10 +140,17 @@ function answersAndFeedbacks(
   share,
   smartAnnotations
 ) {
-  console.log("answersAndFeedbacks smartAnnotations", smartAnnotations)
   return (
     <Frame1386 id="content">
-      {contextBar(submission, methods, isTeacher, pageMode, labelText)}
+      {contextBar(
+        isShowSelectType,
+        setShowSelectType,
+        submission,
+        methods,
+        isTeacher,
+        pageMode,
+        labelText
+      )}
 
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
@@ -153,31 +161,61 @@ function answersAndFeedbacks(
           methods
         )}
         <></>
-        {documentFeedbackFrame(methods, submission, newCommentSerialNumber, commentsForSelectedTab, setShowResolved, showNewComment, isShowResolved, isTeacher, comments, pageMode, newCommentFrameRef, share, smartAnnotations)}
+        {documentFeedbackFrame(
+          methods,
+          submission,
+          newCommentSerialNumber,
+          commentsForSelectedTab,
+          setShowResolved,
+          showNewComment,
+          isShowResolved,
+          isTeacher,
+          comments,
+          pageMode,
+          newCommentFrameRef,
+          share,
+          smartAnnotations
+        )}
       </Frame1368>
     </Frame1386>
   );
 }
 
-function documentFeedbackFrame(methods, submission, newCommentSerialNumber, commentsForSelectedTab, setShowResolved, showNewComment, isShowResolved, isTeacher, comments, pageMode, newCommentFrameRef, share, smartAnnotations) {
+function documentFeedbackFrame(
+  methods,
+  submission,
+  newCommentSerialNumber,
+  commentsForSelectedTab,
+  setShowResolved,
+  showNewComment,
+  isShowResolved,
+  isTeacher,
+  comments,
+  pageMode,
+  newCommentFrameRef,
+  share,
+  smartAnnotations
+) {
   if (pageMode === 'DRAFT') {
-    return <></>
+    return <></>;
   }
-  return <DocumentFeedbackFrame
-    methods={methods}
-    submission={submission}
-    newCommentSerialNumber={newCommentSerialNumber}
-    commentsForSelectedTab={commentsForSelectedTab}
-    setShowResolved={setShowResolved}
-    showNewComment={showNewComment}
-    isShowResolved={isShowResolved}
-    isTeacher={isTeacher}
-    comments={comments}
-    pageMode={pageMode}
-    newCommentFrameRef={newCommentFrameRef}
-    share={share}
-    smartAnnotations={smartAnnotations}
-  ></DocumentFeedbackFrame>;
+  return (
+    <DocumentFeedbackFrame
+      methods={methods}
+      submission={submission}
+      newCommentSerialNumber={newCommentSerialNumber}
+      commentsForSelectedTab={commentsForSelectedTab}
+      setShowResolved={setShowResolved}
+      showNewComment={showNewComment}
+      isShowResolved={isShowResolved}
+      isTeacher={isTeacher}
+      comments={comments}
+      pageMode={pageMode}
+      newCommentFrameRef={newCommentFrameRef}
+      share={share}
+      smartAnnotations={smartAnnotations}
+    ></DocumentFeedbackFrame>
+  );
 }
 
 function header(tabletView, headerProps) {

@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@700&display=swap');
+
+.sideNavbar{
+    width: 100%;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.SideNavHeader{
+    display: none;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .SideNavHeader{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.SideNavHeader p{
+   color: #301B72;
+   font-size: 20px;
+   line-height: 26px;
+   font-weight: 500;
+}
+
+.close{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.folderContainer{
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .hideFolder{
+       display: none;
+    }
+    .showFolder{
+        display: block;
+    }
+}
+
+
+.folder{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    border-radius: 38px;
+    padding: 16px 24px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+    cursor: pointer;
+}
+
+.active{
+    background-color: #301B72 !important;
+    color: #FFFFFF;
+}
+
+.newFolderBtn{
+    display: block;
+    border-radius: 38px;
+    padding: 16px 24px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    width: 100%;
+    color: #301B72;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    margin-top: 8px;
+    text-align: start;
+}
+
+.folder:hover,
+.newFolderBtn:hover{
+    background-color: #F1E7FF;
+}
+
+@media (max-width: 768px) {
+    .hideBtn{
+       display: none;
+    }
+    .showBtn{
+       display: block;
+    }
+}
+
+.FolderInputBox{
+    color: #301B72;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+    border-radius: 38px;
+    padding: 16px 24px;
+    background-color: #FCFAFF;
+    border: 1px solid #301B72;
+    width: 100%;
+}
+
+.FolderInputBox:focus{
+    outline: none;
+}
+
+.subFolder{
+    display: flex;
+    align-items: center;
+    justify-content: space-between !important;
+    position: relative;
+}
+
+.subFolder-Content{
+    width: 100%;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.subActionBtn{
+    position: absolute;
+    right: -47px;
+    top: 34px;
+    height: auto;
+    border-radius: 6px;
+    padding: 4px;
+    border: 1px solid #7200E0;
+    background-color: white;
+    z-index: 10;
+}
+
+.subActionBtn button{
+    width: 84px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #7200E0;
+}

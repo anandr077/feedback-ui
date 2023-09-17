@@ -7,7 +7,11 @@ import Header from '../Header';
 import HeaderSmall from '../HeaderSmall';
 import FooterSmall from '../FooterSmall';
 import Footer from '../Footer';
-import { updatePortfolio, getPortfolio } from '../../service';
+import {
+  addDocumentToPortfolio,
+  updatePortfolio,
+  getPortfolio,
+} from '../../service';
 
 import {
   PortfolioBody,
@@ -128,15 +132,14 @@ const PortfolioPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [numColumns, setNumColumns] = useState(4);
   const [displayedWork, setDisplayedWork] = useState(recentWork);
- 
+
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
-    queryFn: async () =>{
-      const data = await getPortfolio()
+    queryFn: async () => {
+      const data = await getPortfolio();
       dispatch({ type: 'setPortfolio', payload: data });
-    }
-  })
-
+    },
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -178,30 +181,23 @@ const PortfolioPage = () => {
     return <Loader />;
   }
 
-  
   const allFiles = getDocuments(
     state.portfolio,
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
 
-
   const handleCreateDocument = (docName, subjectValue) => {
     console.log('activeMainIndex', state.activeMainIndex);
     console.log('activeSubFolderIndex', state.activeSubFolderIndex);
     console.log('docName', docName);
     console.log('subjectValue', subjectValue);
-    const newPortfolio = addFile(
+    addFile(
       state.portfolio,
       state.activeMainIndex,
       state.activeSubFolderIndex,
       docName
     );
-    console.log('newPortfolio', newPortfolio);
-    updatePortfolio(newPortfolio).then((result) => {
-      dispatch({ type: 'setPortfolio', payload: result });
-      console.log('successful');
-    });
   };
 
   function addFile(
@@ -242,22 +238,36 @@ const PortfolioPage = () => {
       files: [...(mainFolder.files[subFolderIndex].files || [])],
     };
     mainFolder.files[subFolderIndex] = subFolder;
+    console.log('subFolder', subFolder);
+    addDocumentToPortfolio(
+      subFolder.courseId,
+      subFolder.classId,
+      fileName
+    ).then((document) => {
+      console.log('document', document);
+      // Add the new file
+      const newFile = {
+        type: 'DOCUMENT',
+        title: fileName,
+        status: '',
+        documentId: document.id,  
+        courseId: subFolder.courseId,
+        classId: subFolder.classId,
+        description: 'The description',
+      };
+      subFolder.files.push(newFile);
+      console.log('newData', newData);
 
-    // Add the new file
-    const newFile = {
-      type: 'DOCUMENT',
-      title: fileName,
-      status: '',
-      description: 'The description',
-    };
-    subFolder.files.push(newFile);
-
-    return newData;
+      updatePortfolio(newData).then((result) => {
+        dispatch({ type: 'setPortfolio', payload: result });
+        window.location.href = '#documents/' + document.id;
+      });
+    });
   }
   function getDocuments(data, mainIndex: number, subFolderIndex: number = 0) {
     if (
       mainIndex < 0 ||
-      mainIndex >= data.files.length ||
+      mainIndex >= data?.files?.length ||
       data?.files[mainIndex]?.type !== 'FOLDER'
     ) {
       throw new Error('Invalid mainIndex!');
@@ -296,11 +306,17 @@ const PortfolioPage = () => {
           <PortfolioContainer>
             {sidebar(
               state.portfolio,
-              (portfolio) => dispatch({type: 'setPortfolio', payload: portfolio}),
+              (portfolio) =>
+                dispatch({ type: 'setPortfolio', payload: portfolio }),
               state.activeMainIndex,
               state.activeSubFolderIndex,
-              (mainIndex) => dispatch({type: 'setActiveMainIndex', payload: mainIndex }),
-              (subFolderIndex) => dispatch({type: 'setActiveSubFolderIndex', payload: subFolderIndex})
+              (mainIndex) =>
+                dispatch({ type: 'setActiveMainIndex', payload: mainIndex }),
+              (subFolderIndex) =>
+                dispatch({
+                  type: 'setActiveSubFolderIndex',
+                  payload: subFolderIndex,
+                })
             )}
 
             {documentsContainerFunc(displayedWork, allFiles)}
@@ -362,22 +378,27 @@ function documentsContainerFunc(
             <NewDocBtnText>New Document</NewDocBtnText>
           </NewDocBtn>
 
-          {displayedWork.map((work, idx) => (
-            <RecentWork key={idx}>
-              <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
-              <RecentWorkTitle>{work.title}</RecentWorkTitle>
-              <div className="recent-hover">
-                <RecentBtns>
-                  <RecentBtnImg src={previewImg}></RecentBtnImg>
-                  View
-                </RecentBtns>
-                <RecentBtns>
-                  <RecentBtnImg src={downLoadImg}></RecentBtnImg>
-                  Download
-                </RecentBtns>
-              </div>
-            </RecentWork>
-          ))}
+          {displayedWork.map((work, idx) => {
+            console.log('work', work);
+            return (
+              <RecentWork key={idx}>
+                <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
+                <RecentWorkTitle>{work.title}</RecentWorkTitle>
+                <div className="recent-hover">
+                  <a>
+                    <RecentBtns>
+                      <RecentBtnImg src={previewImg}></RecentBtnImg>
+                      View
+                    </RecentBtns>
+                  </a>
+                  <RecentBtns>
+                    <RecentBtnImg src={downLoadImg}></RecentBtnImg>
+                    Download
+                  </RecentBtns>
+                </div>
+              </RecentWork>
+            );
+          })}
         </AllWorkBoxes>
       </WorkContainer>
 
@@ -403,42 +424,47 @@ function allFilesContainer(allFiles) {
       {allFiles.length === 0 ? (
         <NoFileDiv>No files</NoFileDiv>
       ) : (
-        allFiles.map((document, idx) => (
-          <DocumentBox key={idx}>
-            <DocumentBoxWrapper>
-              <DocumentTextFrame>
-                {document?.description?.slice(0, 170)}...
-              </DocumentTextFrame>
-              <div>
-                {document.status ? (
-                  <p style={documentStatusStyle(document.status)}>
-                    {document.status}
-                  </p>
-                ) : (
-                  ''
-                )}
-                <DocumentTitle>{document.title}</DocumentTitle>
-              </div>
-            </DocumentBoxWrapper>
-            <DocumentBtns>
-              <button>
-                <img src={previewImg} alt="Preview Button" />
-                <p>View</p>
-                <span>View</span>
-              </button>
-              <button>
-                <img src={downLoadImg} alt="Download Button" />
-                <p>Download</p>
-                <span>Download</span>
-              </button>
-              <button>
-                <img src={deleteImg} alt="Delete Button" />
-                <p>Delete</p>
-                <span>Delete</span>
-              </button>
-            </DocumentBtns>
-          </DocumentBox>
-        ))
+        allFiles.map((document, idx) => {
+          console.log('document', document)
+          return (
+            <DocumentBox key={idx}>
+              <DocumentBoxWrapper>
+                <DocumentTextFrame>
+                  {document?.description?.slice(0, 170)}...
+                </DocumentTextFrame>
+                <div>
+                  {document.status ? (
+                    <p style={documentStatusStyle(document.status)}>
+                      {document.status}
+                    </p>
+                  ) : (
+                    ''
+                  )}
+                  <DocumentTitle>{document.title}</DocumentTitle>
+                </div>
+              </DocumentBoxWrapper>
+              <DocumentBtns>
+                <a href={'#documents/' + document.documentId}>
+                  <button>
+                    <img src={previewImg} alt="Preview Button" />
+                    <p>View</p>
+                    <span>View</span>
+                  </button>
+                </a>
+                <button>
+                  <img src={downLoadImg} alt="Download Button" />
+                  <p>Download</p>
+                  <span>Download</span>
+                </button>
+                <button>
+                  <img src={deleteImg} alt="Delete Button" />
+                  <p>Delete</p>
+                  <span>Delete</span>
+                </button>
+              </DocumentBtns>
+            </DocumentBox>
+          );
+        })
       )}
     </AllFilesContainer>
   );

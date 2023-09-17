@@ -484,3 +484,13 @@ export const updatePortfolio = async (portfolio) =>
     baseUrl + '/students/portfolio',
     portfolio
   );
+
+export const addDocumentToPortfolio = async (classId, courseId, title) =>
+  await postApi(
+    baseUrl + '/students/portfolio/documents',
+    {
+      classId,
+      courseId,
+      title
+    }
+);

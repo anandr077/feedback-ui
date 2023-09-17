@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { IbmplexsansSemiBoldShark20px } from '../../styledMixins';
-export const ImageDropdownMenu = (props) => {
+export const DropdownMenu = (props) => {
   const {
     selectedIndex,
     markingCriteriaType,
@@ -19,6 +19,7 @@ export const ImageDropdownMenu = (props) => {
     small,
     fullWidth,
     primaryText,
+    noDefaultSelected = false,
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,7 +37,7 @@ export const ImageDropdownMenu = (props) => {
 
   const initialSelectedItem =
     selectedIndex === undefined
-      ? findFirstSelectableItem(menuItems)
+      ? findFirstSelectableItem(menuItems, noDefaultSelected)
       : menuItems[selectedIndex];
   const [selectedItem, setSelectedItem] = React.useState(initialSelectedItem);
 
@@ -268,7 +269,10 @@ function createImageFrame(selectedItem, showAvatar) {
     />
   );
 }
-const findFirstSelectableItem = (menuItems) => {
+const findFirstSelectableItem = (menuItems, noDefaultSelected) => {
+  if (noDefaultSelected) {
+    return null;
+  }
   for (let entry of menuItems) {
     if (entry.heading) {
       if (entry.items && entry.items.length > 0) {
@@ -431,4 +435,4 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-export default ImageDropdownMenu;
+export default DropdownMenu;

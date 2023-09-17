@@ -1,55 +1,53 @@
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
 import jsPDF from 'jspdf';
 import {
+  cloneDeep,
   filter,
   flatMap,
   get,
   includes,
   map,
-  set,
-  get,
-  cloneDeep,
+  set
 } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { formattedDate } from '../../../dates';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import GeneralPopup from '../../GeneralPopup';
+import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 
 import {
   addFeedback,
-  updateFeedback,
-  resolveFeedback,
   deleteFeedback,
+  getDefaultCriteria,
   getSubmissionById,
   getSubmissionsByAssignmentId,
   getUserId,
-  getUserRole,
-  markSubmissionReviewed as markSubmsissionReviewed,
-  markSubmsissionClosed,
-  submitAssignment,
-  updateFeedbackRange,
   getUserName,
-  getDefaultCriteria,
+  getUserRole,
   markSubmissionRequestSubmission,
+  markSubmsissionClosed,
+  markSubmissionReviewed as markSubmsissionReviewed,
+  resolveFeedback,
+  submitAssignment,
+  updateFeedback,
+  updateFeedbackRange,
 } from '../../../service';
 import {
   getShortcuts,
-  saveAnswer,
   getSmartAnnotations,
+  saveAnswer,
 } from '../../../service.js';
-import ImageDropdownMenu from '../../ImageDropdownMenu';
+import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
+import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
-import { IbmplexsansNormalShark20px } from '../../../styledMixins';
-import SnackbarContext from '../../SnackbarContext';
-import { DialogContiner, StyledTextField, ActionButtonsContainer, feedbacksFeedbackTeacherMobileData, feedbacksFeedbackTeacherLaptopData } from './style';
+import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -572,6 +570,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     return invalid;
   };
+
+  function hasDuplicateAttributes(arr) {
+    const attributeSet = new Set();
+
+    for (const item of arr) {
+      if (attributeSet.has(item.attribute)) {
+        return true;
+      }
+      attributeSet.add(item.attribute);
+    }
+
+    return false;
+  }
   function convertToSelectedAttribute(selectedArray) {
     return selectedArray.map((item, index) => ({
       index,
@@ -584,14 +595,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-
+    let isDuplicate = false;
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
         submitMarkingCriteriaInputs(question);
       });
     }
-    submitReview();
+    submission.assignment.questions.map((question) => {
+      if (hasDuplicateAttributes(question.markingCriteria.selectedStrengths)) {
+        showSnackbar(
+          'Please select different strength in question number ' +
+            question.serialNumber
+        );
+        setShowSubmitPopup(false);
+        isDuplicate = true;
+      }
+    });
+    if (!isDuplicate) {
+      submitReview();
+    }
   }
+
   function submitMarkingCriteriaInputs(question) {
     if (question.markingCriteria?.title != '') {
       if (question.markingCriteria?.criterias) {
@@ -642,7 +666,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-
     if (validateMarkingCriteria()) {
       submission.assignment.questions.map((question) => {
         if (
@@ -838,11 +861,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         return menuItem.id === submission.id;
       });
       return (
-        <ImageDropdownMenu
+        <DropdownMenu
           menuItems={menuItems}
           showAvatar={true}
           selectedIndex={selectedItemIndex}
-        ></ImageDropdownMenu>
+        ></DropdownMenu>
       );
     }
   };
@@ -1037,7 +1060,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
         }[${criteriaIndex}]`;
         newState = set(newState, path, { label, value });
-
         return newState;
       });
     };

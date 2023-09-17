@@ -15,7 +15,9 @@ function MarkingCriteriaCard(props) {
   return (
     <MarkingCriteriaEntry>
       <MarkingCriteriaEntryHeading
-        onClick={()=>navigateToMarkingCriteriaUrl(markingCriteria.id, markingCriteria.type)}
+        onClick={() =>
+          navigateToMarkingCriteriaUrl(markingCriteria.id, markingCriteria.type)
+        }
       >
         <div>
           <Title>{markingCriteria.title}</Title>

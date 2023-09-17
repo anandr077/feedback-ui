@@ -405,7 +405,6 @@ export default function DocumentRoot({  }) {
   };
   function disableAllEditors() {
     submission.assignment.questions
-      .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         // alert(JSON.stringify(question))
         const quill = quillRefs.current[question.serialNumber - 1];
@@ -861,3 +860,4 @@ export default function DocumentRoot({  }) {
   }
 }
 
+ 

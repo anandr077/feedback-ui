@@ -555,11 +555,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const validateMarkingCriteria = () => {
     let invalid = true;
+    if (submission.assignment.questions.markingCriteria === undefined
+      || submission.assignment.questions.markingCriteria === null) {
+      return true;
+    }
     submission.assignment.questions.map((question) => {
       if (
         (question?.markingCriteria?.title != '' &&
           question?.markingCriteria?.criterias) ||
-        question.markingCriteria.strengthsTargetsCriterias
+        question.markingCriteria?.strengthsTargetsCriterias
       ) {
         question.markingCriteria?.criterias?.map((criteria) => {
           if (!criteria.selectedLevel) {
@@ -602,7 +606,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       });
     }
     submission.assignment.questions.map((question) => {
-      if (hasDuplicateAttributes(question.markingCriteria.selectedStrengths)) {
+      if (submission.assignment.questions.markingCriteria === undefined
+        || submission.assignment.questions.markingCriteria === null) {
+        return true;
+      }
+      if (hasDuplicateAttributes(question.markingCriteria?.selectedStrengths)) {
         showSnackbar(
           'Please select different strength in question number ' +
             question.serialNumber
@@ -622,7 +630,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const markingCriteriaRequest = question.markingCriteria;
         return submitMarkingCriteriaFeedback(question, markingCriteriaRequest);
       }
-      if (question.markingCriteria.strengthsTargetsCriterias) {
+      if (question.markingCriteria?.strengthsTargetsCriterias) {
         const markingCriteriaRequest = question.markingCriteria;
         const selectedStrengths = get(
           newMarkingCriterias,

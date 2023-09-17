@@ -10,6 +10,7 @@ function Tabs(props) {
     isFocusAreas,
     isFeedback,
     showFeedbacks = true,
+    showFocusAreas = true,
   } = props;
 
   function handleFocusAreas() {
@@ -26,7 +27,7 @@ function Tabs(props) {
   return (
     <Frame13201 className={`frame-1320 ${className || ''}`}>
       {showFeedbacks && createTab('Feedback', handleFeedback, isFeedback)}
-      {createTab('Focus areas', handleFocusAreas, isFocusAreas)}
+      {showFocusAreas && createTab('Focus areas', handleFocusAreas, isFocusAreas)}
     </Frame13201>
   );
 }

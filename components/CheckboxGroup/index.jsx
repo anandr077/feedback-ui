@@ -11,12 +11,11 @@ import { IbmplexsansNormalShark20px } from '../../styledMixins';
 import CheckboxBordered from '../CheckboxBordered';
 import './index.css';
 import { IbmplexsansNormalShark16px } from '../../styledMixins';
-import editIcon from '../../static/icons/taskEditicon.png';
-import colored from '../../static/icons/ColoredEditIcon.png';
-import deleteIcon from '../../static/icons/taskDeleteIcon.png';
-import ColoredTrascan from '../../static/icons/ColoredTrascan.png';
-// import BorderColorIcon from '@mui/icons-material/BorderColor';
-// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditIcon from '../../static/icons/taskEditicon.png';
+import ColoredEditIcon from '../../static/icons/ColoredEditIcon.png';
+import TrashIcon from '../../static/icons/taskDeleteIcon.png';
+import ColoredTrashIcon from '../../static/icons/ColoredTrascan.png';
+
 
 const CheckboxGroup = ({
   data,
@@ -63,34 +62,19 @@ const CheckboxGroup = ({
     }
   };
 
-  const handleMouseEnter =(index,state) => {
-    if(state){
-      const updatedElements = [...editHover];
-    updatedElements[index] = true;
-    setEditHover(updatedElements);
-    }
-    else{
-      const updatedElements = [...trashHover];
-    updatedElements[index] = true;
-    setTrashHover(updatedElements);
-
-    }
-    
+  const handleMouse = (index, state, hoverArray, setHoverArray) => {
+  const updatedElements = [...hoverArray];
+  updatedElements[index] = state;
+  setHoverArray(updatedElements);
   };
-  const handleMouseLeave =(index,state) => {
-    if(state){
-         const updatedElements = [...editHover];
-    updatedElements[index] = false;
-    setEditHover(updatedElements);
-    }
-    else{
-      const updatedElements = [...trashHover];
-    updatedElements[index] = false;
-    setTrashHover(updatedElements);
-    }
- 
 
-  };
+  const handleEdit = (index) =>{
+    console.log(index);
+  }
+
+  const handleDelete = (index) => {
+    console.log(index);
+  }
 
   const menuContent = data.flatMap((category, index) => [
     <StyledListSubheader key={`category-${index}`}>
@@ -115,12 +99,13 @@ const CheckboxGroup = ({
         {focusAreaColor(item)}
         <StyledListItemText primary={item.label} />
       </StyledMenuItem>
-      <Icondiv>
-        {/* <StyledEditButton src={editHover[index] ? colored : editIcon} onMouseEnter={() => handleMouseEnter(index,true)}
-        onMouseLeave={() => handleMouseLeave(index,true)} /> */}
-        <StyledDeleteButton src={trashHover[index]? ColoredTrascan :deleteIcon} onMouseEnter={() => handleMouseEnter(index,false)}
-        onMouseLeave={() => handleMouseLeave(index,false)} />
-        </Icondiv>
+      <Iconcontainer>
+        
+        {/* <StyledEditButton src={editHover[index] ? ColoredEditIcon : EditIcon} onMouseEnter={() => handleMouse(index, true, editHover, setEditHover)}
+  onMouseLeave={() => handleMouse(index, false, editHover, setEditHover)} onClick={() => handleEdit(index)} /> */}
+        <StyledDeleteButton src={trashHover[index]? ColoredTrashIcon : TrashIcon} onMouseEnter={() => handleMouse(index, true, trashHover, setTrashHover)}
+                onMouseLeave={() => handleMouse(index, false, trashHover, setTrashHover)} onClick={() => handleDelete(index)}/>
+        </Iconcontainer>
       </FocusAreadiv>
       
     )),
@@ -161,7 +146,6 @@ const CheckboxGroup = ({
 export default CheckboxGroup;
 const StyledMenuItem = styled(MenuItem)`
   display: flex;
-  // flex-Wrap: wrap;
   gap: 6px;
   width: 250px;
   position: relative;
@@ -234,18 +218,10 @@ const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}
   position: relative;
   flex: 1;
-  // border:2px solid yellow;
-  // background-Color:blue;
-  // display:flex;
-  // flex-Wrap: wrap;
-
   // letter-spacing: 0;
   // line-height: normal;
   // border-radius: 50%;
-  // span{
-  //   flex-wrap:wrap;
-  //   background-Color:blue;
-  // }
+  
 
   .MuiTypography-root {
     color: ${(props) => props.textColor || "var(--text)"};
@@ -325,13 +301,11 @@ const FocusAreadiv = styled.div`
   padding:0px 20px 0px 0px;
 `;
 
-const Icondiv = styled.div`
+const Iconcontainer = styled.div`
   display:flex;
   justify-content: center;
   align-items: center;
   gap:5px;
-  // padding:0px 10px 0px 0px;
-  // border:1px solid red;
 `;
 const StyledEditButton = styled.img`
   width: 16px;
@@ -339,8 +313,6 @@ const StyledEditButton = styled.img`
   margin: 0;
    cursor: pointer;
   color:#979797;
-  
-  
 `;
 const StyledDeleteButton = styled.img`
   width: 16px;
@@ -348,5 +320,4 @@ const StyledDeleteButton = styled.img`
    cursor: pointer;
   margin: 0;
   color:#979797;
-  
 `;

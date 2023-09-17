@@ -154,3 +154,48 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
   }
   return <></>;
 };
+
+export function contextBarPortfolioDocument(
+  submission,
+  methods,
+  isTeacher,
+  pageMode,
+  labelText,
+) {
+  return (
+    <Frame1371 id="assignmentTitle">
+      <TitleWrapper>
+        <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+        <StatusText>
+          <div>{methods.submissionStatusLabel()}</div>
+        </StatusText>
+      </TitleWrapper>
+      {!isTeacher &&
+        pageMode === 'CLOSED' &&
+        submission.status === 'CLOSED' && (
+          <div id="deleteButton">
+            <Buttons2
+              button="Download PDF"
+              download={true}
+              onClickFn={methods.downloadPDF}
+            />
+          </div>
+        )}
+      {!isTeacher && pageMode === 'CLOSED' && submission.status != 'CLOSED' && (
+        <AwaitFeedbackContainer id="deleteButton">
+          <Buttons2
+            button="Download PDF"
+            download={true}
+            onClickFn={methods.downloadPDF}
+          />
+        </AwaitFeedbackContainer>
+      )}
+
+      {tasksListsDropDown(isTeacher, methods)}
+      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
+      )}
+      {submitButton(methods, pageMode, isTeacher, submission)}
+    </Frame1371>
+  );
+}

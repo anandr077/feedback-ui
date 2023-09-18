@@ -250,7 +250,7 @@ const PortfolioPage = () => {
         type: 'DOCUMENT',
         title: fileName,
         status: '',
-        documentId: document.id,  
+        documentId: document.id,
         courseId: subFolder.courseId,
         classId: subFolder.classId,
         description: 'The description',
@@ -265,12 +265,14 @@ const PortfolioPage = () => {
     });
   }
   function getDocuments(data, mainIndex: number, subFolderIndex: number = 0) {
+    console.log('getDocuments: ', data);
+
     if (
       mainIndex < 0 ||
       mainIndex >= data?.files?.length ||
       data?.files[mainIndex]?.type !== 'FOLDER'
     ) {
-      return []
+      return [];
     }
 
     const mainFolder = data?.files[mainIndex];
@@ -319,7 +321,12 @@ const PortfolioPage = () => {
                 })
             )}
 
-            {documentsContainerFunc(displayedWork, allFiles, showModal, setShowModal)}
+            {documentsContainerFunc(
+              displayedWork,
+              allFiles,
+              showModal,
+              setShowModal
+            )}
           </PortfolioContainer>
         </PortfolioBody>
       </div>
@@ -427,7 +434,7 @@ function allFilesContainer(allFiles) {
         <NoFileDiv>No files</NoFileDiv>
       ) : (
         allFiles.map((document, idx) => {
-          console.log('document', document)
+          console.log('document', document);
           return (
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>

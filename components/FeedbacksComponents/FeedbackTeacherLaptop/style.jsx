@@ -517,5 +517,35 @@ export const SelectFeedbackMethod = styled.div`
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   position: absolute;
   white-space: nowrap;
-  top: 65px
+  top: 40px;
+  right: 0px;
+`;
+
+export const SelectFeedbackMethodType = styled.div`
+  color: var(--Text, #1e252a);
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+export const RequestFeedbackFrame = styled.div`
+  cursor: pointer;
+  display: flex;
+  padding: 8px 12px;
+  align-items: center;
+  gap: 4px;
+  border-radius: 20px;
+  border: 1px solid var(--Light-Mode-Purple, #7200e0);
+  color: #000;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;

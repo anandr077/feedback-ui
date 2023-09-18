@@ -10,7 +10,9 @@ import {
   StatusText,
   TitleWrapper,
   Frame131612,
-  SelectFeedbackMethod
+  SelectFeedbackMethod,
+  SelectFeedbackMethodType,
+  RequestFeedbackFrame,
 } from './style';
 
 function createFocusAreasCount(submission) {
@@ -32,7 +34,10 @@ export function contextBar(
   methods,
   isTeacher,
   pageMode,
-  labelText
+  labelText,
+  FeedbackMethodType = [],
+  requestFeedback = false,
+  handleRequestFeedback
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
   return (
@@ -93,36 +98,82 @@ export function contextBar(
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
-      {submitButton(isShowSelectType,
-  setShowSelectType,methods, pageMode, isTeacher, submission)}
+      {submitButton(
+        isShowSelectType,
+        setShowSelectType,
+        methods,
+        pageMode,
+        isTeacher,
+        submission,
+        FeedbackMethodType,
+        requestFeedback,
+        handleRequestFeedback
+      )}
     </Frame1371>
   );
 }
-const selectReviewType = (isShowSelectType) => {
-  const types = ['From teacher', 'From student', 'Friend'];
-  if (isShowSelectType) {
+const selectReviewType = (
+  FeedbackMethodType,
+  isShowSelectType,
+  handleRequestFeedback
+) => {
+  if (!isShowSelectType) {
     return <></>;
   }
   return (
     <SelectFeedbackMethod>
-      {types.map((type, index) => {
-        return <div>{type}</div>;
+      {FeedbackMethodType.map((type, index) => {
+        return (
+          <SelectFeedbackMethodType
+            onClick={(event) => {
+              event.stopPropagation();
+              handleRequestFeedback(index);
+            }}
+          >
+            {type}
+          </SelectFeedbackMethodType>
+        );
       })}
     </SelectFeedbackMethod>
   );
 };
-const submitButton = (isShowSelectType,
-  setShowSelectType,methods, pageMode, isTeacher, submission) => {
+const submitButton = (
+  isShowSelectType,
+  setShowSelectType,
+  methods,
+  pageMode,
+  isTeacher,
+  submission,
+  FeedbackMethodType,
+  requestFeedback = false,
+  handleRequestFeedback
+) => {
   if (pageMode === 'DRAFT') {
     return (
-      <div>
-        {selectReviewType(isShowSelectType)}
-        <Buttons2
-          button="Submit"
-          onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
-
-          // onClickFn={() => setShowSelectType(!isShowSelectType)}
-        ></Buttons2>
+      <div style={{ position: 'relative' }}>
+        {requestFeedback ? (
+          <>
+            {selectReviewType(
+              FeedbackMethodType,
+              isShowSelectType,
+              handleRequestFeedback
+            )}
+            <RequestFeedbackFrame
+              onClick={(event) => {
+                event.stopPropagation();
+                setShowSelectType(!isShowSelectType);
+              }}
+            >
+              {/* <img src="/img/messages.svg" alt="message" /> */}
+              Request Feedback
+            </RequestFeedbackFrame>
+          </>
+        ) : (
+          <Buttons2
+            button="Submit"
+            onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
+          ></Buttons2>
+        )}
       </div>
     );
   }

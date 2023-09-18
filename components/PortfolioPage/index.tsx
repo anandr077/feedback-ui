@@ -44,6 +44,7 @@ import {
   AllFilesContainer,
   DocumentBtns,
   NoFileDiv,
+  documentStatusStyle
 } from './PortfolioStyle';
 import AddCircleIcon from '../../static/icons/add-circle.png';
 import CloseIcon from '@mui/icons-material/Close';
@@ -60,48 +61,6 @@ const recentWork = [
   },
 ];
 
-//options for the new document modal
-const options = [
-  { key: 1, value: 'Test 1' },
-  { key: 2, value: 'Test 2' },
-  { key: 3, value: 'Test 3' },
-  { key: 4, value: 'Test 4' },
-  { key: 5, value: 'onno' },
-];
-
-const commonStyle = {
-  width: 'fit-content',
-  borderRadius: '12px',
-  padding: '3px 8px',
-  marginBottom: '10px',
-  fontSize: '13px',
-  lineHeight: '16px',
-};
-
-const documentStatusStyle = (status) => {
-  if (status === 'Feedback') {
-    return {
-      ...commonStyle,
-      color: '#604C06',
-      backgroundColor: '#F5F0D1',
-      border: '1px solid #F1DE74',
-    };
-  } else if (status === 'Peer-Review') {
-    return {
-      ...commonStyle,
-      color: '#265412',
-      backgroundColor: '#DCF5D1',
-      border: '1px solid #A9E68E',
-    };
-  } else {
-    return {
-      ...commonStyle,
-      color: 'black',
-      backgroundColor: '#FCFAFF',
-      border: '1px solid #F1E7FF',
-    };
-  }
-};
 
 const initailState = {
   portfolio: null,
@@ -505,7 +464,6 @@ function newDocumentModal(
           />
         </div>
         <PortfolioForm
-          subjects={options}
           setShowModal={setShowModal}
           showModal={showModal}
           handleCreateDocument={handleCreateDocument}

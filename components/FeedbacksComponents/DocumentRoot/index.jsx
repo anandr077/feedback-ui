@@ -754,6 +754,7 @@ export default function DocumentRoot({  }) {
           textContent={popupText}
           buttonText="Acknowledge and Submit"
           confirmButtonAction={submissionFunction()}
+          pageMode={pageMode}
         />
       )}
 

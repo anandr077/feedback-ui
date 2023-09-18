@@ -507,11 +507,44 @@ const ModalBody = styled.div`
 const ModalContainer = styled.div`
   background-color: white;
   width: min(600px, 90%);
-  height: 351px;
   border-radius: 12px;
   padding: 16px 0;
   border-top: 1px solid #f1e7ff;
 `;
+
+const commonStyle = {
+  width: 'fit-content',
+  borderRadius: '12px',
+  padding: '3px 8px',
+  marginBottom: '10px',
+  fontSize: '13px',
+  lineHeight: '16px',
+};
+
+const documentStatusStyle = (status) => {
+  if (status === 'Feedback') {
+    return {
+      ...commonStyle,
+      color: '#604C06',
+      backgroundColor: '#F5F0D1',
+      border: '1px solid #F1DE74',
+    };
+  } else if (status === 'Peer-Review') {
+    return {
+      ...commonStyle,
+      color: '#265412',
+      backgroundColor: '#DCF5D1',
+      border: '1px solid #A9E68E',
+    };
+  } else {
+    return {
+      ...commonStyle,
+      color: 'black',
+      backgroundColor: '#FCFAFF',
+      border: '1px solid #F1E7FF',
+    };
+  }
+};
 
 export {
   PortfolioBody,
@@ -544,5 +577,6 @@ export {
   RecentBtnImg,
   AllFilesContainer,
   DocumentBtns,
-  NoFileDiv
+  NoFileDiv,
+  documentStatusStyle
 };

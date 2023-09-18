@@ -17,14 +17,16 @@ export default function GeneralPopup(props) {
     confirmButtonAction,
     smartAnnotation,
     createSmartAnnotationHandler,
+    pageMode,
   } = props;
+
+  console.log('pageMode ' + pageMode);
 
   const [annotationTitle, setAnnotationTitle] = useState('');
 
   const handleInputChange = (event) => {
     setAnnotationTitle(event.target.value);
   };
-
 
   const content = (
     <>
@@ -38,26 +40,28 @@ export default function GeneralPopup(props) {
           <TextInput onChange={handleInputChange}></TextInput>
         </TextFrame>
       )}
-      <ConfirmSubmit>
-        <PlagiarismText>
-          Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness.
-        </PlagiarismText>
-        <PlagiarismText>
-          By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form.
-        </PlagiarismText>
-      </ConfirmSubmit>
+      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+        <ConfirmSubmit>
+          <PlagiarismText>
+            Plagiarism undermines the learing process, hinders personal
+            growth, and goes against the principles of honesty and fairness.
+          </PlagiarismText>
+          <PlagiarismText>
+            By submitting your work, you are acknowledging that it is entirely
+            your own and has not been plagiarised in any form.
+          </PlagiarismText>
+        </ConfirmSubmit>
+      )}
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>
         {smartAnnotation ? (
           <CancelButton
-            onClick={() =>createSmartAnnotationHandler(annotationTitle)}
+            onClick={() => createSmartAnnotationHandler(annotationTitle)}
           >
             {buttonText}
           </CancelButton>
         ) : (
-          <CancelButton 
-              onClick={() => confirmButtonAction()}
-          >
+          <CancelButton onClick={() => confirmButtonAction()}>
             {buttonText}
           </CancelButton>
         )}
@@ -252,12 +256,12 @@ const Line141 = styled.img`
 const ConfirmSubmit = styled.div`
   margin: 20px auto 0;
   width: 90%;
-`
+`;
 
 const PlagiarismText = styled.p`
   margin-bottom: 15px;
-  color: #3A3A3A;
+  color: #3a3a3a;
   font-size: 14px;
   line-height: 20px;
   font-family: IBM Plex Sans;
-`
+`;

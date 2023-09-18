@@ -41,6 +41,7 @@ import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData
 } from './style';
+import { portfolioHeaderProps } from '../../../utils/headerProps';
 
 export default function DocumentRoot({  }) {
   const quillRefs = useRef([]);
@@ -773,7 +774,8 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
-              ...feedbacksFeedbackTeacherMobileData,
+              // ...feedbacksFeedbackTeacherMobileData,
+              headerProps: portfolioHeaderProps,
             }}
           />
         }
@@ -794,7 +796,8 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
-              ...feedbacksFeedbackTeacherLaptopData,
+              // ...feedbacksFeedbackTeacherLaptopData,
+              headerProps: portfolioHeaderProps,
             }}
           />
         }
@@ -816,7 +819,8 @@ export default function DocumentRoot({  }) {
                 comments,
                 studentName,
                 submission,
-                ...feedbacksFeedbackTeacherLaptopData,
+                // ...feedbacksFeedbackTeacherLaptopData,
+                headerProps: portfolioHeaderProps,
               }}
             />
           </>
@@ -838,7 +842,8 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
-              ...feedbacksFeedbackTeacherLaptopData,
+              headerProps: portfolioHeaderProps,
+
             }}
           />
         }

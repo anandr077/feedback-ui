@@ -9,7 +9,8 @@ import {
   Frame1371,
   StatusText,
   TitleWrapper,
-  Frame131612
+  Frame131612,
+  SelectFeedbackMethod
 } from './style';
 
 function createFocusAreasCount(submission) {
@@ -25,11 +26,13 @@ const tasksListsDropDown = (isTeacher, methods) => {
   return <></>;
 };
 export function contextBar(
+  isShowSelectType,
+  setShowSelectType,
   submission,
   methods,
   isTeacher,
   pageMode,
-  labelText,
+  labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
   return (
@@ -90,17 +93,37 @@ export function contextBar(
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
-      {submitButton(methods, pageMode, isTeacher, submission)}
+      {submitButton(isShowSelectType,
+  setShowSelectType,methods, pageMode, isTeacher, submission)}
     </Frame1371>
   );
 }
-const submitButton = (methods, pageMode, isTeacher, submission) => {
+const selectReviewType = (isShowSelectType) => {
+  const types = ['From teacher', 'From student', 'Friend'];
+  if (isShowSelectType) {
+    return <></>;
+  }
+  return (
+    <SelectFeedbackMethod>
+      {types.map((type, index) => {
+        return <div>{type}</div>;
+      })}
+    </SelectFeedbackMethod>
+  );
+};
+const submitButton = (isShowSelectType,
+  setShowSelectType,methods, pageMode, isTeacher, submission) => {
   if (pageMode === 'DRAFT') {
     return (
-      <Buttons2
-        button="Submit"
-        onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
-      ></Buttons2>
+      <div>
+        {selectReviewType(isShowSelectType)}
+        <Buttons2
+          button="Submit"
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
+
+          // onClickFn={() => setShowSelectType(!isShowSelectType)}
+        ></Buttons2>
+      </div>
     );
   }
   if (pageMode === 'REVIEW') {
@@ -136,9 +159,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
         <>
           <Buttons2
             button="Submit"
-            onClickFn={() =>
-              methods.showSubmitPopuphandler('SubmitForReview')
-            }
+            onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
           ></Buttons2>
         </>
       );
@@ -154,3 +175,48 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
   }
   return <></>;
 };
+
+export function contextBarPortfolioDocument(
+  submission,
+  methods,
+  isTeacher,
+  pageMode,
+  labelText
+) {
+  return (
+    <Frame1371 id="assignmentTitle">
+      <TitleWrapper>
+        <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+        <StatusText>
+          <div>{methods.submissionStatusLabel()}</div>
+        </StatusText>
+      </TitleWrapper>
+      {!isTeacher &&
+        pageMode === 'CLOSED' &&
+        submission.status === 'CLOSED' && (
+          <div id="deleteButton">
+            <Buttons2
+              button="Download PDF"
+              download={true}
+              onClickFn={methods.downloadPDF}
+            />
+          </div>
+        )}
+      {!isTeacher && pageMode === 'CLOSED' && submission.status != 'CLOSED' && (
+        <AwaitFeedbackContainer id="deleteButton">
+          <Buttons2
+            button="Download PDF"
+            download={true}
+            onClickFn={methods.downloadPDF}
+          />
+        </AwaitFeedbackContainer>
+      )}
+
+      {tasksListsDropDown(isTeacher, methods)}
+      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
+      )}
+      {submitButton(methods, pageMode, isTeacher, submission)}
+    </Frame1371>
+  );
+}

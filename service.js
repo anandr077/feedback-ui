@@ -301,6 +301,7 @@ export const getSmartAnnotations = async () =>
 export const getMarkingMethodology = async (id) =>
   await getApi(baseUrl + '/teachers/markingCriterias/' + id);
 
+
 export const getAllMarkingCriteria = async () =>
   await getApi(baseUrl + '/teachers/markingCriteria');
 
@@ -476,3 +477,20 @@ export const getDefaultCriteria = () => {
     criterias: [criteria],
   };
 };
+export const getPortfolio = async () =>
+  await getApi(baseUrl + '/students/portfolio');
+export const updatePortfolio = async (portfolio) =>
+  await putApi(
+    baseUrl + '/students/portfolio',
+    portfolio
+  );
+
+export const addDocumentToPortfolio = async (classId, courseId, title) =>
+  await postApi(
+    baseUrl + '/students/portfolio/documents',
+    {
+      classId,
+      courseId,
+      title
+    }
+);

@@ -4,7 +4,6 @@ import {
   IbmplexsansBoldShark64px,
   IbmplexsansMediumElectricViolet20px,
   IbmplexsansMediumWhite16px,
-  IbmplexsansNormalShark20px,
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
   IbmplexsansSemiBoldShark24px,
@@ -125,9 +124,6 @@ function CreateAAssignmentLaptop(props) {
                 <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Classes</Classes>
-                    {/* <Link to="/tooltip1">
-                      <Help src={help1} alt="help" />
-                    </Link> */}
                   </Frame12811>
                   <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
@@ -246,24 +242,6 @@ const Frame1376 = styled.div`
   gap: 30px;
   padding: 0px 60px;
   position: relative;
-  align-self: stretch;
-`;
-const Frame1376Sticky = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
-  padding: 0px 60px;
-  ${'' /* // position: sticky; */}
-  top:0;
-  // z-index: 1;
-  background-color: var(--white-pointer);  border-radius: 16px;
-  var(--light-mode-purple)
-  overflow-y: scroll;
-  box-shadow: 0px 4px 22px #2f1a720a;
-  &::-webkit-scrollbar {
-    display: none;
-  }
   align-self: stretch;
 `;
 
@@ -429,13 +407,6 @@ const Classes = styled.div`
   line-height: normal;
 `;
 
-const Help = styled.img`
-  position: relative;
-  min-width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-
 const Frame1298 = styled.div`
   display: flex;
   align-items: space-between;
@@ -489,48 +460,4 @@ const Button = styled.div`
   background-color: var(--light-mode-purple);
 `;
 
-const Rectangle43 = styled.input`
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  top: -1px;
-  left: -1px;
-  background-color: var(--white);
-
-  border: 1px solid;
-  border-color: var(--light-mode-purple);
-  font: inherit;
-  color: currentColor;
-  width: 1.25em;
-  height: 1.25em;
-  border: 1em solid currentColor;
-  border-radius: 1em;
-  transform: translateY(-0.075em);
-  &:checked {
-    border-color: red;
-    background-color: red;
-  }
-`;
-
-const Checkbox = styled.article`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  flex: 1;
-`;
-const Checkbox1 = styled.div`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const CheckBoxText = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
 export default CreateAAssignmentLaptop;

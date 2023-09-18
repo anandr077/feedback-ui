@@ -12,30 +12,12 @@ import GoBack from '../GoBack';
 import StatusBubbles from '../StatusBubbles';
 import {
   IbmplexsansBoldShark64px,
-  IbmplexsansNormalChicago13px,
   IbmplexsansSemiBoldShark28px,
 } from '../styledMixins';
 import './TaskDetailLaptop.css';
 
 function TaskDetailLaptop(props) {
-  const {
-    assignment,
-    methods,
-    clazzName,
-    frame1343,
-    title,
-    physicsThermodyna,
-    line11,
-    x2021JeddleAllRightsReserved,
-    navElement1Props,
-    navElement2Props,
-    navElement3Props,
-    breadcrumb21Props,
-    breadcrumb22Props,
-    goBackProps,
-    frame120941Props,
-    frame120942Props,
-  } = props;
+  const { assignment, methods, clazzName, line11, goBackProps } = props;
   return (
     <div className="task-detail-laptop screen">
       <Frame1391>
@@ -77,40 +59,6 @@ const Frame1391 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1344 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1343 = styled.img`
-  position: relative;
-  min-width: 241.75px;
-  height: 43.49998474121094px;
-  margin-left: -1.75px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame51 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 28px;
-  position: relative;
 `;
 
 const Frame1390 = styled.div`
@@ -218,25 +166,6 @@ const Line11 = styled.img`
   height: 1.0001220703125px;
   margin-top: -1px;
   object-fit: cover;
-`;
-
-const Frame61 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2021JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default TaskDetailLaptop;

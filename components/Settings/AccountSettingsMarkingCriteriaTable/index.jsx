@@ -3,14 +3,12 @@ import Buttons from '../Buttons';
 import styled from 'styled-components';
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansNormalChicago13px,
   IbmplexsansNormalPersianIndigo13px,
   IbmplexsansNormalElectricViolet14px,
 } from '../../../styledMixins';
 import './AccountSettingsMarkingCriteriaTable.css';
 import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
-import SettingsNav from '../SettingsNav';
 
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
@@ -165,31 +163,6 @@ function AccountSettingsMarkingCriteriaTable(props) {
   );
 }
 
-const ShortcutInputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 11px 18px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
-`;
-
-const ShortcutInput = styled.input`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  border-color: transparent;
-  box-shadow: 0px;
-  outline: none;
-  transition: 0.15s;
-`;
-
 const MarkingCriteriaList = styled.div`
   display: flex;
   flex-direction: column;
@@ -231,40 +204,6 @@ const Frame1379 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.img`
-  position: relative;
-  flex: 1;
-  min-width: 223.75px;
-  height: 37.4892578125px;
-  margin-left: -1.75px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: relative;
-`;
-
-const Notifications = styled.img`
-  position: relative;
-  min-width: 48px;
-  height: 48px;
-  cursor: pointer;
 `;
 
 const Frame1376 = styled.div`
@@ -398,55 +337,6 @@ const Line14 = styled.img`
   min-width: 302px;
   height: 1px;
   object-fit: cover;
-`;
-
-const Frame1420 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2023JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const MainWebsite = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame6 = styled.div`
-  ${IbmplexsansNormalPersianIndigo13px}
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Terms = styled.div`
-  position: relative;
-  align-self: stretch;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default AccountSettingsMarkingCriteriaTable;

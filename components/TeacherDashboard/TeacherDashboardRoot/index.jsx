@@ -2,7 +2,6 @@ import React from 'react';
 import ReactiveRender from '../../ReactiveRender';
 import {
   getAssignments,
-  getTasks,
   getClassesWithStudents,
   getNotifications,
 } from '../../../service';

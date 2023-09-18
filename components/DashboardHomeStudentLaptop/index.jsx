@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
-  IbmplexsansBoldWhite72px,
   IbmplexsansMediumRiverBed24px,
   DashboardIbmplexsansNormalWhite20px,
   DashboardIbmplexsansBoldWhite72px,
@@ -21,11 +20,9 @@ function DashboardHomeStudentLaptop(props) {
     overdueTasks,
     modelResponses,
     setPublishActionCompleted,
-    keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
     group1205Props,
-    frame1340Props,
     headerProps,
   } = props;
   const userName = getUserName();
@@ -88,15 +85,12 @@ function DashboardHomeStudentLaptop(props) {
                 allTasks={modelResponses}
                 exemplar={true}
                 setPublishActionCompleted={setPublishActionCompleted}
-                // line17={frame1340Props.line17}
-                // group1205Props={frame1340Props.group1205Props}
               />
             </InsideFrame>
           </Frame1339>
         </Frame1346>
       </Frame1347>
       <Footer />
-      {/* <Frame611 frame662Props={frame611Props.frame662Props} /> */}
     </div>
   );
 }
@@ -155,39 +149,6 @@ const Frame1345 = styled.div`
   padding: 0px 30px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1344 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1343 = styled.img`
-  position: relative;
-  min-width: 240px;
-  height: 43.5px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame51 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 28px;
-  position: relative;
 `;
 
 const Frame1342 = styled.div`
@@ -320,23 +281,6 @@ const Frame1307 = styled.div`
   gap: 120px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame19 = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 493px;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 0px 20px;
-  position: relative;
-  align-self: stretch;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
 `;
 
 export default DashboardHomeStudentLaptop;

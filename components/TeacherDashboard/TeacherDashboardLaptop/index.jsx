@@ -10,16 +10,12 @@ import Frame12842 from '../Frame12842';
 import Frame13124 from '../Frame13124';
 import Frame14072 from '../Frame14072';
 import Group1205 from '../Group1205';
-import {
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalChicago13px,
-} from '../styledMixins';
+import { IbmplexsansMediumRiverBed24px } from '../styledMixins';
 import {
   DashboardIbmplexsansNormalWhite20px,
   DashboardIbmplexsansBoldWhite72px,
 } from '../../../styledMixins';
 import './TeacherDashboardLaptop.css';
-import AnnotationAnalytics from '../../Analytics';
 
 function TeacherDashboardLaptop(props) {
   const {
@@ -30,15 +26,12 @@ function TeacherDashboardLaptop(props) {
     feedbacks,
     keepOrganizedWitho2,
     maskGroup,
-    line171,
     line172,
     recentActivity,
     line173,
-    x2021JeddleAllRightsReserved,
     group1205Props,
     frame131241Props,
     frame14072Props,
-    frame131341Props,
   } = props;
   const userName = getUserName();
   return (
@@ -90,7 +83,6 @@ function TeacherDashboardLaptop(props) {
                 <Frame12842 title={'CLOSED'} count={feedbacks.length} />
               </Frame1307>
             </Frame1340>
-            {/* <AnnotationAnalytics/> */}
             <Frame13411>
               <Frame1337>
                 <Classes>{recentActivity}</Classes>
@@ -264,15 +256,6 @@ const Classes = styled.div`
   line-height: normal;
 `;
 
-const X2021JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
@@ -282,7 +265,7 @@ const Line17 = styled.img`
 `;
 
 const Line18 = styled.img`
-position: relative;
+  position: relative;
   align-self: stretch;
   min-width: 100%;
   max-width: 100%;
@@ -305,14 +288,6 @@ const Frame1336 = styled.div`
     width: 0;
     display: none;
   }
-`;
-
-const Line31 = styled.img`
-  position: absolute;
-  top: 91px;
-  left: 699px;
-  width: 4px;
-  height: 76px;
 `;
 
 const Frame1416 = styled.div`
@@ -376,24 +351,6 @@ const Frame1408 = styled.div`
     width: 0;
     display: none;
   }
-`;
-
-const Line311 = styled.img`
-  position: absolute;
-  top: 2px;
-  left: 641px;
-  width: 1px;
-  height: 72px;
-`;
-
-const Frame61 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
 `;
 
 export default TeacherDashboardLaptop;

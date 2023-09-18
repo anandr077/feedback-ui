@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  IbmplexsansBoldWhite36px,
-  IbmplexsansNormalWhite14px,
-} from '../../styledMixins';
+import { IbmplexsansBoldWhite36px } from '../../styledMixins';
 import FooterSmall from '../FooterSmall';
 import DashboardFrame1208 from '../DashboardFrame1208';
 import TaskCardContainer from '../TaskCardContainer';
@@ -19,9 +16,7 @@ function DashboardHomeStudentMobile(props) {
     overdueTasks,
     modelResponses,
     setPublishActionCompleted,
-    keepOrganizedWitho1,
     keepOrganizedWitho2,
-    line172,
     frame12082Props,
   } = props;
   const userName = getUserName();
@@ -71,11 +66,6 @@ function DashboardHomeStudentMobile(props) {
   );
 }
 
-const Crown = styled.img`
-  position: relative;
-  min-width: 26px;
-  height: 26px;
-`;
 const Frame1352 = styled.div`
   display: flex;
   flex-direction: column;
@@ -83,40 +73,6 @@ const Frame1352 = styled.div`
   gap: 12px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.img`
-  position: relative;
-  flex: 1;
-  min-width: 223.75px;
-  height: 37.4892578125px;
-  margin-left: -1.75px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: relative;
-`;
-
-const Frame51 = styled.img`
-  position: relative;
-  min-width: 48px;
-  height: 48px;
-  cursor: pointer;
 `;
 
 const Frame1203 = styled.div`
@@ -165,14 +121,6 @@ const KeepOrganizedWitho1 = styled.p`
   line-height: normal;
 `;
 
-const MaskGroup = styled.img`
-  position: absolute;
-  top: calc(50% - 103px);
-  left: calc(50% - 175px);
-  width: 350px;
-  height: 206px;
-`;
-
 const Frame1351 = styled.div`
   display: flex;
   flex-direction: column;
@@ -181,19 +129,6 @@ const Frame1351 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1206 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 16px 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  box-shadow: 0px 4px 16px #7200e01a;
 `;
 
 const Line17 = styled.img`

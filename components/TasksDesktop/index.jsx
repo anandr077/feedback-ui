@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansSemiBoldRiverBed24px,
-} from '../../styledMixins';
+import { IbmplexsansBoldShark64px } from '../../styledMixins';
 import Footer from '../Footer';
 import Header from '../Header';
 import TaskCardContainer from '../TaskCardContainer';
@@ -34,7 +31,6 @@ function TasksDesktop(props) {
           ></CheckboxGroup>
         </TitleContainer>
         <Frame1360>
-          {/* <TaskFrame1306 frame1304Props={frame1306Props.frame1304Props} /> */}
           <Frame1359>
             <Frame1354>
               <TaskFrame1353
@@ -133,23 +129,6 @@ const Frame1354 = styled.div`
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
-const Frame19 = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 609px;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  overflow: hidden;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
-`;
-
 const Frame1358 = styled.div`
   display: flex;
   flex-direction: column;
@@ -161,32 +140,6 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
-`;
-
-const Frame1357 = styled.div`
-  ${IbmplexsansSemiBoldRiverBed24px}
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Overdue = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Number = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default TasksDesktop;

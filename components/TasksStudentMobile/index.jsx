@@ -200,15 +200,4 @@ const Number = styled.div`
   line-height: normal;
 `;
 
-const Frame6 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
 export default TasksStudentMobile;

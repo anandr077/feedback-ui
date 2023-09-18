@@ -29,6 +29,12 @@ const FeedbackMethodType = [
   'From a friend',
 ];
 
+const FeedbackMethodTypeEnum = {
+  FROM_SUBJECT_TEACHER: 0,
+  FROM_PEER: 1,
+  FROM_A_FRIEND: 2,
+};
+
 const menuItemsStudents = [
   {
     id: 1,
@@ -161,7 +167,9 @@ const handleFeedbackMethodTypeDialog = (
 ) => {
   if (feedbackMethodType === -1) {
     return <></>;
-  } else if (feedbackMethodType === 0) {
+  } else if (
+    feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER
+  ) {
     return (
       <FeedbackTypeDialog
         menuItems={menuItemsTeachers}
@@ -170,7 +178,7 @@ const handleFeedbackMethodTypeDialog = (
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}
       ></FeedbackTypeDialog>
     );
-  } else if (feedbackMethodType === 2) {
+  } else if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_A_FRIEND) {
     return (
       <FeedbackTypeDialog
         menuItems={menuItemsStudents}

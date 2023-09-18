@@ -22,6 +22,7 @@ import {
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
+import { getStudentsForClass } from '../../../service';
 
 const FeedbackMethodType = [
   'From subject teacher',
@@ -34,25 +35,6 @@ const FeedbackMethodTypeEnum = {
   FROM_PEER: 1,
   FROM_A_FRIEND: 2,
 };
-
-const menuItemsStudents = [
-  {
-    id: 1,
-    title: 'student1',
-  },
-  {
-    id: 2,
-    title: 'student2',
-  },
-  {
-    id: 3,
-    title: 'student3',
-  },
-  {
-    id: 4,
-    title: 'student4',
-  },
-];
 
 const menuItemsTeachers = [
   {
@@ -93,10 +75,10 @@ function Document(props) {
     share,
     sharewithclassdialog,
   } = props;
-
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+  const [students, setStudents] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -111,6 +93,19 @@ function Document(props) {
       window.removeEventListener('click', handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    if (submission.classId) {
+      Promise.all([getStudentsForClass(submission.classId)]).then(
+        ([studentsResponse]) => {
+          const updatedStudentsResponse = studentsResponse.map((item) => {
+            return { ...item, title: item.id };
+          });
+          setStudents(updatedStudentsResponse);
+        }
+      );
+    }
+  }, [submission.classId]);
   const handleRequestFeedback = (index) => {
     setFeedbackMethodTypeDialog(index);
   };
@@ -154,7 +149,8 @@ function Document(props) {
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
-        handleSelectedRequestFeedback
+        handleSelectedRequestFeedback,
+        students
       )}
     </>
   );
@@ -163,7 +159,8 @@ function Document(props) {
 const handleFeedbackMethodTypeDialog = (
   feedbackMethodType,
   setFeedbackMethodTypeDialog,
-  handleSelectedRequestFeedback
+  handleSelectedRequestFeedback,
+  students
 ) => {
   if (feedbackMethodType === -1) {
     return <></>;
@@ -181,7 +178,7 @@ const handleFeedbackMethodTypeDialog = (
   } else if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_A_FRIEND) {
     return (
       <FeedbackTypeDialog
-        menuItems={menuItemsStudents}
+        menuItems={students}
         setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
         title="student"
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}

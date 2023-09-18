@@ -1138,7 +1138,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           textContent={popupText}
           buttonText="Acknowledge and Submit"
           confirmButtonAction={submissionFunction()}
-          pageMode={pageMode}
+          warningMessage={pageMode}
         />
       )}
 

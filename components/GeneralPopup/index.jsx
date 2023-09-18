@@ -17,10 +17,10 @@ export default function GeneralPopup(props) {
     confirmButtonAction,
     smartAnnotation,
     createSmartAnnotationHandler,
-    pageMode,
+    warningMessage,
   } = props;
 
-  console.log('pageMode ' + pageMode);
+  console.log('pageMode ' + warningMessage);
 
   const [annotationTitle, setAnnotationTitle] = useState('');
 
@@ -40,7 +40,7 @@ export default function GeneralPopup(props) {
           <TextInput onChange={handleInputChange}></TextInput>
         </TextFrame>
       )}
-      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+      {(warningMessage === 'DRAFT' || warningMessage === 'REVISE') && (
         <ConfirmSubmit>
           <PlagiarismText>
             Plagiarism undermines the learing process, hinders personal

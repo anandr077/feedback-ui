@@ -80,3 +80,24 @@ export const getComments = async (submissionId) => {
     return [];
   }
 };
+
+
+export function getPortfolioPageMode(user, submission) {
+  if (user === submission.studentId) {
+    return getSelfPortfolioPageMode(submission);
+  }
+  return getReviewerPortfolioPageMode(user, submission);
+}
+
+export function getSelfPortfolioPageMode(submission) {
+  if (submission.status === 'DRAFT') 
+    return 'DRAFT';
+  return 'REVISE';
+}
+
+
+export function getReviewerPortfolioPageMode(user, submission) {
+  if (submission.status === 'SUBMITTED') 
+    return 'REVIEW';
+  return 'CLOSED';
+}

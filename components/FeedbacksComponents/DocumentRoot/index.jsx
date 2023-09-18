@@ -36,7 +36,7 @@ import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
-import { getComments, getPageMode } from './functions';
+import { getComments, getPortfolioPageMode } from './functions';
 import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData
@@ -86,7 +86,7 @@ export default function DocumentRoot({  }) {
     return <Loader />;
   }
 
-  const pageMode = getPageMode(false, getUserId(), submission);
+  const pageMode = getPortfolioPageMode(getUserId(), submission);
 
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
@@ -760,13 +760,15 @@ export default function DocumentRoot({  }) {
 
       <ReactiveRender
         mobile={
-          <FeedbackTeacherMobile
+          <Document
             {...{
               newCommentSerialNumber,
+              showLoader,
               submissionStatusLabel,
               labelText,
               quillRefs,
               pageMode,
+              shortcuts,
               smartAnnotations,
               newCommentFrameRef,
               methods,
@@ -774,7 +776,7 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
-              // ...feedbacksFeedbackTeacherMobileData,
+              // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: portfolioHeaderProps,
             }}
           />

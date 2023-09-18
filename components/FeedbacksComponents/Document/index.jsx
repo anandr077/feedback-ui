@@ -230,8 +230,8 @@ function breadcrumbs(submission) {
   return (
     <Frame1387>
       <Frame1315>
-        <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
-        <Breadcrumb2 assignments={submission?.assignment?.title} />
+        <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+        <Breadcrumb2 assignments={submission.assignment.title} />
       </Frame1315>
     </Frame1387>
   );

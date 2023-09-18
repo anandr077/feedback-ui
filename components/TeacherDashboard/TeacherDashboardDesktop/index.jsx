@@ -1,17 +1,11 @@
 import React from 'react';
 import Group1205 from '../Group1205';
 import Frame13124 from '../Frame13124';
-import Frame14072 from '../Frame14072';
 import Frame12842 from '../Frame12842';
-import Frame12832 from '../Frame12832';
-import Frame12822 from '../Frame12822';
-import Frame1313 from '../Frame1313';
-import Frame6 from '../Frame6';
 import styled from 'styled-components';
 import {
   IbmplexsansMediumRiverBed24px,
   IbmplexsansBoldWhite72px,
-  IbmplexsansNormalChicago13px,
   IbmplexsansNormalWhite20px,
 } from '../styledMixins';
 import './TeacherDashboardDesktop.css';
@@ -29,28 +23,14 @@ function TeacherDashboardDesktop(props) {
     drafts,
     awaitingSubmissions,
     feedbacks,
-    keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
     line171,
     frame131241Props,
-    line311,
-    tasks,
     line172,
     recentActivity,
     line173,
-    line312,
-    x2021JeddleAllRightsReserved,
-    teacherDashboardHeaderProps,
     group1205Props,
-    frame13121Props,
-    frame13122Props,
-    frame13123Props,
-    frame14072Props,
-    frame13131Props,
-    frame13132Props,
-    frame13133Props,
-    frame13134Props,
   } = props;
   const userName = getUserName();
   return (
@@ -279,15 +259,6 @@ const Classes = styled.div`
   line-height: normal;
 `;
 
-const X2021JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
@@ -311,14 +282,6 @@ const Frame1336 = styled.div`
     width: 0;
     display: none;
   }
-`;
-
-const Line31 = styled.img`
-  position: absolute;
-  top: 2px;
-  left: 701px;
-  width: 1px;
-  height: 72px;
 `;
 
 const Frame1416 = styled.div`
@@ -382,16 +345,6 @@ const Frame1408 = styled.div`
     width: 0;
     display: none;
   }
-`;
-
-const Frame61 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
 `;
 
 export default TeacherDashboardDesktop;

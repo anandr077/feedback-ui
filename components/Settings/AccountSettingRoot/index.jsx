@@ -15,6 +15,7 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
+  getPortfolio
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -22,9 +23,6 @@ import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
-import { set } from 'lodash';
-import GeneralPopup from '../../GeneralPopup';
-import { RssFeed } from '@mui/icons-material';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
 
 const headerProps = completedHeaderProps(true);
@@ -159,16 +157,13 @@ export default function AccountSettingsRoot(props) {
   };
 
   const deleteAnnotationHandler = (smartAnnotationId) => {
-    console.log('Deleting ', smartAnnotationId);
     deleteSmartAnnotation(smartAnnotationId)
       .then((result) => {
-        console.log('smartAnnotations before delete', smartAnnotations);
         setSmartAnnotations((s) =>
           s.filter(
             (smartAnnotation) => smartAnnotation.id !== smartAnnotationId
           )
         );
-        console.log('smartAnnotations after delete', smartAnnotations);
         showSnackbar('Smart annotation deleted');
       })
       .catch((error) => {
@@ -193,7 +188,10 @@ export default function AccountSettingsRoot(props) {
       .then((res) => {
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
-        showSnackbar('Copied marking template', markingCriteriaUrl(res.id.value, res.type.value));        
+        showSnackbar(
+          'Copied marking template',
+          markingCriteriaUrl(res.id.value, res.type.value)
+        );
       })
       .catch((err) => {
         showSnackbar('Error cloning marking template');

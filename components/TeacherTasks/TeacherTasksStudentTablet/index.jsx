@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Footer from '../../Footer';
 import HeaderSmall from '../../HeaderSmall';
 import Tabs from '../../Tabs';
 import TaskCardContainer from '../../TaskCardContainer';
-import TaskFrame1304 from '../../TaskFrame1304';
 
 import {
   IbmplexsansBoldShark36px,
@@ -59,7 +57,6 @@ function TeacherTasksStudentTablet(props) {
           <ButtonContainer>
             <Buttons link="#tasks/new" />{' '}
           </ButtonContainer>
-          {/* <TaskFrame1304 /> */}
         </Frame1307>
         {tasksFrame}
       </Frame1365>
@@ -146,16 +143,6 @@ const Frame1307 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
-`;
-
-const KeepOrganizedWitho = styled.h1`
-  ${IbmplexsansBoldShark36px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.72px;
-  line-height: 43.2px;
-  white-space: nowrap;
 `;
 
 const Frame1364 = styled.div`

@@ -16,6 +16,7 @@ import {
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
 import Loader from '../../Loader';
+import { isTabletView, isMobileView } from '../../ReactiveRender';
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
 const Strengths_And_Traget_Data = {
@@ -34,20 +35,11 @@ export default function CreateNewStrengthAndTargets() {
   });
 
   const [isLoading, setIsLoading] = React.useState(true);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [smallScreenView, setSmallScreenView] = useState(
+    isTabletView() || isMobileView()
+  );
 
   useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-  React.useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
       ([result]) => {
         setMarkingMethodology(result[0]);
@@ -58,10 +50,6 @@ export default function CreateNewStrengthAndTargets() {
   if (isLoading) {
     return <Loader />;
   }
-
-
-
-
 
   const headerProps = completedHeaderProps(true);
 
@@ -78,10 +66,7 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const handleAddCriteria = () => {
-    console.log('Adding criteria');
     setMarkingMethodology((oldMarkingTemplate) => {
-      console.log('oldMarkingTemplate methodology: ', oldMarkingTemplate);
-
       const newMarkingTemplate = {
         ...oldMarkingTemplate,
         strengthsTargetsCriterias: [
@@ -90,10 +75,9 @@ export default function CreateNewStrengthAndTargets() {
             title: '',
             strengths: [''],
             targets: [''],
-          }
+          },
         ],
       };
-      console.log('newMarkingTemplate: ', newMarkingTemplate);
       return newMarkingTemplate;
     });
   };
@@ -150,7 +134,6 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const createStrengthsAndTargets = (criteria, index) => {
-    console.log("createStrengthsAndTargets", criteria, index)
     return (
       <div className="strength-and-target-container">
         <div className="strength">
@@ -227,47 +210,48 @@ export default function CreateNewStrengthAndTargets() {
     );
   };
   const createCriteria = (criteria, index) => {
-    console.log("createCriteria", criteria, index)
-    return <>
-      <div className="criteria-container">
-        <div className="remove-and-criteria">
-          <div className="criteria">Evaluation Area</div>
-          <div className="remove" onClick={() => removeCriteria(index)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="17"
-              viewBox="0 0 16 17"
-              fill="none"
-            >
-              <path
-                d="M2.5918 13.8327L13.2585 3.16602M13.2585 13.8327L2.5918 3.16602"
-                stroke="#8A1C1C"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>{' '}
-            Remove
+    return (
+      <>
+        <div className="criteria-container">
+          <div className="remove-and-criteria">
+            <div className="criteria">Evaluation Area</div>
+            <div className="remove" onClick={() => removeCriteria(index)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="17"
+                viewBox="0 0 16 17"
+                fill="none"
+              >
+                <path
+                  d="M2.5918 13.8327L13.2585 3.16602M13.2585 13.8327L2.5918 3.16602"
+                  stroke="#8A1C1C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>{' '}
+              Remove
+            </div>
           </div>
+          <input
+            type="text"
+            className="title-input"
+            placeholder="Enter an evaluation area for this set of strengths and weaknesses"
+            value={criteria?.title || ''}
+            onChange={(e) => handleCriteriaChange(e, index)}
+            style={{ marginTop: '20px' }}
+          />
+          {createStrengthsAndTargets(criteria, index)}
         </div>
-        <input
-          type="text"
-          className="title-input"
-          placeholder="Enter an evaluation area for this set of strengths and weaknesses"
-          value={criteria?.title || ''}
-          onChange={(e) => handleCriteriaChange(e, index)}
-          style={{ marginTop: '20px' }}
-        />
-        {createStrengthsAndTargets(criteria, index)}
-      </div>
-      </>;
+      </>
+    );
   };
   const header = () => {
-    return screenWidth > 1439 ? (
-      <Header headerProps={headerProps} />
-    ) : (
+    return smallScreenView ? (
       <HeaderSmall headerProps={headerProps} />
+    ) : (
+      <Header headerProps={headerProps} />
     );
   };
   const createBreadcrumb = (markingMethodologyId) => {
@@ -330,19 +314,24 @@ export default function CreateNewStrengthAndTargets() {
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
-        showSnackbar('Strengths and Targets Created', '/#/markingTemplates/strengths-and-targets/'+response.id.value);
+        showSnackbar(
+          'Strengths and Targets Created',
+          '/#/markingTemplates/strengths-and-targets/' + response.id.value
+        );
         window.location.href = '/#/settings';
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
-          showSnackbar('Strengths and Targets Updated', '/#/markingTemplates/strengths-and-targets/'+response.id.value);
+          showSnackbar(
+            'Strengths and Targets Updated',
+            '/#/markingTemplates/strengths-and-targets/' + response.id.value
+          );
           window.location.href = '/#/settings';
         }
       );
     }
   };
-
 
   return (
     <div className="parent-container">

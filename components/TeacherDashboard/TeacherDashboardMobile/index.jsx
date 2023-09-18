@@ -4,7 +4,6 @@ import { getUserName } from '../../../service';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 import HeaderSmall from '../../HeaderSmall';
 import Frame12842 from '../Frame12842';
-import Frame13132 from '../Frame13132';
 import Group1205 from '../Group1205';
 
 import {
@@ -12,11 +11,7 @@ import {
   IbmplexsansBoldWhite36px,
 } from '../../../styledMixins';
 
-import {
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansNormalPersianIndigo13px,
-} from '../styledMixins';
+import { IbmplexsansMediumRiverBed24px } from '../styledMixins';
 import './TeacherDashboardMobile.css';
 import FooterSmall from '../../FooterSmall';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
@@ -191,18 +186,7 @@ const Frame1312 = styled.div`
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
 `;
-const Frame1205 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: flex-start;
-  gap: 8px;
-  position: relative;
-`;
-const IconsaxLinearAdd = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
+
 const Frame13121 = styled.div`
   display: flex;
   flex-direction: column;
@@ -246,41 +230,6 @@ const Frame1418 = styled.div`
   gap: 12px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: relative;
-`;
-
-const Frame51 = styled.img`
-  position: relative;
-  min-width: 48px;
-  height: 48px;
-  cursor: pointer;
 `;
 
 const Frame1203 = styled.div`
@@ -329,14 +278,6 @@ const KeepOrganizedWitho1 = styled.p`
   line-height: normal;
 `;
 
-const MaskGroup = styled.img`
-  position: absolute;
-  top: calc(50% - 103px);
-  left: calc(50% - 175px);
-  width: 350px;
-  height: 206px;
-`;
-
 const Frame1417 = styled.div`
   ${IbmplexsansMediumRiverBed24px}
   display: flex;
@@ -351,7 +292,7 @@ const Frame1417 = styled.div`
 const Frame1339 = styled.div`
   display: flex;
   flex-direction: column;
-  height: 685px;
+  height: fit-content;
   align-items: flex-end;
   gap: 20px;
   padding: 20px 0px;
@@ -383,7 +324,6 @@ const Classes = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-
   height: 1px;
   object-fit: cover;
 `;
@@ -406,58 +346,7 @@ const Frame1336 = styled.div`
   }
 `;
 
-const Line31 = styled.img`
-  position: absolute;
-  top: 2px;
-  left: 901px;
-  width: 1px;
-  height: 72px;
-`;
-
-const Frame1340 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 20px;
-  padding: 20px 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  box-shadow: 0px 4px 16px #7200e01a;
-`;
-
-const Frame13371 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  padding: 0px 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Tasks = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
 const Frame1307 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame6 = styled.div`
-  ${IbmplexsansNormalPersianIndigo13px}
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -497,44 +386,6 @@ const Frame1408 = styled.div`
     width: 0;
     display: none;
   }
-`;
-
-const Frame1420 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2023JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const MainWebsite = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Terms = styled.div`
-  position: relative;
-  align-self: stretch;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default TeacherDashboardMobile;

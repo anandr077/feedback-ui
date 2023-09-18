@@ -5,13 +5,10 @@ import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import Buttons from '../Buttons';
 import Frame11 from '../Frame11';
-import Frame12092 from '../Frame12092';
 import GoBack from '../GoBack';
 import StatusBubbles from '../StatusBubbles';
 import {
   IbmplexsansBoldShark36px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansNormalPersianIndigo13px,
   IbmplexsansSemiBoldShark28px,
 } from '../styledMixins';
 import './TaskDetailMobile.css';
@@ -20,25 +17,7 @@ import { formattedDate } from '../../../dates';
 import FooterSmall from '../../FooterSmall';
 
 function TaskDetailMobile(props) {
-  const {
-    assignment,
-    methods,
-    clazzName,
-    frame1349,
-    frame5,
-    title,
-    physicsThermodyna,
-    line11,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
-    breadcrumb21Props,
-    breadcrumb22Props,
-    goBackProps,
-    frame120921Props,
-    frame120922Props,
-  } = props;
+  const { assignment, methods, clazzName, line11, goBackProps } = props;
 
   return (
     <div className="task-detail-mobile screen">
@@ -81,40 +60,6 @@ const Frame1391 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.img`
-  position: relative;
-  flex: 1;
-  min-width: 223.75px;
-  height: 37.48848342895508px;
-  margin-left: -1.75px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: relative;
-`;
-
-const Frame51 = styled.img`
-  position: relative;
-  min-width: 48px;
-  height: 48px;
-  cursor: pointer;
 `;
 
 const Frame1390 = styled.div`
@@ -215,61 +160,12 @@ const Frame1209 = styled.div`
   align-self: stretch;
 `;
 
-const Frame6 = styled.div`
-  ${IbmplexsansNormalPersianIndigo13px}
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
 const Line11 = styled.img`
   position: relative;
   align-self: stretch;
   height: 1px;
   margin-top: -1px;
   object-fit: cover;
-`;
-
-const Frame1392 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2023JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const MainWebsite = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Terms = styled.div`
-  position: relative;
-  align-self: stretch;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default TaskDetailMobile;

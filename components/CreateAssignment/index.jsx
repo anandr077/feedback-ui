@@ -9,7 +9,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import styled from 'styled-components';
 import {
   getClasses,
-  createAssignment,
   updateAssignment,
   getAssignmentById,
   publishAssignment,
@@ -33,8 +32,7 @@ import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
 import FocusAreaDialog from './Dialog/newFocusArea';
-import { getFocusAreas, addNewFocusArea, getAllColors } from '../../service';
-import { set } from 'lodash';
+import { getFocusAreas, getAllColors } from '../../service';
 import PreviewDialog from '../Shared/Dialogs/preview/previewCard';
 import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
 import GeneralPopup from '../GeneralPopup';
@@ -117,7 +115,6 @@ export default function CreateAssignment(props) {
   }
 
   function handleMarkingCriteriaPreview(markingCriteria) {
-    console.log('Marking criteria: ', markingCriteria);
     setCurrentMarkingCriteria(markingCriteria);
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
@@ -405,7 +402,6 @@ export default function CreateAssignment(props) {
         invalidQuestion = true;
         showSnackbar('Please enter Question ' + question.serialNumber);
         return false;
-        return false;
       }
     });
     return invalidQuestion ? false : true;
@@ -671,14 +667,7 @@ const newQuestion = (serialNumber) => {
     focusAreas: [],
   };
 };
-const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  line-height: normal;
-`;
+
 const StyledRadioGroup = styled(RadioGroup)`
   display: flex;
   flex-direction: row;
@@ -710,20 +699,6 @@ const CheckboxContainer = styled.div`
   flex-direction: row;
 `;
 
-const Checkbox = styled.article`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  flex: 1;
-`;
-
-const Checkbox1 = styled.div`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
 const CheckBoxText = styled.div`
   ${IbmplexsansNormalShark20px}
   position: relative;
@@ -733,28 +708,6 @@ const CheckBoxText = styled.div`
   line-height: normal;
   display: flex;
   align-items: center;
-`;
-const Rectangle43 = styled.input`
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  top: -1px;
-  left: -1px;
-  background-color: var(--white);
-
-  border: 1px solid;
-  border-color: var(--light-mode-purple);
-  font: inherit;
-  color: currentColor;
-  width: 1.25em;
-  height: 1.25em;
-  border: 1em solid currentColor;
-  border-radius: 1em;
-  transform: translateY(-0.075em);
-  &:checked {
-    border-color: red;
-    background-color: red;
-  }
 `;
 
 const navElement23Data = {
@@ -913,19 +866,6 @@ const frame6622Data = {
   className: 'frame-6-6',
 };
 
-const dropdown1Data = {
-  heading: 'Heading',
-};
-
-const dropdown2Data = {
-  heading: 'IBM Plex Sans',
-  className: 'dropdown-1',
-};
-
-const dropdown3Data = {
-  heading: '20px',
-  className: 'dropdown-2',
-};
 const richTextComponents12Data = {
   src: '/img/redo@2x.png',
   className: 'rich-text-components-11',

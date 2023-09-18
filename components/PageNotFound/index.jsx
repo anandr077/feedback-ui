@@ -1,9 +1,6 @@
 import React from 'react';
-import Header from '../Header';
-import HeaderSmall from '../HeaderSmall';
 import Footer from '../Footer';
 import FooterSmall from '../FooterSmall';
-import { completedHeaderProps } from '../../utils/headerProps';
 import ReactiveRender from '../ReactiveRender';
 import { getUserRole } from '../../service';
 import styled from 'styled-components';

@@ -15,7 +15,7 @@ import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherLaptop.css';
 import { contextBar } from './contextBar';
-import FeedbackFrame, { feedbackFrame } from './feedbackFrame';
+import FeedbackFrame from './feedbackFrame';
 import {
   Frame1315,
   Frame1368,
@@ -132,8 +132,6 @@ const selectTabComments = (
   comments,
   groupedFocusAreaIds
 ) => {
-  console.log('selectTabComments', comments);
-  console.log('isFocusAreas', isFocusAreas);
   if (isFocusAreas) {
     return comments.map((comment) => {
       if (comment.type !== 'FOCUS_AREA') {
@@ -163,16 +161,17 @@ const selectTabComments = (
   });
 };
 function loader(showLoader) {
-  return showLoader && (
-    <Screen2>
-      {' '}
-      <Loader />
-    </Screen2>
+  return (
+    showLoader && (
+      <Screen2>
+        {' '}
+        <Loader />
+      </Screen2>
+    )
   );
 }
 
 function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  console.log('handleStateChange');
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     setFeedback(false);
     setFocusAreas(true);
@@ -202,7 +201,6 @@ function createGroupedFocusAreas(submission) {
     },
     {}
   );
-  console.log('groupedFocusAreaIds', grouped);
   return grouped;
 }
 
@@ -237,7 +235,7 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {contextBar(submission, methods, isTeacher, pageMode, labelText)}
+      {contextBar(false, ()=>{}, submission, methods, isTeacher, pageMode, labelText)}
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,

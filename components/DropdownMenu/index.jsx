@@ -20,6 +20,7 @@ export const DropdownMenu = (props) => {
     fullWidth,
     primaryText,
     noDefaultSelected = false,
+    defaultSearch = true,
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -146,9 +147,8 @@ export const DropdownMenu = (props) => {
         ref={menuRef}
         sx={{
           '& .MuiPaper-root': {
-            minWidth: fullWidth ? '81%' : undefined,
             borderRadius: markingCriteriaType ? '12px' : undefined,
-            width: markingCriteriaType ? '20%' : undefined,
+            width: 'fit-content',
           },
           '& .MuiMenu-paper': {
             '& .MuiList-root': {
@@ -161,13 +161,15 @@ export const DropdownMenu = (props) => {
           },
         }}
       >
-        <StyledTextField
-          variant="outlined"
-          value={searchInput}
-          onChange={handleSearchInputChange}
-          onKeyDown={(e) => e.stopPropagation()}
-          fullWidth
-        />
+        {defaultSearch && (
+          <StyledTextField
+            variant="outlined"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            onKeyDown={(e) => e.stopPropagation()}
+            fullWidth
+          />
+        )}
         {filteredMenuItems.map((item) => {
           if (item.heading) {
             return withHeadings(

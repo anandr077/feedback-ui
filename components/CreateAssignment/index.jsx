@@ -563,7 +563,6 @@ export default function CreateAssignment(props) {
           textContent="Are you sure you want to publish this task?"
           buttonText="Publish"
           confirmButtonAction={publish}
-          warningMessage={null}
         />
       )}
       <ReactiveRender

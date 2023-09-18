@@ -18,6 +18,7 @@ export default function GeneralPopup(props) {
     smartAnnotation,
     createSmartAnnotationHandler,
     warningMessage,
+    confirmationMessage
   } = props;
 
   console.log('pageMode ' + warningMessage);
@@ -40,18 +41,21 @@ export default function GeneralPopup(props) {
           <TextInput onChange={handleInputChange}></TextInput>
         </TextFrame>
       )}
-      {(warningMessage === 'DRAFT' || warningMessage === 'REVISE') && (
-        <ConfirmSubmit>
-          <PlagiarismText>
-            Plagiarism undermines the learing process, hinders personal
-            growth, and goes against the principles of honesty and fairness.
-          </PlagiarismText>
-          <PlagiarismText>
-            By submitting your work, you are acknowledging that it is entirely
-            your own and has not been plagiarised in any form.
-          </PlagiarismText>
-        </ConfirmSubmit>
-      )}
+      <ConfirmSubmit>
+        {warningMessage  && (
+            <PlagiarismText>
+              Plagiarism undermines the learing process, hinders personal
+              growth, and goes against the principles of honesty and fairness.
+            </PlagiarismText>
+        )}
+        {confirmationMessage && (
+            <PlagiarismText>
+              By submitting your work, you are acknowledging that it is entirely
+              your own and has not been plagiarised in any form.
+            </PlagiarismText> 
+        )}
+      </ConfirmSubmit>
+ 
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>
         {smartAnnotation ? (

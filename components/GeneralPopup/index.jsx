@@ -14,11 +14,11 @@ export default function GeneralPopup(props) {
     buttonText,
     textContent,
     title,
+    confirmationMessage,
     confirmButtonAction,
     smartAnnotation,
     createSmartAnnotationHandler,
-    warningMessage,
-    confirmationMessage
+    warningMessage
   } = props;
 
   console.log('pageMode ' + warningMessage);
@@ -44,14 +44,12 @@ export default function GeneralPopup(props) {
       <ConfirmSubmit>
         {warningMessage  && (
             <PlagiarismText>
-              Plagiarism undermines the learing process, hinders personal
-              growth, and goes against the principles of honesty and fairness.
+              {warningMessage}
             </PlagiarismText>
         )}
         {confirmationMessage && (
             <PlagiarismText>
-              By submitting your work, you are acknowledging that it is entirely
-              your own and has not been plagiarised in any form.
+              {confirmationMessage}
             </PlagiarismText> 
         )}
       </ConfirmSubmit>

@@ -106,6 +106,7 @@ function Document(props) {
       );
     }
   }, [submission.classId]);
+
   const handleRequestFeedback = (index) => {
     setFeedbackMethodTypeDialog(index);
   };

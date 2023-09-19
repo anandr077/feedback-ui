@@ -250,6 +250,7 @@ const PortfolioPage = () => {
         courseId: subFolder.courseId,
         classId: subFolder.classId,
         description: 'The description',
+        url: '#documents/' + document.id,
       };
       subFolder.files.push(newFile);
       console.log('newData', newData);
@@ -300,7 +301,6 @@ const PortfolioPage = () => {
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
           {mobileBurgerMenu(setShowModal, showModal)}
-
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
@@ -416,7 +416,7 @@ function allFilesContainer(allFiles) {
                 </div>
               </DocumentBoxWrapper>
               <DocumentBtns>
-                <a href={'#documents/' + document.documentId}>
+                <a href={document.url}>
                   <button>
                     <img src={previewImg} alt="Preview Button" />
                     <p>View</p>

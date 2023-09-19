@@ -117,6 +117,16 @@ function CreateAAssignmentMobile(props) {
                 value={assignment.title}
               ></TextInput>
             </Frame1374>
+            <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
+                  <Frame12811>
+                    <Classes>Classes</Classes>
+                    {/* <Link to="/tooltip1">
+                      <Help src={help1} alt="help" />
+                    </Link> */}
+                  </Frame12811>
+                  <Frame1298>{checkboxes}</Frame1298>
+                </Frame1299>
+
             <Frame1294>
               <Frame1293>
                 <Questions>Questions</Questions>
@@ -131,12 +141,7 @@ function CreateAAssignmentMobile(props) {
             <Frame1294>
               <Questions>{assignmentSettings}</Questions>
               <Frame1295>
-                <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
-                  <Frame12811>
-                    <Classes>Classes</Classes>
-                  </Frame12811>
-                  <Frame1298>{checkboxes}</Frame1298>
-                </Frame1299>
+                
                 <Frame1300>
                   <Frame12811>
                     <Classes>{feedbackMethod}</Classes>

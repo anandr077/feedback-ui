@@ -102,6 +102,16 @@ function CreateAAssignmentLaptop(props) {
                 value={assignment.title}
               ></TextInput>
             </Frame1374>
+            <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
+                  <Frame12811>
+                    <Classes>Classes</Classes>
+                    {/* <Link to="/tooltip1">
+                      <Help src={help1} alt="help" />
+                    </Link> */}
+                  </Frame12811>
+                  <Frame1298>{checkboxes}</Frame1298>
+                </Frame1299>
+
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
@@ -121,12 +131,7 @@ function CreateAAssignmentLaptop(props) {
             <Frame1294>
               <AssignmentSettings>{assignmentSettings}</AssignmentSettings>
               <Frame1295>
-                <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
-                  <Frame12811>
-                    <Classes>Classes</Classes>
-                  </Frame12811>
-                  <Frame1298>{checkboxes}</Frame1298>
-                </Frame1299>
+                
                 <Frame1299>
                   <Frame12811>
                     <Classes>{feedbackMethod}</Classes>

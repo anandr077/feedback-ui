@@ -116,7 +116,7 @@ const SideNavContainer = styled.nav`
     background-color: white;
     border-radius: 8px;
     padding: 16px 24px;
-    border: 1px solid #F2E6FE;
+    border: 1px solid #f2e6fe;
   }
 `;
 
@@ -161,15 +161,13 @@ const AllWorkBoxes = styled.div`
   display: flex;
   gap: 17px;
 
-
   @media (max-width: 1290px) {
     gap: 10px;
   }
 
-
   @media (max-width: 576px) {
     gap: 25px;
-  } 
+  }
 `;
 
 const NewDocBtn = styled.button`
@@ -348,6 +346,13 @@ const RecentBtnImg = styled.img`
 
 const AllFilesContainer = styled.div``;
 
+const AllFileTitle = styled.h3`
+  color: #405059;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+`;
+
 const DocumentBox = styled.div`
   background-color: white;
   box-shadow: 0 0 2px rgba(184, 111, 255, 0.1), 0 0 2px rgba(184, 111, 255, 0.1),
@@ -431,7 +436,7 @@ const DocumentBtns = styled.div`
       height: 24px;
     }
 
-    span{
+    span {
       position: absolute;
       background-color: rgba(0, 0, 0, 0.75);
       color: #fff;
@@ -458,7 +463,7 @@ const DocumentBtns = styled.div`
       }
 
       span {
-          display: block;
+        display: block;
       }
 
       @media (max-width: 992px) {
@@ -477,18 +482,18 @@ const DocumentBtns = styled.div`
 `;
 
 const NoFileDiv = styled.div`
-   background-color: white;
-   height: 300px;
-   width: 100%;
-   border: 1px solid #f1e7ff;
-   border-radius: 12px;
-   box-shadow: 0px 2px 2px rgba(184, 111, 255, 0.1);
-   display: grid;
-   place-items: center;
-   font-size: 50px;
-   font-family: 'IBM Plex Sans', sans-serif;
-   color: rgba(86, 92, 96, 0.5);
-`
+  background-color: white;
+  height: 300px;
+  width: 100%;
+  border: 1px solid #f1e7ff;
+  border-radius: 12px;
+  box-shadow: 0px 2px 2px rgba(184, 111, 255, 0.1);
+  display: grid;
+  place-items: center;
+  font-size: 50px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: rgba(86, 92, 96, 0.5);
+`;
 
 const ModalBody = styled.div`
   position: fixed;
@@ -513,6 +518,55 @@ const ModalContainer = styled.div`
   border-top: 1px solid #f1e7ff;
 `;
 
+const ModalContainerHeader = styled.div`
+  padding: 0 16px 16px;
+  border-bottom: 1px solid #f1e6fc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ModalHeaderText = styled.p`
+  color: #505050;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+`;
+
+const commonStyle = {
+  width: 'fit-content',
+  borderRadius: '12px',
+  padding: '3px 8px',
+  marginBottom: '10px',
+  fontSize: '13px',
+  lineHeight: '16px',
+};
+
+const documentStatusStyle = (status) => {
+  if (status === 'Feedback') {
+    return {
+      ...commonStyle,
+      color: '#604C06',
+      backgroundColor: '#F5F0D1',
+      border: '1px solid #F1DE74',
+    };
+  } else if (status === 'Peer-Review') {
+    return {
+      ...commonStyle,
+      color: '#265412',
+      backgroundColor: '#DCF5D1',
+      border: '1px solid #A9E68E',
+    };
+  } else {
+    return {
+      ...commonStyle,
+      color: 'black',
+      backgroundColor: '#FCFAFF',
+      border: '1px solid #F1E7FF',
+    };
+  }
+};
+
 export {
   PortfolioBody,
   PortfolioContainer,
@@ -534,6 +588,8 @@ export {
   DocumentTextFrame,
   ModalBody,
   ModalContainer,
+  ModalContainerHeader,
+  ModalHeaderText,
   DocumentTitle,
   PortHeadDropDown,
   SideNavContainer,
@@ -543,6 +599,8 @@ export {
   RecentBtns,
   RecentBtnImg,
   AllFilesContainer,
+  AllFileTitle,
   DocumentBtns,
-  NoFileDiv
+  NoFileDiv,
+  documentStatusStyle,
 };

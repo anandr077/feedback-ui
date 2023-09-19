@@ -188,10 +188,6 @@ const PortfolioPage = () => {
   );
 
   const handleCreateDocument = (docName, subjectValue) => {
-    console.log('activeMainIndex', state.activeMainIndex);
-    console.log('activeSubFolderIndex', state.activeSubFolderIndex);
-    console.log('docName', docName);
-    console.log('subjectValue', subjectValue);
     addFile(
       state.portfolio,
       state.activeMainIndex,
@@ -306,20 +302,9 @@ const PortfolioPage = () => {
           {mobileBurgerMenu(setShowModal, showModal)}
 
           <PortfolioContainer>
-            {sidebar(
-              state.portfolio,
-              (portfolio) =>
-                dispatch({ type: 'setPortfolio', payload: portfolio }),
-              state.activeMainIndex,
-              state.activeSubFolderIndex,
-              (mainIndex) =>
-                dispatch({ type: 'setActiveMainIndex', payload: mainIndex }),
-              (subFolderIndex) =>
-                dispatch({
-                  type: 'setActiveSubFolderIndex',
-                  payload: subFolderIndex,
-                })
-            )}
+            <SideNavContainer>
+              <PortfolioSideBar state={state} dispatch={dispatch} />
+            </SideNavContainer>
 
             {documentsContainerFunc(
               displayedWork,
@@ -341,28 +326,6 @@ const PortfolioPage = () => {
 };
 
 export default PortfolioPage;
-
-function sidebar(
-  portfolio,
-  setPortfolio: React.Dispatch<React.SetStateAction<null>>,
-  activeMainIndex: number,
-  activeSubFolderIndex: number,
-  setActiveMainIndex: React.Dispatch<React.SetStateAction<number>>,
-  setActiveSubFolderIndex: React.Dispatch<React.SetStateAction<number>>
-) {
-  return (
-    <SideNavContainer>
-      <PortfolioSideBar
-        portfolio={portfolio}
-        setPortfolio={setPortfolio}
-        activeMainIndex={activeMainIndex}
-        activeSubFolderIndex={activeSubFolderIndex}
-        setActiveMainIndex={setActiveMainIndex}
-        setActiveSubFolderIndex={setActiveSubFolderIndex}
-      />
-    </SideNavContainer>
-  );
-}
 
 function documentsContainerFunc(
   displayedWork: { title: string; desc: string }[],

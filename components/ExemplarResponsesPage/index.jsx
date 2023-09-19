@@ -1,8 +1,7 @@
 import React from 'react';
 import { getModelResponses } from '../../service.js';
-import ReactiveRender from '../ReactiveRender';
 import CompletedRoot from '../Completed/CompletedRoot';
-import { groupBy, groupedData } from 'lodash';
+import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
 import { useLocation } from 'react-router-dom';
 import Loader from '../Loader';

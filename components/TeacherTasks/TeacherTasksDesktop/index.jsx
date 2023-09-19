@@ -42,8 +42,6 @@ function TeacherTasksDesktop(props) {
           </Frame1315>
         </TitleContainer>
         <Frame1360>
-          {/* <TaskFrame1306 /> */}
-
           <Frame1359>
             <Frame1354>
               <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
@@ -82,8 +80,6 @@ function TeacherTasksDesktop(props) {
 const Frame1315 = styled.div`
   display: flex;
   align-items: center;
-  // gap: 4px;
-  // padding: 0px 0px 0px 60px;
   position: relative;
   align-self: stretch;
 `;
@@ -98,7 +94,6 @@ const TitleContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
-
   justify-content: flex-end;
   max-width: 200px;
   margin-right: 40px;
@@ -155,23 +150,6 @@ const Frame1354 = styled.div`
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
-const Frame19 = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 609px;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  overflow: hidden;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
-`;
-
 const Frame1358 = styled.div`
   display: flex;
   flex-direction: column;
@@ -183,32 +161,6 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
-`;
-
-const Frame1357 = styled.div`
-  ${IbmplexsansSemiBoldRiverBed24px}
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Overdue = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Number = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default TeacherTasksDesktop;

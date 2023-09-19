@@ -188,10 +188,6 @@ const PortfolioPage = () => {
   );
 
   const handleCreateDocument = (docName, subjectValue) => {
-    console.log('activeMainIndex', state.activeMainIndex);
-    console.log('activeSubFolderIndex', state.activeSubFolderIndex);
-    console.log('docName', docName);
-    console.log('subjectValue', subjectValue);
     addFile(
       state.portfolio,
       state.activeMainIndex,
@@ -250,10 +246,11 @@ const PortfolioPage = () => {
         type: 'DOCUMENT',
         title: fileName,
         status: '',
-        documentId: document.id,  
+        documentId: document.id,
         courseId: subFolder.courseId,
         classId: subFolder.classId,
         description: 'The description',
+        url: '#documents/' + document.id,
       };
       subFolder.files.push(newFile);
       console.log('newData', newData);
@@ -265,12 +262,14 @@ const PortfolioPage = () => {
     });
   }
   function getDocuments(data, mainIndex: number, subFolderIndex: number = 0) {
+    console.log('getDocuments: ', data);
+
     if (
       mainIndex < 0 ||
       mainIndex >= data?.files?.length ||
       data?.files[mainIndex]?.type !== 'FOLDER'
     ) {
-      return []
+      return [];
     }
 
     const mainFolder = data?.files[mainIndex];
@@ -302,24 +301,17 @@ const PortfolioPage = () => {
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
           {mobileBurgerMenu(setShowModal, showModal)}
-
           <PortfolioContainer>
-            {sidebar(
-              state.portfolio,
-              (portfolio) =>
-                dispatch({ type: 'setPortfolio', payload: portfolio }),
-              state.activeMainIndex,
-              state.activeSubFolderIndex,
-              (mainIndex) =>
-                dispatch({ type: 'setActiveMainIndex', payload: mainIndex }),
-              (subFolderIndex) =>
-                dispatch({
-                  type: 'setActiveSubFolderIndex',
-                  payload: subFolderIndex,
-                })
-            )}
+            <SideNavContainer>
+              <PortfolioSideBar state={state} dispatch={dispatch} />
+            </SideNavContainer>
 
-            {documentsContainerFunc(displayedWork, allFiles, showModal, setShowModal)}
+            {documentsContainerFunc(
+              displayedWork,
+              allFiles,
+              showModal,
+              setShowModal
+            )}
           </PortfolioContainer>
         </PortfolioBody>
       </div>
@@ -334,28 +326,6 @@ const PortfolioPage = () => {
 };
 
 export default PortfolioPage;
-
-function sidebar(
-  portfolio,
-  setPortfolio: React.Dispatch<React.SetStateAction<null>>,
-  activeMainIndex: number,
-  activeSubFolderIndex: number,
-  setActiveMainIndex: React.Dispatch<React.SetStateAction<number>>,
-  setActiveSubFolderIndex: React.Dispatch<React.SetStateAction<number>>
-) {
-  return (
-    <SideNavContainer>
-      <PortfolioSideBar
-        portfolio={portfolio}
-        setPortfolio={setPortfolio}
-        activeMainIndex={activeMainIndex}
-        activeSubFolderIndex={activeSubFolderIndex}
-        setActiveMainIndex={setActiveMainIndex}
-        setActiveSubFolderIndex={setActiveSubFolderIndex}
-      />
-    </SideNavContainer>
-  );
-}
 
 function documentsContainerFunc(
   displayedWork: { title: string; desc: string }[],
@@ -427,7 +397,7 @@ function allFilesContainer(allFiles) {
         <NoFileDiv>No files</NoFileDiv>
       ) : (
         allFiles.map((document, idx) => {
-          console.log('document', document)
+          console.log('document', document);
           return (
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>
@@ -446,7 +416,7 @@ function allFilesContainer(allFiles) {
                 </div>
               </DocumentBoxWrapper>
               <DocumentBtns>
-                <a href={'#documents/' + document.documentId}>
+                <a href={document.url}>
                   <button>
                     <img src={previewImg} alt="Preview Button" />
                     <p>View</p>

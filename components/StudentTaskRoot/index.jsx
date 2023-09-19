@@ -394,14 +394,6 @@ const tasksStudentTabletData = {
   frame19Props: frame192Data,
 };
 
-const tabs21Data = {
-  children: 'In progress',
-};
-
-const tabs22Data = {
-  children: 'Overdue',
-};
-
 const statusBubbles21Data = {
   children: 'Theory',
 };
@@ -513,51 +505,6 @@ const tasksLaptopData = {
   headerProps: taskHeaderProps,
 };
 
-const navElement4Data = {
-  home3: '/img/home3@2x.png',
-  place: 'Home',
-};
-
-const navElement5Data = {
-  home3: '/img/tasksquare@2x.png',
-  place: 'Tasks',
-  className: 'nav-element-4',
-};
-
-const navElement6Data = {
-  home3: '/img/clipboardtick@2x.png',
-  place: 'Completed',
-  className: 'nav-element-5',
-};
-
-const notifications4Data = {
-  src: '/img/notificationbing@2x.png',
-};
-
-const notifications1Data = {
-  src: '/img/notificationbing@2x.png',
-};
-
-const navElement1Data = {
-  home3: '/img/home3@2x.png',
-  place: 'Home',
-};
-
-const navElement2Data = {
-  home3: '/img/tasksquare@2x.png',
-  place: 'Tasks',
-  className: 'nav-element-1',
-};
-
-const navElement3Data = {
-  home3: '/img/clipboardtick@2x.png',
-  place: 'Completed',
-  className: 'nav-element-2',
-};
-
-const frame41Data = {
-  maskGroup: '/img/mask-group@2x.png',
-};
 const frame13043Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort-2@2x.png',
 };

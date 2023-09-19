@@ -6,14 +6,10 @@ import StrengthsTargets from '../StrengthsTargets';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
   const { allmarkingCriteriaFeedback, questionSerialNumber } = props;
-
-  console.log('allmarkingCriteriaFeedback', allmarkingCriteriaFeedback);
-  console.log('questionSerialNumber', questionSerialNumber);
   const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
     (markingCriteriaFeedback) =>
       markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
   )[0];
-  console.log('selectedMarkingCriteria', selectedMarkingCriteria);
 
   return (
     <MarkingCriteriaContainer>
@@ -28,10 +24,6 @@ export default function MarkingCriteriaFeedbackReadOnly(props) {
 }
 
 function heading(selectedMarkingCriteria) {
-  console.log(
-    'selectedMarkingCriteria.',
-    selectedMarkingCriteria.markingCriteria.type
-  );
   if (selectedMarkingCriteria?.markingCriteria?.type === 'RUBRICS') {
     return createRubricsHeading(
       selectedMarkingCriteria?.markingCriteria?.criterias
@@ -61,7 +53,6 @@ const createRubricsHeading = (criterias) => {
 };
 
 const createRubricsLevels = (criterias) => {
-  console.log('criteria: ', criterias);
   let groupedArray = chain(criterias)
     .flatMap((criteria, criteriaIndex) => {
       const selectedLevel = criteria.selectedLevel;
@@ -132,4 +123,5 @@ const MarkingCriteriaContainer = styled.div`
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   display: flex;
   grid-gap: 10px;
+  overflow-x: scroll;
 `;

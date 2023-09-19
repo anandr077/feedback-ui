@@ -14,7 +14,6 @@ import {
   deleteMarkingCriteria,
   getDefaultCriteria,
   getNewCriteria,
-  createNewSmartAnnotation,
 } from '../../../service';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
@@ -165,44 +164,43 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       });
   };
 
-const handleTitleChange = (event) => {
-  setMarkingCriterias({ ...markingCriterias, title: event.target.value });
-}
+  const handleTitleChange = (event) => {
+    setMarkingCriterias({ ...markingCriterias, title: event.target.value });
+  };
 
-const updateCriteriaTitle = (id, newTitle ) => {
-  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
-    if (index === id) {
-      return {
-        ...criteria,
-        title: newTitle
+  const updateCriteriaTitle = (id, newTitle) => {
+    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+      if (index === id) {
+        return {
+          ...criteria,
+          title: newTitle,
+        };
       }
-    }
-    return criteria;
-  });
-  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
-}
+      return criteria;
+    });
+    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+  };
 
-const updateLevelName = (criteriaId, levelId, newName) => {
- 
-  const newCriterias = markingCriterias.criterias.map((criteria, index) => {
-    if (index === criteriaId) {
-      return {
-        ...criteria,
-        levels: criteria.levels.map((level, index) => {
-          if (index === levelId) {
-            return {
-              ...level,
-              name: newName
+  const updateLevelName = (criteriaId, levelId, newName) => {
+    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+      if (index === criteriaId) {
+        return {
+          ...criteria,
+          levels: criteria.levels.map((level, index) => {
+            if (index === levelId) {
+              return {
+                ...level,
+                name: newName,
+              };
             }
-          }
-          return level;
-        })
+            return level;
+          }),
+        };
       }
-    }
-    return criteria;
-  });
-  setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
-}
+      return criteria;
+    });
+    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+  };
 
   const updateLevelDescription = (criteriaId, levelId, newDescription) => {
     if (newDescription.length > 200) {
@@ -317,91 +315,6 @@ const updateLevelName = (criteriaId, levelId, newName) => {
     />
   );
 }
-const navElement1Data = {
-  home3: '/img/home3@2x.png',
-  place: 'Home',
-};
-
-const navElement3Data = {
-  home3: '/img/subject@2x.png',
-  place: 'Classes',
-  className: 'nav-element-1',
-};
-
-const breadcrumb21Data = {
-  assignments: 'Marking Criteria',
-};
-
-const breadcrumb22Data = {
-  assignments: 'Create new',
-};
-
-const input1Data = {
-  children: 'Name of marking template',
-};
-
-const frame12851Data = {
-  children: 'High',
-};
-
-const criteriaLevelInput1Data = {
-  anAnswerOfThisLevelContains:
-    'Provides a skilful and sustained engagement with the question',
-  frame1285Props: frame12851Data,
-};
-
-const frame12852Data = {
-  children: 'Medium',
-};
-
-const criteriaLevelInput2Data = {
-  anAnswerOfThisLevelContains:
-    'Provides a considered response to some aspects of the question',
-  frame1285Props: frame12852Data,
-};
-
-const buttons21Data = {
-  add: '/img/add@2x.png',
-  button: 'Add level',
-};
-
-const statusBubbles3Data = {
-  className: 'status-bubbles-1',
-};
-
-const input3Data = {
-  children: 'Criteria Name',
-};
-
-const buttons22Data = {
-  add: '/img/add@2x.png',
-  button: 'Add level',
-};
-
-const buttons23Data = {
-  add: '/img/add@2x.png',
-  button: 'Add criteria',
-  className: 'buttons-3',
-};
-
-const accountSettingsMarkingCriteriaCreatData = {
-  logo: '/img/logo@2x.png',
-  notifications: '/img/notifications@2x.png',
-  line15: '/img/line-15.png',
-  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
-  navElement1Props: navElement1Data,
-  navElement2Props: navElement3Data,
-  breadcrumb21Props: breadcrumb21Data,
-  breadcrumb22Props: breadcrumb22Data,
-  input1Props: input1Data,
-  criteriaLevelInput1Props: criteriaLevelInput1Data,
-  criteriaLevelInput2Props: criteriaLevelInput2Data,
-  buttons21Props: buttons21Data,
-  statusBubblesProps: statusBubbles3Data,
-  input2Props: input3Data,
-  buttons22Props: buttons22Data,
-  buttons23Props: buttons23Data,
-};
 
 const breadcrumb23Data = {
   assignments: 'Marking Criteria',

@@ -83,6 +83,9 @@ function App() {
             <Route path="/portfolio">
               <ProtectedPortfolioRoot />
             </Route>
+            <Route path="/portfolio/:studentClassId">
+              <ProtectedPortfolioRoot />
+            </Route>
             <Route path="/classes/:classIdFromUrl?">
               <ProtectedTeacherClassesRoot />
             </Route>

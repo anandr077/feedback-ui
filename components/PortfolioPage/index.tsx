@@ -6,6 +6,7 @@ import deleteImg from '../../static/icons/trash-can@2x.png';
 import Header from '../Header';
 import HeaderSmall from '../HeaderSmall';
 import FooterSmall from '../FooterSmall';
+import RecentWorkContainer from './RecentWorkContainer';
 import Footer from '../Footer';
 import {
   addDocumentToPortfolio,
@@ -21,13 +22,6 @@ import {
   PortHeadingLeft,
   NewDocumentBtn,
   SelectStyle,
-  WorkContainer,
-  WorkHeader,
-  RecentTag,
-  AllWorkBoxes,
-  NewDocBtn,
-  RecentWork,
-  RecentWorkTitle,
   DocumentBox,
   DocumentBoxWrapper,
   DocumentTextFrame,
@@ -36,16 +30,10 @@ import {
   DocumentTitle,
   PortHeadDropDown,
   SideNavContainer,
-  NewDocBtnText,
-  NewDocBtnImg,
-  RecentWorkPara,
-  RecentBtns,
-  RecentBtnImg,
   AllFilesContainer,
   DocumentBtns,
   NoFileDiv,
 } from './PortfolioStyle';
-import AddCircleIcon from '../../static/icons/add-circle.png';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
 import PortfolioSideBar from './PortfolioSideBar';
@@ -335,44 +323,13 @@ function documentsContainerFunc(
 ) {
   return (
     <div style={{ width: '100%' }}>
-      {/*all work code is here*/}
-      <WorkContainer>
-        <WorkHeader>
-          <RecentTag>Recent</RecentTag>
-        </WorkHeader>
-        <AllWorkBoxes>
-          <NewDocBtn onClick={() => setShowModal(!showModal)}>
-            <NewDocBtnImg
-              src={AddCircleIcon}
-              alt="Button Icon"
-              className="NewDocBtnImg"
-            ></NewDocBtnImg>
-            <NewDocBtnText>New Document</NewDocBtnText>
-          </NewDocBtn>
-
-          {displayedWork.map((work, idx) => {
-            console.log('work', work);
-            return (
-              <RecentWork key={idx}>
-                <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
-                <RecentWorkTitle>{work.title}</RecentWorkTitle>
-                <div className="recent-hover">
-                  <a>
-                    <RecentBtns>
-                      <RecentBtnImg src={previewImg}></RecentBtnImg>
-                      View
-                    </RecentBtns>
-                  </a>
-                  <RecentBtns>
-                    <RecentBtnImg src={downLoadImg}></RecentBtnImg>
-                    Download
-                  </RecentBtns>
-                </div>
-              </RecentWork>
-            );
-          })}
-        </AllWorkBoxes>
-      </WorkContainer>
+      {
+        <RecentWorkContainer
+          displayedWork={displayedWork}
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      }
 
       {/*Document section code is here*/}
       {allFilesContainer(allFiles)}

@@ -517,7 +517,7 @@ export const SelectFeedbackMethod = styled.div`
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   position: absolute;
   white-space: nowrap;
-  top: 40px;
+  top: 42px;
   right: 0px;
 `;
 

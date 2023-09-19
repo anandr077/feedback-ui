@@ -112,7 +112,6 @@ function Document(props) {
   const handleSelectedRequestFeedback = (itemData) => {
     console.log('itemData: ', itemData);
   };
-  console.log('smartAnnotations', smartAnnotations);
   return (
     <>
       <div className="feedback-teacher-laptop screen">
@@ -162,11 +161,7 @@ const handleFeedbackMethodTypeDialog = (
   handleSelectedRequestFeedback,
   students
 ) => {
-  if (feedbackMethodType === -1) {
-    return <></>;
-  } else if (
-    feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER
-  ) {
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER) {
     return (
       <FeedbackTypeDialog
         menuItems={menuItemsTeachers}
@@ -255,7 +250,7 @@ function answersAndFeedbacks(
         isTeacher,
         pageMode,
         labelText,
-        FeedbackMethodType,
+        (feedbackMethodType = FeedbackMethodType),
         (requestFeedback = true),
         handleRequestFeedback
       )}

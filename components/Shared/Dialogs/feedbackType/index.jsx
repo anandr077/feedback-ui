@@ -27,7 +27,6 @@ export default function FeedbackTypeDialog({
               showAvatar={true}
               onItemSelected={(item) => {
                 setSelectedMenuItem(item);
-                console.log('SelectedMenuItem: ', item);
               }}
             ></DropdownMenu>
             <div

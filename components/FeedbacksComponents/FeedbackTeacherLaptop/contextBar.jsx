@@ -35,7 +35,7 @@ export function contextBar(
   isTeacher,
   pageMode,
   labelText,
-  FeedbackMethodType = [],
+  feedbackMethodType = [],
   requestFeedback = false,
   handleRequestFeedback
 ) {
@@ -105,7 +105,7 @@ export function contextBar(
         pageMode,
         isTeacher,
         submission,
-        FeedbackMethodType,
+        feedbackMethodType,
         requestFeedback,
         handleRequestFeedback
       )}
@@ -113,7 +113,7 @@ export function contextBar(
   );
 }
 const selectReviewType = (
-  FeedbackMethodType,
+  feedbackMethodType,
   isShowSelectType,
   handleRequestFeedback
 ) => {
@@ -122,7 +122,7 @@ const selectReviewType = (
   }
   return (
     <SelectFeedbackMethod>
-      {FeedbackMethodType.map((type, index) => {
+      {feedbackMethodType.map((type, index) => {
         return (
           <SelectFeedbackMethodType
             onClick={(event) => {
@@ -144,7 +144,7 @@ const submitButton = (
   pageMode,
   isTeacher,
   submission,
-  FeedbackMethodType,
+  feedbackMethodType,
   requestFeedback = false,
   handleRequestFeedback
 ) => {
@@ -154,7 +154,7 @@ const submitButton = (
         {requestFeedback ? (
           <>
             {selectReviewType(
-              FeedbackMethodType,
+              feedbackMethodType,
               isShowSelectType,
               handleRequestFeedback
             )}
@@ -164,7 +164,7 @@ const submitButton = (
                 setShowSelectType(!isShowSelectType);
               }}
             >
-              {/* <img src="/img/messages.svg" alt="message" /> */}
+              {<img src="/img/messages.svg" alt="message" />}
               Request Feedback
             </RequestFeedbackFrame>
           </>

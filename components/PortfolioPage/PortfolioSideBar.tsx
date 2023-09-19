@@ -7,11 +7,8 @@ import menuIcon from '../../static/icons/menuBar.png';
 import './portfolioSideBar.css';
 
 const PortfolioSideBar = ({
-  portfolio,
-  activeMainIndex,
-  activeSubFolderIndex,
-  setActiveMainIndex,
-  setActiveSubFolderIndex,
+  state,
+  dispatch,
 }) => {
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showArrowUp, setShowArrowUp] = useState(false);
@@ -19,10 +16,6 @@ const PortfolioSideBar = ({
   const [showNavMenu, setShowNavMenu] = useState(false);
   const history = useHistory()
 
-  const handleSubFolderClick = (id) => {
-    setActiveSubFolderIndex(id);
-    console.log('id is', id);
-  };
 
   const handleClassClick = (title: string) =>{
     history.push(`/portfolio/${title}`)
@@ -32,15 +25,13 @@ const PortfolioSideBar = ({
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
 
-      {portfolio?.files?.map((folder, mainIndex) =>
+      {state?.portfolio?.files?.map((folder, mainIndex) =>
         mainFolderContainer(
-          handleSubFolderClick,
-          activeSubFolderIndex,
+          state,
+          dispatch,
           mainIndex,
-          activeMainIndex,
           setShowSubfolders,
           showSubfolders,
-          setActiveMainIndex,
           setShowArrowUp,
           showArrowUp,
           folder,
@@ -55,13 +46,11 @@ const PortfolioSideBar = ({
 export default PortfolioSideBar;
 
 function mainFolderContainer(
-  handleSubFolderClick,
-  activeSubFolder,
+  state,
+  dispatch,
   mainIndex: number,
-  isActive: number,
   setShowSubfolders: React.Dispatch<React.SetStateAction<null>>,
   showSubfolders: null,
-  setIsActive: React.Dispatch<React.SetStateAction<number>>,
   setShowArrowUp: React.Dispatch<React.SetStateAction<boolean>>,
   showArrowUp: boolean,
   folder: {
@@ -72,11 +61,17 @@ function mainFolderContainer(
   showArrowDropDown: boolean,
   handleClassClick
 ): JSX.Element {
+  console.log('state.activeMainIndex', state.activeMainIndex);
+  console.log('mainIndex', mainIndex);
   return (
     <>
       <div
-        className={`folder ${isActive === mainIndex ? 'active' : ''}`}
+        className={`folder ${state.activeMainIndex === mainIndex ? 'active' : ''}`}
         onClick={() => {
+          dispatch({
+            type: 'setActiveMainIndex',
+            payload: mainIndex,
+          });
           setShowSubfolders(showSubfolders === mainIndex ? null : mainIndex);
           setIsActive(mainIndex);
           setShowArrowUp(isActive === mainIndex ? !showArrowUp : true);
@@ -86,7 +81,7 @@ function mainFolderContainer(
         {folder.title}
         <div>
           {showArrowDropDown &&
-            (showArrowUp && isActive === mainIndex ? (
+            (showArrowUp && state.activeMainIndex === mainIndex ? (
               <ArrowDropUpIcon />
             ) : (
               <ArrowDropDownIcon />
@@ -96,11 +91,11 @@ function mainFolderContainer(
 
       {showSubfolders === mainIndex &&
         folder.files &&
-        folder.files.map((subFolder, subIndex) =>
+        folder.files.map((subFolder, subfolderIndex) =>
           subFolderContainer(
-            handleSubFolderClick,
-            activeSubFolder,
-            subIndex,
+            state,
+            dispatch,
+            subfolderIndex,
             subFolder
           )
         )}
@@ -109,21 +104,26 @@ function mainFolderContainer(
 }
 
 function subFolderContainer(
-  handleSubFolderClick,
-  activeSubFolder,
+  state,
+  dispatch,
   subIndex: number,
   subFolder: { title: string; type: string; preview: string }
 ): JSX.Element {
+  console.log('state.activeSubFolder', state.activeSubFolderIndex);
+  console.log('subIndex', subIndex);
   return (
     <div
       className="folder subFolder"
       key={subIndex}
       style={{
-        backgroundColor: activeSubFolder === subIndex ? '#F1E7FF' : '',
+        backgroundColor: state.activeSubFolderIndex === subIndex ? '#F1E7FF' : '',
         marginLeft: '20px',
       }}
       onClick={() => {
-        handleSubFolderClick(subIndex);
+        dispatch({
+          type: 'setActiveSubFolderIndex',
+          payload: subIndex,
+        })
       }}
     >
       <span className="subFolder-Content">{subFolder.title}</span>

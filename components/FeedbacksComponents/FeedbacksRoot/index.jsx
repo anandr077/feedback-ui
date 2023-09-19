@@ -47,6 +47,8 @@ import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
+import { TextField } from '@mui/material';
+import SnackbarContext from '../../SnackbarContext';
 import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
 
 const MARKING_METHODOLOGY_TYPE = {
@@ -765,11 +767,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       quill.selectRange(range);
       quill.focus();
       quill.scrollToHighlight(comment.id);
-      // div.scrollIntoView({
-      //   behavior: "smooth",
-      //   block: "center",
-      //   inline: "center",
-      // });
     } else {
     }
   }
@@ -1266,4 +1263,3 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return handleRequestResubmission;
   }
 }
-

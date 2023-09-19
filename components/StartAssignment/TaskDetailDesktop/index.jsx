@@ -22,20 +22,9 @@ function TaskDetailDesktop(props) {
     assignment,
     methods,
     clazzName,
-    headerProps,
-    frame1343,
-    title,
-    physicsThermodyna,
     line11,
     x2021JeddleAllRightsReserved,
-    navElement1Props,
-    navElement2Props,
-    navElement3Props,
-    breadcrumb21Props,
-    breadcrumb22Props,
     goBackProps,
-    frame12091Props,
-    frame12092Props,
   } = props;
 
   return (
@@ -84,40 +73,6 @@ const Frame1391 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1344 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1343 = styled.img`
-  position: relative;
-  min-width: 241.75px;
-  height: 43.49998474121094px;
-  margin-left: -1.75px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame51 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 28px;
-  position: relative;
 `;
 
 const Frame1390 = styled.div`

@@ -136,31 +136,4 @@ const Frame1358 = styled.div`
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
-const Overdue = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Number = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const ScrollBar = styled.div`
-  position: absolute;
-  top: 190px;
-  left: 453px;
-  width: 4px;
-  height: 140px;
-  background-color: var(--alto);
-  border-radius: 2px;
-`;
-
 export default TasksLaptop;

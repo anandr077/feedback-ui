@@ -38,7 +38,6 @@ function TeacherTasksLaptop(props) {
           </Frame1315>
         </TitleContainer>
         <Frame1360>
-          {/* <TaskFrame1306 /> */}
           <Frame1359>
             <Frame1358>
               <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
@@ -71,26 +70,13 @@ function TeacherTasksLaptop(props) {
           </Frame1359>
         </Frame1360>
       </Frame1361>
-
       <Footer />
     </div>
   );
 }
-const TitleWrapper = styled.div`
-  display: flex;
-  // align-items: flex-start;
-  flex-direction: row;
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.9px;
-  line-height: normal;
-`;
 const Frame1315 = styled.div`
   display: flex;
   align-items: center;
-  // gap: 4px;
-  // padding: 0px 0px 0px 60px;
   position: relative;
   align-self: stretch;
 `;
@@ -163,33 +149,6 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
-`;
-
-const Overdue = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Number = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const ScrollBar = styled.div`
-  position: absolute;
-  top: 190px;
-  left: 453px;
-  width: 4px;
-  height: 140px;
-  background-color: var(--alto);
-  border-radius: 2px;
 `;
 
 export default TeacherTasksLaptop;

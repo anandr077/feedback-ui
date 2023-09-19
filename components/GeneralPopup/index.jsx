@@ -144,23 +144,6 @@ const ButtonsContainer = styled.div`
   font-family: IBM Plex Sans;
 `;
 
-const IconTrash = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const Arrowright = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const ArrowrightSmall = styled.img`
-  position: relative;
-  min-width: 18px;
-  height: 18px;
-`;
 const CancelButton = styled.div`
   ${IbmplexsansSemiBoldWhite16px}
   display: inline-flex;

@@ -9,7 +9,6 @@ import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Tabs from '../../Tabs';
 import TaskCardContainer from '../../TaskCardContainer';
-import TaskFrame1304 from '../../TaskFrame1304';
 import './TeacherTasksStudentMobile.css';
 import Buttons from '../../Classes/Buttons';
 import CheckboxGroup from '../../CheckboxGroup';
@@ -54,9 +53,7 @@ function TeacherTasksStudentMobile(props) {
             onChange={filterTasks}
             data={menuItems}
           ></CheckboxGroup>
-
           <Buttons link="#tasks/new" />
-          {/* <TaskFrame1304 /> */}
         </Frame1307>
         {tasksFrame}
       </Frame1365>
@@ -195,17 +192,6 @@ const Number = styled.div`
   text-align: right;
   letter-spacing: 0;
   line-height: normal;
-`;
-
-const Frame6 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
 `;
 
 export default TeacherTasksStudentMobile;

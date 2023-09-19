@@ -16,11 +16,6 @@ import {
 import {
   PortfolioBody,
   PortfolioContainer,
-  PortfolioHeader,
-  PortfolioHeading,
-  PortHeadingLeft,
-  NewDocumentBtn,
-  SelectStyle,
   WorkContainer,
   WorkHeader,
   RecentTag,
@@ -34,7 +29,6 @@ import {
   ModalBody,
   ModalContainer,
   DocumentTitle,
-  PortHeadDropDown,
   SideNavContainer,
   NewDocBtnText,
   NewDocBtnImg,
@@ -51,6 +45,7 @@ import PortfolioForm from './PortfolioForm';
 import PortfolioSideBar from './PortfolioSideBar';
 import Loader from '../Loader';
 import { useQuery } from 'react-query';
+import PortfolioHeader from './PortfolioHeader';
 
 //dummy data for portfolio
 const recentWork = [
@@ -300,7 +295,7 @@ const PortfolioPage = () => {
 
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
-          {mobileBurgerMenu(setShowModal, showModal)}
+          {portfolioHeaderFunc(setShowModal, showModal)}
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
@@ -485,36 +480,11 @@ function newDocumentModal(
   );
 }
 
-function mobileBurgerMenu(
+function portfolioHeaderFunc(
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
   showModal: boolean
 ) {
   return (
-    <PortfolioHeader>
-      <PortfolioHeading>My Portfolio</PortfolioHeading>
-      <PortHeadingLeft>
-        <PortHeadDropDown>
-          <SelectStyle name="sort">
-            <option value="" disabled selected hidden>
-              Sort
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
-          <SelectStyle name="status">
-            <option value="" disabled selected hidden>
-              Status
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
-        </PortHeadDropDown>
-        <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
-          + New Document
-        </NewDocumentBtn>
-      </PortHeadingLeft>
-    </PortfolioHeader>
+    <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
   );
 }

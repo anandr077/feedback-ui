@@ -4,10 +4,7 @@ import {
   updatePortfolio,
 } from '../../service';
 import { portfolioHeaderProps } from '../../utils/headerProps';
-import Footer from '../Footer';
-import FooterSmall from '../FooterSmall';
 import ResponsiveHeader from '../ResponsiveHeader';
-import HeaderSmall from '../HeaderSmall';
 import RecentWorkContainer from './RecentWorkContainer';
 
 import { useQuery } from 'react-query';
@@ -29,6 +26,7 @@ import {
   SideNavContainer
 } from './PortfolioStyle';
 import { useIsSmallScreen } from '../ReactiveRender';
+import ResponsiveFooter from '../ResponsiveFooter';
 
 //dummy data for portfolio
 const recentWork = [
@@ -116,8 +114,7 @@ const PortfolioPage = () => {
         </PortfolioBody>
       </div>
 
-      {/*Footer is displayed here based on the isSmallScreen state*/}
-      {smallScreen ? <FooterSmall /> : <Footer />}
+      <ResponsiveFooter smallScreen={smallScreen}/>
 
       {showModal &&
         <PortfolioDocModal

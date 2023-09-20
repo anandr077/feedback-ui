@@ -1,7 +1,6 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
 import './portfolioSideBar.css';
@@ -14,12 +13,7 @@ const PortfolioSideBar = ({
   const [showArrowUp, setShowArrowUp] = useState(false);
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
-  const history = useHistory()
 
-
-  const handleClassClick = (title: string) =>{
-    history.push(`/portfolio/${title}`)
-  }
 
   return (
     <div className="sideNavbar">
@@ -35,8 +29,7 @@ const PortfolioSideBar = ({
           setShowArrowUp,
           showArrowUp,
           folder,
-          showArrowDropDown,
-          handleClassClick
+          showArrowDropDown
         )
       )}
     </div>
@@ -58,8 +51,7 @@ function mainFolderContainer(
     type: string;
     files: { title: string; type: string; preview: string }[];
   },
-  showArrowDropDown: boolean,
-  handleClassClick
+  showArrowDropDown: boolean
 ): JSX.Element {
   console.log('state.activeMainIndex', state.activeMainIndex);
   console.log('mainIndex', mainIndex);
@@ -73,9 +65,7 @@ function mainFolderContainer(
             payload: mainIndex,
           });
           setShowSubfolders(showSubfolders === mainIndex ? null : mainIndex);
-          setIsActive(mainIndex);
-          setShowArrowUp(isActive === mainIndex ? !showArrowUp : true);
-          handleClassClick(folder.title)
+          setShowArrowUp(state.activeMainIndex === mainIndex ? !showArrowUp : true);
         }}
       >
         {folder.title}

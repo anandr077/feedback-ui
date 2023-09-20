@@ -1,57 +1,27 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { portfolioHeaderProps } from '../../utils/headerProps';
-import downLoadImg from '../../static/icons/document-download@2x.png';
-import previewImg from '../../static/icons/preview@2x.png';
-import deleteImg from '../../static/icons/trash-can@2x.png';
-import Header from '../Header';
-import HeaderSmall from '../HeaderSmall';
-import FooterSmall from '../FooterSmall';
-import Footer from '../Footer';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
   addDocumentToPortfolio,
-  updatePortfolio,
   getPortfolio,
+  updatePortfolio,
 } from '../../service';
+import { portfolioHeaderProps } from '../../utils/headerProps';
+import Footer from '../Footer';
+import FooterSmall from '../FooterSmall';
+import Header from '../Header';
+import HeaderSmall from '../HeaderSmall';
+import RecentWorkContainer from './RecentWorkContainer';
 
+import { useQuery } from 'react-query';
+import Loader from '../Loader';
+import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
+import PortfolioDocModal from './PortfolioDocModal';
+import PortfolioHeader from './PortfolioHeader';
+import PortfolioSideBar from './PortfolioSideBar';
 import {
   PortfolioBody,
   PortfolioContainer,
-  PortfolioHeader,
-  PortfolioHeading,
-  PortHeadingLeft,
-  NewDocumentBtn,
-  SelectStyle,
-  WorkContainer,
-  WorkHeader,
-  RecentTag,
-  AllWorkBoxes,
-  NewDocBtn,
-  RecentWork,
-  RecentWorkTitle,
-  DocumentBox,
-  DocumentBoxWrapper,
-  DocumentTextFrame,
-  ModalBody,
-  ModalContainer,
-  DocumentTitle,
-  PortHeadDropDown,
-  SideNavContainer,
-  NewDocBtnText,
-  NewDocBtnImg,
-  RecentWorkPara,
-  RecentBtns,
-  RecentBtnImg,
-  AllFilesContainer,
-  DocumentBtns,
-  NoFileDiv,
-  documentStatusStyle
+  SideNavContainer
 } from './PortfolioStyle';
-import AddCircleIcon from '../../static/icons/add-circle.png';
-import CloseIcon from '@mui/icons-material/Close';
-import PortfolioForm from './PortfolioForm';
-import PortfolioSideBar from './PortfolioSideBar';
-import Loader from '../Loader';
-import { useQuery } from 'react-query';
 
 //dummy data for portfolio
 const recentWork = [
@@ -209,6 +179,7 @@ const PortfolioPage = () => {
         courseId: subFolder.courseId,
         classId: subFolder.classId,
         description: 'The description',
+        url: '#documents/' + document.id,
       };
       subFolder.files.push(newFile);
       console.log('newData', newData);
@@ -258,8 +229,7 @@ const PortfolioPage = () => {
 
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
-          {mobileBurgerMenu(setShowModal, showModal)}
-
+          {portfolioHeaderFunc(setShowModal, showModal)}
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
@@ -294,44 +264,13 @@ function documentsContainerFunc(
 ) {
   return (
     <div style={{ width: '100%' }}>
-      {/*all work code is here*/}
-      <WorkContainer>
-        <WorkHeader>
-          <RecentTag>Recent</RecentTag>
-        </WorkHeader>
-        <AllWorkBoxes>
-          <NewDocBtn onClick={() => setShowModal(!showModal)}>
-            <NewDocBtnImg
-              src={AddCircleIcon}
-              alt="Button Icon"
-              className="NewDocBtnImg"
-            ></NewDocBtnImg>
-            <NewDocBtnText>New Document</NewDocBtnText>
-          </NewDocBtn>
-
-          {displayedWork.map((work, idx) => {
-            console.log('work', work);
-            return (
-              <RecentWork key={idx}>
-                <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
-                <RecentWorkTitle>{work.title}</RecentWorkTitle>
-                <div className="recent-hover">
-                  <a>
-                    <RecentBtns>
-                      <RecentBtnImg src={previewImg}></RecentBtnImg>
-                      View
-                    </RecentBtns>
-                  </a>
-                  <RecentBtns>
-                    <RecentBtnImg src={downLoadImg}></RecentBtnImg>
-                    Download
-                  </RecentBtns>
-                </div>
-              </RecentWork>
-            );
-          })}
-        </AllWorkBoxes>
-      </WorkContainer>
+      {
+        <RecentWorkContainer
+          displayedWork={displayedWork}
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      }
 
       {/*Document section code is here*/}
       {allFilesContainer(allFiles)}
@@ -340,65 +279,7 @@ function documentsContainerFunc(
 }
 
 function allFilesContainer(allFiles) {
-  return (
-    <AllFilesContainer>
-      <h3
-        style={{
-          color: '#405059',
-          fontSize: '24px',
-          fontWeight: '500',
-          marginBottom: '20px',
-        }}
-      >
-        All files
-      </h3>
-      {allFiles.length === 0 ? (
-        <NoFileDiv>No files</NoFileDiv>
-      ) : (
-        allFiles.map((document, idx) => {
-          console.log('document', document);
-          return (
-            <DocumentBox key={idx}>
-              <DocumentBoxWrapper>
-                <DocumentTextFrame>
-                  {document?.description?.slice(0, 170)}...
-                </DocumentTextFrame>
-                <div>
-                  {document.status ? (
-                    <p style={documentStatusStyle(document.status)}>
-                      {document.status}
-                    </p>
-                  ) : (
-                    ''
-                  )}
-                  <DocumentTitle>{document.title}</DocumentTitle>
-                </div>
-              </DocumentBoxWrapper>
-              <DocumentBtns>
-                <a href={'#documents/' + document.documentId}>
-                  <button>
-                    <img src={previewImg} alt="Preview Button" />
-                    <p>View</p>
-                    <span>View</span>
-                  </button>
-                </a>
-                <button>
-                  <img src={downLoadImg} alt="Download Button" />
-                  <p>Download</p>
-                  <span>Download</span>
-                </button>
-                <button>
-                  <img src={deleteImg} alt="Delete Button" />
-                  <p>Delete</p>
-                  <span>Delete</span>
-                </button>
-              </DocumentBtns>
-            </DocumentBox>
-          );
-        })
-      )}
-    </AllFilesContainer>
-  );
+  return <PortfolioAllFilesContainer allFiles={allFiles} />;
 }
 
 function newDocumentModal(
@@ -407,72 +288,17 @@ function newDocumentModal(
   handleCreateDocument
 ) {
   return (
-    <ModalBody>
-      <ModalContainer>
-        <div
-          style={{
-            padding: '0 16px 16px',
-            borderBottom: '1px solid #F1E6FC',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <p
-            style={{
-              color: '#505050',
-              fontSize: '20px',
-              fontWeight: '400',
-              lineHeight: '26px',
-            }}
-          >
-            New Document
-          </p>
-          <CloseIcon
-            style={{ cursor: 'pointer' }}
-            onClick={() => setShowModal(!showModal)}
-          />
-        </div>
-        <PortfolioForm
-          setShowModal={setShowModal}
-          showModal={showModal}
-          handleCreateDocument={handleCreateDocument}
-        />
-      </ModalContainer>
-    </ModalBody>
+    <PortfolioDocModal
+      setShowModal={setShowModal}
+      showModal={showModal}
+      handleCreateDocument={handleCreateDocument}
+    />
   );
 }
 
-function mobileBurgerMenu(
+function portfolioHeaderFunc(
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
   showModal: boolean
 ) {
-  return (
-    <PortfolioHeader>
-      <PortfolioHeading>My Portfolio</PortfolioHeading>
-      <PortHeadingLeft>
-        <PortHeadDropDown>
-          <SelectStyle name="sort">
-            <option value="" disabled selected hidden>
-              Sort
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
-          <SelectStyle name="status">
-            <option value="" disabled selected hidden>
-              Status
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
-        </PortHeadDropDown>
-        <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
-          + New Document
-        </NewDocumentBtn>
-      </PortHeadingLeft>
-    </PortfolioHeader>
-  );
+  return <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />;
 }

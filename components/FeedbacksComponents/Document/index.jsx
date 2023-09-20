@@ -22,7 +22,10 @@ import {
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import { getStudentsForClass } from '../../../service';
+import {
+  getStudentsForClass,
+  createRequestFeddbackType,
+} from '../../../service';
 
 const FeedbackMethodType = [
   'From subject teacher',
@@ -34,6 +37,12 @@ const FeedbackMethodTypeEnum = {
   FROM_SUBJECT_TEACHER: 0,
   FROM_PEER: 1,
   FROM_A_FRIEND: 2,
+};
+
+const FeedbackType = {
+  TEACHER: 'TEACHER',
+  P2P: 'P2P',
+  FRIEND: 'FRIEND',
 };
 
 const menuItemsTeachers = [
@@ -106,11 +115,18 @@ function Document(props) {
       );
     }
   }, [submission.classId]);
+
   const handleRequestFeedback = (index) => {
     setFeedbackMethodTypeDialog(index);
   };
-  const handleSelectedRequestFeedback = (itemData) => {
-    console.log('itemData: ', itemData);
+  const handleSelectedRequestFeedback = (itemData, type) => {
+    const requestData = {
+      type: type,
+      reviewerId: itemData ? itemData.id : null,
+    };
+    createRequestFeddbackType(submission.id, requestData).then((res) => {
+      console.log('createRequestFeddbackType', res);
+    });
   };
   return (
     <>
@@ -168,20 +184,25 @@ const handleFeedbackMethodTypeDialog = (
         setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
         title="teacher"
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.TEACHER}
       ></FeedbackTypeDialog>
     );
-  } else if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_A_FRIEND) {
+  }
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_PEER) {
+    handleSelectedRequestFeedback(null, FeedbackType.P2P);
+  }
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_A_FRIEND) {
     return (
       <FeedbackTypeDialog
         menuItems={students}
         setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
         title="student"
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.FRIEND}
       ></FeedbackTypeDialog>
     );
-  } else {
-    return <></>;
   }
+  return <></>;
 };
 
 const selectTabComments = (showResolved, comments) => {

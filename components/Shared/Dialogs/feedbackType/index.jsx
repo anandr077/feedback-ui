@@ -9,6 +9,7 @@ export default function FeedbackTypeDialog({
   setFeedbackMethodTypeDialog,
   title,
   handleSelectedRequestFeedback,
+  feedbackType,
 }) {
   const [open, setOpen] = React.useState(true);
   const [selectedMenuItem, setSelectedMenuItem] = React.useState(null);
@@ -32,7 +33,7 @@ export default function FeedbackTypeDialog({
             <div
               className="request-btn"
               onClick={() => {
-                handleSelectedRequestFeedback(selectedMenuItem);
+                handleSelectedRequestFeedback(selectedMenuItem, feedbackType);
                 handleClose();
               }}
             >

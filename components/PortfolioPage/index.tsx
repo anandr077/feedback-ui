@@ -17,28 +17,27 @@ import {
 import {
   PortfolioBody,
   PortfolioContainer,
-  PortfolioHeader,
-  PortfolioHeading,
-  PortHeadingLeft,
-  NewDocumentBtn,
-  SelectStyle,
   DocumentBox,
   DocumentBoxWrapper,
   DocumentTextFrame,
   ModalBody,
   ModalContainer,
+  ModalContainerHeader,
+  ModalHeaderText,
   DocumentTitle,
-  PortHeadDropDown,
   SideNavContainer,
   AllFilesContainer,
+  AllFileTitle,
   DocumentBtns,
   NoFileDiv,
+  documentStatusStyle
 } from './PortfolioStyle';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
 import PortfolioSideBar from './PortfolioSideBar';
 import Loader from '../Loader';
 import { useQuery } from 'react-query';
+import PortfolioHeader from './PortfolioHeader';
 
 //dummy data for portfolio
 const recentWork = [
@@ -56,40 +55,6 @@ const options = [
   { key: 4, value: 'Test 4' },
   { key: 5, value: 'onno' },
 ];
-
-const commonStyle = {
-  width: 'fit-content',
-  borderRadius: '12px',
-  padding: '3px 8px',
-  marginBottom: '10px',
-  fontSize: '13px',
-  lineHeight: '16px',
-};
-
-const documentStatusStyle = (status) => {
-  if (status === 'Feedback') {
-    return {
-      ...commonStyle,
-      color: '#604C06',
-      backgroundColor: '#F5F0D1',
-      border: '1px solid #F1DE74',
-    };
-  } else if (status === 'Peer-Review') {
-    return {
-      ...commonStyle,
-      color: '#265412',
-      backgroundColor: '#DCF5D1',
-      border: '1px solid #A9E68E',
-    };
-  } else {
-    return {
-      ...commonStyle,
-      color: 'black',
-      backgroundColor: '#FCFAFF',
-      border: '1px solid #F1E7FF',
-    };
-  }
-};
 
 const initailState = {
   portfolio: null,
@@ -288,7 +253,7 @@ const PortfolioPage = () => {
 
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
-          {mobileBurgerMenu(setShowModal, showModal)}
+          {portfolioHeaderFunc(setShowModal, showModal)}
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
@@ -340,21 +305,11 @@ function documentsContainerFunc(
 function allFilesContainer(allFiles) {
   return (
     <AllFilesContainer>
-      <h3
-        style={{
-          color: '#405059',
-          fontSize: '24px',
-          fontWeight: '500',
-          marginBottom: '20px',
-        }}
-      >
-        All files
-      </h3>
+      <AllFileTitle>All files</AllFileTitle>
       {allFiles.length === 0 ? (
         <NoFileDiv>No files</NoFileDiv>
       ) : (
         allFiles.map((document, idx) => {
-          console.log('document', document);
           return (
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>
@@ -407,30 +362,15 @@ function newDocumentModal(
   return (
     <ModalBody>
       <ModalContainer>
-        <div
-          style={{
-            padding: '0 16px 16px',
-            borderBottom: '1px solid #F1E6FC',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <p
-            style={{
-              color: '#505050',
-              fontSize: '20px',
-              fontWeight: '400',
-              lineHeight: '26px',
-            }}
-          >
+        <ModalContainerHeader>
+          <ModalHeaderText>
             New Document
-          </p>
+          </ModalHeaderText>
           <CloseIcon
             style={{ cursor: 'pointer' }}
             onClick={() => setShowModal(!showModal)}
           />
-        </div>
+        </ModalContainerHeader>
         <PortfolioForm
           subjects={options}
           setShowModal={setShowModal}
@@ -442,36 +382,11 @@ function newDocumentModal(
   );
 }
 
-function mobileBurgerMenu(
+function portfolioHeaderFunc(
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
   showModal: boolean
 ) {
   return (
-    <PortfolioHeader>
-      <PortfolioHeading>My Portfolio</PortfolioHeading>
-      <PortHeadingLeft>
-        <PortHeadDropDown>
-          <SelectStyle name="sort">
-            <option value="" disabled selected hidden>
-              Sort
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
-          <SelectStyle name="status">
-            <option value="" disabled selected hidden>
-              Status
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
-        </PortHeadDropDown>
-        <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
-          + New Document
-        </NewDocumentBtn>
-      </PortHeadingLeft>
-    </PortfolioHeader>
+    <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
   );
 }

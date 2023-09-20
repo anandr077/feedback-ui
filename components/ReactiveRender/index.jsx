@@ -68,7 +68,10 @@ export function isMobileView() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   return isMobileView;
 }
-
+export function isTabletView() {
+  const isTabletView = useMediaQuery({ maxWidth: 1023 });
+  return isTabletView;
+}
 export function useIsMobileView() {
   return useMediaQuery({ maxWidth: 1023 });
 }

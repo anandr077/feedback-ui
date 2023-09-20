@@ -40,6 +40,7 @@ export function contextBar(
   handleRequestFeedback
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
+  console.log('submission: ', submission);
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -205,6 +206,17 @@ const submitButton = (
     }
   }
   if (pageMode === 'REVISE') {
+    if (requestFeedback) {
+      return (
+        <RequestFeedbackFrame
+          style={{ border: '1px solid #0C8F8F', cursor: 'unset' }}
+        >
+          {<img src="/img/messages-green.svg" alt="messages" />}
+          Feedback requested from{' '}
+          {submission.reviewerId ? submission.reviewerId : 'peers'}
+        </RequestFeedbackFrame>
+      );
+    }
     if (submission.status === 'RESUBMISSION_REQUESTED') {
       return (
         <>

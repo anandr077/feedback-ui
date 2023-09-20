@@ -25,6 +25,7 @@ import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import {
   getStudentsForClass,
   createRequestFeddbackType,
+  getSubmissionById,
 } from '../../../service';
 
 const FeedbackMethodType = [
@@ -81,6 +82,7 @@ function Document(props) {
     comments,
     headerProps,
     submission,
+    setSubmission,
     share,
     sharewithclassdialog,
   } = props;
@@ -107,9 +109,14 @@ function Document(props) {
     if (submission.classId) {
       Promise.all([getStudentsForClass(submission.classId)]).then(
         ([studentsResponse]) => {
-          const updatedStudentsResponse = studentsResponse.map((item) => {
-            return { ...item, title: item.id };
-          });
+          const filteredStudentsResponse = studentsResponse.filter(
+            (student) => student.id !== submission.studentId
+          );
+          const updatedStudentsResponse = filteredStudentsResponse.map(
+            (item) => {
+              return { ...item, title: item.id };
+            }
+          );
           setStudents(updatedStudentsResponse);
         }
       );
@@ -125,7 +132,11 @@ function Document(props) {
       reviewerId: itemData ? itemData.id : null,
     };
     createRequestFeddbackType(submission.id, requestData).then((res) => {
-      console.log('createRequestFeddbackType', res);
+      if (res) {
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
+      }
     });
   };
   return (
@@ -223,7 +234,6 @@ const selectTabComments = (showResolved, comments) => {
 };
 
 function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  console.log('handleStateChange');
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     setFeedback(false);
     setFocusAreas(true);

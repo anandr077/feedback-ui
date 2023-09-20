@@ -1,26 +1,13 @@
 import React from 'react';
-import Logo from '../Logo';
-import Notifications from '../Notifications';
 import Group1205 from '../Group1205';
 import FooterSmall from '../../FooterSmall';
-import Frame13123 from '../Frame13123';
-import Frame14072 from '../Frame14072';
 import Frame12842 from '../Frame12842';
-import Frame12832 from '../Frame12832';
-import Frame12822 from '../Frame12822';
-import Frame13133 from '../Frame13133';
 import styled from 'styled-components';
 import Frame13124 from '../Frame13124';
 import TaskCard from '../../TaskCard';
 import { timeFirstFormattedDate } from '../../../dates';
 
-import {
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalWhite20px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansBoldWhite72px,
-  IbmplexsansNormalChicago13px,
-} from '../styledMixins';
+import { IbmplexsansMediumRiverBed24px } from '../styledMixins';
 import {
   DashboardIbmplexsansBoldWhite72px,
   DashboardIbmplexsansNormalWhite20px,
@@ -38,30 +25,13 @@ function TeacherDashboardTablet(props) {
     frame131241Props,
     awaitingSubmissions,
     feedbacks,
-    frame5,
-    keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
     line171,
-    line311,
-    tasks,
     line172,
     recentActivity,
     line173,
-    line312,
-    x2023JeddleAllRightsReserved,
-    mainWebsite,
-    terms,
-    privacy,
     group1205Props,
-    frame131231Props,
-    frame131232Props,
-    frame131233Props,
-    frame14072Props,
-    frame131331Props,
-    frame131332Props,
-    frame131333Props,
-    frame131334Props,
   } = props;
   const userName = getUserName();
 
@@ -182,41 +152,6 @@ const Frame1418 = styled.div`
   align-self: stretch;
 `;
 
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: relative;
-`;
-
-const Frame51 = styled.img`
-  position: relative;
-  min-width: 48px;
-  height: 48px;
-  cursor: pointer;
-`;
-
 const Frame1312 = styled.div`
   display: flex;
   flex-direction: column;
@@ -265,14 +200,6 @@ const KeepOrganizedWitho = styled.h1`
 
 const KeepOrganizedWitho1 = styled.p`
   ${DashboardIbmplexsansNormalWhite20px}
-  position: relative;
-  align-self: stretch;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Terms = styled.div`
   position: relative;
   align-self: stretch;
   text-align: center;
@@ -355,14 +282,6 @@ const Frame1336 = styled.div`
   }
 `;
 
-const Line31 = styled.img`
-  position: absolute;
-  top: 2px;
-  left: 901px;
-  width: 1px;
-  height: 72px;
-`;
-
 const Frame1340 = styled.div`
   display: flex;
   flex-direction: column;
@@ -415,47 +334,6 @@ const Frame1408 = styled.div`
     width: 0;
     display: none;
   }
-`;
-
-const Frame1420 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2023JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const MainWebsite = styled.div`
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame6 = styled.div`
-  ${IbmplexsansNormalPersianIndigo13px}
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
 `;
 
 export default TeacherDashboardTablet;

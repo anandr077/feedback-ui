@@ -12,7 +12,6 @@ import {
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import FooterSmall from '../FooterSmall';
 import './TasksStudentTablet.css';
-import { set } from 'lodash';
 
 function TasksStudentTablet(props) {
   const {

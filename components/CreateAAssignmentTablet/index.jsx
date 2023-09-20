@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import GoBack2 from '../GoBack2';
@@ -7,7 +6,6 @@ import Buttons2 from '../Buttons2';
 import styled from 'styled-components';
 import {
   IbmplexsansMediumElectricViolet20px,
-  IbmplexsansNormalShark20px,
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalStack20px,
   IbmplexsansSemiBoldShark20px,
@@ -19,10 +17,6 @@ import './CreateAAssignmentTablet.css';
 import FooterSmall from '../FooterSmall';
 import HeaderSmall from '../HeaderSmall';
 import { taskHeaderProps } from '../../utils/headerProps.js';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import ScreenPopup from '../ScreenPopup';
 function CreateAAssignmentTablet(props) {
   const {
     assignment,
@@ -119,6 +113,15 @@ function CreateAAssignmentTablet(props) {
                 value={assignment.title}
               ></TextInput>
             </Frame1374>
+            <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
+                  <Frame12811>
+                    <Classes>Classes</Classes>
+                    {/* <Link to="/tooltip1">
+                      <Help src={help1} alt="help" />
+                    </Link> */}
+                  </Frame12811>
+                  <Frame1298>{checkboxes}</Frame1298>
+                </Frame1299>
             <Frame1294>
               <Frame1372>
                 <Questions>Questions</Questions>
@@ -131,30 +134,16 @@ function CreateAAssignmentTablet(props) {
             <Frame1294>
               <AssignmentSettings>Task Settings</AssignmentSettings>
               <Frame1295>
-                <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
-                  <Frame12811>
-                    <Classes>Classes</Classes>
-                    {/* <Link to="/tooltip1">
-                      <Help src={help1} alt="help" />
-                    </Link> */}
-                  </Frame12811>
-                  <Frame1298>{checkboxes}</Frame1298>
-                </Frame1299>
+                
                 <Frame1299>
                   <Frame12811>
                     <Classes>Feedback Method</Classes>
-                    {/* <Link to="/tooltip2">
-                      <Help src={help2} alt="help" />
-                    </Link> */}
                   </Frame12811>
                   {feedbacksMethodContainer}
                 </Frame1299>
                 <Frame1299 id="timeContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Due at</Classes>
-                    {/* <Link to="/tooltip2">
-                      <Help src={help2} alt="help" />
-                    </Link> */}
                   </Frame12811>
                   {dateSelectorFrame}
                 </Frame1299>
@@ -258,51 +247,6 @@ const TextInput = styled.input`
   transition: 0.15s;
 `;
 
-const Checkbox = styled.article`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  flex: 1;
-`;
-
-const Checkbox1 = styled.div`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const CheckBoxText = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-const Rectangle43 = styled.input`
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  top: -1px;
-  left: -1px;
-  background-color: var(--white);
-
-  border: 1px solid;
-  border-color: var(--light-mode-purple);
-  font: inherit;
-  color: currentColor;
-  width: 1.25em;
-  height: 1.25em;
-  border: 1em solid currentColor;
-  border-radius: 1em;
-  transform: translateY(-0.075em);
-  &:checked {
-    border-color: red;
-    background-color: red;
-  }
-`;
-
 const Buttons1 = styled.div`
   display: flex;
   width: fit-content;
@@ -394,7 +338,6 @@ const Frame1372 = styled.div`
   gap: 30px;
   position: relative;
   align-self: stretch;
-  // top: 30px;
   min-width: 300px;
   z-index: 10;
 `;
@@ -402,7 +345,6 @@ const Frame1372 = styled.div`
 const Frame1372WithTop = styled.div`
   display: flex;
   flex-direction: row;
-
   align-items: center;
   gap: 30px;
   position: relative;
@@ -513,13 +455,6 @@ const Classes = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
-`;
-
-const Help = styled.img`
-  position: relative;
-  min-width: 24px;
-  height: 24px;
-  cursor: pointer;
 `;
 
 const Frame1298 = styled.div`

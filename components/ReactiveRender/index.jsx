@@ -61,15 +61,31 @@ export default function ReactiveRender(props) {
   );
 }
 
+export function isSmallScreen() {
+  return isMobileView() || isTabletView();
+}
 export function isMobileView() {
   const isMobileView = useMediaQuery({ maxWidth: 1023 });
   return isMobileView;
 }
 export function isTabletView() {
-  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
+  const isTabletView = useMediaQuery({ maxWidth: 1023 });
   return isTabletView;
 }
+export function useIsMobileView() {
+  return useMediaQuery({ maxWidth: 1023 });
+}
 
+export function useIsTabletView() {
+  return useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
+}
+
+
+export function useIsSmallScreen() {
+  const isMobile = useIsMobileView();
+  const isTablet = useIsTabletView();
+  return isMobile || isTablet;
+}
 export function isLaptopView() {
   const isLaptopView = useMediaQuery({ minWidth: 1200, maxWidth: 1919 });
   return isLaptopView;

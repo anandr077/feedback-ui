@@ -21,11 +21,9 @@ function DashboardHomeStudentDesktop(props) {
     overdueTasks,
     modelResponses,
     setPublishActionCompleted,
-    keepOrganizedWitho1,
     keepOrganizedWitho2,
     maskGroup,
     group1205Props,
-    frame1340Props,
     headerProps,
   } = props;
 
@@ -119,39 +117,6 @@ const Frame1345 = styled.div`
   padding: 0px 30px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1344 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 0px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1343 = styled.img`
-  position: relative;
-  min-width: 240px;
-  height: 43.5px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame51 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 28px;
-  position: relative;
 `;
 
 const Frame1342 = styled.div`
@@ -310,23 +275,6 @@ const Frame20 = styled.div`
   position: relative;
   align-self: stretch;
   overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
-`;
-
-const Frame191 = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 600px;
-  align-items: flex-start;
-
-  position: relative;
-  align-self: stretch;
-  overflow-y: scroll;
-  width: 200%;
 
   &::-webkit-scrollbar {
     width: 0;

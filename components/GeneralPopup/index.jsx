@@ -14,17 +14,20 @@ export default function GeneralPopup(props) {
     buttonText,
     textContent,
     title,
+    confirmationMessage,
     confirmButtonAction,
     smartAnnotation,
     createSmartAnnotationHandler,
+    warningMessage
   } = props;
+
+  console.log('pageMode ' + warningMessage);
 
   const [annotationTitle, setAnnotationTitle] = useState('');
 
   const handleInputChange = (event) => {
     setAnnotationTitle(event.target.value);
   };
-
 
   const content = (
     <>
@@ -39,25 +42,28 @@ export default function GeneralPopup(props) {
         </TextFrame>
       )}
       <ConfirmSubmit>
-        <PlagiarismText>
-          Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness.
-        </PlagiarismText>
-        <PlagiarismText>
-          By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form.
-        </PlagiarismText>
+        {warningMessage  && (
+            <PlagiarismText>
+              {warningMessage}
+            </PlagiarismText>
+        )}
+        {confirmationMessage && (
+            <PlagiarismText>
+              {confirmationMessage}
+            </PlagiarismText> 
+        )}
       </ConfirmSubmit>
+ 
       <ButtonsContainer>
         <ProceedButton onClick={() => hidePopup()}>Cancel</ProceedButton>
         {smartAnnotation ? (
           <CancelButton
-            onClick={() =>createSmartAnnotationHandler(annotationTitle)}
+            onClick={() => createSmartAnnotationHandler(annotationTitle)}
           >
             {buttonText}
           </CancelButton>
         ) : (
-          <CancelButton 
-              onClick={() => confirmButtonAction()}
-          >
+          <CancelButton onClick={() => confirmButtonAction()}>
             {buttonText}
           </CancelButton>
         )}
@@ -138,23 +144,6 @@ const ButtonsContainer = styled.div`
   font-family: IBM Plex Sans;
 `;
 
-const IconTrash = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const Arrowright = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const ArrowrightSmall = styled.img`
-  position: relative;
-  min-width: 18px;
-  height: 18px;
-`;
 const CancelButton = styled.div`
   ${IbmplexsansSemiBoldWhite16px}
   display: inline-flex;
@@ -252,12 +241,12 @@ const Line141 = styled.img`
 const ConfirmSubmit = styled.div`
   margin: 20px auto 0;
   width: 90%;
-`
+`;
 
 const PlagiarismText = styled.p`
   margin-bottom: 15px;
-  color: #3A3A3A;
+  color: #3a3a3a;
   font-size: 14px;
   line-height: 20px;
   font-family: IBM Plex Sans;
-`
+`;

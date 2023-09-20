@@ -1,13 +1,8 @@
 import React from 'react';
-import Frame1285 from '../Frame1285';
 import Frame14103 from '../Frame14103';
 import Header from '../../Header';
 import styled from 'styled-components';
-import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansNormalShark16px,
-  IbmplexsansNormalChicago13px,
-} from '../styledMixins';
+import { IbmplexsansBoldShark64px } from '../styledMixins';
 import './CompletedLaptop.css';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
 import Footer from '../../Footer';
@@ -51,7 +46,6 @@ function CompletedLaptop(props) {
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
           />
-          {/* <Line18 src={line18} alt="Line 18" /> */}
         </Frame1413>
       </Frame1425>
       <Footer />
@@ -102,44 +96,6 @@ const Title = styled.h1`
   line-height: normal;
 `;
 
-const Frame1305 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-`;
-
-const Frame12851 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  position: relative;
-  background-color: var(--white);
-  border-radius: 8px;
-  border: 1px solid;
-  border-color: var(--blue-chalk-2);
-  box-shadow: 0px 4px 8px #2f1a720a;
-  cursor: pointer;
-`;
-
-const Subject = styled.div`
-  ${IbmplexsansNormalShark16px}
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame1284 = styled.img`
-  position: relative;
-  min-width: 16px;
-  height: 16px;
-`;
-
 const Frame1413 = styled.div`
   display: flex;
   flex-direction: column;
@@ -148,33 +104,6 @@ const Frame1413 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
-`;
-
-const Line18 = styled.img`
-  position: relative;
-  align-self: stretch;
-  min-width: 1320px;
-  height: 1px;
-  object-fit: cover;
-`;
-
-const Frame61 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const X2021JeddleAllRightsReserved = styled.p`
-  ${IbmplexsansNormalChicago13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
 `;
 
 export default CompletedLaptop;

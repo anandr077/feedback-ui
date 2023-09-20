@@ -18,12 +18,8 @@ function DashboardHomeStudentTablet(props) {
     overdueTasks,
     modelResponses,
     setPublishActionCompleted,
-    keepOrganizedWitho1,
     keepOrganizedWitho2,
-    line171,
-    line172,
     frame120821Props,
-    frame120822Props,
   } = props;
   const userName = getUserName();
 
@@ -73,11 +69,6 @@ function DashboardHomeStudentTablet(props) {
   );
 }
 
-const Crown = styled.img`
-  position: relative;
-  min-width: 26px;
-  height: 26px;
-`;
 const Frame1352 = styled.div`
   display: flex;
   flex-direction: column;
@@ -85,87 +76,6 @@ const Frame1352 = styled.div`
   gap: 12px;
   position: relative;
   align-self: stretch;
-`;
-
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  position: relative;
-  flex: 1;
-`;
-
-const Logo = styled.div`
-  position: relative;
-  min-width: 138.0001220703125px;
-  height: 33.98849868774414px;
-`;
-
-const Union = styled.img`
-  position: absolute;
-  width: 83px;
-  height: 27px;
-  top: 3px;
-  left: 55px;
-`;
-
-const VectorContainer = styled.div`
-  position: absolute;
-  width: 50px;
-  height: 37px;
-  top: -2px;
-  left: -2px;
-`;
-
-const Vector = styled.img`
-  position: absolute;
-  width: 27px;
-  height: 20px;
-  top: 17px;
-  left: 8px;
-`;
-
-const Vector1 = styled.img`
-  position: absolute;
-  width: 50px;
-  height: 33px;
-  top: 0;
-  left: 0;
-`;
-
-const Vector2 = styled.img`
-  position: absolute;
-  width: 37px;
-  height: 24px;
-  top: 6px;
-  left: 5px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: relative;
-`;
-
-const Frame51 = styled.img`
-  position: relative;
-  min-width: 48px;
-  height: 48px;
-  cursor: pointer;
 `;
 
 const Frame1203 = styled.div`

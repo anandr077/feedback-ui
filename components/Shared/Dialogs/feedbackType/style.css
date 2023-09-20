@@ -1,0 +1,30 @@
+.type-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: #000;
+    font-family: IBM Plex Sans;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.request-btn {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 30px;
+    border: 1px solid var(--Light-Mode-Purple, #7200E0);
+    background: var(--Light-Mode-Purple, #7200E0);
+    color: #FFF;
+    text-align: center;
+    font-family: IBM Plex Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+}

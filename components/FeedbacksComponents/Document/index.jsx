@@ -1,7 +1,7 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useState } from 'react';
+import { default as React, default as React, useState, useEffect } from 'react';
 import Header from '../../Header';
 
 import Footer from '../../Footer';
@@ -21,6 +21,49 @@ import {
   Frame1388,
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
+import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
+import {
+  getStudentsForClass,
+  createRequestFeddbackType,
+  getSubmissionById,
+} from '../../../service';
+
+const FeedbackMethodType = [
+  'From subject teacher',
+  'Form peers',
+  'From a friend',
+];
+
+const FeedbackMethodTypeEnum = {
+  FROM_SUBJECT_TEACHER: 0,
+  FROM_PEER: 1,
+  FROM_A_FRIEND: 2,
+};
+
+const FeedbackType = {
+  TEACHER: 'TEACHER',
+  P2P: 'P2P',
+  FRIEND: 'FRIEND',
+};
+
+const menuItemsTeachers = [
+  {
+    id: 1,
+    title: 'teacher1',
+  },
+  {
+    id: 2,
+    title: 'teacher2',
+  },
+  {
+    id: 3,
+    title: 'teacher3',
+  },
+  {
+    id: 4,
+    title: 'teacher4',
+  },
+];
 
 function Document(props) {
   const {
@@ -39,17 +82,63 @@ function Document(props) {
     comments,
     headerProps,
     submission,
+    setSubmission,
     share,
     sharewithclassdialog,
   } = props;
-
   const [isShowResolved, setShowResolved] = useState(false);
-  const [isShowSelectType, setShowSelectType] = useState(true);
+  const [isShowSelectType, setShowSelectType] = useState(false);
+  const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+  const [students, setStudents] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
   const [tabletView, setTabletView] = useState(isTabletView());
-  console.log('smartAnnotations', smartAnnotations);
+
+  const handleOutsideClick = (event) => {
+    setShowSelectType(false);
+  };
+  useEffect(() => {
+    window.addEventListener('click', handleOutsideClick);
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (submission.classId) {
+      Promise.all([getStudentsForClass(submission.classId)]).then(
+        ([studentsResponse]) => {
+          const filteredStudentsResponse = studentsResponse.filter(
+            (student) => student.id !== submission.studentId
+          );
+          const updatedStudentsResponse = filteredStudentsResponse.map(
+            (item) => {
+              return { ...item, title: item.id };
+            }
+          );
+          setStudents(updatedStudentsResponse);
+        }
+      );
+    }
+  }, [submission.classId]);
+
+  const handleRequestFeedback = (index) => {
+    setFeedbackMethodTypeDialog(index);
+  };
+  const handleSelectedRequestFeedback = (itemData, type) => {
+    const requestData = {
+      type: type,
+      reviewerId: itemData ? itemData.id : null,
+    };
+    createRequestFeddbackType(submission.id, requestData).then((res) => {
+      if (res) {
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
+      }
+    });
+  };
   return (
     <>
       <div className="feedback-teacher-laptop screen">
@@ -77,14 +166,56 @@ function Document(props) {
             comments,
             newCommentFrameRef,
             share,
-            smartAnnotations
+            smartAnnotations,
+            handleRequestFeedback
           )}
           {footer(tabletView)}
         </Frame1388>
       </div>
+      {handleFeedbackMethodTypeDialog(
+        feedbackMethodTypeDialog,
+        setFeedbackMethodTypeDialog,
+        handleSelectedRequestFeedback,
+        students
+      )}
     </>
   );
 }
+
+const handleFeedbackMethodTypeDialog = (
+  feedbackMethodType,
+  setFeedbackMethodTypeDialog,
+  handleSelectedRequestFeedback,
+  students
+) => {
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER) {
+    return (
+      <FeedbackTypeDialog
+        menuItems={menuItemsTeachers}
+        setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
+        title="teacher"
+        handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.TEACHER}
+      ></FeedbackTypeDialog>
+    );
+  }
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_PEER) {
+    handleSelectedRequestFeedback(null, FeedbackType.P2P);
+  }
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_A_FRIEND) {
+    return (
+      <FeedbackTypeDialog
+        menuItems={students}
+        setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
+        title="student"
+        handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.FRIEND}
+      ></FeedbackTypeDialog>
+    );
+  }
+  return <></>;
+};
+
 const selectTabComments = (showResolved, comments) => {
   if (showResolved) {
     return comments.map((comment) => {
@@ -103,7 +234,6 @@ const selectTabComments = (showResolved, comments) => {
 };
 
 function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  console.log('handleStateChange');
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     setFeedback(false);
     setFocusAreas(true);
@@ -138,7 +268,8 @@ function answersAndFeedbacks(
   comments,
   newCommentFrameRef,
   share,
-  smartAnnotations
+  smartAnnotations,
+  handleRequestFeedback
 ) {
   return (
     <Frame1386 id="content">
@@ -149,7 +280,10 @@ function answersAndFeedbacks(
         methods,
         isTeacher,
         pageMode,
-        labelText
+        labelText,
+        (feedbackMethodType = FeedbackMethodType),
+        (requestFeedback = true),
+        handleRequestFeedback
       )}
 
       <Frame1368 id="assignmentData">
@@ -230,8 +364,8 @@ function breadcrumbs(submission) {
   return (
     <Frame1387>
       <Frame1315>
-        <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
-        <Breadcrumb2 assignments={submission?.assignment?.title} />
+        <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+        <Breadcrumb2 assignments={submission.assignment.title} />
       </Frame1315>
     </Frame1387>
   );

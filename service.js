@@ -264,12 +264,12 @@ export const updateMarkingCriteria = async (
   );
 };
 
-export const updateStrength = async (
-  markingCriteriaId,
-  strength
-) => {
+export const updateStrength = async (markingCriteriaId, strength) => {
   await patchApi(
-    baseUrl + '/teachers/markingCriteria/' + markingCriteriaId + '/selectedStrengths',
+    baseUrl +
+      '/teachers/markingCriteria/' +
+      markingCriteriaId +
+      '/selectedStrengths',
     strength
   );
 };
@@ -300,7 +300,6 @@ export const getSmartAnnotations = async () =>
 
 export const getMarkingMethodology = async (id) =>
   await getApi(baseUrl + '/teachers/markingCriterias/' + id);
-
 
 export const getAllMarkingCriteria = async () =>
   await getApi(baseUrl + '/teachers/markingCriteria');
@@ -360,6 +359,14 @@ export const denyModelResponse = async (feedbackId) =>
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + '/submissions', submission);
 
+export const createRequestFeddbackType = async (
+  submissionId,
+  requestFeddbackType
+) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/requestFeedback',
+    requestFeddbackType
+  );
 function logoutLocal() {
   deleteProfileCookies();
   localStorage.removeItem('jwtToken');
@@ -480,17 +487,11 @@ export const getDefaultCriteria = () => {
 export const getPortfolio = async () =>
   await getApi(baseUrl + '/students/portfolio');
 export const updatePortfolio = async (portfolio) =>
-  await putApi(
-    baseUrl + '/students/portfolio',
-    portfolio
-  );
+  await putApi(baseUrl + '/students/portfolio', portfolio);
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
-  await postApi(
-    baseUrl + '/students/portfolio/documents',
-    {
-      classId,
-      courseId,
-      title
-    }
-);
+  await postApi(baseUrl + '/students/portfolio/documents', {
+    classId,
+    courseId,
+    title,
+  });

@@ -1,10 +1,5 @@
 import jsPDF from 'jspdf';
-import {
-  filter,
-  flatMap,
-  includes,
-  map
-} from 'lodash';
+import { filter, flatMap, includes, map } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -25,7 +20,7 @@ import {
   resolveFeedback,
   submitAssignment,
   updateFeedback,
-  updateFeedbackRange
+  updateFeedbackRange,
 } from '../../../service';
 import {
   getShortcuts,
@@ -36,13 +31,14 @@ import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
-import { getComments, getPageMode } from './functions';
+import { getComments, getPortfolioPageMode } from './functions';
 import {
   feedbacksFeedbackTeacherLaptopData,
-  feedbacksFeedbackTeacherMobileData
+  feedbacksFeedbackTeacherMobileData,
 } from './style';
+import { portfolioHeaderProps } from '../../../utils/headerProps';
 
-export default function DocumentRoot({  }) {
+export default function DocumentRoot({}) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showLoader, setShowLoader] = useState(false);
@@ -64,7 +60,6 @@ export default function DocumentRoot({  }) {
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
 
-
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
       .then(([submissionsResult, commentsResult, smartAnnotationResult]) => {
@@ -73,7 +68,7 @@ export default function DocumentRoot({  }) {
           return { ...c };
         });
         setComments(allComments);
-        console.log('smartAnnotationResult', smartAnnotationResult)
+        console.log('smartAnnotationResult', smartAnnotationResult);
         setSmartAnnotations(smartAnnotationResult);
       })
       .finally(() => {
@@ -85,7 +80,7 @@ export default function DocumentRoot({  }) {
     return <Loader />;
   }
 
-  const pageMode = getPageMode(false, getUserId(), submission);
+  const pageMode = getPortfolioPageMode(getUserId(), submission);
 
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
@@ -404,13 +399,12 @@ export default function DocumentRoot({  }) {
     }, 4000);
   };
   function disableAllEditors() {
-    submission.assignment.questions
-      .forEach((question) => {
-        // alert(JSON.stringify(question))
-        const quill = quillRefs.current[question.serialNumber - 1];
-        // alert(JSON.stringify(quillRefs.current))
-        quill.disable();
-      });
+    submission.assignment.questions.forEach((question) => {
+      // alert(JSON.stringify(question))
+      const quill = quillRefs.current[question.serialNumber - 1];
+      // alert(JSON.stringify(quillRefs.current))
+      quill.disable();
+    });
   }
 
   function handleSubmissionClosed() {
@@ -526,7 +520,6 @@ export default function DocumentRoot({  }) {
   };
   const onSelectionChange = reviewerSelectionChange;
 
-  
   const downloadPDF = () => {
     const doc = new jsPDF({
       orientation: 'p',
@@ -622,11 +615,7 @@ export default function DocumentRoot({  }) {
   function submissionStatusLabel() {
     return getStatusMessage(
       submission,
-      false
-        ? 'TEACHER'
-        : getUserId() === submission.studentId
-        ? 'SELF'
-        : 'PEER'
+      false ? 'TEACHER' : getUserId() === submission.studentId ? 'SELF' : 'PEER'
     );
   }
   function getStatusMessage(submission, viewer) {
@@ -754,18 +743,22 @@ export default function DocumentRoot({  }) {
           textContent={popupText}
           buttonText="Acknowledge and Submit"
           confirmButtonAction={submissionFunction()}
+          warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
+          confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
         />
       )}
 
       <ReactiveRender
         mobile={
-          <FeedbackTeacherMobile
+          <Document
             {...{
               newCommentSerialNumber,
+              showLoader,
               submissionStatusLabel,
               labelText,
               quillRefs,
               pageMode,
+              shortcuts,
               smartAnnotations,
               newCommentFrameRef,
               methods,
@@ -773,7 +766,9 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
-              ...feedbacksFeedbackTeacherMobileData,
+              setSubmission,
+              // ...feedbacksFeedbackTeacherLaptopData,
+              headerProps: portfolioHeaderProps,
             }}
           />
         }
@@ -794,7 +789,9 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
-              ...feedbacksFeedbackTeacherLaptopData,
+              setSubmission,
+              // ...feedbacksFeedbackTeacherLaptopData,
+              headerProps: portfolioHeaderProps,
             }}
           />
         }
@@ -816,7 +813,9 @@ export default function DocumentRoot({  }) {
                 comments,
                 studentName,
                 submission,
-                ...feedbacksFeedbackTeacherLaptopData,
+                setSubmission,
+                // ...feedbacksFeedbackTeacherLaptopData,
+                headerProps: portfolioHeaderProps,
               }}
             />
           </>
@@ -838,7 +837,8 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
-              ...feedbacksFeedbackTeacherLaptopData,
+              setSubmission,
+              headerProps: portfolioHeaderProps,
             }}
           />
         }
@@ -859,5 +859,3 @@ export default function DocumentRoot({  }) {
     return handleRequestResubmission;
   }
 }
-
- 

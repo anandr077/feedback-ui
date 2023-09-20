@@ -75,7 +75,7 @@ const PortfolioPage = () => {
       <ResponsiveHeader smallScreen={smallScreen} headerProps={ portfolioHeaderProps}></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>
-        <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
+          <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />

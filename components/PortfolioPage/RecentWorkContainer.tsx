@@ -5,17 +5,11 @@ import {
     RecentTag,
     AllWorkBoxes,
     NewDocBtn,
-    RecentWork,
-    RecentWorkTitle,
     NewDocBtnText,
     NewDocBtnImg,
-    RecentWorkPara,
-    RecentBtns,
-    RecentBtnImg
   } from './RecentWorkContainerStyle';
 import AddCircleIcon from '../../static/icons/add-circle.png';
-import downLoadImg from '../../static/icons/document-download@2x.png';
-import previewImg from '../../static/icons/preview@2x.png';
+import RecentWorks from './RecentWorks';
 
 //dummy data for portfolio
 const recentWork = [
@@ -64,22 +58,7 @@ const RecentWorkContainer = ({smallScreen, showModal, setShowModal}) => {
           {displayedWork.map((work, idx) => {
             console.log('work', work);
             return (
-              <RecentWork key={idx}>
-                <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
-                <RecentWorkTitle>{work.title}</RecentWorkTitle>
-                <div className="recent-hover">
-                  <a>
-                    <RecentBtns>
-                      <RecentBtnImg src={previewImg}></RecentBtnImg>
-                      View
-                    </RecentBtns>
-                  </a>
-                  <RecentBtns>
-                    <RecentBtnImg src={downLoadImg}></RecentBtnImg>
-                    Download
-                  </RecentBtns>
-                </div>
-              </RecentWork>
+              <RecentWorks work={work} key={idx} />
             );
           })}
         </AllWorkBoxes>

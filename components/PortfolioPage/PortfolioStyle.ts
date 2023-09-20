@@ -17,78 +17,6 @@ const PortfolioBody = styled.section`
   }
 `;
 
-//Portfolio header code starts from here...
-const PortfolioHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 25px;
-  max-width: 1440px;
-  margin: 0 auto;
-`;
-
-const PortfolioHeading = styled.h1`
-  color: #25222a;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 83px;
-  @media (max-width: 900px) {
-    font-size: 36px;
-    line-height: 40px;
-  }
-`;
-
-const PortHeadingLeft = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-
-  @media (max-width: 715px) {
-    width: 100%;
-  }
-`;
-
-const PortHeadDropDown = styled.div`
-  display: flex;
-  gap: 20px;
-  @media (max-width: 576px) {
-    width: 100%;
-  }
-`;
-
-const SelectStyle = styled.select`
-  min-width: 78px;
-  border-radius: 8px;
-  border: 1px solid #f2e6fe;
-  background-color: white;
-  box-shadow: 0px 2px 2px rgba(48, 27, 114, 0.07);
-  padding: 12px;
-  cursor: pointer;
-
-  @media (max-width: 576px) {
-    flex: 1;
-  }
-`;
-
-const NewDocumentBtn = styled.button`
-  background-color: #7200e0;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 30px;
-  width: 165px;
-  font-size: 16px;
-  cursor: pointer;
-  &:hover {
-    background-color: #301b72;
-  }
-
-  @media (max-width: 576px) {
-    display: none;
-  }
-`;
 
 //Portfolio Container starts from here.......
 const PortfolioContainer = styled.div`
@@ -116,10 +44,11 @@ const SideNavContainer = styled.nav`
     background-color: white;
     border-radius: 8px;
     padding: 16px 24px;
-    border: 1px solid #F2E6FE;
+    border: 1px solid #f2e6fe;
   }
 `;
 
+<<<<<<< HEAD
 //Portfolio work row code is here
 
 const WorkContainer = styled.div`
@@ -507,36 +436,52 @@ const ModalBody = styled.div`
 const ModalContainer = styled.div`
   background-color: white;
   width: min(600px, 90%);
-  height: 351px;
   border-radius: 12px;
   padding: 16px 0;
   border-top: 1px solid #f1e7ff;
 `;
 
+const commonStyle = {
+  width: 'fit-content',
+  borderRadius: '12px',
+  padding: '3px 8px',
+  marginBottom: '10px',
+  fontSize: '13px',
+  lineHeight: '16px',
+};
+
+const documentStatusStyle = (status) => {
+  if (status === 'Feedback') {
+    return {
+      ...commonStyle,
+      color: '#604C06',
+      backgroundColor: '#F5F0D1',
+      border: '1px solid #F1DE74',
+    };
+  } else if (status === 'Peer-Review') {
+    return {
+      ...commonStyle,
+      color: '#265412',
+      backgroundColor: '#DCF5D1',
+      border: '1px solid #A9E68E',
+    };
+  } else {
+    return {
+      ...commonStyle,
+      color: 'black',
+      backgroundColor: '#FCFAFF',
+      border: '1px solid #F1E7FF',
+    };
+  }
+};
+
+=======
+>>>>>>> 82676b37ee82510b906e5eb47f73402e4973fd7f
 export {
   PortfolioBody,
   PortfolioContainer,
-  PortfolioHeader,
-  PortfolioHeading,
-  PortHeadingLeft,
-  NewDocumentBtn,
-  SelectStyle,
-  WorkContainer,
-  WorkHeader,
-  RecentTag,
-  AllWorkBtn,
-  AllWorkBoxes,
-  NewDocBtn,
-  RecentWork,
-  RecentWorkTitle,
-  DocumentBox,
-  DocumentBoxWrapper,
-  DocumentTextFrame,
-  ModalBody,
-  ModalContainer,
-  DocumentTitle,
-  PortHeadDropDown,
   SideNavContainer,
+<<<<<<< HEAD
   NewDocBtnText,
   NewDocBtnImg,
   RecentWorkPara,
@@ -544,5 +489,8 @@ export {
   RecentBtnImg,
   AllFilesContainer,
   DocumentBtns,
-  NoFileDiv
+  NoFileDiv,
+  documentStatusStyle
+=======
+>>>>>>> 82676b37ee82510b906e5eb47f73402e4973fd7f
 };

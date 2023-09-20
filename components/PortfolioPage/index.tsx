@@ -23,33 +23,12 @@ import {
 import {
   PortfolioBody,
   PortfolioContainer,
-  SideNavContainer
+  SideNavContainer,
+  DocumentMainSection,
+  PortfolioSection
 } from './PortfolioStyle';
 import { useIsSmallScreen } from '../ReactiveRender';
 import ResponsiveFooter from '../ResponsiveFooter';
-
-//dummy data for portfolio
-const recentWork = [
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },{
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-];
 
 
 const PortfolioPage = () => {
@@ -72,10 +51,6 @@ const PortfolioPage = () => {
     return <Loader />;
   }
 
-  const numColumns = smallScreen ? 3 : 4;
-
-
-  const displayedWork = recentWork.slice(0, numColumns)
   const allFiles = getDocuments(
     state.portfolio,
     state.activeMainIndex,
@@ -96,23 +71,23 @@ const PortfolioPage = () => {
   return (
     <>
       <ResponsiveHeader smallScreen={smallScreen} headerProps={ portfolioHeaderProps}></ResponsiveHeader>
-      <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
+      <PortfolioSection>
         <PortfolioBody>
-        <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
+          <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
             </SideNavContainer>
 
             {documentsContainerFunc(
-              displayedWork,
+              smallScreen,
               allFiles,
               showModal,
               setShowModal
             )}
           </PortfolioContainer>
         </PortfolioBody>
-      </div>
+      </PortfolioSection>
 
       <ResponsiveFooter smallScreen={smallScreen}/>
 
@@ -129,16 +104,16 @@ const PortfolioPage = () => {
 export default PortfolioPage;
 
 function documentsContainerFunc(
-  displayedWork: { title: string; desc: string }[],
+  smallScreen,
   allFiles,
   showModal,
   setShowModal
 ) {
   return (
-    <div style={{ width: '100%' }}>
+    <DocumentMainSection>
       {
         <RecentWorkContainer
-          displayedWork={displayedWork}
+          smallScreen={smallScreen}
           showModal={showModal}
           setShowModal={setShowModal}
         />
@@ -146,6 +121,6 @@ function documentsContainerFunc(
 
       {/*Document section code is here*/}
       <PortfolioAllFilesContainer allFiles={allFiles} />
-    </div>
+    </DocumentMainSection>
   );
 }

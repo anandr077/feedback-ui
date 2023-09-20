@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { portfolioHeaderProps } from '../../utils/headerProps';
-import downLoadImg from '../../static/icons/document-download@2x.png';
-import previewImg from '../../static/icons/preview@2x.png';
-import deleteImg from '../../static/icons/trash-can@2x.png';
 import Header from '../Header';
 import HeaderSmall from '../HeaderSmall';
 import FooterSmall from '../FooterSmall';
@@ -17,20 +14,11 @@ import {
 import {
   PortfolioBody,
   PortfolioContainer,
-  DocumentBox,
-  DocumentBoxWrapper,
-  DocumentTextFrame,
   ModalBody,
   ModalContainer,
   ModalContainerHeader,
   ModalHeaderText,
-  DocumentTitle,
   SideNavContainer,
-  AllFilesContainer,
-  AllFileTitle,
-  DocumentBtns,
-  NoFileDiv,
-  documentStatusStyle
 } from './PortfolioStyle';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
@@ -38,6 +26,7 @@ import PortfolioSideBar from './PortfolioSideBar';
 import Loader from '../Loader';
 import { useQuery } from 'react-query';
 import PortfolioHeader from './PortfolioHeader';
+import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 
 //dummy data for portfolio
 const recentWork = [
@@ -304,53 +293,7 @@ function documentsContainerFunc(
 
 function allFilesContainer(allFiles) {
   return (
-    <AllFilesContainer>
-      <AllFileTitle>All files</AllFileTitle>
-      {allFiles.length === 0 ? (
-        <NoFileDiv>No files</NoFileDiv>
-      ) : (
-        allFiles.map((document, idx) => {
-          return (
-            <DocumentBox key={idx}>
-              <DocumentBoxWrapper>
-                <DocumentTextFrame>
-                  {document?.description?.slice(0, 170)}...
-                </DocumentTextFrame>
-                <div>
-                  {document.status ? (
-                    <p style={documentStatusStyle(document.status)}>
-                      {document.status}
-                    </p>
-                  ) : (
-                    ''
-                  )}
-                  <DocumentTitle>{document.title}</DocumentTitle>
-                </div>
-              </DocumentBoxWrapper>
-              <DocumentBtns>
-                <a href={document.url}>
-                  <button>
-                    <img src={previewImg} alt="Preview Button" />
-                    <p>View</p>
-                    <span>View</span>
-                  </button>
-                </a>
-                <button>
-                  <img src={downLoadImg} alt="Download Button" />
-                  <p>Download</p>
-                  <span>Download</span>
-                </button>
-                <button>
-                  <img src={deleteImg} alt="Delete Button" />
-                  <p>Delete</p>
-                  <span>Delete</span>
-                </button>
-              </DocumentBtns>
-            </DocumentBox>
-          );
-        })
-      )}
-    </AllFilesContainer>
+    <PortfolioAllFilesContainer allFiles={allFiles} />
   );
 }
 

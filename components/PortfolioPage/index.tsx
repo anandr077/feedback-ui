@@ -1,27 +1,27 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { portfolioHeaderProps } from '../../utils/headerProps';
-import Header from '../Header';
-import HeaderSmall from '../HeaderSmall';
-import FooterSmall from '../FooterSmall';
-import RecentWorkContainer from './RecentWorkContainer';
-import Footer from '../Footer';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
   addDocumentToPortfolio,
-  updatePortfolio,
   getPortfolio,
+  updatePortfolio,
 } from '../../service';
+import { portfolioHeaderProps } from '../../utils/headerProps';
+import Footer from '../Footer';
+import FooterSmall from '../FooterSmall';
+import Header from '../Header';
+import HeaderSmall from '../HeaderSmall';
+import RecentWorkContainer from './RecentWorkContainer';
 
+import { useQuery } from 'react-query';
+import Loader from '../Loader';
+import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
+import PortfolioDocModal from './PortfolioDocModal';
+import PortfolioHeader from './PortfolioHeader';
+import PortfolioSideBar from './PortfolioSideBar';
 import {
   PortfolioBody,
   PortfolioContainer,
-  SideNavContainer,
+  SideNavContainer
 } from './PortfolioStyle';
-import PortfolioSideBar from './PortfolioSideBar';
-import Loader from '../Loader';
-import { useQuery } from 'react-query';
-import PortfolioHeader from './PortfolioHeader';
-import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
-import PortfolioDocModal from './PortfolioDocModal';
 
 //dummy data for portfolio
 const recentWork = [

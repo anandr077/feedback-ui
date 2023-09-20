@@ -11,6 +11,9 @@ import {
     AllFilesContainer,
     AllFileTitle,
     DocumentBtns,
+    DocBtn,
+    DocBtnImg,
+    DocBtnText,
     NoFileDiv,
     documentStatusStyle
   } from './PortfolioAllFilesStyle';
@@ -42,22 +45,22 @@ const PortfolioAllFilesContainer = ({ allFiles }) => {
             </DocumentBoxWrapper>
             <DocumentBtns>
               <a href={document.url}>
-                <button>
-                  <img src={previewImg} alt="Preview Button" />
-                  <p>View</p>
+                <DocBtn>
+                  <DocBtnImg src={previewImg} alt="Preview Button" />
+                  <DocBtnText>View</DocBtnText>
                   <span>View</span>
-                </button>
+                </DocBtn>
               </a>
-              <button>
-                <img src={downLoadImg} alt="Download Button" />
-                <p>Download</p>
+              <DocBtn>
+                <DocBtnImg src={downLoadImg} alt="Download Button" />
+                <DocBtnText>Download</DocBtnText>
                 <span>Download</span>
-              </button>
-              <button>
-                <img src={deleteImg} alt="Delete Button" />
-                <p>Delete</p>
+              </DocBtn>
+              <DocBtn>
+                <DocBtnImg src={deleteImg} alt="Delete Button" />
+                <DocBtnText>Delete</DocBtnText>
                 <span>Delete</span>
-              </button>
+              </DocBtn>
             </DocumentBtns>
           </DocumentBox>
         );

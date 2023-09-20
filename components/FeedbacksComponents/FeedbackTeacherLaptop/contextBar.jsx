@@ -37,7 +37,8 @@ export function contextBar(
   labelText,
   feedbackMethodType = [],
   requestFeedback = false,
-  handleRequestFeedback
+  handleRequestFeedback,
+  showStatusText = true
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
   console.log('submission: ', submission);
@@ -45,34 +46,7 @@ export function contextBar(
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        <StatusText>
-          <div>{methods.submissionStatusLabel()}</div>
-          {focusAreasCount > 0 && (
-            <div className="focus-area">
-              <div className="image">
-                {submission.assignment?.focusAreas &&
-                submission.assignment.focusAreas.length >= 1 &&
-                focusAreasCount > 0 ? (
-                  <Ellipse141
-                    backgroundColor={submission.assignment?.focusAreas[0].color}
-                  />
-                ) : (
-                  <></>
-                )}
-                {submission.assignment?.focusAreas &&
-                submission.assignment.focusAreas.length >= 2 ? (
-                  <Ellipse141
-                    backgroundColor={submission.assignment?.focusAreas[1].color}
-                    style={{ marginLeft: '-8px' }}
-                  />
-                ) : (
-                  <></>
-                )}
-              </div>
-              <div className="text">{focusAreasCount} focus areas</div>
-            </div>
-          )}
-        </StatusText>
+        {showStatusText && statusText()}
       </TitleWrapper>
       {!isTeacher &&
         pageMode === 'CLOSED' &&
@@ -112,6 +86,35 @@ export function contextBar(
       )}
     </Frame1371>
   );
+
+  function statusText() {
+    return <StatusText>
+      <div>{methods.submissionStatusLabel()}</div>
+      {focusAreasCount > 0 && (
+        <div className="focus-area">
+          <div className="image">
+            {submission.assignment?.focusAreas &&
+              submission.assignment.focusAreas.length >= 1 &&
+              focusAreasCount > 0 ? (
+              <Ellipse141
+                backgroundColor={submission.assignment?.focusAreas[0].color} />
+            ) : (
+              <></>
+            )}
+            {submission.assignment?.focusAreas &&
+              submission.assignment.focusAreas.length >= 2 ? (
+              <Ellipse141
+                backgroundColor={submission.assignment?.focusAreas[1].color}
+                style={{ marginLeft: '-8px' }} />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="text">{focusAreasCount} focus areas</div>
+        </div>
+      )}
+    </StatusText>;
+  }
 }
 const selectReviewType = (
   feedbackMethodType,
@@ -239,47 +242,3 @@ const submitButton = (
   return <></>;
 };
 
-export function contextBarPortfolioDocument(
-  submission,
-  methods,
-  isTeacher,
-  pageMode,
-  labelText
-) {
-  return (
-    <Frame1371 id="assignmentTitle">
-      <TitleWrapper>
-        <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        <StatusText>
-          <div>{methods.submissionStatusLabel()}</div>
-        </StatusText>
-      </TitleWrapper>
-      {!isTeacher &&
-        pageMode === 'CLOSED' &&
-        submission.status === 'CLOSED' && (
-          <div id="deleteButton">
-            <Buttons2
-              button="Download PDF"
-              download={true}
-              onClickFn={methods.downloadPDF}
-            />
-          </div>
-        )}
-      {!isTeacher && pageMode === 'CLOSED' && submission.status != 'CLOSED' && (
-        <AwaitFeedbackContainer id="deleteButton">
-          <Buttons2
-            button="Download PDF"
-            download={true}
-            onClickFn={methods.downloadPDF}
-          />
-        </AwaitFeedbackContainer>
-      )}
-
-      {tasksListsDropDown(isTeacher, methods)}
-      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
-        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-      )}
-      {submitButton(methods, pageMode, isTeacher, submission)}
-    </Frame1371>
-  );
-}

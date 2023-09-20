@@ -1,8 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import {
-  getPortfolio,
-  updatePortfolio,
-} from '../../service';
+import { getPortfolio, updatePortfolio } from '../../service';
 import { portfolioHeaderProps } from '../../utils/headerProps';
 import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
@@ -14,22 +11,21 @@ import PortfolioDocModal from './PortfolioDocModal';
 import PortfolioHeader from './PortfolioHeader';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
-  initailState, 
+  initailState,
   reducer,
   addFile,
-  getDocuments
-} from './portfolioReducer'
+  getDocuments,
+} from './portfolioReducer';
 
 import {
   PortfolioBody,
   PortfolioContainer,
   SideNavContainer,
   DocumentMainSection,
-  PortfolioSection
+  PortfolioSection,
 } from './PortfolioStyle';
 import { useIsSmallScreen } from '../ReactiveRender';
 import ResponsiveFooter from '../ResponsiveFooter';
-
 
 const PortfolioPage = () => {
   const smallScreen = useIsSmallScreen();
@@ -45,7 +41,6 @@ const PortfolioPage = () => {
       dispatch({ type: 'setPortfolio', payload: data });
     },
   });
-
 
   if (isLoading) {
     return <Loader />;
@@ -67,10 +62,12 @@ const PortfolioPage = () => {
     );
   };
 
-  
   return (
     <>
-      <ResponsiveHeader smallScreen={smallScreen} headerProps={ portfolioHeaderProps}></ResponsiveHeader>
+      <ResponsiveHeader
+        smallScreen={smallScreen}
+        headerProps={portfolioHeaderProps}
+      ></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
@@ -78,49 +75,29 @@ const PortfolioPage = () => {
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
             </SideNavContainer>
-
-            {documentsContainerFunc(
-              smallScreen,
-              allFiles,
-              showModal,
-              setShowModal
-            )}
+            <DocumentMainSection>
+              <RecentWorkContainer
+                smallScreen={smallScreen}
+                showModal={showModal}
+                setShowModal={setShowModal}
+              />
+              <PortfolioAllFilesContainer allFiles={allFiles} />
+            </DocumentMainSection>
           </PortfolioContainer>
         </PortfolioBody>
       </PortfolioSection>
 
-      <ResponsiveFooter smallScreen={smallScreen}/>
+      <ResponsiveFooter smallScreen={smallScreen} />
 
-      {showModal &&
+      {showModal && (
         <PortfolioDocModal
-        setShowModal={setShowModal}
-        showModal={showModal}
-        handleCreateDocument={handleCreateDocument}
-      />}
+          setShowModal={setShowModal}
+          showModal={showModal}
+          handleCreateDocument={handleCreateDocument}
+        />
+      )}
     </>
   );
 };
 
 export default PortfolioPage;
-
-function documentsContainerFunc(
-  smallScreen,
-  allFiles,
-  showModal,
-  setShowModal
-) {
-  return (
-    <DocumentMainSection>
-      {
-        <RecentWorkContainer
-          smallScreen={smallScreen}
-          showModal={showModal}
-          setShowModal={setShowModal}
-        />
-      }
-
-      {/*Document section code is here*/}
-      <PortfolioAllFilesContainer allFiles={allFiles} />
-    </DocumentMainSection>
-  );
-}

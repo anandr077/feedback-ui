@@ -14,19 +14,14 @@ import {
 import {
   PortfolioBody,
   PortfolioContainer,
-  ModalBody,
-  ModalContainer,
-  ModalContainerHeader,
-  ModalHeaderText,
   SideNavContainer,
 } from './PortfolioStyle';
-import CloseIcon from '@mui/icons-material/Close';
-import PortfolioForm from './PortfolioForm';
 import PortfolioSideBar from './PortfolioSideBar';
 import Loader from '../Loader';
 import { useQuery } from 'react-query';
 import PortfolioHeader from './PortfolioHeader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
+import PortfolioDocModal from './PortfolioDocModal';
 
 //dummy data for portfolio
 const recentWork = [
@@ -36,14 +31,6 @@ const recentWork = [
   },
 ];
 
-//options for the new document modal
-const options = [
-  { key: 1, value: 'Test 1' },
-  { key: 2, value: 'Test 2' },
-  { key: 3, value: 'Test 3' },
-  { key: 4, value: 'Test 4' },
-  { key: 5, value: 'onno' },
-];
 
 const initailState = {
   portfolio: null,
@@ -292,9 +279,7 @@ function documentsContainerFunc(
 }
 
 function allFilesContainer(allFiles) {
-  return (
-    <PortfolioAllFilesContainer allFiles={allFiles} />
-  );
+  return <PortfolioAllFilesContainer allFiles={allFiles} />;
 }
 
 function newDocumentModal(
@@ -303,25 +288,11 @@ function newDocumentModal(
   handleCreateDocument
 ) {
   return (
-    <ModalBody>
-      <ModalContainer>
-        <ModalContainerHeader>
-          <ModalHeaderText>
-            New Document
-          </ModalHeaderText>
-          <CloseIcon
-            style={{ cursor: 'pointer' }}
-            onClick={() => setShowModal(!showModal)}
-          />
-        </ModalContainerHeader>
-        <PortfolioForm
-          subjects={options}
-          setShowModal={setShowModal}
-          showModal={showModal}
-          handleCreateDocument={handleCreateDocument}
-        />
-      </ModalContainer>
-    </ModalBody>
+    <PortfolioDocModal
+      setShowModal={setShowModal}
+      showModal={showModal}
+      handleCreateDocument={handleCreateDocument}
+    />
   );
 }
 
@@ -329,7 +300,5 @@ function portfolioHeaderFunc(
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
   showModal: boolean
 ) {
-  return (
-    <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
-  );
+  return <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />;
 }

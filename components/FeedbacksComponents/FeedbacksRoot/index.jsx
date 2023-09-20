@@ -1135,6 +1135,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           textContent={popupText}
           buttonText="Acknowledge and Submit"
           confirmButtonAction={submissionFunction()}
+          warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
+          confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
         />
       )}
 

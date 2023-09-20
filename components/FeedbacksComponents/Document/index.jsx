@@ -283,9 +283,9 @@ function answersAndFeedbacks(
         labelText,
         (feedbackMethodType = FeedbackMethodType),
         (requestFeedback = true),
-        handleRequestFeedback
+        handleRequestFeedback,
+        false
       )}
-
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
           quillRefs,

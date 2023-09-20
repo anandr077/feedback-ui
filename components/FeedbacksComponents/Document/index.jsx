@@ -25,6 +25,7 @@ import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import {
   getStudentsForClass,
   createRequestFeddbackType,
+  getSubmissionById,
 } from '../../../service';
 
 const FeedbackMethodType = [
@@ -81,6 +82,7 @@ function Document(props) {
     comments,
     headerProps,
     submission,
+    setSubmission,
     share,
     sharewithclassdialog,
   } = props;
@@ -131,8 +133,9 @@ function Document(props) {
     };
     createRequestFeddbackType(submission.id, requestData).then((res) => {
       if (res) {
-        console.log('createRequestFeddbackType', res);
-        window.location.reload();
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
       }
     });
   };

@@ -1,10 +1,5 @@
 import jsPDF from 'jspdf';
-import {
-  filter,
-  flatMap,
-  includes,
-  map
-} from 'lodash';
+import { filter, flatMap, includes, map } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -25,7 +20,7 @@ import {
   resolveFeedback,
   submitAssignment,
   updateFeedback,
-  updateFeedbackRange
+  updateFeedbackRange,
 } from '../../../service';
 import {
   getShortcuts,
@@ -39,11 +34,11 @@ import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { getComments, getPortfolioPageMode } from './functions';
 import {
   feedbacksFeedbackTeacherLaptopData,
-  feedbacksFeedbackTeacherMobileData
+  feedbacksFeedbackTeacherMobileData,
 } from './style';
 import { portfolioHeaderProps } from '../../../utils/headerProps';
 
-export default function DocumentRoot({  }) {
+export default function DocumentRoot({}) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showLoader, setShowLoader] = useState(false);
@@ -65,7 +60,6 @@ export default function DocumentRoot({  }) {
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
 
-
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
       .then(([submissionsResult, commentsResult, smartAnnotationResult]) => {
@@ -74,7 +68,7 @@ export default function DocumentRoot({  }) {
           return { ...c };
         });
         setComments(allComments);
-        console.log('smartAnnotationResult', smartAnnotationResult)
+        console.log('smartAnnotationResult', smartAnnotationResult);
         setSmartAnnotations(smartAnnotationResult);
       })
       .finally(() => {
@@ -405,13 +399,12 @@ export default function DocumentRoot({  }) {
     }, 4000);
   };
   function disableAllEditors() {
-    submission.assignment.questions
-      .forEach((question) => {
-        // alert(JSON.stringify(question))
-        const quill = quillRefs.current[question.serialNumber - 1];
-        // alert(JSON.stringify(quillRefs.current))
-        quill.disable();
-      });
+    submission.assignment.questions.forEach((question) => {
+      // alert(JSON.stringify(question))
+      const quill = quillRefs.current[question.serialNumber - 1];
+      // alert(JSON.stringify(quillRefs.current))
+      quill.disable();
+    });
   }
 
   function handleSubmissionClosed() {
@@ -527,7 +520,6 @@ export default function DocumentRoot({  }) {
   };
   const onSelectionChange = reviewerSelectionChange;
 
-  
   const downloadPDF = () => {
     const doc = new jsPDF({
       orientation: 'p',
@@ -623,11 +615,7 @@ export default function DocumentRoot({  }) {
   function submissionStatusLabel() {
     return getStatusMessage(
       submission,
-      false
-        ? 'TEACHER'
-        : getUserId() === submission.studentId
-        ? 'SELF'
-        : 'PEER'
+      false ? 'TEACHER' : getUserId() === submission.studentId ? 'SELF' : 'PEER'
     );
   }
   function getStatusMessage(submission, viewer) {
@@ -776,6 +764,7 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
+              setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: portfolioHeaderProps,
             }}
@@ -798,6 +787,7 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
+              setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: portfolioHeaderProps,
             }}
@@ -821,6 +811,7 @@ export default function DocumentRoot({  }) {
                 comments,
                 studentName,
                 submission,
+                setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
                 headerProps: portfolioHeaderProps,
               }}
@@ -844,8 +835,8 @@ export default function DocumentRoot({  }) {
               comments,
               studentName,
               submission,
+              setSubmission,
               headerProps: portfolioHeaderProps,
-
             }}
           />
         }
@@ -866,5 +857,3 @@ export default function DocumentRoot({  }) {
     return handleRequestResubmission;
   }
 }
-
- 

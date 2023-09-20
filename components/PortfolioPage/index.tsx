@@ -6,7 +6,7 @@ import {
 import { portfolioHeaderProps } from '../../utils/headerProps';
 import Footer from '../Footer';
 import FooterSmall from '../FooterSmall';
-import Header from '../Header';
+import ResponsiveHeader from '../ResponsiveHeader';
 import HeaderSmall from '../HeaderSmall';
 import RecentWorkContainer from './RecentWorkContainer';
 
@@ -28,6 +28,7 @@ import {
   PortfolioContainer,
   SideNavContainer
 } from './PortfolioStyle';
+import { useIsSmallScreen } from '../ReactiveRender';
 
 //dummy data for portfolio
 const recentWork = [
@@ -35,16 +36,30 @@ const recentWork = [
     title: 'Lorem ipsum - document name full size',
     desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
   },
+  {
+    title: 'Lorem ipsum - document name full size',
+    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
+  },
+  {
+    title: 'Lorem ipsum - document name full size',
+    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
+  },
+  {
+    title: 'Lorem ipsum - document name full size',
+    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
+  },{
+    title: 'Lorem ipsum - document name full size',
+    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
+  },
 ];
 
 
 const PortfolioPage = () => {
+  const smallScreen = useIsSmallScreen();
+
   const [state, dispatch] = useReducer(reducer, initailState);
 
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1440);
   const [showModal, setShowModal] = useState(false);
-  const [numColumns, setNumColumns] = useState(4);
-  const [displayedWork, setDisplayedWork] = useState(recentWork);
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
@@ -54,46 +69,15 @@ const PortfolioPage = () => {
     },
   });
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 1440);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  //slice recentWork array based on the screen size
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1450) {
-        setNumColumns(4);
-      } else if (window.innerWidth >= 576) {
-        setNumColumns(3);
-      } else {
-        setNumColumns(4);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    setDisplayedWork(recentWork.slice(0, numColumns));
-  }, [numColumns]);
 
   if (isLoading) {
     return <Loader />;
   }
 
+  const numColumns = smallScreen ? 3 : 4;
+
+
+  const displayedWork = recentWork.slice(0, numColumns)
   const allFiles = getDocuments(
     state.portfolio,
     state.activeMainIndex,
@@ -111,19 +95,12 @@ const PortfolioPage = () => {
   };
 
   
-
-
   return (
     <>
-      {isSmallScreen ? (
-        <HeaderSmall headerProps={portfolioHeaderProps} />
-      ) : (
-        <Header headerProps={portfolioHeaderProps} />
-      )}
-
+      <ResponsiveHeader smallScreen={smallScreen} headerProps={ portfolioHeaderProps}></ResponsiveHeader>
       <div style={{ width: '100%', backgroundColor: '#FCFAFF' }}>
         <PortfolioBody>
-          {portfolioHeaderFunc(setShowModal, showModal)}
+        <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
@@ -140,10 +117,14 @@ const PortfolioPage = () => {
       </div>
 
       {/*Footer is displayed here based on the isSmallScreen state*/}
-      {isSmallScreen ? <FooterSmall /> : <Footer />}
+      {smallScreen ? <FooterSmall /> : <Footer />}
 
       {showModal &&
-        newDocumentModal(setShowModal, showModal, handleCreateDocument)}
+        <PortfolioDocModal
+        setShowModal={setShowModal}
+        showModal={showModal}
+        handleCreateDocument={handleCreateDocument}
+      />}
     </>
   );
 };
@@ -167,32 +148,7 @@ function documentsContainerFunc(
       }
 
       {/*Document section code is here*/}
-      {allFilesContainer(allFiles)}
+      <PortfolioAllFilesContainer allFiles={allFiles} />
     </div>
   );
-}
-
-function allFilesContainer(allFiles) {
-  return <PortfolioAllFilesContainer allFiles={allFiles} />;
-}
-
-function newDocumentModal(
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  showModal: boolean,
-  handleCreateDocument
-) {
-  return (
-    <PortfolioDocModal
-      setShowModal={setShowModal}
-      showModal={showModal}
-      handleCreateDocument={handleCreateDocument}
-    />
-  );
-}
-
-function portfolioHeaderFunc(
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  showModal: boolean
-) {
-  return <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />;
 }

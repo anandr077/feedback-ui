@@ -5,11 +5,13 @@ import UserIcon from '../UserIcon';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar';
 import { getNotifications } from '../../service.js';
+import { isSmallScreen } from '../ReactiveRender';
 
 import {
   IbmplexsansNormalPersianIndigo20px,
   IbmplexsansNormalWhite20px,
 } from '../../styledMixins';
+import ReactiveRender from '../ReactiveRender';
 
 export default function Header(props) {
   const { headerProps } = props;

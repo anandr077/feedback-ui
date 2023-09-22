@@ -264,11 +264,6 @@ function createQuill(
       debounceTime={debounce.debounceTime}
       onDebounce={debounce.onDebounce}
       containerName={containerName}
-      className={`${
-        pageMode === 'REVIEW' || pageMode === 'CLOSED'
-          ? 'ql-container revised'
-          : 'ql-container'
-      }`}
     ></QuillEditor>
   );
 }

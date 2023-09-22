@@ -23,7 +23,7 @@ import {
   Group1225,
   Label,
   QuestionText,
-  QuillContainer
+  QuillContainer,
 } from '../FeedbackTeacherLaptop/style';
 
 export function answersFrame(
@@ -37,7 +37,7 @@ export function answersFrame(
   commentsForSelectedTab,
   methods
 ) {
-  console.log("methods", methods)
+  console.log('methods', methods);
   return (
     <AnswersFrame
       quillRefs={quillRefs}

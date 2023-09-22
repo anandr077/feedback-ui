@@ -70,70 +70,71 @@ const DocumentBtns = styled.div`
   align-items: center;
   gap: 12px;
 
-  button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    transition: transform 0.5s ease-in-out;
-    position: relative;
-
-    p {
-      display: none;
-      color: #1e252a;
-      font-weight: 500;
-      font-size: 13px;
-    }
-
-    img {
-      width: 24px;
-      height: 24px;
-    }
-
-    span {
-      position: absolute;
-      background-color: rgba(0, 0, 0, 0.75);
-      color: #fff;
-      text-align: center;
-      border-radius: 4px;
-      padding: 4px;
-      z-index: 100;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      display: none;
-    }
-
-    @media (max-width: 992px) {
-      p {
-        display: block;
-      }
-    }
-
-    &:hover {
-      img {
-        transform: scale(1.1);
-      }
-
-      span {
-        display: block;
-      }
-
-      @media (max-width: 992px) {
-        span {
-          display: none;
-        }
-      }
-    }
+  a {
+    text-decoration: none;
   }
 
   @media (max-width: 992px) {
     padding-left: 20px;
     width: 100%;
     justify-content: space-between;
+  }
+`;
+
+const DocBtn = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  transition: transform 0.5s ease-in-out;
+  position: relative;
+
+  span{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px;
+    z-index: 100;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    display: none;
+  }
+
+  &:hover {
+    span{
+      display: block;
+    }
+    @media (max-width: 992px) {
+      span{
+        display: none;
+      }
+    }
+  }
+`;
+
+const DocBtnImg = styled.img`
+  width: 24px;
+  height: 24px;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const DocBtnText = styled.p`
+  display: none;
+  color: #1e252a;
+  font-weight: 500;
+  font-size: 13px;
+
+  @media (max-width: 992px) {
+    display: block;
   }
 `;
 
@@ -152,49 +153,51 @@ const NoFileDiv = styled.div`
 `;
 
 const commonStyle = {
-    width: 'fit-content',
-    borderRadius: '12px',
-    padding: '3px 8px',
-    marginBottom: '10px',
-    fontSize: '13px',
-    lineHeight: '16px',
-  };
-  
-  const documentStatusStyle = (status) => {
-    if (status === 'Feedback') {
-      return {
-        ...commonStyle,
-        color: '#604C06',
-        backgroundColor: '#F5F0D1',
-        border: '1px solid #F1DE74',
-      };
-    } else if (status === 'Peer-Review') {
-      return {
-        ...commonStyle,
-        color: '#265412',
-        backgroundColor: '#DCF5D1',
-        border: '1px solid #A9E68E',
-      };
-    } else {
-      return {
-        ...commonStyle,
-        color: 'black',
-        backgroundColor: '#FCFAFF',
-        border: '1px solid #F1E7FF',
-      };
-    }
-  };
+  width: 'fit-content',
+  borderRadius: '12px',
+  padding: '3px 8px',
+  marginBottom: '10px',
+  fontSize: '13px',
+  lineHeight: '16px',
+};
 
-
+const documentStatusStyle = (status) => {
+  if (status === 'Feedback') {
+    return {
+      ...commonStyle,
+      color: '#604C06',
+      backgroundColor: '#F5F0D1',
+      border: '1px solid #F1DE74',
+    };
+  } else if (status === 'Peer-Review') {
+    return {
+      ...commonStyle,
+      color: '#265412',
+      backgroundColor: '#DCF5D1',
+      border: '1px solid #A9E68E',
+    };
+  } else {
+    return {
+      ...commonStyle,
+      color: 'black',
+      backgroundColor: '#FCFAFF',
+      border: '1px solid #F1E7FF',
+    };
+  }
+};
 
 export {
-    DocumentBox,
-    DocumentBoxWrapper,
-    DocumentTextFrame,
-    DocumentTitle,
-    AllFilesContainer,
-    AllFileTitle,
-    DocumentBtns,
-    NoFileDiv,
-    documentStatusStyle,
-  };
+  DocumentBox,
+  DocumentBoxWrapper,
+  DocumentTextFrame,
+  DocumentTitle,
+  AllFilesContainer,
+  AllFileTitle,
+  DocumentBtns,
+  DocBtn,
+  DocBtnImg,
+  DocBtnText,
+  DocBtnTooltip,
+  NoFileDiv,
+  documentStatusStyle,
+};

@@ -17,7 +17,7 @@ const ModalBody = styled.div`
 const ModalContainer = styled.div`
   background-color: white;
   width: min(600px, 90%);
-  height: 351px;
+  height: auto;
   border-radius: 12px;
   padding: 16px 0;
   border-top: 1px solid #f1e7ff;

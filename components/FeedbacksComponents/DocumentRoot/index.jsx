@@ -259,8 +259,6 @@ export default function DocumentRoot({}) {
 
     setNewCommentValue('');
     setShowNewComment(false);
-    setExemplerComment('');
-    setShowShareWithClass(false);
   }
 
   function updateParentComment(comment, commentId) {
@@ -293,8 +291,6 @@ export default function DocumentRoot({}) {
 
     setNewCommentValue('');
     setShowNewComment(false);
-    setExemplerComment('');
-    setShowShareWithClass(false);
   }
 
   function updateChildComment(commentId, replyCommentIndex, comment) {

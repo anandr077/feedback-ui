@@ -147,6 +147,7 @@ function createQuill(
   debounce,
   handleEditorMounted
 ) {
+  console.log('PageMode', pageMode)
   return (
     <QuillEditor
       id={'quillEditor_' + submission.id + '_' + answer.serialNumber}

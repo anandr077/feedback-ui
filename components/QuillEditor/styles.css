@@ -34,18 +34,29 @@
 
 .ql-toolbar{
   border-radius: 20px 20px 0 0;
+  border-bottom: 1px solid #7200e0 !important;
 }
 
-.ql-container{
-  border-radius: 0 0 20px 20px ;
+.ql-toolbar.ql-snow{
+  border-bottom: none;
+}
+.ql-container {
+  overflow: hidden;
+  border: none !important;
 }
 
-.ql-container.revised{
+
+.quill-editor-container {
+  border:1px solid #7200e0;
+  border-radius: 20px 20px;
+}
+/* .ql-container.revised{
   border-radius: 20px 20px !important;
-}
+} */
 
 .ql-editor{
   min-height: 200px;
+  border: none;
 }
 
 .ql-formats{

@@ -24,11 +24,11 @@ import {
   DocumentMainSection,
   PortfolioSection,
 } from './PortfolioStyle';
-import { useIsSmallScreen } from '../ReactiveRender';
+import { isSmallScreen } from '../ReactiveRender';
 import ResponsiveFooter from '../ResponsiveFooter';
 
 const PortfolioPage = () => {
-  const smallScreen = useIsSmallScreen();
+  const smallScreen = isSmallScreen();
 
   const [state, dispatch] = useReducer(reducer, initailState);
 

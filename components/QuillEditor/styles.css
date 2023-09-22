@@ -28,3 +28,70 @@
 .quill-highlight {
   /* background-color: #fff9c4; */
 }
+
+
+
+
+.ql-toolbar{
+  border-radius: 20px 20px 0 0;
+  border-bottom: 1px solid #7200e0 !important;
+}
+
+.ql-toolbar.ql-snow{
+  border-bottom: none;
+}
+.ql-container {
+  overflow: hidden;
+  border: none !important;
+}
+
+
+.quill-editor-container {
+  border:1px solid #7200e0;
+  border-radius: 20px 20px;
+}
+/* .ql-container.revised{
+  border-radius: 20px 20px !important;
+} */
+
+.ql-editor{
+  min-height: 200px;
+  border: none;
+}
+
+.ql-formats{
+display: flex;
+gap: 20px;
+}
+
+.ql-formats button:hover{
+ background-color: #7200e0 !important;
+ border-radius: 10px;
+}
+
+.ql-formats button:hover .ql-stroke{
+fill: none;
+stroke: white !important;
+}
+
+.ql-picker-label:hover .ql-stroke {
+  fill: #7200e0 !important;
+  stroke: #7200e0 !important;
+}
+
+.ql-picker-label:hover{
+  color: #7200e0 !important;
+}
+
+.ql-picker-item.ql-selected{
+  color: #7200e0 !important;
+}
+
+.ql-picker-item:hover{
+  color: #7200e0 !important;
+}
+
+
+
+
+

@@ -1,9 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
 import Navigation from '../Navbar/Navigation';
 import Notifications from '../Notifications';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar';
 import { getNotifications } from '../../service.js';
+import {
+  NavigationContainer,
+  Frame1350,
+  Frame1349,
+  Frame5,
+  Frame51,
+} from './HeaderSmallStyle';
 
 export default function HeaderSmall(props) {
   const { headerProps } = props;
@@ -63,72 +69,3 @@ export default function HeaderSmall(props) {
     </>
   );
 }
-
-const NavigationContainer = styled.div`
-  position: absolute;
-  right: 0;
-  z-index: 1;
-  background-color: var(--white);
-  rbga(255, 255, 255, 0.5);
-  align-self: stretch;
-  width: 100vw;
-  height: 200vh;
-  `;
-
-const Screen = styled.div`
-  height: 100vh;
-  width: 100vw;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-`;
-
-const Frame1350 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 16px 20px;
-  position: relative;
-  max-height: 70px;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-
-const Frame1349 = styled.img`
-  position: relative;
-  align-self: stretch;
-  height: 43.499969482421875px;
-  margin-left: -1.75px;
-  width: 100%;
-  max-width: 170px;
-`;
-
-const Frame5 = styled.div`
-  display: flex;
-  align-self: stretch;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: absolute;
-  right: 20px;
-`;
-
-const Frame51 = styled.img`
-  position: relative;
-  align-self: stretch;
-  height: 48px;
-  cursor: pointer;
-`;
-
-const Popup = styled.div`
-  position: absolute;
-  // right: 10px;
-  // top: 70px;
-  height: 100px;
-  cursor: pointer;
-  z-index: 1;
-  background-color: var(--white);
-  rbga(255, 255, 255, 0.5);
-  align-self: stretch;
-`;

@@ -234,7 +234,7 @@ const HeaderButton = styled.article`
   width: fit-content;
   align-items: flex-start;
   gap: 10px;
-  padding: 14px 60px;
+  padding: 14px 50px;
   position: relative;
   border-radius: 26.5px;
   cursor: pointer;

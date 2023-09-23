@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
 import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
 import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
@@ -24,6 +24,8 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
+import HeaderSmall from '../../HeaderSmall';
+import Header from '../../Header';
 
 const headerProps = completedHeaderProps(true);
 
@@ -39,6 +41,9 @@ export default function AccountSettingsRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
+     const [smallScreenView, setSmallScreenView] = React.useState(
+       isSmallScreen()
+     );
 
   React.useEffect(() => {
     Promise.all([
@@ -242,7 +247,16 @@ export default function AccountSettingsRoot(props) {
   );
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={headerProps} />
+        ) : (
+          <Header headerProps={headerProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
 
   return (

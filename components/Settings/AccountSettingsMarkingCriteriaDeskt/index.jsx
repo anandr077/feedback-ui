@@ -95,7 +95,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

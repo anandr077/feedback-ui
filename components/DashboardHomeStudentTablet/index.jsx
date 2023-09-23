@@ -6,7 +6,7 @@ import {
   DashboardIbmplexsansNormalWhite20px,
 } from '../../styledMixins';
 import DashboardFrame12082 from '../DashboardFrame12082';
-import FooterSmall from '../FooterSmall';
+// import FooterSmall from '../FooterSmall';
 import HeaderSmall from '../HeaderSmall';
 import TaskCardContainer from '../TaskCardContainer';
 import './DashboardHomeStudentTablet.css';
@@ -64,7 +64,7 @@ function DashboardHomeStudentTablet(props) {
           </Frame11>
         </Frame1205>
       </Frame1351>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

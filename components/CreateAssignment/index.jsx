@@ -20,14 +20,14 @@ import {
   IbmplexsansNormalShark20px,
   IbmplexsansBoldShark64px,
 } from '../../styledMixins';
-import { assignmentsHeaderProps } from '../../utils/headerProps';
+import { assignmentsHeaderProps, taskHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
 import CreateAAssignmentLaptop from '../CreateAAssignmentLaptop';
 import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
 import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
@@ -36,6 +36,8 @@ import { getFocusAreas, getAllColors } from '../../service';
 import PreviewDialog from '../Shared/Dialogs/preview/previewCard';
 import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
 import GeneralPopup from '../GeneralPopup';
+import HeaderSmall from '../HeaderSmall';
+import Header from '../Header';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -76,6 +78,7 @@ export default function CreateAssignment(props) {
   const [allFocusAreas, setAllFocusAreas] = React.useState([]);
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([]);
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   React.useEffect(() => {
     Promise.all([
@@ -111,7 +114,16 @@ export default function CreateAssignment(props) {
   }, [assignmentId]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={taskHeaderProps} />
+        ) : (
+          <Header headerProps={taskHeaderProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
 
   function handleMarkingCriteriaPreview(markingCriteria) {

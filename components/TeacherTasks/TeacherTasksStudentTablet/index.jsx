@@ -12,7 +12,7 @@ import { assignmentsHeaderProps } from '../../../utils/headerProps.js';
 import './TeacherTasksStudentTablet.css';
 import Buttons from '../../Classes/Buttons';
 import CheckboxGroup from '../../CheckboxGroup';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 
 function TeacherTasksStudentTablet(props) {
   const {
@@ -60,7 +60,7 @@ function TeacherTasksStudentTablet(props) {
         </Frame1307>
         {tasksFrame}
       </Frame1365>
-      <FooterSmall></FooterSmall>
+      {/* <FooterSmall></FooterSmall> */}
     </div>
   );
 

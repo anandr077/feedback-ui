@@ -5,8 +5,8 @@ import { default as React, default as React, useState } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
-import Footer from '../../Footer';
-import FooterSmall from '../../FooterSmall';
+// import Footer from '../../Footer';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
 import { isTabletView } from '../../ReactiveRender';
@@ -120,7 +120,7 @@ function FeedbackTeacherLaptop(props) {
             share,
             smartAnnotations
           )}
-          {footer(tabletView)}
+          {/* {footer(tabletView)} */}
         </Frame1388>
       </div>
     </>
@@ -204,9 +204,9 @@ function createGroupedFocusAreas(submission) {
   return grouped;
 }
 
-function footer(tabletView) {
-  return tabletView ? <FooterSmall /> : <Footer />;
-}
+// function footer(tabletView) {
+//   return tabletView ? <FooterSmall /> : <Footer />;
+// }
 
 function answersAndFeedbacks(
   submission,

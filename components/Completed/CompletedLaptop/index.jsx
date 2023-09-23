@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { IbmplexsansBoldShark64px } from '../styledMixins';
 import './CompletedLaptop.css';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
@@ -48,7 +48,7 @@ function CompletedLaptop(props) {
           />
         </Frame1413>
       </Frame1425>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 

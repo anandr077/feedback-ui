@@ -6,7 +6,7 @@ import {
 } from '../../../styledMixins';
 import { assignmentsHeaderProps } from '../../../utils/headerProps';
 import Buttons from '../../Classes/Buttons';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 import Header from '../../Header';
 import TaskCardContainer from '../../TaskCardContainer';
 import TaskFrame1353 from '../../TaskFrame1353';
@@ -73,7 +73,7 @@ function TeacherTasksDesktop(props) {
           </Frame1359>
         </Frame1360>
       </Frame1361>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -10,7 +10,7 @@ import DashboardFrame1284 from '../DashboardFrame1284';
 import DashboardGroup1205 from '../DashboardGroup1205';
 import './DashboardHomeStudentDesktop.css';
 
-import Footer from '../Footer';
+// import Footer from '../Footer';
 import Header from '../Header';
 import TaskCardContainer from '../TaskCardContainer';
 
@@ -90,7 +90,7 @@ function DashboardHomeStudentDesktop(props) {
           </Frame1339>
         </Frame1346>
       </Frame1347>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

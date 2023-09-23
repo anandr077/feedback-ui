@@ -56,7 +56,7 @@ function TasksStudentTablet(props) {
         </Frame1307>
         {taskFrame}
       </Frame1365>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 

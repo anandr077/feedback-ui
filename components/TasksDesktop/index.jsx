@@ -65,7 +65,7 @@ function TasksDesktop(props) {
           </Frame1359>
         </Frame1360>
       </Frame1361>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

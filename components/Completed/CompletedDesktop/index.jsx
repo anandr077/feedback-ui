@@ -5,7 +5,7 @@ import { IbmplexsansBoldShark64px } from '../styledMixins';
 import './CompletedDesktop.css';
 import Header from '../../Header';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
@@ -47,7 +47,7 @@ function CompletedDesktop(props) {
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
   function createFilter() {

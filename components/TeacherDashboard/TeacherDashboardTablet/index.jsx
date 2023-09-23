@@ -1,6 +1,6 @@
 import React from 'react';
 import Group1205 from '../Group1205';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import Frame12842 from '../Frame12842';
 import styled from 'styled-components';
 import Frame13124 from '../Frame13124';
@@ -93,7 +93,7 @@ function TeacherDashboardTablet(props) {
           </Frame13411>
         </Frame1417>
       </Frame1419>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

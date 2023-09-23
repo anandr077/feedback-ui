@@ -4,7 +4,7 @@ import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop'
 import CreateNewMarkingCriteriaTablet from '../CreateNewMarkingCriteriaTablet';
 import CreateNewMarkingCriteriaLaptop from '../CreateNewMarkingCriteriaLaptop';
 import CreateNewMarkingCriteriaMobile from '../CreateNewMarkingCriteriaMobile';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import { completedHeaderProps } from '../../../utils/headerProps';
 import CriteriaContainer from '../CriteriaContainer';
 import {
@@ -25,6 +25,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -243,7 +244,16 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   });
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={headerProps} />
+        ) : (
+          <Header headerProps={headerProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
 
   return (

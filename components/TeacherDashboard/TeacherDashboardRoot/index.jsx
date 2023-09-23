@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import {
   getAssignments,
   getClassesWithStudents,
@@ -10,12 +10,16 @@ import TeacherDashboardTablet from '../TeacherDashboardTablet';
 import TeacherDashboardLaptop from '../TeacherDashboardLaptop';
 import TeacherDashboardDesktop from '../TeacherDashboardDesktop';
 import Loader from '../../Loader';
+import HeaderSmall from '../../HeaderSmall';
+import Header from '../../Header';
+import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 
 export default function TeacherDashboardRoot(props) {
   const [assignments, setAssignments] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   React.useEffect(() => {
     Promise.all([
@@ -32,7 +36,16 @@ export default function TeacherDashboardRoot(props) {
     });
   }, []);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={teacherHomeHeaderProps} />
+        ) : (
+          <Header headerProps={teacherHomeHeaderProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
   const drafts = assignments.filter(
     (assignment) => assignment.submissionsStatus === 'DRAFT'

@@ -5,7 +5,7 @@ import {
   IbmplexsansSemiBoldRiverBed24px,
 } from '../../../styledMixins';
 import { assignmentsHeaderProps } from '../../../utils/headerProps.js';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Tabs from '../../Tabs';
 import TaskCardContainer from '../../TaskCardContainer';
@@ -57,7 +57,7 @@ function TeacherTasksStudentMobile(props) {
         </Frame1307>
         {tasksFrame}
       </Frame1365>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 

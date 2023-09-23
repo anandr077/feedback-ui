@@ -69,7 +69,7 @@ function TasksLaptop(props) {
         </Frame1360>
       </Frame1361>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

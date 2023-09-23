@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import TeacherClassesDesktop from '../TeacherClassesDesktop';
 import TeacherClassesLaptop from '../TeacherClassesLaptop';
 import TeacherClassesMobile from '../TeacherClassesMobile';
@@ -17,6 +17,8 @@ import {
 import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
+import HeaderSmall from '../../HeaderSmall';
+import Header from '../../Header';
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
@@ -29,6 +31,9 @@ export default function TeacherClassesRoot() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] =
     React.useState([]);
+    const [smallScreenView, setSmallScreenView] = React.useState(
+      isSmallScreen()
+    );
 
   React.useEffect(() => {
     getClasses().then((result) => {
@@ -65,7 +70,16 @@ export default function TeacherClassesRoot() {
   }, [classId]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={classesHomeHeaderProps} />
+        ) : (
+          <Header headerProps={classesHomeHeaderProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
 
   const annotationAnalyticsFrame = (

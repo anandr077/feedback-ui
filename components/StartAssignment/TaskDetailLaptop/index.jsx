@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { formattedDate } from '../../../dates';
 import { taskHeaderProps } from '../../../utils/headerProps.js';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 import Header from '../../Header';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
@@ -47,7 +47,7 @@ function TaskDetailLaptop(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

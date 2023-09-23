@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { classesHomeHeaderProps } from '../../../utils/headerProps';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import DropdownMenu from '../../DropdownMenu';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
@@ -84,7 +84,7 @@ function TeacherClassesMobile(props) {
           </Frame1416>
         </Frame14221>
       </Frame1422>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

@@ -16,7 +16,7 @@ import {
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
 import Loader from '../../Loader';
-import { isTabletView, isMobileView } from '../../ReactiveRender';
+import { isTabletView, isMobileView, isSmallScreen } from '../../ReactiveRender';
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
 const Strengths_And_Traget_Data = {
@@ -35,9 +35,8 @@ export default function CreateNewStrengthAndTargets() {
   });
 
   const [isLoading, setIsLoading] = React.useState(true);
-  const [smallScreenView, setSmallScreenView] = useState(
-    isTabletView() || isMobileView()
-  );
+  const [smallScreenView, setSmallScreenView] = useState(isSmallScreen());
+  
 
   useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
@@ -48,7 +47,16 @@ export default function CreateNewStrengthAndTargets() {
     );
   }, []);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={completedHeaderProps(true)} />
+        ) : (
+          <Header headerProps={completedHeaderProps(true)} />
+        )}
+        <Loader />
+      </>
+    );
   }
 
   const headerProps = completedHeaderProps(true);

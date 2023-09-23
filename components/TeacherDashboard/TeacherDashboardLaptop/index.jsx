@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { timeFirstFormattedDate } from '../../../dates';
 import { getUserName } from '../../../service';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 import Header from '../../Header';
 import TaskCard from '../../TaskCard';
 import Frame12842 from '../Frame12842';
@@ -93,7 +93,7 @@ function TeacherDashboardLaptop(props) {
           </Frame1416>
         </Frame1417>
       </Frame1419>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

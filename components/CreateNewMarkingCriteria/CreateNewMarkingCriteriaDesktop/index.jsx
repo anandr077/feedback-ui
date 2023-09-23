@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { IbmplexsansNormalStack20px } from '../../../styledMixins';
 import './CreateNewMarkingCriteriaDesktop.css';
 import Header from '../../Header';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 
 function CreateNewMarkingCriteriaDesktop(props) {
   const {
@@ -65,7 +65,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
           />
         </Frame1376>
       </Frame1379>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

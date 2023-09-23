@@ -12,7 +12,7 @@ import {
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
-import Footer from '../Footer';
+// import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
 import Header from '../Header';
 import './CreateAAssignmentLaptop.css';
@@ -166,7 +166,7 @@ function CreateAAssignmentLaptop(props) {
         </Frame1378>
       </Frame1379>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

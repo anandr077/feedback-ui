@@ -11,7 +11,7 @@ import {
   IbmplexsansNormalStack20px,
 } from '../../../styledMixins';
 import './CreateNewMarkingCriteriaMobile.css';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 
 function CreateNewMarkingCriteriaMobile(props) {
@@ -76,7 +76,7 @@ function CreateNewMarkingCriteriaMobile(props) {
           </BottomButtonContainer>
         </Frame1376>
       </Frame1379>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

@@ -69,7 +69,7 @@ export function isMobileView() {
   return isMobileView;
 }
 export function isTabletView() {
-  const isTabletView = useMediaQuery({ maxWidth: 1023 });
+  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
   return isTabletView;
 }
 export function useIsMobileView() {
@@ -79,7 +79,6 @@ export function useIsMobileView() {
 export function useIsTabletView() {
   return useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
 }
-
 
 export function useIsSmallScreen() {
   const isMobile = useIsMobileView();

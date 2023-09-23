@@ -1,6 +1,6 @@
 import React from 'react';
 import { getAssignments, getClasses } from '../../../service';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
 import TeacherTasksLaptop from '../TeacherTasksLaptop';
@@ -13,6 +13,8 @@ import _ from 'lodash';
 import Loader from '../../Loader';
 import DeleteAssignmentPopup from '../../DeleteAssignmentPopUp';
 import ExtendAssignmentPopup from '../../ExtendAssignmentPopup';
+import HeaderSmall from '../../HeaderSmall';
+import Header from '../../Header';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -22,6 +24,7 @@ export default function TeacherTaskRoot() {
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   React.useEffect(() => {
     Promise.all([getAssignments(), getClasses()]).then(([result, classes]) => {
@@ -34,7 +37,16 @@ export default function TeacherTaskRoot() {
     });
   }, []);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={assignmentsHeaderProps} />
+        ) : (
+          <Header headerProps={assignmentsHeaderProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
 
   const drafts = filteredTasks.filter(

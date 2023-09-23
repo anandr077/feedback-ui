@@ -7,7 +7,7 @@ import {
   IbmplexsansNormalElectricViolet14px,
 } from '../../../styledMixins';
 import './AccountSettingsMarkingCriteriaTable3.css';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 
 function AccountSettingsMarkingCriteriaTable3(props) {
@@ -94,7 +94,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

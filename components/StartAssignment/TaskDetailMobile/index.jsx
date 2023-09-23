@@ -14,7 +14,7 @@ import {
 import './TaskDetailMobile.css';
 import { taskHeaderProps } from '../../../utils/headerProps.js';
 import { formattedDate } from '../../../dates';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 
 function TaskDetailMobile(props) {
   const { assignment, methods, clazzName, line11, goBackProps } = props;
@@ -48,7 +48,7 @@ function TaskDetailMobile(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

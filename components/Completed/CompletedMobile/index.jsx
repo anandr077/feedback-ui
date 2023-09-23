@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Frame1410 from '../Frame1410';
 import { IbmplexsansBoldShark36px } from '../styledMixins';
@@ -48,7 +48,7 @@ function CompletedMobile(props) {
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
-      <FooterSmall></FooterSmall>
+      {/* <FooterSmall></FooterSmall> */}
     </div>
   );
   function createFilter() {

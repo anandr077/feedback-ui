@@ -7,7 +7,7 @@ import Buttons2 from '../Buttons2';
 import styled from 'styled-components';
 import { IbmplexsansNormalStack20px } from '../../../styledMixins';
 import './CreateNewMarkingCriteriaTablet.css';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Frame1372 from '../Frame1372';
 
@@ -58,7 +58,7 @@ function CreateNewMarkingCriteriaTablet(props) {
           />
         </Frame1376>
       </Frame1379>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

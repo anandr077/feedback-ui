@@ -169,7 +169,7 @@ function Document(props) {
             smartAnnotations,
             handleRequestFeedback
           )}
-          {footer(tabletView)}
+          {/* {footer(tabletView)} */}
         </Frame1388>
       </div>
       {handleFeedbackMethodTypeDialog(
@@ -243,9 +243,9 @@ function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
   }
 }
 
-function footer(tabletView) {
-  return tabletView ? <FooterSmall /> : <Footer />;
-}
+// function footer(tabletView) {
+//   return tabletView ? <FooterSmall /> : <Footer />;
+// }
 
 function answersAndFeedbacks(
   isShowSelectType,

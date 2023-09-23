@@ -14,7 +14,7 @@ import { taskHeaderProps } from '../../utils/headerProps.js';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
-import FooterSmall from '../FooterSmall';
+// import FooterSmall from '../FooterSmall';
 import GoBack from '../GoBack';
 import HeaderSmall from '../HeaderSmall';
 import './CreateAAssignmentMobile.css';
@@ -173,7 +173,7 @@ function CreateAAssignmentMobile(props) {
         </Frame1378>
         <GoBack className={goBackProps.className} />
       </Frame1379>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
 import DashboardHomeStudentLaptop from '../DashboardHomeStudentLaptop';
 import DashboardHomeStudentDesktop from '../DashboardHomeStudentDesktop';
 import DashboardHomeStudentTablet from '../DashboardHomeStudentTablet';
@@ -9,6 +9,8 @@ import { homeHeaderProps } from '../../utils/headerProps.js';
 import { limitParagraph } from '../../utils/strings';
 import _ from 'lodash';
 import Loader from '../Loader';
+import HeaderSmall from '../HeaderSmall';
+import Header from '../Header';
 
 export default function StudentDashboardRoot(props) {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -16,6 +18,9 @@ export default function StudentDashboardRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
+    const [smallScreenView, setSmallScreenView] = React.useState(
+      isSmallScreen()
+    );
 
   React.useEffect(() => {
     Promise.all([getTasks(), getModelResponses()]).then(
@@ -53,7 +58,16 @@ export default function StudentDashboardRoot(props) {
     }
   }, [publishActionCompleted]);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={homeHeaderProps} />
+        ) : (
+          <Header headerProps={homeHeaderProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
   const outstandingTasks = allTasks.filter(
     (task) => task.progressStatus === 'OUTSTANDING'

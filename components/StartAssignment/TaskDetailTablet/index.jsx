@@ -14,7 +14,7 @@ import {
   IbmplexsansSemiBoldShark28px,
 } from '../styledMixins';
 import './TaskDetailTablet.css';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 function TaskDetailTablet(props) {
   const { assignment, methods, clazzName, line11, goBackProps } = props;
 
@@ -47,7 +47,7 @@ function TaskDetailTablet(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

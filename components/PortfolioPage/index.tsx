@@ -24,8 +24,10 @@ import {
   DocumentMainSection,
   PortfolioSection,
 } from './PortfolioStyle';
-import { useIsSmallScreen } from '../ReactiveRender';
+import { isSmallScreen, useIsSmallScreen } from '../ReactiveRender';
 import ResponsiveFooter from '../ResponsiveFooter';
+import HeaderSmall from '../HeaderSmall';
+import Header from '../Header';
 
 const PortfolioPage = () => {
   const smallScreen = useIsSmallScreen();
@@ -33,6 +35,9 @@ const PortfolioPage = () => {
   const [state, dispatch] = useReducer(reducer, initailState);
 
   const [showModal, setShowModal] = useState(false);
+   const [smallScreenView, setSmallScreenView] = React.useState(
+     isSmallScreen()
+   );
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
@@ -43,7 +48,16 @@ const PortfolioPage = () => {
   });
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={portfolioHeaderProps} />
+        ) : (
+          <Header headerProps={portfolioHeaderProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
 
   const allFiles = getDocuments(

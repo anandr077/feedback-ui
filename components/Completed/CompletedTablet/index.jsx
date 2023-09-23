@@ -6,7 +6,7 @@ import Frame1410 from '../Frame1410';
 import { IbmplexsansBoldShark36px } from '../../../styledMixins';
 import './CompletedTablet.css';
 import CheckboxGroup from '../../CheckboxGroup';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 
@@ -47,7 +47,7 @@ function CompletedTablet(props) {
           />
         </Frame1413>
       </Frame1425>
-      <FooterSmall></FooterSmall>
+      {/* <FooterSmall></FooterSmall> */}
     </div>
   );
   function createFilter() {

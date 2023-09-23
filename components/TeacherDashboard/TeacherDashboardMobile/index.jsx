@@ -13,7 +13,7 @@ import {
 
 import { IbmplexsansMediumRiverBed24px } from '../styledMixins';
 import './TeacherDashboardMobile.css';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 import { getUserName } from '../../../service';
 import { timeFirstFormattedDate } from '../../../dates';
@@ -84,7 +84,7 @@ function TeacherDashboardMobile(props) {
           </Frame1341>
         </Frame1417>
       </Frame1419>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

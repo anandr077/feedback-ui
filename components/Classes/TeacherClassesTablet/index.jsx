@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { classesHomeHeaderProps } from '../../../utils/headerProps';
-import FooterSmall from '../../FooterSmall';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Buttons from '../Buttons';
 import {
@@ -86,7 +86,7 @@ function TeacherClassesTablet(props) {
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

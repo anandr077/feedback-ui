@@ -11,7 +11,7 @@ import {
 import './TeacherDashboardDesktop.css';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 import Header from '../../Header';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 import TaskCard from '../../TaskCard';
 import { timeFirstFormattedDate } from '../../../dates';
 import { getUserName } from '../../../service';
@@ -96,7 +96,7 @@ function TeacherDashboardDesktop(props) {
           </Frame1416>
         </Frame1417>
       </Frame1419>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

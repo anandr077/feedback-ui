@@ -1,6 +1,6 @@
 import React from 'react';
 import { getTasks, getClasses } from '../../service';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
 import TasksStudentMobile from '../TasksStudentMobile';
 import TasksStudentTablet from '../TasksStudentTablet';
 import TasksLaptop from '../TasksLaptop';
@@ -8,10 +8,13 @@ import TasksDesktop from '../TasksDesktop';
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import _ from 'lodash';
 import Loader from '../Loader';
+import HeaderSmall from '../HeaderSmall';
+import Header from '../Header';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   const [isLoading, setIsLoading] = React.useState(true);
   React.useEffect(() => {
@@ -25,7 +28,16 @@ export default function StudentTaskRoot() {
     });
   }, []);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        {smallScreenView ? (
+          <HeaderSmall headerProps={taskHeaderProps} />
+        ) : (
+          <Header headerProps={taskHeaderProps} />
+        )}
+        <Loader />
+      </>
+    );
   }
   const assignmedTasks = filteredTasks.filter(
     (task) => task.progressStatus === 'ASSIGNED'

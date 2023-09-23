@@ -8,7 +8,7 @@ import {
 } from '../../../styledMixins';
 import './AccountSettingsMarkingCriteriaLapto.css';
 import Header from '../../Header';
-import Footer from '../../Footer';
+// import Footer from '../../Footer';
 
 function AccountSettingsMarkingCriteriaLapto(props) {
   const {
@@ -93,7 +93,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

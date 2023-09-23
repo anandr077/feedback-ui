@@ -14,7 +14,7 @@ import {
   IbmplexsansNormalElectricViolet16px,
 } from '../../styledMixins';
 import './CreateAAssignmentTablet.css';
-import FooterSmall from '../FooterSmall';
+// import FooterSmall from '../FooterSmall';
 import HeaderSmall from '../HeaderSmall';
 import { taskHeaderProps } from '../../utils/headerProps.js';
 function CreateAAssignmentTablet(props) {
@@ -169,7 +169,7 @@ function CreateAAssignmentTablet(props) {
           className={goBack22Props.className}
         />
       </Frame1379>
-      <FooterSmall />
+      {/* <FooterSmall /> */}
     </div>
   );
 }

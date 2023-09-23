@@ -1,15 +1,7 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import jsPDF from 'jspdf';
-import {
-  cloneDeep,
-  filter,
-  flatMap,
-  get,
-  includes,
-  map,
-  set
-} from 'lodash';
+import { cloneDeep, filter, flatMap, get, includes, map, set } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -47,9 +39,14 @@ import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
-import { TextField } from '@mui/material';
 import SnackbarContext from '../../SnackbarContext';
-import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
+import {
+  ActionButtonsContainer,
+  DialogContiner,
+  StyledTextField,
+  feedbacksFeedbackTeacherLaptopData,
+  feedbacksFeedbackTeacherMobileData,
+} from './style';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -557,8 +554,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const validateMarkingCriteria = () => {
     let invalid = true;
-    if (submission.assignment.questions.markingCriteria === undefined
-      || submission.assignment.questions.markingCriteria === null) {
+    if (
+      submission.assignment.questions.markingCriteria === undefined ||
+      submission.assignment.questions.markingCriteria === null
+    ) {
       return true;
     }
     submission.assignment.questions.map((question) => {
@@ -608,8 +607,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       });
     }
     submission.assignment.questions.map((question) => {
-      if (submission.assignment.questions.markingCriteria === undefined
-        || submission.assignment.questions.markingCriteria === null) {
+      if (
+        submission.assignment.questions.markingCriteria === undefined ||
+        submission.assignment.questions.markingCriteria === null
+      ) {
         return true;
       }
       if (hasDuplicateAttributes(question.markingCriteria?.selectedStrengths)) {

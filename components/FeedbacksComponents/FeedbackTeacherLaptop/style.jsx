@@ -186,6 +186,7 @@ export const Frame1371 = styled.div`
   z-index: 2;
   background-color: var(--white-pointer);
   padding: 20px;
+  flex-wrap: wrap;
 `;
 export const AssignmentTitle = styled.h1`
   ${feedbacksIbmplexsansBoldShark36px}

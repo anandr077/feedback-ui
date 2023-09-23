@@ -30,12 +30,7 @@ import {
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
-import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { getComments, getPortfolioPageMode } from './functions';
-import {
-  feedbacksFeedbackTeacherLaptopData,
-  feedbacksFeedbackTeacherMobileData,
-} from './style';
 import { portfolioHeaderProps } from '../../../utils/headerProps';
 
 export default function DocumentRoot({}) {

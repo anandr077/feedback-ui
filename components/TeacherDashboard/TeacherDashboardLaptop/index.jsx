@@ -228,6 +228,7 @@ const Frame1339 = styled.div`
   display: flex;
   flex-direction: column;
   height: 685px;
+  width: 60%;
   align-items: flex-end;
   gap: 20px;
   padding: 20px 0px;
@@ -259,7 +260,7 @@ const Classes = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 644px;
+  width: 100%;
   height: 1px;
   object-fit: cover;
 `;
@@ -304,7 +305,7 @@ const Frame1340 = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
-  padding: 20px 0px;
+  padding: 20px 10px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);

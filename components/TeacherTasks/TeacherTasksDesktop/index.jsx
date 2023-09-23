@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansSemiBoldRiverBed24px,
-} from '../../../styledMixins';
+import { IbmplexsansBoldShark64px } from '../../../styledMixins';
 import { assignmentsHeaderProps } from '../../../utils/headerProps';
 import Buttons from '../../Classes/Buttons';
 import Footer from '../../Footer';

@@ -27,16 +27,11 @@ import {
   getSmartAnnotations,
   saveAnswer,
 } from '../../../service.js';
+import { portfolioHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
-import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { getComments, getPortfolioPageMode } from './functions';
-import {
-  feedbacksFeedbackTeacherLaptopData,
-  feedbacksFeedbackTeacherMobileData,
-} from './style';
-import { portfolioHeaderProps } from '../../../utils/headerProps';
 
 export default function DocumentRoot({}) {
   const quillRefs = useRef([]);
@@ -68,7 +63,6 @@ export default function DocumentRoot({}) {
           return { ...c };
         });
         setComments(allComments);
-        console.log('smartAnnotationResult', smartAnnotationResult);
         setSmartAnnotations(smartAnnotationResult);
       })
       .finally(() => {

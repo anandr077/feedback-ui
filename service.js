@@ -310,6 +310,8 @@ export const getModelResponsesForClass = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/modelResponses');
 export const getStudentsForClass = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/students');
+  export const getTeachersForClass = async (classId) =>
+  await getApi(baseUrl + '/classes/' + classId + '/teachers');
 export const getClasses = async () => await getApi(baseUrl + '/classes');
 export const createAssignment = async (assignment) =>
   await postApi(baseUrl + '/assignments', assignment);

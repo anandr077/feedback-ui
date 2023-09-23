@@ -12,7 +12,7 @@ import { answersFrameNoMC } from '../AnswersFrameNoMC';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import '../FeedbackTeacherLaptop/FeedbackTeacherLaptop.css';
-import { contextBar } from '../FeedbackTeacherLaptop/contextBar';
+import { contextBarForPortfolioDocument } from '../FeedbackTeacherLaptop/contextBar';
 import {
   Frame1315,
   Frame1368,
@@ -24,6 +24,7 @@ import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import {
   getStudentsForClass,
+  getTeachersForClass,
   createRequestFeddbackType,
   getSubmissionById,
 } from '../../../service';
@@ -46,32 +47,12 @@ const FeedbackType = {
   FRIEND: 'FRIEND',
 };
 
-const menuItemsTeachers = [
-  {
-    id: 1,
-    title: 'teacher1',
-  },
-  {
-    id: 2,
-    title: 'teacher2',
-  },
-  {
-    id: 3,
-    title: 'teacher3',
-  },
-  {
-    id: 4,
-    title: 'teacher4',
-  },
-];
+
 
 function Document(props) {
   const {
     newCommentSerialNumber,
-    markingCriteriaFeedback,
-    smallMarkingCriteria,
     isTeacher,
-    showLoader,
     labelText,
     quillRefs,
     pageMode,
@@ -84,12 +65,12 @@ function Document(props) {
     submission,
     setSubmission,
     share,
-    sharewithclassdialog,
   } = props;
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -107,8 +88,8 @@ function Document(props) {
 
   useEffect(() => {
     if (submission.classId) {
-      Promise.all([getStudentsForClass(submission.classId)]).then(
-        ([studentsResponse]) => {
+      Promise.all([getStudentsForClass(submission.classId), getTeachersForClass(submission.classId)]).then(
+        ([studentsResponse, teachersResponse]) => {
           const filteredStudentsResponse = studentsResponse.filter(
             (student) => student.id !== submission.studentId
           );
@@ -118,6 +99,11 @@ function Document(props) {
             }
           );
           setStudents(updatedStudentsResponse);
+          setTeachers(teachersResponse.map(
+            (item) => {
+              return { ...item, title: item.id };
+            }
+          ));
         }
       );
     }
@@ -135,6 +121,7 @@ function Document(props) {
       if (res) {
         getSubmissionById(submission.id).then((s) => {
           setSubmission(s);
+          window.location.reload();
         });
       }
     });
@@ -176,7 +163,8 @@ function Document(props) {
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
         handleSelectedRequestFeedback,
-        students
+        students,
+        teachers
       )}
     </>
   );
@@ -186,12 +174,13 @@ const handleFeedbackMethodTypeDialog = (
   feedbackMethodType,
   setFeedbackMethodTypeDialog,
   handleSelectedRequestFeedback,
-  students
+  students,
+  teachers
 ) => {
   if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER) {
     return (
       <FeedbackTypeDialog
-        menuItems={menuItemsTeachers}
+        menuItems={teachers}
         setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
         title="teacher"
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}
@@ -273,8 +262,7 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {contextBar(
-        isShowSelectType,
+      {contextBarForPortfolioDocument(
         setShowSelectType,
         submission,
         methods,
@@ -284,7 +272,6 @@ function answersAndFeedbacks(
         (feedbackMethodType = FeedbackMethodType),
         (requestFeedback = true),
         handleRequestFeedback,
-        false
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
@@ -331,6 +318,9 @@ function documentFeedbackFrame(
   smartAnnotations
 ) {
   if (pageMode === 'DRAFT') {
+    return <></>;
+  }
+  if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return <></>;
   }
   return (

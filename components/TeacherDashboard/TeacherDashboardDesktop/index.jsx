@@ -262,7 +262,7 @@ const Classes = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 704px;
+  width: 100%;
   height: 1px;
   object-fit: cover;
 `;

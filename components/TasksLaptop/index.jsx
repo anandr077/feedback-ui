@@ -29,7 +29,6 @@ function TasksLaptop(props) {
           ></CheckboxGroup>
         </TitleContainer>
         <Frame1360>
-          {/* <TaskFrame1306 /> */}
           <Frame1359>
             <Frame1358>
               <TaskFrame1353

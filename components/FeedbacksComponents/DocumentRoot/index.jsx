@@ -32,6 +32,7 @@ import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
+import { portfolioHeaderProps } from '../../../utils/headerProps';
 
 export default function DocumentRoot({}) {
   const quillRefs = useRef([]);

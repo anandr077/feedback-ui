@@ -79,7 +79,7 @@ const X12ENGADV3 = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 604px;
+  width: 100%;
   height: 1px;
   object-fit: cover;
 `;
@@ -91,6 +91,7 @@ const Frame1307 = styled.div`
   gap: 80px;
   position: relative;
   align-self: stretch;
+  padding: 0px 20px;
 `;
 
 export default Frame13124;

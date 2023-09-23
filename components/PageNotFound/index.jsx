@@ -1,94 +1,25 @@
 import React from 'react';
 import Footer from '../Footer';
-import FooterSmall from '../FooterSmall';
-import ReactiveRender from '../ReactiveRender';
-import { getUserRole } from '../../service';
 import styled from 'styled-components';
 
 export default function PageNotFound() {
-  const isTeacher = getUserRole() === 'TEACHER';
-
   return (
-    <ReactiveRender
-      mobile={
-        <>
-          <Container>
-            <ImageContainerSmall />
-            <TextMainSmall>Looks like you’re lost</TextMainSmall>
-            <TextSubSmall>
-              The page you were looking for was not found
-            </TextSubSmall>
-            <HomeButtonContiner>
-              <IconSmall src="/icons/homeIconUnselected.png" />
-              <CustomLink href="/#/">
-                <GoHomeLinkSmall>Go back home</GoHomeLinkSmall>
-              </CustomLink>
-            </HomeButtonContiner>
-          </Container>
-          <FooterContainer>
-            {' '}
-            <FooterSmall />
-          </FooterContainer>
-        </>
-      }
-      tablet={
-        <>
-          <Container>
-            <ImageContainerSmall />
-            <TextMainSmall>Looks like you’re lost</TextMainSmall>
-            <TextSubSmall>
-              The page you were looking for was not found
-            </TextSubSmall>
-            <HomeButtonContiner>
-              <IconSmall src="/icons/homeIconUnselected.png" />
-              <CustomLink href="/#/">
-                <GoHomeLinkSmall>Go back home</GoHomeLinkSmall>
-              </CustomLink>
-            </HomeButtonContiner>
-          </Container>
-          <FooterContainer>
-            {' '}
-            <FooterSmall />
-          </FooterContainer>
-        </>
-      }
-      laptop={
-        <>
-          <Container>
-            <ImageContainer />
-            <TextMain>Looks like you’re lost</TextMain>
-            <TextSub>The page you were looking for was not found</TextSub>
-            <HomeButtonContiner>
-              <Icon src="/icons/homeIconUnselected.png" />
-              <CustomLink href="/#/">
-                <GoHomeLink>Go back home</GoHomeLink>
-              </CustomLink>
-            </HomeButtonContiner>
-          </Container>
-          <FooterContainer>
-            <Footer />
-          </FooterContainer>
-        </>
-      }
-      desktop={
-        <>
-          <Container>
-            <ImageContainer />
-            <TextMain>Looks like you’re lost</TextMain>
-            <TextSub>The page you were looking for was not found</TextSub>
-            <HomeButtonContiner>
-              <Icon src="/icons/homeIconUnselected.png" />
-              <CustomLink href="/#/">
-                <GoHomeLink>Go back home</GoHomeLink>
-              </CustomLink>
-            </HomeButtonContiner>
-          </Container>
-          <FooterContainer>
-            <Footer />
-          </FooterContainer>
-        </>
-      }
-    />
+    <>
+      <Container>
+        <ImageContainer />
+        <TextMain>Looks like you’re lost</TextMain>
+        <TextSub>The page you were looking for was not found</TextSub>
+        <HomeButtonContiner>
+          <Icon src="/icons/homeIconUnselected.png" />
+          <CustomLink href="/#/">
+            <GoHomeLink>Go back home</GoHomeLink>
+          </CustomLink>
+        </HomeButtonContiner>
+      </Container>
+      <FooterContainer>
+        <Footer />
+      </FooterContainer>
+    </>
   );
 }
 
@@ -117,12 +48,6 @@ const Icon = styled.img`
   height: 24px;
 `;
 
-const IconSmall = styled.img`
-  position: relative;
-  min-width: 13px;
-  height: 13px;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -148,17 +73,6 @@ const ImageContainer = styled.div`
   z-index: 0;
 `;
 
-const ImageContainerSmall = styled.div`
-  width: 214px;
-  height: 150px;
-  background-image: url('./icons/pagenotfound.png');
-  margin: 0px 0px 20px 0px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  z-index: 0;
-`;
-
 const TextMain = styled.div`
   width: 310px;
   height: 42px;
@@ -173,22 +87,6 @@ const TextMain = styled.div`
   order: 0;
   flex-grow: 0;
   margin: 0px 0px 20px 0px;
-`;
-
-const TextMainSmall = styled.div`
-  width: 155px;
-  height: 21px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 21px;
-  text-align: center;
-  color: #1e252a;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin: 0px 0px 10px 0px;
 `;
 
 const TextSub = styled.div`
@@ -212,29 +110,6 @@ const GoHomeLink = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 26px;
-`;
-
-const GoHomeLinkSmall = styled.div`
-  height: 13px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 13px;
-`;
-
-const TextSubSmall = styled.div`
-  width: 400px;
-  height: 13px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 13px;
-  text-align: center;
-  color: #1e252a;
-  flex: none;
-  order: 1;
 `;
 
 const FooterContainer = styled.div`

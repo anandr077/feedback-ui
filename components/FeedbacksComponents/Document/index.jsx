@@ -7,7 +7,7 @@ import Header from '../../Header';
 import Footer from '../../Footer';
 import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
-import { isTabletView } from '../../ReactiveRender';
+import { isSmallScreen } from '../../ReactiveRender';
 import { answersFrameNoMC } from '../AnswersFrameNoMC';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -74,7 +74,7 @@ function Document(props) {
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
-  const [tabletView, setTabletView] = useState(isTabletView());
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
@@ -130,7 +130,7 @@ function Document(props) {
     <>
       <div className="feedback-teacher-laptop screen">
         <Frame1388>
-          {header(tabletView, headerProps)}
+          {header(smallScreen, headerProps)}
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
             isShowSelectType,
@@ -156,7 +156,7 @@ function Document(props) {
             smartAnnotations,
             handleRequestFeedback
           )}
-          {footer(tabletView)}
+          {footer(smallScreen)}
         </Frame1388>
       </div>
       {handleFeedbackMethodTypeDialog(
@@ -232,8 +232,8 @@ function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
   }
 }
 
-function footer(tabletView) {
-  return tabletView ? <FooterSmall /> : <Footer />;
+function footer(smallScreen) {
+  return smallScreen ? <FooterSmall /> : <Footer />;
 }
 
 function answersAndFeedbacks(
@@ -342,8 +342,8 @@ function documentFeedbackFrame(
   );
 }
 
-function header(tabletView, headerProps) {
-  return tabletView ? (
+function header(smallScreen, headerProps) {
+  return smallScreen ? (
     <HeaderSmall headerProps={headerProps} />
   ) : (
     <Header headerProps={headerProps} />

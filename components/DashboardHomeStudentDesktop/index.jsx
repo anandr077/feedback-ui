@@ -180,6 +180,7 @@ const Frame1346 = styled.div`
   gap: 32px;
   position: relative;
   min-height: 600px;
+  padding: 0px 30px;
 `;
 
 const Frame1339 = styled.div`
@@ -193,6 +194,7 @@ const Frame1339 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0px 4px 16px #7200e01a;
+  width: 50%;
 `;
 
 const Frame1337 = styled.div`
@@ -217,7 +219,7 @@ const Tasks = styled.div`
 const Line17 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 828px;
+  width: 100%;
   height: 1px;
   object-fit: cover;
 `;

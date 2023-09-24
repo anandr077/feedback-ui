@@ -8,14 +8,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
 
-//options for the new document modal
-const options = [
-    { key: 1, value: 'Test 1' },
-    { key: 2, value: 'Test 2' },
-    { key: 3, value: 'Test 3' },
-    { key: 4, value: 'Test 4' },
-    { key: 5, value: 'onno' },
-  ];
+
 
 const PortfolioDocModal = ({ setShowModal, showModal, handleCreateDocument }) => {
   return (
@@ -31,7 +24,6 @@ const PortfolioDocModal = ({ setShowModal, showModal, handleCreateDocument }) =>
           />
         </ModalContainerHeader>
         <PortfolioForm
-          subjects={options}
           setShowModal={setShowModal}
           showModal={showModal}
           handleCreateDocument={handleCreateDocument}

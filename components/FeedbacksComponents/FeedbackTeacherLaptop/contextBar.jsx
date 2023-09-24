@@ -46,75 +46,22 @@ export function contextBar(
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        {showStatusText && statusText()}
+        {showStatusText && statusText(methods, focusAreasCount, submission)}
       </TitleWrapper>
-      {!isTeacher &&
-        pageMode === 'CLOSED' &&
-        submission.status === 'CLOSED' && (
-          <div id="deleteButton">
-            <Buttons2
-              button="Download PDF"
-              download={true}
-              onClickFn={methods.downloadPDF}
-            />
-          </div>
-        )}
-      {!isTeacher && pageMode === 'CLOSED' && submission.status != 'CLOSED' && (
-        <AwaitFeedbackContainer id="deleteButton">
-          <Buttons2
-            button="Download PDF"
-            download={true}
-            onClickFn={methods.downloadPDF}
-          />
-        </AwaitFeedbackContainer>
+      {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
+      {downloadButtonNonClosedSubmission(
+        isTeacher,
+        pageMode,
+        submission,
+        methods
       )}
-
       {tasksListsDropDown(isTeacher, methods)}
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
-      {submitButton(
-        isShowSelectType,
-        setShowSelectType,
-        methods,
-        pageMode,
-        isTeacher,
-        submission,
-        feedbackMethodType,
-        requestFeedback,
-        handleRequestFeedback
-      )}
+      {submitButton(methods, pageMode, isTeacher, submission)}
     </Frame1371>
   );
-
-  function statusText() {
-    return <StatusText>
-      <div>{methods.submissionStatusLabel()}</div>
-      {focusAreasCount > 0 && (
-        <div className="focus-area">
-          <div className="image">
-            {submission.assignment?.focusAreas &&
-              submission.assignment.focusAreas.length >= 1 &&
-              focusAreasCount > 0 ? (
-              <Ellipse141
-                backgroundColor={submission.assignment?.focusAreas[0].color} />
-            ) : (
-              <></>
-            )}
-            {submission.assignment?.focusAreas &&
-              submission.assignment.focusAreas.length >= 2 ? (
-              <Ellipse141
-                backgroundColor={submission.assignment?.focusAreas[1].color}
-                style={{ marginLeft: '-8px' }} />
-            ) : (
-              <></>
-            )}
-          </div>
-          <div className="text">{focusAreasCount} focus areas</div>
-        </div>
-      )}
-    </StatusText>;
-  }
 }
 const selectReviewType = (
   feedbackMethodType,
@@ -141,43 +88,14 @@ const selectReviewType = (
     </SelectFeedbackMethod>
   );
 };
-const submitButton = (
-  isShowSelectType,
-  setShowSelectType,
-  methods,
-  pageMode,
-  isTeacher,
-  submission,
-  feedbackMethodType,
-  requestFeedback = false,
-  handleRequestFeedback
-) => {
+const submitButton = (methods, pageMode, isTeacher, submission) => {
   if (pageMode === 'DRAFT') {
     return (
       <div style={{ position: 'relative' }}>
-        {requestFeedback ? (
-          <>
-            {selectReviewType(
-              feedbackMethodType,
-              isShowSelectType,
-              handleRequestFeedback
-            )}
-            <RequestFeedbackFrame
-              onClick={(event) => {
-                event.stopPropagation();
-                setShowSelectType(!isShowSelectType);
-              }}
-            >
-              {<img src="/img/messages.svg" alt="message" />}
-              Request Feedback
-            </RequestFeedbackFrame>
-          </>
-        ) : (
-          <Buttons2
-            button="Submit"
-            onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
-          ></Buttons2>
-        )}
+        <Buttons2
+          button="Submit"
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
+        ></Buttons2>
       </div>
     );
   }
@@ -209,17 +127,6 @@ const submitButton = (
     }
   }
   if (pageMode === 'REVISE') {
-    if (requestFeedback) {
-      return (
-        <RequestFeedbackFrame
-          style={{ border: '1px solid #0C8F8F', cursor: 'unset' }}
-        >
-          {<img src="/img/messages-green.svg" alt="messages" />}
-          Feedback requested from{' '}
-          {submission.reviewerId ? submission.reviewerId : 'peers'}
-        </RequestFeedbackFrame>
-      );
-    }
     if (submission.status === 'RESUBMISSION_REQUESTED') {
       return (
         <>
@@ -242,3 +149,173 @@ const submitButton = (
   return <></>;
 };
 
+function downloadButtonNonClosedSubmission(
+  isTeacher,
+  pageMode,
+  submission,
+  methods
+) {
+  return (
+    !isTeacher &&
+    pageMode === 'CLOSED' &&
+    submission.status != 'CLOSED' && (
+      <AwaitFeedbackContainer id="deleteButton">
+        <Buttons2
+          button="Download PDF"
+          download={true}
+          onClickFn={methods.downloadPDF}
+        />
+      </AwaitFeedbackContainer>
+    )
+  );
+}
+
+function downloadButtonClosedSubmission(
+  isTeacher,
+  pageMode,
+  submission,
+  methods
+) {
+  return (
+    !isTeacher &&
+    pageMode === 'CLOSED' &&
+    submission.status === 'CLOSED' && (
+      <div id="deleteButton">
+        <Buttons2
+          button="Download PDF"
+          download={true}
+          onClickFn={methods.downloadPDF}
+        />
+      </div>
+    )
+  );
+}
+
+export function contextBarForPortfolioDocument(
+  isShowSelectType,
+  setShowSelectType,
+  submission,
+  methods,
+  isTeacher,
+  pageMode,
+  labelText,
+  feedbackMethodType = [],
+  handleRequestFeedback
+) {
+  return (
+    <Frame1371 id="assignmentTitle">
+      <TitleWrapper>
+        <AssignmentTitle>{submission?.assignment?.title}</AssignmentTitle>
+      </TitleWrapper>
+      {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
+      {downloadButtonNonClosedSubmission(
+        isTeacher,
+        pageMode,
+        submission,
+        methods
+      )}
+      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
+      )}
+      {submitButtonDocument(
+        isShowSelectType,
+        setShowSelectType,
+        methods,
+        pageMode,
+        submission,
+        feedbackMethodType,
+        handleRequestFeedback
+      )}
+    </Frame1371>
+  );
+}
+
+function statusText(methods, focusAreasCount, submission) {
+  return (
+    <StatusText>
+      <div>{methods.submissionStatusLabel()}</div>
+      {focusAreasCount > 0 && (
+        <div className="focus-area">
+          <div className="image">
+            {submission.assignment?.focusAreas &&
+            submission.assignment.focusAreas.length >= 1 &&
+            focusAreasCount > 0 ? (
+              <Ellipse141
+                backgroundColor={submission.assignment?.focusAreas[0].color}
+              />
+            ) : (
+              <></>
+            )}
+            {submission.assignment?.focusAreas &&
+            submission.assignment.focusAreas.length >= 2 ? (
+              <Ellipse141
+                backgroundColor={submission.assignment?.focusAreas[1].color}
+                style={{ marginLeft: '-8px' }}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="text">{focusAreasCount} focus areas</div>
+        </div>
+      )}
+    </StatusText>
+  );
+}
+
+const submitButtonDocument = (
+  isShowSelectType,
+  setShowSelectType,
+  methods,
+  pageMode,
+  submission,
+  feedbackMethodType,
+  handleRequestFeedback
+) => {
+  if (pageMode === 'DRAFT') {
+    return (
+      <div style={{ position: 'relative' }}>
+        {
+          <>
+            {selectReviewType(
+              feedbackMethodType,
+              isShowSelectType,
+              handleRequestFeedback
+            )}
+            <RequestFeedbackFrame
+              onClick={(event) => {
+                event.stopPropagation();
+                setShowSelectType(!isShowSelectType);
+              }}
+            >
+              {<img src="/img/messages.svg" alt="message" />}
+              Request Feedback
+            </RequestFeedbackFrame>
+          </>
+        }
+      </div>
+    );
+  }
+  if (pageMode === 'REVIEW') {
+    return (
+      <ButtonsContainer>
+        <Buttons2
+          button="Submit"
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
+        ></Buttons2>
+      </ButtonsContainer>
+    );
+  }
+  if (pageMode === 'REVISE') {
+    return (
+      <RequestFeedbackFrame
+        style={{ border: '1px solid #0C8F8F', cursor: 'unset' }}
+      >
+        {<img src="/img/messages-green.svg" alt="messages" />}
+        Feedback requested from{' '}
+        {submission.reviewerId ? submission.reviewerId : 'peers'}
+      </RequestFeedbackFrame>
+    );
+  }
+  return <></>;
+};

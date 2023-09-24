@@ -235,7 +235,14 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {contextBar(false, ()=>{}, submission, methods, isTeacher, pageMode, labelText)}
+      {contextBar(
+        false, 
+        ()=>{}, 
+        submission, 
+        methods, 
+        isTeacher, 
+        pageMode, 
+        labelText)}
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,

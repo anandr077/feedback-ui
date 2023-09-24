@@ -13,8 +13,6 @@ import HeaderSmall from '../../HeaderSmall';
 function AccountSettingsMarkingCriteriaTable3(props) {
   const {
     line14,
-    breadcrumbProps,
-    breadcrumb2Props,
     headerProps,
     markingCriteriaList,
     sidebarNav,
@@ -248,7 +246,7 @@ const MarkingCriteria = styled.div`
 const Line14 = styled.img`
   position: relative;
   align-self: stretch;
-  min-width: 539px;
+  width: 100%;
   height: 1px;
   object-fit: cover;
 `;

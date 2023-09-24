@@ -45,11 +45,11 @@ const PortfolioPage = () => {
   const queryClient = useQueryClient()
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
-    onSuccess: () => {
+        onSuccess: () => {
       queryClient.invalidateQueries('portfolio')
     },
   })
-  if (isLoading) {
+  if (isLoading || !state.portfolio) {
     return <Loader />;
   }
 
@@ -58,11 +58,7 @@ const PortfolioPage = () => {
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
-  const currentFolder = getSubFolder(
-    state.portfolio,
-    state.activeMainIndex,
-    state.activeSubFolderIndex
-  );
+
 
   const handleCreateDocument = (docName) => {
     addFile(
@@ -89,8 +85,8 @@ const PortfolioPage = () => {
             </SideNavContainer>
             <DocumentMainSection>
               <RecentWorkContainer
-                showNewDocumentButton = {currentFolder.allowCreateDocument}
                 smallScreen={smallScreen}
+                state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}
               />

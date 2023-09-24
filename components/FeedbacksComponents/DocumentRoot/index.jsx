@@ -27,6 +27,7 @@ import {
   getSmartAnnotations,
   saveAnswer,
 } from '../../../service.js';
+import { portfolioHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
@@ -63,7 +64,6 @@ export default function DocumentRoot({}) {
           return { ...c };
         });
         setComments(allComments);
-        console.log('smartAnnotationResult', smartAnnotationResult);
         setSmartAnnotations(smartAnnotationResult);
       })
       .finally(() => {
@@ -254,8 +254,6 @@ export default function DocumentRoot({}) {
 
     setNewCommentValue('');
     setShowNewComment(false);
-    setExemplerComment('');
-    setShowShareWithClass(false);
   }
 
   function updateParentComment(comment, commentId) {
@@ -288,8 +286,6 @@ export default function DocumentRoot({}) {
 
     setNewCommentValue('');
     setShowNewComment(false);
-    setExemplerComment('');
-    setShowShareWithClass(false);
   }
 
   function updateChildComment(commentId, replyCommentIndex, comment) {
@@ -607,77 +603,6 @@ export default function DocumentRoot({}) {
     doc.html(totalpdf, options);
   };
 
-  function submissionStatusLabel() {
-    return getStatusMessage(
-      submission,
-      false ? 'TEACHER' : getUserId() === submission.studentId ? 'SELF' : 'PEER'
-    );
-  }
-  function getStatusMessage(submission, viewer) {
-    if (submission.status === 'DRAFT') {
-      return (
-        'Created by ' +
-        submission.assignment.teacherName +
-        ' | Due on ' +
-        formattedDate(submission.assignment.dueAt)
-      );
-    }
-    if (submission.status === 'SUBMITTED') {
-      let submitter;
-      if (viewer === 'PEER') {
-        submitter = 'your peer';
-      } else if (viewer === 'SELF') {
-        submitter = 'you';
-      } else {
-        submitter = submission.studentName;
-      }
-      return (
-        'Submitted by ' +
-        submitter +
-        ' | Review due on ' +
-        formattedDate(submission.assignment.reviewDueAt)
-      );
-    }
-    if (
-      submission.status === 'REVIEWED' ||
-      submission.status === 'RESUBMISSION_REQUESTED'
-    ) {
-      let reviewer;
-      if (submission.assignment.reviewedBy === 'TEACHER') {
-        if (viewer === 'TEACHER') {
-          reviewer = 'you';
-        } else {
-          reviewer = submission.assignment.teacherName;
-        }
-      } else {
-        if (viewer === 'PEER') {
-          reviewer = 'you';
-        } else {
-          reviewer = 'your peer';
-        }
-      }
-      return (
-        'Reviewed by ' +
-        reviewer +
-        ' on ' +
-        formattedDate(submission.reviewedAt)
-      );
-    }
-
-    if (submission.status === 'CLOSED') {
-      let closedBy;
-      if (viewer === 'PEER') {
-        closedBy = 'your peer';
-      } else if (viewer === 'SELF') {
-        closedBy = 'you';
-      } else {
-        closedBy = submission.studentName;
-      }
-      return (
-        'Closed by ' + closedBy + ' on ' + formattedDate(submission.closedAt)
-      );
-    }
-  }
 
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
@@ -700,7 +625,6 @@ export default function DocumentRoot({}) {
 
   const methods = {
     createDebounceFunction,
-    submissionStatusLabel,
     handleChangeText,
     handleDeleteComment,
     handleAddComment,
@@ -736,10 +660,8 @@ export default function DocumentRoot({}) {
           hidePopup={hideSubmitPopup}
           title="Submit Task"
           textContent={popupText}
-          buttonText="Acknowledge and Submit"
+          buttonText="Submit"
           confirmButtonAction={submissionFunction()}
-          warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
-          confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
         />
       )}
 
@@ -749,7 +671,6 @@ export default function DocumentRoot({}) {
             {...{
               newCommentSerialNumber,
               showLoader,
-              submissionStatusLabel,
               labelText,
               quillRefs,
               pageMode,
@@ -772,7 +693,6 @@ export default function DocumentRoot({}) {
             {...{
               newCommentSerialNumber,
               showLoader,
-              submissionStatusLabel,
               labelText,
               quillRefs,
               pageMode,
@@ -796,7 +716,6 @@ export default function DocumentRoot({}) {
               {...{
                 newCommentSerialNumber,
                 showLoader,
-                submissionStatusLabel,
                 labelText,
                 quillRefs,
                 pageMode,
@@ -820,7 +739,6 @@ export default function DocumentRoot({}) {
             {...{
               newCommentSerialNumber,
               showLoader,
-              submissionStatusLabel,
               labelText,
               smartAnnotations,
               quillRefs,

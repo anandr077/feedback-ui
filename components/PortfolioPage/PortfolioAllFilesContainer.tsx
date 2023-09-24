@@ -28,9 +28,11 @@ const PortfolioAllFilesContainer = ({ allFiles }) => {
       allFiles.map((document, idx) => {
         return (
           <DocumentBox key={idx}>
+            
             <DocumentBoxWrapper>
+
               <DocumentTextFrame>
-                {document?.description?.slice(0, 170)}...
+                {document?.preview?.slice(0, 170)}...
               </DocumentTextFrame>
               <div>
                 {document.status ? (

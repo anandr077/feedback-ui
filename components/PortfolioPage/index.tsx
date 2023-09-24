@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { getPortfolio, updatePortfolio } from '../../service';
+import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
 import { portfolioHeaderProps } from '../../utils/headerProps';
 import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
 
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
@@ -15,6 +15,7 @@ import {
   reducer,
   addFile,
   getDocuments,
+  getSubFolder,
 } from './portfolioReducer';
 
 import {
@@ -41,7 +42,13 @@ const PortfolioPage = () => {
       dispatch({ type: 'setPortfolio', payload: data });
     },
   });
+  const queryClient = useQueryClient()
 
+  const mutation = useMutation(addDocumentToPortfolioWithDetails, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('portfolio')
+    },
+  })
   if (isLoading) {
     return <Loader />;
   }
@@ -51,14 +58,19 @@ const PortfolioPage = () => {
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
+  const currentFolder = getSubFolder(
+    state.portfolio,
+    state.activeMainIndex,
+    state.activeSubFolderIndex
+  );
 
-  const handleCreateDocument = (docName, subjectValue) => {
+  const handleCreateDocument = (docName) => {
     addFile(
       state.portfolio,
       state.activeMainIndex,
       state.activeSubFolderIndex,
       docName,
-      dispatch
+      mutation
     );
   };
 
@@ -77,6 +89,7 @@ const PortfolioPage = () => {
             </SideNavContainer>
             <DocumentMainSection>
               <RecentWorkContainer
+                showNewDocumentButton = {currentFolder.allowCreateDocument}
                 smallScreen={smallScreen}
                 showModal={showModal}
                 setShowModal={setShowModal}

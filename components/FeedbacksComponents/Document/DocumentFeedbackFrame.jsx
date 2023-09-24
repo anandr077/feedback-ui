@@ -11,7 +11,6 @@ import FocussedInput from '../../FocussedInput';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import Buttons4 from '../Buttons4';
 import CommentCard32 from '../CommentCard32';
-import FocusAreasFrame from '../FocusAreasFrame';
 import Tabs from '../ReviewsFrame1320';
 import '../FeedbackTeacherLaptop/FeedbackTeacherLaptop.css';
 import {
@@ -40,14 +39,7 @@ const authorDefaultReviewComment = {
   reviewerName: 'Jeddle',
   comment: 'Feedback will appear here',
 };
-const reviewerDefaultFocusAreasComment = {
-  reviewerName: 'Jeddle',
-  comment: 'Focus areas will appear here',
-};
-const authorDefaultFocusAreasReviewComment = {
-  reviewerName: 'Jeddle',
-  comment: 'Please select text to highlight focus areas',
-};
+
 function DocumentFeedbackFrame(props) {
   const {
     methods,
@@ -236,9 +228,7 @@ const newCommentFrame = (
   smartAnnotations
 ) => {
   console.log('newCommentFrame smartAnnotations', smartAnnotations);
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-    return selectFocusArea(methods, submission, newCommentSerialNumber);
-  }
+  
   return reviewerNewComment(
     methods,
     newCommentFrameRef,
@@ -302,38 +292,6 @@ function shareWithClassFrame(methods, share) {
   );
 }
 
-function selectFocusArea(methods, submission, newCommentSerialNumber) {
-  console.log('q', submission.assignment.questions);
-  const allFocusAreas = flatMap(submission.assignment.questions, (question) =>
-    question.focusAreas ? question.focusAreas : []
-  );
-
-  console.log('allFocusAreas', allFocusAreas);
-
-  const focusAreas = uniqBy(
-    allFocusAreas?.filter((fa) => {
-      console.log('id', fa.id);
-      return submission.assignment.questions[
-        newCommentSerialNumber - 1
-      ]?.focusAreaIds?.includes(fa.id);
-    }),
-    'id'
-  );
-  const focusAreasFrame = (methods) => (
-    <>
-      <Frame1329>
-        <Frame1406>
-          <FocusAreasFrame
-            focusAreas={focusAreas}
-            handleAddFocusArea={methods.handleFocusAreaComment}
-          />
-        </Frame1406>
-      </Frame1329>
-    </>
-  );
-
-  return focusAreasFrame(methods);
-}
 
 export const handleShowResolvedToggle = (setShowResolved) => (event) => {
   setShowResolved(event.target.checked);
@@ -342,7 +300,7 @@ function createVisibleComments(commentsForSelectedTab) {
   return commentsForSelectedTab.filter((comment) => !comment.isHidden);
 }
 function createDefaultCommentText(pageMode) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE' || pageMode === 'CLOSED') {
     return authorDefaultReviewComment;
   }
   return reviewerDefaultComment;

@@ -610,7 +610,7 @@ export default function CreateAssignment(props) {
           colors={allFocusAreasColors}
         />
       )}
-      {openMarkingCriteriaPreviewDialog && (
+      {openMarkingCriteriaPreviewDialog && currentMarkingCriteria?.type && (
         <PreviewDialog
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
           markingCriterias={currentMarkingCriteria}

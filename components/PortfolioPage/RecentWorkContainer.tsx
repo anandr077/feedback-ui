@@ -35,7 +35,7 @@ const recentWork = [
 ];
 
 
-const RecentWorkContainer = ({showNewDocumentButton, smallScreen, showModal, setShowModal}) => {
+const RecentWorkContainer = ({smallScreen, showModal, setShowModal}) => {
 
   const numColumns = smallScreen ? 3 : 4;
   const displayedWork = recentWork.slice(0, numColumns)
@@ -46,7 +46,7 @@ const RecentWorkContainer = ({showNewDocumentButton, smallScreen, showModal, set
           <RecentTag>Recent</RecentTag>
         </WorkHeader>
         <AllWorkBoxes>
-          {newDocumentButton(showNewDocumentButton, setShowModal, showModal)}
+          {newDocumentButton(setShowModal, showModal)}
 
           {displayedWork.map((work, idx) => {
             console.log('work', work);
@@ -61,10 +61,7 @@ const RecentWorkContainer = ({showNewDocumentButton, smallScreen, showModal, set
 
 export default RecentWorkContainer 
 
-function newDocumentButton(showNewDocumentButton, setShowModal: any, showModal: any) {
-  if (!showNewDocumentButton) {
-    return <></>
-  }
+function newDocumentButton(setShowModal: any, showModal: any) {
   return <NewDocBtn onClick={() => setShowModal(!showModal)}>
     <NewDocBtnImg
       src={AddCircleIcon}

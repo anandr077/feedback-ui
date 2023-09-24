@@ -30,10 +30,8 @@ export function addFile(
   mutation
 ) {
  
-  // Clone the data for immutability
   const newData = { ...portfolio, files: [...portfolio.files] };
 
-  // Ensure the mainIndex is within bounds
   if (
     mainIndex < 0 ||
     mainIndex >= newData.files.length ||
@@ -48,7 +46,6 @@ export function addFile(
   };
   newData.files[mainIndex] = mainFolder;
 
-  // Ensure the subFolderIndex is within bounds and is a folder
   if (
     subFolderIndex < 0 ||
     subFolderIndex >= mainFolder.files.length ||
@@ -62,7 +59,6 @@ export function addFile(
     files: [...(mainFolder.files[subFolderIndex].files || [])],
   };
   mainFolder.files[subFolderIndex] = subFolder;
-  console.log('subFolder now', subFolder);
   mutation.mutate({
     classId: subFolder.classId,
     courseId: subFolder.courseId,

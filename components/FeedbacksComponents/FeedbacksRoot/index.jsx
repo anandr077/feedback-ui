@@ -1130,15 +1130,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   return (
     <>
       {showSubmitPopup && (
-        <GeneralPopup
-          hidePopup={hideSubmitPopup}
-          title="Submit Task"
-          textContent={popupText}
-          buttonText="Acknowledge and Submit"
-          confirmButtonAction={submissionFunction()}
-          warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
-          confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
-        />
+        submitPopup(
+          pageMode, hideSubmitPopup, popupText, submissionFunction)
+
       )}
 
       <ReactiveRender
@@ -1264,3 +1258,23 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return handleRequestResubmission;
   }
 }
+function submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction) {
+  let warningMessage = undefined
+  let confirmationMessage = undefined
+  let buttonText = 'Submit'
+
+  if (pageMode === 'DRAFT') {
+    warningMessage = "You will not be able to edit your work after submission."
+    confirmationMessage = "Are you sure you want to submit this task?"
+    buttonText = 'Acknowledge and Submit'
+  }
+  return <GeneralPopup
+    hidePopup={hideSubmitPopup}
+    title="Submit Task"
+    textContent={popupText}
+    buttonText={buttonText}
+    confirmButtonAction={submissionFunction()}
+    warningMessage={warningMessage}
+    confirmationMessage={confirmationMessage} />;
+}
+

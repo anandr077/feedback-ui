@@ -30,10 +30,8 @@ export function addFile(
   mutation
 ) {
  
-  // Clone the data for immutability
   const newData = { ...portfolio, files: [...portfolio.files] };
 
-  // Ensure the mainIndex is within bounds
   if (
     mainIndex < 0 ||
     mainIndex >= newData.files.length ||
@@ -48,7 +46,6 @@ export function addFile(
   };
   newData.files[mainIndex] = mainFolder;
 
-  // Ensure the subFolderIndex is within bounds and is a folder
   if (
     subFolderIndex < 0 ||
     subFolderIndex >= mainFolder.files.length ||
@@ -62,12 +59,33 @@ export function addFile(
     files: [...(mainFolder.files[subFolderIndex].files || [])],
   };
   mainFolder.files[subFolderIndex] = subFolder;
-  console.log('subFolder now', subFolder);
-  mutation.mutate({
-    classId: subFolder.classId,
-    courseId: subFolder.courseId,
-    title: fileName,
-  });
+  const tempFile = { id: 'temp', title: fileName, type: 'FILE' };
+  subFolder.files.unshift(tempFile); 
+
+  
+  mutation.mutate(
+    {
+      classId: subFolder.classId,
+      courseId: subFolder.courseId,
+      title: fileName,
+    },
+    {
+      onMutate: () => {
+        const previousPortfolio = { ...portfolio };
+        
+        portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
+        return previousPortfolio;
+      },
+      onSuccess: (data) => {
+        subFolder.files = subFolder.files.map((file) => (file.id === 'temp' ? data : file));
+        portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
+      },
+      onError: (_, __, context) => {
+        // Reverting to the previous state in case of an error
+        if (context) portfolio = context;
+      }
+    }
+  );
 }
 
 export function getDocuments(

@@ -92,8 +92,7 @@ export function getPortfolioPageMode(user, submission) {
 export function getSelfPortfolioPageMode(submission) {
   if (submission.status === 'DRAFT') 
     return 'DRAFT';
-  if (submission.status === 'SUBMITTED') 
-    return 'CLOSED';
+
   return 'REVISE';
 }
 

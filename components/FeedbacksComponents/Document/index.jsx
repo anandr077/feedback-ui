@@ -121,7 +121,6 @@ function Document(props) {
       if (res) {
         getSubmissionById(submission.id).then((s) => {
           setSubmission(s);
-          window.location.reload();
         });
       }
     });
@@ -222,16 +221,6 @@ const selectTabComments = (showResolved, comments) => {
   });
 };
 
-function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-    setFeedback(false);
-    setFocusAreas(true);
-  } else {
-    setFeedback(true);
-    setFocusAreas(false);
-  }
-}
-
 function footer(smallScreen) {
   return smallScreen ? <FooterSmall /> : <Footer />;
 }
@@ -263,6 +252,7 @@ function answersAndFeedbacks(
   return (
     <Frame1386 id="content">
       {contextBarForPortfolioDocument(
+        isShowSelectType,
         setShowSelectType,
         submission,
         methods,
@@ -270,7 +260,6 @@ function answersAndFeedbacks(
         pageMode,
         labelText,
         (feedbackMethodType = FeedbackMethodType),
-        (requestFeedback = true),
         handleRequestFeedback,
       )}
       <Frame1368 id="assignmentData">
@@ -320,9 +309,7 @@ function documentFeedbackFrame(
   if (pageMode === 'DRAFT') {
     return <></>;
   }
-  if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
-    return <></>;
-  }
+
   return (
     <DocumentFeedbackFrame
       methods={methods}

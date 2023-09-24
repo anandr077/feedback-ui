@@ -49,20 +49,16 @@ const PortfolioPage = () => {
       queryClient.invalidateQueries('portfolio')
     },
   })
-  if (isLoading) {
+  if (isLoading || !state.portfolio) {
     return <Loader />;
-}
+  }
 
   const allFiles = getDocuments(
     state.portfolio,
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
-  const currentFolder = getSubFolder(
-    state.portfolio,
-    state.activeMainIndex,
-    state.activeSubFolderIndex
-  );
+
 
   const handleCreateDocument = (docName) => {
     addFile(
@@ -90,6 +86,7 @@ const PortfolioPage = () => {
             <DocumentMainSection>
               <RecentWorkContainer
                 smallScreen={smallScreen}
+                state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}
               />

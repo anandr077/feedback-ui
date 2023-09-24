@@ -35,10 +35,10 @@ const recentWork = [
 ];
 
 
-const RecentWorkContainer = ({smallScreen, showModal, setShowModal}) => {
+const RecentWorkContainer = ({smallScreen, state, showModal, setShowModal}) => {
 
   const numColumns = smallScreen ? 3 : 4;
-  const displayedWork = recentWork.slice(0, numColumns)
+  const displayedWork = state?.portfolio?.recentFiles?.slice(0, numColumns)
 
   return (
     <WorkContainer>
@@ -48,8 +48,7 @@ const RecentWorkContainer = ({smallScreen, showModal, setShowModal}) => {
         <AllWorkBoxes>
           {newDocumentButton(setShowModal, showModal)}
 
-          {displayedWork.map((work, idx) => {
-            console.log('work', work);
+          {displayedWork?.map((work, idx) => {
             return (
               <RecentWorks work={work} key={idx} />
             );

@@ -59,11 +59,33 @@ export function addFile(
     files: [...(mainFolder.files[subFolderIndex].files || [])],
   };
   mainFolder.files[subFolderIndex] = subFolder;
-  mutation.mutate({
-    classId: subFolder.classId,
-    courseId: subFolder.courseId,
-    title: fileName,
-  });
+  const tempFile = { id: 'temp', title: fileName, type: 'FILE' };
+  subFolder.files.unshift(tempFile); 
+
+  
+  mutation.mutate(
+    {
+      classId: subFolder.classId,
+      courseId: subFolder.courseId,
+      title: fileName,
+    },
+    {
+      onMutate: () => {
+        const previousPortfolio = { ...portfolio };
+        
+        portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
+        return previousPortfolio;
+      },
+      onSuccess: (data) => {
+        subFolder.files = subFolder.files.map((file) => (file.id === 'temp' ? data : file));
+        portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
+      },
+      onError: (_, __, context) => {
+        // Reverting to the previous state in case of an error
+        if (context) portfolio = context;
+      }
+    }
+  );
 }
 
 export function getDocuments(

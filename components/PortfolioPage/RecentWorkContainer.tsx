@@ -12,33 +12,12 @@ import AddCircleIcon from '../../static/icons/add-circle.png';
 import RecentWorks from './RecentWorks';
 
 //dummy data for portfolio
-const recentWork = [
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-  {
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },{
-    title: 'Lorem ipsum - document name full size',
-    desc: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
-  },
-];
 
 
-const RecentWorkContainer = ({showNewDocumentButton, smallScreen, showModal, setShowModal}) => {
+const RecentWorkContainer = ({smallScreen, state, showModal, setShowModal}) => {
 
   const numColumns = smallScreen ? 3 : 4;
-  const displayedWork = recentWork.slice(0, numColumns)
+  const displayedWork = state?.portfolio?.recentFiles?.slice(0, numColumns)
 
   return (
     <WorkContainer>
@@ -46,10 +25,9 @@ const RecentWorkContainer = ({showNewDocumentButton, smallScreen, showModal, set
           <RecentTag>Recent</RecentTag>
         </WorkHeader>
         <AllWorkBoxes>
-          {newDocumentButton(showNewDocumentButton, setShowModal, showModal)}
+          {newDocumentButton(setShowModal, showModal)}
 
-          {displayedWork.map((work, idx) => {
-            console.log('work', work);
+          {displayedWork?.map((work, idx) => {
             return (
               <RecentWorks work={work} key={idx} />
             );
@@ -61,10 +39,7 @@ const RecentWorkContainer = ({showNewDocumentButton, smallScreen, showModal, set
 
 export default RecentWorkContainer 
 
-function newDocumentButton(showNewDocumentButton, setShowModal: any, showModal: any) {
-  if (!showNewDocumentButton) {
-    return <></>
-  }
+function newDocumentButton(setShowModal: any, showModal: any) {
   return <NewDocBtn onClick={() => setShowModal(!showModal)}>
     <NewDocBtnImg
       src={AddCircleIcon}

@@ -236,8 +236,6 @@ function answersAndFeedbacks(
   return (
     <Frame1386 id="content">
       {contextBar(
-        false, 
-        ()=>{}, 
         submission, 
         methods, 
         isTeacher, 

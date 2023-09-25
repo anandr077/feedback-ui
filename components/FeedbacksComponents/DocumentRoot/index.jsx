@@ -509,7 +509,8 @@ export default function DocumentRoot({}) {
     setStudentName(student);
     // get assignment by student name or other way
   };
-  const onSelectionChange = reviewerSelectionChange;
+  const onSelectionChange =
+    pageMode === 'REVIEW' ? reviewerSelectionChange : (a, b)=>() => {};
 
   const downloadPDF = () => {
     const doc = new jsPDF({
@@ -603,7 +604,6 @@ export default function DocumentRoot({}) {
     doc.html(totalpdf, options);
   };
 
-
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -622,8 +622,30 @@ export default function DocumentRoot({}) {
       setPopupText('Are you sure you want to mark this task as complete?');
     }
   };
+  function submissionStatusLabel() {
+    if (pageMode === 'DRAFT') {
+      return '';
+    }
+    if (pageMode === 'REVIEW') {
+      return 'Feedback requested by ' + getFeedbackRequestedBy();
+    }
+    return '';
+  }
+  function getFeedbackRequestedBy() {
+    if (submission.feedbackRequestType === 'P2P') {
+      return 'your peer.';
+    }
+    return submission.studentName;
+  }
+  function getFeedbackProvidedBy() {
+    if (submission.feedbackRequestType === 'P2P') {
+      return 'your peer.';
+    }
+    return submission.reviewerName;
+  }
 
   const methods = {
+    submissionStatusLabel,
     createDebounceFunction,
     handleChangeText,
     handleDeleteComment,
@@ -706,7 +728,7 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: portfolioHeaderProps,
+              headerProps: portfolioHeaderProps(),
             }}
           />
         }
@@ -729,7 +751,7 @@ export default function DocumentRoot({}) {
                 submission,
                 setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
-                headerProps: portfolioHeaderProps,
+                headerProps: portfolioHeaderProps(),
               }}
             />
           </>
@@ -751,7 +773,7 @@ export default function DocumentRoot({}) {
               studentName,
               submission,
               setSubmission,
-              headerProps: portfolioHeaderProps,
+              headerProps: (portfolioHeaderProps),
             }}
           />
         }

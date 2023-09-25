@@ -11,6 +11,8 @@ import { IbmplexsansNormalShark20px } from '../../styledMixins';
 import CheckboxBordered from '../CheckboxBordered';
 import './index.css';
 import { IbmplexsansNormalShark16px } from '../../styledMixins';
+import TrashIcon from '../../static/icons/taskDeleteIcon.png';
+import ColoredTrashIcon from '../../static/icons/ColoredTrascan.png';
 
 const CheckboxGroup = ({
   data,
@@ -26,6 +28,9 @@ const CheckboxGroup = ({
     previouslySelectedItems
   );
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [trashHover, setTrashHover] = React.useState(
+    Array.from({ length: data[0].items.length }, () => false)
+  );
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,28 +59,52 @@ const CheckboxGroup = ({
     }
   };
 
+  const handleMouse = (index, state, hoverArray, setHoverArray) => {
+    const updatedElements = [...hoverArray];
+    updatedElements[index] = state;
+    setHoverArray(updatedElements);
+  };
+
+  const handleDelete = (index) => {
+    console.log(index);
+  };
+
   const menuContent = data.flatMap((category, index) => [
     <StyledListSubheader key={`category-${index}`}>
       {category.title}
     </StyledListSubheader>,
-    ...category.items?.map((item) => (
-      <StyledMenuItem
-        key={item.value.title}
-        onClick={(event) =>
-          handleMenuItemClick(event, item.value, category.name)
-        }
-      >
-        <CheckboxContainer>
-          <CheckboxBordered
-            checked={selectedItems.some(
-              (selectedItem) => selectedItem.value === item.value
-            )}
+    ...category.items?.map((item, index) => (
+      <FocusAreadiv>
+        <StyledMenuItem
+          key={item.value.title}
+          onClick={(event) =>
+            handleMenuItemClick(event, item.value, category.name)
+          }
+        >
+          <CheckboxContainer>
+            <CheckboxBordered
+              checked={selectedItems.some(
+                (selectedItem) => selectedItem.value === item.value
+              )}
+            />
+            <CheckBoxText>{item.value.title}</CheckBoxText>
+          </CheckboxContainer>
+          {focusAreaColor(item)}
+          <StyledListItemText primary={item.label} />
+        </StyledMenuItem>
+        <Iconcontainer>
+          <StyledDeleteButton
+            src={trashHover[index] ? ColoredTrashIcon : TrashIcon}
+            onMouseEnter={() =>
+              handleMouse(index, true, trashHover, setTrashHover)
+            }
+            onMouseLeave={() =>
+              handleMouse(index, false, trashHover, setTrashHover)
+            }
+            onClick={() => handleDelete(index)}
           />
-          <CheckBoxText>{item.value.title}</CheckBoxText>
-        </CheckboxContainer>
-        {focusAreaColor(item)}
-        <StyledListItemText primary={item.label} />
-      </StyledMenuItem>
+        </Iconcontainer>
+      </FocusAreadiv>
     )),
   ]);
 
@@ -138,7 +167,6 @@ const StyledBox = styled(Box)`
   justify-content: flex-end;
   max-width: 200px;
   margin-right: 10px;
-  // height:40px;
   display: flex;
   align-items: center;
   position: relative;
@@ -160,11 +188,6 @@ const StyledBox = styled(Box)`
 `;
 
 const FlexContainer = styled('div')`
-  // display: flex;
-  // align-items: center;
-  // // gap: 8px;
-  // flex-grow: 1;
-
   .text-container {
     display: inline-block;
     flex-grow: 1;
@@ -186,13 +209,9 @@ const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}
   position: relative;
   flex: 1;
-
-  // letter-spacing: 0;
-  // line-height: normal;
-  // border-radius: 50%;
-
   .MuiTypography-root {
     color: ${(props) => props.textColor || 'var(--text)'};
+    white-space: normal;
   }
   .MuiButtonBase-root {
     padding: 0px;
@@ -203,8 +222,6 @@ const StyledListSubheader = styled(ListSubheader)`
   position: relative;
   margin-top: -1px;
   letter-spacing: 0;
-  // line-height: normal;
-  // display: flex;
 `;
 
 function filterText(selectedItems, dropDownText) {
@@ -218,11 +235,8 @@ const CheckboxContainer = styled.div``;
 
 const CheckBoxText = styled.div`
   ${IbmplexsansNormalShark20px}
-  // position: relative;
-  // margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
-  // display: flex;
 `;
 
 function focusAreaColor(item) {
@@ -262,4 +276,22 @@ const CreateNew = styled.div`
   line-height: 21px;
   color: #ffffff;
   margin: 10px;
+`;
+const FocusAreadiv = styled.div`
+  display: flex;
+  padding: 0px 20px 0px 0px;
+`;
+
+const Iconcontainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+`;
+const StyledDeleteButton = styled.img`
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
+  color: #979797;
 `;

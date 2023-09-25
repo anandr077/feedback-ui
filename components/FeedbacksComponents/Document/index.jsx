@@ -30,7 +30,7 @@ import {
 } from '../../../service';
 
 const FeedbackMethodType = [
-  'From subject teacher',
+  'From teacher',
   'Form peers',
   'From a friend',
 ];

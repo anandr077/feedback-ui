@@ -28,17 +28,11 @@ const tasksListsDropDown = (isTeacher, methods) => {
   return <></>;
 };
 export function contextBar(
-  isShowSelectType,
-  setShowSelectType,
   submission,
   methods,
   isTeacher,
   pageMode,
   labelText,
-  feedbackMethodType = [],
-  requestFeedback = false,
-  handleRequestFeedback,
-  showStatusText = true
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
   console.log('submission: ', submission);
@@ -46,7 +40,7 @@ export function contextBar(
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        {showStatusText && statusText(methods, focusAreasCount, submission)}
+        {statusText(methods, focusAreasCount, submission)}
       </TitleWrapper>
       {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
       {downloadButtonNonClosedSubmission(
@@ -200,12 +194,15 @@ export function contextBarForPortfolioDocument(
   pageMode,
   labelText,
   feedbackMethodType = [],
-  handleRequestFeedback
+  handleRequestFeedback,
+  showStatusText
 ) {
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <AssignmentTitle>{submission?.assignment?.title}</AssignmentTitle>
+        {showStatusText && statusText(methods, 0, submission)}
+
       </TitleWrapper>
       {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
       {downloadButtonNonClosedSubmission(

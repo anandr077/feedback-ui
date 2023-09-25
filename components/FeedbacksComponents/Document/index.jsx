@@ -29,11 +29,7 @@ import {
   getSubmissionById,
 } from '../../../service';
 
-const FeedbackMethodType = [
-  'From teacher',
-  'Form peers',
-  'From a friend',
-];
+const FeedbackMethodType = ['From teacher', 'Form peers', 'From a friend'];
 
 const FeedbackMethodTypeEnum = {
   FROM_SUBJECT_TEACHER: 0,
@@ -46,8 +42,6 @@ const FeedbackType = {
   P2P: 'P2P',
   FRIEND: 'FRIEND',
 };
-
-
 
 function Document(props) {
   const {
@@ -88,24 +82,23 @@ function Document(props) {
 
   useEffect(() => {
     if (submission.classId) {
-      Promise.all([getStudentsForClass(submission.classId), getTeachersForClass(submission.classId)]).then(
-        ([studentsResponse, teachersResponse]) => {
-          const filteredStudentsResponse = studentsResponse.filter(
-            (student) => student.id !== submission.studentId
-          );
-          const updatedStudentsResponse = filteredStudentsResponse.map(
-            (item) => {
-              return { ...item, title: item.id };
-            }
-          );
-          setStudents(updatedStudentsResponse);
-          setTeachers(teachersResponse.map(
-            (item) => {
-              return { ...item, title: item.id };
-            }
-          ));
-        }
-      );
+      Promise.all([
+        getStudentsForClass(submission.classId),
+        getTeachersForClass(submission.classId),
+      ]).then(([studentsResponse, teachersResponse]) => {
+        const filteredStudentsResponse = studentsResponse.filter(
+          (student) => student.id !== submission.studentId
+        );
+        const updatedStudentsResponse = filteredStudentsResponse.map((item) => {
+          return { ...item, title: item.id };
+        });
+        setStudents(updatedStudentsResponse);
+        setTeachers(
+          teachersResponse.map((item) => {
+            return { ...item, title: item.id };
+          })
+        );
+      });
     }
   }, [submission.classId]);
 
@@ -130,7 +123,7 @@ function Document(props) {
       <div className="feedback-teacher-laptop screen">
         <Frame1388>
           {header(smallScreen, headerProps)}
-          {breadcrumbs(submission)}
+          {breadcrumbs(pageMode, submission)}
           {answersAndFeedbacks(
             isShowSelectType,
             setShowSelectType,
@@ -261,6 +254,7 @@ function answersAndFeedbacks(
         labelText,
         (feedbackMethodType = FeedbackMethodType),
         handleRequestFeedback,
+        true
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
@@ -337,11 +331,21 @@ function header(smallScreen, headerProps) {
   );
 }
 
-function breadcrumbs(submission) {
+function breadcrumbs(pageMode, submission) {
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+    return (
+      <Frame1387>
+        <Frame1315>
+          <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+          <Breadcrumb2 assignments={submission.assignment.title} />
+        </Frame1315>
+      </Frame1387>
+    );
+  }
   return (
     <Frame1387>
       <Frame1315>
-        <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+        <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
         <Breadcrumb2 assignments={submission.assignment.title} />
       </Frame1315>
     </Frame1387>

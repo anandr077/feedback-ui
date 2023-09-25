@@ -102,7 +102,6 @@ const answerFrames = (
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
-    const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
     const debounce = createDebounceFunction(answer);
 

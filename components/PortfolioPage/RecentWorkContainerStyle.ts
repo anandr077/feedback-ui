@@ -37,8 +37,9 @@ const AllWorkBoxes = styled.div`
 `;
 
 const NewDocBtn = styled.button`
-  width: 213px;
-  min-width: 180px;
+  flex: 1;
+  /* width: 213px;
+  min-width: 180px; */
   height: 275px;
   display: flex;
   flex-direction: column;

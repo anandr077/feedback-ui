@@ -2,3 +2,7 @@
   height: 300px;
   overflow-y: auto;
 }
+
+.css-1ka5eyc-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
+  width: unset;
+}

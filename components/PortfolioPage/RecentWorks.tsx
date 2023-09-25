@@ -15,7 +15,7 @@ const RecentWorks = ({work}) => {
       <RecentWorkPara>{work?.preview?.slice(0, 400)}</RecentWorkPara>
       <RecentWorkTitle>{work.title}</RecentWorkTitle>
       <div className="recent-hover">
-        <a href={work.url}>
+        <a href={work.url} style={{textDecoration: "none"}}>
           <RecentBtns>
             <RecentBtnImg src={previewImg}></RecentBtnImg>
             View

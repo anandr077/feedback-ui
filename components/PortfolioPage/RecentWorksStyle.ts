@@ -42,6 +42,7 @@ const RecentWork = styled.div`
 `;
 
 const RecentWorkTitle = styled.h4`
+  font-family: 'IBM Plex Sans', Helvetica;
   padding: 8px;
   border-top: 1px solid #f1e7ff;
   font-size: 16px;
@@ -66,6 +67,7 @@ const RecentWorkTitle = styled.h4`
 `;
 
 const RecentWorkPara = styled.p`
+  font-family: 'IBM Plex Sans', Helvetica;
   padding: 16px;
   color: #505050;
   font-size: 12px;
@@ -80,6 +82,7 @@ const RecentWorkPara = styled.p`
 `;
 
 const RecentBtns = styled.button`
+  font-family: 'IBM Plex Sans', Helvetica;
   padding: 8px;
   border-radius: 6px;
   min-width: 120px;
@@ -93,6 +96,7 @@ const RecentBtns = styled.button`
   justify-content: center;
   align-items: center;
   gap: 6px;
+  text-decoration: none;
 
   @media (max-width: 1024px) {
     min-width: 84px;

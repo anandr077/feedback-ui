@@ -74,7 +74,7 @@ const PortfolioPage = () => {
     <>
       <ResponsiveHeader
         smallScreen={smallScreen}
-        headerProps={portfolioHeaderProps}
+        headerProps={portfolioHeaderProps()}
       ></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>

@@ -148,6 +148,10 @@ export const deleteFeedback = async (submissionId, commentId) => {
   );
 };
 
+export const deleteFocusArea = async (focusAreaID) => {
+  return deleteApi(baseUrl + '/feedbacks' + '/focusAreas/' + focusAreaID);
+};
+
 export const getUserName = () => getCookie('user.name');
 export const getUserId = () => getCookie('userId');
 export const getUserRole = () => getCookie('role');
@@ -492,9 +496,7 @@ export const updatePortfolio = async (portfolio) =>
   await putApi(baseUrl + '/students/portfolio', portfolio);
 
 export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
-  await postApi(baseUrl + '/students/portfolio/documents', 
-    documentDetails,
-  );
+  await postApi(baseUrl + '/students/portfolio/documents', documentDetails);
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

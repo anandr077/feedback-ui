@@ -173,6 +173,7 @@ export default function CreateAssignment(props) {
         allMarkingCriterias={allMarkingCriterias}
         updateMarkingCriteria={updateMarkingCriteria}
         handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
+        setAllFocusAreas={setAllFocusAreas}
       />
     );
   };

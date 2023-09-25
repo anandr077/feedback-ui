@@ -1,3 +1,4 @@
+
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -106,14 +107,27 @@ function createVisibleComments(commentsForSelectedTab) {
 }
 
 const createModules = (pageMode) => {
-  return {
-    toolbar: pageMode === 'DRAFT' || pageMode === 'REVISE',
-    history: {
-      delay: 1000,
-      maxStack: 100,
-      userOnly: true,
-    },
-  };
+  const TOOLBAR_OPTIONS = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ["bold", "italic", "underline"],
+    ['link'],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["clean"],
+    ["image"]
+  ]
+
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+    return {
+      toolbar: TOOLBAR_OPTIONS,
+      history: {
+        delay: 1000,
+        maxStack: 100,
+        userOnly: true,
+      },
+    };
+  }
+
+ 
 };
 const answerFrames = (
   quillRefs,

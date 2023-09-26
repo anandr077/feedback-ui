@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const AllFilesContainer = styled.div``;
 
 const AllFileTitle = styled.h3`
+  font-family: 'IBM Plex Sans', Helvetica;
   color: #405059;
   font-size: 24px;
   font-weight: 500;
@@ -41,21 +42,25 @@ const DocumentBoxWrapper = styled.div`
 `;
 
 const DocumentTextFrame = styled.div`
+  font-family: 'IBM Plex Sans', Helvetica;
   width: 60px;
   height: 79px;
   border-radius: 4px;
   border: 1px solid #c1c1c1;
   padding: 5px;
   font-size: 6px;
+  line-height: 7.44px;
+  font-weight: 400;
   color: #000000;
   padding: 5px;
   overflow: hidden;
 `;
 
 const DocumentTitle = styled.h3`
+  font-family: 'IBM Plex Sans', Helvetica;
   color: #1e252a;
   font-size: 20px;
-  font-weight: 20px;
+  font-weight: 400px;
   line-height: 26px;
 
   @media (max-width: 576px) {
@@ -197,7 +202,6 @@ export {
   DocBtn,
   DocBtnImg,
   DocBtnText,
-  DocBtnTooltip,
   NoFileDiv,
   documentStatusStyle,
 };

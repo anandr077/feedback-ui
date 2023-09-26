@@ -60,7 +60,6 @@ const CheckboxGroup = ({
     } else {
       newSelectedItems.splice(currentIndex, 1);
     }
-
     setSelectedItems(newSelectedItems);
     if (onChange) {
       onChange(newSelectedItems);
@@ -101,16 +100,18 @@ const CheckboxGroup = ({
           <StyledListItemText primary={item.label} />
         </StyledMenuItem>
         <Iconcontainer>
-          <StyledDeleteButton
-            src={trashHover[index] ? ColoredTrashIcon : TrashIcon}
-            onMouseEnter={() =>
-              handleMouse(index, true, trashHover, setTrashHover)
-            }
-            onMouseLeave={() =>
-              handleMouse(index, false, trashHover, setTrashHover)
-            }
-            onClick={() => handleDelete(item)}
-          />
+          {!selectedItems.some((obj) => obj.value === item.value) && (
+            <StyledDeleteButton
+              src={trashHover[index] ? ColoredTrashIcon : TrashIcon}
+              onMouseEnter={() =>
+                handleMouse(index, true, trashHover, setTrashHover)
+              }
+              onMouseLeave={() =>
+                handleMouse(index, false, trashHover, setTrashHover)
+              }
+              onClick={() => handleDelete(item)}
+            />
+          )}
         </Iconcontainer>
       </FocusAreadiv>
     )),

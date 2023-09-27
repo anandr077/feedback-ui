@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 
 const RecentWork = styled.div`
-  max-width: 213px;
+  width: 213px;
+  min-width: 180px;
   height: 275px;
   border: 1px solid #f1e7ff;
   border-radius: 12px;
@@ -42,8 +43,10 @@ const RecentWork = styled.div`
 `;
 
 const RecentWorkTitle = styled.h4`
+  font-family: 'IBM Plex Sans', Helvetica;
   padding: 8px;
   border-top: 1px solid #f1e7ff;
+  width: 100%;
   font-size: 16px;
   line-height: 20px;
   font-weight: 400;
@@ -66,6 +69,7 @@ const RecentWorkTitle = styled.h4`
 `;
 
 const RecentWorkPara = styled.p`
+  font-family: 'IBM Plex Sans', Helvetica;
   padding: 16px;
   color: #505050;
   font-size: 12px;
@@ -80,6 +84,7 @@ const RecentWorkPara = styled.p`
 `;
 
 const RecentBtns = styled.button`
+  font-family: 'IBM Plex Sans', Helvetica;
   padding: 8px;
   border-radius: 6px;
   min-width: 120px;
@@ -93,6 +98,7 @@ const RecentBtns = styled.button`
   justify-content: center;
   align-items: center;
   gap: 6px;
+  text-decoration: none;
 
   @media (max-width: 1024px) {
     min-width: 84px;

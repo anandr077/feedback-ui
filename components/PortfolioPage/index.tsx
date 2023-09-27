@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { getPortfolio, updatePortfolio } from '../../service';
+import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
 import { portfolioHeaderProps } from '../../utils/headerProps';
 import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
 
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
@@ -15,6 +15,7 @@ import {
   reducer,
   addFile,
   getDocuments,
+  getSubFolder,
 } from './portfolioReducer';
 
 import {
@@ -25,12 +26,13 @@ import {
   PortfolioSection,
 } from './PortfolioStyle';
 import { isSmallScreen, useIsSmallScreen } from '../ReactiveRender';
+import { isSmallScreen } from '../ReactiveRender';
 import ResponsiveFooter from '../ResponsiveFooter';
 import HeaderSmall from '../HeaderSmall';
 import Header from '../Header';
 
 const PortfolioPage = () => {
-  const smallScreen = useIsSmallScreen();
+  const smallScreen = isSmallScreen();
 
   const [state, dispatch] = useReducer(reducer, initailState);
 
@@ -46,18 +48,15 @@ const PortfolioPage = () => {
       dispatch({ type: 'setPortfolio', payload: data });
     },
   });
+  const queryClient = useQueryClient()
 
-  if (isLoading) {
-    return (
-      <>
-        {smallScreenView ? (
-          <HeaderSmall headerProps={portfolioHeaderProps} />
-        ) : (
-          <Header headerProps={portfolioHeaderProps} />
-        )}
-        <Loader />
-      </>
-    );
+  const mutation = useMutation(addDocumentToPortfolioWithDetails, {
+        onSuccess: () => {
+      queryClient.invalidateQueries('portfolio')
+    },
+  })
+  if (isLoading || !state.portfolio) {
+    return <Loader />;
   }
 
   const allFiles = getDocuments(
@@ -66,13 +65,14 @@ const PortfolioPage = () => {
     state.activeSubFolderIndex
   );
 
-  const handleCreateDocument = (docName, subjectValue) => {
+
+  const handleCreateDocument = (docName) => {
     addFile(
       state.portfolio,
       state.activeMainIndex,
       state.activeSubFolderIndex,
       docName,
-      dispatch
+      mutation
     );
   };
 
@@ -80,7 +80,7 @@ const PortfolioPage = () => {
     <>
       <ResponsiveHeader
         smallScreen={smallScreen}
-        headerProps={portfolioHeaderProps}
+        headerProps={portfolioHeaderProps()}
       ></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>
@@ -92,6 +92,7 @@ const PortfolioPage = () => {
             <DocumentMainSection>
               <RecentWorkContainer
                 smallScreen={smallScreen}
+                state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}
               />

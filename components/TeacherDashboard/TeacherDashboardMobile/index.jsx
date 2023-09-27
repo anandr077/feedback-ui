@@ -326,6 +326,7 @@ const Line17 = styled.img`
   align-self: stretch;
   height: 1px;
   object-fit: cover;
+  width: 100%;
 `;
 
 const Frame1336 = styled.div`

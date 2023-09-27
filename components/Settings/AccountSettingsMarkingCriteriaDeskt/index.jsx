@@ -13,11 +13,8 @@ import Footer from '../../Footer';
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
     line14,
-    breadcrumbProps,
-    breadcrumb2Props,
     headerProps,
     markingCriteriaList,
-    shortcutList,
     sidebarNav,
     showMarkingCriteria,
     showShortcuts,

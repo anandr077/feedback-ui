@@ -12,10 +12,10 @@ import {
 const RecentWorks = ({work}) => {
   return (
     <RecentWork>
-      <RecentWorkPara>{work.desc.slice(0, 400)}</RecentWorkPara>
+      <RecentWorkPara>{work?.preview?.slice(0, 400)}</RecentWorkPara>
       <RecentWorkTitle>{work.title}</RecentWorkTitle>
       <div className="recent-hover">
-        <a>
+        <a href={work.url} style={{textDecoration: "none"}}>
           <RecentBtns>
             <RecentBtnImg src={previewImg}></RecentBtnImg>
             View

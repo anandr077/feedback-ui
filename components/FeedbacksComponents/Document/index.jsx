@@ -7,12 +7,12 @@ import Header from '../../Header';
 import Footer from '../../Footer';
 import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
-import { isTabletView } from '../../ReactiveRender';
+import { isSmallScreen } from '../../ReactiveRender';
 import { answersFrameNoMC } from '../AnswersFrameNoMC';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import '../FeedbackTeacherLaptop/FeedbackTeacherLaptop.css';
-import { contextBar } from '../FeedbackTeacherLaptop/contextBar';
+import { contextBarForPortfolioDocument } from '../FeedbackTeacherLaptop/contextBar';
 import {
   Frame1315,
   Frame1368,
@@ -24,15 +24,12 @@ import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import {
   getStudentsForClass,
+  getTeachersForClass,
   createRequestFeddbackType,
   getSubmissionById,
 } from '../../../service';
 
-const FeedbackMethodType = [
-  'From subject teacher',
-  'Form peers',
-  'From a friend',
-];
+const FeedbackMethodType = ['From teacher', 'Form peers', 'From a friend'];
 
 const FeedbackMethodTypeEnum = {
   FROM_SUBJECT_TEACHER: 0,
@@ -46,32 +43,10 @@ const FeedbackType = {
   FRIEND: 'FRIEND',
 };
 
-const menuItemsTeachers = [
-  {
-    id: 1,
-    title: 'teacher1',
-  },
-  {
-    id: 2,
-    title: 'teacher2',
-  },
-  {
-    id: 3,
-    title: 'teacher3',
-  },
-  {
-    id: 4,
-    title: 'teacher4',
-  },
-];
-
 function Document(props) {
   const {
     newCommentSerialNumber,
-    markingCriteriaFeedback,
-    smallMarkingCriteria,
     isTeacher,
-    showLoader,
     labelText,
     quillRefs,
     pageMode,
@@ -84,16 +59,16 @@ function Document(props) {
     submission,
     setSubmission,
     share,
-    sharewithclassdialog,
   } = props;
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
-  const [tabletView, setTabletView] = useState(isTabletView());
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
@@ -107,19 +82,23 @@ function Document(props) {
 
   useEffect(() => {
     if (submission.classId) {
-      Promise.all([getStudentsForClass(submission.classId)]).then(
-        ([studentsResponse]) => {
-          const filteredStudentsResponse = studentsResponse.filter(
-            (student) => student.id !== submission.studentId
-          );
-          const updatedStudentsResponse = filteredStudentsResponse.map(
-            (item) => {
-              return { ...item, title: item.id };
-            }
-          );
-          setStudents(updatedStudentsResponse);
-        }
-      );
+      Promise.all([
+        getStudentsForClass(submission.classId),
+        getTeachersForClass(submission.classId),
+      ]).then(([studentsResponse, teachersResponse]) => {
+        const filteredStudentsResponse = studentsResponse.filter(
+          (student) => student.id !== submission.studentId
+        );
+        const updatedStudentsResponse = filteredStudentsResponse.map((item) => {
+          return { ...item, title: item.id };
+        });
+        setStudents(updatedStudentsResponse);
+        setTeachers(
+          teachersResponse.map((item) => {
+            return { ...item, title: item.id };
+          })
+        );
+      });
     }
   }, [submission.classId]);
 
@@ -143,8 +122,8 @@ function Document(props) {
     <>
       <div className="feedback-teacher-laptop screen">
         <Frame1388>
-          {header(tabletView, headerProps)}
-          {breadcrumbs(submission)}
+          {header(smallScreen, headerProps)}
+          {breadcrumbs(pageMode, submission)}
           {answersAndFeedbacks(
             isShowSelectType,
             setShowSelectType,
@@ -169,14 +148,15 @@ function Document(props) {
             smartAnnotations,
             handleRequestFeedback
           )}
-          {/* {footer(tabletView)} */}
+          {footer(smallScreen)}
         </Frame1388>
       </div>
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
         handleSelectedRequestFeedback,
-        students
+        students,
+        teachers
       )}
     </>
   );
@@ -186,12 +166,13 @@ const handleFeedbackMethodTypeDialog = (
   feedbackMethodType,
   setFeedbackMethodTypeDialog,
   handleSelectedRequestFeedback,
-  students
+  students,
+  teachers
 ) => {
   if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER) {
     return (
       <FeedbackTypeDialog
-        menuItems={menuItemsTeachers}
+        menuItems={teachers}
         setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
         title="teacher"
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}
@@ -233,19 +214,9 @@ const selectTabComments = (showResolved, comments) => {
   });
 };
 
-function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-    setFeedback(false);
-    setFocusAreas(true);
-  } else {
-    setFeedback(true);
-    setFocusAreas(false);
-  }
+function footer(smallScreen) {
+  return smallScreen ? <FooterSmall /> : <Footer />;
 }
-
-// function footer(tabletView) {
-//   return tabletView ? <FooterSmall /> : <Footer />;
-// }
 
 function answersAndFeedbacks(
   isShowSelectType,
@@ -273,7 +244,7 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {contextBar(
+      {contextBarForPortfolioDocument(
         isShowSelectType,
         setShowSelectType,
         submission,
@@ -282,9 +253,8 @@ function answersAndFeedbacks(
         pageMode,
         labelText,
         (feedbackMethodType = FeedbackMethodType),
-        (requestFeedback = true),
         handleRequestFeedback,
-        false
+        true
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
@@ -333,6 +303,7 @@ function documentFeedbackFrame(
   if (pageMode === 'DRAFT') {
     return <></>;
   }
+
   return (
     <DocumentFeedbackFrame
       methods={methods}
@@ -352,19 +323,29 @@ function documentFeedbackFrame(
   );
 }
 
-function header(tabletView, headerProps) {
-  return tabletView ? (
+function header(smallScreen, headerProps) {
+  return smallScreen ? (
     <HeaderSmall headerProps={headerProps} />
   ) : (
     <Header headerProps={headerProps} />
   );
 }
 
-function breadcrumbs(submission) {
+function breadcrumbs(pageMode, submission) {
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+    return (
+      <Frame1387>
+        <Frame1315>
+          <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+          <Breadcrumb2 assignments={submission.assignment.title} />
+        </Frame1315>
+      </Frame1387>
+    );
+  }
   return (
     <Frame1387>
       <Frame1315>
-        <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+        <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
         <Breadcrumb2 assignments={submission.assignment.title} />
       </Frame1315>
     </Frame1387>

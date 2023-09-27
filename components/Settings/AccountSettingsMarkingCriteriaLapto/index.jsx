@@ -13,8 +13,6 @@ import Header from '../../Header';
 function AccountSettingsMarkingCriteriaLapto(props) {
   const {
     line14,
-    breadcrumbProps,
-    breadcrumb2Props,
     headerProps,
     markingCriteriaList,
     smartAnnotationsFrame,

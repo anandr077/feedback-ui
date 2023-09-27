@@ -2,10 +2,10 @@
   align-items: flex-start;
   background-color: var(--white-pointer);
   border: 1px none;
-  /* cursor: pointer; */
   display: flex;
   flex-direction: column;
   gap: 117px;
-  min-width: 1920px;
+  min-width: 1441px;
   position: relative;
+  overflow: hidden;
 }

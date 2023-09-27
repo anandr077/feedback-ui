@@ -6,15 +6,36 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+
+export function isMobileView() {
+  return useMediaQuery({ maxWidth: 765 });
+}
+
+export function isTabletView() {
+  return useMediaQuery({ minWidth: 766, maxWidth: 1024 });
+}
+
+export function isLaptopView() {
+  return useMediaQuery({ minWidth: 1025, maxWidth: 1440 });
+}
+
+export function isDesktopView() {
+  return useMediaQuery({ minWidth: 1441 });
+}
+
+export function isSmallScreen() {
+  return isMobileView() || isTabletView();
+}
+
 export default function ReactiveRender(props) {
   const { snackbarOpen, snackbarMessage, snackbarLink, closeSnackbar } =
     React.useContext(SnackbarContext);
-
   const { mobile, tablet, laptop, desktop } = props;
-  const isMobileView = useMediaQuery({ maxWidth: 1023 });
-  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
-  const isLaptopView = useMediaQuery({ minWidth: 1200, maxWidth: 1919 });
-  const isDesktopView = useMediaQuery({ minWidth: 1920 });
+  const mobileView = isMobileView();
+  const tabletView = isTabletView();
+  const laptopView = isLaptopView();
+  const desktopView = isDesktopView();
+
   const linkButton = snackbarLink ? (
     <Button
       color="secondary"
@@ -53,44 +74,10 @@ export default function ReactiveRender(props) {
         autoHideDuration={6000}
         action={action}
       />
-      {isMobileView && mobile}
-      {isTabletView && tablet}
-      {isLaptopView && laptop}
-      {isDesktopView && desktop}
+      {mobileView && mobile}
+      {tabletView && tablet}
+      {laptopView && laptop}
+      {desktopView && desktop}
     </>
   );
-}
-
-export function isSmallScreen() {
-  return isMobileView() || isTabletView();
-}
-export function isMobileView() {
-  const isMobileView = useMediaQuery({ maxWidth: 1023 });
-  return isMobileView;
-}
-export function isTabletView() {
-  const isTabletView = useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
-  return isTabletView;
-}
-export function useIsMobileView() {
-  return useMediaQuery({ maxWidth: 1023 });
-}
-
-export function useIsTabletView() {
-  return useMediaQuery({ minWidth: 1024, maxWidth: 1199 });
-}
-
-export function useIsSmallScreen() {
-  const isMobile = useIsMobileView();
-  const isTablet = useIsTabletView();
-  return isMobile || isTablet;
-}
-export function isLaptopView() {
-  const isLaptopView = useMediaQuery({ minWidth: 1200, maxWidth: 1919 });
-  return isLaptopView;
-}
-
-export function isDesktopView() {
-  const isDesktopView = useMediaQuery({ minWidth: 1920 });
-  return isDesktopView;
 }

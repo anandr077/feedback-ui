@@ -1,15 +1,7 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import jsPDF from 'jspdf';
-import {
-  cloneDeep,
-  filter,
-  flatMap,
-  get,
-  includes,
-  map,
-  set
-} from 'lodash';
+import { cloneDeep, filter, flatMap, get, includes, map, set } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -47,12 +39,18 @@ import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
-import { TextField } from '@mui/material';
 import SnackbarContext from '../../SnackbarContext';
 import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
 import HeaderSmall from '../../HeaderSmall';
 import Header from '../../Header';
 import { assignmentsHeaderProps, taskHeaderProps } from '../../../utils/headerProps';
+import {
+  ActionButtonsContainer,
+  DialogContiner,
+  StyledTextField,
+  feedbacksFeedbackTeacherLaptopData,
+  feedbacksFeedbackTeacherMobileData,
+} from './style';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -570,8 +568,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const validateMarkingCriteria = () => {
     let invalid = true;
-    if (submission.assignment.questions.markingCriteria === undefined
-      || submission.assignment.questions.markingCriteria === null) {
+    if (
+      submission.assignment.questions.markingCriteria === undefined ||
+      submission.assignment.questions.markingCriteria === null
+    ) {
       return true;
     }
     submission.assignment.questions.map((question) => {
@@ -621,8 +621,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       });
     }
     submission.assignment.questions.map((question) => {
-      if (submission.assignment.questions.markingCriteria === undefined
-        || submission.assignment.questions.markingCriteria === null) {
+      if (
+        submission.assignment.questions.markingCriteria === undefined ||
+        submission.assignment.questions.markingCriteria === null
+      ) {
         return true;
       }
       if (hasDuplicateAttributes(question.markingCriteria?.selectedStrengths)) {
@@ -904,9 +906,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const totalpdf = document.createElement('div');
 
     const title = document.createElement('div');
-    title.style.fontSize = '40px';
-    title.style.fontWeight = 'bold';
-    title.style.textAlign = 'center';
+    title.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
+    title.style.color = '#25222a';
+    title.style.fontSize = '24px';
+    title.style.fontWeight = '700';
+    title.style.textAlign = 'flex-start';
     title.style.marginBottom = '50px';
     title.textContent = submission.assignment.title;
     totalpdf.appendChild(title);
@@ -923,6 +927,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         const options = document.createElement('div');
         question.options.map((option) => {
           const optiondiv = document.createElement('div');
+          optiondiv.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
           optiondiv.style.fontSize = option.isCorrect ? '25px' : '20px';
           optiondiv.style.fontWeight = option.isCorrect ? 'bold' : 'normal';
           optiondiv.style.color = option.isCorrect ? 'green' : 'black';
@@ -946,17 +951,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
     for (let i = 1; i < assignmentQuestions.length; i++) {
       const question = document.createElement('div');
-      question.style.fontSize = '25px';
-      question.style.fontWeight = 'bold';
+      question.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
+      question.style.color = '#301b72';
+      question.style.fontSize = '20px';
+      question.style.fontWeight = '500';
+      question.style.fontStyle = 'normal';
+      question.style.lineHeight = '26px';
       question.style.marginBottom = '10px';
       question.textContent = i + '. ' + assignmentQuestions[i];
       totalpdf.appendChild(question);
 
       const answer = document.createElement('div');
-      // answer.style.border = "1px solid black";
+      answer.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
+      answer.style.border = '1px solid #7200e0';
+      answer.style.borderRadius = '20px';
       answer.style.padding = '10px';
-      answer.style.fontSize = '25px';
+      answer.style.fontWeight = '400';
+      answer.style.fontSize = '16px';
       answer.style.marginBottom = '40px';
+      answer.style.lineHeight = '26px';
       if (assignmentAnswers[i] instanceof HTMLElement) {
         answer.appendChild(assignmentAnswers[i]);
       } else {
@@ -964,7 +977,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }
       totalpdf.appendChild(answer);
     }
-
     const options = {
       callback: function (doc) {
         doc.save(`${submission.assignment.title}.pdf`);
@@ -976,7 +988,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       margin: 20, // Set a single margin value for all sides
       autoSize: true, // Automatically adjust content to fit within the available space
     };
-
     doc.html(totalpdf, options);
   };
 
@@ -1142,15 +1153,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   return (
     <>
       {showSubmitPopup && (
-        <GeneralPopup
-          hidePopup={hideSubmitPopup}
-          title="Submit Task"
-          textContent={popupText}
-          buttonText="Acknowledge and Submit"
-          confirmButtonAction={submissionFunction()}
-          warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
-          confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
-        />
+        submitPopup(
+          pageMode, hideSubmitPopup, popupText, submissionFunction)
+
       )}
 
       <ReactiveRender
@@ -1276,3 +1281,23 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return handleRequestResubmission;
   }
 }
+function submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction) {
+  let warningMessage = undefined
+  let confirmationMessage = undefined
+  let buttonText = 'Submit'
+
+  if (pageMode === 'DRAFT') {
+    warningMessage = "You will not be able to edit your work after submission."
+    confirmationMessage = "Are you sure you want to submit this task?"
+    buttonText = 'Acknowledge and Submit'
+  }
+  return <GeneralPopup
+    hidePopup={hideSubmitPopup}
+    title="Submit Task"
+    textContent={popupText}
+    buttonText={buttonText}
+    confirmButtonAction={submissionFunction()}
+    warningMessage={warningMessage}
+    confirmationMessage={confirmationMessage} />;
+}
+

@@ -59,7 +59,14 @@ export const classesHomeHeaderProps = teacherTabs(false, false, true);
 
 export const homeHeaderProps = studentTabs(true, false, false);
 export const taskHeaderProps = studentTabs(false, true, false);
-export const portfolioHeaderProps = studentTabs(false, false, true);
+export const portfolioHeaderProps = () => {
+  if (isTeacher) {
+    return teacherTabs(false, true, false);
+  }
+  return studentTabs(false, false, true);
+  
+}
+
 export const completedHeaderProps = (exemplar) => {
   if (exemplar) {
     return isTeacher

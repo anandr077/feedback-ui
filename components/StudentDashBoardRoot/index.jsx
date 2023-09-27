@@ -60,11 +60,11 @@ export default function StudentDashboardRoot(props) {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
+        {/* {smallScreenView ? (
           <HeaderSmall headerProps={homeHeaderProps} />
         ) : (
           <Header headerProps={homeHeaderProps} />
-        )}
+        )} */}
         <Loader />
       </>
     );

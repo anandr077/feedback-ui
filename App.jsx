@@ -23,6 +23,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import FooterSmall from './components/FooterSmall';
 import Footer from './components/Footer';
 import { isSmallScreen } from './components/ReactiveRender';
+import ResponsiveHeader from './components/ResponsiveHeader';
 
 function App() {
   const role = getUserRole();
@@ -71,6 +72,9 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
+          {
+            <ResponsiveHeader isSmallScreen={isSmallScreen} />
+          }
           <Switch>
             <Route path="/settings">
               <ProtectedSettings />

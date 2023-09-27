@@ -28,7 +28,7 @@ function DashboardHomeStudentLaptop(props) {
   const userName = getUserName();
   return (
     <div className="dashboard-home-student-laptop screen">
-      <Header headerProps={headerProps} />
+      {/* <Header headerProps={headerProps} /> */}
       <Frame1347>
         <Frame1345>
           <Frame1342>

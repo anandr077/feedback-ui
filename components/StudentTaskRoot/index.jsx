@@ -30,11 +30,11 @@ export default function StudentTaskRoot() {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
+        {/* {smallScreenView ? (
           <HeaderSmall headerProps={taskHeaderProps} />
         ) : (
           <Header headerProps={taskHeaderProps} />
-        )}
+        )} */}
         <Loader />
       </>
     );

@@ -38,11 +38,11 @@ export default function TeacherDashboardRoot(props) {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
+        {/* {smallScreenView ? (
           <HeaderSmall headerProps={teacherHomeHeaderProps} />
         ) : (
           <Header headerProps={teacherHomeHeaderProps} />
-        )}
+        )} */}
         <Loader />
       </>
     );

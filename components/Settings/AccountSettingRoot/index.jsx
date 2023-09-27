@@ -249,11 +249,11 @@ export default function AccountSettingsRoot(props) {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
+        {/* {smallScreenView ? (
           <HeaderSmall headerProps={headerProps} />
         ) : (
           <Header headerProps={headerProps} />
-        )}
+        )} */}
         <Loader />
       </>
     );

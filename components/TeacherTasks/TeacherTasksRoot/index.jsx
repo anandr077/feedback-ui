@@ -39,11 +39,11 @@ export default function TeacherTaskRoot() {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
+        {/* {smallScreenView ? (
           <HeaderSmall headerProps={assignmentsHeaderProps} />
         ) : (
           <Header headerProps={assignmentsHeaderProps} />
-        )}
+        )} */}
         <Loader />
       </>
     );

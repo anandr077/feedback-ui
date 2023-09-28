@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-const AllFilesContainer = styled.div``;
+const AllFilesContainer = styled.div`
+  margin-top: 50px;
+`;
 
 const AllFileTitle = styled.h3`
   font-family: 'IBM Plex Sans', Helvetica;
@@ -9,6 +11,14 @@ const AllFileTitle = styled.h3`
   font-weight: 500;
   margin-bottom: 20px;
 `;
+
+const AllFilesHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
 
 const DocumentBox = styled.div`
   background-color: white;
@@ -198,6 +208,7 @@ export {
   DocumentTitle,
   AllFilesContainer,
   AllFileTitle,
+  AllFilesHeader,
   DocumentBtns,
   DocBtn,
   DocBtnImg,

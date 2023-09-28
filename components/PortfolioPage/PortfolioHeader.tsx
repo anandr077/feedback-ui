@@ -4,32 +4,21 @@ import {
     PortfolioHeading,
     PortHeadingLeft,
     NewDocumentBtn,
-    SelectStyle,
     PortHeadDropDown
 } from './PortfolioHeaderStyle';
+import PortfolioDropdown from './PortfolioDropdown';
 
 const PortfolioHeader = ({showModal, setShowModal}) => {
+  const sortOptions = ["One", "Two", "Three"];
+  const statusOptions = ["Option A", "Option B", "Option C"];
+
   return (
     <PortfolioHeaderContainer>
       <PortfolioHeading>My Portfolio</PortfolioHeading>
       <PortHeadingLeft>
         <PortHeadDropDown>
-          <SelectStyle name="sort">
-            <option value="" disabled selected hidden>
-              Sort
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
-          <SelectStyle name="status">
-            <option value="" disabled selected hidden>
-              Status
-            </option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="=three">Three</option>
-          </SelectStyle>
+          <PortfolioDropdown name="sort" options={sortOptions} />
+          <PortfolioDropdown name="status" options={statusOptions} />
         </PortHeadDropDown>
         <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
           + New Document

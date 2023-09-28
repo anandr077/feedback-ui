@@ -32,9 +32,9 @@ import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
-import { portfolioHeaderProps } from '../../../utils/headerProps';
 
 export default function DocumentRoot({}) {
+  const headerProps = portfolioHeaderProps();
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showLoader, setShowLoader] = useState(false);
@@ -510,7 +510,7 @@ export default function DocumentRoot({}) {
     // get assignment by student name or other way
   };
   const onSelectionChange =
-    pageMode === 'REVIEW' ? reviewerSelectionChange : (a, b)=>() => {};
+    pageMode === 'REVIEW' ? reviewerSelectionChange : (a, b) => () => {};
 
   const downloadPDF = () => {
     const doc = new jsPDF({
@@ -706,7 +706,7 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: portfolioHeaderProps,
+              headerProps: headerProps,
             }}
           />
         }
@@ -728,7 +728,7 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: portfolioHeaderProps(),
+              headerProps: headerProps,
             }}
           />
         }
@@ -751,7 +751,7 @@ export default function DocumentRoot({}) {
                 submission,
                 setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
-                headerProps: portfolioHeaderProps(),
+                headerProps: headerProps,
               }}
             />
           </>
@@ -773,7 +773,7 @@ export default function DocumentRoot({}) {
               studentName,
               submission,
               setSubmission,
-              headerProps: (portfolioHeaderProps),
+              headerProps: headerProps,
             }}
           />
         }

@@ -13,6 +13,7 @@ const WorkHeader = styled.div`
 `;
 
 const RecentTag = styled.p`
+  font-family: 'IBM Plex Sans', Helvetica;
   color: #405059;
   font-size: 24px;
   font-weight: 500;

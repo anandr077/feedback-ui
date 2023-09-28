@@ -1,9 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
-import { portfolioHeaderProps } from '../../utils/headerProps';
-import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
-
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
@@ -25,11 +22,7 @@ import {
   DocumentMainSection,
   PortfolioSection,
 } from './PortfolioStyle';
-import { isSmallScreen, useIsSmallScreen } from '../ReactiveRender';
 import { isSmallScreen } from '../ReactiveRender';
-import ResponsiveFooter from '../ResponsiveFooter';
-import HeaderSmall from '../HeaderSmall';
-import Header from '../Header';
 
 const PortfolioPage = () => {
   const smallScreen = isSmallScreen();
@@ -37,9 +30,6 @@ const PortfolioPage = () => {
   const [state, dispatch] = useReducer(reducer, initailState);
 
   const [showModal, setShowModal] = useState(false);
-   const [smallScreenView, setSmallScreenView] = React.useState(
-     isSmallScreen()
-   );
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
@@ -48,13 +38,13 @@ const PortfolioPage = () => {
       dispatch({ type: 'setPortfolio', payload: data });
     },
   });
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
-        onSuccess: () => {
-      queryClient.invalidateQueries('portfolio')
+    onSuccess: () => {
+      queryClient.invalidateQueries('portfolio');
     },
-  })
+  });
   if (isLoading || !state.portfolio) {
     return <Loader />;
   }
@@ -64,7 +54,6 @@ const PortfolioPage = () => {
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
-
 
   const handleCreateDocument = (docName) => {
     addFile(
@@ -78,10 +67,6 @@ const PortfolioPage = () => {
 
   return (
     <>
-      <ResponsiveHeader
-        smallScreen={smallScreen}
-        headerProps={portfolioHeaderProps()}
-      ></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
@@ -101,8 +86,6 @@ const PortfolioPage = () => {
           </PortfolioContainer>
         </PortfolioBody>
       </PortfolioSection>
-
-      <ResponsiveFooter smallScreen={smallScreen} />
 
       {showModal && (
         <PortfolioDocModal

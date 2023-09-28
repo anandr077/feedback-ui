@@ -1,10 +1,6 @@
 import React from 'react';
 import Buttons from '../Buttons';
-
 import React from 'react';
-import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
-// import Footer from '../../Footer';
-import Header from '../../Header';
 import Frame14072 from '../../TeacherDashboard/Frame14072';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
 import DropdownMenu from '../../DropdownMenu';
@@ -47,7 +43,6 @@ function TeacherClassesLaptop(props) {
   return (
     <div className="teacher-classes-laptop screen">
       <Frame1422>
-        <Header headerProps={classesHomeHeaderProps}></Header>
         <Frame1312>
           <Title>Classes</Title>
         </Frame1312>
@@ -97,7 +92,6 @@ function TeacherClassesLaptop(props) {
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      {/* <Footer /> */}
     </div>
   );
 }

@@ -41,8 +41,6 @@ import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
 import SnackbarContext from '../../SnackbarContext';
 import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
-import HeaderSmall from '../../HeaderSmall';
-import Header from '../../Header';
 import { assignmentsHeaderProps, taskHeaderProps } from '../../../utils/headerProps';
 import {
   ActionButtonsContainer,
@@ -165,11 +163,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
-          <HeaderSmall headerProps={assignmentsHeaderProps} />
-        ) : (
-          <Header headerProps={assignmentsHeaderProps} />
-        )}
         <Loader />
       </>
     );

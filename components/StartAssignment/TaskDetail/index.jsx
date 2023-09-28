@@ -12,8 +12,7 @@ import { useParams } from 'react-router-dom';
 import { default as React, useEffect, useState } from 'react';
 import { taskHeaderProps } from '../../../utils/headerProps.js';
 import Loader from '../../Loader';
-import HeaderSmall from '../../HeaderSmall';
-import Header from '../../Header';
+
 
 export default function TaskDetail() {
   const { assignmentId } = useParams();
@@ -39,11 +38,6 @@ export default function TaskDetail() {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
-          <HeaderSmall headerProps={taskHeaderProps} />
-        ) : (
-          <Header headerProps={taskHeaderProps} />
-        )}
         <Loader />
       </>
     );

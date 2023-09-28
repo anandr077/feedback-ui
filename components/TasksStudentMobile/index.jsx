@@ -50,7 +50,6 @@ function TasksStudentMobile(props) {
 
   return (
     <div className="tasks-student-mobile screen">
-      <HeaderSmall headerProps={taskHeaderProps} />
       <Frame1365>
         <Frame1307>
           <PageTitle>Tasks</PageTitle>
@@ -61,7 +60,6 @@ function TasksStudentMobile(props) {
         </Frame1307>
         {taskFrame}
       </Frame1365>
-      {/* <FooterSmall /> */}
     </div>
   );
 

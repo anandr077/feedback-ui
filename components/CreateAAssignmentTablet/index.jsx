@@ -4,8 +4,6 @@ import Breadcrumb2 from '../Breadcrumb2';
 import GoBack2 from '../GoBack2';
 import Buttons2 from '../Buttons2';
 import './CreateAAssignmentTablet.css';
-// import FooterSmall from '../FooterSmall';
-import HeaderSmall from '../HeaderSmall';
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import {
   TitleContainer,
@@ -103,7 +101,6 @@ function CreateAAssignmentTablet(props) {
   return (
     <div className="create-a-assignment-tablet screen">
       <Frame1379>
-        <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb text="Task" link="/#/tasks" />
@@ -182,7 +179,6 @@ function CreateAAssignmentTablet(props) {
           className={goBack22Props.className}
         />
       </Frame1379>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

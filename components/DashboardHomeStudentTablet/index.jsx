@@ -6,8 +6,6 @@ import {
   DashboardIbmplexsansNormalWhite20px,
 } from '../../styledMixins';
 import DashboardFrame12082 from '../DashboardFrame12082';
-// import FooterSmall from '../FooterSmall';
-import HeaderSmall from '../HeaderSmall';
 import TaskCardContainer from '../TaskCardContainer';
 import './DashboardHomeStudentTablet.css';
 import { homeHeaderProps } from '../../utils/headerProps';
@@ -26,7 +24,6 @@ function DashboardHomeStudentTablet(props) {
   return (
     <div className="dashboard-home-student-tablet screen">
       <Frame1352>
-        <HeaderSmall headerProps={homeHeaderProps} />
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
@@ -64,7 +61,6 @@ function DashboardHomeStudentTablet(props) {
           </Frame11>
         </Frame1205>
       </Frame1351>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

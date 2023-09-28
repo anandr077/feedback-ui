@@ -8,8 +8,6 @@ import {
   IbmplexsansNormalShark20px,
 } from '../../../styledMixins';
 import { assignmentsHeaderProps, taskHeaderProps } from '../../../utils/headerProps.js';
-// import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
 import QuillEditor from '../../QuillEditor';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -83,7 +81,6 @@ function FeedbackTeacherMobile(props) {
     <div className="feedback-teacher-mobile screen">
       <Frame1388>
         <Frame1387>
-          <HeaderSmall headerProps={assignmentsHeaderProps} />
           <Frame1315>
             <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
             <Breadcrumb2 assignments={submission.assignment.title} />
@@ -108,7 +105,6 @@ function FeedbackTeacherMobile(props) {
           </Frame1368>
         </Frame1386>
       </Frame1388>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

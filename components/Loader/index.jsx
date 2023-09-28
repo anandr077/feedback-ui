@@ -23,12 +23,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
+  height: 77vh;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // bottom: 0;
+  // right: 0;
+  // z-index: 1;
 `;
 
 const LottieContainer = styled.div`

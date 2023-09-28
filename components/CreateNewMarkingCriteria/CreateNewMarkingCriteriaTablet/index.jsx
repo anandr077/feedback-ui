@@ -7,13 +7,9 @@ import Buttons2 from '../Buttons2';
 import styled from 'styled-components';
 import { IbmplexsansNormalStack20px } from '../../../styledMixins';
 import './CreateNewMarkingCriteriaTablet.css';
-// import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
-import Frame1372 from '../Frame1372';
 
 function CreateNewMarkingCriteriaTablet(props) {
   const {
-    headerProps,
     criterias,
     addCriteria,
     saveMarkingCriteria,
@@ -26,7 +22,6 @@ function CreateNewMarkingCriteriaTablet(props) {
   return (
     <div className="account-settings-marking-criteria-create-new-tablet screen">
       <Frame1379>
-        <HeaderSmall headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb text="Account Settings" link={'/#/settings'} />
@@ -36,13 +31,19 @@ function CreateNewMarkingCriteriaTablet(props) {
           <GoBack />
         </Frame1376>
         <Frame1376>
-          <Frame1372 saveMethod={saveMarkingCriteria} deleteMethod={deleteMarkingCriteriaMethod} isUpdating={isUpdating}/>
-          <TitleContainer
-              id="markingCriteriaTitleContainer"
-          >
-          <TextInput placeholder="Name of marking template (max 140 characters)" id="markingCriteriaName" value={markingCriterias.title} 
-          onChange={handleTitleChange}
-          maxLength='140'></TextInput>
+          <Frame1372
+            saveMethod={saveMarkingCriteria}
+            deleteMethod={deleteMarkingCriteriaMethod}
+            isUpdating={isUpdating}
+          />
+          <TitleContainer id="markingCriteriaTitleContainer">
+            <TextInput
+              placeholder="Name of marking template (max 140 characters)"
+              id="markingCriteriaName"
+              value={markingCriterias.title}
+              onChange={handleTitleChange}
+              maxLength="140"
+            ></TextInput>
           </TitleContainer>
           <Frame1302>
             <Frame1281 />
@@ -58,7 +59,6 @@ function CreateNewMarkingCriteriaTablet(props) {
           />
         </Frame1376>
       </Frame1379>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

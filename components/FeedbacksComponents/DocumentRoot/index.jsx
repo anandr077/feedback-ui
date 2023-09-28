@@ -79,11 +79,6 @@ export default function DocumentRoot({}) {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
-          <HeaderSmall headerProps={portfolioHeaderProps} />
-        ) : (
-          <Header headerProps={portfolioHeaderProps} />
-        )}
         <Loader />
       </>
     );

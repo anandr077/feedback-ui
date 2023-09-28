@@ -3,9 +3,7 @@ import Frame14103 from '../Frame14103';
 import styled from 'styled-components';
 import { IbmplexsansBoldShark64px } from '../styledMixins';
 import './CompletedDesktop.css';
-import Header from '../../Header';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
-// import Footer from '../../Footer';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
@@ -26,7 +24,6 @@ function CompletedDesktop(props) {
   return (
     <div className="completed-desktop screen">
       <Frame1425>
-        <Header headerProps={completedHeaderProps(exemplar)} />
         {exemplar && (
           <Frame1315>
             <Breadcrumb text={'Home'} link={'/#'} />
@@ -47,7 +44,6 @@ function CompletedDesktop(props) {
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
-      {/* <Footer /> */}
     </div>
   );
   function createFilter() {

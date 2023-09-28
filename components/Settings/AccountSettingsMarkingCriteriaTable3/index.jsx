@@ -7,13 +7,11 @@ import {
   IbmplexsansNormalElectricViolet14px,
 } from '../../../styledMixins';
 import './AccountSettingsMarkingCriteriaTable3.css';
-// import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
+
 
 function AccountSettingsMarkingCriteriaTable3(props) {
   const {
     line14,
-    headerProps,
     markingCriteriaList,
     sidebarNav,
     showMarkingCriteria,
@@ -28,7 +26,6 @@ function AccountSettingsMarkingCriteriaTable3(props) {
   return (
     <div className="account-settings-u45-marking-criteria-u45-tablet screen">
       <Frame1379>
-        <HeaderSmall headerProps={headerProps} />
         <Frame1376>
           <Frame1315>{breadCrumbs}</Frame1315>
         </Frame1376>
@@ -92,7 +89,6 @@ function AccountSettingsMarkingCriteriaTable3(props) {
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

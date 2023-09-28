@@ -13,7 +13,6 @@ import Footer from '../../Footer';
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
     line14,
-    headerProps,
     markingCriteriaList,
     sidebarNav,
     showMarkingCriteria,
@@ -28,7 +27,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
   return (
     <div className="account-settings-marking-criteria-desktop screen">
       <Frame1379>
-        <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>{breadCrumbs}</Frame1315>
         </Frame1376>
@@ -92,7 +90,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      {/* <Footer /> */}
     </div>
   );
 }

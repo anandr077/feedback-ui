@@ -5,8 +5,6 @@ import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
 import { useLocation } from 'react-router-dom';
 import Loader from '../Loader';
-import HeaderSmall from '../HeaderSmall/index.jsx';
-import Header from '../Header/index.jsx';
 import { completedHeaderProps } from '../../utils/headerProps.js';
 import { isSmallScreen } from '../ReactiveRender/index.jsx';
 
@@ -45,11 +43,6 @@ export default function ExemplarResponsesPage(props) {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
-          <HeaderSmall headerProps={completedHeaderProps(true)} />
-        ) : (
-          <Header headerProps={completedHeaderProps(true)} />
-        )}
         <Loader />
       </>
     );

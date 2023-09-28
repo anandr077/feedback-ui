@@ -4,7 +4,6 @@ import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriter
 import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
 import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
 import AccountSettingsMarkingCriteriaLapto from '../AccountSettingsMarkingCriteriaLapto';
-import { completedHeaderProps } from '../../../utils/headerProps';
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
   getAllMarkingCriteria,
@@ -15,7 +14,7 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
-  getPortfolio
+  getPortfolio,
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -24,10 +23,7 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
-import HeaderSmall from '../../HeaderSmall';
-import Header from '../../Header';
 
-const headerProps = completedHeaderProps(true);
 
 export default function AccountSettingsRoot(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -41,9 +37,7 @@ export default function AccountSettingsRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
-     const [smallScreenView, setSmallScreenView] = React.useState(
-       isSmallScreen()
-     );
+  
 
   React.useEffect(() => {
     Promise.all([
@@ -249,11 +243,6 @@ export default function AccountSettingsRoot(props) {
   if (isLoading) {
     return (
       <>
-        {/* {smallScreenView ? (
-          <HeaderSmall headerProps={headerProps} />
-        ) : (
-          <Header headerProps={headerProps} />
-        )} */}
         <Loader />
       </>
     );
@@ -266,7 +255,6 @@ export default function AccountSettingsRoot(props) {
           <AccountSettingsMarkingCriteriaTable
             {...{
               ...accountSettingsMarkingCriteriaTableData,
-              headerProps,
               markingCriteriaList,
               smartAnnotationsFrame,
               createSmartAnnotationHandler,
@@ -285,7 +273,6 @@ export default function AccountSettingsRoot(props) {
           <AccountSettingsMarkingCriteriaTable3
             {...{
               ...accountSettingsMarkingCriteriaTable3Data,
-              headerProps,
               markingCriteriaList,
               smartAnnotationsFrame,
               createSmartAnnotationHandler,
@@ -302,7 +289,6 @@ export default function AccountSettingsRoot(props) {
           <AccountSettingsMarkingCriteriaLapto
             {...{
               ...accountSettingsMarkingCriteriaLaptoData,
-              headerProps,
               markingCriteriaList,
               createSmartAnnotationHandler,
               smartAnnotationsFrame,
@@ -319,7 +305,6 @@ export default function AccountSettingsRoot(props) {
           <AccountSettingsMarkingCriteriaDeskt
             {...{
               ...accountSettingsMarkingCriteriaDesktData,
-              headerProps,
               markingCriteriaList,
               createSmartAnnotationHandler,
               smartAnnotationsFrame,

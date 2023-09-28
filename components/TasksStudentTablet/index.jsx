@@ -45,7 +45,6 @@ function TasksStudentTablet(props) {
 
   return (
     <div className="tasks-student-tablet screen">
-      <HeaderSmall headerProps={taskHeaderProps} />
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
@@ -56,7 +55,6 @@ function TasksStudentTablet(props) {
         </Frame1307>
         {taskFrame}
       </Frame1365>
-      {/* <FooterSmall /> */}
     </div>
   );
 

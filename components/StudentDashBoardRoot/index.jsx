@@ -9,8 +9,6 @@ import { homeHeaderProps } from '../../utils/headerProps.js';
 import { limitParagraph } from '../../utils/strings';
 import _ from 'lodash';
 import Loader from '../Loader';
-import HeaderSmall from '../HeaderSmall';
-import Header from '../Header';
 
 export default function StudentDashboardRoot(props) {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -60,11 +58,6 @@ export default function StudentDashboardRoot(props) {
   if (isLoading) {
     return (
       <>
-        {/* {smallScreenView ? (
-          <HeaderSmall headerProps={homeHeaderProps} />
-        ) : (
-          <Header headerProps={homeHeaderProps} />
-        )} */}
         <Loader />
       </>
     );

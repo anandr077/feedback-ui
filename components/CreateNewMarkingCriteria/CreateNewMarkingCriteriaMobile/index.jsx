@@ -11,13 +11,11 @@ import {
   IbmplexsansNormalStack20px,
 } from '../../../styledMixins';
 import './CreateNewMarkingCriteriaMobile.css';
-// import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
+
 
 function CreateNewMarkingCriteriaMobile(props) {
   const {
     title,
-    headerProps,
     criterias,
     addCriteria,
     saveMarkingCriteria,
@@ -30,7 +28,6 @@ function CreateNewMarkingCriteriaMobile(props) {
   return (
     <div className="account-settings-marking-criteria-create-new-mobile screen">
       <Frame1379>
-        <HeaderSmall headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb text="Account Settings" link={'/#/settings'} />
@@ -76,7 +73,6 @@ function CreateNewMarkingCriteriaMobile(props) {
           </BottomButtonContainer>
         </Frame1376>
       </Frame1379>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

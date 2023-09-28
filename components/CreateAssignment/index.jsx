@@ -120,11 +120,6 @@ export default function CreateAssignment(props) {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
-          <HeaderSmall headerProps={taskHeaderProps} />
-        ) : (
-          <Header headerProps={taskHeaderProps} />
-        )}
         <Loader />
       </>
     );

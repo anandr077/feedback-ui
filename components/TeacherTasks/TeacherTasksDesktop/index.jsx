@@ -23,7 +23,6 @@ function TeacherTasksDesktop(props) {
 
   return (
     <div className="tasks-desktop screen">
-      <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
@@ -70,7 +69,6 @@ function TeacherTasksDesktop(props) {
           </Frame1359>
         </Frame1360>
       </Frame1361>
-      {/* <Footer /> */}
     </div>
   );
 }

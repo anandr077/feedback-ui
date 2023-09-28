@@ -10,8 +10,6 @@ import TeacherDashboardTablet from '../TeacherDashboardTablet';
 import TeacherDashboardLaptop from '../TeacherDashboardLaptop';
 import TeacherDashboardDesktop from '../TeacherDashboardDesktop';
 import Loader from '../../Loader';
-import HeaderSmall from '../../HeaderSmall';
-import Header from '../../Header';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 
 export default function TeacherDashboardRoot(props) {
@@ -36,16 +34,7 @@ export default function TeacherDashboardRoot(props) {
     });
   }, []);
   if (isLoading) {
-    return (
-      <>
-        {/* {smallScreenView ? (
-          <HeaderSmall headerProps={teacherHomeHeaderProps} />
-        ) : (
-          <Header headerProps={teacherHomeHeaderProps} />
-        )} */}
-        <Loader />
-      </>
-    );
+    return <Loader />;
   }
   const drafts = assignments.filter(
     (assignment) => assignment.submissionsStatus === 'DRAFT'

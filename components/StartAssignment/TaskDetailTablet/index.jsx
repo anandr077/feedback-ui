@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { formattedDate } from '../../../dates';
 import { taskHeaderProps } from '../../../utils/headerProps.js';
-import HeaderSmall from '../../HeaderSmall';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import Buttons from '../Buttons';
@@ -14,14 +13,13 @@ import {
   IbmplexsansSemiBoldShark28px,
 } from '../styledMixins';
 import './TaskDetailTablet.css';
-// import FooterSmall from '../../FooterSmall';
+
 function TaskDetailTablet(props) {
   const { assignment, methods, clazzName, line11, goBackProps } = props;
 
   return (
     <div className="task-detail-tablet screen">
       <Frame1391>
-        <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb text="Task" link="/#/tasks" />
@@ -47,7 +45,6 @@ function TaskDetailTablet(props) {
           </Frame13901>
         </Frame1390>
       </Frame1391>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

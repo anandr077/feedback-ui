@@ -24,6 +24,7 @@ import FooterSmall from './components/FooterSmall';
 import Footer from './components/Footer';
 import { isSmallScreen } from './components/ReactiveRender';
 import ResponsiveHeader from './components/ResponsiveHeader';
+import ResponsiveFooter from './components/ResponsiveFooter';
 
 function App() {
   const role = getUserRole();
@@ -72,9 +73,7 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
-          {
-            <ResponsiveHeader isSmallScreen={isSmallScreen} />
-          }
+          {<ResponsiveHeader isSmallScreen={isSmallScreen()} />}
           <Switch>
             <Route path="/settings">
               <ProtectedSettings />
@@ -121,7 +120,8 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
-          {smallScreenView ? <FooterSmall /> : <Footer />}
+          {/* {smallScreenView ? <FooterSmall /> : <Footer />} */}
+          {<ResponsiveFooter smallScreen={isSmallScreen()} />}
         </Router>
       </QueryClientProvider>
     </>

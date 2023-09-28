@@ -46,7 +46,6 @@ function TeacherTasksStudentTablet(props) {
 
   return (
     <div className="tasks-student-tablet screen">
-      <HeaderSmall headerProps={assignmentsHeaderProps} />
       <Frame1365>
         <Frame1307>
           <PageTitle>Tasks</PageTitle>
@@ -60,7 +59,6 @@ function TeacherTasksStudentTablet(props) {
         </Frame1307>
         {tasksFrame}
       </Frame1365>
-      {/* <FooterSmall></FooterSmall> */}
     </div>
   );
 

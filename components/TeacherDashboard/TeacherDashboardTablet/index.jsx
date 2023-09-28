@@ -1,19 +1,16 @@
 import React from 'react';
 import Group1205 from '../Group1205';
-// import FooterSmall from '../../FooterSmall';
 import Frame12842 from '../Frame12842';
 import styled from 'styled-components';
 import Frame13124 from '../Frame13124';
 import TaskCard from '../../TaskCard';
 import { timeFirstFormattedDate } from '../../../dates';
-
 import { IbmplexsansMediumRiverBed24px } from '../styledMixins';
 import {
   DashboardIbmplexsansBoldWhite72px,
   DashboardIbmplexsansNormalWhite20px,
 } from '../../../styledMixins';
 import './TeacherDashboardTablet.css';
-import HeaderSmall from '../../HeaderSmall';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 import { getUserName } from '../../../service';
 
@@ -39,7 +36,6 @@ function TeacherDashboardTablet(props) {
     <div className="teacher-dashboard-tblet screen">
       <Frame1419>
         <Frame1418>
-          <HeaderSmall headerProps={teacherHomeHeaderProps} />
           <Frame1312>
             <Frame1342>
               <Frame1341>
@@ -93,7 +89,6 @@ function TeacherDashboardTablet(props) {
           </Frame13411>
         </Frame1417>
       </Frame1419>
-      {/* <FooterSmall /> */}
     </div>
   );
 }

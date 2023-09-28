@@ -15,8 +15,7 @@ import {
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
-import HeaderSmall from '../../HeaderSmall';
-import Header from '../../Header';
+
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
@@ -62,11 +61,6 @@ export default function TeacherClassesRoot() {
   if (isLoading) {
     return (
       <>
-        {smallScreenView ? (
-          <HeaderSmall headerProps={classesHomeHeaderProps} />
-        ) : (
-          <Header headerProps={classesHomeHeaderProps} />
-        )}
         <Loader />
       </>
     );

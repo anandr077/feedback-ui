@@ -1,6 +1,8 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
+import { useHistory } from 'react-router-dom';
+
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
@@ -41,11 +43,11 @@ const PortfolioPage = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('portfolio');
+    onSuccess: (data) => {
+      window.location.href=`#documents/${data.id}`
     },
   });
-  if (isLoading || !state.portfolio) {
+  if (isLoading || mutation.isLoading || !state.portfolio) {
     return <Loader />;
   }
 

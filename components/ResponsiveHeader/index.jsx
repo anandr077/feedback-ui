@@ -28,7 +28,8 @@ const getHeaderProps = (location) => {
   if (location.includes('/settings')) return completedHeaderProps(true);
   if (location.includes('/marking')) return completedHeaderProps(true);
   if (location.includes('/exemplarResponses')) return completedHeaderProps(true);
-  if (location.includes('/documents/')) return portfolioHeaderProps;
+  if (location.includes('/documents/')) return portfolioHeaderProps();
+  if (location.includes('/portfolio')) return portfolioHeaderProps();
 
   const isTeacher = getUserRole() === 'TEACHER';
   if (isTeacher) {
@@ -37,7 +38,7 @@ const getHeaderProps = (location) => {
     else if (location.includes('/submissions')) return assignmentsHeaderProps;
     return teacherHomeHeaderProps;
   } else {
-    if (location.includes('/portfolio')) return portfolioHeaderProps;
+    if (location.includes('/portfolio')) return portfolioHeaderProps();
     else if (location.includes('/tasks')) return taskHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 

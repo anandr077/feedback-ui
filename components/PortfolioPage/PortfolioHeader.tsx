@@ -17,8 +17,8 @@ const PortfolioHeader = ({showModal, setShowModal}) => {
       <PortfolioHeading>My Portfolio</PortfolioHeading>
       <PortHeadingLeft>
         <PortHeadDropDown>
-          <PortfolioDropdown name="sort" options={sortOptions} />
-          <PortfolioDropdown name="status" options={statusOptions} />
+          <PortfolioDropdown name="sort" options={sortOptions} onChange={null}/>
+          <PortfolioDropdown name="status" options={statusOptions} onChange={null} />
         </PortHeadDropDown>
         <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
           + New Document

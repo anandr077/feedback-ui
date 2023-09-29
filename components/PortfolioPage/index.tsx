@@ -1,5 +1,9 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
+import {
+  getPortfolio,
+  addDocumentToPortfolioWithDetails,
+  deleteSubmissionById,
+} from '../../service';
 import { portfolioHeaderProps } from '../../utils/headerProps';
 import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
@@ -47,7 +51,7 @@ const PortfolioPage = () => {
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
-      window.location.href=`#documents/${data.id}`
+      window.location.href = `#documents/${data.id}`;
     },
   });
   if (isLoading || mutation.isLoading || !state.portfolio) {
@@ -69,7 +73,11 @@ const PortfolioPage = () => {
       mutation
     );
   };
-
+  const handleDeleteDocument = (docName) => {
+    deleteSubmissionById(docName.documentId).then((res) => {
+      console.log('result: ', res);
+    });
+  };
   return (
     <>
       <ResponsiveHeader
@@ -90,7 +98,10 @@ const PortfolioPage = () => {
                 showModal={showModal}
                 setShowModal={setShowModal}
               />
-              <PortfolioAllFilesContainer allFiles={allFiles} />
+              <PortfolioAllFilesContainer
+                allFiles={allFiles}
+                handleDeleteDocument={handleDeleteDocument}
+              />
             </DocumentMainSection>
           </PortfolioContainer>
         </PortfolioBody>

@@ -19,6 +19,7 @@ import {
   NoFileDiv,
   documentStatusStyle,
 } from './PortfolioAllFilesStyle';
+import DropdownMenu from '../DropdownMenu';
 
 const sortReducer = (state, action) =>{
    switch(action.type){
@@ -37,34 +38,29 @@ const sortReducer = (state, action) =>{
 
 const PortfolioAllFilesContainer = ({ allFiles }) => {
   const [sortedFiles, dispatch] = useReducer(sortReducer, allFiles);
-  const sortOptions = ["A - Z", "Z - A", "New to old", "Old to new"]
+  const sortOptions = [
+    {title: "A - Z"}, 
+    {title: "Z - A"}, 
+    {title: "New to old"}, 
+    {title: "Old to new"}
+  ]
 
-  const handleSortOptionChange = (option: string) =>{ 
-    switch(option){
-      case 'A - Z':
-        dispatch({type: 'A - Z'});
-        break;
-      case 'Z - A':
-        dispatch({type: 'Z - A'});
-        break;
-      case 'New to old':
-        dispatch({type: 'New to old'});
-        break;
-      case 'Old to new':
-        dispatch({type: 'Old to new'});
-        break;
-      default:
-        break;
-    }
+
+  const getSelectedItem = (option) =>{
+    dispatch({type: option.title});
   }
 
   return (
     <AllFilesContainer>
       <AllFilesHeader>
         <AllFileTitle>All files</AllFileTitle>
-        <PortfolioDropdown name="sort" options={sortOptions} onChange={handleSortOptionChange} />
+        <DropdownMenu
+          menuItems={sortOptions}
+          defaultSearch={false}
+          getSelectedItem={getSelectedItem}
+        ></DropdownMenu>
       </AllFilesHeader>
-      {sortedFiles.length === 0 ? (
+      {allFiles.length === 0 ? (
         <NoFileDiv>No files</NoFileDiv>
       ) : (
         sortedFiles.map((document, idx) => {

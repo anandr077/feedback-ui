@@ -27,7 +27,8 @@ export default function ResponsiveHeader({ isSmallScreen }) {
 const getHeaderProps = (location) => {
   if (location.includes('/settings')) return completedHeaderProps(true);
   if (location.includes('/marking')) return completedHeaderProps(true);
-  if (location.includes('/exemplarResponses')) return completedHeaderProps(true);
+  if (location.includes('/exemplarResponses'))
+    return completedHeaderProps(true);
   if (location.includes('/documents/')) return portfolioHeaderProps();
   if (location.includes('/portfolio')) return portfolioHeaderProps();
 

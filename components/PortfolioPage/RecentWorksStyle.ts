@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 
 const RecentWork = styled.div`
-  width: 213px;
-  min-width: 180px;
+  flex: 1;
   height: 275px;
   border: 1px solid #f1e7ff;
   border-radius: 12px;

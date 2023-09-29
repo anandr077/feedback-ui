@@ -3,6 +3,7 @@ import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
 import { portfolioHeaderProps } from '../../utils/headerProps';
 import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
+import { useHistory } from 'react-router-dom';
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
@@ -46,11 +47,11 @@ const PortfolioPage = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('portfolio');
+    onSuccess: (data) => {
+      window.location.href = `#documents/${data.id}`;
     },
   });
-  if (isLoading || !state.portfolio) {
+  if (isLoading || mutation.isLoading || !state.portfolio) {
     return <Loader />;
   }
 
@@ -59,7 +60,6 @@ const PortfolioPage = () => {
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
-  console.log('all files: ', allFiles);
 
   const handleCreateDocument = (docName) => {
     addFile(

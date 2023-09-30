@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IbmplexsansBoldWhite36px } from '../../styledMixins';
-import FooterSmall from '../FooterSmall';
 import DashboardFrame1208 from '../DashboardFrame1208';
 import TaskCardContainer from '../TaskCardContainer';
-import HeaderSmall from '../HeaderSmall';
 import './DashboardHomeStudentMobile.css';
 import { getUserName } from '../../service';
 import { homeHeaderProps } from '../../utils/headerProps';
@@ -24,7 +22,6 @@ function DashboardHomeStudentMobile(props) {
   return (
     <div className="dashboard-home-student-mobile screen">
       <Frame1352>
-        <HeaderSmall headerProps={homeHeaderProps} />
         <Frame1203>
           <Frame1348>
             <KeepOrganizedWitho>Welcome, {userName}</KeepOrganizedWitho>
@@ -61,7 +58,6 @@ function DashboardHomeStudentMobile(props) {
           </Frame11>
         </Frame1205>
       </Frame1351>
-      <FooterSmall />
     </div>
   );
 }

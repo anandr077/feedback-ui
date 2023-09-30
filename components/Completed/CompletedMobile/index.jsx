@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
-import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
 import Frame1410 from '../Frame1410';
 import { IbmplexsansBoldShark36px } from '../styledMixins';
 import './CompletedMobile.css';
@@ -27,7 +25,6 @@ function CompletedMobile(props) {
   return (
     <div className="completed-mobile screen">
       <Frame1425>
-        <HeaderSmall headerProps={completedHeaderProps(exemplar)}></HeaderSmall>
         {exemplar && (
           <Frame1315>
             <Breadcrumb text={'Home'} link={'/#'} />
@@ -48,7 +45,6 @@ function CompletedMobile(props) {
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>
       </Frame1425>
-      <FooterSmall></FooterSmall>
     </div>
   );
   function createFilter() {

@@ -1,7 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
-import { portfolioHeaderProps } from '../../utils/headerProps';
-import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
 import { useHistory } from 'react-router-dom';
 
@@ -27,7 +25,6 @@ import {
   PortfolioSection,
 } from './PortfolioStyle';
 import { isSmallScreen } from '../ReactiveRender';
-import ResponsiveFooter from '../ResponsiveFooter';
 
 const PortfolioPage = () => {
   const smallScreen = isSmallScreen();
@@ -72,10 +69,6 @@ const PortfolioPage = () => {
 
   return (
     <>
-      <ResponsiveHeader
-        smallScreen={smallScreen}
-        headerProps={portfolioHeaderProps()}
-      ></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
@@ -95,8 +88,6 @@ const PortfolioPage = () => {
           </PortfolioContainer>
         </PortfolioBody>
       </PortfolioSection>
-
-      <ResponsiveFooter smallScreen={smallScreen} />
 
       {showModal && (
         <PortfolioDocModal

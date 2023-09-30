@@ -29,9 +29,12 @@ import {
 } from '../../../service.js';
 import { documentHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
+import { portfolioHeaderProps } from '../../../utils/headerProps';
+import Header from '../../Header';
+import HeaderSmall from '../../HeaderSmall';
 
 export default function DocumentRoot({}) {
   const quillRefs = useRef([]);
@@ -54,6 +57,9 @@ export default function DocumentRoot({}) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
+   const [smallScreenView, setSmallScreenView] = React.useState(
+     isSmallScreen()
+   );
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
@@ -71,7 +77,11 @@ export default function DocumentRoot({}) {
   }, [id]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   const pageMode = getPortfolioPageMode(getUserId(), submission);

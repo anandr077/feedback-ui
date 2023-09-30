@@ -172,6 +172,7 @@ function createFocusAreasFrame(
           category: 'FOCUS_AREAS',
         }))}
         deleteHandler={handleDeleteFocusArea}
+        trashOption={true}
       ></CheckboxGroup>
       {createFocusAreaTags(allFocusAreas, presentFocusAreas)}
     </ShowFocusArea>

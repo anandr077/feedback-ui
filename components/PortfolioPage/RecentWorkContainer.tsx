@@ -18,7 +18,6 @@ const RecentWorkContainer = ({
   state,
   showModal,
   setShowModal,
-  downloadPdf,
 }) => {
   const numColumns = smallScreen ? 3 : 4;
   const displayedWork = state?.portfolio?.recentFiles?.slice(0, numColumns);
@@ -33,9 +32,7 @@ const RecentWorkContainer = ({
         {newDocumentButton(setShowModal, showModal)}
 
         {displayedWork?.map((work, idx) => {
-          return (
-            <RecentWorks work={work} key={idx} downloadPdf={downloadPdf} />
-          );
+          return <RecentWorks work={work} key={idx} />;
         })}
       </AllWorkBoxes>
     </WorkContainer>

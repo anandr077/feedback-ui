@@ -8,8 +8,9 @@ import {
   RecentBtns,
   RecentBtnImg,
 } from './RecentWorksStyle';
+import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 
-const RecentWorks = ({ work, downloadPdf }) => {
+const RecentWorks = ({ work }) => {
   return (
     <RecentWork>
       <RecentWorkPara>{work?.preview?.slice(0, 400)}</RecentWorkPara>
@@ -21,7 +22,7 @@ const RecentWorks = ({ work, downloadPdf }) => {
             View
           </RecentBtns>
         </a>
-        <RecentBtns onClick={() => downloadPdf(work)}>
+        <RecentBtns onClick={() => downloadPortfolioPdf(work)}>
           <RecentBtnImg src={downLoadImg}></RecentBtnImg>
           Download
         </RecentBtns>

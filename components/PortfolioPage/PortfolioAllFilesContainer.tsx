@@ -17,8 +17,9 @@ import {
   NoFileDiv,
   documentStatusStyle,
 } from './PortfolioAllFilesStyle';
+import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 
-const PortfolioAllFilesContainer = ({ allFiles, downloadPdf }) => {
+const PortfolioAllFilesContainer = ({ allFiles }) => {
   return (
     <AllFilesContainer>
       <AllFileTitle>All files</AllFileTitle>
@@ -51,7 +52,7 @@ const PortfolioAllFilesContainer = ({ allFiles, downloadPdf }) => {
                     <span>View</span>
                   </DocBtn>
                 </a>
-                <DocBtn onClick={() => downloadPdf(document)}>
+                <DocBtn onClick={() => downloadPortfolioPdf(document)}>
                   <DocBtnImg src={downLoadImg} alt="Download Button" />
                   <DocBtnText>Download</DocBtnText>
                   <span>Download</span>

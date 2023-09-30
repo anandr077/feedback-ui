@@ -71,59 +71,6 @@ const PortfolioPage = () => {
     );
   };
 
-  const downloadPdf = (previewData) => {
-    console.log('preview data: ', previewData);
-
-    const doc = new jsPDF({
-      orientation: 'p',
-      unit: 'mm',
-      format: 'a4',
-      margin: {
-        top: 0,
-        bottom: 10,
-        left: 0,
-        right: 0,
-      },
-    });
-
-    const totalpdf = document.createElement('div');
-
-    const title = document.createElement('div');
-    title.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-    title.style.color = '#25222a';
-    title.style.fontSize = '24px';
-    title.style.fontWeight = '700';
-    title.style.textAlign = 'flex-start';
-    title.style.marginBottom = '50px';
-    title.textContent = previewData.title; // Use the title from the previewData
-    totalpdf.appendChild(title);
-
-    // Add the preview content
-    const previewContent = document.createElement('div');
-    previewContent.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-    previewContent.style.fontSize = '16px';
-    previewContent.style.fontWeight = '400';
-    previewContent.style.lineHeight = '26px';
-    previewContent.textContent = previewData.preview; // Use the preview from the previewData
-    totalpdf.appendChild(previewContent);
-
-    // Set PDF options
-    const options = {
-      callback: function (generatedDoc) {
-        generatedDoc.save(`${previewData.title}.pdf`);
-      },
-      x: 0,
-      y: 0,
-      width: 170,
-      windowWidth: 1180,
-      margin: 20,
-      autoSize: true,
-    };
-
-    // Generate the PDF
-    doc.html(totalpdf, options);
-  };
-
   return (
     <>
       <ResponsiveHeader
@@ -143,12 +90,8 @@ const PortfolioPage = () => {
                 state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}
-                downloadPdf={downloadPdf}
               />
-              <PortfolioAllFilesContainer
-                allFiles={allFiles}
-                downloadPdf={downloadPdf}
-              />
+              <PortfolioAllFilesContainer allFiles={allFiles} />
             </DocumentMainSection>
           </PortfolioContainer>
         </PortfolioBody>

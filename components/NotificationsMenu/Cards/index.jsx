@@ -14,7 +14,7 @@ function Cards(props) {
             <DarrellInstructor>
               <span className="ibmplexsans-normal-shark-16px">
                 {' '}
-                No New Notifications{' '}
+                No new notifications{' '}
               </span>
             </DarrellInstructor>
           </Content>

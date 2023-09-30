@@ -31,6 +31,7 @@ const CheckboxGroup = ({
   openDialogForNewEvent,
   previouslySelectedItems = [],
   deleteHandler = (id) => {},
+  trashOption = false,
 }) => {
   const [selectedItems, setSelectedItems] = React.useState(
     previouslySelectedItems
@@ -99,20 +100,22 @@ const CheckboxGroup = ({
           {focusAreaColor(item)}
           <StyledListItemText primary={item.label} />
         </StyledMenuItem>
-        <Iconcontainer>
-          {!selectedItems.some((obj) => obj.value === item.value) && (
-            <StyledDeleteButton
-              src={trashHover[index] ? ColoredTrashIcon : TrashIcon}
-              onMouseEnter={() =>
-                handleMouse(index, true, trashHover, setTrashHover)
-              }
-              onMouseLeave={() =>
-                handleMouse(index, false, trashHover, setTrashHover)
-              }
-              onClick={() => handleDelete(item)}
-            />
-          )}
-        </Iconcontainer>
+        {trashOption && (
+          <Iconcontainer>
+            {!selectedItems.some((obj) => obj.value === item.value) && (
+              <StyledDeleteButton
+                src={trashHover[index] ? ColoredTrashIcon : TrashIcon}
+                onMouseEnter={() =>
+                  handleMouse(index, true, trashHover, setTrashHover)
+                }
+                onMouseLeave={() =>
+                  handleMouse(index, false, trashHover, setTrashHover)
+                }
+                onClick={() => handleDelete(item)}
+              />
+            )}
+          </Iconcontainer>
+        )}
       </FocusAreadiv>
     )),
   ]);

@@ -27,7 +27,7 @@ import {
   getSmartAnnotations,
   saveAnswer,
 } from '../../../service.js';
-import { portfolioHeaderProps } from '../../../utils/headerProps';
+import { documentHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
 import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
@@ -37,7 +37,6 @@ import Header from '../../Header';
 import HeaderSmall from '../../HeaderSmall';
 
 export default function DocumentRoot({}) {
-  const headerProps = portfolioHeaderProps();
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showLoader, setShowLoader] = useState(false);
@@ -86,6 +85,9 @@ export default function DocumentRoot({}) {
   }
 
   const pageMode = getPortfolioPageMode(getUserId(), submission);
+  const headerProps = documentHeaderProps(
+    pageMode === 'DRAFT' || pageMode === 'REVISE'
+  );
 
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
@@ -643,6 +645,12 @@ export default function DocumentRoot({}) {
   }
   function getFeedbackRequestedBy() {
     if (submission.feedbackRequestType === 'P2P') {
+      return 'your peer.';
+    }
+    if (submission.feedbackRequestType === null) {
+      return 'your peer.';
+    }
+    if (submission.feedbackRequestType === undefined) {
       return 'your peer.';
     }
     return submission.studentName;

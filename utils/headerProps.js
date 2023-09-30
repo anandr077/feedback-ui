@@ -64,8 +64,14 @@ export const portfolioHeaderProps = () => {
     return teacherTabs(false, true, false);
   }
   return studentTabs(false, false, true);
-};
-
+  
+}
+export const documentHeaderProps = (selfDocument) => {
+  if (selfDocument) {
+    return studentTabs(false, false, true);
+  }
+  return studentTabs(false, true, false);
+}
 export const completedHeaderProps = (exemplar) => {
   if (exemplar) {
     return isTeacher

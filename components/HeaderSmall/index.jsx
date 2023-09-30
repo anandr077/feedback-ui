@@ -10,19 +10,21 @@ import {
   Frame5,
   Frame51,
 } from './HeaderSmallStyle';
+import { useQuery } from 'react-query';
 
 export default function HeaderSmall(props) {
   const { headerProps } = props;
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [notifications, setNotifications] = React.useState([]);
-  const [loadingNotifications, setLoadingNotifications] = React.useState(true);
-  React.useEffect(() => {
-    getNotifications().then((result) => {
-      setNotifications(result);
-      setLoadingNotifications(false);
-    });
-  }, []);
+ 
+  const { data: notifications, isLoading } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: async () => {
+      const result = await getNotifications();
+      return result;
+    },
+    staleTime: 60000,
+  });
 
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
@@ -46,7 +48,7 @@ export default function HeaderSmall(props) {
           notifications={notifications}
           type="small"
           onCloseFn={handleNotificationClick}
-          loadingNotifications={loadingNotifications}
+          loadingNotifications={isLoading}
         />{' '}
       </NavigationContainer>
     );

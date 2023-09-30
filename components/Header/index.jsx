@@ -19,18 +19,22 @@ import {
   SelectedButtonText,
   HeaderButtonSelected,
 } from './HeaderStyle';
+import { useQuery } from 'react-query';
 
 export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
-  const [notifications, setNotifications] = React.useState([]);
-  const [loadingNotifications, setLoadingNotifications] = React.useState(true);
-  React.useEffect(() => {
-    getNotifications().then((result) => {
-      setNotifications(result);
-      setLoadingNotifications(false);
-    });
-  }, []);
+
+  const { data: notifications, isLoading } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: async () => {
+      const result = await getNotifications();
+      return result;
+    },
+    staleTime: 60000,
+    
+  });
+
   const OnFirstButtonClick = () => {
     window.location.href = headerProps.firstButton.redirect;
   };
@@ -144,7 +148,7 @@ export default function Header(props) {
             {' '}
             <NotificationsBar
               notifications={notifications}
-              loadingNotifications={loadingNotifications}
+              loadingNotifications={isLoading}
             />{' '}
           </NavigationContainer>
         </Screen>

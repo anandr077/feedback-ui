@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
 import DashboardHomeStudentLaptop from '../DashboardHomeStudentLaptop';
 import DashboardHomeStudentDesktop from '../DashboardHomeStudentDesktop';
 import DashboardHomeStudentTablet from '../DashboardHomeStudentTablet';
@@ -16,6 +16,9 @@ export default function StudentDashboardRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
+    const [smallScreenView, setSmallScreenView] = React.useState(
+      isSmallScreen()
+    );
 
   React.useEffect(() => {
     Promise.all([getTasks(), getModelResponses()]).then(
@@ -53,7 +56,11 @@ export default function StudentDashboardRoot(props) {
     }
   }, [publishActionCompleted]);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
   const outstandingTasks = allTasks.filter(
     (task) => task.progressStatus === 'OUTSTANDING'

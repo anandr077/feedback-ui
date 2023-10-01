@@ -4,8 +4,8 @@ import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop'
 import CreateNewMarkingCriteriaTablet from '../CreateNewMarkingCriteriaTablet';
 import CreateNewMarkingCriteriaLaptop from '../CreateNewMarkingCriteriaLaptop';
 import CreateNewMarkingCriteriaMobile from '../CreateNewMarkingCriteriaMobile';
-import ReactiveRender from '../../ReactiveRender';
-import { completedHeaderProps } from '../../../utils/headerProps';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+
 import CriteriaContainer from '../CriteriaContainer';
 import {
   createNewMarkingCriteria,
@@ -18,13 +18,12 @@ import {
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 
-const headerProps = completedHeaderProps(true);
-
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
 
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -243,7 +242,11 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   });
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   return (
@@ -252,7 +255,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         <CreateNewMarkingCriteriaMobile
           {...{
             ...accountSettingsMarkingCriteriaCreat2Data,
-            headerProps,
             criterias,
             addCriteria,
             addLevel,
@@ -268,7 +270,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         <CreateNewMarkingCriteriaTablet
           {...{
             ...accountSettingsMarkingCriteriaCreat3Data,
-            headerProps,
             criterias,
             addCriteria,
             addLevel,
@@ -284,7 +285,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         <CreateNewMarkingCriteriaLaptop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
-            headerProps,
             criterias,
             addCriteria,
             addLevel,
@@ -300,7 +300,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         <CreateNewMarkingCriteriaDesktop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
-            headerProps,
             criterias,
             addCriteria,
             addLevel,

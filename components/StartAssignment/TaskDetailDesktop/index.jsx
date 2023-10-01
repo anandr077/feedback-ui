@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { formattedDate } from '../../../dates';
 import { taskHeaderProps } from '../../../utils/headerProps';
-import Header from '../../Header';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import Buttons from '../Buttons';
@@ -30,7 +29,6 @@ function TaskDetailDesktop(props) {
   return (
     <div className="task-detail-desktop screen">
       <Frame1391>
-        <Header headerProps={taskHeaderProps} />
         <Frame1390>
           <Frame29>
             <Breadcrumb text="Task" link="/#/tasks" />

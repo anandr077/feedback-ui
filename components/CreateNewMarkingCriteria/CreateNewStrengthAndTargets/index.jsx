@@ -2,11 +2,8 @@ import React, { useEffect } from 'react';
 import './style.css';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
-import { completedHeaderProps } from '../../../utils/headerProps';
-import Header from '../../Header';
 import GoBack from '../GoBack';
 import { useState } from 'react';
-import HeaderSmall from '../../HeaderSmall';
 import {
   createNewMarkingCriteria,
   deleteMarkingCriteria,
@@ -16,6 +13,11 @@ import {
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
 import Loader from '../../Loader';
+import {
+  isTabletView,
+  isMobileView,
+  isSmallScreen,
+} from '../../ReactiveRender';
 import { isSmallScreen } from '../../ReactiveRender';
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -46,10 +48,12 @@ export default function CreateNewStrengthAndTargets() {
     );
   }, []);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
-
-  const headerProps = completedHeaderProps(true);
 
   const handleCriteriaChange = (e, index) => {
     const updatedData = { ...markingMethodology };
@@ -245,13 +249,7 @@ export default function CreateNewStrengthAndTargets() {
       </>
     );
   };
-  const header = () => {
-    return smallScreenView ? (
-      <HeaderSmall headerProps={headerProps} />
-    ) : (
-      <Header headerProps={headerProps} />
-    );
-  };
+ 
   const createBreadcrumb = (markingMethodologyId) => {
     return (
       <div className="breadcrumb">
@@ -333,7 +331,6 @@ export default function CreateNewStrengthAndTargets() {
 
   return (
     <div className="parent-container">
-      {header()}
       <div className="child-container">
         {createBreadcrumb(markingMethodologyId)}
         <GoBack />

@@ -4,10 +4,7 @@ import {
   addDocumentToPortfolioWithDetails,
   deleteSubmissionById,
 } from '../../service';
-import { portfolioHeaderProps } from '../../utils/headerProps';
-import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
-import { useHistory } from 'react-router-dom';
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
@@ -20,7 +17,6 @@ import {
   reducer,
   addFile,
   getDocuments,
-  getSubFolder,
 } from './portfolioReducer';
 
 import {
@@ -31,7 +27,6 @@ import {
   PortfolioSection,
 } from './PortfolioStyle';
 import { isSmallScreen } from '../ReactiveRender';
-import ResponsiveFooter from '../ResponsiveFooter';
 
 const PortfolioPage = () => {
   const smallScreen = isSmallScreen();
@@ -80,10 +75,6 @@ const PortfolioPage = () => {
   };
   return (
     <>
-      <ResponsiveHeader
-        smallScreen={smallScreen}
-        headerProps={portfolioHeaderProps()}
-      ></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
@@ -106,8 +97,6 @@ const PortfolioPage = () => {
           </PortfolioContainer>
         </PortfolioBody>
       </PortfolioSection>
-
-      <ResponsiveFooter smallScreen={smallScreen} />
 
       {showModal && (
         <PortfolioDocModal

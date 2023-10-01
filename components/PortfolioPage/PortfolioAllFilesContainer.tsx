@@ -17,6 +17,7 @@ import {
   NoFileDiv,
   documentStatusStyle,
 } from './PortfolioAllFilesStyle';
+import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 
 const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
   return (
@@ -51,7 +52,7 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
                     <span>View</span>
                   </DocBtn>
                 </a>
-                <DocBtn>
+                <DocBtn onClick={() => downloadPortfolioPdf(document)}>
                   <DocBtnImg src={downLoadImg} alt="Download Button" />
                   <DocBtnText>Download</DocBtnText>
                   <span>Download</span>

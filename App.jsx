@@ -19,7 +19,12 @@ import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
 import PortfolioPage from './components/PortfolioPage';
-import { QueryClientProvider, QueryClient } from 'react-query' 
+import { QueryClientProvider, QueryClient } from 'react-query';
+import FooterSmall from './components/FooterSmall';
+import Footer from './components/Footer';
+import { isSmallScreen } from './components/ReactiveRender';
+import ResponsiveHeader from './components/ResponsiveHeader';
+import ResponsiveFooter from './components/ResponsiveFooter';
 
 function App() {
   const role = getUserRole();
@@ -41,8 +46,9 @@ function App() {
   const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = withAuth(AccountSettingsRoot);
   const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
-  const portfolioClient = new QueryClient()
+  const portfolioClient = new QueryClient();
 
   const Dashboard = ({ role }) => {
     const dashboard =
@@ -67,6 +73,7 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
+          {<ResponsiveHeader isSmallScreen={isSmallScreen()} />}
           <Switch>
             <Route path="/settings">
               <ProtectedSettings />
@@ -103,7 +110,7 @@ function App() {
               <ProtectedFeedbacksRoot isAssignmentPage={false} />
             </Route>
             <Route path="/documents/:id">
-              <ProtectedDocumentRoot/>
+              <ProtectedDocumentRoot />
             </Route>
             <Route path="/404">
               <PageNotFound />
@@ -113,6 +120,8 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
+          {/* {smallScreenView ? <FooterSmall /> : <Footer />} */}
+          {<ResponsiveFooter smallScreen={isSmallScreen()} />}
         </Router>
       </QueryClientProvider>
     </>

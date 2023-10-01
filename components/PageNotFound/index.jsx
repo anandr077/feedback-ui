@@ -16,9 +16,9 @@ export default function PageNotFound() {
           </CustomLink>
         </HomeButtonContiner>
       </Container>
-      <FooterContainer>
+      {/* <FooterContainer>
         <Footer />
-      </FooterContainer>
+      </FooterContainer> */}
     </>
   );
 }

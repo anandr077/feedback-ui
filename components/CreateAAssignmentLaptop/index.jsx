@@ -2,9 +2,7 @@ import React from 'react';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
-import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
-import Header from '../Header';
 import './CreateAAssignmentLaptop.css';
 import {
   TitleContainer,
@@ -100,7 +98,6 @@ function CreateAAssignmentLaptop(props) {
   return (
     <div className="create-a-assignment-laptop screen">
       <Frame1379>
-        <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb text="Task" link="/#/tasks" />
@@ -181,8 +178,6 @@ function CreateAAssignmentLaptop(props) {
           </Frame1377>
         </Frame1378>
       </Frame1379>
-
-      <Footer />
     </div>
   );
 }

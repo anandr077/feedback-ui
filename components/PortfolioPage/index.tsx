@@ -25,6 +25,8 @@ import {
   PortfolioSection,
 } from './PortfolioStyle';
 import { isSmallScreen } from '../ReactiveRender';
+import ResponsiveFooter from '../ResponsiveFooter';
+import jsPDF from 'jspdf';
 
 const PortfolioPage = () => {
   const smallScreen = isSmallScreen();
@@ -44,7 +46,7 @@ const PortfolioPage = () => {
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
-      window.location.href=`#documents/${data.id}`
+      window.location.href = `#documents/${data.id}`;
     },
   });
   if (isLoading || mutation.isLoading || !state.portfolio) {

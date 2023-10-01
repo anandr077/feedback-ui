@@ -37,8 +37,8 @@ function NotificationsBar(props) {
     );
   }
 
-  const notificationFrames = notifications?.map((notification) => {
-    return <TaskCard task={notification} small={true} />;
+  const notificationFrames = notifications.map((notification) => {
+    return <TaskCard task={notification} small={true} onAccept={()=>alert('hi')} />;
   });
   return (
     <>

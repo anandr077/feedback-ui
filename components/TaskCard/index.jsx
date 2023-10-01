@@ -32,6 +32,8 @@ function TaskCard(props) {
     setPublishActionCompleted,
     showDeletePopuphandler,
     showDateExtendPopuphandler,
+    onAccept,
+    onDecline
   } = props;
 
   const role = getUserRole();
@@ -67,8 +69,6 @@ function TaskCard(props) {
                   res.link
                 );
               } else {
-// setPopupMessage("Assignment Creation Failed");
-                // setShowPopup(true);
                 return;
               }
             });
@@ -84,8 +84,6 @@ function TaskCard(props) {
                   setPublishActionCompleted(true);
                   showSnackbar('Response shared with your class', res.link);
                 } else {
-                  // setPopupMessage("Assignment Creation Failed");
-                  // setShowPopup(true);
                   return;
                 }
               });
@@ -104,7 +102,9 @@ function TaskCard(props) {
     exemplar,
     small,
     showSnackbar,
-    setPublishActionCompleted
+    setPublishActionCompleted,
+    onAccept,
+    onDecline
   ) {
     if (exemplar) {
       if (task.status === 'AWAITING_APPROVAL') {
@@ -123,6 +123,8 @@ function TaskCard(props) {
                 <CardContent
                   task={cardContents(task, exemplar)}
                   small={small}
+                  onAccept={onAccept}
+                  onDecline={onDecline}
                 />
               </StyledCard>
             </a>
@@ -142,6 +144,8 @@ function TaskCard(props) {
             task={cardContents(task, exemplar)}
             small={small}
             exemplar={exemplar}
+            onAccept={onAccept}
+            onDecline={onDecline}
           />
         </StyledCard>
       </a>
@@ -254,7 +258,9 @@ function TaskCard(props) {
         exemplar,
         small,
         showSnackbar,
-        setPublishActionCompleted
+        setPublishActionCompleted,
+        onAccept,
+        onDecline
       )}
     </>
   );

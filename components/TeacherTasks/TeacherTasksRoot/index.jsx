@@ -1,6 +1,6 @@
 import React from 'react';
 import { getAssignments, getClasses } from '../../../service';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
 import TeacherTasksLaptop from '../TeacherTasksLaptop';
@@ -22,6 +22,7 @@ export default function TeacherTaskRoot() {
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
+  
 
   React.useEffect(() => {
     Promise.all([getAssignments(), getClasses()]).then(([result, classes]) => {
@@ -34,7 +35,11 @@ export default function TeacherTaskRoot() {
     });
   }, []);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   const drafts = filteredTasks.filter(

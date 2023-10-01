@@ -34,12 +34,14 @@ import {
 } from '../../../service.js';
 import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
 import SnackbarContext from '../../SnackbarContext';
+import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
+import { assignmentsHeaderProps, taskHeaderProps } from '../../../utils/headerProps';
 import {
   ActionButtonsContainer,
   DialogContiner,
@@ -85,6 +87,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -159,7 +162,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }, [submission]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);

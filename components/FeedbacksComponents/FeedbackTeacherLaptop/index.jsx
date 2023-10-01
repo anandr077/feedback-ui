@@ -5,8 +5,8 @@ import { default as React, default as React, useState } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
-import Footer from '../../Footer';
-import FooterSmall from '../../FooterSmall';
+// import Footer from '../../Footer';
+// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
 import { isTabletView } from '../../ReactiveRender';
@@ -93,7 +93,7 @@ function FeedbackTeacherLaptop(props) {
       <div className="feedback-teacher-laptop screen">
         {sharewithclassdialog}
         <Frame1388>
-          {header(tabletView, headerProps)}
+          {/* {header(tabletView, headerProps)} */}
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
             submission,
@@ -120,7 +120,6 @@ function FeedbackTeacherLaptop(props) {
             share,
             smartAnnotations
           )}
-          {footer(tabletView)}
         </Frame1388>
       </div>
     </>
@@ -204,9 +203,6 @@ function createGroupedFocusAreas(submission) {
   return grouped;
 }
 
-function footer(tabletView) {
-  return tabletView ? <FooterSmall /> : <Footer />;
-}
 
 function answersAndFeedbacks(
   submission,
@@ -278,13 +274,6 @@ function answersAndFeedbacks(
   );
 }
 
-function header(tabletView, headerProps) {
-  return tabletView ? (
-    <HeaderSmall headerProps={headerProps} />
-  ) : (
-    <Header headerProps={headerProps} />
-  );
-}
 
 function breadcrumbs(submission) {
   return (

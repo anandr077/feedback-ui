@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
-import HeaderSmall from '../../HeaderSmall';
 import Frame1410 from '../Frame1410';
 import { IbmplexsansBoldShark36px } from '../../../styledMixins';
 import './CompletedTablet.css';
 import CheckboxGroup from '../../CheckboxGroup';
-import FooterSmall from '../../FooterSmall';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 
@@ -27,7 +25,6 @@ function CompletedTablet(props) {
   return (
     <div className="completed-tablet screen">
       <Frame1425>
-        <HeaderSmall headerProps={completedHeaderProps(exemplar)}></HeaderSmall>
         {exemplar && (
           <Frame1315>
             <Breadcrumb text={'Home'} link={'/#'} />
@@ -47,7 +44,6 @@ function CompletedTablet(props) {
           />
         </Frame1413>
       </Frame1425>
-      <FooterSmall></FooterSmall>
     </div>
   );
   function createFilter() {

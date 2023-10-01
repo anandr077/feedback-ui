@@ -7,13 +7,10 @@ import {
   IbmplexsansNormalElectricViolet14px,
 } from '../../../styledMixins';
 import './AccountSettingsMarkingCriteriaLapto.css';
-import Header from '../../Header';
-import Footer from '../../Footer';
 
 function AccountSettingsMarkingCriteriaLapto(props) {
   const {
     line14,
-    headerProps,
     markingCriteriaList,
     smartAnnotationsFrame,
     sidebarNav,
@@ -27,7 +24,6 @@ function AccountSettingsMarkingCriteriaLapto(props) {
   return (
     <div className="account-settings-marking-criteria-laptop screen">
       <Frame1379>
-        <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>{breadCrumbs}</Frame1315>
         </Frame1376>
@@ -91,7 +87,6 @@ function AccountSettingsMarkingCriteriaLapto(props) {
           </Frame13221>
         </Frame1378>
       </Frame1379>
-      <Footer />
     </div>
   );
 }

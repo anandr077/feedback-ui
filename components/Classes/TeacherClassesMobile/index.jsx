@@ -1,7 +1,4 @@
 import React from 'react';
-import { classesHomeHeaderProps } from '../../../utils/headerProps';
-import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
 import DropdownMenu from '../../DropdownMenu';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
 import Frame14072 from '../../TeacherDashboard/Frame14072';
@@ -46,7 +43,6 @@ function TeacherClassesMobile(props) {
   return (
     <div className="teacher-classes-mobile screen">
       <Frame1422>
-        <HeaderSmall headerProps={classesHomeHeaderProps} />
         <Frame1312>
           <Title>{title}</Title>
         </Frame1312>
@@ -96,7 +92,6 @@ function TeacherClassesMobile(props) {
           </Frame1416>
         </Frame14221>
       </Frame1422>
-      <FooterSmall />
     </div>
   );
 }

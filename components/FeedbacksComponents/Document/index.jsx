@@ -122,7 +122,7 @@ function Document(props) {
     <>
       <div className="feedback-teacher-laptop screen">
         <Frame1388>
-          {header(smallScreen, headerProps)}
+          {/* {header(smallScreen, headerProps)} */}
           {breadcrumbs(pageMode, submission)}
           {answersAndFeedbacks(
             isShowSelectType,
@@ -148,7 +148,7 @@ function Document(props) {
             smartAnnotations,
             handleRequestFeedback
           )}
-          {footer(smallScreen)}
+          {/* {footer(smallScreen)} */}
         </Frame1388>
       </div>
       {handleFeedbackMethodTypeDialog(
@@ -214,9 +214,7 @@ const selectTabComments = (showResolved, comments) => {
   });
 };
 
-function footer(smallScreen) {
-  return smallScreen ? <FooterSmall /> : <Footer />;
-}
+
 
 function answersAndFeedbacks(
   isShowSelectType,
@@ -323,13 +321,7 @@ function documentFeedbackFrame(
   );
 }
 
-function header(smallScreen, headerProps) {
-  return smallScreen ? (
-    <HeaderSmall headerProps={headerProps} />
-  ) : (
-    <Header headerProps={headerProps} />
-  );
-}
+
 
 function breadcrumbs(pageMode, submission) {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {

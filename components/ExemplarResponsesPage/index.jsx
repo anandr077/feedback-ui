@@ -5,6 +5,8 @@ import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
 import { useLocation } from 'react-router-dom';
 import Loader from '../Loader';
+import { completedHeaderProps } from '../../utils/headerProps.js';
+import { isSmallScreen } from '../ReactiveRender/index.jsx';
 
 export default function ExemplarResponsesPage(props) {
   const [exemplarResponses, setExemplarResponses] = React.useState([]);
@@ -12,6 +14,7 @@ export default function ExemplarResponsesPage(props) {
   const [id, setId] = React.useState(null);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   const l = useLocation();
   React.useEffect(() => {
@@ -38,7 +41,11 @@ export default function ExemplarResponsesPage(props) {
     }
   }, [publishActionCompleted]);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
   const groups = groupBy(exemplarResponses, (task) =>
     dateOnly(task.reviewedAt)

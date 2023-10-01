@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import TeacherClassesDesktop from '../TeacherClassesDesktop';
 import TeacherClassesLaptop from '../TeacherClassesLaptop';
 import TeacherClassesMobile from '../TeacherClassesMobile';
@@ -15,6 +15,7 @@ import {
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
+
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
@@ -26,6 +27,9 @@ export default function TeacherClassesRoot() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] =
     React.useState([]);
+    const [smallScreenView, setSmallScreenView] = React.useState(
+      isSmallScreen()
+    );
 
   React.useEffect(() => {
     getClasses().then((result) => {
@@ -55,7 +59,11 @@ export default function TeacherClassesRoot() {
   }, [classId]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   const annotationAnalyticsFrame = (

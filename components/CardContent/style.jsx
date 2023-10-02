@@ -1,0 +1,132 @@
+import styled from 'styled-components';
+import {
+  IbmplexsansNormalShark12px,
+  IbmplexsansNormalRiverBed14px,
+  IbmplexsansNormalShark20px,
+} from '../../styledMixins';
+
+export const RemarkText = styled.div`
+  ${IbmplexsansNormalShark12px}
+  // width: 501px;
+  height: 18px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7200e0;
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  margin-top: 10px;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+  align-self: stretch;
+`;
+
+export const TaskTitle = styled.p`
+  ${IbmplexsansNormalShark20px}
+  font-size: 16px;
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+export const Remark = styled.p`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 15px;
+  font-style: italic;
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  font-color: #405059;
+`;
+export const SmallTaskTitle = styled.p`
+  ${IbmplexsansNormalShark20px}
+  font-size: 13px;
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+`;
+export const ClassText = styled.div`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 16px;
+  position: relative;
+  align-self: stretch;
+  letter-spacing: 1.84px;
+  line-height: normal;
+  font-weight: 500;
+`;
+
+export const SmallClassText = styled.div`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 13px;
+  position: relative;
+  align-self: stretch;
+  letter-spacing: 0.11px;
+  line-height: normal;
+`;
+
+export const Frame1282 = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  align-self: stretch;
+`;
+
+export const IconClock = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+`;
+export const SmallIconClock = styled.img`
+  position: relative;
+  min-width: 13px;
+  height: 13px;
+`;
+
+export const DueAt = styled.p`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 14px;
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0.11px;
+  line-height: normal;
+`;
+export const SmallDueAt = styled.p`
+  ${IbmplexsansNormalRiverBed14px}
+  font-size: 13px;
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0.11px;
+  line-height: normal;
+`;
+
+export const AcceptContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+export const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #f5ebfe;
+  margin: 10px 0px;
+`;

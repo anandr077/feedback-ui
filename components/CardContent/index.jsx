@@ -1,11 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
-import {
-  IbmplexsansNormalShark12px,
-  IbmplexsansNormalRiverBed14px,
-  IbmplexsansNormalShark20px,
-} from '../../styledMixins';
 import { formattedDate } from '../../dates';
+import {
+  RemarkText,
+  Content,
+  TaskTitle,
+  Remark,
+  SmallTaskTitle,
+  ClassText,
+  SmallClassText,
+  Frame1282,
+  IconClock,
+  SmallIconClock,
+  DueAt,
+  SmallDueAt,
+  AcceptContainer,
+  Line,
+} from './style';
 
 function CardContent(props) {
   const { task, small, onAccept, onDecline } = props;
@@ -72,12 +82,20 @@ function CardContent(props) {
     );
   }
   function createAcceptDecline() {
-    console.log("onAccept", onAccept)
+    console.log('onAccept', onAccept);
     if (!onAccept) return <></>;
     return (
       <>
-        <ClassText onClick={onAccept}>Accept</ClassText>
-        <ClassText>Decline</ClassText>
+        <Line />
+        <AcceptContainer>
+          <ClassText
+            onClick={onAccept}
+            style={{ cursor: 'pointer', color: '#7200E0' }}
+          >
+            ACCEPT
+          </ClassText>
+          <ClassText style={{ cursor: 'pointer' }}>DECLINE</ClassText>
+        </AcceptContainer>
       </>
     );
   }
@@ -89,7 +107,7 @@ function CardContent(props) {
         {createPara(small, task.para)}
         {createSubtitle(task.subTitle)}
         {createSubPara(task.subPara)}
-        {date(small, task.date)}
+        {!onAccept && date(small, task.date)}
         {createStatus(small, task.status1)}
         {createStatus(small, task.status2)}
         {createAcceptDecline()}
@@ -97,127 +115,5 @@ function CardContent(props) {
     </>
   );
 }
-
-const RemarkText = styled.div`
-  ${IbmplexsansNormalShark12px}
-  // width: 501px;
-  height: 18px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #7200e0;
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
-  margin-top: 10px;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 4px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const TaskTitle = styled.p`
-  ${IbmplexsansNormalShark20px}
-  font-size: 16px;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-const Remark = styled.p`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 15px;
-  font-style: italic;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  font-color: #405059;
-`;
-const SmallTaskTitle = styled.p`
-  ${IbmplexsansNormalShark20px}
-  font-size: 13px;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-const ClassText = styled.div`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 14px;
-  position: relative;
-  align-self: stretch;
-  letter-spacing: 0.11px;
-  line-height: normal;
-`;
-
-const SmallClassText = styled.div`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 13px;
-  position: relative;
-  align-self: stretch;
-  letter-spacing: 0.11px;
-  line-height: normal;
-`;
-
-const ExemplerTitleText = styled.div`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 15px;
-  position: relative;
-  align-self: stretch;
-  letter-spacing: 0.11px;
-  line-height: normal;
-`;
-
-const Frame1282 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const IconClock = styled.img`
-  position: relative;
-  min-width: 16px;
-  height: 16px;
-`;
-const SmallIconClock = styled.img`
-  position: relative;
-  min-width: 13px;
-  height: 13px;
-`;
-
-const DueAt = styled.p`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 14px;
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0.11px;
-  line-height: normal;
-`;
-const SmallDueAt = styled.p`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 13px;
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0.11px;
-  line-height: normal;
-`;
 
 export default CardContent;

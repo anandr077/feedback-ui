@@ -26,6 +26,7 @@ import {
   PortfolioSection,
   SideNavContainer,
 } from './PortfolioStyle';
+import PortfolioHeader from './PortfolioHeader';
 
 const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(
@@ -88,7 +89,7 @@ const PortfolioPage = () => {
     <>
       <PortfolioSection>
         <PortfolioBody>
-          {/* <PortfolioHeader setShowModal={setShowModal} showModal={showModal} /> */}
+          <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />

@@ -130,6 +130,7 @@ const patchApi = async (url, body) => {
     },
   });
 };
+
 const deleteApi = async (url) => {
   const token = localStorage.getItem('jwtToken');
 
@@ -230,6 +231,7 @@ export const updateFeedback = async (submissionId, commentId, comment) =>
 
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
+
 
 export const getSmartAnnotaionAnalyticsByClassId = async (classId) => {
   let smartAnnotationsMap = new Map();
@@ -342,6 +344,8 @@ export const markSubmissionRequestSubmission = async (submissionId) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/requestResubmission'
   );
+export const acceptFeedbackRequest = async (submissionId) =>
+  await patchApi(baseUrl + '/submssions/' + submissionId + '/acceptFeedbackRequest');
 
 export const markSubmsissionClosed = async (submissionId) =>
   await patchApi(baseUrl + '/submissions/' + submissionId + '/closed');

@@ -41,20 +41,6 @@ const PortHeadDropDown = styled.div`
   }
 `;
 
-const SelectStyle = styled.select`
-  min-width: 78px;
-  border-radius: 8px;
-  border: 1px solid #f2e6fe;
-  background-color: white;
-  box-shadow: 0px 2px 2px rgba(48, 27, 114, 0.07);
-  padding: 12px;
-  cursor: pointer;
-
-  @media (max-width: 576px) {
-    flex: 1;
-  }
-`;
-
 const NewDocumentBtn = styled.button`
   background-color: #7200e0;
   color: white;
@@ -79,6 +65,5 @@ export {
   PortfolioHeading,
   PortHeadingLeft,
   NewDocumentBtn,
-  SelectStyle,
   PortHeadDropDown
 };

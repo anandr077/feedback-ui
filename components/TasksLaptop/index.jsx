@@ -19,7 +19,6 @@ function TasksLaptop(props) {
   } = props;
   return (
     <div className="tasks-laptop screen">
-      <Header headerProps={taskHeaderProps} />
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
@@ -67,8 +66,6 @@ function TasksLaptop(props) {
           </Frame1359>
         </Frame1360>
       </Frame1361>
-
-      <Footer />
     </div>
   );
 }

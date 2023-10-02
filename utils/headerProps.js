@@ -9,7 +9,7 @@ const teacherTabs = (first, second, third) => {
       icon: '/icons/homeIconUnselected.png',
       iconSelected: '/icons/homeIconWhite.png',
       selected: first,
-      redirect: '/',
+      redirect: '#/',
     },
     secondButton: {
       text: 'Tasks',
@@ -35,7 +35,7 @@ const studentTabs = (first, second, third) => {
       icon: '/icons/homeIconUnselected.png',
       iconSelected: '/icons/homeIconWhite.png',
       selected: first,
-      redirect: '/',
+      redirect: '#/',
     },
     secondButton: {
       text: 'Tasks',
@@ -66,7 +66,13 @@ export const portfolioHeaderProps = () => {
   return studentTabs(false, false, true);
   
 }
-
+export const documentHeaderProps = (selfDocument) => {
+  console.log("selfDocument ", selfDocument)
+  if (selfDocument) {
+    return studentTabs(false, false, true);
+  }
+  return studentTabs(false, true, false);
+}
 export const completedHeaderProps = (exemplar) => {
   if (exemplar) {
     return isTeacher

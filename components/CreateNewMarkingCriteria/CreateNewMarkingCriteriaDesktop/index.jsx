@@ -8,12 +8,10 @@ import Buttons2 from '../Buttons2';
 import styled from 'styled-components';
 import { IbmplexsansNormalStack20px } from '../../../styledMixins';
 import './CreateNewMarkingCriteriaDesktop.css';
-import Header from '../../Header';
-import Footer from '../../Footer';
+
 
 function CreateNewMarkingCriteriaDesktop(props) {
   const {
-    headerProps,
     criterias,
     addCriteria,
     saveMarkingCriteria,
@@ -26,7 +24,6 @@ function CreateNewMarkingCriteriaDesktop(props) {
   return (
     <div className="account-settings-marking-criteria-create-new-desktop screen">
       <Frame1379>
-        <Header headerProps={headerProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb text="Account Settings" link={'/#/settings'} />
@@ -65,7 +62,6 @@ function CreateNewMarkingCriteriaDesktop(props) {
           />
         </Frame1376>
       </Frame1379>
-      <Footer />
     </div>
   );
 }

@@ -1,6 +1,4 @@
 import React from 'react';
-import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
-import Header from '../../Header';
 import DropdownMenu from '../../DropdownMenu';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
 import Buttons from '../Buttons';
@@ -47,7 +45,6 @@ function TeacherClassesDesktop(props) {
   return (
     <div className="teacher-classes-desktop screen">
       <Frame1422>
-        <Header headerProps={classesHomeHeaderProps}></Header>
         <Frame13121>
           <Title>{title}</Title>
         </Frame13121>
@@ -91,12 +88,12 @@ function TeacherClassesDesktop(props) {
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      <Frame61>
+      {/* <Frame61>
         <X2021JeddleAllRightsReserved>
           {x2021JeddleAllRightsReserved}
         </X2021JeddleAllRightsReserved>
         <Frame6 />
-      </Frame61>
+      </Frame61> */}
     </div>
   );
 }

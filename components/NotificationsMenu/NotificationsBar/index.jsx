@@ -1,12 +1,13 @@
 import React from 'react';
-import Cards from '../Cards';
 import styled from 'styled-components';
-import './NotificationsBar.css';
-import Loader from '../../Loader';
 import TaskCard from '../../TaskCard';
+import Cards from '../Cards';
+import './NotificationsBar.css';
+import { acceptFeedbackRequest, getUserName } from '../../../service';
+
 function NotificationsBar(props) {
   const { notifications, type, onCloseFn, loadingNotifications } = props;
-  if (notifications?.length === 0) {
+  if (!notifications || notifications?.length === 0) {
     return (
       <>
         {type == 'small' ? (
@@ -38,6 +39,15 @@ function NotificationsBar(props) {
   }
 
   const notificationFrames = notifications.map((notification) => {
+    if (notification.type === 'FEEBACK_REQUEST') {
+      return <TaskCard 
+      task={notification} 
+      small={true} 
+      onAccept={()=>acceptFeedbackRequest(notification.submissionId).then(res=>{
+        alert("Done")
+        // window.location.href = `#docuemnts/${notification.submissionId}`
+      })} />;
+    }
     return <TaskCard task={notification} small={true} />;
   });
   return (

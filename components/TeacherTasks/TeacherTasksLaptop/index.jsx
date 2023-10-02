@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { IbmplexsansBoldShark64px } from '../../../styledMixins';
 import { assignmentsHeaderProps } from '../../../utils/headerProps.js';
 import Buttons from '../../Classes/Buttons';
-import Footer from '../../Footer';
-import Header from '../../Header';
 import TaskCardContainer from '../../TaskCardContainer';
 import TaskFrame1353 from '../../TaskFrame1353';
 import './TeacherTasksLaptop.css';
@@ -22,7 +20,6 @@ function TeacherTasksLaptop(props) {
   } = props;
   return (
     <div className="tasks-laptop screen">
-      <Header headerProps={assignmentsHeaderProps} />
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
@@ -70,7 +67,6 @@ function TeacherTasksLaptop(props) {
           </Frame1359>
         </Frame1360>
       </Frame1361>
-      <Footer />
     </div>
   );
 }

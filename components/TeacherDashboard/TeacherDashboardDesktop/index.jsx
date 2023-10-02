@@ -10,8 +10,6 @@ import {
 } from '../styledMixins';
 import './TeacherDashboardDesktop.css';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
-import Header from '../../Header';
-import Footer from '../../Footer';
 import TaskCard from '../../TaskCard';
 import { timeFirstFormattedDate } from '../../../dates';
 import { getUserName } from '../../../service';
@@ -37,7 +35,6 @@ function TeacherDashboardDesktop(props) {
     <div className="teacher-dashboard-desktp screen">
       <Frame1419>
         <Frame1418>
-          <Header headerProps={teacherHomeHeaderProps} />
           <Frame13121>
             <Frame1342>
               <Frame1341>
@@ -96,7 +93,6 @@ function TeacherDashboardDesktop(props) {
           </Frame1416>
         </Frame1417>
       </Frame1419>
-      <Footer />
     </div>
   );
 }

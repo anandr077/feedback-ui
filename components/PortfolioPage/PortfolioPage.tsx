@@ -1,47 +1,47 @@
-import { default as React,  useEffect, useReducer, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import {
+  getPortfolio,
   addDocumentToPortfolioWithDetails,
   deleteSubmissionById,
-  getPortfolio,
 } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
-
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
+import PortfolioHeader from './PortfolioHeader';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
+  initailState,
+  reducer,
   addFile,
   getDocuments,
-  initailState,
-  reducer
 } from './portfolioReducer';
-
-import { isSmallScreen } from '../ReactiveRender';
 import {
-  DocumentMainSection,
   PortfolioBody,
   PortfolioContainer,
-  PortfolioSection,
   SideNavContainer,
+  DocumentMainSection,
+  PortfolioSection,
 } from './PortfolioStyle';
+import { isSmallScreen } from '../ReactiveRender';
 
-const PortfolioPage = () => {
-  const [smallScreenView, setSmallScreenView] = React.useState(
-    isSmallScreen()
-  );
+export const PortfolioPage = () => {
+  const smallScreen = isSmallScreen();
+
   const [state, dispatch] = useReducer(reducer, initailState);
 
   const [showModal, setShowModal] = useState(false);
 
-  const { isLoading, isError, data, error } = useQuery({
-    queryKey: ['portfolio'],
-    queryFn: async () => {
-      const data = await getPortfolio();
+
+  const { isLoading, isError, data, error } = useQuery('portfolio', getPortfolio, {
+    staleTime: 1000 * 60 * 1,
+    onSuccess: (data) => {
       dispatch({ type: 'setPortfolio', payload: data });
-    },
+    }
   });
+  
+  const queryClient = useQueryClient();
 
   const addDocumentMutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
@@ -56,7 +56,6 @@ const PortfolioPage = () => {
       },
     }
   );
-  
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
@@ -88,14 +87,14 @@ const PortfolioPage = () => {
     <>
       <PortfolioSection>
         <PortfolioBody>
-          {/* <PortfolioHeader setShowModal={setShowModal} showModal={showModal} /> */}
+          <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
             </SideNavContainer>
             <DocumentMainSection>
               <RecentWorkContainer
-                smallScreen={smallScreenView}
+                smallScreen={smallScreen}
                 state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}
@@ -119,5 +118,3 @@ const PortfolioPage = () => {
     </>
   );
 };
-
-export default PortfolioPage;

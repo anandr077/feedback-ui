@@ -27,12 +27,14 @@ import {
   getSmartAnnotations,
   saveAnswer,
 } from '../../../service.js';
-import { portfolioHeaderProps } from '../../../utils/headerProps';
+import { documentHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
 import { portfolioHeaderProps } from '../../../utils/headerProps';
+import Header from '../../Header';
+import HeaderSmall from '../../HeaderSmall';
 
 export default function DocumentRoot({}) {
   const quillRefs = useRef([]);
@@ -55,6 +57,9 @@ export default function DocumentRoot({}) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
+   const [smallScreenView, setSmallScreenView] = React.useState(
+     isSmallScreen()
+   );
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
@@ -72,11 +77,19 @@ export default function DocumentRoot({}) {
   }, [id]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   const pageMode = getPortfolioPageMode(getUserId(), submission);
-
+  
+  const headerProps = documentHeaderProps(
+    pageMode === 'DRAFT' || pageMode === 'REVISE'
+  );
+  console.log("headerProps", headerProps)
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {
@@ -510,7 +523,7 @@ export default function DocumentRoot({}) {
     // get assignment by student name or other way
   };
   const onSelectionChange =
-    pageMode === 'REVIEW' ? reviewerSelectionChange : (a, b)=>() => {};
+    pageMode === 'REVIEW' ? reviewerSelectionChange : (a, b) => () => {};
 
   const downloadPDF = () => {
     const doc = new jsPDF({
@@ -635,6 +648,12 @@ export default function DocumentRoot({}) {
     if (submission.feedbackRequestType === 'P2P') {
       return 'your peer.';
     }
+    if (submission.feedbackRequestType === null) {
+      return 'your peer.';
+    }
+    if (submission.feedbackRequestType === undefined) {
+      return 'your peer.';
+    }
     return submission.studentName;
   }
   function getFeedbackProvidedBy() {
@@ -706,7 +725,7 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: portfolioHeaderProps,
+              headerProps: headerProps,
             }}
           />
         }
@@ -728,7 +747,7 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: portfolioHeaderProps(),
+              headerProps: headerProps,
             }}
           />
         }
@@ -751,7 +770,7 @@ export default function DocumentRoot({}) {
                 submission,
                 setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
-                headerProps: portfolioHeaderProps(),
+                headerProps: headerProps,
               }}
             />
           </>
@@ -773,7 +792,7 @@ export default function DocumentRoot({}) {
               studentName,
               submission,
               setSubmission,
-              headerProps: (portfolioHeaderProps),
+              headerProps: headerProps,
             }}
           />
         }

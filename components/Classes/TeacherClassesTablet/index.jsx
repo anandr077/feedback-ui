@@ -1,13 +1,9 @@
 import React from 'react';
-import { classesHomeHeaderProps } from '../../../utils/headerProps';
-import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
 import Buttons from '../Buttons';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesTablet.css';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import DropdownMenu from '../../DropdownMenu';
-import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
 import Frame14072 from '../../TeacherDashboard/Frame14072';
 import Frame12842 from '../../TeacherDashboard/Frame12842';
 import DropdownMenu from '../../DropdownMenu';
@@ -49,7 +45,6 @@ function TeacherClassesTablet(props) {
   return (
     <div className="teacher-classes-tablet screen">
       <Frame1422>
-        <HeaderSmall headerProps={classesHomeHeaderProps}></HeaderSmall>
         <Frame1312>
           <Title>{title}</Title>
         </Frame1312>
@@ -100,7 +95,6 @@ function TeacherClassesTablet(props) {
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      <FooterSmall />
     </div>
   );
 }

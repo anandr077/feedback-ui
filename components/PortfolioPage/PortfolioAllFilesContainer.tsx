@@ -19,7 +19,7 @@ import {
 } from './PortfolioAllFilesStyle';
 import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 
-const PortfolioAllFilesContainer = ({ allFiles }) => {
+const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
   return (
     <AllFilesContainer>
       <AllFileTitle>All files</AllFileTitle>
@@ -57,7 +57,7 @@ const PortfolioAllFilesContainer = ({ allFiles }) => {
                   <DocBtnText>Download</DocBtnText>
                   <span>Download</span>
                 </DocBtn>
-                <DocBtn>
+                <DocBtn onClick={() => handleDeleteDocument(document)}>
                   <DocBtnImg src={deleteImg} alt="Delete Button" />
                   <DocBtnText>Delete</DocBtnText>
                   <span>Delete</span>

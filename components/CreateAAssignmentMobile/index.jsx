@@ -3,9 +3,7 @@ import { taskHeaderProps } from '../../utils/headerProps.js';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
-import FooterSmall from '../FooterSmall';
 import GoBack from '../GoBack';
-import HeaderSmall from '../HeaderSmall';
 import './CreateAAssignmentMobile.css';
 import {
   TitleContainer,
@@ -107,7 +105,6 @@ function CreateAAssignmentMobile(props) {
   return (
     <div className="create-a-assignment-mobile screen">
       <Frame1379>
-        <HeaderSmall headerProps={taskHeaderProps} />
         <Frame1376>
           <Frame1315>
             <Breadcrumb text="Task" link="/#/tasks" />
@@ -185,7 +182,6 @@ function CreateAAssignmentMobile(props) {
         </Frame1378>
         <GoBack className={goBackProps.className} />
       </Frame1379>
-      <FooterSmall />
     </div>
   );
 }

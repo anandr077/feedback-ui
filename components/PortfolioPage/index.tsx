@@ -1,7 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
-import { portfolioHeaderProps } from '../../utils/headerProps';
-import ResponsiveHeader from '../ResponsiveHeader';
 import RecentWorkContainer from './RecentWorkContainer';
 import { useHistory } from 'react-router-dom';
 
@@ -28,6 +26,7 @@ import {
 } from './PortfolioStyle';
 import { isSmallScreen } from '../ReactiveRender';
 import ResponsiveFooter from '../ResponsiveFooter';
+import jsPDF from 'jspdf';
 
 const PortfolioPage = () => {
   const smallScreen = isSmallScreen();
@@ -47,7 +46,7 @@ const PortfolioPage = () => {
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
-      window.location.href=`#documents/${data.id}`
+      window.location.href = `#documents/${data.id}`;
     },
   });
   if (isLoading || mutation.isLoading || !state.portfolio) {
@@ -72,10 +71,6 @@ const PortfolioPage = () => {
 
   return (
     <>
-      <ResponsiveHeader
-        smallScreen={smallScreen}
-        headerProps={portfolioHeaderProps()}
-      ></ResponsiveHeader>
       <PortfolioSection>
         <PortfolioBody>
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
@@ -95,8 +90,6 @@ const PortfolioPage = () => {
           </PortfolioContainer>
         </PortfolioBody>
       </PortfolioSection>
-
-      <ResponsiveFooter smallScreen={smallScreen} />
 
       {showModal && (
         <PortfolioDocModal

@@ -1,4 +1,4 @@
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import TaskDetailMobile from '../TaskDetailMobile';
 import TaskDetailTablet from '../TaskDetailTablet';
 import TaskDetailLaptop from '../TaskDetailLaptop';
@@ -13,12 +13,16 @@ import { default as React, useEffect, useState } from 'react';
 import { taskHeaderProps } from '../../../utils/headerProps.js';
 import Loader from '../../Loader';
 
+
 export default function TaskDetail() {
   const { assignmentId } = useParams();
 
   const [assignment, setAssigment] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [clazzName, setClazzName] = useState(null);
+   const [smallScreenView, setSmallScreenView] =useState(
+     isSmallScreen()
+   );
 
   useEffect(() => {
     Promise.all([getAssignmentById(assignmentId), getClasses()]).then(
@@ -32,7 +36,11 @@ export default function TaskDetail() {
     );
   }, []);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   const methods = {

@@ -34,12 +34,14 @@ import {
 } from '../../../service.js';
 import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
 import SnackbarContext from '../../SnackbarContext';
+import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
+import { assignmentsHeaderProps, taskHeaderProps } from '../../../utils/headerProps';
 import {
   ActionButtonsContainer,
   DialogContiner,
@@ -47,6 +49,7 @@ import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData,
 } from './style';
+import { downloadTaskPdf } from '../../Shared/helper/downloadPdf';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -84,6 +87,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -158,7 +162,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }, [submission]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
@@ -877,104 +885,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const downloadPDF = () => {
-    const doc = new jsPDF({
-      orientation: 'p',
-      unit: 'mm',
-      format: 'a4',
-      margin: {
-        top: 0,
-        bottom: 10,
-        left: 0,
-        right: 0,
-      },
-    });
-
-    const totalpdf = document.createElement('div');
-
-    const title = document.createElement('div');
-    title.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-    title.style.color = '#25222a';
-    title.style.fontSize = '24px';
-    title.style.fontWeight = '700';
-    title.style.textAlign = 'flex-start';
-    title.style.marginBottom = '50px';
-    title.textContent = submission.assignment.title;
-    totalpdf.appendChild(title);
-
-    const assignmentQuestions = new Array(
-      submission.assignment.questions.length + 1
-    );
-    const assignmentAnswers = new Array(
-      submission.assignment.questions.length + 1
-    );
-    submission.assignment.questions.map((question) => {
-      assignmentQuestions[question.serialNumber] = question.question;
-      if (question.type === 'MCQ') {
-        const options = document.createElement('div');
-        question.options.map((option) => {
-          const optiondiv = document.createElement('div');
-          optiondiv.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-          optiondiv.style.fontSize = option.isCorrect ? '25px' : '20px';
-          optiondiv.style.fontWeight = option.isCorrect ? 'bold' : 'normal';
-          optiondiv.style.color = option.isCorrect ? 'green' : 'black';
-
-          optiondiv.style.marginBottom = '10px';
-          optiondiv.textContent = option.option;
-          options.appendChild(optiondiv);
-        });
-        assignmentAnswers[question.serialNumber] = options;
-      }
-    });
-
-    submission.answers.map((answer) => {
-      const parser = new DOMParser();
-      const htmlContent = answer.answer.answer;
-      const parsedContent = parser.parseFromString(htmlContent, 'text/html')
-        .body.textContent;
-      if (answer.answer.answer) {
-        assignmentAnswers[answer.serialNumber] = parsedContent;
-      }
-    });
-    for (let i = 1; i < assignmentQuestions.length; i++) {
-      const question = document.createElement('div');
-      question.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-      question.style.color = '#301b72';
-      question.style.fontSize = '20px';
-      question.style.fontWeight = '500';
-      question.style.fontStyle = 'normal';
-      question.style.lineHeight = '26px';
-      question.style.marginBottom = '10px';
-      question.textContent = i + '. ' + assignmentQuestions[i];
-      totalpdf.appendChild(question);
-
-      const answer = document.createElement('div');
-      answer.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-      answer.style.border = '1px solid #7200e0';
-      answer.style.borderRadius = '20px';
-      answer.style.padding = '10px';
-      answer.style.fontWeight = '400';
-      answer.style.fontSize = '16px';
-      answer.style.marginBottom = '40px';
-      answer.style.lineHeight = '26px';
-      if (assignmentAnswers[i] instanceof HTMLElement) {
-        answer.appendChild(assignmentAnswers[i]);
-      } else {
-        answer.textContent = assignmentAnswers[i];
-      }
-      totalpdf.appendChild(answer);
-    }
-    const options = {
-      callback: function (doc) {
-        doc.save(`${submission.assignment.title}.pdf`);
-      },
-      x: 0,
-      y: 0,
-      width: 170,
-      windowWidth: 1180,
-      margin: 20, // Set a single margin value for all sides
-      autoSize: true, // Automatically adjust content to fit within the available space
-    };
-    doc.html(totalpdf, options);
+    downloadTaskPdf(submission);
   };
 
   function submissionStatusLabel() {
@@ -1138,11 +1049,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   return (
     <>
-      {showSubmitPopup && (
-        submitPopup(
-          pageMode, hideSubmitPopup, popupText, submissionFunction)
-
-      )}
+      {showSubmitPopup &&
+        submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
 
       <ReactiveRender
         mobile={
@@ -1268,22 +1176,24 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 }
 function submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction) {
-  let warningMessage = undefined
-  let confirmationMessage = undefined
-  let buttonText = 'Submit'
+  let warningMessage = undefined;
+  let confirmationMessage = undefined;
+  let buttonText = 'Submit';
 
   if (pageMode === 'DRAFT') {
-    warningMessage = "You will not be able to edit your work after submission."
-    confirmationMessage = "Are you sure you want to submit this task?"
-    buttonText = 'Acknowledge and Submit'
+    warningMessage = 'You will not be able to edit your work after submission.';
+    confirmationMessage = 'Are you sure you want to submit this task?';
+    buttonText = 'Acknowledge and Submit';
   }
-  return <GeneralPopup
-    hidePopup={hideSubmitPopup}
-    title="Submit Task"
-    textContent={popupText}
-    buttonText={buttonText}
-    confirmButtonAction={submissionFunction()}
-    warningMessage={warningMessage}
-    confirmationMessage={confirmationMessage} />;
+  return (
+    <GeneralPopup
+      hidePopup={hideSubmitPopup}
+      title="Submit Task"
+      textContent={popupText}
+      buttonText={buttonText}
+      confirmButtonAction={submissionFunction()}
+      warningMessage={warningMessage}
+      confirmationMessage={confirmationMessage}
+    />
+  );
 }
-

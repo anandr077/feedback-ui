@@ -43,12 +43,25 @@ export const PortfolioPage = () => {
   
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(addDocumentToPortfolioWithDetails, {
+  const addDocumentMutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
       window.location.href = `#documents/${data.id}`;
     },
   });
-  if (isLoading || mutation.isLoading || !state.portfolio) {
+  const deleteDocumentMutation = useMutation(
+    (document) => deleteSubmissionById(document.documentId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('portfolio');
+      },
+    }
+  );
+  if (
+    isLoading ||
+    addDocumentMutation.isLoading ||
+    !state.portfolio ||
+    deleteDocumentMutation.isLoading
+  ) {
     return <Loader />;
   }
 
@@ -64,14 +77,11 @@ export const PortfolioPage = () => {
       state.activeMainIndex,
       state.activeSubFolderIndex,
       docName,
-      mutation
+      addDocumentMutation
     );
   };
-  const handleDeleteDocument = (docName) => {
-    deleteSubmissionById(docName.documentId).then((res) => {
-      console.log('result: ', res);
-      queryClient.invalidateQueries('portfolio');
-    });
+  const handleDeleteDocument = (document) => {
+    deleteDocumentMutation.mutate(document);
   };
   return (
     <>

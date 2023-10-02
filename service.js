@@ -347,7 +347,9 @@ export const markSubmissionRequestSubmission = async (submissionId) =>
     baseUrl + '/submissions/' + submissionId + '/requestResubmission'
   );
 export const acceptFeedbackRequest = async (submissionId) =>
-  await patchApi(baseUrl + '/submssions/' + submissionId + '/acceptFeedbackRequest');
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/acceptFeedbackRequest'
+    );
 
 export const markSubmsissionClosed = async (submissionId) =>
   await patchApi(baseUrl + '/submissions/' + submissionId + '/closed');

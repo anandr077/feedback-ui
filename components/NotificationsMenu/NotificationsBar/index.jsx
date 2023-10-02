@@ -43,9 +43,9 @@ function NotificationsBar(props) {
       return <TaskCard 
       task={notification} 
       small={true} 
-      onAccept={()=>acceptFeedbackRequest(notification.submissionId).then(res=>{
-        alert("Done")
-        // window.location.href = `#docuemnts/${notification.submissionId}`
+      onAccept={()=>acceptFeedbackRequest(notification.submissionId)
+        .then(res=>{
+        window.location.href = `#documents/${notification.submissionId}`
       })} />;
     }
     return <TaskCard task={notification} small={true} />;

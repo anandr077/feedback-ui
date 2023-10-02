@@ -15,6 +15,8 @@ import {
   SmallDueAt,
   AcceptContainer,
   Line,
+  DeclineText,
+  AcceptText,
 } from './style';
 
 function CardContent(props) {
@@ -88,13 +90,8 @@ function CardContent(props) {
       <>
         <Line />
         <AcceptContainer>
-          <ClassText
-            onClick={onAccept}
-            style={{ cursor: 'pointer', color: '#7200E0' }}
-          >
-            ACCEPT
-          </ClassText>
-          <ClassText style={{ cursor: 'pointer' }}>DECLINE</ClassText>
+          <AcceptText onClick={onAccept}>ACCEPT</AcceptText>
+          <DeclineText>DECLINE</DeclineText>
         </AcceptContainer>
       </>
     );

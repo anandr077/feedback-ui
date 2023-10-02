@@ -616,6 +616,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionReviewed() {
+    queryClient.invalidateQueries(['notifications']);
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -693,6 +694,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleRequestResubmission() {
+    queryClient.invalidateQueries(['notifications']);
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -730,6 +732,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const handleSaveSubmissionForReview = () => {
+    queryClient.invalidateQueries(['notifications']);
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -759,6 +762,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionClosed() {
+    queryClient.invalidateQueries(['notifications']);
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -1004,9 +1008,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowSubmitPopup(false);
   };
   const showSubmitPopuphandler = (method) => {
-    queryClient.invalidateQueries(['notifications']);
     setShowSubmitPopup(true);
-
     setMethodToCall(method);
     if (method === 'SubmitForReview') {
       setPopupText('Are you sure you want to submit this task for review?');

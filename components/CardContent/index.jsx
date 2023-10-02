@@ -8,18 +8,7 @@ import {
 import { formattedDate } from '../../dates';
 
 function CardContent(props) {
-  const { task, small, exempler } = props;
-
-  const sampleTask = {
-    title: 'Fundamentals of thermal physics',
-    para: 'Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna...',
-    subTitle: "Teacher's Comment",
-    subPara:
-      'Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.',
-    date: '2 April 2023',
-    status1: 'Submissions: 20 of 40',
-    status2: 'Reviewed: 10 of 20',
-  };
+  const { task, small, onAccept, onDecline } = props;
 
   function createTitle(small, title) {
     if (!title) return <></>;
@@ -82,6 +71,16 @@ function CardContent(props) {
       <ClassText>{status}</ClassText>
     );
   }
+  function createAcceptDecline() {
+    console.log("onAccept", onAccept)
+    if (!onAccept) return <></>;
+    return (
+      <>
+        <ClassText onClick={onAccept}>Accept</ClassText>
+        <ClassText>Decline</ClassText>
+      </>
+    );
+  }
 
   return (
     <>
@@ -93,6 +92,7 @@ function CardContent(props) {
         {date(small, task.date)}
         {createStatus(small, task.status1)}
         {createStatus(small, task.status2)}
+        {createAcceptDecline()}
       </Content>
     </>
   );

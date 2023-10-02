@@ -67,6 +67,7 @@ export const portfolioHeaderProps = () => {
   
 }
 export const documentHeaderProps = (selfDocument) => {
+  console.log("selfDocument ", selfDocument)
   if (selfDocument) {
     return studentTabs(false, false, true);
   }

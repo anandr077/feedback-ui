@@ -1,36 +1,33 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { getPortfolio, addDocumentToPortfolioWithDetails } from '../../service';
+import React, { useReducer, useState } from 'react';
+import { addDocumentToPortfolioWithDetails, getPortfolio } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
-import { useHistory } from 'react-router-dom';
 
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
 import PortfolioHeader from './PortfolioHeader';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
-  initailState,
-  reducer,
   addFile,
   getDocuments,
-  getSubFolder,
+  initailState,
+  reducer
 } from './portfolioReducer';
 
+import { isSmallScreen } from '../ReactiveRender';
 import {
+  DocumentMainSection,
   PortfolioBody,
   PortfolioContainer,
-  SideNavContainer,
-  DocumentMainSection,
   PortfolioSection,
+  SideNavContainer,
 } from './PortfolioStyle';
-import { isSmallScreen } from '../ReactiveRender';
-import ResponsiveFooter from '../ResponsiveFooter';
-import jsPDF from 'jspdf';
 
 const PortfolioPage = () => {
-  const smallScreen = isSmallScreen();
-
+  const [smallScreenView, setSmallScreenView] = React.useState(
+    isSmallScreen()
+  );
   const [state, dispatch] = useReducer(reducer, initailState);
 
   const [showModal, setShowModal] = useState(false);
@@ -42,7 +39,6 @@ const PortfolioPage = () => {
       dispatch({ type: 'setPortfolio', payload: data });
     },
   });
-  const queryClient = useQueryClient();
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
@@ -73,14 +69,14 @@ const PortfolioPage = () => {
     <>
       <PortfolioSection>
         <PortfolioBody>
-          <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
+          {/* <PortfolioHeader setShowModal={setShowModal} showModal={showModal} /> */}
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
             </SideNavContainer>
             <DocumentMainSection>
               <RecentWorkContainer
-                smallScreen={smallScreen}
+                smallScreen={smallScreenView}
                 state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}

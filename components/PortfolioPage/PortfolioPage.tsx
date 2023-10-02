@@ -1,11 +1,10 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import {
   getPortfolio,
   addDocumentToPortfolioWithDetails,
   deleteSubmissionById,
 } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
-
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
@@ -18,7 +17,6 @@ import {
   addFile,
   getDocuments,
 } from './portfolioReducer';
-
 import {
   PortfolioBody,
   PortfolioContainer,
@@ -28,7 +26,7 @@ import {
 } from './PortfolioStyle';
 import { isSmallScreen } from '../ReactiveRender';
 
-const PortfolioPage = () => {
+export const PortfolioPage = () => {
   const smallScreen = isSmallScreen();
 
   const [state, dispatch] = useReducer(reducer, initailState);
@@ -44,41 +42,12 @@ const PortfolioPage = () => {
   });
   const queryClient = useQueryClient();
 
-  const addDocumentMutation = useMutation(addDocumentToPortfolioWithDetails, {
+  const mutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
       window.location.href = `#documents/${data.id}`;
     },
   });
-  const deleteDocumentMutation = useMutation(
-    (document) => deleteSubmissionById(document.documentId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('portfolio');
-      },
-    }
-  );
-  useEffect(() => {
-    if (
-      isLoading ||
-      addDocumentMutation.isLoading ||
-      !state.portfolio ||
-      deleteDocumentMutation.isLoading
-    ) {
-      return;
-    }
-  }, [
-    isLoading,
-    addDocumentMutation.isLoading,
-    state.portfolio,
-    deleteDocumentMutation.isLoading,
-  ]);
-
-  if (
-    isLoading ||
-    addDocumentMutation.isLoading ||
-    !state.portfolio ||
-    deleteDocumentMutation.isLoading
-  ) {
+  if (isLoading || mutation.isLoading || !state.portfolio) {
     return <Loader />;
   }
 
@@ -94,11 +63,14 @@ const PortfolioPage = () => {
       state.activeMainIndex,
       state.activeSubFolderIndex,
       docName,
-      addDocumentMutation
+      mutation
     );
   };
-  const handleDeleteDocument = (document) => {
-    deleteDocumentMutation.mutate(document);
+  const handleDeleteDocument = (docName) => {
+    deleteSubmissionById(docName.documentId).then((res) => {
+      console.log('result: ', res);
+      queryClient.invalidateQueries('portfolio');
+    });
   };
   return (
     <>
@@ -135,5 +107,3 @@ const PortfolioPage = () => {
     </>
   );
 };
-
-export default PortfolioPage;

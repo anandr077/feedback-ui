@@ -85,10 +85,11 @@ export default function DocumentRoot({}) {
   }
 
   const pageMode = getPortfolioPageMode(getUserId(), submission);
+  
   const headerProps = documentHeaderProps(
     pageMode === 'DRAFT' || pageMode === 'REVISE'
   );
-
+  console.log("headerProps", headerProps)
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {

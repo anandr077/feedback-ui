@@ -40,8 +40,17 @@ import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
 import SnackbarContext from '../../SnackbarContext';
-import { ActionButtonsContainer, DialogContiner, StyledTextField, feedbacksFeedbackTeacherLaptopData, feedbacksFeedbackTeacherMobileData } from './style';
-import { assignmentsHeaderProps, taskHeaderProps } from '../../../utils/headerProps';
+import {
+  ActionButtonsContainer,
+  DialogContiner,
+  StyledTextField,
+  feedbacksFeedbackTeacherLaptopData,
+  feedbacksFeedbackTeacherMobileData,
+} from './style';
+import {
+  assignmentsHeaderProps,
+  taskHeaderProps,
+} from '../../../utils/headerProps';
 import {
   ActionButtonsContainer,
   DialogContiner,
@@ -50,6 +59,7 @@ import {
   feedbacksFeedbackTeacherMobileData,
 } from './style';
 import { downloadTaskPdf } from '../../Shared/helper/downloadPdf';
+import { useQueryClient } from 'react-query';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -58,6 +68,7 @@ const MARKING_METHODOLOGY_TYPE = {
 const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
+  const queryClient = useQueryClient();
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
@@ -605,6 +616,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionReviewed() {
+    
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -661,6 +673,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
+      queryClient.invalidateQueries(['notifications']);
       showSnackbar('Task reviewed...', window.location.href);
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
@@ -700,8 +713,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             replies: [],
             markingCriteria: markingCriteriaRequest,
           }).then((response) => {
-            if (response) {
-            }
+            queryClient.invalidateQueries(['notifications']);
+            showSnackbar('Resubmission requested...', window.location.href);
+            window.location.href = '/#';
+            setShowLoader(false);
           });
         }
       });
@@ -719,6 +734,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const handleSaveSubmissionForReview = () => {
+    
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -730,6 +746,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
+        queryClient.invalidateQueries(['notifications']);
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -758,6 +775,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     showSnackbar('Submitting task...');
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
+        queryClient.invalidateQueries(['notifications']);
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);

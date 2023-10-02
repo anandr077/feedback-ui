@@ -1,23 +1,21 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import {
-  IbmplexsansNormalShark20px,
   IbmplexsansMediumElectricViolet20px,
   IbmplexsansMediumWhite16px,
+  IbmplexsansNormalShark20px,
   IbmplexsansSemiBoldShark20px,
 } from '../../styledMixins';
 import CardContent from '../CardContent';
-import { useRef, useEffect } from 'react';
 import SnackbarContext from '../SnackbarContext';
 
-import StatusBubbleContainer from '../StatusBubblesContainer';
 import {
   denyModelResponse,
-  publishModelResponse,
-  getUserRole,
   getUserId,
+  getUserRole,
+  publishModelResponse,
 } from '../../service';
-import { set } from 'lodash';
+import StatusBubbleContainer from '../StatusBubblesContainer';
 
 function TaskCard(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -32,6 +30,8 @@ function TaskCard(props) {
     setPublishActionCompleted,
     showDeletePopuphandler,
     showDateExtendPopuphandler,
+    onAccept,
+    onDecline,
   } = props;
 
   const role = getUserRole();
@@ -67,8 +67,6 @@ function TaskCard(props) {
                   res.link
                 );
               } else {
-// setPopupMessage("Assignment Creation Failed");
-                // setShowPopup(true);
                 return;
               }
             });
@@ -84,8 +82,6 @@ function TaskCard(props) {
                   setPublishActionCompleted(true);
                   showSnackbar('Response shared with your class', res.link);
                 } else {
-                  // setPopupMessage("Assignment Creation Failed");
-                  // setShowPopup(true);
                   return;
                 }
               });
@@ -104,7 +100,9 @@ function TaskCard(props) {
     exemplar,
     small,
     showSnackbar,
-    setPublishActionCompleted
+    setPublishActionCompleted,
+    onAccept,
+    onDecline
   ) {
     if (exemplar) {
       if (task.status === 'AWAITING_APPROVAL') {
@@ -118,14 +116,7 @@ function TaskCard(props) {
             <TaskTitleBold>
               {task.submissionDetails?.assignment?.title}
             </TaskTitleBold>
-            <a href={task.link}>
-              <StyledCard>
-                <CardContent
-                  task={cardContents(task, exemplar)}
-                  small={small}
-                />
-              </StyledCard>
-            </a>
+            {styledCardWithLink()}
             <TaskTitle>
               Are you happy to share this with your {task?.classTitle}?
             </TaskTitle>
@@ -134,27 +125,35 @@ function TaskCard(props) {
         );
       }
     }
+    return styledCardWithLink();
+    
+  }
+  function styledCardWithLink() {
+    console.log('onAccept', onAccept)
+    if (onAccept) {
+      return styledCard();
+    }
+    return <a href={task.link}>{styledCard()}</a>;
+  }
+  function styledCard() {
     return (
-      <a href={task.link}>
-        <StyledCard ref={refContainer} isSelected={isSelected}>
-          {exemplar ? tagsFrameExempler(task) : tagsFrame(task)}
-          <CardContent
-            task={cardContents(task, exemplar)}
-            small={small}
-            exemplar={exemplar}
-          />
-        </StyledCard>
-      </a>
+      <StyledCard ref={refContainer} isSelected={isSelected}>
+        {exemplar ? tagsFrameExempler(task) : tagsFrame(task)}
+        <CardContent
+          task={cardContents(task, exemplar)}
+          small={small}
+          exemplar={exemplar}
+          onAccept={onAccept}
+          onDecline={onDecline}
+        />
+      </StyledCard>
     );
   }
-
   function cardContents(task, exemplar, acceptExemplar) {
     if (!exemplar) {
       return {
         title: task.classTitle,
         para: task.title,
-        // subTitle:"Teacher's Comment",
-        // subPara:"Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.",
         date: task.dueAt,
         status1: task.submissionCount
           ? `Submissions: ${task.submissionCount} of ${task.expectedSubmissions}`
@@ -170,9 +169,6 @@ function TaskCard(props) {
       subTitle: "Teacher's Comment",
       subPara: task.comment,
       assignmentName: task.submissionDetails?.assignment?.title,
-      // date:formattedDate(task.dueAt),
-      // status1:"Submissions: 20 of 40",
-      // status2:"Reviewed: 10 of 20",
     };
   }
 
@@ -254,7 +250,9 @@ function TaskCard(props) {
         exemplar,
         small,
         showSnackbar,
-        setPublishActionCompleted
+        setPublishActionCompleted,
+        onAccept,
+        onDecline
       )}
     </>
   );

@@ -1,32 +1,68 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import downLoadImg from '../../static/icons/document-download@2x.png';
 import previewImg from '../../static/icons/preview@2x.png';
 import deleteImg from '../../static/icons/trash-can@2x.png';
 
+import DropdownMenu from '../DropdownMenu';
 import {
-  DocumentBox,
-  DocumentBoxWrapper,
-  DocumentTextFrame,
-  DocumentTitle,
-  AllFilesContainer,
   AllFileTitle,
-  DocumentBtns,
+  AllFilesContainer,
+  AllFilesHeader,
   DocBtn,
   DocBtnImg,
   DocBtnText,
+  DocumentBox,
+  DocumentBoxWrapper,
+  DocumentBtns,
+  DocumentTextFrame,
+  DocumentTitle,
   NoFileDiv,
   documentStatusStyle,
 } from './PortfolioAllFilesStyle';
+
 import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 
-const PortfolioAllFilesContainer = ({ allFiles }) => {
+const sortReducer = (state, action) => {
+  switch (action.type) {
+    case 'A - Z':
+      return [...state].sort((a, b) => a.title.localeCompare(b.title));
+    case 'Z - A':
+      return [...state].sort((a, b) => b.title.localeCompare(a.title));
+    case 'New to old':
+        return [...state].sort((a, b) => new Date(b.viewedAt) - new Date(a.viewedAt));
+    case 'Old to new':
+        return [...state].sort((a, b) => new Date(a.viewedAt) - new Date(b.viewedAt));    
+    default:
+      return state;
+  }
+};
+const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
+  console.log("allFiles", allFiles)
+  const [sortedFiles, dispatch] = useReducer(sortReducer, allFiles);
+  const sortOptions = [
+    { title: 'A - Z' },
+    { title: 'Z - A' },
+    { title: 'New to old' },
+    { title: 'Old to new' },
+  ];
+
+  const getSelectedItem = (option) => {
+    dispatch({ type: option.title });
+  };
   return (
     <AllFilesContainer>
-      <AllFileTitle>All files</AllFileTitle>
+      <AllFilesHeader>
+        <AllFileTitle>All files</AllFileTitle>
+        <DropdownMenu
+          menuItems={sortOptions}
+          defaultSearch={false}
+          getSelectedItem={getSelectedItem}
+        ></DropdownMenu>
+      </AllFilesHeader>
       {allFiles.length === 0 ? (
         <NoFileDiv>No files</NoFileDiv>
       ) : (
-        allFiles.map((document, idx) => {
+        sortedFiles.map((document, idx) => {
           return (
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>
@@ -57,7 +93,7 @@ const PortfolioAllFilesContainer = ({ allFiles }) => {
                   <DocBtnText>Download</DocBtnText>
                   <span>Download</span>
                 </DocBtn>
-                <DocBtn>
+                <DocBtn onClick={() => handleDeleteDocument(document)}>
                   <DocBtnImg src={deleteImg} alt="Delete Button" />
                   <DocBtnText>Delete</DocBtnText>
                   <span>Delete</span>

@@ -26,7 +26,9 @@ export const DropdownMenu = (props) => {
     primaryText,
     noDefaultSelected = false,
     defaultSearch = true,
+    getSelectedItem = null
   } = props;
+
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchInput, setSearchInput] = React.useState('');
@@ -41,11 +43,13 @@ export const DropdownMenu = (props) => {
     setFilteredMenuItems(filteredItems);
   };
 
+
   const initialSelectedItem =
     selectedIndex === undefined
       ? findFirstSelectableItem(menuItems, noDefaultSelected)
       : menuItems[selectedIndex];
   const [selectedItem, setSelectedItem] = React.useState(initialSelectedItem);
+
 
   const menuRef = React.useRef(null);
   const handleClick = (event) => {
@@ -53,6 +57,9 @@ export const DropdownMenu = (props) => {
   };
 
   const handleClose = (item) => {
+    if(getSelectedItem !== null) {
+      getSelectedItem(item)
+    }
     if (item) {
       setSelectedItem(item);
       setAnchorEl(null);
@@ -209,7 +216,7 @@ export const DropdownMenu = (props) => {
                     {createImageFrame(item, showAvatar)}
                     <div className="text-container">
                       <p>
-                        <StyledListItemText primary={item.title || item.name} />
+                        <StyledListItemText primary={item.title || item.name}/>
                       </p>
                     </div>
                   </StyledMenuItem>

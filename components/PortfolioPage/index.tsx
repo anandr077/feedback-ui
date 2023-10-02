@@ -1,36 +1,36 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import { default as React,  useEffect, useReducer, useState } from 'react';
 import {
-  getPortfolio,
   addDocumentToPortfolioWithDetails,
   deleteSubmissionById,
+  getPortfolio,
 } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
 
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
-import PortfolioHeader from './PortfolioHeader';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
-  initailState,
-  reducer,
   addFile,
   getDocuments,
+  initailState,
+  reducer
 } from './portfolioReducer';
 
+import { isSmallScreen } from '../ReactiveRender';
 import {
+  DocumentMainSection,
   PortfolioBody,
   PortfolioContainer,
-  SideNavContainer,
-  DocumentMainSection,
   PortfolioSection,
+  SideNavContainer,
 } from './PortfolioStyle';
-import { isSmallScreen } from '../ReactiveRender';
 
 const PortfolioPage = () => {
-  const smallScreen = isSmallScreen();
-
+  const [smallScreenView, setSmallScreenView] = React.useState(
+    isSmallScreen()
+  );
   const [state, dispatch] = useReducer(reducer, initailState);
 
   const [showModal, setShowModal] = useState(false);
@@ -42,7 +42,6 @@ const PortfolioPage = () => {
       dispatch({ type: 'setPortfolio', payload: data });
     },
   });
-  const queryClient = useQueryClient();
 
   const addDocumentMutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
@@ -57,22 +56,7 @@ const PortfolioPage = () => {
       },
     }
   );
-  useEffect(() => {
-    if (
-      isLoading ||
-      addDocumentMutation.isLoading ||
-      !state.portfolio ||
-      deleteDocumentMutation.isLoading
-    ) {
-      return;
-    }
-  }, [
-    isLoading,
-    addDocumentMutation.isLoading,
-    state.portfolio,
-    deleteDocumentMutation.isLoading,
-  ]);
-
+  
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
@@ -104,14 +88,14 @@ const PortfolioPage = () => {
     <>
       <PortfolioSection>
         <PortfolioBody>
-          <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
+          {/* <PortfolioHeader setShowModal={setShowModal} showModal={showModal} /> */}
           <PortfolioContainer>
             <SideNavContainer>
               <PortfolioSideBar state={state} dispatch={dispatch} />
             </SideNavContainer>
             <DocumentMainSection>
               <RecentWorkContainer
-                smallScreen={smallScreen}
+                smallScreen={smallScreenView}
                 state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}

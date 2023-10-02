@@ -33,13 +33,14 @@ export const PortfolioPage = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const { isLoading, isError, data, error } = useQuery({
-    queryKey: ['portfolio'],
-    queryFn: async () => {
-      const data = await getPortfolio();
+
+  const { isLoading, isError, data, error } = useQuery('portfolio', getPortfolio, {
+    staleTime: 1000 * 60 * 1,
+    onSuccess: (data) => {
       dispatch({ type: 'setPortfolio', payload: data });
-    },
+    }
   });
+  
   const queryClient = useQueryClient();
 
   const mutation = useMutation(addDocumentToPortfolioWithDetails, {

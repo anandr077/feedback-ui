@@ -616,7 +616,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionReviewed() {
-    queryClient.invalidateQueries(['notifications']);
+    
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -673,6 +673,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
+      queryClient.invalidateQueries(['notifications']);
       showSnackbar('Task reviewed...', window.location.href);
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
@@ -694,7 +695,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleRequestResubmission() {
-    queryClient.invalidateQueries(['notifications']);
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -713,8 +713,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             replies: [],
             markingCriteria: markingCriteriaRequest,
           }).then((response) => {
-            if (response) {
-            }
+            queryClient.invalidateQueries(['notifications']);
+            showSnackbar('Resubmission requested...', window.location.href);
+            window.location.href = '/#';
+            setShowLoader(false);
           });
         }
       });
@@ -732,7 +734,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const handleSaveSubmissionForReview = () => {
-    queryClient.invalidateQueries(['notifications']);
+    
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -744,6 +746,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
+        queryClient.invalidateQueries(['notifications']);
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -762,7 +765,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionClosed() {
-    queryClient.invalidateQueries(['notifications']);
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -773,6 +775,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     showSnackbar('Submitting task...');
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
+        queryClient.invalidateQueries(['notifications']);
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);

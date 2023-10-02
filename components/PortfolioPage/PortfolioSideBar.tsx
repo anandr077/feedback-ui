@@ -3,17 +3,14 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import React, { useEffect, useRef, useState } from 'react';
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
+import { isSmallScreen } from '../ReactiveRender';
 import './portfolioSideBar.css';
 
-const PortfolioSideBar = ({
-  state,
-  dispatch,
-}) => {
+const PortfolioSideBar = ({ state, dispatch }) => {
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showArrowUp, setShowArrowUp] = useState(false);
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
-
 
   return (
     <div className="sideNavbar">
@@ -29,7 +26,10 @@ const PortfolioSideBar = ({
           setShowArrowUp,
           showArrowUp,
           folder,
-          showArrowDropDown
+          showArrowDropDown,
+          showNavMenu,
+          isSmallScreen,
+          setShowNavMenu
         )
       )}
     </div>
@@ -51,33 +51,45 @@ function mainFolderContainer(
     type: string;
     files: { title: string; type: string; preview: string }[];
   },
-  showArrowDropDown: boolean
+  showArrowDropDown: boolean,
+  showNavMenu,
+  isSmallScreen,
+  setShowNavMenu
 ): JSX.Element {
   console.log('state.activeMainIndex', state.activeMainIndex);
   console.log('mainIndex', mainIndex);
+
+  const isActive = isSmallScreen() ? showNavMenu : true;
+
   return (
     <>
-      <div
-        className={`folder ${state.activeMainIndex === mainIndex ? 'active' : ''}`}
-        onClick={() => {
-          dispatch({
-            type: 'setActiveMainIndex',
-            payload: mainIndex,
-          });
-          setShowSubfolders(showSubfolders === mainIndex ? null : mainIndex);
-          setShowArrowUp(state.activeMainIndex === mainIndex ? !showArrowUp : true);
-        }}
-      >
-        {folder.title}
-        <div>
-          {showArrowDropDown &&
-            (showArrowUp && state.activeMainIndex === mainIndex ? (
-              <ArrowDropUpIcon />
-            ) : (
-              <ArrowDropDownIcon />
-            ))}
+      {isActive && (
+        <div
+          className={`folder ${
+            state.activeMainIndex === mainIndex ? 'active' : ''
+          }`}
+          onClick={() => {
+            dispatch({
+              type: 'setActiveMainIndex',
+              payload: mainIndex,
+            });
+            setShowSubfolders(showSubfolders === mainIndex ? null : mainIndex);
+            setShowArrowUp(
+              state.activeMainIndex === mainIndex ? !showArrowUp : true
+            );
+          }}
+        >
+          {folder.title}
+          <div>
+            {showArrowDropDown &&
+              (showArrowUp && state.activeMainIndex === mainIndex ? (
+                <ArrowDropUpIcon />
+              ) : (
+                <ArrowDropDownIcon />
+              ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {showSubfolders === mainIndex &&
         folder.files &&
@@ -86,7 +98,9 @@ function mainFolderContainer(
             state,
             dispatch,
             subfolderIndex,
-            subFolder
+            subFolder,
+            setShowSubfolders,
+            setShowNavMenu
           )
         )}
     </>
@@ -97,7 +111,9 @@ function subFolderContainer(
   state,
   dispatch,
   subIndex: number,
-  subFolder: { title: string; type: string; preview: string }
+  subFolder: { title: string; type: string; preview: string },
+  setShowSubfolders,
+  setShowNavMenu
 ): JSX.Element {
   console.log('state.activeSubFolder', state.activeSubFolderIndex);
   console.log('subIndex', subIndex);
@@ -106,14 +122,19 @@ function subFolderContainer(
       className="folder subFolder"
       key={subIndex}
       style={{
-        backgroundColor: state.activeSubFolderIndex === subIndex ? '#F1E7FF' : '',
+        backgroundColor:
+          state.activeSubFolderIndex === subIndex ? '#F1E7FF' : '',
         marginLeft: '20px',
       }}
       onClick={() => {
         dispatch({
           type: 'setActiveSubFolderIndex',
           payload: subIndex,
-        })
+        });
+        if(window.innerWidth < 1024){
+          setShowSubfolders(null);
+          setShowNavMenu(false);
+        }
       }}
     >
       <span className="subFolder-Content">{subFolder.title}</span>

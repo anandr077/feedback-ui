@@ -64,12 +64,11 @@ export const SmallTaskTitle = styled.p`
 `;
 export const ClassText = styled.div`
   ${IbmplexsansNormalRiverBed14px}
-  font-size: 16px;
+  font-size: 14px;
   position: relative;
   align-self: stretch;
-  letter-spacing: 1.84px;
+  letter-spacing: 0.11px;
   line-height: normal;
-  font-weight: 500;
 `;
 
 export const SmallClassText = styled.div`
@@ -129,4 +128,18 @@ export const Line = styled.div`
   height: 1px;
   background: #f5ebfe;
   margin: 10px 0px;
+`;
+
+export const DeclineText = styled.div`
+  color: #505050;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 1.84px;
+  cursor: pointer;
+`;
+export const AcceptText = styled(DeclineText)`
+  color: #7200e0;
 `;

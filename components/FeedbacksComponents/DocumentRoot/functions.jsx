@@ -99,7 +99,7 @@ export function getSelfPortfolioPageMode(submission) {
 
 
 export function getReviewerPortfolioPageMode(user, submission) {
-  if (submission.status === 'SUBMITTED') 
+  if (submission.status === 'SUBMITTED' || submission.status === 'FEEDBACK_ACCEPTED') 
     return 'REVIEW';
   return 'CLOSED';
 }

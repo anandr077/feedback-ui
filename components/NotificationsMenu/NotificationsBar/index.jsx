@@ -7,8 +7,11 @@ import {
   declineFeedbackRequest,
 } from '../../../service';
 import { NavbarDiv, Frame1409, MaskGroup, Frame15, Frame16 } from './style';
+import { useQueryClient } from 'react-query';
 
 function NotificationsBar(props) {
+  const queryClient = useQueryClient();
+
   const { notifications, type, onCloseFn, loadingNotifications } = props;
   if (!notifications || notifications?.length === 0) {
     return (
@@ -49,11 +52,17 @@ function NotificationsBar(props) {
           small={true}
           onAccept={() =>
             acceptFeedbackRequest(notification.submissionId).then((res) => {
+              queryClient.invalidateQueries(['notifications']);
+
               window.location.href = `#documents/${notification.submissionId}`;
             })
           }
           onDecline={() =>
-            declineFeedbackRequest(notification.submissionId).then((res) => {})
+            declineFeedbackRequest(notification.submissionId).then((res) => {
+              queryClient.invalidateQueries(['notifications']);
+
+              // window.location.reload();
+            })
           }
         />
       );

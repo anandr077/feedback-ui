@@ -1,12 +1,27 @@
 import React from 'react';
 import Buttons from '../Buttons';
-import styled from 'styled-components';
-import {
-  IbmplexsansBoldShark36px,
-  IbmplexsansNormalPersianIndigo13px,
-  IbmplexsansNormalElectricViolet14px,
-} from '../../../styledMixins';
 import './AccountSettingsMarkingCriteriaTable.css';
+import {
+  MarkingCriteriaList,
+  RedictIcon,
+  UserSettingLinkContainer,
+  UserSettingLink,
+  Frame1379,
+  Frame1376,
+  Frame1315,
+  Frame1378,
+  Frame1372,
+  Title,
+  Frame1322,
+  InactiveSetting,
+  SettingTitle,
+  Frame1284,
+  ActiveSetting,
+  Frame13221,
+  Frame1302,
+  Title1,
+  Line14,
+} from './style';
 
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
@@ -157,181 +172,5 @@ function AccountSettingsMarkingCriteriaTable(props) {
     </div>
   );
 }
-
-const MarkingCriteriaList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
-`;
-
-const RedictIcon = styled.img`
-  position: relative;
-  min-width: 16px;
-  height: 16px;
-`;
-const UserSettingLinkContainer = styled.div`
-  display: flex;
-  height: 31px;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
-  cursor: pointer;
-`;
-
-const UserSettingLink = styled.div`
-  ${IbmplexsansNormalElectricViolet14px}
-  font-size: 14px;
-`;
-
-const Frame1379 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1376 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
-  padding: 0px 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1315 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1378 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 40px;
-  padding: 0px 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1372 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Title = styled.h1`
-  ${IbmplexsansBoldShark36px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.9px;
-  line-height: normal;
-`;
-
-const Frame1322 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const InactiveSetting = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 24px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--blue-chalk);
-  border-radius: 16px;
-`;
-
-const SettingTitle = styled.div`
-  ${IbmplexsansNormalPersianIndigo13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-
-const Frame1284 = styled.img`
-  position: relative;
-  min-width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-
-const ActiveSetting = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 16px 24px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-`;
-
-const Frame13221 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1302 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 16px;
-`;
-
-const Title1 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 12px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Line14 = styled.img`
-  position: relative;
-  align-self: stretch;
-  min-width: 302px;
-  height: 1px;
-  object-fit: cover;
-`;
 
 export default AccountSettingsMarkingCriteriaTable;

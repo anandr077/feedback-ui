@@ -35,7 +35,7 @@ export const PortfolioPage = () => {
 
 
   const { isLoading, isError, data, error } = useQuery('portfolio', getPortfolio, {
-    staleTime: 1000 * 60 * 1,
+    staleTime: 1000 * 60 * 5,
     onSuccess: (data) => {
       dispatch({ type: 'setPortfolio', payload: data });
     }
@@ -53,6 +53,7 @@ export const PortfolioPage = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('portfolio');
+        window.location.reload();
       },
     }
   );

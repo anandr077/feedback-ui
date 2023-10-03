@@ -29,15 +29,19 @@ const sortReducer = (state, action) => {
     case 'Z - A':
       return [...state].sort((a, b) => b.title.localeCompare(a.title));
     case 'New to old':
-        return [...state].sort((a, b) => new Date(b.viewedAt) - new Date(a.viewedAt));
+      return [...state].sort(
+        (a, b) => new Date(b.viewedAt) - new Date(a.viewedAt)
+      );
     case 'Old to new':
-        return [...state].sort((a, b) => new Date(a.viewedAt) - new Date(b.viewedAt));    
+      return [...state].sort(
+        (a, b) => new Date(a.viewedAt) - new Date(b.viewedAt)
+      );
     default:
       return state;
   }
 };
 const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
-  console.log("allFiles", allFiles)
+  console.log('allFiles', allFiles);
   const [sortedFiles, dispatch] = useReducer(sortReducer, allFiles);
   const sortOptions = [
     { title: 'A - Z' },
@@ -67,7 +71,9 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>
                 <DocumentTextFrame>
-                  {document?.preview?.slice(0, 170)}...
+                  {document?.preview && document.preview.length > 130
+                    ? document.preview + '...'
+                    : document.preview}
                 </DocumentTextFrame>
                 <div>
                   {document.status ? (

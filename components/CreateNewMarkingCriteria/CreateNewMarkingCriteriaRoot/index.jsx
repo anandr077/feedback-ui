@@ -93,6 +93,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const validateMarkingCriteria = () => {
+    console.log('markingCriterias: ', markingCriterias);
     let isValid = true;
     if (markingCriterias.title === '' || markingCriterias.title === undefined) {
       showSnackbar('Please enter a title for the marking criteria');
@@ -112,6 +113,16 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         if (level.name == undefined || level.name === '') {
           showSnackbar(
             `Please enter a name for all level in criteria ${indexout + 1}`
+          );
+          isValid = false;
+        }
+      });
+      criteria.levels.forEach((level) => {
+        if (level.description == undefined || level.description === '') {
+          showSnackbar(
+            `Please enter a description for all level in criteria ${
+              indexout + 1
+            }`
           );
           isValid = false;
         }

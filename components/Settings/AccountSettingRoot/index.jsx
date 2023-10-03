@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
 import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
 import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
@@ -14,7 +14,6 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
-  getPortfolio,
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -23,7 +22,6 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
-
 
 export default function AccountSettingsRoot(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -37,7 +35,6 @@ export default function AccountSettingsRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
-  
 
   React.useEffect(() => {
     Promise.all([
@@ -88,8 +85,10 @@ export default function AccountSettingsRoot(props) {
   const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
-        window.location.reload();
         showSnackbar('Marking criteria deleted');
+        getAllMarkingCriteria().then((result) => {
+          setMarkingCriterias(result);
+        });
       })
       .catch((error) => {
         showSnackbar('Error deleting marking criteria');
@@ -185,12 +184,16 @@ export default function AccountSettingsRoot(props) {
     }
     createNewMarkingCriteria(createdMarkingCriteria)
       .then((res) => {
+        console.log('result: ', res);
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
         showSnackbar(
           'Copied marking template',
           markingCriteriaUrl(res.id.value, res.type.value)
         );
+        getAllMarkingCriteria().then((result) => {
+          setMarkingCriterias(result);
+        });
       })
       .catch((err) => {
         showSnackbar('Error cloning marking template');

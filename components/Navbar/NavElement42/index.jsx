@@ -3,11 +3,11 @@ import Group1 from '../Group1';
 import styled from 'styled-components';
 
 function NavElement42(props) {
-  const { button } = props;
+  const { button, onClick } = props;
   const icon = button.selected ? button.iconSelected : button.icon;
   if (button.selected) {
     return (
-      <a href={button.redirect}>
+      <a href={button.redirect} onClick={onClick}>
         <NavElement>
           <Group1
             isSelected={button.selected}
@@ -19,7 +19,7 @@ function NavElement42(props) {
     );
   } else {
     return (
-      <a href={button.redirect}>
+      <a href={button.redirect} onClick={onClick}>
         <UnselectedNavElement>
           <Group1
             isSelected={button.selected}

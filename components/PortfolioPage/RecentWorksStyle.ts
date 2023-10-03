@@ -53,7 +53,6 @@ const RecentWorkTitle = styled.h4`
   position: absolute;
   bottom: 0;
   height: 56px;
-  z-index: 5;
   background-color: white;
   color: #000000;
 

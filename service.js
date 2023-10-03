@@ -350,7 +350,7 @@ export const acceptFeedbackRequest = async (submissionId) =>
 
 export const declineFeedbackRequest = async (submissionId) =>
   await patchApi(
-    baseUrl + '/submissions/' + submissionId + '/acceptFeedbackRequest'
+    baseUrl + '/submissions/' + submissionId + '/declineFeedbackRequest'
   );
 
 export const markSubmsissionClosed = async (submissionId) =>

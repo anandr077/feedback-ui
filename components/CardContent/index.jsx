@@ -91,7 +91,7 @@ function CardContent(props) {
         <Line />
         <AcceptContainer>
           <AcceptText onClick={onAccept}>ACCEPT</AcceptText>
-          <DeclineText>DECLINE</DeclineText>
+          <DeclineText onClick={onDecline}>DECLINE</DeclineText>
         </AcceptContainer>
       </>
     );

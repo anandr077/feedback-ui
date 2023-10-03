@@ -1,5 +1,3 @@
-import { useHistory } from 'react-router-dom';
-
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
 const jeddleBaseUrl =
@@ -234,7 +232,6 @@ export const updateFeedback = async (submissionId, commentId, comment) =>
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 
-
 export const getSmartAnnotaionAnalyticsByClassId = async (classId) => {
   let smartAnnotationsMap = new Map();
   const feedbacks = await getApi(
@@ -349,7 +346,12 @@ export const markSubmissionRequestSubmission = async (submissionId) =>
 export const acceptFeedbackRequest = async (submissionId) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/acceptFeedbackRequest'
-    );
+  );
+
+export const declineFeedbackRequest = async (submissionId) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/acceptFeedbackRequest'
+  );
 
 export const markSubmsissionClosed = async (submissionId) =>
   await patchApi(baseUrl + '/submissions/' + submissionId + '/closed');
@@ -423,26 +425,6 @@ export const getShortcuts = () => {
   return shortcuts;
 };
 
-let FocusAreas = [
-  {
-    id: 1,
-    title: 'Structure',
-    color: '#123456',
-    description: '',
-  },
-  {
-    id: 2,
-    title: 'Context',
-    color: '#fbb123',
-    description: '',
-  },
-  {
-    id: 3,
-    title: 'Flow',
-    color: '#fbb223',
-    description: '',
-  },
-];
 export const getFocusAreas = async () => {
   return await getApi(baseUrl + '/feedbacks/focusAreas');
 };

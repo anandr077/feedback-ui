@@ -1,9 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 import TaskCard from '../../TaskCard';
 import Cards from '../Cards';
 import './NotificationsBar.css';
-import { acceptFeedbackRequest, getUserName } from '../../../service';
+import {
+  acceptFeedbackRequest,
+  declineFeedbackRequest,
+} from '../../../service';
+import { NavbarDiv, Frame1409, MaskGroup, Frame15, Frame16 } from './style';
 
 function NotificationsBar(props) {
   const { notifications, type, onCloseFn, loadingNotifications } = props;
@@ -40,13 +43,20 @@ function NotificationsBar(props) {
 
   const notificationFrames = notifications.map((notification) => {
     if (notification.type === 'FEEBACK_REQUEST') {
-      return <TaskCard 
-      task={notification} 
-      small={true} 
-      onAccept={()=>acceptFeedbackRequest(notification.submissionId)
-        .then(res=>{
-        window.location.href = `#documents/${notification.submissionId}`
-      })} />;
+      return (
+        <TaskCard
+          task={notification}
+          small={true}
+          onAccept={() =>
+            acceptFeedbackRequest(notification.submissionId).then((res) => {
+              window.location.href = `#documents/${notification.submissionId}`;
+            })
+          }
+          onDecline={() =>
+            declineFeedbackRequest(notification.submissionId).then((res) => {})
+          }
+        />
+      );
     }
     return <TaskCard task={notification} small={true} />;
   });
@@ -65,68 +75,5 @@ function NotificationsBar(props) {
     </>
   );
 }
-
-const NavbarDiv = styled.div`
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 16px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  z-index: 1;
-`;
-const Frame1409 = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 16px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-const MaskGroup = styled.img`
-  position: sticky;
-  top: 0;
-  right: 0;
-  height: 48px;
-  width: 48px;
-`;
-
-const Frame4 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame15 = styled.div`
-  display: flex;
-  width: 300px;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px;
-  position: relative;
-  align-self: stretch;
-  z-index: 10;
-  height: 100%;
-  flex-direction: column;
-  overflow: visible;
-`;
-const Frame16 = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  position: relative;
-  align-self: stretch;
-  z-index: 10;
-  gap: 10px;
-  flex-direction: column;
-`;
 
 export default NotificationsBar;

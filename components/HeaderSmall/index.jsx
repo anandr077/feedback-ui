@@ -32,6 +32,7 @@ export default function HeaderSmall(props) {
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  
   if (isMenuOpen) {
     return (
       <NavigationContainer>

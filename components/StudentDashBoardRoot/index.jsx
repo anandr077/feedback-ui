@@ -9,53 +9,54 @@ import { homeHeaderProps } from '../../utils/headerProps.js';
 import { limitParagraph } from '../../utils/strings';
 import _ from 'lodash';
 import Loader from '../Loader';
+import { useQueries, useQueryClient } from 'react-query';
 
 export default function StudentDashboardRoot(props) {
   const [allTasks, setAllTasks] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
-    const [smallScreenView, setSmallScreenView] = React.useState(
-      isSmallScreen()
-    );
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
+  const queryClient = useQueryClient();
+
+  const [tasksQuery, modelResponsesQuery] = useQueries([
+    {
+      queryKey: ['tasks'],
+      queryFn: async () => {
+        const result = await getTasks();
+        return result;
+      },
+      staleTime: 300000,
+    },
+    {
+      queryKey: ['modelresponses'],
+      queryFn: async () => {
+        const result = await getModelResponses();
+        return result;
+      },
+      staleTime: 300000,
+    },
+  ]);
 
   React.useEffect(() => {
-    Promise.all([getTasks(), getModelResponses()]).then(
-      ([result, modelResponses]) => {
-        if (result) {
-          setAllTasks(result.slice(0, 10));
-        }
-        if (modelResponses) {
-          const firstTen = modelResponses.slice(0, 10);
-          const trimmedResponses = _.map(firstTen, (obj) => ({
-            ...obj,
-            response: limitParagraph(obj.response, 200),
-          }));
-          setModelResponses(trimmedResponses);
-        }
-        setIsLoading(false);
-      }
-    );
-  }, []);
-
-  React.useEffect(() => {
-    if (publishActionCompleted) {
-      getModelResponses().then((modelResponses) => {
-        if (modelResponses) {
-          const firstTen = modelResponses.slice(0, 10);
-          const trimmedResponses = _.map(firstTen, (obj) => ({
-            ...obj,
-            response: limitParagraph(obj.response, 200),
-          }));
-          setModelResponses(trimmedResponses);
-          setIsLoading(false);
-        }
-      });
-      setPublishActionCompleted(false);
+    if (tasksQuery.isSuccess) {
+      setAllTasks(tasksQuery.data.slice(0, 10));
     }
+    if (modelResponsesQuery.isSuccess) {
+      const firstTen = modelResponsesQuery.data.slice(0, 10);
+      const trimmedResponses = _.map(firstTen, (obj) => ({
+        ...obj,
+        response: limitParagraph(obj.response, 200),
+      }));
+      setModelResponses(trimmedResponses);
+    }
+  }, [tasksQuery.isSuccess, modelResponsesQuery.isSuccess]);
+
+  React.useEffect(() => {
+    queryClient.invalidateQueries(['modelresponses'], { force: true });
   }, [publishActionCompleted]);
-  if (isLoading) {
+
+  if (tasksQuery.isLoading || modelResponsesQuery.isLoading) {
     return (
       <>
         <Loader />

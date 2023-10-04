@@ -1,23 +1,24 @@
-import React from 'react'
+import React from 'react';
 import {
-    ModalBody,
-    ModalContainer,
-    ModalContainerHeader,
-    ModalHeaderText,
-  } from './PortfolioDocModalStyle';
+  ModalBody,
+  ModalContainer,
+  ModalContainerHeader,
+  ModalHeaderText,
+} from './PortfolioDocModalStyle';
 import CloseIcon from '@mui/icons-material/Close';
 import PortfolioForm from './PortfolioForm';
 
-
-
-const PortfolioDocModal = ({ setShowModal, showModal, handleCreateDocument }) => {
+const PortfolioDocModal = ({
+  setShowModal,
+  showModal,
+  handleCreateDocument,
+  state,
+}) => {
   return (
     <ModalBody>
       <ModalContainer>
         <ModalContainerHeader>
-          <ModalHeaderText>
-            New Document
-          </ModalHeaderText>
+          <ModalHeaderText>New Document</ModalHeaderText>
           <CloseIcon
             style={{ cursor: 'pointer' }}
             onClick={() => setShowModal(!showModal)}
@@ -27,10 +28,11 @@ const PortfolioDocModal = ({ setShowModal, showModal, handleCreateDocument }) =>
           setShowModal={setShowModal}
           showModal={showModal}
           handleCreateDocument={handleCreateDocument}
+          state={state}
         />
       </ModalContainer>
     </ModalBody>
-  )
-}
+  );
+};
 
-export default PortfolioDocModal
+export default PortfolioDocModal;

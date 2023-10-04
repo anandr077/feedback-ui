@@ -43,7 +43,6 @@ const sortReducer = (state, action) => {
   }
 };
 const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
-  console.log('allFiles', allFiles);
   const [sortedFiles, dispatch] = useReducer(sortReducer, allFiles);
   const [displayFiles, setDisplayFiles] = useState(false);
 

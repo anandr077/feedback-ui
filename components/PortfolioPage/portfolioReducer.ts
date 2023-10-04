@@ -9,6 +9,14 @@ export const initailState = {
 
 export function reducer(state: any, action: any) {
   switch (action.type) {
+    case 'deleteDocument':
+      const { mainIndex, subFolderIndex, documentId } = action.payload;
+      const newPortfolio = JSON.parse(JSON.stringify(state.portfolio)); 
+      newPortfolio.files[mainIndex].files[subFolderIndex].files =
+        newPortfolio.files[mainIndex].files[subFolderIndex].files.filter(
+          (file) => file.id !== documentId
+        );
+      return { ...state, portfolio: newPortfolio };
     case 'setPortfolio':
       return { ...state, portfolio: action.payload };
     case 'loading':
@@ -29,7 +37,6 @@ export function addFile(
   fileName: string,
   mutation
 ) {
- 
   const newData = { ...portfolio, files: [...portfolio.files] };
 
   if (
@@ -60,9 +67,8 @@ export function addFile(
   };
   mainFolder.files[subFolderIndex] = subFolder;
   const tempFile = { id: 'temp', title: fileName, type: 'FILE' };
-  subFolder.files.unshift(tempFile); 
+  subFolder.files.unshift(tempFile);
 
-  
   mutation.mutate(
     {
       classId: subFolder.classId,
@@ -72,18 +78,20 @@ export function addFile(
     {
       onMutate: () => {
         const previousPortfolio = { ...portfolio };
-        
+
         portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
         return previousPortfolio;
       },
       onSuccess: (data) => {
-        subFolder.files = subFolder.files.map((file) => (file.id === 'temp' ? data : file));
+        subFolder.files = subFolder.files.map((file) =>
+          file.id === 'temp' ? data : file
+        );
         portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
       },
       onError: (_, __, context) => {
         // Reverting to the previous state in case of an error
         if (context) portfolio = context;
-      }
+      },
     }
   );
 }

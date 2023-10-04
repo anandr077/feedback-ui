@@ -616,7 +616,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function handleSubmissionReviewed() {
-    
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -734,7 +733,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   const handleSaveSubmissionForReview = () => {
-    
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
@@ -1199,9 +1197,11 @@ function submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction) {
   let buttonText = 'Submit';
 
   if (pageMode === 'DRAFT') {
-    warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
-    confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
-    buttonText = 'Acknowledge and Submit';
+    warningMessage =
+      'Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness.';
+    confirmationMessage =
+      'By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form.';
+    buttonText = 'Submit';
   }
   return (
     <GeneralPopup

@@ -122,7 +122,6 @@ function Document(props) {
     <>
       <div className="feedback-teacher-laptop screen">
         <Frame1388>
-          {/* {header(smallScreen, headerProps)} */}
           {breadcrumbs(pageMode, submission)}
           {answersAndFeedbacks(
             isShowSelectType,
@@ -148,7 +147,6 @@ function Document(props) {
             smartAnnotations,
             handleRequestFeedback
           )}
-          {/* {footer(smallScreen)} */}
         </Frame1388>
       </div>
       {handleFeedbackMethodTypeDialog(
@@ -213,8 +211,6 @@ const selectTabComments = (showResolved, comments) => {
     return comment;
   });
 };
-
-
 
 function answersAndFeedbacks(
   isShowSelectType,
@@ -320,8 +316,6 @@ function documentFeedbackFrame(
     ></DocumentFeedbackFrame>
   );
 }
-
-
 
 function breadcrumbs(pageMode, submission) {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {

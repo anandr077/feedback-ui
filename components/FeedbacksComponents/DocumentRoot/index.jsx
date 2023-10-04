@@ -4,7 +4,6 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import Document from '../Document';
 import { useQueryClient } from 'react-query';
@@ -33,9 +32,6 @@ import Loader from '../../Loader';
 import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
-import { portfolioHeaderProps } from '../../../utils/headerProps';
-import Header from '../../Header';
-import HeaderSmall from '../../HeaderSmall';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
@@ -60,9 +56,6 @@ export default function DocumentRoot({}) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
-   const [smallScreenView, setSmallScreenView] = React.useState(
-     isSmallScreen()
-   );
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
@@ -88,11 +81,11 @@ export default function DocumentRoot({}) {
   }
 
   const pageMode = getPortfolioPageMode(getUserId(), submission);
-  
+
   const headerProps = documentHeaderProps(
     pageMode === 'DRAFT' || pageMode === 'REVISE'
   );
-  console.log("headerProps", headerProps)
+  console.log('headerProps', headerProps);
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {

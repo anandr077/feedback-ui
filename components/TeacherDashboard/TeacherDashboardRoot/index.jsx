@@ -11,29 +11,63 @@ import TeacherDashboardLaptop from '../TeacherDashboardLaptop';
 import TeacherDashboardDesktop from '../TeacherDashboardDesktop';
 import Loader from '../../Loader';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
+import { useQueries, useQueryClient } from 'react-query';
 
 export default function TeacherDashboardRoot(props) {
   const [assignments, setAssignments] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
+  const [assignmentsQuery, classesWithStudentsQuery, notificationsQuery] =
+    useQueries([
+      {
+        queryKey: ['assignments'],
+        queryFn: async () => {
+          const result = await getAssignments();
+          return result;
+        },
+        staleTime: 300000,
+      },
+      {
+        queryKey: ['classesWithStudents'],
+        queryFn: async () => {
+          const result = await getClassesWithStudents();
+          return result;
+        },
+        staleTime: 300000,
+      },
+      {
+        queryKey: ['notifications'],
+        queryFn: async () => {
+          const result = await getNotifications();
+          return result;
+        },
+        staleTime: 300000,
+      },
+    ]);
+
   React.useEffect(() => {
-    Promise.all([
-      getAssignments(),
-      getClassesWithStudents(),
-      getNotifications(),
-    ]).then(([result, classesResult, notificationsResult]) => {
-      if (result) {
-        setAssignments(result);
-        setClasses(classesResult);
-        setNotifications(notificationsResult);
-        setIsLoading(false);
-      }
-    });
-  }, []);
-  if (isLoading) {
+    if (assignmentsQuery.isSuccess) {
+      setAssignments(assignmentsQuery.data);
+    }
+    if (classesWithStudentsQuery.isSuccess) {
+      setClasses(classesWithStudentsQuery.data);
+    }
+    if (notificationsQuery.isSuccess){
+      setNotifications(notificationsQuery.data)
+    }
+  }, [
+    assignmentsQuery.isSuccess,
+    classesWithStudentsQuery.isSuccess,
+    notificationsQuery.isSuccess,
+  ]);
+
+  if (
+    classesWithStudentsQuery.isLoading ||
+    assignmentsQuery.isLoading ||
+    notificationsQuery.isLoading
+  ) {
     return <Loader />;
   }
   const drafts = assignments.filter(

@@ -10,24 +10,44 @@ import _ from 'lodash';
 import Loader from '../Loader';
 import HeaderSmall from '../HeaderSmall';
 import Header from '../Header';
+import { useQueries } from 'react-query';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
-  const [isLoading, setIsLoading] = React.useState(true);
+
+  const [tasksQuery, studentClassesQuery] = useQueries([
+    {
+      queryKey: ['tasks'],
+      queryFn: async () => {
+        const result = await getTasks();
+        return result;
+      },
+      staleTime: 300000,
+    },
+    {
+      queryKey: ['studentclasses'],
+      queryFn: async () => {
+        const result = await getClasses();
+        return result;
+      },
+      staleTime: 300000,
+    },
+  ]);
+
   React.useEffect(() => {
-    Promise.all([getTasks(), getClasses()]).then(([result, classes]) => {
-      if (result) {
-        setAllTasks(result);
-        setClasses(classes);
-        setFilteredTasks(result);
-        setIsLoading(false);
-      }
-    });
-  }, []);
-  if (isLoading) {
+    if (tasksQuery.isSuccess) {
+      setFilteredTasks(tasksQuery.data);
+      setAllTasks(tasksQuery.data);
+    }
+    if (studentClassesQuery.isSuccess) {
+      setClasses(studentClassesQuery.data);
+    }
+  }, [tasksQuery.isSuccess, studentClassesQuery.isSuccess]);
+
+  if (tasksQuery.isLoading || studentClassesQuery.isLoading) {
     return (
       <>
         <Loader />

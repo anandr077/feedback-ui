@@ -673,6 +673,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
       queryClient.invalidateQueries(['notifications']);
+      queryClient.invalidateQueries(['tasks']);
+      queryClient.invalidateQueries(['assignments']);
       showSnackbar('Task reviewed...', window.location.href);
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
@@ -713,6 +715,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             markingCriteria: markingCriteriaRequest,
           }).then((response) => {
             queryClient.invalidateQueries(['notifications']);
+            queryClient.invalidateQueries(['tasks']);
+            queryClient.invalidateQueries(['assignments']);
             showSnackbar('Resubmission requested...', window.location.href);
             window.location.href = '/#';
             setShowLoader(false);
@@ -745,6 +749,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
         queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.invalidateQueries(['assignments']);
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -774,6 +780,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
         queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.invalidateQueries(['assignments']);
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);

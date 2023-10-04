@@ -13,28 +13,47 @@ import _ from 'lodash';
 import Loader from '../../Loader';
 import DeleteAssignmentPopup from '../../DeleteAssignmentPopUp';
 import ExtendAssignmentPopup from '../../ExtendAssignmentPopup';
+import { useQueries } from 'react-query';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
-  
+
+
+  const [assignmentsQuery, teacherClassesQuery] = useQueries([
+    {
+      queryKey: ['assignments'],
+      queryFn: async () => {
+        const result = await getAssignments();
+        return result;
+      },
+      staleTime: 300000,
+    },
+    {
+      queryKey: ['teacherclasses'],
+      queryFn: async () => {
+        const result = await getClasses();
+        return result;
+      },
+      staleTime: 300000,
+    },
+  ]);
 
   React.useEffect(() => {
-    Promise.all([getAssignments(), getClasses()]).then(([result, classes]) => {
-      if (result) {
-        setAssignments(result);
-        setClasses(classes);
-        setFilteredTasks(result);
-        setIsLoading(false);
-      }
-    });
-  }, []);
-  if (isLoading) {
+    if (assignmentsQuery.isSuccess) {
+      setFilteredTasks(assignmentsQuery.data);
+      setAssignments(assignmentsQuery.data);
+    }
+    if (teacherClassesQuery.isSuccess) {
+      setClasses(teacherClassesQuery.data);
+    }
+  }, [assignmentsQuery.isSuccess, teacherClassesQuery.isSuccess]);
+
+  if (assignmentsQuery.isLoading || teacherClassesQuery.isLoading) {
     return (
       <>
         <Loader />

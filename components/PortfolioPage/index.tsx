@@ -1,4 +1,4 @@
-import { default as React,  useEffect, useReducer, useState } from 'react';
+import { default as React, useEffect, useReducer, useState } from 'react';
 import {
   addDocumentToPortfolioWithDetails,
   deleteSubmissionById,
@@ -15,7 +15,7 @@ import {
   addFile,
   getDocuments,
   initailState,
-  reducer
+  reducer,
 } from './portfolioReducer';
 
 import { isSmallScreen } from '../ReactiveRender';
@@ -29,9 +29,7 @@ import {
 import PortfolioHeader from './PortfolioHeader';
 
 const PortfolioPage = () => {
-  const [smallScreenView, setSmallScreenView] = React.useState(
-    isSmallScreen()
-  );
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [state, dispatch] = useReducer(reducer, initailState);
 
   const [showModal, setShowModal] = useState(false);
@@ -57,7 +55,7 @@ const PortfolioPage = () => {
       },
     }
   );
-  
+
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
@@ -73,10 +71,10 @@ const PortfolioPage = () => {
     state.activeSubFolderIndex
   );
 
-  const handleCreateDocument = (docName) => {
+  const handleCreateDocument = (docName, activeMainIndex = 0) => {
     addFile(
       state.portfolio,
-      state.activeMainIndex,
+      activeMainIndex,
       state.activeSubFolderIndex,
       docName,
       addDocumentMutation
@@ -115,6 +113,7 @@ const PortfolioPage = () => {
           setShowModal={setShowModal}
           showModal={showModal}
           handleCreateDocument={handleCreateDocument}
+          state={state}
         />
       )}
     </>

@@ -1199,8 +1199,8 @@ function submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction) {
   let buttonText = 'Submit';
 
   if (pageMode === 'DRAFT') {
-    warningMessage = 'You will not be able to edit your work after submission.';
-    confirmationMessage = 'Are you sure you want to submit this task?';
+    warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
+    confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
     buttonText = 'Acknowledge and Submit';
   }
   return (

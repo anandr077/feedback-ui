@@ -266,7 +266,6 @@ function reviewerNewComment(
           />
 
           {shortcutList(methods, smartAnnotations)}
-          {shareWithClassFrame(methods, share)}
         </Frame1406>
       </Frame1329>
     </>

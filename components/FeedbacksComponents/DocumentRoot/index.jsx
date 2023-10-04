@@ -670,7 +670,24 @@ export default function DocumentRoot({}) {
     return submission.reviewerName;
   }
 
+  function handleShortcutAddCommentSmartAnnotaion(commentText) {
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: commentText,
+      range: selectedRange,
+      type: 'SMART_ANNOTATION',
+      replies: [],
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue('');
+      }
+    });
+    setShowNewComment(false);
+  }
+
   const methods = {
+    handleShortcutAddCommentSmartAnnotaion,
     submissionStatusLabel,
     createDebounceFunction,
     handleChangeText,

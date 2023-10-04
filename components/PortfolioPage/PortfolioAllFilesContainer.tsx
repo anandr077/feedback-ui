@@ -41,7 +41,6 @@ const sortReducer = (state, action) => {
   }
 };
 const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
-  console.log('allFiles', allFiles);
   const [sortedFiles, dispatch] = useReducer(sortReducer, allFiles);
   const sortOptions = [
     { title: 'A - Z' },

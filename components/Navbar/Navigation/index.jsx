@@ -71,9 +71,9 @@ function Navigation(props) {
         />
       </Frame1409>
       <Frame5>
-        <NavElement42 button={headerProps.firstButton} />
-        <NavElement42 button={headerProps.secondButton} />
-        <NavElement42 button={headerProps.thirdButton} />
+        <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
+        <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
+        <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />
         <NavElement7 text={'View Profile'} onClick={() => account()} />
         <NavElement7
           text="Change Password"

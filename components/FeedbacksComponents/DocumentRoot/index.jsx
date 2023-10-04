@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import Document from '../Document';
+import { useQueryClient } from 'react-query';
 
 import {
   addFeedback,
@@ -37,6 +38,8 @@ import Header from '../../Header';
 import HeaderSmall from '../../HeaderSmall';
 
 export default function DocumentRoot({}) {
+  const queryClient = useQueryClient();
+
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showLoader, setShowLoader] = useState(false);
@@ -368,6 +371,7 @@ export default function DocumentRoot({}) {
 
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
+      queryClient.invalidateQueries(['notifications']);
       showSnackbar('Task reviewed...', window.location.href);
       window.location.href = '/#';
     });
@@ -379,6 +383,7 @@ export default function DocumentRoot({}) {
     setPopupText('');
 
     markSubmissionRequestSubmission(submission.id).then((_) => {
+      queryClient.invalidateQueries(['notifications']);
       showSnackbar('Resubmission requested...', window.location.href);
       window.location.href = '/#';
     });
@@ -396,6 +401,7 @@ export default function DocumentRoot({}) {
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
+        queryClient.invalidateQueries(['notifications']);
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -422,6 +428,7 @@ export default function DocumentRoot({}) {
     showSnackbar('Submitting task...');
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
+        queryClient.invalidateQueries(['notifications']);
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -663,7 +670,24 @@ export default function DocumentRoot({}) {
     return submission.reviewerName;
   }
 
+  function handleShortcutAddCommentSmartAnnotaion(commentText) {
+    addFeedback(submission.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: commentText,
+      range: selectedRange,
+      type: 'SMART_ANNOTATION',
+      replies: [],
+    }).then((response) => {
+      if (response) {
+        setComments([...comments, response]);
+        setNewCommentValue('');
+      }
+    });
+    setShowNewComment(false);
+  }
+
   const methods = {
+    handleShortcutAddCommentSmartAnnotaion,
     submissionStatusLabel,
     createDebounceFunction,
     handleChangeText,

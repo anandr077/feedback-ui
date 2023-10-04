@@ -16,7 +16,10 @@ import {
   IbmplexsansNormalShark20px,
   IbmplexsansBoldShark64px,
 } from '../../styledMixins';
-import { assignmentsHeaderProps, taskHeaderProps } from '../../utils/headerProps';
+import {
+  assignmentsHeaderProps,
+  taskHeaderProps,
+} from '../../utils/headerProps';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
@@ -42,10 +45,12 @@ import {
   CheckboxContainer,
   CheckBoxText,
 } from './CreateAssignmentStyle';
+import { useQueryClient } from 'react-query';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
+  const queryClient = useQueryClient();
   const { assignmentId } = useParams();
 
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
@@ -456,6 +461,9 @@ export default function CreateAssignment(props) {
       updateAssignment(assignment.id, assignment).then((_) => {
         publishAssignment(assignment.id).then((res) => {
           if (res.status === 'PUBLISHED') {
+            queryClient.invalidateQueries(['notifications']);
+            queryClient.invalidateQueries(['tasks']);
+            queryClient.invalidateQueries(['assignments']);
             showSnackbar('Task published', res.link);
             window.location.href = '#tasks';
           } else {

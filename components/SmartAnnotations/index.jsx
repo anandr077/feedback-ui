@@ -95,7 +95,7 @@ function SmartAnotation(props) {
 
   const cloneSmartAnnotation = () => {
     let { title, suggestions } = smartAnnotation;
-    title = title + ' clone';
+    title = 'Copy of ' + title;
     createSmartAnnotation({ title: title, suggestions: suggestions });
   };
 

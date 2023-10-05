@@ -171,7 +171,7 @@ export default function AccountSettingsRoot(props) {
 
   const createMarkingCriteria = (markingCriteria) => {
     let { title } = markingCriteria;
-    title = title + ' clone';
+    title = 'Copy of ' + title;
     const createdMarkingCriteria = {
       title: title,
       type: markingCriteria.type,

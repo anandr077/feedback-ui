@@ -31,7 +31,6 @@ import PortfolioHeader from './PortfolioHeader';
 const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [state, dispatch] = useReducer(reducer, initailState);
-
   const [showModal, setShowModal] = useState(false);
   const queryClient = useQueryClient();
 
@@ -39,9 +38,12 @@ const PortfolioPage = () => {
     queryKey: ['portfolio'],
     queryFn: async () => {
       const data = await getPortfolio();
-      dispatch({ type: 'setPortfolio', payload: data });
+      return data;
     },
   });
+  React.useEffect(() => {
+    dispatch({ type: 'setPortfolio', payload: data });
+  }, [data]);
 
   const addDocumentMutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {

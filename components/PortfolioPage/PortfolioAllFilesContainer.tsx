@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import downLoadImg from '../../static/icons/document-download@2x.png';
 import previewImg from '../../static/icons/preview@2x.png';
 import deleteImg from '../../static/icons/trash-can@2x.png';
@@ -24,6 +24,8 @@ import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 
 const sortReducer = (state, action) => {
   switch (action.type) {
+    case 'UPDATE':
+      return [...action.payload];
     case 'A - Z':
       return [...state].sort((a, b) => a.title.localeCompare(b.title));
     case 'Z - A':
@@ -41,7 +43,10 @@ const sortReducer = (state, action) => {
   }
 };
 const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
+  console.log('allFiles', allFiles);
   const [sortedFiles, dispatch] = useReducer(sortReducer, allFiles);
+  const [displayFiles, setDisplayFiles] = useState(false);
+
   const sortOptions = [
     { title: 'A - Z' },
     { title: 'Z - A' },
@@ -49,9 +54,18 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
     { title: 'Old to new' },
   ];
 
+  useEffect(()=>{
+    dispatch({type: 'UPDATE', payload: allFiles});
+    setDisplayFiles(false)
+  }, [allFiles])
+
   const getSelectedItem = (option) => {
     dispatch({ type: option.title });
+    setDisplayFiles(true)
   };
+
+  const filesToDisplay = displayFiles ? sortedFiles : allFiles;
+
   return (
     <AllFilesContainer>
       <AllFilesHeader>
@@ -62,10 +76,10 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
           getSelectedItem={getSelectedItem}
         ></DropdownMenu>
       </AllFilesHeader>
-      {allFiles.length === 0 ? (
+      {filesToDisplay.length === 0 ? (
         <NoFileDiv>No files</NoFileDiv>
       ) : (
-        sortedFiles.map((document, idx) => {
+        filesToDisplay.map((document, idx) => {
           return (
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>

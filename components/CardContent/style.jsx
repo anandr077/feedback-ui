@@ -133,7 +133,7 @@ export const Line = styled.div`
 export const DeclineText = styled.div`
   color: #505050;
   font-family: IBM Plex Sans;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;

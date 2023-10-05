@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 export const MarkingCriteriaEntry = styled.div`
@@ -15,12 +15,16 @@ export const MarkingCriteriaEntry = styled.div`
   background: #fff;
   box-shadow: 0px 4px 22px #2f1a720a;
   border-radius: 16px;
-  cursor: pointer;
 
-  &:hover {
-    border-color: #7200e0;
-    background-color: #f9f5ff;
-  }
+  ${(props) =>
+    props.isHovered &&
+    css`
+      &:hover {
+        border-color: #7200e0;
+        background-color: #f9f5ff;
+      }
+      cursor: pointer;
+    `}
 `;
 
 export const MarkingCriteriaEntryHeading = styled.div`

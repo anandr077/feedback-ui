@@ -2,14 +2,15 @@
   display: flex;
   gap: 20px;
   flex-direction: column;
+  padding: 16px;
 }
 
 .title {
-  color: #301b72;
-  font-size: 20px;
+  color: #301b72 !important;
+  font-size: 20px !important;
   font-family: IBM Plex Sans;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 700 !important;
   line-height: normal;
   display: flex;
   gap: 20px;

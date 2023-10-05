@@ -30,6 +30,7 @@ export default function FeedbackTypeDialog({
                 onItemSelected={(item) => {
                   setSelectedMenuItem(item);
                 }}
+                defaultSearch={true}
               ></DropdownMenu>
               <div
                 className="request-btn"

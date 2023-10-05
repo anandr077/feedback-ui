@@ -899,11 +899,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         return menuItem.id === submission.id;
       });
       return (
-        <DropdownMenu
-          menuItems={menuItems}
-          showAvatar={true}
-          selectedIndex={selectedItemIndex}
-        ></DropdownMenu>
+        <>
+          <DropdownMenu
+            menuItems={menuItems}
+            showAvatar={true}
+            selectedIndex={selectedItemIndex}
+            defaultSearch={true}
+          ></DropdownMenu>
+        </>
       );
     }
   };

@@ -28,3 +28,12 @@
     line-height: normal;
     cursor: pointer;
 }
+
+.align-items-end {
+    align-items: flex-end;
+}
+
+.flex-container {
+    display: flex;
+    gap: 6px;
+}

@@ -29,12 +29,12 @@ import {
   getSubmissionById,
 } from '../../../service';
 
-const FeedbackMethodType = ['From teacher', 'Form peers', 'From a friend'];
+const FeedbackMethodType = ['From teacher', 'Form class', 'From peer'];
 
 const FeedbackMethodTypeEnum = {
-  FROM_SUBJECT_TEACHER: 0,
-  FROM_PEER: 1,
-  FROM_A_FRIEND: 2,
+  FROM_TEACHER: 0,
+  FROM_CLASS: 1,
+  FROM_PEER: 2,
 };
 
 const FeedbackType = {
@@ -167,7 +167,7 @@ const handleFeedbackMethodTypeDialog = (
   students,
   teachers
 ) => {
-  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER) {
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_TEACHER) {
     return (
       <FeedbackTypeDialog
         menuItems={teachers}
@@ -178,10 +178,17 @@ const handleFeedbackMethodTypeDialog = (
       ></FeedbackTypeDialog>
     );
   }
-  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_PEER) {
-    handleSelectedRequestFeedback(null, FeedbackType.P2P);
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_CLASS) {
+    return (
+      <FeedbackTypeDialog
+        setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
+        title="class"
+        handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.P2P}
+      ></FeedbackTypeDialog>
+    );
   }
-  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_A_FRIEND) {
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_PEER) {
     return (
       <FeedbackTypeDialog
         menuItems={students}

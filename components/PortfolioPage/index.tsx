@@ -1,4 +1,4 @@
-import { default as React,  useEffect, useReducer, useState } from 'react';
+import { default as React, useEffect, useReducer, useState } from 'react';
 import {
   addDocumentToPortfolioWithDetails,
   deleteSubmissionById,
@@ -6,7 +6,7 @@ import {
 } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
 
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
@@ -15,7 +15,7 @@ import {
   addFile,
   getDocuments,
   initailState,
-  reducer
+  reducer,
 } from './portfolioReducer';
 
 import { isSmallScreen } from '../ReactiveRender';
@@ -29,20 +29,21 @@ import {
 import PortfolioHeader from './PortfolioHeader';
 
 const PortfolioPage = () => {
-  const [smallScreenView, setSmallScreenView] = React.useState(
-    isSmallScreen()
-  );
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [state, dispatch] = useReducer(reducer, initailState);
-
   const [showModal, setShowModal] = useState(false);
+  const queryClient = useQueryClient();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
     queryFn: async () => {
       const data = await getPortfolio();
-      dispatch({ type: 'setPortfolio', payload: data });
+      return data;
     },
   });
+  React.useEffect(() => {
+    dispatch({ type: 'setPortfolio', payload: data });
+  }, [data]);
 
   const addDocumentMutation = useMutation(addDocumentToPortfolioWithDetails, {
     onSuccess: (data) => {
@@ -57,7 +58,7 @@ const PortfolioPage = () => {
       },
     }
   );
-  
+
   if (
     isLoading ||
     addDocumentMutation.isLoading ||

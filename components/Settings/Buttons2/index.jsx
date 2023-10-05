@@ -9,7 +9,7 @@ import {
 
 function Buttons2(props) {
   const {
-    markingCriteriaId,
+    markingCriteria,
     deleteMarkingCriteriaHandler,
     cloneMarkingCriteria,
     setMarkingCriteriaPreviewDialog,
@@ -58,13 +58,27 @@ function Buttons2(props) {
       <TooltipWrapper>
         <DeleteButtonContainer
           onClick={(e) => {
-            deleteMarkingCriteriaHandler(markingCriteriaId);
+            markingCriteria?.teacherId
+              ? deleteMarkingCriteriaHandler(markingCriteria.id)
+              : {};
             e.stopPropagation();
           }}
+          isHovered={markingCriteria?.teacherId ? true : false}
         >
-          <Arrowright src="/icons/delete-logo.svg" alt="delete" />
+          {markingCriteria?.teacherId ? (
+            <Arrowright src="/icons/delete-logo.svg" alt="delete" />
+          ) : (
+            <Arrowright
+              src="/icons/taskDeleteIcon.png"
+              alt="taskDeleteDisabled"
+            />
+          )}
         </DeleteButtonContainer>
-        <span className="tooltip-text">Delete</span>
+        {markingCriteria?.teacherId ? (
+          <span className="tooltip-text">Delete</span>
+        ) : (
+          <span></span>
+        )}
       </TooltipWrapper>
     </ButtonsContainer>
   );

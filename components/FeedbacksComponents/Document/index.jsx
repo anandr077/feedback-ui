@@ -29,12 +29,12 @@ import {
   getSubmissionById,
 } from '../../../service';
 
-const FeedbackMethodType = ['From teacher', 'Form peers', 'From a friend'];
+const FeedbackMethodType = ['From teacher', 'Form class', 'From peer'];
 
 const FeedbackMethodTypeEnum = {
-  FROM_SUBJECT_TEACHER: 0,
-  FROM_PEER: 1,
-  FROM_A_FRIEND: 2,
+  FROM_TEACHER: 0,
+  FROM_CLASS: 1,
+  FROM_PEER: 2,
 };
 
 const FeedbackType = {
@@ -122,7 +122,6 @@ function Document(props) {
     <>
       <div className="feedback-teacher-laptop screen">
         <Frame1388>
-          {/* {header(smallScreen, headerProps)} */}
           {breadcrumbs(pageMode, submission)}
           {answersAndFeedbacks(
             isShowSelectType,
@@ -148,7 +147,6 @@ function Document(props) {
             smartAnnotations,
             handleRequestFeedback
           )}
-          {/* {footer(smallScreen)} */}
         </Frame1388>
       </div>
       {handleFeedbackMethodTypeDialog(
@@ -169,7 +167,7 @@ const handleFeedbackMethodTypeDialog = (
   students,
   teachers
 ) => {
-  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_SUBJECT_TEACHER) {
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_TEACHER) {
     return (
       <FeedbackTypeDialog
         menuItems={teachers}
@@ -180,10 +178,17 @@ const handleFeedbackMethodTypeDialog = (
       ></FeedbackTypeDialog>
     );
   }
-  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_PEER) {
-    handleSelectedRequestFeedback(null, FeedbackType.P2P);
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_CLASS) {
+    return (
+      <FeedbackTypeDialog
+        setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
+        title="class"
+        handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.P2P}
+      ></FeedbackTypeDialog>
+    );
   }
-  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_A_FRIEND) {
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_PEER) {
     return (
       <FeedbackTypeDialog
         menuItems={students}
@@ -213,8 +218,6 @@ const selectTabComments = (showResolved, comments) => {
     return comment;
   });
 };
-
-
 
 function answersAndFeedbacks(
   isShowSelectType,
@@ -321,14 +324,13 @@ function documentFeedbackFrame(
   );
 }
 
-
-
 function breadcrumbs(pageMode, submission) {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return (
       <Frame1387>
         <Frame1315>
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+          <Breadcrumb2 assignments={'Class' + submission.classId} />
           <Breadcrumb2 assignments={submission.assignment.title} />
         </Frame1315>
       </Frame1387>

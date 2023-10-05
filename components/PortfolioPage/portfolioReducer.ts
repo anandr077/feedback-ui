@@ -11,9 +11,9 @@ export function reducer(state: any, action: any) {
   switch (action.type) {
     case 'deleteDocument':
       const { mainIndex, subFolderIndex, documentId } = action.payload;
-      const newPortfolio = JSON.parse(JSON.stringify(state.portfolio)); 
-      newPortfolio.files[mainIndex].files[subFolderIndex].files =
-        newPortfolio.files[mainIndex].files[subFolderIndex].files.filter(
+      const newPortfolio = { ...state.portfolio }; 
+      const files = newPortfolio.files[mainIndex].files[subFolderIndex].files;
+        newPortfolio.files[mainIndex].files[subFolderIndex].files = files.filter(
           (file) => file.id !== documentId
         );
       return { ...state, portfolio: newPortfolio };

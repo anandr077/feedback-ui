@@ -101,8 +101,17 @@ const PortfolioPage = () => {
     );
   };
   const handleDeleteDocument = (document) => {
+    dispatch({
+      type: 'deleteDocument',
+      payload: {
+        mainIndex: state.activeMainIndex,
+        subFolderIndex: state.activeSubFolderIndex,
+        documentId: document.documentId
+      },
+    })
     deleteDocumentMutation.mutate(document);
   };
+  
   return (
     <>
       <PortfolioSection>

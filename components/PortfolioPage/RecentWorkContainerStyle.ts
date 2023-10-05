@@ -39,8 +39,7 @@ const AllWorkBoxes = styled.div`
 
 const NewDocBtn = styled.button`
   flex: 1;
-  /* width: 213px;
-  min-width: 180px; */
+  max-width: 213px;
   height: 275px;
   display: flex;
   flex-direction: column;

@@ -6,7 +6,7 @@ import {
 } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
 
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
@@ -35,6 +35,7 @@ const PortfolioPage = () => {
   const [state, dispatch] = useReducer(reducer, initailState);
 
   const [showModal, setShowModal] = useState(false);
+  const queryClient = useQueryClient();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
@@ -49,11 +50,29 @@ const PortfolioPage = () => {
       window.location.href = `#documents/${data.id}`;
     },
   });
+
   const deleteDocumentMutation = useMutation(
     (document) => deleteSubmissionById(document.documentId),
     {
+      onMutate: (document) => {
+        const previousPortfolio = JSON.parse(JSON.stringify(state.portfolio));    
+        dispatch({
+          type: 'deleteDocument',
+          payload: {
+            mainIndex: state.activeMainIndex,
+            subFolderIndex: state.activeSubFolderIndex,
+            documentId: document.documentId,
+          },
+        });
+        return { previousPortfolio };
+      },
       onSuccess: () => {
         queryClient.invalidateQueries('portfolio');
+      },
+      onError: (_, __, context) => {
+        if (context?.previousPortfolio) {
+          dispatch({ type: 'setPortfolio', payload: context.previousPortfolio });
+        }
       },
     }
   );
@@ -72,6 +91,7 @@ const PortfolioPage = () => {
     state.activeMainIndex,
     state.activeSubFolderIndex
   );
+  
 
   const handleCreateDocument = (docName) => {
     addFile(
@@ -83,8 +103,17 @@ const PortfolioPage = () => {
     );
   };
   const handleDeleteDocument = (document) => {
+    dispatch({
+      type: 'deleteDocument',
+      payload: {
+        mainIndex: state.activeMainIndex,
+        subFolderIndex: state.activeSubFolderIndex,
+        documentId: document.documentId
+      },
+    })
     deleteDocumentMutation.mutate(document);
   };
+  
   return (
     <>
       <PortfolioSection>

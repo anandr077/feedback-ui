@@ -1,6 +1,5 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import jsPDF from 'jspdf';
 import { cloneDeep, filter, flatMap, get, includes, map, set } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -47,10 +46,7 @@ import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData,
 } from './style';
-import {
-  assignmentsHeaderProps,
-  taskHeaderProps,
-} from '../../../utils/headerProps';
+
 import {
   ActionButtonsContainer,
   DialogContiner,

@@ -50,12 +50,26 @@ function NotificationsBar(props) {
         <TaskCard
           task={notification}
           small={true}
-          onAccept={() =>
+          onAccept={() => {
+            const previousNotifications = queryClient.getQueryData(['notifications']);
+            const updatedNotifications = previousNotifications.map((n) => {
+              if (n.submissionId === notification.submissionId) {
+                return { ...n, type: 'URL' };
+              }
+              return n;
+            });
+            queryClient.setQueryData(['notifications'], updatedNotifications);
+
             acceptFeedbackRequest(notification.submissionId).then((res) => {
               queryClient.invalidateQueries(['notifications']);
 
               window.location.href = `#documents/${notification.submissionId}`;
             })
+            .catch(error => {
+              queryClient.setQueryData(['notifications'], previousNotifications);
+            });
+          }
+            
           }
           onDecline={() =>
             declineFeedbackRequest(notification.submissionId).then((res) => {

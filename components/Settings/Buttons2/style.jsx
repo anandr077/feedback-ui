@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const TooltipWrapper = styled.div`
   position: relative;
@@ -54,7 +54,6 @@ export const Arrowright = styled.img`
   position: relative;
   min-width: 12px;
   height: 12px;
-  cursor: pointer;
 `;
 
 export const DeleteButtonContainer = styled.div`
@@ -63,11 +62,17 @@ export const DeleteButtonContainer = styled.div`
   align-items: flex-start;
   gap: 10px;
   border-radius: 6px;
-  border: 1px solid #de2b2b;
+  border: 1px solid #979797;
   background: #fff;
-  cursor: pointer;
   transition: all 0.2s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
-  }
+
+  ${(props) =>
+    props.isHovered &&
+    css`
+      &:hover {
+        transform: scale(1.1);
+      }
+      border: 1px solid #de2b2b;
+      cursor: pointer;
+    `}
 `;

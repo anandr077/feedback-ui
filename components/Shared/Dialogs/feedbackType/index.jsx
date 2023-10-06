@@ -21,25 +21,43 @@ export default function FeedbackTypeDialog({
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
-          <div className="type-container">
-            <div>Select a {title}</div>
-            <DropdownMenu
-              menuItems={menuItems}
-              showAvatar={true}
-              onItemSelected={(item) => {
-                setSelectedMenuItem(item);
-              }}
-            ></DropdownMenu>
-            <div
-              className="request-btn"
-              onClick={() => {
-                handleSelectedRequestFeedback(selectedMenuItem, feedbackType);
-                handleClose();
-              }}
-            >
-              Send request
+          {title != 'class' ? (
+            <div className="type-container">
+              <div>Select a {title}</div>
+              <DropdownMenu
+                menuItems={menuItems}
+                showAvatar={true}
+                onItemSelected={(item) => {
+                  setSelectedMenuItem(item);
+                }}
+                defaultSearch={true}
+              ></DropdownMenu>
+              <div
+                className="request-btn"
+                onClick={() => {
+                  handleSelectedRequestFeedback(selectedMenuItem, feedbackType);
+                  handleClose();
+                }}
+              >
+                Send request
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="type-container align-items-end">
+              <div>Are you sure you want to perform this action?</div>
+              <div className="flex-container">
+                <button
+                  onClick={() => {
+                    handleSelectedRequestFeedback(null, feedbackType);
+                    handleClose();
+                  }}
+                >
+                  Submit
+                </button>
+                <button onClick={handleClose}>Cancel</button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </>

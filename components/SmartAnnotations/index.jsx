@@ -1,11 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansNormalElectricViolet14px,
-} from '../../styledMixins';
+import React, { useState } from 'react';
 import SmartAnnotationSuggestion from '../SmartAnnotationSuggestion';
-import { set } from 'lodash';
+import {
+  TextInputEditable,
+  TextBox,
+  SmartAnnotationContainer,
+  ButtonContainer,
+  ButtonLabel,
+  PlusImage,
+  TtitleContainer,
+  DeleteButton2,
+  Line14,
+  SmartAnnotationTitleContainer,
+  Title,
+  Arrowdown2,
+  SubmitButton,
+  ButtonWrapper,
+} from './style';
 
 function SmartAnotation(props) {
   const {
@@ -17,8 +27,8 @@ function SmartAnotation(props) {
     deleteAnnotationHandler,
     onSuggestionClick,
     createSmartAnnotation,
+    getUserId,
   } = props;
-
   const [isExpanded, setIsExpanded] = useState(
     smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode
   );
@@ -28,6 +38,8 @@ function SmartAnotation(props) {
   const [editedText, setEditedText] = useState('');
   const [editingTitle, setEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(smartAnnotation.title);
+  const [userId, setUserId] = useState(getUserId());
+  console.log('getUserId:', userId, smartAnnotation);
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);
@@ -95,7 +107,7 @@ function SmartAnotation(props) {
 
   const cloneSmartAnnotation = () => {
     let { title, suggestions } = smartAnnotation;
-    title = title + ' clone';
+    title = 'Copy of ' + title;
     createSmartAnnotation({ title: title, suggestions: suggestions });
   };
 
@@ -113,9 +125,21 @@ function SmartAnotation(props) {
             {editingTitle ? (
               <TextInputEditable
                 value={editTitle}
-                onChange={() => handleTitleTextChange(event)}
-                onBlur={() => saveEditedSmartAnnotation(editTitle)}
-                onKeyPress={handleKeyPress}
+                onChange={() =>
+                  smartAnnotation?.teacherId === userId
+                    ? handleTitleTextChange(event)
+                    : toggleSection()
+                }
+                onBlur={() =>
+                  smartAnnotation?.teacherId === userId
+                    ? saveEditedSmartAnnotation(editTitle)
+                    : toggleSection()
+                }
+                onKeyPress={(e) =>
+                  smartAnnotation?.teacherId === userId
+                    ? handleKeyPress(e)
+                    : toggleSection()
+                }
               ></TextInputEditable>
             ) : (
               <Title onClick={toggleSection}>{editTitle}</Title>
@@ -128,16 +152,24 @@ function SmartAnotation(props) {
                   alt="copy"
                   onClick={() => cloneSmartAnnotation()}
                 ></DeleteButton2>
-                <DeleteButton2
-                  src="/icons/edit-purple-icon.svg"
-                  alt="edit-button"
-                  onClick={() => setEditingTitle(true)}
-                ></DeleteButton2>
-                <DeleteButton2
-                  src="/icons/delete-purple-icon.svg"
-                  alt="delete-button"
-                  onClick={() => handleDeleteAnnotation()}
-                />
+                {smartAnnotation?.teacherId === userId ? (
+                  <DeleteButton2
+                    src="/icons/edit-purple-icon.svg"
+                    alt="edit-button"
+                    onClick={() => setEditingTitle(true)}
+                  ></DeleteButton2>
+                ) : (
+                  <></>
+                )}
+                {smartAnnotation?.teacherId === userId ? (
+                  <DeleteButton2
+                    src="/icons/delete-purple-icon.svg"
+                    alt="delete-button"
+                    onClick={() => handleDeleteAnnotation()}
+                  />
+                ) : (
+                  <></>
+                )}
               </ButtonContainer>
             ) : (
               <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
@@ -157,6 +189,9 @@ function SmartAnotation(props) {
                 handleDeleteSuggestion={handleDeleteSuggestion}
                 handleDeleteAnnotation={handleDeleteAnnotation}
                 addNewSuggestions={addNewSuggestions}
+                teacherId={smartAnnotation.teacherId}
+                userId={userId}
+                toggleSection={toggleSection}
               ></SmartAnnotationSuggestion>
             );
           })}
@@ -170,24 +205,27 @@ function SmartAnotation(props) {
           )}
           <Line14 src="/img/line-14.png" alt="Line 14" />
 
-          {settingsMode ? (
+          {smartAnnotation?.teacherId === userId && settingsMode ? (
             <ButtonContainer>
               <PlusImage src="/img/add-violet.svg" alt="plus" />
               <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
             </ButtonContainer>
-          ) : newSmartAnnotationEdit ? (
+          ) : smartAnnotation?.teacherId === userId &&
+            newSmartAnnotationEdit ? (
             <ButtonWrapper>
               <SubmitButton onClick={onClickNewSuggestionComment}>
                 Submit
               </SubmitButton>
             </ButtonWrapper>
           ) : (
-            <ButtonContainer>
-              <PlusImage src="/img/add-violet.svg" alt="plus" />
-              <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>
-                Other suggestion
-              </ButtonLabel>
-            </ButtonContainer>
+            smartAnnotation?.teacherId === userId && (
+              <ButtonContainer>
+                <PlusImage src="/img/add-violet.svg" alt="plus" />
+                <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>
+                  Other suggestion
+                </ButtonLabel>
+              </ButtonContainer>
+            )
           )}
         </SmartAnnotationContainer>
       ) : (
@@ -206,152 +244,3 @@ function SmartAnotation(props) {
 }
 
 export default SmartAnotation;
-
-const TextInputEditable = styled.textarea`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  width: 100%;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  border-color: transparent;
-  box-shadow: 0px;
-  outline: none;
-  transition: 0.15s;
-`;
-
-const TextBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px 20px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
-`;
-
-const SmartAnnotationContainer = styled.div`
-  display: flex;
-  padding: 16px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  align-self: stretch;
-  border-radius: 12px;
-  border: 1px solid #f1e7ff;
-  background: #fff;
-  box-shadow: 0px 2px 14px 0px rgba(114, 0, 224, 0.1);
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 3px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  background: #ffffff;
-`;
-
-const ButtonLabel = styled.div`
-  ${IbmplexsansNormalElectricViolet14px}
-  font-size: 16px;
-  color: var(--light-mode-purple, #7200e0);
-  cursor: pointer;
-`;
-
-const PlusImage = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-  cursor: pointer;
-`;
-
-const TtitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const DeleteButton2 = styled.img`
-  cursor: pointer;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const SuggestionsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 16px;
-  align-self: stretch;
-  width: 100%;
-`;
-
-const Line14 = styled.img`
-  position: relative;
-  align-self: stretch;
-  width: 100%;
-  height: 1px;
-  object-fit: cover;
-`;
-
-const SmartAnnotationTitleContainer = styled.div`
-  cursor: pointer;
-  display: flex;
-  padding: 16px;
-  align-items: flex-start;
-  gap: 20px;
-  align-self: stretch;
-  border-radius: 12px;
-  border: 1px solid #f1e7ff;
-  background: #fff;
-  box-shadow: 0px 2px 14px 0px rgba(114, 0, 224, 0.1);
-`;
-
-const Title = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  cursor: pointer;
-`;
-
-const Arrowdown2 = styled.img`
-  position: relative;
-  min-width: 24px;
-  height: 24px;
-`;
-
-const SubmitButton = styled.div`
-  display: flex;
-  padding: 8px 16px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 30px;
-  border: 1px solid #7200e0;
-  color: #ffffff;
-  background: #7200e0;
-  cursor: pointer;
-  text-align: center;
-  font-size: 16px;
-  font-family: IBM Plex Sans;
-  font-weight: 500;
-  :hover {
-    scale: 1.1;
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  gap: 8px;
-  align-self: stretch;
-`;

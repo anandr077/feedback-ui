@@ -14,6 +14,7 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
+  getUserId,
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -62,6 +63,7 @@ export default function AccountSettingsRoot(props) {
         settingsMode={true}
         deleteAnnotationHandler={deleteAnnotationHandler}
         createSmartAnnotation={createSmartAnnotation}
+        getUserId={getUserId}
       />
     ));
     return all;
@@ -171,7 +173,7 @@ export default function AccountSettingsRoot(props) {
 
   const createMarkingCriteria = (markingCriteria) => {
     let { title } = markingCriteria;
-    title = title + ' clone';
+    title = 'Copy of ' + title;
     const createdMarkingCriteria = {
       title: title,
       type: markingCriteria.type,

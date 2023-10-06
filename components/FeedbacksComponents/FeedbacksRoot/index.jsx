@@ -899,11 +899,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         return menuItem.id === submission.id;
       });
       return (
-        <DropdownMenu
-          menuItems={menuItems}
-          showAvatar={true}
-          selectedIndex={selectedItemIndex}
-        ></DropdownMenu>
+        <>
+          <DropdownMenu
+            menuItems={menuItems}
+            showAvatar={true}
+            selectedIndex={selectedItemIndex}
+            defaultSearch={true}
+          ></DropdownMenu>
+        </>
       );
     }
   };
@@ -1205,9 +1208,11 @@ function submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction) {
   let buttonText = 'Submit';
 
   if (pageMode === 'DRAFT') {
-    warningMessage="Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness."
-    confirmationMessage="By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form."
-    buttonText = 'Acknowledge and Submit';
+    warningMessage =
+      'Plagiarism undermines the learing process, hinders personal growth, and goes against the principles of honesty and fairness.';
+    confirmationMessage =
+      'By submitting your work, you are acknowledging that it is entirely your own and has not been plagiarised in any form.';
+    buttonText = 'Submit';
   }
   return (
     <GeneralPopup

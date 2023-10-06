@@ -24,28 +24,30 @@ import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 
 const sortReducer = (state, action) => {
   switch (action.type) {
-    case 'UPDATE':
-      return [...action.payload];
+    case 'sortedFiles':
+      return {...state, displaySortedFiles: action.payload};
+    case 'updatedAllFiles':
+      return {...state, sortedFiles: [...action.payload]};
     case 'A - Z':
-      return [...state].sort((a, b) => a.title.localeCompare(b.title));
+      return {...state, sortedFiles: [...state.sortedFiles].sort((a, b) => a.title.localeCompare(b.title))};
     case 'Z - A':
-      return [...state].sort((a, b) => b.title.localeCompare(a.title));
+      return {...state, sortedFiles: [...state.sortedFiles].sort((a, b) => b.title.localeCompare(a.title))};
     case 'New to old':
-      return [...state].sort(
-        (a, b) => new Date(b.viewedAt) - new Date(a.viewedAt)
-      );
+      return {...state, sortedFiles: [...state.sortedFiles].sort((a, b) => new Date(b.viewedAt) - new Date(a.viewedAt))};
     case 'Old to new':
-      return [...state].sort(
-        (a, b) => new Date(a.viewedAt) - new Date(b.viewedAt)
-      );
+      return {...state, sortedFiles: [...state.sortedFiles].sort((a, b) => new Date(a.viewedAt) - new Date(b.viewedAt))};
     default:
       return state;
   }
 };
+
 const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
-  console.log('allFiles', allFiles);
-  const [sortedFiles, dispatch] = useReducer(sortReducer, allFiles);
-  const [displayFiles, setDisplayFiles] = useState(false);
+  const initialState = {
+    sortedFiles: allFiles,
+    displaySortedFiles: false,
+  }
+
+  const [state, dispatch] = useReducer(sortReducer, initialState);
 
   const sortOptions = [
     { title: 'A - Z' },
@@ -55,16 +57,16 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
   ];
 
   useEffect(()=>{
-    dispatch({type: 'UPDATE', payload: allFiles});
-    setDisplayFiles(false)
+    dispatch({type: 'updatedAllFiles', payload: allFiles});
+    dispatch({type: 'sortedFiles', payload: false});
   }, [allFiles])
 
   const getSelectedItem = (option) => {
     dispatch({ type: option.title });
-    setDisplayFiles(true)
+    dispatch({type: 'sortedFiles', payload: true});
   };
 
-  const filesToDisplay = displayFiles ? sortedFiles : allFiles;
+  const filesToDisplay = state.displaySortedFiles ? state.sortedFiles : allFiles;
 
   return (
     <AllFilesContainer>

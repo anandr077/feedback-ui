@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const RecentWork = styled.div`
   flex: 1;
+  max-width: 213px;
   height: 275px;
   border: 1px solid #f1e7ff;
   border-radius: 12px;

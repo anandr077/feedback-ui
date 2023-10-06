@@ -17,10 +17,15 @@ function MarkingCriteriaCard(props) {
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
   return (
-    <MarkingCriteriaEntry>
+    <MarkingCriteriaEntry isHovered={markingCriteria?.teacherId ? true : false}>
       <MarkingCriteriaEntryHeading
         onClick={() =>
-          navigateToMarkingCriteriaUrl(markingCriteria.id, markingCriteria.type)
+          markingCriteria?.teacherId
+            ? navigateToMarkingCriteriaUrl(
+                markingCriteria.id,
+                markingCriteria.type
+              )
+            : {}
         }
       >
         <div>
@@ -32,7 +37,7 @@ function MarkingCriteriaCard(props) {
           </TypeText>
         </div>
         <Buttons2
-          markingCriteriaId={markingCriteria.id}
+          markingCriteria={markingCriteria}
           deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
           cloneMarkingCriteria={cloneMarkingCriteria}
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}

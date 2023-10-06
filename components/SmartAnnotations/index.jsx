@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SmartAnnotationSuggestion from '../SmartAnnotationSuggestion';
+import { getUserId } from '../../service';
 import {
   TextInputEditable,
   TextBox,
@@ -187,7 +188,6 @@ function SmartAnotation(props) {
                 handleDeleteAnnotation={handleDeleteAnnotation}
                 addNewSuggestions={addNewSuggestions}
                 teacherId={smartAnnotation.teacherId}
-                userId={userId}
                 toggleSection={toggleSection}
               ></SmartAnnotationSuggestion>
             );

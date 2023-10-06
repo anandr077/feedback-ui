@@ -51,11 +51,17 @@
     justify-content: space-between;
     margin-bottom: 8px;
     border-radius: 38px;
+    color: #301B72;
     padding: 16px 24px;
     font-weight: 500;
     font-size: 20px;
     line-height: 26px;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.folder:active{
+    color: #301B72 !important;
 }
 
 .active{

@@ -68,8 +68,6 @@ function Document(props) {
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
-  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
-
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
   };
@@ -181,6 +179,7 @@ const handleFeedbackMethodTypeDialog = (
   if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_CLASS) {
     return (
       <FeedbackTypeDialog
+        menuItems={students}
         setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
         title="class"
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}

@@ -18,6 +18,7 @@ export default function FeedbackTypeDialog({
     setOpen(false);
     setFeedbackMethodTypeDialog(-1);
   };
+  console.log('menuItems: ', menuItems);
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
@@ -46,7 +47,10 @@ export default function FeedbackTypeDialog({
           ) : (
             <GeneralPopup
               hidePopup={handleClose}
-              title="Are you share you want to request feedback from class"
+              title={
+                'Are you share you want to request feedback from ' +
+                menuItems[0].name
+              }
               confirmationMessage=""
               buttonText="Submit"
               confirmButtonAction={() => {

@@ -675,6 +675,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       queryClient.invalidateQueries(['notifications']);
       queryClient.invalidateQueries(['tasks']);
       queryClient.invalidateQueries(['assignments']);
+      queryClient.invalidateQueries((queryKey) => {
+        return queryKey.includes('class');
+      });
       showSnackbar('Task reviewed...', window.location.href);
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
@@ -717,6 +720,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             queryClient.invalidateQueries(['notifications']);
             queryClient.invalidateQueries(['tasks']);
             queryClient.invalidateQueries(['assignments']);
+            queryClient.invalidateQueries((queryKey) => {
+              return queryKey.includes('class');
+            });
             showSnackbar('Resubmission requested...', window.location.href);
             window.location.href = '/#';
             setShowLoader(false);
@@ -751,6 +757,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -782,6 +791,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);

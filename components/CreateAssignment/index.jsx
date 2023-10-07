@@ -334,6 +334,12 @@ export default function CreateAssignment(props) {
   const saveDraft = () => {
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
+        queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
         showSnackbar('Task saved');
         return;
       } else {
@@ -464,6 +470,9 @@ export default function CreateAssignment(props) {
             queryClient.invalidateQueries(['notifications']);
             queryClient.invalidateQueries(['tasks']);
             queryClient.invalidateQueries(['assignments']);
+            queryClient.invalidateQueries((queryKey) => {
+              return queryKey.includes('class');
+            });
             showSnackbar('Task published', res.link);
             window.location.href = '#tasks';
           } else {

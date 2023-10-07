@@ -50,13 +50,13 @@ function TeacherClassesTablet(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            <DropdownMenu
+            {classes.length != 0 && <DropdownMenu
               menuItems={classes}
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
               selectedIndex={selectedClassIndex}
-            ></DropdownMenu>
+            ></DropdownMenu>}
           </Frame1306>
           <Frame1426>
             <Buttons link="#tasks/new" />

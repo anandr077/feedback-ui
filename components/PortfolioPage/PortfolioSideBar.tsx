@@ -56,8 +56,6 @@ function mainFolderContainer(
   isSmallScreen,
   setShowNavMenu
 ): JSX.Element {
-  console.log('state.activeMainIndex', state.activeMainIndex);
-  console.log('mainIndex', mainIndex);
 
   const isActive = isSmallScreen() ? showNavMenu : true;
 

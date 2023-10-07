@@ -220,8 +220,10 @@ export const addFeedback = async (submissionId, comment) =>
     baseUrl + '/submissions/' + submissionId + '/feedbacks',
     comment
   );
-export const deleteSubmissionById = async (submissionId) =>
-  await patchApi(baseUrl + '/submissions/' + submissionId + '/delete');
+export const deleteSubmissionById = async (submissionId) => {
+  console.log("delete submission " + submissionId)
+  await patchApi(baseUrl + '/submissions/' + submissionId + '/delete')
+}
 
 export const updateFeedback = async (submissionId, commentId, comment) =>
   await putApi(

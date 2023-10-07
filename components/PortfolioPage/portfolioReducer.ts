@@ -11,11 +11,11 @@ export function reducer(state: any, action: any) {
   switch (action.type) {
     case 'deleteDocument':
       const { mainIndex, subFolderIndex, documentId } = action.payload;
-      const newPortfolio = { ...state.portfolio }; 
+      const newPortfolio = { ...state.portfolio };
       const files = newPortfolio.files[mainIndex].files[subFolderIndex].files;
-        newPortfolio.files[mainIndex].files[subFolderIndex].files = files.filter(
-          (file) => file.id !== documentId
-        );
+      newPortfolio.files[mainIndex].files[subFolderIndex].files = files.filter(
+        (file) => file.id !== documentId
+      );
       return { ...state, portfolio: newPortfolio };
     case 'setPortfolio':
       return { ...state, portfolio: action.payload };
@@ -101,7 +101,6 @@ export function getDocuments(
   mainIndex: number,
   subFolderIndex: number = 0
 ) {
-  console.log('getDocuments: ', data);
 
   if (
     mainIndex < 0 ||
@@ -126,7 +125,6 @@ export function getSubFolder(
   mainIndex: number,
   subFolderIndex: number = 0
 ) {
-  console.log('getDocuments: ', data);
 
   if (
     mainIndex < 0 ||
@@ -140,3 +138,55 @@ export function getSubFolder(
 
   return mainFolder?.files?.[subFolderIndex];
 }
+
+export const deleteDocument = (portfolio, documentId, classId) => {
+  // Deleting from recentFiles using filter
+  const updatedRecentFiles = portfolio.recentFiles.filter(
+    (file) => file.documentId !== documentId
+  );
+
+  const updatedFiles = portfolio.files.map(file => {
+    if (file.classId === classId) {
+        return {
+            ...file,
+            files: file.files.map(innerFolder => {
+                if (innerFolder.title === "Drafts") {
+                    return {
+                        ...innerFolder,
+                        files: innerFolder.files.filter(document => document.documentId !== documentId)
+                    };
+                }
+                return innerFolder;
+            })
+        };
+    }
+    return file;
+  });
+
+
+  return {
+    ...portfolio,
+    recentFiles: updatedRecentFiles,
+    files: updatedFiles,
+  };
+};
+
+const deleteFromTasksFolder = (files, documentId) => {
+  console.log("Files", files)
+  return files? .map((file) => {
+    if (file.type === 'FOLDER') {
+      let updatedFiles =
+        file.title === 'Tasks'
+          ? file.files?.filter(
+              (innerFile) => innerFile.documentId !== documentId
+            )
+          : deleteFromTasksFolder(file.files);
+
+      return {
+        ...file, // spread the rest of the file properties
+        files: updatedFiles,
+      };
+    }
+    return file;
+  });
+};

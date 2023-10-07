@@ -1,6 +1,7 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
 import { isSmallScreen } from '../ReactiveRender';
@@ -50,6 +51,7 @@ function mainFolderContainer(
     title: string;
     type: string;
     files: { title: string; type: string; preview: string }[];
+    classId: number;
   },
   showArrowDropDown: boolean,
   showNavMenu,
@@ -62,10 +64,8 @@ function mainFolderContainer(
   return (
     <>
       {isActive && (
-        <div
-          className={`folder ${
-            state.activeMainIndex === mainIndex ? 'active' : ''
-          }`}
+        <Link
+          className={`folder ${state.activeMainIndex === mainIndex ? 'active' : ''}`}
           onClick={() => {
             dispatch({
               type: 'setActiveMainIndex',
@@ -76,6 +76,7 @@ function mainFolderContainer(
               state.activeMainIndex === mainIndex ? !showArrowUp : true
             );
           }}
+          to={`/portfolio/` + folder.classId}
         >
           {folder.title}
           <div>
@@ -86,7 +87,7 @@ function mainFolderContainer(
                 <ArrowDropDownIcon />
               ))}
           </div>
-        </div>
+        </Link>
       )}
 
       {showSubfolders === mainIndex &&

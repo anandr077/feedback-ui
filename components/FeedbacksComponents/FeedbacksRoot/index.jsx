@@ -1,6 +1,5 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import jsPDF from 'jspdf';
 import { cloneDeep, filter, flatMap, get, includes, map, set } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -47,10 +46,7 @@ import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData,
 } from './style';
-import {
-  assignmentsHeaderProps,
-  taskHeaderProps,
-} from '../../../utils/headerProps';
+
 import {
   ActionButtonsContainer,
   DialogContiner,
@@ -675,6 +671,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       queryClient.invalidateQueries(['notifications']);
       queryClient.invalidateQueries(['tasks']);
       queryClient.invalidateQueries(['assignments']);
+      queryClient.invalidateQueries((queryKey) => {
+        return queryKey.includes('class');
+      });
       showSnackbar('Task reviewed...', window.location.href);
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
@@ -717,6 +716,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             queryClient.invalidateQueries(['notifications']);
             queryClient.invalidateQueries(['tasks']);
             queryClient.invalidateQueries(['assignments']);
+            queryClient.invalidateQueries((queryKey) => {
+              return queryKey.includes('class');
+            });
             showSnackbar('Resubmission requested...', window.location.href);
             window.location.href = '/#';
             setShowLoader(false);
@@ -751,6 +753,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -782,6 +787,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);

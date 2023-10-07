@@ -48,19 +48,19 @@ export default function TeacherDashboardRoot(props) {
     ]);
 
   React.useEffect(() => {
-    if (assignmentsQuery.isSuccess) {
+    if (assignmentsQuery.data) {
       setAssignments(assignmentsQuery.data);
     }
-    if (classesWithStudentsQuery.isSuccess) {
+    if (classesWithStudentsQuery.data) {
       setClasses(classesWithStudentsQuery.data);
     }
-    if (notificationsQuery.isSuccess){
+    if (notificationsQuery.data){
       setNotifications(notificationsQuery.data)
     }
   }, [
-    assignmentsQuery.isSuccess,
-    classesWithStudentsQuery.isSuccess,
-    notificationsQuery.isSuccess,
+    assignmentsQuery.data,
+    classesWithStudentsQuery.data,
+    notificationsQuery.data,
   ]);
 
   if (

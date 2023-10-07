@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SmartAnnotationSuggestion from '../SmartAnnotationSuggestion';
+import { getUserId } from '../../service';
 import {
   TextInputEditable,
   TextBox,
@@ -27,7 +28,6 @@ function SmartAnotation(props) {
     deleteAnnotationHandler,
     onSuggestionClick,
     createSmartAnnotation,
-    getUserId,
   } = props;
   const [isExpanded, setIsExpanded] = useState(
     smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode
@@ -38,8 +38,6 @@ function SmartAnotation(props) {
   const [editedText, setEditedText] = useState('');
   const [editingTitle, setEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(smartAnnotation.title);
-  const [userId, setUserId] = useState(getUserId());
-  console.log('getUserId:', userId, smartAnnotation);
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);
@@ -190,7 +188,6 @@ function SmartAnotation(props) {
                 handleDeleteAnnotation={handleDeleteAnnotation}
                 addNewSuggestions={addNewSuggestions}
                 teacherId={smartAnnotation.teacherId}
-                userId={userId}
                 toggleSection={toggleSection}
               ></SmartAnnotationSuggestion>
             );

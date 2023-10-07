@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getUserId } from '../../service';
 import {
   SuggestionsLabel,
   ButtonContainer,
@@ -17,12 +18,12 @@ export default function SmartAnnotationSuggestion(props) {
     handleDeleteSuggestion,
     onClickFn,
     teacherId,
-    userId,
     toggleSection,
   } = props;
 
   const [editedText, setEditedText] = useState(text);
   const [editing, setEditing] = useState(false);
+  const [userId, setUserId] = useState(getUserId());
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);

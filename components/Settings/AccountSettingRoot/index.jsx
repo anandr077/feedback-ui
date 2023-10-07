@@ -14,7 +14,6 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
-  getUserId,
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -63,7 +62,6 @@ export default function AccountSettingsRoot(props) {
         settingsMode={true}
         deleteAnnotationHandler={deleteAnnotationHandler}
         createSmartAnnotation={createSmartAnnotation}
-        getUserId={getUserId}
       />
     ));
     return all;

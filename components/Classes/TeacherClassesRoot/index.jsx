@@ -15,50 +15,77 @@ import {
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
+import { useQueries, useQuery, useQueryClient } from 'react-query';
 
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
   const [classId, setClassId] = useState(classIdFromUrl);
   const [classes, setClasses] = useState([]);
+  console.log('classes', classes);
   const [assignments, setAssignments] = React.useState([]);
 
   const [students, setStudents] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] =
     React.useState([]);
-    const [smallScreenView, setSmallScreenView] = React.useState(
-      isSmallScreen()
-    );
+  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
+  const queryClient = useQueryClient();
 
-  React.useEffect(() => {
-    getClasses().then((result) => {
+
+  const classesQuery = useQuery({
+    queryKey: ['classes'],
+    queryFn: async () => {
+      const result = await getClasses();
+      return result;
+    },
+    staleTime: 300000,
+    
+  });
+  useEffect(() => {
+    if (classesQuery.isSuccess) {
+      const data = classesQuery.data;
       if (classIdFromUrl) {
         setClassId(classIdFromUrl);
       } else {
-        setClassId(result[0].id);
+        setClassId(data[0].id);
       }
-      setClasses(result);
-    });
-  }, []);
-  useEffect(() => {
-    if (classId) {
-      Promise.all([
-        getStudentsForClass(classId),
-        getAssignmentsByClassId(classId),
-        getSmartAnnotaionAnalyticsByClassId(classId),
-      ]).then(
-        ([studentsResponse, assignmentsResponse, smartAnnotationAnalytics]) => {
-          setStudents(studentsResponse);
-          setAssignments(assignmentsResponse);
-          setSmartAnnotationAnalytics(smartAnnotationAnalytics);
-          setIsLoading(false);
-        }
-      );
+      setClasses(data);
     }
-  }, [classId]);
+  }, [classesQuery.isSuccess]);
 
-  if (isLoading) {
+
+  const classQuery = useQuery(
+    ['class', classId],
+    async () => {
+      const studentsResponse = await getStudentsForClass(classId);
+      const assignmentsResponse = await getAssignmentsByClassId(classId);
+      const smartAnnotationAnalytics =
+        await getSmartAnnotaionAnalyticsByClassId(classId);
+
+      return {
+        students: studentsResponse,
+        assignments: assignmentsResponse,
+        smartAnnotationAnalytics: smartAnnotationAnalytics,
+      };
+    },
+    {
+      staleTime: 300000,
+      enabled: !!classId, // Only fetch data when classId is available
+    }
+  );
+  useEffect(() => {
+    if (classQuery.data) {
+      const { students, assignments, smartAnnotationAnalytics } =
+        classQuery.data;
+
+      setStudents(students);
+      setAssignments(assignments);
+      setSmartAnnotationAnalytics(smartAnnotationAnalytics);
+    }
+  }, [classQuery.data, classId]);
+
+  if (classQuery.isLoading || classesQuery.isLoading) {
     return (
       <>
         <Loader />

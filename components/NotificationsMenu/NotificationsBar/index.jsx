@@ -7,11 +7,62 @@ import {
   declineFeedbackRequest,
 } from '../../../service';
 import { NavbarDiv, Frame1409, MaskGroup, Frame15, Frame16 } from './style';
-import { useQueryClient } from 'react-query';
+import { useQueryClient, useMutation } from 'react-query';
 
 function NotificationsBar(props) {
   const queryClient = useQueryClient();
+  const acceptMutation = useMutation({
+    mutationFn: acceptFeedbackRequest,
+    onMutate: async (submissionId) => {
+      await queryClient.cancelQueries({ queryKey: ['notifications'] });
+      const previousNotifications = queryClient.getQueryData(['notifications']);
+      const updatedNotifications = previousNotifications.map((n) => {
+        if (n.submissionId === submissionId) {
+          return { ...n, type: 'URL' };
+        }
+        return n;
+      });
+      queryClient.setQueryData(['notifications'], (old) => updatedNotifications);
 
+      return { previousNotifications };
+    },
+
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(
+        ['notifications'],
+        context.previousNotifications
+      );
+    },
+    onSuccess: (data, variables) => {
+      window.location.href = `#documents/${data.id}`;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+    },
+  });
+
+  const declineMutation = useMutation({
+    mutationFn: declineFeedbackRequest,
+    onMutate: async (submissionId) => {
+      await queryClient.cancelQueries({ queryKey: ['notifications'] });
+      const previousNotifications = queryClient.getQueryData(['notifications']);
+      const updatedNotifications = previousNotifications.filter((n) => n.submissionId !== submissionId);
+      queryClient.setQueryData(['notifications'], (old) => updatedNotifications);
+
+      return { previousNotifications };
+    },
+
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(
+        ['notifications'],
+        context.previousNotifications
+      );
+    },
+    
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+    },
+  });
   const { notifications, type, onCloseFn, loadingNotifications } = props;
   if (!notifications || notifications?.length === 0) {
     return (
@@ -50,33 +101,11 @@ function NotificationsBar(props) {
         <TaskCard
           task={notification}
           small={true}
-          onAccept={() => {
-            const previousNotifications = queryClient.getQueryData(['notifications']);
-            const updatedNotifications = previousNotifications.map((n) => {
-              if (n.submissionId === notification.submissionId) {
-                return { ...n, type: 'URL' };
-              }
-              return n;
-            });
-            queryClient.setQueryData(['notifications'], updatedNotifications);
-
-            acceptFeedbackRequest(notification.submissionId).then((res) => {
-              queryClient.invalidateQueries(['notifications']);
-
-              window.location.href = `#documents/${notification.submissionId}`;
-            })
-            .catch(error => {
-              queryClient.setQueryData(['notifications'], previousNotifications);
-            });
-          }
-            
+          onAccept={() => 
+            acceptMutation.mutate(notification.submissionId)
           }
           onDecline={() =>
-            declineFeedbackRequest(notification.submissionId).then((res) => {
-              queryClient.invalidateQueries(['notifications']);
-
-              // window.location.reload();
-            })
+            declineMutation.mutate(notification.submissionId)
           }
         />
       );

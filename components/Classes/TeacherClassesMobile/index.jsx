@@ -48,14 +48,14 @@ function TeacherClassesMobile(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            <DropdownMenu
+            {classes.length != 0 && <DropdownMenu
               menuItems={classes}
               onItemSelected={(item) => {
                 setClassId(item.id);
               }}
               selectedIndex={selectedClassIndex}
               small={true}
-            ></DropdownMenu>
+            ></DropdownMenu>}
           </Frame1306>
 
           <Buttons className={buttonsProps.className} link="#tasks/new" />

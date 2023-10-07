@@ -23,7 +23,6 @@ export default function TeacherTaskRoot() {
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
 
-
   const [assignmentsQuery, teacherClassesQuery] = useQueries([
     {
       queryKey: ['assignments'],
@@ -34,7 +33,7 @@ export default function TeacherTaskRoot() {
       staleTime: 300000,
     },
     {
-      queryKey: ['teacherclasses'],
+      queryKey: ['classes'],
       queryFn: async () => {
         const result = await getClasses();
         return result;
@@ -44,14 +43,14 @@ export default function TeacherTaskRoot() {
   ]);
 
   React.useEffect(() => {
-    if (assignmentsQuery.isSuccess) {
+    if (assignmentsQuery.data) {
       setFilteredTasks(assignmentsQuery.data);
       setAssignments(assignmentsQuery.data);
     }
-    if (teacherClassesQuery.isSuccess) {
+    if (teacherClassesQuery.data) {
       setClasses(teacherClassesQuery.data);
     }
-  }, [assignmentsQuery.isSuccess, teacherClassesQuery.isSuccess]);
+  }, [assignmentsQuery.data, teacherClassesQuery.data]);
 
   if (assignmentsQuery.isLoading || teacherClassesQuery.isLoading) {
     return (

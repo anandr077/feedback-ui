@@ -3,6 +3,7 @@ import DialogContent from '@mui/material/DialogContent';
 import * as React from 'react';
 import DropdownMenu from '../../../DropdownMenu';
 import './style.css';
+import GeneralPopup from '../../../GeneralPopup';
 
 export default function FeedbackTypeDialog({
   menuItems,
@@ -17,6 +18,7 @@ export default function FeedbackTypeDialog({
     setOpen(false);
     setFeedbackMethodTypeDialog(-1);
   };
+  console.log('menuItems: ', menuItems);
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
@@ -43,20 +45,19 @@ export default function FeedbackTypeDialog({
               </div>
             </div>
           ) : (
-            <div className="type-container align-items-end">
-              <div>Are you sure you want to perform this action?</div>
-              <div className="flex-container">
-                <button
-                  onClick={() => {
-                    handleSelectedRequestFeedback(null, feedbackType);
-                    handleClose();
-                  }}
-                >
-                  Submit
-                </button>
-                <button onClick={handleClose}>Cancel</button>
-              </div>
-            </div>
+            <GeneralPopup
+              hidePopup={handleClose}
+              title={
+                'Are you share you want to request feedback from ' +
+                menuItems[0].name
+              }
+              confirmationMessage=""
+              buttonText="Submit"
+              confirmButtonAction={() => {
+                handleSelectedRequestFeedback(selectedMenuItem, feedbackType);
+                handleClose();
+              }}
+            />
           )}
         </DialogContent>
       </Dialog>

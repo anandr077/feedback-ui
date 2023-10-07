@@ -41,6 +41,7 @@ function TeacherClassesDesktop(props) {
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
+  console.log('first', classes);
 
   return (
     <div className="teacher-classes-desktop screen">
@@ -50,13 +51,15 @@ function TeacherClassesDesktop(props) {
         </Frame13121>
         <Frame14221>
           <Frame1306>
-            <DropdownMenu
-              menuItems={classes}
-              onItemSelected={(item) => {
-                setClassId(item.id);
-              }}
-              selectedIndex={selectedClassIndex}
-            ></DropdownMenu>
+            {classes.length != 0 && (
+              <DropdownMenu
+                menuItems={classes}
+                onItemSelected={(item) => {
+                  setClassId(item?.id);
+                }}
+                selectedIndex={selectedClassIndex}
+              ></DropdownMenu>
+            )}
           </Frame1306>
           <Frame1426>
             <Buttons link="#tasks/new" />

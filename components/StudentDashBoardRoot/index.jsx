@@ -39,10 +39,10 @@ export default function StudentDashboardRoot(props) {
   ]);
 
   React.useEffect(() => {
-    if (tasksQuery.isSuccess) {
+    if (tasksQuery.data) {
       setAllTasks(tasksQuery.data.slice(0, 10));
     }
-    if (modelResponsesQuery.isSuccess) {
+    if (modelResponsesQuery.data) {
       const firstTen = modelResponsesQuery.data.slice(0, 10);
       const trimmedResponses = _.map(firstTen, (obj) => ({
         ...obj,
@@ -50,7 +50,7 @@ export default function StudentDashboardRoot(props) {
       }));
       setModelResponses(trimmedResponses);
     }
-  }, [tasksQuery.isSuccess, modelResponsesQuery.isSuccess]);
+  }, [tasksQuery.data, modelResponsesQuery.data]);
 
   React.useEffect(() => {
     queryClient.invalidateQueries(['modelresponses'], { force: true });

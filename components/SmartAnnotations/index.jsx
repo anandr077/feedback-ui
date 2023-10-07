@@ -38,6 +38,7 @@ function SmartAnotation(props) {
   const [editedText, setEditedText] = useState('');
   const [editingTitle, setEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(smartAnnotation.title);
+  const [userId, setUserId] = useState(getUserId());
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);

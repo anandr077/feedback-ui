@@ -1,4 +1,4 @@
-import { default as React, useEffect, useReducer, useState } from 'react';
+import { default as React, useReducer, useState, useEffect } from 'react';
 import {
   addDocumentToPortfolioWithDetails,
   deleteSubmissionById,
@@ -7,6 +7,7 @@ import {
 import RecentWorkContainer from './RecentWorkContainer';
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
 import PortfolioDocModal from './PortfolioDocModal';
@@ -34,6 +35,8 @@ const PortfolioPage = () => {
   const [state, dispatch] = useReducer(reducer, initailState);
   const [showModal, setShowModal] = useState(false);
   const queryClient = useQueryClient();
+
+  const { studentClassId } = useParams();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
@@ -97,7 +100,7 @@ const PortfolioPage = () => {
 
   const allFiles = getDocuments(
     state.portfolio,
-    state.activeMainIndex,
+    studentClassId,
     state.activeSubFolderIndex
   );
 

@@ -8,13 +8,13 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 function Frame12842(props) {
   const { title, count } = props;
-  const history = useHistory()
+  const history = useHistory();
 
-  const handleClick = () =>{
-    history.push('tasks')
-  }
+  const handleClick = () => {
+    history.push('tasks');
+  };
   return (
-    <TaskAnchor href="tasks#/tasks"  onClick={handleClick}>
+    <TaskAnchor href="/#/tasks" onClick={handleClick}>
       <Frame1284>
         <Drafts>{title}</Drafts>
         <Number>{count}</Number>
@@ -24,12 +24,12 @@ function Frame12842(props) {
 }
 
 const TaskAnchor = styled.a`
-  color: #7F6598;
+  color: #7f6598;
 
-  &:hover{
-   color: #7303e1;
+  &:hover {
+    color: #7303e1;
   }
-`
+`;
 
 const Frame1284 = styled.div`
   display: flex;

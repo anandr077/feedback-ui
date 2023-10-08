@@ -23,7 +23,6 @@ export default function SmartAnnotationSuggestion(props) {
 
   const [editedText, setEditedText] = useState(text);
   const [editing, setEditing] = useState(false);
-  const [userId, setUserId] = useState(getUserId());
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);
@@ -43,22 +42,24 @@ export default function SmartAnnotationSuggestion(props) {
             <TextInputEditable
               value={editedText}
               onChange={() =>
-                teacherId === userId ? handleTextChange(event) : toggleSection()
+                teacherId === getUserId()
+                  ? handleTextChange(event)
+                  : toggleSection()
               }
               onBlur={() =>
-                teacherId === userId
+                teacherId === getUserId()
                   ? saveEditedSuggestion(editedText, index)
                   : toggleSection()
               }
               onKeyPress={(e) =>
-                teacherId === userId ? handleKeyPress(e) : toggleSection()
+                teacherId === getUserId() ? handleKeyPress(e) : toggleSection()
               }
             ></TextInputEditable>
           ) : (
             <SuggestionsLabel>{editedText}</SuggestionsLabel>
           )}
           <ButtonContainer>
-            {teacherId === userId ? (
+            {teacherId === getUserId() ? (
               <DeleteButton
                 src="/icons/edit-purple-icon.svg"
                 alt="delete-button"
@@ -67,7 +68,7 @@ export default function SmartAnnotationSuggestion(props) {
             ) : (
               <></>
             )}
-            {teacherId === userId ? (
+            {teacherId === getUserId() ? (
               <DeleteButton
                 src="/icons/delete-purple-icon.svg"
                 alt="delete-button"

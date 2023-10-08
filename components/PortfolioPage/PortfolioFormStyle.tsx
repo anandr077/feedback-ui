@@ -48,7 +48,13 @@ const SubmitBtn = styled.button`
   &:hover {
     background-color: #301b72;
   }
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    color: #888;
+  }
 `;
+
 const CustomSelect = styled.div`
   width: 100%;
   position: relative;

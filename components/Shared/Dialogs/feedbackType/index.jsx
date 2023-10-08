@@ -47,7 +47,7 @@ export default function FeedbackTypeDialog({
           ) : (
             <GeneralPopup
               hidePopup={handleClose}
-              title="Submit Task"
+              title="Request feedback"
               textContent={
                 'Are you sure you want to request feedback from ' +
                 menuItems[0].name

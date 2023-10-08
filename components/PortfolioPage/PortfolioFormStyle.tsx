@@ -48,6 +48,11 @@ const SubmitBtn = styled.button`
   &:hover {
     background-color: #301b72;
   }
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    color: #888;
+  }
 `;
 
 export { ModalForm, FormLavel, FormDiv, Input, SubmitBtn };

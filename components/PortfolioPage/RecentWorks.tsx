@@ -15,7 +15,9 @@ const RecentWorks = ({ work }) => {
     <RecentWork>
       <RecentWorkPara>{work?.preview?.slice(0, 380)}</RecentWorkPara>
       <RecentWorkTitle>
-        {work?.title?.length > 35 ? work?.title?.slice(0, 37) + '...' : work.title}
+        {work?.title?.length > 35
+          ? work.title.slice(0, 37) + '...'
+          : work.title}
       </RecentWorkTitle>
       <div className="recent-hover">
         <a href={work.url} style={{ textDecoration: 'none' }}>

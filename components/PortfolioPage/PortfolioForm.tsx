@@ -49,7 +49,9 @@ const PortfolioForm = ({
           }
         ></DropdownMenu>
       </FormDiv>
-      <SubmitBtn type="submit">Create Document</SubmitBtn>
+      <SubmitBtn type="submit" disabled={!docName}>
+        Create Document
+      </SubmitBtn>
     </ModalForm>
   );
 };

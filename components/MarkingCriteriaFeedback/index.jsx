@@ -18,49 +18,28 @@ export default function MarkingCriteriaFeedback(props) {
     strength: [],
     target: [],
   };
-  const markingCriteriaCardsComponent = markingCriteria.criterias?.map(
-    (criteria, index) => {
-      return (
-        <SingleMarkingCriteriaContainer key={index}>
-          <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>
-          <DropdownMenu
-            markingCriteriaType={true}
-            menuItems={criteria.levels}
-            onItemSelected={(item) => {
-              handleMarkingCriteriaLevelFeedback(
-                questionSerialNumber,
-                index,
-                item.name
-              );
-            }}
-          ></DropdownMenu>
-        </SingleMarkingCriteriaContainer>
-      );
-    }
-  );
+  
   const [strengthAndTargetSelection, setStrengthAndTargetSelection] =
     React.useState(selectedStrengthsAndTargets);
 
-  const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
+const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
     setStrengthAndTargetSelection((prevState) => {
       const newState = { ...prevState };
       newState[criteriatype][index] = [cIndex, sIndex];
       return newState;
     });
   };
-
+  
   const strengthAndTargetsCardComponent = () => [
     singleStrengthTargetsContainer('strengths', 'Strength', 0),
     singleStrengthTargetsContainer('strengths', 'Strength', 1),
     singleStrengthTargetsContainer('targets', 'Target', 2),
   ];
+  console.log('markingCriteria', markingCriteria)
   return (
     <>
       {markingCriteria.type === 'RUBRICS' ? (
-        // <GroupedSelect></GroupedSelect>
-        <MarkingCriteriaContainerSmall>
-          {markingCriteriaCardsComponent}
-        </MarkingCriteriaContainerSmall>
+        rubricMarkingCriteriaComponent(markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber)
       ) : (
         <MarkingCriteriaContainer>
           {strengthAndTargetsCardComponent()}
@@ -87,45 +66,43 @@ export default function MarkingCriteriaFeedback(props) {
     );
   }
 
-  function strengthTargetsSelect(index) {
-    return (
-      <Select
-        id={`strength-target-select-${index}`}
-        // value={selectedStrengthsAndTargets.strength[index]}
-        label={`Strength And Target ${index}`}
-      >
-        {strengthAndTargetCriterias?.map((criteria, cIndex) => {
-          return (
-            <div>
-              <div className="criteria-heading">{criteria.title}</div>
-              {index == 0 || index == 1
-                ? criteria.strengths.map((strength, sIndex) => {
-                    return menuItem(strength, cIndex, sIndex, 'strength');
-                  })
-                : criteria.targets.map((target, sIndex) => {
-                    return menuItem(target, cIndex, sIndex, 'target');
-                  })}
-            </div>
-          );
-        })}
-      </Select>
-    );
-
-    function menuItem(item, cIndex, sIndex, type) {
-      return (
-        <div>
-          <MenuItem
-            className="criteria-option"
-            value={item}
-            onClick={(e) => handleSelect(e, index, cIndex, sIndex, type)}
-          >
-            {item}
-          </MenuItem>
-        </div>
-      );
-    }
-  }
 }
+
+const rubricMarkingCriteriaComponent = (markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber)=>{
+  if (markingCriteria?.criterias===undefined || markingCriteria?.criterias===null) {
+    return <></>
+  }
+  if (markingCriteria?.criterias?.length <= 0) {
+    return <></>
+  }
+  return <MarkingCriteriaContainerSmall>
+          {markingCriteriaCardsComponent(markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber)}
+  </MarkingCriteriaContainerSmall>
+}
+const markingCriteriaCardsComponent = (markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber) => {
+  return markingCriteria?.criterias?.map(
+  (criteria, index) => {
+    return (
+      <SingleMarkingCriteriaContainer key={index}>
+        <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>
+        <DropdownMenu
+          markingCriteriaType={true}
+          menuItems={criteria.levels}
+          onItemSelected={(item) => {
+            handleMarkingCriteriaLevelFeedback(
+              questionSerialNumber,
+              index,
+              item.name
+            );
+          }}
+        ></DropdownMenu>
+      </SingleMarkingCriteriaContainer>
+    );
+  }
+
+  )
+}
+
 
 const MarkingCriteriaCardLabel = styled.div`
   display: flex;

@@ -1225,7 +1225,7 @@ function submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction) {
   return (
     <GeneralPopup
       hidePopup={hideSubmitPopup}
-      title="Submit Task"
+      title="Submit task"
       textContent={popupText}
       buttonText={buttonText}
       confirmButtonAction={submissionFunction()}

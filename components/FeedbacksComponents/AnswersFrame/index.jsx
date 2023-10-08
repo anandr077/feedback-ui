@@ -1,4 +1,3 @@
-
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -109,25 +108,21 @@ function createVisibleComments(commentsForSelectedTab) {
 const createModules = (pageMode) => {
   const TOOLBAR_OPTIONS = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ["bold", "italic", "underline"],
+    ['bold', 'italic', 'underline'],
     ['link'],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["clean"],
-    ["image"]
-  ]
-
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-    return {
-      toolbar: TOOLBAR_OPTIONS,
-      history: {
-        delay: 1000,
-        maxStack: 100,
-        userOnly: true,
-      },
-    };
-  }
-
- 
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['clean'],
+    ['image'],
+  ];
+  const toolbar = pageMode === 'DRAFT' || pageMode === 'REVISE';
+  return {
+    toolbar: toolbar,
+    history: {
+      delay: 1000,
+      maxStack: 100,
+      userOnly: true,
+    },
+  };
 };
 const answerFrames = (
   quillRefs,
@@ -288,19 +283,26 @@ function createShowMarkingCriteriasFrame(
   answer,
   question
 ) {
+  const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
+
+  const questionCriteria =
+    submission.assignment.questions[answer.serialNumber - 1];
+
+  if (
+    !validStatuses.includes(submission.status) ||
+    !(markingCriteriaFeedback?.length > 0) ||
+    !questionCriteria.markingCriteria?.title ||
+    questionCriteria.markingCriteria?.title === 'No Marking Criteria' ||
+    questionCriteria.type === 'MCQ'
+  ) {
+    return <></>;
+  }
+
   return (
-    (submission.status === 'REVIEWED' ||
-      submission.status === 'CLOSED' ||
-      submission.status === 'RESUBMISSION_REQUESTED') &&
-    markingCriteriaFeedback?.length > 0 &&
-    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
-      ?.title != 'No Marking Criteria' &&
-    submission.assignment.questions[answer.serialNumber - 1].type != 'MCQ' && (
-      <MarkingCriteriaFeedbackReadOnly
-        allmarkingCriteriaFeedback={markingCriteriaFeedback}
-        questionSerialNumber={question.serialNumber}
-      ></MarkingCriteriaFeedbackReadOnly>
-    )
+    <MarkingCriteriaFeedbackReadOnly
+      allmarkingCriteriaFeedback={markingCriteriaFeedback}
+      questionSerialNumber={question.serialNumber}
+    />
   );
 }
 
@@ -312,29 +314,33 @@ function createAddMarkingCriteriaOption(
   handleMarkingCriteriaLevelFeedback,
   handleStrengthsTargetsFeedback
 ) {
+  const markingCriteria =
+    submission.assignment.questions[answer.serialNumber - 1].markingCriteria;
+
+  // Check the conditions
+  if (
+    submission.status !== 'SUBMITTED' ||
+    !markingCriteria?.title ||
+    markingCriteria?.title === 'No Marking Criteria' ||
+    submission.assignment.questions[answer.serialNumber - 1].type === 'MCQ' ||
+    submission.reviewerId !== getUserId()
+  ) {
+    return <></>;
+  }
+
   return (
-    submission.status === 'SUBMITTED' &&
-    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
-      ?.title &&
-    submission.assignment.questions[answer.serialNumber - 1].markingCriteria
-      ?.title != 'No Marking Criteria' &&
-    submission.assignment.questions[answer.serialNumber - 1].type != 'MCQ' &&
-    submission.reviewerId === getUserId() && (
-      <MarkingCriteriaFeedback
-        markingCriteria={
-          submission.assignment.questions[answer.serialNumber - 1]
-            .markingCriteria
-        }
-        small={smallMarkingCriteria}
-        questionSerialNumber={answer.serialNumber}
-        handleMarkingCriteriaLevelFeedback={handleMarkingCriteriaLevelFeedback}
-        handleStrengthsTargetsFeedback={handleStrengthsTargetsFeedback(
-          question.serialNumber
-        )}
-      />
-    )
+    <MarkingCriteriaFeedback
+      markingCriteria={markingCriteria}
+      small={smallMarkingCriteria}
+      questionSerialNumber={answer.serialNumber}
+      handleMarkingCriteriaLevelFeedback={handleMarkingCriteriaLevelFeedback}
+      handleStrengthsTargetsFeedback={handleStrengthsTargetsFeedback(
+        question.serialNumber
+      )}
+    />
   );
 }
+
 const isChecked = (groupedFocusAreaIds, serialNumber, focusAreaId) => {
   return (
     !!groupedFocusAreaIds[serialNumber] &&

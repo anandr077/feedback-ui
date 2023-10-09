@@ -120,7 +120,6 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
-          {/* {smallScreenView ? <FooterSmall /> : <Footer />} */}
           {<ResponsiveFooter smallScreen={isSmallScreen()} />}
         </Router>
       </QueryClientProvider>

@@ -5,10 +5,8 @@ import {
   FormDiv,
   Input,
   SubmitBtn,
-  CustomSelect,
-  Dropdown,
-  CustomArrow,
 } from './PortfolioFormStyle';
+import DropdownMenu from '../DropdownMenu';
 
 const PortfolioForm = ({
   showModal,
@@ -42,24 +40,18 @@ const PortfolioForm = ({
       </FormDiv>
       <FormDiv>
         <FormLavel htmlFor="class">Select a Class</FormLavel>
-        <CustomSelect>
-          <Dropdown
-            value={state.portfolio.files[selectedClassIndex].title}
-            onChange={(e) => setSelectedClassIndex(e.target.selectedIndex)}
-            name="class"
-          >
-            {state.portfolio.files.map((file, index) => {
-              return (
-                <option value={file.title} key={index}>
-                  {file.title}
-                </option>
-              );
-            })}
-          </Dropdown>
-          <CustomArrow></CustomArrow>
-        </CustomSelect>
+
+        <DropdownMenu
+          menuItems={state.portfolio.files}
+          selectedIndex={selectedClassIndex}
+          onItemSelected={(item) =>
+            setSelectedClassIndex(parseInt(item.classId, 10) - 1)
+          }
+        ></DropdownMenu>
       </FormDiv>
-      <SubmitBtn type="submit">Create Document</SubmitBtn>
+      <SubmitBtn type="submit" disabled={!docName}>
+        Create Document
+      </SubmitBtn>
     </ModalForm>
   );
 };

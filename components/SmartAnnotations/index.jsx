@@ -124,17 +124,17 @@ function SmartAnotation(props) {
               <TextInputEditable
                 value={editTitle}
                 onChange={() =>
-                  smartAnnotation?.teacherId === userId
+                  smartAnnotation?.teacherId === getUserId()
                     ? handleTitleTextChange(event)
                     : toggleSection()
                 }
                 onBlur={() =>
-                  smartAnnotation?.teacherId === userId
+                  smartAnnotation?.teacherId === getUserId()
                     ? saveEditedSmartAnnotation(editTitle)
                     : toggleSection()
                 }
                 onKeyPress={(e) =>
-                  smartAnnotation?.teacherId === userId
+                  smartAnnotation?.teacherId === getUserId()
                     ? handleKeyPress(e)
                     : toggleSection()
                 }
@@ -150,7 +150,7 @@ function SmartAnotation(props) {
                   alt="copy"
                   onClick={() => cloneSmartAnnotation()}
                 ></DeleteButton2>
-                {smartAnnotation?.teacherId === userId ? (
+                {smartAnnotation?.teacherId === getUserId() ? (
                   <DeleteButton2
                     src="/icons/edit-purple-icon.svg"
                     alt="edit-button"
@@ -159,7 +159,7 @@ function SmartAnotation(props) {
                 ) : (
                   <></>
                 )}
-                {smartAnnotation?.teacherId === userId ? (
+                {smartAnnotation?.teacherId === getUserId() ? (
                   <DeleteButton2
                     src="/icons/delete-purple-icon.svg"
                     alt="delete-button"
@@ -202,12 +202,12 @@ function SmartAnotation(props) {
           )}
           <Line14 src="/img/line-14.png" alt="Line 14" />
 
-          {smartAnnotation?.teacherId === userId && settingsMode ? (
+          {smartAnnotation?.teacherId === getUserId() && settingsMode ? (
             <ButtonContainer>
               <PlusImage src="/img/add-violet.svg" alt="plus" />
               <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
             </ButtonContainer>
-          ) : smartAnnotation?.teacherId === userId &&
+          ) : smartAnnotation?.teacherId === getUserId() &&
             newSmartAnnotationEdit ? (
             <ButtonWrapper>
               <SubmitButton onClick={onClickNewSuggestionComment}>
@@ -215,7 +215,7 @@ function SmartAnotation(props) {
               </SubmitButton>
             </ButtonWrapper>
           ) : (
-            smartAnnotation?.teacherId === userId && (
+            smartAnnotation?.teacherId === getUserId() && (
               <ButtonContainer>
                 <PlusImage src="/img/add-violet.svg" alt="plus" />
                 <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>

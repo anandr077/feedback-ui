@@ -116,8 +116,6 @@ function mainFolderContainer(
   setClickedSubfolder,
   history
 ): JSX.Element {
-  console.log('state.activeMainIndex', state.activeMainIndex);
-  console.log('mainIndex', mainIndex);
 
   const isActive = isSmallScreen() ? showNavMenu : true;
 

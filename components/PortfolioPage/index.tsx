@@ -14,6 +14,7 @@ import PortfolioDocModal from './PortfolioDocModal';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
   addFile,
+  deleteDocument,
   getDocuments,
   initailState,
   reducer,
@@ -54,37 +55,45 @@ const PortfolioPage = () => {
     },
   });
 
-  const deleteDocumentMutation = useMutation(
-    (document) => deleteSubmissionById(document.documentId),
-    {
-      onMutate: (document) => {
-        const previousPortfolio = JSON.parse(JSON.stringify(state.portfolio));    
-        dispatch({
-          type: 'deleteDocument',
-          payload: {
-            mainIndex: state.activeMainIndex,
-            subFolderIndex: state.activeSubFolderIndex,
-            documentId: document.documentId,
-          },
-        });
-        return { previousPortfolio };
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries('portfolio');
-      },
-      onError: (_, __, context) => {
-        if (context?.previousPortfolio) {
-          dispatch({ type: 'setPortfolio', payload: context.previousPortfolio });
-        }
-      },
-    }
-  );
+  const deleteDocumentMutation = useMutation({
+    mutationFn: async (doc) =>
+      deleteSubmissionById(doc.documentId, doc.classId),
+    onMutate: async (doc) => {
+      console.log('On mutate ' + doc.documentId);
+      await queryClient.cancelQueries({ queryKey: ['portfolio'] });
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
+      console.log('previousPortfolio', previousPortfolio);
+      const updatedPortfolio = deleteDocument(
+        previousPortfolio,
+        doc.documentId,
+        doc.classId
+      );
+      console.log('updatedPortfolio', updatedPortfolio);
+      queryClient.setQueryData(['portfolio'], (old) => updatedPortfolio);
+
+      return { previousPortfolio };
+    },
+
+    onError: (err, newTodo, context) => {
+      console.log('On error');
+
+      queryClient.setQueryData(['portfolio'], context.previousPortfolio);
+    },
+    onSuccess: (data, variables) => {
+      console.log('On success');
+    },
+    onSettled: () => {
+      console.log('Settled');
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+    },
+  });
 
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
-    !state.portfolio ||
-    deleteDocumentMutation.isLoading
+    !state.portfolio
+    // ||
+    // deleteDocumentMutation.isLoading
   ) {
     return <Loader />;
   }
@@ -94,7 +103,6 @@ const PortfolioPage = () => {
     classId,
     state.activeSubFolderIndex
   );
-  
 
   const handleCreateDocument = (docName, activeMainIndex = 0) => {
     addFile(
@@ -106,17 +114,9 @@ const PortfolioPage = () => {
     );
   };
   const handleDeleteDocument = (document) => {
-    dispatch({
-      type: 'deleteDocument',
-      payload: {
-        mainIndex: state.activeMainIndex,
-        subFolderIndex: state.activeSubFolderIndex,
-        documentId: document.documentId
-      },
-    })
     deleteDocumentMutation.mutate(document);
   };
-  
+
   return (
     <>
       <PortfolioSection>

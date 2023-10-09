@@ -716,7 +716,7 @@ export default function DocumentRoot({}) {
       {showSubmitPopup && (
         <GeneralPopup
           hidePopup={hideSubmitPopup}
-          title="Submit Task"
+          title="Submit task"
           textContent={popupText}
           buttonText="Submit"
           confirmButtonAction={submissionFunction()}

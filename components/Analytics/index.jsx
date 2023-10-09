@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Chart, ArcElement } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import './index.css';
-import ProgressBar from '../ProgressBar';
 import randomColor from 'randomcolor';
 import SmartAnotationAnalytics from '../SmartAnnotationsAnalytics';
 
@@ -10,7 +9,6 @@ Chart.register(ArcElement);
 
 export default function AnnotationAnalytics(props) {
   const { smartAnnotationAnalytics } = props;
-
   let data = [];
   let labels = [];
 
@@ -72,19 +70,23 @@ export default function AnnotationAnalytics(props) {
 
   return (
     <>
-      <div className="parent-card">
-        <div className="heading-text">Smart Annotations</div>
-        <div className="line"></div>
-        <div className="graph-data">
-          <div className="graph-container">
-            <div className="graph">
-              <Pie data={chartData} />
+      {smartAnnotationAnalyticsData.length > 0 ? (
+        <div className="parent-card">
+          <div className="heading-text">Smart Annotations</div>
+          <div className="line"></div>
+          <div className="graph-data">
+            <div className="graph-container">
+              <div className="graph">
+                <Pie data={chartData} />
+              </div>
+              <div className="legend">{legendItems}</div>
             </div>
-            <div className="legend">{legendItems}</div>
           </div>
+          <div className="progress">{smartAnnotationAnalyticsData}</div>
         </div>
-        <div className="progress">{smartAnnotationAnalyticsData}</div>
-      </div>
+      ) : (
+        <></>
+      )}
     </>
   );
 }

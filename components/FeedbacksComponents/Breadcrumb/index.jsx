@@ -5,9 +5,11 @@ import { IbmplexsansNormalFuscousGray14px } from '../../../styledMixins';
 function Breadcrumb(props) {
   const { text, link } = props;
   return (
-    <Breadcrumb1 onClick={() => (window.location.href = link)}>
-      <Assignments>{text}</Assignments>
-    </Breadcrumb1>
+    <a href={link}>
+      <Breadcrumb1>
+        <Assignments>{text}</Assignments>
+      </Breadcrumb1>
+    </a>
   );
 }
 
@@ -18,6 +20,7 @@ const Breadcrumb1 = styled.article`
   gap: 4px;
   position: relative;
   cursor: pointer;
+  color: black;
 `;
 
 const Assignments = styled.div`

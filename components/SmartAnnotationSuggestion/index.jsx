@@ -39,22 +39,16 @@ export default function SmartAnnotationSuggestion(props) {
       {settingsMode ? (
         <SuggestionsContainer onClick={() => setEditing(true)}>
           {editing ? (
-            <TextInputEditable
-              value={editedText}
-              onChange={() =>
-                teacherId === getUserId()
-                  ? handleTextChange(event)
-                  : toggleSection()
-              }
-              onBlur={() =>
-                teacherId === getUserId()
-                  ? saveEditedSuggestion(editedText, index)
-                  : toggleSection()
-              }
-              onKeyPress={(e) =>
-                teacherId === getUserId() ? handleKeyPress(e) : toggleSection()
-              }
-            ></TextInputEditable>
+            teacherId === getUserId() ? (
+              <TextInputEditable
+                value={editedText}
+                onChange={handleTextChange}
+                onBlur={() => saveEditedSuggestion(editedText, index)}
+                onKeyPress={handleKeyPress}
+              ></TextInputEditable>
+            ) : (
+              <SuggestionsLabel>{editedText}</SuggestionsLabel>
+            )
           ) : (
             <SuggestionsLabel>{editedText}</SuggestionsLabel>
           )}

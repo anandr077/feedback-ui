@@ -101,7 +101,7 @@ const PortfolioPage = () => {
   const allFiles = getDocuments(
     state.portfolio,
     classId,
-    state.activeSubFolderIndex
+    categoryName
   );
 
   const handleCreateDocument = (docName, activeMainIndex = 0) => {

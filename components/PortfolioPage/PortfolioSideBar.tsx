@@ -10,9 +10,9 @@ import './portfolioSideBar.css';
 
 const PortfolioSideBar = ({ state, dispatch }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('')
-  const [showSubfolders, setShowSubfolders] = useState(null);
+  const [showSubfolders, setShowSubfolders] = useState('');
   const [showArrowUp, setShowArrowUp] = useState(false);
-  const [activeFolderIndex, setActiveFolderIndex] = useState(0);
+  const [activeFolderIndex, setActiveFolderIndex] = useState("0");
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
   const [selectedSubFolder, setSelectedSubFolder] = useState('')
@@ -20,41 +20,66 @@ const PortfolioSideBar = ({ state, dispatch }) => {
   const {classId, categoryName}  = useParams();
 
 
-  useEffect(() => {
-    let folderIndex = state?.portfolio?.files?.findIndex(folder => folder.classId === classId);
+  // useEffect(() => {
+  //   // let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
 
-    if(folderIndex === -1){
-       folderIndex = 0
+  //   // let activeFolderClassId = matchingFolders.length > 0 ? matchingFolders[0].classId : null;
+
+  //   // if(!activeFolderClassId && state?.portfolio?.files?.length > 0){
+  //   //   activeFolderClassId = state?.portfolio?.files[0]?.classId || null;
+  //   // }
+
+  //   // setActiveFolderIndex(activeFolderClassId)
+
+  //   // // if (!classId && !categoryName) {
+  //   // //   setShowSubfolders('');
+  //   // //   setSelectedSubFolder(''); 
+  //   // //   setClickedSubfolder('');
+  //   // //   return;
+  //   // // }
+
+  //   // if (activeFolderClassId !== null) {
+  //   //   setShowSubfolders(activeFolderClassId);
+  //   //   if (categoryName) {
+  //   //     setSelectedSubFolder(categoryName); 
+  //   //     setClickedSubfolder('')
+  //   //   } else {
+  //   //     const defaultSubFolder = matchingFolders[0]?.files?.[0]?.title || '';
+  //   //     setSelectedSubFolder(defaultSubFolder);
+  //   //     setClickedSubfolder(defaultSubFolder);
+  //   //   }
+  //   // }
+  // }, [classId, categoryName, state?.portfolio]);
+
+
+  let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
+
+    let activeFolderClassId = matchingFolders.length > 0 ? matchingFolders[0].classId : null;
+
+    if(!activeFolderClassId && state?.portfolio?.files?.length > 0){
+      activeFolderClassId = state?.portfolio?.files[0]?.classId || null;
     }
-    setActiveFolderIndex(folderIndex)
+
+    setActiveFolderIndex(activeFolderClassId)
 
     if (!classId && !categoryName) {
-      setShowSubfolders(null);
+      setShowSubfolders('');
       setSelectedSubFolder(''); 
       setClickedSubfolder('');
       return;
     }
 
-    if (folderIndex !== -1) {
-      setShowSubfolders(folderIndex);
-      // if (files) {
-      //   const subFolderIndex = state?.portfolio.files[folderIndex]?.files?.findIndex(subFolder => subFolder.title === files);
-      //   if (subFolderIndex !== -1) {
-      //     setSelectedSubFolder(state?.portfolio.files[folderIndex]?.files?.[subFolderIndex]?.title || '');
-      //   }
-      // } else {
-      //   setSelectedSubFolder(state?.portfolio.files[folderIndex]?.files?.[0]?.title || '');
-      // }
+    if (activeFolderClassId !== null) {
+      setShowSubfolders(activeFolderClassId);
       if (categoryName) {
         setSelectedSubFolder(categoryName); 
         setClickedSubfolder('')
       } else {
-        const defaultSubFolder = state?.portfolio.files[folderIndex]?.files?.[0]?.title || '';
+        const defaultSubFolder = matchingFolders[0]?.files?.[0]?.title || '';
         setSelectedSubFolder(defaultSubFolder);
         setClickedSubfolder(defaultSubFolder);
       }
     }
-  }, [classId, categoryName, state?.portfolio]);
   
 
   return (
@@ -65,7 +90,7 @@ const PortfolioSideBar = ({ state, dispatch }) => {
         mainFolderContainer(
           state,
           dispatch,
-          mainIndex,
+          folder.classId,
           setShowSubfolders,
           showSubfolders,
           setShowArrowUp,
@@ -93,7 +118,7 @@ export default PortfolioSideBar;
 function mainFolderContainer(
   state,
   dispatch,
-  mainIndex: number,
+  mainIndex,
   setShowSubfolders: React.Dispatch<React.SetStateAction<null>>,
   showSubfolders: null,
   setShowArrowUp: React.Dispatch<React.SetStateAction<boolean>>,
@@ -116,6 +141,8 @@ function mainFolderContainer(
   setClickedSubfolder,
   history
 ): JSX.Element {
+  console.log('state.activeMainIndex', state.activeMainIndex);
+  console.log('mainIndex', mainIndex);
 
   const isActive = isSmallScreen() ? showNavMenu : true;
 
@@ -123,13 +150,13 @@ function mainFolderContainer(
     <>
       {isActive && (
         <Link
-          className={`folder ${mainIndex === activeFolderIndex ? 'active' : ''}`}
+          className={`folder ${folder.classId === activeFolderIndex ? 'active' : ''}`}
           onClick={() => {
             dispatch({
               type: 'setActiveMainIndex',
-              payload: mainIndex,
+              payload: folder.classId,
             });
-            setActiveFolderIndex(mainIndex);
+            setActiveFolderIndex(folder.classId);
             setShowSubfolders(showSubfolders === mainIndex ? null : mainIndex);
             setShowArrowUp(
               state.activeMainIndex === mainIndex ? !showArrowUp : true

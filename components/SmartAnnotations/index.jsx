@@ -59,7 +59,7 @@ function SmartAnotation(props) {
   };
 
   const saveEditedSmartAnnotation = (updatedText) => {
-    if (updatedText.trim() === '') return;
+    if (updatedText?.trim() === '') return;
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.title = updatedText;
     setCurrentSmartAnnotation(newSmartAnnotation);
@@ -121,24 +121,16 @@ function SmartAnotation(props) {
         <SmartAnnotationContainer>
           <TtitleContainer>
             {editingTitle ? (
-              <TextInputEditable
-                value={editTitle}
-                onChange={() =>
-                  smartAnnotation?.teacherId === getUserId()
-                    ? handleTitleTextChange(event)
-                    : toggleSection()
-                }
-                onBlur={() =>
-                  smartAnnotation?.teacherId === getUserId()
-                    ? saveEditedSmartAnnotation(editTitle)
-                    : toggleSection()
-                }
-                onKeyPress={(e) =>
-                  smartAnnotation?.teacherId === getUserId()
-                    ? handleKeyPress(e)
-                    : toggleSection()
-                }
-              ></TextInputEditable>
+              smartAnnotation?.teacherId === getUserId() ? (
+                <TextInputEditable
+                  value={editTitle}
+                  onChange={handleTitleTextChange}
+                  onBlur={() => saveEditedSmartAnnotation(editTitle)}
+                  onKeyPress={handleKeyPress}
+                ></TextInputEditable>
+              ) : (
+                <Title onClick={toggleSection}>{editTitle}</Title>
+              )
             ) : (
               <Title onClick={toggleSection}>{editTitle}</Title>
             )}

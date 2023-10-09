@@ -93,7 +93,7 @@ export default PortfolioSideBar;
 function mainFolderContainer(
   state,
   dispatch,
-  mainIndex,
+  classId,
   setShowSubfolders: React.Dispatch<React.SetStateAction<null>>,
   showSubfolders: null,
   setShowArrowUp: React.Dispatch<React.SetStateAction<boolean>>,
@@ -117,7 +117,7 @@ function mainFolderContainer(
   history
 ): JSX.Element {
   console.log('state.activeMainIndex', state.activeMainIndex);
-  console.log('mainIndex', mainIndex);
+  console.log('mainIndex', classId);
 
   const isActive = isSmallScreen() ? showNavMenu : true;
 
@@ -132,9 +132,9 @@ function mainFolderContainer(
               payload: folder.classId,
             });
             setActiveFolderIndex(folder.classId);
-            setShowSubfolders(showSubfolders === mainIndex ? null : mainIndex);
+            setShowSubfolders(showSubfolders === classId ? null : classId);
             setShowArrowUp(
-              state.activeMainIndex === mainIndex ? !showArrowUp : true
+              state.activeMainIndex === classId ? !showArrowUp : true
             );
           }}
           to={`/portfolio/` + folder.classId + "/" + (selectedSubFolder || '')}
@@ -142,7 +142,7 @@ function mainFolderContainer(
           {folder.title}
           <div>
             {showArrowDropDown &&
-              (showArrowUp && state.activeMainIndex === mainIndex ? (
+              (showArrowUp && state.activeMainIndex === classId ? (
                 <ArrowDropUpIcon />
               ) : (
                 <ArrowDropDownIcon />
@@ -151,7 +151,7 @@ function mainFolderContainer(
         </Link>
       )}
 
-      {showSubfolders === mainIndex &&
+      {showSubfolders === classId &&
         folder.files &&
         folder.files.map((subFolder, subfolderIndex) =>
           subFolderContainer(

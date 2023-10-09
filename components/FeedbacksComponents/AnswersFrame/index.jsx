@@ -105,8 +105,8 @@ function createVisibleComments(commentsForSelectedTab) {
   return commentsForSelectedTab.filter((comment) => !comment.isHidden);
 }
 
-const createModules = (pageMode) => {
-  const TOOLBAR_OPTIONS = [
+const createToolbarOptions = () => {
+  const options = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     ['bold', 'italic', 'underline'],
     ['link'],
@@ -114,7 +114,12 @@ const createModules = (pageMode) => {
     ['clean'],
     ['image'],
   ];
-  const toolbar = pageMode === 'DRAFT' || pageMode === 'REVISE';
+  return options;
+};
+
+const createModules = (pageMode) => {
+  const toolbar =
+    (pageMode === 'DRAFT' || pageMode === 'REVISE') && createToolbarOptions();
   return {
     toolbar: toolbar,
     history: {

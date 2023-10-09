@@ -15,7 +15,7 @@ import {
   Frame1367,
   Group1225,
   QuestionText,
-  QuillContainer
+  QuillContainer,
 } from '../FeedbackTeacherLaptop/style';
 
 export function answersFrameNoMC(
@@ -71,10 +71,22 @@ function AnswersFrameNoMC(props) {
 function createVisibleComments(commentsForSelectedTab) {
   return commentsForSelectedTab.filter((comment) => !comment.isHidden);
 }
-
+const createToolbarOptions = () => {
+  const options = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline'],
+    ['link'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['clean'],
+    ['image'],
+  ];
+  return options;
+};
 const createModules = (pageMode) => {
+  const toolbar =
+    (pageMode === 'DRAFT' || pageMode === 'REVISE') && createToolbarOptions();
   return {
-    toolbar: pageMode === 'DRAFT' || pageMode === 'REVISE',
+    toolbar: toolbar,
     history: {
       delay: 1000,
       maxStack: 100,
@@ -146,7 +158,7 @@ function createQuill(
   debounce,
   handleEditorMounted
 ) {
-  console.log('PageMode', pageMode)
+  console.log('PageMode', pageMode);
   return (
     <QuillEditor
       id={'quillEditor_' + submission.id + '_' + answer.serialNumber}

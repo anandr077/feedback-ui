@@ -1,6 +1,7 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
@@ -8,10 +9,53 @@ import { isSmallScreen } from '../ReactiveRender';
 import './portfolioSideBar.css';
 
 const PortfolioSideBar = ({ state, dispatch }) => {
+  const [clickedSubfolder, setClickedSubfolder] = useState('')
   const [showSubfolders, setShowSubfolders] = useState(null);
   const [showArrowUp, setShowArrowUp] = useState(false);
+  const [activeFolderIndex, setActiveFolderIndex] = useState(0);
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
+  const [selectedSubFolder, setSelectedSubFolder] = useState('')
+  const history = useHistory();
+  const {classId, categoryName}  = useParams();
+
+
+  useEffect(() => {
+    let folderIndex = state?.portfolio?.files?.findIndex(folder => folder.classId === classId);
+
+    if(folderIndex === -1){
+       folderIndex = 0
+    }
+    setActiveFolderIndex(folderIndex)
+
+    if (!classId && !categoryName) {
+      setShowSubfolders(null);
+      setSelectedSubFolder(''); 
+      setClickedSubfolder('');
+      return;
+    }
+
+    if (folderIndex !== -1) {
+      setShowSubfolders(folderIndex);
+      // if (files) {
+      //   const subFolderIndex = state?.portfolio.files[folderIndex]?.files?.findIndex(subFolder => subFolder.title === files);
+      //   if (subFolderIndex !== -1) {
+      //     setSelectedSubFolder(state?.portfolio.files[folderIndex]?.files?.[subFolderIndex]?.title || '');
+      //   }
+      // } else {
+      //   setSelectedSubFolder(state?.portfolio.files[folderIndex]?.files?.[0]?.title || '');
+      // }
+      if (categoryName) {
+        setSelectedSubFolder(categoryName); 
+        setClickedSubfolder('')
+      } else {
+        const defaultSubFolder = state?.portfolio.files[folderIndex]?.files?.[0]?.title || '';
+        setSelectedSubFolder(defaultSubFolder);
+        setClickedSubfolder(defaultSubFolder);
+      }
+    }
+  }, [classId, categoryName, state?.portfolio]);
+  
 
   return (
     <div className="sideNavbar">
@@ -30,7 +74,14 @@ const PortfolioSideBar = ({ state, dispatch }) => {
           showArrowDropDown,
           showNavMenu,
           isSmallScreen,
-          setShowNavMenu
+          setShowNavMenu,
+          selectedSubFolder, 
+          setSelectedSubFolder,
+          activeFolderIndex, 
+          setActiveFolderIndex,
+          clickedSubfolder, 
+          setClickedSubfolder,
+          history
         )
       )}
     </div>
@@ -56,7 +107,14 @@ function mainFolderContainer(
   showArrowDropDown: boolean,
   showNavMenu,
   isSmallScreen,
-  setShowNavMenu
+  setShowNavMenu,
+  selectedSubFolder, 
+  setSelectedSubFolder,
+  activeFolderIndex, 
+  setActiveFolderIndex,
+  clickedSubfolder, 
+  setClickedSubfolder,
+  history
 ): JSX.Element {
   console.log('state.activeMainIndex', state.activeMainIndex);
   console.log('mainIndex', mainIndex);
@@ -67,18 +125,19 @@ function mainFolderContainer(
     <>
       {isActive && (
         <Link
-          className={`folder ${state.activeMainIndex === mainIndex ? 'active' : ''}`}
+          className={`folder ${mainIndex === activeFolderIndex ? 'active' : ''}`}
           onClick={() => {
             dispatch({
               type: 'setActiveMainIndex',
               payload: mainIndex,
             });
+            setActiveFolderIndex(mainIndex);
             setShowSubfolders(showSubfolders === mainIndex ? null : mainIndex);
             setShowArrowUp(
               state.activeMainIndex === mainIndex ? !showArrowUp : true
             );
           }}
-          to={`/portfolio/` + folder.classId}
+          to={`/portfolio/` + folder.classId + "/" + (selectedSubFolder || '')}
         >
           {folder.title}
           <div>
@@ -101,7 +160,13 @@ function mainFolderContainer(
             subfolderIndex,
             subFolder,
             setShowSubfolders,
-            setShowNavMenu
+            setShowNavMenu,
+            selectedSubFolder,
+            setSelectedSubFolder,
+            clickedSubfolder, 
+            setClickedSubfolder,
+            folder,
+            history
           )
         )}
     </>
@@ -114,17 +179,23 @@ function subFolderContainer(
   subIndex: number,
   subFolder: { title: string; type: string; preview: string },
   setShowSubfolders,
-  setShowNavMenu
+  setShowNavMenu,
+  selectedSubFolder,
+  setSelectedSubFolder,
+  clickedSubfolder, 
+  setClickedSubfolder,
+  folder,
+  history
 ): JSX.Element {
   console.log('state.activeSubFolder', state.activeSubFolderIndex);
   console.log('subIndex', subIndex);
+
   return (
     <div
       className="folder subFolder"
       key={subIndex}
       style={{
-        backgroundColor:
-          state.activeSubFolderIndex === subIndex ? '#F1E7FF' : '',
+        backgroundColor: (selectedSubFolder === subFolder.title || clickedSubfolder === subFolder.title) ? '#F1E7FF' : '',
         marginLeft: '20px',
       }}
       onClick={() => {
@@ -132,6 +203,9 @@ function subFolderContainer(
           type: 'setActiveSubFolderIndex',
           payload: subIndex,
         });
+        setSelectedSubFolder(subFolder.title)
+        setClickedSubfolder(subFolder.title)
+        history.replace(`/portfolio/${folder.classId}/${subFolder.title}`)
         if(window.innerWidth < 1024){
           setShowSubfolders(null);
           setShowNavMenu(false);

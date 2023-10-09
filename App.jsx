@@ -87,7 +87,7 @@ function App() {
             <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
               <ProtectedStrengthAndTarget />
             </Route>
-            <Route path="/portfolio/:studentClassId">
+            <Route path="/portfolio/:classId/:categoryName?">
               <ProtectedPortfolioRoot />
             </Route>
             <Route path="/portfolio">

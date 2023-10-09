@@ -329,7 +329,9 @@ function breadcrumbs(pageMode, submission) {
       <Frame1387>
         <Frame1315>
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
-          <Breadcrumb2 assignments={'Class' + submission.classId} />
+          <Breadcrumb2 assignments={'Class' + submission.classId} link={'/#/portfolio/'+submission.classId}/>
+          <Breadcrumb2 assignments={'Drafts'} link={'/#/portfolio/'+submission.classId+'/Drafts'}/>
+
           <Breadcrumb2 assignments={submission.assignment.title} />
         </Frame1315>
       </Frame1387>

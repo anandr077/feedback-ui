@@ -20,39 +20,8 @@ const PortfolioSideBar = ({ state, dispatch }) => {
   const {classId, categoryName}  = useParams();
 
 
-  // useEffect(() => {
-  //   // let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
-
-  //   // let activeFolderClassId = matchingFolders.length > 0 ? matchingFolders[0].classId : null;
-
-  //   // if(!activeFolderClassId && state?.portfolio?.files?.length > 0){
-  //   //   activeFolderClassId = state?.portfolio?.files[0]?.classId || null;
-  //   // }
-
-  //   // setActiveFolderIndex(activeFolderClassId)
-
-  //   // // if (!classId && !categoryName) {
-  //   // //   setShowSubfolders('');
-  //   // //   setSelectedSubFolder(''); 
-  //   // //   setClickedSubfolder('');
-  //   // //   return;
-  //   // // }
-
-  //   // if (activeFolderClassId !== null) {
-  //   //   setShowSubfolders(activeFolderClassId);
-  //   //   if (categoryName) {
-  //   //     setSelectedSubFolder(categoryName); 
-  //   //     setClickedSubfolder('')
-  //   //   } else {
-  //   //     const defaultSubFolder = matchingFolders[0]?.files?.[0]?.title || '';
-  //   //     setSelectedSubFolder(defaultSubFolder);
-  //   //     setClickedSubfolder(defaultSubFolder);
-  //   //   }
-  //   // }
-  // }, [classId, categoryName, state?.portfolio]);
-
-
-  let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
+  useEffect(() => {
+    let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
 
     let activeFolderClassId = matchingFolders.length > 0 ? matchingFolders[0].classId : null;
 
@@ -61,8 +30,11 @@ const PortfolioSideBar = ({ state, dispatch }) => {
     }
 
     setActiveFolderIndex(activeFolderClassId)
-
-    if (!classId && !categoryName) {
+    let categoryNameToUse = categoryName;
+    if (categoryName === null || categoryName === undefined) {
+      categoryNameToUse = 'Drafts';
+    }
+    if (!classId && !categoryNameToUse) {
       setShowSubfolders('');
       setSelectedSubFolder(''); 
       setClickedSubfolder('');
@@ -71,8 +43,8 @@ const PortfolioSideBar = ({ state, dispatch }) => {
 
     if (activeFolderClassId !== null) {
       setShowSubfolders(activeFolderClassId);
-      if (categoryName) {
-        setSelectedSubFolder(categoryName); 
+      if (categoryNameToUse) {
+        setSelectedSubFolder(categoryNameToUse); 
         setClickedSubfolder('')
       } else {
         const defaultSubFolder = matchingFolders[0]?.files?.[0]?.title || '';
@@ -80,6 +52,9 @@ const PortfolioSideBar = ({ state, dispatch }) => {
         setClickedSubfolder(defaultSubFolder);
       }
     }
+  }, [classId, categoryName, state?.portfolio]);
+
+
   
 
   return (

@@ -28,7 +28,7 @@ const PortfolioForm = ({
   return (
     <ModalForm onSubmit={handleSubmit}>
       <FormDiv>
-        <FormLavel htmlFor="docName">Document Name</FormLavel>
+        <FormLavel htmlFor="docName">Document name</FormLavel>
         <Input
           type="text"
           value={docName}
@@ -39,7 +39,7 @@ const PortfolioForm = ({
         <br />
       </FormDiv>
       <FormDiv>
-        <FormLavel htmlFor="class">Select a Class</FormLavel>
+        <FormLavel htmlFor="class">Select a class</FormLavel>
 
         <DropdownMenu
           menuItems={state.portfolio.files}

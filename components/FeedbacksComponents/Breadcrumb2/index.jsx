@@ -3,13 +3,17 @@ import styled from 'styled-components';
 import { IbmplexsansNormalFuscousGray14px } from '../../../styledMixins';
 
 function Breadcrumb2(props) {
-  const { assignments } = props;
+  const { assignments, link } = props;
 
   return (
-    <Breadcrumb>
-      <Caret src="/img/caret@2x.png" alt="caret" />
-      <Assignments>{assignments}</Assignments>
-    </Breadcrumb>
+    <>
+      <a href={link}>
+        <Breadcrumb>
+          <Caret src="/img/caret@2x.png" alt="caret" />
+          <Assignments>{assignments}</Assignments>
+        </Breadcrumb>
+      </a>
+    </>
   );
 }
 
@@ -20,6 +24,7 @@ const Breadcrumb = styled.article`
   gap: 4px;
   position: relative;
   cursor: pointer;
+  color: black;
 `;
 
 const Caret = styled.img`

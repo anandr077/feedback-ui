@@ -88,7 +88,9 @@ export const DropdownMenu = (props) => {
         style={
           fullWidth
             ? { borderColor: 'var(--text)', padding: '7px' }
-            : { borderColor: 'var(--light-mode-purple)' }
+            : { borderColor: 'var(--light-mode-purple)', 
+                padding: selectedItem.type === 'FOLDER' ? '7px' : '0'
+              }
         }
       >
         {small ? (

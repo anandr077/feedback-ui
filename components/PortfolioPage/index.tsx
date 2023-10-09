@@ -36,7 +36,7 @@ const PortfolioPage = () => {
   const [showModal, setShowModal] = useState(false);
   const queryClient = useQueryClient();
 
-  const { studentClassId } = useParams();
+  const {classId, categoryName}  = useParams();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
@@ -100,8 +100,8 @@ const PortfolioPage = () => {
 
   const allFiles = getDocuments(
     state.portfolio,
-    studentClassId,
-    state.activeSubFolderIndex
+    classId,
+    categoryName
   );
 
   const handleCreateDocument = (docName, activeMainIndex = 0) => {

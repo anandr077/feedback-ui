@@ -2,12 +2,6 @@ import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useState, useEffect } from 'react';
-import Header from '../../Header';
-
-import Footer from '../../Footer';
-import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
-import { isSmallScreen } from '../../ReactiveRender';
 import { answersFrameNoMC } from '../AnswersFrameNoMC';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -27,6 +21,8 @@ import {
   getTeachersForClass,
   createRequestFeddbackType,
   getSubmissionById,
+  getClasses,
+  updateSubmissionClass,
 } from '../../../service';
 
 const FeedbackMethodType = ['From teacher', 'Form class', 'From peer'];
@@ -65,6 +61,7 @@ function Document(props) {
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
+  const [allClasses, getAllClasses] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -83,13 +80,15 @@ function Document(props) {
       Promise.all([
         getStudentsForClass(submission.classId),
         getTeachersForClass(submission.classId),
-      ]).then(([studentsResponse, teachersResponse]) => {
+        getClasses(),
+      ]).then(([studentsResponse, teachersResponse, classResponse]) => {
         const filteredStudentsResponse = studentsResponse.filter(
           (student) => student.id !== submission.studentId
         );
         const updatedStudentsResponse = filteredStudentsResponse.map((item) => {
           return { ...item, title: item.id };
         });
+        getAllClasses(classResponse);
         setStudents(updatedStudentsResponse);
         setTeachers(
           teachersResponse.map((item) => {
@@ -116,6 +115,17 @@ function Document(props) {
       }
     });
   };
+
+  const updateDocumentClass = (item) => {
+    updateSubmissionClass(submission.id, item.id).then((res) => {
+      if (res) {
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
+      }
+    });
+  };
+
   return (
     <>
       <div className="feedback-teacher-laptop screen">
@@ -143,7 +153,9 @@ function Document(props) {
             newCommentFrameRef,
             share,
             smartAnnotations,
-            handleRequestFeedback
+            handleRequestFeedback,
+            allClasses,
+            updateDocumentClass
           )}
         </Frame1388>
       </div>
@@ -240,7 +252,9 @@ function answersAndFeedbacks(
   newCommentFrameRef,
   share,
   smartAnnotations,
-  handleRequestFeedback
+  handleRequestFeedback,
+  allClasses,
+  updateDocumentClass
 ) {
   return (
     <Frame1386 id="content">
@@ -254,7 +268,9 @@ function answersAndFeedbacks(
         labelText,
         (feedbackMethodType = FeedbackMethodType),
         handleRequestFeedback,
-        true
+        true,
+        allClasses,
+        updateDocumentClass
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
@@ -329,8 +345,14 @@ function breadcrumbs(pageMode, submission) {
       <Frame1387>
         <Frame1315>
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
-          <Breadcrumb2 assignments={'Class' + submission.classId} link={'/#/portfolio/'+submission.classId}/>
-          <Breadcrumb2 assignments={'Drafts'} link={'/#/portfolio/'+submission.classId+'/Drafts'}/>
+          <Breadcrumb2
+            assignments={'Class' + submission.classId}
+            link={'/#/portfolio/' + submission.classId}
+          />
+          <Breadcrumb2
+            assignments={'Drafts'}
+            link={'/#/portfolio/' + submission.classId + '/Drafts'}
+          />
 
           <Breadcrumb2 assignments={submission.assignment.title} />
         </Frame1315>

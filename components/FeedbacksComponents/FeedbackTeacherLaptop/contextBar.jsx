@@ -14,6 +14,7 @@ import {
   SelectFeedbackMethodType,
   RequestFeedbackFrame,
 } from './style';
+import DropdownMenu from '../../DropdownMenu';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -32,10 +33,9 @@ export function contextBar(
   methods,
   isTeacher,
   pageMode,
-  labelText,
+  labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
-  console.log('submission: ', submission);
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -195,7 +195,9 @@ export function contextBarForPortfolioDocument(
   labelText,
   feedbackMethodType = [],
   handleRequestFeedback,
-  showStatusText
+  showStatusText,
+  allClasses,
+  updateDocumentClass
 ) {
   return (
     <Frame1371 id="assignmentTitle">
@@ -203,6 +205,15 @@ export function contextBarForPortfolioDocument(
         <AssignmentTitle>{submission?.assignment?.title}</AssignmentTitle>
         {showStatusText && statusText(methods, 0, submission)}
 
+        {allClasses.length > 0 && (
+          <div style={{ width: '140px' }}>
+            <DropdownMenu
+              menuItems={allClasses}
+              onItemSelected={(item) => updateDocumentClass(item)}
+              selectedIndex={parseInt(submission?.classId, 10) - 1}
+            ></DropdownMenu>
+          </div>
+        )}
       </TitleWrapper>
       {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
       {downloadButtonNonClosedSubmission(

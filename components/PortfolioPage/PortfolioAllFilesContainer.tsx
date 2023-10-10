@@ -87,7 +87,7 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
               <DocumentBoxWrapper>
                 <DocumentTextFrame>
                   {document?.preview && document.preview.length > 130
-                    ? document.preview + '...'
+                    ? document.preview.slice(0, 130) + '...'
                     : document.preview}
                 </DocumentTextFrame>
                 <div>

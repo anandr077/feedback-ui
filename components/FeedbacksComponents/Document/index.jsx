@@ -121,7 +121,9 @@ function Document(props) {
   const updateDocumentClass = (item) => {
     updateSubmissionClass(submission.id, item.id).then((res) => {
       if (res) {
-        showSnackbar('Moved to submission');
+        console.log('res: ', res);
+        const classObj = allClasses.find((item) => item.id === res.classId);
+        showSnackbar('Moved to submission ' + classObj.title);
         getSubmissionById(submission.id).then((s) => {
           setSubmission(s);
         });

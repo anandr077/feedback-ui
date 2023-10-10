@@ -74,14 +74,12 @@ export const FlexContainer = styled('div')`
   align-items: center;
   gap: 8px;
   flex-grow: 1;
+  margin-left: 12px;
   .text-container {
     display: inline-block;
     flex-grow: 1;
-    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
-    /* width:100%; */
-    /* max-width: 420px; */
   }
 `;
 

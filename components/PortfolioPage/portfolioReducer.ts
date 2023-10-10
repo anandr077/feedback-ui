@@ -97,27 +97,22 @@ export function addFile(
 }
 
 export function getDocuments(
-  data,
-  mainIndex: number,
-  subFolderIndex: number = 0
+  portfolio,
+  classId: string,
+  categoryName: string = 'Drafts'
 ) {
+  
+  const matchingFiles = portfolio.files
+  .filter(classItem => classItem.classId === classId)
+  .map(classItem =>
+    classItem.files
+      .find(folder => folder.title === categoryName)
+      ?.files
+  )
+  .flat()
+  .filter(Boolean);
 
-  if (
-    mainIndex < 0 ||
-    mainIndex >= data?.files?.length ||
-    data?.files[mainIndex]?.type !== 'FOLDER'
-  ) {
-    return [];
-  }
-
-  const mainFolder = data?.files[mainIndex];
-
-  const subFolder = mainFolder?.files?.[subFolderIndex];
-
-  if (!subFolder?.files) return [];
-
-  // Filter out files of type 'DOCUMENT'
-  return subFolder?.files?.filter((file) => file.type === 'DOCUMENT');
+  return matchingFiles;
 }
 
 export function getSubFolder(

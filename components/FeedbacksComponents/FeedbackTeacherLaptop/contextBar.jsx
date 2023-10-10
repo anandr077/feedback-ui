@@ -199,6 +199,9 @@ export function contextBarForPortfolioDocument(
   allClasses,
   updateDocumentClass
 ) {
+  const selectedClassIdIndex = allClasses.findIndex(
+    (item) => item.id === submission?.classId
+  );
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -206,11 +209,11 @@ export function contextBarForPortfolioDocument(
         {showStatusText && statusText(methods, 0, submission)}
 
         {allClasses.length > 0 && (
-          <div style={{ width: '140px' }}>
+          <div style={{ width: 'fit-content' }}>
             <DropdownMenu
               menuItems={allClasses}
               onItemSelected={(item) => updateDocumentClass(item)}
-              selectedIndex={parseInt(submission?.classId, 10) - 1}
+              selectedIndex={selectedClassIdIndex}
             ></DropdownMenu>
           </div>
         )}

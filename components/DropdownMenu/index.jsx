@@ -43,7 +43,7 @@ export const DropdownMenu = (props) => {
   };
 
   const initialSelectedItem =
-    selectedIndex === undefined
+    selectedIndex === undefined || selectedIndex < 0
       ? findFirstSelectableItem(menuItems, noDefaultSelected)
       : menuItems[selectedIndex];
   const [selectedItem, setSelectedItem] = React.useState(initialSelectedItem);

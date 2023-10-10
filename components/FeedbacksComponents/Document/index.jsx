@@ -24,6 +24,7 @@ import {
   getClasses,
   updateSubmissionClass,
 } from '../../../service';
+import SnackbarContext from '../../SnackbarContext';
 
 const FeedbackMethodType = ['From teacher', 'Form class', 'From peer'];
 
@@ -56,12 +57,13 @@ function Document(props) {
     setSubmission,
     share,
   } = props;
+  const { showSnackbar } = React.useContext(SnackbarContext);
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
-  const [allClasses, getAllClasses] = useState([]);
+  const [allClasses, setAllClasses] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -88,7 +90,7 @@ function Document(props) {
         const updatedStudentsResponse = filteredStudentsResponse.map((item) => {
           return { ...item, title: item.id };
         });
-        getAllClasses(classResponse);
+        setAllClasses(classResponse);
         setStudents(updatedStudentsResponse);
         setTeachers(
           teachersResponse.map((item) => {
@@ -119,6 +121,7 @@ function Document(props) {
   const updateDocumentClass = (item) => {
     updateSubmissionClass(submission.id, item.id).then((res) => {
       if (res) {
+        showSnackbar('Moved to submission');
         getSubmissionById(submission.id).then((s) => {
           setSubmission(s);
         });

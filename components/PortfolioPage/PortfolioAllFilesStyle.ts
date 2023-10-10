@@ -200,7 +200,20 @@ const documentStatusStyle = (status) => {
     };
   }
 };
-
+const BubbleContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  position: relative;
+  margin-bottom: 8px;
+`;
+const FilterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 export {
   DocumentBox,
   DocumentBoxWrapper,
@@ -215,4 +228,6 @@ export {
   DocBtnText,
   NoFileDiv,
   documentStatusStyle,
+  BubbleContainer,
+  FilterContainer,
 };

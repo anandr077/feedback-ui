@@ -21,7 +21,6 @@ const RecentWorkContainer = ({
 }) => {
   const numColumns = smallScreen ? 3 : 4;
   const displayedWork = state?.portfolio?.recentFiles?.slice(0, numColumns);
-  console.log('displayedWork:', displayedWork);
 
   return (
     <WorkContainer>

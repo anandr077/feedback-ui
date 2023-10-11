@@ -20,6 +20,7 @@ import {
   Iconcontainer,
   StyledDeleteButton,
 } from './style';
+import { formatWord } from '../../utils/formatWord';
 
 const CheckboxGroup = ({
   data,
@@ -98,7 +99,7 @@ const CheckboxGroup = ({
             <CheckBoxText>{item.value.title}</CheckBoxText>
           </CheckboxContainer>
           {focusAreaColor(item)}
-          <StyledListItemText primary={item.label} />
+          <StyledListItemText primary={formatWord(item.label)} />
         </StyledMenuItem>
         {trashOption && (
           <Iconcontainer>

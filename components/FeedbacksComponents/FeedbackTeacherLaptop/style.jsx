@@ -3,10 +3,8 @@ import {
   feedbacksIbmplexsansBoldShark36px,
   feedbacksIbmplexsansMediumPersianIndigo20px,
   feedbacksIbmplexsansNormalBlack16px,
-  feedbacksIbmplexsansNormalChicago13px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
-  feedbacksIbmplexsansNormalStack20px,
 } from '../../../styledMixins';
 
 export const AwaitFeedbackContainer = styled.div`
@@ -64,15 +62,11 @@ export const TitleWrapper = styled.div`
   gap: 10px;
 `;
 export const StatusText = styled.div`
-  // width: 714px;
-  // height: 21px;
-
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 21px;
-  /* identical to box height */
 
   letter-spacing: -0.025em;
 
@@ -81,16 +75,7 @@ export const StatusText = styled.div`
   align-items: center;
   gap: 4px;
 `;
-const RoundedContainer = styled.div`
-  display: flex;
-  padding: 12px 16px;
-  align-items: flex-start;
-  gap: 10px;
-  align-self: stretch;
-  border-radius: 24.5px;
-  border: 1px solid #e6ccff;
-  background: #f1e7ff;
-`;
+
 export const Screen = styled.div`
   position: fixed;
   width: 200vw;
@@ -119,26 +104,7 @@ export const Frame131612 = styled.div`
   max-width: 300px;
   display: flex;
 `;
-const Frame1295 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex: 1;
-  flex-direction: column;
-`;
-const OptionsRoot = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-`;
-const OptionCotainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  width: 100%;
-  justify-content: flex-start;
-`;
+
 export const Frame1388 = styled.div`
   display: flex;
   flex-direction: column;
@@ -196,27 +162,7 @@ export const AssignmentTitle = styled.h1`
   letter-spacing: -0.9px;
   line-height: normal;
 `;
-const Frame1369 = styled.div`
-  display: flex;
-  width: 581px;
-  align-items: center;
-  gap: 30px;
-  position: relative;
-`;
-const Frame13161 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-  position: relative;
-  flex: 1;
-  background-color: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: var(--text);
-  cursor: pointer;
-`;
+
 export const Frame1284 = styled.img`
   position: relative;
   min-width: 20px;
@@ -247,8 +193,6 @@ export const Frame1367 = styled.div`
   background-color: var(--white);
   border-radius: 26px;
   box-shadow: 0px 4px 22px #2f1a720a;
-  // height: 550px;
-  // overflow-y: scroll;
 `;
 export const Frame1366 = styled.div`
   display: flex;
@@ -277,80 +221,7 @@ export const QuillContainer = styled.p`
   width: 100%;
   z-index: 1;
 `;
-const Group1307 = styled.div`
-  position: absolute;
-  top: 74px;
-  left: 60px;
-  width: 793px;
-  height: 51px;
-`;
-const OverlapGroup = styled.div`
-  position: relative;
-  height: 51px;
-`;
-const Rectangle546 = styled.div`
-  position: absolute;
-  width: 620px;
-  height: 26px;
-  top: 0;
-  left: 173px;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-const Rectangle547 = styled.div`
-  position: absolute;
-  width: 262px;
-  height: 26px;
-  top: 25px;
-  left: 0;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-const Group1308 = styled.div`
-  position: absolute;
-  top: 309px;
-  left: 60px;
-  width: 808px;
-  height: 76px;
-  mix-blend-mode: multiply;
-`;
-const OverlapGroup1 = styled.div`
-  position: relative;
-  height: 76px;
-`;
-const Rectangle5471 = styled.div`
-  position: absolute;
-  width: 808px;
-  height: 26px;
-  top: 25px;
-  left: 0;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-const Rectangle548 = styled.div`
-  position: absolute;
-  width: 82px;
-  height: 26px;
-  top: 50px;
-  left: 0;
-  background-color: var(--texas);
-  border: 1px dashed;
-  border-color: var(--royal-purple);
-  mix-blend-mode: multiply;
-`;
-const Line26 = styled.img`
-  position: relative;
-  align-self: stretch;
 
-  height: 1px;
-  object-fit: cover;
-`;
 export const Frame1331 = styled.div`
   display: flex;
   flex-direction: column;
@@ -416,30 +287,7 @@ export const TypeHere = styled.div`
   flex: 1;
   letter-spacing: 0;
 `;
-const TextInput = styled.input`
-  ${feedbacksIbmplexsansNormalStack20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  border-color: transparent;
-  box-shadow: 0px;
-  outline: none;
-  transition: 0.15s;
-`;
-const IconsaxLinearmicrophone2 = styled.img`
-  position: relative;
-  min-width: 30px;
-  height: 30px;
-`;
-const Line261 = styled.img`
-  position: relative;
-  align-self: stretch;
-  width: 100%;
-  height: 1px;
-  object-fit: cover;
-`;
+
 export const Frame1383 = styled.div`
   display: flex;
   flex-direction: column;
@@ -463,9 +311,7 @@ export const Share = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
-const FeedbackWithCommentsFrame = styled.div`
-  position: sticky;
-`;
+
 export const Frame1328 = styled.div`
   display: flex;
   flex-direction: column;
@@ -480,31 +326,7 @@ export const Frame1328 = styled.div`
     display: none;
   }
 `;
-const Frame1370 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 30px;
-  position: relative;
-  align-self: stretch;
-`;
-const Frame6 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-`;
-const X2021JeddleAllRightsReserved = styled.p`
-  ${feedbacksIbmplexsansNormalChicago13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-`;
+
 export const SelectFeedbackMethod = styled.div`
   display: flex;
   width: fit-content;

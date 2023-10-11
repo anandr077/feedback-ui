@@ -52,6 +52,8 @@ export const StyledBox = styled(Box)`
   align-items: center;
   padding: 0px 0px 0px 12px;
   position: relative;
+  padding-top: 1.5px!important;
+  padding-bottom: 1.5px!important;
   background-color: var(--white);
   border-radius: 8px;
   border: 1px solid;

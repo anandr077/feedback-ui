@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom'
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
-import { isSmallScreen } from '../ReactiveRender';
 import PortfolioSideBarFolder from './PortfolioSidebarFolder';
 import './portfolioSideBar.css';
 
-const PortfolioSideBar = ({ state, dispatch }) => {
+const PortfolioSideBar = ({ state, dispatch, classId, categoryName }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('')
   const [showSubfolders, setShowSubfolders] = useState('');
   const [showArrowUp, setShowArrowUp] = useState(false);
@@ -14,8 +12,6 @@ const PortfolioSideBar = ({ state, dispatch }) => {
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showNavMenu, setShowNavMenu] = useState(false);
   const [selectedSubFolder, setSelectedSubFolder] = useState('')
-  const history = useHistory();
-  const {classId, categoryName}  = useParams();
 
 
   useEffect(() => {
@@ -71,7 +67,6 @@ const PortfolioSideBar = ({ state, dispatch }) => {
             folder={folder}
             showArrowDropDown={showArrowDropDown}
             showNavMenu={showNavMenu}
-            isSmallScreen={isSmallScreen}
             setShowNavMenu={setShowNavMenu}
             selectedSubFolder={selectedSubFolder}
             setSelectedSubFolder={setSelectedSubFolder}
@@ -79,7 +74,6 @@ const PortfolioSideBar = ({ state, dispatch }) => {
             setActiveFolderIndex={setActiveFolderIndex}
             clickedSubfolder={clickedSubfolder}
             setClickedSubfolder={setClickedSubfolder}
-            history={history}
         />
       )}
     </div>

@@ -1,4 +1,6 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { isSmallScreen } from '../ReactiveRender';
 
 const PortfolioSidebarSubfolder = ({
     state,
@@ -11,9 +13,10 @@ const PortfolioSidebarSubfolder = ({
     setSelectedSubFolder,
     clickedSubfolder, 
     setClickedSubfolder,
-    folder,
-    history
+    folder
 }) => {
+  const history = useHistory()
+  const smallScreenIs = isSmallScreen()
     return (
         <div
           className="folder subFolder"
@@ -30,7 +33,7 @@ const PortfolioSidebarSubfolder = ({
             setSelectedSubFolder(subFolder.title)
             setClickedSubfolder(subFolder.title)
             history.replace(`/portfolio/${folder.classId}/${subFolder.title}`)
-            if(window.innerWidth < 1024){
+            if(smallScreenIs){
               setShowSubfolders(null);
               setShowNavMenu(false);
             }

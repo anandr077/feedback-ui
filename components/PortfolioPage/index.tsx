@@ -36,7 +36,7 @@ const PortfolioPage = () => {
   const [showModal, setShowModal] = useState(false);
   const queryClient = useQueryClient();
 
-  const {classId, categoryName}  = useParams();
+  const { classId, categoryName } = useParams();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
@@ -98,11 +98,7 @@ const PortfolioPage = () => {
     return <Loader />;
   }
 
-  const allFiles = getDocuments(
-    state.portfolio,
-    classId,
-    categoryName
-  );
+  const allFiles = getDocuments(state.portfolio, classId, categoryName);
 
   const handleCreateDocument = (docName, activeMainIndex = 0) => {
     addFile(
@@ -124,7 +120,12 @@ const PortfolioPage = () => {
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />
           <PortfolioContainer>
             <SideNavContainer>
-              <PortfolioSideBar state={state} dispatch={dispatch} />
+              <PortfolioSideBar
+                state={state}
+                dispatch={dispatch}
+                classId={classId}
+                categoryName={categoryName}
+              />
             </SideNavContainer>
             <DocumentMainSection>
               <RecentWorkContainer

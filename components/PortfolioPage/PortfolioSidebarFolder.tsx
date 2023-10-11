@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { isMobileView } from '../ReactiveRender';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import PortfolioSidebarSubfolder from './PortfolioSidebarSubfolder';
@@ -15,7 +16,6 @@ const PortfolioSidebarFolder = ({
     folder,
     showArrowDropDown,
     showNavMenu,
-    isSmallScreen,
     setShowNavMenu,
     selectedSubFolder,
     setSelectedSubFolder,
@@ -23,14 +23,14 @@ const PortfolioSidebarFolder = ({
     setActiveFolderIndex,
     clickedSubfolder,
     setClickedSubfolder,
-    history,
 }) => {
-    const isActive = isSmallScreen() ? showNavMenu : true;
+    const isActive = isMobileView() ? showNavMenu : true;
 
   return (
     <>
-      {isActive && (
-        <Link
+      {
+        isActive && (
+          <Link
           className={`folder ${folder.classId === activeFolderIndex ? 'active' : ''}`}
           onClick={() => {
             dispatch({
@@ -55,9 +55,10 @@ const PortfolioSidebarFolder = ({
               ))}
           </div>
         </Link>
-      )}
+        )
+      }
 
-      {showSubfolders === classId &&
+       {isActive && showSubfolders === classId &&
         folder.files &&
         folder.files.map((subFolder, subfolderIndex) =>
           <PortfolioSidebarSubfolder 
@@ -72,7 +73,6 @@ const PortfolioSidebarFolder = ({
             clickedSubfolder={clickedSubfolder}
             setClickedSubfolder={setClickedSubfolder}
             folder={folder}
-            history={history}
           />
         )}
     </>

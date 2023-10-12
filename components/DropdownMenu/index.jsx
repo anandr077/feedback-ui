@@ -43,7 +43,7 @@ export const DropdownMenu = (props) => {
   };
 
   const initialSelectedItem =
-    selectedIndex === undefined
+    selectedIndex === undefined || selectedIndex < 0
       ? findFirstSelectableItem(menuItems, noDefaultSelected)
       : menuItems[selectedIndex];
   const [selectedItem, setSelectedItem] = React.useState(initialSelectedItem);
@@ -88,8 +88,9 @@ export const DropdownMenu = (props) => {
         style={
           fullWidth
             ? { borderColor: 'var(--text)', padding: '7px' }
-            : { borderColor: 'var(--light-mode-purple)', 
-                padding: selectedItem.type === 'FOLDER' ? '7px' : '0'
+            : {
+                borderColor: 'var(--light-mode-purple)',
+                padding: selectedItem?.type === 'FOLDER' ? '7px' : '0',
               }
         }
       >

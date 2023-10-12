@@ -2,12 +2,6 @@ import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useState, useEffect } from 'react';
-import Header from '../../Header';
-
-import Footer from '../../Footer';
-import FooterSmall from '../../FooterSmall';
-import HeaderSmall from '../../HeaderSmall';
-import { isSmallScreen } from '../../ReactiveRender';
 import { answersFrameNoMC } from '../AnswersFrameNoMC';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -27,7 +21,10 @@ import {
   getTeachersForClass,
   createRequestFeddbackType,
   getSubmissionById,
+  getClasses,
+  updateSubmissionClass,
 } from '../../../service';
+import SnackbarContext from '../../SnackbarContext';
 
 const FeedbackMethodType = ['From teacher', 'Form class', 'From peer'];
 
@@ -60,11 +57,13 @@ function Document(props) {
     setSubmission,
     share,
   } = props;
+  const { showSnackbar } = React.useContext(SnackbarContext);
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
+  const [allClasses, setAllClasses] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -83,13 +82,15 @@ function Document(props) {
       Promise.all([
         getStudentsForClass(submission.classId),
         getTeachersForClass(submission.classId),
-      ]).then(([studentsResponse, teachersResponse]) => {
+        getClasses(),
+      ]).then(([studentsResponse, teachersResponse, classResponse]) => {
         const filteredStudentsResponse = studentsResponse.filter(
           (student) => student.id !== submission.studentId
         );
         const updatedStudentsResponse = filteredStudentsResponse.map((item) => {
           return { ...item, title: item.id };
         });
+        setAllClasses(classResponse);
         setStudents(updatedStudentsResponse);
         setTeachers(
           teachersResponse.map((item) => {
@@ -116,6 +117,22 @@ function Document(props) {
       }
     });
   };
+
+  const updateDocumentClass = (item) => {
+    if (item.id === submission.classId) {
+      return;
+    }
+    updateSubmissionClass(submission.id, item.id).then((res) => {
+      if (res) {
+        const classObj = allClasses.find((item) => item.id === res.classId);
+        showSnackbar('Moved to submission ' + classObj.title);
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
+      }
+    });
+  };
+
   return (
     <>
       <div
@@ -146,7 +163,9 @@ function Document(props) {
             newCommentFrameRef,
             share,
             smartAnnotations,
-            handleRequestFeedback
+            handleRequestFeedback,
+            allClasses,
+            updateDocumentClass
           )}
         </Frame1388>
       </div>
@@ -243,7 +262,9 @@ function answersAndFeedbacks(
   newCommentFrameRef,
   share,
   smartAnnotations,
-  handleRequestFeedback
+  handleRequestFeedback,
+  allClasses,
+  updateDocumentClass
 ) {
   return (
     <Frame1386 id="content">
@@ -257,7 +278,9 @@ function answersAndFeedbacks(
         labelText,
         (feedbackMethodType = FeedbackMethodType),
         handleRequestFeedback,
-        true
+        true,
+        allClasses,
+        updateDocumentClass
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(

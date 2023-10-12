@@ -221,16 +221,19 @@ export const addFeedback = async (submissionId, comment) =>
     comment
   );
 export const deleteSubmissionById = async (submissionId) => {
-  console.log("delete submission " + submissionId)
-  await patchApi(baseUrl + '/submissions/' + submissionId + '/delete')
-}
+  console.log('delete submission ' + submissionId);
+  await patchApi(baseUrl + '/submissions/' + submissionId + '/delete');
+};
 
 export const updateFeedback = async (submissionId, commentId, comment) =>
   await putApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId,
     comment
   );
-
+export const updateSubmissionClass = async (submissionId, classId) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/updateClass/' + classId
+  );
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 

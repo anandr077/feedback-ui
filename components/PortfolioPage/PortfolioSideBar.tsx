@@ -8,8 +8,10 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('')
   const [showSubfolders, setShowSubfolders] = useState('');
   const [activeFolderIndex, setActiveFolderIndex] = useState("0");
+  const [showArrowDropDown, setShowArrowDropDown] = useState(true);
+  const [showArrowUp, setShowArrowUp] = useState(false);
+  const [showNavMenu, setShowNavMenu] = useState(false);
   const [selectedSubFolder, setSelectedSubFolder] = useState('')
-
 
   useEffect(() => {
     let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);

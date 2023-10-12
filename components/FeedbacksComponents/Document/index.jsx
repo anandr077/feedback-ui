@@ -119,6 +119,9 @@ function Document(props) {
   };
 
   const updateDocumentClass = (item) => {
+    if (item.id === submission.classId) {
+      return;
+    }
     updateSubmissionClass(submission.id, item.id).then((res) => {
       if (res) {
         const classObj = allClasses.find((item) => item.id === res.classId);

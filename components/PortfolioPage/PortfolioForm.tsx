@@ -44,9 +44,13 @@ const PortfolioForm = ({
         <DropdownMenu
           menuItems={state.portfolio.files}
           selectedIndex={selectedClassIndex}
-          onItemSelected={(item) =>
-            setSelectedClassIndex(parseInt(item.classId, 10) - 1)
-          }
+          onItemSelected={(item) => {
+            const selectedClassIdIndex = state.portfolio.files.findIndex(
+              (i) => i.classId === item?.classId
+            );
+
+            setSelectedClassIndex(selectedClassIdIndex);
+          }}
         ></DropdownMenu>
       </FormDiv>
       <SubmitBtn type="submit" disabled={!docName}>

@@ -14,6 +14,7 @@ import PortfolioDocModal from './PortfolioDocModal';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
   addFile,
+  addFolder,
   deleteDocument,
   getDocuments,
   initailState,
@@ -54,7 +55,7 @@ const PortfolioPage = () => {
       window.location.href = `#documents/${data.id}`;
     },
   });
-
+  
   const deleteDocumentMutation = useMutation({
     mutationFn: async (doc) =>
       deleteSubmissionById(doc.documentId, doc.classId),
@@ -88,12 +89,37 @@ const PortfolioPage = () => {
     },
   });
 
+  const addFolderMutation = useMutation({
+    mutationFn: async (folderName) =>
+      console.log(folderName),
+    onMutate: async (folderName) => {
+      console.log('On mutate ' + folderName);
+      await queryClient.cancelQueries({ queryKey: ['portfolio'] });
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
+      console.log('previousPortfolio', previousPortfolio);
+      dispatch({ type: 'addFolder', payload: folderName });
+
+      return { previousPortfolio };
+    },
+
+    onError: (err, newTodo, context) => {
+      console.log('On error');
+
+      queryClient.setQueryData(['portfolio'], context.previousPortfolio);
+    },
+    onSuccess: (data, variables) => {
+      console.log('On success');
+    },
+    onSettled: () => {
+      console.log('Settled');
+      // queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+    },
+  });
+
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
     !state.portfolio
-    // ||
-    // deleteDocumentMutation.isLoading
   ) {
     return <Loader />;
   }
@@ -115,6 +141,7 @@ const PortfolioPage = () => {
 
   const handleNewFolder = (newFolder) =>{
       console.log('new folder: ', newFolder)
+      addFolderMutation.mutate(newFolder)
   }
 
   return (

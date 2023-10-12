@@ -9,14 +9,12 @@ export const initailState = {
 
 export function reducer(state: any, action: any) {
   switch (action.type) {
-    case 'deleteDocument':
-      const { mainIndex, subFolderIndex, documentId } = action.payload;
-      const newPortfolio = { ...state.portfolio };
-      const files = newPortfolio.files[mainIndex].files[subFolderIndex].files;
-      newPortfolio.files[mainIndex].files[subFolderIndex].files = files.filter(
-        (file) => file.id !== documentId
-      );
-      return { ...state, portfolio: newPortfolio };
+    case 'addFolder':
+      return { ...state, portfolio:  addFolder(
+        state.portfolio,
+        action.payload
+      )
+    };
     case 'setPortfolio':
       return { ...state, portfolio: action.payload };
     case 'loading':
@@ -25,6 +23,8 @@ export function reducer(state: any, action: any) {
       return { ...state, activeMainIndex: action.payload };
     case 'setActiveSubFolderIndex':
       return { ...state, activeSubFolderIndex: action.payload };
+    case 'addFolder':
+        return { ...state, activeSubFolderIndex: action.payload };
     default:
       throw new Error();
   }
@@ -141,21 +141,22 @@ export const deleteDocument = (portfolio, documentId, classId) => {
   );
 
   const updatedFiles = portfolio.files.map(file => {
-    if (file.classId === classId) {
-        return {
-            ...file,
-            files: file.files.map(innerFolder => {
-                if (innerFolder.title === "Drafts") {
-                    return {
-                        ...innerFolder,
-                        files: innerFolder.files.filter(document => document.documentId !== documentId)
-                    };
-                }
-                return innerFolder;
-            })
-        };
+    if (file.classId !== classId) {
+      return file;
     }
-    return file;
+    return {
+        ...file,
+        files: file.files.map(innerFolder => {
+            if (innerFolder.title !== "Drafts") {
+              return innerFolder;
+            }
+            return {
+                ...innerFolder,
+                files: innerFolder.files.filter(document => document.documentId !== documentId)
+            };
+        })
+    };
+    
   });
 
 
@@ -163,6 +164,26 @@ export const deleteDocument = (portfolio, documentId, classId) => {
     ...portfolio,
     recentFiles: updatedRecentFiles,
     files: updatedFiles,
+  };
+};
+
+export const addFolder = (portfolio, folderName) => {
+  return {
+    ...portfolio,
+    files: [
+      ...portfolio.files,
+      {
+        id: 'temp',
+        title: folderName,
+        type: 'FOLDER',
+        files: [{
+          id: 'temp',
+          title: 'Drafts',
+          type: 'FOLDER',
+          files: []
+        }],
+      },
+    ],
   };
 };
 

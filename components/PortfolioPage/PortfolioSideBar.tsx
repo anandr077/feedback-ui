@@ -13,16 +13,16 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName, handleNewFol
   const [showNavMenu, setShowNavMenu] = useState(false);
   const [selectedSubFolder, setSelectedSubFolder] = useState('')
   const [addFolder, setAddFolder] = useState(false)
-  const [getFolder, setGetNewFolder] = useState('')
+  const [newFolderName, setNewFolderName] = useState('')
 
   const getAddFolderData = () =>{
-    handleNewFolder(getFolder)
-    setGetNewFolder('')
+    handleNewFolder(newFolderName)
+    setNewFolderName('')
     setAddFolder(false)
   }
 
   useEffect(() => {
-    let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
+    const matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
 
     let activeFolderClassId = matchingFolders.length > 0 ? matchingFolders[0].classId : null;
 
@@ -56,8 +56,6 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName, handleNewFol
   }, [classId, categoryName, state?.portfolio]);
 
 
-  
-
   return (
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
@@ -87,18 +85,26 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName, handleNewFol
         <div className="new-folder-box">
           <input
             className="FolderInputBox"
-            placeholder="New Folder"
+            placeholder="Folder name"
             type="text"
-            onChange={(e) => setGetNewFolder(e.target.value)}
+            onKeyUp={
+              (e) => {
+                console.log(e.key)
+                if(e.key === 'Enter'){
+                  handleNewFolder(newFolderName)
+                }
+              }
+            }
+            onChange={(e) => setNewFolderName(e.target.value)}
           />
           <button 
             className="newFolderBtn"
             onClick={getAddFolderData}
-          >+ New Folder</button>
+          >+ New folder</button>
         </div>
       ) : (
         <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
-          + New Folder
+          + New folder
         </button>
       )}
     </div>

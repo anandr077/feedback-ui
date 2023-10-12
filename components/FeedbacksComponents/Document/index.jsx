@@ -132,7 +132,10 @@ function Document(props) {
 
   return (
     <>
-      <div className="feedback-teacher-laptop screen">
+      <div
+        className="feedback-teacher-laptop screen"
+        style={{ minWidth: 'unset' }}
+      >
         <Frame1388>
           {breadcrumbs(pageMode, submission)}
           {answersAndFeedbacks(

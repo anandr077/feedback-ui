@@ -98,7 +98,7 @@ export function addFile(
 
 export function getDocuments(
   portfolio,
-  classId: string,
+  classId: string = "1",
   categoryName: string = 'Drafts'
 ) {
   

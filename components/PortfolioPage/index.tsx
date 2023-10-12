@@ -113,6 +113,10 @@ const PortfolioPage = () => {
     deleteDocumentMutation.mutate(document);
   };
 
+  const handleNewFolder = (newFolder) =>{
+      console.log('new folder: ', newFolder)
+  }
+
   return (
     <>
       <PortfolioSection>
@@ -125,6 +129,7 @@ const PortfolioPage = () => {
                 dispatch={dispatch}
                 classId={classId}
                 categoryName={categoryName}
+                handleNewFolder={handleNewFolder}
               />
             </SideNavContainer>
             <DocumentMainSection>

@@ -4,7 +4,7 @@ import menuIcon from '../../static/icons/menuBar.png';
 import PortfolioSideBarFolder from './PortfolioSidebarFolder';
 import './portfolioSideBar.css';
 
-const PortfolioSideBar = ({ state, dispatch, classId, categoryName }) => {
+const PortfolioSideBar = ({ state, dispatch, classId, categoryName, handleNewFolder }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('')
   const [showSubfolders, setShowSubfolders] = useState('');
   const [activeFolderIndex, setActiveFolderIndex] = useState("0");
@@ -12,6 +12,14 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName }) => {
   const [showArrowUp, setShowArrowUp] = useState(false);
   const [showNavMenu, setShowNavMenu] = useState(false);
   const [selectedSubFolder, setSelectedSubFolder] = useState('')
+  const [addFolder, setAddFolder] = useState(false)
+  const [getFolder, setGetNewFolder] = useState('')
+
+  const getAddFolderData = () =>{
+    handleNewFolder(getFolder)
+    setGetNewFolder('')
+    setAddFolder(false)
+  }
 
   useEffect(() => {
     let matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
@@ -74,6 +82,24 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName }) => {
             clickedSubfolder={clickedSubfolder}
             setClickedSubfolder={setClickedSubfolder}
         />
+      )}
+      {addFolder ? (
+        <div className="new-folder-box">
+          <input
+            className="FolderInputBox"
+            placeholder="New Folder"
+            type="text"
+            onChange={(e) => setGetNewFolder(e.target.value)}
+          />
+          <button 
+            className="newFolderBtn"
+            onClick={getAddFolderData}
+          >+ New Folder</button>
+        </div>
+      ) : (
+        <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
+          + New Folder
+        </button>
       )}
     </div>
   );

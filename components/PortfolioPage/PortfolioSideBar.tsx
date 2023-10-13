@@ -92,6 +92,8 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName, handleNewFol
                 console.log(e.key)
                 if(e.key === 'Enter'){
                   handleNewFolder(newFolderName)
+                  setNewFolderName('')
+                  setAddFolder(false)
                 }
               }
             }

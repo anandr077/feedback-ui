@@ -1,6 +1,7 @@
 import { default as React, useReducer, useState, useEffect } from 'react';
 import {
   addDocumentToPortfolioWithDetails,
+  addFolderToPortfolio,
   deleteSubmissionById,
   getPortfolio,
 } from '../../service';
@@ -14,11 +15,11 @@ import PortfolioDocModal from './PortfolioDocModal';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
   addFile,
-  addFolder,
   deleteDocument,
   getDocuments,
   initailState,
   reducer,
+  addFolder
 } from './portfolioReducer';
 
 import { isSmallScreen } from '../ReactiveRender';
@@ -55,7 +56,8 @@ const PortfolioPage = () => {
       window.location.href = `#documents/${data.id}`;
     },
   });
-  
+
+
   const deleteDocumentMutation = useMutation({
     mutationFn: async (doc) =>
       deleteSubmissionById(doc.documentId, doc.classId),
@@ -91,7 +93,7 @@ const PortfolioPage = () => {
 
   const addFolderMutation = useMutation({
     mutationFn: async (folderName) =>
-      console.log(folderName),
+      addFolderToPortfolio({title: folderName}),
     onMutate: async (folderName) => {
       console.log('On mutate ' + folderName);
       await queryClient.cancelQueries({ queryKey: ['portfolio'] });
@@ -112,7 +114,7 @@ const PortfolioPage = () => {
     },
     onSettled: () => {
       console.log('Settled');
-      // queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
 
@@ -120,6 +122,8 @@ const PortfolioPage = () => {
     isLoading ||
     addDocumentMutation.isLoading ||
     !state.portfolio
+    // ||
+    // deleteDocumentMutation.isLoading
   ) {
     return <Loader />;
   }
@@ -139,9 +143,20 @@ const PortfolioPage = () => {
     deleteDocumentMutation.mutate(document);
   };
 
-  const handleNewFolder = (newFolder) =>{
-      console.log('new folder: ', newFolder)
-      addFolderMutation.mutate(newFolder)
+
+  const handleNewFolder = (folderName) =>{
+      console.log('new folder: ', folderName)
+      addFolderToPortfolio(folderName)
+      .then((res) => {
+          addFolderMutation.mutate(folderName, {
+            onSuccess: (data) => {
+              dispatch({ type: 'addFolder', payload: folderName });
+            }
+          });
+      })
+      .catch((error)=>{
+        console.error('Error adding new folder:', error);
+      })
   }
 
   return (

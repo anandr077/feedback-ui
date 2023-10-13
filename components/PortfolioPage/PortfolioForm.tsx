@@ -39,7 +39,7 @@ const PortfolioForm = ({
         <br />
       </FormDiv>
       <FormDiv>
-        <FormLavel htmlFor="class">Select a class</FormLavel>
+        <FormLavel htmlFor="class">Select a folder</FormLavel>
 
         <DropdownMenu
           menuItems={state.portfolio.files}

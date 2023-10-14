@@ -13,7 +13,7 @@ import _ from 'lodash';
 import Loader from '../../Loader';
 import DeleteAssignmentPopup from '../../DeleteAssignmentPopUp';
 import ExtendAssignmentPopup from '../../ExtendAssignmentPopup';
-import { useQueries } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -23,24 +23,24 @@ export default function TeacherTaskRoot() {
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
 
-  const [assignmentsQuery, teacherClassesQuery] = useQueries([
-    {
-      queryKey: ['assignments'],
-      queryFn: async () => {
-        const result = await getAssignments();
-        return result;
-      },
-      staleTime: 300000,
+ 
+
+  const assignmentsQuery = useQuery({
+    queryKey: ['assignments'],
+    queryFn: async () => {
+      const result = await getAssignments();
+      return result;
     },
-    {
+    staleTime: 300000,
+  });
+  const teacherClassesQuery = useQuery({
       queryKey: ['classes'],
       queryFn: async () => {
         const result = await getClasses();
         return result;
       },
       staleTime: 300000,
-    },
-  ]);
+    });
 
   React.useEffect(() => {
     if (assignmentsQuery.data) {

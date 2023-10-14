@@ -19,7 +19,7 @@ import {
   SelectedButtonText,
   HeaderButtonSelected,
 } from './HeaderStyle';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Header(props) {
   const { headerProps } = props;

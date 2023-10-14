@@ -55,7 +55,7 @@ import {
   feedbacksFeedbackTeacherMobileData,
 } from './style';
 import { downloadTaskPdf } from '../../Shared/helper/downloadPdf';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -65,7 +65,7 @@ const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot({ isAssignmentPage }) {
   const queryClient = useQueryClient();
-  queryClient.removeQueries('portfolio');
+  queryClient.removeQueries(['portfolio']);
 
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');

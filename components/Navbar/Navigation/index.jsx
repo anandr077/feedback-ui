@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import './Navigation.css';
 import { account, changePassword, getUserName, logout } from '../../../service';
 import { Avatar } from '@boringer-avatars/react';
+import { useQueryClient } from '@tanstack/react-query';
 
 const group1Data = {
   iconHome: '/img/home3-1@2x.png',
@@ -32,6 +33,8 @@ const navElement8Data = {
 
 function Navigation(props) {
   const name = getUserName();
+  const queryClient = useQueryClient();
+
   const { headerProps, onCloseFn } = props;
   const navigationData = {
     maskGroup: '/img/mask-group-2@2x.png',
@@ -85,7 +88,12 @@ function Navigation(props) {
           className={navigationData.navElement72Props.className}
           onClick={() => (window.location.href = '/#/settings')}
         />
-        <NavElement8 onClick={() => logout()}></NavElement8>
+        <NavElement8
+          onClick={() => {
+            queryClient.clear();
+            logout();
+          }}
+        ></NavElement8>
       </Frame5>
     </NavbarDiv>
   );

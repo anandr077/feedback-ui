@@ -10,7 +10,7 @@ import {
   Frame5,
   Frame51,
 } from './HeaderSmallStyle';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 export default function HeaderSmall(props) {
   const { headerProps } = props;

@@ -3,9 +3,12 @@ import ProfileDropDownElement from '../ProfileDropDownElement';
 import './ProfileDropdown.css';
 import styled from 'styled-components';
 import { account, changePassword, logout, getUserRole } from '../../../service';
+import { useQueryClient } from '@tanstack/react-query';
 
 function ProfileDropdown() {
   const role = getUserRole();
+  const queryClient = useQueryClient();
+
   return (
     <>
       <ProfileDropDownElement text="View Profile" onClick={() => account()} />
@@ -29,6 +32,7 @@ function ProfileDropdown() {
         text="Logout"
         noIcon={true}
         onClick={() => {
+          queryClient.clear();
           logout();
         }}
       />

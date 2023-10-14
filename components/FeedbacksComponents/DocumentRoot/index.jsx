@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GeneralPopup from '../../GeneralPopup';
 import Document from '../Document';
-import { useQueryClient } from 'react-query';
 
 import {
   addFeedback,
@@ -32,10 +31,11 @@ import Loader from '../../Loader';
 import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
-  queryClient.removeQueries('portfolio');
+  queryClient.removeQueries(['portfolio']);
 
 
   const quillRefs = useRef([]);

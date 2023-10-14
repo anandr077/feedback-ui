@@ -45,7 +45,7 @@ import {
   CheckboxContainer,
   CheckBoxText,
 } from './CreateAssignmentStyle';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 

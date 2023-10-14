@@ -7,7 +7,6 @@ import {
 } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
 
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
@@ -29,6 +28,7 @@ import {
   PortfolioSection,
   SideNavContainer,
 } from './PortfolioStyle';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
@@ -39,11 +39,11 @@ const PortfolioPage = () => {
   const {  folderId, categoryName } = useParams();
 
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: 'portfolio',
+    queryKey: ['portfolio'],
     queryFn: async () => {
       return await getPortfolio();
     },
-    staleTime: 300000
+    staleTime: 300000,
   });
   React.useEffect(() => {
     dispatch({ type: 'setPortfolio', payload: data });
@@ -60,8 +60,8 @@ const PortfolioPage = () => {
       await deleteSubmissionById(doc.documentId),
     onMutate: async (doc) => {
       console.log('On delete mutate ' , doc);
-      await queryClient.cancelQueries({ queryKey: 'portfolio' });
-      const previousPortfolio = queryClient.getQueryData('portfolio');
+      await queryClient.cancelQueries({ queryKey: ['portfolio'] });
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
       console.log('previousPortfolio', previousPortfolio);
       dispatch({ type: 'deleteDocument', payload: doc });
 
@@ -71,14 +71,14 @@ const PortfolioPage = () => {
     onError: (err, _, context) => {
       console.log('On error');
 
-      queryClient.setQueryData('portfolio', context.previousPortfolio);
+      queryClient.setQueryData(['portfolio'], context.previousPortfolio);
     },
     onSuccess: (data, variables) => {
       console.log('On success');
     },
     onSettled: () => {
       console.log('Settled');
-      queryClient.invalidateQueries({ queryKey: 'portfolio' });
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
 
@@ -87,8 +87,8 @@ const PortfolioPage = () => {
       await addFolderToPortfolio({title: folderName}),
     onMutate: async (folderName) => {
       console.log('On mutate ' + folderName);
-      await queryClient.cancelQueries({ queryKey: 'portfolio' });
-      const previousPortfolio = queryClient.getQueryData('portfolio');
+      await queryClient.cancelQueries({ queryKey: ['portfolio'] });
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
       console.log('previousPortfolio', previousPortfolio);
       dispatch({ type: 'addFolder', payload: folderName });
 
@@ -105,7 +105,7 @@ const PortfolioPage = () => {
     },
     onSettled: () => {
       console.log('Settled');
-      queryClient.invalidateQueries({ queryKey: 'portfolio' });
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
 

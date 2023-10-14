@@ -11,7 +11,6 @@ import PortfolioSidebarSubfolder from './PortfolioSidebarSubfolder';
 const PortfolioSidebarFolder = ({
   state,
   dispatch,
-  classId,
   setShowSubfolders,
   showSubfolders,
   setShowArrowUp,
@@ -64,25 +63,26 @@ const PortfolioSidebarFolder = ({
     event.stopPropagation();
   };
 
+
   return (
     <>
       {isActive && (
         <Link
           className={`folder ${
-            folder.classId === activeFolderIndex ? 'active' : ''
+            folder.id === activeFolderIndex ? 'active' : ''
           }`}
           onClick={() => {
             dispatch({
               type: 'setActiveMainIndex',
-              payload: folder.classId,
+              payload: folder.id,
             });
-            setActiveFolderIndex(folder.classId);
-            setShowSubfolders(showSubfolders === classId ? null : classId);
+            setActiveFolderIndex(folder.id);
+            setShowSubfolders(showSubfolders === folder.id ? null : folder.id);
             setShowArrowUp(
-              state.activeMainIndex === classId ? !showArrowUp : true
+              state.activeMainIndex === folder.id ? !showArrowUp : true
             );
           }}
-          to={`/portfolio/` + folder.classId + '/' + (selectedSubFolder || '')}
+          to={`/portfolio/` + folder.id + '/' + (selectedSubFolder || '')}
           title={folder.title.length > 12 ? folder.title : undefined}
         >
           {isEditing ? (
@@ -122,7 +122,7 @@ const PortfolioSidebarFolder = ({
                   </div>
                 )}
               {showArrowDropDown &&
-                (showArrowUp && state.activeMainIndex === classId ? (
+                (showArrowUp && state.activeMainIndex === folder.id ? (
                   <ArrowDropUpIcon />
                 ) : (
                   <ArrowDropDownIcon />
@@ -133,7 +133,7 @@ const PortfolioSidebarFolder = ({
       )}
 
       {isActive &&
-        showSubfolders === classId &&
+        showSubfolders === folder.id &&
         folder.files &&
         folder.files.map((subFolder, subfolderIndex) => (
           <PortfolioSidebarSubfolder

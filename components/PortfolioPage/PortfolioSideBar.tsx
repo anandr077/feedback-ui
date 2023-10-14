@@ -4,105 +4,109 @@ import menuIcon from '../../static/icons/menuBar.png';
 import PortfolioSideBarFolder from './PortfolioSidebarFolder';
 import './portfolioSideBar.css';
 
-const PortfolioSideBar = ({ state, dispatch, classId, categoryName, handleNewFolder }) => {
-  const [clickedSubfolder, setClickedSubfolder] = useState('')
+const PortfolioSideBar = ({
+  state,
+  dispatch,
+  folderId,
+  categoryName,
+  handleNewFolder,
+}) => {
+  const [clickedSubfolder, setClickedSubfolder] = useState('');
   const [showSubfolders, setShowSubfolders] = useState('');
-  const [activeFolderIndex, setActiveFolderIndex] = useState("0");
+  const [activeFolderIndex, setActiveFolderId] = useState('0');
   const [showArrowDropDown, setShowArrowDropDown] = useState(true);
   const [showArrowUp, setShowArrowUp] = useState(false);
   const [showNavMenu, setShowNavMenu] = useState(false);
-  const [selectedSubFolder, setSelectedSubFolder] = useState('')
-  const [addFolder, setAddFolder] = useState(false)
-  const [newFolderName, setNewFolderName] = useState('')
+  const [selectedSubFolder, setSelectedSubFolder] = useState('');
+  const [addFolder, setAddFolder] = useState(false);
+  const [newFolderName, setNewFolderName] = useState('');
 
-  const getAddFolderData = () =>{
-    handleNewFolder(newFolderName)
-    setNewFolderName('')
-    setAddFolder(false)
-  }
+  const getAddFolderData = () => {
+    handleNewFolder(newFolderName);
+    setNewFolderName('');
+    setAddFolder(false);
+  };
 
   useEffect(() => {
-    const matchingFolders = state?.portfolio?.files?.filter(folder => folder.classId === classId);
+    const matchingFolders = state?.portfolio?.files?.filter(
+      (folder) => folder.id === folderId
+    );
 
-    let activeFolderClassId = matchingFolders.length > 0 ? matchingFolders[0].classId : null;
+    let activeFolderFolderId =
+      matchingFolders.length > 0 ? matchingFolders[0].id : null;
 
-    if(!activeFolderClassId && state?.portfolio?.files?.length > 0){
-      activeFolderClassId = state?.portfolio?.files[0]?.classId || null;
+    if (!activeFolderFolderId && state?.portfolio?.files?.length > 0) {
+      activeFolderFolderId = state?.portfolio?.files[0]?.id || null;
     }
 
-    setActiveFolderIndex(activeFolderClassId)
+    setActiveFolderId(activeFolderFolderId);
     let categoryNameToUse = categoryName;
     if (categoryName === null || categoryName === undefined) {
       categoryNameToUse = 'Drafts';
     }
-    if (!classId && !categoryNameToUse) {
+    if (!folderId && !categoryNameToUse) {
       setShowSubfolders('');
-      setSelectedSubFolder(''); 
+      setSelectedSubFolder('');
       setClickedSubfolder('');
       return;
     }
 
-    if (activeFolderClassId !== null) {
-      setShowSubfolders(activeFolderClassId);
+    if (activeFolderFolderId !== null) {
+      setShowSubfolders(activeFolderFolderId);
       if (categoryNameToUse) {
-        setSelectedSubFolder(categoryNameToUse); 
-        setClickedSubfolder('')
+        setSelectedSubFolder(categoryNameToUse);
+        setClickedSubfolder('');
       } else {
         const defaultSubFolder = matchingFolders[0]?.files?.[0]?.title || '';
         setSelectedSubFolder(defaultSubFolder);
         setClickedSubfolder(defaultSubFolder);
       }
     }
-  }, [classId, categoryName, state?.portfolio]);
-
+  }, [folderId, categoryName, state?.portfolio]);
 
   return (
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
 
-      {state?.portfolio?.files?.map((folder, mainIndex) =>
-        <PortfolioSideBarFolder 
-            state={state}
-            dispatch={dispatch}
-            classId={folder.classId}
-            setShowSubfolders={setShowSubfolders}
-            showSubfolders={showSubfolders}
-            setShowArrowUp={setShowArrowUp}
-            showArrowUp={showArrowUp}
-            folder={folder}
-            showArrowDropDown={showArrowDropDown}
-            showNavMenu={showNavMenu}
-            setShowNavMenu={setShowNavMenu}
-            selectedSubFolder={selectedSubFolder}
-            setSelectedSubFolder={setSelectedSubFolder}
-            activeFolderIndex={activeFolderIndex}
-            setActiveFolderIndex={setActiveFolderIndex}
-            clickedSubfolder={clickedSubfolder}
-            setClickedSubfolder={setClickedSubfolder}
+      {state?.portfolio?.files?.map((folder, mainIndex) => (
+        <PortfolioSideBarFolder
+          state={state}
+          dispatch={dispatch}
+          setShowSubfolders={setShowSubfolders}
+          showSubfolders={showSubfolders}
+          setShowArrowUp={setShowArrowUp}
+          showArrowUp={showArrowUp}
+          folder={folder}
+          showArrowDropDown={showArrowDropDown}
+          showNavMenu={showNavMenu}
+          setShowNavMenu={setShowNavMenu}
+          selectedSubFolder={selectedSubFolder}
+          setSelectedSubFolder={setSelectedSubFolder}
+          activeFolderIndex={activeFolderIndex}
+          setActiveFolderIndex={setActiveFolderId}
+          clickedSubfolder={clickedSubfolder}
+          setClickedSubfolder={setClickedSubfolder}
         />
-      )}
+      ))}
       {addFolder ? (
         <div className="new-folder-box">
           <input
             className="FolderInputBox"
             placeholder="Folder name"
             type="text"
-            onKeyUp={
-              (e) => {
-                console.log(e.key)
-                if(e.key === 'Enter'){
-                  handleNewFolder(newFolderName)
-                  setNewFolderName('')
-                  setAddFolder(false)
-                }
+            onKeyUp={(e) => {
+              console.log(e.key);
+              if (e.key === 'Enter') {
+                handleNewFolder(newFolderName);
+                setNewFolderName('');
+                setAddFolder(false);
               }
-            }
+            }}
             onChange={(e) => setNewFolderName(e.target.value)}
           />
-          <button 
-            className="newFolderBtn"
-            onClick={getAddFolderData}
-          >+ New folder</button>
+          <button className="newFolderBtn" onClick={getAddFolderData}>
+            + New folder
+          </button>
         </div>
       ) : (
         <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
@@ -114,7 +118,6 @@ const PortfolioSideBar = ({ state, dispatch, classId, categoryName, handleNewFol
 };
 
 export default PortfolioSideBar;
-
 
 function sideNavHeaderMobile(
   showNavMenu: boolean,

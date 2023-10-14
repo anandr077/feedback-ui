@@ -32,7 +32,7 @@ const PortfolioSidebarSubfolder = ({
             });
             setSelectedSubFolder(subFolder.title)
             setClickedSubfolder(subFolder.title)
-            history.replace(`/portfolio/${folder.classId}/${subFolder.title}`)
+            history.replace(`/portfolio/${folder.id}/${subFolder.title}`)
             if(smallScreenIs){
               setShowSubfolders(null);
               setShowNavMenu(false);

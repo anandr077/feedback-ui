@@ -1,29 +1,36 @@
+import { sub } from 'date-fns';
 import { addDocumentToPortfolio, updatePortfolio } from '../../service';
+import _ from 'lodash';
 
 export const initailState = {
   portfolio: null,
   isLoading: true,
-  activeMainIndex: 0,
-  activeSubFolderIndex: 0,
+  activeMainFolderId: 0,
+  activeSubFolderId: 0,
 };
 
 export function reducer(state: any, action: any) {
   switch (action.type) {
+    case 'addFolder':
+      return {
+        ...state,
+        portfolio: addFolder(state.portfolio, action.payload),
+      };
     case 'deleteDocument':
-      const { mainIndex, subFolderIndex, documentId } = action.payload;
-      const newPortfolio = { ...state.portfolio };
-      const files = newPortfolio.files[mainIndex].files[subFolderIndex].files;
-      newPortfolio.files[mainIndex].files[subFolderIndex].files = files.filter(
-        (file) => file.id !== documentId
-      );
-      return { ...state, portfolio: newPortfolio };
+      return {
+        ...state,
+        portfolio: deleteDocument(state.portfolio, action.payload.id),
+      };
+
     case 'setPortfolio':
       return { ...state, portfolio: action.payload };
     case 'loading':
       return { ...state, isLoading: action.payload };
-    case 'setActiveMainIndex':
-      return { ...state, activeMainIndex: action.payload };
+    case 'setActiveMainFolderId':
+      return { ...state, activeMainFolderId: action.payload };
     case 'setActiveSubFolderIndex':
+      return { ...state, activeSubFolderIndex: action.payload };
+    case 'addFolder':
       return { ...state, activeSubFolderIndex: action.payload };
     default:
       throw new Error();
@@ -71,9 +78,10 @@ export function addFile(
 
   mutation.mutate(
     {
-      classId: subFolder.classId,
+      classId: mainFolder.classId,
       courseId: subFolder.courseId,
       title: fileName,
+      folderId: mainFolder.id,
     },
     {
       onMutate: () => {
@@ -98,21 +106,30 @@ export function addFile(
 
 export function getDocuments(
   portfolio,
-  classId: string = "1",
+  maybeFolderId: string,
   categoryName: string = 'Drafts'
 ) {
-  
-  const matchingFiles = portfolio.files
-  .filter(classItem => classItem.classId === classId)
-  .map(classItem =>
-    classItem.files
-      .find(folder => folder.title === categoryName)
-      ?.files
-  )
-  .flat()
-  .filter(Boolean);
+  console.log('Portfolio', portfolio);
+  console.log('maybeFolderId', maybeFolderId);
+  console.log('categoryName', categoryName);
+  const folderId = createFolderIdToUse(portfolio, maybeFolderId);
+  const mainFolder = portfolio.files.find(
+    (classItem) => classItem.id === folderId
+  );
+  console.log('mainFolder', mainFolder);
+  const subFolder = mainFolder?.files?.find(
+    (folder) => folder.title === categoryName
+  );
+  console.log('subFolder', subFolder);
 
-  return matchingFiles;
+  return subFolder?.files || [];
+}
+
+function createFolderIdToUse(portfolio, folderId: string) {
+  if (folderId === undefined || folderId === null) {
+    return portfolio?.files[0]?.id;
+  }
+  return folderId;
 }
 
 export function getSubFolder(
@@ -120,7 +137,6 @@ export function getSubFolder(
   mainIndex: number,
   subFolderIndex: number = 0
 ) {
-
   if (
     mainIndex < 0 ||
     mainIndex >= data?.files?.length ||
@@ -134,54 +150,48 @@ export function getSubFolder(
   return mainFolder?.files?.[subFolderIndex];
 }
 
-export const deleteDocument = (portfolio, documentId, classId) => {
-  // Deleting from recentFiles using filter
-  const updatedRecentFiles = portfolio.recentFiles.filter(
-    (file) => file.documentId !== documentId
-  );
-
-  const updatedFiles = portfolio.files.map(file => {
-    if (file.classId === classId) {
-        return {
-            ...file,
-            files: file.files.map(innerFolder => {
-                if (innerFolder.title === "Drafts") {
-                    return {
-                        ...innerFolder,
-                        files: innerFolder.files.filter(document => document.documentId !== documentId)
-                    };
-                }
-                return innerFolder;
-            })
-        };
-    }
-    return file;
-  });
-
-
-  return {
+export const deleteDocument = (portfolio, documentId) => {
+  console.log('Old', portfolio);
+  console.log('documentId', documentId);
+  const newPortfolio = {
     ...portfolio,
-    recentFiles: updatedRecentFiles,
-    files: updatedFiles,
+    files: portfolio.files?.map((folder) => ({
+      ...folder,
+      files: folder.files?.map((subFolder) => {
+        const filteredFiles = subFolder.files?.filter((file) => {
+          console.log('file.id', file.id);
+          console.log('documentId', documentId);
+          return file.id !== documentId;
+        });
+        return {
+          ...subFolder,
+          files: filteredFiles,
+        };
+      }),
+    })),
   };
+  console.log('New', newPortfolio);
+  return newPortfolio;
 };
 
-const deleteFromTasksFolder = (files, documentId) => {
-  console.log("Files", files)
-  return files? .map((file) => {
-    if (file.type === 'FOLDER') {
-      let updatedFiles =
-        file.title === 'Tasks'
-          ? file.files?.filter(
-              (innerFile) => innerFile.documentId !== documentId
-            )
-          : deleteFromTasksFolder(file.files);
-
-      return {
-        ...file, // spread the rest of the file properties
-        files: updatedFiles,
-      };
-    }
-    return file;
-  });
+export const addFolder = (portfolio, folderName) => {
+  return {
+    ...portfolio,
+    files: [
+      ...portfolio.files,
+      {
+        id: 'temp',
+        title: folderName,
+        type: 'FOLDER',
+        files: [
+          {
+            id: 'temp',
+            title: 'Drafts',
+            type: 'FOLDER',
+            files: [],
+          },
+        ],
+      },
+    ],
+  };
 };

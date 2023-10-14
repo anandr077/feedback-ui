@@ -16,7 +16,7 @@ const PortfolioForm = ({
 }) => {
   const [docName, setDocName] = useState('');
   const [selectedClassIndex, setSelectedClassIndex] = useState(
-    state.activeMainIndex
+    state.activeMainFolderId
   );
 
   const handleSubmit = (e) => {
@@ -39,16 +39,15 @@ const PortfolioForm = ({
         <br />
       </FormDiv>
       <FormDiv>
-        <FormLavel htmlFor="class">Select a class</FormLavel>
+        <FormLavel htmlFor="class">Select a folder</FormLavel>
 
         <DropdownMenu
           menuItems={state.portfolio.files}
-          selectedIndex={selectedClassIndex}
+          selectedIndex={getSelectedFolderIndex(state.portfolio.files, selectedClassIndex)}
           onItemSelected={(item) => {
             const selectedClassIdIndex = state.portfolio.files.findIndex(
-              (i) => i.classId === item?.classId
+              (i) => i.id === item?.id
             );
-
             setSelectedClassIndex(selectedClassIdIndex);
           }}
         ></DropdownMenu>
@@ -60,4 +59,7 @@ const PortfolioForm = ({
   );
 };
 
+const getSelectedFolderIndex = (files, selectedClassIdIndex) =>{
+  return files.findIndex((i) => i.id === selectedClassIdIndex);
+}
 export default PortfolioForm;

@@ -1,6 +1,7 @@
-import { default as React, useReducer, useState, useEffect } from 'react';
+import { default as React, useReducer, useState } from 'react';
 import {
   addDocumentToPortfolioWithDetails,
+  addFolderToPortfolio,
   deleteSubmissionById,
   getPortfolio,
 } from '../../service';
@@ -14,13 +15,13 @@ import PortfolioDocModal from './PortfolioDocModal';
 import PortfolioSideBar from './PortfolioSideBar';
 import {
   addFile,
-  deleteDocument,
   getDocuments,
   initailState,
-  reducer,
+  reducer
 } from './portfolioReducer';
 
 import { isSmallScreen } from '../ReactiveRender';
+import PortfolioHeader from './PortfolioHeader';
 import {
   DocumentMainSection,
   PortfolioBody,
@@ -28,7 +29,6 @@ import {
   PortfolioSection,
   SideNavContainer,
 } from './PortfolioStyle';
-import PortfolioHeader from './PortfolioHeader';
 
 const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
@@ -36,14 +36,14 @@ const PortfolioPage = () => {
   const [showModal, setShowModal] = useState(false);
   const queryClient = useQueryClient();
 
-  const { classId, categoryName } = useParams();
+  const {  folderId, categoryName } = useParams();
 
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ['portfolio'],
+    queryKey: 'portfolio',
     queryFn: async () => {
-      const data = await getPortfolio();
-      return data;
+      return await getPortfolio();
     },
+    staleTime: 300000
   });
   React.useEffect(() => {
     dispatch({ type: 'setPortfolio', payload: data });
@@ -57,19 +57,40 @@ const PortfolioPage = () => {
 
   const deleteDocumentMutation = useMutation({
     mutationFn: async (doc) =>
-      deleteSubmissionById(doc.documentId, doc.classId),
+      await deleteSubmissionById(doc.documentId),
     onMutate: async (doc) => {
-      console.log('On mutate ' + doc.documentId);
-      await queryClient.cancelQueries({ queryKey: ['portfolio'] });
-      const previousPortfolio = queryClient.getQueryData(['portfolio']);
+      console.log('On delete mutate ' , doc);
+      await queryClient.cancelQueries({ queryKey: 'portfolio' });
+      const previousPortfolio = queryClient.getQueryData('portfolio');
       console.log('previousPortfolio', previousPortfolio);
-      const updatedPortfolio = deleteDocument(
-        previousPortfolio,
-        doc.documentId,
-        doc.classId
-      );
-      console.log('updatedPortfolio', updatedPortfolio);
-      queryClient.setQueryData(['portfolio'], (old) => updatedPortfolio);
+      dispatch({ type: 'deleteDocument', payload: doc });
+
+      return { previousPortfolio };
+    },
+
+    onError: (err, _, context) => {
+      console.log('On error');
+
+      queryClient.setQueryData('portfolio', context.previousPortfolio);
+    },
+    onSuccess: (data, variables) => {
+      console.log('On success');
+    },
+    onSettled: () => {
+      console.log('Settled');
+      queryClient.invalidateQueries({ queryKey: 'portfolio' });
+    },
+  });
+
+  const addFolderMutation = useMutation({
+    mutationFn: async (folderName) =>
+      await addFolderToPortfolio({title: folderName}),
+    onMutate: async (folderName) => {
+      console.log('On mutate ' + folderName);
+      await queryClient.cancelQueries({ queryKey: 'portfolio' });
+      const previousPortfolio = queryClient.getQueryData('portfolio');
+      console.log('previousPortfolio', previousPortfolio);
+      dispatch({ type: 'addFolder', payload: folderName });
 
       return { previousPortfolio };
     },
@@ -77,14 +98,14 @@ const PortfolioPage = () => {
     onError: (err, newTodo, context) => {
       console.log('On error');
 
-      queryClient.setQueryData(['portfolio'], context.previousPortfolio);
+      queryClient.setQueryData('portfolio', context.previousPortfolio);
     },
     onSuccess: (data, variables) => {
       console.log('On success');
     },
     onSettled: () => {
       console.log('Settled');
-      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+      queryClient.invalidateQueries({ queryKey: 'portfolio' });
     },
   });
 
@@ -92,19 +113,17 @@ const PortfolioPage = () => {
     isLoading ||
     addDocumentMutation.isLoading ||
     !state.portfolio
-    // ||
-    // deleteDocumentMutation.isLoading
   ) {
     return <Loader />;
   }
 
-  const allFiles = getDocuments(state.portfolio, classId, categoryName);
+  const allFiles = getDocuments(state.portfolio, folderId, categoryName);
 
-  const handleCreateDocument = (docName, activeMainIndex = 0) => {
+  const handleCreateDocument = (docName, activeMainFolderId = 0) => {
     addFile(
       state.portfolio,
-      activeMainIndex,
-      state.activeSubFolderIndex,
+      activeMainFolderId,
+      state.activeSubFolderId,
       docName,
       addDocumentMutation
     );
@@ -112,6 +131,12 @@ const PortfolioPage = () => {
   const handleDeleteDocument = (document) => {
     deleteDocumentMutation.mutate(document);
   };
+
+
+  const handleNewFolder = (folderName) =>{
+      console.log('new folder: ', folderName)
+      addFolderMutation.mutate(folderName);
+  }
 
   return (
     <>
@@ -123,8 +148,9 @@ const PortfolioPage = () => {
               <PortfolioSideBar
                 state={state}
                 dispatch={dispatch}
-                classId={classId}
+                folderId={folderId}
                 categoryName={categoryName}
+                handleNewFolder={handleNewFolder}
               />
             </SideNavContainer>
             <DocumentMainSection>

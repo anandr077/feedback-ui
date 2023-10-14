@@ -18,7 +18,7 @@ const PortfolioDocModal = ({
     <ModalBody>
       <ModalContainer>
         <ModalContainerHeader>
-          <ModalHeaderText>New Document</ModalHeaderText>
+          <ModalHeaderText>New document</ModalHeaderText>
           <CloseIcon
             style={{ cursor: 'pointer' }}
             onClick={() => setShowModal(!showModal)}

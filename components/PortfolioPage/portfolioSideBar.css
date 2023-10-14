@@ -69,6 +69,44 @@
     color: #FFFFFF;
 }
 
+.icon-container{
+    display: flex;
+}
+
+.folder-dropdown-container{
+    position: relative;
+    z-index: 1000;
+}
+
+.folder-dropdown{
+    position: absolute;
+    background-color: white;
+    top: 20px;
+    color: #7200E0;
+    border-radius: 6px;
+    padding: 4px 8px;
+    border: 1px solid #e4d4f3;
+    box-shadow: 0px 4px 8px 0px #e4d4f3;
+    display: block;
+}
+
+.dropdown-hidden{
+    display: none;
+}
+
+.folder-dropdown span{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+}
+
+.folder-dropdown span img{
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+}
+
 .newFolderBtn{
     display: block;
     border-radius: 38px;

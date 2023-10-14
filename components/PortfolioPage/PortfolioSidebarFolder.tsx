@@ -1,67 +1,142 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isMobileView } from '../ReactiveRender';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import deleteIcon from '../../static/icons/delete-small.png';
 import PortfolioSidebarSubfolder from './PortfolioSidebarSubfolder';
 
 const PortfolioSidebarFolder = ({
-    state,
-    dispatch,
-    classId,
-    setShowSubfolders,
-    showSubfolders,
-    setShowArrowUp,
-    showArrowUp,
-    folder,
-    showArrowDropDown,
-    showNavMenu,
-    setShowNavMenu,
-    selectedSubFolder,
-    setSelectedSubFolder,
-    activeFolderIndex,
-    setActiveFolderIndex,
-    clickedSubfolder,
-    setClickedSubfolder,
+  state,
+  dispatch,
+  setShowSubfolders,
+  showSubfolders,
+  setShowArrowUp,
+  showArrowUp,
+  folder,
+  showArrowDropDown,
+  showNavMenu,
+  setShowNavMenu,
+  selectedSubFolder,
+  setSelectedSubFolder,
+  activeFolderIndex,
+  setActiveFolderIndex,
+  clickedSubfolder,
+  setClickedSubfolder,
 }) => {
-    const isActive = isMobileView() ? showNavMenu : true;
+  const isActive = isMobileView() ? showNavMenu : true;
+  const [activeDropdown, setActiveDropdown] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState('');
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setActiveDropdown(false);
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
+  const toggleDropdown = (event) => {
+    setActiveDropdown((prev) => !prev);
+    event.stopPropagation();
+  };
+
+  const handleEditDropdown = (event) => {
+    setActiveDropdown((prev) => !prev);
+    event.stopPropagation();
+    setIsEditing(true);
+    setEditedTitle(folder.title);
+  };
+
+  const handleDeleteDropdown = (event) => {
+    setActiveDropdown((prev) => !prev);
+    event.stopPropagation();
+  };
+
 
   return (
     <>
-      {
-        isActive && (
-          <Link
-          className={`folder ${folder.classId === activeFolderIndex ? 'active' : ''}`}
+      {isActive && (
+        <Link
+          className={`folder ${
+            folder.id === activeFolderIndex ? 'active' : ''
+          }`}
           onClick={() => {
             dispatch({
-              type: 'setActiveMainIndex',
-              payload: folder.classId,
+              type: 'setActiveMainFolderId',
+              payload: folder.id,
             });
-            setActiveFolderIndex(folder.classId);
-            setShowSubfolders(showSubfolders === classId ? null : classId);
+            setActiveFolderIndex(folder.id);
+            setShowSubfolders(showSubfolders === folder.id ? null : folder.id);
             setShowArrowUp(
-              state.activeMainIndex === classId ? !showArrowUp : true
+              state.activeMainFolderId === folder.id ? !showArrowUp : true
             );
           }}
-          to={`/portfolio/` + folder.classId + "/" + (selectedSubFolder || '')}
+          to={`/portfolio/` + folder.id + '/' + (selectedSubFolder || '')}
+          title={folder.title.length > 12 ? folder.title : undefined}
         >
-          {folder.title}
-          <div>
-            {showArrowDropDown &&
-              (showArrowUp && state.activeMainIndex === classId ? (
-                <ArrowDropUpIcon />
-              ) : (
-                <ArrowDropDownIcon />
-              ))}
-          </div>
+          {isEditing ? (
+            <input
+              type="text"
+              className="FolderInputBox"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  setIsEditing(false);
+                }
+              }}
+            />
+          ) : folder.title.length > 12 ? (
+            `${folder.title.slice(0, 12)}...`
+          ) : (
+            folder.title
+          )}
+          {!isEditing && (
+            <div className="icon-container">
+              {(folder.allowDelete || folder.allowRename) && (
+                  <div className="folder-dropdown-container" ref={dropdownRef}>
+                    <MoreHorizIcon onClick={toggleDropdown} />
+                    <div
+                      className={`${
+                        activeDropdown ? 'folder-dropdown' : 'dropdown-hidden'
+                      }`}
+                    >
+                      <span onClick={handleEditDropdown}>
+                        <EditNoteIcon /> Rename
+                      </span>
+                      <span onClick={handleDeleteDropdown}>
+                        <img src={deleteIcon} /> Delete
+                      </span>
+                    </div>
+                  </div>
+                )}
+              {showArrowDropDown &&
+                (showArrowUp && state.activeMainFolderId === folder.id ? (
+                  <ArrowDropUpIcon />
+                ) : (
+                  <ArrowDropDownIcon />
+                ))}
+            </div>
+          )}
         </Link>
-        )
-      }
+      )}
 
-       {isActive && showSubfolders === classId &&
+      {isActive &&
+        showSubfolders === folder.id &&
         folder.files &&
-        folder.files.map((subFolder, subfolderIndex) =>
-          <PortfolioSidebarSubfolder 
+        folder.files.map((subFolder, subfolderIndex) => (
+          <PortfolioSidebarSubfolder
             state={state}
             dispatch={dispatch}
             subfolderIndex={subfolderIndex}
@@ -74,11 +149,9 @@ const PortfolioSidebarFolder = ({
             setClickedSubfolder={setClickedSubfolder}
             folder={folder}
           />
-        )}
+        ))}
     </>
   );
-}
+};
 
-export default PortfolioSidebarFolder
-
-
+export default PortfolioSidebarFolder;

@@ -20,11 +20,11 @@ const FormDiv = styled.div`
 `;
 
 const Input = styled.input`
-  border: 1px solid #1e252a;
+  border: 1px solid #7200e0;
   font-family: 'IBM Plex Sans', Helvetica;
   width: 100%;
-  padding: 13px 20px;
-  border-radius: 12px;
+  padding: 9px 20px;
+  border-radius: 9px;
   color: #1e252a;
 
   &:focus {

@@ -78,7 +78,7 @@ const PortfolioPage = () => {
     },
     onSettled: () => {
       console.log('Settled');
-      //queryClient.invalidateQueries({ queryKey: 'portfolio' });
+      queryClient.invalidateQueries({ queryKey: 'portfolio' });
     },
   });
 
@@ -119,11 +119,11 @@ const PortfolioPage = () => {
 
   const allFiles = getDocuments(state.portfolio, folderId, categoryName);
 
-  const handleCreateDocument = (docName, activeMainIndex = 0) => {
+  const handleCreateDocument = (docName, activeMainFolderId = 0) => {
     addFile(
       state.portfolio,
-      activeMainIndex,
-      state.activeSubFolderIndex,
+      activeMainFolderId,
+      state.activeSubFolderId,
       docName,
       addDocumentMutation
     );

@@ -5,8 +5,8 @@ import _ from 'lodash';
 export const initailState = {
   portfolio: null,
   isLoading: true,
-  activeMainIndex: 0,
-  activeSubFolderIndex: 0,
+  activeMainFolderId: 0,
+  activeSubFolderId: 0,
 };
 
 export function reducer(state: any, action: any) {
@@ -26,8 +26,8 @@ export function reducer(state: any, action: any) {
       return { ...state, portfolio: action.payload };
     case 'loading':
       return { ...state, isLoading: action.payload };
-    case 'setActiveMainIndex':
-      return { ...state, activeMainIndex: action.payload };
+    case 'setActiveMainFolderId':
+      return { ...state, activeMainFolderId: action.payload };
     case 'setActiveSubFolderIndex':
       return { ...state, activeSubFolderIndex: action.payload };
     case 'addFolder':

@@ -73,13 +73,13 @@ const PortfolioSidebarFolder = ({
           }`}
           onClick={() => {
             dispatch({
-              type: 'setActiveMainIndex',
+              type: 'setActiveMainFolderId',
               payload: folder.id,
             });
             setActiveFolderIndex(folder.id);
             setShowSubfolders(showSubfolders === folder.id ? null : folder.id);
             setShowArrowUp(
-              state.activeMainIndex === folder.id ? !showArrowUp : true
+              state.activeMainFolderId === folder.id ? !showArrowUp : true
             );
           }}
           to={`/portfolio/` + folder.id + '/' + (selectedSubFolder || '')}
@@ -122,7 +122,7 @@ const PortfolioSidebarFolder = ({
                   </div>
                 )}
               {showArrowDropDown &&
-                (showArrowUp && state.activeMainIndex === folder.id ? (
+                (showArrowUp && state.activeMainFolderId === folder.id ? (
                   <ArrowDropUpIcon />
                 ) : (
                   <ArrowDropDownIcon />

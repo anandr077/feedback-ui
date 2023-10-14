@@ -28,17 +28,15 @@
 }
 
 .graph {
-  padding-left: 40px;
-  width: 200px;
   width: 200px;
 }
 
 .graph-container {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 40px;
   padding-left: 10px;
+  max-height: 200px;
 }
 
 .graph-data {
@@ -72,7 +70,7 @@
   flex-direction: column;
   gap: 20px;
   max-height: 440px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .legend-item {
@@ -112,9 +110,10 @@
 
 .legend-label-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
+  gap: 4px;
 }
 
 .legend {
@@ -123,6 +122,17 @@
   gap: 10px;
   width: 55%;
   padding-right: 20px;
-  max-height: 150px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  height: 100%;
+}
+
+@media (max-width: 765px) {
+  .graph-container {
+    flex-direction: column;
+    max-height: 400px;
+  }
+
+  .legend {
+    width: 100%;
+  }
 }

@@ -11,7 +11,7 @@ import TeacherDashboardLaptop from '../TeacherDashboardLaptop';
 import TeacherDashboardDesktop from '../TeacherDashboardDesktop';
 import Loader from '../../Loader';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
-import { useQueries, useQueryClient } from 'react-query';
+import {  useQuery } from '@tanstack/react-query';
 
 export default function TeacherDashboardRoot(props) {
   const [assignments, setAssignments] = React.useState([]);
@@ -19,33 +19,31 @@ export default function TeacherDashboardRoot(props) {
   const [notifications, setNotifications] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
-  const [assignmentsQuery, classesWithStudentsQuery, notificationsQuery] =
-    useQueries([
-      {
-        queryKey: ['assignments'],
-        queryFn: async () => {
-          const result = await getAssignments();
-          return result;
-        },
-        staleTime: 300000,
-      },
-      {
-        queryKey: ['classesWithStudents'],
-        queryFn: async () => {
-          const result = await getClassesWithStudents();
-          return result;
-        },
-        staleTime: 300000,
-      },
-      {
-        queryKey: ['notifications'],
-        queryFn: async () => {
-          const result = await getNotifications();
-          return result;
-        },
-        staleTime: 300000,
-      },
-    ]);
+
+  const assignmentsQuery = useQuery({
+    queryKey: ['assignments'],
+    queryFn: async () => {
+      const result = await getAssignments();
+      return result;
+    },
+    staleTime: 300000,
+  });
+  const classesWithStudentsQuery = useQuery({
+    queryKey: ['classesWithStudents'],
+    queryFn: async () => {
+      const result = await getClassesWithStudents();
+      return result;
+    },
+    staleTime: 300000,
+  });
+  const notificationsQuery = useQuery({
+    queryKey: ['notifications'],
+    queryFn: async () => {
+      const result = await getNotifications();
+      return result;
+    },
+    staleTime: 300000,
+  });
 
   React.useEffect(() => {
     if (assignmentsQuery.data) {
@@ -54,8 +52,8 @@ export default function TeacherDashboardRoot(props) {
     if (classesWithStudentsQuery.data) {
       setClasses(classesWithStudentsQuery.data);
     }
-    if (notificationsQuery.data){
-      setNotifications(notificationsQuery.data)
+    if (notificationsQuery.data) {
+      setNotifications(notificationsQuery.data);
     }
   }, [
     assignmentsQuery.data,

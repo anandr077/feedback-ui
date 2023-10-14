@@ -8,34 +8,29 @@ import TasksDesktop from '../TasksDesktop';
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import _ from 'lodash';
 import Loader from '../Loader';
-import HeaderSmall from '../HeaderSmall';
-import Header from '../Header';
-import { useQueries } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
-
-  const [tasksQuery, studentClassesQuery] = useQueries([
-    {
-      queryKey: ['tasks'],
-      queryFn: async () => {
-        const result = await getTasks();
-        return result;
-      },
-      staleTime: 300000,
+  const tasksQuery = useQuery({
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      const result = await getTasks();
+      return result;
     },
-    {
-      queryKey: ['classes'],
-      queryFn: async () => {
-        const result = await getClasses();
-        return result;
-      },
-      staleTime: 300000,
+    staleTime: 300000,
+  });
+  const studentClassesQuery = useQuery({
+    queryKey: ['classes'],
+    queryFn: async () => {
+      const result = await getClasses();
+      return result;
     },
-  ]);
+    staleTime: 300000,
+  });
 
   React.useEffect(() => {
     if (tasksQuery.data) {

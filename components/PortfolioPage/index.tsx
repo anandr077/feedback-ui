@@ -6,7 +6,6 @@ import {
 } from '../../service';
 import RecentWorkContainer from './RecentWorkContainer';
 
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import PortfolioAllFilesContainer from './PortfolioAllFilesContainer';
@@ -29,6 +28,7 @@ import {
   SideNavContainer,
 } from './PortfolioStyle';
 import PortfolioHeader from './PortfolioHeader';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());

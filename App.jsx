@@ -19,12 +19,11 @@ import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
 import PortfolioPage from './components/PortfolioPage';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import FooterSmall from './components/FooterSmall';
-import Footer from './components/Footer';
 import { isSmallScreen } from './components/ReactiveRender';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
 
 function App() {
   const role = getUserRole();
@@ -122,6 +121,7 @@ function App() {
           </Switch>
           {<ResponsiveFooter smallScreen={isSmallScreen()} />}
         </Router>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

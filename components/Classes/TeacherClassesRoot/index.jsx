@@ -15,7 +15,7 @@ import {
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
-import { useQueries, useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
@@ -32,7 +32,6 @@ export default function TeacherClassesRoot() {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const queryClient = useQueryClient();
 
-
   const classesQuery = useQuery({
     queryKey: ['classes'],
     queryFn: async () => {
@@ -40,7 +39,6 @@ export default function TeacherClassesRoot() {
       return result;
     },
     staleTime: 300000,
-    
   });
   useEffect(() => {
     if (classesQuery.isSuccess) {
@@ -53,7 +51,6 @@ export default function TeacherClassesRoot() {
       setClasses(data);
     }
   }, [classesQuery.isSuccess]);
-
 
   const classQuery = useQuery(
     ['class', classId],

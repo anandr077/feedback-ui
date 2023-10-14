@@ -9,7 +9,7 @@ import { homeHeaderProps } from '../../utils/headerProps.js';
 import { limitParagraph } from '../../utils/strings';
 import _ from 'lodash';
 import Loader from '../Loader';
-import { useQueries, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function StudentDashboardRoot(props) {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -19,24 +19,22 @@ export default function StudentDashboardRoot(props) {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const queryClient = useQueryClient();
 
-  const [tasksQuery, modelResponsesQuery] = useQueries([
-    {
-      queryKey: ['tasks'],
-      queryFn: async () => {
-        const result = await getTasks();
-        return result;
-      },
-      staleTime: 300000,
+  const tasksQuery = useQuery({
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      const result = await getTasks();
+      return result;
     },
-    {
-      queryKey: ['modelresponses'],
-      queryFn: async () => {
-        const result = await getModelResponses();
-        return result;
-      },
-      staleTime: 300000,
+    staleTime: 300000,
+  });
+  const modelResponsesQuery = useQuery({
+    queryKey: ['modelresponses'],
+    queryFn: async () => {
+      const result = await getModelResponses();
+      return result;
     },
-  ]);
+    staleTime: 300000,
+  });
 
   React.useEffect(() => {
     if (tasksQuery.data) {

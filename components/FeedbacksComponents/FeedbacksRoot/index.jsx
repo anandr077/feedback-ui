@@ -55,7 +55,7 @@ import {
   feedbacksFeedbackTeacherMobileData,
 } from './style';
 import { downloadTaskPdf } from '../../Shared/helper/downloadPdf';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',

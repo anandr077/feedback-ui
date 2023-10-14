@@ -35,7 +35,7 @@ import { getComments, getPortfolioPageMode } from './functions';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
-  queryClient.invalidateQueries('portfolio');
+  queryClient.removeQueries('portfolio');
 
 
   const quillRefs = useRef([]);

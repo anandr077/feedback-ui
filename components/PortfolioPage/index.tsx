@@ -41,9 +41,9 @@ const PortfolioPage = () => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: 'portfolio',
     queryFn: async () => {
-      const data = await getPortfolio();
-      return data;
+      return await getPortfolio();
     },
+    staleTime: 300000
   });
   React.useEffect(() => {
     dispatch({ type: 'setPortfolio', payload: data });

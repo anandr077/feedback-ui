@@ -487,8 +487,8 @@ export const getDefaultCriteria = () => {
 };
 export const getPortfolio = async () =>
   await getApi(baseUrl + '/students/portfolio');
-export const updatePortfolio = async (portfolio) =>
-  await putApi(baseUrl + '/students/portfolio', portfolio);
+export const updatePortfolio = async (id, title) =>
+  await putApi(baseUrl + `/students/portfolio/folders/${id}`, title);
 
 export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);

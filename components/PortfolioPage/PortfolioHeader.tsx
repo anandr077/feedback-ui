@@ -11,7 +11,7 @@ const PortfolioHeader = ({showModal, setShowModal}) => {
     <PortfolioHeaderContainer>
       <PortfolioHeading>My Portfolio</PortfolioHeading>
       <NewDocumentBtn onClick={() => setShowModal(!showModal)}>
-          + New Document
+          + New document
       </NewDocumentBtn>
     </PortfolioHeaderContainer>
   )

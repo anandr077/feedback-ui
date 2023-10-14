@@ -48,7 +48,7 @@ function newDocumentButton(setShowModal: any, showModal: any) {
         alt="Button Icon"
         className="NewDocBtnImg"
       ></NewDocBtnImg>
-      <NewDocBtnText>New Document</NewDocBtnText>
+      <NewDocBtnText>New document</NewDocBtnText>
     </NewDocBtn>
   );
 }

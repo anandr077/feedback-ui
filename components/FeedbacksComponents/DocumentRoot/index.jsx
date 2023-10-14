@@ -35,6 +35,8 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
+  queryClient.removeQueries('portfolio');
+
 
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');

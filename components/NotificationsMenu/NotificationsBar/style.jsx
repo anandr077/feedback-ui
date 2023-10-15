@@ -33,7 +33,7 @@ export const MaskGroup = styled.img`
 
 export const Frame15 = styled.div`
   display: flex;
-  width: 300px;
+  width: 320px;
   align-items: flex-start;
   gap: 10px;
   padding: 10px;

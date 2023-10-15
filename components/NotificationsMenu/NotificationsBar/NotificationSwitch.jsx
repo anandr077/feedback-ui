@@ -20,7 +20,7 @@ const NotificationSwitch = ({notificationBtnValue}) => {
             Notifications
         </Button>
         <Button
-          onClick={()=> handleBtnClick('Requests')}
+          onClick={()=> handleBtnClick('FEEBACK_REQUEST')}
           className={activeBtn === 'Requests' ? 'active': ''}
         >
             Requests

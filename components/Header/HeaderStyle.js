@@ -50,7 +50,8 @@ export const NavigationContainer = styled.div`
 
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  height: calc(100vh - 70px);
+  /* height: calc(100vh - 70px); */
+  height: calc(100pct-70px);
   animation: ${props => (props.isNotificationOpen && slideIn)} 0.3s linear forwards;
   &::-webkit-scrollbar {
     width: 0;

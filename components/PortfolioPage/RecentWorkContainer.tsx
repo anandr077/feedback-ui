@@ -18,24 +18,26 @@ const RecentWorkContainer = ({
   state,
   showModal,
   setShowModal,
+  categoryName,
 }) => {
   const numColumns = smallScreen ? 3 : 4;
   const displayedWork = state?.portfolio?.recentFiles?.slice(0, numColumns);
-  console.log('displayedWork:', displayedWork);
+  console.log("categoryName",categoryName);
 
   return (
-    <WorkContainer>
-      <WorkHeader>
-        <RecentTag>Recent</RecentTag>
-      </WorkHeader>
-      <AllWorkBoxes>
-        {newDocumentButton(setShowModal, showModal)}
+    categoryName !== 'Reviews' && categoryName !== 'Tasks' && (
+  <WorkContainer>
+    <WorkHeader>
+      <RecentTag>Recent</RecentTag>
+    </WorkHeader>
+    <AllWorkBoxes>
+      {newDocumentButton(setShowModal, showModal)}
 
-        {displayedWork?.map((work, idx) => {
-          return <RecentWorks work={work} key={idx} />;
-        })}
-      </AllWorkBoxes>
-    </WorkContainer>
+      {displayedWork?.map((work, idx) => {
+        return <RecentWorks work={work} key={idx} />;
+      })}
+    </AllWorkBoxes>
+  </WorkContainer>)
   );
 };
 
@@ -49,7 +51,7 @@ function newDocumentButton(setShowModal: any, showModal: any) {
         alt="Button Icon"
         className="NewDocBtnImg"
       ></NewDocBtnImg>
-      <NewDocBtnText>New Document</NewDocBtnText>
+      <NewDocBtnText>New document</NewDocBtnText>
     </NewDocBtn>
   );
 }

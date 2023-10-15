@@ -7,7 +7,7 @@ import {
   declineFeedbackRequest,
 } from '../../../service';
 import { NavbarDiv, Frame1409, MaskGroup, Frame15, Frame16 } from './style';
-import { useQueryClient, useMutation } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function NotificationsBar(props) {
   const queryClient = useQueryClient();
@@ -38,6 +38,10 @@ function NotificationsBar(props) {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['assignments'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['document-reviews'] });
+
     },
   });
 

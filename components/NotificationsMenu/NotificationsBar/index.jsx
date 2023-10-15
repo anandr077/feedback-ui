@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TaskCard from '../../TaskCard';
 import Cards from '../Cards';
 import './NotificationsBar.css';
@@ -6,10 +6,12 @@ import {
   acceptFeedbackRequest,
   declineFeedbackRequest,
 } from '../../../service';
-import { NavbarDiv, Frame1409, MaskGroup, Frame15, Frame16 } from './style';
+import { NavbarDiv, Frame1409, MaskGroup, Frame15, Frame16, NotificationHead } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import NotificationSwitch from './NotificationSwitch';
 
 function NotificationsBar(props) {
+  const [notificationValue, setNotificationValue] = useState('URL')
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
     mutationFn: acceptFeedbackRequest,
@@ -67,6 +69,11 @@ function NotificationsBar(props) {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
+
+  const notificationBtnValue = (value) =>{
+      setNotificationValue(value)
+  }
+
   const { notifications, type, onCloseFn, loadingNotifications } = props;
   if (!notifications || notifications?.length === 0) {
     return (
@@ -99,7 +106,9 @@ function NotificationsBar(props) {
     );
   }
 
+
   const notificationFrames = notifications.map((notification) => {
+    console.log('this is my notification: ', notification)
     if (notification.type === 'FEEBACK_REQUEST') {
       return (
         <TaskCard
@@ -116,20 +125,35 @@ function NotificationsBar(props) {
     }
     return <TaskCard task={notification} small={true} />;
   });
+
+  const filteredNotifications = notificationFrames.filter((notification)=>  notification.props.task.type === notificationValue)
+
   return (
     <>
       {type == 'small' ? (
         <NavbarDiv>
-          <Frame1409>
-            <Frame16>{notificationFrames}</Frame16>
-            <MaskGroup src="/img/close.png" onClick={onCloseFn} />
+          <Frame1409>       
+            <NotificationHead>
+              <NotificationSwitch notificationBtnValue={notificationBtnValue} />
+              <MaskGroup src="/img/close.png" onClick={onCloseFn} />
+            </NotificationHead>
+            <Frame16>{filteredNotifications}</Frame16>
           </Frame1409>
         </NavbarDiv>
       ) : (
-        <Frame15>{notificationFrames}</Frame15>
+        <Frame15>
+          <NotificationSwitch notificationBtnValue={notificationBtnValue} />
+          {filteredNotifications}
+        </Frame15>
       )}
     </>
   );
 }
 
 export default NotificationsBar;
+
+
+
+
+
+

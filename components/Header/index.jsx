@@ -143,8 +143,13 @@ export default function Header(props) {
         </Frame51>
       </Frame1344>
       {isNotificationOpen && (
-        <Screen onClick={handleNotificationClick}>
-          <NavigationContainer>
+        <Screen 
+          onClick={handleNotificationClick}
+          notifications={notifications}
+        >
+          <NavigationContainer 
+            isNotificationOpen={isNotificationOpen}
+          >
             {' '}
             <NotificationsBar
               notifications={notifications}

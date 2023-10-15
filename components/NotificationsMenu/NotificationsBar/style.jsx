@@ -12,11 +12,19 @@ export const NavbarDiv = styled.div`
   background-color: var(--white);
   z-index: 1;
 `;
+
+export const NotificationHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`
+
 export const Frame1409 = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
   align-items: flex-start;
+  flex-direction: column;
   gap: 20px;
   padding: 16px 20px;
   position: relative;
@@ -33,7 +41,7 @@ export const MaskGroup = styled.img`
 
 export const Frame15 = styled.div`
   display: flex;
-  width: 300px;
+  width: 320px;
   align-items: flex-start;
   gap: 10px;
   padding: 10px;

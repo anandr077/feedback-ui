@@ -80,7 +80,7 @@ const DocumentTitle = styled.h3`
 
 const DocumentBtns = styled.div`
   background-color: white;
-  z-index: 10;
+  
   display: flex;
   align-items: center;
   gap: 12px;

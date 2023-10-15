@@ -2,6 +2,7 @@ import { default as React, useReducer, useState } from 'react';
 import {
   addDocumentToPortfolioWithDetails,
   addFolderToPortfolio,
+  deleteFolderFromPortfolio,
   deleteSubmissionById,
   getPortfolio,
 } from '../../service';
@@ -109,6 +110,29 @@ const PortfolioPage = () => {
     },
   });
 
+  const deleteFolderMutation = useMutation({
+    mutationFn: async (folderId) =>
+      await deleteFolderFromPortfolio(folderId),
+    onMutate: async (folderId) => {
+      await queryClient.cancelQueries({ queryKey: ['portfolio'] });
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
+      dispatch({type: 'deleteFolder', payload: folderId})
+      return { previousPortfolio };
+    },
+    onError: (err, newTodo, context) => {
+      console.log('On error');
+
+      queryClient.setQueryData('portfolio', context.previousPortfolio);
+    },
+    onSuccess: (data, variables) => {
+      console.log('On success');
+    },
+    onSettled: () => {
+      console.log('Settled');
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+    },
+  })
+
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
@@ -138,6 +162,10 @@ const PortfolioPage = () => {
       addFolderMutation.mutate(folderName);
   }
 
+  const handleFolderDelete = (folderId) =>{
+    deleteFolderMutation.mutate(folderId)
+  }
+
   return (
     <>
       <PortfolioSection>
@@ -151,6 +179,7 @@ const PortfolioPage = () => {
                 folderId={folderId}
                 categoryName={categoryName}
                 handleNewFolder={handleNewFolder}
+                handleFolderDelete={handleFolderDelete}
               />
             </SideNavContainer>
             <DocumentMainSection>

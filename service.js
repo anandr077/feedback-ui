@@ -494,6 +494,8 @@ export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);
 export const addFolderToPortfolio = async (newFolder) =>
   await postApi(baseUrl + '/students/portfolio/folders', newFolder);
+export const deleteFolderFromPortfolio = async (folderId) =>
+  await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`)
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

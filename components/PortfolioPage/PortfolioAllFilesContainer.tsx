@@ -70,6 +70,7 @@ const sortReducer = (state, action) => {
   }
 };
 
+
 const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
   const initialState = {
     sortedFiles: allFiles,
@@ -80,16 +81,20 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
   const [filteredAllFiles, setFilteredAllFiles] = useState(allFiles);
 
   const sortOptions = [
-    { title: 'A - Z' },
-    { title: 'Z - A' },
     { title: 'New to old' },
     { title: 'Old to new' },
+    { title: 'A - Z' },
+    { title: 'Z - A' },
   ];
 
   useEffect(() => {
     dispatch({ type: 'updatedAllFiles', payload: allFiles });
-    dispatch({ type: 'filteredFiles', payload: false });
+    dispatch({ type: 'filteredFiles', payload: true });
+    if (allFiles && allFiles.length > 0) {
+      dispatch({ type: 'New to old' });
+    }
   }, [allFiles]);
+
 
   const getSelectedItem = (option) => {
     console.log('option', option);

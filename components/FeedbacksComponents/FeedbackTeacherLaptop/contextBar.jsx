@@ -33,7 +33,7 @@ export function contextBar(
   methods,
   isTeacher,
   pageMode,
-  labelText
+  labelText,
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
   return (
@@ -235,7 +235,8 @@ export function contextBarForPortfolioDocument(
         pageMode,
         submission,
         feedbackMethodType,
-        handleRequestFeedback
+        handleRequestFeedback,
+        allClasses
       )}
     </Frame1371>
   );
@@ -281,7 +282,8 @@ const submitButtonDocument = (
   pageMode,
   submission,
   feedbackMethodType,
-  handleRequestFeedback
+  handleRequestFeedback,
+  allClasses
 ) => {
   if (pageMode === 'DRAFT') {
     return (
@@ -324,9 +326,17 @@ const submitButtonDocument = (
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
         Feedback requested from{' '}
-        {submission.reviewerId ? submission.reviewerId : 'peers'}
+        {getFeedbackRequestedBy(submission, allClasses)}
       </RequestFeedbackFrame>
     );
   }
   return <></>;
 };
+function getFeedbackRequestedBy(submission, allClasses) {
+  if (submission.feedbackRequestType === 'P2P') {
+    console.log("allClasses", allClasses)
+    return allClasses.find((item) => item.id === submission.reviewerId)?.title;
+  }
+  return submission.reviewerName;
+}
+

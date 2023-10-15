@@ -3,6 +3,7 @@ import {
   addDocumentToPortfolioWithDetails,
   addFolderToPortfolio,
   deleteFolderFromPortfolio,
+  updatePortfolio,
   deleteSubmissionById,
   getPortfolio,
 } from '../../service';
@@ -133,6 +134,30 @@ const PortfolioPage = () => {
     },
   })
 
+
+  const updateFolderMutation = useMutation({
+    mutationFn: async ({id, title}) =>
+      await updatePortfolio(id, title),
+    onMutate: async (updatedFolder) => {
+      await queryClient.cancelQueries({queryKey: ['portfolio']});
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
+      dispatch({type: 'editFolder', payload: updatedFolder})
+      return { previousPortfolio }
+    },
+    onError: (err, newTodo, context) => {
+      console.log('On error');
+
+      queryClient.setQueryData('portfolio', context.previousPortfolio);
+    },
+    onSuccess: (data, variables) => {
+      console.log('On success');
+    },
+    onSettled: () => {
+      console.log('Settled');
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+    },
+  })
+
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
@@ -166,6 +191,14 @@ const PortfolioPage = () => {
     deleteFolderMutation.mutate(folderId)
   }
 
+  const handleFolderEdit = (editedTitle, folderId) =>{
+    const updatedFolder = {
+      id: folderId,
+      title: editedTitle
+    }
+    updateFolderMutation.mutate(updatedFolder)
+  }
+
   return (
     <>
       <PortfolioSection>
@@ -180,6 +213,7 @@ const PortfolioPage = () => {
                 categoryName={categoryName}
                 handleNewFolder={handleNewFolder}
                 handleFolderDelete={handleFolderDelete}
+                handleFolderEdit={handleFolderEdit}
               />
             </SideNavContainer>
             <DocumentMainSection>

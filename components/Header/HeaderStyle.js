@@ -1,21 +1,58 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import {
   IbmplexsansNormalPersianIndigo20px,
   IbmplexsansNormalWhite20px,
 } from '../../styledMixins';
 
+const slideIn = keyframes`
+   0%{
+    right: -400px;
+   }
+   25%{
+    right: -300px;
+   }
+   50%{
+    right: -200px;
+   }
+   75%{
+    right: -100px;
+   }
+   100%{
+    right: 0
+   }
+`
+
+const slideOut = keyframes`
+  0% {
+    right: 0;
+  }
+  25% {
+    right: -100px;
+  }
+  50% {
+    right: -200px;
+  }
+  75% {
+    right: -300px;
+  }
+  100% {
+    right: -400px;
+  }
+`;
+
 export const NavigationContainer = styled.div`
   position: absolute;
-  right: 200px;
   top: 70px;
-  z-index: 1;
+  z-index: 10000 !important;
   border-radius: 8px;
   background-color: var(--white);
   align-self: stretch;
 
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  max-height: 300px;
+  /* height: calc(100vh - 70px); */
+  height: calc(100pct-70px);
+  animation: ${props => (props.isNotificationOpen && slideIn)} 0.3s linear forwards;
   &::-webkit-scrollbar {
     width: 0;
     display: none;

@@ -214,6 +214,13 @@ const FilterContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const TimerContainer = styled.div`
+  display: flex;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--river-bed);
+`;
 export {
   DocumentBox,
   DocumentBoxWrapper,
@@ -230,4 +237,5 @@ export {
   documentStatusStyle,
   BubbleContainer,
   FilterContainer,
+  TimerContainer,
 };

@@ -21,11 +21,13 @@ import {
   documentStatusStyle,
   BubbleContainer,
   FilterContainer,
+  TimerContainer,
 } from './PortfolioAllFilesStyle';
 
 import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 import StatusBubblesContainer from '../StatusBubblesContainer';
 import CheckboxGroup from '../CheckboxGroup';
+import { dateOnly } from '../../dates';
 
 const sortReducer = (state, action) => {
   switch (action.type) {
@@ -158,6 +160,15 @@ const PortfolioAllFilesContainer = ({
       return 'All files';
     }
   };
+  const timeTitle = () => {
+    if (categoryName === 'Tasks') {
+      return 'Completed on';
+    } else if (categoryName === 'Reviews') {
+      return 'Reviewed on';
+    } else {
+      return 'Last viewed on';
+    }
+  };
   const filesToDisplay = state.displayFilterFiles
     ? state.sortedFiles
     : allFiles;
@@ -172,10 +183,12 @@ const PortfolioAllFilesContainer = ({
             defaultSearch={false}
             getSelectedItem={getSelectedItem}
           ></DropdownMenu>
-          <CheckboxGroup
-            onChange={filterAllFiles}
-            data={menuItems}
-          ></CheckboxGroup>
+          {categoryName !== 'Reviews' && categoryName !== 'Tasks' && (
+            <CheckboxGroup
+              onChange={filterAllFiles}
+              data={menuItems}
+            ></CheckboxGroup>
+          )}
         </FilterContainer>
       </AllFilesHeader>
       {filesToDisplay.length === 0 ? (
@@ -195,6 +208,11 @@ const PortfolioAllFilesContainer = ({
                     <StatusBubblesContainer tags={document?.tags ?? []} />
                   </BubbleContainer>
                   <DocumentTitle>{document.title}</DocumentTitle>
+                  <TimerContainer>
+                    <p>
+                      {timeTitle()} {dateOnly(document.viewedAt)}
+                    </p>
+                  </TimerContainer>
                 </div>
               </DocumentBoxWrapper>
               <DocumentBtns>

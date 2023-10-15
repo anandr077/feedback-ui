@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAssignments, getClasses } from '../../../service';
+import { getAssignments, getClasses, getDocumentReviews } from '../../../service';
 import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
@@ -33,6 +33,13 @@ export default function TeacherTaskRoot() {
     },
     staleTime: 300000,
   });
+  const documentReviewTasksQuery = useQuery({
+    queryKey: ['document-reviews'],
+    queryFn: async () => {
+      return await getDocumentReviews();
+    },
+    staleTime: 300000,
+  });
   const teacherClassesQuery = useQuery({
       queryKey: ['classes'],
       queryFn: async () => {
@@ -44,31 +51,43 @@ export default function TeacherTaskRoot() {
 
   React.useEffect(() => {
     if (assignmentsQuery.data) {
-      setFilteredTasks(assignmentsQuery.data);
+      if (documentReviewTasksQuery.data) {
+        setFilteredTasks([...assignmentsQuery.data, ...documentReviewTasksQuery.data]);
+      } else{
+        setFilteredTasks(assignmentsQuery.data);
+      }
+      
       setAssignments(assignmentsQuery.data);
     }
     if (teacherClassesQuery.data) {
       setClasses(teacherClassesQuery.data);
     }
-  }, [assignmentsQuery.data, teacherClassesQuery.data]);
+  }, [assignmentsQuery.data, teacherClassesQuery.data, documentReviewTasksQuery.data]);
 
-  if (assignmentsQuery.isLoading || teacherClassesQuery.isLoading) {
+  if (assignmentsQuery.isLoading || teacherClassesQuery.isLoading || documentReviewTasksQuery.isLoading) {
     return (
       <>
         <Loader />
       </>
     );
   }
-
+  console.log("filtered tasks", filteredTasks);
   const drafts = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === 'DRAFT'
   );
   const awaitingSubmissions = filteredTasks.filter(
-    (assignment) => assignment.submissionsStatus === 'AWAITING_SUBMISSIONS'
+    (assignment) => {
+      console.log("status", assignment.id, assignment)
+      return assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' || assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
+    }
   );
+  console.log("filteredTasks", filteredTasks);
+  console.log("awaitingSubmissions", awaitingSubmissions);
+
   const feedbacks = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === 'FEEDBACK'
   );
+  
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -81,7 +100,7 @@ export default function TeacherTaskRoot() {
       items: classesItems,
     },
   ];
-
+  console.log('awaitingSubmissions', awaitingSubmissions);
   const filterTasks = (selectedItems) => {
     const groupedData = _.groupBy(selectedItems, 'category');
 

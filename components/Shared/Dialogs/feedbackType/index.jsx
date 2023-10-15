@@ -23,43 +23,26 @@ export default function FeedbackTypeDialog({
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
-          {title != 'class' ? (
-            <div className="type-container">
-              <div>Select a {title}</div>
-              <DropdownMenu
-                menuItems={menuItems}
-                showAvatar={true}
-                onItemSelected={(item) => {
-                  setSelectedMenuItem(item);
-                }}
-                defaultSearch={true}
-              ></DropdownMenu>
-              <div
-                className="request-btn"
-                onClick={() => {
-                  handleSelectedRequestFeedback(selectedMenuItem, feedbackType);
-                  handleClose();
-                }}
-              >
-                Send request
-              </div>
-            </div>
-          ) : (
-            <GeneralPopup
-              hidePopup={handleClose}
-              title="Request feedback"
-              textContent={
-                'Are you sure you want to request feedback from ' +
-                menuItems[0].name
-              }
-              confirmationMessage=""
-              buttonText="Submit"
-              confirmButtonAction={() => {
+          <div className="type-container">
+            <div>Select a {title}</div>
+            <DropdownMenu
+              menuItems={menuItems}
+              showAvatar={true}
+              onItemSelected={(item) => {
+                setSelectedMenuItem(item);
+              }}
+              defaultSearch={true}
+            ></DropdownMenu>
+            <div
+              className="request-btn"
+              onClick={() => {
                 handleSelectedRequestFeedback(selectedMenuItem, feedbackType);
                 handleClose();
               }}
-            />
-          )}
+            >
+              Send request
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </>

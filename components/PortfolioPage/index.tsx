@@ -222,10 +222,12 @@ const PortfolioPage = () => {
                 state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}
+                categoryName={categoryName}
               />
               <PortfolioAllFilesContainer
                 allFiles={allFiles}
                 handleDeleteDocument={handleDeleteDocument}
+                categoryName={categoryName}
               />
             </DocumentMainSection>
           </PortfolioContainer>

@@ -70,8 +70,11 @@ const sortReducer = (state, action) => {
   }
 };
 
-
-const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
+const PortfolioAllFilesContainer = ({
+  allFiles,
+  handleDeleteDocument,
+  categoryName,
+}) => {
   const initialState = {
     sortedFiles: allFiles,
     displayFilterFiles: false,
@@ -94,7 +97,6 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
       dispatch({ type: 'New to old' });
     }
   }, [allFiles]);
-
 
   const getSelectedItem = (option) => {
     console.log('option', option);
@@ -147,14 +149,23 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
     dispatch({ type: 'filteredFilesData', payload: filteredData });
     dispatch({ type: 'filteredFiles', payload: true });
   };
+  const titleName = () => {
+    if (categoryName === 'Tasks') {
+      return 'Completed tasks';
+    } else if (categoryName === 'Reviews') {
+      return 'Completed reviews';
+    } else {
+      return 'All files';
+    }
+  };
   const filesToDisplay = state.displayFilterFiles
     ? state.sortedFiles
     : allFiles;
 
   return (
-    <AllFilesContainer>
+    <AllFilesContainer categoryName={categoryName}>
       <AllFilesHeader>
-        <AllFileTitle>All files</AllFileTitle>
+        <AllFileTitle>{titleName()}</AllFileTitle>
         <FilterContainer>
           <DropdownMenu
             menuItems={sortOptions}
@@ -176,7 +187,7 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
               <DocumentBoxWrapper>
                 <DocumentTextFrame>
                   {document?.preview && document.preview.length > 130
-                    ? document.preview.slice(0, 130) + '...'
+                    ? document.preview.slice(0, 230) + '...'
                     : document.preview}
                 </DocumentTextFrame>
                 <div>

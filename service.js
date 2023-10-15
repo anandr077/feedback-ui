@@ -209,6 +209,8 @@ export const getAssignmentsByClassId = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/assignments');
 export const getAssignments = async () =>
   await getApi(baseUrl + '/assignments');
+export const getDocumentReviews = async () =>
+  await getApi(baseUrl + '/document-review-tasks');
 export const startSubmission = async (assignmentDetails) =>
   await postApi(baseUrl + '/submissions', assignmentDetails);
 export const getSubmissionById = async (submissionId) =>
@@ -494,6 +496,8 @@ export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);
 export const addFolderToPortfolio = async (newFolder) =>
   await postApi(baseUrl + '/students/portfolio/folders', newFolder);
+export const deleteFolderFromPortfolio = async (folderId) =>
+  await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`)
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

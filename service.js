@@ -489,8 +489,8 @@ export const getDefaultCriteria = () => {
 };
 export const getPortfolio = async () =>
   await getApi(baseUrl + '/students/portfolio');
-export const updatePortfolio = async (portfolio) =>
-  await putApi(baseUrl + '/students/portfolio', portfolio);
+// export const updatePortfolio = async (title) =>
+//   await putApi(baseUrl + `/students/portfolio/folders`, title);
 
 export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);
@@ -498,6 +498,8 @@ export const addFolderToPortfolio = async (newFolder) =>
   await postApi(baseUrl + '/students/portfolio/folders', newFolder);
 export const deleteFolderFromPortfolio = async (folderId) =>
   await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`)
+export const updatePortfolio = async (folderId, newTitle) =>
+  await patchApi(baseUrl + `/students/portfolio/folders/${folderId}` + '/rename', {title: newTitle});
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

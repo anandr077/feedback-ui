@@ -25,7 +25,8 @@ const PortfolioSidebarFolder = ({
   setActiveFolderIndex,
   clickedSubfolder,
   setClickedSubfolder,
-  handleFolderDelete
+  handleFolderDelete,
+  handleFolderEdit
 }) => {
   const isActive = isMobileView() ? showNavMenu : true;
   const [activeDropdown, setActiveDropdown] = useState(false);
@@ -96,6 +97,7 @@ const PortfolioSidebarFolder = ({
               onKeyUp={(e) => {
                 if (e.key === 'Enter') {
                   setIsEditing(false);
+                  handleFolderEdit(editedTitle, folder.id)
                 }
               }}
             />

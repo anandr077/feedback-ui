@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const AllFilesContainer = styled.div`
-  margin-top: 50px;
+  margin-top: ${(props) => (props.categoryName === 'Drafts' ? '40px' : '0px')};
 `;
 
 const AllFileTitle = styled.h3`

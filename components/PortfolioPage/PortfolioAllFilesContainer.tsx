@@ -75,7 +75,6 @@ const PortfolioAllFilesContainer = ({
   handleDeleteDocument,
   categoryName,
 }) => {
-
   const initialState = {
     sortedFiles: allFiles,
     displayFilterFiles: false,
@@ -98,7 +97,6 @@ const PortfolioAllFilesContainer = ({
       dispatch({ type: 'New to old' });
     }
   }, [allFiles]);
-
 
   const getSelectedItem = (option) => {
     console.log('option', option);
@@ -152,35 +150,33 @@ const PortfolioAllFilesContainer = ({
     dispatch({ type: 'filteredFiles', payload: true });
   };
   const titleName = () => {
-    if(categoryName === 'Tasks'){
-      return "Completed tasks";
+    if (categoryName === 'Tasks') {
+      return 'Completed tasks';
+    } else if (categoryName === 'Reviews') {
+      return 'Completed reviews';
+    } else {
+      return 'All files';
     }
-    else if(categoryName === 'Reviews'){
-      return "Completed reviews";
-    }
-    return 'All files';
-  }
+  };
   const filesToDisplay = state.displayFilterFiles
     ? state.sortedFiles
     : allFiles;
 
   return (
-    <AllFilesContainer>
+    <AllFilesContainer categoryName={categoryName}>
       <AllFilesHeader>
         <AllFileTitle>{titleName()}</AllFileTitle>
-        {categoryName === 'Tasks' && (
-          <FilterContainer>
-            <DropdownMenu
-              menuItems={sortOptions}
-              defaultSearch={false}
-              getSelectedItem={getSelectedItem}
-            ></DropdownMenu>
-            <CheckboxGroup
-              onChange={filterAllFiles}
-              data={menuItems}
-            ></CheckboxGroup>
-          </FilterContainer>
-        )}
+        <FilterContainer>
+          <DropdownMenu
+            menuItems={sortOptions}
+            defaultSearch={false}
+            getSelectedItem={getSelectedItem}
+          ></DropdownMenu>
+          <CheckboxGroup
+            onChange={filterAllFiles}
+            data={menuItems}
+          ></CheckboxGroup>
+        </FilterContainer>
       </AllFilesHeader>
       {filesToDisplay.length === 0 ? (
         <NoFileDiv>No files</NoFileDiv>

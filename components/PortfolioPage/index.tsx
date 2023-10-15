@@ -2,6 +2,8 @@ import { default as React, useReducer, useState } from 'react';
 import {
   addDocumentToPortfolioWithDetails,
   addFolderToPortfolio,
+  deleteFolderFromPortfolio,
+  updatePortfolio,
   deleteSubmissionById,
   getPortfolio,
 } from '../../service';
@@ -109,6 +111,53 @@ const PortfolioPage = () => {
     },
   });
 
+  const deleteFolderMutation = useMutation({
+    mutationFn: async (folderId) =>
+      await deleteFolderFromPortfolio(folderId),
+    onMutate: async (folderId) => {
+      await queryClient.cancelQueries({ queryKey: ['portfolio'] });
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
+      dispatch({type: 'deleteFolder', payload: folderId})
+      return { previousPortfolio };
+    },
+    onError: (err, newTodo, context) => {
+      console.log('On error');
+
+      queryClient.setQueryData('portfolio', context.previousPortfolio);
+    },
+    onSuccess: (data, variables) => {
+      console.log('On success');
+    },
+    onSettled: () => {
+      console.log('Settled');
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+    },
+  })
+
+
+  const updateFolderMutation = useMutation({
+    mutationFn: async ({id, title}) =>
+      await updatePortfolio(id, title),
+    onMutate: async (updatedFolder) => {
+      await queryClient.cancelQueries({queryKey: ['portfolio']});
+      const previousPortfolio = queryClient.getQueryData(['portfolio']);
+      dispatch({type: 'editFolder', payload: updatedFolder})
+      return { previousPortfolio }
+    },
+    onError: (err, newTodo, context) => {
+      console.log('On error');
+
+      queryClient.setQueryData('portfolio', context.previousPortfolio);
+    },
+    onSuccess: (data, variables) => {
+      console.log('On success');
+    },
+    onSettled: () => {
+      console.log('Settled');
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
+    },
+  })
+
   if (
     isLoading ||
     addDocumentMutation.isLoading ||
@@ -138,6 +187,18 @@ const PortfolioPage = () => {
       addFolderMutation.mutate(folderName);
   }
 
+  const handleFolderDelete = (folderId) =>{
+    deleteFolderMutation.mutate(folderId)
+  }
+
+  const handleFolderEdit = (editedTitle, folderId) =>{
+    const updatedFolder = {
+      id: folderId,
+      title: editedTitle
+    }
+    updateFolderMutation.mutate(updatedFolder)
+  }
+
   return (
     <>
       <PortfolioSection>
@@ -151,6 +212,8 @@ const PortfolioPage = () => {
                 folderId={folderId}
                 categoryName={categoryName}
                 handleNewFolder={handleNewFolder}
+                handleFolderDelete={handleFolderDelete}
+                handleFolderEdit={handleFolderEdit}
               />
             </SideNavContainer>
             <DocumentMainSection>
@@ -159,10 +222,12 @@ const PortfolioPage = () => {
                 state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}
+                categoryName={categoryName}
               />
               <PortfolioAllFilesContainer
                 allFiles={allFiles}
                 handleDeleteDocument={handleDeleteDocument}
+                categoryName={categoryName}
               />
             </DocumentMainSection>
           </PortfolioContainer>

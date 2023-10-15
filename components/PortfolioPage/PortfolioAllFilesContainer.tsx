@@ -21,11 +21,13 @@ import {
   documentStatusStyle,
   BubbleContainer,
   FilterContainer,
+  TimerContainer,
 } from './PortfolioAllFilesStyle';
 
 import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 import StatusBubblesContainer from '../StatusBubblesContainer';
 import CheckboxGroup from '../CheckboxGroup';
+import { dateOnly } from '../../dates';
 
 const sortReducer = (state, action) => {
   switch (action.type) {
@@ -70,7 +72,11 @@ const sortReducer = (state, action) => {
   }
 };
 
-const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
+const PortfolioAllFilesContainer = ({
+  allFiles,
+  handleDeleteDocument,
+  categoryName,
+}) => {
   const initialState = {
     sortedFiles: allFiles,
     displayFilterFiles: false,
@@ -80,15 +86,18 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
   const [filteredAllFiles, setFilteredAllFiles] = useState(allFiles);
 
   const sortOptions = [
-    { title: 'A - Z' },
-    { title: 'Z - A' },
     { title: 'New to old' },
     { title: 'Old to new' },
+    { title: 'A - Z' },
+    { title: 'Z - A' },
   ];
 
   useEffect(() => {
     dispatch({ type: 'updatedAllFiles', payload: allFiles });
-    dispatch({ type: 'filteredFiles', payload: false });
+    dispatch({ type: 'filteredFiles', payload: true });
+    if (allFiles && allFiles.length > 0) {
+      dispatch({ type: 'New to old' });
+    }
   }, [allFiles]);
 
   const getSelectedItem = (option) => {
@@ -142,24 +151,44 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
     dispatch({ type: 'filteredFilesData', payload: filteredData });
     dispatch({ type: 'filteredFiles', payload: true });
   };
+  const titleName = () => {
+    if (categoryName === 'Tasks') {
+      return 'Completed tasks';
+    } else if (categoryName === 'Reviews') {
+      return 'Completed reviews';
+    } else {
+      return 'All files';
+    }
+  };
+  const timeTitle = () => {
+    if (categoryName === 'Tasks') {
+      return 'Completed on';
+    } else if (categoryName === 'Reviews') {
+      return 'Reviewed on';
+    } else {
+      return 'Last viewed on';
+    }
+  };
   const filesToDisplay = state.displayFilterFiles
     ? state.sortedFiles
     : allFiles;
 
   return (
-    <AllFilesContainer>
+    <AllFilesContainer categoryName={categoryName}>
       <AllFilesHeader>
-        <AllFileTitle>All files</AllFileTitle>
+        <AllFileTitle>{titleName()}</AllFileTitle>
         <FilterContainer>
           <DropdownMenu
             menuItems={sortOptions}
             defaultSearch={false}
             getSelectedItem={getSelectedItem}
           ></DropdownMenu>
-          <CheckboxGroup
-            onChange={filterAllFiles}
-            data={menuItems}
-          ></CheckboxGroup>
+          {categoryName !== 'Reviews' && categoryName !== 'Tasks' && (
+            <CheckboxGroup
+              onChange={filterAllFiles}
+              data={menuItems}
+            ></CheckboxGroup>
+          )}
         </FilterContainer>
       </AllFilesHeader>
       {filesToDisplay.length === 0 ? (
@@ -171,7 +200,7 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
               <DocumentBoxWrapper>
                 <DocumentTextFrame>
                   {document?.preview && document.preview.length > 130
-                    ? document.preview.slice(0, 130) + '...'
+                    ? document.preview.slice(0, 230) + '...'
                     : document.preview}
                 </DocumentTextFrame>
                 <div>
@@ -179,6 +208,11 @@ const PortfolioAllFilesContainer = ({ allFiles, handleDeleteDocument }) => {
                     <StatusBubblesContainer tags={document?.tags ?? []} />
                   </BubbleContainer>
                   <DocumentTitle>{document.title}</DocumentTitle>
+                  <TimerContainer>
+                    <p>
+                      {timeTitle()} {dateOnly(document.viewedAt)}
+                    </p>
+                  </TimerContainer>
                 </div>
               </DocumentBoxWrapper>
               <DocumentBtns>

@@ -16,12 +16,22 @@ export function reducer(state: any, action: any) {
         ...state,
         portfolio: addFolder(state.portfolio, action.payload),
       };
+    case 'deleteFolder':
+      return {
+        ...state,
+        portfolio: deleteFolder(state.portfolio, action.payload),
+      }
+    case 'editFolder':
+      return {
+        ...state,
+        portfolio: editFolder(state.portfolio, action.payload)
+      }
     case 'deleteDocument':
       return {
         ...state,
         portfolio: deleteDocument(state.portfolio, action.payload.id),
       };
-
+    
     case 'setPortfolio':
       return { ...state, portfolio: action.payload };
     case 'loading':
@@ -195,3 +205,28 @@ export const addFolder = (portfolio, folderName) => {
     ],
   };
 };
+
+
+export const deleteFolder = (portfolio, folderId) =>{
+   const newPortfolio = {
+    ...portfolio,
+    files: portfolio.files.filter(folder => {
+      return folder.id !== folderId
+    })
+   }
+   return newPortfolio
+}
+
+
+export const editFolder = (portfolio, folderData) =>{
+      const newPortfolio = {
+        ...portfolio,
+        files: portfolio.files.map(folder =>{
+           if(folder.id === folderData.id){
+              return {...folder, title: folderData.title}
+           }
+           return folder
+        })
+      }
+      return newPortfolio
+}

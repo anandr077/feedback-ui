@@ -14,11 +14,11 @@
 }
 
 .title {
-  color: #1e252a;
+  color: #1e252a !important;
   font-family: IBM Plex Sans;
-  font-size: 14px;
+  font-size: 14px !important;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 !important;
   line-height: normal;
 }
 

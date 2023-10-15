@@ -25,6 +25,8 @@ const PortfolioSidebarFolder = ({
   setActiveFolderIndex,
   clickedSubfolder,
   setClickedSubfolder,
+  handleFolderDelete,
+  handleFolderEdit
 }) => {
   const isActive = isMobileView() ? showNavMenu : true;
   const [activeDropdown, setActiveDropdown] = useState(false);
@@ -61,6 +63,7 @@ const PortfolioSidebarFolder = ({
   const handleDeleteDropdown = (event) => {
     setActiveDropdown((prev) => !prev);
     event.stopPropagation();
+    handleFolderDelete(folder.id)
   };
 
 
@@ -83,7 +86,7 @@ const PortfolioSidebarFolder = ({
             );
           }}
           to={`/portfolio/` + folder.id + '/' + (selectedSubFolder || '')}
-          title={folder.title.length > 12 ? folder.title : undefined}
+          title={folder.title?.length > 12 ? folder.title : undefined}
         >
           {isEditing ? (
             <input
@@ -94,10 +97,11 @@ const PortfolioSidebarFolder = ({
               onKeyUp={(e) => {
                 if (e.key === 'Enter') {
                   setIsEditing(false);
+                  handleFolderEdit(editedTitle, folder.id)
                 }
               }}
             />
-          ) : folder.title.length > 12 ? (
+          ) : folder.title?.length > 12 ? (
             `${folder.title.slice(0, 12)}...`
           ) : (
             folder.title
@@ -113,11 +117,15 @@ const PortfolioSidebarFolder = ({
                       }`}
                     >
                       <span onClick={handleEditDropdown}>
-                        <EditNoteIcon /> Rename
+                            <EditNoteIcon /> Rename
                       </span>
-                      <span onClick={handleDeleteDropdown}>
-                        <img src={deleteIcon} /> Delete
-                      </span>
+                      {
+                        folder.allowDelete && (
+                          <span onClick={handleDeleteDropdown}>
+                            <img src={deleteIcon} /> Delete
+                          </span>
+                        )
+                      }
                     </div>
                   </div>
                 )}

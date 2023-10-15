@@ -1,7 +1,18 @@
+import _ from 'lodash';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useState, useEffect } from 'react';
+import { default as React, default as React, useEffect, useState } from 'react';
+import {
+  createRequestFeddbackType,
+  getClasses,
+  getStudentsForClass,
+  getSubmissionById,
+  getTeachersForClass,
+  updateSubmissionClass,
+} from '../../../service';
+import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
+import SnackbarContext from '../../SnackbarContext';
 import { answersFrameNoMC } from '../AnswersFrameNoMC';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -15,18 +26,8 @@ import {
   Frame1388,
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
-import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import {
-  getStudentsForClass,
-  getTeachersForClass,
-  createRequestFeddbackType,
-  getSubmissionById,
-  getClasses,
-  updateSubmissionClass,
-} from '../../../service';
-import SnackbarContext from '../../SnackbarContext';
 
-const FeedbackMethodType = ['From teacher', 'Form class', 'From peer'];
+const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
 const FeedbackMethodTypeEnum = {
   FROM_TEACHER: 0,
@@ -64,6 +65,7 @@ function Document(props) {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [allClasses, setAllClasses] = useState([]);
+  const [feedbackClasses, setFeedbackClasses] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -78,28 +80,38 @@ function Document(props) {
   }, []);
 
   useEffect(() => {
-    if (submission.classId) {
-      Promise.all([
-        getStudentsForClass(submission.classId),
-        getTeachersForClass(submission.classId),
-        getClasses(),
-      ]).then(([studentsResponse, teachersResponse, classResponse]) => {
-        const filteredStudentsResponse = studentsResponse.filter(
-          (student) => student.id !== submission.studentId
-        );
-        const updatedStudentsResponse = filteredStudentsResponse.map((item) => {
-          return { ...item, title: item.id };
-        });
-        setAllClasses(classResponse);
-        setStudents(updatedStudentsResponse);
-        setTeachers(
-          teachersResponse.map((item) => {
-            return { ...item, title: item.id };
-          })
-        );
-      });
-    }
-  }, [submission.classId]);
+    const fetchDetails = async (classIds) => {
+      const studentsPromises = classIds.map((id) => getStudentsForClass(id));
+      const teachersPromises = classIds.map((id) => getTeachersForClass(id));
+      const studentsArrays = await Promise.all(studentsPromises);
+      const teachersArrays = await Promise.all(teachersPromises);
+
+      const allStudents = _.flatten(studentsArrays);
+      const allTeachers = _.flatten(teachersArrays);
+
+      const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
+        (item) => item.id !== submission.studentId
+      );
+      const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+
+      setStudents(uniqueStudents.map((item) => ({ ...item, title: item.id })));
+      setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.id })));
+    };
+
+    const fetchClasses = async () => {
+      const classes = await getClasses();
+      if (submission.classId) {
+        return classes.filter((c) => c.id === submission.classId);
+      }
+      return classes;
+    };
+
+    fetchClasses().then((classes) => {
+      const classIds = classes.map((c) => c.id);
+      setAllClasses(classes.map((c) => ({ ...c, title: c.title })));
+      fetchDetails(classIds);
+    });
+  }, [submission]);
 
   const handleRequestFeedback = (index) => {
     setFeedbackMethodTypeDialog(index);
@@ -174,7 +186,10 @@ function Document(props) {
         setFeedbackMethodTypeDialog,
         handleSelectedRequestFeedback,
         students,
-        teachers
+        teachers,
+        submission.classId
+          ? allClasses.filter((item) => item.id === submission.classId)
+          : allClasses
       )}
     </>
   );
@@ -185,7 +200,8 @@ const handleFeedbackMethodTypeDialog = (
   setFeedbackMethodTypeDialog,
   handleSelectedRequestFeedback,
   students,
-  teachers
+  teachers,
+  classes
 ) => {
   if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_TEACHER) {
     return (
@@ -201,7 +217,7 @@ const handleFeedbackMethodTypeDialog = (
   if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_CLASS) {
     return (
       <FeedbackTypeDialog
-        menuItems={students}
+        menuItems={classes}
         setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
         title="class"
         handleSelectedRequestFeedback={handleSelectedRequestFeedback}

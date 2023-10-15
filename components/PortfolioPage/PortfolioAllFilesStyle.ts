@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const AllFilesContainer = styled.div`
-  margin-top: 50px;
+  margin-top: ${(props) => (props.categoryName === 'Drafts' ? '40px' : '0px')};
 `;
 
 const AllFileTitle = styled.h3`
@@ -214,6 +214,13 @@ const FilterContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const TimerContainer = styled.div`
+  display: flex;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--river-bed);
+`;
 export {
   DocumentBox,
   DocumentBoxWrapper,
@@ -230,4 +237,5 @@ export {
   documentStatusStyle,
   BubbleContainer,
   FilterContainer,
+  TimerContainer,
 };

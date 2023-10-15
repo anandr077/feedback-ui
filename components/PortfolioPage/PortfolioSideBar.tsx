@@ -10,6 +10,8 @@ const PortfolioSideBar = ({
   folderId,
   categoryName,
   handleNewFolder,
+  handleFolderDelete,
+  handleFolderEdit
 }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('');
   const [showSubfolders, setShowSubfolders] = useState('');
@@ -86,6 +88,8 @@ const PortfolioSideBar = ({
           setActiveFolderIndex={setActiveFolderId}
           clickedSubfolder={clickedSubfolder}
           setClickedSubfolder={setClickedSubfolder}
+          handleFolderDelete={handleFolderDelete}
+          handleFolderEdit={handleFolderEdit}
         />
       ))}
       {addFolder ? (

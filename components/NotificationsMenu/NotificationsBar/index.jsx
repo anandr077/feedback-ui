@@ -40,6 +40,10 @@ function NotificationsBar(props) {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['assignments'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['document-reviews'] });
+
     },
   });
 

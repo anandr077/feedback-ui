@@ -8,6 +8,7 @@ import TaskFrame1353 from '../TaskFrame1353';
 import './TasksDesktop.css';
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import CheckboxGroup from '../CheckboxGroup';
+import Group1205 from '../TeacherDashboard/Group1205';
 
 function TasksDesktop(props) {
   const {
@@ -17,6 +18,8 @@ function TasksDesktop(props) {
     inProgressTasks,
     inReviewTasks,
     frame19Props,
+    portfolio,
+    arrowright,
   } = props;
 
   return (
@@ -24,10 +27,20 @@ function TasksDesktop(props) {
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
-          <CheckboxGroup
-            onChange={filterTasks}
-            data={menuItems}
-          ></CheckboxGroup>
+          <LinkAndFilter>
+            {portfolio.length != 0 && (
+              <Group1205
+                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
+                label="Completed Tasks"
+                arrowright={arrowright}
+              />
+            )}
+
+            <CheckboxGroup
+              onChange={filterTasks}
+              data={menuItems}
+            ></CheckboxGroup>
+          </LinkAndFilter>
         </TitleContainer>
         <Frame1360>
           <Frame1359>
@@ -138,6 +151,12 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
+`;
+const LinkAndFilter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 `;
 
 export default TasksDesktop;

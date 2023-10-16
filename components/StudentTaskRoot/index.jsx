@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTasks, getClasses } from '../../service';
+import { getTasks, getClasses, getPortfolio } from '../../service';
 import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
 import TasksStudentMobile from '../TasksStudentMobile';
 import TasksStudentTablet from '../TasksStudentTablet';
@@ -9,11 +9,13 @@ import { taskHeaderProps } from '../../utils/headerProps.js';
 import _ from 'lodash';
 import Loader from '../Loader';
 import { useQuery } from '@tanstack/react-query';
+// import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
+  const [portfolio, setPortfolio] = React.useState([]);
 
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
@@ -32,6 +34,14 @@ export default function StudentTaskRoot() {
     staleTime: 300000,
   });
 
+  const portfolioQuery = useQuery({
+    queryKey: ['portfolio'],
+    queryFn: async () => {
+      return await getPortfolio();
+    },
+    staleTime: 300000,
+  });
+
   React.useEffect(() => {
     if (tasksQuery.data) {
       setFilteredTasks(tasksQuery.data);
@@ -40,9 +50,16 @@ export default function StudentTaskRoot() {
     if (studentClassesQuery.data) {
       setClasses(studentClassesQuery.data);
     }
-  }, [tasksQuery.data, studentClassesQuery.data]);
+    if (portfolioQuery.data) {
+      setPortfolio(portfolioQuery.data);
+    }
+  }, [tasksQuery.data, studentClassesQuery.data, portfolioQuery.data]);
 
-  if (tasksQuery.isLoading || studentClassesQuery.isLoading) {
+  if (
+    tasksQuery.isLoading ||
+    studentClassesQuery.isLoading ||
+    portfolioQuery.isLoading
+  ) {
     return (
       <>
         <Loader />
@@ -109,6 +126,7 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
+            portfolio,
             ...tasksStudentMobileData,
           }}
         />
@@ -121,6 +139,7 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
+            portfolio,
             ...tasksStudentTabletData,
           }}
         />
@@ -133,6 +152,7 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
+            portfolio,
             ...tasksLaptopData,
           }}
         />
@@ -145,6 +165,7 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
+            portfolio,
             ...tasksDesktopData,
           }}
         />
@@ -278,6 +299,7 @@ const tasksStudentMobileData = {
   tabs21Props: tabs23Data,
   tabs22Props: tabs24Data,
   frame19Props: frame192Data,
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const frame13042Data = {
@@ -414,6 +436,7 @@ const tasksStudentTabletData = {
   cards9Props: cards9Data,
   cards10Props: cards10Data,
   frame19Props: frame192Data,
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const statusBubbles21Data = {
@@ -525,6 +548,7 @@ const frame191Data = {
 const tasksLaptopData = {
   frame19Props: frame191Data,
   headerProps: taskHeaderProps,
+  arrowright: '/img/arrowright@2x.png',
 };
 
 const frame13043Data = {
@@ -538,4 +562,5 @@ const tasksDesktopData = {
   frame1306Props: frame13061Data,
   frame19Props: frame192Data,
   headerProps: taskHeaderProps,
+  arrowright: '/img/arrowright@2x.png',
 };

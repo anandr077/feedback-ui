@@ -62,3 +62,10 @@ export const Frame16 = styled.div`
   gap: 10px;
   flex-direction: column;
 `;
+
+export const EmptyBox = styled.div`
+  margin: 50px auto;
+  font-family: 'IBM Plex Sans';
+  font-size: 20px;
+  color: rgba(48, 45, 45, 0.5);
+`

@@ -21,7 +21,7 @@ const NotificationSwitch = ({notificationBtnValue}) => {
         </Button>
         <Button
           onClick={()=> handleBtnClick('FEEBACK_REQUEST')}
-          className={activeBtn === 'Requests' ? 'active': ''}
+          className={activeBtn === 'FEEBACK_REQUEST' ? 'active': ''}
         >
             Requests
         </Button> 

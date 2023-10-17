@@ -153,7 +153,7 @@ function NotificationsBar(props) {
               {filteredNotifications.length > 0 ? (
                 filteredNotifications
               ) : (
-                <EmptyBox>No notification found</EmptyBox>
+                <EmptyBox>No new notifications</EmptyBox>
               )}
             </Frame16>
           </Frame1409>
@@ -164,7 +164,7 @@ function NotificationsBar(props) {
           {filteredNotifications.length > 0 ? (
             filteredNotifications
           ) : (
-            <EmptyBox>No notification found</EmptyBox>
+            <EmptyBox>No new notifications</EmptyBox>
           )}
         </Frame15>
       )}

@@ -57,6 +57,7 @@ function Document(props) {
     submission,
     setSubmission,
     share,
+    allFolders
   } = props;
   const { showSnackbar } = React.useContext(SnackbarContext);
   const [isShowResolved, setShowResolved] = useState(false);
@@ -68,6 +69,7 @@ function Document(props) {
   const [feedbackClasses, setFeedbackClasses] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
+
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
@@ -152,7 +154,7 @@ function Document(props) {
         style={{ minWidth: 'unset' }}
       >
         <Frame1388>
-          {breadcrumbs(pageMode, submission)}
+          {breadcrumbs(pageMode, submission, allFolders)}
           {answersAndFeedbacks(
             isShowSelectType,
             setShowSelectType,
@@ -177,6 +179,7 @@ function Document(props) {
             smartAnnotations,
             handleRequestFeedback,
             allClasses,
+            allFolders,
             updateDocumentClass
           )}
         </Frame1388>
@@ -280,6 +283,7 @@ function answersAndFeedbacks(
   smartAnnotations,
   handleRequestFeedback,
   allClasses,
+  allFolders,
   updateDocumentClass
 ) {
   return (
@@ -296,6 +300,7 @@ function answersAndFeedbacks(
         handleRequestFeedback,
         true,
         allClasses,
+        allFolders,
         updateDocumentClass
       )}
       <Frame1368 id="assignmentData">
@@ -365,15 +370,22 @@ function documentFeedbackFrame(
   );
 }
 
-function breadcrumbs(pageMode, submission) {
+function breadcrumbs(pageMode, submission, allFolders) {
+  let matchingFolderTitle = null;
+  if(allFolders && submission && submission.id){
+    const matchingFolder = allFolders.find(folder => folder.id === submission.folderId)
+    if(matchingFolder){
+      matchingFolderTitle = matchingFolder.title
+    }
+  }
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return (
       <Frame1387>
         <Frame1315>
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
           <Breadcrumb2
-            assignments={'Folder' + submission.classId}
-            link={'/#/portfolio/' + submission.classId}
+            assignments={matchingFolderTitle}
+            link={'/#/portfolio/' + submission.folderId}
           />
           <Breadcrumb2
             assignments={'Drafts'}

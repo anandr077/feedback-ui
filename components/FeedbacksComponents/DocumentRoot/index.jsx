@@ -1,8 +1,11 @@
 import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
+import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
+import { getPortfolio } from '../../../service'
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useReducer } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import GeneralPopup from '../../GeneralPopup';
 import Document from '../Document';
@@ -31,11 +34,10 @@ import Loader from '../../Loader';
 import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
-import { useQueryClient } from '@tanstack/react-query';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
-  queryClient.removeQueries(['portfolio']);
+  //queryClient.removeQueries(['portfolio']);
 
 
   const quillRefs = useRef([]);
@@ -45,7 +47,7 @@ export default function DocumentRoot({}) {
   const newCommentFrameRef = useRef(null);
   const [submission, setSubmission] = useState(null);
   const [smartAnnotations, setSmartAnnotations] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isloading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [studentName, setStudentName] = useState(null);
   const [comments, setComments] = useState([]);
@@ -58,6 +60,8 @@ export default function DocumentRoot({}) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
+  const [state, dispatch] = useReducer(reducer, initailState)
+  const [allFolders, setAllFolders] = useState([])
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
@@ -74,7 +78,29 @@ export default function DocumentRoot({}) {
       });
   }, [id]);
 
-  if (isLoading) {
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['portfolio'],
+    queryFn: async () => {
+      return await getPortfolio();
+    },
+    staleTime: 300000,
+  });
+  React.useEffect(() => {
+    dispatch({ type: 'setPortfolio', payload: data });
+  }, [data]);
+
+  useEffect(()=>{
+    const getFolders = state?.portfolio?.files.map((folder)=>{
+      //const folders = {id: folder.id, title: folder.title}
+      return folder
+    })
+    console.log('this is my document portfolio: ', getFolders)
+    setAllFolders(getFolders)
+  }, [state])
+
+  console.log('this is my state here: ', state)
+
+  if (isloading) {
     return (
       <>
         <Loader />
@@ -745,6 +771,7 @@ export default function DocumentRoot({}) {
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: headerProps,
+              allFolders,
             }}
           />
         }
@@ -767,6 +794,7 @@ export default function DocumentRoot({}) {
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: headerProps,
+              allFolders,
             }}
           />
         }
@@ -790,6 +818,7 @@ export default function DocumentRoot({}) {
                 setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
                 headerProps: headerProps,
+                allFolders,
               }}
             />
           </>
@@ -812,6 +841,7 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               headerProps: headerProps,
+              allFolders,
             }}
           />
         }

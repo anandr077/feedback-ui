@@ -26,7 +26,7 @@ const PortfolioSidebarFolder = ({
   clickedSubfolder,
   setClickedSubfolder,
   handleFolderDelete,
-  handleFolderEdit
+  handleFolderEdit,
 }) => {
   const isActive = isMobileView() ? showNavMenu : true;
   const [activeDropdown, setActiveDropdown] = useState(false);
@@ -63,9 +63,8 @@ const PortfolioSidebarFolder = ({
   const handleDeleteDropdown = (event) => {
     setActiveDropdown((prev) => !prev);
     event.stopPropagation();
-    handleFolderDelete(folder.id)
+    handleFolderDelete(folder.id);
   };
-
 
   return (
     <>
@@ -97,7 +96,7 @@ const PortfolioSidebarFolder = ({
               onKeyUp={(e) => {
                 if (e.key === 'Enter') {
                   setIsEditing(false);
-                  handleFolderEdit(editedTitle, folder.id)
+                  handleFolderEdit(editedTitle, folder.id);
                 }
               }}
             />
@@ -108,27 +107,23 @@ const PortfolioSidebarFolder = ({
           )}
           {!isEditing && (
             <div className="icon-container">
-              {(folder.allowDelete || folder.allowRename) && (
-                  <div className="folder-dropdown-container" ref={dropdownRef}>
-                    <MoreHorizIcon onClick={toggleDropdown} />
-                    <div
-                      className={`${
-                        activeDropdown ? 'folder-dropdown' : 'dropdown-hidden'
-                      }`}
-                    >
-                      <span onClick={handleEditDropdown}>
-                            <EditNoteIcon /> Rename
-                      </span>
-                      {
-                        folder.allowDelete && (
-                          <span onClick={handleDeleteDropdown}>
-                            <img src={deleteIcon} /> Delete
-                          </span>
-                        )
-                      }
-                    </div>
-                  </div>
-                )}
+              <div className="folder-dropdown-container" ref={dropdownRef}>
+                <MoreHorizIcon onClick={toggleDropdown} />
+                <div
+                  className={`${
+                    activeDropdown ? 'folder-dropdown' : 'dropdown-hidden'
+                  }`}
+                >
+                  <span onClick={handleEditDropdown}>
+                    <EditNoteIcon /> Rename
+                  </span>
+                  {folder.allowDelete && (
+                    <span onClick={handleDeleteDropdown}>
+                      <img src={deleteIcon} /> Delete
+                    </span>
+                  )}
+                </div>
+              </div>
               {showArrowDropDown &&
                 (showArrowUp && state.activeMainFolderId === folder.id ? (
                   <ArrowDropUpIcon />

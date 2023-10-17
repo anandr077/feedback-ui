@@ -87,6 +87,7 @@ function NotificationsBar(props) {
 
   const notificationBtnValue = (value) => {
     setNotificationValue(value);
+    console.log('here is the notification value', value);
   };
 
   const { notifications, type, onCloseFn, loadingNotifications } = props;
@@ -153,7 +154,11 @@ function NotificationsBar(props) {
               {filteredNotifications.length > 0 ? (
                 filteredNotifications
               ) : (
-                <EmptyBox>No notification found</EmptyBox>
+                <EmptyBox>
+                  {notificationValue === 'URL'
+                    ? 'No new notifications'
+                    : 'No new requests'}
+                </EmptyBox>
               )}
             </Frame16>
           </Frame1409>
@@ -164,7 +169,11 @@ function NotificationsBar(props) {
           {filteredNotifications.length > 0 ? (
             filteredNotifications
           ) : (
-            <EmptyBox>No notification found</EmptyBox>
+            <EmptyBox>
+              {notificationValue === 'URL'
+                ? 'No new notifications'
+                : 'No new requests'}
+            </EmptyBox>
           )}
         </Frame15>
       )}

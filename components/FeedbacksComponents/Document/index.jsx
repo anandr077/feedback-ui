@@ -1,15 +1,11 @@
-import _ from 'lodash';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState } from 'react';
 import {
   createRequestFeddbackType,
-  getClasses,
-  getStudentsForClass,
-  getSubmissionById,
-  getTeachersForClass,
-  updateSubmissionClass,
+  docsMoveToFolder,
+  getSubmissionById
 } from '../../../service';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import SnackbarContext from '../../SnackbarContext';
@@ -57,19 +53,17 @@ function Document(props) {
     submission,
     setSubmission,
     share,
-    allFolders
+    allFolders,
+    allClasses,
+    students,
+    teachers,
   } = props;
   const { showSnackbar } = React.useContext(SnackbarContext);
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
-  const [students, setStudents] = useState([]);
-  const [teachers, setTeachers] = useState([]);
-  const [allClasses, setAllClasses] = useState([]);
-  const [feedbackClasses, setFeedbackClasses] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
-
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
@@ -80,40 +74,6 @@ function Document(props) {
       window.removeEventListener('click', handleOutsideClick);
     };
   }, []);
-
-  useEffect(() => {
-    const fetchDetails = async (classIds) => {
-      const studentsPromises = classIds.map((id) => getStudentsForClass(id));
-      const teachersPromises = classIds.map((id) => getTeachersForClass(id));
-      const studentsArrays = await Promise.all(studentsPromises);
-      const teachersArrays = await Promise.all(teachersPromises);
-
-      const allStudents = _.flatten(studentsArrays);
-      const allTeachers = _.flatten(teachersArrays);
-
-      const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
-        (item) => item.id !== submission.studentId
-      );
-      const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-
-      setStudents(uniqueStudents.map((item) => ({ ...item, title: item.id })));
-      setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.id })));
-    };
-
-    const fetchClasses = async () => {
-      const classes = await getClasses();
-      if (submission.classId) {
-        return classes.filter((c) => c.id === submission.classId);
-      }
-      return classes;
-    };
-
-    fetchClasses().then((classes) => {
-      const classIds = classes.map((c) => c.id);
-      setAllClasses(classes.map((c) => ({ ...c, title: c.title })));
-      fetchDetails(classIds);
-    });
-  }, [submission]);
 
   const handleRequestFeedback = (index) => {
     setFeedbackMethodTypeDialog(index);
@@ -133,12 +93,16 @@ function Document(props) {
   };
 
   const updateDocumentClass = (item) => {
-    if (item.id === submission.classId) {
+    console.log('updateDocumentClass', item);
+    if (item.id === submission.folderId) {
       return;
     }
-    updateSubmissionClass(submission.id, item.id).then((res) => {
+    docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
       if (res) {
-        const classObj = allClasses.find((item) => item.id === res.classId);
+        console.log("allClasses", allFolders)
+        console.log("res", res)
+        const classObj = allFolders.find((item) => item.id === res.folderId);
+        console.log("classObj", classObj)
         showSnackbar('Moved to submission ' + classObj.title);
         getSubmissionById(submission.id).then((s) => {
           setSubmission(s);
@@ -190,9 +154,7 @@ function Document(props) {
         handleSelectedRequestFeedback,
         students,
         teachers,
-        submission.classId
-          ? allClasses.filter((item) => item.id === submission.classId)
-          : allClasses
+        allClasses
       )}
     </>
   );
@@ -372,12 +334,15 @@ function documentFeedbackFrame(
 
 function breadcrumbs(pageMode, submission, allFolders) {
   let matchingFolderTitle = null;
-  if(allFolders && submission && submission.id){
-    const matchingFolder = allFolders.find(folder => folder.id === submission.folderId)
-    if(matchingFolder){
-      matchingFolderTitle = matchingFolder.title
+  if (allFolders && submission && submission.id) {
+    const matchingFolder = allFolders.find(
+      (folder) => folder.id === submission.folderId
+    );
+    if (matchingFolder) {
+      matchingFolderTitle = matchingFolder.title;
     }
   }
+  console.log("allFolders", allFolders)
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return (
       <Frame1387>
@@ -389,7 +354,7 @@ function breadcrumbs(pageMode, submission, allFolders) {
           />
           <Breadcrumb2
             assignments={'Drafts'}
-            link={'/#/portfolio/' + submission.classId + '/Drafts'}
+            link={'/#/portfolio/' + submission.folderId + '/Drafts'}
           />
 
           <Breadcrumb2 assignments={submission.assignment.title} />

@@ -202,11 +202,8 @@ export function contextBarForPortfolioDocument(
 ) {
   console.log('in the context we get all: ', submission)
   console.log('in the context we get all: ', allFolders)
-  const selectedClassIdIndex = allClasses.findIndex(
-    (item) => item.id === submission?.classId
-  );
 
-  const selectedFolderIdIndex = allFolders.findIndex(
+  const selectedFolderIdIndex = allFolders?.findIndex(
     (item) => item.id === submission?.folderId
   );
   
@@ -216,7 +213,7 @@ export function contextBarForPortfolioDocument(
         <AssignmentTitle>{submission?.assignment?.title}</AssignmentTitle>
         {showStatusText && statusText(methods, 0, submission)}
 
-        {allFolders.length > 0 && (
+        {allFolders?.length > 0 && (
           <div style={{ width: 'fit-content' }}>
             <DropdownMenu
               menuItems={allFolders}

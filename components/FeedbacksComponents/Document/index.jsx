@@ -154,9 +154,7 @@ function Document(props) {
         handleSelectedRequestFeedback,
         students,
         teachers,
-        submission.classId
-          ? allClasses.filter((item) => item.id === submission.classId)
-          : allClasses
+        allClasses
       )}
     </>
   );

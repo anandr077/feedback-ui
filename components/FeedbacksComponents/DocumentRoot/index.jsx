@@ -111,12 +111,8 @@ export default function DocumentRoot({}) {
   const fetchClassesAndDetails = async (submission) => {
     const classes = await getClasses();
 
-    let filteredClasses = classes;
-    if (submission && submission.classId) {
-      filteredClasses = classes.filter((c) => c.id === submission.classId);
-    }
-    setAllClasses(filteredClasses);
-    const classIds = filteredClasses.map((c) => c.id);
+    setAllClasses(classes);
+    const classIds = classes.map((c) => c.id);
     await fetchDetails(submission, classIds);
     setIsClassesLoading(false);
   };

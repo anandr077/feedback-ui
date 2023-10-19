@@ -232,10 +232,13 @@ export const updateFeedback = async (submissionId, commentId, comment) =>
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId,
     comment
   );
-export const updateSubmissionClass = async (submissionId, classId) =>
-  await patchApi(
-    baseUrl + '/submissions/' + submissionId + '/updateClass/' + classId
-  );
+
+
+export const docsMoveToFolder = async (submissionId, classId, folderId) =>
+  await patchApi(baseUrl + '/submissions/' + submissionId + '/moveToFolder', {
+    classId: classId,
+    folderId: folderId,
+  });
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 

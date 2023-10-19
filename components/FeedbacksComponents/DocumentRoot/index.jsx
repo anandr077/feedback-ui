@@ -69,6 +69,8 @@ export default function DocumentRoot({}) {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [feedbackClasses, setFeedbackClasses] = useState([]);
+  const [hasProcessedData, setHasProcessedData] = useState(false);
+
   // Fetch functions
   const fetchSubmissionData = async () => {
     const [submissionsResult, commentsResult, smartAnnotationResult] =
@@ -113,7 +115,7 @@ export default function DocumentRoot({}) {
     if (submission && submission.classId) {
       filteredClasses = classes.filter((c) => c.id === submission.classId);
     }
-    setAllClasses(filteredClasses)
+    setAllClasses(filteredClasses);
     const classIds = filteredClasses.map((c) => c.id);
     await fetchDetails(submission, classIds);
     setIsClassesLoading(false);
@@ -128,21 +130,22 @@ export default function DocumentRoot({}) {
     staleTime: 300000,
   });
 
-  React.useEffect(() => {
-    console.log('Portfolio data: ', data);
-    setPortfolio(data);
-  }, [data]);
-
+  useEffect(() => {
+    if (data && !hasProcessedData) {
+      setPortfolio(data);
+      setHasProcessedData(true);
+      queryClient.removeQueries(['portfolio']);
+    }
+  }, [data, queryClient]);
   useEffect(() => {
     fetchSubmissionData().then((fetchedSubmission) => {
-      console.log("Fetched submission: ", fetchedSubmission);
-  
+      console.log('Fetched submission: ', fetchedSubmission);
+
       if (fetchedSubmission) {
         fetchClassesAndDetails(fetchedSubmission);
       }
     });
   }, [id]);
-  
 
   console.log(
     'isPortfolioLoading: ',
@@ -153,11 +156,12 @@ export default function DocumentRoot({}) {
   if (isLoading || isSubmissionLoading || isClassesLoading) {
     return <Loader />;
   }
-  
+
+  // queryClient.removeQueries(['portfolio'])
+
   const folders = portfolio?.files.map((folder) => {
     return { id: folder.id, title: folder.title, classId: folder.classId };
   });
-
 
   const pageMode = getPortfolioPageMode(getUserId(), submission);
 
@@ -822,10 +826,10 @@ export default function DocumentRoot({}) {
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: headerProps,
-              allFolders:folders,
+              allFolders: folders,
               allClasses,
               students,
-              teachers
+              teachers,
             }}
           />
         }
@@ -848,10 +852,10 @@ export default function DocumentRoot({}) {
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: headerProps,
-              allFolders:folders,
+              allFolders: folders,
               allClasses,
               students,
-              teachers
+              teachers,
             }}
           />
         }
@@ -875,10 +879,10 @@ export default function DocumentRoot({}) {
                 setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
                 headerProps: headerProps,
-                allFolders:folders,
+                allFolders: folders,
                 allClasses,
-              students,
-              teachers
+                students,
+                teachers,
               }}
             />
           </>
@@ -901,10 +905,10 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               headerProps: headerProps,
-              allFolders:folders,
+              allFolders: folders,
               allClasses,
               students,
-              teachers
+              teachers,
             }}
           />
         }

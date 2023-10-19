@@ -1,15 +1,11 @@
-import _ from 'lodash';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState } from 'react';
 import {
   createRequestFeddbackType,
-  getClasses,
-  getStudentsForClass,
-  getSubmissionById,
-  getTeachersForClass,
-  updateSubmissionClass,
+  docsMoveToFolder,
+  getSubmissionById
 } from '../../../service';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import SnackbarContext from '../../SnackbarContext';
@@ -101,10 +97,11 @@ function Document(props) {
     if (item.id === submission.folderId) {
       return;
     }
-    updateSubmissionClass(submission.id, item.id).then((res) => {
+    docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
       if (res) {
-        console.log("allClasses", allClasses)
-        const classObj = allClasses.find((item) => item.id === res.folderId);
+        console.log("allClasses", allFolders)
+        console.log("res", res)
+        const classObj = allFolders.find((item) => item.id === res.folderId);
         console.log("classObj", classObj)
         showSnackbar('Moved to submission ' + classObj.title);
         getSubmissionById(submission.id).then((s) => {
@@ -359,7 +356,7 @@ function breadcrumbs(pageMode, submission, allFolders) {
           />
           <Breadcrumb2
             assignments={'Drafts'}
-            link={'/#/portfolio/' + submission.classId + '/Drafts'}
+            link={'/#/portfolio/' + submission.folderId + '/Drafts'}
           />
 
           <Breadcrumb2 assignments={submission.assignment.title} />

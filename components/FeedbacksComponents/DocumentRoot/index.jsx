@@ -1,8 +1,11 @@
 import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
+import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
+import { getPortfolio, getClasses } from '../../../service';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useReducer } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import GeneralPopup from '../../GeneralPopup';
 import Document from '../Document';
@@ -20,6 +23,9 @@ import {
   submitAssignment,
   updateFeedback,
   updateFeedbackRange,
+  getStudentsForClass,
+  getTeachersForClass,
+  fetchSubmissionData,
 } from '../../../service';
 import {
   getShortcuts,
@@ -31,12 +37,11 @@ import Loader from '../../Loader';
 import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
-import { useQueryClient } from '@tanstack/react-query';
+import _ from 'lodash';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
-  queryClient.removeQueries(['portfolio']);
-
+  //queryClient.removeQueries(['portfolio']);
 
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
@@ -44,8 +49,10 @@ export default function DocumentRoot({}) {
   const { showSnackbar } = React.useContext(SnackbarContext);
   const newCommentFrameRef = useRef(null);
   const [submission, setSubmission] = useState(null);
+  const [portfolio, setPortfolio] = useState(null);
   const [smartAnnotations, setSmartAnnotations] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmissionLoading, setIsSubmissionLoading] = useState(true);
+  const [isClassesLoading, setIsClassesLoading] = useState(true);
   const { id } = useParams();
   const [studentName, setStudentName] = useState(null);
   const [comments, setComments] = useState([]);
@@ -58,29 +65,99 @@ export default function DocumentRoot({}) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
+  const [allClasses, setAllClasses] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [feedbackClasses, setFeedbackClasses] = useState([]);
+  const [hasProcessedData, setHasProcessedData] = useState(false);
+
+  // Fetch functions
+  const fetchSubmissionData = async () => {
+    const [submissionsResult, commentsResult, smartAnnotationResult] =
+      await Promise.all([
+        getSubmissionById(id),
+        getComments(id),
+        getSmartAnnotations(),
+      ]);
+
+    console.log('submissionsResult: ', submissionsResult);
+    setSubmission(submissionsResult);
+    setComments(commentsResult);
+    setSmartAnnotations(smartAnnotationResult);
+    setIsSubmissionLoading(false);
+
+    return submissionsResult; // Return the fetched submission data for further use.
+  };
+
+  const fetchDetails = async (submission, classIds) => {
+    const studentsPromises = classIds.map((id) => getStudentsForClass(id));
+    const teachersPromises = classIds.map((id) => getTeachersForClass(id));
+
+    const studentsArrays = await Promise.all(studentsPromises);
+    const teachersArrays = await Promise.all(teachersPromises);
+
+    const allStudents = _.flatten(studentsArrays);
+    const allTeachers = _.flatten(teachersArrays);
+
+    const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
+      (item) => item.id !== submission.studentId
+    );
+    const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+
+    setStudents(uniqueStudents.map((item) => ({ ...item, title: item.id })));
+    setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.id })));
+  };
+
+  const fetchClassesAndDetails = async (submission) => {
+    const classes = await getClasses();
+
+    setAllClasses(classes);
+    const classIds = classes.map((c) => c.id);
+    await fetchDetails(submission, classIds);
+    setIsClassesLoading(false);
+  };
+
+  // Main component body
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['portfolio'],
+    queryFn: async () => {
+      return await getPortfolio();
+    },
+    staleTime: 300000,
+  });
 
   useEffect(() => {
-    Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
-      .then(([submissionsResult, commentsResult, smartAnnotationResult]) => {
-        setSubmission(submissionsResult);
-        const allComments = commentsResult.map((c) => {
-          return { ...c };
-        });
-        setComments(allComments);
-        setSmartAnnotations(smartAnnotationResult);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (data && !hasProcessedData) {
+      setPortfolio(data);
+      setHasProcessedData(true);
+      queryClient.removeQueries(['portfolio']);
+    }
+  }, [data, queryClient]);
+  useEffect(() => {
+    fetchSubmissionData().then((fetchedSubmission) => {
+      console.log('Fetched submission: ', fetchedSubmission);
+
+      if (fetchedSubmission) {
+        fetchClassesAndDetails(fetchedSubmission);
+      }
+    });
   }, [id]);
 
-  if (isLoading) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
+  console.log(
+    'isPortfolioLoading: ',
+    isLoading,
+    isSubmissionLoading,
+    isClassesLoading
+  );
+  if (isLoading || isSubmissionLoading || isClassesLoading) {
+    return <Loader />;
   }
+
+  // queryClient.removeQueries(['portfolio'])
+
+  const folders = portfolio?.files.map((folder) => {
+    return { id: folder.id, title: folder.title, classId: folder.classId };
+  });
 
   const pageMode = getPortfolioPageMode(getUserId(), submission);
 
@@ -745,6 +822,10 @@ export default function DocumentRoot({}) {
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: headerProps,
+              allFolders: folders,
+              allClasses,
+              students,
+              teachers,
             }}
           />
         }
@@ -767,6 +848,10 @@ export default function DocumentRoot({}) {
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: headerProps,
+              allFolders: folders,
+              allClasses,
+              students,
+              teachers,
             }}
           />
         }
@@ -790,6 +875,10 @@ export default function DocumentRoot({}) {
                 setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
                 headerProps: headerProps,
+                allFolders: folders,
+                allClasses,
+                students,
+                teachers,
               }}
             />
           </>
@@ -812,6 +901,10 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               headerProps: headerProps,
+              allFolders: folders,
+              allClasses,
+              students,
+              teachers,
             }}
           />
         }

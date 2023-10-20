@@ -12,6 +12,7 @@ import {
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import FooterSmall from '../FooterSmall';
 import './TasksStudentTablet.css';
+import Group1205 from '../TeacherDashboard/Group1205';
 
 function TasksStudentTablet(props) {
   const {
@@ -20,6 +21,8 @@ function TasksStudentTablet(props) {
     assignmedTasks,
     inProgressTasks,
     inReviewTasks,
+    portfolio,
+    arrowright,
   } = props;
   const prevProps = useRef(props);
   const [isAssigned, setIsAssigned] = useState(true);
@@ -48,10 +51,19 @@ function TasksStudentTablet(props) {
       <Frame1365>
         <Frame1307>
           <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
-          <CheckboxGroup
-            onChange={filterTasks}
-            data={menuItems}
-          ></CheckboxGroup>
+          <LinkAndFilter>
+            {portfolio.length != 0 && (
+              <Group1205
+                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
+                label="Completed Tasks"
+                arrowright={arrowright}
+              />
+            )}
+            <CheckboxGroup
+              onChange={filterTasks}
+              data={menuItems}
+            ></CheckboxGroup>
+          </LinkAndFilter>
         </Frame1307>
         {taskFrame}
       </Frame1365>
@@ -198,6 +210,12 @@ const Number = styled.div`
   text-align: right;
   letter-spacing: 0;
   line-height: normal;
+`;
+const LinkAndFilter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 `;
 
 export default TasksStudentTablet;

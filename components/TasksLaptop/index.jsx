@@ -8,6 +8,7 @@ import TaskCardContainer from '../TaskCardContainer';
 import TaskFrame1353 from '../TaskFrame1353';
 import './TasksLaptop.css';
 import CheckboxGroup from '../CheckboxGroup';
+import Group1205 from '../TeacherDashboard/Group1205';
 function TasksLaptop(props) {
   const {
     menuItems,
@@ -16,16 +17,28 @@ function TasksLaptop(props) {
     inProgressTasks,
     inReviewTasks,
     frame19Props,
+    portfolio,
+    arrowright,
   } = props;
   return (
     <div className="tasks-laptop screen">
       <Frame1361>
         <TitleContainer>
           <Title>Tasks</Title>
-          <CheckboxGroup
-            onChange={filterTasks}
-            data={menuItems}
-          ></CheckboxGroup>
+          <LinkAndFilter>
+            {portfolio.length != 0 && (
+              <Group1205
+                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
+                label="Completed Tasks"
+                arrowright={arrowright}
+              />
+            )}
+
+            <CheckboxGroup
+              onChange={filterTasks}
+              data={menuItems}
+            ></CheckboxGroup>
+          </LinkAndFilter>
         </TitleContainer>
         <Frame1360>
           <Frame1359>
@@ -130,6 +143,13 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
+`;
+
+const LinkAndFilter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 `;
 
 export default TasksLaptop;

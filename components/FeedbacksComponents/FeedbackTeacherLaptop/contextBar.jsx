@@ -197,23 +197,28 @@ export function contextBarForPortfolioDocument(
   handleRequestFeedback,
   showStatusText,
   allClasses,
+  allFolders,
   updateDocumentClass
 ) {
-  const selectedClassIdIndex = allClasses.findIndex(
-    (item) => item.id === submission?.classId
+  console.log('in the context we get all: ', submission)
+  console.log('in the context we get all: ', allFolders)
+
+  const selectedFolderIdIndex = allFolders?.findIndex(
+    (item) => item.id === submission?.folderId
   );
+  
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <AssignmentTitle>{submission?.assignment?.title}</AssignmentTitle>
         {showStatusText && statusText(methods, 0, submission)}
 
-        {allClasses.length > 0 && (
+        {allFolders?.length > 0 && (
           <div style={{ width: 'fit-content' }}>
             <DropdownMenu
-              menuItems={allClasses}
+              menuItems={allFolders}
               onItemSelected={(item) => updateDocumentClass(item)}
-              selectedIndex={selectedClassIdIndex}
+              selectedIndex={selectedFolderIdIndex}
             ></DropdownMenu>
           </div>
         )}

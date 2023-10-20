@@ -17,6 +17,7 @@ import HeaderSmall from '../HeaderSmall';
 import Tabs from '../Tabs';
 import TaskCardContainer from '../TaskCardContainer';
 import './TasksStudentMobile.css';
+import Group1205 from '../TeacherDashboard/Group1205';
 
 function TasksStudentMobile(props) {
   const {
@@ -25,6 +26,8 @@ function TasksStudentMobile(props) {
     assignmedTasks,
     inProgressTasks,
     inReviewTasks,
+    arrowright,
+    portfolio,
   } = props;
   const prevProps = useRef(props);
   const [isAssigned, setIsAssigned] = useState(true);
@@ -53,10 +56,20 @@ function TasksStudentMobile(props) {
       <Frame1365>
         <Frame1307>
           <PageTitle>Tasks</PageTitle>
-          <CheckboxGroup
-            onChange={filterTasks}
-            data={menuItems}
-          ></CheckboxGroup>
+          <LinkAndFilter>
+            {portfolio.length != 0 && (
+              <Group1205
+                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
+                label="Completed Tasks"
+                arrowright={arrowright}
+                small={true}
+              />
+            )}
+            <CheckboxGroup
+              onChange={filterTasks}
+              data={menuItems}
+            ></CheckboxGroup>
+          </LinkAndFilter>
         </Frame1307>
         {taskFrame}
       </Frame1365>
@@ -196,6 +209,14 @@ const Number = styled.div`
   text-align: right;
   letter-spacing: 0;
   line-height: normal;
+`;
+const LinkAndFilter = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
 `;
 
 export default TasksStudentMobile;

@@ -196,6 +196,7 @@ const PortfolioPage = () => {
       id: folderId,
       title: editedTitle
     }
+    console.log('this is my folder info for edit: ', updatedFolder)
     updateFolderMutation.mutate(updatedFolder)
   }
 

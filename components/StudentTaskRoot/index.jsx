@@ -89,8 +89,8 @@ export default function StudentTaskRoot() {
         { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
         { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
         {
-          value: 'DOCUMENT REVIEW',
-          label: 'Document review',
+          value: 'DRAFT_REVIEW',
+          label: 'Draft review',
           category: 'TYPES',
         },
       ],
@@ -106,7 +106,7 @@ export default function StudentTaskRoot() {
     const groupedData = _.groupBy(selectedItems, 'category');
     let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
     if (typesValues.length === 0) {
-      typesValues = ['REVIEW', 'ASSIGNMENT', 'DOCUMENT REVIEW'];
+      typesValues = ['REVIEW', 'ASSIGNMENT', 'DRAFT_REVIEW'];
     }
     const filteredTasks = _.filter(allTasks, (task) =>
       _.includes(typesValues, task.type)

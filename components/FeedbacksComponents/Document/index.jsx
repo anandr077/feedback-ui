@@ -92,24 +92,7 @@ function Document(props) {
     });
   };
 
-  const updateDocumentClass = (item) => {
-    console.log('updateDocumentClass', item);
-    if (item.id === submission.folderId) {
-      return;
-    }
-    docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
-      if (res) {
-        console.log("allClasses", allFolders)
-        console.log("res", res)
-        const classObj = allFolders.find((item) => item.id === res.folderId);
-        console.log("classObj", classObj)
-        showSnackbar('Moved to submission ' + classObj.title);
-        getSubmissionById(submission.id).then((s) => {
-          setSubmission(s);
-        });
-      }
-    });
-  };
+  
 
   return (
     <>
@@ -144,7 +127,7 @@ function Document(props) {
             handleRequestFeedback,
             allClasses,
             allFolders,
-            updateDocumentClass
+            methods.updateDocumentClass
           )}
         </Frame1388>
       </div>

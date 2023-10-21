@@ -46,6 +46,7 @@ export default function StudentTaskRoot() {
     if (tasksQuery.data) {
       setFilteredTasks(tasksQuery.data);
       setAllTasks(tasksQuery.data);
+      console.log('all tasks',tasksQuery.data)
     }
     if (studentClassesQuery.data) {
       setClasses(studentClassesQuery.data);
@@ -87,6 +88,11 @@ export default function StudentTaskRoot() {
       items: [
         { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
         { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
+        {
+          value: 'DOCUMENT REVIEW',
+          label: 'Document review',
+          category: 'TYPES',
+        },
       ],
     },
     {
@@ -100,7 +106,7 @@ export default function StudentTaskRoot() {
     const groupedData = _.groupBy(selectedItems, 'category');
     let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
     if (typesValues.length === 0) {
-      typesValues = ['REVIEW', 'ASSIGNMENT'];
+      typesValues = ['REVIEW', 'ASSIGNMENT', 'DOCUMENT REVIEW'];
     }
     const filteredTasks = _.filter(allTasks, (task) =>
       _.includes(typesValues, task.type)

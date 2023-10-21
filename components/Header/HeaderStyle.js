@@ -45,7 +45,7 @@ export const NavigationContainer = styled.div`
   top: 70px;
   z-index: 10000 !important;
   border-radius: 8px;
-  background-color: var(--white);
+  background-color: white;
   align-self: stretch;
 
   overflow-y: scroll;
@@ -66,7 +66,7 @@ export const Screen = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 10;
 `;
 
 export const DropDownContainer = styled.div`

@@ -61,10 +61,8 @@ const PortfolioPage = () => {
     mutationFn: async (doc) =>
       await deleteSubmissionById(doc.documentId),
     onMutate: async (doc) => {
-      console.log('On delete mutate ' , doc);
       await queryClient.cancelQueries({ queryKey: ['portfolio'] });
       const previousPortfolio = queryClient.getQueryData(['portfolio']);
-      console.log('previousPortfolio', previousPortfolio);
       dispatch({ type: 'deleteDocument', payload: doc });
 
       return { previousPortfolio };
@@ -88,10 +86,8 @@ const PortfolioPage = () => {
     mutationFn: async (folderName) =>
       await addFolderToPortfolio({title: folderName}),
     onMutate: async (folderName) => {
-      console.log('On mutate ' + folderName);
       await queryClient.cancelQueries({ queryKey: ['portfolio'] });
       const previousPortfolio = queryClient.getQueryData(['portfolio']);
-      console.log('previousPortfolio', previousPortfolio);
       dispatch({ type: 'addFolder', payload: folderName });
 
       return { previousPortfolio };
@@ -106,7 +102,6 @@ const PortfolioPage = () => {
       console.log('On success');
     },
     onSettled: () => {
-      console.log('Settled');
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
@@ -129,7 +124,6 @@ const PortfolioPage = () => {
       console.log('On success');
     },
     onSettled: () => {
-      console.log('Settled');
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   })
@@ -153,7 +147,6 @@ const PortfolioPage = () => {
       console.log('On success');
     },
     onSettled: () => {
-      console.log('Settled');
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   })
@@ -196,7 +189,6 @@ const PortfolioPage = () => {
       id: folderId,
       title: editedTitle
     }
-    console.log('this is my folder info for edit: ', updatedFolder)
     updateFolderMutation.mutate(updatedFolder)
   }
 

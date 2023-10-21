@@ -81,7 +81,6 @@ const PortfolioAllFilesContainer = ({
     sortedFiles: allFiles,
     displayFilterFiles: false,
   };
-
   const [state, dispatch] = useReducer(sortReducer, initialState);
   const [filteredAllFiles, setFilteredAllFiles] = useState(allFiles);
 
@@ -195,6 +194,7 @@ const PortfolioAllFilesContainer = ({
         <NoFileDiv>No files</NoFileDiv>
       ) : (
         filesToDisplay.map((document, idx) => {
+          console.log('document data is: ', document);
           return (
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>
@@ -228,11 +228,13 @@ const PortfolioAllFilesContainer = ({
                   <DocBtnText>Download</DocBtnText>
                   <span>Download</span>
                 </DocBtn>
-                <DocBtn onClick={() => handleDeleteDocument(document)}>
-                  <DocBtnImg src={deleteImg} alt="Delete Button" />
-                  <DocBtnText>Delete</DocBtnText>
-                  <span>Delete</span>
-                </DocBtn>
+                {document.allowDelete && (
+                  <DocBtn onClick={() => handleDeleteDocument(document)}>
+                    <DocBtnImg src={deleteImg} alt="Delete Button" />
+                    <DocBtnText>Delete</DocBtnText>
+                    <span>Delete</span>
+                  </DocBtn>
+                )}
               </DocumentBtns>
             </DocumentBox>
           );

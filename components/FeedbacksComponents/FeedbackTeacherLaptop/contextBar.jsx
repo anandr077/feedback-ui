@@ -33,7 +33,7 @@ export function contextBar(
   methods,
   isTeacher,
   pageMode,
-  labelText,
+  labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
   return (
@@ -200,28 +200,20 @@ export function contextBarForPortfolioDocument(
   allFolders,
   updateDocumentClass
 ) {
-  console.log('in the context we get all: ', submission)
-  console.log('in the context we get all: ', allFolders)
+  console.log('in the context we get all: ', submission);
+  console.log('in the context we get all: ', allFolders);
 
   const selectedFolderIdIndex = allFolders?.findIndex(
     (item) => item.id === submission?.folderId
   );
-  
+
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <AssignmentTitle>{submission?.assignment?.title}</AssignmentTitle>
         {showStatusText && statusText(methods, 0, submission)}
 
-        {allFolders?.length > 0 && (
-          <div style={{ width: 'fit-content' }}>
-            <DropdownMenu
-              menuItems={allFolders}
-              onItemSelected={(item) => updateDocumentClass(item)}
-              selectedIndex={selectedFolderIdIndex}
-            ></DropdownMenu>
-          </div>
-        )}
+        {changeFolderDropDown()}
       </TitleWrapper>
       {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
       {downloadButtonNonClosedSubmission(
@@ -245,6 +237,23 @@ export function contextBarForPortfolioDocument(
       )}
     </Frame1371>
   );
+
+  function changeFolderDropDown() {
+    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+      return (
+        allFolders?.length > 0 && (
+          <div style={{ width: 'fit-content' }}>
+            <DropdownMenu
+              menuItems={allFolders}
+              onItemSelected={(item) => updateDocumentClass(item, allFolders)}
+              selectedIndex={selectedFolderIdIndex}
+            ></DropdownMenu>
+          </div>
+        )
+      );
+    }
+    return <></>;
+  }
 }
 
 function statusText(methods, focusAreasCount, submission) {
@@ -330,8 +339,7 @@ const submitButtonDocument = (
         style={{ border: '1px solid #0C8F8F', cursor: 'unset' }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        Feedback requested from{' '}
-        {getFeedbackRequestedBy(submission, allClasses)}
+        Feedback requested from {getFeedbackRequestedBy(submission, allClasses)}
       </RequestFeedbackFrame>
     );
   }
@@ -339,9 +347,8 @@ const submitButtonDocument = (
 };
 function getFeedbackRequestedBy(submission, allClasses) {
   if (submission.feedbackRequestType === 'P2P') {
-    console.log("allClasses", allClasses)
+    console.log('allClasses', allClasses);
     return allClasses.find((item) => item.id === submission.reviewerId)?.title;
   }
   return submission.reviewerName;
 }
-

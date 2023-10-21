@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
 import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
-import { getPortfolio, getClasses } from '../../../service';
+import { getPortfolio, getClasses, docsMoveToFolder } from '../../../service';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState, useReducer } from 'react';
@@ -70,6 +70,8 @@ export default function DocumentRoot({}) {
   const [teachers, setTeachers] = useState([]);
   const [feedbackClasses, setFeedbackClasses] = useState([]);
   const [hasProcessedData, setHasProcessedData] = useState(false);
+  const [pageMode, setPageMode] = useState(null);
+  const [shouldFetchPortfolio, setShouldFetchPortfolio] = useState(false);
 
   // Fetch functions
   const fetchSubmissionData = async () => {
@@ -117,13 +119,32 @@ export default function DocumentRoot({}) {
     setIsClassesLoading(false);
   };
 
-  // Main component body
+
+  useEffect(() => {
+    fetchSubmissionData().then((fetchedSubmission) => {
+      console.log('Fetched submission: ', fetchedSubmission);
+
+      if (fetchedSubmission) {
+        fetchClassesAndDetails(fetchedSubmission);
+        setSubmission(fetchedSubmission);
+        const mode = getPortfolioPageMode(getUserId(), fetchedSubmission);
+        setPageMode(mode); 
+      }
+    });
+  }, [id, submission]);
+
+  useEffect(() => {
+    if (submission) {
+      if (pageMode === "REVISE" || pageMode === "DRAFT") {
+        queryClient.prefetchQuery(['portfolio'], getPortfolio);
+      }
+    }
+  }, [submission]);
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
-    queryFn: async () => {
-      return await getPortfolio();
-    },
+    queryFn: getPortfolio,
     staleTime: 300000,
+    enabled: pageMode === "REVISE" || pageMode === "DRAFT", 
   });
 
   useEffect(() => {
@@ -133,15 +154,9 @@ export default function DocumentRoot({}) {
       queryClient.removeQueries(['portfolio']);
     }
   }, [data, queryClient]);
-  useEffect(() => {
-    fetchSubmissionData().then((fetchedSubmission) => {
-      console.log('Fetched submission: ', fetchedSubmission);
 
-      if (fetchedSubmission) {
-        fetchClassesAndDetails(fetchedSubmission);
-      }
-    });
-  }, [id]);
+ 
+  
 
   console.log(
     'isPortfolioLoading: ',
@@ -149,17 +164,22 @@ export default function DocumentRoot({}) {
     isSubmissionLoading,
     isClassesLoading
   );
-  if (isLoading || isSubmissionLoading || isClassesLoading) {
+  useEffect(() => {
+    if (pageMode) {
+      setShouldFetchPortfolio(pageMode === "REVISE" || pageMode === "DRAFT");
+    }
+  }, [pageMode]);
+  if ((shouldFetchPortfolio && isLoading) || isSubmissionLoading || isClassesLoading) {
     return <Loader />;
   }
-
+  
+  
   // queryClient.removeQueries(['portfolio'])
 
   const folders = portfolio?.files.map((folder) => {
     return { id: folder.id, title: folder.title, classId: folder.classId };
   });
 
-  const pageMode = getPortfolioPageMode(getUserId(), submission);
 
   const headerProps = documentHeaderProps(
     pageMode === 'DRAFT' || pageMode === 'REVISE'
@@ -703,15 +723,9 @@ export default function DocumentRoot({}) {
     setShowSubmitPopup(true);
     setMethodToCall(method);
     if (method === 'SubmitForReview') {
-      setPopupText('Are you sure you want to submit this task for review?');
+      setPopupText('Are you sure you want to submit this draft for review?');
     } else if (method === 'SubmitReview') {
-      setPopupText('Are you sure you want to submit feedback for this task?');
-    } else if (method === 'RequestResubmission') {
-      setPopupText(
-        'Are you sure you want to request resubmission for this task?'
-      );
-    } else if (method === 'CloseSubmission') {
-      setPopupText('Are you sure you want to mark this task as complete?');
+      setPopupText('Are you sure you want to submit feedback for this draft?');
     }
   };
   function submissionStatusLabel() {
@@ -757,8 +771,27 @@ export default function DocumentRoot({}) {
     });
     setShowNewComment(false);
   }
-
+  const updateDocumentClass = (item, allFolders) => {
+    console.log('updateDocumentClass', item);
+    if (item.id === submission.folderId) {
+      return;
+    }
+    docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
+      if (res) {
+        console.log('allClasses', allFolders);
+        console.log('res', res);
+        const classObj = allFolders.find((item) => item.id === res.folderId);
+        console.log('classObj', classObj);
+        showSnackbar('Moved to ' + classObj.title);
+        queryClient.invalidateQueries(['portfolio']);
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
+      }
+    });
+  };
   const methods = {
+    updateDocumentClass,
     handleShortcutAddCommentSmartAnnotaion,
     submissionStatusLabel,
     createDebounceFunction,

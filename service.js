@@ -492,8 +492,6 @@ export const getDefaultCriteria = () => {
 };
 export const getPortfolio = async () =>
   await getApi(baseUrl + '/students/portfolio');
-// export const updatePortfolio = async (title) =>
-//   await putApi(baseUrl + `/students/portfolio/folders`, title);
 
 export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);

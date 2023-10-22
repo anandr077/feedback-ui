@@ -37,7 +37,7 @@ const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [state, dispatch] = useReducer(reducer, initailState);
   const [showModal, setShowModal] = useState(false);
-  const [showDeletePopup, setShowDeletePopup] = useState(false)
+  const [showDeleteConfirmationPopup, setShowDeleteConfirmationPopup] = useState(false)
   const [documentToDelete, setDocumentToDelete] = useState({})
   const queryClient = useQueryClient();
 
@@ -174,13 +174,12 @@ const PortfolioPage = () => {
     );
   };
   const handleDeleteDocument = (document) => {
-    //deleteDocumentMutation.mutate(document);
-    setShowDeletePopup(true)
+    setShowDeleteConfirmationPopup(true)
     setDocumentToDelete(document)
   };
 
   const hidedeletePopup = () =>{
-    setShowDeletePopup(false)
+    setShowDeleteConfirmationPopup(false)
   }
 
 
@@ -204,7 +203,7 @@ const PortfolioPage = () => {
   return (
     <>
     {
-      showDeletePopup && (
+      showDeleteConfirmationPopup && (
         <DeleteAssignmentPopup 
             hidedeletePopup={hidedeletePopup}
             deleteDocumentMutation = {deleteDocumentMutation}

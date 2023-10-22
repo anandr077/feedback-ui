@@ -15,7 +15,7 @@ export default function DeleteAssignmentPopup(props) {
     assignment,
     hidedeletePopup,
     deleteDocumentMutation,
-    documentToDelete = null
+    documentToDelete = null,
   } = props;
 
   const deleteAssignmentHandler = () => {
@@ -27,26 +27,32 @@ export default function DeleteAssignmentPopup(props) {
     showSnackbar('Task deleted');
   };
 
-  const textContent = `Are you sure you want to permanently delete ${documentToDelete ? 'the document' : assignment?.title}?`;
+  const textContent = `Are you sure you want to permanently delete ${
+    documentToDelete ? documentToDelete.title : assignment?.title
+  }?`;
 
   const content = (
     <>
       <TitleContainer>
         <Arrowright src="/icons/trash-can.svg" alt="delete" />
-        <DeleteTitle>{documentToDelete ? 'Delete Document' : 'Delete task'}</DeleteTitle>
+        <DeleteTitle>
+          {documentToDelete ? 'Delete Document' : 'Delete task'}
+        </DeleteTitle>
       </TitleContainer>
       <Line141 src="/img/line-14@2x.png" />
       <TextContent>{textContent}</TextContent>
       <ButtonsContainer>
         <CancelButton onClick={() => hidedeletePopup()}>Cancel</CancelButton>
-        <DeleteButton onClick={()=> {
-         if(documentToDelete){
-          deleteDocumentMutation.mutate(documentToDelete);
-          hidedeletePopup()
-         }else{
-          deleteAssignmentHandler()
-         }
-        }}>
+        <DeleteButton
+          onClick={() => {
+            if (documentToDelete) {
+              deleteDocumentMutation.mutate(documentToDelete);
+              hidedeletePopup();
+            } else {
+              deleteAssignmentHandler();
+            }
+          }}
+        >
           <ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
           Delete permanently
         </DeleteButton>

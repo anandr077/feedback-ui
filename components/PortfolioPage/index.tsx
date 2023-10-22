@@ -89,7 +89,8 @@ const PortfolioPage = () => {
       console.log('On error');
     },
     onSuccess: (data, folderName) => {
-      dispatch({ type: 'addFolder', payload: folderName });
+      console.log("addFolder",  data)
+      dispatch({ type: 'addFolder', payload: data });
     },
     onSettled: () => {
       console.log('Settled');

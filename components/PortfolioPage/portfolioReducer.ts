@@ -184,24 +184,12 @@ export const deleteDocument = (portfolio, documentId) => {
   return newPortfolio;
 };
 
-export const addFolder = (portfolio, folderName) => {
+export const addFolder = (portfolio, folder) => {
   return {
     ...portfolio,
     files: [
       ...portfolio.files,
-      {
-        id: 'temp',
-        title: folderName,
-        type: 'FOLDER',
-        files: [
-          {
-            id: 'temp',
-            title: 'Drafts',
-            type: 'FOLDER',
-            files: [],
-          },
-        ],
-      },
+      folder
     ],
   };
 };

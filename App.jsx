@@ -111,6 +111,9 @@ function App() {
             <Route path="/documents/:id">
               <ProtectedDocumentRoot />
             </Route>
+            <Route path="/documentsReview/:id">
+              <ProtectedDocumentRoot />
+            </Route>
             <Route path="/404">
               <PageNotFound />
             </Route>

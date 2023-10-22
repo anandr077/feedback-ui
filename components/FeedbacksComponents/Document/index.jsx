@@ -5,7 +5,7 @@ import { default as React, default as React, useEffect, useState } from 'react';
 import {
   createRequestFeddbackType,
   docsMoveToFolder,
-  getSubmissionById
+  getSubmissionById,
 } from '../../../service';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import SnackbarContext from '../../SnackbarContext';
@@ -91,8 +91,6 @@ function Document(props) {
       }
     });
   };
-
-  
 
   return (
     <>
@@ -316,30 +314,14 @@ function documentFeedbackFrame(
 }
 
 function breadcrumbs(pageMode, submission, allFolders) {
-  let matchingFolderTitle = null;
-  if (allFolders && submission && submission.id) {
-    const matchingFolder = allFolders.find(
-      (folder) => folder.id === submission.folderId
-    );
-    if (matchingFolder) {
-      matchingFolderTitle = matchingFolder.title;
-    }
-  }
-  console.log("allFolders", allFolders)
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return (
       <Frame1387>
         <Frame1315>
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
-          <Breadcrumb2
-            assignments={matchingFolderTitle}
-            link={'/#/portfolio/' + submission.folderId}
-          />
-          <Breadcrumb2
-            assignments={'Drafts'}
-            link={'/#/portfolio/' + submission.folderId + '/Drafts'}
-          />
-
+          {folderBreadcrumb()}
+          {subfolderBreadcrumb()}
+  
           <Breadcrumb2 assignments={submission.assignment.title} />
         </Frame1315>
       </Frame1387>
@@ -353,6 +335,34 @@ function breadcrumbs(pageMode, submission, allFolders) {
       </Frame1315>
     </Frame1387>
   );
+
+  function subfolderBreadcrumb() {
+    return (
+      <Breadcrumb2
+        assignments={'Drafts'}
+        link={'/#/portfolio/' + submission.folderId + '/Drafts'}
+      />
+    );
+  }
+
+  function folderBreadcrumb() {
+    let matchingFolderTitle = null;
+    if (allFolders && submission && submission.id) {
+      const matchingFolder = allFolders.find(
+        (folder) => folder.id === submission.folderId
+      );
+      if (matchingFolder) {
+        matchingFolderTitle = matchingFolder.title;
+      }
+    }
+    console.log('allFolders', allFolders);
+    return (
+      <Breadcrumb2
+        assignments={matchingFolderTitle}
+        link={'/#/portfolio/' + submission.folderId}
+      />
+    );
+  }
 }
 
 export default Document;

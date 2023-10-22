@@ -30,6 +30,7 @@ const getHeaderProps = (location) => {
   if (location.includes('/exemplarResponses'))
     return completedHeaderProps(true);
   if (location.includes('/documents/')) return portfolioHeaderProps();
+  if (location.includes('/documentsReview/')) return taskHeaderProps;
   if (location.includes('/portfolio')) return portfolioHeaderProps();
 
   const isTeacher = getUserRole() === 'TEACHER';

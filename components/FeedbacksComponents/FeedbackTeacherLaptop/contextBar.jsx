@@ -348,7 +348,7 @@ const submitButtonDocument = (
 function getFeedbackRequestedBy(submission, allClasses) {
   if (submission.feedbackRequestType === 'P2P') {
     console.log('allClasses', allClasses);
-    return allClasses.find((item) => item.id === submission.reviewerId)?.title;
+    return allClasses.find((item) => item.id === submission.classId)?.title;
   }
   return submission.reviewerName;
 }

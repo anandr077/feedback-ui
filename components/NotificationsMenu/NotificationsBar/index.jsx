@@ -41,13 +41,14 @@ function NotificationsBar(props) {
     },
 
     onError: (err, newTodo, context) => {
+      alert('Error accepting feedback request');
       queryClient.setQueryData(
         ['notifications'],
         context.previousNotifications
       );
     },
     onSuccess: (data, variables) => {
-      window.location.href = `#documents/${data.id}`;
+      window.location.href = `#documentsReview/${data.id}`;
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });

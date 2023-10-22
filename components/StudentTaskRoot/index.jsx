@@ -90,7 +90,7 @@ export default function StudentTaskRoot() {
         { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
         {
           value: 'DRAFT_REVIEW',
-          label: 'Draft review',
+          label: 'Draft reviews',
           category: 'TYPES',
         },
       ],

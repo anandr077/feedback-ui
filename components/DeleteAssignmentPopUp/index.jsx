@@ -11,7 +11,12 @@ import { DialogContent, Dialog } from '@mui/material';
 export default function DeleteAssignmentPopup(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
 
-  const { assignment, hidedeletePopup } = props;
+  const {
+    assignment,
+    hidedeletePopup,
+    deleteDocumentMutation,
+    documentToDelete = null
+  } = props;
 
   const deleteAssignmentHandler = () => {
     deleteAssignment(assignment.id).then((res) => {
@@ -22,19 +27,26 @@ export default function DeleteAssignmentPopup(props) {
     showSnackbar('Task deleted');
   };
 
-  const textContent = `Are you sure you want to permanently delete ${assignment?.title}?`;
+  const textContent = `Are you sure you want to permanently delete ${documentToDelete ? 'the document' : assignment?.title}?`;
 
   const content = (
     <>
       <TitleContainer>
         <Arrowright src="/icons/trash-can.svg" alt="delete" />
-        <DeleteTitle>Delete task</DeleteTitle>
+        <DeleteTitle>{documentToDelete ? 'Delete Document' : 'Delete task'}</DeleteTitle>
       </TitleContainer>
       <Line141 src="/img/line-14@2x.png" />
       <TextContent>{textContent}</TextContent>
       <ButtonsContainer>
         <CancelButton onClick={() => hidedeletePopup()}>Cancel</CancelButton>
-        <DeleteButton onClick={deleteAssignmentHandler}>
+        <DeleteButton onClick={()=> {
+         if(documentToDelete){
+          deleteDocumentMutation.mutate(documentToDelete);
+          hidedeletePopup()
+         }else{
+          deleteAssignmentHandler()
+         }
+        }}>
           <ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
           Delete permanently
         </DeleteButton>

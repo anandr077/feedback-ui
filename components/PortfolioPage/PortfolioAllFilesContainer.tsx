@@ -194,7 +194,6 @@ const PortfolioAllFilesContainer = ({
         <NoFileDiv>No files</NoFileDiv>
       ) : (
         filesToDisplay.map((document, idx) => {
-          console.log('document data is: ', document);
           return (
             <DocumentBox key={idx}>
               <DocumentBoxWrapper>

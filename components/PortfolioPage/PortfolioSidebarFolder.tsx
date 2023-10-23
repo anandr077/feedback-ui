@@ -108,7 +108,7 @@ const PortfolioSidebarFolder = ({
           {!isEditing && (
             <div className="icon-container">
               <div className="folder-dropdown-container" ref={dropdownRef}>
-                <MoreHorizIcon onClick={toggleDropdown} />
+                <MoreHorizIcon onClick={toggleDropdown} className='folder-horizIcon'/>
                 <div
                   className={`${
                     activeDropdown ? 'folder-dropdown' : 'dropdown-hidden'

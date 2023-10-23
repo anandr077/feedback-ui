@@ -124,7 +124,6 @@ function NotificationsBar(props) {
   }
 
   const notificationFrames = notifications.map((notification) => {
-    console.log('this is my notification: ', notification);
     if (notification.type === 'FEEBACK_REQUEST') {
       return (
         <TaskCard

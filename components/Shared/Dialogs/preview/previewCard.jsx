@@ -29,7 +29,7 @@ export default function PreviewDialog({
             <div className="parent-container">
               {markingCriterias.strengthsTargetsCriterias.map((criteria) => (
                 <div className="data">
-                  <div className="heading">{criteria.title}</div>
+                  <div className="heading criteria-title">{criteria.title}</div>
                   <div className="option-container">
                     <div className="data" style={{ width: '50%' }}>
                       <div className="title">Strengths</div>
@@ -72,7 +72,7 @@ export default function PreviewDialog({
 }
 const createHeading = (criterias) => {
   return criterias.map((criteria) => {
-    return <td className="column-width">{criteria.title}</td>;
+    return <td className="column-width criteria-title">{criteria.title}</td>;
   });
 };
 

@@ -55,7 +55,6 @@ export const Frame15 = styled.div`
 export const Frame16 = styled.div`
   display: flex;
   width: 100%;
-  align-items: center;
   position: relative;
   align-self: stretch;
   z-index: 10;

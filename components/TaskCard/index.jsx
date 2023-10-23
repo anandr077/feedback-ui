@@ -321,7 +321,6 @@ const BubbleContainer = styled.div`
   gap: 8px;
   position: relative;
   margin-bottom: 8px;
-  z-index: 1;
 `;
 
 const TaskTitle = styled.p`

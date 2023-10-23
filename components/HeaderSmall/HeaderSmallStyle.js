@@ -9,6 +9,7 @@ export const NavigationContainer = styled.div`
   align-self: stretch;
   width: 100vw;
   height: 200vh;
+  overflow-y: scroll;
   `;
 
 export const Frame1350 = styled.div`

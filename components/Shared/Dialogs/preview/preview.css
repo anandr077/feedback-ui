@@ -67,3 +67,9 @@
   align-items: flex-start;
   gap: 10px;
 }
+
+.criteria-title{
+  color: var(--royal-purple);
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+}

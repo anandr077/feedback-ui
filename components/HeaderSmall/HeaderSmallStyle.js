@@ -5,10 +5,9 @@ export const NavigationContainer = styled.div`
   right: 0;
   z-index: 1;
   background-color: var(--white);
-  rbga(255, 255, 255, 0.5);
   align-self: stretch;
   width: 100vw;
-  height: 200vh;
+  height: 300vh;
   overflow-y: scroll;
   `;
 

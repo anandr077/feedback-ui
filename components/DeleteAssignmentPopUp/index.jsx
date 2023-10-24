@@ -31,6 +31,15 @@ export default function DeleteAssignmentPopup(props) {
     documentToDelete ? documentToDelete.title : assignment?.title
   }?`;
 
+  const onDelete = () =>{
+    if (documentToDelete) {
+      deleteDocumentMutation.mutate(documentToDelete);
+      hidedeletePopup();
+    } else {
+      deleteAssignmentHandler();
+    }
+  }
+
   const content = (
     <>
       <TitleContainer>
@@ -43,16 +52,7 @@ export default function DeleteAssignmentPopup(props) {
       <TextContent>{textContent}</TextContent>
       <ButtonsContainer>
         <CancelButton onClick={() => hidedeletePopup()}>Cancel</CancelButton>
-        <DeleteButton
-          onClick={() => {
-            if (documentToDelete) {
-              deleteDocumentMutation.mutate(documentToDelete);
-              hidedeletePopup();
-            } else {
-              deleteAssignmentHandler();
-            }
-          }}
-        >
+        <DeleteButton onClick={onDelete}>
           <ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
           Delete permanently
         </DeleteButton>

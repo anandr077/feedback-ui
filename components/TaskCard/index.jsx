@@ -270,7 +270,7 @@ const MoreOptionsWrapper = styled.div`
   border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  z-index: 0;
+  z-index: 1;
 `;
 
 const MoreOptions = styled.div`

@@ -128,7 +128,7 @@ const Frame1359 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
-  min-height: 600px;
+  min-height: calc(100vh - 290px);
 `;
 
 const Frame1354 = styled.div`

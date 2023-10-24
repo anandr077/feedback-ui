@@ -17,8 +17,11 @@ import {
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import NotificationSwitch from './NotificationSwitch';
+import SnackbarContext from '../../SnackbarContext';
 
 function NotificationsBar(props) {
+  const { showSnackbar } = React.useContext(SnackbarContext);
+
   const [notificationValue, setNotificationValue] = useState('URL');
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
@@ -26,7 +29,7 @@ function NotificationsBar(props) {
     onMutate: async (submissionId) => {
       await queryClient.cancelQueries({ queryKey: ['notifications'] });
       const previousNotifications = queryClient.getQueryData(['notifications']);
-      const updatedNotifications = previousNotifications.map((n) => {
+      const updatedNotifications = previousNotifications?.map((n) => {
         if (n.submissionId === submissionId) {
           return { ...n, type: 'URL' };
         }
@@ -41,13 +44,15 @@ function NotificationsBar(props) {
     },
 
     onError: (err, newTodo, context) => {
-      alert('Error accepting feedback request');
+      showSnackbar(""+err);
+
       queryClient.setQueryData(
         ['notifications'],
         context.previousNotifications
       );
     },
     onSuccess: (data, variables) => {
+      console.log('data', data);
       window.location.href = `#documentsReview/${data.id}`;
     },
     onSettled: () => {

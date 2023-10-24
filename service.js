@@ -56,35 +56,33 @@ async function fetchData(url, options, headers = {}) {
 }
 
 async function modifyData(url, options = {}) {
-  try {
-    const response = await fetch(url, {
-      ...options,
-      withCredentials: true,
-      credentials: 'include',
-    });
+  const response = await fetch(url, {
+    ...options,
+    withCredentials: true,
+    credentials: 'include',
+  });
 
-    if (response.status === 401) {
-      return redirectToExternalIDP();
-    }
-    if (response.status === 404) {
-      throw new Error('Page not found');
-    }
-    if (response.status === 404) {
-      throw new Error('Page not found');
-    } else if (response.status === 500) {
-      throw new Error('Server error');
-    } else if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const isJson = response.headers
-      .get('content-type')
-      ?.includes('application/json');
-    const data = isJson ? await response.json() : null;
-    return data;
-  } catch (error) {
-    console.error(error);
+  if (response.status === 401) {
+    return redirectToExternalIDP();
   }
+  if (response.status === 404) {
+    throw new Error('Page not found');
+  }
+  if (response.status === 404) {
+    throw new Error('Page not found');
+  } else if (response.status === 500) {
+    throw new Error('Server error');
+  } else if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+  }
+
+  const isJson = response.headers
+    .get('content-type')
+    ?.includes('application/json');
+  const data = isJson ? await response.json() : null;
+  return data;
+  
 }
 const fetchApi = async (url, options, headers) => {
   return fetchData(url, options, headers);

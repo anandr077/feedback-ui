@@ -17,6 +17,12 @@ const AllFilesHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+
+  @media (max-width: 370px) {
+     flex-direction: column;
+     align-items: start;
+     margin: 20px 0;
+  }
 `;
 
 
@@ -213,6 +219,12 @@ const FilterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 370px) {
+    width: 100%;
+    justify-content: start;
+    flex-wrap: wrap;
+  }
 `;
 const TimerContainer = styled.div`
   display: flex;

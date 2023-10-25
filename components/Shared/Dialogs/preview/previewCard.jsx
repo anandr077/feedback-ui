@@ -18,7 +18,7 @@ export default function PreviewDialog({
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           {markingCriterias.type === 'RUBRICS' ? (
-            <table className="parent-container">
+            <table className="">
               <tr className="title">
                 {createHeading(markingCriterias.criterias)}
               </tr>
@@ -29,13 +29,13 @@ export default function PreviewDialog({
             <div className="parent-container">
               {markingCriterias.strengthsTargetsCriterias.map((criteria) => (
                 <div className="data">
-                  <div className="heading criteria-title">{criteria.title}</div>
+                  <div className="heading st-title">{criteria.title}</div>
                   <div className="option-container">
-                    <div className="data" style={{ width: '50%' }}>
-                      <div className="title">Strengths</div>
+                    <div className="st-sub-title">
+                       Strengths
                     </div>
-                    <div className="data" style={{ width: '50%' }}>
-                      <div className="title">Targets</div>
+                    <div className="st-sub-title">
+                       Targets
                     </div>
                   </div>
                   {Array.from({
@@ -72,7 +72,7 @@ export default function PreviewDialog({
 }
 const createHeading = (criterias) => {
   return criterias.map((criteria) => {
-    return <td className="column-width criteria-title">{criteria.title}</td>;
+    return <td className="mk-title column-width criteria-title">{criteria.title}</td>;
   });
 };
 
@@ -104,13 +104,13 @@ const createRows = (items) => {
   return items.map((item) => {
     if (item) {
       return (
-        <td className="data column-width">
-          <div className="heading">{item.levelName}</div>
+        <td className="mk-column column-width">
+          <div className="mk-heading">{item.levelName}</div>
           <div className="content">{item.levelDescription}</div>
         </td>
       );
     } else {
-      return <td className="data column-width"></td>;
+      return <td className="mk-empty-column column-width"></td>;
     }
   });
 };

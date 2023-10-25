@@ -148,7 +148,8 @@ export default function CreateNewStrengthAndTargets() {
                   handleCriteriaOptionChange,
                   childIndex,
                   index,
-                  STRENGTHS
+                  STRENGTHS,
+                  markingMethodology.title
                 )}
                 {childIndex >= 1 && (
                   <div
@@ -182,7 +183,7 @@ export default function CreateNewStrengthAndTargets() {
                   type="text"
                   className="title-input"
                   placeholder="You need to..."
-                  value={value}
+                  value={markingMethodology.title !== '' ? value : ''}
                   onChange={(e) =>
                     handleCriteriaOptionChange(e, childIndex, index, TARGETS)
                   }
@@ -389,14 +390,15 @@ function input(
   handleCriteriaOptionChange,
   childIndex,
   index,
-  STRENGTHS
+  STRENGTHS,
+  title
 ) {
   return (
     <input
       type="text"
       className="title-input"
       placeholder=" You have effectively..."
-      value={value}
+      value={title !== '' ? value : ''}
       onChange={(e) =>
         handleCriteriaOptionChange(e, childIndex, index, STRENGTHS)
       }

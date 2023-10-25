@@ -18,7 +18,7 @@ export default function PreviewDialog({
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           {markingCriterias.type === 'RUBRICS' ? (
-            <table className="">
+            <table className='rubics-table'>
               <tr className="title">
                 {createHeading(markingCriterias.criterias)}
               </tr>
@@ -28,8 +28,8 @@ export default function PreviewDialog({
           ) : (
             <div className="parent-container">
               {markingCriterias.strengthsTargetsCriterias.map((criteria) => (
-                <div className="data">
-                  <div className="heading st-title">{criteria.title}</div>
+                <div className="st-table">
+                  <div className="st-title">{criteria.title}</div>
                   <div className="option-container">
                     <div className="st-sub-title">
                        Strengths
@@ -45,14 +45,14 @@ export default function PreviewDialog({
                     ),
                   }).map((_, index) => (
                     <div className="option-container" key={index}>
-                      <div className="data" style={{ width: '50%' }}>
+                      <div className="data" style={{ width: '50%'}}>
                         {index < criteria.strengths.length && (
                           <div className="content">
                             {criteria.strengths[index]}
                           </div>
                         )}
                       </div>
-                      <div className="data" style={{ width: '50%' }}>
+                      <div className="data" style={{ width: '50%'}}>
                         {index < criteria.targets.length && (
                           <div className="content">
                             {criteria.targets[index]}
@@ -72,7 +72,7 @@ export default function PreviewDialog({
 }
 const createHeading = (criterias) => {
   return criterias.map((criteria) => {
-    return <td className="mk-title column-width criteria-title">{criteria.title}</td>;
+    return <td className="mc-title column-width">{criteria.title}</td>;
   });
 };
 

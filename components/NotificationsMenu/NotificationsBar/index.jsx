@@ -18,11 +18,14 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import NotificationSwitch from './NotificationSwitch';
 import SnackbarContext from '../../SnackbarContext';
+import { useEffect } from 'react';
 
 function NotificationsBar(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [notificationValue, setNotificationValue] = useState('URL');
+  const [totalNotification, setTotalNotification] = useState(0)
+  const [totalRequest, setTotalRequest] = useState(0)
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
     mutationFn: acceptFeedbackRequest,
@@ -44,7 +47,7 @@ function NotificationsBar(props) {
     },
 
     onError: (err, newTodo, context) => {
-      showSnackbar(""+err);
+      showSnackbar('' + err);
 
       queryClient.setQueryData(
         ['notifications'],
@@ -93,7 +96,6 @@ function NotificationsBar(props) {
 
   const notificationBtnValue = (value) => {
     setNotificationValue(value);
-    console.log('here is the notification value', value);
   };
 
   const { notifications, type, onCloseFn, loadingNotifications } = props;
@@ -146,13 +148,32 @@ function NotificationsBar(props) {
     (notification) => notification.props.task.type === notificationValue
   );
 
+  useEffect(()=>{
+    const filteredFeedbackRequestNotifications = notificationFrames.filter(
+      (notification) => notification.props.task.type === 'FEEBACK_REQUEST'
+    );
+  
+    const filteredOtherNotifications = notificationFrames.filter(
+      (notification) => notification.props.task.type !== 'FEEBACK_REQUEST'
+    );
+
+    setTotalNotification(filteredOtherNotifications.length)
+    setTotalRequest(filteredFeedbackRequestNotifications.length)
+
+  }, [notificationFrames])
+
+
   return (
     <>
       {type == 'small' ? (
         <NavbarDiv>
           <Frame1409>
             <NotificationHead>
-              <NotificationSwitch notificationBtnValue={notificationBtnValue} />
+              <NotificationSwitch
+                notificationBtnValue={notificationBtnValue}
+                totalNotification={totalNotification}
+                totalRequest={totalRequest}
+              />
               <MaskGroup src="/img/close.png" onClick={onCloseFn} />
             </NotificationHead>
             <Frame16 onClick={onCloseFn}>
@@ -170,7 +191,11 @@ function NotificationsBar(props) {
         </NavbarDiv>
       ) : (
         <Frame15 onClick={onCloseFn}>
-          <NotificationSwitch notificationBtnValue={notificationBtnValue} />
+          <NotificationSwitch
+            notificationBtnValue={notificationBtnValue}
+            totalNotification={totalNotification}
+            totalRequest={totalRequest}
+          />
           {filteredNotifications.length > 0 ? (
             filteredNotifications
           ) : (

@@ -86,11 +86,11 @@ export default function StudentTaskRoot() {
       name: 'TYPES',
       title: 'Types',
       items: [
-        { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
+        { value: 'ASSIGNMENT', label: 'Submissions', category: 'TYPES' },
         { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
         {
           value: 'DRAFT_REVIEW',
-          label: 'Draft review',
+          label: 'Community',
           category: 'TYPES',
         },
       ],

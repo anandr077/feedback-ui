@@ -86,8 +86,8 @@ export const Screen = styled.div`
 `;
 export const Screen2 = styled.div`
   position: fixed;
-  width: 200vw;
-  height: 200vh;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   left: 0;
   background-color: rgba(255, 255, 255, 1);

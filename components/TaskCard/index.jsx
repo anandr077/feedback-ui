@@ -129,11 +129,10 @@ function TaskCard(props) {
     
   }
   function styledCardWithLink() {
-    console.log('onAccept', onAccept)
     if (onAccept) {
       return styledCard();
     }
-    return <a href={task.link}>{styledCard()}</a>;
+    return <AnchorTag href={task.link} >{styledCard()}</AnchorTag>;
   }
   function styledCard() {
     return (
@@ -271,7 +270,7 @@ const MoreOptionsWrapper = styled.div`
   border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  z-index: 0;
+  z-index: 1;
 `;
 
 const MoreOptions = styled.div`
@@ -321,7 +320,6 @@ const BubbleContainer = styled.div`
   gap: 8px;
   position: relative;
   margin-bottom: 8px;
-  z-index: 1;
 `;
 
 const TaskTitle = styled.p`
@@ -407,11 +405,15 @@ const StyledCard = styled.article`
   border: 1px solid rgba(219, 87, 87, 0.2);
 
   border-radius: 16px;
-  &: hover {
+  &:hover {
     background: #f9f5ff;
     border: 1px solid #7200e0;
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
 `;
+
+const AnchorTag = styled.a`
+  text-decoration: none;
+`
 
 export default TaskCard;

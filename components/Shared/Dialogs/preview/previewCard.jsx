@@ -18,7 +18,7 @@ export default function PreviewDialog({
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           {markingCriterias.type === 'RUBRICS' ? (
-            <table className="parent-container">
+            <table className='rubrics-table'>
               <tr className="title">
                 {createHeading(markingCriterias.criterias)}
               </tr>
@@ -28,14 +28,14 @@ export default function PreviewDialog({
           ) : (
             <div className="parent-container">
               {markingCriterias.strengthsTargetsCriterias.map((criteria) => (
-                <div className="data">
-                  <div className="heading">{criteria.title}</div>
+                <div className="st-table">
+                  <div className="st-title">{criteria.title}</div>
                   <div className="option-container">
-                    <div className="data" style={{ width: '50%' }}>
-                      <div className="title">Strengths</div>
+                    <div className="st-sub-title">
+                       Strengths
                     </div>
-                    <div className="data" style={{ width: '50%' }}>
-                      <div className="title">Targets</div>
+                    <div className="st-sub-title">
+                       Targets
                     </div>
                   </div>
                   {Array.from({
@@ -45,14 +45,14 @@ export default function PreviewDialog({
                     ),
                   }).map((_, index) => (
                     <div className="option-container" key={index}>
-                      <div className="data" style={{ width: '50%' }}>
+                      <div className="data" style={{ width: '50%'}}>
                         {index < criteria.strengths.length && (
                           <div className="content">
                             {criteria.strengths[index]}
                           </div>
                         )}
                       </div>
-                      <div className="data" style={{ width: '50%' }}>
+                      <div className="data" style={{ width: '50%'}}>
                         {index < criteria.targets.length && (
                           <div className="content">
                             {criteria.targets[index]}
@@ -72,7 +72,7 @@ export default function PreviewDialog({
 }
 const createHeading = (criterias) => {
   return criterias.map((criteria) => {
-    return <td className="column-width">{criteria.title}</td>;
+    return <td className="mc-title column-width">{criteria.title}</td>;
   });
 };
 
@@ -104,13 +104,13 @@ const createRows = (items) => {
   return items.map((item) => {
     if (item) {
       return (
-        <td className="data column-width">
-          <div className="heading">{item.levelName}</div>
+        <td className="mk-column column-width">
+          <div className="mk-heading">{item.levelName}</div>
           <div className="content">{item.levelDescription}</div>
         </td>
       );
     } else {
-      return <td className="data column-width"></td>;
+      return <td className="mk-empty-column column-width"></td>;
     }
   });
 };

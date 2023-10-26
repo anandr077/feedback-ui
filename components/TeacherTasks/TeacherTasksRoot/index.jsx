@@ -1,5 +1,9 @@
 import React from 'react';
-import { getAssignments, getClasses, getDocumentReviews } from '../../../service';
+import {
+  getAssignments,
+  getClasses,
+  getDocumentReviews,
+} from '../../../service';
 import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
@@ -23,8 +27,6 @@ export default function TeacherTaskRoot() {
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
 
- 
-
   const assignmentsQuery = useQuery({
     queryKey: ['assignments'],
     queryFn: async () => {
@@ -41,53 +43,64 @@ export default function TeacherTaskRoot() {
     staleTime: 300000,
   });
   const teacherClassesQuery = useQuery({
-      queryKey: ['classes'],
-      queryFn: async () => {
-        const result = await getClasses();
-        return result;
-      },
-      staleTime: 300000,
-    });
+    queryKey: ['classes'],
+    queryFn: async () => {
+      const result = await getClasses();
+      return result;
+    },
+    staleTime: 300000,
+  });
 
   React.useEffect(() => {
     if (assignmentsQuery.data) {
       if (documentReviewTasksQuery.data) {
-        setFilteredTasks([...assignmentsQuery.data, ...documentReviewTasksQuery.data]);
-      } else{
+        setAssignments([
+          ...assignmentsQuery.data,
+          ...documentReviewTasksQuery.data,
+        ]);
+        setFilteredTasks([
+          ...assignmentsQuery.data,
+          ...documentReviewTasksQuery.data,
+        ]);
+      } else {
+        setAssignments(assignmentsQuery.data);
         setFilteredTasks(assignmentsQuery.data);
       }
-      
-      setAssignments(assignmentsQuery.data);
     }
     if (teacherClassesQuery.data) {
       setClasses(teacherClassesQuery.data);
     }
-  }, [assignmentsQuery.data, teacherClassesQuery.data, documentReviewTasksQuery.data]);
+  }, [
+    assignmentsQuery.data,
+    teacherClassesQuery.data,
+    documentReviewTasksQuery.data,
+  ]);
 
-  if (assignmentsQuery.isLoading || teacherClassesQuery.isLoading || documentReviewTasksQuery.isLoading) {
+  if (
+    assignmentsQuery.isLoading ||
+    teacherClassesQuery.isLoading ||
+    documentReviewTasksQuery.isLoading
+  ) {
     return (
       <>
         <Loader />
       </>
     );
   }
-  console.log("filtered tasks", filteredTasks);
+
   const drafts = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === 'DRAFT'
   );
-  const awaitingSubmissions = filteredTasks.filter(
-    (assignment) => {
-      console.log("status", assignment.id, assignment)
-      return assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' || assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
-    }
-  );
-  console.log("filteredTasks", filteredTasks);
-  console.log("awaitingSubmissions", awaitingSubmissions);
+  const awaitingSubmissions = filteredTasks.filter((assignment) => {
+    return (
+      assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
+      assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
+    );
+  });
 
   const feedbacks = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === 'FEEDBACK'
   );
-  
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -95,28 +108,48 @@ export default function TeacherTaskRoot() {
 
   const menuItems = [
     {
+      name: 'TYPES',
+      title: 'Types',
+      items: [
+        { value: 'TASK', label: 'Tasks', category: 'TYPES' },
+        {
+          value: 'DRAFT_REVIEW',
+          label: 'Draft review',
+          category: 'TYPES',
+        },
+      ],
+    },
+    {
       name: 'CLASSES',
       title: 'Classes',
       items: classesItems,
     },
   ];
-  console.log('awaitingSubmissions', awaitingSubmissions);
+
   const filterTasks = (selectedItems) => {
     const groupedData = _.groupBy(selectedItems, 'category');
 
-    const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
+    let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
 
     const filteredAssignments = _.filter(assignments, (assignment) => {
+      if (_.isEmpty(typesValues)) {
+        return true;
+      }
+      return _.includes(typesValues, assignment.type);
+    });
+
+    const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
+
+    const filteredClasses = _.filter(filteredAssignments, (assignment) => {
       if (_.isEmpty(classesValues)) {
         return true;
       }
-      return _.some(assignment.classIds, (classId) =>
-        _.includes(classesValues, classId)
-      );
+      return _.includes(classesValues, assignment.classId);
     });
 
-    setFilteredTasks(filteredAssignments);
+    setFilteredTasks(filteredClasses);
   };
+
   const hidedeletePopup = () => {
     setShowDeletePopup(false);
   };

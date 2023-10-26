@@ -63,6 +63,7 @@ export const Frame1379 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  margin-bottom: 20px;
 `;
 
 export const Frame1376 = styled.div`
@@ -112,7 +113,7 @@ export const Title = styled.h1`
 
 export const Frame13221 = styled.div`
   display: flex;
-  height: 547.0001220703125px;
+  height: 860px;
   align-items: flex-start;
   gap: 60px;
   position: relative;

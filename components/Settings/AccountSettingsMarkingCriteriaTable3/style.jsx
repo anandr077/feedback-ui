@@ -45,6 +45,7 @@ export const Frame1379 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  margin-bottom: 20px;
 `;
 
 export const Frame1376 = styled.div`

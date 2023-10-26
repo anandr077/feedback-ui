@@ -127,12 +127,15 @@ export default function DocumentRoot({}) {
       if (fetchedSubmission) {
         fetchClassesAndDetails(fetchedSubmission);
         setSubmission(fetchedSubmission);
-        const mode = getPortfolioPageMode(getUserId(), fetchedSubmission);
-        setPageMode(mode); 
       }
     });
-  }, [id, submission]);
-
+  }, [id]);
+  useEffect(() => {
+    if (submission) {
+      const mode = getPortfolioPageMode(getUserId(), submission);
+      setPageMode(mode); 
+    }
+  }, [submission]);
   useEffect(() => {
     if (submission) {
       if (pageMode === "REVISE" || pageMode === "DRAFT") {
@@ -774,7 +777,7 @@ export default function DocumentRoot({}) {
   const updateDocumentClass = (item, allFolders) => {
     console.log('updateDocumentClass', item);
     if (item.id === submission.folderId) {
-      return;
+      return; 
     }
     docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
       if (res) {
@@ -854,7 +857,7 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: headerProps,
+              headerProps,
               allFolders: folders,
               allClasses,
               students,

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IbmplexsansMediumWhite16px } from '../../styledMixins';
 
 //Portfolio header code starts from here...
 const PortfolioHeaderContainer = styled.div`
@@ -42,20 +43,23 @@ const PortHeadDropDown = styled.div`
 `;
 
 const NewDocumentBtn = styled.button`
-  background-color: #7200e0;
-  color: white;
-  border: none;
+  ${IbmplexsansMediumWhite16px}
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
   padding: 8px 16px;
+  background-color: var(--light-mode-purple);
+  color: white;
   border-radius: 30px;
-  width: 165px;
-  font-size: 16px;
+  border: 1px solid;
+  letter-spacing: 0;
+  line-height: normal;
   cursor: pointer;
-  &:hover {
-    background-color: #301b72;
-  }
 
-  @media (max-width: 576px) {
-    display: none;
+  &:hover {
+    scale: 1.2;
+    transition: 0.1s;
   }
 `;
 

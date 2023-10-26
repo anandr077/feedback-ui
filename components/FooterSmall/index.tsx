@@ -63,6 +63,10 @@ const SmallFooterLinksContainer = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+
+  a{
+    text-decoration: none;
+  }
 `;
 
 const Terms = styled.div`

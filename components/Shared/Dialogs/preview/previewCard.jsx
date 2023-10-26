@@ -18,7 +18,7 @@ export default function PreviewDialog({
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           {markingCriterias.type === 'RUBRICS' ? (
-            <table className='rubics-table'>
+            <table className='rubrics-table'>
               <tr className="title">
                 {createHeading(markingCriterias.criterias)}
               </tr>

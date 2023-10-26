@@ -145,7 +145,7 @@ function NotificationsBar(props) {
     (notification) => notification.props.task.type === notificationValue
   );
 
-  const filteredFeedbackRequest = notifications.filter(
+  const filteredFeedbackRequests = notifications.filter(
       (notification) => notification.type === 'FEEBACK_REQUEST'
     );
 
@@ -162,8 +162,8 @@ function NotificationsBar(props) {
             <NotificationHead>
               <NotificationSwitch
                 notificationBtnValue={notificationBtnValue}
-                totalNotification={filteredOtherNotifications.length}
-                totalRequest={filteredFeedbackRequest.length}
+                totalNotifications={filteredOtherNotifications.length}
+                totalRequests={filteredFeedbackRequests.length}
               />
               <MaskGroup src="/img/close.png" onClick={onCloseFn} />
             </NotificationHead>
@@ -184,8 +184,8 @@ function NotificationsBar(props) {
         <Frame15 onClick={onCloseFn}>
           <NotificationSwitch
             notificationBtnValue={notificationBtnValue}
-            totalNotification={filteredOtherNotifications.length}
-            totalRequest={filteredFeedbackRequest.length}
+            totalNotifications={filteredOtherNotifications.length}
+            totalRequests={filteredFeedbackRequests.length}
           />
           {filteredNotifications.length > 0 ? (
             filteredNotifications

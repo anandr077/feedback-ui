@@ -109,16 +109,25 @@ const PortfolioAllFilesContainer = ({
       name: 'STATUS',
       title: 'Status',
       items: [
-        { value: 'SUBMITTED', label: 'Submitted', category: 'TYPES' },
         { value: 'DRAFT', label: 'Draft', category: 'TYPES' },
         {
-          value: 'FEEDBACK_ACCEPTED',
-          label: 'Feedback-Accepted',
+          value: 'FEEDBACK_REQUESTED',
+          label: 'Feedback-Requested',
           category: 'TYPES',
         },
         {
-          value: 'REVIEWED',
-          label: 'Reviewed',
+          value: 'FEEDBACK_REQUEST_AWAITED',
+          label: 'Feedback-Request-Awaited',
+          category: 'TYPES',
+        },
+        {
+          value: 'FEEDBACK_REQUEST_DECLINED',
+          label: 'Feedback-Request-Declined',
+          category: 'TYPES',
+        },
+        {
+          value: 'FEEDBACK_RECEIVED',
+          label: 'Feedback-received',
           category: 'TYPES',
         },
       ],

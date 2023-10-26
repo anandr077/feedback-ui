@@ -87,6 +87,7 @@
     border: 1px solid #e4d4f3;
     box-shadow: 0px 4px 8px 0px #e4d4f3;
     display: block;
+    z-index: 1;
 }
 
 .dropdown-hidden{

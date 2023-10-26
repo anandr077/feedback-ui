@@ -25,6 +25,10 @@ const FooterLinksContainer = styled.div`
   align-items: flex-start;
   gap: 28px;
   position: relative;
+
+  a{
+    text-decoration: none;
+  }
 `;
 
 const MainWebsite = styled.div`

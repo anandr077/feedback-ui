@@ -44,7 +44,7 @@ function NotificationsBar(props) {
     },
 
     onError: (err, newTodo, context) => {
-      showSnackbar(""+err);
+      showSnackbar('' + err);
 
       queryClient.setQueryData(
         ['notifications'],
@@ -93,7 +93,6 @@ function NotificationsBar(props) {
 
   const notificationBtnValue = (value) => {
     setNotificationValue(value);
-    console.log('here is the notification value', value);
   };
 
   const { notifications, type, onCloseFn, loadingNotifications } = props;
@@ -146,13 +145,26 @@ function NotificationsBar(props) {
     (notification) => notification.props.task.type === notificationValue
   );
 
+  const filteredFeedbackRequest = notifications.filter(
+      (notification) => notification.type === 'FEEBACK_REQUEST'
+    );
+
+  const filteredOtherNotifications = notifications.filter(
+      (notification) => notification.type === 'URL'
+    );
+
+
   return (
     <>
       {type == 'small' ? (
         <NavbarDiv>
           <Frame1409>
             <NotificationHead>
-              <NotificationSwitch notificationBtnValue={notificationBtnValue} />
+              <NotificationSwitch
+                notificationBtnValue={notificationBtnValue}
+                totalNotification={filteredOtherNotifications.length}
+                totalRequest={filteredFeedbackRequest.length}
+              />
               <MaskGroup src="/img/close.png" onClick={onCloseFn} />
             </NotificationHead>
             <Frame16 onClick={onCloseFn}>
@@ -170,7 +182,11 @@ function NotificationsBar(props) {
         </NavbarDiv>
       ) : (
         <Frame15 onClick={onCloseFn}>
-          <NotificationSwitch notificationBtnValue={notificationBtnValue} />
+          <NotificationSwitch
+            notificationBtnValue={notificationBtnValue}
+            totalNotification={filteredOtherNotifications.length}
+            totalRequest={filteredFeedbackRequest.length}
+          />
           {filteredNotifications.length > 0 ? (
             filteredNotifications
           ) : (

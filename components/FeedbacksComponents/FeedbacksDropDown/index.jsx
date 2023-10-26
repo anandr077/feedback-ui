@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
-import { getTasks } from '../../../service';
 import { Avatar } from '@boringer-avatars/react';
 
 function FeedBacksDropDown(props) {

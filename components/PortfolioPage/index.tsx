@@ -31,11 +31,14 @@ import {
   SideNavContainer,
 } from './PortfolioStyle';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
 
 const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [state, dispatch] = useReducer(reducer, initailState);
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteConfirmationPopup, setShowDeleteConfirmationPopup] = useState(false)
+  const [documentToDelete, setDocumentToDelete] = useState({})
   const queryClient = useQueryClient();
 
   const { folderId, categoryName } = useParams();
@@ -156,8 +159,13 @@ const PortfolioPage = () => {
     );
   };
   const handleDeleteDocument = (document) => {
-    deleteDocumentMutation.mutate(document);
+    setShowDeleteConfirmationPopup(true)
+    setDocumentToDelete(document)
   };
+
+  const hidedeletePopup = () =>{
+    setShowDeleteConfirmationPopup(false)
+  }
 
   const handleNewFolder = (folderName) => {
     console.log('new folder: ', folderName);
@@ -178,6 +186,15 @@ const PortfolioPage = () => {
 
   return (
     <>
+    {
+      showDeleteConfirmationPopup && (
+        <DeleteAssignmentPopup 
+            hidedeletePopup={hidedeletePopup}
+            deleteDocumentMutation = {deleteDocumentMutation}
+            documentToDelete={documentToDelete}
+        />
+      )
+    }
       <PortfolioSection>
         <PortfolioBody>
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />

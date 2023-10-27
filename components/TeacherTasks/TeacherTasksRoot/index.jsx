@@ -55,16 +55,29 @@ export default function TeacherTaskRoot() {
     if (assignmentsQuery.data) {
       if (documentReviewTasksQuery.data) {
         setAssignments([
-          ...assignmentsQuery.data,
+          ...assignmentsQuery.data.map(assignment => ({
+            ...assignment,
+            type: 'TASK'
+          })),
           ...documentReviewTasksQuery.data,
         ]);
         setFilteredTasks([
-          ...assignmentsQuery.data,
+          ...assignmentsQuery.data
+          .map(assignment => ({
+            ...assignment,
+            type: 'TASK'
+          })),
           ...documentReviewTasksQuery.data,
         ]);
       } else {
-        setAssignments(assignmentsQuery.data);
-        setFilteredTasks(assignmentsQuery.data);
+        setAssignments(assignmentsQuery.data.map(assignment => ({
+          ...assignment,
+          type: 'TASK'
+        })));
+        setFilteredTasks(assignmentsQuery.data.map(assignment => ({
+          ...assignment,
+          type: 'TASK'
+        })));
       }
     }
     if (teacherClassesQuery.data) {
@@ -111,10 +124,14 @@ export default function TeacherTaskRoot() {
       name: 'TYPES',
       title: 'Types',
       items: [
-        { value: 'TASK', label: 'Tasks', category: 'TYPES' },
+        {
+          value: 'TASK',
+          label: 'Tasks',
+          category: 'TYPES',
+        },
         {
           value: 'DRAFT_REVIEW',
-          label: 'Draft review',
+          label: 'Community',
           category: 'TYPES',
         },
       ],
@@ -137,14 +154,14 @@ export default function TeacherTaskRoot() {
       }
       return _.includes(typesValues, assignment.type);
     });
-
+    console.log('filteredAssignments', filteredAssignments);
     const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
 
     const filteredClasses = _.filter(filteredAssignments, (assignment) => {
       if (_.isEmpty(classesValues)) {
         return true;
       }
-      return _.includes(classesValues, assignment.classId);
+      return _.some(assignment.classIds, (classId) => _.includes(classesValues, classId));
     });
 
     setFilteredTasks(filteredClasses);

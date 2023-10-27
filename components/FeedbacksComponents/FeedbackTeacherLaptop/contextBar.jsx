@@ -299,7 +299,7 @@ const submitButtonDocument = (
   handleRequestFeedback,
   allClasses
 ) => {
-  if (pageMode === 'DRAFT') {
+  if (pageMode === 'DRAFT' ) {
     return (
       <div style={{ position: 'relative' }}>
         {
@@ -323,6 +323,7 @@ const submitButtonDocument = (
       </div>
     );
   }
+  
   if (pageMode === 'REVIEW') {
     return (
       <ButtonsContainer>
@@ -334,17 +335,25 @@ const submitButtonDocument = (
     );
   }
   if (pageMode === 'REVISE') {
+    
     return (
       <RequestFeedbackFrame
         style={{ border: '1px solid #0C8F8F', cursor: 'unset' }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        Feedback requested from {getFeedbackRequestedBy(submission, allClasses)}
+       {getStatusLabel(submission, allClasses)}
       </RequestFeedbackFrame>
     );
   }
   return <></>;
 };
+
+function getStatusLabel(submission, allClasses) {
+  if (submission.status === 'FEEDBACK_DECLINED') {
+    return  "Feedback requested declined by " + getFeedbackRequestedBy(submission, allClasses);
+  }
+  return  "Feedback requested from " + getFeedbackRequestedBy(submission, allClasses);
+}
 function getFeedbackRequestedBy(submission, allClasses) {
   if (submission.feedbackRequestType === 'P2P') {
     console.log('allClasses', allClasses);

@@ -12,7 +12,7 @@ const PortfolioSideBar = ({
   categoryName,
   handleNewFolder,
   handleFolderDelete,
-  handleFolderEdit
+  handleFolderEdit,
 }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('');
   const [showSubfolders, setShowSubfolders] = useState('');
@@ -115,10 +115,12 @@ const PortfolioSideBar = ({
             + New folder
           </button>
         </div>
-      ) :  isActive && (
-        <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
-          + New folder
-        </button>
+      ) : (
+        isActive && (
+          <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
+            + New folder
+          </button>
+        )
       )}
     </div>
   );

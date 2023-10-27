@@ -135,8 +135,12 @@ function TaskCard(props) {
     return <AnchorTag href={task.link} >{styledCard()}</AnchorTag>;
   }
   function styledCard() {
+    const dueDate = new Date(task.dueAt);
+    const currentTime = new Date();
+    const isOverDue = dueDate < currentTime
+
     return (
-      <StyledCard ref={refContainer} isSelected={isSelected}>
+      <StyledCard ref={refContainer} isSelected={isSelected} overdue={isOverDue}>
         {exemplar ? tagsFrameExempler(task) : tagsFrame(task)}
         <CardContent
           task={cardContents(task, exemplar)}
@@ -410,6 +414,13 @@ const StyledCard = styled.article`
     border: 1px solid #7200e0;
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
+
+  ${(props) =>
+  props.overdue &&
+  css`
+    border-color: 1px solid red;
+    background-color: #f96d6d;
+  `}
 `;
 
 const AnchorTag = styled.a`

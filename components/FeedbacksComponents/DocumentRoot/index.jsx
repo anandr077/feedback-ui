@@ -41,7 +41,6 @@ import _ from 'lodash';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
-  //queryClient.removeQueries(['portfolio']);
 
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
@@ -154,7 +153,6 @@ export default function DocumentRoot({}) {
     if (data && !hasProcessedData) {
       setPortfolio(data);
       setHasProcessedData(true);
-      queryClient.removeQueries(['portfolio']);
     }
   }, [data, queryClient]);
 
@@ -255,7 +253,10 @@ export default function DocumentRoot({}) {
 
   function updateCommentsRange(answer) {
     const quill = quillRefs.current[answer.serialNumber - 1];
+    if (quill === undefined) return;
+    if (quill === null) return;
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+
     const mergedHighlights = {};
 
     Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {

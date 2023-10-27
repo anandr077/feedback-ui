@@ -37,8 +37,9 @@ const PortfolioPage = () => {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [state, dispatch] = useReducer(reducer, initailState);
   const [showModal, setShowModal] = useState(false);
-  const [showDeleteConfirmationPopup, setShowDeleteConfirmationPopup] = useState(false)
-  const [documentToDelete, setDocumentToDelete] = useState({})
+  const [showDeleteConfirmationPopup, setShowDeleteConfirmationPopup] =
+    useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState({});
   const queryClient = useQueryClient();
 
   const { folderId, categoryName } = useParams();
@@ -54,9 +55,29 @@ const PortfolioPage = () => {
     dispatch({ type: 'setPortfolio', payload: data });
   }, [data]);
 
-  const addDocumentMutation = useMutation(addDocumentToPortfolioWithDetails, {
-    onSuccess: (data) => {
-      window.location.href = `#documents/${data.id}`;
+  const addDocumentMutation = useMutation({
+    mutationFn: async (documentDetails) => {
+      return await addDocumentToPortfolioWithDetails(documentDetails);
+    },
+    onError: (err, documentDetails, context) => {
+      console.log('On error');
+    },
+    onSuccess: (data, documentDetails) => {
+      console.log('addDocument', data, documentDetails);
+      const updatedState = reducer(state, {
+        type: 'addDocument',
+        payload: {
+          title: documentDetails.title,
+          folderId: documentDetails.folderId,
+          submission: data,
+        },
+      });
+      queryClient.setQueryData(['portfolio'], updatedState.portfolio);
+      window.location.href=`#documents/${data.id}`
+    },
+    onSettled: () => {
+      console.log('Settled');
+      queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
 
@@ -87,12 +108,12 @@ const PortfolioPage = () => {
   const addFolderMutation = useMutation({
     mutationFn: async (folderName) =>
       await addFolderToPortfolio({ title: folderName }),
-    
+
     onError: (err, folderName, context) => {
       console.log('On error');
     },
     onSuccess: (data, folderName) => {
-      console.log("addFolder",  data)
+      console.log('addFolder', data);
       dispatch({ type: 'addFolder', payload: data });
     },
     onSettled: () => {
@@ -150,22 +171,23 @@ const PortfolioPage = () => {
   const allFiles = getDocuments(state.portfolio, folderId, categoryName);
 
   const handleCreateDocument = (docName, activeMainFolderId = 0) => {
-    addFile(
-      state.portfolio,
-      activeMainFolderId,
-      state.activeSubFolderId,
-      docName,
-      addDocumentMutation
-    );
+    const folder = state.portfolio?.files[activeMainFolderId];
+    addDocumentMutation.mutate({
+      title: docName,
+      folderId: folder?.id,
+      classId: folder?.classId,
+    });
+
+    
   };
   const handleDeleteDocument = (document) => {
-    setShowDeleteConfirmationPopup(true)
-    setDocumentToDelete(document)
+    setShowDeleteConfirmationPopup(true);
+    setDocumentToDelete(document);
   };
 
-  const hidedeletePopup = () =>{
-    setShowDeleteConfirmationPopup(false)
-  }
+  const hidedeletePopup = () => {
+    setShowDeleteConfirmationPopup(false);
+  };
 
   const handleNewFolder = (folderName) => {
     console.log('new folder: ', folderName);
@@ -186,15 +208,13 @@ const PortfolioPage = () => {
 
   return (
     <>
-    {
-      showDeleteConfirmationPopup && (
-        <DeleteAssignmentPopup 
-            hidedeletePopup={hidedeletePopup}
-            deleteDocumentMutation = {deleteDocumentMutation}
-            documentToDelete={documentToDelete}
+      {showDeleteConfirmationPopup && (
+        <DeleteAssignmentPopup
+          hidedeletePopup={hidedeletePopup}
+          deleteDocumentMutation={deleteDocumentMutation}
+          documentToDelete={documentToDelete}
         />
-      )
-    }
+      )}
       <PortfolioSection>
         <PortfolioBody>
           <PortfolioHeader setShowModal={setShowModal} showModal={showModal} />

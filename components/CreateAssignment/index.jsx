@@ -11,6 +11,7 @@ import {
   addFocusArea,
   getAllMarkingCriteria,
   deleteAssignment,
+  getStudentsForClass,
 } from '../../service';
 import {
   IbmplexsansNormalShark20px,
@@ -20,6 +21,7 @@ import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../utils/headerProps';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
@@ -44,8 +46,12 @@ import {
   StyledFormControlLabel,
   CheckboxContainer,
   CheckBoxText,
+  StudentsDnD,
+  StudentDnD,
+  Student,
 } from './CreateAssignmentStyle';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import DragAndDrop from './DragAndDrop';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -88,6 +94,11 @@ export default function CreateAssignment(props) {
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([]);
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
+  const [students, setStudents] = React.useState([]);
+  const [classId, setClassId] = React.useState();
+  const [studentDropdown, setStudentDropdown] = React.useState(false);
+
+  const [reviewedBy, setReviewedBy] = React.useState([]);
 
   React.useEffect(() => {
     Promise.all([
@@ -122,6 +133,24 @@ export default function CreateAssignment(props) {
     );
   }, [assignmentId]);
 
+  const classQuery = useQuery(
+    ['class', classId],
+    async () => {
+      const studentsResponse = await getStudentsForClass(classId);
+      return studentsResponse;
+    },
+    {
+      staleTime: 300000,
+      enabled: !!classId, // Only fetch data when classId is available
+    }
+  );
+  React.useEffect(() => {
+    if (classQuery.data) {
+      const studentsdata = classQuery.data;
+      setStudents(studentsdata);
+    }
+  }, [classQuery.data, classId]);
+
   if (isLoading) {
     return (
       <>
@@ -143,6 +172,12 @@ export default function CreateAssignment(props) {
     setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
   };
   const feedbackMethodUpdate = (newReviewedBy) => {
+    // console.log('feedback method update', newReviewedBy);
+    if (newReviewedBy === 'P2PC') {
+      setStudentDropdown(true);
+    } else {
+      setStudentDropdown(false);
+    }
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       reviewedBy: newReviewedBy,
@@ -318,6 +353,7 @@ export default function CreateAssignment(props) {
   const handleClassCheckboxChange = (classId, isChecked) => {
     setAssignment((prevAssignment) => {
       if (isChecked) {
+        setClassId(classId);
         return {
           ...prevAssignment,
           classIds: [...prevAssignment.classIds, classId],
@@ -519,21 +555,35 @@ export default function CreateAssignment(props) {
   });
 
   const feedbacksMethodContainer = (
-    <StyledRadioGroup
-      value={assignment.reviewedBy}
-      onChange={(event) => feedbackMethodUpdate(event.target.value)}
-    >
-      <StyledFormControlLabel
-        value="TEACHER"
-        control={<Radio />}
-        label="Teacher Feedback"
-      />
-      <StyledFormControlLabel
-        value="P2P"
-        control={<Radio />}
-        label="Peer to Peer (randomised)"
-      />
-    </StyledRadioGroup>
+    <>
+      <StyledRadioGroup
+        value={assignment.reviewedBy}
+        onChange={(event) => feedbackMethodUpdate(event.target.value)}
+      >
+        <StyledFormControlLabel
+          value="TEACHER"
+          control={<Radio />}
+          label="Teacher Feedback"
+        />
+        <StyledFormControlLabel
+          value="P2P"
+          control={<Radio />}
+          label="Peer to Peer (randomised)"
+        />
+        <StyledFormControlLabel
+          value="P2PC"
+          control={<Radio />}
+          label="Peer to Peer (Customized)"
+        />
+      </StyledRadioGroup>
+      {studentDropdown && (
+        <DragAndDrop
+          students={students}
+          reviewedBy={reviewedBy}
+          setReviewedBy={setReviewedBy}
+        />
+      )}
+    </>
   );
 
   const dateSelectorFrame = (

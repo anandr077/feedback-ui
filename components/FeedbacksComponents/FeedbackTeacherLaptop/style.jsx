@@ -5,7 +5,9 @@ import {
   feedbacksIbmplexsansNormalBlack16px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
+  IbmplexsansNormalShark16px,
 } from '../../../styledMixins';
+
 
 export const AwaitFeedbackContainer = styled.div`
   display: flex;
@@ -372,3 +374,45 @@ export const RequestFeedbackFrame = styled.div`
   font-weight: 500;
   line-height: normal;
 `;
+
+export const RequestFeedbackDropdown = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`
+
+export const IconContainer = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  cursor: pointer;
+`;
+
+
+export const DropdownButtonsGroup = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  box-shadow: 0px 4px 8px #2f1a720a;
+  background-color: var(--white);
+  border-radius: 8px;
+  border: 1px solid #2f1a720a;
+  padding: 10px;
+`
+
+export const DropdownButton = styled.button`
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: left;
+  ${IbmplexsansNormalShark16px};
+
+  &:hover{
+    background-color: var(--blue-chalk);
+  }
+`

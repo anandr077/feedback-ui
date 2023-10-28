@@ -44,7 +44,7 @@ function NotificationsBar(props) {
     },
 
     onError: (err, newTodo, context) => {
-      showSnackbar('' + err);
+      showSnackbar('' + err.message);
 
       queryClient.setQueryData(
         ['notifications'],

@@ -158,6 +158,7 @@ function createQuill(
 ) {
   return (
     <QuillEditor
+      // key={Math.random()}
       id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
       ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
       comments={commentsForSelectedTab?.filter((comment) => {

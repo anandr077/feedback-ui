@@ -22,6 +22,7 @@ import {
   Frame1388,
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
+import { sub } from 'date-fns';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -58,15 +59,16 @@ function Document(props) {
     students,
     teachers,
   } = props;
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
+  const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
+    setShowFeedbackButtons(false);
   };
   useEffect(() => {
     window.addEventListener('click', handleOutsideClick);
@@ -103,6 +105,8 @@ function Document(props) {
           {answersAndFeedbacks(
             isShowSelectType,
             setShowSelectType,
+            showFeedbackButtons,
+            setShowFeedbackButtons,
             submission,
             setSubmission,
             methods,
@@ -206,6 +210,8 @@ const selectTabComments = (showResolved, comments) => {
 function answersAndFeedbacks(
   isShowSelectType,
   setShowSelectType,
+  showFeedbackButtons,
+  setShowFeedbackButtons,
   submission,
   setSubmission,
   methods,
@@ -236,6 +242,8 @@ function answersAndFeedbacks(
       {contextBarForPortfolioDocument(
         isShowSelectType,
         setShowSelectType,
+        showFeedbackButtons,
+        setShowFeedbackButtons,
         submission,
         setSubmission,
         methods,
@@ -293,7 +301,7 @@ function documentFeedbackFrame(
   share,
   smartAnnotations
 ) {
-  if (pageMode === 'DRAFT') {
+  if (pageMode === 'DRAFT' || pageMode === 'CLOSED') {
     return <></>;
   }
 
@@ -317,14 +325,14 @@ function documentFeedbackFrame(
 }
 
 function breadcrumbs(pageMode, submission, allFolders) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE' || (pageMode === 'CLOSED'  && submission.status === 'FEEDBACK_ACCEPTED')) {
     return (
       <Frame1387>
         <Frame1315>
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
           {folderBreadcrumb()}
           {subfolderBreadcrumb()}
-  
+
           <Breadcrumb2 assignments={submission.assignment.title} />
         </Frame1315>
       </Frame1387>

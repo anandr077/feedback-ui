@@ -128,7 +128,7 @@ function NotificationsBar(props) {
   }
 
   const notificationFrames = notifications.map((notification) => {
-    if (notification.type === 'FEEBACK_REQUEST') {
+    if (notification.type === 'FEEDBACK_REQUEST') {
       return (
         <TaskCard
           task={notification}
@@ -146,7 +146,7 @@ function NotificationsBar(props) {
   );
 
   const filteredFeedbackRequests = notifications.filter(
-      (notification) => notification.type === 'FEEBACK_REQUEST'
+      (notification) => notification.type === 'FEEDBACK_REQUEST'
     );
 
   const filteredOtherNotifications = notifications.filter(

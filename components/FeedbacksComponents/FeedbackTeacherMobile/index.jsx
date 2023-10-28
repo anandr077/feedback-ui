@@ -90,7 +90,7 @@ function FeedbackTeacherMobile(props) {
         <Frame1386>
           <Frame1371>
             <TitleWrapper>
-              <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+            <AssignmentTitle dangerouslySetInnerHTML={{__html: linkify(submission.assignment.title)}}/>
               <StatusText>{methods.submissionStatusLabel()}</StatusText>
             </TitleWrapper>
             <Frame1369>

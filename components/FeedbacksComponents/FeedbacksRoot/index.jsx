@@ -1136,6 +1136,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               students,
               submission,
               sharewithclassdialog,
+              linkify,
               ...feedbacksFeedbackTeacherLaptopData,
               MARKING_METHODOLOGY_TYPE,
             }}

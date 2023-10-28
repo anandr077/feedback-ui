@@ -42,6 +42,7 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
+    linkify,
   } = props;
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');

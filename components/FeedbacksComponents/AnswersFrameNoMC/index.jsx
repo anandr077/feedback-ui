@@ -158,10 +158,12 @@ function createQuill(
   debounce,
   handleEditorMounted
 ) {
-  console.log('PageMode', pageMode);
+  console.log('PageMode1', pageMode);
+  console.log('key', 'quillEditor_' + submission.id + '_' + answer.serialNumber + "_" + submission.status);
   return (
     <QuillEditor
-      id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
+    key={'quillEditor_' + submission.id + '_' + answer.serialNumber + "_" + submission.status + "_" + pageMode}
+    id={'quillEditor_' + submission.id + '_' + answer.serialNumber + "_" + submission.status}
       ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
       comments={commentsForSelectedTab?.filter((comment) => {
         return comment.questionSerialNumber === answer.serialNumber;

@@ -5,8 +5,6 @@ import { default as React, default as React, useState } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
-// import Footer from '../../Footer';
-// import FooterSmall from '../../FooterSmall';
 import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
 import { isTabletView } from '../../ReactiveRender';

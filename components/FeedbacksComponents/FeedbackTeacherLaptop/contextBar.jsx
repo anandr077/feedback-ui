@@ -20,7 +20,7 @@ import {
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
-import { cancelFeedbackRequest } from '../../../service';
+import { cancelFeedbackRequest, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 
 function createFocusAreasCount(submission) {
@@ -224,13 +224,6 @@ export function contextBarForPortfolioDocument(
 
         {changeFolderDropDown()}
       </TitleWrapper>
-      {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
-      {downloadButtonNonClosedSubmission(
-        isTeacher,
-        pageMode,
-        submission,
-        methods
-      )}
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
@@ -252,7 +245,7 @@ export function contextBarForPortfolioDocument(
   );
 
   function changeFolderDropDown() {
-    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+    if (submission.studentId === getUserId()) {
       return (
         allFolders?.length > 0 && (
           <div style={{ width: 'fit-content' }}>
@@ -351,7 +344,7 @@ const submitButtonDocument = (
       </ButtonsContainer>
     );
   }
-  if (pageMode === 'REVISE') {
+  if (pageMode === 'REVISE' || (pageMode === 'CLOSED' && submission.status === 'SUBMITTED')) {
     return (
       <RequestFeedbackFrame
         style={{
@@ -362,7 +355,23 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
+        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
+        {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
+      </RequestFeedbackFrame>
+    );
+  }
+  if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
+    return (
+      <RequestFeedbackFrame
+        style={{
+          border: '1px solid #0C8F8F',
+          cursor: 'unset',
+          minWidth: '240px',
+          position: 'relative',
+        }}
+      >
+        {<img src="/img/messages-green.svg" alt="messages" />}
+        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
         {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
       </RequestFeedbackFrame>
     );
@@ -370,16 +379,24 @@ const submitButtonDocument = (
   return <></>;
 };
 
-function getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeedbackButtons) {
+function getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons) {
+  if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
+    return <RequestFeedbackDropdown
+      title={`Feedback requested from ${feedbackRequestedFrom()}`}
+    >
+      Feedback requested
+    </RequestFeedbackDropdown>
+  }
+
   if (submission.status === 'FEEDBACK_DECLINED') {
     return (
-      'Feedback requested declined by ' +
+      'Feedback request declined by ' +
       getFeedbackRequestedBy(submission, allClasses)
     );
   }
   return (
     <RequestFeedbackDropdown
-      title={`Request feedback from ${submission.reviewerName}`}
+      title={`Feedback requested from ${feedbackRequestedFrom()}`}
     >
       Feedback requested
       <IconContainer
@@ -389,6 +406,13 @@ function getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeed
       />
     </RequestFeedbackDropdown>
   );
+
+  function feedbackRequestedFrom() {
+    if (submission.feedbackRequestType === 'P2P') {
+      return allClasses.find((item) => item.id === submission.classId)?.title;
+    }
+    return submission.reviewerName;
+  }
 }
 function getFeedbackRequestedBy(submission, allClasses) {
   if (submission.feedbackRequestType === 'P2P') {

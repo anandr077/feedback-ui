@@ -61,12 +61,14 @@ function Document(props) {
   } = props;
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
+  const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
+    setShowFeedbackButtons(false);
   };
   useEffect(() => {
     window.addEventListener('click', handleOutsideClick);
@@ -103,6 +105,8 @@ function Document(props) {
           {answersAndFeedbacks(
             isShowSelectType,
             setShowSelectType,
+            showFeedbackButtons,
+            setShowFeedbackButtons,
             submission,
             setSubmission,
             methods,
@@ -206,6 +210,8 @@ const selectTabComments = (showResolved, comments) => {
 function answersAndFeedbacks(
   isShowSelectType,
   setShowSelectType,
+  showFeedbackButtons,
+  setShowFeedbackButtons,
   submission,
   setSubmission,
   methods,
@@ -236,6 +242,8 @@ function answersAndFeedbacks(
       {contextBarForPortfolioDocument(
         isShowSelectType,
         setShowSelectType,
+        showFeedbackButtons,
+        setShowFeedbackButtons,
         submission,
         setSubmission,
         methods,
@@ -324,7 +332,7 @@ function breadcrumbs(pageMode, submission, allFolders) {
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
           {folderBreadcrumb()}
           {subfolderBreadcrumb()}
-  
+
           <Breadcrumb2 assignments={submission.assignment.title} />
         </Frame1315>
       </Frame1387>

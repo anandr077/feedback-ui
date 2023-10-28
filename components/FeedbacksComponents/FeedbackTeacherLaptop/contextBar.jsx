@@ -42,7 +42,6 @@ export function contextBar(
   pageMode,
   labelText
 ) {
-
   const focusAreasCount = createFocusAreasCount(submission);
   return (
     <Frame1371 id="assignmentTitle">
@@ -196,6 +195,8 @@ function downloadButtonClosedSubmission(
 export function contextBarForPortfolioDocument(
   isShowSelectType,
   setShowSelectType,
+  showFeedbackButtons,
+  setShowFeedbackButtons,
   submission,
   setSubmission,
   methods,
@@ -209,7 +210,6 @@ export function contextBarForPortfolioDocument(
   allFolders,
   updateDocumentClass
 ) {
-  const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const selectedFolderIdIndex = allFolders?.findIndex(
@@ -362,15 +362,31 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
-        {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
+        {getStatusLabel(
+          submission,
+          allClasses,
+          setShowFeedbackButtons,
+          showFeedbackButtons
+        )}
+        {showFeedbackButtons &&
+          dropdownButtons(
+            setShowFeedbackButtons,
+            showSnackbar,
+            submission,
+            setSubmission
+          )}
       </RequestFeedbackFrame>
     );
   }
   return <></>;
 };
 
-function getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeedbackButtons) {
+function getStatusLabel(
+  submission,
+  allClasses,
+  setShowFeedbackButtons,
+  showFeedbackButtons
+) {
   if (submission.status === 'FEEDBACK_DECLINED') {
     return (
       'Feedback requested declined by ' +
@@ -385,7 +401,10 @@ function getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeed
       <IconContainer
         src="/icons/three-dot.svg"
         alt="show cancel"
-        onClick={() => setShowFeedbackButtons(!showFeedbackButtons)}
+        onClick={(event) => {
+          event.stopPropagation();
+          setShowFeedbackButtons(!showFeedbackButtons);
+        }}
       />
     </RequestFeedbackDropdown>
   );
@@ -397,26 +416,48 @@ function getFeedbackRequestedBy(submission, allClasses) {
   return submission.reviewerName;
 }
 
-function dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission) {
+function dropdownButtons(
+  setShowFeedbackButtons,
+  showSnackbar,
+  submission,
+  setSubmission
+) {
   return (
     <DropdownButtonsGroup>
       {/* <DropdownButton>Change due date</DropdownButton> */}
-      <DropdownButton onClick={()=>handleCancelFeedbackRequest(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}>Cancel</DropdownButton>
+      <DropdownButton
+        onClick={() =>
+          handleCancelFeedbackRequest(
+            setShowFeedbackButtons,
+            showSnackbar,
+            submission,
+            setSubmission
+          )
+        }
+      >
+        Cancel
+      </DropdownButton>
     </DropdownButtonsGroup>
   );
 }
 
-function handleCancelFeedbackRequest(setShowFeedbackButtons, showSnackbar, submission, setSubmission) {
+function handleCancelFeedbackRequest(
+  setShowFeedbackButtons,
+  showSnackbar,
+  submission,
+  setSubmission
+) {
   cancelFeedbackRequest(submission.id)
-  .then((response) => {
-    showSnackbar('Feedback request cancelled');
+    .then((response) => {
+      showSnackbar('Feedback request cancelled');
 
-    setSubmission(response)
-  }).catch((error) => {
-    showSnackbar(error.message)
-    setSubmission(error.submission)
-  }).finally(()=>{
-    setShowFeedbackButtons(false)
-  });
-
+      setSubmission(response);
+    })
+    .catch((error) => {
+      showSnackbar(error.message);
+      setSubmission(error.submission);
+    })
+    .finally(() => {
+      setShowFeedbackButtons(false);
+    });
 }

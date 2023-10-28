@@ -152,7 +152,6 @@ export function addNewFile(portfolio, folderId, submission) {
                       )
                   };
               } else {
-                  // If there's no "Drafts" folder, simply return the original folder
                   return folder;
               }
           }

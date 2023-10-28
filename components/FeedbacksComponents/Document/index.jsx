@@ -22,6 +22,7 @@ import {
   Frame1388,
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
+import { sub } from 'date-fns';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -58,7 +59,6 @@ function Document(props) {
     students,
     teachers,
   } = props;
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
@@ -301,7 +301,7 @@ function documentFeedbackFrame(
   share,
   smartAnnotations
 ) {
-  if (pageMode === 'DRAFT') {
+  if (pageMode === 'DRAFT' || pageMode === 'CLOSED') {
     return <></>;
   }
 
@@ -325,7 +325,7 @@ function documentFeedbackFrame(
 }
 
 function breadcrumbs(pageMode, submission, allFolders) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE' || (pageMode === 'CLOSED'  && submission.status === 'FEEDBACK_ACCEPTED')) {
     return (
       <Frame1387>
         <Frame1315>

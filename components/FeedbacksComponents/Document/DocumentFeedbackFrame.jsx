@@ -87,6 +87,7 @@ function feedbackFrame(
   share,
   smartAnnotations
 ) {
+  
   console.log('feedbackFrame smartAnnotations', smartAnnotations);
   return (
     <Frame1331 id="feedbacksFrame">
@@ -94,7 +95,7 @@ function feedbackFrame(
         <Tabs
           isTeacher={isTeacher}
           comments={comments}
-          showFeedbacks={pageMode !== 'DRAFT'}
+          showFeedbacks={pageMode !== 'DRAFT' }
           showFocusAreas={false}
         ></Tabs>
       </Frame1322>

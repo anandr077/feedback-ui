@@ -74,15 +74,15 @@ async function modifyData(url, options = {}) {
     throw new Error('Server error');
   } else if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-  }
+    throw {
+      message: errorData.message || `Error occurred: ${response.status}`,
+      ...errorData
+    };  }
 
   const isJson = response.headers
     .get('content-type')
     ?.includes('application/json');
-  const data = isJson ? await response.json() : null;
-  return data;
-  
+  return isJson ? await response.json() : null;
 }
 const fetchApi = async (url, options, headers) => {
   return fetchData(url, options, headers);
@@ -355,7 +355,10 @@ export const acceptFeedbackRequest = async (submissionId) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/acceptFeedbackRequest'
   );
-
+export const cancelFeedbackRequest = async (submissionId) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/cancelFeedbackRequest'
+  );
 export const declineFeedbackRequest = async (submissionId) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/declineFeedbackRequest'

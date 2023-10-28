@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
 import PortfolioSideBarFolder from './PortfolioSidebarFolder';
+import { isMobileView } from '../ReactiveRender';
 import './portfolioSideBar.css';
 
 const PortfolioSideBar = ({
@@ -11,7 +12,7 @@ const PortfolioSideBar = ({
   categoryName,
   handleNewFolder,
   handleFolderDelete,
-  handleFolderEdit
+  handleFolderEdit,
 }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('');
   const [showSubfolders, setShowSubfolders] = useState('');
@@ -22,6 +23,8 @@ const PortfolioSideBar = ({
   const [selectedSubFolder, setSelectedSubFolder] = useState('');
   const [addFolder, setAddFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
+
+  const isActive = isMobileView() ? showNavMenu : true;
 
   const getAddFolderData = () => {
     handleNewFolder(newFolderName);
@@ -113,9 +116,11 @@ const PortfolioSideBar = ({
           </button>
         </div>
       ) : (
-        <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
-          + New folder
-        </button>
+        isActive && (
+          <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
+            + New folder
+          </button>
+        )
       )}
     </div>
   );

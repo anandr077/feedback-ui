@@ -11,6 +11,11 @@ export const initailState = {
 
 export function reducer(state: any, action: any) {
   switch (action.type) {
+    case 'addDocument':
+      return {
+        ...state,
+        portfolio:  addNewFile(state.portfolio, action.payload.folderId, action.payload.submission),
+      };
     case 'addFolder':
       return {
         ...state,
@@ -47,72 +52,6 @@ export function reducer(state: any, action: any) {
   }
 }
 
-export function addFile(
-  portfolio,
-  mainIndex: number,
-  subFolderIndex: number,
-  fileName: string,
-  mutation
-) {
-  const newData = { ...portfolio, files: [...portfolio.files] };
-
-  if (
-    mainIndex < 0 ||
-    mainIndex >= newData.files.length ||
-    newData.files[mainIndex].type !== 'FOLDER'
-  ) {
-    throw new Error('Invalid mainIndex!');
-  }
-
-  const mainFolder = {
-    ...newData.files[mainIndex],
-    files: [...(newData.files[mainIndex].files || [])],
-  };
-  newData.files[mainIndex] = mainFolder;
-
-  if (
-    subFolderIndex < 0 ||
-    subFolderIndex >= mainFolder.files.length ||
-    mainFolder.files[subFolderIndex].type !== 'FOLDER'
-  ) {
-    throw new Error('Invalid subFolderIndex!');
-  }
-
-  const subFolder = {
-    ...mainFolder.files[subFolderIndex],
-    files: [...(mainFolder.files[subFolderIndex].files || [])],
-  };
-  mainFolder.files[subFolderIndex] = subFolder;
-  const tempFile = { id: 'temp', title: fileName, type: 'FILE' };
-  subFolder.files.unshift(tempFile);
-
-  mutation.mutate(
-    {
-      classId: mainFolder.classId,
-      courseId: subFolder.courseId,
-      title: fileName,
-      folderId: mainFolder.id,
-    },
-    {
-      onMutate: () => {
-        const previousPortfolio = { ...portfolio };
-
-        portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
-        return previousPortfolio;
-      },
-      onSuccess: (data) => {
-        subFolder.files = subFolder.files.map((file) =>
-          file.id === 'temp' ? data : file
-        );
-        portfolio.files[mainIndex].files[subFolderIndex] = subFolder;
-      },
-      onError: (_, __, context) => {
-        // Reverting to the previous state in case of an error
-        if (context) portfolio = context;
-      },
-    }
-  );
-}
 
 export function getDocuments(
   portfolio,
@@ -183,6 +122,46 @@ export const deleteDocument = (portfolio, documentId) => {
   console.log('New', newPortfolio);
   return newPortfolio;
 };
+export function addNewFile(portfolio, folderId, submission) {
+  const file = {
+      title: submission.assignment.title,
+      folderId: folderId,
+      viewedAt: Number(new Date()),
+      status: 'Draft',
+      tags: [{name:'Draft'}],
+      url: "#documents/" + submission.id,
+  }
+
+  return {
+      ...portfolio,
+      files: portfolio.files.map(folder => {
+          if (folder.id === folderId) {
+              const draftsFolderIndex = folder.files.findIndex(f => f.title === "Drafts");
+              
+              if (draftsFolderIndex >= 0) {
+                  const updatedDraftsFiles = [
+                      ...folder.files[draftsFolderIndex].files || [], 
+                      file
+                  ];
+                  return {
+                      ...folder,
+                      files: folder.files.map((f, index) => 
+                          index === draftsFolderIndex 
+                          ? { ...f, files: updatedDraftsFiles } 
+                          : f
+                      )
+                  };
+              } else {
+                  // If there's no "Drafts" folder, simply return the original folder
+                  return folder;
+              }
+          }
+          return folder;
+      }),
+      recentFiles: [file, ...portfolio.recentFiles]  // Add the new file to the start of the recentFiles array
+  }
+}
+
 
 export const addFolder = (portfolio, folder) => {
   return {

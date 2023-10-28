@@ -29,7 +29,6 @@ export const DropdownMenu = (props) => {
     getSelectedItem = null,
   } = props;
 
-  console.log('this is the menu: ', menuItems)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchInput, setSearchInput] = React.useState('');
   const [filteredMenuItems, setFilteredMenuItems] = React.useState(menuItems);

@@ -13,8 +13,15 @@ import {
   SelectFeedbackMethod,
   SelectFeedbackMethodType,
   RequestFeedbackFrame,
+  RequestFeedbackDropdown,
+  IconContainer,
+  DropdownButtonsGroup,
+  DropdownButton,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
+import { useState } from 'react';
+import { cancelFeedbackRequest } from '../../../service';
+import SnackbarContext from '../../SnackbarContext';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -35,6 +42,7 @@ export function contextBar(
   pageMode,
   labelText
 ) {
+
   const focusAreasCount = createFocusAreasCount(submission);
   return (
     <Frame1371 id="assignmentTitle">
@@ -189,6 +197,7 @@ export function contextBarForPortfolioDocument(
   isShowSelectType,
   setShowSelectType,
   submission,
+  setSubmission,
   methods,
   isTeacher,
   pageMode,
@@ -200,8 +209,8 @@ export function contextBarForPortfolioDocument(
   allFolders,
   updateDocumentClass
 ) {
-  console.log('in the context we get all: ', submission);
-  console.log('in the context we get all: ', allFolders);
+  const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const selectedFolderIdIndex = allFolders?.findIndex(
     (item) => item.id === submission?.folderId
@@ -226,14 +235,18 @@ export function contextBarForPortfolioDocument(
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
       {submitButtonDocument(
+        showSnackbar,
         isShowSelectType,
         setShowSelectType,
         methods,
         pageMode,
         submission,
+        setSubmission,
         feedbackMethodType,
         handleRequestFeedback,
-        allClasses
+        allClasses,
+        showFeedbackButtons,
+        setShowFeedbackButtons
       )}
     </Frame1371>
   );
@@ -290,14 +303,18 @@ function statusText(methods, focusAreasCount, submission) {
 }
 
 const submitButtonDocument = (
+  showSnackbar,
   isShowSelectType,
   setShowSelectType,
   methods,
   pageMode,
   submission,
+  setSubmission,
   feedbackMethodType,
   handleRequestFeedback,
-  allClasses
+  allClasses,
+  showFeedbackButtons,
+  setShowFeedbackButtons
 ) => {
   if (pageMode === 'DRAFT') {
     return (
@@ -323,6 +340,7 @@ const submitButtonDocument = (
       </div>
     );
   }
+
   if (pageMode === 'REVIEW') {
     return (
       <ButtonsContainer>
@@ -336,19 +354,69 @@ const submitButtonDocument = (
   if (pageMode === 'REVISE') {
     return (
       <RequestFeedbackFrame
-        style={{ border: '1px solid #0C8F8F', cursor: 'unset' }}
+        style={{
+          border: '1px solid #0C8F8F',
+          cursor: 'unset',
+          minWidth: '240px',
+          position: 'relative',
+        }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        Feedback requested from {getFeedbackRequestedBy(submission, allClasses)}
+        {getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
+        {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
       </RequestFeedbackFrame>
     );
   }
   return <></>;
 };
+
+function getStatusLabel(submission, allClasses, setShowFeedbackButtons, showFeedbackButtons) {
+  if (submission.status === 'FEEDBACK_DECLINED') {
+    return (
+      'Feedback requested declined by ' +
+      getFeedbackRequestedBy(submission, allClasses)
+    );
+  }
+  return (
+    <RequestFeedbackDropdown
+      title={`Request feedback from ${submission.reviewerName}`}
+    >
+      Feedback requested
+      <IconContainer
+        src="/icons/three-dot.svg"
+        alt="show cancel"
+        onClick={() => setShowFeedbackButtons(!showFeedbackButtons)}
+      />
+    </RequestFeedbackDropdown>
+  );
+}
 function getFeedbackRequestedBy(submission, allClasses) {
   if (submission.feedbackRequestType === 'P2P') {
-    console.log('allClasses', allClasses);
     return allClasses.find((item) => item.id === submission.classId)?.title;
   }
   return submission.reviewerName;
+}
+
+function dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission) {
+  return (
+    <DropdownButtonsGroup>
+      {/* <DropdownButton>Change due date</DropdownButton> */}
+      <DropdownButton onClick={()=>handleCancelFeedbackRequest(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}>Cancel</DropdownButton>
+    </DropdownButtonsGroup>
+  );
+}
+
+function handleCancelFeedbackRequest(setShowFeedbackButtons, showSnackbar, submission, setSubmission) {
+  cancelFeedbackRequest(submission.id)
+  .then((response) => {
+    showSnackbar('Feedback request cancelled');
+
+    setSubmission(response)
+  }).catch((error) => {
+    showSnackbar(error.message)
+    setSubmission(error.submission)
+  }).finally(()=>{
+    setShowFeedbackButtons(false)
+  });
+
 }

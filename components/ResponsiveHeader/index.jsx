@@ -9,6 +9,7 @@ import {
   portfolioHeaderProps,
   taskHeaderProps,
   teacherHomeHeaderProps,
+  teacherStudentTaskHeaderProps,
 } from '../../utils/headerProps';
 import { getUserRole } from '../../service';
 
@@ -29,7 +30,7 @@ const getHeaderProps = (location) => {
   if (location.includes('/exemplarResponses'))
     return completedHeaderProps(true);
   if (location.includes('/documents/')) return portfolioHeaderProps();
-  if (location.includes('/documentsReview/')) return taskHeaderProps;
+  if (location.includes('/documentsReview/')) return teacherStudentTaskHeaderProps();
   if (location.includes('/portfolio')) return portfolioHeaderProps();
 
   const isTeacher = getUserRole() === 'TEACHER';

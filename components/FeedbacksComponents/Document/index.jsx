@@ -58,6 +58,7 @@ function Document(props) {
     allClasses,
     students,
     teachers,
+    onMobileView = false
   } = props;
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
@@ -130,7 +131,8 @@ function Document(props) {
             handleRequestFeedback,
             allClasses,
             allFolders,
-            methods.updateDocumentClass
+            methods.updateDocumentClass,
+            onMobileView
           )}
         </Frame1388>
       </div>
@@ -235,10 +237,12 @@ function answersAndFeedbacks(
   handleRequestFeedback,
   allClasses,
   allFolders,
-  updateDocumentClass
+  updateDocumentClass,
+  onMobileView
 ) {
+
   return (
-    <Frame1386 id="content">
+    <Frame1386 id="content" onMobileView={onMobileView}>
       {contextBarForPortfolioDocument(
         isShowSelectType,
         setShowSelectType,
@@ -255,7 +259,8 @@ function answersAndFeedbacks(
         true,
         allClasses,
         allFolders,
-        updateDocumentClass
+        updateDocumentClass,
+        onMobileView
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
@@ -266,7 +271,7 @@ function answersAndFeedbacks(
           methods
         )}
         <></>
-        {documentFeedbackFrame(
+        {!onMobileView && documentFeedbackFrame(
           methods,
           submission,
           newCommentSerialNumber,

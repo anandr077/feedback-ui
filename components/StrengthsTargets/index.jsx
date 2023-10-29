@@ -7,8 +7,7 @@ import {
 } from './StrengthTargetStyle';
 
 const StrengthsTargets = ({ strengths, targets }) => {
-  console.log('strengths', strengths);
-  console.log('targets', targets);
+  
   return (
     <>
       <div>

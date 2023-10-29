@@ -8,7 +8,6 @@ import {
   IbmplexsansNormalShark16px,
 } from '../../../styledMixins';
 
-
 export const AwaitFeedbackContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -336,7 +335,6 @@ export const SelectFeedbackMethod = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 16px;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
@@ -347,15 +345,19 @@ export const SelectFeedbackMethod = styled.div`
 `;
 
 export const SelectFeedbackMethodType = styled.div`
-  color: var(--Text, #1e252a);
-  font-family: IBM Plex Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  margin: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: left;
+  ${IbmplexsansNormalShark16px};
+
   &:hover {
-    opacity: 0.7;
+    background-color: var(--blue-chalk);
   }
 `;
 
@@ -379,7 +381,7 @@ export const RequestFeedbackDropdown = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`
+`;
 
 export const IconContainer = styled.img`
   position: relative;
@@ -387,7 +389,6 @@ export const IconContainer = styled.img`
   height: 20px;
   cursor: pointer;
 `;
-
 
 export const DropdownButtonsGroup = styled.div`
   position: absolute;
@@ -398,7 +399,7 @@ export const DropdownButtonsGroup = styled.div`
   border-radius: 8px;
   border: 1px solid #2f1a720a;
   padding: 10px;
-`
+`;
 
 export const DropdownButton = styled.button`
   display: block;
@@ -412,7 +413,7 @@ export const DropdownButton = styled.button`
   text-align: left;
   ${IbmplexsansNormalShark16px};
 
-  &:hover{
+  &:hover {
     background-color: var(--blue-chalk);
   }
-`
+`;

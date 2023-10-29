@@ -33,14 +33,14 @@ export default function TeacherTaskRoot() {
       const result = await getAssignments();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   const documentReviewTasksQuery = useQuery({
     queryKey: ['document-reviews'],
     queryFn: async () => {
       return await getDocumentReviews();
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   const teacherClassesQuery = useQuery({
     queryKey: ['classes'],
@@ -48,7 +48,7 @@ export default function TeacherTaskRoot() {
       const result = await getClasses();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
 
   React.useEffect(() => {
@@ -154,7 +154,6 @@ export default function TeacherTaskRoot() {
       }
       return _.includes(typesValues, assignment.type);
     });
-    console.log('filteredAssignments', filteredAssignments);
     const classesValues = _.map(_.get(groupedData, 'CLASSES'), 'value');
 
     const filteredClasses = _.filter(filteredAssignments, (assignment) => {

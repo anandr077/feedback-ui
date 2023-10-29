@@ -30,6 +30,7 @@ import {
   Share,
   TypeHere,
 } from './style';
+import AntSwitch from '../AntSwitch';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -181,7 +182,6 @@ export function createCommentsFrame(
   }
   return sortBy(visibleComments, ['questionSerialNumber', 'range.from']).map(
     (comment) => {
-      console.log('Comment ', comment);
       if (comment.type === 'FOCUS_AREA') {
         return (
           <CommentCard32
@@ -257,7 +257,6 @@ const newCommentFrame = (
   share,
   smartAnnotations
 ) => {
-  console.log('newCommentFrame');
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
@@ -324,24 +323,20 @@ function shareWithClassFrame(methods, share) {
   );
 }
 
-function selectFocusArea(methods,submission, newCommentSerialNumber) {
-  console.log('q', submission.assignment.questions);
+function selectFocusArea(methods, submission, newCommentSerialNumber) {
   const allFocusAreas = flatMap(submission.assignment.questions, (question) =>
     question.focusAreas ? question.focusAreas : []
   );
 
-  console.log('allFocusAreas', allFocusAreas);
-
   const focusAreas = uniqBy(
     allFocusAreas?.filter((fa) => {
-      console.log('id', fa.id);
       return submission.assignment.questions[
         newCommentSerialNumber - 1
       ]?.focusAreaIds?.includes(fa.id);
     }),
     'id'
   );
-  const focusAreasFrame = (methods)=>(
+  const focusAreasFrame = (methods) => (
     <>
       <Frame1329>
         <Frame1406>
@@ -387,11 +382,12 @@ export const showResolvedToggle =
             flexDirection: 'row',
             alignItems: 'center',
             alignContent: 'center',
+            gap: '10px',
           }}
         >
           <Label>Show resolved</Label>
           {/* Show resolved */}
-          <Switch
+          <AntSwitch
             checked={isShowResolved}
             onChange={handleShowResolvedToggle(setShowResolved)}
           />

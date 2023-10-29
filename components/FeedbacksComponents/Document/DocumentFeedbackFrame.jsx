@@ -29,6 +29,7 @@ import {
   Share,
   TypeHere,
 } from '../FeedbackTeacherLaptop/style';
+import AntSwitch from '../AntSwitch';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -88,7 +89,6 @@ function feedbackFrame(
   smartAnnotations
 ) {
   
-  console.log('feedbackFrame smartAnnotations', smartAnnotations);
   return (
     <Frame1331 id="feedbacksFrame">
       <Frame1322>
@@ -152,7 +152,6 @@ export function createCommentsFrame(
   }
   return sortBy(visibleComments, ['questionSerialNumber', 'range.from']).map(
     (comment) => {
-      console.log('Comment ', comment);
       if (comment.type === 'FOCUS_AREA') {
         return (
           <CommentCard32
@@ -228,7 +227,6 @@ const newCommentFrame = (
   share,
   smartAnnotations
 ) => {
-  console.log('newCommentFrame smartAnnotations', smartAnnotations);
   
   return reviewerNewComment(
     methods,
@@ -315,11 +313,12 @@ export const showResolvedToggle =
           flexDirection: 'row',
           alignItems: 'center',
           alignContent: 'center',
+          gap: '10px',
         }}
       >
         <Label>Show resolved</Label>
         {/* Show resolved */}
-        <Switch
+        <AntSwitch
           checked={isShowResolved}
           onChange={handleShowResolvedToggle(setShowResolved)}
         />
@@ -328,7 +327,6 @@ export const showResolvedToggle =
   };
 
 function shortcutList(methods, smartAnnotations) {
-  console.log('smartAnnotations', smartAnnotations);
   return smartAnnotations.map((smartAnnotation, index) => (
     <SmartAnotation
       key={index}

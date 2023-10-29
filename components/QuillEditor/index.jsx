@@ -72,7 +72,6 @@ const QuillEditor = React.forwardRef(
         const handleDebounce = () => {
           // Get the contents of the editor as a Delta object
           const delta = editor.getContents();
-          console.log('delta', delta);
           // Filter out the highlight attributes from the Delta object
           const filteredOps = delta.ops.map((op) => {
             if (op.attributes && op.attributes.highlight) {
@@ -82,7 +81,6 @@ const QuillEditor = React.forwardRef(
             return op;
           });
 
-          console.log('delta', filteredOps);
           // Create a new Delta object with the filtered operations
           const filteredDelta = new Quill.imports.delta(filteredOps);
 
@@ -135,7 +133,6 @@ const QuillEditor = React.forwardRef(
       },
       applyBackgroundFormat(range, format) {
         if (format) {
-          console.log('applyBackgroundFormat');
           const formatKeys = Object.keys(format);
           if (formatKeys.includes('background')) {
             editor.formatText(
@@ -155,7 +152,6 @@ const QuillEditor = React.forwardRef(
         }
       },
       setLostFocusColor(range) {
-        console.log('setLostFocusColor');
         const initialFormat = editor.getFormat(
           range.from,
           range.to - range.from
@@ -208,7 +204,6 @@ function scrollToHighlight(commentId) {
 function removeAllHighlights(editor) {
   // Get all highlight elements in the Quill container
   const highlightElements = getHighlights(editor);
-  console.log('removeAllHighlights ', highlightElements);
   flatMap(Object.entries(highlightElements), ([commentId, highlights]) => {
     return highlights.map((highlight) => {
       const { content, range } = highlight;
@@ -229,12 +224,9 @@ function getHighlights(editor) {
     'span[data-comment-id]:not(.quill-highlight)'
   );
 
-  console.log('highlightElements ', highlightElements);
-  console.log('metaElements ', metaElements);
   highlightElements.forEach((element) => {
     const commentId = element.getAttribute('data-comment-id');
     const content = element.textContent;
-    console.log('content', content);
     const index = editor.getIndex(Quill.find(element));
     const length = content.length;
 

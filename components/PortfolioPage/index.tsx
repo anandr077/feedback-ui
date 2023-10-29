@@ -49,7 +49,7 @@ const PortfolioPage = () => {
     queryFn: async () => {
       return await getPortfolio();
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   React.useEffect(() => {
     dispatch({ type: 'setPortfolio', payload: data });
@@ -63,7 +63,6 @@ const PortfolioPage = () => {
       console.log('On error');
     },
     onSuccess: (data, documentDetails) => {
-      console.log('addDocument', data, documentDetails);
       const updatedState = reducer(state, {
         type: 'addDocument',
         payload: {
@@ -73,10 +72,9 @@ const PortfolioPage = () => {
         },
       });
       queryClient.setQueryData(['portfolio'], updatedState.portfolio);
-      window.location.href=`#documents/${data.id}`
+      window.location.href = `#documents/${data.id}`;
     },
     onSettled: () => {
-      console.log('Settled');
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
@@ -96,11 +94,8 @@ const PortfolioPage = () => {
 
       queryClient.setQueryData(['portfolio'], context.previousPortfolio);
     },
-    onSuccess: (data, variables) => {
-      console.log('On success');
-    },
+    onSuccess: (data, variables) => {},
     onSettled: () => {
-      console.log('Settled');
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
@@ -113,11 +108,9 @@ const PortfolioPage = () => {
       console.log('On error');
     },
     onSuccess: (data, folderName) => {
-      console.log('addFolder', data);
       dispatch({ type: 'addFolder', payload: data });
     },
     onSettled: () => {
-      console.log('Settled');
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
   });
@@ -135,9 +128,7 @@ const PortfolioPage = () => {
 
       queryClient.setQueryData('portfolio', context.previousPortfolio);
     },
-    onSuccess: (data, variables) => {
-      console.log('On success');
-    },
+    onSuccess: (data, variables) => {},
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
@@ -156,9 +147,7 @@ const PortfolioPage = () => {
 
       queryClient.setQueryData('portfolio', context.previousPortfolio);
     },
-    onSuccess: (data, variables) => {
-      console.log('On success');
-    },
+    onSuccess: (data, variables) => {},
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['portfolio'] });
     },
@@ -177,8 +166,6 @@ const PortfolioPage = () => {
       folderId: folder?.id,
       classId: folder?.classId,
     });
-
-    
   };
   const handleDeleteDocument = (document) => {
     setShowDeleteConfirmationPopup(true);

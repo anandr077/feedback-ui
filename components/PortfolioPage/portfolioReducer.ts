@@ -58,18 +58,16 @@ export function getDocuments(
   maybeFolderId: string,
   categoryName: string = 'Drafts'
 ) {
-  console.log('Portfolio', portfolio);
-  console.log('maybeFolderId', maybeFolderId);
-  console.log('categoryName', categoryName);
+  
   const folderId = createFolderIdToUse(portfolio, maybeFolderId);
   const mainFolder = portfolio.files.find(
     (classItem) => classItem.id === folderId
   );
-  console.log('mainFolder', mainFolder);
+  
   const subFolder = mainFolder?.files?.find(
     (folder) => folder.title === categoryName
   );
-  console.log('subFolder', subFolder);
+  
 
   return subFolder?.files || [];
 }
@@ -100,16 +98,14 @@ export function getSubFolder(
 }
 
 export const deleteDocument = (portfolio, documentId) => {
-  console.log('Old', portfolio);
-  console.log('documentId', documentId);
+  
   const newPortfolio = {
     ...portfolio,
     files: portfolio.files?.map((folder) => ({
       ...folder,
       files: folder.files?.map((subFolder) => {
         const filteredFiles = subFolder.files?.filter((file) => {
-          console.log('file.id', file.id);
-          console.log('documentId', documentId);
+          
           return file.id !== documentId;
         });
         return {
@@ -119,7 +115,6 @@ export const deleteDocument = (portfolio, documentId) => {
       }),
     })),
   };
-  console.log('New', newPortfolio);
   return newPortfolio;
 };
 export function addNewFile(portfolio, folderId, submission) {

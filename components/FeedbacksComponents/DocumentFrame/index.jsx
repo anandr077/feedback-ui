@@ -18,6 +18,7 @@ import {
   QuestionText,
   QuillContainer
 } from '../FeedbackTeacherLaptop/style';
+import { linkify } from '../../../utils/linkify';
 
 export function answersFrame(
   quillRefs,
@@ -110,7 +111,7 @@ const answerFrames = (
     return (
       <>
         <Frame1366>
-          <QuestionText>{questionText}</QuestionText>
+          <QuestionText dangerouslySetInnerHTML={{__html: linkify(questionText)}} />
           {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}

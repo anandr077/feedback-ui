@@ -15,7 +15,6 @@ import { getUserRole } from '../../service';
 export default function ResponsiveHeader({ isSmallScreen }) {
   const location = useLocation();
 
-  //console.log(location)
   const headerProps = getHeaderProps(location.pathname);
 
   if (isSmallScreen) {

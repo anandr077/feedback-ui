@@ -49,7 +49,6 @@ export const DeleteButtonContainer = styled.div`
 
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  z-index: 1;
   &:hover {
     transform: scale(1.3);
   }

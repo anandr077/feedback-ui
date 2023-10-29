@@ -207,7 +207,7 @@ const PortfolioAllFilesContainer = ({
               <DocumentBoxWrapper>
                 <DocumentTextFrame>
                   {document?.preview && document.preview.length > 130
-                    ? document.preview.slice(0, 230) + '...'
+                    ? document.preview.slice(0, 125) + '...'
                     : document.preview}
                 </DocumentTextFrame>
                 <div>

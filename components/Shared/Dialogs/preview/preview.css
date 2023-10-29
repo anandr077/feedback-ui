@@ -137,6 +137,19 @@
   text-align: center;
 }
 
+.st-sub-title-sm{
+  color: #1e252a;
+  font-size: 18px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 8px;
+  width: 100%;
+  min-width: fit-content;
+  text-align: center;
+}
+
 .mk-column{
   padding: 8px;
 }

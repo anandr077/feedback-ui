@@ -29,6 +29,7 @@ import {
   Share,
   TypeHere,
 } from '../FeedbackTeacherLaptop/style';
+import AntSwitch from '../AntSwitch';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -315,11 +316,12 @@ export const showResolvedToggle =
           flexDirection: 'row',
           alignItems: 'center',
           alignContent: 'center',
+          gap: '10px',
         }}
       >
         <Label>Show resolved</Label>
         {/* Show resolved */}
-        <Switch
+        <AntSwitch
           checked={isShowResolved}
           onChange={handleShowResolvedToggle(setShowResolved)}
         />

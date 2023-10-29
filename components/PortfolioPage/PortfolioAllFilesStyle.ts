@@ -69,6 +69,7 @@ const DocumentTextFrame = styled.div`
   color: #000000;
   padding: 5px;
   overflow: hidden;
+  word-wrap: break-word;
 `;
 
 const DocumentTitle = styled.h3`

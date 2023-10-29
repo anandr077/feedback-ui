@@ -742,12 +742,6 @@ export default function DocumentRoot({}) {
     }
     return submission.studentName;
   }
-  function getFeedbackProvidedBy() {
-    if (submission.feedbackRequestType === 'P2P') {
-      return 'your peer.';
-    }
-    return submission.reviewerName;
-  }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
     addFeedback(submission.id, {

@@ -325,7 +325,7 @@ function documentFeedbackFrame(
 }
 
 function breadcrumbs(pageMode, submission, allFolders) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE' || (pageMode === 'CLOSED'  && submission.status === 'FEEDBACK_ACCEPTED')) {
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE' || (pageMode === 'CLOSED'  && (submission.status === 'FEEDBACK_ACCEPTED' || submission.status === 'SUBMITTED'))) {
     return (
       <Frame1387>
         <Frame1315>

@@ -12,6 +12,7 @@ import {
   getStudentsForClass,
   getAssignmentsByClassId,
   getSmartAnnotaionAnalyticsByClassId,
+  getModelResponsesForClass
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
@@ -62,7 +63,7 @@ export default function TeacherClassesRoot() {
     async () => {
       const studentsResponse = await getStudentsForClass(classId);
       const assignmentsResponse = await getAssignmentsByClassId(classId);
-      const modelResponses = getModelResponsesForClass(classId);
+      const modelResponses = await getModelResponsesForClass(classId);
       const smartAnnotationAnalytics =
         await getSmartAnnotaionAnalyticsByClassId(classId);
 
@@ -75,12 +76,12 @@ export default function TeacherClassesRoot() {
     },
     {
       staleTime: 300000,
-      enabled: !!classId, // Only fetch data when classId is available
+      enabled: !!classId,
     }
   );
   useEffect(() => {
     if (classQuery.data) {
-      const { students, assignments, smartAnnotationAnalytics } =
+      const { students, assignments, smartAnnotationAnalytics, modelResponses } =
         classQuery.data;
 
       setStudents(students);
@@ -102,27 +103,15 @@ export default function TeacherClassesRoot() {
     <AnnotationAnalytics smartAnnotationAnalytics={smartAnnotationAnalytics} />
   );
 
-  const drafts = assignments.filter(
-    (assignment) => assignment.submissionsStatus === 'DRAFT'
-  );
-  const awaitingSubmissions = assignments.filter(
-    (assignment) => assignment.submissionsStatus === 'AWAITING_SUBMISSIONS'
-  );
-  const feedbacks = assignments.filter(
-    (assignment) => assignment.submissionsStatus === 'FEEDBACK'
-  );
+  
   const selectedClassIndex = getSelectedClassIndex(classes, classId);
   return (
     <ReactiveRender
       mobile={
         <TeacherClassesMobile
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
-            assignments,
             modelResponses,
             setPublishActionCompleted,
             students,
@@ -135,12 +124,8 @@ export default function TeacherClassesRoot() {
       tablet={
         <TeacherClassesTablet
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
-            assignments,
             modelResponses,
             setPublishActionCompleted,
             students,
@@ -153,12 +138,8 @@ export default function TeacherClassesRoot() {
       laptop={
         <TeacherClassesLaptop
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
-            assignments,
             modelResponses,
             setPublishActionCompleted,
             students,
@@ -171,12 +152,8 @@ export default function TeacherClassesRoot() {
       desktop={
         <TeacherClassesDesktop
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
-            assignments,
             modelResponses,
             setPublishActionCompleted,
             students,

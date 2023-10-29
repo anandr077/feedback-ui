@@ -1,51 +1,24 @@
-import React from 'react';
+import { default as React, default as React } from 'react';
 import DropdownMenu from '../../DropdownMenu';
-import Frame12842 from '../../TeacherDashboard/Frame12842';
 import Buttons from '../Buttons';
-import Frame1337 from '../Frame1337';
-import Frame6 from '../Frame6';
+import Exemplar from "../ExemplarContainer/index.jsx";
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesDesktop.css';
 import {
-  Frame1422,
-  Frame13121,
-  Title,
-  Frame14221,
   Frame1306,
-  Students,
-  X2021JeddleAllRightsReserved,
-  Frame1426,
-  Frame1417,
-  Frame1339,
-  Frame13371,
-  Line17,
+  Frame13121,
   Frame1336,
-  Frame1307,
+  Frame13371,
+  Frame1339,
   Frame1416,
-  Frame1342,
-  Frame61,
+  Frame1417,
+  Frame1422,
+  Frame14221,
+  Frame1426,
+  Line17,
+  Students,
+  Title
 } from './TeacherClassesDesktopStyle.js';
-import React from "react";
-import styled from "styled-components";
-import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
-import Header from "../../Header";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
-import Frame14072 from "../../TeacherDashboard/Frame14072";
-import Buttons from "../Buttons";
-import Frame13132 from "../Frame13132";
-import Frame6 from "../Frame6";
-import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansMediumRiverBed24px,
-  IbmplexsansNormalChicago13px,
-  IbmplexsansNormalShark16px
-} from "../styledMixins";
-import {
-  createModelResponsesFrames,
-  createStudentsFrames
-} from "../TeacherClassesRoot/methods";
-import "./TeacherClassesDesktop.css";
-import Exemplar from "../ExemplarContainer/index.jsx";
 
 function TeacherClassesDesktop(props) {
   const {
@@ -68,7 +41,7 @@ function TeacherClassesDesktop(props) {
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
-  console.log('first', classes);
+  console.log('model responses', modelResponses);
 
   return (
     <div className="teacher-classes-desktop screen">

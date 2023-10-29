@@ -1,47 +1,29 @@
-import React from 'react';
-import Buttons from '../Buttons';
-import React from 'react';
-import Frame14072 from '../../TeacherDashboard/Frame14072';
-import Frame12842 from '../../TeacherDashboard/Frame12842';
+import { default as React, default as React, default as React } from 'react';
 import DropdownMenu from '../../DropdownMenu';
+import Buttons from '../Buttons';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesLaptop.css';
-import React from "react";
-import Buttons from "../Buttons";
 
 import React from "react";
-import styled from "styled-components";
-import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
-import Footer from "../../Footer";
-import Header from "../../Header";
-import ImageDropdownMenu from "../../ImageDropdownMenu";
 import {
-  Classes,
-  Frame1422,
-  Frame1312,
-  Title,
-  Frame14221,
   Frame1306,
-  Students,
-  Frame1426,
-  Frame1417,
-  Frame1339,
-  Frame1337,
-  Line17,
-  Line18,
+  Frame1312,
   Frame1336,
-  Frame1307,
+  Frame1337,
+  Frame1339,
   Frame1416,
-  Frame1340,
+  Frame1417,
+  Frame1422,
+  Frame14221,
+  Frame1426,
+  Line18,
+  Students,
+  Title
 } from './TeacherClassesLaptopStyle';
 
-import { createModelResponsesFrames } from "../TeacherClassesRoot/methods";
 import Exemplar from "../ExemplarContainer";
 function TeacherClassesLaptop(props) {
   const {
-    drafts,
-    awaitingSubmissions,
-    feedbacks,
     classes,
     setClassId,
     modelResponses,
@@ -50,9 +32,8 @@ function TeacherClassesLaptop(props) {
     selectedClassIndex,
     annotationAnalyticsFrame,
     line171,
-    line176,
   } = props;
-
+  console.log("Model", modelResponses)
   return (
     <div className="teacher-classes-laptop screen">
       <Frame1422>

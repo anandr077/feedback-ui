@@ -22,6 +22,7 @@ import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
 import { cancelFeedbackRequest, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
+import { linkify } from '../../../utils/linkify';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -46,7 +47,7 @@ export function contextBar(
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
-        <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
+        <AssignmentTitle dangerouslySetInnerHTML={{__html: linkify(submission.assignment.title)}}/>
         {statusText(methods, focusAreasCount, submission)}
       </TitleWrapper>
       {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
@@ -219,7 +220,7 @@ export function contextBarForPortfolioDocument(
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
-        <AssignmentTitle>{submission?.assignment?.title}</AssignmentTitle>
+        <AssignmentTitle dangerouslySetInnerHTML={{__html: linkify(submission?.assignment?.title)}}/>
         {showStatusText && statusText(methods, 0, submission)}
 
         {changeFolderDropDown()}

@@ -467,7 +467,7 @@ export default function DocumentRoot({}) {
 
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
-      queryClient.invalidateQueries(['notifications']);
+      clearQueries();
       showSnackbar('Task reviewed...', window.location.href);
       window.location.href = '/#';
     });
@@ -479,7 +479,7 @@ export default function DocumentRoot({}) {
     setPopupText('');
 
     markSubmissionRequestSubmission(submission.id).then((_) => {
-      queryClient.invalidateQueries(['notifications']);
+      clearQueries();
       showSnackbar('Resubmission requested...', window.location.href);
       window.location.href = '/#';
     });
@@ -497,7 +497,7 @@ export default function DocumentRoot({}) {
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
-        queryClient.invalidateQueries(['notifications']);
+        clearQueries();
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -524,7 +524,7 @@ export default function DocumentRoot({}) {
     showSnackbar('Submitting task...');
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
-        queryClient.invalidateQueries(['notifications']);
+        clearQueries();
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -794,6 +794,14 @@ export default function DocumentRoot({}) {
       }
     });
   };
+
+  const clearQueries = () => {
+    queryClient.invalidateQueries(['notifications']);
+    queryClient.invalidateQueries(['tasks']);
+    queryClient.invalidateQueries(['assignments']);
+    queryClient.invalidateQueries(['document-reviews']);
+  }
+
   const methods = {
     updateDocumentClass,
     handleShortcutAddCommentSmartAnnotaion,

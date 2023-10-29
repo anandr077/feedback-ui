@@ -12,6 +12,7 @@ import QuillEditor from '../../QuillEditor';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherMobile.css';
+import { linkify } from '../../../utils/linkify';
 
 function FeedbackTeacherMobile(props) {
   const { pageMode, methods, comments, submission } = props;
@@ -33,8 +34,7 @@ function FeedbackTeacherMobile(props) {
     return (
       <>
         <Frame1366>
-          <Q1PoremIpsumDolo>{questionText}</Q1PoremIpsumDolo>
-          {question.type === 'MCQ' ? (
+          <Q1PoremIpsumDolo dangerouslySetInnerHTML={{__html: linkify(questionText)}} />          {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}
               question={question}

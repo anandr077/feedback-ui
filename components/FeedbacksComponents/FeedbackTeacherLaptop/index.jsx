@@ -42,7 +42,6 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
-    linkify,
   } = props;
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -117,7 +116,7 @@ function FeedbackTeacherLaptop(props) {
             comments,
             newCommentFrameRef,
             share,
-            smartAnnotations
+            smartAnnotations,
           )}
         </Frame1388>
       </div>
@@ -226,7 +225,7 @@ function answersAndFeedbacks(
   comments,
   newCommentFrameRef,
   share,
-  smartAnnotations
+  smartAnnotations,
 ) {
   return (
     <Frame1386 id="content">

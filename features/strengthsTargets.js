@@ -1,5 +1,4 @@
 export const createMenuItems = (strengthsAndTargets, type) => {
-  console.log('strengthsAndTargets data: ', strengthsAndTargets);
   let idCounter = 1;
   const result = [];
 
@@ -31,6 +30,5 @@ export const createMenuItems = (strengthsAndTargets, type) => {
       });
     }
   });
-  console.log('result: ', result);
   return result;
 };

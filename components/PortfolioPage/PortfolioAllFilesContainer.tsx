@@ -100,7 +100,6 @@ const PortfolioAllFilesContainer = ({
   }, [allFiles]);
 
   const getSelectedItem = (option) => {
-    console.log('option', option);
     dispatch({ type: option.title });
     dispatch({ type: 'filteredFiles', payload: true });
   };

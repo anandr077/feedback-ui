@@ -102,7 +102,7 @@ const PortfolioSideBar = ({
             placeholder="Folder name"
             type="text"
             onKeyUp={(e) => {
-              console.log(e.key);
+              
               if (e.key === 'Enter') {
                 handleNewFolder(newFolderName);
                 setNewFolderName('');

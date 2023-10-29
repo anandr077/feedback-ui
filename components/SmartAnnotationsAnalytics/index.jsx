@@ -10,7 +10,7 @@ import ProgressBar from '../ProgressBar';
 
 function SmartAnotationAnalytics(props) {
   const { title, childrens, total } = props;
-  console.log('##total', total);
+ 
 
   const [isExpanded, setIsExpanded] = useState(false);
 

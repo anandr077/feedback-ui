@@ -184,7 +184,7 @@ export default function AccountSettingsRoot(props) {
     }
     createNewMarkingCriteria(createdMarkingCriteria)
       .then((res) => {
-        console.log('result: ', res);
+        
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
         showSnackbar(

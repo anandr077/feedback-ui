@@ -52,7 +52,6 @@ function NotificationsBar(props) {
       );
     },
     onSuccess: (data, variables) => {
-      console.log('data', data);
       window.location.href = `#documentsReview/${data.id}`;
     },
     onSettled: () => {

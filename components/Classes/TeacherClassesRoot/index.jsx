@@ -26,7 +26,6 @@ export default function TeacherClassesRoot() {
 
   const [classId, setClassId] = useState(classIdFromUrl);
   const [classes, setClasses] = useState([]);
-  console.log('classes', classes);
   const [assignments, setAssignments] = React.useState([]);
 
   const [students, setStudents] = React.useState([]);
@@ -44,7 +43,7 @@ export default function TeacherClassesRoot() {
       const result = await getClasses();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   useEffect(() => {
     if (classesQuery.isSuccess) {
@@ -71,11 +70,11 @@ export default function TeacherClassesRoot() {
         students: studentsResponse,
         assignments: assignmentsResponse,
         smartAnnotationAnalytics: smartAnnotationAnalytics,
-        modelResponses: modelResponses
+        modelResponses: modelResponses,
       };
     },
     {
-      staleTime: 300000,
+      staleTime: 3600000,
       enabled: !!classId,
     }
   );

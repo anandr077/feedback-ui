@@ -19,6 +19,5 @@ export const linkify = (inputText) => {
     replacePattern3,
     '<a href="mailto:$1">$1</a>'
   );
-  console.log('replacedText', replacedText);
   return replacedText;
 };

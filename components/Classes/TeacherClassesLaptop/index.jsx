@@ -4,7 +4,7 @@ import Buttons from '../Buttons';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesLaptop.css';
 
-import React from "react";
+import React from 'react';
 import {
   Frame1306,
   Frame1312,
@@ -18,10 +18,10 @@ import {
   Frame1426,
   Line18,
   Students,
-  Title
+  Title,
 } from './TeacherClassesLaptopStyle';
 
-import Exemplar from "../ExemplarContainer";
+import Exemplar from '../ExemplarContainer';
 function TeacherClassesLaptop(props) {
   const {
     classes,
@@ -33,7 +33,6 @@ function TeacherClassesLaptop(props) {
     annotationAnalyticsFrame,
     line171,
   } = props;
-  console.log("Model", modelResponses)
   return (
     <div className="teacher-classes-laptop screen">
       <Frame1422>
@@ -42,13 +41,15 @@ function TeacherClassesLaptop(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            {classes.length != 0 && <DropdownMenu
-              menuItems={classes}
-              onItemSelected={(item) => {
-                setClassId(item.id);
-              }}
-              selectedIndex={selectedClassIndex}
-            ></DropdownMenu>}
+            {classes.length != 0 && (
+              <DropdownMenu
+                menuItems={classes}
+                onItemSelected={(item) => {
+                  setClassId(item.id);
+                }}
+                selectedIndex={selectedClassIndex}
+              ></DropdownMenu>
+            )}
           </Frame1306>
           <Frame1426>
             <Buttons link="#tasks/new" />
@@ -63,11 +64,11 @@ function TeacherClassesLaptop(props) {
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
-           {annotationAnalyticsFrame}
-           <Exemplar 
+            {annotationAnalyticsFrame}
+            <Exemplar
               modelResponses={modelResponses}
-              setPublishActionCompleted={setPublishActionCompleted}          
-           />
+              setPublishActionCompleted={setPublishActionCompleted}
+            />
           </Frame1416>
         </Frame1417>
       </Frame1422>

@@ -81,7 +81,6 @@ export default function DocumentRoot({}) {
         getSmartAnnotations(),
       ]);
 
-    console.log('submissionsResult: ', submissionsResult);
     setSubmission(submissionsResult);
     setComments(commentsResult);
     setSmartAnnotations(smartAnnotationResult);
@@ -118,11 +117,8 @@ export default function DocumentRoot({}) {
     setIsClassesLoading(false);
   };
 
-
   useEffect(() => {
     fetchSubmissionData().then((fetchedSubmission) => {
-      console.log('Fetched submission: ', fetchedSubmission);
-
       if (fetchedSubmission) {
         fetchClassesAndDetails(fetchedSubmission);
         setSubmission(fetchedSubmission);
@@ -132,12 +128,12 @@ export default function DocumentRoot({}) {
   useEffect(() => {
     if (submission) {
       const mode = getPortfolioPageMode(getUserId(), submission);
-      setPageMode(mode); 
+      setPageMode(mode);
     }
   }, [submission]);
   useEffect(() => {
     if (submission) {
-      if (pageMode === "REVISE" || pageMode === "DRAFT") {
+      if (pageMode === 'REVISE' || pageMode === 'DRAFT') {
         queryClient.prefetchQuery(['portfolio'], getPortfolio);
       }
     }
@@ -145,8 +141,8 @@ export default function DocumentRoot({}) {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
     queryFn: getPortfolio,
-    staleTime: 300000,
-    enabled: pageMode === "REVISE" || pageMode === "DRAFT", 
+    staleTime: 3600000,
+    enabled: pageMode === 'REVISE' || pageMode === 'DRAFT',
   });
 
   useEffect(() => {
@@ -156,36 +152,28 @@ export default function DocumentRoot({}) {
     }
   }, [data, queryClient]);
 
- 
-  
-
-  console.log(
-    'isPortfolioLoading: ',
-    isLoading,
-    isSubmissionLoading,
-    isClassesLoading
-  );
   useEffect(() => {
     if (pageMode) {
-      setShouldFetchPortfolio(pageMode === "REVISE" || pageMode === "DRAFT");
+      setShouldFetchPortfolio(pageMode === 'REVISE' || pageMode === 'DRAFT');
     }
   }, [pageMode]);
-  if ((shouldFetchPortfolio && isLoading) || isSubmissionLoading || isClassesLoading) {
+  if (
+    (shouldFetchPortfolio && isLoading) ||
+    isSubmissionLoading ||
+    isClassesLoading
+  ) {
     return <Loader />;
   }
-  
-  
+
   // queryClient.removeQueries(['portfolio'])
 
   const folders = portfolio?.files.map((folder) => {
     return { id: folder.id, title: folder.title, classId: folder.classId };
   });
 
-
   const headerProps = documentHeaderProps(
     pageMode === 'DRAFT' || pageMode === 'REVISE'
   );
-  console.log('headerProps', headerProps);
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {
@@ -776,16 +764,12 @@ export default function DocumentRoot({}) {
     setShowNewComment(false);
   }
   const updateDocumentClass = (item, allFolders) => {
-    console.log('updateDocumentClass', item);
     if (item.id === submission.folderId) {
-      return; 
+      return;
     }
     docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
       if (res) {
-        console.log('allClasses', allFolders);
-        console.log('res', res);
         const classObj = allFolders.find((item) => item.id === res.folderId);
-        console.log('classObj', classObj);
         showSnackbar('Moved to ' + classObj.title);
         queryClient.invalidateQueries(['portfolio']);
         getSubmissionById(submission.id).then((s) => {
@@ -800,7 +784,7 @@ export default function DocumentRoot({}) {
     queryClient.invalidateQueries(['tasks']);
     queryClient.invalidateQueries(['assignments']);
     queryClient.invalidateQueries(['document-reviews']);
-  }
+  };
 
   const methods = {
     updateDocumentClass,

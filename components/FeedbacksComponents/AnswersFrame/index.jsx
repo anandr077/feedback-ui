@@ -38,7 +38,6 @@ export function answersFrame(
   commentsForSelectedTab,
   methods
 ) {
-  console.log('methods', methods);
   return (
     <AnswersFrame
       quillRefs={quillRefs}

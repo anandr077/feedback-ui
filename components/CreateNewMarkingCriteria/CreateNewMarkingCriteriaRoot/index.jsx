@@ -93,7 +93,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const validateMarkingCriteria = () => {
-    console.log('markingCriterias: ', markingCriterias);
     let isValid = true;
     if (markingCriterias.title === '' || markingCriterias.title === undefined) {
       showSnackbar('Please enter a title for the marking criteria');

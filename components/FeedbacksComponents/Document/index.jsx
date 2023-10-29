@@ -366,7 +366,6 @@ function breadcrumbs(pageMode, submission, allFolders) {
         matchingFolderTitle = matchingFolder.title;
       }
     }
-    console.log('allFolders', allFolders);
     return (
       <Breadcrumb2
         assignments={matchingFolderTitle}

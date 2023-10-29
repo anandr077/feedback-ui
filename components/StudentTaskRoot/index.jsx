@@ -23,7 +23,7 @@ export default function StudentTaskRoot() {
       const result = await getTasks();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   const studentClassesQuery = useQuery({
     queryKey: ['classes'],
@@ -31,7 +31,7 @@ export default function StudentTaskRoot() {
       const result = await getClasses();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
 
   const portfolioQuery = useQuery({
@@ -39,14 +39,13 @@ export default function StudentTaskRoot() {
     queryFn: async () => {
       return await getPortfolio();
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
 
   React.useEffect(() => {
     if (tasksQuery.data) {
       setFilteredTasks(tasksQuery.data);
       setAllTasks(tasksQuery.data);
-      console.log('all tasks',tasksQuery.data)
     }
     if (studentClassesQuery.data) {
       setClasses(studentClassesQuery.data);

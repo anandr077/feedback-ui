@@ -19,12 +19,11 @@ const AllFilesHeader = styled.div`
   margin-bottom: 20px;
 
   @media (max-width: 370px) {
-     flex-direction: column;
-     align-items: start;
-     margin: 20px 0;
+    flex-direction: column;
+    align-items: start;
+    margin: 20px 0;
   }
 `;
-
 
 const DocumentBox = styled.div`
   background-color: white;
@@ -86,7 +85,7 @@ const DocumentTitle = styled.h3`
 
 const DocumentBtns = styled.div`
   background-color: white;
-  
+
   display: flex;
   align-items: center;
   gap: 12px;
@@ -112,7 +111,7 @@ const DocBtn = styled.button`
   transition: transform 0.5s ease-in-out;
   position: relative;
 
-  span{
+  span {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.75);
     color: #fff;
@@ -128,11 +127,11 @@ const DocBtn = styled.button`
   }
 
   &:hover {
-    span{
+    span {
       display: block;
     }
     @media (max-width: 992px) {
-      span{
+      span {
         display: none;
       }
     }
@@ -153,7 +152,7 @@ const DocBtnText = styled.p`
   color: #1e252a;
   font-weight: 500;
   font-size: 13px;
-
+  font-family: 'IBM Plex Sans', sans-serif;
   @media (max-width: 992px) {
     display: block;
   }

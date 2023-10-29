@@ -30,7 +30,7 @@ export default function GeneralPopup(props) {
     warningMessage,
   } = props;
 
-  console.log('pageMode ' + warningMessage);
+
 
   const [annotationTitle, setAnnotationTitle] = useState('');
 

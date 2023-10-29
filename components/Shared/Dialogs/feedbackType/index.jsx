@@ -18,7 +18,6 @@ export default function FeedbackTypeDialog({
     setOpen(false);
     setFeedbackMethodTypeDialog(-1);
   };
-  console.log('menuItems: ', menuItems);
   return (
     <>
       <Dialog open={open} onClose={handleClose}>

@@ -84,7 +84,6 @@ function CardContent(props) {
     );
   }
   function createAcceptDecline() {
-    console.log('onAccept', onAccept);
     if (!onAccept) return <></>;
     return (
       <>

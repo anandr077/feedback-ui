@@ -76,8 +76,9 @@ async function modifyData(url, options = {}) {
     const errorData = await response.json();
     throw {
       message: errorData.message || `Error occurred: ${response.status}`,
-      ...errorData
-    };  }
+      ...errorData,
+    };
+  }
 
   const isJson = response.headers
     .get('content-type')
@@ -221,7 +222,6 @@ export const addFeedback = async (submissionId, comment) =>
     comment
   );
 export const deleteSubmissionById = async (submissionId) => {
-  console.log('delete submission ' + submissionId);
   await patchApi(baseUrl + '/submissions/' + submissionId + '/delete');
 };
 
@@ -230,7 +230,6 @@ export const updateFeedback = async (submissionId, commentId, comment) =>
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId,
     comment
   );
-
 
 export const docsMoveToFolder = async (submissionId, classId, folderId) =>
   await patchApi(baseUrl + '/submissions/' + submissionId + '/moveToFolder', {
@@ -499,9 +498,12 @@ export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
 export const addFolderToPortfolio = async (newFolder) =>
   await postApi(baseUrl + '/students/portfolio/folders', newFolder);
 export const deleteFolderFromPortfolio = async (folderId) =>
-  await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`)
+  await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`);
 export const updatePortfolio = async (folderId, newTitle) =>
-  await patchApi(baseUrl + `/students/portfolio/folders/${folderId}` + '/rename', {title: newTitle});
+  await patchApi(
+    baseUrl + `/students/portfolio/folders/${folderId}` + '/rename',
+    { title: newTitle }
+  );
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

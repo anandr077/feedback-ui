@@ -50,7 +50,6 @@ export default function Header(props) {
   };
 
   const toggleDropDown = () => {
-    console.log('toggleDropDown');
     setDropDown(!dropDown);
   };
 

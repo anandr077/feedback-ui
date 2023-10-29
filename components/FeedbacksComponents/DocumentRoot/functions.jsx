@@ -83,7 +83,6 @@ export const getComments = async (submissionId) => {
 
 
 export function getPortfolioPageMode(user, submission) {
-  console.log("getPortfolioPageMode", user, submission)
   if (user === submission.studentId) {
     return getSelfPortfolioPageMode(submission);
   }

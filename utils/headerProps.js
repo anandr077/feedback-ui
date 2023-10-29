@@ -71,7 +71,6 @@ export const documentHeaderProps = (selfDocument) => {
   if (isTeacher) {
     return teacherTabs(false, true, false);
   }
-  console.log("selfDocument ", selfDocument)
   if (selfDocument) {
     return studentTabs(false, false, true);
   }

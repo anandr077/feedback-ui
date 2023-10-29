@@ -32,7 +32,6 @@ function CommentCard32(props) {
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
 
-  // console.log('##comment', comment.comment.includes('\n\n'));
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);

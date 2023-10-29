@@ -41,7 +41,6 @@ function TeacherClassesDesktop(props) {
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
-  console.log('model responses', modelResponses);
 
   return (
     <div className="teacher-classes-desktop screen">

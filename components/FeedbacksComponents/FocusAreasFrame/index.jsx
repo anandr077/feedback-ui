@@ -5,7 +5,6 @@ import { IbmplexsansNormalPersianIndigo14px } from '../../../styledMixins';
 
 function FocusAreasFrame(props) {
   const { focusAreas, handleAddFocusArea } = props;
-  console.log('focusAreas' + JSON.stringify(focusAreas));
   const allFocusAreas = focusAreas?.map((focusArea) => {
     return (
       <>

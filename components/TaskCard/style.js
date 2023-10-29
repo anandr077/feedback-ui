@@ -149,9 +149,9 @@ export const StyledCard = styled.article`
   padding: 20px;
   position: relative;
   align-self: stretch;
-  background-color: ${({overdue}) => (overdue ? '#fdf5f5' : 'var(--white)')};
+  background-color: ${({overdue}) => (overdue ? '#FFB9A1' : 'var(--white)')};
   border-color: var(--corn);
-  border:  1px solid ${({ overdue }) => (overdue ? '#fc9f9f' : 'rgba(219, 87, 87, 0.2)')};
+  border:  1px solid ${({ overdue }) => (overdue ? '#FF3D3D' : 'rgba(219, 87, 87, 0.2)')};
 
   border-radius: 16px;
   &:hover {

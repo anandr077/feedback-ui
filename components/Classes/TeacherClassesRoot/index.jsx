@@ -12,11 +12,15 @@ import {
   getStudentsForClass,
   getAssignmentsByClassId,
   getSmartAnnotaionAnalyticsByClassId,
+  getModelResponsesForClass
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-
+import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
+import Loader from "../../Loader";
+import _ from "lodash";
+import AnnotationAnalytics from "../../Analytics";
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
@@ -26,6 +30,8 @@ export default function TeacherClassesRoot() {
   const [assignments, setAssignments] = React.useState([]);
 
   const [students, setStudents] = React.useState([]);
+  const [modelResponses, setModelResponses] = React.useState([]);
+  const [publishActionCompleted, setPublishActionCompleted] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] =
     React.useState([]);
@@ -57,6 +63,7 @@ export default function TeacherClassesRoot() {
     async () => {
       const studentsResponse = await getStudentsForClass(classId);
       const assignmentsResponse = await getAssignmentsByClassId(classId);
+      const modelResponses = await getModelResponsesForClass(classId);
       const smartAnnotationAnalytics =
         await getSmartAnnotaionAnalyticsByClassId(classId);
 
@@ -64,21 +71,23 @@ export default function TeacherClassesRoot() {
         students: studentsResponse,
         assignments: assignmentsResponse,
         smartAnnotationAnalytics: smartAnnotationAnalytics,
+        modelResponses: modelResponses
       };
     },
     {
       staleTime: 300000,
-      enabled: !!classId, // Only fetch data when classId is available
+      enabled: !!classId,
     }
   );
   useEffect(() => {
     if (classQuery.data) {
-      const { students, assignments, smartAnnotationAnalytics } =
+      const { students, assignments, smartAnnotationAnalytics, modelResponses } =
         classQuery.data;
 
       setStudents(students);
       setAssignments(assignments);
       setSmartAnnotationAnalytics(smartAnnotationAnalytics);
+      setModelResponses(modelResponses)
     }
   }, [classQuery.data, classId]);
 
@@ -94,26 +103,17 @@ export default function TeacherClassesRoot() {
     <AnnotationAnalytics smartAnnotationAnalytics={smartAnnotationAnalytics} />
   );
 
-  const drafts = assignments.filter(
-    (assignment) => assignment.submissionsStatus === 'DRAFT'
-  );
-  const awaitingSubmissions = assignments.filter(
-    (assignment) => assignment.submissionsStatus === 'AWAITING_SUBMISSIONS'
-  );
-  const feedbacks = assignments.filter(
-    (assignment) => assignment.submissionsStatus === 'FEEDBACK'
-  );
+  
   const selectedClassIndex = getSelectedClassIndex(classes, classId);
   return (
     <ReactiveRender
       mobile={
         <TeacherClassesMobile
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
+            modelResponses,
+            setPublishActionCompleted,
             students,
             selectedClassIndex,
             annotationAnalyticsFrame,
@@ -124,11 +124,10 @@ export default function TeacherClassesRoot() {
       tablet={
         <TeacherClassesTablet
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
+            modelResponses,
+            setPublishActionCompleted,
             students,
             selectedClassIndex,
             annotationAnalyticsFrame,
@@ -139,11 +138,10 @@ export default function TeacherClassesRoot() {
       laptop={
         <TeacherClassesLaptop
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
+            modelResponses,
+            setPublishActionCompleted,
             students,
             selectedClassIndex,
             annotationAnalyticsFrame,
@@ -154,11 +152,10 @@ export default function TeacherClassesRoot() {
       desktop={
         <TeacherClassesDesktop
           {...{
-            drafts,
-            awaitingSubmissions,
-            feedbacks,
             classes,
             setClassId,
+            modelResponses,
+            setPublishActionCompleted,
             students,
             selectedClassIndex,
             annotationAnalyticsFrame,

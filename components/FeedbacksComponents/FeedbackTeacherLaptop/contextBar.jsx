@@ -310,6 +310,7 @@ const submitButtonDocument = (
   showFeedbackButtons,
   setShowFeedbackButtons
 ) => {
+  console.log('pageMode', pageMode)
   if (pageMode === 'DRAFT') {
     return (
       <div style={{ position: 'relative' }}>
@@ -345,7 +346,22 @@ const submitButtonDocument = (
       </ButtonsContainer>
     );
   }
-  if (pageMode === 'REVISE' || (pageMode === 'CLOSED' && submission.status === 'SUBMITTED')) {
+  if (pageMode === 'REVISE') {
+    return (
+      <RequestFeedbackFrame
+        style={{
+          border: '1px solid #0C8F8F',
+          cursor: 'unset',
+          minWidth: '240px',
+          position: 'relative',
+        }}
+      >
+        {<img src="/img/messages-green.svg" alt="messages" />}
+        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
+      </RequestFeedbackFrame>
+    )
+  }
+  if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return (
       <RequestFeedbackFrame
         style={{
@@ -381,6 +397,13 @@ const submitButtonDocument = (
 };
 
 function getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons) {
+  if (pageMode === 'REVISE') {
+    return <RequestFeedbackDropdown
+      title={`Feedback received from ${feedbackRequestedFrom()}`}
+    >
+      Feedback received
+    </RequestFeedbackDropdown>
+  }
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
     return <RequestFeedbackDropdown
       title={`Feedback requested from ${feedbackRequestedFrom()}`}

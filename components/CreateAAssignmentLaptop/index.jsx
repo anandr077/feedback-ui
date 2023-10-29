@@ -35,6 +35,23 @@ import {
   Buttons1,
   Button,
 } from './CreateAssignmentLaptopStyle';
+import {
+  IbmplexsansBoldShark64px,
+  IbmplexsansMediumElectricViolet20px,
+  IbmplexsansMediumWhite16px,
+  IbmplexsansNormalShark20px,
+  IbmplexsansNormalStack20px,
+  IbmplexsansSemiBoldShark20px,
+  IbmplexsansSemiBoldShark24px,
+  IbmplexsansNormalElectricViolet16px,
+} from "../../styledMixins";
+import Breadcrumb from "../Breadcrumb";
+import Breadcrumb2 from "../Breadcrumb2";
+import Buttons2 from "../Buttons2";
+import Footer from "../Footer";
+import GoBack2 from "../GoBack2";
+import Header from "../Header";
+import "./CreateAAssignmentLaptop.css";
 
 function CreateAAssignmentLaptop(props) {
   const {

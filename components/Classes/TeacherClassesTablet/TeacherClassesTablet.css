@@ -4,8 +4,8 @@
   border: 1px none;
   display: flex;
   flex-direction: column;
-  gap: 160px;
-  min-width: 766px;
+  gap: 0px;
+  min-width: 1024px;
   position: relative;
   overflow: hidden;
   padding-bottom: 30px;

@@ -1,29 +1,23 @@
-import React from 'react';
+import { default as React, default as React } from 'react';
 import DropdownMenu from '../../DropdownMenu';
-import Frame12842 from '../../TeacherDashboard/Frame12842';
 import Buttons from '../Buttons';
-import Frame1337 from '../Frame1337';
-import Frame6 from '../Frame6';
+import Exemplar from "../ExemplarContainer/index.jsx";
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesDesktop.css';
 import {
-  Frame1422,
-  Frame13121,
-  Title,
-  Frame14221,
   Frame1306,
-  Students,
-  X2021JeddleAllRightsReserved,
-  Frame1426,
-  Frame1417,
-  Frame1339,
-  Frame13371,
-  Line17,
+  Frame13121,
   Frame1336,
-  Frame1307,
+  Frame13371,
+  Frame1339,
   Frame1416,
-  Frame1342,
-  Frame61,
+  Frame1417,
+  Frame1422,
+  Frame14221,
+  Frame1426,
+  Line17,
+  Students,
+  Title
 } from './TeacherClassesDesktopStyle.js';
 
 function TeacherClassesDesktop(props) {
@@ -33,15 +27,21 @@ function TeacherClassesDesktop(props) {
     feedbacks,
     classes,
     setClassId,
+    modelResponses,
+    setPublishActionCompleted,
     students,
     selectedClassIndex,
     annotationAnalyticsFrame,
     title,
+    headerProps,
+    x12Engadv3,
+    frame12841,
+    xclass,
     line171,
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
-  console.log('first', classes);
+  console.log('model responses', modelResponses);
 
   return (
     <div className="teacher-classes-desktop screen">
@@ -73,30 +73,18 @@ function TeacherClassesDesktop(props) {
             <Line17 src={line171} alt="Line 17" />
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
-          <Frame1416>
-            <Frame1342>
-              <Frame1337></Frame1337>
-              <Line17 src={line176} alt="Line 17" />
-              <Frame1307>
-                <Frame12842 title={'DRAFTS'} count={drafts.length} />
-                <Frame12842
-                  title={'SUBMISSIONS'}
-                  count={awaitingSubmissions.length}
-                />
-                <Frame12842 title={'REVIEWS'} count={feedbacks.length} />
-              </Frame1307>
-            </Frame1342>
 
-            <Frame1339>{annotationAnalyticsFrame}</Frame1339>
+          <Frame1416>            
+            <Frame1339>
+            {annotationAnalyticsFrame}
+            </Frame1339>
+            <Exemplar 
+              modelResponses={modelResponses}
+              setPublishActionCompleted={setPublishActionCompleted}
+            />
           </Frame1416>
         </Frame1417>
       </Frame1422>
-      {/* <Frame61>
-        <X2021JeddleAllRightsReserved>
-          {x2021JeddleAllRightsReserved}
-        </X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61> */}
     </div>
   );
 }

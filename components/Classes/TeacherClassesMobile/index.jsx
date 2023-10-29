@@ -1,36 +1,33 @@
 import React from 'react';
 import DropdownMenu from '../../DropdownMenu';
-import Frame12842 from '../../TeacherDashboard/Frame12842';
-import Frame14072 from '../../TeacherDashboard/Frame14072';
 import Buttons from '../Buttons';
 
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesMobile.css';
 import {
-  Classes,
-  Frame1422,
-  Frame1312,
-  Title,
-  Frame14221,
   Frame1306,
-  Students,
-  Frame1339,
-  Frame1337,
-  Line17,
+  Frame1312,
   Frame1336,
-  Frame1307,
-  Frame1416,
-  Frame1340,
+  Frame1337,
+  Frame1339,
   Frame1341,
+  Frame1416,
+  Frame1422,
+  Frame14221,
+  Line17,
+  Students,
+  Title
 } from './TeacherClassesMobileStyle.js';
 
+import React from "react";
+import Exemplar from "../ExemplarContainer";
+import "./TeacherClassesMobile.css";
 function TeacherClassesMobile(props) {
   const {
-    drafts,
-    awaitingSubmissions,
-    feedbacks,
     classes,
     setClassId,
+    modelResponses,
+    setPublishActionCompleted,
     students,
     selectedClassIndex,
     annotationAnalyticsFrame,
@@ -69,26 +66,13 @@ function TeacherClassesMobile(props) {
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
-            <Frame1340>
-              <Frame1337>
-                <Classes>Tasks</Classes>
-                <Frame14072
-                  showCreateNew={false}
-                  iconsaxLinearAdd="/img/iconsax-linear-add-1@2x.png"
-                  arrowright="/img/arrowright-8@2x.png"
-                />
-              </Frame1337>
-              <Line17 src={line175} alt="Line 17" />
-              <Frame1307>
-                <Frame12842 title={'DRAFTS'} count={drafts.length} />
-                <Frame12842
-                  title={'SUBMISSIONS'}
-                  count={awaitingSubmissions.length}
-                />
-                <Frame12842 title={'REVIEWS'} count={feedbacks.length} />
-              </Frame1307>
-            </Frame1340>
-            <Frame1341>{annotationAnalyticsFrame}</Frame1341>
+            <Frame1341>
+            {annotationAnalyticsFrame}
+            </Frame1341>
+            <Exemplar 
+              modelResponses={modelResponses}
+              setPublishActionCompleted={setPublishActionCompleted}
+            />
           </Frame1416>
         </Frame14221>
       </Frame1422>

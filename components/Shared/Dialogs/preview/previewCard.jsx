@@ -1,6 +1,7 @@
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { chain } from 'lodash';
+import { isMobileView } from '../../../ReactiveRender'; 
 import * as React from 'react';
 import './preview.css';
 
@@ -9,6 +10,7 @@ export default function PreviewDialog({
   markingCriterias,
 }) {
   const [open, setOpen] = React.useState(true);
+  const onMobileView = isMobileView()
   const handleClose = () => {
     setOpen(false);
     setMarkingCriteriaPreviewDialog(false);
@@ -31,10 +33,10 @@ export default function PreviewDialog({
                 <div className="st-table">
                   <div className="st-title">{criteria.title}</div>
                   <div className="option-container">
-                    <div className="st-sub-title">
+                    <div className={`${onMobileView ? 'st-sub-title-sm' : 'st-sub-title'}`}>
                        Strengths
                     </div>
-                    <div className="st-sub-title">
+                    <div className={`${onMobileView ? 'st-sub-title-sm' : 'st-sub-title'}`}>
                        Targets
                     </div>
                   </div>

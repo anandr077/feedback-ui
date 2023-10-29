@@ -34,7 +34,7 @@ import {
 } from '../../../service.js';
 import { documentHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
 import _ from 'lodash';
@@ -71,6 +71,7 @@ export default function DocumentRoot({}) {
   const [hasProcessedData, setHasProcessedData] = useState(false);
   const [pageMode, setPageMode] = useState(null);
   const [shouldFetchPortfolio, setShouldFetchPortfolio] = useState(false);
+  const onMobileView = isMobileView() 
 
   // Fetch functions
   const fetchSubmissionData = async () => {
@@ -849,6 +850,7 @@ export default function DocumentRoot({}) {
               allClasses,
               students,
               teachers,
+              onMobileView
             }}
           />
         }

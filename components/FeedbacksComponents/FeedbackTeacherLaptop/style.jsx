@@ -138,7 +138,7 @@ export const Frame1386 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
-  width: 80%;
+  width: ${({ onMobileView }) => (onMobileView ? '100%' : '80%')};
   left: 10%;
   position: sticky;
 `;

@@ -110,22 +110,22 @@ const PortfolioAllFilesContainer = ({
       items: [
         { value: 'DRAFT', label: 'Draft', category: 'TYPES' },
         {
-          value: 'FEEDBACK_REQUESTED',
+          value: 'SUBMITTED',
           label: 'Feedback-Requested',
           category: 'TYPES',
         },
         {
-          value: 'FEEDBACK_REQUEST_AWAITED',
-          label: 'Feedback-Request-Awaited',
+          value: 'FEEDBACK_ACCEPTED',
+          label: 'Feedback-Request-Accepted',
           category: 'TYPES',
         },
         {
-          value: 'FEEDBACK_REQUEST_DECLINED',
+          value: 'FEEDBACK_DECLINED',
           label: 'Feedback-Request-Declined',
           category: 'TYPES',
         },
         {
-          value: 'FEEDBACK_RECEIVED',
+          value: 'REVIEWED',
           label: 'Feedback-received',
           category: 'TYPES',
         },

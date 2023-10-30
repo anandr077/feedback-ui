@@ -80,7 +80,7 @@ const getAssignmentContent = (submission) => {
     const question = document.createElement('div');
     question.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
     question.style.color = '#301b72';
-    question.style.fontSize = '20px';
+    question.style.fontSize = '24px';
     question.style.fontWeight = '500';
     question.style.fontStyle = 'normal';
     question.style.lineHeight = '26px';
@@ -94,7 +94,7 @@ const getAssignmentContent = (submission) => {
     answer.style.borderRadius = '20px';
     answer.style.padding = '10px';
     answer.style.fontWeight = '400';
-    answer.style.fontSize = '16px';
+    answer.style.fontSize = '20px';
     answer.style.marginBottom = '40px';
     answer.style.lineHeight = '26px';
     if (assignmentAnswers[i] instanceof HTMLElement) {
@@ -118,7 +118,7 @@ export const downloadTaskPdf = (submission) => {
 export const downloadPortfolioPdf = (previewData) => {
   const content = document.createElement('div');
   content.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-  content.style.fontSize = '16px';
+  content.style.fontSize = '20px';
   content.style.fontWeight = '400';
   content.style.lineHeight = '26px';
   content.textContent = previewData.preview;

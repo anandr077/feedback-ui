@@ -175,7 +175,7 @@ const Frame1341 = styled.div`
 const KeepOrganizedWitho = styled.h1`
   ${DashboardIbmplexsansBoldWhite72px}
   position: relative;
-  width: fit-content;
+  align-self: stretch;
   margin-top: -1px;
   text-align: center;
   letter-spacing: -1.44px;
@@ -186,7 +186,7 @@ const KeepOrganizedWitho = styled.h1`
 const KeepOrganizedWitho1 = styled.p`
   ${DashboardIbmplexsansNormalWhite20px}
   position: relative;
-  width: fit-content;
+  align-self: stretch;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;

@@ -41,7 +41,7 @@ function DragAndDrop(props) {
       source.droppableId === destination.droppableId &&
       source.index === destination.index
     ) {
-      return; 
+      return;
     }
 
     if (
@@ -52,7 +52,9 @@ function DragAndDrop(props) {
         (student) => student.id === draggableId
       );
       if (draggedStudent) {
-        setReviewedBy([...reviewedBy, draggedStudent]);
+        if (reviewedBy.length < students.length) {
+          setReviewedBy([...reviewedBy, draggedStudent]);
+        }
       }
     }
     if (

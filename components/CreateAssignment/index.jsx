@@ -555,7 +555,7 @@ export default function CreateAssignment(props) {
   });
 
   const feedbacksMethodContainer = (
-    <>
+    <div>
       <StyledRadioGroup
         value={assignment.reviewedBy}
         onChange={(event) => feedbackMethodUpdate(event.target.value)}
@@ -573,7 +573,7 @@ export default function CreateAssignment(props) {
         <StyledFormControlLabel
           value="P2PC"
           control={<Radio />}
-          label="Peer to Peer (Customized)"
+          label="Peer to Peer (customised)"
         />
       </StyledRadioGroup>
       {studentDropdown && (
@@ -583,7 +583,7 @@ export default function CreateAssignment(props) {
           setReviewedBy={setReviewedBy}
         />
       )}
-    </>
+    </div>
   );
 
   const dateSelectorFrame = (

@@ -20,6 +20,7 @@ export default function FeedbackTypeDialog({
   };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
+    setFeedbackMethodTypeDialog(-1);
   };
 
   function submissionFunction() {

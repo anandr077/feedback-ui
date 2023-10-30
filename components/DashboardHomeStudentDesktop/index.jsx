@@ -29,7 +29,7 @@ function DashboardHomeStudentDesktop(props) {
         <Frame1345>
           <Frame1342>
             <Frame1341>
-              <KeepOrganizedWitho>Welcome {getUserName()}</KeepOrganizedWitho>
+              <KeepOrganizedWitho>Welcome, {getUserName()}</KeepOrganizedWitho>
               <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
             </Frame1341>
             <MaskGroup src={maskGroup} alt="Mask Group" />

@@ -38,7 +38,7 @@ function TeacherDashboardDesktop(props) {
           <Frame13121>
             <Frame1342>
               <Frame1341>
-                <KeepOrganizedWitho>Welcome {userName} </KeepOrganizedWitho>
+                <KeepOrganizedWitho>Welcome, {userName} </KeepOrganizedWitho>
                 <KeepOrganizedWitho1>{keepOrganizedWitho2}</KeepOrganizedWitho1>
               </Frame1341>
               <MaskGroup src={maskGroup} alt="Mask Group" />

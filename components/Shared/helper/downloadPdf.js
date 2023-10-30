@@ -18,7 +18,7 @@ const generatePdf = (pdfData) => {
   const title = document.createElement('div');
   title.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
   title.style.color = '#25222a';
-  title.style.fontSize = '24px';
+  title.style.fontSize = '40px';
   title.style.fontWeight = '700';
   title.style.textAlign = 'flex-start';
   title.style.marginBottom = '50px';
@@ -56,7 +56,7 @@ const getAssignmentContent = (submission) => {
       question.options.map((option) => {
         const optiondiv = document.createElement('div');
         optiondiv.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-        optiondiv.style.fontSize = option.isCorrect ? '25px' : '20px';
+        optiondiv.style.fontSize = option.isCorrect ? '36px' : '32px';
         optiondiv.style.fontWeight = option.isCorrect ? 'bold' : 'normal';
         optiondiv.style.color = option.isCorrect ? 'green' : 'black';
 
@@ -80,7 +80,7 @@ const getAssignmentContent = (submission) => {
     const question = document.createElement('div');
     question.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
     question.style.color = '#301b72';
-    question.style.fontSize = '24px';
+    question.style.fontSize = '36px';
     question.style.fontWeight = '500';
     question.style.fontStyle = 'normal';
     question.style.lineHeight = '26px';
@@ -92,9 +92,9 @@ const getAssignmentContent = (submission) => {
     answer.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
     answer.style.border = '1px solid #7200e0';
     answer.style.borderRadius = '20px';
-    answer.style.padding = '10px';
+    answer.style.padding = '15px';
     answer.style.fontWeight = '400';
-    answer.style.fontSize = '20px';
+    answer.style.fontSize = '32px';
     answer.style.marginBottom = '40px';
     answer.style.lineHeight = '26px';
     if (assignmentAnswers[i] instanceof HTMLElement) {
@@ -118,7 +118,7 @@ export const downloadTaskPdf = (submission) => {
 export const downloadPortfolioPdf = (previewData) => {
   const content = document.createElement('div');
   content.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-  content.style.fontSize = '20px';
+  content.style.fontSize = '32px';
   content.style.fontWeight = '400';
   content.style.lineHeight = '26px';
   content.textContent = previewData.preview;

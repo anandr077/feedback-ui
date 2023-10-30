@@ -44,7 +44,11 @@ const Group12051Small = styled.div`
 `;
 
 const ViewAll = styled.div`
-  ${IbmplexsansMediumElectricViolet16px}
+  color: var(--light-mode-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  font-style: normal;
   height: 21px;
   letter-spacing: 1.84px;
   line-height: normal;

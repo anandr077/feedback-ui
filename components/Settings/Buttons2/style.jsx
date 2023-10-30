@@ -22,6 +22,7 @@ export const TooltipWrapper = styled.div`
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
+    font-family: 'IBM Plex Sans', Helvetica;
   }
 `;
 

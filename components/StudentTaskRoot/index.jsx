@@ -115,7 +115,7 @@ export default function StudentTaskRoot() {
     if (classesValues.length === 0) {
       classesValues = classes.map((clazz) => clazz.id);
     }
-
+    classesValues = [null, undefined, ...classesValues]
     const filteredClasses = _.filter(filteredTasks, (task) =>
       _.includes(classesValues, task.classId)
     );

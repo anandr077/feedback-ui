@@ -71,7 +71,7 @@ export default function DocumentRoot({}) {
   const [hasProcessedData, setHasProcessedData] = useState(false);
   const [pageMode, setPageMode] = useState(null);
   const [shouldFetchPortfolio, setShouldFetchPortfolio] = useState(false);
-  const onMobileView = isMobileView() 
+  const onMobileView = isMobileView();
 
   // Fetch functions
   const fetchSubmissionData = async () => {
@@ -143,7 +143,7 @@ export default function DocumentRoot({}) {
     queryKey: ['portfolio'],
     queryFn: getPortfolio,
     staleTime: 3600000,
-    enabled: pageMode === 'REVISE' || pageMode === 'DRAFT',
+    enabled: loadPortfolio(),
   });
 
   useEffect(() => {
@@ -153,16 +153,14 @@ export default function DocumentRoot({}) {
     }
   }, [data, queryClient]);
 
-  useEffect(() => {
-    if (pageMode) {
-      setShouldFetchPortfolio(pageMode === 'REVISE' || pageMode === 'DRAFT');
-    }
-  }, [pageMode]);
-  if (
-    (shouldFetchPortfolio && isLoading) ||
-    isSubmissionLoading ||
+  console.log(
+    'isLoading',
+    data,
+    isLoading,
+    isSubmissionLoading,
     isClassesLoading
-  ) {
+  );
+  if ((loadPortfolio() && isLoading) || isSubmissionLoading || isClassesLoading) {
     return <Loader />;
   }
 
@@ -195,6 +193,10 @@ export default function DocumentRoot({}) {
   const handleEditorMounted = (editor, index) => {
     quillRefs.current[index] = editor;
   };
+
+  function loadPortfolio() {
+    return submission ? submission.studentId === getUserId() : false;
+  }
 
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -850,7 +852,7 @@ export default function DocumentRoot({}) {
               allClasses,
               students,
               teachers,
-              onMobileView
+              onMobileView,
             }}
           />
         }

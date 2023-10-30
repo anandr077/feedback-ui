@@ -50,16 +50,19 @@ function NotificationsBar(props) {
         ['notifications'],
         context.previousNotifications
       );
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.refetchQueries({ queryKey: ['assignments'] });
+      queryClient.refetchQueries({ queryKey: ['tasks'] });
+      queryClient.refetchQueries({ queryKey: ['document-reviews'] });
     },
     onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.refetchQueries({ queryKey: ['assignments'] }),
+      queryClient.refetchQueries({ queryKey: ['tasks'] }),
+      queryClient.refetchQueries({ queryKey: ['document-reviews'] });
       window.location.href = `#documentsReview/${data.id}`;
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-      queryClient.invalidateQueries({ queryKey: ['assignments'] });
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['document-reviews'] });
-    },
+    onSettled: () => {},
   });
 
   const declineMutation = useMutation({
@@ -145,13 +148,12 @@ function NotificationsBar(props) {
   );
 
   const filteredFeedbackRequests = notifications.filter(
-      (notification) => notification.type === 'FEEDBACK_REQUEST'
-    );
+    (notification) => notification.type === 'FEEDBACK_REQUEST'
+  );
 
   const filteredOtherNotifications = notifications.filter(
-      (notification) => notification.type === 'URL'
-    );
-
+    (notification) => notification.type === 'URL'
+  );
 
   return (
     <>

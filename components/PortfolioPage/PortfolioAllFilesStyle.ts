@@ -125,6 +125,7 @@ const DocBtn = styled.button`
     transform: translateX(-50%);
     white-space: nowrap;
     display: none;
+    font-family: 'IBM Plex Sans', Helvetica;
   }
 
   &:hover {

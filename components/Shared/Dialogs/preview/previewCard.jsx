@@ -28,7 +28,7 @@ export default function PreviewDialog({
               {createLevels(markingCriterias.criterias)}
             </table>
           ) : (
-            <div className="parent-container">
+            <div className={`${onMobileView ? 'parent-container-sm' : 'parent-container'}`}>
               {markingCriterias.strengthsTargetsCriterias.map((criteria) => (
                 <div className="st-table">
                   <div className="st-title">{criteria.title}</div>

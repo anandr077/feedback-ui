@@ -17,6 +17,13 @@
   padding: 16px;
 }
 
+.parent-container-sm{
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  padding: 0px;
+}
+
 .title {
   color: #301b72 !important;
   font-size: 20px !important;
@@ -25,6 +32,7 @@
   font-weight: 700 !important;
   line-height: normal;
   display: flex;
+  margin: 10px;
 }
 
 .mc-title{
@@ -38,6 +46,7 @@
 
 .data-parent {
   display: flex;
+  margin: 0 15px 10px;
 }
 
 .column-width {
@@ -100,7 +109,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0;
+  padding: 0 20px;
   border-bottom: none;
 }
 
@@ -117,7 +126,7 @@
   color: var(--royal-purple);
   font-size: var(--font-size-xl);
   font-weight: bold;
-  margin: 10px auto;
+  margin: 30px auto;
   text-align: center;
   font-family: IBM Plex Sans;
   text-align: center;

@@ -307,7 +307,7 @@ function documentFeedbackFrame(
   share,
   smartAnnotations
 ) {
-  if (pageMode === 'DRAFT' || pageMode === 'CLOSED') {
+  if (pageMode === 'DRAFT') {
     return <></>;
   }
 

@@ -203,47 +203,50 @@ const PortfolioAllFilesContainer = ({
       ) : (
         filesToDisplay.map((document, idx) => {
           return (
-            <DocumentBox key={idx}>
-              <DocumentBoxWrapper>
-                <DocumentTextFrame>
-                  {document?.preview && document.preview.length > 130
-                    ? document.preview.slice(0, 125) + '...'
-                    : document.preview}
-                </DocumentTextFrame>
-                <div>
-                  <BubbleContainer>
-                    <StatusBubblesContainer tags={document?.tags ?? []} />
-                  </BubbleContainer>
-                  <DocumentTitle>{document.title}</DocumentTitle>
-                  <TimerContainer>
-                    <p>
-                      {timeTitle()} {dateOnly(document.viewedAt)}
-                    </p>
-                  </TimerContainer>
-                </div>
-              </DocumentBoxWrapper>
-              <DocumentBtns>
-                <a href={document.url}>
-                  <DocBtn>
-                    <DocBtnImg src={previewImg} alt="Preview Button" />
-                    <DocBtnText>View</DocBtnText>
-                    <span>View</span>
+            <a style={{textDecoration: 'none'}} href={document.url}>
+              <DocumentBox key={idx}>
+                <DocumentBoxWrapper>
+                  <DocumentTextFrame>
+                    {document?.preview && document.preview.length > 130
+                      ? document.preview.slice(0, 125) + '...'
+                      : document.preview}
+                  </DocumentTextFrame>
+                  <div>
+                    <BubbleContainer>
+                      <StatusBubblesContainer tags={document?.tags ?? []} />
+                    </BubbleContainer>
+                    <DocumentTitle>{document.title}</DocumentTitle>
+                    <TimerContainer>
+                      <p>
+                        {timeTitle()} {dateOnly(document.viewedAt)}
+                      </p>
+                    </TimerContainer>
+                  </div>
+                </DocumentBoxWrapper>
+                <DocumentBtns>
+                  <DocBtn onClick={(e) => {
+                    e.preventDefault();
+                    downloadPortfolioPdf(document);
+                    e.stopPropagation();
+                  }}>
+                    <DocBtnImg src={downLoadImg} alt="Download Button" />
+                    <DocBtnText>Download</DocBtnText>
+                    <span>Download</span>
                   </DocBtn>
-                </a>
-                <DocBtn onClick={() => downloadPortfolioPdf(document)}>
-                  <DocBtnImg src={downLoadImg} alt="Download Button" />
-                  <DocBtnText>Download</DocBtnText>
-                  <span>Download</span>
-                </DocBtn>
-                {document.allowDelete && (
-                  <DocBtn onClick={() => handleDeleteDocument(document)}>
-                    <DocBtnImg src={deleteImg} alt="Delete Button" />
-                    <DocBtnText>Delete</DocBtnText>
-                    <span>Delete</span>
-                  </DocBtn>
-                )}
-              </DocumentBtns>
-            </DocumentBox>
+                  {document.allowDelete && (
+                    <DocBtn onClick={(e) => {
+                      e.preventDefault();
+                      handleDeleteDocument(document);
+                      e.stopPropagation();
+                    }}>
+                      <DocBtnImg src={deleteImg} alt="Delete Button" />
+                      <DocBtnText>Delete</DocBtnText>
+                      <span>Delete</span>
+                    </DocBtn>
+                  )}
+                </DocumentBtns>
+              </DocumentBox>
+            </a>
           );
         })
       )}

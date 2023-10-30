@@ -8,6 +8,7 @@
   border: 1px solid #eeecec;
   border-radius: 15px;
   box-shadow: rgba(10, 10, 11, 0.2) 0px 5px 20px 0px;
+  padding-bottom: 10px;
 }
 
 .parent-container {
@@ -113,9 +114,7 @@
   border-bottom: none;
 }
 
-.option-container:last-child {
-  border-bottom: 1px solid #eeecec;
-}
+
 
 .st-subHeader{
   border-top-left-radius: 15px;

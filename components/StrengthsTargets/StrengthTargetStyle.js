@@ -34,12 +34,12 @@ const StrTarTitle = styled.p`
    color: #1E252A;
    font-size: 16px;
    font-weight: 700;
-   line-height: 20px
+   line-height: 20px;
 `
 
 const StrTarItem = styled.p`
    padding: 8px 20px;
-   color: #969595;
+   color: var(--chicago);
    font-size: 16px;
    line-height: 20px;
    font-weight: 400;

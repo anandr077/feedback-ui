@@ -10,7 +10,7 @@ function Group1205(props) {
       {small ? (
         <Group12051Small>
           {arrowleft ? <ArrowrightSmall src={arrowleft} /> : <></>}
-          <ViewAllSmall>{label}</ViewAllSmall>
+          <ViewAll>{label}</ViewAll>
           {arrowright ? <ArrowrightSmall src={arrowright} /> : <></>}
         </Group12051Small>
       ) : (

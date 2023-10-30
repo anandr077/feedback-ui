@@ -58,7 +58,7 @@ function Document(props) {
     allClasses,
     students,
     teachers,
-    onMobileView = false
+    onMobileView = false,
   } = props;
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
@@ -78,7 +78,8 @@ function Document(props) {
     };
   }, []);
 
-  const handleRequestFeedback = (index) => {
+  const handleRequestFeedback = async (index) => {
+    await setFeedbackMethodTypeDialog(-1);
     setFeedbackMethodTypeDialog(index);
   };
   const handleSelectedRequestFeedback = (itemData, type) => {
@@ -240,7 +241,6 @@ function answersAndFeedbacks(
   updateDocumentClass,
   onMobileView
 ) {
-
   return (
     <Frame1386 id="content" onMobileView={onMobileView}>
       {contextBarForPortfolioDocument(
@@ -271,21 +271,22 @@ function answersAndFeedbacks(
           methods
         )}
         <></>
-        {!onMobileView && documentFeedbackFrame(
-          methods,
-          submission,
-          newCommentSerialNumber,
-          commentsForSelectedTab,
-          setShowResolved,
-          showNewComment,
-          isShowResolved,
-          isTeacher,
-          comments,
-          pageMode,
-          newCommentFrameRef,
-          share,
-          smartAnnotations
-        )}
+        {!onMobileView &&
+          documentFeedbackFrame(
+            methods,
+            submission,
+            newCommentSerialNumber,
+            commentsForSelectedTab,
+            setShowResolved,
+            showNewComment,
+            isShowResolved,
+            isTeacher,
+            comments,
+            pageMode,
+            newCommentFrameRef,
+            share,
+            smartAnnotations
+          )}
       </Frame1368>
     </Frame1386>
   );
@@ -330,7 +331,13 @@ function documentFeedbackFrame(
 }
 
 function breadcrumbs(pageMode, submission, allFolders) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE' || (pageMode === 'CLOSED'  && (submission.status === 'FEEDBACK_ACCEPTED' || submission.status === 'SUBMITTED'))) {
+  if (
+    pageMode === 'DRAFT' ||
+    pageMode === 'REVISE' ||
+    (pageMode === 'CLOSED' &&
+      (submission.status === 'FEEDBACK_ACCEPTED' ||
+        submission.status === 'SUBMITTED'))
+  ) {
     return (
       <Frame1387>
         <Frame1315>

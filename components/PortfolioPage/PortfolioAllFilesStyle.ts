@@ -25,6 +25,10 @@ const AllFilesHeader = styled.div`
   }
 `;
 
+const DocumentContainer = styled.a`
+  text-decoration: none;
+`
+
 const DocumentBox = styled.div`
   background-color: white;
   box-shadow: 0 0 2px rgba(184, 111, 255, 0.1), 0 0 2px rgba(184, 111, 255, 0.1),
@@ -36,11 +40,18 @@ const DocumentBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 20px;
+  border: 1px solid transparent;
 
   @media (max-width: 992px) {
     height: 155px;
     flex-direction: column;
     padding-bottom: 20px;
+  }
+
+  &:hover {
+    background: #f9f5ff;
+    border-color: var(--light-mode-purple); 
+    box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
 `;
 
@@ -248,6 +259,7 @@ export {
   DocBtnText,
   NoFileDiv,
   documentStatusStyle,
+  DocumentContainer,
   BubbleContainer,
   FilterContainer,
   TimerContainer,

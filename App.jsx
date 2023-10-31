@@ -124,7 +124,7 @@ function App() {
           </Switch>
           {<ResponsiveFooter smallScreen={isSmallScreen()} />}
         </Router>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </>
   );

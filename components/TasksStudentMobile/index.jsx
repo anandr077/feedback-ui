@@ -60,7 +60,7 @@ function TasksStudentMobile(props) {
             {portfolio.length != 0 && (
               <Group1205
                 link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
-                label="Completed Tasks"
+                label="COMPLETED TASKS"
                 arrowright={arrowright}
                 small={true}
               />

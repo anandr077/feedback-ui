@@ -255,6 +255,10 @@ const CommentCard = styled.article`
   &.comment-card-4.comment-card-6 {
     cursor: unset;
   }
+
+  &:hover{
+    border-color: var(--light-mode-purple);
+  }
 `;
 
 const CommentText = styled.div`

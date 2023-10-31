@@ -105,8 +105,9 @@ export default function DocumentRoot({}) {
     );
     const uniqueTeachers = _.uniqBy(allTeachers, 'id');
 
-    setStudents(uniqueStudents.map((item) => ({ ...item, title: item.id })));
-    setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.id })));
+    setStudents(uniqueStudents.map((item) => ({ ...item, title: item.name })));
+    setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.name })));
+    console.log('teachers', teachers);
   };
 
   const fetchClassesAndDetails = async (submission) => {

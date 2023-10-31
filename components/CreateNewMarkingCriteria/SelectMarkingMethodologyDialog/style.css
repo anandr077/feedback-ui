@@ -53,3 +53,11 @@
   line-height: normal;
   cursor: pointer;
 }
+
+.rubrics:hover,
+.strength-target:hover{
+  border-color: var(--light-mode-purple);
+}
+
+
+/* --light-mode-purple */

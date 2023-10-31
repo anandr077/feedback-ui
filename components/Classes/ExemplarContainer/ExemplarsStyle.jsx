@@ -41,7 +41,7 @@ export const Line = styled.img`
 `;
 
 export const TaskWrapper = styled.div`
-  max-height: 337px;
+  height: 337px;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

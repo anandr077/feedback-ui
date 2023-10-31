@@ -19,6 +19,7 @@ import {
   DocumentTitle,
   NoFileDiv,
   documentStatusStyle,
+  DocumentContainer,
   BubbleContainer,
   FilterContainer,
   TimerContainer,
@@ -203,7 +204,7 @@ const PortfolioAllFilesContainer = ({
       ) : (
         filesToDisplay.map((document, idx) => {
           return (
-            <a style={{textDecoration: 'none'}} href={document.url}>
+            <DocumentContainer href={document.url}>
               <DocumentBox key={idx}>
                 <DocumentBoxWrapper>
                   <DocumentTextFrame>
@@ -246,7 +247,7 @@ const PortfolioAllFilesContainer = ({
                   )}
                 </DocumentBtns>
               </DocumentBox>
-            </a>
+            </DocumentContainer>
           );
         })
       )}

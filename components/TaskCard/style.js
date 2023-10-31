@@ -155,7 +155,7 @@ export const StyledCard = styled.article`
   border-radius: 16px;
   &:hover {
     background: #f9f5ff;
-    border: 1px solid #7200e0;
+    border: 1px solid var(--light-mode-purple);
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
 `;

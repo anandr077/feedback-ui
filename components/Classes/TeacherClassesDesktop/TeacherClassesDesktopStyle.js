@@ -77,7 +77,7 @@ export const Frame1426 = styled.div`
 
 export const Frame1417 = styled.div`
   display: flex;
-  min-height: 1176px;
+  min-height: fit-content;
   align-items: flex-start;
   gap: 32px;
   padding: 0px 240px;

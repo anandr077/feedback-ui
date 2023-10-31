@@ -9,7 +9,6 @@ export const ExemplarsContainer = styled.div`
     background-color: var(--white);
     border-radius: 12px;
     box-shadow: 0px 4px 16px #7200e01a;
-    overflow-y: hidden;
 `
 
 export const ExemplarsTitle = styled.div`
@@ -42,7 +41,7 @@ export const Line = styled.img`
 `;
 
 export const TaskWrapper = styled.div`
-  max-height: 337px;
+  height: 337px;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

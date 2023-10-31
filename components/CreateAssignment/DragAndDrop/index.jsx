@@ -71,7 +71,7 @@ function DragAndDrop(props) {
   return (
     <DnDContainer>
       <StudentsDnD>
-        <h3>Submitted by</h3>
+        <Heading>Submitted by</Heading>
         <StudentsContainer>
           {students.map((student) => (
             <StudentContainer>
@@ -82,7 +82,7 @@ function DragAndDrop(props) {
                 name={student.name}
                 square={false}
               />
-              <p>{student.name}</p>
+              <OptionName>{student.name}</OptionName>
             </StudentContainer>
           ))}
         </StudentsContainer>
@@ -90,7 +90,7 @@ function DragAndDrop(props) {
 
       <DragDropContext onDragEnd={handleDragAndDrop}>
         <StudentsDnD>
-          <h3>Reviewed By</h3>
+          <Heading>Reviewed By</Heading>
           <StudentDnD droppableId="reviewedBy" type="group">
             {(provided) => (
               <StudentsContainer
@@ -116,7 +116,7 @@ function DragAndDrop(props) {
                           name={student.name}
                           square={false}
                         />
-                        <p>{student.name}</p>
+                        <OptionName>{student.name}</OptionName>
                       </StudentContainer>
                     )}
                   </Student>
@@ -127,7 +127,7 @@ function DragAndDrop(props) {
           </StudentDnD>
         </StudentsDnD>
         <StudentsDnD>
-          <h3>Drag From Here</h3>
+          <Heading>Drag From Here</Heading>
           <StudentDnD droppableId="dragFromHere" type="group">
             {(provided) => (
               <StudentsContainer
@@ -153,7 +153,7 @@ function DragAndDrop(props) {
                           name={student.name}
                           square={false}
                         />
-                        <p>{student.name}</p>
+                        <OptionName>{student.name}</OptionName>
                       </StudentContainer>
                     )}
                   </Student>
@@ -181,6 +181,10 @@ const StudentsDnD = styled.div`
   padding: 20px;
   width: 150px;
 `;
+
+const Heading = styled.h3`
+  font-family: var(--font-family-ibm_plex_sans);
+`
 
 const StudentsContainer = styled.div`
   display: flex;
@@ -211,5 +215,9 @@ const StudentContainer = styled.div`
   background-color: var(--white);
   border-radius: 10px;
 `;
+
+const OptionName = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+`
 
 export default DragAndDrop;

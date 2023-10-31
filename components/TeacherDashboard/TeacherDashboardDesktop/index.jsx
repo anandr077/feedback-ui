@@ -102,8 +102,8 @@ function recentActivitiesFrame(notifications) {
       link: notification.link,
       title: notification.title,
       classTitle:
-        notification.classTitle +
-        ' | at ' +
+      (notification.classTitle ? (notification.classTitle +
+        ' | at '):'') +
         timeFirstFormattedDate(notification.dueAt),
     };
     return <TaskCard task={task} />;

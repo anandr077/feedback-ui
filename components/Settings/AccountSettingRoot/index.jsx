@@ -118,6 +118,7 @@ export default function AccountSettingsRoot(props) {
   const createSmartAnnotation = (newSmartAnnotation) => {
     createNewSmartAnnotation(newSmartAnnotation)
       .then((result) => {
+        showSnackbar('Smart annotation created');
         const createdAnnotation = {
           id: result.id.value,
           title: result.title.value,
@@ -143,6 +144,7 @@ export default function AccountSettingsRoot(props) {
     };
     updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
       .then(() => {
+        showSnackbar('Smart annotation updated');
         setSmartAnnotationUpdateIndex(index);
         const updatedAnnotation = [...smartAnnotations];
         updatedAnnotation[index] = smartAnnotation;

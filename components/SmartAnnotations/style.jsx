@@ -16,6 +16,7 @@ export const TextInputEditable = styled.textarea`
   box-shadow: 0px;
   outline: none;
   transition: 0.15s;
+  resize: none;
 `;
 
 export const TextBox = styled.div`
@@ -114,6 +115,8 @@ export const Arrowdown2 = styled.img`
   position: relative;
   min-width: 24px;
   height: 24px;
+  margin-left: ${props => (props.left ? '25px' : '0px')};
+  cursor: pointer;
 `;
 
 export const SubmitButton = styled.div`

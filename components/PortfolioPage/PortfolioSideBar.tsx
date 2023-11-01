@@ -69,6 +69,16 @@ const PortfolioSideBar = ({
     }
   }, [folderId, categoryName, state?.portfolio]);
 
+  const newFolderCheck = (name) => {
+    if (name.length > 0 && name.length <= 20 && /^[a-zA-Z0-9\s]*$/.test(name)) {
+      handleNewFolder(name);
+      setNewFolderName('');
+      setAddFolder(false);
+    } else {
+      console.log('enter name should be less than 20 characters');
+    }
+  };
+
   return (
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
@@ -101,12 +111,11 @@ const PortfolioSideBar = ({
             className="FolderInputBox"
             placeholder="Folder name"
             type="text"
+            required
+            maxlength="20"
             onKeyUp={(e) => {
-              
               if (e.key === 'Enter') {
-                handleNewFolder(newFolderName);
-                setNewFolderName('');
-                setAddFolder(false);
+                newFolderCheck(newFolderName);
               }
             }}
             onChange={(e) => setNewFolderName(e.target.value)}

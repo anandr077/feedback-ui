@@ -240,7 +240,7 @@ export default function CreateNewStrengthAndTargets() {
           <input
             type="text"
             className="title-input"
-            placeholder="Enter an evaluation area for this set of strengths and weaknesses"
+            placeholder="Enter an evaluation area for this set of strengths and targets"
             value={criteria?.title || ''}
             onChange={(e) => handleCriteriaChange(e, index)}
             style={{ marginTop: '20px' }}

@@ -41,6 +41,9 @@ const generatePdf = (pdfData) => {
   doc.html(totalpdf, options);
 };
 
+
+
+
 const getAssignmentContent = (submission) => {
   const totalpdf = document.createElement('div');
   const assignmentQuestions = new Array(
@@ -116,16 +119,10 @@ export const downloadTaskPdf = (submission) => {
 };
 
 export const downloadPortfolioPdf = (previewData) => {
-  const content = document.createElement('div');
-  content.style.fontFamily = "'IBM Plex Sans', 'Helvetica'";
-  content.style.fontSize = '32px';
-  content.style.fontWeight = '400';
-  content.style.lineHeight = '26px';
-  content.textContent = previewData.preview;
-
+ 
   const pdfData = {
-    title: previewData.title,
-    content,
+    title: previewData.assignment.title,
+    content:getAssignmentContent(previewData),
   };
   generatePdf(pdfData);
 };

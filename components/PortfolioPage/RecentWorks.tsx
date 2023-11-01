@@ -9,6 +9,12 @@ import {
   RecentBtnImg,
 } from './RecentWorksStyle';
 import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
+import { getSubmissionById } from '../../service';
+
+const downloadFile = async (work) => {
+  const data = await getSubmissionById(work.id);
+  downloadPortfolioPdf(data);
+};
 
 const RecentWorks = ({ work }) => {
   return (
@@ -26,7 +32,7 @@ const RecentWorks = ({ work }) => {
             View
           </RecentBtns>
         </a>
-        <RecentBtns onClick={() => downloadPortfolioPdf(work)}>
+        <RecentBtns onClick={() => downloadFile(work)}>
           <RecentBtnImg src={downLoadImg}></RecentBtnImg>
           Download
         </RecentBtns>

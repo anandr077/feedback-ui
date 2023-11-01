@@ -16,7 +16,6 @@ const withAuth = (WrappedComponent) => {
   const WithAuth = (props) => {
     const [isLoading, setIsLoading] = useState(true);
 
-    const history = useHistory();
 
     useEffect(() => {
       // Check if the user is logged in
@@ -49,7 +48,6 @@ const withAuth = (WrappedComponent) => {
 function loginUsing(code) {
   exchangeCodeForToken(code)
     .then((result) => {
-      // alert("result " + JSON.stringify(result))
       setProfileCookies(result);
       window.location.href = '/#/';
     })

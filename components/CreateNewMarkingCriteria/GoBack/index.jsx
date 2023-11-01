@@ -6,7 +6,7 @@ function GoBack() {
   return (
     <GoBack1>
       <Caret src="/img/caret-2@2x.png" alt="caret" />
-      <a href="javascript:history.back()">
+      <a style={{textDecoration: 'none'}} href="javascript:history.back()">
         <BackToPreviousPage>back to previous page</BackToPreviousPage>
       </a>
     </GoBack1>

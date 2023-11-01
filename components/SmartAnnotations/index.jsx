@@ -221,7 +221,6 @@ function SmartAnotation(props) {
         <SmartAnnotationTitleContainer
           onClick={() => {
             toggleSection();
-            setEditingTitle(true);
           }}
         >
           <Title>{editTitle}</Title>

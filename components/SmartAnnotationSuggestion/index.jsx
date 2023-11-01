@@ -37,7 +37,7 @@ export default function SmartAnnotationSuggestion(props) {
   return (
     <>
       {settingsMode ? (
-        <SuggestionsContainer onClick={() => setEditing(true)}>
+        <SuggestionsContainer>
           {editing ? (
             teacherId === getUserId() ? (
               <TextInputEditable

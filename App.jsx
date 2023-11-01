@@ -44,6 +44,7 @@ function App() {
   const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = withAuth(AccountSettingsRoot);
+  const ProtectedHeader = withAuth(ResponsiveHeader);
   const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
@@ -72,7 +73,7 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
-          {<ResponsiveHeader isSmallScreen={isSmallScreen()} />}
+          {<ProtectedHeader isSmallScreen={isSmallScreen()} />}
           <Switch>
             <Route path="/settings">
               <ProtectedSettings />

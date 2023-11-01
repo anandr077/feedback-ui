@@ -16,6 +16,7 @@ import {
   Arrowdown2,
   SubmitButton,
   ButtonWrapper,
+  ArrowUpIcon
 } from './style';
 
 function SmartAnotation(props) {
@@ -160,6 +161,7 @@ function SmartAnotation(props) {
                 ) : (
                   <></>
                 )}
+                <Arrowdown2 onClick={toggleSection} src="/img/arrowup.png" alt="arrowdown2" left={true}/>
               </ButtonContainer>
             ) : (
               <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />

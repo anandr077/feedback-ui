@@ -86,7 +86,10 @@ function Navigation(props) {
         <NavElement7
           text="Settings"
           className={navigationData.navElement72Props.className}
-          onClick={() => (window.location.href = '/#/settings')}
+          onClick={() => {
+            window.location.href = '/#/settings';
+            onCloseFn();
+          }}
         />
         <NavElement8
           onClick={() => {

@@ -96,8 +96,7 @@ const DocumentTitle = styled.h3`
 `;
 
 const DocumentBtns = styled.div`
-  background-color: white;
-
+  background-color: transparent;
   display: flex;
   align-items: center;
   gap: 12px;

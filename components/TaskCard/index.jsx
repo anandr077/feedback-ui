@@ -150,7 +150,7 @@ function TaskCard(props) {
 
     return (
       <StyledCard ref={refContainer} isSelected={isSelected} overdue={isOverDue}>
-        {exemplar ? tagsFrameExempler(task) : tagsFrame(task)}
+        {exemplar ? tagsFrameExempler(task, isOverDue) : tagsFrame(task, isOverDue)}
         <CardContent
           task={cardContents(task, exemplar)}
           small={small}
@@ -203,11 +203,11 @@ function TaskCard(props) {
     showDateExtendPopuphandler(task);
   };
 
-  function tagsFrame(task) {
+  function tagsFrame(task, isOverDue) {
     if (task.tags && task.tags.length > 0) {
       return (
         <BubbleContainer>
-          <StatusBubbleContainer tags={task?.tags ?? []} />
+           <StatusBubbleContainer tags={task?.tags ?? []} overdue={isOverDue}/>
           {role === 'TEACHER' && userId === task.teacherId && (
             <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
               <IconContainer src="/icons/three-dot.svg" alt="delete" />
@@ -231,12 +231,12 @@ function TaskCard(props) {
     );
   }
 
-  function tagsFrameExempler(task) {
+  function tagsFrameExempler(task, isOverDue) {
     const title = [];
     title.push({ name: task.classTitle });
     return (
       <BubbleContainer>
-        <StatusBubbleContainer tags={title} />
+         <StatusBubbleContainer tags={title} overdue={isOverDue} />
       </BubbleContainer>
     );
   }

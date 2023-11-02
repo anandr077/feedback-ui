@@ -3,9 +3,9 @@ import StatusBubbles from '../StatusBubbles';
 import styled from 'styled-components';
 
 function StatusBubblesContainer(props) {
-  const { tags } = props;
+  const { tags, overdue } = props;
   const statusBubbles = tags.map((tag) => {
-    return <StatusBubbles tag={tag} />;
+    return <StatusBubbles tag={tag} overdue={overdue} />;
   });
   return (
     <StatusBubblesInternalContainer>

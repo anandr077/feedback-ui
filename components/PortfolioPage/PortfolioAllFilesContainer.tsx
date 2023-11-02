@@ -29,6 +29,7 @@ import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
 import StatusBubblesContainer from '../StatusBubblesContainer';
 import CheckboxGroup from '../CheckboxGroup';
 import { dateOnly } from '../../dates';
+import { getSubmissionById } from '../../service';
 
 const sortReducer = (state, action) => {
   switch (action.type) {
@@ -181,6 +182,11 @@ const PortfolioAllFilesContainer = ({
     ? state.sortedFiles
     : allFiles;
 
+  const downloadFile = async (document) => {
+    const data = await getSubmissionById(document.id);
+    downloadPortfolioPdf(data);
+  };
+
   return (
     <AllFilesContainer categoryName={categoryName}>
       <AllFilesHeader>
@@ -225,21 +231,25 @@ const PortfolioAllFilesContainer = ({
                   </div>
                 </DocumentBoxWrapper>
                 <DocumentBtns>
-                  <DocBtn onClick={(e) => {
-                    e.preventDefault();
-                    downloadPortfolioPdf(document);
-                    e.stopPropagation();
-                  }}>
+                  <DocBtn
+                    onClick={(e) => {
+                      e.preventDefault();
+                      downloadFile(document);
+                      e.stopPropagation();
+                    }}
+                  >
                     <DocBtnImg src={downLoadImg} alt="Download Button" />
                     <DocBtnText>Download</DocBtnText>
                     <span>Download</span>
                   </DocBtn>
                   {document.allowDelete && (
-                    <DocBtn onClick={(e) => {
-                      e.preventDefault();
-                      handleDeleteDocument(document);
-                      e.stopPropagation();
-                    }}>
+                    <DocBtn
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDeleteDocument(document);
+                        e.stopPropagation();
+                      }}
+                    >
                       <DocBtnImg src={deleteImg} alt="Delete Button" />
                       <DocBtnText>Delete</DocBtnText>
                       <span>Delete</span>

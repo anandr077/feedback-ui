@@ -29,7 +29,7 @@ const RecentWorks = ({ work }) => {
         <a href={work.url} style={{ textDecoration: 'none' }}>
           <RecentBtns>
             <RecentBtnImg src={previewImg}></RecentBtnImg>
-            View
+            Open
           </RecentBtns>
         </a>
         <RecentBtns onClick={() => downloadFile(work)}>

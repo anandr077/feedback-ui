@@ -23,6 +23,7 @@ const PortfolioSideBar = ({
   const [selectedSubFolder, setSelectedSubFolder] = useState('');
   const [addFolder, setAddFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
+  const newFolderCloseRef = useRef(null)
 
   const isActive = isMobileView() ? showNavMenu : true;
 
@@ -69,6 +70,26 @@ const PortfolioSideBar = ({
     }
   }, [folderId, categoryName, state?.portfolio]);
 
+  const closeNewFolderBox = () => {
+    setAddFolder(false);
+  };
+
+  useEffect(() => {
+    if (addFolder) {
+      const handleClickOutside = (e) => {
+        if (newFolderCloseRef.current && !newFolderCloseRef.current.contains(e.target)) {
+          closeNewFolderBox();
+        }
+      };
+
+      window.addEventListener('click', handleClickOutside);
+
+      return () => {
+        window.removeEventListener('click', handleClickOutside);
+      };
+    }
+  }, [addFolder]);
+
   const newFolderCheck = (name) => {
     if (name.length > 0 && name.length <= 20 && /^[a-zA-Z0-9\s]*$/.test(name)) {
       handleNewFolder(name);
@@ -106,7 +127,7 @@ const PortfolioSideBar = ({
         />
       ))}
       {addFolder ? (
-        <div className="new-folder-box">
+        <div className="new-folder-box" ref={newFolderCloseRef}>
           <input
             className="FolderInputBox"
             placeholder="Folder name"
@@ -120,7 +141,14 @@ const PortfolioSideBar = ({
             }}
             onChange={(e) => setNewFolderName(e.target.value)}
           />
-          <button className="newFolderBtn" onClick={getAddFolderData}>
+          <button 
+             className="newFolderBtn" 
+             onClick={()=> {
+              if(newFolderName.trim() !== ''){
+                getAddFolderData()
+              }
+             }}
+          >
             + New folder
           </button>
         </div>

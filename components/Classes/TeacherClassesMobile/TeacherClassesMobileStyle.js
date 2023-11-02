@@ -59,12 +59,16 @@ export const Frame1306 = styled.div`
 `;
 
 export const Students = styled.div`
-  ${IbmplexsansMediumRiverBed24px}
+  color: #405059;
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
   position: relative;
   flex: 1;
   margin-top: -1px;
   letter-spacing: 0;
-  line-height: normal;
 `;
 
 export const Frame1339 = styled.div`

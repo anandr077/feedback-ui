@@ -352,7 +352,7 @@ const submitButtonDocument = (
         style={{
           border: '1px solid #0C8F8F',
           cursor: 'unset',
-          minWidth: '240px',
+          minWidth: '100px',
           position: 'relative',
         }}
       >
@@ -367,7 +367,7 @@ const submitButtonDocument = (
         style={{
           border: '1px solid #0C8F8F',
           cursor: 'unset',
-          minWidth: '240px',
+          minWidth: '100px',
           position: 'relative',
         }}
       >
@@ -383,7 +383,7 @@ const submitButtonDocument = (
         style={{
           border: '1px solid #0C8F8F',
           cursor: 'unset',
-          minWidth: '240px',
+          minWidth: '100px',
           position: 'relative',
         }}
       >

@@ -23,7 +23,7 @@ export default function StudentTaskRoot() {
       const result = await getTasks();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   const studentClassesQuery = useQuery({
     queryKey: ['classes'],
@@ -31,7 +31,7 @@ export default function StudentTaskRoot() {
       const result = await getClasses();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
 
   const portfolioQuery = useQuery({
@@ -39,7 +39,7 @@ export default function StudentTaskRoot() {
     queryFn: async () => {
       return await getPortfolio();
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
 
   React.useEffect(() => {
@@ -85,8 +85,13 @@ export default function StudentTaskRoot() {
       name: 'TYPES',
       title: 'Types',
       items: [
-        { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
+        { value: 'ASSIGNMENT', label: 'Submissions', category: 'TYPES' },
         { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
+        {
+          value: 'DRAFT_REVIEW',
+          label: 'Community',
+          category: 'TYPES',
+        },
       ],
     },
     {
@@ -100,7 +105,7 @@ export default function StudentTaskRoot() {
     const groupedData = _.groupBy(selectedItems, 'category');
     let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
     if (typesValues.length === 0) {
-      typesValues = ['REVIEW', 'ASSIGNMENT'];
+      typesValues = ['REVIEW', 'ASSIGNMENT', 'DRAFT_REVIEW'];
     }
     const filteredTasks = _.filter(allTasks, (task) =>
       _.includes(typesValues, task.type)
@@ -110,7 +115,7 @@ export default function StudentTaskRoot() {
     if (classesValues.length === 0) {
       classesValues = classes.map((clazz) => clazz.id);
     }
-
+    classesValues = [null, undefined, ...classesValues]
     const filteredClasses = _.filter(filteredTasks, (task) =>
       _.includes(classesValues, task.classId)
     );

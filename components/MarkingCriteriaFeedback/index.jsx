@@ -35,7 +35,6 @@ const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
     singleStrengthTargetsContainer('strengths', 'Strength', 1),
     singleStrengthTargetsContainer('targets', 'Target', 2),
   ];
-  console.log('markingCriteria', markingCriteria)
   return (
     <>
       {markingCriteria.type === 'RUBRICS' ? (

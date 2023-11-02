@@ -31,7 +31,7 @@ function TasksDesktop(props) {
             {portfolio.length != 0 && (
               <Group1205
                 link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
-                label="Completed Tasks"
+                label="COMPLETED TASKS"
                 arrowright={arrowright}
               />
             )}
@@ -115,7 +115,7 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  min-height: 600px;
+  min-height: calc(100vh - 285px);
 `;
 
 const Frame1359 = styled.div`

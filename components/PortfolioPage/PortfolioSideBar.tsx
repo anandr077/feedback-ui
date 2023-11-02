@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
 import PortfolioSideBarFolder from './PortfolioSidebarFolder';
+import { isMobileView } from '../ReactiveRender';
 import './portfolioSideBar.css';
 
 const PortfolioSideBar = ({
@@ -11,7 +12,7 @@ const PortfolioSideBar = ({
   categoryName,
   handleNewFolder,
   handleFolderDelete,
-  handleFolderEdit
+  handleFolderEdit,
 }) => {
   const [clickedSubfolder, setClickedSubfolder] = useState('');
   const [showSubfolders, setShowSubfolders] = useState('');
@@ -22,6 +23,9 @@ const PortfolioSideBar = ({
   const [selectedSubFolder, setSelectedSubFolder] = useState('');
   const [addFolder, setAddFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
+  const newFolderCloseRef = useRef(null)
+
+  const isActive = isMobileView() ? showNavMenu : true;
 
   const getAddFolderData = () => {
     handleNewFolder(newFolderName);
@@ -66,6 +70,36 @@ const PortfolioSideBar = ({
     }
   }, [folderId, categoryName, state?.portfolio]);
 
+  const closeNewFolderBox = () => {
+    setAddFolder(false);
+  };
+
+  useEffect(() => {
+    if (addFolder) {
+      const handleClickOutside = (e) => {
+        if (newFolderCloseRef.current && !newFolderCloseRef.current.contains(e.target)) {
+          closeNewFolderBox();
+        }
+      };
+
+      window.addEventListener('click', handleClickOutside);
+
+      return () => {
+        window.removeEventListener('click', handleClickOutside);
+      };
+    }
+  }, [addFolder]);
+
+  const newFolderCheck = (name) => {
+    if (name.length > 0 && name.length <= 20 && /^[a-zA-Z0-9\s]*$/.test(name)) {
+      handleNewFolder(name);
+      setNewFolderName('');
+      setAddFolder(false);
+    } else {
+      console.log('enter name should be less than 20 characters');
+    }
+  };
+
   return (
     <div className="sideNavbar">
       {sideNavHeaderMobile(showNavMenu, setShowNavMenu)}
@@ -93,29 +127,37 @@ const PortfolioSideBar = ({
         />
       ))}
       {addFolder ? (
-        <div className="new-folder-box">
+        <div className="new-folder-box" ref={newFolderCloseRef}>
           <input
             className="FolderInputBox"
             placeholder="Folder name"
             type="text"
+            required
+            maxlength="20"
             onKeyUp={(e) => {
-              console.log(e.key);
               if (e.key === 'Enter') {
-                handleNewFolder(newFolderName);
-                setNewFolderName('');
-                setAddFolder(false);
+                newFolderCheck(newFolderName);
               }
             }}
             onChange={(e) => setNewFolderName(e.target.value)}
           />
-          <button className="newFolderBtn" onClick={getAddFolderData}>
+          <button 
+             className="newFolderBtn" 
+             onClick={()=> {
+              if(newFolderName.trim() !== ''){
+                getAddFolderData()
+              }
+             }}
+          >
             + New folder
           </button>
         </div>
       ) : (
-        <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
-          + New folder
-        </button>
+        isActive && (
+          <button className="newFolderBtn" onClick={() => setAddFolder(true)}>
+            + New folder
+          </button>
+        )
       )}
     </div>
   );

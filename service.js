@@ -56,35 +56,34 @@ async function fetchData(url, options, headers = {}) {
 }
 
 async function modifyData(url, options = {}) {
-  try {
-    const response = await fetch(url, {
-      ...options,
-      withCredentials: true,
-      credentials: 'include',
-    });
+  const response = await fetch(url, {
+    ...options,
+    withCredentials: true,
+    credentials: 'include',
+  });
 
-    if (response.status === 401) {
-      return redirectToExternalIDP();
-    }
-    if (response.status === 404) {
-      throw new Error('Page not found');
-    }
-    if (response.status === 404) {
-      throw new Error('Page not found');
-    } else if (response.status === 500) {
-      throw new Error('Server error');
-    } else if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const isJson = response.headers
-      .get('content-type')
-      ?.includes('application/json');
-    const data = isJson ? await response.json() : null;
-    return data;
-  } catch (error) {
-    console.error(error);
+  if (response.status === 401) {
+    return redirectToExternalIDP();
   }
+  if (response.status === 404) {
+    throw new Error('Page not found');
+  }
+  if (response.status === 404) {
+    throw new Error('Page not found');
+  } else if (response.status === 500) {
+    throw new Error('Server error');
+  } else if (!response.ok) {
+    const errorData = await response.json();
+    throw {
+      message: errorData.message || `Error occurred: ${response.status}`,
+      ...errorData,
+    };
+  }
+
+  const isJson = response.headers
+    .get('content-type')
+    ?.includes('application/json');
+  return isJson ? await response.json() : null;
 }
 const fetchApi = async (url, options, headers) => {
   return fetchData(url, options, headers);
@@ -223,7 +222,6 @@ export const addFeedback = async (submissionId, comment) =>
     comment
   );
 export const deleteSubmissionById = async (submissionId) => {
-  console.log('delete submission ' + submissionId);
   await patchApi(baseUrl + '/submissions/' + submissionId + '/delete');
 };
 
@@ -232,10 +230,12 @@ export const updateFeedback = async (submissionId, commentId, comment) =>
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId,
     comment
   );
-export const updateSubmissionClass = async (submissionId, classId) =>
-  await patchApi(
-    baseUrl + '/submissions/' + submissionId + '/updateClass/' + classId
-  );
+
+export const docsMoveToFolder = async (submissionId, classId, folderId) =>
+  await patchApi(baseUrl + '/submissions/' + submissionId + '/moveToFolder', {
+    classId: classId,
+    folderId: folderId,
+  });
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 
@@ -354,7 +354,10 @@ export const acceptFeedbackRequest = async (submissionId) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/acceptFeedbackRequest'
   );
-
+export const cancelFeedbackRequest = async (submissionId) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/cancelFeedbackRequest'
+  );
 export const declineFeedbackRequest = async (submissionId) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/declineFeedbackRequest'
@@ -489,17 +492,18 @@ export const getDefaultCriteria = () => {
 };
 export const getPortfolio = async () =>
   await getApi(baseUrl + '/students/portfolio');
-// export const updatePortfolio = async (title) =>
-//   await putApi(baseUrl + `/students/portfolio/folders`, title);
 
 export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);
 export const addFolderToPortfolio = async (newFolder) =>
   await postApi(baseUrl + '/students/portfolio/folders', newFolder);
 export const deleteFolderFromPortfolio = async (folderId) =>
-  await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`)
+  await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`);
 export const updatePortfolio = async (folderId, newTitle) =>
-  await patchApi(baseUrl + `/students/portfolio/folders/${folderId}` + '/rename', {title: newTitle});
+  await patchApi(
+    baseUrl + `/students/portfolio/folders/${folderId}` + '/rename',
+    { title: newTitle }
+  );
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

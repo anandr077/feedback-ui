@@ -25,6 +25,7 @@ import {
   QuestionText,
   QuillContainer,
 } from '../FeedbackTeacherLaptop/style';
+import { linkify } from '../../../utils/linkify';
 
 export function answersFrame(
   quillRefs,
@@ -37,7 +38,6 @@ export function answersFrame(
   commentsForSelectedTab,
   methods
 ) {
-  console.log('methods', methods);
   return (
     <AnswersFrame
       quillRefs={quillRefs}
@@ -162,7 +162,7 @@ const answerFrames = (
     return (
       <>
         <Frame1366>
-          <QuestionText>{questionText}</QuestionText>
+          <QuestionText dangerouslySetInnerHTML={{__html: linkify(questionText)}} />
           {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}
@@ -264,6 +264,7 @@ function createQuill(
 ) {
   return (
     <QuillEditor
+      // key={Math.random()}
       id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
       ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
       comments={commentsForSelectedTab?.filter((comment) => {

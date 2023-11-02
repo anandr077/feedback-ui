@@ -2,7 +2,7 @@ import React from 'react'
 import { NotificationBtnContainer, Button } from './notificationSwitchStyle';
 import { useState } from 'react';
 
-const NotificationSwitch = ({notificationBtnValue}) => {
+const NotificationSwitch = ({notificationBtnValue, totalNotifications, totalRequests}) => {
     const [activeBtn, setActiveBtn] = useState('URL')
     const handleContainerClick = (e) =>{
         e.stopPropagation()
@@ -17,13 +17,13 @@ const NotificationSwitch = ({notificationBtnValue}) => {
            onClick={()=> handleBtnClick('URL')}
            className={activeBtn === 'URL' ? 'active' : ''}
         >
-            Notifications
+            Notifications ({totalNotifications})
         </Button>
         <Button
-          onClick={()=> handleBtnClick('FEEBACK_REQUEST')}
-          className={activeBtn === 'FEEBACK_REQUEST' ? 'active': ''}
+          onClick={()=> handleBtnClick('FEEDBACK_REQUEST')}
+          className={activeBtn === 'FEEDBACK_REQUEST' ? 'active': ''}
         >
-            Requests
+            Requests ({totalRequests})
         </Button> 
     </NotificationBtnContainer>
   )

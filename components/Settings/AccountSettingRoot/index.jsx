@@ -14,6 +14,7 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
+  getUserId,
 } from '../../../service.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
@@ -98,6 +99,7 @@ export default function AccountSettingsRoot(props) {
   const createSmartAnnotationHandler = () => {
     const smartAnnotationRequest = {
       title: 'Sample Smart Annotation Title',
+      teacherId: getUserId(),
       suggestions: [
         {
           description: ' Sample Suggestion 1',
@@ -116,12 +118,12 @@ export default function AccountSettingsRoot(props) {
   const createSmartAnnotation = (newSmartAnnotation) => {
     createNewSmartAnnotation(newSmartAnnotation)
       .then((result) => {
-        showSnackbar('Smart annotation created', result);
+        showSnackbar('Smart annotation created');
         const createdAnnotation = {
           id: result.id.value,
           title: result.title.value,
           suggestions: newSmartAnnotation.suggestions,
-          teacherId: result.teacherId.value,
+          teacherId: result.teacherId.teacherId,
         };
         setSmartAnnotations((sa) => [createdAnnotation, ...sa]);
         setSmartAnnotationUpdateIndex(0);
@@ -184,7 +186,7 @@ export default function AccountSettingsRoot(props) {
     }
     createNewMarkingCriteria(createdMarkingCriteria)
       .then((res) => {
-        console.log('result: ', res);
+        
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
         showSnackbar(

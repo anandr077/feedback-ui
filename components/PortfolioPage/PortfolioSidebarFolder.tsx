@@ -66,6 +66,17 @@ const PortfolioSidebarFolder = ({
     handleFolderDelete(folder.id);
   };
 
+  const renameCheck = (folderName) => {
+    if (
+      folderName.length > 0 &&
+      folderName.length <= 20 &&
+      /^[a-zA-Z0-9\s]*$/.test(folderName)
+    ) {
+      setIsEditing(false);
+      handleFolderEdit(editedTitle, folder.id);
+    }
+  };
+
   return (
     <>
       {isActive && (
@@ -95,8 +106,7 @@ const PortfolioSidebarFolder = ({
               onChange={(e) => setEditedTitle(e.target.value)}
               onKeyUp={(e) => {
                 if (e.key === 'Enter') {
-                  setIsEditing(false);
-                  handleFolderEdit(editedTitle, folder.id);
+                  renameCheck(editedTitle);
                 }
               }}
             />
@@ -108,7 +118,10 @@ const PortfolioSidebarFolder = ({
           {!isEditing && (
             <div className="icon-container">
               <div className="folder-dropdown-container" ref={dropdownRef}>
-                <MoreHorizIcon onClick={toggleDropdown} />
+                <MoreHorizIcon
+                  onClick={toggleDropdown}
+                  className="folder-horizIcon"
+                />
                 <div
                   className={`${
                     activeDropdown ? 'folder-dropdown' : 'dropdown-hidden'

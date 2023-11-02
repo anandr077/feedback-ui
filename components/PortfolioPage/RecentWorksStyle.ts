@@ -74,6 +74,7 @@ const RecentWorkPara = styled.p`
   font-size: 12px;
   line-height: 15px;
   font-weight: 400;
+  word-wrap: break-word;
 
   @media (max-width: 1024px) {
     padding: 11px;

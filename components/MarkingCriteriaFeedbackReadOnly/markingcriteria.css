@@ -61,11 +61,10 @@
 }
 
 .marking-criteria-content {
-  color: var(--text, #1e252a);
+  color: var(--chicago);
   font-size: 16px;
   font-family: IBM Plex Sans;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  opacity: 0.7;
 }

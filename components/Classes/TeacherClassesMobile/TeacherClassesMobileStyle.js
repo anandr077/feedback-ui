@@ -127,7 +127,6 @@ export const Frame1307 = styled.div`
 export const Frame1416 = styled.div`
   display: flex;
   flex-direction: column;
-  height: 1176px;
   align-items: center;
   gap: 32px;
   position: relative;

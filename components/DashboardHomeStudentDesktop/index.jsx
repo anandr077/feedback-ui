@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { getUserName } from '../../service';
 import {
-  IbmplexsansBoldWhite72px,
   IbmplexsansMediumRiverBed24px,
   IbmplexsansNormalWhite20px,
 } from '../../styledMixins';
@@ -140,9 +139,13 @@ const Frame1341 = styled.div`
 `;
 
 const KeepOrganizedWitho = styled.h1`
-  ${IbmplexsansBoldWhite72px}
+  color: var(--white);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xxxxl);
+  font-weight: 700;
+  font-style: normal;
   position: relative;
-  width: fit-content;
+  align-self: stretch;
   margin-top: -1px;
   text-align: center;
   letter-spacing: -1.44px;
@@ -151,9 +154,13 @@ const KeepOrganizedWitho = styled.h1`
 `;
 
 const KeepOrganizedWitho1 = styled.p`
-  ${IbmplexsansNormalWhite20px}
+  color: var(--white);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  font-style: normal;
   position: relative;
-  width: fit-content;
+  align-self: stretch;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;

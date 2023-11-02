@@ -35,15 +35,11 @@ export default function GroupedSelect(props) {
     };
   }, []);
 
-  console.log(groups);
-
   const handleClick = (event, option) => {
     const selectedValue = event;
     const [groupId, actualValue] = selectedValue.split('-');
 
     onClick(groups[groupId], actualValue);
-    console.log(groups[groupId], actualValue);
-
     setSelectOption(option);
     setShowOptions(!showOptions);
   };
@@ -73,9 +69,7 @@ export default function GroupedSelect(props) {
             const isHeading = group.label;
             return (
               <OptGroupOption key={index}>
-                <CustomOptLavel>
-                  {isHeading}
-                </CustomOptLavel>
+                <CustomOptLavel>{isHeading}</CustomOptLavel>
                 {group.options.map((option, idx) => (
                   <CustomOpt
                     key={idx}
@@ -83,9 +77,7 @@ export default function GroupedSelect(props) {
                       handleClick(`${index}-${option.value}`, option.value);
                     }}
                   >
-                    <p>
-                      {option.value}
-                    </p>
+                    <p>{option.value}</p>
                   </CustomOpt>
                 ))}
               </OptGroupOption>

@@ -9,6 +9,12 @@ import {
   RecentBtnImg,
 } from './RecentWorksStyle';
 import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
+import { getSubmissionById } from '../../service';
+
+const downloadFile = async (work) => {
+  const data = await getSubmissionById(work.id);
+  downloadPortfolioPdf(data);
+};
 
 const RecentWorks = ({ work }) => {
   return (
@@ -23,10 +29,10 @@ const RecentWorks = ({ work }) => {
         <a href={work.url} style={{ textDecoration: 'none' }}>
           <RecentBtns>
             <RecentBtnImg src={previewImg}></RecentBtnImg>
-            View
+            Open
           </RecentBtns>
         </a>
-        <RecentBtns onClick={() => downloadPortfolioPdf(work)}>
+        <RecentBtns onClick={() => downloadFile(work)}>
           <RecentBtnImg src={downLoadImg}></RecentBtnImg>
           Download
         </RecentBtns>

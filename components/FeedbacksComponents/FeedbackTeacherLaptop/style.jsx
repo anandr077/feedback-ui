@@ -5,6 +5,7 @@ import {
   feedbacksIbmplexsansNormalBlack16px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
+  IbmplexsansNormalShark16px,
 } from '../../../styledMixins';
 
 export const AwaitFeedbackContainer = styled.div`
@@ -86,8 +87,8 @@ export const Screen = styled.div`
 `;
 export const Screen2 = styled.div`
   position: fixed;
-  width: 200vw;
-  height: 200vh;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   left: 0;
   background-color: rgba(255, 255, 255, 1);
@@ -137,7 +138,7 @@ export const Frame1386 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
-  width: 80%;
+  width: ${({ onMobileView }) => (onMobileView ? '100%' : '80%')};
   left: 10%;
   position: sticky;
 `;
@@ -334,7 +335,6 @@ export const SelectFeedbackMethod = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 16px;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
@@ -345,15 +345,19 @@ export const SelectFeedbackMethod = styled.div`
 `;
 
 export const SelectFeedbackMethodType = styled.div`
-  color: var(--Text, #1e252a);
-  font-family: IBM Plex Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  margin: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: left;
+  ${IbmplexsansNormalShark16px};
+
   &:hover {
-    opacity: 0.7;
+    background-color: var(--blue-chalk);
   }
 `;
 
@@ -371,4 +375,45 @@ export const RequestFeedbackFrame = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+`;
+
+export const RequestFeedbackDropdown = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const IconContainer = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  cursor: pointer;
+`;
+
+export const DropdownButtonsGroup = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  box-shadow: 0px 4px 8px #2f1a720a;
+  background-color: var(--white);
+  border-radius: 8px;
+  border: 1px solid #2f1a720a;
+  padding: 10px;
+`;
+
+export const DropdownButton = styled.button`
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: left;
+  ${IbmplexsansNormalShark16px};
+
+  &:hover {
+    background-color: var(--blue-chalk);
+  }
 `;

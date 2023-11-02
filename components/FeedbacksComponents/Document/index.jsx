@@ -1,15 +1,11 @@
-import _ from 'lodash';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState } from 'react';
 import {
   createRequestFeddbackType,
-  getClasses,
-  getStudentsForClass,
+  docsMoveToFolder,
   getSubmissionById,
-  getTeachersForClass,
-  updateSubmissionClass,
 } from '../../../service';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import SnackbarContext from '../../SnackbarContext';
@@ -26,6 +22,7 @@ import {
   Frame1388,
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
+import { sub } from 'date-fns';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -57,22 +54,22 @@ function Document(props) {
     submission,
     setSubmission,
     share,
-    allFolders
+    allFolders,
+    allClasses,
+    students,
+    teachers,
+    onMobileView = false,
   } = props;
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
+  const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
-  const [students, setStudents] = useState([]);
-  const [teachers, setTeachers] = useState([]);
-  const [allClasses, setAllClasses] = useState([]);
-  const [feedbackClasses, setFeedbackClasses] = useState([]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
-
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
+    setShowFeedbackButtons(false);
   };
   useEffect(() => {
     window.addEventListener('click', handleOutsideClick);
@@ -81,41 +78,8 @@ function Document(props) {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchDetails = async (classIds) => {
-      const studentsPromises = classIds.map((id) => getStudentsForClass(id));
-      const teachersPromises = classIds.map((id) => getTeachersForClass(id));
-      const studentsArrays = await Promise.all(studentsPromises);
-      const teachersArrays = await Promise.all(teachersPromises);
-
-      const allStudents = _.flatten(studentsArrays);
-      const allTeachers = _.flatten(teachersArrays);
-
-      const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
-        (item) => item.id !== submission.studentId
-      );
-      const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-
-      setStudents(uniqueStudents.map((item) => ({ ...item, title: item.id })));
-      setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.id })));
-    };
-
-    const fetchClasses = async () => {
-      const classes = await getClasses();
-      if (submission.classId) {
-        return classes.filter((c) => c.id === submission.classId);
-      }
-      return classes;
-    };
-
-    fetchClasses().then((classes) => {
-      const classIds = classes.map((c) => c.id);
-      setAllClasses(classes.map((c) => ({ ...c, title: c.title })));
-      fetchDetails(classIds);
-    });
-  }, [submission]);
-
-  const handleRequestFeedback = (index) => {
+  const handleRequestFeedback = async (index) => {
+    await setFeedbackMethodTypeDialog(-1);
     setFeedbackMethodTypeDialog(index);
   };
   const handleSelectedRequestFeedback = (itemData, type) => {
@@ -125,21 +89,6 @@ function Document(props) {
     };
     createRequestFeddbackType(submission.id, requestData).then((res) => {
       if (res) {
-        getSubmissionById(submission.id).then((s) => {
-          setSubmission(s);
-        });
-      }
-    });
-  };
-
-  const updateDocumentClass = (item) => {
-    if (item.id === submission.classId) {
-      return;
-    }
-    updateSubmissionClass(submission.id, item.id).then((res) => {
-      if (res) {
-        const classObj = allClasses.find((item) => item.id === res.classId);
-        showSnackbar('Moved to submission ' + classObj.title);
         getSubmissionById(submission.id).then((s) => {
           setSubmission(s);
         });
@@ -158,7 +107,10 @@ function Document(props) {
           {answersAndFeedbacks(
             isShowSelectType,
             setShowSelectType,
+            showFeedbackButtons,
+            setShowFeedbackButtons,
             submission,
+            setSubmission,
             methods,
             isTeacher,
             pageMode,
@@ -180,7 +132,8 @@ function Document(props) {
             handleRequestFeedback,
             allClasses,
             allFolders,
-            updateDocumentClass
+            methods.updateDocumentClass,
+            onMobileView
           )}
         </Frame1388>
       </div>
@@ -190,9 +143,7 @@ function Document(props) {
         handleSelectedRequestFeedback,
         students,
         teachers,
-        submission.classId
-          ? allClasses.filter((item) => item.id === submission.classId)
-          : allClasses
+        allClasses
       )}
     </>
   );
@@ -262,7 +213,10 @@ const selectTabComments = (showResolved, comments) => {
 function answersAndFeedbacks(
   isShowSelectType,
   setShowSelectType,
+  showFeedbackButtons,
+  setShowFeedbackButtons,
   submission,
+  setSubmission,
   methods,
   isTeacher,
   pageMode,
@@ -284,14 +238,18 @@ function answersAndFeedbacks(
   handleRequestFeedback,
   allClasses,
   allFolders,
-  updateDocumentClass
+  updateDocumentClass,
+  onMobileView
 ) {
   return (
-    <Frame1386 id="content">
+    <Frame1386 id="content" onMobileView={onMobileView}>
       {contextBarForPortfolioDocument(
         isShowSelectType,
         setShowSelectType,
+        showFeedbackButtons,
+        setShowFeedbackButtons,
         submission,
+        setSubmission,
         methods,
         isTeacher,
         pageMode,
@@ -301,7 +259,8 @@ function answersAndFeedbacks(
         true,
         allClasses,
         allFolders,
-        updateDocumentClass
+        updateDocumentClass,
+        onMobileView
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(
@@ -312,21 +271,22 @@ function answersAndFeedbacks(
           methods
         )}
         <></>
-        {documentFeedbackFrame(
-          methods,
-          submission,
-          newCommentSerialNumber,
-          commentsForSelectedTab,
-          setShowResolved,
-          showNewComment,
-          isShowResolved,
-          isTeacher,
-          comments,
-          pageMode,
-          newCommentFrameRef,
-          share,
-          smartAnnotations
-        )}
+        {!onMobileView &&
+          documentFeedbackFrame(
+            methods,
+            submission,
+            newCommentSerialNumber,
+            commentsForSelectedTab,
+            setShowResolved,
+            showNewComment,
+            isShowResolved,
+            isTeacher,
+            comments,
+            pageMode,
+            newCommentFrameRef,
+            share,
+            smartAnnotations
+          )}
       </Frame1368>
     </Frame1386>
   );
@@ -371,26 +331,19 @@ function documentFeedbackFrame(
 }
 
 function breadcrumbs(pageMode, submission, allFolders) {
-  let matchingFolderTitle = null;
-  if(allFolders && submission && submission.id){
-    const matchingFolder = allFolders.find(folder => folder.id === submission.folderId)
-    if(matchingFolder){
-      matchingFolderTitle = matchingFolder.title
-    }
-  }
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+  if (
+    pageMode === 'DRAFT' ||
+    pageMode === 'REVISE' ||
+    (pageMode === 'CLOSED' &&
+      (submission.status === 'FEEDBACK_ACCEPTED' ||
+        submission.status === 'SUBMITTED'))
+  ) {
     return (
       <Frame1387>
         <Frame1315>
           <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
-          <Breadcrumb2
-            assignments={matchingFolderTitle}
-            link={'/#/portfolio/' + submission.folderId}
-          />
-          <Breadcrumb2
-            assignments={'Drafts'}
-            link={'/#/portfolio/' + submission.classId + '/Drafts'}
-          />
+          {folderBreadcrumb()}
+          {subfolderBreadcrumb()}
 
           <Breadcrumb2 assignments={submission.assignment.title} />
         </Frame1315>
@@ -405,6 +358,33 @@ function breadcrumbs(pageMode, submission, allFolders) {
       </Frame1315>
     </Frame1387>
   );
+
+  function subfolderBreadcrumb() {
+    return (
+      <Breadcrumb2
+        assignments={'Drafts'}
+        link={'/#/portfolio/' + submission.folderId + '/Drafts'}
+      />
+    );
+  }
+
+  function folderBreadcrumb() {
+    let matchingFolderTitle = null;
+    if (allFolders && submission && submission.id) {
+      const matchingFolder = allFolders.find(
+        (folder) => folder.id === submission.folderId
+      );
+      if (matchingFolder) {
+        matchingFolderTitle = matchingFolder.title;
+      }
+    }
+    return (
+      <Breadcrumb2
+        assignments={matchingFolderTitle}
+        link={'/#/portfolio/' + submission.folderId}
+      />
+    );
+  }
 }
 
 export default Document;

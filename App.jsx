@@ -44,6 +44,7 @@ function App() {
   const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = withAuth(AccountSettingsRoot);
+  const ProtectedHeader = withAuth(ResponsiveHeader);
   const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
@@ -72,7 +73,7 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
-          {<ResponsiveHeader isSmallScreen={isSmallScreen()} />}
+          {<ProtectedHeader isSmallScreen={isSmallScreen()} />}
           <Switch>
             <Route path="/settings">
               <ProtectedSettings />
@@ -111,6 +112,9 @@ function App() {
             <Route path="/documents/:id">
               <ProtectedDocumentRoot />
             </Route>
+            <Route path="/documentsReview/:id">
+              <ProtectedDocumentRoot />
+            </Route>
             <Route path="/404">
               <PageNotFound />
             </Route>
@@ -121,7 +125,7 @@ function App() {
           </Switch>
           {<ResponsiveFooter smallScreen={isSmallScreen()} />}
         </Router>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </>
   );

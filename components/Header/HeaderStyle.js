@@ -45,15 +45,13 @@ export const NavigationContainer = styled.div`
   top: 70px;
   z-index: 10000 !important;
   border-radius: 8px;
-  background-color: var(--white);
+  background-color: white;
   align-self: stretch;
-
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  /* height: calc(100vh - 70px); */
   height: calc(100%-70px);
   min-height: 100vh;
-  animation: ${props => (props.isNotificationOpen && slideIn)} 0.3s linear forwards;
+  animation: ${props => (props.slideNotificationBar ? slideIn : slideOut)} 0.3s linear forwards;
   &::-webkit-scrollbar {
     width: 0;
     display: none;
@@ -61,12 +59,12 @@ export const NavigationContainer = styled.div`
 `;
 
 export const Screen = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 1000vh;
+  width: calc(100vw - 20px);
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 10;
 `;
 
 export const DropDownContainer = styled.div`

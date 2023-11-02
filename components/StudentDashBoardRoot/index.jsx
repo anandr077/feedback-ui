@@ -25,7 +25,7 @@ export default function StudentDashboardRoot(props) {
       const result = await getTasks();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   const modelResponsesQuery = useQuery({
     queryKey: ['modelresponses'],
@@ -33,7 +33,7 @@ export default function StudentDashboardRoot(props) {
       const result = await getModelResponses();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
 
   React.useEffect(() => {

@@ -26,7 +26,7 @@ export default function TeacherDashboardRoot(props) {
       const result = await getAssignments();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   const classesWithStudentsQuery = useQuery({
     queryKey: ['classesWithStudents'],
@@ -34,7 +34,7 @@ export default function TeacherDashboardRoot(props) {
       const result = await getClassesWithStudents();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
   const notificationsQuery = useQuery({
     queryKey: ['notifications'],
@@ -42,7 +42,7 @@ export default function TeacherDashboardRoot(props) {
       const result = await getNotifications();
       return result;
     },
-    staleTime: 300000,
+    staleTime: 3600000,
   });
 
   React.useEffect(() => {

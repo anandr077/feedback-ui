@@ -9,13 +9,13 @@ import {
   portfolioHeaderProps,
   taskHeaderProps,
   teacherHomeHeaderProps,
+  teacherStudentTaskHeaderProps,
 } from '../../utils/headerProps';
 import { getUserRole } from '../../service';
 
 export default function ResponsiveHeader({ isSmallScreen }) {
   const location = useLocation();
 
-  //console.log(location)
   const headerProps = getHeaderProps(location.pathname);
 
   if (isSmallScreen) {
@@ -30,6 +30,7 @@ const getHeaderProps = (location) => {
   if (location.includes('/exemplarResponses'))
     return completedHeaderProps(true);
   if (location.includes('/documents/')) return portfolioHeaderProps();
+  if (location.includes('/documentsReview/')) return teacherStudentTaskHeaderProps();
   if (location.includes('/portfolio')) return portfolioHeaderProps();
 
   const isTeacher = getUserRole() === 'TEACHER';

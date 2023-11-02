@@ -19,6 +19,7 @@ import {
   DocumentTitle,
   NoFileDiv,
   documentStatusStyle,
+  DocumentContainer,
   BubbleContainer,
   FilterContainer,
   TimerContainer,
@@ -81,7 +82,6 @@ const PortfolioAllFilesContainer = ({
     sortedFiles: allFiles,
     displayFilterFiles: false,
   };
-
   const [state, dispatch] = useReducer(sortReducer, initialState);
   const [filteredAllFiles, setFilteredAllFiles] = useState(allFiles);
 
@@ -101,7 +101,6 @@ const PortfolioAllFilesContainer = ({
   }, [allFiles]);
 
   const getSelectedItem = (option) => {
-    console.log('option', option);
     dispatch({ type: option.title });
     dispatch({ type: 'filteredFiles', payload: true });
   };
@@ -110,16 +109,25 @@ const PortfolioAllFilesContainer = ({
       name: 'STATUS',
       title: 'Status',
       items: [
-        { value: 'SUBMITTED', label: 'Submitted', category: 'TYPES' },
         { value: 'DRAFT', label: 'Draft', category: 'TYPES' },
         {
+          value: 'SUBMITTED',
+          label: 'Feedback-Requested',
+          category: 'TYPES',
+        },
+        {
           value: 'FEEDBACK_ACCEPTED',
-          label: 'Feedback-Accepted',
+          label: 'Feedback-Request-Accepted',
+          category: 'TYPES',
+        },
+        {
+          value: 'FEEDBACK_DECLINED',
+          label: 'Feedback-Request-Declined',
           category: 'TYPES',
         },
         {
           value: 'REVIEWED',
-          label: 'Reviewed',
+          label: 'Feedback-received',
           category: 'TYPES',
         },
       ],
@@ -196,45 +204,50 @@ const PortfolioAllFilesContainer = ({
       ) : (
         filesToDisplay.map((document, idx) => {
           return (
-            <DocumentBox key={idx}>
-              <DocumentBoxWrapper>
-                <DocumentTextFrame>
-                  {document?.preview && document.preview.length > 130
-                    ? document.preview.slice(0, 230) + '...'
-                    : document.preview}
-                </DocumentTextFrame>
-                <div>
-                  <BubbleContainer>
-                    <StatusBubblesContainer tags={document?.tags ?? []} />
-                  </BubbleContainer>
-                  <DocumentTitle>{document.title}</DocumentTitle>
-                  <TimerContainer>
-                    <p>
-                      {timeTitle()} {dateOnly(document.viewedAt)}
-                    </p>
-                  </TimerContainer>
-                </div>
-              </DocumentBoxWrapper>
-              <DocumentBtns>
-                <a href={document.url}>
-                  <DocBtn>
-                    <DocBtnImg src={previewImg} alt="Preview Button" />
-                    <DocBtnText>View</DocBtnText>
-                    <span>View</span>
+            <DocumentContainer href={document.url}>
+              <DocumentBox key={idx}>
+                <DocumentBoxWrapper>
+                  <DocumentTextFrame>
+                    {document?.preview && document.preview.length > 130
+                      ? document.preview.slice(0, 125) + '...'
+                      : document.preview}
+                  </DocumentTextFrame>
+                  <div>
+                    <BubbleContainer>
+                      <StatusBubblesContainer tags={document?.tags ?? []} />
+                    </BubbleContainer>
+                    <DocumentTitle>{document.title}</DocumentTitle>
+                    <TimerContainer>
+                      <p>
+                        {timeTitle()} {dateOnly(document.viewedAt)}
+                      </p>
+                    </TimerContainer>
+                  </div>
+                </DocumentBoxWrapper>
+                <DocumentBtns>
+                  <DocBtn onClick={(e) => {
+                    e.preventDefault();
+                    downloadPortfolioPdf(document);
+                    e.stopPropagation();
+                  }}>
+                    <DocBtnImg src={downLoadImg} alt="Download Button" />
+                    <DocBtnText>Download</DocBtnText>
+                    <span>Download</span>
                   </DocBtn>
-                </a>
-                <DocBtn onClick={() => downloadPortfolioPdf(document)}>
-                  <DocBtnImg src={downLoadImg} alt="Download Button" />
-                  <DocBtnText>Download</DocBtnText>
-                  <span>Download</span>
-                </DocBtn>
-                <DocBtn onClick={() => handleDeleteDocument(document)}>
-                  <DocBtnImg src={deleteImg} alt="Delete Button" />
-                  <DocBtnText>Delete</DocBtnText>
-                  <span>Delete</span>
-                </DocBtn>
-              </DocumentBtns>
-            </DocumentBox>
+                  {document.allowDelete && (
+                    <DocBtn onClick={(e) => {
+                      e.preventDefault();
+                      handleDeleteDocument(document);
+                      e.stopPropagation();
+                    }}>
+                      <DocBtnImg src={deleteImg} alt="Delete Button" />
+                      <DocBtnText>Delete</DocBtnText>
+                      <span>Delete</span>
+                    </DocBtn>
+                  )}
+                </DocumentBtns>
+              </DocumentBox>
+            </DocumentContainer>
           );
         })
       )}

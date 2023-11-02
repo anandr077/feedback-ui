@@ -32,7 +32,6 @@ function CommentCard32(props) {
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
 
-  // console.log('##comment', comment.comment.includes('\n\n'));
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
@@ -107,7 +106,7 @@ function CommentCard32(props) {
             {editButtonActive &&
             editCommentType === 'replies' &&
             index === editReplyIndex ? (
-              <NewlineText text={inputComment()} />
+              inputComment()
             ) : (
               <NewlineText text={reply.comment} />
             )}
@@ -213,6 +212,7 @@ function CommentCard32(props) {
   }
 }
 function NewlineText({ text }) {
+  console.log("text" + JSON.stringify(text))
   const newText = text.split('\n').map((str, index, array) =>
     index === array.length - 1 ? (
       str
@@ -254,6 +254,10 @@ const CommentCard = styled.article`
 
   &.comment-card-4.comment-card-6 {
     cursor: unset;
+  }
+
+  &:hover{
+    border-color: var(--light-mode-purple);
   }
 `;
 

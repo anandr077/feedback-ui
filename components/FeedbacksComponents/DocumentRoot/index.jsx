@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
 import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
-import { getPortfolio } from '../../../service'
+import { getPortfolio, getClasses, docsMoveToFolder } from '../../../service';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState, useReducer } from 'react';
@@ -23,6 +23,9 @@ import {
   submitAssignment,
   updateFeedback,
   updateFeedbackRange,
+  getStudentsForClass,
+  getTeachersForClass,
+  fetchSubmissionData,
 } from '../../../service';
 import {
   getShortcuts,
@@ -31,14 +34,13 @@ import {
 } from '../../../service.js';
 import { documentHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
+import _ from 'lodash';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
-  //queryClient.removeQueries(['portfolio']);
-
 
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
@@ -46,8 +48,10 @@ export default function DocumentRoot({}) {
   const { showSnackbar } = React.useContext(SnackbarContext);
   const newCommentFrameRef = useRef(null);
   const [submission, setSubmission] = useState(null);
+  const [portfolio, setPortfolio] = useState(null);
   const [smartAnnotations, setSmartAnnotations] = useState([]);
-  const [isloading, setIsLoading] = useState(true);
+  const [isSubmissionLoading, setIsSubmissionLoading] = useState(true);
+  const [isClassesLoading, setIsClassesLoading] = useState(true);
   const { id } = useParams();
   const [studentName, setStudentName] = useState(null);
   const [comments, setComments] = useState([]);
@@ -60,60 +64,116 @@ export default function DocumentRoot({}) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
-  const [state, dispatch] = useReducer(reducer, initailState)
-  const [allFolders, setAllFolders] = useState([])
+  const [allClasses, setAllClasses] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [feedbackClasses, setFeedbackClasses] = useState([]);
+  const [hasProcessedData, setHasProcessedData] = useState(false);
+  const [pageMode, setPageMode] = useState(null);
+  const [shouldFetchPortfolio, setShouldFetchPortfolio] = useState(false);
+  const onMobileView = isMobileView();
+
+  // Fetch functions
+  const fetchSubmissionData = async () => {
+    const [submissionsResult, commentsResult, smartAnnotationResult] =
+      await Promise.all([
+        getSubmissionById(id),
+        getComments(id),
+        getSmartAnnotations(),
+      ]);
+
+    setSubmission(submissionsResult);
+    setComments(commentsResult);
+    setSmartAnnotations(smartAnnotationResult);
+    setIsSubmissionLoading(false);
+
+    return submissionsResult; // Return the fetched submission data for further use.
+  };
+
+  const fetchDetails = async (submission, classIds) => {
+    const studentsPromises = classIds.map((id) => getStudentsForClass(id));
+    const teachersPromises = classIds.map((id) => getTeachersForClass(id));
+
+    const studentsArrays = await Promise.all(studentsPromises);
+    const teachersArrays = await Promise.all(teachersPromises);
+
+    const allStudents = _.flatten(studentsArrays);
+    const allTeachers = _.flatten(teachersArrays);
+
+    const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
+      (item) => item.id !== submission.studentId
+    );
+    const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+
+    setStudents(uniqueStudents.map((item) => ({ ...item, title: item.name })));
+    setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.name })));
+    console.log('teachers', teachers);
+  };
+
+  const fetchClassesAndDetails = async (submission) => {
+    const classes = await getClasses();
+
+    setAllClasses(classes);
+    const classIds = classes.map((c) => c.id);
+    await fetchDetails(submission, classIds);
+    setIsClassesLoading(false);
+  };
 
   useEffect(() => {
-    Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
-      .then(([submissionsResult, commentsResult, smartAnnotationResult]) => {
-        setSubmission(submissionsResult);
-        const allComments = commentsResult.map((c) => {
-          return { ...c };
-        });
-        setComments(allComments);
-        setSmartAnnotations(smartAnnotationResult);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    fetchSubmissionData().then((fetchedSubmission) => {
+      if (fetchedSubmission) {
+        fetchClassesAndDetails(fetchedSubmission);
+        setSubmission(fetchedSubmission);
+      }
+    });
   }, [id]);
-
+  useEffect(() => {
+    if (submission) {
+      const mode = getPortfolioPageMode(getUserId(), submission);
+      setPageMode(mode);
+    }
+  }, [submission]);
+  useEffect(() => {
+    if (submission) {
+      if (pageMode === 'REVISE' || pageMode === 'DRAFT') {
+        queryClient.prefetchQuery(['portfolio'], getPortfolio);
+      }
+    }
+  }, [submission]);
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['portfolio'],
-    queryFn: async () => {
-      return await getPortfolio();
-    },
-    staleTime: 300000,
+    queryFn: getPortfolio,
+    staleTime: 3600000,
+    enabled: loadPortfolio(),
   });
-  React.useEffect(() => {
-    dispatch({ type: 'setPortfolio', payload: data });
-  }, [data]);
 
-  useEffect(()=>{
-    const getFolders = state?.portfolio?.files.map((folder)=>{
-      //const folders = {id: folder.id, title: folder.title}
-      return folder
-    })
-    console.log('this is my document portfolio: ', getFolders)
-    setAllFolders(getFolders)
-  }, [state])
+  useEffect(() => {
+    if (data && !hasProcessedData) {
+      setPortfolio(data);
+      setHasProcessedData(true);
+    }
+  }, [data, queryClient]);
 
-  console.log('this is my state here: ', state)
-
-  if (isloading) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
+  console.log(
+    'isLoading',
+    data,
+    isLoading,
+    isSubmissionLoading,
+    isClassesLoading
+  );
+  if ((loadPortfolio() && isLoading) || isSubmissionLoading || isClassesLoading) {
+    return <Loader />;
   }
 
-  const pageMode = getPortfolioPageMode(getUserId(), submission);
+  // queryClient.removeQueries(['portfolio'])
+
+  const folders = portfolio?.files.map((folder) => {
+    return { id: folder.id, title: folder.title, classId: folder.classId };
+  });
 
   const headerProps = documentHeaderProps(
     pageMode === 'DRAFT' || pageMode === 'REVISE'
   );
-  console.log('headerProps', headerProps);
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {
@@ -134,6 +194,10 @@ export default function DocumentRoot({}) {
   const handleEditorMounted = (editor, index) => {
     quillRefs.current[index] = editor;
   };
+
+  function loadPortfolio() {
+    return submission ? submission.studentId === getUserId() : false;
+  }
 
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -181,7 +245,10 @@ export default function DocumentRoot({}) {
 
   function updateCommentsRange(answer) {
     const quill = quillRefs.current[answer.serialNumber - 1];
+    if (quill === undefined) return;
+    if (quill === null) return;
     const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+
     const mergedHighlights = {};
 
     Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
@@ -392,7 +459,7 @@ export default function DocumentRoot({}) {
 
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
-      queryClient.invalidateQueries(['notifications']);
+      clearQueries();
       showSnackbar('Task reviewed...', window.location.href);
       window.location.href = '/#';
     });
@@ -404,7 +471,7 @@ export default function DocumentRoot({}) {
     setPopupText('');
 
     markSubmissionRequestSubmission(submission.id).then((_) => {
-      queryClient.invalidateQueries(['notifications']);
+      clearQueries();
       showSnackbar('Resubmission requested...', window.location.href);
       window.location.href = '/#';
     });
@@ -422,7 +489,7 @@ export default function DocumentRoot({}) {
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
-        queryClient.invalidateQueries(['notifications']);
+        clearQueries();
         showSnackbar('Task submitted...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -449,7 +516,7 @@ export default function DocumentRoot({}) {
     showSnackbar('Submitting task...');
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
-        queryClient.invalidateQueries(['notifications']);
+        clearQueries();
         showSnackbar('Task completed...', window.location.href);
         window.location.href = '/#';
         setShowLoader(false);
@@ -652,15 +719,9 @@ export default function DocumentRoot({}) {
     setShowSubmitPopup(true);
     setMethodToCall(method);
     if (method === 'SubmitForReview') {
-      setPopupText('Are you sure you want to submit this task for review?');
+      setPopupText('Are you sure you want to submit this draft for review?');
     } else if (method === 'SubmitReview') {
-      setPopupText('Are you sure you want to submit feedback for this task?');
-    } else if (method === 'RequestResubmission') {
-      setPopupText(
-        'Are you sure you want to request resubmission for this task?'
-      );
-    } else if (method === 'CloseSubmission') {
-      setPopupText('Are you sure you want to mark this task as complete?');
+      setPopupText('Are you sure you want to submit feedback for this draft?');
     }
   };
   function submissionStatusLabel() {
@@ -684,12 +745,6 @@ export default function DocumentRoot({}) {
     }
     return submission.studentName;
   }
-  function getFeedbackProvidedBy() {
-    if (submission.feedbackRequestType === 'P2P') {
-      return 'your peer.';
-    }
-    return submission.reviewerName;
-  }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
     addFeedback(submission.id, {
@@ -706,8 +761,31 @@ export default function DocumentRoot({}) {
     });
     setShowNewComment(false);
   }
+  const updateDocumentClass = (item, allFolders) => {
+    if (item.id === submission.folderId) {
+      return;
+    }
+    docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
+      if (res) {
+        const classObj = allFolders.find((item) => item.id === res.folderId);
+        showSnackbar('Moved to ' + classObj.title);
+        queryClient.invalidateQueries(['portfolio']);
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
+      }
+    });
+  };
+
+  const clearQueries = () => {
+    queryClient.invalidateQueries(['notifications']);
+    queryClient.invalidateQueries(['tasks']);
+    queryClient.invalidateQueries(['assignments']);
+    queryClient.invalidateQueries(['document-reviews']);
+  };
 
   const methods = {
+    updateDocumentClass,
     handleShortcutAddCommentSmartAnnotaion,
     submissionStatusLabel,
     createDebounceFunction,
@@ -770,8 +848,12 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: headerProps,
-              allFolders,
+              headerProps,
+              allFolders: folders,
+              allClasses,
+              students,
+              teachers,
+              onMobileView,
             }}
           />
         }
@@ -794,7 +876,10 @@ export default function DocumentRoot({}) {
               setSubmission,
               // ...feedbacksFeedbackTeacherLaptopData,
               headerProps: headerProps,
-              allFolders,
+              allFolders: folders,
+              allClasses,
+              students,
+              teachers,
             }}
           />
         }
@@ -818,7 +903,10 @@ export default function DocumentRoot({}) {
                 setSubmission,
                 // ...feedbacksFeedbackTeacherLaptopData,
                 headerProps: headerProps,
-                allFolders,
+                allFolders: folders,
+                allClasses,
+                students,
+                teachers,
               }}
             />
           </>
@@ -841,7 +929,10 @@ export default function DocumentRoot({}) {
               submission,
               setSubmission,
               headerProps: headerProps,
-              allFolders,
+              allFolders: folders,
+              allClasses,
+              students,
+              teachers,
             }}
           />
         }

@@ -9,12 +9,13 @@ export const NotificationBtnContainer = styled.div`
 `
 
 export const Button = styled.button`
-    width: 108px;
+    width: 140px;
     height: 30px;
     border-radius: 16px;
     padding: 4px 16px;
     border: none;
     background-color: transparent;
+    white-space: nowrap;
     cursor: pointer;
     font-family: 'IBM Plex Sans';
     color: #1E252A;

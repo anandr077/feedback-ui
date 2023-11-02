@@ -17,8 +17,17 @@ const AllFilesHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+
+  @media (max-width: 370px) {
+    flex-direction: column;
+    align-items: start;
+    margin: 20px 0;
+  }
 `;
 
+const DocumentContainer = styled.a`
+  text-decoration: none;
+`
 
 const DocumentBox = styled.div`
   background-color: white;
@@ -31,11 +40,18 @@ const DocumentBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 20px;
+  border: 1px solid transparent;
 
   @media (max-width: 992px) {
     height: 155px;
     flex-direction: column;
     padding-bottom: 20px;
+  }
+
+  &:hover {
+    background: #f9f5ff;
+    border-color: var(--light-mode-purple); 
+    box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
 `;
 
@@ -64,6 +80,7 @@ const DocumentTextFrame = styled.div`
   color: #000000;
   padding: 5px;
   overflow: hidden;
+  word-wrap: break-word;
 `;
 
 const DocumentTitle = styled.h3`
@@ -79,8 +96,7 @@ const DocumentTitle = styled.h3`
 `;
 
 const DocumentBtns = styled.div`
-  background-color: white;
-  
+  background-color: transparent;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -106,7 +122,7 @@ const DocBtn = styled.button`
   transition: transform 0.5s ease-in-out;
   position: relative;
 
-  span{
+  span {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.75);
     color: #fff;
@@ -119,14 +135,15 @@ const DocBtn = styled.button`
     transform: translateX(-50%);
     white-space: nowrap;
     display: none;
+    font-family: 'IBM Plex Sans', Helvetica;
   }
 
   &:hover {
-    span{
+    span {
       display: block;
     }
     @media (max-width: 992px) {
-      span{
+      span {
         display: none;
       }
     }
@@ -147,7 +164,7 @@ const DocBtnText = styled.p`
   color: #1e252a;
   font-weight: 500;
   font-size: 13px;
-
+  font-family: 'IBM Plex Sans', sans-serif;
   @media (max-width: 992px) {
     display: block;
   }
@@ -213,6 +230,12 @@ const FilterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 370px) {
+    width: 100%;
+    justify-content: start;
+    flex-wrap: wrap;
+  }
 `;
 const TimerContainer = styled.div`
   display: flex;
@@ -235,6 +258,7 @@ export {
   DocBtnText,
   NoFileDiv,
   documentStatusStyle,
+  DocumentContainer,
   BubbleContainer,
   FilterContainer,
   TimerContainer,

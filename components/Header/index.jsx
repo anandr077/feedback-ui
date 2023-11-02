@@ -20,6 +20,7 @@ import {
   HeaderButtonSelected,
 } from './HeaderStyle';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export default function Header(props) {
   const { headerProps } = props;
@@ -45,12 +46,20 @@ export default function Header(props) {
     window.location.href = headerProps.thirdButton.redirect;
   };
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
+  const [slideNotificationBar, setSlideNotificationBar] = useState(false)
   const handleNotificationClick = () => {
-    setIsNotificationOpen(!isNotificationOpen);
+    if (!isNotificationOpen) {
+      setIsNotificationOpen(true);
+      setSlideNotificationBar(true)
+    } else {
+      setSlideNotificationBar(false)
+      setTimeout(() => {
+        setIsNotificationOpen(false);
+      }, 300);
+    }
   };
 
   const toggleDropDown = () => {
-    console.log('toggleDropDown');
     setDropDown(!dropDown);
   };
 
@@ -148,7 +157,7 @@ export default function Header(props) {
           notifications={notifications}
         >
           <NavigationContainer 
-            isNotificationOpen={isNotificationOpen}
+            slideNotificationBar={slideNotificationBar}
           >
             {' '}
             <NotificationsBar

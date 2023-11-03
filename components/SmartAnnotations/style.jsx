@@ -47,7 +47,7 @@ export const SmartAnnotationContainer = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  gap: 3px;
+  gap: 8px;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
@@ -73,6 +73,33 @@ export const TtitleContainer = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
+
+export const ButtonBox = styled.div`
+  position: relative;
+
+  span{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px;
+    z-index: 100;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    display: none;
+    font-family: 'IBM Plex Sans', Helvetica;
+    font-size: 12px;
+  }
+
+  &:hover {
+    span {
+      display: block;
+    }
+  }
+`
 
 export const DeleteButton2 = styled.img`
   cursor: pointer;

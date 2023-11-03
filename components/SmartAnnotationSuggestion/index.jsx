@@ -7,6 +7,7 @@ import {
   SuggestionsContainer,
   SuggestionsContainerComments,
   DeleteButton,
+  ButtonBox,
 } from './style';
 
 export default function SmartAnnotationSuggestion(props) {
@@ -54,20 +55,26 @@ export default function SmartAnnotationSuggestion(props) {
           )}
           <ButtonContainer>
             {teacherId === getUserId() ? (
-              <DeleteButton
-                src="/icons/edit-purple-icon.svg"
-                alt="delete-button"
-                onClick={() => setEditing(true)}
-              ></DeleteButton>
+              <ButtonBox>
+                <DeleteButton
+                  src="/icons/edit-purple-icon.svg"
+                  alt="delete-button"
+                  onClick={() => setEditing(true)}
+                ></DeleteButton>
+                <span>Edit</span>
+              </ButtonBox>
             ) : (
               <></>
             )}
             {teacherId === getUserId() ? (
-              <DeleteButton
-                src="/icons/delete-purple-icon.svg"
-                alt="delete-button"
-                onClick={() => handleDeleteSuggestion(index)}
-              ></DeleteButton>
+              <ButtonBox>
+                <DeleteButton
+                  src="/icons/delete-purple-icon.svg"
+                  alt="delete-button"
+                  onClick={() => handleDeleteSuggestion(index)}
+                ></DeleteButton>
+                <span>Delete</span>
+              </ButtonBox>
             ) : (
               <></>
             )}

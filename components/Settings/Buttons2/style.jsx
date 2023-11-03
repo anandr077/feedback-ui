@@ -21,6 +21,7 @@ export const TooltipWrapper = styled.div`
     bottom: 125%;
     left: 50%;
     transform: translateX(-50%);
+    font-size: 12px;
     white-space: nowrap;
     font-family: 'IBM Plex Sans', Helvetica;
   }

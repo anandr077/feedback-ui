@@ -388,6 +388,7 @@ export const IconContainer = styled.img`
   min-width: 20px;
   height: 20px;
   cursor: pointer;
+  margin-left: 20px;
 `;
 
 export const DropdownButtonsGroup = styled.div`

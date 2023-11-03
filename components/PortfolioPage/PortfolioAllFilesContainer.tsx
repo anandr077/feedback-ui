@@ -29,6 +29,7 @@ import StatusBubblesContainer from '../StatusBubblesContainer';
 import CheckboxGroup from '../CheckboxGroup';
 import { dateOnly } from '../../dates';
 import ButtonTooltip from '../ButtonTooltip';
+import { getSubmissionById } from '../../service';
 
 const sortReducer = (state, action) => {
   switch (action.type) {
@@ -180,6 +181,11 @@ const PortfolioAllFilesContainer = ({
   const filesToDisplay = state.displayFilterFiles
     ? state.sortedFiles
     : allFiles;
+
+  const downloadFile = async (document) => {
+    const data = await getSubmissionById(document.id);
+    downloadPortfolioPdf(data);
+  };
 
   return (
     <AllFilesContainer categoryName={categoryName}>

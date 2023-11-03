@@ -74,9 +74,7 @@ function TeacherClassesDesktop(props) {
           </Frame1339>
 
           <Frame1416>            
-            <Frame1339>
             {annotationAnalyticsFrame}
-            </Frame1339>
             <Exemplar 
               modelResponses={modelResponses}
               setPublishActionCompleted={setPublishActionCompleted}

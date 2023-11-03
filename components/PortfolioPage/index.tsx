@@ -177,7 +177,6 @@ const PortfolioPage = () => {
   };
 
   const handleNewFolder = (folderName) => {
-    console.log('new folder: ', folderName);
     addFolderMutation.mutate(folderName);
   };
 

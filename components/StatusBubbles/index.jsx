@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 function StatusBubbles(props) {
-  const { tag } = props;
+  const { tag, overdue } = props;
   return (
-    <StatusBubble>
+    <StatusBubble name={tag.name} overdue={overdue}>
       <StatusBubblesText>{tag.name}</StatusBubblesText>
     </StatusBubble>
   );
@@ -17,10 +17,10 @@ const StatusBubble = styled.article`
   gap: 10px;
   padding: 3px 8px;
   position: relative;
-  background-color: var(--wheatfield);
+  background-color: ${props => props.name === "Community" ? 'var(--blue-chalk)' : 'var(--wheatfield)'};
   border-radius: 11.5px;
   border: 1px solid;
-  border-color: var(--golden-sand);
+  border-color: ${props => props.name === 'Community' ? (props.overdue ? 'var(--royal-purple)' : 'var(--blue-chalk)') : 'var(--golden-sand)'};
 `;
 
 const StatusBubblesText = styled.div`

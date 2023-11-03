@@ -85,7 +85,9 @@ export default function AnnotationAnalytics(props) {
           <div className="progress">{smartAnnotationAnalyticsData}</div>
         </div>
       ) : (
-        <></>
+        <div className="parent-card">
+          <div className="heading-text">Smart Annotations</div>
+        </div>
       )}
     </>
   );

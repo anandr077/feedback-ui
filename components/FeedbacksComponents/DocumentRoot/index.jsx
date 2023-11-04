@@ -234,21 +234,17 @@ export default function DocumentRoot({}) {
     };
   };
 
-  const handleDebounce = (answer) => (contents) => {
+  const handleDebounce = (answer) => (contents, highlights) => {
     handleChangeText('Saving...', false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-      return updateCommentsRange(answer);
+      return updateCommentsRange(answer, highlights);
     });
   };
 
-  function updateCommentsRange(answer) {
-    const quill = quillRefs.current[answer.serialNumber - 1];
-    if (quill === undefined) return;
-    if (quill === null) return;
-    const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
-
+  function updateCommentsRange(answer, highlightsWithCommentsData) {
+   
     const mergedHighlights = {};
 
     Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {

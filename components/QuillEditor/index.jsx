@@ -94,7 +94,7 @@ const QuillEditor = React.forwardRef(
 
           var html = converter.convert();
           // alert(html)
-          onDebounce(html);
+          onDebounce(html,  getHighlights(editor));
         };
 
         if (debounceTime > 0) {

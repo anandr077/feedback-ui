@@ -1,36 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Avatar } from '@boringer-avatars/react';
+import {
+  DnDContainer,
+  StudentsDnD,
+  Heading,
+  StudentsContainer,
+  StudentDnD,
+  Student,
+  StudentContainer,
+  OptionName,
+} from './style';
 
 function DragAndDrop(props) {
   const { students, reviewedBy, setReviewedBy } = props;
 
   const [dragFromHere, setDragFromHere] = useState(students);
-
-  const handleDragAndDrop2 = (results) => {
-    const { source, destination, type } = results;
-
-    if (!destination) return;
-
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    )
-      return;
-
-    if (type === 'group') {
-      const reorderedStudets = [...students];
-
-      const studentSourceIndex = source.index;
-      const studentDestinatonIndex = destination.index;
-
-      const [removedStudent] = reorderedStudets.splice(studentSourceIndex, 1);
-      reorderedStudets.splice(studentDestinatonIndex, 0, removedStudent);
-
-      return setStudents(reorderedStudets);
-    }
-  };
 
   const handleDragAndDrop = (results) => {
     const { source, destination, draggableId } = results;
@@ -167,57 +152,5 @@ function DragAndDrop(props) {
     </DnDContainer>
   );
 }
-
-const DnDContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-`;
-
-const StudentsDnD = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: var(--white-pointer);
-  padding: 20px;
-  width: 150px;
-`;
-
-const Heading = styled.h3`
-  font-family: var(--font-family-ibm_plex_sans);
-`
-
-const StudentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 20px;
-`;
-const StudentDnD = styled(Droppable)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-`;
-const Student = styled(Draggable)`
-  display: flex;
-  flex-direction: row;
-  // background-color: var(--white);
-  padding: 10px;
-`;
-
-const StudentContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  gap: 5px;
-  background-color: var(--white);
-  border-radius: 10px;
-`;
-
-const OptionName = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
-`
 
 export default DragAndDrop;

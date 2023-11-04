@@ -488,10 +488,27 @@ export default function CreateAssignment(props) {
     }
   };
 
+  const isDnDValid = () => {
+    if (studentDropdown){
+      if (students.length === reviewedBy.length) {
+        return true;
+      } else {
+        const dueDateContainer = document.getElementById('DnDContainer');
+        dueDateContainer.style.border = '1px solid red';
+        showSnackbar('Please add reviewer for each student');
+        return false;
+      }}
+      else {
+        return true;
+      }
+      
+  };
+
   const isAssignmentValid = () => {
     return isTitleValid() &&
       isQuestionsValid() &&
       isClassesValid() &&
+      isDnDValid() &&
       isDateValid()
       ? true
       : false;

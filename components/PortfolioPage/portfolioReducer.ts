@@ -99,15 +99,15 @@ export function getSubFolder(
 
 export const deleteDocument = (portfolio, documentId) => {
   
+  const filteredRecentFiles = portfolio.recentFiles?.filter(file => file.id !== documentId);
+
   const newPortfolio = {
     ...portfolio,
+    recentFiles: filteredRecentFiles,
     files: portfolio.files?.map((folder) => ({
       ...folder,
       files: folder.files?.map((subFolder) => {
-        const filteredFiles = subFolder.files?.filter((file) => {
-          
-          return file.id !== documentId;
-        });
+        const filteredFiles = subFolder.files?.filter((file) => file.id !== documentId);
         return {
           ...subFolder,
           files: filteredFiles,
@@ -115,8 +115,10 @@ export const deleteDocument = (portfolio, documentId) => {
       }),
     })),
   };
+
   return newPortfolio;
 };
+
 export function addNewFile(portfolio, folderId, submission) {
   const file = {
       title: submission.assignment.title,

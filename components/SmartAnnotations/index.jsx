@@ -9,6 +9,7 @@ import {
   ButtonLabel,
   PlusImage,
   TtitleContainer,
+  ButtonBox,
   DeleteButton2,
   Line14,
   SmartAnnotationTitleContainer,
@@ -16,7 +17,7 @@ import {
   Arrowdown2,
   SubmitButton,
   ButtonWrapper,
-  ArrowUpIcon
+  ArrowUpIcon,
 } from './style';
 
 function SmartAnotation(props) {
@@ -138,30 +139,44 @@ function SmartAnotation(props) {
 
             {settingsMode ? (
               <ButtonContainer>
-                <DeleteButton2
-                  src="/img/copy@2x.png"
-                  alt="copy"
-                  onClick={() => cloneSmartAnnotation()}
-                ></DeleteButton2>
                 {smartAnnotation?.teacherId === getUserId() ? (
+                  <ButtonBox>
+                    <DeleteButton2
+                      src="/icons/edit-purple-icon.svg"
+                      alt="edit-button"
+                      onClick={() => setEditingTitle(true)}
+                    ></DeleteButton2>
+                    <span>Edit</span>
+                  </ButtonBox>
+                ) : (
+                  <></>
+                )}
+                <ButtonBox>
                   <DeleteButton2
-                    src="/icons/edit-purple-icon.svg"
-                    alt="edit-button"
-                    onClick={() => setEditingTitle(true)}
+                    src="/img/copy@2x.png"
+                    alt="copy"
+                    onClick={() => cloneSmartAnnotation()}
                   ></DeleteButton2>
-                ) : (
-                  <></>
-                )}
+                  <span>Copy</span>
+                </ButtonBox>
                 {smartAnnotation?.teacherId === getUserId() ? (
-                  <DeleteButton2
-                    src="/icons/delete-purple-icon.svg"
-                    alt="delete-button"
-                    onClick={() => handleDeleteAnnotation()}
-                  />
+                  <ButtonBox>
+                    <DeleteButton2
+                      src="/icons/delete-purple-icon.svg"
+                      alt="delete-button"
+                      onClick={() => handleDeleteAnnotation()}
+                    />
+                    <span>Delete</span>
+                  </ButtonBox>
                 ) : (
                   <></>
                 )}
-                <Arrowdown2 onClick={toggleSection} src="/img/arrowup.png" alt="arrowdown2" left={true}/>
+                <Arrowdown2
+                  onClick={toggleSection}
+                  src="/img/arrowup.png"
+                  alt="arrowdown2"
+                  left={true}
+                />
               </ButtonContainer>
             ) : (
               <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />

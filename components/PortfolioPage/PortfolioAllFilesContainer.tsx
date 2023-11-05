@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import downLoadImg from '../../static/icons/document-download@2x.png';
-import previewImg from '../../static/icons/preview@2x.png';
 import deleteImg from '../../static/icons/trash-can@2x.png';
+import downLoadImg from '../../static/icons/document-download@2x.png';
 import _ from 'lodash';
 
 import DropdownMenu from '../DropdownMenu';
@@ -25,10 +24,11 @@ import {
   TimerContainer,
 } from './PortfolioAllFilesStyle';
 
-import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
+import { downloadSubmission, downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
 import StatusBubblesContainer from '../StatusBubblesContainer';
 import CheckboxGroup from '../CheckboxGroup';
 import { dateOnly } from '../../dates';
+import ButtonTooltip from '../ButtonTooltip';
 import { getSubmissionById } from '../../service';
 
 const sortReducer = (state, action) => {
@@ -182,10 +182,6 @@ const PortfolioAllFilesContainer = ({
     ? state.sortedFiles
     : allFiles;
 
-  const downloadFile = async (document) => {
-    const data = await getSubmissionById(document.id);
-    downloadPortfolioPdf(data);
-  };
 
   return (
     <AllFilesContainer categoryName={categoryName}>
@@ -231,29 +227,19 @@ const PortfolioAllFilesContainer = ({
                   </div>
                 </DocumentBoxWrapper>
                 <DocumentBtns>
-                  <DocBtn
-                    onClick={(e) => {
-                      e.preventDefault();
-                      downloadFile(document);
-                      e.stopPropagation();
-                    }}
-                  >
-                    <DocBtnImg src={downLoadImg} alt="Download Button" />
-                    <DocBtnText>Download</DocBtnText>
-                    <span>Download</span>
-                  </DocBtn>
+                  <ButtonTooltip 
+                      document={document}
+                      buttonAction={(e)=>downloadSubmissionPdf(document.documentId)}
+                      buttonText="Download"
+                      btnIcon={downLoadImg}
+                  />
                   {document.allowDelete && (
-                    <DocBtn
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleDeleteDocument(document);
-                        e.stopPropagation();
-                      }}
-                    >
-                      <DocBtnImg src={deleteImg} alt="Delete Button" />
-                      <DocBtnText>Delete</DocBtnText>
-                      <span>Delete</span>
-                    </DocBtn>
+                    <ButtonTooltip 
+                        document={document}
+                        buttonAction={handleDeleteDocument}
+                        buttonText="Delete"
+                        btnIcon={deleteImg}
+                    />
                   )}
                 </DocumentBtns>
               </DocumentBox>

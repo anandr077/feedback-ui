@@ -54,7 +54,7 @@ import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData,
 } from './style';
-import { downloadTaskPdf } from '../../Shared/helper/downloadPdf';
+import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
 
 const MARKING_METHODOLOGY_TYPE = {
@@ -350,18 +350,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     };
   };
 
-  const handleDebounce = (answer) => (contents) => {
+  const handleDebounce = (answer) => (contents, highlights) => {
+    console.log
     handleChangeText('Saving...', false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((_) => {
-      return updateCommentsRange(answer);
+      return updateCommentsRange(answer, highlights);
     });
   };
 
-  function updateCommentsRange(answer) {
-    const quill = quillRefs.current[answer.serialNumber - 1];
-    const highlightsWithCommentsData = quill.getAllHighlightsWithComments();
+  function updateCommentsRange(answer, highlightsWithCommentsData) {
     const mergedHighlights = {};
 
     Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
@@ -922,7 +921,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const downloadPDF = () => {
-    downloadTaskPdf(submission);
+    downloadSubmissionPdf(submission.id);
   };
 
   function submissionStatusLabel() {

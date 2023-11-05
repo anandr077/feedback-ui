@@ -13,9 +13,7 @@ import {
 } from './style';
 
 function DragAndDrop(props) {
-  const { students, reviewedBy, setReviewedBy } = props;
-
-  const [dragFromHere, setDragFromHere] = useState(students);
+  const { students, reviewedByList, setReviewedByList, dragFromHere } = props;
 
   const handleDragAndDrop = (results) => {
     const { source, destination, draggableId } = results;
@@ -37,8 +35,17 @@ function DragAndDrop(props) {
         (student) => student.id === draggableId
       );
       if (draggedStudent) {
-        if (reviewedBy.length < students.length) {
-          setReviewedBy([...reviewedBy, draggedStudent]);
+        if (reviewedByList.length < students.length) {
+          // setReviewedBy([...reviewedBy, draggedStudent]);
+          const reorderedReviewedBy = [...reviewedByList];
+          reorderedReviewedBy.splice(destination.index, 0, draggedStudent);
+
+          setReviewedByList(reorderedReviewedBy);
+        }
+        if (reviewedByList.length === students.length) {
+          const reorderedReviewedBy = [...reviewedByList];
+          reorderedReviewedBy[destination.index] = draggedStudent;
+          setReviewedByList(reorderedReviewedBy);
         }
       }
     }
@@ -46,10 +53,10 @@ function DragAndDrop(props) {
       source.droppableId === 'reviewedBy' &&
       destination.droppableId === 'reviewedBy'
     ) {
-      const reorderedReviewedBy = [...reviewedBy];
+      const reorderedReviewedBy = [...reviewedByList];
       const [draggedStudent] = reorderedReviewedBy.splice(source.index, 1);
       reorderedReviewedBy.splice(destination.index, 0, draggedStudent);
-      setReviewedBy(reorderedReviewedBy);
+     setReviewedByList(reorderedReviewedBy);
     }
   };
 
@@ -82,7 +89,7 @@ function DragAndDrop(props) {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {reviewedBy.map((student, index) => (
+                {reviewedByList.map((student, index) => (
                   <Student
                     draggableId={index.toString()}
                     index={index}

@@ -69,6 +69,8 @@ export default function CreateAssignment(props) {
     questions: [newQuestion(1)],
     reviewedBy: 'TEACHER',
     status: 'DRAFT',
+    studentsList: [],
+    reviewers: [],
     dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
@@ -98,7 +100,8 @@ export default function CreateAssignment(props) {
   const [classId, setClassId] = React.useState();
   const [studentDropdown, setStudentDropdown] = React.useState(false);
 
-  const [reviewedBy, setReviewedBy] = React.useState([]);
+  const [reviewedByList, setReviewedByList] = React.useState([]);
+  const [dragFromHere, setDragFromHere] = React.useState([]);
 
   React.useEffect(() => {
     Promise.all([
@@ -147,7 +150,8 @@ export default function CreateAssignment(props) {
   React.useEffect(() => {
     if (classQuery.data) {
       const studentsdata = classQuery.data;
-      setStudents(studentsdata);
+      setStudents([...students, ...studentsdata]);
+      setDragFromHere([...students, ...studentsdata]);
     }
   }, [classQuery.data, classId]);
 
@@ -173,7 +177,7 @@ export default function CreateAssignment(props) {
   };
   const feedbackMethodUpdate = (newReviewedBy) => {
     // console.log('feedback method update', newReviewedBy);
-    if (newReviewedBy === 'P2PC') {
+    if (newReviewedBy === 'P2P_Custom') {
       setStudentDropdown(true);
     } else {
       setStudentDropdown(false);
@@ -368,6 +372,17 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
+    // console.log('save draft');
+    // if (studentDropdown) {
+    //   setAssignment((prevAssignment) => ({
+    //     ...prevAssignment,
+    //     studentsList: students,
+    //   }));
+    //   setAssignment((prevAssignment) => ({
+    //     ...prevAssignment,
+    //     reviewers: reviewedByList,
+    //   }));
+    // }
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
@@ -489,19 +504,28 @@ export default function CreateAssignment(props) {
   };
 
   const isDnDValid = () => {
-    if (studentDropdown){
-      if (students.length === reviewedBy.length) {
-        return true;
+    if (studentDropdown) {
+      if (students.length === reviewedByList.length) {
+        const isUniqueAtEachIndex = students.every(
+          (student, index) => student.id !== reviewedByList[index].id
+        );
+        if (isUniqueAtEachIndex) {
+          return true;
+        } else {
+          const dueDateContainer = document.getElementById('DnDContainer');
+          dueDateContainer.style.border = '1px solid red';
+          showSnackbar('Please select diffrent reviewer for each student');
+          return false;
+        }
       } else {
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
         showSnackbar('Please add reviewer for each student');
         return false;
-      }}
-      else {
-        return true;
       }
-      
+    } else {
+      return true;
+    }
   };
 
   const isAssignmentValid = () => {
@@ -516,6 +540,16 @@ export default function CreateAssignment(props) {
 
   const publish = () => {
     setShowPublishPopup(false);
+    // if (studentDropdown) {
+    //   setAssignment((prevAssignment) => ({
+    //     ...prevAssignment,
+    //     studentsList: students,
+    //   }));
+    //   setAssignment((prevAssignment) => ({
+    //     ...prevAssignment,
+    //     reviewers: reviewedByList,
+    //   }));
+    // }
     if (isAssignmentValid()) {
       updateAssignment(assignment.id, assignment).then((_) => {
         publishAssignment(assignment.id).then((res) => {
@@ -588,7 +622,7 @@ export default function CreateAssignment(props) {
           label="Peer to Peer (randomised)"
         />
         <StyledFormControlLabel
-          value="P2PC"
+          value="P2P_Custom"
           control={<Radio />}
           label="Peer to Peer (customised)"
         />
@@ -596,8 +630,9 @@ export default function CreateAssignment(props) {
       {studentDropdown && (
         <DragAndDrop
           students={students}
-          reviewedBy={reviewedBy}
-          setReviewedBy={setReviewedBy}
+          reviewedByList={reviewedByList}
+          setReviewedByList={setReviewedByList}
+          dragFromHere={dragFromHere}
         />
       )}
     </div>

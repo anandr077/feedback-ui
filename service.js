@@ -22,7 +22,7 @@ async function fetchData(url, options, headers = {}) {
       credentials: 'include',
       headers: mergedHeaders,
     });
-
+    
     if (response.status === 401) {
       return redirectToExternalIDP();
     }
@@ -139,6 +139,42 @@ const deleteApi = async (url) => {
     },
   });
 };
+
+
+export const downloadSubmission = async (submissionId) => {
+  const url = `${baseUrl}/submissions/${submissionId}/download`;
+  const token = localStorage.getItem('jwtToken');
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: new Headers({
+        'Authorization': `Bearer ${token}`
+      }),
+      credentials: 'include' // if needed for cookies, otherwise remove
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status} during file download`);
+    }
+
+    const blob = await response.blob();
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = downloadUrl;
+    a.download = `submission-${submissionId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(downloadUrl);
+    document.body.removeChild(a);
+  } catch (error) {
+    console.error('Download error:', error);
+    // Handle any errors here
+  }
+};
+
+
 
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(

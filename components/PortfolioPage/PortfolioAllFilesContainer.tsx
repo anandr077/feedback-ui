@@ -24,7 +24,7 @@ import {
   TimerContainer,
 } from './PortfolioAllFilesStyle';
 
-import { downloadPortfolioPdf } from '../Shared/helper/downloadPdf';
+import { downloadSubmission, downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
 import StatusBubblesContainer from '../StatusBubblesContainer';
 import CheckboxGroup from '../CheckboxGroup';
 import { dateOnly } from '../../dates';
@@ -182,10 +182,6 @@ const PortfolioAllFilesContainer = ({
     ? state.sortedFiles
     : allFiles;
 
-  const downloadFile = async (document) => {
-    const data = await getSubmissionById(document.id);
-    downloadPortfolioPdf(data);
-  };
 
   return (
     <AllFilesContainer categoryName={categoryName}>
@@ -233,7 +229,7 @@ const PortfolioAllFilesContainer = ({
                 <DocumentBtns>
                   <ButtonTooltip 
                       document={document}
-                      buttonAction={downloadPortfolioPdf}
+                      buttonAction={(e)=>downloadSubmissionPdf(document.documentId)}
                       buttonText="Download"
                       btnIcon={downLoadImg}
                   />

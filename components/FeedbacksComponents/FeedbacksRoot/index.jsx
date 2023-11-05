@@ -54,7 +54,7 @@ import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData,
 } from './style';
-import { downloadTaskPdf } from '../../Shared/helper/downloadPdf';
+import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
 
 const MARKING_METHODOLOGY_TYPE = {
@@ -921,7 +921,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const downloadPDF = () => {
-    downloadTaskPdf(submission);
+    downloadSubmissionPdf(submission.id);
   };
 
   function submissionStatusLabel() {

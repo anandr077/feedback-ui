@@ -62,13 +62,7 @@ export default function CreateAssignment(props) {
 
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
-  const s = ["s1", "s2", "s3"]
-  const r = ["r1", "r2", "r3"]
 
-  const studentReviewerPairs = _.zip(s, r);
-  const studentReviewerMap = _.fromPairs(studentReviewerPairs);
-  console.log("studentReviewerMap", studentReviewerMap)
-  console.log("studentReviewerPairs", studentReviewerPairs)
   const draft = {
     id: uuidv4(),
     title: '',
@@ -76,7 +70,7 @@ export default function CreateAssignment(props) {
     questions: [newQuestion(1)],
     reviewedBy: 'TEACHER',
     status: 'DRAFT',
-    reviewers: studentReviewerMap,
+    reviewers: {},
     dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
@@ -108,7 +102,14 @@ export default function CreateAssignment(props) {
 
   const [reviewedByList, setReviewedByList] = React.useState([]);
   const [dragFromHere, setDragFromHere] = React.useState([]);
+  const s = ["s1", "s2", "s3"]
+  const r = ["r1", "r2", "r3"]
 
+  const studentReviewerPairs = _.zip(s, r);
+  const studentReviewerMap = _.fromPairs(studentReviewerPairs);
+  
+  console.log("studentReviewerMap", studentReviewerMap)
+  console.log("studentReviewerPairs", studentReviewerPairs)
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -378,18 +379,12 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
-    // console.log('save draft');
-    // if (studentDropdown) {
-    //   setAssignment((prevAssignment) => ({
-    //     ...prevAssignment,
-    //     studentsList: students,
-    //   }));
-    //   setAssignment((prevAssignment) => ({
-    //     ...prevAssignment,
-    //     reviewers: reviewedByList,
-    //   }));
-    // }
-    updateAssignment(assignment.id, assignment).then((res) => {
+    console.log('save draft');
+    
+    updateAssignment(assignment.id, {
+      ...assignment,
+      reviewers: studentReviewerMap
+    }).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);

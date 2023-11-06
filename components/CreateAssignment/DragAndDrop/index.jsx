@@ -82,7 +82,7 @@ function DragAndDrop(props) {
 
       <DragDropContext onDragEnd={handleDragAndDrop}>
         <StudentsDnD>
-          <Heading>Reviewed By</Heading>
+          <Heading>Reviewed by</Heading>
           <StudentDnD droppableId="reviewedBy" type="group">
             {(provided) => (
               <StudentsContainer
@@ -119,7 +119,7 @@ function DragAndDrop(props) {
           </StudentDnD>
         </StudentsDnD>
         <StudentsDnD>
-          <Heading>Drag From Here</Heading>
+          <Heading>Drag from here</Heading>
           <StudentDnD droppableId="dragFromHere" type="group">
             {(provided) => (
               <StudentsContainer

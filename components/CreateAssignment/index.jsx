@@ -102,14 +102,12 @@ export default function CreateAssignment(props) {
 
   const [reviewedByList, setReviewedByList] = React.useState([]);
   const [dragFromHere, setDragFromHere] = React.useState([]);
-  const s = ["s1", "s2", "s3"]
-  const r = ["r1", "r2", "r3"]
 
-  const studentReviewerPairs = _.zip(s, r);
-  const studentReviewerMap = _.fromPairs(studentReviewerPairs);
-  
-  console.log("studentReviewerMap", studentReviewerMap)
-  console.log("studentReviewerPairs", studentReviewerPairs)
+  const studentReviewerMap = _.zipObject(
+    _.map(students, 'id'),
+    _.map(reviewedByList, 'id')
+  );
+
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -380,10 +378,10 @@ export default function CreateAssignment(props) {
 
   const saveDraft = () => {
     console.log('save draft');
-    
+
     updateAssignment(assignment.id, {
       ...assignment,
-      reviewers: studentReviewerMap
+      reviewers: studentReviewerMap,
     }).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
@@ -541,18 +539,11 @@ export default function CreateAssignment(props) {
 
   const publish = () => {
     setShowPublishPopup(false);
-    // if (studentDropdown) {
-    //   setAssignment((prevAssignment) => ({
-    //     ...prevAssignment,
-    //     studentsList: students,
-    //   }));
-    //   setAssignment((prevAssignment) => ({
-    //     ...prevAssignment,
-    //     reviewers: reviewedByList,
-    //   }));
-    // }
     if (isAssignmentValid()) {
-      updateAssignment(assignment.id, assignment).then((_) => {
+      updateAssignment(assignment.id, {
+        ...assignment,
+        reviewers: studentReviewerMap,
+      }).then((_) => {
         publishAssignment(assignment.id).then((res) => {
           if (res.status === 'PUBLISHED') {
             queryClient.invalidateQueries(['notifications']);

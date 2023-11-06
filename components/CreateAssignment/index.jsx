@@ -22,6 +22,7 @@ import {
   taskHeaderProps,
 } from '../../utils/headerProps';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import _ from 'lodash';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
@@ -61,7 +62,13 @@ export default function CreateAssignment(props) {
 
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
+  const s = ["s1", "s2", "s3"]
+  const r = ["r1", "r2", "r3"]
 
+  const studentReviewerPairs = _.zip(s, r);
+  const studentReviewerMap = _.fromPairs(studentReviewerPairs);
+  console.log("studentReviewerMap", studentReviewerMap)
+  console.log("studentReviewerPairs", studentReviewerPairs)
   const draft = {
     id: uuidv4(),
     title: '',
@@ -69,8 +76,7 @@ export default function CreateAssignment(props) {
     questions: [newQuestion(1)],
     reviewedBy: 'TEACHER',
     status: 'DRAFT',
-    studentsList: [],
-    reviewers: [],
+    reviewers: studentReviewerMap,
     dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
@@ -177,7 +183,7 @@ export default function CreateAssignment(props) {
   };
   const feedbackMethodUpdate = (newReviewedBy) => {
     // console.log('feedback method update', newReviewedBy);
-    if (newReviewedBy === 'P2P_Custom') {
+    if (newReviewedBy === 'P2P_CUSTOM') {
       setStudentDropdown(true);
     } else {
       setStudentDropdown(false);
@@ -622,7 +628,7 @@ export default function CreateAssignment(props) {
           label="Peer to Peer (randomised)"
         />
         <StyledFormControlLabel
-          value="P2P_Custom"
+          value="P2P_CUSTOM"
           control={<Radio />}
           label="Peer to Peer (customised)"
         />

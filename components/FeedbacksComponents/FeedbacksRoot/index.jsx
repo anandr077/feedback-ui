@@ -370,8 +370,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setCheckedState(updatedState)
   };
 
-  console.log(' checkedState  of class and student', classesAndStudents);
-
   const sharewithclassdialog = (
     <Dialog
       onClose={() => {
@@ -417,7 +415,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
-          helperText={'Add add note for your class to accompany this example'}
+          // helperText={'Add add note for your class to accompany this example'}
+          helperText={'Add note to accompny this example'}
         />
         <ActionButtonsContainer>
           <DialogActions>

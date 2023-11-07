@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import { 
+  feedbacksIbmplexsansMediumPersianIndigo20px,
+  feedbacksIbmplexsansNormalChicago13px 
+} from '../../../styledMixins.js';
 import {
   assignmentsHeaderProps,
   taskHeaderProps,
@@ -24,10 +28,10 @@ export const ClassContainer = styled.div`
   overflow-y: scroll;
 `;
 export const ClassBox = styled.label`
-  font-size: 18px;
+  ${feedbacksIbmplexsansMediumPersianIndigo20px}
   display: flex;
   align-items: center;
-  margin: 10px 0 3px;
+  margin: 10px 0 5px;
   padding: 3px 0;
   border-radius: 5px;
   background-color: var(--blue-chalk);
@@ -40,9 +44,9 @@ export const StudentList = styled.ul`
 
 export const ListItem = styled.li`
   label {
+    ${feedbacksIbmplexsansNormalChicago13px}
     display: flex;
     align-items: center;
-    font-size: 14px;
   }
 `;
 

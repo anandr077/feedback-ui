@@ -10,6 +10,7 @@ import {
   Student,
   StudentContainer,
   OptionName,
+  StudentsPlaceHolderContainer,
 } from './style';
 
 function DragAndDrop(props) {
@@ -35,18 +36,9 @@ function DragAndDrop(props) {
         (student) => student.id === draggableId
       );
       if (draggedStudent) {
-        if (reviewedByList.length < students.length) {
-          // setReviewedBy([...reviewedBy, draggedStudent]);
-          const reorderedReviewedBy = [...reviewedByList];
-          reorderedReviewedBy.splice(destination.index, 0, draggedStudent);
-
-          setReviewedByList(reorderedReviewedBy);
-        }
-        if (reviewedByList.length === students.length) {
-          const reorderedReviewedBy = [...reviewedByList];
-          reorderedReviewedBy[destination.index] = draggedStudent;
-          setReviewedByList(reorderedReviewedBy);
-        }
+        const reorderedReviewedBy = [...reviewedByList];
+        reorderedReviewedBy[destination.index] = draggedStudent;
+        setReviewedByList(reorderedReviewedBy);
       }
     }
     if (
@@ -113,7 +105,7 @@ function DragAndDrop(props) {
                     )}
                   </Student>
                 ))}
-                {provided.placeholder}
+                {(reviewedByList.length != students.length) && <StudentsPlaceHolderContainer>{provided.placeholder}</StudentsPlaceHolderContainer>}
               </StudentsContainer>
             )}
           </StudentDnD>

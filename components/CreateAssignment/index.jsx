@@ -96,18 +96,32 @@ export default function CreateAssignment(props) {
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([]);
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
-  const [students, setStudents] = React.useState([]);
+  const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
-  const [studentDropdown, setStudentDropdown] = React.useState(false);
 
   const [reviewedByList, setReviewedByList] = React.useState([]);
   const [dragFromHere, setDragFromHere] = React.useState([]);
 
-  const studentReviewerMap = _.zipObject(
-    _.map(students, 'id'),
-    _.map(reviewedByList, 'id')
-  );
+  const getStudentById = (id) => {
+    console.log("Object.values(allClassStudents)", Object.values(allClassStudents))
+    return Object.values(allClassStudents)
+    .flatMap(a=>a)
+    .find((student) => student.id === id );
+  }
+  const getReviewersForStudents = (reviewers) => {
+    console.log("reviewers", reviewers)
+    const a =  _.zipObject(
+      _.map(
+        assignment.classIds.flatMap((classId) => allClassStudents[classId])
+        .splice(0, reviewers.length),
+        'id'
+      ),
+      _.map(reviewers, 'id')
+    );
 
+    console.log("a", a)
+    return a
+  }
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -136,29 +150,33 @@ export default function CreateAssignment(props) {
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
-        setIsLoading(false);
+
+        getAllStudentsForClasses(classesResult).then((result) => {
+          console.log("result", result)
+          setAllClassStudents(result);
+          setIsLoading(false);
+        });
       }
     );
   }, [assignmentId]);
+  async function getAllStudentsForClasses(classesArray) {
+    const promises = classesArray.map(async (classItem) => {
+      const classId = String(classItem.id); // Ensure classId is a string
+      try {
+        const students = await getStudentsForClass(classId);
+        return { [classId]: students };
+      } catch (error) {
+        console.error(`Failed to get students for class ${classId}:`, error);
+        return { [classId]: null }; // Or [], depending on how you want to handle errors
+      }
+    });
 
-  const classQuery = useQuery(
-    ['class', classId],
-    async () => {
-      const studentsResponse = await getStudentsForClass(classId);
-      return studentsResponse;
-    },
-    {
-      staleTime: 300000,
-      enabled: !!classId, // Only fetch data when classId is available
-    }
-  );
-  React.useEffect(() => {
-    if (classQuery.data) {
-      const studentsdata = classQuery.data;
-      setStudents([...students, ...studentsdata]);
-      setDragFromHere([...students, ...studentsdata]);
-    }
-  }, [classQuery.data, classId]);
+    const results = await Promise.all(promises);
+
+    return Object.assign({}, ...results);
+  }
+  const studentDropdown = assignment.reviewedBy === 'P2P_CUSTOM';
+
 
   if (isLoading) {
     return (
@@ -172,7 +190,13 @@ export default function CreateAssignment(props) {
     setCurrentMarkingCriteria(markingCriteria);
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
-
+  const handleChangeReviewedBy = (newReviewers) => {
+    console.log("newReviewers", newReviewers)
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      reviewers: getReviewersForStudents(newReviewers)
+    }));
+  };
   const handleTitleChange = (e) => {
     if (e.target.value.length > 140) {
       return;
@@ -181,12 +205,6 @@ export default function CreateAssignment(props) {
     setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
   };
   const feedbackMethodUpdate = (newReviewedBy) => {
-    // console.log('feedback method update', newReviewedBy);
-    if (newReviewedBy === 'P2P_CUSTOM') {
-      setStudentDropdown(true);
-    } else {
-      setStudentDropdown(false);
-    }
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       reviewedBy: newReviewedBy,
@@ -361,15 +379,18 @@ export default function CreateAssignment(props) {
 
   const handleClassCheckboxChange = (classId, isChecked) => {
     setAssignment((prevAssignment) => {
+
       if (isChecked) {
         setClassId(classId);
         return {
           ...prevAssignment,
+          reviewers:{},
           classIds: [...prevAssignment.classIds, classId],
         };
       } else {
         return {
           ...prevAssignment,
+          reviewers:{},
           classIds: prevAssignment.classIds.filter((id) => id !== classId),
         };
       }
@@ -379,10 +400,7 @@ export default function CreateAssignment(props) {
   const saveDraft = () => {
     console.log('save draft');
 
-    updateAssignment(assignment.id, {
-      ...assignment,
-      reviewers: studentReviewerMap,
-    }).then((res) => {
+    updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
@@ -503,6 +521,7 @@ export default function CreateAssignment(props) {
   };
 
   const isDnDValid = () => {
+    const reviewedByList =  []
     if (studentDropdown) {
       if (students.length === reviewedByList.length) {
         const isUniqueAtEachIndex = students.every(
@@ -540,10 +559,7 @@ export default function CreateAssignment(props) {
   const publish = () => {
     setShowPublishPopup(false);
     if (isAssignmentValid()) {
-      updateAssignment(assignment.id, {
-        ...assignment,
-        reviewers: studentReviewerMap,
-      }).then((_) => {
+      updateAssignment(assignment.id, assignment).then((_) => {
         publishAssignment(assignment.id).then((res) => {
           if (res.status === 'PUBLISHED') {
             queryClient.invalidateQueries(['notifications']);
@@ -596,7 +612,7 @@ export default function CreateAssignment(props) {
       </CheckboxContainer>
     );
   });
-
+  console.log("assignment", assignment);
   const feedbacksMethodContainer = (
     <div>
       <StyledRadioGroup
@@ -621,10 +637,16 @@ export default function CreateAssignment(props) {
       </StyledRadioGroup>
       {studentDropdown && (
         <DragAndDrop
-          students={students}
-          reviewedByList={reviewedByList}
-          setReviewedByList={setReviewedByList}
-          dragFromHere={dragFromHere}
+          students={assignment.classIds.flatMap(
+            (classId) => allClassStudents[classId]
+          )}
+          reviewedByList={(Object.values(
+            assignment.reviewers
+            )).map(getStudentById)}
+          setReviewedByList={handleChangeReviewedBy}
+          dragFromHere={assignment.classIds.flatMap(
+            (classId) => allClassStudents[classId]
+          )}
         />
       )}
     </div>

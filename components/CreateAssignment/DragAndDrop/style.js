@@ -18,7 +18,14 @@ export const StudentsDnD = styled.div`
 export const Heading = styled.h3`
   font-family: var(--font-family-ibm_plex_sans);
 `;
-
+export const StudentsPlaceHolderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  border: 1px solid var(--light-mode-purple);
+  border-radius: 10px;
+`;
 export const StudentsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,6 +37,7 @@ export const StudentDnD = styled(Droppable)`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  border:1px solid var(--light-mode-purple);
 `;
 export const Student = styled(Draggable)`
   display: flex;

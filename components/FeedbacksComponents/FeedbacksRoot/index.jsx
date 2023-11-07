@@ -18,6 +18,7 @@ import {
   getUserId,
   getUserName,
   getUserRole,
+  getClassesWithStudents,
   markSubmissionRequestSubmission,
   markSubmsissionClosed,
   markSubmissionReviewed as markSubmsissionReviewed,
@@ -45,6 +46,10 @@ import {
   StyledTextField,
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData,
+  ClassContainer,
+  ClassBox,
+  StudentList,
+  ListItem
 } from './style';
 
 import {
@@ -97,8 +102,36 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
+  const [classesAndStudents, setClassesAndStudents] = useState([]);
+  const [checkedState, setCheckedState] = useState({});
 
   const defaultMarkingCriteria = getDefaultCriteria();
+  const classesWithStudent = getClassesWithStudents();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const results = await classesWithStudent;
+        setClassesAndStudents(results);
+        setCheckedState(
+          results.reduce((acc, classItem) => {
+            acc[classItem.id] = {
+              checked: false,
+              students: classItem.students.reduce((studentAcc, student) => {
+                studentAcc[student.id] = false;
+                return studentAcc;
+              }, {}),
+            };
+            return acc;
+          }, {})
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
@@ -301,6 +334,44 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const value = event.target.value;
     setExemplerComment(value);
   };
+
+  const handleClassCheck = (classId) => {
+    const currentClassCheckedState = checkedState[classId]
+      ? !checkedState[classId].checked
+      : false;
+    const updatedState = {
+      ...checkedState,
+      [classId]: {
+        ...checkedState[classId],
+        checked: currentClassCheckedState,
+        students: Object.fromEntries(
+          Object.entries(checkedState[classId]?.students || {}).map(
+            ([studentId, _]) => [studentId, currentClassCheckedState]
+          )
+        ),
+      },
+    };
+    setCheckedState(updatedState);
+  };
+
+  const handleStudentCheck = (classId, studentId) => {
+    const updatedStudentCheckedState = !(checkedState[classId]?.students[studentId] || false);
+
+    const updatedState = {
+      ...checkedState,
+      [classId]:{
+        ...checkedState[classId],
+        students: {
+          ...checkedState[classId].students,
+          [studentId]: updatedStudentCheckedState,
+        }
+      }
+    }
+    setCheckedState(updatedState)
+  };
+
+  console.log(' checkedState  of class and student', classesAndStudents);
+
   const sharewithclassdialog = (
     <Dialog
       onClose={() => {
@@ -310,13 +381,43 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       }}
       open={showShareWithClass}
     >
+      <ClassContainer>
+        {classesAndStudents.map((classItem) => (
+          <div key={classItem.id}>
+            <ClassBox>
+              <input
+                type="checkbox"
+                checked={checkedState[classItem.id]?.checked || false}
+                onChange={() => handleClassCheck(classItem.id)}
+              />
+              {classItem.title}
+            </ClassBox>
+            <StudentList>
+              {classItem.students.map((student) => (
+                <ListItem key={student.id}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={checkedState[classItem.id]?.students[student.id] || false}
+                      onChange={() =>
+                        handleStudentCheck(classItem.id, student.id)
+                      }
+                    />
+                    {student.name}
+                  </label>
+                </ListItem>
+              ))}
+            </StudentList>
+          </div>
+        ))}
+      </ClassContainer>
       <DialogContiner>
         <StyledTextField
           multiline
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
-          helperText={'Add a note for your class to accompany this example'}
+          helperText={'Add add note for your class to accompany this example'}
         />
         <ActionButtonsContainer>
           <DialogActions>
@@ -330,7 +431,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             />
           </DialogActions>
         </ActionButtonsContainer>
-      </DialogContiner>
+      </DialogContiner> 
     </Dialog>
   );
 
@@ -351,7 +452,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleDebounce = (answer) => (contents, highlights) => {
-    console.log
+    console.log;
     handleChangeText('Saving...', false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,

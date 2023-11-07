@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   assignmentsHeaderProps,
-  taskHeaderProps
-} from "../../../utils/headerProps.js";
-import { TextField } from "@mui/material";
+  taskHeaderProps,
+} from '../../../utils/headerProps.js';
+import { TextField } from '@mui/material';
 import { isTeacher } from '.';
 
 export const ActionButtonsContainer = styled.div`
@@ -17,6 +17,35 @@ export const ActionButtonsContainer = styled.div`
   gap: 20px;
   width: 100%;
 `;
+
+export const ClassContainer = styled.div`
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: scroll;
+`;
+export const ClassBox = styled.label`
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  margin: 10px 0 3px;
+  padding: 3px 0;
+  border-radius: 5px;
+  background-color: var(--blue-chalk);
+  position: relative;
+`;
+
+export const StudentList = styled.ul`
+  margin-left: 10px;
+`;
+
+export const ListItem = styled.li`
+  label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+`;
+
 export const DialogContiner = styled.div`
   display: flex;
   flex-direction: column;
@@ -84,10 +113,12 @@ const feedbacksFrame1317224Data = {
   buttons2Props: feedbacksButtons25Data,
 };
 const feedbacksFrame1366421Data = {
-  q2PoremIpsumDolo: 'Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
+  q2PoremIpsumDolo:
+    'Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 const feedbacksFrame1366422Data = {
-  q2PoremIpsumDolo: 'Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
+  q2PoremIpsumDolo:
+    'Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 const feedbacksFrame13204Data = {
   children: 'Shortcuts',
@@ -100,14 +131,17 @@ const feedbacksCommentCard321Data = {
   horemIpsumDolorSi: 'Use More Techniques',
 };
 const feedbacksCommentCard322Data = {
-  horemIpsumDolorSi: 'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
+  horemIpsumDolorSi:
+    'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
 };
 const feedbacksCommentCard323Data = {
-  horemIpsumDolorSi: 'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
+  horemIpsumDolorSi:
+    'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
   className: 'comment-card-5',
 };
 const feedbacksCommentCard324Data = {
-  horemIpsumDolorSi: 'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
+  horemIpsumDolorSi:
+    'Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.',
   className: 'comment-card-6',
 };
 const feedbacksButtons8Data = {
@@ -125,7 +159,8 @@ export const feedbacksFeedbackTeacherLaptopData = {
   headerProps: isTeacher ? assignmentsHeaderProps : taskHeaderProps,
   physicsThermodyna: 'Physics - thermodynamics assignment questions',
   frame1284: '/img/frame-1284@2x.png',
-  q1PoremIpsumDolo: 'Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?',
+  q1PoremIpsumDolo:
+    'Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?',
   line261: '/img/line-26-8.png',
   line262: '/img/line-26-8.png',
   typeHere: 'Type here....',
@@ -184,10 +219,12 @@ const feedbacksFrame1317221Data = {
   buttons2Props: feedbacksButtons21Data,
 };
 const feedbacksFrame1366221Data = {
-  q2PoremIpsumDolo: 'Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
+  q2PoremIpsumDolo:
+    'Q2. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 const feedbacksFrame1366222Data = {
-  q2PoremIpsumDolo: 'Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
+  q2PoremIpsumDolo:
+    'Q3. Porem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 const feedbacksButtons3Data = {
   arrowleft: '/img/arrowleft-3@2x.png',
@@ -206,7 +243,8 @@ export const feedbacksFeedbackTeacherMobileData = {
   frame5: '/img/frame-5@2x.png',
   physicsThermodyna: 'Physics - thermodynamics assignment questions',
   frame12841: '/img/frame-1284@2x.png',
-  q1PoremIpsumDolo: 'Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?',
+  q1PoremIpsumDolo:
+    'Q1. Porem ipsum dolor sit amet, consectetur adipiscing elit?',
   line261: '/img/line-26-2@2x.png',
   line262: '/img/line-26-2@2x.png',
   frame12842: '/img/frame-1284@2x.png',

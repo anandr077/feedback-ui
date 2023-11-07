@@ -212,7 +212,6 @@ function CommentCard32(props) {
   }
 }
 function NewlineText({ text }) {
-  console.log("text" + JSON.stringify(text))
   const newText = text.split('\n').map((str, index, array) =>
     index === array.length - 1 ? (
       str

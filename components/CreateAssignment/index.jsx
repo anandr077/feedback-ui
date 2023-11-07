@@ -521,20 +521,9 @@ export default function CreateAssignment(props) {
   };
 
   const isDnDValid = () => {
-    const reviewedByList =  []
     if (studentDropdown) {
-      if (students.length === reviewedByList.length) {
-        const isUniqueAtEachIndex = students.every(
-          (student, index) => student.id !== reviewedByList[index].id
-        );
-        if (isUniqueAtEachIndex) {
-          return true;
-        } else {
-          const dueDateContainer = document.getElementById('DnDContainer');
-          dueDateContainer.style.border = '1px solid red';
-          showSnackbar('Please select diffrent reviewer for each student');
-          return false;
-        }
+      if (assignment.classIds.flatMap((classId) => allClassStudents[classId]).length === assignment.reviewers.length) {
+        return true;
       } else {
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';

@@ -103,25 +103,23 @@ export default function CreateAssignment(props) {
   const [dragFromHere, setDragFromHere] = React.useState([]);
 
   const getStudentById = (id) => {
-    console.log("Object.values(allClassStudents)", Object.values(allClassStudents))
     return Object.values(allClassStudents)
-    .flatMap(a=>a)
-    .find((student) => student.id === id );
-  }
+      .flatMap((a) => a)
+      .find((student) => student.id === id);
+  };
   const getReviewersForStudents = (reviewers) => {
-    console.log("reviewers", reviewers)
-    const a =  _.zipObject(
+    const a = _.zipObject(
       _.map(
-        assignment.classIds.flatMap((classId) => allClassStudents[classId])
-        .splice(0, reviewers.length),
+        assignment.classIds
+          .flatMap((classId) => allClassStudents[classId])
+          .splice(0, reviewers.length),
         'id'
       ),
       _.map(reviewers, 'id')
     );
 
-    console.log("a", a)
-    return a
-  }
+    return a;
+  };
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -152,7 +150,6 @@ export default function CreateAssignment(props) {
         setAllFocusAreasColors(colors);
 
         getAllStudentsForClasses(classesResult).then((result) => {
-          console.log("result", result)
           setAllClassStudents(result);
           setIsLoading(false);
         });
@@ -177,7 +174,6 @@ export default function CreateAssignment(props) {
   }
   const studentDropdown = assignment.reviewedBy === 'P2P_CUSTOM';
 
-
   if (isLoading) {
     return (
       <>
@@ -191,10 +187,9 @@ export default function CreateAssignment(props) {
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
-    console.log("newReviewers", newReviewers)
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
-      reviewers: getReviewersForStudents(newReviewers)
+      reviewers: getReviewersForStudents(newReviewers),
     }));
   };
   const handleTitleChange = (e) => {
@@ -379,18 +374,17 @@ export default function CreateAssignment(props) {
 
   const handleClassCheckboxChange = (classId, isChecked) => {
     setAssignment((prevAssignment) => {
-
       if (isChecked) {
         setClassId(classId);
         return {
           ...prevAssignment,
-          reviewers:{},
+          reviewers: {},
           classIds: [...prevAssignment.classIds, classId],
         };
       } else {
         return {
           ...prevAssignment,
-          reviewers:{},
+          reviewers: {},
           classIds: prevAssignment.classIds.filter((id) => id !== classId),
         };
       }
@@ -398,7 +392,6 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
-    console.log('save draft');
 
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
@@ -522,8 +515,27 @@ export default function CreateAssignment(props) {
 
   const isDnDValid = () => {
     if (studentDropdown) {
-      if (assignment.classIds.flatMap((classId) => allClassStudents[classId]).length === assignment.reviewers.length) {
-        return true;
+      if (
+        assignment.classIds.flatMap((classId) => allClassStudents[classId])
+          .length === Object.keys(assignment.reviewers).length
+      ) {
+        function isUniqueAtEachIndex(obj) {
+          const keys = Object.keys(obj);
+          for (const key of keys) {
+            if (obj[key] === key) {
+              return false;
+            }
+          }
+          return true;
+        }
+        if (isUniqueAtEachIndex(assignment.reviewers)) {
+          return true;
+        } else {
+          const dueDateContainer = document.getElementById('DnDContainer');
+          dueDateContainer.style.border = '1px solid red';
+          showSnackbar('Please select different reviewer for each student');
+          return false;
+        }
       } else {
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
@@ -601,7 +613,6 @@ export default function CreateAssignment(props) {
       </CheckboxContainer>
     );
   });
-  console.log("assignment", assignment);
   const feedbacksMethodContainer = (
     <div>
       <StyledRadioGroup
@@ -629,9 +640,9 @@ export default function CreateAssignment(props) {
           students={assignment.classIds.flatMap(
             (classId) => allClassStudents[classId]
           )}
-          reviewedByList={(Object.values(
-            assignment.reviewers
-            )).map(getStudentById)}
+          reviewedByList={Object.values(assignment.reviewers).map(
+            getStudentById
+          )}
           setReviewedByList={handleChangeReviewedBy}
           dragFromHere={assignment.classIds.flatMap(
             (classId) => allClassStudents[classId]

@@ -21,7 +21,6 @@ cd package_code
 npm install
 npm run build
 ```
-
 ### Deploy to Netlify
 
 Edit README and replace `myorg` and `myrepo` for one-click deploy

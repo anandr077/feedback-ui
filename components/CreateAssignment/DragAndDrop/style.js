@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 export const DnDContainer = styled.div`
   display: flex;
@@ -15,8 +16,8 @@ export const StudentsDnD = styled.div`
   width: 250px;
 `;
 
-export const Heading = styled.h3`
-  font-family: var(--font-family-ibm_plex_sans);
+export const Heading = styled.p`
+  ${IbmplexsansNormalShark20px}
 `;
 export const StudentsPlaceHolderContainer = styled.div`
   display: flex;
@@ -57,5 +58,5 @@ export const StudentContainer = styled.div`
 `;
 
 export const OptionName = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
+  ${IbmplexsansNormalShark20px}
 `;

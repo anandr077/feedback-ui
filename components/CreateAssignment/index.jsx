@@ -172,7 +172,7 @@ export default function CreateAssignment(props) {
 
     return Object.assign({}, ...results);
   }
-  const studentDropdown = assignment.reviewedBy === 'P2P_CUSTOM';
+  const studentDropdown = assignment.reviewedBy === 'P2P';
 
   if (isLoading) {
     return (
@@ -627,16 +627,16 @@ export default function CreateAssignment(props) {
           control={<Radio />}
           label="Teacher Feedback"
         />
-        {/* <StyledFormControlLabel
+        <StyledFormControlLabel
           value="P2P"
           control={<Radio />}
           label="Peer to Peer (randomised)"
-        /> */}
-        <StyledFormControlLabel
+        /> 
+        {/* <StyledFormControlLabel
           value="P2P_CUSTOM"
           control={<Radio />}
           label="Peer to Peer (customised)"
-        />
+        /> */}
       </StyledRadioGroup>
       {studentDropdown && (
         <DragAndDrop

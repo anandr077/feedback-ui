@@ -12,7 +12,7 @@ export const StudentsDnD = styled.div`
   flex-direction: column;
   background-color: var(--white-pointer);
   padding: 20px;
-  width: 170px;
+  width: 250px;
 `;
 
 export const Heading = styled.h3`
@@ -48,9 +48,8 @@ export const Student = styled(Draggable)`
 
 export const StudentContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   padding: 10px;
   gap: 5px;
   background-color: var(--white);

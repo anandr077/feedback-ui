@@ -13,8 +13,23 @@ import {
   StudentsPlaceHolderContainer,
 } from './style';
 
+function shuffleArray(array) {
+  let shuffledArray = [...array];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+  return shuffledArray;
+}
+
 function DragAndDrop(props) {
   const { students, reviewedByList, setReviewedByList, dragFromHere } = props;
+
+  
+const [internalReviewedByList, setInternalReviewedByList] = useState(
+  () => shuffleArray(reviewedByList.length ? reviewedByList : students)
+);
+
 
   const handleDragAndDrop = (results) => {
     const { source, destination, draggableId } = results;
@@ -51,6 +66,14 @@ function DragAndDrop(props) {
      setReviewedByList(reorderedReviewedBy);
     }
   };
+
+  useEffect(() => {
+    if (!reviewedByList.length) {
+      const shuffledStudents = shuffleArray(students);
+      setInternalReviewedByList(shuffledStudents);
+      setReviewedByList(shuffledStudents); 
+    }
+  }, [students, setReviewedByList]);
 
   return (
     <DnDContainer>

@@ -513,6 +513,7 @@ export default function CreateAssignment(props) {
     }
   };
 
+
   const isDnDValid = () => {
     if (studentDropdown) {
       if (
@@ -596,6 +597,8 @@ export default function CreateAssignment(props) {
     });
   };
 
+  console.log('allClassStudents is ', allClassStudents)
+
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);
 
@@ -624,11 +627,11 @@ export default function CreateAssignment(props) {
           control={<Radio />}
           label="Teacher Feedback"
         />
-        <StyledFormControlLabel
+        {/* <StyledFormControlLabel
           value="P2P"
           control={<Radio />}
           label="Peer to Peer (randomised)"
-        />
+        /> */}
         <StyledFormControlLabel
           value="P2P_CUSTOM"
           control={<Radio />}

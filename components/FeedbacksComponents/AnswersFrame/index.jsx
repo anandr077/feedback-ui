@@ -26,6 +26,7 @@ import {
   QuillContainer,
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
+import OverallFeedback from '../../OverallFeedback';
 
 export function answersFrame(
   quillRefs,
@@ -192,6 +193,7 @@ const answerFrames = (
               )}
             </QuillContainer>
           )}
+          <OverallFeedback />
           {createFocusAreasLabel(
             handleCheckboxChange,
             groupedFocusAreaIds,

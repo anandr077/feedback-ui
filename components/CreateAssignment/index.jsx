@@ -534,7 +534,7 @@ export default function CreateAssignment(props) {
         } else {
           const dueDateContainer = document.getElementById('DnDContainer');
           dueDateContainer.style.border = '1px solid red';
-          showSnackbar('Please select different reviewer for each student');
+          showSnackbar('Please make sure student is not reviewing his own work');
           return false;
         }
       } else {
@@ -630,7 +630,7 @@ export default function CreateAssignment(props) {
         <StyledFormControlLabel
           value="P2P"
           control={<Radio />}
-          label="Peer to Peer (randomised)"
+          label="Peer to Peer"
         /> 
         {/* <StyledFormControlLabel
           value="P2P_CUSTOM"

@@ -7,7 +7,7 @@ function RadioBox2() {
   return (
     <RadioBox>
       <Checkbox2 />
-      <Label>Peer to Peer (randomised)</Label>
+      <Label>Peer to Peer</Label>
     </RadioBox>
   );
 }

@@ -163,7 +163,9 @@ const answerFrames = (
     return (
       <>
         <Frame1366>
-          <QuestionText dangerouslySetInnerHTML={{__html: linkify(questionText)}} />
+          <QuestionText
+            dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
+          />
           {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}
@@ -193,7 +195,7 @@ const answerFrames = (
               )}
             </QuillContainer>
           )}
-          <OverallFeedback />
+          <OverallFeedback pageMode={pageMode}/>
           {createFocusAreasLabel(
             handleCheckboxChange,
             groupedFocusAreaIds,

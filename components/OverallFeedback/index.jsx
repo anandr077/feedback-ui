@@ -1,9 +1,21 @@
 import { useState, useRef } from 'react';
-import { FeedbackContainer, Heading, FeedbackBox, TextArea, RecordingText } from './style';
+import {
+  FeedbackContainer,
+  Heading,
+  FeedbackBox,
+  TextArea,
+  RecordingText,
+  AudioContainer,
+  ButtonContainer,
+  Button,
+  DeleteAudio,
+} from './style';
+import { useEffect } from 'react';
+import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
 
 const mimeType = 'audio/webm';
 
-const OverallFeedback = () => {
+const OverallFeedback = ({ pageMode }) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   let recordTimeout = useRef(null);
@@ -11,6 +23,7 @@ const OverallFeedback = () => {
   const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [audioChunks, setAudioChunks] = useState([]);
   const [audio, setAudio] = useState(null);
+  const [feedback, setFeedback] = useState('');
 
   const startRecording = async () => {
     setRecordingStatus('recording');
@@ -64,12 +77,16 @@ const OverallFeedback = () => {
         setPermission(true);
         setStream(streamData);
       } catch (err) {
-        alert(err.message);
+        alert(edivrr.message);
       }
     } else {
       alert('The MediaRecorder API is not supported in your browser.');
     }
   };
+
+  useEffect(() => {
+    console.log('the audio is ', audio, feedback);
+  }, [audio, feedback]);
 
   const recordingIndicator = 'Recording...'.split('').map((letter, index) => (
     <span
@@ -83,34 +100,47 @@ const OverallFeedback = () => {
     </span>
   ));
 
+  const deleteAudio = () => {
+    setAudio(null);
+    setRecordingStatus('inactive');
+  };
+
   return (
     <FeedbackContainer>
       <Heading>Overall Feedback</Heading>
       <FeedbackBox>
-        <TextArea></TextArea>
-        <main>
-          <div className="audio-controls">
-            {!permission ? (
-              <button onClick={getMicrophonePermission} type="button">
-                Get Microphone
-              </button>
-            ) : null}
-            {/* {recordingStatus === "recording" && (
-          <div className="recording-indicator">Recording...</div>
-        )} */}
-            {recordingStatus === 'recording' && <RecordingText>{recordingIndicator}</RecordingText>}
-            {recordingStatus === 'inactive' && permission ? (
-              <button onClick={startRecording} type="button">
-                Start Recording
-              </button>
-            ) : recordingStatus === 'recording' ? (
-              <button onClick={stopRecording} type="button">
-                Stop Recording
-              </button>
-            ) : null}
-          </div>
-          {audio ? <audio src={audio} controls /> : null}
-        </main>
+        <TextArea
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+          readOnly={pageMode === 'DRAFT'}
+        ></TextArea>
+        <AudioContainer>
+          {pageMode !== 'DRAFT' && (
+            <ButtonContainer>
+              {!permission && !audio ? (
+                <Button onClick={getMicrophonePermission}>
+                  Audio Feedback
+                </Button>
+              ) : null}
+              {recordingStatus === 'inactive' && permission && !audio ? (
+                <Button onClick={startRecording}>Start Recording</Button>
+              ) : recordingStatus === 'recording' ? (
+                <Button onClick={stopRecording}>Stop Recording</Button>
+              ) : null}
+              {recordingStatus === 'recording' && (
+                <RecordingText>{recordingIndicator}</RecordingText>
+              )}
+            </ButtonContainer>
+          )}
+          {audio ? (
+            <>
+              <audio src={audio} controls />
+              {pageMode !== 'DRAFT' && (
+                <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
+              )}
+            </>
+          ) : null}
+        </AudioContainer>
       </FeedbackBox>
     </FeedbackContainer>
   );

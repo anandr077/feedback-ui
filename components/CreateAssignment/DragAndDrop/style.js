@@ -14,6 +14,7 @@ export const StudentsDnD = styled.div`
   background-color: var(--white-pointer);
   padding: 20px;
   width: 250px;
+  border-radius: 10px;
 `;
 
 export const Heading = styled.p`

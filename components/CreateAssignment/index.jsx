@@ -187,11 +187,21 @@ export default function CreateAssignment(props) {
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
-    setAssignment((prevAssignment) => ({
-      ...prevAssignment,
-      reviewers: getReviewersForStudents(newReviewers),
-    }));
+    const students = assignment.classIds.flatMap(
+      (classId) => allClassStudents[classId]
+    );
+    const isUniqueAtEachIndex = newReviewers.every(
+      (newReviewer, index) => newReviewer.id !== students[index].id
+    );
+
+    if (isUniqueAtEachIndex) {
+      setAssignment((prevAssignment) => ({
+        ...prevAssignment,
+        reviewers: getReviewersForStudents(newReviewers),
+      }));
+    }
   };
+
   const handleTitleChange = (e) => {
     if (e.target.value.length > 140) {
       return;
@@ -392,7 +402,6 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
-
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
@@ -513,30 +522,13 @@ export default function CreateAssignment(props) {
     }
   };
 
-
   const isDnDValid = () => {
     if (studentDropdown) {
       if (
         assignment.classIds.flatMap((classId) => allClassStudents[classId])
           .length === Object.keys(assignment.reviewers).length
       ) {
-        function isUniqueAtEachIndex(obj) {
-          const keys = Object.keys(obj);
-          for (const key of keys) {
-            if (obj[key] === key) {
-              return false;
-            }
-          }
-          return true;
-        }
-        if (isUniqueAtEachIndex(assignment.reviewers)) {
-          return true;
-        } else {
-          const dueDateContainer = document.getElementById('DnDContainer');
-          dueDateContainer.style.border = '1px solid red';
-          showSnackbar('Please make sure student is not reviewing his own work');
-          return false;
-        }
+        return true;
       } else {
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
@@ -597,7 +589,7 @@ export default function CreateAssignment(props) {
     });
   };
 
-  console.log('allClassStudents is ', allClassStudents)
+  
 
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);
@@ -631,7 +623,7 @@ export default function CreateAssignment(props) {
           value="P2P"
           control={<Radio />}
           label="Peer to Peer"
-        /> 
+        />
         {/* <StyledFormControlLabel
           value="P2P_CUSTOM"
           control={<Radio />}

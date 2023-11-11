@@ -25,11 +25,9 @@ function shuffleArray(array) {
 function DragAndDrop(props) {
   const { students, reviewedByList, setReviewedByList, dragFromHere } = props;
 
-  
-const [internalReviewedByList, setInternalReviewedByList] = useState(
-  () => shuffleArray(reviewedByList.length ? reviewedByList : students)
-);
-
+  const [internalReviewedByList, setInternalReviewedByList] = useState(() =>
+    shuffleArray(reviewedByList.length ? reviewedByList : students)
+  );
 
   const handleDragAndDrop = (results) => {
     const { source, destination, draggableId } = results;
@@ -63,15 +61,25 @@ const [internalReviewedByList, setInternalReviewedByList] = useState(
       const reorderedReviewedBy = [...reviewedByList];
       const [draggedStudent] = reorderedReviewedBy.splice(source.index, 1);
       reorderedReviewedBy.splice(destination.index, 0, draggedStudent);
-     setReviewedByList(reorderedReviewedBy);
+      setReviewedByList(reorderedReviewedBy);
     }
   };
 
   useEffect(() => {
     if (!reviewedByList.length) {
-      const shuffledStudents = shuffleArray(students);
+      let shuffledStudents = shuffleArray(students);
+      let isUniqueAtEachIndex = shuffledStudents.every(
+        (newReviewer, index) => newReviewer.id !== students[index].id
+      );
+      while (!isUniqueAtEachIndex) {
+        shuffledStudents = shuffleArray(students);
+        isUniqueAtEachIndex = shuffledStudents.every(
+          (newReviewer, index) => newReviewer.id !== students[index].id
+        );
+      }
+
       setInternalReviewedByList(shuffledStudents);
-      setReviewedByList(shuffledStudents); 
+      setReviewedByList(shuffledStudents);
     }
   }, [students, setReviewedByList]);
 
@@ -128,7 +136,11 @@ const [internalReviewedByList, setInternalReviewedByList] = useState(
                     )}
                   </Student>
                 ))}
-                {(reviewedByList.length != students.length) && <StudentsPlaceHolderContainer>{provided.placeholder}</StudentsPlaceHolderContainer>}
+                {reviewedByList.length != students.length && (
+                  <StudentsPlaceHolderContainer>
+                    {provided.placeholder}
+                  </StudentsPlaceHolderContainer>
+                )}
               </StudentsContainer>
             )}
           </StudentDnD>

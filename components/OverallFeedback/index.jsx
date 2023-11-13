@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { isTabletView } from '../ReactiveRender';
 import {
   FeedbackContainer,
   Heading,
@@ -6,6 +7,7 @@ import {
   TextArea,
   RecordingText,
   AudioContainer,
+  Audio,
   ButtonContainer,
   Button,
   DeleteBtn,
@@ -25,6 +27,7 @@ const OverallFeedback = ({ pageMode }) => {
   const [audioChunks, setAudioChunks] = useState([]);
   const [audio, setAudio] = useState(null);
   const [feedback, setFeedback] = useState('');
+  const isTablet = isTabletView();
 
   const startRecording = async () => {
     setRecordingStatus('recording');
@@ -135,7 +138,7 @@ const OverallFeedback = ({ pageMode }) => {
           )}
           {audio ? (
             <>
-              <audio src={audio} controls />
+              <Audio src={audio} controls isTablet={isTablet} />
               {pageMode !== 'DRAFT' && (
                 <DeleteBtn>
                   <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />

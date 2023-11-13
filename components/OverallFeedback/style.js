@@ -49,29 +49,29 @@ export const AudioContainer = styled.main`
   align-items: center;
   background-color: var(--blue-chalk);
   border-radius: 25px;
+`;
 
-  audio {
-    height: 45px;
-    width: 300px;
-  }
+export const Audio = styled.audio`
+  height: 45px;
+  width: ${props => props.isTablet ? '150px' : '300px'};
 
-  audio::-webkit-media-controls-panel {
+  &::-webkit-media-controls-panel {
     background-color: var(--blue-chalk);
   }
 
-  audio::-webkit-media-controls-play-button{
+  &::-webkit-media-controls-play-button {
     background-color: var(--fog);
     border-radius: 50%;
   }
 
-  audio::-webkit-media-controls-volume-slider {
+  &::-webkit-media-controls-volume-slider {
     background-color: var(--fog);
     padding-left: 8px;
     padding-right: 8px;
     border-radius: 30%;
   }
 
-  audio::-webkit-media-controls-mute-button{
+  &::-webkit-media-controls-mute-button {
     background-color: var(--fog);
     border-radius: 50%;
   }
@@ -82,7 +82,7 @@ export const ButtonContainer = styled.div`
   gap: 10px;
   align-items: center;
   background-color: var(--white);
-`
+`;
 
 export const Button = styled.button`
   width: fit-content;
@@ -103,7 +103,7 @@ export const DeleteBtn = styled.div`
   place-items: center;
   background-color: var(--fog);
   margin-right: 10px;
-`
+`;
 
 export const DeleteAudio = styled.img`
   height: 20px;
@@ -111,14 +111,14 @@ export const DeleteAudio = styled.img`
   cursor: pointer;
   transition: transform 0.3s ease;
 
-  &:hover{
+  &:hover {
     transform: scale(1.1);
   }
-`
+`;
 
 export const RecordingText = styled.div`
-   color: var(--light-mode-purple);
-   font-family: var(--font-family-ibm_plex_sans);
+  color: var(--light-mode-purple);
+  font-family: var(--font-family-ibm_plex_sans);
 
   @keyframes wave {
     0%,

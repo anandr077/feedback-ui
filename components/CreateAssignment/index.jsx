@@ -624,11 +624,6 @@ export default function CreateAssignment(props) {
           control={<Radio />}
           label="Peer to Peer"
         />
-        {/* <StyledFormControlLabel
-          value="P2P_CUSTOM"
-          control={<Radio />}
-          label="Peer to Peer (customised)"
-        /> */}
       </StyledRadioGroup>
       {studentDropdown && (
         <DragAndDrop

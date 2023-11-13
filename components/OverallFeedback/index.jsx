@@ -8,7 +8,8 @@ import {
   AudioContainer,
   ButtonContainer,
   Button,
-  DeleteAudio,
+  DeleteBtn,
+  DeleteAudio
 } from './style';
 import { useEffect } from 'react';
 import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
@@ -119,7 +120,7 @@ const OverallFeedback = ({ pageMode }) => {
             <ButtonContainer>
               {!permission && !audio ? (
                 <Button onClick={getMicrophonePermission}>
-                  Audio Feedback
+                  + Voice Note
                 </Button>
               ) : null}
               {recordingStatus === 'inactive' && permission && !audio ? (
@@ -136,7 +137,9 @@ const OverallFeedback = ({ pageMode }) => {
             <>
               <audio src={audio} controls />
               {pageMode !== 'DRAFT' && (
-                <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
+                <DeleteBtn>
+                  <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
+                </DeleteBtn>
               )}
             </>
           ) : null}

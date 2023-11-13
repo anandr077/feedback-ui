@@ -107,7 +107,7 @@ const OverallFeedback = ({ pageMode }) => {
 
   return (
     <FeedbackContainer>
-      <Heading>Overall Feedback</Heading>
+      <Heading>General Feedback</Heading>
       <FeedbackBox>
         <TextArea
           value={feedback}

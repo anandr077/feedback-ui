@@ -41,7 +41,7 @@ export const TextArea = styled.textarea`
 export const AudioContainer = styled.main`
   position: absolute;
   right: 10px;
-  bottom: 0px;
+  bottom: 10px;
   display: flex;
   gap: 5px;
   align-items: center;

@@ -4,6 +4,7 @@ import { Pie } from 'react-chartjs-2';
 import './index.css';
 import randomColor from 'randomcolor';
 import SmartAnotationAnalytics from '../SmartAnnotationsAnalytics';
+import DownLoad from '../../static/icons/csv-download@2x.png';
 
 Chart.register(ArcElement);
 
@@ -72,7 +73,13 @@ export default function AnnotationAnalytics(props) {
     <>
       {smartAnnotationAnalyticsData.length > 0 ? (
         <div className="parent-card">
-          <div className="heading-text">Smart Annotations</div>
+          <div className="heading-container">
+            <div className="heading-text">Smart Annotations</div>
+            <div className='delete-container'>
+              <img src={DownLoad} className="download-icon" alt="Download" />
+              <span className='download-tooltip'>Download</span>
+            </div>
+          </div>
           <div className="line"></div>
           <div className="graph-data">
             <div className="graph-container">

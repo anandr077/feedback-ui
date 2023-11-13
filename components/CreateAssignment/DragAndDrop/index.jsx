@@ -13,8 +13,21 @@ import {
   StudentsPlaceHolderContainer,
 } from './style';
 
+function shuffleArray(array) {
+  let shuffledArray = [...array];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+  return shuffledArray;
+}
+
 function DragAndDrop(props) {
   const { students, reviewedByList, setReviewedByList, dragFromHere } = props;
+
+  const [internalReviewedByList, setInternalReviewedByList] = useState(() =>
+    shuffleArray(reviewedByList.length ? reviewedByList : students)
+  );
 
   const handleDragAndDrop = (results) => {
     const { source, destination, draggableId } = results;
@@ -48,9 +61,27 @@ function DragAndDrop(props) {
       const reorderedReviewedBy = [...reviewedByList];
       const [draggedStudent] = reorderedReviewedBy.splice(source.index, 1);
       reorderedReviewedBy.splice(destination.index, 0, draggedStudent);
-     setReviewedByList(reorderedReviewedBy);
+      setReviewedByList(reorderedReviewedBy);
     }
   };
+
+  useEffect(() => {
+    if (!reviewedByList.length) {
+      let shuffledStudents = shuffleArray(students);
+      let isUniqueAtEachIndex = shuffledStudents.every(
+        (newReviewer, index) => newReviewer.id !== students[index].id
+      );
+      while (!isUniqueAtEachIndex) {
+        shuffledStudents = shuffleArray(students);
+        isUniqueAtEachIndex = shuffledStudents.every(
+          (newReviewer, index) => newReviewer.id !== students[index].id
+        );
+      }
+
+      setInternalReviewedByList(shuffledStudents);
+      setReviewedByList(shuffledStudents);
+    }
+  }, [students, setReviewedByList]);
 
   return (
     <DnDContainer>
@@ -105,7 +136,11 @@ function DragAndDrop(props) {
                     )}
                   </Student>
                 ))}
-                {(reviewedByList.length != students.length) && <StudentsPlaceHolderContainer>{provided.placeholder}</StudentsPlaceHolderContainer>}
+                {reviewedByList.length != students.length && (
+                  <StudentsPlaceHolderContainer>
+                    {provided.placeholder}
+                  </StudentsPlaceHolderContainer>
+                )}
               </StudentsContainer>
             )}
           </StudentDnD>

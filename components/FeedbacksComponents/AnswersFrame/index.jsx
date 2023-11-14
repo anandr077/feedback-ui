@@ -195,7 +195,6 @@ const answerFrames = (
               )}
             </QuillContainer>
           )}
-          <OverallFeedback pageMode={pageMode}/>
           {createFocusAreasLabel(
             handleCheckboxChange,
             groupedFocusAreaIds,
@@ -216,6 +215,7 @@ const answerFrames = (
             answer,
             question
           )}
+          <OverallFeedback pageMode={pageMode} />
         </Frame1366>
       </>
     );

@@ -47,9 +47,11 @@ import {
   feedbacksFeedbackTeacherLaptopData,
   feedbacksFeedbackTeacherMobileData,
   ClassContainer,
+  ClassHeading,
+  ClassBoxContainer,
   ClassBox,
   StudentList,
-  ListItem
+  ListItem,
 } from './style';
 
 import {
@@ -355,19 +357,21 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleStudentCheck = (classId, studentId) => {
-    const updatedStudentCheckedState = !(checkedState[classId]?.students[studentId] || false);
+    const updatedStudentCheckedState = !(
+      checkedState[classId]?.students[studentId] || false
+    );
 
     const updatedState = {
       ...checkedState,
-      [classId]:{
+      [classId]: {
         ...checkedState[classId],
         students: {
           ...checkedState[classId].students,
           [studentId]: updatedStudentCheckedState,
-        }
-      }
-    }
-    setCheckedState(updatedState)
+        },
+      },
+    };
+    setCheckedState(updatedState);
   };
 
   const sharewithclassdialog = (
@@ -380,34 +384,40 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       open={showShareWithClass}
     >
       <ClassContainer>
-        {classesAndStudents.map((classItem) => (
-          <div key={classItem.id}>
-            <ClassBox>
-              <input
-                type="checkbox"
-                checked={checkedState[classItem.id]?.checked || false}
-                onChange={() => handleClassCheck(classItem.id)}
-              />
-              {classItem.title}
-            </ClassBox>
-            <StudentList>
-              {classItem.students.map((student) => (
-                <ListItem key={student.id}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={checkedState[classItem.id]?.students[student.id] || false}
-                      onChange={() =>
-                        handleStudentCheck(classItem.id, student.id)
-                      }
-                    />
-                    {student.name}
-                  </label>
-                </ListItem>
-              ))}
-            </StudentList>
-          </div>
-        ))}
+        <ClassBoxContainer>
+          <ClassHeading>Select students</ClassHeading>
+          {classesAndStudents.map((classItem) => (
+            <div key={classItem.id}>
+              <ClassBox>
+                <input
+                  type="checkbox"
+                  checked={checkedState[classItem.id]?.checked || false}
+                  onChange={() => handleClassCheck(classItem.id)}
+                />
+                {classItem.title}
+              </ClassBox>
+              <StudentList>
+                {classItem.students.map((student) => (
+                  <ListItem key={student.id}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={
+                          checkedState[classItem.id]?.students[student.id] ||
+                          false
+                        }
+                        onChange={() =>
+                          handleStudentCheck(classItem.id, student.id)
+                        }
+                      />
+                      {student.name}
+                    </label>
+                  </ListItem>
+                ))}
+              </StudentList>
+            </div>
+          ))}
+        </ClassBoxContainer>
       </ClassContainer>
       <DialogContiner>
         <StyledTextField
@@ -430,7 +440,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             />
           </DialogActions>
         </ActionButtonsContainer>
-      </DialogContiner> 
+      </DialogContiner>
     </Dialog>
   );
 

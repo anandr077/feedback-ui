@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { 
+import {
   feedbacksIbmplexsansMediumPersianIndigo20px,
-  feedbacksIbmplexsansNormalChicago13px 
+  feedbacksIbmplexsansNormalChicago13px,
 } from '../../../styledMixins.js';
 import {
   assignmentsHeaderProps,
@@ -23,15 +23,45 @@ export const ActionButtonsContainer = styled.div`
 `;
 
 export const ClassContainer = styled.div`
-  padding: 20px;
+  margin: 20px 20px 0;
   max-height: 300px;
   overflow-y: scroll;
+  border-radius: 16px;
+  border: 1px solid rgba(114, 0, 224, 0.1);
+  background: #fff;
+  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
 `;
+
+export const ClassBoxContainer = styled.div`
+  padding: 20px 0;
+`;
+
+export const ClassHeading = styled.h2`
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  margin: 0 20px;
+  box-sizing: border-box;
+`;
+
 export const ClassBox = styled.label`
-  ${feedbacksIbmplexsansMediumPersianIndigo20px}
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem !important;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
   display: flex;
   align-items: center;
-  margin: 10px 0 5px;
+  margin: 10px 20px 5px;
   padding: 3px 0;
   border-radius: 5px;
   background-color: var(--blue-chalk);
@@ -39,12 +69,16 @@ export const ClassBox = styled.label`
 `;
 
 export const StudentList = styled.ul`
-  margin-left: 10px;
+  margin-left: 30px;
 `;
 
 export const ListItem = styled.li`
   label {
-    ${feedbacksIbmplexsansNormalChicago13px}
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem !important;
+    line-height: 1.66;
+    letter-spacing: 0.03333em;
     display: flex;
     align-items: center;
   }

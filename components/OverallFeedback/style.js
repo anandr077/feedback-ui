@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
 
 export const FeedbackContainer = styled.div`
   width: 100%;
@@ -11,11 +12,7 @@ export const FeedbackContainer = styled.div`
 `;
 
 export const Heading = styled.div`
-  color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: 400;
+  ${feedbacksIbmplexsansNormalShark20px}
   line-height: normal;
   gap: 20px;
   margin-bottom: 10px;
@@ -24,17 +21,17 @@ export const Heading = styled.div`
 export const FeedbackBox = styled.div`
   border-radius: 20px;
   position: relative;
-  min-height: 150px;
+  min-height: 250px;
 `;
 
 export const TextArea = styled.textarea`
+  ${feedbacksIbmplexsansNormalShark20px}
   width: 100%;
   border: 1px solid #7200e0;
-  height: 100px;
+  height: 200px;
   resize: none;
   border-radius: 15px 15px;
   padding: 10px;
-  font-family: var(--font-family-ibm_plex_sans);
 
   &:focus {
     outline: none;
@@ -53,7 +50,7 @@ export const AudioContainer = styled.main`
 
 export const Audio = styled.audio`
   height: 45px;
-  width: ${props => props.isTablet ? '150px' : '300px'};
+  width: ${(props) => (props.isTablet ? '150px' : '300px')};
 
   &::-webkit-media-controls-panel {
     background-color: var(--blue-chalk);
@@ -85,6 +82,7 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button`
+  ${feedbacksIbmplexsansNormalShark20px}
   width: fit-content;
   padding: 8px 16px;
   background-color: var(--light-mode-purple);
@@ -92,7 +90,6 @@ export const Button = styled.button`
   border: 1px solid;
   color: white;
   cursor: pointer;
-  font-family: var(--font-family-ibm_plex_sans);
 `;
 
 export const DeleteBtn = styled.div`

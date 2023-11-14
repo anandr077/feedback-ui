@@ -54,7 +54,7 @@ const OverallFeedback = ({ pageMode }) => {
       ) {
         stopRecording();
       }
-    }, 60000);
+    }, 300000);
   };
 
   const stopRecording = () => {

@@ -385,7 +385,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     >
       <ClassContainer>
         <ClassBoxContainer>
-          <ClassHeading>Select students</ClassHeading>
+          <ClassHeading>Share with:</ClassHeading>
           {classesAndStudents.map((classItem) => (
             <div key={classItem.id}>
               <ClassBox>
@@ -426,7 +426,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           value={exemplarComment}
           onChange={handleInputChange}
           // helperText={'Add add note for your class to accompany this example'}
-          helperText={'Add note to accompny this example'}
+          helperText={'Add a note for this example'}
         />
         <ActionButtonsContainer>
           <DialogActions>

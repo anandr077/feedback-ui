@@ -11,6 +11,7 @@ import {
   addFocusArea,
   getAllMarkingCriteria,
   deleteAssignment,
+  getStudentsForClass,
 } from '../../service';
 import {
   IbmplexsansNormalShark20px,
@@ -20,6 +21,8 @@ import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../utils/headerProps';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import _ from 'lodash';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
@@ -44,8 +47,12 @@ import {
   StyledFormControlLabel,
   CheckboxContainer,
   CheckBoxText,
+  StudentsDnD,
+  StudentDnD,
+  Student,
 } from './CreateAssignmentStyle';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import DragAndDrop from './DragAndDrop';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -63,6 +70,7 @@ export default function CreateAssignment(props) {
     questions: [newQuestion(1)],
     reviewedBy: 'TEACHER',
     status: 'DRAFT',
+    reviewers: {},
     dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
@@ -88,7 +96,30 @@ export default function CreateAssignment(props) {
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([]);
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
+  const [allClassStudents, setAllClassStudents] = React.useState([]);
+  const [classId, setClassId] = React.useState();
 
+  const [reviewedByList, setReviewedByList] = React.useState([]);
+  const [dragFromHere, setDragFromHere] = React.useState([]);
+
+  const getStudentById = (id) => {
+    return Object.values(allClassStudents)
+      .flatMap((a) => a)
+      .find((student) => student.id === id);
+  };
+  const getReviewersForStudents = (reviewers) => {
+    const a = _.zipObject(
+      _.map(
+        assignment.classIds
+          .flatMap((classId) => allClassStudents[classId])
+          .splice(0, reviewers.length),
+        'id'
+      ),
+      _.map(reviewers, 'id')
+    );
+
+    return a;
+  };
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -117,10 +148,31 @@ export default function CreateAssignment(props) {
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
-        setIsLoading(false);
+
+        getAllStudentsForClasses(classesResult).then((result) => {
+          setAllClassStudents(result);
+          setIsLoading(false);
+        });
       }
     );
   }, [assignmentId]);
+  async function getAllStudentsForClasses(classesArray) {
+    const promises = classesArray.map(async (classItem) => {
+      const classId = String(classItem.id); // Ensure classId is a string
+      try {
+        const students = await getStudentsForClass(classId);
+        return { [classId]: students };
+      } catch (error) {
+        console.error(`Failed to get students for class ${classId}:`, error);
+        return { [classId]: null }; // Or [], depending on how you want to handle errors
+      }
+    });
+
+    const results = await Promise.all(promises);
+
+    return Object.assign({}, ...results);
+  }
+  const studentDropdown = assignment.reviewedBy === 'P2P';
 
   if (isLoading) {
     return (
@@ -134,6 +186,21 @@ export default function CreateAssignment(props) {
     setCurrentMarkingCriteria(markingCriteria);
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
+  const handleChangeReviewedBy = (newReviewers) => {
+    const students = assignment.classIds.flatMap(
+      (classId) => allClassStudents[classId]
+    );
+    const isUniqueAtEachIndex = newReviewers.every(
+      (newReviewer, index) => newReviewer.id !== students[index].id
+    );
+
+    if (isUniqueAtEachIndex) {
+      setAssignment((prevAssignment) => ({
+        ...prevAssignment,
+        reviewers: getReviewersForStudents(newReviewers),
+      }));
+    }
+  };
 
   const handleTitleChange = (e) => {
     if (e.target.value.length > 140) {
@@ -318,13 +385,16 @@ export default function CreateAssignment(props) {
   const handleClassCheckboxChange = (classId, isChecked) => {
     setAssignment((prevAssignment) => {
       if (isChecked) {
+        setClassId(classId);
         return {
           ...prevAssignment,
+          reviewers: {},
           classIds: [...prevAssignment.classIds, classId],
         };
       } else {
         return {
           ...prevAssignment,
+          reviewers: {},
           classIds: prevAssignment.classIds.filter((id) => id !== classId),
         };
       }
@@ -452,10 +522,29 @@ export default function CreateAssignment(props) {
     }
   };
 
+  const isDnDValid = () => {
+    if (studentDropdown) {
+      if (
+        assignment.classIds.flatMap((classId) => allClassStudents[classId])
+          .length === Object.keys(assignment.reviewers).length
+      ) {
+        return true;
+      } else {
+        const dueDateContainer = document.getElementById('DnDContainer');
+        dueDateContainer.style.border = '1px solid red';
+        showSnackbar('Please add reviewer for each student');
+        return false;
+      }
+    } else {
+      return true;
+    }
+  };
+
   const isAssignmentValid = () => {
     return isTitleValid() &&
       isQuestionsValid() &&
       isClassesValid() &&
+      isDnDValid() &&
       isDateValid()
       ? true
       : false;
@@ -500,6 +589,8 @@ export default function CreateAssignment(props) {
     });
   };
 
+  
+
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);
 
@@ -517,23 +608,38 @@ export default function CreateAssignment(props) {
       </CheckboxContainer>
     );
   });
-
   const feedbacksMethodContainer = (
-    <StyledRadioGroup
-      value={assignment.reviewedBy}
-      onChange={(event) => feedbackMethodUpdate(event.target.value)}
-    >
-      <StyledFormControlLabel
-        value="TEACHER"
-        control={<Radio />}
-        label="Teacher Feedback"
-      />
-      <StyledFormControlLabel
-        value="P2P"
-        control={<Radio />}
-        label="Peer to Peer (randomised)"
-      />
-    </StyledRadioGroup>
+    <div>
+      <StyledRadioGroup
+        value={assignment.reviewedBy}
+        onChange={(event) => feedbackMethodUpdate(event.target.value)}
+      >
+        <StyledFormControlLabel
+          value="TEACHER"
+          control={<Radio />}
+          label="Teacher Feedback"
+        />
+        <StyledFormControlLabel
+          value="P2P"
+          control={<Radio />}
+          label="Peer to Peer"
+        />
+      </StyledRadioGroup>
+      {studentDropdown && (
+        <DragAndDrop
+          students={assignment.classIds.flatMap(
+            (classId) => allClassStudents[classId]
+          )}
+          reviewedByList={Object.values(assignment.reviewers).map(
+            getStudentById
+          )}
+          setReviewedByList={handleChangeReviewedBy}
+          dragFromHere={assignment.classIds.flatMap(
+            (classId) => allClassStudents[classId]
+          )}
+        />
+      )}
+    </div>
   );
 
   const dateSelectorFrame = (

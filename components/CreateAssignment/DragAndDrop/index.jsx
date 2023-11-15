@@ -83,6 +83,17 @@ function DragAndDrop(props) {
     }
   }, [students, setReviewedByList]);
 
+  function truncateName(name) {
+    return name.length > 20 ? (
+      <OptionName>
+        <>{name.slice(0, 17)}...</>
+        <span>{name}</span>
+      </OptionName>
+    ) : (
+      <OptionName>{name}</OptionName>
+    );
+  }
+
   return (
     <DnDContainer>
       <StudentsDnD>
@@ -97,7 +108,7 @@ function DragAndDrop(props) {
                 name={student.name}
                 square={false}
               />
-              <OptionName>{student.name}</OptionName>
+              {truncateName(student.name)}
             </StudentContainer>
           ))}
         </StudentsContainer>
@@ -131,7 +142,7 @@ function DragAndDrop(props) {
                           name={student.name}
                           square={false}
                         />
-                        <OptionName>{student.name}</OptionName>
+                        {truncateName(student.name)}
                       </StudentContainer>
                     )}
                   </Student>
@@ -172,7 +183,7 @@ function DragAndDrop(props) {
                           name={student.name}
                           square={false}
                         />
-                        <OptionName>{student.name}</OptionName>
+                        {truncateName(student.name)}
                       </StudentContainer>
                     )}
                   </Student>

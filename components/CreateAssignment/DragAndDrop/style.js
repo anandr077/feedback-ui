@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
 export const DnDContainer = styled.div`
-  display: flex;
+  display: ${props => props.mobileView ? 'none' : 'flex'};
   flex-direction: row;
   gap: 30px;
 `;

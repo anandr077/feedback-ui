@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
 
 export const FeedbackContainer = styled.div`
@@ -113,24 +113,23 @@ export const DeleteAudio = styled.img`
   }
 `;
 
-export const RecordingText = styled.div`
-  color: var(--light-mode-purple);
-  font-family: var(--font-family-ibm_plex_sans);
-
-  @keyframes wave {
-    0%,
-    60%,
-    100% {
-      transform: translateY(0);
-    }
-    30% {
-      transform: translateY(-2px);
-    }
+const pulseAnimation = keyframes`
+  0%, 100% {
+    transform: scale(1);
   }
-
-  .wave-letter {
-    display: inline-block;
-    animation: wave 500ms ease-in-out;
-    animation-iteration-count: infinite;
+  50% {
+    transform: scale(1.2);
   }
+`;
+
+export const RecordingIndicator = styled.div`
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(
+    circle,
+    var(--light-mode-purple) 30%,
+    var(--fog) 70%
+  );
+  border-radius: 50%;
+  animation: ${pulseAnimation} 1s ease-in-out infinite;
 `;

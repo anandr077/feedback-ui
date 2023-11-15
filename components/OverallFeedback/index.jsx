@@ -5,13 +5,13 @@ import {
   Heading,
   FeedbackBox,
   TextArea,
-  RecordingText,
   AudioContainer,
+  RecordingIndicator,
   Audio,
   ButtonContainer,
   Button,
   DeleteBtn,
-  DeleteAudio
+  DeleteAudio,
 } from './style';
 import { useEffect } from 'react';
 import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
@@ -92,18 +92,6 @@ const OverallFeedback = ({ pageMode }) => {
     console.log('the audio is ', audio, feedback);
   }, [audio, feedback]);
 
-  const recordingIndicator = 'Recording...'.split('').map((letter, index) => (
-    <span
-      key={index}
-      className="wave-letter"
-      style={{
-        animationDelay: `${index * 100}ms`,
-      }}
-    >
-      {letter}
-    </span>
-  ));
-
   const deleteAudio = () => {
     setAudio(null);
     setRecordingStatus('inactive');
@@ -122,18 +110,14 @@ const OverallFeedback = ({ pageMode }) => {
           {pageMode !== 'DRAFT' && (
             <ButtonContainer>
               {!permission && !audio ? (
-                <Button onClick={getMicrophonePermission}>
-                  + Voice Note
-                </Button>
+                <Button onClick={getMicrophonePermission}>+ Voice Note</Button>
               ) : null}
               {recordingStatus === 'inactive' && permission && !audio ? (
                 <Button onClick={startRecording}>Start Recording</Button>
               ) : recordingStatus === 'recording' ? (
                 <Button onClick={stopRecording}>Stop Recording</Button>
               ) : null}
-              {recordingStatus === 'recording' && (
-                <RecordingText>{recordingIndicator}</RecordingText>
-              )}
+              {recordingStatus === 'recording' && <RecordingIndicator />}
             </ButtonContainer>
           )}
           {audio ? (

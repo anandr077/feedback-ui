@@ -39,7 +39,7 @@ export const StudentDnD = styled(Droppable)`
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  border:1px solid var(--light-mode-purple);
+  border: 1px solid var(--light-mode-purple);
 `;
 export const Student = styled(Draggable)`
   display: flex;
@@ -60,4 +60,28 @@ export const StudentContainer = styled.div`
 
 export const OptionName = styled.p`
   ${IbmplexsansNormalShark20px}
+  position: relative;
+
+  span {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px;
+    z-index: 100;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    display: none;
+    font-family: 'IBM Plex Sans', Helvetica;
+    font-size: 12px;
+  }
+
+  &:hover {
+    span {
+      display: block;
+    }
+  }
 `;

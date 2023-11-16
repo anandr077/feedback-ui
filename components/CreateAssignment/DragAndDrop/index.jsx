@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { isMobileView } from '../../ReactiveRender';
 import { Avatar } from '@boringer-avatars/react';
 import {
   DnDContainer,
@@ -28,7 +29,7 @@ function DragAndDrop(props) {
   const [internalReviewedByList, setInternalReviewedByList] = useState(() =>
     shuffleArray(reviewedByList.length ? reviewedByList : students)
   );
-
+  const mobileView = isMobileView()
   const handleDragAndDrop = (results) => {
     const { source, destination, draggableId } = results;
 
@@ -95,7 +96,7 @@ function DragAndDrop(props) {
   }
 
   return (
-    <DnDContainer>
+    <DnDContainer mobileView={mobileView}>
       <StudentsDnD>
         <Heading>Submitted by</Heading>
         <StudentsContainer>

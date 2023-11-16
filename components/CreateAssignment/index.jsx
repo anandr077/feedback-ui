@@ -31,7 +31,7 @@ import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
 import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
-import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
+import ReactiveRender, { isSmallScreen, isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { isMobileView } from '../../ReactiveRender';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { Avatar } from '@boringer-avatars/react';
 import {
   DnDContainer,
   StudentsDnD,
   Heading,
+  TooltipSpan,
   StudentsContainer,
   StudentDnD,
   Student,
   StudentContainer,
   OptionName,
+  ShuffleBtn,
   StudentsPlaceHolderContainer,
 } from './style';
 
@@ -29,7 +32,8 @@ function DragAndDrop(props) {
   const [internalReviewedByList, setInternalReviewedByList] = useState(() =>
     shuffleArray(reviewedByList.length ? reviewedByList : students)
   );
-  const mobileView = isMobileView()
+  const [reshuffleStudents, setReshuffleStudents] = useState(0);
+  const mobileView = isMobileView();
   const handleDragAndDrop = (results) => {
     const { source, destination, draggableId } = results;
 
@@ -67,7 +71,7 @@ function DragAndDrop(props) {
   };
 
   useEffect(() => {
-    if (!reviewedByList.length) {
+    if (!reviewedByList.length || reshuffleStudents > 0) {
       let shuffledStudents = shuffleArray(students);
       let isUniqueAtEachIndex = shuffledStudents.every(
         (newReviewer, index) => newReviewer.id !== students[index].id
@@ -82,17 +86,25 @@ function DragAndDrop(props) {
       setInternalReviewedByList(shuffledStudents);
       setReviewedByList(shuffledStudents);
     }
-  }, [students, setReviewedByList]);
+
+    setTimeout(() => {
+      setReshuffleStudents(0);
+    }, 1);
+  }, [students, setReviewedByList, reshuffleStudents]);
 
   function truncateName(name) {
     return name.length > 20 ? (
       <OptionName>
         <>{name.slice(0, 17)}...</>
-        <span>{name}</span>
+        <TooltipSpan>{name}</TooltipSpan>
       </OptionName>
     ) : (
       <OptionName>{name}</OptionName>
     );
+  }
+
+  function triggerReshuffle() {
+    setReshuffleStudents((prev) => prev + 1);
   }
 
   return (
@@ -117,7 +129,15 @@ function DragAndDrop(props) {
 
       <DragDropContext onDragEnd={handleDragAndDrop}>
         <StudentsDnD>
-          <Heading>Reviewed by</Heading>
+          <Heading>
+            Reviewed by
+            {reviewedByList.length > 0 && (
+              <ShuffleBtn onClick={triggerReshuffle}>
+                <ShuffleIcon fontSize="small"/>
+                <TooltipSpan>Shuffle</TooltipSpan>
+              </ShuffleBtn>
+            )}
+          </Heading>
           <StudentDnD droppableId="reviewedBy" type="group">
             {(provided) => (
               <StudentsContainer

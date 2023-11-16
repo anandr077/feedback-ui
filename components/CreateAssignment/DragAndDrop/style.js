@@ -20,7 +20,7 @@ export const TooltipSpan = styled.span`
 `;
 
 export const DnDContainer = styled.div`
-  display: flex;
+  display: ${props => props.mobileView ? 'none' : 'flex'};
   flex-direction: row;
   gap: 30px;
 `;

@@ -43,6 +43,7 @@ export const Heading = styled.p`
 
 export const ShuffleBtn = styled.div`
   color: var(--light-mode-purple);
+  font-size: 10px;
   position: relative;
   cursor: pointer;
 

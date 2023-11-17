@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Chart, ArcElement } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { CSVLink } from 'react-csv';
 import './index.css';
 import randomColor from 'randomcolor';
 import SmartAnotationAnalytics from '../SmartAnnotationsAnalytics';
@@ -34,6 +35,7 @@ export default function AnnotationAnalytics(props) {
   const smartAnnotationAnalyticsData = [];
   labels.map((label, index) => {
     const element = smartAnnotationAnalytics.get(label);
+    console.log('the smart annotations', element);
     const jsxElement = (
       <SmartAnotationAnalytics
         title={label}
@@ -42,6 +44,39 @@ export default function AnnotationAnalytics(props) {
       />
     );
     smartAnnotationAnalyticsData.push(jsxElement);
+  });
+
+  const csvData = [];
+
+  labels.forEach((label, index) => {
+    const element = smartAnnotationAnalytics.get(label);
+
+    const childrens = element instanceof Map ? element : new Map();
+
+    const totalPercentage = percentages[index];
+    const parentRow = {
+      Category: label,
+      SubCategory: '',
+      Percentage: totalPercentage,
+    };
+
+    csvData.push(parentRow);
+
+    const total = data[index];
+
+    const childrenData = Array.from(childrens).map(([key, value]) => ({
+      SubCategory: key,
+      Percentage: ((value / total) * 100).toFixed(2),
+    }));
+
+    childrenData.forEach((child) => {
+      const childRow = {
+        Category: label,
+        SubCategory: child.SubCategory,
+        Percentage: child.Percentage,
+      };
+      csvData.push(childRow);
+    });
   });
 
   const chartData = {
@@ -75,9 +110,11 @@ export default function AnnotationAnalytics(props) {
         <div className="parent-card">
           <div className="heading-container">
             <div className="heading-text">Smart Annotations</div>
-            <div className='delete-container'>
-              <img src={DownLoad} className="download-icon" alt="Download" />
-              <span className='download-tooltip'>Download</span>
+            <div className="delete-container">
+              <CSVLink data={csvData} filename={'smart_annotations.csv'}>
+                <img src={DownLoad} className="download-icon" alt="Download" />
+              </CSVLink>
+              <span className="download-tooltip">Download</span>
             </div>
           </div>
           <div className="line"></div>

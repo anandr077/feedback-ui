@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Chart, ArcElement } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { CSVLink } from 'react-csv';
 import './index.css';
 import randomColor from 'randomcolor';
 import SmartAnotationAnalytics from '../SmartAnnotationsAnalytics';
+import DownLoad from '../../static/icons/csv-download@2x.png';
 
 Chart.register(ArcElement);
 
@@ -43,6 +45,41 @@ export default function AnnotationAnalytics(props) {
     smartAnnotationAnalyticsData.push(jsxElement);
   });
 
+  const csvData = [];
+
+  labels.forEach((label, index) => {
+    const element = smartAnnotationAnalytics.get(label);
+
+    const childrens = element instanceof Map ? element : new Map();
+
+    const totalPercentage = percentages[index];
+    const totalSuggestionPercentage = data[index]
+    
+    const parentRow = {
+      Title: label,
+      Suggestion: '',
+      TitlePercentage: totalPercentage,
+      SuggestionPercentage: '',
+    };
+
+    csvData.push(parentRow);
+
+    const childrenData = Array.from(childrens).map(([key, value]) => ({
+      Suggestion: key,
+      Percentage: ((value / totalSuggestionPercentage) * 100).toFixed(2),
+    }));
+
+    childrenData.forEach((child) => {
+      const childRow = {
+        Title: '',
+        Suggestion: child.Suggestion,
+        TitlePercentage: '',
+        SuggestionPercentage: child.Percentage,
+      };
+      csvData.push(childRow);
+    });
+  });
+
   const chartData = {
     labels: labels,
     datasets: [
@@ -72,7 +109,15 @@ export default function AnnotationAnalytics(props) {
     <>
       {smartAnnotationAnalyticsData.length > 0 ? (
         <div className="parent-card">
-          <div className="heading-text">Smart Annotations</div>
+          <div className="heading-container">
+            <div className="heading-text">Smart Annotations</div>
+            <div className="delete-container">
+              <CSVLink data={csvData} filename={'smart_annotations.csv'}>
+                <img src={DownLoad} className="download-icon" alt="Download" />
+              </CSVLink>
+              <span className="download-tooltip">Download</span>
+            </div>
+          </div>
           <div className="line"></div>
           <div className="graph-data">
             <div className="graph-container">

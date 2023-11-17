@@ -10,7 +10,7 @@ export const TooltipSpan = styled.span`
   border-radius: 4px;
   padding: 4px;
   z-index: 100;
-  bottom: 125%;
+  bottom: 110%;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -52,6 +52,11 @@ export const ShuffleBtn = styled.div`
       display: block;
     }
   }
+`;
+
+export const ReshuffleIcon = styled.img`
+  width: 20px;
+  height: 25px;
 `;
 
 export const StudentsPlaceHolderContainer = styled.div`

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { isMobileView } from '../../ReactiveRender';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
+import ShuffleIcon from '../../../static/icons/reshuffle.png'
 import { Avatar } from '@boringer-avatars/react';
 import {
   DnDContainer,
@@ -14,6 +14,7 @@ import {
   StudentContainer,
   OptionName,
   ShuffleBtn,
+  ReshuffleIcon,
   StudentsPlaceHolderContainer,
 } from './style';
 
@@ -133,8 +134,8 @@ function DragAndDrop(props) {
             Reviewed by
             {reviewedByList.length > 0 && (
               <ShuffleBtn onClick={triggerReshuffle}>
-                <ShuffleIcon fontSize="small"/>
                 <TooltipSpan>Shuffle</TooltipSpan>
+                <ReshuffleIcon src={ShuffleIcon} />
               </ShuffleBtn>
             )}
           </Heading>

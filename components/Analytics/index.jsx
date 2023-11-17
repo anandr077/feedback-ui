@@ -11,7 +11,7 @@ export default function AnnotationAnalytics(props) {
   const { smartAnnotationAnalytics } = props;
   let data = [];
   let labels = [];
-
+  console.log("smartAnnotationAnalytics", smartAnnotationAnalytics)
   smartAnnotationAnalytics.forEach((element, key, index) => {
     let sum = 0;
     element.forEach((item) => {

@@ -35,7 +35,6 @@ export default function AnnotationAnalytics(props) {
   const smartAnnotationAnalyticsData = [];
   labels.map((label, index) => {
     const element = smartAnnotationAnalytics.get(label);
-    console.log('the smart annotations', element);
     const jsxElement = (
       <SmartAnotationAnalytics
         title={label}
@@ -54,26 +53,28 @@ export default function AnnotationAnalytics(props) {
     const childrens = element instanceof Map ? element : new Map();
 
     const totalPercentage = percentages[index];
+    const totalSuggestionPercentage = data[index]
+    
     const parentRow = {
-      Category: label,
-      SubCategory: '',
-      Percentage: totalPercentage,
+      Title: label,
+      Suggestion: '',
+      TitlePercentage: totalPercentage,
+      SuggestionPercentage: '',
     };
 
     csvData.push(parentRow);
 
-    const total = data[index];
-
     const childrenData = Array.from(childrens).map(([key, value]) => ({
-      SubCategory: key,
-      Percentage: ((value / total) * 100).toFixed(2),
+      Suggestion: key,
+      Percentage: ((value / totalSuggestionPercentage) * 100).toFixed(2),
     }));
 
     childrenData.forEach((child) => {
       const childRow = {
-        Category: label,
-        SubCategory: child.SubCategory,
-        Percentage: child.Percentage,
+        Title: '',
+        Suggestion: child.Suggestion,
+        TitlePercentage: '',
+        SuggestionPercentage: child.Percentage,
       };
       csvData.push(childRow);
     });

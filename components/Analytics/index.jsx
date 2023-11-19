@@ -56,10 +56,10 @@ export default function AnnotationAnalytics(props) {
     const totalSuggestionPercentage = data[index]
     
     const parentRow = {
-      Title: label,
+      'Feedback Area': label,
       Suggestion: '',
-      TitlePercentage: totalPercentage,
-      SuggestionPercentage: '',
+      '% Frequency of Feedback Area': totalPercentage,
+      '% Frequency of Suggestion': '',
     };
 
     csvData.push(parentRow);
@@ -71,10 +71,10 @@ export default function AnnotationAnalytics(props) {
 
     childrenData.forEach((child) => {
       const childRow = {
-        Title: '',
+        'Feedback Area': '',
         Suggestion: child.Suggestion,
-        TitlePercentage: '',
-        SuggestionPercentage: child.Percentage,
+        '% Frequency of Feedback Area': '',
+        '% Frequency of Suggestion': child.Percentage,
       };
       csvData.push(childRow);
     });

@@ -2,8 +2,25 @@ import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { IbmplexsansNormalShark20px } from '../../../styledMixins';
 
+export const TooltipSpan = styled.span`
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 4px;
+  z-index: 100;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  display: none;
+  font-family: 'IBM Plex Sans', Helvetica;
+  font-size: 12px;
+`;
+
 export const DnDContainer = styled.div`
-  display: flex;
+  display: ${props => props.mobileView ? 'none' : 'flex'};
   flex-direction: row;
   gap: 30px;
 `;
@@ -19,7 +36,29 @@ export const StudentsDnD = styled.div`
 
 export const Heading = styled.p`
   ${IbmplexsansNormalShark20px}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
+
+export const ShuffleBtn = styled.div`
+  color: var(--light-mode-purple);
+  font-size: 10px;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    ${TooltipSpan} {
+      display: block;
+    }
+  }
+`;
+
+export const ReshuffleIcon = styled.img`
+  width: 20px;
+  height: 25px;
+`;
+
 export const StudentsPlaceHolderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,25 +101,8 @@ export const OptionName = styled.p`
   ${IbmplexsansNormalShark20px}
   position: relative;
 
-  span {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.75);
-    color: #fff;
-    text-align: center;
-    border-radius: 4px;
-    padding: 4px;
-    z-index: 100;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    display: none;
-    font-family: 'IBM Plex Sans', Helvetica;
-    font-size: 12px;
-  }
-
   &:hover {
-    span {
+    ${TooltipSpan} {
       display: block;
     }
   }

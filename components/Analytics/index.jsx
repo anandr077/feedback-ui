@@ -30,7 +30,7 @@ export default function AnnotationAnalytics(props) {
   labels = sortedDataIndices.map((index) => labels[index]);
 
   const total = data.reduce((sum, value) => sum + value, 0);
-  const percentages = data.map((num) => ((num / total) * 100).toFixed(0));
+  const percentages = data.map((num) => ((num / total) * 100).toFixed(2));
 
   const smartAnnotationAnalyticsData = [];
   labels.map((label, index) => {

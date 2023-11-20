@@ -32,8 +32,8 @@
 }
 
 .download-icon {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   transition: transform 0.3s ease-in;
 }

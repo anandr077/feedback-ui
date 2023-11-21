@@ -50,6 +50,10 @@ export const ClassBoxContainer = styled.div`
 export const ClassHeading = styled.h2`
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   margin: 0 20px;
+  font-size: 0.75rem !important;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  font-weight: 400;
   box-sizing: border-box;
 `;
 
@@ -61,9 +65,9 @@ export const ClassBox = styled.label`
   letter-spacing: 0.03333em;
   display: flex;
   align-items: center;
+  height: auto;
   margin: 10px 20px 5px;
-  padding: 3px 0;
-  border-radius: 5px;
+  padding: 3px;
   background-color: var(--blue-chalk);
   position: relative;
 `;
@@ -106,6 +110,11 @@ export const StyledTextField = styled(TextField)`
 
   .MuiInputBase-input {
     border-color: #f1e7ff;
+
+    &::placeholder {
+      color: #414040;
+      font-size: 16px;
+    }
   }
 `;
 const feedbacksNavElement1Data = {

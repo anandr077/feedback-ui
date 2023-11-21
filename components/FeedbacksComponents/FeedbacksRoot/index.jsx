@@ -54,15 +54,9 @@ import {
   ListItem,
 } from './style';
 
-import {
-  ActionButtonsContainer,
-  DialogContiner,
-  StyledTextField,
-  feedbacksFeedbackTeacherLaptopData,
-  feedbacksFeedbackTeacherMobileData,
-} from './style';
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
+import CheckboxBordered from '../../CheckboxBordered/index.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -389,7 +383,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           {classesAndStudents.map((classItem) => (
             <div key={classItem.id}>
               <ClassBox>
-                <input
+                <CheckboxBordered
                   type="checkbox"
                   checked={checkedState[classItem.id]?.checked || false}
                   onChange={() => handleClassCheck(classItem.id)}
@@ -400,7 +394,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                 {classItem.students.map((student) => (
                   <ListItem key={student.id}>
                     <label>
-                      <input
+                      <CheckboxBordered
                         type="checkbox"
                         checked={
                           checkedState[classItem.id]?.students[student.id] ||
@@ -425,8 +419,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
-          // helperText={'Add add note for your class to accompany this example'}
-          helperText={'Add a note for this example'}
+          placeholder="Add a note for this example"
         />
         <ActionButtonsContainer>
           <DialogActions>

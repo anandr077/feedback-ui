@@ -15,7 +15,6 @@ import FocusAreasFrame from '../FocusAreasFrame';
 import Tabs from '../ReviewsFrame1320';
 import './FeedbackTeacherLaptop.css';
 import {
-  Frame1284,
   Frame1322,
   Frame1326,
   Frame1328,
@@ -25,6 +24,7 @@ import {
   Frame1383,
   Frame1406,
   Label,
+  Crown,
   Line6,
   Screen,
   Share,
@@ -310,7 +310,7 @@ function shareWithClassFrame(methods, share) {
       <Line6 src="/icons/line.png" alt="Line 6" />
       <Frame1383>
         <Frame13311>
-          <Frame1284 src="/icons/share.png" />
+          <Crown src="/icons/exemplary_response.png" alt="crown" />
           <Share>{share}</Share>
         </Frame13311>
         <Buttons4

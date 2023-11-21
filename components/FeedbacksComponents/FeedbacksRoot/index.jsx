@@ -51,7 +51,12 @@ import {
   ClassBoxContainer,
   ClassBox,
   StudentList,
+  ClassTitleBox,
+  ClassTitle,
+  Line141,
   ListItem,
+  Crown,
+  StudentContainer,
 } from './style';
 
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
@@ -100,6 +105,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [checkedState, setCheckedState] = useState({});
+  const [initialCheckedState, setInitialCheckedState] = useState({});
 
   const defaultMarkingCriteria = getDefaultCriteria();
   const classesWithStudent = getClassesWithStudents();
@@ -108,19 +114,20 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const fetchData = async () => {
       try {
         const results = await classesWithStudent;
+        const initialState = results.reduce((acc, classItem) => {
+          acc[classItem.id] = {
+            checked: false,
+            students: classItem.students.reduce((studentAcc, student) => {
+              studentAcc[student.id] = false;
+              return studentAcc;
+            }, {}),
+          };
+          return acc;
+        }, {});
+
         setClassesAndStudents(results);
-        setCheckedState(
-          results.reduce((acc, classItem) => {
-            acc[classItem.id] = {
-              checked: false,
-              students: classItem.students.reduce((studentAcc, student) => {
-                studentAcc[student.id] = false;
-                return studentAcc;
-              }, {}),
-            };
-            return acc;
-          }, {})
-        );
+        setCheckedState(initialState);
+        setInitialCheckedState(initialState);
       } catch (error) {
         console.error(error);
       }
@@ -244,6 +251,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
+      sharedWithStudentIds: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -261,6 +269,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
+      sharedWithStudentIds: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -278,6 +287,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'SMART_ANNOTATION',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
+      sharedWithStudentIds: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -297,6 +307,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       focusAreaId: focusArea.id,
       replies: [],
       markingCriteria: defaultMarkingCriteria,
+      sharedWithStudentIds: [],
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -308,6 +319,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const addExemplerComment = () => {
     const comment = exemplarComment || 'No comment';
+    const shareWithStudents = getSharedStudentIds();
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -316,6 +328,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'MODEL_RESPONSE',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
+      sharedWithStudentIds: shareWithStudents,
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
@@ -368,6 +381,18 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setCheckedState(updatedState);
   };
 
+  const getSharedStudentIds = () => {
+    let checkedStuendIds = [];
+    for (let classId in checkedState) {
+      for (let studentId in checkedState[classId].students) {
+        if (checkedState[classId].students[studentId]) {
+          checkedStuendIds.push(studentId);
+        }
+      }
+    }
+    return checkedStuendIds;
+  };
+
   const sharewithclassdialog = (
     <Dialog
       onClose={() => {
@@ -379,44 +404,51 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     >
       <ClassContainer>
         <ClassBoxContainer>
+          <ClassTitleBox>
+            <ClassTitle>
+              <Crown src="/icons/exemplary_response.png" alt="crown" />
+              Exemplar
+            </ClassTitle>
+            <Line141 src="/img/line-14@2x.png" />
+          </ClassTitleBox>
           <ClassHeading>Share with:</ClassHeading>
-          {classesAndStudents.map((classItem) => (
-            <div key={classItem.id}>
-              <ClassBox>
-                <CheckboxBordered
-                  type="checkbox"
-                  checked={checkedState[classItem.id]?.checked || false}
-                  onChange={() => handleClassCheck(classItem.id)}
-                />
-                {classItem.title}
-              </ClassBox>
-              <StudentList>
-                {classItem.students.map((student) => (
-                  <ListItem key={student.id}>
-                    <label>
-                      <CheckboxBordered
-                        type="checkbox"
-                        checked={
-                          checkedState[classItem.id]?.students[student.id] ||
-                          false
-                        }
-                        onChange={() =>
-                          handleStudentCheck(classItem.id, student.id)
-                        }
-                      />
-                      {student.name}
-                    </label>
-                  </ListItem>
-                ))}
-              </StudentList>
-            </div>
-          ))}
+          <StudentContainer>
+            {classesAndStudents.map((classItem) => (
+              <div key={classItem.id}>
+                <ClassBox>
+                  <CheckboxBordered
+                    type="checkbox"
+                    checked={checkedState[classItem.id]?.checked || false}
+                    onChange={() => handleClassCheck(classItem.id)}
+                  />
+                  {classItem.title}
+                </ClassBox>
+                <StudentList>
+                  {classItem.students.map((student) => (
+                    <ListItem key={student.id}>
+                      <label>
+                        <CheckboxBordered
+                          type="checkbox"
+                          checked={
+                            checkedState[classItem.id]?.students[student.id] ||
+                            false
+                          }
+                          onChange={() =>
+                            handleStudentCheck(classItem.id, student.id)
+                          }
+                        />
+                        {student.name}
+                      </label>
+                    </ListItem>
+                  ))}
+                </StudentList>
+              </div>
+            ))}
+          </StudentContainer>
         </ClassBoxContainer>
       </ClassContainer>
       <DialogContiner>
         <StyledTextField
-          multiline
-          variant="outlined"
           value={exemplarComment}
           onChange={handleInputChange}
           placeholder="Add a note for this example"
@@ -424,11 +456,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <ActionButtonsContainer>
           <DialogActions>
             <SubmitCommentFrameRoot
-              submitButtonOnClick={addExemplerComment}
+              submitButtonOnClick={() => {
+                addExemplerComment();
+                setCheckedState(initialCheckedState);
+              }}
               cancelButtonOnClick={() => {
                 setShowShareWithClass(false);
                 setShowNewComment(false);
                 setExemplerComment('');
+                setCheckedState(initialCheckedState);
               }}
             />
           </DialogActions>

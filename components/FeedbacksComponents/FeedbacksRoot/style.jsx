@@ -1,13 +1,8 @@
 import styled from 'styled-components';
 import {
-  feedbacksIbmplexsansMediumPersianIndigo20px,
-  feedbacksIbmplexsansNormalChicago13px,
-} from '../../../styledMixins.js';
-import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../../utils/headerProps.js';
-import { TextField } from '@mui/material';
 import { isTeacher } from '.';
 
 export const ActionButtonsContainer = styled.div`
@@ -17,48 +12,69 @@ export const ActionButtonsContainer = styled.div`
   align-items: flex-end;
   align-self: flex-end;
   margin-left: 100px;
-
   gap: 20px;
   width: 100%;
 `;
 
 export const ClassContainer = styled.div`
-  margin: 20px 20px 0;
-  max-height: 300px;
-  overflow-y: scroll;
+  margin: 0;
   border-radius: 16px;
-  border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
-  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-  }
 `;
 
 export const ClassBoxContainer = styled.div`
-  padding: 20px 0;
+  padding: 0px 0 20px;
 `;
 
-export const ClassHeading = styled.h2`
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  margin: 0 20px;
-  font-size: 0.75rem !important;
+export const ClassTitleBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+`;
+
+export const ClassTitle = styled.div`
+  padding: 20px 10px 0;
+  font-family: var(--font-family-ibm_plex_sans);
+  color: #505050;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const Crown = styled.img`
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+`;
+
+export const Line141 = styled.img`
+  position: relative;
+  align-self: stretch;
+  height: 1px;
+  object-fit: cover;
+`;
+
+export const ClassHeading = styled.div`
+  margin: 0 40px;
   line-height: 1.66;
   letter-spacing: 0.03333em;
-  font-weight: 400;
   box-sizing: border-box;
+  font-weight: bold !important;
+  color: var(--black);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-s);
+  font-weight: 500;
+  font-style: normal;
 `;
 
 export const ClassBox = styled.label`
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-size: 0.75rem !important;
   line-height: 1.66;
@@ -76,9 +92,26 @@ export const StudentList = styled.ul`
   margin-left: 30px;
 `;
 
+export const StudentContainer = styled.div`
+  overflow-y: scroll;
+  max-height: 300px;
+  margin: 0 20px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+`;
+
 export const ListItem = styled.li`
   label {
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-family: var(--font-family-ibm_plex_sans);
     font-weight: 400;
     font-size: 0.75rem !important;
     line-height: 1.66;
@@ -96,27 +129,25 @@ export const DialogContiner = styled.div`
   padding: 20px 20px 10px 20px;
   gap: 20px;
 `;
-export const StyledTextField = styled(TextField)`
+export const StyledTextField = styled.textarea`
   width: 100%;
-
-  .MuiOutlinedInput-root {
-    border-radius: 10px; /* Set your desired border radius value */
-    border-color: #f1e7ff;
-
-    &.Mui-focused .MuiOutlinedInput-notchedOutline {
-      border-color: var(--light-mode-purple);
-    }
-  }
-
-  .MuiInputBase-input {
-    border-color: #f1e7ff;
-
-    &::placeholder {
-      color: #414040;
-      font-size: 16px;
-    }
-  }
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+  color: var(--stack);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-m);
+  font-weight: 400;
+  font-style: normal;
+  padding: 8px 8px 8px 12px;
+  border-radius: 8px;
+  border: 1px solid;
+  border-color: var(--text);
 `;
+
 const feedbacksNavElement1Data = {
   home3: '/img/home3-1@2x.png',
   place: 'Home',

@@ -311,10 +311,10 @@ function shareWithClassFrame(methods, share) {
       <Frame1383>
         <Frame13311>
           <Crown src="/icons/exemplary_response.png" alt="crown" />
-          <Share>{share}</Share>
+          <Share>Exemplar</Share>
         </Frame13311>
         <Buttons4
-          text={'Share with class'}
+          text={'Share as exemplar'}
           onClickFn={methods.handleShareWithClass}
         />
       </Frame1383>

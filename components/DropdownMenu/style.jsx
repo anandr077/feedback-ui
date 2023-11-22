@@ -36,10 +36,9 @@ export const StyledMenuItem = styled(MenuItem)`
   border-color: var(--light-mode-purple);
   box-shadow: 0px 4px 8px #2f1a720a;
   cursor: pointer;
-  color: var(--text);
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xs);
-  font-weight: 400;
+  font-weight: bold;
   font-style: normal;
   .MuiTypography-root {
     ${IbmplexsansNormalShark16px}
@@ -47,13 +46,20 @@ export const StyledMenuItem = styled(MenuItem)`
   }
 `;
 
+export const StyledHeading = styled.h2`
+  color: var(--black);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xxs);
+  font-weight: 500;
+`;
+
 export const StyledBox = styled(Box)`
   display: flex;
   align-items: center;
   padding: 0px 0px 0px 12px;
   position: relative;
-  padding-top: 1.5px!important;
-  padding-bottom: 1.5px!important;
+  padding-top: 1.5px !important;
+  padding-bottom: 1.5px !important;
   background-color: var(--white);
   border-radius: 8px;
   border: 1px solid;

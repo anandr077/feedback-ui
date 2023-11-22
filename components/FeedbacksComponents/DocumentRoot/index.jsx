@@ -161,7 +161,11 @@ export default function DocumentRoot({}) {
     isSubmissionLoading,
     isClassesLoading
   );
-  if ((loadPortfolio() && isLoading) || isSubmissionLoading || isClassesLoading) {
+  if (
+    (loadPortfolio() && isLoading) ||
+    isSubmissionLoading ||
+    isClassesLoading
+  ) {
     return <Loader />;
   }
 
@@ -244,7 +248,6 @@ export default function DocumentRoot({}) {
   };
 
   function updateCommentsRange(answer, highlightsWithCommentsData) {
-   
     const mergedHighlights = {};
 
     Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
@@ -615,7 +618,6 @@ export default function DocumentRoot({}) {
   };
   const onSelectionChange =
     pageMode === 'REVIEW' ? reviewerSelectionChange : (a, b) => () => {};
-
 
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);

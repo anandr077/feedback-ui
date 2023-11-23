@@ -424,23 +424,26 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   {classItem.title}
                 </ClassBox>
                 <StudentList>
-                  {classItem.students.map((student) => (
-                    <ListItem key={student.id}>
-                      <label>
-                        <CheckboxBordered
-                          type="checkbox"
-                          checked={
-                            checkedState[classItem.id]?.students[student.id] ||
-                            false
-                          }
-                          onChange={() =>
-                            handleStudentCheck(classItem.id, student.id)
-                          }
-                        />
-                        {student.name}
-                      </label>
-                    </ListItem>
-                  ))}
+                  {classItem.students
+                    .filter((student) => student.id !== submission.studentId)
+                    .map((student) => (
+                      <ListItem key={student.id}>
+                        <label>
+                          <CheckboxBordered
+                            type="checkbox"
+                            checked={
+                              checkedState[classItem.id]?.students[
+                                student.id
+                              ] || false
+                            }
+                            onChange={() =>
+                              handleStudentCheck(classItem.id, student.id)
+                            }
+                          />
+                          {student.name}
+                        </label>
+                      </ListItem>
+                    ))}
                 </StudentList>
               </div>
             ))}

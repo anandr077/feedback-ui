@@ -201,6 +201,8 @@ export function createCommentsFrame(
             updateParentComment={methods.updateParentComment}
             updateChildComment={methods.updateChildComment}
             pageMode={pageMode}
+            openShareWithStudentDialog={methods.handleShareWithClass}
+            updateExemplarComment={methods.setUpdateExemplarComment}
           />
         );
       }
@@ -222,6 +224,8 @@ export function createCommentsFrame(
           updateParentComment={methods.updateParentComment}
           updateChildComment={methods.updateChildComment}
           pageMode={pageMode}
+          openShareWithStudentDialog={methods.handleShareWithClass}
+          updateExemplarComment={methods.setUpdateExemplarComment}
         />
       ) : comment.status === 'RESOLVED' ? (
         <CommentCard32
@@ -241,6 +245,8 @@ export function createCommentsFrame(
           updateParentComment={methods.updateParentComment}
           updateChildComment={methods.updateChildComment}
           pageMode={pageMode}
+          openShareWithStudentDialog={methods.handleShareWithClass}
+          updateExemplarComment={methods.setUpdateExemplarComment}
         />
       ) : (
         <></>

@@ -4,6 +4,37 @@ import { feedbacksIbmplexsansMediumBlack16px } from '../../../styledMixins';
 import { Avatar } from '@boringer-avatars/react';
 import { getUserId } from '../../../service';
 
+const sharedWithStudents = [
+  {
+    classId: '1',
+    studentId: '1_student2',
+  },
+  {
+    classId: '1',
+    studentId: '1_student3',
+  },
+  {
+    classId: '2',
+    studentId: '2_student1',
+  },
+  {
+    classId: '2',
+    studentId: '2_student2',
+  },
+  {
+    classId: '2',
+    studentId: '2_student3',
+  },
+  {
+    classId: '2',
+    studentId: '2_student4',
+  },
+  {
+    classId: '4',
+    studentId: '4_student1',
+  },
+];
+
 function ReviewsFrame132532(props) {
   const {
     isShare,
@@ -20,6 +51,8 @@ function ReviewsFrame132532(props) {
     handleEditComment,
     pageMode,
     onClick,
+    openShareWithStudentDialog,
+    updateExemplarComment,
     isClosable,
   } = props;
   const closeFrame = isClosable ? (
@@ -61,7 +94,15 @@ function ReviewsFrame132532(props) {
     setIsMoreClicked(!isMoreClicked);
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = (openShareWithStudentDialog) => () => {
+    if (isShare) {
+      openShareWithStudentDialog();
+      updateExemplarComment({
+        comment: comment,
+        showComment: true,
+      });
+      return;
+    }
     if (commentType === 'replies') {
       handleEditComment('replies', comment.comment, index);
     } else {
@@ -108,7 +149,7 @@ function ReviewsFrame132532(props) {
   );
   const openEditDeleteTemplate = isMoreClicked ? (
     <MoreOptionsWrapper>
-      <MoreOptions onClick={handleEditClick}>
+      <MoreOptions onClick={handleEditClick(openShareWithStudentDialog)}>
         <More src="/icons/edit-purple-icon.svg" />
         <div>Edit</div>
       </MoreOptions>
@@ -151,7 +192,15 @@ function ReviewsFrame132532(props) {
 
   function createReviewerFrame() {
     if (isShare) {
-      return 'Shared with class';
+      return (
+        <SharedWithStudents>
+          Shared with{' '}
+          <ShowStudentTotal>
+            {sharedWithStudents.length}{' '}
+            {sharedWithStudents.length <= 1 ? 'student' : 'students'}
+          </ShowStudentTotal>
+        </SharedWithStudents>
+      );
     }
     return isShare ? 'Shared with class' : reviewer;
   }
@@ -163,6 +212,14 @@ function ReviewsFrame132532(props) {
     return avatar;
   }
 }
+
+const SharedWithStudents = styled.div`
+  width: 100%;
+`;
+
+const ShowStudentTotal = styled.div`
+  display: inline;
+`;
 
 const Ellipse141 = styled.div`
   position: relative;

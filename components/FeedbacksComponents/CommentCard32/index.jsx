@@ -24,14 +24,14 @@ function CommentCard32(props) {
     updateParentComment,
     updateChildComment,
     pageMode,
+    openShareWithStudentDialog,
+    updateExemplarComment
   } = props;
-
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
-
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
@@ -98,6 +98,8 @@ function CommentCard32(props) {
             handleEditComment={handleEditComment}
             pageMode={pageMode}
             onClick={onClick}
+            openShareWithStudentDialog={openShareWithStudentDialog}
+            updateExemplarComment={updateExemplarComment}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -169,6 +171,8 @@ function CommentCard32(props) {
           comment.type === 'FOCUS_AREA' &&
           (pageMode === 'DRAFT' || pageMode === 'REVISE')
         }
+        openShareWithStudentDialog={openShareWithStudentDialog}
+        updateExemplarComment={updateExemplarComment}
       />
       <CommentText
         onClick={() => onClick(comment)}

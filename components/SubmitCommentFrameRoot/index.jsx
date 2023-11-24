@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import './SubmitCommentFrameRoot.css';
 const SubmitCommentFrameRoot = (props) => {
-  const { submitButtonOnClick, cancelButtonOnClick } = props;
+  const { submitButtonOnClick, cancelButtonOnClick, showComment } = props;
 
   const SmallButtonWhiteFunction = (e, name) => {};
   return (
     <SubmitCommentFrameRootRoot>
       <SmallButton onClick={(e) => submitButtonOnClick()}>
-        <Text1>Submit</Text1>
+        <Text1>{showComment ? 'Update' : 'Submit'}</Text1>
       </SmallButton>
       <SmallButtonWhite onClick={(e) => cancelButtonOnClick()}>
         <Text2>Cancel</Text2>

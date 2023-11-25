@@ -21,6 +21,7 @@ function ReviewsFrame132532(props) {
     pageMode,
     onClick,
     openShareWithStudentDialog,
+    convertToCheckedState,
     updateExemplarComment,
     isClosable,
     sharedWithStudents,
@@ -65,23 +66,24 @@ function ReviewsFrame132532(props) {
     setIsMoreClicked(!isMoreClicked);
   };
 
-  const handleEditClick = (openShareWithStudentDialog) => () => {
-    
-    if (commentType === 'replies') {
-      handleEditComment('replies', comment.comment, index);
-    } else {
-      if (isShare && getUserId() === comment.reviewerId) {
-        openShareWithStudentDialog();
-        updateExemplarComment({
-          comment: comment,
-          showComment: true,
-        });
-        return;
+  const handleEditClick =
+    (openShareWithStudentDialog, convertToCheckedState) => () => {
+      if (commentType === 'replies') {
+        handleEditComment('replies', comment.comment, index);
+      } else {
+        if (isShare && getUserId() === comment.reviewerId) {
+          convertToCheckedState(comment.sharedWithStudents);
+          openShareWithStudentDialog();
+          updateExemplarComment({
+            comment: comment,
+            showComment: true,
+          });
+          return;
+        }
+        handleEditComment('parent_comment', comment.comment);
       }
-      handleEditComment('parent_comment', comment.comment);
-    }
-    setIsMoreClicked(false);
-  };
+      setIsMoreClicked(false);
+    };
 
   const handleDeleteClick = () => {
     if (commentType === 'replies') {
@@ -121,7 +123,12 @@ function ReviewsFrame132532(props) {
   );
   const openEditDeleteTemplate = isMoreClicked ? (
     <MoreOptionsWrapper>
-      <MoreOptions onClick={handleEditClick(openShareWithStudentDialog)}>
+      <MoreOptions
+        onClick={handleEditClick(
+          openShareWithStudentDialog,
+          convertToCheckedState
+        )}
+      >
         <More src="/icons/edit-purple-icon.svg" />
         <div>Edit</div>
       </MoreOptions>

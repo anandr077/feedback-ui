@@ -25,7 +25,8 @@ function CommentCard32(props) {
     updateChildComment,
     pageMode,
     openShareWithStudentDialog,
-    updateExemplarComment
+    convertToCheckedState,
+    updateExemplarComment,
   } = props;
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
@@ -99,6 +100,7 @@ function CommentCard32(props) {
             pageMode={pageMode}
             onClick={onClick}
             openShareWithStudentDialog={openShareWithStudentDialog}
+            convertToCheckedState={convertToCheckedState}
             updateExemplarComment={updateExemplarComment}
             sharedWithStudents={comment.sharedWithStudents}
             isReply={true}
@@ -174,6 +176,7 @@ function CommentCard32(props) {
           (pageMode === 'DRAFT' || pageMode === 'REVISE')
         }
         openShareWithStudentDialog={openShareWithStudentDialog}
+        convertToCheckedState={convertToCheckedState}
         updateExemplarComment={updateExemplarComment}
         sharedWithStudents={comment.sharedWithStudents}
       />
@@ -262,7 +265,7 @@ const CommentCard = styled.article`
     cursor: unset;
   }
 
-  &:hover{
+  &:hover {
     border-color: var(--light-mode-purple);
   }
 `;

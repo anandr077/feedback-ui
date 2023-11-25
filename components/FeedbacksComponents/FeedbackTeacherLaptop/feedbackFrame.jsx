@@ -204,6 +204,7 @@ export function createCommentsFrame(
             updateChildComment={methods.updateChildComment}
             pageMode={pageMode}
             openShareWithStudentDialog={methods.handleShareWithClass}
+            convertToCheckedState={methods.convertToCheckedState}
             updateExemplarComment={methods.setUpdateExemplarComment}
             studentId={studentId}
           />
@@ -228,6 +229,7 @@ export function createCommentsFrame(
           updateChildComment={methods.updateChildComment}
           pageMode={pageMode}
           openShareWithStudentDialog={methods.handleShareWithClass}
+          convertToCheckedState={methods.convertToCheckedState}
           updateExemplarComment={methods.setUpdateExemplarComment}
           studentId={studentId}
         />
@@ -250,6 +252,7 @@ export function createCommentsFrame(
           updateChildComment={methods.updateChildComment}
           pageMode={pageMode}
           openShareWithStudentDialog={methods.handleShareWithClass}
+          convertToCheckedState={methods.convertToCheckedState}
           updateExemplarComment={methods.setUpdateExemplarComment}
           studentId={studentId}
         />

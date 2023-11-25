@@ -111,6 +111,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [initialCheckedState, setInitialCheckedState] = useState({});
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -334,7 +335,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       sharedWithStudents: getSharedStudentIds(),
     }).then((response) => {
       if (response) {
-        console.log('the response is', response)
+        console.log('the response is', response);
         setComments([...comments, response]);
         setNewCommentValue('');
       }
@@ -411,6 +412,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         ),
       },
     };
+    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
@@ -429,24 +431,46 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         },
       },
     };
+    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
+  const convertToCheckedState = (selectedStudents) => {
+    setIsButtonDisabled(false);
+    const updatedState = { ...initialCheckedState };
+
+    selectedStudents.forEach(({ classId, studentId }) => {
+      if (!updatedState[classId]) {
+        updatedState[classId] = {
+          checked: true,
+          students: {},
+        };
+      }
+      updatedState[classId].students[studentId] = true;
+    });
+
+    // Update checked property based on all students being checked
+    Object.keys(updatedState).forEach((classId) => {
+      const classChecked = Object.values(updatedState[classId].students).every(
+        (isChecked) => isChecked
+      );
+      updatedState[classId].checked = classChecked;
+    });
+    setCheckedState(updatedState);
+  };
 
   const getSharedStudentIds = () => {
     const checkedStudentIds = _(checkedState)
-        .map((classInfo, classId) => 
-            _(classInfo.students)
-                .pickBy(isChecked => isChecked)
-                .map((_, studentId) => ({ classId, studentId }))
-                .value()
-        )
-        .flatten()
-        .value();
-
+      .map((classInfo, classId) =>
+        _(classInfo.students)
+          .pickBy((isChecked) => isChecked)
+          .map((_, studentId) => ({ classId, studentId }))
+          .value()
+      )
+      .flatten()
+      .value();
     return checkedStudentIds;
   };
-
 
   const sharewithclassdialog = (
     <Dialog
@@ -519,13 +543,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <DialogActions>
             <SubmitCommentFrameRoot
               submitButtonOnClick={() => {
-                console.log("Clicked")
-                
+                console.log('Clicked');
+
                 updateExemplarComment.showComment
                   ? updateExemplar()
                   : addExemplerComment();
                 setCheckedState(initialCheckedState);
               }}
+              isButtonDisabled={isButtonDisabled}
               showComment={updateExemplarComment.showComment}
               cancelButtonOnClick={() => {
                 setShowShareWithClass(false);
@@ -541,6 +566,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   );
 
   function handleShareWithClass() {
+    setCheckedState(initialCheckedState);
+    setIsButtonDisabled(true);
     setShowShareWithClass(true);
     updateExemplarComment.showComment = false;
   }
@@ -693,6 +720,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           type: commentToUpdate.type,
           color: commentToUpdate.color,
           focusAreaId: commentToUpdate.focusAreaId,
+          sharedWithStudents: getSharedStudentIds(),
           replies:
             commentToUpdate?.replies === undefined
               ? []
@@ -1288,6 +1316,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleStrengthsTargetsFeedback,
     showSubmitPopuphandler,
     setUpdateExemplarComment,
+    convertToCheckedState,
   };
 
   const shortcuts = getShortcuts();

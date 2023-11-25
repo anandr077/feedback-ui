@@ -712,7 +712,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function updateParentComment(comment, commentId) {
     const updatedComment = comments.map((c) => {
       if (c.id === commentId) {
-        const commentToUpdate = { ...c, comment: comment };
+        const commentToUpdate = {
+          ...c,
+          comment: comment,
+          sharedWithStudents: getSharedStudentIds(),
+        };
         updateFeedback(submission.id, commentId, {
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,

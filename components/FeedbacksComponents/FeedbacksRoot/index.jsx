@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
+import _ from 'lodash';
 
 import {
   addFeedback,
@@ -81,7 +82,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     comment: null,
     showComment: false,
   });
-  const [exemplarSharedStudents, setExemplarSharedStudents] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -113,12 +113,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [initialCheckedState, setInitialCheckedState] = useState({});
 
   const defaultMarkingCriteria = getDefaultCriteria();
-  const classesWithStudent = getClassesWithStudents();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const results = await classesWithStudent;
+        const results = await getClassesWithStudents();
         const initialState = results.reduce((acc, classItem) => {
           acc[classItem.id] = {
             checked: false,
@@ -324,7 +323,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const addExemplerComment = () => {
     const comment = exemplarComment || 'No comment';
-    const shareWithStudents = exemplarSharedStudents || [];
 
     addFeedback(submission.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -333,7 +331,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'MODEL_RESPONSE',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
-      sharedWithStudents: shareWithStudents,
+      sharedWithStudents: getSharedStudentIds(),
     }).then((response) => {
       if (response) {
         console.log('the response is', response)
@@ -434,17 +432,21 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setCheckedState(updatedState);
   };
 
+
   const getSharedStudentIds = () => {
-    let checkedStuendIds = [];
-    for (let classId in checkedState) {
-      for (let studentId in checkedState[classId].students) {
-        if (checkedState[classId].students[studentId]) {
-          checkedStuendIds.push({ classId, studentId });
-        }
-      }
-    }
-    setExemplarSharedStudents(checkedStuendIds);
+    const checkedStudentIds = _(checkedState)
+        .map((classInfo, classId) => 
+            _(classInfo.students)
+                .pickBy(isChecked => isChecked)
+                .map((_, studentId) => ({ classId, studentId }))
+                .value()
+        )
+        .flatten()
+        .value();
+
+    return checkedStudentIds;
   };
+
 
   const sharewithclassdialog = (
     <Dialog
@@ -517,10 +519,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           <DialogActions>
             <SubmitCommentFrameRoot
               submitButtonOnClick={() => {
+                console.log("Clicked")
+                
                 updateExemplarComment.showComment
                   ? updateExemplar()
                   : addExemplerComment();
-                getSharedStudentIds();
                 setCheckedState(initialCheckedState);
               }}
               showComment={updateExemplarComment.showComment}

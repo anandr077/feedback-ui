@@ -100,6 +100,8 @@ function CommentCard32(props) {
             onClick={onClick}
             openShareWithStudentDialog={openShareWithStudentDialog}
             updateExemplarComment={updateExemplarComment}
+            sharedWithStudents={comment.sharedWithStudents}
+            isReply={true}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -173,6 +175,7 @@ function CommentCard32(props) {
         }
         openShareWithStudentDialog={openShareWithStudentDialog}
         updateExemplarComment={updateExemplarComment}
+        sharedWithStudents={comment.sharedWithStudents}
       />
       <CommentText
         onClick={() => onClick(comment)}

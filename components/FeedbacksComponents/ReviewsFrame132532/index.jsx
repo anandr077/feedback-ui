@@ -4,37 +4,6 @@ import { feedbacksIbmplexsansMediumBlack16px } from '../../../styledMixins';
 import { Avatar } from '@boringer-avatars/react';
 import { getUserId } from '../../../service';
 
-const sharedWithStudents = [
-  {
-    classId: '1',
-    studentId: '1_student2',
-  },
-  {
-    classId: '1',
-    studentId: '1_student3',
-  },
-  {
-    classId: '2',
-    studentId: '2_student1',
-  },
-  {
-    classId: '2',
-    studentId: '2_student2',
-  },
-  {
-    classId: '2',
-    studentId: '2_student3',
-  },
-  {
-    classId: '2',
-    studentId: '2_student4',
-  },
-  {
-    classId: '4',
-    studentId: '4_student1',
-  },
-];
-
 function ReviewsFrame132532(props) {
   const {
     isShare,
@@ -54,6 +23,8 @@ function ReviewsFrame132532(props) {
     openShareWithStudentDialog,
     updateExemplarComment,
     isClosable,
+    sharedWithStudents,
+    isReply = false,
   } = props;
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
@@ -95,17 +66,18 @@ function ReviewsFrame132532(props) {
   };
 
   const handleEditClick = (openShareWithStudentDialog) => () => {
-    if (isShare) {
-      openShareWithStudentDialog();
-      updateExemplarComment({
-        comment: comment,
-        showComment: true,
-      });
-      return;
-    }
+    
     if (commentType === 'replies') {
       handleEditComment('replies', comment.comment, index);
     } else {
+      if (isShare && getUserId() === comment.reviewerId) {
+        openShareWithStudentDialog();
+        updateExemplarComment({
+          comment: comment,
+          showComment: true,
+        });
+        return;
+      }
       handleEditComment('parent_comment', comment.comment);
     }
     setIsMoreClicked(false);
@@ -191,21 +163,33 @@ function ReviewsFrame132532(props) {
   );
 
   function createReviewerFrame() {
+    if (isReply) {
+      return reviewer;
+    }
     if (isShare) {
+      if (sharedWithStudents === undefined || sharedWithStudents === null) {
+        return 'Shared with class';
+      }
+      if (sharedWithStudents?.length === 0) {
+        return 'Shared with class';
+      }
       return (
         <SharedWithStudents>
           Shared with{' '}
           <ShowStudentTotal>
-            {sharedWithStudents.length}{' '}
-            {sharedWithStudents.length <= 1 ? 'student' : 'students'}
+            {sharedWithStudents?.length}{' '}
+            {sharedWithStudents?.length <= 1 ? 'student' : 'students'}
           </ShowStudentTotal>
         </SharedWithStudents>
       );
     }
-    return isShare ? 'Shared with class' : reviewer;
+    return reviewer;
   }
 
   function createCommenterFrame() {
+    if (isReply) {
+      return avatar;
+    }
     if (isShare) {
       return shareIcon;
     }

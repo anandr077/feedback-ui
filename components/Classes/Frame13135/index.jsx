@@ -9,23 +9,31 @@ function Frame13135(props) {
   const { student } = props;
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const [sortedComments, setSortedComments] = useState(
+    student.smartAnnotationStats.sort((a, b) => b.percentage - a.percentage)
+  );
 
-  const studentsCommonMistakes = [];
 
+  function groupSuggestionsByTitle(suggestions) {
+    return suggestions.reduce((groupedSuggestions, currentSuggestion) => {
+      const { title, suggestion, percentage } = currentSuggestion;
 
-  student.smartAnnotationStats
-    .sort((a, b) => b.percentage - a.percentage)
-    .map((eachStats) => {
-      const jsxElement = (
-        <FeedbackContainer>
-          <CommonMistakeBox
-            title={eachStats.title}
-            message={eachStats.suggestion}
-          />
-        </FeedbackContainer>
-      );
-      studentsCommonMistakes.push(jsxElement);
-    });
+      if (!groupedSuggestions[title]) {
+        groupedSuggestions[title] = {
+          title,
+          suggestion: '',
+          percentage: 0,
+        };
+      }
+
+      groupedSuggestions[title].suggestion += `${suggestion.trim()}${suggestion.trim() ? '.' : ''} `;
+      groupedSuggestions[title].percentage += percentage;
+
+      return groupedSuggestions;
+    }, {});
+  }
+
+  
 
   return (
     <>
@@ -49,10 +57,30 @@ function Frame13135(props) {
             <FeedbackHeading>
               Most common feedback
               <CommonMistakesPopup
-                studentsCommonMistakes={studentsCommonMistakes}
+                studentsCommonMistakes={Object.values(
+                  groupSuggestionsByTitle(sortedComments)
+                ).map((eachStats) => (
+                  <FeedbackContainer key={eachStats.title}>
+                    <CommonMistakeBox
+                      title={eachStats.title}
+                      message={eachStats.suggestion}
+                    />
+                  </FeedbackContainer>
+                ))}
               />
             </FeedbackHeading>
-            <div>{studentsCommonMistakes.slice(0, 3)}</div>
+            <div>
+              {Object.values(
+                groupSuggestionsByTitle(sortedComments.slice(0, 3))
+              ).map((eachStats) => (
+                <FeedbackContainer key={eachStats.title}>
+                  <CommonMistakeBox
+                    title={eachStats.title}
+                    message={eachStats.suggestion}
+                  />
+                </FeedbackContainer>
+              ))}
+            </div>
           </Stats>
         </Frame1313>
       ) : (
@@ -84,6 +112,7 @@ const Frame1313 = styled.div`
   border: 1px solid;
   border-color: var(--electric-violet);
   box-shadow: 0px 4px 16px #7200e01a;
+  cursor: pointer;
 `;
 
 const Frame1312 = styled.div`

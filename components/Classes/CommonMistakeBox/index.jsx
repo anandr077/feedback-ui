@@ -21,25 +21,8 @@ function CommonMistakeBox({ title, message }) {
           <Stats>
             <Line14 src="/img/line-14.png" alt="Line 14" />
             {sentences?.map((sentence) => {
-              return (
-                <div
-                  style={{
-                    borderRadius: '12px',
-                    marginTop: '10px',
-                  }}
-                >
-                  {sentence}
-                </div>
-              );
+              return <EachLine>{sentence}</EachLine>;
             })}
-            {/* <div
-              style={{
-                borderRadius: '12px',
-                marginTop: '10px',
-              }}
-            >
-              {formattedMessage}
-            </div> */}
           </Stats>
         </Frame1313>
       ) : (
@@ -63,7 +46,7 @@ const Frame1313 = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 0px;
+  padding: 16px 0px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
@@ -90,6 +73,10 @@ const Line14 = styled.img`
 `;
 
 const Stats = styled.div`
-  padding: 10px;
+  padding: 10px 10px 0px 10px;
+`;
+
+const EachLine = styled.div`
+  margin: 10px 10px 0px 20px;
 `;
 export default CommonMistakeBox;

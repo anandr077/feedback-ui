@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { IbmplexsansMediumShark20px } from '../styledMixins';
 
 function Frame13123(props) {
-  const { title, arrowdown2 } = props;
+  const { title, arrowdown2,isExpanded, setIsExpanded  } = props;
+
+  const toggleSection = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <Frame1312>
-      <BoyleJonny>{title}</BoyleJonny>
-      <Arrowdown2 src={arrowdown2} alt="arrowdown2" />
+      <BoyleJonny onClick={toggleSection}>{title}</BoyleJonny>
+      <Arrowdown2 onClick={toggleSection} src={arrowdown2} alt="arrowdown2" />
     </Frame1312>
   );
 }

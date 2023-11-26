@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Frame13123 from '../Frame13123';
 import styled from 'styled-components';
 
-function CommonMistakeBox({title, message}) {
-    
+function CommonMistakeBox({ title, message }) {
+  const sentences = message?.split('. ');
+
   const [isExpanded, setIsExpanded] = useState(false);
   return (
     <>
@@ -19,14 +20,26 @@ function CommonMistakeBox({title, message}) {
           </Frame1312>
           <Stats>
             <Line14 src="/img/line-14.png" alt="Line 14" />
-            <div
+            {sentences?.map((sentence) => {
+              return (
+                <div
+                  style={{
+                    borderRadius: '12px',
+                    marginTop: '10px',
+                  }}
+                >
+                  {sentence}
+                </div>
+              );
+            })}
+            {/* <div
               style={{
                 borderRadius: '12px',
                 marginTop: '10px',
               }}
             >
-                {message}
-            </div>
+              {formattedMessage}
+            </div> */}
           </Stats>
         </Frame1313>
       ) : (
@@ -44,7 +57,6 @@ function CommonMistakeBox({title, message}) {
     </>
   );
 }
-
 
 const Frame1313 = styled.div`
   display: flex;

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import Frame13123 from '../Frame13123';
 import styled from 'styled-components';
+import ProgressBar from '../../ProgressBar';
 
-function CommonMistakeBox({ title, message }) {
-  const sentences = message?.split('. ');
+function CommonMistakeBox({ title, message, percentage }) {
+  // const sentences = message?.split('. ');
 
   const [isExpanded, setIsExpanded] = useState(false);
   return (
     <>
       {isExpanded ? (
-        <Frame1313>
+        <Studentscontainerfull>
           <Frame1312>
             <Frame13123
               title={title}
@@ -20,13 +21,23 @@ function CommonMistakeBox({ title, message }) {
           </Frame1312>
           <Stats>
             <Line14 src="/img/line-14.png" alt="Line 14" />
-            {sentences?.map((sentence) => {
-              return <EachLine>{sentence}</EachLine>;
-            })}
+
+            {percentage
+              ? percentage.map((each, index) => (
+                  <ProgressBar
+                    key={index} // Add a unique key when mapping over an array in React
+                    title={message[index]}
+                    count={each}
+                    total={100}
+                  />
+                ))
+              : message?.map((sentence, index) => (
+                  <EachLine key={index}>{sentence}</EachLine>
+                ))}
           </Stats>
-        </Frame1313>
+        </Studentscontainerfull>
       ) : (
-        <Frame1313>
+        <Studentscontainer>
           <Frame1312>
             <Frame13123
               title={title}
@@ -35,13 +46,42 @@ function CommonMistakeBox({ title, message }) {
               setIsExpanded={setIsExpanded}
             />
           </Frame1312>
-        </Frame1313>
+        </Studentscontainer>
       )}
     </>
   );
 }
 
 const Frame1313 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+
+const Studentscontainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+const Studentscontainerfull = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,6 +114,7 @@ const Line14 = styled.img`
 
 const Stats = styled.div`
   padding: 10px 10px 0px 10px;
+  cursor: default;
 `;
 
 const EachLine = styled.div`

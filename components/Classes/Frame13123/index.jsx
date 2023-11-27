@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IbmplexsansMediumShark20px } from '../styledMixins';
 
 function Frame13123(props) {
-  const { title, arrowdown2,isExpanded, setIsExpanded  } = props;
+  const { title, arrowdown2, isExpanded, setIsExpanded } = props;
 
   const toggleSection = () => {
     setIsExpanded(!isExpanded);
@@ -24,6 +24,7 @@ const Frame1312 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  cursor: pointer;
 `;
 
 const BoyleJonny = styled.div`

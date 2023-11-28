@@ -13,7 +13,6 @@ function Frame13135(props) {
     student.smartAnnotationStats.sort((a, b) => b.percentage - a.percentage)
   );
 
-
   function groupSuggestionsByTitle(suggestions) {
     return suggestions.reduce((groupedSuggestions, currentSuggestion) => {
       const { title, suggestion, percentage } = currentSuggestion;
@@ -21,24 +20,23 @@ function Frame13135(props) {
       if (!groupedSuggestions[title]) {
         groupedSuggestions[title] = {
           title,
-          suggestion: '',
-          percentage: 0,
+          suggestion: [],
+          percentage: [],
         };
       }
 
-      groupedSuggestions[title].suggestion += `${suggestion.trim()}${suggestion.trim() ? '.' : ''} `;
-      groupedSuggestions[title].percentage += percentage;
+      (groupedSuggestions[title].suggestion).push(suggestion);
+      (groupedSuggestions[title].percentage).push(percentage);
 
       return groupedSuggestions;
     }, {});
   }
 
-  
 
   return (
     <>
       {isExpanded ? (
-        <Frame1313>
+        <Studentscontainerfull>
           <Frame1312>
             <Frame13123
               title={student.studentName}
@@ -64,6 +62,7 @@ function Frame13135(props) {
                     <CommonMistakeBox
                       title={eachStats.title}
                       message={eachStats.suggestion}
+                      percentage={eachStats.percentage}
                     />
                   </FeedbackContainer>
                 ))}
@@ -82,9 +81,9 @@ function Frame13135(props) {
               ))}
             </div>
           </Stats>
-        </Frame1313>
+        </Studentscontainerfull>
       ) : (
-        <Frame1313>
+        <Studentscontainer>
           <Frame1312>
             <Frame13123
               title={student.studentName}
@@ -93,13 +92,44 @@ function Frame13135(props) {
               setIsExpanded={setIsExpanded}
             />
           </Frame1312>
-        </Frame1313>
+        </Studentscontainer>
       )}
     </>
   );
 }
 
 const Frame1313 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+`;
+
+const Studentscontainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0px;
+  position: relative;
+  align-self: stretch;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid;
+  border-color: var(--electric-violet);
+  box-shadow: 0px 4px 16px #7200e01a;
+  cursor: pointer;
+`;
+
+const Studentscontainerfull = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -134,6 +164,7 @@ const Line14 = styled.img`
 
 const Stats = styled.div`
   padding: 10px;
+  cursor: default;
 `;
 
 const FeedbackContainer = styled.div`

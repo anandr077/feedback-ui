@@ -6,10 +6,8 @@ import App from './App';
 import { SnackbarProvider } from './components/SnackbarContext'; // Make sure you import SnackbarProvider from the correct file
 
 ReactDOM.render(
-  <React.StrictMode>
-    <SnackbarProvider>
-      <App />
-    </SnackbarProvider>
-  </React.StrictMode>,
+  <SnackbarProvider>
+    <App />
+  </SnackbarProvider>,
   document.getElementById('app')
 );

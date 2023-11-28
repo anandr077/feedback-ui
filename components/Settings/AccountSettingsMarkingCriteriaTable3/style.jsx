@@ -25,6 +25,7 @@ export const UserSettingLink = styled.div`
 `;
 
 export const MarkingCriteriaList = styled.div`
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

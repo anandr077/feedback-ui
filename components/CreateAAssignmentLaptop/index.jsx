@@ -162,7 +162,7 @@ function CreateAAssignmentLaptop(props) {
             <Frame1294>
               <AssignmentSettings>{assignmentSettings}</AssignmentSettings>
               <Frame1295>
-                <Frame1299>
+                <Frame1299 id="DnDContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>{feedbackMethod}</Classes>
                   </Frame12811>

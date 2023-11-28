@@ -110,54 +110,57 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [checkedState, setCheckedState] = useState({});
-  const [initialCheckedState, setInitialCheckedState] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const results = await getClassesWithStudents();
-        const initialState = results.reduce((acc, classItem) => {
-          acc[classItem.id] = {
-            checked: false,
-            students: classItem.students.reduce((studentAcc, student) => {
-              studentAcc[student.id] = false;
-              return studentAcc;
-            }, {}),
-          };
-          return acc;
-        }, {});
-
-        setClassesAndStudents(results);
-        setCheckedState(initialState);
-        setInitialCheckedState(initialState);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
-    Promise.all([getSubmissionById(id), getComments(id), getSmartAnnotations()])
-      .then(([submissionsResult, commentsResult, smartAnnotationResult]) => {
-        setSubmission(submissionsResult);
-        const allComments = commentsResult.map((c) => {
-          return { ...c };
-        });
-        const feedbackComments = allComments.filter(
-          (c) => c.type !== 'MARKING_CRITERIA'
-        );
-        setComments(feedbackComments);
-        const markingCriteriaFeedback = allComments.filter(
-          (c) => c.type === 'MARKING_CRITERIA'
-        );
-        setMarkingCriteriaFeedback(markingCriteriaFeedback);
-        setSmartAnnotations(smartAnnotationResult);
-      })
+    Promise.all([
+      getSubmissionById(id),
+      getComments(id),
+      getSmartAnnotations(),
+      getClassesWithStudents(),
+    ])
+      .then(
+        ([
+          submissionsResult,
+          commentsResult,
+          smartAnnotationResult,
+          classesWithStudentsResult
+        ]) => {
+          setSubmission(submissionsResult);
+          const allComments = commentsResult.map((c) => {
+            return { ...c };
+          });
+          const feedbackComments = allComments.filter(
+            (c) => c.type !== 'MARKING_CRITERIA'
+          );
+          setComments(feedbackComments);
+          const markingCriteriaFeedback = allComments.filter(
+            (c) => c.type === 'MARKING_CRITERIA'
+          );
+          setMarkingCriteriaFeedback(markingCriteriaFeedback);
+          setSmartAnnotations(smartAnnotationResult);
+
+          const initialState = classesWithStudentsResult.reduce(
+            (acc, classItem) => {
+              acc[classItem.id] = {
+                checked: false,
+                students: classItem.students.reduce((studentAcc, student) => {
+                  studentAcc[student.id] = false;
+                  return studentAcc;
+                }, {}),
+              };
+              return acc;
+            },
+            {}
+          );
+          console.log('initialState init', initialState);
+          setClassesAndStudents(classesWithStudentsResult);
+          setCheckedState(initialState);
+        }
+      )
       .finally(() => {
         if (!isTeacher) {
           setIsLoading(false);
@@ -218,6 +221,19 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       </>
     );
   }
+  const initialCheckedState = classesAndStudents.reduce(
+    (acc, classItem) => {
+      acc[classItem.id] = {
+        checked: false,
+        students: classItem.students.reduce((studentAcc, student) => {
+          studentAcc[student.id] = false;
+          return studentAcc;
+        }, {}),
+      };
+      return acc;
+    },
+    {}
+  );
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
@@ -478,6 +494,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setShowShareWithClass(false);
         setShowNewComment(false);
         setExemplerComment('');
+        console.log('initialCheckedState is', initialCheckedState);
+
+        setCheckedState(initialCheckedState);
+        console.log('the checked state is', checkedState);
       }}
       open={showShareWithClass}
     >

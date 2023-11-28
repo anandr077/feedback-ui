@@ -598,11 +598,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleDebounce = (answer) => (contents, highlights) => {
-    console.log;
     handleChangeText('Saving...', false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
-    }).then((_) => {
+    }).then((updatedSubmission) => {
+      setSubmission(updatedSubmission)
       return updateCommentsRange(answer, highlights);
     });
   };

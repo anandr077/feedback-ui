@@ -54,12 +54,6 @@ function TaskDetailDesktop(props) {
           </Frame12091>
         </Frame1390>
       </Frame1391>
-      <Frame61>
-        <X2021JeddleAllRightsReserved>
-          {x2021JeddleAllRightsReserved}
-        </X2021JeddleAllRightsReserved>
-        <Frame6 />
-      </Frame61>
     </div>
   );
 }

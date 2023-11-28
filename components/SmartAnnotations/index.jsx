@@ -179,7 +179,11 @@ function SmartAnotation(props) {
                 />
               </ButtonContainer>
             ) : (
-              <Arrowdown2 src="/img/arrowup.png" alt="arrowdown2" />
+              <Arrowdown2
+                onClick={toggleSection}
+                src="/img/arrowup.png"
+                alt="arrowdown2"
+              />
             )}
           </TtitleContainer>
           <Line14 src="/img/line-14.png" alt="Line 14" />

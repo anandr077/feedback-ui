@@ -145,7 +145,7 @@ function CreateAAssignmentTablet(props) {
             <Frame1294>
               <AssignmentSettings>Task Settings</AssignmentSettings>
               <Frame1295>
-                <Frame1299>
+                <Frame1299 id="DnDContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>Feedback Method</Classes>
                   </Frame12811>

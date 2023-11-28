@@ -152,7 +152,7 @@ function CreateAAssignmentMobile(props) {
             <Frame1294>
               <Questions>{assignmentSettings}</Questions>
               <Frame1295>
-                <Frame1300>
+                <Frame1300 id="DnDContainer" onClick={cleanformattingDiv}>
                   <Frame12811>
                     <Classes>{feedbackMethod}</Classes>
                   </Frame12811>

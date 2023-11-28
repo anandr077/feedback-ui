@@ -598,7 +598,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const handleDebounce = (answer) => (contents, highlights) => {
-    console.log;
     handleChangeText('Saving...', false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,

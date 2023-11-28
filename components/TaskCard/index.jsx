@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   MoreOptionsWrapper,
-  MoreOptions, 
-  IconContainer, 
+  MoreOptions,
+  IconContainer,
   DeleteButtonContainer,
-  DeleteButtonContainerOnly, 
+  DeleteButtonContainerOnly,
   BubbleContainer,
   TaskTitle,
   TaskTitleBold,
@@ -13,8 +13,9 @@ import {
   Buttons1,
   Button,
   StyledCard,
-  AnchorTag
-} from './style'
+  AnchorTag,
+  StudentLength,
+} from './style';
 import CardContent from '../CardContent';
 import SnackbarContext from '../SnackbarContext';
 
@@ -25,11 +26,13 @@ import {
   publishModelResponse,
 } from '../../service';
 import StatusBubbleContainer from '../StatusBubblesContainer';
+import ShareWithStudent from './ShareWithStudent';
 
 function TaskCard(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
+  const [showShareWithStudent, setShowShareWithStudent] = useState(false);
 
   const {
     task,
@@ -42,13 +45,13 @@ function TaskCard(props) {
     onAccept,
     onDecline,
   } = props;
-
   const role = getUserRole();
   const userId = getUserId();
 
   const handleClickOutside = (event) => {
     if (refContainer.current && !refContainer.current.contains(event.target)) {
       setShowMoreOptions(false);
+      setShowShareWithStudent(false);
     }
   };
 
@@ -120,37 +123,50 @@ function TaskCard(props) {
             <TaskTitle>
               Congratulations,
               <br />
-              Teacher has marked part of your response as exemplary!
+              Teacher has marked part of your response as exemplary and would
+              like to share with{' '}
+              <StudentLength
+                onClick={() => {
+                  setShowShareWithStudent(!showShareWithStudent);
+                }}
+              >
+                {task.sharedWithStudents?.length}
+                {showShareWithStudent && <ShareWithStudent sharedStudents={task.sharedWithStudents}/>}
+              </StudentLength>{' '}
+              students!
             </TaskTitle>
             <TaskTitleBold>
               {task.submissionDetails?.assignment?.title}
             </TaskTitleBold>
             {styledCardWithLink()}
-            <TaskTitle>
-              Are you happy to share this with your {task?.classTitle}?
-            </TaskTitle>
+            <TaskTitle>Are you happy to share?</TaskTitle>
             {saveButtons(task.id, showSnackbar, setPublishActionCompleted)}
           </StyledCard>
         );
       }
     }
     return styledCardWithLink();
-    
   }
   function styledCardWithLink() {
     if (onAccept) {
       return styledCard();
     }
-    return <AnchorTag href={task.link} >{styledCard()}</AnchorTag>;
+    return <AnchorTag href={task.link}>{styledCard()}</AnchorTag>;
   }
   function styledCard() {
     const dueDate = new Date(task.dueAt);
     const currentTime = new Date();
-    const isOverDue = dueDate < currentTime
+    const isOverDue = dueDate < currentTime;
 
     return (
-      <StyledCard ref={refContainer} isSelected={isSelected} overdue={isOverDue}>
-        {exemplar ? tagsFrameExempler(task, isOverDue) : tagsFrame(task, isOverDue)}
+      <StyledCard
+        ref={refContainer}
+        isSelected={isSelected}
+        overdue={isOverDue}
+      >
+        {exemplar
+          ? tagsFrameExempler(task, isOverDue)
+          : tagsFrame(task, isOverDue)}
         <CardContent
           task={cardContents(task, exemplar)}
           small={small}
@@ -207,7 +223,7 @@ function TaskCard(props) {
     if (task.tags && task.tags.length > 0) {
       return (
         <BubbleContainer>
-           <StatusBubbleContainer tags={task?.tags ?? []} overdue={isOverDue}/>
+          <StatusBubbleContainer tags={task?.tags ?? []} overdue={isOverDue} />
           {role === 'TEACHER' && userId === task.teacherId && (
             <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
               <IconContainer src="/icons/three-dot.svg" alt="delete" />
@@ -236,7 +252,7 @@ function TaskCard(props) {
     title.push({ name: task.classTitle });
     return (
       <BubbleContainer>
-         <StatusBubbleContainer tags={title} overdue={isOverDue} />
+        <StatusBubbleContainer tags={title} overdue={isOverDue} />
       </BubbleContainer>
     );
   }

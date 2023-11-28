@@ -22,7 +22,6 @@ function DashboardHomeStudentDesktop(props) {
     group1205Props,
     headerProps,
   } = props;
-
   return (
     <div className="dashboard-home-student-desktop screen">
       <Frame1347>

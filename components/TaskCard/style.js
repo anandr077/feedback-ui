@@ -163,3 +163,12 @@ export const StyledCard = styled.article`
 export const AnchorTag = styled.a`
   text-decoration: none;
 `
+
+export const StudentLength = styled.span`
+  color: var(--royal-purple);
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  position: relative;
+`

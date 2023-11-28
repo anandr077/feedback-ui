@@ -455,7 +455,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setIsButtonDisabled(false);
     const updatedState = { ...initialCheckedState };
 
-    selectedStudents.forEach(({ classId, studentId }) => {
+    selectedStudents?.forEach(({ classId, studentId }) => {
       if (!updatedState[classId]) {
         updatedState[classId] = {
           checked: true,
@@ -683,7 +683,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setComments(updatedComments);
   }
 
-  function handleReplyComment(replyComment, commentId, serialNumber) {
+  function handleReplyComment(replyComment, commentId, serialNumber, sharedWithStudents) {
     const replyCommentObject = {
       questionSerialNumber: serialNumber,
       comment: replyComment,
@@ -693,6 +693,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       reviewerName: getUserName(),
       replies: [],
       markingCriteria: defaultMarkingCriteria,
+      sharedWithStudents: sharedWithStudents
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -710,7 +711,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: commentToUpdate.reviewerId,
           color: commentToUpdate.color,
           focusAreaId: commentToUpdate.focusAreaId,
-          markingCriteria: defaultMarkingCriteria,
+          sharedWithStudents: commentToUpdate.sharedWithStudents,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>

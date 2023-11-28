@@ -65,7 +65,7 @@ function CommentCard32(props) {
         updateParentComment(inputValue, comment.id);
       }
     } else {
-      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber);
+      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber, comment.sharedWithStudents);
     }
     setInputValue('');
     setIsReplyClicked(false);

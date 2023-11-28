@@ -155,7 +155,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             },
             {}
           );
-          console.log('initialState init', initialState);
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
         }
@@ -760,7 +759,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowShareWithClass(false);
   }
 
-  function updateChildComment(commentId, replyCommentIndex, comment) {
+  function updateChildComment(commentId, replyCommentIndex, comment, sharedWithStudents) {
     const updatedReplyComment = comments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
@@ -778,7 +777,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
+          sharedWithStudents: sharedWithStudents
         }).then((response) => {
+          console.log('the commentToUpdate', response)
           if (response) {
             const updatedComments = comments.map((c) =>
               c.id === commentId ? commentToUpdate : c
@@ -805,6 +806,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
+          sharedWithStudents: c.sharedWithStudents
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>

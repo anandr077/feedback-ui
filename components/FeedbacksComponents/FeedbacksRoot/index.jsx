@@ -97,7 +97,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
-  const [newCommentValue, setNewCommentValue] = useState('');
   const [nextUrl, setNextUrl] = useState('');
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
@@ -276,7 +275,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
@@ -294,7 +292,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
@@ -312,7 +309,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
@@ -332,7 +328,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
@@ -351,9 +346,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       sharedWithStudents: getSharedStudentIds(),
     }).then((response) => {
       if (response) {
-        console.log('the response is', response);
         setComments([...comments, response]);
-        setNewCommentValue('');
       }
     });
     setShowNewComment(false);
@@ -390,7 +383,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     //   }
     //   return c;
     // });
-    // setNewCommentValue('');
     // setShowNewComment(false);
     // setExemplerComment('');
     // setShowShareWithClass(false);
@@ -410,6 +402,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     } else {
       setExemplerComment(value);
     }
+    setIsButtonDisabled(false);
   };
 
   const handleClassCheck = (classId) => {
@@ -724,7 +717,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       return comment;
     });
 
-    setNewCommentValue('');
     setShowNewComment(false);
     setExemplerComment('');
     setShowShareWithClass(false);
@@ -745,7 +737,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           type: commentToUpdate.type,
           color: commentToUpdate.color,
           focusAreaId: commentToUpdate.focusAreaId,
-          sharedWithStudents: getSharedStudentIds(),
+          sharedWithStudents: commentToUpdate.sharedWithStudents,
           replies:
             commentToUpdate?.replies === undefined
               ? []
@@ -763,7 +755,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       return c;
     });
 
-    setNewCommentValue('');
     setShowNewComment(false);
     setExemplerComment('');
     setShowShareWithClass(false);

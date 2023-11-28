@@ -108,7 +108,6 @@ const goBack1Data = {
 
 const taskDetailDesktopData = {
   line11: '/img/line-11-3.png',
-  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
   goBackProps: goBack1Data,
 };
 

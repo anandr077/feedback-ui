@@ -5,6 +5,7 @@ import React from 'react';
 import {
   MarkingOptionContainer,
   StyledMenuItem,
+  StyledHeading,
   StyledBox,
   FlexContainer,
   FlexContainerSmall,
@@ -240,7 +241,9 @@ function withHeadings(
   return (
     <div key={entry.heading}>
       {/* Render the heading */}
-      <StyledMenuItem disabled>{entry.heading}</StyledMenuItem>
+      <StyledMenuItem disabled>
+        <StyledHeading>{entry.heading}</StyledHeading>
+      </StyledMenuItem>
 
       {/* Render the items under the heading */}
       {entry.items.map((item) => (

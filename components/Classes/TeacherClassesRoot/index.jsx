@@ -12,15 +12,16 @@ import {
   getStudentsForClass,
   getAssignmentsByClassId,
   getSmartAnnotaionAnalyticsByClassId,
-  getModelResponsesForClass
+  getModelResponsesForClass,
+  getStudentsAnalyticsByClassId,
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { classesHomeHeaderProps } from "../../../utils/headerProps.js";
-import Loader from "../../Loader";
-import _ from "lodash";
-import AnnotationAnalytics from "../../Analytics";
+import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
+import Loader from '../../Loader';
+import _ from 'lodash';
+import AnnotationAnalytics from '../../Analytics';
 export default function TeacherClassesRoot() {
   const { classIdFromUrl } = useParams();
 
@@ -30,10 +31,12 @@ export default function TeacherClassesRoot() {
 
   const [students, setStudents] = React.useState([]);
   const [modelResponses, setModelResponses] = React.useState([]);
-  const [publishActionCompleted, setPublishActionCompleted] = React.useState(false);
+  const [publishActionCompleted, setPublishActionCompleted] =
+    React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] =
     React.useState([]);
+  const [studentsAnalytics, setStudentsAnalytics] = React.useState([]);
   const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const queryClient = useQueryClient();
 
@@ -65,12 +68,16 @@ export default function TeacherClassesRoot() {
       const modelResponses = await getModelResponsesForClass(classId);
       const smartAnnotationAnalytics =
         await getSmartAnnotaionAnalyticsByClassId(classId);
+      const studentsAnalyticsByClassId = await getStudentsAnalyticsByClassId(
+        classId
+      );
 
       return {
         students: studentsResponse,
         assignments: assignmentsResponse,
         smartAnnotationAnalytics: smartAnnotationAnalytics,
         modelResponses: modelResponses,
+        studentsAnalytics: studentsAnalyticsByClassId,
       };
     },
     {
@@ -80,13 +87,20 @@ export default function TeacherClassesRoot() {
   );
   useEffect(() => {
     if (classQuery.data) {
-      const { students, assignments, smartAnnotationAnalytics, modelResponses } =
-        classQuery.data;
+      const {
+        students,
+        assignments,
+        smartAnnotationAnalytics,
+        modelResponses,
+        studentsAnalytics,
+      } = classQuery.data;
 
-      setStudents(students);
+      // setStudents(students);
+      setStudents(studentsAnalytics);
       setAssignments(assignments);
       setSmartAnnotationAnalytics(smartAnnotationAnalytics);
-      setModelResponses(modelResponses)
+      setModelResponses(modelResponses);
+      setStudentsAnalytics(studentsAnalytics);
     }
   }, [classQuery.data, classId]);
 
@@ -102,7 +116,6 @@ export default function TeacherClassesRoot() {
     <AnnotationAnalytics smartAnnotationAnalytics={smartAnnotationAnalytics} />
   );
 
-  
   const selectedClassIndex = getSelectedClassIndex(classes, classId);
   return (
     <ReactiveRender

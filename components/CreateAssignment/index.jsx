@@ -31,7 +31,7 @@ import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
 import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
-import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
+import ReactiveRender, { isSmallScreen, isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
@@ -172,7 +172,7 @@ export default function CreateAssignment(props) {
 
     return Object.assign({}, ...results);
   }
-  const studentDropdown = assignment.reviewedBy === 'P2P_CUSTOM';
+  const studentDropdown = assignment.reviewedBy === 'P2P';
 
   if (isLoading) {
     return (
@@ -187,11 +187,21 @@ export default function CreateAssignment(props) {
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
-    setAssignment((prevAssignment) => ({
-      ...prevAssignment,
-      reviewers: getReviewersForStudents(newReviewers),
-    }));
+    const students = assignment.classIds.flatMap(
+      (classId) => allClassStudents[classId]
+    );
+    const isUniqueAtEachIndex = newReviewers.every(
+      (newReviewer, index) => newReviewer.id !== students[index].id
+    );
+
+    if (isUniqueAtEachIndex) {
+      setAssignment((prevAssignment) => ({
+        ...prevAssignment,
+        reviewers: getReviewersForStudents(newReviewers),
+      }));
+    }
   };
+
   const handleTitleChange = (e) => {
     if (e.target.value.length > 140) {
       return;
@@ -392,7 +402,6 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
-
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
@@ -519,23 +528,7 @@ export default function CreateAssignment(props) {
         assignment.classIds.flatMap((classId) => allClassStudents[classId])
           .length === Object.keys(assignment.reviewers).length
       ) {
-        function isUniqueAtEachIndex(obj) {
-          const keys = Object.keys(obj);
-          for (const key of keys) {
-            if (obj[key] === key) {
-              return false;
-            }
-          }
-          return true;
-        }
-        if (isUniqueAtEachIndex(assignment.reviewers)) {
-          return true;
-        } else {
-          const dueDateContainer = document.getElementById('DnDContainer');
-          dueDateContainer.style.border = '1px solid red';
-          showSnackbar('Please select different reviewer for each student');
-          return false;
-        }
+        return true;
       } else {
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
@@ -596,6 +589,8 @@ export default function CreateAssignment(props) {
     });
   };
 
+  
+
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);
 
@@ -627,12 +622,7 @@ export default function CreateAssignment(props) {
         <StyledFormControlLabel
           value="P2P"
           control={<Radio />}
-          label="Peer to Peer (randomised)"
-        />
-        <StyledFormControlLabel
-          value="P2P_CUSTOM"
-          control={<Radio />}
-          label="Peer to Peer (customised)"
+          label="Peer to Peer"
         />
       </StyledRadioGroup>
       {studentDropdown && (

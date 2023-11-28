@@ -101,6 +101,7 @@ export const Line6 = styled.img`
   height: 1px;
   object-fit: cover;
 `;
+
 export const Frame131612 = styled.div`
   max-width: 300px;
   display: flex;
@@ -164,11 +165,12 @@ export const AssignmentTitle = styled.h1`
   line-height: normal;
 `;
 
-export const Frame1284 = styled.img`
+export const Crown = styled.img`
   position: relative;
   min-width: 20px;
   height: 20px;
 `;
+
 export const Frame1368 = styled.div`
   display: flex;
   align-items: flex-start;

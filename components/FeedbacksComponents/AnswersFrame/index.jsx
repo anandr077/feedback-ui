@@ -172,6 +172,7 @@ const answerFrames = (
             />
           ) : (
             <QuillContainer
+
               onClick={() => {
                 onSelectionChange(
                   createVisibleComments(commentsForSelectedTab),
@@ -265,6 +266,8 @@ function createQuill(
   return (
     <QuillEditor
       // key={Math.random()}
+      key={'quillEditor_' + submission.id + '_' + answer.serialNumber + "_" + submission.status + "_" + pageMode}
+
       id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
       ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
       comments={commentsForSelectedTab?.filter((comment) => {

@@ -6,7 +6,7 @@ import 'quill/dist/quill.snow.css';
 
 import { default as React, default as React, default as React } from 'react';
 import SmartAnotation from '../../../components/SmartAnnotations';
-import { getUserRole } from '../../../service';
+import { getUserId, getUserRole } from '../../../service';
 import FocussedInput from '../../FocussedInput';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import Buttons4 from '../Buttons4';
@@ -15,7 +15,6 @@ import FocusAreasFrame from '../FocusAreasFrame';
 import Tabs from '../ReviewsFrame1320';
 import './FeedbackTeacherLaptop.css';
 import {
-  Frame1284,
   Frame1322,
   Frame1326,
   Frame1328,
@@ -25,6 +24,7 @@ import {
   Frame1383,
   Frame1406,
   Label,
+  Crown,
   Line6,
   Screen,
   Share,
@@ -150,7 +150,8 @@ function feedbackFrame(
                 isFeedback,
                 commentsForSelectedTab,
                 isFocusAreas,
-                pageMode
+                pageMode,
+                submission.studentId
               )}
             </>
           </Frame1328>
@@ -166,14 +167,15 @@ export function createCommentsFrame(
   isFeedback,
   commentsForSelectedTab,
   isFocusAreas,
-  pageMode
+  pageMode,
+  studentId
 ) {
   const visibleComments = createVisibleComments(commentsForSelectedTab);
   if (visibleComments.length === 0) {
     return (
       <CommentCard32
         reviewer="Jeddle"
-        comment={createDefaultCommentText(isFocusAreas, pageMode)}
+        comment={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
         onClick={() => {}}
         isTeacher={isTeacher}
         defaultComment={true}
@@ -201,6 +203,10 @@ export function createCommentsFrame(
             updateParentComment={methods.updateParentComment}
             updateChildComment={methods.updateChildComment}
             pageMode={pageMode}
+            openShareWithStudentDialog={methods.handleShareWithClass}
+            convertToCheckedState={methods.convertToCheckedState}
+            updateExemplarComment={methods.setUpdateExemplarComment}
+            studentId={studentId}
           />
         );
       }
@@ -222,6 +228,10 @@ export function createCommentsFrame(
           updateParentComment={methods.updateParentComment}
           updateChildComment={methods.updateChildComment}
           pageMode={pageMode}
+          openShareWithStudentDialog={methods.handleShareWithClass}
+          convertToCheckedState={methods.convertToCheckedState}
+          updateExemplarComment={methods.setUpdateExemplarComment}
+          studentId={studentId}
         />
       ) : comment.status === 'RESOLVED' ? (
         <CommentCard32
@@ -241,6 +251,10 @@ export function createCommentsFrame(
           updateParentComment={methods.updateParentComment}
           updateChildComment={methods.updateChildComment}
           pageMode={pageMode}
+          openShareWithStudentDialog={methods.handleShareWithClass}
+          convertToCheckedState={methods.convertToCheckedState}
+          updateExemplarComment={methods.setUpdateExemplarComment}
+          studentId={studentId}
         />
       ) : (
         <></>
@@ -310,11 +324,11 @@ function shareWithClassFrame(methods, share) {
       <Line6 src="/icons/line.png" alt="Line 6" />
       <Frame1383>
         <Frame13311>
-          <Frame1284 src="/icons/share.png" />
-          <Share>{share}</Share>
+          <Crown src="/icons/exemplary_response.png" alt="crown" />
+          <Share>Exemplar</Share>
         </Frame13311>
         <Buttons4
-          text={'Share with class'}
+          text={'Share as exemplar'}
           onClickFn={methods.handleShareWithClass}
         />
       </Frame1383>
@@ -358,14 +372,14 @@ export const handleShowResolvedToggle = (setShowResolved) => (event) => {
 function createVisibleComments(commentsForSelectedTab) {
   return commentsForSelectedTab.filter((comment) => !comment.isHidden);
 }
-function createDefaultCommentText(isFocusAreas, pageMode) {
+function createDefaultCommentText(isFocusAreas, pageMode, studentId) {
   if (isFocusAreas) {
     if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
       return authorDefaultFocusAreasReviewComment;
     }
     return reviewerDefaultFocusAreasComment;
   }
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+  if (getUserId() === studentId) {
     return authorDefaultReviewComment;
   }
   return reviewerDefaultComment;

@@ -24,14 +24,15 @@ function CommentCard32(props) {
     updateParentComment,
     updateChildComment,
     pageMode,
+    openShareWithStudentDialog,
+    convertToCheckedState,
+    updateExemplarComment,
   } = props;
-
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
-
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
@@ -64,7 +65,7 @@ function CommentCard32(props) {
         updateParentComment(inputValue, comment.id);
       }
     } else {
-      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber);
+      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber, comment.sharedWithStudents);
     }
     setInputValue('');
     setIsReplyClicked(false);
@@ -98,6 +99,11 @@ function CommentCard32(props) {
             handleEditComment={handleEditComment}
             pageMode={pageMode}
             onClick={onClick}
+            openShareWithStudentDialog={openShareWithStudentDialog}
+            convertToCheckedState={convertToCheckedState}
+            updateExemplarComment={updateExemplarComment}
+            sharedWithStudents={comment.sharedWithStudents}
+            isReply={true}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -169,6 +175,10 @@ function CommentCard32(props) {
           comment.type === 'FOCUS_AREA' &&
           (pageMode === 'DRAFT' || pageMode === 'REVISE')
         }
+        openShareWithStudentDialog={openShareWithStudentDialog}
+        convertToCheckedState={convertToCheckedState}
+        updateExemplarComment={updateExemplarComment}
+        sharedWithStudents={comment.sharedWithStudents}
       />
       <CommentText
         onClick={() => onClick(comment)}
@@ -212,7 +222,6 @@ function CommentCard32(props) {
   }
 }
 function NewlineText({ text }) {
-  console.log("text" + JSON.stringify(text))
   const newText = text.split('\n').map((str, index, array) =>
     index === array.length - 1 ? (
       str
@@ -256,7 +265,7 @@ const CommentCard = styled.article`
     cursor: unset;
   }
 
-  &:hover{
+  &:hover {
     border-color: var(--light-mode-purple);
   }
 `;

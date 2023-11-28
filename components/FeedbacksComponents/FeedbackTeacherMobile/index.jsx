@@ -49,6 +49,7 @@ function FeedbackTeacherMobile(props) {
             >
               <QuillEditor
                 // key={Math.random()}
+                key={'quillEditor_' + submission.id + '_' + answer.serialNumber + "_" + submission.status + "_" + pageMode}
                 id={
                   'quillEditor_' + submission.id + '_' + question.serialNumber
                 }

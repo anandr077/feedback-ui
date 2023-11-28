@@ -21,6 +21,7 @@ const Breadcrumb1 = styled.article`
   position: relative;
   cursor: pointer;
   color: black;
+  padding-top: 20px;
 `;
 
 const Assignments = styled.div`

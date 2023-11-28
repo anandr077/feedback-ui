@@ -25,6 +25,7 @@ const Breadcrumb = styled.article`
   position: relative;
   cursor: pointer;
   color: black;
+  padding-top: 20px;
 `;
 
 const Caret = styled.img`

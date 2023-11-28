@@ -779,7 +779,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           reviewerId: c.reviewerId,
           sharedWithStudents: sharedWithStudents
         }).then((response) => {
-          console.log('the commentToUpdate', response)
           if (response) {
             const updatedComments = comments.map((c) =>
               c.id === commentId ? commentToUpdate : c

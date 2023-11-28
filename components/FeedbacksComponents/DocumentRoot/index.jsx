@@ -242,7 +242,8 @@ export default function DocumentRoot({}) {
     handleChangeText('Saving...', false);
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
-    }).then((_) => {
+    }).then((updatedSubmission) => {
+      setSubmission(updatedSubmission)
       return updateCommentsRange(answer, highlights);
     });
   };

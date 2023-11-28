@@ -120,6 +120,7 @@ export const Frame1379 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  padding-bottom:20px;
 `;
 
 export const Frame1376 = styled.div`
@@ -130,14 +131,16 @@ export const Frame1376 = styled.div`
   padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  padding-top: 20px;
 `;
 
 export const Frame1315 = styled.div`
   display: flex;
-  align-items: flex-start;
   gap: 4px;
   position: relative;
   align-self: stretch;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export const Frame1378 = styled.div`

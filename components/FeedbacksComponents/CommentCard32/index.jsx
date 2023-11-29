@@ -60,7 +60,7 @@ function CommentCard32(props) {
     }
     if (editButtonActive) {
       if (editCommentType === 'replies') {
-        updateChildComment(comment.id, editReplyIndex, inputValue);
+        updateChildComment(comment.id, editReplyIndex, inputValue, comment.sharedWithStudents);
       } else if (editCommentType === 'parent_comment') {
         updateParentComment(inputValue, comment.id);
       }

@@ -48,14 +48,19 @@ function TaskCard(props) {
   const role = getUserRole();
   const userId = getUserId();
 
+  const showStudentListRef = useRef(null);
+  const refContainer = useRef(null);
+
   const handleClickOutside = (event) => {
     if (refContainer.current && !refContainer.current.contains(event.target)) {
       setShowMoreOptions(false);
+    }
+
+    if (showStudentListRef.current && !showStudentListRef.current.contains(event.target)) {
       setShowShareWithStudent(false);
     }
   };
 
-  const refContainer = useRef(null);
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     if (isSelected) {
@@ -126,6 +131,7 @@ function TaskCard(props) {
               Teacher has marked part of your response as exemplary and would
               like to share with{' '}
               <StudentLength
+                ref={showStudentListRef}
                 onClick={() => {
                   setShowShareWithStudent(!showShareWithStudent);
                 }}

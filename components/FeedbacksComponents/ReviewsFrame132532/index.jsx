@@ -20,7 +20,12 @@ function ReviewsFrame132532(props) {
     handleEditComment,
     pageMode,
     onClick,
+    openShareWithStudentDialog,
+    convertToCheckedState,
+    updateExemplarComment,
     isClosable,
+    sharedWithStudents,
+    isReply = false,
   } = props;
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
@@ -61,14 +66,24 @@ function ReviewsFrame132532(props) {
     setIsMoreClicked(!isMoreClicked);
   };
 
-  const handleEditClick = () => {
-    if (commentType === 'replies') {
-      handleEditComment('replies', comment.comment, index);
-    } else {
-      handleEditComment('parent_comment', comment.comment);
-    }
-    setIsMoreClicked(false);
-  };
+  const handleEditClick =
+    (openShareWithStudentDialog, convertToCheckedState) => () => {
+      if (commentType === 'replies') {
+        handleEditComment('replies', comment.comment, index);
+      } else {
+        if (isShare && getUserId() === comment.reviewerId) {
+          convertToCheckedState(comment.sharedWithStudents);
+          openShareWithStudentDialog();
+          updateExemplarComment({
+            comment: comment,
+            showComment: true,
+          });
+          return;
+        }
+        handleEditComment('parent_comment', comment.comment);
+      }
+      setIsMoreClicked(false);
+    };
 
   const handleDeleteClick = () => {
     if (commentType === 'replies') {
@@ -108,7 +123,12 @@ function ReviewsFrame132532(props) {
   );
   const openEditDeleteTemplate = isMoreClicked ? (
     <MoreOptionsWrapper>
-      <MoreOptions onClick={handleEditClick}>
+      <MoreOptions
+        onClick={handleEditClick(
+          openShareWithStudentDialog,
+          convertToCheckedState
+        )}
+      >
         <More src="/icons/edit-purple-icon.svg" />
         <div>Edit</div>
       </MoreOptions>
@@ -150,19 +170,47 @@ function ReviewsFrame132532(props) {
   );
 
   function createReviewerFrame() {
-    if (isShare) {
-      return 'Shared with class';
+    if (isReply) {
+      return reviewer;
     }
-    return isShare ? 'Shared with class' : reviewer;
+    if (isShare) {
+      if (sharedWithStudents === undefined || sharedWithStudents === null) {
+        return 'Shared with class';
+      }
+      if (sharedWithStudents?.length === 0) {
+        return 'Shared with class';
+      }
+      return (
+        <SharedWithStudents>
+          Shared with{' '}
+          <ShowStudentTotal>
+            {sharedWithStudents?.length}{' '}
+            {sharedWithStudents?.length <= 1 ? 'student' : 'students'}
+          </ShowStudentTotal>
+        </SharedWithStudents>
+      );
+    }
+    return reviewer;
   }
 
   function createCommenterFrame() {
+    if (isReply) {
+      return avatar;
+    }
     if (isShare) {
       return shareIcon;
     }
     return avatar;
   }
 }
+
+const SharedWithStudents = styled.div`
+  width: 100%;
+`;
+
+const ShowStudentTotal = styled.div`
+  display: inline;
+`;
 
 const Ellipse141 = styled.div`
   position: relative;

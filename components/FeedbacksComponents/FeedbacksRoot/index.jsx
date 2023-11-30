@@ -511,6 +511,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                     type="checkbox"
                     checked={checkedState[classItem.id]?.checked || false}
                     onChange={() => handleClassCheck(classItem.id)}
+                    disabled={submission.classId === classItem.id}
                   />
                   {classItem.title}
                 </ClassBox>
@@ -527,6 +528,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                                 student.id
                               ] || false
                             }
+                            disabled={submission.studentId === student.id}
                             onChange={() =>
                               handleStudentCheck(classItem.id, student.id)
                             }

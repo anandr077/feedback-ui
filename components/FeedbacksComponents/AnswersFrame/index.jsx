@@ -57,6 +57,9 @@ export function answersFrame(
       }
       handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback}
       handleEditorMounted={methods.handleEditorMounted}
+      handleOverAllFeedback={methods.handleOverAllFeedback}
+      overallFeedback={methods.overallFeedback}
+      setOverAllFeedback={methods.setOverAllFeedback}
     ></AnswersFrame>
   );
 }
@@ -77,6 +80,9 @@ function AnswersFrame(props) {
     handleMarkingCriteriaLevelFeedback,
     handleStrengthsTargetsFeedback,
     handleEditorMounted,
+    handleOverAllFeedback,
+    overallFeedback,
+    setOverAllFeedback
   } = props;
   return (
     <Group1225 id="answers">
@@ -95,7 +101,10 @@ function AnswersFrame(props) {
           onSelectionChange,
           handleMarkingCriteriaLevelFeedback,
           handleStrengthsTargetsFeedback,
-          handleEditorMounted
+          handleEditorMounted,
+          handleOverAllFeedback,
+          overallFeedback,
+          setOverAllFeedback
         )}
       </Frame1367>
     </Group1225>
@@ -144,7 +153,10 @@ const answerFrames = (
   onSelectionChange,
   handleMarkingCriteriaLevelFeedback,
   handleStrengthsTargetsFeedback,
-  handleEditorMounted
+  handleEditorMounted,
+  handleOverAllFeedback,
+  overallFeedback,
+  setOverAllFeedback
 ) => {
   return submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -175,7 +187,6 @@ const answerFrames = (
             />
           ) : (
             <QuillContainer
-
               onClick={() => {
                 onSelectionChange(
                   createVisibleComments(commentsForSelectedTab),
@@ -216,7 +227,16 @@ const answerFrames = (
             answer,
             question
           )}
-          <OverallFeedback pageMode={pageMode} />
+          {pageMode !== 'DRAFT' && (
+            <OverallFeedback
+              pageMode={pageMode}
+              handleOverAllFeedback={handleOverAllFeedback}
+              submissionId={submission.id}
+              question={question}
+              overallFeedback={overallFeedback}
+              setOverAllFeedback={setOverAllFeedback}
+            />
+          )}
         </Frame1366>
       </>
     );
@@ -270,8 +290,16 @@ function createQuill(
   return (
     <QuillEditor
       // key={Math.random()}
-      key={'quillEditor_' + submission.id + '_' + answer.serialNumber + "_" + submission.status + "_" + pageMode}
-
+      key={
+        'quillEditor_' +
+        submission.id +
+        '_' +
+        answer.serialNumber +
+        '_' +
+        submission.status +
+        '_' +
+        pageMode
+      }
       id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
       ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
       comments={commentsForSelectedTab?.filter((comment) => {

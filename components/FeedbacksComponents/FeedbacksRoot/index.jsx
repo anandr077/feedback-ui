@@ -113,7 +113,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
-
   useEffect(() => {
     Promise.all([
       getSubmissionById(id),
@@ -126,7 +125,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           submissionsResult,
           commentsResult,
           smartAnnotationResult,
-          classesWithStudentsResult
+          classesWithStudentsResult,
         ]) => {
           setSubmission(submissionsResult);
           const allComments = commentsResult.map((c) => {
@@ -219,19 +218,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       </>
     );
   }
-  const initialCheckedState = classesAndStudents.reduce(
-    (acc, classItem) => {
-      acc[classItem.id] = {
-        checked: false,
-        students: classItem.students.reduce((studentAcc, student) => {
-          studentAcc[student.id] = false;
-          return studentAcc;
-        }, {}),
-      };
-      return acc;
-    },
-    {}
-  );
+  const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
+    acc[classItem.id] = {
+      checked: false,
+      students: classItem.students.reduce((studentAcc, student) => {
+        studentAcc[student.id] = false;
+        return studentAcc;
+      }, {}),
+    };
+    return acc;
+  }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
@@ -511,32 +507,29 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                     type="checkbox"
                     checked={checkedState[classItem.id]?.checked || false}
                     onChange={() => handleClassCheck(classItem.id)}
-                    disabled={submission.classId === classItem.id}
                   />
                   {classItem.title}
                 </ClassBox>
                 <StudentList>
-                  {classItem.students
-                    .filter((student) => student.id !== submission.studentId)
-                    .map((student) => (
-                      <ListItem key={student.id}>
-                        <label>
-                          <CheckboxBordered
-                            type="checkbox"
-                            checked={
-                              checkedState[classItem.id]?.students[
-                                student.id
-                              ] || false
-                            }
-                            disabled={submission.studentId === student.id}
-                            onChange={() =>
-                              handleStudentCheck(classItem.id, student.id)
-                            }
-                          />
-                          {student.name}
-                        </label>
-                      </ListItem>
-                    ))}
+                  {classItem.students.map((student) => (
+                    <ListItem key={student.id}>
+                      <label>
+                        <CheckboxBordered
+                          type="checkbox"
+                          checked={
+                            (submission.studentId === student.id && true) ||
+                            checkedState[classItem.id]?.students[student.id] ||
+                            false
+                          }
+                          disabled={submission.studentId === student.id}
+                          onChange={() =>
+                            handleStudentCheck(classItem.id, student.id)
+                          }
+                        />
+                        {student.name}
+                      </label>
+                    </ListItem>
+                  ))}
                 </StudentList>
               </div>
             ))}
@@ -603,7 +596,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((updatedSubmission) => {
-      setSubmission(updatedSubmission)
+      setSubmission(updatedSubmission);
       return updateCommentsRange(answer, highlights);
     });
   };
@@ -677,7 +670,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setComments(updatedComments);
   }
 
-  function handleReplyComment(replyComment, commentId, serialNumber, sharedWithStudents) {
+  function handleReplyComment(
+    replyComment,
+    commentId,
+    serialNumber,
+    sharedWithStudents
+  ) {
     const replyCommentObject = {
       questionSerialNumber: serialNumber,
       comment: replyComment,
@@ -687,7 +685,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       reviewerName: getUserName(),
       replies: [],
       markingCriteria: defaultMarkingCriteria,
-      sharedWithStudents: sharedWithStudents
+      sharedWithStudents: sharedWithStudents,
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -761,7 +759,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowShareWithClass(false);
   }
 
-  function updateChildComment(commentId, replyCommentIndex, comment, sharedWithStudents) {
+  function updateChildComment(
+    commentId,
+    replyCommentIndex,
+    comment,
+    sharedWithStudents
+  ) {
     const updatedReplyComment = comments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
@@ -779,7 +782,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
-          sharedWithStudents: sharedWithStudents
+          sharedWithStudents: sharedWithStudents,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>
@@ -807,7 +810,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
-          sharedWithStudents: c.sharedWithStudents
+          sharedWithStudents: c.sharedWithStudents,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>

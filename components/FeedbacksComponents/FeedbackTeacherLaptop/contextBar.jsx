@@ -17,6 +17,7 @@ import {
   IconContainer,
   DropdownButtonsGroup,
   DropdownButton,
+  TitleContainer,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -47,7 +48,11 @@ export function contextBar(
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
-        <AssignmentTitle dangerouslySetInnerHTML={{__html: linkify(submission.assignment.title)}}/>
+        <AssignmentTitle
+          dangerouslySetInnerHTML={{
+            __html: linkify(submission.assignment.title),
+          }}
+        />
         {statusText(methods, focusAreasCount, submission)}
       </TitleWrapper>
       {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
@@ -220,7 +225,21 @@ export function contextBarForPortfolioDocument(
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
-        <AssignmentTitle dangerouslySetInnerHTML={{__html: linkify(submission?.assignment?.title)}}/>
+        <TitleContainer>
+          <AssignmentTitle
+            style={{ display: 'contents' }}
+            dangerouslySetInnerHTML={{
+              __html: linkify(submission?.assignment?.title),
+            }}
+          />
+          <img
+            src="/icons/EditSM.png"
+            alt="edit"
+            width="20px"
+            height="20px"
+            style={{ cursor: 'pointer' }}
+          />
+        </TitleContainer>
         {showStatusText && statusText(methods, 0, submission)}
 
         {changeFolderDropDown()}
@@ -310,7 +329,7 @@ const submitButtonDocument = (
   showFeedbackButtons,
   setShowFeedbackButtons
 ) => {
-  console.log('pageMode', pageMode)
+  console.log('pageMode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
       <div style={{ position: 'relative' }}>
@@ -357,9 +376,15 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
+        {getStatusLabel(
+          pageMode,
+          submission,
+          allClasses,
+          setShowFeedbackButtons,
+          showFeedbackButtons
+        )}
       </RequestFeedbackFrame>
-    )
+    );
   }
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return (
@@ -372,8 +397,20 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
-        {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
+        {getStatusLabel(
+          pageMode,
+          submission,
+          allClasses,
+          setShowFeedbackButtons,
+          showFeedbackButtons
+        )}
+        {showFeedbackButtons &&
+          dropdownButtons(
+            setShowFeedbackButtons,
+            showSnackbar,
+            submission,
+            setSubmission
+          )}
       </RequestFeedbackFrame>
     );
   }
@@ -388,28 +425,50 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
-        {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
+        {getStatusLabel(
+          pageMode,
+          submission,
+          allClasses,
+          setShowFeedbackButtons,
+          showFeedbackButtons
+        )}
+        {showFeedbackButtons &&
+          dropdownButtons(
+            setShowFeedbackButtons,
+            showSnackbar,
+            submission,
+            setSubmission
+          )}
       </RequestFeedbackFrame>
     );
   }
   return <></>;
 };
 
-function getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons) {
+function getStatusLabel(
+  pageMode,
+  submission,
+  allClasses,
+  setShowFeedbackButtons,
+  showFeedbackButtons
+) {
   if (pageMode === 'REVISE') {
-    return <RequestFeedbackDropdown
-      title={`Feedback received from ${feedbackRequestedFrom()}`}
-    >
-      Feedback received
-    </RequestFeedbackDropdown>
+    return (
+      <RequestFeedbackDropdown
+        title={`Feedback received from ${feedbackRequestedFrom()}`}
+      >
+        Feedback received
+      </RequestFeedbackDropdown>
+    );
   }
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
-    return <RequestFeedbackDropdown
-      title={`Feedback requested from ${feedbackRequestedFrom()}`}
-    >
-      Feedback requested
-    </RequestFeedbackDropdown>
+    return (
+      <RequestFeedbackDropdown
+        title={`Feedback requested from ${feedbackRequestedFrom()}`}
+      >
+        Feedback requested
+      </RequestFeedbackDropdown>
+    );
   }
 
   if (submission.status === 'FEEDBACK_DECLINED') {

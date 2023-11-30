@@ -102,6 +102,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
+  const [overallFeedback, setOverAllFeedback] = useState({
+    feedbackText: 'Add General Feedback...',
+    editFeedback: false
+  })
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -112,7 +116,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const defaultMarkingCriteria = getDefaultCriteria();
-
 
   useEffect(() => {
     Promise.all([
@@ -126,7 +129,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           submissionsResult,
           commentsResult,
           smartAnnotationResult,
-          classesWithStudentsResult
+          classesWithStudentsResult,
         ]) => {
           setSubmission(submissionsResult);
           const allComments = commentsResult.map((c) => {
@@ -219,19 +222,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       </>
     );
   }
-  const initialCheckedState = classesAndStudents.reduce(
-    (acc, classItem) => {
-      acc[classItem.id] = {
-        checked: false,
-        students: classItem.students.reduce((studentAcc, student) => {
-          studentAcc[student.id] = false;
-          return studentAcc;
-        }, {}),
-      };
-      return acc;
-    },
-    {}
-  );
+  const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
+    acc[classItem.id] = {
+      checked: false,
+      students: classItem.students.reduce((studentAcc, student) => {
+        studentAcc[student.id] = false;
+        return studentAcc;
+      }, {}),
+    };
+    return acc;
+  }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
@@ -357,34 +357,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const dataToUpdate = updateExemplarComment.comment;
     console.log('the comment is, ', dataToUpdate);
     updateParentComment(dataToUpdate.comment, dataToUpdate.id);
-    // const updatedComment = comments.map((c) => {
-    //   if (c.id === dataToUpdate.id) {
-    //     const commentToUpdate = { ...c, comment: dataToUpdate.comment };
-    //     updateFeedback(submission.id, dataToUpdate.id, {
-    //       comment: commentToUpdate.comment,
-    //       id: commentToUpdate.id,
-    //       markingCriteria: commentToUpdate.markingCriteria,
-    //       questionSerialNumber: commentToUpdate.questionSerialNumber,
-    //       range: commentToUpdate.range,
-    //       reviewerId: commentToUpdate.reviewerId,
-    //       reviewerName: commentToUpdate.reviewerName,
-    //       status: commentToUpdate.status,
-    //       submissionId: commentToUpdate.submissionId,
-    //       type: commentToUpdate.type,
-    //     }).then((response) => {
-    //       if (response) {
-    //         const updatedComments = comments.map((c) =>
-    //           c.id === dataToUpdate.id ? commentToUpdate : c
-    //         );
-    //         setComments(updatedComments);
-    //       }
-    //     });
-    //   }
-    //   return c;
-    // });
-    // setShowNewComment(false);
-    // setExemplerComment('');
-    // setShowShareWithClass(false);
   };
 
   const handleInputChange = (event) => {
@@ -457,7 +429,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       updatedState[classId].students[studentId] = true;
     });
 
-    // Update checked property based on all students being checked
     Object.keys(updatedState).forEach((classId) => {
       const classChecked = Object.values(updatedState[classId].students).every(
         (isChecked) => isChecked
@@ -486,10 +457,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setShowShareWithClass(false);
         setShowNewComment(false);
         setExemplerComment('');
-        console.log('initialCheckedState is', initialCheckedState);
-
         setCheckedState(initialCheckedState);
-        console.log('the checked state is', checkedState);
       }}
       open={showShareWithClass}
     >
@@ -601,7 +569,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((updatedSubmission) => {
-      setSubmission(updatedSubmission)
+      setSubmission(updatedSubmission);
       return updateCommentsRange(answer, highlights);
     });
   };
@@ -675,7 +643,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setComments(updatedComments);
   }
 
-  function handleReplyComment(replyComment, commentId, serialNumber, sharedWithStudents) {
+  function handleReplyComment(
+    replyComment,
+    commentId,
+    serialNumber,
+    sharedWithStudents
+  ) {
     const replyCommentObject = {
       questionSerialNumber: serialNumber,
       comment: replyComment,
@@ -685,7 +658,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       reviewerName: getUserName(),
       replies: [],
       markingCriteria: defaultMarkingCriteria,
-      sharedWithStudents: sharedWithStudents
+      sharedWithStudents: sharedWithStudents,
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -759,7 +732,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowShareWithClass(false);
   }
 
-  function updateChildComment(commentId, replyCommentIndex, comment, sharedWithStudents) {
+  function updateChildComment(
+    commentId,
+    replyCommentIndex,
+    comment,
+    sharedWithStudents
+  ) {
     const updatedReplyComment = comments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
@@ -777,7 +755,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
-          sharedWithStudents: sharedWithStudents
+          sharedWithStudents: sharedWithStudents,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>
@@ -805,7 +783,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
-          sharedWithStudents: c.sharedWithStudents
+          sharedWithStudents: c.sharedWithStudents,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>
@@ -991,6 +969,26 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       });
     }
   }
+
+  const handleOverAllFeedback = (comment, submissionId, question) => {
+    addFeedback(submissionId, {
+      questionSerialNumber: question.serialNumber,
+      feedback: comment,
+      range: {
+        from: 0,
+        to: 0,
+      },
+      type: 'OVERALL_COMMENT',
+    }).then((response) => {
+      if (response) {
+        console.log('the response is', response)
+        setOverAllFeedback({
+          feedbackText: response.comment,
+          editFeedback: false
+        });
+      }
+    });
+  };
 
   const handleSaveSubmissionForReview = () => {
     setShowSubmitPopup(false);
@@ -1334,6 +1332,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     showSubmitPopuphandler,
     setUpdateExemplarComment,
     convertToCheckedState,
+    handleOverAllFeedback,
+    overallFeedback,
+    setOverAllFeedback
   };
 
   const shortcuts = getShortcuts();

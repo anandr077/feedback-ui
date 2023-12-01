@@ -976,10 +976,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handleOverAllFeedback = (submissionId, questionSerialNumber, comment) => {
-    addFeedback(submissionId, {
+  const handleOverAllFeedback = ( questionSerialNumber, comment) => {
+    addFeedback(submission.id, {
       questionSerialNumber: questionSerialNumber,
-      comment: comment,
+      feedback: comment,
       range: {
         from: 0,
         to: 0,
@@ -1002,7 +1002,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
-      comment: feedbackToUpdate.comment,
+      feedback: feedbackText,
     }).then((response) => {
       setOverallComments(o=>o.map((feedback) => {
         return feedback.id === feedbackId ? 

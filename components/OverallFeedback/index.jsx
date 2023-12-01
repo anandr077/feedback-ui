@@ -26,7 +26,7 @@ const OverallFeedback = ({
   
   const onSave = (overallComment) => (newCommentText) => {
     if (overallComment === null || overallComment === undefined) {
-      return handleOverAllFeedback(submissionId, question.serialNumber, newCommentText);
+      return handleOverAllFeedback(question.serialNumber, newCommentText);
     }
     return updateOverAllFeedback(
       overallComment.id, newCommentText

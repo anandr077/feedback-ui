@@ -1,5 +1,6 @@
 import { FeedbackContainer } from './style';
 import TextField from '../TextField';
+import EditableText from './EditableText';
 
 const OverallFeedback = ({
   pageMode,
@@ -8,12 +9,13 @@ const OverallFeedback = ({
   question,
   initialOverallFeedback,
   setInitialOverAllFeedback,
-  overAllFeedbackText,
+  overallComment,
   updateOverAllFeedback
 }) => {
   return (
     <FeedbackContainer>
-      <TextField
+      {showOverallComment(pageMode, overallComment)}
+      {/* <TextField
         pageMode={pageMode}
         handleOverAllFeedback={handleOverAllFeedback}
         submissionId={submissionId}
@@ -22,9 +24,19 @@ const OverallFeedback = ({
         setInitialOverAllFeedback={setInitialOverAllFeedback}
         overAllFeedbackText={overAllFeedbackText}
         updateOverAllFeedback={updateOverAllFeedback}
-      />
+      /> */}
     </FeedbackContainer>
   );
-};
 
+  
+};
+function showOverallComment(pageMode, overallComment) {
+  if (pageMode === 'REVIEW' ) {
+    return <EditableText initialValue={overallComment?.comment}></EditableText>;
+  }
+  if (pageMode === 'DRAFT' ) {
+    return <></>;
+  }
+  return <div>{overallComment?.comment}</div>
+}
 export default OverallFeedback;

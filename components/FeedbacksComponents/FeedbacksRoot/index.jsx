@@ -107,7 +107,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     feedbackText: 'Add General Feedback...',
     editFeedback: false,
   });
-  const [overAllFeedback, setOverAllFeedback] = useState([]);
+  const [overallComments, setOverallComments] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -133,7 +133,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           commentsResult,
           smartAnnotationResult,
           classesWithStudentsResult,
-          overAllComments,
+          overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
           const allComments = commentsResult.map((c) => {
@@ -164,7 +164,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           );
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
-          setOverAllFeedback(overAllComments);
+          setOverallComments(overAllCommentsResult);
         }
       )
       .finally(() => {
@@ -995,7 +995,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const updateOverAllFeedback = (feedbackId, feedbackText) => {
-    const addFeedback = overAllFeedback.map((feedback) => {
+    const addFeedback = overallComments.map((feedback) => {
       if (feedback.id === feedbackId) {
         const feedbackToUpdate = {
           ...feedback,
@@ -1360,7 +1360,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     handleOverAllFeedback,
     initialOverallFeedback,
     setInitialOverAllFeedback,
-    overAllFeedback,
+    
     updateOverAllFeedback,
   };
 
@@ -1420,6 +1420,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
               MARKING_METHODOLOGY_TYPE,
+              overallComments
             }}
           />
         }
@@ -1447,6 +1448,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                 sharewithclassdialog,
                 ...feedbacksFeedbackTeacherLaptopData,
                 MARKING_METHODOLOGY_TYPE,
+                overallComments
               }}
             />
           </>
@@ -1474,6 +1476,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
               MARKING_METHODOLOGY_TYPE,
+              overallComments
             }}
           />
         }

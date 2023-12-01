@@ -42,6 +42,7 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
+    overallComments
   } = props;
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -117,6 +118,8 @@ function FeedbackTeacherLaptop(props) {
             newCommentFrameRef,
             share,
             smartAnnotations,
+            overallComments
+
           )}
         </Frame1388>
       </div>
@@ -226,6 +229,7 @@ function answersAndFeedbacks(
   newCommentFrameRef,
   share,
   smartAnnotations,
+  overallComments
 ) {
   return (
     <Frame1386 id="content">
@@ -245,6 +249,7 @@ function answersAndFeedbacks(
           pageMode,
           submission,
           commentsForSelectedTab,
+          overallComments,
           methods
         )}
 

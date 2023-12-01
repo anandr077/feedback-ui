@@ -42,7 +42,6 @@ const TextField = ({
       updateOverAllFeedback(comment.id, feedback);
       setUpdateFeedback(false);
     }
-    //console.log('the audio is ', audio, feedback);
   }, [feedback, saveText, updateFeedback]);
 
 
@@ -52,7 +51,7 @@ const TextField = ({
         {!showOverAllComment && pageMode === 'REVIEW' && (
           <TextBoxOpen onClick={() => setShowOverAllComment(true)}>
             {overAllFeedbackText !== 0
-              ? comment.comment
+              ? comment?.comment
               : 'Add General Feedback...'}
           </TextBoxOpen>
         )}

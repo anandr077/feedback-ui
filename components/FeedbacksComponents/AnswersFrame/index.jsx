@@ -37,6 +37,7 @@ export function answersFrame(
   pageMode,
   submission,
   commentsForSelectedTab,
+  overallComments,
   methods
 ) {
   return (
@@ -60,7 +61,7 @@ export function answersFrame(
       handleOverAllFeedback={methods.handleOverAllFeedback}
       initialOverAllFeedback={methods.initialOverAllFeedback}
       setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
-      overAllFeedback={methods.overAllFeedback}
+      overallComments={overallComments}
       updateOverAllFeedback={methods.updateOverAllFeedback}
     ></AnswersFrame>
   );
@@ -85,7 +86,7 @@ function AnswersFrame(props) {
     handleOverAllFeedback,
     initialOverallFeedback,
     setInitialOverAllFeedback,
-    overAllFeedback,
+    overallComments,
     updateOverAllFeedback
   } = props;
   return (
@@ -109,7 +110,7 @@ function AnswersFrame(props) {
           handleOverAllFeedback,
           initialOverallFeedback,
           setInitialOverAllFeedback,
-          overAllFeedback,
+          overallComments,
           updateOverAllFeedback
         )}
       </Frame1367>
@@ -163,7 +164,7 @@ const answerFrames = (
   handleOverAllFeedback,
   initialOverallFeedback,
   setInitialOverAllFeedback,
-  overAllFeedback,
+  overallComments,
   updateOverAllFeedback
 ) => {
   return submission.assignment.questions.map((question) => {
@@ -180,8 +181,8 @@ const answerFrames = (
     const answerValue = answer.answer.answer;
     const debounce = createDebounceFunction(answer);
 
-    const overAllFeedbackText = overAllFeedback.filter((feedback)=>{
-        return feedback.questionSerialNumber === answer.serialNumber
+    const overallComment = overallComments.find((feedback)=>{
+        return feedback.questionSerialNumber === question.serialNumber
     })
 
     return (
@@ -247,7 +248,7 @@ const answerFrames = (
               question={question}
               initialOverallFeedback={initialOverallFeedback}
               setInitialOverAllFeedback={setInitialOverAllFeedback}
-              overAllFeedbackText={overAllFeedbackText}
+              overallComment={overallComment}
               updateOverAllFeedback={updateOverAllFeedback}
             />
           )}

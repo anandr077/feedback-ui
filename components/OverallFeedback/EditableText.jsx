@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const EditableText = ({ initialValue }) => {
+const EditableText = ({ initialValue, handleSave }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState(initialValue);
     const [tempValue, setTempValue] = useState(initialValue);
@@ -10,9 +10,10 @@ const EditableText = ({ initialValue }) => {
         setTempValue(value); 
     };
 
-    const handleSave = () => {
+    const onSave = () => {
         setIsEditing(false);
         setValue(tempValue); 
+        handleSave(tempValue);
     };
 
     const handleCancel = () => {

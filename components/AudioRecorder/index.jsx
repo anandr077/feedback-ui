@@ -8,11 +8,11 @@ import {
   DeleteBtn,
   DeleteAudio,
   RecordingIndicator,
-  AudioImage
+  GeneratedAudio,
+  AudioIcon
 } from './audioRecorder';
 import { isTabletView } from '../ReactiveRender';
 import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
-import AudioIcon from '../../static/icons/audioIcon.svg';
 
 const mimeType = 'audio/webm';
 
@@ -96,7 +96,7 @@ const AudioRecorder = ({handleGeneratedAudioFeedback}) => {
       {
         <ButtonContainer>
           {!permission && !audio ? (
-            <Button onClick={getMicrophonePermission}>+ Audio Feedback <AudioImage src={AudioIcon} /></Button>
+            <Button onClick={getMicrophonePermission}>+ Audio Feedback <AudioIcon></AudioIcon></Button>
           ) : null}
           {recordingStatus === 'inactive' && permission && !audio ? (
             <Button onClick={startRecording}>Start Recording</Button>
@@ -107,14 +107,14 @@ const AudioRecorder = ({handleGeneratedAudioFeedback}) => {
         </ButtonContainer>
       }
       {audio ? (
-        <>
+        <GeneratedAudio>
           <Audio src={audio} controls isTablet={isTablet} />
 
             <DeleteBtn>
               <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
             </DeleteBtn>
   
-        </>
+        </GeneratedAudio>
       ) : null}
     </AudioContainer>
   );

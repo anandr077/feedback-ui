@@ -1,13 +1,17 @@
 import React from 'react';
+import {
+  AudioContainer,
+  Audio
+} from './style'
 
 const AudioPlayer = ({ generatedAudioFeedback }) => {
   return (
-    <div>
-      <audio controls>
+    <AudioContainer>
+      <Audio controls>
         <source src={generatedAudioFeedback} type="audio/webm" />
         Your browser does not support the audio element.
-      </audio>
-    </div>
+      </Audio>
+    </AudioContainer>
   );
 };
 

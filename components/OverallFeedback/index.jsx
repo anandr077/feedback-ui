@@ -1,4 +1,4 @@
-import { FeedbackContainer } from './style';
+import { FeedbackContainer, OverAllCommentTitle } from './style';
 import TextField from '../TextField';
 import EditableText from './EditableText';
 
@@ -14,6 +14,9 @@ const OverallFeedback = ({
 }) => {
   return (
     <FeedbackContainer>
+      <OverAllCommentTitle>
+        Overall comment
+      </OverAllCommentTitle>
       {showOverallComment(pageMode, overallComment)}
       {/* <TextField
         pageMode={pageMode}

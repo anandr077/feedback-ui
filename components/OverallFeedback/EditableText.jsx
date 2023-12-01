@@ -1,4 +1,10 @@
 import React, { useState } from 'react';
+import {
+    InputBox,
+    ButtonsContainer,
+    Button,
+    OverAllCommentBox
+} from './editableTextStyle'
 
 const EditableText = ({ initialValue, handleSave }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -29,24 +35,26 @@ const EditableText = ({ initialValue, handleSave }) => {
         <div>
             {isEditing ? (
                 <>
-                    <input
+                    <InputBox
                         type="text"
                         value={tempValue}
                         onChange={handleInputChange}
                         autoFocus
                     />
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <ButtonsContainer>
+                    <Button onClick={handleSave} type="save">Save</Button>
+                    <Button onClick={handleCancel} type="cancel">Cancel</Button>
+                    </ButtonsContainer>
                 </>
             ) : (
                 <div>
                     {value ? (
                         <>
-                            {value}
-                            <button onClick={handleEditClick}>Edit</button>
+                            <OverAllCommentBox>{value}</OverAllCommentBox>
+                            <Button onClick={handleEditClick} type="edit">Edit</Button>
                         </>
                     ) : (
-                        <button onClick={handleEditClick}>Click to Edit</button>
+                        <Button onClick={handleEditClick}>Click to Edit</Button>
                     )}
                 </div>
             )}

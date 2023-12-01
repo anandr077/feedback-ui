@@ -5,10 +5,13 @@ import {
 } from './style'
 
 const AudioPlayer = ({ generatedAudioFeedback }) => {
+  console.log("generatedAudioFeedback", generatedAudioFeedback)
+  const audioUrl = URL.createObjectURL(generatedAudioFeedback);
+
   return (
     <AudioContainer>
       <Audio controls>
-        <source src={generatedAudioFeedback} type="audio/webm" />
+        <source src={audioUrl} type="audio/webm" />
         Your browser does not support the audio element.
       </Audio>
     </AudioContainer>

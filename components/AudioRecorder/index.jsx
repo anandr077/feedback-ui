@@ -16,14 +16,15 @@ import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
 
 const mimeType = 'audio/webm';
 
-const AudioRecorder = ({handleGeneratedAudioFeedback}) => {
+const AudioRecorder = ({handleGeneratedAudioFeedback, handleDelete, initialAudio}) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   let recordTimeout = useRef(null);
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [audioChunks, setAudioChunks] = useState([]);
-  const [audio, setAudio] = useState(null);
+  const [audio, setAudio] = useState(initialAudio ? URL.createObjectURL(initialAudio) : null);
+
   const isTablet = isTabletView();
 
   const startRecording = async () => {
@@ -63,7 +64,7 @@ const AudioRecorder = ({handleGeneratedAudioFeedback}) => {
         const audioBlob = new Blob(prevChunks, { type: mimeType });
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudio(audioUrl);
-        handleGeneratedAudioFeedback(audioUrl);
+        handleGeneratedAudioFeedback(audioBlob);
         return [];
       });
     };
@@ -89,6 +90,7 @@ const AudioRecorder = ({handleGeneratedAudioFeedback}) => {
   const deleteAudio = () => {
     setAudio(null);
     setRecordingStatus('inactive');
+    handleDelete();
   };
 
   return (

@@ -1,6 +1,25 @@
 import styled from 'styled-components';
 import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
 
+export const HiddenInputBox = styled.textarea`
+  display: block;
+  width: 100%;
+  font-family: var(--font-family-ibm_plex_sans);
+  height: auto;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  /* min-height: 200px; */
+  max-height: 200px;
+  outline: none;
+  /* padding: 10px; */
+  resize: none;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  line-height: 20px;
+  font-weight: 400;
+  font-style: normal;
+`;
 export const InputBox = styled.textarea`
   display: block;
   width: 100%;

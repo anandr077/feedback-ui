@@ -5,6 +5,9 @@ import { updateFeedback } from '../../service';
 import AudioRecorder from '../AudioRecorder';
 import { useState } from 'react';
 import NonEditableFeedback from '../../components2/NonEditableFeedback';
+import AudioPlayer from '../AudioPlayer';
+import { base64ToBlob, blobToBase64 } from '../../utils/blobs';
+import { TextareaAutosize } from '@mui/material';
 
 const OverallFeedback = ({
   pageMode,
@@ -16,9 +19,6 @@ const OverallFeedback = ({
   overallComment,
   updateOverAllFeedback,
 }) => {
-  const [generatedAudioFeedback, setGeneratedAudioFeedback] = useState(
-    overallComment?.audioFeedback || null
-  );
 
   function showOverallComment(pageMode, overallComment) {
     if (pageMode === 'REVIEW') {
@@ -32,22 +32,44 @@ const OverallFeedback = ({
     if (pageMode === 'DRAFT') {
       return <></>;
     }
-    return <div>{overallComment?.comment}</div>;
+    return <textarea>{overallComment?.comment}</textarea>;
   }
 
   const onSave = (overallComment) => (newCommentText) => {
     if (overallComment === null || overallComment === undefined) {
-      return handleOverAllFeedback(question.serialNumber, newCommentText);
+      return handleOverAllFeedback(question.serialNumber, newCommentText, null);
     }
-    return updateOverAllFeedback(overallComment.id, newCommentText);
+    return updateOverAllFeedback(overallComment.id, newCommentText, overallComment.audio);
   };
 
-  const handleGeneratedAudioFeedback = (audioFeedback) => {
-    setGeneratedAudioFeedback(audioFeedback);
-  };
+  
+  const handleDeleteAudioFeedback = (audioFeedback) =>{
+    return updateOverAllFeedback(overallComment.id, overallComment.comment, null);
+  }
 
-  const audioOverallComment = (pageMode) => {
+  const handleGeneratedAudioFeedback = (audioFeedback) =>{
+    console.log("audioFeedback", audioFeedback)
+    blobToBase64(audioFeedback).then((base64) => {
+      if (overallComment === null || overallComment === undefined) {
+        return handleOverAllFeedback(question.serialNumber, "", base64);
+      }
+      return updateOverAllFeedback(
+        overallComment.id, overallComment.comment, base64
+      );
+    })
+  }
+
+  const audioOverallComment = (pageMode, overallComment) => {
     if (pageMode === 'REVIEW') {
+      if (overallComment?.audio) {
+        return (
+          <AudioRecorder
+            handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}
+            handleDelete={handleDeleteAudioFeedback}
+            initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
+          />
+        );
+      }
       return (
         <AudioRecorder
           handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}
@@ -57,30 +79,26 @@ const OverallFeedback = ({
     return null;
   };
 
+  if (pageMode === 'DRAFT')
+    return <></>
   if (pageMode === 'CLOSED' || pageMode === 'REVISE') {
-    return (
-      <NonEditableFeedback
-        textFeedback={overallComment?.comment}
-        audioFeedback={overallComment?.audioFeedback}
-      />
-    );
+    if (overallComment) {
+      return (
+        <NonEditableFeedback
+          textFeedback={overallComment?.comment}
+          audioFeedback={overallComment?.audio}
+        />
+      );
+    }
+    return <></>
   }
 
   return (
     <FeedbackContainer>
       <OverAllCommentTitle>Overall comment</OverAllCommentTitle>
       {showOverallComment(pageMode, overallComment)}
-      {audioOverallComment(pageMode)}
-      {/* <TextField
-        pageMode={pageMode}
-        handleOverAllFeedback={handleOverAllFeedback}
-        submissionId={submissionId}
-        question={question}
-        initialOverallFeedback={initialOverallFeedback}
-        setInitialOverAllFeedback={setInitialOverAllFeedback}
-        overAllFeedbackText={overAllFeedbackText}
-        updateOverAllFeedback={updateOverAllFeedback}
-      /> */}
+      {audioOverallComment(pageMode, overallComment)}
+      
     </FeedbackContainer>
   );
 };

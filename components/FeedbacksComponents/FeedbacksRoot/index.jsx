@@ -976,7 +976,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handleOverAllFeedback = ( questionSerialNumber, comment) => {
+  const handleOverAllFeedback = ( questionSerialNumber, comment, audio) => {
     addFeedback(submission.id, {
       questionSerialNumber: questionSerialNumber,
       feedback: comment,
@@ -984,6 +984,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         from: 0,
         to: 0,
       },
+      audio: audio,
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
@@ -993,7 +994,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
 
-  const updateOverAllFeedback = (feedbackId, feedbackText) => {
+  const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
     const feedbackToUpdate = overallComments.find((feedback) => feedback.id === feedbackId)
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
       return
@@ -1003,10 +1004,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
       feedback: feedbackText,
+      audio: audio
     }).then((response) => {
       setOverallComments(o=>o.map((feedback) => {
         return feedback.id === feedbackId ? 
-        {...feedback, comment: feedbackText} : feedback
+        {...feedback, comment: feedbackText, audio: audio} : feedback
       })
       );
         

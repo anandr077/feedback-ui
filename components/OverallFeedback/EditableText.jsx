@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    HiddenInputBox,
     InputBox,
     ButtonsContainer,
     Button,
@@ -50,7 +51,14 @@ const EditableText = ({ initialValue, onSave }) => {
                 <div>
                     {value ? (
                         <>
-                            <OverAllCommentBox>{value}</OverAllCommentBox>
+                        <HiddenInputBox
+                            type="text"
+                            value={tempValue}
+                            onChange={handleInputChange}
+                            autoFocus
+                            readOnly={true}
+                        />
+                            {/* <OverAllCommentBox>{value}</OverAllCommentBox> */}
                             <Button onClick={handleEditClick}>Edit</Button>
                         </>
                     ) : (

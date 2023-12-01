@@ -254,6 +254,10 @@ export const getSubmissionById = async (submissionId) =>
   await getApi(baseUrl + '/submissions/' + submissionId);
 export const getSubmissionsByAssignmentId = async (assignmentId) =>
   await getApi(baseUrl + '/assignments/' + assignmentId + '/submissions');
+export const getOverComments = async (id) =>
+  await getApi(baseUrl + '/submissions/' + id + '/overallComments');
+
+
 export const addFeedback = async (submissionId, comment) =>
   await postApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks',

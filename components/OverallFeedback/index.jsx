@@ -6,8 +6,10 @@ const OverallFeedback = ({
   handleOverAllFeedback,
   submissionId,
   question,
-  overallFeedback,
-  setOverAllFeedback
+  initialOverallFeedback,
+  setInitialOverAllFeedback,
+  overAllFeedbackText,
+  updateOverAllFeedback
 }) => {
   return (
     <FeedbackContainer>
@@ -16,8 +18,10 @@ const OverallFeedback = ({
         handleOverAllFeedback={handleOverAllFeedback}
         submissionId={submissionId}
         question={question}
-        overallFeedback={overallFeedback}
-        setOverAllFeedback={setOverAllFeedback}
+        initialOverallFeedback={initialOverallFeedback}
+        setInitialOverAllFeedback={setInitialOverAllFeedback}
+        overAllFeedbackText={overAllFeedbackText}
+        updateOverAllFeedback={updateOverAllFeedback}
       />
     </FeedbackContainer>
   );

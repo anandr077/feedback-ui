@@ -58,8 +58,10 @@ export function answersFrame(
       handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback}
       handleEditorMounted={methods.handleEditorMounted}
       handleOverAllFeedback={methods.handleOverAllFeedback}
-      overallFeedback={methods.overallFeedback}
-      setOverAllFeedback={methods.setOverAllFeedback}
+      initialOverAllFeedback={methods.initialOverAllFeedback}
+      setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
+      overAllFeedback={methods.overAllFeedback}
+      updateOverAllFeedback={methods.updateOverAllFeedback}
     ></AnswersFrame>
   );
 }
@@ -81,8 +83,10 @@ function AnswersFrame(props) {
     handleStrengthsTargetsFeedback,
     handleEditorMounted,
     handleOverAllFeedback,
-    overallFeedback,
-    setOverAllFeedback
+    initialOverallFeedback,
+    setInitialOverAllFeedback,
+    overAllFeedback,
+    updateOverAllFeedback
   } = props;
   return (
     <Group1225 id="answers">
@@ -103,8 +107,10 @@ function AnswersFrame(props) {
           handleStrengthsTargetsFeedback,
           handleEditorMounted,
           handleOverAllFeedback,
-          overallFeedback,
-          setOverAllFeedback
+          initialOverallFeedback,
+          setInitialOverAllFeedback,
+          overAllFeedback,
+          updateOverAllFeedback
         )}
       </Frame1367>
     </Group1225>
@@ -155,8 +161,10 @@ const answerFrames = (
   handleStrengthsTargetsFeedback,
   handleEditorMounted,
   handleOverAllFeedback,
-  overallFeedback,
-  setOverAllFeedback
+  initialOverallFeedback,
+  setInitialOverAllFeedback,
+  overAllFeedback,
+  updateOverAllFeedback
 ) => {
   return submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -171,6 +179,10 @@ const answerFrames = (
     const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
     const debounce = createDebounceFunction(answer);
+
+    const overAllFeedbackText = overAllFeedback.filter((feedback)=>{
+        return feedback.questionSerialNumber === answer.serialNumber
+    })
 
     return (
       <>
@@ -233,8 +245,10 @@ const answerFrames = (
               handleOverAllFeedback={handleOverAllFeedback}
               submissionId={submission.id}
               question={question}
-              overallFeedback={overallFeedback}
-              setOverAllFeedback={setOverAllFeedback}
+              initialOverallFeedback={initialOverallFeedback}
+              setInitialOverAllFeedback={setInitialOverAllFeedback}
+              overAllFeedbackText={overAllFeedbackText}
+              updateOverAllFeedback={updateOverAllFeedback}
             />
           )}
         </Frame1366>

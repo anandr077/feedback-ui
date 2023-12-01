@@ -16,6 +16,7 @@ import {
   getDefaultCriteria,
   getSubmissionById,
   getSubmissionsByAssignmentId,
+  getOverComments,
   getUserId,
   getUserName,
   getUserRole,
@@ -102,10 +103,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
-  const [overallFeedback, setOverAllFeedback] = useState({
+  const [initialOverallFeedback, setInitialOverAllFeedback] = useState({
     feedbackText: 'Add General Feedback...',
-    editFeedback: false
-  })
+    editFeedback: false,
+  });
+  const [overAllFeedback, setOverAllFeedback] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -123,6 +125,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       getComments(id),
       getSmartAnnotations(),
       getClassesWithStudents(),
+      getOverComments(id),
     ])
       .then(
         ([
@@ -130,6 +133,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           commentsResult,
           smartAnnotationResult,
           classesWithStudentsResult,
+          overAllComments,
         ]) => {
           setSubmission(submissionsResult);
           const allComments = commentsResult.map((c) => {
@@ -160,6 +164,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           );
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
+          setOverAllFeedback(overAllComments);
         }
       )
       .finally(() => {
@@ -981,12 +986,32 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the response is', response)
-        setOverAllFeedback({
+        setInitialOverAllFeedback({
           feedbackText: response.comment,
-          editFeedback: false
+          editFeedback: false,
         });
       }
+    });
+  };
+
+  const updateOverAllFeedback = (feedbackId, feedbackText) => {
+    const addFeedback = overAllFeedback.map((feedback) => {
+      if (feedback.id === feedbackId) {
+        const feedbackToUpdate = {
+          ...feedback,
+          comment: feedbackText,
+        };
+
+        updateFeedback(submission.id, feedbackId, {
+          questionSerialNumber: feedbackToUpdate.serialNumber,
+          feedback: feedbackToUpdate.comment,
+          range: feedbackToUpdate.range,
+          type: feedbackToUpdate.type,
+        }).then((response) => {
+          console.log('updateOverAllFeedback is', response);
+        })
+      }
+      return feedback;
     });
   };
 
@@ -1333,8 +1358,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setUpdateExemplarComment,
     convertToCheckedState,
     handleOverAllFeedback,
-    overallFeedback,
-    setOverAllFeedback
+    initialOverallFeedback,
+    setInitialOverAllFeedback,
+    overAllFeedback,
+    updateOverAllFeedback,
   };
 
   const shortcuts = getShortcuts();

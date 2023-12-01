@@ -37,6 +37,7 @@ export function answersFrame(
   pageMode,
   submission,
   commentsForSelectedTab,
+  overallComments,
   methods
 ) {
   return (
@@ -58,8 +59,10 @@ export function answersFrame(
       handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback}
       handleEditorMounted={methods.handleEditorMounted}
       handleOverAllFeedback={methods.handleOverAllFeedback}
-      overallFeedback={methods.overallFeedback}
-      setOverAllFeedback={methods.setOverAllFeedback}
+      initialOverAllFeedback={methods.initialOverAllFeedback}
+      setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
+      overallComments={overallComments}
+      updateOverAllFeedback={methods.updateOverAllFeedback}
     ></AnswersFrame>
   );
 }
@@ -81,8 +84,10 @@ function AnswersFrame(props) {
     handleStrengthsTargetsFeedback,
     handleEditorMounted,
     handleOverAllFeedback,
-    overallFeedback,
-    setOverAllFeedback
+    initialOverallFeedback,
+    setInitialOverAllFeedback,
+    overallComments,
+    updateOverAllFeedback
   } = props;
   return (
     <Group1225 id="answers">
@@ -103,8 +108,10 @@ function AnswersFrame(props) {
           handleStrengthsTargetsFeedback,
           handleEditorMounted,
           handleOverAllFeedback,
-          overallFeedback,
-          setOverAllFeedback
+          initialOverallFeedback,
+          setInitialOverAllFeedback,
+          overallComments,
+          updateOverAllFeedback
         )}
       </Frame1367>
     </Group1225>
@@ -155,8 +162,10 @@ const answerFrames = (
   handleStrengthsTargetsFeedback,
   handleEditorMounted,
   handleOverAllFeedback,
-  overallFeedback,
-  setOverAllFeedback
+  initialOverallFeedback,
+  setInitialOverAllFeedback,
+  overallComments,
+  updateOverAllFeedback
 ) => {
   return submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -172,6 +181,10 @@ const answerFrames = (
     const answerValue = answer.answer.answer;
     const debounce = createDebounceFunction(answer);
 
+    const overallComment = overallComments.find((feedback)=>{
+        return feedback.questionSerialNumber === question.serialNumber
+    })
+    console.log("overallComment", overallComment)
     return (
       <>
         <Frame1366>
@@ -233,8 +246,10 @@ const answerFrames = (
               handleOverAllFeedback={handleOverAllFeedback}
               submissionId={submission.id}
               question={question}
-              overallFeedback={overallFeedback}
-              setOverAllFeedback={setOverAllFeedback}
+              initialOverallFeedback={initialOverallFeedback}
+              setInitialOverAllFeedback={setInitialOverAllFeedback}
+              overallComment={overallComment}
+              updateOverAllFeedback={updateOverAllFeedback}
             />
           )}
         </Frame1366>

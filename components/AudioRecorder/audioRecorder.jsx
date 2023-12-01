@@ -1,11 +1,12 @@
 import styled, { keyframes } from 'styled-components';
 import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 export const AudioContainer = styled.main`
-  display: flex;
-  align-items: center;
   background-color: var(--blue-chalk);
   border-radius: 25px;
+  margin-top: 5px;
+  width: fit-content;
 `;
 
 export const Audio = styled.audio`
@@ -50,6 +51,14 @@ export const Button = styled.button`
   border: 1px solid;
   color: white;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const GeneratedAudio = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export const DeleteBtn = styled.div`
@@ -61,6 +70,7 @@ export const DeleteBtn = styled.div`
   background-color: var(--fog);
   margin-right: 10px;
 `;
+
 
 export const DeleteAudio = styled.img`
   height: 20px;
@@ -93,3 +103,9 @@ export const RecordingIndicator = styled.div`
   border-radius: 50%;
   animation: ${pulseAnimation} 1s ease-in-out infinite;
 `;
+
+
+export const AudioIcon = styled(VolumeUpIcon)`
+  font-size: 18px !important;
+`;
+

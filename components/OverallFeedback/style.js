@@ -11,4 +11,9 @@ export const FeedbackContainer = styled.div`
   padding: 20px;
 `;
 
+export const OverAllCommentTitle = styled.h2`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 18px;
+`;
+
 

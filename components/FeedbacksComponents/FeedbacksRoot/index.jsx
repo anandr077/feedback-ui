@@ -16,6 +16,7 @@ import {
   getDefaultCriteria,
   getSubmissionById,
   getSubmissionsByAssignmentId,
+  getOverComments,
   getUserId,
   getUserName,
   getUserRole,
@@ -102,10 +103,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
-  const [overallFeedback, setOverAllFeedback] = useState({
+  const [initialOverallFeedback, setInitialOverAllFeedback] = useState({
     feedbackText: 'Add General Feedback...',
-    editFeedback: false
-  })
+    editFeedback: false,
+  });
+  const [overallComments, setOverallComments] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -123,6 +125,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       getComments(id),
       getSmartAnnotations(),
       getClassesWithStudents(),
+      getOverComments(id),
     ])
       .then(
         ([
@@ -130,16 +133,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           commentsResult,
           smartAnnotationResult,
           classesWithStudentsResult,
+          overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
-          const allComments = commentsResult.map((c) => {
+          const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
-          const feedbackComments = allComments.filter(
+          const feedbackComments = allComments?.filter(
             (c) => c.type !== 'MARKING_CRITERIA'
           );
           setComments(feedbackComments);
-          const markingCriteriaFeedback = allComments.filter(
+          const markingCriteriaFeedback = allComments?.filter(
             (c) => c.type === 'MARKING_CRITERIA'
           );
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
@@ -160,6 +164,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           );
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
+          console.log('the overall comment is', overAllCommentsResult)
+          setOverallComments(overAllCommentsResult);
         }
       )
       .finally(() => {
@@ -970,24 +976,44 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handleOverAllFeedback = (comment, submissionId, question) => {
-    addFeedback(submissionId, {
-      questionSerialNumber: question.serialNumber,
+  const handleOverAllFeedback = ( questionSerialNumber, comment, audio) => {
+    addFeedback(submission.id, {
+      questionSerialNumber: questionSerialNumber,
       feedback: comment,
       range: {
         from: 0,
         to: 0,
       },
+      audio: audio,
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the response is', response)
-        setOverAllFeedback({
-          feedbackText: response.comment,
-          editFeedback: false
-        });
+        console.log('the overall Feedback is', response)
+        setOverallComments([...overallComments, response]);
       }
     });
+  };
+
+  const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
+    const feedbackToUpdate = overallComments.find((feedback) => feedback.id === feedbackId)
+    if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
+      return
+    }
+    console.log("feedbackToUpdate ", feedbackToUpdate)
+
+    updateFeedback(submission.id, feedbackId, {
+      ...feedbackToUpdate,
+      feedback: feedbackText,
+      audio: audio
+    }).then((response) => {
+      setOverallComments(o=>o.map((feedback) => {
+        return feedback.id === feedbackId ? 
+        {...feedback, comment: feedbackText, audio: audio} : feedback
+      })
+      );
+        
+    })
+    
   };
 
   const handleSaveSubmissionForReview = () => {
@@ -1333,8 +1359,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setUpdateExemplarComment,
     convertToCheckedState,
     handleOverAllFeedback,
-    overallFeedback,
-    setOverAllFeedback
+    initialOverallFeedback,
+    setInitialOverAllFeedback,
+    
+    updateOverAllFeedback,
   };
 
   const shortcuts = getShortcuts();
@@ -1393,6 +1421,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
               MARKING_METHODOLOGY_TYPE,
+              overallComments
             }}
           />
         }
@@ -1420,6 +1449,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                 sharewithclassdialog,
                 ...feedbacksFeedbackTeacherLaptopData,
                 MARKING_METHODOLOGY_TYPE,
+                overallComments
               }}
             />
           </>
@@ -1447,6 +1477,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               sharewithclassdialog,
               ...feedbacksFeedbackTeacherLaptopData,
               MARKING_METHODOLOGY_TYPE,
+              overallComments
             }}
           />
         }

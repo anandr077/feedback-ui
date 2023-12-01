@@ -86,7 +86,7 @@ const OverallFeedback = ({
       return (
         <NonEditableFeedback
           textFeedback={overallComment?.comment}
-          audioFeedback={overallComment?.audio}
+          audioFeedback={base64ToBlob(overallComment?.audio, 'audio/webm')}
         />
       );
     }

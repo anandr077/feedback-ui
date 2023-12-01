@@ -62,6 +62,10 @@ export const DeleteBtn = styled.div`
   margin-right: 10px;
 `;
 
+export const AudioImage = styled.img`
+  width: 16px;
+`
+
 export const DeleteAudio = styled.img`
   height: 20px;
   width: 20px;
@@ -93,3 +97,5 @@ export const RecordingIndicator = styled.div`
   border-radius: 50%;
   animation: ${pulseAnimation} 1s ease-in-out infinite;
 `;
+
+

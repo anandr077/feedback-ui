@@ -2,6 +2,9 @@ import { FeedbackContainer, OverAllCommentTitle } from './style';
 import TextField from '../TextField';
 import EditableText from './EditableText';
 import { updateFeedback } from '../../service';
+import AudioRecorder from '../AudioRecorder';
+import { useState } from 'react';
+import AudioPlayer from '../AudioPlayer';
 
 const OverallFeedback = ({
   pageMode,
@@ -13,8 +16,9 @@ const OverallFeedback = ({
   overallComment,
   updateOverAllFeedback
 }) => {
+  const [generatedAudioFeedback, setGeneratedAudioFeedback] = useState(overallComment?.audioFeedback || null)
 
-  function showOverallComment() {
+  function showOverallComment(pageMode, overallComment) {
     if (pageMode === 'REVIEW' ) {
       return <EditableText initialValue={overallComment?.comment} onSave={onSave(overallComment)}></EditableText>;
     }
@@ -32,12 +36,27 @@ const OverallFeedback = ({
       overallComment.id, newCommentText
     );
   }
+
+  const handleGeneratedAudioFeedback = (audioFeedback) =>{
+    setGeneratedAudioFeedback(audioFeedback)
+  }
+
+  const audioOverallComment = (pageMode) =>{
+      if(pageMode === 'REVIEW'){
+        return <AudioRecorder handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}/>
+      }else if (overallComment?.audioFeedback) {
+        return <AudioPlayer generatedAudioFeedback={overallComment.audioFeedback} />;
+      }
+      return null
+  }
+
   return (
     <FeedbackContainer>
       <OverAllCommentTitle>
         Overall comment
       </OverAllCommentTitle>
       {showOverallComment(pageMode, overallComment)}
+      {audioOverallComment(pageMode)}
       {/* <TextField
         pageMode={pageMode}
         handleOverAllFeedback={handleOverAllFeedback}

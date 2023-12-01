@@ -8,13 +8,15 @@ import {
   DeleteBtn,
   DeleteAudio,
   RecordingIndicator,
+  AudioImage
 } from './audioRecorder';
 import { isTabletView } from '../ReactiveRender';
 import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
+import AudioIcon from '../../static/icons/audioIcon.svg';
 
 const mimeType = 'audio/webm';
 
-const AudioRecorder = ({ pageMode }) => {
+const AudioRecorder = ({handleGeneratedAudioFeedback}) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   let recordTimeout = useRef(null);
@@ -61,6 +63,7 @@ const AudioRecorder = ({ pageMode }) => {
         const audioBlob = new Blob(prevChunks, { type: mimeType });
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudio(audioUrl);
+        handleGeneratedAudioFeedback(audioUrl);
         return [];
       });
     };
@@ -90,10 +93,10 @@ const AudioRecorder = ({ pageMode }) => {
 
   return (
     <AudioContainer>
-      {pageMode !== 'DRAFT' && (
+      {
         <ButtonContainer>
           {!permission && !audio ? (
-            <Button onClick={getMicrophonePermission}>+ Voice Note</Button>
+            <Button onClick={getMicrophonePermission}>+ Audio Feedback <AudioImage src={AudioIcon} /></Button>
           ) : null}
           {recordingStatus === 'inactive' && permission && !audio ? (
             <Button onClick={startRecording}>Start Recording</Button>
@@ -102,15 +105,15 @@ const AudioRecorder = ({ pageMode }) => {
           ) : null}
           {recordingStatus === 'recording' && <RecordingIndicator />}
         </ButtonContainer>
-      )}
+      }
       {audio ? (
         <>
           <Audio src={audio} controls isTablet={isTablet} />
-          {pageMode !== 'DRAFT' && (
+
             <DeleteBtn>
               <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
             </DeleteBtn>
-          )}
+  
         </>
       ) : null}
     </AudioContainer>

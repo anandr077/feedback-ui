@@ -42,7 +42,7 @@ const EditableText = ({ initialValue, onSave }) => {
                         autoFocus
                     />
                     <ButtonsContainer>
-                    <Button onClick={handleSave} type="save">Save</Button>
+                    <Button onClick={handleSave}>Save</Button>
                     <Button onClick={handleCancel} type="cancel">Cancel</Button>
                     </ButtonsContainer>
                 </>
@@ -51,7 +51,7 @@ const EditableText = ({ initialValue, onSave }) => {
                     {value ? (
                         <>
                             <OverAllCommentBox>{value}</OverAllCommentBox>
-                            <Button onClick={handleEditClick} type="edit">Edit</Button>
+                            <Button onClick={handleEditClick}>Edit</Button>
                         </>
                     ) : (
                         <Button onClick={handleEditClick}>Click to Edit</Button>

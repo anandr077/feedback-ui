@@ -164,6 +164,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           );
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
+          console.log('the overall comment is', overAllCommentsResult)
           setOverallComments(overAllCommentsResult);
         }
       )
@@ -986,6 +987,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
+        console.log('the overall Feedback is', response)
         setOverallComments([...overallComments, response]);
       }
     });

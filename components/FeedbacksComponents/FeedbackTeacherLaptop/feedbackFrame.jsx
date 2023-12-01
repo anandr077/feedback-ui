@@ -29,6 +29,9 @@ import {
   Screen,
   Share,
   TypeHere,
+  ExemplarComponent,
+  SmartAnnotationsComponent,
+  ShortcutList,
 } from './style';
 import AntSwitch from '../AntSwitch';
 
@@ -295,23 +298,28 @@ function reviewerNewComment(
     <>
       <Frame1329>
         <Frame1406>
-          <Frame1326>
-            <TypeHere>
-              <FocussedInput
-                id="newCommentInput"
-                ref={newCommentFrameRef}
-                placeholder="Comment here...."
-              ></FocussedInput>
-            </TypeHere>
-          </Frame1326>
+          <SmartAnnotationsComponent>
+            <Frame1326>
+              <TypeHere>
+                <FocussedInput
+                  id="newCommentInput"
+                  ref={newCommentFrameRef}
+                  placeholder="Comment here...."
+                ></FocussedInput>
+              </TypeHere>
+            </Frame1326>
 
-          <SubmitCommentFrameRoot
-            submitButtonOnClick={methods.handleAddComment}
-            cancelButtonOnClick={methods.hideNewCommentDiv}
-          />
-
-          {shortcutList(methods, smartAnnotations)}
-          {shareWithClassFrame(methods, share)}
+            <SubmitCommentFrameRoot
+              submitButtonOnClick={methods.handleAddComment}
+              cancelButtonOnClick={methods.hideNewCommentDiv}
+            />
+            <ShortcutList>
+              {shortcutList(methods, smartAnnotations)}
+            </ShortcutList>
+          </SmartAnnotationsComponent>
+          <ExemplarComponent>
+            {shareWithClassFrame(methods, share)}
+          </ExemplarComponent>
         </Frame1406>
       </Frame1329>
     </>

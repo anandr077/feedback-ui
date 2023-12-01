@@ -8,20 +8,23 @@ import {
   DeleteBtn,
   DeleteAudio,
   RecordingIndicator,
+  GeneratedAudio,
+  AudioIcon
 } from './audioRecorder';
 import { isTabletView } from '../ReactiveRender';
 import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
 
 const mimeType = 'audio/webm';
 
-const AudioRecorder = ({ pageMode }) => {
+const AudioRecorder = ({handleGeneratedAudioFeedback, handleDelete, initialAudio}) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   let recordTimeout = useRef(null);
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [audioChunks, setAudioChunks] = useState([]);
-  const [audio, setAudio] = useState(null);
+  const [audio, setAudio] = useState(initialAudio ? URL.createObjectURL(initialAudio) : null);
+
   const isTablet = isTabletView();
 
   const startRecording = async () => {
@@ -61,6 +64,7 @@ const AudioRecorder = ({ pageMode }) => {
         const audioBlob = new Blob(prevChunks, { type: mimeType });
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudio(audioUrl);
+        handleGeneratedAudioFeedback(audioBlob);
         return [];
       });
     };
@@ -86,14 +90,15 @@ const AudioRecorder = ({ pageMode }) => {
   const deleteAudio = () => {
     setAudio(null);
     setRecordingStatus('inactive');
+    handleDelete();
   };
 
   return (
     <AudioContainer>
-      {pageMode !== 'DRAFT' && (
+      {
         <ButtonContainer>
           {!permission && !audio ? (
-            <Button onClick={getMicrophonePermission}>+ Voice Note</Button>
+            <Button onClick={getMicrophonePermission}>+ Audio Feedback <AudioIcon></AudioIcon></Button>
           ) : null}
           {recordingStatus === 'inactive' && permission && !audio ? (
             <Button onClick={startRecording}>Start Recording</Button>
@@ -102,16 +107,16 @@ const AudioRecorder = ({ pageMode }) => {
           ) : null}
           {recordingStatus === 'recording' && <RecordingIndicator />}
         </ButtonContainer>
-      )}
+      }
       {audio ? (
-        <>
+        <GeneratedAudio>
           <Audio src={audio} controls isTablet={isTablet} />
-          {pageMode !== 'DRAFT' && (
+
             <DeleteBtn>
               <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
             </DeleteBtn>
-          )}
-        </>
+  
+        </GeneratedAudio>
       ) : null}
     </AudioContainer>
   );

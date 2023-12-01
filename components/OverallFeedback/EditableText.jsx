@@ -6,7 +6,7 @@ import {
     OverAllCommentBox
 } from './editableTextStyle'
 
-const EditableText = ({ initialValue, handleSave }) => {
+const EditableText = ({ initialValue, onSave }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState(initialValue);
     const [tempValue, setTempValue] = useState(initialValue);
@@ -16,10 +16,10 @@ const EditableText = ({ initialValue, handleSave }) => {
         setTempValue(value); 
     };
 
-    const onSave = () => {
+    const handleSave = () => {
         setIsEditing(false);
         setValue(tempValue); 
-        handleSave(tempValue);
+        onSave(tempValue);
     };
 
     const handleCancel = () => {
@@ -61,5 +61,6 @@ const EditableText = ({ initialValue, handleSave }) => {
         </div>
     );
 };
+
 
 export default EditableText;

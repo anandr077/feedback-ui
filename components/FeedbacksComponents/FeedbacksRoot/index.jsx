@@ -136,14 +136,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
-          const allComments = commentsResult.map((c) => {
+          const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
-          const feedbackComments = allComments.filter(
+          const feedbackComments = allComments?.filter(
             (c) => c.type !== 'MARKING_CRITERIA'
           );
           setComments(feedbackComments);
-          const markingCriteriaFeedback = allComments.filter(
+          const markingCriteriaFeedback = allComments?.filter(
             (c) => c.type === 'MARKING_CRITERIA'
           );
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
@@ -975,10 +975,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handleOverAllFeedback = (comment, submissionId, question) => {
+  const handleOverAllFeedback = (submissionId, questionSerialNumber, comment) => {
     addFeedback(submissionId, {
-      questionSerialNumber: question.serialNumber,
-      feedback: comment,
+      questionSerialNumber: questionSerialNumber,
+      comment: comment,
       range: {
         from: 0,
         to: 0,
@@ -986,33 +986,30 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        setInitialOverAllFeedback({
-          feedbackText: response.comment,
-          editFeedback: false,
-        });
+        setOverallComments([...overallComments, response]);
       }
     });
   };
 
   const updateOverAllFeedback = (feedbackId, feedbackText) => {
-    const addFeedback = overallComments.map((feedback) => {
-      if (feedback.id === feedbackId) {
-        const feedbackToUpdate = {
-          ...feedback,
-          comment: feedbackText,
-        };
+    const feedbackToUpdate = overallComments.find((feedback) => feedback.id === feedbackId)
+    if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
+      return
+    }
+    console.log("feedbackToUpdate ", feedbackToUpdate)
 
-        updateFeedback(submission.id, feedbackId, {
-          questionSerialNumber: feedbackToUpdate.serialNumber,
-          feedback: feedbackToUpdate.comment,
-          range: feedbackToUpdate.range,
-          type: feedbackToUpdate.type,
-        }).then((response) => {
-          console.log('updateOverAllFeedback is', response);
-        })
-      }
-      return feedback;
-    });
+    updateFeedback(submission.id, feedbackId, {
+      ...feedbackToUpdate,
+      comment: feedbackToUpdate.comment,
+    }).then((response) => {
+      setOverallComments(o=>o.map((feedback) => {
+        return feedback.id === feedbackId ? 
+        {...feedback, comment: feedbackText} : feedback
+      })
+      );
+        
+    })
+    
   };
 
   const handleSaveSubmissionForReview = () => {

@@ -975,7 +975,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const handleOverAllFeedback = ( questionSerialNumber, comment, audio) => {
+  const addOverallFeedback = ( questionSerialNumber, comment, audio) => {
     addFeedback(submission.id, {
       questionSerialNumber: questionSerialNumber,
       feedback: comment,
@@ -1357,7 +1357,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     showSubmitPopuphandler,
     setUpdateExemplarComment,
     convertToCheckedState,
-    handleOverAllFeedback,
+    addOverallFeedback,
     initialOverallFeedback,
     setInitialOverAllFeedback,
     

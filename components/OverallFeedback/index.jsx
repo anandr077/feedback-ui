@@ -1,17 +1,16 @@
+import { useEffect, useRef } from 'react';
 import { FeedbackContainer, OverAllCommentTitle } from './style';
 import TextField from '../TextField';
 import EditableText from './EditableText';
 import { updateFeedback } from '../../service';
 import AudioRecorder from '../AudioRecorder';
-import { useState } from 'react';
 import NonEditableFeedback from '../../components2/NonEditableFeedback';
 import AudioPlayer from '../AudioPlayer';
 import { base64ToBlob, blobToBase64 } from '../../utils/blobs';
-import { TextareaAutosize } from '@mui/material';
 
 const OverallFeedback = ({
   pageMode,
-  handleOverAllFeedback,
+  addOverallFeedback,
   submissionId,
   question,
   initialOverallFeedback,
@@ -19,6 +18,43 @@ const OverallFeedback = ({
   overallComment,
   updateOverAllFeedback,
 }) => {
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      const lineHeight = 25;
+      const minRows = 1;
+      const maxRows = 1000;
+
+      const numberOfRows = Math.min(
+        Math.max(
+          Math.ceil(textareaRef.current.scrollHeight / lineHeight),
+          minRows
+        ),
+        maxRows
+      );
+
+      const newHeight = numberOfRows * lineHeight;
+      textareaRef.current.style.height = `${newHeight}px`;
+    }
+  }, []);
+
+  const calculateTextareaHeight = () => {
+    const lineHeight = 25;
+    const minRows = 1;
+    const maxRows = 1000;
+
+    const numberOfRows = Math.min(
+      Math.max(
+        Math.ceil(textareaRef.current?.scrollHeight / lineHeight),
+        minRows
+      ),
+      maxRows
+    );
+
+    const newHeight = numberOfRows * lineHeight;
+    return `${newHeight}px`;
+  };
 
   function showOverallComment(pageMode, overallComment) {
     if (pageMode === 'REVIEW') {
@@ -32,38 +68,53 @@ const OverallFeedback = ({
     if (pageMode === 'DRAFT') {
       return <></>;
     }
-    return <HiddenInputBox>{overallComment?.comment}</HiddenInputBox>;
+    return (
+      <HiddenInputBox
+        style={{ height: calculateTextareaHeight() }}
+        ref={textareaRef}
+      >
+        {overallComment?.comment}
+      </HiddenInputBox>
+    );
   }
 
   const onSave = (overallComment) => (newCommentText) => {
     if (overallComment === null || overallComment === undefined) {
-      return handleOverAllFeedback(question.serialNumber, newCommentText, null);
+      return addOverallFeedback(question.serialNumber, newCommentText, null);
     }
-    return updateOverAllFeedback(overallComment.id, newCommentText, overallComment.audio);
+    return updateOverAllFeedback(
+      overallComment.id,
+      newCommentText,
+      overallComment.audio
+    );
   };
 
-  
-  const handleDeleteAudioFeedback = (audioFeedback) =>{
-    return updateOverAllFeedback(overallComment.id, overallComment.comment, null);
-  }
+  const handleDeleteAudioFeedback = (audioFeedback) => {
+    return updateOverAllFeedback(
+      overallComment.id,
+      overallComment.comment,
+      null
+    );
+  };
 
-  const handleGeneratedAudioFeedback = (audioFeedback) =>{
-    console.log("audioFeedback", audioFeedback)
+  const handleAudioFeedbackRecorded = (audioFeedback) => {
     blobToBase64(audioFeedback).then((base64) => {
       if (overallComment === null || overallComment === undefined) {
-        return handleOverAllFeedback(question.serialNumber, "", base64);
+        return addOverallFeedback(question.serialNumber, '', base64);
       }
       return updateOverAllFeedback(
-        overallComment.id, overallComment.comment, base64
+        overallComment.id,
+        overallComment.comment,
+        base64
       );
-    })
-  }
+    });
+  };
 
   const audioOverallComment = (pageMode, overallComment) => {
     if (overallComment?.audio) {
       return (
         <AudioRecorder
-          handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}
+          handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
           handleDelete={handleDeleteAudioFeedback}
           initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
         />
@@ -71,17 +122,14 @@ const OverallFeedback = ({
     }
     return (
       <AudioRecorder
-        handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}
+        handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
       />
     );
-  }
-  
+  };
 
-  if (pageMode === 'DRAFT')
-    return <></>
+  if (pageMode === 'DRAFT') return <></>;
   if (pageMode === 'CLOSED' || pageMode === 'REVISE') {
     if (overallComment !== null && overallComment !== undefined) {
-      
       return (
         <NonEditableFeedback
           textFeedback={overallComment?.comment}
@@ -89,7 +137,7 @@ const OverallFeedback = ({
         />
       );
     }
-    return <></>
+    return <></>;
   }
 
   return (
@@ -97,7 +145,6 @@ const OverallFeedback = ({
       <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
       {showOverallComment(pageMode, overallComment)}
       {audioOverallComment(pageMode, overallComment)}
-      
     </FeedbackContainer>
   );
 };

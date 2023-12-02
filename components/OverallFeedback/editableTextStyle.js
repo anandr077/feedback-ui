@@ -18,14 +18,11 @@ export const HiddenInputBox = styled.textarea`
   margin-top: 10px;
   border: none;
   border-radius: 10px;
-  /* min-height: 200px; */
-  max-height: 200px;
   outline: none;
-  /* padding: 10px; */
   resize: none;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-l);
-  line-height: 20px;
+  line-height: 25px;
   font-weight: 400;
   font-style: normal;
 `;
@@ -64,7 +61,7 @@ export const Button = styled.button`
   border-radius: 10px;
   border: 1px solid;
   color: white;
-  margin-top: 10px;
+  margin-top: ${(props) => props.type === 'addFeedback' ? '0' : '10px'};
   cursor: pointer;
 `;
 

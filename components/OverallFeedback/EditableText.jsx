@@ -1,16 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     HiddenInputBox,
     InputBox,
     ButtonsContainer,
     Button,
-    OverAllCommentBox
+    EditTextContainer
 } from './editableTextStyle'
 
 const EditableText = ({ initialValue, onSave }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState(initialValue);
     const [tempValue, setTempValue] = useState(initialValue);
+    const textareaRef = useRef(null)
+
+
+      useEffect(() => {
+        if (textareaRef.current) {
+          const lineHeight = 25;
+          const minRows = 3;
+          const maxRows = 10;
+    
+          const numberOfRows = Math.min(
+            Math.max(
+              Math.ceil(textareaRef.current.scrollHeight / lineHeight),
+              minRows
+            ),
+            maxRows
+          );
+    
+          const newHeight = numberOfRows * lineHeight;
+          textareaRef.current.style.height = `${newHeight}px`;
+        }
+      }, []);
+
+    const calculateTextareaHeight = () => {
+        const lineHeight = 25; 
+        const minRows = 3;
+        const maxRows = 10; 
+    
+        const numberOfRows = Math.min(
+          Math.max(Math.ceil(textareaRef.current?.scrollHeight / lineHeight), minRows),
+          maxRows
+        );
+    
+        const newHeight = numberOfRows * lineHeight;
+        return `${newHeight}px`;
+      };
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -32,8 +67,9 @@ const EditableText = ({ initialValue, onSave }) => {
         setTempValue(e.target.value);
     };
 
+
     return (
-        <div>
+        <EditTextContainer>
             {isEditing ? (
                 <>
                     <InputBox
@@ -57,8 +93,9 @@ const EditableText = ({ initialValue, onSave }) => {
                             onChange={handleInputChange}
                             autoFocus
                             readOnly={true}
+                            style={{height: calculateTextareaHeight()}}
+                            ref={textareaRef}
                         />
-                            {/* <OverAllCommentBox>{value}</OverAllCommentBox> */}
                             <Button onClick={handleEditClick}>Edit</Button>
                         </>
                     ) : (
@@ -66,7 +103,7 @@ const EditableText = ({ initialValue, onSave }) => {
                     )}
                 </div>
             )}
-        </div>
+        </EditTextContainer>
     );
 };
 

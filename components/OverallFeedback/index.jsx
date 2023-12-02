@@ -32,7 +32,7 @@ const OverallFeedback = ({
     if (pageMode === 'DRAFT') {
       return <></>;
     }
-    return <textarea>{overallComment?.comment}</textarea>;
+    return <HiddenInputBox>{overallComment?.comment}</HiddenInputBox>;
   }
 
   const onSave = (overallComment) => (newCommentText) => {
@@ -95,7 +95,7 @@ const OverallFeedback = ({
 
   return (
     <FeedbackContainer>
-      <OverAllCommentTitle>Overall comment</OverAllCommentTitle>
+      <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
       {showOverallComment(pageMode, overallComment)}
       {audioOverallComment(pageMode, overallComment)}
       

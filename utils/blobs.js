@@ -7,6 +7,9 @@ export function blobToBase64(blob) {
     });
 }
 export function base64ToBlob(base64, mimeType) {
+    if (base64 === null || base64 === undefined) {
+        return null;
+    }
     const base64WithoutPrefix = base64.split(',')[1]; // Remove the prefix
     const byteCharacters = atob(base64WithoutPrefix);
     const byteNumbers = new Array(byteCharacters.length);

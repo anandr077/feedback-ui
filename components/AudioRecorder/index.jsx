@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useRef } from 'react';
 import {
   AudioContainer,
+  AudioFeedbackTitle,
   ButtonContainer,
   Button,
   Audio,
@@ -95,6 +96,7 @@ const AudioRecorder = ({handleGeneratedAudioFeedback, handleDelete, initialAudio
 
   return (
     <AudioContainer>
+      <AudioFeedbackTitle>Audio Feedback</AudioFeedbackTitle>
       {
         <ButtonContainer>
           {!permission && !audio ? (

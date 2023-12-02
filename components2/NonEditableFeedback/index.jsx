@@ -1,13 +1,13 @@
 import React from 'react';
 import AudioPlayer from '../../components/AudioPlayer';
-import { OverAllCommentTitle, FeedbackContainer, TextBox, Text } from './style';
+import { OverAllCommentTitle, FeedbackContainer, TextBox, HiddenInputBox } from './style';
 
 const NonEditableFeedback = ({ textFeedback, audioFeedback }) => {
   if (textFeedback || audioFeedback) {
     return (
       <FeedbackContainer>
-        <OverAllCommentTitle>Overall Feedback</OverAllCommentTitle>
-        <TextBox>{textFeedback ? <Text>{textFeedback}</Text> : <></>}</TextBox>
+        <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
+        <TextBox>{textFeedback ? <HiddenInputBox>{textFeedback}</HiddenInputBox> : <></>}</TextBox>
         {audioFeedback ? (
           <AudioPlayer generatedAudioFeedback={audioFeedback} />
         ) : (

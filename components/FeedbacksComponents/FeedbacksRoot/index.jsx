@@ -1004,7 +1004,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
       feedback: feedbackText,
-      audio: audio
+      audio: audio,
     }).then((response) => {
       setOverallComments(o=>o.map((feedback) => {
         return feedback.id === feedbackId ? 

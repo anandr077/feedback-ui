@@ -60,29 +60,28 @@ const OverallFeedback = ({
   }
 
   const audioOverallComment = (pageMode, overallComment) => {
-    if (pageMode === 'REVIEW') {
-      if (overallComment?.audio) {
-        return (
-          <AudioRecorder
-            handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}
-            handleDelete={handleDeleteAudioFeedback}
-            initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
-          />
-        );
-      }
+    if (overallComment?.audio) {
       return (
         <AudioRecorder
           handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}
+          handleDelete={handleDeleteAudioFeedback}
+          initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
         />
       );
     }
-    return null;
-  };
+    return (
+      <AudioRecorder
+        handleGeneratedAudioFeedback={handleGeneratedAudioFeedback}
+      />
+    );
+  }
+  
 
   if (pageMode === 'DRAFT')
     return <></>
   if (pageMode === 'CLOSED' || pageMode === 'REVISE') {
-    if (overallComment) {
+    if (overallComment !== null && overallComment !== undefined) {
+      
       return (
         <NonEditableFeedback
           textFeedback={overallComment?.comment}

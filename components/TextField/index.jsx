@@ -13,7 +13,7 @@ import AudioRecorder from '../AudioRecorder';
 
 const TextField = ({
   pageMode,
-  handleOverAllFeedback,
+  addOverallFeedback,
   submissionId,
   question,
   initialOverallFeedback,
@@ -31,7 +31,7 @@ const TextField = ({
 
   useEffect(() => {
     if (saveText) {
-      handleOverAllFeedback(feedback, submissionId, question);
+      addOverallFeedback(feedback, submissionId, question);
       setInitialOverAllFeedback((prev) => ({
         ...prev,
         editFeedback: false,

@@ -58,7 +58,7 @@ export function answersFrame(
       }
       handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback}
       handleEditorMounted={methods.handleEditorMounted}
-      handleOverAllFeedback={methods.handleOverAllFeedback}
+      addOverallFeedback={methods.addOverallFeedback}
       initialOverAllFeedback={methods.initialOverAllFeedback}
       setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
       overallComments={overallComments}
@@ -83,7 +83,7 @@ function AnswersFrame(props) {
     handleMarkingCriteriaLevelFeedback,
     handleStrengthsTargetsFeedback,
     handleEditorMounted,
-    handleOverAllFeedback,
+    addOverallFeedback,
     initialOverallFeedback,
     setInitialOverAllFeedback,
     overallComments,
@@ -107,7 +107,7 @@ function AnswersFrame(props) {
           handleMarkingCriteriaLevelFeedback,
           handleStrengthsTargetsFeedback,
           handleEditorMounted,
-          handleOverAllFeedback,
+          addOverallFeedback,
           initialOverallFeedback,
           setInitialOverAllFeedback,
           overallComments,
@@ -161,7 +161,7 @@ const answerFrames = (
   handleMarkingCriteriaLevelFeedback,
   handleStrengthsTargetsFeedback,
   handleEditorMounted,
-  handleOverAllFeedback,
+  addOverallFeedback,
   initialOverallFeedback,
   setInitialOverAllFeedback,
   overallComments,
@@ -243,7 +243,7 @@ const answerFrames = (
           {pageMode !== 'DRAFT' && (
             <OverallFeedback
               pageMode={pageMode}
-              handleOverAllFeedback={handleOverAllFeedback}
+              addOverallFeedback={addOverallFeedback}
               submissionId={submission.id}
               question={question}
               initialOverallFeedback={initialOverallFeedback}

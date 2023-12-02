@@ -85,7 +85,6 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
-  const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <>
       {loader(showLoader)}

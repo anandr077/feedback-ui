@@ -65,6 +65,9 @@ export const Button = styled.button`
 export const GeneratedAudio = styled.div`
   display: flex;
   align-items: center;
+  background-color: var(--blue-chalk);
+  width: fit-content;
+  border-radius: 25px;
 `;
 
 export const DeleteBtn = styled.div`

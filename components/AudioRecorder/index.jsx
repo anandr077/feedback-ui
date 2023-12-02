@@ -10,21 +10,27 @@ import {
   DeleteAudio,
   RecordingIndicator,
   GeneratedAudio,
-  AudioIcon
+  AudioIcon,
 } from './audioRecorder';
 import { isTabletView } from '../ReactiveRender';
 import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
 
 const mimeType = 'audio/webm';
 
-const AudioRecorder = ({handleGeneratedAudioFeedback, handleDelete, initialAudio}) => {
+const AudioRecorder = ({
+  handleAudioFeedbackRecorded,
+  handleDelete,
+  initialAudio,
+}) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   let recordTimeout = useRef(null);
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [audioChunks, setAudioChunks] = useState([]);
-  const [audio, setAudio] = useState(initialAudio ? URL.createObjectURL(initialAudio) : null);
+  const [audio, setAudio] = useState(
+    initialAudio ? URL.createObjectURL(initialAudio) : null
+  );
 
   const isTablet = isTabletView();
 
@@ -65,7 +71,7 @@ const AudioRecorder = ({handleGeneratedAudioFeedback, handleDelete, initialAudio
         const audioBlob = new Blob(prevChunks, { type: mimeType });
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudio(audioUrl);
-        handleGeneratedAudioFeedback(audioBlob);
+        handleAudioFeedbackRecorded(audioBlob);
         return [];
       });
     };
@@ -100,7 +106,9 @@ const AudioRecorder = ({handleGeneratedAudioFeedback, handleDelete, initialAudio
       {
         <ButtonContainer>
           {!permission && !audio ? (
-            <Button onClick={getMicrophonePermission}>+ Audio Feedback <AudioIcon></AudioIcon></Button>
+            <Button onClick={getMicrophonePermission}>
+              + Audio Feedback <AudioIcon></AudioIcon>
+            </Button>
           ) : null}
           {recordingStatus === 'inactive' && permission && !audio ? (
             <Button onClick={startRecording}>Start Recording</Button>
@@ -112,12 +120,16 @@ const AudioRecorder = ({handleGeneratedAudioFeedback, handleDelete, initialAudio
       }
       {audio ? (
         <GeneratedAudio>
-          <Audio src={audio} controls isTablet={isTablet} />
+          <Audio
+            src={audio}
+            controls
+            controlsList="nodownload"
+            isTablet={isTablet}
+          />
 
-            <DeleteBtn>
-              <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
-            </DeleteBtn>
-  
+          <DeleteBtn>
+            <DeleteAudio src={DeleteIcon} onClick={deleteAudio} />
+          </DeleteBtn>
         </GeneratedAudio>
       ) : null}
     </AudioContainer>

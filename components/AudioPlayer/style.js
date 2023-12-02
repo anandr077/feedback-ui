@@ -28,4 +28,8 @@ export const Audio = styled.audio`
     background-color: var(--fog);
     border-radius: 50%;
   }
+
+  &::-webkit-media-controls-download-button {
+    display: none; 
+  }
 `;

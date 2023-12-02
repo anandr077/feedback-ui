@@ -4,16 +4,29 @@ import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
 export const FeedbackContainer = styled.div`
   width: 100%;
   margin-top: 10px;
-  border-radius: 16px;
-  border: 1px solid rgba(114, 0, 224, 0.1);
-  background: #fff;
-  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  padding: 20px;
 `;
 
 export const OverAllCommentTitle = styled.h2`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 18px;
+`;
+
+export const HiddenInputBox = styled.textarea`
+  display: block;
+  width: 100%;
+  font-family: var(--font-family-ibm_plex_sans);
+  height: auto;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  max-height: 200px;
+  outline: none;
+  resize: none;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  line-height: 20px;
+  font-weight: 400;
+  font-style: normal;
 `;
 
 

@@ -36,7 +36,7 @@ import {
 } from '../../../service.js';
 import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
@@ -112,7 +112,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -1004,7 +1003,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
       feedback: feedbackText,
-      audio: audio
+      audio: audio,
     }).then((response) => {
       setOverallComments(o=>o.map((feedback) => {
         return feedback.id === feedbackId ? 

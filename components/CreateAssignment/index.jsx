@@ -329,12 +329,27 @@ export default function CreateAssignment(props) {
       ),
     }));
   }
+  
+
+  const removeAppendFunction = (markingCriteria) => {
+    let newMarkingCriteria = { ...markingCriteria };
+    if (newMarkingCriteria.type === 'STRENGTHS_TARGETS') {
+      newMarkingCriteria.title = newMarkingCriteria.title.replace(' (S&T)', '');
+    }
+    if (newMarkingCriteria.type === 'RUBRICS') {
+      newMarkingCriteria.title = newMarkingCriteria.title.replace(' (R)', '');
+    }
+    return newMarkingCriteria;
+  };
 
   function updateMarkingCriteria(id, markingCriteria) {
+    const updatedMarkingCriteriaObj = removeAppendFunction(markingCriteria);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        q.serialNumber === id ? { ...q, markingCriteria: markingCriteria } : q
+        q.serialNumber === id
+          ? { ...q, markingCriteria: updatedMarkingCriteriaObj }
+          : q
       ),
     }));
   }
@@ -587,8 +602,6 @@ export default function CreateAssignment(props) {
       });
     });
   };
-
-  
 
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);

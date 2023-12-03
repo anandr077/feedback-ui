@@ -36,6 +36,6 @@ export const Audio = styled.audio`
 
 export const AudioFeedbackTitle = styled.h2`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: 18px;
+  font-size: var(--font-size-l);
   margin: 25px 0 15px;
 `;

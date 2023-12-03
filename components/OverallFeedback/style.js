@@ -7,7 +7,7 @@ export const FeedbackContainer = styled.div`
 
 export const OverAllCommentTitle = styled.h2`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: 18px;
+  font-size: var(--font-size-l);
 `;
 
 export const HiddenInputBox = styled.textarea`

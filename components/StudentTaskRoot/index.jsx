@@ -1,6 +1,6 @@
 import React from 'react';
 import { getTasks, getClasses, getPortfolio } from '../../service';
-import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
+import ReactiveRender from '../ReactiveRender';
 import TasksStudentMobile from '../TasksStudentMobile';
 import TasksStudentTablet from '../TasksStudentTablet';
 import TasksLaptop from '../TasksLaptop';
@@ -14,7 +14,6 @@ export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [portfolio, setPortfolio] = React.useState([]);
 
   const tasksQuery = useQuery({

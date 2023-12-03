@@ -13,12 +13,7 @@ import {
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
 import Loader from '../../Loader';
-import {
-  isTabletView,
-  isMobileView,
-  isSmallScreen,
-} from '../../ReactiveRender';
-import { isSmallScreen } from '../../ReactiveRender';
+
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
 const Strengths_And_Traget_Data = {
@@ -37,7 +32,6 @@ export default function CreateNewStrengthAndTargets() {
   });
 
   const [isLoading, setIsLoading] = React.useState(true);
-  const [smallScreenView, setSmallScreenView] = useState(isSmallScreen());
 
   useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(

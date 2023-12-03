@@ -421,3 +421,27 @@ export const DropdownButton = styled.button`
     background-color: var(--blue-chalk);
   }
 `;
+
+export const ExemplarComponent = styled.div`
+  width: 100%;
+  position: relative;
+  bottom: 0;
+`;
+
+export const SmartAnnotationsComponent = styled.div`
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: scroll;
+  padding-bottom: 10px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+export const ShortcutList = styled.div`
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;

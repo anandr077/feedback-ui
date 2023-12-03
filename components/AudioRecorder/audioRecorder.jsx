@@ -3,16 +3,15 @@ import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 export const AudioContainer = styled.main`
-
   border-radius: 25px;
-  margin-top: 25px;
+  margin-top: 30px;
   width: 100%;
 `;
 
 export const AudioFeedbackTitle = styled.h2`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 export const Audio = styled.audio`

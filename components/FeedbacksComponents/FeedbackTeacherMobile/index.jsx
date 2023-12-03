@@ -163,6 +163,7 @@ const Frame1388 = styled.div`
   gap: 30px;
   position: relative;
   align-self: stretch;
+  margin-bottom: 30px;
 `;
 
 const Frame1387 = styled.div`

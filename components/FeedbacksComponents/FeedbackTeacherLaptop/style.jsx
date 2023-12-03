@@ -114,6 +114,7 @@ export const Frame1388 = styled.div`
   gap: 30px;
   position: relative;
   align-self: stretch;
+  margin-bottom: 50px;
 `;
 export const Frame1387 = styled.div`
   display: flex;

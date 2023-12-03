@@ -1,11 +1,12 @@
 import React from 'react';
-import { AudioContainer, Audio } from './style';
+import { AudioContainer, Audio, AudioFeedbackTitle } from './style';
 
 const AudioPlayer = ({ generatedAudioFeedback }) => {
   const audioUrl = URL.createObjectURL(generatedAudioFeedback);
 
   return (
     <AudioContainer>
+      <AudioFeedbackTitle>Audio Feedback</AudioFeedbackTitle>
       <Audio controls>
         <source
           src={audioUrl}

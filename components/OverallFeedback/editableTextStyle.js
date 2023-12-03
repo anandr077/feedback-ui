@@ -7,7 +7,7 @@ export const EditTextContainer = styled.div`
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   border-radius: 16px;
   padding: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 export const HiddenInputBox = styled.textarea`
@@ -25,7 +25,16 @@ export const HiddenInputBox = styled.textarea`
   line-height: 25px;
   font-weight: 400;
   font-style: normal;
+  scrollbar-width: thin; 
+  scrollbar-color: transparent transparent;
+  &::-webkit-scrollbar {
+    width: 0.5em; 
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 `;
+
 export const InputBox = styled.textarea`
   display: block;
   width: 100%;

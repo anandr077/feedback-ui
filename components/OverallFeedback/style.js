@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
 
 export const FeedbackContainer = styled.div`
   width: 100%;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 export const OverAllCommentTitle = styled.h2`
@@ -26,6 +25,12 @@ export const HiddenInputBox = styled.textarea`
   font-weight: 400;
   font-style: normal;
   height: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  &::-webkit-scrollbar {
+    width: 0.5em;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 `;
-
-

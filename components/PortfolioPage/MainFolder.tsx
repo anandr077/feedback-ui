@@ -1,4 +1,3 @@
-import { isSmallScreen } from "../ReactiveRender";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import React, { useEffect, useRef, useState } from 'react';
@@ -6,7 +5,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import closeIcon from '../../static/icons/closeIcon.png';
 import menuIcon from '../../static/icons/menuBar.png';
-import { isSmallScreen } from '../ReactiveRender';
 import './portfolioSideBar.css';
 const MainFolder = ({ classItem, selectedClass, handleClassToggle }) => {
 

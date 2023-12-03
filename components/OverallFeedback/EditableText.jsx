@@ -13,25 +13,6 @@ const EditableText = ({ initialValue, onSave }) => {
   const [tempValue, setTempValue] = useState(initialValue);
   const textareaRef = useRef(null);
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      const lineHeight = 25;
-      const minRows = 1;
-      const maxRows = 1000;
-
-      const numberOfRows = Math.min(
-        Math.max(
-          Math.ceil(textareaRef.current.scrollHeight / lineHeight),
-          minRows
-        ),
-        maxRows
-      );
-
-      const newHeight = numberOfRows * lineHeight;
-      textareaRef.current.style.height = `${newHeight}px`;
-    }
-  }, []);
-
   const calculateTextareaHeight = () => {
     const lineHeight = 25;
     const minRows = 1;
@@ -49,6 +30,12 @@ const EditableText = ({ initialValue, onSave }) => {
     return `${newHeight}px`;
   };
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = calculateTextareaHeight();
+    }
+  }, []);
+
   const handleEditClick = () => {
     setIsEditing(true);
     setTempValue(value);
@@ -64,6 +51,12 @@ const EditableText = ({ initialValue, onSave }) => {
     setIsEditing(false);
     setTempValue(value);
   };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = calculateTextareaHeight();
+    }
+  }, [isEditing]);
 
   const handleInputChange = (e) => {
     setTempValue(e.target.value);
@@ -102,7 +95,9 @@ const EditableText = ({ initialValue, onSave }) => {
               <Button onClick={handleEditClick}>Edit</Button>
             </>
           ) : (
-            <Button onClick={handleEditClick} type="addFeedback">Add a feedback</Button>
+            <Button onClick={handleEditClick} type="addFeedback">
+              Add a feedback
+            </Button>
           )}
         </div>
       )}

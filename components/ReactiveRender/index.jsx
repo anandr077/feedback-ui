@@ -24,7 +24,7 @@ export function isDesktopView() {
 }
 
 export function isSmallScreen() {
-  return isMobileView() || isTabletView();
+  return useMediaQuery({ maxWidth: 1024 });
 }
 
 export default function ReactiveRender(props) {

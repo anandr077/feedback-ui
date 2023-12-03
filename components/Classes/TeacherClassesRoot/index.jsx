@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender from '../../ReactiveRender';
 import TeacherClassesDesktop from '../TeacherClassesDesktop';
 import TeacherClassesLaptop from '../TeacherClassesLaptop';
 import TeacherClassesMobile from '../TeacherClassesMobile';
@@ -37,7 +37,6 @@ export default function TeacherClassesRoot() {
   const [smartAnnotationAnalytics, setSmartAnnotationAnalytics] =
     React.useState([]);
   const [studentsAnalytics, setStudentsAnalytics] = React.useState([]);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const queryClient = useQueryClient();
 
   const classesQuery = useQuery({

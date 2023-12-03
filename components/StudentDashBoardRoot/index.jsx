@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
+import ReactiveRender from '../ReactiveRender';
 import DashboardHomeStudentLaptop from '../DashboardHomeStudentLaptop';
 import DashboardHomeStudentDesktop from '../DashboardHomeStudentDesktop';
 import DashboardHomeStudentTablet from '../DashboardHomeStudentTablet';
@@ -16,7 +16,6 @@ export default function StudentDashboardRoot(props) {
   const [modelResponses, setModelResponses] = React.useState([]);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const queryClient = useQueryClient();
 
   const tasksQuery = useQuery({

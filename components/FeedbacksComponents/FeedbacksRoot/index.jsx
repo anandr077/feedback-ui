@@ -574,7 +574,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     saveAnswer(submission.id, answer.serialNumber, {
       answer: contents,
     }).then((updatedSubmission) => {
-      setSubmission(updatedSubmission);
       return updateCommentsRange(answer, highlights);
     });
   };
@@ -1371,34 +1370,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
 
-      <ReactiveRender
-        mobile={
-          <FeedbackTeacherMobile
-            {...{
-              newCommentSerialNumber,
-              markingCriteriaFeedback,
-
-              isTeacher,
-              submissionStatusLabel,
-              labelText,
-              quillRefs,
-              pageMode,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              students,
-              submission,
-              sharewithclassdialog,
-              ...feedbacksFeedbackTeacherMobileData,
-              MARKING_METHODOLOGY_TYPE,
-            }}
-          />
-        }
-        tablet={
-          <FeedbackTeacherLaptop
+        <FeedbackTeacherLaptop
             {...{
               newCommentSerialNumber,
               markingCriteriaFeedback,
@@ -1423,65 +1395,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               overallComments
             }}
           />
-        }
-        laptop={
-          <>
-            <FeedbackTeacherLaptop
-              {...{
-                isTeacher,
-                markingCriteriaFeedback,
-                newCommentSerialNumber,
-                showLoader,
-                submissionStatusLabel,
-                labelText,
-                quillRefs,
-                pageMode,
-                shortcuts,
-                smartAnnotations,
-                newCommentFrameRef,
-                methods,
-                showNewComment,
-                comments,
-                studentName,
-                students,
-                submission,
-                sharewithclassdialog,
-                ...feedbacksFeedbackTeacherLaptopData,
-                MARKING_METHODOLOGY_TYPE,
-                overallComments
-              }}
-            />
-          </>
-        }
-        desktop={
-          <FeedbackTeacherLaptop
-            {...{
-              isTeacher,
-              markingCriteriaFeedback,
-              newCommentSerialNumber,
-              showLoader,
-              submissionStatusLabel,
-              labelText,
-              smartAnnotations,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              students,
-              submission,
-              sharewithclassdialog,
-              ...feedbacksFeedbackTeacherLaptopData,
-              MARKING_METHODOLOGY_TYPE,
-              overallComments
-            }}
-          />
-        }
-      />
-    </>
+        </>
   );
 
   function submissionFunction() {

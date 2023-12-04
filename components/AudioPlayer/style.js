@@ -35,7 +35,11 @@ export const Audio = styled.audio`
 `;
 
 export const AudioFeedbackTitle = styled.h2`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-size: 18px;
+  color: var(--text, #1e252a);
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   margin: 25px 0 15px;
 `;

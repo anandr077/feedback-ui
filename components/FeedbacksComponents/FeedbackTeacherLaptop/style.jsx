@@ -43,7 +43,6 @@ export const Ellipse141 = styled.div`
   border-radius: 10px;
 `;
 export const Label = styled.div`
-  ${feedbacksIbmplexsansNormalShark20px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -51,6 +50,12 @@ export const Label = styled.div`
   line-height: normal;
   display: flex;
   align-items: center;
+  color: var(--text, #1e252a);
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 export const TitleWrapper = styled.div`
   display: flex;

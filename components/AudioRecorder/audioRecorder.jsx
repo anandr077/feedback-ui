@@ -9,8 +9,12 @@ export const AudioContainer = styled.main`
 `;
 
 export const AudioFeedbackTitle = styled.h2`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-size: 18px;
+  color: var(--text, #1e252a);
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   margin-bottom: 15px;
 `;
 
@@ -79,7 +83,6 @@ export const DeleteBtn = styled.div`
   margin-right: 10px;
 `;
 
-
 export const DeleteAudio = styled.img`
   height: 20px;
   width: 20px;
@@ -112,8 +115,6 @@ export const RecordingIndicator = styled.div`
   animation: ${pulseAnimation} 1s ease-in-out infinite;
 `;
 
-
 export const AudioIcon = styled(VolumeUpIcon)`
   font-size: 18px !important;
 `;
-

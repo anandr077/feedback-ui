@@ -136,12 +136,13 @@ export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
   gap: 40px;
-  padding: 0px 60px;
+  padding: 0px;
   position: relative;
   align-self: stretch;
-  width: ${({ onMobileView }) => (onMobileView ? '100%' : '80%')};
-  left: 10%;
+  width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
+
   position: sticky;
 `;
 export const Frame1371 = styled.div`
@@ -229,7 +230,7 @@ export const QuillContainer = styled.p`
 export const Frame1331 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 339px;
+  width: 420px;
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;

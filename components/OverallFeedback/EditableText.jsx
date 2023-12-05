@@ -33,8 +33,14 @@ const EditableText = ({ initialValue, onSave }) => {
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = calculateTextareaHeight();
+
+      if (isEditing) {
+        const textLength = tempValue.length;
+        textareaRef.current.setSelectionRange(textLength, textLength);
+        textareaRef.current.focus();
+      }
     }
-  }, []);
+  }, [isEditing, tempValue]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -71,6 +77,7 @@ const EditableText = ({ initialValue, onSave }) => {
             value={tempValue}
             onChange={handleInputChange}
             autoFocus
+            ref={textareaRef}
           />
           <ButtonsContainer>
             <Button onClick={handleSave}>Save</Button>

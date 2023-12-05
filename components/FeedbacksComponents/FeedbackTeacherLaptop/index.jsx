@@ -7,7 +7,7 @@ import Header from '../../Header';
 import { flatMap, groupBy } from 'lodash';
 import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
-import { isTabletView } from '../../ReactiveRender';
+import { isMobileView } from '../../ReactiveRender';
 import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -91,7 +91,6 @@ function FeedbackTeacherLaptop(props) {
       <div className="feedback-teacher-laptop screen">
         {sharewithclassdialog}
         <Frame1388>
-          {/* {header(tabletView, headerProps)} */}
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
             submission,
@@ -252,7 +251,7 @@ function answersAndFeedbacks(
           methods
         )}
 
-        <FeedbackFrame
+        {!isMobileView() && <FeedbackFrame
           methods={methods}
           submission={submission}
           newCommentSerialNumber={newCommentSerialNumber}
@@ -270,7 +269,7 @@ function answersAndFeedbacks(
           newCommentFrameRef={newCommentFrameRef}
           share={share}
           smartAnnotations={smartAnnotations}
-        ></FeedbackFrame>
+        ></FeedbackFrame>}
       </Frame1368>
     </Frame1386>
   );

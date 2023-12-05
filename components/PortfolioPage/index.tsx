@@ -21,7 +21,6 @@ import {
   reducer,
 } from './portfolioReducer';
 
-import { isSmallScreen } from '../ReactiveRender';
 import PortfolioHeader from './PortfolioHeader';
 import {
   DocumentMainSection,
@@ -34,7 +33,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
 
 const PortfolioPage = () => {
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [state, dispatch] = useReducer(reducer, initailState);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteConfirmationPopup, setShowDeleteConfirmationPopup] =
@@ -218,7 +216,6 @@ const PortfolioPage = () => {
             </SideNavContainer>
             <DocumentMainSection>
               <RecentWorkContainer
-                smallScreen={smallScreenView}
                 state={state}
                 showModal={showModal}
                 setShowModal={setShowModal}

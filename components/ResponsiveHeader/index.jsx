@@ -12,13 +12,14 @@ import {
   teacherStudentTaskHeaderProps,
 } from '../../utils/headerProps';
 import { getUserRole } from '../../service';
+import { isSmallScreen } from '../ReactiveRender';
 
-export default function ResponsiveHeader({ isSmallScreen }) {
+export default function ResponsiveHeader() {
   const location = useLocation();
 
   const headerProps = getHeaderProps(location.pathname);
 
-  if (isSmallScreen) {
+  if (isSmallScreen()) {
     return <HeaderSmall headerProps={headerProps} />;
   }
   return <Header headerProps={headerProps} />;

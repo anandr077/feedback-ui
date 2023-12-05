@@ -1,4 +1,4 @@
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender from '../../ReactiveRender';
 import TaskDetailMobile from '../TaskDetailMobile';
 import TaskDetailTablet from '../TaskDetailTablet';
 import TaskDetailLaptop from '../TaskDetailLaptop';
@@ -20,9 +20,6 @@ export default function TaskDetail() {
   const [assignment, setAssigment] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [clazzName, setClazzName] = useState(null);
-   const [smallScreenView, setSmallScreenView] =useState(
-     isSmallScreen()
-   );
 
   useEffect(() => {
     Promise.all([getAssignmentById(assignmentId), getClasses()]).then(

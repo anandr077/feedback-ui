@@ -27,6 +27,14 @@ export const ButtonsContainer = styled.div`
   align-self: stretch;
   gap: 25px;
   line-height: normal;
+
+  @media screen and (max-width: 1024px) {
+    justify-content: center;
+    width: 100%;
+  }
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+  }
 `;
 export const FocusAreasLabelContainer = styled.div`
   display: flex;
@@ -80,6 +88,12 @@ export const StatusText = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
 `;
 
 export const Screen = styled.div`
@@ -162,6 +176,9 @@ export const Frame1371 = styled.div`
   background-color: var(--white-pointer);
   padding: 20px;
   flex-wrap: wrap;
+  @media screen and (max-width: 400px) {
+    gap: 40px;
+  }
 `;
 export const AssignmentTitle = styled.h1`
   ${feedbacksIbmplexsansBoldShark36px}

@@ -17,7 +17,21 @@ export default function StudentDashboardRoot(props) {
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
   const queryClient = useQueryClient();
-
+  const updateStatusAndRefetchModelResponses = (id, status, publishActionCompleted) => {
+    setModelResponses(modelResponses=>{
+      const updatedModelResponses = _.map(modelResponses, (obj) => {
+        if (obj.id === id) {
+          return {
+            ...obj,
+            status,
+          };
+        }
+        return obj;
+      });
+      return updatedModelResponses;
+    })
+    setPublishActionCompleted(publishActionCompleted);
+  }
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
     queryFn: async () => {
@@ -79,7 +93,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentMobileData,
           }}
         />
@@ -91,7 +105,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentTabletData,
           }}
         />
@@ -103,7 +117,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentLaptopData,
           }}
         />
@@ -115,7 +129,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentDesktopData,
           }}
         />

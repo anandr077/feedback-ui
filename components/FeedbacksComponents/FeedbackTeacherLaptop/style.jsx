@@ -435,6 +435,7 @@ export const ExemplarComponent = styled.div`
 `;
 
 export const SmartAnnotationsComponent = styled.div`
+  width: 100%;
   height: 330px;
   display: flex;
   flex-direction: column;

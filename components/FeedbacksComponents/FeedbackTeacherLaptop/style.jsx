@@ -28,12 +28,13 @@ export const ButtonsContainer = styled.div`
   gap: 25px;
   line-height: normal;
 
-  @media screen and (max-width: 1024px) {
-    justify-content: center;
+  @media screen and (max-width: 1024px) and (min-width: 766px) {
     width: 100%;
   }
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 765px) {
     flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
   }
 `;
 export const FocusAreasLabelContainer = styled.div`
@@ -89,9 +90,8 @@ export const StatusText = styled.div`
   align-items: center;
   gap: 4px;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 765px) {
     flex-direction: column;
-    gap: 20px;
     align-items: flex-start;
   }
 `;
@@ -176,8 +176,13 @@ export const Frame1371 = styled.div`
   background-color: var(--white-pointer);
   padding: 20px;
   flex-wrap: wrap;
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
+  }
+  @media screen and (max-width: 765px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
   }
 `;
 export const AssignmentTitle = styled.h1`

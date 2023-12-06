@@ -89,7 +89,6 @@ const EditableText = ({ initialValue, onSave }) => {
                 onChange={handleInputChange}
                 autoFocus
                 readOnly={true}
-                style={{ height: calculateTextareaHeight() }}
                 ref={textareaRef}
               />
               <Button onClick={handleEditClick}>Edit</Button>

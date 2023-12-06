@@ -289,16 +289,22 @@ const ReplyInputWrapper = styled.div`
   font-family: 'IBM Plex Sans';
 `;
 
-const Input = styled.input`
+const Input = styled.textarea`
   width: 100%;
+  min-height: 150px;
   display: flex;
   padding: 8px 8px 8px 12px;
+  font-family: var(--font-family-ibm_plex_sans);
   align-items: center;
   gap: 12px;
   align-self: stretch;
   border-radius: 8px;
   border: 1px solid #1e252a;
   background: #fff;
+  border: 1px solid var(--light-mode-purple);
+  border-radius: 10px;
+  outline: none;
+  resize: none;
 `;
 
 const Reply = styled.div`

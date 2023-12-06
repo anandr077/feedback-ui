@@ -291,7 +291,7 @@ const ReplyInputWrapper = styled.div`
 
 const Input = styled.textarea`
   width: 100%;
-  min-height: 150px;
+  min-height: 100px;
   display: flex;
   padding: 8px 8px 8px 12px;
   font-family: var(--font-family-ibm_plex_sans);

@@ -34,7 +34,7 @@ const EditableText = ({ initialValue, onSave }) => {
     if (textareaRef.current) {
       textareaRef.current.style.height = calculateTextareaHeight();
 
-      if (isEditing) {
+      if (isEditing && tempValue) {
         const textLength = tempValue.length;
         textareaRef.current.setSelectionRange(textLength, textLength);
         textareaRef.current.focus();

@@ -103,7 +103,7 @@ const EditableText = ({ initialValue, onSave }) => {
             </>
           ) : (
             <Button onClick={handleEditClick} type="addFeedback">
-              Add a feedback
+              + Written Feedback
             </Button>
           )}
         </div>

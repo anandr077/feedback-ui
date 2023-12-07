@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender from '../../ReactiveRender';
 import {
   getAssignments,
   getClassesWithStudents,
@@ -17,7 +17,6 @@ export default function TeacherDashboardRoot(props) {
   const [assignments, setAssignments] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
 
   const assignmentsQuery = useQuery({

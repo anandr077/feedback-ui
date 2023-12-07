@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const AudioContainer = styled.div`
-  margin-top: 15px;
+  margin-top: 30px;
 `;
 
 export const Audio = styled.audio`
@@ -30,6 +30,16 @@ export const Audio = styled.audio`
   }
 
   &::-webkit-media-controls-download-button {
-    display: none; 
+    display: none;
   }
+`;
+
+export const AudioFeedbackTitle = styled.h2`
+  color: var(--text, #1e252a);
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 25px 0 15px;
 `;

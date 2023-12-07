@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactiveRender, { isSmallScreen } from '../ReactiveRender';
+import ReactiveRender from '../ReactiveRender';
 import DashboardHomeStudentLaptop from '../DashboardHomeStudentLaptop';
 import DashboardHomeStudentDesktop from '../DashboardHomeStudentDesktop';
 import DashboardHomeStudentTablet from '../DashboardHomeStudentTablet';
@@ -16,9 +16,22 @@ export default function StudentDashboardRoot(props) {
   const [modelResponses, setModelResponses] = React.useState([]);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const queryClient = useQueryClient();
-
+  const updateStatusAndRefetchModelResponses = (id, status, publishActionCompleted) => {
+    setModelResponses(modelResponses=>{
+      const updatedModelResponses = _.map(modelResponses, (obj) => {
+        if (obj.id === id) {
+          return {
+            ...obj,
+            status,
+          };
+        }
+        return obj;
+      });
+      return updatedModelResponses;
+    })
+    setPublishActionCompleted(publishActionCompleted);
+  }
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
     queryFn: async () => {
@@ -80,7 +93,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentMobileData,
           }}
         />
@@ -92,7 +105,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentTabletData,
           }}
         />
@@ -104,7 +117,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentLaptopData,
           }}
         />
@@ -116,7 +129,7 @@ export default function StudentDashboardRoot(props) {
             inProgressTasks,
             overdueTasks,
             modelResponses,
-            setPublishActionCompleted,
+            setPublishActionCompleted : updateStatusAndRefetchModelResponses,
             ...dashboardHomeStudentDesktopData,
           }}
         />

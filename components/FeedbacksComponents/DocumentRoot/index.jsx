@@ -71,7 +71,6 @@ export default function DocumentRoot({}) {
   const [hasProcessedData, setHasProcessedData] = useState(false);
   const [pageMode, setPageMode] = useState(null);
   const [shouldFetchPortfolio, setShouldFetchPortfolio] = useState(false);
-  const onMobileView = isMobileView();
 
   // Fetch functions
   const fetchSubmissionData = async () => {
@@ -736,114 +735,30 @@ export default function DocumentRoot({}) {
         />
       )}
 
-      <ReactiveRender
-        mobile={
-          <Document
-            {...{
-              newCommentSerialNumber,
-              showLoader,
-              labelText,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              submission,
-              setSubmission,
-              // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps,
-              allFolders: folders,
-              allClasses,
-              students,
-              teachers,
-              onMobileView,
-            }}
-          />
-        }
-        tablet={
-          <Document
-            {...{
-              newCommentSerialNumber,
-              showLoader,
-              labelText,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              submission,
-              setSubmission,
-              // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: headerProps,
-              allFolders: folders,
-              allClasses,
-              students,
-              teachers,
-            }}
-          />
-        }
-        laptop={
-          <>
-            <Document
-              {...{
-                newCommentSerialNumber,
-                showLoader,
-                labelText,
-                quillRefs,
-                pageMode,
-                shortcuts,
-                smartAnnotations,
-                newCommentFrameRef,
-                methods,
-                showNewComment,
-                comments,
-                studentName,
-                submission,
-                setSubmission,
-                // ...feedbacksFeedbackTeacherLaptopData,
-                headerProps: headerProps,
-                allFolders: folders,
-                allClasses,
-                students,
-                teachers,
-              }}
-            />
-          </>
-        }
-        desktop={
-          <Document
-            {...{
-              newCommentSerialNumber,
-              showLoader,
-              labelText,
-              smartAnnotations,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              submission,
-              setSubmission,
-              headerProps: headerProps,
-              allFolders: folders,
-              allClasses,
-              students,
-              teachers,
-            }}
-          />
-        }
-      />
+      <Document
+          {...{
+            newCommentSerialNumber,
+            showLoader,
+            labelText,
+            quillRefs,
+            pageMode,
+            shortcuts,
+            smartAnnotations,
+            newCommentFrameRef,
+            methods,
+            showNewComment,
+            comments,
+            studentName,
+            submission,
+            setSubmission,
+            // ...feedbacksFeedbackTeacherLaptopData,
+            headerProps: headerProps,
+            allFolders: folders,
+            allClasses,
+            students,
+            teachers,
+          }}
+        />
     </>
   );
 

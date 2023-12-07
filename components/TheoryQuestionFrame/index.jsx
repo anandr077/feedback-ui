@@ -48,10 +48,10 @@ export default function TheoryQuestionFrame(props) {
 
   const appendFunction = (markingCriterias) => {
     return markingCriterias.map((item) => {
-      if (item.type === 'STRENGTHS_TARGETS') {
+      if (item.type === 'STRENGTHS_TARGETS' && !item.title.includes('(S&T)')) {
         item.title = item.title + ' (S&T)';
       }
-      if (item.type === 'RUBRICS') {
+      if (item.type === 'RUBRICS' && !item.title.includes('(R)')) {
         item.title = item.title + ' (R)';
       }
       return item;
@@ -115,7 +115,7 @@ export default function TheoryQuestionFrame(props) {
             {questionDetails.markingCriteria.title ? (
               <DropdownMenu
                 fullWidth={true}
-                menuItems={allMarkingCriterias}
+                menuItems={appendFunction(allMarkingCriterias)}
                 selectedIndex={selectedMarkingCriteriaIndex}
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);

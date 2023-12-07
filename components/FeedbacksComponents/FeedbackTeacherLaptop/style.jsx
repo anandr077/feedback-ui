@@ -27,6 +27,15 @@ export const ButtonsContainer = styled.div`
   align-self: stretch;
   gap: 25px;
   line-height: normal;
+
+  @media screen and (max-width: 1024px) and (min-width: 766px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 765px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
 `;
 export const FocusAreasLabelContainer = styled.div`
   display: flex;
@@ -43,7 +52,6 @@ export const Ellipse141 = styled.div`
   border-radius: 10px;
 `;
 export const Label = styled.div`
-  ${feedbacksIbmplexsansNormalShark20px}
   position: relative;
   align-self: stretch;
   margin-top: -1px;
@@ -51,6 +59,12 @@ export const Label = styled.div`
   line-height: normal;
   display: flex;
   align-items: center;
+  color: var(--text, #1e252a);
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 export const TitleWrapper = styled.div`
   display: flex;
@@ -75,6 +89,11 @@ export const StatusText = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+
+  @media screen and (max-width: 765px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const Screen = styled.div`
@@ -114,6 +133,7 @@ export const Frame1388 = styled.div`
   gap: 30px;
   position: relative;
   align-self: stretch;
+  margin-bottom: 50px;
 `;
 export const Frame1387 = styled.div`
   display: flex;
@@ -135,12 +155,13 @@ export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
   gap: 40px;
-  padding: 0px 60px;
+  padding: 0px;
   position: relative;
   align-self: stretch;
-  width: ${({ onMobileView }) => (onMobileView ? '100%' : '80%')};
-  left: 10%;
+  width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
+
   position: sticky;
 `;
 export const Frame1371 = styled.div`
@@ -155,6 +176,14 @@ export const Frame1371 = styled.div`
   background-color: var(--white-pointer);
   padding: 20px;
   flex-wrap: wrap;
+  @media screen and (max-width: 1024px) and (min-width: 766px) {
+    gap: 40px;
+  }
+  @media screen and (max-width: 765px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
 `;
 export const AssignmentTitle = styled.h1`
   ${feedbacksIbmplexsansBoldShark36px}
@@ -228,7 +257,7 @@ export const QuillContainer = styled.p`
 export const Frame1331 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 339px;
+  width: 420px;
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
@@ -428,6 +457,7 @@ export const ExemplarComponent = styled.div`
 `;
 
 export const SmartAnnotationsComponent = styled.div`
+  width: 100%;
   height: 330px;
   display: flex;
   flex-direction: column;

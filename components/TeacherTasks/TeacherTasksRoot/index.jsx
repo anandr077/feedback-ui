@@ -4,7 +4,7 @@ import {
   getClasses,
   getDocumentReviews,
 } from '../../../service';
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
 import TeacherTasksLaptop from '../TeacherTasksLaptop';

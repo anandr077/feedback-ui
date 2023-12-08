@@ -4,7 +4,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 export const AudioContainer = styled.main`
   border-radius: 25px;
-  margin-top: 30px;
+  margin-top: 20px;
   width: 100%;
 `;
 

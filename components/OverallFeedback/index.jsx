@@ -143,8 +143,8 @@ const OverallFeedback = ({
   return (
     <FeedbackContainer>
       <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
-      {showOverallComment(pageMode, overallComment)}
       {audioOverallComment(pageMode, overallComment)}
+      {showOverallComment(pageMode, overallComment)}
     </FeedbackContainer>
   );
 };

@@ -153,7 +153,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               acc[classItem.id] = {
                 checked: false,
                 students: classItem.students.reduce((studentAcc, student) => {
-                  studentAcc[student.id] = false;
+                  let bool =
+                    submissionsResult.studentId === student.id ? true : false;
+                  studentAcc[student.id] = bool;
                   return studentAcc;
                 }, {}),
               };
@@ -163,7 +165,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           );
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
-          console.log('the overall comment is', overAllCommentsResult)
           setOverallComments(overAllCommentsResult);
         }
       )
@@ -231,7 +232,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     acc[classItem.id] = {
       checked: false,
       students: classItem.students.reduce((studentAcc, student) => {
-        studentAcc[student.id] = false;
+         let bool = submission.studentId === student.id ? true : false;
+        studentAcc[student.id] = bool;
         return studentAcc;
       }, {}),
     };
@@ -494,7 +496,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                         <CheckboxBordered
                           type="checkbox"
                           checked={
-                            (submission.studentId === student.id && true) ||
                             checkedState[classItem.id]?.students[student.id] ||
                             false
                           }
@@ -503,7 +504,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                             handleStudentCheck(classItem.id, student.id)
                           }
                         />
-                        {student.name}
+                        {student.name}{' '}
+                        {submission.studentId === student.id ? '(author)' : ''}
                       </label>
                     </ListItem>
                   ))}
@@ -973,7 +975,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const addOverallFeedback = ( questionSerialNumber, comment, audio) => {
+  const addOverallFeedback = (questionSerialNumber, comment, audio) => {
     addFeedback(submission.id, {
       questionSerialNumber: questionSerialNumber,
       feedback: comment,
@@ -992,25 +994,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
-    const feedbackToUpdate = overallComments.find((feedback) => feedback.id === feedbackId)
+    const feedbackToUpdate = overallComments.find(
+      (feedback) => feedback.id === feedbackId
+    );
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
-      return
+      return;
     }
-    console.log("feedbackToUpdate ", feedbackToUpdate)
+    console.log('feedbackToUpdate ', feedbackToUpdate);
 
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
       feedback: feedbackText,
       audio: audio,
     }).then((response) => {
-      setOverallComments(o=>o.map((feedback) => {
-        return feedback.id === feedbackId ? 
-        {...feedback, comment: feedbackText, audio: audio} : feedback
-      })
+      setOverallComments((o) =>
+        o.map((feedback) => {
+          return feedback.id === feedbackId
+            ? { ...feedback, comment: feedbackText, audio: audio }
+            : feedback;
+        })
       );
-        
-    })
-    
+    });
   };
 
   const handleSaveSubmissionForReview = () => {
@@ -1358,7 +1362,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     addOverallFeedback,
     initialOverallFeedback,
     setInitialOverAllFeedback,
-    
+
     updateOverAllFeedback,
   };
 
@@ -1369,32 +1373,32 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
 
-        <FeedbackTeacherLaptop
-            {...{
-              newCommentSerialNumber,
-              markingCriteriaFeedback,
-              isTeacher,
-              showLoader,
-              submissionStatusLabel,
-              labelText,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              students,
-              submission,
-              sharewithclassdialog,
-              ...feedbacksFeedbackTeacherLaptopData,
-              MARKING_METHODOLOGY_TYPE,
-              overallComments
-            }}
-          />
-        </>
+      <FeedbackTeacherLaptop
+        {...{
+          newCommentSerialNumber,
+          markingCriteriaFeedback,
+          isTeacher,
+          showLoader,
+          submissionStatusLabel,
+          labelText,
+          quillRefs,
+          pageMode,
+          shortcuts,
+          smartAnnotations,
+          newCommentFrameRef,
+          methods,
+          showNewComment,
+          comments,
+          studentName,
+          students,
+          submission,
+          sharewithclassdialog,
+          ...feedbacksFeedbackTeacherLaptopData,
+          MARKING_METHODOLOGY_TYPE,
+          overallComments
+        }}
+      />
+    </>
   );
 
   function submissionFunction() {

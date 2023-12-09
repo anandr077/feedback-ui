@@ -232,7 +232,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     acc[classItem.id] = {
       checked: false,
       students: classItem.students.reduce((studentAcc, student) => {
-         let bool = submission.studentId === student.id ? true : false;
+        let bool = submission.studentId === student.id ? true : false;
         studentAcc[student.id] = bool;
         return studentAcc;
       }, {}),
@@ -394,7 +394,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         checked: currentClassCheckedState,
         students: Object.fromEntries(
           Object.entries(checkedState[classId]?.students || {}).map(
-            ([studentId, _]) => [studentId, currentClassCheckedState]
+            ([studentId, _]) => {
+              if (submission.studentId === studentId) {
+                return [studentId, true];
+              }
+              return [studentId, currentClassCheckedState];
+            }
           )
         ),
       },
@@ -987,7 +992,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the overall Feedback is', response)
+        console.log('the overall Feedback is', response);
         setOverallComments([...overallComments, response]);
       }
     });
@@ -1395,7 +1400,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           sharewithclassdialog,
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
-          overallComments
+          overallComments,
         }}
       />
     </>

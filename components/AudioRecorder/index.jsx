@@ -102,7 +102,6 @@ const AudioRecorder = ({
 
   return (
     <AudioContainer>
-      <AudioFeedbackTitle>Audio Feedback</AudioFeedbackTitle>
       {
         <ButtonContainer>
           {!permission && !audio ? (

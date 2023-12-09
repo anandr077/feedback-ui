@@ -2,11 +2,6 @@ import styled from 'styled-components';
 import { feedbacksIbmplexsansNormalShark20px } from '../../styledMixins';
 
 export const EditTextContainer = styled.div`
-  border: 1px solid rgba(114, 0, 224, 0.1);
-  background: #fff;
-  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  border-radius: 16px;
-  padding: 20px;
   margin-top: 15px;
 `;
 
@@ -14,7 +9,7 @@ export const HiddenInputBox = styled.textarea`
   display: block;
   width: 100%;
   font-family: var(--font-family-ibm_plex_sans);
-  height: auto;
+  height: auto !important;
   margin-top: 10px;
   border: none;
   border-radius: 10px;
@@ -25,10 +20,10 @@ export const HiddenInputBox = styled.textarea`
   line-height: 25px;
   font-weight: 400;
   font-style: normal;
-  scrollbar-width: thin; 
+  scrollbar-width: thin;
   scrollbar-color: transparent transparent;
   &::-webkit-scrollbar {
-    width: 0.5em; 
+    width: 0.5em;
   }
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
@@ -64,13 +59,11 @@ export const Button = styled.button`
   width: fit-content;
   padding: 8px 16px;
   background-color: ${(props) =>
-    props.type === 'cancel'
-      ? 'red'
-      : 'var(--light-mode-purple)'};
+    props.type === 'cancel' ? 'red' : 'var(--light-mode-purple)'};
   border-radius: 10px;
   border: 1px solid;
   color: white;
-  margin-top: ${(props) => props.type === 'addFeedback' ? '0' : '10px'};
+  margin-top: ${(props) => (props.type === 'addFeedback' ? '0' : '10px')};
   cursor: pointer;
 `;
 

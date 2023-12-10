@@ -114,7 +114,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [popupText, setPopupText] = React.useState(null);
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [checkedState, setCheckedState] = useState({});
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -153,7 +152,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               acc[classItem.id] = {
                 checked: false,
                 students: classItem.students.reduce((studentAcc, student) => {
-                  studentAcc[student.id] = false;
+                  let bool =
+                    submissionsResult.studentId === student.id ? true : false;
+                  studentAcc[student.id] = bool;
                   return studentAcc;
                 }, {}),
               };
@@ -163,7 +164,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           );
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
-          console.log('the overall comment is', overAllCommentsResult)
           setOverallComments(overAllCommentsResult);
         }
       )
@@ -231,7 +231,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     acc[classItem.id] = {
       checked: false,
       students: classItem.students.reduce((studentAcc, student) => {
-        studentAcc[student.id] = false;
+        let bool = submission.studentId === student.id ? true : false;
+        studentAcc[student.id] = bool;
         return studentAcc;
       }, {}),
     };
@@ -384,7 +385,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     } else {
       setExemplerComment(value);
     }
-    setIsButtonDisabled(false);
   };
 
   const handleClassCheck = (classId) => {
@@ -398,12 +398,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         checked: currentClassCheckedState,
         students: Object.fromEntries(
           Object.entries(checkedState[classId]?.students || {}).map(
-            ([studentId, _]) => [studentId, currentClassCheckedState]
+            ([studentId, _]) => {
+              if (submission.studentId === studentId) {
+                return [studentId, true];
+              }
+              return [studentId, currentClassCheckedState];
+            }
           )
         ),
       },
     };
-    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
@@ -422,12 +426,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         },
       },
     };
-    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
   const convertToCheckedState = (selectedStudents) => {
-    setIsButtonDisabled(false);
     const updatedState = { ...initialCheckedState };
 
     selectedStudents?.forEach(({ classId, studentId }) => {
@@ -494,26 +496,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   {classItem.title}
                 </ClassBox>
                 <StudentList>
-                  {classItem.students
-                    .filter((student) => student.id !== submission.studentId)
-                    .map((student) => (
-                      <ListItem key={student.id}>
-                        <label>
-                          <CheckboxBordered
-                            type="checkbox"
-                            checked={
-                              checkedState[classItem.id]?.students[
-                                student.id
-                              ] || false
-                            }
-                            onChange={() =>
-                              handleStudentCheck(classItem.id, student.id)
-                            }
-                          />
-                          {student.name}
-                        </label>
-                      </ListItem>
-                    ))}
+                  {classItem.students.map((student) => (
+                    <ListItem key={student.id}>
+                      <label>
+                        <CheckboxBordered
+                          type="checkbox"
+                          checked={
+                            checkedState[classItem.id]?.students[student.id] ||
+                            false
+                          }
+                          disabled={submission.studentId === student.id}
+                          onChange={() =>
+                            handleStudentCheck(classItem.id, student.id)
+                          }
+                        />
+                        {student.name}{' '}
+                        {submission.studentId === student.id ? '(author)' : ''}
+                      </label>
+                    </ListItem>
+                  ))}
                 </StudentList>
               </div>
             ))}
@@ -541,7 +542,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   : addExemplerComment();
                 setCheckedState(initialCheckedState);
               }}
-              isButtonDisabled={isButtonDisabled}
+              isButtonDisabled={getSharedStudentIds().length >=2 ? false : true}
               showComment={updateExemplarComment.showComment}
               cancelButtonOnClick={() => {
                 setShowShareWithClass(false);
@@ -558,7 +559,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function handleShareWithClass() {
     setCheckedState(initialCheckedState);
-    setIsButtonDisabled(true);
     setShowShareWithClass(true);
     updateExemplarComment.showComment = false;
   }
@@ -980,7 +980,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }
   }
 
-  const addOverallFeedback = ( questionSerialNumber, comment, audio) => {
+  const addOverallFeedback = (questionSerialNumber, comment, audio) => {
     addFeedback(submission.id, {
       questionSerialNumber: questionSerialNumber,
       feedback: comment,
@@ -992,32 +992,34 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the overall Feedback is', response)
+        console.log('the overall Feedback is', response);
         setOverallComments([...overallComments, response]);
       }
     });
   };
 
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
-    const feedbackToUpdate = overallComments.find((feedback) => feedback.id === feedbackId)
+    const feedbackToUpdate = overallComments.find(
+      (feedback) => feedback.id === feedbackId
+    );
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
-      return
+      return;
     }
-    console.log("feedbackToUpdate ", feedbackToUpdate)
+    console.log('feedbackToUpdate ', feedbackToUpdate);
 
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
       feedback: feedbackText,
       audio: audio,
     }).then((response) => {
-      setOverallComments(o=>o.map((feedback) => {
-        return feedback.id === feedbackId ? 
-        {...feedback, comment: feedbackText, audio: audio} : feedback
-      })
+      setOverallComments((o) =>
+        o.map((feedback) => {
+          return feedback.id === feedbackId
+            ? { ...feedback, comment: feedbackText, audio: audio }
+            : feedback;
+        })
       );
-        
-    })
-    
+    });
   };
 
   const handleSaveSubmissionForReview = () => {
@@ -1370,7 +1372,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     addOverallFeedback,
     initialOverallFeedback,
     setInitialOverAllFeedback,
-    
+
     updateOverAllFeedback,
   };
 
@@ -1381,32 +1383,32 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
 
-        <FeedbackTeacherLaptop
-            {...{
-              newCommentSerialNumber,
-              markingCriteriaFeedback,
-              isTeacher,
-              showLoader,
-              submissionStatusLabel,
-              labelText,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              students,
-              submission,
-              sharewithclassdialog,
-              ...feedbacksFeedbackTeacherLaptopData,
-              MARKING_METHODOLOGY_TYPE,
-              overallComments
-            }}
-          />
-        </>
+      <FeedbackTeacherLaptop
+        {...{
+          newCommentSerialNumber,
+          markingCriteriaFeedback,
+          isTeacher,
+          showLoader,
+          submissionStatusLabel,
+          labelText,
+          quillRefs,
+          pageMode,
+          shortcuts,
+          smartAnnotations,
+          newCommentFrameRef,
+          methods,
+          showNewComment,
+          comments,
+          studentName,
+          students,
+          submission,
+          sharewithclassdialog,
+          ...feedbacksFeedbackTeacherLaptopData,
+          MARKING_METHODOLOGY_TYPE,
+          overallComments,
+        }}
+      />
+    </>
   );
 
   function submissionFunction() {

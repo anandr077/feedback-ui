@@ -280,7 +280,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        
+
         highlightByComment(response);
       }
     });
@@ -471,6 +471,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setShowNewComment(false);
         setExemplerComment('');
         setCheckedState(initialCheckedState);
+      }}
+      sx={{
+        '& .MuiDialog-container': {
+          '& .MuiPaper-root': {
+            width: '100%',
+            maxWidth: '400px',
+          },
+        },
       }}
       open={showShareWithClass}
     >
@@ -1137,7 +1145,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function highlightByComment(comment) {
     const div = document.getElementById('comment_' + comment.id);
     if (div) {
-        highlightComment(comment.color, div);
+      highlightComment(comment.color, div);
     }
   }
   function highlightComment(color, div) {

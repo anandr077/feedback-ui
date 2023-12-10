@@ -9,7 +9,7 @@ export const HiddenInputBox = styled.textarea`
   display: block;
   width: 100%;
   font-family: var(--font-family-ibm_plex_sans);
-  height: auto !important;
+  height: auto;
   margin-top: 10px;
   border: none;
   border-radius: 10px;
@@ -38,7 +38,6 @@ export const InputBox = styled.textarea`
   margin-top: 10px;
   border: 1px solid var(--light-mode-purple);
   border-radius: 10px;
-  min-height: 200px;
   outline: none;
   padding: 10px;
   resize: none;

@@ -280,7 +280,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-        
+
         highlightByComment(response);
       }
     });
@@ -472,18 +472,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setExemplerComment('');
         setCheckedState(initialCheckedState);
       }}
+      sx={{
+        '& .MuiDialog-container': {
+          '& .MuiPaper-root': {
+            width: '100%',
+            maxWidth: '400px',
+          },
+        },
+      }}
       open={showShareWithClass}
     >
       <ClassContainer>
         <ClassBoxContainer>
           <ClassTitleBox>
             <ClassTitle>
-              <Crown src="/icons/exemplary_response.png" alt="crown" />
-              Exemplar
+              <Crown src="/icons/share.png" alt="crown" />
+              Share
             </ClassTitle>
             <Line141 src="/img/line-14@2x.png" />
           </ClassTitleBox>
-          <ClassHeading>Share with:</ClassHeading>
           <StudentContainer>
             {classesAndStudents.map((classItem) => (
               <div key={classItem.id}>
@@ -542,7 +549,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   : addExemplerComment();
                 setCheckedState(initialCheckedState);
               }}
-              isButtonDisabled={getSharedStudentIds().length >=2 ? false : true}
+              isButtonDisabled={
+                getSharedStudentIds().length >= 2 ? false : true
+              }
               showComment={updateExemplarComment.showComment}
               cancelButtonOnClick={() => {
                 setShowShareWithClass(false);
@@ -1136,7 +1145,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   function highlightByComment(comment) {
     const div = document.getElementById('comment_' + comment.id);
     if (div) {
-        highlightComment(comment.color, div);
+      highlightComment(comment.color, div);
     }
   }
   function highlightComment(color, div) {

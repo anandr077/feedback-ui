@@ -95,7 +95,6 @@ export const StudentList = styled.ul`
 export const StudentContainer = styled.div`
   overflow-y: scroll;
   max-height: 300px;
-  margin: 0 20px;
 
   &::-webkit-scrollbar {
     width: 4px;

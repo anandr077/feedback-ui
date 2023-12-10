@@ -114,7 +114,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [popupText, setPopupText] = React.useState(null);
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [checkedState, setCheckedState] = useState({});
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -386,7 +385,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     } else {
       setExemplerComment(value);
     }
-    setIsButtonDisabled(false);
   };
 
   const handleClassCheck = (classId) => {
@@ -410,7 +408,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         ),
       },
     };
-    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
@@ -429,12 +426,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         },
       },
     };
-    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
   const convertToCheckedState = (selectedStudents) => {
-    setIsButtonDisabled(false);
     const updatedState = { ...initialCheckedState };
 
     selectedStudents?.forEach(({ classId, studentId }) => {
@@ -547,7 +542,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   : addExemplerComment();
                 setCheckedState(initialCheckedState);
               }}
-              isButtonDisabled={isButtonDisabled}
+              isButtonDisabled={getSharedStudentIds().length >=2 ? false : true}
               showComment={updateExemplarComment.showComment}
               cancelButtonOnClick={() => {
                 setShowShareWithClass(false);
@@ -564,7 +559,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function handleShareWithClass() {
     setCheckedState(initialCheckedState);
-    setIsButtonDisabled(true);
     setShowShareWithClass(true);
     updateExemplarComment.showComment = false;
   }

@@ -14,7 +14,7 @@ const EditableText = ({ initialValue, onSave }) => {
   const textareaRef = useRef(null);
 
   const calculateTextareaHeight = () => {
-    const lineHeight = 25;
+    const lineHeight = 10;
     const minRows = 1;
     const maxRows = 1000;
 
@@ -76,6 +76,7 @@ const EditableText = ({ initialValue, onSave }) => {
             type="text"
             value={tempValue}
             onChange={handleInputChange}
+            style={{ height: calculateTextareaHeight() }}
             autoFocus
             ref={textareaRef}
           />
@@ -94,11 +95,14 @@ const EditableText = ({ initialValue, onSave }) => {
                 type="text"
                 value={tempValue}
                 onChange={handleInputChange}
+                style={{ height: calculateTextareaHeight() }}
                 autoFocus
                 readOnly={true}
                 ref={textareaRef}
               />
-              <Button onClick={handleEditClick}>Edit</Button>
+              <Button style={{ marginTop: '0px' }} onClick={handleEditClick}>
+                Edit
+              </Button>
             </>
           ) : (
             <Button onClick={handleEditClick} type="addFeedback">

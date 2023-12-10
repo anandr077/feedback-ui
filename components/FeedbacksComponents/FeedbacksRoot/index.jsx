@@ -478,12 +478,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <ClassBoxContainer>
           <ClassTitleBox>
             <ClassTitle>
-              <Crown src="/icons/exemplary_response.png" alt="crown" />
-              Exemplar
+              <Crown src="/icons/share.png" alt="crown" />
+              Share
             </ClassTitle>
             <Line141 src="/img/line-14@2x.png" />
           </ClassTitleBox>
-          <ClassHeading>Share with:</ClassHeading>
           <StudentContainer>
             {classesAndStudents.map((classItem) => (
               <div key={classItem.id}>
@@ -542,7 +541,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   : addExemplerComment();
                 setCheckedState(initialCheckedState);
               }}
-              isButtonDisabled={getSharedStudentIds().length >=2 ? false : true}
+              isButtonDisabled={
+                getSharedStudentIds().length >= 2 ? false : true
+              }
               showComment={updateExemplarComment.showComment}
               cancelButtonOnClick={() => {
                 setShowShareWithClass(false);

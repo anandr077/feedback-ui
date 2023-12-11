@@ -934,7 +934,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function submitMarkingCriteriaFeedback(question, markingCriteriaRequest) {
-    alert('hi')
     return addFeedback(submission.id, {
       questionSerialNumber: question.serialNumber,
       feedback: 'Marking Criteria Feedback',

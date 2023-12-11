@@ -12,35 +12,30 @@ const EditableText = ({ initialValue, onSave }) => {
   const [value, setValue] = useState(initialValue);
   const [tempValue, setTempValue] = useState(initialValue);
   const textareaRef = useRef(null);
+  const [textareaRows, setTextareaRows] = useState(1);
 
-  const calculateTextareaHeight = () => {
-    const lineHeight = 10;
-    const minRows = 1;
-    const maxRows = 1000;
+  const calculateTextareaRows = (value, maxCharactersPerLine) => {
+    const lineCount = value.split('\n').reduce((count, line) => {
+      const charactersInLine = Math.ceil(line.length / maxCharactersPerLine);
+      return count + Math.max(charactersInLine, 1);
+    }, 0);
 
-    const numberOfRows = Math.min(
-      Math.max(
-        Math.ceil(textareaRef.current?.scrollHeight / lineHeight),
-        minRows
-      ),
-      maxRows
-    );
-
-    const newHeight = numberOfRows * lineHeight;
-    return `${newHeight}px`;
+    return Math.max(lineCount, 1);
   };
 
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = calculateTextareaHeight();
+      const textareaWidth = textareaRef.current.clientWidth;
+      const averageCharacterWidth = 8;
+      const maxCharactersPerLine = Math.floor(
+        textareaWidth / averageCharacterWidth
+      );
 
-      if (isEditing && tempValue) {
-        const textLength = tempValue.length;
-        textareaRef.current.setSelectionRange(textLength, textLength);
-        textareaRef.current.focus();
-      }
+      const newRows = calculateTextareaRows(tempValue, maxCharactersPerLine);
+      setTextareaRows(newRows);
+      textareaRef.current.rows = newRows;
     }
-  }, [isEditing, tempValue]);
+  }, [tempValue]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -58,12 +53,6 @@ const EditableText = ({ initialValue, onSave }) => {
     setTempValue(value);
   };
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = calculateTextareaHeight();
-    }
-  }, [isEditing]);
-
   const handleInputChange = (e) => {
     setTempValue(e.target.value);
   };
@@ -76,7 +65,7 @@ const EditableText = ({ initialValue, onSave }) => {
             type="text"
             value={tempValue}
             onChange={handleInputChange}
-            style={{ height: calculateTextareaHeight() }}
+            rows={textareaRows}
             autoFocus
             ref={textareaRef}
           />
@@ -95,7 +84,7 @@ const EditableText = ({ initialValue, onSave }) => {
                 type="text"
                 value={tempValue}
                 onChange={handleInputChange}
-                style={{ height: calculateTextareaHeight() }}
+                rows={textareaRows}
                 autoFocus
                 readOnly={true}
                 ref={textareaRef}

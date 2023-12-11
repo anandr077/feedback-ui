@@ -59,6 +59,7 @@ function Document(props) {
     students,
     teachers,
     onMobileView = false,
+    overallComments
   } = props;
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
@@ -133,7 +134,9 @@ function Document(props) {
             allClasses,
             allFolders,
             methods.updateDocumentClass,
-            onMobileView
+            onMobileView,
+            overallComments
+
           )}
         </Frame1388>
       </div>
@@ -239,7 +242,8 @@ function answersAndFeedbacks(
   allClasses,
   allFolders,
   updateDocumentClass,
-  onMobileView
+  onMobileView,
+  overallComments
 ) {
   return (
     <Frame1386 id="content" onMobileView={onMobileView}>
@@ -268,6 +272,7 @@ function answersAndFeedbacks(
           pageMode,
           submission,
           commentsForSelectedTab,
+          overallComments,
           methods
         )}
         <></>

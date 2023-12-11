@@ -341,6 +341,7 @@ export default function DocumentRoot({}) {
             : { ...comment, replies: [...comment.replies, replyCommentObject] };
 
         updateFeedback(submission.id, commentId, {
+          ...commentToUpdate,
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,

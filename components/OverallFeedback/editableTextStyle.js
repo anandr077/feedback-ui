@@ -43,7 +43,7 @@ export const InputBox = styled.textarea`
   resize: none;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-l);
-  line-height: 20px;
+  line-height: 25px;
   font-weight: 400;
   font-style: normal;
 `;

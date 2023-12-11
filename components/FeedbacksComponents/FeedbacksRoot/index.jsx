@@ -687,6 +687,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             : { ...comment, replies: [...comment.replies, replyCommentObject] };
 
         updateFeedback(submission.id, commentId, {
+          ...commentToUpdate,
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
@@ -933,10 +934,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   }
 
   function submitMarkingCriteriaFeedback(question, markingCriteriaRequest) {
+    alert('hi')
     return addFeedback(submission.id, {
       questionSerialNumber: question.serialNumber,
       feedback: 'Marking Criteria Feedback',
-      range: selectedRange,
+      range: {from : 0, to: 0},
       type: 'MARKING_CRITERIA',
       replies: [],
       markingCriteria: markingCriteriaRequest,
@@ -958,7 +960,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           addFeedback(submission.id, {
             questionSerialNumber: question.serialNumber,
             feedback: 'Marking Criteria Feedback',
-            range: selectedRange,
+            range: {from : 0, to: 0},
             type: 'MARKING_CRITERIA',
             replies: [],
             markingCriteria: markingCriteriaRequest,

@@ -87,10 +87,10 @@ const AudioRecorder = ({
         setPermission(true);
         setStream(streamData);
       } catch (err) {
-        alert(edivrr.message);
+        console.log(edivrr.message);
       }
     } else {
-      alert('The MediaRecorder API is not supported in your browser.');
+      console.log('The MediaRecorder API is not supported in your browser.');
     }
   };
 

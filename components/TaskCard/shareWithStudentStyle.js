@@ -5,7 +5,6 @@ export const StudentListContainer = styled.div`
   top: 0;
   left: -10px;
   background-color: var(--white);
-  max-width: 150px;
   max-height: 300px;
   padding: 8px 12px;
   border: var(--hawkes-blue);

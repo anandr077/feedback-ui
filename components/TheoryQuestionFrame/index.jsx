@@ -45,6 +45,18 @@ export default function TheoryQuestionFrame(props) {
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
     return item.title === questionDetails.markingCriteria?.title;
   });
+
+  const appendFunction = (markingCriterias) => {
+    return markingCriterias.map((item) => {
+      if (item.type === 'STRENGTHS_TARGETS' && !item.title.includes('(S&T)')) {
+        item.title = item.title + ' (S&T)';
+      }
+      if (item.type === 'RUBRICS' && !item.title.includes('(R)')) {
+        item.title = item.title + ' (R)';
+      }
+      return item;
+    });
+  };
   const handleDeleteFocusArea = (id) => {
     deleteFocusArea(id).then((res) => {
       getFocusAreas().then((focusAreas) => {
@@ -103,7 +115,7 @@ export default function TheoryQuestionFrame(props) {
             {questionDetails.markingCriteria.title ? (
               <DropdownMenu
                 fullWidth={true}
-                menuItems={allMarkingCriterias}
+                menuItems={appendFunction(allMarkingCriterias)}
                 selectedIndex={selectedMarkingCriteriaIndex}
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);
@@ -112,7 +124,7 @@ export default function TheoryQuestionFrame(props) {
             ) : (
               <DropdownMenu
                 fullWidth={true}
-                menuItems={allMarkingCriterias}
+                menuItems={appendFunction(allMarkingCriterias)}
                 primaryText="Select Marking Criteria"
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);

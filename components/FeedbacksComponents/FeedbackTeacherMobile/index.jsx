@@ -49,6 +49,7 @@ function FeedbackTeacherMobile(props) {
             >
               <QuillEditor
                 // key={Math.random()}
+                key={'quillEditor_' + submission.id + '_' + answer.serialNumber + "_" + submission.status + "_" + pageMode}
                 id={
                   'quillEditor_' + submission.id + '_' + question.serialNumber
                 }
@@ -162,6 +163,7 @@ const Frame1388 = styled.div`
   gap: 30px;
   position: relative;
   align-self: stretch;
+  margin-bottom: 30px;
 `;
 
 const Frame1387 = styled.div`

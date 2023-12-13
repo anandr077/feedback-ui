@@ -7,7 +7,7 @@ import Header from '../../Header';
 import { flatMap, groupBy } from 'lodash';
 import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
-import { isTabletView } from '../../ReactiveRender';
+import { isMobileView } from '../../ReactiveRender';
 import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -42,6 +42,7 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
+    overallComments
   } = props;
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -84,14 +85,12 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
-  const [tabletView, setTabletView] = useState(isTabletView());
   return (
     <>
       {loader(showLoader)}
       <div className="feedback-teacher-laptop screen">
         {sharewithclassdialog}
         <Frame1388>
-          {/* {header(tabletView, headerProps)} */}
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
             submission,
@@ -117,6 +116,8 @@ function FeedbackTeacherLaptop(props) {
             newCommentFrameRef,
             share,
             smartAnnotations,
+            overallComments
+
           )}
         </Frame1388>
       </div>
@@ -226,6 +227,7 @@ function answersAndFeedbacks(
   newCommentFrameRef,
   share,
   smartAnnotations,
+  overallComments
 ) {
   return (
     <Frame1386 id="content">
@@ -245,10 +247,11 @@ function answersAndFeedbacks(
           pageMode,
           submission,
           commentsForSelectedTab,
+          overallComments,
           methods
         )}
 
-        <FeedbackFrame
+        {!isMobileView() && <FeedbackFrame
           methods={methods}
           submission={submission}
           newCommentSerialNumber={newCommentSerialNumber}
@@ -266,7 +269,7 @@ function answersAndFeedbacks(
           newCommentFrameRef={newCommentFrameRef}
           share={share}
           smartAnnotations={smartAnnotations}
-        ></FeedbackFrame>
+        ></FeedbackFrame>}
       </Frame1368>
     </Frame1386>
   );

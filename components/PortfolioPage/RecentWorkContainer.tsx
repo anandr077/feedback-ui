@@ -10,17 +10,17 @@ import {
 } from './RecentWorkContainerStyle';
 import AddCircleIcon from '../../static/icons/add-circle.png';
 import RecentWorks from './RecentWorks';
+import { isSmallScreen } from '../ReactiveRender';
 
 //dummy data for portfolio
 
 const RecentWorkContainer = ({
-  smallScreen,
   state,
   showModal,
   setShowModal,
   categoryName,
 }) => {
-  const numColumns = smallScreen ? 3 : 4;
+  const numColumns = isSmallScreen() ? 3 : 4;
   const displayedWork = state?.portfolio?.recentFiles?.slice(0, numColumns);
   
 

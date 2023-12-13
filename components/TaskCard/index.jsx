@@ -81,7 +81,7 @@ function TaskCard(props) {
 
                 setPublishActionCompleted(id, "DENIED", true);
                 showSnackbar(
-                  "Response won't be shared with your class",
+                  "Response won't be shared",
                   res.link
                 );
               } else {
@@ -98,7 +98,7 @@ function TaskCard(props) {
               publishModelResponse(id).then((res) => {
                 if (res.status === 'PUBLISHED') {
                   setPublishActionCompleted(id, "PUBLISHED", true);
-                  showSnackbar('Response shared with your class', res.link);
+                  showSnackbar('Response shared', res.link);
                 } else {
                   return;
                 }

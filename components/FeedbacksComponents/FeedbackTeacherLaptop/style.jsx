@@ -334,6 +334,7 @@ export const Frame13311 = styled.div`
   gap: 4px;
   position: relative;
   align-self: stretch;
+  margin: 10px 0 5px;
 `;
 export const Share = styled.div`
   ${feedbacksIbmplexsansNormalBlack16px}

@@ -34,6 +34,7 @@ export const InputBox = styled.textarea`
   display: block;
   width: 100%;
   font-family: var(--font-family-ibm_plex_sans);
+  min-height: 150px;
   height: auto;
   margin-top: 10px;
   border: 1px solid var(--light-mode-purple);

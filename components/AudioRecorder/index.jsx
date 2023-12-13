@@ -34,32 +34,37 @@ const AudioRecorder = ({
 
   const isTablet = isTabletView();
 
-  const startRecording = async () => {
+  const handleRecording = async () => {
+    if (!permission || !stream) {
+      try {
+        const streamData = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        setPermission(true);
+        setStream(streamData);
+        startRecording(streamData);
+      } catch (err) {
+        console.log(err.message);
+      }
+    } else {
+      startRecording(stream);
+    }
+  };
+
+  const startRecording = (streamData) => {
     setRecordingStatus('recording');
-    const media = new MediaRecorder(stream, { type: mimeType });
+    const media = new MediaRecorder(streamData, { type: mimeType });
     mediaRecorder.current = media;
     mediaRecorder.current.start();
     let localAudioChunks = [];
     mediaRecorder.current.ondataavailable = (event) => {
-      if (typeof event.data === 'undefined') return;
-      if (event.data.size === 0) return;
       if (event.data.size > 0) {
+        localAudioChunks.push(event.data);
         setAudioChunks((prevChunks) => [...prevChunks, event.data]);
       }
-      localAudioChunks.push(event.data);
     };
     setAudioChunks(localAudioChunks);
 
     clearTimeout(recordTimeout.current);
-
-    recordTimeout.current = setTimeout(() => {
-      if (
-        mediaRecorder.current &&
-        mediaRecorder.current.state === 'recording'
-      ) {
-        stopRecording();
-      }
-    }, 300000);
+    recordTimeout.current = setTimeout(stopRecording, 300000);
   };
 
   const stopRecording = () => {
@@ -77,22 +82,6 @@ const AudioRecorder = ({
     };
   };
 
-  const getMicrophonePermission = async () => {
-    if ('MediaRecorder' in window) {
-      try {
-        const streamData = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: false,
-        });
-        setPermission(true);
-        setStream(streamData);
-      } catch (err) {
-        console.log(edivrr.message);
-      }
-    } else {
-      console.log('The MediaRecorder API is not supported in your browser.');
-    }
-  };
 
   const deleteAudio = () => {
     setAudio(null);
@@ -104,17 +93,14 @@ const AudioRecorder = ({
     <AudioContainer>
       {
         <ButtonContainer>
-          {!permission && !audio ? (
-            <Button onClick={getMicrophonePermission}>
-              + Audio Feedback <AudioIcon></AudioIcon>
-            </Button>
-          ) : null}
-          {recordingStatus === 'inactive' && permission && !audio ? (
-            <Button onClick={startRecording}>Start Recording</Button>
-          ) : recordingStatus === 'recording' ? (
-            <Button onClick={stopRecording}>Stop Recording</Button>
-          ) : null}
-          {recordingStatus === 'recording' && <RecordingIndicator />}
+          {recordingStatus === 'inactive' && !audio ? (
+          <Button onClick={handleRecording}>
+            + Add Audio <AudioIcon />
+          </Button>
+        ) : recordingStatus === 'recording' ? (
+          <Button onClick={stopRecording}>Stop Recording</Button>
+        ) : null}
+        {recordingStatus === 'recording' && <RecordingIndicator />}
         </ButtonContainer>
       }
       {audio ? (

@@ -89,7 +89,7 @@ const EditableText = ({ initialValue, onSave }) => {
                 readOnly={true}
                 ref={textareaRef}
               />
-              <Button style={{ marginTop: '0px' }} onClick={handleEditClick}>
+              <Button style={{ marginTop: '10px' }} onClick={handleEditClick}>
                 Edit
               </Button>
             </>

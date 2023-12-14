@@ -44,7 +44,7 @@ const QuillEditor = React.forwardRef(
                 background: createBackground(),
                 isVisible: !comment.isHidden,
               },
-            });
+            }, 'silent');
           }
 
           function createBackground() {
@@ -119,10 +119,29 @@ const QuillEditor = React.forwardRef(
         editor.setSelection(range.index, range.length, 'silent');
         editor.focus();
       },
+      unhighlight(from, to) {
+        console.log("Remove", from, to)
+        editor.removeFormat(from, to - from, 'silent');
+        editor.removeFormat(from, to - from, 'silent');
+      },
       getContents() {
         return editor.getContents();
       },
       getSelection() {
+        const selection =  editor.getSelection();
+
+        console.log("Selection", editor.getSelection());
+        const selectedText = getSelectedText(editor, selection);
+        console.log("Selection", selectedText);
+        return {
+          "range" : editor.getSelection(),
+          "selectedText" : selectedText
+        };
+      },
+      getSelectionWithText() {
+        const selection =  editor.getSelection();
+        const selectedText = getSelectedText(editor, selection);
+        console.log("Selection", selectedText);
         return editor.getSelection();
       },
       getFormat(range) {
@@ -139,14 +158,16 @@ const QuillEditor = React.forwardRef(
               range.from,
               range.to - range.from,
               'background',
-              format.background
+              format.background,
+              'silent'
             );
           } else {
             editor.formatText(
               range.from,
               range.to - range.from,
               'background',
-              false
+              false,
+              'silent'
             );
           }
         }
@@ -156,7 +177,7 @@ const QuillEditor = React.forwardRef(
           range.from,
           range.to - range.from
         );
-        editor.formatText(range, 'background', '#C0C8D1');
+        editor.formatText(range, 'background', '#C0C8D1', 'silent');
         return initialFormat;
       },
       getLeaf(index) {
@@ -185,7 +206,13 @@ const QuillEditor = React.forwardRef(
 );
 
 export default QuillEditor;
-
+function getSelectedText(editor, selection) {
+  if (selection) {
+    return editor.getText(selection.index, selection.length);
+  } else {
+    return "";
+  }
+}
 function scrollToHighlight(commentId) {
   const highlightSpan = document.querySelector(
     `span.quill-highlight[data-comment-id="${commentId}"]`
@@ -207,7 +234,12 @@ function removeAllHighlights(editor) {
   flatMap(Object.entries(highlightElements), ([commentId, highlights]) => {
     return highlights.map((highlight) => {
       const { content, range } = highlight;
-      editor.removeFormat(range.from, range.to - range.from, 'highlight');
+      console.log("range", range)
+      console.log("content", content)
+      
+      //editor.formatText(range.from, range.to - range.from, 'highlight', false);
+      editor.removeFormat(range.from, range.to - range.from, 'silent');
+      editor.removeFormat(range.from, range.to - range.from, 'silent');
       return { commentId, range };
     });
   });
@@ -220,9 +252,6 @@ function getHighlights(editor) {
 
   // Get all highlight elements in the Quill container
   const highlightElements = quillContainer.querySelectorAll('.quill-highlight');
-  const metaElements = quillContainer.querySelectorAll(
-    'span[data-comment-id]:not(.quill-highlight)'
-  );
 
   highlightElements.forEach((element) => {
     const commentId = element.getAttribute('data-comment-id');

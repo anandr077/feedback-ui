@@ -97,6 +97,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
+  const [selectedText, setSelectedText] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [nextUrl, setNextUrl] = useState('');
   const [commentHighlight, setCommentHighlight] = useState(false);
@@ -273,6 +274,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById('newCommentInput').value,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -282,9 +284,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setComments([...comments, response]);
 
         highlightByComment(response);
+        setShowNewComment(false);
       }
     });
-    setShowNewComment(false);
+   
   }
 
   function handleShortcutAddComment(commentText) {
@@ -292,6 +295,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText.trim(),
       range: selectedRange,
+      selectedText: selectedText,
       type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -310,6 +314,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'SMART_ANNOTATION',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -328,6 +333,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'FOCUS_AREA',
       color: focusArea.color,
       focusAreaId: focusArea.id,
@@ -350,6 +356,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: comment,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'MODEL_RESPONSE',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -647,7 +654,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(comments.filter((c) => c.id != commentId));
+      setComments(oldComments=> {
+         const deletedComment = oldComments.find((c) => c.id == commentId)
+         const quill = quillRefs.current[deletedComment.questionSerialNumber - 1];
+         if (quill) {
+          quill.unhighlight(deletedComment.range.from, deletedComment.range.to)
+         }
+         return oldComments.filter((c) => c.id != commentId);
+      });
     });
   }
 
@@ -691,6 +705,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
+          selectedText: commentToUpdate.selectedText,
           type: commentToUpdate.type,
           replies: commentToUpdate.replies,
           reviewerId: commentToUpdate.reviewerId,
@@ -726,6 +741,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
+          selectedText: commentToUpdate.selectedText,
           type: commentToUpdate.type,
           color: commentToUpdate.color,
           focusAreaId: commentToUpdate.focusAreaId,
@@ -771,6 +787,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
+          selectedText: c.selectedText,
           type: c.type,
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
@@ -799,6 +816,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
+          selectedText: c.selectedText,
           type: c.type,
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
@@ -1115,7 +1133,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
 
-  const reviewerSelectionChange = (visibleComment, serialNumber) => (range) => {
+  const reviewerSelectionChange = (visibleComment, serialNumber) => (selection) => {
+    const range = selection.range
+    console.log("selected", selection.selectedText)
     if (range) {
       const from = range.index;
       const to = range.index + range.length;
@@ -1138,6 +1158,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             from: from,
             to: to,
           });
+          setSelectedText(selection.selectedText);
           setShowNewComment(true);
         }
       }

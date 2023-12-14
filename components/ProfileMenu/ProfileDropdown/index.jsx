@@ -5,20 +5,33 @@ import styled from 'styled-components';
 import { account, changePassword, logout, getUserRole } from '../../../service';
 import { useQueryClient } from '@tanstack/react-query';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
+import { EditText } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
-function ProfileDropdown() {
+function ProfileDropdown({toggleDropDown}) {
   const role = getUserRole();
   const queryClient = useQueryClient();
-  const [state, setState] = useState('');
-  const [year, setYear] = useState('');
+  const [state, setState] = useState('State');
+  const [year, setYear] = useState('Year');
   const [isEditingState, setIsEditingState] = useState(false);
+
+  const handleStateChange = (e) => {
+    setState(e.target.value)
+  }
+  const handleYearChange = (e) => {
+    setYear(e.target.value)
+  }
+
+  const handlePropagation = (e) => {
+    e.stopPropagation();
+  };
 
   return (
     <>
       {role === 'STUDENT' && (
         <>
-          <StudentStateContainer>
-            {isEditingState ? (
+          <StudentStateContainer onClick={handlePropagation}>
+            {/* {isEditingState ? (
               <input
                 type="text"
                 className="StateInputBox"
@@ -32,19 +45,25 @@ function ProfileDropdown() {
               />
             ) : (
               <StudentState>State</StudentState>
-            )}
-            <img
+            )}*/}
+
+            <StyledEditText 
+              value={state}
+              onChange={handleStateChange}
+            />
+
+            {/* <img
               src="/icons/EditSM.png"
               alt="edit"
               width="20px"
               height="20px"
               style={{ cursor: 'pointer', marginRight: '10px' }}
-              onClick={() => isEditingState(true)}
-            />
+              onClick={() => setIsEditingState(true)}
+            />  */}
           </StudentStateContainer>
           <Line6 src="/icons/line.png" alt="Line 6" />
-          <StudentStateContainer>
-            {isEditingState ? (
+          <StudentStateContainer onClick={handlePropagation}>
+            {/* {isEditingState ? (
               <input
                 type="text"
                 className="YearInputBox"
@@ -58,14 +77,18 @@ function ProfileDropdown() {
               />
             ) : (
               <StudentState>Year</StudentState>
-            )}
-            <img
+            )} */}
+            <StyledEditText 
+              value={year}
+              onChange={handleYearChange}
+            />
+            {/* <img
               src="/icons/EditSM.png"
               alt="edit"
               width="20px"
               height="20px"
               style={{ cursor: 'pointer', marginRight: '10px' }}
-            />
+            /> */}
           </StudentStateContainer>
           <Line6 src="/icons/line.png" alt="Line 6" />
         </>
@@ -74,7 +97,9 @@ function ProfileDropdown() {
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Change Password"
-        onClick={() => changePassword()}
+        onClick={() => {
+          changePassword();  
+        }}
       />
       {role === 'TEACHER' && (
         <>
@@ -111,18 +136,22 @@ const StudentStateContainer = styled.div`
   ${IbmplexsansNormalBlack16px}
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-items: center;
   &:hover {
     background-color: #f5f5f5;
   }
 `;
-const StudentState = styled.label`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-`;
+// const StudentState = styled.label`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding: 10px;
+// `;
+
+const StyledEditText = styled(EditText)`
+  width: 100% !important;
+`
 
 export default ProfileDropdown;

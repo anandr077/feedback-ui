@@ -1213,7 +1213,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             search={true}
             selectedIndex={selectedItemIndex}
             menuItems={menuItems}
-            group={true}
           />
         </>
       );

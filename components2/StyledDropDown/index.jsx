@@ -9,9 +9,9 @@ import styled from 'styled-components';
 
 export default function StyledDropDown({
   menuItems,
-  showAvatars,
-  search,
-  group,
+  showAvatars = false,
+  search = false,
+  group = false,
   selectedIndex,
 }) {
   const initialSelectedItem =

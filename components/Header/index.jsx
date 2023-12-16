@@ -171,7 +171,7 @@ export default function Header(props) {
       {dropDown && (
         <Screen onClick={toggleDropDown}>
           <DropDownContainer>
-            <ProfileDropdown toggleDropDown={toggleDropDown} />
+            <ProfileDropdown />
           </DropDownContainer>
         </Screen>
       )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProfileDropDownElement from '../ProfileDropDownElement';
 import './ProfileDropdown.css';
 import styled from 'styled-components';
@@ -7,88 +7,50 @@ import { useQueryClient } from '@tanstack/react-query';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import { EditText } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
+import Cookies from 'js-cookie';
 
-function ProfileDropdown({toggleDropDown}) {
+function ProfileDropdown() {
   const role = getUserRole();
   const queryClient = useQueryClient();
   const [state, setState] = useState('State');
   const [year, setYear] = useState('Year');
-  const [isEditingState, setIsEditingState] = useState(false);
 
   const handleStateChange = (e) => {
-    setState(e.target.value)
-  }
+    const newState = e.target.value;
+    setState(newState);
+    Cookies.set('state', newState)
+  };
+
   const handleYearChange = (e) => {
-    setYear(e.target.value)
-  }
+    const newYear = e.target.value;
+    setYear(newYear);
+    Cookies.set('year', newYear)
+  };
 
   const handlePropagation = (e) => {
     e.stopPropagation();
   };
+
+  useEffect(()=>{
+     const savedState = Cookies.get('state');
+     const savedYear = Cookies.get('year');
+
+     savedState && setState(savedState);
+     savedYear && setYear(savedYear);
+  }, [])
 
   return (
     <>
       {role === 'STUDENT' && (
         <>
           <StudentStateContainer onClick={handlePropagation}>
-            {/* {isEditingState ? (
-              <input
-                type="text"
-                className="StateInputBox"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                // onKeyUp={(e) => {
-                //   if (e.key === 'Enter') {
-                //     renameCheck(editedTitle);
-                //   }
-                // }}
-              />
-            ) : (
-              <StudentState>State</StudentState>
-            )}*/}
-
-            <StyledEditText 
-              value={state}
-              onChange={handleStateChange}
-            />
-
-            {/* <img
-              src="/icons/EditSM.png"
-              alt="edit"
-              width="20px"
-              height="20px"
-              style={{ cursor: 'pointer', marginRight: '10px' }}
-              onClick={() => setIsEditingState(true)}
-            />  */}
+            <StyledEditText value={state} onChange={handleStateChange} />
+            <EditImg src="/icons/EditSM.png" alt="edit" />
           </StudentStateContainer>
           <Line6 src="/icons/line.png" alt="Line 6" />
           <StudentStateContainer onClick={handlePropagation}>
-            {/* {isEditingState ? (
-              <input
-                type="text"
-                className="YearInputBox"
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-                // onKeyUp={(e) => {
-                //   if (e.key === 'Enter') {
-                //     renameCheck(editedTitle);
-                //   }
-                // }}
-              />
-            ) : (
-              <StudentState>Year</StudentState>
-            )} */}
-            <StyledEditText 
-              value={year}
-              onChange={handleYearChange}
-            />
-            {/* <img
-              src="/icons/EditSM.png"
-              alt="edit"
-              width="20px"
-              height="20px"
-              style={{ cursor: 'pointer', marginRight: '10px' }}
-            /> */}
+            <StyledEditText value={year} onChange={handleYearChange} />
+            <EditImg src="/icons/EditSM.png" alt="edit" />
           </StudentStateContainer>
           <Line6 src="/icons/line.png" alt="Line 6" />
         </>
@@ -98,7 +60,7 @@ function ProfileDropdown({toggleDropDown}) {
       <ProfileDropDownElement
         text="Change Password"
         onClick={() => {
-          changePassword();  
+          changePassword();
         }}
       />
       {role === 'TEACHER' && (
@@ -138,20 +100,27 @@ const StudentStateContainer = styled.div`
   flex-direction: row;
   //justify-content: space-between;
   align-items: center;
+  position: relative;
+  padding-left: 5px;
   &:hover {
     background-color: #f5f5f5;
   }
 `;
-// const StudentState = styled.label`
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: space-between;
-//   padding: 10px;
-// `;
 
 const StyledEditText = styled(EditText)`
-  width: 100% !important;
-`
+  width: 200px;
+  z-index: 1;
+`;
+
+const EditImg = styled.img`
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  margin-right: 10px;
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
 
 export default ProfileDropdown;

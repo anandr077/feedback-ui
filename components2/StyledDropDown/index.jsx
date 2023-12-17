@@ -4,8 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Input } from '@mui/material';
 import { Avatar } from '@boringer-avatars/react';
-
-import styled from 'styled-components';
+import { AvatarContainer } from './style';
 
 export default function StyledDropDown({
   menuItems,
@@ -19,9 +18,9 @@ export default function StyledDropDown({
   const [value, setValue] = React.useState(initialSelectedItem);
   const [searchTerm, setSearchTerm] = React.useState('');
 
-   React.useEffect(() => {
-     setValue(initialSelectedItem);
-   }, [selectedIndex, menuItems]);
+  React.useEffect(() => {
+    setValue(initialSelectedItem);
+  }, [selectedIndex, menuItems]);
 
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
@@ -97,7 +96,7 @@ export default function StyledDropDown({
               '&:hover': {
                 outline: 'none',
               },
-              marginBottom:'5px'
+              marginBottom: '5px',
             }}
           />
         )}
@@ -153,13 +152,3 @@ const groupItemsByFirstLetter = (items) => {
     return groupedItems;
   }, {});
 };
-
-const AvatarContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 12px;
-  border-radius: 8px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-`;

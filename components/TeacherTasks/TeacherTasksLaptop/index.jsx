@@ -145,6 +145,7 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
+   height : 80vh;
 `;
 
 export default TeacherTasksLaptop;

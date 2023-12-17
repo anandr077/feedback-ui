@@ -38,12 +38,14 @@ const CardContainer = styled.div`
   align-items: center;
   gap: 20px;
   overflow-y: scroll;
-  max-height: 480px;
   padding: 0px 0px 10px 0px;
   // background-color: red;
   &::-webkit-scrollbar {
     width: 0;
     display: none;
+  }
+  @media (max-width: 1024px) {
+    max-height: 480px;
   }
 `;
 const ExemplerCardContainer = styled.div`

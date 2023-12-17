@@ -15,11 +15,13 @@ export default function StyledDropDown({
   selectedIndex,
 }) {
   const initialSelectedItem =
-    selectedIndex === undefined || selectedIndex < 0
-      ? findFirstSelectableItem(menuItems, noDefaultSelected)
-      : menuItems[selectedIndex];
+    selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
   const [value, setValue] = React.useState(initialSelectedItem);
   const [searchTerm, setSearchTerm] = React.useState('');
+
+   React.useEffect(() => {
+     setValue(initialSelectedItem);
+   }, [selectedIndex, menuItems]);
 
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
@@ -95,6 +97,7 @@ export default function StyledDropDown({
               '&:hover': {
                 outline: 'none',
               },
+              marginBottom:'5px'
             }}
           />
         )}

@@ -116,6 +116,12 @@ const Frame1360 = styled.div`
   position: relative;
   align-self: stretch;
   min-height: calc(100vh - 285px);
+   height:60vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 
 const Frame1359 = styled.div`

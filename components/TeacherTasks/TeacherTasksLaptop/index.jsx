@@ -121,6 +121,12 @@ const Frame1360 = styled.div`
   left: 10%;
   position: relative;
   align-self: stretch;
+  height:60vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 
 const Frame1359 = styled.div`
@@ -145,6 +151,7 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
+   height : 80vh;
 `;
 
 export default TeacherTasksLaptop;

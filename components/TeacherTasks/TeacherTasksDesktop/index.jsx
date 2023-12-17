@@ -120,6 +120,12 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+  height:60vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 
 const Frame1359 = styled.div`
@@ -143,6 +149,7 @@ const Frame1354 = styled.div`
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
+  height: 80vh;
 `;
 
 const Frame1358 = styled.div`
@@ -156,6 +163,7 @@ const Frame1358 = styled.div`
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
+  height: 80vh;
 `;
 
 export default TeacherTasksDesktop;

@@ -64,6 +64,7 @@ import {
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
 import CheckboxBordered from '../../CheckboxBordered/index.jsx';
+import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -955,7 +956,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return addFeedback(submission.id, {
       questionSerialNumber: question.serialNumber,
       feedback: 'Marking Criteria Feedback',
-      range: {from : 0, to: 0},
+      range: { from: 0, to: 0 },
       type: 'MARKING_CRITERIA',
       replies: [],
       markingCriteria: markingCriteriaRequest,
@@ -977,7 +978,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           addFeedback(submission.id, {
             questionSerialNumber: question.serialNumber,
             feedback: 'Marking Criteria Feedback',
-            range: {from : 0, to: 0},
+            range: { from: 0, to: 0 },
             type: 'MARKING_CRITERIA',
             replies: [],
             markingCriteria: markingCriteriaRequest,
@@ -1228,12 +1229,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       });
       return (
         <>
-          <DropdownMenu
-            menuItems={menuItems}
-            showAvatar={true}
+          <StyledDropDown
+            showAvatars={true}
+            search={true}
             selectedIndex={selectedItemIndex}
-            defaultSearch={true}
-          ></DropdownMenu>
+            menuItems={menuItems}
+          />
         </>
       );
     }

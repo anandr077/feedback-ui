@@ -120,7 +120,7 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height:60vh;
+  height: 70vh;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 0;
@@ -135,35 +135,34 @@ const Frame1359 = styled.div`
   position: relative;
   align-self: stretch;
   min-height: calc(100vh - 290px);
+  flex-grow: 1;
+  
 `;
 
 const Frame1354 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
+  align-items: center;
+  padding-top: 0px;
   position: relative;
   flex: 1;
+  flex-grow: 1;
   background-color: var(--white);
   border-radius: 16px;
-  overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
-  height: 80vh;
 `;
 
 const Frame1358 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
+  align-items: center;
+  padding-top: 0px;
   position: relative;
   flex: 1;
+  flex-grow: 1;
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
-  height: 80vh;
 `;
 
 export default TeacherTasksDesktop;

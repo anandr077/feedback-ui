@@ -47,6 +47,7 @@ const CardContainer = styled.div`
   @media (max-width: 1024px) {
     max-height: 480px;
   }
+  padding: 20px;
 `;
 const ExemplerCardContainer = styled.div`
   display: flex;

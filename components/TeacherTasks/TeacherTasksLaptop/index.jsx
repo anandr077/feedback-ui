@@ -81,8 +81,7 @@ const TitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  width: 80%;
-  left: 10%;
+  width: 85%;
 `;
 
 const ButtonContainer = styled.div`
@@ -95,11 +94,11 @@ const ButtonContainer = styled.div`
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: 40px;
-  padding: 0px 60px;
   position: relative;
-  align-self: stretch;
+  width: 100%;
 `;
 
 const Title = styled.h1`
@@ -116,12 +115,11 @@ const Frame1360 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 40px;
-  width: 80%;
-  left: 10%;
   position: relative;
   align-self: stretch;
-  height:60vh;
+  height: 60vh;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 0;
@@ -130,28 +128,28 @@ const Frame1360 = styled.div`
 `;
 
 const Frame1359 = styled.div`
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 85%;
   gap: 32px;
   position: relative;
   align-self: stretch;
-  width: 100%;
   min-height: calc(100vh - 300px);
+  flex-grow: 1;
+  margin: 0px auto;
 `;
 
 const Frame1358 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
+  align-items: center;
+  padding-top: 0px;
   position: relative;
   flex: 1;
-  width: 100%;
+  flex-grow: 1;
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
-   height : 80vh;
 `;
 
 export default TeacherTasksLaptop;

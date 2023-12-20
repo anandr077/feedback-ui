@@ -83,7 +83,7 @@ const TitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  width: 100%;
+  width: 1300px;
 `;
 
 const ButtonContainer = styled.div`
@@ -97,8 +97,9 @@ const ButtonContainer = styled.div`
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1200px;
-  align-items: flex-start;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
   gap: 40px;
   position: relative;
 `;
@@ -117,6 +118,7 @@ const Frame1360 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 40px;
   position: relative;
   align-self: stretch;
@@ -129,14 +131,15 @@ const Frame1360 = styled.div`
 `;
 
 const Frame1359 = styled.div`
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 1300px;
   gap: 32px;
   position: relative;
   align-self: stretch;
   min-height: calc(100vh - 290px);
   flex-grow: 1;
-  
+  margin: 0px auto;
 `;
 
 const Frame1354 = styled.div`

@@ -81,7 +81,8 @@ const TitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  width: 85%;
+  width: 100%;
+  padding: 0px 60px;
 `;
 
 const ButtonContainer = styled.div`
@@ -103,7 +104,7 @@ const Frame1361 = styled.div`
 
 const Title = styled.h1`
   ${IbmplexsansBoldShark64px}
-  font-size:50px;
+  font-size:64px;
   position: relative;
   width: fit-content;
   margin-top: -1px;
@@ -130,7 +131,8 @@ const Frame1360 = styled.div`
 const Frame1359 = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 85%;
+  width: 100%;
+  padding: 0px 60px;
   gap: 32px;
   position: relative;
   align-self: stretch;

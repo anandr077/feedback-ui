@@ -20,6 +20,13 @@ const Frame13531 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: var(--white);
+  padding: 20px;
+  border-radius: 16px;
+  border-radius: 16px 16px 0 0;
 `;
 
 const Outstanding = styled.div`

@@ -121,16 +121,10 @@ const Frame1360 = styled.div`
   position: relative;
   align-self: stretch;
   height: 60vh;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
 `;
 
 const Frame1359 = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   width: 100%;
   padding: 0px 60px;
   gap: 32px;

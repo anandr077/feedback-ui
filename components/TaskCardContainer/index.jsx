@@ -38,13 +38,13 @@ const CardContainer = styled.div`
   align-items: center;
   gap: 20px;
   padding: 0px 0px 10px 0px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
   @media (max-width: 1024px) {
     max-height: 480px;
-    overflow-y: scroll;
-    &::-webkit-scrollbar {
-      width: 0;
-      display: none;
-    }
   }
   padding: 20px;
 `;

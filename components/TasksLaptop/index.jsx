@@ -118,17 +118,11 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 70vh;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
+  height: 60vh;
 `;
 
 const Frame1359 = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 32px;
   position: relative;
   align-self: stretch;
@@ -144,6 +138,7 @@ const Frame1358 = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 0px;
+  position: relative;
   flex: 1;
   flex-grow: 1;
   background-color: var(--white);

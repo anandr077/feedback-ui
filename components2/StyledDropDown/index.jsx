@@ -11,6 +11,7 @@ export default function StyledDropDown({
   showAvatars = false,
   search = false,
   group = false,
+  independent = false,
   selectedIndex,
 }) {
   const initialSelectedItem =
@@ -54,7 +55,7 @@ export default function StyledDropDown({
     <FormControl sx={{ m: 1, minWidth: 150 }}>
       <Select
         style={{
-          border: '1px solid var(--light-mode-purple)',
+          border: !independent ? '1px solid var(--light-mode-purple)' : 'none',
           boxShadow: '0px 4px 8px #2f1a720a',
           backgroundColor: 'white',
           borderRadius: '10px',

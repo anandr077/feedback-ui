@@ -23,6 +23,7 @@ import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
+import IndependentUser from './components/IndependentUser';
 
 function App() {
   const role = getUserRole();
@@ -45,6 +46,7 @@ function App() {
   const ProtectedSettings = withAuth(AccountSettingsRoot);
   const ProtectedHeader = withAuth(ResponsiveHeader);
   const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
+  const ProtectedIndependentUser = withAuth(IndependentUser);
 
   const portfolioClient = new QueryClient();
 
@@ -118,6 +120,9 @@ function App() {
             </Route>
             <Route exact path="/">
               {Dashboard({ role })}
+            </Route>
+            <Route path="/independentUser">
+              <ProtectedIndependentUser />
             </Route>
             <Redirect to="/404" />
           </Switch>

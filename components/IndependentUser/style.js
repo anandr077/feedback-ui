@@ -21,6 +21,15 @@ export const UserContainer = styled.div`
     width: 90vw;
   }
 `;
+export const UserData = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction:row;
+  align-items: center;
+  gap:10px;
+`;
+
+
 export const DropDownContainer = styled.div``;
 export const MainContainer = styled.div`
   display: flex;
@@ -35,7 +44,7 @@ export const TextContainer = styled.div`
   height: 65vh;
 `;
 export const TextArea = styled.div`
-  height: 45vh;
+  height: 43vh;
 `;
 export const FeedbackContainer = styled.div`
   width: 30%;
@@ -45,15 +54,14 @@ export const FeedbackContainer = styled.div`
   height: 60vh;
 `;
 export const FeedbackButton = styled.div`
-display: flex;
-justify-content: center;
-border-radius:12px;
-gap : 8px;
-padding :16px;
-background: linear-gradient(0deg, #7200e0, #7200e0);
-linear-gradient(90deg, #7200e0 0%, #1b006b 98.63%);
-border: 1px solid #7200e0;
-color: white;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  gap: 8px;
+  padding: 16px;
+  background: linear-gradient(90deg, #7200e0 0%, #1b006b 98.63%);
+  border: 1px solid #7200e0;
+  color: white;
 `;
 export const InputContainer = styled.div`
   display: flex;
@@ -77,11 +85,14 @@ export const ParaContainer = styled.div`
 `;
 
 export const DrawerBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   margin: 20px;
+  fontFamily: IBM Plex Sans,
 `;
 export const DrawerInput = styled.input`
   &::placeholder {
-   
     color: #666;
   }
   padding: 9px 12px;
@@ -97,4 +108,25 @@ export const DrawerSubjects = styled.div`
   flex-flow: wrap;
   gap: 8px;
   padding: 8px;
+`;
+
+export const DrawerVericalNav = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+export const DrawerVericalNavData = styled.div`
+  padding: 20px;
+  border-radius: 8px;
+  background: #f2f2f2;
+  cursor: pointer;
+`;
+export const DrawerArrowContainer = styled.div`
+  height: 100%;
+  display: flex;
+  alignitems: center;
+`;
+export const DrawerArrow = styled.div`
+  height: 40px;
+  cursor: pointer;
 `;

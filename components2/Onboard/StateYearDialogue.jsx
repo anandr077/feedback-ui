@@ -10,6 +10,7 @@ import {
   Title,
   Button,
 } from './stateYearDialogueStyle';
+import { profileStateYear } from '../../service';
 
 const stateOptions = [
   { title: 'New South Wales' },
@@ -36,10 +37,15 @@ const StateYearDialogue = ({ setStage }) => {
 
   const saveToCookies = () => {
     if (state.title && year.title) {
-      Cookies.set('state', state.title);
-      Cookies.set('year', year.title);
-      setStage(3);
-      //setShowStateYear(false);
+      profileStateYear({
+        year: year.title,
+        state: state.title,
+      }).then(() => {
+        Cookies.set('state', state.title);
+        Cookies.set('year', year.title);
+        setStage(3);
+        //setShowStateYear(false);
+      });
     }
   };
 

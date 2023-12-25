@@ -8,6 +8,7 @@ import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import { EditText } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 import Cookies from 'js-cookie';
+import { profileStateYear } from '../../../service';
 
 function ProfileDropdown() {
   const role = getUserRole();
@@ -17,14 +18,24 @@ function ProfileDropdown() {
 
   const handleStateChange = (e) => {
     const newState = e.target.value;
-    setState(newState);
-    Cookies.set('state', newState)
+    profileStateYear({
+      year,
+      state: newState
+    }).then(()=> {
+      setState(newState);
+      Cookies.set('state', newState);
+    })
   };
 
   const handleYearChange = (e) => {
     const newYear = e.target.value;
-    setYear(newYear);
-    Cookies.set('year', newYear)
+    profileStateYear({
+      year: newYear,
+      state
+    }).then(()=>{
+      setYear(newYear);
+      Cookies.set('year', newYear)
+    })
   };
 
   const handlePropagation = (e) => {

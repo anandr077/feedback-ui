@@ -420,6 +420,9 @@ export const unpublishModelResponse = async (feedbackId) =>
 export const denyModelResponse = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/deny');
 
+export const profileStateYear = async (stateYear) =>
+  await patchApi(baseUrl + '/users/profile', stateYear)
+
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + '/submissions', submission);
 

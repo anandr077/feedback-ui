@@ -19,6 +19,7 @@ class HighlightBlot extends Inline {
       background: node.style.backgroundColor,
     };
   }
+  optimize(context) {}
 }
 
 HighlightBlot.blotName = 'highlight';

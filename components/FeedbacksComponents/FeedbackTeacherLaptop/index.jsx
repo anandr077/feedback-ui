@@ -56,7 +56,7 @@ function FeedbackTeacherLaptop(props) {
       handleTabUpdate(pageMode, setFeedback, setFocusAreas);
     }
   }, [showNewComment]);
-
+  
   const [isShowResolved, setShowResolved] = useState(false);
 
   const commentsForSelectedTab = selectTabComments(
@@ -65,7 +65,15 @@ function FeedbackTeacherLaptop(props) {
     comments,
     groupedFocusAreaIds
   );
-
+  React.useEffect(() => {
+    quillRefs.current.forEach(function(quillRef, index, array) {
+      const currentTabComments =commentsForSelectedTab.filter((comment) => comment.questionSerialNumber === index + 1 )
+      console.log("currentTabComments", currentTabComments)
+      if (quillRef) quillRef.redrawHighlights(currentTabComments);
+    }); 
+  }, [isFeedback, isFocusAreas, isShowResolved]);
+ 
+  
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
     setGroupedFocusAreaIds((prevState) => {
@@ -231,12 +239,12 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {contextBar(
+      {/* {contextBar(
         submission, 
         methods, 
         isTeacher, 
         pageMode, 
-        labelText)}
+        labelText)} */}
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,

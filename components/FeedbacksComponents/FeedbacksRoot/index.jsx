@@ -283,9 +283,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-
         highlightByComment(response);
         setShowNewComment(false);
+        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
    
@@ -305,9 +305,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+
       }
     });
-    setShowNewComment(false);
   }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
@@ -324,9 +326,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+
       }
     });
-    setShowNewComment(false);
   }
 
   function handleFocusAreaComment(focusArea) {
@@ -345,9 +349,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    setShowNewComment(false);
   }
 
   const addExemplerComment = () => {
@@ -366,11 +371,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        setExemplerComment('');
+        setShowShareWithClass(false);
+        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    setShowNewComment(false);
-    setExemplerComment('');
-    setShowShareWithClass(false);
+    
   };
 
   const updateExemplar = () => {
@@ -642,15 +649,27 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     const finalData = transformedData.concat(missingCommentsWithZeroRange);
 
     const promises = finalData.map(({ commentId, range }) => {
-      return updateFeedbackRange(submission.id, commentId, range);
+      return updateFeedbackRange(submission.id, commentId, range)
+        .catch(error => {
+          console.error(`Failed to update feedback range for commentId ${commentId}:`, error);
+          // Returning null or a specific error object here, depending on how you want to handle this in the subsequent processing
+          return null;
+        });
     });
-
+    
     Promise.all(promises).then((results) => {
+      // Check if there were any errors
+      const hadErrors = results.some(result => result === null);
+    
       getComments(submission.id).then((cmts) => {
         setComments(cmts.filter((c) => c.type !== 'MARKING_CRITERIA'));
         handleChangeText('All changes saved', true);
+        if (hadErrors) {
+          console.log('Some changes could not be saved');
+        } 
       });
     });
+    
   }
 
   function handleDeleteComment(commentId) {
@@ -658,8 +677,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       setComments(oldComments=> {
          const deletedComment = oldComments.find((c) => c.id == commentId)
          const quill = quillRefs.current[deletedComment.questionSerialNumber - 1];
+         const newComments = oldComments.filter((c) => c.id != commentId)
          if (quill) {
-          quill.unhighlight(deletedComment.range.from, deletedComment.range.to)
+          quill.redrawHighlights(newComments)
          }
          return oldComments.filter((c) => c.id != commentId);
       });

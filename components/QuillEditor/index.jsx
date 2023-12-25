@@ -10,7 +10,6 @@ import './styles.css';
 const QuillEditor = React.forwardRef(
   ({ comments, value, options, debounceTime, onDebounce }, ref) => {
     Quill.register(HighlightBlot);
-
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
 
@@ -23,7 +22,6 @@ const QuillEditor = React.forwardRef(
 
         const delta = quillInstance.clipboard.convert(value);
         quillInstance.setContents(delta);
-
         setEditor(quillInstance);
       }
     }, [editor, editorRef, options, value]);
@@ -37,25 +35,22 @@ const QuillEditor = React.forwardRef(
               index: comment.range.from,
               length: comment.range.to - comment.range.from,
             };
-
-            editor.formatText(range.index, range.length, {
-              highlight: {
-                commentId: comment.id,
-                background: createBackground(),
-                isVisible: !comment.isHidden,
+            editor.formatText(
+              range.index,
+              range.length,
+              {
+                highlight: {
+                  commentId: comment.id,
+                  background: createBackground(comment),
+                  isVisible: !comment.isHidden,
+                },
               },
-            }, 'silent');
-          }
-
-          function createBackground() {
-            if (comment.color !== undefined && comment.color !== null) {
-              return comment.color;
-            }
-            return '#fff9c4';
+              'api'
+            );
           }
         });
       }
-    }, [comments, editor]);
+    }, [editor]);
 
     useEffect(() => {
       if (editor) {
@@ -101,7 +96,7 @@ const QuillEditor = React.forwardRef(
           const debouncedAction = debounce(handleDebounce, debounceTime);
 
           editor.on('text-change', (delta, oldContents, source) => {
-            if (source === 'user') {
+            if (source === 'api') {
               debouncedAction();
             }
           });
@@ -119,29 +114,62 @@ const QuillEditor = React.forwardRef(
         editor.setSelection(range.index, range.length, 'silent');
         editor.focus();
       },
+      redrawHighlights(comments) {
+        if (editor) {
+          removeAllHighlights(editor);
+          comments.forEach((comment) => {
+            if (comment.isHidden !== undefined && comment.isHidden !== null)
+              highlightCommentRange(editor, comment);
+          });
+        }
+      },
       unhighlight(from, to) {
-        console.log("Remove", from, to)
         editor.removeFormat(from, to - from, 'silent');
         editor.removeFormat(from, to - from, 'silent');
       },
+      highlightComment(comment) {
+        highlightCommentRange(editor, comment);
+      },
+      unhighlightComment(c) {
+        const highlightsWithCommentsData = getHighlights(editor);
+        console.log('highlightsWithCommentsData', highlightsWithCommentsData);
+        Object.entries(highlightsWithCommentsData)
+          .filter(([commentId, _]) => commentId === c)
+          .map(([commentId, ranges]) => {
+            console.log('ranges', ranges);
+
+            const mergedRange = {
+              range: {
+                from: ranges[0].range.from,
+                to: ranges[ranges.length - 1].range.to,
+              },
+            };
+            console.log('mergedRange', mergedRange);
+
+            editor.removeFormat(
+              mergedRange.range.from,
+              mergedRange.range.to - mergedRange.range.from,
+              'api'
+            );
+            // editor.removeFormat(mergedRange.range.from, mergedRange.range.to-mergedRange.range.from, 'silent');
+          });
+      },
+
       getContents() {
         return editor.getContents();
       },
       getSelection() {
         const selection =  editor.getSelection();
 
-        console.log("Selection", editor.getSelection());
         const selectedText = getSelectedText(editor, selection);
-        console.log("Selection", selectedText);
         return {
-          "range" : editor.getSelection(),
-          "selectedText" : selectedText
+          range: editor.getSelection(),
+          selectedText: selectedText,
         };
       },
       getSelectionWithText() {
-        const selection =  editor.getSelection();
+        const selection = editor.getSelection();
         const selectedText = getSelectedText(editor, selection);
-        console.log("Selection", selectedText);
         return editor.getSelection();
       },
       getFormat(range) {
@@ -206,11 +234,39 @@ const QuillEditor = React.forwardRef(
 );
 
 export default QuillEditor;
+
+function highlightCommentRange(editor, comment) {
+  if (comment.range) {
+    const range = {
+      index: comment.range.from,
+      length: comment.range.to - comment.range.from,
+    };
+    console.log('Before', editor.getFormat(range.index, range.length));
+    console.log('Range', range, comment.color, comment.isHidden);
+    Quill.register(HighlightBlot);
+    editor.formatText(
+      range.index,
+      range.length,
+      {
+        highlight: {
+          commentId: comment.id,
+          background: createBackground(comment),
+          isVisible: !comment.isHidden,
+        },
+      },
+      'api'
+    );
+    console.log('After', editor.getFormat(range.index, range.length));
+    console.log('Range', range, comment.color, comment.isHidden);
+
+  }
+}
+
 function getSelectedText(editor, selection) {
   if (selection) {
     return editor.getText(selection.index, selection.length);
   } else {
-    return "";
+    return '';
   }
 }
 function scrollToHighlight(commentId) {
@@ -229,17 +285,17 @@ function scrollToHighlight(commentId) {
   }
 }
 function removeAllHighlights(editor) {
-  // Get all highlight elements in the Quill container
   const highlightElements = getHighlights(editor);
   flatMap(Object.entries(highlightElements), ([commentId, highlights]) => {
     return highlights.map((highlight) => {
       const { content, range } = highlight;
-      console.log("range", range)
-      console.log("content", content)
-      
-      //editor.formatText(range.from, range.to - range.from, 'highlight', false);
-      editor.removeFormat(range.from, range.to - range.from, 'silent');
-      editor.removeFormat(range.from, range.to - range.from, 'silent');
+      console.log('range', range);
+      console.log('content', content);
+
+      // editor.formatText(range.from, range.to - range.from, 'highlight', false, 'api');
+      // editor.removeFormat(range.from, range.to - range.from, 'api');
+      // editor.removeFormat(range.from, range.to - range.from, 'silent');
+      removeOneBlot(editor, range.from, range.to - range.from, 'highlight');
       return { commentId, range };
     });
   });
@@ -283,4 +339,25 @@ function getHighlights(editor) {
   );
 
   return formattedHighlights;
+}
+
+function createBackground(comment) {
+  if (comment.color !== undefined && comment.color !== null) {
+    return comment.color;
+  }
+  return '#fff9c4';
+}
+function removeOneBlot(quill, index, length, blotName) {
+  let formats = quill.getFormat(index, length);
+
+  Object.keys(formats).forEach((format) => {
+    quill.removeFormat(index, length);
+  });
+  delete formats[blotName];
+  delete formats['background'];
+
+  for (const [formatName, format] of Object.entries(formats)) {
+    quill.formatText(index, length, formatName, format, 'api');
+    quill.formatLine(index, length, formatName, format, 'api');
+  }
 }

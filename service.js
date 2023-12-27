@@ -446,6 +446,7 @@ export function redirectToExternalIDP() {
     jeddleBaseUrl +
     '/wp-json/moserver/authorize?response_type=code&client_id=' +
     clientId +
+    '&state=' + Date.now() +
     '&redirect_uri=' +
     selfBaseUrl;
   window.location.href = externalIDPLoginUrl;

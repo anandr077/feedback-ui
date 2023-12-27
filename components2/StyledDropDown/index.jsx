@@ -57,13 +57,15 @@ export default function StyledDropDown({
       );
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }}>
+    <FormControl sx={{ m: 1, minWidth: 100 }}>
       <Select
         style={{
           border: '1px solid var(--light-mode-purple)',
           boxShadow: '0px 4px 8px #2f1a720a',
           backgroundColor: 'white',
           borderRadius: '10px',
+          fontWeight: '400',
+          fontSize: '14px',
         }}
         open={open}
         onClose={() => setOpen(false)}
@@ -119,6 +121,8 @@ export default function StyledDropDown({
                   alignItems: 'center',
                   gap: '12px',
                   boxShadow: '0px 4px 8px #2f1a720a',
+                  fontWeight: '400',
+                  fontSize: '14px',
                 }}
                 key={menuItem.id}
                 value={menuItem.id}

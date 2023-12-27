@@ -5,7 +5,8 @@ const Inline = Quill.import('blots/inline');
 class HighlightBlot extends Inline {
   static create(value) {
     const node = super.create();
-    node.setAttribute('data-comment-id', value.commentId);
+    node.setAttribute('data-comment-ids', value.commentIds);
+    node.setAttribute('data-comment-colours', value.colours);
     if (value.isVisible) {
       node.style.backgroundColor = value.background;
     }
@@ -15,11 +16,11 @@ class HighlightBlot extends Inline {
 
   static formats(node) {
     return {
-      commentId: node.getAttribute('data-comment-id'),
+      commentIds: node.getAttribute('data-comment-ids'),
+      colours: node.getAttribute('data-comment-colours'),
       background: node.style.backgroundColor,
     };
   }
-  optimize(context) {}
 }
 
 HighlightBlot.blotName = 'highlight';

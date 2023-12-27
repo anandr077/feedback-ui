@@ -42,7 +42,8 @@ function FeedbackTeacherLaptop(props) {
     submission,
     share,
     sharewithclassdialog,
-    overallComments
+    overallComments,
+    selectedRange
   } = props;
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -65,15 +66,30 @@ function FeedbackTeacherLaptop(props) {
     comments,
     groupedFocusAreaIds
   );
+  const commentsDependencyString = React.useMemo(() => {
+    return commentsForSelectedTab.map(c => `${c.id}:${c.isHidden}`).join(",");
+  }, [commentsForSelectedTab]);
   React.useEffect(() => {
     quillRefs.current.forEach(function(quillRef, index, array) {
-      const currentTabComments =commentsForSelectedTab.filter((comment) => comment.questionSerialNumber === index + 1 )
-      console.log("currentTabComments", currentTabComments)
+      const currentTabComments = commentsForSelectedTab.filter((comment) => comment.questionSerialNumber === index + 1 )
       if (quillRef) quillRef.redrawHighlights(currentTabComments);
-    }); 
-  }, [isFeedback, isFocusAreas, isShowResolved]);
+    });
+  }, [commentsDependencyString]);
  
-  
+  React.useEffect(() => {
+    const quillRef = quillRefs.current[newCommentSerialNumber - 1];
+    if (showNewComment === undefined || quillRef === null) {
+      return;
+    }
+    console.log("showNewComment", showNewComment)
+    if (showNewComment) {
+      quillRef?.setLostFocusColor({index:selectedRange.from, length:selectedRange.to - selectedRange.from});
+    } else {
+      const currentTabComments = commentsForSelectedTab.filter((comment) => comment.questionSerialNumber === newCommentSerialNumber )
+      quillRef?.redrawHighlights(currentTabComments);
+    }
+
+  }, [showNewComment]);
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
     setGroupedFocusAreaIds((prevState) => {
@@ -156,14 +172,14 @@ const selectTabComments = (
       if (comment.type === 'FOCUS_AREA') {
         return { ...comment, isHidden: true };
       }
-      return comment;
+      return { ...comment, isHidden: false };;
     });
   }
   return comments.map((comment) => {
     if (comment.type === 'FOCUS_AREA' || comment.status === 'RESOLVED') {
       return { ...comment, isHidden: true };
     }
-    return comment;
+    return  { ...comment, isHidden: false };;
   });
 };
 function loader(showLoader) {
@@ -239,12 +255,12 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {/* {contextBar(
+      {contextBar(
         submission, 
         methods, 
         isTeacher, 
         pageMode, 
-        labelText)} */}
+        labelText)}
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,

@@ -285,7 +285,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
    
@@ -306,7 +306,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+        // quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
 
       }
     });
@@ -327,7 +327,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
 
       }
     });
@@ -350,7 +350,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -374,7 +374,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setShowNewComment(false);
         setExemplerComment('');
         setShowShareWithClass(false);
-        quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
     
@@ -678,9 +678,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
          const deletedComment = oldComments.find((c) => c.id == commentId)
          const quill = quillRefs.current[deletedComment.questionSerialNumber - 1];
          const newComments = oldComments.filter((c) => c.id != commentId)
-         if (quill) {
-          quill.redrawHighlights(newComments)
-         }
          return oldComments.filter((c) => c.id != commentId);
       });
     });
@@ -1458,6 +1455,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
           overallComments,
+          selectedRange
         }}
       />
     </>

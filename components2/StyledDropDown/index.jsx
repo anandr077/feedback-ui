@@ -4,13 +4,14 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Input } from '@mui/material';
 import { Avatar } from '@boringer-avatars/react';
-import { AvatarContainer } from './style';
+import { AvatarContainer, Frame12841 } from './style';
 
 export default function StyledDropDown({
   menuItems,
   showAvatars = false,
   search = false,
   group = false,
+  showImage = false,
   selectedIndex,
 }) {
   const initialSelectedItem =
@@ -28,6 +29,10 @@ export default function StyledDropDown({
     if (menuItem.link) {
       window.location.href = menuItem.link;
       window.location.reload();
+      return;
+    }
+    if (menuItem.onClick) {
+      menuItem.onClick(menuItem);
       return;
     }
   };
@@ -58,6 +63,7 @@ export default function StyledDropDown({
           boxShadow: '0px 4px 8px #2f1a720a',
           backgroundColor: 'white',
           borderRadius: '10px',
+          fontSize: '14px',
         }}
         value={value}
         displayEmpty
@@ -73,6 +79,7 @@ export default function StyledDropDown({
                 square={false}
               />
             )}
+            {showImage && createImageFrame(value)}
             <span>{value.title}</span>
           </AvatarContainer>
         )}
@@ -110,6 +117,7 @@ export default function StyledDropDown({
                   alignItems: 'center',
                   gap: '12px',
                   boxShadow: '0px 4px 8px #2f1a720a',
+                  fontSize: '14px',
                 }}
                 key={menuItem.id}
                 value={menuItem.id}
@@ -124,6 +132,7 @@ export default function StyledDropDown({
                     square={false}
                   />
                 )}
+                {showImage && createImageFrame(menuItem)}
                 {menuItem.title}
               </MenuItem>
             ))}
@@ -152,3 +161,9 @@ const groupItemsByFirstLetter = (items) => {
     return groupedItems;
   }, {});
 };
+
+function createImageFrame(selectedItem) {
+  if (selectedItem?.image) {
+    return <Frame12841 src={selectedItem.image} alt="Frame 1284" />;
+  }
+}

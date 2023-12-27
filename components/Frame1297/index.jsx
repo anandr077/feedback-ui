@@ -6,6 +6,7 @@ import {
 } from '../../styledMixins';
 import DropdownMenu from '../DropdownMenu';
 import { set } from 'lodash';
+import StyledDropDown from '../../components2/StyledDropDown';
 
 function Frame1297(props) {
   const { dropdown, number, UpdateQuestionFrame, defaultType } = props;
@@ -74,10 +75,11 @@ const createQuestionTypeSelector = (
   ];
   const selectedIndex = type === 'MCQ' ? 2 : type === 'ESSAY' ? 1 : 0;
   return (
-    <DropdownMenu
+    <StyledDropDown
       selectedIndex={selectedIndex}
       menuItems={menuItems}
-    ></DropdownMenu>
+      showImage={true}
+    />
   );
 };
 

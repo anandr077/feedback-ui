@@ -12,11 +12,13 @@ export default function StyledDropDown({
   search = false,
   group = false,
   selectedIndex,
+  onItemSelected,
 }) {
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
   const [value, setValue] = React.useState(initialSelectedItem);
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     setValue(initialSelectedItem);
@@ -25,10 +27,14 @@ export default function StyledDropDown({
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
     setValue(menuItem);
+    setOpen(false);
     if (menuItem.link) {
       window.location.href = menuItem.link;
       window.location.reload();
       return;
+    }
+    if (onItemSelected) {
+      onItemSelected(menuItem);
     }
   };
 
@@ -59,6 +65,9 @@ export default function StyledDropDown({
           backgroundColor: 'white',
           borderRadius: '10px',
         }}
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
         value={value}
         displayEmpty
         input={<Input disableUnderline={true} />}

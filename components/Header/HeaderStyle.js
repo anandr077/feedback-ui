@@ -48,6 +48,7 @@ export const NavigationContainer = styled.div`
   background-color: white;
   align-self: stretch;
   overflow-y: scroll;
+  padding-bottom: 15px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
   height: ${props => props.pageHeight ? props.pageHeight + "px" : "0"};
   animation: ${(props) => (props.slideNotificationBar ? slideIn : slideOut)}
@@ -77,7 +78,7 @@ export const HelpbarContainer = styled.div`
 `;
 
 export const Screen = styled.div`
-  height: 100%;
+  height: ${props => props.pageHeight ? (props.pageHeight + 170) + "px" : "0"};
   width: calc(100vw - 20px);
   position: absolute;
   top: 0;

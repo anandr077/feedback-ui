@@ -84,7 +84,7 @@ export default function Header(props) {
     const updateHeight = () => {
       const fullHeight = document.documentElement.scrollHeight;
       if (fullHeight !== pageHeight) {
-        setPageHeight(fullHeight - 70);
+        setPageHeight(fullHeight - 170);
       }
     };
 
@@ -205,14 +205,14 @@ export default function Header(props) {
         </Frame51>
       </Frame1344>
       {isHelpBarOpen && (
-        <Screen onClick={handleHelpBarClick}>
+        <Screen onClick={handleHelpBarClick} pageHeight={pageHeight}>
           <HelpbarContainer isHelpBarOpen={sliderOpen} pageHeight={pageHeight}>
             <HelpSidebar />
           </HelpbarContainer>
         </Screen>
       )}
       {isNotificationOpen && (
-        <Screen onClick={handleNotificationClick} notifications={notifications}>
+        <Screen onClick={handleNotificationClick} notifications={notifications} pageHeight={pageHeight}>
           <NavigationContainer
             slideNotificationBar={sliderOpen}
             pageHeight={pageHeight}

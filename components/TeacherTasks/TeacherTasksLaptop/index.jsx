@@ -82,7 +82,7 @@ const TitleContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  padding: 0px 60px;
+  padding: 0px 10vw;
 `;
 
 const ButtonContainer = styled.div`
@@ -120,13 +120,13 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 60vh;
+  height: 80vh;
 `;
 
 const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  padding: 0px 60px;
+  padding: 0px 10vw;
   gap: 32px;
   position: relative;
   align-self: stretch;

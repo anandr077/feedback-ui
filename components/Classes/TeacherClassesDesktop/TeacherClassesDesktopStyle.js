@@ -18,7 +18,7 @@ export const Frame13121 = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
-  padding: 0px 240px;
+  padding: 0px 10vw;
   position: relative;
   align-self: stretch;
 `;
@@ -36,7 +36,7 @@ export const Frame14221 = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 240px;
+  padding: 0px 10vw;
   position: relative;
   align-self: stretch;
 `;
@@ -86,7 +86,7 @@ export const Frame1417 = styled.div`
   min-height: fit-content;
   align-items: flex-start;
   gap: 32px;
-  padding: 0px 240px;
+  padding: 0px 10vw;
   position: relative;
   align-self: stretch;
 `;

@@ -88,7 +88,7 @@ const TitleContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  padding: 0px 60px;
+  padding: 0px 10vw;
 `;
 const Frame1361 = styled.div`
   display: flex;
@@ -118,7 +118,7 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 60vh;
+  height: 80vh;
 `;
 
 const Frame1359 = styled.div`
@@ -127,7 +127,7 @@ const Frame1359 = styled.div`
   position: relative;
   align-self: stretch;
   width: 100%;
-  padding: 0px 60px;
+  padding: 0px 10vw;
   min-height: calc(100vh - 285px);
   flex-grow: 1;
   margin: 0px auto;

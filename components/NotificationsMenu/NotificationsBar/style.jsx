@@ -50,7 +50,14 @@ export const Frame15 = styled.div`
   z-index: 10;
   height: 100%;
   flex-direction: column;
-  overflow: visible;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 export const Frame16 = styled.div`
   display: flex;

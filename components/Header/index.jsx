@@ -6,6 +6,7 @@ import NotificationsBar from '../NotificationsMenu/NotificationsBar';
 import { getNotifications } from '../../service.js';
 import {
   NavigationContainer,
+  HelpbarContainer,
   Screen,
   DropDownContainer,
   Frame1344,
@@ -20,11 +21,16 @@ import {
   HeaderButtonSelected,
 } from './HeaderStyle';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
+import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 
 export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
+  const [isHelpBarOpen, setIsHelpBarOpen] = React.useState(false);
+  const [pageHeight, setPageHeight] = useState(0);
+  const pageHeightRef = useRef(null);
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -33,7 +39,6 @@ export default function Header(props) {
       return result;
     },
     staleTime: 60000,
-    
   });
 
   const OnFirstButtonClick = () => {
@@ -46,13 +51,13 @@ export default function Header(props) {
     window.location.href = headerProps.thirdButton.redirect;
   };
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
-  const [slideNotificationBar, setSlideNotificationBar] = useState(false)
+  const [sliderOpen, setsliderOpen] = useState(false);
   const handleNotificationClick = () => {
     if (!isNotificationOpen) {
       setIsNotificationOpen(true);
-      setSlideNotificationBar(true)
+      setsliderOpen(true);
     } else {
-      setSlideNotificationBar(false)
+      setsliderOpen(false);
       setTimeout(() => {
         setIsNotificationOpen(false);
       }, 300);
@@ -63,6 +68,50 @@ export default function Header(props) {
     setDropDown(!dropDown);
   };
 
+  const handleHelpBarClick = () => {
+    if (!isHelpBarOpen) {
+      setIsHelpBarOpen(true);
+      setsliderOpen(true);
+    } else {
+      setsliderOpen(false);
+      setTimeout(() => {
+        setIsHelpBarOpen(false);
+      }, 300);
+    }
+  };
+
+  useEffect(() => {
+    const updateHeight = () => {
+      const fullHeight = document.documentElement.scrollHeight;
+      if (fullHeight !== pageHeight) {
+        setPageHeight(fullHeight - 70);
+      }
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      let shouldUpdateHeight = false;
+
+      for (const mutation of mutations) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          shouldUpdateHeight = true;
+          break;
+        }
+      }
+
+      if (shouldUpdateHeight) {
+        updateHeight();
+      }
+    });
+
+    const config = { childList: true, subtree: true };
+
+    observer.observe(document.body, config);
+
+    updateHeight();
+
+    return () => observer.disconnect();
+  }, []);
+  
   return (
     <>
       <Frame1344>
@@ -141,6 +190,10 @@ export default function Header(props) {
           )}
         </Frame5>
         <Frame51>
+          <HeaderHelpBar
+            src="/img/helpIcon.png"
+            onClickFn={handleHelpBarClick}
+          />
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}
@@ -151,13 +204,19 @@ export default function Header(props) {
           </div>
         </Frame51>
       </Frame1344>
+      {isHelpBarOpen && (
+        <Screen onClick={handleHelpBarClick}>
+          <HelpbarContainer isHelpBarOpen={sliderOpen} pageHeight={pageHeight}>
+            <HelpSidebar />
+          </HelpbarContainer>
+        </Screen>
+      )}
       {isNotificationOpen && (
-        <Screen 
-          onClick={handleNotificationClick}
-          notifications={notifications}
-        >
-          <NavigationContainer 
-            slideNotificationBar={slideNotificationBar}
+        <Screen onClick={handleNotificationClick} notifications={notifications}>
+          <NavigationContainer
+            slideNotificationBar={sliderOpen}
+            pageHeight={pageHeight}
+            onClick={(e) => e.stopPropagation()}
           >
             {' '}
             <NotificationsBar

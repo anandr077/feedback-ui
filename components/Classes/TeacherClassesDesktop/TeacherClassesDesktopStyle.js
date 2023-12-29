@@ -8,17 +8,20 @@ import {
 export const Frame1422 = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
+  justify-content: center;
   gap: 60px;
   position: relative;
-  align-self: stretch;
+  // align-self: stretch;
+  max-width: 1220px;
 `;
 
 export const Frame13121 = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
-  padding: 0px 10vw;
+  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;
@@ -36,7 +39,7 @@ export const Frame14221 = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 10vw;
+  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;
@@ -86,7 +89,7 @@ export const Frame1417 = styled.div`
   min-height: fit-content;
   align-items: flex-start;
   gap: 32px;
-  padding: 0px 10vw;
+  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;

@@ -8,8 +8,11 @@ import {
   SearchIcon,
   MoreOption,
   MoreOptionIcon,
+  HelpSidebarSmallContainer,
+  CloseHelpBar
 } from './style';
 import Accordion from './Accordion';
+import { isSmallScreen } from '../../components/ReactiveRender';
 
 const data = [
   {
@@ -180,9 +183,26 @@ const data = [
   },
 ];
 
-const HelpSidebar = () => {
-  return (
+const HelpSidebar = ({onCloseFn}) => {
+  const isSmallView = isSmallScreen();
+
+  return isSmallView ? (
+    <HelpSidebarSmallContainer>
+      <CloseHelpBar src="/img/close.png" onClick={onCloseFn}/>
+      {helpSidebarContent()}
+    </HelpSidebarSmallContainer>
+  ) : (
     <HelpSidebarContainer onClick={(e) => e.stopPropagation()}>
+      {helpSidebarContent()}
+    </HelpSidebarContainer>
+  );
+};
+
+export default HelpSidebar;
+
+function helpSidebarContent() {
+  return (
+    <>
       <Header>
         <IconImg src="/img/helpIcon.png" />
         Help Centre
@@ -206,8 +226,6 @@ const HelpSidebar = () => {
         <MoreOptionIcon src="/img/Message-question-icon.png" />
         Need more help?
       </MoreOption>
-    </HelpSidebarContainer>
+    </>
   );
-};
-
-export default HelpSidebar;
+}

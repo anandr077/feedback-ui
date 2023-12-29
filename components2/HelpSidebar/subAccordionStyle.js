@@ -16,7 +16,7 @@ export const SubAccordionTitle = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: 18px;
-  line-height: 23px;
+  letter-spacing: -2.5%;
   color: var(--text);
 `;
 
@@ -30,8 +30,8 @@ export const SubContent = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-size: var(--font-size-l);
-  line-height: 20px;
   color: var(--chicago);
+  line-height: 20px;
 `;
 
 export const StyledExpandMoreIcon = styled(ExpandMoreIcon)`
@@ -50,7 +50,6 @@ export const VideoBtn = styled.button`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: 15px;
-  line-height: 19px;
   color: var(--light-mode-purple);
   border-radius: 18px;
   border: 1px solid var(--light-mode-purple);

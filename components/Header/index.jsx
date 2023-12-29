@@ -21,7 +21,7 @@ import {
   HeaderButtonSelected,
 } from './HeaderStyle';
 import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 
@@ -30,7 +30,6 @@ export default function Header(props) {
   const [dropDown, setDropDown] = React.useState(false);
   const [isHelpBarOpen, setIsHelpBarOpen] = React.useState(false);
   const [pageHeight, setPageHeight] = useState(0);
-  const pageHeightRef = useRef(null);
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],

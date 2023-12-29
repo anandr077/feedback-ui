@@ -10,12 +10,11 @@ export const AccordionTitle = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: var(--font-size-xl);
-  line-height: 26px;
+  letter-spacing: -2.5%;
   color: var(--text);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 20px;
   padding: 20px 0;
   border-top: 1px solid #f1e6fc;
   cursor: pointer;

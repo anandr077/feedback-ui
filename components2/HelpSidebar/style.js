@@ -14,6 +14,29 @@ export const HelpSidebarContainer = styled.div`
   -ms-overflow-style: none;
 `;
 
+export const HelpSidebarSmallContainer = styled.div`
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  padding: 20px;
+  background-color: var(--white);
+  box-shadow: 0px 4px 20px 0px rgba(48, 27, 114, 4%);
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+`;
+
+export const CloseHelpBar = styled.img`
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+`;
+
 export const Header = styled.div`
   display: flex;
   align-items: center;
@@ -21,7 +44,6 @@ export const Header = styled.div`
   font-weight: 600;
   font-size: var(--font-size-xxl);
   font-family: var(--font-family-ibm_plex_sans);
-  line-height: 31px;
   color: var(--text);
 `;
 
@@ -43,6 +65,8 @@ export const Input = styled.input`
   height: 42px;
   padding: 9px 12px;
   font-family: var(--font-family-ibm_plex_sans);
+  line-height: 24px;
+  font-size: var(--font-size-l);
   border: none;
   border-radius: 8px;
   &:focus {
@@ -59,6 +83,12 @@ export const SearchIcon = styled.img`
 `;
 
 export const MoreOption = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-xl);
+  line-height: 26px;
+  color: var(--light-mode-purple);
+  letter-spacing: -2.5%;
   display: flex;
   align-items: center;
   gap: 8px;

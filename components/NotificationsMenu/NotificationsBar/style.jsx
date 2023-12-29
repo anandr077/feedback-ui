@@ -26,25 +26,25 @@ export const Frame1409 = styled.div`
   align-items: flex-start;
   flex-direction: column;
   gap: 20px;
-  padding: 16px 20px;
+  padding: 16px 0px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
 `;
 export const MaskGroup = styled.img`
-  position: sticky;
-  top: 0;
-  right: 0;
-  height: 48px;
-  width: 48px;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  height: 35px;
+  width: 35px;
 `;
 
 export const Frame15 = styled.div`
   display: flex;
-  width: 320px;
+  width: 420px;
   align-items: flex-start;
   gap: 10px;
-  padding: 10px;
+  padding: 20px;
   position: relative;
   align-self: stretch;
   z-index: 10;

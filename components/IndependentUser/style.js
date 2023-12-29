@@ -114,6 +114,12 @@ export const DrawerVericalNav = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height:45vh;
+  overflow-y:scroll;
+  width:100%;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 `;
 export const DrawerVericalNavData = styled.div`
   padding: 20px;

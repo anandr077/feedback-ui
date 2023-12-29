@@ -50,6 +50,11 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { isMobileView } from '../ReactiveRender';
+import IndepentdentUserSidebar from './IndepentdentUserSidebar';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getPortfolio } from '../../service';
+import Loader from '../Loader';
+import { useMediaQuery } from 'react-responsive';
 
 const drawerWidth = 275;
 
@@ -129,6 +134,8 @@ function IndependentUser() {
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [subjectsList, setSubjectsList] = React.useState([]);
+  const [selectedSubject , setSelectedSubject] = React.useState([]);
 
   const handleDrawer = () => {
     setOpen(!open);
@@ -137,9 +144,27 @@ function IndependentUser() {
   const selectedItemIndex = selectSubjects.findIndex((selectSubject) => {
     return selectSubject.id === selectSubject.id;
   });
+  const isMobile = useMediaQuery({ maxWidth: 765 });
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['portfolio'],
+    queryFn: async () => {
+      return await getPortfolio();
+    },
+    staleTime: 3600000,
+  });
+  React.useEffect(() => {
+    console.log('first', data);
+    setSubjectsList(data?.files);
+    setSelectedSubject((data?.files)[0]);
+  }, [data]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
-      {isMobileView() ? (
+      {isMobile ? (
         <Container style={{ flexDirection: 'column' }}>
           <Heading>Welcome to Jeddle.</Heading>
           <ParaContainer>
@@ -148,92 +173,12 @@ function IndependentUser() {
         </Container>
       ) : (
         <Container>
-          <Drawer
-            sx={{
-              width: drawerWidth,
-              flexShrink: 0,
-              fontFamily: 'IBM Plex Sans',
-              overflowY: 'scroll',
-              '&::-webkit-scrollbar': {
-                width: '0px', // Set the width to 0
-              },
-              '&::-webkit-scrollbar-thumb': {
-                display: 'none', // Hide the scrollbar thumb
-              },
-              '& .MuiDrawer-paper': {
-                width: drawerWidth,
-                boxSizing: 'border-box',
-              },
-            }}
-            variant="persistent"
-            anchor="left"
+          <IndepentdentUserSidebar
             open={open}
-          >
-            <DrawerHeader>+ New Draft</DrawerHeader>
-            <Divider />
-            <DrawerBody>
-              <DrawerInput placeholder="Search" />
-              <p
-                style={{
-                  fontSize: '12px',
-                  lineHeight: '15.6px',
-                  fontWeight: '500',
-                }}
-              >
-                SUBJECTS
-              </p>
-              <DrawerSubjects>
-                {[
-                  'English1(5)',
-                  'English 2 (10)',
-                  'Geography (3)',
-                  'Drafts(20)',
-                ].map((text, index) => (
-                  <span
-                    style={{
-                      padding: '8px 12px',
-                      border: '1px solid #DEC7FF',
-                      background: 'linear-gradient(0deg, #DEC7FF, #DEC7FF)',
-                      borderRadius: '12px',
-                      cursor: 'pointer',
-                      fontFamily: 'IBM Plex Sans',
-                    }}
-                  >
-                    {text}
-                  </span>
-                ))}
-                <span
-                  style={{
-                    padding: '8px 12px',
-                    border: '1px solid #DEC7FF',
-                    background: '#7200E0',
-                    borderRadius: '12px',
-                    cursor: 'pointer',
-                    color: 'white',
-                    fontFamily: 'IBM Plex Sans',
-                  }}
-                >
-                  + New Subject
-                </span>
-              </DrawerSubjects>
-
-              <DrawerVericalNav>
-                <DrawerVericalNavData
-                  style={{ color: 'white', background: '#7200E0' }}
-                >
-                  What are lanthanides?
-                </DrawerVericalNavData>
-                {[
-                  'What are lanthanides?',
-                  'How does Charles Dickens portray Pip in Great Expections?',
-                  'What was the meaning of the first prophecy by the 3 withces in Macbeth',
-                  "What is the mora of the short story THe Monkey's Paw",
-                ].map((text, index) => (
-                  <DrawerVericalNavData>{text}</DrawerVericalNavData>
-                ))}
-              </DrawerVericalNav>
-            </DrawerBody>
-          </Drawer>
+            subjects={subjectsList}
+            setSelectedSubject={setSelectedSubject}
+            subjectFiles={selectedSubject}
+          />
           <Main open={open} style={{ padding: '0px', height: '100%' }}>
             <DrawerArrowContainer
               style={{ height: '100%', display: 'flex', alignItems: 'center' }}

@@ -87,7 +87,7 @@ const TitleContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  padding: 0px 10vw;
+  padding: 0px 60px;
 `;
 
 const Frame1361 = styled.div`
@@ -98,6 +98,7 @@ const Frame1361 = styled.div`
   justify-content: center;
   gap: 40px;
   position: relative;
+  max-width: 1220px;
 `;
 
 const Title = styled.h1`
@@ -124,7 +125,7 @@ const Frame1360 = styled.div`
 const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  padding: 0px 10vw;
+  padding: 0px 60px;
   gap: 32px;
   position: relative;
   align-self: stretch;

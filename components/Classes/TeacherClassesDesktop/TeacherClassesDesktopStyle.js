@@ -14,7 +14,7 @@ export const Frame1422 = styled.div`
   gap: 60px;
   position: relative;
   // align-self: stretch;
-  max-width: 1220px;
+  max-width: 1440px;
 `;
 
 export const Frame13121 = styled.div`

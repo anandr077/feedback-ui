@@ -4,6 +4,10 @@ import { styled, useTheme } from '@mui/material/styles';
 import {
   DrawerBody,
   DrawerInput,
+  DrawerQuestion,
+  DrawerQuestionButton,
+  DrawerQuestions,
+  DrawerSubject,
   DrawerSubjects,
   DrawerVericalNav,
   DrawerVericalNavData,
@@ -23,15 +27,22 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   color: 'white',
   margin: '20px',
   fontFamily: 'IBM Plex Sans',
+  position: 'relative',
 }));
 
 function IndepentdentUserSidebar({
   open,
   subjects,
   setSelectedSubject,
-  subjectFiles,
+  selectedSubject,
 }) {
   const theme = useTheme();
+  const [selectedQuestion, setSelectedQuestion] = React.useState();
+
+  React.useEffect(() => {
+    setSelectedQuestion(subjects[selectedSubject]?.[0]);
+  }, [selectedSubject]);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   return (
     <Drawer
@@ -39,16 +50,19 @@ function IndepentdentUserSidebar({
         width: drawerWidth,
         flexShrink: 0,
         fontFamily: 'IBM Plex Sans',
-        overflowY: 'scroll',
-        '&::-webkit-scrollbar': {
-          width: '0px', // Set the width to 0
-        },
-        '&::-webkit-scrollbar-thumb': {
-          display: 'none', // Hide the scrollbar thumb
-        },
+        // height: '85vh',
+        height: '100%',
+        ovverflowY: 'scroll',
         '& .MuiDrawer-paper': {
-          width: drawerWidth,
+          width: '100%',
           boxSizing: 'border-box',
+          overflowY: 'scroll',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+            width: '0px',
+          },
+          position: 'relative',
+          top: '0px',
         },
       }}
       variant="persistent"
@@ -58,7 +72,11 @@ function IndepentdentUserSidebar({
       <DrawerHeader>+ New Draft</DrawerHeader>
       <Divider />
       <DrawerBody>
-        <DrawerInput placeholder="Search" />
+        <DrawerInput
+          placeholder="Search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
         <p
           style={{
             fontSize: '12px',
@@ -69,22 +87,18 @@ function IndepentdentUserSidebar({
           SUBJECTS
         </p>
         <DrawerSubjects>
-          {subjects?.map((subject, index) => (
-            <span
+          {Object.keys(subjects).map((subject, index) => (
+            <DrawerSubject
               style={{
-                padding: '8px 12px',
-                border: '1px solid #DEC7FF',
-                background: 'linear-gradient(0deg, #DEC7FF, #DEC7FF)',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                fontFamily: 'IBM Plex Sans',
+                background: selectedSubject === subject ? '#FFCA0F' : '',
               }}
+              key={index}
               onClick={() => setSelectedSubject(subject)}
             >
-              {subject.className}
-            </span>
+              {subject} ({subjects[subject].length})
+            </DrawerSubject>
           ))}
-          <span
+          <div
             style={{
               padding: '8px 12px',
               border: '1px solid #DEC7FF',
@@ -96,19 +110,29 @@ function IndepentdentUserSidebar({
             }}
           >
             + New Subject
-          </span>
+          </div>
         </DrawerSubjects>
 
-        <DrawerVericalNav>
-          {/* <DrawerVericalNavData
-            style={{ color: 'white', background: '#7200E0' }}
-          >
-            What are lanthanides?
-          </DrawerVericalNavData> */}
-          {subjectFiles?.files[2].files.map((file, index) => (
-            <DrawerVericalNavData>{file.title}</DrawerVericalNavData>
-          ))}
-        </DrawerVericalNav>
+        <DrawerQuestions>
+          <DrawerQuestion style={{ color: 'white', background: '#7200E0' }}>
+            {selectedQuestion?.question}
+          </DrawerQuestion>
+
+          {subjects[selectedSubject]?.map(
+            (question, qIndex) =>
+              question.question
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) && (
+                <DrawerQuestion
+                  key={qIndex}
+                  onClick={() => setSelectedQuestion(question)}
+                >
+                  {question.question}
+                </DrawerQuestion>
+              )
+          )}
+          <DrawerQuestionButton>See more</DrawerQuestionButton>
+        </DrawerQuestions>
       </DrawerBody>
     </Drawer>
   );

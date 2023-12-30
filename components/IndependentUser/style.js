@@ -4,31 +4,29 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   background-color: var(--white-pointer);
+  // height:100%;
   height: 75vh;
-  overflow-y: scroll;
+  // overflow-y: scroll;
 `;
 export const UserContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1300px;
-  max-width: 1300px;
-  padding-top: 40px;
+  width: 100%;
+  padding: 40px 100px 0px 100px;
   gap: 32px;
+  height: 100%;
+  overflow-y: scroll;
   @media (max-width: 1440px) {
-    width: 90vw;
-  }
-  @media (max-width: 1024px) {
-    width: 90vw;
+    padding: 40px 60px 0px 60px;
   }
 `;
 export const UserData = styled.div`
   display: flex;
   justify-content: center;
-  flex-direction:row;
+  flex-direction: row;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 `;
-
 
 export const DropDownContainer = styled.div``;
 export const MainContainer = styled.div`
@@ -89,7 +87,7 @@ export const DrawerBody = styled.div`
   flex-direction: column;
   gap: 16px;
   margin: 20px;
-  fontFamily: IBM Plex Sans,
+  fontfamily: IBM Plex Sans;
 `;
 export const DrawerInput = styled.input`
   &::placeholder {
@@ -100,7 +98,7 @@ export const DrawerInput = styled.input`
   border-radius: 8px;
   border: 1px solid #1e252a;
   &:focus {
-    outline: none; /* Remove focus outline */
+    outline: none;
   }
 `;
 export const DrawerSubjects = styled.div`
@@ -108,31 +106,64 @@ export const DrawerSubjects = styled.div`
   flex-flow: wrap;
   gap: 8px;
   padding: 8px;
-`;
-
-export const DrawerVericalNav = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height:45vh;
-  overflow-y:scroll;
-  width:100%;
+  height: 20vh;
+  overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 0;
   }
 `;
-export const DrawerVericalNavData = styled.div`
+export const DrawerSubject = styled.div`
+  padding: 8px 12px;
+  border: 1px solid #dec7ff;
+  background: linear-gradient(0deg, #dec7ff, #dec7ff);
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  &:hover {
+    background: linear-gradient(0deg, #ffefb5, #ffefb5),
+      linear-gradient(0deg, #fffae7, #fffae7);
+    border: 1px solid #ffefb5;
+  }
+`;
+
+export const DrawerQuestions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 45vh;
+  overflow-y: scroll;
+  width: 100%;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+`;
+export const DrawerQuestion = styled.div`
   padding: 20px;
   border-radius: 8px;
   background: #f2f2f2;
   cursor: pointer;
 `;
+export const DrawerQuestionButton = styled.div`
+padding: 8px 16px 8px 16px;
+  border-radius: 30px;
+  gap: 4px;
+  background: #434343;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+`;
 export const DrawerArrowContainer = styled.div`
   height: 100%;
   display: flex;
   alignitems: center;
+  justify-content: center;
 `;
 export const DrawerArrow = styled.div`
-  height: 40px;
+  height: 100%;
   cursor: pointer;
+  display: flex;
 `;

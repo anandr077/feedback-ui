@@ -2,37 +2,43 @@ import styled from 'styled-components';
 
 export const DialogueBox = styled.div`
   border-radius: 5px;
-  width: 400px;
-  max-width: 90%;
-  margin: 0 auto;
+  width: 100%;
+`;
+
+export const Header = styled.div`
+  width: 100%;
+  padding: 20px 24px;
+  border-bottom: 1px solid #D6D6D6;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  font-size: var(--font-size-xl);
 `;
 
 export const DropdownContainer = styled.div`
-  margin: 30px 0;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  padding: 0 24px;
 `;
 
 export const DropdownItem = styled.div`
-  display: flex;
-  align-items: center;
+  margin-bottom: 16px;
 `;
 
 export const Title = styled.h3`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xl);
-  flex: 1;
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 10px;
 `;
 
 export const DropdownBox = styled.div`
-  flex: 1.5;
 `;
 
 export const Button = styled.button`
   display: block;
   border-radius: 30px;
-  margin: 0 auto;
+  margin: 16px auto;
   background-color: var(--light-mode-purple);
   font-family: var(--font-family-ibm_plex_sans);
   border: none;
@@ -40,12 +46,34 @@ export const Button = styled.button`
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
-  width: 135px;
+  width: calc(100% - 48px);
   height: 40px;
   cursor: pointer;
   transition: 0.2s ease-in;
 
   &:hover {
     background-color: var(--royal-purple);
+  }
+`;
+
+export const TermsCondition = styled.div`
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const Checkbox = styled.input`
+  width: 15px;
+  height: 15px;
+`;
+
+export const TermsText = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 18px;
+  color: var(--text);
+
+  span{
+    color: var(--light-mode-purple);
   }
 `;

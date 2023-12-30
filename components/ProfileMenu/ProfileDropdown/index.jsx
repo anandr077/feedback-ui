@@ -13,47 +13,69 @@ import { profileStateYear } from '../../../service';
 function ProfileDropdown() {
   const role = getUserRole();
   const queryClient = useQueryClient();
+  const [country, setCountry] = useState('Country')
   const [state, setState] = useState('State');
   const [year, setYear] = useState('Year');
+
+  const handleCountryChange = (e) =>{
+    const newCountry = e.target.value;
+    profileStateYear({
+      country: newCountry,
+      year,
+      state
+    }).then(()=>{
+      setCountry(newCountry);
+      Cookies.set('country', newCountry)
+    })
+  }
 
   const handleStateChange = (e) => {
     const newState = e.target.value;
     profileStateYear({
+      country,
       year,
-      state: newState
-    }).then(()=> {
+      state: newState,
+    }).then(() => {
       setState(newState);
       Cookies.set('state', newState);
-    })
+    });
   };
 
   const handleYearChange = (e) => {
     const newYear = e.target.value;
     profileStateYear({
+      country,
       year: newYear,
-      state
-    }).then(()=>{
+      state,
+    }).then(() => {
       setYear(newYear);
-      Cookies.set('year', newYear)
-    })
+      Cookies.set('year', newYear);
+    });
   };
 
   const handlePropagation = (e) => {
     e.stopPropagation();
   };
 
-  useEffect(()=>{
-     const savedState = Cookies.get('state');
-     const savedYear = Cookies.get('year');
+  useEffect(() => {
+    const savedState = Cookies.get('state');
+    const savedYear = Cookies.get('year');
+    const saveCountry = Cookies.get('country')
 
-     savedState && setState(savedState);
-     savedYear && setYear(savedYear);
-  }, [])
+    savedState && setState(savedState);
+    savedYear && setYear(savedYear);
+    saveCountry && setCountry(saveCountry);
+  }, []);
 
   return (
     <>
       {role === 'STUDENT' && (
         <>
+          <StudentStateContainer onClick={handlePropagation}>
+            <StyledEditText value={country} onChange={handleCountryChange} />
+            <EditImg src="/icons/EditSM.png" alt="edit" />
+          </StudentStateContainer>
+          <Line6 src="/icons/line.png" alt="Line 6" />
           <StudentStateContainer onClick={handlePropagation}>
             <StyledEditText value={state} onChange={handleStateChange} />
             <EditImg src="/icons/EditSM.png" alt="edit" />

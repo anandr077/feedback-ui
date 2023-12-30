@@ -9,8 +9,14 @@ import {
   DropdownBox,
   Title,
   Button,
+  Header,
+  TermsCondition,
+  Checkbox,
+  TermsText
 } from './stateYearDialogueStyle';
 import { profileStateYear } from '../../service';
+
+const countryOptions = [{ title: 'Australia' }];
 
 const stateOptions = [
   { title: 'New South Wales' },
@@ -32,17 +38,20 @@ const yearOptions = [
 
 const StateYearDialogue = ({ setStage }) => {
   //const { setShowStateYear } = useContext(OnboardingContext);
+  const [country, setCountry] = useState({})
   const [state, setState] = useState({});
   const [year, setYear] = useState({});
 
   const saveToCookies = () => {
-    if (state.title && year.title) {
+    if (state.title && year.title && country.title) {
       profileStateYear({
+        country: country.title,
         year: year.title,
         state: state.title,
       }).then(() => {
         Cookies.set('state', state.title);
         Cookies.set('year', year.title);
+        Cookies.set('country', country.title)
         setStage(3);
         //setShowStateYear(false);
       });
@@ -51,7 +60,18 @@ const StateYearDialogue = ({ setStage }) => {
 
   return (
     <DialogueBox>
+      <Header>Let's Get Started - Customise Your Feedback</Header>
       <DropdownContainer>
+        <DropdownItem>
+          <Title>Country</Title>
+          <DropdownBox>
+            <DropdownMenu
+              menuItems={countryOptions}
+              getSelectedItem={(item) => setCountry(item)}
+              fullWidth={true}
+            />
+          </DropdownBox>
+        </DropdownItem>
         <DropdownItem>
           <Title>State</Title>
           <DropdownBox>
@@ -73,7 +93,11 @@ const StateYearDialogue = ({ setStage }) => {
           </DropdownBox>
         </DropdownItem>
       </DropdownContainer>
-      <Button onClick={saveToCookies}>Save</Button>
+      <TermsCondition>
+         <Checkbox type='checkbox' />
+         <TermsText>I agree to the <span>terms & conditions</span></TermsText>
+      </TermsCondition>
+      <Button onClick={saveToCookies}>Submit</Button>
     </DialogueBox>
   );
 };

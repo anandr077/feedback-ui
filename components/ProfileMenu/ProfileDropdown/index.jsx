@@ -13,21 +13,9 @@ import { profileStateYear } from '../../../service';
 function ProfileDropdown() {
   const role = getUserRole();
   const queryClient = useQueryClient();
-  const [country, setCountry] = useState('Country')
   const [state, setState] = useState('State');
   const [year, setYear] = useState('Year');
-
-  const handleCountryChange = (e) =>{
-    const newCountry = e.target.value;
-    profileStateYear({
-      country: newCountry,
-      year,
-      state
-    }).then(()=>{
-      setCountry(newCountry);
-      Cookies.set('country', newCountry)
-    })
-  }
+  const [country, setCountry] = useState('Country')
 
   const handleStateChange = (e) => {
     const newState = e.target.value;
@@ -60,7 +48,7 @@ function ProfileDropdown() {
   useEffect(() => {
     const savedState = Cookies.get('state');
     const savedYear = Cookies.get('year');
-    const saveCountry = Cookies.get('country')
+    const saveCountry = Cookies.get('country');
 
     savedState && setState(savedState);
     savedYear && setYear(savedYear);
@@ -72,17 +60,10 @@ function ProfileDropdown() {
       {role === 'STUDENT' && (
         <>
           <StudentStateContainer onClick={handlePropagation}>
-            <StyledEditText value={country} onChange={handleCountryChange} />
-            <EditImg src="/icons/EditSM.png" alt="edit" />
-          </StudentStateContainer>
-          <Line6 src="/icons/line.png" alt="Line 6" />
-          <StudentStateContainer onClick={handlePropagation}>
-            <StyledEditText value={state} onChange={handleStateChange} />
-            <EditImg src="/icons/EditSM.png" alt="edit" />
-          </StudentStateContainer>
-          <Line6 src="/icons/line.png" alt="Line 6" />
-          <StudentStateContainer onClick={handlePropagation}>
-            <StyledEditText value={year} onChange={handleYearChange} />
+            <>
+              <StyledEditText value={year} onChange={handleYearChange} />
+              <StyledEditText value={state} onChange={handleStateChange} />
+            </>
             <EditImg src="/icons/EditSM.png" alt="edit" />
           </StudentStateContainer>
           <Line6 src="/icons/line.png" alt="Line 6" />
@@ -141,7 +122,7 @@ const StudentStateContainer = styled.div`
 `;
 
 const StyledEditText = styled(EditText)`
-  width: 200px;
+  width: fit-content;
   z-index: 1;
 `;
 

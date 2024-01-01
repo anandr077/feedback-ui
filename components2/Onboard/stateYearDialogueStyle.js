@@ -9,9 +9,9 @@ export const Header = styled.div`
   width: 100%;
   padding: 20px 24px;
   border-bottom: 1px solid #D6D6D6;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 600;
-  font-size: var(--font-size-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const DropdownContainer = styled.div`
@@ -76,4 +76,16 @@ export const TermsText = styled.p`
   span{
     color: var(--light-mode-purple);
   }
+`;
+
+export const HeaderText = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  font-size: var(--font-size-xl);
+`;
+
+export const CloseImg = styled.img`
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 `;

@@ -13,6 +13,8 @@ import {
   TermsCondition,
   Checkbox,
   TermsText,
+  HeaderText,
+  CloseImg
 } from './stateYearDialogueStyle';
 import { profileStateYear } from '../../service';
 import { OnboardingContext } from './OnboardingProvider';
@@ -64,9 +66,12 @@ const StateYearDialogue = ({ setStage }) => {
   return (
     <DialogueBox>
       <Header>
-        {editStateYear
-          ? 'Update your settings'
-          : "Let's Get Started - Customise Your Feedback"}
+        <HeaderText>
+          {editStateYear
+            ? 'Update your settings'
+            : "Let's Get Started - Customise Your Feedback"}
+        </HeaderText>
+        {editStateYear && <CloseImg src='img/vector-12@2x.png' onClick={()=> setEditStateYear(false)}/>}
       </Header>
       <DropdownContainer>
         <DropdownItem>

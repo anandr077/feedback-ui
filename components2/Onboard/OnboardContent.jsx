@@ -19,11 +19,7 @@ const OnboardContent = () => {
   return (
     <OnboardContainer>
       {stage === 1 && <FirstPopUp setStage={setStage} stage={stage} />}
-      {stage === 2 && (
-        <>
-          <StateYearDialogue setStage={setStage} />
-        </>
-      )}
+      {stage === 2 && <StateYearDialogue setStage={setStage} />}
     </OnboardContainer>
   );
 };

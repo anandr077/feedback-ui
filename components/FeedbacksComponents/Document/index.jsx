@@ -346,7 +346,7 @@ function breadcrumbs(pageMode, submission, allFolders) {
     return (
       <Frame1387>
         <Frame1315>
-          <Breadcrumb text={'Portfolio'} link={'/#/portfolio'} />
+          <Breadcrumb text={'GetFeedback'} link={'/#/getFeedback'} />
           {folderBreadcrumb()}
           {subfolderBreadcrumb()}
 
@@ -368,7 +368,7 @@ function breadcrumbs(pageMode, submission, allFolders) {
     return (
       <Breadcrumb2
         assignments={'Drafts'}
-        link={'/#/portfolio/' + submission.folderId + '/Drafts'}
+        link={'/#/getFeedback/' + submission.folderId + '/Drafts'}
       />
     );
   }
@@ -386,7 +386,7 @@ function breadcrumbs(pageMode, submission, allFolders) {
     return (
       <Breadcrumb2
         assignments={matchingFolderTitle}
-        link={'/#/portfolio/' + submission.folderId}
+        link={'/#/getFeedback/' + submission.folderId}
       />
     );
   }

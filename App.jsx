@@ -23,6 +23,7 @@ import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
+import GiveFeedback from './components/GiveFeedback';
 
 function App() {
   const role = getUserRole();
@@ -45,6 +46,7 @@ function App() {
   const ProtectedSettings = withAuth(AccountSettingsRoot);
   const ProtectedHeader = withAuth(ResponsiveHeader);
   const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
+  const ProtectedGiveFeedback = withAuth(GiveFeedback);
 
   const portfolioClient = new QueryClient();
 
@@ -53,7 +55,7 @@ function App() {
       role === 'TEACHER' ? (
         <ProtectedTeacherDashboard />
       ) : (
-        <ProtectedStudentDashboard />
+        <ProtectedStudentTaskRoot />
       );
     return <div>{dashboard}</div>;
   };
@@ -85,11 +87,14 @@ function App() {
             <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
               <ProtectedStrengthAndTarget />
             </Route>
-            <Route path="/portfolio/:folderId/:categoryName?">
+            <Route path="/getFeedback/:folderId/:categoryName?">
               <ProtectedPortfolioRoot />
             </Route>
-            <Route path="/portfolio">
+            <Route path="/getFeedback">
               <ProtectedPortfolioRoot />
+            </Route>
+            <Route path="/giveFeedback">
+              <ProtectedGiveFeedback />
             </Route>
             <Route path="/classes/:classIdFromUrl?">
               <ProtectedTeacherClassesRoot />
@@ -125,7 +130,7 @@ function App() {
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
-    </> 
+    </>
   );
 }
 export default App;

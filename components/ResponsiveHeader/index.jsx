@@ -5,6 +5,7 @@ import {
   assignmentsHeaderProps,
   classesHomeHeaderProps,
   completedHeaderProps,
+  giveFeedbackHeaderProps,
   homeHeaderProps,
   portfolioHeaderProps,
   taskHeaderProps,
@@ -32,7 +33,8 @@ const getHeaderProps = (location) => {
     return completedHeaderProps(true);
   if (location.includes('/documents/')) return portfolioHeaderProps();
   if (location.includes('/documentsReview/')) return teacherStudentTaskHeaderProps();
-  if (location.includes('/portfolio')) return portfolioHeaderProps();
+  if (location.includes('/getFeedback')) return portfolioHeaderProps();
+  
 
   const isTeacher = getUserRole() === 'TEACHER';
   if (isTeacher) {
@@ -41,10 +43,10 @@ const getHeaderProps = (location) => {
     else if (location.includes('/submissions')) return assignmentsHeaderProps;
     return teacherHomeHeaderProps;
   } else {
-    if (location.includes('/portfolio')) return portfolioHeaderProps();
-    else if (location.includes('/tasks')) return taskHeaderProps;
+    if (location.includes('/getFeedback')) return portfolioHeaderProps();
+    else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
-    return homeHeaderProps;
+    return taskHeaderProps;
   }
 };

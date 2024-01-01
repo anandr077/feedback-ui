@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import NavElement42 from '../NavElement42';
 import NavElement52 from '../NavElement52';
 import NavElement6 from '../NavElement6';
@@ -9,6 +9,8 @@ import './Navigation.css';
 import { account, changePassword, getUserName, logout } from '../../../service';
 import { Avatar } from '@boringer-avatars/react';
 import { useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
+import { OnboardingContext } from '../../../components2/Onboard/OnboardingProvider';
 
 const group1Data = {
   iconHome: '/img/home3-1@2x.png',
@@ -34,6 +36,17 @@ const navElement8Data = {
 function Navigation(props) {
   const name = getUserName();
   const queryClient = useQueryClient();
+  const [state, setState] = useState('State');
+  const [year, setYear] = useState('Year');
+  const { setEditStateYear } = useContext(OnboardingContext);
+
+  useEffect(() => {
+    const savedState = Cookies.get('state');
+    const savedYear = Cookies.get('year');
+
+    savedState && setState(savedState);
+    savedYear && setYear(savedYear);
+  }, []);
 
   const { headerProps, onCloseFn } = props;
   const navigationData = {
@@ -77,6 +90,14 @@ function Navigation(props) {
         <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
         <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
         <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />
+        <NavElement7
+          text={`${year + ' / ' + state}`}
+          editBtn="/icons/EditSM.png"
+          onClick={() => {
+            setEditStateYear(true);
+            onCloseFn();
+          }}
+        />
         <NavElement7 text={'View Profile'} onClick={() => account()} />
         <NavElement7
           text="Change Password"

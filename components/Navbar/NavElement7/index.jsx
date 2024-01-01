@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IbmplexsansNormalPersianIndigo20px } from '../styledMixins';
 
 function NavElement7(props) {
-  const { text, className, link, onClick } = props;
+  const { text, className, link, onClick, editBtn } = props;
   const redirectTo = () => {
     if (onClick) {
       onClick();
@@ -22,7 +22,7 @@ function NavElement7(props) {
         <Exportsquare
           onClick={redirectTo}
           className="exportsquare"
-          src="/icons/redirectIcon.png"
+          src={editBtn ? editBtn : '/icons/redirectIcon.png'}
           alt="exportsquare"
         />
       </Group1>

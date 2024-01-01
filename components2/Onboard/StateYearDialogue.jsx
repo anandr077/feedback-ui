@@ -12,9 +12,10 @@ import {
   Header,
   TermsCondition,
   Checkbox,
-  TermsText
+  TermsText,
 } from './stateYearDialogueStyle';
 import { profileStateYear } from '../../service';
+import { OnboardingContext } from './OnboardingProvider';
 
 const countryOptions = [{ title: 'Australia' }];
 
@@ -37,10 +38,11 @@ const yearOptions = [
 ];
 
 const StateYearDialogue = ({ setStage }) => {
-  //const { setShowStateYear } = useContext(OnboardingContext);
-  const [country, setCountry] = useState({})
+  const { setShowStateYear, setEditStateYear } = useContext(OnboardingContext);
+  const [country, setCountry] = useState({});
   const [state, setState] = useState({});
   const [year, setYear] = useState({});
+  const { editStateYear } = useContext(OnboardingContext);
 
   const saveToCookies = () => {
     if (state.title && year.title && country.title) {
@@ -51,16 +53,21 @@ const StateYearDialogue = ({ setStage }) => {
       }).then(() => {
         Cookies.set('state', state.title);
         Cookies.set('year', year.title);
-        Cookies.set('country', country.title)
-        setStage(3);
-        //setShowStateYear(false);
+        Cookies.set('country', country.title);
+        //{!editStateYear && setStage(3)}
+        setShowStateYear(false);
+        setEditStateYear(false);
       });
     }
   };
 
   return (
     <DialogueBox>
-      <Header>Let's Get Started - Customise Your Feedback</Header>
+      <Header>
+        {editStateYear
+          ? 'Update your settings'
+          : "Let's Get Started - Customise Your Feedback"}
+      </Header>
       <DropdownContainer>
         <DropdownItem>
           <Title>Country</Title>
@@ -93,11 +100,17 @@ const StateYearDialogue = ({ setStage }) => {
           </DropdownBox>
         </DropdownItem>
       </DropdownContainer>
-      <TermsCondition>
-         <Checkbox type='checkbox' />
-         <TermsText>I agree to the <span>terms & conditions</span></TermsText>
-      </TermsCondition>
-      <Button onClick={saveToCookies}>Submit</Button>
+      {!editStateYear && (
+        <TermsCondition>
+          <Checkbox type="checkbox" />
+          <TermsText>
+            I agree to the <span>terms & conditions</span>
+          </TermsText>
+        </TermsCondition>
+      )}
+      <Button onClick={saveToCookies}>
+        {editStateYear ? 'Update' : 'Submit'}
+      </Button>
     </DialogueBox>
   );
 };

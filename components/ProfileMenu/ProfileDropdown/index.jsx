@@ -1,45 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ProfileDropDownElement from '../ProfileDropDownElement';
 import './ProfileDropdown.css';
 import styled from 'styled-components';
 import { account, changePassword, logout, getUserRole } from '../../../service';
 import { useQueryClient } from '@tanstack/react-query';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
-import { EditText } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 import Cookies from 'js-cookie';
 import { profileStateYear } from '../../../service';
+import { OnboardingContext } from '../../../components2/Onboard/OnboardingProvider';
 
 function ProfileDropdown() {
   const role = getUserRole();
   const queryClient = useQueryClient();
   const [state, setState] = useState('State');
   const [year, setYear] = useState('Year');
-  const [country, setCountry] = useState('Country')
-
-  const handleStateChange = (e) => {
-    const newState = e.target.value;
-    profileStateYear({
-      country,
-      year,
-      state: newState,
-    }).then(() => {
-      setState(newState);
-      Cookies.set('state', newState);
-    });
-  };
-
-  const handleYearChange = (e) => {
-    const newYear = e.target.value;
-    profileStateYear({
-      country,
-      year: newYear,
-      state,
-    }).then(() => {
-      setYear(newYear);
-      Cookies.set('year', newYear);
-    });
-  };
+  const { setEditStateYear } = useContext(OnboardingContext);
 
   const handlePropagation = (e) => {
     e.stopPropagation();
@@ -48,23 +24,24 @@ function ProfileDropdown() {
   useEffect(() => {
     const savedState = Cookies.get('state');
     const savedYear = Cookies.get('year');
-    const saveCountry = Cookies.get('country');
 
     savedState && setState(savedState);
     savedYear && setYear(savedYear);
-    saveCountry && setCountry(saveCountry);
   }, []);
 
   return (
     <>
       {role === 'STUDENT' && (
         <>
-          <StudentStateContainer onClick={handlePropagation}>
-            <>
-              <StyledEditText value={year} onChange={handleYearChange} />
-              <StyledEditText value={state} onChange={handleStateChange} />
-            </>
-            <EditImg src="/icons/EditSM.png" alt="edit" />
+          <StudentStateContainer>
+            <div>
+              {year} / {state}
+            </div>
+            <EditImg
+              src="/icons/EditSM.png"
+              alt="edit"
+              onClick={() => setEditStateYear(true)}
+            />
           </StudentStateContainer>
           <Line6 src="/icons/line.png" alt="Line 6" />
         </>
@@ -112,18 +89,12 @@ const StudentStateContainer = styled.div`
   ${IbmplexsansNormalBlack16px}
   display: flex;
   flex-direction: row;
-  //justify-content: space-between;
   align-items: center;
   position: relative;
-  padding-left: 5px;
+  padding: 10px;
   &:hover {
     background-color: #f5f5f5;
   }
-`;
-
-const StyledEditText = styled(EditText)`
-  width: fit-content;
-  z-index: 1;
 `;
 
 const EditImg = styled.img`

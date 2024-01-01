@@ -7,9 +7,9 @@ const OnboardingScreen = () => {
   return (
     <Screen>
       <OnboardContent />
-      <FooterContainer>
+      {/* <FooterContainer>
         <Footer />
-      </FooterContainer>
+      </FooterContainer> */}
     </Screen>
   );
 };

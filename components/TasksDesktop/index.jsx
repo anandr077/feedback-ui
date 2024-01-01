@@ -98,7 +98,7 @@ const Frame1361 = styled.div`
   justify-content: center;
   gap: 40px;
   position: relative;
-  max-width: 1220px;
+  max-width: 1440px;
 `;
 
 const Title = styled.h1`

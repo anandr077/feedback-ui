@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   HelpSidebarContainer,
   Header,
@@ -13,194 +13,29 @@ import {
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
+import helpdata from './helpdata.json'
 
-const data = [
-  {
-    title: 'Focus Areas',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-        video: 'true',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-  {
-    title: 'Feedback',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-        video: 'true',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-  {
-    title: 'Tasks',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-        video: 'true',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-  {
-    title: 'Portfolio',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-        video: 'true',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-  {
-    title: 'Drafts',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-        video: 'true',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-  {
-    title: 'Exemplar response',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-        video: 'true',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-  {
-    title: 'Marking Criteria',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-  {
-    title: 'Account',
-    subtopics: [
-      {
-        title: 'What are focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'How do focus areas work?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-      {
-        title: 'Managing focus areas?',
-        content:
-          'Fragment this quotation into smaller parts and integrate into different sections',
-      },
-    ],
-  },
-];
 
 const HelpSidebar = ({onCloseFn}) => {
   const isSmallView = isSmallScreen();
+  const [data, setData] = useState(helpdata.data)
+
 
   return isSmallView ? (
     <HelpSidebarSmallContainer>
       <CloseHelpBar src="/img/close.png" onClick={onCloseFn}/>
-      {helpSidebarContent()}
+      {helpSidebarContent(data)}
     </HelpSidebarSmallContainer>
   ) : (
     <HelpSidebarContainer onClick={(e) => e.stopPropagation()}>
-      {helpSidebarContent()}
+      {helpSidebarContent(data)}
     </HelpSidebarContainer>
   );
 };
 
 export default HelpSidebar;
 
-function helpSidebarContent() {
+function helpSidebarContent(data) {
   return (
     <>
       <Header>

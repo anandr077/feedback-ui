@@ -15,14 +15,20 @@ import Breadcrumb2 from '../Breadcrumb2';
 import '../FeedbackTeacherLaptop/FeedbackTeacherLaptop.css';
 import { contextBarForPortfolioDocument } from '../FeedbackTeacherLaptop/contextBar';
 import {
+  DrawerArrow,
   Frame1315,
   Frame1368,
   Frame1386,
   Frame1387,
   Frame1388,
+  DrawerArrowContainer,
+  DrawerArrow,
+  ArrowImg
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import { sub } from 'date-fns';
+import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
+import { styled, useTheme } from '@mui/material/styles';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -59,12 +65,82 @@ function Document(props) {
     students,
     teachers,
     onMobileView = false,
-    overallComments
+    overallComments,
   } = props;
   const [isShowResolved, setShowResolved] = useState(false);
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+
+  const [open, setOpen] = useState(false);
+  const [subjectsList, setSubjectsList] = React.useState([
+    {
+      id: '1',
+      question: 'What is photosynthesis?',
+      subject: 'English',
+      lastseenAtTs: 1630340000,
+    },
+    {
+      id: '2',
+      question: 'Describe the principles of thermodynamics.',
+      subject: 'English',
+      lastseenAtTs: 1630280000,
+    },
+    {
+      id: '3',
+      question: 'Analyze the character development in a novel of your choice.',
+      subject: 'English',
+      lastseenAtTs: 1630288000,
+    }
+  ]);
+  const [selectedSubject, setSelectedSubject] = React.useState();
+  const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
+  const drawerWidth = 275;
+
+  const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+      width: open ? `calc(100% - ${drawerWidth}px)` : '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginLeft: `-${drawerWidth}px`,
+      ...(open && {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
+      }),
+    })
+  );
+
+  React.useEffect(() => {
+    const groupedData = subjectsList?.reduce((result, item) => {
+      const subject = item.subject;
+
+      if (!result[subject]) {
+        result[subject] = [];
+      }
+
+      result[subject].push(item);
+
+      return result;
+    }, {});
+
+    for (const subject in groupedData) {
+      if (groupedData.hasOwnProperty(subject)) {
+        groupedData[subject].sort((a, b) => b.lastseenAtTs - a.lastseenAtTs);
+      }
+    }
+    setGroupedAndSortedData(groupedData);
+    setSelectedSubject(Object.keys(groupedData)[0]);
+  }, [subjectsList]);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
 
@@ -97,48 +173,70 @@ function Document(props) {
     });
   };
 
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
     <>
       <div
         className="feedback-teacher-laptop screen"
         style={{ minWidth: 'unset' }}
       >
-        <Frame1388>
-          {breadcrumbs(pageMode, submission, allFolders)}
-          {answersAndFeedbacks(
-            isShowSelectType,
-            setShowSelectType,
-            showFeedbackButtons,
-            setShowFeedbackButtons,
-            submission,
-            setSubmission,
-            methods,
-            isTeacher,
-            pageMode,
-            labelText,
-            quillRefs,
-            null,
-            null,
-            commentsForSelectedTab,
-            newCommentSerialNumber,
-            setShowResolved,
-            showNewComment,
-            isShowResolved,
-            null,
-            null,
-            comments,
-            newCommentFrameRef,
-            share,
-            smartAnnotations,
-            handleRequestFeedback,
-            allClasses,
-            allFolders,
-            methods.updateDocumentClass,
-            onMobileView,
-            overallComments
-
-          )}
-        </Frame1388>
+        <Main open={open} style={{
+              padding: '0px',
+              height: '100%',
+            }}>
+          <DrawerArrowContainer>
+            <IndepentdentUserSidebar
+              open={open}
+              subjects={groupedAndSortedData}
+              setSelectedSubject={setSelectedSubject}
+              selectedSubject={selectedSubject}
+            />
+            <DrawerArrow
+              style={{ alignItems: 'center' }}
+              onClick={handleDrawer}
+            >
+              <ArrowImg src="img/caret-5@2x.png" open={open}/>
+            </DrawerArrow>
+          </DrawerArrowContainer>
+          <Frame1388 open={open} drawerWidth={drawerWidth}>
+            {breadcrumbs(pageMode, submission, allFolders)}
+            {answersAndFeedbacks(
+              isShowSelectType,
+              setShowSelectType,
+              showFeedbackButtons,
+              setShowFeedbackButtons,
+              submission,
+              setSubmission,
+              methods,
+              isTeacher,
+              pageMode,
+              labelText,
+              quillRefs,
+              null,
+              null,
+              commentsForSelectedTab,
+              newCommentSerialNumber,
+              setShowResolved,
+              showNewComment,
+              isShowResolved,
+              null,
+              null,
+              comments,
+              newCommentFrameRef,
+              share,
+              smartAnnotations,
+              handleRequestFeedback,
+              allClasses,
+              allFolders,
+              methods.updateDocumentClass,
+              onMobileView,
+              overallComments
+            )}
+          </Frame1388>
+        </Main>
       </div>
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,

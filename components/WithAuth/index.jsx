@@ -49,6 +49,7 @@ function loginUsing(code) {
   exchangeCodeForToken(code)
     .then((result) => {
       setProfileCookies(result);
+      console.log('the cookies are', result)
       window.location.href = '/#/';
     })
     .catch((e) => {});

@@ -134,7 +134,39 @@ export const Frame1388 = styled.div`
   position: relative;
   align-self: stretch;
   margin-bottom: 50px;
+  width: 100%;
+  transition: width 0.3s ease-in;
 `;
+
+// export const Main = styled.div`
+//    width: ${props => props.open ? `calc(100% - ${props.drawerWidth}px)` : '100%'}; 
+//    display: flex;
+//    flex-direction: row;
+//    justify-content: center;
+//    flex-grow: 1;
+//    margin-left: ${props => props.open ?  `${props.drawerWidth}px` : '0px' };
+//    transition: margin-left 0.3s ease-in; 
+// `;
+
+export const DrawerArrowContainer = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const DrawerArrow = styled.div`
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
+
+export const ArrowImg = styled.img`
+  width: 25px;
+  transform: ${props => props.open ? '' : 'rotate(180deg)'};
+`;
+
 export const Frame1387 = styled.div`
   display: flex;
   flex-direction: column;

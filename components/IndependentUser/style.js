@@ -120,6 +120,7 @@ export const DrawerSubject = styled.div`
   cursor: pointer;
   font-family: IBM Plex Sans;
   font-size: 14px;
+  height: fit-content;
   &:hover {
     background: linear-gradient(0deg, #ffefb5, #ffefb5),
       linear-gradient(0deg, #fffae7, #fffae7);
@@ -159,7 +160,7 @@ padding: 8px 16px 8px 16px;
 export const DrawerArrowContainer = styled.div`
   height: 100%;
   display: flex;
-  alignitems: center;
+  align-items: center;
   justify-content: center;
 `;
 export const DrawerArrow = styled.div`

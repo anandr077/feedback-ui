@@ -107,6 +107,7 @@ function IndepentdentUserSidebar({
               cursor: 'pointer',
               color: 'white',
               fontFamily: 'IBM Plex Sans',
+              height: 'fit-content',
             }}
           >
             + New Subject

@@ -125,7 +125,7 @@ function App() {
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
-    </>
+    </> 
   );
 }
 export default App;

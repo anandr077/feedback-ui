@@ -33,13 +33,11 @@ function TaskCardContainer(props) {
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-direction: column;
   width: 100%;
   align-items: center;
   gap: 20px;
-  overflow-y: scroll;
   padding: 0px 0px 10px 0px;
-  // background-color: red;
+  overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 0;
     display: none;
@@ -47,6 +45,7 @@ const CardContainer = styled.div`
   @media (max-width: 1024px) {
     max-height: 480px;
   }
+  padding: 20px;
 `;
 const ExemplerCardContainer = styled.div`
   display: flex;
@@ -63,6 +62,5 @@ const ExemplerCardContainer = styled.div`
     width: 0;
     display: none;
   }
-  // background-color: red;
 `;
 export default TaskCardContainer;

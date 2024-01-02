@@ -47,13 +47,13 @@ function FeedbackTeacherLaptop(props) {
     overallComments,
     selectedRange
   } = props;
+  const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
-  const mobileView = isMobileView()
 
   React.useEffect(() => {
     if (showNewComment) {
@@ -112,7 +112,7 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
-  if(mobileView){
+  if(isMobile){
     return (
       <WelcomeOverlayMobile />
     )
@@ -126,6 +126,7 @@ function FeedbackTeacherLaptop(props) {
         <Frame1388>
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
+            isMobile,
             submission,
             methods,
             isTeacher,
@@ -237,6 +238,7 @@ function createGroupedFocusAreas(submission) {
 
 
 function answersAndFeedbacks(
+  isMobile,
   submission,
   methods,
   isTeacher,
@@ -260,7 +262,7 @@ function answersAndFeedbacks(
   newCommentFrameRef,
   share,
   smartAnnotations,
-  overallComments
+  overallComments,
 ) {
   return (
     <Frame1386 id="content">
@@ -284,7 +286,7 @@ function answersAndFeedbacks(
           methods
         )}
 
-        {!isMobileView() && <FeedbackFrame
+        {!isMobile && <FeedbackFrame
           methods={methods}
           submission={submission}
           newCommentSerialNumber={newCommentSerialNumber}

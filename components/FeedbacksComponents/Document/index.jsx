@@ -23,6 +23,8 @@ import {
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import { sub } from 'date-fns';
+import { isMobileView } from '../../ReactiveRender';
+import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -67,6 +69,7 @@ function Document(props) {
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
+  const mobileView = isMobileView()
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
@@ -96,6 +99,12 @@ function Document(props) {
       }
     });
   };
+
+  if(mobileView){
+    return (
+      <WelcomeOverlayMobile />
+    )
+  }
 
   return (
     <>

@@ -7,7 +7,6 @@ import {
 } from './style';
 
 const WelcomeOverlayMobile = () => {
-  const name = getUserName();
   return (
     <MainContainer>
       <Content>

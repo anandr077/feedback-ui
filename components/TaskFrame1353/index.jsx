@@ -18,7 +18,7 @@ const Frame13531 = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  position: relative;
+  // position: relative;
   align-self: stretch;
   position: sticky;
   top: 0px;
@@ -27,6 +27,7 @@ const Frame13531 = styled.div`
   padding: 20px;
   border-radius: 16px;
   border-radius: 16px 16px 0 0;
+  // margin:20px;
 `;
 
 const Outstanding = styled.div`

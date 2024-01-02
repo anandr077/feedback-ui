@@ -65,6 +65,13 @@ export default function StyledDropDown({
           borderRadius: '10px',
           fontSize: '14px',
         }}
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              padding: '5px',
+            },
+          },
+        }}
         value={value}
         displayEmpty
         input={<Input disableUnderline={true} />}

@@ -22,6 +22,8 @@ import {
   Frame1388,
   Screen2,
 } from './style';
+import { isMobileView } from '../../ReactiveRender';
+import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -51,6 +53,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
+  const mobileView = isMobileView()
 
   React.useEffect(() => {
     if (showNewComment) {
@@ -108,6 +111,12 @@ function FeedbackTeacherLaptop(props) {
       }
     });
   };
+
+  if(mobileView){
+    return (
+      <WelcomeOverlayMobile />
+    )
+  }
 
   return (
     <>

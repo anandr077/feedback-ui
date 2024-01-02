@@ -6,9 +6,9 @@ import { account, changePassword, logout, getUserRole } from '../../../service';
 import { useQueryClient } from '@tanstack/react-query';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import 'react-edit-text/dist/index.css';
-import Cookies from 'js-cookie';
-import { profileStateYear } from '../../../service';
+import { getStateYear } from '../../../service';
 import { OnboardingContext } from '../../../components2/Onboard/OnboardingProvider';
+import Cookies from 'js-cookie';
 
 function ProfileDropdown() {
   const role = getUserRole();
@@ -22,12 +22,18 @@ function ProfileDropdown() {
   };
 
   useEffect(() => {
-    const savedState = Cookies.get('state');
-    const savedYear = Cookies.get('year');
-
-    savedState && setState(savedState);
-    savedYear && setYear(savedYear);
+    Promise.all([getStateYear()]).then(([profile]) => {
+      setState(profile.state);
+      setYear(profile.year);
+    });
   }, []);
+
+  const handleLogout = () => {
+    queryClient.clear();
+    logout();
+    Cookies.remove('state');
+    Cookies.remove('year');
+  };
 
   return (
     <>
@@ -68,10 +74,7 @@ function ProfileDropdown() {
       <ProfileDropDownElement
         text="Logout"
         noIcon={true}
-        onClick={() => {
-          queryClient.clear();
-          logout();
-        }}
+        onClick={handleLogout}
       />
     </>
   );

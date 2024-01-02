@@ -16,7 +16,7 @@ import {
   HeaderText,
   CloseImg
 } from './stateYearDialogueStyle';
-import { profileStateYear } from '../../service';
+import { profileStateYear, getStateYear } from '../../service';
 import { OnboardingContext } from './OnboardingProvider';
 
 const countryOptions = [{ title: 'Australia' }];
@@ -45,6 +45,19 @@ const StateYearDialogue = ({ setStage }) => {
   const [state, setState] = useState({});
   const [year, setYear] = useState({});
   const { editStateYear } = useContext(OnboardingContext);
+
+  React.useEffect(()=>{
+     Promise.all([
+      getStateYear()
+     ]).then(
+      ([
+        profile
+      ]) => {
+        setState(profile.state)
+        setYear(profile.year)
+      }
+     )
+  }, [])
 
   const saveToCookies = () => {
     if (state.title && year.title && country.title) {

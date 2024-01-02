@@ -27,6 +27,8 @@ import {
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
+import { createDebounceFunction } from '../FeedbacksRoot/autosave';
+import { set } from 'lodash';
 
 export function answersFrame(
   quillRefs,
@@ -50,7 +52,6 @@ export function answersFrame(
       pageMode={pageMode}
       submission={submission}
       commentsForSelectedTab={commentsForSelectedTab}
-      createDebounceFunction={methods.createDebounceFunction}
       handleChangeText={methods.handleChangeText}
       onSelectionChange={methods.onSelectionChange}
       handleMarkingCriteriaLevelFeedback={
@@ -63,6 +64,8 @@ export function answersFrame(
       setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
       overallComments={overallComments}
       updateOverAllFeedback={methods.updateOverAllFeedback}
+      setComments={methods.setComments}
+      comments={methods.comments}
     ></AnswersFrame>
   );
 }
@@ -77,7 +80,6 @@ function AnswersFrame(props) {
     pageMode,
     submission,
     commentsForSelectedTab,
-    createDebounceFunction,
     handleChangeText,
     onSelectionChange,
     handleMarkingCriteriaLevelFeedback,
@@ -87,7 +89,9 @@ function AnswersFrame(props) {
     initialOverallFeedback,
     setInitialOverAllFeedback,
     overallComments,
-    updateOverAllFeedback
+    updateOverAllFeedback,
+    setComments,
+    comments
   } = props;
   return (
     <Group1225 id="answers">
@@ -101,7 +105,6 @@ function AnswersFrame(props) {
           pageMode,
           submission,
           commentsForSelectedTab,
-          createDebounceFunction,
           handleChangeText,
           onSelectionChange,
           handleMarkingCriteriaLevelFeedback,
@@ -111,7 +114,9 @@ function AnswersFrame(props) {
           initialOverallFeedback,
           setInitialOverAllFeedback,
           overallComments,
-          updateOverAllFeedback
+          updateOverAllFeedback,
+          setComments,
+          comments
         )}
       </Frame1367>
     </Group1225>
@@ -155,7 +160,6 @@ const answerFrames = (
   pageMode,
   submission,
   commentsForSelectedTab,
-  createDebounceFunction,
   handleChangeText,
   onSelectionChange,
   handleMarkingCriteriaLevelFeedback,
@@ -165,7 +169,9 @@ const answerFrames = (
   initialOverallFeedback,
   setInitialOverAllFeedback,
   overallComments,
-  updateOverAllFeedback
+  updateOverAllFeedback,
+  setComments,
+  comments
 ) => {
   return submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -179,7 +185,7 @@ const answerFrames = (
       ) || newAnswer;
     const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
-    const debounce = createDebounceFunction(answer);
+    const debounce = createDebounceFunction(submission, pageMode, comments, setComments)(answer);
 
     const overallComment = overallComments.find((feedback)=>{
         return feedback.questionSerialNumber === question.serialNumber

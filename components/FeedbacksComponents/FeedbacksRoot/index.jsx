@@ -283,9 +283,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
-
         highlightByComment(response);
         setShowNewComment(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
    
@@ -305,9 +305,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        // quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+
       }
     });
-    setShowNewComment(false);
   }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
@@ -324,9 +326,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+
       }
     });
-    setShowNewComment(false);
   }
 
   function handleFocusAreaComment(focusArea) {
@@ -345,9 +349,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    setShowNewComment(false);
   }
 
   const addExemplerComment = () => {
@@ -366,11 +371,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       if (response) {
         setComments([...comments, response]);
         highlightByComment(response);
+        setShowNewComment(false);
+        setExemplerComment('');
+        setShowShareWithClass(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    setShowNewComment(false);
-    setExemplerComment('');
-    setShowShareWithClass(false);
+    
   };
 
   const updateExemplar = () => {
@@ -579,88 +586,13 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowShareWithClass(true);
     updateExemplarComment.showComment = false;
   }
-  const createDebounceFunction = (answer) => {
-    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-      return {
-        debounceTime: 2000,
-        onDebounce: handleDebounce(answer),
-      };
-    }
-    return {
-      debounceTime: 0,
-      onDebounce: console.log,
-    };
-  };
-
-  const handleDebounce = (answer) => (contents, highlights) => {
-    handleChangeText('Saving...', false);
-    saveAnswer(submission.id, answer.serialNumber, {
-      answer: contents,
-    }).then((updatedSubmission) => {
-      return updateCommentsRange(answer, highlights);
-    });
-  };
-
-  function updateCommentsRange(answer, highlightsWithCommentsData) {
-    const mergedHighlights = {};
-
-    Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
-      const mergedRange = {
-        range: {
-          from: ranges[0].range.from,
-          to: ranges[ranges.length - 1].range.to,
-        },
-      };
-      mergedHighlights[commentId] = [mergedRange];
-    });
-
-    const transformedData = flatMap(
-      Object.entries(mergedHighlights),
-      ([commentId, highlights]) => {
-        return highlights.map((highlight) => {
-          const { content, range } = highlight;
-          return { commentId, range };
-        });
-      }
-    );
-
-    const commentIdsArray = transformedData.map(({ commentId }) => commentId);
-
-    const commentsForAnswer = comments.filter(
-      (comment) => comment.questionSerialNumber === answer.serialNumber
-    );
-    const missingComments = filter(
-      commentsForAnswer,
-      (comment) => !includes(commentIdsArray, comment.id)
-    );
-
-    const missingCommentsWithZeroRange = map(missingComments, (comment) => ({
-      commentId: comment.id,
-      range: { from: 0, to: 0 },
-    }));
-
-    const finalData = transformedData.concat(missingCommentsWithZeroRange);
-
-    const promises = finalData.map(({ commentId, range }) => {
-      return updateFeedbackRange(submission.id, commentId, range);
-    });
-
-    Promise.all(promises).then((results) => {
-      getComments(submission.id).then((cmts) => {
-        setComments(cmts.filter((c) => c.type !== 'MARKING_CRITERIA'));
-        handleChangeText('All changes saved', true);
-      });
-    });
-  }
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
       setComments(oldComments=> {
          const deletedComment = oldComments.find((c) => c.id == commentId)
          const quill = quillRefs.current[deletedComment.questionSerialNumber - 1];
-         if (quill) {
-          quill.unhighlight(deletedComment.range.from, deletedComment.range.to)
-         }
+         const newComments = oldComments.filter((c) => c.id != commentId)
          return oldComments.filter((c) => c.id != commentId);
       });
     });
@@ -1365,7 +1297,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const methods = {
-    createDebounceFunction,
+    comments,
+    setComments,
     submissionStatusLabel,
     isTeacher,
     handleChangeText,
@@ -1438,6 +1371,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
           overallComments,
+          selectedRange
         }}
       />
     </>

@@ -100,19 +100,14 @@ function Document(props) {
     });
   };
 
-  if(mobileView){
-    return (
-      <WelcomeOverlayMobile />
-    )
-  }
-
   return (
     <>
       <div
         className="feedback-teacher-laptop screen"
         style={{ minWidth: 'unset' }}
       >
-        <Frame1388>
+        {mobileView && <WelcomeOverlayMobile />}
+        <Frame1388 mobileView={mobileView}>
           {breadcrumbs(pageMode, submission, allFolders)}
           {answersAndFeedbacks(
             isShowSelectType,

@@ -2,10 +2,12 @@ import styled from 'styled-components';
 
 export const MainContainer = styled.div`
   width: 100%;
-  height: 85vh;
+  height: 100vh;
   display: grid;
   place-items: center;
-  position: relative;
+  position: absolute;
+  background-color: var(--white-pointer);
+  z-index: 1000;
 `;
 
 export const Content = styled.div`

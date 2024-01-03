@@ -13,11 +13,13 @@ export default function StyledDropDown({
   group = false,
   showImage = false,
   selectedIndex,
+  onItemSelected,
 }) {
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
   const [value, setValue] = React.useState(initialSelectedItem);
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     setValue(initialSelectedItem);
@@ -26,6 +28,7 @@ export default function StyledDropDown({
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
     setValue(menuItem);
+    setOpen(false);
     if (menuItem.link) {
       window.location.href = menuItem.link;
       window.location.reload();
@@ -34,6 +37,8 @@ export default function StyledDropDown({
     if (menuItem.onClick) {
       menuItem.onClick(menuItem);
       return;
+    if (onItemSelected) {
+      onItemSelected(menuItem);
     }
   };
 
@@ -56,7 +61,7 @@ export default function StyledDropDown({
       );
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }}>
+    <FormControl sx={{ m: 1, minWidth: 100 }}>
       <Select
         style={{
           border: '1px solid var(--light-mode-purple)',
@@ -71,7 +76,12 @@ export default function StyledDropDown({
               padding: '5px',
             },
           },
+          fontWeight: '400',
+          fontSize: '14px',
         }}
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
         value={value}
         displayEmpty
         input={<Input disableUnderline={true} />}
@@ -124,6 +134,7 @@ export default function StyledDropDown({
                   alignItems: 'center',
                   gap: '12px',
                   boxShadow: '0px 4px 8px #2f1a720a',
+                  fontWeight: '400',
                   fontSize: '14px',
                 }}
                 key={menuItem.id}
@@ -148,6 +159,7 @@ export default function StyledDropDown({
       </Select>
     </FormControl>
   );
+}
 }
 
 const groupItemsByFirstLetter = (items) => {

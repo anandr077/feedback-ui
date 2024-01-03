@@ -16,6 +16,7 @@ import {
   getDefaultCriteria,
   getSubmissionById,
   getSubmissionsByAssignmentId,
+  getOverComments,
   getUserId,
   getUserName,
   getUserRole,
@@ -35,7 +36,7 @@ import {
 } from '../../../service.js';
 import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
-import ReactiveRender, { isSmallScreen } from '../../ReactiveRender';
+import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
@@ -63,6 +64,7 @@ import {
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
 import CheckboxBordered from '../../CheckboxBordered/index.jsx';
+import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -96,23 +98,26 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
+  const [selectedText, setSelectedText] = useState(null);
   const [newCommentSerialNumber, setNewCommentSerialNumber] = useState(0);
   const [nextUrl, setNextUrl] = useState('');
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
+  const [initialOverallFeedback, setInitialOverAllFeedback] = useState({
+    feedbackText: 'Add General Feedback...',
+    editFeedback: false,
+  });
+  const [overallComments, setOverallComments] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [checkedState, setCheckedState] = useState({});
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const defaultMarkingCriteria = getDefaultCriteria();
-
 
   useEffect(() => {
     Promise.all([
@@ -120,23 +125,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       getComments(id),
       getSmartAnnotations(),
       getClassesWithStudents(),
+      getOverComments(id),
     ])
       .then(
         ([
           submissionsResult,
           commentsResult,
           smartAnnotationResult,
-          classesWithStudentsResult
+          classesWithStudentsResult,
+          overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
-          const allComments = commentsResult.map((c) => {
+          const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
-          const feedbackComments = allComments.filter(
+          const feedbackComments = allComments?.filter(
             (c) => c.type !== 'MARKING_CRITERIA'
           );
           setComments(feedbackComments);
-          const markingCriteriaFeedback = allComments.filter(
+          const markingCriteriaFeedback = allComments?.filter(
             (c) => c.type === 'MARKING_CRITERIA'
           );
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
@@ -147,7 +154,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
               acc[classItem.id] = {
                 checked: false,
                 students: classItem.students.reduce((studentAcc, student) => {
-                  studentAcc[student.id] = false;
+                  let bool =
+                    submissionsResult.studentId === student.id ? true : false;
+                  studentAcc[student.id] = bool;
                   return studentAcc;
                 }, {}),
               };
@@ -157,6 +166,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           );
           setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
+          setOverallComments(overAllCommentsResult);
         }
       )
       .finally(() => {
@@ -219,19 +229,17 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       </>
     );
   }
-  const initialCheckedState = classesAndStudents.reduce(
-    (acc, classItem) => {
-      acc[classItem.id] = {
-        checked: false,
-        students: classItem.students.reduce((studentAcc, student) => {
-          studentAcc[student.id] = false;
-          return studentAcc;
-        }, {}),
-      };
-      return acc;
-    },
-    {}
-  );
+  const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
+    acc[classItem.id] = {
+      checked: false,
+      students: classItem.students.reduce((studentAcc, student) => {
+        let bool = submission.studentId === student.id ? true : false;
+        studentAcc[student.id] = bool;
+        return studentAcc;
+      }, {}),
+    };
+    return acc;
+  }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
 
@@ -267,6 +275,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById('newCommentInput').value,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -274,9 +283,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
+        highlightByComment(response);
+        setShowNewComment(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    setShowNewComment(false);
+   
   }
 
   function handleShortcutAddComment(commentText) {
@@ -284,6 +296,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText.trim(),
       range: selectedRange,
+      selectedText: selectedText,
       type: 'COMMENT',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -291,9 +304,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
+        highlightByComment(response);
+        setShowNewComment(false);
+        // quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+
       }
     });
-    setShowNewComment(false);
   }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
@@ -301,6 +317,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'SMART_ANNOTATION',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -308,9 +325,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
+        highlightByComment(response);
+        setShowNewComment(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
+
       }
     });
-    setShowNewComment(false);
   }
 
   function handleFocusAreaComment(focusArea) {
@@ -318,6 +338,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'FOCUS_AREA',
       color: focusArea.color,
       focusAreaId: focusArea.id,
@@ -327,9 +348,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
+        highlightByComment(response);
+        setShowNewComment(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    setShowNewComment(false);
   }
 
   const addExemplerComment = () => {
@@ -339,6 +362,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       questionSerialNumber: newCommentSerialNumber,
       feedback: comment,
       range: selectedRange,
+      selectedText: selectedText,
       type: 'MODEL_RESPONSE',
       replies: [],
       markingCriteria: defaultMarkingCriteria,
@@ -346,45 +370,20 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     }).then((response) => {
       if (response) {
         setComments([...comments, response]);
+        highlightByComment(response);
+        setShowNewComment(false);
+        setExemplerComment('');
+        setShowShareWithClass(false);
+        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    setShowNewComment(false);
-    setExemplerComment('');
-    setShowShareWithClass(false);
+    
   };
 
   const updateExemplar = () => {
     const dataToUpdate = updateExemplarComment.comment;
     console.log('the comment is, ', dataToUpdate);
     updateParentComment(dataToUpdate.comment, dataToUpdate.id);
-    // const updatedComment = comments.map((c) => {
-    //   if (c.id === dataToUpdate.id) {
-    //     const commentToUpdate = { ...c, comment: dataToUpdate.comment };
-    //     updateFeedback(submission.id, dataToUpdate.id, {
-    //       comment: commentToUpdate.comment,
-    //       id: commentToUpdate.id,
-    //       markingCriteria: commentToUpdate.markingCriteria,
-    //       questionSerialNumber: commentToUpdate.questionSerialNumber,
-    //       range: commentToUpdate.range,
-    //       reviewerId: commentToUpdate.reviewerId,
-    //       reviewerName: commentToUpdate.reviewerName,
-    //       status: commentToUpdate.status,
-    //       submissionId: commentToUpdate.submissionId,
-    //       type: commentToUpdate.type,
-    //     }).then((response) => {
-    //       if (response) {
-    //         const updatedComments = comments.map((c) =>
-    //           c.id === dataToUpdate.id ? commentToUpdate : c
-    //         );
-    //         setComments(updatedComments);
-    //       }
-    //     });
-    //   }
-    //   return c;
-    // });
-    // setShowNewComment(false);
-    // setExemplerComment('');
-    // setShowShareWithClass(false);
   };
 
   const handleInputChange = (event) => {
@@ -401,7 +400,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     } else {
       setExemplerComment(value);
     }
-    setIsButtonDisabled(false);
   };
 
   const handleClassCheck = (classId) => {
@@ -415,12 +413,16 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         checked: currentClassCheckedState,
         students: Object.fromEntries(
           Object.entries(checkedState[classId]?.students || {}).map(
-            ([studentId, _]) => [studentId, currentClassCheckedState]
+            ([studentId, _]) => {
+              if (submission.studentId === studentId) {
+                return [studentId, true];
+              }
+              return [studentId, currentClassCheckedState];
+            }
           )
         ),
       },
     };
-    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
@@ -439,12 +441,10 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         },
       },
     };
-    setIsButtonDisabled(false);
     setCheckedState(updatedState);
   };
 
   const convertToCheckedState = (selectedStudents) => {
-    setIsButtonDisabled(false);
     const updatedState = { ...initialCheckedState };
 
     selectedStudents?.forEach(({ classId, studentId }) => {
@@ -457,7 +457,6 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       updatedState[classId].students[studentId] = true;
     });
 
-    // Update checked property based on all students being checked
     Object.keys(updatedState).forEach((classId) => {
       const classChecked = Object.values(updatedState[classId].students).every(
         (isChecked) => isChecked
@@ -486,10 +485,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         setShowShareWithClass(false);
         setShowNewComment(false);
         setExemplerComment('');
-        console.log('initialCheckedState is', initialCheckedState);
-
         setCheckedState(initialCheckedState);
-        console.log('the checked state is', checkedState);
+      }}
+      sx={{
+        '& .MuiDialog-container': {
+          '& .MuiPaper-root': {
+            width: '100%',
+            maxWidth: '400px',
+          },
+        },
       }}
       open={showShareWithClass}
     >
@@ -497,12 +501,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
         <ClassBoxContainer>
           <ClassTitleBox>
             <ClassTitle>
-              <Crown src="/icons/exemplary_response.png" alt="crown" />
-              Exemplar
+              <Crown src="/icons/share.png" alt="crown" />
+              Share
             </ClassTitle>
             <Line141 src="/img/line-14@2x.png" />
           </ClassTitleBox>
-          <ClassHeading>Share with:</ClassHeading>
           <StudentContainer>
             {classesAndStudents.map((classItem) => (
               <div key={classItem.id}>
@@ -515,26 +518,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   {classItem.title}
                 </ClassBox>
                 <StudentList>
-                  {classItem.students
-                    .filter((student) => student.id !== submission.studentId)
-                    .map((student) => (
-                      <ListItem key={student.id}>
-                        <label>
-                          <CheckboxBordered
-                            type="checkbox"
-                            checked={
-                              checkedState[classItem.id]?.students[
-                                student.id
-                              ] || false
-                            }
-                            onChange={() =>
-                              handleStudentCheck(classItem.id, student.id)
-                            }
-                          />
-                          {student.name}
-                        </label>
-                      </ListItem>
-                    ))}
+                  {classItem.students.map((student) => (
+                    <ListItem key={student.id}>
+                      <label>
+                        <CheckboxBordered
+                          type="checkbox"
+                          checked={
+                            checkedState[classItem.id]?.students[student.id] ||
+                            false
+                          }
+                          disabled={submission.studentId === student.id}
+                          onChange={() =>
+                            handleStudentCheck(classItem.id, student.id)
+                          }
+                        />
+                        {student.name}{' '}
+                        {submission.studentId === student.id ? '(author)' : ''}
+                      </label>
+                    </ListItem>
+                  ))}
                 </StudentList>
               </div>
             ))}
@@ -562,7 +564,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
                   : addExemplerComment();
                 setCheckedState(initialCheckedState);
               }}
-              isButtonDisabled={isButtonDisabled}
+              isButtonDisabled={
+                getSharedStudentIds().length >= 2 ? false : true
+              }
               showComment={updateExemplarComment.showComment}
               cancelButtonOnClick={() => {
                 setShowShareWithClass(false);
@@ -579,88 +583,18 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
 
   function handleShareWithClass() {
     setCheckedState(initialCheckedState);
-    setIsButtonDisabled(true);
     setShowShareWithClass(true);
     updateExemplarComment.showComment = false;
-  }
-  const createDebounceFunction = (answer) => {
-    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-      return {
-        debounceTime: 2000,
-        onDebounce: handleDebounce(answer),
-      };
-    }
-    return {
-      debounceTime: 0,
-      onDebounce: console.log,
-    };
-  };
-
-  const handleDebounce = (answer) => (contents, highlights) => {
-    handleChangeText('Saving...', false);
-    saveAnswer(submission.id, answer.serialNumber, {
-      answer: contents,
-    }).then((updatedSubmission) => {
-      setSubmission(updatedSubmission)
-      return updateCommentsRange(answer, highlights);
-    });
-  };
-
-  function updateCommentsRange(answer, highlightsWithCommentsData) {
-    const mergedHighlights = {};
-
-    Object.entries(highlightsWithCommentsData).map(([commentId, ranges]) => {
-      const mergedRange = {
-        range: {
-          from: ranges[0].range.from,
-          to: ranges[ranges.length - 1].range.to,
-        },
-      };
-      mergedHighlights[commentId] = [mergedRange];
-    });
-
-    const transformedData = flatMap(
-      Object.entries(mergedHighlights),
-      ([commentId, highlights]) => {
-        return highlights.map((highlight) => {
-          const { content, range } = highlight;
-          return { commentId, range };
-        });
-      }
-    );
-
-    const commentIdsArray = transformedData.map(({ commentId }) => commentId);
-
-    const commentsForAnswer = comments.filter(
-      (comment) => comment.questionSerialNumber === answer.serialNumber
-    );
-    const missingComments = filter(
-      commentsForAnswer,
-      (comment) => !includes(commentIdsArray, comment.id)
-    );
-
-    const missingCommentsWithZeroRange = map(missingComments, (comment) => ({
-      commentId: comment.id,
-      range: { from: 0, to: 0 },
-    }));
-
-    const finalData = transformedData.concat(missingCommentsWithZeroRange);
-
-    const promises = finalData.map(({ commentId, range }) => {
-      return updateFeedbackRange(submission.id, commentId, range);
-    });
-
-    Promise.all(promises).then((results) => {
-      getComments(submission.id).then((cmts) => {
-        setComments(cmts.filter((c) => c.type !== 'MARKING_CRITERIA'));
-        handleChangeText('All changes saved', true);
-      });
-    });
   }
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(comments.filter((c) => c.id != commentId));
+      setComments(oldComments=> {
+         const deletedComment = oldComments.find((c) => c.id == commentId)
+         const quill = quillRefs.current[deletedComment.questionSerialNumber - 1];
+         const newComments = oldComments.filter((c) => c.id != commentId)
+         return oldComments.filter((c) => c.id != commentId);
+      });
     });
   }
 
@@ -675,7 +609,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setComments(updatedComments);
   }
 
-  function handleReplyComment(replyComment, commentId, serialNumber, sharedWithStudents) {
+  function handleReplyComment(
+    replyComment,
+    commentId,
+    serialNumber,
+    sharedWithStudents
+  ) {
     const replyCommentObject = {
       questionSerialNumber: serialNumber,
       comment: replyComment,
@@ -685,7 +624,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       reviewerName: getUserName(),
       replies: [],
       markingCriteria: defaultMarkingCriteria,
-      sharedWithStudents: sharedWithStudents
+      sharedWithStudents: sharedWithStudents,
     };
     const addReplyComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -695,9 +634,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             : { ...comment, replies: [...comment.replies, replyCommentObject] };
 
         updateFeedback(submission.id, commentId, {
+          ...commentToUpdate,
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
+          selectedText: commentToUpdate.selectedText,
           type: commentToUpdate.type,
           replies: commentToUpdate.replies,
           reviewerId: commentToUpdate.reviewerId,
@@ -733,6 +674,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
+          selectedText: commentToUpdate.selectedText,
           type: commentToUpdate.type,
           color: commentToUpdate.color,
           focusAreaId: commentToUpdate.focusAreaId,
@@ -759,7 +701,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setShowShareWithClass(false);
   }
 
-  function updateChildComment(commentId, replyCommentIndex, comment, sharedWithStudents) {
+  function updateChildComment(
+    commentId,
+    replyCommentIndex,
+    comment,
+    sharedWithStudents
+  ) {
     const updatedReplyComment = comments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
@@ -773,11 +720,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
+          selectedText: c.selectedText,
           type: c.type,
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
-          sharedWithStudents: sharedWithStudents
+          sharedWithStudents: sharedWithStudents,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>
@@ -801,11 +749,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
+          selectedText: c.selectedText,
           type: c.type,
           replies: updatedReplies,
           focusAreaId: commentToUpdate.focusAreaId,
           reviewerId: c.reviewerId,
-          sharedWithStudents: c.sharedWithStudents
+          sharedWithStudents: c.sharedWithStudents,
         }).then((response) => {
           if (response) {
             const updatedComments = comments.map((c) =>
@@ -939,7 +888,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     return addFeedback(submission.id, {
       questionSerialNumber: question.serialNumber,
       feedback: 'Marking Criteria Feedback',
-      range: selectedRange,
+      range: { from: 0, to: 0 },
       type: 'MARKING_CRITERIA',
       replies: [],
       markingCriteria: markingCriteriaRequest,
@@ -961,7 +910,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           addFeedback(submission.id, {
             questionSerialNumber: question.serialNumber,
             feedback: 'Marking Criteria Feedback',
-            range: selectedRange,
+            range: { from: 0, to: 0 },
             type: 'MARKING_CRITERIA',
             replies: [],
             markingCriteria: markingCriteriaRequest,
@@ -991,6 +940,48 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       });
     }
   }
+
+  const addOverallFeedback = (questionSerialNumber, comment, audio) => {
+    addFeedback(submission.id, {
+      questionSerialNumber: questionSerialNumber,
+      feedback: comment,
+      range: {
+        from: 0,
+        to: 0,
+      },
+      audio: audio,
+      type: 'OVERALL_COMMENT',
+    }).then((response) => {
+      if (response) {
+        console.log('the overall Feedback is', response);
+        setOverallComments([...overallComments, response]);
+      }
+    });
+  };
+
+  const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
+    const feedbackToUpdate = overallComments.find(
+      (feedback) => feedback.id === feedbackId
+    );
+    if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
+      return;
+    }
+    console.log('feedbackToUpdate ', feedbackToUpdate);
+
+    updateFeedback(submission.id, feedbackId, {
+      ...feedbackToUpdate,
+      feedback: feedbackText,
+      audio: audio,
+    }).then((response) => {
+      setOverallComments((o) =>
+        o.map((feedback) => {
+          return feedback.id === feedbackId
+            ? { ...feedback, comment: feedbackText, audio: audio }
+            : feedback;
+        })
+      );
+    });
+  };
 
   const handleSaveSubmissionForReview = () => {
     setShowSubmitPopup(false);
@@ -1075,7 +1066,9 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     });
   };
 
-  const reviewerSelectionChange = (visibleComment, serialNumber) => (range) => {
+  const reviewerSelectionChange = (visibleComment, serialNumber) => (selection) => {
+    const range = selection.range
+    console.log("selected", selection.selectedText)
     if (range) {
       const from = range.index;
       const to = range.index + range.length;
@@ -1098,12 +1091,18 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             from: from,
             to: to,
           });
+          setSelectedText(selection.selectedText);
           setShowNewComment(true);
         }
       }
     }
   };
-
+  function highlightByComment(comment) {
+    const div = document.getElementById('comment_' + comment.id);
+    if (div) {
+      highlightComment(comment.color, div);
+    }
+  }
   function highlightComment(color, div) {
     div.scrollIntoView({
       behavior: 'smooth',
@@ -1162,12 +1161,12 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       });
       return (
         <>
-          <DropdownMenu
-            menuItems={menuItems}
-            showAvatar={true}
+          <StyledDropDown
+            showAvatars={true}
+            search={true}
             selectedIndex={selectedItemIndex}
-            defaultSearch={true}
-          ></DropdownMenu>
+            menuItems={menuItems}
+          />
         </>
       );
     }
@@ -1298,7 +1297,8 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   };
 
   const methods = {
-    createDebounceFunction,
+    comments,
+    setComments,
     submissionStatusLabel,
     isTeacher,
     handleChangeText,
@@ -1334,6 +1334,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     showSubmitPopuphandler,
     setUpdateExemplarComment,
     convertToCheckedState,
+    addOverallFeedback,
+    initialOverallFeedback,
+    setInitialOverAllFeedback,
+
+    updateOverAllFeedback,
   };
 
   const shortcuts = getShortcuts();
@@ -1343,112 +1348,31 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
 
-      <ReactiveRender
-        mobile={
-          <FeedbackTeacherMobile
-            {...{
-              newCommentSerialNumber,
-              markingCriteriaFeedback,
-
-              isTeacher,
-              submissionStatusLabel,
-              labelText,
-              quillRefs,
-              pageMode,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              students,
-              submission,
-              sharewithclassdialog,
-              ...feedbacksFeedbackTeacherMobileData,
-              MARKING_METHODOLOGY_TYPE,
-            }}
-          />
-        }
-        tablet={
-          <FeedbackTeacherLaptop
-            {...{
-              newCommentSerialNumber,
-              markingCriteriaFeedback,
-              isTeacher,
-              showLoader,
-              submissionStatusLabel,
-              labelText,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              students,
-              submission,
-              sharewithclassdialog,
-              ...feedbacksFeedbackTeacherLaptopData,
-              MARKING_METHODOLOGY_TYPE,
-            }}
-          />
-        }
-        laptop={
-          <>
-            <FeedbackTeacherLaptop
-              {...{
-                isTeacher,
-                markingCriteriaFeedback,
-                newCommentSerialNumber,
-                showLoader,
-                submissionStatusLabel,
-                labelText,
-                quillRefs,
-                pageMode,
-                shortcuts,
-                smartAnnotations,
-                newCommentFrameRef,
-                methods,
-                showNewComment,
-                comments,
-                studentName,
-                students,
-                submission,
-                sharewithclassdialog,
-                ...feedbacksFeedbackTeacherLaptopData,
-                MARKING_METHODOLOGY_TYPE,
-              }}
-            />
-          </>
-        }
-        desktop={
-          <FeedbackTeacherLaptop
-            {...{
-              isTeacher,
-              markingCriteriaFeedback,
-              newCommentSerialNumber,
-              showLoader,
-              submissionStatusLabel,
-              labelText,
-              smartAnnotations,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              students,
-              submission,
-              sharewithclassdialog,
-              ...feedbacksFeedbackTeacherLaptopData,
-              MARKING_METHODOLOGY_TYPE,
-            }}
-          />
-        }
+      <FeedbackTeacherLaptop
+        {...{
+          newCommentSerialNumber,
+          markingCriteriaFeedback,
+          isTeacher,
+          showLoader,
+          submissionStatusLabel,
+          labelText,
+          quillRefs,
+          pageMode,
+          shortcuts,
+          smartAnnotations,
+          newCommentFrameRef,
+          methods,
+          showNewComment,
+          comments,
+          studentName,
+          students,
+          submission,
+          sharewithclassdialog,
+          ...feedbacksFeedbackTeacherLaptopData,
+          MARKING_METHODOLOGY_TYPE,
+          overallComments,
+          selectedRange
+        }}
       />
     </>
   );

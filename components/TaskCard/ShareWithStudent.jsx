@@ -7,7 +7,7 @@ import {
 const ShareWithStudent = ({sharedStudents}) => {
     const studentList = () =>{
         const students = sharedStudents?.map((student, idx)=>{
-            return <Student>{student.studentId}</Student>
+            return <Student>{student.studentName}</Student>
         })
         return students
     }

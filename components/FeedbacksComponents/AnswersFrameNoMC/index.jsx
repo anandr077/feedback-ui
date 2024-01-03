@@ -8,6 +8,7 @@ import {
   default as React,
 } from 'react';
 import QuillEditor from '../../QuillEditor';
+import OverallFeedback from '../../OverallFeedback';
 
 import '../FeedbackTeacherLaptop';
 import {
@@ -23,6 +24,7 @@ export function answersFrameNoMC(
   pageMode,
   submission,
   commentsForSelectedTab,
+  overallComments,
   methods
 ) {
   return (
@@ -35,6 +37,11 @@ export function answersFrameNoMC(
       handleChangeText={methods.handleChangeText}
       onSelectionChange={methods.onSelectionChange}
       handleEditorMounted={methods.handleEditorMounted}
+      addOverallFeedback={methods.addOverallFeedback}
+      initialOverAllFeedback={methods.initialOverAllFeedback}
+      setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
+      overallComments={overallComments}
+      updateOverAllFeedback={methods.updateOverAllFeedback}
     ></AnswersFrameNoMC>
   );
 }
@@ -49,6 +56,11 @@ function AnswersFrameNoMC(props) {
     handleChangeText,
     onSelectionChange,
     handleEditorMounted,
+    addOverallFeedback,
+    initialOverallFeedback,
+    setInitialOverAllFeedback,
+    overallComments,
+    updateOverAllFeedback
   } = props;
   return (
     <Group1225 id="answers">
@@ -61,7 +73,12 @@ function AnswersFrameNoMC(props) {
           createDebounceFunction,
           handleChangeText,
           onSelectionChange,
-          handleEditorMounted
+          handleEditorMounted,
+          addOverallFeedback,
+          initialOverallFeedback,
+          setInitialOverAllFeedback,
+          overallComments,
+          updateOverAllFeedback
         )}
       </Frame1367>
     </Group1225>
@@ -102,7 +119,12 @@ const answerFrames = (
   createDebounceFunction,
   handleChangeText,
   onSelectionChange,
-  handleEditorMounted
+  handleEditorMounted,
+  addOverallFeedback,
+  initialOverallFeedback,
+  setInitialOverAllFeedback,
+  overallComments,
+  updateOverAllFeedback,
 ) => {
   return submission.assignment.questions.map((question) => {
     const newAnswer = {
@@ -116,6 +138,10 @@ const answerFrames = (
       ) || newAnswer;
     const answerValue = answer.answer.answer;
     const debounce = createDebounceFunction(answer);
+    const overallComment = overallComments?.find((feedback)=>{
+      return feedback.questionSerialNumber === question.serialNumber
+    })
+    console.log("overallComment", overallComment)
 
     return (
       <>
@@ -142,6 +168,18 @@ const answerFrames = (
               )}
             </QuillContainer>
           }
+          {pageMode !== 'DRAFT' && (
+            <OverallFeedback
+              pageMode={pageMode}
+              addOverallFeedback={addOverallFeedback}
+              submissionId={submission.id}
+              question={question}
+              initialOverallFeedback={initialOverallFeedback}
+              setInitialOverAllFeedback={setInitialOverAllFeedback}
+              overallComment={overallComment}
+              updateOverAllFeedback={updateOverAllFeedback}
+            />
+          )}
         </Frame1366>
       </>
     );

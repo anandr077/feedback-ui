@@ -124,4 +124,7 @@ const MarkingCriteriaContainer = styled.div`
   display: flex;
   grid-gap: 10px;
   overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;

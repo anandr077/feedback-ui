@@ -31,7 +31,7 @@ import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
 import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
-import ReactiveRender, { isSmallScreen, isMobileView } from '../ReactiveRender';
+import ReactiveRender from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
@@ -95,7 +95,6 @@ export default function CreateAssignment(props) {
   const [allFocusAreas, setAllFocusAreas] = React.useState([]);
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([]);
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
 
@@ -145,7 +144,7 @@ export default function CreateAssignment(props) {
           id: 'no_marking_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),
-          setClasses(classesResult);
+        setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
 
@@ -330,12 +329,27 @@ export default function CreateAssignment(props) {
       ),
     }));
   }
+  
+
+  const removeAppendFunction = (markingCriteria) => {
+    let newMarkingCriteria = { ...markingCriteria };
+    if (newMarkingCriteria.type === 'STRENGTHS_TARGETS') {
+      newMarkingCriteria.title = newMarkingCriteria.title.replace(' (S&T)', '');
+    }
+    if (newMarkingCriteria.type === 'RUBRICS') {
+      newMarkingCriteria.title = newMarkingCriteria.title.replace(' (R)', '');
+    }
+    return newMarkingCriteria;
+  };
 
   function updateMarkingCriteria(id, markingCriteria) {
+    const updatedMarkingCriteriaObj = removeAppendFunction(markingCriteria);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        q.serialNumber === id ? { ...q, markingCriteria: markingCriteria } : q
+        q.serialNumber === id
+          ? { ...q, markingCriteria: updatedMarkingCriteriaObj }
+          : q
       ),
     }));
   }
@@ -588,8 +602,6 @@ export default function CreateAssignment(props) {
       });
     });
   };
-
-  
 
   const checkboxes = classes.map((clazz) => {
     const isChecked = assignment.classIds.includes(clazz.id);

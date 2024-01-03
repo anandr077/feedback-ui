@@ -29,6 +29,9 @@ import {
   Screen,
   Share,
   TypeHere,
+  ExemplarComponent,
+  SmartAnnotationsComponent,
+  ShortcutList,
 } from './style';
 import AntSwitch from '../AntSwitch';
 
@@ -295,23 +298,28 @@ function reviewerNewComment(
     <>
       <Frame1329>
         <Frame1406>
-          <Frame1326>
-            <TypeHere>
-              <FocussedInput
-                id="newCommentInput"
-                ref={newCommentFrameRef}
-                placeholder="Comment here...."
-              ></FocussedInput>
-            </TypeHere>
-          </Frame1326>
+          <SmartAnnotationsComponent>
+            <Frame1326>
+              <TypeHere>
+                <FocussedInput
+                  id="newCommentInput"
+                  ref={newCommentFrameRef}
+                  placeholder="Comment here...."
+                ></FocussedInput>
+              </TypeHere>
+            </Frame1326>
 
-          <SubmitCommentFrameRoot
-            submitButtonOnClick={methods.handleAddComment}
-            cancelButtonOnClick={methods.hideNewCommentDiv}
-          />
-
-          {shortcutList(methods, smartAnnotations)}
-          {shareWithClassFrame(methods, share)}
+            <SubmitCommentFrameRoot
+              submitButtonOnClick={methods.handleAddComment}
+              cancelButtonOnClick={methods.hideNewCommentDiv}
+            />
+            <ShortcutList>
+              {shortcutList(methods, smartAnnotations)}
+            </ShortcutList>
+          </SmartAnnotationsComponent>
+          <ExemplarComponent>
+            {shareWithClassFrame(methods, share)}
+          </ExemplarComponent>
         </Frame1406>
       </Frame1329>
     </>
@@ -324,11 +332,11 @@ function shareWithClassFrame(methods, share) {
       <Line6 src="/icons/line.png" alt="Line 6" />
       <Frame1383>
         <Frame13311>
-          <Crown src="/icons/exemplary_response.png" alt="crown" />
-          <Share>Exemplar</Share>
+          <Crown src="/icons/share.png" alt="crown" />
+          <Share>Share</Share>
         </Frame13311>
         <Buttons4
-          text={'Share as exemplar'}
+          text={'Share with class'}
           onClickFn={methods.handleShareWithClass}
         />
       </Frame1383>

@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
 import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
-import { getPortfolio, getClasses, docsMoveToFolder } from '../../../service';
+import { getPortfolio, getClasses, docsMoveToFolder, getOverComments } from '../../../service';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState, useReducer } from 'react';
@@ -71,21 +71,26 @@ export default function DocumentRoot({}) {
   const [hasProcessedData, setHasProcessedData] = useState(false);
   const [pageMode, setPageMode] = useState(null);
   const [shouldFetchPortfolio, setShouldFetchPortfolio] = useState(false);
-  const onMobileView = isMobileView();
-
+  const [overallComments, setOverallComments] = useState([]);
+  const [initialOverallFeedback, setInitialOverAllFeedback] = useState({
+    feedbackText: 'Add General Feedback...',
+    editFeedback: false,
+  });
   // Fetch functions
   const fetchSubmissionData = async () => {
-    const [submissionsResult, commentsResult, smartAnnotationResult] =
+    const [submissionsResult, commentsResult, smartAnnotationResult, overAllCommentsResult] =
       await Promise.all([
         getSubmissionById(id),
         getComments(id),
         getSmartAnnotations(),
+        getOverComments(id),
       ]);
 
     setSubmission(submissionsResult);
     setComments(commentsResult);
     setSmartAnnotations(smartAnnotationResult);
     setIsSubmissionLoading(false);
+    setOverallComments(overAllCommentsResult);
 
     return submissionsResult; // Return the fetched submission data for further use.
   };
@@ -336,6 +341,7 @@ export default function DocumentRoot({}) {
             : { ...comment, replies: [...comment.replies, replyCommentObject] };
 
         updateFeedback(submission.id, commentId, {
+          ...commentToUpdate,
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
@@ -449,6 +455,48 @@ export default function DocumentRoot({}) {
       return c;
     });
   }
+
+  const addOverallFeedback = (questionSerialNumber, comment, audio) => {
+    addFeedback(submission.id, {
+      questionSerialNumber: questionSerialNumber,
+      feedback: comment,
+      range: {
+        from: 0,
+        to: 0,
+      },
+      audio: audio,
+      type: 'OVERALL_COMMENT',
+    }).then((response) => {
+      if (response) {
+        console.log('the overall Feedback is', response);
+        setOverallComments([...overallComments, response]);
+      }
+    });
+  };
+
+  const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
+    const feedbackToUpdate = overallComments.find(
+      (feedback) => feedback.id === feedbackId
+    );
+    if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
+      return;
+    }
+    console.log('feedbackToUpdate ', feedbackToUpdate);
+
+    updateFeedback(submission.id, feedbackId, {
+      ...feedbackToUpdate,
+      feedback: feedbackText,
+      audio: audio,
+    }).then((response) => {
+      setOverallComments((o) =>
+        o.map((feedback) => {
+          return feedback.id === feedbackId
+            ? { ...feedback, comment: feedbackText, audio: audio }
+            : feedback;
+        })
+      );
+    });
+  };
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
@@ -720,6 +768,11 @@ export default function DocumentRoot({}) {
     updateParentComment,
     updateChildComment,
     showSubmitPopuphandler,
+    addOverallFeedback,
+    initialOverallFeedback,
+    setInitialOverAllFeedback,
+
+    updateOverAllFeedback,
   };
 
   const shortcuts = getShortcuts();
@@ -736,114 +789,31 @@ export default function DocumentRoot({}) {
         />
       )}
 
-      <ReactiveRender
-        mobile={
-          <Document
-            {...{
-              newCommentSerialNumber,
-              showLoader,
-              labelText,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              submission,
-              setSubmission,
-              // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps,
-              allFolders: folders,
-              allClasses,
-              students,
-              teachers,
-              onMobileView,
-            }}
-          />
-        }
-        tablet={
-          <Document
-            {...{
-              newCommentSerialNumber,
-              showLoader,
-              labelText,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              smartAnnotations,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              submission,
-              setSubmission,
-              // ...feedbacksFeedbackTeacherLaptopData,
-              headerProps: headerProps,
-              allFolders: folders,
-              allClasses,
-              students,
-              teachers,
-            }}
-          />
-        }
-        laptop={
-          <>
-            <Document
-              {...{
-                newCommentSerialNumber,
-                showLoader,
-                labelText,
-                quillRefs,
-                pageMode,
-                shortcuts,
-                smartAnnotations,
-                newCommentFrameRef,
-                methods,
-                showNewComment,
-                comments,
-                studentName,
-                submission,
-                setSubmission,
-                // ...feedbacksFeedbackTeacherLaptopData,
-                headerProps: headerProps,
-                allFolders: folders,
-                allClasses,
-                students,
-                teachers,
-              }}
-            />
-          </>
-        }
-        desktop={
-          <Document
-            {...{
-              newCommentSerialNumber,
-              showLoader,
-              labelText,
-              smartAnnotations,
-              quillRefs,
-              pageMode,
-              shortcuts,
-              newCommentFrameRef,
-              methods,
-              showNewComment,
-              comments,
-              studentName,
-              submission,
-              setSubmission,
-              headerProps: headerProps,
-              allFolders: folders,
-              allClasses,
-              students,
-              teachers,
-            }}
-          />
-        }
-      />
+      <Document
+          {...{
+            newCommentSerialNumber,
+            showLoader,
+            labelText,
+            quillRefs,
+            pageMode,
+            shortcuts,
+            smartAnnotations,
+            newCommentFrameRef,
+            methods,
+            showNewComment,
+            comments,
+            studentName,
+            submission,
+            setSubmission,
+            // ...feedbacksFeedbackTeacherLaptopData,
+            headerProps: headerProps,
+            allFolders: folders,
+            allClasses,
+            students,
+            teachers,
+            overallComments
+          }}
+        />
     </>
   );
 

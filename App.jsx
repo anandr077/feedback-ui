@@ -19,7 +19,6 @@ import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
 import PortfolioPage from './components/PortfolioPage';
-import { isSmallScreen } from './components/ReactiveRender';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -46,7 +45,6 @@ function App() {
   const ProtectedSettings = withAuth(AccountSettingsRoot);
   const ProtectedHeader = withAuth(ResponsiveHeader);
   const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
-  const [smallScreenView, setSmallScreenView] = React.useState(isSmallScreen());
 
   const portfolioClient = new QueryClient();
 
@@ -73,7 +71,7 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
-          {<ProtectedHeader isSmallScreen={isSmallScreen()} />}
+          {<ProtectedHeader />}
           <Switch>
             <Route path="/settings">
               <ProtectedSettings />
@@ -123,11 +121,11 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
-          {<ResponsiveFooter smallScreen={isSmallScreen()} />}
+          {<ResponsiveFooter />}
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
-    </>
+    </> 
   );
 }
 export default App;

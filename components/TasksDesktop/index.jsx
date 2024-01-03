@@ -87,15 +87,18 @@ const TitleContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
+  padding: 0px 60px;
 `;
 
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1200px;
-  align-items: flex-start;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
   gap: 40px;
   position: relative;
+  max-width: 1440px;
 `;
 
 const Title = styled.h1`
@@ -112,42 +115,46 @@ const Frame1360 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 40px;
   position: relative;
   align-self: stretch;
-  min-height: calc(100vh - 285px);
+  height: 90vh;
 `;
 
 const Frame1359 = styled.div`
   display: flex;
-  align-items: flex-start;
+  width: 100%;
+  padding: 0px 60px;
   gap: 32px;
   position: relative;
   align-self: stretch;
+  min-height: calc(100vh - 285px);
+  flex-grow: 1;
+  margin: 0px auto;
 `;
 
 const Frame1354 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
+  align-items: center;
+  padding-top: 0px;
   position: relative;
   flex: 1;
+  flex-grow: 1;
   background-color: var(--white);
   border-radius: 16px;
-  overflow: hidden;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
 const Frame1358 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
+  align-items: center;
+  padding-top: 0px;
   position: relative;
   flex: 1;
+  flex-grow: 1;
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
@@ -157,6 +164,7 @@ const LinkAndFilter = styled.div`
   justify-content: center;
   align-items: center;
   gap: 30px;
+  align-self: stretch;
 `;
 
 export default TasksDesktop;

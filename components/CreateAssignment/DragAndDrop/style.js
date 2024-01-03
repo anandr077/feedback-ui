@@ -39,6 +39,7 @@ export const Heading = styled.p`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height :15px;
 `;
 
 export const ShuffleBtn = styled.div`

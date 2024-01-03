@@ -113,11 +113,6 @@ const StateYearDialogue = ({ setStage }) => {
         <DropdownItem>
           <Title>Country</Title>
           <DropdownBox>
-            {/* <DropdownMenu
-              menuItems={countryOptions}
-              getSelectedItem={(item) => setCountry(item)}
-              fullWidth={true}
-            /> */}
             <StyledDropDown
               menuItems={countryOptions}
               fullWidth = {true}
@@ -128,12 +123,6 @@ const StateYearDialogue = ({ setStage }) => {
         <DropdownItem>
           <Title>State</Title>
           <DropdownBox>
-            {/* <DropdownMenu
-              menuItems={stateOptions}
-              getSelectedItem={(item) => setState(item)}
-              selectedIndex={selectedStateIndex}
-              fullWidth={true}
-            />  */}
             <StyledDropDown
               menuItems={stateOptions}
               selectedIndex={selectedStateIndex}
@@ -145,12 +134,6 @@ const StateYearDialogue = ({ setStage }) => {
         <DropdownItem>
           <Title>Year</Title>
           <DropdownBox>
-            {/* <DropdownMenu
-              menuItems={yearOptions}
-              getSelectedItem={(item) => setYear(item)}
-              selectedIndex={selectedYearIndex}
-              fullWidth={true}
-            /> */}
             <StyledDropDown
               menuItems={yearOptions}
               selectedIndex={selectedYearIndex}

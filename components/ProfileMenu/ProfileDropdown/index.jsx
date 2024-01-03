@@ -8,7 +8,6 @@ import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import 'react-edit-text/dist/index.css';
 import { getStateYear } from '../../../service';
 import { OnboardingContext } from '../../../components2/Onboard/OnboardingProvider';
-import Cookies from 'js-cookie';
 
 function ProfileDropdown() {
   const role = getUserRole();
@@ -17,10 +16,6 @@ function ProfileDropdown() {
   const [year, setYear] = useState('Year');
   const { setEditStateYear } = useContext(OnboardingContext);
 
-  const handlePropagation = (e) => {
-    e.stopPropagation();
-  };
-
   useEffect(() => {
     Promise.all([getStateYear()]).then(([profile]) => {
       setState(profile.state);
@@ -28,12 +23,7 @@ function ProfileDropdown() {
     });
   }, []);
 
-  const handleLogout = () => {
-    queryClient.clear();
-    logout();
-    Cookies.remove('state');
-    Cookies.remove('year');
-  };
+
 
   return (
     <>
@@ -74,7 +64,10 @@ function ProfileDropdown() {
       <ProfileDropDownElement
         text="Logout"
         noIcon={true}
-        onClick={handleLogout}
+        onClick={() => {
+          queryClient.clear();
+          logout();
+        }}
       />
     </>
   );

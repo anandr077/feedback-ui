@@ -109,6 +109,9 @@ function App() {
             <Route path="/submissions/:id">
               <ProtectedFeedbacksRoot isAssignmentPage={false} />
             </Route>
+            <Route path="/docs">
+              <ProtectedDocumentRoot />
+            </Route>
             <Route path="/documents/:id">
               <ProtectedDocumentRoot />
             </Route>

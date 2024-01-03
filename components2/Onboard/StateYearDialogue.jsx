@@ -14,10 +14,11 @@ import {
   Checkbox,
   TermsText,
   HeaderText,
-  CloseImg
+  CloseImg,
 } from './stateYearDialogueStyle';
 import { profileStateYear, getStateYear } from '../../service';
 import { OnboardingContext } from './OnboardingProvider';
+import StyledDropDown from '../StyledDropDown';
 
 const countryOptions = [{ title: 'Australia' }];
 
@@ -44,25 +45,42 @@ const StateYearDialogue = ({ setStage }) => {
   const [country, setCountry] = useState({});
   const [state, setState] = useState({});
   const [year, setYear] = useState({});
+  const [selectedStateIndex, setSelectedStateIndex] = useState();
+  const [selectedYearIndex, setSelectedYearIndex] = useState();
   const { editStateYear } = useContext(OnboardingContext);
 
-  React.useEffect(()=>{
-     Promise.all([
-      getStateYear()
-     ]).then(
-      ([
-        profile
-      ]) => {
-        setState(profile.state)
-        setYear(profile.year)
-      }
-     )
-  }, [])
+  const handleStateSelect = (selectedState) => {
+    setState(selectedState);
+  };
+  
+  const handleYearSelect = (selectedYear) => {
+    setYear(selectedYear);
+  };
+
+  const handleCountrySelect = (selectedCountry) => {
+    setCountry(selectedCountry)
+  }
+
+  React.useEffect(() => {
+    Promise.all([getStateYear()]).then(([profile]) => {
+      setState(profile.state);
+      setYear(profile.year);
+
+      const stateIndex = stateOptions.findIndex(
+        (option) => option.title === profile.state
+      );
+      setSelectedStateIndex(stateIndex >= 0 ? stateIndex : null);
+
+      const yearIndex = yearOptions.findIndex(
+        (option) => option.title === profile.year
+      );
+      setSelectedYearIndex(yearIndex >= 0 ? yearIndex : null);
+    });
+  }, []);
 
   const saveToCookies = () => {
-    if (state.title && year.title && country.title) {
+    if (state.title && year.title) {
       profileStateYear({
-        country: country.title,
         year: year.title,
         state: state.title,
       }).then(() => {
@@ -84,36 +102,60 @@ const StateYearDialogue = ({ setStage }) => {
             ? 'Update your settings'
             : "Let's Get Started - Customise Your Feedback"}
         </HeaderText>
-        {editStateYear && <CloseImg src='img/vector-12@2x.png' onClick={()=> setEditStateYear(false)}/>}
+        {editStateYear && (
+          <CloseImg
+            src="img/vector-12@2x.png"
+            onClick={() => setEditStateYear(false)}
+          />
+        )}
       </Header>
       <DropdownContainer>
         <DropdownItem>
           <Title>Country</Title>
           <DropdownBox>
-            <DropdownMenu
+            {/* <DropdownMenu
               menuItems={countryOptions}
               getSelectedItem={(item) => setCountry(item)}
               fullWidth={true}
+            /> */}
+            <StyledDropDown
+              menuItems={countryOptions}
+              fullWidth = {true}
+              onItemSelected={handleCountrySelect}
             />
           </DropdownBox>
         </DropdownItem>
         <DropdownItem>
           <Title>State</Title>
           <DropdownBox>
-            <DropdownMenu
+            {/* <DropdownMenu
               menuItems={stateOptions}
               getSelectedItem={(item) => setState(item)}
+              selectedIndex={selectedStateIndex}
               fullWidth={true}
+            />  */}
+            <StyledDropDown
+              menuItems={stateOptions}
+              selectedIndex={selectedStateIndex}
+              fullWidth = {true}
+              onItemSelected={handleStateSelect}
             />
           </DropdownBox>
         </DropdownItem>
         <DropdownItem>
           <Title>Year</Title>
           <DropdownBox>
-            <DropdownMenu
+            {/* <DropdownMenu
               menuItems={yearOptions}
               getSelectedItem={(item) => setYear(item)}
+              selectedIndex={selectedYearIndex}
               fullWidth={true}
+            /> */}
+            <StyledDropDown
+              menuItems={yearOptions}
+              selectedIndex={selectedYearIndex}
+              fullWidth = {true}
+              onItemSelected={handleYearSelect}
             />
           </DropdownBox>
         </DropdownItem>

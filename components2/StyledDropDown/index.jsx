@@ -12,6 +12,8 @@ export default function StyledDropDown({
   search = false,
   group = false,
   selectedIndex,
+  fullWidth = false,
+  onItemSelected
 }) {
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
@@ -25,6 +27,9 @@ export default function StyledDropDown({
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
     setValue(menuItem);
+    if (onItemSelected) {
+      onItemSelected(menuItem);
+    }
     if (menuItem.link) {
       window.location.href = menuItem.link;
       window.location.reload();
@@ -51,7 +56,7 @@ export default function StyledDropDown({
       );
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }}>
+    <FormControl fullWidth={fullWidth} sx={!fullWidth ? { m: 1, minWidth: 150 } : {}}>
       <Select
         style={{
           border: '1px solid var(--light-mode-purple)',

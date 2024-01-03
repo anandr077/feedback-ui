@@ -33,6 +33,7 @@ export const Title = styled.h3`
 `;
 
 export const DropdownBox = styled.div`
+  width: 100%;
 `;
 
 export const Button = styled.button`

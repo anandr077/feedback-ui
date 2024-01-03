@@ -37,6 +37,7 @@ export default function StyledDropDown({
     if (menuItem.onClick) {
       menuItem.onClick(menuItem);
       return;
+    }
     if (onItemSelected) {
       onItemSelected(menuItem);
     }
@@ -160,7 +161,7 @@ export default function StyledDropDown({
     </FormControl>
   );
 }
-}
+
 
 const groupItemsByFirstLetter = (items) => {
   return items.reduce((groupedItems, currentItem) => {

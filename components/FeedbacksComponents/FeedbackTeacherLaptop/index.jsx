@@ -47,7 +47,7 @@ function FeedbackTeacherLaptop(props) {
     overallComments,
     selectedRange,
   } = props;
-  const mobileView = isMobileView();
+  const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
@@ -122,9 +122,9 @@ function FeedbackTeacherLaptop(props) {
     <>
       {loader(showLoader)}
       <div className="feedback-teacher-laptop screen">
-        {mobileView && <WelcomeOverlayMobile />}
+        {isMobile && <WelcomeOverlayMobile />}
         {sharewithclassdialog}
-        <Frame1388 mobileView={mobileView}>
+        <Frame1388 mobileView={isMobile}>
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
             isMobile,

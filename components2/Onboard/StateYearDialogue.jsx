@@ -69,12 +69,12 @@ const StateYearDialogue = ({ setStage }) => {
       const stateIndex = stateOptions.findIndex(
         (option) => option.title === profile.state
       );
-      setSelectedStateIndex(stateIndex >= 0 ? stateIndex : null);
+      setSelectedStateIndex(stateIndex >= 0 ? stateIndex : stateOptions[0]);
 
       const yearIndex = yearOptions.findIndex(
         (option) => option.title === profile.year
       );
-      setSelectedYearIndex(yearIndex >= 0 ? yearIndex : null);
+      setSelectedYearIndex(yearIndex >= 0 ? yearIndex : yearOptions[0]);
     });
   }, []);
 

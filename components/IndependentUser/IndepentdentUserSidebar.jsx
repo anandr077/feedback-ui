@@ -1,5 +1,5 @@
 import { Divider, Drawer } from '@mui/material';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import {
   DrawerBody,
@@ -7,7 +7,6 @@ import {
   DrawerInput,
   SearchIcon,
   DrawerQuestion,
-  DrawerQuestionButton,
   DrawerQuestions,
   OverflowShadow,
   DrawerSubject,
@@ -19,6 +18,7 @@ import {
   RecentBtn,
   StyledAccessTimeIcon,
   StyledMoreVertIcon,
+  LoadingDiv,
 } from './style';
 const drawerWidth = 315;
 
@@ -38,7 +38,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   fontSize: 'var(--font-size-xl)',
   fontWeight: '500',
   position: 'relative',
-  cursor: 'pointer'
+  cursor: 'pointer',
 }));
 
 function IndepentdentUserSidebar({
@@ -48,12 +48,46 @@ function IndepentdentUserSidebar({
   selectedSubject,
 }) {
   const theme = useTheme();
-  const [selectedQuestion, setSelectedQuestion] = React.useState();
+  const [selectedQuestion, setSelectedQuestion] = useState();
+  const [pageHeight, setPageHeight] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedQuestion(subjects[selectedSubject]?.[0]);
   }, [selectedSubject]);
-  const [searchQuery, setSearchQuery] = React.useState('');
+
+  useEffect(() => {
+    const updateHeight = () => {
+      const fullHeight = document.documentElement.scrollHeight;
+      if (fullHeight !== pageHeight) {
+        setPageHeight(fullHeight - 170);
+      }
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      let shouldUpdateHeight = false;
+
+      for (const mutation of mutations) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          shouldUpdateHeight = true;
+          break;
+        }
+      }
+
+      if (shouldUpdateHeight) {
+        updateHeight();
+      }
+    });
+
+    const config = { childList: true, subtree: true };
+
+    observer.observe(document.body, config);
+
+    updateHeight();
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <Drawer
@@ -62,8 +96,8 @@ function IndepentdentUserSidebar({
         flexShrink: 0,
         fontFamily: 'IBM Plex Sans',
         // height: '85vh',
-        height: '100%',
-        ovverflowY: 'scroll',
+        overflow: 'hidden',
+        height: `${pageHeight - 20}px`,
         '& .MuiDrawer-paper': {
           width: '100%',
           boxSizing: 'border-box',
@@ -85,55 +119,65 @@ function IndepentdentUserSidebar({
         <Divider />
       </DividerContainer>
       <DrawerBody>
-        <DrawerInputBox>
-          <DrawerInput
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <SearchIcon src="img/VectorSearch.png" />
-        </DrawerInputBox>
-        <SubjectTitle>SUBJECTS</SubjectTitle>
-        <DrawerSubjects>
-          <RecentBtn>
-            <StyledAccessTimeIcon /> Recent <StyledMoreVertIcon />
-          </RecentBtn>
-          {Object.keys(subjects).map((subject, index) => (
-            <DrawerSubject
-              style={{
-                background: selectedSubject === subject ? '#FFCA0F' : '#FFEFB5',
-              }}
-              key={index}
-              onClick={() => setSelectedSubject(subject)}
-            >
-              {subject} ({subjects[subject].length})
-            </DrawerSubject>
-          ))}
-        </DrawerSubjects>
-
-        <DrawerQuestions>
-          <DrawerQuestion
-            style={{ color: 'white', background: 'var(--royal-purple)', fontWeight: '500' }}
-          >
-            {selectedQuestion?.title}
-          </DrawerQuestion>
-
-          {subjects[selectedSubject]?.map(
-            (question, qIndex) =>
-              question.title
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) && (
-                <DrawerQuestion
-                  key={qIndex}
-                  onClick={() => setSelectedQuestion(question)}
+        {!subjects[selectedSubject] ? (
+          <LoadingDiv>Loading...</LoadingDiv>
+        ) : (
+          <>
+            <DrawerInputBox>
+              <DrawerInput
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <SearchIcon src="img/VectorSearch.png" />
+            </DrawerInputBox>
+            <SubjectTitle>SUBJECTS</SubjectTitle>
+            <DrawerSubjects>
+              <RecentBtn>
+                <StyledAccessTimeIcon /> Recent <StyledMoreVertIcon />
+              </RecentBtn>
+              {Object.keys(subjects).map((subject, index) => (
+                <DrawerSubject
+                  style={{
+                    background:
+                      selectedSubject === subject ? '#FFCA0F' : '#FFEFB5',
+                  }}
+                  key={index}
+                  onClick={() => setSelectedSubject(subject)}
                 >
-                  {question.title}
-                  <OverflowShadow></OverflowShadow>
-                </DrawerQuestion>
-              )
-          )}
-          <DrawerQuestionButton>See more</DrawerQuestionButton>
-        </DrawerQuestions>
+                  {subject} ({subjects[subject].length})
+                </DrawerSubject>
+              ))}
+            </DrawerSubjects>
+
+            <DrawerQuestions pageHeight={pageHeight}>
+              <DrawerQuestion
+                style={{
+                  color: 'white',
+                  background: 'var(--royal-purple)',
+                  fontWeight: '500',
+                }}
+              >
+                {selectedQuestion?.title}
+              </DrawerQuestion>
+
+              {subjects[selectedSubject]?.map(
+                (question, qIndex) =>
+                  question.title
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) && (
+                    <DrawerQuestion
+                      key={qIndex}
+                      onClick={() => setSelectedQuestion(question)}
+                    >
+                      {question.title}
+                      <OverflowShadow></OverflowShadow>
+                    </DrawerQuestion>
+                  )
+              )}
+            </DrawerQuestions>
+          </>
+        )}
       </DrawerBody>
     </Drawer>
   );

@@ -90,7 +90,6 @@ export const DrawerBody = styled.div`
   flex-direction: column;
   gap: 16px;
   margin: 20px;
-  fontfamily: IBM Plex Sans;
 `;
 
 export const DrawerInputBox = styled.div`
@@ -150,7 +149,7 @@ export const DrawerSubject = styled.div`
   background: linear-gradient(0deg, #dec7ff, #dec7ff);
   border-radius: 22px;
   cursor: pointer;
-  font-family: IBM Plex Sans;
+  font-family: 'IBM Plex Sans';
   font-size: 14px;
   line-height: 18.2px;
   color: #434343;
@@ -175,7 +174,6 @@ export const RecentBtn = styled.div`
   background: var(--blue-chalk-2);
   border-radius: 22px;
   cursor: pointer;
-  font-family: IBM Plex Sans;
   color: var(--light-mode-purple);
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 600;
@@ -202,8 +200,8 @@ export const StyledAccessTimeIcon = styled(AccessTimeIcon)`
 export const DrawerQuestions = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  height: 45vh;
+  height: ${props => `${props.pageHeight}px`};
+  gap: 10px !important;
   overflow-y: scroll;
   width: 100%;
   ::-webkit-scrollbar {
@@ -239,22 +237,6 @@ export const OverflowShadow = styled.div`
   transform: translateY(-50%);
 `;
 
-export const DrawerQuestionButton = styled.div`
-  padding: 8px 16px 8px 16px;
-  border-radius: 30px;
-  gap: 4px;
-  background: var(--light-mode-purple);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-l);
-  line-height: 20.8px;
-  color: var(--white);
-  cursor: pointer;
-`;
 export const DrawerArrowContainer = styled.div`
   height: 100%;
   display: flex;
@@ -269,4 +251,12 @@ export const DrawerArrow = styled.div`
 
 export const DividerContainer = styled.div`
   margin: 0 20px;
+`;
+
+export const LoadingDiv = styled.div`
+  padding: 20px 0;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  color: var(--text);
+  font-weight: 500;
 `;

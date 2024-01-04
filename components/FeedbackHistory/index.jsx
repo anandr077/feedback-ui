@@ -14,10 +14,6 @@ import {
   RightContentContainer,
   CardContainer,
   TextContainer,
-  IconsContainer,
-  IconContainer,
-  CorrectIcon,
-  CrossIcon,
   Frame5111,
   Frame5087,
   Frame5088,
@@ -31,10 +27,14 @@ import {
   Frame5114,
   Frame5112,
   Frame5112para,
+  ParaContainer,
+  Frame1333,
+  Frame1333Para,
+  Frame1333Star,
 } from './style';
 import Group1205 from '../TeacherDashboard/Group1205';
 
-function GiveFeedback() {
+function FeedbackHistory() {
   return (
     <>
       <MainContainer>
@@ -43,14 +43,14 @@ function GiveFeedback() {
             <TopContainer>
               <TitleContainer>
                 <Title>
-                  Give Feedback
+                  Feedback History
                   <TitleImage src="/icons/question-mark.png" />
                 </Title>
 
                 <Group1205
-                  link={`#feedbackHistory`}
-                  label="Feedback History"
-                  arrowright={'/img/arrowright@2x.png'}
+                  link={`#giveFeedback`}
+                  label="Go Back"
+                  arrowleft={'/img/arrowleft.png'}
                 />
               </TitleContainer>
               <HeadingLine>
@@ -62,7 +62,7 @@ function GiveFeedback() {
           <ContentContainer>
             <LeftContentContainer>
               {[
-                'What is the moral of the short story The Monkey’s Paw?',
+                'What is the moral of the short story The Monkeys Paw?',
                 'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
                 'Jorem ipsum dolor sit amet, consectetur adipiscing elit?',
                 'Borem ipsum dolor sit amet, consectetur adipiscing elit?',
@@ -70,14 +70,19 @@ function GiveFeedback() {
               ].map((text, index) => (
                 <CardContainer>
                   <TextContainer>{text}</TextContainer>
-                  <IconsContainer>
-                    <IconContainer>
-                      <CorrectIcon src="/icons/correct.svg" alt="" />
-                    </IconContainer>
-                    <IconContainer>
-                      <CrossIcon src="/icons/wrong.svg" alt="" />
-                    </IconContainer>
-                  </IconsContainer>
+                  <ParaContainer>
+                    Norem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nunc vulputate libero et velit interdum, ac aliquet odio
+                    mattis. ...
+                  </ParaContainer>
+                  <Frame1333>
+                    <Frame1333Para>Feedback Rating:</Frame1333Para>
+                    <Frame1333Star src="/img/Star-filled.png" />
+                    <Frame1333Star src="/img/Star-filled.png" />
+                    <Frame1333Star src="/img/Star-filled.png" />
+                    <Frame1333Star src="/img/Star-filled.png" />
+                    <Frame1333Star src="/img/Star-empty.png" />
+                  </Frame1333>
                 </CardContainer>
               ))}
             </LeftContentContainer>
@@ -113,4 +118,4 @@ function GiveFeedback() {
   );
 }
 
-export default GiveFeedback;
+export default FeedbackHistory;

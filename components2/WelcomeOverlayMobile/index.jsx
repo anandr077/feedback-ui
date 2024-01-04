@@ -5,10 +5,8 @@ import {
   Headline,
   Para
 } from './style';
-import { getUserName } from '../../service';
 
 const WelcomeOverlayMobile = () => {
-  const name = getUserName();
   return (
     <MainContainer>
       <Content>

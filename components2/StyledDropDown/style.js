@@ -10,3 +10,9 @@ export const AvatarContainer = styled.div`
   padding-top: 5px;
   padding-bottom: 5px;
 `;
+
+export const Frame12841 = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+`;

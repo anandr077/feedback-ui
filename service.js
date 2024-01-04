@@ -256,6 +256,8 @@ export const getSubmissionsByAssignmentId = async (assignmentId) =>
   await getApi(baseUrl + '/assignments/' + assignmentId + '/submissions');
 export const getOverComments = async (id) =>
   await getApi(baseUrl + '/submissions/' + id + '/overallComments');
+export const getPortfolioSubjects = async () =>
+  await getApi(baseUrl + '/students/drafts');
 
 
 export const addFeedback = async (submissionId, comment) =>

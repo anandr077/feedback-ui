@@ -110,6 +110,7 @@ export const DrawerInput = styled.input`
   border-radius: 8px;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-l);
+  line-height: 24px;
   &:focus {
     outline: none;
   }
@@ -125,10 +126,11 @@ export const SearchIcon = styled.img`
 export const SubjectTitle = styled.p`
   font-size: 12px;
   line-height: 15.6px;
-  font-weight: 500;
+  font-weight: 600;
   font-family: var(--font-family-ibm_plex_sans);
   letter-spacing: 1px;
   color: #6f6f6f;
+  margin-top: 5px;
 `;
 
 export const DrawerSubjects = styled.div`
@@ -152,7 +154,7 @@ export const DrawerSubject = styled.div`
   font-size: 14px;
   line-height: 18.2px;
   color: #434343;
-  font-weight: 500;
+  font-weight: 600;
   &:hover {
     background: linear-gradient(0deg, #ffefb5, #ffefb5),
       linear-gradient(0deg, #fffae7, #fffae7);
@@ -169,15 +171,14 @@ export const StyledMoreVertIcon = styled(MoreVertIcon)`
 
 export const RecentBtn = styled.div`
   padding: 8px 12px;
-  border: 1px solid #ffefb5;
-  background: #FFF7DA;
+  border: 1px solid #DEC7FF;
+  background: var(--blue-chalk-2);
   border-radius: 22px;
   cursor: pointer;
-  color: white;
   font-family: IBM Plex Sans;
-  color: #434343;
+  color: var(--light-mode-purple);
   font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   line-height: 18.2px;
   display: flex;
@@ -216,15 +217,33 @@ export const DrawerQuestion = styled.div`
   line-height: 20.8px;
   padding: 16px 20px;
   border-radius: 8px;
-  background: #f2f2f2;
+  background: #F2F2F2;
   color: #000000;
+  white-space: nowrap;
+  position: relative;
   cursor: pointer;
+
+  &:hover{
+    background: #DBD9D9;
+  }
 `;
+
+export const OverflowShadow = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 40px;
+  background: linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%);
+  border-radius: 0 8px 8px 0;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+`;
+
 export const DrawerQuestionButton = styled.div`
   padding: 8px 16px 8px 16px;
   border-radius: 30px;
   gap: 4px;
-  background: #434343;
+  background: var(--light-mode-purple);
   color: white;
   display: flex;
   align-items: center;

@@ -9,6 +9,7 @@ import {
   DrawerQuestion,
   DrawerQuestionButton,
   DrawerQuestions,
+  OverflowShadow,
   DrawerSubject,
   DrawerSubjects,
   DrawerVericalNav,
@@ -27,16 +28,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: '16px',
   ...theme.mixins.toolbar,
   justifyContent: 'center',
-  background: '#5E2D8C',
+  background: 'var(--light-mode-purple)',
   padding: '16px',
   borderRadius: '12px',
   gap: '4px',
-  color: 'white',
+  color: 'var(--white)',
   margin: '20px',
   fontFamily: 'var(--font-family-ibm_plex_sans)',
   fontSize: 'var(--font-size-xl)',
   fontWeight: '500',
   position: 'relative',
+  cursor: 'pointer'
 }));
 
 function IndepentdentUserSidebar({
@@ -111,23 +113,22 @@ function IndepentdentUserSidebar({
 
         <DrawerQuestions>
           <DrawerQuestion
-            style={{ color: 'white', background: '#793AB5', fontWeight: '500' }}
+            style={{ color: 'white', background: 'var(--royal-purple)', fontWeight: '500' }}
           >
-            {selectedQuestion?.question}
+            {selectedQuestion?.title}
           </DrawerQuestion>
 
           {subjects[selectedSubject]?.map(
             (question, qIndex) =>
-              question.question
+              question.title
                 .toLowerCase()
                 .includes(searchQuery.toLowerCase()) && (
                 <DrawerQuestion
                   key={qIndex}
                   onClick={() => setSelectedQuestion(question)}
                 >
-                  {question.question.length >= 29
-                    ? question.question.slice(0, 29) + "..."
-                    : question.question}
+                  {question.title}
+                  <OverflowShadow></OverflowShadow>
                 </DrawerQuestion>
               )
           )}

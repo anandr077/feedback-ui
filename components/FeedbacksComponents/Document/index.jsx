@@ -6,6 +6,7 @@ import {
   createRequestFeddbackType,
   docsMoveToFolder,
   getSubmissionById,
+  getPortfolioSubjects
 } from '../../../service';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import SnackbarContext from '../../SnackbarContext';
@@ -74,28 +75,35 @@ function Document(props) {
 
   const [open, setOpen] = useState(false);
   const [subjectsList, setSubjectsList] = React.useState([
-    {
-      id: '1',
-      question: 'What is photosynthesis?',
-      subject: 'English',
-      lastseenAtTs: 1630340000,
-    },
-    {
-      id: '2',
-      question: 'Describe the principles of thermodynamics.',
-      subject: 'English',
-      lastseenAtTs: 1630280000,
-    },
-    {
-      id: '3',
-      question: 'Analyze the character development in a novel of your choice.',
-      subject: 'English',
-      lastseenAtTs: 1630288000,
-    }
+    // {
+    //   id: '1',
+    //   question: 'What is photosynthesis?',
+    //   subject: 'English',
+    //   lastseenAtTs: 1630340000,
+    // },
+    // {
+    //   id: '2',
+    //   question: 'Describe the principles of thermodynamics.',
+    //   subject: 'English',
+    //   lastseenAtTs: 1630280000,
+    // },
+    // {
+    //   id: '3',
+    //   question: 'Analyze the character development in a novel of your choice.',
+    //   subject: 'English',
+    //   lastseenAtTs: 1630288000,
+    // }
   ]);
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const drawerWidth = 275;
+
+  useEffect(()=>{
+    Promise.all([getPortfolioSubjects()]).then(([result]) =>{
+      console.log('the studentSubject', result)
+      setSubjectsList(result)
+    })
+  }, [])
 
   const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -122,7 +130,7 @@ function Document(props) {
 
   React.useEffect(() => {
     const groupedData = subjectsList?.reduce((result, item) => {
-      const subject = item.subject;
+      const subject = item.subject ? item.subject : 'English';
 
       if (!result[subject]) {
         result[subject] = [];

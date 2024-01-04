@@ -3,7 +3,9 @@ import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import {
   DrawerBody,
+  DrawerInputBox,
   DrawerInput,
+  SearchIcon,
   DrawerQuestion,
   DrawerQuestionButton,
   DrawerQuestions,
@@ -11,22 +13,29 @@ import {
   DrawerSubjects,
   DrawerVericalNav,
   DrawerVericalNavData,
+  DividerContainer,
+  SubjectTitle,
+  RecentBtn,
+  StyledAccessTimeIcon,
+  StyledMoreVertIcon,
 } from './style';
-const drawerWidth = 275;
+const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(0, 1),
+  padding: '16px',
   ...theme.mixins.toolbar,
   justifyContent: 'center',
-  background: '#7200E0',
+  background: '#5E2D8C',
   padding: '16px',
   borderRadius: '12px',
   gap: '4px',
   color: 'white',
   margin: '20px',
-  fontFamily: 'IBM Plex Sans',
+  fontFamily: 'var(--font-family-ibm_plex_sans)',
+  fontSize: 'var(--font-size-xl)',
+  fontWeight: '500',
   position: 'relative',
 }));
 
@@ -70,27 +79,27 @@ function IndepentdentUserSidebar({
       open={open}
     >
       <DrawerHeader>+ New Draft</DrawerHeader>
-      <Divider />
+      <DividerContainer>
+        <Divider />
+      </DividerContainer>
       <DrawerBody>
-        <DrawerInput
-          placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <p
-          style={{
-            fontSize: '12px',
-            lineHeight: '15.6px',
-            fontWeight: '500',
-          }}
-        >
-          SUBJECTS
-        </p>
+        <DrawerInputBox>
+          <DrawerInput
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <SearchIcon src="img/VectorSearch.png" />
+        </DrawerInputBox>
+        <SubjectTitle>SUBJECTS</SubjectTitle>
         <DrawerSubjects>
+          <RecentBtn>
+            <StyledAccessTimeIcon /> Recent <StyledMoreVertIcon />
+          </RecentBtn>
           {Object.keys(subjects).map((subject, index) => (
             <DrawerSubject
               style={{
-                background: selectedSubject === subject ? '#FFCA0F' : '',
+                background: selectedSubject === subject ? '#FFCA0F' : '#FFEFB5',
               }}
               key={index}
               onClick={() => setSelectedSubject(subject)}
@@ -98,24 +107,12 @@ function IndepentdentUserSidebar({
               {subject} ({subjects[subject].length})
             </DrawerSubject>
           ))}
-          <div
-            style={{
-              padding: '8px 12px',
-              border: '1px solid #DEC7FF',
-              background: '#7200E0',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              color: 'white',
-              fontFamily: 'IBM Plex Sans',
-              height: 'fit-content',
-            }}
-          >
-            + New Subject
-          </div>
         </DrawerSubjects>
 
         <DrawerQuestions>
-          <DrawerQuestion style={{ color: 'white', background: '#7200E0' }}>
+          <DrawerQuestion
+            style={{ color: 'white', background: '#793AB5', fontWeight: '500' }}
+          >
             {selectedQuestion?.question}
           </DrawerQuestion>
 
@@ -128,7 +125,9 @@ function IndepentdentUserSidebar({
                   key={qIndex}
                   onClick={() => setSelectedQuestion(question)}
                 >
-                  {question.question}
+                  {question.question.length >= 29
+                    ? question.question.slice(0, 29) + "..."
+                    : question.question}
                 </DrawerQuestion>
               )
           )}

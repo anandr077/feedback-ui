@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 export const Container = styled.div`
   font-family: IBM Plex Sans;
   display: flex;
@@ -89,24 +92,51 @@ export const DrawerBody = styled.div`
   margin: 20px;
   fontfamily: IBM Plex Sans;
 `;
+
+export const DrawerInputBox = styled.div`
+  position: relative;
+  width: 100%;
+  border: 1px solid #1e252a;
+  border-radius: 8px;
+`;
+
 export const DrawerInput = styled.input`
   &::placeholder {
-    color: #666;
+    color: #979797;
   }
   padding: 9px 12px;
-  width: 100%;
+  width: 92%;
+  border: none;
   border-radius: 8px;
-  border: 1px solid #1e252a;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
   &:focus {
     outline: none;
   }
 `;
+
+export const SearchIcon = styled.img`
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+export const SubjectTitle = styled.p`
+  font-size: 12px;
+  line-height: 15.6px;
+  font-weight: 500;
+  font-family: var(--font-family-ibm_plex_sans);
+  letter-spacing: 1px;
+  color: #6f6f6f;
+`;
+
 export const DrawerSubjects = styled.div`
   display: flex;
-  flex-flow: wrap;
+  width: fit-content;
+  white-space: nowrap;
   gap: 8px;
-  padding: 8px;
-  height: 20vh;
+  max-height: 20vh;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 0;
@@ -114,18 +144,58 @@ export const DrawerSubjects = styled.div`
 `;
 export const DrawerSubject = styled.div`
   padding: 8px 12px;
-  border: 1px solid #dec7ff;
+  border: 1px solid #ffefb5;
   background: linear-gradient(0deg, #dec7ff, #dec7ff);
-  border-radius: 12px;
+  border-radius: 22px;
   cursor: pointer;
   font-family: IBM Plex Sans;
   font-size: 14px;
-  height: fit-content;
+  line-height: 18.2px;
+  color: #434343;
+  font-weight: 500;
   &:hover {
     background: linear-gradient(0deg, #ffefb5, #ffefb5),
       linear-gradient(0deg, #fffae7, #fffae7);
     border: 1px solid #ffefb5;
   }
+`;
+
+export const StyledMoreVertIcon = styled(MoreVertIcon)`
+  font-size: 15px !important;
+  width: 0 !important;
+  transform: scaleX(0) !important;
+  transition: transform 0.3s ease-in !important;
+`;
+
+export const RecentBtn = styled.div`
+  padding: 8px 12px;
+  border: 1px solid #ffefb5;
+  background: #FFF7DA;
+  border-radius: 22px;
+  cursor: pointer;
+  color: white;
+  font-family: IBM Plex Sans;
+  color: #434343;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18.2px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  &:hover{
+    background: #FCEAAA;
+  }
+
+  &:hover ${StyledMoreVertIcon} {
+    width: auto !important;
+    transform: scaleX(1) !important; 
+  }
+`;
+
+export const StyledAccessTimeIcon = styled(AccessTimeIcon)`
+  font-size: 15px !important;
 `;
 
 export const DrawerQuestions = styled.div`
@@ -140,13 +210,18 @@ export const DrawerQuestions = styled.div`
   }
 `;
 export const DrawerQuestion = styled.div`
-  padding: 20px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 20.8px;
+  padding: 16px 20px;
   border-radius: 8px;
   background: #f2f2f2;
+  color: #000000;
   cursor: pointer;
 `;
 export const DrawerQuestionButton = styled.div`
-padding: 8px 16px 8px 16px;
+  padding: 8px 16px 8px 16px;
   border-radius: 30px;
   gap: 4px;
   background: #434343;
@@ -154,8 +229,12 @@ padding: 8px 16px 8px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-l);
+  line-height: 20.8px;
+  color: var(--white);
   cursor: pointer;
-
 `;
 export const DrawerArrowContainer = styled.div`
   height: 100%;
@@ -167,4 +246,8 @@ export const DrawerArrow = styled.div`
   height: 100%;
   cursor: pointer;
   display: flex;
+`;
+
+export const DividerContainer = styled.div`
+  margin: 0 20px;
 `;

@@ -158,7 +158,15 @@ function IndepentdentUserSidebar({
                   fontWeight: '500',
                 }}
               >
-                {selectedQuestion?.title}
+                {selectedQuestion?.title.length >= 2 ? (
+                  <>
+                    {selectedQuestion?.title}
+                    <OverflowShadow blueBackground={true}></OverflowShadow>
+                    <span className="tooltip-text">{selectedQuestion?.title}</span>
+                  </>
+                ) : (
+                  selectedQuestion?.title
+                )}
               </DrawerQuestion>
 
               {subjects[selectedSubject]?.map(
@@ -170,8 +178,15 @@ function IndepentdentUserSidebar({
                       key={qIndex}
                       onClick={() => setSelectedQuestion(question)}
                     >
-                      {question.title}
-                      <OverflowShadow></OverflowShadow>
+                      {question.title.length >= 28 ? (
+                        <>
+                          {question.title}
+                          <OverflowShadow></OverflowShadow>
+                          <span className="tooltip-text">{question.title}</span>
+                        </>
+                      ) : (
+                        question.title
+                      )}
                     </DrawerQuestion>
                   )
               )}

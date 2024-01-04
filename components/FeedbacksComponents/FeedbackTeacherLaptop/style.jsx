@@ -136,17 +136,10 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   width: 100%;
   transition: width 0.3s ease-in;
+  height: ${props => props.mobileView ? '0px' : 'auto'};
+  overflow: hidden;
 `;
 
-// export const Main = styled.div`
-//    width: ${props => props.open ? `calc(100% - ${props.drawerWidth}px)` : '100%'}; 
-//    display: flex;
-//    flex-direction: row;
-//    justify-content: center;
-//    flex-grow: 1;
-//    margin-left: ${props => props.open ?  `${props.drawerWidth}px` : '0px' };
-//    transition: margin-left 0.3s ease-in; 
-// `;
 
 export const DrawerArrowContainer = styled.div`
   height: 100%;

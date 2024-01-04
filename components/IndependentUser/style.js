@@ -170,7 +170,7 @@ export const StyledMoreVertIcon = styled(MoreVertIcon)`
 
 export const RecentBtn = styled.div`
   padding: 8px 12px;
-  border: 1px solid #DEC7FF;
+  border: 1px solid #dec7ff;
   background: var(--blue-chalk-2);
   border-radius: 22px;
   cursor: pointer;
@@ -183,13 +183,13 @@ export const RecentBtn = styled.div`
   align-items: center;
   gap: 2px;
 
-  &:hover{
-    background: #FCEAAA;
+  &:hover {
+    background: #fceaaa;
   }
 
   &:hover ${StyledMoreVertIcon} {
     width: auto !important;
-    transform: scaleX(1) !important; 
+    transform: scaleX(1) !important;
   }
 `;
 
@@ -200,7 +200,7 @@ export const StyledAccessTimeIcon = styled(AccessTimeIcon)`
 export const DrawerQuestions = styled.div`
   display: flex;
   flex-direction: column;
-  height: ${props => `${props.pageHeight}px`};
+  height: ${(props) => `${props.pageHeight}px`};
   gap: 10px !important;
   overflow-y: scroll;
   width: 100%;
@@ -215,14 +215,36 @@ export const DrawerQuestion = styled.div`
   line-height: 20.8px;
   padding: 16px 20px;
   border-radius: 8px;
-  background: #F2F2F2;
+  background: #f2f2f2;
   color: #000000;
   white-space: nowrap;
   position: relative;
   cursor: pointer;
 
-  &:hover{
-    background: #DBD9D9;
+  &:hover {
+    background: #dbd9d9;
+  }
+
+  &:hover .tooltip-text {
+    visibility: visible;
+  }
+
+  .tooltip-text {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px;
+    position: absolute;
+    max-width: 100%;
+    z-index: 100;
+    bottom: 105%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    //white-space: nowrap;
+    font-family: 'IBM Plex Sans', Helvetica;
   }
 `;
 
@@ -230,7 +252,10 @@ export const OverflowShadow = styled.div`
   position: absolute;
   height: 100%;
   width: 40px;
-  background: linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%);
+  background: ${(props) =>
+    props.blueBackground
+      ? 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, var(--royal-purple) 60%, var(--royal-purple) 100%)'
+      : 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%)'};
   border-radius: 0 8px 8px 0;
   top: 50%;
   right: 0;

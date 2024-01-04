@@ -1,7 +1,7 @@
 import React from 'react';
 import DropdownMenu from '../../DropdownMenu';
 import Buttons from '../Buttons';
-import Exemplar from "../ExemplarContainer";
+import Exemplar from '../ExemplarContainer';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesTablet.css';
 import {
@@ -18,8 +18,9 @@ import {
   Frame1426,
   Line17,
   Students,
-  Title
+  Title,
 } from './TeacherClassesTabletStyle.js';
+import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 function TeacherClassesTablet(props) {
   const {
     classes,
@@ -42,13 +43,15 @@ function TeacherClassesTablet(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            {classes.length != 0 && <DropdownMenu
-              menuItems={classes}
-              onItemSelected={(item) => {
-                setClassId(item.id);
-              }}
-              selectedIndex={selectedClassIndex}
-            ></DropdownMenu>}
+            {classes.length != 0 && (
+              <StyledDropDown
+                menuItems={classes}
+                onItemSelected={(item) => {
+                  setClassId(item?.id);
+                }}
+                selectedIndex={selectedClassIndex}
+              />
+            )}
           </Frame1306>
           <Frame1426>
             <Buttons link="#tasks/new" />
@@ -63,12 +66,10 @@ function TeacherClassesTablet(props) {
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
-            <Frame1341>
-              {annotationAnalyticsFrame}
-            </Frame1341>
-            <Exemplar 
-                modelResponses={modelResponses}
-                setPublishActionCompleted={setPublishActionCompleted}
+            <Frame1341>{annotationAnalyticsFrame}</Frame1341>
+            <Exemplar
+              modelResponses={modelResponses}
+              setPublishActionCompleted={setPublishActionCompleted}
             />
           </Frame1416>
         </Frame1417>

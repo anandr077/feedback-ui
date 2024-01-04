@@ -74,26 +74,7 @@ function Document(props) {
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
 
   const [open, setOpen] = useState(false);
-  const [subjectsList, setSubjectsList] = React.useState([
-    // {
-    //   id: '1',
-    //   question: 'What is photosynthesis?',
-    //   subject: 'English',
-    //   lastseenAtTs: 1630340000,
-    // },
-    // {
-    //   id: '2',
-    //   question: 'Describe the principles of thermodynamics.',
-    //   subject: 'English',
-    //   lastseenAtTs: 1630280000,
-    // },
-    // {
-    //   id: '3',
-    //   question: 'Analyze the character development in a novel of your choice.',
-    //   subject: 'English',
-    //   lastseenAtTs: 1630288000,
-    // }
-  ]);
+  const [subjectsList, setSubjectsList] = React.useState([]);
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const drawerWidth = 275;

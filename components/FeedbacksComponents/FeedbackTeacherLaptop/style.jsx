@@ -144,15 +144,17 @@ export const Frame1388 = styled.div`
 export const DrawerArrowContainer = styled.div`
   height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const DrawerArrow = styled.div`
-  height: 100%;
   cursor: pointer;
+  height: fit-content;
+  margin-top: 40vh;
   display: flex;
-  align-items: center;
+  padding: 6px 2px;
+  border-radius: 5px;
+  border: 1px solid var(--blue-chalk-2);
+  background-color: var(--white);
 `;
 
 export const ArrowImg = styled.img`

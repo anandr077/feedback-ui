@@ -98,7 +98,7 @@ function Document(props) {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      marginLeft: `-${drawerWidth}px`,
+      marginLeft: `-${drawerWidth + 35}px`,
       ...(open && {
         transition: theme.transitions.create('margin', {
           easing: theme.transitions.easing.easeOut,
@@ -184,7 +184,6 @@ function Document(props) {
               selectedSubject={selectedSubject}
             />
             <DrawerArrow
-              style={{ alignItems: 'center' }}
               onClick={handleDrawer}
             >
               <ArrowImg src="img/caret-5@2x.png" open={open}/>

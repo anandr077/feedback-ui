@@ -63,6 +63,17 @@ export const TitleContainer = styled.div`
     align-items: flex-start;
     gap: 16px;
   }
+
+  a {
+    text-decoration: none;
+  }
+`;
+
+export const ConnectContainer = styled.div`
+  padding: 8px 16px 8px 16px;
+  border-radius: 24px;
+
+  border: 1px solid #7200e0;
 `;
 
 export const FilterContainer = styled.div`
@@ -87,7 +98,7 @@ export const Title = styled.h1`
   display: flex;
   gap: 8px;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   color: var(--Dark-Purple, #25222a);
   font-family: IBM Plex Sans;
   font-size: 36px;
@@ -102,7 +113,7 @@ export const Title = styled.h1`
 `;
 
 export const TitleImage = styled.img`
-  padding: 4px 2px 2px 2px;
+  padding: 2px 2px 2px 2px;
   align-items: center;
   gap: 10px;
   width: 24px;

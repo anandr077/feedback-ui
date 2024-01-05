@@ -31,6 +31,7 @@ import {
   Frame1333,
   Frame1333Para,
   Frame1333Star,
+  ConnectContainer,
 } from './style';
 import Group1205 from '../TeacherDashboard/Group1205';
 
@@ -46,12 +47,13 @@ function FeedbackHistory() {
                   Feedback History
                   <TitleImage src="/icons/question-mark.png" />
                 </Title>
-
-                <Group1205
-                  link={`#giveFeedback`}
-                  label="Go Back"
-                  arrowleft={'/img/arrowleft.png'}
-                />
+                <ConnectContainer>
+                  <Group1205
+                    link={`#giveFeedback`}
+                    label="Go Back"
+                    arrowleft={'/img/arrowleft.png'}
+                  />
+                </ConnectContainer>
               </TitleContainer>
               <HeadingLine>
                 Feedback requests received from community members

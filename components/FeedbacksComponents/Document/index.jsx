@@ -6,7 +6,7 @@ import {
   createRequestFeddbackType,
   docsMoveToFolder,
   getSubmissionById,
-  getPortfolioSubjects
+  getPortfolioSubjects,
 } from '../../../service';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import SnackbarContext from '../../SnackbarContext';
@@ -24,7 +24,8 @@ import {
   Frame1388,
   DrawerArrowContainer,
   DrawerArrow,
-  ArrowImg
+  ArrowImg,
+  Main,
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import { sub } from 'date-fns';
@@ -79,35 +80,12 @@ function Document(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const drawerWidth = 275;
 
-  useEffect(()=>{
-    Promise.all([getPortfolioSubjects()]).then(([result]) =>{
-      console.log('the studentSubject', result)
-      setSubjectsList(result)
-    })
-  }, [])
-
-  const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-      width: open ? `calc(100% - ${drawerWidth}px)` : '100%',
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: `-${drawerWidth + 35}px`,
-      ...(open && {
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-      }),
-    })
-  );
+  useEffect(() => {
+    Promise.all([getPortfolioSubjects()]).then(([result]) => {
+      console.log('the studentSubject', result);
+      setSubjectsList(result);
+    });
+  }, []);
 
   React.useEffect(() => {
     const groupedData = subjectsList?.reduce((result, item) => {
@@ -172,11 +150,8 @@ function Document(props) {
         className="feedback-teacher-laptop screen"
         style={{ minWidth: 'unset' }}
       >
-        <Main open={open} style={{
-              padding: '0px',
-              height: '100%',
-            }}>
-          <DrawerArrowContainer>
+        <Main drawerWidth={drawerWidth} open={open}>
+          <DrawerArrowContainer open={open}>
             <IndepentdentUserSidebar
               open={open}
               subjects={groupedAndSortedData}
@@ -185,8 +160,10 @@ function Document(props) {
             />
             <DrawerArrow
               onClick={handleDrawer}
+              drawerWidth={drawerWidth}
+              open={open}
             >
-              <ArrowImg src="img/caret-5@2x.png" open={open}/>
+              <ArrowImg src="img/caret-5@2x.png" open={open} />
             </DrawerArrow>
           </DrawerArrowContainer>
           <Frame1388 open={open} drawerWidth={drawerWidth}>

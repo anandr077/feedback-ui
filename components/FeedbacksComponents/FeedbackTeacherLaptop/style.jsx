@@ -126,6 +126,18 @@ export const Frame131612 = styled.div`
   display: flex;
 `;
 
+export const Main = styled.div`
+  transform: translateX(
+    ${(props) => (props.open ? `${props.drawerWidth}px` : '0px')}
+  );
+  height: 100%;
+  display: flex;
+  overflow-x: hidden;
+  width: 100%;
+  margin-left: ${(props) =>
+    props.open ? `-${props.drawerWidth + 35}px` : '0px'};
+`;
+
 export const Frame1388 = styled.div`
   display: flex;
   flex-direction: column;
@@ -136,20 +148,22 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   width: 100%;
   transition: width 0.3s ease-in;
-  height: ${props => props.mobileView ? '0px' : 'auto'};
+  height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   overflow: hidden;
 `;
-
 
 export const DrawerArrowContainer = styled.div`
   height: 100%;
   display: flex;
+  padding-left: ${(props) => (props.open ? '30px' : '0px')};
 `;
 
 export const DrawerArrow = styled.div`
   cursor: pointer;
   height: fit-content;
   margin-top: 40vh;
+  margin-left: ${(props) =>
+    props.open ? '0px' : `-${props.drawerWidth + 35}px`};
   display: flex;
   padding: 6px 2px;
   border-radius: 5px;
@@ -159,7 +173,8 @@ export const DrawerArrow = styled.div`
 
 export const ArrowImg = styled.img`
   width: 25px;
-  transform: ${props => props.open ? '' : 'rotate(180deg)'};
+  transform: ${(props) => (props.open ? '' : 'rotate(180deg)')};
+  transition: transform 0.3s ease-in;
 `;
 
 export const Frame1387 = styled.div`

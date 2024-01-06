@@ -135,6 +135,7 @@ export const SubjectTitle = styled.p`
 export const DrawerSubjects = styled.div`
   display: flex;
   width: fit-content;
+  flex-wrap: wrap;
   white-space: nowrap;
   gap: 8px;
   max-height: 20vh;

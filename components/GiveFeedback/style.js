@@ -128,7 +128,7 @@ export const ContentContainer = styled.div`
 export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 100%;
   border-radius: 8px;
   border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
   background: #fff;
@@ -152,7 +152,7 @@ export const RightContentContainer = styled.div`
     width: 100%;
   }
 `;
-export const CardContainer = styled.div`
+export const CardContainer1 = styled.div`
   display: flex;
   padding: 20px 16px;
   align-items: center;
@@ -162,13 +162,57 @@ export const CardContainer = styled.div`
   border-bottom: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
 `;
-export const TextContainer = styled.div`
+export const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px 20px 16px;
+  border: 0px 0px 1px 0px;
+  gap: 16px;
+  border-bottom: 1px solid #d6d6d6;
+`;
+export const TextContainer1 = styled.div`
   color: var(--Text, #1e252a);
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+`;
+export const TextContainer = styled.div`
+  color: var(--Text, #1e252a);
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+
+export const ParaContainer = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+
+export const Frame1333 = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+export const Frame1333Para = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+export const Frame1333Star = styled.img`
+  width: 18px;
+  height: 18px;
 `;
 export const IconsContainer = styled.div`
   display: flex;

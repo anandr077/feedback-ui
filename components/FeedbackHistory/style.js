@@ -298,3 +298,4 @@ export const Frame5112para = styled.p`
   font-weight: 400;
   line-height: normal;
 `;
+

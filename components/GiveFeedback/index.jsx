@@ -34,8 +34,21 @@ import {
   ConnectContainer,
 } from './style';
 import Group1205 from '../TeacherDashboard/Group1205';
+import FeedbackDataComponent from './FeedbackDataComponent';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 
 function GiveFeedback() {
+  const [feedbackData, setFeedbackData] = React.useState([
+    'What is the moral of the short story The Monkey’s Paw?',
+    'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
+    'Jorem ipsum dolor sit amet, consectetur adipiscing elit?',
+    'Borem ipsum dolor sit amet, consectetur adipiscing elit?',
+    'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
+  ]);
+  const [showHistory, setShowHistory] = React.useState(false);
+  const location = useLocation();
+  const pathName = location.pathname;
+  
   return (
     <>
       <MainContainer>
@@ -44,15 +57,26 @@ function GiveFeedback() {
             <TopContainer>
               <TitleContainer>
                 <Title>
-                  Give Feedback
+                  
+                  {pathName.includes('/feedbackHistory')
+                    ? 'Feedback History'
+                    : 'Give Feedback'}
                   <TitleImage src="/icons/question-mark.png" />
                 </Title>
                 <ConnectContainer>
-                  <Group1205
-                    link={`#feedbackHistory`}
-                    label="Feedback History"
-                    arrowright={'/img/arrowright@2x.png'}
-                  />
+                  {pathName.includes('/feedbackHistory') ? (
+                    <Group1205
+                      link={`#giveFeedback`}
+                      label="Go Back"
+                      arrowleft={'/img/arrowleft.png'}
+                    />
+                  ) : (
+                    <Group1205
+                      link={`#feedbackHistory`}
+                      label="Feedback History"
+                      arrowright={'/img/arrowright@2x.png'}
+                    />
+                  )}
                 </ConnectContainer>
               </TitleContainer>
               <HeadingLine>
@@ -63,27 +87,10 @@ function GiveFeedback() {
           </HeadingAndFilterCon>
           <ContentContainer>
             <LeftContentContainer>
-              {[
-                'What is the moral of the short story The Monkey’s Paw?',
-                'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
-                'Jorem ipsum dolor sit amet, consectetur adipiscing elit?',
-                'Borem ipsum dolor sit amet, consectetur adipiscing elit?',
-                'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
-              ].map((text, index) => (
-                <CardContainer>
-                  <TextContainer>{text}</TextContainer>
-                  <IconsContainer>
-                    <IconContainer>
-                      <CorrectIcon src="/icons/correct.svg" alt="" />
-                    </IconContainer>
-                    <IconContainer>
-                      <CrossIcon src="/icons/wrong.svg" alt="" />
-                    </IconContainer>
-                  </IconsContainer>
-                </CardContainer>
-              ))}
+              <FeedbackDataComponent feedbackData={feedbackData} pathName={pathName} />
+             
             </LeftContentContainer>
-            <RightContentContainer>
+            {/* <RightContentContainer>
               <Frame5111>
                 <Frame1353>
                   <Frame5087 src="/icons/levelIcon.png" />
@@ -107,7 +114,7 @@ function GiveFeedback() {
                   </Frame5112para>
                 </Frame5112>
               </Frame5114>
-            </RightContentContainer>
+            </RightContentContainer> */}
           </ContentContainer>
         </InnerContainer>
       </MainContainer>

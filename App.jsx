@@ -99,7 +99,8 @@ function App() {
               <ProtectedGiveFeedback />
             </Route>
             <Route path="/feedbackHistory">
-              <ProtectedFeedbackHistory />
+              {/* <ProtectedFeedbackHistory /> */}
+              <ProtectedGiveFeedback />
             </Route>
             <Route path="/classes/:classIdFromUrl?">
               <ProtectedTeacherClassesRoot />

@@ -554,3 +554,12 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     courseId,
     title,
   });
+export const askJeddAI = async (submissionId, cleanAnswer) =>
+  await postApi(baseUrl + '/submissions/' + submissionId + "/jeddAIFeedback", 
+  {
+    "state": "NSW",
+    "year": "8",
+    "subject": "English",
+    "type": "Short",
+    "cleanAnswer":cleanAnswer
+  });

@@ -22,6 +22,7 @@ import {
 } from './TeacherClassesLaptopStyle';
 
 import Exemplar from '../ExemplarContainer';
+import StyledDropDown from '../../../components2/StyledDropDown';
 function TeacherClassesLaptop(props) {
   const {
     classes,
@@ -42,13 +43,13 @@ function TeacherClassesLaptop(props) {
         <Frame14221>
           <Frame1306>
             {classes.length != 0 && (
-              <DropdownMenu
+              <StyledDropDown
                 menuItems={classes}
                 onItemSelected={(item) => {
-                  setClassId(item.id);
+                  setClassId(item?.id);
                 }}
                 selectedIndex={selectedClassIndex}
-              ></DropdownMenu>
+              />
             )}
           </Frame1306>
           <Frame1426>

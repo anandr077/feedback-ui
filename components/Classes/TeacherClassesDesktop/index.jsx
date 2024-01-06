@@ -1,7 +1,7 @@
 import { default as React, default as React } from 'react';
 import DropdownMenu from '../../DropdownMenu';
 import Buttons from '../Buttons';
-import Exemplar from "../ExemplarContainer/index.jsx";
+import Exemplar from '../ExemplarContainer/index.jsx';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesDesktop.css';
 import {
@@ -17,8 +17,9 @@ import {
   Frame1426,
   Line17,
   Students,
-  Title
+  Title,
 } from './TeacherClassesDesktopStyle.js';
+import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 
 function TeacherClassesDesktop(props) {
   const {
@@ -51,13 +52,13 @@ function TeacherClassesDesktop(props) {
         <Frame14221>
           <Frame1306>
             {classes.length != 0 && (
-              <DropdownMenu
+              <StyledDropDown
                 menuItems={classes}
                 onItemSelected={(item) => {
                   setClassId(item?.id);
                 }}
                 selectedIndex={selectedClassIndex}
-              ></DropdownMenu>
+              />
             )}
           </Frame1306>
           <Frame1426>
@@ -73,9 +74,9 @@ function TeacherClassesDesktop(props) {
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
 
-          <Frame1416>            
+          <Frame1416>
             {annotationAnalyticsFrame}
-            <Exemplar 
+            <Exemplar
               modelResponses={modelResponses}
               setPublishActionCompleted={setPublishActionCompleted}
             />

@@ -22,6 +22,8 @@ import {
   Frame1388,
   Screen2,
 } from './style';
+import { isMobileView } from '../../ReactiveRender';
+import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -43,8 +45,9 @@ function FeedbackTeacherLaptop(props) {
     share,
     sharewithclassdialog,
     overallComments,
-    selectedRange
+    selectedRange,
   } = props;
+  const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
@@ -57,7 +60,7 @@ function FeedbackTeacherLaptop(props) {
       handleTabUpdate(pageMode, setFeedback, setFocusAreas);
     }
   }, [showNewComment]);
-  
+
   const [isShowResolved, setShowResolved] = useState(false);
 
   const commentsForSelectedTab = selectTabComments(
@@ -67,28 +70,34 @@ function FeedbackTeacherLaptop(props) {
     groupedFocusAreaIds
   );
   const commentsDependencyString = React.useMemo(() => {
-    return commentsForSelectedTab.map(c => `${c.id}:${c.isHidden}`).join(",");
+    return commentsForSelectedTab.map((c) => `${c.id}:${c.isHidden}`).join(',');
   }, [commentsForSelectedTab]);
   React.useEffect(() => {
-    quillRefs.current.forEach(function(quillRef, index, array) {
-      const currentTabComments = commentsForSelectedTab.filter((comment) => comment.questionSerialNumber === index + 1 )
+    quillRefs.current.forEach(function (quillRef, index, array) {
+      const currentTabComments = commentsForSelectedTab.filter(
+        (comment) => comment.questionSerialNumber === index + 1
+      );
       if (quillRef) quillRef.redrawHighlights(currentTabComments);
     });
   }, [commentsDependencyString]);
- 
+
   React.useEffect(() => {
     const quillRef = quillRefs.current[newCommentSerialNumber - 1];
     if (showNewComment === undefined || quillRef === null) {
       return;
     }
-    console.log("showNewComment", showNewComment)
+    console.log('showNewComment', showNewComment);
     if (showNewComment) {
-      quillRef?.setLostFocusColor({index:selectedRange.from, length:selectedRange.to - selectedRange.from});
+      quillRef?.setLostFocusColor({
+        index: selectedRange.from,
+        length: selectedRange.to - selectedRange.from,
+      });
     } else {
-      const currentTabComments = commentsForSelectedTab.filter((comment) => comment.questionSerialNumber === newCommentSerialNumber )
+      const currentTabComments = commentsForSelectedTab.filter(
+        (comment) => comment.questionSerialNumber === newCommentSerialNumber
+      );
       quillRef?.redrawHighlights(currentTabComments);
     }
-
   }, [showNewComment]);
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
@@ -113,10 +122,12 @@ function FeedbackTeacherLaptop(props) {
     <>
       {loader(showLoader)}
       <div className="feedback-teacher-laptop screen">
+        {isMobile && <WelcomeOverlayMobile />}
         {sharewithclassdialog}
-        <Frame1388>
+        <Frame1388 mobileView={isMobile}>
           {breadcrumbs(submission)}
           {answersAndFeedbacks(
+            isMobile,
             submission,
             methods,
             isTeacher,
@@ -141,7 +152,6 @@ function FeedbackTeacherLaptop(props) {
             share,
             smartAnnotations,
             overallComments
-
           )}
         </Frame1388>
       </div>
@@ -172,14 +182,14 @@ const selectTabComments = (
       if (comment.type === 'FOCUS_AREA') {
         return { ...comment, isHidden: true };
       }
-      return { ...comment, isHidden: false };;
+      return { ...comment, isHidden: false };
     });
   }
   return comments.map((comment) => {
     if (comment.type === 'FOCUS_AREA' || comment.status === 'RESOLVED') {
       return { ...comment, isHidden: true };
     }
-    return  { ...comment, isHidden: false };;
+    return { ...comment, isHidden: false };
   });
 };
 function loader(showLoader) {
@@ -226,8 +236,8 @@ function createGroupedFocusAreas(submission) {
   return grouped;
 }
 
-
 function answersAndFeedbacks(
+  isMobile,
   submission,
   methods,
   isTeacher,
@@ -255,12 +265,7 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {contextBar(
-        submission, 
-        methods, 
-        isTeacher, 
-        pageMode, 
-        labelText)}
+      {contextBar(submission, methods, isTeacher, pageMode, labelText)}
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,
@@ -275,30 +280,31 @@ function answersAndFeedbacks(
           methods
         )}
 
-        {!isMobileView() && <FeedbackFrame
-          methods={methods}
-          submission={submission}
-          newCommentSerialNumber={newCommentSerialNumber}
-          commentsForSelectedTab={commentsForSelectedTab}
-          setShowResolved={setShowResolved}
-          showNewComment={showNewComment}
-          isShowResolved={isShowResolved}
-          setFeedback={setFeedback}
-          isFeedback={isFeedback}
-          isFocusAreas={isFocusAreas}
-          setFocusAreas={setFocusAreas}
-          isTeacher={isTeacher}
-          comments={comments}
-          pageMode={pageMode}
-          newCommentFrameRef={newCommentFrameRef}
-          share={share}
-          smartAnnotations={smartAnnotations}
-        ></FeedbackFrame>}
+        {!isMobile && (
+          <FeedbackFrame
+            methods={methods}
+            submission={submission}
+            newCommentSerialNumber={newCommentSerialNumber}
+            commentsForSelectedTab={commentsForSelectedTab}
+            setShowResolved={setShowResolved}
+            showNewComment={showNewComment}
+            isShowResolved={isShowResolved}
+            setFeedback={setFeedback}
+            isFeedback={isFeedback}
+            isFocusAreas={isFocusAreas}
+            setFocusAreas={setFocusAreas}
+            isTeacher={isTeacher}
+            comments={comments}
+            pageMode={pageMode}
+            newCommentFrameRef={newCommentFrameRef}
+            share={share}
+            smartAnnotations={smartAnnotations}
+          ></FeedbackFrame>
+        )}
       </Frame1368>
     </Frame1386>
   );
 }
-
 
 function breadcrumbs(submission) {
   return (

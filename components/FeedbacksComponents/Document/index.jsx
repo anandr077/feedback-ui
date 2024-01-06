@@ -23,6 +23,8 @@ import {
 } from '../FeedbackTeacherLaptop/style';
 import DocumentFeedbackFrame from './DocumentFeedbackFrame';
 import { sub } from 'date-fns';
+import { isMobileView } from '../../ReactiveRender';
+import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -67,6 +69,7 @@ function Document(props) {
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
 
   const commentsForSelectedTab = selectTabComments(isShowResolved, comments);
+  const mobileView = isMobileView()
 
   const handleOutsideClick = (event) => {
     setShowSelectType(false);
@@ -103,7 +106,8 @@ function Document(props) {
         className="feedback-teacher-laptop screen"
         style={{ minWidth: 'unset' }}
       >
-        <Frame1388>
+        {mobileView && <WelcomeOverlayMobile />}
+        <Frame1388 mobileView={mobileView}>
           {breadcrumbs(pageMode, submission, allFolders)}
           {answersAndFeedbacks(
             isShowSelectType,

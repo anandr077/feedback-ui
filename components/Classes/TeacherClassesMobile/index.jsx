@@ -16,12 +16,13 @@ import {
   Frame14221,
   Line17,
   Students,
-  Title
+  Title,
 } from './TeacherClassesMobileStyle.js';
 
-import React from "react";
-import Exemplar from "../ExemplarContainer";
-import "./TeacherClassesMobile.css";
+import React from 'react';
+import Exemplar from '../ExemplarContainer';
+import './TeacherClassesMobile.css';
+import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 function TeacherClassesMobile(props) {
   const {
     classes,
@@ -45,14 +46,15 @@ function TeacherClassesMobile(props) {
         </Frame1312>
         <Frame14221>
           <Frame1306>
-            {classes.length != 0 && <DropdownMenu
-              menuItems={classes}
-              onItemSelected={(item) => {
-                setClassId(item.id);
-              }}
-              selectedIndex={selectedClassIndex}
-              small={true}
-            ></DropdownMenu>}
+            {classes.length != 0 && (
+              <StyledDropDown
+                menuItems={classes}
+                onItemSelected={(item) => {
+                  setClassId(item?.id);
+                }}
+                selectedIndex={selectedClassIndex}
+              />
+            )}
           </Frame1306>
 
           <Buttons className={buttonsProps.className} link="#tasks/new" />
@@ -66,10 +68,8 @@ function TeacherClassesMobile(props) {
             <Frame1336>{createStudentsFrames(students)}</Frame1336>
           </Frame1339>
           <Frame1416>
-            <Frame1341>
-            {annotationAnalyticsFrame}
-            </Frame1341>
-            <Exemplar 
+            <Frame1341>{annotationAnalyticsFrame}</Frame1341>
+            <Exemplar
               modelResponses={modelResponses}
               setPublishActionCompleted={setPublishActionCompleted}
             />

@@ -313,26 +313,30 @@ const submitButtonDocument = (
   console.log('pageMode', pageMode)
   if (pageMode === 'DRAFT') {
     return (
-      <div style={{ position: 'relative' }}>
-        {
-          <>
-            {selectReviewType(
-              feedbackMethodType,
-              isShowSelectType,
-              handleRequestFeedback
-            )}
-            <RequestFeedbackFrame
-              onClick={(event) => {
-                event.stopPropagation();
-                setShowSelectType(!isShowSelectType);
-              }}
-            >
-              {<img src="/img/messages.svg" alt="message" />}
-              Request Feedback
-            </RequestFeedbackFrame>
-          </>
-        }
-      </div>
+      <Buttons2
+          button="JeddAI"
+          onClickFn={() => methods.jeddAI()}
+      ></Buttons2>
+      // <div style={{ position: 'relative' }}>
+      //   {
+      //     <>
+      //       {/* {selectReviewType(
+      //         feedbackMethodType,
+      //         isShowSelectType,
+      //         handleRequestFeedback
+      //       )} */}
+      //       <RequestFeedbackFrame
+      //         onClick={(event) => {
+      //           event.stopPropagation();
+      //           setShowSelectType(!isShowSelectType);
+      //         }}
+      //       >
+      //         {<img src="/img/messages.svg" alt="message" />}
+      //         Request Feedback
+      //       </RequestFeedbackFrame>
+      //     </>
+      //   }
+      // </div>
     );
   }
 

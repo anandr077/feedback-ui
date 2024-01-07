@@ -139,6 +139,8 @@ export const Frame1388 = styled.div`
   position: relative;
   align-self: stretch;
   margin-bottom: 50px;
+  height: ${props => props.mobileView ? '0px' : 'auto'};
+  overflow: hidden;
 `;
 export const Frame1387 = styled.div`
   display: flex;

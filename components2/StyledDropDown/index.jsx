@@ -4,13 +4,14 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Input } from '@mui/material';
 import { Avatar } from '@boringer-avatars/react';
-import { AvatarContainer } from './style';
+import { AvatarContainer, Frame12841 } from './style';
 
 export default function StyledDropDown({
   menuItems,
   showAvatars = false,
   search = false,
   group = false,
+  showImage = false,
   selectedIndex,
   fullWidth = false,
   onItemSelected
@@ -32,6 +33,10 @@ export default function StyledDropDown({
     if (menuItem.link) {
       window.location.href = menuItem.link;
       window.location.reload();
+      return;
+    }
+    if (menuItem.onClick) {
+      menuItem.onClick(menuItem);
       return;
     }
     if (onItemSelected) {
@@ -65,6 +70,14 @@ export default function StyledDropDown({
           boxShadow: '0px 4px 8px #2f1a720a',
           backgroundColor: 'white',
           borderRadius: '10px',
+          fontSize: '14px',
+        }}
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              padding: '5px',
+            },
+          },
           fontWeight: '400',
           fontSize: '14px',
         }}
@@ -85,6 +98,7 @@ export default function StyledDropDown({
                 square={false}
               />
             )}
+            {showImage && createImageFrame(value)}
             <span>{value.title}</span>
           </AvatarContainer>
         )}
@@ -138,6 +152,7 @@ export default function StyledDropDown({
                     square={false}
                   />
                 )}
+                {showImage && createImageFrame(menuItem)}
                 {menuItem.title}
               </MenuItem>
             ))}
@@ -147,6 +162,7 @@ export default function StyledDropDown({
     </FormControl>
   );
 }
+
 
 const groupItemsByFirstLetter = (items) => {
   return items.reduce((groupedItems, currentItem) => {
@@ -166,3 +182,9 @@ const groupItemsByFirstLetter = (items) => {
     return groupedItems;
   }, {});
 };
+
+function createImageFrame(selectedItem) {
+  if (selectedItem?.image) {
+    return <Frame12841 src={selectedItem.image} alt="Frame 1284" />;
+  }
+}

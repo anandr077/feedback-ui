@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import Cookies from 'js-cookie';
 import ProfileDropDownElement from '../ProfileDropDownElement';
 import './ProfileDropdown.css';
 import styled from 'styled-components';
@@ -6,7 +7,6 @@ import { account, changePassword, logout, getUserRole } from '../../../service';
 import { useQueryClient } from '@tanstack/react-query';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import 'react-edit-text/dist/index.css';
-import { getStateYear } from '../../../service';
 import { OnboardingContext } from '../../../components2/Onboard/OnboardingProvider';
 
 function ProfileDropdown() {
@@ -17,10 +17,16 @@ function ProfileDropdown() {
   const { setEditStateYear } = useContext(OnboardingContext);
 
   useEffect(() => {
-    Promise.all([getStateYear()]).then(([profile]) => {
-      setState(profile.state);
-      setYear(profile.year);
-    });
+    const cookieState = Cookies.get('state');
+    const cookieYear = Cookies.get('year');
+
+    if (cookieState) {
+      setState(cookieState);
+    }
+
+    if (cookieYear) {
+      setYear(cookieYear);
+    }
   }, []);
 
 

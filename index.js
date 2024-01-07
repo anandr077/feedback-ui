@@ -7,10 +7,10 @@ import { SnackbarProvider } from './components/SnackbarContext'; // Make sure yo
 import OnboardingProvider from './components2/Onboard/OnboardingProvider';
 
 ReactDOM.render(
-  <OnboardingProvider>
-    <SnackbarProvider>
+  <SnackbarProvider>
+    <OnboardingProvider>
       <App />
-    </SnackbarProvider>
-  </OnboardingProvider>,
+    </OnboardingProvider>
+  </SnackbarProvider>,
   document.getElementById('app')
 );

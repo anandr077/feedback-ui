@@ -12,7 +12,6 @@ const OnboardingProvider = ({ children }) => {
 
   useEffect(() => {
     Promise.all([getStateYear()]).then(([profile]) => {
-      console.log('the state year is', profile);
       if (!profile.state || !profile.year) {
         setShowStateYear(true);
       }

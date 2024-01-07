@@ -204,11 +204,11 @@ export const setProfileCookies = (profile) => {
   localStorage.setItem('jwtToken', profile.token);
   const expiry = 30 * 24 * 60 * 60;
 
-  document.cookie =
-    'user.name=' + profile.name + '; max-age=' + expiry * +'; path=/';
-  document.cookie =
-    'userId=' + profile.userId + '; max-age=' + expiry + '; path=/';
-  document.cookie = 'role=' + profile.role + '; max-age=' + expiry + '; path=/';
+  Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
+  Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
+  Cookies.set('role', profile.role, { expires: expiry, path: '/' });
+  Cookies.set('state', profile.state, { expires: expiry, path: '/' });
+  Cookies.set('year', profile.year, { expires: expiry, path: '/' });
 };
 
 export const deleteProfileCookies = () => {

@@ -13,10 +13,3 @@ export const Screen = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-export const FooterContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`;

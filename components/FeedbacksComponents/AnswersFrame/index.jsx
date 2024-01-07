@@ -190,7 +190,6 @@ const answerFrames = (
     const overallComment = overallComments.find((feedback)=>{
         return feedback.questionSerialNumber === question.serialNumber
     })
-    console.log("overallComment", overallComment)
     return (
       <>
         <Frame1366>

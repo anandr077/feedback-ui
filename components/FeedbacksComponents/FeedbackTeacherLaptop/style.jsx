@@ -134,7 +134,7 @@ export const Frame1388 = styled.div`
   position: relative;
   align-self: stretch;
   margin-bottom: 50px;
-  height: ${props => props.mobileView ? '0px' : 'auto'};
+  height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   overflow: hidden;
 `;
 export const Frame1387 = styled.div`
@@ -223,28 +223,28 @@ export const Frame1367 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
-  padding: 30px 0px;
-  background-color: var(--white);
-  border-radius: 26px;
-  box-shadow: 0px 4px 22px #2f1a720a;
 `;
 export const Frame1366 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
-  padding: 0px 60px;
+  gap: 32px;
   position: relative;
   align-self: stretch;
 `;
 export const QuestionText = styled.p`
-  ${feedbacksIbmplexsansMediumPersianIndigo20px}
-  font-size: 20px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
   position: relative;
   align-self: stretch;
-  margin-top: -1px;
   letter-spacing: 0;
-  line-height: normal;
+  line-height: 26px;
+  width: 100%;
+  padding: 20px 30px;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
 `;
 export const QuillContainer = styled.p`
   ${feedbacksIbmplexsansNormalShark20px}

@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { cancelFeedbackRequest, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
+import Button5 from '../Buttons5';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -47,7 +48,11 @@ export function contextBar(
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
-        <AssignmentTitle dangerouslySetInnerHTML={{__html: linkify(submission.assignment.title)}}/>
+        <AssignmentTitle
+          dangerouslySetInnerHTML={{
+            __html: linkify(submission.assignment.title),
+          }}
+        />
         {statusText(methods, focusAreasCount, submission)}
       </TitleWrapper>
       {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
@@ -57,7 +62,7 @@ export function contextBar(
         submission,
         methods
       )}
-      {tasksListsDropDown(isTeacher, methods)}
+      {/* {tasksListsDropDown(isTeacher, methods)} */}
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
@@ -105,12 +110,13 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     if (isTeacher) {
       return (
         <ButtonsContainer>
-          <Buttons2
-            button="Request resubmission"
+          <Button5
+            button="Request Re-submission"
+            icon={'img/refresh-circle.png'}
             onClickFn={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
             }
-          ></Buttons2>
+          ></Button5>
           <Buttons2
             button="Submit"
             onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
@@ -220,7 +226,11 @@ export function contextBarForPortfolioDocument(
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
-        <AssignmentTitle dangerouslySetInnerHTML={{__html: linkify(submission?.assignment?.title)}}/>
+        <AssignmentTitle
+          dangerouslySetInnerHTML={{
+            __html: linkify(submission?.assignment?.title),
+          }}
+        />
         {showStatusText && statusText(methods, 0, submission)}
 
         {changeFolderDropDown()}
@@ -310,13 +320,10 @@ const submitButtonDocument = (
   showFeedbackButtons,
   setShowFeedbackButtons
 ) => {
-  console.log('pageMode', pageMode)
+  console.log('pageMode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
-      <Buttons2
-          button="JeddAI"
-          onClickFn={() => methods.jeddAI()}
-      ></Buttons2>
+      <Buttons2 button="JeddAI" onClickFn={() => methods.jeddAI()}></Buttons2>
       // <div style={{ position: 'relative' }}>
       //   {
       //     <>
@@ -361,9 +368,15 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
+        {getStatusLabel(
+          pageMode,
+          submission,
+          allClasses,
+          setShowFeedbackButtons,
+          showFeedbackButtons
+        )}
       </RequestFeedbackFrame>
-    )
+    );
   }
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return (
@@ -376,8 +389,20 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
-        {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
+        {getStatusLabel(
+          pageMode,
+          submission,
+          allClasses,
+          setShowFeedbackButtons,
+          showFeedbackButtons
+        )}
+        {showFeedbackButtons &&
+          dropdownButtons(
+            setShowFeedbackButtons,
+            showSnackbar,
+            submission,
+            setSubmission
+          )}
       </RequestFeedbackFrame>
     );
   }
@@ -392,28 +417,50 @@ const submitButtonDocument = (
         }}
       >
         {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons)}
-        {showFeedbackButtons && dropdownButtons(setShowFeedbackButtons, showSnackbar, submission, setSubmission)}
+        {getStatusLabel(
+          pageMode,
+          submission,
+          allClasses,
+          setShowFeedbackButtons,
+          showFeedbackButtons
+        )}
+        {showFeedbackButtons &&
+          dropdownButtons(
+            setShowFeedbackButtons,
+            showSnackbar,
+            submission,
+            setSubmission
+          )}
       </RequestFeedbackFrame>
     );
   }
   return <></>;
 };
 
-function getStatusLabel(pageMode, submission, allClasses, setShowFeedbackButtons, showFeedbackButtons) {
+function getStatusLabel(
+  pageMode,
+  submission,
+  allClasses,
+  setShowFeedbackButtons,
+  showFeedbackButtons
+) {
   if (pageMode === 'REVISE') {
-    return <RequestFeedbackDropdown
-      title={`Feedback received from ${feedbackRequestedFrom()}`}
-    >
-      Feedback received
-    </RequestFeedbackDropdown>
+    return (
+      <RequestFeedbackDropdown
+        title={`Feedback received from ${feedbackRequestedFrom()}`}
+      >
+        Feedback received
+      </RequestFeedbackDropdown>
+    );
   }
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
-    return <RequestFeedbackDropdown
-      title={`Feedback requested from ${feedbackRequestedFrom()}`}
-    >
-      Feedback requested
-    </RequestFeedbackDropdown>
+    return (
+      <RequestFeedbackDropdown
+        title={`Feedback requested from ${feedbackRequestedFrom()}`}
+      >
+        Feedback requested
+      </RequestFeedbackDropdown>
+    );
   }
 
   if (submission.status === 'FEEDBACK_DECLINED') {

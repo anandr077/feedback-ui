@@ -124,7 +124,7 @@ function feedbackFrame(
           showFeedbacks={pageMode !== 'DRAFT'}
         ></Tabs>
       </Frame1322>
-      <Line6 src="/icons/line.png" alt="Line 6" />
+      <Line6 src="/img/line-18.png" alt="Line 6" />
       <>
         {showNewComment ? (
           <>

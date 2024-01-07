@@ -13,7 +13,8 @@ export default function StyledDropDown({
   group = false,
   showImage = false,
   selectedIndex,
-  onItemSelected,
+  fullWidth = false,
+  onItemSelected
 }) {
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
@@ -62,7 +63,7 @@ export default function StyledDropDown({
       );
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 100 }}>
+    <FormControl fullWidth={fullWidth} sx={!fullWidth ? { m: 1, minWidth: 150 } : {}}>
       <Select
         style={{
           border: '1px solid var(--light-mode-purple)',

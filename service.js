@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
 const jeddleBaseUrl =
@@ -210,9 +212,11 @@ export const setProfileCookies = (profile) => {
 };
 
 export const deleteProfileCookies = () => {
-  document.cookie = 'user.name=; max-age=' + 0 + '; path=/';
-  document.cookie = 'userId=; max-age=' + 0 + '; path=/';
-  document.cookie = 'role=; max-age=' + 0 + '; path=/';
+  Cookies.remove('role');
+  Cookies.remove('userId');
+  Cookies.remove('user.name');
+  Cookies.remove('state');
+  Cookies.remove('year');
 };
 export const logout = async () => {
   await postApi(baseUrl + '/users/logout').then(() => {
@@ -423,6 +427,12 @@ export const unpublishModelResponse = async (feedbackId) =>
   );
 export const denyModelResponse = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/deny');
+
+export const profileStateYear = async (stateYear) =>
+  await patchApi(baseUrl + '/users/profile', stateYear)
+
+export const getStateYear = async () =>
+  await getApi(baseUrl + '/users/profile');
 
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + '/submissions', submission);

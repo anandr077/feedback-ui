@@ -1,21 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ProfileDropDownElement from '../ProfileDropDownElement';
 import './ProfileDropdown.css';
 import styled from 'styled-components';
 import { account, changePassword, logout, getUserRole } from '../../../service';
 import { useQueryClient } from '@tanstack/react-query';
+import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
+import 'react-edit-text/dist/index.css';
+import { getStateYear } from '../../../service';
+import { OnboardingContext } from '../../../components2/Onboard/OnboardingProvider';
 
 function ProfileDropdown() {
   const role = getUserRole();
   const queryClient = useQueryClient();
+  const [state, setState] = useState('State');
+  const [year, setYear] = useState('Year');
+  const { setEditStateYear } = useContext(OnboardingContext);
+
+  useEffect(() => {
+    Promise.all([getStateYear()]).then(([profile]) => {
+      setState(profile.state);
+      setYear(profile.year);
+    });
+  }, []);
+
+
 
   return (
     <>
+      {role === 'STUDENT' && (
+        <>
+          <StudentStateContainer>
+            <div>
+              {year} / {state}
+            </div>
+            <EditImg
+              src="/icons/EditSM.png"
+              alt="edit"
+              onClick={() => setEditStateYear(true)}
+            />
+          </StudentStateContainer>
+          <Line6 src="/icons/line.png" alt="Line 6" />
+        </>
+      )}
       <ProfileDropDownElement text="View Profile" onClick={() => account()} />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Change Password"
-        onClick={() => changePassword()}
+        onClick={() => {
+          changePassword();
+        }}
       />
       {role === 'TEACHER' && (
         <>
@@ -46,6 +79,29 @@ const Line6 = styled.img`
   width: 100%;
   height: 1px;
   object-fit: cover;
+`;
+
+const StudentStateContainer = styled.div`
+  ${IbmplexsansNormalBlack16px}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+  &:hover {
+    background-color: #f5f5f5;
+  }
+`;
+
+const EditImg = styled.img`
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  margin-right: 10px;
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 export default ProfileDropdown;

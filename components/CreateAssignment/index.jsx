@@ -144,7 +144,7 @@ export default function CreateAssignment(props) {
           id: 'no_marking_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),
-        setClasses(classesResult);
+          setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
 
@@ -329,7 +329,6 @@ export default function CreateAssignment(props) {
       ),
     }));
   }
-  
 
   const removeAppendFunction = (markingCriteria) => {
     let newMarkingCriteria = { ...markingCriteria };

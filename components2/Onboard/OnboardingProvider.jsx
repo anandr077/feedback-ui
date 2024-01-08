@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import OnboardingScreen from './OnboardingScreen';
 import { getUserRole, getStateYear } from '../../service';
 import Cookies from 'js-cookie';
+import { result } from 'lodash';
 
 export const OnboardingContext = createContext();
 
@@ -11,13 +12,21 @@ const OnboardingProvider = ({ children }) => {
   const role = getUserRole();
 
   useEffect(() => {
-    Promise.all([getStateYear()]).then(([profile]) => {
-      if (!profile.state || !profile.year) {
-        setShowStateYear(true);
-      }
-      Cookies.set('state', profile.state);
-      Cookies.set('year', profile.year);
-    });
+    const state = Cookies.get('state');
+    const year = Cookies.get('year');
+
+    if (state && year) {
+      setShowStateYear(false);
+    } else {
+      setShowStateYear(true);
+    }
+    // Promise.all([getStateYear()]).then(([result]) => {
+    //   if (!result.state || !result.year) {
+    //     setShowStateYear(true);
+    //   }
+    //   Cookies.set('state', result.state);
+    //   Cookies.set('year', result.year);
+    // });
   }, []);
 
   return (

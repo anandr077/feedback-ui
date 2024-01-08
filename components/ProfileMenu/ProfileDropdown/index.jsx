@@ -29,8 +29,6 @@ function ProfileDropdown() {
     }
   }, []);
 
-
-
   return (
     <>
       {role === 'STUDENT' && (

@@ -24,7 +24,7 @@ async function fetchData(url, options, headers = {}) {
       credentials: 'include',
       headers: mergedHeaders,
     });
-    
+
     if (response.status === 401) {
       return redirectToExternalIDP();
     }
@@ -142,7 +142,6 @@ const deleteApi = async (url) => {
   });
 };
 
-
 export const downloadSubmission = async (submissionId) => {
   const url = `${baseUrl}/submissions/${submissionId}/download`;
   const token = localStorage.getItem('jwtToken');
@@ -151,13 +150,15 @@ export const downloadSubmission = async (submissionId) => {
     const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       }),
-      credentials: 'include' // if needed for cookies, otherwise remove
+      credentials: 'include', // if needed for cookies, otherwise remove
     });
 
     if (!response.ok) {
-      throw new Error(`Server returned ${response.status} during file download`);
+      throw new Error(
+        `Server returned ${response.status} during file download`
+      );
     }
 
     const blob = await response.blob();
@@ -175,8 +176,6 @@ export const downloadSubmission = async (submissionId) => {
     // Handle any errors here
   }
 };
-
-
 
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
@@ -207,8 +206,8 @@ export const setProfileCookies = (profile) => {
   Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
   Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
   Cookies.set('role', profile.role, { expires: expiry, path: '/' });
-  Cookies.set('state', profile.state, { expires: expiry, path: '/' });
-  Cookies.set('year', profile.year, { expires: expiry, path: '/' });
+  Cookies.set('state', profile.state);
+  Cookies.set('year', profile.year);
 };
 
 export const deleteProfileCookies = () => {
@@ -260,7 +259,6 @@ export const getSubmissionsByAssignmentId = async (assignmentId) =>
   await getApi(baseUrl + '/assignments/' + assignmentId + '/submissions');
 export const getOverComments = async (id) =>
   await getApi(baseUrl + '/submissions/' + id + '/overallComments');
-
 
 export const addFeedback = async (submissionId, comment) =>
   await postApi(
@@ -429,7 +427,7 @@ export const denyModelResponse = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/deny');
 
 export const profileStateYear = async (stateYear) =>
-  await patchApi(baseUrl + '/users/profile', stateYear)
+  await patchApi(baseUrl + '/users/profile', stateYear);
 
 export const getStateYear = async () =>
   await getApi(baseUrl + '/users/profile');
@@ -456,7 +454,8 @@ export function redirectToExternalIDP() {
     jeddleBaseUrl +
     '/wp-json/moserver/authorize?response_type=code&client_id=' +
     clientId +
-    '&state=' + Date.now() +
+    '&state=' +
+    Date.now() +
     '&redirect_uri=' +
     selfBaseUrl;
   window.location.href = externalIDPLoginUrl;

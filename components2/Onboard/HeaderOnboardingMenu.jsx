@@ -17,7 +17,7 @@ const HeaderOnboardingMenu = () => {
 
   return (
     <>
-      {showOnboardingPopup && <OnboardingScreen />}
+      {showOnboardingPopup && <OnboardingScreen editStateYear={true} onClose={()=>setShowOnboardingPopup(false)}/>}
       <OnboardingContainer>
         <HeaderFlag src=""/>
         <OnboardingInformationContainer>

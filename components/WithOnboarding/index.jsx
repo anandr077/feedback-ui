@@ -1,20 +1,12 @@
-import { Route, Switch, useHistory } from 'react-router-dom';
-import {
-  exchangeCodeForToken,
-  getAuthToken,
-  getState,
-  getUserId,
-  getUserName,
-  getUserRole,
-  redirectToExternalIDP,
-  setProfileCookies,
-} from '../../service';
-import { useLocation } from 'react-router-dom';
-import { default as React, default as React, useEffect, useState } from 'react';
-import Loader from '../Loader';
+import Cookies from 'js-cookie';
+import { default as React, default as React, useState } from 'react';
 import OnboardingScreen from '../../components2/Onboard/OnboardingScreen';
+import { getUserRole } from '../../service';
 
 const withOnboarding = (WrappedComponent) => {
+  const defaultShowOnboarding = getUserRole() === 'student' && !Cookies.get('state');
+  const [showOnboarding, setShowOnboarding] = useState(defaultShowOnboarding);
+
   const WithOnboarding = (props) => {
     return (
       <>
@@ -24,16 +16,14 @@ const withOnboarding = (WrappedComponent) => {
     );
   };
 
+  const closeOnboarding = () => {
+    return setShowOnboarding(false);
+  };
+
+  function onboardingPopup() {
+
+    return showOnboarding && <OnboardingScreen editStateYear={false} onClose={()=>closeOnboarding()} />;
+  }
   return WithOnboarding;
 };
 export default withOnboarding;
-function onboardingPopup() {
-  const state = getState();
-  console.log('state', state);
-  if (state === undefined || state === null) {
-    return (
-      <OnboardingScreen />
-    );
-  }
-  return <></>;
-}

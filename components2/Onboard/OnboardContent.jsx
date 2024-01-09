@@ -4,23 +4,22 @@ import StateYearDialogue from './StateYearDialogue';
 import FirstPopUp from './FirstPopUp';
 import { isMobileView } from '../../components/ReactiveRender'
 
-const OnboardContent = ({}) => {
+const OnboardContent = ({editStateYear, onClose}) => {
   const [stage, setStage] = useState(1);
   const mobileView = isMobileView()
 
-  // if (editStateYear) {
-  //   return (
-  //     <OnboardContainer mobileView={mobileView}>
-  //       <StateYearDialogue />
-  //     </OnboardContainer>
-  //   );
-  // }
+  if (editStateYear) {
+    return (
+      <OnboardContainer mobileView={mobileView}>
+        <StateYearDialogue setStage={setStage} editStateYear={editStateYear} onClose = {onClose}/>
+      </OnboardContainer>
+    );
+  }
 
   return (
     <OnboardContainer mobileView={mobileView}>
-      {/* {stage === 1 && <FirstPopUp setStage={setStage} stage={stage} />} */}
-      {/* {stage === 2 && <StateYearDialogue setStage={setStage} />} */}
-      <StateYearDialogue setStage={setStage} />
+      {stage === 1 && <FirstPopUp setStage={setStage} stage={stage} />}
+      {stage === 2 && <StateYearDialogue setStage={setStage} onClose = {onClose} />}
     </OnboardContainer>
   );
 };

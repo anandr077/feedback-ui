@@ -2,10 +2,10 @@ import React from 'react';
 import { Screen } from './onboardingScreenStyle';
 import OnboardContent from './OnboardContent';
 
-const OnboardingScreen = () => {
+const OnboardingScreen = ({editStateYear, onClose}) => {
   return (
     <Screen>
-      <OnboardContent />
+      <OnboardContent editStateYear = {editStateYear} onClose={onClose}/>
     </Screen>
   );
 };

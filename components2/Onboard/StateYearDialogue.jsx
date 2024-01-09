@@ -30,20 +30,21 @@ const yearOptions = [
   { title: '12' },
 ];
 
-const StateYearDialogue = ({ setStage }) => {
-  const editStateYear = true;
+const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   const { showSnackbar } = useContext(SnackbarContext);
-  const defaultCountry = Object.keys(countriesData)[0] || '';
+  const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
   const [country, setCountry] = useState({ title: defaultCountry });
-  const [state, setState] = useState(Cookies.get('state'));
-  const [year, setYear] = useState(Cookies.get('year'));
+  const defaultState = Cookies.get('state') === null || Cookies.get('state') === undefined? countriesData[defaultCountry][0].state : Cookies.get('state');
+  const [state, setState] = useState(defaultState);
+  
+  const [year, setYear] = useState('7');
   const countryOptions = Object.keys(countriesData).map((country) => ({
     title: country,
   }));
   const stateOptions =
     country && country.title
-      ? countriesData[country.title].map((state) => ({
-          title: state.state,
+      ? countriesData[country.title].map((s) => ({
+          title: s.state,
         }))
       : [];
 
@@ -51,12 +52,12 @@ const StateYearDialogue = ({ setStage }) => {
 
   const handleStateSelect = (selectedState) => {
     console.log('selectedState', selectedState);
-    setState(selectedState);
+    setState(selectedState.title); // Directly setting the state value
   };
-
+ 
   const handleYearSelect = (selectedYear) => {
     console.log('selectedYear', selectedYear);
-    setYear(selectedYear);
+    setYear(selectedYear.title);
   };
 
   const handleCountrySelect = (selectedCountry) => {
@@ -77,13 +78,14 @@ const StateYearDialogue = ({ setStage }) => {
 
   const saveStateYear = () => {
     console.log('the states are', state, year);
-    if (state.title && year.title) {
+    if (state && year) {
       profileStateYear({
-        year: year.title,
-        state: state.title,
+        year: year,
+        state: state,
       }).then(() => {
-        Cookies.set('state', state.title);
-        Cookies.set('year', year.title);
+        Cookies.set('state', state);
+        Cookies.set('year', year);
+        onClose();
         //Cookies.set('country', country.title);
         //{!editStateYear && setStage(3)}
         if (editStateYear) {
@@ -101,10 +103,14 @@ const StateYearDialogue = ({ setStage }) => {
             ? 'Update your Location'
             : "Let's Get Started - Customise Your Feedback"}
         </HeaderText>
+       
         {editStateYear && (
           <CloseImg
             src="img/vector-12@2x.png"
-            onClick={() => setEditStateYear(false)}
+            onClick={() => {
+              console.log("onClose", onClose)
+              onClose()
+            }}
           />
         )}
       </Header>
@@ -125,7 +131,7 @@ const StateYearDialogue = ({ setStage }) => {
             <StyledDropDown
               menuItems={stateOptions}
               selectedIndex={stateOptions.findIndex(
-                (option) => option.title === cookieState
+                (option) => option.title === state
               )}
               fullWidth={true}
               onItemSelected={handleStateSelect}
@@ -138,7 +144,7 @@ const StateYearDialogue = ({ setStage }) => {
             <StyledDropDown
               menuItems={yearOptions}
               selectedIndex={yearOptions.findIndex(
-                (option) => option.title === cookieYear
+                (option) => option.title === year
               )}
               fullWidth={true}
               onItemSelected={handleYearSelect}

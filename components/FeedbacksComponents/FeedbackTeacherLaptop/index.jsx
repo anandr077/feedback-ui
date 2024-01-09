@@ -28,7 +28,9 @@ import {
 } from './style';
 import { isMobileView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
+import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
+import { IsoTwoTone } from '@mui/icons-material';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -45,6 +47,7 @@ function FeedbackTeacherLaptop(props) {
     showNewComment,
     methods,
     comments,
+    students,
     headerProps,
     submission,
     share,
@@ -126,9 +129,22 @@ function FeedbackTeacherLaptop(props) {
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 275;
 
+  const transformedStudentData = {
+    Students: students.map((student) => ({
+      title: student.name,
+      link: student.link,
+    })),
+  };
+
   React.useEffect(() => {
-    const groupedData = subjectsList?.reduce((result, item) => {
-      const subject = item.subject;
+    let dataToUse = subjectsList;
+
+    if (isTeacher) {
+      dataToUse = transformedStudentData['Students'];
+    }
+
+    const groupedData = dataToUse?.reduce((result, item) => {
+      const subject = item.subject || 'Students';
 
       if (!result[subject]) {
         result[subject] = [];
@@ -139,6 +155,12 @@ function FeedbackTeacherLaptop(props) {
       return result;
     }, {});
 
+    if (!isTeacher) {
+      setGroupedAndSortedData(groupedData);
+      setSelectedSubject(Object.keys(groupedData)[0]);
+      return;
+    }
+
     for (const subject in groupedData) {
       if (groupedData.hasOwnProperty(subject)) {
         groupedData[subject].sort((a, b) => b.lastseenAtTs - a.lastseenAtTs);
@@ -146,7 +168,7 @@ function FeedbackTeacherLaptop(props) {
     }
     setGroupedAndSortedData(groupedData);
     setSelectedSubject(Object.keys(groupedData)[0]);
-  }, [subjectsList]);
+  }, [subjectsList, isTeacher, students]);
 
   React.useEffect(() => {
     if (showNewComment) {
@@ -223,12 +245,22 @@ function FeedbackTeacherLaptop(props) {
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
           <DrawerArrowContainer open={open}>
-            <IndepentdentUserSidebar
-              open={open}
-              subjects={groupedAndSortedData}
-              setSelectedSubject={setSelectedSubject}
-              selectedSubject={selectedSubject}
-            />
+            {isTeacher ? (
+              <TeacherSidebar
+                open={open}
+                subjects={groupedAndSortedData}
+                setSelectedSubject={setSelectedSubject}
+                selectedSubject={selectedSubject}
+              />
+            ) : (
+              <IndepentdentUserSidebar
+                open={open}
+                subjects={groupedAndSortedData}
+                setSelectedSubject={setSelectedSubject}
+                selectedSubject={selectedSubject}
+              />
+            )}
+
             <DrawerArrow
               onClick={handleDrawer}
               drawerWidth={drawerWidth}

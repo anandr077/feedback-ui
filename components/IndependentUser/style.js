@@ -69,14 +69,7 @@ export const InputContainer = styled.div`
   flex-direction: column;
   gap: 12px;
 `;
-export const Heading = styled.div`
-  font-size: 36px;
-  font-weight: 500;
-  line-height: 40px;
-  letter-spacing: 0em;
-  text-align: center;
-  color: #9b4be8;
-`;
+
 export const ParaContainer = styled.div`
   font-size: 20px;
   font-weight: 400;
@@ -90,6 +83,14 @@ export const DrawerBody = styled.div`
   flex-direction: column;
   gap: 16px;
   margin: 20px;
+`;
+
+export const Heading = styled.p`
+  font-size: var(--font-size-xl);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  line-height: 26px;
+  color: var(--text);
 `;
 
 export const DrawerInputBox = styled.div`
@@ -220,6 +221,9 @@ export const DrawerQuestion = styled.div`
   color: #000000;
   white-space: nowrap;
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
 
   &:hover {
@@ -247,6 +251,12 @@ export const DrawerQuestion = styled.div`
     //white-space: nowrap;
     font-family: 'IBM Plex Sans', Helvetica;
   }
+`;
+
+export const AvatarImg = styled.img`
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
 `;
 
 export const OverflowShadow = styled.div`

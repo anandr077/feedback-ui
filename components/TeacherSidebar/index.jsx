@@ -21,7 +21,7 @@ import {
   StyledMoreVertIcon,
   LoadingDiv,
   AvatarImg,
-} from './style';
+} from '../IndependentUser/style';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -43,7 +43,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   cursor: 'pointer',
 }));
 
-function IndepentdentUserSidebar({
+function TeacherSidebar({
   open,
   subjects,
   setSelectedSubject,
@@ -116,15 +116,12 @@ function IndepentdentUserSidebar({
       anchor="left"
       open={open}
     >
-      <DrawerHeader>+ New Draft</DrawerHeader>
-      <DividerContainer>
-        <Divider />
-      </DividerContainer>
       <DrawerBody>
         {!subjects[selectedSubject] ? (
           <LoadingDiv>Loading...</LoadingDiv>
         ) : (
           <>
+            <Heading>Students</Heading>
             <DrawerInputBox>
               <DrawerInput
                 placeholder="Search"
@@ -133,24 +130,6 @@ function IndepentdentUserSidebar({
               />
               <SearchIcon src="img/VectorSearch.png" />
             </DrawerInputBox>
-            <SubjectTitle>SUBJECTS</SubjectTitle>
-            <DrawerSubjects>
-              <RecentBtn>
-                <StyledAccessTimeIcon /> Recent <StyledMoreVertIcon />
-              </RecentBtn>
-              {Object.keys(subjects).map((subject, index) => (
-                <DrawerSubject
-                  style={{
-                    background:
-                      selectedSubject === subject ? '#FFCA0F' : '#FFEFB5',
-                  }}
-                  key={index}
-                  onClick={() => setSelectedSubject(subject)}
-                >
-                  {subject} ({subjects[subject].length})
-                </DrawerSubject>
-              ))}
-            </DrawerSubjects>
             <DrawerQuestions pageHeight={pageHeight}>
               <DrawerQuestion
                 style={{
@@ -159,6 +138,7 @@ function IndepentdentUserSidebar({
                   fontWeight: '500',
                 }}
               >
+                <AvatarImg src="img/mask-group@2x.png" />
                 {selectedQuestion?.title.length >= 2 ? (
                   <>
                     {selectedQuestion?.title}
@@ -181,6 +161,7 @@ function IndepentdentUserSidebar({
                       key={qIndex}
                       onClick={() => setSelectedQuestion(question)}
                     >
+                      <AvatarImg src="img/mask-group@2x.png" />
                       {question.title.length >= 28 ? (
                         <>
                           {question.title}
@@ -201,4 +182,4 @@ function IndepentdentUserSidebar({
   );
 }
 
-export default IndepentdentUserSidebar;
+export default TeacherSidebar;

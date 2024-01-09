@@ -132,6 +132,7 @@ export const Main = styled.div`
   );
   height: 100%;
   display: flex;
+  align-items: center;
   overflow-x: hidden;
   width: 100%;
   margin-left: ${(props) =>
@@ -141,14 +142,15 @@ export const Main = styled.div`
 export const Frame1388 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin: 0 auto;
   gap: 30px;
   position: relative;
   align-self: stretch;
   margin-bottom: 50px;
-  width: 100%;
+  width: ${(props) => (props.mobileView ? '100%' : '90%')};
   transition: width 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
+  max-width: 1321px;
   overflow: hidden;
 `;
 

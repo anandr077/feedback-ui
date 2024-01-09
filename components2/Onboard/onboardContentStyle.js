@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const OnboardContainer = styled.div`
-  width: 581px;
+  width: ${props => props.mobileView ? "100vw" : "581px"};
+  height: ${props => props.mobileView ? "100vh" : "auto"};
   min-height: 413px;
   border-radius: 12px;
   background-color: var(--white);

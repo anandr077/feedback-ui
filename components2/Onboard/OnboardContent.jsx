@@ -2,24 +2,25 @@ import React, { useState, useContext } from 'react';
 import { OnboardContainer } from './onboardContentStyle';
 import StateYearDialogue from './StateYearDialogue';
 import FirstPopUp from './FirstPopUp';
-import { OnboardingContext } from './OnboardingProvider';
+import { isMobileView } from '../../components/ReactiveRender'
 
-const OnboardContent = () => {
+const OnboardContent = ({}) => {
   const [stage, setStage] = useState(1);
-  const { editStateYear } = useContext(OnboardingContext);
+  const mobileView = isMobileView()
 
-  if (editStateYear) {
-    return (
-      <OnboardContainer>
-        <StateYearDialogue />
-      </OnboardContainer>
-    );
-  }
+  // if (editStateYear) {
+  //   return (
+  //     <OnboardContainer mobileView={mobileView}>
+  //       <StateYearDialogue />
+  //     </OnboardContainer>
+  //   );
+  // }
 
   return (
-    <OnboardContainer>
-      {stage === 1 && <FirstPopUp setStage={setStage} stage={stage} />}
-      {stage === 2 && <StateYearDialogue setStage={setStage} />}
+    <OnboardContainer mobileView={mobileView}>
+      {/* {stage === 1 && <FirstPopUp setStage={setStage} stage={stage} />} */}
+      {/* {stage === 2 && <StateYearDialogue setStage={setStage} />} */}
+      <StateYearDialogue setStage={setStage} />
     </OnboardContainer>
   );
 };

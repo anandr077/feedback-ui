@@ -163,6 +163,7 @@ export const Frame1386 = styled.div`
   position: relative;
   align-self: stretch;
   width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
+  max-width: 1321px;
 
   position: sticky;
 `;

@@ -73,7 +73,7 @@ export const ConnectContainer = styled.div`
   border: 1px solid #7200e0;
 `;
 
-export const FilterContainer = styled.div`
+export const FilterAndSortContainer = styled.div`
   display: flex;
   padding: 16px 0px;
   align-items: center;
@@ -128,7 +128,7 @@ export const ContentContainer = styled.div`
 export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 65%;
   border-radius: 8px;
   border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
   background: #fff;
@@ -142,7 +142,7 @@ export const RightContentContainer = styled.div`
   flex-direction: column;
   padding: 10px;
   gap: 20px;
-  width: 40%;
+  width: 35%;
   border-radius: 12px;
   border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
   background: #fff;
@@ -169,6 +169,8 @@ export const CardContainer = styled.div`
   border: 0px 0px 1px 0px;
   gap: 16px;
   border-bottom: 1px solid #d6d6d6;
+
+  padding: 30px;
 `;
 export const TextContainer1 = styled.div`
   color: var(--Text, #1e252a);
@@ -179,13 +181,7 @@ export const TextContainer1 = styled.div`
   line-height: normal;
 `;
 export const TextContainer = styled.div`
-  color: var(--Text, #1e252a);
-  font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
+  gap: 8px;
 `;
 
 export const ParaContainer = styled.p`
@@ -343,4 +339,128 @@ export const Frame5112para = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+`;
+
+export const Frame5086 = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+`;
+export const Frame5086Img = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const Frame5086Text = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+
+export const Frame5051 = styled.div`
+  padding: 8px 12px 8px 12px;
+  border-radius: 25px;
+  border: 1px;
+  gap: 8px;
+`;
+
+export const TagsAndTextContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+export const TagsContainer = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+export const Tag = styled.div`
+  display: flex;
+  padding: 3px 8px 3px 8px;
+  border-radius: 11.5px;
+  border: 1px;
+  gap: 10px;
+  border: 1px solid #dec7ff;
+`;
+export const TagText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #9b4be8;
+`;
+export const RequestedText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #a6a6a6;
+`;
+export const DataText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+export const WordsCountContainer = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+export const WordsCount = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #7a7a7a;
+`;
+export const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+export const FeedbackButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px 8px 16px;
+  border-radius: 30px;
+  border: 1px;
+  gap: 4px;
+  background: #7200e0;
+`;
+export const FeedbackButtonText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #ffffff;
+`;
+export const FeedbackButtonArrow = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+export const CrossButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+`;
+
+export const DismissText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #575757;
 `;

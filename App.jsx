@@ -24,7 +24,6 @@ import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
 import GiveFeedback from './components/GiveFeedback';
-import FeedbackHistory from './components/FeedbackHistory';
 
 function App() {
   const role = getUserRole();
@@ -48,7 +47,6 @@ function App() {
   const ProtectedHeader = withAuth(ResponsiveHeader);
   const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
   const ProtectedGiveFeedback = withAuth(GiveFeedback);
-  const ProtectedFeedbackHistory = withAuth(FeedbackHistory);
 
   const portfolioClient = new QueryClient();
 
@@ -99,7 +97,6 @@ function App() {
               <ProtectedGiveFeedback />
             </Route>
             <Route path="/feedbackHistory">
-              {/* <ProtectedFeedbackHistory /> */}
               <ProtectedGiveFeedback />
             </Route>
             <Route path="/classes/:classIdFromUrl?">

@@ -32,10 +32,20 @@ import {
   Frame5112,
   Frame5112para,
   ConnectContainer,
+  FilterAndSortContainer,
+  Frame5086,
+  Frame5086Img,
+  Frame5086Text,
 } from './style';
 import Group1205 from '../TeacherDashboard/Group1205';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
+import StyledDropDown from '../../components2/StyledDropDown';
+import { useQuery } from '@tanstack/react-query';
+import { getCommunityTasks } from '../../service';
+import Loader from '../Loader';
+import FilterSquare from '../../static/img/filter-square.png';
+import questionMark from '../../static/img/question-mark.png';
 
 function GiveFeedback() {
   const [feedbackData, setFeedbackData] = React.useState([
@@ -46,9 +56,49 @@ function GiveFeedback() {
     'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
   ]);
   const [showHistory, setShowHistory] = React.useState(false);
+  const [dropdownSample, setDropdownSample] = React.useState([
+    {
+      id: '0',
+      title: 'Select',
+    },
+    {
+      id: '1',
+      title: 'Telugu',
+    },
+    {
+      id: '2',
+      title: 'Englidh',
+    },
+  ]);
+
+  const communityTasksQuery = useQuery({
+    queryKey: ['communityTasks'],
+    queryFn: async () => {
+      const result = await getCommunityTasks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  React.useEffect(() => {
+    if (communityTasksQuery.data) {
+      console.log('Community', communityTasksQuery.data);
+    }
+  }, [communityTasksQuery]);
+
+  if (communityTasksQuery.isLoading) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
+  const selectedItemIndex = dropdownSample.findIndex((selectSubject) => {
+    return selectSubject.id === 'id';
+  });
   const location = useLocation();
   const pathName = location.pathname;
-  
+
   return (
     <>
       <MainContainer>
@@ -57,11 +107,10 @@ function GiveFeedback() {
             <TopContainer>
               <TitleContainer>
                 <Title>
-                  
                   {pathName.includes('/feedbackHistory')
                     ? 'Feedback History'
                     : 'Give Feedback'}
-                  <TitleImage src="/icons/question-mark.png" />
+                  <TitleImage src={questionMark} />
                 </Title>
                 <ConnectContainer>
                   {pathName.includes('/feedbackHistory') ? (
@@ -83,12 +132,25 @@ function GiveFeedback() {
                 Feedback requests received from community members
               </HeadingLine>
             </TopContainer>
-            <FilterContainer>Filter</FilterContainer>
+            <FilterAndSortContainer>
+              <Frame5086>
+                <Frame5086Img src={FilterSquare} />
+                <Frame5086Text>Filters:</Frame5086Text>
+              </Frame5086>
+              <StyledDropDown
+                showAvatars={false}
+                search={false}
+                selectedIndex={selectedItemIndex}
+                menuItems={dropdownSample}
+              />
+            </FilterAndSortContainer>
           </HeadingAndFilterCon>
           <ContentContainer>
             <LeftContentContainer>
-              <FeedbackDataComponent feedbackData={feedbackData} pathName={pathName} />
-             
+              <FeedbackDataComponent
+                feedbackData={feedbackData}
+                pathName={pathName}
+              />
             </LeftContentContainer>
             {/* <RightContentContainer>
               <Frame5111>

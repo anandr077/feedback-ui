@@ -329,7 +329,7 @@ function shareWithClassFrame(methods, share) {
   if (getUserRole() === 'STUDENT') return <></>;
   return (
     <>
-      <Line6 src="/icons/line.png" alt="Line 6" />
+      {/* <Line6 src="/icons/line.png" alt="Line 6" /> */}
       <Frame1383>
         <Frame13311>
           <Crown src="/icons/share.png" alt="crown" />
@@ -340,7 +340,7 @@ function shareWithClassFrame(methods, share) {
           onClickFn={methods.handleShareWithClass}
         />
       </Frame1383>
-      <Line6 src="/icons/line.png" alt="Line 6" />
+      {/* <Line6 src="/icons/line.png" alt="Line 6" /> */}
     </>
   );
 }

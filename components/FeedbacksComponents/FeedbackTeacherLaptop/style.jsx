@@ -306,7 +306,6 @@ export const Frame1326 = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 8px 8px 12px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
@@ -314,6 +313,7 @@ export const Frame1326 = styled.div`
   overflow: hidden;
   border: 1px solid;
   border-color: var(--text);
+  height: 46px;
 `;
 export const TypeHere = styled.div`
   ${feedbacksIbmplexsansNormalMountainMist16px}
@@ -324,11 +324,11 @@ export const TypeHere = styled.div`
 
 export const Frame1383 = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 16px;
   position: relative;
   align-self: stretch;
+  padding: 20px;
 `;
 export const Frame13311 = styled.div`
   display: flex;
@@ -339,12 +339,15 @@ export const Frame13311 = styled.div`
   margin: 10px 0 5px;
 `;
 export const Share = styled.div`
-  ${feedbacksIbmplexsansNormalBlack16px}
+  color: var(--black);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 400;
   position: relative;
   width: fit-content;
   margin-top: -1px;
   letter-spacing: 0;
-  line-height: normal;
+  line-height: 20px;
 `;
 
 export const Frame1328 = styled.div`

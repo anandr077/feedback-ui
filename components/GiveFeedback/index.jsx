@@ -42,19 +42,15 @@ import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 import StyledDropDown from '../../components2/StyledDropDown';
 import { useQuery } from '@tanstack/react-query';
-import { getCommunityTasks } from '../../service';
+import {
+  getCommunityTasks,
+  getGiveFeedbackCompletedTasks,
+} from '../../service';
 import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.png';
 import questionMark from '../../static/img/question-mark.png';
 
 function GiveFeedback() {
-  const [feedbackData, setFeedbackData] = React.useState([
-    'What is the moral of the short story The Monkey’s Paw?',
-    'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
-    'Jorem ipsum dolor sit amet, consectetur adipiscing elit?',
-    'Borem ipsum dolor sit amet, consectetur adipiscing elit?',
-    'Forem ipsum dolor sit amet, consectetur adipiscing elit?',
-  ]);
   const [showHistory, setShowHistory] = React.useState(false);
   const [dropdownSample, setDropdownSample] = React.useState([
     {
@@ -70,6 +66,9 @@ function GiveFeedback() {
       title: 'Englidh',
     },
   ]);
+  const [communityTasks, setCommunityTasks] = React.useState([]);
+  const [giveFeedbackCompletedTasks, setGiveFeedbackCompletedTasks] =
+    React.useState([]);
 
   const communityTasksQuery = useQuery({
     queryKey: ['communityTasks'],
@@ -79,14 +78,28 @@ function GiveFeedback() {
     },
     staleTime: 3600000,
   });
+  const giveFeedbackCompletedTasksQuery = useQuery({
+    queryKey: ['GiveFeedbackCompletedTasks'],
+    queryFn: async () => {
+      const result = await getGiveFeedbackCompletedTasks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
 
   React.useEffect(() => {
     if (communityTasksQuery.data) {
-      console.log('Community', communityTasksQuery.data);
+      setCommunityTasks(communityTasksQuery.data);
+    }
+    if (giveFeedbackCompletedTasksQuery.data) {
+      setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksQuery.data);
     }
   }, [communityTasksQuery]);
 
-  if (communityTasksQuery.isLoading) {
+  if (
+    communityTasksQuery.isLoading ||
+    giveFeedbackCompletedTasksQuery.isLoading
+  ) {
     return (
       <>
         <Loader />
@@ -148,7 +161,11 @@ function GiveFeedback() {
           <ContentContainer>
             <LeftContentContainer>
               <FeedbackDataComponent
-                feedbackData={feedbackData}
+                feedbackData={
+                  pathName.includes('/feedbackHistory')
+                    ? giveFeedbackCompletedTasks
+                    : communityTasks
+                }
                 pathName={pathName}
               />
             </LeftContentContainer>

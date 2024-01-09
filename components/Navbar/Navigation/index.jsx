@@ -89,7 +89,7 @@ function Navigation(props) {
       <Frame5>
         <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
         <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
-        <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />
+        {Cookies.get('classes') && <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />}
         <NavElement7
           text={`${year + ' / ' + state}`}
           editBtn="/icons/EditSM.png"

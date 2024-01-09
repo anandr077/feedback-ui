@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { OnboardingContext } from './OnboardingProvider';
+import React, { useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import {
   DialogueBox,
@@ -10,26 +9,17 @@ import {
   Button,
   Header,
   TermsCondition,
+  CheckboxContainer,
+  WarningContainer,
   Checkbox,
   TermsText,
   HeaderText,
   CloseImg,
 } from './stateYearDialogueStyle';
 import { profileStateYear } from '../../service';
-import { OnboardingContext } from './OnboardingProvider';
 import SnackbarContext from '../../components/SnackbarContext';
 import StyledDropDown from '../StyledDropDown';
-
-const countryOptions = [{ title: 'Australia' }];
-
-const stateOptions = [
-  { title: 'New South Wales' },
-  { title: 'Queensland' },
-  { title: 'South Australia' },
-  { title: 'Tasmania' },
-  { title: 'Victoria' },
-  { title: 'Western Australia' },
-];
+import countriesData from './countries.json';
 
 const yearOptions = [
   { title: '7' },
@@ -41,20 +31,31 @@ const yearOptions = [
 ];
 
 const StateYearDialogue = ({ setStage }) => {
-  const { setShowStateYear, setEditStateYear, editStateYear } = useContext(OnboardingContext);
+  const editStateYear = true;
   const { showSnackbar } = useContext(SnackbarContext);
-  const [country, setCountry] = useState({});
-  const [state, setState] = useState({});
-  const [year, setYear] = useState({});
-  const [selectedStateIndex, setSelectedStateIndex] = useState();
-  const [selectedYearIndex, setSelectedYearIndex] = useState();
+  const defaultCountry = Object.keys(countriesData)[0] || '';
+  const [country, setCountry] = useState({ title: defaultCountry });
+  const [state, setState] = useState(Cookies.get('state'));
+  const [year, setYear] = useState(Cookies.get('year'));
+  const countryOptions = Object.keys(countriesData).map((country) => ({
+    title: country,
+  }));
+  const stateOptions =
+    country && country.title
+      ? countriesData[country.title].map((state) => ({
+          title: state.state,
+        }))
+      : [];
 
+  console.log('countryOptions', stateOptions);
 
   const handleStateSelect = (selectedState) => {
+    console.log('selectedState', selectedState);
     setState(selectedState);
   };
 
   const handleYearSelect = (selectedYear) => {
+    console.log('selectedYear', selectedYear);
     setYear(selectedYear);
   };
 
@@ -62,28 +63,20 @@ const StateYearDialogue = ({ setStage }) => {
     setCountry(selectedCountry);
   };
 
-  React.useEffect(() => {
-    const cookieState = Cookies.get('state');
-    const cookieYear = Cookies.get('year');
-    
-    if (cookieState) {
-      setState(cookieState);
-      const stateIndex = stateOptions.findIndex(
-        (option) => option.title === cookieState
-      );
-      setSelectedStateIndex(stateIndex >= 0 ? stateIndex : stateOptions[0]);
-    }
+  const cookieState = Cookies.get('state');
+  const cookieYear = Cookies.get('year');
 
-    if (cookieYear) {
-      setYear(cookieYear);
-      const yearIndex = yearOptions.findIndex(
-        (option) => option.title === cookieYear
-      );
-      setSelectedYearIndex(yearIndex >= 0 ? yearIndex : yearOptions[0]);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (cookieState) {
+  //     setState(cookieState);
+  //   }
+  //   if (cookieState) {
+  //     setYear(cookieState);
+  //   }
+  // }, []);
 
-  const saveToCookies = () => {
+  const saveStateYear = () => {
+    console.log('the states are', state, year);
     if (state.title && year.title) {
       profileStateYear({
         year: year.title,
@@ -91,14 +84,11 @@ const StateYearDialogue = ({ setStage }) => {
       }).then(() => {
         Cookies.set('state', state.title);
         Cookies.set('year', year.title);
-        Cookies.set('country', country.title);
+        //Cookies.set('country', country.title);
         //{!editStateYear && setStage(3)}
-        if(editStateYear){
-          showSnackbar('Setting successfully updated')
-         }
-         
-        setShowStateYear(false);
-        setEditStateYear(false);
+        if (editStateYear) {
+          showSnackbar('Setting successfully updated');
+        }
       });
     }
   };
@@ -108,7 +98,7 @@ const StateYearDialogue = ({ setStage }) => {
       <Header>
         <HeaderText>
           {editStateYear
-            ? 'Update your settings'
+            ? 'Update your Location'
             : "Let's Get Started - Customise Your Feedback"}
         </HeaderText>
         {editStateYear && (
@@ -134,7 +124,9 @@ const StateYearDialogue = ({ setStage }) => {
           <DropdownBox>
             <StyledDropDown
               menuItems={stateOptions}
-              selectedIndex={selectedStateIndex}
+              selectedIndex={stateOptions.findIndex(
+                (option) => option.title === cookieState
+              )}
               fullWidth={true}
               onItemSelected={handleStateSelect}
             />
@@ -145,7 +137,9 @@ const StateYearDialogue = ({ setStage }) => {
           <DropdownBox>
             <StyledDropDown
               menuItems={yearOptions}
-              selectedIndex={selectedYearIndex}
+              selectedIndex={yearOptions.findIndex(
+                (option) => option.title === cookieYear
+              )}
               fullWidth={true}
               onItemSelected={handleYearSelect}
             />
@@ -154,13 +148,22 @@ const StateYearDialogue = ({ setStage }) => {
       </DropdownContainer>
       {!editStateYear && (
         <TermsCondition>
-          <Checkbox type="checkbox" />
-          <TermsText>
-            I agree to the <span>terms & conditions</span>
-          </TermsText>
+          <WarningContainer>
+            <h3>Anti-Bullying & Harassment Policy</h3>
+            <p>
+              Any instance of bullying, harassment or misconduct will result in{' '}
+              <span>immediate suspension</span> from the platform.
+            </p>
+          </WarningContainer>
+          <CheckboxContainer>
+            <Checkbox type="checkbox" />
+            <TermsText>
+              I agree to the <span>terms & conditions</span>
+            </TermsText>
+          </CheckboxContainer>
         </TermsCondition>
       )}
-      <Button onClick={saveToCookies}>
+      <Button onClick={saveStateYear}>
         {editStateYear ? 'Update' : 'Submit'}
       </Button>
     </DialogueBox>

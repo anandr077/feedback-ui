@@ -8,10 +8,12 @@ export const DialogueBox = styled.div`
 export const Header = styled.div`
   width: 100%;
   padding: 20px 24px;
-  border-bottom: 1px solid #D6D6D6;
+  border-bottom: 1px solid #d6d6d6;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #f7eeff;
+  border-radius: 10px 10px 0 0;
 `;
 
 export const DropdownContainer = styled.div`
@@ -58,7 +60,34 @@ export const Button = styled.button`
 `;
 
 export const TermsCondition = styled.div`
-  padding: 0 24px;
+  padding: 10px 24px;
+`;
+
+export const WarningContainer = styled.div`
+  margin-bottom: 16px;
+  h3 {
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 500;
+    font-size: var(--font-size-xl);
+    line-height: 26px;
+    color: var(--light-mode-purple);
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: var(--text);
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 23px;
+
+    span {
+      font-weight: 500;
+    }
+  }
+`;
+
+export const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -67,14 +96,17 @@ export const TermsCondition = styled.div`
 export const Checkbox = styled.input`
   width: 15px;
   height: 15px;
+  margin-left: 0px !important;
 `;
 
 export const TermsText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 18px;
+  font-weight: 400;
+  line-height: 23px;
   color: var(--text);
 
-  span{
+  span {
     color: var(--light-mode-purple);
   }
 `;

@@ -7,14 +7,12 @@ import { account, changePassword, logout, getUserRole } from '../../../service';
 import { useQueryClient } from '@tanstack/react-query';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import 'react-edit-text/dist/index.css';
-import { OnboardingContext } from '../../../components2/Onboard/OnboardingProvider';
 
 function ProfileDropdown() {
   const role = getUserRole();
   const queryClient = useQueryClient();
   const [state, setState] = useState('State');
   const [year, setYear] = useState('Year');
-  const { setEditStateYear } = useContext(OnboardingContext);
 
   useEffect(() => {
     const cookieState = Cookies.get('state');
@@ -31,21 +29,6 @@ function ProfileDropdown() {
 
   return (
     <>
-      {role === 'STUDENT' && (
-        <>
-          <StudentStateContainer>
-            <div>
-              {year} / {state}
-            </div>
-            <EditImg
-              src="/icons/EditSM.png"
-              alt="edit"
-              onClick={() => setEditStateYear(true)}
-            />
-          </StudentStateContainer>
-          <Line6 src="/icons/line.png" alt="Line 6" />
-        </>
-      )}
       <ProfileDropDownElement text="View Profile" onClick={() => account()} />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement

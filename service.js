@@ -206,6 +206,10 @@ export const setProfileCookies = (profile) => {
   Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
   Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
   Cookies.set('role', profile.role, { expires: expiry, path: '/' });
+  // if (!profile.state === undefined || !profile.year === undefined) {
+  //   Cookies.set('state', profile.state);
+  //   Cookies.set('year', profile.year);
+  // }
   Cookies.set('state', profile.state);
   Cookies.set('year', profile.year);
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import NavElement42 from '../NavElement42';
 import NavElement52 from '../NavElement52';
 import NavElement6 from '../NavElement6';
@@ -9,6 +9,9 @@ import './Navigation.css';
 import { account, changePassword, getUserName, logout } from '../../../service';
 import { Avatar } from '@boringer-avatars/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { getUserRole } from '../../../service';
+import Cookies from 'js-cookie';
+import countriesData from '../../../components2/Onboard/countries.json';
 
 const group1Data = {
   iconHome: '/img/home3-1@2x.png',
@@ -34,6 +37,31 @@ const navElement8Data = {
 function Navigation(props) {
   const name = getUserName();
   const queryClient = useQueryClient();
+  const [state, setState] = useState('State');
+  const [year, setYear] = useState('Year');
+  const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
+  const [country, setCountry] = useState(defaultCountry);
+  const isTeacher = getUserRole() === 'TEACHER';
+
+  const findFlagIcon = (state = defaultCountry.state) => {
+    const matchingState = countriesData[country].find(
+      (cntry) => cntry.state === state
+    );
+
+    return matchingState
+      ? matchingState.flagIcon
+      : countriesData[country][0].flagIcon;
+  };
+
+  const flagIcon = findFlagIcon(state);
+
+  useEffect(() => {
+    const savedState = Cookies.get('state');
+    const savedYear = Cookies.get('year');
+
+    savedState && setState(savedState);
+    savedYear && setYear(savedYear);
+  }, []);
 
   const { headerProps, onCloseFn } = props;
   const navigationData = {
@@ -98,6 +126,29 @@ function Navigation(props) {
           }}
         ></NavElement8>
       </Frame5>
+      {!isTeacher && (
+        <>
+          <Frame1410>
+            <LocationAgeContainer>
+              <FlagBox>
+                <FlagIcon src={flagIcon} />
+              </FlagBox>
+              <div>
+                Year {year}, Australia, {state}
+              </div>
+            </LocationAgeContainer>
+            <EditBtn
+              onClick={() => {
+                setEditStateYear(true);
+                onCloseFn();
+              }}
+            >
+              <img src="/img/editSmall.png" />
+              <p>Edit</p>
+            </EditBtn>
+          </Frame1410>
+        </>
+      )}
     </NavbarDiv>
   );
 }
@@ -174,6 +225,65 @@ const Frame5 = styled.div`
   position: relative;
   align-self: stretch;
   width: 100%;
+`;
+
+const Frame1410 = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background: #f2f2f2;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const LocationAgeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: hidden;
+
+  div {
+    color: #333333;
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 400;
+    font-size: var(--font-size-l);
+    line-height: 24px;
+  }
+`;
+
+const FlagBox = styled.div`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+`;
+
+const FlagIcon = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`;
+
+const EditBtn = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--light-mode-purple);
+  border-radius: 17px;
+  color: var(--light-mode-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  cursor: pointer;
+
+  img {
+    width: 10.66px;
+    height: 11.07px;
+  }
 `;
 
 export default Navigation;

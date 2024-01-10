@@ -21,9 +21,11 @@ import {
   Frame1387,
   Frame1388,
   Screen2,
+  GoBackBtn,
 } from './style';
 import { isMobileView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
+import { useHistory  } from 'react-router-dom';
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -54,6 +56,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
+  const navigate = useHistory();
 
   React.useEffect(() => {
     if (showNewComment) {
@@ -125,7 +128,7 @@ function FeedbackTeacherLaptop(props) {
         {isMobile && <WelcomeOverlayMobile />}
         {sharewithclassdialog}
         <Frame1388 mobileView={isMobile}>
-          {breadcrumbs(submission)}
+          {/* {breadcrumbs(submission)} */}
           {answersAndFeedbacks(
             isMobile,
             submission,
@@ -151,7 +154,8 @@ function FeedbackTeacherLaptop(props) {
             newCommentFrameRef,
             share,
             smartAnnotations,
-            overallComments
+            overallComments,
+            navigate,
           )}
         </Frame1388>
       </div>
@@ -261,10 +265,18 @@ function answersAndFeedbacks(
   newCommentFrameRef,
   share,
   smartAnnotations,
-  overallComments
+  overallComments,
+  navigate,
 ) {
   return (
     <Frame1386 id="content">
+      {isTeacher && (
+        <GoBackBtn onClick={() => navigate.goBack()}>
+          <img className="arrowImg" src="img/arrow_left.png" />
+          <img className="hoveredImg" src="icons/arrowleft.png" />
+          Go Back
+        </GoBackBtn>
+      )}
       {contextBar(submission, methods, isTeacher, pageMode, labelText)}
       <Frame1368 id="assignmentData">
         {answersFrame(

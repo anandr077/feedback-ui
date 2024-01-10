@@ -156,17 +156,54 @@ export const Frame1315 = styled.div`
 export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 0 auto;
   gap: 40px;
-  padding: 0px;
+  padding-top: 30px;
   position: relative;
   align-self: stretch;
   width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
   max-width: 1321px;
-
   position: sticky;
 `;
+
+export const GoBackBtn = styled.button`
+  width: fit-content;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  color: var(--light-mode-purple);
+  background-color: transparent;
+  border-radius: 24px;
+  border: 1px solid var(--light-mode-purple);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.3s ease-in;
+  cursor: pointer;
+
+  .arrowImg {
+    width: 17px;
+    height: 12px;
+  }
+  .hoveredImg {
+    width: 17px;
+    height: 12px;
+    display: none;
+  }
+  &:hover {
+    color: var(--white);
+    background-color: var(--light-mode-purple);
+    .arrowImg {
+      display: none;
+    }
+    .hoveredImg {
+      display: block;
+    }
+  }
+`;
+
 export const Frame1371 = styled.div`
   display: flex;
   align-items: center;
@@ -177,7 +214,6 @@ export const Frame1371 = styled.div`
   top: 0;
   z-index: 2;
   background-color: var(--white-pointer);
-  padding: 20px;
   flex-wrap: wrap;
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;

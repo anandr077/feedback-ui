@@ -1,0 +1,34 @@
+{
+  "Australia": [
+    {
+      "country": "Australia",
+      "state": "NSW",
+      "flagIcon": "img/australia.png"
+    },
+    {
+      "country": "Australia",
+      "state": "Victoria",
+      "flagIcon": "img/australia.png"
+    },
+    {
+      "country": "Australia",
+      "state": "Queensland",
+      "flagIcon": "img/australia.png"
+    },
+    {
+      "country": "Australia",
+      "state": "WA",
+      "flagIcon": "img/australia.png"
+    },
+    {
+      "country": "Australia",
+      "state": "SA",
+      "flagIcon": "img/australia.png"
+    },
+    {
+      "country": "Australia",
+      "state": "Tasmania",
+      "flagIcon": "img/australia.png"
+    }
+  ]
+}

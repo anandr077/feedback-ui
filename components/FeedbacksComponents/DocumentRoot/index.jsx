@@ -2,6 +2,7 @@ import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
 import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
 import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, addDocumentToPortfolio, addDocumentToPortfolioWithDetails } from '../../../service';
+import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, askJeddAI } from '../../../service';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState, useReducer } from 'react';
@@ -483,7 +484,15 @@ export default function DocumentRoot({}) {
       }
     });
   };
-
+  const jeddAI = () => {
+    console.log("quillRefs", quillRefs)
+    const q=  quillRefs.current[0]
+    console.log("q", q.getText())
+    askJeddAI(submission.id, q.getText()).then((response) => {
+      console.log("response done", response)
+    })
+    
+  }
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
     const feedbackToUpdate = overallComments.find(
       (feedback) => feedback.id === feedbackId
@@ -783,6 +792,7 @@ export default function DocumentRoot({}) {
     setInitialOverAllFeedback,
 
     updateOverAllFeedback,
+    jeddAI
   };
 
   const shortcuts = getShortcuts();

@@ -76,6 +76,11 @@ export const TitleWrapper = styled.div`
   line-height: normal;
   gap: 10px;
 `;
+export const TitleContainer = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`;
 export const StatusText = styled.div`
   font-family: 'IBM Plex Sans';
   font-style: normal;
@@ -151,6 +156,7 @@ export const Frame1388 = styled.div`
   transition: width 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   max-width: 1321px;
+  /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: hidden;
 `;
 
@@ -198,16 +204,54 @@ export const Frame1315 = styled.div`
 export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 0 auto;
   gap: 40px;
-  padding: 0px;
+  padding-top: 30px;
   position: relative;
   align-self: stretch;
   width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
-
+  max-width: 1321px;
   position: sticky;
 `;
+
+export const GoBackBtn = styled.button`
+  width: fit-content;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  color: var(--light-mode-purple);
+  background-color: transparent;
+  border-radius: 24px;
+  border: 1px solid var(--light-mode-purple);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.3s ease-in;
+  cursor: pointer;
+
+  .arrowImg {
+    width: 17px;
+    height: 12px;
+  }
+  .hoveredImg {
+    width: 17px;
+    height: 12px;
+    display: none;
+  }
+  &:hover {
+    color: var(--white);
+    background-color: var(--light-mode-purple);
+    .arrowImg {
+      display: none;
+    }
+    .hoveredImg {
+      display: block;
+    }
+  }
+`;
+
 export const Frame1371 = styled.div`
   display: flex;
   align-items: center;
@@ -218,7 +262,6 @@ export const Frame1371 = styled.div`
   top: 0;
   z-index: 2;
   background-color: var(--white-pointer);
-  padding: 20px;
   flex-wrap: wrap;
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
@@ -265,28 +308,28 @@ export const Frame1367 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
-  padding: 30px 0px;
-  background-color: var(--white);
-  border-radius: 26px;
-  box-shadow: 0px 4px 22px #2f1a720a;
 `;
 export const Frame1366 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
-  padding: 0px 60px;
+  gap: 32px;
   position: relative;
   align-self: stretch;
 `;
 export const QuestionText = styled.p`
-  ${feedbacksIbmplexsansMediumPersianIndigo20px}
-  font-size: 20px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
   position: relative;
   align-self: stretch;
-  margin-top: -1px;
   letter-spacing: 0;
-  line-height: normal;
+  line-height: 26px;
+  width: 100%;
+  padding: 20px 30px;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
 `;
 export const QuillContainer = styled.p`
   ${feedbacksIbmplexsansNormalShark20px}
@@ -348,7 +391,6 @@ export const Frame1326 = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 8px 8px 12px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
@@ -356,6 +398,7 @@ export const Frame1326 = styled.div`
   overflow: hidden;
   border: 1px solid;
   border-color: var(--text);
+  height: 46px;
 `;
 export const TypeHere = styled.div`
   ${feedbacksIbmplexsansNormalMountainMist16px}
@@ -366,11 +409,11 @@ export const TypeHere = styled.div`
 
 export const Frame1383 = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 16px;
   position: relative;
   align-self: stretch;
+  padding: 20px;
 `;
 export const Frame13311 = styled.div`
   display: flex;
@@ -381,12 +424,15 @@ export const Frame13311 = styled.div`
   margin: 10px 0 5px;
 `;
 export const Share = styled.div`
-  ${feedbacksIbmplexsansNormalBlack16px}
+  color: var(--black);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 400;
   position: relative;
   width: fit-content;
   margin-top: -1px;
   letter-spacing: 0;
-  line-height: normal;
+  line-height: 20px;
 `;
 
 export const Frame1328 = styled.div`

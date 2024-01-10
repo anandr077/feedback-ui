@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navigation from '../Navbar/Navigation';
 import Notifications from '../Notifications';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar';
-import { getNotifications } from '../../service.js';
+import { getNotifications, getUserRole } from '../../service.js';
 import {
   NavigationContainer,
   Frame1350,
@@ -11,13 +11,20 @@ import {
   Frame51,
 } from './HeaderSmallStyle';
 import { useQuery } from '@tanstack/react-query';
+import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
+import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
+
+import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
+import HelpSidebar from '../../components2/HelpSidebar';
 
 export default function HeaderSmall(props) {
   const { headerProps } = props;
-  const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
- 
-  const { data: notifications, isLoading } = useQuery({
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHelpBarOpen, setIsHelpBarOpen] = useState(false);
+  const isTeacher = getUserRole() === 'TEACHER';
+
+   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
     queryFn: async () => {
       const result = await getNotifications();
@@ -32,6 +39,10 @@ export default function HeaderSmall(props) {
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleHelpBarClick = () =>{
+    setIsHelpBarOpen(!isHelpBarOpen)
+  }
   
   if (isMenuOpen) {
     return (
@@ -54,6 +65,13 @@ export default function HeaderSmall(props) {
       </NavigationContainer>
     );
   }
+  if(isHelpBarOpen){
+    return(
+      <NavigationContainer>
+         <HelpSidebar onCloseFn={handleHelpBarClick} />
+      </NavigationContainer>
+    )
+  }
   return (
     <>
       <Frame1350>
@@ -61,6 +79,11 @@ export default function HeaderSmall(props) {
           <Frame1349 src="icons/header-logo.png" />
         </a>
         <Frame5>
+          <HeaderHelpBar 
+            src="/img/helpIcon.png"
+            onClickFn={handleHelpBarClick}
+          />
+          {!isTeacher && <HeaderOnboardingMenu />}
           <Notifications
             src="/img/notificationbing@2x.png"
             onClickFn={handleNotificationClick}

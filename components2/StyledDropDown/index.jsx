@@ -14,10 +14,13 @@ export default function StyledDropDown({
   independent = false,
   showImage = false,
   selectedIndex,
-  onItemSelected,
+  fullWidth = false,
+  onItemSelected
 }) {
+
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
+  console.log("initialSelectedItem", initialSelectedItem)
   const [value, setValue] = React.useState(initialSelectedItem);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -63,7 +66,7 @@ export default function StyledDropDown({
       );
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 100 }}>
+    <FormControl fullWidth={fullWidth} sx={!fullWidth ? { m: 1, minWidth: 150 } : {}}>
       <Select
         style={{
           border: !independent ? '1px solid var(--light-mode-purple)' : 'none',

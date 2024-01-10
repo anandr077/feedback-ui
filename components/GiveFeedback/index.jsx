@@ -36,8 +36,10 @@ import {
   Frame5086,
   Frame5086Img,
   Frame5086Text,
+  SortContainer,
+  SortButton,
+  SortButtonText,
 } from './style';
-import Group1205 from '../TeacherDashboard/Group1205';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 import StyledDropDown from '../../components2/StyledDropDown';
@@ -47,8 +49,13 @@ import {
   getGiveFeedbackCompletedTasks,
 } from '../../service';
 import Loader from '../Loader';
-import FilterSquare from '../../static/img/filter-square.png';
-import questionMark from '../../static/img/question-mark.png';
+import FilterSquare from '../../static/img/filter-square.svg';
+import SortSquare from '../../static/img/sort-square.svg';
+import questionMark from '../../static/img/question-mark.svg';
+import arrowRight from '../../static/img/arrowright.svg';
+import arrowLeft from '../../static/img/arrowleft.svg';
+import LinkButton from '../../components2/LinkButton';
+import GiveFeedbackDropDown from './GiveFeedbackDropDown';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -59,7 +66,7 @@ function GiveFeedback() {
     },
     {
       id: '1',
-      title: 'Telugu',
+      title: 'Teluguhhhhh',
     },
     {
       id: '2',
@@ -89,6 +96,7 @@ function GiveFeedback() {
 
   React.useEffect(() => {
     if (communityTasksQuery.data) {
+      console.log('Community tasks', communityTasksQuery.data);
       setCommunityTasks(communityTasksQuery.data);
     }
     if (giveFeedbackCompletedTasksQuery.data) {
@@ -127,16 +135,16 @@ function GiveFeedback() {
                 </Title>
                 <ConnectContainer>
                   {pathName.includes('/feedbackHistory') ? (
-                    <Group1205
+                    <LinkButton
                       link={`#giveFeedback`}
                       label="Go Back"
-                      arrowleft={'/img/arrowleft.png'}
+                      arrowleft={arrowLeft}
                     />
                   ) : (
-                    <Group1205
+                    <LinkButton
                       link={`#feedbackHistory`}
                       label="Feedback History"
-                      arrowright={'/img/arrowright@2x.png'}
+                      arrowright={arrowRight}
                     />
                   )}
                 </ConnectContainer>
@@ -150,12 +158,42 @@ function GiveFeedback() {
                 <Frame5086Img src={FilterSquare} />
                 <Frame5086Text>Filters:</Frame5086Text>
               </Frame5086>
-              <StyledDropDown
+              <GiveFeedbackDropDown
                 showAvatars={false}
                 search={false}
                 selectedIndex={selectedItemIndex}
                 menuItems={dropdownSample}
               />
+              <GiveFeedbackDropDown
+                showAvatars={false}
+                search={false}
+                selectedIndex={selectedItemIndex}
+                menuItems={dropdownSample}
+              />
+              <GiveFeedbackDropDown
+                showAvatars={false}
+                search={false}
+                selectedIndex={selectedItemIndex}
+                menuItems={dropdownSample}
+              />
+              <GiveFeedbackDropDown
+                showAvatars={false}
+                search={false}
+                selectedIndex={selectedItemIndex}
+                menuItems={dropdownSample}
+              />
+              <SortContainer>
+                <Frame5086>
+                  <Frame5086Img src={SortSquare} />
+                  <Frame5086Text>Sort by:</Frame5086Text>
+                </Frame5086>
+                <SortButton>
+                  <SortButtonText>New to Old</SortButtonText>
+                </SortButton>
+                <SortButton>
+                  <SortButtonText>Old to New</SortButtonText>
+                </SortButton>
+              </SortContainer>
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
           <ContentContainer>

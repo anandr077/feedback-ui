@@ -27,10 +27,11 @@ import {
   WordsCount,
   WordsCountContainer,
 } from './style';
-import WhiteArrowleft from '../../static/img/white-arrowleft.png';
-import CloseCircle from '../../static/img/closecircle.png';
+import WhiteArrowleft from '../../static/img/arrowright-White.svg';
+import CloseCircle from '../../static/img/closecircle.svg';
 import StarFilled from '../../static/img/Star-filled.png';
 import StarEmpty from '../../static/img/Star-empty.png';
+import StyledButton from '../../components2/StyledButton';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
   return (
@@ -95,15 +96,17 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
             </TextContainer>
             <ButtonsContainer>
               {pathName.includes('/feedbackHistory') ? (
-                <FeedbackButton>
-                  <FeedbackButtonText>View Details</FeedbackButtonText>
-                  <FeedbackButtonArrow src={WhiteArrowleft} />
-                </FeedbackButton>
+                <StyledButton
+                  URL={text.url}
+                  Text="View Details"
+                  Icon={WhiteArrowleft}
+                />
               ) : (
-                <FeedbackButton>
-                  <FeedbackButtonText>Give Feedback</FeedbackButtonText>
-                  <FeedbackButtonArrow src={WhiteArrowleft} />
-                </FeedbackButton>
+                <StyledButton
+                  URL={text.url}
+                  Text="Give Feedback"
+                  Icon={WhiteArrowleft}
+                />
               )}
               {!pathName.includes('/feedbackHistory') && (
                 <CrossButton>

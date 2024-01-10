@@ -81,6 +81,27 @@ export const FilterAndSortContainer = styled.div`
   align-self: stretch;
   border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
 `;
+export const SortContainer = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+export const SortButton = styled.div`
+  display: flex;
+  padding: 8px 12px 8px 12px;
+  border-radius: 25px;
+  border: 1px;
+  border: 1px solid #a6a6a6;
+`;
+export const SortButtonText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #6F6F6F;
+
+`;
 
 export const HeadingLine = styled.p`
   color: var(--Foundation-Grey-grey-500, #7a7a7a);
@@ -345,6 +366,8 @@ export const Frame5086 = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6px;
+  justify-content: center;
+  align-items: center;
 `;
 export const Frame5086Img = styled.img`
   width: 24px;
@@ -369,6 +392,10 @@ export const Frame5051 = styled.div`
 export const TagsAndTextContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  @media (max-width: 765px) {
+    flex-direction: column-reverse;
+    gap: 16px;
+  }
 `;
 export const TagsContainer = styled.div`
   display: flex;
@@ -425,7 +452,7 @@ export const ButtonsContainer = styled.div`
   display: flex;
   gap: 12px;
 `;
-export const FeedbackButton = styled.div`
+export const FeedbackButton = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -434,6 +461,7 @@ export const FeedbackButton = styled.div`
   border: 1px;
   gap: 4px;
   background: #7200e0;
+  text-decoration: none;
 `;
 export const FeedbackButtonText = styled.div`
   font-family: IBM Plex Sans;
@@ -463,4 +491,20 @@ export const DismissText = styled.div`
   letter-spacing: 0em;
   text-align: left;
   color: #575757;
+`;
+
+export const AvatarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  border-radius: 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+`;
+
+export const Frame12841 = styled.img`
+  position: relative;
+  min-width: 16px;
+  height: 16px;
 `;

@@ -59,7 +59,7 @@ export const NavigationContainer = styled.div`
 `;
 
 export const Screen = styled.div`
-  height: 1000vh;
+  height: 100%;
   width: calc(100vw - 20px);
   position: absolute;
   top: 0;

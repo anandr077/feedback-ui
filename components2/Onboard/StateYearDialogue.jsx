@@ -77,7 +77,6 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   // }, []);
 
   const saveStateYear = () => {
-    console.log('the states are', state, year);
     if (state && year) {
       profileStateYear({
         year: year,

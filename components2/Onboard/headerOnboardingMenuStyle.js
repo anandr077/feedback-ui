@@ -23,7 +23,11 @@ export const OnboardingContainer = styled.div`
   }
 `;
 
-export const HeaderFlag = styled.img``;
+export const HeaderFlag = styled.img`
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+`;
 
 export const OnboardingInformationBox = styled.div`
   padding: 10px;
@@ -35,7 +39,7 @@ export const OnboardingInformationBox = styled.div`
 export const OnboardingHeading = styled.p`
   white-space: nowrap;
   color: #9d9a9a;
-  font-size: 10px;
+  font-size: 12px;
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   margin-bottom: 5px;
@@ -56,7 +60,7 @@ export const LocationAgeContainer = styled.div`
     color: #333333;
     font-family: var(--font-family-ibm_plex_sans);
     font-weight: 400;
-    font-size: 12px;
+    font-size: var(--font-size-m);
     white-space: nowrap;
   }
 `;
@@ -75,7 +79,7 @@ export const EditBtn = styled.div`
   cursor: pointer;
 
   img {
-    width: 8px;
-    height: 10px;
+    width: 10px;
+    height: 12px;
   }
 `;

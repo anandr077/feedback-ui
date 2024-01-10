@@ -9,7 +9,9 @@ import './Navigation.css';
 import { account, changePassword, getUserName, logout } from '../../../service';
 import { Avatar } from '@boringer-avatars/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { getUserRole } from '../../../service';
 import Cookies from 'js-cookie';
+import countriesData from '../../../components2/Onboard/countries.json';
 
 const group1Data = {
   iconHome: '/img/home3-1@2x.png',
@@ -37,6 +39,21 @@ function Navigation(props) {
   const queryClient = useQueryClient();
   const [state, setState] = useState('State');
   const [year, setYear] = useState('Year');
+  const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
+  const [country, setCountry] = useState(defaultCountry);
+  const isTeacher = getUserRole() === 'TEACHER';
+
+  const findFlagIcon = (state = defaultCountry.state) => {
+    const matchingState = countriesData[country].find(
+      (cntry) => cntry.state === state
+    );
+
+    return matchingState
+      ? matchingState.flagIcon
+      : countriesData[country][0].flagIcon;
+  };
+
+  const flagIcon = findFlagIcon(state);
 
   useEffect(() => {
     const savedState = Cookies.get('state');
@@ -109,25 +126,29 @@ function Navigation(props) {
           }}
         ></NavElement8>
       </Frame5>
-      <Frame1410>
-        <LocationAgeContainer>
-          <FlagBox>
-           
-          </FlagBox>
-          <div>
-            Year {year}, Australia, {state}
-          </div>
-        </LocationAgeContainer>
-        <EditBtn
-          onClick={() => {
-            setEditStateYear(true);
-            onCloseFn();
-          }}
-        >
-          <img src="/img/editSmall.png" />
-          <p>Edit</p>
-        </EditBtn>
-      </Frame1410>
+      {!isTeacher && (
+        <>
+          <Frame1410>
+            <LocationAgeContainer>
+              <FlagBox>
+                <FlagIcon src={flagIcon} />
+              </FlagBox>
+              <div>
+                Year {year}, Australia, {state}
+              </div>
+            </LocationAgeContainer>
+            <EditBtn
+              onClick={() => {
+                setEditStateYear(true);
+                onCloseFn();
+              }}
+            >
+              <img src="/img/editSmall.png" />
+              <p>Edit</p>
+            </EditBtn>
+          </Frame1410>
+        </>
+      )}
     </NavbarDiv>
   );
 }
@@ -224,7 +245,7 @@ const LocationAgeContainer = styled.div`
   gap: 12px;
   overflow-x: hidden;
 
-  div{
+  div {
     color: #333333;
     font-family: var(--font-family-ibm_plex_sans);
     font-weight: 400;
@@ -237,7 +258,12 @@ const FlagBox = styled.div`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: green;
+`;
+
+const FlagIcon = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 `;
 
 const EditBtn = styled.div`
@@ -254,7 +280,7 @@ const EditBtn = styled.div`
   line-height: 15px;
   cursor: pointer;
 
-  img{
+  img {
     width: 10.66px;
     height: 11.07px;
   }

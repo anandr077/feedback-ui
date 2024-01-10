@@ -21,10 +21,14 @@ import {
 } from './HeaderStyle';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
+import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
+import { getUserRole } from '../../service.js';
 
 export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
+  const isTeacher = getUserRole() === 'TEACHER';
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -33,7 +37,6 @@ export default function Header(props) {
       return result;
     },
     staleTime: 60000,
-    
   });
 
   const OnFirstButtonClick = () => {
@@ -46,13 +49,13 @@ export default function Header(props) {
     window.location.href = headerProps.thirdButton.redirect;
   };
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
-  const [slideNotificationBar, setSlideNotificationBar] = useState(false)
+  const [slideNotificationBar, setSlideNotificationBar] = useState(false);
   const handleNotificationClick = () => {
     if (!isNotificationOpen) {
       setIsNotificationOpen(true);
-      setSlideNotificationBar(true)
+      setSlideNotificationBar(true);
     } else {
-      setSlideNotificationBar(false)
+      setSlideNotificationBar(false);
       setTimeout(() => {
         setIsNotificationOpen(false);
       }, 300);
@@ -116,31 +119,33 @@ export default function Header(props) {
               </HeaderButtonInnnerContainer>
             </HeaderButton>
           )}
-          {headerProps.thirdButton.selected ? (
-            <HeaderButtonSelected onClick={OnThirdButtonClick}>
-              <HeaderButtonInnnerContainer>
-                <IconContainer
-                  src={headerProps.thirdButton.iconSelected}
-                  alt="buttonIcon"
-                />
-                <SelectedButtonText>
-                  {headerProps.thirdButton.text}
-                </SelectedButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButtonSelected>
-          ) : (
-            <HeaderButton onClick={OnThirdButtonClick}>
-              <HeaderButtonInnnerContainer className="group-1">
-                <IconContainer
-                  src={headerProps.thirdButton.icon}
-                  alt="buttonIcon"
-                />
-                <ButtonText>{headerProps.thirdButton.text}</ButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButton>
-          )}
+          {Cookies.get('classes') &&
+            (headerProps.thirdButton.selected ? (
+              <HeaderButtonSelected onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer>
+                  <IconContainer
+                    src={headerProps.thirdButton.iconSelected}
+                    alt="buttonIcon"
+                  />
+                  <SelectedButtonText>
+                    {headerProps.thirdButton.text}
+                  </SelectedButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButtonSelected>
+            ) : (
+              <HeaderButton onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer className="group-1">
+                  <IconContainer
+                    src={headerProps.thirdButton.icon}
+                    alt="buttonIcon"
+                  />
+                  <ButtonText>{headerProps.thirdButton.text}</ButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButton>
+            ))}
         </Frame5>
         <Frame51>
+          {!isTeacher && <HeaderOnboardingMenu />}
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}
@@ -152,13 +157,8 @@ export default function Header(props) {
         </Frame51>
       </Frame1344>
       {isNotificationOpen && (
-        <Screen 
-          onClick={handleNotificationClick}
-          notifications={notifications}
-        >
-          <NavigationContainer 
-            slideNotificationBar={slideNotificationBar}
-          >
+        <Screen onClick={handleNotificationClick} notifications={notifications}>
+          <NavigationContainer slideNotificationBar={slideNotificationBar}>
             {' '}
             <NotificationsBar
               notifications={notifications}

@@ -87,6 +87,9 @@ const QuillEditor = React.forwardRef(
       }
     }, [editor]);
     useImperativeHandle(ref, () => ({
+      getText() {
+        return editor.getText();
+      },
       addComment(comment) {
         addComment(editor, comment);
       },

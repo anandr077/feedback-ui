@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
 const jeddleBaseUrl =
@@ -22,7 +24,7 @@ async function fetchData(url, options, headers = {}) {
       credentials: 'include',
       headers: mergedHeaders,
     });
-    
+
     if (response.status === 401) {
       return redirectToExternalIDP();
     }
@@ -140,7 +142,6 @@ const deleteApi = async (url) => {
   });
 };
 
-
 export const downloadSubmission = async (submissionId) => {
   const url = `${baseUrl}/submissions/${submissionId}/download`;
   const token = localStorage.getItem('jwtToken');
@@ -149,13 +150,15 @@ export const downloadSubmission = async (submissionId) => {
     const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       }),
-      credentials: 'include' // if needed for cookies, otherwise remove
+      credentials: 'include', // if needed for cookies, otherwise remove
     });
 
     if (!response.ok) {
-      throw new Error(`Server returned ${response.status} during file download`);
+      throw new Error(
+        `Server returned ${response.status} during file download`
+      );
     }
 
     const blob = await response.blob();
@@ -173,8 +176,6 @@ export const downloadSubmission = async (submissionId) => {
     // Handle any errors here
   }
 };
-
-
 
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
@@ -202,17 +203,25 @@ export const setProfileCookies = (profile) => {
   localStorage.setItem('jwtToken', profile.token);
   const expiry = 30 * 24 * 60 * 60;
 
-  document.cookie =
-    'user.name=' + profile.name + '; max-age=' + expiry * +'; path=/';
-  document.cookie =
-    'userId=' + profile.userId + '; max-age=' + expiry + '; path=/';
-  document.cookie = 'role=' + profile.role + '; max-age=' + expiry + '; path=/';
+ 
+  Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
+  Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
+  Cookies.set('role', profile.role, { expires: expiry, path: '/' });
+  if (profile.state !== undefined || profile.year !== undefined) {
+    Cookies.set('state', profile.state, { expires: expiry, path: '/' });
+    Cookies.set('year', profile.year, { expires: expiry, path: '/' });
+  }
+  profile.classes && Cookies.set('classes', JSON.stringify(profile.classes), { expires: expiry, path: '/' });
+  
 };
 
 export const deleteProfileCookies = () => {
-  document.cookie = 'user.name=; max-age=' + 0 + '; path=/';
-  document.cookie = 'userId=; max-age=' + 0 + '; path=/';
-  document.cookie = 'role=; max-age=' + 0 + '; path=/';
+  Cookies.remove('role');
+  Cookies.remove('userId');
+  Cookies.remove('user.name');
+  Cookies.remove('state');
+  Cookies.remove('year');
+  Cookies.remove('classes');
 };
 export const logout = async () => {
   await postApi(baseUrl + '/users/logout').then(() => {
@@ -258,7 +267,6 @@ export const getSubmissionsByAssignmentId = async (assignmentId) =>
   await getApi(baseUrl + '/assignments/' + assignmentId + '/submissions');
 export const getOverComments = async (id) =>
   await getApi(baseUrl + '/submissions/' + id + '/overallComments');
-
 
 export const addFeedback = async (submissionId, comment) =>
   await postApi(
@@ -426,6 +434,12 @@ export const unpublishModelResponse = async (feedbackId) =>
 export const denyModelResponse = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/deny');
 
+export const profileStateYear = async (stateYear) =>
+  await patchApi(baseUrl + '/users/profile', stateYear);
+
+export const getStateYear = async () =>
+  await getApi(baseUrl + '/users/profile');
+
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + '/submissions', submission);
 
@@ -440,6 +454,7 @@ export const createRequestFeddbackType = async (
 function logoutLocal() {
   deleteProfileCookies();
   localStorage.removeItem('jwtToken');
+  localStorage.removeItem('onboardingShown');
 }
 
 export function redirectToExternalIDP() {
@@ -448,7 +463,8 @@ export function redirectToExternalIDP() {
     jeddleBaseUrl +
     '/wp-json/moserver/authorize?response_type=code&client_id=' +
     clientId +
-    '&state=' + Date.now() +
+    '&state=' +
+    Date.now() +
     '&redirect_uri=' +
     selfBaseUrl;
   window.location.href = externalIDPLoginUrl;
@@ -555,4 +571,12 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     classId,
     courseId,
     title,
+  });
+export const askJeddAI = async (submissionId, cleanAnswer) =>
+  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+    state: 'NSW',
+    year: '8',
+    subject: 'English',
+    type: 'Short',
+    cleanAnswer: cleanAnswer,
   });

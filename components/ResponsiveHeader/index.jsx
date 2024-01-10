@@ -14,6 +14,7 @@ import {
 } from '../../utils/headerProps';
 import { getUserRole } from '../../service';
 import { isSmallScreen } from '../ReactiveRender';
+import Cookies from 'js-cookie';
 
 export default function ResponsiveHeader() {
   const location = useLocation();
@@ -25,6 +26,8 @@ export default function ResponsiveHeader() {
   }
   return <Header headerProps={headerProps} />;
 }
+
+
 
 const getHeaderProps = (location) => {
   if (location.includes('/settings')) return completedHeaderProps(true);
@@ -47,6 +50,6 @@ const getHeaderProps = (location) => {
     else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
-    return taskHeaderProps;
+    return Cookies.get('classes') ? taskHeaderProps : portfolioHeaderProps() ;
   }
 };

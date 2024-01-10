@@ -11,7 +11,6 @@ import StudentDashboardRoot from './components/StudentDashBoardRoot';
 import StudentTaskRoot from './components/StudentTaskRoot';
 import TeacherDashboardRoot from './components/TeacherDashboard/TeacherDashboardRoot';
 import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
-import withAuth from './components/WithAuth';
 import PageNotFound from './components/PageNotFound';
 import { Redirect } from 'react-router-dom';
 import { getUserRole, getUserName } from './service';
@@ -24,29 +23,33 @@ import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
 import GiveFeedback from './components/GiveFeedback';
+import Cookies from 'js-cookie';
+import withOnboarding from './components/WithOnboarding';
+import withAuth from './components/WithAuth';
 
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
-
-  const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
-  const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
-  const ProtectedStudentTaskRoot = withAuth(StudentTaskRoot);
-  //const ProtectedCompletedRoot = withAuth(CompletedPage);
-  const ProtectedPortfolioRoot = withAuth(PortfolioPage);
-  const ProtectedTeacherClassesRoot = withAuth(TeacherClassesRoot);
-  const ProtectedTaskDetail = withAuth(TaskDetail);
-  const ProtectedCreateAssignment = withAuth(CreateAssignment);
-  const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
-  const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
-  const ProtectedDocumentRoot = withAuth(DocumentRoot);
-  const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
-  const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
-  const ProtectedSettings = withAuth(AccountSettingsRoot);
-  const ProtectedHeader = withAuth(ResponsiveHeader);
-  const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
-  const ProtectedGiveFeedback = withAuth(GiveFeedback);
+  
+  const middleware = (c)=>withOnboarding(withAuth(c));
+  const ProtectedTeacherDashboard = middleware(TeacherDashboardRoot);
+  const ProtectedStudentDashboard = middleware(StudentDashboardRoot);
+  const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
+  //const ProtectedCompletedRoot = middleware(CompletedPage);
+  const ProtectedPortfolioRoot = middleware(PortfolioPage);
+  const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
+  const ProtectedTaskDetail = middleware(TaskDetail);
+  const ProtectedCreateAssignment = middleware(CreateAssignment);
+  const ProtectedTeacherTaskRoot = middleware(TeacherTaskRoot);
+  const ProtectedFeedbacksRoot = middleware(FeedbacksRoot);
+  const ProtectedDocumentRoot = middleware(DocumentRoot);
+  const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
+  const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
+  const ProtectedSettings = middleware(AccountSettingsRoot);
+  const ProtectedHeader = middleware(ResponsiveHeader);
+  const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
+  const ProtectedGiveFeedback = middleware(GiveFeedback);
 
   const portfolioClient = new QueryClient();
 
@@ -55,7 +58,7 @@ function App() {
       role === 'TEACHER' ? (
         <ProtectedTeacherDashboard />
       ) : (
-        <ProtectedStudentTaskRoot />
+        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedPortfolioRoot />
       );
     return <div>{dashboard}</div>;
   };

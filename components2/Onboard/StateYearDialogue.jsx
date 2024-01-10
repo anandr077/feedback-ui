@@ -36,8 +36,9 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   const [country, setCountry] = useState({ title: defaultCountry });
   const defaultState = Cookies.get('state') === null || Cookies.get('state') === undefined? countriesData[defaultCountry][0].state : Cookies.get('state');
   const [state, setState] = useState(defaultState);
-  
-  const [year, setYear] = useState('7');
+  const defaultYear = Cookies.get('year') === null || Cookies.get('year') === undefined? '7' : Cookies.get('year');
+
+  const [year, setYear] = useState(defaultYear);
   const countryOptions = Object.keys(countriesData).map((country) => ({
     title: country,
   }));

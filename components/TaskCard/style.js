@@ -151,8 +151,8 @@ export const StyledCard = styled.article`
   background-color: ${({overdue}) => (overdue ? '#FFDED2' : 'var(--white)')};
   border-color: var(--corn);
   border:  1px solid ${({ overdue }) => (overdue ? '#FE7171' : 'rgba(219, 87, 87, 0.2)')};
-
   border-radius: 16px;
+  
   &:hover {
     background: #f9f5ff;
     border: 1px solid var(--light-mode-purple);

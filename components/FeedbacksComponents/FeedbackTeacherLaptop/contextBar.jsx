@@ -17,6 +17,7 @@ import {
   IconContainer,
   DropdownButtonsGroup,
   DropdownButton,
+  TitleContainer,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';

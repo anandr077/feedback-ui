@@ -76,6 +76,11 @@ export const TitleWrapper = styled.div`
   line-height: normal;
   gap: 10px;
 `;
+export const TitleContainer = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`;
 export const StatusText = styled.div`
   font-family: 'IBM Plex Sans';
   font-style: normal;

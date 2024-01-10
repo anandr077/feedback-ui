@@ -59,8 +59,10 @@ export default function Header(props) {
     if (!isNotificationOpen) {
       setIsNotificationOpen(true);
       setSlideNotificationBar(true);
+      setsliderOpen(true)
     } else {
       setSlideNotificationBar(false);
+      setsliderOpen(false);
       setTimeout(() => {
         setIsNotificationOpen(false);
       }, 300);

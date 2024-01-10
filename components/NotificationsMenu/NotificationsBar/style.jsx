@@ -15,9 +15,22 @@ export const NavbarDiv = styled.div`
 
 export const NotificationHead = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-`
+  margin-bottom: 10px;
+  img {
+    height: 32px;
+    width: 32px;
+  }
+  h1 {
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 600;
+    font-size: var(--font-size-xxl);
+    color: var(--text);
+    line-height: 31px;
+  }
+`;
 
 export const Frame1409 = styled.div`
   display: flex;
@@ -74,4 +87,4 @@ export const EmptyBox = styled.div`
   font-family: 'IBM Plex Sans';
   font-size: 20px;
   color: rgba(48, 45, 45, 0.5);
-`
+`;

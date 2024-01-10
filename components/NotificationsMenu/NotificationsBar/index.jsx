@@ -58,8 +58,8 @@ function NotificationsBar(props) {
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
       queryClient.refetchQueries({ queryKey: ['assignments'] }),
-      queryClient.refetchQueries({ queryKey: ['tasks'] }),
-      queryClient.refetchQueries({ queryKey: ['document-reviews'] });
+        queryClient.refetchQueries({ queryKey: ['tasks'] }),
+        queryClient.refetchQueries({ queryKey: ['document-reviews'] });
       window.location.href = `#documentsReview/${data.id}`;
     },
     onSettled: () => {},
@@ -161,12 +161,8 @@ function NotificationsBar(props) {
         <NavbarDiv>
           <Frame1409>
             <NotificationHead>
-              <NotificationSwitch
-                notificationBtnValue={notificationBtnValue}
-                totalNotifications={filteredOtherNotifications.length}
-                totalRequests={filteredFeedbackRequests.length}
-              />
-              <MaskGroup src="/img/close.png" onClick={onCloseFn} />
+              <img src="img/notificationIcon.png" />
+              <h1>Notifications</h1>
             </NotificationHead>
             <Frame16 onClick={onCloseFn}>
               {filteredNotifications.length > 0 ? (
@@ -183,11 +179,10 @@ function NotificationsBar(props) {
         </NavbarDiv>
       ) : (
         <Frame15 onClick={onCloseFn}>
-          <NotificationSwitch
-            notificationBtnValue={notificationBtnValue}
-            totalNotifications={filteredOtherNotifications.length}
-            totalRequests={filteredFeedbackRequests.length}
-          />
+          <NotificationHead>
+            <img src="img/notificationIcon.png" />
+            <h1>Notifications</h1>
+          </NotificationHead>
           {filteredNotifications.length > 0 ? (
             filteredNotifications
           ) : (

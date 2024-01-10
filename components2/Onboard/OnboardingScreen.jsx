@@ -1,15 +1,11 @@
 import React from 'react';
-import { Screen, FooterContainer } from './onboardingScreenStyle';
-import Footer from '../../components/Footer';
+import { Screen } from './onboardingScreenStyle';
 import OnboardContent from './OnboardContent';
 
-const OnboardingScreen = () => {
+const OnboardingScreen = ({editStateYear, onClose}) => {
   return (
     <Screen>
-      <OnboardContent />
-      {/* <FooterContainer>
-        <Footer />
-      </FooterContainer> */}
+      <OnboardContent editStateYear = {editStateYear} onClose={onClose}/>
     </Screen>
   );
 };

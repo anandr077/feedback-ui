@@ -1,7 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { OnboardingContext } from './OnboardingProvider';
+import React, { useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import DropdownMenu from '../../components/DropdownMenu';
 import {
   DialogueBox,
   DropdownContainer,
@@ -11,25 +9,17 @@ import {
   Button,
   Header,
   TermsCondition,
+  CheckboxContainer,
+  WarningContainer,
   Checkbox,
   TermsText,
   HeaderText,
   CloseImg,
 } from './stateYearDialogueStyle';
-import { profileStateYear, getStateYear } from '../../service';
-import { OnboardingContext } from './OnboardingProvider';
+import { profileStateYear } from '../../service';
+import SnackbarContext from '../../components/SnackbarContext';
 import StyledDropDown from '../StyledDropDown';
-
-const countryOptions = [{ title: 'Australia' }];
-
-const stateOptions = [
-  { title: 'New South Wales' },
-  { title: 'Queensland' },
-  { title: 'South Australia' },
-  { title: 'Tasmania' },
-  { title: 'Victoria' },
-  { title: 'Western Australia' },
-];
+import countriesData from './countries.json';
 
 const yearOptions = [
   { title: '7' },
@@ -40,56 +30,67 @@ const yearOptions = [
   { title: '12' },
 ];
 
-const StateYearDialogue = ({ setStage }) => {
-  const { setShowStateYear, setEditStateYear } = useContext(OnboardingContext);
-  const [country, setCountry] = useState({});
-  const [state, setState] = useState({});
-  const [year, setYear] = useState({});
-  const [selectedStateIndex, setSelectedStateIndex] = useState();
-  const [selectedYearIndex, setSelectedYearIndex] = useState();
-  const { editStateYear } = useContext(OnboardingContext);
+const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
+  const { showSnackbar } = useContext(SnackbarContext);
+  const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
+  const [country, setCountry] = useState({ title: defaultCountry });
+  const defaultState = Cookies.get('state') === null || Cookies.get('state') === undefined? countriesData[defaultCountry][0].state : Cookies.get('state');
+  const [state, setState] = useState(defaultState);
+  const defaultYear = Cookies.get('year') === null || Cookies.get('year') === undefined? '7' : Cookies.get('year');
+
+  const [year, setYear] = useState(defaultYear);
+  const countryOptions = Object.keys(countriesData).map((country) => ({
+    title: country,
+  }));
+  const stateOptions =
+    country && country.title
+      ? countriesData[country.title].map((s) => ({
+          title: s.state,
+        }))
+      : [];
+
+  console.log('countryOptions', stateOptions);
 
   const handleStateSelect = (selectedState) => {
-    setState(selectedState);
+    console.log('selectedState', selectedState);
+    setState(selectedState.title); // Directly setting the state value
   };
-  
+ 
   const handleYearSelect = (selectedYear) => {
-    setYear(selectedYear);
+    console.log('selectedYear', selectedYear);
+    setYear(selectedYear.title);
   };
 
   const handleCountrySelect = (selectedCountry) => {
-    setCountry(selectedCountry)
-  }
+    setCountry(selectedCountry);
+  };
 
-  React.useEffect(() => {
-    Promise.all([getStateYear()]).then(([profile]) => {
-      setState(profile.state);
-      setYear(profile.year);
+  const cookieState = Cookies.get('state');
+  const cookieYear = Cookies.get('year');
 
-      const stateIndex = stateOptions.findIndex(
-        (option) => option.title === profile.state
-      );
-      setSelectedStateIndex(stateIndex >= 0 ? stateIndex : stateOptions[0]);
+  // useEffect(() => {
+  //   if (cookieState) {
+  //     setState(cookieState);
+  //   }
+  //   if (cookieState) {
+  //     setYear(cookieState);
+  //   }
+  // }, []);
 
-      const yearIndex = yearOptions.findIndex(
-        (option) => option.title === profile.year
-      );
-      setSelectedYearIndex(yearIndex >= 0 ? yearIndex : yearOptions[0]);
-    });
-  }, []);
-
-  const saveToCookies = () => {
-    if (state.title && year.title) {
+  const saveStateYear = () => {
+    if (state && year) {
       profileStateYear({
-        year: year.title,
-        state: state.title,
+        year: year,
+        state: state,
       }).then(() => {
-        Cookies.set('state', state.title);
-        Cookies.set('year', year.title);
-        Cookies.set('country', country.title);
+        Cookies.set('state', state);
+        Cookies.set('year', year);
+        onClose();
+        //Cookies.set('country', country.title);
         //{!editStateYear && setStage(3)}
-        setShowStateYear(false);
-        setEditStateYear(false);
+        if (editStateYear) {
+          showSnackbar('Setting successfully updated');
+        }
       });
     }
   };
@@ -99,13 +100,17 @@ const StateYearDialogue = ({ setStage }) => {
       <Header>
         <HeaderText>
           {editStateYear
-            ? 'Update your settings'
+            ? 'Update your Location'
             : "Let's Get Started - Customise Your Feedback"}
         </HeaderText>
+       
         {editStateYear && (
           <CloseImg
             src="img/vector-12@2x.png"
-            onClick={() => setEditStateYear(false)}
+            onClick={() => {
+              console.log("onClose", onClose)
+              onClose()
+            }}
           />
         )}
       </Header>
@@ -115,7 +120,7 @@ const StateYearDialogue = ({ setStage }) => {
           <DropdownBox>
             <StyledDropDown
               menuItems={countryOptions}
-              fullWidth = {true}
+              fullWidth={true}
               onItemSelected={handleCountrySelect}
             />
           </DropdownBox>
@@ -125,8 +130,10 @@ const StateYearDialogue = ({ setStage }) => {
           <DropdownBox>
             <StyledDropDown
               menuItems={stateOptions}
-              selectedIndex={selectedStateIndex}
-              fullWidth = {true}
+              selectedIndex={stateOptions.findIndex(
+                (option) => option.title === state
+              )}
+              fullWidth={true}
               onItemSelected={handleStateSelect}
             />
           </DropdownBox>
@@ -136,8 +143,10 @@ const StateYearDialogue = ({ setStage }) => {
           <DropdownBox>
             <StyledDropDown
               menuItems={yearOptions}
-              selectedIndex={selectedYearIndex}
-              fullWidth = {true}
+              selectedIndex={yearOptions.findIndex(
+                (option) => option.title === year
+              )}
+              fullWidth={true}
               onItemSelected={handleYearSelect}
             />
           </DropdownBox>
@@ -145,13 +154,22 @@ const StateYearDialogue = ({ setStage }) => {
       </DropdownContainer>
       {!editStateYear && (
         <TermsCondition>
-          <Checkbox type="checkbox" />
-          <TermsText>
-            I agree to the <span>terms & conditions</span>
-          </TermsText>
+          <WarningContainer>
+            <h3>Anti-Bullying & Harassment Policy</h3>
+            <p>
+              Any instance of bullying, harassment or misconduct will result in{' '}
+              <span>immediate suspension</span> from the platform.
+            </p>
+          </WarningContainer>
+          <CheckboxContainer>
+            <Checkbox type="checkbox" />
+            <TermsText>
+              I agree to the <span>terms & conditions</span>
+            </TermsText>
+          </CheckboxContainer>
         </TermsCondition>
       )}
-      <Button onClick={saveToCookies}>
+      <Button onClick={saveStateYear}>
         {editStateYear ? 'Update' : 'Submit'}
       </Button>
     </DialogueBox>

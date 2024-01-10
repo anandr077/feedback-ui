@@ -18,7 +18,6 @@ const FirstPopUp = ({ setStage, stage }) => {
         <HeaderText>
           Welcome to <Name>Jeddle</Name>
         </HeaderText>
-        <SkipBtn>Skip</SkipBtn>
       </Header>
       <ContentBox>
         <PlayBtn src="img/play.png" />

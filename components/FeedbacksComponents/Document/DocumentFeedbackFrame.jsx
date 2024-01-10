@@ -295,7 +295,7 @@ export const handleShowResolvedToggle = (setShowResolved) => (event) => {
   setShowResolved(event.target.checked);
 };
 function createVisibleComments(commentsForSelectedTab) {
-  return commentsForSelectedTab.filter((comment) => !comment.isHidden);
+  return commentsForSelectedTab.filter((comment) => !comment.isHidden && comment.type !== "MARKING_CRITERIA");
 }
 function createDefaultCommentText(pageMode) {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE' || pageMode === 'CLOSED') {

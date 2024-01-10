@@ -22,10 +22,13 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
+import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
+import { getUserRole } from '../../service.js';
 
 export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
+  const isTeacher = getUserRole() === 'TEACHER';
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -142,6 +145,7 @@ export default function Header(props) {
             ))}
         </Frame5>
         <Frame51>
+          {!isTeacher && <HeaderOnboardingMenu />}
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}

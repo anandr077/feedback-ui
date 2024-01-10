@@ -202,14 +202,17 @@ export const getCookie = (name) => {
 export const setProfileCookies = (profile) => {
   localStorage.setItem('jwtToken', profile.token);
   const expiry = 30 * 24 * 60 * 60;
-  {
-    profile.classes && Cookies.set('classes', JSON.stringify(profile.classes));
+
+ 
+  Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
+  Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
+  Cookies.set('role', profile.role, { expires: expiry, path: '/' });
+  if (profile.state !== undefined || profile.year !== undefined) {
+    Cookies.set('state', profile.state, { expires: expiry, path: '/' });
+    Cookies.set('year', profile.year, { expires: expiry, path: '/' });
   }
-  document.cookie =
-    'user.name=' + profile.name + '; max-age=' + expiry * +'; path=/';
-  document.cookie =
-    'userId=' + profile.userId + '; max-age=' + expiry + '; path=/';
-  document.cookie = 'role=' + profile.role + '; max-age=' + expiry + '; path=/';
+  profile.classes && Cookies.set('classes', JSON.stringify(profile.classes), { expires: expiry, path: '/' });
+  
 };
 
 export const deleteProfileCookies = () => {
@@ -218,6 +221,7 @@ export const deleteProfileCookies = () => {
   Cookies.remove('user.name');
   Cookies.remove('state');
   Cookies.remove('year');
+  Cookies.remove('classes');
 };
 export const logout = async () => {
   await postApi(baseUrl + '/users/logout').then(() => {
@@ -448,6 +452,7 @@ export const createRequestFeddbackType = async (
 function logoutLocal() {
   deleteProfileCookies();
   localStorage.removeItem('jwtToken');
+  localStorage.removeItem('onboardingShown');
 }
 
 export function redirectToExternalIDP() {

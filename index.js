@@ -7,7 +7,7 @@ import { SnackbarProvider } from './components/SnackbarContext'; // Make sure yo
 
 ReactDOM.render(
   <SnackbarProvider>
-    <App />
+      <App />
   </SnackbarProvider>,
   document.getElementById('app')
 );

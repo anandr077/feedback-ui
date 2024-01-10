@@ -79,6 +79,7 @@ export const HelpbarContainer = styled.div`
 
 export const Screen = styled.div`
   height: ${props => props.pageHeight ? (props.pageHeight + 170) + "px" : "0"};
+  //height: 100%;
   width: calc(100vw - 20px);
   position: absolute;
   top: 0;

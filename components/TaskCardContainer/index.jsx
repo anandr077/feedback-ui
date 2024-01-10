@@ -33,7 +33,6 @@ function TaskCardContainer(props) {
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-direction: column;
   width: 100%;
   align-items: center;
   gap: 20px;

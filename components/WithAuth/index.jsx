@@ -13,6 +13,8 @@ import { default as React, default as React, useEffect, useState } from 'react';
 import Loader from '../Loader';
 
 const withAuth = (WrappedComponent) => {
+  const history = useHistory();
+
   const WithAuth = (props) => {
     const [isLoading, setIsLoading] = useState(true);
 
@@ -49,6 +51,7 @@ function loginUsing(code) {
   exchangeCodeForToken(code)
     .then((result) => {
       setProfileCookies(result);
+      // history.push('')
       window.location.href = '/#/';
     })
     .catch((e) => {});

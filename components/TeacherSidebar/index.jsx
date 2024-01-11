@@ -22,6 +22,7 @@ import {
   LoadingDiv,
   AvatarImg,
 } from '../IndependentUser/style';
+import { Avatar } from '@boringer-avatars/react';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -138,7 +139,13 @@ function TeacherSidebar({
                   fontWeight: '500',
                 }}
               >
-                <AvatarImg src="img/mask-group@2x.png" />
+                <Avatar
+                  title={false}
+                  size={25}
+                  variant="beam"
+                  name={selectedQuestion?.title}
+                  square={false}
+                />
                 {selectedQuestion?.title.length >= 2 ? (
                   <>
                     {selectedQuestion?.title}
@@ -161,7 +168,13 @@ function TeacherSidebar({
                       key={qIndex}
                       onClick={() => setSelectedQuestion(question)}
                     >
-                      <AvatarImg src="img/mask-group@2x.png" />
+                      <Avatar
+                        title={false}
+                        size={25}
+                        variant="beam"
+                        name={selectedQuestion?.title}
+                        square={false}
+                      />
                       {question.title.length >= 28 ? (
                         <>
                           {question.title}

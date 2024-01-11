@@ -52,7 +52,7 @@
 
 .quill-editor-container {
   border-radius: 8px;
-  padding: 12px;
+  padding: 12px 33px;
   background-color: var(--white);
 }
 /* .ql-container.revised{

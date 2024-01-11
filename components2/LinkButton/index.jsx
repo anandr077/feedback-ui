@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { ButtonContainer, ButtonIcon, ButtonText } from './style';
 
 function LinkButton({ arrowright, arrowleft, link, label }) {
@@ -13,4 +13,4 @@ function LinkButton({ arrowright, arrowleft, link, label }) {
   );
 }
 
-export default LinkButton
+export default LinkButton;

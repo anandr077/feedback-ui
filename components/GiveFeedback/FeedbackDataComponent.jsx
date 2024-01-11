@@ -32,8 +32,87 @@ import CloseCircle from '../../static/img/closecircle.svg';
 import StarFilled from '../../static/img/Star-filled.png';
 import StarEmpty from '../../static/img/Star-empty.png';
 import StyledButton from '../../components2/StyledButton';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
+  const queryClient = useQueryClient();
+  const acceptMutation = useMutation({
+    mutationFn: acceptFeedbackRequest,
+    onMutate: async (submissionId) => {
+      await queryClient.cancelQueries({ queryKey: ['notifications'] });
+      const previousNotifications = queryClient.getQueryData(['notifications']);
+      const updatedNotifications = previousNotifications?.map((n) => {
+        if (n.submissionId === submissionId) {
+          return { ...n, type: 'URL' };
+        }
+        return n;
+      });
+      queryClient.setQueryData(
+        ['notifications'],
+        (old) => updatedNotifications
+      );
+
+      return { previousNotifications };
+    },
+
+    onError: (err, newTodo, context) => {
+      showSnackbar('' + err.message);
+
+      queryClient.setQueryData(
+        ['notifications'],
+        context.previousNotifications
+      );
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.refetchQueries({ queryKey: ['assignments'] });
+      queryClient.refetchQueries({ queryKey: ['tasks'] });
+      queryClient.refetchQueries({ queryKey: ['document-reviews'] });
+      queryClient.refetchQueries({ queryKey: ['communityTasks'] });
+      queryClient.refetchQueries({
+        queryKey: ['GiveFeedbackCompletedTasks'],
+      });
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.refetchQueries({ queryKey: ['assignments'] }),
+        queryClient.refetchQueries({ queryKey: ['tasks'] }),
+        queryClient.refetchQueries({ queryKey: ['document-reviews'] });
+      queryClient.refetchQueries({ queryKey: ['communityTasks'] });
+      queryClient.refetchQueries({
+        queryKey: ['GiveFeedbackCompletedTasks'],
+      });
+    },
+    onSettled: () => {},
+  });
+
+  const declineMutation = useMutation({
+    mutationFn: declineFeedbackRequest,
+    onMutate: async (submissionId) => {
+      await queryClient.cancelQueries({ queryKey: ['notifications'] });
+      const previousNotifications = queryClient.getQueryData(['notifications']);
+      const updatedNotifications = previousNotifications.filter(
+        (n) => n.submissionId !== submissionId
+      );
+      queryClient.setQueryData(
+        ['notifications'],
+        (old) => updatedNotifications
+      );
+
+      return { previousNotifications };
+    },
+
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(
+        ['notifications'],
+        context.previousNotifications
+      );
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.refetchQueries({ queryKey: ['communityTasks'] });
+    },
+  });
   return (
     <>
       {feedbackData.map((text, index) => {
@@ -106,10 +185,11 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
                   URL={text.url}
                   Text="Give Feedback"
                   Icon={WhiteArrowleft}
+                  onAccept={() => acceptMutation.mutate(text.id)}
                 />
               )}
               {!pathName.includes('/feedbackHistory') && (
-                <CrossButton>
+                <CrossButton onClick={() => declineMutation.mutate(text.id)}>
                   <FeedbackButtonArrow src={CloseCircle} />
                   <DismissText>Dismiss</DismissText>
                 </CrossButton>

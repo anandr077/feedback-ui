@@ -17,8 +17,7 @@ export default function GiveFeedbackDropDown({
   onItemSelected,
 }) {
   const initialSelectedItem =
-    selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
-  console.log('initialSelectedItem', initialSelectedItem);
+    selectedIndex >= 0 ? menuItems[selectedIndex] : '';
   const [value, setValue] = React.useState(initialSelectedItem);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -191,6 +190,17 @@ const groupItemsByFirstLetter = (items) => {
     return groupedItems;
   }, {});
 };
+
+// const groupItemsByFirstLetter = (items) => {
+//   return items.reduce((groupedItems, currentItem) => {
+//     const groupKey = currentItem.year || 'Other';
+//     if (!groupedItems[groupKey]) {
+//       groupedItems[groupKey] = [];
+//     }
+//     groupedItems[groupKey].push(currentItem);
+//     return groupedItems;
+//   }, {});
+// };
 
 function createImageFrame(selectedItem) {
   if (selectedItem?.image) {

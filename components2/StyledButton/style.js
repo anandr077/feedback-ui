@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ButtonContainer = styled.a`
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,6 +10,7 @@ export const ButtonContainer = styled.a`
   gap: 4px;
   background: #7200e0;
   text-decoration: none;
+  cursor: pointer;
 `;
 export const ButtonText = styled.div`
   font-family: IBM Plex Sans;

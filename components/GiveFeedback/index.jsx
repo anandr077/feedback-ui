@@ -96,10 +96,10 @@ function GiveFeedback() {
 
   React.useEffect(() => {
     if (communityTasksQuery.data) {
-      console.log('Community tasks', communityTasksQuery.data);
       setCommunityTasks(communityTasksQuery.data);
     }
     if (giveFeedbackCompletedTasksQuery.data) {
+      console.log('Community tasks', giveFeedbackCompletedTasksQuery.data);
       setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksQuery.data);
     }
   }, [communityTasksQuery]);

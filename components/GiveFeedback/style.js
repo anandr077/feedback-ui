@@ -68,9 +68,6 @@ export const TitleContainer = styled.div`
   }
 `;
 export const ConnectContainer = styled.div`
-  padding: 8px 16px 8px 16px;
-  border-radius: 24px;
-  border: 1px solid #7200e0;
 `;
 
 export const FilterAndSortContainer = styled.div`
@@ -99,8 +96,7 @@ export const SortButtonText = styled.div`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #6F6F6F;
-
+  color: #6f6f6f;
 `;
 
 export const HeadingLine = styled.p`
@@ -481,6 +477,7 @@ export const CrossButton = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
 `;
 
 export const DismissText = styled.div`

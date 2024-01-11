@@ -1,11 +1,17 @@
 import styled from 'styled-components';
+
+
 export const ButtonContainer = styled.div`
-  position: relative;
+  padding: 8px 16px 8px 16px;
+  border-radius: 24px;
+  border: 1px solid #7200e0;
   display: flex;
   gap: 8px;
   min-width: 115px;
-  height: 21px;
   margin-right: -2px;
+  :hover {
+    background-color: var(--light-mode-purple);
+  }
 `;
 export const ButtonText = styled.div`
   color: var(--light-mode-purple);
@@ -16,6 +22,9 @@ export const ButtonText = styled.div`
   height: 21px;
   letter-spacing: 0em;
   line-height: normal;
+  :hover {
+    color: var(--white);
+  }
 `;
 export const ButtonIcon = styled.img`
   width: 20px;

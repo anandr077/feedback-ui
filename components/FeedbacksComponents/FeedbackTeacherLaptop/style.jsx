@@ -40,9 +40,11 @@ export const ButtonsContainer = styled.div`
 export const FocusAreasLabelContainer = styled.div`
   display: flex;
   gap: 5px;
-  flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
+  margin: 0 48px;
+  padding-top: 20px;
+  border-top: 1px solid #F1E6FC;
 `;
 export const Ellipse141 = styled.div`
   position: relative;
@@ -274,6 +276,18 @@ export const Frame1366 = styled.div`
   position: relative;
   align-self: stretch;
 `;
+
+export const AnswerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background-color: var(--white);
+  border-radius: 8px;
+  padding-bottom: 20px;
+  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
+`;
+
 export const QuestionText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);

@@ -54,8 +54,6 @@
   border-radius: 8px;
   padding: 12px;
   background-color: var(--white);
-  border-radius: 8px;
-  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
 }
 /* .ql-container.revised{
   border-radius: 20px 20px !important;

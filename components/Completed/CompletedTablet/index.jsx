@@ -7,6 +7,7 @@ import './CompletedTablet.css';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
+import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 
 function CompletedTablet(props) {
   const {
@@ -31,6 +32,14 @@ function CompletedTablet(props) {
             <Breadcrumb2 title="Exemplars" exempler={exemplar} />
           </Frame1315>
         )}
+        <SliderCardContainer>
+          <HelpPeerSlide
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
+        </SliderCardContainer>
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}
@@ -70,6 +79,10 @@ const Frame1425 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+`;
+
+const SliderCardContainer = styled.div`
+  padding: 0px 60px;
 `;
 
 const Frame1424 = styled.div`

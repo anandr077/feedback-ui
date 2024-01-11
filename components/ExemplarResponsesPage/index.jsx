@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getModelResponses } from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy } from 'lodash';
@@ -12,6 +12,7 @@ export default function ExemplarResponsesPage(props) {
   const [id, setId] = React.useState(null);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
+  const [groups, setGroups] = useState({});
 
   const l = useLocation();
   React.useEffect(() => {
@@ -37,6 +38,14 @@ export default function ExemplarResponsesPage(props) {
       setPublishActionCompleted(false);
     }
   }, [publishActionCompleted]);
+
+  React.useEffect(() => {
+    const createGroup = groupBy(exemplarResponses, (task) =>
+      dateOnly(task.reviewedAt)
+    );
+    setGroups(createGroup)
+  }, [exemplarResponses]);
+
   if (isLoading) {
     return (
       <>
@@ -44,9 +53,7 @@ export default function ExemplarResponsesPage(props) {
       </>
     );
   }
-  const groups = groupBy(exemplarResponses, (task) =>
-    dateOnly(task.reviewedAt)
-  );
+
   return (
     <CompletedRoot
       title="Exemplars"

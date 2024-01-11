@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const SliderContainer = styled.div`
   border: 1px solid #e5c9ff;
   border-radius: 16px;
-  width: 1026px;
+  width: 100%;
 `;
 
 export const Header = styled.div`
@@ -25,7 +25,7 @@ export const Header = styled.div`
 
 export const SliderMain = styled.div`
   padding: 20px;
-  height: 430px;
+  height: ${props => props.mobileView ? '458px' : '430px'};
   overflow: hidden;
 `;
 
@@ -83,6 +83,7 @@ export const SlideDots = styled.div`
   justify-content: center;
   gap: 8px;
   margin-bottom: 20px;
+  margin-top: ${props => props.mobileView ? '10px' : '0'};
 `;
 
 export const Dot = styled.div`

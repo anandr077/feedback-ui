@@ -83,6 +83,7 @@ const Frame1425 = styled.div`
 `;
 
 const SliderCardContainer = styled.div`
+  width: 100%;
   padding: 0px 20px;
 `;
 

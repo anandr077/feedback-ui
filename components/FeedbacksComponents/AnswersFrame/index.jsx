@@ -25,6 +25,7 @@ import {
   QuestionText,
   QuillContainer,
   AnswerContainer,
+  Line,
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
@@ -174,7 +175,7 @@ const answerFrames = (
   setComments,
   comments
 ) => {
-  return submission.assignment.questions.map((question) => {
+  return submission.assignment.questions.map((question, idx) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
       answer: '',
@@ -197,7 +198,7 @@ const answerFrames = (
       return feedback.questionSerialNumber === question.serialNumber;
     });
     return (
-      <>
+      <div>
         <Frame1366>
           <QuestionText
             dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
@@ -268,7 +269,13 @@ const answerFrames = (
             )}
           </AnswerContainer>
         </Frame1366>
-      </>
+
+        {idx !== submission.assignment.questions.length - 1 && (
+          <div>
+            <Line src="/img/line-14-4.png" alt="Line 14" />
+          </div>
+        )}
+      </div>
     );
   });
 };

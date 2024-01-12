@@ -14,6 +14,7 @@ export const TextBox = styled.div`
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   padding: 0 20px;
+  box-sizing: border-box;
 
   ::-webkit-scrollbar {
     width: 8px;
@@ -47,7 +48,7 @@ export const HiddenInputBox = styled.textarea`
 export const OverAllCommentTitle = styled.h2`
   color: var(--text, #1e252a);
   font-size: 14px;
-  font-family: IBM Plex Sans;
+  font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
   line-height: normal;

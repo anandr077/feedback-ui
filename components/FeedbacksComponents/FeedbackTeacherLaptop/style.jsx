@@ -309,7 +309,7 @@ export const Frame1367 = styled.div`
   position: relative;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
+  gap: 50px;
 `;
 export const Frame1366 = styled.div`
   display: flex;
@@ -319,6 +319,11 @@ export const Frame1366 = styled.div`
   position: relative;
   align-self: stretch;
 `;
+
+export const Line = styled.img`
+  width: 100%;
+  margin-top: 50px;
+`
 
 export const AnswerContainer = styled.div`
   width: 100%;

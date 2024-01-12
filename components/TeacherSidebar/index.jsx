@@ -1,5 +1,6 @@
 import { Divider, Drawer } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import {
   DrawerBody,
@@ -10,55 +11,30 @@ import {
   DrawerQuestion,
   DrawerQuestions,
   OverflowShadow,
-  DrawerSubject,
-  DrawerSubjects,
-  DrawerVericalNav,
-  DrawerVericalNavData,
-  DividerContainer,
-  SubjectTitle,
-  RecentBtn,
-  StyledAccessTimeIcon,
-  StyledMoreVertIcon,
+  TickBox,
   LoadingDiv,
-  AvatarImg,
 } from '../IndependentUser/style';
 import { Avatar } from '@boringer-avatars/react';
 const drawerWidth = 315;
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '16px',
-  ...theme.mixins.toolbar,
-  justifyContent: 'center',
-  background: 'var(--light-mode-purple)',
-  padding: '16px',
-  borderRadius: '12px',
-  gap: '4px',
-  color: 'var(--white)',
-  margin: '20px',
-  fontFamily: 'var(--font-family-ibm_plex_sans)',
-  fontSize: 'var(--font-size-xl)',
-  fontWeight: '500',
-  position: 'relative',
-  cursor: 'pointer',
-}));
-
-function TeacherSidebar({
-  open,
-  subjects,
-  setSelectedSubject,
-  selectedSubject,
-}) {
+function TeacherSidebar({ open, submission }) {
   const theme = useTheme();
   const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
-  useEffect(() => {
-    setSelectedQuestion(subjects[selectedSubject]?.[0]);
-  }, [selectedSubject]);
+  const studentsList = submission.studentsSubmissions;
+
+  const avatar = studentsList.map((student) => (
+    <Avatar
+      title={false}
+      size={25}
+      variant="beam"
+      name={student.studentName}
+      square={false}
+    />
+  ));
 
   useEffect(() => {
     const updateHeight = () => {
@@ -92,6 +68,12 @@ function TeacherSidebar({
     return () => observer.disconnect();
   }, []);
 
+  const handleQuestionClick = (student) => {
+    console.log('the studetn id', student);
+    const newUrl = `/submissions/${student.submissionId}`;
+    history.push(newUrl);
+  };
+
   return (
     <Drawer
       sx={{
@@ -118,7 +100,7 @@ function TeacherSidebar({
       open={open}
     >
       <DrawerBody>
-        {!subjects[selectedSubject] ? (
+        {!submission ? (
           <LoadingDiv>Loading...</LoadingDiv>
         ) : (
           <>
@@ -132,57 +114,32 @@ function TeacherSidebar({
               <SearchIcon src="img/VectorSearch.png" />
             </DrawerInputBox>
             <DrawerQuestions pageHeight={pageHeight}>
-              <DrawerQuestion
-                style={{
-                  color: 'white',
-                  background: 'var(--royal-purple)',
-                  fontWeight: '500',
-                }}
-              >
-                <Avatar
-                  title={false}
-                  size={25}
-                  variant="beam"
-                  name={selectedQuestion?.title}
-                  square={false}
-                />
-                {selectedQuestion?.title.length >= 2 ? (
-                  <>
-                    {selectedQuestion?.title}
-                    <OverflowShadow blueBackground={true}></OverflowShadow>
-                    <span className="tooltip-text">
-                      {selectedQuestion?.title}
-                    </span>
-                  </>
-                ) : (
-                  selectedQuestion?.title
-                )}
-              </DrawerQuestion>
-
-              {subjects[selectedSubject]?.map(
-                (question, qIndex) =>
-                  question.title
+              {studentsList?.map(
+                (student, qIndex) =>
+                  student.studentName
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase()) && (
                     <DrawerQuestion
                       key={qIndex}
-                      onClick={() => setSelectedQuestion(question)}
+                      onClick={() => handleQuestionClick(student)}
+                      studentStyle={submission.id === student.submissionId}
                     >
-                      <Avatar
-                        title={false}
-                        size={25}
-                        variant="beam"
-                        name={selectedQuestion?.title}
-                        square={false}
-                      />
-                      {question.title.length >= 28 ? (
+                      {avatar[qIndex]}
+                      {student.studentName.length >= 28 ? (
                         <>
-                          {question.title}
+                          {student.studentName}
                           <OverflowShadow></OverflowShadow>
-                          <span className="tooltip-text">{question.title}</span>
+                          <span className="tooltip-text">
+                            {student.studentName}
+                          </span>
                         </>
                       ) : (
-                        question.title
+                        student.studentName
+                      )}
+                      {student.status === 'REVIEWED' && (
+                        <TickBox>
+                          <img src="img/tickCircle.png" />
+                        </TickBox>
                       )}
                     </DrawerQuestion>
                   )

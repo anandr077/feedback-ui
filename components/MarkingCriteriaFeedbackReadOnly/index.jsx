@@ -113,7 +113,7 @@ const createRows = (items) => {
 };
 
 const MarkingCriteriaContainer = styled.div`
-  padding: 40px 48px;
+  margin: 40px 48px;
   align-items: flex-start;
   gap: 20px;
   align-self: stretch;
@@ -121,6 +121,9 @@ const MarkingCriteriaContainer = styled.div`
   display: flex;
   grid-gap: 10px;
   overflow-x: scroll;
+  
+  padding-top: 20px;
+  border-top: 1px solid #F1E6FC;
   &::-webkit-scrollbar {
     display: none;
   }

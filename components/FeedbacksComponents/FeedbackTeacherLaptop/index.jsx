@@ -132,19 +132,9 @@ function FeedbackTeacherLaptop(props) {
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 275;
 
-  const transformedStudentData = {
-    Students: students.map((student) => ({
-      title: student.name,
-      link: student.link,
-    })),
-  };
 
   React.useEffect(() => {
     let dataToUse = subjectsList;
-
-    if (isTeacher) {
-      dataToUse = transformedStudentData['Students'];
-    }
 
     const groupedData = dataToUse?.reduce((result, item) => {
       const subject = item.subject || 'Students';
@@ -171,7 +161,7 @@ function FeedbackTeacherLaptop(props) {
     }
     setGroupedAndSortedData(groupedData);
     setSelectedSubject(Object.keys(groupedData)[0]);
-  }, [subjectsList, isTeacher, students]);
+  }, [subjectsList, students]);
   const navigate = useHistory();
 
   React.useEffect(() => {
@@ -252,9 +242,7 @@ function FeedbackTeacherLaptop(props) {
             {isTeacher ? (
               <TeacherSidebar
                 open={open}
-                subjects={groupedAndSortedData}
-                setSelectedSubject={setSelectedSubject}
-                selectedSubject={selectedSubject}
+                submission={submission}
               />
             ) : (
               <IndepentdentUserSidebar
@@ -278,7 +266,6 @@ function FeedbackTeacherLaptop(props) {
             drawerWidth={drawerWidth}
             open={open}
           >
-            {breadcrumbs(submission)}
             {answersAndFeedbacks(
               isMobile,
               submission,

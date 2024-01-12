@@ -6,6 +6,14 @@ export const FeedbackContainer = styled.div`
   padding: 40px 48px;
 `;
 
+export const NonEditFeedbackContainer = styled.div`
+  display: block;
+  width: calc(100% - 96px);
+  margin: 20px auto 40px;
+  padding-top: 20px;
+  border-top: 1px solid #F1E6FC;
+`;
+
 export const OverAllCommentTitle = styled.h2`
   color: var(--text, #1e252a);
   font-size: 14px;

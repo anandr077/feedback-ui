@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const FeedbackContainer = styled.div`
   width: 100%;
   margin-top: 15px;
+  padding: 40px 48px;
 `;
 
 export const OverAllCommentTitle = styled.h2`

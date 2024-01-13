@@ -39,6 +39,11 @@ import {
   SortContainer,
   SortButton,
   SortButtonText,
+  PopupContainer,
+  FeedbackButtonArrow,
+  Frame5086PopUp,
+  Frame5086PopUpTitle,
+  Frame5086PopUpBody,
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
@@ -56,6 +61,11 @@ import arrowRight from '../../static/img/arrowright.svg';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import LinkButton from '../../components2/LinkButton';
 import GiveFeedbackDropDown from './GiveFeedbackDropDown';
+import CloseCircle from '../../static/img/closecircle.svg';
+import { isMobileView } from '../ReactiveRender';
+import { Dialog } from '@mui/material';
+import Cookies from 'js-cookie';
+import whiteArrowright from '../../static/img/arrowright-White.svg';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -73,9 +83,64 @@ function GiveFeedback() {
       title: 'Englidh',
     },
   ]);
+  console.log('Testing Year', Cookies.get('year'));
+  const [selectedYear, setSelectedYear] = React.useState(Cookies.get('year'));
+  const [selectedSubject, setSelectedSubject] = React.useState('');
+  const [selectedState, setSelectedState] = React.useState(
+    Cookies.get('state')
+  );
+  // const [selectedDockType, setSelectedDockType] = React.useState('');
+  const [selectedDocumentType, setSelectedDocumentType] = React.useState('');
+
   const [communityTasks, setCommunityTasks] = React.useState([]);
   const [giveFeedbackCompletedTasks, setGiveFeedbackCompletedTasks] =
     React.useState([]);
+
+  const [sortData, setSortData] = React.useState(true);
+  const mobileView = isMobileView();
+  const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
+
+  const dropDownData = (type) => {
+    const groupedItems = groupItemsByAsWeRequired(
+      giveFeedbackCompletedTasks,
+      type
+    );
+
+    return Object.keys(groupedItems);
+  };
+
+  const filteredData = (tasks) => {
+    const filteredTasks = tasks.filter(
+      (task) =>
+        (!selectedYear || task.year === selectedYear) &&
+        (!selectedSubject || task.subject === selectedSubject) &&
+        (!selectedState || task.state === selectedState) &&
+        (!selectedDocumentType || task.documentType === selectedDocumentType)
+    );
+
+    const sortedTasks = filteredTasks.sort((a, b) => {
+      const dateA = new Date(a.requestedAt).getTime();
+      const dateB = new Date(b.requestedAt).getTime();
+      return sortData ? dateB - dateA : dateA - dateB;
+    });
+
+    return sortedTasks;
+  };
+
+  const setSelectedValue = (type, selectValue) => {
+    if (type === 'state') {
+      setSelectedState(selectValue);
+    }
+    if (type === 'year') {
+      setSelectedYear(selectValue);
+    }
+    if (type === 'subject') {
+      setSelectedSubject(selectValue);
+    }
+    if (type === 'documentType') {
+      setSelectedDocumentType(selectValue);
+    }
+  };
 
   const communityTasksQuery = useQuery({
     queryKey: ['communityTasks'],
@@ -99,7 +164,6 @@ function GiveFeedback() {
       setCommunityTasks(communityTasksQuery.data);
     }
     if (giveFeedbackCompletedTasksQuery.data) {
-      console.log('Community tasks', giveFeedbackCompletedTasksQuery.data);
       setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksQuery.data);
     }
   }, [communityTasksQuery]);
@@ -120,6 +184,64 @@ function GiveFeedback() {
   const location = useLocation();
   const pathName = location.pathname;
 
+  const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
+    return (
+      <Dialog open={isShowFilterPopUp}>
+        {isShowFilterPopUp && (
+          <PopupContainer>
+            <Frame5086PopUp>
+              <Frame5086PopUpTitle>
+                <Frame5086Img src={FilterSquare} />
+                <Frame5086Text>Filters:</Frame5086Text>
+              </Frame5086PopUpTitle>
+              <FeedbackButtonArrow
+                style={{ cursor: 'pointer' }}
+                src={CloseCircle}
+                onClick={() => setShowFilterPopUp(false)}
+              />
+            </Frame5086PopUp>
+            <Frame5086PopUpBody>
+              <GiveFeedbackDropDown
+                search={false}
+                type={'state'}
+                selectedIndex={setSelectedValue}
+                menuItems={dropDownData('state')}
+                fullWidth={true}
+              />
+            </Frame5086PopUpBody>
+            <Frame5086PopUpBody>
+              <GiveFeedbackDropDown
+                search={false}
+                selectedIndex={setSelectedValue}
+                menuItems={dropDownData('year')}
+                type={'year'}
+                fullWidth={true}
+              />
+            </Frame5086PopUpBody>
+            <Frame5086PopUpBody>
+              <GiveFeedbackDropDown
+                search={false}
+                selectedIndex={setSelectedValue}
+                menuItems={dropDownData('subject')}
+                type={'subject'}
+                fullWidth={true}
+              />
+            </Frame5086PopUpBody>
+            <Frame5086PopUpBody>
+              <GiveFeedbackDropDown
+                search={false}
+                selectedIndex={setSelectedValue}
+                menuItems={dropDownData('documentType')}
+                type={'documentType'}
+                fullWidth={true}
+              />
+            </Frame5086PopUpBody>
+          </PopupContainer>
+        )}
+      </Dialog>
+    );
+  };
+
   return (
     <>
       <MainContainer>
@@ -139,12 +261,14 @@ function GiveFeedback() {
                       link={`#giveFeedback`}
                       label="Go Back"
                       arrowleft={arrowLeft}
+                      // whiteArrowright={whiteArrowright}
                     />
                   ) : (
                     <LinkButton
                       link={`#feedbackHistory`}
                       label="Feedback History"
                       arrowright={arrowRight}
+                      whiteArrowright={whiteArrowright}
                     />
                   )}
                 </ConnectContainer>
@@ -154,45 +278,82 @@ function GiveFeedback() {
               </HeadingLine>
             </TopContainer>
             <FilterAndSortContainer>
-              <Frame5086>
-                <Frame5086Img src={FilterSquare} />
-                <Frame5086Text>Filters:</Frame5086Text>
-              </Frame5086>
-              <GiveFeedbackDropDown
-                showAvatars={false}
-                search={false}
-                selectedIndex={selectedItemIndex}
-                menuItems={dropdownSample}
-              />
-              <GiveFeedbackDropDown
-                showAvatars={false}
-                search={false}
-                selectedIndex={selectedItemIndex}
-                menuItems={dropdownSample}
-              />
-              <GiveFeedbackDropDown
-                showAvatars={false}
-                search={false}
-                selectedIndex={selectedItemIndex}
-                menuItems={dropdownSample}
-              />
-              <GiveFeedbackDropDown
-                showAvatars={false}
-                search={false}
-                selectedIndex={selectedItemIndex}
-                menuItems={dropdownSample}
-              />
+              <FilterContainer>
+                <Frame5086>
+                  <Frame5086Img src={FilterSquare} />
+                  <Frame5086Text>Filters:</Frame5086Text>
+                </Frame5086>
+
+                {!mobileView ? (
+                  <>
+                    <GiveFeedbackDropDown
+                      search={false}
+                      type={'state'}
+                      selectedIndex={setSelectedValue}
+                      menuItems={dropDownData('state')}
+                      defaultValue={selectedState}
+                    />
+                    <GiveFeedbackDropDown
+                      search={false}
+                      selectedIndex={setSelectedValue}
+                      menuItems={dropDownData('year')}
+                      type={'year'}
+                      defaultValue={selectedYear}
+                    />
+                    <GiveFeedbackDropDown
+                      search={false}
+                      selectedIndex={setSelectedValue}
+                      menuItems={dropDownData('subject')}
+                      type={'subject'}
+                      defaultValue={selectedSubject}
+                    />
+                    <GiveFeedbackDropDown
+                      search={false}
+                      selectedIndex={setSelectedValue}
+                      menuItems={dropDownData('documentType')}
+                      type={'documentType'}
+                      defaultValue={selectedDocumentType}
+                    />
+                  </>
+                ) : (
+                  <></>
+                )}
+                {/* <FilterPopContainer
+                isShowFilterPopUp={isShowFilterPopUp}
+                setShowFilterPopUp={setShowFilterPopUp}
+              /> */}
+              </FilterContainer>
               <SortContainer>
                 <Frame5086>
                   <Frame5086Img src={SortSquare} />
                   <Frame5086Text>Sort by:</Frame5086Text>
                 </Frame5086>
-                <SortButton>
-                  <SortButtonText>New to Old</SortButtonText>
-                </SortButton>
-                <SortButton>
-                  <SortButtonText>Old to New</SortButtonText>
-                </SortButton>
+                {!mobileView ? (
+                  <>
+                    <SortButton
+                      style={{ backgroundColor: sortData ? '#51009F' : '' }}
+                      onClick={() => setSortData(true)}
+                    >
+                      <SortButtonText
+                        style={{ color: sortData ? '#FFFFFF' : '' }}
+                      >
+                        New to Old
+                      </SortButtonText>
+                    </SortButton>
+                    <SortButton
+                      style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                      onClick={() => setSortData(false)}
+                    >
+                      <SortButtonText
+                        style={{ color: !sortData ? '#FFFFFF' : '' }}
+                      >
+                        Old to New
+                      </SortButtonText>
+                    </SortButton>
+                  </>
+                ) : (
+                  <></>
+                )}
               </SortContainer>
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
@@ -201,8 +362,8 @@ function GiveFeedback() {
               <FeedbackDataComponent
                 feedbackData={
                   pathName.includes('/feedbackHistory')
-                    ? giveFeedbackCompletedTasks
-                    : communityTasks
+                    ? filteredData(giveFeedbackCompletedTasks)
+                    : filteredData(communityTasks)
                 }
                 pathName={pathName}
               />
@@ -240,3 +401,14 @@ function GiveFeedback() {
 }
 
 export default GiveFeedback;
+
+const groupItemsByAsWeRequired = (items, type) => {
+  return items.reduce((groupedItems, currentItem) => {
+    const groupKey = currentItem[type] || 'Other';
+    if (!groupedItems[groupKey]) {
+      groupedItems[groupKey] = [];
+    }
+    groupedItems[groupKey].push(currentItem);
+    return groupedItems;
+  }, {});
+};

@@ -67,8 +67,7 @@ export const TitleContainer = styled.div`
     text-decoration: none;
   }
 `;
-export const ConnectContainer = styled.div`
-`;
+export const ConnectContainer = styled.div``;
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
@@ -77,6 +76,14 @@ export const FilterAndSortContainer = styled.div`
   gap: 16px;
   align-self: stretch;
   border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+  @media (max-width: 1024px) and (min-width: 765px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+export const FilterContainer = styled.div`
+  display: flex;
+  gap: 16px;
 `;
 export const SortContainer = styled.div`
   display: flex;
@@ -88,6 +95,7 @@ export const SortButton = styled.div`
   border-radius: 25px;
   border: 1px;
   border: 1px solid #a6a6a6;
+  cursor: pointer;
 `;
 export const SortButtonText = styled.div`
   font-family: IBM Plex Sans;
@@ -97,6 +105,7 @@ export const SortButtonText = styled.div`
   letter-spacing: 0em;
   text-align: left;
   color: #6f6f6f;
+  text-align: center;
 `;
 
 export const HeadingLine = styled.p`
@@ -364,6 +373,26 @@ export const Frame5086 = styled.div`
   gap: 6px;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+`;
+
+export const Frame5086PopUp = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #d6d6d6;
+`;
+export const Frame5086PopUpTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+`;
+export const Frame5086PopUpBody = styled.div`
+  padding: 16px 20px 16px 20px;
+  border: 0px 0px 1px 0px;
+  // gap: 16px;
+  border-bottom: 1px solid #d6d6d6;
 `;
 export const Frame5086Img = styled.img`
   width: 24px;
@@ -504,4 +533,11 @@ export const Frame12841 = styled.img`
   position: relative;
   min-width: 16px;
   height: 16px;
+`;
+
+export const PopupContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  border-radius: 12px;
 `;

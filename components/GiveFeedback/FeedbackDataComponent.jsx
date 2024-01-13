@@ -160,17 +160,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
             <TextContainer>
               <DataText>{text.title}</DataText>
               <WordsCountContainer>
-                <WordsCount>100 words</WordsCount>
-                {/* {pathName.includes('/feedbackHistory') && (
-                <Frame1333>
-                  <Frame1333Para>Feedback Rating:</Frame1333Para>
-                  <Frame1333Star src={StarFilled} />
-                  <Frame1333Star src={StarFilled} />
-                  <Frame1333Star src={StarFilled} />
-                  <Frame1333Star src={StarFilled} />
-                  <Frame1333Star src={StarEmpty} />
-                </Frame1333>
-              )} */}
+                {/* <WordsCount>100 words</WordsCount> */}
               </WordsCountContainer>
             </TextContainer>
             <ButtonsContainer>

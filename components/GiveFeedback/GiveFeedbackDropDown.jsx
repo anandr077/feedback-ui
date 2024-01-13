@@ -8,70 +8,31 @@ import { AvatarContainer, Frame12841 } from './style';
 
 export default function GiveFeedbackDropDown({
   menuItems,
-  showAvatars = false,
+  defaultValue='',
   search = false,
-  group = false,
-  showImage = false,
   selectedIndex,
   fullWidth = false,
-  onItemSelected,
+  type,
 }) {
-  const initialSelectedItem =
-    selectedIndex >= 0 ? menuItems[selectedIndex] : '';
-  const [value, setValue] = React.useState(initialSelectedItem);
+  const [value, setValue] = React.useState(defaultValue);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
-  const maxLength = menuItems.reduce((max, obj) => {
-    const itemLength = obj.title.length;
-    return itemLength > max ? itemLength : max;
-  }, 0);
-
-
-  React.useEffect(() => {
-    setValue(initialSelectedItem);
-  }, [selectedIndex, menuItems]);
+  const maxLength = menuItems.reduce((maxLength, currentString) => {
+    return currentString.length > maxLength.length ? currentString : maxLength;
+  }, '');
 
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
     setValue(menuItem);
     setOpen(false);
-    if (menuItem.link) {
-      window.location.href = menuItem.link;
-      window.location.reload();
-      return;
-    }
-    if (menuItem.onClick) {
-      menuItem.onClick(menuItem);
-      return;
-    }
-    if (onItemSelected) {
-      onItemSelected(menuItem);
-    }
+    selectedIndex(type, menuItem);
   };
-
-  const groupedMenuItems = group
-    ? groupItemsByFirstLetter(menuItems)
-    : { all: menuItems };
-
-  const filteredMenuItems = group
-    ? Object.keys(groupedMenuItems).reduce(
-        (result, key) =>
-          result.concat(
-            groupedMenuItems[key].filter((item) =>
-              item.title.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-          ),
-        []
-      )
-    : menuItems.filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
 
   return (
     <FormControl
       fullWidth={fullWidth}
-      sx={!fullWidth ? { minWidth: maxLength*12 } : {}}
+      sx={!fullWidth ? { minWidth: Math.max(120, maxLength.length * 11) } : {}}
     >
       <Select
         style={{
@@ -80,6 +41,8 @@ export default function GiveFeedbackDropDown({
           backgroundColor: 'white',
           borderRadius: '25px',
           fontSize: '14px',
+          display: 'flex',
+          textAlign: 'center',
         }}
         MenuProps={{
           PaperProps: {
@@ -96,21 +59,6 @@ export default function GiveFeedbackDropDown({
         value={value}
         displayEmpty
         input={<Input disableUnderline={true} />}
-        renderValue={(value) => (
-          <AvatarContainer>
-            {showAvatars && (
-              <Avatar
-                title={false}
-                size={25}
-                variant="beam"
-                name={value.title}
-                square={false}
-              />
-            )}
-            {showImage && createImageFrame(value)}
-            <span>{value.title}</span>
-          </AvatarContainer>
-        )}
       >
         {search && (
           <Input
@@ -135,75 +83,30 @@ export default function GiveFeedbackDropDown({
             }}
           />
         )}
-        {Object.keys(groupedMenuItems).map((groupKey) => (
-          <React.Fragment key={groupKey}>
-            {group && <MenuItem disabled>{groupKey}</MenuItem>}
-            {filteredMenuItems.map((menuItem) => (
-              <MenuItem
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  boxShadow: '0px 4px 8px #2f1a720a',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                }}
-                key={menuItem.id}
-                value={menuItem.id}
-                onClick={() => handleMenuSelect(menuItem)}
-              >
-                {showAvatars && (
-                  <Avatar
-                    title={false}
-                    size={25}
-                    variant="beam"
-                    name={menuItem.title}
-                    square={false}
-                  />
-                )}
-                {showImage && createImageFrame(menuItem)}
-                {menuItem.title}
-              </MenuItem>
-            ))}
-          </React.Fragment>
-        ))}
+        {/* <MenuItem value={''} onClick={() => handleMenuSelect('')}>
+          {open
+            ? 'None'
+            : type === 'documentType'
+            ? 'Task Type'
+            : capitalizeFirstLetter(type)}
+        </MenuItem> */}
+        {menuItems
+          .filter((item) =>
+            item.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .map((filteredItem) => (
+            <MenuItem
+              key={filteredItem}
+              value={filteredItem}
+              onClick={() => handleMenuSelect(filteredItem)}
+            >
+              {filteredItem}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );
 }
 
-const groupItemsByFirstLetter = (items) => {
-  return items.reduce((groupedItems, currentItem) => {
-    let groupKey;
-
-    if (/^[0-9]/.test(currentItem.title)) {
-      groupKey = '#';
-    } else {
-      groupKey = currentItem.title.charAt(0).toUpperCase();
-    }
-
-    if (!groupedItems[groupKey]) {
-      groupedItems[groupKey] = [];
-    }
-
-    groupedItems[groupKey].push(currentItem);
-    return groupedItems;
-  }, {});
-};
-
-// const groupItemsByFirstLetter = (items) => {
-//   return items.reduce((groupedItems, currentItem) => {
-//     const groupKey = currentItem.year || 'Other';
-//     if (!groupedItems[groupKey]) {
-//       groupedItems[groupKey] = [];
-//     }
-//     groupedItems[groupKey].push(currentItem);
-//     return groupedItems;
-//   }, {});
-// };
-
-function createImageFrame(selectedItem) {
-  if (selectedItem?.image) {
-    return <Frame12841 src={selectedItem.image} alt="Frame 1284" />;
-  }
-}
+const capitalizeFirstLetter = (str) =>
+  `${str.charAt(0).toUpperCase()}${str.slice(1)}`;

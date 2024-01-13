@@ -44,7 +44,7 @@ export const FocusAreasLabelContainer = styled.div`
   flex-wrap: wrap;
   margin: 0 48px;
   padding-top: 20px;
-  border-top: 1px solid #F1E6FC;
+  border-top: 1px solid #f1e6fc;
 `;
 export const Ellipse141 = styled.div`
   position: relative;
@@ -139,7 +139,6 @@ export const Main = styled.div`
   );
   height: 100%;
   display: flex;
-  align-items: center;
   overflow-x: hidden;
   width: 100%;
   margin-left: ${(props) =>
@@ -165,26 +164,35 @@ export const Frame1388 = styled.div`
 export const DrawerArrowContainer = styled.div`
   height: 100%;
   display: flex;
-  padding-left: ${(props) => (props.open ? '30px' : '0px')};
 `;
 
 export const DrawerArrow = styled.div`
   cursor: pointer;
-  height: fit-content;
-  margin-top: 40vh;
-  margin-left: ${(props) =>
-    props.open ? '0px' : `-${props.drawerWidth + 35}px`};
+  transform: ${(props) =>
+    props.open ? 'translateX(0)' : `translateX(-${props.drawerWidth + 35}px)`};
   display: flex;
   padding: 6px 2px;
-  border-radius: 5px;
-  border: 1px solid var(--blue-chalk-2);
-  background-color: var(--white);
+  height: calc(100vh - 70px);
+  position: ${(props) => (props.open ? 'relative' : 'fixed')};
+  top: ${(props) => (!props.open ? '0' : '50%')};
+  transform: ${(props) => (!props.open ? 'none' : 'none')};
+  transition: transform 0.3s ease-in;
+  display: flex;
+  align-items: center;
 `;
 
 export const ArrowImg = styled.img`
   width: 25px;
-  transform: ${(props) => (props.open ? '' : 'rotate(180deg)')};
+  height: 25px;
+  transform: ${(props) => (props.open ? 'rotate(180deg)' : '0')};
   transition: transform 0.3s ease-in;
+`;
+
+export const ImgContainer = styled.div`
+  padding: 5px 1px;
+  background-color: white;
+  border: 1px solid var(--fog);
+  border-radius: 5px;
 `;
 
 export const Frame1387 = styled.div`
@@ -323,7 +331,7 @@ export const Frame1366 = styled.div`
 export const Line = styled.img`
   width: 100%;
   margin-top: 50px;
-`
+`;
 
 export const AnswerContainer = styled.div`
   width: 100%;

@@ -20,7 +20,7 @@ import {
   StyledAccessTimeIcon,
   StyledMoreVertIcon,
   LoadingDiv,
-  AvatarImg,
+  SidebarContainer,
 } from './style';
 const drawerWidth = 315;
 
@@ -92,29 +92,31 @@ function IndepentdentUserSidebar({
   }, []);
 
   return (
-    <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        fontFamily: 'IBM Plex Sans',
-        // height: '85vh',
-        overflow: 'hidden',
-        height: `${pageHeight - 20}px`,
-        '& .MuiDrawer-paper': {
-          width: '100%',
-          boxSizing: 'border-box',
-          overflowY: 'scroll',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-            width: '0px',
-          },
-          position: 'relative',
-          top: '0px',
-        },
-      }}
-      variant="persistent"
-      anchor="left"
+    <SidebarContainer
+      drawerWidth={drawerWidth}
       open={open}
+      // sx={{
+      //   width: drawerWidth,
+      //   flexShrink: 0,
+      //   fontFamily: 'IBM Plex Sans',
+      //   // height: '85vh',
+      //   overflow: 'hidden',
+      //   height: `${pageHeight - 20}px`,
+      //   '& .MuiDrawer-paper': {
+      //     width: '100%',
+      //     boxSizing: 'border-box',
+      //     overflowY: 'scroll',
+      //     '&::-webkit-scrollbar': {
+      //       display: 'none',
+      //       width: '0px',
+      //     },
+      //     position: 'relative',
+      //     top: '0px',
+      //   },
+      // }}
+      // variant="persistent"
+      // anchor="left"
+      // open={open}
     >
       <DrawerHeader>+ New Draft</DrawerHeader>
       <DividerContainer>
@@ -197,7 +199,7 @@ function IndepentdentUserSidebar({
           </>
         )}
       </DrawerBody>
-    </Drawer>
+    </SidebarContainer>
   );
 }
 

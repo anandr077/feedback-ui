@@ -14,6 +14,7 @@ import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherLaptop.css';
 import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import {
   Frame1315,
   Frame1368,
@@ -26,6 +27,7 @@ import {
   DrawerArrow,
   ArrowImg,
   GoBackBtn,
+  ImgContainer,
 } from './style';
 import { isMobileView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -150,6 +152,7 @@ function FeedbackTeacherLaptop(props) {
   ]);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const drawerWidth = 275;
 
   React.useEffect(() => {
@@ -278,7 +281,7 @@ function FeedbackTeacherLaptop(props) {
         <Main drawerWidth={drawerWidth} open={open}>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          <DrawerArrowContainer open={open}>
+          {/* <DrawerArrowContainer open={open} drawerWidth={drawerWidth}>
             {isTeacher ? (
               <TeacherSidebar open={open} submission={submission} />
             ) : (
@@ -295,9 +298,32 @@ function FeedbackTeacherLaptop(props) {
               drawerWidth={drawerWidth}
               open={open}
             >
-              <ArrowImg src="img/caret-5@2x.png" open={open} />
+              <ImgContainer>
+                <ArrowImg src="img/caret-5@2x.png" open={open} />
+              </ImgContainer>
             </DrawerArrow>
-          </DrawerArrowContainer>
+          </DrawerArrowContainer> */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Sidebar collapsed={sidebarCollapsed}>
+              <Menu>
+                <SubMenu label="Charts">
+                  <MenuItem> Pie charts </MenuItem>
+                  <MenuItem> Line charts </MenuItem>
+                </SubMenu>
+                <MenuItem> Documentation </MenuItem>
+                <MenuItem> Calendar </MenuItem>
+              </Menu>
+            </Sidebar>
+            <DrawerArrow
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              drawerWidth={drawerWidth}
+              open={open}
+            >
+              <ImgContainer>
+                <ArrowImg src="img/caret-5@2x.png" open={open} />
+              </ImgContainer>
+            </DrawerArrow>
+          </div>
           <Frame1388
             mobileView={isMobile}
             drawerWidth={drawerWidth}
@@ -462,7 +488,8 @@ function answersAndFeedbacks(
   showFeedbackButtons,
   setShowFeedbackButtons,
   showStatusText,
-  classesAndStudents
+  classesAndStudents,
+  navigate
 ) {
   return (
     <Frame1386 id="content">

@@ -23,6 +23,25 @@ export const UserContainer = styled.div`
     padding: 40px 60px 0px 60px;
   }
 `;
+
+export const StudentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const SidebarContainer = styled.div`
+  background-color: var(--white);
+  border-right: 1px solid var(--blue-chalk);
+  border-top: 1px solid var(--blue-chalk);
+  width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
+  margin-left: ${(props) => (props.open ? '35px' : '0')};
+  transform: translateX(
+    ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
+  );
+  transition: transform 0.3s ease-in;
+`;
+
 export const UserData = styled.div`
   display: flex;
   justify-content: center;
@@ -202,13 +221,13 @@ export const StyledAccessTimeIcon = styled(AccessTimeIcon)`
 export const DrawerQuestions = styled.div`
   display: flex;
   flex-direction: column;
-  height: ${(props) => `${props.pageHeight}px`};
   gap: 10px !important;
   overflow-y: scroll;
   width: 100%;
   ::-webkit-scrollbar {
     width: 0;
   }
+  flex-grow: 1;
 `;
 
 export const OverflowShadow = styled.div`
@@ -232,8 +251,9 @@ export const DrawerQuestion = styled.div`
   line-height: 20.8px;
   padding: 16px 20px;
   border-radius: 8px;
-  background: ${props => props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
-  color: ${props => props.studentStyle ? 'var(--white)' : 'var(--text)'};
+  background: ${(props) =>
+    props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
+  color: ${(props) => (props.studentStyle ? 'var(--white)' : 'var(--text)')};
   white-space: nowrap;
   position: relative;
   display: flex;
@@ -242,7 +262,8 @@ export const DrawerQuestion = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: ${props => props.studentStyle ? 'var(--royal-purple)' : '#dbd9d9'};
+    background: ${(props) =>
+      props.studentStyle ? 'var(--royal-purple)' : '#dbd9d9'};
 
     ${OverflowShadow} {
       background: #dbd9d9;

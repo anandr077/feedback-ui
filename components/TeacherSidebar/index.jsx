@@ -13,13 +13,14 @@ import {
   OverflowShadow,
   TickBox,
   LoadingDiv,
+  SidebarContainer,
+  StudentContainer
 } from '../IndependentUser/style';
 import { Avatar } from '@boringer-avatars/react';
 const drawerWidth = 315;
 
 function TeacherSidebar({ open, submission }) {
   const theme = useTheme();
-  const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
@@ -75,35 +76,37 @@ function TeacherSidebar({ open, submission }) {
   };
 
   return (
-    <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        fontFamily: 'IBM Plex Sans',
-        // height: '85vh',
-        overflow: 'hidden',
-        height: `${pageHeight - 20}px`,
-        '& .MuiDrawer-paper': {
-          width: '100%',
-          boxSizing: 'border-box',
-          overflowY: 'scroll',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-            width: '0px',
-          },
-          position: 'relative',
-          top: '0px',
-        },
-      }}
-      variant="persistent"
-      anchor="left"
+    <SidebarContainer
+      drawerWidth={drawerWidth}
       open={open}
+      // sx={{
+      //   width: drawerWidth,
+      //   flexShrink: 0,
+      //   fontFamily: 'IBM Plex Sans',
+      //   // height: '85vh',
+      //   overflow: 'hidden',
+      //   height: `${pageHeight - 20}px`,
+      //   '& .MuiDrawer-paper': {
+      //     width: '100%',
+      //     boxSizing: 'border-box',
+      //     overflowY: 'scroll',
+      //     '&::-webkit-scrollbar': {
+      //       display: 'none',
+      //       width: '0px',
+      //     },
+      //     position: 'relative',
+      //     top: '0px',
+      //   },
+      // }}
+      // variant="persistent"
+      // anchor="left"
+      // open={open}
     >
       <DrawerBody>
         {!submission ? (
           <LoadingDiv>Loading...</LoadingDiv>
         ) : (
-          <>
+          <StudentContainer>
             <Heading>Students</Heading>
             <DrawerInputBox>
               <DrawerInput
@@ -113,7 +116,7 @@ function TeacherSidebar({ open, submission }) {
               />
               <SearchIcon src="img/VectorSearch.png" />
             </DrawerInputBox>
-            <DrawerQuestions pageHeight={pageHeight}>
+            <DrawerQuestions>
               {studentsList?.map(
                 (student, qIndex) =>
                   student.studentName
@@ -145,10 +148,10 @@ function TeacherSidebar({ open, submission }) {
                   )
               )}
             </DrawerQuestions>
-          </>
+          </StudentContainer>
         )}
       </DrawerBody>
-    </Drawer>
+    </SidebarContainer>
   );
 }
 

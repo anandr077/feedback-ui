@@ -12,7 +12,7 @@ import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherLaptop.css';
-import { contextBar } from './contextBar';
+import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
 import {
   Frame1315,
@@ -33,7 +33,23 @@ import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
 import { IsoTwoTone } from '@mui/icons-material';
 
-import { useHistory  } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
+import { getSubmissionById, createRequestFeddbackType } from '../../../service';
+
+const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
+
+const FeedbackMethodTypeEnum = {
+  FROM_TEACHER: 0,
+  FROM_CLASS: 1,
+  FROM_PEER: 2,
+};
+
+const FeedbackType = {
+  TEACHER: 'TEACHER',
+  P2P: 'P2P',
+  FRIEND: 'FRIEND',
+};
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -53,11 +69,15 @@ function FeedbackTeacherLaptop(props) {
     students,
     headerProps,
     submission,
+    setSubmission,
     share,
     sharewithclassdialog,
     overallComments,
     selectedRange,
+    classesAndStudents,
+    teachers,
   } = props;
+  console.log('classesAndStudents', classesAndStudents);
   const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -132,7 +152,6 @@ function FeedbackTeacherLaptop(props) {
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 275;
 
-
   React.useEffect(() => {
     let dataToUse = subjectsList;
 
@@ -172,6 +191,27 @@ function FeedbackTeacherLaptop(props) {
 
   const [isShowResolved, setShowResolved] = useState(false);
 
+  const [isShowSelectType, setShowSelectType] = useState(false);
+  const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
+  const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+
+  const handleRequestFeedback = async (index) => {
+    await setFeedbackMethodTypeDialog(-1);
+    setFeedbackMethodTypeDialog(index);
+  };
+  const handleSelectedRequestFeedback = (itemData, type) => {
+    const requestData = {
+      type: type,
+      reviewerId: itemData ? itemData.id : null,
+    };
+    createRequestFeddbackType(submission.id, requestData).then((res) => {
+      if (res) {
+        getSubmissionById(submission.id).then((s) => {
+          setSubmission(s);
+        });
+      }
+    });
+  };
   const commentsForSelectedTab = selectTabComments(
     isShowResolved,
     isFocusAreas,
@@ -240,10 +280,7 @@ function FeedbackTeacherLaptop(props) {
           {sharewithclassdialog}
           <DrawerArrowContainer open={open}>
             {isTeacher ? (
-              <TeacherSidebar
-                open={open}
-                submission={submission}
-              />
+              <TeacherSidebar open={open} submission={submission} />
             ) : (
               <IndepentdentUserSidebar
                 open={open}
@@ -269,6 +306,7 @@ function FeedbackTeacherLaptop(props) {
             {answersAndFeedbacks(
               isMobile,
               submission,
+              setSubmission,
               methods,
               isTeacher,
               pageMode,
@@ -291,11 +329,25 @@ function FeedbackTeacherLaptop(props) {
               newCommentFrameRef,
               share,
               smartAnnotations,
-              overallComments
+              overallComments,
+              handleRequestFeedback,
+              isShowSelectType,
+              setShowSelectType,
+              showFeedbackButtons,
+              setShowFeedbackButtons,
+              classesAndStudents
             )}
           </Frame1388>
         </Main>
       </div>
+      {handleFeedbackMethodTypeDialog(
+        feedbackMethodTypeDialog,
+        setFeedbackMethodTypeDialog,
+        handleSelectedRequestFeedback,
+        flatMap(classesAndStudents, (classObj) => classObj.students),
+        teachers,
+        classesAndStudents
+      )}
     </>
   );
 }
@@ -380,6 +432,7 @@ function createGroupedFocusAreas(submission) {
 function answersAndFeedbacks(
   isMobile,
   submission,
+  setSubmission,
   methods,
   isTeacher,
   pageMode,
@@ -403,7 +456,13 @@ function answersAndFeedbacks(
   share,
   smartAnnotations,
   overallComments,
-  navigate,
+  handleRequestFeedback,
+  isShowSelectType,
+  setShowSelectType,
+  showFeedbackButtons,
+  setShowFeedbackButtons,
+  showStatusText,
+  classesAndStudents
 ) {
   return (
     <Frame1386 id="content">
@@ -414,7 +473,23 @@ function answersAndFeedbacks(
           Go Back
         </GoBackBtn>
       )}
-      {contextBar(submission, methods, isTeacher, pageMode, labelText)}
+      {createContextBar(
+        submission,
+        setSubmission,
+        methods,
+        pageMode,
+        labelText,
+        isShowSelectType,
+        setShowSelectType,
+        showFeedbackButtons,
+        setShowFeedbackButtons,
+        methods,
+        isTeacher,
+        pageMode,
+        handleRequestFeedback,
+        showStatusText,
+        classesAndStudents
+      )}
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,
@@ -466,4 +541,84 @@ function breadcrumbs(submission) {
   );
 }
 
+function createContextBar(
+  submission,
+  setSubmission,
+  methods,
+  pageMode,
+  labelText,
+  isShowSelectType,
+  setShowSelectType,
+  showFeedbackButtons,
+  setShowFeedbackButtons,
+  methods,
+  isTeacher,
+  pageMode,
+  handleRequestFeedback,
+  classesAndStudents
+) {
+  if (submission.type === 'DOCUMENT') {
+    return contextBarForPortfolioDocument(
+      isShowSelectType,
+      setShowSelectType,
+      showFeedbackButtons,
+      setShowFeedbackButtons,
+      submission,
+      setSubmission,
+      methods,
+      isTeacher,
+      pageMode,
+      labelText,
+      (feedbackMethodType = FeedbackMethodType),
+      handleRequestFeedback,
+      true,
+      classesAndStudents
+    );
+  }
+  return contextBar(submission, methods, isTeacher, pageMode, labelText);
+}
+
+const handleFeedbackMethodTypeDialog = (
+  feedbackMethodType,
+  setFeedbackMethodTypeDialog,
+  handleSelectedRequestFeedback,
+  students,
+  teachers,
+  classes
+) => {
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_TEACHER) {
+    return (
+      <FeedbackTypeDialog
+        menuItems={teachers}
+        setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
+        title="teacher"
+        handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.TEACHER}
+      ></FeedbackTypeDialog>
+    );
+  }
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_CLASS) {
+    return (
+      <FeedbackTypeDialog
+        menuItems={classes}
+        setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
+        title="class"
+        handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.P2P}
+      ></FeedbackTypeDialog>
+    );
+  }
+  if (feedbackMethodType === FeedbackMethodTypeEnum.FROM_PEER) {
+    return (
+      <FeedbackTypeDialog
+        menuItems={students}
+        setFeedbackMethodTypeDialog={setFeedbackMethodTypeDialog}
+        title="student"
+        handleSelectedRequestFeedback={handleSelectedRequestFeedback}
+        feedbackType={FeedbackType.FRIEND}
+      ></FeedbackTypeDialog>
+    );
+  }
+  return <></>;
+};
 export default FeedbackTeacherLaptop;

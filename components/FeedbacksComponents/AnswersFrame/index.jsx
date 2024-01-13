@@ -361,16 +361,14 @@ function createShowMarkingCriteriasFrame(
   answer,
   question
 ) {
-  const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
-
+  const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED' ];
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];
-
   if (
     !validStatuses.includes(submission.status) ||
     !(markingCriteriaFeedback?.length > 0) ||
-    !questionCriteria.markingCriteria?.title ||
-    questionCriteria.markingCriteria?.title === 'No Marking Criteria' ||
+    // !questionCriteria.markingCriteria?.title ||
+    // questionCriteria.markingCriteria?.title === 'No Marking Criteria' ||
     questionCriteria.type === 'MCQ'
   ) {
     return <></>;

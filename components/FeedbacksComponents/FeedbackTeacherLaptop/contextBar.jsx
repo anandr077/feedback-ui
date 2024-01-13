@@ -25,6 +25,7 @@ import { cancelFeedbackRequest, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Button5 from '../Buttons5';
+import Cookies from 'js-cookie';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -213,16 +214,11 @@ export function contextBarForPortfolioDocument(
   labelText,
   feedbackMethodType = [],
   handleRequestFeedback,
-  showStatusText,
-  allClasses,
-  allFolders,
-  updateDocumentClass
+  showStatusText = true,
+  allClasses
 ) {
+  console.log('feedbackMethodType');
   const { showSnackbar } = React.useContext(SnackbarContext);
-
-  const selectedFolderIdIndex = allFolders?.findIndex(
-    (item) => item.id === submission?.folderId
-  );
 
   return (
     <Frame1371 id="assignmentTitle">
@@ -233,8 +229,6 @@ export function contextBarForPortfolioDocument(
           }}
         />
         {showStatusText && statusText(methods, 0, submission)}
-
-        {changeFolderDropDown()}
       </TitleWrapper>
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
@@ -255,23 +249,6 @@ export function contextBarForPortfolioDocument(
       )}
     </Frame1371>
   );
-
-  function changeFolderDropDown() {
-    if (submission.studentId === getUserId()) {
-      return (
-        allFolders?.length > 0 && (
-          <div style={{ width: 'fit-content' }}>
-            <DropdownMenu
-              menuItems={allFolders}
-              onItemSelected={(item) => updateDocumentClass(item, allFolders)}
-              selectedIndex={selectedFolderIdIndex}
-            ></DropdownMenu>
-          </div>
-        )
-      );
-    }
-    return <></>;
-  }
 }
 
 function statusText(methods, focusAreasCount, submission) {
@@ -324,27 +301,29 @@ const submitButtonDocument = (
   console.log('pageMode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
-      <Buttons2 button="JeddAI" onClickFn={() => methods.jeddAI()}></Buttons2>
-      // <div style={{ position: 'relative' }}>
-      //   {
-      //     <>
-      //       {/* {selectReviewType(
-      //         feedbackMethodType,
-      //         isShowSelectType,
-      //         handleRequestFeedback
-      //       )} */}
-      //       <RequestFeedbackFrame
-      //         onClick={(event) => {
-      //           event.stopPropagation();
-      //           setShowSelectType(!isShowSelectType);
-      //         }}
-      //       >
-      //         {<img src="/img/messages.svg" alt="message" />}
-      //         Request Feedback
-      //       </RequestFeedbackFrame>
-      //     </>
-      //   }
-      // </div>
+      <>
+        <Buttons2 button="JeddAI" onClickFn={() => methods.jeddAI()}></Buttons2>
+        <div style={{ position: 'relative' }}>
+          {
+            <>
+              {selectReviewType(
+                feedbackMethodType,
+                isShowSelectType,
+                handleRequestFeedback
+              )}
+              <RequestFeedbackFrame
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setShowSelectType(!isShowSelectType);
+                }}
+              >
+                {<img src="/img/messages.svg" alt="message" />}
+                Request Feedback
+              </RequestFeedbackFrame>
+            </>
+          }
+        </div>
+      </>
     );
   }
 

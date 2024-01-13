@@ -324,10 +324,7 @@ function answersAndFeedbacks(
         (feedbackMethodType = FeedbackMethodType),
         handleRequestFeedback,
         true,
-        allClasses,
-        allFolders,
-        updateDocumentClass,
-        onMobileView
+        allClasses
       )}
       <Frame1368 id="assignmentData">
         {answersFrameNoMC(

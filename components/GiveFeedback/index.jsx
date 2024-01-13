@@ -66,6 +66,7 @@ import { isMobileView } from '../ReactiveRender';
 import { Dialog } from '@mui/material';
 import Cookies from 'js-cookie';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -99,10 +100,20 @@ function GiveFeedback() {
   const [sortData, setSortData] = React.useState(true);
   const mobileView = isMobileView();
   const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
+  // const history = useHistory();
+  const location = useLocation();
+  const pathName = location.pathname;
+
+  React.useEffect(() => {
+    setSelectedYear(Cookies.get('year'));
+    setSelectedState(Cookies.get('state'));
+  }, [location.pathname]);
 
   const dropDownData = (type) => {
     const groupedItems = groupItemsByAsWeRequired(
-      giveFeedbackCompletedTasks,
+      pathName.includes('/feedbackHistory')
+        ? giveFeedbackCompletedTasks
+        : communityTasks,
       type
     );
 
@@ -181,8 +192,6 @@ function GiveFeedback() {
   const selectedItemIndex = dropdownSample.findIndex((selectSubject) => {
     return selectSubject.id === 'id';
   });
-  const location = useLocation();
-  const pathName = location.pathname;
 
   const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
     return (

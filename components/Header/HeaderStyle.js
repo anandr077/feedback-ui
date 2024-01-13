@@ -109,7 +109,10 @@ export const Frame1344 = styled.div`
   align-items: center;
   gap: 20px;
   padding: 13px 30px;
-  position: relative;
+  height: 70px;
+  top:0;
+  z-index: 100;
+  position: sticky;
   align-self: stretch;
   background-color: var(--white);
 `;

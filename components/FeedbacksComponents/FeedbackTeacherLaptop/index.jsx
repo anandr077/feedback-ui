@@ -23,6 +23,7 @@ import {
   Frame1388,
   Screen2,
   Main,
+  PageContainer,
   DrawerArrowContainer,
   DrawerArrow,
   ArrowImg,
@@ -277,11 +278,12 @@ function FeedbackTeacherLaptop(props) {
   return (
     <>
       {loader(showLoader)}
-      <div className="feedback-teacher-laptop screen">
-        <Main drawerWidth={drawerWidth} open={open}>
+      {/* <div className="feedback-teacher-laptop screen"> */}
+      <PageContainer>
+        <Main drawerWidth={drawerWidth} open={true}>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          {/* <DrawerArrowContainer open={open} drawerWidth={drawerWidth}>
+          <DrawerArrowContainer open={open} drawerWidth={drawerWidth}>
             {isTeacher ? (
               <TeacherSidebar open={open} submission={submission} />
             ) : (
@@ -302,8 +304,8 @@ function FeedbackTeacherLaptop(props) {
                 <ArrowImg src="img/caret-5@2x.png" open={open} />
               </ImgContainer>
             </DrawerArrow>
-          </DrawerArrowContainer> */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          </DrawerArrowContainer>
+          {/* <div style={{ display: 'flex', alignItems: 'center' }}>
             <Sidebar collapsed={sidebarCollapsed}>
               <Menu>
                 <SubMenu label="Charts">
@@ -323,7 +325,7 @@ function FeedbackTeacherLaptop(props) {
                 <ArrowImg src="img/caret-5@2x.png" open={open} />
               </ImgContainer>
             </DrawerArrow>
-          </div>
+          </div> */}
           <Frame1388
             mobileView={isMobile}
             drawerWidth={drawerWidth}
@@ -365,7 +367,7 @@ function FeedbackTeacherLaptop(props) {
             )}
           </Frame1388>
         </Main>
-      </div>
+      </PageContainer>
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,

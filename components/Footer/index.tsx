@@ -20,8 +20,9 @@ const FooterContainer = styled.div`
   bottom: 0;
   align-self: stretch;
   background-color: var(--white);
-  height: 100px;
+  height: 50px;
   width: 100%;
+  position: fixed;
 `;
 
 const FooterText = styled.p`

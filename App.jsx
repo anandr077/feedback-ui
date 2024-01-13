@@ -26,6 +26,7 @@ import IndependentUser from './components/IndependentUser';
 import withOnboarding from './components/WithOnboarding';
 import withAuth from './components/WithAuth';
 import NewDocPage from './components/NewDocRoot';
+import MainPage from './components/MainPage';
 
 function App() {
   const role = getUserRole();
@@ -82,6 +83,9 @@ function App() {
           <Switch>
             <Route path="/docs">
               <ProtectedDocRoot />
+            </Route>
+            <Route path="/main">
+              <MainPage />
             </Route>
             <Route path="/settings">
               <ProtectedSettings />

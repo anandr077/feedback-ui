@@ -132,20 +132,22 @@ export const Frame131612 = styled.div`
   max-width: 300px;
   display: flex;
 `;
-
-export const Main = styled.div`
-  transform: translateX(
-    ${(props) => (props.open ? `${props.drawerWidth}px` : '0px')}
-  );
-  height: 100%;
+export const PageContainer = styled.div`
   display: flex;
-  overflow-x: hidden;
-  width: 100%;
-  margin-left: ${(props) =>
-    props.open ? `-${props.drawerWidth + 35}px` : '0px'};
+  
+`;
+export const Main = styled.div`
+  width: 300px; // Adjust width as needed
+  height: 100vh;
+  overflow-y: auto;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background-color: #f0f0f0; // Example background color
 `;
 
 export const Frame1388 = styled.div`
+  margin-left: 300px;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -162,8 +164,10 @@ export const Frame1388 = styled.div`
 `;
 
 export const DrawerArrowContainer = styled.div`
-  height: 100%;
+  /* height: 100vh; */
   display: flex;
+  /* top: 70px; */
+  /* position: fixed; */
 `;
 
 export const DrawerArrow = styled.div`

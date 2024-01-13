@@ -1,5 +1,10 @@
 import React from 'react';
-import { ButtonContainer, ButtonIcon, ButtonIconWhite, ButtonText } from './style';
+import {
+  ButtonContainer,
+  ButtonIcon,
+  ButtonIconWhite,
+  ButtonText,
+} from './style';
 
 function LinkButton({
   arrowright,

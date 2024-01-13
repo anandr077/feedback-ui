@@ -66,6 +66,7 @@ import { isMobileView } from '../ReactiveRender';
 import { Dialog } from '@mui/material';
 import Cookies from 'js-cookie';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function GiveFeedback() {
@@ -84,7 +85,6 @@ function GiveFeedback() {
       title: 'Englidh',
     },
   ]);
-  console.log('Testing Year', Cookies.get('year'));
   const [selectedYear, setSelectedYear] = React.useState(Cookies.get('year'));
   const [selectedSubject, setSelectedSubject] = React.useState('');
   const [selectedState, setSelectedState] = React.useState(
@@ -270,7 +270,7 @@ function GiveFeedback() {
                       link={`#giveFeedback`}
                       label="Go Back"
                       arrowleft={arrowLeft}
-                      // whiteArrowright={whiteArrowright}
+                      whiteArrowleft={whiteArrowleft}
                     />
                   ) : (
                     <LinkButton
@@ -287,7 +287,7 @@ function GiveFeedback() {
               </HeadingLine>
             </TopContainer>
             <FilterAndSortContainer>
-              <FilterContainer>
+              {/* <FilterContainer>
                 <Frame5086>
                   <Frame5086Img src={FilterSquare} />
                   <Frame5086Text>Filters:</Frame5086Text>
@@ -327,12 +327,12 @@ function GiveFeedback() {
                 ) : (
                   <></>
                 )}
-                {/* <FilterPopContainer
+                <FilterPopContainer
                 isShowFilterPopUp={isShowFilterPopUp}
                 setShowFilterPopUp={setShowFilterPopUp}
-              /> */}
-              </FilterContainer>
-              <SortContainer>
+              />
+              </FilterContainer> */}
+              {/* <SortContainer>
                 <Frame5086>
                   <Frame5086Img src={SortSquare} />
                   <Frame5086Text>Sort by:</Frame5086Text>
@@ -363,7 +363,7 @@ function GiveFeedback() {
                 ) : (
                   <></>
                 )}
-              </SortContainer>
+              </SortContainer> */}
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
           <ContentContainer>
@@ -371,8 +371,8 @@ function GiveFeedback() {
               <FeedbackDataComponent
                 feedbackData={
                   pathName.includes('/feedbackHistory')
-                    ? filteredData(giveFeedbackCompletedTasks)
-                    : filteredData(communityTasks)
+                    ? giveFeedbackCompletedTasks
+                    : communityTasks
                 }
                 pathName={pathName}
               />

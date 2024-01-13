@@ -24,6 +24,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
 import withOnboarding from './components/WithOnboarding';
 import withAuth from './components/WithAuth';
+import NewDocPage from './components/NewDocRoot';
 
 function App() {
   const role = getUserRole();
@@ -41,12 +42,13 @@ function App() {
   const ProtectedCreateAssignment = middleware(CreateAssignment);
   const ProtectedTeacherTaskRoot = middleware(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = middleware(FeedbacksRoot);
-  const ProtectedDocumentRoot = middleware(DocumentRoot);
+  const ProtectedDocumentRoot = middleware(FeedbacksRoot);
   const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = middleware(AccountSettingsRoot);
   const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
+  const ProtectedDocRoot = middleware(NewDocPage);
 
   const portfolioClient = new QueryClient();
 
@@ -75,6 +77,9 @@ function App() {
         <Router>
           {<ProtectedHeader />}
           <Switch>
+            <Route path="/docs">
+              <ProtectedDocRoot />
+            </Route>
             <Route path="/settings">
               <ProtectedSettings />
             </Route>
@@ -115,6 +120,7 @@ function App() {
             <Route path="/documentsReview/:id">
               <ProtectedDocumentRoot />
             </Route>
+            
             <Route path="/404">
               <PageNotFound />
             </Route>

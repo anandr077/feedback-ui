@@ -12,6 +12,7 @@ export default function FeedbackTypeDialog({
   handleSelectedRequestFeedback,
   feedbackType,
 }) {
+  console.log("menuItems", menuItems)
   const [open, setOpen] = React.useState(true);
   const [selectedMenuItem, setSelectedMenuItem] = React.useState(null);
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);

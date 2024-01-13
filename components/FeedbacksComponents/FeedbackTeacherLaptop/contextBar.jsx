@@ -18,6 +18,23 @@ import {
   DropdownButtonsGroup,
   DropdownButton,
   TitleContainer,
+  Frame1334,
+  Frame1334Img,
+  Frame1577,
+  Frame1577heading,
+  Frame1577Img,
+  Frame5053,
+  Frame5053Card1,
+  Frame5053Card1Img,
+  Frame5053Card1Para,
+  Frame5053Card2,
+  Frame1364,
+  PopupContainer,
+  Frame1364Button,
+  Frame1364ButtonText,
+  Card1Img,
+  Frame5053Card2Data,
+  Card1ImgContainer,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -25,6 +42,14 @@ import { cancelFeedbackRequest, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Cookies from 'js-cookie';
+import { Dialog } from '@mui/material';
+import ai from '../../../static/img/ai.svg';
+import profileCircle from '../../../static/img/profile-circle.svg';
+import Teacher from '../../../static/img/Teacher.svg';
+import questionmark from '../../../static/img/question-mark.svg';
+import messages from '../../../static/img/messages.svg';
+import closecircle from '../../../static/img/closecircle.svg';
+import rightarrow from '../../../static/img/Vector13.svg';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -74,26 +99,62 @@ export function contextBar(
 const selectReviewType = (
   feedbackMethodType,
   isShowSelectType,
+  setShowSelectType,
   handleRequestFeedback
 ) => {
   if (!isShowSelectType) {
     return <></>;
   }
   return (
-    <SelectFeedbackMethod>
-      {feedbackMethodType.map((type, index) => {
-        return (
-          <SelectFeedbackMethodType
-            onClick={(event) => {
-              event.stopPropagation();
-              handleRequestFeedback(index);
-            }}
-          >
-            {type}
-          </SelectFeedbackMethodType>
-        );
-      })}
-    </SelectFeedbackMethod>
+    <Dialog open={isShowSelectType}>
+      <PopupContainer>
+        <Frame1334>
+          <Frame1334Img src={messages} />
+          <Frame1577>
+            <Frame1577heading>Get Feedback</Frame1577heading>
+            <Frame1577Img src={questionmark} />
+          </Frame1577>
+          <Frame1334Img
+            style={{ cursor: 'pointer' }}
+            onClick={() => setShowSelectType(false)}
+            src={closecircle}
+          />
+        </Frame1334>
+        <Frame5053>
+          <Frame5053Card1>
+            <Frame5053Card1Img src="/img/community.png" />
+            <Frame5053Card1Para>Community</Frame5053Card1Para>
+          </Frame5053Card1>
+          <Frame5053Card2>
+            <Frame5053Card2Data>
+              <Frame5053Card1Img src={Teacher} />
+              <Frame5053Card1Para>Teacher</Frame5053Card1Para>
+            </Frame5053Card2Data>
+            <Card1ImgContainer>
+              <Card1Img src={rightarrow} />
+            </Card1ImgContainer>
+          </Frame5053Card2>
+          <Frame5053Card2>
+            <Frame5053Card2Data>
+              <Frame5053Card1Img src={profileCircle} />
+              <Frame5053Card1Para>Classmate</Frame5053Card1Para>
+            </Frame5053Card2Data>
+            <Card1ImgContainer>
+              <Card1Img src={rightarrow} />
+            </Card1ImgContainer>
+          </Frame5053Card2>
+          <Frame5053Card1>
+            <Frame5053Card1Img src={ai} />
+            <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
+          </Frame5053Card1>
+        </Frame5053>
+        {/* <Frame1364>
+          <Frame1364Button onClick={() => handleRequestFeedback()}>
+            <Frame1364ButtonText>Submit</Frame1364ButtonText>
+          </Frame1364Button>
+        </Frame1364> */}
+      </PopupContainer>
+    </Dialog>
   );
 };
 const submitButton = (methods, pageMode, isTeacher, submission) => {
@@ -215,10 +276,9 @@ export function contextBarForPortfolioDocument(
   showStatusText = true,
   allClasses
 ) {
-  console.log("feedbackMethodType")
+  console.log('feedbackMethodType');
   const { showSnackbar } = React.useContext(SnackbarContext);
 
-  
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -238,7 +298,6 @@ export function contextBarForPortfolioDocument(
           />
         </TitleContainer>
         {showStatusText && statusText(methods, 0, submission)}
-
       </TitleWrapper>
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
@@ -259,7 +318,6 @@ export function contextBarForPortfolioDocument(
       )}
     </Frame1371>
   );
-
 }
 
 function statusText(methods, focusAreasCount, submission) {
@@ -313,30 +371,28 @@ const submitButtonDocument = (
   if (pageMode === 'DRAFT') {
     return (
       <>
-      <Buttons2
-          button="JeddAI"
-          onClickFn={() => methods.jeddAI()}
-      ></Buttons2>
-      <div style={{ position: 'relative' }}>
-        {
-          <>
-            {selectReviewType(
-              feedbackMethodType,
-              isShowSelectType,
-              handleRequestFeedback
-            )}
-            <RequestFeedbackFrame
-              onClick={(event) => {
-                event.stopPropagation();
-                setShowSelectType(!isShowSelectType);
-              }}
-            >
-              {<img src="/img/messages.svg" alt="message" />}
-              Request Feedback
-            </RequestFeedbackFrame>
-          </>
-        }
-      </div>
+        <Buttons2 button="JeddAI" onClickFn={() => methods.jeddAI()}></Buttons2>
+        <div style={{ position: 'relative' }}>
+          {
+            <>
+              {selectReviewType(
+                feedbackMethodType,
+                isShowSelectType,
+                setShowSelectType,
+                handleRequestFeedback
+              )}
+              <RequestFeedbackFrame
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setShowSelectType(!isShowSelectType);
+                }}
+              >
+                {<img src="/img/messages.svg" alt="message" />}
+                Request Feedback
+              </RequestFeedbackFrame>
+            </>
+          }
+        </div>
       </>
     );
   }

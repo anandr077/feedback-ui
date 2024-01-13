@@ -213,7 +213,7 @@ export function contextBarForPortfolioDocument(
   feedbackMethodType = [],
   handleRequestFeedback,
   showStatusText = true,
-  allClasses = Cookies.get('classes') 
+  allClasses
 ) {
   console.log("feedbackMethodType")
   const { showSnackbar } = React.useContext(SnackbarContext);

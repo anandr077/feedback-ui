@@ -18,13 +18,41 @@ import {
   DropdownButtonsGroup,
   DropdownButton,
   TitleContainer,
+  Frame1334,
+  Frame1334Img,
+  Frame1577,
+  Frame1577heading,
+  Frame1577Img,
+  Frame5053,
+  Frame5053Card1,
+  Frame5053Card1Img,
+  Frame5053Card1Para,
+  Frame5053Card2,
+  Frame1364,
+  PopupContainer,
+  Frame1364Button,
+  Frame1364ButtonText,
+  Card1Img,
+  Frame5053Card2Data,
+  Card1ImgContainer,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
-import { cancelFeedbackRequest, getUserId } from '../../../service';
+import { cancelFeedbackRequest, createRequestFeddbackType, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Cookies from 'js-cookie';
+import { Dialog } from '@mui/material';
+import ai from '../../../static/img/ai.svg';
+import profileCircle from '../../../static/img/profile-circle.svg';
+import Teacher from '../../../static/img/Teacher.svg';
+import questionmark from '../../../static/img/question-mark.svg';
+import messages from '../../../static/img/messages.svg';
+import closecircle from '../../../static/img/closecircle.svg';
+import rightarrow from '../../../static/img/Vector13.svg';
+import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';
+import _ from 'lodash';
+import { sub } from 'date-fns';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -72,28 +100,116 @@ export function contextBar(
   );
 }
 const selectReviewType = (
+  submission,
+  setSubmission,
+  methods,
   feedbackMethodType,
   isShowSelectType,
-  handleRequestFeedback
+  setShowSelectType,
+  handleRequestFeedback,
+  allClasses,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp,
 ) => {
+  const allTeachers = _.flatten(allClasses?.map(c => c.teachers) || []);;
+  const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+  const allStudents = _.flatten(allClasses?.map(c=>c.students) || []);
+  const uniqueStudents = _.uniqBy(allStudents, 'id').filter(s=>s.id !== getUserId());
+  
+  const requestFeedback = (submissionId, requestType)=>(id) => {
+    console.log("Submitting", submissionId, requestType, id)
+    createRequestFeddbackType(submissionId,
+      {
+        type:requestType,
+        reviewerId:id
+      })
+      .then((response) => {
+        console.log("Response", response)
+        console.log("Done ", setSubmission)
+        
+        setSubmission(response);
+        // ClosePopUp()
+      })
+  };
+  const ClosePopUp = () => {
+    setShowStudentPopUp(false);
+    setShowTeacherPopUp(false);
+    setShowSelectType(false);
+  };
+  const ShowStudent = () => {
+    setShowStudentPopUp(true);
+  };
+  const ShowTeacher = () => {
+    setShowTeacherPopUp(true);
+  };
   if (!isShowSelectType) {
     return <></>;
   }
   return (
-    <SelectFeedbackMethod>
-      {feedbackMethodType.map((type, index) => {
-        return (
-          <SelectFeedbackMethodType
-            onClick={(event) => {
-              event.stopPropagation();
-              handleRequestFeedback(index);
-            }}
-          >
-            {type}
-          </SelectFeedbackMethodType>
-        );
-      })}
-    </SelectFeedbackMethod>
+    <Dialog open={isShowSelectType}>
+      {showStudentPopUp && (
+        <RequestFeedbackPopUp
+          list={uniqueStudents}
+          ClosePopUp={ClosePopUp}
+          heading={'classmate'}
+          onClickFn={(id)=>requestFeedback(submission.id, 'P2P')(id)}
+        />
+      )}
+      {showTeacherPopUp && (
+        <RequestFeedbackPopUp
+          list={uniqueTeachers}
+          ClosePopUp={ClosePopUp}
+          heading={'teacher'}
+          onClickFn={(id)=>requestFeedback(submission.id, 'TEACHER')(id)}
+        />
+      )}
+      {!showStudentPopUp && !showTeacherPopUp && (
+        <PopupContainer>
+          <Frame1334>
+            <Frame1334Img src={messages} />
+            <Frame1577>
+              <Frame1577heading>Get Feedback</Frame1577heading>
+              <Frame1577Img src={questionmark} />
+            </Frame1577>
+            <Frame1334Img
+              style={{ cursor: 'pointer' }}
+              onClick={ClosePopUp}
+              src={closecircle}
+            />
+          </Frame1334>
+          <Frame5053>
+            <Frame5053Card1>
+              <Frame5053Card1Img src="/img/community.png" />
+              <Frame5053Card1Para>Community</Frame5053Card1Para>
+            </Frame5053Card1>
+            {<Frame5053Card2 onClick={ShowTeacher}>
+              <Frame5053Card2Data>
+                <Frame5053Card1Img src={Teacher} />
+                <Frame5053Card1Para>Teacher</Frame5053Card1Para>
+              </Frame5053Card2Data>
+              <Card1ImgContainer>
+                <Card1Img src={rightarrow} />
+              </Card1ImgContainer>
+            </Frame5053Card2>}
+            <Frame5053Card2 onClick={ShowStudent}>
+              <Frame5053Card2Data>
+                <Frame5053Card1Img src={profileCircle} />
+                <Frame5053Card1Para>Classmate</Frame5053Card1Para>
+              </Frame5053Card2Data>
+              <Card1ImgContainer>
+                <Card1Img src={rightarrow} />
+              </Card1ImgContainer>
+            </Frame5053Card2>
+            <Frame5053Card1 onClick={() => methods.jeddAI()}>
+              <Frame5053Card1Img src={ai} />
+              <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
+            </Frame5053Card1>
+          </Frame5053>
+        </PopupContainer>
+      )}
+    </Dialog>
   );
 };
 const submitButton = (methods, pageMode, isTeacher, submission) => {
@@ -213,12 +329,15 @@ export function contextBarForPortfolioDocument(
   feedbackMethodType = [],
   handleRequestFeedback,
   showStatusText = true,
-  allClasses
+  allClasses,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) {
-  console.log("feedbackMethodType", allClasses)
+  console.log("showStudentPopUp showTeacherPopUp",showStudentPopUp,  showTeacherPopUp)
   const { showSnackbar } = React.useContext(SnackbarContext);
 
-  
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -238,7 +357,6 @@ export function contextBarForPortfolioDocument(
           />
         </TitleContainer>
         {showStatusText && statusText(methods, 0, submission)}
-
       </TitleWrapper>
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
@@ -255,11 +373,14 @@ export function contextBarForPortfolioDocument(
         handleRequestFeedback,
         allClasses,
         showFeedbackButtons,
-        setShowFeedbackButtons
+        setShowFeedbackButtons,
+        showStudentPopUp,
+        showTeacherPopUp,
+        setShowStudentPopUp,
+        setShowTeacherPopUp
       )}
     </Frame1371>
   );
-
 }
 
 function statusText(methods, focusAreasCount, submission) {
@@ -307,36 +428,46 @@ const submitButtonDocument = (
   handleRequestFeedback,
   allClasses,
   showFeedbackButtons,
-  setShowFeedbackButtons
+  setShowFeedbackButtons,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) => {
   console.log('pageMode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
       <>
-      <Buttons2
-          button="JeddAI"
-          onClickFn={() => methods.jeddAI()}
-      ></Buttons2>
-      <div style={{ position: 'relative' }}>
-        {
-          <>
-            {selectReviewType(
-              feedbackMethodType,
-              isShowSelectType,
-              handleRequestFeedback
-            )}
-            <RequestFeedbackFrame
-              onClick={(event) => {
-                event.stopPropagation();
-                setShowSelectType(!isShowSelectType);
-              }}
-            >
-              {<img src="/img/messages.svg" alt="message" />}
-              Request Feedback
-            </RequestFeedbackFrame>
-          </>
-        }
-      </div>
+        <Buttons2 button="JeddAI" onClickFn={() => methods.jeddAI()}></Buttons2>
+        <div style={{ position: 'relative' }}>
+          {
+            <>
+              {selectReviewType(
+                submission,
+                setSubmission,
+                methods,
+                feedbackMethodType,
+                isShowSelectType,
+                setShowSelectType,
+                handleRequestFeedback,
+                allClasses,
+                showStudentPopUp,
+                showTeacherPopUp,
+                setShowStudentPopUp,
+                setShowTeacherPopUp,
+              )}
+              <RequestFeedbackFrame
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setShowSelectType(!isShowSelectType);
+                }}
+              >
+                {<img src="/img/messages.svg" alt="message" />}
+                Request Feedback
+              </RequestFeedbackFrame>
+            </>
+          }
+        </div>
       </>
     );
   }

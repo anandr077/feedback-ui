@@ -20,7 +20,7 @@ const FooterContainer = styled.div`
   bottom: 0;
   align-self: stretch;
   background-color: var(--white);
-  height: 50px;
+  height: 40px;
   width: 100%;
   position: fixed;
 `;

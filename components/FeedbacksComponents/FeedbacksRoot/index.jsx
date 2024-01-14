@@ -80,7 +80,6 @@ const isTeacher = getUserRole() === 'TEACHER';
 export default function FeedbacksRoot({ isDocumentPage }) {
   const queryClient = useQueryClient();
   queryClient.removeQueries(['portfolio']);
-
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
@@ -126,6 +125,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
+    setIsLoading(true)
     Promise.all([
       getSubmissionById(id),
       getComments(id),
@@ -231,6 +231,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
+  console.log("isLoading", isLoading)
 
   if (isLoading) {
     return (

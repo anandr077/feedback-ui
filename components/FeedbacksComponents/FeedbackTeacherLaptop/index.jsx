@@ -280,21 +280,28 @@ function FeedbackTeacherLaptop(props) {
       {loader(showLoader)}
       {/* <div className="feedback-teacher-laptop screen"> */}
       <PageContainer>
-       {/* <Main drawerWidth={drawerWidth} open={true}>
+        {/* <Main drawerWidth={drawerWidth} open={true}>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog} */}
-          <DrawerArrowContainer open={true} drawerWidth={drawerWidth}>
-              {isTeacher ? (
+        <DrawerArrowContainer open={true} drawerWidth={drawerWidth}>
+          <>
+            {isTeacher ? (
               <TeacherSidebar open={true} submission={submission} />
             ) : (
               <IndepentdentUserSidebar
                 open={true}
-                subjects={groupedAndSortedData}
+                subjects={submission.otherDrafts?.map(d=>
+                  ({
+                    id: d.submissionId,
+                    title: d.title,
+                    subject: d.subject,
+                    lastseenAtTs: 1630330000,
+                }))}
                 setSelectedSubject={setSelectedSubject}
                 selectedSubject={selectedSubject}
               />
             )}
-                
+
             <DrawerArrow
               onClick={handleDrawer}
               drawerWidth={drawerWidth}
@@ -304,8 +311,9 @@ function FeedbackTeacherLaptop(props) {
                 <ArrowImg src="img/caret-5@2x.png" open={true} />
               </ImgContainer>
             </DrawerArrow>
-          </DrawerArrowContainer>
-          {/* <div style={{ display: 'flex', alignItems: 'center' }}>
+          </>
+        </DrawerArrowContainer>
+        {/* <div style={{ display: 'flex', alignItems: 'center' }}>
             <Sidebar collapsed={sidebarCollapsed}>
               <Menu>
                 <SubMenu label="Charts">
@@ -326,47 +334,43 @@ function FeedbackTeacherLaptop(props) {
               </ImgContainer>
             </DrawerArrow>
           </div> */}
-          <Frame1388
-            mobileView={isMobile}
-            drawerWidth={drawerWidth}
-            open={open}
-          >
-            {answersAndFeedbacks(
-              isMobile,
-              submission,
-              setSubmission,
-              methods,
-              isTeacher,
-              pageMode,
-              labelText,
-              quillRefs,
-              markingCriteriaFeedback,
-              smallMarkingCriteria,
-              handleCheckboxChange,
-              groupedFocusAreaIds,
-              commentsForSelectedTab,
-              newCommentSerialNumber,
-              setShowResolved,
-              showNewComment,
-              isShowResolved,
-              setFeedback,
-              isFeedback,
-              isFocusAreas,
-              setFocusAreas,
-              comments,
-              newCommentFrameRef,
-              share,
-              smartAnnotations,
-              overallComments,
-              handleRequestFeedback,
-              isShowSelectType,
-              setShowSelectType,
-              showFeedbackButtons,
-              setShowFeedbackButtons,
-              classesAndStudents
-            )}
-          </Frame1388>
-       {/* </Main> */}
+        <Frame1388 mobileView={isMobile} drawerWidth={drawerWidth} open={open}>
+          {answersAndFeedbacks(
+            isMobile,
+            submission,
+            setSubmission,
+            methods,
+            isTeacher,
+            pageMode,
+            labelText,
+            quillRefs,
+            markingCriteriaFeedback,
+            smallMarkingCriteria,
+            handleCheckboxChange,
+            groupedFocusAreaIds,
+            commentsForSelectedTab,
+            newCommentSerialNumber,
+            setShowResolved,
+            showNewComment,
+            isShowResolved,
+            setFeedback,
+            isFeedback,
+            isFocusAreas,
+            setFocusAreas,
+            comments,
+            newCommentFrameRef,
+            share,
+            smartAnnotations,
+            overallComments,
+            handleRequestFeedback,
+            isShowSelectType,
+            setShowSelectType,
+            showFeedbackButtons,
+            setShowFeedbackButtons,
+            classesAndStudents
+          )}
+        </Frame1388>
+        {/* </Main> */}
       </PageContainer>
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,

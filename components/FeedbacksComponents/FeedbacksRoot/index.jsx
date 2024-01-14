@@ -28,6 +28,10 @@ import {
   submitAssignment,
   updateFeedback,
   updateFeedbackRange,
+  addDocumentToPortfolioWithDetails,
+  addDocumentToPortfolio,
+  getTeachersForClass,
+  askJeddAI
 } from '../../../service';
 import {
   getShortcuts,
@@ -65,6 +69,7 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
 import CheckboxBordered from '../../CheckboxBordered/index.jsx';
 import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -72,7 +77,7 @@ const MARKING_METHODOLOGY_TYPE = {
 };
 const isTeacher = getUserRole() === 'TEACHER';
 
-export default function FeedbacksRoot({ isAssignmentPage }) {
+export default function FeedbacksRoot({ isDocumentPage }) {
   const queryClient = useQueryClient();
   queryClient.removeQueries(['portfolio']);
 
@@ -86,7 +91,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   });
   const [showLoader, setShowLoader] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
-
+ 
   const newCommentFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
@@ -115,6 +120,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
   const [classesAndStudents, setClassesAndStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
 
   const defaultMarkingCriteria = getDefaultCriteria();
@@ -124,7 +130,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       getSubmissionById(id),
       getComments(id),
       getSmartAnnotations(),
-      getClassesWithStudents(),
+      fetchClassWithStudentsAndTeachers(),
       getOverComments(id),
     ])
       .then(
@@ -132,7 +138,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           submissionsResult,
           commentsResult,
           smartAnnotationResult,
-          classesWithStudentsResult,
+          classWithTeacherAndStudentsResult,
           overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
@@ -149,7 +155,7 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
           setSmartAnnotations(smartAnnotationResult);
 
-          const initialState = classesWithStudentsResult.reduce(
+          const initialState = classWithTeacherAndStudentsResult.reduce(
             (acc, classItem) => {
               acc[classItem.id] = {
                 checked: false,
@@ -164,9 +170,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
             },
             {}
           );
-          setClassesAndStudents(classesWithStudentsResult);
           setCheckedState(initialState);
           setOverallComments(overAllCommentsResult);
+          setClassesAndStudents(classWithTeacherAndStudentsResult);
+          console.log("classWithTeacherAndStudentsResult", classWithTeacherAndStudentsResult)
+          const allTeachers = _.flatten(classWithTeacherAndStudentsResult.map(c=>c.teachers));
+          const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+          console.log("uniqueTeachers", uniqueTeachers)
+          setTeachers(uniqueTeachers);      
         }
       )
       .finally(() => {
@@ -229,6 +240,25 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       </>
     );
   }
+  async function fetchClassWithStudentsAndTeachers() {
+    try {
+      console.log("Getting fetchClassWithStudentsAndTeachers")
+      const classesWithStudents = await getClassesWithStudents();
+      console.log("Got classesWithStudents", classesWithStudents)
+
+      const teacherPromises = _.flatMap(classesWithStudents, classItem => {
+        return getTeachersForClass(classItem.id).then(teachers => {
+          return { ...classItem, teachers };
+        });
+      });
+  
+      return await Promise.all(teacherPromises);
+    } catch (error) {
+      console.error("Error fetching classes with students and teachers:", error);
+      throw error;
+    }
+  }
+  
   const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
     acc[classItem.id] = {
       checked: false,
@@ -1295,7 +1325,15 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
       setPopupText('Are you sure you want to mark this task as complete?');
     }
   };
-
+  const jeddAI = () => {
+    console.log("quillRefs", quillRefs)
+    const q=  quillRefs.current[0]
+    console.log("q", q.getText())
+    askJeddAI(submission.id, q.getText()).then((response) => {
+      console.log("response done", response)
+    })
+    
+  }
   const methods = {
     comments,
     setComments,
@@ -1339,10 +1377,11 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
     setInitialOverAllFeedback,
 
     updateOverAllFeedback,
+    jeddAI
   };
 
   const shortcuts = getShortcuts();
-
+  
   return (
     <>
       {showSubmitPopup &&
@@ -1367,11 +1406,14 @@ export default function FeedbacksRoot({ isAssignmentPage }) {
           studentName,
           students,
           submission,
+          setSubmission,
           sharewithclassdialog,
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
           overallComments,
-          selectedRange
+          selectedRange,
+          classesAndStudents,
+          teachers
         }}
       />
     </>

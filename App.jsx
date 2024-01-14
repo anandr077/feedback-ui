@@ -26,6 +26,7 @@ import GiveFeedback from './components/GiveFeedback';
 import Cookies from 'js-cookie';
 import withOnboarding from './components/WithOnboarding';
 import withAuth from './components/WithAuth';
+import NewDocPage from './components/NewDocRoot';
 
 function App() {
   const role = getUserRole();
@@ -43,13 +44,14 @@ function App() {
   const ProtectedCreateAssignment = middleware(CreateAssignment);
   const ProtectedTeacherTaskRoot = middleware(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = middleware(FeedbacksRoot);
-  const ProtectedDocumentRoot = middleware(DocumentRoot);
+  const ProtectedDocumentRoot = middleware(FeedbacksRoot);
   const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = middleware(AccountSettingsRoot);
   const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
   const ProtectedGiveFeedback = middleware(GiveFeedback);
+  const ProtectedDocRoot = middleware(NewDocPage);
 
   const portfolioClient = new QueryClient();
 
@@ -58,7 +60,7 @@ function App() {
       role === 'TEACHER' ? (
         <ProtectedTeacherDashboard />
       ) : (
-        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedPortfolioRoot />
+        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedDocRoot />
       );
     return <div>{dashboard}</div>;
   };
@@ -78,6 +80,9 @@ function App() {
         <Router>
           {<ProtectedHeader />}
           <Switch>
+            <Route path="/docs">
+              <ProtectedDocRoot />
+            </Route>
             <Route path="/settings">
               <ProtectedSettings />
             </Route>
@@ -90,11 +95,8 @@ function App() {
             <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
               <ProtectedStrengthAndTarget />
             </Route>
-            <Route path="/getFeedback/:folderId/:categoryName?">
-              <ProtectedPortfolioRoot />
-            </Route>
             <Route path="/getFeedback">
-              <ProtectedPortfolioRoot />
+              <ProtectedDocRoot />
             </Route>
             <Route path="/giveFeedback">
               <ProtectedGiveFeedback />
@@ -124,6 +126,7 @@ function App() {
             <Route path="/documentsReview/:id">
               <ProtectedDocumentRoot />
             </Route>
+            
             <Route path="/404">
               <PageNotFound />
             </Route>

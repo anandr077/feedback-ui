@@ -1,7 +1,7 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useState } from 'react';
+import { default as React, default as React, useEffect, useState } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
@@ -41,7 +41,6 @@ const FeedbackType = {
   FRIEND: 'FRIEND',
 };
 
-
 function FeedbackTeacherLaptop(props) {
   const {
     newCommentSerialNumber,
@@ -65,9 +64,8 @@ function FeedbackTeacherLaptop(props) {
     overallComments,
     selectedRange,
     classesAndStudents,
-    teachers
+    teachers,
   } = props;
-  console.log("classesAndStudents", classesAndStudents)
   const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -82,12 +80,21 @@ function FeedbackTeacherLaptop(props) {
     }
   }, [showNewComment]);
 
- 
   const [isShowResolved, setShowResolved] = useState(false);
 
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+
+  // const handleOutsideClick = (event) => {
+  //   setShowSelectType(false);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener('click', handleOutsideClick);
+  //   return () => {
+  //     window.removeEventListener('click', handleOutsideClick);
+  //   };
+  // }, []);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -209,9 +216,9 @@ function FeedbackTeacherLaptop(props) {
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
         handleSelectedRequestFeedback,
-        flatMap(classesAndStudents, classObj => classObj.students),
+        flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
-        classesAndStudents,
+        classesAndStudents
       )}
     </>
   );
@@ -294,8 +301,6 @@ function createGroupedFocusAreas(submission) {
   return grouped;
 }
 
-
-
 function answersAndFeedbacks(
   isMobile,
   submission,
@@ -333,12 +338,11 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {createContextBar
-      (
+      {createContextBar(
         submission,
         setSubmission,
-        methods, 
-        pageMode, 
+        methods,
+        pageMode,
         labelText,
         isShowSelectType,
         setShowSelectType,
@@ -405,8 +409,8 @@ function breadcrumbs(submission) {
 function createContextBar(
   submission,
   setSubmission,
-  methods, 
-  pageMode, 
+  methods,
+  pageMode,
   labelText,
   isShowSelectType,
   setShowSelectType,
@@ -417,7 +421,7 @@ function createContextBar(
   pageMode,
   handleRequestFeedback,
   classesAndStudents
-  ) {
+) {
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,
@@ -430,10 +434,10 @@ function createContextBar(
       isTeacher,
       pageMode,
       labelText,
-      feedbackMethodType = FeedbackMethodType,
+      (feedbackMethodType = FeedbackMethodType),
       handleRequestFeedback,
       true,
-      classesAndStudents,
+      classesAndStudents
     );
   }
   return contextBar(submission, methods, isTeacher, pageMode, labelText);

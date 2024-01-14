@@ -50,6 +50,7 @@ import questionmark from '../../../static/img/question-mark.svg';
 import messages from '../../../static/img/messages.svg';
 import closecircle from '../../../static/img/closecircle.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
+import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -100,60 +101,95 @@ const selectReviewType = (
   feedbackMethodType,
   isShowSelectType,
   setShowSelectType,
-  handleRequestFeedback
+  handleRequestFeedback,
+  allClasses
 ) => {
+  // const handleOutsideClick = (event) => {
+  //   setShowSelectType(false);
+  // };
+  // React.useEffect(() => {
+  //   window.addEventListener('click', handleOutsideClick);
+  //   return () => {
+  //     window.removeEventListener('click', handleOutsideClick);
+  //   };
+  // }, []);
+  const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
+  const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
+  const ClosePopUp = () => {
+    setShowStudentPopUp(false);
+    setShowTeacherPopUp(false);
+    setShowSelectType(false);
+  };
+  const ShowStudent = () => {
+    setShowStudentPopUp(true);
+  };
+  const ShowTeacher = () => {
+    setShowTeacherPopUp(true);
+  };
+  console.log('classesA', allClasses[0]);
   if (!isShowSelectType) {
     return <></>;
   }
   return (
     <Dialog open={isShowSelectType}>
-      <PopupContainer>
-        <Frame1334>
-          <Frame1334Img src={messages} />
-          <Frame1577>
-            <Frame1577heading>Get Feedback</Frame1577heading>
-            <Frame1577Img src={questionmark} />
-          </Frame1577>
-          <Frame1334Img
-            style={{ cursor: 'pointer' }}
-            onClick={() => setShowSelectType(false)}
-            src={closecircle}
-          />
-        </Frame1334>
-        <Frame5053>
-          <Frame5053Card1>
-            <Frame5053Card1Img src="/img/community.png" />
-            <Frame5053Card1Para>Community</Frame5053Card1Para>
-          </Frame5053Card1>
-          <Frame5053Card2>
-            <Frame5053Card2Data>
-              <Frame5053Card1Img src={Teacher} />
-              <Frame5053Card1Para>Teacher</Frame5053Card1Para>
-            </Frame5053Card2Data>
-            <Card1ImgContainer>
-              <Card1Img src={rightarrow} />
-            </Card1ImgContainer>
-          </Frame5053Card2>
-          <Frame5053Card2>
-            <Frame5053Card2Data>
-              <Frame5053Card1Img src={profileCircle} />
-              <Frame5053Card1Para>Classmate</Frame5053Card1Para>
-            </Frame5053Card2Data>
-            <Card1ImgContainer>
-              <Card1Img src={rightarrow} />
-            </Card1ImgContainer>
-          </Frame5053Card2>
-          <Frame5053Card1>
-            <Frame5053Card1Img src={ai} />
-            <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
-          </Frame5053Card1>
-        </Frame5053>
-        {/* <Frame1364>
-          <Frame1364Button onClick={() => handleRequestFeedback()}>
-            <Frame1364ButtonText>Submit</Frame1364ButtonText>
-          </Frame1364Button>
-        </Frame1364> */}
-      </PopupContainer>
+      {showStudentPopUp && (
+        <RequestFeedbackPopUp
+          list={allClasses[0].students}
+          ClosePopUp={ClosePopUp}
+          heading={'classmate'}
+        />
+      )}
+      {showTeacherPopUp && (
+        <RequestFeedbackPopUp
+          list={allClasses[0].teachers}
+          ClosePopUp={ClosePopUp}
+          heading={'teacher'}
+        />
+      )}
+      {!showStudentPopUp && !showTeacherPopUp && (
+        <PopupContainer>
+          <Frame1334>
+            <Frame1334Img src={messages} />
+            <Frame1577>
+              <Frame1577heading>Get Feedback</Frame1577heading>
+              <Frame1577Img src={questionmark} />
+            </Frame1577>
+            <Frame1334Img
+              style={{ cursor: 'pointer' }}
+              onClick={ClosePopUp}
+              src={closecircle}
+            />
+          </Frame1334>
+          <Frame5053>
+            <Frame5053Card1>
+              <Frame5053Card1Img src="/img/community.png" />
+              <Frame5053Card1Para>Community</Frame5053Card1Para>
+            </Frame5053Card1>
+            <Frame5053Card2 onClick={ShowTeacher}>
+              <Frame5053Card2Data>
+                <Frame5053Card1Img src={Teacher} />
+                <Frame5053Card1Para>Teacher</Frame5053Card1Para>
+              </Frame5053Card2Data>
+              <Card1ImgContainer>
+                <Card1Img src={rightarrow} />
+              </Card1ImgContainer>
+            </Frame5053Card2>
+            <Frame5053Card2 onClick={ShowStudent}>
+              <Frame5053Card2Data>
+                <Frame5053Card1Img src={profileCircle} />
+                <Frame5053Card1Para>Classmate</Frame5053Card1Para>
+              </Frame5053Card2Data>
+              <Card1ImgContainer>
+                <Card1Img src={rightarrow} />
+              </Card1ImgContainer>
+            </Frame5053Card2>
+            <Frame5053Card1>
+              <Frame5053Card1Img src={ai} />
+              <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
+            </Frame5053Card1>
+          </Frame5053>
+        </PopupContainer>
+      )}
     </Dialog>
   );
 };
@@ -274,9 +310,9 @@ export function contextBarForPortfolioDocument(
   feedbackMethodType = [],
   handleRequestFeedback,
   showStatusText = true,
-  allClasses
+  allClasses,
+  classesAndStudents
 ) {
-  console.log('feedbackMethodType');
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   return (
@@ -379,7 +415,8 @@ const submitButtonDocument = (
                 feedbackMethodType,
                 isShowSelectType,
                 setShowSelectType,
-                handleRequestFeedback
+                handleRequestFeedback,
+                allClasses
               )}
               <RequestFeedbackFrame
                 onClick={(event) => {

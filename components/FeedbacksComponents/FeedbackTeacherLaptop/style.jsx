@@ -508,7 +508,7 @@ export const Frame1577 = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
-  width: 80%;
+  width: 85%;
 `;
 export const Frame1577heading = styled.p`
   font-family: IBM Plex Sans;

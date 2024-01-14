@@ -24,6 +24,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect, useRef } from 'react';
 import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
+import { useState } from 'react';
+import Cookies from 'js-cookie';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getUserRole } from '../../service.js';
 
@@ -194,29 +196,30 @@ export default function Header(props) {
               </HeaderButtonInnnerContainer>
             </HeaderButton>
           )}
-          {headerProps.thirdButton.selected ? (
-            <HeaderButtonSelected onClick={OnThirdButtonClick}>
-              <HeaderButtonInnnerContainer>
-                <IconContainer
-                  src={headerProps.thirdButton.iconSelected}
-                  alt="buttonIcon"
-                />
-                <SelectedButtonText>
-                  {headerProps.thirdButton.text}
-                </SelectedButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButtonSelected>
-          ) : (
-            <HeaderButton onClick={OnThirdButtonClick}>
-              <HeaderButtonInnnerContainer className="group-1">
-                <IconContainer
-                  src={headerProps.thirdButton.icon}
-                  alt="buttonIcon"
-                />
-                <ButtonText>{headerProps.thirdButton.text}</ButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButton>
-          )}
+          {(Cookies.get('classes') || isTeacher) &&
+            (headerProps.thirdButton.selected ? (
+              <HeaderButtonSelected onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer>
+                  <IconContainer
+                    src={headerProps.thirdButton.iconSelected}
+                    alt="buttonIcon"
+                  />
+                  <SelectedButtonText>
+                    {headerProps.thirdButton.text}
+                  </SelectedButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButtonSelected>
+            ) : (
+              <HeaderButton onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer className="group-1">
+                  <IconContainer
+                    src={headerProps.thirdButton.icon}
+                    alt="buttonIcon"
+                  />
+                  <ButtonText>{headerProps.thirdButton.text}</ButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButton>
+            ))}
         </Frame5>
         <Frame51>
           {!isTeacher && <HeaderOnboardingMenu />}

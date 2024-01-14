@@ -1,7 +1,7 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useState } from 'react';
+import { default as React, default as React, useEffect, useState } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
@@ -80,7 +80,7 @@ function FeedbackTeacherLaptop(props) {
     classesAndStudents,
     teachers,
   } = props;
-  console.log('classesAndStudents', classesAndStudents);
+  console.log("Main ", classesAndStudents)
   const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -187,6 +187,10 @@ function FeedbackTeacherLaptop(props) {
   }, [subjectsList, students]);
   const navigate = useHistory();
 
+  const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
+  const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
+
+  console.log("1showTeacherPopUp", showTeacherPopUp)
   React.useEffect(() => {
     if (showNewComment) {
       handleTabUpdate(pageMode, setFeedback, setFocusAreas);
@@ -198,6 +202,16 @@ function FeedbackTeacherLaptop(props) {
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+
+  // const handleOutsideClick = (event) => {
+  //   setShowSelectType(false);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener('click', handleOutsideClick);
+  //   return () => {
+  //     window.removeEventListener('click', handleOutsideClick);
+  //   };
+  // }, []);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -351,12 +365,19 @@ function FeedbackTeacherLaptop(props) {
               setShowSelectType,
               showFeedbackButtons,
               setShowFeedbackButtons,
-              classesAndStudents
+              false,
+              classesAndStudents,
+              navigate,
+              showStudentPopUp,
+              showTeacherPopUp,
+              setShowStudentPopUp,
+              setShowTeacherPopUp
             )}
           </Frame1388>
           {/* </Main> */}
         </>
       </PageContainer>
+
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
@@ -480,8 +501,13 @@ function answersAndFeedbacks(
   setShowFeedbackButtons,
   showStatusText,
   classesAndStudents,
-  navigate
+  navigate,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) {
+  console.log("answersAndFeedbacks classesAndStudents", classesAndStudents)
   return (
     <Frame1386 id="content">
       {isTeacher && (
@@ -491,6 +517,7 @@ function answersAndFeedbacks(
           Go Back
         </GoBackBtn>
       )}
+
       {createContextBar(
         submission,
         setSubmission,
@@ -506,7 +533,11 @@ function answersAndFeedbacks(
         pageMode,
         handleRequestFeedback,
         showStatusText,
-        classesAndStudents
+        classesAndStudents,
+        showStudentPopUp,
+        showTeacherPopUp,
+        setShowStudentPopUp,
+        setShowTeacherPopUp
       )}
       <Frame1368 id="assignmentData">
         {answersFrame(
@@ -573,8 +604,14 @@ function createContextBar(
   isTeacher,
   pageMode,
   handleRequestFeedback,
-  classesAndStudents
-) {
+  showStatusText,
+  classesAndStudents,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
+  ) {
+  console.log("cc classesAndStudents", classesAndStudents.map(c=>c.students))  
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,
@@ -590,9 +627,14 @@ function createContextBar(
       (feedbackMethodType = FeedbackMethodType),
       handleRequestFeedback,
       true,
-      classesAndStudents
+      classesAndStudents,
+      showStudentPopUp,
+      showTeacherPopUp,
+      setShowStudentPopUp,
+      setShowTeacherPopUp
     );
   }
+  
   return contextBar(submission, methods, isTeacher, pageMode, labelText);
 }
 

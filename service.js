@@ -203,6 +203,7 @@ export const setProfileCookies = (profile) => {
   localStorage.setItem('jwtToken', profile.token);
   const expiry = 30 * 24 * 60 * 60;
 
+ 
   Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
   Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
   Cookies.set('role', profile.role, { expires: expiry, path: '/' });
@@ -210,6 +211,8 @@ export const setProfileCookies = (profile) => {
     Cookies.set('state', profile.state, { expires: expiry, path: '/' });
     Cookies.set('year', profile.year, { expires: expiry, path: '/' });
   }
+  profile.classes && Cookies.set('classes', JSON.stringify(profile.classes), { expires: expiry, path: '/' });
+  
 };
 
 export const deleteProfileCookies = () => {
@@ -218,6 +221,7 @@ export const deleteProfileCookies = () => {
   Cookies.remove('user.name');
   Cookies.remove('state');
   Cookies.remove('year');
+  Cookies.remove('classes');
 };
 export const logout = async () => {
   await postApi(baseUrl + '/users/logout').then(() => {
@@ -235,6 +239,8 @@ export const account = async () => {
 };
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
 export const getTasks = async () => await getApi(baseUrl + '/tasks');
+export const getCommunityTasks = async () => await getApi(baseUrl + '/communityTasks');
+export const getGiveFeedbackCompletedTasks = async () => await getApi(baseUrl + '/completedTasks');
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + '/classes/all/details');
 export const getModelResponses = async () =>
@@ -569,11 +575,10 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     title,
   });
 export const askJeddAI = async (submissionId, cleanAnswer) =>
-  await postApi(baseUrl + '/submissions/' + submissionId + "/jeddAIFeedback", 
-  {
-    "state": "NSW",
-    "year": "8",
-    "subject": "English",
-    "type": "Short",
-    "cleanAnswer":cleanAnswer
+  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+    state: 'NSW',
+    year: '8',
+    subject: 'English',
+    type: 'Short',
+    cleanAnswer: cleanAnswer,
   });

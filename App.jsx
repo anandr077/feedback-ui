@@ -22,7 +22,9 @@ import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
-import IndependentUser from './components/IndependentUser';
+
+import GiveFeedback from './components/GiveFeedback';
+import Cookies from 'js-cookie';
 import withOnboarding from './components/WithOnboarding';
 import withAuth from './components/WithAuth';
 import NewDocPage from './components/NewDocRoot';
@@ -50,8 +52,8 @@ function App() {
   const ProtectedSettings = middleware(AccountSettingsRoot);
   const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
-  const ProtectedIndependentUser = withAuth(IndependentUser);
 
+  const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
 
   const portfolioClient = new QueryClient();
@@ -61,7 +63,7 @@ function App() {
       role === 'TEACHER' ? (
         <ProtectedTeacherDashboard />
       ) : (
-        <ProtectedStudentDashboard />
+        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedDocRoot />
       );
     return <div>{dashboard}</div>;
   };
@@ -99,11 +101,14 @@ function App() {
             <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
               <ProtectedStrengthAndTarget />
             </Route>
-            <Route path="/portfolio/:folderId/:categoryName?">
-              <ProtectedPortfolioRoot />
+            <Route path="/getFeedback">
+              <ProtectedDocRoot />
             </Route>
-            <Route path="/portfolio">
-              <ProtectedPortfolioRoot />
+            <Route path="/giveFeedback">
+              <ProtectedGiveFeedback />
+            </Route>
+            <Route path="/feedbackHistory">
+              <ProtectedGiveFeedback />
             </Route>
             <Route path="/classes/:classIdFromUrl?">
               <ProtectedTeacherClassesRoot />
@@ -136,9 +141,6 @@ function App() {
             </Route>
             <Route exact path="/">
               {Dashboard({ role })}
-            </Route>
-            <Route path="/independentUser">
-              <ProtectedIndependentUser />
             </Route>
             <Redirect to="/404" />
           </Switch>

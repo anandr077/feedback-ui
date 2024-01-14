@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { FeedbackContainer, OverAllCommentTitle, NonEditFeedbackContainer } from './style';
+import { FeedbackContainer, HiddenInputBox, OverAllCommentTitle } from './style';
 import TextField from '../TextField';
 import EditableText from './EditableText';
 import { updateFeedback } from '../../service';

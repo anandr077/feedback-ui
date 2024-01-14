@@ -173,9 +173,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           setCheckedState(initialState);
           setOverallComments(overAllCommentsResult);
           setClassesAndStudents(classWithTeacherAndStudentsResult);
-          console.log("classWithTeacherAndStudentsResult", classesAndStudents)
+          console.log("classWithTeacherAndStudentsResult", classWithTeacherAndStudentsResult)
           const allTeachers = _.flatten(classWithTeacherAndStudentsResult.map(c=>c.teachers));
           const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+          console.log("uniqueTeachers", uniqueTeachers)
           setTeachers(uniqueTeachers);      
         }
       )
@@ -242,8 +243,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   async function fetchClassWithStudentsAndTeachers() {
     try {
+      console.log("Getting fetchClassWithStudentsAndTeachers")
       const classesWithStudents = await getClassesWithStudents();
-  
+      console.log("Got classesWithStudents", classesWithStudents)
+
       const teacherPromises = _.flatMap(classesWithStudents, classItem => {
         return getTeachersForClass(classItem.id).then(teachers => {
           return { ...classItem, teachers };
@@ -270,7 +273,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-
+  console.log("Page mode", pageMode)
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {

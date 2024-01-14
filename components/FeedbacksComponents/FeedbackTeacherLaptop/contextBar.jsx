@@ -313,6 +313,7 @@ export function contextBarForPortfolioDocument(
   allClasses,
   classesAndStudents
 ) {
+  console.log("feedbackMethodType", allClasses)
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   return (
@@ -573,10 +574,11 @@ function getStatusLabel(
   );
 
   function feedbackRequestedFrom() {
-    if (submission.feedbackRequestType === 'P2P') {
-      return allClasses.find((item) => item.id === submission.classId)?.title;
-    }
-    return submission.reviewerName;
+    return ""
+    // if (submission.feedbackRequestType === 'P2P') {
+    //   return allClasses.find((item) => item.id === submission.classId)?.title;
+    // }
+    // return submission.reviewerName;
   }
 }
 function getFeedbackRequestedBy(submission, allClasses) {

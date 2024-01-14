@@ -95,7 +95,7 @@ const PortfolioSidebarFolder = ({
               state.activeMainFolderId === folder.id ? !showArrowUp : true
             );
           }}
-          to={`/portfolio/` + folder.id + '/' + (selectedSubFolder || '')}
+          to={`/getFeedback/` + folder.id + '/' + (selectedSubFolder || '')}
           title={folder.title?.length > 12 ? folder.title : undefined}
         >
           {isEditing ? (

@@ -48,6 +48,7 @@ const getHeaderProps = (location) => {
   } else {
     if (location.includes('/getFeedback')) return portfolioHeaderProps();
     else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;
+    else if (location.includes('/feedbackHistory')) return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
     return Cookies.get('classes') ? taskHeaderProps : portfolioHeaderProps() ;

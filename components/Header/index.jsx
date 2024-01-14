@@ -6,6 +6,7 @@ import NotificationsBar from '../NotificationsMenu/NotificationsBar';
 import { getNotifications } from '../../service.js';
 import {
   NavigationContainer,
+  HelpbarContainer,
   Screen,
   DropDownContainer,
   Frame1344,
@@ -20,6 +21,9 @@ import {
   HeaderButtonSelected,
 } from './HeaderStyle';
 import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
+import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
@@ -28,8 +32,10 @@ import { getUserRole } from '../../service.js';
 export default function Header(props) {
   const { headerProps } = props;
   const [dropDown, setDropDown] = React.useState(false);
+  const [isHelpBarOpen, setIsHelpBarOpen] = React.useState(false);
+  const [pageHeight, setPageHeight] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
-
+  const [sliderOpen, setsliderOpen] = useState(false);
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
     queryFn: async () => {
@@ -54,8 +60,10 @@ export default function Header(props) {
     if (!isNotificationOpen) {
       setIsNotificationOpen(true);
       setSlideNotificationBar(true);
+      setsliderOpen(true)
     } else {
       setSlideNotificationBar(false);
+      setsliderOpen(false);
       setTimeout(() => {
         setIsNotificationOpen(false);
       }, 300);
@@ -66,6 +74,50 @@ export default function Header(props) {
     setDropDown(!dropDown);
   };
 
+  const handleHelpBarClick = () => {
+    if (!isHelpBarOpen) {
+      setIsHelpBarOpen(true);
+      setsliderOpen(true);
+    } else {
+      setsliderOpen(false);
+      setTimeout(() => {
+        setIsHelpBarOpen(false);
+      }, 300);
+    }
+  };
+
+  useEffect(() => {
+    const updateHeight = () => {
+      const fullHeight = document.documentElement.scrollHeight;
+      if (fullHeight !== pageHeight) {
+        setPageHeight(fullHeight - 170);
+      }
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      let shouldUpdateHeight = false;
+
+      for (const mutation of mutations) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          shouldUpdateHeight = true;
+          break;
+        }
+      }
+
+      if (shouldUpdateHeight) {
+        updateHeight();
+      }
+    });
+
+    const config = { childList: true, subtree: true };
+
+    observer.observe(document.body, config);
+
+    updateHeight();
+
+    return () => observer.disconnect();
+  }, []);
+  
   return (
     <>
       <Frame1344>
@@ -119,7 +171,7 @@ export default function Header(props) {
               </HeaderButtonInnnerContainer>
             </HeaderButton>
           )}
-          {Cookies.get('classes') &&
+          {(Cookies.get('classes') || isTeacher) &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>
                 <HeaderButtonInnnerContainer>
@@ -146,6 +198,11 @@ export default function Header(props) {
         </Frame5>
         <Frame51>
           {!isTeacher && <HeaderOnboardingMenu />}
+          <HeaderHelpBar
+            src="/img/helpIcon.png"
+            onClickFn={handleHelpBarClick}
+          />
+          
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}
@@ -156,9 +213,20 @@ export default function Header(props) {
           </div>
         </Frame51>
       </Frame1344>
+      {isHelpBarOpen && (
+        <Screen onClick={handleHelpBarClick} pageHeight={pageHeight}>
+          <HelpbarContainer isHelpBarOpen={sliderOpen} pageHeight={pageHeight}>
+            <HelpSidebar />
+          </HelpbarContainer>
+        </Screen>
+      )}
       {isNotificationOpen && (
-        <Screen onClick={handleNotificationClick} notifications={notifications}>
-          <NavigationContainer slideNotificationBar={slideNotificationBar}>
+        <Screen onClick={handleNotificationClick} notifications={notifications} pageHeight={pageHeight}>
+          <NavigationContainer
+            slideNotificationBar={sliderOpen}
+            pageHeight={pageHeight}
+            onClick={(e) => e.stopPropagation()}
+          >
             {' '}
             <NotificationsBar
               notifications={notifications}

@@ -18,6 +18,8 @@ import {
   DropdownButtonsGroup,
   DropdownButton,
   TitleContainer,
+  QuestionEditInput,
+  EditTextBox,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -215,51 +217,105 @@ export function contextBarForPortfolioDocument(
   showStatusText = true,
   allClasses
 ) {
-  console.log("feedbackMethodType")
   const { showSnackbar } = React.useContext(SnackbarContext);
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState('');
+  const [assignment, setAssignment] = React.useState(submission)
+  const inputRef = React.useRef(null);
 
-  
+  console.log('the submission is', submission)
+
+  React.useEffect(() => {
+    if (submission?.assignment?.title) {
+      setInputValue(submission.assignment.title);
+    }
+  }, [submission?.assignment?.title]);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const updateAssignmentTitle = (newTitle) => {
+    setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
+  };
+
+  console.log('set assignment', assignment)
+
+  const handleTitleClick = () => {
+    setIsEditing(true);
+  };
+
+  React.useEffect(() => {
+    if (isEditing) {
+      const input = inputRef.current;
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  }, [isEditing]);
+
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <TitleContainer>
-          <AssignmentTitle
-            style={{ display: 'contents' }}
-            dangerouslySetInnerHTML={{
-              __html: linkify(submission?.assignment?.title),
-            }}
-          />
-          <img
-            src="/icons/EditSM.png"
-            alt="edit"
-            width="20px"
-            height="20px"
-            style={{ cursor: 'pointer' }}
-          />
+          {pageMode === 'DRAFT' ? (
+            isEditing ? (
+              <QuestionEditInput
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={() => {
+                  updateAssignmentTitle(inputValue);
+                  setIsEditing(false);
+                }}
+              />
+            ) : (
+              <AssignmentTitle
+                style={{ display: 'contents', color: 'var(--text)' }}
+                dangerouslySetInnerHTML={{
+                  __html: linkify(submission?.assignment?.title),
+                }}
+                onClick={handleTitleClick}
+              />
+            )
+          ) : (
+            <AssignmentTitle
+              style={{ display: 'contents', color: '#A6A6A6' }}
+              dangerouslySetInnerHTML={{
+                __html: linkify(submission?.assignment?.title),
+              }}
+            />
+          )}
         </TitleContainer>
-        {showStatusText && statusText(methods, 0, submission)}
-
+        {pageMode === 'DRAFT' ? (
+          <EditTextBox>
+            💬 Use a specific question for more accurate feedback
+          </EditTextBox>
+        ) : (
+          showStatusText && statusText(methods, 0, submission)
+        )}
       </TitleWrapper>
-      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
-        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-      )}
-      {submitButtonDocument(
-        showSnackbar,
-        isShowSelectType,
-        setShowSelectType,
-        methods,
-        pageMode,
-        submission,
-        setSubmission,
-        feedbackMethodType,
-        handleRequestFeedback,
-        allClasses,
-        showFeedbackButtons,
-        setShowFeedbackButtons
-      )}
+      <div style={{ display: 'flex', gap: '15px' }}>
+        {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+          <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
+        )}
+        {submitButtonDocument(
+          showSnackbar,
+          isShowSelectType,
+          setShowSelectType,
+          methods,
+          pageMode,
+          submission,
+          setSubmission,
+          feedbackMethodType,
+          handleRequestFeedback,
+          allClasses,
+          showFeedbackButtons,
+          setShowFeedbackButtons
+        )}
+      </div>
     </Frame1371>
   );
-
 }
 
 function statusText(methods, focusAreasCount, submission) {
@@ -313,30 +369,27 @@ const submitButtonDocument = (
   if (pageMode === 'DRAFT') {
     return (
       <>
-      <Buttons2
-          button="JeddAI"
-          onClickFn={() => methods.jeddAI()}
-      ></Buttons2>
-      <div style={{ position: 'relative' }}>
-        {
-          <>
-            {selectReviewType(
-              feedbackMethodType,
-              isShowSelectType,
-              handleRequestFeedback
-            )}
-            <RequestFeedbackFrame
-              onClick={(event) => {
-                event.stopPropagation();
-                setShowSelectType(!isShowSelectType);
-              }}
-            >
-              {<img src="/img/messages.svg" alt="message" />}
-              Request Feedback
-            </RequestFeedbackFrame>
-          </>
-        }
-      </div>
+        <Buttons2 button="JeddAI" onClickFn={() => methods.jeddAI()}></Buttons2>
+        <div style={{ position: 'relative' }}>
+          {
+            <>
+              {selectReviewType(
+                feedbackMethodType,
+                isShowSelectType,
+                handleRequestFeedback
+              )}
+              <RequestFeedbackFrame
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setShowSelectType(!isShowSelectType);
+                }}
+              >
+                {<img src="/img/messages.svg" alt="message" />}
+                Request Feedback
+              </RequestFeedbackFrame>
+            </>
+          }
+        </div>
       </>
     );
   }

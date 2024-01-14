@@ -70,17 +70,33 @@ export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  flex: 1;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
   gap: 10px;
+  width: 70%;
 `;
 export const TitleContainer = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
+  padding: 20px 30px;
+  border-radius: 8px;
 `;
+
+export const EditTextBox = styled.p`
+  width: 880px;
+  height: 21px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 20px;
+  color: #7a7a7a;
+`;
+
 export const StatusText = styled.div`
   font-family: 'IBM Plex Sans';
   font-style: normal;
@@ -139,7 +155,7 @@ export const Frame1388 = styled.div`
   position: relative;
   align-self: stretch;
   margin-bottom: 50px;
-  height: ${props => props.mobileView ? '0px' : 'auto'};
+  height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   overflow: hidden;
 `;
 export const Frame1387 = styled.div`
@@ -161,9 +177,8 @@ export const Frame1315 = styled.div`
 export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 0 auto;
-  gap: 40px;
+  gap: 32px;
   padding: 0px;
   position: relative;
   align-self: stretch;
@@ -173,15 +188,15 @@ export const Frame1386 = styled.div`
 `;
 export const Frame1371 = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: start;
   gap: 60px;
   position: relative;
   align-self: stretch;
   position: sticky;
   top: 0;
   z-index: 2;
-  background-color: var(--white-pointer);
-  padding: 20px;
+  padding: 20px 0;
   flex-wrap: wrap;
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
@@ -193,12 +208,26 @@ export const Frame1371 = styled.div`
   }
 `;
 export const AssignmentTitle = styled.h1`
-  ${feedbacksIbmplexsansBoldShark36px}
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  line-height: 20px;
+  font-style: normal;
   position: relative;
   flex: 1;
   margin-top: -1px;
   letter-spacing: -0.9px;
-  line-height: normal;
+`;
+
+export const QuestionEditInput = styled.input`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  line-height: 20px;
+  font-style: normal;
+  border: none;
+  outline: none;
+  width: 100%;
 `;
 
 export const Crown = styled.img`
@@ -481,4 +510,42 @@ export const ShortcutList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+`;
+
+export const SubjectSelectionContainer = styled.div`
+  margin-top: 40px;
+  display: flex;
+  justify-content: start;
+  gap: 30px;
+`;
+
+export const SubSelcetBox = styled.div`
+  border-right: 1px solid #D6D6D6;
+  padding-right: 30px;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  label {
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 400;
+    font-size: var(--font-size-xl);
+    line-height: 26px;
+    color: #6F6F6F;
+    padding-right: 10px;
+  }
+
+  select {
+    width: 200px;
+    border-radius: 8px;
+    border: 1px solid #D6D6D6;
+    padding: 8px 12px;
+    font-size: var(--font-size-l);
+    font-weight: 400;
+    line-height: 26px;
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+  }
 `;

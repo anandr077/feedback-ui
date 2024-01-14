@@ -21,6 +21,8 @@ import {
   Frame1387,
   Frame1388,
   Screen2,
+  SubjectSelectionContainer,
+  SubSelcetBox,
 } from './style';
 import { isMobileView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -40,7 +42,6 @@ const FeedbackType = {
   P2P: 'P2P',
   FRIEND: 'FRIEND',
 };
-
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -65,9 +66,9 @@ function FeedbackTeacherLaptop(props) {
     overallComments,
     selectedRange,
     classesAndStudents,
-    teachers
+    teachers,
   } = props;
-  console.log("classesAndStudents", classesAndStudents)
+  console.log('classesAndStudents', classesAndStudents);
   const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -82,7 +83,6 @@ function FeedbackTeacherLaptop(props) {
     }
   }, [showNewComment]);
 
- 
   const [isShowResolved, setShowResolved] = useState(false);
 
   const [isShowSelectType, setShowSelectType] = useState(false);
@@ -168,7 +168,7 @@ function FeedbackTeacherLaptop(props) {
         {isMobile && <WelcomeOverlayMobile />}
         {sharewithclassdialog}
         <Frame1388 mobileView={isMobile}>
-          {breadcrumbs(submission)}
+          {/* {breadcrumbs(submission)} */}
           {answersAndFeedbacks(
             isMobile,
             submission,
@@ -209,9 +209,9 @@ function FeedbackTeacherLaptop(props) {
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
         handleSelectedRequestFeedback,
-        flatMap(classesAndStudents, classObj => classObj.students),
+        flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
-        classesAndStudents,
+        classesAndStudents
       )}
     </>
   );
@@ -294,8 +294,6 @@ function createGroupedFocusAreas(submission) {
   return grouped;
 }
 
-
-
 function answersAndFeedbacks(
   isMobile,
   submission,
@@ -333,12 +331,12 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {createContextBar
-      (
+      {subjectTypeSelection(pageMode)}
+      {createContextBar(
         submission,
         setSubmission,
-        methods, 
-        pageMode, 
+        methods,
+        pageMode,
         labelText,
         isShowSelectType,
         setShowSelectType,
@@ -391,6 +389,52 @@ function answersAndFeedbacks(
   );
 }
 
+function subjectTypeSelection(pageMood) {
+  const subjectOptions = ['English', 'Math', 'Science'];
+  const taskOptions = [
+    'Extended Response',
+    'Extended Response',
+    'Extended Response',
+  ];
+  return (
+    <SubjectSelectionContainer>
+      {pageMood === 'DRAFT' ? (
+        <>
+          <SubSelcetBox>
+            <label>Select Subject</label>
+            <select>
+              {subjectOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Task Type</label>
+            <select>
+              {taskOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </SubSelcetBox>
+        </>
+      ) : (
+        <>
+          <SubSelcetBox>
+            <label>English</label>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Extended Response</label>
+          </SubSelcetBox>
+        </>
+      )}
+    </SubjectSelectionContainer>
+  );
+}
+
 function breadcrumbs(submission) {
   return (
     <Frame1387>
@@ -405,8 +449,8 @@ function breadcrumbs(submission) {
 function createContextBar(
   submission,
   setSubmission,
-  methods, 
-  pageMode, 
+  methods,
+  pageMode,
   labelText,
   isShowSelectType,
   setShowSelectType,
@@ -417,7 +461,7 @@ function createContextBar(
   pageMode,
   handleRequestFeedback,
   classesAndStudents
-  ) {
+) {
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,
@@ -430,10 +474,10 @@ function createContextBar(
       isTeacher,
       pageMode,
       labelText,
-      feedbackMethodType = FeedbackMethodType,
+      (feedbackMethodType = FeedbackMethodType),
       handleRequestFeedback,
       true,
-      classesAndStudents,
+      classesAndStudents
     );
   }
   return contextBar(submission, methods, isTeacher, pageMode, labelText);

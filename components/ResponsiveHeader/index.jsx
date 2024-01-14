@@ -5,6 +5,7 @@ import {
   assignmentsHeaderProps,
   classesHomeHeaderProps,
   completedHeaderProps,
+  giveFeedbackHeaderProps,
   homeHeaderProps,
   portfolioHeaderProps,
   taskHeaderProps,
@@ -13,6 +14,7 @@ import {
 } from '../../utils/headerProps';
 import { getUserRole } from '../../service';
 import { isSmallScreen } from '../ReactiveRender';
+import Cookies from 'js-cookie';
 
 export default function ResponsiveHeader() {
   const location = useLocation();
@@ -25,6 +27,8 @@ export default function ResponsiveHeader() {
   return <Header headerProps={headerProps} />;
 }
 
+
+
 const getHeaderProps = (location) => {
   if (location.includes('/settings')) return completedHeaderProps(true);
   if (location.includes('/marking')) return completedHeaderProps(true);
@@ -32,7 +36,8 @@ const getHeaderProps = (location) => {
     return completedHeaderProps(true);
   if (location.includes('/documents/')) return portfolioHeaderProps();
   if (location.includes('/documentsReview/')) return teacherStudentTaskHeaderProps();
-  if (location.includes('/portfolio')) return portfolioHeaderProps();
+  if (location.includes('/getFeedback')) return portfolioHeaderProps();
+  
 
   const isTeacher = getUserRole() === 'TEACHER';
   if (isTeacher) {
@@ -41,10 +46,11 @@ const getHeaderProps = (location) => {
     else if (location.includes('/submissions')) return assignmentsHeaderProps;
     return teacherHomeHeaderProps;
   } else {
-    if (location.includes('/portfolio')) return portfolioHeaderProps();
-    else if (location.includes('/tasks')) return taskHeaderProps;
+    if (location.includes('/getFeedback')) return portfolioHeaderProps();
+    else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;
+    else if (location.includes('/feedbackHistory')) return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
-    return homeHeaderProps;
+    return Cookies.get('classes') ? taskHeaderProps : portfolioHeaderProps() ;
   }
 };

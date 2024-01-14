@@ -40,7 +40,24 @@ export const SidebarContainer = styled.div`
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
   );
   transition: transform 0.3s ease-in;
+  height: 100vh;
+  position: fixed;
 `;
+
+
+// width: ${props => (props.isOpen ? '300' : '200')};
+//   /* width: 300px;  */
+//   height: 100vh;
+//   overflow-x: hidden; // Hide content when sidebar is collapsed
+//   transition: width 0.3s; // Smooth transition for collapsing and expanding
+//   background-color: #f0f0f0; // Example background color
+//   position: fixed; // Needed for sticky positioning context
+//   align-self: stretch;
+//   top: 70px
+//   overflow-y: scroll;
+
+
+
 
 export const UserData = styled.div`
   display: flex;

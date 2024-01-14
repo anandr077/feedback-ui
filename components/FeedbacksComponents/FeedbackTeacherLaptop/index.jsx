@@ -274,22 +274,23 @@ function FeedbackTeacherLaptop(props) {
   const handleDrawer = () => {
     setOpen(!open);
   };
-
+  console.log("Open", open)
   return (
     <>
       {loader(showLoader)}
       {/* <div className="feedback-teacher-laptop screen"> */}
       <PageContainer>
-        {/* <Main drawerWidth={drawerWidth} open={true}>
+        <>
           {isMobile && <WelcomeOverlayMobile />}
-          {sharewithclassdialog} */}
-        <DrawerArrowContainer open={true} drawerWidth={drawerWidth}>
+          {sharewithclassdialog}
+        {/* <DrawerArrowContainer open={open} drawerWidth={drawerWidth}> */}
+        <>
           <>
             {isTeacher ? (
-              <TeacherSidebar open={true} submission={submission} />
+              <TeacherSidebar open={open} submission={submission} />
             ) : (
               <IndepentdentUserSidebar
-                open={true}
+                open={open}
                 subjects={submission.otherDrafts?.map(d=>
                   ({
                     id: d.submissionId,
@@ -302,17 +303,19 @@ function FeedbackTeacherLaptop(props) {
               />
             )}
 
-            <DrawerArrow
+            
+          </>
+          <DrawerArrow
               onClick={handleDrawer}
               drawerWidth={drawerWidth}
-              open={true}
+              open={open}
             >
               <ImgContainer>
-                <ArrowImg src="img/caret-5@2x.png" open={true} />
+                <ArrowImg src="img/caret-5@2x.png" open={open} />
               </ImgContainer>
             </DrawerArrow>
-          </>
-        </DrawerArrowContainer>
+        {/* </DrawerArrowContainer> */}
+        </>
         {/* <div style={{ display: 'flex', alignItems: 'center' }}>
             <Sidebar collapsed={sidebarCollapsed}>
               <Menu>
@@ -371,6 +374,9 @@ function FeedbackTeacherLaptop(props) {
           )}
         </Frame1388>
         {/* </Main> */}
+        
+        </>
+        
       </PageContainer>
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,

@@ -136,7 +136,23 @@ export const PageContainer = styled.div`
   display: flex;
   
 `;
+
+
 export const Main = styled.div`
+  width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
+  margin-left: ${(props) => (props.open ? '35px' : '0')};
+  transform: translateX(
+    ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
+  );
+  transition: transform 0.3s ease-in;  height: 100vh;
+  overflow-y: auto;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background-color: #f0f0f0; // Example background color
+`;
+
+export const Main2 = styled.div`
   width: 300px; // Adjust width as needed
   height: 100vh;
   overflow-y: auto;
@@ -147,7 +163,8 @@ export const Main = styled.div`
 `;
 
 export const Frame1388 = styled.div`
-  margin-left: 500px;
+  margin-left: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
+  /* margin-left: 500px; */
   display: flex;
   flex-direction: column;
   /* margin: 0 auto; */
@@ -164,8 +181,8 @@ export const Frame1388 = styled.div`
 `;
 
 export const DrawerArrowContainer = styled.div`
-  /* width: ${props => (props.isOpen ? '250px' : '0')}; */
-  width: 300px;
+  width: ${props => (props.isOpen ? '300' : '200')};
+  /* width: 300px;  */
   height: 100vh;
   overflow-x: hidden; // Hide content when sidebar is collapsed
   transition: width 0.3s; // Smooth transition for collapsing and expanding
@@ -178,17 +195,25 @@ export const DrawerArrowContainer = styled.div`
 
 export const DrawerArrow = styled.div`
   cursor: pointer;
-  transform: ${(props) =>
-    props.open ? 'translateX(0)' : `translateX(-${props.drawerWidth + 35}px)`};
+  //margin-left:0px
+  margin-left: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
+
+  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */ */
+  /* transform: ${(props) =>
+    props.open ? 'translateX(0)' : `translateX(-${props.drawerWidth + 35}px)`}; */
   display: flex;
   padding: 6px 2px;
-  height: calc(100vh - 70px);
-  position: ${(props) => (props.open ? 'relative' : 'fixed')};
-  top: ${(props) => (!props.open ? '0' : '50%')};
-  transform: ${(props) => (!props.open ? 'none' : 'none')};
+  height: 100vh;
+  position: fixed;
+
+  /* position: ${(props) => (props.open ? 'relative' : 'fixed')}; */
+  /* top: ${(props) => (!props.open ? '0' : '50%')}; */
+  top: '50%';
+  /* transform: ${(props) => (!props.open ? 'none' : 'none')}; */
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
+
 `;
 
 export const ArrowImg = styled.img`

@@ -74,6 +74,10 @@ function FeedbackTeacherLaptop(props) {
     createGroupedFocusAreas(submission)
   );
 
+  const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
+  const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
+
+  console.log("1showTeacherPopUp", showTeacherPopUp)
   React.useEffect(() => {
     if (showNewComment) {
       handleTabUpdate(pageMode, setFeedback, setFocusAreas);
@@ -167,7 +171,7 @@ function FeedbackTeacherLaptop(props) {
       }
     });
   };
-
+  console.log("showStudentPopUp", showStudentPopUp)
   return (
     <>
       {loader(showLoader)}
@@ -208,7 +212,11 @@ function FeedbackTeacherLaptop(props) {
             setShowSelectType,
             showFeedbackButtons,
             setShowFeedbackButtons,
-            classesAndStudents
+            classesAndStudents,
+            showStudentPopUp,
+            showTeacherPopUp,
+            setShowStudentPopUp,
+            setShowTeacherPopUp
           )}
         </Frame1388>
       </div>
@@ -334,7 +342,11 @@ function answersAndFeedbacks(
   showFeedbackButtons,
   setShowFeedbackButtons,
   showStatusText,
-  classesAndStudents
+  classesAndStudents,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) {
   return (
     <Frame1386 id="content">
@@ -353,7 +365,11 @@ function answersAndFeedbacks(
         pageMode,
         handleRequestFeedback,
         showStatusText,
-        classesAndStudents
+        classesAndStudents,
+        showStudentPopUp,
+        showTeacherPopUp,
+        setShowStudentPopUp,
+        setShowTeacherPopUp
       )}
       <Frame1368 id="assignmentData">
         {answersFrame(
@@ -420,9 +436,13 @@ function createContextBar(
   isTeacher,
   pageMode,
   handleRequestFeedback,
-  classesAndStudents
+  classesAndStudents,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
   ) {
-  console.log("classesAndStudents", classesAndStudents)  
+  console.log("showStudentPopUp", showStudentPopUp)  
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,
@@ -438,7 +458,11 @@ function createContextBar(
       (feedbackMethodType = FeedbackMethodType),
       handleRequestFeedback,
       true,
-      classesAndStudents
+      classesAndStudents,
+      showStudentPopUp,
+      showTeacherPopUp,
+      setShowStudentPopUp,
+      setShowTeacherPopUp
     );
   }
   return contextBar(submission, methods, isTeacher, pageMode, labelText);

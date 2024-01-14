@@ -24,6 +24,7 @@ function RequestFeedbackPopUp({
   list,
   heading,
   ClosePopUp,
+  onClickFn
 }) {
   return (
     <>
@@ -49,7 +50,7 @@ function RequestFeedbackPopUp({
         <Frame5053>
           {list.map((student) => {
             return (
-              <Frame5053Each>
+              <Frame5053Each onClick={()=>onClickFn(student.id)}>
                 <Avatar
                   title={false}
                   size={25}

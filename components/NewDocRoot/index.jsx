@@ -8,7 +8,7 @@ export default function NewDocPage({}) {
     if (id === undefined || id === null) {
       addDocumentToPortfolio(null, null, 'Untitled Question')
       .then(response => {
-        history.push(`/submissions/${response.id}`);
+        history.push(`/documents/${response.id}`);
       })
     } else {
       return <FeedbacksRoot isDocumentPage={true} />;

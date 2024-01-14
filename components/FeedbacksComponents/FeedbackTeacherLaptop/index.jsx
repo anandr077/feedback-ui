@@ -418,6 +418,7 @@ function createContextBar(
   handleRequestFeedback,
   classesAndStudents
   ) {
+  console.log("classesAndStudents", classesAndStudents)  
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,

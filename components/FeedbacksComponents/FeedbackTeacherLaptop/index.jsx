@@ -274,109 +274,88 @@ function FeedbackTeacherLaptop(props) {
   const handleDrawer = () => {
     setOpen(!open);
   };
-  console.log("Open", open)
+
   return (
     <>
       {loader(showLoader)}
-      {/* <div className="feedback-teacher-laptop screen"> */}
       <PageContainer>
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-        {/* <DrawerArrowContainer open={open} drawerWidth={drawerWidth}> */}
-        <>
           <>
-            {isTeacher ? (
-              <TeacherSidebar open={open} submission={submission} />
-            ) : (
-              <IndepentdentUserSidebar
+            <>
+              {isTeacher ? (
+                <TeacherSidebar open={open} submission={submission} />
+              ) : (
+                submission.otherDrafts && (
+                  <IndepentdentUserSidebar
+                    open={open}
+                    subjects={submission.otherDrafts?.map((d) => ({
+                      id: d.submissionId,
+                      title: d.title,
+                      subject: d.subject,
+                      lastseenAtTs: 1630330000,
+                    }))}
+                    setSelectedSubject={setSelectedSubject}
+                    selectedSubject={selectedSubject}
+                  />
+                )
+              )}
+            </>
+            {(isTeacher || submission.otherDrafts) && (
+              <DrawerArrow
+                onClick={handleDrawer}
+                drawerWidth={drawerWidth}
                 open={open}
-                subjects={submission.otherDrafts?.map(d=>
-                  ({
-                    id: d.submissionId,
-                    title: d.title,
-                    subject: d.subject,
-                    lastseenAtTs: 1630330000,
-                }))}
-                setSelectedSubject={setSelectedSubject}
-                selectedSubject={selectedSubject}
-              />
+              >
+                <ImgContainer>
+                  <ArrowImg src="img/caret-5@2x.png" open={open} />
+                </ImgContainer>
+              </DrawerArrow>
             )}
-
-            
           </>
-          <DrawerArrow
-              onClick={handleDrawer}
-              drawerWidth={drawerWidth}
-              open={open}
-            >
-              <ImgContainer>
-                <ArrowImg src="img/caret-5@2x.png" open={open} />
-              </ImgContainer>
-            </DrawerArrow>
-        {/* </DrawerArrowContainer> */}
+          <Frame1388
+            mobileView={isMobile}
+            drawerWidth={drawerWidth}
+            open={open}
+          >
+            {answersAndFeedbacks(
+              isMobile,
+              submission,
+              setSubmission,
+              methods,
+              isTeacher,
+              pageMode,
+              labelText,
+              quillRefs,
+              markingCriteriaFeedback,
+              smallMarkingCriteria,
+              handleCheckboxChange,
+              groupedFocusAreaIds,
+              commentsForSelectedTab,
+              newCommentSerialNumber,
+              setShowResolved,
+              showNewComment,
+              isShowResolved,
+              setFeedback,
+              isFeedback,
+              isFocusAreas,
+              setFocusAreas,
+              comments,
+              newCommentFrameRef,
+              share,
+              smartAnnotations,
+              overallComments,
+              handleRequestFeedback,
+              isShowSelectType,
+              setShowSelectType,
+              showFeedbackButtons,
+              setShowFeedbackButtons,
+              classesAndStudents
+            )}
+          </Frame1388>
+          {/* </Main> */}
         </>
-        {/* <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Sidebar collapsed={sidebarCollapsed}>
-              <Menu>
-                <SubMenu label="Charts">
-                  <MenuItem> Pie charts </MenuItem>
-                  <MenuItem> Line charts </MenuItem>
-                </SubMenu>
-                <MenuItem> Documentation </MenuItem>
-                <MenuItem> Calendar </MenuItem>
-              </Menu>
-            </Sidebar>
-            <DrawerArrow
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              drawerWidth={drawerWidth}
-              open={open}
-            >
-              <ImgContainer>
-                <ArrowImg src="img/caret-5@2x.png" open={open} />
-              </ImgContainer>
-            </DrawerArrow>
-          </div> */}
-        <Frame1388 mobileView={isMobile} drawerWidth={drawerWidth} open={open}>
-          {answersAndFeedbacks(
-            isMobile,
-            submission,
-            setSubmission,
-            methods,
-            isTeacher,
-            pageMode,
-            labelText,
-            quillRefs,
-            markingCriteriaFeedback,
-            smallMarkingCriteria,
-            handleCheckboxChange,
-            groupedFocusAreaIds,
-            commentsForSelectedTab,
-            newCommentSerialNumber,
-            setShowResolved,
-            showNewComment,
-            isShowResolved,
-            setFeedback,
-            isFeedback,
-            isFocusAreas,
-            setFocusAreas,
-            comments,
-            newCommentFrameRef,
-            share,
-            smartAnnotations,
-            overallComments,
-            handleRequestFeedback,
-            isShowSelectType,
-            setShowSelectType,
-            showFeedbackButtons,
-            setShowFeedbackButtons,
-            classesAndStudents
-          )}
-        </Frame1388>
-        {/* </Main> */}
-        
-        </>
-        
       </PageContainer>
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,

@@ -31,19 +31,23 @@ export const StudentContainer = styled.div`
 `;
 
 export const SidebarContainer = styled.div`
-  background-color: var(--white);
+  background-color: white;
   border-right: 1px solid var(--blue-chalk);
   border-top: 1px solid var(--blue-chalk);
-  width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
-  margin-left: ${(props) => (props.open ? '35px' : '0')};
+  width: ${(props) => props.drawerWidth + 'px'};
   transform: translateX(
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
   );
   transition: transform 0.3s ease-in;
-  height: 100vh;
+  //height: 100vh;
+  height: calc(100vh - 135px);
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
   position: fixed;
+  z-index: 1000;
 `;
-
 
 // width: ${props => (props.isOpen ? '300' : '200')};
 //   /* width: 300px;  */
@@ -55,9 +59,6 @@ export const SidebarContainer = styled.div`
 //   align-self: stretch;
 //   top: 70px
 //   overflow-y: scroll;
-
-
-
 
 export const UserData = styled.div`
   display: flex;
@@ -239,12 +240,13 @@ export const DrawerQuestions = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px !important;
+  height: 100%;
+  flex-grow: 1;
   overflow-y: scroll;
   width: 100%;
   ::-webkit-scrollbar {
     width: 0;
   }
-  flex-grow: 1;
 `;
 
 export const OverflowShadow = styled.div`
@@ -283,7 +285,10 @@ export const DrawerQuestion = styled.div`
       props.studentStyle ? 'var(--royal-purple)' : '#dbd9d9'};
 
     ${OverflowShadow} {
-      background: #dbd9d9;
+      background: ${(props) =>
+        props.blueBackground
+          ? 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, var(--royal-purple) 60%, var(--royal-purple) 100%)'
+          : 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%)'};
     }
   }
 
@@ -299,7 +304,8 @@ export const DrawerQuestion = styled.div`
     border-radius: 4px;
     padding: 4px;
     position: absolute;
-    max-width: 100%;
+    width: 100%;
+    white-space: break-spaces;
     z-index: 100;
     bottom: 105%;
     left: 50%;

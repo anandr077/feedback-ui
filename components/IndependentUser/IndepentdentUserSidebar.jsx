@@ -1,6 +1,7 @@
 import { Divider, Drawer } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { useHistory } from 'react-router-dom';
 import {
   DrawerBody,
   Heading,
@@ -53,10 +54,10 @@ function IndepentdentUserSidebar({
   const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory()
 
   useEffect(() => {
-    setSelectedQuestion(subjects[selectedSubject]?.[0]);
+    setSelectedQuestion(subjects[0]);
   }, [selectedSubject]);
 
   useEffect(() => {
@@ -91,39 +92,19 @@ function IndepentdentUserSidebar({
     return () => observer.disconnect();
   }, []);
 
+  const handleSubjectClick = (subject) =>{
+    const newUrl = `/documents/${subject.id}`;
+    history.push(newUrl)
+  }
+
   return (
-    <SidebarContainer
-      drawerWidth={drawerWidth}
-      open={open}
-      // sx={{
-      //   width: drawerWidth,
-      //   flexShrink: 0,
-      //   fontFamily: 'IBM Plex Sans',
-      //   // height: '85vh',
-      //   overflow: 'hidden',
-      //   height: `${pageHeight - 20}px`,
-      //   '& .MuiDrawer-paper': {
-      //     width: '100%',
-      //     boxSizing: 'border-box',
-      //     overflowY: 'scroll',
-      //     '&::-webkit-scrollbar': {
-      //       display: 'none',
-      //       width: '0px',
-      //     },
-      //     position: 'relative',
-      //     top: '0px',
-      //   },
-      // }}
-      // variant="persistent"
-      // anchor="left"
-      // open={open}
-    >
+    <SidebarContainer drawerWidth={drawerWidth} open={open}>
       <DrawerHeader>+ New Draft</DrawerHeader>
       <DividerContainer>
         <Divider />
       </DividerContainer>
       <DrawerBody>
-        {!subjects[selectedSubject] ? (
+        {!subjects ? (
           <LoadingDiv>Loading...</LoadingDiv>
         ) : (
           <>
@@ -140,26 +121,29 @@ function IndepentdentUserSidebar({
               <RecentBtn>
                 <StyledAccessTimeIcon /> Recent <StyledMoreVertIcon />
               </RecentBtn>
-              {Object.keys(subjects).map((subject, index) => (
+              {subjects.map((subject, index) => (
                 <DrawerSubject
                   style={{
                     background:
-                      selectedSubject === subject ? '#FFCA0F' : '#FFEFB5',
+                      selectedSubject === subject.subject
+                        ? '#FFCA0F'
+                        : '#FFEFB5',
                   }}
                   key={index}
-                  onClick={() => setSelectedSubject(subject)}
+                  onClick={() => setSelectedSubject(subject.subject)}
                 >
-                  {subject} ({subjects[subject].length})
+                  {subject.subject} ({subjects.length})
                 </DrawerSubject>
               ))}
             </DrawerSubjects>
-            <DrawerQuestions pageHeight={pageHeight}>
+            <DrawerQuestions>
               <DrawerQuestion
                 style={{
                   color: 'white',
                   background: 'var(--royal-purple)',
                   fontWeight: '500',
                 }}
+                blueBackground={true}
               >
                 {selectedQuestion?.title.length >= 2 ? (
                   <>
@@ -174,14 +158,17 @@ function IndepentdentUserSidebar({
                 )}
               </DrawerQuestion>
 
-              {subjects[selectedSubject]?.map(
+              {subjects?.map(
                 (question, qIndex) =>
                   question.title
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase()) && (
                     <DrawerQuestion
                       key={qIndex}
-                      onClick={() => setSelectedQuestion(question)}
+                      onClick={() => {
+                        setSelectedQuestion(question);
+                        handleSubjectClick(question)
+                      }}
                     >
                       {question.title.length >= 28 ? (
                         <>

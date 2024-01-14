@@ -134,9 +134,12 @@ export const Frame131612 = styled.div`
 `;
 export const PageContainer = styled.div`
   display: flex;
-  
+  height: 100vh;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 `;
-
 
 export const Main = styled.div`
   width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
@@ -144,7 +147,8 @@ export const Main = styled.div`
   transform: translateX(
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
   );
-  transition: transform 0.3s ease-in;  height: 100vh;
+  transition: transform 0.3s ease-in;
+  height: 100vh;
   overflow-y: auto;
   position: fixed;
   top: 70px;
@@ -163,7 +167,15 @@ export const Main2 = styled.div`
 `;
 
 export const Frame1388 = styled.div`
-  margin-left: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
+  width: 100vw;
+  //margin-left: ${(props) =>
+    props.open ? props.drawerWidth + 100 + 'px' : '0'};
+  position: relative;
+  left: 50%;
+  transform: ${(props) =>
+    props.open
+      ? `translateX(calc(-50% + ${props.drawerWidth / 2}px))`
+      : 'translateX(-50%)'};
   /* margin-left: 500px; */
   display: flex;
   flex-direction: column;
@@ -173,7 +185,7 @@ export const Frame1388 = styled.div`
   align-self: stretch;
   margin-bottom: 50px;
   /* width: ${(props) => (props.mobileView ? '100%' : '90%')}; */
-  transition: width 0.3s ease-in;
+  transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   max-width: 1321px;
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
@@ -181,7 +193,7 @@ export const Frame1388 = styled.div`
 `;
 
 export const DrawerArrowContainer = styled.div`
-  width: ${props => (props.isOpen ? '300' : '200')};
+  width: ${(props) => (props.isOpen ? '300' : '200')};
   /* width: 300px;  */
   height: 100vh;
   overflow-x: hidden; // Hide content when sidebar is collapsed
@@ -189,19 +201,20 @@ export const DrawerArrowContainer = styled.div`
   background-color: #f0f0f0; // Example background color
   position: fixed; // Needed for sticky positioning context
   align-self: stretch;
-  top: 70px
+  top: 70px;
   overflow-y: scroll;
 `;
 
 export const DrawerArrow = styled.div`
   cursor: pointer;
   //margin-left:0px
-  margin-left: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
+  //margin-left: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
 
-  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */ */
+  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
   /* transform: ${(props) =>
-    props.open ? 'translateX(0)' : `translateX(-${props.drawerWidth + 35}px)`}; */
-  display: flex;
+    props.open
+      ? 'translateX(0)'
+      : `translateX(-${props.drawerWidth + 35}px)`}; */
   padding: 6px 2px;
   height: 100vh;
   position: fixed;
@@ -209,17 +222,19 @@ export const DrawerArrow = styled.div`
   /* position: ${(props) => (props.open ? 'relative' : 'fixed')}; */
   /* top: ${(props) => (!props.open ? '0' : '50%')}; */
   top: '50%';
+  transform: ${(props) =>
+    props.open ? `translateX(${props.drawerWidth + 45}px)` : '10px'};
   /* transform: ${(props) => (!props.open ? 'none' : 'none')}; */
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
-
+  z-index: 10000;
 `;
 
 export const ArrowImg = styled.img`
   width: 25px;
   height: 25px;
-  transform: ${(props) => (props.open ? 'rotate(180deg)' : '0')};
+  transform: ${(props) => (!props.open ? 'rotate(180deg)' : '0')};
   transition: transform 0.3s ease-in;
 `;
 

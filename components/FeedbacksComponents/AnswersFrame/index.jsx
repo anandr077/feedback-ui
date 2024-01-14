@@ -198,7 +198,7 @@ const answerFrames = (
       return feedback.questionSerialNumber === question.serialNumber;
     });
     return (
-      <div>
+      <>
         <Frame1366>
           <QuestionText
             dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
@@ -275,7 +275,7 @@ const answerFrames = (
             <Line src="/img/line-14-4.png" alt="Line 14" />
           </div>
         )}
-      </div>
+      </>
     );
   });
 };

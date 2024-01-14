@@ -22,7 +22,9 @@ const FooterContainer = styled.div`
   background-color: var(--white);
   height: 40px;
   width: 100%;
-  position: fixed;
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
 `;
 
 const FooterText = styled.p`

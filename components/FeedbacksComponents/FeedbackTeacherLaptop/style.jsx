@@ -147,15 +147,15 @@ export const Main = styled.div`
 `;
 
 export const Frame1388 = styled.div`
-  margin-left: 300px;
+  margin-left: 500px;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   gap: 30px;
-  position: relative;
+  /* position: relative; */
   align-self: stretch;
   margin-bottom: 50px;
-  width: ${(props) => (props.mobileView ? '100%' : '90%')};
+  /* width: ${(props) => (props.mobileView ? '100%' : '90%')}; */
   transition: width 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   max-width: 1321px;
@@ -164,10 +164,16 @@ export const Frame1388 = styled.div`
 `;
 
 export const DrawerArrowContainer = styled.div`
-  /* height: 100vh; */
-  display: flex;
-  /* top: 70px; */
-  /* position: fixed; */
+  /* width: ${props => (props.isOpen ? '250px' : '0')}; */
+  width: 300px;
+  height: 100vh;
+  overflow-x: hidden; // Hide content when sidebar is collapsed
+  transition: width 0.3s; // Smooth transition for collapsing and expanding
+  background-color: #f0f0f0; // Example background color
+  position: fixed; // Needed for sticky positioning context
+  align-self: stretch;
+  top: 70px
+  overflow-y: scroll;
 `;
 
 export const DrawerArrow = styled.div`

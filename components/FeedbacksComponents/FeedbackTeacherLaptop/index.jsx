@@ -280,28 +280,28 @@ function FeedbackTeacherLaptop(props) {
       {loader(showLoader)}
       {/* <div className="feedback-teacher-laptop screen"> */}
       <PageContainer>
-        <Main drawerWidth={drawerWidth} open={true}>
+       {/* <Main drawerWidth={drawerWidth} open={true}>
           {isMobile && <WelcomeOverlayMobile />}
-          {sharewithclassdialog}
-          <DrawerArrowContainer open={open} drawerWidth={drawerWidth}>
-            {isTeacher ? (
-              <TeacherSidebar open={open} submission={submission} />
+          {sharewithclassdialog} */}
+          <DrawerArrowContainer open={true} drawerWidth={drawerWidth}>
+              {isTeacher ? (
+              <TeacherSidebar open={true} submission={submission} />
             ) : (
               <IndepentdentUserSidebar
-                open={open}
+                open={true}
                 subjects={groupedAndSortedData}
                 setSelectedSubject={setSelectedSubject}
                 selectedSubject={selectedSubject}
               />
             )}
-
+                
             <DrawerArrow
               onClick={handleDrawer}
               drawerWidth={drawerWidth}
-              open={open}
+              open={true}
             >
               <ImgContainer>
-                <ArrowImg src="img/caret-5@2x.png" open={open} />
+                <ArrowImg src="img/caret-5@2x.png" open={true} />
               </ImgContainer>
             </DrawerArrow>
           </DrawerArrowContainer>
@@ -366,7 +366,7 @@ function FeedbackTeacherLaptop(props) {
               classesAndStudents
             )}
           </Frame1388>
-        </Main>
+       {/* </Main> */}
       </PageContainer>
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,

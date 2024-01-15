@@ -139,6 +139,7 @@ export const PageContainer = styled.div`
   ::-webkit-scrollbar {
     width: 0;
   }
+  background: var(--white-pointer);
 `;
 
 export const Main = styled.div`
@@ -167,16 +168,22 @@ export const Main2 = styled.div`
 `;
 
 export const Frame1388 = styled.div`
-  /* width: 1325px;  */
+  flex:1;
+  width: 100vw; 
   /* margin-left: ${(props) =>
     props.open ? props.drawerWidth + 100 + 'px' : '0'}; */
   position: relative;
   /* left: 50%; */
   /* width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')}; */
   /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
-  transform: translateX(
-    ${(props) => (props.open ? `${(props.drawerWidth + 40)/2}px` : '0px')}
-  );
+  /* transform: translateX(
+    ${(props) => (props.open ? `315px` : '0px')}
+  ),
+  transform: scale(
+    ${(props) => (props.open ? `0.75,1` : '1')}
+  ); */
+  transform: ${(props) => props.open ? `translateX(170px) ` : `translateX(0px) `};
+
   /* transform: ${(props) =>
     props.open
       ? `translateX(calc(-50% + ${props.drawerWidth }px))`
@@ -191,14 +198,14 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  /* max-width: 1321px; */
+  max-width:  ${(props) => (props.open ? '1100px' : '1300px')};
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none;
-  
+  background: var(--white-pointer);
 `;
 
 export const DrawerArrowContainer = styled.div`
@@ -430,7 +437,7 @@ export const QuillContainer = styled.p`
 export const Frame1331 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 420px;
+  width: 413px;
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;

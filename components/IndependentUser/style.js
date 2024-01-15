@@ -40,13 +40,14 @@ export const SidebarContainer = styled.div`
   );
   transition: transform 0.3s ease-in;
   //height: 100vh;
-  height: calc(100vh - 140px);
+  /* height: calc(100vh); */
   overflow: scroll;
   ::-webkit-scrollbar {
     width: 0;
   }
   position: fixed;
-  z-index: 1000;
+  z-index: 500;
+  
 `;
 
 // width: ${props => (props.isOpen ? '300' : '200')};

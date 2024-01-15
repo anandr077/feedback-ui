@@ -25,7 +25,7 @@ const FooterContainer = styled.div`
   width: 100%;
   /* position: sticky; */
   bottom: 0;
-  z-index: 1000;
+  z-index: 1000000;
   /* background:red */
 `;
 

@@ -49,12 +49,13 @@ function IndepentdentUserSidebar({
   subjects,
   setSelectedSubject,
   selectedSubject,
+  groupedAndSortedData,
 }) {
   const theme = useTheme();
   const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const history = useHistory()
+  const history = useHistory();
 
   useEffect(() => {
     setSelectedQuestion(subjects[0]);
@@ -92,10 +93,10 @@ function IndepentdentUserSidebar({
     return () => observer.disconnect();
   }, []);
 
-  const handleSubjectClick = (subject) =>{
+  const handleSubjectClick = (subject) => {
     const newUrl = `/documents/${subject.id}`;
-    history.push(newUrl)
-  }
+    history.push(newUrl);
+  };
 
   return (
     <SidebarContainer drawerWidth={drawerWidth} open={open}>
@@ -121,20 +122,22 @@ function IndepentdentUserSidebar({
               <RecentBtn>
                 <StyledAccessTimeIcon /> Recent <StyledMoreVertIcon />
               </RecentBtn>
-              {subjects.map((subject, index) => (
-                <DrawerSubject
-                  style={{
-                    background:
-                      selectedSubject === subject.subject
-                        ? '#FFCA0F'
-                        : '#FFEFB5',
-                  }}
-                  key={index}
-                  onClick={() => setSelectedSubject(subject.subject)}
-                >
-                  {subject.subject} ({subjects.length})
-                </DrawerSubject>
-              ))}
+              {Object.entries(groupedAndSortedData).map(
+                ([key, value], index) => {
+                  return (
+                    <DrawerSubject
+                      style={{
+                        background:
+                          selectedSubject === key ? '#FFCA0F' : '#FFEFB5',
+                      }}
+                      key={index}
+                      onClick={() => setSelectedSubject(key)}
+                    >
+                      {key} ({value.length})
+                    </DrawerSubject>
+                  );
+                }
+              )}
             </DrawerSubjects>
             <DrawerQuestions>
               <DrawerQuestion
@@ -158,30 +161,34 @@ function IndepentdentUserSidebar({
                 )}
               </DrawerQuestion>
 
-              {subjects?.map(
-                (question, qIndex) =>
-                  question.title
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) && (
-                    <DrawerQuestion
-                      key={qIndex}
-                      onClick={() => {
-                        setSelectedQuestion(question);
-                        handleSubjectClick(question)
-                      }}
-                    >
-                      {question.title.length >= 28 ? (
-                        <>
-                          {question.title}
-                          <OverflowShadow></OverflowShadow>
-                          <span className="tooltip-text">{question.title}</span>
-                        </>
-                      ) : (
-                        question.title
-                      )}
-                    </DrawerQuestion>
-                  )
-              )}
+              {subjects
+                ?.filter((question) => question.subject === selectedSubject)
+                .map(
+                  (question, qIndex) =>
+                    question.title
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase()) && (
+                      <DrawerQuestion
+                        key={qIndex}
+                        onClick={() => {
+                          setSelectedQuestion(question);
+                          handleSubjectClick(question);
+                        }}
+                      >
+                        {question.title.length >= 28 ? (
+                          <>
+                            {question.title}
+                            <OverflowShadow></OverflowShadow>
+                            <span className="tooltip-text">
+                              {question.title}
+                            </span>
+                          </>
+                        ) : (
+                          question.title
+                        )}
+                      </DrawerQuestion>
+                    )
+                )}
             </DrawerQuestions>
           </>
         )}

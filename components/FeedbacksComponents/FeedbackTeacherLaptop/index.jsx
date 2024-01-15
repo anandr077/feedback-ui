@@ -331,7 +331,7 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {subjectTypeSelection(pageMode)}
+      {subjectTypeSelection(pageMode, submission)}
       {createContextBar(
         submission,
         setSubmission,
@@ -389,7 +389,8 @@ function answersAndFeedbacks(
   );
 }
 
-function subjectTypeSelection(pageMood) {
+function subjectTypeSelection(pageMood, submission) {
+  console.log('the submission is', submission)
   const subjectOptions = ['English', 'Math', 'Science'];
   const taskOptions = [
     'Extended Response',

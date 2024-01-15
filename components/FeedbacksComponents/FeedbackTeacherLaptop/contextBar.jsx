@@ -23,7 +23,7 @@ import {
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
-import { cancelFeedbackRequest, getUserId } from '../../../service';
+import { cancelFeedbackRequest, getUserId, updateAssignment } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Cookies from 'js-cookie';
@@ -220,10 +220,10 @@ export function contextBarForPortfolioDocument(
   const { showSnackbar } = React.useContext(SnackbarContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
-  const [assignment, setAssignment] = React.useState(submission)
+  const [assignment, setAssignment] = React.useState(submission);
   const inputRef = React.useRef(null);
 
-  console.log('the submission is', submission)
+  console.log('the submission is', submission);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
@@ -236,10 +236,25 @@ export function contextBarForPortfolioDocument(
   };
 
   const updateAssignmentTitle = (newTitle) => {
-    setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
+    const updatedAssignment = {
+      ...submission.assignment,
+      title: newTitle,
+    };
+    updateAssignment(submission.id, updatedAssignment)
+      .then((res) => {
+        if (res && res.assignment && res.assignment.title) {
+          console.log('Assignment title updated to: ' + res.assignment);
+        } else {
+          console.log('Response is not as expected:', res);
+          setInputValue(res.title);
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating assignment:', error);
+      });
   };
 
-  console.log('set assignment', assignment)
+  console.log('set assignment', assignment);
 
   const handleTitleClick = () => {
     setIsEditing(true);
@@ -533,10 +548,11 @@ function getStatusLabel(
   );
 
   function feedbackRequestedFrom() {
-    if (submission.feedbackRequestType === 'P2P') {
-      return allClasses.find((item) => item.id === submission.classId)?.title;
-    }
-    return submission.reviewerName;
+    return '';
+    // if (submission.feedbackRequestType === 'P2P') {
+    //   return allClasses.find((item) => item.id === submission.classId)?.title;
+    // }
+    // return submission.reviewerName;
   }
 }
 function getFeedbackRequestedBy(submission, allClasses) {

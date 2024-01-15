@@ -20,10 +20,15 @@ import {
   TitleContainer,
   QuestionEditInput,
   EditTextBox,
+  FeedbackBtnContainer,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
-import { cancelFeedbackRequest, getUserId, updateAssignment } from '../../../service';
+import {
+  cancelFeedbackRequest,
+  getUserId,
+  updateAssignment,
+} from '../../../service';
 import {
   Frame1334,
   Frame1334Img,
@@ -45,7 +50,11 @@ import {
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
-import { cancelFeedbackRequest, createRequestFeddbackType, getUserId } from '../../../service';
+import {
+  cancelFeedbackRequest,
+  createRequestFeddbackType,
+  getUserId,
+} from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Button5 from '../Buttons5';
@@ -119,27 +128,27 @@ const selectReviewType = (
   showStudentPopUp,
   showTeacherPopUp,
   setShowStudentPopUp,
-  setShowTeacherPopUp,
+  setShowTeacherPopUp
 ) => {
-  const allTeachers = _.flatten(allClasses?.map(c => c.teachers) || []);;
+  const allTeachers = _.flatten(allClasses?.map((c) => c.teachers) || []);
   const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-  const allStudents = _.flatten(allClasses?.map(c=>c.students) || []);
-  const uniqueStudents = _.uniqBy(allStudents, 'id').filter(s=>s.id !== getUserId());
-  
-  const requestFeedback = (submissionId, requestType)=>(id) => {
-    console.log("Submitting", submissionId, requestType, id)
-    createRequestFeddbackType(submissionId,
-      {
-        type:requestType,
-        reviewerId:id
-      })
-      .then((response) => {
-        console.log("Response", response)
-        console.log("Done ", setSubmission)
-        
-        setSubmission(response);
-        // ClosePopUp()
-      })
+  const allStudents = _.flatten(allClasses?.map((c) => c.students) || []);
+  const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
+    (s) => s.id !== getUserId()
+  );
+
+  const requestFeedback = (submissionId, requestType) => (id) => {
+    console.log('Submitting', submissionId, requestType, id);
+    createRequestFeddbackType(submissionId, {
+      type: requestType,
+      reviewerId: id,
+    }).then((response) => {
+      console.log('Response', response);
+      console.log('Done ', setSubmission);
+
+      setSubmission(response);
+      // ClosePopUp()
+    });
   };
   const ClosePopUp = () => {
     setShowStudentPopUp(false);
@@ -162,7 +171,7 @@ const selectReviewType = (
           list={uniqueStudents}
           ClosePopUp={ClosePopUp}
           heading={'classmate'}
-          onClickFn={(id)=>requestFeedback(submission.id, 'P2P')(id)}
+          onClickFn={(id) => requestFeedback(submission.id, 'P2P')(id)}
         />
       )}
       {showTeacherPopUp && (
@@ -170,7 +179,7 @@ const selectReviewType = (
           list={uniqueTeachers}
           ClosePopUp={ClosePopUp}
           heading={'teacher'}
-          onClickFn={(id)=>requestFeedback(submission.id, 'TEACHER')(id)}
+          onClickFn={(id) => requestFeedback(submission.id, 'TEACHER')(id)}
         />
       )}
       {!showStudentPopUp && !showTeacherPopUp && (
@@ -192,15 +201,17 @@ const selectReviewType = (
               <Frame5053Card1Img src="/img/community.png" />
               <Frame5053Card1Para>Community</Frame5053Card1Para>
             </Frame5053Card1>
-            {<Frame5053Card2 onClick={ShowTeacher}>
-              <Frame5053Card2Data>
-                <Frame5053Card1Img src={Teacher} />
-                <Frame5053Card1Para>Teacher</Frame5053Card1Para>
-              </Frame5053Card2Data>
-              <Card1ImgContainer>
-                <Card1Img src={rightarrow} />
-              </Card1ImgContainer>
-            </Frame5053Card2>}
+            {
+              <Frame5053Card2 onClick={ShowTeacher}>
+                <Frame5053Card2Data>
+                  <Frame5053Card1Img src={Teacher} />
+                  <Frame5053Card1Para>Teacher</Frame5053Card1Para>
+                </Frame5053Card2Data>
+                <Card1ImgContainer>
+                  <Card1Img src={rightarrow} />
+                </Card1ImgContainer>
+              </Frame5053Card2>
+            }
             <Frame5053Card2 onClick={ShowStudent}>
               <Frame5053Card2Data>
                 <Frame5053Card1Img src={profileCircle} />
@@ -371,15 +382,13 @@ export function contextBarForPortfolioDocument(
       .then((res) => {
         if (res && res.title) {
           console.log('Assignment title updated to: ' + res.title);
-          setSubmission(old=>
-            ({
-              ...old,
-              assignment:{
-                ...old.assignment,
-                title:res.title
-              }
-            })
-          )
+          setSubmission((old) => ({
+            ...old,
+            assignment: {
+              ...old.assignment,
+              title: res.title,
+            },
+          }));
         } else {
           console.log('Response is not as expected:', res);
           setInputValue(res.title);
@@ -409,16 +418,16 @@ export function contextBarForPortfolioDocument(
       <TitleWrapper>
         <TitleContainer>
           {pageMode === 'DRAFT' ? (
-              <QuestionEditInput
-                ref={inputRef}
-                type="text"
-                value={inputValue}
-                onChange={handleInputChange}
-                onBlur={() => {
-                  updateAssignmentTitle(inputValue);
-                  setIsEditing(false);
-                }}
-              />
+            <QuestionEditInput
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={() => {
+                updateAssignmentTitle(inputValue);
+                setIsEditing(false);
+              }}
+            />
           ) : (
             <AssignmentTitle
               style={{ display: 'contents', color: '#A6A6A6' }}
@@ -436,10 +445,10 @@ export function contextBarForPortfolioDocument(
           showStatusText && statusText(methods, 0, submission)
         )}
       </TitleWrapper>
-      <div style={{ display: 'flex', gap: '15px' }}>
-        {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+      <FeedbackBtnContainer>
+        {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
           <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-        )}
+        )} */}
         {submitButtonDocument(
           showSnackbar,
           isShowSelectType,
@@ -458,7 +467,7 @@ export function contextBarForPortfolioDocument(
           setShowStudentPopUp,
           setShowTeacherPopUp
         )}
-      </div>
+      </FeedbackBtnContainer>
     </Frame1371>
   );
 }
@@ -518,7 +527,14 @@ const submitButtonDocument = (
   if (pageMode === 'DRAFT') {
     return (
       <>
-        <div style={{ position: 'relative' }}>
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            background: '#7200e0',
+            borderRadius: '12px',
+          }}
+        >
           {
             <>
               {selectReviewType(
@@ -533,7 +549,7 @@ const submitButtonDocument = (
                 showStudentPopUp,
                 showTeacherPopUp,
                 setShowStudentPopUp,
-                setShowTeacherPopUp,
+                setShowTeacherPopUp
               )}
               <RequestFeedbackFrame
                 onClick={(event) => {
@@ -541,7 +557,7 @@ const submitButtonDocument = (
                   setShowSelectType(!isShowSelectType);
                 }}
               >
-                {<img src="/img/messages.svg" alt="message" />}
+                {<img src="/img/messages.png" alt="message" />}
                 Request Feedback
               </RequestFeedbackFrame>
             </>

@@ -71,13 +71,15 @@ export const Label = styled.div`
 export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
   position: relative;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
   gap: 10px;
-  width: 70%;
 `;
+
 export const TitleContainer = styled.div`
   display: flex;
   gap: 5px;
@@ -90,13 +92,19 @@ export const TitleContainer = styled.div`
 `;
 
 export const EditTextBox = styled.p`
-  width: 880px;
-  height: 21px;
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-size: var(--font-size-l);
   line-height: 20px;
   color: #7a7a7a;
+  width: fit-content;
+`;
+
+export const FeedbackBtnContainer = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  gap: 15px; */
+  width: 413px;
 `;
 
 export const StatusText = styled.div`
@@ -184,8 +192,8 @@ export const Main2 = styled.div`
 `;
 
 export const Frame1388 = styled.div`
-  flex:1;
-  width: 100vw; 
+  flex: 1;
+  width: 100vw;
   /* margin-left: ${(props) =>
     props.open ? props.drawerWidth + 100 + 'px' : '0'}; */
   position: relative;
@@ -198,11 +206,12 @@ export const Frame1388 = styled.div`
   transform: scale(
     ${(props) => (props.open ? `0.75,1` : '1')}
   ); */
-  transform: ${(props) => props.open ? `translateX(170px) ` : `translateX(0px) `};
+  transform: ${(props) =>
+    props.open ? `translateX(170px) ` : `translateX(0px) `};
 
   /* transform: ${(props) =>
     props.open
-      ? `translateX(calc(-50% + ${props.drawerWidth }px))`
+      ? `translateX(calc(-50% + ${props.drawerWidth}px))`
       : 'translateX(-50%)'}; */
   /* margin-left: 500px; */
   display: flex;
@@ -214,7 +223,7 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width:  ${(props) => (props.open ? '1100px' : '1300px')};
+  max-width: ${(props) => (props.open ? '1100px' : '1300px')};
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {
@@ -349,17 +358,13 @@ export const GoBackBtn = styled.button`
 
 export const Frame1371 = styled.div`
   display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: start;
-  gap: 60px;
-  position: relative;
-  align-self: stretch;
-  position: sticky;
-  top: 0;
+  gap: 32px;
   z-index: 2;
   padding: 20px 0;
   background-color: var(--white-pointer);
-  flex-wrap: wrap;
+  width: 100%;
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
   }
@@ -367,6 +372,7 @@ export const Frame1371 = styled.div`
     flex-direction: column;
     gap: 20px;
     align-items: flex-start;
+    flex-wrap: wrap;
   }
 `;
 export const AssignmentTitle = styled.h1`
@@ -412,6 +418,7 @@ export const Group1225 = styled.div`
   flex: 1;
   flex-direction: column;
   width: 70%;
+  min-height: 650px;
 `;
 export const Frame1367 = styled.div`
   display: flex;
@@ -419,6 +426,7 @@ export const Frame1367 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 50px;
+  height: 100%;
 `;
 export const Frame1366 = styled.div`
   display: flex;
@@ -427,6 +435,7 @@ export const Frame1366 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
+  height: 100%;
 `;
 
 export const Line = styled.img`
@@ -466,6 +475,7 @@ export const QuillContainer = styled.p`
   letter-spacing: 0;
   line-height: normal;
   width: 100%;
+  height: 100%;
   z-index: 1;
 `;
 
@@ -482,7 +492,7 @@ export const Frame1331 = styled.div`
 
   background-color: var(--white);
   border-radius: 16px;
-  height: 550px;
+  height: 650px;
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
   &::-webkit-scrollbar {
@@ -614,17 +624,19 @@ export const SelectFeedbackMethodType = styled.div`
 export const RequestFeedbackFrame = styled.div`
   cursor: pointer;
   display: flex;
-  padding: 8px 12px;
+  padding: 20px 16px;
   align-items: center;
-  gap: 4px;
-  border-radius: 20px;
-  border: 1px solid var(--Light-Mode-Purple, #7200e0);
-  color: #000;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  color: white;
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  width: 100%;
+  background-color: var(--Light-Mode-Purple) !important;
 `;
 
 export const RequestFeedbackDropdown = styled.div`

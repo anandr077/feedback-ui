@@ -146,7 +146,17 @@ const selectReviewType = (
       console.log('Response', response);
       console.log('Done ', setSubmission);
 
-      setSubmission(response);
+      setSubmission((old) => ({
+        ...old,
+        status: response.status,
+        reviewerId: response.reviewerId,
+        reviewerName: response.reviewerName,
+        submittedAt: response.submittedAt,
+        feedbackRequestType: response.feedbackRequestType,
+        classId: response.classId,
+        declinedByReviewerIds: response.declinedByReviewerIds,
+        submittedAt: response.submittedAt,
+      }));
       // ClosePopUp()
     });
   };
@@ -378,7 +388,7 @@ export function contextBarForPortfolioDocument(
       ...submission.assignment,
       title: newTitle,
     };
-    updateAssignment(submission.id, updatedAssignment)
+    updateAssignment(submission.assignment.id, updatedAssignment)
       .then((res) => {
         if (res && res.title) {
           console.log('Assignment title updated to: ' + res.title);
@@ -755,7 +765,14 @@ function handleCancelFeedbackRequest(
     .then((response) => {
       showSnackbar('Feedback request cancelled');
 
-      setSubmission(response);
+      setSubmission((old) => ({
+        ...old,
+        status: response.status,
+        reviewerId: response.reviewerId,
+        reviewerName: response.reviewerName,
+        submittedAt: response.submittedAt,
+        feedbackRequestType: response.feedbackRequestType,
+      }));
     })
     .catch((error) => {
       showSnackbar(error.message);

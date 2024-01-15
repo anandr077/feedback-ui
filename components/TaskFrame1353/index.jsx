@@ -6,7 +6,11 @@ function TaskFrame1353(props) {
   const { outstanding, number } = props;
 
   return (
-    <Frame13531>
+    <Frame13531
+      style={{
+        backgroundColor: outstanding === 'Assigned' ? '#f1e7ff' : ' #F9F0CD',
+      }}
+    >
       <Outstanding>{outstanding}</Outstanding>
       <Number>{number}</Number>
     </Frame13531>

@@ -24,7 +24,7 @@ function TasksLaptop(props) {
     <div className="tasks-laptop screen">
       <Frame1361>
         <TitleContainer>
-          <Title>Tasks</Title>
+          <Title>My Tasks</Title>
           <LinkAndFilter>
             {portfolio.length != 0 && (
               <Group1205

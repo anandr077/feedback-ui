@@ -50,7 +50,7 @@ function TasksStudentTablet(props) {
     <div className="tasks-student-tablet screen">
       <Frame1365>
         <Frame1307>
-          <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
+          <KeepOrganizedWitho>My Tasks</KeepOrganizedWitho>
           <LinkAndFilter>
             {portfolio.length != 0 && (
               <Group1205

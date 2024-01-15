@@ -55,7 +55,7 @@ function TasksStudentMobile(props) {
     <div className="tasks-student-mobile screen">
       <Frame1365>
         <Frame1307>
-          <PageTitle>Tasks</PageTitle>
+          <PageTitle>My Tasks</PageTitle>
           <LinkAndFilter>
             {portfolio.length != 0 && (
               <Group1205

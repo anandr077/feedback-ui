@@ -356,7 +356,7 @@ export function contextBarForPortfolioDocument(
     if (submission?.assignment?.title) {
       setInputValue(submission.assignment.title);
     }
-  }, [submission?.assignment?.title]);
+  }, [submission]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -369,8 +369,17 @@ export function contextBarForPortfolioDocument(
     };
     updateAssignment(submission.id, updatedAssignment)
       .then((res) => {
-        if (res && res.assignment && res.assignment.title) {
-          console.log('Assignment title updated to: ' + res.assignment);
+        if (res && res.title) {
+          console.log('Assignment title updated to: ' + res.title);
+          setSubmission(old=>
+            ({
+              ...old,
+              assignment:{
+                ...old.assignment,
+                title:res.title
+              }
+            })
+          )
         } else {
           console.log('Response is not as expected:', res);
           setInputValue(res.title);
@@ -400,7 +409,6 @@ export function contextBarForPortfolioDocument(
       <TitleWrapper>
         <TitleContainer>
           {pageMode === 'DRAFT' ? (
-            isEditing ? (
               <QuestionEditInput
                 ref={inputRef}
                 type="text"
@@ -411,15 +419,6 @@ export function contextBarForPortfolioDocument(
                   setIsEditing(false);
                 }}
               />
-            ) : (
-              <AssignmentTitle
-                style={{ display: 'contents', color: 'var(--text)' }}
-                dangerouslySetInnerHTML={{
-                  __html: linkify(submission?.assignment?.title),
-                }}
-                onClick={handleTitleClick}
-              />
-            )
           ) : (
             <AssignmentTitle
               style={{ display: 'contents', color: '#A6A6A6' }}
@@ -519,7 +518,6 @@ const submitButtonDocument = (
   if (pageMode === 'DRAFT') {
     return (
       <>
-        <Buttons2 button="JeddAI" onClickFn={() => methods.jeddAI()}></Buttons2>
         <div style={{ position: 'relative' }}>
           {
             <>

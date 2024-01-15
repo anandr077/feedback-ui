@@ -41,6 +41,7 @@ import { IsoTwoTone } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { getSubmissionById, createRequestFeddbackType } from '../../../service';
+import StyledDropDown from '../../../components2/StyledDropDown';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -538,13 +539,14 @@ function subjectTypeSelection(pageMood, submission) {
         <>
           <SubSelcetBox>
             <label>Select Subject</label>
-            <select>
+            {/* <select>
               {subjectOptions.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <StyledDropDown menuItems={[{title:"ddd"},{title:"fff"}]}></StyledDropDown>
           </SubSelcetBox>
           <SubSelcetBox>
             <label>Task Type</label>

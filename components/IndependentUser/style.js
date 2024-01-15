@@ -40,7 +40,7 @@ export const SidebarContainer = styled.div`
   );
   transition: transform 0.3s ease-in;
   //height: 100vh;
-  height: calc(100vh - 135px);
+  height: calc(100vh - 140px);
   overflow: scroll;
   ::-webkit-scrollbar {
     width: 0;

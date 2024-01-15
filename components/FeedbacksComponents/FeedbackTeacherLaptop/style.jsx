@@ -167,28 +167,38 @@ export const Main2 = styled.div`
 `;
 
 export const Frame1388 = styled.div`
-  width: 100vw;
-  //margin-left: ${(props) =>
-    props.open ? props.drawerWidth + 100 + 'px' : '0'};
+  /* width: 1325px;  */
+  /* margin-left: ${(props) =>
+    props.open ? props.drawerWidth + 100 + 'px' : '0'}; */
   position: relative;
-  left: 50%;
-  transform: ${(props) =>
+  /* left: 50%; */
+  /* width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')}; */
+  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
+  transform: translateX(
+    ${(props) => (props.open ? `${(props.drawerWidth + 40)/2}px` : '0px')}
+  );
+  /* transform: ${(props) =>
     props.open
-      ? `translateX(calc(-50% + ${props.drawerWidth / 2}px))`
-      : 'translateX(-50%)'};
+      ? `translateX(calc(-50% + ${props.drawerWidth }px))`
+      : 'translateX(-50%)'}; */
   /* margin-left: 500px; */
   display: flex;
   flex-direction: column;
-  /* margin: 0 auto; */
+  margin: 0 auto;
   gap: 30px;
   /* position: relative; */
   align-self: stretch;
   margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width: 1321px;
+  /* max-width: 1321px; */
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
-  overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  
 `;
 
 export const DrawerArrowContainer = styled.div`
@@ -222,7 +232,7 @@ export const DrawerArrow = styled.div`
   /* top: ${(props) => (!props.open ? '0' : '50%')}; */
   top: '50%';
   transform: ${(props) =>
-    props.open ? `translateX(${props.drawerWidth + 45}px)` : '10px'};
+    props.open ? `translateX(${props.drawerWidth}px)` : '10px'};
   /* transform: ${(props) => (!props.open ? 'none' : 'none')}; */
   transition: transform 0.3s ease-in;
   display: flex;

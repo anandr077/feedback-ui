@@ -148,7 +148,7 @@ function IndepentdentUserSidebar({
                 .map(
                   (question, qIndex) => {
 
-                    
+                  
 
 
 
@@ -163,17 +163,15 @@ function IndepentdentUserSidebar({
                         }}
                         studentStyle={question.id === currentSubmissionId}
                       >
-                        {question.title.length >= 28 ? (
-                          <>
-                            {question.title}
-                            <OverflowShadow></OverflowShadow>
-                            <span className="tooltip-text">
-                              {question.title}
-                            </span>
-                          </>
-                        ) : (
-                          question.title
-                        )}
+                       
+                      <>
+                        {question.title}
+                        <OverflowShadow blueBackground={question.id === currentSubmissionId}></OverflowShadow>
+                        <span className="tooltip-text">
+                          {question.title}
+                        </span>
+                      </>
+                       
                       </DrawerQuestion>
                     )
                         })}

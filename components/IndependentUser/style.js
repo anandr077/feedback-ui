@@ -287,7 +287,7 @@ export const DrawerQuestion = styled.div`
 
     ${OverflowShadow} {
       background: ${(props) =>
-        props.blueBackground
+        props.studentStyle
           ? 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, var(--royal-purple) 60%, var(--royal-purple) 100%)'
           : 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%)'};
     }

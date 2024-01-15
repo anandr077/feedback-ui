@@ -99,8 +99,8 @@ function FeedbackTeacherLaptop(props) {
   const drawerWidth = 315;
 
   React.useEffect(() => {
-    let dataToUse = submission.otherDrafts;
-
+    let dataToUse = submission.otherDrafts||[];
+   
     const groupedData = dataToUse?.reduce((result, item) => {
       const subject = item.subject || 'Students';
 
@@ -264,6 +264,7 @@ function FeedbackTeacherLaptop(props) {
                     setSelectedSubject={setSelectedSubject}
                     selectedSubject={selectedSubject}
                     groupedAndSortedData={groupedAndSortedData}
+                    currentSubmissionId={submission.id}
                   />
                 )
               )}

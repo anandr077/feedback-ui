@@ -29,6 +29,7 @@ import withOnboarding from './components/WithOnboarding';
 import withAuth from './components/WithAuth';
 import NewDocPage from './components/NewDocRoot';
 import MainPage from './components/MainPage';
+import CompletedRoot from './components/Completed/CompletedRoot';
 
 function App() {
   const role = getUserRole();
@@ -55,6 +56,7 @@ function App() {
 
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
+  const ProtectedCompletedRoot = middleware(CompletedPage);
 
   const portfolioClient = new QueryClient();
 
@@ -106,6 +108,9 @@ function App() {
             </Route>
             <Route path="/giveFeedback">
               <ProtectedGiveFeedback />
+            </Route>
+            <Route path="/completed">
+              <ProtectedCompletedRoot />
             </Route>
             <Route path="/feedbackHistory">
               <ProtectedGiveFeedback />

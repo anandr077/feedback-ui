@@ -39,7 +39,7 @@ export const SidebarContainer = styled.div`
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
   );
   transition: transform 0.3s ease-in;
-  //height: 100vh;
+  /* height: 100vh; */
   /* height: calc(100vh); */
   overflow: scroll;
   ::-webkit-scrollbar {
@@ -287,7 +287,7 @@ export const DrawerQuestion = styled.div`
 
     ${OverflowShadow} {
       background: ${(props) =>
-        props.blueBackground
+        props.studentStyle
           ? 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, var(--royal-purple) 60%, var(--royal-purple) 100%)'
           : 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%)'};
     }

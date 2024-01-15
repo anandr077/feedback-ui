@@ -367,7 +367,7 @@ export function contextBarForPortfolioDocument(
       ...submission.assignment,
       title: newTitle,
     };
-    updateAssignment(submission.id, updatedAssignment)
+    updateAssignment(submission.assignment.id, updatedAssignment)
       .then((res) => {
         if (res && res.title) {
           console.log('Assignment title updated to: ' + res.title);

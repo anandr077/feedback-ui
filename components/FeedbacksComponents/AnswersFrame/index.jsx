@@ -200,9 +200,11 @@ const answerFrames = (
     return (
       <>
         <Frame1366>
-          <QuestionText
-            dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
-          />
+          {submission.type !== 'DOCUMENT' && (
+            <QuestionText
+              dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
+            />
+          )}
           <AnswerContainer>
             {question.type === 'MCQ' ? (
               <CheckboxList
@@ -361,7 +363,7 @@ function createShowMarkingCriteriasFrame(
   answer,
   question
 ) {
-  const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED' ];
+  const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];
   if (

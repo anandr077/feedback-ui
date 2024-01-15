@@ -134,7 +134,7 @@ function Navigation(props) {
                 <FlagIcon src={flagIcon} />
               </FlagBox>
               <div>
-                Year {year}, Australia, {state}
+                Year {year}, {country}, {state}
               </div>
             </LocationAgeContainer>
             <EditBtn

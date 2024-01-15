@@ -2,7 +2,12 @@ import { IbmplexsansNormalShark20px } from '../../styledMixins';
 import styled from 'styled-components';
 
 export const SuggestionsLabel = styled.div`
-  ${IbmplexsansNormalShark20px}
+  color: var(--light-mode-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 20.8px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -43,7 +48,12 @@ export const SuggestionsContainer = styled.div`
 `;
 
 export const SuggestionsContainerComments = styled.div`
-  ${IbmplexsansNormalShark20px}
+  color: var(--light-mode-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 20px;
   display: flex;
   padding: 12px 16px;
   align-items: flex-start;
@@ -51,7 +61,7 @@ export const SuggestionsContainerComments = styled.div`
   gap: 10px;
   align-self: stretch;
   border-radius: 12px;
-  border: 1px solid #595959;
+  border: 1px solid var(--light-mode-purple);
   background: #ffffff;
   cursor: pointer;
 `;
@@ -70,7 +80,7 @@ export const DeleteButton = styled.img`
 export const ButtonBox = styled.div`
   position: relative;
 
-  span{
+  span {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.75);
     color: #fff;
@@ -92,4 +102,4 @@ export const ButtonBox = styled.div`
       display: block;
     }
   }
-`
+`;

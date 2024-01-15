@@ -48,6 +48,7 @@ import { useState } from 'react';
 import { cancelFeedbackRequest, createRequestFeddbackType, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
+import Button5 from '../Buttons5';
 import Cookies from 'js-cookie';
 import { Dialog } from '@mui/material';
 import ai from '../../../static/img/ai.svg';
@@ -98,7 +99,7 @@ export function contextBar(
         submission,
         methods
       )}
-      {tasksListsDropDown(isTeacher, methods)}
+      {/* {tasksListsDropDown(isTeacher, methods)} */}
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
@@ -234,12 +235,13 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     if (isTeacher) {
       return (
         <ButtonsContainer>
-          <Buttons2
-            button="Request resubmission"
+          <Button5
+            button="Request Re-submission"
+            icon={'img/refresh-circle.png'}
             onClickFn={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
             }
-          ></Buttons2>
+          ></Button5>
           <Buttons2
             button="Submit"
             onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}

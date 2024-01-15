@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const AudioContainer = styled.div`
-  margin-top: 30px;
-`;
+export const AudioContainer = styled.div``;
 
 export const Audio = styled.audio`
   height: 45px;
@@ -41,5 +39,5 @@ export const AudioFeedbackTitle = styled.h2`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin: 25px 0 15px;
+  margin-bottom: 15px;
 `;

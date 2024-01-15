@@ -16,6 +16,7 @@ import './TaskDetailLaptop.css';
 
 function TaskDetailLaptop(props) {
   const { assignment, methods, clazzName, line11, goBackProps } = props;
+  // alert("LLLL")
   return (
     <div className="task-detail-laptop screen">
       <Frame1391>

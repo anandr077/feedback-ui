@@ -22,6 +22,8 @@ import {
   Frame1387,
   Frame1388,
   Screen2,
+  SubjectSelectionContainer,
+  SubSelcetBox,
   Main,
   PageContainer,
   DrawerArrowContainer,
@@ -39,6 +41,7 @@ import { IsoTwoTone } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { getSubmissionById, createRequestFeddbackType } from '../../../service';
+import StyledDropDown from '../../../components2/StyledDropDown';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -89,68 +92,7 @@ function FeedbackTeacherLaptop(props) {
     createGroupedFocusAreas(submission)
   );
   const [open, setOpen] = useState(false);
-  const [subjectsList, setSubjectsList] = React.useState([
-    {
-      id: '1',
-      title: 'What is photosynthesis?',
-      subject: 'Biology',
-      lastseenAtTs: 1630340000,
-    },
-    {
-      id: '2',
-      title: 'Define inertia.',
-      subject: 'Physics',
-      lastseenAtTs: 1630338000,
-    },
-    {
-      id: '3',
-      title: "Who wrote 'Romeo and Juliet'?",
-      subject: 'Literature',
-      lastseenAtTs: 1630336000,
-    },
-    {
-      id: '4',
-      title: 'What is the Pythagorean theorem?',
-      subject: 'Mathematics',
-      lastseenAtTs: 1630334000,
-    },
-    {
-      id: '5',
-      title: 'Explain the concept of supply and demand.',
-      subject: 'Economics',
-      lastseenAtTs: 1630332000,
-    },
-    {
-      id: '6',
-      title: 'What is the function of mitochondria?',
-      subject: 'Biology',
-      lastseenAtTs: 1630330000,
-    },
-    {
-      id: '7',
-      title: 'Name the chemical elements in H2O.',
-      subject: 'Chemistry',
-      lastseenAtTs: 1630328000,
-    },
-    {
-      id: '8',
-      title: 'Solve for x: 2x + 5 = 15.',
-      subject: 'Mathematics',
-      lastseenAtTs: 1630326000,
-    },
-    {
-      id: '9',
-      title: 'Discuss the impact of globalization.',
-      subject: 'Economics',
-      lastseenAtTs: 1630324000,
-    },
-    {
-      id: '10',
-      title: 'Describe the stages of mitosis.',
-      subject: 'Biology',
-      lastseenAtTs: 1630322000,
-    },
-  ]);
+  
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
@@ -192,6 +134,7 @@ function FeedbackTeacherLaptop(props) {
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
 
+  console.log('1showTeacherPopUp', showTeacherPopUp);
   React.useEffect(() => {
     if (showNewComment) {
       handleTabUpdate(pageMode, setFeedback, setFocusAreas);
@@ -223,12 +166,18 @@ function FeedbackTeacherLaptop(props) {
       type: type,
       reviewerId: itemData ? itemData.id : null,
     };
-    createRequestFeddbackType(submission.id, requestData).then((res) => {
-      if (res) {
-        getSubmissionById(submission.id).then((s) => {
-          setSubmission(s);
-        });
-      }
+    createRequestFeddbackType(submission.id, requestData).then((response) => {
+      setSubmission(old=>({
+        ...old,
+        status:response.status,
+        reviewerId:response.reviewerId,
+        reviewerName:response.reviewerName,
+        submittedAt:response.submittedAt,
+        feedbackRequestType:response.feedbackRequestType,
+        classId: response.classId,
+        declinedByReviewerIds: response.declinedByReviewerIds,
+        submittedAt: response.submittedAt,
+      }));
     });
   };
   const commentsForSelectedTab = selectTabComments(
@@ -285,6 +234,7 @@ function FeedbackTeacherLaptop(props) {
       }
     });
   };
+
 
   const handleDrawer = () => {
     setOpen(!open);
@@ -512,6 +462,7 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
+      {subjectTypeSelection(pageMode, submission)}
       {isTeacher && (
         <GoBackBtn onClick={() => navigate.goBack()}>
           <img className="arrowImg" src="img/arrow_left.png" />
@@ -578,6 +529,54 @@ function answersAndFeedbacks(
         )}
       </Frame1368>
     </Frame1386>
+  );
+}
+
+function subjectTypeSelection(pageMood, submission) {
+  console.log('the submission is', submission);
+  const subjectOptions = ['English', 'Math', 'Science'];
+  const taskOptions = [
+    'Extended Response',
+    'Extended Response',
+    'Extended Response',
+  ];
+  return (
+    <SubjectSelectionContainer>
+      {pageMood === 'DRAFT' ? (
+        <>
+          <SubSelcetBox>
+            <label>Select Subject</label>
+            {/* <select>
+              {subjectOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select> */}
+            <StyledDropDown menuItems={[{title:"ddd"},{title:"fff"}]}></StyledDropDown>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Task Type</label>
+            <select>
+              {taskOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </SubSelcetBox>
+        </>
+      ) : (
+        <>
+          <SubSelcetBox>
+            <label>English</label>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Extended Response</label>
+          </SubSelcetBox>
+        </>
+      )}
+    </SubjectSelectionContainer>
   );
 }
 

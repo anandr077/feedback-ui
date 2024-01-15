@@ -175,7 +175,7 @@ export const Frame1388 = styled.div`
   /* width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')}; */
   /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
   transform: translateX(
-    ${(props) => (props.open ? `175px` : '0px')}
+    ${(props) => (props.open ? `${(props.drawerWidth + 40)/2}px` : '0px')}
   );
   /* transform: ${(props) =>
     props.open
@@ -184,7 +184,7 @@ export const Frame1388 = styled.div`
   /* margin-left: 500px; */
   display: flex;
   flex-direction: column;
-  /* margin: 0 auto; */
+  margin: 0 auto;
   gap: 30px;
   /* position: relative; */
   align-self: stretch;

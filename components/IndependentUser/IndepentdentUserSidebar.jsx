@@ -50,6 +50,7 @@ function IndepentdentUserSidebar({
   setSelectedSubject,
   selectedSubject,
   groupedAndSortedData,
+  currentSubmissionId
 }) {
   const theme = useTheme();
   const [selectedQuestion, setSelectedQuestion] = useState();
@@ -140,32 +141,18 @@ function IndepentdentUserSidebar({
               )}
             </DrawerSubjects>
             <DrawerQuestions>
-              <DrawerQuestion
-                style={{
-                  color: 'white',
-                  background: 'var(--royal-purple)',
-                  fontWeight: '500',
-                }}
-                blueBackground={true}
-              >
-                {selectedQuestion?.title.length >= 2 ? (
-                  <>
-                    {selectedQuestion?.title}
-                    <OverflowShadow blueBackground={true}></OverflowShadow>
-                    <span className="tooltip-text">
-                      {selectedQuestion?.title}
-                    </span>
-                  </>
-                ) : (
-                  selectedQuestion?.title
-                )}
-              </DrawerQuestion>
+              
 
               {subjects
                 ?.filter((question) => question.subject === selectedSubject)
                 .map(
-                  (question, qIndex) =>
-                    question.title
+                  (question, qIndex) => {
+
+                    
+
+
+
+                    return question.title
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) && (
                       <DrawerQuestion
@@ -174,6 +161,7 @@ function IndepentdentUserSidebar({
                           setSelectedQuestion(question);
                           handleSubjectClick(question);
                         }}
+                        studentStyle={question.id === currentSubmissionId}
                       >
                         {question.title.length >= 28 ? (
                           <>
@@ -188,7 +176,7 @@ function IndepentdentUserSidebar({
                         )}
                       </DrawerQuestion>
                     )
-                )}
+                        })}
             </DrawerQuestions>
           </>
         )}

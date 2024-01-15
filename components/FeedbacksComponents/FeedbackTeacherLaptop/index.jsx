@@ -314,6 +314,7 @@ function FeedbackTeacherLaptop(props) {
                     setSelectedSubject={setSelectedSubject}
                     selectedSubject={selectedSubject}
                     groupedAndSortedData={groupedAndSortedData}
+                    currentSubmissionId={submission.id}
                   />
                 )
               )}

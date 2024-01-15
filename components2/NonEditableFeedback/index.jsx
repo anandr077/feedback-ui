@@ -36,20 +36,22 @@ const NonEditableFeedback = ({ textFeedback, audioFeedback }) => {
   if (textFeedback || audioFeedback) {
     return (
       <FeedbackContainer>
-        <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
-        <TextBox>
-          {textFeedback ? (
-            <HiddenInputBox
-              style={{ height: calculateTextareaHeight() }}
-              ref={textareaRef}
-              readOnly={true}
-            >
-              {textFeedback}
-            </HiddenInputBox>
-          ) : (
-            <></>
-          )}
-        </TextBox>
+        {textFeedback ? (
+          <div style={{marginBottom: '30px'}}>
+            <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
+            <TextBox>
+              <HiddenInputBox
+                style={{ height: calculateTextareaHeight() }}
+                ref={textareaRef}
+                readOnly={true}
+              >
+                {textFeedback}
+              </HiddenInputBox>
+            </TextBox>
+          </div>
+        ) : (
+          <></>
+        )}
         {audioFeedback ? (
           <AudioPlayer generatedAudioFeedback={audioFeedback} />
         ) : (

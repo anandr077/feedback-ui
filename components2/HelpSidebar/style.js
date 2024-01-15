@@ -2,10 +2,12 @@ import styled from 'styled-components';
 
 export const HelpSidebarContainer = styled.div`
   width: 420px;
-  height: 100%;
+  height: ${(props) => (props.fixedTop ? '100vh' : '100%')};
   padding: 20px;
   background-color: var(--white);
   box-shadow: 0px 4px 20px 0px rgba(48, 27, 114, 4%);
+  display: flex;
+  flex-direction: column;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -17,7 +19,7 @@ export const HelpSidebarContainer = styled.div`
 export const HelpSidebarSmallContainer = styled.div`
   position: relative;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   padding: 20px;
   background-color: var(--white);
   box-shadow: 0px 4px 20px 0px rgba(48, 27, 114, 4%);
@@ -80,6 +82,16 @@ export const SearchIcon = styled.img`
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+`;
+
+export const HelpOptionsContainer = styled.div`
+  flex-grow: 1;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 
 export const MoreOption = styled.div`

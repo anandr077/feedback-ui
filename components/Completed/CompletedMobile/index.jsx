@@ -21,14 +21,14 @@ function CompletedMobile(props) {
     frame1284,
     line18,
   } = props;
-
+  // alert("MMMM")
   return (
     <div className="completed-mobile screen">
       <Frame1425>
         {exemplar && (
           <Frame1315>
             <Breadcrumb text={'Home'} link={'/#'} />
-            <Breadcrumb2 title="Exemplars" exempler={exemplar} />
+            <Breadcrumb2 title="Exemplars-m" exempler={exemplar} />
           </Frame1315>
         )}
         <Frame1424>

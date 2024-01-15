@@ -35,7 +35,7 @@ export const NotificationHead = styled.div`
 export const Frame1409 = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   align-items: flex-start;
   flex-direction: column;
   gap: 20px;
@@ -80,6 +80,13 @@ export const Frame16 = styled.div`
   z-index: 10;
   gap: 10px;
   flex-direction: column;
+  flex-grow: 1;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 
 export const EmptyBox = styled.div`

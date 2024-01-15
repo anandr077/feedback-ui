@@ -6,7 +6,7 @@ import FooterLinks from '../FooterLinks';
 export default function Footer() {
   return (
     <FooterContainer>
-      <FooterText>© 2023 Jeddle. All rights reserved.</FooterText>
+      <FooterText>© 2024 Jeddle. All rights reserved.</FooterText>
       <FooterLinks />
     </FooterContainer>
   );
@@ -15,13 +15,18 @@ export default function Footer() {
 const FooterContainer = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
+  /* gap: 20px; */
+  padding: 0px 30px;
+  
   bottom: 0;
   align-self: stretch;
   background-color: var(--white);
-  height: 100px;
+  height: 40px;
   width: 100%;
+  /* position: sticky; */
+  bottom: 0;
+  z-index: 1000000;
+  /* background:red */
 `;
 
 const FooterText = styled.p`

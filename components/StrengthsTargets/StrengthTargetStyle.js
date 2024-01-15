@@ -13,9 +13,8 @@ const StrTarContainer = styled.div`
 `
 
 const StrTarHeading = styled.div`
-    padding: 0 20px 10px;
+    padding-bottom: 10px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #F1E6FC;
     color: #301B72;
     font-size: 20px;
     font-weight: 600;
@@ -23,7 +22,7 @@ const StrTarHeading = styled.div`
 `
 
 const StrTarBody = styled.div`
-   padding: 10px 20px 0px;
+   padding-top: 10px;
 
    &:last-child{
     padding-bottom: 10px;

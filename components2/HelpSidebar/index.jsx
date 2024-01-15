@@ -10,12 +10,13 @@ import {
   MoreOptionIcon,
   HelpSidebarSmallContainer,
   CloseHelpBar,
+  HelpOptionsContainer,
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
 import helpdata from './helpdata.json';
 
-const HelpSidebar = ({ onCloseFn }) => {
+const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
   const [data, setData] = useState(helpdata.data);
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,11 +28,12 @@ const HelpSidebar = ({ onCloseFn }) => {
       return;
     }
 
-    const filteredData = helpdata.data.filter(section => 
-      section.title.toLowerCase().includes(query.toLowerCase()) ||
-      section.subtopics.some(subtopic => 
-        subtopic.title.toLowerCase().includes(query.toLowerCase())
-      )
+    const filteredData = helpdata.data.filter(
+      (section) =>
+        section.title.toLowerCase().includes(query.toLowerCase()) ||
+        section.subtopics.some((subtopic) =>
+          subtopic.title.toLowerCase().includes(query.toLowerCase())
+        )
     );
 
     setData(filteredData);
@@ -43,7 +45,10 @@ const HelpSidebar = ({ onCloseFn }) => {
       {helpSidebarContent(data, handleSearch)}
     </HelpSidebarSmallContainer>
   ) : (
-    <HelpSidebarContainer onClick={(e) => e.stopPropagation()}>
+    <HelpSidebarContainer
+      onClick={(e) => e.stopPropagation()}
+      fixedTop={fixedTop}
+    >
       {helpSidebarContent(data, handleSearch)}
     </HelpSidebarContainer>
   );
@@ -65,21 +70,23 @@ function helpSidebarContent(data, handleSearch) {
         />
         <SearchIcon src="/img/find-replace.png" />
       </SearchContainer>
-      {data.map((section, index) => (
-        <Accordion key={index} {...section} />
-      ))}
-      <MoreOption>
-        <MoreOptionIcon src="/img/knowledge-icon.png" />
-        Knowledge base
-      </MoreOption>
-      <MoreOption>
-        <MoreOptionIcon src="/img/exportsquare.png" />
-        Youtube tutorials
-      </MoreOption>
-      <MoreOption>
-        <MoreOptionIcon src="/img/Message-question-icon.png" />
-        Need more help?
-      </MoreOption>
+      <HelpOptionsContainer>
+        {data.map((section, index) => (
+          <Accordion key={index} {...section} />
+        ))}
+        <MoreOption>
+          <MoreOptionIcon src="/img/knowledge-icon.png" />
+          Knowledge base
+        </MoreOption>
+        <MoreOption>
+          <MoreOptionIcon src="/img/exportsquare.png" />
+          Youtube tutorials
+        </MoreOption>
+        <MoreOption>
+          <MoreOptionIcon src="/img/Message-question-icon.png" />
+          Need more help?
+        </MoreOption>
+      </HelpOptionsContainer>
     </>
   );
 }

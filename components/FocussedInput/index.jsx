@@ -40,10 +40,12 @@ const TextInput = styled.textarea`
   flex: 1;
   margin-top: -1px;
   letter-spacing: 0;
+  padding: 0px 12px;
   line-height: normal;
   border-color: transparent;
   box-shadow: 0px;
   outline: none;
   transition: 0.15s;
   width: 100%;
+  height: 30px;
 `;

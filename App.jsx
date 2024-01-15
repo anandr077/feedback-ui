@@ -22,18 +22,20 @@ import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
+
 import GiveFeedback from './components/GiveFeedback';
 import Cookies from 'js-cookie';
 import withOnboarding from './components/WithOnboarding';
 import withAuth from './components/WithAuth';
 import NewDocPage from './components/NewDocRoot';
+import MainPage from './components/MainPage';
 
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
-  
-  const middleware = (c)=>withOnboarding(withAuth(c));
+
+  const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedTeacherDashboard = middleware(TeacherDashboardRoot);
   const ProtectedStudentDashboard = middleware(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
@@ -50,6 +52,7 @@ function App() {
   const ProtectedSettings = middleware(AccountSettingsRoot);
   const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
+
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
 
@@ -82,6 +85,9 @@ function App() {
           <Switch>
             <Route path="/docs">
               <ProtectedDocRoot />
+            </Route>
+            <Route path="/main">
+              <MainPage />
             </Route>
             <Route path="/settings">
               <ProtectedSettings />
@@ -120,13 +126,16 @@ function App() {
             <Route path="/submissions/:id">
               <ProtectedFeedbacksRoot isAssignmentPage={false} />
             </Route>
+            <Route path="/docs">
+              <ProtectedDocumentRoot />
+            </Route>
             <Route path="/documents/:id">
               <ProtectedDocumentRoot />
             </Route>
             <Route path="/documentsReview/:id">
               <ProtectedDocumentRoot />
             </Route>
-            
+
             <Route path="/404">
               <PageNotFound />
             </Route>

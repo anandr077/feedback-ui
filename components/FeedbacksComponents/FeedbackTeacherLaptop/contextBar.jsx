@@ -41,6 +41,7 @@ import { useState } from 'react';
 import { cancelFeedbackRequest, createRequestFeddbackType, getUserId } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
+import Button5 from '../Buttons5';
 import Cookies from 'js-cookie';
 import { Dialog } from '@mui/material';
 import ai from '../../../static/img/ai.svg';
@@ -91,7 +92,7 @@ export function contextBar(
         submission,
         methods
       )}
-      {tasksListsDropDown(isTeacher, methods)}
+      {/* {tasksListsDropDown(isTeacher, methods)} */}
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
@@ -227,12 +228,13 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     if (isTeacher) {
       return (
         <ButtonsContainer>
-          <Buttons2
-            button="Request resubmission"
+          <Button5
+            button="Request Re-submission"
+            icon={'img/refresh-circle.png'}
             onClickFn={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
             }
-          ></Buttons2>
+          ></Button5>
           <Buttons2
             button="Submit"
             onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
@@ -335,27 +337,16 @@ export function contextBarForPortfolioDocument(
   setShowStudentPopUp,
   setShowTeacherPopUp
 ) {
-  console.log("showStudentPopUp showTeacherPopUp",showStudentPopUp,  showTeacherPopUp)
   const { showSnackbar } = React.useContext(SnackbarContext);
-
+  console.log("classesAndStudents", allClasses)
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
-        <TitleContainer>
-          <AssignmentTitle
-            style={{ display: 'contents' }}
-            dangerouslySetInnerHTML={{
-              __html: linkify(submission?.assignment?.title),
-            }}
-          />
-          <img
-            src="/icons/EditSM.png"
-            alt="edit"
-            width="20px"
-            height="20px"
-            style={{ cursor: 'pointer' }}
-          />
-        </TitleContainer>
+        <AssignmentTitle
+          dangerouslySetInnerHTML={{
+            __html: linkify(submission?.assignment?.title),
+          }}
+        />
         {showStatusText && statusText(methods, 0, submission)}
       </TitleWrapper>
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (

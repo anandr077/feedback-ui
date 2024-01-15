@@ -48,7 +48,6 @@ export const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  background-color: var(--white);
 `;
 
 export const Button = styled.button`

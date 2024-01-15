@@ -154,7 +154,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
-  const drawerWidth = 275;
+  const drawerWidth = 315;
 
   React.useEffect(() => {
     let dataToUse = subjectsList;

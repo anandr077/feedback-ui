@@ -21,7 +21,6 @@ const drawerWidth = 315;
 
 function TeacherSidebar({ open, submission }) {
   const theme = useTheme();
-  const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
 
@@ -36,38 +35,6 @@ function TeacherSidebar({ open, submission }) {
       square={false}
     />
   ));
-
-  useEffect(() => {
-    const updateHeight = () => {
-      const fullHeight = document.documentElement.scrollHeight;
-      if (fullHeight !== pageHeight) {
-        setPageHeight(fullHeight - 170);
-      }
-    };
-
-    const observer = new MutationObserver((mutations) => {
-      let shouldUpdateHeight = false;
-
-      for (const mutation of mutations) {
-        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-          shouldUpdateHeight = true;
-          break;
-        }
-      }
-
-      if (shouldUpdateHeight) {
-        updateHeight();
-      }
-    });
-
-    const config = { childList: true, subtree: true };
-
-    observer.observe(document.body, config);
-
-    updateHeight();
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleQuestionClick = (student) => {
     console.log('the studetn id', student);

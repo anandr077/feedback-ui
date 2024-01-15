@@ -166,12 +166,18 @@ function FeedbackTeacherLaptop(props) {
       type: type,
       reviewerId: itemData ? itemData.id : null,
     };
-    createRequestFeddbackType(submission.id, requestData).then((res) => {
-      if (res) {
-        getSubmissionById(submission.id).then((s) => {
-          setSubmission(s);
-        });
-      }
+    createRequestFeddbackType(submission.id, requestData).then((response) => {
+      setSubmission(old=>({
+        ...old,
+        status:response.status,
+        reviewerId:response.reviewerId,
+        reviewerName:response.reviewerName,
+        submittedAt:response.submittedAt,
+        feedbackRequestType:response.feedbackRequestType,
+        classId: response.classId,
+        declinedByReviewerIds: response.declinedByReviewerIds,
+        submittedAt: response.submittedAt,
+      }));
     });
   };
   const commentsForSelectedTab = selectTabComments(

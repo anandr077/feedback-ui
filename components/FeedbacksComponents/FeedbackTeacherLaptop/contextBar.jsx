@@ -137,7 +137,17 @@ const selectReviewType = (
         console.log("Response", response)
         console.log("Done ", setSubmission)
         
-        setSubmission(response);
+        setSubmission(old=>({
+          ...old,
+          status:response.status,
+          reviewerId:response.reviewerId,
+          reviewerName:response.reviewerName,
+          submittedAt:response.submittedAt,
+          feedbackRequestType:response.feedbackRequestType,
+          classId: response.classId,
+          declinedByReviewerIds: response.declinedByReviewerIds,
+          submittedAt: response.submittedAt,
+        }));
         // ClosePopUp()
       })
   };
@@ -739,7 +749,14 @@ function handleCancelFeedbackRequest(
     .then((response) => {
       showSnackbar('Feedback request cancelled');
 
-      setSubmission(response);
+      setSubmission(old=>({
+        ...old,
+        status:response.status,
+        reviewerId:response.reviewerId,
+        reviewerName:response.reviewerName,
+        submittedAt:response.submittedAt,
+        feedbackRequestType:response.feedbackRequestType
+      }));
     })
     .catch((error) => {
       showSnackbar(error.message);

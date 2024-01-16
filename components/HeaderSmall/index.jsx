@@ -83,7 +83,6 @@ export default function HeaderSmall(props) {
             src="/img/helpIcon.png"
             onClickFn={handleHelpBarClick}
           />
-          {!isTeacher && <HeaderOnboardingMenu />}
           <Notifications
             src="/img/notificationbing@2x.png"
             onClickFn={handleNotificationClick}

@@ -534,11 +534,13 @@ function answersAndFeedbacks(
 
 function subjectTypeSelection(pageMood, submission) {
   console.log('the submission is', submission);
-  const subjectOptions = ['English', 'Math', 'Science'];
+  const subjectOptions = [{title: 'English'}];
   const taskOptions = [
-    'Extended Response',
-    'Extended Response',
-    'Extended Response',
+    {title: 'Analytical'},
+    {title: 'Imaginative'},
+    {title: 'Discursive'},
+    {title: 'Persuasive'},
+    {title: 'Reflective'},
   ];
   return (
     <SubjectSelectionContainer>
@@ -553,17 +555,11 @@ function subjectTypeSelection(pageMood, submission) {
                 </option>
               ))}
             </select> */}
-            <StyledDropDown menuItems={[{title:"ddd"},{title:"fff"}]}></StyledDropDown>
+            <StyledDropDown menuItems={subjectOptions}></StyledDropDown>
           </SubSelcetBox>
           <SubSelcetBox>
             <label>Task Type</label>
-            <select>
-              {taskOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            <StyledDropDown menuItems={taskOptions}></StyledDropDown>
           </SubSelcetBox>
         </>
       ) : (

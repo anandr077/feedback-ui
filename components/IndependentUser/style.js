@@ -46,7 +46,7 @@ export const SidebarContainer = styled.div`
     width: 0;
   }
   position: fixed;
-  z-index: 500;
+  z-index: 9;
   
 `;
 

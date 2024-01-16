@@ -8,7 +8,7 @@ function Frame14103(props) {
 
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
-    const tasksFrames = group.map((task) => {
+    const tasksFrames = group.filter((task) => task.status === 'PUBLISHED').map((task) => {
       return (
         <TaskCard
           task={task}

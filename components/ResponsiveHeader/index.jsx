@@ -7,7 +7,7 @@ import {
   completedHeaderProps,
   giveFeedbackHeaderProps,
   homeHeaderProps,
-  portfolioHeaderProps,
+  docsHeaderProps,
   taskHeaderProps,
   teacherHomeHeaderProps,
   teacherStudentTaskHeaderProps,
@@ -34,9 +34,9 @@ const getHeaderProps = (location) => {
   if (location.includes('/marking')) return completedHeaderProps(true);
   if (location.includes('/exemplarResponses'))
     return completedHeaderProps(true);
-  if (location.includes('/documents/')) return portfolioHeaderProps();
+  if (location.includes('/documents/')) return docsHeaderProps();
   if (location.includes('/documentsReview/')) return teacherStudentTaskHeaderProps();
-  if (location.includes('/getFeedback')) return portfolioHeaderProps();
+  if (location.includes('/getFeedback')) return docsHeaderProps();
   
 
   const isTeacher = getUserRole() === 'TEACHER';
@@ -46,11 +46,11 @@ const getHeaderProps = (location) => {
     else if (location.includes('/submissions')) return assignmentsHeaderProps;
     return teacherHomeHeaderProps;
   } else {
-    if (location.includes('/getFeedback')) return portfolioHeaderProps();
+    if (location.includes('/getFeedback')) return docsHeaderProps();
     else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;
     else if (location.includes('/feedbackHistory')) return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
-    return Cookies.get('classes') ? taskHeaderProps : portfolioHeaderProps() ;
+    return Cookies.get('classes') ? taskHeaderProps : docsHeaderProps() ;
   }
 };

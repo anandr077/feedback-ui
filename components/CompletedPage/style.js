@@ -8,7 +8,6 @@ export const MainContainer = styled.div`
   flex-direction: column;
   gap: 60px;
   position: relative;
-  min-height: 595px;
   padding: 60px 0px;
   @media (min-width: 1025px) and (max-width: 1440px) {
     min-width: 1025px;
@@ -155,14 +154,15 @@ export const ContentContainer = styled.div`
 export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 65%;
-  border-radius: 8px;
-  border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
-  background: #fff;
-  box-shadow: 0px 3px 8px 0px rgba(48, 27, 114, 0.04);
-  @media (max-width: 1024px) {
-    width: 100%;
-  }
+  width: 100%;
+  gap: 20px;
+  //   border-radius: 8px;
+  //   border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
+  //   background: #fff;
+  //   box-shadow: 0px 3px 8px 0px rgba(48, 27, 114, 0.04);
+  //   @media (max-width: 1024px) {
+  //     width: 100%;
+  //   }
 `;
 export const RightContentContainer = styled.div`
   display: flex;
@@ -368,7 +368,7 @@ export const Frame5112para = styled.p`
   line-height: normal;
 `;
 
-export const Frame5086 = styled.div`
+export const SortHeading = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6px;
@@ -395,11 +395,11 @@ export const Frame5086PopUpBody = styled.div`
   // gap: 16px;
   border-bottom: 1px solid #d6d6d6;
 `;
-export const Frame5086Img = styled.img`
+export const SortImg = styled.img`
   width: 24px;
   height: 24px;
 `;
-export const Frame5086Text = styled.p`
+export const SortText = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-weight: 500;
@@ -541,4 +541,82 @@ export const PopupContainer = styled.div`
   flex-direction: column;
   width: 360px;
   border-radius: 12px;
+`;
+//
+export const TaskContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px;
+  gap: 10px;
+  border: 1px solid #7200e01a;
+  background: #ffffff;
+  cursor: pointer;
+`;
+export const DataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 10px;
+`;
+export const DataTitle = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+export const DataSubtitle = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.008em;
+  text-align: left;
+`;
+
+export const TaskCompiltion = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 4px 0px 4px 0px;
+  border-radius: 24px;
+  gap: 5px;
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.008em;
+  text-align: left;
+`;
+export const TaskCompiltionIcon = styled.img`
+  width: 16px;
+  height: 16px;
+  padding: 1.33px 1.33px 1.33px 1.33px;
+`;
+export const IconContainerDown = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  padding: 8px;
+  border-radius: 4px;
+  gap: 6px;
+`;
+
+export const DownloadIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  padding: 1.67px 1.67px 1.67px 1.67px;
+`;
+export const DownloadText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #7200e0;
 `;

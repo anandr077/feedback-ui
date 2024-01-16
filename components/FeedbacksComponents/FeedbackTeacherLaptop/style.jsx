@@ -269,7 +269,7 @@ export const DrawerArrow = styled.div`
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
-  z-index: 10000;
+  z-index: 9;
 `;
 
 export const ArrowImg = styled.img`
@@ -716,7 +716,8 @@ export const SubjectSelectionContainer = styled.div`
 export const SubSelcetBox = styled.div`
   border-right: 1px solid #d6d6d6;
   padding-right: 30px;
-  /* display: flex; */
+  display: flex;
+  align-items: center;
   /* flex-direction: row; */
   &:last-child {
     border-right: none;

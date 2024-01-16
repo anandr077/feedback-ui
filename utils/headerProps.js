@@ -91,10 +91,12 @@ export const teacherStudentTaskHeaderProps = () => {
   if (isTeacher) {
     return teacherTabs(false, true, false);
   }
-  return studentTabs(false, true, false);
+  return Cookies.get('classes')
+    ? studentTabs(false, false, true)
+    : studentTabs(false, true);
 };
 
-export const portfolioHeaderProps = () => {
+export const docsHeaderProps = () => {
   if (isTeacher) {
     return teacherTabs(false, true, false);
   }

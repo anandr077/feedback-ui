@@ -7,6 +7,7 @@ import './CompletedMobile.css';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
+import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 
 function CompletedMobile(props) {
   const {
@@ -31,6 +32,14 @@ function CompletedMobile(props) {
             <Breadcrumb2 title="Exemplars-m" exempler={exemplar} />
           </Frame1315>
         )}
+        <SliderCardContainer>
+          <HelpPeerSlide
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
+        </SliderCardContainer>
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}
@@ -71,6 +80,11 @@ const Frame1425 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+`;
+
+const SliderCardContainer = styled.div`
+  width: 100%;
+  padding: 0px 20px;
 `;
 
 const Frame1424 = styled.div`

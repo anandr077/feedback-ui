@@ -22,6 +22,7 @@ function CompletedDesktop(props) {
     frame1284,
     line18,
   } = props;
+  // alert("DDDD")
   return (
     <div className="completed-desktop screen">
       <Frame1425>

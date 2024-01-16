@@ -20,7 +20,7 @@ const slideIn = keyframes`
    100%{
     right: 0
    }
-`
+`;
 
 const slideOut = keyframes`
   0% {
@@ -43,15 +43,36 @@ const slideOut = keyframes`
 export const NavigationContainer = styled.div`
   position: absolute;
   top: 70px;
+  right: 0;
+  z-index: 10000 !important;
+  border-radius: 8px;
+  background-color: white;
+  align-self: stretch;
+  overflow-y: scroll;
+  padding-bottom: 15px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+  height: ${(props) => (props.pageHeight ? props.pageHeight + 'px' : '0')};
+  animation: ${(props) => (props.slideNotificationBar ? slideIn : slideOut)}
+    0.3s linear forwards;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+`;
+
+export const HelpbarContainer = styled.div`
+  position: absolute;
+  top: 70px;
+  right: 0;
   z-index: 10000 !important;
   border-radius: 8px;
   background-color: white;
   align-self: stretch;
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  height: calc(100%-70px);
-  min-height: 100vh;
-  animation: ${props => (props.slideNotificationBar ? slideIn : slideOut)} 0.3s linear forwards;
+  height: ${(props) => (props.pageHeight ? props.pageHeight + 'px' : '0')};
+  animation: ${(props) => (props.isHelpBarOpen ? slideIn : slideOut)} 0.3s
+    linear forwards;
   &::-webkit-scrollbar {
     width: 0;
     display: none;
@@ -59,7 +80,9 @@ export const NavigationContainer = styled.div`
 `;
 
 export const Screen = styled.div`
-  height: 100%;
+  height: ${(props) =>
+    props.pageHeight ? props.pageHeight + 170 + 'px' : '0'};
+  //height: 100%;
   width: calc(100vw - 20px);
   position: absolute;
   top: 0;
@@ -86,7 +109,10 @@ export const Frame1344 = styled.div`
   align-items: center;
   gap: 20px;
   padding: 13px 30px;
-  position: relative;
+  height: 70px;
+  top:0;
+  z-index: 100;
+  position: sticky;
   align-self: stretch;
   background-color: var(--white);
 `;
@@ -110,7 +136,7 @@ export const Frame51 = styled.div`
   width: fit-content;
   align-items: center;
   justify-content: flex-end;
-  gap: 28px;
+  gap: 20px;
   position: relative;
 `;
 

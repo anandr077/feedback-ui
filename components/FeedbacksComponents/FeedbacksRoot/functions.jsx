@@ -55,8 +55,9 @@ export function getP2PPageMode(user, submission) {
   }
   if (submission.status === 'DRAFT') return 'CLOSED';
   if (submission.status === 'SUBMITTED') return 'REVIEW';
-  if (submission.status === 'REVIEWED') return 'CLOSED';
-  if (submission.status === 'CLOSED') return 'CLOSED';
+  if (submission.status === 'FEEDBACK_ACCEPTED') return 'REVIEW'
+  return 'CLOSED';
+  
 }
 
 export function getSelfPageMode(submission) {

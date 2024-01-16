@@ -13,6 +13,11 @@ import { taskHeaderProps } from '../../utils/headerProps.js';
 import FooterSmall from '../FooterSmall';
 import './TasksStudentTablet.css';
 import Group1205 from '../TeacherDashboard/Group1205';
+import LinkButton from '../../components2/LinkButton/index.jsx';
+import arrowRight from '../../static/img/arrowright.svg';
+import whiteArrowright from '../../static/img/arrowright-White.svg';
+import share from '../../static/img/share.svg';
+import shareColor from '../../static/img/share-color.svg';
 
 function TasksStudentTablet(props) {
   const {
@@ -52,17 +57,18 @@ function TasksStudentTablet(props) {
         <Frame1307>
           <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
           <LinkAndFilter>
-            {portfolio.length != 0 && (
-              <Group1205
-                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
-                label="COMPLETED TASKS"
-                arrowright={arrowright}
-              />
-            )}
-            <CheckboxGroup
-              onChange={filterTasks}
-              data={menuItems}
-            ></CheckboxGroup>
+            <LinkButton
+              link={`#/exemplarResponses`}
+              label="Shared Responses"
+              arrowleft={shareColor}
+              whiteArrowleft={share}
+            />
+            <LinkButton
+              link={`#/completed`}
+              label="Task History"
+              arrowright={arrowRight}
+              whiteArrowright={whiteArrowright}
+            />
           </LinkAndFilter>
         </Frame1307>
         {taskFrame}

@@ -18,12 +18,58 @@ import {
   DropdownButtonsGroup,
   DropdownButton,
   TitleContainer,
+  QuestionEditInput,
+  EditTextBox,
+  FeedbackBtnContainer,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
-import { cancelFeedbackRequest, getUserId } from '../../../service';
+import {
+  cancelFeedbackRequest,
+  getUserId,
+  updateAssignment,
+} from '../../../service';
+import {
+  Frame1334,
+  Frame1334Img,
+  Frame1577,
+  Frame1577heading,
+  Frame1577Img,
+  Frame5053,
+  Frame5053Card1,
+  Frame5053Card1Img,
+  Frame5053Card1Para,
+  Frame5053Card2,
+  Frame1364,
+  PopupContainer,
+  Frame1364Button,
+  Frame1364ButtonText,
+  Card1Img,
+  Frame5053Card2Data,
+  Card1ImgContainer,
+} from './style';
+import DropdownMenu from '../../DropdownMenu';
+import { useState } from 'react';
+import {
+  cancelFeedbackRequest,
+  createRequestFeddbackType,
+  getUserId,
+} from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
+import Button5 from '../Buttons5';
+import Cookies from 'js-cookie';
+import { Dialog } from '@mui/material';
+import ai from '../../../static/img/ai.svg';
+import profileCircle from '../../../static/img/profile-circle.svg';
+import Teacher from '../../../static/img/Teacher.svg';
+import questionmark from '../../../static/img/question-mark.svg';
+import messages from '../../../static/img/messages.svg';
+import closecircle from '../../../static/img/closecircle.svg';
+import rightarrow from '../../../static/img/Vector13.svg';
+import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';
+import _ from 'lodash';
+import { sub } from 'date-fns';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -62,7 +108,7 @@ export function contextBar(
         submission,
         methods
       )}
-      {tasksListsDropDown(isTeacher, methods)}
+      {/* {tasksListsDropDown(isTeacher, methods)} */}
       {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
       )}
@@ -71,28 +117,136 @@ export function contextBar(
   );
 }
 const selectReviewType = (
+  submission,
+  setSubmission,
+  methods,
   feedbackMethodType,
   isShowSelectType,
-  handleRequestFeedback
+  setShowSelectType,
+  handleRequestFeedback,
+  allClasses,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) => {
+  const allTeachers = _.flatten(allClasses?.map((c) => c.teachers) || []);
+  const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+  const allStudents = _.flatten(allClasses?.map((c) => c.students) || []);
+  const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
+    (s) => s.id !== getUserId()
+  );
+  const showClassMate = uniqueStudents.length > 0;
+  const showTeacher = uniqueTeachers.length > 0;
+  const requestFeedback = (submissionId, requestType) => (id) => {
+    console.log('Submitting', submissionId, requestType, id);
+    createRequestFeddbackType(submissionId, {
+      type: requestType,
+      reviewerId: id,
+    }).then((response) => {
+      console.log('Response', response);
+      console.log('Done ', setSubmission);
+
+      setSubmission((old) => ({
+        ...old,
+        status: response.status,
+        reviewerId: response.reviewerId,
+        reviewerName: response.reviewerName,
+        submittedAt: response.submittedAt,
+        feedbackRequestType: response.feedbackRequestType,
+        classId: response.classId,
+        declinedByReviewerIds: response.declinedByReviewerIds,
+        submittedAt: response.submittedAt,
+      }));
+      // ClosePopUp()
+    });
+  };
+  const ClosePopUp = () => {
+    setShowStudentPopUp(false);
+    setShowTeacherPopUp(false);
+    setShowSelectType(false);
+  };
+  const ShowStudent = () => {
+    setShowStudentPopUp(true);
+  };
+  const ShowTeacher = () => {
+    setShowTeacherPopUp(true);
+  };
+  const requestCommnityFeedback = () => {
+    requestFeedback(submission.id, 'COMMUNITY')(null);
+  };
+  
   if (!isShowSelectType) {
     return <></>;
   }
+
   return (
-    <SelectFeedbackMethod>
-      {feedbackMethodType.map((type, index) => {
-        return (
-          <SelectFeedbackMethodType
-            onClick={(event) => {
-              event.stopPropagation();
-              handleRequestFeedback(index);
-            }}
-          >
-            {type}
-          </SelectFeedbackMethodType>
-        );
-      })}
-    </SelectFeedbackMethod>
+    <Dialog open={isShowSelectType}>
+      {showStudentPopUp && (
+        <RequestFeedbackPopUp
+          list={uniqueStudents}
+          ClosePopUp={ClosePopUp}
+          heading={'classmate'}
+          onClickFn={(id) => requestFeedback(submission.id, 'P2P')(id)}
+        />
+      )}
+      {showTeacherPopUp && (
+        <RequestFeedbackPopUp
+          list={uniqueTeachers}
+          ClosePopUp={ClosePopUp}
+          heading={'teacher'}
+          onClickFn={(id) => requestFeedback(submission.id, 'TEACHER')(id)}
+        />
+      )}
+      {!showStudentPopUp && !showTeacherPopUp && (
+        <PopupContainer>
+          <Frame1334>
+            <Frame1334Img src={messages} />
+            <Frame1577>
+              <Frame1577heading>Get Feedback</Frame1577heading>
+              <Frame1577Img src={questionmark} />
+            </Frame1577>
+            <Frame1334Img
+              style={{ cursor: 'pointer' }}
+              onClick={ClosePopUp}
+              src={closecircle}
+            />
+          </Frame1334>
+          <Frame5053>
+            <Frame5053Card1 onClick={requestCommnityFeedback}
+>
+              <Frame5053Card1Img src="/img/community.png" />
+              <Frame5053Card1Para>Community</Frame5053Card1Para>
+            </Frame5053Card1>
+            {
+              showTeacher && <Frame5053Card2 onClick={ShowTeacher}>
+                <Frame5053Card2Data>
+                  <Frame5053Card1Img src={Teacher} />
+                  <Frame5053Card1Para>Teacher</Frame5053Card1Para>
+                </Frame5053Card2Data>
+                <Card1ImgContainer>
+                  <Card1Img src={rightarrow} />
+                </Card1ImgContainer>
+              </Frame5053Card2>
+            }
+            {showClassMate && <Frame5053Card2 onClick={ShowStudent}>
+              <Frame5053Card2Data>
+                <Frame5053Card1Img src={profileCircle} />
+                <Frame5053Card1Para>Classmate</Frame5053Card1Para>
+              </Frame5053Card2Data>
+              <Card1ImgContainer>
+                <Card1Img src={rightarrow} />
+              </Card1ImgContainer>
+            </Frame5053Card2>
+            }
+            <Frame5053Card1 onClick={() => methods.jeddAI()}>
+              <Frame5053Card1Img src={ai} />
+              <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
+            </Frame5053Card1>
+          </Frame5053>
+        </PopupContainer>
+      )}
+    </Dialog>
   );
 };
 const submitButton = (methods, pageMode, isTeacher, submission) => {
@@ -110,12 +264,13 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     if (isTeacher) {
       return (
         <ButtonsContainer>
-          <Buttons2
-            button="Request resubmission"
+          <Button5
+            button="Request Re-submission"
+            icon={'img/refresh-circle.png'}
             onClickFn={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
             }
-          ></Buttons2>
+          ></Button5>
           <Buttons2
             button="Submit"
             onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
@@ -211,75 +366,133 @@ export function contextBarForPortfolioDocument(
   labelText,
   feedbackMethodType = [],
   handleRequestFeedback,
-  showStatusText,
+  showStatusText = true,
   allClasses,
-  allFolders,
-  updateDocumentClass
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) {
   const { showSnackbar } = React.useContext(SnackbarContext);
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState('');
+  const [assignment, setAssignment] = React.useState(submission);
+  const inputRef = React.useRef(null);
 
-  const selectedFolderIdIndex = allFolders?.findIndex(
-    (item) => item.id === submission?.folderId
-  );
+  console.log('the submission is', submission);
+
+  React.useEffect(() => {
+    if (submission?.assignment?.title) {
+      setInputValue(submission.assignment.title);
+    }
+  }, [submission]);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const updateAssignmentTitle = (newTitle) => {
+    const updatedAssignment = {
+      ...submission.assignment,
+      title: newTitle,
+    };
+    updateAssignment(submission.assignment.id, updatedAssignment)
+      .then((res) => {
+        if (res && res.title) {
+          console.log('Assignment title updated to: ' + res.title);
+          setSubmission((old) => ({
+            ...old,
+            assignment: {
+              ...old.assignment,
+              title: res.title,
+            },
+            otherDrafts: old.otherDrafts.map(draft => 
+              draft.submissionId === submission.id 
+                ? { ...draft, title: res.title } 
+                : draft
+            ),
+          }));
+        } else {
+          console.log('Response is not as expected:', res);
+          setInputValue(res.title);
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating assignment:', error);
+      });
+  };
+
+  console.log('set assignment', assignment);
+
+  const handleTitleClick = () => {
+    setIsEditing(true);
+  };
+
+  React.useEffect(() => {
+    if (isEditing) {
+      const input = inputRef.current;
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  }, [isEditing]);
 
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
         <TitleContainer>
-          <AssignmentTitle
-            style={{ display: 'contents' }}
-            dangerouslySetInnerHTML={{
-              __html: linkify(submission?.assignment?.title),
-            }}
-          />
-          <img
-            src="/icons/EditSM.png"
-            alt="edit"
-            width="20px"
-            height="20px"
-            style={{ cursor: 'pointer' }}
-          />
+          {pageMode === 'DRAFT' ? (
+            <QuestionEditInput
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={() => {
+                updateAssignmentTitle(inputValue);
+                setIsEditing(false);
+              }}
+            />
+          ) : (
+            <AssignmentTitle
+              style={{ display: 'contents', color: '#A6A6A6' }}
+              dangerouslySetInnerHTML={{
+                __html: linkify(submission?.assignment?.title),
+              }}
+            />
+          )}
         </TitleContainer>
-        {showStatusText && statusText(methods, 0, submission)}
-
-        {changeFolderDropDown()}
+        {pageMode === 'DRAFT' ? (
+          <EditTextBox>
+            💬 Use a specific question for more accurate feedback
+          </EditTextBox>
+        ) : (
+          showStatusText && statusText(methods, 0, submission)
+        )}
       </TitleWrapper>
-      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
-        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-      )}
-      {submitButtonDocument(
-        showSnackbar,
-        isShowSelectType,
-        setShowSelectType,
-        methods,
-        pageMode,
-        submission,
-        setSubmission,
-        feedbackMethodType,
-        handleRequestFeedback,
-        allClasses,
-        showFeedbackButtons,
-        setShowFeedbackButtons
-      )}
+      <FeedbackBtnContainer>
+        {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+          <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
+        )} */}
+        {submitButtonDocument(
+          showSnackbar,
+          isShowSelectType,
+          setShowSelectType,
+          methods,
+          pageMode,
+          submission,
+          setSubmission,
+          feedbackMethodType,
+          handleRequestFeedback,
+          allClasses,
+          showFeedbackButtons,
+          setShowFeedbackButtons,
+          showStudentPopUp,
+          showTeacherPopUp,
+          setShowStudentPopUp,
+          setShowTeacherPopUp
+        )}
+      </FeedbackBtnContainer>
     </Frame1371>
   );
-
-  function changeFolderDropDown() {
-    if (submission.studentId === getUserId()) {
-      return (
-        allFolders?.length > 0 && (
-          <div style={{ width: 'fit-content' }}>
-            <DropdownMenu
-              menuItems={allFolders}
-              onItemSelected={(item) => updateDocumentClass(item, allFolders)}
-              selectedIndex={selectedFolderIdIndex}
-            ></DropdownMenu>
-          </div>
-        )
-      );
-    }
-    return <></>;
-  }
 }
 
 function statusText(methods, focusAreasCount, submission) {
@@ -327,35 +540,53 @@ const submitButtonDocument = (
   handleRequestFeedback,
   allClasses,
   showFeedbackButtons,
-  setShowFeedbackButtons
+  setShowFeedbackButtons,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) => {
   console.log('pageMode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
-      <Buttons2
-          button="JeddAI"
-          onClickFn={() => methods.jeddAI()}
-      ></Buttons2>
-      // <div style={{ position: 'relative' }}>
-      //   {
-      //     <>
-      //       {/* {selectReviewType(
-      //         feedbackMethodType,
-      //         isShowSelectType,
-      //         handleRequestFeedback
-      //       )} */}
-      //       <RequestFeedbackFrame
-      //         onClick={(event) => {
-      //           event.stopPropagation();
-      //           setShowSelectType(!isShowSelectType);
-      //         }}
-      //       >
-      //         {<img src="/img/messages.svg" alt="message" />}
-      //         Request Feedback
-      //       </RequestFeedbackFrame>
-      //     </>
-      //   }
-      // </div>
+      <>
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            background: '#7200e0',
+            borderRadius: '12px',
+          }}
+        >
+          {
+            <>
+              {selectReviewType(
+                submission,
+                setSubmission,
+                methods,
+                feedbackMethodType,
+                isShowSelectType,
+                setShowSelectType,
+                handleRequestFeedback,
+                allClasses,
+                showStudentPopUp,
+                showTeacherPopUp,
+                setShowStudentPopUp,
+                setShowTeacherPopUp
+              )}
+              <RequestFeedbackFrame
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setShowSelectType(!isShowSelectType);
+                }}
+              >
+                {<img src="/img/messages.png" alt="message" />}
+                Request Feedback
+              </RequestFeedbackFrame>
+            </>
+          }
+        </div>
+      </>
     );
   }
 
@@ -498,10 +729,11 @@ function getStatusLabel(
   );
 
   function feedbackRequestedFrom() {
-    if (submission.feedbackRequestType === 'P2P') {
-      return allClasses.find((item) => item.id === submission.classId)?.title;
-    }
-    return submission.reviewerName;
+    return '';
+    // if (submission.feedbackRequestType === 'P2P') {
+    //   return allClasses.find((item) => item.id === submission.classId)?.title;
+    // }
+    // return submission.reviewerName;
   }
 }
 function getFeedbackRequestedBy(submission, allClasses) {
@@ -546,7 +778,14 @@ function handleCancelFeedbackRequest(
     .then((response) => {
       showSnackbar('Feedback request cancelled');
 
-      setSubmission(response);
+      setSubmission((old) => ({
+        ...old,
+        status: response.status,
+        reviewerId: response.reviewerId,
+        reviewerName: response.reviewerName,
+        submittedAt: response.submittedAt,
+        feedbackRequestType: response.feedbackRequestType,
+      }));
     })
     .catch((error) => {
       showSnackbar(error.message);

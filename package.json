@@ -50,6 +50,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-edit-text": "^5.1.1",
+    "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-query": "^3.39.3",
     "react-quill": "^2.0.0",
     "react-responsive": "^9.0.2",

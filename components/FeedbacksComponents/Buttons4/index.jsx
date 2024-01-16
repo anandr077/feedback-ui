@@ -21,18 +21,28 @@ const Buttons = styled.div`
   align-self: stretch;
   background-color: var(--light-mode-purple);
   border-radius: 30px;
-  border: 1px solid;
+  border: 1px solid var(--light-mode-purple);
+  flex: 1;
+  transition: 0.3s ease;
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--royal-purple);
+  }
 `;
 
 const Button = styled.div`
-  ${IbmplexsansMediumWhite16px}
+  color: var(--white);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-style: normal;
+  font-size: var(--font-size-l);
   position: relative;
   width: fit-content;
   margin-top: -1px;
   text-align: center;
   letter-spacing: 0;
-  line-height: normal;
+  line-height: 20.8px;
   cursor: pointer;
 `;
 

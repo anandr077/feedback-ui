@@ -18,6 +18,11 @@ import Tabs from '../Tabs';
 import TaskCardContainer from '../TaskCardContainer';
 import './TasksStudentMobile.css';
 import Group1205 from '../TeacherDashboard/Group1205';
+import LinkButton from '../../components2/LinkButton/index.jsx';
+import arrowRight from '../../static/img/arrowright.svg';
+import whiteArrowright from '../../static/img/arrowright-White.svg';
+import share from '../../static/img/share.svg';
+import shareColor from '../../static/img/share-color.svg';
 
 function TasksStudentMobile(props) {
   const {
@@ -57,18 +62,18 @@ function TasksStudentMobile(props) {
         <Frame1307>
           <PageTitle>Tasks</PageTitle>
           <LinkAndFilter>
-            {portfolio.length != 0 && (
-              <Group1205
-                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
-                label="COMPLETED TASKS"
-                arrowright={arrowright}
-                small={true}
-              />
-            )}
-            <CheckboxGroup
-              onChange={filterTasks}
-              data={menuItems}
-            ></CheckboxGroup>
+            <LinkButton
+              link={`#/exemplarResponses`}
+              label="Shared Responses"
+              arrowleft={shareColor}
+              whiteArrowleft={share}
+            />
+            <LinkButton
+              link={`#/completed`}
+              label="Task History"
+              arrowright={arrowRight}
+              whiteArrowright={whiteArrowright}
+            />
           </LinkAndFilter>
         </Frame1307>
         {taskFrame}

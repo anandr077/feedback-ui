@@ -77,7 +77,7 @@ export const TtitleContainer = styled.div`
 export const ButtonBox = styled.div`
   position: relative;
 
-  span{
+  span {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.75);
     color: #fff;
@@ -99,7 +99,7 @@ export const ButtonBox = styled.div`
       display: block;
     }
   }
-`
+`;
 
 export const DeleteButton2 = styled.img`
   cursor: pointer;
@@ -129,7 +129,12 @@ export const SmartAnnotationTitleContainer = styled.div`
 `;
 
 export const Title = styled.div`
-  ${IbmplexsansNormalShark20px}
+  color: var(--text);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 20.8px;
   position: relative;
   flex: 1;
   margin-top: -1px;
@@ -142,7 +147,7 @@ export const Arrowdown2 = styled.img`
   position: relative;
   min-width: 24px;
   height: 24px;
-  margin-left: ${props => (props.left ? '25px' : '0px')};
+  margin-left: ${(props) => (props.left ? '25px' : '0px')};
   cursor: pointer;
 `;
 

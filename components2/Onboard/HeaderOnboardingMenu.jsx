@@ -48,7 +48,7 @@ const HeaderOnboardingMenu = () => {
             <Frame1410>
               <LocationAgeContainer>
                 <div>
-                  Year {Cookies.get('year')}, Australia, {Cookies.get('state')}
+                  Year {Cookies.get('year')}, {country}, {Cookies.get('state')}
                 </div>
               </LocationAgeContainer>
               <EditBtn

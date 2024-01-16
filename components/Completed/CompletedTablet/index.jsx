@@ -22,7 +22,7 @@ function CompletedTablet(props) {
     frame1284,
     line18,
   } = props;
-
+  // alert("TTTT")
   return (
     <div className="completed-tablet screen">
       <Frame1425>

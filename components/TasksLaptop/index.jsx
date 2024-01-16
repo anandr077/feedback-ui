@@ -29,7 +29,7 @@ function TasksLaptop(props) {
     <div className="tasks-laptop screen">
       <Frame1361>
         <TitleContainer>
-          <Title>Tasks</Title>
+          <Title>My Tasks</Title>
           <LinkAndFilter>
             <LinkButton
               link={`#/exemplarResponses`}

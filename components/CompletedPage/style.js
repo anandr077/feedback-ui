@@ -583,6 +583,12 @@ export const TaskCompiltion = styled.div`
   padding: 4px 0px 4px 0px;
   border-radius: 24px;
   gap: 5px;
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.008em;
+  text-align: left;
 `;
 export const TaskCompiltionIcon = styled.img`
   width: 16px;

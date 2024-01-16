@@ -716,7 +716,8 @@ export const SubjectSelectionContainer = styled.div`
 export const SubSelcetBox = styled.div`
   border-right: 1px solid #d6d6d6;
   padding-right: 30px;
-
+  /* display: flex; */
+  /* flex-direction: row; */
   &:last-child {
     border-right: none;
   }

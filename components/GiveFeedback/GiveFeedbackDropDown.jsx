@@ -18,17 +18,15 @@ export default function GiveFeedbackDropDown({
   const [value, setValue] = React.useState(defaultValue);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [open, setOpen] = React.useState(false);
-
   const location = useLocation();
-
-  React.useEffect(() => {
-    setValue(defaultValue);
-  }, [location.pathname]);
 
   const maxLength = menuItems.reduce((maxLength, currentString) => {
     return currentString.length > maxLength.length ? currentString : maxLength;
   }, '');
 
+  React.useEffect(() => {
+    setValue(defaultValue);
+  }, [location.pathname]);
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
     setValue(menuItem);
@@ -90,7 +88,13 @@ export default function GiveFeedbackDropDown({
             }}
           />
         )}
-
+        <MenuItem value={''} onClick={() => handleMenuSelect('')}>
+          {open
+            ? 'None'
+            : type === 'documentType'
+            ? 'Task Type'
+            : capitalizeFirstLetter(type)}
+        </MenuItem>
         {menuItems
           .filter((item) =>
             item.toLowerCase().includes(searchTerm.toLowerCase())
@@ -108,3 +112,6 @@ export default function GiveFeedbackDropDown({
     </FormControl>
   );
 }
+
+const capitalizeFirstLetter = (str) =>
+  `${str.charAt(0).toUpperCase()}${str.slice(1)}`;

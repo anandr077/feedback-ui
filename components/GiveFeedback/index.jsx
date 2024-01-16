@@ -72,11 +72,9 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
 
-  const [selectedYear, setSelectedYear] = React.useState(Cookies.get('year'));
+  const [selectedYear, setSelectedYear] = React.useState('');
   const [selectedSubject, setSelectedSubject] = React.useState('');
-  const [selectedState, setSelectedState] = React.useState(
-    Cookies.get('state')
-  );
+  const [selectedState, setSelectedState] = React.useState('');
   const [selectedDocumentType, setSelectedDocumentType] = React.useState('');
 
   const [communityTasks, setCommunityTasks] = React.useState([]);
@@ -90,8 +88,10 @@ function GiveFeedback() {
   const pathName = location.pathname;
 
   React.useEffect(() => {
-    setSelectedYear(Cookies.get('year'));
-    setSelectedState(Cookies.get('state'));
+    setSelectedYear('');
+    setSelectedSubject('');
+    setSelectedState('');
+    setSelectedDocumentType('');
     setSortData(true);
   }, [location.pathname]);
 
@@ -294,28 +294,24 @@ function GiveFeedback() {
                       type={'state'}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('state')}
-                      defaultValue={selectedState}
                     />
                     <GiveFeedbackDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('year')}
                       type={'year'}
-                      defaultValue={selectedYear}
                     />
                     <GiveFeedbackDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('subject')}
                       type={'subject'}
-                      defaultValue={selectedSubject}
                     />
                     <GiveFeedbackDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('documentType')}
                       type={'documentType'}
-                      defaultValue={selectedDocumentType}
                     />
                   </>
                 ) : (

@@ -142,7 +142,7 @@ export default function Header(props) {
       style={{
         position: 'sticky',
         top: '0',
-        zIndex: '1000000',
+        zIndex: '1',
       }}
     >
       <Frame1344>

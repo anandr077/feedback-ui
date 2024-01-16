@@ -9,6 +9,11 @@ import TaskFrame1353 from '../TaskFrame1353';
 import './TasksLaptop.css';
 import CheckboxGroup from '../CheckboxGroup';
 import Group1205 from '../TeacherDashboard/Group1205';
+import LinkButton from '../../components2/LinkButton/index.jsx';
+import arrowRight from '../../static/img/arrowright.svg';
+import whiteArrowright from '../../static/img/arrowright-White.svg';
+import share from '../../static/img/share.svg';
+import shareColor from '../../static/img/share-color.svg';
 function TasksLaptop(props) {
   const {
     menuItems,
@@ -26,18 +31,18 @@ function TasksLaptop(props) {
         <TitleContainer>
           <Title>Tasks</Title>
           <LinkAndFilter>
-            {portfolio.length != 0 && (
-              <Group1205
-                link={`#getFeedback/${portfolio?.files[0].id}/Tasks`}
-                label="COMPLETED TASKS"
-                arrowright={arrowright}
-              />
-            )}
-
-            <CheckboxGroup
-              onChange={filterTasks}
-              data={menuItems}
-            ></CheckboxGroup>
+            <LinkButton
+              link={`#/exemplarResponses`}
+              label="Shared Responses"
+              arrowleft={shareColor}
+              whiteArrowleft={share}
+            />
+            <LinkButton
+              link={`#/completed`}
+              label="Task History"
+              arrowright={arrowRight}
+              whiteArrowright={whiteArrowright}
+            />
           </LinkAndFilter>
         </TitleContainer>
         <Frame1360>

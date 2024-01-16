@@ -101,7 +101,7 @@ function IndepentdentUserSidebar({
 
   return (
     <SidebarContainer drawerWidth={drawerWidth} open={open}>
-      <DrawerHeader>+ New Draft</DrawerHeader>
+      <DrawerHeader onClick={()=>history.push("/docs")}>+ New Draft</DrawerHeader>
       <DividerContainer>
         <Divider />
       </DividerContainer>

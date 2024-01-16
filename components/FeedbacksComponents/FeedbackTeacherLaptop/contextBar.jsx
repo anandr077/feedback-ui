@@ -136,7 +136,8 @@ const selectReviewType = (
   const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
     (s) => s.id !== getUserId()
   );
-
+  const showClassMate = uniqueStudents.length > 0;
+  const showTeacher = uniqueTeachers.length > 0;
   const requestFeedback = (submissionId, requestType) => (id) => {
     console.log('Submitting', submissionId, requestType, id);
     createRequestFeddbackType(submissionId, {
@@ -171,9 +172,14 @@ const selectReviewType = (
   const ShowTeacher = () => {
     setShowTeacherPopUp(true);
   };
+  const requestCommnityFeedback = () => {
+    requestFeedback(submission.id, 'COMMUNITY')(null);
+  };
+  
   if (!isShowSelectType) {
     return <></>;
   }
+
   return (
     <Dialog open={isShowSelectType}>
       {showStudentPopUp && (
@@ -207,12 +213,13 @@ const selectReviewType = (
             />
           </Frame1334>
           <Frame5053>
-            <Frame5053Card1>
+            <Frame5053Card1 onClick={requestCommnityFeedback}
+>
               <Frame5053Card1Img src="/img/community.png" />
               <Frame5053Card1Para>Community</Frame5053Card1Para>
             </Frame5053Card1>
             {
-              <Frame5053Card2 onClick={ShowTeacher}>
+              showTeacher && <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>
                   <Frame5053Card1Img src={Teacher} />
                   <Frame5053Card1Para>Teacher</Frame5053Card1Para>
@@ -222,7 +229,7 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             }
-            <Frame5053Card2 onClick={ShowStudent}>
+            {showClassMate && <Frame5053Card2 onClick={ShowStudent}>
               <Frame5053Card2Data>
                 <Frame5053Card1Img src={profileCircle} />
                 <Frame5053Card1Para>Classmate</Frame5053Card1Para>
@@ -231,6 +238,7 @@ const selectReviewType = (
                 <Card1Img src={rightarrow} />
               </Card1ImgContainer>
             </Frame5053Card2>
+            }
             <Frame5053Card1 onClick={() => methods.jeddAI()}>
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
@@ -398,6 +406,11 @@ export function contextBarForPortfolioDocument(
               ...old.assignment,
               title: res.title,
             },
+            otherDrafts: old.otherDrafts.map(draft => 
+              draft.submissionId === submission.id 
+                ? { ...draft, title: res.title } 
+                : draft
+            ),
           }));
         } else {
           console.log('Response is not as expected:', res);

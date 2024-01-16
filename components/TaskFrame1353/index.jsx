@@ -5,10 +5,22 @@ import { IbmplexsansSemiBoldRiverBed24px } from '../../styledMixins';
 function TaskFrame1353(props) {
   const { outstanding, number } = props;
 
+  const color = () => {
+    if (outstanding === 'Assigned') {
+      return '#f1e7ff';
+    }
+    if (outstanding === 'In Draft') {
+      return '#F9F0CD';
+    }
+    if (outstanding === 'In Review') {
+      return '#DCF5D1';
+    }
+  };
+
   return (
     <Frame13531
       style={{
-        backgroundColor: outstanding === 'Assigned' ? '#f1e7ff' : ' #F9F0CD',
+        backgroundColor: color(),
       }}
     >
       <Outstanding>{outstanding}</Outstanding>

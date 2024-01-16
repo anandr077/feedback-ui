@@ -91,7 +91,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
@@ -462,15 +462,15 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {subjectTypeSelection(pageMode, submission)}
-      {isTeacher && (
+      
+      {/* {isTeacher && (
         <GoBackBtn onClick={() => navigate.goBack()}>
           <img className="arrowImg" src="img/arrow_left.png" />
           <img className="hoveredImg" src="icons/arrowleft.png" />
           Go Back
         </GoBackBtn>
-      )}
-
+      )} */}
+      {subjectTypeSelection(pageMode, submission)}
       {createContextBar(
         submission,
         setSubmission,

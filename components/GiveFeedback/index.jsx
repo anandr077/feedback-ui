@@ -71,26 +71,12 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
-  const [dropdownSample, setDropdownSample] = React.useState([
-    {
-      id: '0',
-      title: 'Select',
-    },
-    {
-      id: '1',
-      title: 'Teluguhhhhh',
-    },
-    {
-      id: '2',
-      title: 'Englidh',
-    },
-  ]);
+
   const [selectedYear, setSelectedYear] = React.useState(Cookies.get('year'));
   const [selectedSubject, setSelectedSubject] = React.useState('');
   const [selectedState, setSelectedState] = React.useState(
     Cookies.get('state')
   );
-  // const [selectedDockType, setSelectedDockType] = React.useState('');
   const [selectedDocumentType, setSelectedDocumentType] = React.useState('');
 
   const [communityTasks, setCommunityTasks] = React.useState([]);
@@ -100,13 +86,13 @@ function GiveFeedback() {
   const [sortData, setSortData] = React.useState(true);
   const mobileView = isMobileView();
   const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
-  // const history = useHistory();
   const location = useLocation();
   const pathName = location.pathname;
 
   React.useEffect(() => {
     setSelectedYear(Cookies.get('year'));
     setSelectedState(Cookies.get('state'));
+    setSortData(true);
   }, [location.pathname]);
 
   const dropDownData = (type) => {
@@ -117,7 +103,14 @@ function GiveFeedback() {
       type
     );
 
-    return Object.keys(groupedItems);
+    let menuItems = Object.keys(groupedItems);
+    if (type == 'year' && !menuItems.includes(Cookies.get('year'))) {
+      menuItems.push(Cookies.get('year'));
+    }
+    if (type == 'state' && !menuItems.includes(Cookies.get('state'))) {
+      menuItems.push(Cookies.get('state'));
+    }
+    return menuItems;
   };
 
   const filteredData = (tasks) => {
@@ -177,7 +170,7 @@ function GiveFeedback() {
     if (giveFeedbackCompletedTasksQuery.data) {
       setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksQuery.data);
     }
-  }, [communityTasksQuery]);
+  }, [communityTasksQuery, giveFeedbackCompletedTasksQuery]);
 
   if (
     communityTasksQuery.isLoading ||
@@ -189,9 +182,6 @@ function GiveFeedback() {
       </>
     );
   }
-  const selectedItemIndex = dropdownSample.findIndex((selectSubject) => {
-    return selectSubject.id === 'id';
-  });
 
   const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
     return (
@@ -214,6 +204,7 @@ function GiveFeedback() {
                 search={false}
                 type={'state'}
                 selectedIndex={setSelectedValue}
+                defaultValue={selectedState}
                 menuItems={dropDownData('state')}
                 fullWidth={true}
               />
@@ -222,6 +213,7 @@ function GiveFeedback() {
               <GiveFeedbackDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
+                defaultValue={selectedYear}
                 menuItems={dropDownData('year')}
                 type={'year'}
                 fullWidth={true}
@@ -283,11 +275,13 @@ function GiveFeedback() {
                 </ConnectContainer>
               </TitleContainer>
               <HeadingLine>
-                Feedback requests received from community members
+                {pathName.includes('/feedbackHistory')
+                  ? 'View all of the feedback that you have provided to others'
+                  : "By providing other students with feedback, you're more likely to get feedback on your own work"}
               </HeadingLine>
             </TopContainer>
             <FilterAndSortContainer>
-              {/* <FilterContainer>
+              <FilterContainer>
                 <Frame5086>
                   <Frame5086Img src={FilterSquare} />
                   <Frame5086Text>Filters:</Frame5086Text>
@@ -327,12 +321,12 @@ function GiveFeedback() {
                 ) : (
                   <></>
                 )}
-                <FilterPopContainer
+                {/* <FilterPopContainer
                 isShowFilterPopUp={isShowFilterPopUp}
                 setShowFilterPopUp={setShowFilterPopUp}
-              />
-              </FilterContainer> */}
-              {/* <SortContainer>
+              /> */}
+              </FilterContainer>
+              <SortContainer>
                 <Frame5086>
                   <Frame5086Img src={SortSquare} />
                   <Frame5086Text>Sort by:</Frame5086Text>
@@ -363,7 +357,7 @@ function GiveFeedback() {
                 ) : (
                   <></>
                 )}
-              </SortContainer> */}
+              </SortContainer>
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
           <ContentContainer>
@@ -371,8 +365,8 @@ function GiveFeedback() {
               <FeedbackDataComponent
                 feedbackData={
                   pathName.includes('/feedbackHistory')
-                    ? giveFeedbackCompletedTasks
-                    : communityTasks
+                    ? filteredData(giveFeedbackCompletedTasks)
+                    : filteredData(communityTasks)
                 }
                 pathName={pathName}
               />

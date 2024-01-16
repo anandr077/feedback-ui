@@ -8,6 +8,7 @@ export const MainContainer = styled.div`
   flex-direction: column;
   gap: 60px;
   position: relative;
+  min-height: 595px;
   padding: 60px 0px;
   @media (min-width: 1025px) and (max-width: 1440px) {
     min-width: 1025px;

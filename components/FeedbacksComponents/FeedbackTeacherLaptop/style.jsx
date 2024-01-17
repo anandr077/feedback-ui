@@ -207,8 +207,11 @@ export const Frame1388 = styled.div`
     ${(props) => (props.open ? `0.75,1` : '1')}
   ); */
   transform: ${(props) =>
-    props.open ? `translateX(170px) ` : `translateX(0px) `};
-
+    props.open
+      ? props.desktopView
+        ? 'translateX(0px)'
+        : 'translateX(170px)'
+      : 'translateX(0px)'};
   /* transform: ${(props) =>
     props.open
       ? `translateX(calc(-50% + ${props.drawerWidth}px))`
@@ -223,7 +226,8 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width: ${(props) => (props.open ? '1100px' : '1300px')};
+  max-width: ${(props) =>
+    props.open ? (props.desktopView ? '1300px' : '1100px') : '1300px'};
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {

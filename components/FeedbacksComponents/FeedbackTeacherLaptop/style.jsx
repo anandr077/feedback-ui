@@ -364,7 +364,7 @@ export const Frame1371 = styled.div`
   z-index: 2;
   padding: 20px 0;
   background-color: var(--white-pointer);
- 
+
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
   }

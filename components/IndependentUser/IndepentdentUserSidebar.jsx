@@ -147,11 +147,6 @@ function IndepentdentUserSidebar({
                 ?.filter((question) => question.subject === selectedSubject)
                 .map(
                   (question, qIndex) => {
-
-                  
-
-
-
                     return question.title
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) && (
@@ -167,9 +162,6 @@ function IndepentdentUserSidebar({
                       <>
                         {question.title}
                         <OverflowShadow blueBackground={question.id === currentSubmissionId}></OverflowShadow>
-                        <span className="tooltip-text">
-                          {question.title}
-                        </span>
                       </>
                        
                       </DrawerQuestion>

@@ -69,6 +69,7 @@ import ai from '../../../static/img/ai.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
 import Teacher from '../../../static/img/Teacher.svg';
 import questionmark from '../../../static/img/question-mark.svg';
+import people from '../../../static/img/people.svg';
 import messages from '../../../static/img/messages.svg';
 import closecircle from '../../../static/img/closecircle.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
@@ -180,7 +181,7 @@ const selectReviewType = (
   const requestCommnityFeedback = () => {
     requestFeedback(submission.id, 'COMMUNITY')(null);
   };
-  
+
   if (!isShowSelectType) {
     return <></>;
   }
@@ -218,13 +219,12 @@ const selectReviewType = (
             />
           </Frame1334>
           <Frame5053>
-            <Frame5053Card1 onClick={requestCommnityFeedback}
->
-              <Frame5053Card1Img src="/img/community.png" />
+            <Frame5053Card1 onClick={requestCommnityFeedback}>
+              <Frame5053Card1Img src={people} />
               <Frame5053Card1Para>Community</Frame5053Card1Para>
             </Frame5053Card1>
-            {
-              showTeacher && <Frame5053Card2 onClick={ShowTeacher}>
+            {showTeacher && (
+              <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>
                   <Frame5053Card1Img src={Teacher} />
                   <Frame5053Card1Para>Teacher</Frame5053Card1Para>
@@ -233,17 +233,18 @@ const selectReviewType = (
                   <Card1Img src={rightarrow} />
                 </Card1ImgContainer>
               </Frame5053Card2>
-            }
-            {showClassMate && <Frame5053Card2 onClick={ShowStudent}>
-              <Frame5053Card2Data>
-                <Frame5053Card1Img src={profileCircle} />
-                <Frame5053Card1Para>Classmate</Frame5053Card1Para>
-              </Frame5053Card2Data>
-              <Card1ImgContainer>
-                <Card1Img src={rightarrow} />
-              </Card1ImgContainer>
-            </Frame5053Card2>
-            }
+            )}
+            {showClassMate && (
+              <Frame5053Card2 onClick={ShowStudent}>
+                <Frame5053Card2Data>
+                  <Frame5053Card1Img src={profileCircle} />
+                  <Frame5053Card1Para>Classmate</Frame5053Card1Para>
+                </Frame5053Card2Data>
+                <Card1ImgContainer>
+                  <Card1Img src={rightarrow} />
+                </Card1ImgContainer>
+              </Frame5053Card2>
+            )}
             <Frame5053Card1 onClick={() => methods.jeddAI()}>
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
@@ -411,9 +412,9 @@ export function contextBarForPortfolioDocument(
               ...old.assignment,
               title: res.title,
             },
-            otherDrafts: old.otherDrafts.map(draft => 
-              draft.submissionId === submission.id 
-                ? { ...draft, title: res.title } 
+            otherDrafts: old.otherDrafts.map((draft) =>
+              draft.submissionId === submission.id
+                ? { ...draft, title: res.title }
                 : draft
             ),
           }));

@@ -14,7 +14,6 @@ import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherLaptop.css';
 import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import {
   Frame1315,
   Frame1368,

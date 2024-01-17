@@ -69,10 +69,10 @@ export const Label = styled.div`
   line-height: normal;
 `;
 export const TitleWrapper = styled.div`
+  width: 880px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
+  flex: 1;
   position: relative;
   margin-top: -1px;
   letter-spacing: -0.9px;
@@ -104,7 +104,7 @@ export const FeedbackBtnContainer = styled.div`
   /* display: flex;
   flex-direction: column;
   gap: 15px; */
-  width: 413px;
+  width: 30%;
 `;
 
 export const StatusText = styled.div`
@@ -364,7 +364,7 @@ export const Frame1371 = styled.div`
   z-index: 2;
   padding: 20px 0;
   background-color: var(--white-pointer);
-  width: 100%;
+ 
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
   }
@@ -417,7 +417,7 @@ export const Group1225 = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  width: 70%;
+  width: 880px;
   min-height: 650px;
 `;
 export const Frame1367 = styled.div`
@@ -482,7 +482,7 @@ export const QuillContainer = styled.p`
 export const Frame1331 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 413px;
+  width: 30%;
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;

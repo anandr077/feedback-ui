@@ -797,6 +797,8 @@ export const Frame5053 = styled.div`
 export const Frame5053Card1 = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   padding: 30px;
   border-radius: 8px;
   border: 1px;
@@ -837,6 +839,7 @@ export const Frame5053Card2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 30px;
   border-radius: 8px;
   border: 1px;

@@ -176,7 +176,7 @@ const selectReviewType = (
   const requestCommnityFeedback = () => {
     requestFeedback(submission.id, 'COMMUNITY')(null);
   };
-  
+
   if (!isShowSelectType) {
     return <></>;
   }
@@ -407,9 +407,9 @@ export function contextBarForPortfolioDocument(
               ...old.assignment,
               title: res.title,
             },
-            otherDrafts: old.otherDrafts.map(draft => 
-              draft.submissionId === submission.id 
-                ? { ...draft, title: res.title } 
+            otherDrafts: old.otherDrafts.map((draft) =>
+              draft.submissionId === submission.id
+                ? { ...draft, title: res.title }
                 : draft
             ),
           }));

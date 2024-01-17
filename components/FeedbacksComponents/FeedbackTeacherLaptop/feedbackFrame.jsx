@@ -121,7 +121,9 @@ function feedbackFrame(
           isFocusAreas={isFocusAreas}
           isTeacher={isTeacher}
           comments={comments}
-          showFeedbacks={pageMode !== 'DRAFT'}
+          showFeedbacks={true}
+          showFocusAreas={submission.type !== 'DOCUMENT'}
+
         ></Tabs>
       </Frame1322>
       <Line6 src="/img/line-18.png" alt="Line 6" />

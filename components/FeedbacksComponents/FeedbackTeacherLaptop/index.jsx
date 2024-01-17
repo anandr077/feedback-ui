@@ -14,7 +14,6 @@ import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherLaptop.css';
 import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import {
   Frame1315,
   Frame1368,
@@ -88,7 +87,7 @@ function FeedbackTeacherLaptop(props) {
   const isDesktop = isDesktopView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
-  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
+  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );

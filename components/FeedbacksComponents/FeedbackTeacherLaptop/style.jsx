@@ -621,6 +621,57 @@ export const SelectFeedbackMethodType = styled.div`
   }
 `;
 
+export const Icon24 = styled.img`
+`;
+export const MessageIcon24 = <Icon24 src="/img/message24.svg"></Icon24>
+
+export const ButtonWithImageBeforeText = styled.button`
+  
+  background-color: var(--light-mode-purple);
+  color: var(--white);
+  border-radius: 24px;
+  padding: 8px 16px;
+  border: 1px solid var(--light-mode-purple);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:5px;
+`;
+
+export const Label16pxSmall = styled.div`
+  font-size:16px;
+  font-weight:400;
+  font-family: IBM Plex Sans;
+`;
+
+export const RequestFeedbackStatusFrame = styled.div`
+  cursor: pointer;
+  display: flex;
+  padding: 20px 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  color: white;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 100%;
+  background-color: var(--white) !important;
+
+
+  
+  gap: 5px;
+  align-items: center;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
+  padding: 20px 30px;
+  border-radius: 8px;
+`;
+
 export const RequestFeedbackFrame = styled.div`
   cursor: pointer;
   display: flex;

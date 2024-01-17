@@ -21,6 +21,11 @@ import {
   QuestionEditInput,
   EditTextBox,
   FeedbackBtnContainer,
+  RequestFeedbackStatusFrame,
+  Label16pxSmall,
+  MessageIcon24,
+  Icon24,
+  ButtonWithImageBeforeText
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -623,22 +628,32 @@ const submitButtonDocument = (
   }
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return (
-      <RequestFeedbackFrame
+      <RequestFeedbackStatusFrame
         style={{
-          border: '1px solid #0C8F8F',
+          // border: '1px solid #0C8F8F',
           cursor: 'unset',
           minWidth: '100px',
           position: 'relative',
+          background: 'white !important',
+          color:'black',
+          display:'flex',
+          flexDirection:'column',
+          gap:'10px',
+          alignItems:'start',
+
         }}
       >
-        {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(
-          pageMode,
-          submission,
-          allClasses,
-          setShowFeedbackButtons,
-          showFeedbackButtons
-        )}
+        <div style={{display:"flex", gap:"5px"}} >{<Icon24 src="/img/message24.svg"></Icon24>}
+        <Label16pxSmall>Your work is currently awaiting feedback</Label16pxSmall>
+        </div>
+        <ButtonWithImageBeforeText onClick={() =>
+          handleCancelFeedbackRequest(
+            setShowFeedbackButtons,
+            showSnackbar,
+            submission,
+            setSubmission
+          )
+        }><img src='img/white-cross12.svg'/>Cancel Request</ButtonWithImageBeforeText>
         {showFeedbackButtons &&
           dropdownButtons(
             setShowFeedbackButtons,
@@ -646,7 +661,7 @@ const submitButtonDocument = (
             submission,
             setSubmission
           )}
-      </RequestFeedbackFrame>
+      </RequestFeedbackStatusFrame>
     );
   }
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {

@@ -87,7 +87,7 @@ function FeedbackTeacherLaptop(props) {
   const isMobile = isMobileView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
-  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
+  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );

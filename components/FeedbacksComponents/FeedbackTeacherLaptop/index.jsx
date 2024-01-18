@@ -31,7 +31,7 @@ import {
   GoBackBtn,
   ImgContainer,
 } from './style';
-import { isMobileView } from '../../ReactiveRender';
+import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
@@ -84,6 +84,7 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   console.log('Main ', classesAndStudents);
   const isMobile = isMobileView();
+  const isDesktop = isDesktopView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
@@ -282,6 +283,7 @@ function FeedbackTeacherLaptop(props) {
           </>
           <Frame1388
             mobileView={isMobile}
+            desktopView={isDesktop}
             drawerWidth={drawerWidth}
             open={open}
           >

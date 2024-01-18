@@ -14,23 +14,23 @@ export default function Footer() {
 
 const FooterContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   /* gap: 20px; */
   padding: 0px 30px;
   
   bottom: 0;
   align-self: stretch;
   background-color: var(--white);
-  height: 40px;
+  height: 77px;
   width: 100%;
   /* position: sticky; */
   bottom: 0;
   z-index: 1000000;
-  /* background:red */
 `;
 
 const FooterText = styled.p`
   ${IbmplexsansNormalChicago13px}
+  font-size: var(--font-size-s);
   position: relative;
   flex: 1;
   margin-top: -1px;

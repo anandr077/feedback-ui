@@ -80,6 +80,10 @@ export const TitleWrapper = styled.div`
   gap: 10px;
 `;
 
+export const ButtonContainer = styled.div`
+  width: 30%;
+`
+
 export const TitleContainer = styled.div`
   display: flex;
   gap: 5px;
@@ -207,8 +211,7 @@ export const Frame1388 = styled.div`
     ${(props) => (props.open ? `0.75,1` : '1')}
   ); */
   transform: ${(props) =>
-    props.open ? `translateX(170px) ` : `translateX(0px) `};
-
+    props.open ? 'translateX(170px)' : 'translateX(0px)'};
   /* transform: ${(props) =>
     props.open
       ? `translateX(calc(-50% + ${props.drawerWidth}px))`
@@ -223,7 +226,8 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width: ${(props) => (props.open ? '1100px' : '1300px')};
+  max-width: ${(props) =>
+    props.open ? '1100px' : '1300px'};
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {
@@ -231,6 +235,10 @@ export const Frame1388 = styled.div`
   }
   scrollbar-width: none;
   background: var(--white-pointer);
+
+  @media (min-width: 1600px) {
+    max-width: 1300px;
+  }
 `;
 
 export const DrawerArrowContainer = styled.div`
@@ -364,6 +372,7 @@ export const Frame1371 = styled.div`
   z-index: 2;
   padding: 20px 0;
   background-color: var(--white-pointer);
+  width: 100%;
 
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
@@ -375,6 +384,7 @@ export const Frame1371 = styled.div`
     flex-wrap: wrap;
   }
 `;
+
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
@@ -687,14 +697,14 @@ export const RequestFeedbackFrame = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  border-radius: 12px;
   width: 100%;
-  background-color: var(--Light-Mode-Purple) !important;
+  background-color: var(--light-mode-purple) !important;
 `;
 
 export const RequestFeedbackDropdown = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
 `;
 
 export const IconContainer = styled.img`

@@ -9,6 +9,7 @@ import {
   Frame1371,
   StatusText,
   TitleWrapper,
+  ButtonContainer,
   Frame131612,
   SelectFeedbackMethod,
   SelectFeedbackMethodType,
@@ -78,6 +79,7 @@ import rightarrow from '../../../static/img/Vector13.svg';
 import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';
 import _ from 'lodash';
 import { sub } from 'date-fns';
+import RectangularBigBtn from '../../../components2/Buttons/RectangularbigBtn';
 import StyledDropDown from '../../../components2/StyledDropDown';
 
 function createFocusAreasCount(submission) {
@@ -109,19 +111,26 @@ export function contextBar(
           }}
         />
         {statusText(methods, focusAreasCount, submission)}
+        {downloadButtonClosedSubmission(
+          isTeacher,
+          pageMode,
+          submission,
+          methods
+        )}
+        {downloadButtonNonClosedSubmission(
+          isTeacher,
+          pageMode,
+          submission,
+          methods
+        )}
       </TitleWrapper>
-      {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
-      {downloadButtonNonClosedSubmission(
-        isTeacher,
-        pageMode,
-        submission,
-        methods
-      )}
       {/* {tasksListsDropDown(isTeacher, methods)} */}
-      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+      {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-      )}
-      {submitButton(methods, pageMode, isTeacher, submission)}
+      )} */}
+      <ButtonContainer>
+        {submitButton(methods, pageMode, isTeacher, submission)}
+      </ButtonContainer>
     </Frame1371>
   );
 }
@@ -171,6 +180,7 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
+    console.log("Closing")
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -248,7 +258,9 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            <Frame5053Card1 onClick={() => methods.jeddAI()}>
+            <Frame5053Card1 onClick={() => {
+              methods.jeddAI().then(()=>ClosePopUp())
+            }}>
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
             </Frame5053Card1>
@@ -262,10 +274,10 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
   if (pageMode === 'DRAFT') {
     return (
       <div style={{ position: 'relative' }}>
-        <Buttons2
-          button="Submit"
+        <RectangularBigBtn
+          text={'Submit'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
-        ></Buttons2>
+        />
       </div>
     );
   }
@@ -273,48 +285,43 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     if (isTeacher) {
       return (
         <ButtonsContainer>
-          <Button5
-            button="Request Re-submission"
-            icon={'img/refresh-circle.png'}
+          <RectangularBigBtn
+            leftIcon={'img/refresh-circle.png'}
+            text={'Request Re-submission'}
             onClickFn={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
             }
-          ></Button5>
-          <Buttons2
-            button="Submit"
+          />
+          <RectangularBigBtn
+            text={'Submit'}
             onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
-          ></Buttons2>
+          />
         </ButtonsContainer>
       );
     } else {
       return (
-        <ButtonsContainer>
-          <Buttons2
-            button="Submit"
-            onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
-          ></Buttons2>
-        </ButtonsContainer>
+        <RectangularBigBtn
+          text={'Submit'}
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
+        />
       );
     }
   }
   if (pageMode === 'REVISE') {
     if (submission.status === 'RESUBMISSION_REQUESTED') {
       return (
-        <>
-          <Buttons2
-            button="Submit"
-            onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
-          ></Buttons2>
-        </>
+        <RectangularBigBtn
+          text={'Submit'}
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
+        />
       );
     }
     return (
-      <>
-        <Buttons2
-          button="Mark as complete"
-          onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
-        ></Buttons2>
-      </>
+      <RectangularBigBtn
+        leftIcon={'/img/Tick.svg'}
+        text={'Mark as completed'}
+        onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
+      />
     );
   }
   return <></>;
@@ -625,13 +632,12 @@ const submitButtonDocument = (
     return (
       <RequestFeedbackFrame
         style={{
-          border: '1px solid #0C8F8F',
           cursor: 'unset',
           minWidth: '100px',
           position: 'relative',
         }}
       >
-        {<img src="/img/messages-green.svg" alt="messages" />}
+        {<img src="/img/messages.png" alt="messages" />}
         {getStatusLabel(
           pageMode,
           submission,
@@ -691,13 +697,12 @@ const submitButtonDocument = (
     return (
       <RequestFeedbackFrame
         style={{
-          border: '1px solid #0C8F8F',
           cursor: 'unset',
           minWidth: '100px',
           position: 'relative',
         }}
       >
-        {<img src="/img/messages-green.svg" alt="messages" />}
+        {<img src="/img/messages.png" alt="messages" />}
         {getStatusLabel(
           pageMode,
           submission,

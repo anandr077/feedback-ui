@@ -93,7 +93,9 @@ const Frame1424 = styled.div`
 `;
 
 const SliderCardContainer = styled.div`
-  padding: 0px 60px;
+  width: 880px;
+  margin-left: 60px;
+  height: auto;
 `;
 
 const Title = styled.h1`

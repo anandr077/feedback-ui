@@ -121,7 +121,7 @@ export const IbmplexsansNormalPersianIndigo20px = css`
 export const IbmplexsansNormalChicago13px = css`
   color: var(--chicago);
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xxxs);
+  font-size: var(--font-size-s);
   font-weight: 400;
   font-style: normal;
 `;

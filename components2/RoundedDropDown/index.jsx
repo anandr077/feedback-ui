@@ -4,10 +4,16 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Input } from '@mui/material';
 import { Avatar } from '@boringer-avatars/react';
-import { AvatarContainer, Frame12841 } from './style';
+import {
+  AvatarContainer,
+  Frame12841,
+  SelectInput,
+  StyledInput,
+  StyledSelect,
+} from './style';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 
-export default function GiveFeedbackDropDown({
+export default function RoundedDropDown({
   menuItems,
   defaultValue = '',
   search = false,
@@ -18,17 +24,15 @@ export default function GiveFeedbackDropDown({
   const [value, setValue] = React.useState(defaultValue);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [open, setOpen] = React.useState(false);
-
   const location = useLocation();
-
-  React.useEffect(() => {
-    setValue(defaultValue);
-  }, [location.pathname]);
 
   const maxLength = menuItems.reduce((maxLength, currentString) => {
     return currentString.length > maxLength.length ? currentString : maxLength;
   }, '');
 
+  React.useEffect(() => {
+    setValue(defaultValue);
+  }, [location.pathname]);
   const handleMenuSelect = (menuItem) => {
     setSearchTerm('');
     setValue(menuItem);
@@ -41,16 +45,7 @@ export default function GiveFeedbackDropDown({
       fullWidth={fullWidth}
       sx={!fullWidth ? { minWidth: Math.max(120, maxLength.length * 11) } : {}}
     >
-      <Select
-        style={{
-          border: '1px solid #A6A6A6',
-          boxShadow: '0px 4px 8px #2f1a720a',
-          backgroundColor: 'white',
-          borderRadius: '25px',
-          fontSize: '14px',
-          display: 'flex',
-          textAlign: 'center',
-        }}
+      <StyledSelect
         MenuProps={{
           PaperProps: {
             sx: {
@@ -58,17 +53,17 @@ export default function GiveFeedbackDropDown({
             },
           },
           fontWeight: '400',
-          fontSize: '14px',
+          fontSize: '16px',
         }}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         value={value}
         displayEmpty
-        input={<Input disableUnderline={true} />}
+        input={<SelectInput disableUnderline={true} />}
       >
         {search && (
-          <Input
+          <StyledInput
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search...."
@@ -79,18 +74,11 @@ export default function GiveFeedbackDropDown({
             onKeyDown={(e) => {
               e.stopPropagation();
             }}
-            sx={{
-              border: '1px solid var(--light-mode-purple)',
-              padding: '5px',
-              borderRadius: '10px',
-              '&:hover': {
-                outline: 'none',
-              },
-              marginBottom: '5px',
-            }}
           />
         )}
-
+        <MenuItem value={''} onClick={() => handleMenuSelect('')}>
+          {type === 'documentType' ? 'Task Type' : capitalizeFirstLetter(type)}
+        </MenuItem>
         {menuItems
           .filter((item) =>
             item.toLowerCase().includes(searchTerm.toLowerCase())
@@ -104,7 +92,10 @@ export default function GiveFeedbackDropDown({
               {filteredItem}
             </MenuItem>
           ))}
-      </Select>
+      </StyledSelect>
     </FormControl>
   );
 }
+
+const capitalizeFirstLetter = (str) =>
+  `${str.charAt(0).toUpperCase()}${str.slice(1)}`;

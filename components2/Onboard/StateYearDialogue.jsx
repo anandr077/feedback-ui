@@ -82,8 +82,6 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
         Cookies.set('state', state);
         Cookies.set('year', year);
         onClose();
-        //Cookies.set('country', country.title);
-        //{!editStateYear && setStage(3)}
         if (editStateYear) {
           showSnackbar('Setting successfully updated');
         }
@@ -96,6 +94,10 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   };
 
   const isSubmitDisabled = !editStateYear && !isCheckboxChecked;
+
+  const handleTermsConditionClick = () => {
+    window.location.href = 'https://jeddle.duxdigital.net/terms-conditions/';
+  };
 
   return (
     <DialogueBox>
@@ -166,7 +168,10 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
           <CheckboxContainer>
             <Checkbox type="checkbox" onChange={handleCheckboxChange} />
             <TermsText>
-              I agree to the <span>terms & conditions</span>
+              I agree to the{' '}
+              <span onClick={handleTermsConditionClick}>
+                terms & conditions
+              </span>
             </TermsText>
           </CheckboxContainer>
         </TermsCondition>

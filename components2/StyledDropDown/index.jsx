@@ -69,8 +69,7 @@ export default function StyledDropDown({
     <FormControl fullWidth={fullWidth} sx={!fullWidth ? { m: 1, minWidth: 150 } : {}}>
       <Select
         style={{
-          border: !independent ? '1px solid var(--light-mode-purple)' : 'none',
-          boxShadow: '0px 4px 8px #2f1a720a',
+          border: !independent ? '1px solid #D6D6D6' : 'none',
           backgroundColor: 'white',
           borderRadius: '10px',
           fontSize: '14px',
@@ -138,7 +137,6 @@ export default function StyledDropDown({
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  boxShadow: '0px 4px 8px #2f1a720a',
                   fontWeight: '400',
                   fontSize: '14px',
                 }}

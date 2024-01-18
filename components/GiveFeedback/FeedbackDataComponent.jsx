@@ -27,13 +27,14 @@ import {
   WordsCount,
   WordsCountContainer,
 } from './style';
-import WhiteArrowleft from '../../static/img/arrowright-White.svg';
+import WhiteArrowRight from '../../static/img/arrowright-White.svg';
 import CloseCircle from '../../static/img/closecircle.svg';
 import StarFilled from '../../static/img/Star-filled.png';
 import StarEmpty from '../../static/img/Star-empty.png';
 import StyledButton from '../../components2/StyledButton';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
+import arrowRight from '../../static/img/arrowright.svg';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
   const queryClient = useQueryClient();
@@ -116,11 +117,13 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
   return (
     <>
       {feedbackData.map((text, index) => {
-        const requestedAtTime = new Date(text.requestedAt);
+        let timeData = pathName.includes('/feedbackHistory')
+          ? text.reviewedAt
+          : text.requestedAt;
+        const requestedAtTime = new Date(timeData);
         const currentTime = new Date();
         const durationInMilliseconds = currentTime - requestedAtTime;
 
-        // Convert the duration to days, hours, and minutes
         const days = Math.floor(durationInMilliseconds / (1000 * 60 * 60 * 24));
         const hours = Math.floor(
           (durationInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -168,14 +171,16 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
                 <StyledButton
                   URL={text.url}
                   Text="View Details"
-                  Icon={WhiteArrowleft}
+                  Icon={WhiteArrowRight}
+                  ColoredIcon={arrowRight}
                 />
               ) : (
                 <StyledButton
                   URL={text.url}
                   Text="Give Feedback"
-                  Icon={WhiteArrowleft}
+                  Icon={WhiteArrowRight}
                   onAccept={() => acceptMutation.mutate(text.id)}
+                  ColoredIcon={arrowRight}
                 />
               )}
               {!pathName.includes('/feedbackHistory') && (

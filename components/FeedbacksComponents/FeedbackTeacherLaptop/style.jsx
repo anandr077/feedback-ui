@@ -765,7 +765,7 @@ export const SubjectSelectionContainer = styled.div`
   gap: 30px;
 `;
 
-export const SubSelcetBox = styled.div`
+export const SubjectSelectBox = styled.div`
   border-right: 1px solid #d6d6d6;
   padding-right: 30px;
   display: flex;

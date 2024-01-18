@@ -51,7 +51,7 @@ export const Button = styled.button`
   line-height: 20px;
   width: calc(100% - 48px);
   height: 40px;
-  cursor: pointer;
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   transition: 0.2s ease-in;
 
   &:hover {

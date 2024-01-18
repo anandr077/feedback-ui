@@ -108,6 +108,7 @@ export const TermsText = styled.p`
 
   span {
     color: var(--light-mode-purple);
+    cursor: pointer;
   }
 `;
 

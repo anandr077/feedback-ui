@@ -171,6 +171,7 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
+    console.log("Closing")
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -248,7 +249,9 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            <Frame5053Card1 onClick={() => methods.jeddAI()}>
+            <Frame5053Card1 onClick={() => {
+              methods.jeddAI().then(()=>ClosePopUp())
+            }}>
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
             </Frame5053Card1>

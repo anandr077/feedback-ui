@@ -27,6 +27,8 @@ import {
   MessageIcon24,
   Icon24,
   ButtonWithImageBeforeText,
+  SubjectSelectionContainer,
+  SubSelcetBox
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -78,6 +80,7 @@ import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';
 import _ from 'lodash';
 import { sub } from 'date-fns';
 import RectangularBigBtn from '../../../components2/Buttons/RectangularbigBtn';
+import StyledDropDown from '../../../components2/StyledDropDown';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -177,6 +180,7 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
+    console.log("Closing")
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -254,7 +258,9 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            <Frame5053Card1 onClick={() => methods.jeddAI()}>
+            <Frame5053Card1 onClick={() => {
+              methods.jeddAI().then(()=>ClosePopUp())
+            }}>
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
             </Frame5053Card1>
@@ -447,9 +453,13 @@ export function contextBarForPortfolioDocument(
   }, [isEditing]);
 
   return (
+    <>
+    {subjectTypeSelection(pageMode, submission)}
     <Frame1371 id="assignmentTitle">
+      
       <TitleWrapper>
         <TitleContainer>
+          
           {pageMode === 'DRAFT' ? (
             <QuestionEditInput
               ref={inputRef}
@@ -502,6 +512,7 @@ export function contextBarForPortfolioDocument(
         )}
       </FeedbackBtnContainer>
     </Frame1371>
+    </>
   );
 }
 
@@ -819,4 +830,51 @@ function handleCancelFeedbackRequest(
     .finally(() => {
       setShowFeedbackButtons(false);
     });
+}
+
+
+function subjectTypeSelection(pageMode, submission) {
+  
+  console.log('the submission is', submission);
+  const subjectOptions = [{title: 'English'}];
+  const taskOptions = [
+    {title: 'Analytical'},
+    {title: 'Imaginative'},
+    {title: 'Discursive'},
+    {title: 'Persuasive'},
+    {title: 'Reflective'},
+  ];
+
+  return (
+    <SubjectSelectionContainer>
+      {pageMode === 'DRAFT' ? (
+        <>
+          <SubSelcetBox>
+            <label>Select Subject</label>
+            {/* <select>
+              {subjectOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select> */}
+            <StyledDropDown menuItems={subjectOptions}></StyledDropDown>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Task Type</label>
+            <StyledDropDown menuItems={taskOptions}></StyledDropDown>
+          </SubSelcetBox>
+        </>
+      ) : (
+        <>
+          <SubSelcetBox>
+            <label>English</label>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Extended Response</label>
+          </SubSelcetBox>
+        </>
+      )}
+    </SubjectSelectionContainer>
+  );
 }

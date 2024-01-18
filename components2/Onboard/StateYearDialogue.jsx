@@ -43,6 +43,8 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
     Cookies.get('year') === null || Cookies.get('year') === undefined
       ? '7'
       : Cookies.get('year');
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
   const [year, setYear] = useState(defaultYear);
   const countryOptions = Object.keys(countriesData).map((country) => ({
     title: country,
@@ -54,11 +56,9 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
         }))
       : [];
 
-  console.log('countryOptions', stateOptions);
-
   const handleStateSelect = (selectedState) => {
     console.log('selectedState', selectedState);
-    setState(selectedState.title); // Directly setting the state value
+    setState(selectedState.title);
   };
 
   const handleYearSelect = (selectedYear) => {
@@ -88,6 +88,12 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
       });
     }
   };
+
+  const handleCheckboxChange = () => {
+    setIsCheckboxChecked(!isCheckboxChecked);
+  };
+
+  const isSubmitDisabled = !editStateYear && !isCheckboxChecked;
 
   const handleTermsConditionClick = () => {
     window.location.href = 'https://jeddle.duxdigital.net/terms-conditions/';
@@ -160,7 +166,7 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
             </p>
           </WarningContainer>
           <CheckboxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox type="checkbox" onChange={handleCheckboxChange} />
             <TermsText>
               I agree to the{' '}
               <span onClick={handleTermsConditionClick}>
@@ -170,7 +176,7 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
           </CheckboxContainer>
         </TermsCondition>
       )}
-      <Button onClick={saveStateYear}>
+      <Button onClick={saveStateYear} disabled={isSubmitDisabled}>
         {editStateYear ? 'Update' : 'Submit'}
       </Button>
     </DialogueBox>

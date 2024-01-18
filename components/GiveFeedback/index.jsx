@@ -60,7 +60,6 @@ import questionMark from '../../static/img/question-mark.svg';
 import arrowRight from '../../static/img/arrowright.svg';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import LinkButton from '../../components2/LinkButton';
-import GiveFeedbackDropDown from './GiveFeedbackDropDown';
 import CloseCircle from '../../static/img/closecircle.svg';
 import { isMobileView } from '../ReactiveRender';
 import { Dialog } from '@mui/material';
@@ -68,15 +67,14 @@ import Cookies from 'js-cookie';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import RoundedDropDown from '../../components2/RoundedDropDown';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
 
-  const [selectedYear, setSelectedYear] = React.useState(Cookies.get('year'));
+  const [selectedYear, setSelectedYear] = React.useState('');
   const [selectedSubject, setSelectedSubject] = React.useState('');
-  const [selectedState, setSelectedState] = React.useState(
-    Cookies.get('state')
-  );
+  const [selectedState, setSelectedState] = React.useState('');
   const [selectedDocumentType, setSelectedDocumentType] = React.useState('');
 
   const [communityTasks, setCommunityTasks] = React.useState([]);
@@ -90,8 +88,10 @@ function GiveFeedback() {
   const pathName = location.pathname;
 
   React.useEffect(() => {
-    setSelectedYear(Cookies.get('year'));
-    setSelectedState(Cookies.get('state'));
+    setSelectedYear('');
+    setSelectedSubject('');
+    setSelectedState('');
+    setSelectedDocumentType('');
     setSortData(true);
   }, [location.pathname]);
 
@@ -136,7 +136,9 @@ function GiveFeedback() {
       setSelectedState(selectValue);
     }
     if (type === 'year') {
-      setSelectedYear(selectValue);
+      let numberValue =
+        selectValue != '' ? selectValue.match(/\d+/)[0] : selectValue;
+      setSelectedYear(numberValue);
     }
     if (type === 'subject') {
       setSelectedSubject(selectValue);
@@ -172,6 +174,23 @@ function GiveFeedback() {
     }
   }, [communityTasksQuery, giveFeedbackCompletedTasksQuery]);
 
+  let statesData = ['NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'];
+  let yearsData = [
+    'Year 7',
+    'Year 8',
+    'Year 9',
+    'Year 10',
+    'Year 11',
+    'Year 12',
+  ];
+  let subjectData = ['English'];
+  let taskTypeData = [
+    'Analytical',
+    'Imaginative',
+    'Discursive',
+    'Persuasive',
+    'Reflective',
+  ];
   if (
     communityTasksQuery.isLoading ||
     giveFeedbackCompletedTasksQuery.isLoading
@@ -200,39 +219,39 @@ function GiveFeedback() {
               />
             </Frame5086PopUp>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 type={'state'}
                 selectedIndex={setSelectedValue}
                 defaultValue={selectedState}
-                menuItems={dropDownData('state')}
+                menuItems={statesData}
                 fullWidth={true}
               />
             </Frame5086PopUpBody>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
                 defaultValue={selectedYear}
-                menuItems={dropDownData('year')}
+                menuItems={yearsData}
                 type={'year'}
                 fullWidth={true}
               />
             </Frame5086PopUpBody>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
-                menuItems={dropDownData('subject')}
+                menuItems={subjectData}
                 type={'subject'}
                 fullWidth={true}
               />
             </Frame5086PopUpBody>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
-                menuItems={dropDownData('documentType')}
+                menuItems={taskTypeData}
                 type={'documentType'}
                 fullWidth={true}
               />
@@ -289,33 +308,29 @@ function GiveFeedback() {
 
                 {!mobileView ? (
                   <>
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       type={'state'}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('state')}
-                      defaultValue={selectedState}
+                      menuItems={statesData}
                     />
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('year')}
+                      menuItems={yearsData}
                       type={'year'}
-                      defaultValue={selectedYear}
                     />
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('subject')}
+                      menuItems={subjectData}
                       type={'subject'}
-                      defaultValue={selectedSubject}
                     />
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('documentType')}
+                      menuItems={taskTypeData}
                       type={'documentType'}
-                      defaultValue={selectedDocumentType}
                     />
                   </>
                 ) : (

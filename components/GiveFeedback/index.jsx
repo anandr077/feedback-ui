@@ -136,7 +136,9 @@ function GiveFeedback() {
       setSelectedState(selectValue);
     }
     if (type === 'year') {
-      setSelectedYear(selectValue);
+      let numberValue =
+        selectValue != '' ? selectValue.match(/\d+/)[0] : selectValue;
+      setSelectedYear(numberValue);
     }
     if (type === 'subject') {
       setSelectedSubject(selectValue);
@@ -172,6 +174,23 @@ function GiveFeedback() {
     }
   }, [communityTasksQuery, giveFeedbackCompletedTasksQuery]);
 
+  let statesData = ['NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'];
+  let yearsData = [
+    'Year 7',
+    'Year 8',
+    'Year 9',
+    'Year 10',
+    'Year 11',
+    'Year 12',
+  ];
+  let subjectData = ['English'];
+  let taskTypeData = [
+    'Analytical',
+    'Imaginative',
+    'Discursive',
+    'Persuasive',
+    'Reflective',
+  ];
   if (
     communityTasksQuery.isLoading ||
     giveFeedbackCompletedTasksQuery.isLoading
@@ -205,7 +224,7 @@ function GiveFeedback() {
                 type={'state'}
                 selectedIndex={setSelectedValue}
                 defaultValue={selectedState}
-                menuItems={dropDownData('state')}
+                menuItems={statesData}
                 fullWidth={true}
               />
             </Frame5086PopUpBody>
@@ -214,7 +233,7 @@ function GiveFeedback() {
                 search={false}
                 selectedIndex={setSelectedValue}
                 defaultValue={selectedYear}
-                menuItems={dropDownData('year')}
+                menuItems={yearsData}
                 type={'year'}
                 fullWidth={true}
               />
@@ -223,7 +242,7 @@ function GiveFeedback() {
               <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
-                menuItems={dropDownData('subject')}
+                menuItems={subjectData}
                 type={'subject'}
                 fullWidth={true}
               />
@@ -232,7 +251,7 @@ function GiveFeedback() {
               <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
-                menuItems={dropDownData('documentType')}
+                menuItems={taskTypeData}
                 type={'documentType'}
                 fullWidth={true}
               />
@@ -293,24 +312,24 @@ function GiveFeedback() {
                       search={false}
                       type={'state'}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('state')}
+                      menuItems={statesData}
                     />
                     <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('year')}
+                      menuItems={yearsData}
                       type={'year'}
                     />
                     <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('subject')}
+                      menuItems={subjectData}
                       type={'subject'}
                     />
                     <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('documentType')}
+                      menuItems={taskTypeData}
                       type={'documentType'}
                     />
                   </>

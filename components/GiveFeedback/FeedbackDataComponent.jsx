@@ -116,11 +116,13 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
   return (
     <>
       {feedbackData.map((text, index) => {
-        const requestedAtTime = new Date(text.requestedAt);
+        let timeData = pathName.includes('/feedbackHistory')
+          ? text.reviewedAt
+          : text.requestedAt;
+        const requestedAtTime = new Date(timeData);
         const currentTime = new Date();
         const durationInMilliseconds = currentTime - requestedAtTime;
 
-        // Convert the duration to days, hours, and minutes
         const days = Math.floor(durationInMilliseconds / (1000 * 60 * 60 * 24));
         const hours = Math.floor(
           (durationInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)

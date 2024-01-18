@@ -4,7 +4,13 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Input } from '@mui/material';
 import { Avatar } from '@boringer-avatars/react';
-import { AvatarContainer, Frame12841 } from './style';
+import {
+  AvatarContainer,
+  Frame12841,
+  SelectInput,
+  StyledInput,
+  StyledSelect,
+} from './style';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 
 export default function RoundedDropDown({
@@ -39,16 +45,7 @@ export default function RoundedDropDown({
       fullWidth={fullWidth}
       sx={!fullWidth ? { minWidth: Math.max(120, maxLength.length * 11) } : {}}
     >
-      <Select
-        style={{
-          border: '1px solid #A6A6A6',
-          boxShadow: '0px 4px 8px #2f1a720a',
-          backgroundColor: 'white',
-          borderRadius: '25px',
-          fontSize: '14px',
-          display: 'flex',
-          textAlign: 'center',
-        }}
+      <StyledSelect
         MenuProps={{
           PaperProps: {
             sx: {
@@ -56,17 +53,17 @@ export default function RoundedDropDown({
             },
           },
           fontWeight: '400',
-          fontSize: '14px',
+          fontSize: '16px',
         }}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         value={value}
         displayEmpty
-        input={<Input disableUnderline={true} />}
+        input={<SelectInput disableUnderline={true} />}
       >
         {search && (
-          <Input
+          <StyledInput
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search...."
@@ -76,15 +73,6 @@ export default function RoundedDropDown({
             }}
             onKeyDown={(e) => {
               e.stopPropagation();
-            }}
-            sx={{
-              border: '1px solid var(--light-mode-purple)',
-              padding: '5px',
-              borderRadius: '10px',
-              '&:hover': {
-                outline: 'none',
-              },
-              marginBottom: '5px',
             }}
           />
         )}
@@ -104,7 +92,7 @@ export default function RoundedDropDown({
               {filteredItem}
             </MenuItem>
           ))}
-      </Select>
+      </StyledSelect>
     </FormControl>
   );
 }

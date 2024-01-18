@@ -60,7 +60,6 @@ import questionMark from '../../static/img/question-mark.svg';
 import arrowRight from '../../static/img/arrowright.svg';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import LinkButton from '../../components2/LinkButton';
-import GiveFeedbackDropDown from './GiveFeedbackDropDown';
 import CloseCircle from '../../static/img/closecircle.svg';
 import { isMobileView } from '../ReactiveRender';
 import { Dialog } from '@mui/material';
@@ -68,6 +67,7 @@ import Cookies from 'js-cookie';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import RoundedDropDown from '../../components2/RoundedDropDown';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -200,7 +200,7 @@ function GiveFeedback() {
               />
             </Frame5086PopUp>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 type={'state'}
                 selectedIndex={setSelectedValue}
@@ -210,7 +210,7 @@ function GiveFeedback() {
               />
             </Frame5086PopUpBody>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
                 defaultValue={selectedYear}
@@ -220,7 +220,7 @@ function GiveFeedback() {
               />
             </Frame5086PopUpBody>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
                 menuItems={dropDownData('subject')}
@@ -229,7 +229,7 @@ function GiveFeedback() {
               />
             </Frame5086PopUpBody>
             <Frame5086PopUpBody>
-              <GiveFeedbackDropDown
+              <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
                 menuItems={dropDownData('documentType')}
@@ -289,25 +289,25 @@ function GiveFeedback() {
 
                 {!mobileView ? (
                   <>
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       type={'state'}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('state')}
                     />
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('year')}
                       type={'year'}
                     />
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('subject')}
                       type={'subject'}
                     />
-                    <GiveFeedbackDropDown
+                    <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={dropDownData('documentType')}

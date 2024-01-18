@@ -7,7 +7,7 @@ import { Avatar } from '@boringer-avatars/react';
 import { AvatarContainer, Frame12841 } from './style';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 
-export default function GiveFeedbackDropDown({
+export default function RoundedDropDown({
   menuItems,
   defaultValue = '',
   search = false,
@@ -89,11 +89,7 @@ export default function GiveFeedbackDropDown({
           />
         )}
         <MenuItem value={''} onClick={() => handleMenuSelect('')}>
-          {open
-            ? 'None'
-            : type === 'documentType'
-            ? 'Task Type'
-            : capitalizeFirstLetter(type)}
+          {type === 'documentType' ? 'Task Type' : capitalizeFirstLetter(type)}
         </MenuItem>
         {menuItems
           .filter((item) =>

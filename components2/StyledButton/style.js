@@ -1,17 +1,5 @@
 import styled from 'styled-components';
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 16px 8px 16px;
-  border-radius: 30px;
-  border: 1px;
-  gap: 4px;
-  background: #7200e0;
-  text-decoration: none;
-  cursor: pointer;
-`;
 export const ButtonText = styled.div`
   font-family: IBM Plex Sans;
   font-size: 16px;
@@ -24,4 +12,35 @@ export const ButtonText = styled.div`
 export const ButtonIcon = styled.img`
   width: 16px;
   height: 16px;
+`;
+export const ButtonIconColored = styled.img`
+  width: 16px;
+  height: 16px;
+  display:none;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px 8px 16px;
+  border-radius: 30px;
+  border: 1px;
+  gap: 4px;
+  background: var(--light-mode-purple);
+  border: 1px solid var(--light-mode-purple);
+  text-decoration: none;
+  cursor: pointer;
+  :hover {
+    background: var(--white);
+    ${ButtonText} {
+      color: var(--light-mode-purple);
+    }
+    ${ButtonIcon} {
+      display: none;
+    }
+    ${ButtonIconColored} {
+      display: flex;
+    }
+  }
 `;

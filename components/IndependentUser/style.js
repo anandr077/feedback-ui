@@ -39,7 +39,8 @@ export const SidebarContainer = styled.div`
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
   );
   transition: transform 0.3s ease-in;
-  /* height: 100vh; */
+  height: calc(100vh - 80px);
+  overflow-y: scroll;
   /* height: calc(100vh); */
   overflow: scroll;
   ::-webkit-scrollbar {
@@ -47,7 +48,6 @@ export const SidebarContainer = styled.div`
   }
   position: fixed;
   z-index: 9;
-  
 `;
 
 // width: ${props => (props.isOpen ? '300' : '200')};

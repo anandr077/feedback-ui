@@ -390,6 +390,7 @@ export const AssignmentTitle = styled.h1`
 export const QuestionEditInput = styled.input`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
+  color: var(--text);
   font-weight: 400;
   line-height: 20px;
   font-style: normal;

@@ -1336,10 +1336,35 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     console.log('quillRefs', quillRefs);
     const q = quillRefs.current[0];
     console.log('q', q.getText());
-    askJeddAI(submission.id, q.getText()).then((response) => {
-      console.log('response done', response);
+    return askJeddAI(submission.id, q.getText())
+    .then((res)=> {
+      setSubmission((old)=> ({
+        ...old, 
+        status:res.status, 
+        feedbackRequestType:res.feedbackRequestType
+      }))
+      let interval;
+
+      function getAndUpdateSubmission() {
+          getSubmissionById(submission.id).then((response) => {
+              if (response) {
+                  console.log("Response in timer", response)
+                  if (response.status !== 'FEEDBACK_ACCEPTED') {
+                      clearInterval(interval);
+                      window.location.reload();
+                  }
+                  setSubmission(response);
+              }
+          });
+      }
+
+      setTimeout(() => {
+          interval = setInterval(getAndUpdateSubmission, 30000);
+      }, 30000);
     });
+      
   };
+
   const methods = {
     comments,
     setComments,

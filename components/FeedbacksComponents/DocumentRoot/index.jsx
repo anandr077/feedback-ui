@@ -1,4 +1,3 @@
-import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
 import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
 import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, addDocumentToPortfolio, addDocumentToPortfolioWithDetails } from '../../../service';

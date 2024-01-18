@@ -9,6 +9,7 @@ import {
   Frame1371,
   StatusText,
   TitleWrapper,
+  ButtonContainer,
   Frame131612,
   SelectFeedbackMethod,
   SelectFeedbackMethodType,
@@ -21,6 +22,13 @@ import {
   QuestionEditInput,
   EditTextBox,
   FeedbackBtnContainer,
+  RequestFeedbackStatusFrame,
+  Label16pxSmall,
+  MessageIcon24,
+  Icon24,
+  ButtonWithImageBeforeText,
+  SubjectSelectionContainer,
+  SubjectSelectBox,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -64,12 +72,15 @@ import ai from '../../../static/img/ai.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
 import Teacher from '../../../static/img/Teacher.svg';
 import questionmark from '../../../static/img/question-mark.svg';
+import people from '../../../static/img/people.svg';
 import messages from '../../../static/img/messages.svg';
 import closecircle from '../../../static/img/closecircle.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
 import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';
 import _ from 'lodash';
 import { sub } from 'date-fns';
+import RectangularBigBtn from '../../../components2/Buttons/RectangularbigBtn';
+import StyledDropDown from '../../../components2/StyledDropDown';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -100,19 +111,26 @@ export function contextBar(
           }}
         />
         {statusText(methods, focusAreasCount, submission)}
+        {downloadButtonClosedSubmission(
+          isTeacher,
+          pageMode,
+          submission,
+          methods
+        )}
+        {downloadButtonNonClosedSubmission(
+          isTeacher,
+          pageMode,
+          submission,
+          methods
+        )}
       </TitleWrapper>
-      {downloadButtonClosedSubmission(isTeacher, pageMode, submission, methods)}
-      {downloadButtonNonClosedSubmission(
-        isTeacher,
-        pageMode,
-        submission,
-        methods
-      )}
       {/* {tasksListsDropDown(isTeacher, methods)} */}
-      {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+      {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
         <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-      )}
-      {submitButton(methods, pageMode, isTeacher, submission)}
+      )} */}
+      <ButtonContainer>
+        {submitButton(methods, pageMode, isTeacher, submission)}
+      </ButtonContainer>
     </Frame1371>
   );
 }
@@ -162,6 +180,7 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
+    console.log("Closing")
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -175,7 +194,7 @@ const selectReviewType = (
   const requestCommnityFeedback = () => {
     requestFeedback(submission.id, 'COMMUNITY')(null);
   };
-  
+
   if (!isShowSelectType) {
     return <></>;
   }
@@ -213,13 +232,12 @@ const selectReviewType = (
             />
           </Frame1334>
           <Frame5053>
-            <Frame5053Card1 onClick={requestCommnityFeedback}
->
-              <Frame5053Card1Img src="/img/community.png" />
+            <Frame5053Card1 onClick={requestCommnityFeedback}>
+              <Frame5053Card1Img src={people} />
               <Frame5053Card1Para>Community</Frame5053Card1Para>
             </Frame5053Card1>
-            {
-              showTeacher && <Frame5053Card2 onClick={ShowTeacher}>
+            {showTeacher && (
+              <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>
                   <Frame5053Card1Img src={Teacher} />
                   <Frame5053Card1Para>Teacher</Frame5053Card1Para>
@@ -228,18 +246,21 @@ const selectReviewType = (
                   <Card1Img src={rightarrow} />
                 </Card1ImgContainer>
               </Frame5053Card2>
-            }
-            {showClassMate && <Frame5053Card2 onClick={ShowStudent}>
-              <Frame5053Card2Data>
-                <Frame5053Card1Img src={profileCircle} />
-                <Frame5053Card1Para>Classmate</Frame5053Card1Para>
-              </Frame5053Card2Data>
-              <Card1ImgContainer>
-                <Card1Img src={rightarrow} />
-              </Card1ImgContainer>
-            </Frame5053Card2>
-            }
-            <Frame5053Card1 onClick={() => methods.jeddAI()}>
+            )}
+            {showClassMate && (
+              <Frame5053Card2 onClick={ShowStudent}>
+                <Frame5053Card2Data>
+                  <Frame5053Card1Img src={profileCircle} />
+                  <Frame5053Card1Para>Classmate</Frame5053Card1Para>
+                </Frame5053Card2Data>
+                <Card1ImgContainer>
+                  <Card1Img src={rightarrow} />
+                </Card1ImgContainer>
+              </Frame5053Card2>
+            )}
+            <Frame5053Card1 onClick={() => {
+              methods.jeddAI().then(()=>ClosePopUp())
+            }}>
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
             </Frame5053Card1>
@@ -253,10 +274,10 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
   if (pageMode === 'DRAFT') {
     return (
       <div style={{ position: 'relative' }}>
-        <Buttons2
-          button="Submit"
+        <RectangularBigBtn
+          text={'Submit'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
-        ></Buttons2>
+        />
       </div>
     );
   }
@@ -264,48 +285,43 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     if (isTeacher) {
       return (
         <ButtonsContainer>
-          <Button5
-            button="Request Re-submission"
-            icon={'img/refresh-circle.png'}
+          <RectangularBigBtn
+            leftIcon={'img/refresh-circle.png'}
+            text={'Request Re-submission'}
             onClickFn={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
             }
-          ></Button5>
-          <Buttons2
-            button="Submit"
+          />
+          <RectangularBigBtn
+            text={'Submit'}
             onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
-          ></Buttons2>
+          />
         </ButtonsContainer>
       );
     } else {
       return (
-        <ButtonsContainer>
-          <Buttons2
-            button="Submit"
-            onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
-          ></Buttons2>
-        </ButtonsContainer>
+        <RectangularBigBtn
+          text={'Submit'}
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
+        />
       );
     }
   }
   if (pageMode === 'REVISE') {
     if (submission.status === 'RESUBMISSION_REQUESTED') {
       return (
-        <>
-          <Buttons2
-            button="Submit"
-            onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
-          ></Buttons2>
-        </>
+        <RectangularBigBtn
+          text={'Submit'}
+          onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
+        />
       );
     }
     return (
-      <>
-        <Buttons2
-          button="Mark as complete"
-          onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
-        ></Buttons2>
-      </>
+      <RectangularBigBtn
+        leftIcon={'/img/Tick.svg'}
+        text={'Mark as completed'}
+        onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
+      />
     );
   }
   return <></>;
@@ -379,8 +395,6 @@ export function contextBarForPortfolioDocument(
   const [assignment, setAssignment] = React.useState(submission);
   const inputRef = React.useRef(null);
 
-  console.log('the submission is', submission);
-
   React.useEffect(() => {
     if (submission?.assignment?.title) {
       setInputValue(submission.assignment.title);
@@ -406,9 +420,9 @@ export function contextBarForPortfolioDocument(
               ...old.assignment,
               title: res.title,
             },
-            otherDrafts: old.otherDrafts.map(draft => 
-              draft.submissionId === submission.id 
-                ? { ...draft, title: res.title } 
+            otherDrafts: old.otherDrafts.map((draft) =>
+              draft.submissionId === submission.id
+                ? { ...draft, title: res.title }
                 : draft
             ),
           }));
@@ -422,7 +436,13 @@ export function contextBarForPortfolioDocument(
       });
   };
 
-  console.log('set assignment', assignment);
+  const handleTaskUpdate = (selectedItem) => {
+    console.log('Subjected task', selectedItem)
+  };
+
+  const handleSubjectUpdate = (selectedItem) => {
+    console.log('Subjected subject', selectedItem)
+  };
 
   const handleTitleClick = () => {
     setIsEditing(true);
@@ -437,61 +457,69 @@ export function contextBarForPortfolioDocument(
   }, [isEditing]);
 
   return (
-    <Frame1371 id="assignmentTitle">
-      <TitleWrapper>
-        <TitleContainer>
+    <>
+      {subjectTypeSelection(
+        pageMode,
+        submission,
+        handleTaskUpdate,
+        handleSubjectUpdate
+      )}
+      <Frame1371 id="assignmentTitle">
+        <TitleWrapper>
+          <TitleContainer>
+            {pageMode === 'DRAFT' ? (
+              <QuestionEditInput
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={() => {
+                  updateAssignmentTitle(inputValue);
+                  setIsEditing(false);
+                }}
+              />
+            ) : (
+              <AssignmentTitle
+                style={{ display: 'contents', color: '#A6A6A6' }}
+                dangerouslySetInnerHTML={{
+                  __html: linkify(submission?.assignment?.title),
+                }}
+              />
+            )}
+          </TitleContainer>
           {pageMode === 'DRAFT' ? (
-            <QuestionEditInput
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              onBlur={() => {
-                updateAssignmentTitle(inputValue);
-                setIsEditing(false);
-              }}
-            />
+            <EditTextBox>
+              💬 Use a specific question for more accurate feedback
+            </EditTextBox>
           ) : (
-            <AssignmentTitle
-              style={{ display: 'contents', color: '#A6A6A6' }}
-              dangerouslySetInnerHTML={{
-                __html: linkify(submission?.assignment?.title),
-              }}
-            />
+            showStatusText && statusText(methods, 0, submission)
           )}
-        </TitleContainer>
-        {pageMode === 'DRAFT' ? (
-          <EditTextBox>
-            💬 Use a specific question for more accurate feedback
-          </EditTextBox>
-        ) : (
-          showStatusText && statusText(methods, 0, submission)
-        )}
-      </TitleWrapper>
-      <FeedbackBtnContainer>
-        {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+        </TitleWrapper>
+        <FeedbackBtnContainer>
+          {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
           <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
         )} */}
-        {submitButtonDocument(
-          showSnackbar,
-          isShowSelectType,
-          setShowSelectType,
-          methods,
-          pageMode,
-          submission,
-          setSubmission,
-          feedbackMethodType,
-          handleRequestFeedback,
-          allClasses,
-          showFeedbackButtons,
-          setShowFeedbackButtons,
-          showStudentPopUp,
-          showTeacherPopUp,
-          setShowStudentPopUp,
-          setShowTeacherPopUp
-        )}
-      </FeedbackBtnContainer>
-    </Frame1371>
+          {submitButtonDocument(
+            showSnackbar,
+            isShowSelectType,
+            setShowSelectType,
+            methods,
+            pageMode,
+            submission,
+            setSubmission,
+            feedbackMethodType,
+            handleRequestFeedback,
+            allClasses,
+            showFeedbackButtons,
+            setShowFeedbackButtons,
+            showStudentPopUp,
+            showTeacherPopUp,
+            setShowStudentPopUp,
+            setShowTeacherPopUp
+          )}
+        </FeedbackBtnContainer>
+      </Frame1371>
+    </>
   );
 }
 
@@ -604,13 +632,12 @@ const submitButtonDocument = (
     return (
       <RequestFeedbackFrame
         style={{
-          border: '1px solid #0C8F8F',
           cursor: 'unset',
           minWidth: '100px',
           position: 'relative',
         }}
       >
-        {<img src="/img/messages-green.svg" alt="messages" />}
+        {<img src="/img/messages.png" alt="messages" />}
         {getStatusLabel(
           pageMode,
           submission,
@@ -623,22 +650,39 @@ const submitButtonDocument = (
   }
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return (
-      <RequestFeedbackFrame
+      <RequestFeedbackStatusFrame
         style={{
-          border: '1px solid #0C8F8F',
+          // border: '1px solid #0C8F8F',
           cursor: 'unset',
           minWidth: '100px',
           position: 'relative',
+          background: 'white !important',
+          color: 'black',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          alignItems: 'start',
         }}
       >
-        {<img src="/img/messages-green.svg" alt="messages" />}
-        {getStatusLabel(
-          pageMode,
-          submission,
-          allClasses,
-          setShowFeedbackButtons,
-          showFeedbackButtons
-        )}
+        <div style={{ display: 'flex', gap: '5px' }}>
+          {<Icon24 src="/img/message24.svg"></Icon24>}
+          <Label16pxSmall>
+            Your work is currently awaiting feedback
+          </Label16pxSmall>
+        </div>
+        <ButtonWithImageBeforeText
+          onClick={() =>
+            handleCancelFeedbackRequest(
+              setShowFeedbackButtons,
+              showSnackbar,
+              submission,
+              setSubmission
+            )
+          }
+        >
+          <img src="img/white-cross12.svg" />
+          Cancel Request
+        </ButtonWithImageBeforeText>
         {showFeedbackButtons &&
           dropdownButtons(
             setShowFeedbackButtons,
@@ -646,20 +690,19 @@ const submitButtonDocument = (
             submission,
             setSubmission
           )}
-      </RequestFeedbackFrame>
+      </RequestFeedbackStatusFrame>
     );
   }
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
     return (
       <RequestFeedbackFrame
         style={{
-          border: '1px solid #0C8F8F',
           cursor: 'unset',
           minWidth: '100px',
           position: 'relative',
         }}
       >
-        {<img src="/img/messages-green.svg" alt="messages" />}
+        {<img src="/img/messages.png" alt="messages" />}
         {getStatusLabel(
           pageMode,
           submission,
@@ -794,4 +837,53 @@ function handleCancelFeedbackRequest(
     .finally(() => {
       setShowFeedbackButtons(false);
     });
+}
+
+function subjectTypeSelection(
+  pageMode,
+  submission,
+  handleTaskUpdate,
+  handleSubjectUpdate
+) {
+  console.log('the submission is', submission);
+  const subjectOptions = [{ title: 'English' }];
+  const taskOptions = [
+    { title: 'Analytical' },
+    { title: 'Imaginative' },
+    { title: 'Discursive' },
+    { title: 'Persuasive' },
+    { title: 'Reflective' },
+  ];
+
+  return (
+    <SubjectSelectionContainer>
+      {pageMode === 'DRAFT' ? (
+        <>
+          <SubjectSelectBox>
+            <label>Select Subject</label>
+            <StyledDropDown
+              menuItems={subjectOptions}
+              onItemSelected={(item) => handleSubjectUpdate(item)}
+            ></StyledDropDown>
+          </SubjectSelectBox>
+          <SubjectSelectBox>
+            <label>Task Type</label>
+            <StyledDropDown
+              menuItems={taskOptions}
+              onItemSelected={(item) => handleTaskUpdate(item)}
+            ></StyledDropDown>
+          </SubjectSelectBox>
+        </>
+      ) : (
+        <>
+          <SubjectSelectBox>
+            <label>English</label>
+          </SubjectSelectBox>
+          <SubjectSelectBox>
+            <label>Extended Response</label>
+          </SubjectSelectBox>
+        </>
+      )}
+    </SubjectSelectionContainer>
+  );
 }

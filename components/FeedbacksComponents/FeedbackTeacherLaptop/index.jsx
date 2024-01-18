@@ -14,7 +14,6 @@ import Breadcrumb2 from '../Breadcrumb2';
 import './FeedbackTeacherLaptop.css';
 import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import {
   Frame1315,
   Frame1368,
@@ -32,7 +31,7 @@ import {
   GoBackBtn,
   ImgContainer,
 } from './style';
-import { isMobileView } from '../../ReactiveRender';
+import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
@@ -85,13 +84,14 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   console.log('Main ', classesAndStudents);
   const isMobile = isMobileView();
+  const isDesktop = isDesktopView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
-  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
+  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
@@ -283,6 +283,7 @@ function FeedbackTeacherLaptop(props) {
           </>
           <Frame1388
             mobileView={isMobile}
+            desktopView={isDesktop}
             drawerWidth={drawerWidth}
             open={open}
           >
@@ -470,7 +471,6 @@ function answersAndFeedbacks(
           Go Back
         </GoBackBtn>
       )} */}
-      {subjectTypeSelection(pageMode, submission)}
       {createContextBar(
         submission,
         setSubmission,
@@ -529,50 +529,6 @@ function answersAndFeedbacks(
         )}
       </Frame1368>
     </Frame1386>
-  );
-}
-
-function subjectTypeSelection(pageMood, submission) {
-  console.log('the submission is', submission);
-  const subjectOptions = [{title: 'English'}];
-  const taskOptions = [
-    {title: 'Analytical'},
-    {title: 'Imaginative'},
-    {title: 'Discursive'},
-    {title: 'Persuasive'},
-    {title: 'Reflective'},
-  ];
-  return (
-    <SubjectSelectionContainer>
-      {pageMood === 'DRAFT' ? (
-        <>
-          <SubSelcetBox>
-            <label>Select Subject</label>
-            {/* <select>
-              {subjectOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select> */}
-            <StyledDropDown menuItems={subjectOptions}></StyledDropDown>
-          </SubSelcetBox>
-          <SubSelcetBox>
-            <label>Task Type</label>
-            <StyledDropDown menuItems={taskOptions}></StyledDropDown>
-          </SubSelcetBox>
-        </>
-      ) : (
-        <>
-          <SubSelcetBox>
-            <label>English</label>
-          </SubSelcetBox>
-          <SubSelcetBox>
-            <label>Extended Response</label>
-          </SubSelcetBox>
-        </>
-      )}
-    </SubjectSelectionContainer>
   );
 }
 

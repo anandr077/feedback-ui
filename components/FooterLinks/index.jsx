@@ -20,6 +20,7 @@ function FooterLinks() {
 
 const FooterLinksContainer = styled.div`
   ${IbmplexsansNormalPersianIndigo13px}
+  font-size: var(--font-size-s);
   display: flex;
   width: fit-content;
   align-items: flex-start;

@@ -39,7 +39,8 @@ export const SidebarContainer = styled.div`
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
   );
   transition: transform 0.3s ease-in;
-  /* height: 100vh; */
+  height: calc(100vh - 80px);
+  overflow-y: scroll;
   /* height: calc(100vh); */
   overflow: scroll;
   ::-webkit-scrollbar {
@@ -47,7 +48,6 @@ export const SidebarContainer = styled.div`
   }
   position: fixed;
   z-index: 9;
-  
 `;
 
 // width: ${props => (props.isOpen ? '300' : '200')};
@@ -279,41 +279,21 @@ export const DrawerQuestion = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: 0.3s ease-in;
   cursor: pointer;
 
   &:hover {
     background: ${(props) =>
       props.studentStyle ? 'var(--royal-purple)' : '#dbd9d9'};
+    white-space: normal;
 
     ${OverflowShadow} {
-      background: ${(props) =>
-        props.studentStyle
-          ? 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, var(--royal-purple) 60%, var(--royal-purple) 100%)'
-          : 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%)'};
+      display: none;
     }
   }
 
   &:hover .tooltip-text {
     visibility: visible;
-  }
-
-  .tooltip-text {
-    visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.75);
-    color: #fff;
-    text-align: center;
-    border-radius: 4px;
-    padding: 4px;
-    position: absolute;
-    width: 100%;
-    white-space: break-spaces;
-    z-index: 100;
-    bottom: 105%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    //white-space: nowrap;
-    font-family: 'IBM Plex Sans', Helvetica;
   }
 `;
 

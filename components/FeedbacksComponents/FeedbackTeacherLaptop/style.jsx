@@ -69,16 +69,20 @@ export const Label = styled.div`
   line-height: normal;
 `;
 export const TitleWrapper = styled.div`
+  width: 880px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
+  flex: 1;
   position: relative;
   margin-top: -1px;
   letter-spacing: -0.9px;
   line-height: normal;
   gap: 10px;
 `;
+
+export const ButtonContainer = styled.div`
+  width: 30%;
+`
 
 export const TitleContainer = styled.div`
   display: flex;
@@ -104,7 +108,7 @@ export const FeedbackBtnContainer = styled.div`
   /* display: flex;
   flex-direction: column;
   gap: 15px; */
-  width: 413px;
+  width: 30%;
 `;
 
 export const StatusText = styled.div`
@@ -207,8 +211,7 @@ export const Frame1388 = styled.div`
     ${(props) => (props.open ? `0.75,1` : '1')}
   ); */
   transform: ${(props) =>
-    props.open ? `translateX(170px) ` : `translateX(0px) `};
-
+    props.open ? 'translateX(170px)' : 'translateX(0px)'};
   /* transform: ${(props) =>
     props.open
       ? `translateX(calc(-50% + ${props.drawerWidth}px))`
@@ -223,7 +226,8 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width: ${(props) => (props.open ? '1100px' : '1300px')};
+  max-width: ${(props) =>
+    props.open ? '1100px' : '1300px'};
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {
@@ -231,6 +235,10 @@ export const Frame1388 = styled.div`
   }
   scrollbar-width: none;
   background: var(--white-pointer);
+
+  @media (min-width: 1600px) {
+    max-width: 1300px;
+  }
 `;
 
 export const DrawerArrowContainer = styled.div`
@@ -365,6 +373,7 @@ export const Frame1371 = styled.div`
   padding: 20px 0;
   background-color: var(--white-pointer);
   width: 100%;
+
   @media screen and (max-width: 1024px) and (min-width: 766px) {
     gap: 40px;
   }
@@ -375,6 +384,7 @@ export const Frame1371 = styled.div`
     flex-wrap: wrap;
   }
 `;
+
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
@@ -390,6 +400,7 @@ export const AssignmentTitle = styled.h1`
 export const QuestionEditInput = styled.input`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
+  color: var(--text);
   font-weight: 400;
   line-height: 20px;
   font-style: normal;
@@ -417,7 +428,7 @@ export const Group1225 = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  width: 70%;
+  width: 880px;
   min-height: 650px;
 `;
 export const Frame1367 = styled.div`
@@ -482,7 +493,7 @@ export const QuillContainer = styled.p`
 export const Frame1331 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 413px;
+  width: 30%;
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
@@ -621,7 +632,30 @@ export const SelectFeedbackMethodType = styled.div`
   }
 `;
 
-export const RequestFeedbackFrame = styled.div`
+export const Icon24 = styled.img`
+`;
+export const MessageIcon24 = <Icon24 src="/img/message24.svg"></Icon24>
+
+export const ButtonWithImageBeforeText = styled.button`
+  
+  background-color: var(--light-mode-purple);
+  color: var(--white);
+  border-radius: 24px;
+  padding: 8px 16px;
+  border: 1px solid var(--light-mode-purple);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:5px;
+`;
+
+export const Label16pxSmall = styled.div`
+  font-size:16px;
+  font-weight:400;
+  font-family: IBM Plex Sans;
+`;
+
+export const RequestFeedbackStatusFrame = styled.div`
   cursor: pointer;
   display: flex;
   padding: 20px 16px;
@@ -636,13 +670,41 @@ export const RequestFeedbackFrame = styled.div`
   font-weight: 500;
   line-height: normal;
   width: 100%;
-  background-color: var(--Light-Mode-Purple) !important;
+  background-color: var(--white) !important;
+
+
+  
+  gap: 5px;
+  align-items: center;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
+  padding: 20px 30px;
+  border-radius: 8px;
+`;
+
+export const RequestFeedbackFrame = styled.div`
+  cursor: pointer;
+  display: flex;
+  padding: 20px 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  color: white;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 12px;
+  width: 100%;
+  background-color: var(--light-mode-purple) !important;
 `;
 
 export const RequestFeedbackDropdown = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
 `;
 
 export const IconContainer = styled.img`
@@ -713,7 +775,7 @@ export const SubjectSelectionContainer = styled.div`
   gap: 30px;
 `;
 
-export const SubSelcetBox = styled.div`
+export const SubjectSelectBox = styled.div`
   border-right: 1px solid #d6d6d6;
   padding-right: 30px;
   display: flex;
@@ -797,6 +859,8 @@ export const Frame5053 = styled.div`
 export const Frame5053Card1 = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   padding: 30px;
   border-radius: 8px;
   border: 1px;
@@ -837,6 +901,7 @@ export const Frame5053Card2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 30px;
   border-radius: 8px;
   border: 1px;

@@ -21,7 +21,6 @@ import PortfolioPage from './components/PortfolioPage';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
 
 import GiveFeedback from './components/GiveFeedback';
 import Cookies from 'js-cookie';

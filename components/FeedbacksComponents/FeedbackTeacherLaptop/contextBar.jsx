@@ -73,7 +73,7 @@ import profileCircle from '../../../static/img/profile-circle.svg';
 import Teacher from '../../../static/img/Teacher.svg';
 import questionmark from '../../../static/img/question-mark.svg';
 import people from '../../../static/img/people.svg';
-import messages from '../../../static/img/messages.svg';
+import messages from '../../../static/img/messages-2.svg';
 import closecircle from '../../../static/img/closecircle.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
 import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';

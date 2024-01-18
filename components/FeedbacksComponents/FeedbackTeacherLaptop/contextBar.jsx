@@ -25,7 +25,9 @@ import {
   Label16pxSmall,
   MessageIcon24,
   Icon24,
-  ButtonWithImageBeforeText
+  ButtonWithImageBeforeText,
+  SubjectSelectionContainer,
+  SubSelcetBox
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -76,6 +78,7 @@ import rightarrow from '../../../static/img/Vector13.svg';
 import RequestFeedbackPopUp from '../../../components2/RequestFeedbackPopUp';
 import _ from 'lodash';
 import { sub } from 'date-fns';
+import StyledDropDown from '../../../components2/StyledDropDown';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -443,9 +446,13 @@ export function contextBarForPortfolioDocument(
   }, [isEditing]);
 
   return (
+    <>
+    {subjectTypeSelection(pageMode, submission)}
     <Frame1371 id="assignmentTitle">
+      
       <TitleWrapper>
         <TitleContainer>
+          
           {pageMode === 'DRAFT' ? (
             <QuestionEditInput
               ref={inputRef}
@@ -498,6 +505,7 @@ export function contextBarForPortfolioDocument(
         )}
       </FeedbackBtnContainer>
     </Frame1371>
+    </>
   );
 }
 
@@ -810,4 +818,51 @@ function handleCancelFeedbackRequest(
     .finally(() => {
       setShowFeedbackButtons(false);
     });
+}
+
+
+function subjectTypeSelection(pageMode, submission) {
+  
+  console.log('the submission is', submission);
+  const subjectOptions = [{title: 'English'}];
+  const taskOptions = [
+    {title: 'Analytical'},
+    {title: 'Imaginative'},
+    {title: 'Discursive'},
+    {title: 'Persuasive'},
+    {title: 'Reflective'},
+  ];
+
+  return (
+    <SubjectSelectionContainer>
+      {pageMode === 'DRAFT' ? (
+        <>
+          <SubSelcetBox>
+            <label>Select Subject</label>
+            {/* <select>
+              {subjectOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select> */}
+            <StyledDropDown menuItems={subjectOptions}></StyledDropDown>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Task Type</label>
+            <StyledDropDown menuItems={taskOptions}></StyledDropDown>
+          </SubSelcetBox>
+        </>
+      ) : (
+        <>
+          <SubSelcetBox>
+            <label>English</label>
+          </SubSelcetBox>
+          <SubSelcetBox>
+            <label>Extended Response</label>
+          </SubSelcetBox>
+        </>
+      )}
+    </SubjectSelectionContainer>
+  );
 }

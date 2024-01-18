@@ -469,7 +469,6 @@ function answersAndFeedbacks(
           Go Back
         </GoBackBtn>
       )} */}
-      {subjectTypeSelection(pageMode, submission)}
       {createContextBar(
         submission,
         setSubmission,
@@ -528,50 +527,6 @@ function answersAndFeedbacks(
         )}
       </Frame1368>
     </Frame1386>
-  );
-}
-
-function subjectTypeSelection(pageMood, submission) {
-  console.log('the submission is', submission);
-  const subjectOptions = [{title: 'English'}];
-  const taskOptions = [
-    {title: 'Analytical'},
-    {title: 'Imaginative'},
-    {title: 'Discursive'},
-    {title: 'Persuasive'},
-    {title: 'Reflective'},
-  ];
-  return (
-    <SubjectSelectionContainer>
-      {pageMood === 'DRAFT' ? (
-        <>
-          <SubSelcetBox>
-            <label>Select Subject</label>
-            {/* <select>
-              {subjectOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select> */}
-            <StyledDropDown menuItems={subjectOptions}></StyledDropDown>
-          </SubSelcetBox>
-          <SubSelcetBox>
-            <label>Task Type</label>
-            <StyledDropDown menuItems={taskOptions}></StyledDropDown>
-          </SubSelcetBox>
-        </>
-      ) : (
-        <>
-          <SubSelcetBox>
-            <label>English</label>
-          </SubSelcetBox>
-          <SubSelcetBox>
-            <label>Extended Response</label>
-          </SubSelcetBox>
-        </>
-      )}
-    </SubjectSelectionContainer>
   );
 }
 

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const MainContainer = styled.div`
   align-items: center;
@@ -543,16 +543,35 @@ export const PopupContainer = styled.div`
   border-radius: 12px;
 `;
 //
+
+const fadeIn = keyframes`
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+`;
 export const TaskContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding: 20px;
   border-radius: 16px;
-  border: 1px;
   gap: 10px;
   border: 1px solid #7200e01a;
   background: #ffffff;
   cursor: pointer;
+  box-shadow: 0px 4px 16px 0px #7200e01a;
+  transition: background 2s ease-in 1s;
+
+  :hover {
+    background: linear-gradient(
+        0deg,
+        rgba(114, 0, 224, 0.1),
+        rgba(114, 0, 224, 0.1)
+      ),
+      linear-gradient(0deg, #ffffff, #ffffff);
+  }
 `;
 export const DataContainer = styled.div`
   display: flex;

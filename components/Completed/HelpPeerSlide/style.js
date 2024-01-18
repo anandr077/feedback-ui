@@ -43,11 +43,11 @@ export const SlideContainer = styled.div`
 export const FirstSlide = styled.div`
   position: absolute;
   width: 100%;
-  height: 70%;
+  height: 100%;
   top: 30px;
   transition: transform 0.3s ease-in;
   transform: translateX(${(props) => (props.animate ? '100%' : '0')});
-  z-index: 2;
+  z-index: 20;
 `;
 
 export const SecondSlide = styled.div`
@@ -59,7 +59,6 @@ export const SecondSlide = styled.div`
   background-color: var(--white);
   height: 95%;
   z-index: 1;
-  border: 1px solid rgba(114, 0, 224, 0.1);
   border-radius: 15px;
   box-shadow: 0px 3.826px 15.304px 0px rgba(114, 0, 224, 0.1);
 `;
@@ -70,12 +69,13 @@ export const ThirdSlide = styled.div`
   left: 50%;
   transform: translateX(-50%);
   width: 94%;
-  height: 95%;
+  height: 100%;
   z-index: 0;
   border: 1px solid rgba(114, 0, 224, 0.1);
   border-radius: 15px;
   background-color: var(--white);
   box-shadow: 0px 3.826px 15.304px 0px rgba(114, 0, 224, 0.1);
+  overflow: hidden;
 `;
 
 export const SlideDots = styled.div`

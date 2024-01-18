@@ -400,6 +400,7 @@ export const AssignmentTitle = styled.h1`
 export const QuestionEditInput = styled.input`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
+  color: var(--text);
   font-weight: 400;
   line-height: 20px;
   font-style: normal;
@@ -774,7 +775,7 @@ export const SubjectSelectionContainer = styled.div`
   gap: 30px;
 `;
 
-export const SubSelcetBox = styled.div`
+export const SubjectSelectBox = styled.div`
   border-right: 1px solid #d6d6d6;
   padding-right: 30px;
   display: flex;

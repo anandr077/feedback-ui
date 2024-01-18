@@ -28,7 +28,7 @@ import {
   Icon24,
   ButtonWithImageBeforeText,
   SubjectSelectionContainer,
-  SubSelcetBox
+  SubjectSelectBox,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -395,8 +395,6 @@ export function contextBarForPortfolioDocument(
   const [assignment, setAssignment] = React.useState(submission);
   const inputRef = React.useRef(null);
 
-  console.log('the submission is', submission);
-
   React.useEffect(() => {
     if (submission?.assignment?.title) {
       setInputValue(submission.assignment.title);
@@ -438,7 +436,13 @@ export function contextBarForPortfolioDocument(
       });
   };
 
-  console.log('set assignment', assignment);
+  const handleTaskUpdate = (selectedItem) => {
+    console.log('Subjected task', selectedItem)
+  };
+
+  const handleSubjectUpdate = (selectedItem) => {
+    console.log('Subjected subject', selectedItem)
+  };
 
   const handleTitleClick = () => {
     setIsEditing(true);
@@ -454,64 +458,67 @@ export function contextBarForPortfolioDocument(
 
   return (
     <>
-    {subjectTypeSelection(pageMode, submission)}
-    <Frame1371 id="assignmentTitle">
-      
-      <TitleWrapper>
-        <TitleContainer>
-          
+      {subjectTypeSelection(
+        pageMode,
+        submission,
+        handleTaskUpdate,
+        handleSubjectUpdate
+      )}
+      <Frame1371 id="assignmentTitle">
+        <TitleWrapper>
+          <TitleContainer>
+            {pageMode === 'DRAFT' ? (
+              <QuestionEditInput
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={() => {
+                  updateAssignmentTitle(inputValue);
+                  setIsEditing(false);
+                }}
+              />
+            ) : (
+              <AssignmentTitle
+                style={{ display: 'contents', color: '#A6A6A6' }}
+                dangerouslySetInnerHTML={{
+                  __html: linkify(submission?.assignment?.title),
+                }}
+              />
+            )}
+          </TitleContainer>
           {pageMode === 'DRAFT' ? (
-            <QuestionEditInput
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              onBlur={() => {
-                updateAssignmentTitle(inputValue);
-                setIsEditing(false);
-              }}
-            />
+            <EditTextBox>
+              💬 Use a specific question for more accurate feedback
+            </EditTextBox>
           ) : (
-            <AssignmentTitle
-              style={{ display: 'contents', color: '#A6A6A6' }}
-              dangerouslySetInnerHTML={{
-                __html: linkify(submission?.assignment?.title),
-              }}
-            />
+            showStatusText && statusText(methods, 0, submission)
           )}
-        </TitleContainer>
-        {pageMode === 'DRAFT' ? (
-          <EditTextBox>
-            💬 Use a specific question for more accurate feedback
-          </EditTextBox>
-        ) : (
-          showStatusText && statusText(methods, 0, submission)
-        )}
-      </TitleWrapper>
-      <FeedbackBtnContainer>
-        {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
+        </TitleWrapper>
+        <FeedbackBtnContainer>
+          {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
           <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
         )} */}
-        {submitButtonDocument(
-          showSnackbar,
-          isShowSelectType,
-          setShowSelectType,
-          methods,
-          pageMode,
-          submission,
-          setSubmission,
-          feedbackMethodType,
-          handleRequestFeedback,
-          allClasses,
-          showFeedbackButtons,
-          setShowFeedbackButtons,
-          showStudentPopUp,
-          showTeacherPopUp,
-          setShowStudentPopUp,
-          setShowTeacherPopUp
-        )}
-      </FeedbackBtnContainer>
-    </Frame1371>
+          {submitButtonDocument(
+            showSnackbar,
+            isShowSelectType,
+            setShowSelectType,
+            methods,
+            pageMode,
+            submission,
+            setSubmission,
+            feedbackMethodType,
+            handleRequestFeedback,
+            allClasses,
+            showFeedbackButtons,
+            setShowFeedbackButtons,
+            showStudentPopUp,
+            showTeacherPopUp,
+            setShowStudentPopUp,
+            setShowTeacherPopUp
+          )}
+        </FeedbackBtnContainer>
+      </Frame1371>
     </>
   );
 }
@@ -832,47 +839,49 @@ function handleCancelFeedbackRequest(
     });
 }
 
-
-function subjectTypeSelection(pageMode, submission) {
-  
+function subjectTypeSelection(
+  pageMode,
+  submission,
+  handleTaskUpdate,
+  handleSubjectUpdate
+) {
   console.log('the submission is', submission);
-  const subjectOptions = [{title: 'English'}];
+  const subjectOptions = [{ title: 'English' }];
   const taskOptions = [
-    {title: 'Analytical'},
-    {title: 'Imaginative'},
-    {title: 'Discursive'},
-    {title: 'Persuasive'},
-    {title: 'Reflective'},
+    { title: 'Analytical' },
+    { title: 'Imaginative' },
+    { title: 'Discursive' },
+    { title: 'Persuasive' },
+    { title: 'Reflective' },
   ];
 
   return (
     <SubjectSelectionContainer>
       {pageMode === 'DRAFT' ? (
         <>
-          <SubSelcetBox>
+          <SubjectSelectBox>
             <label>Select Subject</label>
-            {/* <select>
-              {subjectOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select> */}
-            <StyledDropDown menuItems={subjectOptions}></StyledDropDown>
-          </SubSelcetBox>
-          <SubSelcetBox>
+            <StyledDropDown
+              menuItems={subjectOptions}
+              onItemSelected={(item) => handleSubjectUpdate(item)}
+            ></StyledDropDown>
+          </SubjectSelectBox>
+          <SubjectSelectBox>
             <label>Task Type</label>
-            <StyledDropDown menuItems={taskOptions}></StyledDropDown>
-          </SubSelcetBox>
+            <StyledDropDown
+              menuItems={taskOptions}
+              onItemSelected={(item) => handleTaskUpdate(item)}
+            ></StyledDropDown>
+          </SubjectSelectBox>
         </>
       ) : (
         <>
-          <SubSelcetBox>
+          <SubjectSelectBox>
             <label>English</label>
-          </SubSelcetBox>
-          <SubSelcetBox>
+          </SubjectSelectBox>
+          <SubjectSelectBox>
             <label>Extended Response</label>
-          </SubSelcetBox>
+          </SubjectSelectBox>
         </>
       )}
     </SubjectSelectionContainer>

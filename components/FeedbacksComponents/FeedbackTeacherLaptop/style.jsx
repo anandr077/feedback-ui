@@ -699,7 +699,7 @@ export const RequestFeedbackFrame = styled.div`
   line-height: normal;
   border-radius: 12px;
   width: 100%;
-  background-color: var(--light-mode-purple) !important;
+  background-color: var(--light-mode-purple);
 `;
 
 export const RequestFeedbackDropdown = styled.div`

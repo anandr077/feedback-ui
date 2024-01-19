@@ -81,7 +81,7 @@ export const TitleWrapper = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  width: 30%;
+  // width: 30%;
 `
 
 export const TitleContainer = styled.div`

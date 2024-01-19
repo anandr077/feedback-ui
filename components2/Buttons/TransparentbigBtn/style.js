@@ -8,15 +8,14 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   gap: 8px;
   border: none;
-  border-radius: 30px;
-  color: white;
+  width: 238px;
+`;
+export const ButtonText = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
-  font-style: normal;
   font-weight: 500;
   line-height: 21px;
-  background-color: var(--light-mode-purple);
-  :hover {
-    background: #3f007b;
-  }
+  letter-spacing: 0em;
+  text-align: center;
+  color: #a02c2c;
 `;

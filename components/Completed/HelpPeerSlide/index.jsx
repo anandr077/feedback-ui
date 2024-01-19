@@ -41,11 +41,13 @@ const HelpPeerSlide = (props) => {
     return <></>;
   }
 
+  const nextTask = requireAction.length > currentSlide + 1 ? requireAction[currentSlide + 1] : null;
+
   const tasksFrames = requireAction.map((task, idx) => {
     return (
       <SlideContainer key={task.id}>
-        {idx === currentSlide && idx < requireAction.length - 1 && (
-          <SecondSlide key={`next_${requireAction[idx + 1].id}`}>
+        {nextTask  && (
+          <SecondSlide key={`${nextTask.id}`}>
             <div
               style={{
                 width: '100%',
@@ -54,10 +56,10 @@ const HelpPeerSlide = (props) => {
               }}
             >
               <TaskCard
-                key={requireAction[idx + 1].id}
-                task={requireAction[idx + 1]}
+                key={nextTask.id}
+                task={nextTask}
                 exemplar={exemplar}
-                isSelected={requireAction[idx + 1].id === props.id}
+                isSelected={nextTask.id === props.id}
                 setPublishActionCompleted={setPublishActionCompleted}
               />
             </div>
@@ -98,7 +100,7 @@ const HelpPeerSlide = (props) => {
       <SlideDots mobileView={mobileView}>
         {currentSlide < requireAction.length - 1 &&
           requireAction
-            .slice(0, -1)
+            .slice(0, 5)
             .map((task, index) => (
               <Dot key={task.id} isActive={index === currentSlide} />
             ))}

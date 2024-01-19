@@ -33,6 +33,7 @@ export const Slider = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const SlideContainer = styled.div`
@@ -47,7 +48,7 @@ export const FirstSlide = styled.div`
   top: 30px;
   transition: transform 0.3s ease-in;
   transform: translateX(${(props) => (props.animate ? '100%' : '0')});
-  z-index: 20;
+  z-index: 2;
 `;
 
 export const SecondSlide = styled.div`

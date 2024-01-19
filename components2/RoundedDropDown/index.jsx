@@ -20,6 +20,7 @@ export default function RoundedDropDown({
   selectedIndex,
   fullWidth = false,
   type,
+  width = 120,
 }) {
   const [value, setValue] = React.useState(defaultValue);
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -43,7 +44,9 @@ export default function RoundedDropDown({
   return (
     <FormControl
       fullWidth={fullWidth}
-      sx={!fullWidth ? { minWidth: Math.max(120, maxLength.length * 11) } : {}}
+      sx={
+        !fullWidth ? { minWidth: Math.max(width, maxLength.length * 12) } : {}
+      }
     >
       <StyledSelect
         MenuProps={{

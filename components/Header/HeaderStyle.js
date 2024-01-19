@@ -109,8 +109,7 @@ export const Frame1344 = styled.div`
   align-items: center;
   gap: 20px;
   padding: 13px 30px;
-  height: 80px;
-  top: 0;
+  height: 70px;
   z-index: 100;
   position: sticky;
   align-self: stretch;
@@ -170,12 +169,15 @@ export const IconContainer = styled.img`
 `;
 
 export const ButtonText = styled.div`
-  color: var(--royal-purple);
+  ${IbmplexsansNormalPersianIndigo20px}
+  height: 26px;
+  /* color: var(--royal-purple);
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-style: normal;
   font-size: var(--font-size-xl);
   line-height: 26px;
+   */
   letter-spacing: 0;
   line-height: normal;
   display: flex;
@@ -183,13 +185,16 @@ export const ButtonText = styled.div`
 `;
 
 export const SelectedButtonText = styled.div`
-  color: var(--white);
+  ${IbmplexsansNormalWhite20px}
+  height: 26px;
+  /* color: var(--white);
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
   font-weight: 400;
   font-style: normal;
-  line-height: 26px;
+  line-height: 26px; */
   letter-spacing: 0;
+  line-height: normal;
   display: flex;
   align-items: center;
 `;

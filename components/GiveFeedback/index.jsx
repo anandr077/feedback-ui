@@ -313,24 +313,28 @@ function GiveFeedback() {
                       type={'state'}
                       selectedIndex={setSelectedValue}
                       menuItems={statesData}
+                      width={90}
                     />
                     <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={yearsData}
                       type={'year'}
+                      width={90}
                     />
                     <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={subjectData}
                       type={'subject'}
+                      width={110}
                     />
                     <RoundedDropDown
                       search={false}
                       selectedIndex={setSelectedValue}
                       menuItems={taskTypeData}
                       type={'documentType'}
+                      width={130}
                     />
                   </>
                 ) : (

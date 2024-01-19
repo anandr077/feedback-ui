@@ -180,7 +180,7 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
-    console.log("Closing")
+    console.log('Closing');
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -258,9 +258,11 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            <Frame5053Card1 onClick={() => {
-              methods.jeddAI().then(()=>ClosePopUp())
-            }}>
+            <Frame5053Card1
+              onClick={() => {
+                methods.jeddAI().then(() => ClosePopUp());
+              }}
+            >
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
             </Frame5053Card1>
@@ -437,11 +439,11 @@ export function contextBarForPortfolioDocument(
   };
 
   const handleTaskUpdate = (selectedItem) => {
-    console.log('Subjected task', selectedItem)
+    console.log('Subjected task', selectedItem);
   };
 
   const handleSubjectUpdate = (selectedItem) => {
-    console.log('Subjected subject', selectedItem)
+    console.log('Subjected subject', selectedItem);
   };
 
   const handleTitleClick = () => {
@@ -455,6 +457,19 @@ export function contextBarForPortfolioDocument(
       input.setSelectionRange(input.value.length, input.value.length);
     }
   }, [isEditing]);
+
+  const autoResize = () => {
+    if (inputRef.current) {
+      inputRef.current.style.height = '20px';
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+    }
+  };
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      autoResize();
+    }, 0);
+  }, []);
 
   return (
     <>
@@ -472,7 +487,11 @@ export function contextBarForPortfolioDocument(
                 ref={inputRef}
                 type="text"
                 value={inputValue}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  autoResize(e);
+                }}
+                style={{ overflow: 'hidden' }}
                 onBlur={() => {
                   updateAssignmentTitle(inputValue);
                   setIsEditing(false);

@@ -82,6 +82,7 @@ import _ from 'lodash';
 import { sub } from 'date-fns';
 import RectangularBigBtn from '../../../components2/Buttons/RectangularbigBtn';
 import StyledDropDown from '../../../components2/StyledDropDown';
+import TransparentbigBtn from '../../../components2/Buttons/TransparentbigBtn';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -288,7 +289,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     if (isTeacher) {
       return (
         <ButtonsContainer>
-          <RectangularBigBtn
+          <TransparentbigBtn
             leftIcon={'img/refresh-circle.png'}
             text={'Request Re-submission'}
             onClickFn={() =>

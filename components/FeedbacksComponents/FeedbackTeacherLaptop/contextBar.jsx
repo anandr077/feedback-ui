@@ -180,7 +180,7 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
-    console.log("Closing")
+    console.log('Closing');
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -258,9 +258,11 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            <Frame5053Card1 onClick={() => {
-              methods.jeddAI().then(()=>ClosePopUp())
-            }}>
+            <Frame5053Card1
+              onClick={() => {
+                methods.jeddAI().then(() => ClosePopUp());
+              }}
+            >
               <Frame5053Card1Img src={ai} />
               <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
             </Frame5053Card1>
@@ -437,11 +439,11 @@ export function contextBarForPortfolioDocument(
   };
 
   const handleTaskUpdate = (selectedItem) => {
-    console.log('Subjected task', selectedItem)
+    console.log('Subjected task', selectedItem);
   };
 
   const handleSubjectUpdate = (selectedItem) => {
-    console.log('Subjected subject', selectedItem)
+    console.log('Subjected subject', selectedItem);
   };
 
   const handleTitleClick = () => {
@@ -694,29 +696,63 @@ const submitButtonDocument = (
     );
   }
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
+    if (submission.feedbackRequestType === 'JEDDAI') {
+      return (
+        <RequestFeedbackFrame
+          style={{
+            cursor: 'unset',
+            minWidth: '100px',
+            whiteSpace: 'nowrap',
+            position: 'relative',
+            background: 'white !important',
+            color: 'black',
+            display: 'flex',
+            gap: '10px',
+          }}
+        >
+          {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
+          <Label16pxSmall>JEDDAI is working on your feedback</Label16pxSmall>
+        </RequestFeedbackFrame>
+      );
+    }
     return (
+      // <RequestFeedbackFrame
+      //   style={{
+      //     cursor: 'unset',
+      //     minWidth: '100px',
+      //     position: 'relative',
+      //   }}
+      // >
+      //   {<img src="/img/messages.png" alt="messages" />}
+      //   {getStatusLabel(
+      //     pageMode,
+      //     submission,
+      //     allClasses,
+      //     setShowFeedbackButtons,
+      //     showFeedbackButtons
+      //   )}
+      //   {showFeedbackButtons &&
+      //     dropdownButtons(
+      //       setShowFeedbackButtons,
+      //       showSnackbar,
+      //       submission,
+      //       setSubmission
+      //     )}
+      // </RequestFeedbackFrame>
       <RequestFeedbackFrame
         style={{
           cursor: 'unset',
           minWidth: '100px',
+          whiteSpace: 'nowrap',
           position: 'relative',
+          background: 'white !important',
+          color: 'black',
+          display: 'flex',
+          gap: '10px',
         }}
       >
-        {<img src="/img/messages.png" alt="messages" />}
-        {getStatusLabel(
-          pageMode,
-          submission,
-          allClasses,
-          setShowFeedbackButtons,
-          showFeedbackButtons
-        )}
-        {showFeedbackButtons &&
-          dropdownButtons(
-            setShowFeedbackButtons,
-            showSnackbar,
-            submission,
-            setSubmission
-          )}
+        {<Icon24 src="/img/message24.svg"></Icon24>}
+        <Label16pxSmall>Someone is working on your feedback</Label16pxSmall>
       </RequestFeedbackFrame>
     );
   }

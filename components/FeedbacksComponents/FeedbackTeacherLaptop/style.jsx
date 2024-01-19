@@ -699,9 +699,27 @@ export const RequestFeedbackFrame = styled.div`
   line-height: normal;
   border-radius: 12px;
   width: 100%;
-  background-color: var(--light-mode-purple);
+  background-color: var(--white) !important;
 `;
 
+export const RequestFeedbackButton = styled.div`
+  cursor: pointer;
+  display: flex;
+  padding: 20px 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  color: white;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 12px;
+  width: 100%;
+  background-color: var(--light-mode-purple) !important;
+`;
 export const RequestFeedbackDropdown = styled.div`
   display: flex;
   justify-content: space-between;

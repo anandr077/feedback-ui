@@ -29,6 +29,7 @@ import {
   ButtonWithImageBeforeText,
   SubjectSelectionContainer,
   SubjectSelectBox,
+  RequestFeedbackButton,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -164,7 +165,7 @@ const selectReviewType = (
     }).then((response) => {
       console.log('Response', response);
       console.log('Done ', setSubmission);
-
+      ClosePopUp();
       setSubmission((old) => ({
         ...old,
         status: response.status,
@@ -604,15 +605,15 @@ const submitButtonDocument = (
                 setShowStudentPopUp,
                 setShowTeacherPopUp
               )}
-              <RequestFeedbackFrame
+              <RequestFeedbackButton
                 onClick={(event) => {
                   event.stopPropagation();
-                  setShowSelectType(!isShowSelectType);
+                  setShowSelectType(true);
                 }}
               >
                 {<img src="/img/messages.png" alt="message" />}
                 Request Feedback
-              </RequestFeedbackFrame>
+              </RequestFeedbackButton>
             </>
           }
         </div>

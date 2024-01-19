@@ -24,6 +24,9 @@ export function extractStudents(tasksResult) {
 }
 
 export function getPageMode(isTeacher, user, submission) {
+  if (submission.type === 'DOCUMENT') {
+    return getPortfolioPageMode(user, submission);
+  }
   if (isTeacher) return getTeacherPageMode(submission);
   return getStudentPageMode(user, submission);
 }

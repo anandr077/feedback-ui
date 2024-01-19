@@ -79,12 +79,10 @@ export default function DocumentRoot({}) {
   // Fetch functions
   const fetchSubmissionData = async () => {
     if (id === undefined || id === null) {
-      alert("adding")
       const doc = await addDocumentToPortfolioWithDetails({
         title:"New draft",
         subject:"English"
       })
-      alert("added" + doc.id)
       window.location.href = `#documents/${doc.id}`;
       id = doc.id
     }

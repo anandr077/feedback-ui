@@ -29,6 +29,7 @@ import {
   ButtonWithImageBeforeText,
   SubjectSelectionContainer,
   SubjectSelectBox,
+  RequestFeedbackButton,
 } from './style';
 import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
@@ -164,7 +165,7 @@ const selectReviewType = (
     }).then((response) => {
       console.log('Response', response);
       console.log('Done ', setSubmission);
-
+      ClosePopUp();
       setSubmission((old) => ({
         ...old,
         status: response.status,
@@ -621,15 +622,15 @@ const submitButtonDocument = (
                 setShowStudentPopUp,
                 setShowTeacherPopUp
               )}
-              <RequestFeedbackFrame
+              <RequestFeedbackButton
                 onClick={(event) => {
                   event.stopPropagation();
-                  setShowSelectType(!isShowSelectType);
+                  setShowSelectType(true);
                 }}
               >
                 {<img src="/img/messages.png" alt="message" />}
                 Request Feedback
-              </RequestFeedbackFrame>
+              </RequestFeedbackButton>
             </>
           }
         </div>
@@ -713,29 +714,63 @@ const submitButtonDocument = (
     );
   }
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
+    if (submission.feedbackRequestType === 'JEDDAI') {
+      return (
+        <RequestFeedbackFrame
+          style={{
+            cursor: 'unset',
+            minWidth: '100px',
+            whiteSpace: 'nowrap',
+            position: 'relative',
+            backgroundColor: 'white',
+            color: 'black',
+            display: 'flex',
+            gap: '10px',
+          }}
+        >
+          {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
+          <Label16pxSmall>JEDDAI is working on your feedback</Label16pxSmall>
+        </RequestFeedbackFrame>
+      );
+    }
     return (
+      // <RequestFeedbackFrame
+      //   style={{
+      //     cursor: 'unset',
+      //     minWidth: '100px',
+      //     position: 'relative',
+      //   }}
+      // >
+      //   {<img src="/img/messages.png" alt="messages" />}
+      //   {getStatusLabel(
+      //     pageMode,
+      //     submission,
+      //     allClasses,
+      //     setShowFeedbackButtons,
+      //     showFeedbackButtons
+      //   )}
+      //   {showFeedbackButtons &&
+      //     dropdownButtons(
+      //       setShowFeedbackButtons,
+      //       showSnackbar,
+      //       submission,
+      //       setSubmission
+      //     )}
+      // </RequestFeedbackFrame>
       <RequestFeedbackFrame
         style={{
           cursor: 'unset',
           minWidth: '100px',
+          whiteSpace: 'nowrap',
           position: 'relative',
+          background: 'white',
+          color: 'black',
+          display: 'flex',
+          gap: '10px',
         }}
       >
-        {<img src="/img/messages.png" alt="messages" />}
-        {getStatusLabel(
-          pageMode,
-          submission,
-          allClasses,
-          setShowFeedbackButtons,
-          showFeedbackButtons
-        )}
-        {showFeedbackButtons &&
-          dropdownButtons(
-            setShowFeedbackButtons,
-            showSnackbar,
-            submission,
-            setSubmission
-          )}
+        {<Icon24 src="/img/message24.svg"></Icon24>}
+        <Label16pxSmall>Someone is working on your feedback</Label16pxSmall>
       </RequestFeedbackFrame>
     );
   }

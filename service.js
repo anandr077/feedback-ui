@@ -383,6 +383,8 @@ export const createAssignment = async (assignment) =>
   await postApi(baseUrl + '/assignments', assignment);
 export const publishAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/publish', update);
+export const updateSubject = async (id, subject) =>
+  await patchApi(baseUrl + '/assignments/' + id + '/updateSubject', {subject: subject});
 export const deleteAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/delete', update);
 export const extendDueAtAssignment = async (id, extendDueAt) =>
@@ -424,6 +426,11 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId,
     range
+  );
+export const updateDocumentType = async (submissionId, documentType) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/updateDocumentType',
+    {"documentType": documentType}
   );
 export const publishModelResponse = async (feedbackId) =>
   await patchApi(

@@ -37,6 +37,8 @@ import {
   cancelFeedbackRequest,
   getUserId,
   updateAssignment,
+  updateDocumentType,
+  updateSubject,
 } from '../../../service';
 import {
   Frame1334,
@@ -441,11 +443,30 @@ export function contextBarForPortfolioDocument(
   };
 
   const handleTaskUpdate = (selectedItem) => {
-    console.log('Subjected task', selectedItem);
+    updateDocumentType(submission.id, selectedItem.title)
+      .then(res=>{
+        setSubmission(old=>{
+          return {
+            ...old,
+            documentType:res.documentType
+          }
+        })
+      })
   };
 
   const handleSubjectUpdate = (selectedItem) => {
-    console.log('Subjected subject', selectedItem);
+    updateSubject(submission.assignment.id, selectedItem.title)
+      .then(res=>{
+        setSubmission(old=>{
+          return {
+            ...old,
+            assignment:{
+              ...old.assignment,
+              subject:res.subject
+            }
+          }
+        })
+      })
   };
 
   const handleTitleClick = () => {
@@ -909,7 +930,7 @@ function subjectTypeSelection(
     { title: 'Persuasive' },
     { title: 'Reflective' },
   ];
-
+  console.log("selected index " + taskOptions.findIndex(item=>item.title===submission.documentType))
   return (
     <SubjectSelectionContainer>
       {pageMode === 'DRAFT' ? (
@@ -918,13 +939,16 @@ function subjectTypeSelection(
             <label>Select Subject</label>
             <StyledDropDown
               menuItems={subjectOptions}
+              selectedIndex={subjectOptions.findIndex(item=>item.title===submission.assignment.subject)}
               onItemSelected={(item) => handleSubjectUpdate(item)}
             ></StyledDropDown>
           </SubjectSelectBox>
           <SubjectSelectBox>
             <label>Task Type</label>
+          
             <StyledDropDown
               menuItems={taskOptions}
+              selectedIndex={taskOptions.findIndex(item=>item.title===submission.documentType)}
               onItemSelected={(item) => handleTaskUpdate(item)}
             ></StyledDropDown>
           </SubjectSelectBox>

@@ -397,7 +397,7 @@ export const AssignmentTitle = styled.h1`
   letter-spacing: -0.9px;
 `;
 
-export const QuestionEditInput = styled.input`
+export const QuestionEditInput = styled.textarea`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
   color: var(--text);
@@ -406,6 +406,7 @@ export const QuestionEditInput = styled.input`
   font-style: normal;
   border: none;
   outline: none;
+  resize: none;
   width: 100%;
 `;
 

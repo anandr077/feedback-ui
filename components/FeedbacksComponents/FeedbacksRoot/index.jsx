@@ -1180,7 +1180,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setStudentName(student);
     // get assignment by student name or other way
   };
-  const onSelectionChange = reviewerSelectionChange;
+
+  const getOnSelectionChange = () => {
+    if (pageMode === 'REVIEW') return reviewerSelectionChange;
+    return (_a, _b) => (_c) => {}
+  }
+  const onSelectionChange = getOnSelectionChange()
 
   const createTasksDropDown = () => {
     if (!isTeacher) {

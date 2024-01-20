@@ -580,6 +580,7 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     classId,
     courseId,
     title,
+    documentType:'Analytical'
   });
 export const askJeddAI = async (submissionId, cleanAnswer) =>
   await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {

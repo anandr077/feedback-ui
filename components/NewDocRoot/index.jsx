@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { addDocumentToPortfolio } from '../../service';
 
-export default function NewDocPage({}) {
+export default function  NewDocPage({}) {
   const history = useHistory();
   // alert('NewDocumentPage');
   const { id } = useParams();

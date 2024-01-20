@@ -168,9 +168,10 @@ const selectReviewType = (
     }).then((response) => {
       console.log('Response', response);
       console.log('Done ', setSubmission);
-      ClosePopUp();
+      
       setSubmission((old) => ({
         ...old,
+        answers: response.answers,
         status: response.status,
         reviewerId: response.reviewerId,
         reviewerName: response.reviewerName,
@@ -180,7 +181,7 @@ const selectReviewType = (
         declinedByReviewerIds: response.declinedByReviewerIds,
         submittedAt: response.submittedAt,
       }));
-      // ClosePopUp()
+      ClosePopUp();
     });
   };
   const ClosePopUp = () => {
@@ -236,10 +237,7 @@ const selectReviewType = (
             />
           </Frame1334>
           <Frame5053>
-            <Frame5053Card1 onClick={requestCommnityFeedback}>
-              <Frame5053Card1Img src={people} />
-              <Frame5053Card1Para>Community</Frame5053Card1Para>
-            </Frame5053Card1>
+            
             {showTeacher && (
               <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>
@@ -262,6 +260,10 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
+            <Frame5053Card1 onClick={requestCommnityFeedback}>
+              <Frame5053Card1Img src={people} />
+              <Frame5053Card1Para>Community</Frame5053Card1Para>
+            </Frame5053Card1>
             <Frame5053Card1
               onClick={() => {
                 methods.jeddAI().then(() => ClosePopUp());
@@ -956,10 +958,10 @@ function subjectTypeSelection(
       ) : (
         <>
           <SubjectSelectBox>
-            <label>English</label>
+            <label>{submission.assignment.subject}</label>
           </SubjectSelectBox>
           <SubjectSelectBox>
-            <label>Extended Response</label>
+            <label>{submission.documentType}</label>
           </SubjectSelectBox>
         </>
       )}

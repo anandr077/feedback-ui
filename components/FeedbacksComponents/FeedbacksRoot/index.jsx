@@ -70,6 +70,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import CheckboxBordered from '../../CheckboxBordered/index.jsx';
 import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
+import { sub } from 'date-fns';
+import { isNullOrEmpty } from '../../../utils/arrays.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -1102,38 +1104,46 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
+  
   const reviewerSelectionChange =
     (visibleComment, serialNumber) => (selection) => {
-      const range = selection.range;
-      console.log('selected', selection.selectedText);
-      if (range) {
-        const from = range.index;
-        const to = range.index + range.length;
-
-        const matchingComments = visibleComment
-          .filter((comment) => comment.questionSerialNumber === serialNumber)
-          .filter(
-            (comment) => comment.range.from <= from && comment.range.to >= to
-          );
-        if (matchingComments && matchingComments.length > 0) {
-          const matchingComment = matchingComments[0];
-          const div = document.getElementById('comment_' + matchingComment.id);
-          if (div) {
-            highlightComment(matchingComment.color, div);
-          }
-        } else {
-          if (from !== to) {
-            setNewCommentSerialNumber(serialNumber);
-            setSelectedRange({
-              from: from,
-              to: to,
-            });
-            setSelectedText(selection.selectedText);
-            setShowNewComment(true);
-          }
-        }
+      if (!selection.range) {
+        return 
       }
-    };
+      if (pageMode === 'DRAFT' && isNullOrEmpty(_.flatMap(submission.assignment.questions, q => q.focusAreas || []))) {
+        return
+      }
+      const range = selection.range;
+      const from = range.index;
+      const to = range.index + range.length;
+
+      const matchingComments = visibleComment
+        .filter((comment) => comment.questionSerialNumber === serialNumber)
+        .filter((comment) => comment.range.from <= from && comment.range.to >= to);
+      if (matchingComments && matchingComments.length > 0) {
+        const matchingComment = matchingComments[0];
+        highlightByComment(matchingComment)
+      } else {
+        openNewCommentFrame(from, to, serialNumber, selection)
+      }
+  }
+  function openNewCommentFrame(from, to, serialNumber, selection) {
+    if (pageMode === 'DRAFT' && isNullOrEmpty(_.flatMap(submission.assignment.questions, q => q.focusAreas || []))) {
+      return
+    }
+    if (pageMode !== 'REVIEW' && pageMode !== 'DRAFT') {
+      return
+    }
+    if (from !== to) {
+      setNewCommentSerialNumber(serialNumber);
+      setSelectedRange({
+        from: from,
+        to: to,
+      });
+      setSelectedText(selection.selectedText);
+      setShowNewComment(true);
+    }
+  }
   function highlightByComment(comment) {
     const div = document.getElementById('comment_' + comment.id);
     if (div) {
@@ -1178,14 +1188,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   const studentUpdate = (student) => {
     setStudentName(student);
-    // get assignment by student name or other way
   };
 
-  const getOnSelectionChange = () => {
-    if (pageMode === 'REVIEW') return reviewerSelectionChange;
-    return (_a, _b) => (_c) => {}
-  }
-  const onSelectionChange = getOnSelectionChange()
+  const onSelectionChange = reviewerSelectionChange
 
   const createTasksDropDown = () => {
     if (!isTeacher) {
@@ -1346,7 +1351,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       setSubmission((old)=> ({
         ...old, 
         status:res.status, 
-        feedbackRequestType:res.feedbackRequestType
+        feedbackRequestType:res.feedbackRequestType,
+        answers: res.answers,
       }))
       let interval;
 

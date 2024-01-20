@@ -753,7 +753,7 @@ const submitButtonDocument = (
           }}
         >
           {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
-          <Label16pxSmall>JEDDAI is working on your feedback</Label16pxSmall>
+          <Label16pxSmall>JeddAI is working on your feedback</Label16pxSmall>
         </RequestFeedbackFrame>
       );
     }

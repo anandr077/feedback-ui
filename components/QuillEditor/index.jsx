@@ -213,16 +213,27 @@ function getSelectedText(editor, selection) {
 }
 function scrollToHighlight(commentId) {
   ////FIX
-  const highlightSpan = document.querySelector(
-    `span.quill-highlight[data-comment-id="${commentId}"]`
-  );
-
-  if (highlightSpan) {
-    highlightSpan.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'nearest',
-    });
+  const highlightSpans = Array.from(document.querySelectorAll('span.quill-highlight'));
+  console.log("highlightSpans", highlightSpans)
+  const targetSpan = highlightSpans.find(span => {
+      const commentIds = span.getAttribute('data-comment-ids');
+      console.log("commentIds", commentIds)
+      return commentIds && commentIds.split(',').includes(commentId);
+  });
+  console.log("targetSpan", targetSpan)
+  if (targetSpan) {
+    setTimeout(() => targetSpan.scrollIntoView(
+      {
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'nearest',
+      }
+    ), 100);
+    // targetSpan.scrollIntoView({
+    //   behavior: 'smooth',
+    //   block: 'center',
+    //   inline: 'nearest',
+    // });
   } else {
     console.warn(`No highlight found for comment ID: ${commentId}`);
   }

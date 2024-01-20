@@ -72,84 +72,89 @@ function Navigation(props) {
     navElement71Props: navElement71Data,
     navElement72Props: navElement72Data,
     navElement8Props: navElement8Data,
-  };
+  };  
   return (
-    <NavbarDiv
-      className="navigation screen"
-      name="form1"
-      action="form1"
-      method="post"
-    >
-      <Frame1409>
-        <Frame4>
-          <Avatar
-            title={false}
-            size={45}
-            variant="beam"
-            name={name}
-            square={false}
+      <NavbarDiv
+        className="navigation screen"
+        name="form1"
+        action="form1"
+        method="post"
+      >
+        <Frame1409>
+          <Frame4>
+            <Avatar
+              title={false}
+              size={45}
+              variant="beam"
+              name={name}
+              square={false}
+            />
+            {/* <MaskGroup src={navigationData.maskGroup} alt="Mask group" /> */}
+            <Frame3>
+              <Name>{name}</Name>
+              <Frame27></Frame27>
+            </Frame3>
+          </Frame4>
+          <MaskGroup
+            src={navigationData.iconClose}
+            alt="icon-close"
+            onClick={onCloseFn}
           />
-          {/* <MaskGroup src={navigationData.maskGroup} alt="Mask group" /> */}
-          <Frame3>
-            <Name>{name}</Name>
-            <Frame27></Frame27>
-          </Frame3>
-        </Frame4>
-        <MaskGroup
-          src={navigationData.iconClose}
-          alt="icon-close"
-          onClick={onCloseFn}
-        />
-      </Frame1409>
-      <Frame5>
-        <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
-        <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
-        {(Cookies.get('classes') || isTeacher) && <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />}
-        <NavElement7 text={'View Profile'} onClick={() => account()} />
-        <NavElement7
-          text="Change Password"
-          className={navigationData.navElement72Props.className}
-          onClick={() => changePassword()}
-        />
-        <NavElement7
-          text="Settings"
-          className={navigationData.navElement72Props.className}
-          onClick={() => {
-            window.location.href = '/#/settings';
-            onCloseFn();
-          }}
-        />
-        <NavElement8
-          onClick={() => {
-            queryClient.clear();
-            logout();
-          }}
-        ></NavElement8>
-      </Frame5>
-      {!isTeacher && (
-        <>
-          <Frame1410>
-            <LocationAgeContainer>
-              <FlagBox>
-                <FlagIcon src={flagIcon} />
-              </FlagBox>
-              <div>
-                Year {year}, {country}, {state}
-              </div>
-            </LocationAgeContainer>
-            <EditBtn
-              onClick={() => {
-                setEditStateYear(true);
-                onCloseFn();
-              }}
-            >
-              <img src="/img/editSmall.png" />
-              <p>Edit</p>
-            </EditBtn>
-          </Frame1410>
-        </>
-      )}
-    </NavbarDiv>
+        </Frame1409>
+        <Frame5>
+          <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
+          <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
+          {(Cookies.get('classes') || isTeacher) && (
+            <NavElement42
+              button={headerProps.thirdButton}
+              onClick={onCloseFn}
+            />
+          )}
+          <NavElement7 text={'View Profile'} onClick={() => account()} />
+          <NavElement7
+            text="Change Password"
+            className={navigationData.navElement72Props.className}
+            onClick={() => changePassword()}
+          />
+          <NavElement7
+            text="Settings"
+            className={navigationData.navElement72Props.className}
+            onClick={() => {
+              window.location.href = '/#/settings';
+              onCloseFn();
+            }}
+          />
+          <NavElement8
+            onClick={() => {
+              queryClient.clear();
+              logout();
+            }}
+          ></NavElement8>
+        </Frame5>
+        {!isTeacher && (
+          <>
+            <Frame1410>
+              <LocationAgeContainer>
+                <FlagBox>
+                  <FlagIcon src={flagIcon} />
+                </FlagBox>
+                <div>
+                  Year {year}, {state}
+                </div>
+              </LocationAgeContainer>
+              <EditBtn
+                onClick={() => {
+                  setEditStateYear(true);
+                  onCloseFn();
+                }}
+              >
+                <img src="/img/editSmall.png" />
+                <p>Edit</p>
+              </EditBtn>
+            </Frame1410>
+          </>
+        )}
+      </NavbarDiv>
   );
 }
 
@@ -243,7 +248,6 @@ const LocationAgeContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  overflow-x: hidden;
 
   div {
     color: #333333;

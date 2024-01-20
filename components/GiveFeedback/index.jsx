@@ -136,9 +136,7 @@ function GiveFeedback() {
       setSelectedState(selectValue);
     }
     if (type === 'year') {
-      let numberValue =
-        selectValue != '' ? selectValue.match(/\d+/)[0] : selectValue;
-      setSelectedYear(numberValue);
+      setSelectedYear(selectValue);
     }
     if (type === 'subject') {
       setSelectedSubject(selectValue);
@@ -175,14 +173,7 @@ function GiveFeedback() {
   }, [communityTasksQuery, giveFeedbackCompletedTasksQuery]);
 
   let statesData = ['NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'];
-  let yearsData = [
-    'Year 7',
-    'Year 8',
-    'Year 9',
-    'Year 10',
-    'Year 11',
-    'Year 12',
-  ];
+  let yearsData = ['7', '8', '9', '10', '11', '12'];
   let subjectData = ['English'];
   let taskTypeData = [
     'Analytical',

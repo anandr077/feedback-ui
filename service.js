@@ -582,11 +582,9 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     title,
     documentType:'Analytical'
   });
-export const askJeddAI = async (submissionId, cleanAnswer) =>
+export const askJeddAI = async (submissionId, cleanAnswer, subject, type) =>
   await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
     state: Cookies.get('state'),
     year: Cookies.get('year'),
-    subject: 'English',
-    type: 'Short',
     cleanAnswer: cleanAnswer,
   });

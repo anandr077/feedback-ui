@@ -1,5 +1,11 @@
 import { getUserRole } from '../service';
 import Cookies from 'js-cookie';
+import homeSelected from '../static/img/HomeSelected.svg';
+import homeUnselected from '../static/img/homeUnselected.svg';
+import getFeedbackselected from '../static/img/getFeedbackselected.svg';
+import getFeedbackUnselected from '../static/img/getFeedbackunselected.svg';
+import giveFeedbackselected from '../static/img/giveFeedbackselected.svg';
+import giveFeedbackUnselected from '../static/img/giveFeedbackunselected.svg';
 
 const isTeacher = getUserRole() === 'TEACHER';
 
@@ -36,22 +42,22 @@ if (Cookies.get('classes')) {
     return {
       firstButton: {
         text: 'My Tasks',
-        icon: '/icons/taskIconUnselected.png',
-        iconSelected: '/icons/taskIconWhite.png',
+        icon: homeUnselected,
+        iconSelected: homeSelected,
         selected: first,
         redirect: '#/',
       },
       secondButton: {
         text: 'Get Feedback',
-        icon: '/img/messages-unselected.png',
-        iconSelected: 'img/messages-selected.png',
+        icon: getFeedbackUnselected,
+        iconSelected: getFeedbackselected,
         selected: second,
         redirect: '#getFeedback',
       },
       thirdButton: {
         text: 'Give Feedback',
-        icon: '/img/people-color.png',
-        iconSelected: '/img/people.png',
+        icon: giveFeedbackUnselected,
+        iconSelected: giveFeedbackselected,
         selected: third,
         redirect: '#giveFeedback',
       },
@@ -62,15 +68,15 @@ if (Cookies.get('classes')) {
     return {
       firstButton: {
         text: 'Get Feedback',
-        icon: '/img/messages-unselected.png',
-        iconSelected: 'img/messages-selected.png',
+        icon: getFeedbackUnselected,
+        iconSelected: getFeedbackselected,
         selected: first,
         redirect: '#/',
       },
       secondButton: {
         text: 'Give Feedback',
-        icon: '/img/people-color.png',
-        iconSelected: '/img/people.png',
+        icon: giveFeedbackUnselected,
+        iconSelected: giveFeedbackselected,
         selected: second,
         redirect: '#giveFeedback',
       },

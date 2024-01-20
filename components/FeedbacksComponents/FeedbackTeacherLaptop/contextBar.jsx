@@ -744,7 +744,6 @@ const submitButtonDocument = (
           style={{
             cursor: 'unset',
             minWidth: '100px',
-            whiteSpace: 'nowrap',
             position: 'relative',
             backgroundColor: 'white',
             color: 'black',
@@ -758,34 +757,10 @@ const submitButtonDocument = (
       );
     }
     return (
-      // <RequestFeedbackFrame
-      //   style={{
-      //     cursor: 'unset',
-      //     minWidth: '100px',
-      //     position: 'relative',
-      //   }}
-      // >
-      //   {<img src="/img/messages.png" alt="messages" />}
-      //   {getStatusLabel(
-      //     pageMode,
-      //     submission,
-      //     allClasses,
-      //     setShowFeedbackButtons,
-      //     showFeedbackButtons
-      //   )}
-      //   {showFeedbackButtons &&
-      //     dropdownButtons(
-      //       setShowFeedbackButtons,
-      //       showSnackbar,
-      //       submission,
-      //       setSubmission
-      //     )}
-      // </RequestFeedbackFrame>
       <RequestFeedbackFrame
         style={{
           cursor: 'unset',
           minWidth: '100px',
-          whiteSpace: 'nowrap',
           position: 'relative',
           background: 'white',
           color: 'black',

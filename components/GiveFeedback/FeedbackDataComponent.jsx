@@ -35,6 +35,7 @@ import StyledButton from '../../components2/StyledButton';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
 import arrowRight from '../../static/img/arrowright.svg';
+import { requestedTime } from '../../utils/requestedTime';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
   const queryClient = useQueryClient();
@@ -117,32 +118,6 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
   return (
     <>
       {feedbackData.map((text, index) => {
-        let timeData = pathName.includes('/feedbackHistory')
-          ? text.reviewedAt
-          : text.requestedAt;
-        const requestedAtTime = new Date(timeData);
-        const currentTime = new Date();
-        const durationInMilliseconds = currentTime - requestedAtTime;
-
-        const days = Math.floor(durationInMilliseconds / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (durationInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor(
-          (durationInMilliseconds % (1000 * 60 * 60)) / (1000 * 60)
-        );
-
-        let durationText = '';
-
-        if (days > 0) {
-          durationText = `${days} days ago`;
-        } else if (hours > 0) {
-          durationText = `${hours} hours ago`;
-        } else if (minutes > 0) {
-          durationText = `${minutes} minutes ago`;
-        } else {
-          durationText = 'Just now';
-        }
         return (
           <CardContainer>
             <TagsAndTextContainer>
@@ -157,7 +132,11 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
                 {pathName.includes('/feedbackHistory')
                   ? 'Reviewed '
                   : 'Requested '}
-                {durationText}
+                {requestedTime(
+                  pathName.includes('/feedbackHistory')
+                    ? text.reviewedAt
+                    : text.requestedAt
+                )}
               </RequestedText>
             </TagsAndTextContainer>
             <TextContainer>

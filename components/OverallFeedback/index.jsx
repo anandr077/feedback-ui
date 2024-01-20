@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { FeedbackContainer, OverAllCommentTitle } from './style';
+import { FeedbackContainer, OverAllCommentTitle, NonEditFeedbackContainer } from './style';
+import { FeedbackContainer, HiddenInputBox, OverAllCommentTitle } from './style';
 import TextField from '../TextField';
 import EditableText from './EditableText';
 import { updateFeedback } from '../../service';
@@ -131,10 +132,12 @@ const OverallFeedback = ({
   if (pageMode === 'CLOSED' || pageMode === 'REVISE') {
     if (overallComment !== null && overallComment !== undefined) {
       return (
-        <NonEditableFeedback
-          textFeedback={overallComment?.comment}
-          audioFeedback={base64ToBlob(overallComment?.audio, 'audio/webm')}
-        />
+        <NonEditFeedbackContainer>
+          <NonEditableFeedback
+            textFeedback={overallComment?.comment}
+            audioFeedback={base64ToBlob(overallComment?.audio, 'audio/webm')}
+          />
+        </NonEditFeedbackContainer>
       );
     }
     return <></>;

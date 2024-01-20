@@ -1,7 +1,7 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useState } from 'react';
+import { default as React, default as React, useEffect, useState } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
@@ -21,11 +21,26 @@ import {
   Frame1387,
   Frame1388,
   Screen2,
+  SubjectSelectionContainer,
+  SubSelcetBox,
+  Main,
+  PageContainer,
+  DrawerArrowContainer,
+  DrawerArrow,
+  ArrowImg,
+  GoBackBtn,
+  ImgContainer,
 } from './style';
-import { isMobileView } from '../../ReactiveRender';
+import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
+import TeacherSidebar from '../../TeacherSidebar';
+import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
+import { IsoTwoTone } from '@mui/icons-material';
+
+import { useHistory } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { getSubmissionById, createRequestFeddbackType } from '../../../service';
+import StyledDropDown from '../../../components2/StyledDropDown';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -40,7 +55,6 @@ const FeedbackType = {
   P2P: 'P2P',
   FRIEND: 'FRIEND',
 };
-
 
 function FeedbackTeacherLaptop(props) {
   const {
@@ -57,6 +71,7 @@ function FeedbackTeacherLaptop(props) {
     showNewComment,
     methods,
     comments,
+    students,
     headerProps,
     submission,
     setSubmission,
@@ -65,29 +80,82 @@ function FeedbackTeacherLaptop(props) {
     overallComments,
     selectedRange,
     classesAndStudents,
-    teachers
+    teachers,
   } = props;
-  console.log("classesAndStudents", classesAndStudents)
+  console.log('Main ', classesAndStudents);
   const isMobile = isMobileView();
+  const isDesktop = isDesktopView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
-  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT');
+  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
+  const [open, setOpen] = useState(false);
+  
+  const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
+  const [selectedSubject, setSelectedSubject] = React.useState();
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
+  const drawerWidth = 315;
 
+  React.useEffect(() => {
+    let dataToUse = submission.otherDrafts||[];
+   
+    const groupedData = dataToUse?.reduce((result, item) => {
+      const subject = item.subject || 'Students';
+
+      if (!result[subject]) {
+        result[subject] = [];
+      }
+
+      result[subject].push(item);
+
+      return result;
+    }, {});
+
+    if (!isTeacher) {
+      setGroupedAndSortedData(groupedData);
+      setSelectedSubject(Object.keys(groupedData)[0]);
+      return;
+    }
+
+    for (const subject in groupedData) {
+      if (groupedData.hasOwnProperty(subject)) {
+        groupedData[subject].sort((a, b) => b.lastseenAtTs - a.lastseenAtTs);
+      }
+    }
+    setGroupedAndSortedData(groupedData);
+    setSelectedSubject(Object.keys(groupedData)[0]);
+  }, [submission.otherDrafts]);
+  const navigate = useHistory();
+
+  console.log('groupedAndSortedData', groupedAndSortedData)
+
+  const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
+  const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
+
+  console.log('1showTeacherPopUp', showTeacherPopUp);
   React.useEffect(() => {
     if (showNewComment) {
       handleTabUpdate(pageMode, setFeedback, setFocusAreas);
     }
   }, [showNewComment]);
 
- 
   const [isShowResolved, setShowResolved] = useState(false);
 
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+
+  // const handleOutsideClick = (event) => {
+  //   setShowSelectType(false);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener('click', handleOutsideClick);
+  //   return () => {
+  //     window.removeEventListener('click', handleOutsideClick);
+  //   };
+  // }, []);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -98,12 +166,18 @@ function FeedbackTeacherLaptop(props) {
       type: type,
       reviewerId: itemData ? itemData.id : null,
     };
-    createRequestFeddbackType(submission.id, requestData).then((res) => {
-      if (res) {
-        getSubmissionById(submission.id).then((s) => {
-          setSubmission(s);
-        });
-      }
+    createRequestFeddbackType(submission.id, requestData).then((response) => {
+      setSubmission(old=>({
+        ...old,
+        status:response.status,
+        reviewerId:response.reviewerId,
+        reviewerName:response.reviewerName,
+        submittedAt:response.submittedAt,
+        feedbackRequestType:response.feedbackRequestType,
+        classId: response.classId,
+        declinedByReviewerIds: response.declinedByReviewerIds,
+        submittedAt: response.submittedAt,
+      }));
     });
   };
   const commentsForSelectedTab = selectTabComments(
@@ -161,57 +235,110 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
+
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
     <>
       {loader(showLoader)}
-      <div className="feedback-teacher-laptop screen">
-        {isMobile && <WelcomeOverlayMobile />}
-        {sharewithclassdialog}
-        <Frame1388 mobileView={isMobile}>
-          {breadcrumbs(submission)}
-          {answersAndFeedbacks(
-            isMobile,
-            submission,
-            setSubmission,
-            methods,
-            isTeacher,
-            pageMode,
-            labelText,
-            quillRefs,
-            markingCriteriaFeedback,
-            smallMarkingCriteria,
-            handleCheckboxChange,
-            groupedFocusAreaIds,
-            commentsForSelectedTab,
-            newCommentSerialNumber,
-            setShowResolved,
-            showNewComment,
-            isShowResolved,
-            setFeedback,
-            isFeedback,
-            isFocusAreas,
-            setFocusAreas,
-            comments,
-            newCommentFrameRef,
-            share,
-            smartAnnotations,
-            overallComments,
-            handleRequestFeedback,
-            isShowSelectType,
-            setShowSelectType,
-            showFeedbackButtons,
-            setShowFeedbackButtons,
-            classesAndStudents
-          )}
-        </Frame1388>
-      </div>
+      <PageContainer>
+        <>
+          {isMobile && <WelcomeOverlayMobile />}
+          {sharewithclassdialog}
+          <>
+            <>
+              {isTeacher ? (
+                <TeacherSidebar open={open} submission={submission} />
+              ) : (
+                submission.otherDrafts && (
+                  <IndepentdentUserSidebar
+                    open={open}
+                    subjects={submission.otherDrafts?.map((d) => ({
+                      id: d.submissionId,
+                      title: d.title,
+                      subject: d.subject,
+                      lastseenAtTs: 1630330000,
+                    }))}
+                    setSelectedSubject={setSelectedSubject}
+                    selectedSubject={selectedSubject}
+                    groupedAndSortedData={groupedAndSortedData}
+                    currentSubmissionId={submission.id}
+                  />
+                )
+              )}
+            </>
+            {(isTeacher || submission.otherDrafts) && (
+              <DrawerArrow
+                onClick={handleDrawer}
+                drawerWidth={drawerWidth}
+                open={open}
+              >
+                <ImgContainer>
+                  <ArrowImg src="img/caret-5@2x.png" open={open} />
+                </ImgContainer>
+              </DrawerArrow>
+            )}
+          </>
+          <Frame1388
+            mobileView={isMobile}
+            desktopView={isDesktop}
+            drawerWidth={drawerWidth}
+            open={open}
+          >
+            {answersAndFeedbacks(
+              isMobile,
+              submission,
+              setSubmission,
+              methods,
+              isTeacher,
+              pageMode,
+              labelText,
+              quillRefs,
+              markingCriteriaFeedback,
+              smallMarkingCriteria,
+              handleCheckboxChange,
+              groupedFocusAreaIds,
+              commentsForSelectedTab,
+              newCommentSerialNumber,
+              setShowResolved,
+              showNewComment,
+              isShowResolved,
+              setFeedback,
+              isFeedback,
+              isFocusAreas,
+              setFocusAreas,
+              comments,
+              newCommentFrameRef,
+              share,
+              smartAnnotations,
+              overallComments,
+              handleRequestFeedback,
+              isShowSelectType,
+              setShowSelectType,
+              showFeedbackButtons,
+              setShowFeedbackButtons,
+              false,
+              classesAndStudents,
+              navigate,
+              showStudentPopUp,
+              showTeacherPopUp,
+              setShowStudentPopUp,
+              setShowTeacherPopUp
+            )}
+          </Frame1388>
+          {/* </Main> */}
+        </>
+      </PageContainer>
+
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
         handleSelectedRequestFeedback,
-        flatMap(classesAndStudents, classObj => classObj.students),
+        flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
-        classesAndStudents,
+        classesAndStudents
       )}
     </>
   );
@@ -294,8 +421,6 @@ function createGroupedFocusAreas(submission) {
   return grouped;
 }
 
-
-
 function answersAndFeedbacks(
   isMobile,
   submission,
@@ -329,16 +454,28 @@ function answersAndFeedbacks(
   showFeedbackButtons,
   setShowFeedbackButtons,
   showStatusText,
-  classesAndStudents
+  classesAndStudents,
+  navigate,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
 ) {
   return (
     <Frame1386 id="content">
-      {createContextBar
-      (
+      
+      {/* {isTeacher && (
+        <GoBackBtn onClick={() => navigate.goBack()}>
+          <img className="arrowImg" src="img/arrow_left.png" />
+          <img className="hoveredImg" src="icons/arrowleft.png" />
+          Go Back
+        </GoBackBtn>
+      )} */}
+      {createContextBar(
         submission,
         setSubmission,
-        methods, 
-        pageMode, 
+        methods,
+        pageMode,
         labelText,
         isShowSelectType,
         setShowSelectType,
@@ -349,7 +486,11 @@ function answersAndFeedbacks(
         pageMode,
         handleRequestFeedback,
         showStatusText,
-        classesAndStudents
+        classesAndStudents,
+        showStudentPopUp,
+        showTeacherPopUp,
+        setShowStudentPopUp,
+        setShowTeacherPopUp
       )}
       <Frame1368 id="assignmentData">
         {answersFrame(
@@ -405,8 +546,8 @@ function breadcrumbs(submission) {
 function createContextBar(
   submission,
   setSubmission,
-  methods, 
-  pageMode, 
+  methods,
+  pageMode,
   labelText,
   isShowSelectType,
   setShowSelectType,
@@ -416,8 +557,13 @@ function createContextBar(
   isTeacher,
   pageMode,
   handleRequestFeedback,
-  classesAndStudents
-  ) {
+  showStatusText,
+  classesAndStudents,
+  showStudentPopUp,
+  showTeacherPopUp,
+  setShowStudentPopUp,
+  setShowTeacherPopUp
+) {
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,
@@ -430,12 +576,17 @@ function createContextBar(
       isTeacher,
       pageMode,
       labelText,
-      feedbackMethodType = FeedbackMethodType,
+      (feedbackMethodType = FeedbackMethodType),
       handleRequestFeedback,
       true,
       classesAndStudents,
+      showStudentPopUp,
+      showTeacherPopUp,
+      setShowStudentPopUp,
+      setShowTeacherPopUp
     );
   }
+
   return contextBar(submission, methods, isTeacher, pageMode, labelText);
 }
 

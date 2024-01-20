@@ -113,17 +113,17 @@ const createRows = (items) => {
 };
 
 const MarkingCriteriaContainer = styled.div`
-  padding: 20px;
+  margin: 40px 48px;
   align-items: flex-start;
   gap: 20px;
   align-self: stretch;
-  border-radius: 16px;
-  border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
-  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   display: flex;
   grid-gap: 10px;
   overflow-x: scroll;
+  
+  padding-top: 20px;
+  border-top: 1px solid #F1E6FC;
   &::-webkit-scrollbar {
     display: none;
   }

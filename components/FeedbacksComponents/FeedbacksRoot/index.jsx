@@ -31,7 +31,7 @@ import {
   addDocumentToPortfolioWithDetails,
   addDocumentToPortfolio,
   getTeachersForClass,
-  askJeddAI
+  askJeddAI,
 } from '../../../service';
 import {
   getShortcuts,
@@ -80,7 +80,6 @@ const isTeacher = getUserRole() === 'TEACHER';
 export default function FeedbacksRoot({ isDocumentPage }) {
   const queryClient = useQueryClient();
   queryClient.removeQueries(['portfolio']);
-
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
@@ -91,7 +90,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   });
   const [showLoader, setShowLoader] = useState(false);
   const { showSnackbar } = React.useContext(SnackbarContext);
- 
+
   const newCommentFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
@@ -126,6 +125,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
+    setIsLoading(true);
     Promise.all([
       getSubmissionById(id),
       getComments(id),
@@ -173,10 +173,16 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           setCheckedState(initialState);
           setOverallComments(overAllCommentsResult);
           setClassesAndStudents(classWithTeacherAndStudentsResult);
-          console.log("classWithTeacherAndStudentsResult", classesAndStudents)
-          const allTeachers = _.flatten(classWithTeacherAndStudentsResult.map(c=>c.teachers));
+          console.log(
+            'classWithTeacherAndStudentsResult',
+            classWithTeacherAndStudentsResult
+          );
+          const allTeachers = _.flatten(
+            classWithTeacherAndStudentsResult.map((c) => c.teachers)
+          );
           const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-          setTeachers(uniqueTeachers);      
+          console.log('uniqueTeachers', uniqueTeachers);
+          setTeachers(uniqueTeachers);
         }
       )
       .finally(() => {
@@ -231,6 +237,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
+  console.log('isLoading', isLoading);
 
   if (isLoading) {
     return (
@@ -241,21 +248,26 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   async function fetchClassWithStudentsAndTeachers() {
     try {
+      console.log('Getting fetchClassWithStudentsAndTeachers');
       const classesWithStudents = await getClassesWithStudents();
-  
-      const teacherPromises = _.flatMap(classesWithStudents, classItem => {
-        return getTeachersForClass(classItem.id).then(teachers => {
+      console.log('Got classesWithStudents', classesWithStudents);
+
+      const teacherPromises = _.flatMap(classesWithStudents, (classItem) => {
+        return getTeachersForClass(classItem.id).then((teachers) => {
           return { ...classItem, teachers };
         });
       });
-  
+
       return await Promise.all(teacherPromises);
     } catch (error) {
-      console.error("Error fetching classes with students and teachers:", error);
+      console.error(
+        'Error fetching classes with students and teachers:',
+        error
+      );
       throw error;
     }
   }
-  
+
   const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
     acc[classItem.id] = {
       checked: false,
@@ -269,7 +281,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-
+  console.log('Page mode', pageMode);
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {
@@ -315,7 +327,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-   
   }
 
   function handleShortcutAddComment(commentText) {
@@ -334,7 +345,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         highlightByComment(response);
         setShowNewComment(false);
         // quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
-
       }
     });
   }
@@ -355,7 +365,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         highlightByComment(response);
         setShowNewComment(false);
         //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
-
       }
     });
   }
@@ -404,7 +413,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
-    
   };
 
   const updateExemplar = () => {
@@ -616,11 +624,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
-      setComments(oldComments=> {
-         const deletedComment = oldComments.find((c) => c.id == commentId)
-         const quill = quillRefs.current[deletedComment.questionSerialNumber - 1];
-         const newComments = oldComments.filter((c) => c.id != commentId)
-         return oldComments.filter((c) => c.id != commentId);
+      setComments((oldComments) => {
+        const deletedComment = oldComments.find((c) => c.id == commentId);
+        const quill =
+          quillRefs.current[deletedComment.questionSerialNumber - 1];
+        const newComments = oldComments.filter((c) => c.id != commentId);
+        return oldComments.filter((c) => c.id != commentId);
       });
     });
   }
@@ -1093,37 +1102,38 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
-  const reviewerSelectionChange = (visibleComment, serialNumber) => (selection) => {
-    const range = selection.range
-    console.log("selected", selection.selectedText)
-    if (range) {
-      const from = range.index;
-      const to = range.index + range.length;
+  const reviewerSelectionChange =
+    (visibleComment, serialNumber) => (selection) => {
+      const range = selection.range;
+      console.log('selected', selection.selectedText);
+      if (range) {
+        const from = range.index;
+        const to = range.index + range.length;
 
-      const matchingComments = visibleComment
-        .filter((comment) => comment.questionSerialNumber === serialNumber)
-        .filter(
-          (comment) => comment.range.from <= from && comment.range.to >= to
-        );
-      if (matchingComments && matchingComments.length > 0) {
-        const matchingComment = matchingComments[0];
-        const div = document.getElementById('comment_' + matchingComment.id);
-        if (div) {
-          highlightComment(matchingComment.color, div);
-        }
-      } else {
-        if (from !== to) {
-          setNewCommentSerialNumber(serialNumber);
-          setSelectedRange({
-            from: from,
-            to: to,
-          });
-          setSelectedText(selection.selectedText);
-          setShowNewComment(true);
+        const matchingComments = visibleComment
+          .filter((comment) => comment.questionSerialNumber === serialNumber)
+          .filter(
+            (comment) => comment.range.from <= from && comment.range.to >= to
+          );
+        if (matchingComments && matchingComments.length > 0) {
+          const matchingComment = matchingComments[0];
+          const div = document.getElementById('comment_' + matchingComment.id);
+          if (div) {
+            highlightComment(matchingComment.color, div);
+          }
+        } else {
+          if (from !== to) {
+            setNewCommentSerialNumber(serialNumber);
+            setSelectedRange({
+              from: from,
+              to: to,
+            });
+            setSelectedText(selection.selectedText);
+            setShowNewComment(true);
+          }
         }
       }
-    }
-  };
+    };
   function highlightByComment(comment) {
     const div = document.getElementById('comment_' + comment.id);
     if (div) {
@@ -1170,7 +1180,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setStudentName(student);
     // get assignment by student name or other way
   };
-  const onSelectionChange = reviewerSelectionChange;
+
+  const getOnSelectionChange = () => {
+    if (pageMode === 'REVIEW') return reviewerSelectionChange;
+    return (_a, _b) => (_c) => {}
+  }
+  const onSelectionChange = getOnSelectionChange()
 
   const createTasksDropDown = () => {
     if (!isTeacher) {
@@ -1323,14 +1338,38 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   };
   const jeddAI = () => {
-    console.log("quillRefs", quillRefs)
-    const q=  quillRefs.current[0]
-    console.log("q", q.getText())
-    askJeddAI(submission.id, q.getText()).then((response) => {
-      console.log("response done", response)
-    })
-    
-  }
+    console.log('quillRefs', quillRefs);
+    const q = quillRefs.current[0];
+    console.log('q', q.getText());
+    return askJeddAI(submission.id, q.getText())
+    .then((res)=> {
+      setSubmission((old)=> ({
+        ...old, 
+        status:res.status, 
+        feedbackRequestType:res.feedbackRequestType
+      }))
+      let interval;
+
+      function getAndUpdateSubmission() {
+          getSubmissionById(submission.id).then((response) => {
+              if (response) {
+                  console.log("Response in timer", response)
+                  if (response.status !== 'FEEDBACK_ACCEPTED') {
+                      clearInterval(interval);
+                      window.location.reload();
+                  }
+                  setSubmission(response);
+              }
+          });
+      }
+
+      setTimeout(() => {
+          interval = setInterval(getAndUpdateSubmission, 30000);
+      }, 30000);
+    });
+      
+  };
+
   const methods = {
     comments,
     setComments,
@@ -1374,11 +1413,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setInitialOverAllFeedback,
 
     updateOverAllFeedback,
-    jeddAI
+    jeddAI,
   };
 
   const shortcuts = getShortcuts();
-  
+
   return (
     <>
       {showSubmitPopup &&
@@ -1410,7 +1449,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           overallComments,
           selectedRange,
           classesAndStudents,
-          teachers
+          teachers,
         }}
       />
     </>

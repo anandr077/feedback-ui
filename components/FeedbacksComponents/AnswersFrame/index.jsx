@@ -24,6 +24,8 @@ import {
   Label,
   QuestionText,
   QuillContainer,
+  AnswerContainer,
+  Line,
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
@@ -91,7 +93,7 @@ function AnswersFrame(props) {
     overallComments,
     updateOverAllFeedback,
     setComments,
-    comments
+    comments,
   } = props;
   return (
     <Group1225 id="answers">
@@ -173,7 +175,7 @@ const answerFrames = (
   setComments,
   comments
 ) => {
-  return submission.assignment.questions.map((question) => {
+  return submission.assignment.questions.map((question, idx) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
       answer: '',
@@ -185,80 +187,96 @@ const answerFrames = (
       ) || newAnswer;
     const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
-    const debounce = createDebounceFunction(submission, pageMode, comments, setComments)(answer);
+    const debounce = createDebounceFunction(
+      submission,
+      pageMode,
+      comments,
+      setComments
+    )(answer);
 
-    const overallComment = overallComments.find((feedback)=>{
-        return feedback.questionSerialNumber === question.serialNumber
-    })
-    console.log("overallComment", overallComment)
+    const overallComment = overallComments.find((feedback) => {
+      return feedback.questionSerialNumber === question.serialNumber;
+    });
     return (
       <>
         <Frame1366>
-          <QuestionText
-            dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
-          />
-          {question.type === 'MCQ' ? (
-            <CheckboxList
-              submission={submission}
-              question={question}
-              pageMode={pageMode}
-              handleChangeText={handleChangeText}
-            />
-          ) : (
-            <QuillContainer
-              onClick={() => {
-                onSelectionChange(
-                  createVisibleComments(commentsForSelectedTab),
-                  answer.serialNumber
-                )(quillRefs.current[answer.serialNumber - 1].getSelection());
-              }}
-              id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
-            >
-              {createQuill(
-                pageMode,
-                'quillContainer_' + submission.id + '_' + answer.serialNumber,
-                submission,
-                answer,
-                answerValue,
-                commentsForSelectedTab,
-                debounce,
-                handleEditorMounted
-              )}
-            </QuillContainer>
-          )}
-          {createFocusAreasLabel(
-            handleCheckboxChange,
-            groupedFocusAreaIds,
-            question.serialNumber,
-            question.focusAreas
-          )}
-          {createAddMarkingCriteriaOption(
-            submission,
-            answer,
-            smallMarkingCriteria,
-            question,
-            handleMarkingCriteriaLevelFeedback,
-            handleStrengthsTargetsFeedback
-          )}
-          {createShowMarkingCriteriasFrame(
-            submission,
-            markingCriteriaFeedback,
-            answer,
-            question
-          )}
-          {pageMode !== 'DRAFT' && (
-            <OverallFeedback
-              pageMode={pageMode}
-              addOverallFeedback={addOverallFeedback}
-              submissionId={submission.id}
-              question={question}
-              initialOverallFeedback={initialOverallFeedback}
-              setInitialOverAllFeedback={setInitialOverAllFeedback}
-              overallComment={overallComment}
-              updateOverAllFeedback={updateOverAllFeedback}
+          {submission.type !== 'DOCUMENT' && (
+            <QuestionText
+              dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
             />
           )}
+          <AnswerContainer>
+            {question.type === 'MCQ' ? (
+              <CheckboxList
+                submission={submission}
+                question={question}
+                pageMode={pageMode}
+                handleChangeText={handleChangeText}
+              />
+            ) : (
+              <QuillContainer
+                onClick={() => {
+                  onSelectionChange(
+                    createVisibleComments(commentsForSelectedTab),
+                    answer.serialNumber
+                  )(quillRefs.current[answer.serialNumber - 1].getSelection());
+                }}
+                id={
+                  'quillContainer_' + submission.id + '_' + answer.serialNumber
+                }
+              >
+                {createQuill(
+                  pageMode,
+                  'quillContainer_' + submission.id + '_' + answer.serialNumber,
+                  submission,
+                  answer,
+                  answerValue,
+                  commentsForSelectedTab,
+                  debounce,
+                  handleEditorMounted
+                )}
+              </QuillContainer>
+            )}
+            {createFocusAreasLabel(
+              handleCheckboxChange,
+              groupedFocusAreaIds,
+              question.serialNumber,
+              question.focusAreas
+            )}
+            {createAddMarkingCriteriaOption(
+              submission,
+              answer,
+              smallMarkingCriteria,
+              question,
+              handleMarkingCriteriaLevelFeedback,
+              handleStrengthsTargetsFeedback
+            )}
+            {createShowMarkingCriteriasFrame(
+              submission,
+              markingCriteriaFeedback,
+              answer,
+              question
+            )}
+            {pageMode !== 'DRAFT' && (
+              <OverallFeedback
+                pageMode={pageMode}
+                addOverallFeedback={addOverallFeedback}
+                submissionId={submission.id}
+                question={question}
+                initialOverallFeedback={initialOverallFeedback}
+                setInitialOverAllFeedback={setInitialOverAllFeedback}
+                overallComment={overallComment}
+                updateOverAllFeedback={updateOverAllFeedback}
+              />
+            )}
+          </AnswerContainer>
         </Frame1366>
+
+        {idx !== submission.assignment.questions.length - 1 && (
+          <div>
+            <Line src="/img/line-14-4.png" alt="Line 14" />
+          </div>
+        )}
       </>
     );
   });
@@ -279,14 +297,14 @@ const createFocusAreasLabel = (
 
   const all = focusAreas?.map((fa) => {
     return (
-      <FocusAreasLabelContainer>
+      <>
         <CheckboxBordered
           checked={isChecked(groupedFocusAreaIds, serialNumber, fa.id)}
           onChange={handleCheckboxChange(serialNumber, fa.id)}
         />
         <Ellipse141 backgroundColor={fa.color}></Ellipse141>
         <Label>{fa.title}</Label>
-      </FocusAreasLabelContainer>
+      </>
     );
   });
 
@@ -345,7 +363,7 @@ function createShowMarkingCriteriasFrame(
   answer,
   question
 ) {
-  const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED' ];
+  const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];
   if (

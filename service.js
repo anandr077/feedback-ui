@@ -203,6 +203,7 @@ export const setProfileCookies = (profile) => {
   localStorage.setItem('jwtToken', profile.token);
   const expiry = 30 * 24 * 60 * 60;
 
+ 
   Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
   Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
   Cookies.set('role', profile.role, { expires: expiry, path: '/' });
@@ -210,6 +211,8 @@ export const setProfileCookies = (profile) => {
     Cookies.set('state', profile.state, { expires: expiry, path: '/' });
     Cookies.set('year', profile.year, { expires: expiry, path: '/' });
   }
+  profile.classes && Cookies.set('classes', JSON.stringify(profile.classes), { expires: expiry, path: '/' });
+  
 };
 
 export const deleteProfileCookies = () => {
@@ -218,6 +221,7 @@ export const deleteProfileCookies = () => {
   Cookies.remove('user.name');
   Cookies.remove('state');
   Cookies.remove('year');
+  Cookies.remove('classes');
 };
 export const logout = async () => {
   await postApi(baseUrl + '/users/logout').then(() => {
@@ -235,6 +239,8 @@ export const account = async () => {
 };
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
 export const getTasks = async () => await getApi(baseUrl + '/tasks');
+export const getCommunityTasks = async () => await getApi(baseUrl + '/communityTasks');
+export const getGiveFeedbackCompletedTasks = async () => await getApi(baseUrl + '/feedbackHistory');
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + '/classes/all/details');
 export const getModelResponses = async () =>
@@ -261,6 +267,8 @@ export const getSubmissionsByAssignmentId = async (assignmentId) =>
   await getApi(baseUrl + '/assignments/' + assignmentId + '/submissions');
 export const getOverComments = async (id) =>
   await getApi(baseUrl + '/submissions/' + id + '/overallComments');
+export const getPortfolioSubjects = async () =>
+  await getApi(baseUrl + '/students/drafts');
 
 export const addFeedback = async (submissionId, comment) =>
   await postApi(
@@ -375,6 +383,8 @@ export const createAssignment = async (assignment) =>
   await postApi(baseUrl + '/assignments', assignment);
 export const publishAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/publish', update);
+export const updateSubject = async (id, subject) =>
+  await patchApi(baseUrl + '/assignments/' + id + '/updateSubject', {subject: subject});
 export const deleteAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/delete', update);
 export const extendDueAtAssignment = async (id, extendDueAt) =>
@@ -416,6 +426,11 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId,
     range
+  );
+export const updateDocumentType = async (submissionId, documentType) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/updateDocumentType',
+    {"documentType": documentType}
   );
 export const publishModelResponse = async (feedbackId) =>
   await patchApi(
@@ -565,13 +580,13 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     classId,
     courseId,
     title,
+    documentType:'Analytical'
   });
 export const askJeddAI = async (submissionId, cleanAnswer) =>
-  await postApi(baseUrl + '/submissions/' + submissionId + "/jeddAIFeedback", 
-  {
-    "state": "NSW",
-    "year": "8",
-    "subject": "English",
-    "type": "Short",
-    "cleanAnswer":cleanAnswer
+  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+    state: 'NSW',
+    year: '8',
+    subject: 'English',
+    type: 'Short',
+    cleanAnswer: cleanAnswer,
   });

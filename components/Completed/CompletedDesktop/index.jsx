@@ -7,6 +7,7 @@ import { completedHeaderProps } from '../../../utils/headerProps.js';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
+import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 
 function CompletedDesktop(props) {
   const {
@@ -21,6 +22,7 @@ function CompletedDesktop(props) {
     frame1284,
     line18,
   } = props;
+  // alert("DDDD")
   return (
     <div className="completed-desktop screen">
       <Frame1425>
@@ -30,6 +32,14 @@ function CompletedDesktop(props) {
             <Breadcrumb2 title="Exemplars" exempler={exemplar} />
           </Frame1315>
         )}
+        <SliderCardContainer>
+          <HelpPeerSlide
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
+        </SliderCardContainer>
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}
@@ -64,10 +74,15 @@ const Frame1315 = styled.div`
 const Frame1425 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 60px;
   position: relative;
   align-self: stretch;
+`;
+
+const SliderCardContainer = styled.div`
+  width: 1026px;
+  margin-left: 240px;
+  height: auto;
 `;
 
 const Frame1424 = styled.div`

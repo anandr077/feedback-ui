@@ -47,22 +47,22 @@
 .ql-container {
   overflow: hidden;
   border: none !important;
+  min-height: 650px;
 }
 
 
 .quill-editor-container {
   border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0px 0px 4px 1px rgba(62, 45, 120, 0.06);
-  border: 1px solid #F5F2F9 !important;
+  padding: 12px 33px;
+  background-color: var(--white);
 }
 /* .ql-container.revised{
   border-radius: 20px 20px !important;
 } */
 
 .ql-editor{
-  min-height: 200px;
   border: none;
+  min-height: 750px;
 }
 
 .ql-formats{

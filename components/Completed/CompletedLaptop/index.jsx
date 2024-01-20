@@ -7,6 +7,7 @@ import { completedHeaderProps } from '../../../utils/headerProps.js';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
+import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 
 function CompletedLaptop(props) {
   const {
@@ -27,9 +28,17 @@ function CompletedLaptop(props) {
         {exemplar && (
           <Frame1315>
             <Breadcrumb text={'Home'} link={'/#'} />
-            <Breadcrumb2 title="Exemplars" exempler={exemplar} />
+            <Breadcrumb2 title="Exemplars-l" exempler={exemplar} />
           </Frame1315>
         )}
+        <SliderCardContainer>
+          <HelpPeerSlide
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
+        </SliderCardContainer>
         <Frame1424>
           <Title>{title}</Title>
 
@@ -81,6 +90,12 @@ const Frame1424 = styled.div`
   padding: 0px 60px;
   position: relative;
   align-self: stretch;
+`;
+
+const SliderCardContainer = styled.div`
+  width: 880px;
+  margin-left: 60px;
+  height: auto;
 `;
 
 const Title = styled.h1`

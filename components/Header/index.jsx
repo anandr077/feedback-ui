@@ -21,10 +21,11 @@ import {
   HeaderButtonSelected,
 } from './HeaderStyle';
 import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getUserRole } from '../../service.js';
 
@@ -35,6 +36,8 @@ export default function Header(props) {
   const [pageHeight, setPageHeight] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
   const [sliderOpen, setsliderOpen] = useState(false);
+  const [fixedTop, setfixedTop] = useState(false);
+  const helpBarRef = useRef(null);
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
     queryFn: async () => {
@@ -59,7 +62,7 @@ export default function Header(props) {
     if (!isNotificationOpen) {
       setIsNotificationOpen(true);
       setSlideNotificationBar(true);
-      setsliderOpen(true)
+      setsliderOpen(true);
     } else {
       setSlideNotificationBar(false);
       setsliderOpen(false);
@@ -84,6 +87,22 @@ export default function Header(props) {
       }, 300);
     }
   };
+
+  const checkSticky = () => {
+    const helpBar = helpBarRef.current;
+    if (!helpBar) return;
+
+    const shouldStick = window.scrollY > 70;
+    setfixedTop(shouldStick);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', checkSticky);
+
+    return () => {
+      window.removeEventListener('scroll', checkSticky);
+    };
+  }, []);
 
   useEffect(() => {
     const updateHeight = () => {
@@ -116,9 +135,16 @@ export default function Header(props) {
 
     return () => observer.disconnect();
   }, []);
-  
+
   return (
-    <>
+    <div
+      ref={helpBarRef}
+      style={{
+        position: 'sticky',
+        top: '0',
+        zIndex: '5',
+      }}
+    >
       <Frame1344>
         <a href="#">
           <Frame1343 src="/icons/header-logo.png" alt="Frame 1343" />
@@ -170,29 +196,30 @@ export default function Header(props) {
               </HeaderButtonInnnerContainer>
             </HeaderButton>
           )}
-          {headerProps.thirdButton.selected ? (
-            <HeaderButtonSelected onClick={OnThirdButtonClick}>
-              <HeaderButtonInnnerContainer>
-                <IconContainer
-                  src={headerProps.thirdButton.iconSelected}
-                  alt="buttonIcon"
-                />
-                <SelectedButtonText>
-                  {headerProps.thirdButton.text}
-                </SelectedButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButtonSelected>
-          ) : (
-            <HeaderButton onClick={OnThirdButtonClick}>
-              <HeaderButtonInnnerContainer className="group-1">
-                <IconContainer
-                  src={headerProps.thirdButton.icon}
-                  alt="buttonIcon"
-                />
-                <ButtonText>{headerProps.thirdButton.text}</ButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButton>
-          )}
+          {(Cookies.get('classes') || isTeacher) &&
+            (headerProps.thirdButton.selected ? (
+              <HeaderButtonSelected onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer>
+                  <IconContainer
+                    src={headerProps.thirdButton.iconSelected}
+                    alt="buttonIcon"
+                  />
+                  <SelectedButtonText>
+                    {headerProps.thirdButton.text}
+                  </SelectedButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButtonSelected>
+            ) : (
+              <HeaderButton onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer className="group-1">
+                  <IconContainer
+                    src={headerProps.thirdButton.icon}
+                    alt="buttonIcon"
+                  />
+                  <ButtonText>{headerProps.thirdButton.text}</ButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButton>
+            ))}
         </Frame5>
         <Frame51>
           {!isTeacher && <HeaderOnboardingMenu />}
@@ -200,7 +227,7 @@ export default function Header(props) {
             src="/img/helpIcon.png"
             onClickFn={handleHelpBarClick}
           />
-          
+
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}
@@ -213,22 +240,34 @@ export default function Header(props) {
       </Frame1344>
       {isHelpBarOpen && (
         <Screen onClick={handleHelpBarClick} pageHeight={pageHeight}>
-          <HelpbarContainer isHelpBarOpen={sliderOpen} pageHeight={pageHeight}>
-            <HelpSidebar />
+          <HelpbarContainer
+            isHelpBarOpen={sliderOpen}
+            pageHeight={pageHeight}
+            ref={helpBarRef}
+            fixedTop={fixedTop}
+          >
+            <HelpSidebar fixedTop={fixedTop} />
           </HelpbarContainer>
         </Screen>
       )}
       {isNotificationOpen && (
-        <Screen onClick={handleNotificationClick} notifications={notifications} pageHeight={pageHeight}>
+        <Screen
+          onClick={handleNotificationClick}
+          notifications={notifications}
+          pageHeight={pageHeight}
+        >
           <NavigationContainer
             slideNotificationBar={sliderOpen}
             pageHeight={pageHeight}
             onClick={(e) => e.stopPropagation()}
+            ref={helpBarRef}
+            fixedTop={fixedTop}
           >
             {' '}
             <NotificationsBar
               notifications={notifications}
               loadingNotifications={isLoading}
+              fixedTop={fixedTop}
             />{' '}
           </NavigationContainer>
         </Screen>
@@ -241,6 +280,6 @@ export default function Header(props) {
           </DropDownContainer>
         </Screen>
       )}
-    </>
+    </div>
   );
 }

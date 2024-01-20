@@ -44,6 +44,7 @@ function TaskCard(props) {
     showDateExtendPopuphandler,
     onAccept,
     onDecline,
+    onSlideChange = () => {},
   } = props;
   const role = getUserRole();
   const userId = getUserId();
@@ -56,7 +57,10 @@ function TaskCard(props) {
       setShowMoreOptions(false);
     }
 
-    if (showStudentListRef.current && !showStudentListRef.current.contains(event.target)) {
+    if (
+      showStudentListRef.current &&
+      !showStudentListRef.current.contains(event.target)
+    ) {
       setShowShareWithStudent(false);
     }
   };
@@ -71,19 +75,21 @@ function TaskCard(props) {
     }
   });
 
-  const saveButtons = (id, showSnackbar, setPublishActionCompleted) => {
+  const saveButtons = (
+    id,
+    showSnackbar,
+    setPublishActionCompleted,
+    onSlideChange
+  ) => {
     return (
       <Frame12191>
         <SLink
           onClick={(e) => {
             denyModelResponse(id).then((res) => {
               if (res.status === 'DENIED') {
-
-                setPublishActionCompleted(id, "DENIED", true);
-                showSnackbar(
-                  "Response won't be shared",
-                  res.link
-                );
+                setPublishActionCompleted(id, 'DENIED', true);
+                onSlideChange();
+                showSnackbar("Response won't be shared", res.link);
               } else {
                 return;
               }
@@ -97,7 +103,8 @@ function TaskCard(props) {
             onClick={(e) => {
               publishModelResponse(id).then((res) => {
                 if (res.status === 'PUBLISHED') {
-                  setPublishActionCompleted(id, "PUBLISHED", true);
+                  setPublishActionCompleted(id, 'PUBLISHED', true);
+                  onSlideChange();
                   showSnackbar('Response shared', res.link);
                 } else {
                   return;
@@ -120,7 +127,8 @@ function TaskCard(props) {
     showSnackbar,
     setPublishActionCompleted,
     onAccept,
-    onDecline
+    onDecline,
+    onSlideChange
   ) {
     if (exemplar) {
       if (task.status === 'AWAITING_APPROVAL') {
@@ -138,7 +146,9 @@ function TaskCard(props) {
                 }}
               >
                 {task.sharedWithStudents?.length}
-                {showShareWithStudent && <ShareWithStudent sharedStudents={task.sharedWithStudents}/>}
+                {showShareWithStudent && (
+                  <ShareWithStudent sharedStudents={task.sharedWithStudents} />
+                )}
               </StudentLength>{' '}
               students!
             </TaskTitle>
@@ -147,7 +157,12 @@ function TaskCard(props) {
             </TaskTitleBold>
             {styledCardWithLink()}
             <TaskTitle>Are you happy to share?</TaskTitle>
-            {saveButtons(task.id, showSnackbar, setPublishActionCompleted)}
+            {saveButtons(
+              task.id,
+              showSnackbar,
+              setPublishActionCompleted,
+              onSlideChange
+            )}
           </StyledCard>
         );
       }
@@ -287,7 +302,8 @@ function TaskCard(props) {
         showSnackbar,
         setPublishActionCompleted,
         onAccept,
-        onDecline
+        onDecline,
+        onSlideChange
       )}
     </>
   );

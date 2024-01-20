@@ -34,9 +34,16 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   const { showSnackbar } = useContext(SnackbarContext);
   const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
   const [country, setCountry] = useState({ title: defaultCountry });
-  const defaultState = Cookies.get('state') === null || Cookies.get('state') === undefined? countriesData[defaultCountry][0].state : Cookies.get('state');
+  const defaultState =
+    Cookies.get('state') === null || Cookies.get('state') === undefined
+      ? countriesData[defaultCountry][0].state
+      : Cookies.get('state');
   const [state, setState] = useState(defaultState);
-  const defaultYear = Cookies.get('year') === null || Cookies.get('year') === undefined? '7' : Cookies.get('year');
+  const defaultYear =
+    Cookies.get('year') === null || Cookies.get('year') === undefined
+      ? '7'
+      : Cookies.get('year');
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   const [year, setYear] = useState(defaultYear);
   const countryOptions = Object.keys(countriesData).map((country) => ({
@@ -49,13 +56,11 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
         }))
       : [];
 
-  console.log('countryOptions', stateOptions);
-
   const handleStateSelect = (selectedState) => {
     console.log('selectedState', selectedState);
-    setState(selectedState.title); // Directly setting the state value
+    setState(selectedState.title);
   };
- 
+
   const handleYearSelect = (selectedYear) => {
     console.log('selectedYear', selectedYear);
     setYear(selectedYear.title);
@@ -68,15 +73,6 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   const cookieState = Cookies.get('state');
   const cookieYear = Cookies.get('year');
 
-  // useEffect(() => {
-  //   if (cookieState) {
-  //     setState(cookieState);
-  //   }
-  //   if (cookieState) {
-  //     setYear(cookieState);
-  //   }
-  // }, []);
-
   const saveStateYear = () => {
     if (state && year) {
       profileStateYear({
@@ -86,13 +82,21 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
         Cookies.set('state', state);
         Cookies.set('year', year);
         onClose();
-        //Cookies.set('country', country.title);
-        //{!editStateYear && setStage(3)}
         if (editStateYear) {
           showSnackbar('Setting successfully updated');
         }
       });
     }
+  };
+
+  const handleCheckboxChange = () => {
+    setIsCheckboxChecked(!isCheckboxChecked);
+  };
+
+  const isSubmitDisabled = !editStateYear && !isCheckboxChecked;
+
+  const handleTermsConditionClick = () => {
+    window.location.href = 'https://jeddle.duxdigital.net/terms-conditions/';
   };
 
   return (
@@ -103,13 +107,13 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
             ? 'Update your Location'
             : "Let's Get Started - Customise Your Feedback"}
         </HeaderText>
-       
+
         {editStateYear && (
           <CloseImg
             src="img/vector-12@2x.png"
             onClick={() => {
-              console.log("onClose", onClose)
-              onClose()
+              console.log('onClose', onClose);
+              onClose();
             }}
           />
         )}
@@ -162,14 +166,17 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
             </p>
           </WarningContainer>
           <CheckboxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox type="checkbox" onChange={handleCheckboxChange} />
             <TermsText>
-              I agree to the <span>terms & conditions</span>
+              I agree to the{' '}
+              <span onClick={handleTermsConditionClick}>
+                terms & conditions
+              </span>
             </TermsText>
           </CheckboxContainer>
         </TermsCondition>
       )}
-      <Button onClick={saveStateYear}>
+      <Button onClick={saveStateYear} disabled={isSubmitDisabled}>
         {editStateYear ? 'Update' : 'Submit'}
       </Button>
     </DialogueBox>

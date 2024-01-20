@@ -104,7 +104,7 @@ function Navigation(props) {
       <Frame5>
         <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
         <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
-        <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />
+        {(Cookies.get('classes') || isTeacher) && <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />}
         <NavElement7 text={'View Profile'} onClick={() => account()} />
         <NavElement7
           text="Change Password"
@@ -134,7 +134,7 @@ function Navigation(props) {
                 <FlagIcon src={flagIcon} />
               </FlagBox>
               <div>
-                Year {year}, Australia, {state}
+                Year {year}, {country}, {state}
               </div>
             </LocationAgeContainer>
             <EditBtn

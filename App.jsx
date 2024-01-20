@@ -21,17 +21,21 @@ import PortfolioPage from './components/PortfolioPage';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
+
+import GiveFeedback from './components/GiveFeedback';
+import Cookies from 'js-cookie';
 import withOnboarding from './components/WithOnboarding';
 import withAuth from './components/WithAuth';
 import NewDocPage from './components/NewDocRoot';
+import MainPage from './components/MainPage';
+import CompletedRoot from './components/Completed/CompletedRoot';
 
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
-  
-  const middleware = (c)=>withOnboarding(withAuth(c));
+
+  const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedTeacherDashboard = middleware(TeacherDashboardRoot);
   const ProtectedStudentDashboard = middleware(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
@@ -48,7 +52,10 @@ function App() {
   const ProtectedSettings = middleware(AccountSettingsRoot);
   const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
+
+  const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
+  const ProtectedCompletedRoot = middleware(CompletedPage);
 
   const portfolioClient = new QueryClient();
 
@@ -57,7 +64,7 @@ function App() {
       role === 'TEACHER' ? (
         <ProtectedTeacherDashboard />
       ) : (
-        <ProtectedStudentDashboard />
+        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedDocRoot />
       );
     return <div>{dashboard}</div>;
   };
@@ -80,6 +87,9 @@ function App() {
             <Route path="/docs">
               <ProtectedDocRoot />
             </Route>
+            <Route path="/main">
+              <MainPage />
+            </Route>
             <Route path="/settings">
               <ProtectedSettings />
             </Route>
@@ -92,11 +102,17 @@ function App() {
             <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
               <ProtectedStrengthAndTarget />
             </Route>
-            <Route path="/portfolio/:folderId/:categoryName?">
-              <ProtectedPortfolioRoot />
+            <Route path="/getFeedback">
+              <ProtectedDocRoot />
             </Route>
-            <Route path="/portfolio">
-              <ProtectedPortfolioRoot />
+            <Route path="/giveFeedback">
+              <ProtectedGiveFeedback />
+            </Route>
+            <Route path="/completed">
+              <ProtectedCompletedRoot />
+            </Route>
+            <Route path="/feedbackHistory">
+              <ProtectedGiveFeedback />
             </Route>
             <Route path="/classes/:classIdFromUrl?">
               <ProtectedTeacherClassesRoot />
@@ -114,13 +130,16 @@ function App() {
             <Route path="/submissions/:id">
               <ProtectedFeedbacksRoot isAssignmentPage={false} />
             </Route>
+            <Route path="/docs">
+              <ProtectedDocumentRoot />
+            </Route>
             <Route path="/documents/:id">
               <ProtectedDocumentRoot />
             </Route>
             <Route path="/documentsReview/:id">
               <ProtectedDocumentRoot />
             </Route>
-            
+
             <Route path="/404">
               <PageNotFound />
             </Route>
@@ -133,7 +152,7 @@ function App() {
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
-    </> 
+    </>
   );
 }
 export default App;

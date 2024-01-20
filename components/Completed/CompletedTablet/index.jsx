@@ -7,6 +7,7 @@ import './CompletedTablet.css';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
+import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 
 function CompletedTablet(props) {
   const {
@@ -21,7 +22,7 @@ function CompletedTablet(props) {
     frame1284,
     line18,
   } = props;
-
+  // alert("TTTT")
   return (
     <div className="completed-tablet screen">
       <Frame1425>
@@ -31,6 +32,14 @@ function CompletedTablet(props) {
             <Breadcrumb2 title="Exemplars" exempler={exemplar} />
           </Frame1315>
         )}
+        <SliderCardContainer>
+          <HelpPeerSlide
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
+        </SliderCardContainer>
         <Frame1424>
           <Title>{title}</Title>
           {createFilter()}
@@ -70,6 +79,11 @@ const Frame1425 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+`;
+
+const SliderCardContainer = styled.div`
+  width: 100%;
+  padding: 0 60px;
 `;
 
 const Frame1424 = styled.div`

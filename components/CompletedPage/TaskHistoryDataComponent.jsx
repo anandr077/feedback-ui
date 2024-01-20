@@ -16,14 +16,16 @@ import clock from '../../static/img/clock.svg';
 import { dateOnly } from '../../dates';
 
 function TaskHistoryDataComponent({ list, downloadPDF }) {
-  console.log('first', list);
+  const redirectFunction = (url) => {
+    window.location.href = url;
+  };
   return (
     <>
       {list.map((task, index) => (
-        <TaskContainer key={index}>
+        <TaskContainer key={index} onClick={() => redirectFunction(task.link)}>
           <DataContainer>
             <DataTitle>{task.title}</DataTitle>
-            <DataSubtitle>Fundamentals of thermal physics</DataSubtitle>
+            <DataSubtitle>{task.classTitle}</DataSubtitle>
             <TaskCompiltion>
               <TaskCompiltionIcon src={clock} />
               Completed on {dateOnly(task.completedAt)}

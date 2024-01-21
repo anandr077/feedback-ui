@@ -4,6 +4,28 @@ import CompletedDesktop from '../CompletedDesktop';
 import CompletedLaptop from '../CompletedLaptop';
 import CompletedMobile from '../CompletedMobile';
 import CompletedTablet from '../CompletedTablet';
+import LinkButton from '../../../components2/LinkButton/index.jsx';
+import whiteArrowleft from '../../../static/img/arrowleftwhite.svg';
+import arrowLeft from '../../../static/img/arrowleft.svg';
+import questionMark from '../../../static/img/question-mark.svg';
+import SortSquare from '../../../static/img/sort-square.svg';
+import FilterSquare from '../../../static/img/filter-square.svg';
+import {
+  ConnectContainer,
+  FilterAndSortContainer,
+  TopContainer,
+  HeadingLine,
+  SortButton,
+  SortButtonText,
+  SortContainer,
+  SortHeading,
+  SortImg,
+  SortText,
+  TitleContainer,
+  Title,
+  TitleImage,
+  FilterContainer,
+} from '../../CompletedPage/style';
 
 export default function CompletedRoot(props) {
   const {
@@ -15,6 +37,66 @@ export default function CompletedRoot(props) {
     id,
     setPublishActionCompleted,
   } = props;
+  const [sortData, setSortData] = React.useState(true);
+  const headingPart = (
+    <>
+      <TopContainer>
+        <TitleContainer>
+          <Title>
+            Shared Responses
+            <TitleImage src={questionMark} />
+          </Title>
+          <ConnectContainer>
+            <LinkButton
+              link={`#/`}
+              label="Back to tasks"
+              arrowleft={arrowLeft}
+              whiteArrowleft={whiteArrowleft}
+            />
+          </ConnectContainer>
+        </TitleContainer>
+        <HeadingLine>
+          All your tasks assigned to you, tasks you are doing, and tasks you
+          have submitted for review
+        </HeadingLine>
+      </TopContainer>
+      <FilterAndSortContainer>
+        {/* <FilterContainer>
+                <Filter>
+                  <FilterImg src={FilterSquare} />
+                  <FilterText>Filters:</FilterText>
+                </Filter>
+
+               
+              </FilterContainer> */}
+        <SortContainer>
+          <SortHeading>
+            <SortImg src={SortSquare} />
+            <SortText>Sort by:</SortText>
+          </SortHeading>
+
+          <>
+            <SortButton
+              style={{ backgroundColor: sortData ? '#51009F' : '' }}
+              onClick={() => setSortData(true)}
+            >
+              <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+                New to Old
+              </SortButtonText>
+            </SortButton>
+            <SortButton
+              style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+              onClick={() => setSortData(false)}
+            >
+              <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+                Old to New
+              </SortButtonText>
+            </SortButton>
+          </>
+        </SortContainer>
+      </FilterAndSortContainer>
+    </>
+  );
 
   return (
     <ReactiveRender
@@ -27,7 +109,9 @@ export default function CompletedRoot(props) {
             groups,
             exemplar,
             id,
+            headingPart,
             setPublishActionCompleted,
+
             ...completedMobileData,
           }}
         />
@@ -41,7 +125,9 @@ export default function CompletedRoot(props) {
             groups,
             exemplar,
             id,
+
             setPublishActionCompleted,
+            headingPart,
             ...completedTabletData,
           }}
         />
@@ -55,6 +141,8 @@ export default function CompletedRoot(props) {
             groups,
             exemplar,
             id,
+
+            headingPart,
             setPublishActionCompleted,
             ...completedLaptopData,
           }}
@@ -69,6 +157,7 @@ export default function CompletedRoot(props) {
             groups,
             exemplar,
             id,
+            headingPart,
             setPublishActionCompleted,
             ...completedDesktopData,
           }}

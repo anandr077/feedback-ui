@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const NavigationContainer = styled.div`
   position: absolute;
   right: 0;
-  z-index: 1;
+  z-index: 100000000000;
   background-color: var(--white);
   align-self: stretch;
   width: 100vw;

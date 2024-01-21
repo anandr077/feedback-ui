@@ -277,7 +277,7 @@ export const DrawerArrow = styled.div`
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
-  z-index: 9;
+  z-index: 4;
 `;
 
 export const ArrowImg = styled.img`
@@ -323,7 +323,6 @@ export const Frame1386 = styled.div`
   align-self: stretch;
   width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
   max-width: 1321px;
-  position: sticky;
 `;
 
 export const GoBackBtn = styled.button`
@@ -500,7 +499,7 @@ export const Frame1331 = styled.div`
   padding: 20px 20px;
 
   position: sticky;
-  top: 100px;
+  top: 10px;
 
   background-color: var(--white);
   border-radius: 16px;

@@ -41,6 +41,7 @@ import { useHistory } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { getSubmissionById, createRequestFeddbackType } from '../../../service';
 import StyledDropDown from '../../../components2/StyledDropDown';
+import { isNullOrEmpty } from '../../../utils/arrays';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -252,7 +253,7 @@ function FeedbackTeacherLaptop(props) {
               {isTeacher ? (
                 <TeacherSidebar open={open} submission={submission} />
               ) : (
-                submission.otherDrafts && (
+                !isNullOrEmpty(submission.otherDrafts) && (
                   <IndepentdentUserSidebar
                     open={open}
                     subjects={submission.otherDrafts?.map((d) => ({

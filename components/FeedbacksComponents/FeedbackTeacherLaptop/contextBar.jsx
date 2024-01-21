@@ -197,7 +197,7 @@ const selectReviewType = (
     setShowTeacherPopUp(true);
   };
   const requestCommnityFeedback = () => {
-    requestFeedback(submission.id, 'COMMUNITY')(null);
+    requestFeedback(submission.id, 'P2P')(null);
   };
 
   if (!isShowSelectType) {
@@ -211,7 +211,7 @@ const selectReviewType = (
           list={uniqueStudents}
           ClosePopUp={ClosePopUp}
           heading={'classmate'}
-          onClickFn={(id) => requestFeedback(submission.id, 'P2P')(id)}
+          onClickFn={(id) => requestFeedback(submission.id, 'FRIEND')(id)}
         />
       )}
       {showTeacherPopUp && (

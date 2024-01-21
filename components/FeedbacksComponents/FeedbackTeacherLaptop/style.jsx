@@ -323,7 +323,6 @@ export const Frame1386 = styled.div`
   align-self: stretch;
   width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
   max-width: 1321px;
-  position: sticky;
 `;
 
 export const GoBackBtn = styled.button`
@@ -500,7 +499,7 @@ export const Frame1331 = styled.div`
   padding: 20px 20px;
 
   position: sticky;
-  top: 100px;
+  top: 10px;
 
   background-color: var(--white);
   border-radius: 16px;

@@ -162,7 +162,6 @@ const NavbarDiv = styled.div`
   position: relative;
   align-self: stretch;
   background-color: var(--white);
-  z-index: 1;
 `;
 const Frame1409 = styled.div`
   display: flex;

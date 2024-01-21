@@ -8,6 +8,8 @@ import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
+import { HeadingAndFilterCon } from './style.js';
+
 
 function CompletedLaptop(props) {
   const {
@@ -21,16 +23,12 @@ function CompletedLaptop(props) {
     subject,
     frame1284,
     line18,
+    headingPart,
   } = props;
   return (
     <div className="completed-laptop screen">
       <Frame1425>
-        {exemplar && (
-          <Frame1315>
-            <Breadcrumb text={'Home'} link={'/#'} />
-            <Breadcrumb2 title="Exemplars-l" exempler={exemplar} />
-          </Frame1315>
-        )}
+        {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
         <SliderCardContainer>
           <HelpPeerSlide
             id={id}

@@ -8,6 +8,8 @@ import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
+import { Filter, FilterImg, FilterText, HeadingAndFilterCon } from './style.js';
+
 
 function CompletedDesktop(props) {
   const {
@@ -21,17 +23,12 @@ function CompletedDesktop(props) {
     subject,
     frame1284,
     line18,
+    headingPart,
   } = props;
-  // alert("DDDD")
   return (
     <div className="completed-desktop screen">
       <Frame1425>
-        {exemplar && (
-          <Frame1315>
-            <Breadcrumb text={'Home'} link={'/#'} />
-            <Breadcrumb2 title="Exemplars" exempler={exemplar} />
-          </Frame1315>
-        )}
+        {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
         <SliderCardContainer>
           <HelpPeerSlide
             id={id}

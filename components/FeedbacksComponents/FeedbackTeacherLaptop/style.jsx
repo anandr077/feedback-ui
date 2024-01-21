@@ -277,7 +277,7 @@ export const DrawerArrow = styled.div`
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
-  z-index: 9;
+  z-index: 4;
 `;
 
 export const ArrowImg = styled.img`

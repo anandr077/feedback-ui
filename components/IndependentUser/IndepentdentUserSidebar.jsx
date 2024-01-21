@@ -1,4 +1,4 @@
-import { Divider, Drawer } from '@mui/material';
+import { Divider, Drawer, MenuItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
@@ -22,7 +22,18 @@ import {
   StyledMoreVertIcon,
   LoadingDiv,
   SidebarContainer,
+  MenuItemsDots,
+  QuestionTitle,
+  MenuItemsContainer,
+  MenuItems,
+  EachMenuItem,
+  EachMenuItemText,
+  EachMenuItemImg,
 } from './style';
+import threedotsc from '../../static/img/threedotsc.svg';
+import threedotsw from '../../static/img/threedotsw.svg';
+import CloseCircle from '../../static/img/closecircle.svg';
+import Download from '../../static/img/Down.svg';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -50,13 +61,14 @@ function IndepentdentUserSidebar({
   setSelectedSubject,
   selectedSubject,
   groupedAndSortedData,
-  currentSubmissionId
+  currentSubmissionId,
 }) {
   const theme = useTheme();
   const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
+  const [showMenuMap, setShowMenuMap] = useState({});
 
   useEffect(() => {
     setSelectedQuestion(subjects[0]);
@@ -99,9 +111,18 @@ function IndepentdentUserSidebar({
     history.push(newUrl);
   };
 
+  const downloadFunction = () => {
+    console.log('download function');
+  };
+  const deleteFunction = () => {
+    console.log('delete function');
+  };
+
   return (
     <SidebarContainer drawerWidth={drawerWidth} open={open}>
-      <DrawerHeader onClick={()=>history.push("/docs")}>+ New Draft</DrawerHeader>
+      <DrawerHeader onClick={() => history.push('/docs')}>
+        + New Draft
+      </DrawerHeader>
       <DividerContainer>
         <Divider />
       </DividerContainer>
@@ -141,32 +162,63 @@ function IndepentdentUserSidebar({
               )}
             </DrawerSubjects>
             <DrawerQuestions>
-              
-
               {subjects
                 ?.filter((question) => question.subject === selectedSubject)
-                .map(
-                  (question, qIndex) => {
-                    return question.title
+                .map((question, qIndex) => {
+                  const showMenu = showMenuMap[question.id] || false;
+                  return (
+                    question.title
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) && (
                       <DrawerQuestion
                         key={qIndex}
-                        onClick={() => {
-                          setSelectedQuestion(question);
-                          handleSubjectClick(question);
-                        }}
                         studentStyle={question.id === currentSubmissionId}
                       >
-                       
-                      <>
-                        {question.title}
-                        <OverflowShadow blueBackground={question.id === currentSubmissionId}></OverflowShadow>
-                      </>
-                       
+                        <QuestionTitle
+                          onClick={() => {
+                            setSelectedQuestion(question);
+                            handleSubjectClick(question);
+                          }}
+                        >
+                          {question.title}
+                          {/* <OverflowShadow
+                              blueBackground={
+                                question.id === currentSubmissionId
+                              }
+                            ></OverflowShadow> */}
+                        </QuestionTitle>
+                        <MenuItemsContainer>
+                          <MenuItemsDots
+                            src={
+                              question.id === currentSubmissionId
+                                ? threedotsw
+                                : threedotsc
+                            }
+                            onClick={() =>
+                              setShowMenuMap((prev) => ({
+                                ...prev,
+                                [question.id]: !showMenu,
+                              }))
+                            }
+                          />
+                          {/* {showMenu && <MenuItems>hello</MenuItems>} */}
+                        </MenuItemsContainer>
+                        {showMenu && (
+                          <MenuItems>
+                            <EachMenuItem onClick={() => downloadFunction()}>
+                              <EachMenuItemImg src={Download} />
+                              <EachMenuItemText>Download</EachMenuItemText>
+                            </EachMenuItem>
+                            <EachMenuItem onClick={() => deleteFunction()}>
+                              <EachMenuItemImg src={CloseCircle} />
+                              <EachMenuItemText>Delete</EachMenuItemText>
+                            </EachMenuItem>
+                          </MenuItems>
+                        )}
                       </DrawerQuestion>
                     )
-                        })}
+                  );
+                })}
             </DrawerQuestions>
           </>
         )}

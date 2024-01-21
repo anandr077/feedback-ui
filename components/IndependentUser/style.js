@@ -263,7 +263,51 @@ export const OverflowShadow = styled.div`
   right: 0;
   transform: translateY(-50%);
 `;
-
+export const MenuItemsDots = styled.img`
+  cursor: pointer;
+`;
+export const QuestionTitle = styled.div`
+  cursor: pointer;
+  width: 200px;
+  overflow: hidden;
+`;
+export const MenuItemsContainer = styled.div`
+  position: relative;
+  display: none;
+`;
+export const MenuItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  left: 250px;
+  // left: -50px;
+  z-index: 2000;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px;
+  gap: 2px;
+  background: var(--white);
+`;
+export const EachMenuItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  border-radius: 4px;
+  gap: 6px;
+`;
+export const EachMenuItemImg = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+export const EachMenuItemText = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
 export const DrawerQuestion = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
@@ -278,9 +322,10 @@ export const DrawerQuestion = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   transition: 0.3s ease-in;
-  cursor: pointer;
+  // cursor: pointer;
 
   &:hover {
     background: ${(props) =>
@@ -289,6 +334,9 @@ export const DrawerQuestion = styled.div`
 
     ${OverflowShadow} {
       display: none;
+    }
+    ${MenuItemsContainer} {
+      display: flex;
     }
   }
 

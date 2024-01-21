@@ -7,7 +7,7 @@ export const MainContainer = styled.div`
   place-items: center;
   position: absolute;
   background-color: var(--white-pointer);
-  z-index: 100000000;
+  z-index: 1000;
 `;
 
 export const Content = styled.div`

@@ -103,7 +103,7 @@ function FeedbackTeacherLaptop(props) {
     let dataToUse = submission.otherDrafts||[];
    
     const groupedData = dataToUse?.reduce((result, item) => {
-      const subject = item.subject || 'Students';
+      const subject = item.subject || 'English';
 
       if (!result[subject]) {
         result[subject] = [];

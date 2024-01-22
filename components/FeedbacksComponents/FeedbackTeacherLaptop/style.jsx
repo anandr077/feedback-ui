@@ -369,7 +369,6 @@ export const Frame1371 = styled.div`
   justify-content: space-between;
   gap: 32px;
   z-index: 2;
-  padding: 20px 0;
   background-color: var(--white-pointer);
   width: 100%;
 
@@ -789,10 +788,10 @@ export const ShortcutList = styled.div`
 `;
 
 export const SubjectSelectionContainer = styled.div`
-  margin-top: 40px;
   display: flex;
   justify-content: start;
   gap: 30px;
+  margin-top: 40px;
 `;
 
 export const SubjectSelectBox = styled.div`

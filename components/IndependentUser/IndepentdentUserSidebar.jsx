@@ -116,13 +116,10 @@ function IndepentdentUserSidebar({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <SearchIcon src="img/VectorSearch.png" />
+              <SearchIcon src="img/vectorsearch.png" />
             </DrawerInputBox>
             <SubjectTitle>SUBJECTS</SubjectTitle>
             <DrawerSubjects>
-              <RecentBtn>
-                <StyledAccessTimeIcon /> Recent <StyledMoreVertIcon />
-              </RecentBtn>
               {Object.entries(groupedAndSortedData).map(
                 ([key, value], index) => {
                   return (

@@ -1,5 +1,7 @@
 .completed-desktop {
-  align-items: flex-start;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   background-color: var(--white-pointer);
   border: 1px none;
   display: flex;

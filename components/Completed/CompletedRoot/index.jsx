@@ -38,6 +38,15 @@ export default function CompletedRoot(props) {
     setPublishActionCompleted,
   } = props;
   const [sortData, setSortData] = React.useState(true);
+  const dataArray = Object.entries(groups);
+  const sortedArray = dataArray.sort((a, b) => {
+    const dateA = new Date(a[0]);
+    const dateB = new Date(b[0]);
+    return sortData ? dateB - dateA : dateA - dateB;
+  });
+
+  const sortedData = Object.fromEntries(sortedArray);
+
   const headingPart = (
     <>
       <TopContainer>
@@ -106,7 +115,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: sortedData,
             exemplar,
             id,
             headingPart,
@@ -122,7 +131,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: sortedData,
             exemplar,
             id,
 
@@ -138,7 +147,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: sortedData,
             exemplar,
             id,
 
@@ -154,11 +163,12 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: sortedData,
             exemplar,
             id,
             headingPart,
             setPublishActionCompleted,
+            sortedData,
             ...completedDesktopData,
           }}
         />

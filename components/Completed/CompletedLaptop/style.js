@@ -4,7 +4,5 @@ export const HeadingAndFilterCon = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  width: 880px;
-  margin-left: 60px;
-  height: auto;
+  width: 100%;
 `;

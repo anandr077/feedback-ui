@@ -10,7 +10,6 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 import { Filter, FilterImg, FilterText, HeadingAndFilterCon } from './style.js';
 
-
 function CompletedDesktop(props) {
   const {
     menuItems,
@@ -24,6 +23,7 @@ function CompletedDesktop(props) {
     frame1284,
     line18,
     headingPart,
+    sortedData,
   } = props;
   return (
     <div className="completed-desktop screen">
@@ -37,10 +37,7 @@ function CompletedDesktop(props) {
             setPublishActionCompleted={setPublishActionCompleted}
           />
         </SliderCardContainer>
-        <Frame1424>
-          <Title>{title}</Title>
-          {createFilter()}
-        </Frame1424>
+        <Frame1424>{createFilter()}</Frame1424>
         <Frame1413>
           <Frame14103
             id={id}
@@ -71,14 +68,16 @@ const Frame1315 = styled.div`
 const Frame1425 = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
   position: relative;
-  align-self: stretch;
+  max-width: 1440px !important;
 `;
 
 const SliderCardContainer = styled.div`
   width: 1026px;
-  margin-left: 240px;
   height: auto;
 `;
 
@@ -105,7 +104,6 @@ const Frame1413 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
-  padding: 0px 240px;
   position: relative;
   align-self: stretch;
 `;

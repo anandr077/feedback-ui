@@ -374,7 +374,10 @@ export const Frame5086 = styled.div`
   gap: 6px;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+
+  @media (max-width: 765px) {
+    cursor: pointer;
+  }
 `;
 
 export const Frame5086PopUp = styled.div`
@@ -394,6 +397,13 @@ export const Frame5086PopUpBody = styled.div`
   border: 0px 0px 1px 0px;
   // gap: 16px;
   border-bottom: 1px solid #d6d6d6;
+`;
+export const SortPopUpBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 16px 20px;
+  border: 0px 0px 1px 0px;
+  gap: 16px;
 `;
 export const Frame5086Img = styled.img`
   width: 24px;

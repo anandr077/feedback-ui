@@ -53,7 +53,7 @@ const Buttons = styled.article`
   position: relative;
   background-color: var(--light-mode-purple);
   border-radius: 30px;
-  border: 1px solid;
+  border: 1px solid var(--light-mode-purple);
   cursor: pointer;
   &:hover {
     scale: 1.2;

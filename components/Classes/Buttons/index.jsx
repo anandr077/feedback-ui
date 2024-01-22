@@ -25,7 +25,7 @@ const Buttons1 = styled.div`
   position: relative;
   background-color: var(--light-mode-purple);
   border-radius: 30px;
-  border: 1px solid;
+  border: 1px solid var(--light-mode-purple);
 
   &.buttons.buttons-1 {
     align-self: stretch;

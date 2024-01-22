@@ -37,10 +37,7 @@ function CompletedTablet(props) {
             setPublishActionCompleted={setPublishActionCompleted}
           />
         </SliderCardContainer>
-        <Frame1424>
-          <Title>{title}</Title>
-          {createFilter()}
-        </Frame1424>
+        <Frame1424>{createFilter()}</Frame1424>
         <Frame1413>
           <Frame1410
             id={id}

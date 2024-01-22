@@ -168,7 +168,7 @@ const selectReviewType = (
     }).then((response) => {
       console.log('Response', response);
       console.log('Done ', setSubmission);
-      
+
       setSubmission((old) => ({
         ...old,
         answers: response.answers,
@@ -237,7 +237,6 @@ const selectReviewType = (
             />
           </Frame1334>
           <Frame5053>
-            
             {showTeacher && (
               <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>
@@ -445,30 +444,28 @@ export function contextBarForPortfolioDocument(
   };
 
   const handleTaskUpdate = (selectedItem) => {
-    updateDocumentType(submission.id, selectedItem.title)
-      .then(res=>{
-        setSubmission(old=>{
-          return {
-            ...old,
-            documentType:res.documentType
-          }
-        })
-      })
+    updateDocumentType(submission.id, selectedItem.title).then((res) => {
+      setSubmission((old) => {
+        return {
+          ...old,
+          documentType: res.documentType,
+        };
+      });
+    });
   };
 
   const handleSubjectUpdate = (selectedItem) => {
-    updateSubject(submission.assignment.id, selectedItem.title)
-      .then(res=>{
-        setSubmission(old=>{
-          return {
-            ...old,
-            assignment:{
-              ...old.assignment,
-              subject:res.subject
-            }
-          }
-        })
-      })
+    updateSubject(submission.assignment.id, selectedItem.title).then((res) => {
+      setSubmission((old) => {
+        return {
+          ...old,
+          assignment: {
+            ...old.assignment,
+            subject: res.subject,
+          },
+        };
+      });
+    });
   };
 
   const handleTitleClick = () => {
@@ -773,6 +770,42 @@ const submitButtonDocument = (
       </RequestFeedbackFrame>
     );
   }
+  if (pageMode === 'CLOSED' && submission.status === 'REVIEWED') {
+    if (submission.feedbackRequestType === 'JEDDAI') {
+      return (
+        <RequestFeedbackFrame
+          style={{
+            cursor: 'unset',
+            minWidth: '100px',
+            position: 'relative',
+            backgroundColor: 'white',
+            color: 'black',
+            display: 'flex',
+            gap: '10px',
+          }}
+        >
+          {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
+          <Label16pxSmall>JeddAI has provided its feedback</Label16pxSmall>
+        </RequestFeedbackFrame>
+      );
+    }
+    return (
+      <RequestFeedbackFrame
+        style={{
+          cursor: 'unset',
+          minWidth: '100px',
+          position: 'relative',
+          background: 'white',
+          color: 'black',
+          display: 'flex',
+          gap: '10px',
+        }}
+      >
+        {<Icon24 src="/img/message24.svg"></Icon24>}
+        <Label16pxSmall>Your feedback is ready to review</Label16pxSmall>
+      </RequestFeedbackFrame>
+    );
+  }
   return <></>;
 };
 
@@ -907,7 +940,10 @@ function subjectTypeSelection(
     { title: 'Persuasive' },
     { title: 'Reflective' },
   ];
-  console.log("selected index " + taskOptions.findIndex(item=>item.title===submission.documentType))
+  console.log(
+    'selected index ' +
+      taskOptions.findIndex((item) => item.title === submission.documentType)
+  );
   return (
     <SubjectSelectionContainer>
       {pageMode === 'DRAFT' ? (
@@ -916,16 +952,20 @@ function subjectTypeSelection(
             <label>Select Subject</label>
             <StyledDropDown
               menuItems={subjectOptions}
-              selectedIndex={subjectOptions.findIndex(item=>item.title===submission.assignment.subject)}
+              selectedIndex={subjectOptions.findIndex(
+                (item) => item.title === submission.assignment.subject
+              )}
               onItemSelected={(item) => handleSubjectUpdate(item)}
             ></StyledDropDown>
           </SubjectSelectBox>
           <SubjectSelectBox>
             <label>Task Type</label>
-          
+
             <StyledDropDown
               menuItems={taskOptions}
-              selectedIndex={taskOptions.findIndex(item=>item.title===submission.documentType)}
+              selectedIndex={taskOptions.findIndex(
+                (item) => item.title === submission.documentType
+              )}
               onItemSelected={(item) => handleTaskUpdate(item)}
             ></StyledDropDown>
           </SubjectSelectBox>

@@ -10,7 +10,6 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 import { HeadingAndFilterCon } from './style.js';
 
-
 function CompletedLaptop(props) {
   const {
     menuItems,
@@ -37,11 +36,7 @@ function CompletedLaptop(props) {
             setPublishActionCompleted={setPublishActionCompleted}
           />
         </SliderCardContainer>
-        <Frame1424>
-          <Title>{title}</Title>
-
-          {createFilter()}
-        </Frame1424>
+        <Frame1424>{createFilter()}</Frame1424>
 
         <Frame1413>
           <Frame14103
@@ -73,12 +68,14 @@ const Frame1315 = styled.div`
 `;
 
 const Frame1425 = styled.div`
+  padding: 0px 60px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 60px;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
   position: relative;
-  align-self: stretch;
 `;
 
 const Frame1424 = styled.div`
@@ -92,7 +89,6 @@ const Frame1424 = styled.div`
 
 const SliderCardContainer = styled.div`
   width: 880px;
-  margin-left: 60px;
   height: auto;
 `;
 
@@ -110,7 +106,6 @@ const Frame1413 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
-  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;

@@ -3,11 +3,10 @@ import styled from 'styled-components';
 export const HeadingAndFilterCon = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
-  width: 1026px;
-  margin-left: 240px;
-  height: auto;
+  width: 100%;
+  
 `;
 
 export const Filter = styled.div`

@@ -267,8 +267,7 @@ export const MenuItemsDots = styled.img`
   cursor: pointer;
 `;
 export const QuestionTitle = styled.div`
-  cursor: pointer;
-  width: 200px;
+  width: 235px;
   overflow: hidden;
 `;
 export const MenuItemsContainer = styled.div`
@@ -276,25 +275,38 @@ export const MenuItemsContainer = styled.div`
   display: none;
 `;
 export const MenuItems = styled.div`
+  display: none;
+  flex-direction: row;
+  padding: 16px 0px 0px 0px;
+  border: 1px 0px 0px 0px;
+  justify-content: space-between;
+  background: #f2f2f2;
+  border-top: 1px solid #d6d6d6;
+  width: 235px;
+  transition: 0.7s ease-in;
+
+  background: ${(props) =>
+    props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
+  color: ${(props) => (props.studentStyle ? 'var(--white) !important' : 'var(--text)')};
+`;
+export const LeftPart = styled.div`
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0px;
-  left: 250px;
-  // left: -50px;
-  z-index: 2000;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px;
-  gap: 2px;
-  background: var(--white);
+  width: 147px;
+  height: 18px;
+  justify-content: space-between;
+`;
+export const RightPart = styled.div`
+  display: flex;
+  height: 18px;
+  gap: 4px;
+  cursor: pointer;
 `;
 export const EachMenuItem = styled.div`
   display: flex;
-  flex-direction: row;
-  padding: 8px;
-  border-radius: 4px;
-  gap: 6px;
+  justify-content: center;
+  height: 18px;
+  gap: 4px;
+  cursor: pointer;
 `;
 export const EachMenuItemImg = styled.img`
   width: 16px;
@@ -307,6 +319,16 @@ export const EachMenuItemText = styled.p`
   line-height: 18px;
   letter-spacing: 0em;
   text-align: left;
+`;
+export const EachMenuItemTextDel = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: ${(props) =>
+    props.studentStyle ? 'var(--white) !important' : '#a93421'};
 `;
 export const DrawerQuestion = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
@@ -321,21 +343,20 @@ export const DrawerQuestion = styled.div`
   white-space: nowrap;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 10px;
   transition: 0.3s ease-in;
   // cursor: pointer;
 
   &:hover {
-    background: ${(props) =>
-      props.studentStyle ? 'var(--royal-purple)' : '#dbd9d9'};
     white-space: normal;
 
     ${OverflowShadow} {
       display: none;
     }
-    ${MenuItemsContainer} {
+    ${MenuItems} {
       display: flex;
     }
   }

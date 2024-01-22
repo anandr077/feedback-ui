@@ -29,11 +29,15 @@ import {
   EachMenuItem,
   EachMenuItemText,
   EachMenuItemImg,
+  LeftPart,
+  RightPart,
+  EachMenuItemTextDel,
 } from './style';
 import threedotsc from '../../static/img/threedotsc.svg';
 import threedotsw from '../../static/img/threedotsw.svg';
-import CloseCircle from '../../static/img/closecircle.svg';
+import closecircleRed from '../../static/img/closecircleRed.svg';
 import Download from '../../static/img/Down.svg';
+import preview from '../../static/img/preview.svg';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -174,47 +178,45 @@ function IndepentdentUserSidebar({
                         key={qIndex}
                         studentStyle={question.id === currentSubmissionId}
                       >
-                        <QuestionTitle
-                          onClick={() => {
-                            setSelectedQuestion(question);
-                            handleSubjectClick(question);
-                          }}
-                        >
+                        <QuestionTitle>
                           {question.title}
-                          {/* <OverflowShadow
-                              blueBackground={
-                                question.id === currentSubmissionId
-                              }
-                            ></OverflowShadow> */}
+                          <OverflowShadow
+                            blueBackground={question.id === currentSubmissionId}
+                          ></OverflowShadow>
                         </QuestionTitle>
-                        <MenuItemsContainer>
-                          <MenuItemsDots
-                            src={
-                              question.id === currentSubmissionId
-                                ? threedotsw
-                                : threedotsc
-                            }
-                            onClick={() =>
-                              setShowMenuMap((prev) => ({
-                                ...prev,
-                                [question.id]: !showMenu,
-                              }))
-                            }
-                          />
-                          {/* {showMenu && <MenuItems>hello</MenuItems>} */}
-                        </MenuItemsContainer>
-                        {showMenu && (
-                          <MenuItems>
+                        <MenuItems
+                          studentStyle={question.id === currentSubmissionId}
+                        >
+                          <LeftPart>
+                            <EachMenuItem
+                              onClick={() => {
+                                setSelectedQuestion(question);
+                                handleSubjectClick(question);
+                              }}
+                              style={{
+                                display:
+                                  question.id === currentSubmissionId
+                                    ? 'none'
+                                    : 'flex',
+                              }}
+                            >
+                              <EachMenuItemImg src={preview} />
+                              <EachMenuItemText>View</EachMenuItemText>
+                            </EachMenuItem>
                             <EachMenuItem onClick={() => downloadFunction()}>
                               <EachMenuItemImg src={Download} />
                               <EachMenuItemText>Download</EachMenuItemText>
                             </EachMenuItem>
-                            <EachMenuItem onClick={() => deleteFunction()}>
-                              <EachMenuItemImg src={CloseCircle} />
-                              <EachMenuItemText>Delete</EachMenuItemText>
-                            </EachMenuItem>
-                          </MenuItems>
-                        )}
+                          </LeftPart>
+                          <RightPart onClick={() => deleteFunction()}>
+                            <EachMenuItemImg src={closecircleRed} />
+                            <EachMenuItemTextDel
+                              studentStyle={question.id === currentSubmissionId}
+                            >
+                              Delete
+                            </EachMenuItemTextDel>
+                          </RightPart>
+                        </MenuItems>
                       </DrawerQuestion>
                     )
                   );

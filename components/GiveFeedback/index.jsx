@@ -44,6 +44,7 @@ import {
   Frame5086PopUp,
   Frame5086PopUpTitle,
   Frame5086PopUpBody,
+  SortPopUpBody,
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
@@ -84,6 +85,7 @@ function GiveFeedback() {
   const [sortData, setSortData] = React.useState(true);
   const mobileView = isMobileView();
   const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
+  const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
   const location = useLocation();
   const pathName = location.pathname;
 
@@ -214,7 +216,6 @@ function GiveFeedback() {
                 search={false}
                 type={'state'}
                 selectedIndex={setSelectedValue}
-                defaultValue={selectedState}
                 menuItems={statesData}
                 fullWidth={true}
               />
@@ -223,7 +224,6 @@ function GiveFeedback() {
               <RoundedDropDown
                 search={false}
                 selectedIndex={setSelectedValue}
-                defaultValue={selectedYear}
                 menuItems={yearsData}
                 type={'year'}
                 fullWidth={true}
@@ -247,6 +247,45 @@ function GiveFeedback() {
                 fullWidth={true}
               />
             </Frame5086PopUpBody>
+          </PopupContainer>
+        )}
+      </Dialog>
+    );
+  };
+  const SortPopContainer = ({ isShowSortPopUp, setShowSortPopUp }) => {
+    return (
+      <Dialog open={isShowSortPopUp}>
+        {isShowSortPopUp && (
+          <PopupContainer>
+            <Frame5086PopUp>
+              <Frame5086PopUpTitle>
+                <Frame5086Img src={SortSquare} />
+                <Frame5086Text>Sort by:</Frame5086Text>
+              </Frame5086PopUpTitle>
+              <FeedbackButtonArrow
+                style={{ cursor: 'pointer' }}
+                src={CloseCircle}
+                onClick={() => setShowSortPopUp(false)}
+              />
+            </Frame5086PopUp>
+            <SortPopUpBody>
+              <SortButton
+                style={{ backgroundColor: sortData ? '#51009F' : '' }}
+                onClick={() => setSortData(true)}
+              >
+                <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+                  New to Old
+                </SortButtonText>
+              </SortButton>
+              <SortButton
+                style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                onClick={() => setSortData(false)}
+              >
+                <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+                  Old to New
+                </SortButtonText>
+              </SortButton>
+            </SortPopUpBody>
           </PopupContainer>
         )}
       </Dialog>
@@ -292,9 +331,15 @@ function GiveFeedback() {
             </TopContainer>
             <FilterAndSortContainer>
               <FilterContainer>
-                <Frame5086>
+                <Frame5086
+                  onClick={
+                    mobileView
+                      ? () => setShowFilterPopUp(!isShowFilterPopUp)
+                      : undefined
+                  }
+                >
                   <Frame5086Img src={FilterSquare} />
-                  <Frame5086Text>Filters:</Frame5086Text>
+                  <Frame5086Text>Filters {!mobileView && ':'}</Frame5086Text>
                 </Frame5086>
 
                 {!mobileView ? (
@@ -331,15 +376,21 @@ function GiveFeedback() {
                 ) : (
                   <></>
                 )}
-                {/* <FilterPopContainer
-                isShowFilterPopUp={isShowFilterPopUp}
-                setShowFilterPopUp={setShowFilterPopUp}
-              /> */}
+                <FilterPopContainer
+                  isShowFilterPopUp={isShowFilterPopUp}
+                  setShowFilterPopUp={setShowFilterPopUp}
+                />
               </FilterContainer>
               <SortContainer>
-                <Frame5086>
+                <Frame5086
+                  onClick={
+                    mobileView
+                      ? () => setShowSortPopUp(!isShowSortPopUp)
+                      : undefined
+                  }
+                >
                   <Frame5086Img src={SortSquare} />
-                  <Frame5086Text>Sort by:</Frame5086Text>
+                  <Frame5086Text>Sort by {!mobileView && ':'}</Frame5086Text>
                 </Frame5086>
                 {!mobileView ? (
                   <>
@@ -367,6 +418,10 @@ function GiveFeedback() {
                 ) : (
                   <></>
                 )}
+                <SortPopContainer
+                  isShowSortPopUp={isShowSortPopUp}
+                  setShowSortPopUp={setShowSortPopUp}
+                />
               </SortContainer>
             </FilterAndSortContainer>
           </HeadingAndFilterCon>

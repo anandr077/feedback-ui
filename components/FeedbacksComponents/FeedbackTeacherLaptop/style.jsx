@@ -652,7 +652,9 @@ export const ButtonWithImageBeforeText = styled.button`
 export const Label16pxSmall = styled.div`
   font-size:16px;
   font-weight:400;
-  font-family: IBM Plex Sans;
+  font-family: var(--font-family-ibm_plex_sans);
+  line-height: 20px;
+  color: var(--text);
 `;
 
 export const RequestFeedbackStatusFrame = styled.div`

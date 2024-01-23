@@ -319,8 +319,9 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
   if (pageMode === 'REVISE') {
     if (submission.status === 'RESUBMISSION_REQUESTED') {
       return (
-        <RectangularBigBtn
-          text={'Submit'}
+        <RectangularBigBtn2
+          leftIcon={'img/messages.png'}
+          text={'Get Feedback'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
         />
       );
@@ -334,6 +335,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     );
   }
   return <></>;
+  console.log('pageMode', pageMode)
 };
 
 function downloadButtonNonClosedSubmission(
@@ -974,10 +976,10 @@ function subjectTypeSelection(
       ) : (
         <>
           <SubjectSelectBox>
-            <label>{submission.assignment.subject || "English"}</label>
+            <label>{submission.assignment.subject || 'English'}</label>
           </SubjectSelectBox>
           <SubjectSelectBox>
-            <label>{submission.documentType || "Analytical"}</label>
+            <label>{submission.documentType || 'Analytical'}</label>
           </SubjectSelectBox>
         </>
       )}

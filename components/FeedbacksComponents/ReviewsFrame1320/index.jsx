@@ -61,7 +61,7 @@ const Frame13201 = styled.div`
 
 const Feedback = styled.div`
   ${IbmplexsansNormalPersianIndigo14px}
-  font-size: 20px;
+  font-size: 16px;
   position: relative;
   font-weight: 500;
   width: fit-content;

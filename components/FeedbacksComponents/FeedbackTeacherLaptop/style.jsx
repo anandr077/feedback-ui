@@ -384,7 +384,7 @@ export const Frame1371 = styled.div`
 
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-l);
   font-weight: 500;
   line-height: 31px;
   font-style: normal;
@@ -397,7 +397,7 @@ export const AssignmentTitle = styled.h1`
 
 export const QuestionEditInput = styled.textarea`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-l);
   color: var(--text);
   font-weight: 400;
   line-height: 20px;
@@ -803,7 +803,7 @@ export const SubjectSelectBox = styled.div`
   label {
     font-family: var(--font-family-ibm_plex_sans);
     font-weight: 400;
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-l);
     line-height: 26px;
     color: #6f6f6f;
     padding-right: 10px;

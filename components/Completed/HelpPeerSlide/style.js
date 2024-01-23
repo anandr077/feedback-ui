@@ -25,8 +25,12 @@ export const Header = styled.div`
 
 export const SliderMain = styled.div`
   padding: 20px;
-  height: ${props => props.mobileView ? '458px' : '430px'};
+  height: ${props => props.mobileView ? '570px' : '460px'};
   overflow: hidden;
+
+  @-moz-document url-prefix() {
+    height: ${props => props.mobileView ? '570px' : '480px'};
+  }
 `;
 
 export const Slider = styled.div`
@@ -46,8 +50,6 @@ export const FirstSlide = styled.div`
   width: 100%;
   height: 100%;
   top: 30px;
-  transition: transform 0.3s ease-in;
-  transform: translateX(${(props) => (props.animate ? '100%' : '0')});
   z-index: 2;
 `;
 
@@ -58,7 +60,7 @@ export const SecondSlide = styled.div`
   transform: translateX(-50%);
   width: 97%;
   background-color: var(--white);
-  height: 95%;
+  height: 45%;
   z-index: 1;
   border-radius: 15px;
   box-shadow: 0px 3.826px 15.304px 0px rgba(114, 0, 224, 0.1);
@@ -70,7 +72,7 @@ export const ThirdSlide = styled.div`
   left: 50%;
   transform: translateX(-50%);
   width: 94%;
-  height: 100%;
+  height: 200px;
   z-index: 0;
   border: 1px solid rgba(114, 0, 224, 0.1);
   border-radius: 15px;

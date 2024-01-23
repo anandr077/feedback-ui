@@ -1,4 +1,4 @@
-import { Divider, Drawer } from '@mui/material';
+import { Divider, Drawer, MenuItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
@@ -22,7 +22,24 @@ import {
   StyledMoreVertIcon,
   LoadingDiv,
   SidebarContainer,
+  MenuItemsDots,
+  QuestionTitle,
+  MenuItemsContainer,
+  MenuItems,
+  EachMenuItem,
+  EachMenuItemText,
+  EachMenuItemImg,
+  LeftPart,
+  RightPart,
+  EachMenuItemTextDel,
 } from './style';
+import threedotsc from '../../static/img/threedotsc.svg';
+import threedotsw from '../../static/img/threedotsw.svg';
+import closecircleRed from '../../static/img/closecircleRed.svg';
+import Download from '../../static/img/Down.svg';
+import selectedDownload from '../../static/icons/download.png';
+import closeCircleWhite from '../../static/icons/closecircle.png';
+import preview from '../../static/img/preview.svg';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -50,13 +67,14 @@ function IndepentdentUserSidebar({
   setSelectedSubject,
   selectedSubject,
   groupedAndSortedData,
-  currentSubmissionId
+  currentSubmissionId,
 }) {
   const theme = useTheme();
   const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
+  const [showMenuMap, setShowMenuMap] = useState({});
 
   useEffect(() => {
     setSelectedQuestion(subjects[0]);
@@ -99,9 +117,18 @@ function IndepentdentUserSidebar({
     history.push(newUrl);
   };
 
+  const downloadFunction = () => {
+    console.log('download function');
+  };
+  const deleteFunction = () => {
+    console.log('delete function');
+  };
+
   return (
     <SidebarContainer drawerWidth={drawerWidth} open={open}>
-      <DrawerHeader onClick={()=>history.push("/docs")}>+ New Draft</DrawerHeader>
+      <DrawerHeader onClick={() => history.push('/docs')}>
+        + New Draft
+      </DrawerHeader>
       <DividerContainer>
         <Divider />
       </DividerContainer>
@@ -138,32 +165,73 @@ function IndepentdentUserSidebar({
               )}
             </DrawerSubjects>
             <DrawerQuestions>
-              
-
               {subjects
                 ?.filter((question) => question.subject === selectedSubject)
-                .map(
-                  (question, qIndex) => {
-                    return question.title
+                .map((question, qIndex) => {
+                  const showMenu = showMenuMap[question.id] || false;
+                  return (
+                    question.title
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) && (
                       <DrawerQuestion
                         key={qIndex}
-                        onClick={() => {
-                          setSelectedQuestion(question);
-                          handleSubjectClick(question);
-                        }}
                         studentStyle={question.id === currentSubmissionId}
                       >
-                       
-                      <>
-                        {question.title}
-                        <OverflowShadow blueBackground={question.id === currentSubmissionId}></OverflowShadow>
-                      </>
-                       
+                        <QuestionTitle>
+                          {question.title}
+                          <OverflowShadow
+                            blueBackground={question.id === currentSubmissionId}
+                          ></OverflowShadow>
+                        </QuestionTitle>
+                        <MenuItems
+                          studentStyle={question.id === currentSubmissionId}
+                        >
+                          <LeftPart>
+                            <EachMenuItem
+                              onClick={() => {
+                                setSelectedQuestion(question);
+                                handleSubjectClick(question);
+                              }}
+                              style={{
+                                display:
+                                  question.id === currentSubmissionId
+                                    ? 'none'
+                                    : 'flex',
+                              }}
+                            >
+                              <EachMenuItemImg src={preview} />
+                              <EachMenuItemText purpleColor={question.id === currentSubmissionId}>View</EachMenuItemText>
+                            </EachMenuItem>
+                            <EachMenuItem onClick={() => downloadFunction()}>
+                              <EachMenuItemImg
+                                src={
+                                  question.id === currentSubmissionId
+                                    ? selectedDownload
+                                    : Download
+                                }
+                              />
+                              <EachMenuItemText purpleColor={question.id === currentSubmissionId}>Download</EachMenuItemText>
+                            </EachMenuItem>
+                          </LeftPart>
+                          <RightPart onClick={() => deleteFunction()}>
+                            <EachMenuItemImg
+                              src={
+                                question.id === currentSubmissionId
+                                  ? closeCircleWhite
+                                  : closecircleRed
+                              }
+                            />
+                            <EachMenuItemTextDel
+                              studentStyle={question.id === currentSubmissionId}
+                            >
+                              Delete
+                            </EachMenuItemTextDel>
+                          </RightPart>
+                        </MenuItems>
                       </DrawerQuestion>
                     )
-                        })}
+                  );
+                })}
             </DrawerQuestions>
           </>
         )}

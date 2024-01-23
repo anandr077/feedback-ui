@@ -975,10 +975,10 @@ function subjectTypeSelection(
       ) : (
         <>
           <SubjectSelectBox>
-            <label>{submission.assignment.subject}</label>
+            <label>{submission.assignment.subject || "English"}</label>
           </SubjectSelectBox>
           <SubjectSelectBox>
-            <label>{submission.documentType}</label>
+            <label>{submission.documentType || "Analytical"}</label>
           </SubjectSelectBox>
         </>
       )}

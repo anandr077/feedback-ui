@@ -962,7 +962,6 @@ function subjectTypeSelection(
           </SubjectSelectBox>
           <SubjectSelectBox>
             <label>Task Type</label>
-
             <StyledDropDown
               menuItems={taskOptions}
               selectedIndex={taskOptions.findIndex(

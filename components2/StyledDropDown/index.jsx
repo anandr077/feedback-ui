@@ -72,7 +72,7 @@ export default function StyledDropDown({
           border: !independent ? '1px solid #D6D6D6' : 'none',
           backgroundColor: 'white',
           borderRadius: '10px',
-          fontSize: '14px',
+          fontSize: '20px',
         }}
         MenuProps={{
           PaperProps: {
@@ -81,7 +81,7 @@ export default function StyledDropDown({
             },
           },
           fontWeight: '400',
-          fontSize: '14px',
+          fontSize: '20px',
         }}
         open={open}
         onClose={() => setOpen(false)}
@@ -138,7 +138,7 @@ export default function StyledDropDown({
                   alignItems: 'center',
                   gap: '12px',
                   fontWeight: '400',
-                  fontSize: '14px',
+                  fontSize: '20px',
                 }}
                 key={menuItem.id}
                 value={menuItem.id}

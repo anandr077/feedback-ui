@@ -27,7 +27,7 @@ export const InnerContainer = styled.div`
   gap: 40px;
   position: relative;
   max-width: 1440px;
-
+  padding: 0px 60px;
   @media (min-width: 1025px) and (max-width: 1440px) {
     padding: 0px 60px;
   }

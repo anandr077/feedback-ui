@@ -315,6 +315,7 @@ export const EachMenuItemImg = styled.img`
 `;
 export const EachMenuItemText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
+  color: ${props => props.purpleColor ? 'white' : 'var(--light-mode-purple)'};
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;

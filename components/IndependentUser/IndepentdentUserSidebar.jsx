@@ -203,7 +203,7 @@ function IndepentdentUserSidebar({
                               }}
                             >
                               <EachMenuItemImg src={preview} />
-                              <EachMenuItemText>View</EachMenuItemText>
+                              <EachMenuItemText purpleColor={question.id === currentSubmissionId}>View</EachMenuItemText>
                             </EachMenuItem>
                             <EachMenuItem onClick={() => downloadFunction()}>
                               <EachMenuItemImg
@@ -213,7 +213,7 @@ function IndepentdentUserSidebar({
                                     : Download
                                 }
                               />
-                              <EachMenuItemText>Download</EachMenuItemText>
+                              <EachMenuItemText purpleColor={question.id === currentSubmissionId}>Download</EachMenuItemText>
                             </EachMenuItem>
                           </LeftPart>
                           <RightPart onClick={() => deleteFunction()}>

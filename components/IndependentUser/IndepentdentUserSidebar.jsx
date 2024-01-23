@@ -37,6 +37,8 @@ import threedotsc from '../../static/img/threedotsc.svg';
 import threedotsw from '../../static/img/threedotsw.svg';
 import closecircleRed from '../../static/img/closecircleRed.svg';
 import Download from '../../static/img/Down.svg';
+import selectedDownload from '../../static/icons/download.png';
+import closeCircleWhite from '../../static/icons/closecircle.png';
 import preview from '../../static/img/preview.svg';
 const drawerWidth = 315;
 
@@ -204,12 +206,24 @@ function IndepentdentUserSidebar({
                               <EachMenuItemText>View</EachMenuItemText>
                             </EachMenuItem>
                             <EachMenuItem onClick={() => downloadFunction()}>
-                              <EachMenuItemImg src={Download} />
+                              <EachMenuItemImg
+                                src={
+                                  question.id === currentSubmissionId
+                                    ? selectedDownload
+                                    : Download
+                                }
+                              />
                               <EachMenuItemText>Download</EachMenuItemText>
                             </EachMenuItem>
                           </LeftPart>
                           <RightPart onClick={() => deleteFunction()}>
-                            <EachMenuItemImg src={closecircleRed} />
+                            <EachMenuItemImg
+                              src={
+                                question.id === currentSubmissionId
+                                  ? closeCircleWhite
+                                  : closecircleRed
+                              }
+                            />
                             <EachMenuItemTextDel
                               studentStyle={question.id === currentSubmissionId}
                             >

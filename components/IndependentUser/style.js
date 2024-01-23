@@ -303,6 +303,7 @@ export const RightPart = styled.div`
 `;
 export const EachMenuItem = styled.div`
   display: flex;
+  align-items: center;
   justify-content: center;
   height: 18px;
   gap: 4px;

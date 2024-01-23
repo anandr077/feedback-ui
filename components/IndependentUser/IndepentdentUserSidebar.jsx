@@ -1,4 +1,4 @@
-import { Divider, Drawer } from '@mui/material';
+import { Divider, Drawer, MenuItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
@@ -22,7 +22,27 @@ import {
   StyledMoreVertIcon,
   LoadingDiv,
   SidebarContainer,
+  MenuItemsDots,
+  QuestionTitle,
+  MenuItemsContainer,
+  MenuItems,
+  EachMenuItem,
+  EachMenuItemText,
+  EachMenuItemImg,
+  LeftPart,
+  RightPart,
+  EachMenuItemTextDel,
 } from './style';
+import threedotsc from '../../static/img/threedotsc.svg';
+import threedotsw from '../../static/img/threedotsw.svg';
+import closecircleRed from '../../static/img/closecircleRed.svg';
+import Download from '../../static/img/Down.svg';
+import selectedDownload from '../../static/icons/download.png';
+import closeCircleWhite from '../../static/icons/closecircle.png';
+import preview from '../../static/img/preview.svg';
+import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
+import { deleteSubmissionById } from '../../service';
+import Loader from '../Loader';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -50,13 +70,15 @@ function IndepentdentUserSidebar({
   setSelectedSubject,
   selectedSubject,
   groupedAndSortedData,
-  currentSubmissionId
+  currentSubmissionId,
 }) {
   const theme = useTheme();
   const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
+  const [showMenuMap, setShowMenuMap] = useState({});
+  const [questionTitle, setQuestionTitle] = useState(subjects);
 
   useEffect(() => {
     setSelectedQuestion(subjects[0]);
@@ -99,9 +121,38 @@ function IndepentdentUserSidebar({
     history.push(newUrl);
   };
 
+  const downloadFunction = (id) => {
+    downloadSubmissionPdf(id);
+  };
+
+  const getNextQuestionId = (currentId) => {
+    const currentIndex = questionTitle.findIndex(
+      (question) => question.id === currentId
+    );
+    const nextIndex =
+      currentIndex + 1 < questionTitle.length ? currentIndex + 1 : 0;
+    return questionTitle[nextIndex]?.id;
+  };
+
+  const deleteFunction = (id) => {
+    deleteSubmissionById(id).then(() => {
+      if (id === currentSubmissionId) {
+        const nextId = getNextQuestionId(id);
+        history.push(`/documents/${nextId}`)
+      } else {
+        const deletedTitle = questionTitle.filter(
+          (question) => question.id !== id
+        );
+        setQuestionTitle(deletedTitle);
+      }
+    });
+  };
+
   return (
     <SidebarContainer drawerWidth={drawerWidth} open={open}>
-      <DrawerHeader onClick={()=>history.push("/docs")}>+ New Draft</DrawerHeader>
+      <DrawerHeader onClick={() => history.push('/docs')}>
+        + New Draft
+      </DrawerHeader>
       <DividerContainer>
         <Divider />
       </DividerContainer>
@@ -138,32 +189,89 @@ function IndepentdentUserSidebar({
               )}
             </DrawerSubjects>
             <DrawerQuestions>
-              
-
-              {subjects
+              {questionTitle
                 ?.filter((question) => question.subject === selectedSubject)
-                .map(
-                  (question, qIndex) => {
-                    return question.title
+                .map((question, qIndex) => {
+                  const showMenu = showMenuMap[question.id] || false;
+                  return (
+                    question.title
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) && (
                       <DrawerQuestion
                         key={qIndex}
-                        onClick={() => {
-                          setSelectedQuestion(question);
-                          handleSubjectClick(question);
-                        }}
                         studentStyle={question.id === currentSubmissionId}
                       >
-                       
-                      <>
-                        {question.title}
-                        <OverflowShadow blueBackground={question.id === currentSubmissionId}></OverflowShadow>
-                      </>
-                       
+                        <QuestionTitle>
+                          {question.title}
+                          <OverflowShadow
+                            blueBackground={question.id === currentSubmissionId}
+                          ></OverflowShadow>
+                        </QuestionTitle>
+                        <MenuItems
+                          studentStyle={question.id === currentSubmissionId}
+                        >
+                          <LeftPart>
+                            <EachMenuItem
+                              onClick={() => {
+                                setSelectedQuestion(question);
+                                handleSubjectClick(question);
+                              }}
+                              style={{
+                                display:
+                                  question.id === currentSubmissionId
+                                    ? 'none'
+                                    : 'flex',
+                              }}
+                            >
+                              <EachMenuItemImg src={preview} />
+                              <EachMenuItemText
+                                purpleColor={
+                                  question.id === currentSubmissionId
+                                }
+                              >
+                                View
+                              </EachMenuItemText>
+                            </EachMenuItem>
+                            <EachMenuItem
+                              onClick={() => downloadFunction(question.id)}
+                            >
+                              <EachMenuItemImg
+                                src={
+                                  question.id === currentSubmissionId
+                                    ? selectedDownload
+                                    : Download
+                                }
+                              />
+                              <EachMenuItemText
+                                purpleColor={
+                                  question.id === currentSubmissionId
+                                }
+                              >
+                                Download
+                              </EachMenuItemText>
+                            </EachMenuItem>
+                          </LeftPart>
+                          <RightPart
+                            onClick={() => deleteFunction(question.id)}
+                          >
+                            <EachMenuItemImg
+                              src={
+                                question.id === currentSubmissionId
+                                  ? closeCircleWhite
+                                  : closecircleRed
+                              }
+                            />
+                            <EachMenuItemTextDel
+                              studentStyle={question.id === currentSubmissionId}
+                            >
+                              Delete
+                            </EachMenuItemTextDel>
+                          </RightPart>
+                        </MenuItems>
                       </DrawerQuestion>
                     )
-                        })}
+                  );
+                })}
             </DrawerQuestions>
           </>
         )}

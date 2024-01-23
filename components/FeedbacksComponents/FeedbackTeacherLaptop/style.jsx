@@ -466,7 +466,7 @@ export const AnswerContainer = styled.div`
 
 export const QuestionText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-l);
   font-weight: 500;
   position: relative;
   align-self: stretch;

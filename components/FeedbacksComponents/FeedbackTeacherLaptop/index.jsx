@@ -83,7 +83,6 @@ function FeedbackTeacherLaptop(props) {
     classesAndStudents,
     teachers,
   } = props;
-  console.log('Main ', classesAndStudents);
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
 
@@ -130,12 +129,9 @@ function FeedbackTeacherLaptop(props) {
   }, [submission.otherDrafts]);
   const navigate = useHistory();
 
-  console.log('groupedAndSortedData', groupedAndSortedData)
-
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
 
-  console.log('1showTeacherPopUp', showTeacherPopUp);
   React.useEffect(() => {
     if (showNewComment) {
       handleTabUpdate(pageMode, setFeedback, setFocusAreas);
@@ -147,16 +143,6 @@ function FeedbackTeacherLaptop(props) {
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
-
-  // const handleOutsideClick = (event) => {
-  //   setShowSelectType(false);
-  // };
-  // useEffect(() => {
-  //   window.addEventListener('click', handleOutsideClick);
-  //   return () => {
-  //     window.removeEventListener('click', handleOutsideClick);
-  //   };
-  // }, []);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -204,7 +190,6 @@ function FeedbackTeacherLaptop(props) {
     if (showNewComment === undefined || quillRef === null) {
       return;
     }
-    console.log('showNewComment', showNewComment);
     if (showNewComment) {
       quillRef?.setLostFocusColor({
         index: selectedRange.from,

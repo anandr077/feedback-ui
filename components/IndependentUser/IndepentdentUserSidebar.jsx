@@ -40,6 +40,9 @@ import Download from '../../static/img/Down.svg';
 import selectedDownload from '../../static/icons/download.png';
 import closeCircleWhite from '../../static/icons/closecircle.png';
 import preview from '../../static/img/preview.svg';
+import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
+import { deleteSubmissionById } from '../../service';
+import Loader from '../Loader';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -75,6 +78,7 @@ function IndepentdentUserSidebar({
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
   const [showMenuMap, setShowMenuMap] = useState({});
+  const [questionTitle, setQuestionTitle] = useState(subjects);
 
   useEffect(() => {
     setSelectedQuestion(subjects[0]);
@@ -117,11 +121,31 @@ function IndepentdentUserSidebar({
     history.push(newUrl);
   };
 
-  const downloadFunction = () => {
-    console.log('download function');
+  const downloadFunction = (id) => {
+    downloadSubmissionPdf(id);
   };
-  const deleteFunction = () => {
-    console.log('delete function');
+
+  const getNextQuestionId = (currentId) => {
+    const currentIndex = questionTitle.findIndex(
+      (question) => question.id === currentId
+    );
+    const nextIndex =
+      currentIndex + 1 < questionTitle.length ? currentIndex + 1 : 0;
+    return questionTitle[nextIndex]?.id;
+  };
+
+  const deleteFunction = (id) => {
+    deleteSubmissionById(id).then(() => {
+      if (id === currentSubmissionId) {
+        const nextId = getNextQuestionId(id);
+        history.push(`/documents/${nextId}`)
+      } else {
+        const deletedTitle = questionTitle.filter(
+          (question) => question.id !== id
+        );
+        setQuestionTitle(deletedTitle);
+      }
+    });
   };
 
   return (
@@ -165,7 +189,7 @@ function IndepentdentUserSidebar({
               )}
             </DrawerSubjects>
             <DrawerQuestions>
-              {subjects
+              {questionTitle
                 ?.filter((question) => question.subject === selectedSubject)
                 .map((question, qIndex) => {
                   const showMenu = showMenuMap[question.id] || false;
@@ -200,9 +224,17 @@ function IndepentdentUserSidebar({
                               }}
                             >
                               <EachMenuItemImg src={preview} />
-                              <EachMenuItemText purpleColor={question.id === currentSubmissionId}>View</EachMenuItemText>
+                              <EachMenuItemText
+                                purpleColor={
+                                  question.id === currentSubmissionId
+                                }
+                              >
+                                View
+                              </EachMenuItemText>
                             </EachMenuItem>
-                            <EachMenuItem onClick={() => downloadFunction()}>
+                            <EachMenuItem
+                              onClick={() => downloadFunction(question.id)}
+                            >
                               <EachMenuItemImg
                                 src={
                                   question.id === currentSubmissionId
@@ -210,10 +242,18 @@ function IndepentdentUserSidebar({
                                     : Download
                                 }
                               />
-                              <EachMenuItemText purpleColor={question.id === currentSubmissionId}>Download</EachMenuItemText>
+                              <EachMenuItemText
+                                purpleColor={
+                                  question.id === currentSubmissionId
+                                }
+                              >
+                                Download
+                              </EachMenuItemText>
                             </EachMenuItem>
                           </LeftPart>
-                          <RightPart onClick={() => deleteFunction()}>
+                          <RightPart
+                            onClick={() => deleteFunction(question.id)}
+                          >
                             <EachMenuItemImg
                               src={
                                 question.id === currentSubmissionId

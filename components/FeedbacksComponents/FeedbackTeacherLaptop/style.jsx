@@ -384,7 +384,7 @@ export const Frame1371 = styled.div`
 
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xxl);
+  font-size: var(--font-size-xl);
   font-weight: 500;
   line-height: 31px;
   font-style: normal;

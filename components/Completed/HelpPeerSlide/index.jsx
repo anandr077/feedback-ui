@@ -17,15 +17,12 @@ import { isMobileView } from '../../ReactiveRender';
 const HelpPeerSlide = (props) => {
   const { id, groups, exemplar, setPublishActionCompleted } = props;
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [animateSlide, setAnimateSlide] = useState(false);
   const requireAction = Object.values(groups)
     .flat()
     .filter((task) => task.status === 'AWAITING_APPROVAL');
   const mobileView = isMobileView();
 
   const handleSlideChange = () => {
-    setAnimateSlide(true);
-
     setTimeout(() => {
       const nextSlideIndex = currentSlide + 1;
       if (nextSlideIndex < requireAction.length) {
@@ -33,7 +30,6 @@ const HelpPeerSlide = (props) => {
       } else {
         setCurrentSlide(requireAction.length);
       }
-      setAnimateSlide(false);
     }, 300);
   };
 
@@ -51,8 +47,7 @@ const HelpPeerSlide = (props) => {
             <div
               style={{
                 width: '100%',
-                height: '100%',
-                top: animateSlide && '30px',
+                height: '100%'
               }}
             >
               <TaskCard
@@ -66,7 +61,6 @@ const HelpPeerSlide = (props) => {
           </SecondSlide>
         )}
         <FirstSlide
-          animate={animateSlide}
           style={{
             visibility: 'visible',
           }}

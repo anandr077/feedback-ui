@@ -85,6 +85,7 @@ import { sub } from 'date-fns';
 import RectangularBigBtn from '../../../components2/Buttons/RectangularbigBtn';
 import StyledDropDown from '../../../components2/StyledDropDown';
 import TransparentbigBtn from '../../../components2/Buttons/TransparentbigBtn';
+import RectangularBigBtn2 from '../../../components2/Buttons/RectangularBigBtn2';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -281,8 +282,9 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
   if (pageMode === 'DRAFT') {
     return (
       <div style={{ position: 'relative' }}>
-        <RectangularBigBtn
-          text={'Submit'}
+        <RectangularBigBtn2
+          leftIcon={'img/messages.png'}
+          text={'Submit For Feedback'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
         />
       </div>
@@ -299,8 +301,8 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
               methods.showSubmitPopuphandler('RequestResubmission')
             }
           />
-          <RectangularBigBtn
-            text={'Submit'}
+          <Buttons2
+            button={'Submit'}
             onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
           />
         </ButtonsContainer>
@@ -324,7 +326,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
       );
     }
     return (
-      <RectangularBigBtn
+      <RectangularBigBtn2
         leftIcon={'/img/Tick.svg'}
         text={'Mark as completed'}
         onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
@@ -973,10 +975,10 @@ function subjectTypeSelection(
       ) : (
         <>
           <SubjectSelectBox>
-            <label>{submission.assignment.subject}</label>
+            <label>{submission.assignment.subject || "English"}</label>
           </SubjectSelectBox>
           <SubjectSelectBox>
-            <label>{submission.documentType}</label>
+            <label>{submission.documentType || "Analytical"}</label>
           </SubjectSelectBox>
         </>
       )}

@@ -12,7 +12,6 @@ export const AwaitFeedbackContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
   position: relative;
   align-self: stretch;
   gap: 25px;
@@ -81,8 +80,8 @@ export const TitleWrapper = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  // width: 30%;
-`
+  width: 30%;
+`;
 
 export const TitleContainer = styled.div`
   display: flex;
@@ -226,8 +225,7 @@ export const Frame1388 = styled.div`
   margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width: ${(props) =>
-    props.open ? '1100px' : '1300px'};
+  max-width: ${(props) => (props.open ? '1100px' : '1300px')};
   /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {
@@ -315,7 +313,7 @@ export const Frame1386 = styled.div`
   flex-direction: column;
   margin: 0 auto;
   gap: 32px;
-  padding: 0px;
+  padding: 60px 0px;
   /* gap: 40px;
   padding-top: 30px; */
 
@@ -340,6 +338,7 @@ export const GoBackBtn = styled.button`
   align-items: center;
   gap: 4px;
   transition: 0.3s ease-in;
+  margin-bottom: 8px;
   cursor: pointer;
 
   .arrowImg {
@@ -369,7 +368,6 @@ export const Frame1371 = styled.div`
   justify-content: space-between;
   gap: 32px;
   z-index: 2;
-  padding: 20px 0;
   background-color: var(--white-pointer);
   width: 100%;
 
@@ -386,11 +384,12 @@ export const Frame1371 = styled.div`
 
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xl);
-  font-weight: 400;
-  line-height: 20px;
+  font-size: var(--font-size-xxl);
+  font-weight: 500;
+  line-height: 31px;
   font-style: normal;
   position: relative;
+  color: #000000;
   flex: 1;
   margin-top: -1px;
   letter-spacing: -0.9px;
@@ -632,26 +631,24 @@ export const SelectFeedbackMethodType = styled.div`
   }
 `;
 
-export const Icon24 = styled.img`
-`;
-export const MessageIcon24 = <Icon24 src="/img/message24.svg"></Icon24>
+export const Icon24 = styled.img``;
+export const MessageIcon24 = <Icon24 src="/img/message24.svg"></Icon24>;
 
 export const ButtonWithImageBeforeText = styled.button`
-  
   background-color: var(--light-mode-purple);
   color: var(--white);
   border-radius: 24px;
   padding: 8px 16px;
   border: 1px solid var(--light-mode-purple);
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `;
 
 export const Label16pxSmall = styled.div`
-  font-size:16px;
-  font-weight:400;
+  font-size: 16px;
+  font-weight: 400;
   font-family: var(--font-family-ibm_plex_sans);
   line-height: 20px;
   color: var(--text);
@@ -674,8 +671,6 @@ export const RequestFeedbackStatusFrame = styled.div`
   width: 100%;
   background-color: var(--white) !important;
 
-
-  
   gap: 5px;
   align-items: center;
   width: 100%;
@@ -789,10 +784,10 @@ export const ShortcutList = styled.div`
 `;
 
 export const SubjectSelectionContainer = styled.div`
-  margin-top: 40px;
   display: flex;
   justify-content: start;
   gap: 30px;
+  margin-top: 40px;
 `;
 
 export const SubjectSelectBox = styled.div`

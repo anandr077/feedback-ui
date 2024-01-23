@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IbmplexsansNormalPersianIndigo13px } from '../../styledMixins';
+import {
+  IbmplexsansNormalPersianIndigo13px,
+  IbmplexsansNormalPersianIndigo20px,
+} from '../../styledMixins';
 
 function FooterLinks() {
   return (
@@ -27,12 +30,13 @@ const FooterLinksContainer = styled.div`
   gap: 28px;
   position: relative;
 
-  a{
+  a {
     text-decoration: none;
   }
 `;
 
 const MainWebsite = styled.div`
+  ${IbmplexsansNormalPersianIndigo20px}
   position: relative;
   width: fit-content;
   margin-top: -1px;

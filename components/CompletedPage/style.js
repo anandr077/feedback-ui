@@ -26,7 +26,7 @@ export const InnerContainer = styled.div`
   gap: 40px;
   position: relative;
   max-width: 1440px;
-
+  padding: 0px 60px;
   @media (min-width: 1025px) and (max-width: 1440px) {
     padding: 0px 60px;
   }
@@ -578,6 +578,12 @@ export const DataContainer = styled.div`
   flex-direction: column;
   width: 90%;
   gap: 10px;
+  @media (min-width: 766px) and (max-width: 1024px) {
+    width: 85%;
+  }
+  @media (max-width: 765px) {
+    width: 80%;
+  }
 `;
 export const DataTitle = styled.p`
   font-family: IBM Plex Sans;
@@ -623,6 +629,12 @@ export const IconContainerDown = styled.div`
   padding: 8px;
   border-radius: 4px;
   gap: 6px;
+  @media (min-width: 766px) and (max-width: 1024px) {
+   width: 15%;
+  }
+  @media (max-width: 765px) {
+    width: 20%;
+  }
 `;
 
 export const DownloadIcon = styled.img`

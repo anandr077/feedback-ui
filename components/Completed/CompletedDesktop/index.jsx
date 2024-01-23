@@ -74,6 +74,7 @@ const Frame1425 = styled.div`
   gap: 40px;
   position: relative;
   max-width: 1440px !important;
+  padding: 0px 60px;
 `;
 
 const SliderCardContainer = styled.div`

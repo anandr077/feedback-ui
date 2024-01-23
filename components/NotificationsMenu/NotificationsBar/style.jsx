@@ -19,6 +19,7 @@ export const NotificationHead = styled.div`
   gap: 12px;
   width: 100%;
   margin-bottom: 10px;
+  position: relative;
   img {
     height: 32px;
     width: 32px;
@@ -94,4 +95,12 @@ export const EmptyBox = styled.div`
   font-family: 'IBM Plex Sans';
   font-size: 20px;
   color: rgba(48, 45, 45, 0.5);
+`;
+
+export const CloseNotification = styled.img`
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
 `;

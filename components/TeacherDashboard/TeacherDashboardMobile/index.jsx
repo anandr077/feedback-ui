@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserName } from '../../../service';
+import { getUserName } from '../../../userLocalDetails';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 import HeaderSmall from '../../HeaderSmall';
 import Frame12842 from '../Frame12842';
@@ -29,7 +29,6 @@ import {
 
 import './TeacherDashboardMobile.css';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
-import { getUserName } from '../../../service';
 import { timeFirstFormattedDate } from '../../../dates';
 import TaskCard from '../../TaskCard';
 

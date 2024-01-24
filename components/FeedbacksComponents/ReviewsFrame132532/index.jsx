@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { feedbacksIbmplexsansMediumBlack16px } from '../../../styledMixins';
 import { Avatar } from '@boringer-avatars/react';
-import { getUserId } from '../../../service';
+import { getUserId } from '../../../userLocalDetails';
 
 function ReviewsFrame132532(props) {
   const {

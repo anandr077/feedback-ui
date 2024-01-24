@@ -1,13 +1,15 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 import {
   exchangeCodeForToken,
-  getAuthToken,
+  redirectToExternalIDP,
+} from '../../service';
+import {
   getUserId,
   getUserName,
   getUserRole,
-  redirectToExternalIDP,
   setProfileCookies,
-} from '../../service';
+  getAuthToken,
+} from '../../userLocalDetails';
 import { useLocation } from 'react-router-dom';
 import { default as React, default as React, useEffect, useState } from 'react';
 import Loader from '../Loader';

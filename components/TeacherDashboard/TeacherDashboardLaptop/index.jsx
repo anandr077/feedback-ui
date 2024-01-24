@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { timeFirstFormattedDate } from '../../../dates';
-import { getUserName } from '../../../service';
+import { getUserName } from '../../../userLocalDetails';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 import TaskCard from '../../TaskCard';
 import Frame12842 from '../Frame12842';

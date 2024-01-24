@@ -9,7 +9,7 @@ import DashboardFrame1284 from '../DashboardFrame1284';
 import DashboardGroup1205 from '../DashboardGroup1205';
 import TaskCardContainer from '../TaskCardContainer';
 import './DashboardHomeStudentLaptop.css';
-import { getUserName } from '../../service';
+import { getUserName } from '../../userLocalDetails';
 
 function DashboardHomeStudentLaptop(props) {
   const {

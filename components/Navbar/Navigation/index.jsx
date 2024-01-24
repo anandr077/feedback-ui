@@ -6,10 +6,11 @@ import NavElement7 from '../NavElement7';
 import NavElement8 from '../NavElement8';
 import styled from 'styled-components';
 import './Navigation.css';
-import { account, changePassword, getUserName, logout } from '../../../service';
+import { account, changePassword, logout } from '../../../service';
+import { getUserName } from '../../../userLocalDetails';
 import { Avatar } from '@boringer-avatars/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { getUserRole } from '../../../service';
+import { getUserRole } from '../../../userLocalDetails';
 import Cookies from 'js-cookie';
 import countriesData from '../../../components2/Onboard/countries.json';
 

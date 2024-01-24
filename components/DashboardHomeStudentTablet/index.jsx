@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getUserName } from '../../service';
+import { getUserName } from '../../userLocalDetails';
 import {
   DashboardIbmplexsansBoldWhite72px,
   DashboardIbmplexsansNormalWhite20px,

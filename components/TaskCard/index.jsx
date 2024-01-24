@@ -21,10 +21,9 @@ import SnackbarContext from '../SnackbarContext';
 
 import {
   denyModelResponse,
-  getUserId,
-  getUserRole,
   publishModelResponse,
 } from '../../service';
+import { getUserId, getUserRole } from '../../userLocalDetails';
 import StatusBubbleContainer from '../StatusBubblesContainer';
 import ShareWithStudent from './ShareWithStudent';
 

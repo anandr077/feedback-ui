@@ -1,4 +1,4 @@
-import { getUserRole } from '../service';
+import { getUserRole } from '../userLocalDetails';
 import Cookies from 'js-cookie';
 import homeSelected from '../static/img/HomeSelected.svg';
 import homeUnselected from '../static/img/homeUnselected.svg';

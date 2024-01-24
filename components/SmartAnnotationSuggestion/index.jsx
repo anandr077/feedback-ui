@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getUserId } from '../../service';
+import { getUserId } from '../../userLocalDetails';
 import {
   SuggestionsLabel,
   ButtonContainer,

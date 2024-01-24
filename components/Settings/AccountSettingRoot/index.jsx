@@ -14,8 +14,8 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
-  getUserId,
 } from '../../../service.js';
+import { getUserId } from '../../../userLocalDetails.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
 import Breadcrumb from '../../Breadcrumb';

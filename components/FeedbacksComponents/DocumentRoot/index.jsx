@@ -14,8 +14,6 @@ import {
   addFeedback,
   deleteFeedback,
   getSubmissionById,
-  getUserId,
-  getUserName,
   markSubmissionRequestSubmission,
   markSubmsissionClosed,
   markSubmissionReviewed as markSubmsissionReviewed,
@@ -27,6 +25,7 @@ import {
   getTeachersForClass,
   fetchSubmissionData,
 } from '../../../service';
+import { getUserId, getUserName } from '../../../userLocalDetails';
 import {
   getShortcuts,
   getSmartAnnotations,

@@ -12,7 +12,7 @@ import {
 } from '../../../styledMixins';
 import './TeacherDashboardTablet.css';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
-import { getUserName } from '../../../service';
+import { getUserName } from '../../../userLocalDetails';
 
 function TeacherDashboardTablet(props) {
   const {

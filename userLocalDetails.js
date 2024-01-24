@@ -11,29 +11,38 @@ export const getCookie = (name) => {
   return cookieValue ? cookieValue.split('=')[1] : null;
 };
 
+export const setCookie = (key, value) => {
+  const expiry = 30 * 24 * 60 * 60 * 1000;
+  const expires = expiry ? `; expires=${new Date(Date.now() + expiry).toUTCString()}` : '';
+  document.cookie = `${key}=${value}${expires}; path=/`;
+};
+
 export const setProfileCookies = (profile) => {
   localStorage.setItem('jwtToken', profile.token);
-  const expiry = 30 * 24 * 60 * 60 * 1000;
 
-  document.cookie = `user.name=${profile.name}; expires=${new Date(Date.now() + expiry).toUTCString()}; path=/`;
-  document.cookie = `userId=${profile.userId}; expires=${new Date(Date.now() + expiry).toUTCString()}; path=/`;
-  document.cookie = `role=${profile.role}; expires=${new Date(Date.now() + expiry).toUTCString()}; path=/`;
+  setCookie('user.name', profile.name);
+  setCookie('userId', profile.userId);
+  setCookie('role', profile.role);
 
   if (profile.state !== undefined || profile.year !== undefined) {
-    document.cookie = `state=${profile.state}; expires=${new Date(Date.now() + expiry).toUTCString()}; path=/`;
-    document.cookie = `year=${profile.year}; expires=${new Date(Date.now() + expiry).toUTCString()}; path=/`;
+    setCookie('state', profile.state);
+    setCookie('year', profile.year);
   }
 
   if (profile.classes) {
-    document.cookie = `classes=${JSON.stringify(profile.classes)}; expires=${new Date(Date.now() + expiry).toUTCString()}; path=/`;
+    setCookie('classes', JSON.stringify(profile.classes));
   }
 };
 
+export const deleteCookie = (key) => {
+  document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+};
+
 export const deleteProfileCookies = () => {
-  document.cookie = 'user.name=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
-  document.cookie = 'userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
-  document.cookie = 'role=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
-  document.cookie = 'state=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
-  document.cookie = 'year=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
-  document.cookie = 'classes=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
+  deleteCookie('user.name');
+  deleteCookie('userId');
+  deleteCookie('role');
+  deleteCookie('state');
+  deleteCookie('year');
+  deleteCookie('classes');
 };

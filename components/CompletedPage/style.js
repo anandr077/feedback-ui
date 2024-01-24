@@ -76,7 +76,8 @@ export const FilterAndSortContainer = styled.div`
   gap: 16px;
   align-self: stretch;
   border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
-  @media (max-width: 1024px) and (min-width: 765px) {
+
+  @media (max-width: 765px) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -544,14 +545,6 @@ export const PopupContainer = styled.div`
 `;
 //
 
-const fadeIn = keyframes`
-  from {
-    background-size: 0% 100%;
-  }
-  to {
-    background-size: 100% 100%;
-  }
-`;
 export const TaskContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -630,7 +623,7 @@ export const IconContainerDown = styled.div`
   border-radius: 4px;
   gap: 6px;
   @media (min-width: 766px) and (max-width: 1024px) {
-   width: 15%;
+    width: 15%;
   }
   @media (max-width: 765px) {
     width: 20%;

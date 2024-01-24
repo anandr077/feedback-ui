@@ -90,7 +90,7 @@ export const TitleContainer = styled.div`
   width: 100%;
   background-color: var(--white);
   box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
-  padding: 20px 30px;
+  padding: 16px 30px;
   border-radius: 8px;
 `;
 
@@ -673,7 +673,6 @@ export const RequestFeedbackStatusFrame = styled.div`
 
   gap: 5px;
   align-items: center;
-  width: 100%;
   background-color: var(--white);
   box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
   padding: 20px 30px;

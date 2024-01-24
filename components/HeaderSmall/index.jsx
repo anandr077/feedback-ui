@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Navigation from '../Navbar/Navigation';
 import Notifications from '../Notifications';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar';
-import { getNotifications, getUserRole } from '../../service.js';
+import { getNotifications } from '../../service.js';
+import { getUserRole } from '../../userLocalDetails.js';
 import {
   NavigationContainer,
   Frame1350,

@@ -35,11 +35,11 @@ import DropdownMenu from '../../DropdownMenu';
 import { useState } from 'react';
 import {
   cancelFeedbackRequest,
-  getUserId,
   updateAssignment,
   updateDocumentType,
   updateSubject,
 } from '../../../service';
+import { getUserId } from '../../../userLocalDetails';
 import {
   Frame1334,
   Frame1334Img,
@@ -64,12 +64,10 @@ import { useState } from 'react';
 import {
   cancelFeedbackRequest,
   createRequestFeddbackType,
-  getUserId,
 } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Button5 from '../Buttons5';
-import Cookies from 'js-cookie';
 import { Dialog } from '@mui/material';
 import ai from '../../../static/img/ai.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';

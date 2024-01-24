@@ -27,7 +27,7 @@ import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
-import { getUserRole } from '../../service.js';
+import { getUserRole } from '../../userLocalDetails.js';
 
 export default function Header(props) {
   const { headerProps } = props;

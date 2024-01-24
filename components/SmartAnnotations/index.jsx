@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SmartAnnotationSuggestion from '../SmartAnnotationSuggestion';
-import { getUserId } from '../../service';
+import { getUserId } from '../../userLocalDetails';
 import {
   TextInputEditable,
   TextBox,

@@ -13,7 +13,7 @@ import TeacherDashboardRoot from './components/TeacherDashboard/TeacherDashboard
 import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
 import PageNotFound from './components/PageNotFound';
 import { Redirect } from 'react-router-dom';
-import { getUserRole, getUserName } from './service';
+import { getUserRole, getUserName } from './userLocalDetails';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';

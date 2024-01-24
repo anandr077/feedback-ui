@@ -6,7 +6,7 @@ import 'quill/dist/quill.snow.css';
 
 import { default as React, default as React, default as React } from 'react';
 import SmartAnotation from '../../../components/SmartAnnotations';
-import { getUserId, getUserRole } from '../../../service';
+import { getUserId, getUserRole } from '../../../userLocalDetails';
 import FocussedInput from '../../FocussedInput';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import Buttons4 from '../Buttons4';

@@ -10,7 +10,7 @@ import {
 import CheckboxList from '../../CheckboxList';
 import QuillEditor from '../../QuillEditor';
 
-import { getUserId } from '../../../service';
+import { getUserId } from '../../../userLocalDetails';
 import CheckboxBordered from '../../CheckboxBordered';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
 import MarkingCriteriaFeedbackReadOnly from '../../MarkingCriteriaFeedbackReadOnly';

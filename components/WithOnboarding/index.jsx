@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { default as React, default as React, useState } from 'react';
 import OnboardingScreen from '../../components2/Onboard/OnboardingScreen';
-import { getUserRole } from '../../service';
+import { getUserRole } from '../../userLocalDetails';
 
 const withOnboarding = (WrappedComponent) => {
   const defaultShowOnboarding =

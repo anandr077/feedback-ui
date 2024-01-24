@@ -2,7 +2,7 @@ import { Avatar } from '@boringer-avatars/react';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { React } from 'react';
-import { getCommentsForSubmission, getUserRole } from '../../../service';
+import { getCommentsForSubmission } from '../../../service';
 
 export function extractStudents(tasksResult) {
   return tasksResult.map((task) => {

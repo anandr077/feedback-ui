@@ -32,8 +32,6 @@ export default function ResponsiveHeader() {
 const getHeaderProps = (location) => {
   if (location.includes('/settings')) return completedHeaderProps(true);
   if (location.includes('/marking')) return completedHeaderProps(true);
-  if (location.includes('/exemplarResponses'))
-    return completedHeaderProps(true);
   if (location.includes('/documents/')) return docsHeaderProps();
   if (location.includes('/documentsReview/')) return teacherStudentTaskHeaderProps();
   if (location.includes('/getFeedback')) return docsHeaderProps();

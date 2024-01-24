@@ -25,7 +25,6 @@ import {
 } from '../../service';
 import { getUserId, getUserRole } from '../../userLocalDetails';
 import StatusBubbleContainer from '../StatusBubblesContainer';
-import ShareWithStudent from './ShareWithStudent';
 
 function TaskCard(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -136,20 +135,7 @@ function TaskCard(props) {
             <TaskTitle>
               Congratulations,
               <br />
-              Teacher has marked part of your response as exemplary and would
-              like to share with{' '}
-              <StudentLength
-                ref={showStudentListRef}
-                onClick={() => {
-                  setShowShareWithStudent(!showShareWithStudent);
-                }}
-              >
-                {task.sharedWithStudents?.length}
-                {showShareWithStudent && (
-                  <ShareWithStudent sharedStudents={task.sharedWithStudents} />
-                )}
-              </StudentLength>{' '}
-              students!
+              {task.reviewerName} would like to share the following part of your response with the class.
             </TaskTitle>
             <TaskTitleBold>
               {task.submissionDetails?.assignment?.title}

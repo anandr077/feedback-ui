@@ -10,6 +10,7 @@ import {
   ContentContainer,
   FilterAndSortContainer,
   FilterContainer,
+  FilterLine,
   HeadingAndFilterCon,
   HeadingLine,
   InnerContainer,
@@ -161,6 +162,7 @@ export default function CompletedPage() {
                   />
                 </>
               </FilterContainer>
+              <FilterLine/>
               <SortContainer>
                 <SortHeading>
                   <SortImg src={SortSquare} />

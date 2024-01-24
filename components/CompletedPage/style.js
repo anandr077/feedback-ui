@@ -86,6 +86,14 @@ export const FilterContainer = styled.div`
   display: flex;
   gap: 16px;
 `;
+export const FilterLine = styled.div`
+  height: 30px;
+  width: 1px;
+  border: 1px solid #d6d6d6;
+  @media (max-width: 765px) {
+    display: none;
+  }
+`;
 export const SortContainer = styled.div`
   display: flex;
   gap: 16px;

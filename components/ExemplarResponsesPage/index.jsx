@@ -5,11 +5,13 @@ import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
 import { useLocation } from 'react-router-dom';
 import Loader from '../Loader';
+import { arrayFromArrayOfObject } from '../../utils/arrayFromArrayOfObject.js';
 
 export default function ExemplarResponsesPage(props) {
   const [exemplarResponses, setExemplarResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [id, setId] = React.useState(null);
+  const [classes, setClasses] = React.useState([]);
   const [publishActionCompleted, setPublishActionCompleted] =
     React.useState(false);
   const [groups, setGroups] = useState({});
@@ -23,6 +25,7 @@ export default function ExemplarResponsesPage(props) {
     getModelResponses().then((result) => {
       if (result) {
         setExemplarResponses(result);
+        setClasses(arrayFromArrayOfObject(result, 'classTitle'));
         setIsLoading(false);
       }
     });
@@ -62,6 +65,7 @@ export default function ExemplarResponsesPage(props) {
       exemplar={true}
       id={id}
       setPublishActionCompleted={setPublishActionCompleted}
+      classes={classes}
     ></CompletedRoot>
   );
 }

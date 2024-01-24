@@ -12,7 +12,6 @@ import SortSquare from '../../../static/img/sort-square.svg';
 import FilterSquare from '../../../static/img/filter-square.svg';
 import {
   ConnectContainer,
-  FilterAndSortContainer,
   TopContainer,
   HeadingLine,
   SortButton,
@@ -26,6 +25,14 @@ import {
   TitleImage,
   FilterContainer,
 } from '../../CompletedPage/style';
+import {
+  Filter,
+  FilterAndSortContainer,
+  FilterImg,
+  FilterLine,
+  FilterText,
+} from './style.js';
+import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 
 export default function CompletedRoot(props) {
   const {
@@ -36,16 +43,41 @@ export default function CompletedRoot(props) {
     exemplar,
     id,
     setPublishActionCompleted,
+    classes,
   } = props;
   const [sortData, setSortData] = React.useState(true);
-  const dataArray = Object.entries(groups);
-  const sortedArray = dataArray.sort((a, b) => {
-    const dateA = new Date(a[0]);
-    const dateB = new Date(b[0]);
-    return sortData ? dateB - dateA : dateA - dateB;
-  });
+  const [selectedClass, setSelectedClass] = React.useState('');
+  function filterAndSortData(obj, targetClassTitle) {
+    const dataArray = Object.entries(obj);
+    const sortedArray = dataArray.sort((a, b) => {
+      const dateA = new Date(a[0]);
+      const dateB = new Date(b[0]);
+      return sortData ? dateB - dateA : dateA - dateB;
+    });
 
-  const sortedData = Object.fromEntries(sortedArray);
+    const sortedData = Object.fromEntries(sortedArray);
+
+    const filteredAndSortedData = {};
+
+    if (selectedClass != '') {
+      Object.keys(sortedData).forEach((date) => {
+        const filteredObjects = sortedData[date].filter(
+          (obj) => obj.classTitle === targetClassTitle
+        );
+        if (filteredObjects.length > 0) {
+          filteredAndSortedData[date] = filteredObjects;
+        }
+      });
+    }
+
+    return selectedClass != '' ? filteredAndSortedData : sortedData;
+  }
+
+  const setSelectedValue = (type, selectValue) => {
+    if (type === 'classes') {
+      setSelectedClass(selectValue);
+    }
+  };
 
   const headingPart = (
     <>
@@ -70,14 +102,23 @@ export default function CompletedRoot(props) {
         </HeadingLine>
       </TopContainer>
       <FilterAndSortContainer>
-        {/* <FilterContainer>
-                <Filter>
-                  <FilterImg src={FilterSquare} />
-                  <FilterText>Filters:</FilterText>
-                </Filter>
-
-               
-              </FilterContainer> */}
+        <FilterContainer>
+          <Filter>
+            <FilterImg src={FilterSquare} />
+            <FilterText>Filters:</FilterText>
+          </Filter>
+          <>
+            <RoundedDropDown
+              search={false}
+              type={'classes'}
+              selectedIndex={setSelectedValue}
+              menuItems={classes}
+              defaultValue={selectedClass}
+              width={110}
+            />
+          </>
+        </FilterContainer>
+        <FilterLine />
         <SortContainer>
           <SortHeading>
             <SortImg src={SortSquare} />
@@ -115,7 +156,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: sortedData,
+            groups: filterAndSortData(groups, selectedClass),
             exemplar,
             id,
             headingPart,
@@ -131,7 +172,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: sortedData,
+            groups: filterAndSortData(groups, selectedClass),
             exemplar,
             id,
 
@@ -147,7 +188,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: sortedData,
+            groups: filterAndSortData(groups, selectedClass),
             exemplar,
             id,
 
@@ -163,12 +204,11 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: sortedData,
+            groups: filterAndSortData(groups, selectedClass),
             exemplar,
             id,
             headingPart,
             setPublishActionCompleted,
-            sortedData,
             ...completedDesktopData,
           }}
         />

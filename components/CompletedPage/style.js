@@ -630,7 +630,7 @@ export const IconContainerDown = styled.div`
   border-radius: 4px;
   gap: 6px;
   @media (min-width: 766px) and (max-width: 1024px) {
-   width: 15%;
+    width: 15%;
   }
   @media (max-width: 765px) {
     width: 20%;

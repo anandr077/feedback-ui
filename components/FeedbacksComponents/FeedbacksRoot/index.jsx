@@ -17,9 +17,6 @@ import {
   getSubmissionById,
   getSubmissionsByAssignmentId,
   getOverComments,
-  getUserId,
-  getUserName,
-  getUserRole,
   getClassesWithStudents,
   markSubmissionRequestSubmission,
   markSubmsissionClosed,
@@ -38,6 +35,7 @@ import {
   getSmartAnnotations,
   saveAnswer,
 } from '../../../service.js';
+import { getUserId, getUserName, getUserRole } from '../../../userLocalDetails.js';
 import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
 import ReactiveRender from '../../ReactiveRender';

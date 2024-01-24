@@ -12,7 +12,7 @@ import {
   teacherHomeHeaderProps,
   teacherStudentTaskHeaderProps,
 } from '../../utils/headerProps';
-import { getUserRole } from '../../service';
+import { getUserRole } from '../../userLocalDetails';
 import { isSmallScreen } from '../ReactiveRender';
 import Cookies from 'js-cookie';
 

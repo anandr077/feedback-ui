@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { deleteProfileCookies } from './userLocalDetails';
 
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
@@ -152,7 +153,7 @@ export const downloadSubmission = async (submissionId) => {
       headers: new Headers({
         Authorization: `Bearer ${token}`,
       }),
-      credentials: 'include', // if needed for cookies, otherwise remove
+      credentials: 'include', 
     });
 
     if (!response.ok) {
@@ -187,42 +188,6 @@ export const deleteFocusArea = async (focusAreaID) => {
   return deleteApi(baseUrl + '/feedbacks' + '/focusAreas/' + focusAreaID);
 };
 
-export const getUserName = () => getCookie('user.name');
-export const getUserId = () => getCookie('userId');
-export const getUserRole = () => getCookie('role');
-export const getAuthToken = () => localStorage.getItem('jwtToken');
-
-export const getCookie = (name) => {
-  const cookieValue = document.cookie
-    .split('; ')
-    .find((cookie) => cookie.startsWith(`${name}=`));
-
-  return cookieValue ? cookieValue.split('=')[1] : null;
-};
-export const setProfileCookies = (profile) => {
-  localStorage.setItem('jwtToken', profile.token);
-  const expiry = 30 * 24 * 60 * 60;
-
- 
-  Cookies.set('user.name', profile.name, { expires: expiry, path: '/' });
-  Cookies.set('userId', profile.userId, { expires: expiry, path: '/' });
-  Cookies.set('role', profile.role, { expires: expiry, path: '/' });
-  if (profile.state !== undefined || profile.year !== undefined) {
-    Cookies.set('state', profile.state, { expires: expiry, path: '/' });
-    Cookies.set('year', profile.year, { expires: expiry, path: '/' });
-  }
-  profile.classes && Cookies.set('classes', JSON.stringify(profile.classes), { expires: expiry, path: '/' });
-  
-};
-
-export const deleteProfileCookies = () => {
-  Cookies.remove('role');
-  Cookies.remove('userId');
-  Cookies.remove('user.name');
-  Cookies.remove('state');
-  Cookies.remove('year');
-  Cookies.remove('classes');
-};
 export const logout = async () => {
   await postApi(baseUrl + '/users/logout').then(() => {
     logoutLocal();

@@ -4,7 +4,7 @@ import { IbmplexsansBoldWhite36px } from '../../styledMixins';
 import DashboardFrame1208 from '../DashboardFrame1208';
 import TaskCardContainer from '../TaskCardContainer';
 import './DashboardHomeStudentMobile.css';
-import { getUserName } from '../../service';
+import { getUserName } from '../../userLocalDetails';
 import { homeHeaderProps } from '../../utils/headerProps';
 
 function DashboardHomeStudentMobile(props) {

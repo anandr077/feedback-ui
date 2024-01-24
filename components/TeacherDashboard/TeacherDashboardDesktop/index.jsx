@@ -12,7 +12,7 @@ import './TeacherDashboardDesktop.css';
 import { teacherHomeHeaderProps } from '../../../utils/headerProps';
 import TaskCard from '../../TaskCard';
 import { timeFirstFormattedDate } from '../../../dates';
-import { getUserName } from '../../../service';
+import { getUserName } from '../../../userLocalDetails';
 
 function TeacherDashboardDesktop(props) {
   const {

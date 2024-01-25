@@ -326,7 +326,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
     }
     return (
       <RectangularBigBtn2
-        leftIcon={'/img/Tick.svg'}
+        leftIcon={'/img/tick.svg'}
         text={'Mark as completed'}
         onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
       />
@@ -761,6 +761,8 @@ const submitButtonDocument = (
             color: 'black',
             display: 'flex',
             gap: '10px',
+            height: '66px',
+            border: '1px solid #F1E7FF'
           }}
         >
           {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
@@ -778,6 +780,8 @@ const submitButtonDocument = (
           color: 'black',
           display: 'flex',
           gap: '10px',
+          height: '66px',
+          border: '1px solid #F1E7FF'
         }}
       >
         {<Icon24 src="/img/message24.svg"></Icon24>}
@@ -797,6 +801,8 @@ const submitButtonDocument = (
             color: 'black',
             display: 'flex',
             gap: '10px',
+            height: '66px',
+            border: '1px solid #F1E7FF'
           }}
         >
           {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
@@ -814,6 +820,8 @@ const submitButtonDocument = (
           color: 'black',
           display: 'flex',
           gap: '10px',
+          height: '66px',
+          border: '1px solid #F1E7FF'
         }}
       >
         {<Icon24 src="/img/message24.svg"></Icon24>}

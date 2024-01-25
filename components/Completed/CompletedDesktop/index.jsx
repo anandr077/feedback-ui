@@ -23,7 +23,6 @@ function CompletedDesktop(props) {
     frame1284,
     line18,
     headingPart,
-    sortedData,
   } = props;
   return (
     <div className="completed-desktop screen">

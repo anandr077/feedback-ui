@@ -35,11 +35,12 @@ import {
 } from './style';
 import threedotsc from '../../static/img/threedotsc.svg';
 import threedotsw from '../../static/img/threedotsw.svg';
-import closecircleRed from '../../static/img/closecircleRed.svg';
+import deleteIcon from '../../static/img/Bin.svg';
+import deletered from '../../static/img/deletered.svg';
 import Download from '../../static/img/Down.svg';
 import selectedDownload from '../../static/icons/download.png';
 import closeCircleWhite from '../../static/icons/closecircle.png';
-import preview from '../../static/img/preview.svg';
+import editIcon from '../../static/img/edit.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
 import { deleteSubmissionById } from '../../service';
 import Loader from '../Loader';
@@ -223,13 +224,13 @@ function IndepentdentUserSidebar({
                                     : 'flex',
                               }}
                             >
-                              <EachMenuItemImg src={preview} />
+                              <EachMenuItemImg src={editIcon} />
                               <EachMenuItemText
                                 purpleColor={
                                   question.id === currentSubmissionId
                                 }
                               >
-                                View
+                                Open
                               </EachMenuItemText>
                             </EachMenuItem>
                             <EachMenuItem
@@ -257,15 +258,15 @@ function IndepentdentUserSidebar({
                             <EachMenuItemImg
                               src={
                                 question.id === currentSubmissionId
-                                  ? closeCircleWhite
-                                  : closecircleRed
+                                  ? deleteIcon
+                                  : deletered
                               }
                             />
-                            <EachMenuItemTextDel
+                            {/* <EachMenuItemTextDel
                               studentStyle={question.id === currentSubmissionId}
                             >
                               Delete
-                            </EachMenuItemTextDel>
+                            </EachMenuItemTextDel> */}
                           </RightPart>
                         </MenuItems>
                       </DrawerQuestion>

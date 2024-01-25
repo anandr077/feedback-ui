@@ -7,3 +7,13 @@ export const isNullOrEmpty = (arr) => {
   }
   return arr.length === 0;
 };
+
+export function arrayFromArrayOfObject(givenArray, key) {
+  let arr = [];
+  givenArray.map((obj) => {
+    if (!arr.includes(obj[key])) {
+      arr.push(obj[key]);
+    }
+  });
+  return arr;
+}

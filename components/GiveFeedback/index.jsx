@@ -174,8 +174,8 @@ function GiveFeedback() {
     }
   }, [communityTasksQuery, giveFeedbackCompletedTasksQuery]);
 
-  let statesData = ['NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'];
-  let yearsData = ['7', '8', '9', '10', '11', '12'];
+  let statesData = ['NSW', 'VIC', 'QLD', 'NT', 'SA', 'TAS', 'WA'];
+  let yearsData = ['12', '11', '10', '9', '8', '7'];
   let subjectData = ['English'];
   let taskTypeData = [
     'Analytical',

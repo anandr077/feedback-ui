@@ -9,9 +9,8 @@ import {
   ConnectContainer,
   ContentContainer,
   FilterAndSortContainer,
-  Frame5086,
-  Frame5086Img,
-  Frame5086Text,
+  FilterContainer,
+  FilterLine,
   HeadingAndFilterCon,
   HeadingLine,
   InnerContainer,
@@ -36,23 +35,36 @@ import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
 
 import SortSquare from '../../static/img/sort-square.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf.js';
+import FilterSquare from '../../static/img/filter-square.svg';
+import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
+import {
+  Frame5086,
+  Frame5086Img,
+  Frame5086Text,
+} from '../GiveFeedback/style.js';
+import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
+  const [classes, setClasses] = React.useState([]);
+  const [selectedClass, setSelectedClass] = React.useState('');
 
   React.useEffect(() => {
     getCompletedTasks().then((result) => {
       if (result) {
         setTasks(result);
         setFilteredTasks(result);
+        console.log('first', result);
+        console.log('first arr', arrayFromArrayOfObject(result, 'classTitle'));
 
         setIsLoading(false);
       }
     });
   }, []);
+
   if (isLoading) {
     return <Loader />;
   }
@@ -82,12 +94,26 @@ export default function CompletedPage() {
     setFilteredTasks(filteredTasks);
   };
 
-  const sortedTasks = (Tasks) =>
-    Tasks.sort((a, b) => {
+  
+  const setSelectedValue = (type, selectValue) => {
+    if (type === 'classes') {
+      setSelectedClass(selectValue);
+    }
+  };
+
+  const filteredData = (tasks) => {
+    const filteredTasks = tasks.filter(
+      (task) => !selectedClass || task.classTitle === selectedClass
+    );
+
+    const sortedTasks = filteredTasks.sort((a, b) => {
       const dateA = new Date(a.completedAt).getTime();
       const dateB = new Date(b.completedAt).getTime();
       return sortData ? dateB - dateA : dateA - dateB;
     });
+
+    return sortedTasks;
+  };
 
   const downloadPDF = (Id) => {
     downloadSubmissionPdf(Id);
@@ -119,51 +145,24 @@ export default function CompletedPage() {
               </HeadingLine>
             </TopContainer>
             <FilterAndSortContainer>
-              {/* <FilterContainer>
+              <FilterContainer>
                 <Frame5086>
                   <Frame5086Img src={FilterSquare} />
                   <Frame5086Text>Filters:</Frame5086Text>
                 </Frame5086>
 
-                {!mobileView ? (
-                  <>
-                    <GiveFeedbackDropDown
-                      search={false}
-                      type={'state'}
-                      selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('state')}
-                      defaultValue={selectedState}
-                    />
-                    <GiveFeedbackDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('year')}
-                      type={'year'}
-                      defaultValue={selectedYear}
-                    />
-                    <GiveFeedbackDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('subject')}
-                      type={'subject'}
-                      defaultValue={selectedSubject}
-                    />
-                    <GiveFeedbackDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={dropDownData('documentType')}
-                      type={'documentType'}
-                      defaultValue={selectedDocumentType}
-                    />
-                  </>
-                ) : (
-                  <></>
-                )}
-                <FilterPopContainer
-                isShowFilterPopUp={isShowFilterPopUp}
-                setShowFilterPopUp={setShowFilterPopUp}
-              />
-              </FilterContainer> */}
+                <>
+                  <RoundedDropDown
+                    search={false}
+                    type={'classes'}
+                    selectedIndex={setSelectedValue}
+                    menuItems={arrayFromArrayOfObject(tasks, 'classTitle')}
+                    defaultValue={selectedClass}
+                    width={110}
+                  />
+                </>
+              </FilterContainer>
+              <FilterLine/>
               <SortContainer>
                 <SortHeading>
                   <SortImg src={SortSquare} />
@@ -199,7 +198,7 @@ export default function CompletedPage() {
             <LeftContentContainer>
               <TaskHistoryDataComponent
                 downloadPDF={downloadPDF}
-                list={sortedTasks(tasks)}
+                list={filteredData(tasks)}
               />
             </LeftContentContainer>
           </ContentContainer>

@@ -9,6 +9,7 @@ export const ButtonContainer = styled.div`
   gap: 8px;
   border: none;
   border-radius: 12px;
+  width: 100%;
   height: 66px;
   color: white;
   font-family: var(--font-family-ibm_plex_sans);

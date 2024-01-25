@@ -22,12 +22,12 @@ import StyledDropDown from '../StyledDropDown';
 import countriesData from './countries.json';
 
 const yearOptions = [
-  { title: '7' },
-  { title: '8' },
-  { title: '9' },
-  { title: '10' },
-  { title: '11' },
   { title: '12' },
+  { title: '11' },
+  { title: '10' },
+  { title: '9' },
+  { title: '8' },
+  { title: '7' },
 ];
 
 const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {

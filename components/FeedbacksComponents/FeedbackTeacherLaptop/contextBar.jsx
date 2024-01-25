@@ -120,12 +120,12 @@ export function contextBar(
           submission,
           methods
         )}
-        {downloadButtonNonClosedSubmission(
+        {/* {downloadButtonNonClosedSubmission(
           isTeacher,
           pageMode,
           submission,
           methods
-        )}
+        )} */}
       </TitleWrapper>
       {/* {tasksListsDropDown(isTeacher, methods)} */}
       {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
@@ -332,8 +332,21 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
       />
     );
   }
+
+  if (
+    pageMode === 'CLOSED' &&
+    submission.status === 'SUBMITTED' &&
+    !isTeacher
+  ) {
+    return (
+      <RectangularBigBtn2
+        leftIcon={'/img/downloadPDF.svg'}
+        text={'Download'}
+        onClickFn={methods.downloadPDF}
+      />
+    );
+  }
   return <></>;
-  console.log('pageMode', pageMode)
 };
 
 function downloadButtonNonClosedSubmission(

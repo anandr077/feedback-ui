@@ -7,12 +7,17 @@
     },
     {
       "country": "Australia",
-      "state": "NT",
+      "state": "VIC",
       "flagIcon": "img/australia.png"
     },
     {
       "country": "Australia",
       "state": "QLD",
+      "flagIcon": "img/australia.png"
+    },
+    {
+      "country": "Australia",
+      "state": "NT",
       "flagIcon": "img/australia.png"
     },
     {
@@ -23,11 +28,6 @@
     {
       "country": "Australia",
       "state": "TAS",
-      "flagIcon": "img/australia.png"
-    },
-    {
-      "country": "Australia",
-      "state": "VIC",
       "flagIcon": "img/australia.png"
     },
     {

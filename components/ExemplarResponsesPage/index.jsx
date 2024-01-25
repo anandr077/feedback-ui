@@ -5,7 +5,7 @@ import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
 import { useLocation } from 'react-router-dom';
 import Loader from '../Loader';
-import { arrayFromArrayOfObject } from '../../utils/arrayFromArrayOfObject.js';
+import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 
 export default function ExemplarResponsesPage(props) {
   const [exemplarResponses, setExemplarResponses] = React.useState([]);

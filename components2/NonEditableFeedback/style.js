@@ -6,27 +6,18 @@ export const FeedbackContainer = styled.div`
   height: auto;
 `;
 
-export const TextBox = styled.div`
+export const TextBox = styled.div``;
+
+export const HiddenInputBox = styled.textarea`
   margin-top: 15px;
-  width: 100%;
-  border-radius: 16px;
   border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  padding: 0 20px;
-  box-sizing: border-box;
 
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-`;
-
-export const HiddenInputBox = styled.textarea`
   display: block;
   width: 100%;
   font-family: var(--font-family-ibm_plex_sans);
-  padding: 15px 0;
-  border: none;
+  padding: 15px 20px;
   border-radius: 10px;
   outline: none;
   resize: none;

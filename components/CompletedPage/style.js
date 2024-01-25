@@ -76,7 +76,8 @@ export const FilterAndSortContainer = styled.div`
   gap: 16px;
   align-self: stretch;
   border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
-  @media (max-width: 1024px) and (min-width: 765px) {
+
+  @media (max-width: 765px) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -84,6 +85,14 @@ export const FilterAndSortContainer = styled.div`
 export const FilterContainer = styled.div`
   display: flex;
   gap: 16px;
+`;
+export const FilterLine = styled.div`
+  height: 30px;
+  width: 1px;
+  border: 1px solid #d6d6d6;
+  @media (max-width: 765px) {
+    display: none;
+  }
 `;
 export const SortContainer = styled.div`
   display: flex;
@@ -544,14 +553,6 @@ export const PopupContainer = styled.div`
 `;
 //
 
-const fadeIn = keyframes`
-  from {
-    background-size: 0% 100%;
-  }
-  to {
-    background-size: 100% 100%;
-  }
-`;
 export const TaskContainer = styled.div`
   display: flex;
   flex-direction: row;

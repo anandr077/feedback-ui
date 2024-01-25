@@ -92,9 +92,9 @@ export const SortContainer = styled.div`
 `;
 export const SortButton = styled.div`
   display: flex;
+  align-items: center;
   padding: 8px 12px 8px 12px;
   border-radius: 25px;
-  border: 1px;
   border: 1px solid #a6a6a6;
   cursor: pointer;
 `;
@@ -102,7 +102,6 @@ export const SortButtonText = styled.div`
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-weight: 400;
-  line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
   color: #6f6f6f;

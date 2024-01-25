@@ -175,12 +175,9 @@ function IndepentdentUserSidebar({
                 ([key, value], index) => {
                   return (
                     <DrawerSubject
-                      style={{
-                        background:
-                          selectedSubject === key ? '#FFCA0F' : '#FFEFB5',
-                      }}
                       key={index}
                       onClick={() => setSelectedSubject(key)}
+                      selected={selectedSubject === key}
                     >
                       {key} ({value.length})
                     </DrawerSubject>

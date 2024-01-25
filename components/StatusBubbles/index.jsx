@@ -17,10 +17,10 @@ const StatusBubble = styled.article`
   gap: 10px;
   padding: 3px 8px;
   position: relative;
-  background-color: ${props => props.name === "Community" ? 'var(--blue-chalk)' : 'var(--wheatfield)'};
+  background-color: ${props => props.name === "Community" ? 'var(--blue-chalk)' : '#FFFFFF'};
   border-radius: 11.5px;
   border: 1px solid;
-  border-color: ${props => props.name === 'Community' ? (props.overdue ? 'var(--royal-purple)' : 'var(--blue-chalk)') : 'var(--golden-sand)'};
+  border-color: ${props => props.name === 'Community' ? (props.overdue ? 'var(--royal-purple)' : 'var(--blue-chalk)') : '#DEC7FF'};
 `;
 
 const StatusBubblesText = styled.div`

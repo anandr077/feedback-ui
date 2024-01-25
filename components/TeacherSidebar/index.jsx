@@ -71,6 +71,7 @@ function TeacherSidebar({ open, submission }) {
                       key={qIndex}
                       onClick={() => handleQuestionClick(student)}
                       studentStyle={submission.id === student.submissionId}
+                      style={{flexDirection: 'row'}}
                     >
                       {avatar[qIndex]}
                       {student.studentName.length >= 28 ? (

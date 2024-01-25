@@ -42,7 +42,7 @@ import {
   Frame5086Img,
   Frame5086Text,
 } from '../GiveFeedback/style.js';
-import { arrayFromArrayOfObject } from '../../utils/arrayFromArrayOfObject.js';
+import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);

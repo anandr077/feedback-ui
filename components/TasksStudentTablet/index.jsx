@@ -16,8 +16,17 @@ import Group1205 from '../TeacherDashboard/Group1205';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import questionMark from '../../static/img/question-mark.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
+import {
+  SubtitleCon,
+  Title,
+  TitleAndFilterContainer,
+  TitleAndSubtitleContainer,
+  TitleContainer,
+  TitleImage,
+} from './style.js';
 
 function TasksStudentTablet(props) {
   const {
@@ -28,6 +37,9 @@ function TasksStudentTablet(props) {
     inReviewTasks,
     portfolio,
     arrowright,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
   const prevProps = useRef(props);
   const [isAssigned, setIsAssigned] = useState(true);
@@ -54,24 +66,35 @@ function TasksStudentTablet(props) {
   return (
     <div className="tasks-student-tablet screen">
       <Frame1365>
-        <Frame1307>
-          <KeepOrganizedWitho>My Tasks</KeepOrganizedWitho>
-          <LinkAndFilter>
-            <LinkButton
-              link={`#/exemplarResponses`}
-              label="Shared Responses"
-              arrowleft={shareColor}
-              whiteArrowleft={share}
-            />
-            <LinkButton
-              link={`#/completed`}
-              label="Task History"
-              arrowright={arrowRight}
-              whiteArrowright={whiteArrowright}
-            />
-          </LinkAndFilter>
-        </Frame1307>
-        {taskFrame}
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
+              <Title>
+                My Tasks
+                <TitleImage src={questionMark} />
+              </Title>
+              <LinkAndFilter>
+                <LinkButton
+                  link={`#/exemplarResponses`}
+                  label="Shared Responses"
+                  arrowleft={shareColor}
+                  whiteArrowleft={share}
+                />
+                <LinkButton
+                  link={`#/completed`}
+                  label="Task History"
+                  arrowright={arrowRight}
+                  whiteArrowright={whiteArrowright}
+                />
+              </LinkAndFilter>
+            </TitleContainer>
+            <SubtitleCon>
+              Click on a task bubble to complete or review your work
+            </SubtitleCon>
+          </TitleAndSubtitleContainer>
+          <>{FilterSortAndCal}</>
+        </TitleAndFilterContainer>
+        {tasksSelected ? (<>{taskFrame}</>) : MyCalendarFile}
       </Frame1365>
     </div>
   );

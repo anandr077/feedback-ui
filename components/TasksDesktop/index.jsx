@@ -12,8 +12,15 @@ import Group1205 from '../TeacherDashboard/Group1205';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import questionMark from '../../static/img/question-mark.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
+import {
+  SubtitleCon,
+  TitleAndFilterContainer,
+  TitleAndSubtitleContainer,
+  TitleImage,
+} from './style.js';
 
 function TasksDesktop(props) {
   const {
@@ -25,62 +32,79 @@ function TasksDesktop(props) {
     frame19Props,
     portfolio,
     arrowright,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
-
+  console.log('first', assignmedTasks);
   return (
     <div className="tasks-desktop screen">
       <Frame1361>
-        <TitleContainer>
-          <Title>My Tasks</Title>
-          <LinkAndFilter>
-            
-            <LinkButton
-              link={`#/exemplarResponses`}
-              label="Shared Responses"
-              arrowleft={shareColor}
-              whiteArrowleft={share}
-            />
-            <LinkButton
-              link={`#/completed`}
-              label="Task History"
-              arrowright={arrowRight}
-              whiteArrowright={whiteArrowright}
-            />
-          </LinkAndFilter>
-        </TitleContainer>
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
+              <Title>
+                My Tasks
+                <TitleImage src={questionMark} />
+              </Title>
+              <LinkAndFilter>
+                <LinkButton
+                  link={`#/exemplarResponses`}
+                  label="Shared Responses"
+                  arrowleft={shareColor}
+                  whiteArrowleft={share}
+                />
+                <LinkButton
+                  link={`#/completed`}
+                  label="Task History"
+                  arrowright={arrowRight}
+                  whiteArrowright={whiteArrowright}
+                />
+              </LinkAndFilter>
+            </TitleContainer>
+            <SubtitleCon>
+              Click on a task bubble to complete or review your work
+            </SubtitleCon>
+          </TitleAndSubtitleContainer>
+          <>{FilterSortAndCal}</>
+        </TitleAndFilterContainer>
         <Frame1360>
-          <Frame1359>
-            <Frame1354>
-              <TaskFrame1353
-                outstanding="Assigned"
-                number={assignmedTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={assignmedTasks}
-                className={frame19Props.className}
-              />
-            </Frame1354>
-            <Frame1354>
-              <TaskFrame1353
-                outstanding="In Draft"
-                number={inProgressTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={inProgressTasks}
-                className={frame19Props.className}
-              />
-            </Frame1354>
-            <Frame1358>
-              <TaskFrame1353
-                outstanding="In Review"
-                number={inReviewTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={inReviewTasks}
-                className={frame19Props.className}
-              />
-            </Frame1358>
-          </Frame1359>
+          {tasksSelected ? (
+            <Frame1359>
+              <Frame1354>
+                <TaskFrame1353
+                  outstanding="Assigned"
+                  number={assignmedTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={assignmedTasks}
+                  className={frame19Props.className}
+                />
+              </Frame1354>
+              <Frame1354>
+                <TaskFrame1353
+                  outstanding="In Draft"
+                  number={inProgressTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={inProgressTasks}
+                  className={frame19Props.className}
+                />
+              </Frame1354>
+              <Frame1358>
+                <TaskFrame1353
+                  outstanding="In Review"
+                  number={inReviewTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={inReviewTasks}
+                  className={frame19Props.className}
+                />
+              </Frame1358>
+            </Frame1359>
+          ) : (
+            MyCalendarFile
+          )}
         </Frame1360>
       </Frame1361>
     </div>
@@ -93,7 +117,6 @@ const TitleContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  padding: 0px 60px;
 `;
 
 const Frame1361 = styled.div`
@@ -108,13 +131,16 @@ const Frame1361 = styled.div`
 `;
 
 const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  font-size: 50px;
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 47px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  color: #301b72;
 `;
 
 const Frame1360 = styled.div`
@@ -126,12 +152,13 @@ const Frame1360 = styled.div`
   position: relative;
   align-self: stretch;
   height: 90vh;
+  padding: 0px 60px;
 `;
 
 const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  padding: 0px 60px;
+
   gap: 32px;
   position: relative;
   align-self: stretch;

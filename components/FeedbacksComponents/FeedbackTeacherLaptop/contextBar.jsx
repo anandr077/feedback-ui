@@ -630,7 +630,6 @@ const submitButtonDocument = (
   setShowStudentPopUp,
   setShowTeacherPopUp
 ) => {
-  console.log('pageMode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
       <>
@@ -954,7 +953,6 @@ function subjectTypeSelection(
   handleTaskUpdate,
   handleSubjectUpdate
 ) {
-  console.log('the submission is', submission);
   const subjectOptions = [{ title: 'English' }];
   const taskOptions = [
     { title: 'Analytical' },
@@ -963,10 +961,6 @@ function subjectTypeSelection(
     { title: 'Persuasive' },
     { title: 'Reflective' },
   ];
-  console.log(
-    'selected index ' +
-      taskOptions.findIndex((item) => item.title === submission.documentType)
-  );
   return (
     <SubjectSelectionContainer>
       {pageMode === 'DRAFT' ? (

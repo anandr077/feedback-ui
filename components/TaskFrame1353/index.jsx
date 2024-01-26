@@ -34,6 +34,7 @@ const Frame13531 = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 20px;
+  font-size: var(--font-size-xxl);
   // position: relative;
   align-self: stretch;
   position: sticky;

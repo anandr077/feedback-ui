@@ -19,12 +19,11 @@ const FooterContainer = styled.div`
   display: flex;
   align-items: center;
   /* gap: 20px; */
-  padding: 0px 30px;
+  padding: 12px 30px;
 
   bottom: 0;
   align-self: stretch;
   background-color: var(--white);
-  height: 77px;
   width: 100%;
   /* position: sticky; */
   z-index: 1000000;

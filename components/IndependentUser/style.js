@@ -185,18 +185,18 @@ export const DrawerSubjects = styled.div`
 `;
 export const DrawerSubject = styled.div`
   padding: 8px 12px;
-  border: 1px solid #ffefb5;
-  background: linear-gradient(0deg, #dec7ff, #dec7ff);
+  background: ${props => props.selected ? '#51009F' : 'linear-gradient(0deg, #dec7ff, #dec7ff)'};
+  border: ${props => props.selected ? '1px solid #8E33E6' : '1px solid #ffefb5'};
+  color: ${props => props.selected ? 'white' : '#434343'};
   border-radius: 22px;
   cursor: pointer;
   font-family: 'IBM Plex Sans';
   font-size: 14px;
   line-height: 18.2px;
-  color: #434343;
   font-weight: 600;
   &:hover {
-    background: linear-gradient(0deg, #ffefb5, #ffefb5),
-      linear-gradient(0deg, #fffae7, #fffae7);
+    background: #E5C9FF;
+    color: var(--royal-purple);
     border: 1px solid #ffefb5;
   }
 `;
@@ -307,11 +307,21 @@ export const EachMenuItem = styled.div`
   justify-content: center;
   height: 18px;
   gap: 4px;
+  transition: transform 0.3s ease;
   cursor: pointer;
+
+  &:hover{
+    transform: scale(1.05);
+  }
 `;
 export const EachMenuItemImg = styled.img`
   width: 16px;
   height: 16px;
+  transition: transform 0.3s ease;
+
+  &:hover{
+    transform: scale(1.1);
+  }
 `;
 export const EachMenuItemText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
@@ -350,7 +360,7 @@ export const DrawerQuestion = styled.div`
   justify-content: flex-start;
   gap: 10px;
   transition: 0.3s ease-in;
-  // cursor: pointer;
+  cursor: pointer;
 
   &:hover {
     white-space: normal;

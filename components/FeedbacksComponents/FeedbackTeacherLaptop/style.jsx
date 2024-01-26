@@ -96,8 +96,9 @@ export const TitleContainer = styled.div`
 
 export const EditTextBox = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
+  font-weight: 500;
   font-size: var(--font-size-l);
+  letter-spacing: 0px;
   line-height: 20px;
   color: #7a7a7a;
   width: fit-content;
@@ -166,7 +167,7 @@ export const PageContainer = styled.div`
   ::-webkit-scrollbar {
     width: 0;
   }
-  background: var(--white-pointer);
+  background: #FAF7FC;
 `;
 
 export const Main = styled.div`
@@ -232,7 +233,7 @@ export const Frame1388 = styled.div`
     display: none;
   }
   scrollbar-width: none;
-  background: var(--white-pointer);
+  background: #FAF7FC;
 
   @media (min-width: 1600px) {
     max-width: 1300px;
@@ -384,7 +385,7 @@ export const Frame1371 = styled.div`
 
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
+  font-size: var(--font-size-xl);
   font-weight: 500;
   line-height: 31px;
   font-style: normal;
@@ -397,7 +398,7 @@ export const AssignmentTitle = styled.h1`
 
 export const QuestionEditInput = styled.textarea`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
+  font-size: var(--font-size-xl);
   color: var(--text);
   font-weight: 400;
   line-height: 20px;
@@ -707,8 +708,8 @@ export const RequestFeedbackButton = styled.div`
   gap: 8px;
   border: none;
   color: white;
-  font-family: IBM Plex Sans;
-  font-size: 16px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -802,7 +803,7 @@ export const SubjectSelectBox = styled.div`
   label {
     font-family: var(--font-family-ibm_plex_sans);
     font-weight: 400;
-    font-size: var(--font-size-l);
+    font-size:  var(--font-size-xl);
     line-height: 26px;
     color: #6f6f6f;
     padding-right: 10px;

@@ -7,24 +7,31 @@ function Frame14103(props) {
   const { id, groups, exemplar, setPublishActionCompleted } = props;
 
   const frames = Object.keys(groups).map((key) => {
+    console.log('the key is', key);
     const group = groups[key];
-    const tasksFrames = group.filter((task) => task.status === 'PUBLISHED').map((task) => {
-      return (
-        <TaskCard
-          task={task}
-          exemplar={exemplar}
-          isSelected={task.id === id}
-          setPublishActionCompleted={setPublishActionCompleted}
-        />
-      );
-    });
+    const tasksFrames = group
+      .filter((task) => task.status === 'PUBLISHED')
+      .map((task) => {
+        return (
+          <TaskCard
+            task={task}
+            exemplar={exemplar}
+            isSelected={task.id === id}
+            setPublishActionCompleted={setPublishActionCompleted}
+          />
+        );
+      });
     return (
-      <Frame1410>
-        <Frame1308 date={key}></Frame1308>
-        <Frame19>
-          <>{tasksFrames}</>
-        </Frame19>
-      </Frame1410>
+      <>
+        {tasksFrames.length > 0 && (
+          <Frame1410>
+            <Frame1308 date={key}></Frame1308>
+            <Frame19>
+              <>{tasksFrames}</>
+            </Frame19>
+          </Frame1410>
+        )}
+      </>
     );
   });
 

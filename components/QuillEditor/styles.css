@@ -16,6 +16,9 @@
     0.2
   ); /* Change the color and opacity as desired */
 }
+.ql-editor p span{
+  color: var(--text);
+}
 .ql-editor strong {
   font-weight: bold;
 }

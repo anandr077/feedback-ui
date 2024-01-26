@@ -435,7 +435,6 @@ export function contextBarForPortfolioDocument(
     updateAssignment(submission.assignment.id, updatedAssignment)
       .then((res) => {
         if (res && res.title) {
-          console.log('Assignment title updated to: ' + res.title);
           setSubmission((old) => ({
             ...old,
             assignment: {
@@ -449,7 +448,6 @@ export function contextBarForPortfolioDocument(
             ),
           }));
         } else {
-          console.log('Response is not as expected:', res);
           setInputValue(res.title);
         }
       })
@@ -536,7 +534,7 @@ export function contextBarForPortfolioDocument(
               />
             ) : (
               <AssignmentTitle
-                style={{ display: 'contents', color: '#A6A6A6' }}
+                style={{ display: 'contents' }}
                 dangerouslySetInnerHTML={{
                   __html: linkify(submission?.assignment?.title),
                 }}

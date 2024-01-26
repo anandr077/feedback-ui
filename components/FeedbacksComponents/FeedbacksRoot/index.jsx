@@ -79,7 +79,6 @@ const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot({ isDocumentPage }) {
   const queryClient = useQueryClient();
-  queryClient.removeQueries(['portfolio']);
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);

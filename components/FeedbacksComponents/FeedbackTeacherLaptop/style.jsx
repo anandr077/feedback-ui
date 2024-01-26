@@ -369,7 +369,7 @@ export const Frame1371 = styled.div`
   justify-content: space-between;
   gap: 32px;
   z-index: 2;
-  background-color: var(--white-pointer);
+  background-color: #FAF7FC;
   width: 100%;
 
   @media screen and (max-width: 1024px) and (min-width: 766px) {
@@ -386,14 +386,13 @@ export const Frame1371 = styled.div`
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-xl);
-  font-weight: 500;
-  line-height: 31px;
+  font-weight: 400;
+  line-height: 26px;
   font-style: normal;
   position: relative;
-  color: #000000;
+  color: var(--text);
   flex: 1;
   margin-top: -1px;
-  letter-spacing: -0.9px;
 `;
 
 export const QuestionEditInput = styled.textarea`
@@ -401,7 +400,7 @@ export const QuestionEditInput = styled.textarea`
   font-size: var(--font-size-xl);
   color: var(--text);
   font-weight: 400;
-  line-height: 20px;
+  line-height: 26px;
   font-style: normal;
   border: none;
   outline: none;

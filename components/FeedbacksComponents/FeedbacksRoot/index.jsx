@@ -173,15 +173,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           setCheckedState(initialState);
           setOverallComments(overAllCommentsResult);
           setClassesAndStudents(classWithTeacherAndStudentsResult);
-          console.log(
-            'classWithTeacherAndStudentsResult',
-            classWithTeacherAndStudentsResult
-          );
           const allTeachers = _.flatten(
             classWithTeacherAndStudentsResult.map((c) => c.teachers)
           );
           const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-          console.log('uniqueTeachers', uniqueTeachers);
           setTeachers(uniqueTeachers);
         }
       )
@@ -237,7 +232,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
-  console.log('isLoading', isLoading);
 
   if (isLoading) {
     return (
@@ -248,9 +242,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   async function fetchClassWithStudentsAndTeachers() {
     try {
-      console.log('Getting fetchClassWithStudentsAndTeachers');
       const classesWithStudents = await getClassesWithStudents();
-      console.log('Got classesWithStudents', classesWithStudents);
 
       const teacherPromises = _.flatMap(classesWithStudents, (classItem) => {
         return getTeachersForClass(classItem.id).then((teachers) => {
@@ -417,7 +409,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   const updateExemplar = () => {
     const dataToUpdate = updateExemplarComment.comment;
-    console.log('the comment is, ', dataToUpdate);
     updateParentComment(dataToUpdate.comment, dataToUpdate.id);
   };
 
@@ -592,7 +583,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           <DialogActions>
             <SubmitCommentFrameRoot
               submitButtonOnClick={() => {
-                console.log('Clicked');
 
                 updateExemplarComment.showComment
                   ? updateExemplar()
@@ -989,7 +979,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the overall Feedback is', response);
         setOverallComments([...overallComments, response]);
       }
     });
@@ -1002,7 +991,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
       return;
     }
-    console.log('feedbackToUpdate ', feedbackToUpdate);
 
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
@@ -1341,9 +1329,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   };
   const jeddAI = () => {
-    console.log('quillRefs', quillRefs);
     const q = quillRefs.current[0];
-    console.log('q', q.getText());
     return askJeddAI(submission.id, q.getText())
     .then((res)=> {
       setSubmission((old)=> ({
@@ -1357,7 +1343,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       function getAndUpdateSubmission() {
           getSubmissionById(submission.id).then((response) => {
               if (response) {
-                  console.log("Response in timer", response)
                   if (response.status !== 'FEEDBACK_ACCEPTED') {
                       clearInterval(interval);
                       window.location.reload();

@@ -81,6 +81,10 @@ function IndepentdentUserSidebar({
   const [showMenuMap, setShowMenuMap] = useState({});
   const [questionTitle, setQuestionTitle] = useState(subjects);
 
+  useEffect(()=> {
+    setQuestionTitle(subjects)
+  }, [subjects])
+
   useEffect(() => {
     setSelectedQuestion(subjects[0]);
   }, [selectedSubject]);
@@ -139,7 +143,7 @@ function IndepentdentUserSidebar({
     deleteSubmissionById(id).then(() => {
       if (id === currentSubmissionId) {
         const nextId = getNextQuestionId(id);
-        history.push(`/documents/${nextId}`)
+        history.push(`/documents/${nextId}`);
       } else {
         const deletedTitle = questionTitle.filter(
           (question) => question.id !== id
@@ -201,6 +205,10 @@ function IndepentdentUserSidebar({
                       <DrawerQuestion
                         key={qIndex}
                         studentStyle={question.id === currentSubmissionId}
+                        onClick={() => {
+                          setSelectedQuestion(question);
+                          handleSubjectClick(question);
+                        }}
                       >
                         <QuestionTitle>
                           {question.title}
@@ -212,7 +220,7 @@ function IndepentdentUserSidebar({
                           studentStyle={question.id === currentSubmissionId}
                         >
                           <LeftPart>
-                            <EachMenuItem
+                            {/* <EachMenuItem
                               onClick={() => {
                                 setSelectedQuestion(question);
                                 handleSubjectClick(question);
@@ -232,9 +240,9 @@ function IndepentdentUserSidebar({
                               >
                                 Open
                               </EachMenuItemText>
-                            </EachMenuItem>
+                            </EachMenuItem> */}
                             <EachMenuItem
-                              onClick={() => downloadFunction(question.id)}
+                              onClick={(e) => {e.stopPropagation(); downloadFunction(question.id)}}
                             >
                               <EachMenuItemImg
                                 src={
@@ -253,7 +261,7 @@ function IndepentdentUserSidebar({
                             </EachMenuItem>
                           </LeftPart>
                           <RightPart
-                            onClick={() => deleteFunction(question.id)}
+                            onClick={(e) => {e.stopPropagation(); deleteFunction(question.id)}}
                           >
                             <EachMenuItemImg
                               src={

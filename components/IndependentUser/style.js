@@ -307,11 +307,21 @@ export const EachMenuItem = styled.div`
   justify-content: center;
   height: 18px;
   gap: 4px;
+  transition: transform 0.3s ease;
   cursor: pointer;
+
+  &:hover{
+    transform: scale(1.05);
+  }
 `;
 export const EachMenuItemImg = styled.img`
   width: 16px;
   height: 16px;
+  transition: transform 0.3s ease;
+
+  &:hover{
+    transform: scale(1.1);
+  }
 `;
 export const EachMenuItemText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
@@ -350,7 +360,7 @@ export const DrawerQuestion = styled.div`
   justify-content: flex-start;
   gap: 10px;
   transition: 0.3s ease-in;
-  // cursor: pointer;
+  cursor: pointer;
 
   &:hover {
     white-space: normal;

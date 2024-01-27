@@ -70,6 +70,7 @@ import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 import { sub } from 'date-fns';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
+import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -120,6 +121,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
+  const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -231,6 +233,32 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
+
+  useEffect(() => {
+    const alertUser = (event) =>{
+      event.preventDefault();
+      event.returnValue = '';
+    }
+
+    const handleBeforeUnload = () =>{
+      if (submission?.status === "REVIEWED" && submission?.feedbackRequestType === 'JEDDAI') {
+        setFeedbackReviewPopup(true);
+      }
+    }
+
+    window.addEventListener('beforeunload', alertUser);
+    window.addEventListener('unload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', alertUser);
+      window.removeEventListener('unload', handleBeforeUnload);
+      handleBeforeUnload();
+    };
+  }, [submission]);
+
+  const handlePopupClose = () => {
+    setFeedbackReviewPopup(false);
+  };
 
   if (isLoading) {
     return (
@@ -1357,6 +1385,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       
   };
 
+
   const methods = {
     comments,
     setComments,
@@ -1409,6 +1438,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     <>
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
+      {feedbackReviewPopup && (
+        <PopupWithoutCloseIcon 
+           text={'Did you find this feedback helpful?'}
+           onClose={handlePopupClose}
+        />
+      )}
 
       <FeedbackTeacherLaptop
         {...{

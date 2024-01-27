@@ -4,23 +4,24 @@ import TaskCard from '../../TaskCard';
 import Frame1308 from '../Frame1308';
 
 function Frame14103(props) {
-  const { id, groups, exemplar, setPublishActionCompleted } = props;
+  const { id, groups, exemplar, setPublishActionCompleted, onAccept, onDecline } = props;
+
 
   const frames = Object.keys(groups).map((key) => {
     console.log('the key is', key);
     const group = groups[key];
-    const tasksFrames = group
-      .filter((task) => task.status === 'PUBLISHED')
-      .map((task) => {
-        return (
-          <TaskCard
-            task={task}
-            exemplar={exemplar}
-            isSelected={task.id === id}
-            setPublishActionCompleted={setPublishActionCompleted}
-          />
-        );
-      });
+    const tasksFrames = group.filter((task) => task.status === 'PUBLISHED').map((task) => {
+      return (
+        <TaskCard
+          task={task}
+          exemplar={exemplar}
+          isSelected={task.id === id}
+          setPublishActionCompleted={setPublishActionCompleted}
+          onAccept={onAccept}
+          onDecline={onDecline}
+        />
+      );
+    });
     return (
       <>
         {tasksFrames.length > 0 && (

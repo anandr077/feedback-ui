@@ -23,6 +23,8 @@ function CompletedMobile(props) {
     frame1284,
     line18,
     headingPart,
+    onAccept,
+    onDecline,
   } = props;
   // alert("MMMM")
   return (
@@ -35,6 +37,8 @@ function CompletedMobile(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAccept={onAccept}
+            onDecline={onDecline}
           />
         </SliderCardContainer>
         {/* <Frame1424>{createFilter()}</Frame1424> */}
@@ -44,6 +48,8 @@ function CompletedMobile(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAccept={onAccept}
+            onDecline={onDecline}
           />
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>

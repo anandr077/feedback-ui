@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TaskCard from '../../TaskCard';
 import Frame1308 from '../Frame1308';
 function Frame1410(props) {
-  const { id, exemplar, groups, className, setPublishActionCompleted } = props;
+  const { id, exemplar, groups, className, setPublishActionCompleted, onAccept, onDecline } = props;
 
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
@@ -14,6 +14,8 @@ function Frame1410(props) {
           exemplar={exemplar}
           isSelected={task.id === id}
           setPublishActionCompleted={setPublishActionCompleted}
+          onAccept={onAccept}
+          onDecline={onDecline}
         />
       );
     });

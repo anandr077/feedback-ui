@@ -27,7 +27,6 @@ import { getUserId, getUserRole } from '../../userLocalDetails';
 import StatusBubbleContainer from '../StatusBubblesContainer';
 
 function TaskCard(props) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
   const [showShareWithStudent, setShowShareWithStudent] = useState(false);
@@ -37,79 +36,31 @@ function TaskCard(props) {
     small,
     exemplar,
     isSelected,
-    setPublishActionCompleted,
     showDeletePopuphandler,
     showDateExtendPopuphandler,
     onAccept,
     onDecline,
-    onSlideChange = () => {},
   } = props;
+  console.log("task card ", onAccept)
   const role = getUserRole();
   const userId = getUserId();
 
-  const showStudentListRef = useRef(null);
   const refContainer = useRef(null);
 
-  const handleClickOutside = (event) => {
-    if (refContainer.current && !refContainer.current.contains(event.target)) {
-      setShowMoreOptions(false);
-    }
-
-    if (
-      showStudentListRef.current &&
-      !showStudentListRef.current.contains(event.target)
-    ) {
-      setShowShareWithStudent(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
-    if (isSelected) {
-      refContainer.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-  });
+  
 
   const saveButtons = (
-    id,
-    showSnackbar,
-    setPublishActionCompleted,
-    onSlideChange
+    id
   ) => {
+    console.log("saveButtons", onAccept)
     return (
       <Frame12191>
-        <SLink
-          onClick={(e) => {
-            denyModelResponse(id).then((res) => {
-              if (res.status === 'DENIED') {
-                setPublishActionCompleted(id, 'DENIED', true);
-                onSlideChange();
-                showSnackbar("Response won't be shared", res.link);
-              } else {
-                return;
-              }
-            });
-          }}
+        <SLink onClick={(e) => onDecline(id)}
         >
           No
         </SLink>
         <Buttons1>
-          <Button
-            onClick={(e) => {
-              publishModelResponse(id).then((res) => {
-                if (res.status === 'PUBLISHED') {
-                  setPublishActionCompleted(id, 'PUBLISHED', true);
-                  onSlideChange();
-                  showSnackbar('Response shared', res.link);
-                } else {
-                  return;
-                }
-              });
-            }}
-          >
+          <Button onClick={(_)=> onAccept(id)} >
             Yes
           </Button>
         </Buttons1>
@@ -121,15 +72,15 @@ function TaskCard(props) {
     refContainer,
     isSelected,
     exemplar,
-    small,
-    showSnackbar,
-    setPublishActionCompleted,
     onAccept,
-    onDecline,
-    onSlideChange
+    onDecline
   ) {
+    console.log("createTaskCard b4 e" ,  exemplar)
     if (exemplar) {
+      console.log("ts" , task.status, onAccept)
+
       if (task.status === 'AWAITING_APPROVAL') {
+        console.log("createTaskCard"+ onAccept)
         return (
           <StyledCard ref={refContainer} isSelected={isSelected}>
             <TaskTitle>
@@ -143,10 +94,7 @@ function TaskCard(props) {
             {styledCardWithLink()}
             <TaskTitle>Are you happy to share?</TaskTitle>
             {saveButtons(
-              task.id,
-              showSnackbar,
-              setPublishActionCompleted,
-              onSlideChange
+              task.id
             )}
           </StyledCard>
         );
@@ -236,7 +184,7 @@ function TaskCard(props) {
               <IconContainer src="/icons/three-dot.svg" alt="delete" />
             </DeleteButtonContainer>
           )}
-          {showMoreOptions && moreOptions}
+          {showMoreOptions && moreOptions()}
         </BubbleContainer>
       );
     }
@@ -249,7 +197,7 @@ function TaskCard(props) {
             </DeleteButtonContainer>
           </DeleteButtonContainerOnly>
         )}
-        {showMoreOptions && moreOptions}
+        {showMoreOptions && moreOptions()}
       </>
     );
   }
@@ -263,8 +211,8 @@ function TaskCard(props) {
       </BubbleContainer>
     );
   }
-  const moreOptions = (
-    <MoreOptionsWrapper>
+  const moreOptions = () => {
+    return <MoreOptionsWrapper>
       <MoreOptions onClick={(event) => handleDateUpdate(event, task)}>
         <IconContainer src="/icons/clock-purple.svg" />
         <div>Change due time</div>
@@ -274,24 +222,19 @@ function TaskCard(props) {
         <div>Delete</div>
       </MoreOptions>
     </MoreOptionsWrapper>
-  );
-
-  return (
-    <>
+  }
+  console.log("before createTaskCard ", onAccept)
+  return <>
       {createTaskCard(
         task,
         refContainer,
         isSelected,
         exemplar,
-        small,
-        showSnackbar,
-        setPublishActionCompleted,
         onAccept,
-        onDecline,
-        onSlideChange
+        onDecline
       )}
     </>
-  );
+  
 }
 
 export default TaskCard;

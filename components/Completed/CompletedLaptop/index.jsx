@@ -23,8 +23,11 @@ function CompletedLaptop(props) {
     frame1284,
     line18,
     headingPart,
+    onAccept,
+    onDecline,
   } = props;
   return (
+    
     <div className="completed-laptop screen">
       <Frame1425>
         {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
@@ -34,6 +37,8 @@ function CompletedLaptop(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAccept={onAccept}
+            onDecline={onDecline}
           />
         </SliderCardContainer>
         <Frame1424>{createFilter()}</Frame1424>

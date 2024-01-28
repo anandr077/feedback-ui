@@ -47,8 +47,6 @@ function CompletedTablet(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
-            onAccept={onAccept}
-            onDecline={onDecline}
           />
         </Frame1413>
       </Frame1425>

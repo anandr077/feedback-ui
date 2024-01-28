@@ -1,28 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import CardContent from '../CardContent';
 import {
-  MoreOptionsWrapper,
-  MoreOptions,
-  IconContainer,
+  AnchorTag,
+  BubbleContainer,
+  Button,
+  Buttons1,
   DeleteButtonContainer,
   DeleteButtonContainerOnly,
-  BubbleContainer,
-  TaskTitle,
-  TaskTitleBold,
   Frame12191,
+  IconContainer,
+  MoreOptions,
+  MoreOptionsWrapper,
   SLink,
-  Buttons1,
-  Button,
   StyledCard,
-  AnchorTag,
-  StudentLength,
+  TaskTitle,
+  TaskTitleBold
 } from './style';
-import CardContent from '../CardContent';
-import SnackbarContext from '../SnackbarContext';
 
-import {
-  denyModelResponse,
-  publishModelResponse,
-} from '../../service';
 import { getUserId, getUserRole } from '../../userLocalDetails';
 import StatusBubbleContainer from '../StatusBubblesContainer';
 
@@ -38,10 +32,12 @@ function TaskCard(props) {
     isSelected,
     showDeletePopuphandler,
     showDateExtendPopuphandler,
+    onExemplarAccept,
+    onExemplarDecline,
     onAccept,
     onDecline,
   } = props;
-  console.log("task card ", onAccept)
+  console.log("task card ", onExemplarAccept)
   const role = getUserRole();
   const userId = getUserId();
 
@@ -55,12 +51,12 @@ function TaskCard(props) {
     console.log("saveButtons", onAccept)
     return (
       <Frame12191>
-        <SLink onClick={(e) => onDecline(id)}
+        <SLink onClick={(e) => onExemplarDecline(id)}
         >
           No
         </SLink>
         <Buttons1>
-          <Button onClick={(_)=> onAccept(id)} >
+          <Button onClick={(_)=> onExemplarAccept(id)} >
             Yes
           </Button>
         </Buttons1>
@@ -72,12 +68,8 @@ function TaskCard(props) {
     refContainer,
     isSelected,
     exemplar,
-    onAccept,
-    onDecline
   ) {
-    console.log("createTaskCard b4 e" ,  exemplar)
     if (exemplar) {
-      console.log("ts" , task.status, onAccept)
 
       if (task.status === 'AWAITING_APPROVAL') {
         console.log("createTaskCard"+ onAccept)

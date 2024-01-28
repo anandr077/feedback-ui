@@ -15,7 +15,7 @@ import TaskCard from '../../TaskCard';
 import { isMobileView } from '../../ReactiveRender';
 
 const HelpPeerSlide = (props) => {
-  const { id, groups, exemplar, setPublishActionCompleted, onAccept, onDecline } = props;
+  const { id, groups, exemplar, setPublishActionCompleted,  onAccept, onDecline } = props;
   const [currentSlide, setCurrentSlide] = useState(0);
   const requireAction = Object.values(groups)
     .flat()
@@ -47,8 +47,8 @@ const HelpPeerSlide = (props) => {
                 exemplar={exemplar}
                 isSelected={nextTask.id === props.id}
                 setPublishActionCompleted={setPublishActionCompleted}
-                onAccept={onAccept}
-                onDecline={onDecline}
+                onExemplarAccept={onAccept}
+                onExemplarDecline={onDecline}
               />
             </div>
           </SecondSlide>
@@ -65,8 +65,8 @@ const HelpPeerSlide = (props) => {
               exemplar={exemplar}
               isSelected={task.id === props.id}
               setPublishActionCompleted={setPublishActionCompleted}
-              onAccept={onAccept}
-              onDecline={onDecline}
+              onExemplarAccept={onAccept}
+              onExemplarDecline={onDecline}
             />
           </div>
         </FirstSlide>

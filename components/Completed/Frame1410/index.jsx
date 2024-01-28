@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TaskCard from '../../TaskCard';
 import Frame1308 from '../Frame1308';
 function Frame1410(props) {
-  const { id, exemplar, groups, className, setPublishActionCompleted, onAccept, onDecline } = props;
+  const { id, exemplar, groups, className, setPublishActionCompleted } = props;
 
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
@@ -14,8 +14,6 @@ function Frame1410(props) {
           exemplar={exemplar}
           isSelected={task.id === id}
           setPublishActionCompleted={setPublishActionCompleted}
-          onAccept={onAccept}
-          onDecline={onDecline}
         />
       );
     });
@@ -43,11 +41,5 @@ const Frame14101 = styled.div`
   }
 `;
 
-const Frame1314 = styled.div`
-  .frame-1410.frame-1413-1 & {
-    width: 350px;
-    align-self: unset;
-  }
-`;
 
 export default Frame1410;

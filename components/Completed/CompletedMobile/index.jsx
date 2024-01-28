@@ -48,8 +48,6 @@ function CompletedMobile(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
-            onAccept={onAccept}
-            onDecline={onDecline}
           />
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>

@@ -29,6 +29,8 @@ import {
   addDocumentToPortfolio,
   getTeachersForClass,
   askJeddAI,
+  feedbackOnFeedback,
+  provideFeedbackOnFeedback,
 } from '../../../service';
 import {
   getShortcuts,
@@ -80,7 +82,6 @@ const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot({ isDocumentPage }) {
   const history = useHistory();
-  const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
   const quillRefs = useRef([]);
@@ -237,49 +238,26 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }, [submission]);
 
-  // useEffect(() => {
-  //   const alertUser = (event) =>{
-  //     event.preventDefault();
-      
-  //     // if (submission?.status === "REVIEWED" && submission?.feedbackRequestType === 'JEDDAI') {
-  //     //   setFeedbackReviewPopup(true);
-  //     // }
-  //     event.returnValue = '';
-  //     //alert("Going?");
-  //     console.log("Triggered")
-      
-  //   }
-
-  //   window.addEventListener('beforeunload', alertUser);
-  //   // window.addEventListener('unload', handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener('beforeunload', alertUser);
-  //     // window.removeEventListener('unload', handleBeforeUnload);
-  //     // handleBeforeUnload();
-  //   };
-  // }, [submission]);
-  // useEffect(() => {
-  //   if (submission?.status==='REVIEWED') {
-  //     setFeedbackReviewPopup(true);
-  //   }
-  // }, [submission]);
-
   useEffect(() => {
     const unblock = history.block((location, action) => {
-      console.log("ss", submission?.status)
-      if (submission?.status==='REVIEWED') {
+      console.log("locating to ", location)
+      if (submission?.feedbackRequestType ==='JEDDAI' 
+      && submission?.status==='REVIEWED'
+      && submission?.studentId===getUserId()
+      && (submission?.feedbackOnFeedback === null || 
+        submission?.feedbackOnFeedback === undefined)) {
+        setPendingLocation(location);
         setFeedbackReviewPopup(true);
         console.log("Blocking")
         return false;
       }
       
   
-      return true; // Allow the navigation
+      return true;
     });
   
     return () => {
-      unblock(); // Clean up the block when the component unmounts
+      unblock();
     };
   }, [submission, feedbackReviewPopup, history]);
 
@@ -290,9 +268,19 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       </>
     );
   }
-  const handlePopupClose = () => {
-    setFeedbackReviewPopup(false);
+  const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
+    provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
+    .then(res=>{
+      setSubmission(old=>{
+        return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+      })
+      setFeedbackReviewPopup(false);
+      if (pendingLocation !== undefined || pendingLocation !== null) {
+        history.push(pendingLocation);
+      }
+    })
   };
+  
   async function fetchClassWithStudentsAndTeachers() {
     try {
       const classesWithStudents = await getClassesWithStudents();
@@ -1467,7 +1455,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       {feedbackReviewPopup && (
         <PopupWithoutCloseIcon 
            text={'Did you find this feedback helpful?'}
-           onClose={handlePopupClose}
+           onYes={handleFeedbackOnFeedback('LIKE')}
+           onNo={handleFeedbackOnFeedback('DISLIKE')}
         />
       )}
 

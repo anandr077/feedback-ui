@@ -79,6 +79,9 @@ const MARKING_METHODOLOGY_TYPE = {
 const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot({ isDocumentPage }) {
+  const history = useHistory();
+  const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
+  const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
@@ -234,31 +237,51 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }, [submission]);
 
+  // useEffect(() => {
+  //   const alertUser = (event) =>{
+  //     event.preventDefault();
+      
+  //     // if (submission?.status === "REVIEWED" && submission?.feedbackRequestType === 'JEDDAI') {
+  //     //   setFeedbackReviewPopup(true);
+  //     // }
+  //     event.returnValue = '';
+  //     //alert("Going?");
+  //     console.log("Triggered")
+      
+  //   }
+
+  //   window.addEventListener('beforeunload', alertUser);
+  //   // window.addEventListener('unload', handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', alertUser);
+  //     // window.removeEventListener('unload', handleBeforeUnload);
+  //     // handleBeforeUnload();
+  //   };
+  // }, [submission]);
+  // useEffect(() => {
+  //   if (submission?.status==='REVIEWED') {
+  //     setFeedbackReviewPopup(true);
+  //   }
+  // }, [submission]);
+
   useEffect(() => {
-    const alertUser = (event) =>{
-      event.preventDefault();
-      event.returnValue = '';
-    }
-
-    const handleBeforeUnload = () =>{
-      if (submission?.status === "REVIEWED" && submission?.feedbackRequestType === 'JEDDAI') {
+    const unblock = history.block((location, action) => {
+      console.log("ss", submission?.status)
+      if (submission?.status==='REVIEWED') {
         setFeedbackReviewPopup(true);
+        console.log("Blocking")
+        return false;
       }
-    }
-
-    window.addEventListener('beforeunload', alertUser);
-    window.addEventListener('unload', handleBeforeUnload);
-
+      
+  
+      return true; // Allow the navigation
+    });
+  
     return () => {
-      window.removeEventListener('beforeunload', alertUser);
-      window.removeEventListener('unload', handleBeforeUnload);
-      handleBeforeUnload();
+      unblock(); // Clean up the block when the component unmounts
     };
-  }, [submission]);
-
-  const handlePopupClose = () => {
-    setFeedbackReviewPopup(false);
-  };
+  }, [submission, feedbackReviewPopup, history]);
 
   if (isLoading) {
     return (
@@ -267,6 +290,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       </>
     );
   }
+  const handlePopupClose = () => {
+    setFeedbackReviewPopup(false);
+  };
   async function fetchClassWithStudentsAndTeachers() {
     try {
       const classesWithStudents = await getClassesWithStudents();

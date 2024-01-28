@@ -6,21 +6,20 @@ import Frame1308 from '../Frame1308';
 function Frame14103(props) {
   const { id, groups, exemplar, setPublishActionCompleted } = props;
 
+
   const frames = Object.keys(groups).map((key) => {
     console.log('the key is', key);
     const group = groups[key];
-    const tasksFrames = group
-      .filter((task) => task.status === 'PUBLISHED')
-      .map((task) => {
-        return (
-          <TaskCard
-            task={task}
-            exemplar={exemplar}
-            isSelected={task.id === id}
-            setPublishActionCompleted={setPublishActionCompleted}
-          />
-        );
-      });
+    const tasksFrames = group.filter((task) => task.status === 'PUBLISHED').map((task) => {
+      return (
+        <TaskCard
+          task={task}
+          exemplar={exemplar}
+          isSelected={task.id === id}
+          setPublishActionCompleted={setPublishActionCompleted}
+        />
+      );
+    });
     return (
       <>
         {tasksFrames.length > 0 && (
@@ -55,21 +54,5 @@ const Frame19 = styled.div`
   position: relative;
 `;
 
-const Frame14101 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: flex-start;
-  gap: 40px;
-  position: relative;
-`;
-
-const Frame191 = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 704px;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-`;
 
 export default Frame14103;

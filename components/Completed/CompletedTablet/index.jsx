@@ -23,8 +23,9 @@ function CompletedTablet(props) {
     frame1284,
     line18,
     headingPart,
+    onAccept,
+    onDecline,
   } = props;
-  // alert("TTTT")
   return (
     <div className="completed-tablet screen">
       <Frame1425>
@@ -35,6 +36,8 @@ function CompletedTablet(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAccept={onAccept}
+            onDecline={onDecline}
           />
         </SliderCardContainer>
         <Frame1424>{createFilter()}</Frame1424>

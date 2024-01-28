@@ -258,6 +258,9 @@ export const docsMoveToFolder = async (submissionId, classId, folderId) =>
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 
+export const provideFeedbackOnFeedback = async (submissionId, feedbackOnFeedback) =>
+  await patchApi(baseUrl + '/submissions/' + submissionId + '/feedbackOnFeedback/' + feedbackOnFeedback);
+
 export const getSmartAnnotaionAnalyticsByClassId = async (classId) => {
   let smartAnnotationsMap = new Map();
   const feedbacks = await getApi(

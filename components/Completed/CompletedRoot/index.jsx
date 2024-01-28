@@ -33,6 +33,7 @@ import {
   FilterText,
 } from './style.js';
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
+import { denyModelResponse, publishModelResponse } from '../../../service.js';
 
 export default function CompletedRoot(props) {
   const {
@@ -44,9 +45,14 @@ export default function CompletedRoot(props) {
     id,
     setPublishActionCompleted,
     classes,
+    onAccept,
+    onDecline
   } = props;
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
+  
+  
+
   function filterAndSortData(obj, targetClassTitle) {
     const dataArray = Object.entries(obj);
     const sortedArray = dataArray.sort((a, b) => {
@@ -161,7 +167,8 @@ export default function CompletedRoot(props) {
             id,
             headingPart,
             setPublishActionCompleted,
-
+            onAccept,
+            onDecline,
             ...completedMobileData,
           }}
         />
@@ -178,6 +185,8 @@ export default function CompletedRoot(props) {
 
             setPublishActionCompleted,
             headingPart,
+            onAccept,
+            onDecline,
             ...completedTabletData,
           }}
         />
@@ -194,6 +203,8 @@ export default function CompletedRoot(props) {
 
             headingPart,
             setPublishActionCompleted,
+            onAccept,
+            onDecline,
             ...completedLaptopData,
           }}
         />
@@ -209,6 +220,8 @@ export default function CompletedRoot(props) {
             id,
             headingPart,
             setPublishActionCompleted,
+            onAccept,
+            onDecline,
             ...completedDesktopData,
           }}
         />

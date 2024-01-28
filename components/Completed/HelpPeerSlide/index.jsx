@@ -15,23 +15,14 @@ import TaskCard from '../../TaskCard';
 import { isMobileView } from '../../ReactiveRender';
 
 const HelpPeerSlide = (props) => {
-  const { id, groups, exemplar, setPublishActionCompleted } = props;
+  const { id, groups, exemplar, setPublishActionCompleted,  onAccept, onDecline } = props;
   const [currentSlide, setCurrentSlide] = useState(0);
   const requireAction = Object.values(groups)
     .flat()
     .filter((task) => task.status === 'AWAITING_APPROVAL');
   const mobileView = isMobileView();
 
-  const handleSlideChange = () => {
-    setTimeout(() => {
-      const nextSlideIndex = currentSlide + 1;
-      if (nextSlideIndex < requireAction.length) {
-        setCurrentSlide(nextSlideIndex);
-      } else {
-        setCurrentSlide(requireAction.length);
-      }
-    }, 300);
-  };
+  
 
   if (requireAction.length === 0 || currentSlide >= requireAction.length) {
     return <></>;
@@ -56,6 +47,8 @@ const HelpPeerSlide = (props) => {
                 exemplar={exemplar}
                 isSelected={nextTask.id === props.id}
                 setPublishActionCompleted={setPublishActionCompleted}
+                onExemplarAccept={onAccept}
+                onExemplarDecline={onDecline}
               />
             </div>
           </SecondSlide>
@@ -72,7 +65,8 @@ const HelpPeerSlide = (props) => {
               exemplar={exemplar}
               isSelected={task.id === props.id}
               setPublishActionCompleted={setPublishActionCompleted}
-              onSlideChange={handleSlideChange}
+              onExemplarAccept={onAccept}
+              onExemplarDecline={onDecline}
             />
           </div>
         </FirstSlide>

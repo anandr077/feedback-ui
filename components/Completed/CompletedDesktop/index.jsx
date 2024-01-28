@@ -23,6 +23,8 @@ function CompletedDesktop(props) {
     frame1284,
     line18,
     headingPart,
+    onAccept,
+    onDecline,
   } = props;
   return (
     <div className="completed-desktop screen">
@@ -34,6 +36,8 @@ function CompletedDesktop(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAccept={onAccept}
+            onDecline={onDecline}
           />
         </SliderCardContainer>
         <Frame1424>{createFilter()}</Frame1424>

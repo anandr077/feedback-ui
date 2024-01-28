@@ -275,8 +275,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
       })
       setFeedbackReviewPopup(false);
+      console.log("Maybe Going to ", pendingLocation)
       if (pendingLocation !== undefined || pendingLocation !== null) {
-        history.push(pendingLocation);
+        console.log("Going to ", pendingLocation)
+        history.replace(pendingLocation);
       }
     })
   };

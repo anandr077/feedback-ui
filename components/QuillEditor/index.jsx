@@ -30,7 +30,6 @@ const QuillEditor = React.forwardRef(
     useEffect(() => {
       if (editor) {
         removeAllHighlights(editor);
-        console.log("comments", comments)
         comments.forEach((comment) => {
           
           if (comment.range) {
@@ -106,7 +105,6 @@ const QuillEditor = React.forwardRef(
       },
       redrawHighlights(comments) {
         if (editor) {
-          console.log("comments", comments.map(c=>({id:c.id, isHidden:c.isHidden, type:c.type})));
           removeAllHighlights(editor);
           comments.forEach((comment) => {
             if (comment.isHidden !== undefined && comment.isHidden !== null)
@@ -201,7 +199,6 @@ const QuillEditor = React.forwardRef(
 export default QuillEditor;
 
 function highlightCommentRange(editor, comment) {
-  console.log('highlightCommentRange d', comment.id);
   addComment(editor, comment);
 }
 
@@ -215,13 +212,10 @@ function getSelectedText(editor, selection) {
 function scrollToHighlight(commentId) {
   ////FIX
   const highlightSpans = Array.from(document.querySelectorAll('span.quill-highlight'));
-  console.log("highlightSpans", highlightSpans)
   const targetSpan = highlightSpans.find(span => {
       const commentIds = span.getAttribute('data-comment-ids');
-      console.log("commentIds", commentIds)
       return commentIds && commentIds.split(',').includes(commentId);
   });
-  console.log("targetSpan", targetSpan)
   if (targetSpan) {
     setTimeout(() => targetSpan.scrollIntoView(
       {
@@ -297,7 +291,6 @@ function getHighlights(editor) {
     {}
   );
 
-  console.log("formattedHighlights", formattedHighlights);
   return formattedHighlights;
 }
 
@@ -332,8 +325,6 @@ function getHighlights2(editor) {
       }
     });
   });
-
-  console.log("highlightsByRange", highlightsByRange);
   return highlightsByRange;
 }
 
@@ -344,9 +335,7 @@ function addComment(editor, comment) {
 }
 
 function addCommentHighlight(editor, comment) {
-  console.log("addCommentHighlight", comment.id, comment.range);
   const highlightsByRange = getHighlights2(editor)
-  console.log("highlightsByRange", highlightsByRange);
   const updatedHighlights = JSON.parse(JSON.stringify(highlightsByRange));
 
   let segmentsToAdd = [{ from: comment.range.from, to: comment.range.to }];

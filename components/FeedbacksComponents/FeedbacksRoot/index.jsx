@@ -29,6 +29,8 @@ import {
   addDocumentToPortfolio,
   getTeachersForClass,
   askJeddAI,
+  feedbackOnFeedback,
+  provideFeedbackOnFeedback,
 } from '../../../service';
 import {
   getShortcuts,
@@ -70,6 +72,7 @@ import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 import { sub } from 'date-fns';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
+import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -78,6 +81,8 @@ const MARKING_METHODOLOGY_TYPE = {
 const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot({ isDocumentPage }) {
+  const history = useHistory();
+  const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
@@ -120,6 +125,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
+  const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -232,6 +238,29 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }, [submission]);
 
+  useEffect(() => {
+    const unblock = history.block((location, action) => {
+      console.log("locating to ", location)
+      if (submission?.feedbackRequestType ==='JEDDAI' 
+      && submission?.status==='REVIEWED'
+      && submission?.studentId===getUserId()
+      && (submission?.feedbackOnFeedback === null || 
+        submission?.feedbackOnFeedback === undefined)) {
+        setPendingLocation(location);
+        setFeedbackReviewPopup(true);
+        console.log("Blocking")
+        return false;
+      }
+      
+  
+      return true;
+    });
+  
+    return () => {
+      unblock();
+    };
+  }, [submission, feedbackReviewPopup, history]);
+
   if (isLoading) {
     return (
       <>
@@ -239,6 +268,19 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       </>
     );
   }
+  const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
+    provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
+    .then(res=>{
+      setSubmission(old=>{
+        return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+      })
+      setFeedbackReviewPopup(false);
+      if (pendingLocation !== undefined || pendingLocation !== null) {
+        history.push(pendingLocation);
+      }
+    })
+  };
+  
   async function fetchClassWithStudentsAndTeachers() {
     try {
       const classesWithStudents = await getClassesWithStudents();
@@ -1357,6 +1399,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       
   };
 
+
   const methods = {
     comments,
     setComments,
@@ -1409,6 +1452,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     <>
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
+      {feedbackReviewPopup && (
+        <PopupWithoutCloseIcon 
+           text={'Did you find this feedback helpful?'}
+           onYes={handleFeedbackOnFeedback('LIKE')}
+           onNo={handleFeedbackOnFeedback('DISLIKE')}
+        />
+      )}
 
       <FeedbackTeacherLaptop
         {...{

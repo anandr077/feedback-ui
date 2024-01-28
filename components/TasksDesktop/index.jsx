@@ -151,14 +151,14 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 90vh;
+  // height: 90vh;
   padding: 0px 60px;
 `;
 
 const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-
+  height: 90vh;
   gap: 32px;
   position: relative;
   align-self: stretch;

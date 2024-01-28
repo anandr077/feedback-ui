@@ -249,8 +249,9 @@ export default function StudentTaskRoot() {
   );
 
   const calenderEvents = allTasks.map((task) => ({
+    link:task.link,
     title: task.title,
-    start: new Date(),
+    start: moment(task.dueAt).toDate(),
     end: moment(task.dueAt).toDate(),
   }));
 

@@ -681,26 +681,6 @@ const submitButtonDocument = (
       </ButtonsContainer>
     );
   }
-  if (pageMode === 'REVISE') {
-    return (
-      <RequestFeedbackFrame
-        style={{
-          cursor: 'unset',
-          minWidth: '100px',
-          position: 'relative',
-        }}
-      >
-        {<img src="/img/messages.png" alt="messages" />}
-        {getStatusLabel(
-          pageMode,
-          submission,
-          allClasses,
-          setShowFeedbackButtons,
-          showFeedbackButtons
-        )}
-      </RequestFeedbackFrame>
-    );
-  }
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return (
       <RequestFeedbackStatusFrame
@@ -786,7 +766,7 @@ const submitButtonDocument = (
       </RequestFeedbackFrame>
     );
   }
-  if (pageMode === 'CLOSED' && submission.status === 'REVIEWED') {
+  if (submission.status === 'REVIEWED') {
     if (submission.feedbackRequestType === 'JEDDAI') {
       return (
         <RequestFeedbackFrame

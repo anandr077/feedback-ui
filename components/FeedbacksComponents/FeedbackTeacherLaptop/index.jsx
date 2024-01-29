@@ -97,7 +97,6 @@ function FeedbackTeacherLaptop(props) {
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const drawerWidth = 315;
-  console.log('submission submission', submission)
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts||[];

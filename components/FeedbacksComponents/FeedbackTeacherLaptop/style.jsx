@@ -56,16 +56,15 @@ export const Label = styled.div`
   position: relative;
   align-self: stretch;
   margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
   display: flex;
   align-items: center;
   color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 26px;
 `;
 export const TitleWrapper = styled.div`
   width: 880px;

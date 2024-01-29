@@ -50,7 +50,6 @@
 .ql-container {
   overflow: hidden;
   border: none !important;
-  min-height: 650px;
 }
 
 
@@ -65,7 +64,6 @@
 
 .ql-editor{
   border: none;
-  min-height: 750px;
 }
 
 .ql-formats{

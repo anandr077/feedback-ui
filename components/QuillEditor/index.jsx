@@ -8,7 +8,7 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce }, ref) => {
+  ({ comments, value, options, debounceTime, onDebounce, nonEditable }, ref) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
@@ -190,7 +190,7 @@ const QuillEditor = React.forwardRef(
 
     return (
       <div className="quill-editor-container">
-        <div ref={editorRef} />
+        <div ref={editorRef} style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}/>
       </div>
     );
   }

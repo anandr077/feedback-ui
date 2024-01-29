@@ -113,7 +113,7 @@ const createRows = (items) => {
 };
 
 const MarkingCriteriaContainer = styled.div`
-  margin: 40px 48px;
+  margin: 0px 48px;
   align-items: flex-start;
   gap: 20px;
   align-self: stretch;

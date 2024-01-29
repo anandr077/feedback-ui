@@ -38,10 +38,11 @@ export const HiddenInputBox = styled.textarea`
 
 export const OverAllCommentTitle = styled.h2`
   color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: 'IBM Plex Sans';
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
   margin-top: 10px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 26px;
 `;

@@ -353,6 +353,7 @@ function createQuill(
       debounceTime={debounce.debounceTime}
       onDebounce={debounce.onDebounce}
       containerName={containerName}
+      nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED'}
     ></QuillEditor>
   );
 }

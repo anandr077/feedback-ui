@@ -10,6 +10,13 @@ import TaskCardContainer from '../../TaskCardContainer';
 import './TeacherTasksStudentMobile.css';
 import Buttons from '../../Classes/Buttons';
 import CheckboxGroup from '../../CheckboxGroup';
+import {
+  Title,
+  TitleAndFilterContainer,
+  TitleAndSubtitleContainer,
+  TitleImage,
+} from '../../TasksStudentMobile/style.js';
+import questionMark from '../../../static/img/question-mark.svg';
 
 function TeacherTasksStudentMobile(props) {
   const {
@@ -20,6 +27,9 @@ function TeacherTasksStudentMobile(props) {
     feedbacks,
     showDeletePopuphandler,
     showDateExtendPopuphandler,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
   const [tasksFrame, setTasksFrame] = useState(null);
 
@@ -44,15 +54,22 @@ function TeacherTasksStudentMobile(props) {
   return (
     <div className="tasks-student-mobile screen">
       <Frame1365>
-        <Frame1307>
-          <PageTitle>Tasks</PageTitle>
-          <CheckboxGroup
-            onChange={filterTasks}
-            data={menuItems}
-          ></CheckboxGroup>
-          <Buttons link="#tasks/new" />
-        </Frame1307>
-        {tasksFrame}
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
+              <Title>
+                Tasks
+                <TitleImage src={questionMark} />
+              </Title>
+              <Buttons link="#tasks/new" />
+            </TitleContainer>
+            {/* <SubtitleCon>
+              Click on a task bubble to complete or review your work
+            </SubtitleCon> */}
+          </TitleAndSubtitleContainer>
+          <>{FilterSortAndCal}</>
+        </TitleAndFilterContainer>
+        {tasksSelected ? <>{tasksFrame}</> : MyCalendarFile}
       </Frame1365>
     </div>
   );
@@ -188,6 +205,15 @@ const Number = styled.div`
   text-align: right;
   letter-spacing: 0;
   line-height: normal;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  
 `;
 
 export default TeacherTasksStudentMobile;

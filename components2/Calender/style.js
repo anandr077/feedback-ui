@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 
+export const DateContainer = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #793ab5;
+`;
+
 export const StyledCalendar = styled(Calendar)`
   padding: 20px;
   border-radius: 16px;
@@ -33,7 +43,7 @@ export const StyledCalendar = styled(Calendar)`
   }
   .rbc-day-bg {
     background-color: white;
-    height: 300px;
+    min-height: 300px !important;
   }
   .rbc-event {
     background-color: #f7eeff !important;
@@ -62,6 +72,35 @@ export const StyledCalendar = styled(Calendar)`
       display: none;
     }
   }
+
+  .rbc-time-content {
+    &::-webkit-scrollbar {
+      width: 0;
+      display: none;
+    }
+  }
+
+  .rbc-time-header {
+    margin-right: 0px !important;
+  }
+  .rbc-time-view .rbc-event {
+    & ${DateContainer} {
+      display: none;
+    }
+  }
+
+  .rbc-time-view .rbc-allday-cell {
+    display: none;
+  }
+
+  .rbc-time-view .rbc-day-slot .rbc-event {
+    margin: 5px;
+    min-height: 25px;
+    .rbc-event-content {
+      display: flex;
+      align-items: center;
+    }
+  }
 `;
 export const MainContainer = styled.div`
   display: flex;
@@ -69,15 +108,7 @@ export const MainContainer = styled.div`
   border-radius: 8px;
   gap: 4px;
 `;
-export const DateContainer = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #793ab5;
-`;
+
 export const DataContainer = styled.div`
   font-family: IBM Plex Sans;
   font-size: 14px;

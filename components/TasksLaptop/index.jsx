@@ -150,7 +150,7 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 80vh;
+  // height: 80vh;
   padding: 0px 60px;
 `;
 
@@ -163,6 +163,7 @@ const Frame1359 = styled.div`
   min-height: calc(100vh - 285px);
   flex-grow: 1;
   margin: 0px auto;
+  height: 80vh;
 `;
 
 const Frame1358 = styled.div`

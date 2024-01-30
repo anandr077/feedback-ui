@@ -30,6 +30,7 @@ import {
   ArrowImg,
   GoBackBtn,
   ImgContainer,
+  CountZoomContainer,
 } from './style';
 import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -143,6 +144,8 @@ function FeedbackTeacherLaptop(props) {
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
+  const [countWords, setCountWords] = useState(0)
+
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -311,11 +314,15 @@ function FeedbackTeacherLaptop(props) {
               showStudentPopUp,
               showTeacherPopUp,
               setShowStudentPopUp,
-              setShowTeacherPopUp
+              setShowTeacherPopUp,
+              setCountWords,
             )}
           </Frame1388>
           {/* </Main> */}
         </>
+        <CountZoomContainer open={open}>
+          {countWords} words
+        </CountZoomContainer>
       </PageContainer>
 
       {handleFeedbackMethodTypeDialog(
@@ -445,7 +452,8 @@ function answersAndFeedbacks(
   showStudentPopUp,
   showTeacherPopUp,
   setShowStudentPopUp,
-  setShowTeacherPopUp
+  setShowTeacherPopUp,
+  setCountWords,
 ) {
   return (
     <Frame1386 id="content">
@@ -489,7 +497,8 @@ function answersAndFeedbacks(
           submission,
           commentsForSelectedTab,
           overallComments,
-          methods
+          methods,
+          setCountWords,
         )}
 
         {!isMobile && (

@@ -105,6 +105,7 @@ export function contextBar(
   labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
+  console.log('pageMode is', pageMode)
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -160,13 +161,10 @@ const selectReviewType = (
   const showClassMate = uniqueStudents.length > 0;
   const showTeacher = uniqueTeachers.length > 0;
   const requestFeedback = (submissionId, requestType) => (id) => {
-    console.log('Submitting', submissionId, requestType, id);
     createRequestFeddbackType(submissionId, {
       type: requestType,
       reviewerId: id,
     }).then((response) => {
-      console.log('Response', response);
-      console.log('Done ', setSubmission);
 
       setSubmission((old) => ({
         ...old,
@@ -184,7 +182,6 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
-    console.log('Closing');
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -673,12 +670,15 @@ const submitButtonDocument = (
 
   if (pageMode === 'REVIEW') {
     return (
-      <ButtonsContainer>
-        <Buttons2
+      <RequestFeedbackButton
+        onClick={() => methods.showSubmitPopuphandler('SubmitReview')}
+      >
+        {/* <Buttons2
           button="Submit"
           onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
-        ></Buttons2>
-      </ButtonsContainer>
+        ></Buttons2> */}
+        Submit
+      </RequestFeedbackButton>
     );
   }
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {

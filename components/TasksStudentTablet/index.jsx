@@ -27,6 +27,7 @@ function TasksStudentTablet(props) {
     inProgressTasks,
     inReviewTasks,
     portfolio,
+    headingFilter,
     arrowright,
   } = props;
   const prevProps = useRef(props);
@@ -54,23 +55,33 @@ function TasksStudentTablet(props) {
   return (
     <div className="tasks-student-tablet screen">
       <Frame1365>
-        <Frame1307>
-          <KeepOrganizedWitho>My Tasks</KeepOrganizedWitho>
-          <LinkAndFilter>
-            <LinkButton
-              link={`#/exemplarResponses`}
-              label="Shared Responses"
-              arrowleft={shareColor}
-              whiteArrowleft={share}
-            />
-            <LinkButton
-              link={`#/completed`}
-              label="Task History"
-              arrowright={arrowRight}
-              whiteArrowright={whiteArrowright}
-            />
-          </LinkAndFilter>
-        </Frame1307>
+        <HeaderContainer>
+          <Frame1307>
+            <Heading>
+              <KeepOrganizedWitho>
+                My Tasks <img src="img/question-mark.svg" />
+              </KeepOrganizedWitho>
+              <HeadingMessage>
+                Click on a task bubble to complete or review your work
+              </HeadingMessage>
+            </Heading>
+            <LinkAndFilter>
+              <LinkButton
+                link={`#/exemplarResponses`}
+                label="Shared Responses"
+                arrowleft={shareColor}
+                whiteArrowleft={share}
+              />
+              <LinkButton
+                link={`#/completed`}
+                label="Task History"
+                arrowright={arrowRight}
+                whiteArrowright={whiteArrowright}
+              />
+            </LinkAndFilter>
+          </Frame1307>
+          <FilterContainer>{headingFilter}</FilterContainer>
+        </HeaderContainer>
         {taskFrame}
       </Frame1365>
     </div>
@@ -144,12 +155,27 @@ const Frame1365 = styled.div`
   align-self: stretch;
 `;
 
+const HeaderContainer = styled.div`
+  width: 100%;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const Frame1307 = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
   position: relative;
   align-self: stretch;
+`;
+
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const KeepOrganizedWitho = styled.h1`
@@ -160,6 +186,18 @@ const KeepOrganizedWitho = styled.h1`
   letter-spacing: -0.72px;
   line-height: 43.2px;
   white-space: nowrap;
+  color: var(--royal-purple);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const HeadingMessage = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #333333;
 `;
 
 const Frame1364 = styled.div`

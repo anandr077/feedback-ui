@@ -4,12 +4,12 @@ import OutlineBtn from '../Buttons/OutlineBtn';
 
 const PopupWithoutCloseIcon = ({text, onYes, onNo}) => {
   return (
-    <PopupBackground>
-      <PopupContainer>
+    <PopupBackground onClick={onNo}>
+      <PopupContainer onClick={(event) => event.stopPropagation()}>
         <Text>{text}</Text>
         <ButtonContainer>
           <OutlineBtn text="Yes" leftIcon={'img/like.svg'} leftIconHover={'img/likeWhite.svg'} onClose={onYes} />
-          <OutlineBtn text="No" leftIcon={'img/dislike.svg'} leftIconHover={'img/dislikeWhite.svg'} onClose={onNo} />
+          <OutlineBtn text="No" leftIcon={'img/dislike.svg'} leftIconHover={'img/dislikewhite.svg'} onClose={onNo} />
         </ButtonContainer>
       </PopupContainer>
     </PopupBackground>

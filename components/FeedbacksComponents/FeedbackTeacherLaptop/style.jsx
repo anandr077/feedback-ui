@@ -91,6 +91,7 @@ export const TitleContainer = styled.div`
   box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
   padding: 16px 30px;
   border-radius: 8px;
+  min-height: 66px;
 `;
 
 export const EditTextBox = styled.p`
@@ -167,6 +168,7 @@ export const PageContainer = styled.div`
     width: 0;
   }
   background: #FAF7FC;
+  position: relative;
 `;
 
 export const Main = styled.div`
@@ -197,36 +199,17 @@ export const Main2 = styled.div`
 export const Frame1388 = styled.div`
   flex: 1;
   width: 100vw;
-  /* margin-left: ${(props) =>
-    props.open ? props.drawerWidth + 100 + 'px' : '0'}; */
   position: relative;
-  /* left: 50%; */
-  /* width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')}; */
-  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
-  /* transform: translateX(
-    ${(props) => (props.open ? `315px` : '0px')}
-  ),
-  transform: scale(
-    ${(props) => (props.open ? `0.75,1` : '1')}
-  ); */
   transform: ${(props) =>
     props.open ? 'translateX(170px)' : 'translateX(0px)'};
-  /* transform: ${(props) =>
-    props.open
-      ? `translateX(calc(-50% + ${props.drawerWidth}px))`
-      : 'translateX(-50%)'}; */
-  /* margin-left: 500px; */
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   gap: 30px;
-  /* position: relative; */
   align-self: stretch;
-  margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   max-width: ${(props) => (props.open ? '1100px' : '1300px')};
-  /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -237,6 +220,24 @@ export const Frame1388 = styled.div`
   @media (min-width: 1600px) {
     max-width: 1300px;
   }
+`;
+
+export const CountZoomContainer = styled.div`
+  position: fixed; 
+  bottom: 0px;
+  transform: ${(props) =>
+    props.open ? 'translateX(310px)' : 'translateX(0px)'};
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #000000;
+  transition: transform 0.3s ease-in;
+  background-color: var(--white);
+  padding: 12px 30px;
+  width: 99vw;
+  box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
+  z-index: 1000001;
 `;
 
 export const DrawerArrowContainer = styled.div`
@@ -419,7 +420,6 @@ export const Frame1368 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
-  min-height: 600px;
 `;
 export const Group1225 = styled.div`
   position: relative;
@@ -714,6 +714,7 @@ export const RequestFeedbackButton = styled.div`
   border-radius: 12px;
   width: 100%;
   background-color: var(--light-mode-purple) !important;
+  height: 66px;
 `;
 export const RequestFeedbackDropdown = styled.div`
   display: flex;

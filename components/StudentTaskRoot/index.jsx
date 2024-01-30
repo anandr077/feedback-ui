@@ -9,6 +9,7 @@ import { taskHeaderProps } from '../../utils/headerProps.js';
 import _ from 'lodash';
 import Loader from '../Loader';
 import { useQuery } from '@tanstack/react-query';
+import FilterSort from '../FilterSort/index.jsx';
 // import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -120,6 +121,11 @@ export default function StudentTaskRoot() {
     );
     setFilteredTasks(filteredClasses);
   };
+
+  const headingFilter = (
+    <FilterSort />
+  )
+
   return (
     <ReactiveRender
       mobile={
@@ -131,6 +137,7 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
+            headingFilter,
             ...tasksStudentMobileData,
           }}
         />
@@ -144,6 +151,7 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
+            headingFilter,
             ...tasksStudentTabletData,
           }}
         />
@@ -157,6 +165,7 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
+            headingFilter,
             ...tasksLaptopData,
           }}
         />
@@ -170,6 +179,7 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
+            headingFilter,
             ...tasksDesktopData,
           }}
         />

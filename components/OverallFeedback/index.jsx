@@ -1,6 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { FeedbackContainer, OverAllCommentTitle, NonEditFeedbackContainer } from './style';
-import { FeedbackContainer, HiddenInputBox, OverAllCommentTitle } from './style';
+import {
+  FeedbackContainer,
+  OverAllCommentTitle,
+  NonEditFeedbackContainer,
+} from './style';
+import {
+  FeedbackContainer,
+  HiddenInputBox,
+  OverAllCommentTitle,
+} from './style';
 import TextField from '../TextField';
 import EditableText from './EditableText';
 import { updateFeedback } from '../../service';
@@ -145,9 +153,11 @@ const OverallFeedback = ({
 
   return (
     <FeedbackContainer>
-      <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
-      {audioOverallComment(pageMode, overallComment)}
-      {showOverallComment(pageMode, overallComment)}
+      <div style={{borderTop: '1px solid #F1E6FC', paddingTop: '40px'}}>
+        <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
+        {audioOverallComment(pageMode, overallComment)}
+        {showOverallComment(pageMode, overallComment)}
+      </div>
     </FeedbackContainer>
   );
 };

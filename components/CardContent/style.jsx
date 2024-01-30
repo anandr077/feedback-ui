@@ -41,6 +41,7 @@ export const TaskTitle = styled.p`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  word-break: break-all;
 `;
 export const Remark = styled.p`
   ${IbmplexsansNormalRiverBed14px}

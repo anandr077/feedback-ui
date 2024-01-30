@@ -23,28 +23,39 @@ function TasksLaptop(props) {
     inReviewTasks,
     frame19Props,
     portfolio,
+    headingFilter,
     arrowright,
   } = props;
   return (
     <div className="tasks-laptop screen">
       <Frame1361>
-        <TitleContainer>
-          <Title>My Tasks</Title>
-          <LinkAndFilter>
-            <LinkButton
-              link={`#/exemplarResponses`}
-              label="Shared Responses"
-              arrowleft={shareColor}
-              whiteArrowleft={share}
-            />
-            <LinkButton
-              link={`#/completed`}
-              label="Task History"
-              arrowright={arrowRight}
-              whiteArrowright={whiteArrowright}
-            />
-          </LinkAndFilter>
-        </TitleContainer>
+        <HeaderContainer>
+          <TitleContainer>
+            <Heading>
+              <Title>
+                My Tasks <img src="img/question-mark.svg" />
+              </Title>
+              <HeadingMessage>
+                Click on a task bubble to complete or review your work
+              </HeadingMessage>
+            </Heading>
+            <LinkAndFilter>
+              <LinkButton
+                link={`#/exemplarResponses`}
+                label="Shared Responses"
+                arrowleft={shareColor}
+                whiteArrowleft={share}
+              />
+              <LinkButton
+                link={`#/completed`}
+                label="Task History"
+                arrowright={arrowRight}
+                whiteArrowright={whiteArrowright}
+              />
+            </LinkAndFilter>
+          </TitleContainer>
+          <FilterContainer>{headingFilter}</FilterContainer>
+        </HeaderContainer>
         <Frame1360>
           <Frame1359>
             <Frame1358>
@@ -87,6 +98,16 @@ function TasksLaptop(props) {
     </div>
   );
 }
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  padding: 0px 60px;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -105,14 +126,34 @@ const Frame1361 = styled.div`
   position: relative;
 `;
 
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
 const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  font-size: 50px;
   position: relative;
   width: fit-content;
   margin-top: -1px;
   letter-spacing: -1.6px;
-  line-height: normal;
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-style: normal;
+  font-weight: 700;
+  font-size: var(--font-size-xxxl);
+  line-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const HeadingMessage = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #333333;
 `;
 
 const Frame1360 = styled.div`

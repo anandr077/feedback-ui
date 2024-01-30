@@ -24,30 +24,40 @@ function TasksDesktop(props) {
     inReviewTasks,
     frame19Props,
     portfolio,
+    headingFilter,
     arrowright,
   } = props;
 
   return (
     <div className="tasks-desktop screen">
       <Frame1361>
-        <TitleContainer>
-          <Title>My Tasks</Title>
-          <LinkAndFilter>
-            
-            <LinkButton
-              link={`#/exemplarResponses`}
-              label="Shared Responses"
-              arrowleft={shareColor}
-              whiteArrowleft={share}
-            />
-            <LinkButton
-              link={`#/completed`}
-              label="Task History"
-              arrowright={arrowRight}
-              whiteArrowright={whiteArrowright}
-            />
-          </LinkAndFilter>
-        </TitleContainer>
+        <HeaderContainer>
+          <TitleContainer>
+            <Heading>
+              <Title>
+                My Tasks <img src="img/question-mark.svg" />
+              </Title>
+              <HeadingMessage>
+                Click on a task bubble to complete or review your work
+              </HeadingMessage>
+            </Heading>
+            <LinkAndFilter>
+              <LinkButton
+                link={`#/exemplarResponses`}
+                label="Shared Responses"
+                arrowleft={shareColor}
+                whiteArrowleft={share}
+              />
+              <LinkButton
+                link={`#/completed`}
+                label="Task History"
+                arrowright={arrowRight}
+                whiteArrowright={whiteArrowright}
+              />
+            </LinkAndFilter>
+          </TitleContainer>
+          <FilterContainer>{headingFilter}</FilterContainer>
+        </HeaderContainer>
         <Frame1360>
           <Frame1359>
             <Frame1354>
@@ -70,7 +80,7 @@ function TasksDesktop(props) {
                 className={frame19Props.className}
               />
             </Frame1354>
-            <Frame1358>
+            <Frame1354>
               <TaskFrame1353
                 outstanding="In Review"
                 number={inReviewTasks.length}
@@ -79,7 +89,7 @@ function TasksDesktop(props) {
                 allTasks={inReviewTasks}
                 className={frame19Props.className}
               />
-            </Frame1358>
+            </Frame1354>
           </Frame1359>
         </Frame1360>
       </Frame1361>
@@ -87,13 +97,21 @@ function TasksDesktop(props) {
   );
 }
 
+const HeaderContainer = styled.div`
+  width: 100%;
+  padding: 0px 60px;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   width: 100%;
-  padding: 0px 60px;
 `;
 
 const Frame1361 = styled.div`
@@ -107,14 +125,34 @@ const Frame1361 = styled.div`
   max-width: 1440px;
 `;
 
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
 const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  font-size: 50px;
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-style: normal;
+  font-weight: 700;
+  font-size: var(--font-size-xxxl);
   position: relative;
   width: fit-content;
   margin-top: -1px;
   letter-spacing: -1.6px;
-  line-height: normal;
+  line-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const HeadingMessage = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #333333;
 `;
 
 const Frame1360 = styled.div`
@@ -147,7 +185,6 @@ const Frame1354 = styled.div`
   padding-top: 0px;
   position: relative;
   flex: 1;
-  flex-grow: 1;
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;

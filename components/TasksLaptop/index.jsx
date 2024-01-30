@@ -30,6 +30,7 @@ function TasksLaptop(props) {
     inReviewTasks,
     frame19Props,
     portfolio,
+    headingFilter,
     arrowright,
     FilterSortAndCal,
     tasksSelected,
@@ -112,6 +113,16 @@ function TasksLaptop(props) {
     </div>
   );
 }
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  padding: 0px 60px;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -127,6 +138,12 @@ const Frame1361 = styled.div`
   justify-content: center;
   gap: 40px;
   position: relative;
+`;
+
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const Title = styled.h1`

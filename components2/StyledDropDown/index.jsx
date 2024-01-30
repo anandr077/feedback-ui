@@ -71,8 +71,8 @@ export default function StyledDropDown({
         style={{
           border: !independent ? '1px solid #D6D6D6' : 'none',
           backgroundColor: 'white',
-          borderRadius: '10px',
-          fontSize: '16px',
+          borderRadius: '8px',
+          fontSize: '20px',
         }}
         MenuProps={{
           PaperProps: {

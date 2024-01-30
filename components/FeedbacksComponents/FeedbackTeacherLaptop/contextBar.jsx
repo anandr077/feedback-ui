@@ -105,6 +105,7 @@ export function contextBar(
   labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
+  console.log('pageMode is', pageMode)
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -160,13 +161,10 @@ const selectReviewType = (
   const showClassMate = uniqueStudents.length > 0;
   const showTeacher = uniqueTeachers.length > 0;
   const requestFeedback = (submissionId, requestType) => (id) => {
-    console.log('Submitting', submissionId, requestType, id);
     createRequestFeddbackType(submissionId, {
       type: requestType,
       reviewerId: id,
     }).then((response) => {
-      console.log('Response', response);
-      console.log('Done ', setSubmission);
 
       setSubmission((old) => ({
         ...old,
@@ -184,7 +182,6 @@ const selectReviewType = (
     });
   };
   const ClosePopUp = () => {
-    console.log('Closing');
     setShowStudentPopUp(false);
     setShowTeacherPopUp(false);
     setShowSelectType(false);
@@ -435,7 +432,6 @@ export function contextBarForPortfolioDocument(
     updateAssignment(submission.assignment.id, updatedAssignment)
       .then((res) => {
         if (res && res.title) {
-          console.log('Assignment title updated to: ' + res.title);
           setSubmission((old) => ({
             ...old,
             assignment: {
@@ -449,7 +445,6 @@ export function contextBarForPortfolioDocument(
             ),
           }));
         } else {
-          console.log('Response is not as expected:', res);
           setInputValue(res.title);
         }
       })
@@ -536,7 +531,7 @@ export function contextBarForPortfolioDocument(
               />
             ) : (
               <AssignmentTitle
-                style={{ display: 'contents', color: '#A6A6A6' }}
+                style={{ display: 'contents' }}
                 dangerouslySetInnerHTML={{
                   __html: linkify(submission?.assignment?.title),
                 }}
@@ -630,7 +625,6 @@ const submitButtonDocument = (
   setShowStudentPopUp,
   setShowTeacherPopUp
 ) => {
-  console.log('pageMode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
       <>
@@ -676,32 +670,15 @@ const submitButtonDocument = (
 
   if (pageMode === 'REVIEW') {
     return (
-      <ButtonsContainer>
-        <Buttons2
+      <RequestFeedbackButton
+        onClick={() => methods.showSubmitPopuphandler('SubmitReview')}
+      >
+        {/* <Buttons2
           button="Submit"
           onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
-        ></Buttons2>
-      </ButtonsContainer>
-    );
-  }
-  if (pageMode === 'REVISE') {
-    return (
-      <RequestFeedbackFrame
-        style={{
-          cursor: 'unset',
-          minWidth: '100px',
-          position: 'relative',
-        }}
-      >
-        {<img src="/img/messages.png" alt="messages" />}
-        {getStatusLabel(
-          pageMode,
-          submission,
-          allClasses,
-          setShowFeedbackButtons,
-          showFeedbackButtons
-        )}
-      </RequestFeedbackFrame>
+        ></Buttons2> */}
+        Submit
+      </RequestFeedbackButton>
     );
   }
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
@@ -789,7 +766,7 @@ const submitButtonDocument = (
       </RequestFeedbackFrame>
     );
   }
-  if (pageMode === 'CLOSED' && submission.status === 'REVIEWED') {
+  if (submission.status === 'REVIEWED') {
     if (submission.feedbackRequestType === 'JEDDAI') {
       return (
         <RequestFeedbackFrame
@@ -954,7 +931,6 @@ function subjectTypeSelection(
   handleTaskUpdate,
   handleSubjectUpdate
 ) {
-  console.log('the submission is', submission);
   const subjectOptions = [{ title: 'English' }];
   const taskOptions = [
     { title: 'Analytical' },
@@ -963,10 +939,6 @@ function subjectTypeSelection(
     { title: 'Persuasive' },
     { title: 'Reflective' },
   ];
-  console.log(
-    'selected index ' +
-      taskOptions.findIndex((item) => item.title === submission.documentType)
-  );
   return (
     <SubjectSelectionContainer>
       {pageMode === 'DRAFT' ? (

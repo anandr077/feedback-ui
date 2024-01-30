@@ -8,8 +8,6 @@ import LinkButton from '../../../components2/LinkButton/index.jsx';
 import whiteArrowleft from '../../../static/img/arrowleftwhite.svg';
 import arrowLeft from '../../../static/img/arrowleft.svg';
 import questionMark from '../../../static/img/question-mark.svg';
-import SortSquare from '../../../static/img/sort-square.svg';
-import FilterSquare from '../../../static/img/filter-square.svg';
 import {
   ConnectContainer,
   TopContainer,
@@ -25,14 +23,9 @@ import {
   TitleImage,
   FilterContainer,
 } from '../../CompletedPage/style';
-import {
-  Filter,
-  FilterAndSortContainer,
-  FilterImg,
-  FilterLine,
-  FilterText,
-} from './style.js';
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
+import { denyModelResponse, publishModelResponse } from '../../../service.js';
+import FilterSort from '../../FilterSort/index.jsx';
 
 export default function CompletedRoot(props) {
   const {
@@ -44,9 +37,12 @@ export default function CompletedRoot(props) {
     id,
     setPublishActionCompleted,
     classes,
+    onAccept,
+    onDecline,
   } = props;
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
+
   function filterAndSortData(obj, targetClassTitle) {
     const dataArray = Object.entries(obj);
     const sortedArray = dataArray.sort((a, b) => {
@@ -101,7 +97,14 @@ export default function CompletedRoot(props) {
           have submitted for review
         </HeadingLine>
       </TopContainer>
-      <FilterAndSortContainer>
+      <FilterSort
+        setSelectedValue={setSelectedValue}
+        selectedClass={selectedClass}
+        classes={classes}
+        sortData={sortData}
+        setSortData={setSortData}
+      />
+      {/* <FilterAndSortContainer>
         <FilterContainer>
           <Filter>
             <FilterImg src={FilterSquare} />
@@ -144,7 +147,7 @@ export default function CompletedRoot(props) {
             </SortButton>
           </>
         </SortContainer>
-      </FilterAndSortContainer>
+      </FilterAndSortContainer> */}
     </>
   );
 
@@ -161,7 +164,8 @@ export default function CompletedRoot(props) {
             id,
             headingPart,
             setPublishActionCompleted,
-
+            onAccept,
+            onDecline,
             ...completedMobileData,
           }}
         />
@@ -178,6 +182,8 @@ export default function CompletedRoot(props) {
 
             setPublishActionCompleted,
             headingPart,
+            onAccept,
+            onDecline,
             ...completedTabletData,
           }}
         />
@@ -194,6 +200,8 @@ export default function CompletedRoot(props) {
 
             headingPart,
             setPublishActionCompleted,
+            onAccept,
+            onDecline,
             ...completedLaptopData,
           }}
         />
@@ -209,6 +217,8 @@ export default function CompletedRoot(props) {
             id,
             headingPart,
             setPublishActionCompleted,
+            onAccept,
+            onDecline,
             ...completedDesktopData,
           }}
         />

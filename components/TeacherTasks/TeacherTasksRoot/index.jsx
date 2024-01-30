@@ -25,11 +25,7 @@ import {
   TasksImg,
   TasksImgCal,
 } from '../../StudentTaskRoot/style.js';
-import {
-  Filter,
-  FilterImg,
-  FilterText,
-} from '../../Completed/CompletedRoot/style.js';
+
 import {
   FilterContainer,
   FilterLine,
@@ -49,6 +45,7 @@ import CalSelected from '../../../static/img/calselected.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
+import { FilterImg, Filter, FilterText} from '../../FilterSort/style.js';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -255,34 +252,7 @@ export default function TeacherTaskRoot() {
             )}
           </FilterContainer>
           <FilterLine />
-          <SortContainer>
-            <SortHeading>
-              <SortImg src={SortSquare} />
-              <SortText>Sort by {!mobileView && ':'}</SortText>
-            </SortHeading>
-            {!mobileView ? (
-              <>
-                <SortButton
-                  style={{ backgroundColor: sortData ? '#51009F' : '' }}
-                  onClick={() => setSortData(true)}
-                >
-                  <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                    New to Old
-                  </SortButtonText>
-                </SortButton>
-                <SortButton
-                  style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                  onClick={() => setSortData(false)}
-                >
-                  <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                    Old to New
-                  </SortButtonText>
-                </SortButton>
-              </>
-            ) : (
-              <></>
-            )}
-          </SortContainer>
+          
         </FilterAndSortContainer>
         <CalenderContainer>
           <TasksImg

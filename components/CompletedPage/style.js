@@ -97,32 +97,10 @@ export const FilterLine = styled.div`
     display: none;
   }
 `;
-export const SortContainer = styled.div`
-  display: flex;
-  gap: 16px;
-`;
-export const SortButton = styled.div`
-  display: flex;
-  padding: 8px 12px 8px 12px;
-  border-radius: 25px;
-  border: 1px;
-  border: 1px solid #a6a6a6;
-  cursor: pointer;
-`;
-export const SortButtonText = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #6f6f6f;
-  text-align: center;
-`;
 
 export const HeadingLine = styled.p`
-  color: var(--Foundation-Grey-grey-500, #7a7a7a);
-  font-family: IBM Plex Sans;
+  color: #333333;
+  font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -133,12 +111,12 @@ export const Title = styled.h1`
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--Dark-Purple, #25222a);
-  font-family: IBM Plex Sans;
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
   font-size: 36px;
   font-style: normal;
   font-weight: 700;
-  line-height: normal;
+  line-height: 46px;
   letter-spacing: -0.9px;
   @media (max-width: 765px) {
     font-size: 32px;
@@ -378,15 +356,6 @@ export const Frame5112para = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-`;
-
-export const SortHeading = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
 `;
 
 export const Frame5086PopUp = styled.div`

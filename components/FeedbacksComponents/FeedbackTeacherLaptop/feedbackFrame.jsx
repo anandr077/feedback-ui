@@ -145,6 +145,7 @@ function feedbackFrame(
           <Frame1328>
             <>
               {showResolvedToggle(setShowResolved)(
+                commentsForSelectedTab,
                 isFeedback,
                 isShowResolved,
                 handleShowResolvedToggle
@@ -397,28 +398,34 @@ function createDefaultCommentText(isFocusAreas, pageMode, studentId) {
 
 export const showResolvedToggle =
   (setShowResolved) =>
-  (isFeedback, isShowResolved, handleShowResolvedToggle) => {
-    if (isFeedback) {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignContent: 'center',
-            gap: '10px',
-          }}
-        >
-          <Label>Show resolved</Label>
-          {/* Show resolved */}
-          <AntSwitch
-            checked={isShowResolved}
-            onChange={handleShowResolvedToggle(setShowResolved)}
-          />
-        </div>
-      );
+  (commentsForSelectedTab, isFeedback, isShowResolved, handleShowResolvedToggle) => {
+    if (commentsForSelectedTab.filter(c=>c.status === 'RESOLVED').length <= 0) {
+      return <></>;
     }
-    return <></>;
+    if (!isFeedback) {
+      return <></>;
+    }
+  
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignContent: 'center',
+          gap: '10px',
+        }}
+      >
+        <Label>Show resolved</Label>
+        {/* Show resolved */}
+        <AntSwitch
+          checked={isShowResolved}
+          onChange={handleShowResolvedToggle(setShowResolved)}
+        />
+      </div>
+    );
+    
+    
   };
 
 function shortcutList(methods, smartAnnotations) {

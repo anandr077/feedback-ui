@@ -29,6 +29,8 @@ import {
   addDocumentToPortfolio,
   getTeachersForClass,
   askJeddAI,
+  feedbackOnFeedback,
+  provideFeedbackOnFeedback,
 } from '../../../service';
 import {
   getShortcuts,
@@ -70,6 +72,7 @@ import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 import { sub } from 'date-fns';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
+import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -78,8 +81,9 @@ const MARKING_METHODOLOGY_TYPE = {
 const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot({ isDocumentPage }) {
+  const history = useHistory();
+  const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
-  queryClient.removeQueries(['portfolio']);
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
@@ -121,6 +125,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
+  const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
 
   const defaultMarkingCriteria = getDefaultCriteria();
 
@@ -173,15 +178,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           setCheckedState(initialState);
           setOverallComments(overAllCommentsResult);
           setClassesAndStudents(classWithTeacherAndStudentsResult);
-          console.log(
-            'classWithTeacherAndStudentsResult',
-            classWithTeacherAndStudentsResult
-          );
           const allTeachers = _.flatten(
             classWithTeacherAndStudentsResult.map((c) => c.teachers)
           );
           const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-          console.log('uniqueTeachers', uniqueTeachers);
           setTeachers(uniqueTeachers);
         }
       )
@@ -237,7 +237,29 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
-  console.log('isLoading', isLoading);
+
+  useEffect(() => {
+    const unblock = history.block((location, action) => {
+      console.log("locating to ", location)
+      if (submission?.feedbackRequestType ==='JEDDAI' 
+      && submission?.status==='REVIEWED'
+      && submission?.studentId===getUserId()
+      && (submission?.feedbackOnFeedback === null || 
+        submission?.feedbackOnFeedback === undefined)) {
+        setPendingLocation(location);
+        setFeedbackReviewPopup(true);
+        console.log("Blocking")
+        return false;
+      }
+      
+  
+      return true;
+    });
+  
+    return () => {
+      unblock();
+    };
+  }, [submission, feedbackReviewPopup, history]);
 
   if (isLoading) {
     return (
@@ -246,11 +268,24 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       </>
     );
   }
+  const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
+    provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
+    .then(res=>{
+      setSubmission(old=>{
+        return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+      })
+      setFeedbackReviewPopup(false);
+      console.log("Maybe Going to ", pendingLocation)
+      if (pendingLocation !== undefined || pendingLocation !== null) {
+        console.log("Going to ", pendingLocation)
+        history.replace(pendingLocation);
+      }
+    })
+  };
+  
   async function fetchClassWithStudentsAndTeachers() {
     try {
-      console.log('Getting fetchClassWithStudentsAndTeachers');
       const classesWithStudents = await getClassesWithStudents();
-      console.log('Got classesWithStudents', classesWithStudents);
 
       const teacherPromises = _.flatMap(classesWithStudents, (classItem) => {
         return getTeachersForClass(classItem.id).then((teachers) => {
@@ -281,7 +316,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  console.log('Page mode', pageMode);
   const handleChangeText = (change, allSaved) => {
     if (document.getElementById('statusLabelIcon')) {
       if (allSaved) {
@@ -417,7 +451,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   const updateExemplar = () => {
     const dataToUpdate = updateExemplarComment.comment;
-    console.log('the comment is, ', dataToUpdate);
     updateParentComment(dataToUpdate.comment, dataToUpdate.id);
   };
 
@@ -592,7 +625,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           <DialogActions>
             <SubmitCommentFrameRoot
               submitButtonOnClick={() => {
-                console.log('Clicked');
 
                 updateExemplarComment.showComment
                   ? updateExemplar()
@@ -989,7 +1021,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the overall Feedback is', response);
         setOverallComments([...overallComments, response]);
       }
     });
@@ -1002,7 +1033,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
       return;
     }
-    console.log('feedbackToUpdate ', feedbackToUpdate);
 
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
@@ -1341,9 +1371,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   };
   const jeddAI = () => {
-    console.log('quillRefs', quillRefs);
     const q = quillRefs.current[0];
-    console.log('q', q.getText());
     return askJeddAI(submission.id, q.getText())
     .then((res)=> {
       setSubmission((old)=> ({
@@ -1357,7 +1385,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       function getAndUpdateSubmission() {
           getSubmissionById(submission.id).then((response) => {
               if (response) {
-                  console.log("Response in timer", response)
                   if (response.status !== 'FEEDBACK_ACCEPTED') {
                       clearInterval(interval);
                       window.location.reload();
@@ -1373,6 +1400,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
       
   };
+
 
   const methods = {
     comments,
@@ -1426,6 +1454,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     <>
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
+      {feedbackReviewPopup && (
+        <PopupWithoutCloseIcon 
+           text={'Did you find this feedback helpful?'}
+           onYes={handleFeedbackOnFeedback('LIKE')}
+           onNo={handleFeedbackOnFeedback('DISLIKE')}
+        />
+      )}
 
       <FeedbackTeacherLaptop
         {...{

@@ -8,7 +8,7 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce }, ref) => {
+  ({ comments, value, options, debounceTime, onDebounce, nonEditable, setCountWords }, ref) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
@@ -18,18 +18,29 @@ const QuillEditor = React.forwardRef(
         const quillInstance = new Quill(editorRef.current, options);
 
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
-        quillInstance.root.style.fontSize = '16px';
+        quillInstance.root.style.fontSize = '18px';
+        quillInstance.root.style.lineHeight = '32px';
 
         const delta = quillInstance.clipboard.convert(value);
         quillInstance.setContents(delta);
         setEditor(quillInstance);
+
+        const initialText = quillInstance.getText();
+        const initialWordCount = initialText.trim().length > 0 ? initialText.trim().split(/\s+/).length : 0;
+        setCountWords(initialWordCount);
+      }
+      if (editor) {
+        editor.on('text-change', () => {
+          const text = editor.getText();
+          const wordCount = text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
+          setCountWords(wordCount);
+        });
       }
     }, [editor, editorRef, options, value]);
 
     useEffect(() => {
       if (editor) {
         removeAllHighlights(editor);
-        console.log("comments", comments)
         comments.forEach((comment) => {
           
           if (comment.range) {
@@ -105,7 +116,6 @@ const QuillEditor = React.forwardRef(
       },
       redrawHighlights(comments) {
         if (editor) {
-          console.log("comments", comments.map(c=>({id:c.id, isHidden:c.isHidden, type:c.type})));
           removeAllHighlights(editor);
           comments.forEach((comment) => {
             if (comment.isHidden !== undefined && comment.isHidden !== null)
@@ -191,7 +201,7 @@ const QuillEditor = React.forwardRef(
 
     return (
       <div className="quill-editor-container">
-        <div ref={editorRef} />
+        <div ref={editorRef} style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}/>
       </div>
     );
   }
@@ -200,7 +210,6 @@ const QuillEditor = React.forwardRef(
 export default QuillEditor;
 
 function highlightCommentRange(editor, comment) {
-  console.log('highlightCommentRange d', comment.id);
   addComment(editor, comment);
 }
 
@@ -214,13 +223,10 @@ function getSelectedText(editor, selection) {
 function scrollToHighlight(commentId) {
   ////FIX
   const highlightSpans = Array.from(document.querySelectorAll('span.quill-highlight'));
-  console.log("highlightSpans", highlightSpans)
   const targetSpan = highlightSpans.find(span => {
       const commentIds = span.getAttribute('data-comment-ids');
-      console.log("commentIds", commentIds)
       return commentIds && commentIds.split(',').includes(commentId);
   });
-  console.log("targetSpan", targetSpan)
   if (targetSpan) {
     setTimeout(() => targetSpan.scrollIntoView(
       {
@@ -296,7 +302,6 @@ function getHighlights(editor) {
     {}
   );
 
-  console.log("formattedHighlights", formattedHighlights);
   return formattedHighlights;
 }
 
@@ -331,8 +336,6 @@ function getHighlights2(editor) {
       }
     });
   });
-
-  console.log("highlightsByRange", highlightsByRange);
   return highlightsByRange;
 }
 
@@ -343,9 +346,7 @@ function addComment(editor, comment) {
 }
 
 function addCommentHighlight(editor, comment) {
-  console.log("addCommentHighlight", comment.id, comment.range);
   const highlightsByRange = getHighlights2(editor)
-  console.log("highlightsByRange", highlightsByRange);
   const updatedHighlights = JSON.parse(JSON.stringify(highlightsByRange));
 
   let segmentsToAdd = [{ from: comment.range.from, to: comment.range.to }];

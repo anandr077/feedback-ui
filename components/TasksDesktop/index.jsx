@@ -31,6 +31,7 @@ function TasksDesktop(props) {
     inReviewTasks,
     frame19Props,
     portfolio,
+    headingFilter,
     arrowright,
     FilterSortAndCal,
     tasksSelected,
@@ -111,6 +112,15 @@ function TasksDesktop(props) {
   );
 }
 
+const HeaderContainer = styled.div`
+  width: 100%;
+  padding: 0px 60px;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -128,6 +138,12 @@ const Frame1361 = styled.div`
   gap: 40px;
   position: relative;
   max-width: 1440px;
+`;
+
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const Title = styled.h1`
@@ -174,7 +190,6 @@ const Frame1354 = styled.div`
   padding-top: 0px;
   position: relative;
   flex: 1;
-  flex-grow: 1;
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;

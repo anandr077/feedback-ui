@@ -56,16 +56,15 @@ export const Label = styled.div`
   position: relative;
   align-self: stretch;
   margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
   display: flex;
   align-items: center;
   color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 26px;
 `;
 export const TitleWrapper = styled.div`
   width: 880px;
@@ -92,12 +91,14 @@ export const TitleContainer = styled.div`
   box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
   padding: 16px 30px;
   border-radius: 8px;
+  min-height: 66px;
 `;
 
 export const EditTextBox = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
+  font-weight: 500;
   font-size: var(--font-size-l);
+  letter-spacing: 0px;
   line-height: 20px;
   color: #7a7a7a;
   width: fit-content;
@@ -166,7 +167,8 @@ export const PageContainer = styled.div`
   ::-webkit-scrollbar {
     width: 0;
   }
-  background: var(--white-pointer);
+  background: #FAF7FC;
+  position: relative;
 `;
 
 export const Main = styled.div`
@@ -197,46 +199,45 @@ export const Main2 = styled.div`
 export const Frame1388 = styled.div`
   flex: 1;
   width: 100vw;
-  /* margin-left: ${(props) =>
-    props.open ? props.drawerWidth + 100 + 'px' : '0'}; */
   position: relative;
-  /* left: 50%; */
-  /* width: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')}; */
-  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
-  /* transform: translateX(
-    ${(props) => (props.open ? `315px` : '0px')}
-  ),
-  transform: scale(
-    ${(props) => (props.open ? `0.75,1` : '1')}
-  ); */
   transform: ${(props) =>
     props.open ? 'translateX(170px)' : 'translateX(0px)'};
-  /* transform: ${(props) =>
-    props.open
-      ? `translateX(calc(-50% + ${props.drawerWidth}px))`
-      : 'translateX(-50%)'}; */
-  /* margin-left: 500px; */
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   gap: 30px;
-  /* position: relative; */
   align-self: stretch;
-  margin-bottom: 50px;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
   max-width: ${(props) => (props.open ? '1100px' : '1300px')};
-  /* height: ${(props) => (props.mobileView ? '0px' : 'auto')}; */
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none;
-  background: var(--white-pointer);
+  background: #FAF7FC;
 
   @media (min-width: 1600px) {
     max-width: 1300px;
   }
+`;
+
+export const CountZoomContainer = styled.div`
+  position: fixed; 
+  bottom: 0px;
+  transform: ${(props) =>
+    props.open ? 'translateX(310px)' : 'translateX(0px)'};
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #000000;
+  transition: transform 0.3s ease-in;
+  background-color: var(--white);
+  padding: 12px 30px;
+  width: 99vw;
+  box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
+  z-index: 1000001;
 `;
 
 export const DrawerArrowContainer = styled.div`
@@ -368,7 +369,7 @@ export const Frame1371 = styled.div`
   justify-content: space-between;
   gap: 32px;
   z-index: 2;
-  background-color: var(--white-pointer);
+  background-color: #FAF7FC;
   width: 100%;
 
   @media screen and (max-width: 1024px) and (min-width: 766px) {
@@ -384,23 +385,22 @@ export const Frame1371 = styled.div`
 
 export const AssignmentTitle = styled.h1`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
-  font-weight: 500;
-  line-height: 31px;
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  line-height: 26px;
   font-style: normal;
   position: relative;
-  color: #000000;
+  color: var(--text);
   flex: 1;
   margin-top: -1px;
-  letter-spacing: -0.9px;
 `;
 
 export const QuestionEditInput = styled.textarea`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
+  font-size: var(--font-size-xl);
   color: var(--text);
   font-weight: 400;
-  line-height: 20px;
+  line-height: 26px;
   font-style: normal;
   border: none;
   outline: none;
@@ -420,7 +420,6 @@ export const Frame1368 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
-  min-height: 600px;
 `;
 export const Group1225 = styled.div`
   position: relative;
@@ -707,14 +706,15 @@ export const RequestFeedbackButton = styled.div`
   gap: 8px;
   border: none;
   color: white;
-  font-family: IBM Plex Sans;
-  font-size: 16px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   border-radius: 12px;
   width: 100%;
   background-color: var(--light-mode-purple) !important;
+  height: 66px;
 `;
 export const RequestFeedbackDropdown = styled.div`
   display: flex;
@@ -802,7 +802,7 @@ export const SubjectSelectBox = styled.div`
   label {
     font-family: var(--font-family-ibm_plex_sans);
     font-weight: 400;
-    font-size: var(--font-size-l);
+    font-size:  var(--font-size-xl);
     line-height: 26px;
     color: #6f6f6f;
     padding-right: 10px;

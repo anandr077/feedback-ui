@@ -175,6 +175,12 @@ const Frame1307 = styled.div`
   flex-wrap: wrap;
 `;
 
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
 const PageTitle = styled.h1`
   ${IbmplexsansBoldShark36px}
   position: relative;
@@ -183,6 +189,18 @@ const PageTitle = styled.h1`
   letter-spacing: -0.72px;
   line-height: 43.2px;
   white-space: nowrap;
+  color: var(--royal-purple);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const HeadingMessage = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #333333;
 `;
 
 const Frame1364 = styled.div`
@@ -235,7 +253,7 @@ const LinkAndFilter = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   gap: 10px;
   margin-top: 10px;
 `;

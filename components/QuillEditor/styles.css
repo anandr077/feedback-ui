@@ -16,6 +16,9 @@
     0.2
   ); /* Change the color and opacity as desired */
 }
+.ql-editor p span{
+  color: var(--text);
+}
 .ql-editor strong {
   font-weight: bold;
 }
@@ -47,7 +50,6 @@
 .ql-container {
   overflow: hidden;
   border: none !important;
-  min-height: 650px;
 }
 
 
@@ -62,7 +64,6 @@
 
 .ql-editor{
   border: none;
-  min-height: 750px;
 }
 
 .ql-formats{

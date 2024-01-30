@@ -41,11 +41,5 @@ const Frame14101 = styled.div`
   }
 `;
 
-const Frame1314 = styled.div`
-  .frame-1410.frame-1413-1 & {
-    width: 350px;
-    align-self: unset;
-  }
-`;
 
 export default Frame1410;

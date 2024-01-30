@@ -42,7 +42,8 @@ export function answersFrame(
   submission,
   commentsForSelectedTab,
   overallComments,
-  methods
+  methods,
+  setCountWords
 ) {
   return (
     <AnswersFrame
@@ -68,6 +69,7 @@ export function answersFrame(
       updateOverAllFeedback={methods.updateOverAllFeedback}
       setComments={methods.setComments}
       comments={methods.comments}
+      setCountWords={setCountWords}
     ></AnswersFrame>
   );
 }
@@ -94,6 +96,7 @@ function AnswersFrame(props) {
     updateOverAllFeedback,
     setComments,
     comments,
+    setCountWords,
   } = props;
   return (
     <Group1225 id="answers">
@@ -118,7 +121,8 @@ function AnswersFrame(props) {
           overallComments,
           updateOverAllFeedback,
           setComments,
-          comments
+          comments,
+          setCountWords
         )}
       </Frame1367>
     </Group1225>
@@ -173,7 +177,8 @@ const answerFrames = (
   overallComments,
   updateOverAllFeedback,
   setComments,
-  comments
+  comments,
+  setCountWords
 ) => {
   return submission.assignment.questions.map((question, idx) => {
     const newAnswer = {
@@ -233,7 +238,8 @@ const answerFrames = (
                   answerValue,
                   commentsForSelectedTab,
                   debounce,
-                  handleEditorMounted
+                  handleEditorMounted,
+                  setCountWords
                 )}
               </QuillContainer>
             )}
@@ -324,7 +330,8 @@ function createQuill(
   answerValue,
   commentsForSelectedTab,
   debounce,
-  handleEditorMounted
+  handleEditorMounted,
+  setCountWords
 ) {
   return (
     <QuillEditor
@@ -353,6 +360,8 @@ function createQuill(
       debounceTime={debounce.debounceTime}
       onDebounce={debounce.onDebounce}
       containerName={containerName}
+      nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED'}
+      setCountWords={setCountWords}
     ></QuillEditor>
   );
 }

@@ -84,7 +84,7 @@ const MyCalendar = (props) => {
   };
 
   return (
-    <div style={{ height: '90vh', width: '100%' }}>
+    <div style={{ height: '120vh', width: '100%' }}>
       <StyledCalendar
         localizer={localizer}
         events={props.calenderEvents}
@@ -92,6 +92,8 @@ const MyCalendar = (props) => {
           event: CustomEvent,
           toolbar: CustomToolbar,
         }}
+        step={60}
+        timeslots={1}
       />
     </div>
   );

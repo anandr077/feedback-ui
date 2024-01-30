@@ -10,13 +10,22 @@ export const DateContainer = styled.div`
   text-align: left;
   color: #793ab5;
 `;
-
+export const DataContainer = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1e252a;
+`;
 export const StyledCalendar = styled(Calendar)`
   padding: 20px;
   border-radius: 16px;
   gap: 20px;
   box-shadow: 0px 4px 22px 0px #301b720a;
   background: #f7eeff;
+  font-family: IBM Plex Sans !important;
 
   .rbc-month-view {
     border: none !important;
@@ -43,7 +52,8 @@ export const StyledCalendar = styled(Calendar)`
   }
   .rbc-day-bg {
     background-color: white;
-    min-height: 300px !important;
+    min-height: 175px !important;
+    border-radius: 4px !important;
   }
   .rbc-event {
     background-color: #f7eeff !important;
@@ -66,7 +76,7 @@ export const StyledCalendar = styled(Calendar)`
   }
   .rbc-row-content {
     overflow-y: scroll;
-
+    max-height: none;
     &::-webkit-scrollbar {
       width: 0;
       display: none;
@@ -80,12 +90,52 @@ export const StyledCalendar = styled(Calendar)`
     }
   }
 
+  .rbc-month-view .rbc-date-cell .rbc-button-link {
+    font-family: IBM Plex Sans;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #a6a6a6;
+  }
   .rbc-time-header {
     margin-right: 0px !important;
   }
+
+  .rbc-time-view {
+    border: none !important;
+  }
+  .rbc-time-view .rbc-time-content {
+    border: none !important;
+  }
+  .rbc-time-view .rbc-time-header-content {
+    border: none !important;
+  }
+  .rbc-time-view .rbc-events-container .rbc-event-content {
+    align-items: flex-start !important;
+  }
+  .rbc-time-view .rbc-header {
+    display: flex;
+    background-color: #f7eeff !important;
+    border: none !important;
+  }
+  .rbc-time-view .rbc-header .rbc-button-link {
+    font-family: IBM Plex Sans;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #575757;
+    text-transform: uppercase !important;
+  }
+  .rbc-time-view .rbc-time-gutter .rbc-timeslot-group {
+    background-color: #f7eeff !important;
+  }
   .rbc-time-view .rbc-event {
-    & ${DateContainer} {
-      display: none;
+    & ${DataContainer} {
+      overflow: hidden;
     }
   }
 
@@ -101,22 +151,37 @@ export const StyledCalendar = styled(Calendar)`
       align-items: center;
     }
   }
+
+  .rbc-time-view .rbc-event {
+    height: 1% !important;
+    background-color: #f7eeff !important;
+    border: none !important;
+  }
+
+  .rbc-time-view .rbc-timeslot-group {
+    background-color: white;
+    min-height: 175px !important;
+  }
+  .rbc-time-view .rbc-timeslot-group .rbc-time-slot .rbc-label {
+    font-family: IBM Plex Sans;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: right;
+    color: #a6a6a6;
+  }
+
+  .rbc-events-container .rbc-event {
+    width: 100% !important;
+    left: 0 !important;
+  }
 `;
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 8px;
   gap: 4px;
-`;
-
-export const DataContainer = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #1e252a;
 `;
 
 export const StyledToolbar = styled.div`

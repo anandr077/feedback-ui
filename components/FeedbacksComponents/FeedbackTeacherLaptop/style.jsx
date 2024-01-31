@@ -227,6 +227,7 @@ export const CountZoomContainer = styled.div`
   bottom: 0px;
   transform: ${(props) =>
     props.open ? 'translateX(310px)' : 'translateX(0px)'};
+  display: ${props => props.mobileView ? 'none' : ''};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-size: var(--font-size-l);

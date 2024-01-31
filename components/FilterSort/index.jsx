@@ -52,7 +52,7 @@ const FilterSort = ({
 
         <>
           <SortButton
-            style={{ backgroundColor: sortData ? '#51009F' : '' }}
+            style={sortData && { backgroundColor:   '#51009F', borderColor: '#51009F' }}
             onClick={() => setSortData(true)}
           >
             <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>

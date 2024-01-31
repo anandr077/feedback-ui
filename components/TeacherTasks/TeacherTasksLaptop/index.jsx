@@ -7,6 +7,17 @@ import TaskCardContainer from '../../TaskCardContainer';
 import TaskFrame1353 from '../../TaskFrame1353';
 import './TeacherTasksLaptop.css';
 import CheckboxGroup from '../../CheckboxGroup';
+import arrowRight from '../../../static/img/arrowright.svg';
+import whiteArrowright from '../../../static/img/arrowright-White.svg';
+import questionMark from '../../../static/img/question-mark.svg';
+import share from '../../../static/img/share.svg';
+import shareColor from '../../../static/img/share-color.svg';
+import {
+  SubtitleCon,
+  TitleAndFilterContainer,
+  TitleAndSubtitleContainer,
+  TitleImage,
+} from '../../TasksLaptop/style.js';
 
 function TeacherTasksLaptop(props) {
   const {
@@ -17,54 +28,67 @@ function TeacherTasksLaptop(props) {
     feedbacks,
     showDeletePopuphandler,
     showDateExtendPopuphandler,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
   return (
     <div className="tasks-laptop screen">
       <Frame1361>
-        <TitleContainer>
-          <Title>Tasks</Title>
-          <Frame1315>
-            <CheckboxGroup
-              onChange={filterTasks}
-              data={menuItems}
-            ></CheckboxGroup>
-            <ButtonContainer>
-              {' '}
-              <Buttons link="#tasks/new" />
-            </ButtonContainer>
-          </Frame1315>
-        </TitleContainer>
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
+              <Title>
+                Tasks
+                <TitleImage src={questionMark} />
+              </Title>
+              <ButtonContainer>
+                {' '}
+                <Buttons link="#tasks/new" />
+              </ButtonContainer>
+            </TitleContainer>
+            <SubtitleCon>
+              Click on a task bubble to finish drafting a task, provide feedback
+              or view any current submissions
+            </SubtitleCon>
+          </TitleAndSubtitleContainer>
+          <>{FilterSortAndCal}</>
+        </TitleAndFilterContainer>
         <Frame1360>
-          <Frame1359>
-            <Frame1358>
-              <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
-              <TaskCardContainer
-                allTasks={drafts}
-                showDeletePopuphandler={showDeletePopuphandler}
-                showDateExtendPopuphandler={showDateExtendPopuphandler}
-              />
-            </Frame1358>
-            <Frame1358>
-              <TaskFrame1353
-                outstanding="Active"
-                number={awaitingSubmissions.length}
-              />
-              <TaskCardContainer
-                allTasks={awaitingSubmissions}
-                showDeletePopuphandler={showDeletePopuphandler}
-                showDateExtendPopuphandler={showDateExtendPopuphandler}
-              />
-            </Frame1358>
+          {tasksSelected ? (
+            <Frame1359>
+              <Frame1358>
+                <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
+                <TaskCardContainer
+                  allTasks={drafts}
+                  showDeletePopuphandler={showDeletePopuphandler}
+                  showDateExtendPopuphandler={showDateExtendPopuphandler}
+                />
+              </Frame1358>
+              <Frame1358>
+                <TaskFrame1353
+                  outstanding="Active"
+                  number={awaitingSubmissions.length}
+                />
+                <TaskCardContainer
+                  allTasks={awaitingSubmissions}
+                  showDeletePopuphandler={showDeletePopuphandler}
+                  showDateExtendPopuphandler={showDateExtendPopuphandler}
+                />
+              </Frame1358>
 
-            <Frame1358>
-              <TaskFrame1353 outstanding="Closed" number={feedbacks.length} />
-              <TaskCardContainer
-                allTasks={feedbacks}
-                showDeletePopuphandler={showDeletePopuphandler}
-                showDateExtendPopuphandler={showDateExtendPopuphandler}
-              />
-            </Frame1358>
-          </Frame1359>
+              <Frame1358>
+                <TaskFrame1353 outstanding="Closed" number={feedbacks.length} />
+                <TaskCardContainer
+                  allTasks={feedbacks}
+                  showDeletePopuphandler={showDeletePopuphandler}
+                  showDateExtendPopuphandler={showDateExtendPopuphandler}
+                />
+              </Frame1358>
+            </Frame1359>
+          ) : (
+            MyCalendarFile
+          )}
         </Frame1360>
       </Frame1361>
     </div>
@@ -82,7 +106,6 @@ const TitleContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  padding: 0px 60px;
 `;
 
 const ButtonContainer = styled.div`
@@ -90,7 +113,6 @@ const ButtonContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   max-width: 200px;
-  margin-right: 40px;
 `;
 const Frame1361 = styled.div`
   display: flex;
@@ -103,13 +125,16 @@ const Frame1361 = styled.div`
 `;
 
 const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  font-size:64px;
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 47px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  color: #301b72;
 `;
 
 const Frame1360 = styled.div`
@@ -120,19 +145,20 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 80vh;
+  // height: 80vh;
+  padding: 0px 60px;
 `;
 
 const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  padding: 0px 60px;
   gap: 32px;
   position: relative;
   align-self: stretch;
   min-height: calc(100vh - 300px);
   flex-grow: 1;
   margin: 0px auto;
+  height: 80vh;
 `;
 
 const Frame1358 = styled.div`

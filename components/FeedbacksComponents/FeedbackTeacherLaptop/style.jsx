@@ -238,7 +238,6 @@ export const CountZoomContainer = styled.div`
   padding: 12px 30px;
   width: 99vw;
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
-  z-index: 1000001;
 `;
 
 export const DrawerArrowContainer = styled.div`

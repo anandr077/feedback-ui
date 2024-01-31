@@ -259,8 +259,7 @@ const Number = styled.div`
 `;
 const LinkAndFilter = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-wrap: wrap;
   align-items: start;
   gap: 10px;
   margin-top: 10px;

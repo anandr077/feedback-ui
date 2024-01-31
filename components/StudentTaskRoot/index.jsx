@@ -16,16 +16,7 @@ import {
   TasksImg,
   TasksImgCal,
 } from './style.js';
-import {
-  FilterContainer,
-  FilterLine,
-  SortButton,
-  SortButtonText,
-  SortContainer,
-  SortHeading,
-  SortImg,
-  SortText,
-} from '../CompletedPage/style.js';
+
 
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../static/img/sort-square.svg';
@@ -37,8 +28,15 @@ import CalUnSelected from '../../static/img/calunselected.svg';
 import MyCalendar from '../../components2/Calender/index.js';
 import moment from 'moment';
 
-import FilterSort from '../FilterSort/index.jsx';
-import { FilterText, FilterImg, Filter, FilterText } from '../FilterSort/style.js';
+import { FilterText, FilterImg, Filter, FilterText,
+  FilterContainer,
+  FilterLine,
+  SortButton,
+  SortButtonText,
+  SortContainer,
+  SortHeading,
+  SortImg,
+  SortText, } from '../FilterSort/style.js';
 // import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);

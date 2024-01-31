@@ -548,6 +548,6 @@ export const Frame12841 = styled.img`
 export const PopupContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 360px;
+  width: 260px;
   border-radius: 12px;
 `;

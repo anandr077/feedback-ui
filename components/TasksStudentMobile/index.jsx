@@ -166,6 +166,14 @@ const Frame1365 = styled.div`
   min-height: 600px;
 `;
 
+const HeaderContainer = styled.div`
+  width: 100%;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const Frame1307 = styled.div`
   display: flex;
   align-items: center;

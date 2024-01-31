@@ -36,7 +36,7 @@ import { FilterText, FilterImg, Filter, FilterText,
   SortContainer,
   SortHeading,
   SortImg,
-  SortText, } from '../FilterSort/style.js';
+  SortText } from '../FilterSort/style.js';
 // import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);

@@ -12,8 +12,15 @@ import Group1205 from '../TeacherDashboard/Group1205';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import questionMark from '../../static/img/question-mark.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
+import {
+  SubtitleCon,
+  TitleAndFilterContainer,
+  TitleAndSubtitleContainer,
+  TitleImage,
+} from './style.js';
 
 function TasksDesktop(props) {
   const {
@@ -26,71 +33,79 @@ function TasksDesktop(props) {
     portfolio,
     headingFilter,
     arrowright,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
-
+  console.log('first', assignmedTasks);
   return (
     <div className="tasks-desktop screen">
       <Frame1361>
-        <HeaderContainer>
-          <TitleContainer>
-            <Heading>
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
               <Title>
-                My Tasks <img src="img/question-mark.svg" />
+                My Tasks
+                <TitleImage src={questionMark} />
               </Title>
-              <HeadingMessage>
-                Click on a task bubble to complete or review your work
-              </HeadingMessage>
-            </Heading>
-            <LinkAndFilter>
-              <LinkButton
-                link={`#/exemplarResponses`}
-                label="Shared Responses"
-                arrowleft={shareColor}
-                whiteArrowleft={share}
-              />
-              <LinkButton
-                link={`#/completed`}
-                label="Task History"
-                arrowright={arrowRight}
-                whiteArrowright={whiteArrowright}
-              />
-            </LinkAndFilter>
-          </TitleContainer>
-          <FilterContainer>{headingFilter}</FilterContainer>
-        </HeaderContainer>
+              <LinkAndFilter>
+                <LinkButton
+                  link={`#/exemplarResponses`}
+                  label="Shared Responses"
+                  arrowleft={shareColor}
+                  whiteArrowleft={share}
+                />
+                <LinkButton
+                  link={`#/completed`}
+                  label="Task History"
+                  arrowright={arrowRight}
+                  whiteArrowright={whiteArrowright}
+                />
+              </LinkAndFilter>
+            </TitleContainer>
+            <SubtitleCon>
+              Click on a task bubble to complete or review your work
+            </SubtitleCon>
+          </TitleAndSubtitleContainer>
+          <>{FilterSortAndCal}</>
+        </TitleAndFilterContainer>
         <Frame1360>
-          <Frame1359>
-            <Frame1354>
-              <TaskFrame1353
-                outstanding="Assigned"
-                number={assignmedTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={assignmedTasks}
-                className={frame19Props.className}
-              />
-            </Frame1354>
-            <Frame1354>
-              <TaskFrame1353
-                outstanding="In Draft"
-                number={inProgressTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={inProgressTasks}
-                className={frame19Props.className}
-              />
-            </Frame1354>
-            <Frame1354>
-              <TaskFrame1353
-                outstanding="In Review"
-                number={inReviewTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={inReviewTasks}
-                className={frame19Props.className}
-              />
-            </Frame1354>
-          </Frame1359>
+          {tasksSelected ? (
+            <Frame1359>
+              <Frame1354>
+                <TaskFrame1353
+                  outstanding="Assigned"
+                  number={assignmedTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={assignmedTasks}
+                  className={frame19Props.className}
+                />
+              </Frame1354>
+              <Frame1354>
+                <TaskFrame1353
+                  outstanding="In Draft"
+                  number={inProgressTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={inProgressTasks}
+                  className={frame19Props.className}
+                />
+              </Frame1354>
+              <Frame1358>
+                <TaskFrame1353
+                  outstanding="In Review"
+                  number={inReviewTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={inReviewTasks}
+                  className={frame19Props.className}
+                />
+              </Frame1358>
+            </Frame1359>
+          ) : (
+            MyCalendarFile
+          )}
         </Frame1360>
       </Frame1361>
     </div>
@@ -132,27 +147,16 @@ const Heading = styled.div`
 `;
 
 const Title = styled.h1`
-  color: var(--royal-purple);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-style: normal;
-  font-weight: 700;
-  font-size: var(--font-size-xxxl);
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  line-height: 46px;
   display: flex;
   align-items: center;
-  gap: 10px;
-`;
-
-const HeadingMessage = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-l);
-  line-height: 24px;
-  color: #333333;
+  gap: 12px;
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 47px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  color: #301b72;
 `;
 
 const Frame1360 = styled.div`
@@ -163,13 +167,14 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 90vh;
+  // height: 90vh;
+  padding: 0px 60px;
 `;
 
 const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  padding: 0px 60px;
+  height: 90vh;
   gap: 32px;
   position: relative;
   align-self: stretch;

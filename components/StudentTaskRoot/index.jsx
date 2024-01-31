@@ -1,6 +1,6 @@
 import React from 'react';
 import { getTasks, getClasses, getPortfolio } from '../../service';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../ReactiveRender';
 import TasksStudentMobile from '../TasksStudentMobile';
 import TasksStudentTablet from '../TasksStudentTablet';
 import TasksLaptop from '../TasksLaptop';
@@ -9,13 +9,44 @@ import { taskHeaderProps } from '../../utils/headerProps.js';
 import _ from 'lodash';
 import Loader from '../Loader';
 import { useQuery } from '@tanstack/react-query';
-import FilterSort from '../FilterSort/index.jsx';
+import {
+  CalenderContainer,
+  FilterAndSortContainer,
+  MainContainer,
+  TasksImg,
+  TasksImgCal,
+} from './style.js';
+
+
+import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
+import SortSquare from '../../static/img/sort-square.svg';
+import FilterSquare from '../../static/img/filter-square.svg';
+import TaskSelected from '../../static/img/taskselected.svg';
+import TaskUnSelected from '../../static/img/taskunselected.svg';
+import CalSelected from '../../static/img/calselected.svg';
+import CalUnSelected from '../../static/img/calunselected.svg';
+import MyCalendar from '../../components2/Calender/index.js';
+import moment from 'moment';
+
+import { FilterText, FilterImg, Filter, FilterText,
+  FilterContainer,
+  FilterLine,
+  SortButton,
+  SortButtonText,
+  SortContainer,
+  SortHeading,
+  SortImg,
+  SortText } from '../FilterSort/style.js';
 // import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [portfolio, setPortfolio] = React.useState([]);
+  const [sortData, setSortData] = React.useState(true);
+  const [selectedClass, setSelectedClass] = React.useState('');
+  const [tasksSelected, setTasksSelected] = React.useState(true);
+  const mobileView = isMobileView();
 
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
@@ -55,6 +86,12 @@ export default function StudentTaskRoot() {
     }
   }, [tasksQuery.data, studentClassesQuery.data, portfolioQuery.data]);
 
+  const setSelectedValue = (type, selectValue) => {
+    if (type === 'classes') {
+      setSelectedClass(selectValue);
+    }
+  };
+
   if (
     tasksQuery.isLoading ||
     studentClassesQuery.isLoading ||
@@ -66,13 +103,27 @@ export default function StudentTaskRoot() {
       </>
     );
   }
-  const assignmedTasks = filteredTasks.filter(
+
+  const filteredData = (tasks) => {
+    // const filteredTasks = tasks.filter(
+    //   (task) => !selectedClass || task.classTitle === selectedClass
+    // );
+
+    const sortedTasks = tasks.sort((a, b) => {
+      const dateA = new Date(a.dueAt).getTime();
+      const dateB = new Date(b.dueAt).getTime();
+      return sortData ? dateB - dateA : dateA - dateB;
+    });
+
+    return sortedTasks;
+  };
+  const assignmedTasks = filteredData(filteredTasks).filter(
     (task) => task.progressStatus === 'ASSIGNED'
   );
-  const inProgressTasks = filteredTasks.filter(
+  const inProgressTasks = filteredData(filteredTasks).filter(
     (task) => task.progressStatus === 'DRAFT'
   );
-  const inReviewTasks = filteredTasks.filter(
+  const inReviewTasks = filteredData(filteredTasks).filter(
     (task) => task.progressStatus === 'REVIEW'
   );
 
@@ -115,17 +166,93 @@ export default function StudentTaskRoot() {
     if (classesValues.length === 0) {
       classesValues = classes.map((clazz) => clazz.id);
     }
-    classesValues = [null, undefined, ...classesValues]
+    classesValues = [null, undefined, ...classesValues];
     const filteredClasses = _.filter(filteredTasks, (task) =>
       _.includes(classesValues, task.classId)
     );
+
     setFilteredTasks(filteredClasses);
   };
 
-  const headingFilter = (
-    <FilterSort />
-  )
+  const FilterSortAndCal = (
+    <>
+      <MainContainer>
+        <FilterAndSortContainer>
+          <FilterContainer>
+            <Filter>
+              <FilterImg src={FilterSquare} />
+              <FilterText>Filter {!mobileView && ':'}</FilterText>
+            </Filter>
 
+            {!mobileView ? (
+              <>
+                <RoundedDropDown
+                  search={false}
+                  type={'classes'}
+                  selectedIndex={setSelectedValue}
+                  menuItems={['class1', 'class2', 'class3']}
+                  defaultValue={selectedClass}
+                  width={110}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </FilterContainer>
+          <FilterLine />
+          <SortContainer>
+            <SortHeading>
+              <SortImg src={SortSquare} />
+              <SortText>Sort by {!mobileView && ':'}</SortText>
+            </SortHeading>
+            {!mobileView ? (
+              <>
+                <SortButton
+                  style={{ backgroundColor: sortData ? '#51009F' : '' }}
+                  onClick={() => setSortData(true)}
+                >
+                  <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+                    New to Old
+                  </SortButtonText>
+                </SortButton>
+                <SortButton
+                  style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                  onClick={() => setSortData(false)}
+                >
+                  <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+                    Old to New
+                  </SortButtonText>
+                </SortButton>
+              </>
+            ) : (
+              <></>
+            )}
+          </SortContainer>
+        </FilterAndSortContainer>
+        <CalenderContainer>
+          <TasksImg
+            src={tasksSelected ? TaskSelected : TaskUnSelected}
+            selected={tasksSelected}
+            onClick={() => setTasksSelected(true)}
+          />
+          <TasksImgCal
+            src={!tasksSelected ? CalSelected : CalUnSelected}
+            selected={!tasksSelected}
+            onClick={() => setTasksSelected(false)}
+          />
+        </CalenderContainer>
+      </MainContainer>
+    </>
+  );
+
+  const calenderEvents = allTasks.map((task) => ({
+    link:task.link,
+    title: task.title,
+    start: moment(task.dueAt).toDate(),
+    end: moment(task.dueAt).toDate(),
+  }));
+
+  const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
   return (
     <ReactiveRender
       mobile={
@@ -137,7 +264,9 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
-            headingFilter,
+            FilterSortAndCal,
+            tasksSelected,
+            MyCalendarFile,
             ...tasksStudentMobileData,
           }}
         />
@@ -151,7 +280,9 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
-            headingFilter,
+            FilterSortAndCal,
+            tasksSelected,
+            MyCalendarFile,
             ...tasksStudentTabletData,
           }}
         />
@@ -165,7 +296,9 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
-            headingFilter,
+            FilterSortAndCal,
+            tasksSelected,
+            MyCalendarFile,
             ...tasksLaptopData,
           }}
         />
@@ -179,7 +312,9 @@ export default function StudentTaskRoot() {
             inProgressTasks,
             inReviewTasks,
             portfolio,
-            headingFilter,
+            FilterSortAndCal,
+            tasksSelected,
+            MyCalendarFile,
             ...tasksDesktopData,
           }}
         />

@@ -90,6 +90,9 @@ export const FilterLine = styled.div`
   height: 30px;
   width: 1px;
   border: 1px solid #d6d6d6;
+  @media (min-width: 766px) and (max-width: 1024px) {
+     display: none;
+  }
   @media (max-width: 765px) {
     display: none;
   }

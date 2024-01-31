@@ -4,7 +4,7 @@ import {
   getClasses,
   getDocumentReviews,
 } from '../../../service';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
 import TeacherTasksLaptop from '../TeacherTasksLaptop';
@@ -18,6 +18,34 @@ import Loader from '../../Loader';
 import DeleteAssignmentPopup from '../../DeleteAssignmentPopUp';
 import ExtendAssignmentPopup from '../../ExtendAssignmentPopup';
 import { useQuery } from '@tanstack/react-query';
+import {
+  CalenderContainer,
+  FilterAndSortContainer,
+  MainContainer,
+  TasksImg,
+  TasksImgCal,
+} from '../../StudentTaskRoot/style.js';
+
+import {
+  FilterContainer,
+  FilterLine,
+  SortButton,
+  SortButtonText,
+  SortContainer,
+  SortHeading,
+  SortImg,
+  SortText,
+} from '../../CompletedPage/style.js';
+import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
+import SortSquare from '../../../static/img/sort-square.svg';
+import FilterSquare from '../../../static/img/filter-square.svg';
+import TaskSelected from '../../../static/img/taskselected.svg';
+import TaskUnSelected from '../../../static/img/taskunselected.svg';
+import CalSelected from '../../../static/img/calselected.svg';
+import CalUnSelected from '../../../static/img/calunselected.svg';
+import moment from 'moment';
+import MyCalendar from '../../../components2/Calender/index.js';
+import { FilterImg, Filter, FilterText} from '../../FilterSort/style.js';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -26,6 +54,11 @@ export default function TeacherTaskRoot() {
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
+
+  const [sortData, setSortData] = React.useState(true);
+  const [selectedClass, setSelectedClass] = React.useState('');
+  const [tasksSelected, setTasksSelected] = React.useState(true);
+  const mobileView = isMobileView();
 
   const assignmentsQuery = useQuery({
     queryKey: ['assignments'],
@@ -55,29 +88,32 @@ export default function TeacherTaskRoot() {
     if (assignmentsQuery.data) {
       if (documentReviewTasksQuery.data) {
         setAssignments([
-          ...assignmentsQuery.data.map(assignment => ({
+          ...assignmentsQuery.data.map((assignment) => ({
             ...assignment,
-            type: 'TASK'
+            type: 'TASK',
           })),
           ...documentReviewTasksQuery.data,
         ]);
         setFilteredTasks([
-          ...assignmentsQuery.data
-          .map(assignment => ({
+          ...assignmentsQuery.data.map((assignment) => ({
             ...assignment,
-            type: 'TASK'
+            type: 'TASK',
           })),
           ...documentReviewTasksQuery.data,
         ]);
       } else {
-        setAssignments(assignmentsQuery.data.map(assignment => ({
-          ...assignment,
-          type: 'TASK'
-        })));
-        setFilteredTasks(assignmentsQuery.data.map(assignment => ({
-          ...assignment,
-          type: 'TASK'
-        })));
+        setAssignments(
+          assignmentsQuery.data.map((assignment) => ({
+            ...assignment,
+            type: 'TASK',
+          }))
+        );
+        setFilteredTasks(
+          assignmentsQuery.data.map((assignment) => ({
+            ...assignment,
+            type: 'TASK',
+          }))
+        );
       }
     }
     if (teacherClassesQuery.data) {
@@ -100,6 +136,12 @@ export default function TeacherTaskRoot() {
       </>
     );
   }
+
+  const setSelectedValue = (type, selectValue) => {
+    if (type === 'classes') {
+      setSelectedClass(selectValue);
+    }
+  };
 
   const drafts = filteredTasks.filter(
     (assignment) => assignment.submissionsStatus === 'DRAFT'
@@ -160,7 +202,9 @@ export default function TeacherTaskRoot() {
       if (_.isEmpty(classesValues)) {
         return true;
       }
-      return _.some(assignment.classIds, (classId) => _.includes(classesValues, classId));
+      return _.some(assignment.classIds, (classId) =>
+        _.includes(classesValues, classId)
+      );
     });
 
     setFilteredTasks(filteredClasses);
@@ -181,6 +225,59 @@ export default function TeacherTaskRoot() {
   const hideDateExtendPopup = () => {
     setShowDateExtendPopup(false);
   };
+
+  const FilterSortAndCal = (
+    <>
+      <MainContainer>
+        <FilterAndSortContainer>
+          <FilterContainer>
+            <Filter>
+              <FilterImg src={FilterSquare} />
+              <FilterText>Filter {!mobileView && ':'}</FilterText>
+            </Filter>
+
+            {!mobileView ? (
+              <>
+                <RoundedDropDown
+                  search={false}
+                  type={'classes'}
+                  selectedIndex={setSelectedValue}
+                  menuItems={['class1', 'class2', 'class3']}
+                  defaultValue={selectedClass}
+                  width={110}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </FilterContainer>
+          <FilterLine />
+          
+        </FilterAndSortContainer>
+        <CalenderContainer>
+          <TasksImg
+            src={tasksSelected ? TaskSelected : TaskUnSelected}
+            selected={tasksSelected}
+            onClick={() => setTasksSelected(true)}
+          />
+          <TasksImgCal
+            src={!tasksSelected ? CalSelected : CalUnSelected}
+            selected={!tasksSelected}
+            onClick={() => setTasksSelected(false)}
+          />
+        </CalenderContainer>
+      </MainContainer>
+    </>
+  );
+
+  const calenderEvents = filteredTasks.map((task) => ({
+    link: task.link,
+    title: task.title,
+    start: moment(task.dueAt).toDate(),
+    end: moment(task.dueAt).toDate(),
+  }));
+
+  const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
 
   return (
     <>
@@ -208,6 +305,9 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksStudentMobileData,
             }}
           />
@@ -222,6 +322,9 @@ export default function TeacherTaskRoot() {
               showDeletePopuphandler,
               showDateExtendPopuphandler,
               feedbacks,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksStudentTabletData,
             }}
           />
@@ -239,6 +342,9 @@ export default function TeacherTaskRoot() {
               showDeletePopup,
               hidedeletePopup,
               selectedAssignment,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksLaptopData,
             }}
           />
@@ -253,6 +359,9 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksDesktopData,
             }}
           />

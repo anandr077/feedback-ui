@@ -12,8 +12,15 @@ import Group1205 from '../TeacherDashboard/Group1205';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import questionMark from '../../static/img/question-mark.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
+import {
+  SubtitleCon,
+  TitleAndFilterContainer,
+  TitleAndSubtitleContainer,
+  TitleImage,
+} from './style.js';
 function TasksLaptop(props) {
   const {
     menuItems,
@@ -25,74 +32,82 @@ function TasksLaptop(props) {
     portfolio,
     headingFilter,
     arrowright,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
   return (
     <div className="tasks-laptop screen">
       <Frame1361>
-        <HeaderContainer>
-          <TitleContainer>
-            <Heading>
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
               <Title>
-                My Tasks <img src="img/question-mark.svg" />
+                My Tasks
+                <TitleImage src={questionMark} />
               </Title>
-              <HeadingMessage>
-                Click on a task bubble to complete or review your work
-              </HeadingMessage>
-            </Heading>
-            <LinkAndFilter>
-              <LinkButton
-                link={`#/exemplarResponses`}
-                label="Shared Responses"
-                arrowleft={shareColor}
-                whiteArrowleft={share}
-              />
-              <LinkButton
-                link={`#/completed`}
-                label="Task History"
-                arrowright={arrowRight}
-                whiteArrowright={whiteArrowright}
-              />
-            </LinkAndFilter>
-          </TitleContainer>
-          <FilterContainer>{headingFilter}</FilterContainer>
-        </HeaderContainer>
+              <LinkAndFilter>
+                <LinkButton
+                  link={`#/exemplarResponses`}
+                  label="Shared Responses"
+                  arrowleft={shareColor}
+                  whiteArrowleft={share}
+                />
+                <LinkButton
+                  link={`#/completed`}
+                  label="Task History"
+                  arrowright={arrowRight}
+                  whiteArrowright={whiteArrowright}
+                />
+              </LinkAndFilter>
+            </TitleContainer>
+            <SubtitleCon>
+              Click on a task bubble to complete or review your work
+            </SubtitleCon>
+          </TitleAndSubtitleContainer>
+          <>{FilterSortAndCal}</>
+        </TitleAndFilterContainer>
         <Frame1360>
-          <Frame1359>
-            <Frame1358>
-              <TaskFrame1353
-                outstanding="Assigned"
-                number={assignmedTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={assignmedTasks}
-                className={frame19Props.className}
-                cardsProps={frame19Props.cardsProps}
-              />
-            </Frame1358>
-            <Frame1358>
-              <TaskFrame1353
-                outstanding="In Draft"
-                number={inProgressTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={inProgressTasks}
-                className={frame19Props.className}
-                cardsProps={frame19Props.cardsProps}
-              />
-            </Frame1358>
+          {tasksSelected ? (
+            <Frame1359>
+              <Frame1358>
+                <TaskFrame1353
+                  outstanding="Assigned"
+                  number={assignmedTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={assignmedTasks}
+                  className={frame19Props.className}
+                  cardsProps={frame19Props.cardsProps}
+                />
+              </Frame1358>
+              <Frame1358>
+                <TaskFrame1353
+                  outstanding="In Draft"
+                  number={inProgressTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={inProgressTasks}
+                  className={frame19Props.className}
+                  cardsProps={frame19Props.cardsProps}
+                />
+              </Frame1358>
 
-            <Frame1358>
-              <TaskFrame1353
-                outstanding="In Review"
-                number={inReviewTasks.length}
-              />
-              <TaskCardContainer
-                allTasks={inReviewTasks}
-                className={frame19Props.className}
-                cardsProps={frame19Props.cardsProps}
-              />
-            </Frame1358>
-          </Frame1359>
+              <Frame1358>
+                <TaskFrame1353
+                  outstanding="In Review"
+                  number={inReviewTasks.length}
+                />
+                <TaskCardContainer
+                  allTasks={inReviewTasks}
+                  className={frame19Props.className}
+                  cardsProps={frame19Props.cardsProps}
+                />
+              </Frame1358>
+            </Frame1359>
+          ) : (
+            MyCalendarFile
+          )}
         </Frame1360>
       </Frame1361>
     </div>
@@ -114,7 +129,6 @@ const TitleContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  padding: 0px 60px;
 `;
 const Frame1361 = styled.div`
   display: flex;
@@ -133,27 +147,16 @@ const Heading = styled.div`
 `;
 
 const Title = styled.h1`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  color: var(--royal-purple);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-style: normal;
-  font-weight: 700;
-  font-size: var(--font-size-xxxl);
-  line-height: 46px;
   display: flex;
   align-items: center;
-  gap: 10px;
-`;
-
-const HeadingMessage = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-l);
-  line-height: 24px;
-  color: #333333;
+  gap: 12px;
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 47px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  color: #301b72;
 `;
 
 const Frame1360 = styled.div`
@@ -164,7 +167,8 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  height: 80vh;
+  // height: 80vh;
+  padding: 0px 60px;
 `;
 
 const Frame1359 = styled.div`
@@ -173,10 +177,10 @@ const Frame1359 = styled.div`
   position: relative;
   align-self: stretch;
   width: 100%;
-  padding: 0px 60px;
   min-height: calc(100vh - 285px);
   flex-grow: 1;
   margin: 0px auto;
+  height: 80vh;
 `;
 
 const Frame1358 = styled.div`

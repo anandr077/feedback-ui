@@ -39,14 +39,15 @@ export const TextInput = styled.input`
 export const DeleteTitle = styled.div`
   display: flex;
   width: 277.333px;
-  flex-direction: column;
+  gap: 8px;
+  align-items: center;
   flex-shrink: 0;
-  color: #505050;
-  font-size: 16px;
+  color: var(--text);
+  font-size: var(--font-size-xl);
   font-family: IBM Plex Sans;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-weight: 500;
+  line-height: 26px;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -64,6 +65,9 @@ export const ButtonsContainer = styled.div`
 
 export const CancelButton = styled.div`
   ${IbmplexsansSemiBoldWhite16px}
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  line-height: 20px;
   display: inline-flex;
   padding: 8px 16px;
   justify-content: center;
@@ -80,15 +84,15 @@ export const CancelButton = styled.div`
 `;
 
 export const ProceedButton = styled.div`
-  ${IbmplexsansSemiBoldWhite16px}
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--light-mode-purple);
   display: inline-flex;
-  padding: 8px 16px;
   justify-content: center;
   align-items: center;
   gap: 4px;
-  border-radius: 30px;
-  border: 1px solid #cc2929;
-  background: #cc2929;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   &:hover {
@@ -98,6 +102,8 @@ export const ProceedButton = styled.div`
 
 export const TextContent = styled.div`
   ${IbmplexsansSemiBoldShark24px}
+  font-size: var(--font-size-xl);
+  font-weight: 400;  
   display: flex;
   width: 90%;
   flex-direction: column;
@@ -110,7 +116,7 @@ export const DeleteAssignmentPopupContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  width: 500px;
+  width: 600px;
   z-index: 1000;
   align-items: center;
   position: fixed;
@@ -142,11 +148,11 @@ export const TitleContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  margin-left: 30px;
   gap: 10px;
   align-items: center;
-  margin-top: 20px;
-  padding-bottom: 10px;
+  padding: 20px;
+  background-color: #F1E6FC;
+  border-radius: 12px 12px 0 0;
 `;
 
 export const Line141 = styled.img`

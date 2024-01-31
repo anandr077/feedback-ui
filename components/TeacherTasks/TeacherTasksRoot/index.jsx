@@ -45,7 +45,7 @@ import CalSelected from '../../../static/img/calselected.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
-import { FilterImg, Filter, FilterText} from '../../FilterSort/style.js';
+import { FilterImg, Filter, FilterText } from '../../FilterSort/style.js';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -252,19 +252,26 @@ export default function TeacherTaskRoot() {
             )}
           </FilterContainer>
           <FilterLine />
-          
         </FilterAndSortContainer>
         <CalenderContainer>
           <TasksImg
-            src={tasksSelected ? TaskSelected : TaskUnSelected}
+            src={
+              tasksSelected
+                ? TaskSelected
+                : mobileView
+                ? TaskSelected
+                : TaskUnSelected
+            }
             selected={tasksSelected}
             onClick={() => setTasksSelected(true)}
           />
-          <TasksImgCal
-            src={!tasksSelected ? CalSelected : CalUnSelected}
-            selected={!tasksSelected}
-            onClick={() => setTasksSelected(false)}
-          />
+          {!mobileView && (
+            <TasksImgCal
+              src={!tasksSelected ? CalSelected : CalUnSelected}
+              selected={!tasksSelected}
+              onClick={() => setTasksSelected(false)}
+            />
+          )}
         </CalenderContainer>
       </MainContainer>
     </>

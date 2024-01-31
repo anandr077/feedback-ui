@@ -60,26 +60,29 @@ function TasksStudentMobile(props) {
   return (
     <div className="tasks-student-mobile screen">
       <Frame1365>
-        <Frame1307>
-          <Heading>
-            <PageTitle>My Tasks <img src='img/question-mark.svg' /></PageTitle>
-            <HeadingMessage>Click on a task bubble to complete or review your work</HeadingMessage>
-          </Heading>
-          <LinkAndFilter>
-            <LinkButton
-              link={`#/exemplarResponses`}
-              label="Shared Responses"
-              arrowleft={shareColor}
-              whiteArrowleft={share}
-            />
-            <LinkButton
-              link={`#/completed`}
-              label="Task History"
-              arrowright={arrowRight}
-              whiteArrowright={whiteArrowright}
-            />
-          </LinkAndFilter>
-        </Frame1307>
+        <HeaderContainer>
+          <Frame1307>
+            <Heading>
+              <PageTitle>My Tasks <img src='img/question-mark.svg' /></PageTitle>
+              <HeadingMessage>Click on a task bubble to complete or review your work</HeadingMessage>
+            </Heading>
+            <LinkAndFilter>
+              <LinkButton
+                link={`#/exemplarResponses`}
+                label="Shared Responses"
+                arrowleft={shareColor}
+                whiteArrowleft={share}
+              />
+              <LinkButton
+                link={`#/completed`}
+                label="Task History"
+                arrowright={arrowRight}
+                whiteArrowright={whiteArrowright}
+              />
+            </LinkAndFilter>
+          </Frame1307>
+          <FilterContainer>{headingFilter}</FilterContainer>
+        </HeaderContainer>
         {taskFrame}
       </Frame1365>
     </div>
@@ -152,6 +155,14 @@ const Frame1365 = styled.div`
   position: relative;
   align-self: stretch;
   min-height: 600px;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
 `;
 
 const Frame1307 = styled.div`

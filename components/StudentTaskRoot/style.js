@@ -5,8 +5,7 @@ export const FilterAndSortContainer = styled.div`
   gap: 16px;
   align-self: stretch;
   @media (min-width: 766px) and (max-width: 1024px) {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
   }
   @media (max-width: 765px) {
     flex-direction: row;

@@ -18,6 +18,9 @@ export const DataContainer = styled.div`
   letter-spacing: 0em;
   text-align: left;
   color: #1e252a;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
 `;
 export const StyledCalendar = styled(Calendar)`
   padding: 20px;
@@ -176,6 +179,9 @@ export const StyledCalendar = styled(Calendar)`
     width: 100% !important;
     left: 0 !important;
   }
+  .rbc-today {
+    background-color: #ecd6ff;
+  }
 `;
 export const MainContainer = styled.div`
   display: flex;
@@ -191,9 +197,14 @@ export const StyledToolbar = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+export const StyledMonth = styled.div`
+  display: flex;
+`;
 export const StyledButtons = styled.div`
   display: flex;
   gap: 12px;
+  width: 160px;
+  justify-content: flex-end;
 `;
 
 export const StyledButton = styled.button`

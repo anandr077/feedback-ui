@@ -18,7 +18,6 @@ import {
   TasksImgCal,
 } from './style.js';
 
-
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../static/img/sort-square.svg';
 import FilterSquare from '../../static/img/filter-square.svg';
@@ -30,7 +29,11 @@ import CalUnSelected from '../../static/img/calunselected.svg';
 import MyCalendar from '../../components2/Calender/index.js';
 import moment from 'moment';
 
-import { FilterText, FilterImg, Filter, FilterText,
+import {
+  FilterText,
+  FilterImg,
+  Filter,
+  FilterText,
   FilterContainer,
   FilterLine,
   SortButton,
@@ -38,7 +41,8 @@ import { FilterText, FilterImg, Filter, FilterText,
   SortContainer,
   SortHeading,
   SortImg,
-  SortText } from '../FilterSort/style.js';
+  SortText,
+} from '../FilterSort/style.js';
 import { FeedbackButtonArrow, Frame5086Img, Frame5086PopUp, Frame5086PopUpBody, Frame5086PopUpTitle, Frame5086Text, PopupContainer, SortPopUpBody } from '../GiveFeedback/style.js';
 // import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
@@ -328,22 +332,30 @@ export default function StudentTaskRoot() {
         </FilterAndSortContainer>
         <CalenderContainer>
           <TasksImg
-            src={tasksSelected ? TaskSelected : TaskUnSelected}
+            src={
+              tasksSelected
+                ? TaskSelected
+                : mobileView
+                ? TaskSelected
+                : TaskUnSelected
+            }
             selected={tasksSelected}
             onClick={() => setTasksSelected(true)}
           />
-          <TasksImgCal
-            src={!tasksSelected ? CalSelected : CalUnSelected}
-            selected={!tasksSelected}
-            onClick={() => setTasksSelected(false)}
-          />
+          {!mobileView && (
+            <TasksImgCal
+              src={!tasksSelected ? CalSelected : CalUnSelected}
+              selected={!tasksSelected}
+              onClick={() => setTasksSelected(false)}
+            />
+          )}
         </CalenderContainer>
       </MainContainer>
     </>
   );
 
   const calenderEvents = allTasks.map((task) => ({
-    link:task.link,
+    link: task.link,
     title: task.title,
     start: moment(task.dueAt).toDate(),
     end: moment(task.dueAt).toDate(),

@@ -404,15 +404,23 @@ export default function TeacherTaskRoot() {
         </FilterAndSortContainer>
         <CalenderContainer>
           <TasksImg
-            src={tasksSelected ? TaskSelected : TaskUnSelected}
+            src={
+              tasksSelected
+                ? TaskSelected
+                : mobileView
+                ? TaskSelected
+                : TaskUnSelected
+            }
             selected={tasksSelected}
             onClick={() => setTasksSelected(true)}
           />
-          <TasksImgCal
-            src={!tasksSelected ? CalSelected : CalUnSelected}
-            selected={!tasksSelected}
-            onClick={() => setTasksSelected(false)}
-          />
+          {!mobileView && (
+            <TasksImgCal
+              src={!tasksSelected ? CalSelected : CalUnSelected}
+              selected={!tasksSelected}
+              onClick={() => setTasksSelected(false)}
+            />
+          )}
         </CalenderContainer>
       </MainContainer>
     </>

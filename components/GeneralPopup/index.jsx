@@ -16,6 +16,7 @@ import {
   ConfirmSubmit,
   PlagiarismText,
 } from './style';
+import tickIcon from '../../static/img/tickpurple.svg'
 
 export default function GeneralPopup(props) {
   const {
@@ -41,7 +42,7 @@ export default function GeneralPopup(props) {
   const content = (
     <>
       <TitleContainer>
-        <DeleteTitle>{title}</DeleteTitle>
+        <DeleteTitle><img src={tickIcon} /> {title}</DeleteTitle>
       </TitleContainer>
       <Line141 src="/img/line-14@2x.png" />
       {textContent && <TextContent>{textContent}</TextContent>}

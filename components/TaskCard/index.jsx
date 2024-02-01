@@ -19,6 +19,7 @@ import {
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
 import StatusBubbleContainer from '../StatusBubblesContainer';
+import ProgressBar from '../ProgressBar';
 
 function TaskCard(props) {
 
@@ -37,7 +38,6 @@ function TaskCard(props) {
     onAccept,
     onDecline,
   } = props;
-  console.log("task card ", onExemplarAccept)
   const role = getUserRole();
   const userId = getUserId();
 
@@ -131,10 +131,10 @@ function TaskCard(props) {
         para: task.title,
         date: task.dueAt,
         status1: task.submissionCount
-          ? `Submissions: ${task.submissionCount} of ${task.expectedSubmissions}`
+          ? <ProgressBar title={"Submissions"} isPercentage={false} count={task.submissionCount} total={task.expectedSubmissions}/>
           : null,
         status2: task.submissionCount
-          ? `Reviewed: ${task.reviewCount} of ${task.submissionCount}`
+          ? <ProgressBar title={"Reviewed"} isPercentage={false} count={task.reviewCount} total={task.submissionCount}/>
           : null,
       };
     }
@@ -215,7 +215,6 @@ function TaskCard(props) {
       </MoreOptions>
     </MoreOptionsWrapper>
   }
-  console.log("before createTaskCard ", onAccept)
   return <>
       {createTaskCard(
         task,

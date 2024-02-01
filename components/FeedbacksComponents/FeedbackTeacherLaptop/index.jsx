@@ -7,7 +7,6 @@ import Header from '../../Header';
 import { flatMap, groupBy } from 'lodash';
 import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
-import { isMobileView } from '../../ReactiveRender';
 import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
@@ -32,7 +31,7 @@ import {
   ImgContainer,
   CountZoomContainer,
 } from './style';
-import { isMobileView, isDesktopView } from '../../ReactiveRender';
+import { isMobileView, isTabletView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
@@ -43,6 +42,7 @@ import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { getSubmissionById, createRequestFeddbackType } from '../../../service';
 import StyledDropDown from '../../../components2/StyledDropDown';
 import { isNullOrEmpty } from '../../../utils/arrays';
+import ResponsiveFooter from '../../ResponsiveFooter';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -86,6 +86,7 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
+  const isTablet = isTabletView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
@@ -320,7 +321,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1388>
           {/* </Main> */}
         </>
-        <CountZoomContainer open={open}>
+        <CountZoomContainer open={open} mobileView={isMobile}>
           {countWords} words
         </CountZoomContainer>
       </PageContainer>
@@ -332,7 +333,10 @@ function FeedbackTeacherLaptop(props) {
         flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
         classesAndStudents
-      )}
+      )} 
+      <>
+        {isMobile && <ResponsiveFooter />}  
+      </>   
     </>
   );
 }

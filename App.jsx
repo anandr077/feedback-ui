@@ -1,4 +1,4 @@
-import { default as React, default as React } from 'react';
+import { default as React, default as React, useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
@@ -34,6 +34,23 @@ function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
+  const [showFooter, setShowFooter] = useState(true);
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const currentHash = window.location.hash.split('?')[0];
+      const hideFooterRoutes = [
+        '#/submissions/', 
+        '#/documents/'
+      ];
+      const shouldShowFooter = !hideFooterRoutes.some(route => currentHash.startsWith(route));
+      setShowFooter(shouldShowFooter);
+    };
+    handleRouteChange();
+    window.addEventListener('hashchange', handleRouteChange);
+
+    return () => window.removeEventListener('hashchange', handleRouteChange);
+  }, []);
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedTeacherDashboard = middleware(TeacherDashboardRoot);
@@ -58,6 +75,7 @@ function App() {
   const ProtectedCompletedRoot = middleware(CompletedPage);
 
   const portfolioClient = new QueryClient();
+
 
   const Dashboard = ({ role }) => {
     const dashboard =
@@ -148,7 +166,7 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
-          {<ResponsiveFooter />}
+          {showFooter && <ResponsiveFooter />}
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>

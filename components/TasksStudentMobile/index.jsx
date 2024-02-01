@@ -92,7 +92,7 @@ function TasksStudentMobile(props) {
           </TitleAndSubtitleContainer>
           <>{FilterSortAndCal}</>
         </TitleAndFilterContainer>
-        {tasksSelected ? <>{taskFrame}</> : MyCalendarFile}
+        {taskFrame}
       </Frame1365>
     </div>
   );

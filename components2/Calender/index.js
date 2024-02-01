@@ -14,6 +14,7 @@ import {
   StyledCalendar,
   StyledCalendarHead,
   StyledCalendarHeading,
+  StyledMonth,
   StyledToolbar,
 } from './style';
 
@@ -48,20 +49,14 @@ const MyCalendar = (props) => {
             {moment(toolbar.date).format('MMMM YYYY')}
           </StyledCalendarHeading>
         </StyledCalendarHead>
-        <StyledButtons>
-          <StyledButton
-            onClick={goToWeekView}
-            isActive={toolbar.view === 'week'}
-          >
-            Week
-          </StyledButton>
+        <StyledMonth>
           <StyledButton
             onClick={goToMonthView}
             isActive={toolbar.view === 'month'}
           >
             Month
           </StyledButton>
-        </StyledButtons>
+        </StyledMonth>
         <StyledButtons>
           <StyledButtonArrow src={leftArrow} onClick={goToPrev} />
           <StyledButtonArrow src={rightArrow} onClick={goToNext} />
@@ -70,9 +65,9 @@ const MyCalendar = (props) => {
     );
   };
 
-  const redirect = (link) =>{
+  const redirect = (link) => {
     window.location.href = link;
-  }
+  };
 
   const CustomEvent = ({ event }) => {
     return (
@@ -92,6 +87,7 @@ const MyCalendar = (props) => {
           event: CustomEvent,
           toolbar: CustomToolbar,
         }}
+        showAllEvents
         step={60}
         timeslots={1}
       />

@@ -227,6 +227,7 @@ export const CountZoomContainer = styled.div`
   bottom: 0px;
   transform: ${(props) =>
     props.open ? 'translateX(310px)' : 'translateX(0px)'};
+  display: ${props => props.mobileView ? 'none' : ''};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-size: var(--font-size-l);
@@ -237,7 +238,6 @@ export const CountZoomContainer = styled.div`
   padding: 12px 30px;
   width: 99vw;
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
-  z-index: 1000001;
 `;
 
 export const DrawerArrowContainer = styled.div`

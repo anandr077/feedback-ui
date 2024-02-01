@@ -11,22 +11,28 @@ import {
   FilterAndSortContainer,
   FilterContainer,
   FilterLine,
-  HeadingAndFilterCon,
-  HeadingLine,
-  InnerContainer,
-  LeftContentContainer,
-  MainContainer,
   SortButton,
   SortButtonText,
   SortContainer,
   SortHeading,
   SortImg,
   SortText,
+} from '../FilterSort/style.js';
+import {
   Title,
   TitleContainer,
   TitleImage,
   TopContainer,
+  ConnectContainer,
+  ContentContainer,
+  HeadingAndFilterCon,
+  HeadingLine,
+  InnerContainer,
+  LeftContentContainer,
+
+  MainContainer,
 } from './style.js';
+
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import questionMark from '../../static/img/question-mark.svg';

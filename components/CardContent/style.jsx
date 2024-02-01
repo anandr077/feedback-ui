@@ -33,6 +33,14 @@ export const Content = styled.div`
   align-self: stretch;
 `;
 
+export const StatusContainer = styled.div`
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 export const TaskTitle = styled.p`
   ${IbmplexsansNormalShark20px}
   font-size: 16px;

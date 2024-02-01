@@ -22,6 +22,19 @@
   line-height: normal;
 }
 
+.ratio-bar-heading{
+  display: flex;
+  justify-content: space-between;
+}
+
+.ration-title,
+.ration-number{
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  color: var(--text);
+}
+
 .progress-container {
   width: 100%;
   height: 4px;

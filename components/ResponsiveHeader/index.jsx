@@ -42,7 +42,7 @@ const getHeaderProps = (location) => {
     if (location.includes('/tasks')) return assignmentsHeaderProps;
     else if (location.includes('/classes')) return classesHomeHeaderProps;
     else if (location.includes('/submissions')) return assignmentsHeaderProps;
-    return teacherHomeHeaderProps;
+    return assignmentsHeaderProps;
   } else {
     if (location.includes('/getFeedback')) return docsHeaderProps();
     else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;

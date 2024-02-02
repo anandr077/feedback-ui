@@ -31,7 +31,6 @@ const StatusBubblesText = styled.div`
   font-style: normal;
   position: relative;
   width: fit-content;
-  margin-top: -1px;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;

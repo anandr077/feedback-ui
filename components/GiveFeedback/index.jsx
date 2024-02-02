@@ -329,6 +329,7 @@ function GiveFeedback() {
                   : "By providing other students with feedback, you're more likely to get feedback on your own work"}
               </HeadingLine>
             </TopContainer>
+            {!mobileView && (
             <FilterAndSortContainer>
               <FilterContainer>
                 <Frame5086
@@ -424,6 +425,7 @@ function GiveFeedback() {
                 />
               </SortContainer>
             </FilterAndSortContainer>
+            )}
           </HeadingAndFilterCon>
           <ContentContainer>
             <LeftContentContainer>

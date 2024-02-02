@@ -26,6 +26,7 @@ import {
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 import { denyModelResponse, publishModelResponse } from '../../../service.js';
 import FilterSort from '../../FilterSort/index.jsx';
+import { isMobileView } from '../../ReactiveRender';
 
 export default function CompletedRoot(props) {
   const {
@@ -42,6 +43,7 @@ export default function CompletedRoot(props) {
   } = props;
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
+  const mobileView = isMobileView();
 
   function filterAndSortData(obj, targetClassTitle) {
     const dataArray = Object.entries(obj);
@@ -97,13 +99,17 @@ export default function CompletedRoot(props) {
           have submitted for review
         </HeadingLine>
       </TopContainer>
-      <FilterSort
-        setSelectedValue={setSelectedValue}
-        selectedClass={selectedClass}
-        classes={classes}
-        sortData={sortData}
-        setSortData={setSortData}
-      />
+      {
+        !mobileView && (
+          <FilterSort
+            setSelectedValue={setSelectedValue}
+            selectedClass={selectedClass}
+            classes={classes}
+            sortData={sortData}
+            setSortData={setSortData}
+          />
+        )
+      }
       {/* <FilterAndSortContainer>
         <FilterContainer>
           <Filter>

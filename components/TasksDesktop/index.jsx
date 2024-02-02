@@ -37,7 +37,6 @@ function TasksDesktop(props) {
     tasksSelected,
     MyCalendarFile,
   } = props;
-  console.log('first', assignmedTasks);
   return (
     <div className="tasks-desktop screen">
       <Frame1361>

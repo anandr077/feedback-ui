@@ -377,7 +377,7 @@ export default function TeacherTaskRoot() {
             {!mobileView ? (
               <>
                 <SortButton
-                  style={{ backgroundColor: sortData ? '#51009F' : '' }}
+                  style={{ backgroundColor: sortData ? '#51009F' : '', border: '1px solid #8E33E6' }}
                   onClick={() => setSortData(true)}
                 >
                   <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>

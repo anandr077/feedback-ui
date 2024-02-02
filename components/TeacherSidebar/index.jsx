@@ -59,7 +59,7 @@ function TeacherSidebar({ open, submission }) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <SearchIcon src="img/VectorSearch.png" />
+              <SearchIcon src="img/vectorsearch.png" />
             </DrawerInputBox>
             <DrawerQuestions>
               {studentsList?.map(

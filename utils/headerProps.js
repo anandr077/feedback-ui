@@ -9,29 +9,29 @@ import giveFeedbackUnselected from '../static/img/giveFeedbackunselected.svg';
 
 const isTeacher = getUserRole() === 'TEACHER';
 
-const teacherTabs = (first, second, third) => {
+const teacherTabs = (first, second) => {
   return {
     firstButton: {
-      text: 'Home',
-      icon: '/icons/homeIconUnselected.png',
-      iconSelected: '/icons/homeIconWhite.png',
+      text: 'Tasks',
+      icon: '/icons/assignmentUnselected.png',
+      iconSelected: '/icons/assignmentWhite.png',
       selected: first,
       redirect: '#/',
     },
     secondButton: {
-      text: 'Tasks',
-      icon: '/icons/assignmentUnselected.png',
-      iconSelected: '/icons/assignmentWhite.png',
-      selected: second,
-      redirect: '#tasks',
-    },
-    thirdButton: {
       text: 'Classes',
       icon: '/icons/classesUnselected.png',
       iconSelected: '/icons/classesWhite.png',
-      selected: third,
+      selected: second,
       redirect: '#classes',
     },
+    // thirdButton: {
+    //   text: 'Classes',
+    //   icon: '/icons/classesUnselected.png',
+    //   iconSelected: '/icons/classesWhite.png',
+    //   selected: third,
+    //   redirect: '#classes',
+    // },
   };
 };
 
@@ -84,9 +84,9 @@ if (Cookies.get('classes')) {
   };
 }
 
-export const teacherHomeHeaderProps = teacherTabs(true, false, false);
-export const assignmentsHeaderProps = teacherTabs(false, true, false);
-export const classesHomeHeaderProps = teacherTabs(false, false, true);
+//export const teacherHomeHeaderProps = teacherTabs(true, false);
+export const assignmentsHeaderProps = teacherTabs(true, false);
+export const classesHomeHeaderProps = teacherTabs(false, true);
 
 // export const homeHeaderProps = studentTabs(true, false, false);
 export const giveFeedbackHeaderProps = Cookies.get('classes')
@@ -95,7 +95,7 @@ export const giveFeedbackHeaderProps = Cookies.get('classes')
 export const taskHeaderProps = studentTabs(true, false, false);
 export const teacherStudentTaskHeaderProps = () => {
   if (isTeacher) {
-    return teacherTabs(false, true, false);
+    return teacherTabs(true, false);
   }
   return Cookies.get('classes')
     ? studentTabs(false, false, true)
@@ -104,7 +104,7 @@ export const teacherStudentTaskHeaderProps = () => {
 
 export const docsHeaderProps = () => {
   if (isTeacher) {
-    return teacherTabs(false, true, false);
+    return teacherTabs(true, false);
   }
   return Cookies.get('classes')
     ? studentTabs(false, true, false)
@@ -113,7 +113,7 @@ export const docsHeaderProps = () => {
 
 export const documentHeaderProps = (selfDocument) => {
   if (isTeacher) {
-    return teacherTabs(false, true, false);
+    return teacherTabs(true, false);
   }
   if (selfDocument) {
     return Cookies.get('classes')
@@ -128,7 +128,7 @@ export const documentHeaderProps = (selfDocument) => {
 export const completedHeaderProps = (exemplar) => {
   if (exemplar) {
     return isTeacher
-      ? teacherTabs(false, false, false)
+      ? teacherTabs(false, false)
       : Cookies.get('classes')
       ? studentTabs(false, false, false)
       : studentTabs(false, false);

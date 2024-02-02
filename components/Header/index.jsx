@@ -196,7 +196,7 @@ export default function Header(props) {
               </HeaderButtonInnnerContainer>
             </HeaderButton>
           )}
-          {(Cookies.get('classes') || isTeacher) &&
+          {(Cookies.get('classes') && !isTeacher) &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>
                 <HeaderButtonInnnerContainer>

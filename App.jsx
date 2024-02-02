@@ -80,7 +80,7 @@ function App() {
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
-        <ProtectedTeacherDashboard />
+        <ProtectedTeacherTaskRoot />
       ) : (
         Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedDocRoot />
       );

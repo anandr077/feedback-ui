@@ -56,7 +56,7 @@ export default function RoundedDropDown({
             },
           },
           fontWeight: '400',
-          fontSize: '16px',
+          fontSize: '16px'
         }}
         open={open}
         onClose={() => setOpen(false)}

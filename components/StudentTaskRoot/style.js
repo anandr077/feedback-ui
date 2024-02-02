@@ -35,18 +35,11 @@ export const CalenderContainer = styled.div`
 export const TasksImg = styled.img`
   width: 40px;
   height: 40px;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px;
-  border: 1px solid ${(props) => (props.selected ? '#8e33e6' : '#a6a6a6')};
   cursor: pointer;
 `;
 export const TasksImgCal = styled.img`
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  border: 1px;
-  border: 1px solid ${(props) => (props.selected ? '#8e33e6' : '#a6a6a6')};
   cursor: pointer;
 `;
 

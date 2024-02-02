@@ -90,7 +90,7 @@ function TasksStudentMobile(props) {
               Click on a task bubble to complete or review your work
             </SubtitleCon> */}
           </TitleAndSubtitleContainer>
-          <>{FilterSortAndCal}</>
+          {/* <>{FilterSortAndCal}</> */}
         </TitleAndFilterContainer>
         {taskFrame}
       </Frame1365>

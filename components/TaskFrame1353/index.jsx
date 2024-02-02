@@ -6,13 +6,13 @@ function TaskFrame1353(props) {
   const { outstanding, number } = props;
 
   const color = () => {
-    if (outstanding === 'Drafts') {
+    if (outstanding === 'Drafts' || outstanding === 'Assigned') {
       return '#f1e7ff';
     }
-    if (outstanding === 'Closed') {
+    if (outstanding === 'Closed' || outstanding === 'In Draft') {
       return '#F9F0CD';
     }
-    if (outstanding === 'Active') {
+    if (outstanding === 'Active' || outstanding === 'In Review') {
       return '#DCF5D1';
     }
   };
@@ -36,6 +36,7 @@ const Frame13531 = styled.div`
   gap: 20px;
   font-size: var(--font-size-xxl);
   line-height: 31px;
+  color: var(--text);
   // position: relative;
   align-self: stretch;
   position: sticky;

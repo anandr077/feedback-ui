@@ -105,7 +105,7 @@ function Navigation(props) {
         <Frame5>
           <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
           <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
-          {(Cookies.get('classes') || isTeacher) && (
+          {(Cookies.get('classes') && !isTeacher) && (
             <NavElement42
               button={headerProps.thirdButton}
               onClick={onCloseFn}

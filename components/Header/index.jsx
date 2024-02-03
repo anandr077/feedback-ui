@@ -63,6 +63,8 @@ export default function Header(props) {
       setIsNotificationOpen(true);
       setSlideNotificationBar(true);
       setsliderOpen(true);
+      setIsHelpBarOpen(false);
+      setDropDown(false);
     } else {
       setSlideNotificationBar(false);
       setsliderOpen(false);
@@ -74,12 +76,16 @@ export default function Header(props) {
 
   const toggleDropDown = () => {
     setDropDown(!dropDown);
+    setIsHelpBarOpen(false);
+    setIsNotificationOpen(false);
   };
 
   const handleHelpBarClick = () => {
     if (!isHelpBarOpen) {
       setIsHelpBarOpen(true);
       setsliderOpen(true);
+      setIsNotificationOpen(false);
+      setDropDown(false);
     } else {
       setsliderOpen(false);
       setTimeout(() => {
@@ -274,7 +280,10 @@ export default function Header(props) {
       )}
 
       {dropDown && (
-        <Screen onClick={toggleDropDown}>
+        <Screen 
+          onClick={toggleDropDown}
+          pageHeight={pageHeight}
+        >
           <DropDownContainer>
             <ProfileDropdown />
           </DropDownContainer>

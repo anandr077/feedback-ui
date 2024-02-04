@@ -75,12 +75,6 @@ export default function TheoryQuestionFrame(props) {
           UpdateQuestionFrame={UpdateQuestionFrame}
           defaultType={questionDetails.type}
         />
-        <DeleteButtonFrame>
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
-            Delete
-          </DeleteButton>
-        </DeleteButtonFrame>
-        <Line141 src="/img/line-14@2x.png" />
       </Frame1295>
       <Frame12891>
         <InputQuestion id={'questionType_' + serialNumber} questionType="TEXT">
@@ -141,6 +135,11 @@ export default function TheoryQuestionFrame(props) {
           </MarkingCriteriaFrame>
         </MarkingCriteriaSelectionContainer>
       </Frame12891>
+      <DeleteButtonFrame>
+        <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+          Delete
+        </DeleteButton>
+      </DeleteButtonFrame>
     </SmalllQuestionFrame>
   );
 }

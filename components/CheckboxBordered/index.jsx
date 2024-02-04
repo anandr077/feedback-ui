@@ -6,7 +6,7 @@ const StyledCheckbox = styled(Checkbox)`
   &.MuiCheckbox-root {
     color: var(--light-mode-purple);
     padding: 5px;
-    border-radius: 50%;
+    border-radius: 50% !important;
 
     &.Mui-checked {
       color: var(--light-mode-purple);

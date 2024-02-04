@@ -34,6 +34,18 @@ import {
   Frame12191,
   Buttons1,
   Button,
+  TitleAndLinkContainer,
+  LinkContainer,
+  TitleImage,
+  Title,
+  HeadingLine,
+  TitleAndSubtitleContainer,
+  TaskNameContainer,
+  TaskHeadingContainer,
+  TaskHeading,
+  TaskContainer,
+  TaskName,
+  TaskTitle,
 } from './CreateAssignmentLaptopStyle';
 import {
   IbmplexsansBoldShark64px,
@@ -44,14 +56,18 @@ import {
   IbmplexsansSemiBoldShark20px,
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalElectricViolet16px,
-} from "../../styledMixins";
-import Breadcrumb from "../Breadcrumb";
-import Breadcrumb2 from "../Breadcrumb2";
-import Buttons2 from "../Buttons2";
-import Footer from "../Footer";
-import GoBack2 from "../GoBack2";
-import Header from "../Header";
-import "./CreateAAssignmentLaptop.css";
+} from '../../styledMixins';
+import Breadcrumb from '../Breadcrumb';
+import Breadcrumb2 from '../Breadcrumb2';
+import Buttons2 from '../Buttons2';
+import Footer from '../Footer';
+import GoBack2 from '../GoBack2';
+import Header from '../Header';
+import './CreateAAssignmentLaptop.css';
+import LinkButton from '../../components2/LinkButton';
+import arrowLeft from '../../static/img/arrowleft.svg';
+import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
+import questionMark from '../../static/img/question-mark.svg';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -78,12 +94,39 @@ function CreateAAssignmentLaptop(props) {
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
-      assignment.status === 'DRAFT' ? <Title>Create Task</Title> : <></>;
+      assignment.status === 'DRAFT' ? (
+        <Title>
+          Create Task
+          <TitleImage src={questionMark} />
+        </Title>
+      ) : (
+        <></>
+      );
     return (
-      <TitleContainer>
-        {title}
-        {saveButtons(assignment, saveDraft, publish, showPublishPopuphandler)}
-      </TitleContainer>
+      <TitleAndLinkContainer>
+        <LinkContainer>
+          <LinkButton
+            link={`#/`}
+            label="Go Back"
+            arrowleft={arrowLeft}
+            whiteArrowleft={whiteArrowleft}
+          />
+        </LinkContainer>
+        <TitleAndSubtitleContainer>
+          <TitleContainer>
+            {title}
+            {saveButtons(
+              assignment,
+              saveDraft,
+              publish,
+              showPublishPopuphandler
+            )}
+          </TitleContainer>
+          <HeadingLine>
+            Follow the steps below to create and assign a task for your classes
+          </HeadingLine>
+        </TitleAndSubtitleContainer>
+      </TitleAndLinkContainer>
     );
   }
   const saveButtons = (
@@ -115,85 +158,114 @@ function CreateAAssignmentLaptop(props) {
   return (
     <div className="create-a-assignment-laptop screen">
       <Frame1379>
-        <Frame1376>
-          <Frame1315>
-            <Breadcrumb text="Task" link="/#/tasks" />
-            <Breadcrumb2 title={assignment.title} />
-          </Frame1315>
-          <GoBack2 caret={goBack21Props.caret} />
-        </Frame1376>
         {titleAndSaveButtons(assignment, saveDraft, publish)}
         <Frame1378 readOnly={assignment.status != 'DRAFT'}>
           <Frame1375>
-            <Frame1374
-              id="assignmentNameContainer"
-              onClick={cleanformattingTextBox}
-              onChange={handleTitleChange}
-            >
-              <TextInput
-                placeholder="Type task title here"
-                id="assignmentName"
-                value={assignment.title}
-              ></TextInput>
-            </Frame1374>
-            <Frame1299 id="classesContainer" onClick={cleanformattingDiv}>
-              <Frame12811>
-                <Classes>Classes</Classes>
-              </Frame12811>
-              <Frame1298>{checkboxes}</Frame1298>
-            </Frame1299>
-
-            <Frame1294>
-              <Frame1372>
-                <Questions>Questions</Questions>
-              </Frame1372>
-
-              <Frame1295>{questionFrames()}</Frame1295>
-              <Frame1296>
-                <Buttons2
-                  add={buttons21Props.add}
-                  label="Add a new question"
-                  onClickFn={addQuestion}
-                />
-              </Frame1296>
-            </Frame1294>
-          </Frame1375>
-          <Frame1377>
-            <Frame1294>
-              <AssignmentSettings>{assignmentSettings}</AssignmentSettings>
-              <Frame1295>
-                <Frame1299 id="DnDContainer" onClick={cleanformattingDiv}>
-                  <Frame12811>
-                    <Classes>{feedbackMethod}</Classes>
-                  </Frame12811>
-                  <Frame12981>{feedbacksMethodContainer}</Frame12981>
+            <TaskContainer>
+              <TaskHeadingContainer>
+                <TaskHeading>STEP 1</TaskHeading>
+              </TaskHeadingContainer>
+              <TaskNameContainer>
+                <TaskName>
+                  <TaskTitle>Name the task</TaskTitle>
+                  <TitleImage src={questionMark} />
+                </TaskName>
+                <Frame1374
+                  id="assignmentNameContainer"
+                  onClick={cleanformattingTextBox}
+                  onChange={handleTitleChange}
+                >
+                  <TextInput
+                    placeholder="Type task title here"
+                    id="assignmentName"
+                    value={assignment.title}
+                  ></TextInput>
+                </Frame1374>
+              </TaskNameContainer>
+            </TaskContainer>
+            <TaskContainer>
+              <TaskHeadingContainer>
+                <TaskHeading>STEP 2</TaskHeading>
+              </TaskHeadingContainer>
+              <TaskNameContainer>
+                <TaskName>
+                  <TaskTitle>Select a class</TaskTitle>
+                  <TitleImage src={questionMark} />
+                </TaskName>
+                <Frame1299 id="classesContainer" >
+                  <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
-                <Frame1299 id="timeContainer" onClick={cleanformattingDiv}>
-                  <Frame12811>
-                    <Classes>Due at</Classes>
-                  </Frame12811>
+              </TaskNameContainer>
+            </TaskContainer>
+            <TaskContainer>
+              <TaskHeadingContainer>
+                <TaskHeading>STEP 3</TaskHeading>
+              </TaskHeadingContainer>
+              <TaskNameContainer>
+                <TaskName>
+                  <TaskTitle>Set up the task</TaskTitle>
+                  <TitleImage src={questionMark} />
+                </TaskName>
+                <Frame1294>
+                  <Frame1295>{questionFrames()}</Frame1295>
+                </Frame1294>
+                <Frame1296>
+                  <Buttons2
+                    add={buttons21Props.add}
+                    label="Add a new question"
+                    onClickFn={addQuestion}
+                  />
+                </Frame1296>
+              </TaskNameContainer>
+            </TaskContainer>
+            <TaskContainer>
+              <TaskHeadingContainer>
+                <TaskHeading>STEP 4</TaskHeading>
+              </TaskHeadingContainer>
+              <TaskNameContainer>
+                <TaskName>
+                  <TaskTitle>Select the feedback method</TaskTitle>
+                  <TitleImage src={questionMark} />
+                </TaskName>
+                <Frame1294>
+                  <Frame1295>
+                    <Frame1299 id="DnDContainer" >
+                      <Frame12981>{feedbacksMethodContainer}</Frame12981>
+                    </Frame1299>
+                    
+                  </Frame1295>
+                </Frame1294>
+              </TaskNameContainer>
+            </TaskContainer>
+            <TaskContainer>
+              <TaskHeadingContainer>
+                <TaskHeading>STEP 5</TaskHeading>
+              </TaskHeadingContainer>
+              <TaskNameContainer>
+                <TaskName>
+                  <TaskTitle>Select the due date</TaskTitle>
+                  <TitleImage src={questionMark} />
+                </TaskName>
+
+                <Frame1299 id="timeContainer" >
                   <Frame12981>{dateSelectorFrame}</Frame12981>
                 </Frame1299>
-              </Frame1295>
-            </Frame1294>
-            <Frame1372>
-              <GoBack2
-                caret={goBack22Props.caret}
-                className={goBack22Props.className}
-              />
-              <Frame12191>
-                <Frame1372>
-                  {saveButtons(
-                    assignment,
-                    saveDraft,
-                    publish,
-                    showPublishPopuphandler
-                  )}
-                </Frame1372>
-              </Frame12191>
-            </Frame1372>
-          </Frame1377>
+              </TaskNameContainer>
+            </TaskContainer>
+          </Frame1375>
         </Frame1378>
+        <Frame1377>
+          <Frame1372>
+            <Frame1372>
+              {saveButtons(
+                assignment,
+                saveDraft,
+                publish,
+                showPublishPopuphandler
+              )}
+            </Frame1372>
+          </Frame1372>
+        </Frame1377>
       </Frame1379>
     </div>
   );

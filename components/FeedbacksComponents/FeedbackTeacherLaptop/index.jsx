@@ -322,7 +322,7 @@ function FeedbackTeacherLaptop(props) {
           {/* </Main> */}
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
-          {countWords} words
+          {countWords} {countWords > 1 ? 'words' : 'word'}
         </CountZoomContainer>
       </PageContainer>
 

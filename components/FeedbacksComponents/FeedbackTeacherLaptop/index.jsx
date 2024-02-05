@@ -31,7 +31,11 @@ import {
   ImgContainer,
   CountZoomContainer,
 } from './style';
-import { isMobileView, isTabletView, isDesktopView } from '../../ReactiveRender';
+import {
+  isMobileView,
+  isTabletView,
+  isDesktopView,
+} from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
@@ -89,20 +93,22 @@ function FeedbackTeacherLaptop(props) {
   const isTablet = isTabletView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
-  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
+  const [isFocusAreas, setFocusAreas] = React.useState(
+    pageMode === 'DRAFT' && submission.type !== 'DOCUMENT'
+  );
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
   const [open, setOpen] = useState(false);
-  
+
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const drawerWidth = 315;
 
   React.useEffect(() => {
-    let dataToUse = submission.otherDrafts||[];
-   
+    let dataToUse = submission.otherDrafts || [];
+
     const groupedData = dataToUse?.reduce((result, item) => {
       const subject = item.subject || 'English';
 
@@ -145,8 +151,10 @@ function FeedbackTeacherLaptop(props) {
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
-  const [countWords, setCountWords] = useState(0)
+  const [countWords, setCountWords] = useState(0);
+  const [editorFontSize, setEditorFontSize] = useState('hello');
 
+  console.log('the editor is', feedbackMethodTypeDialog);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -158,13 +166,13 @@ function FeedbackTeacherLaptop(props) {
       reviewerId: itemData ? itemData.id : null,
     };
     createRequestFeddbackType(submission.id, requestData).then((response) => {
-      setSubmission(old=>({
+      setSubmission((old) => ({
         ...old,
-        status:response.status,
-        reviewerId:response.reviewerId,
-        reviewerName:response.reviewerName,
-        submittedAt:response.submittedAt,
-        feedbackRequestType:response.feedbackRequestType,
+        status: response.status,
+        reviewerId: response.reviewerId,
+        reviewerName: response.reviewerName,
+        submittedAt: response.submittedAt,
+        feedbackRequestType: response.feedbackRequestType,
         classId: response.classId,
         declinedByReviewerIds: response.declinedByReviewerIds,
         submittedAt: response.submittedAt,
@@ -224,7 +232,6 @@ function FeedbackTeacherLaptop(props) {
       }
     });
   };
-
 
   const handleDrawer = () => {
     setOpen(!open);
@@ -317,6 +324,7 @@ function FeedbackTeacherLaptop(props) {
               setShowStudentPopUp,
               setShowTeacherPopUp,
               setCountWords,
+              editorFontSize
             )}
           </Frame1388>
           {/* </Main> */}
@@ -333,10 +341,8 @@ function FeedbackTeacherLaptop(props) {
         flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
         classesAndStudents
-      )} 
-      <>
-        {isMobile && <ResponsiveFooter />}  
-      </>   
+      )}
+      <>{isMobile && <ResponsiveFooter />}</>
     </>
   );
 }
@@ -458,10 +464,10 @@ function answersAndFeedbacks(
   setShowStudentPopUp,
   setShowTeacherPopUp,
   setCountWords,
+  editorFontSize
 ) {
   return (
     <Frame1386 id="content">
-      
       {isTeacher && (
         <GoBackBtn onClick={() => navigate.goBack()}>
           <img className="arrowImg" src="img/arrow_left.png" />
@@ -503,6 +509,7 @@ function answersAndFeedbacks(
           overallComments,
           methods,
           setCountWords,
+          editorFontSize
         )}
 
         {!isMobile && (

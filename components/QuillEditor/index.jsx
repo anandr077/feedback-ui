@@ -8,7 +8,7 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce, nonEditable, setCountWords }, ref) => {
+  ({ comments, value, options, debounceTime, onDebounce, nonEditable, setCountWords, editorFontSize }, ref) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);

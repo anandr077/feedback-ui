@@ -39,7 +39,7 @@ export const SidebarContainer = styled.div`
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
   );
   transition: transform 0.3s ease-in;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 70px);
   overflow-y: scroll;
   /* height: calc(100vh); */
   overflow: scroll;
@@ -268,22 +268,30 @@ export const MenuItemsDots = styled.img`
 `;
 export const QuestionTitle = styled.div`
   width: 235px;
+  margin-bottom: 10px;
+  max-height: 20px;
   overflow: hidden;
+
+  -webkit-transition: max-height 1s; 
+  -moz-transition: max-height 1s; 
+  -ms-transition: max-height 1s; 
+  -o-transition: max-height 1s; 
+  transition: max-height 1s; 
 `;
 export const MenuItemsContainer = styled.div`
   position: relative;
   display: none;
 `;
 export const MenuItems = styled.div`
-  display: none;
+  display: flex;
   flex-direction: row;
   padding: 16px 0px 0px 0px;
   border: 1px 0px 0px 0px;
   justify-content: space-between;
   background: #f2f2f2;
-  border-top: 1px solid #d6d6d6;
+  border-top: 1px solid transparent;
   width: 235px;
-  transition: 0.7s ease-in;
+  //transition: 0.7s ease-in;
 
   background: ${(props) =>
     props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
@@ -352,24 +360,31 @@ export const DrawerQuestion = styled.div`
   background: ${(props) =>
     props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
   color: ${(props) => (props.studentStyle ? 'var(--white)' : 'var(--text)')};
-  white-space: nowrap;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  
   transition: 0.3s ease-in;
+  max-height: 53px;
+  overflow: hidden;
   cursor: pointer;
 
-  &:hover {
-    white-space: normal;
+  -webkit-transition: max-height 1s; 
+  -moz-transition: max-height 1s; 
+  -ms-transition: max-height 1s; 
+  -o-transition: max-height 1s; 
+  transition: max-height 1s; 
+
+  &:hover {  
+    max-height: 320px;
+
+    ${QuestionTitle}{
+      max-height: 300px;
+    }
 
     ${OverflowShadow} {
       display: none;
     }
     ${MenuItems} {
-      display: flex;
+      border-color: #d6d6d6;
     }
   }
 

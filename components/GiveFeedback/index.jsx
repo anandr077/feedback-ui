@@ -270,7 +270,7 @@ function GiveFeedback() {
             </Frame5086PopUp>
             <SortPopUpBody>
               <SortButton
-                style={{ backgroundColor: sortData ? '#51009F' : '' }}
+                style={{ backgroundColor: sortData ? '#51009F' : ''}}
                 onClick={() => setSortData(true)}
               >
                 <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
@@ -396,7 +396,7 @@ function GiveFeedback() {
                 {!mobileView ? (
                   <>
                     <SortButton
-                      style={{ backgroundColor: sortData ? '#51009F' : '', border: '1px solid #8E33E6' }}
+                      style={{ backgroundColor: sortData ? '#51009F' : '', border: '1px solid #8E33E6', padding: '11.5px 20px' }}
                       onClick={() => setSortData(true)}
                     >
                       <SortButtonText
@@ -406,7 +406,7 @@ function GiveFeedback() {
                       </SortButtonText>
                     </SortButton>
                     <SortButton
-                      style={{ backgroundColor: !sortData ? '#51009F' : '', border: '1px solid #a6a6a6', padding: '0px 12px', minHeight: '0.4375em'}}
+                      style={{ backgroundColor: !sortData ? '#51009F' : '', border: '1px solid #a6a6a6'}}
                       onClick={() => setSortData(false)}
                     >
                       <SortButtonText

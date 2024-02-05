@@ -28,21 +28,15 @@ function Frame1297(props) {
   };
   return (
     <Frame12971>
-      <Frame1287>
-        <Frame1283>
-          <Frame1282>
-            <Frame1281>
-              <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
-            </Frame1281>
-          </Frame1282>
-          {createQuestionTypeSelector(
-            type,
-            setTypeTheory,
-            setTypeMCQ,
-            setTypeEssay
-          )}
-        </Frame1283>
-      </Frame1287>
+      <Frame1281>
+        <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
+      </Frame1281>
+      {createQuestionTypeSelector(
+        type,
+        setTypeTheory,
+        setTypeMCQ,
+        setTypeEssay
+      )}
     </Frame12971>
   );
 }
@@ -119,9 +113,10 @@ const Text = styled.div`
 
 const Frame12971 = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  padding: 0px 12px 0px 12px;
+  padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
 `;
@@ -165,23 +160,23 @@ const Text1 = styled.div`
 `;
 
 const ToremIpsumDolorSi = styled.p`
-  ${IbmplexsansNormalShark16px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #a154ea;
 `;
 
 const Frame1281 = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  position: relative;
-  align-self: stretch;
-  // left: 0.5em;
+  padding: 16px 20px 16px 20px;
+  border-radius: 38px;
+  border: 1px;
+  gap: 10px;
+  background: linear-gradient(0deg, #ffffff, #ffffff);
+  border: 1px solid #dec7ff;
 `;
 
 const RichTextComponents1 = styled.div`

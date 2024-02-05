@@ -27,8 +27,6 @@ export const TitleAndSubtitleContainer = styled.div`
   gap: 12px;
   position: relative;
   width: 100%;
-  border-bottom: 1px solid #d6d6d6;
-  padding-bottom: 20px;
 `;
 export const TitleContainer = styled.div`
   display: flex;
@@ -91,10 +89,6 @@ export const SLink = styled.div`
   letter-spacing: -0.5px;
   line-height: normal;
   cursor: pointer;
-  &:hover {
-    scale: 1.2;
-    transition: 0.1s;
-  }
 `;
 export const Frame1379 = styled.div`
   // display: flex;
@@ -136,10 +130,11 @@ export const Frame1315 = styled.div`
 
 export const Frame1378 = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   position: relative;
   align-self: stretch;
+  gap: 32px;
   ${(props) => props.readOnly && 'pointer-events: none; opacity: 0.5;'}
 `;
 
@@ -147,9 +142,16 @@ export const Frame1375 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 30px;
+  gap: 32px;
   position: relative;
   align-self: stretch;
+  width: 80%;
+  height: 90vh;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 
 export const Frame1372 = styled.div`
@@ -195,8 +197,7 @@ export const Frame1374 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid;
-  border-color: var(--text);
+  border: 1px solid #a6a6a6;
 `;
 
 export const TextInput = styled.input`
@@ -276,7 +277,6 @@ export const Frame1299 = styled.div`
   position: relative;
   align-self: stretch;
   background-color: var(--white);
-  padding: 4px 0px 4px 0px;
 `;
 
 export const Frame12811 = styled.div`
@@ -319,25 +319,6 @@ export const Frame12191 = styled.div`
   gap: 24px;
   position: relative;
 `;
-
-export const Buttons1 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 16px;
-  position: relative;
-  background-color: var(--light-mode-purple);
-  border-radius: 30px;
-  border: 1px solid;
-  cursor: pointer;
-  &:hover {
-    scale: 1.2;
-    transition: 0.1s;
-  }
-`;
-
 export const Button = styled.div`
   ${IbmplexsansMediumWhite16px}
   position: relative;
@@ -346,7 +327,27 @@ export const Button = styled.div`
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
-  background-color: var(--light-mode-purple);
+  color: var(--light-mode-purple);
+`;
+export const Buttons1 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  position: relative;
+
+  background-color: white;
+  border-radius: 30px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--light-mode-purple);
+    ${Button} {
+      color: white;
+    }
+  }
 `;
 
 export const TaskContainer = styled.div`
@@ -399,4 +400,40 @@ export const TaskTitle = styled.div`
   letter-spacing: 0em;
   text-align: left;
   color: #1e252a;
+`;
+
+export const StepsPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  gap: 20px;
+  padding: 0px 0px 30px 0px;
+  border-radius: 12px;
+  gap: 20px;
+  background: linear-gradient(0deg, #ffffff, #ffffff);
+  box-shadow: 0px 4px 6px 0px #ca93ff1a;
+`;
+export const StepsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px 0px 20px;
+  gap: 20px;
+`;
+export const StepContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+`;
+export const StepImag = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const StepText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #000000;
 `;

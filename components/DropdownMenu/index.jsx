@@ -30,7 +30,6 @@ export const DropdownMenu = (props) => {
     getSelectedItem = null,
   } = props;
 
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchInput, setSearchInput] = React.useState('');
   const [filteredMenuItems, setFilteredMenuItems] = React.useState(menuItems);
@@ -89,7 +88,7 @@ export const DropdownMenu = (props) => {
       <StyledBox
         style={
           fullWidth
-            ? { borderColor: 'var(--text)', padding: '7px' }
+            ? { borderColor: 'var(--text)', padding: '13px 20px !important' }
             : {
                 borderColor: 'var(--light-mode-purple)',
                 padding: selectedItem?.type === 'FOLDER' ? '7px' : '0',

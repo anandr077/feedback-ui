@@ -46,6 +46,11 @@ import {
   TaskContainer,
   TaskName,
   TaskTitle,
+  StepsContainer,
+  StepsPart,
+  StepContainer,
+  StepImag,
+  StepText,
 } from './CreateAssignmentLaptopStyle';
 import {
   IbmplexsansBoldShark64px,
@@ -68,6 +73,7 @@ import LinkButton from '../../components2/LinkButton';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import questionMark from '../../static/img/question-mark.svg';
+import tick from '../../static/img/Ticklightcolor.svg';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -112,7 +118,9 @@ function CreateAAssignmentLaptop(props) {
             whiteArrowleft={whiteArrowleft}
           />
         </LinkContainer>
-        <TitleAndSubtitleContainer>
+        <TitleAndSubtitleContainer
+          style={{ borderBottom: '1px solid #d6d6d6', paddingBottom: '20px' }}
+        >
           <TitleContainer>
             {title}
             {saveButtons(
@@ -138,9 +146,24 @@ function CreateAAssignmentLaptop(props) {
     if (assignment.status === 'DRAFT') {
       return (
         <Frame12191>
-          <SLink onClick={(e) => saveDraft(e)}>Save as draft</SLink>
           <Buttons1>
-            <Button onClick={showPublishPopuphandler}>Publish</Button>
+            <Button onClick={(e) => saveDraft(e)}>Save as draft</Button>
+          </Buttons1>
+          <Buttons1
+            style={{
+              backgroundColor: 'var(--light-mode-purple)',
+              color: 'white',
+            }}
+          >
+            <Button
+              onClick={showPublishPopuphandler}
+              style={{
+                backgroundColor: 'var(--light-mode-purple)',
+                color: 'white',
+              }}
+            >
+              Publish
+            </Button>
           </Buttons1>
         </Frame12191>
       );
@@ -192,7 +215,7 @@ function CreateAAssignmentLaptop(props) {
                   <TaskTitle>Select a class</TaskTitle>
                   <TitleImage src={questionMark} />
                 </TaskName>
-                <Frame1299 id="classesContainer" >
+                <Frame1299 id="classesContainer">
                   <Frame1298>{checkboxes}</Frame1298>
                 </Frame1299>
               </TaskNameContainer>
@@ -223,18 +246,22 @@ function CreateAAssignmentLaptop(props) {
                 <TaskHeading>STEP 4</TaskHeading>
               </TaskHeadingContainer>
               <TaskNameContainer>
-                <TaskName>
-                  <TaskTitle>Select the feedback method</TaskTitle>
-                  <TitleImage src={questionMark} />
-                </TaskName>
-                <Frame1294>
-                  <Frame1295>
-                    <Frame1299 id="DnDContainer" >
-                      <Frame12981>{feedbacksMethodContainer}</Frame12981>
-                    </Frame1299>
-                    
-                  </Frame1295>
-                </Frame1294>
+                <TitleAndSubtitleContainer>
+                  <TaskName>
+                    <TaskTitle>Select the feedback method</TaskTitle>
+                    <TitleImage src={questionMark} />
+                  </TaskName>
+                  <HeadingLine>
+                    Would you like to personally mark this task, or would you
+                    prefer that students provide feedback to each other?
+                  </HeadingLine>
+                </TitleAndSubtitleContainer>
+
+                <Frame1295>
+                  <Frame1299 id="DnDContainer">
+                    <Frame12981>{feedbacksMethodContainer}</Frame12981>
+                  </Frame1299>
+                </Frame1295>
               </TaskNameContainer>
             </TaskContainer>
             <TaskContainer>
@@ -247,12 +274,39 @@ function CreateAAssignmentLaptop(props) {
                   <TitleImage src={questionMark} />
                 </TaskName>
 
-                <Frame1299 id="timeContainer" >
+                <Frame1299 id="timeContainer">
                   <Frame12981>{dateSelectorFrame}</Frame12981>
                 </Frame1299>
               </TaskNameContainer>
             </TaskContainer>
           </Frame1375>
+          <StepsPart>
+            <TaskHeadingContainer>
+              <TaskHeading>Steps</TaskHeading>
+            </TaskHeadingContainer>
+            <StepsContainer>
+              <StepContainer>
+                <StepImag src={tick} />
+                <StepText>Name your task</StepText>
+              </StepContainer>
+              <StepContainer>
+                <StepImag src={tick} />
+                <StepText>Select a class</StepText>
+              </StepContainer>
+              <StepContainer>
+                <StepImag src={tick} />
+                <StepText>Set up the task</StepText>
+              </StepContainer>
+              <StepContainer>
+                <StepImag src={tick} />
+                <StepText>Select the feedback method</StepText>
+              </StepContainer>
+              <StepContainer>
+                <StepImag src={tick} />
+                <StepText>Select the due date</StepText>
+              </StepContainer>
+            </StepsContainer>
+          </StepsPart>
         </Frame1378>
         <Frame1377>
           <Frame1372>

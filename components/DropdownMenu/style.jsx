@@ -56,12 +56,14 @@ export const StyledHeading = styled.h2`
 export const StyledBox = styled(Box)`
   display: flex;
   align-items: center;
-  padding: 0px 0px 0px 12px;
+  padding: 13px 20px 13px 20px;
+  border-radius: 12px;
+  border: 1px;
+
   position: relative;
   padding-top: 1.5px !important;
   padding-bottom: 1.5px !important;
   background-color: var(--white);
-  border-radius: 8px;
   border: 1px solid;
   border-color: var(--light-mode-purple);
   box-shadow: 0px 4px 8px #2f1a720a;
@@ -82,7 +84,6 @@ export const FlexContainer = styled('div')`
   align-items: center;
   gap: 8px;
   flex-grow: 1;
-  margin-left: 12px;
   .text-container {
     display: inline-block;
     flex-grow: 1;

@@ -50,9 +50,12 @@ import {
   StudentsDnD,
   StudentDnD,
   Student,
+  TitleImage,
+  LableAndImgContainer,
 } from './CreateAssignmentStyle';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DragAndDrop from './DragAndDrop';
+import questionMark from '../../static/img/question-mark.svg';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -625,16 +628,23 @@ export default function CreateAssignment(props) {
         value={assignment.reviewedBy}
         onChange={(event) => feedbackMethodUpdate(event.target.value)}
       >
-        <StyledFormControlLabel
-          value="TEACHER"
-          control={<Radio />}
-          label="Teacher Feedback"
-        />
-        <StyledFormControlLabel
-          value="P2P"
-          control={<Radio />}
-          label="Peer to Peer"
-        />
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="TEACHER"
+            control={<Radio />}
+            label="Teacher Feedback"
+            // endIcon={<TitleImage src={questionMark} />}
+          />
+          <TitleImage src={questionMark} />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="P2P"
+            control={<Radio />}
+            label="Peer to Peer"
+          />
+          <TitleImage src={questionMark} />
+        </LableAndImgContainer>
       </StyledRadioGroup>
       {studentDropdown && (
         <DragAndDrop

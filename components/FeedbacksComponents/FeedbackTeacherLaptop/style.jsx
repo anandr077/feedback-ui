@@ -665,7 +665,7 @@ export const Label16pxSmall = styled.div`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: var(--river-bed);
+    background-color: var(--text);
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
 

@@ -208,7 +208,7 @@ function IndepentdentUserSidebar({
                         }}
                       >
                         <QuestionTitle>
-                          {question.title}
+                          { question.title}
                           <OverflowShadow
                             blueBackground={question.id === currentSubmissionId}
                           ></OverflowShadow>

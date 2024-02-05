@@ -49,14 +49,6 @@ const MyCalendar = (props) => {
             {moment(toolbar.date).format('MMMM YYYY')}
           </StyledCalendarHeading>
         </StyledCalendarHead>
-        <StyledMonth>
-          <StyledButton
-            onClick={goToMonthView}
-            isActive={toolbar.view === 'month'}
-          >
-            Month
-          </StyledButton>
-        </StyledMonth>
         <StyledButtons>
           <StyledButtonArrow src={leftArrow} onClick={goToPrev} />
           <StyledButtonArrow src={rightArrow} onClick={goToNext} />

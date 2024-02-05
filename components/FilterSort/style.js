@@ -33,12 +33,13 @@ export const FilterImg = styled.img`
   height: 24px;
 `;
 export const FilterText = styled.p`
-  font-family: IBM Plex Sans;
+  font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+  color: var(--royal-purple);
 `;
 
 export const FilterLine = styled.div`
@@ -70,12 +71,13 @@ export const SortImg = styled.img`
 `;
 
 export const SortText = styled.p`
-  font-family: IBM Plex Sans;
+  font-family:  var(--font-family-ibm_plex_sans);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+  color: var(--royal-purple);
 `;
 
 export const SortButton = styled.div`

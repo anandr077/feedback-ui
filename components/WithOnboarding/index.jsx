@@ -6,7 +6,6 @@ import { getUserRole } from '../../userLocalDetails';
 const withOnboarding = (WrappedComponent) => {
   const defaultShowOnboarding =
    getUserRole() === 'STUDENT' && (Cookies.get('state') === undefined || Cookies.get('state') === null);
-  console.log("defaultShowOnboarding", defaultShowOnboarding)
   const [showOnboarding, setShowOnboarding] = useState(defaultShowOnboarding);
 
   const WithOnboarding = (props) => {

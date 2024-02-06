@@ -8,10 +8,11 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce, nonEditable, setCountWords, editorFontSize }, ref) => {
+  ({ comments, value, options, debounceTime, onDebounce, nonEditable, setCountWords, editorFontSize, setEditorHeight }, ref) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
+
 
     useEffect(() => {
       if (editorRef.current && !editor) {
@@ -36,6 +37,9 @@ const QuillEditor = React.forwardRef(
           setCountWords(wordCount);
         });
       }
+
+      const height = editorRef.current.getBoundingClientRect().height;
+      setEditorHeight(height)
     }, [editor, editorRef, options, value]);
 
     useEffect(() => {

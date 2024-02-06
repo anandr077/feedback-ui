@@ -6,6 +6,7 @@ import {
   default as React,
   default as React,
   default as React,
+  useState,
 } from 'react';
 import CheckboxList from '../../CheckboxList';
 import QuillEditor from '../../QuillEditor';
@@ -44,7 +45,8 @@ export function answersFrame(
   overallComments,
   methods,
   setCountWords,
-  editorFontSize
+  editorFontSize,
+  setEditorHeight
 ) {
   return (
     <AnswersFrame
@@ -72,6 +74,7 @@ export function answersFrame(
       comments={methods.comments}
       setCountWords={setCountWords}
       editorFontSize={editorFontSize}
+      setEditorHeight={setEditorHeight}
     ></AnswersFrame>
   );
 }
@@ -99,7 +102,8 @@ function AnswersFrame(props) {
     setComments,
     comments,
     setCountWords,
-    editorFontSize
+    editorFontSize,
+    setEditorHeight
   } = props;
   return (
     <Group1225 id="answers">
@@ -126,7 +130,8 @@ function AnswersFrame(props) {
           setComments,
           comments,
           setCountWords,
-          editorFontSize
+          editorFontSize,
+          setEditorHeight
         )}
       </Frame1367>
     </Group1225>
@@ -183,7 +188,8 @@ const answerFrames = (
   setComments,
   comments,
   setCountWords,
-  editorFontSize
+  editorFontSize,
+  setEditorHeight
 ) => {
   return submission.assignment.questions.map((question, idx) => {
     const newAnswer = {
@@ -245,7 +251,8 @@ const answerFrames = (
                   debounce,
                   handleEditorMounted,
                   setCountWords,
-                  editorFontSize
+                  editorFontSize,
+                  setEditorHeight
                 )}
               </QuillContainer>
             )}
@@ -338,7 +345,8 @@ function createQuill(
   debounce,
   handleEditorMounted,
   setCountWords,
-  editorFontSize
+  editorFontSize,
+  setEditorHeight,
 ) {
   return (
     <QuillEditor
@@ -370,6 +378,7 @@ function createQuill(
       nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED'}
       setCountWords={setCountWords}
       editorFontSize={editorFontSize}
+      setEditorHeight={setEditorHeight}
     ></QuillEditor>
   );
 }

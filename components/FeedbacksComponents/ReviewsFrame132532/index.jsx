@@ -27,6 +27,7 @@ function ReviewsFrame132532(props) {
     sharedWithStudents,
     isReply = false,
   } = props;
+  console.log('the reviewer is', comment);
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
   ) : (
@@ -94,15 +95,18 @@ function ReviewsFrame132532(props) {
     setIsMoreClicked(false);
   };
 
-  const avatar = (
-    <Avatar
-      title={false}
-      size={25}
-      variant="beam"
-      name={reviewer}
-      square={false}
-    />
-  );
+  const avatar =
+    comment.reviewerId === '26572' ? (
+      <JeddaiIcon src="img/ai.svg" />
+    ) : (
+      <Avatar
+        title={false}
+        size={25}
+        variant="beam"
+        name={reviewer}
+        square={false}
+      />
+    );
   const resolveFrame = showResolveButton ? (
     <Wrapper>
       <More
@@ -261,6 +265,11 @@ const More = styled.img`
 
 const Wrapper = styled.div`
   position: relative;
+`;
+
+const JeddaiIcon = styled.img`
+  width: 30px;
+  height: 30px;
 `;
 
 const Tooltip = styled.div`

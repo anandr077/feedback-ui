@@ -240,9 +240,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     const unblock = history.block((location, action) => {
-      console.log("locating to ", location)
-      if (submission?.feedbackRequestType ==='JEDDAI' 
-      && submission?.status==='REVIEWED'
+      if (submission?.status==='REVIEWED'
       && submission?.studentId===getUserId()
       && (submission?.feedbackOnFeedback === null || 
         submission?.feedbackOnFeedback === undefined)) {

@@ -346,7 +346,7 @@ function createQuill(
   handleEditorMounted,
   setCountWords,
   editorFontSize,
-  setEditorHeight
+  setEditorHeight,
 ) {
   return (
     <QuillEditor

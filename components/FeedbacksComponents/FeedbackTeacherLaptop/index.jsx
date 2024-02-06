@@ -155,6 +155,7 @@ function FeedbackTeacherLaptop(props) {
   const [editorFontSize, setEditorFontSize] = useState('hello');
   const [editorHeight, setEditorHeight] = useState(0);
 
+
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
     setFeedbackMethodTypeDialog(index);

@@ -38,7 +38,7 @@ const QuillEditor = React.forwardRef(
         });
       }
 
-      const height = editorRef.current.scrollHeight;
+      const height = editorRef.current.getBoundingClientRect().height;
       setEditorHeight(height)
     }, [editor, editorRef, options, value]);
 

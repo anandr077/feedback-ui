@@ -30,7 +30,6 @@ const HeaderOnboardingMenu = () => {
   };
 
   const flagIcon = findFlagIcon(state);
-  console.log('the flag is', flagIcon)
 
   return (
     <>

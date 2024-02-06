@@ -72,6 +72,7 @@ function FeedbackFrame(props) {
     newCommentFrameRef,
     share,
     smartAnnotations,
+    editorHeight
   } = props;
   return feedbackFrame(
     methods,
@@ -90,7 +91,8 @@ function FeedbackFrame(props) {
     pageMode,
     newCommentFrameRef,
     share,
-    smartAnnotations
+    smartAnnotations,
+    editorHeight
   );
 }
 function feedbackFrame(
@@ -110,10 +112,11 @@ function feedbackFrame(
   pageMode,
   newCommentFrameRef,
   share,
-  smartAnnotations
+  smartAnnotations,
+  editorHeight
 ) {
   return (
-    <Frame1331 id="feedbacksFrame">
+    <Frame1331 id="feedbacksFrame" style={{height: `${editorHeight}px`}}>
       <Frame1322>
         <Tabs
           setFeedback={setFeedback}

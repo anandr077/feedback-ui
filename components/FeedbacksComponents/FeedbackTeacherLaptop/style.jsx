@@ -416,7 +416,7 @@ export const Crown = styled.img`
 
 export const Frame1368 = styled.div`
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 32px;
   position: relative;
   align-self: stretch;
@@ -427,7 +427,7 @@ export const Group1225 = styled.div`
   flex: 1;
   flex-direction: column;
   width: 880px;
-  min-height: 650px;
+  min-height: 750px;
 `;
 export const Frame1367 = styled.div`
   display: flex;
@@ -495,13 +495,12 @@ export const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
-
+  min-height: 750px;
   position: sticky;
   top: 10px;
 
   background-color: var(--white);
   border-radius: 16px;
-  //height: 650px;
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
   &::-webkit-scrollbar {
@@ -1009,6 +1008,7 @@ export const EmptyFeedbackBox = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 12px;
+  margin: auto;
 
   img{
     height: 48px;

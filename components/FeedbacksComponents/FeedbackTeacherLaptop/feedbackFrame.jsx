@@ -32,6 +32,7 @@ import {
   ExemplarComponent,
   SmartAnnotationsComponent,
   ShortcutList,
+  EmptyFeedbackBox,
 } from './style';
 import AntSwitch from '../AntSwitch';
 
@@ -123,7 +124,6 @@ function feedbackFrame(
           comments={comments}
           showFeedbacks={true}
           showFocusAreas={submission.type !== 'DOCUMENT'}
-
         ></Tabs>
       </Frame1322>
       <Line6 src="/img/line-18.png" alt="Line 6" />
@@ -179,13 +179,10 @@ export function createCommentsFrame(
   const visibleComments = createVisibleComments(commentsForSelectedTab);
   if (visibleComments.length === 0) {
     return (
-      <CommentCard32
-        reviewer="Jeddle"
-        comment={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
-        onClick={() => {}}
-        isTeacher={isTeacher}
-        defaultComment={true}
-      />
+      <EmptyFeedbackBox>
+        <img src="img/messages_gray.svg" />
+        <p>No feedback yet? <br/> Share draft to receive feedback</p>
+      </EmptyFeedbackBox>
     );
   }
   return sortBy(visibleComments, ['questionSerialNumber', 'range.from']).map(
@@ -398,14 +395,21 @@ function createDefaultCommentText(isFocusAreas, pageMode, studentId) {
 
 export const showResolvedToggle =
   (setShowResolved) =>
-  (commentsForSelectedTab, isFeedback, isShowResolved, handleShowResolvedToggle) => {
-    if (commentsForSelectedTab.filter(c=>c.status === 'RESOLVED').length <= 0) {
+  (
+    commentsForSelectedTab,
+    isFeedback,
+    isShowResolved,
+    handleShowResolvedToggle
+  ) => {
+    if (
+      commentsForSelectedTab.filter((c) => c.status === 'RESOLVED').length <= 0
+    ) {
       return <></>;
     }
     if (!isFeedback) {
       return <></>;
     }
-  
+
     return (
       <div
         style={{
@@ -424,8 +428,6 @@ export const showResolvedToggle =
         />
       </div>
     );
-    
-    
   };
 
 function shortcutList(methods, smartAnnotations) {

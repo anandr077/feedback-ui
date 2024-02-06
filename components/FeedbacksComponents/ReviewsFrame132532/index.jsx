@@ -96,7 +96,7 @@ function ReviewsFrame132532(props) {
   };
 
   const avatar =
-    comment.reviewerName === 'JEDDAI' || comment.reviewerName === '26572' ? (
+    comment.reviewerId === '26572' ? (
       <JeddaiIcon src="img/ai.svg" />
     ) : (
       <Avatar

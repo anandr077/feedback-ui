@@ -33,9 +33,8 @@ export const Frame1321 = styled.div`
   background-color: #efeef1;
   border-radius: 24px;
   border: 1px solid #e6e6e6;
-  height: 36px;
+  height: 40px;
   box-sizing: border-box;
-  margin: 8px;
 `;
 
 export const Structure = styled.div`
@@ -138,6 +137,7 @@ export const DeleteButtonFrame = styled.div`
   padding: 20px 30px 0px 30px;
   border: 1px 0px 0px 0px;
   gap: 4px;
+  cursor: pointer;
 `;
 
 export const DeleteButton = styled.div`
@@ -199,7 +199,7 @@ export const MarkingCriteriaFrame = styled.div`
 export const Preview = styled.div`
   background: #7200e0;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: 10px 12px;
   cursor: pointer;
 `;
 export const TitleImage = styled.img`

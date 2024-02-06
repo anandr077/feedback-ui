@@ -21,7 +21,7 @@ export const DropdownMenu = (props) => {
     menuItems,
     onItemSelected,
     withCheckbox,
-    showAvatar,
+    showAvatar = false,
     small,
     fullWidth,
     primaryText,
@@ -88,7 +88,7 @@ export const DropdownMenu = (props) => {
       <StyledBox
         style={
           fullWidth
-            ? { borderColor: 'var(--text)', padding: '13px 20px !important' }
+            ? { borderColor: '#959595', padding: '0px 20px !important' }
             : {
                 borderColor: 'var(--light-mode-purple)',
                 padding: selectedItem?.type === 'FOLDER' ? '7px' : '0',
@@ -121,15 +121,21 @@ export const DropdownMenu = (props) => {
             onClick={handleClick}
             style={markingCriteriaType ? { width: '100px' } : {}}
           >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
+            {showAvatar && (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleClick}
+              >
+                {createImageFrame(selectedItem, showAvatar)}
+              </IconButton>
+            )}
+            <div
+              className="text-container"
               onClick={handleClick}
+              style={{ padding: '5px 0px' }}
             >
-              {createImageFrame(selectedItem, showAvatar)}
-            </IconButton>
-            <div className="text-container" onClick={handleClick}>
               <p>
                 <StyledListItemText
                   primary={

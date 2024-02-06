@@ -124,6 +124,7 @@ export default function TheoryQuestionFrame(props) {
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);
                 }}
+                defaultSearch={true}
               ></DropdownMenu>
             ) : (
               <DropdownMenu
@@ -140,7 +141,7 @@ export default function TheoryQuestionFrame(props) {
                 handleMarkingCriteriaPreview(questionDetails.markingCriteria);
               }}
             >
-              <img src="/icons/preview-eye.png" alt="eye" />
+              <img src="/icons/preview-eye.png" alt="eye" style={{width:'32px',height:'32px'}} />
             </Preview>
           </MarkingCriteriaFrame>
         </MarkingCriteriaSelectionContainer>
@@ -184,9 +185,9 @@ function createFocusAreasFrame(
       <CheckboxGroup
         onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
         data={menuItems}
-        dropDownText="Select"
+        dropDownText="Add"
         addCreateNewButton={true}
-        backgroundColor={'#25222A'}
+        backgroundColor={'#7200E0'}
         textColor={'var(--white)'}
         openDialogForNewEvent={createNewFocusArea}
         previouslySelectedItems={presentFocusAreas?.map((value) => ({

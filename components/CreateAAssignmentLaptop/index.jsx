@@ -232,14 +232,14 @@ function CreateAAssignmentLaptop(props) {
                 <Frame1294>
                   <Frame1295>{questionFrames()}</Frame1295>
                 </Frame1294>
-                <Frame1296>
-                  <Buttons2
-                    add={buttons21Props.add}
-                    label="Add a new question"
-                    onClickFn={addQuestion}
-                  />
-                </Frame1296>
               </TaskNameContainer>
+              <Frame1296>
+                <Buttons2
+                  add={buttons21Props.add}
+                  label="Add a new question"
+                  onClickFn={addQuestion}
+                />
+              </Frame1296>
             </TaskContainer>
             <TaskContainer>
               <TaskHeadingContainer>

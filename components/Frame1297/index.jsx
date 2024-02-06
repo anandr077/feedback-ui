@@ -171,7 +171,7 @@ const ToremIpsumDolorSi = styled.p`
 
 const Frame1281 = styled.div`
   display: flex;
-  padding: 16px 20px 16px 20px;
+  padding: 11px 20px 11px 20px;
   border-radius: 38px;
   border: 1px;
   gap: 10px;

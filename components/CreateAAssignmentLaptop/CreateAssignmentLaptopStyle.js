@@ -201,16 +201,22 @@ export const Frame1374 = styled.div`
 `;
 
 export const TextInput = styled.input`
-  ${IbmplexsansNormalStack20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
+  padding: 0;
+  margin: 0px;
   letter-spacing: 0;
   line-height: normal;
   border-color: transparent;
   box-shadow: 0px;
   outline: none;
   transition: 0.15s;
+  width: 100%;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  border: 0px;
 `;
 
 export const Frame1294 = styled.div`
@@ -255,8 +261,8 @@ export const AssignmentSettings = styled.div`
 export const Frame1296 = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 30px;
+  justify-content: flex-start;
+  padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
 `;

@@ -108,18 +108,15 @@ export const FlexContainerSmall = styled('div')`
 `;
 
 export const StyledListItemText = styled(ListItemText)`
-  ${IbmplexsansNormalShark16px}
-  position: relative;
-  flex: 1;
-
-  letter-spacing: 0;
-  line-height: normal;
-  border-radius: 50%;
-
   .MuiTypography-root {
-    ${IbmplexsansNormalShark16px}
-    font-size: 14px;
+    font-size: 20px;
   }
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
 `;
 
 export const StyledListItemTextBold = styled(ListItemText)`
@@ -149,8 +146,8 @@ export const StyledListItemTextBold = styled(ListItemText)`
 
 export const Frame12841 = styled.img`
   position: relative;
-  min-width: 16px;
-  height: 16px;
+  min-width: 26px;
+  height: 26px;
 `;
 
 export const StyledTextField = styled(TextField)`
@@ -160,4 +157,11 @@ export const StyledTextField = styled(TextField)`
   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 10px;
   }
+`;
+
+export const ButtonContainer = styled.div`
+  padding: 10px 12px 10px 12px;
+  border-radius: 12px;
+  gap: 10px;
+  background: #7200e0;
 `;

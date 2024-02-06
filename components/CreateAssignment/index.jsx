@@ -143,7 +143,7 @@ export default function CreateAssignment(props) {
           classIds: assignmentResult.classIds ?? [],
         }));
         markingCriteriasResult.unshift({
-          title: 'No Marking Criteria',
+          title: 'Select Marking Template',
           id: 'no_marking_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),

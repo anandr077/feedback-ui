@@ -416,7 +416,7 @@ export const Crown = styled.img`
 
 export const Frame1368 = styled.div`
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 32px;
   position: relative;
   align-self: stretch;
@@ -501,7 +501,7 @@ export const Frame1331 = styled.div`
 
   background-color: var(--white);
   border-radius: 16px;
-  //height: 650px;
+  height: 650px;
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
   &::-webkit-scrollbar {
@@ -1000,27 +1000,3 @@ export const Frame1364ButtonText = styled.div`
   letter-spacing: 0em;
   text-align: center;
 `;
-
-export const EmptyFeedbackBox = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-
-  img{
-    height: 48px;
-    width: 48px;
-  }
-
-  p{
-    font-family: var(--font-family-ibm_plex_sans);
-    color: #959595;
-    font-weight: 400;
-    font-size: var(--font-size-xl);
-    line-height: 26px;
-    text-align: center;
-  }
-`

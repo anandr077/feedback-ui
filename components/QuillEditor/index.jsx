@@ -12,13 +12,14 @@ const QuillEditor = React.forwardRef(
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
+    
+    console.log('the font size', editorFontSize)
 
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
-
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
-        quillInstance.root.style.fontSize = '18px';
+        quillInstance.root.style.fontSize = `${editorFontSize ? editorFontSize + '%' : '18px'}`
         quillInstance.root.style.lineHeight = '32px';
 
         const delta = quillInstance.clipboard.convert(value);
@@ -36,7 +37,7 @@ const QuillEditor = React.forwardRef(
           setCountWords(wordCount);
         });
       }
-    }, [editor, editorRef, options, value]);
+    }, [editor, editorRef, options, value, editorFontSize]);
 
     useEffect(() => {
       if (editor) {

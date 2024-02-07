@@ -225,6 +225,8 @@ export const Frame1388 = styled.div`
 export const CountZoomContainer = styled.div`
   position: fixed; 
   bottom: 0px;
+  display: flex;
+  justify-content: space-between;
   transform: ${(props) =>
     props.open ? 'translateX(310px)' : 'translateX(0px)'};
   display: ${props => props.mobileView ? 'none' : ''};

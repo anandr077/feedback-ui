@@ -30,6 +30,8 @@ import {
   GoBackBtn,
   ImgContainer,
   CountZoomContainer,
+  ZoomContianer,
+  ZoomInput
 } from './style';
 import {
   isMobileView,
@@ -152,7 +154,7 @@ function FeedbackTeacherLaptop(props) {
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [countWords, setCountWords] = useState(0);
-  const [editorFontSize, setEditorFontSize] = useState('hello');
+  const [editorFontSize, setEditorFontSize] = useState(null);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -328,7 +330,18 @@ function FeedbackTeacherLaptop(props) {
           {/* </Main> */}
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
-          {countWords} {countWords === 1 ? 'word' : 'words'}
+          <div>{countWords} {countWords === 1 ? 'word' : 'words'}</div>
+          <ZoomContianer>
+            Zoom
+            <ZoomInput 
+              name="zoom"
+              type="range"
+              min="50"
+              max="150"
+              onChange={(e)=> setEditorFontSize(e.target.value)}
+            />
+            100%
+          </ZoomContianer>
         </CountZoomContainer>
       </PageContainer>
 

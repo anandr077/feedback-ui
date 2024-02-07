@@ -867,7 +867,6 @@ export const SubjectSelectionContainer = styled.div`
   display: flex;
   justify-content: start;
   gap: 30px;
-  margin-top: 40px;
 `;
 
 export const SubjectSelectBox = styled.div`

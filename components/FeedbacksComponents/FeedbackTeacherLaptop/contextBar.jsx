@@ -121,17 +121,7 @@ export function contextBar(
           submission,
           methods
         )}
-        {/* {downloadButtonNonClosedSubmission(
-          isTeacher,
-          pageMode,
-          submission,
-          methods
-        )} */}
       </TitleWrapper>
-      {/* {tasksListsDropDown(isTeacher, methods)} */}
-      {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
-        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-      )} */}
       <ButtonContainer>
         {submitButton(methods, pageMode, isTeacher, submission)}
       </ButtonContainer>

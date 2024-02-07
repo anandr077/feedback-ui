@@ -374,10 +374,10 @@ export const DrawerQuestion = styled.div`
   transition: max-height 1s; 
 
   &:hover {  
-    max-height: 320px;
+    max-height: 1520px;
 
     ${QuestionTitle}{
-      max-height: 300px;
+      max-height: 1500px;
     }
 
     ${OverflowShadow} {

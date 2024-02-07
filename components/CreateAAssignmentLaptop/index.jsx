@@ -3,7 +3,6 @@ import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
 import GoBack2 from '../GoBack2';
-import './CreateAAssignmentLaptop.css';
 import {
   TitleContainer,
   DeleteButtonContainer,
@@ -51,6 +50,7 @@ import {
   StepContainer,
   StepImag,
   StepText,
+  MainContainer,
 } from './CreateAssignmentLaptopStyle';
 import {
   IbmplexsansBoldShark64px,
@@ -68,12 +68,13 @@ import Buttons2 from '../Buttons2';
 import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
 import Header from '../Header';
-import './CreateAAssignmentLaptop.css';
 import LinkButton from '../../components2/LinkButton';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import questionMark from '../../static/img/question-mark.svg';
 import tick from '../../static/img/Ticklightcolor.svg';
+import tickColor from '../../static/img/tickColor.svg';
+import { isMobileView, isSmallScreen } from '../ReactiveRender';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -97,6 +98,9 @@ function CreateAAssignmentLaptop(props) {
     showDeletePopuphandler,
     showPublishPopuphandler,
   } = props;
+
+  const smallScreenView = isSmallScreen();
+  const mobileView = isMobileView();
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
@@ -130,7 +134,7 @@ function CreateAAssignmentLaptop(props) {
               showPublishPopuphandler
             )}
           </TitleContainer>
-          <HeadingLine>
+          <HeadingLine style={{ display: mobileView ? 'none' : 'flex' }}>
             Follow the steps below to create and assign a task for your classes
           </HeadingLine>
         </TitleAndSubtitleContainer>
@@ -179,7 +183,7 @@ function CreateAAssignmentLaptop(props) {
   };
 
   return (
-    <div className="create-a-assignment-laptop screen">
+    <MainContainer>
       <Frame1379>
         {titleAndSaveButtons(assignment, saveDraft, publish)}
         <Frame1378 readOnly={assignment.status != 'DRAFT'}>
@@ -199,7 +203,7 @@ function CreateAAssignmentLaptop(props) {
                   onChange={handleTitleChange}
                 >
                   <TextInput
-                    placeholder="Type task title here"
+                    placeholder="Name of task"
                     id="assignmentName"
                     value={assignment.title}
                   ></TextInput>
@@ -280,33 +284,71 @@ function CreateAAssignmentLaptop(props) {
               </TaskNameContainer>
             </TaskContainer>
           </Frame1375>
-          <StepsPart>
-            <TaskHeadingContainer>
-              <TaskHeading>Steps</TaskHeading>
-            </TaskHeadingContainer>
-            <StepsContainer>
-              <StepContainer>
-                <StepImag src={tick} />
-                <StepText>Name your task</StepText>
-              </StepContainer>
-              <StepContainer>
-                <StepImag src={tick} />
-                <StepText>Select a class</StepText>
-              </StepContainer>
-              <StepContainer>
-                <StepImag src={tick} />
-                <StepText>Set up the task</StepText>
-              </StepContainer>
-              <StepContainer>
-                <StepImag src={tick} />
-                <StepText>Select the feedback method</StepText>
-              </StepContainer>
-              <StepContainer>
-                <StepImag src={tick} />
-                <StepText>Select the due date</StepText>
-              </StepContainer>
-            </StepsContainer>
-          </StepsPart>
+          {!smallScreenView && (
+            <StepsPart>
+              <TaskHeadingContainer>
+                <TaskHeading>Steps</TaskHeading>
+              </TaskHeadingContainer>
+              <StepsContainer>
+                <StepContainer>
+                  <StepImag src={assignment.title === '' ? tick : tickColor} />
+                  <StepText
+                    style={{ color: assignment.title != '' && '#7200E0' }}
+                  >
+                    Name your task
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepImag
+                    src={assignment.classIds.length === 0 ? tick : tickColor}
+                  />
+                  <StepText
+                    style={{
+                      color: assignment.classIds.length != 0 && '#7200E0',
+                    }}
+                  >
+                    Select a class
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepImag
+                    src={
+                      assignment.questions[0].question === '' ? tick : tickColor
+                    }
+                  />
+                  <StepText
+                    style={{
+                      color: assignment.questions[0].question != '' && '#7200E0',
+                    }}
+                  >
+                    Set up the task
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepImag
+                    src={
+                      Object.keys(assignment.reviewers).length === 0
+                        ? tick
+                        : tickColor
+                    }
+                  />
+                  <StepText
+                    style={{
+                      color:
+                        Object.keys(assignment.reviewers).length != 0 &&
+                        '#7200E0',
+                    }}
+                  >
+                    Select the feedback method
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepImag src={tick} />
+                  <StepText>Select the due date</StepText>
+                </StepContainer>
+              </StepsContainer>
+            </StepsPart>
+          )}
         </Frame1378>
         <Frame1377>
           <Frame1372>
@@ -321,7 +363,7 @@ function CreateAAssignmentLaptop(props) {
           </Frame1372>
         </Frame1377>
       </Frame1379>
-    </div>
+    </MainContainer>
   );
 }
 export default CreateAAssignmentLaptop;

@@ -6,10 +6,13 @@ import RadioGroup from '@mui/material/RadioGroup';
 export const StyledRadioGroup = styled(RadioGroup)`
   display: flex;
   flex-direction: row;
-  gap:30px;
+  gap: 30px;
   &.MuiFormGroup-root {
     display: flex;
     flex-direction: row;
+  }
+  @media (max-width: 765px) {
+    gap: 20px;
   }
 `;
 
@@ -64,7 +67,7 @@ export const CheckboxContainer = styled.div`
   flex-direction: row;
 `;
 
-export const CheckBoxText = styled.div`
+export const CheckBoxText = styled.span`
   ${IbmplexsansNormalShark20px}
   position: relative;
   flex: 1;

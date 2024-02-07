@@ -9,12 +9,30 @@ import {
   IbmplexsansNormalElectricViolet16px,
 } from '../../styledMixins';
 
+export const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  background-color: var(--white-pointer);
+  position: relative;
+  padding: 60px 0px;
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    min-width: 1025px;
+  }
+
+  @media (min-width: 766px) and (max-width: 1024px) {
+    min-width: 766px;
+  }
+`;
 export const TitleAndLinkContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 60px;
   position: relative;
+  @media (max-width: 1024px) {
+    gap: 40px;
+  }
 `;
 export const LinkContainer = styled.div`
   width: 100%;
@@ -35,6 +53,10 @@ export const TitleContainer = styled.div`
   gap: 20px;
   position: relative;
   width: 100%;
+  @media (max-width: 765px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 export const TitleImage = styled.img`
   padding: 2px 2px 2px 2px;
@@ -106,6 +128,17 @@ export const Frame1379 = styled.div`
   flex-direction: column;
   gap: 60px;
   padding: 0px 60px;
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    padding: 0px 60px;
+  }
+  @media (min-width: 766px) and (max-width: 1024px) {
+    padding: 0px 60px;
+    gap: 40px;
+  }
+  @media (max-width: 765px) {
+    padding: 0px 20px;
+    gap: 40px;
+  }
 `;
 
 export const Frame1376 = styled.div`
@@ -152,6 +185,11 @@ export const Frame1375 = styled.div`
     width: 0;
     display: none;
   }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const Frame1372 = styled.div`
@@ -197,7 +235,7 @@ export const Frame1374 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #a6a6a6 !important;
 `;
 
 export const TextInput = styled.input`
@@ -265,6 +303,11 @@ export const Frame1296 = styled.div`
   padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
+  @media (max-width: 765px) {
+    width:100%;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const Frame1377 = styled.div`
@@ -304,10 +347,16 @@ export const Classes = styled.div`
 
 export const Frame1298 = styled.div`
   display: flex;
-  align-items: space-between;
+  align-items: center;
+  justify-content: flex-start;
   position: relative;
   align-self: stretch;
   gap: 24px;
+  @media (max-width: 765px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 `;
 
 export const Frame12981 = styled.div`
@@ -366,6 +415,9 @@ export const TaskContainer = styled.div`
   gap: 32px;
   background: linear-gradient(0deg, #ffffff, #ffffff);
   border: 1px solid #f2f2f2;
+  @media (max-width: 765px) {
+    gap: 20px;
+  }
 `;
 export const TaskHeadingContainer = styled.div`
   display: flex;

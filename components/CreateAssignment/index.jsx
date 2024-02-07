@@ -31,7 +31,7 @@ import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
 import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
@@ -100,9 +100,12 @@ export default function CreateAssignment(props) {
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
-
+  const mobileView = isMobileView();
   const [reviewedByList, setReviewedByList] = React.useState([]);
   const [dragFromHere, setDragFromHere] = React.useState([]);
+  const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
+    mobileView ? 'Select' : 'Select Marking Template'
+  );
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -143,7 +146,7 @@ export default function CreateAssignment(props) {
           classIds: assignmentResult.classIds ?? [],
         }));
         markingCriteriasResult.unshift({
-          title: 'Select Marking Template',
+          title: markingPlaceholder,
           id: 'no_marking_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),
@@ -715,51 +718,15 @@ export default function CreateAssignment(props) {
           confirmButtonAction={publish}
         />
       )}
-      <ReactiveRender
-        mobile={
-          <CreateAAssignmentMobile
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentMobileData,
-            }}
-          />
-        }
-        tablet={
-          <CreateAAssignmentTablet
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentTabletData,
-            }}
-          />
-        }
-        laptop={
-          <CreateAAssignmentLaptop
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentLaptopData,
-            }}
-          />
-        }
-        desktop={
-          <CreateAAssignmentLaptop
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentLaptopData,
-            }}
-          />
-        }
+
+      <CreateAAssignmentLaptop
+        {...{
+          ...methods,
+          assignment,
+          feedbacksMethodContainer,
+          dateSelectorFrame,
+          ...createAAssignmentLaptopData,
+        }}
       />
       {openFocusAreaDialog && (
         <FocusAreaDialog

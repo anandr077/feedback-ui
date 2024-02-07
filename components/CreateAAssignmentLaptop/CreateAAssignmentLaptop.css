@@ -1,9 +1,0 @@
-.create-a-assignment-laptop {
-  display: flex;
-  flex-direction: column;
-  align-items: center !important;
-  background-color: var(--white-pointer);
-  position: relative;
-  padding: 60px 0px;
-  min-width: 1025px;
-}

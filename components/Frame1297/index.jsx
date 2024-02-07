@@ -73,6 +73,7 @@ const createQuestionTypeSelector = (
       selectedIndex={selectedIndex}
       menuItems={menuItems}
       showImage={true}
+      width={200}
     />
   );
 };
@@ -119,6 +120,11 @@ const Frame12971 = styled.div`
   padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
+  @media (max-width: 765px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 `;
 
 const Frame1287 = styled.div`

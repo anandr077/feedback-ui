@@ -16,6 +16,7 @@ export default function StyledDropDown({
   selectedIndex,
   fullWidth = false,
   onItemSelected,
+  width=120,
 }) {
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
@@ -67,7 +68,7 @@ export default function StyledDropDown({
   return (
     <FormControl
       fullWidth={fullWidth}
-      sx={!fullWidth ? {  minWidth: 200 } : {}}
+      sx={!fullWidth ? { minWidth: width } : {}}
     >
       <Select
         style={{

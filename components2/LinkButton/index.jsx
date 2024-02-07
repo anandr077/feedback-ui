@@ -15,7 +15,7 @@ function LinkButton({
   whiteArrowright,
 }) {
   return (
-    <a href={link}>
+    <a href={link} style={{textDecoration:'none'}}>
       <ButtonContainer>
         {arrowleft ? <ButtonIcon src={arrowleft} /> : <></>}
         {whiteArrowleft ? <ButtonIconWhite src={whiteArrowleft} /> : <></>}

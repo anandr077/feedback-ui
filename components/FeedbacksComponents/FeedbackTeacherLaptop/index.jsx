@@ -30,6 +30,8 @@ import {
   GoBackBtn,
   ImgContainer,
   CountZoomContainer,
+  ZoomContianer,
+  ZoomInput
 } from './style';
 import {
   isMobileView,
@@ -329,15 +331,17 @@ function FeedbackTeacherLaptop(props) {
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
           <div>{countWords} {countWords === 1 ? 'word' : 'words'}</div>
-          <div>
-            <input 
+          <ZoomContianer>
+            Zoom
+            <ZoomInput 
               name="zoom"
               type="range"
-              min="100"
-              max="300"
+              min="50"
+              max="150"
               onChange={(e)=> setEditorFontSize(e.target.value)}
             />
-          </div>
+            100%
+          </ZoomContianer>
         </CountZoomContainer>
       </PageContainer>
 

@@ -341,7 +341,7 @@ function FeedbackTeacherLaptop(props) {
               value={editorFontSize}
               onChange={(e)=> setEditorFontSize(e.target.value)}
             />
-            100%
+            {editorFontSize}%
           </ZoomContianer>
         </CountZoomContainer>
       </PageContainer>

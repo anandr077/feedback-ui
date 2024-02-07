@@ -1,26 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IbmplexsansBoldShark64px } from '../../styledMixins';
-import Footer from '../Footer';
-import Header from '../Header';
 import TaskCardContainer from '../TaskCardContainer';
 import TaskFrame1353 from '../TaskFrame1353';
 import './TasksDesktop.css';
-import { taskHeaderProps } from '../../utils/headerProps.js';
-import CheckboxGroup from '../CheckboxGroup';
-import Group1205 from '../TeacherDashboard/Group1205';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
-import questionMark from '../../static/img/question-mark.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
 import {
   SubtitleCon,
   TitleAndFilterContainer,
   TitleAndSubtitleContainer,
-  TitleImage,
 } from './style.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 function TasksDesktop(props) {
   const {
@@ -45,7 +38,7 @@ function TasksDesktop(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <TitleImage src={questionMark} />
+                <QuestionTooltip text="View all of your current tasks from school"/>
               </Title>
               <LinkAndFilter>
                 <LinkButton

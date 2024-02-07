@@ -21,6 +21,7 @@ import whiteArrowright from '../../../static/img/arrowright-White.svg';
 import questionMark from '../../../static/img/question-mark.svg';
 import share from '../../../static/img/share.svg';
 import shareColor from '../../../static/img/share-color.svg';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
 
 function TeacherTasksDesktop(props) {
   const {
@@ -44,7 +45,7 @@ function TeacherTasksDesktop(props) {
             <TitleContainer>
               <Title>
                 Tasks
-                <TitleImage src={questionMark} />
+                <QuestionTooltip text={'View the status of every task that you have assigned for your classes'} />
               </Title>
               <ButtonContainer>
                 {' '}

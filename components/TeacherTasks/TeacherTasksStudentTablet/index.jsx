@@ -20,6 +20,7 @@ import {
   SubtitleCon,
   TitleImage,
 } from '../../TasksStudentTablet/style.js';
+import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 
 function TeacherTasksStudentTablet(props) {
   const {
@@ -62,7 +63,7 @@ function TeacherTasksStudentTablet(props) {
             <TitleContainer>
               <Title>
                 Tasks
-                <TitleImage src={questionMark} />
+                <QuestionTooltip text={'View the status of every task that you have assigned for your classes'} />
               </Title>
               <ButtonContainer>
                 <Buttons link="#tasks/new" />{' '}

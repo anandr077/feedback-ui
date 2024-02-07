@@ -27,6 +27,7 @@ import {
   TitleContainer,
   TitleImage,
 } from './style.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 function TasksStudentTablet(props) {
   const {
@@ -72,7 +73,7 @@ function TasksStudentTablet(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <TitleImage src={questionMark} />
+                <QuestionTooltip text="View all of your current tasks from school"/>
               </Title>
               <LinkAndFilter>
                 <LinkButton

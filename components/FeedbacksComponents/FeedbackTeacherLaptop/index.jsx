@@ -154,7 +154,7 @@ function FeedbackTeacherLaptop(props) {
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [countWords, setCountWords] = useState(0);
-  const [editorFontSize, setEditorFontSize] = useState(null);
+  const [editorFontSize, setEditorFontSize] = useState(100);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -338,6 +338,7 @@ function FeedbackTeacherLaptop(props) {
               type="range"
               min="50"
               max="150"
+              value={editorFontSize}
               onChange={(e)=> setEditorFontSize(e.target.value)}
             />
             100%

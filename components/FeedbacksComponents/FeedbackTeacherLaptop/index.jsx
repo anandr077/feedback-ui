@@ -153,8 +153,6 @@ function FeedbackTeacherLaptop(props) {
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [countWords, setCountWords] = useState(0);
   const [editorFontSize, setEditorFontSize] = useState('hello');
-  const [editorHeight, setEditorHeight] = useState(0);
-
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -324,9 +322,7 @@ function FeedbackTeacherLaptop(props) {
               setShowStudentPopUp,
               setShowTeacherPopUp,
               setCountWords,
-              editorFontSize,
-              setEditorHeight,
-              editorHeight
+              editorFontSize
             )}
           </Frame1388>
           {/* </Main> */}
@@ -466,9 +462,7 @@ function answersAndFeedbacks(
   setShowStudentPopUp,
   setShowTeacherPopUp,
   setCountWords,
-  editorFontSize,
-  setEditorHeight,
-  editorHeight
+  editorFontSize
 ) {
   return (
     <Frame1386 id="content">
@@ -513,8 +507,7 @@ function answersAndFeedbacks(
           overallComments,
           methods,
           setCountWords,
-          editorFontSize,
-          setEditorHeight
+          editorFontSize
         )}
 
         {!isMobile && (
@@ -536,7 +529,6 @@ function answersAndFeedbacks(
             newCommentFrameRef={newCommentFrameRef}
             share={share}
             smartAnnotations={smartAnnotations}
-            editorHeight={editorHeight}
           ></FeedbackFrame>
         )}
       </Frame1368>

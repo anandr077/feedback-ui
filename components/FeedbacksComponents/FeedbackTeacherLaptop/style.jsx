@@ -427,7 +427,7 @@ export const Group1225 = styled.div`
   flex: 1;
   flex-direction: column;
   width: 880px;
-  min-height: 750px;
+  min-height: 650px;
 `;
 export const Frame1367 = styled.div`
   display: flex;
@@ -495,12 +495,13 @@ export const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
-  min-height: 750px;
+
   position: sticky;
   top: 10px;
 
   background-color: var(--white);
   border-radius: 16px;
+  height: 650px;
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
   &::-webkit-scrollbar {
@@ -999,28 +1000,3 @@ export const Frame1364ButtonText = styled.div`
   letter-spacing: 0em;
   text-align: center;
 `;
-
-export const EmptyFeedbackBox = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-  margin: auto;
-
-  img{
-    height: 48px;
-    width: 48px;
-  }
-
-  p{
-    font-family: var(--font-family-ibm_plex_sans);
-    color: #959595;
-    font-weight: 400;
-    font-size: var(--font-size-xl);
-    line-height: 26px;
-    text-align: center;
-  }
-`

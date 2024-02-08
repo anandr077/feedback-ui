@@ -73,7 +73,10 @@ function TasksStudentTablet(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <QuestionTooltip text="View all of your current tasks from school"/>
+                <QuestionTooltip 
+                  tooltipText="View all of your current tasks from school"
+                  tooltipIcon={questionMark}
+                />
               </Title>
               <LinkAndFilter>
                 <LinkButton

@@ -101,6 +101,7 @@ function CreateAAssignmentLaptop(props) {
 
   const smallScreenView = isSmallScreen();
   const mobileView = isMobileView();
+  console.log('first assignment', assignment);
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
@@ -318,7 +319,8 @@ function CreateAAssignmentLaptop(props) {
                   />
                   <StepText
                     style={{
-                      color: assignment.questions[0].question != '' && '#7200E0',
+                      color:
+                        assignment.questions[0].question != '' && '#7200E0',
                     }}
                   >
                     Set up the task
@@ -326,25 +328,23 @@ function CreateAAssignmentLaptop(props) {
                 </StepContainer>
                 <StepContainer>
                   <StepImag
-                    src={
-                      Object.keys(assignment.reviewers).length === 0
-                        ? tick
-                        : tickColor
-                    }
+                    src={assignment.reviewedBy.length === 0 ? tick : tickColor}
                   />
                   <StepText
                     style={{
-                      color:
-                        Object.keys(assignment.reviewers).length != 0 &&
-                        '#7200E0',
+                      color: assignment.reviewedBy.length != 0 && '#7200E0',
                     }}
                   >
                     Select the feedback method
                   </StepText>
                 </StepContainer>
                 <StepContainer>
-                  <StepImag src={tick} />
-                  <StepText>Select the due date</StepText>
+                  <StepImag src={assignment.dueAt === '' ? tick : tickColor} />
+                  <StepText
+                    style={{ color: assignment.dueAt != '' && '#7200E0' }}
+                  >
+                    Select the due date
+                  </StepText>
                 </StepContainer>
               </StepsContainer>
             </StepsPart>

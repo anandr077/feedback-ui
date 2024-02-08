@@ -179,16 +179,16 @@ export const Frame1375 = styled.div`
   position: relative;
   align-self: stretch;
   width: 80%;
-  height: 90vh;
-  overflow: scroll;
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
+  // height: 90vh;
+  // overflow: scroll;
+  // &::-webkit-scrollbar {
+  //   width: 0;
+  //   display: none;
+  // }
 
   @media (max-width: 1024px) {
     width: 100%;
-    height: 100%;
+    // height: 100%;
   }
 `;
 
@@ -461,10 +461,11 @@ export const TaskTitle = styled.div`
 `;
 
 export const StepsPart = styled.div`
+  position:sticky;
+  top: 75px;
   display: flex;
   flex-direction: column;
   width: 20%;
-  gap: 20px;
   padding: 0px 0px 30px 0px;
   border-radius: 12px;
   gap: 20px;

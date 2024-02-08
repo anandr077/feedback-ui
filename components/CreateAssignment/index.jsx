@@ -27,8 +27,6 @@ import _ from 'lodash';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
 import CreateAAssignmentLaptop from '../CreateAAssignmentLaptop';
-import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
-import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
 import ReactiveRender, { isMobileView } from '../ReactiveRender';
@@ -71,10 +69,10 @@ export default function CreateAssignment(props) {
     title: '',
     classIds: [],
     questions: [newQuestion(1)],
-    reviewedBy: 'TEACHER',
+    reviewedBy: '',
     status: 'DRAFT',
     reviewers: {},
-    dueAt: dayjs().add(3, 'day'),
+    dueAt: '',
   };
   const [assignment, setAssignment] = React.useState(draft);
 

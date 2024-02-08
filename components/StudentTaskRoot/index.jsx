@@ -126,15 +126,17 @@ export default function StudentTaskRoot() {
 
     return sortedTasks;
   };
-  const assignmedTasks = filteredData(filteredTasks).filter(
-    (task) => task.progressStatus === 'ASSIGNED'
-  );
-  const inProgressTasks = filteredData(filteredTasks).filter(
-    (task) => task.progressStatus === 'DRAFT'
-  );
-  const inReviewTasks = filteredData(filteredTasks).filter(
-    (task) => task.progressStatus === 'REVIEW'
-  );
+
+  const classNames = [...new Set(filteredTasks.map((task) => task.classTitle))];
+
+  const filterTasksByProgressAndClass = (tasks, progressStatus) => 
+     filteredData(tasks)
+    .filter((task) => task.progressStatus === progressStatus)
+    .filter((task) => !selectedClass || task.classTitle === selectedClass)
+
+  const assignmedTasks = filterTasksByProgressAndClass(filteredTasks, 'ASSIGNED');
+  const inProgressTasks = filterTasksByProgressAndClass(filteredTasks, 'DRAFT');
+  const inReviewTasks = filterTasksByProgressAndClass(filteredTasks, 'REVIEW');
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -204,7 +206,7 @@ export default function StudentTaskRoot() {
                   search={false}
                   type={'classes'}
                   selectedIndex={setSelectedValue}
-                  menuItems={['class1', 'class2', 'class3']}
+                  menuItems={classNames}
                   defaultValue={selectedClass}
                   width={110}
                 />
@@ -277,7 +279,7 @@ export default function StudentTaskRoot() {
                   search={false}
                   type={'classes'}
                   selectedIndex={setSelectedValue}
-                  menuItems={['class1', 'class2', 'class3']}
+                  menuItems={classNames}
                   defaultValue={selectedClass}
                   width={110}
                 />

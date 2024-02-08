@@ -8,7 +8,6 @@ function Frame14103(props) {
 
 
   const frames = Object.keys(groups).map((key) => {
-    console.log('the key is', key);
     const group = groups[key];
     const tasksFrames = group.filter((task) => task.status === 'PUBLISHED').map((task) => {
       return (

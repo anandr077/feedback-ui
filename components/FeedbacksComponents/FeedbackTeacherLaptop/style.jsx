@@ -235,10 +235,10 @@ export const CountZoomContainer = styled.div`
   font-size: var(--font-size-l);
   line-height: 24px;
   color: #000000;
-  transition: transform 0.3s ease-in;
+  transition: transform 0.3s ease-in, width 0.3s ease-in;
   background-color: var(--white);
   padding: 12px 30px;
-  width: 99vw;
+  width: ${(props) => props.open ? `calc(100vw - 310px)` : '100vw'};
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
 `;
 

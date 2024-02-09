@@ -27,7 +27,6 @@ function ReviewsFrame132532(props) {
     sharedWithStudents,
     isReply = false,
   } = props;
-  console.log('the reviewer is', comment);
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
   ) : (

@@ -696,7 +696,7 @@ export const Label16pxSmall = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 
   div{
     display: flex;
@@ -704,10 +704,10 @@ export const Label16pxSmall = styled.div`
 
     span{
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background-color: var(--text);
+    background-color: var(--light-mode-purple);
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
 

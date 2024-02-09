@@ -6,6 +6,7 @@ import './TasksDesktop.css';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import questionMark from '../../static/img/question-mark.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
 import {
@@ -38,7 +39,10 @@ function TasksDesktop(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <QuestionTooltip text="View all of your current tasks from school"/>
+                <QuestionTooltip 
+                  text="View all of your current tasks from school"
+                  img={questionMark}
+                />
               </Title>
               <LinkAndFilter>
                 <LinkButton

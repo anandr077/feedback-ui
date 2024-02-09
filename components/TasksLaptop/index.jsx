@@ -45,7 +45,10 @@ function TasksLaptop(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <QuestionTooltip text="View all of your current tasks from school"/>
+                <QuestionTooltip 
+                  text="View all of your current tasks from school"
+                  img={questionMark}
+                />
               </Title>
               <LinkAndFilter>
                 <LinkButton

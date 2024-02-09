@@ -45,7 +45,10 @@ function TeacherTasksDesktop(props) {
             <TitleContainer>
               <Title>
                 Tasks
-                <QuestionTooltip text={'View the status of every task that you have assigned for your classes'} />
+                <QuestionTooltip 
+                  text={'View the status of every task that you have assigned for your classes'} 
+                  img={questionMark}
+                />
               </Title>
               <ButtonContainer>
                 {' '}

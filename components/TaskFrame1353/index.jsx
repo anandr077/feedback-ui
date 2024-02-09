@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IbmplexsansSemiBoldRiverBed24px } from '../../styledMixins';
-import questionMark from '../../static/img/question-mark.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import { getUserRole } from '../../userLocalDetails';
 
@@ -50,7 +49,7 @@ function TaskFrame1353(props) {
     >
       <Outstanding>
         {outstanding}
-        <QuestionTooltip tooltipText={tooltipText()} tooltipIcon={questionMark}/>
+        <QuestionTooltip text={tooltipText()} />
       </Outstanding>
       <Number>{number}</Number>
     </Frame13531>

@@ -63,9 +63,6 @@ export default function CompletedPage() {
       if (result) {
         setTasks(result);
         setFilteredTasks(result);
-        console.log('first', result);
-        console.log('first arr', arrayFromArrayOfObject(result, 'classTitle'));
-
         setIsLoading(false);
       }
     });

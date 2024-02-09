@@ -16,7 +16,6 @@ const QuillEditor = React.forwardRef(
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
-
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
         quillInstance.root.style.fontSize = '18px';
         quillInstance.root.style.lineHeight = '32px';
@@ -29,6 +28,14 @@ const QuillEditor = React.forwardRef(
         const initialWordCount = initialText.trim().length > 0 ? initialText.trim().split(/\s+/).length : 0;
         setCountWords(initialWordCount);
       }
+
+      if (editor && editorFontSize !== null) {
+        const fontSizePercentage = editorFontSize * 0.01;
+        editor.root.style.fontSize = `${18 * fontSizePercentage}px`;
+        const calculatedLineHeight = editorFontSize * 0.25; 
+        editor.root.style.lineHeight = `${calculatedLineHeight}px`;
+      }
+      
       if (editor) {
         editor.on('text-change', () => {
           const text = editor.getText();
@@ -36,7 +43,7 @@ const QuillEditor = React.forwardRef(
           setCountWords(wordCount);
         });
       }
-    }, [editor, editorRef, options, value]);
+    }, [editor, editorRef, options, value, editorFontSize]);
 
     useEffect(() => {
       if (editor) {

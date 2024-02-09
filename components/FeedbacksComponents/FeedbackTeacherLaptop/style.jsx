@@ -225,6 +225,8 @@ export const Frame1388 = styled.div`
 export const CountZoomContainer = styled.div`
   position: fixed; 
   bottom: 0px;
+  display: flex;
+  justify-content: space-between;
   transform: ${(props) =>
     props.open ? 'translateX(310px)' : 'translateX(0px)'};
   display: ${props => props.mobileView ? 'none' : ''};
@@ -233,21 +235,61 @@ export const CountZoomContainer = styled.div`
   font-size: var(--font-size-l);
   line-height: 24px;
   color: #000000;
-  transition: transform 0.3s ease-in;
+  transition: transform 0.3s ease-in, width 0.3s ease-in;
   background-color: var(--white);
   padding: 12px 30px;
-  width: 99vw;
+  width: ${(props) => props.open ? `calc(100vw - 310px)` : '100vw'};
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
+`;
+
+export const ZoomContianer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #000000;
+`;
+
+export const ZoomInput = styled.input`
+  -webkit-appearance: none;
+  -moz-apperance: none;
+  appearance: none;
+  width: 183px;
+  height: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: transparent;
+
+  &::-webkit-slider-runnable-track {
+    background-color: #8F8F8F;
+    border-radius: 5px;
+    height: 1px;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--light-mode-purple);
+    cursor: pointer;
+    margin-top: -10px; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const DrawerArrowContainer = styled.div`
   width: ${(props) => (props.isOpen ? '300' : '200')};
   /* width: 300px;  */
   height: 100vh;
-  overflow-x: hidden; // Hide content when sidebar is collapsed
-  transition: width 0.3s; // Smooth transition for collapsing and expanding
-  background-color: #f0f0f0; // Example background color
-  position: fixed; // Needed for sticky positioning context
+  overflow-x: hidden;
+  transition: width 0.3s; 
+  background-color: #f0f0f0; 
+  position: fixed; 
   align-self: stretch;
   top: 70px;
   overflow-y: scroll;
@@ -318,7 +360,6 @@ export const Frame1386 = styled.div`
   /* gap: 40px;
   padding-top: 30px; */
 
-  position: relative;
   align-self: stretch;
   width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
   max-width: 1321px;
@@ -418,8 +459,18 @@ export const Frame1368 = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 32px;
-  position: relative;
   align-self: stretch;
+  position: sticky;
+  top: 75px;
+  height: calc(100vh - 140px);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 export const Group1225 = styled.div`
   position: relative;
@@ -495,13 +546,12 @@ export const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
-
+  
   position: sticky;
-  top: 10px;
-
+  top: 0px;
   background-color: var(--white);
   border-radius: 16px;
-  height: 650px;
+  height: calc(100vh - 130px);
   overflow-y: scroll;
   box-shadow: 0px 4px 22px #2f1a720a;
   &::-webkit-scrollbar {
@@ -654,7 +704,7 @@ export const Label16pxSmall = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 
   div{
     display: flex;
@@ -662,10 +712,10 @@ export const Label16pxSmall = styled.div`
 
     span{
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background-color: var(--text);
+    background-color: var(--light-mode-purple);
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
 
@@ -825,7 +875,6 @@ export const SubjectSelectionContainer = styled.div`
   display: flex;
   justify-content: start;
   gap: 30px;
-  margin-top: 40px;
 `;
 
 export const SubjectSelectBox = styled.div`

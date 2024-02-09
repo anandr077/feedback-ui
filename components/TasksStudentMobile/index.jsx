@@ -24,7 +24,8 @@ import whiteArrowright from '../../static/img/arrowright-White.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
 import questionMark from '../../static/img/question-mark.svg';
-import { Title, TitleAndFilterContainer, TitleAndSubtitleContainer, TitleContainer, TitleImage } from './style.js';
+import { Title, TitleAndFilterContainer, TitleAndSubtitleContainer, TitleContainer } from './style.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 function TasksStudentMobile(props) {
   const {
@@ -69,7 +70,10 @@ function TasksStudentMobile(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <TitleImage src={questionMark} />
+                <QuestionTooltip 
+                  text="View all of your current tasks from school"
+                  img={questionMark}
+                />
               </Title>
               <LinkAndFilter>
                 <LinkButton
@@ -104,6 +108,17 @@ function TasksStudentMobile(props) {
     isInProgress,
     isOverdue
   ) {
+    const tooltipText = () =>{
+      if(title === "Assigned"){
+        return "New tasks that you haven't opened yet"
+      }
+      if(title === "In Draft"){
+        return "Tasks that you have started but not yet submitted"
+      }
+      if(title === "In Review"){
+        return "Completed tasks that are either awaiting feedback or pending your review"
+      }
+    }
     return (
       <>
         <Frame1364>
@@ -144,7 +159,13 @@ function TasksStudentMobile(props) {
           </Frame1211>
           <Frame1364>
             <Frame1362>
-              <SectionTitle>{title}</SectionTitle>
+              <SectionTitle>
+                {title}
+                <QuestionTooltip 
+                  text={tooltipText()}
+                  img={questionMark}
+                />
+              </SectionTitle>
               <Number>{tasks.length}</Number>
             </Frame1362>
             <TaskCardContainer allTasks={tasks} />
@@ -247,6 +268,8 @@ const SectionTitle = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  gap: 8px;
 `;
 
 const Number = styled.div`

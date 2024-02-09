@@ -21,6 +21,7 @@ import {
   TitleAndSubtitleContainer,
   TitleImage,
 } from './style.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 function TasksLaptop(props) {
   const {
     menuItems,
@@ -44,7 +45,10 @@ function TasksLaptop(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <TitleImage src={questionMark} />
+                <QuestionTooltip 
+                  text="View all of your current tasks from school"
+                  img={questionMark}
+                />
               </Title>
               <LinkAndFilter>
                 <LinkButton

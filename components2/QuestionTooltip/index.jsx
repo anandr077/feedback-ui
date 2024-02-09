@@ -1,20 +1,35 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
     TitleImage,
     TooltipContainer,
+    TooltipText
 } from './style'
-import { IconButton, Tooltip } from '@mui/material';
+import questionMark from '../../static/img/question-mark.svg';
 
-const QuestionTooltip = ({tooltipText, tooltipIcon}) => {
+const QuestionTooltip = ({text}) => {
+  const tooltipRef = useRef(null);
+  const [isSticky, setIsSticky] = useState(false);
 
+  const handleScroll = () => {
+    if (tooltipRef.current) {
+      const tooltipTop = tooltipRef.current.getBoundingClientRect().top;
+      setIsSticky(tooltipTop <= 80);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <TooltipContainer>
-        <Tooltip title={tooltipText} placement='top' arrow>
-           <IconButton>
-           <TitleImage src={tooltipIcon} />
-           </IconButton>
-        </Tooltip>
+        <TitleImage src={questionMark} />
+        <TooltipText isSticky={isSticky} ref={tooltipRef}>
+            {text}
+        </TooltipText>
     </TooltipContainer>
   )
 }

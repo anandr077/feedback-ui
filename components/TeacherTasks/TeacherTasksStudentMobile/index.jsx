@@ -17,6 +17,7 @@ import {
   TitleImage,
 } from '../../TasksStudentMobile/style.js';
 import questionMark from '../../../static/img/question-mark.svg';
+import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 
 function TeacherTasksStudentMobile(props) {
   const {
@@ -59,7 +60,10 @@ function TeacherTasksStudentMobile(props) {
             <TitleContainer>
               <Title>
                 Tasks
-                <TitleImage src={questionMark} />
+                <QuestionTooltip
+                  text={'View the status of every task that you have assigned for your classes'} 
+                  img={questionMark}
+                />
               </Title>
               <Buttons link="#tasks/new" />
             </TitleContainer>
@@ -81,6 +85,17 @@ function TeacherTasksStudentMobile(props) {
     isInProgress,
     isOverdue
   ) {
+    const tooltipText = () =>{
+      if(title === "Drafts"){
+        return "Tasks that you have started to create but have not yet assigned to a class"
+      }
+      if(title === "Active"){
+        return "Tasks that are currently being completed by students and/or that await your feedback"
+      }
+      if(title === "Closed"){
+        return "Previous tasks that are no longer accepting submissions or feedback"
+      }
+    }
     return (
       <>
         <Frame1364>
@@ -115,7 +130,13 @@ function TeacherTasksStudentMobile(props) {
           </Frame1211>
           <Frame1364>
             <Frame1362>
-              <SectionTitle>{title}</SectionTitle>
+              <SectionTitle>
+                {title}
+                <QuestionTooltip 
+                  text={tooltipText()} 
+                  img={questionMark}
+                />
+              </SectionTitle>
               <Number>{tasks.length}</Number>
             </Frame1362>
             <TaskCardContainer
@@ -196,6 +217,8 @@ const SectionTitle = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  gap: 8px;
 `;
 
 const Number = styled.div`

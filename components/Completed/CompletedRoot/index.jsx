@@ -12,18 +12,10 @@ import {
   ConnectContainer,
   TopContainer,
   HeadingLine,
-  SortButton,
-  SortButtonText,
-  SortContainer,
-  SortHeading,
-  SortImg,
-  SortText,
   TitleContainer,
   Title,
   TitleImage,
-  FilterContainer,
 } from '../../CompletedPage/style';
-import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 import { denyModelResponse, publishModelResponse } from '../../../service.js';
 import FilterSort from '../../FilterSort/index.jsx';
 import { isMobileView } from '../../ReactiveRender';
@@ -45,7 +37,7 @@ export default function CompletedRoot(props) {
   const [selectedClass, setSelectedClass] = React.useState('');
   const mobileView = isMobileView();
 
-  function filterAndSortData(obj, targetClassTitle) {
+  function filterAndSortData(obj, targetClassTitle, sortData) {
     const dataArray = Object.entries(obj);
     const sortedArray = dataArray.sort((a, b) => {
       const dateA = new Date(a[0]);
@@ -110,50 +102,6 @@ export default function CompletedRoot(props) {
           />
         )
       }
-      {/* <FilterAndSortContainer>
-        <FilterContainer>
-          <Filter>
-            <FilterImg src={FilterSquare} />
-            <FilterText>Filters:</FilterText>
-          </Filter>
-          <>
-            <RoundedDropDown
-              search={false}
-              type={'classes'}
-              selectedIndex={setSelectedValue}
-              menuItems={classes}
-              defaultValue={selectedClass}
-              width={110}
-            />
-          </>
-        </FilterContainer>
-        <FilterLine />
-        <SortContainer>
-          <SortHeading>
-            <SortImg src={SortSquare} />
-            <SortText>Sort by:</SortText>
-          </SortHeading>
-
-          <>
-            <SortButton
-              style={{ backgroundColor: sortData ? '#51009F' : '' }}
-              onClick={() => setSortData(true)}
-            >
-              <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                New to Old
-              </SortButtonText>
-            </SortButton>
-            <SortButton
-              style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-              onClick={() => setSortData(false)}
-            >
-              <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                Old to New
-              </SortButtonText>
-            </SortButton>
-          </>
-        </SortContainer>
-      </FilterAndSortContainer> */}
     </>
   );
 
@@ -165,7 +113,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
             headingPart,
@@ -182,7 +130,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
 
@@ -200,7 +148,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
 
@@ -218,7 +166,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
             headingPart,

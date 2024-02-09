@@ -63,7 +63,10 @@ function TeacherTasksStudentTablet(props) {
             <TitleContainer>
               <Title>
                 Tasks
-                <QuestionTooltip text={'View the status of every task that you have assigned for your classes'} />
+                <QuestionTooltip 
+                  text={'View the status of every task that you have assigned for your classes'} 
+                  img={questionMark}
+                />
               </Title>
               <ButtonContainer>
                 <Buttons link="#tasks/new" />{' '}
@@ -87,6 +90,17 @@ function TeacherTasksStudentTablet(props) {
     isInProgress,
     isOverdue
   ) {
+    const tooltipText = () =>{
+      if(title === "Drafts"){
+        return "Tasks that you have started to create but have not yet assigned to a class"
+      }
+      if(title === "Active"){
+        return "Tasks that are currently being completed by students and/or that await your feedback"
+      }
+      if(title === "Closed"){
+        return "Previous tasks that are no longer accepting submissions or feedback"
+      }
+    }
     return (
       <>
         <Frame1364>
@@ -121,7 +135,13 @@ function TeacherTasksStudentTablet(props) {
           </Frame1211>
           <Frame1363>
             <Frame1362>
-              <Outstanding>{title}</Outstanding>
+              <Outstanding>
+                {title}
+                <QuestionTooltip 
+                  text={tooltipText()} 
+                  img={questionMark}
+                />
+              </Outstanding>
               <Number>{tasks.length}</Number>
             </Frame1362>
             <TaskCardContainer
@@ -202,9 +222,10 @@ const Frame1362 = styled.div`
 const Outstanding = styled.div`
   position: relative;
   flex: 1;
-  margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  gap: 8px;
 `;
 
 const Number = styled.div`

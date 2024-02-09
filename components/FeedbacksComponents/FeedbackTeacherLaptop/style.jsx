@@ -360,7 +360,6 @@ export const Frame1386 = styled.div`
   /* gap: 40px;
   padding-top: 30px; */
 
-  position: relative;
   align-self: stretch;
   width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
   max-width: 1321px;
@@ -460,8 +459,18 @@ export const Frame1368 = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 32px;
-  position: relative;
   align-self: stretch;
+  position: sticky;
+  top: 75px;
+  height: calc(100vh - 140px);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 export const Group1225 = styled.div`
   position: relative;
@@ -537,10 +546,9 @@ export const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
-
+  
   position: sticky;
-  top: 75px;
-
+  top: 0px;
   background-color: var(--white);
   border-radius: 16px;
   height: calc(100vh - 130px);

@@ -8,6 +8,8 @@ import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
+import questionMark from '../../static/img/question-mark.svg';
+import QuestionTooltip from '../../'
 import {
   SubtitleCon,
   TitleAndFilterContainer,
@@ -38,7 +40,10 @@ function TasksDesktop(props) {
             <TitleContainer>
               <Title>
                 My Tasks
-                <QuestionTooltip text="View all of your current tasks from school"/>
+                <QuestionTooltip 
+                  tooltipText="View all of your current tasks from school" 
+                  tooltipIcon={questionMark}
+                />
               </Title>
               <LinkAndFilter>
                 <LinkButton

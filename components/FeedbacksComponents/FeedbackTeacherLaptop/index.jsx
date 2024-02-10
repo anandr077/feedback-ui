@@ -49,6 +49,7 @@ import { getSubmissionById, createRequestFeddbackType } from '../../../service';
 import StyledDropDown from '../../../components2/StyledDropDown';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
+import { sub } from 'date-fns';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -244,40 +245,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          <>
-            <>
-              {isTeacher ? (
-                <TeacherSidebar open={open} submission={submission} />
-              ) : (
-                !isNullOrEmpty(submission.otherDrafts) && (
-                  <IndepentdentUserSidebar
-                    open={open}
-                    subjects={submission.otherDrafts?.map((d) => ({
-                      id: d.submissionId,
-                      title: d.title,
-                      subject: d.subject,
-                      lastseenAtTs: 1630330000,
-                    }))}
-                    setSelectedSubject={setSelectedSubject}
-                    selectedSubject={selectedSubject}
-                    groupedAndSortedData={groupedAndSortedData}
-                    currentSubmissionId={submission.id}
-                  />
-                )
-              )}
-            </>
-            {(isTeacher || submission.otherDrafts) && (
-              <DrawerArrow
-                onClick={handleDrawer}
-                drawerWidth={drawerWidth}
-                open={open}
-              >
-                <ImgContainer>
-                  <ArrowImg src="img/caret-5@2x.png" open={open} />
-                </ImgContainer>
-              </DrawerArrow>
-            )}
-          </>
+          {sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -357,6 +325,47 @@ function FeedbackTeacherLaptop(props) {
       <>{isMobile && <ResponsiveFooter />}</>
     </>
   );
+
+  function sidebar() {
+    if (isTeacher && isNullOrEmpty(submission.otherDrafts)) {
+      return <></>;
+    }
+    if (!isTeacher && submission.type !== 'DOCUMENT') {
+      return <></>;
+    }
+    return <><>
+      {isTeacher ? (
+        <TeacherSidebar open={open} submission={submission} />
+      ) : (
+        !isNullOrEmpty(submission.otherDrafts) && (
+          <IndepentdentUserSidebar
+            open={open}
+            subjects={submission.otherDrafts?.map((d) => ({
+              id: d.submissionId,
+              title: d.title,
+              subject: d.subject,
+              lastseenAtTs: 1630330000,
+            }))}
+            setSelectedSubject={setSelectedSubject}
+            selectedSubject={selectedSubject}
+            groupedAndSortedData={groupedAndSortedData}
+            currentSubmissionId={submission.id} />
+        )
+      )}
+    </>
+    {(isTeacher || submission.otherDrafts) && (
+              <DrawerArrow
+                onClick={handleDrawer}
+                drawerWidth={drawerWidth}
+                open={open}
+              >
+                <ImgContainer>
+                  <ArrowImg src="img/caret-5@2x.png" open={open} />
+                </ImgContainer>
+              </DrawerArrow>
+            )}
+    </>;
+  }
 }
 const selectTabComments = (
   showResolved,

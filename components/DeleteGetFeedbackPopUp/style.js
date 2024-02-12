@@ -19,6 +19,7 @@ export const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 20px;
+  padding-top: 30px !important;
   margin-bottom: 20px;
   margin-right: 40px;
 `;
@@ -71,7 +72,11 @@ export const DeleteButton = styled.div`
 `;
 
 export const TextContent = styled.div`
-  ${IbmplexsansSemiBoldShark24px}
+  color: var(--text);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+
   display: flex;
   width: 90%;
   flex-direction: column;
@@ -90,6 +95,7 @@ export const DeleteAssignmentPopupContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 600px;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);

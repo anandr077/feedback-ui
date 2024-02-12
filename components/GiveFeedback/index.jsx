@@ -45,6 +45,15 @@ import {
   Frame5086PopUpTitle,
   Frame5086PopUpBody,
   SortPopUpBody,
+  StartImg,
+  StartsPart,
+  StarsPart,
+  StarImg,
+  StarPart,
+  StartLevel,
+  StarsContainer,
+  ProgressContainer,
+  ProgressBardiv,
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
@@ -53,6 +62,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   getCommunityTasks,
   getGiveFeedbackCompletedTasks,
+  getStudentStats,
 } from '../../service';
 import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
@@ -67,8 +77,10 @@ import { Dialog } from '@mui/material';
 import Cookies from 'js-cookie';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
+import levelEmoji from '../../static/img/Level-emoji.svg';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RoundedDropDown from '../../components2/RoundedDropDown';
+import ProgressBarComponent from './ProgressBarComponent';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -81,7 +93,7 @@ function GiveFeedback() {
   const [communityTasks, setCommunityTasks] = React.useState([]);
   const [giveFeedbackCompletedTasks, setGiveFeedbackCompletedTasks] =
     React.useState([]);
-
+  const [studentStats, setStudentStats] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
   const mobileView = isMobileView();
   const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
@@ -165,6 +177,15 @@ function GiveFeedback() {
     staleTime: 3600000,
   });
 
+  const getStudentStatsQuery = useQuery({
+    queryKey: ['StudentStats'],
+    queryFn: async () => {
+      const result = await getStudentStats();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
   React.useEffect(() => {
     if (communityTasksQuery.data) {
       setCommunityTasks(communityTasksQuery.data);
@@ -172,7 +193,14 @@ function GiveFeedback() {
     if (giveFeedbackCompletedTasksQuery.data) {
       setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksQuery.data);
     }
-  }, [communityTasksQuery, giveFeedbackCompletedTasksQuery]);
+    if (getStudentStatsQuery.data) {
+      setStudentStats(getStudentStatsQuery.data);
+    }
+  }, [
+    communityTasksQuery,
+    giveFeedbackCompletedTasksQuery,
+    getStudentStatsQuery,
+  ]);
 
   let statesData = ['NSW', 'VIC', 'QLD', 'NT', 'SA', 'TAS', 'WA'];
   let yearsData = ['12', '11', '10', '9', '8', '7'];
@@ -186,7 +214,8 @@ function GiveFeedback() {
   ];
   if (
     communityTasksQuery.isLoading ||
-    giveFeedbackCompletedTasksQuery.isLoading
+    giveFeedbackCompletedTasksQuery.isLoading ||
+    getStudentStatsQuery.isLoading
   ) {
     return (
       <>
@@ -270,7 +299,7 @@ function GiveFeedback() {
             </Frame5086PopUp>
             <SortPopUpBody>
               <SortButton
-                style={{ backgroundColor: sortData ? '#51009F' : ''}}
+                style={{ backgroundColor: sortData ? '#51009F' : '' }}
                 onClick={() => setSortData(true)}
               >
                 <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
@@ -330,101 +359,108 @@ function GiveFeedback() {
               </HeadingLine>
             </TopContainer>
             {!mobileView && (
-            <FilterAndSortContainer>
-              <FilterContainer>
-                <Frame5086
-                  onClick={
-                    mobileView
-                      ? () => setShowFilterPopUp(!isShowFilterPopUp)
-                      : undefined
-                  }
-                >
-                  <Frame5086Img src={FilterSquare} />
-                  <Frame5086Text>Filters {!mobileView && ':'}</Frame5086Text>
-                </Frame5086>
+              <FilterAndSortContainer>
+                <FilterContainer>
+                  <Frame5086
+                    onClick={
+                      mobileView
+                        ? () => setShowFilterPopUp(!isShowFilterPopUp)
+                        : undefined
+                    }
+                  >
+                    <Frame5086Img src={FilterSquare} />
+                    <Frame5086Text>Filters {!mobileView && ':'}</Frame5086Text>
+                  </Frame5086>
 
-                {!mobileView ? (
-                  <>
-                    <RoundedDropDown
-                      search={false}
-                      type={'state'}
-                      selectedIndex={setSelectedValue}
-                      menuItems={statesData}
-                      width={90}
-                    />
-                    <RoundedDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={yearsData}
-                      type={'year'}
-                      width={90}
-                    />
-                    <RoundedDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={subjectData}
-                      type={'subject'}
-                      width={110}
-                    />
-                    <RoundedDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={taskTypeData}
-                      type={'documentType'}
-                      width={130}
-                    />
-                  </>
-                ) : (
-                  <></>
-                )}
-                <FilterPopContainer
-                  isShowFilterPopUp={isShowFilterPopUp}
-                  setShowFilterPopUp={setShowFilterPopUp}
-                />
-              </FilterContainer>
-              <SortContainer>
-                <Frame5086
-                  onClick={
-                    mobileView
-                      ? () => setShowSortPopUp(!isShowSortPopUp)
-                      : undefined
-                  }
-                >
-                  <Frame5086Img src={SortSquare} />
-                  <Frame5086Text>Sort by {!mobileView && ':'}</Frame5086Text>
-                </Frame5086>
-                {!mobileView ? (
-                  <>
-                    <SortButton
-                      style={{ backgroundColor: sortData ? '#51009F' : '', border: '1px solid #8E33E6', padding: '11.5px 20px' }}
-                      onClick={() => setSortData(true)}
-                    >
-                      <SortButtonText
-                        style={{ color: sortData ? '#FFFFFF' : '' }}
+                  {!mobileView ? (
+                    <>
+                      <RoundedDropDown
+                        search={false}
+                        type={'state'}
+                        selectedIndex={setSelectedValue}
+                        menuItems={statesData}
+                        width={90}
+                      />
+                      <RoundedDropDown
+                        search={false}
+                        selectedIndex={setSelectedValue}
+                        menuItems={yearsData}
+                        type={'year'}
+                        width={90}
+                      />
+                      <RoundedDropDown
+                        search={false}
+                        selectedIndex={setSelectedValue}
+                        menuItems={subjectData}
+                        type={'subject'}
+                        width={110}
+                      />
+                      <RoundedDropDown
+                        search={false}
+                        selectedIndex={setSelectedValue}
+                        menuItems={taskTypeData}
+                        type={'documentType'}
+                        width={130}
+                      />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <FilterPopContainer
+                    isShowFilterPopUp={isShowFilterPopUp}
+                    setShowFilterPopUp={setShowFilterPopUp}
+                  />
+                </FilterContainer>
+                <SortContainer>
+                  <Frame5086
+                    onClick={
+                      mobileView
+                        ? () => setShowSortPopUp(!isShowSortPopUp)
+                        : undefined
+                    }
+                  >
+                    <Frame5086Img src={SortSquare} />
+                    <Frame5086Text>Sort by {!mobileView && ':'}</Frame5086Text>
+                  </Frame5086>
+                  {!mobileView ? (
+                    <>
+                      <SortButton
+                        style={{
+                          backgroundColor: sortData ? '#51009F' : '',
+                          border: '1px solid #8E33E6',
+                          padding: '11.5px 20px',
+                        }}
+                        onClick={() => setSortData(true)}
                       >
-                        New to Old
-                      </SortButtonText>
-                    </SortButton>
-                    <SortButton
-                      style={{ backgroundColor: !sortData ? '#51009F' : '', border: '1px solid #a6a6a6'}}
-                      onClick={() => setSortData(false)}
-                    >
-                      <SortButtonText
-                        style={{ color: !sortData ? '#FFFFFF' : '' }}
+                        <SortButtonText
+                          style={{ color: sortData ? '#FFFFFF' : '' }}
+                        >
+                          New to Old
+                        </SortButtonText>
+                      </SortButton>
+                      <SortButton
+                        style={{
+                          backgroundColor: !sortData ? '#51009F' : '',
+                          border: '1px solid #a6a6a6',
+                        }}
+                        onClick={() => setSortData(false)}
                       >
-                        Old to New
-                      </SortButtonText>
-                    </SortButton>
-                  </>
-                ) : (
-                  <></>
-                )}
-                <SortPopContainer
-                  isShowSortPopUp={isShowSortPopUp}
-                  setShowSortPopUp={setShowSortPopUp}
-                />
-              </SortContainer>
-            </FilterAndSortContainer>
+                        <SortButtonText
+                          style={{ color: !sortData ? '#FFFFFF' : '' }}
+                        >
+                          Old to New
+                        </SortButtonText>
+                      </SortButton>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <SortPopContainer
+                    isShowSortPopUp={isShowSortPopUp}
+                    setShowSortPopUp={setShowSortPopUp}
+                  />
+                </SortContainer>
+              </FilterAndSortContainer>
             )}
           </HeadingAndFilterCon>
           <ContentContainer>
@@ -438,18 +474,20 @@ function GiveFeedback() {
                 pathName={pathName}
               />
             </LeftContentContainer>
-            {/* <RightContentContainer>
+            <RightContentContainer>
               <Frame5111>
                 <Frame1353>
-                  <Frame5087 src="/icons/levelIcon.png" />
+                  <Frame5087 src={levelEmoji} />
                   <Frame5088>
-                    <Frame5088Para>Level 1</Frame5088Para>
-                    <Frame5088Img src="/icons/question-mark.png" />
+                    <Frame5088Para>Level {studentStats.level}</Frame5088Para>
+                    <Frame5088Img src={questionMark} />
                   </Frame5088>
                 </Frame1353>
-                <Frame5111Para>20 documents reviewed</Frame5111Para>
+                <Frame5111Para>
+                  {studentStats.total} documents reviewed
+                </Frame5111Para>
                 <Frame5042>
-                  <Frame5042Para1>95%</Frame5042Para1>
+                  <Frame5042Para1>{studentStats.percentage}%</Frame5042Para1>
                   <Frame5042Para2>
                     of students found your feedback helpful
                   </Frame5042Para2>
@@ -457,12 +495,13 @@ function GiveFeedback() {
               </Frame5111>
               <Frame5114>
                 <Frame5112>
+                  <ProgressBarComponent levelNumber={studentStats.level} />
                   <Frame5112para>
                     Help 5 more students to level up!
                   </Frame5112para>
                 </Frame5112>
               </Frame5114>
-            </RightContentContainer> */}
+            </RightContentContainer>
           </ContentContainer>
         </InnerContainer>
       </MainContainer>

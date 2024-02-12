@@ -552,3 +552,51 @@ export const PopupContainer = styled.div`
   width: 260px;
   border-radius: 12px;
 `;
+
+export const StarImg = styled.img`
+  display: flex;
+`;
+export const StarsContainer = styled.div`
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const StarsPart = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+`;
+export const StarPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+export const StartLevel = styled.p`
+  margin-top: 10px;
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+export const ProgressContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 15px;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  overflow: hidden;
+`;
+export const ProgressBardiv = styled.div`
+  background-color: #7200e0;
+  transition: width 0.5s ease-in-out;
+  height: 100%;
+`;

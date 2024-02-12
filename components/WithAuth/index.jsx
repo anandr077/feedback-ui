@@ -13,6 +13,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { default as React, default as React, useEffect, useState } from 'react';
 import Loader from '../Loader';
+import { isNullOrEmpty } from '../../utils/arrays';
 
 const withAuth = (WrappedComponent) => {
   const history = useHistory();
@@ -53,9 +54,10 @@ function loginUsing(code) {
   exchangeCodeForToken(code)
     .then((result) => {
       setProfileCookies(result);
-      // history.push('')
       window.location.href = '/#/';
     })
-    .catch((e) => {});
+    .catch((e) => {
+      window.location.href = 'https://jeddle.com/jedd-ai/';
+    });
 }
 export default withAuth;

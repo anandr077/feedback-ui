@@ -21,7 +21,6 @@ export const ButtonsContainer = styled.div`
   gap: 20px;
   margin-bottom: 20px;
   margin-right: 40px;
-  padding-top: 30px;
 `;
 
 export const Arrowright = styled.img`

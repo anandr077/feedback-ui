@@ -29,12 +29,12 @@ export default function DeleteGetFeedbackPopup(props) {
         <DeleteTitle>Delete Document</DeleteTitle>
       </TitleContainer>
       <Line141 src="/img/line-14@2x.png" />
-      <TextContent>Are you sure you want to permanently delete ? </TextContent>
-      <ButtonsContainer>
+      <TextContent>Are you sure you want to permanently delete? </TextContent>
+      <ButtonsContainer style={{padding: '0px !important'}}>
         <CancelButton onClick={() => hidedeletePopup()}>Cancel</CancelButton>
         <DeleteButton onClick={onDelete}>
           <ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
-          Delete permanently
+          Delete
         </DeleteButton>
       </ButtonsContainer>
     </>

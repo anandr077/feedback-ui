@@ -41,7 +41,8 @@ function App() {
       const currentHash = window.location.hash.split('?')[0];
       const hideFooterRoutes = [
         '#/submissions/', 
-        '#/documents/'
+        '#/documents/',
+        '#/documentsReview/'
       ];
       const shouldShowFooter = !hideFooterRoutes.some(route => currentHash.startsWith(route));
       setShowFooter(shouldShowFooter);

@@ -69,6 +69,7 @@ import whiteArrowright from '../../static/img/arrowright-White.svg';
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RoundedDropDown from '../../components2/RoundedDropDown';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -270,7 +271,7 @@ function GiveFeedback() {
             </Frame5086PopUp>
             <SortPopUpBody>
               <SortButton
-                style={{ backgroundColor: sortData ? '#51009F' : ''}}
+                style={{ backgroundColor: sortData ? '#51009F' : '' }}
                 onClick={() => setSortData(true)}
               >
                 <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
@@ -303,7 +304,14 @@ function GiveFeedback() {
                   {pathName.includes('/feedbackHistory')
                     ? 'Feedback History'
                     : 'Give Feedback'}
-                  <TitleImage src={questionMark} />
+                  <QuestionTooltip
+                    text={
+                      pathName.includes('/feedbackHistory')
+                        ? 'This is a record of the feedback that you have provided to other students in the past' 
+                        : 'Help other students who have requested feedback from the community'
+                    }
+                    img={questionMark}
+                  />
                 </Title>
                 <ConnectContainer>
                   {pathName.includes('/feedbackHistory') ? (
@@ -330,101 +338,108 @@ function GiveFeedback() {
               </HeadingLine>
             </TopContainer>
             {!mobileView && (
-            <FilterAndSortContainer>
-              <FilterContainer>
-                <Frame5086
-                  onClick={
-                    mobileView
-                      ? () => setShowFilterPopUp(!isShowFilterPopUp)
-                      : undefined
-                  }
-                >
-                  <Frame5086Img src={FilterSquare} />
-                  <Frame5086Text>Filters {!mobileView && ':'}</Frame5086Text>
-                </Frame5086>
+              <FilterAndSortContainer>
+                <FilterContainer>
+                  <Frame5086
+                    onClick={
+                      mobileView
+                        ? () => setShowFilterPopUp(!isShowFilterPopUp)
+                        : undefined
+                    }
+                  >
+                    <Frame5086Img src={FilterSquare} />
+                    <Frame5086Text>Filters {!mobileView && ':'}</Frame5086Text>
+                  </Frame5086>
 
-                {!mobileView ? (
-                  <>
-                    <RoundedDropDown
-                      search={false}
-                      type={'state'}
-                      selectedIndex={setSelectedValue}
-                      menuItems={statesData}
-                      width={90}
-                    />
-                    <RoundedDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={yearsData}
-                      type={'year'}
-                      width={90}
-                    />
-                    <RoundedDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={subjectData}
-                      type={'subject'}
-                      width={110}
-                    />
-                    <RoundedDropDown
-                      search={false}
-                      selectedIndex={setSelectedValue}
-                      menuItems={taskTypeData}
-                      type={'documentType'}
-                      width={130}
-                    />
-                  </>
-                ) : (
-                  <></>
-                )}
-                <FilterPopContainer
-                  isShowFilterPopUp={isShowFilterPopUp}
-                  setShowFilterPopUp={setShowFilterPopUp}
-                />
-              </FilterContainer>
-              <SortContainer>
-                <Frame5086
-                  onClick={
-                    mobileView
-                      ? () => setShowSortPopUp(!isShowSortPopUp)
-                      : undefined
-                  }
-                >
-                  <Frame5086Img src={SortSquare} />
-                  <Frame5086Text>Sort by {!mobileView && ':'}</Frame5086Text>
-                </Frame5086>
-                {!mobileView ? (
-                  <>
-                    <SortButton
-                      style={{ backgroundColor: sortData ? '#51009F' : '', border: '1px solid #8E33E6', padding: '11.5px 20px' }}
-                      onClick={() => setSortData(true)}
-                    >
-                      <SortButtonText
-                        style={{ color: sortData ? '#FFFFFF' : '' }}
+                  {!mobileView ? (
+                    <>
+                      <RoundedDropDown
+                        search={false}
+                        type={'state'}
+                        selectedIndex={setSelectedValue}
+                        menuItems={statesData}
+                        width={90}
+                      />
+                      <RoundedDropDown
+                        search={false}
+                        selectedIndex={setSelectedValue}
+                        menuItems={yearsData}
+                        type={'year'}
+                        width={90}
+                      />
+                      <RoundedDropDown
+                        search={false}
+                        selectedIndex={setSelectedValue}
+                        menuItems={subjectData}
+                        type={'subject'}
+                        width={110}
+                      />
+                      <RoundedDropDown
+                        search={false}
+                        selectedIndex={setSelectedValue}
+                        menuItems={taskTypeData}
+                        type={'documentType'}
+                        width={130}
+                      />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <FilterPopContainer
+                    isShowFilterPopUp={isShowFilterPopUp}
+                    setShowFilterPopUp={setShowFilterPopUp}
+                  />
+                </FilterContainer>
+                <SortContainer>
+                  <Frame5086
+                    onClick={
+                      mobileView
+                        ? () => setShowSortPopUp(!isShowSortPopUp)
+                        : undefined
+                    }
+                  >
+                    <Frame5086Img src={SortSquare} />
+                    <Frame5086Text>Sort by {!mobileView && ':'}</Frame5086Text>
+                  </Frame5086>
+                  {!mobileView ? (
+                    <>
+                      <SortButton
+                        style={{
+                          backgroundColor: sortData ? '#51009F' : '',
+                          border: '1px solid #8E33E6',
+                          padding: '11.5px 20px',
+                        }}
+                        onClick={() => setSortData(true)}
                       >
-                        New to Old
-                      </SortButtonText>
-                    </SortButton>
-                    <SortButton
-                      style={{ backgroundColor: !sortData ? '#51009F' : '', border: '1px solid #a6a6a6'}}
-                      onClick={() => setSortData(false)}
-                    >
-                      <SortButtonText
-                        style={{ color: !sortData ? '#FFFFFF' : '' }}
+                        <SortButtonText
+                          style={{ color: sortData ? '#FFFFFF' : '' }}
+                        >
+                          New to Old
+                        </SortButtonText>
+                      </SortButton>
+                      <SortButton
+                        style={{
+                          backgroundColor: !sortData ? '#51009F' : '',
+                          border: '1px solid #a6a6a6',
+                        }}
+                        onClick={() => setSortData(false)}
                       >
-                        Old to New
-                      </SortButtonText>
-                    </SortButton>
-                  </>
-                ) : (
-                  <></>
-                )}
-                <SortPopContainer
-                  isShowSortPopUp={isShowSortPopUp}
-                  setShowSortPopUp={setShowSortPopUp}
-                />
-              </SortContainer>
-            </FilterAndSortContainer>
+                        <SortButtonText
+                          style={{ color: !sortData ? '#FFFFFF' : '' }}
+                        >
+                          Old to New
+                        </SortButtonText>
+                      </SortButton>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <SortPopContainer
+                    isShowSortPopUp={isShowSortPopUp}
+                    setShowSortPopUp={setShowSortPopUp}
+                  />
+                </SortContainer>
+              </FilterAndSortContainer>
             )}
           </HeadingAndFilterCon>
           <ContentContainer>
@@ -438,31 +453,6 @@ function GiveFeedback() {
                 pathName={pathName}
               />
             </LeftContentContainer>
-            {/* <RightContentContainer>
-              <Frame5111>
-                <Frame1353>
-                  <Frame5087 src="/icons/levelIcon.png" />
-                  <Frame5088>
-                    <Frame5088Para>Level 1</Frame5088Para>
-                    <Frame5088Img src="/icons/question-mark.png" />
-                  </Frame5088>
-                </Frame1353>
-                <Frame5111Para>20 documents reviewed</Frame5111Para>
-                <Frame5042>
-                  <Frame5042Para1>95%</Frame5042Para1>
-                  <Frame5042Para2>
-                    of students found your feedback helpful
-                  </Frame5042Para2>
-                </Frame5042>
-              </Frame5111>
-              <Frame5114>
-                <Frame5112>
-                  <Frame5112para>
-                    Help 5 more students to level up!
-                  </Frame5112para>
-                </Frame5112>
-              </Frame5114>
-            </RightContentContainer> */}
           </ContentContainer>
         </InnerContainer>
       </MainContainer>

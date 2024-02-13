@@ -45,6 +45,15 @@ import {
   Frame5086PopUpTitle,
   Frame5086PopUpBody,
   SortPopUpBody,
+  StartImg,
+  StartsPart,
+  StarsPart,
+  StarImg,
+  StarPart,
+  StartLevel,
+  StarsContainer,
+  ProgressContainer,
+  ProgressBardiv,
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
@@ -53,6 +62,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   getCommunityTasks,
   getGiveFeedbackCompletedTasks,
+  getStudentStats,
 } from '../../service';
 import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
@@ -67,8 +77,10 @@ import { Dialog } from '@mui/material';
 import Cookies from 'js-cookie';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
+import levelEmoji from '../../static/img/Level-emoji.svg';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RoundedDropDown from '../../components2/RoundedDropDown';
+import ProgressBarComponent from './ProgressBarComponent';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 
 function GiveFeedback() {
@@ -82,7 +94,7 @@ function GiveFeedback() {
   const [communityTasks, setCommunityTasks] = React.useState([]);
   const [giveFeedbackCompletedTasks, setGiveFeedbackCompletedTasks] =
     React.useState([]);
-
+  const [studentStats, setStudentStats] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
   const mobileView = isMobileView();
   const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
@@ -166,6 +178,15 @@ function GiveFeedback() {
     staleTime: 3600000,
   });
 
+  const getStudentStatsQuery = useQuery({
+    queryKey: ['StudentStats'],
+    queryFn: async () => {
+      const result = await getStudentStats();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
   React.useEffect(() => {
     if (communityTasksQuery.data) {
       setCommunityTasks(communityTasksQuery.data);
@@ -173,7 +194,14 @@ function GiveFeedback() {
     if (giveFeedbackCompletedTasksQuery.data) {
       setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksQuery.data);
     }
-  }, [communityTasksQuery, giveFeedbackCompletedTasksQuery]);
+    if (getStudentStatsQuery.data) {
+      setStudentStats(getStudentStatsQuery.data);
+    }
+  }, [
+    communityTasksQuery,
+    giveFeedbackCompletedTasksQuery,
+    getStudentStatsQuery,
+  ]);
 
   let statesData = ['NSW', 'VIC', 'QLD', 'NT', 'SA', 'TAS', 'WA'];
   let yearsData = ['12', '11', '10', '9', '8', '7'];
@@ -187,7 +215,8 @@ function GiveFeedback() {
   ];
   if (
     communityTasksQuery.isLoading ||
-    giveFeedbackCompletedTasksQuery.isLoading
+    giveFeedbackCompletedTasksQuery.isLoading ||
+    getStudentStatsQuery.isLoading
   ) {
     return (
       <>
@@ -307,7 +336,7 @@ function GiveFeedback() {
                   <QuestionTooltip
                     text={
                       pathName.includes('/feedbackHistory')
-                        ? 'This is a record of the feedback that you have provided to other students in the past' 
+                        ? 'This is a record of the feedback that you have provided to other students in the past'
                         : 'Help other students who have requested feedback from the community'
                     }
                     img={questionMark}
@@ -453,6 +482,34 @@ function GiveFeedback() {
                 pathName={pathName}
               />
             </LeftContentContainer>
+            <RightContentContainer>
+              <Frame5111>
+                <Frame1353>
+                  <Frame5087 src={levelEmoji} />
+                  <Frame5088>
+                    <Frame5088Para>Level {studentStats.level}</Frame5088Para>
+                    <Frame5088Img src={questionMark} />
+                  </Frame5088>
+                </Frame1353>
+                <Frame5111Para>
+                  {studentStats.total} documents reviewed
+                </Frame5111Para>
+                <Frame5042>
+                  <Frame5042Para1>{studentStats.percentage}%</Frame5042Para1>
+                  <Frame5042Para2>
+                    of students found your feedback helpful
+                  </Frame5042Para2>
+                </Frame5042>
+              </Frame5111>
+              <Frame5114>
+                <Frame5112>
+                  <ProgressBarComponent levelNumber={studentStats.level} />
+                  <Frame5112para>
+                    Help 5 more students to level up!
+                  </Frame5112para>
+                </Frame5112>
+              </Frame5114>
+            </RightContentContainer>
           </ContentContainer>
         </InnerContainer>
       </MainContainer>

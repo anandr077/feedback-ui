@@ -206,6 +206,7 @@ export const getProfile = async () => await getApi(baseUrl + '/users/profile');
 export const getTasks = async () => await getApi(baseUrl + '/tasks');
 export const getCommunityTasks = async () => await getApi(baseUrl + '/communityTasks');
 export const getGiveFeedbackCompletedTasks = async () => await getApi(baseUrl + '/feedbackHistory');
+export const getStudentStats = async () => await getApi(baseUrl + '/students/stats');
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + '/classes/all/details');
 export const getModelResponses = async () =>

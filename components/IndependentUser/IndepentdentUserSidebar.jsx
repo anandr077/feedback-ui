@@ -44,6 +44,7 @@ import editIcon from '../../static/img/edit.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
 import { deleteSubmissionById } from '../../service';
 import Loader from '../Loader';
+import DeleteGetFeedbackPopup from '../DeleteGetFeedbackPopUp';
 const drawerWidth = 315;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -80,10 +81,12 @@ function IndepentdentUserSidebar({
   const history = useHistory();
   const [showMenuMap, setShowMenuMap] = useState({});
   const [questionTitle, setQuestionTitle] = useState(subjects);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [deleteQuestionId, setDeleteQuestionId] = useState('');
 
-  useEffect(()=> {
-    setQuestionTitle(subjects)
-  }, [subjects])
+  useEffect(() => {
+    setQuestionTitle(subjects);
+  }, [subjects]);
 
   useEffect(() => {
     setSelectedQuestion(subjects[0]);
@@ -139,14 +142,16 @@ function IndepentdentUserSidebar({
     return questionTitle[nextIndex]?.id;
   };
 
-  const deleteFunction = (id) => {
-    deleteSubmissionById(id).then(() => {
-      if (id === currentSubmissionId) {
-        const nextId = getNextQuestionId(id);
+  const deleteFunction = () => {
+    console.log('first delete request');
+    setShowDeletePopup(false);
+    deleteSubmissionById(deleteQuestionId).then(() => {
+      if (deleteQuestionId === currentSubmissionId) {
+        const nextId = getNextQuestionId(deleteQuestionId);
         history.push(`/documents/${nextId}`);
       } else {
         const deletedTitle = questionTitle.filter(
-          (question) => question.id !== id
+          (question) => question.id !== deleteQuestionId
         );
         setQuestionTitle(deletedTitle);
       }
@@ -154,70 +159,80 @@ function IndepentdentUserSidebar({
   };
 
   return (
-    <SidebarContainer drawerWidth={drawerWidth} open={open}>
-      <DrawerHeader onClick={() => history.push('/docs')}>
-        + New Draft
-      </DrawerHeader>
-      <DividerContainer>
-        <Divider />
-      </DividerContainer>
-      <DrawerBody>
-        {!subjects ? (
-          <LoadingDiv>Loading...</LoadingDiv>
-        ) : (
-          <>
-            <DrawerInputBox>
-              <DrawerInput
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <SearchIcon src="img/vectorsearch.png" />
-            </DrawerInputBox>
-            <SubjectTitle>SUBJECTS</SubjectTitle>
-            <DrawerSubjects>
-              {Object.entries(groupedAndSortedData).map(
-                ([key, value], index) => {
-                  return (
-                    <DrawerSubject
-                      key={index}
-                      onClick={() => setSelectedSubject(key)}
-                      selected={selectedSubject === key}
-                    >
-                      {key} ({value.length})
-                    </DrawerSubject>
-                  );
-                }
-              )}
-            </DrawerSubjects>
-            <DrawerQuestions>
-              {questionTitle
-                ?.filter((question) => question.subject === selectedSubject)
-                .map((question, qIndex) => {
-                  const showMenu = showMenuMap[question.id] || false;
-                  return (
-                    question.title
-                      .toLowerCase()
-                      .includes(searchQuery.toLowerCase()) && (
-                      <DrawerQuestion
-                        key={qIndex}
-                        studentStyle={question.id === currentSubmissionId}
-                        onClick={() => {
-                          setSelectedQuestion(question);
-                          handleSubjectClick(question);
-                        }}
+    <>
+      {showDeletePopup && (
+        <DeleteGetFeedbackPopup
+          showDeletePopup={showDeletePopup}
+          hidedeletePopup={() => setShowDeletePopup(false)}
+          deleteFunction={deleteFunction}
+        />
+      )}
+      <SidebarContainer drawerWidth={drawerWidth} open={open}>
+        <DrawerHeader onClick={() => history.push('/docs')}>
+          + New Draft
+        </DrawerHeader>
+        <DividerContainer>
+          <Divider />
+        </DividerContainer>
+        <DrawerBody>
+          {!subjects ? (
+            <LoadingDiv>Loading...</LoadingDiv>
+          ) : (
+            <>
+              <DrawerInputBox>
+                <DrawerInput
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <SearchIcon src="img/vectorsearch.png" />
+              </DrawerInputBox>
+              <SubjectTitle>SUBJECTS</SubjectTitle>
+              <DrawerSubjects>
+                {Object.entries(groupedAndSortedData).map(
+                  ([key, value], index) => {
+                    return (
+                      <DrawerSubject
+                        key={index}
+                        onClick={() => setSelectedSubject(key)}
+                        selected={selectedSubject === key}
                       >
-                        <QuestionTitle>
-                          { question.title}
-                          <OverflowShadow
-                            blueBackground={question.id === currentSubmissionId}
-                          ></OverflowShadow>
-                        </QuestionTitle>
-                        <MenuItems
+                        {key} ({value.length})
+                      </DrawerSubject>
+                    );
+                  }
+                )}
+              </DrawerSubjects>
+              <DrawerQuestions>
+                {questionTitle
+                  ?.filter((question) => question.subject === selectedSubject)
+                  .map((question, qIndex) => {
+                    const showMenu = showMenuMap[question.id] || false;
+                    return (
+                      question.title
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) && (
+                        <DrawerQuestion
+                          key={qIndex}
                           studentStyle={question.id === currentSubmissionId}
+                          onClick={() => {
+                            setSelectedQuestion(question);
+                            handleSubjectClick(question);
+                          }}
                         >
-                          <LeftPart>
-                            {/* <EachMenuItem
+                          <QuestionTitle>
+                            {question.title}
+                            <OverflowShadow
+                              blueBackground={
+                                question.id === currentSubmissionId
+                              }
+                            ></OverflowShadow>
+                          </QuestionTitle>
+                          <MenuItems
+                            studentStyle={question.id === currentSubmissionId}
+                          >
+                            <LeftPart>
+                              {/* <EachMenuItem
                               onClick={() => {
                                 setSelectedQuestion(question);
                                 handleSubjectClick(question);
@@ -238,51 +253,59 @@ function IndepentdentUserSidebar({
                                 Open
                               </EachMenuItemText>
                             </EachMenuItem> */}
-                            <EachMenuItem
-                              onClick={(e) => {e.stopPropagation(); downloadFunction(question.id)}}
+                              <EachMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  downloadFunction(question.id);
+                                }}
+                              >
+                                <EachMenuItemImg
+                                  src={
+                                    question.id === currentSubmissionId
+                                      ? selectedDownload
+                                      : Download
+                                  }
+                                />
+                                <EachMenuItemText
+                                  purpleColor={
+                                    question.id === currentSubmissionId
+                                  }
+                                >
+                                  Download
+                                </EachMenuItemText>
+                              </EachMenuItem>
+                            </LeftPart>
+                            <RightPart
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setDeleteQuestionId(question.id);
+                                setShowDeletePopup(true);
+                              }}
                             >
                               <EachMenuItemImg
                                 src={
                                   question.id === currentSubmissionId
-                                    ? selectedDownload
-                                    : Download
+                                    ? deleteIcon
+                                    : deletered
                                 }
                               />
-                              <EachMenuItemText
-                                purpleColor={
-                                  question.id === currentSubmissionId
-                                }
-                              >
-                                Download
-                              </EachMenuItemText>
-                            </EachMenuItem>
-                          </LeftPart>
-                          <RightPart
-                            onClick={(e) => {e.stopPropagation(); deleteFunction(question.id)}}
-                          >
-                            <EachMenuItemImg
-                              src={
-                                question.id === currentSubmissionId
-                                  ? deleteIcon
-                                  : deletered
-                              }
-                            />
-                            {/* <EachMenuItemTextDel
+                              {/* <EachMenuItemTextDel
                               studentStyle={question.id === currentSubmissionId}
                             >
                               Delete
                             </EachMenuItemTextDel> */}
-                          </RightPart>
-                        </MenuItems>
-                      </DrawerQuestion>
-                    )
-                  );
-                })}
-            </DrawerQuestions>
-          </>
-        )}
-      </DrawerBody>
-    </SidebarContainer>
+                            </RightPart>
+                          </MenuItems>
+                        </DrawerQuestion>
+                      )
+                    );
+                  })}
+              </DrawerQuestions>
+            </>
+          )}
+        </DrawerBody>
+      </SidebarContainer>
+    </>
   );
 }
 

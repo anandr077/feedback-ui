@@ -19,6 +19,7 @@ import {
 import { denyModelResponse, publishModelResponse } from '../../../service.js';
 import FilterSort from '../../FilterSort/index.jsx';
 import { isMobileView } from '../../ReactiveRender';
+import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 
 export default function CompletedRoot(props) {
   const {
@@ -75,7 +76,7 @@ export default function CompletedRoot(props) {
         <TitleContainer>
           <Title>
             Shared Responses
-            <TitleImage src={questionMark} />
+            <QuestionTooltip img={questionMark} />
           </Title>
           <ConnectContainer>
             <LinkButton

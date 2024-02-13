@@ -81,6 +81,7 @@ import levelEmoji from '../../static/img/Level-emoji.svg';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RoundedDropDown from '../../components2/RoundedDropDown';
 import ProgressBarComponent from './ProgressBarComponent';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -332,7 +333,14 @@ function GiveFeedback() {
                   {pathName.includes('/feedbackHistory')
                     ? 'Feedback History'
                     : 'Give Feedback'}
-                  <TitleImage src={questionMark} />
+                  <QuestionTooltip
+                    text={
+                      pathName.includes('/feedbackHistory')
+                        ? 'This is a record of the feedback that you have provided to other students in the past'
+                        : 'Help other students who have requested feedback from the community'
+                    }
+                    img={questionMark}
+                  />
                 </Title>
                 <ConnectContainer>
                   {pathName.includes('/feedbackHistory') ? (

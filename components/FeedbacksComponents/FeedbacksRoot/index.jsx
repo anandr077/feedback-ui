@@ -73,6 +73,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 import { sub } from 'date-fns';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
+import isJeddAIUser from './JeddAi.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -1260,6 +1261,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         : 'PEER'
     );
   }
+
   function getStatusMessage(submission, viewer) {
     if (submission.status === 'DRAFT') {
       return (
@@ -1300,7 +1302,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         if (viewer === 'PEER') {
           reviewer = 'you';
         } else {
-          reviewer = 'your peer';
+          if(isJeddAIUser(submission.reviewerId)){
+            reviewer = 'JEDDAI'
+          }else{
+            reviewer = 'your peer';
+          }
         }
       }
       return (

@@ -105,10 +105,13 @@ function CardContent(props) {
         {createSubtitle(task.subTitle)}
         {createSubPara(task.subPara)}
         {!onAccept && date(small, task.date)}
-        <StatusContainer>
-          {createStatus(small, task.status1)}
-          {createStatus(small, task.status2)}
-        </StatusContainer>
+        {(task.status1 || task.status2) && (
+            <StatusContainer>
+              {createStatus(small, task.status1)}
+              {createStatus(small, task.status2)}
+            </StatusContainer>
+          )
+        }
         {createAcceptDecline()}
       </Content>
     </>

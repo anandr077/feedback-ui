@@ -95,7 +95,7 @@ function ReviewsFrame132532(props) {
   };
 
   const avatar =
-    comment.reviewerId === '26572' ? (
+    comment.reviewerId === '26614' || comment.reviewerId === '26572'? (
       <JeddaiIcon src="img/ai.svg" />
     ) : (
       <Avatar
@@ -146,12 +146,16 @@ function ReviewsFrame132532(props) {
   const shareIcon = <Ellipse7 src="/icons/share.png" />;
   const commenterFrame = createCommenterFrame();
   const reviewerFrame = createReviewerFrame();
+
   return (
     <Frame1325>
       <Frame1324>
         {commenterFrame}
         <Instructer onClick={() => onClick(comment)}>
-          {reviewerFrame}
+          {
+          reviewerFrame === "26614" || reviewerFrame === "26572"
+          ? "JEDDAI" : reviewerFrame
+          }
         </Instructer>
       </Frame1324>
       {resolveFrame}

@@ -35,7 +35,7 @@ export const Content = styled.div`
 
 export const StatusContainer = styled.div`
   width: 100%;
-  margin: 10px 0;
+  margin: 10px 0 0;
   display: flex;
   flex-direction: column;
   gap: 10px;

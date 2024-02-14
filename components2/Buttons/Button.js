@@ -8,7 +8,7 @@ const Button = () => {
         leftIcon={leftIcon}
         rightIcon={rightIcon}
         tex={text}
-        onClickFn={console.log('Rectangular Big Button')}
+        onClickFn={()=>{}}
       />
     </div>
   );

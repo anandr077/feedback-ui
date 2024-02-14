@@ -247,7 +247,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         submission?.feedbackOnFeedback === undefined)) {
         setPendingLocation(location);
         setFeedbackReviewPopup(true);
-        console.log("Blocking")
         return false;
       }
       
@@ -274,9 +273,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
       })
       setFeedbackReviewPopup(false);
-      console.log("Maybe Going to ", pendingLocation)
       if (pendingLocation !== undefined || pendingLocation !== null) {
-        console.log("Going to ", pendingLocation)
         history.replace(pendingLocation);
       }
     })
@@ -1108,14 +1105,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleCommentSelected(comment) {
-    console.log('the comment is', comment)
     if (comment.range && !editingComment) {
       const range = {
         index: comment.range.from,
         length: comment.range.to - comment.range.from,
       };
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
-      console.log('the quill is', quill)
       quill.selectRange(range);
       quill.focus();
       quill.scrollToHighlight(comment.id);

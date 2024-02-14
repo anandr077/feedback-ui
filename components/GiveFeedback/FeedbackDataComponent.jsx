@@ -36,49 +36,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
 import arrowRight from '../../static/img/arrowright.svg';
 import { requestedTime } from '../../utils/requestedTime';
+import SnackbarContext from '../SnackbarContext';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
+  const { showSnackbar } = React.useContext(SnackbarContext);
+
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
     mutationFn: acceptFeedbackRequest,
-    onMutate: async (submissionId) => {
-      await queryClient.cancelQueries({ queryKey: ['notifications'] });
-      const previousNotifications = queryClient.getQueryData(['notifications']);
-      const updatedNotifications = previousNotifications?.map((n) => {
-        if (n.submissionId === submissionId) {
-          return { ...n, type: 'URL' };
-        }
-        return n;
-      });
-      queryClient.setQueryData(
-        ['notifications'],
-        (old) => updatedNotifications
-      );
-
-      return { previousNotifications };
-    },
-
-    onError: (err, newTodo, context) => {
-      showSnackbar('' + err.message);
-
-      queryClient.setQueryData(
-        ['notifications'],
-        context.previousNotifications
-      );
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-      queryClient.refetchQueries({ queryKey: ['assignments'] });
-      queryClient.refetchQueries({ queryKey: ['tasks'] });
-      queryClient.refetchQueries({ queryKey: ['document-reviews'] });
-      queryClient.refetchQueries({ queryKey: ['communityTasks'] });
-      queryClient.refetchQueries({
-        queryKey: ['GiveFeedbackCompletedTasks'],
-      });
-    },
+    
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-      queryClient.refetchQueries({ queryKey: ['assignments'] }),
-        queryClient.refetchQueries({ queryKey: ['tasks'] }),
-        queryClient.refetchQueries({ queryKey: ['document-reviews'] });
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
       queryClient.refetchQueries({
         queryKey: ['GiveFeedbackCompletedTasks'],
@@ -89,30 +56,22 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
 
   const declineMutation = useMutation({
     mutationFn: declineFeedbackRequest,
-    onMutate: async (submissionId) => {
-      await queryClient.cancelQueries({ queryKey: ['notifications'] });
-      const previousNotifications = queryClient.getQueryData(['notifications']);
-      const updatedNotifications = previousNotifications.filter(
+  
+    onSuccess: (data, variables) => {
+      console.log('data', data);
+      console.log('variables', variables);
+      const submissionId = variables;
+      
+      const previousCommunityTasks = queryClient.getQueryData(['communityTasks']);
+      const updatedCommunityTasks = previousCommunityTasks.filter(
         (n) => n.submissionId !== submissionId
       );
-      queryClient.setQueryData(
-        ['notifications'],
-        (old) => updatedNotifications
-      );
-
-      return { previousNotifications };
+      queryClient.setQueryData(['communityTasks'], updatedCommunityTasks);
     },
-
-    onError: (err, newTodo, context) => {
-      queryClient.setQueryData(
-        ['notifications'],
-        context.previousNotifications
-      );
-    },
-
+  
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
+      showSnackbar('Feedback request dismissed');
     },
   });
   return (
@@ -156,7 +115,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
               ) : (
                 <StyledButton
                   URL={text.url}
-                  Text="Give Feedback"
+                  Text="View Feedback"
                   Icon={WhiteArrowRight}
                   onAccept={() => acceptMutation.mutate(text.id)}
                   ColoredIcon={arrowRight}

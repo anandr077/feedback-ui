@@ -442,9 +442,21 @@ export default function TeacherTaskRoot() {
     </>
   );
 
+  function classForCalender(classId){
+    if (!Array.isArray(classId)) {
+      return "";
+    }
+  
+    const filteredClasses = classes.filter(classItem => classId.includes(classItem.id));
+    const classTitles = filteredClasses.map((filteredClass) => filteredClass.title);
+    
+    return classTitles;
+  }
+
   const calenderEvents = filteredTasks.map((task) => ({
     link: task.link,
     title: task.title,
+    class: classForCalender(task.classIds),
     start: moment(task.dueAt).toDate(),
     end: moment(task.dueAt).toDate(),
   }));

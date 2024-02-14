@@ -105,7 +105,6 @@ export function contextBar(
   labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
-  console.log('pageMode is', pageMode)
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>

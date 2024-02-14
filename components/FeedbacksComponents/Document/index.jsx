@@ -82,7 +82,6 @@ function Document(props) {
 
   useEffect(() => {
     Promise.all([getPortfolioSubjects()]).then(([result]) => {
-      console.log('the studentSubject', result);
       setSubjectsList(result);
     });
   }, []);

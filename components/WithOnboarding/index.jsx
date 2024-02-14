@@ -6,7 +6,6 @@ import { getUserRole } from '../../userLocalDetails';
 const withOnboarding = (WrappedComponent) => {
   const defaultShowOnboarding =
    getUserRole() === 'STUDENT' && (Cookies.get('state') === undefined || Cookies.get('state') === null);
-  console.log("defaultShowOnboarding", defaultShowOnboarding)
   const [showOnboarding, setShowOnboarding] = useState(defaultShowOnboarding);
 
   const WithOnboarding = (props) => {
@@ -23,14 +22,8 @@ const withOnboarding = (WrappedComponent) => {
   };
 
   function onboardingPopup() {
-    // const onboardingShown = localStorage.getItem("onboardingShown")
-    // alert("onboardingShown " + onboardingShown + "WrappedComponent " + WrappedComponent)
-    // console.log("onboardingShown", onboardingShown)
     const show = getUserRole() === 'STUDENT' && (Cookies.get('state') === undefined || Cookies.get('state') === null);
 
-    // if (onboardingShown === "true") {
-    //   return <></>;
-    // }
     if (show) {
       localStorage.setItem("onboardingShown", true)
       return <OnboardingScreen editStateYear={false} onClose={()=>closeOnboarding()} />;

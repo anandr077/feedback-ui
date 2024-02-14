@@ -340,7 +340,6 @@ function createQuill(
   setCountWords,
   editorFontSize
 ) {
-  console.log('the page mode is', pageMode)
   return (
     <QuillEditor
       // key={Math.random()}

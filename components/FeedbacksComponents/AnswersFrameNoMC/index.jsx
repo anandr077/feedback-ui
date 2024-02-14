@@ -142,7 +142,6 @@ const answerFrames = (
     const overallComment = overallComments?.find((feedback)=>{
       return feedback.questionSerialNumber === question.serialNumber
     })
-    console.log("overallComment", overallComment)
     const markingCriteriaFeedback = commentsForSelectedTab.filter(
       (comment) => comment.type === 'MARKING_CRITERIA'
     );

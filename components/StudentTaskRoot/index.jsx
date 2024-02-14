@@ -44,7 +44,6 @@ import {
   SortText,
 } from '../FilterSort/style.js';
 import { FeedbackButtonArrow, Frame5086Img, Frame5086PopUp, Frame5086PopUpBody, Frame5086PopUpTitle, Frame5086Text, PopupContainer, SortPopUpBody } from '../GiveFeedback/style.js';
-// import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
@@ -114,10 +113,6 @@ export default function StudentTaskRoot() {
   }
 
   const filteredData = (tasks) => {
-    // const filteredTasks = tasks.filter(
-    //   (task) => !selectedClass || task.classTitle === selectedClass
-    // );
-
     const sortedTasks = tasks.sort((a, b) => {
       const dateA = new Date(a.dueAt).getTime();
       const dateB = new Date(b.dueAt).getTime();
@@ -363,6 +358,7 @@ export default function StudentTaskRoot() {
     start: moment(task.dueAt).toDate(),
     end: moment(task.dueAt).toDate(),
   }));
+  
 
   const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
   return (

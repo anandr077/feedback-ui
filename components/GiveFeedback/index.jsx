@@ -480,6 +480,8 @@ function GiveFeedback() {
                     : filteredData(communityTasks)
                 }
                 pathName={pathName}
+                giveFeedbackCompletedTasks={giveFeedbackCompletedTasks}
+                setGiveFeedbackCompletedTasks={setGiveFeedbackCompletedTasks}
               />
             </LeftContentContainer>
             <RightContentContainer>

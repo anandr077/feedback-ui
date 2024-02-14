@@ -33,6 +33,14 @@ export const Content = styled.div`
   align-self: stretch;
 `;
 
+export const StatusContainer = styled.div`
+  width: 100%;
+  margin: 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 export const TaskTitle = styled.p`
   ${IbmplexsansNormalShark20px}
   font-size: 16px;
@@ -41,6 +49,7 @@ export const TaskTitle = styled.p`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  word-break: break-all;
 `;
 export const Remark = styled.p`
   ${IbmplexsansNormalRiverBed14px}
@@ -51,16 +60,19 @@ export const Remark = styled.p`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
-  font-color: #405059;
+  color: #405059;
 `;
 export const SmallTaskTitle = styled.p`
-  ${IbmplexsansNormalShark20px}
-  font-size: 13px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 20px;
+  color: var(--text);
+  font-style: normal;
   position: relative;
   align-self: stretch;
-  margin-top: -1px;
+  margin: 3px 0;
   letter-spacing: 0;
-  line-height: normal;
 `;
 export const ClassText = styled.div`
   ${IbmplexsansNormalRiverBed14px}
@@ -72,12 +84,13 @@ export const ClassText = styled.div`
 `;
 
 export const SmallClassText = styled.div`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 13px;
+  color: var(--river-bed);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -2.5%;
   position: relative;
   align-self: stretch;
-  letter-spacing: 0.11px;
-  line-height: normal;
 `;
 
 export const Frame1282 = styled.div`

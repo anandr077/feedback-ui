@@ -4,6 +4,22 @@ import CompletedDesktop from '../CompletedDesktop';
 import CompletedLaptop from '../CompletedLaptop';
 import CompletedMobile from '../CompletedMobile';
 import CompletedTablet from '../CompletedTablet';
+import LinkButton from '../../../components2/LinkButton/index.jsx';
+import whiteArrowleft from '../../../static/img/arrowleftwhite.svg';
+import arrowLeft from '../../../static/img/arrowleft.svg';
+import questionMark from '../../../static/img/question-mark.svg';
+import {
+  ConnectContainer,
+  TopContainer,
+  HeadingLine,
+  TitleContainer,
+  Title,
+  TitleImage,
+} from '../../CompletedPage/style';
+import { denyModelResponse, publishModelResponse } from '../../../service.js';
+import FilterSort from '../../FilterSort/index.jsx';
+import { isMobileView } from '../../ReactiveRender';
+import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 
 export default function CompletedRoot(props) {
   const {
@@ -14,7 +30,81 @@ export default function CompletedRoot(props) {
     exemplar,
     id,
     setPublishActionCompleted,
+    classes,
+    onAccept,
+    onDecline,
   } = props;
+  const [sortData, setSortData] = React.useState(true);
+  const [selectedClass, setSelectedClass] = React.useState('');
+  const mobileView = isMobileView();
+
+  function filterAndSortData(obj, targetClassTitle, sortData) {
+    const dataArray = Object.entries(obj);
+    const sortedArray = dataArray.sort((a, b) => {
+      const dateA = new Date(a[0]);
+      const dateB = new Date(b[0]);
+      return sortData ? dateB - dateA : dateA - dateB;
+    });
+
+    const sortedData = Object.fromEntries(sortedArray);
+
+    const filteredAndSortedData = {};
+
+    if (selectedClass != '') {
+      Object.keys(sortedData).forEach((date) => {
+        const filteredObjects = sortedData[date].filter(
+          (obj) => obj.classTitle === targetClassTitle
+        );
+        if (filteredObjects.length > 0) {
+          filteredAndSortedData[date] = filteredObjects;
+        }
+      });
+    }
+
+    return selectedClass != '' ? filteredAndSortedData : sortedData;
+  }
+
+  const setSelectedValue = (type, selectValue) => {
+    if (type === 'classes') {
+      setSelectedClass(selectValue);
+    }
+  };
+
+  const headingPart = (
+    <>
+      <TopContainer>
+        <TitleContainer>
+          <Title>
+            Shared Responses
+            <QuestionTooltip img={questionMark} />
+          </Title>
+          <ConnectContainer>
+            <LinkButton
+              link={`#/`}
+              label="Back to tasks"
+              arrowleft={arrowLeft}
+              whiteArrowleft={whiteArrowleft}
+            />
+          </ConnectContainer>
+        </TitleContainer>
+        <HeadingLine>
+          All your tasks assigned to you, tasks you are doing, and tasks you
+          have submitted for review
+        </HeadingLine>
+      </TopContainer>
+      {
+        !mobileView && (
+          <FilterSort
+            setSelectedValue={setSelectedValue}
+            selectedClass={selectedClass}
+            classes={classes}
+            sortData={sortData}
+            setSortData={setSortData}
+          />
+        )
+      }
+    </>
+  );
 
   return (
     <ReactiveRender
@@ -24,10 +114,13 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
+            headingPart,
             setPublishActionCompleted,
+            onAccept,
+            onDecline,
             ...completedMobileData,
           }}
         />
@@ -38,10 +131,14 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
+
             setPublishActionCompleted,
+            headingPart,
+            onAccept,
+            onDecline,
             ...completedTabletData,
           }}
         />
@@ -52,10 +149,14 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
+
+            headingPart,
             setPublishActionCompleted,
+            onAccept,
+            onDecline,
             ...completedLaptopData,
           }}
         />
@@ -66,10 +167,13 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups,
+            groups: filterAndSortData(groups, selectedClass, sortData),
             exemplar,
             id,
+            headingPart,
             setPublishActionCompleted,
+            onAccept,
+            onDecline,
             ...completedDesktopData,
           }}
         />

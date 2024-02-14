@@ -14,6 +14,7 @@ import {
   Frame16,
   NotificationHead,
   EmptyBox,
+  CloseNotification,
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import NotificationSwitch from './NotificationSwitch';
@@ -58,8 +59,8 @@ function NotificationsBar(props) {
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
       queryClient.refetchQueries({ queryKey: ['assignments'] }),
-      queryClient.refetchQueries({ queryKey: ['tasks'] }),
-      queryClient.refetchQueries({ queryKey: ['document-reviews'] });
+        queryClient.refetchQueries({ queryKey: ['tasks'] }),
+        queryClient.refetchQueries({ queryKey: ['document-reviews'] });
       window.location.href = `#documentsReview/${data.id}`;
     },
     onSettled: () => {},
@@ -97,7 +98,8 @@ function NotificationsBar(props) {
     setNotificationValue(value);
   };
 
-  const { notifications, type, onCloseFn, loadingNotifications } = props;
+  const { notifications, type, onCloseFn, loadingNotifications, fixedTop } =
+    props;
   if (!notifications || notifications?.length === 0) {
     return (
       <>
@@ -143,59 +145,35 @@ function NotificationsBar(props) {
     return <TaskCard task={notification} small={true} />;
   });
 
-  const filteredNotifications = notificationFrames.filter(
-    (notification) => notification.props.task.type === notificationValue
-  );
-
-  const filteredFeedbackRequests = notifications.filter(
-    (notification) => notification.type === 'FEEDBACK_REQUEST'
-  );
-
-  const filteredOtherNotifications = notifications.filter(
-    (notification) => notification.type === 'URL'
-  );
-
   return (
     <>
       {type == 'small' ? (
         <NavbarDiv>
           <Frame1409>
             <NotificationHead>
-              <NotificationSwitch
-                notificationBtnValue={notificationBtnValue}
-                totalNotifications={filteredOtherNotifications.length}
-                totalRequests={filteredFeedbackRequests.length}
-              />
-              <MaskGroup src="/img/close.png" onClick={onCloseFn} />
+              <img src="img/notificationIcon.png" />
+              <h1>Notifications</h1>
+              <CloseNotification src="/img/close.png" onClick={onCloseFn} />
             </NotificationHead>
             <Frame16 onClick={onCloseFn}>
-              {filteredNotifications.length > 0 ? (
-                filteredNotifications
+              {notificationFrames.length > 0 ? (
+                notificationFrames
               ) : (
-                <EmptyBox>
-                  {notificationValue === 'URL'
-                    ? 'No new notifications'
-                    : 'No new requests'}
-                </EmptyBox>
+                <EmptyBox>No new notifications</EmptyBox>
               )}
             </Frame16>
           </Frame1409>
         </NavbarDiv>
       ) : (
         <Frame15 onClick={onCloseFn}>
-          <NotificationSwitch
-            notificationBtnValue={notificationBtnValue}
-            totalNotifications={filteredOtherNotifications.length}
-            totalRequests={filteredFeedbackRequests.length}
-          />
-          {filteredNotifications.length > 0 ? (
-            filteredNotifications
+          <NotificationHead>
+            <img src="img/notificationIcon.png" />
+            <h1>Notifications</h1>
+          </NotificationHead>
+          {notificationFrames.length > 0 ? (
+            notificationFrames
           ) : (
-            <EmptyBox>
-              {notificationValue === 'URL'
-                ? 'No new notifications'
-                : 'No new requests'}
-            </EmptyBox>
+            <EmptyBox>No new notifications</EmptyBox>
           )}
         </Frame15>
       )}

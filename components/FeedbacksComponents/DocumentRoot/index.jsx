@@ -1,7 +1,7 @@
-import jsPDF from 'jspdf';
 import { filter, flatMap, includes, map } from 'lodash';
 import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
-import { getPortfolio, getClasses, docsMoveToFolder, getOverComments } from '../../../service';
+import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, addDocumentToPortfolio, addDocumentToPortfolioWithDetails } from '../../../service';
+import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, askJeddAI } from '../../../service';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState, useReducer } from 'react';
@@ -14,8 +14,6 @@ import {
   addFeedback,
   deleteFeedback,
   getSubmissionById,
-  getUserId,
-  getUserName,
   markSubmissionRequestSubmission,
   markSubmsissionClosed,
   markSubmissionReviewed as markSubmsissionReviewed,
@@ -27,6 +25,7 @@ import {
   getTeachersForClass,
   fetchSubmissionData,
 } from '../../../service';
+import { getUserId, getUserName } from '../../../userLocalDetails';
 import {
   getShortcuts,
   getSmartAnnotations,
@@ -52,7 +51,7 @@ export default function DocumentRoot({}) {
   const [smartAnnotations, setSmartAnnotations] = useState([]);
   const [isSubmissionLoading, setIsSubmissionLoading] = useState(true);
   const [isClassesLoading, setIsClassesLoading] = useState(true);
-  const { id } = useParams();
+  let { id } = useParams();
   const [studentName, setStudentName] = useState(null);
   const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
@@ -78,6 +77,14 @@ export default function DocumentRoot({}) {
   });
   // Fetch functions
   const fetchSubmissionData = async () => {
+    if (id === undefined || id === null) {
+      const doc = await addDocumentToPortfolioWithDetails({
+        title:"New draft",
+        subject:"English"
+      })
+      window.location.href = `#documents/${doc.id}`;
+      id = doc.id
+    }
     const [submissionsResult, commentsResult, smartAnnotationResult, overAllCommentsResult] =
       await Promise.all([
         getSubmissionById(id),
@@ -112,7 +119,6 @@ export default function DocumentRoot({}) {
 
     setStudents(uniqueStudents.map((item) => ({ ...item, title: item.name })));
     setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.name })));
-    console.log('teachers', teachers);
   };
 
   const fetchClassesAndDetails = async (submission) => {
@@ -159,13 +165,6 @@ export default function DocumentRoot({}) {
     }
   }, [data, queryClient]);
 
-  console.log(
-    'isLoading',
-    data,
-    isLoading,
-    isSubmissionLoading,
-    isClassesLoading
-  );
   if (
     (loadPortfolio() && isLoading) ||
     isSubmissionLoading ||
@@ -173,8 +172,6 @@ export default function DocumentRoot({}) {
   ) {
     return <Loader />;
   }
-
-  // queryClient.removeQueries(['portfolio'])
 
   const folders = portfolio?.files.map((folder) => {
     return { id: folder.id, title: folder.title, classId: folder.classId };
@@ -468,12 +465,14 @@ export default function DocumentRoot({}) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the overall Feedback is', response);
         setOverallComments([...overallComments, response]);
       }
     });
   };
-
+  const jeddAI = () => {
+    const q=  quillRefs.current[0]
+    askJeddAI(submission.id, q.getText()).then((response) => {})
+  }
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
     const feedbackToUpdate = overallComments.find(
       (feedback) => feedback.id === feedbackId
@@ -481,7 +480,6 @@ export default function DocumentRoot({}) {
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
       return;
     }
-    console.log('feedbackToUpdate ', feedbackToUpdate);
 
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,
@@ -773,6 +771,7 @@ export default function DocumentRoot({}) {
     setInitialOverAllFeedback,
 
     updateOverAllFeedback,
+    jeddAI
   };
 
   const shortcuts = getShortcuts();

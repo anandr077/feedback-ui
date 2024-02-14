@@ -1,12 +1,10 @@
 import React from 'react';
-import Frame14103 from '../Frame14103';
 import styled from 'styled-components';
-import { IbmplexsansBoldShark64px } from '../styledMixins';
-import './CompletedLaptop.css';
-import { completedHeaderProps } from '../../../utils/headerProps.js';
 import CheckboxGroup from '../../CheckboxGroup';
-import Breadcrumb from '../../Breadcrumb';
-import Breadcrumb2 from '../../Breadcrumb2';
+import Frame14103 from '../Frame14103';
+import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
+import './CompletedLaptop.css';
+import { HeadingAndFilterCon } from './style.js';
 
 function CompletedLaptop(props) {
   const {
@@ -20,21 +18,26 @@ function CompletedLaptop(props) {
     subject,
     frame1284,
     line18,
+    headingPart,
+    onAccept,
+    onDecline,
   } = props;
   return (
+    
     <div className="completed-laptop screen">
       <Frame1425>
-        {exemplar && (
-          <Frame1315>
-            <Breadcrumb text={'Home'} link={'/#'} />
-            <Breadcrumb2 title="Exemplars" exempler={exemplar} />
-          </Frame1315>
-        )}
-        <Frame1424>
-          <Title>{title}</Title>
-
-          {createFilter()}
-        </Frame1424>
+        {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
+        <SliderCardContainer>
+          <HelpPeerSlide
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+            onAccept={onAccept}
+            onDecline={onDecline}
+          />
+        </SliderCardContainer>
+        <Frame1424>{createFilter()}</Frame1424>
 
         <Frame1413>
           <Frame14103
@@ -56,22 +59,15 @@ function CompletedLaptop(props) {
   }
 }
 
-const Frame1315 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 0px 0px 0px 60px;
-  position: relative;
-  align-self: stretch;
-`;
-
 const Frame1425 = styled.div`
+  padding: 0px 60px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 60px;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
   position: relative;
-  align-self: stretch;
 `;
 
 const Frame1424 = styled.div`
@@ -83,21 +79,17 @@ const Frame1424 = styled.div`
   align-self: stretch;
 `;
 
-const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  line-height: normal;
+const SliderCardContainer = styled.div`
+  width: 880px;
+  height: auto;
 `;
+
 
 const Frame1413 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
-  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;

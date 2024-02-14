@@ -7,7 +7,7 @@ function Frame1410(props) {
 
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
-    const tasksFrames = group.map((task) => {
+    const tasksFrames = group.filter((task) => task.status === 'PUBLISHED').map((task) => {
       return (
         <TaskCard
           task={task}
@@ -41,11 +41,5 @@ const Frame14101 = styled.div`
   }
 `;
 
-const Frame1314 = styled.div`
-  .frame-1410.frame-1413-1 & {
-    width: 350px;
-    align-self: unset;
-  }
-`;
 
 export default Frame1410;

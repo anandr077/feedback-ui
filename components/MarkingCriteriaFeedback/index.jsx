@@ -131,7 +131,7 @@ const SingleMarkingCriteriaContainer = styled.div`
 `;
 
 const MarkingCriteriaContainer = styled.div`
-  padding: 20px;
+  padding: 40px 48px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -139,10 +139,7 @@ const MarkingCriteriaContainer = styled.div`
   align-self: stretch;
   align-items: flex-start;
   gap: 20px;
-  border-radius: 16px;
-  border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
-  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
 
   > div {
     flex: 0 1 calc(30% - 10px);
@@ -154,10 +151,8 @@ const MarkingCriteriaContainerSmall = styled.div`
   align-items: flex-start;
   gap: 20px;
   align-self: stretch;
-  border-radius: 16px;
-  border: 1px solid rgba(114, 0, 224, 0.1);
+  padding: 0 48px;
   background: #fff;
-  box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;

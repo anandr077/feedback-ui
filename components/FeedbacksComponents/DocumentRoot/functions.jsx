@@ -2,7 +2,7 @@ import { Avatar } from '@boringer-avatars/react';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { React } from 'react';
-import { getCommentsForSubmission, getUserRole } from '../../../service';
+import { getCommentsForSubmission } from '../../../service';
 
 export function extractStudents(tasksResult) {
   return tasksResult.map((task) => {
@@ -24,6 +24,9 @@ export function extractStudents(tasksResult) {
 }
 
 export function getPageMode(isTeacher, user, submission) {
+  if (submission.type === 'DOCUMENT') {
+    return getPortfolioPageMode(user, submission);
+  }
   if (isTeacher) return getTeacherPageMode(submission);
   return getStudentPageMode(user, submission);
 }

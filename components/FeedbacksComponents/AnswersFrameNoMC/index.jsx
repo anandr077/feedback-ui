@@ -9,6 +9,7 @@ import {
 } from 'react';
 import QuillEditor from '../../QuillEditor';
 import OverallFeedback from '../../OverallFeedback';
+import MarkingCriteriaFeedbackReadOnly from '../../MarkingCriteriaFeedbackReadOnly';
 
 import '../FeedbackTeacherLaptop';
 import {
@@ -141,7 +142,9 @@ const answerFrames = (
     const overallComment = overallComments?.find((feedback)=>{
       return feedback.questionSerialNumber === question.serialNumber
     })
-    console.log("overallComment", overallComment)
+    const markingCriteriaFeedback = commentsForSelectedTab.filter(
+      (comment) => comment.type === 'MARKING_CRITERIA'
+    );
 
     return (
       <>
@@ -168,6 +171,15 @@ const answerFrames = (
               )}
             </QuillContainer>
           }
+          {markingCriteriaFeedback.length > 0 &&
+            (
+              <MarkingCriteriaFeedbackReadOnly
+                allmarkingCriteriaFeedback={markingCriteriaFeedback}
+                questionSerialNumber={1}
+              />
+            )
+            }
+
           {pageMode !== 'DRAFT' && (
             <OverallFeedback
               pageMode={pageMode}

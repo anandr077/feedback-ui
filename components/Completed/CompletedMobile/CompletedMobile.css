@@ -6,4 +6,5 @@
   flex-direction: column;
   gap: 80px;
   position: relative;
+  padding: 20px 0px;
 }

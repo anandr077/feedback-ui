@@ -18,6 +18,14 @@ import Tabs from '../Tabs';
 import TaskCardContainer from '../TaskCardContainer';
 import './TasksStudentMobile.css';
 import Group1205 from '../TeacherDashboard/Group1205';
+import LinkButton from '../../components2/LinkButton/index.jsx';
+import arrowRight from '../../static/img/arrowright.svg';
+import whiteArrowright from '../../static/img/arrowright-White.svg';
+import share from '../../static/img/share.svg';
+import shareColor from '../../static/img/share-color.svg';
+import questionMark from '../../static/img/question-mark.svg';
+import { Title, TitleAndFilterContainer, TitleAndSubtitleContainer, TitleContainer } from './style.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 function TasksStudentMobile(props) {
   const {
@@ -28,6 +36,9 @@ function TasksStudentMobile(props) {
     inReviewTasks,
     arrowright,
     portfolio,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
   const prevProps = useRef(props);
   const [isAssigned, setIsAssigned] = useState(true);
@@ -54,23 +65,37 @@ function TasksStudentMobile(props) {
   return (
     <div className="tasks-student-mobile screen">
       <Frame1365>
-        <Frame1307>
-          <PageTitle>Tasks</PageTitle>
-          <LinkAndFilter>
-            {portfolio.length != 0 && (
-              <Group1205
-                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
-                label="COMPLETED TASKS"
-                arrowright={arrowright}
-                small={true}
-              />
-            )}
-            <CheckboxGroup
-              onChange={filterTasks}
-              data={menuItems}
-            ></CheckboxGroup>
-          </LinkAndFilter>
-        </Frame1307>
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
+              <Title>
+                My Tasks
+                <QuestionTooltip 
+                  text="View all of your current tasks from school"
+                  img={questionMark}
+                />
+              </Title>
+              <LinkAndFilter>
+                <LinkButton
+                  link={`#/exemplarResponses`}
+                  label="Shared Responses"
+                  arrowleft={shareColor}
+                  whiteArrowleft={share}
+                />
+                <LinkButton
+                  link={`#/completed`}
+                  label="Task History"
+                  arrowright={arrowRight}
+                  whiteArrowright={whiteArrowright}
+                />
+              </LinkAndFilter>
+            </TitleContainer>
+            {/* <SubtitleCon>
+              Click on a task bubble to complete or review your work
+            </SubtitleCon> */}
+          </TitleAndSubtitleContainer>
+          {/* <>{FilterSortAndCal}</> */}
+        </TitleAndFilterContainer>
         {taskFrame}
       </Frame1365>
     </div>
@@ -83,6 +108,17 @@ function TasksStudentMobile(props) {
     isInProgress,
     isOverdue
   ) {
+    const tooltipText = () =>{
+      if(title === "Assigned"){
+        return "New tasks that you haven't opened yet"
+      }
+      if(title === "In Draft"){
+        return "Tasks that you have started but not yet submitted"
+      }
+      if(title === "In Review"){
+        return "Completed tasks that are either awaiting feedback or pending your review"
+      }
+    }
     return (
       <>
         <Frame1364>
@@ -123,7 +159,13 @@ function TasksStudentMobile(props) {
           </Frame1211>
           <Frame1364>
             <Frame1362>
-              <SectionTitle>{title}</SectionTitle>
+              <SectionTitle>
+                {title}
+                <QuestionTooltip 
+                  text={tooltipText()}
+                  img={questionMark}
+                />
+              </SectionTitle>
               <Number>{tasks.length}</Number>
             </Frame1362>
             <TaskCardContainer allTasks={tasks} />
@@ -145,6 +187,14 @@ const Frame1365 = styled.div`
   min-height: 600px;
 `;
 
+const HeaderContainer = styled.div`
+  width: 100%;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const Frame1307 = styled.div`
   display: flex;
   align-items: center;
@@ -152,6 +202,12 @@ const Frame1307 = styled.div`
   position: relative;
   align-self: stretch;
   flex-wrap: wrap;
+`;
+
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const PageTitle = styled.h1`
@@ -162,6 +218,18 @@ const PageTitle = styled.h1`
   letter-spacing: -0.72px;
   line-height: 43.2px;
   white-space: nowrap;
+  color: var(--royal-purple);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const HeadingMessage = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #333333;
 `;
 
 const Frame1364 = styled.div`
@@ -200,6 +268,8 @@ const SectionTitle = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  gap: 8px;
 `;
 
 const Number = styled.div`
@@ -212,9 +282,8 @@ const Number = styled.div`
 `;
 const LinkAndFilter = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: start;
   gap: 10px;
   margin-top: 10px;
 `;

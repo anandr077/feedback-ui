@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { IbmplexsansNormalBlack16px } from '../../styledMixins';
 import { Avatar } from '@boringer-avatars/react';
-import { getUserName } from '../../service';
+import { getUserName } from '../../userLocalDetails';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown';
 
 function Frame4(props) {

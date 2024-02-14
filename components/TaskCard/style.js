@@ -67,7 +67,7 @@ export const BubbleContainer = styled.div`
   justify-content: space-between;
   gap: 8px;
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 `;
 
 export const TaskTitle = styled.p`
@@ -148,11 +148,12 @@ export const StyledCard = styled.article`
   padding: 20px;
   position: relative;
   align-self: stretch;
-  background-color: ${({overdue}) => (overdue ? '#FFDED2' : 'var(--white)')};
+  background-color: ${({overdue}) => (overdue ? '#FDE2E2' : 'var(--white)')};
+  box-shadow: 0px 4px 8.5px rgba(114, 0, 224, 0.08);
   border-color: var(--corn);
-  border:  1px solid ${({ overdue }) => (overdue ? '#FE7171' : 'rgba(219, 87, 87, 0.2)')};
-
+  border:  1px solid ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : 'rgba(219, 87, 87, 0.2)')};
   border-radius: 16px;
+  
   &:hover {
     background: #f9f5ff;
     border: 1px solid var(--light-mode-purple);

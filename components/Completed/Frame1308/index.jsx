@@ -19,11 +19,11 @@ const Frame13081 = styled.div`
   gap: 10px;
   padding: 4px 12px;
   position: relative;
-  background-color: var(--blue-chalk);
+  background-color: #f1e7ff;
   border-radius: 13px;
   overflow: hidden;
   border: 1px solid;
-  border-color: var(--dark-mode-purple);
+  border-color: #ce99ff;
 `;
 
 const Address = styled.div`

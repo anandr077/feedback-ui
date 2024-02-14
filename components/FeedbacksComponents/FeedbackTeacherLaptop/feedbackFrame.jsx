@@ -6,7 +6,7 @@ import 'quill/dist/quill.snow.css';
 
 import { default as React, default as React, default as React } from 'react';
 import SmartAnotation from '../../../components/SmartAnnotations';
-import { getUserId, getUserRole } from '../../../service';
+import { getUserId, getUserRole } from '../../../userLocalDetails';
 import FocussedInput from '../../FocussedInput';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import Buttons4 from '../Buttons4';
@@ -34,6 +34,7 @@ import {
   ShortcutList,
 } from './style';
 import AntSwitch from '../AntSwitch';
+import EmptyFeedback from '../../../components2/EmptyFeedback';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -121,10 +122,12 @@ function feedbackFrame(
           isFocusAreas={isFocusAreas}
           isTeacher={isTeacher}
           comments={comments}
-          showFeedbacks={pageMode !== 'DRAFT'}
+          showFeedbacks={true}
+          showFocusAreas={submission.type !== 'DOCUMENT'}
+
         ></Tabs>
       </Frame1322>
-      <Line6 src="/icons/line.png" alt="Line 6" />
+      <Line6 src="/img/line-18.png" alt="Line 6" />
       <>
         {showNewComment ? (
           <>
@@ -143,6 +146,7 @@ function feedbackFrame(
           <Frame1328>
             <>
               {showResolvedToggle(setShowResolved)(
+                commentsForSelectedTab,
                 isFeedback,
                 isShowResolved,
                 handleShowResolvedToggle
@@ -176,12 +180,8 @@ export function createCommentsFrame(
   const visibleComments = createVisibleComments(commentsForSelectedTab);
   if (visibleComments.length === 0) {
     return (
-      <CommentCard32
-        reviewer="Jeddle"
-        comment={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
-        onClick={() => {}}
-        isTeacher={isTeacher}
-        defaultComment={true}
+      <EmptyFeedback 
+         text={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
       />
     );
   }
@@ -329,7 +329,7 @@ function shareWithClassFrame(methods, share) {
   if (getUserRole() === 'STUDENT') return <></>;
   return (
     <>
-      <Line6 src="/icons/line.png" alt="Line 6" />
+      {/* <Line6 src="/icons/line.png" alt="Line 6" /> */}
       <Frame1383>
         <Frame13311>
           <Crown src="/icons/share.png" alt="crown" />
@@ -340,7 +340,7 @@ function shareWithClassFrame(methods, share) {
           onClickFn={methods.handleShareWithClass}
         />
       </Frame1383>
-      <Line6 src="/icons/line.png" alt="Line 6" />
+      {/* <Line6 src="/icons/line.png" alt="Line 6" /> */}
     </>
   );
 }
@@ -395,28 +395,34 @@ function createDefaultCommentText(isFocusAreas, pageMode, studentId) {
 
 export const showResolvedToggle =
   (setShowResolved) =>
-  (isFeedback, isShowResolved, handleShowResolvedToggle) => {
-    if (isFeedback) {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignContent: 'center',
-            gap: '10px',
-          }}
-        >
-          <Label>Show resolved</Label>
-          {/* Show resolved */}
-          <AntSwitch
-            checked={isShowResolved}
-            onChange={handleShowResolvedToggle(setShowResolved)}
-          />
-        </div>
-      );
+  (commentsForSelectedTab, isFeedback, isShowResolved, handleShowResolvedToggle) => {
+    if (commentsForSelectedTab.filter(c=>c.status === 'RESOLVED').length <= 0) {
+      return <></>;
     }
-    return <></>;
+    if (!isFeedback) {
+      return <></>;
+    }
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignContent: 'center',
+          gap: '10px',
+        }}
+      >
+        <Label>Show resolved</Label>
+        {/* Show resolved */}
+        <AntSwitch
+          checked={isShowResolved}
+          onChange={handleShowResolvedToggle(setShowResolved)}
+        />
+      </div>
+    );
+
+
   };
 
 function shortcutList(methods, smartAnnotations) {

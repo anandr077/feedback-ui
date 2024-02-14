@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { feedbacksIbmplexsansMediumBlack16px } from '../../../styledMixins';
 import { Avatar } from '@boringer-avatars/react';
-import { getUserId } from '../../../service';
+import { getUserId } from '../../../userLocalDetails';
 
 function ReviewsFrame132532(props) {
   const {
@@ -94,15 +94,18 @@ function ReviewsFrame132532(props) {
     setIsMoreClicked(false);
   };
 
-  const avatar = (
-    <Avatar
-      title={false}
-      size={25}
-      variant="beam"
-      name={reviewer}
-      square={false}
-    />
-  );
+  const avatar =
+    comment.reviewerId === '26614' || comment.reviewerId === '26572'? (
+      <JeddaiIcon src="img/ai.svg" />
+    ) : (
+      <Avatar
+        title={false}
+        size={25}
+        variant="beam"
+        name={reviewer}
+        square={false}
+      />
+    );
   const resolveFrame = showResolveButton ? (
     <Wrapper>
       <More
@@ -143,12 +146,16 @@ function ReviewsFrame132532(props) {
   const shareIcon = <Ellipse7 src="/icons/share.png" />;
   const commenterFrame = createCommenterFrame();
   const reviewerFrame = createReviewerFrame();
+
   return (
     <Frame1325>
       <Frame1324>
         {commenterFrame}
         <Instructer onClick={() => onClick(comment)}>
-          {reviewerFrame}
+          {
+          reviewerFrame === "26614" || reviewerFrame === "26572"
+          ? "JEDDAI" : reviewerFrame
+          }
         </Instructer>
       </Frame1324>
       {resolveFrame}
@@ -261,6 +268,11 @@ const More = styled.img`
 
 const Wrapper = styled.div`
   position: relative;
+`;
+
+const JeddaiIcon = styled.img`
+  width: 30px;
+  height: 30px;
 `;
 
 const Tooltip = styled.div`

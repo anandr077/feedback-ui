@@ -6,7 +6,7 @@ import 'quill/dist/quill.snow.css';
 
 import { default as React, default as React, default as React } from 'react';
 import SmartAnotation from '../../SmartAnnotations';
-import { getUserId, getUserRole } from '../../../service';
+import { getUserId, getUserRole } from '../../../userLocalDetails';
 import FocussedInput from '../../FocussedInput';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import Buttons4 from '../Buttons4';
@@ -30,6 +30,7 @@ import {
   TypeHere,
 } from '../FeedbackTeacherLaptop/style';
 import AntSwitch from '../AntSwitch';
+import EmptyFeedback from '../../../components2/EmptyFeedback';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -141,12 +142,8 @@ export function createCommentsFrame(
   const visibleComments = createVisibleComments(commentsForSelectedTab);
   if (visibleComments.length === 0) {
     return (
-      <CommentCard32
-        reviewer="Jeddle"
-        comment={createDefaultCommentText(pageMode)}
-        onClick={() => {}}
-        isTeacher={isTeacher}
-        defaultComment={true}
+      <EmptyFeedback 
+         text={createDefaultCommentText(pageMode)}
       />
     );
   }
@@ -295,7 +292,7 @@ export const handleShowResolvedToggle = (setShowResolved) => (event) => {
   setShowResolved(event.target.checked);
 };
 function createVisibleComments(commentsForSelectedTab) {
-  return commentsForSelectedTab.filter((comment) => !comment.isHidden);
+  return commentsForSelectedTab.filter((comment) => !comment.isHidden && comment.type !== "MARKING_CRITERIA");
 }
 function createDefaultCommentText(pageMode) {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE' || pageMode === 'CLOSED') {

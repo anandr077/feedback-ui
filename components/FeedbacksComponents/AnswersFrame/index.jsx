@@ -10,7 +10,7 @@ import {
 import CheckboxList from '../../CheckboxList';
 import QuillEditor from '../../QuillEditor';
 
-import { getUserId } from '../../../service';
+import { getUserId } from '../../../userLocalDetails';
 import CheckboxBordered from '../../CheckboxBordered';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
 import MarkingCriteriaFeedbackReadOnly from '../../MarkingCriteriaFeedbackReadOnly';
@@ -24,9 +24,13 @@ import {
   Label,
   QuestionText,
   QuillContainer,
+  AnswerContainer,
+  Line,
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
+import { createDebounceFunction } from '../FeedbacksRoot/autosave';
+import { set } from 'lodash';
 
 export function answersFrame(
   quillRefs,
@@ -38,7 +42,9 @@ export function answersFrame(
   submission,
   commentsForSelectedTab,
   overallComments,
-  methods
+  methods,
+  setCountWords,
+  editorFontSize
 ) {
   return (
     <AnswersFrame
@@ -50,7 +56,6 @@ export function answersFrame(
       pageMode={pageMode}
       submission={submission}
       commentsForSelectedTab={commentsForSelectedTab}
-      createDebounceFunction={methods.createDebounceFunction}
       handleChangeText={methods.handleChangeText}
       onSelectionChange={methods.onSelectionChange}
       handleMarkingCriteriaLevelFeedback={
@@ -63,6 +68,10 @@ export function answersFrame(
       setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
       overallComments={overallComments}
       updateOverAllFeedback={methods.updateOverAllFeedback}
+      setComments={methods.setComments}
+      comments={methods.comments}
+      setCountWords={setCountWords}
+      editorFontSize={editorFontSize}
     ></AnswersFrame>
   );
 }
@@ -77,7 +86,6 @@ function AnswersFrame(props) {
     pageMode,
     submission,
     commentsForSelectedTab,
-    createDebounceFunction,
     handleChangeText,
     onSelectionChange,
     handleMarkingCriteriaLevelFeedback,
@@ -87,7 +95,11 @@ function AnswersFrame(props) {
     initialOverallFeedback,
     setInitialOverAllFeedback,
     overallComments,
-    updateOverAllFeedback
+    updateOverAllFeedback,
+    setComments,
+    comments,
+    setCountWords,
+    editorFontSize
   } = props;
   return (
     <Group1225 id="answers">
@@ -101,7 +113,6 @@ function AnswersFrame(props) {
           pageMode,
           submission,
           commentsForSelectedTab,
-          createDebounceFunction,
           handleChangeText,
           onSelectionChange,
           handleMarkingCriteriaLevelFeedback,
@@ -111,7 +122,11 @@ function AnswersFrame(props) {
           initialOverallFeedback,
           setInitialOverAllFeedback,
           overallComments,
-          updateOverAllFeedback
+          updateOverAllFeedback,
+          setComments,
+          comments,
+          setCountWords,
+          editorFontSize
         )}
       </Frame1367>
     </Group1225>
@@ -155,7 +170,6 @@ const answerFrames = (
   pageMode,
   submission,
   commentsForSelectedTab,
-  createDebounceFunction,
   handleChangeText,
   onSelectionChange,
   handleMarkingCriteriaLevelFeedback,
@@ -165,9 +179,13 @@ const answerFrames = (
   initialOverallFeedback,
   setInitialOverAllFeedback,
   overallComments,
-  updateOverAllFeedback
+  updateOverAllFeedback,
+  setComments,
+  comments,
+  setCountWords,
+  editorFontSize
 ) => {
-  return submission.assignment.questions.map((question) => {
+  return submission.assignment.questions.map((question, idx) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
       answer: '',
@@ -179,80 +197,98 @@ const answerFrames = (
       ) || newAnswer;
     const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
-    const debounce = createDebounceFunction(answer);
+    const debounce = createDebounceFunction(
+      submission,
+      pageMode,
+      comments,
+      setComments
+    )(answer);
 
-    const overallComment = overallComments.find((feedback)=>{
-        return feedback.questionSerialNumber === question.serialNumber
-    })
-    console.log("overallComment", overallComment)
+    const overallComment = overallComments.find((feedback) => {
+      return feedback.questionSerialNumber === question.serialNumber;
+    });
     return (
       <>
         <Frame1366>
-          <QuestionText
-            dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
-          />
-          {question.type === 'MCQ' ? (
-            <CheckboxList
-              submission={submission}
-              question={question}
-              pageMode={pageMode}
-              handleChangeText={handleChangeText}
-            />
-          ) : (
-            <QuillContainer
-              onClick={() => {
-                onSelectionChange(
-                  createVisibleComments(commentsForSelectedTab),
-                  answer.serialNumber
-                )(quillRefs.current[answer.serialNumber - 1].getSelection());
-              }}
-              id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
-            >
-              {createQuill(
-                pageMode,
-                'quillContainer_' + submission.id + '_' + answer.serialNumber,
-                submission,
-                answer,
-                answerValue,
-                commentsForSelectedTab,
-                debounce,
-                handleEditorMounted
-              )}
-            </QuillContainer>
-          )}
-          {createFocusAreasLabel(
-            handleCheckboxChange,
-            groupedFocusAreaIds,
-            question.serialNumber,
-            question.focusAreas
-          )}
-          {createAddMarkingCriteriaOption(
-            submission,
-            answer,
-            smallMarkingCriteria,
-            question,
-            handleMarkingCriteriaLevelFeedback,
-            handleStrengthsTargetsFeedback
-          )}
-          {createShowMarkingCriteriasFrame(
-            submission,
-            markingCriteriaFeedback,
-            answer,
-            question
-          )}
-          {pageMode !== 'DRAFT' && (
-            <OverallFeedback
-              pageMode={pageMode}
-              addOverallFeedback={addOverallFeedback}
-              submissionId={submission.id}
-              question={question}
-              initialOverallFeedback={initialOverallFeedback}
-              setInitialOverAllFeedback={setInitialOverAllFeedback}
-              overallComment={overallComment}
-              updateOverAllFeedback={updateOverAllFeedback}
+          {submission.type !== 'DOCUMENT' && (
+            <QuestionText
+              dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
             />
           )}
+          <AnswerContainer>
+            {question.type === 'MCQ' ? (
+              <CheckboxList
+                submission={submission}
+                question={question}
+                pageMode={pageMode}
+                handleChangeText={handleChangeText}
+              />
+            ) : (
+              <QuillContainer
+                onClick={() => {
+                  onSelectionChange(
+                    createVisibleComments(commentsForSelectedTab),
+                    answer.serialNumber
+                  )(quillRefs.current[answer.serialNumber - 1].getSelection());
+                }}
+                id={
+                  'quillContainer_' + submission.id + '_' + answer.serialNumber
+                }
+              >
+                {createQuill(
+                  pageMode,
+                  'quillContainer_' + submission.id + '_' + answer.serialNumber,
+                  submission,
+                  answer,
+                  answerValue,
+                  commentsForSelectedTab,
+                  debounce,
+                  handleEditorMounted,
+                  setCountWords,
+                  editorFontSize
+                )}
+              </QuillContainer>
+            )}
+            {createFocusAreasLabel(
+              handleCheckboxChange,
+              groupedFocusAreaIds,
+              question.serialNumber,
+              question.focusAreas
+            )}
+            {createAddMarkingCriteriaOption(
+              submission,
+              answer,
+              smallMarkingCriteria,
+              question,
+              handleMarkingCriteriaLevelFeedback,
+              handleStrengthsTargetsFeedback
+            )}
+            {createShowMarkingCriteriasFrame(
+              submission,
+              markingCriteriaFeedback,
+              answer,
+              question
+            )}
+            {pageMode !== 'DRAFT' && (
+              <OverallFeedback
+                pageMode={pageMode}
+                addOverallFeedback={addOverallFeedback}
+                submissionId={submission.id}
+                question={question}
+                initialOverallFeedback={initialOverallFeedback}
+                setInitialOverAllFeedback={setInitialOverAllFeedback}
+                overallComment={overallComment}
+                updateOverAllFeedback={updateOverAllFeedback}
+              />
+            )}
+          </AnswerContainer>
         </Frame1366>
+
+        {idx !== submission.assignment.questions.length - 1 && (
+          <div>
+            <Line src="/img/line-14-4.png" alt="Line 14" />
+          </div>
+        )}
       </>
     );
   });
@@ -273,14 +309,14 @@ const createFocusAreasLabel = (
 
   const all = focusAreas?.map((fa) => {
     return (
-      <FocusAreasLabelContainer>
+      <>
         <CheckboxBordered
           checked={isChecked(groupedFocusAreaIds, serialNumber, fa.id)}
           onChange={handleCheckboxChange(serialNumber, fa.id)}
         />
         <Ellipse141 backgroundColor={fa.color}></Ellipse141>
         <Label>{fa.title}</Label>
-      </FocusAreasLabelContainer>
+      </>
     );
   });
 
@@ -300,7 +336,9 @@ function createQuill(
   answerValue,
   commentsForSelectedTab,
   debounce,
-  handleEditorMounted
+  handleEditorMounted,
+  setCountWords,
+  editorFontSize
 ) {
   return (
     <QuillEditor
@@ -329,6 +367,9 @@ function createQuill(
       debounceTime={debounce.debounceTime}
       onDebounce={debounce.onDebounce}
       containerName={containerName}
+      nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
+      setCountWords={setCountWords}
+      editorFontSize={editorFontSize}
     ></QuillEditor>
   );
 }
@@ -340,15 +381,13 @@ function createShowMarkingCriteriasFrame(
   question
 ) {
   const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
-
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];
-
   if (
     !validStatuses.includes(submission.status) ||
     !(markingCriteriaFeedback?.length > 0) ||
-    !questionCriteria.markingCriteria?.title ||
-    questionCriteria.markingCriteria?.title === 'No Marking Criteria' ||
+    // !questionCriteria.markingCriteria?.title ||
+    // questionCriteria.markingCriteria?.title === 'No Marking Criteria' ||
     questionCriteria.type === 'MCQ'
   ) {
     return <></>;

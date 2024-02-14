@@ -1,3 +1,6 @@
+import Cookies from 'js-cookie';
+import { deleteProfileCookies } from './userLocalDetails';
+
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
 const jeddleBaseUrl =
@@ -22,7 +25,7 @@ async function fetchData(url, options, headers = {}) {
       credentials: 'include',
       headers: mergedHeaders,
     });
-    
+
     if (response.status === 401) {
       return redirectToExternalIDP();
     }
@@ -140,7 +143,6 @@ const deleteApi = async (url) => {
   });
 };
 
-
 export const downloadSubmission = async (submissionId) => {
   const url = `${baseUrl}/submissions/${submissionId}/download`;
   const token = localStorage.getItem('jwtToken');
@@ -149,13 +151,15 @@ export const downloadSubmission = async (submissionId) => {
     const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       }),
-      credentials: 'include' // if needed for cookies, otherwise remove
+      credentials: 'include', 
     });
 
     if (!response.ok) {
-      throw new Error(`Server returned ${response.status} during file download`);
+      throw new Error(
+        `Server returned ${response.status} during file download`
+      );
     }
 
     const blob = await response.blob();
@@ -174,8 +178,6 @@ export const downloadSubmission = async (submissionId) => {
   }
 };
 
-
-
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId
@@ -186,34 +188,6 @@ export const deleteFocusArea = async (focusAreaID) => {
   return deleteApi(baseUrl + '/feedbacks' + '/focusAreas/' + focusAreaID);
 };
 
-export const getUserName = () => getCookie('user.name');
-export const getUserId = () => getCookie('userId');
-export const getUserRole = () => getCookie('role');
-export const getAuthToken = () => localStorage.getItem('jwtToken');
-
-export const getCookie = (name) => {
-  const cookieValue = document.cookie
-    .split('; ')
-    .find((cookie) => cookie.startsWith(`${name}=`));
-
-  return cookieValue ? cookieValue.split('=')[1] : null;
-};
-export const setProfileCookies = (profile) => {
-  localStorage.setItem('jwtToken', profile.token);
-  const expiry = 30 * 24 * 60 * 60;
-
-  document.cookie =
-    'user.name=' + profile.name + '; max-age=' + expiry * +'; path=/';
-  document.cookie =
-    'userId=' + profile.userId + '; max-age=' + expiry + '; path=/';
-  document.cookie = 'role=' + profile.role + '; max-age=' + expiry + '; path=/';
-};
-
-export const deleteProfileCookies = () => {
-  document.cookie = 'user.name=; max-age=' + 0 + '; path=/';
-  document.cookie = 'userId=; max-age=' + 0 + '; path=/';
-  document.cookie = 'role=; max-age=' + 0 + '; path=/';
-};
 export const logout = async () => {
   await postApi(baseUrl + '/users/logout').then(() => {
     logoutLocal();
@@ -230,6 +204,9 @@ export const account = async () => {
 };
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
 export const getTasks = async () => await getApi(baseUrl + '/tasks');
+export const getCommunityTasks = async () => await getApi(baseUrl + '/communityTasks');
+export const getGiveFeedbackCompletedTasks = async () => await getApi(baseUrl + '/feedbackHistory');
+export const getStudentStats = async () => await getApi(baseUrl + '/students/stats');
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + '/classes/all/details');
 export const getModelResponses = async () =>
@@ -256,7 +233,8 @@ export const getSubmissionsByAssignmentId = async (assignmentId) =>
   await getApi(baseUrl + '/assignments/' + assignmentId + '/submissions');
 export const getOverComments = async (id) =>
   await getApi(baseUrl + '/submissions/' + id + '/overallComments');
-
+export const getPortfolioSubjects = async () =>
+  await getApi(baseUrl + '/students/drafts');
 
 export const addFeedback = async (submissionId, comment) =>
   await postApi(
@@ -280,6 +258,9 @@ export const docsMoveToFolder = async (submissionId, classId, folderId) =>
   });
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
+
+export const provideFeedbackOnFeedback = async (submissionId, feedbackOnFeedback) =>
+  await patchApi(baseUrl + '/submissions/' + submissionId + '/feedbackOnFeedback/' + feedbackOnFeedback);
 
 export const getSmartAnnotaionAnalyticsByClassId = async (classId) => {
   let smartAnnotationsMap = new Map();
@@ -371,6 +352,8 @@ export const createAssignment = async (assignment) =>
   await postApi(baseUrl + '/assignments', assignment);
 export const publishAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/publish', update);
+export const updateSubject = async (id, subject) =>
+  await patchApi(baseUrl + '/assignments/' + id + '/updateSubject', {subject: subject});
 export const deleteAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/delete', update);
 export const extendDueAtAssignment = async (id, extendDueAt) =>
@@ -413,6 +396,11 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId,
     range
   );
+export const updateDocumentType = async (submissionId, documentType) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/updateDocumentType',
+    {"documentType": documentType}
+  );
 export const publishModelResponse = async (feedbackId) =>
   await patchApi(
     baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/publish'
@@ -423,6 +411,12 @@ export const unpublishModelResponse = async (feedbackId) =>
   );
 export const denyModelResponse = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/deny');
+
+export const profileStateYear = async (stateYear) =>
+  await patchApi(baseUrl + '/users/profile', stateYear);
+
+export const getStateYear = async () =>
+  await getApi(baseUrl + '/users/profile');
 
 export const createSubmission = async (submission) =>
   await postApi(baseUrl + '/submissions', submission);
@@ -438,6 +432,7 @@ export const createRequestFeddbackType = async (
 function logoutLocal() {
   deleteProfileCookies();
   localStorage.removeItem('jwtToken');
+  localStorage.removeItem('onboardingShown');
 }
 
 export function redirectToExternalIDP() {
@@ -446,7 +441,8 @@ export function redirectToExternalIDP() {
     jeddleBaseUrl +
     '/wp-json/moserver/authorize?response_type=code&client_id=' +
     clientId +
-    '&state=' + Date.now() +
+    '&state=' +
+    Date.now() +
     '&redirect_uri=' +
     selfBaseUrl;
   window.location.href = externalIDPLoginUrl;
@@ -553,4 +549,11 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     classId,
     courseId,
     title,
+    documentType:'Analytical'
+  });
+export const askJeddAI = async (submissionId, cleanAnswer, subject, type) =>
+  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+    state: Cookies.get('state'),
+    year: Cookies.get('year'),
+    cleanAnswer: cleanAnswer,
   });

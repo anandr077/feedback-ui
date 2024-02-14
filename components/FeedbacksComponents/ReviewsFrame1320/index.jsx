@@ -35,7 +35,7 @@ const Frame13201 = styled.div`
   width: fit-content;
   align-items: flex-start;
   gap: 20px;
-  padding: 4px 12px;
+  padding: 4px 0px;
   position: relative;
   overflow: hidden;
 
@@ -61,6 +61,7 @@ const Frame13201 = styled.div`
 
 const Feedback = styled.div`
   ${IbmplexsansNormalPersianIndigo14px}
+  font-size: var(--font-size-xl);
   position: relative;
   font-weight: 500;
   width: fit-content;

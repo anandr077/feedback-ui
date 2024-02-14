@@ -1,4 +1,4 @@
-import { default as React, default as React } from 'react';
+import { default as React, default as React, useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
@@ -11,10 +11,9 @@ import StudentDashboardRoot from './components/StudentDashBoardRoot';
 import StudentTaskRoot from './components/StudentTaskRoot';
 import TeacherDashboardRoot from './components/TeacherDashboard/TeacherDashboardRoot';
 import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
-import withAuth from './components/WithAuth';
 import PageNotFound from './components/PageNotFound';
 import { Redirect } from 'react-router-dom';
-import { getUserRole, getUserName } from './service';
+import { getUserRole, getUserName } from './userLocalDetails';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
@@ -22,38 +21,69 @@ import PortfolioPage from './components/PortfolioPage';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools/build/lib/devtools';
+
+import GiveFeedback from './components/GiveFeedback';
+import Cookies from 'js-cookie';
+import withOnboarding from './components/WithOnboarding';
+import withAuth from './components/WithAuth';
+import NewDocPage from './components/NewDocRoot';
+import MainPage from './components/MainPage';
+import CompletedRoot from './components/Completed/CompletedRoot';
 
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
+  const [showFooter, setShowFooter] = useState(true);
 
-  const ProtectedTeacherDashboard = withAuth(TeacherDashboardRoot);
-  const ProtectedStudentDashboard = withAuth(StudentDashboardRoot);
-  const ProtectedStudentTaskRoot = withAuth(StudentTaskRoot);
-  //const ProtectedCompletedRoot = withAuth(CompletedPage);
-  const ProtectedPortfolioRoot = withAuth(PortfolioPage);
-  const ProtectedTeacherClassesRoot = withAuth(TeacherClassesRoot);
-  const ProtectedTaskDetail = withAuth(TaskDetail);
-  const ProtectedCreateAssignment = withAuth(CreateAssignment);
-  const ProtectedTeacherTaskRoot = withAuth(TeacherTaskRoot);
-  const ProtectedFeedbacksRoot = withAuth(FeedbacksRoot);
-  const ProtectedDocumentRoot = withAuth(DocumentRoot);
-  const ProtectedExemplarResponsesPage = withAuth(ExemplarResponsesPage);
-  const ProtectedMarkingCriteria = withAuth(CreateNewMarkingCriteriaRoot);
-  const ProtectedSettings = withAuth(AccountSettingsRoot);
-  const ProtectedHeader = withAuth(ResponsiveHeader);
-  const ProtectedStrengthAndTarget = withAuth(CreateNewStrengthAndTargets);
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const currentHash = window.location.hash.split('?')[0];
+      const hideFooterRoutes = [
+        '#/submissions/', 
+        '#/documents/',
+        '#/documentsReview/'
+      ];
+      const shouldShowFooter = !hideFooterRoutes.some(route => currentHash.startsWith(route));
+      setShowFooter(shouldShowFooter);
+    };
+    handleRouteChange();
+    window.addEventListener('hashchange', handleRouteChange);
+
+    return () => window.removeEventListener('hashchange', handleRouteChange);
+  }, []);
+
+  const middleware = (c) => withOnboarding(withAuth(c));
+  const ProtectedTeacherDashboard = middleware(TeacherDashboardRoot);
+  const ProtectedStudentDashboard = middleware(StudentDashboardRoot);
+  const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
+  //const ProtectedCompletedRoot = middleware(CompletedPage);
+  const ProtectedPortfolioRoot = middleware(PortfolioPage);
+  const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
+  const ProtectedTaskDetail = middleware(TaskDetail);
+  const ProtectedCreateAssignment = middleware(CreateAssignment);
+  const ProtectedTeacherTaskRoot = middleware(TeacherTaskRoot);
+  const ProtectedFeedbacksRoot = middleware(FeedbacksRoot);
+  const ProtectedDocumentRoot = middleware(FeedbacksRoot);
+  const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
+  const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
+  const ProtectedSettings = middleware(AccountSettingsRoot);
+  const ProtectedHeader = middleware(ResponsiveHeader);
+  const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
+
+  const ProtectedGiveFeedback = middleware(GiveFeedback);
+  const ProtectedDocRoot = middleware(NewDocPage);
+  const ProtectedCompletedRoot = middleware(CompletedPage);
 
   const portfolioClient = new QueryClient();
+
 
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
-        <ProtectedTeacherDashboard />
+        <ProtectedTeacherTaskRoot />
       ) : (
-        <ProtectedStudentDashboard />
+        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedDocRoot />
       );
     return <div>{dashboard}</div>;
   };
@@ -73,6 +103,12 @@ function App() {
         <Router>
           {<ProtectedHeader />}
           <Switch>
+            <Route path="/docs">
+              <ProtectedDocRoot />
+            </Route>
+            <Route path="/main">
+              <MainPage />
+            </Route>
             <Route path="/settings">
               <ProtectedSettings />
             </Route>
@@ -85,11 +121,17 @@ function App() {
             <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
               <ProtectedStrengthAndTarget />
             </Route>
-            <Route path="/portfolio/:folderId/:categoryName?">
-              <ProtectedPortfolioRoot />
+            <Route path="/getFeedback">
+              <ProtectedDocRoot />
             </Route>
-            <Route path="/portfolio">
-              <ProtectedPortfolioRoot />
+            <Route path="/giveFeedback">
+              <ProtectedGiveFeedback />
+            </Route>
+            <Route path="/completed">
+              <ProtectedCompletedRoot />
+            </Route>
+            <Route path="/feedbackHistory">
+              <ProtectedGiveFeedback />
             </Route>
             <Route path="/classes/:classIdFromUrl?">
               <ProtectedTeacherClassesRoot />
@@ -107,12 +149,16 @@ function App() {
             <Route path="/submissions/:id">
               <ProtectedFeedbacksRoot isAssignmentPage={false} />
             </Route>
+            <Route path="/docs">
+              <ProtectedDocumentRoot />
+            </Route>
             <Route path="/documents/:id">
               <ProtectedDocumentRoot />
             </Route>
             <Route path="/documentsReview/:id">
               <ProtectedDocumentRoot />
             </Route>
+
             <Route path="/404">
               <PageNotFound />
             </Route>
@@ -121,7 +167,7 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
-          {<ResponsiveFooter />}
+          {showFooter && <ResponsiveFooter />}
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>

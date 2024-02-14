@@ -6,26 +6,18 @@ export const FeedbackContainer = styled.div`
   height: auto;
 `;
 
-export const TextBox = styled.div`
+export const TextBox = styled.div``;
+
+export const HiddenInputBox = styled.textarea`
   margin-top: 15px;
-  width: 100%;
-  border-radius: 16px;
   border: 1px solid rgba(114, 0, 224, 0.1);
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
-  padding: 0 20px;
 
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-`;
-
-export const HiddenInputBox = styled.textarea`
   display: block;
   width: 100%;
   font-family: var(--font-family-ibm_plex_sans);
-  padding: 15px 0;
-  border: none;
+  padding: 15px 20px;
   border-radius: 10px;
   outline: none;
   resize: none;
@@ -46,10 +38,11 @@ export const HiddenInputBox = styled.textarea`
 
 export const OverAllCommentTitle = styled.h2`
   color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
   margin-top: 10px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 26px;
 `;

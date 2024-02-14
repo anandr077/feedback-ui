@@ -1,18 +1,23 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 import {
   exchangeCodeForToken,
-  getAuthToken,
+  redirectToExternalIDP,
+} from '../../service';
+import {
   getUserId,
   getUserName,
   getUserRole,
-  redirectToExternalIDP,
   setProfileCookies,
-} from '../../service';
+  getAuthToken,
+} from '../../userLocalDetails';
 import { useLocation } from 'react-router-dom';
 import { default as React, default as React, useEffect, useState } from 'react';
 import Loader from '../Loader';
+import { isNullOrEmpty } from '../../utils/arrays';
 
 const withAuth = (WrappedComponent) => {
+  const history = useHistory();
+
   const WithAuth = (props) => {
     const [isLoading, setIsLoading] = useState(true);
 
@@ -51,6 +56,8 @@ function loginUsing(code) {
       setProfileCookies(result);
       window.location.href = '/#/';
     })
-    .catch((e) => {});
+    .catch((e) => {
+      window.location.href = 'https://jeddle.com/jedd-ai/';
+    });
 }
 export default withAuth;

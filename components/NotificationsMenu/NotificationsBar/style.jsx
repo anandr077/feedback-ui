@@ -15,42 +15,63 @@ export const NavbarDiv = styled.div`
 
 export const NotificationHead = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-`
+  margin-bottom: 10px;
+  position: relative;
+  img {
+    height: 32px;
+    width: 32px;
+  }
+  h1 {
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 600;
+    font-size: var(--font-size-xxl);
+    color: var(--text);
+    line-height: 31px;
+  }
+`;
 
 export const Frame1409 = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   align-items: flex-start;
   flex-direction: column;
   gap: 20px;
-  padding: 16px 20px;
+  padding: 16px 0px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
 `;
 export const MaskGroup = styled.img`
-  position: sticky;
-  top: 0;
-  right: 0;
-  height: 48px;
-  width: 48px;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  height: 35px;
+  width: 35px;
 `;
 
 export const Frame15 = styled.div`
   display: flex;
-  width: 320px;
+  width: 420px;
   align-items: flex-start;
   gap: 10px;
-  padding: 10px;
+  padding: 20px;
   position: relative;
   align-self: stretch;
   z-index: 10;
   height: 100%;
   flex-direction: column;
-  overflow: visible;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 export const Frame16 = styled.div`
   display: flex;
@@ -60,6 +81,13 @@ export const Frame16 = styled.div`
   z-index: 10;
   gap: 10px;
   flex-direction: column;
+  flex-grow: 1;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 
 export const EmptyBox = styled.div`
@@ -67,4 +95,12 @@ export const EmptyBox = styled.div`
   font-family: 'IBM Plex Sans';
   font-size: 20px;
   color: rgba(48, 45, 45, 0.5);
-`
+`;
+
+export const CloseNotification = styled.img`
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+`;

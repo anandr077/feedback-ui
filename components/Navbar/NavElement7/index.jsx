@@ -22,7 +22,7 @@ function NavElement7(props) {
         <Exportsquare
           onClick={redirectTo}
           className="exportsquare"
-          src="/icons/redirectIcon.png"
+          src='/icons/redirectIcon.png'
           alt="exportsquare"
         />
       </Group1>

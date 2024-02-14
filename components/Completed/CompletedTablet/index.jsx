@@ -7,6 +7,8 @@ import './CompletedTablet.css';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
+import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
+import { HeadingAndFilterCon } from './style.js';
 
 function CompletedTablet(props) {
   const {
@@ -20,21 +22,25 @@ function CompletedTablet(props) {
     subject,
     frame1284,
     line18,
+    headingPart,
+    onAccept,
+    onDecline,
   } = props;
-
   return (
     <div className="completed-tablet screen">
       <Frame1425>
-        {exemplar && (
-          <Frame1315>
-            <Breadcrumb text={'Home'} link={'/#'} />
-            <Breadcrumb2 title="Exemplars" exempler={exemplar} />
-          </Frame1315>
-        )}
-        <Frame1424>
-          <Title>{title}</Title>
-          {createFilter()}
-        </Frame1424>
+        {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
+        <SliderCardContainer>
+          <HelpPeerSlide
+            id={id}
+            groups={groups}
+            exemplar={exemplar}
+            setPublishActionCompleted={setPublishActionCompleted}
+            onAccept={onAccept}
+            onDecline={onDecline}
+          />
+        </SliderCardContainer>
+        <Frame1424>{createFilter()}</Frame1424>
         <Frame1413>
           <Frame1410
             id={id}
@@ -70,6 +76,11 @@ const Frame1425 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+`;
+
+const SliderCardContainer = styled.div`
+  width: 100%;
+  padding: 0 60px;
 `;
 
 const Frame1424 = styled.div`

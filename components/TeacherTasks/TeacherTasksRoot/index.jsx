@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   getAssignments,
   getClasses,
   getDocumentReviews,
 } from '../../../service';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, {
+  isMobileView,
+  isTabletView,
+} from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
 import TeacherTasksLaptop from '../TeacherTasksLaptop';
 import TeacherTasksDesktop from '../TeacherTasksDesktop';
+import { Dialog } from '@mui/material';
 import {
   assignmentsHeaderProps,
   taskHeaderProps,
@@ -18,6 +22,46 @@ import Loader from '../../Loader';
 import DeleteAssignmentPopup from '../../DeleteAssignmentPopUp';
 import ExtendAssignmentPopup from '../../ExtendAssignmentPopup';
 import { useQuery } from '@tanstack/react-query';
+import {
+  CalenderContainer,
+  FilterAndSortContainer,
+  MainContainer,
+  TasksImg,
+  TasksImgCal,
+} from '../../StudentTaskRoot/style.js';
+
+import { FilterContainer, FilterLine } from '../../CompletedPage/style.js';
+import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
+import SortSquare from '../../../static/img/sort-square.svg';
+import FilterSquare from '../../../static/img/filter-square.svg';
+import TaskSelected from '../../../static/img/taskselected.svg';
+import Closecircle from '../../../static/img/closecircle.svg';
+import TaskUnSelected from '../../../static/img/taskunselected.svg';
+import CalSelected from '../../../static/img/calselected.svg';
+import CalUnSelected from '../../../static/img/calunselected.svg';
+import moment from 'moment';
+import MyCalendar from '../../../components2/Calender/index.js';
+import {
+  Filter,
+  FilterImg,
+  FilterText,
+  SortHeading,
+  SortImg,
+  SortText,
+  SortButton,
+  SortButtonText,
+} from '../../FilterSort/style.js';
+import {
+  FeedbackButtonArrow,
+  Frame5086Img,
+  Frame5086PopUp,
+  Frame5086PopUpTitle,
+  Frame5086Text,
+  PopupContainer,
+  SortPopUpBody,
+  SortContainer,
+  Frame5086PopUpBody,
+} from '../../GiveFeedback/style.js';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -26,6 +70,14 @@ export default function TeacherTaskRoot() {
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
+
+  const [sortData, setSortData] = React.useState(true);
+  const [selectedClass, setSelectedClass] = React.useState('');
+  const [tasksSelected, setTasksSelected] = React.useState(true);
+  const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
+  const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
+  const mobileView = isMobileView();
+  const tabletView = isTabletView();
 
   const assignmentsQuery = useQuery({
     queryKey: ['assignments'],
@@ -55,29 +107,32 @@ export default function TeacherTaskRoot() {
     if (assignmentsQuery.data) {
       if (documentReviewTasksQuery.data) {
         setAssignments([
-          ...assignmentsQuery.data.map(assignment => ({
+          ...assignmentsQuery.data.map((assignment) => ({
             ...assignment,
-            type: 'TASK'
+            type: 'TASK',
           })),
           ...documentReviewTasksQuery.data,
         ]);
         setFilteredTasks([
-          ...assignmentsQuery.data
-          .map(assignment => ({
+          ...assignmentsQuery.data.map((assignment) => ({
             ...assignment,
-            type: 'TASK'
+            type: 'TASK',
           })),
           ...documentReviewTasksQuery.data,
         ]);
       } else {
-        setAssignments(assignmentsQuery.data.map(assignment => ({
-          ...assignment,
-          type: 'TASK'
-        })));
-        setFilteredTasks(assignmentsQuery.data.map(assignment => ({
-          ...assignment,
-          type: 'TASK'
-        })));
+        setAssignments(
+          assignmentsQuery.data.map((assignment) => ({
+            ...assignment,
+            type: 'TASK',
+          }))
+        );
+        setFilteredTasks(
+          assignmentsQuery.data.map((assignment) => ({
+            ...assignment,
+            type: 'TASK',
+          }))
+        );
       }
     }
     if (teacherClassesQuery.data) {
@@ -101,19 +156,48 @@ export default function TeacherTaskRoot() {
     );
   }
 
-  const drafts = filteredTasks.filter(
-    (assignment) => assignment.submissionsStatus === 'DRAFT'
-  );
-  const awaitingSubmissions = filteredTasks.filter((assignment) => {
-    return (
-      assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
-      assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
-    );
-  });
+  const setSelectedValue = (type, selectValue) => {
+    if (type === 'classes') {
+      setSelectedClass(selectValue);
+    }
+  };
 
-  const feedbacks = filteredTasks.filter(
-    (assignment) => assignment.submissionsStatus === 'FEEDBACK'
-  );
+  const filteredData = (tasks) => {
+    const sortedTasks = tasks.sort((a, b) => {
+      const dateA = new Date(a.dueAt).getTime();
+      const dateB = new Date(b.dueAt).getTime();
+      return sortData ? dateB - dateA : dateA - dateB;
+    });
+
+    return sortedTasks;
+  };
+
+  const classNames = classes.map((classItem) => classItem.title);
+
+  const drafts = filteredData(filteredTasks)
+    .filter((assignment) => assignment.submissionsStatus === 'DRAFT')
+    .filter((assignment) => {
+      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
+      return assignment.classId === selectedTitle.id
+    })
+
+  const awaitingSubmissions = filteredData(filteredTasks)
+    .filter((assignment) => {
+      return (
+        assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
+        assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
+      )})
+    .filter((assignment) => {
+      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
+      return assignment.classId === selectedTitle.id
+    })
+
+  const feedbacks = filteredData(filteredTasks)
+    .filter((assignment) => assignment.submissionsStatus === 'FEEDBACK')
+    .filter((assignment) => {
+      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
+      return assignment.classId === selectedTitle.id
+    })
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -160,7 +244,9 @@ export default function TeacherTaskRoot() {
       if (_.isEmpty(classesValues)) {
         return true;
       }
-      return _.some(assignment.classIds, (classId) => _.includes(classesValues, classId));
+      return _.some(assignment.classIds, (classId) =>
+        _.includes(classesValues, classId)
+      );
     });
 
     setFilteredTasks(filteredClasses);
@@ -181,6 +267,201 @@ export default function TeacherTaskRoot() {
   const hideDateExtendPopup = () => {
     setShowDateExtendPopup(false);
   };
+
+  const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
+    return (
+      <Dialog open={isShowFilterPopUp}>
+        {isShowFilterPopUp && (
+          <PopupContainer>
+            <Frame5086PopUp>
+              <Frame5086PopUpTitle>
+                <Frame5086Img src={FilterSquare} />
+                <Frame5086Text>Filters:</Frame5086Text>
+              </Frame5086PopUpTitle>
+              <FeedbackButtonArrow
+                style={{ cursor: 'pointer' }}
+                src={Closecircle}
+                onClick={() => setShowFilterPopUp(false)}
+              />
+            </Frame5086PopUp>
+            <Frame5086PopUpBody>
+              <RoundedDropDown
+                search={false}
+                type={'classes'}
+                selectedIndex={setSelectedValue}
+                menuItems={classNames}
+                defaultValue={selectedClass}
+                width={110}
+              />
+            </Frame5086PopUpBody>
+          </PopupContainer>
+        )}
+      </Dialog>
+    );
+  };
+
+  const SortPopContainer = ({ isShowSortPopUp, setShowSortPopUp }) => {
+    return (
+      <Dialog open={isShowSortPopUp}>
+        {isShowSortPopUp && (
+          <PopupContainer>
+            <Frame5086PopUp>
+              <Frame5086PopUpTitle>
+                <Frame5086Img src={SortSquare} />
+                <Frame5086Text>Sort by:</Frame5086Text>
+              </Frame5086PopUpTitle>
+              <FeedbackButtonArrow
+                style={{ cursor: 'pointer' }}
+                src={Closecircle}
+                onClick={() => setShowSortPopUp(false)}
+              />
+            </Frame5086PopUp>
+            <SortPopUpBody>
+              <SortButton
+                style={{ backgroundColor: sortData ? '#51009F' : '' }}
+                onClick={() => setSortData(true)}
+              >
+                <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+                  New to Old
+                </SortButtonText>
+              </SortButton>
+              <SortButton
+                style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                onClick={() => setSortData(false)}
+              >
+                <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+                  Old to New
+                </SortButtonText>
+              </SortButton>
+            </SortPopUpBody>
+          </PopupContainer>
+        )}
+      </Dialog>
+    );
+  };
+
+  const FilterSortAndCal = (
+    <>
+      <MainContainer>
+        <FilterAndSortContainer>
+          <FilterContainer>
+            <Filter
+              onClick={
+                mobileView
+                  ? () => setShowFilterPopUp(!isShowFilterPopUp)
+                  : undefined
+              }
+            >
+              <FilterImg src={FilterSquare} />
+              <FilterText>Filter {!mobileView && ':'}</FilterText>
+            </Filter>
+
+            {!mobileView ? (
+              <>
+                <RoundedDropDown
+                  search={false}
+                  type={'classes'}
+                  selectedIndex={setSelectedValue}
+                  menuItems={classNames}
+                  defaultValue={selectedClass}
+                  width={110}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+            <FilterPopContainer
+              isShowFilterPopUp={isShowFilterPopUp}
+              setShowFilterPopUp={setShowFilterPopUp}
+            />
+          </FilterContainer>
+          {!tabletView && <FilterLine />}
+          <SortContainer>
+            <SortHeading
+              onClick={
+                mobileView
+                  ? () => setShowSortPopUp(!isShowSortPopUp)
+                  : undefined
+              }
+            >
+              <SortImg src={SortSquare} />
+              <SortText>Sort by {!mobileView && ':'}</SortText>
+            </SortHeading>
+            {!mobileView ? (
+              <>
+                <SortButton
+                  style={{
+                    backgroundColor: sortData ? '#51009F' : '',
+                    border: '1px solid #8E33E6',
+                  }}
+                  onClick={() => setSortData(true)}
+                >
+                  <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+                    New to Old
+                  </SortButtonText>
+                </SortButton>
+                <SortButton
+                  style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                  onClick={() => setSortData(false)}
+                >
+                  <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+                    Old to New
+                  </SortButtonText>
+                </SortButton>
+              </>
+            ) : (
+              <></>
+            )}
+            <SortPopContainer
+              isShowSortPopUp={isShowSortPopUp}
+              setShowSortPopUp={setShowSortPopUp}
+            />
+          </SortContainer>
+        </FilterAndSortContainer>
+        <CalenderContainer>
+          <TasksImg
+            src={
+              tasksSelected
+                ? TaskSelected
+                : mobileView
+                ? TaskSelected
+                : TaskUnSelected
+            }
+            selected={tasksSelected}
+            onClick={() => setTasksSelected(true)}
+          />
+          {!mobileView && (
+            <TasksImgCal
+              src={!tasksSelected ? CalSelected : CalUnSelected}
+              selected={!tasksSelected}
+              onClick={() => setTasksSelected(false)}
+            />
+          )}
+        </CalenderContainer>
+      </MainContainer>
+    </>
+  );
+
+  function classForCalender(classId){
+    if (!Array.isArray(classId)) {
+      return "";
+    }
+  
+    const filteredClasses = classes.filter(classItem => classId.includes(classItem.id));
+    const classTitles = filteredClasses.map((filteredClass) => filteredClass.title);
+    
+    return classTitles;
+  }
+
+  const calenderEvents = filteredTasks.map((task) => ({
+    link: task.link,
+    title: task.title,
+    class: classForCalender(task.classIds),
+    start: moment(task.dueAt).toDate(),
+    end: moment(task.dueAt).toDate(),
+  }));
+
+  const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
 
   return (
     <>
@@ -208,6 +489,9 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksStudentMobileData,
             }}
           />
@@ -222,6 +506,9 @@ export default function TeacherTaskRoot() {
               showDeletePopuphandler,
               showDateExtendPopuphandler,
               feedbacks,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksStudentTabletData,
             }}
           />
@@ -239,6 +526,9 @@ export default function TeacherTaskRoot() {
               showDeletePopup,
               hidedeletePopup,
               selectedAssignment,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksLaptopData,
             }}
           />
@@ -253,6 +543,9 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              FilterSortAndCal,
+              tasksSelected,
+              MyCalendarFile,
               ...tasksDesktopData,
             }}
           />

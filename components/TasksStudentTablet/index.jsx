@@ -13,6 +13,21 @@ import { taskHeaderProps } from '../../utils/headerProps.js';
 import FooterSmall from '../FooterSmall';
 import './TasksStudentTablet.css';
 import Group1205 from '../TeacherDashboard/Group1205';
+import LinkButton from '../../components2/LinkButton/index.jsx';
+import arrowRight from '../../static/img/arrowright.svg';
+import whiteArrowright from '../../static/img/arrowright-White.svg';
+import questionMark from '../../static/img/question-mark.svg';
+import share from '../../static/img/share.svg';
+import shareColor from '../../static/img/share-color.svg';
+import {
+  SubtitleCon,
+  Title,
+  TitleAndFilterContainer,
+  TitleAndSubtitleContainer,
+  TitleContainer,
+  TitleImage,
+} from './style.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 function TasksStudentTablet(props) {
   const {
@@ -22,7 +37,11 @@ function TasksStudentTablet(props) {
     inProgressTasks,
     inReviewTasks,
     portfolio,
+    headingFilter,
     arrowright,
+    FilterSortAndCal,
+    tasksSelected,
+    MyCalendarFile,
   } = props;
   const prevProps = useRef(props);
   const [isAssigned, setIsAssigned] = useState(true);
@@ -49,23 +68,38 @@ function TasksStudentTablet(props) {
   return (
     <div className="tasks-student-tablet screen">
       <Frame1365>
-        <Frame1307>
-          <KeepOrganizedWitho>Tasks</KeepOrganizedWitho>
-          <LinkAndFilter>
-            {portfolio.length != 0 && (
-              <Group1205
-                link={`#portfolio/${portfolio?.files[0].id}/Tasks`}
-                label="COMPLETED TASKS"
-                arrowright={arrowright}
-              />
-            )}
-            <CheckboxGroup
-              onChange={filterTasks}
-              data={menuItems}
-            ></CheckboxGroup>
-          </LinkAndFilter>
-        </Frame1307>
-        {taskFrame}
+        <TitleAndFilterContainer>
+          <TitleAndSubtitleContainer>
+            <TitleContainer>
+              <Title>
+                My Tasks
+                <QuestionTooltip 
+                  text="View all of your current tasks from school"
+                  img={questionMark}
+                />
+              </Title>
+              <LinkAndFilter>
+                <LinkButton
+                  link={`#/exemplarResponses`}
+                  label="Shared Responses"
+                  arrowleft={shareColor}
+                  whiteArrowleft={share}
+                />
+                <LinkButton
+                  link={`#/completed`}
+                  label="Task History"
+                  arrowright={arrowRight}
+                  whiteArrowright={whiteArrowright}
+                />
+              </LinkAndFilter>
+            </TitleContainer>
+            <SubtitleCon>
+              Click on a task bubble to complete or review your work
+            </SubtitleCon>
+          </TitleAndSubtitleContainer>
+          <>{FilterSortAndCal}</>
+        </TitleAndFilterContainer>
+        {tasksSelected ? (<>{taskFrame}</>) : MyCalendarFile}
       </Frame1365>
     </div>
   );
@@ -77,6 +111,17 @@ function TasksStudentTablet(props) {
     isInProgress,
     isOverdue
   ) {
+    const tooltipText = () =>{
+      if(title === "Assigned"){
+        return "New tasks that you haven't opened yet"
+      }
+      if(title === "In Draft"){
+        return "Tasks that you have started but not yet submitted"
+      }
+      if(title === "In Review"){
+        return "Completed tasks that are either awaiting feedback or pending your review"
+      }
+    }
     return (
       <>
         <Frame1364>
@@ -117,7 +162,13 @@ function TasksStudentTablet(props) {
           </Frame1211>
           <Frame1363>
             <Frame1362>
-              <Outstanding>{title}</Outstanding>
+              <Outstanding>
+                {title}
+                <QuestionTooltip 
+                  text={tooltipText()}
+                  img={questionMark}
+                />
+              </Outstanding>
               <Number>{tasks.length}</Number>
             </Frame1362>
             <TaskCardContainer allTasks={tasks} />
@@ -138,12 +189,27 @@ const Frame1365 = styled.div`
   align-self: stretch;
 `;
 
+const HeaderContainer = styled.div`
+  width: 100%;
+`;
+
+const FilterContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const Frame1307 = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
   position: relative;
   align-self: stretch;
+`;
+
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const KeepOrganizedWitho = styled.h1`
@@ -154,6 +220,18 @@ const KeepOrganizedWitho = styled.h1`
   letter-spacing: -0.72px;
   line-height: 43.2px;
   white-space: nowrap;
+  color: var(--royal-purple);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const HeadingMessage = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #333333;
 `;
 
 const Frame1364 = styled.div`
@@ -201,6 +279,8 @@ const Outstanding = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  gap: 8px;
 `;
 
 const Number = styled.div`

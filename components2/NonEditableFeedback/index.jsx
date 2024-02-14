@@ -8,48 +8,41 @@ import {
 } from './style';
 
 const NonEditableFeedback = ({ textFeedback, audioFeedback }) => {
-  const textareaRef = useRef(null);
+  const hiddenInputRef = useRef(null);
 
-  const calculateTextareaHeight = () => {
-    const lineHeight = 25;
-    const minRows = 1;
-    const maxRows = 1000;
-
-    const numberOfRows = Math.min(
-      Math.max(
-        Math.ceil(textareaRef.current?.scrollHeight / lineHeight),
-        minRows
-      ),
-      maxRows
-    );
-
-    const newHeight = numberOfRows * lineHeight;
-    return `${newHeight}px`;
+  const adjustHeight = () => {
+    const element = hiddenInputRef.current;
+    if (element) {
+      element.style.height = 'auto';
+      element.style.height = element.scrollHeight + 'px';
+    }
   };
 
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = calculateTextareaHeight();
-    }
-  }, []);
+    adjustHeight();
+    window.addEventListener('resize', adjustHeight);
+    return () => {
+      window.removeEventListener('resize', adjustHeight);
+    };
+  }, [textFeedback, window.innerWidth]);
 
   if (textFeedback || audioFeedback) {
     return (
       <FeedbackContainer>
-        <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
-        <TextBox>
-          {textFeedback ? (
-            <HiddenInputBox
-              style={{ height: calculateTextareaHeight() }}
-              ref={textareaRef}
-              readOnly={true}
-            >
-              {textFeedback}
-            </HiddenInputBox>
-          ) : (
-            <></>
-          )}
-        </TextBox>
+        {textFeedback ? (
+          <div style={{ marginBottom: '30px' }}>
+            <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
+              <HiddenInputBox
+                ref={hiddenInputRef}
+                readOnly={true}
+                onInput={adjustHeight}
+              >
+                {textFeedback}
+              </HiddenInputBox>
+          </div>
+        ) : (
+          <></>
+        )}
         {audioFeedback ? (
           <AudioPlayer generatedAudioFeedback={audioFeedback} />
         ) : (

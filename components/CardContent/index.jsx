@@ -3,6 +3,7 @@ import { formattedDate } from '../../dates';
 import {
   RemarkText,
   Content,
+  StatusContainer,
   TaskTitle,
   Remark,
   SmallTaskTitle,
@@ -104,8 +105,13 @@ function CardContent(props) {
         {createSubtitle(task.subTitle)}
         {createSubPara(task.subPara)}
         {!onAccept && date(small, task.date)}
-        {createStatus(small, task.status1)}
-        {createStatus(small, task.status2)}
+        {(task.status1 || task.status2) && (
+            <StatusContainer>
+              {createStatus(small, task.status1)}
+              {createStatus(small, task.status2)}
+            </StatusContainer>
+          )
+        }
         {createAcceptDecline()}
       </Content>
     </>

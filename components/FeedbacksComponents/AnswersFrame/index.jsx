@@ -340,6 +340,7 @@ function createQuill(
   setCountWords,
   editorFontSize
 ) {
+  console.log('the page mode is', pageMode)
   return (
     <QuillEditor
       // key={Math.random()}
@@ -367,7 +368,7 @@ function createQuill(
       debounceTime={debounce.debounceTime}
       onDebounce={debounce.onDebounce}
       containerName={containerName}
-      nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED'}
+      nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
       setCountWords={setCountWords}
       editorFontSize={editorFontSize}
     ></QuillEditor>

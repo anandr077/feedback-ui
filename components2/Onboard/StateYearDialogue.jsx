@@ -57,12 +57,10 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
       : [];
 
   const handleStateSelect = (selectedState) => {
-    console.log('selectedState', selectedState);
     setState(selectedState.title);
   };
 
   const handleYearSelect = (selectedYear) => {
-    console.log('selectedYear', selectedYear);
     setYear(selectedYear.title);
   };
 
@@ -112,7 +110,6 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
           <CloseImg
             src="img/vector-12@2x.png"
             onClick={() => {
-              console.log('onClose', onClose);
               onClose();
             }}
           />

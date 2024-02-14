@@ -143,7 +143,6 @@ function IndepentdentUserSidebar({
   };
 
   const deleteFunction = () => {
-    console.log('first delete request');
     setShowDeletePopup(false);
     deleteSubmissionById(deleteQuestionId).then(() => {
       if (deleteQuestionId === currentSubmissionId) {

@@ -36,7 +36,6 @@ function TeacherSidebar({ open, submission }) {
   ));
 
   const handleQuestionClick = (student) => {
-    console.log('the studetn id', student);
     const newUrl = `/submissions/${student.submissionId}`;
     history.push(newUrl);
   };

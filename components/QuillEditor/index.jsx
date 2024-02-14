@@ -159,10 +159,10 @@ const QuillEditor = React.forwardRef(
           });
         }
 
-        editor.root.addEventListener('paste', ()=>{
-          handlePaste();
-          const debouncedAction = debounce(handleDebounce, debounceTime);
+        const debouncedAction = debounce(handleDebounce, debounceTime);
+        editor.root.addEventListener('paste', (event)=>{
           debouncedAction();
+          handlePaste(event);
         });
       }
     }, [editor]);

@@ -327,13 +327,14 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function sidebar() {
-    if (isTeacher && isNullOrEmpty(submission.otherDrafts)) {
+    if (isTeacher && isNullOrEmpty(submission.studentsSubmissions)) {
       return <></>;
     }
     if (!isTeacher && submission.type !== 'DOCUMENT') {
       return <></>;
     }
-    return <><>
+    return <>
+    <>
       {isTeacher ? (
         <TeacherSidebar open={open} submission={submission} />
       ) : (

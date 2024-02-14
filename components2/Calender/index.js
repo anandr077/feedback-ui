@@ -20,7 +20,7 @@ import {
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = (props) => {
+const MyCalendar = ({ calenderEvents }) => {
   const CustomToolbar = (toolbar) => {
     const goToToday = () => {
       toolbar.onNavigate('TODAY');
@@ -74,7 +74,7 @@ const MyCalendar = (props) => {
     <div style={{ height: '120vh', width: '100%' }}>
       <StyledCalendar
         localizer={localizer}
-        events={props.calenderEvents}
+        events={calenderEvents}
         components={{
           event: CustomEvent,
           toolbar: CustomToolbar,
@@ -82,6 +82,9 @@ const MyCalendar = (props) => {
         showAllEvents
         step={60}
         timeslots={1}
+        tooltipAccessor={(event) => `
+          ${event.title}, ${event.class}
+      `}
       />
     </div>
   );

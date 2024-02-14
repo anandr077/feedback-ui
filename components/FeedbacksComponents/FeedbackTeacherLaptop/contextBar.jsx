@@ -293,7 +293,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
       );
     } else {
       return (
-        <RectangularBigBtn
+        <RectangularBigBtn2
           text={'Submit'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
         />

@@ -229,10 +229,10 @@ export default function Header(props) {
         </Frame5>
         <Frame51>
           {!isTeacher && <HeaderOnboardingMenu />}
-          <HeaderHelpBar
+          {/* <HeaderHelpBar
             src="/img/helpIcon.png"
             onClickFn={handleHelpBarClick}
-          />
+          /> */}
 
           <Notifications
             src="/img/notificationbing-3@2x.png"

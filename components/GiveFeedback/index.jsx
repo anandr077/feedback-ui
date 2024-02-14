@@ -494,7 +494,10 @@ function GiveFeedback() {
                   </Frame5088>
                 </Frame1353>
                 <Frame5111Para>
-                  {studentStats.total} documents reviewed
+                  {studentStats.total}{' '}
+                  {studentStats.total === 1
+                    ? 'document reviewed'
+                    : 'documents reviewed'}
                 </Frame5111Para>
                 <Frame5042>
                   <Frame5042Para1>{studentStats.percentage}%</Frame5042Para1>
@@ -506,9 +509,15 @@ function GiveFeedback() {
               <Frame5114>
                 <Frame5112>
                   <ProgressBarComponent levelNumber={studentStats.level} />
-                  <Frame5112para>
-                    Help 5 more students to level up!
-                  </Frame5112para>
+                  {studentStats.toGoForNextLevel > 0 && (
+                    <Frame5112para>
+                      Help {studentStats.toGoForNextLevel} more{' '}
+                      {studentStats.toGoForNextLevel === 1
+                        ? 'student'
+                        : 'students'}{' '}
+                      to level up!
+                    </Frame5112para>
+                  )}
                 </Frame5112>
               </Frame5114>
             </RightContentContainer>

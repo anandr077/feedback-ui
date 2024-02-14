@@ -101,7 +101,6 @@ export const ShareWithClassDialog = (props) => {
             <DialogActions>
               <SubmitCommentFrameRoot
                 submitButtonOnClick={() => {
-                  console.log('Clicked');
                   setCheckedExemplarStudents(initialCheckedState);
                   updateExemplarComment.showComment
                     ? updateExemplar()

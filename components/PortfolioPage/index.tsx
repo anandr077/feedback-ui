@@ -88,8 +88,6 @@ const PortfolioPage = () => {
     },
 
     onError: (err, _, context) => {
-      console.log('On error');
-
       queryClient.setQueryData(['portfolio'], context.previousPortfolio);
     },
     onSuccess: (data, variables) => {},
@@ -122,8 +120,6 @@ const PortfolioPage = () => {
       return { previousPortfolio };
     },
     onError: (err, newTodo, context) => {
-      console.log('On error');
-
       queryClient.setQueryData('portfolio', context.previousPortfolio);
     },
     onSuccess: (data, variables) => {},
@@ -141,8 +137,6 @@ const PortfolioPage = () => {
       return { previousPortfolio };
     },
     onError: (err, newTodo, context) => {
-      console.log('On error');
-
       queryClient.setQueryData('portfolio', context.previousPortfolio);
     },
     onSuccess: (data, variables) => {},

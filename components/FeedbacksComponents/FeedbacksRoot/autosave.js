@@ -104,9 +104,6 @@ const updateCommentsRange=(submission, comments, setComments)=>(answer, highligh
     getComments(submission.id).then((cmts) => {
       setComments(cmts.filter((c) => c.type !== 'MARKING_CRITERIA'));
       handleChangeText('All changes saved', true);
-      if (hadErrors) {
-        console.log('Some changes could not be saved');
-      }
     });
   });
 }

@@ -48,7 +48,6 @@ function TaskCard(props) {
   const saveButtons = (
     id
   ) => {
-    console.log("saveButtons", onAccept)
     return (
       <Frame12191>
         <SLink onClick={(e) => onExemplarDecline(id)}
@@ -72,7 +71,6 @@ function TaskCard(props) {
     if (exemplar) {
 
       if (task.status === 'AWAITING_APPROVAL') {
-        console.log("createTaskCard"+ onAccept)
         return (
           <StyledCard ref={refContainer} isSelected={isSelected}>
             <TaskTitle>

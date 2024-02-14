@@ -95,8 +95,6 @@ const PortfolioSideBar = ({
       handleNewFolder(name);
       setNewFolderName('');
       setAddFolder(false);
-    } else {
-      console.log('enter name should be less than 20 characters');
     }
   };
 

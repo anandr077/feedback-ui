@@ -13,6 +13,61 @@ const QuillEditor = React.forwardRef(
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
 
+    const manipulatePastedHTML = (pastedHTML) => {
+      // Parse the pasted HTML into a DOM object
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(pastedHTML, 'text/html');
+
+      // Remove unwanted styles (e.g., background color)
+      const removeStyles = (element) => {
+        element.removeAttribute('style');
+        element.style.backgroundColor = ''; // Remove background color
+      };
+
+      // Traverse and manipulate the DOM tree
+      const traverseAndRemoveStyles = (node) => {
+        if (node.nodeType === 1) { // Element node
+          removeStyles(node);
+          for (let i = 0; i < node.children.length; i++) {
+            traverseAndRemoveStyles(node.children[i]);
+          }
+        } else if (node.nodeType === 3) { // Text node
+          // Do nothing with text nodes for this example
+        }
+      };
+
+      traverseAndRemoveStyles(doc.body);
+
+      // Convert the modified DOM back to HTML
+      const serializer = new XMLSerializer();
+      const modifiedHTML = serializer.serializeToString(doc);
+
+      return modifiedHTML;
+    };
+
+    const handlePaste = (event) => {
+      // Prevent the default paste behavior
+      event.preventDefault();
+
+      // Access the clipboard data
+      const clipboardData = event.clipboardData || window.clipboardData;
+
+      // Get the HTML content from the clipboard
+      const pastedHTML = clipboardData.getData('text/html');
+
+      // Manipulate the HTML content to remove unwanted styles (e.g., background color)
+      const modifiedHTML = manipulatePastedHTML(pastedHTML);
+
+      // Insert the modified HTML into the editor
+      editor.clipboard.dangerouslyPasteHTML(modifiedHTML);
+    };
+
+    // useEffect(()=>{
+    //   if(editor){
+    //     editor.root.addEventListener('paste', handlePaste);
+    //   }
+    // }, [editor, handlePaste])
+
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
@@ -43,6 +98,7 @@ const QuillEditor = React.forwardRef(
           setCountWords(wordCount);
         });
       }
+
     }, [editor, editorRef, options, value, editorFontSize]);
 
     useEffect(() => {
@@ -102,6 +158,12 @@ const QuillEditor = React.forwardRef(
             }
           });
         }
+
+        const debouncedAction = debounce(handleDebounce, debounceTime);
+        editor.root.addEventListener('paste', (event)=>{
+          debouncedAction();
+          handlePaste(event);
+        });
       }
     }, [editor]);
     useImperativeHandle(ref, () => ({

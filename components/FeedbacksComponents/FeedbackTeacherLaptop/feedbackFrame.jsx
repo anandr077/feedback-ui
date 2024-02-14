@@ -180,13 +180,6 @@ export function createCommentsFrame(
   const visibleComments = createVisibleComments(commentsForSelectedTab);
   if (visibleComments.length === 0) {
     return (
-      // <CommentCard32
-      //   reviewer="Jeddle"
-      //   comment={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
-      //   onClick={() => {}}
-      //   isTeacher={isTeacher}
-      //   defaultComment={true}
-      // />
       <EmptyFeedback 
          text={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
       />

@@ -1,5 +1,5 @@
 import React from 'react'
-import Message from '../../static/img/gray_messages.svg'
+import MessageIcon from '../../static/img/gray_messages.svg'
 import {
   EmptyFeedbackContainer
 } from './style'
@@ -7,7 +7,7 @@ import {
 const EmptyFeedback = ({text}) => {
   return (
     <EmptyFeedbackContainer>
-        <img src={Message} />
+        <img src={MessageIcon} />
         <p>{text.comment}</p>
     </EmptyFeedbackContainer>
   )

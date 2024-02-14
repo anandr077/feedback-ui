@@ -8,6 +8,7 @@ export const EmptyFeedbackContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 12px;
+  text-align: center;
 
   img{
     width: 48px;

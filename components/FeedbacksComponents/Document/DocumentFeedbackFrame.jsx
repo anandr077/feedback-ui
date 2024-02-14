@@ -30,6 +30,7 @@ import {
   TypeHere,
 } from '../FeedbackTeacherLaptop/style';
 import AntSwitch from '../AntSwitch';
+import EmptyFeedback from '../../../components2/EmptyFeedback';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -141,12 +142,8 @@ export function createCommentsFrame(
   const visibleComments = createVisibleComments(commentsForSelectedTab);
   if (visibleComments.length === 0) {
     return (
-      <CommentCard32
-        reviewer="Jeddle"
-        comment={createDefaultCommentText(pageMode)}
-        onClick={() => {}}
-        isTeacher={isTeacher}
-        defaultComment={true}
+      <EmptyFeedback 
+         text={createDefaultCommentText(pageMode)}
       />
     );
   }

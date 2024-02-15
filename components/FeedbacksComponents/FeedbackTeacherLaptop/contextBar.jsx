@@ -213,7 +213,6 @@ const selectReviewType = (
             <Frame1334Img src={messages} />
             <Frame1577>
               <Frame1577heading>Get Feedback</Frame1577heading>
-              <Frame1577Img src={questionmark} />
             </Frame1577>
             <Frame1334Img
               style={{ cursor: 'pointer' }}

@@ -30,7 +30,6 @@ function TasksLaptop(props) {
     inProgressTasks,
     inReviewTasks,
     frame19Props,
-    portfolio,
     headingFilter,
     arrowright,
     FilterSortAndCal,

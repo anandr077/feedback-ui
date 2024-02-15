@@ -36,7 +36,6 @@ function TasksStudentTablet(props) {
     assignmedTasks,
     inProgressTasks,
     inReviewTasks,
-    portfolio,
     headingFilter,
     arrowright,
     FilterSortAndCal,

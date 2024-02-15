@@ -80,10 +80,10 @@ export default function HeaderSmall(props) {
           <Frame1349 src="icons/header-logo.png" />
         </a>
         <Frame5>
-          <HeaderHelpBar 
+          {/* <HeaderHelpBar 
             src="/img/helpIcon.png"
             onClickFn={handleHelpBarClick}
-          />
+          /> */}
           <Notifications
             src="/img/notificationbing@2x.png"
             onClickFn={handleNotificationClick}

@@ -24,7 +24,6 @@ function TasksDesktop(props) {
     inProgressTasks,
     inReviewTasks,
     frame19Props,
-    portfolio,
     headingFilter,
     arrowright,
     FilterSortAndCal,

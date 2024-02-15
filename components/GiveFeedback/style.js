@@ -569,7 +569,7 @@ export const StarsPart = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
+  z-index: 1;
 `;
 export const StarPart = styled.div`
   display: flex;

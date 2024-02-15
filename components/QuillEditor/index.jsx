@@ -14,31 +14,27 @@ const QuillEditor = React.forwardRef(
     const [editor, setEditor] = useState(null);
 
     const manipulatePastedHTML = (pastedHTML) => {
-      // Parse the pasted HTML into a DOM object
       const parser = new DOMParser();
       const doc = parser.parseFromString(pastedHTML, 'text/html');
 
-      // Remove unwanted styles (e.g., background color)
       const removeStyles = (element) => {
         element.removeAttribute('style');
-        element.style.backgroundColor = ''; // Remove background color
+        element.style.backgroundColor = '';
       };
 
-      // Traverse and manipulate the DOM tree
       const traverseAndRemoveStyles = (node) => {
-        if (node.nodeType === 1) { // Element node
+        if (node.nodeType === 1) {
           removeStyles(node);
           for (let i = 0; i < node.children.length; i++) {
             traverseAndRemoveStyles(node.children[i]);
           }
-        } else if (node.nodeType === 3) { // Text node
+        } else if (node.nodeType === 3) {
           // Do nothing with text nodes for this example
         }
       };
 
       traverseAndRemoveStyles(doc.body);
 
-      // Convert the modified DOM back to HTML
       const serializer = new XMLSerializer();
       const modifiedHTML = serializer.serializeToString(doc);
 
@@ -46,27 +42,25 @@ const QuillEditor = React.forwardRef(
     };
 
     const handlePaste = (event) => {
-      // Prevent the default paste behavior
       event.preventDefault();
 
-      // Access the clipboard data
       const clipboardData = event.clipboardData || window.clipboardData;
 
-      // Get the HTML content from the clipboard
       const pastedHTML = clipboardData.getData('text/html');
 
-      // Manipulate the HTML content to remove unwanted styles (e.g., background color)
       const modifiedHTML = manipulatePastedHTML(pastedHTML);
 
-      // Insert the modified HTML into the editor
-      editor.clipboard.dangerouslyPasteHTML(modifiedHTML);
-    };
+      const cursorPosition = editor.getSelection(true);
 
-    // useEffect(()=>{
-    //   if(editor){
-    //     editor.root.addEventListener('paste', handlePaste);
-    //   }
-    // }, [editor, handlePaste])
+      const currentText = editor.getText();
+
+      editor.clipboard.dangerouslyPasteHTML(cursorPosition.index, modifiedHTML);
+
+      const pastedLength = editor.getText().length - currentText.length;
+
+      const newCursorPosition = cursorPosition.index + pastedLength;
+      editor.setSelection(newCursorPosition, 0, 'silent');
+    };
 
     useEffect(() => {
       if (editorRef.current && !editor) {

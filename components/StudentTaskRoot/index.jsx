@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTasks, getClasses, getPortfolio } from '../../service';
+import { getTasks, getClasses } from '../../service';
 import ReactiveRender, { isMobileView, isTabletView } from '../ReactiveRender';
 import TasksStudentMobile from '../TasksStudentMobile';
 import TasksStudentTablet from '../TasksStudentTablet';
@@ -48,7 +48,6 @@ export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
-  const [portfolio, setPortfolio] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
@@ -73,14 +72,6 @@ export default function StudentTaskRoot() {
     staleTime: 3600000,
   });
 
-  const portfolioQuery = useQuery({
-    queryKey: ['portfolio'],
-    queryFn: async () => {
-      return await getPortfolio();
-    },
-    staleTime: 3600000,
-  });
-
   React.useEffect(() => {
     if (tasksQuery.data) {
       setFilteredTasks(tasksQuery.data);
@@ -89,10 +80,7 @@ export default function StudentTaskRoot() {
     if (studentClassesQuery.data) {
       setClasses(studentClassesQuery.data);
     }
-    if (portfolioQuery.data) {
-      setPortfolio(portfolioQuery.data);
-    }
-  }, [tasksQuery.data, studentClassesQuery.data, portfolioQuery.data]);
+  }, [tasksQuery.data, studentClassesQuery.data]);
 
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
@@ -102,8 +90,7 @@ export default function StudentTaskRoot() {
 
   if (
     tasksQuery.isLoading ||
-    studentClassesQuery.isLoading ||
-    portfolioQuery.isLoading
+    studentClassesQuery.isLoading
   ) {
     return (
       <>
@@ -371,7 +358,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
@@ -387,7 +373,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
@@ -403,7 +388,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
@@ -419,7 +403,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,

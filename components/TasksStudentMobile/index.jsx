@@ -35,7 +35,6 @@ function TasksStudentMobile(props) {
     inProgressTasks,
     inReviewTasks,
     arrowright,
-    portfolio,
     FilterSortAndCal,
     tasksSelected,
     MyCalendarFile,

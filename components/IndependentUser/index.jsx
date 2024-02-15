@@ -134,9 +134,6 @@ function IndependentUser() {
   });
   const isMobile = useMediaQuery({ maxWidth: 765 });
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
   return (
     <>
       {isMobile ? (

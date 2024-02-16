@@ -242,6 +242,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   useEffect(() => {
     const unblock = history.block((location, action) => {
       if (submission?.status==='REVIEWED'
+      && submission?.type === 'SUBMISSION'
       && submission?.studentId===getUserId()
       && (submission?.feedbackOnFeedback === null || 
         submission?.feedbackOnFeedback === undefined)) {
@@ -1459,6 +1460,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
            text={'Did you find this feedback helpful?'}
            onYes={handleFeedbackOnFeedback('LIKE')}
            onNo={handleFeedbackOnFeedback('DISLIKE')}
+           onClickOutside={()=> setFeedbackReviewPopup(false)}
         />
       )}
 

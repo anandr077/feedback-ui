@@ -242,7 +242,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   useEffect(() => {
     const unblock = history.block((location, action) => {
       if (submission?.status==='REVIEWED'
-      && submission?.type === 'SUBMISSION'
+      && submission?.type === 'DOCUMENT'
       && submission?.studentId===getUserId()
       && (submission?.feedbackOnFeedback === null || 
         submission?.feedbackOnFeedback === undefined)) {

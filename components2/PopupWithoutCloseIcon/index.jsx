@@ -2,9 +2,9 @@ import React from 'react';
 import { PopupBackground, PopupContainer, Text, ButtonContainer } from './style';
 import OutlineBtn from '../Buttons/OutlineBtn';
 
-const PopupWithoutCloseIcon = ({text, onYes, onNo}) => {
+const PopupWithoutCloseIcon = ({text, onYes, onNo, onClickOutside}) => {
   return (
-    <PopupBackground onClick={onNo}>
+    <PopupBackground onClick={onClickOutside}>
       <PopupContainer onClick={(event) => event.stopPropagation()}>
         <Text>{text}</Text>
         <ButtonContainer>

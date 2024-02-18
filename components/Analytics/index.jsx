@@ -5,7 +5,9 @@ import { CSVLink } from 'react-csv';
 import './index.css';
 import randomColor from 'randomcolor';
 import SmartAnotationAnalytics from '../SmartAnnotationsAnalytics';
-import DownLoad from '../../static/icons/csv-download@2x.png';
+import DownLoad from '../../static/img/Download.svg';
+import questionMark from '../../static/img/question-mark.svg';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 Chart.register(ArcElement);
 
@@ -52,8 +54,8 @@ export default function AnnotationAnalytics(props) {
     const childrens = element instanceof Map ? element : new Map();
 
     const totalPercentage = percentages[index];
-    const totalSuggestionPercentage = data[index]
-    
+    const totalSuggestionPercentage = data[index];
+
     const parentRow = {
       'Feedback Area': label,
       Suggestion: '',
@@ -109,16 +111,56 @@ export default function AnnotationAnalytics(props) {
       {smartAnnotationAnalyticsData.length > 0 ? (
         <div className="parent-card">
           <div className="heading-container">
-            <div className="heading-text">Smart Annotations</div>
-            <div className="delete-container">
+            <div className="heading-text">
+              Class Statistics
+              <QuestionTooltip
+                text={
+                  'I am important tooltip here some important message is displayed'
+                }
+                img={questionMark}
+              />
+            </div>
+            <div className="download-container">
               <CSVLink data={csvData} filename={'smart_annotations.csv'}>
-                <img src={DownLoad} className="download-icon" alt="Download" />
+                <div style={{display:'flex'}}>
+                  <img
+                    src={DownLoad}
+                    className="download-icon"
+                    alt="Download"
+                  />
+                  <p
+                    style={{
+                      margin: '0px',
+                      fontFamily: 'IBM Plex Sans',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      lineHeight: '24px',
+                      letterSpacing: '0em',
+                      textAlign: 'left',
+                    }}
+                  >
+                    Download
+                  </p>
+                </div>
               </CSVLink>
-              <span className="download-tooltip">Download</span>
             </div>
           </div>
-          <div className="line"></div>
           <div className="graph-data">
+            <div className="graph-heading">
+              <p
+                style={{
+                  margin: '0px',
+                  fontFamily: 'IBM Plex Sans',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  lineHeight: '20.8px',
+                  letterSpacing: '0em',
+                  textAlign: 'left',
+                }}
+              >
+                Overall Usage
+              </p>
+            </div>
             <div className="graph-container">
               <div className="graph">
                 <Pie data={chartData} />

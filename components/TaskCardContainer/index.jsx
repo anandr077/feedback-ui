@@ -12,7 +12,7 @@ function TaskCardContainer(props) {
   } = props;
   const cards = allTasks.map((task) => {
     return (
-      <a href={task.link}>
+      <a href={task.link} style={{width:'100%'}}>
         <TaskCard
           task={task}
           exemplar={exemplar}

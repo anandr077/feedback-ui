@@ -80,7 +80,6 @@ const HelpPeerSlide = (props) => {
       <Header>
         <img src="icons/sharePurple.png" />
         <p>Help Your Peers</p>
-        <img src="icons/help.png" />
       </Header>
       <SliderMain mobileView={mobileView}>
         <Slider>{tasksFrames}</Slider>

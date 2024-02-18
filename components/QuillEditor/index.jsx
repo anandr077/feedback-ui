@@ -1,6 +1,6 @@
 import { add, flatMap } from 'lodash';
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-
+import React, { useEffect, useImperativeHandle, useRef, useState, useContext } from 'react';
+import { FeedbackContext } from '../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import 'quill/dist/quill.core.css';
@@ -8,11 +8,11 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce, nonEditable, setCountWords, editorFontSize }, ref) => {
+  ({ comments, value, options, debounceTime, onDebounce, nonEditable, editorFontSize }, ref) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
-
+    const { setCountWords } = useContext(FeedbackContext)
     const manipulatePastedHTML = (pastedHTML) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(pastedHTML, 'text/html');

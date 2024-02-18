@@ -24,6 +24,7 @@ import {
   Frame1372,
   Frame1372WithTop,
   Title,
+  TaskHeading,
   Frame1374,
   Frame1294,
   Questions,
@@ -35,6 +36,8 @@ import {
   Classes,
   Frame1298,
 } from './CreateAssignmentTabletStyle';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
+import questionMark from '../../static/img/question-mark.svg';
 
 function CreateAAssignmentTablet(props) {
   const {
@@ -63,7 +66,15 @@ function CreateAAssignmentTablet(props) {
     showPublishPopuphandler
   ) {
     const title =
-      assignment.status === 'DRAFT' ? <Title>Create Task</Title> : <></>;
+      assignment.status === 'DRAFT' ? (
+      <TaskHeading>
+          <Title>Create Task</Title>
+          <QuestionTooltip 
+             img={questionMark}
+             text={'Follow the steps provided to design the perfect task for your classes'}
+          />
+      </TaskHeading>
+      ) : <></>;
 
     return (
       <TitleContainer>

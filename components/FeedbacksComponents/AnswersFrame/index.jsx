@@ -43,7 +43,6 @@ export function answersFrame(
   commentsForSelectedTab,
   overallComments,
   methods,
-  setCountWords,
   editorFontSize
 ) {
   return (
@@ -70,7 +69,6 @@ export function answersFrame(
       updateOverAllFeedback={methods.updateOverAllFeedback}
       setComments={methods.setComments}
       comments={methods.comments}
-      setCountWords={setCountWords}
       editorFontSize={editorFontSize}
     ></AnswersFrame>
   );
@@ -98,7 +96,6 @@ function AnswersFrame(props) {
     updateOverAllFeedback,
     setComments,
     comments,
-    setCountWords,
     editorFontSize
   } = props;
   return (
@@ -125,7 +122,6 @@ function AnswersFrame(props) {
           updateOverAllFeedback,
           setComments,
           comments,
-          setCountWords,
           editorFontSize
         )}
       </Frame1367>
@@ -182,7 +178,6 @@ const answerFrames = (
   updateOverAllFeedback,
   setComments,
   comments,
-  setCountWords,
   editorFontSize
 ) => {
   return submission.assignment.questions.map((question, idx) => {
@@ -244,7 +239,6 @@ const answerFrames = (
                   commentsForSelectedTab,
                   debounce,
                   handleEditorMounted,
-                  setCountWords,
                   editorFontSize
                 )}
               </QuillContainer>
@@ -337,7 +331,6 @@ function createQuill(
   commentsForSelectedTab,
   debounce,
   handleEditorMounted,
-  setCountWords,
   editorFontSize
 ) {
   return (
@@ -368,7 +361,6 @@ function createQuill(
       onDebounce={debounce.onDebounce}
       containerName={containerName}
       nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
-      setCountWords={setCountWords}
       editorFontSize={editorFontSize}
     ></QuillEditor>
   );

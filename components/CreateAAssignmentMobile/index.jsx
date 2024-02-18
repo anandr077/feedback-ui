@@ -5,6 +5,7 @@ import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
 import GoBack from '../GoBack';
 import './CreateAAssignmentMobile.css';
+import questionMark from '../../static/img/question-mark.svg';
 import {
   TitleContainer,
   DeleteButtonContainer,
@@ -22,6 +23,7 @@ import {
   Frame1378,
   Frame1375,
   Frame1372,
+  TaskHeading,
   Title,
   Frame1374,
   Frame1294,
@@ -37,6 +39,7 @@ import {
   Frame1300,
   Frame1373,
 } from './CreateAssignmentMobileStyle.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 function CreateAAssignmentMobile(props) {
   const {
@@ -66,7 +69,15 @@ function CreateAAssignmentMobile(props) {
     showPublishPopuphandler
   ) {
     const title =
-      assignment.status === 'DRAFT' ? <Title>Create Task</Title> : <></>;
+      assignment.status === 'DRAFT' ? (
+        <TaskHeading>
+          <Title>Create Task</Title>
+          <QuestionTooltip 
+             img={questionMark}
+             text={'Follow the steps provided to design the perfect task for your classes'}
+          />
+        </TaskHeading>
+      ) : <></>;
 
     return (
       <TitleContainer>

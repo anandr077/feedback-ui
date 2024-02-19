@@ -93,6 +93,11 @@ export const Frame1306 = styled.div`
   position: relative;
   border-bottom: 1px solid #d6d6d6;
   border-top: 1px solid #d6d6d6;
+  .MuiTabs-scroller {
+    button {
+      color: #7200e0 !important;
+    }
+  }
 `;
 
 export const Students = styled.div`
@@ -235,6 +240,8 @@ export const MainContainer = styled.div`
 export const LeftContainer = styled.div`
   display: flex;
   position: sticky;
+  height: 150px;
+  top: 100px;
   width: 25%;
   flex-direction: column;
   align-items: flex-start;

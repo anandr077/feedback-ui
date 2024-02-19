@@ -3,7 +3,6 @@ import DropdownMenu from '../../DropdownMenu';
 import Buttons from '../Buttons';
 import Exemplar from '../ExemplarContainer/index.jsx';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
-import './TeacherClassesDesktop.css';
 import {
   ActiveTaskContainer,
   ClassStatsFrame,
@@ -40,6 +39,9 @@ import TaskCardContainer from '../../TaskCardContainer/index.jsx';
 import TaskCard from '../../TaskCard';
 import LinkButton from '../../../components2/LinkButton/index.jsx';
 import { Tabs, Tab } from '@mui/material';
+import { useRef } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function TeacherClassesDesktop(props) {
   const {
@@ -62,8 +64,7 @@ function TeacherClassesDesktop(props) {
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
-  console.log('awaitingSubmissions', classes);
-
+console.log('first awaitingSubmissions', awaitingSubmissions);
   return (
     <TopContainer>
       <Frame1422>

@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
+import { FeedbackContext } from './FeedbackContext.js';
 import _ from 'lodash';
 
 import {
@@ -127,7 +128,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
-
+  const [countWords, setCountWords] = useState(0);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -242,6 +243,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   useEffect(() => {
     const unblock = history.block((location, action) => {
       if (submission?.status==='REVIEWED'
+      && submission?.type === 'DOCUMENT'
       && submission?.studentId===getUserId()
       && (submission?.feedbackOnFeedback === null || 
         submission?.feedbackOnFeedback === undefined)) {
@@ -1451,7 +1453,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const shortcuts = getShortcuts();
 
   return (
-    <>
+    <FeedbackContext.Provider value={{countWords, setCountWords}}>
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (
@@ -1459,6 +1461,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
            text={'Did you find this feedback helpful?'}
            onYes={handleFeedbackOnFeedback('LIKE')}
            onNo={handleFeedbackOnFeedback('DISLIKE')}
+           onClickOutside={()=> setFeedbackReviewPopup(false)}
         />
       )}
 
@@ -1491,7 +1494,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           teachers,
         }}
       />
-    </>
+    </FeedbackContext.Provider>
   );
 
   function submissionFunction() {

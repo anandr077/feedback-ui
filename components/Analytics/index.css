@@ -1,10 +1,9 @@
 .parent-card {
   display: flex;
   width: 100%;
-  padding: 20px 0px;
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 20px;
   align-self: stretch;
   border-radius: 16px;
 }

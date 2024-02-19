@@ -5,6 +5,7 @@ import Exemplar from '../ExemplarContainer/index.jsx';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
 import './TeacherClassesDesktop.css';
 import {
+  ActiveTaskContainer,
   ClassStatsFrame,
   Frame1306,
   Frame13121,
@@ -27,12 +28,18 @@ import {
   Title,
   TItlePara,
   TopContainer,
+  BtnsContainer,
+  TaskContainer,
 } from './TeacherClassesDesktopStyle.js';
 import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 import questionMark from '../../../static/img/question-mark.svg';
+import arrowRight from '../../../static/img/arrowright.svg';
+import whiteArrowright from '../../../static/img/arrowright-White.svg';
 import TaskCardContainer from '../../TaskCardContainer/index.jsx';
 import TaskCard from '../../TaskCard';
+import LinkButton from '../../../components2/LinkButton/index.jsx';
+import { Tabs, Tab } from '@mui/material';
 
 function TeacherClassesDesktop(props) {
   const {
@@ -55,39 +62,37 @@ function TeacherClassesDesktop(props) {
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
-  console.log('awaitingSubmissions', awaitingSubmissions);
+  console.log('awaitingSubmissions', classes);
 
   return (
     <TopContainer>
       <Frame1422>
-        <Frame13121>
-          <Title>
-            {title}
-
-            <QuestionTooltip
-              text={
-                'I am important tooltip here some important message is displayed'
-              }
-              img={questionMark}
-            />
-          </Title>
-          <TItlePara>Class description will come here...</TItlePara>
-        </Frame13121>
         <Frame14221>
-          <Frame1306>
-            {classes.length != 0 && (
-              <StyledDropDown
-                menuItems={classes}
-                onItemSelected={(item) => {
-                  setClassId(item?.id);
-                }}
-                selectedIndex={selectedClassIndex}
+          <Frame13121>
+            <Title>
+              Classes
+              <QuestionTooltip
+                text={
+                  'I am important tooltip here some important message is displayed'
+                }
+                img={questionMark}
               />
-            )}
+            </Title>
+            <TItlePara>Class description will come here...</TItlePara>
+          </Frame13121>
+          <Frame1306>
+            <Tabs
+              value={selectedClassIndex}
+              onChange={(event, newValue) => {
+                setClassId(classes[newValue]?.id);
+              }}
+              aria-label="Class tabs"
+            >
+              {classes.map((classItem, index) => (
+                <Tab key={index} label={classItem.title} />
+              ))}
+            </Tabs>
           </Frame1306>
-          <Frame1426>
-            <Buttons link="#tasks/new" />
-          </Frame1426>
         </Frame14221>
         <MainContainer>
           <LeftContainer>
@@ -97,7 +102,7 @@ function TeacherClassesDesktop(props) {
             <LeftContainerTitle>Smart responses</LeftContainerTitle>
           </LeftContainer>
           <RightContainer>
-            <div>
+            <ActiveTaskContainer>
               <Frame13371>
                 <Students>
                   <QuestionTooltip
@@ -108,17 +113,28 @@ function TeacherClassesDesktop(props) {
                   />
                   Active Tasks
                 </Students>
+                <BtnsContainer>
+                  <LinkButton
+                    link={`#`}
+                    label="All Tasks"
+                    arrowright={arrowRight}
+                    whiteArrowright={whiteArrowright}
+                  />
+                  <Frame1426>
+                    <Buttons link="#tasks/new" />
+                  </Frame1426>
+                </BtnsContainer>
               </Frame13371>
               <TasksContainer>
                 {awaitingSubmissions.map((task) => (
-                  <div key={task.id} style={{ flex: '50%', padding: '10px' }}>
-                    <a key={task.id} href={task.link}>
+                  <TaskContainer key={task.id}>
+                    <a key={task.id} href={task.link} style={{ width: '100%' }}>
                       <TaskCard key={task.id} task={task} />
                     </a>
-                  </div>
+                  </TaskContainer>
                 ))}
               </TasksContainer>
-            </div>
+            </ActiveTaskContainer>
             <ClassStatsFrame>{annotationAnalyticsFrame}</ClassStatsFrame>
             <Frame1339>
               <Frame13371>

@@ -23,7 +23,7 @@ export const TopContainer = styled.div`
   @media (min-width: 766px) and (max-width: 1024px) {
     min-width: 766px;
   }
-  a{
+  a {
     text-decoration: none;
   }
 `;
@@ -34,7 +34,7 @@ export const Frame1422 = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 60px;
+  gap: 40px;
   position: relative;
   max-width: 1440px;
   padding: 0px 60px;
@@ -58,7 +58,6 @@ export const Frame13121 = styled.div`
   padding: 0px 0px 20px 0px;
   border: 0px 0px 1px 0px;
   gap: 12px;
-  border-bottom: 1px solid #d6d6d6;
 `;
 
 export const Title = styled.h1`
@@ -71,22 +70,29 @@ export const Title = styled.h1`
   letter-spacing: -0.025em;
   text-align: left;
   color: #301b72;
+  @media (max-width: 765px) {
+    font-size: 32px;
+  }
 `;
 
 export const Frame14221 = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   position: relative;
   align-self: stretch;
 `;
 
 export const Frame1306 = styled.div`
   display: flex;
+  width: 100% !important;
+  justify-content: flex-start;
   width: fit-content;
   align-items: flex-start;
   gap: 20px;
   position: relative;
+  border-bottom: 1px solid #d6d6d6;
+  border-top: 1px solid #d6d6d6;
 `;
 
 export const Students = styled.div`
@@ -114,7 +120,6 @@ export const Frame1426 = styled.div`
   display: flex;
   width: fit-content;
   align-items: center;
-  gap: 30px;
   position: relative;
 `;
 
@@ -123,7 +128,6 @@ export const Frame1339 = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
-  padding: 20px 0px;
   position: relative;
   flex: 1;
   align-self: stretch;
@@ -135,6 +139,12 @@ export const Frame13371 = styled.div`
   gap: 20px;
   position: relative;
   align-self: stretch;
+  justify-content: space-between;
+  @media (max-width: 765px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
 `;
 
 export const Line17 = styled.img`
@@ -224,6 +234,7 @@ export const MainContainer = styled.div`
 
 export const LeftContainer = styled.div`
   display: flex;
+  position: sticky;
   width: 25%;
   flex-direction: column;
   align-items: flex-start;
@@ -248,7 +259,7 @@ export const LeftContainerTitle = styled.p`
 export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 90px;
   width: 75%;
   @media (min-width: 766px) and (max-width: 1024px) {
     width: 100%;
@@ -256,6 +267,12 @@ export const RightContainer = styled.div`
   @media (max-width: 765px) {
     width: 100%;
   }
+`;
+
+export const ActiveTaskContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 export const SharedResponseFrame = styled.div``;
@@ -267,4 +284,17 @@ export const TasksContainer = styled.div`
   flex-wrap: wrap;
   height: 500px;
   overflow-y: scroll;
+  gap: 20px;
+`;
+export const TaskContainer = styled.div`
+  display: flex;
+  flex: 1 1 48%;
+  @media (max-width: 765px) {
+    flex: 1 1 100%;
+  }
+`;
+export const BtnsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
 `;

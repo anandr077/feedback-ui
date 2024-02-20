@@ -23,12 +23,12 @@ export const Header = styled.div`
 `;
 
 export const SliderMain = styled.div`
-  height: ${props => props.mobileView ? '430px' : '420px'};
-  border-radius: 16px;
+  height: ${(props) => (props.mobileView ? '475px' : '450px')};
+  border-radius: 0 0 16px 16px;
   overflow: hidden;
 
   @-moz-document url-prefix() {
-    height: ${props => props.mobileView ? '570px' : '480px'};
+    height: ${(props) => (props.mobileView ? '475px' : '450px')};
   }
 `;
 

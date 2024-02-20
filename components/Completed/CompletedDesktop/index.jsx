@@ -25,6 +25,8 @@ function CompletedDesktop(props) {
     headingPart,
     onAccept,
     onDecline,
+    onAddToBookmark,
+    onRemoveFromBookmark,
   } = props;
   return (
     <div className="completed-desktop screen">
@@ -48,6 +50,8 @@ function CompletedDesktop(props) {
               groups={groups}
               exemplar={exemplar}
               setPublishActionCompleted={setPublishActionCompleted}
+              onAddToBookmark = {onAddToBookmark}
+              onRemoveFromBookmark={onRemoveFromBookmark}
             />
           </Frame1413>
         </SharedResponseContainer>

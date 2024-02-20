@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TaskCard from '../../TaskCard';
 import Frame1308 from '../Frame1308';
 function Frame1410(props) {
-  const { id, exemplar, groups, className, setPublishActionCompleted } = props;
+  const { id, exemplar, groups, className, setPublishActionCompleted, onAddToBookmark, onRemoveFromBookmark } = props;
 
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
@@ -15,6 +15,8 @@ function Frame1410(props) {
           isSelected={task.id === id}
           setPublishActionCompleted={setPublishActionCompleted}
           showAddToCard={true}
+          onAddToBookmark = {onAddToBookmark}
+          onRemoveFromBookmark={onRemoveFromBookmark}
         />
       );
     });

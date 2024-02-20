@@ -203,4 +203,5 @@ export const FavouriteContent = styled.div`
   font-weight: 500;
   font-size: var(--font-size-s);
   line-height: 19px;
+  transform: scale(1.1);
 `;

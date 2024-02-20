@@ -21,6 +21,8 @@ function CompletedLaptop(props) {
     headingPart,
     onAccept,
     onDecline,
+    onAddToBookmark,
+    onRemoveFromBookmark,
   } = props;
   return (
     
@@ -45,6 +47,8 @@ function CompletedLaptop(props) {
               groups={groups}
               exemplar={exemplar}
               setPublishActionCompleted={setPublishActionCompleted}
+              onAddToBookmark = {onAddToBookmark}
+              onRemoveFromBookmark={onRemoveFromBookmark}
             />
           </Frame1413>
         </SharedResponseContainer>

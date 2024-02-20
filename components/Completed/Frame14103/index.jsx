@@ -4,9 +4,9 @@ import TaskCard from '../../TaskCard';
 import Frame1308 from '../Frame1308';
 
 function Frame14103(props) {
-  const { id, groups, exemplar, setPublishActionCompleted } = props;
+  const { id, groups, exemplar, setPublishActionCompleted, onAddToBookmark, onRemoveFromBookmark } = props;
 
-
+  
   const frames = Object.keys(groups).map((key) => {
     const group = groups[key];
     const tasksFrames = group.filter((task) => task.status === 'PUBLISHED').map((task) => {
@@ -17,6 +17,8 @@ function Frame14103(props) {
           isSelected={task.id === id}
           setPublishActionCompleted={setPublishActionCompleted}
           showAddToCard={true}
+          onAddToBookmark = {onAddToBookmark}
+          onRemoveFromBookmark={onRemoveFromBookmark}
         />
       );
     });

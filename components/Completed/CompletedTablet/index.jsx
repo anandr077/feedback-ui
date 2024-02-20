@@ -25,6 +25,8 @@ function CompletedTablet(props) {
     headingPart,
     onAccept,
     onDecline,
+    onAddToBookmark,
+    onRemoveFromBookmark,
   } = props;
 
   const filterCreation = createFilter();
@@ -50,6 +52,8 @@ function CompletedTablet(props) {
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAddToBookmark = {onAddToBookmark}
+            onRemoveFromBookmark={onRemoveFromBookmark}
           />
         </Frame1413>
       </Frame1425>

@@ -26,13 +26,11 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/bordered_heart.svg';
 import RedBgHeart from '../../static/img/redbgheart.svg';
 import ProgressBar from '../ProgressBar';
-import { addToFavouriteList, removeFromFavouriteList } from '../../service'; 
 
 function TaskCard(props) {
 
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
   const [showShareWithStudent, setShowShareWithStudent] = useState(false);
-  const [addToFavourite, setAddToFavourite] = useState(false)
 
   const {
     task,
@@ -46,15 +44,18 @@ function TaskCard(props) {
     onAccept,
     onDecline,
     showAddToCard = false,
+    onAddToBookmark = () => {},
+    onRemoveFromBookmark = () => {},
   } = props;
   const role = getUserRole();
   const userId = getUserId();
 
   const refContainer = useRef(null);
 
-  useEffect(()=>{
-     setAddToFavourite(task.bookmarkedByStudents?.length > 0)
-  }, [task])
+  const isFavouriteFn = (task, user) =>{
+    return  (task?.bookmarkedByStudents || []).includes(user)
+  }
+  const isFavourite = isFavouriteFn(task, getUserId())
 
   const saveButtons = (
     id
@@ -123,18 +124,6 @@ function TaskCard(props) {
     const currentTime = new Date();
     const isOverDue = dueDate < currentTime;
 
-    const handleAddToFavourite = (id) =>{
-      addToFavouriteList(id).then((_)=>{
-        setAddToFavourite(true);
-      })
-    }
-
-    const handleRemoveFromFavourite = (id) =>{
-      removeFromFavouriteList(id).then(()=>{
-        setAddToFavourite(false);
-      })
-    }
-
     return (
       <StyledCard
         ref={refContainer}
@@ -147,11 +136,11 @@ function TaskCard(props) {
               <ClassTitle>{task.classTitle}</ClassTitle>
               <FavouriteContainer>
                 {
-                  addToFavourite ? (
+                  isFavourite ? (
                     <FavouriteContent 
                       onClick={(e)=> {
                         e.stopPropagation();
-                        handleRemoveFromFavourite(task.id)
+                        onRemoveFromBookmark(task.id)
                       }}
                       favourite={true}
                     >
@@ -161,7 +150,7 @@ function TaskCard(props) {
                   ) : (
                     <FavouriteContent onClick={(e)=> {
                       e.stopPropagation();
-                      handleAddToFavourite(task.id)
+                      onAddToBookmark(task.id)
                     }}>
                         <img src={BorderedHeart} />
                         Add to favourites

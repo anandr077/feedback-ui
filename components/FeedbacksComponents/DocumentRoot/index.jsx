@@ -1,5 +1,4 @@
 import { filter, flatMap, includes, map } from 'lodash';
-import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
 import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, addDocumentToPortfolio, addDocumentToPortfolioWithDetails } from '../../../service';
 import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, askJeddAI } from '../../../service';
 import 'quill/dist/quill.core.css';

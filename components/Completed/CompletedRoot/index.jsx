@@ -76,7 +76,6 @@ export default function CompletedRoot(props) {
         <TitleContainer>
           <Title>
             Shared Responses
-            <QuestionTooltip img={questionMark} />
           </Title>
           <ConnectContainer>
             <LinkButton

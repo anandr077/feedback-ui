@@ -17,7 +17,6 @@ import { getUserRole, getUserName } from './userLocalDetails';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
-import PortfolioPage from './components/PortfolioPage';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -58,7 +57,6 @@ function App() {
   const ProtectedStudentDashboard = middleware(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
   //const ProtectedCompletedRoot = middleware(CompletedPage);
-  const ProtectedPortfolioRoot = middleware(PortfolioPage);
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
   const ProtectedTaskDetail = middleware(TaskDetail);
   const ProtectedCreateAssignment = middleware(CreateAssignment);

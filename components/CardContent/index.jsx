@@ -23,6 +23,8 @@ import {
 function CardContent(props) {
   const { task, small, onAccept, onDecline } = props;
 
+  console.log('the task is', task);
+
   function createTitle(small, title) {
     if (!title) return <></>;
     return small ? (

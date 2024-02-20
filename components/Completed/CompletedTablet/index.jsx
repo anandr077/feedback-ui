@@ -26,6 +26,9 @@ function CompletedTablet(props) {
     onAccept,
     onDecline,
   } = props;
+
+  const filterCreation = createFilter();
+
   return (
     <div className="completed-tablet screen">
       <Frame1425>
@@ -40,7 +43,7 @@ function CompletedTablet(props) {
             onDecline={onDecline}
           />
         </SliderCardContainer>
-        <Frame1424>{createFilter()}</Frame1424>
+        {filterCreation && <Frame1424>{filterCreation}</Frame1424>}
         <Frame1413>
           <Frame1410
             id={id}

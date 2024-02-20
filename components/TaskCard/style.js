@@ -72,12 +72,13 @@ export const BubbleContainer = styled.div`
 
 export const TaskTitle = styled.p`
   ${IbmplexsansNormalShark20px}
-  font-size: 16px;
+  color: var(--black);
+  font-size: 18px;
   position: relative;
   align-self: stretch;
   margin-top: -1px;
   letter-spacing: 0;
-  line-height: normal;
+  line-height: 27px;
 `;
 
 export const TaskTitleBold = styled.p`
@@ -173,3 +174,33 @@ export const StudentLength = styled.span`
   cursor: pointer;
   position: relative;
 `
+
+export const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ClassTitle = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  color: var(--river-bed);
+  font-weight: 400;
+  font-size: var(--font-size-m);
+  line-height: 18px;
+`;
+
+export const FavouriteContainer = styled.div`
+  
+`;
+
+export const FavouriteContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: ${({favourite}) => favourite ? '#C70A65' : 'var(--light-mode-purple)'};
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-s);
+  line-height: 19px;
+`;

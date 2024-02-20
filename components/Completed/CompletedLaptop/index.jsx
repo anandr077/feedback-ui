@@ -27,26 +27,27 @@ function CompletedLaptop(props) {
     <div className="completed-laptop screen">
       <Frame1425>
         {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
-        <SliderCardContainer>
-          <HelpPeerSlide
-            id={id}
-            groups={groups}
-            exemplar={exemplar}
-            setPublishActionCompleted={setPublishActionCompleted}
-            onAccept={onAccept}
-            onDecline={onDecline}
-          />
-        </SliderCardContainer>
         <Frame1424>{createFilter()}</Frame1424>
-
-        <Frame1413>
-          <Frame14103
-            id={id}
-            groups={groups}
-            exemplar={exemplar}
-            setPublishActionCompleted={setPublishActionCompleted}
-          />
-        </Frame1413>
+        <SharedResponseContainer>
+          <SliderCardContainer>
+            <HelpPeerSlide
+              id={id}
+              groups={groups}
+              exemplar={exemplar}
+              setPublishActionCompleted={setPublishActionCompleted}
+              onAccept={onAccept}
+              onDecline={onDecline}
+            />
+          </SliderCardContainer>
+          <Frame1413>
+            <Frame14103
+              id={id}
+              groups={groups}
+              exemplar={exemplar}
+              setPublishActionCompleted={setPublishActionCompleted}
+            />
+          </Frame1413>
+        </SharedResponseContainer>
       </Frame1425>
     </div>
   );
@@ -79,8 +80,16 @@ const Frame1424 = styled.div`
   align-self: stretch;
 `;
 
+
+const SharedResponseContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 30px;
+  width: 100%;
+`;
+
 const SliderCardContainer = styled.div`
-  width: 880px;
+  flex: 1;
   height: auto;
 `;
 
@@ -92,6 +101,7 @@ const Frame1413 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+  width: 63.68%;
 `;
 
 export default CompletedLaptop;

@@ -8,7 +8,7 @@ import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
-import { Filter, FilterImg, FilterText, HeadingAndFilterCon } from './style.js';
+import { SharedResponseContainer, HeadingAndFilterCon } from './style.js';
 
 function CompletedDesktop(props) {
   const {
@@ -30,26 +30,27 @@ function CompletedDesktop(props) {
     <div className="completed-desktop screen">
       <Frame1425>
         {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
-        <SliderCardContainer>
-          <HelpPeerSlide
-            id={id}
-            groups={groups}
-            exemplar={exemplar}
-            setPublishActionCompleted={setPublishActionCompleted}
-            onAccept={onAccept}
-            onDecline={onDecline}
-          />
-        </SliderCardContainer>
-        <Frame1424>{createFilter()}</Frame1424>
-        <Frame1413>
-          <Frame14103
-            id={id}
-            groups={groups}
-            exemplar={exemplar}
-            setPublishActionCompleted={setPublishActionCompleted}
-          />
-          <Line18 src={line18} alt="Line 18" />
-        </Frame1413>
+        {createFilter() && <Frame1424>{createFilter()}</Frame1424>}
+        <SharedResponseContainer>
+          <SliderCardContainer>
+            <HelpPeerSlide
+              id={id}
+              groups={groups}
+              exemplar={exemplar}
+              setPublishActionCompleted={setPublishActionCompleted}
+              onAccept={onAccept}
+              onDecline={onDecline}
+            />
+          </SliderCardContainer>
+          <Frame1413>
+            <Frame14103
+              id={id}
+              groups={groups}
+              exemplar={exemplar}
+              setPublishActionCompleted={setPublishActionCompleted}
+            />
+          </Frame1413>
+        </SharedResponseContainer>
       </Frame1425>
     </div>
   );
@@ -80,9 +81,16 @@ const Frame1425 = styled.div`
   padding: 0px 60px;
 `;
 
+const SharedResponseContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 30px;
+  width: 100%;
+`;
+
 const SliderCardContainer = styled.div`
-  width: 1026px;
   height: auto;
+  flex: 1;
 `;
 
 const Frame1424 = styled.div`
@@ -109,7 +117,7 @@ const Frame1413 = styled.div`
   align-items: flex-start;
   gap: 40px;
   position: relative;
-  align-self: stretch;
+  width: 63.68%;
 `;
 
 const Line18 = styled.img`

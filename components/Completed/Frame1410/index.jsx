@@ -14,12 +14,12 @@ function Frame1410(props) {
           exemplar={exemplar}
           isSelected={task.id === id}
           setPublishActionCompleted={setPublishActionCompleted}
+          showAddToCard={true}
         />
       );
     });
     return (
       <Frame14101 className={`frame-1410 ${className || ''}`} key={key}>
-        <Frame1308 date={key}></Frame1308>
         <Frame14101 className="frame-19">{tasksFrames}</Frame14101>
       </Frame14101>
     );

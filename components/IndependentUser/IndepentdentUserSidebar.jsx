@@ -208,8 +208,8 @@ function IndepentdentUserSidebar({
                   .map((question, qIndex) => {
                     const showMenu = showMenuMap[question.id] || false;
                     return (
-                      question.title
-                        .toLowerCase()
+                      question?.title
+                        ?.toLowerCase()
                         .includes(searchQuery.toLowerCase()) && (
                         <DrawerQuestion
                           key={qIndex}

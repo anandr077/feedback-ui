@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import CardContent from '../CardContent';
 import {
   AnchorTag,
@@ -52,7 +52,9 @@ function TaskCard(props) {
 
   const refContainer = useRef(null);
 
-  
+  useEffect(()=>{
+     setAddToFavourite(task.bookmarkedByStudents?.length > 0)
+  }, [task])
 
   const saveButtons = (
     id

@@ -36,9 +36,10 @@ export default function CompletedRoot(props) {
   } = props;
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
+  const [favouriteResponse, setFavouriteResponse] = React.useState(false);
   const mobileView = isMobileView();
-
   function filterAndSortData(obj, targetClassTitle, sortData) {
+   
     const dataArray = Object.entries(obj);
     const sortedArray = dataArray.sort((a, b) => {
       const dateA = new Date(a[0]);
@@ -61,6 +62,17 @@ export default function CompletedRoot(props) {
       });
     }
 
+    if(favouriteResponse){
+      Object.keys(sortedData).forEach((date) => {
+        const filteredObjects = sortedData[date].filter(
+          (obj) => obj.bookmarkedByStudents
+        );
+        if (filteredObjects.length > 0) {
+          filteredAndSortedData[date] = filteredObjects;
+        }
+      });
+    }
+
     return selectedClass != '' ? filteredAndSortedData : sortedData;
   }
 
@@ -74,9 +86,7 @@ export default function CompletedRoot(props) {
     <>
       <TopContainer>
         <TitleContainer>
-          <Title>
-            Shared Responses
-          </Title>
+          <Title>Shared Responses</Title>
           <ConnectContainer>
             <LinkButton
               link={`#/`}
@@ -91,17 +101,17 @@ export default function CompletedRoot(props) {
           have submitted for review
         </HeadingLine>
       </TopContainer>
-      {
-        !mobileView && (
-          <FilterSort
-            setSelectedValue={setSelectedValue}
-            selectedClass={selectedClass}
-            classes={classes}
-            sortData={sortData}
-            setSortData={setSortData}
-          />
-        )
-      }
+      {!mobileView && (
+        <FilterSort
+          setSelectedValue={setSelectedValue}
+          selectedClass={selectedClass}
+          classes={classes}
+          sortData={sortData}
+          setSortData={setSortData}
+          favouriteResponse={favouriteResponse}
+          setFavouriteResponse={setFavouriteResponse}
+        />
+      )}
     </>
   );
 

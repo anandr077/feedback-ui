@@ -108,7 +108,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
               {pathName.includes('/feedbackHistory') ? (
                 <StyledButton
                   URL={text.url}
-                  Text="View Details"
+                  Text="View Feedback"
                   Icon={WhiteArrowRight}
                   ColoredIcon={arrowRight}
                 />

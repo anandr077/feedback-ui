@@ -1,11 +1,17 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { default as React, default as React, useEffect, useState } from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, HashRouter as Router, Switch } from 'react-router-dom';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
+import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
+import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
 import ExemplarResponsesPage from './components/ExemplarResponsesPage';
 import FeedbacksRoot from './components/FeedbacksComponents/FeedbacksRoot';
-import DocumentRoot from './components/FeedbacksComponents/DocumentRoot';
+import PageNotFound from './components/PageNotFound';
+import ResponsiveFooter from './components/ResponsiveFooter';
+import ResponsiveHeader from './components/ResponsiveHeader';
+import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
 import StudentDashboardRoot from './components/StudentDashBoardRoot';
 import StudentTaskRoot from './components/StudentTaskRoot';
@@ -20,14 +26,14 @@ import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/C
 import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { getUserName, getUserRole } from './userLocalDetails';
 
-import GiveFeedback from './components/GiveFeedback';
 import Cookies from 'js-cookie';
-import withOnboarding from './components/WithOnboarding';
-import withAuth from './components/WithAuth';
-import NewDocPage from './components/NewDocRoot';
+import GiveFeedback from './components/GiveFeedback';
 import MainPage from './components/MainPage';
-import CompletedRoot from './components/Completed/CompletedRoot';
+import NewDocPage from './components/NewDocRoot';
+import withAuth from './components/WithAuth';
+import withOnboarding from './components/WithOnboarding';
 
 function App() {
   const role = getUserRole();
@@ -53,8 +59,6 @@ function App() {
   }, []);
 
   const middleware = (c) => withOnboarding(withAuth(c));
-  const ProtectedTeacherDashboard = middleware(TeacherDashboardRoot);
-  const ProtectedStudentDashboard = middleware(StudentDashboardRoot);
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
   //const ProtectedCompletedRoot = middleware(CompletedPage);
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);

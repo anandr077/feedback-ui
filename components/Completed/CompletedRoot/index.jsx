@@ -14,12 +14,10 @@ import {
   HeadingLine,
   TitleContainer,
   Title,
-  TitleImage,
 } from '../../CompletedPage/style';
-import { denyModelResponse, publishModelResponse } from '../../../service.js';
 import FilterSort from '../../FilterSort/index.jsx';
 import { isMobileView } from '../../ReactiveRender';
-import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
+import { getUserId } from '../../../userLocalDetails.js';
 
 export default function CompletedRoot(props) {
   const {
@@ -33,12 +31,18 @@ export default function CompletedRoot(props) {
     classes,
     onAccept,
     onDecline,
+    onAddToBookmark,
+    onRemoveFromBookmark
   } = props;
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
+  const [favouriteResponse, setFavouriteResponse] = React.useState(false);
   const mobileView = isMobileView();
 
+  
+
   function filterAndSortData(obj, targetClassTitle, sortData) {
+   
     const dataArray = Object.entries(obj);
     const sortedArray = dataArray.sort((a, b) => {
       const dateA = new Date(a[0]);
@@ -61,6 +65,22 @@ export default function CompletedRoot(props) {
       });
     }
 
+    if(favouriteResponse){
+      Object.keys(sortedData).forEach((date) => {
+        const filteredObjects = sortedData[date].filter(
+          (item) => {
+            const bookmarkedItems = item?.bookmarkedByStudents || [];
+            const isBookmarkedByUser = bookmarkedItems.includes(getUserId());
+            return isBookmarkedByUser;
+          }
+        );
+        if (filteredObjects.length > 0) {
+          filteredAndSortedData[date] = filteredObjects;
+        }
+      });
+      return filteredAndSortedData
+    }
+
     return selectedClass != '' ? filteredAndSortedData : sortedData;
   }
 
@@ -74,9 +94,7 @@ export default function CompletedRoot(props) {
     <>
       <TopContainer>
         <TitleContainer>
-          <Title>
-            Shared Responses
-          </Title>
+          <Title>Shared Responses</Title>
           <ConnectContainer>
             <LinkButton
               link={`#/`}
@@ -91,17 +109,17 @@ export default function CompletedRoot(props) {
           have submitted for review
         </HeadingLine>
       </TopContainer>
-      {
-        !mobileView && (
-          <FilterSort
-            setSelectedValue={setSelectedValue}
-            selectedClass={selectedClass}
-            classes={classes}
-            sortData={sortData}
-            setSortData={setSortData}
-          />
-        )
-      }
+      {!mobileView && (
+        <FilterSort
+          setSelectedValue={setSelectedValue}
+          selectedClass={selectedClass}
+          classes={classes}
+          sortData={sortData}
+          setSortData={setSortData}
+          favouriteResponse={favouriteResponse}
+          setFavouriteResponse={setFavouriteResponse}
+        />
+      )}
     </>
   );
 
@@ -113,13 +131,15 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
             headingPart,
             setPublishActionCompleted,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedMobileData,
           }}
         />
@@ -130,7 +150,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
 
@@ -138,6 +158,8 @@ export default function CompletedRoot(props) {
             headingPart,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedTabletData,
           }}
         />
@@ -148,7 +170,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
 
@@ -156,6 +178,8 @@ export default function CompletedRoot(props) {
             setPublishActionCompleted,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedLaptopData,
           }}
         />
@@ -166,13 +190,15 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
             headingPart,
             setPublishActionCompleted,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedDesktopData,
           }}
         />

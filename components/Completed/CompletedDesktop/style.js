@@ -6,6 +6,12 @@ export const HeadingAndFilterCon = styled.div`
   align-items: center;
   gap: 20px;
   width: 100%;
-  
+`;
+
+export const SharedResponseContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 30px;
+  width: 100%;
 `;
 

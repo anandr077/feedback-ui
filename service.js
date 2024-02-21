@@ -366,6 +366,11 @@ export const saveAnswer = async (submissionId, serialNumber, answer) =>
     answer
   );
 
+export const addToFavouriteList = async (feedbackId) => 
+  await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/addBookmark');
+export const removeFromFavouriteList = async (feedbackId) => 
+  await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/removeBookmark');
+
 export const submitAssignment = async (submissionId) =>
   await patchApi(baseUrl + '/submissions/' + submissionId + '/submit');
 

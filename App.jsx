@@ -17,6 +17,15 @@ import StudentDashboardRoot from './components/StudentDashBoardRoot';
 import StudentTaskRoot from './components/StudentTaskRoot';
 import TeacherDashboardRoot from './components/TeacherDashboard/TeacherDashboardRoot';
 import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
+import PageNotFound from './components/PageNotFound';
+import { Redirect } from 'react-router-dom';
+import { getUserRole, getUserName } from './userLocalDetails';
+import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
+import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
+import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
+import ResponsiveHeader from './components/ResponsiveHeader';
+import ResponsiveFooter from './components/ResponsiveFooter';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getUserName, getUserRole } from './userLocalDetails';
 
 import Cookies from 'js-cookie';
@@ -51,6 +60,7 @@ function App() {
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
+  //const ProtectedCompletedRoot = middleware(CompletedPage);
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
   const ProtectedTaskDetail = middleware(TaskDetail);
   const ProtectedCreateAssignment = middleware(CreateAssignment);

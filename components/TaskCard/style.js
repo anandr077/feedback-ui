@@ -191,7 +191,7 @@ export const ClassTitle = styled.div`
 `;
 
 export const FavouriteContainer = styled.div`
-  
+  cursor: pointer;
 `;
 
 export const FavouriteContent = styled.div`

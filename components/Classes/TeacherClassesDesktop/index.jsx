@@ -64,7 +64,6 @@ function TeacherClassesDesktop(props) {
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
-console.log('first awaitingSubmissions', awaitingSubmissions);
   return (
     <TopContainer>
       <Frame1422>
@@ -127,13 +126,15 @@ console.log('first awaitingSubmissions', awaitingSubmissions);
                 </BtnsContainer>
               </Frame13371>
               <TasksContainer>
-                {awaitingSubmissions.map((task) => (
-                  <TaskContainer key={task.id}>
-                    <a key={task.id} href={task.link} style={{ width: '100%' }}>
-                      <TaskCard key={task.id} task={task} />
-                    </a>
-                  </TaskContainer>
-                ))}
+                {awaitingSubmissions.map((task) => {
+                  return(
+                    <TaskContainer key={task.id}>
+                      <a key={task.id} href={task.link} style={{ width: '100%' }}>
+                        <TaskCard key={task.id} task={task}/>
+                      </a>
+                    </TaskContainer>
+                  )
+                })}
               </TasksContainer>
             </ActiveTaskContainer>
             <ClassStatsFrame>{annotationAnalyticsFrame}</ClassStatsFrame>

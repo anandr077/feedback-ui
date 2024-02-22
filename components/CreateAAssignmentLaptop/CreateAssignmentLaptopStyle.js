@@ -127,6 +127,12 @@ export const Frame1372 = styled.div`
   z-index: 1;
 `;
 
+export const TaskHeading = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const Title = styled.h1`
   ${IbmplexsansBoldShark64px}
   font-size: 45px;

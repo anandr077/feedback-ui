@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import CardContent from '../CardContent';
 import {
   AnchorTag,
@@ -14,11 +14,17 @@ import {
   SLink,
   StyledCard,
   TaskTitle,
-  TaskTitleBold
+  TaskTitleBold,
+  Header,
+  ClassTitle,
+  FavouriteContainer,
+  FavouriteContent
 } from './style';
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
 import StatusBubbleContainer from '../StatusBubblesContainer';
+import BorderedHeart from '../../static/img/bordered_heart.svg';
+import RedBgHeart from '../../static/img/redbgheart.svg';
 import ProgressBar from '../ProgressBar';
 
 function TaskCard(props) {
@@ -37,13 +43,19 @@ function TaskCard(props) {
     onExemplarDecline,
     onAccept,
     onDecline,
+    showAddToCard = false,
+    onAddToBookmark = () => {},
+    onRemoveFromBookmark = () => {},
   } = props;
   const role = getUserRole();
   const userId = getUserId();
 
   const refContainer = useRef(null);
 
-  
+  const isFavouriteFn = (task, user) =>{
+    return  (task?.bookmarkedByStudents || []).includes(user)
+  }
+  const isFavourite = isFavouriteFn(task, getUserId())
 
   const saveButtons = (
     id
@@ -72,7 +84,16 @@ function TaskCard(props) {
 
       if (task.status === 'AWAITING_APPROVAL') {
         return (
-          <StyledCard ref={refContainer} isSelected={isSelected}>
+          <StyledCard 
+            ref={refContainer} isSelected={isSelected}
+            style={{
+              border: '1px solid rgba(114, 0, 224, 0.1)',
+              borderTop: 'none',
+              background: 'white',
+              borderRadius: '0 0 16px 16px',
+              boxShadow: '0 4px 16px 0 rgba(114, 0, 224, 0.1)',
+            }} 
+          >
             <TaskTitle>
               Congratulations,
               <br />
@@ -109,9 +130,41 @@ function TaskCard(props) {
         isSelected={isSelected}
         overdue={isOverDue}
       >
-        {exemplar
-          ? tagsFrameExempler(task, isOverDue)
-          : tagsFrame(task, isOverDue)}
+        {
+          showAddToCard ? (
+            <Header>
+              <ClassTitle>{task.classTitle}</ClassTitle>
+              <FavouriteContainer>
+                {
+                  isFavourite ? (
+                    <FavouriteContent 
+                      onClick={(e)=> {
+                        e.stopPropagation();
+                        onRemoveFromBookmark(task.id)
+                      }}
+                      favourite={true}
+                    >
+                        <img src={RedBgHeart} />
+                        Favourite
+                    </FavouriteContent> 
+                  ) : (
+                    <FavouriteContent onClick={(e)=> {
+                      e.stopPropagation();
+                      onAddToBookmark(task.id)
+                    }}>
+                        <img src={BorderedHeart} />
+                        Add to favourites
+                    </FavouriteContent>
+                  )
+                }
+              </FavouriteContainer>
+            </Header>
+          ) : (
+            exemplar
+              ? tagsFrameExempler(task, isOverDue)
+              : tagsFrame(task, isOverDue)
+          )
+        }
         <CardContent
           task={cardContents(task, exemplar)}
           small={small}

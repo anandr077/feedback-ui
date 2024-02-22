@@ -18,6 +18,7 @@ import {
   Frame1375,
   Frame1372,
   Title,
+  TaskHeading,
   Frame1374,
   TextInput,
   Frame1294,
@@ -52,6 +53,8 @@ import Footer from "../Footer";
 import GoBack2 from "../GoBack2";
 import Header from "../Header";
 import "./CreateAAssignmentLaptop.css";
+import QuestionTooltip from '../../components2/QuestionTooltip';
+import questionMark from '../../static/img/question-mark.svg';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -78,7 +81,15 @@ function CreateAAssignmentLaptop(props) {
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
-      assignment.status === 'DRAFT' ? <Title>Create Task</Title> : <></>;
+      assignment.status === 'DRAFT' ? (
+        <TaskHeading>
+          <Title>Create Task</Title>
+          <QuestionTooltip 
+             img={questionMark}
+             text={'Follow the steps provided to design the perfect task for your classes'}
+          />
+        </TaskHeading>
+      ) : <></>;
     return (
       <TitleContainer>
         {title}

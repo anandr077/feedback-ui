@@ -1,7 +1,7 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useEffect, useState } from 'react';
+import { default as React, default as React, useEffect, useState, useContext } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
@@ -41,7 +41,7 @@ import {
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
-import { IsoTwoTone } from '@mui/icons-material';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 import { useHistory } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
@@ -103,11 +103,11 @@ function FeedbackTeacherLaptop(props) {
     createGroupedFocusAreas(submission)
   );
   const [open, setOpen] = useState(false);
-
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const drawerWidth = 315;
+  const { countWords } = useContext(FeedbackContext)
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
@@ -154,7 +154,6 @@ function FeedbackTeacherLaptop(props) {
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
-  const [countWords, setCountWords] = useState(0);
   const [editorFontSize, setEditorFontSize] = useState(100);
 
   const handleRequestFeedback = async (index) => {
@@ -291,14 +290,21 @@ function FeedbackTeacherLaptop(props) {
               showTeacherPopUp,
               setShowStudentPopUp,
               setShowTeacherPopUp,
-              setCountWords,
               editorFontSize
             )}
           </Frame1388>
           {/* </Main> */}
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
-          <div>{countWords} {countWords === 1 ? 'word' : 'words'}</div>
+          <div
+            style={
+            !submission.answers ||
+            submission.answers?.length <= 1 
+            ? {visibility: 'visible'} 
+            : { visibility : 'hidden'}}
+          >
+            {countWords} {countWords === 1 ? 'word' : 'words'}
+          </div>
           <ZoomContianer>
             Zoom
             <ZoomInput 
@@ -485,7 +491,6 @@ function answersAndFeedbacks(
   showTeacherPopUp,
   setShowStudentPopUp,
   setShowTeacherPopUp,
-  setCountWords,
   editorFontSize
 ) {
   return (
@@ -530,7 +535,6 @@ function answersAndFeedbacks(
           commentsForSelectedTab,
           overallComments,
           methods,
-          setCountWords,
           editorFontSize
         )}
 

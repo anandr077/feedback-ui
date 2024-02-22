@@ -25,7 +25,12 @@ function CompletedTablet(props) {
     headingPart,
     onAccept,
     onDecline,
+    onAddToBookmark,
+    onRemoveFromBookmark,
   } = props;
+
+  const filterCreation = createFilter();
+
   return (
     <div className="completed-tablet screen">
       <Frame1425>
@@ -40,13 +45,15 @@ function CompletedTablet(props) {
             onDecline={onDecline}
           />
         </SliderCardContainer>
-        <Frame1424>{createFilter()}</Frame1424>
+        {filterCreation && <Frame1424>{filterCreation}</Frame1424>}
         <Frame1413>
           <Frame1410
             id={id}
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAddToBookmark = {onAddToBookmark}
+            onRemoveFromBookmark={onRemoveFromBookmark}
           />
         </Frame1413>
       </Frame1425>

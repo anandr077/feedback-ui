@@ -191,6 +191,12 @@ export const Frame1372WithTop = styled.div`
   min-width: 300px;
 `;
 
+export const TaskHeading = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`
+
 export const Title = styled.h1`
   ${IbmplexsansBoldShark36px}
   font-size: 36px;

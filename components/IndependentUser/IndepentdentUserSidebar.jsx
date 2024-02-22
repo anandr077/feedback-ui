@@ -167,7 +167,7 @@ function IndepentdentUserSidebar({
         />
       )}
       <SidebarContainer drawerWidth={drawerWidth} open={open}>
-        <DrawerHeader onClick={() => history.push('/docs')}>
+        <DrawerHeader onClick={() => window.open('#/getFeedback', '_blank')}>
           + New Draft
         </DrawerHeader>
         <DividerContainer>
@@ -231,27 +231,6 @@ function IndepentdentUserSidebar({
                             studentStyle={question.id === currentSubmissionId}
                           >
                             <LeftPart>
-                              {/* <EachMenuItem
-                              onClick={() => {
-                                setSelectedQuestion(question);
-                                handleSubjectClick(question);
-                              }}
-                              style={{
-                                display:
-                                  question.id === currentSubmissionId
-                                    ? 'none'
-                                    : 'flex',
-                              }}
-                            >
-                              <EachMenuItemImg src={editIcon} />
-                              <EachMenuItemText
-                                purpleColor={
-                                  question.id === currentSubmissionId
-                                }
-                              >
-                                Open
-                              </EachMenuItemText>
-                            </EachMenuItem> */}
                               <EachMenuItem
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -288,11 +267,6 @@ function IndepentdentUserSidebar({
                                     : deletered
                                 }
                               />
-                              {/* <EachMenuItemTextDel
-                              studentStyle={question.id === currentSubmissionId}
-                            >
-                              Delete
-                            </EachMenuItemTextDel> */}
                             </RightPart>
                           </MenuItems>
                         </DrawerQuestion>

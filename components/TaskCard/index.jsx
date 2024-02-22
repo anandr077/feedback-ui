@@ -117,7 +117,7 @@ function TaskCard(props) {
     if (onAccept) {
       return styledCard();
     }
-    return <AnchorTag href={task.link}>{styledCard()}</AnchorTag>;
+    return <AnchorTag href={!exemplar && task.link}>{styledCard()}</AnchorTag>;
   }
   function styledCard() {
     const dueDate = new Date(task.dueAt);

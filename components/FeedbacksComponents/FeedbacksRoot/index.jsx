@@ -16,6 +16,7 @@ import {
   deleteFeedback,
   getDefaultCriteria,
   getSubmissionById,
+  deleteSubmissionById,
   getSubmissionsByAssignmentId,
   getOverComments,
   getClassesWithStudents,
@@ -129,6 +130,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
   const [countWords, setCountWords] = useState(0);
+  const [pageLeavePopup, setPageLeavePopup] = useState(false)
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -251,7 +253,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setFeedbackReviewPopup(true);
         return false;
       }
-      
+        
   
       return true;
     });
@@ -260,6 +262,28 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       unblock();
     };
   }, [submission, feedbackReviewPopup, history]);
+
+  useEffect(() => {
+    const unblock = history.block((location, action) => {
+      if(submission?.status==='DRAFT'
+      && submission?.type === 'DOCUMENT'
+      && !submission?.answers
+      && submission?.assignment.title === 'Untitled Question'
+      ){
+        setPendingLocation(location);
+        setPageLeavePopup(true);
+        return false;
+      }
+        
+  
+      return true;
+    });
+  
+    return () => {
+      unblock();
+    };
+  }, [submission, history]);
+
 
   if (isLoading) {
     return (
@@ -1356,6 +1380,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
+    
   };
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
@@ -1402,6 +1427,38 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
       
   };
+
+  const goToNewUrl = (pendingLocation) =>{
+    const port = window.location.port && window.location.port !== "80" && window.location.port !== "443"
+    ? `:${window.location.port}`
+    : "";
+
+    if(pendingLocation !== undefined || pendingLocation !== null){
+      const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}#${pendingLocation.pathname}`;
+      window.history.pushState("", "", newUrl);
+      window.location.reload();
+    }else{
+      const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}#/`;
+      window.history.pushState("", "", newUrl);
+      window.location.reload();
+    }
+  }
+
+  const deleteDraftPage = (submissionId) =>{
+    deleteSubmissionById(submissionId).then(() => {
+      if(pendingLocation){
+        goToNewUrl(pendingLocation)
+      }
+      setPageLeavePopup(false);
+    })
+  }
+
+  const saveDraftPage = () =>{
+    if(pendingLocation){
+      goToNewUrl(pendingLocation)
+    }
+    setPageLeavePopup(false);
+  }
 
 
   const methods = {
@@ -1464,6 +1521,19 @@ export default function FeedbacksRoot({ isDocumentPage }) {
            onClickOutside={()=> setFeedbackReviewPopup(false)}
         />
       )}
+
+      {
+        pageLeavePopup && (
+          <GeneralPopup
+            title='Save document'
+            closeBtnText={'Delete'}
+            textContent={'Do you want to save this document? '} 
+            buttonText={'Save'}
+            hidePopup={()=> deleteDraftPage(submission.id)}
+            confirmButtonAction={saveDraftPage}
+          />
+        )
+      }
 
       <FeedbackTeacherLaptop
         {...{

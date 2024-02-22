@@ -72,7 +72,7 @@ export default function CreateAssignment(props) {
     reviewedBy: '',
     status: 'DRAFT',
     reviewers: {},
-    dueAt: '',
+    dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
 
@@ -98,9 +98,8 @@ export default function CreateAssignment(props) {
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
+  const [updateDueDateTick, setUpdateDueDateTick] = React.useState(false);
   const mobileView = isMobileView();
-  const [reviewedByList, setReviewedByList] = React.useState([]);
-  const [dragFromHere, setDragFromHere] = React.useState([]);
   const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
     mobileView ? 'Select' : 'Select Marking Template'
   );
@@ -420,6 +419,7 @@ export default function CreateAssignment(props) {
 
   const saveDraft = () => {
     updateAssignment(assignment.id, assignment).then((res) => {
+      console.log('thell hello world', res)
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
@@ -667,7 +667,10 @@ export default function CreateAssignment(props) {
   const dateSelectorFrame = (
     <DateSelector
       value={dayjs(assignment.dueAt)}
-      onChange={(newValue) => updateDueAt(newValue)}
+      onChange={(newValue) => {
+        updateDueAt(newValue);
+        setUpdateDueDateTick(true)
+      }}
     />
   );
 
@@ -699,6 +702,8 @@ export default function CreateAssignment(props) {
     showPublishPopuphandler,
   };
 
+  console.log('the props is', updateDueDateTick)
+
   return (
     <>
       {showDeletePopup && (
@@ -723,6 +728,7 @@ export default function CreateAssignment(props) {
           assignment,
           feedbacksMethodContainer,
           dateSelectorFrame,
+          updateDueDateTick,
           ...createAAssignmentLaptopData,
         }}
       />

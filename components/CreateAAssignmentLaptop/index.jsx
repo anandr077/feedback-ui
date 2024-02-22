@@ -88,11 +88,7 @@ function CreateAAssignmentLaptop(props) {
     dateSelectorFrame,
     feedbacksMethodContainer,
     cleanformattingTextBox,
-    cleanformattingDiv,
-    headerProps,
-    assignmentSettings,
-    feedbackMethod,
-    goBack21Props,
+    updateDueDateTick,
     buttons21Props,
     goBack22Props,
     showDeletePopuphandler,
@@ -314,13 +310,17 @@ function CreateAAssignmentLaptop(props) {
                 <StepContainer>
                   <StepImag
                     src={
-                      assignment.questions[0].question === '' ? tick : tickColor
+                      assignment.questions &&
+                      assignment.questions.length > 0 &&
+                      assignment.questions[0].question !== '' ? tickColor : tick
                     }
                   />
                   <StepText
                     style={{
                       color:
-                        assignment.questions[0].question != '' && '#7200E0',
+                        assignment.questions &&
+                        assignment.questions.length > 0 &&
+                        assignment.questions[0].question !== '' && '#7200E0',
                     }}
                   >
                     Set up the task
@@ -339,9 +339,9 @@ function CreateAAssignmentLaptop(props) {
                   </StepText>
                 </StepContainer>
                 <StepContainer>
-                  <StepImag src={assignment.dueAt === '' ? tick : tickColor} />
+                  <StepImag src={updateDueDateTick ? tickColor : tick } />
                   <StepText
-                    style={{ color: assignment.dueAt != '' && '#7200E0' }}
+                    style={{ color: updateDueDateTick && '#7200E0' }}
                   >
                     Select the due date
                   </StepText>

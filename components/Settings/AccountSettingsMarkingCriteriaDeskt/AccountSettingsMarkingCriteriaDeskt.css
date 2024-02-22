@@ -9,3 +9,7 @@
   overflow: hidden;
   position: relative;
 }
+
+.button-width{
+  width: 100% !important;
+}

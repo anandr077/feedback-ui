@@ -103,8 +103,8 @@ export const ButtonBox = styled.div`
 
 export const DeleteButton2 = styled.img`
   cursor: pointer;
-  min-width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 `;
 
 export const Line14 = styled.img`

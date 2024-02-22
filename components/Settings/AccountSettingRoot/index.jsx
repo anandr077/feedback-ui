@@ -46,6 +46,7 @@ export default function AccountSettingsRoot(props) {
       if (result) {
         setMarkingCriterias(result);
       }
+      console.log('smartAnnotation', smartAnnotation);
       setShortcuts(shortcuts);
       setSmartAnnotations(smartAnnotation);
       setIsLoading(false);
@@ -186,7 +187,6 @@ export default function AccountSettingsRoot(props) {
     }
     createNewMarkingCriteria(createdMarkingCriteria)
       .then((res) => {
-        
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
         showSnackbar(

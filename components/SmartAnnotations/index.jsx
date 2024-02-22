@@ -19,6 +19,7 @@ import {
   ButtonWrapper,
   ArrowUpIcon,
 } from './style';
+import deleteLight from '../../static/img/delete-light.svg';
 
 function SmartAnotation(props) {
   const {
@@ -162,7 +163,7 @@ function SmartAnotation(props) {
                 {smartAnnotation?.teacherId === getUserId() ? (
                   <ButtonBox>
                     <DeleteButton2
-                      src="/icons/delete-purple-icon.svg"
+                      src={deleteLight}
                       alt="delete-button"
                       onClick={() => handleDeleteAnnotation()}
                     />
@@ -218,7 +219,7 @@ function SmartAnotation(props) {
           {smartAnnotation?.teacherId === getUserId() && settingsMode ? (
             <ButtonContainer>
               <PlusImage src="/img/add-violet.svg" alt="plus" />
-              <ButtonLabel onClick={addNewSuggestions}>New</ButtonLabel>
+              <ButtonLabel onClick={addNewSuggestions}>New Comment</ButtonLabel>
             </ButtonContainer>
           ) : smartAnnotation?.teacherId === getUserId() &&
             newSmartAnnotationEdit ? (

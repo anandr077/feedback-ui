@@ -18,7 +18,10 @@ import {
   Title1,
   MarkingCriteria,
   Line14,
+  HeadingLine,
 } from './style';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
+import questionMark from '../../../static/img/question-mark.svg';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -37,12 +40,18 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
   return (
     <div className="account-settings-marking-criteria-desktop screen">
       <Frame1379>
-        <Frame1376>
-          <Frame1315>{breadCrumbs}</Frame1315>
-        </Frame1376>
         <Frame1378>
           <Frame1372>
-            <Title>Account Settings</Title>
+            <Title>
+              Account Settings
+              <QuestionTooltip
+                text={
+                  'Help other students who have requested feedback from the community'
+                }
+                img={questionMark}
+              />
+            </Title>
+            <HeadingLine>Some description text will be added here</HeadingLine>
           </Frame1372>
           <Frame13221>
             {sidebarNav}
@@ -83,17 +92,24 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showShortcuts && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Smart Annotations</MarkingCriteria>
-
-                    <Buttons
-                      text="Create new"
-                      onClickMethod={createSmartAnnotationHandler}
+                    <MarkingCriteria>Feedback Banks</MarkingCriteria>
+                    <QuestionTooltip
+                      text={
+                        'Help other students who have requested feedback from the community'
+                      }
+                      img={questionMark}
                     />
                   </Title1>
                   <Line14 src={line14} alt="Line 14" />
                   <MarkingCriteriaList>
                     {smartAnnotationsFrame()}
                   </MarkingCriteriaList>
+
+                  <Buttons
+                    text="New Feedback Area"
+                    onClickMethod={createSmartAnnotationHandler}
+                    className={'button-width'}
+                  />
                 </Frame1302>
               )}
             </>

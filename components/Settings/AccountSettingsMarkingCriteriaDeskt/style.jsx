@@ -97,19 +97,29 @@ export const Frame1378 = styled.div`
 
 export const Frame1372 = styled.div`
   display: flex;
-  align-items: center;
-  gap: 30px;
-  position: relative;
+  flex-direction: column;
   align-self: stretch;
+  padding: 0px 0px 20px 0px;
+  border: 0px 0px 1px 0px;
+  gap: 12px;
+  border-bottom: 1px solid #d6d6d6;
 `;
 
 export const Title = styled.h1`
-  ${IbmplexsansBoldShark36px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.9px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Dark-Purple, #25222a);
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
   line-height: normal;
+  letter-spacing: -0.9px;
+  @media (max-width: 765px) {
+    font-size: 32px;
+    letter-spacing: -0.8px;
+  }
 `;
 
 export const Frame13221 = styled.div`
@@ -141,17 +151,19 @@ export const Frame1302 = styled.div`
 export const Title1 = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   position: relative;
   align-self: stretch;
 `;
 
 export const MarkingCriteria = styled.div`
-  ${IbmplexsansSemiBoldShark24px}
-  position: relative;
-  flex: 1;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 31px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1e252a;
 `;
 
 export const Line14 = styled.img`
@@ -160,4 +172,12 @@ export const Line14 = styled.img`
   width: 100%;
   height: 1px;
   object-fit: cover;
+`;
+export const HeadingLine = styled.p`
+  color: #333333;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
 `;

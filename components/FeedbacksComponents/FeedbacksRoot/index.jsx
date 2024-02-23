@@ -272,27 +272,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   }, [submission, feedbackReviewPopup, history]);
 
-  // useEffect(() => {
-  //   const unblock = history.block((location, action) => {
-  //     if(submission?.status==='DRAFT'
-  //     && submission?.type === 'DOCUMENT'
-  //     && !submission?.answers
-  //     && submission?.assignment.title === 'Untitled Question'
-  //     ){
-  //       setPendingLocation(location);
-  //       setPageLeavePopup(true);
-  //       return false;
-  //     }
-        
-  
-  //     return true;
-  //   });
-  
-  //   return () => {
-  //     unblock();
-  //   };
-  // }, [submission, history]);
-
 
   if (isLoading) {
     return (

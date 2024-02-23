@@ -32,10 +32,111 @@ export default function AccountSettingsRoot(props) {
 
   const [markingCriterias, setMarkingCriterias] = React.useState([]);
   const [shortcuts, setShortcuts] = React.useState([]);
-  const [smartAnnotations, setSmartAnnotations] = React.useState([]);
+  const [smartAnnotations, setSmartAnnotations] = React.useState([
+    {
+      feedbackBankId: '1',
+      feedbackBankName: 'Essay',
+      categories: [
+        {
+          categoryId: '1',
+          categoryName: 'Category1',
+          annotations: [
+            {
+              annotationId: '1',
+              annotationText:
+                'Annotation text for Bank 1, Category1, Annotation 1',
+            },
+            {
+              annotationId: '2',
+              annotationText:
+                'Annotation text for Bank 1, Category1, Annotation 2',
+            },
+          ],
+        },
+        {
+          categoryId: '2',
+          categoryName: 'Category2',
+          annotations: [
+            {
+              annotationId: '3',
+              annotationText:
+                'Annotation text for Bank 1, Category2, Annotation 1',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      feedbackBankId: '2',
+      feedbackBankName: 'Imaginative',
+      categories: [
+        {
+          categoryId: '3',
+          categoryName: 'Category3',
+          annotations: [
+            {
+              annotationId: '4',
+              annotationText:
+                'Annotation text for Bank 2, Category3, Annotation 1',
+            },
+            {
+              annotationId: '5',
+              annotationText:
+                'Annotation text for Bank 2, Category3, Annotation 2',
+            },
+          ],
+        },
+        {
+          categoryId: '4',
+          categoryName: 'Category4',
+          annotations: [
+            {
+              annotationId: '6',
+              annotationText:
+                'Annotation text for Bank 2, Category4, Annotation 1',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      feedbackBankId: '3',
+      feedbackBankName: 'Persuasive',
+      categories: [
+        {
+          categoryId: '5',
+          categoryName: 'Category5',
+          annotations: [
+            {
+              annotationId: '7',
+              annotationText:
+                'Annotation text for Bank 3, Category5, Annotation 1',
+            },
+            {
+              annotationId: '8',
+              annotationText:
+                'Annotation text for Bank 3, Category5, Annotation 2',
+            },
+          ],
+        },
+        {
+          categoryId: '6',
+          categoryName: 'Category6',
+          annotations: [
+            {
+              annotationId: '9',
+              annotationText:
+                'Annotation text for Bank 3, Category6, Annotation 1',
+            },
+          ],
+        },
+      ],
+    },
+  ]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
+  const [feedbackBankId, setFeedbackBankId] = React.useState(0);
 
   React.useEffect(() => {
     Promise.all([
@@ -48,13 +149,13 @@ export default function AccountSettingsRoot(props) {
       }
       console.log('smartAnnotation', smartAnnotation);
       setShortcuts(shortcuts);
-      setSmartAnnotations(smartAnnotation);
+      // setSmartAnnotations(smartAnnotation);
       setIsLoading(false);
     });
   }, []);
 
   const smartAnnotationsFrame = () => {
-    const all = smartAnnotations.map((sa, index) => (
+    const all = smartAnnotations[feedbackBankId].categories.map((sa, index) => (
       <SmartAnotation
         key={Math.random()}
         smartAnnotationIndex={index}
@@ -78,7 +179,7 @@ export default function AccountSettingsRoot(props) {
         setMarkingCriterias(result);
       }
       setShortcuts(shortcuts);
-      setSmartAnnotations(smartAnnotations);
+      // setSmartAnnotations(smartAnnotations);
       setIsLoading(false);
     });
     window.localStorage.removeItem('markingCriteria');
@@ -318,6 +419,9 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
               setOpenMarkingMethodologyDialog,
             }}
           />

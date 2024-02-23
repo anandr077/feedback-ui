@@ -124,7 +124,7 @@ export const Title = styled.h1`
 
 export const Frame13221 = styled.div`
   display: flex;
-  height: 860px;
+  max-height: 860px;
   align-items: flex-start;
   gap: 60px;
   position: relative;
@@ -180,4 +180,10 @@ export const HeadingLine = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
+`;
+
+export const TabsContainer = styled.div`
+  width: 100%;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
 `;

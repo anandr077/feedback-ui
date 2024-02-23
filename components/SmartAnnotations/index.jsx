@@ -32,6 +32,8 @@ function SmartAnotation(props) {
     onSuggestionClick,
     createSmartAnnotation,
   } = props;
+
+  console.log('first smart annotation', smartAnnotation);
   const [isExpanded, setIsExpanded] = useState(
     smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode
   );
@@ -40,7 +42,7 @@ function SmartAnotation(props) {
   const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
   const [editedText, setEditedText] = useState('');
   const [editingTitle, setEditingTitle] = useState(false);
-  const [editTitle, setEditTitle] = useState(smartAnnotation.title);
+  const [editTitle, setEditTitle] = useState(smartAnnotation.categoryName);
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);
@@ -189,12 +191,12 @@ function SmartAnotation(props) {
           </TtitleContainer>
           <Line14 src="/img/line-14.png" alt="Line 14" />
 
-          {smartAnnotation?.suggestions?.map((suggestion, index) => {
+          {smartAnnotation?.annotations?.map((suggestion, index) => {
             return (
               <SmartAnnotationSuggestion
                 key={Math.random()}
                 onClickFn={onClickFn}
-                text={suggestion.description}
+                text={suggestion.annotationText}
                 index={index}
                 saveEditedSuggestion={saveEditedSuggestion}
                 settingsMode={settingsMode}

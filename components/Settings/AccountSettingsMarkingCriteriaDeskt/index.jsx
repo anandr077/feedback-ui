@@ -19,9 +19,11 @@ import {
   MarkingCriteria,
   Line14,
   HeadingLine,
+  TabsContainer,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
+import { Tab, Tabs } from '@mui/material';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -34,6 +36,9 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     createSmartAnnotationHandler,
     breadCrumbs,
     smartAnnotationsFrame,
+    smartAnnotations,
+    setFeedbackBankId,
+    feedbackBankId,
     setOpenMarkingMethodologyDialog,
   } = props;
 
@@ -100,7 +105,23 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                       img={questionMark}
                     />
                   </Title1>
-                  <Line14 src={line14} alt="Line 14" />
+                  <TabsContainer>
+                    <Tabs
+                      value={feedbackBankId}
+                      onChange={(event, newValue) => {
+                        console.log('first feedback', newValue);
+                        setFeedbackBankId(newValue);
+                      }}
+                      aria-label="Feedback Bank tabs"
+                    >
+                      {smartAnnotations.map((bank, index) => (
+                        <Tab
+                          key={bank.feedbackBankId}
+                          label={bank.feedbackBankName}
+                        />
+                      ))}
+                    </Tabs>
+                  </TabsContainer>
                   <MarkingCriteriaList>
                     {smartAnnotationsFrame()}
                   </MarkingCriteriaList>

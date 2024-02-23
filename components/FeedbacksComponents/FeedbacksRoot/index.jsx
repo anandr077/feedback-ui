@@ -253,18 +253,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setFeedbackReviewPopup(true);
         return false;
       }
-        
-  
-      return true;
-    });
-  
-    return () => {
-      unblock();
-    };
-  }, [submission, feedbackReviewPopup, history]);
-
-  useEffect(() => {
-    const unblock = history.block((location, action) => {
       if(submission?.status==='DRAFT'
       && submission?.type === 'DOCUMENT'
       && !submission?.answers
@@ -282,7 +270,28 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return () => {
       unblock();
     };
-  }, [submission, history]);
+  }, [submission, feedbackReviewPopup, history]);
+
+  // useEffect(() => {
+  //   const unblock = history.block((location, action) => {
+  //     if(submission?.status==='DRAFT'
+  //     && submission?.type === 'DOCUMENT'
+  //     && !submission?.answers
+  //     && submission?.assignment.title === 'Untitled Question'
+  //     ){
+  //       setPendingLocation(location);
+  //       setPageLeavePopup(true);
+  //       return false;
+  //     }
+        
+  
+  //     return true;
+  //   });
+  
+  //   return () => {
+  //     unblock();
+  //   };
+  // }, [submission, history]);
 
 
   if (isLoading) {
@@ -294,15 +303,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
     provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
-    .then(res=>{
-      setSubmission(old=>{
-        return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+      .then(res=>{
+        setSubmission(old=>{
+          return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+        })
+        setFeedbackReviewPopup(false);
+        if (pendingLocation !== undefined || pendingLocation !== null) {
+          history.replace(pendingLocation);
+        }
       })
-      setFeedbackReviewPopup(false);
-      if (pendingLocation !== undefined || pendingLocation !== null) {
-        history.replace(pendingLocation);
-      }
-    })
   };
   
   async function fetchClassWithStudentsAndTeachers() {
@@ -1433,15 +1442,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     ? `:${window.location.port}`
     : "";
 
-    if(pendingLocation !== undefined || pendingLocation !== null){
-      const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}#${pendingLocation.pathname}`;
-      window.history.pushState("", "", newUrl);
-      window.location.reload();
-    }else{
-      const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}#/`;
-      window.history.pushState("", "", newUrl);
-      window.location.reload();
-    }
+    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
+
+    const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}${path}`;
+
+    window.history.pushState("", "", newUrl);
+    window.location.reload();
   }
 
   const deleteDraftPage = (submissionId) =>{
@@ -1518,7 +1524,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
            text={'Did you find this feedback helpful?'}
            onYes={handleFeedbackOnFeedback('LIKE')}
            onNo={handleFeedbackOnFeedback('DISLIKE')}
-           onClickOutside={()=> setFeedbackReviewPopup(false)}
+           onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
         />
       )}
 

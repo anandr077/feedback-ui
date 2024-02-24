@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Buttons from '../Buttons';
 import './AccountSettingsMarkingCriteriaDeskt.css';
 import {
@@ -20,10 +20,30 @@ import {
   Line14,
   HeadingLine,
   TabsContainer,
+  TabsPlus,
+  TabDots,
+  TabContainer,
+  TabTitle,
+  MoreOptions,
+  MoreOptionsContainer,
+  MoreOption,
+  MoreOptionImage,
+  MoreOptionTitle,
+  SystemOptions,
+  SystemOption,
+  SystemOptionImage,
+  SystemOptionTitle,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
+import Plus from '../../../static/img/Plus.svg';
+import threedotsc from '../../../static/img/threedotsc.svg';
+import PlusViolet from '../../../static/img/Plus-violet.svg';
+import Globe from '../../../static/img/Globe.svg';
+import optionArrow from '../../../static/img/optionArrow.svg';
+import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
 import { Tab, Tabs } from '@mui/material';
+import { useState } from 'react';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -41,7 +61,60 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     feedbackBankId,
     setOpenMarkingMethodologyDialog,
   } = props;
+  const [moreOptionCon, setMoreOptionCon] = useState(false);
+  const [systemOptionCon, setSystemOptionCon] = useState(false);
+  const [systemOptionList, setSystemOptionList] = useState([
+    {
+      id: 0,
+      title: 'English',
+      visibility: false,
+    },
+    {
+      id: 1,
+      title: 'Geography',
+      visibility: true,
+    },
+    {
+      id: 2,
+      title: 'History',
+      visibility: false,
+    },
+  ]);
 
+  const moreOptionRef = useRef(null);
+  const systemOptionRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        moreOptionRef.current &&
+        !moreOptionRef.current.contains(event.target)
+      ) {
+        setMoreOptionCon(false);
+      }
+      if (
+        systemOptionRef.current &&
+        !systemOptionRef.current.contains(event.target)
+      ) {
+        setSystemOptionCon(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleSystemOptionList = (id) => {
+    setSystemOptionList((prevOptions) =>
+      prevOptions.map((option) =>
+        option.id === id
+          ? { ...option, visibility: !option.visibility }
+          : option
+      )
+    );
+  };
   return (
     <div className="account-settings-marking-criteria-desktop screen">
       <Frame1379>
@@ -109,7 +182,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     <Tabs
                       value={feedbackBankId}
                       onChange={(event, newValue) => {
-                        console.log('first feedback', newValue);
                         setFeedbackBankId(newValue);
                       }}
                       aria-label="Feedback Bank tabs"
@@ -117,10 +189,63 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                       {smartAnnotations.map((bank, index) => (
                         <Tab
                           key={bank.feedbackBankId}
-                          label={bank.feedbackBankName}
+                          label={
+                            <TabContainer>
+                              <TabTitle>{bank.feedbackBankName}</TabTitle>
+                              <TabDots src={threedotsc} />
+                            </TabContainer>
+                          }
                         />
                       ))}
                     </Tabs>
+                    <MoreOptionsContainer ref={moreOptionRef}>
+                      <TabsPlus
+                        src={Plus}
+                        onClick={() => setMoreOptionCon(!moreOptionCon)}
+                      />
+
+                      {moreOptionCon && (
+                        <MoreOptions>
+                          <MoreOption>
+                            <MoreOptionImage src={PlusViolet} />
+                            <MoreOptionTitle>New Bank</MoreOptionTitle>
+                          </MoreOption>
+                          <MoreOption
+                            onClick={() => setSystemOptionCon(!systemOptionCon)}
+                          >
+                            <MoreOptionImage src={Globe} />
+                            <MoreOptionTitle>Templates</MoreOptionTitle>
+                            <MoreOptionImage
+                              style={{ marginLeft: '20px' }}
+                              src={optionArrow}
+                            />
+                          </MoreOption>
+                        </MoreOptions>
+                      )}
+                      {systemOptionCon && (
+                        <SystemOptions ref={systemOptionRef}>
+                          {systemOptionList.map((option) => (
+                            <SystemOption key={option.id}>
+                              <SystemOptionImage
+                                src={TickPurpleSquare}
+                                style={{
+                                  visibility: option.visibility
+                                    ? 'visible'
+                                    : 'hidden',
+                                }}
+                              />
+                              <SystemOptionTitle
+                                onClick={() =>
+                                  handleSystemOptionList(option.id)
+                                }
+                              >
+                                {option.title}
+                              </SystemOptionTitle>
+                            </SystemOption>
+                          ))}
+                        </SystemOptions>
+                      )}
+                    </MoreOptionsContainer>
                   </TabsContainer>
                   <MarkingCriteriaList>
                     {smartAnnotationsFrame()}

@@ -184,6 +184,111 @@ export const HeadingLine = styled.p`
 
 export const TabsContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   border-top: 1px solid #f2f2f2;
   border-bottom: 1px solid #f2f2f2;
+`;
+
+export const TabDots = styled.img`
+  display: none;
+  width: 3px;
+`;
+export const TabContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  &:hover {
+    & ${TabDots} {
+      display: flex;
+    }
+  }
+`;
+
+export const TabTitle = styled.div`
+  font-family: IBM Plex Sans !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+
+export const TabsPlus = styled.img`
+  cursor: pointer;
+`;
+
+export const MoreOptionsContainer = styled.div`
+  position: relative;
+`;
+export const MoreOptions = styled.div`
+  position: absolute;
+  z-index: 1;
+  left: 15px;
+  width: 180px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px;
+  gap: 3px;
+  background: #ffffff;
+  box-shadow: 0px 2px 4px 0px #73737340;
+`;
+
+export const MoreOption = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px;
+  gap: 6px;
+  cursor: pointer;
+  position: relative;
+`;
+export const MoreOptionImage = styled.img`
+  width: 23px;
+  height: 23px;
+`;
+export const MoreOptionTitle = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #4b464f;
+`;
+export const SystemOptions = styled.div`
+  width: 135px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  left: 200px;
+  top: 75px;
+  border-radius: 6px;
+  border: 1px;
+  gap: 3px;
+  background: #ffffff;
+  box-shadow: 0px 2px 4px 0px #73737340;
+`;
+export const SystemOption = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 6px;
+  gap: 6px;
+`;
+export const SystemOptionImage = styled.img`
+  width: 23px;
+  height: 23px;
+`;
+
+export const SystemOptionTitle = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #4b464f;
+  cursor: pointer;
 `;

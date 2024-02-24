@@ -328,11 +328,11 @@ function CreateAAssignmentLaptop(props) {
                 </StepContainer>
                 <StepContainer>
                   <StepImag
-                    src={assignment.reviewedBy.length === 0 ? tick : tickColor}
+                    src={assignment.reviewedBy === "NONE" ? tick : tickColor}
                   />
                   <StepText
                     style={{
-                      color: assignment.reviewedBy.length != 0 && '#7200E0',
+                      color: assignment.reviewedBy !== "NONE" && '#7200E0',
                     }}
                   >
                     Select the feedback method

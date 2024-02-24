@@ -69,7 +69,7 @@ export default function CreateAssignment(props) {
     title: '',
     classIds: [],
     questions: [newQuestion(1)],
-    reviewedBy: '',
+    reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
     dueAt: dayjs().add(3, 'day'),
@@ -419,7 +419,6 @@ export default function CreateAssignment(props) {
 
   const saveDraft = () => {
     updateAssignment(assignment.id, assignment).then((res) => {
-      console.log('thell hello world', res)
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);

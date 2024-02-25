@@ -40,8 +40,7 @@ import TaskCard from '../../TaskCard';
 import LinkButton from '../../../components2/LinkButton/index.jsx';
 import { Tabs, Tab } from '@mui/material';
 import { useRef } from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useIsVisible } from './useIsVisible.js';
 
 function TeacherClassesDesktop(props) {
   const {
@@ -64,6 +63,11 @@ function TeacherClassesDesktop(props) {
     line176,
     x2021JeddleAllRightsReserved,
   } = props;
+  const ref1 = useRef();
+  const ref2 = useRef();
+  const ref3 = useRef();
+  const ref4 = useRef();
+
   return (
     <TopContainer>
       <Frame1422>
@@ -96,13 +100,29 @@ function TeacherClassesDesktop(props) {
         </Frame14221>
         <MainContainer>
           <LeftContainer>
-            <LeftContainerTitle>Active tasks</LeftContainerTitle>
-            <LeftContainerTitle>Class Statistics</LeftContainerTitle>
-            <LeftContainerTitle>Student Statistics</LeftContainerTitle>
-            <LeftContainerTitle>Smart responses</LeftContainerTitle>
+            <LeftContainerTitle
+              style={{ color: useIsVisible(ref1) ? '#7200E0' : '#7b7382' }}
+            >
+              Active tasks
+            </LeftContainerTitle>
+            <LeftContainerTitle
+              style={{ color: useIsVisible(ref2) ? '#7200E0' : '#7b7382' }}
+            >
+              Class Statistics
+            </LeftContainerTitle>
+            <LeftContainerTitle
+              style={{ color: useIsVisible(ref3) ? '#7200E0' : '#7b7382' }}
+            >
+              Student Statistics
+            </LeftContainerTitle>
+            <LeftContainerTitle
+              style={{ color: useIsVisible(ref4) ? '#7200E0' : '#7b7382' }}
+            >
+              Smart responses
+            </LeftContainerTitle>
           </LeftContainer>
           <RightContainer>
-            <ActiveTaskContainer>
+            <ActiveTaskContainer ref={ref1}>
               <Frame13371>
                 <Students>
                   <QuestionTooltip
@@ -127,18 +147,24 @@ function TeacherClassesDesktop(props) {
               </Frame13371>
               <TasksContainer>
                 {awaitingSubmissions.map((task) => {
-                  return(
+                  return (
                     <TaskContainer key={task.id}>
-                      <a key={task.id} href={task.link} style={{ width: '100%' }}>
-                        <TaskCard key={task.id} task={task}/>
+                      <a
+                        key={task.id}
+                        href={'#tasks/' + task.id}
+                        style={{ width: '100%' }}
+                      >
+                        <TaskCard key={task.id} task={task} />
                       </a>
                     </TaskContainer>
-                  )
+                  );
                 })}
               </TasksContainer>
             </ActiveTaskContainer>
-            <ClassStatsFrame>{annotationAnalyticsFrame}</ClassStatsFrame>
-            <Frame1339>
+            <ClassStatsFrame ref={ref2}>
+              {annotationAnalyticsFrame}
+            </ClassStatsFrame>
+            <Frame1339 ref={ref3}>
               <Frame13371>
                 <Students>
                   Student Statistics
@@ -152,7 +178,7 @@ function TeacherClassesDesktop(props) {
               </Frame13371>
               <Frame1336>{createStudentsFrames(students)}</Frame1336>
             </Frame1339>
-            <SharedResponseFrame>
+            <SharedResponseFrame ref={ref4}>
               <Exemplar
                 modelResponses={modelResponses}
                 setPublishActionCompleted={setPublishActionCompleted}

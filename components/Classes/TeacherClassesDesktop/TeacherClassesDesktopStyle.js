@@ -260,7 +260,6 @@ export const LeftContainerTitle = styled.p`
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
-  color: #7b7382;
 `;
 
 export const RightContainer = styled.div`

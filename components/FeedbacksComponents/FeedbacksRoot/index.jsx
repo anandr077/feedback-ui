@@ -255,12 +255,18 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       }
       if(submission?.status==='DRAFT'
       && submission?.type === 'DOCUMENT'
-      && !submission?.answers
-      && submission?.assignment.title === 'Untitled Question'
       ){
-        setPendingLocation(location);
-        setPageLeavePopup(true);
-        return false;
+        if(
+          !submission?.answers &&
+          submission?.assignment.title === 'Untitled Question'
+        ){
+          deleteDraftPage(submission.id, location);
+          return false;
+        }else{
+          setPendingLocation(location);
+          setPageLeavePopup(true);
+          return false;
+        }
       }
         
   
@@ -271,6 +277,36 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       unblock();
     };
   }, [submission, feedbackReviewPopup, history]);
+
+
+  const goToNewUrl = (pendingLocation) =>{
+    const port = window.location.port && window.location.port !== "80" && window.location.port !== "443"
+    ? `:${window.location.port}`
+    : "";
+
+    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
+
+    const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}${path}`;
+
+    window.history.pushState("", "", newUrl);
+    window.location.reload();
+  }
+
+  const deleteDraftPage = async (submissionId, pendingLocation) =>{
+    await deleteSubmissionById(submissionId).then(() => {
+      if(pendingLocation){
+        goToNewUrl(pendingLocation)
+      }
+      setPageLeavePopup(false);
+    })
+  }
+
+  const saveDraftPage = () =>{
+    if(pendingLocation){
+      goToNewUrl(pendingLocation)
+    }
+    setPageLeavePopup(false);
+  }
 
 
   if (isLoading) {
@@ -1416,35 +1452,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       
   };
 
-  const goToNewUrl = (pendingLocation) =>{
-    const port = window.location.port && window.location.port !== "80" && window.location.port !== "443"
-    ? `:${window.location.port}`
-    : "";
-
-    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
-
-    const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}${path}`;
-
-    window.history.pushState("", "", newUrl);
-    window.location.reload();
-  }
-
-  const deleteDraftPage = (submissionId) =>{
-    deleteSubmissionById(submissionId).then(() => {
-      if(pendingLocation){
-        goToNewUrl(pendingLocation)
-      }
-      setPageLeavePopup(false);
-    })
-  }
-
-  const saveDraftPage = () =>{
-    if(pendingLocation){
-      goToNewUrl(pendingLocation)
-    }
-    setPageLeavePopup(false);
-  }
-
 
   const methods = {
     comments,
@@ -1514,7 +1521,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             closeBtnText={'Delete'}
             textContent={'Do you want to save this document? '} 
             buttonText={'Save'}
-            hidePopup={()=> deleteDraftPage(submission.id)}
+            hidePopup={()=> deleteDraftPage(submission.id, pendingLocation)}
             confirmButtonAction={saveDraftPage}
           />
         )

@@ -7,6 +7,7 @@ import CommonMistakeBox from '../CommonMistakeBox';
 
 function Frame13135(props) {
   const { student } = props;
+  console.log('first student', student);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortedComments, setSortedComments] = useState(
@@ -25,13 +26,12 @@ function Frame13135(props) {
         };
       }
 
-      (groupedSuggestions[title].suggestion).push(suggestion);
-      (groupedSuggestions[title].percentage).push(percentage);
+      groupedSuggestions[title].suggestion.push(suggestion);
+      groupedSuggestions[title].percentage.push(percentage);
 
       return groupedSuggestions;
     }, {});
   }
-
 
   return (
     <>
@@ -55,29 +55,24 @@ function Frame13135(props) {
             <FeedbackHeading>
               Most common feedback
               <CommonMistakesPopup
-                studentsCommonMistakes={Object.values(
-                  groupSuggestionsByTitle(sortedComments)
-                ).map((eachStats) => (
-                  <FeedbackContainer key={eachStats.title}>
-                    <CommonMistakeBox
-                      title={eachStats.title}
-                      message={eachStats.suggestion}
-                      percentage={eachStats.percentage}
-                    />
-                  </FeedbackContainer>
+                studentsCommonMistakes={sortedComments.map((eachStats) => (
+                  <ProgressBar
+                    title={eachStats?.suggestion}
+                    count={eachStats?.percentage}
+                    total={100}
+                    isProgressBar={false}
+                  />
                 ))}
               />
             </FeedbackHeading>
             <div>
-              {Object.values(
-                groupSuggestionsByTitle(sortedComments.slice(0, 3))
-              ).map((eachStats) => (
-                <FeedbackContainer key={eachStats.title}>
-                  <CommonMistakeBox
-                    title={eachStats.title}
-                    message={eachStats.suggestion}
-                  />
-                </FeedbackContainer>
+              {sortedComments.slice(0, 2).map((eachStats) => (
+                <ProgressBar
+                  title={eachStats?.suggestion}
+                  count={eachStats?.percentage}
+                  total={100}
+                  isProgressBar={false}
+                />
               ))}
             </div>
           </Stats>
@@ -184,7 +179,7 @@ const FeedbackHeading = styled.div`
   font-family: IBM Plex Sans;
   font-size: 14px !important;
   font-style: normal;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   line-height: normal;
   display: flex;
   justify-content: space-between;

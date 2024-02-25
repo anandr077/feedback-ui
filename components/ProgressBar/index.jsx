@@ -6,6 +6,7 @@ export default function ProgressBar({
   count,
   total,
   isPercentage = true,
+  isProgressBar = true,
 }) {
   const percentage = count <= 0 ? 0 : ((count / total) * 100).toFixed(2);
 
@@ -19,18 +20,22 @@ export default function ProgressBar({
       );
     }
     return (
-      <div className='ratio-bar-heading'>
+      <div className="ratio-bar-heading">
         <div className="ration-title">{title}</div>
-        <div className='ration-number'>{count} of {total}</div>
+        <div className="ration-number">
+          {count} of {total}
+        </div>
       </div>
-    )
+    );
   };
   return (
     <div className="progress-bar-container">
       {heading()}
-      <div class="progress-container">
-        <div class="progress-bar" style={{ width: `${percentage}%` }}></div>
-      </div>
+      {isProgressBar && (
+        <div class="progress-container">
+          <div class="progress-bar" style={{ width: `${percentage}%` }}></div>
+        </div>
+      )}
     </div>
   );
 }

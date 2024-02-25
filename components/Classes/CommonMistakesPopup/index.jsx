@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import arrowRight from '../../../static/img/arrowright.svg';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -33,7 +34,20 @@ export default function CommonMistakesPopup({ studentsCommonMistakes }) {
 
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen}>View All</Button>
+      <Button
+        onClick={handleClickOpen}
+        style={{
+          fontFamily: 'IBM Plex Sans',
+          fontStyle: 'normal',
+          lineHeight: '21px',
+          color: '#7200E0',
+          fontSize: '16px',
+          fontWeight: '500',
+        }}
+      >
+        View All
+        <img src={arrowRight} />
+      </Button>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"

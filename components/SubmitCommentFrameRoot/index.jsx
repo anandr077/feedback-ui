@@ -40,34 +40,7 @@ const SubmitCommentFrameRootRoot = styled.div`
   background-image: ;
   width: 100%;
 `;
-const SmallButton = styled.button`
-  width: 50px;
-  display: flex;
-  flex-shrink: 0;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0px;
-  padding-top: 7px;
-  padding-right: 15px;
-  padding-bottom: 7px;
-  padding-left: 15px;
-  border-width: 1px;
-  border-radius: 30px;
-  border-top-width: 1px;
-  border-right-width: 1px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-  border-style: solid;
-  border-color: #7200e0;
-  box-sizing: content-box;
-  background-color: #7200e0;
-  cursor: pointer;
 
-  &:hover {
-    scale: 1.2;
-    transition: 0.1s;
-  }
-`;
 const Text1 = styled.div`
   color: #ffffff;
   font-size: 16px;
@@ -77,39 +50,28 @@ const Text1 = styled.div`
   white-space: nowrap;
   box-sizing: border-box;
 `;
-const SmallButtonWhite = styled.button`
+
+const SmallButton = styled.button`
   width: 50px;
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0px;
-  padding-top: 6.5px;
-  padding-right: 14.5px;
-  padding-bottom: 6.5px;
-  padding-left: 14.5px;
-  border-width: 1px;
+  padding: 7px 15px;
+  border: 1px solid #7200e0;
   border-radius: 30px;
-  border-top-width: 1.5px;
-  border-right-width: 1.5px;
-  border-bottom-width: 1.5px;
-  border-left-width: 1.5px;
-  border-style: solid;
-  border-color: #7200e0;
-  background-color: 'red';
   box-sizing: content-box;
-  background-color: transparent;
-  background-position: 50% 50%;
-  background-size: cover;
-  background-blend-mode: ;
-  background-image: ;
+  background-color: #7200e0;
   cursor: pointer;
 
   &:hover {
-    scale: 1.2;
-    transition: 0.1s;
+    ${Text1}{
+      scale: 1.05;
+      transition: 0.1s;
+    }
   }
 `;
+
 const Text2 = styled.div`
   color: #7200e0;
   font-size: 16px;
@@ -119,4 +81,27 @@ const Text2 = styled.div`
   white-space: nowrap;
   box-sizing: border-box;
 `;
+
+const SmallButtonWhite = styled.button`
+  width: 50px;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 7px 15px;
+  border: 1px solid #7200e0;
+  border-radius: 30px;
+  background-color: 'red';
+  box-sizing: content-box;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    ${Text2}{
+      scale: 1.05;
+      transition: 0.1s;
+    }
+  }
+`;
+
 export default SubmitCommentFrameRoot;

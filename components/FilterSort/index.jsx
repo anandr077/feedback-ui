@@ -23,6 +23,8 @@ const FilterSort = ({
     classes = [],
     sortData = true,
     setSortData = () => {},
+    favouriteResponse = false,
+    setFavouriteResponse = () => {}
 }) => {
     
   return (
@@ -41,6 +43,16 @@ const FilterSort = ({
             defaultValue={selectedClass}
             width={110}
           />
+          <SortButton
+            style={favouriteResponse ? { backgroundColor: '#51009F', borderColor: '#8E33E6'  } : {}}
+            onClick={() => setFavouriteResponse(!favouriteResponse)}
+          >
+            <SortButtonText 
+              style={{ color: favouriteResponse ? '#FFFFFF' : '' }}
+            >
+              Favourites
+            </SortButtonText>
+          </SortButton>
         </>
       </FilterContainer>
       <FilterLine />

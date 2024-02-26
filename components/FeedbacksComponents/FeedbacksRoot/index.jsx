@@ -16,6 +16,7 @@ import {
   deleteFeedback,
   getDefaultCriteria,
   getSubmissionById,
+  deleteSubmissionById,
   getSubmissionsByAssignmentId,
   getOverComments,
   getClassesWithStudents,
@@ -129,6 +130,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
   const [countWords, setCountWords] = useState(0);
+  const [pageLeavePopup, setPageLeavePopup] = useState(false)
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -251,7 +253,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setFeedbackReviewPopup(true);
         return false;
       }
-      
+      if(submission?.status==='DRAFT'
+      && submission?.type === 'DOCUMENT'
+      ){
+        if(
+          !submission?.answers &&
+          submission?.assignment.title === 'Untitled Question'
+        ){
+          deleteDraftPage(submission.id, location);
+          return false;
+        }else{
+          setPendingLocation(location);
+          setPageLeavePopup(true);
+          return false;
+        }
+      }
+        
   
       return true;
     });
@@ -260,6 +277,37 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       unblock();
     };
   }, [submission, feedbackReviewPopup, history]);
+
+
+  const goToNewUrl = (pendingLocation) =>{
+    const port = window.location.port && window.location.port !== "80" && window.location.port !== "443"
+    ? `:${window.location.port}`
+    : "";
+
+    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
+
+    const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}${path}`;
+
+    window.history.pushState("", "", newUrl);
+    window.location.reload();
+  }
+
+  const deleteDraftPage = async (submissionId, pendingLocation) =>{
+    await deleteSubmissionById(submissionId).then(() => {
+      if(pendingLocation){
+        goToNewUrl(pendingLocation)
+      }
+      setPageLeavePopup(false);
+    })
+  }
+
+  const saveDraftPage = () =>{
+    if(pendingLocation){
+      goToNewUrl(pendingLocation)
+    }
+    setPageLeavePopup(false);
+  }
+
 
   if (isLoading) {
     return (
@@ -270,15 +318,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
     provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
-    .then(res=>{
-      setSubmission(old=>{
-        return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+      .then(res=>{
+        setSubmission(old=>{
+          return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+        })
+        setFeedbackReviewPopup(false);
+        if (pendingLocation !== undefined || pendingLocation !== null) {
+          history.replace(pendingLocation);
+        }
       })
-      setFeedbackReviewPopup(false);
-      if (pendingLocation !== undefined || pendingLocation !== null) {
-        history.replace(pendingLocation);
-      }
-    })
   };
   
   async function fetchClassWithStudentsAndTeachers() {
@@ -1356,6 +1404,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
+    
   };
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
@@ -1461,9 +1510,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
            text={'Did you find this feedback helpful?'}
            onYes={handleFeedbackOnFeedback('LIKE')}
            onNo={handleFeedbackOnFeedback('DISLIKE')}
-           onClickOutside={()=> setFeedbackReviewPopup(false)}
+           onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
         />
       )}
+
+      {
+        pageLeavePopup && (
+          <GeneralPopup
+            title='Save document'
+            closeBtnText={'Delete'}
+            textContent={'Do you want to save this document? '} 
+            buttonText={'Save'}
+            hidePopup={()=> deleteDraftPage(submission.id, pendingLocation)}
+            confirmButtonAction={saveDraftPage}
+          />
+        )
+      }
 
       <FeedbackTeacherLaptop
         {...{

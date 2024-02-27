@@ -115,14 +115,14 @@ export default function AnnotationAnalytics(props) {
               Class Statistics
               <QuestionTooltip
                 text={
-                  'I am important tooltip here some important message is displayed'
+                  'See where your class is struggling the most with their writing'
                 }
                 img={questionMark}
               />
             </div>
             <div className="download-container">
               <CSVLink data={csvData} filename={'smart_annotations.csv'}>
-                <div style={{display:'flex'}}>
+                <div style={{ display: 'flex' }}>
                   <img
                     src={DownLoad}
                     className="download-icon"

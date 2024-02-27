@@ -7,6 +7,7 @@ import CommonMistakeBox from '../CommonMistakeBox';
 
 function Frame13135(props) {
   const { student } = props;
+  console.log('first student', student);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortedComments, setSortedComments] = useState(
@@ -49,6 +50,11 @@ function Frame13135(props) {
             <ProgressBar
               title={'Completion Rate'}
               count={student?.completionPercentage}
+              total={100}
+            />
+            <ProgressBar
+              title={'Submissions on time'}
+              count={student?.submissionsontimePercentage}
               total={100}
             />
             <FeedbackHeading>

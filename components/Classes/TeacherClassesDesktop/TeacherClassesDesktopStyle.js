@@ -163,17 +163,10 @@ export const Line17 = styled.img`
 export const Frame1336 = styled.div`
   display: flex;
   flex-direction: column;
-  max-height: 1000px;
   align-items: center;
   gap: 20px;
   position: relative;
   align-self: stretch;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
 `;
 
 export const Frame1307 = styled.div`
@@ -260,6 +253,7 @@ export const LeftContainerTitle = styled.p`
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
+  cursor: pointer;
 `;
 
 export const RightContainer = styled.div`
@@ -288,13 +282,11 @@ export const TasksContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 500px;
-  overflow-y: scroll;
   gap: 20px;
 `;
 export const TaskContainer = styled.div`
   display: flex;
-  flex: 1 1 48%;
+  flex: 0 1 48%;
   @media (max-width: 765px) {
     flex: 1 1 100%;
   }

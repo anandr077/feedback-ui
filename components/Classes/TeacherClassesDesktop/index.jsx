@@ -68,6 +68,16 @@ function TeacherClassesDesktop(props) {
   const ref3 = useRef();
   const ref4 = useRef();
 
+  const handleScroll = (ref) => {
+    var elementPosition = ref.current.getBoundingClientRect().top;
+    var offsetPosition = elementPosition + window.pageYOffset - 100;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <TopContainer>
       <Frame1422>
@@ -76,13 +86,13 @@ function TeacherClassesDesktop(props) {
             <Title>
               Classes
               <QuestionTooltip
-                text={
-                  'I am important tooltip here some important message is displayed'
-                }
+                text={'View detailed analytics for each class and student'}
                 img={questionMark}
               />
             </Title>
-            <TItlePara>Class description will come here...</TItlePara>
+            <TItlePara>
+              Select a class to view the latest insights on their work
+            </TItlePara>
           </Frame13121>
           <Frame1306>
             <Tabs
@@ -101,37 +111,39 @@ function TeacherClassesDesktop(props) {
         <MainContainer>
           <LeftContainer>
             <LeftContainerTitle
+              onClick={() => handleScroll(ref1)}
               style={{ color: useIsVisible(ref1) ? '#7200E0' : '#7b7382' }}
             >
-              Active tasks
+              Active Tasks
             </LeftContainerTitle>
             <LeftContainerTitle
+              onClick={() => handleScroll(ref2)}
               style={{ color: useIsVisible(ref2) ? '#7200E0' : '#7b7382' }}
             >
               Class Statistics
             </LeftContainerTitle>
             <LeftContainerTitle
+              onClick={() => handleScroll(ref3)}
               style={{ color: useIsVisible(ref3) ? '#7200E0' : '#7b7382' }}
             >
               Student Statistics
             </LeftContainerTitle>
             <LeftContainerTitle
+              onClick={() => handleScroll(ref4)}
               style={{ color: useIsVisible(ref4) ? '#7200E0' : '#7b7382' }}
             >
-              Smart responses
+              Shared Responses
             </LeftContainerTitle>
           </LeftContainer>
           <RightContainer>
             <ActiveTaskContainer ref={ref1}>
               <Frame13371>
                 <Students>
+                  Active Tasks
                   <QuestionTooltip
-                    text={
-                      'I am important tooltip here some important message is displayed'
-                    }
+                    text={'View your most recent tasks for this class'}
                     img={questionMark}
                   />
-                  Active Tasks
                 </Students>
                 <BtnsContainer>
                   <LinkButton
@@ -154,7 +166,7 @@ function TeacherClassesDesktop(props) {
                         href={'#tasks/' + task.id}
                         style={{ width: '100%' }}
                       >
-                        <TaskCard key={task.id} task={task} />
+                        <TaskCard key={task.id} task={task} showThreeDots={false}/>
                       </a>
                     </TaskContainer>
                   );
@@ -169,9 +181,7 @@ function TeacherClassesDesktop(props) {
                 <Students>
                   Student Statistics
                   <QuestionTooltip
-                    text={
-                      'I am important tooltip here some important message is displayed'
-                    }
+                    text={'See how well each student is performing'}
                     img={questionMark}
                   />
                 </Students>

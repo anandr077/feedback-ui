@@ -12,7 +12,7 @@ function TaskCardContainer(props) {
   } = props;
   const cards = allTasks.map((task) => {
     return (
-      <a href={task.link} style={{width:'100%'}}>
+      <a href={task.link} style={{ width: '100%' }}>
         <TaskCard
           task={task}
           exemplar={exemplar}
@@ -54,13 +54,6 @@ const ExemplerCardContainer = styled.div`
   width: 100%;
   align-items: center;
   gap: 20px;
-  overflow-y: scroll;
-  max-height: 615px;
   padding: 0px 0px 10px 0px;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
 `;
 export default TaskCardContainer;

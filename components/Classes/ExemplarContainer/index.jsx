@@ -22,7 +22,7 @@ const Exemplar = ({ modelResponses, setPublishActionCompleted }) => {
           Shared Responses
           <QuestionTooltip
             text={
-              'I am important tooltip here some important message is displayed'
+              'A collection of student work that has been shared with the class'
             }
             img={questionMark}
           />

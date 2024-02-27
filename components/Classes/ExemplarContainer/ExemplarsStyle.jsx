@@ -34,21 +34,4 @@ export const Crown = styled.img`
   height: 24px;
 `;
 
-export const TaskWrapper = styled.div`
-  max-height: 1000px;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-    background: #333;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #b1b0b0;
-    border-radius: 5px;
-  }
-`;
+export const TaskWrapper = styled.div``;

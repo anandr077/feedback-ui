@@ -18,7 +18,7 @@ import {
   Header,
   ClassTitle,
   FavouriteContainer,
-  FavouriteContent
+  FavouriteContent,
 } from './style';
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
@@ -28,7 +28,6 @@ import RedBgHeart from '../../static/img/redbgheart.svg';
 import ProgressBar from '../ProgressBar';
 
 function TaskCard(props) {
-
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
   const [showShareWithStudent, setShowShareWithStudent] = useState(false);
 
@@ -44,6 +43,7 @@ function TaskCard(props) {
     onAccept,
     onDecline,
     showAddToCard = false,
+    showThreeDots = true,
     onAddToBookmark = () => {},
     onRemoveFromBookmark = () => {},
   } = props;
@@ -52,61 +52,48 @@ function TaskCard(props) {
 
   const refContainer = useRef(null);
 
-  const isFavouriteFn = (task, user) =>{
-    return  (task?.bookmarkedByStudents || []).includes(user)
-  }
-  const isFavourite = isFavouriteFn(task, getUserId())
+  const isFavouriteFn = (task, user) => {
+    return (task?.bookmarkedByStudents || []).includes(user);
+  };
+  const isFavourite = isFavouriteFn(task, getUserId());
 
-  const saveButtons = (
-    id
-  ) => {
+  const saveButtons = (id) => {
     return (
       <Frame12191>
-        <SLink onClick={(e) => onExemplarDecline(id)}
-        >
-          No
-        </SLink>
+        <SLink onClick={(e) => onExemplarDecline(id)}>No</SLink>
         <Buttons1>
-          <Button onClick={(_)=> onExemplarAccept(id)} >
-            Yes
-          </Button>
+          <Button onClick={(_) => onExemplarAccept(id)}>Yes</Button>
         </Buttons1>
       </Frame12191>
     );
   };
-  function createTaskCard(
-    task,
-    refContainer,
-    isSelected,
-    exemplar,
-  ) {
+  function createTaskCard(task, refContainer, isSelected, exemplar) {
     if (exemplar) {
-
       if (task.status === 'AWAITING_APPROVAL') {
         return (
-          <StyledCard 
-            ref={refContainer} isSelected={isSelected}
+          <StyledCard
+            ref={refContainer}
+            isSelected={isSelected}
             style={{
               border: '1px solid rgba(114, 0, 224, 0.1)',
               borderTop: 'none',
               background: 'white',
               borderRadius: '0 0 16px 16px',
               boxShadow: '0 4px 16px 0 rgba(114, 0, 224, 0.1)',
-            }} 
+            }}
           >
             <TaskTitle>
               Congratulations,
               <br />
-              {task.reviewerName} would like to share the following part of your response with the class.
+              {task.reviewerName} would like to share the following part of your
+              response with the class.
             </TaskTitle>
             <TaskTitleBold>
               {task.submissionDetails?.assignment?.title}
             </TaskTitleBold>
             {styledCardWithLink()}
             <TaskTitle>Are you happy to share?</TaskTitle>
-            {saveButtons(
-              task.id
-            )}
+            {saveButtons(task.id)}
           </StyledCard>
         );
       }
@@ -130,41 +117,39 @@ function TaskCard(props) {
         isSelected={isSelected}
         overdue={isOverDue}
       >
-        {
-          showAddToCard ? (
-            <Header>
-              <ClassTitle>{task.classTitle}</ClassTitle>
-              <FavouriteContainer>
-                {
-                  isFavourite ? (
-                    <FavouriteContent 
-                      onClick={(e)=> {
-                        e.stopPropagation();
-                        onRemoveFromBookmark(task.id)
-                      }}
-                      favourite={true}
-                    >
-                        <img src={RedBgHeart} />
-                        Favourite
-                    </FavouriteContent> 
-                  ) : (
-                    <FavouriteContent onClick={(e)=> {
-                      e.stopPropagation();
-                      onAddToBookmark(task.id)
-                    }}>
-                        <img src={BorderedHeart} />
-                        Add to favourites
-                    </FavouriteContent>
-                  )
-                }
-              </FavouriteContainer>
-            </Header>
-          ) : (
-            exemplar
-              ? tagsFrameExempler(task, isOverDue)
-              : tagsFrame(task, isOverDue)
-          )
-        }
+        {showAddToCard ? (
+          <Header>
+            <ClassTitle>{task.classTitle}</ClassTitle>
+            <FavouriteContainer>
+              {isFavourite ? (
+                <FavouriteContent
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveFromBookmark(task.id);
+                  }}
+                  favourite={true}
+                >
+                  <img src={RedBgHeart} />
+                  Favourite
+                </FavouriteContent>
+              ) : (
+                <FavouriteContent
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAddToBookmark(task.id);
+                  }}
+                >
+                  <img src={BorderedHeart} />
+                  Add to favourites
+                </FavouriteContent>
+              )}
+            </FavouriteContainer>
+          </Header>
+        ) : exemplar ? (
+          tagsFrameExempler(task, isOverDue)
+        ) : (
+          tagsFrame(task, isOverDue)
+        )}
         <CardContent
           task={cardContents(task, exemplar)}
           small={small}
@@ -181,12 +166,24 @@ function TaskCard(props) {
         title: task.classTitle,
         para: task.title,
         date: task.dueAt,
-        status1: task.submissionCount >= 0
-          ? <ProgressBar title={"Submissions"} isPercentage={false} count={task.submissionCount} total={task.expectedSubmissions}/>
-          : null,
-        status2: task.submissionCount >= 0
-          ? <ProgressBar title={"Reviewed"} isPercentage={false} count={task.reviewCount} total={task.submissionCount}/>
-          : null,
+        status1:
+          task.submissionCount >= 0 ? (
+            <ProgressBar
+              title={'Submissions'}
+              isPercentage={false}
+              count={task.submissionCount}
+              total={task.expectedSubmissions}
+            />
+          ) : null,
+        status2:
+          task.submissionCount >= 0 ? (
+            <ProgressBar
+              title={'Reviewed'}
+              isPercentage={false}
+              count={task.reviewCount}
+              total={task.submissionCount}
+            />
+          ) : null,
       };
     }
     return {
@@ -233,7 +230,7 @@ function TaskCard(props) {
     }
     return (
       <>
-        {role === 'TEACHER' && userId === task.teacherId && (
+        {role === 'TEACHER' && userId === task.teacherId && showThreeDots && (
           <DeleteButtonContainerOnly>
             <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
               <IconContainer src="/icons/three-dot.svg" alt="delete" />
@@ -255,18 +252,21 @@ function TaskCard(props) {
     );
   }
   const moreOptions = () => {
-    return <MoreOptionsWrapper>
-      <MoreOptions onClick={(event) => handleDateUpdate(event, task)}>
-        <IconContainer src="/icons/clock-purple.svg" />
-        <div>Change due time</div>
-      </MoreOptions>
-      <MoreOptions onClick={(event) => handleDelete(event, task)}>
-        <IconContainer src="/icons/delete-purple-icon.svg" />
-        <div>Delete</div>
-      </MoreOptions>
-    </MoreOptionsWrapper>
-  }
-  return <>
+    return (
+      <MoreOptionsWrapper>
+        <MoreOptions onClick={(event) => handleDateUpdate(event, task)}>
+          <IconContainer src="/icons/clock-purple.svg" />
+          <div>Change due time</div>
+        </MoreOptions>
+        <MoreOptions onClick={(event) => handleDelete(event, task)}>
+          <IconContainer src="/icons/delete-purple-icon.svg" />
+          <div>Delete</div>
+        </MoreOptions>
+      </MoreOptionsWrapper>
+    );
+  };
+  return (
+    <>
       {createTaskCard(
         task,
         refContainer,
@@ -276,7 +276,7 @@ function TaskCard(props) {
         onDecline
       )}
     </>
-  
+  );
 }
 
 export default TaskCard;

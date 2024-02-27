@@ -500,6 +500,10 @@ export const getAllColors = () => {
     '#E7E3F2',
     '#B5CFED',
     '#D3E2F4',
+    '#F5E9D6', 
+    '#CCE7E1', 
+    '#F4E5F6', 
+    '#D1D1EB',
   ];
 };
 

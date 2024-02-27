@@ -15,9 +15,9 @@ export default function StyledDropDown({
   showImage = false,
   selectedIndex,
   fullWidth = false,
-  onItemSelected
+  onItemSelected,
+  width = 120,
 }) {
-
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
   const [value, setValue] = React.useState(initialSelectedItem);
@@ -65,13 +65,18 @@ export default function StyledDropDown({
       );
 
   return (
-    <FormControl fullWidth={fullWidth} sx={!fullWidth ? { m: 1, minWidth: 150 } : {}}>
+    <FormControl
+      fullWidth={fullWidth}
+      sx={!fullWidth ? { minWidth: width } : {}}
+    >
       <Select
         style={{
-          border: !independent ? '1px solid #D6D6D6' : 'none',
+          border: !independent ? '1px solid #7200E0' : 'none',
           backgroundColor: 'white',
-          borderRadius: '8px',
-          fontSize: '20px',
+          borderRadius: '12px',
+          fontSize: '18px !important',
+          fontFamily: 'IBM Plex Sans !important',
+          fontWeight: '400 !important',
         }}
         MenuProps={{
           PaperProps: {
@@ -80,7 +85,7 @@ export default function StyledDropDown({
             },
           },
           fontWeight: '400',
-          fontSize: '20px',
+          fontSize: '18px',
         }}
         open={open}
         onClose={() => setOpen(false)}
@@ -100,7 +105,15 @@ export default function StyledDropDown({
               />
             )}
             {showImage && createImageFrame(value)}
-            <span>{value.title}</span>
+            <span
+              style={{
+                fontSize: '18px !important',
+                fontFamily: 'IBM Plex Sans !important',
+                fontWeight: '400 !important',
+              }}
+            >
+              {value.title}
+            </span>
           </AvatarContainer>
         )}
       >
@@ -137,7 +150,9 @@ export default function StyledDropDown({
                   alignItems: 'center',
                   gap: '12px',
                   fontWeight: '400',
-                  fontSize: '16px',
+                  fontSize: '18px !important',
+                  fontFamily: 'IBM Plex Sans !important',
+                  fontWeight: '400 !important',
                 }}
                 key={menuItem.id}
                 value={menuItem.id}
@@ -162,7 +177,6 @@ export default function StyledDropDown({
     </FormControl>
   );
 }
-
 
 const groupItemsByFirstLetter = (items) => {
   return items.reduce((groupedItems, currentItem) => {

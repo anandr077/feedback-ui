@@ -23,6 +23,7 @@ export const DnDContainer = styled.div`
   display: ${props => props.mobileView ? 'none' : 'flex'};
   flex-direction: row;
   gap: 30px;
+  padding-top: 20px;
 `;
 
 export const StudentsDnD = styled.div`

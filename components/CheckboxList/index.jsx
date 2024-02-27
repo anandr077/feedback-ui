@@ -129,6 +129,7 @@ const OptionsRoot = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  padding: 20px 23px;
 `;
 const OptionCotainer = styled.div`
   display: flex;

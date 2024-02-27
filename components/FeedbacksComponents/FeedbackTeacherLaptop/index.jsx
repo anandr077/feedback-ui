@@ -102,7 +102,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);

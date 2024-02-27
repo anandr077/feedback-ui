@@ -56,12 +56,14 @@ export const StyledHeading = styled.h2`
 export const StyledBox = styled(Box)`
   display: flex;
   align-items: center;
-  padding: 0px 0px 0px 12px;
+  padding: 13px 20px 13px 20px;
+  border-radius: 12px;
+  border: 1px;
+
   position: relative;
   padding-top: 1.5px !important;
   padding-bottom: 1.5px !important;
   background-color: var(--white);
-  border-radius: 8px;
   border: 1px solid;
   border-color: var(--light-mode-purple);
   box-shadow: 0px 4px 8px #2f1a720a;
@@ -82,7 +84,6 @@ export const FlexContainer = styled('div')`
   align-items: center;
   gap: 8px;
   flex-grow: 1;
-  margin-left: 12px;
   .text-container {
     display: inline-block;
     flex-grow: 1;
@@ -107,18 +108,16 @@ export const FlexContainerSmall = styled('div')`
 `;
 
 export const StyledListItemText = styled(ListItemText)`
-  ${IbmplexsansNormalShark16px}
-  position: relative;
-  flex: 1;
-
-  letter-spacing: 0;
-  line-height: normal;
-  border-radius: 50%;
-
   .MuiTypography-root {
-    ${IbmplexsansNormalShark16px}
-    font-size: 14px;
+    font-size: 20px;
+    color: ${({ id }) => id === 'no_marking_criteria' && '#959595'};
   }
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
 `;
 
 export const StyledListItemTextBold = styled(ListItemText)`
@@ -148,8 +147,8 @@ export const StyledListItemTextBold = styled(ListItemText)`
 
 export const Frame12841 = styled.img`
   position: relative;
-  min-width: 16px;
-  height: 16px;
+  min-width: 26px;
+  height: 26px;
 `;
 
 export const StyledTextField = styled(TextField)`
@@ -159,4 +158,11 @@ export const StyledTextField = styled(TextField)`
   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 10px;
   }
+`;
+
+export const ButtonContainer = styled.div`
+  padding: 10px 12px 10px 12px;
+  border-radius: 12px;
+  gap: 10px;
+  background: #7200e0;
 `;

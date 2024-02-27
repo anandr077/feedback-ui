@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { cloneDeep, filter, flatMap, get, includes, map, set } from 'lodash';
+import { cloneDeep, get, set } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -26,12 +26,8 @@ import {
   resolveFeedback,
   submitAssignment,
   updateFeedback,
-  updateFeedbackRange,
-  addDocumentToPortfolioWithDetails,
-  addDocumentToPortfolio,
   getTeachersForClass,
   askJeddAI,
-  feedbackOnFeedback,
   provideFeedbackOnFeedback,
 } from '../../../service';
 import {
@@ -40,12 +36,9 @@ import {
   saveAnswer,
 } from '../../../service.js';
 import { getUserId, getUserName, getUserRole } from '../../../userLocalDetails.js';
-import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
-import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
 import SnackbarContext from '../../SnackbarContext';
 import {
@@ -53,9 +46,7 @@ import {
   DialogContiner,
   StyledTextField,
   feedbacksFeedbackTeacherLaptopData,
-  feedbacksFeedbackTeacherMobileData,
   ClassContainer,
-  ClassHeading,
   ClassBoxContainer,
   ClassBox,
   StudentList,
@@ -72,7 +63,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import CheckboxBordered from '../../CheckboxBordered/index.jsx';
 import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
-import { sub } from 'date-fns';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 import isJeddAIUser from './JeddAi.js';
@@ -88,7 +78,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
   const quillRefs = useRef([]);
-  const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
   const [exemplarComment, setExemplerComment] = useState('');
   const [updateExemplarComment, setUpdateExemplarComment] = useState({
@@ -404,7 +393,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -424,7 +412,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        // quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -444,7 +431,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -466,7 +452,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -490,7 +475,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setShowNewComment(false);
         setExemplerComment('');
         setShowShareWithClass(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   };
@@ -1123,9 +1107,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     submission.assignment.questions
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
-        // alert(JSON.stringify(question))
         const quill = quillRefs.current[question.serialNumber - 1];
-        // alert(JSON.stringify(quillRefs.current))
         quill.disable();
       });
   }
@@ -1476,7 +1458,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     handlesaveAnswer,
     createTasksDropDown,
     onSelectionChange,
-    setStudentName,
     studentUpdate,
     unhighlightComment,
     downloadPDF,
@@ -1502,7 +1483,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const shortcuts = getShortcuts();
 
   return (
-    <FeedbackContext.Provider value={{countWords, setCountWords}}>
+    <FeedbackContext.Provider value={{countWords, setCountWords, smartAnnotations}}>
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (
@@ -1534,17 +1515,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           isTeacher,
           showLoader,
           submissionStatusLabel,
-          labelText,
           quillRefs,
           pageMode,
           shortcuts,
-          smartAnnotations,
           newCommentFrameRef,
           methods,
           showNewComment,
           comments,
-          studentName,
-          students,
           submission,
           setSubmission,
           sharewithclassdialog,

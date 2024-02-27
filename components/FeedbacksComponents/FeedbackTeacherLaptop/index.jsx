@@ -2,10 +2,8 @@ import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState, useContext } from 'react';
-import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
-import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
@@ -20,11 +18,7 @@ import {
   Frame1387,
   Frame1388,
   Screen2,
-  SubjectSelectionContainer,
-  SubSelcetBox,
-  Main,
   PageContainer,
-  DrawerArrowContainer,
   DrawerArrow,
   ArrowImg,
   GoBackBtn,
@@ -45,11 +39,9 @@ import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 import { useHistory } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import { getSubmissionById, createRequestFeddbackType } from '../../../service';
-import StyledDropDown from '../../../components2/StyledDropDown';
+import { createRequestFeddbackType } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
-import { sub } from 'date-fns';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -72,16 +64,12 @@ function FeedbackTeacherLaptop(props) {
     smallMarkingCriteria,
     isTeacher,
     showLoader,
-    labelText,
     quillRefs,
     pageMode,
-    smartAnnotations,
     newCommentFrameRef,
     showNewComment,
     methods,
     comments,
-    students,
-    headerProps,
     submission,
     setSubmission,
     share,
@@ -93,7 +81,6 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
-  const isTablet = isTabletView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(
@@ -105,7 +92,6 @@ function FeedbackTeacherLaptop(props) {
   const [open, setOpen] = useState(true);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
-  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const drawerWidth = 315;
   const { countWords } = useContext(FeedbackContext)
 
@@ -258,7 +244,6 @@ function FeedbackTeacherLaptop(props) {
               methods,
               isTeacher,
               pageMode,
-              labelText,
               quillRefs,
               markingCriteriaFeedback,
               smallMarkingCriteria,
@@ -276,7 +261,6 @@ function FeedbackTeacherLaptop(props) {
               comments,
               newCommentFrameRef,
               share,
-              smartAnnotations,
               overallComments,
               handleRequestFeedback,
               isShowSelectType,
@@ -293,7 +277,6 @@ function FeedbackTeacherLaptop(props) {
               editorFontSize
             )}
           </Frame1388>
-          {/* </Main> */}
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
           <div
@@ -459,7 +442,6 @@ function answersAndFeedbacks(
   methods,
   isTeacher,
   pageMode,
-  labelText,
   quillRefs,
   markingCriteriaFeedback,
   smallMarkingCriteria,
@@ -477,7 +459,6 @@ function answersAndFeedbacks(
   comments,
   newCommentFrameRef,
   share,
-  smartAnnotations,
   overallComments,
   handleRequestFeedback,
   isShowSelectType,
@@ -507,7 +488,6 @@ function answersAndFeedbacks(
         setSubmission,
         methods,
         pageMode,
-        labelText,
         isShowSelectType,
         setShowSelectType,
         showFeedbackButtons,
@@ -556,7 +536,6 @@ function answersAndFeedbacks(
             pageMode={pageMode}
             newCommentFrameRef={newCommentFrameRef}
             share={share}
-            smartAnnotations={smartAnnotations}
           ></FeedbackFrame>
         )}
       </Frame1368>
@@ -580,7 +559,6 @@ function createContextBar(
   setSubmission,
   methods,
   pageMode,
-  labelText,
   isShowSelectType,
   setShowSelectType,
   showFeedbackButtons,
@@ -605,9 +583,7 @@ function createContextBar(
       submission,
       setSubmission,
       methods,
-      isTeacher,
       pageMode,
-      labelText,
       (feedbackMethodType = FeedbackMethodType),
       handleRequestFeedback,
       true,
@@ -619,7 +595,7 @@ function createContextBar(
     );
   }
 
-  return contextBar(submission, methods, isTeacher, pageMode, labelText);
+  return contextBar(submission, methods, isTeacher, pageMode);
 }
 
 const handleFeedbackMethodTypeDialog = (

@@ -1,10 +1,9 @@
-import Switch from '@mui/material/Switch';
 import { flatMap, sortBy, uniqBy } from 'lodash';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 
-import { default as React, default as React, default as React } from 'react';
+import { default as React, default as React, default as React, useContext } from 'react';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import { getUserId, getUserRole } from '../../../userLocalDetails';
 import FocussedInput from '../../FocussedInput';
@@ -35,6 +34,7 @@ import {
 } from './style';
 import AntSwitch from '../AntSwitch';
 import EmptyFeedback from '../../../components2/EmptyFeedback';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -71,7 +71,6 @@ function FeedbackFrame(props) {
     pageMode,
     newCommentFrameRef,
     share,
-    smartAnnotations,
   } = props;
   return feedbackFrame(
     methods,
@@ -90,7 +89,6 @@ function FeedbackFrame(props) {
     pageMode,
     newCommentFrameRef,
     share,
-    smartAnnotations
   );
 }
 function feedbackFrame(
@@ -110,8 +108,8 @@ function feedbackFrame(
   pageMode,
   newCommentFrameRef,
   share,
-  smartAnnotations
 ) {
+  
   return (
     <Frame1331 id="feedbacksFrame">
       <Frame1322>
@@ -138,8 +136,7 @@ function feedbackFrame(
               newCommentSerialNumber,
               methods,
               newCommentFrameRef,
-              share,
-              smartAnnotations
+              share
             )}
           </>
         ) : (
@@ -271,8 +268,7 @@ const newCommentFrame = (
   newCommentSerialNumber,
   methods,
   newCommentFrameRef,
-  share,
-  smartAnnotations
+  share
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
@@ -281,8 +277,7 @@ const newCommentFrame = (
     methods,
     newCommentFrameRef,
     share,
-    pageMode,
-    smartAnnotations
+    pageMode
   );
 };
 
@@ -291,8 +286,9 @@ function reviewerNewComment(
   newCommentFrameRef,
   share,
   pageMode,
-  smartAnnotations
 ) {
+  const {smartAnnotations} = useContext(FeedbackContext);
+
   if (pageMode === 'CLOSED') return <></>;
   return (
     <>
@@ -329,7 +325,6 @@ function shareWithClassFrame(methods, share) {
   if (getUserRole() === 'STUDENT') return <></>;
   return (
     <>
-      {/* <Line6 src="/icons/line.png" alt="Line 6" /> */}
       <Frame1383>
         <Frame13311>
           <Crown src="/icons/share.png" alt="crown" />
@@ -340,7 +335,6 @@ function shareWithClassFrame(methods, share) {
           onClickFn={methods.handleShareWithClass}
         />
       </Frame1383>
-      {/* <Line6 src="/icons/line.png" alt="Line 6" /> */}
     </>
   );
 }

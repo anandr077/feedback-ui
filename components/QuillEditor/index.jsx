@@ -1,6 +1,6 @@
 import { add, flatMap } from 'lodash';
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-
+import React, { useEffect, useImperativeHandle, useRef, useState, useContext } from 'react';
+import { FeedbackContext } from '../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import 'quill/dist/quill.core.css';
@@ -8,15 +8,63 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce, nonEditable, setCountWords }, ref) => {
+  ({ comments, value, options, debounceTime, onDebounce, nonEditable, editorFontSize }, ref) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
+    const { setCountWords } = useContext(FeedbackContext)
+    const manipulatePastedHTML = (pastedHTML) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(pastedHTML, 'text/html');
+
+      const removeStyles = (element) => {
+        element.removeAttribute('style');
+        element.style.backgroundColor = '';
+      };
+
+      const traverseAndRemoveStyles = (node) => {
+        if (node.nodeType === 1) {
+          removeStyles(node);
+          for (let i = 0; i < node.children.length; i++) {
+            traverseAndRemoveStyles(node.children[i]);
+          }
+        } else if (node.nodeType === 3) {
+          // Do nothing with text nodes for this example
+        }
+      };
+
+      traverseAndRemoveStyles(doc.body);
+
+      const serializer = new XMLSerializer();
+      const modifiedHTML = serializer.serializeToString(doc);
+
+      return modifiedHTML;
+    };
+
+    const handlePaste = (event) => {
+      event.preventDefault();
+
+      const clipboardData = event.clipboardData || window.clipboardData;
+
+      const pastedHTML = clipboardData.getData('text/html');
+
+      const modifiedHTML = manipulatePastedHTML(pastedHTML);
+
+      const cursorPosition = editor.getSelection(true);
+
+      const currentText = editor.getText();
+
+      editor.clipboard.dangerouslyPasteHTML(cursorPosition.index, modifiedHTML);
+
+      const pastedLength = editor.getText().length - currentText.length;
+
+      const newCursorPosition = cursorPosition.index + pastedLength;
+      editor.setSelection(newCursorPosition, 0, 'silent');
+    };
 
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
-
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
         quillInstance.root.style.fontSize = '18px';
         quillInstance.root.style.lineHeight = '32px';
@@ -29,6 +77,14 @@ const QuillEditor = React.forwardRef(
         const initialWordCount = initialText.trim().length > 0 ? initialText.trim().split(/\s+/).length : 0;
         setCountWords(initialWordCount);
       }
+
+      if (editor && editorFontSize !== null) {
+        const fontSizePercentage = editorFontSize * 0.01;
+        editor.root.style.fontSize = `${18 * fontSizePercentage}px`;
+        const calculatedLineHeight = editorFontSize * 0.25; 
+        editor.root.style.lineHeight = `${calculatedLineHeight}px`;
+      }
+      
       if (editor) {
         editor.on('text-change', () => {
           const text = editor.getText();
@@ -36,7 +92,8 @@ const QuillEditor = React.forwardRef(
           setCountWords(wordCount);
         });
       }
-    }, [editor, editorRef, options, value]);
+
+    }, [editor, editorRef, options, value, editorFontSize]);
 
     useEffect(() => {
       if (editor) {
@@ -95,6 +152,12 @@ const QuillEditor = React.forwardRef(
             }
           });
         }
+
+        const debouncedAction = debounce(handleDebounce, debounceTime);
+        editor.root.addEventListener('paste', (event)=>{
+          debouncedAction();
+          handlePaste(event);
+        });
       }
     }, [editor]);
     useImperativeHandle(ref, () => ({

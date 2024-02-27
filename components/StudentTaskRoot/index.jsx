@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTasks, getClasses, getPortfolio } from '../../service';
+import { getTasks, getClasses } from '../../service';
 import ReactiveRender, { isMobileView, isTabletView } from '../ReactiveRender';
 import TasksStudentMobile from '../TasksStudentMobile';
 import TasksStudentTablet from '../TasksStudentTablet';
@@ -44,12 +44,10 @@ import {
   SortText,
 } from '../FilterSort/style.js';
 import { FeedbackButtonArrow, Frame5086Img, Frame5086PopUp, Frame5086PopUpBody, Frame5086PopUpTitle, Frame5086Text, PopupContainer, SortPopUpBody } from '../GiveFeedback/style.js';
-// import arrowright from '../../dist/icons/arrowright-9@2x.png';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
-  const [portfolio, setPortfolio] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
@@ -74,14 +72,6 @@ export default function StudentTaskRoot() {
     staleTime: 3600000,
   });
 
-  const portfolioQuery = useQuery({
-    queryKey: ['portfolio'],
-    queryFn: async () => {
-      return await getPortfolio();
-    },
-    staleTime: 3600000,
-  });
-
   React.useEffect(() => {
     if (tasksQuery.data) {
       setFilteredTasks(tasksQuery.data);
@@ -90,10 +80,7 @@ export default function StudentTaskRoot() {
     if (studentClassesQuery.data) {
       setClasses(studentClassesQuery.data);
     }
-    if (portfolioQuery.data) {
-      setPortfolio(portfolioQuery.data);
-    }
-  }, [tasksQuery.data, studentClassesQuery.data, portfolioQuery.data]);
+  }, [tasksQuery.data, studentClassesQuery.data]);
 
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
@@ -103,8 +90,7 @@ export default function StudentTaskRoot() {
 
   if (
     tasksQuery.isLoading ||
-    studentClassesQuery.isLoading ||
-    portfolioQuery.isLoading
+    studentClassesQuery.isLoading
   ) {
     return (
       <>
@@ -114,10 +100,6 @@ export default function StudentTaskRoot() {
   }
 
   const filteredData = (tasks) => {
-    // const filteredTasks = tasks.filter(
-    //   (task) => !selectedClass || task.classTitle === selectedClass
-    // );
-
     const sortedTasks = tasks.sort((a, b) => {
       const dateA = new Date(a.dueAt).getTime();
       const dateB = new Date(b.dueAt).getTime();
@@ -126,15 +108,17 @@ export default function StudentTaskRoot() {
 
     return sortedTasks;
   };
-  const assignmedTasks = filteredData(filteredTasks).filter(
-    (task) => task.progressStatus === 'ASSIGNED'
-  );
-  const inProgressTasks = filteredData(filteredTasks).filter(
-    (task) => task.progressStatus === 'DRAFT'
-  );
-  const inReviewTasks = filteredData(filteredTasks).filter(
-    (task) => task.progressStatus === 'REVIEW'
-  );
+
+  const classNames = [...new Set(filteredTasks.map((task) => task.classTitle))];
+
+  const filterTasksByProgressAndClass = (tasks, progressStatus) => 
+     filteredData(tasks)
+    .filter((task) => task.progressStatus === progressStatus)
+    .filter((task) => !selectedClass || task.classTitle === selectedClass)
+
+  const assignmedTasks = filterTasksByProgressAndClass(filteredTasks, 'ASSIGNED');
+  const inProgressTasks = filterTasksByProgressAndClass(filteredTasks, 'DRAFT');
+  const inReviewTasks = filterTasksByProgressAndClass(filteredTasks, 'REVIEW');
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -204,7 +188,7 @@ export default function StudentTaskRoot() {
                   search={false}
                   type={'classes'}
                   selectedIndex={setSelectedValue}
-                  menuItems={['class1', 'class2', 'class3']}
+                  menuItems={classNames}
                   defaultValue={selectedClass}
                   width={110}
                 />
@@ -277,7 +261,7 @@ export default function StudentTaskRoot() {
                   search={false}
                   type={'classes'}
                   selectedIndex={setSelectedValue}
-                  menuItems={['class1', 'class2', 'class3']}
+                  menuItems={classNames}
                   defaultValue={selectedClass}
                   width={110}
                 />
@@ -357,9 +341,11 @@ export default function StudentTaskRoot() {
   const calenderEvents = allTasks.map((task) => ({
     link: task.link,
     title: task.title,
+    class: task.classTitle,
     start: moment(task.dueAt).toDate(),
     end: moment(task.dueAt).toDate(),
   }));
+  
 
   const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
   return (
@@ -372,7 +358,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
@@ -388,7 +373,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
@@ -404,7 +388,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
@@ -420,7 +403,6 @@ export default function StudentTaskRoot() {
             assignmedTasks,
             inProgressTasks,
             inReviewTasks,
-            portfolio,
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,

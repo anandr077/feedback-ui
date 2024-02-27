@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
+import { FeedbackContext } from './FeedbackContext.js';
 import _ from 'lodash';
 
 import {
@@ -15,6 +16,7 @@ import {
   deleteFeedback,
   getDefaultCriteria,
   getSubmissionById,
+  deleteSubmissionById,
   getSubmissionsByAssignmentId,
   getOverComments,
   getClassesWithStudents,
@@ -73,6 +75,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 import { sub } from 'date-fns';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
+import isJeddAIUser from './JeddAi.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -126,7 +129,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
-
+  const [countWords, setCountWords] = useState(0);
+  const [pageLeavePopup, setPageLeavePopup] = useState(false)
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -240,18 +244,31 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     const unblock = history.block((location, action) => {
-      console.log("locating to ", location)
-      if (submission?.feedbackRequestType ==='JEDDAI' 
-      && submission?.status==='REVIEWED'
+      if (submission?.status==='REVIEWED'
+      && submission?.type === 'DOCUMENT'
       && submission?.studentId===getUserId()
       && (submission?.feedbackOnFeedback === null || 
         submission?.feedbackOnFeedback === undefined)) {
         setPendingLocation(location);
         setFeedbackReviewPopup(true);
-        console.log("Blocking")
         return false;
       }
-      
+      if(submission?.status==='DRAFT'
+      && submission?.type === 'DOCUMENT'
+      ){
+        if(
+          !submission?.answers &&
+          submission?.assignment.title === 'Untitled Question'
+        ){
+          deleteDraftPage(submission.id, location);
+          return false;
+        }else{
+          setPendingLocation(location);
+          setPageLeavePopup(true);
+          return false;
+        }
+      }
+        
   
       return true;
     });
@@ -260,6 +277,37 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       unblock();
     };
   }, [submission, feedbackReviewPopup, history]);
+
+
+  const goToNewUrl = (pendingLocation) =>{
+    const port = window.location.port && window.location.port !== "80" && window.location.port !== "443"
+    ? `:${window.location.port}`
+    : "";
+
+    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
+
+    const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}${path}`;
+
+    window.history.pushState("", "", newUrl);
+    window.location.reload();
+  }
+
+  const deleteDraftPage = async (submissionId, pendingLocation) =>{
+    await deleteSubmissionById(submissionId).then(() => {
+      if(pendingLocation){
+        goToNewUrl(pendingLocation)
+      }
+      setPageLeavePopup(false);
+    })
+  }
+
+  const saveDraftPage = () =>{
+    if(pendingLocation){
+      goToNewUrl(pendingLocation)
+    }
+    setPageLeavePopup(false);
+  }
+
 
   if (isLoading) {
     return (
@@ -270,17 +318,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
     provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
-    .then(res=>{
-      setSubmission(old=>{
-        return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+      .then(res=>{
+        setSubmission(old=>{
+          return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+        })
+        setFeedbackReviewPopup(false);
+        if (pendingLocation !== undefined || pendingLocation !== null) {
+          history.replace(pendingLocation);
+        }
       })
-      setFeedbackReviewPopup(false);
-      console.log("Maybe Going to ", pendingLocation)
-      if (pendingLocation !== undefined || pendingLocation !== null) {
-        console.log("Going to ", pendingLocation)
-        history.replace(pendingLocation);
-      }
-    })
   };
   
   async function fetchClassWithStudentsAndTeachers() {
@@ -1115,7 +1161,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         length: comment.range.to - comment.range.from,
       };
       const quill = quillRefs.current[comment.questionSerialNumber - 1];
-
       quill.selectRange(range);
       quill.focus();
       quill.scrollToHighlight(comment.id);
@@ -1261,6 +1306,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         : 'PEER'
     );
   }
+
   function getStatusMessage(submission, viewer) {
     if (submission.status === 'DRAFT') {
       return (
@@ -1301,7 +1347,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         if (viewer === 'PEER') {
           reviewer = 'you';
         } else {
-          reviewer = 'your peer';
+          if(isJeddAIUser(submission.reviewerId)){
+            reviewer = 'JEDDAI'
+          }else{
+            reviewer = 'your peer';
+          }
         }
       }
       return (
@@ -1354,6 +1404,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
+    
   };
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
@@ -1451,7 +1502,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const shortcuts = getShortcuts();
 
   return (
-    <>
+    <FeedbackContext.Provider value={{countWords, setCountWords}}>
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (
@@ -1459,8 +1510,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
            text={'Did you find this feedback helpful?'}
            onYes={handleFeedbackOnFeedback('LIKE')}
            onNo={handleFeedbackOnFeedback('DISLIKE')}
+           onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
         />
       )}
+
+      {
+        pageLeavePopup && (
+          <GeneralPopup
+            title='Save document'
+            closeBtnText={'Delete'}
+            textContent={'Do you want to save this document? '} 
+            buttonText={'Save'}
+            hidePopup={()=> deleteDraftPage(submission.id, pendingLocation)}
+            confirmButtonAction={saveDraftPage}
+          />
+        )
+      }
 
       <FeedbackTeacherLaptop
         {...{
@@ -1491,7 +1556,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           teachers,
         }}
       />
-    </>
+    </FeedbackContext.Provider>
   );
 
   function submissionFunction() {

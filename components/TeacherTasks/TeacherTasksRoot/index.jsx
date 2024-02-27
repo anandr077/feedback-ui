@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   getAssignments,
   getClasses,
   getDocumentReviews,
 } from '../../../service';
-import ReactiveRender, { isMobileView, isTabletView } from '../../ReactiveRender';
+import ReactiveRender, {
+  isMobileView,
+  isTabletView,
+} from '../../ReactiveRender';
 import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
 import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
 import TeacherTasksLaptop from '../TeacherTasksLaptop';
@@ -27,10 +30,7 @@ import {
   TasksImgCal,
 } from '../../StudentTaskRoot/style.js';
 
-import {
-  FilterContainer,
-  FilterLine,
-} from '../../CompletedPage/style.js';
+import { FilterContainer, FilterLine } from '../../CompletedPage/style.js';
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../../static/img/sort-square.svg';
 import FilterSquare from '../../../static/img/filter-square.svg';
@@ -41,24 +41,24 @@ import CalSelected from '../../../static/img/calselected.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
-import { 
-  Filter, 
-  FilterImg, 
-  FilterText, 
+import {
+  Filter,
+  FilterImg,
+  FilterText,
   SortHeading,
   SortImg,
   SortText,
   SortButton,
   SortButtonText,
 } from '../../FilterSort/style.js';
-import { 
-  FeedbackButtonArrow, 
-  Frame5086Img, 
-  Frame5086PopUp, 
-  Frame5086PopUpTitle, 
-  Frame5086Text, 
-  PopupContainer, 
-  SortPopUpBody, 
+import {
+  FeedbackButtonArrow,
+  Frame5086Img,
+  Frame5086PopUp,
+  Frame5086PopUpTitle,
+  Frame5086Text,
+  PopupContainer,
+  SortPopUpBody,
   SortContainer,
   Frame5086PopUpBody,
 } from '../../GiveFeedback/style.js';
@@ -172,19 +172,32 @@ export default function TeacherTaskRoot() {
     return sortedTasks;
   };
 
-  const drafts = filteredData(filteredTasks).filter(
-    (assignment) => assignment.submissionsStatus === 'DRAFT'
-  );
-  const awaitingSubmissions = filteredData(filteredTasks).filter((assignment) => {
-    return (
-      assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
-      assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
-    );
-  });
+  const classNames = classes.map((classItem) => classItem.title);
 
-  const feedbacks = filteredData(filteredTasks).filter(
-    (assignment) => assignment.submissionsStatus === 'FEEDBACK'
-  );
+  const drafts = filteredData(filteredTasks)
+    .filter((assignment) => assignment.submissionsStatus === 'DRAFT')
+    .filter((assignment) => {
+      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
+      return assignment.classId === selectedTitle.id
+    })
+
+  const awaitingSubmissions = filteredData(filteredTasks)
+    .filter((assignment) => {
+      return (
+        assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
+        assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
+      )})
+    .filter((assignment) => {
+      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
+      return assignment.classId === selectedTitle.id
+    })
+
+  const feedbacks = filteredData(filteredTasks)
+    .filter((assignment) => assignment.submissionsStatus === 'FEEDBACK')
+    .filter((assignment) => {
+      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
+      return assignment.classId === selectedTitle.id
+    })
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -272,14 +285,14 @@ export default function TeacherTaskRoot() {
               />
             </Frame5086PopUp>
             <Frame5086PopUpBody>
-                <RoundedDropDown
-                  search={false}
-                  type={'classes'}
-                  selectedIndex={setSelectedValue}
-                  menuItems={['class1', 'class2', 'class3']}
-                  defaultValue={selectedClass}
-                  width={110}
-                />
+              <RoundedDropDown
+                search={false}
+                type={'classes'}
+                selectedIndex={setSelectedValue}
+                menuItems={classNames}
+                defaultValue={selectedClass}
+                width={110}
+              />
             </Frame5086PopUpBody>
           </PopupContainer>
         )}
@@ -349,7 +362,7 @@ export default function TeacherTaskRoot() {
                   search={false}
                   type={'classes'}
                   selectedIndex={setSelectedValue}
-                  menuItems={['class1', 'class2', 'class3']}
+                  menuItems={classNames}
                   defaultValue={selectedClass}
                   width={110}
                 />
@@ -358,11 +371,11 @@ export default function TeacherTaskRoot() {
               <></>
             )}
             <FilterPopContainer
-                  isShowFilterPopUp={isShowFilterPopUp}
-                  setShowFilterPopUp={setShowFilterPopUp}
+              isShowFilterPopUp={isShowFilterPopUp}
+              setShowFilterPopUp={setShowFilterPopUp}
             />
           </FilterContainer>
-          {!tabletView && <FilterLine />}   
+          {!tabletView && <FilterLine />}
           <SortContainer>
             <SortHeading
               onClick={
@@ -377,7 +390,10 @@ export default function TeacherTaskRoot() {
             {!mobileView ? (
               <>
                 <SortButton
-                  style={{ backgroundColor: sortData ? '#51009F' : '', border: '1px solid #8E33E6' }}
+                  style={{
+                    backgroundColor: sortData ? '#51009F' : '',
+                    border: '1px solid #8E33E6',
+                  }}
                   onClick={() => setSortData(true)}
                 >
                   <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
@@ -395,12 +411,12 @@ export default function TeacherTaskRoot() {
               </>
             ) : (
               <></>
-            )} 
+            )}
             <SortPopContainer
-                  isShowSortPopUp={isShowSortPopUp}
-                  setShowSortPopUp={setShowSortPopUp}
+              isShowSortPopUp={isShowSortPopUp}
+              setShowSortPopUp={setShowSortPopUp}
             />
-          </SortContainer>        
+          </SortContainer>
         </FilterAndSortContainer>
         <CalenderContainer>
           <TasksImg
@@ -426,9 +442,21 @@ export default function TeacherTaskRoot() {
     </>
   );
 
+  function classForCalender(classId){
+    if (!Array.isArray(classId)) {
+      return "";
+    }
+  
+    const filteredClasses = classes.filter(classItem => classId.includes(classItem.id));
+    const classTitles = filteredClasses.map((filteredClass) => filteredClass.title);
+    
+    return classTitles;
+  }
+
   const calenderEvents = filteredTasks.map((task) => ({
     link: task.link,
     title: task.title,
+    class: classForCalender(task.classIds),
     start: moment(task.dueAt).toDate(),
     end: moment(task.dueAt).toDate(),
   }));

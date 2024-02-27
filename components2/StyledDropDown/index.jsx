@@ -16,11 +16,10 @@ export default function StyledDropDown({
   selectedIndex,
   fullWidth = false,
   onItemSelected,
-  width=120,
+  width = 120,
 }) {
   const initialSelectedItem =
     selectedIndex >= 0 ? menuItems[selectedIndex] : menuItems[0];
-  console.log('initialSelectedItem', initialSelectedItem);
   const [value, setValue] = React.useState(initialSelectedItem);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [open, setOpen] = React.useState(false);

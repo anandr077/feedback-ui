@@ -12,21 +12,12 @@ import {
   ConnectContainer,
   TopContainer,
   HeadingLine,
-  SortButton,
-  SortButtonText,
-  SortContainer,
-  SortHeading,
-  SortImg,
-  SortText,
   TitleContainer,
   Title,
-  TitleImage,
-  FilterContainer,
 } from '../../CompletedPage/style';
-import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
-import { denyModelResponse, publishModelResponse } from '../../../service.js';
 import FilterSort from '../../FilterSort/index.jsx';
 import { isMobileView } from '../../ReactiveRender';
+import { getUserId } from '../../../userLocalDetails.js';
 
 export default function CompletedRoot(props) {
   const {
@@ -40,12 +31,18 @@ export default function CompletedRoot(props) {
     classes,
     onAccept,
     onDecline,
+    onAddToBookmark,
+    onRemoveFromBookmark
   } = props;
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
+  const [favouriteResponse, setFavouriteResponse] = React.useState(false);
   const mobileView = isMobileView();
 
-  function filterAndSortData(obj, targetClassTitle) {
+  
+
+  function filterAndSortData(obj, targetClassTitle, sortData) {
+   
     const dataArray = Object.entries(obj);
     const sortedArray = dataArray.sort((a, b) => {
       const dateA = new Date(a[0]);
@@ -68,6 +65,22 @@ export default function CompletedRoot(props) {
       });
     }
 
+    if(favouriteResponse){
+      Object.keys(sortedData).forEach((date) => {
+        const filteredObjects = sortedData[date].filter(
+          (item) => {
+            const bookmarkedItems = item?.bookmarkedByStudents || [];
+            const isBookmarkedByUser = bookmarkedItems.includes(getUserId());
+            return isBookmarkedByUser;
+          }
+        );
+        if (filteredObjects.length > 0) {
+          filteredAndSortedData[date] = filteredObjects;
+        }
+      });
+      return filteredAndSortedData
+    }
+
     return selectedClass != '' ? filteredAndSortedData : sortedData;
   }
 
@@ -81,10 +94,7 @@ export default function CompletedRoot(props) {
     <>
       <TopContainer>
         <TitleContainer>
-          <Title>
-            Shared Responses
-            <TitleImage src={questionMark} />
-          </Title>
+          <Title>Shared Responses</Title>
           <ConnectContainer>
             <LinkButton
               link={`#/`}
@@ -99,61 +109,17 @@ export default function CompletedRoot(props) {
           have submitted for review
         </HeadingLine>
       </TopContainer>
-      {
-        !mobileView && (
-          <FilterSort
-            setSelectedValue={setSelectedValue}
-            selectedClass={selectedClass}
-            classes={classes}
-            sortData={sortData}
-            setSortData={setSortData}
-          />
-        )
-      }
-      {/* <FilterAndSortContainer>
-        <FilterContainer>
-          <Filter>
-            <FilterImg src={FilterSquare} />
-            <FilterText>Filters:</FilterText>
-          </Filter>
-          <>
-            <RoundedDropDown
-              search={false}
-              type={'classes'}
-              selectedIndex={setSelectedValue}
-              menuItems={classes}
-              defaultValue={selectedClass}
-              width={110}
-            />
-          </>
-        </FilterContainer>
-        <FilterLine />
-        <SortContainer>
-          <SortHeading>
-            <SortImg src={SortSquare} />
-            <SortText>Sort by:</SortText>
-          </SortHeading>
-
-          <>
-            <SortButton
-              style={{ backgroundColor: sortData ? '#51009F' : '' }}
-              onClick={() => setSortData(true)}
-            >
-              <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                New to Old
-              </SortButtonText>
-            </SortButton>
-            <SortButton
-              style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-              onClick={() => setSortData(false)}
-            >
-              <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                Old to New
-              </SortButtonText>
-            </SortButton>
-          </>
-        </SortContainer>
-      </FilterAndSortContainer> */}
+      {!mobileView && (
+        <FilterSort
+          setSelectedValue={setSelectedValue}
+          selectedClass={selectedClass}
+          classes={classes}
+          sortData={sortData}
+          setSortData={setSortData}
+          favouriteResponse={favouriteResponse}
+          setFavouriteResponse={setFavouriteResponse}
+        />
+      )}
     </>
   );
 
@@ -165,13 +131,15 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
             headingPart,
             setPublishActionCompleted,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedMobileData,
           }}
         />
@@ -182,7 +150,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
 
@@ -190,6 +158,8 @@ export default function CompletedRoot(props) {
             headingPart,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedTabletData,
           }}
         />
@@ -200,7 +170,7 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
 
@@ -208,6 +178,8 @@ export default function CompletedRoot(props) {
             setPublishActionCompleted,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedLaptopData,
           }}
         />
@@ -218,13 +190,15 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass),
+            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
             exemplar,
             id,
             headingPart,
             setPublishActionCompleted,
             onAccept,
             onDecline,
+            onAddToBookmark,
+            onRemoveFromBookmark,
             ...completedDesktopData,
           }}
         />

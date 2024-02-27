@@ -1,7 +1,7 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useEffect, useState } from 'react';
+import { default as React, default as React, useEffect, useState, useContext } from 'react';
 import Header from '../../Header';
 
 import { flatMap, groupBy } from 'lodash';
@@ -30,12 +30,18 @@ import {
   GoBackBtn,
   ImgContainer,
   CountZoomContainer,
+  ZoomContianer,
+  ZoomInput
 } from './style';
-import { isMobileView, isTabletView, isDesktopView } from '../../ReactiveRender';
+import {
+  isMobileView,
+  isTabletView,
+  isDesktopView,
+} from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
-import { IsoTwoTone } from '@mui/icons-material';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 import { useHistory } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
@@ -43,6 +49,7 @@ import { getSubmissionById, createRequestFeddbackType } from '../../../service';
 import StyledDropDown from '../../../components2/StyledDropDown';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
+import { sub } from 'date-fns';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -89,20 +96,22 @@ function FeedbackTeacherLaptop(props) {
   const isTablet = isTabletView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
-  const [isFocusAreas, setFocusAreas] = React.useState(pageMode === 'DRAFT' && submission.type !== 'DOCUMENT');
+  const [isFocusAreas, setFocusAreas] = React.useState(
+    pageMode === 'DRAFT' && submission.type !== 'DOCUMENT'
+  );
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
   const [open, setOpen] = useState(false);
-  
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const drawerWidth = 315;
+  const { countWords } = useContext(FeedbackContext)
 
   React.useEffect(() => {
-    let dataToUse = submission.otherDrafts||[];
-   
+    let dataToUse = submission.otherDrafts || [];
+
     const groupedData = dataToUse?.reduce((result, item) => {
       const subject = item.subject || 'English';
 
@@ -145,8 +154,7 @@ function FeedbackTeacherLaptop(props) {
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
-  const [countWords, setCountWords] = useState(0)
-
+  const [editorFontSize, setEditorFontSize] = useState(100);
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -158,13 +166,13 @@ function FeedbackTeacherLaptop(props) {
       reviewerId: itemData ? itemData.id : null,
     };
     createRequestFeddbackType(submission.id, requestData).then((response) => {
-      setSubmission(old=>({
+      setSubmission((old) => ({
         ...old,
-        status:response.status,
-        reviewerId:response.reviewerId,
-        reviewerName:response.reviewerName,
-        submittedAt:response.submittedAt,
-        feedbackRequestType:response.feedbackRequestType,
+        status: response.status,
+        reviewerId: response.reviewerId,
+        reviewerName: response.reviewerName,
+        submittedAt: response.submittedAt,
+        feedbackRequestType: response.feedbackRequestType,
         classId: response.classId,
         declinedByReviewerIds: response.declinedByReviewerIds,
         submittedAt: response.submittedAt,
@@ -225,7 +233,6 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
-
   const handleDrawer = () => {
     setOpen(!open);
   };
@@ -237,40 +244,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          <>
-            <>
-              {isTeacher ? (
-                <TeacherSidebar open={open} submission={submission} />
-              ) : (
-                !isNullOrEmpty(submission.otherDrafts) && (
-                  <IndepentdentUserSidebar
-                    open={open}
-                    subjects={submission.otherDrafts?.map((d) => ({
-                      id: d.submissionId,
-                      title: d.title,
-                      subject: d.subject,
-                      lastseenAtTs: 1630330000,
-                    }))}
-                    setSelectedSubject={setSelectedSubject}
-                    selectedSubject={selectedSubject}
-                    groupedAndSortedData={groupedAndSortedData}
-                    currentSubmissionId={submission.id}
-                  />
-                )
-              )}
-            </>
-            {(isTeacher || submission.otherDrafts) && (
-              <DrawerArrow
-                onClick={handleDrawer}
-                drawerWidth={drawerWidth}
-                open={open}
-              >
-                <ImgContainer>
-                  <ArrowImg src="img/caret-5@2x.png" open={open} />
-                </ImgContainer>
-              </DrawerArrow>
-            )}
-          </>
+          {sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -316,13 +290,33 @@ function FeedbackTeacherLaptop(props) {
               showTeacherPopUp,
               setShowStudentPopUp,
               setShowTeacherPopUp,
-              setCountWords,
+              editorFontSize
             )}
           </Frame1388>
           {/* </Main> */}
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
-          {countWords} words
+          <div
+            style={
+            !submission.answers ||
+            submission.answers?.length <= 1 
+            ? {visibility: 'visible'} 
+            : { visibility : 'hidden'}}
+          >
+            {countWords} {countWords === 1 ? 'word' : 'words'}
+          </div>
+          <ZoomContianer>
+            Zoom
+            <ZoomInput 
+              name="zoom"
+              type="range"
+              min="100"
+              max="150"
+              value={editorFontSize}
+              onChange={(e)=> setEditorFontSize(e.target.value)}
+            />
+            {editorFontSize}%
+          </ZoomContianer>
         </CountZoomContainer>
       </PageContainer>
 
@@ -333,12 +327,52 @@ function FeedbackTeacherLaptop(props) {
         flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
         classesAndStudents
-      )} 
-      <>
-        {isMobile && <ResponsiveFooter />}  
-      </>   
+      )}
+      <>{isMobile && <ResponsiveFooter />}</>
     </>
   );
+
+  function sidebar() {
+    if (isTeacher && isNullOrEmpty(submission.studentsSubmissions)) {
+      return <></>;
+    }
+    if (!isTeacher && submission.type !== 'DOCUMENT') {
+      return <></>;
+    }
+    return <>
+    <>
+      {isTeacher ? (
+        <TeacherSidebar open={open} submission={submission} />
+      ) : (
+        !isNullOrEmpty(submission.otherDrafts) && (
+          <IndepentdentUserSidebar
+            open={open}
+            subjects={submission.otherDrafts?.map((d) => ({
+              id: d.submissionId,
+              title: d.title,
+              subject: d.subject,
+              lastseenAtTs: 1630330000,
+            }))}
+            setSelectedSubject={setSelectedSubject}
+            selectedSubject={selectedSubject}
+            groupedAndSortedData={groupedAndSortedData}
+            currentSubmissionId={submission.id} />
+        )
+      )}
+    </>
+    {(isTeacher || submission.otherDrafts) && (
+              <DrawerArrow
+                onClick={handleDrawer}
+                drawerWidth={drawerWidth}
+                open={open}
+              >
+                <ImgContainer>
+                  <ArrowImg src="img/caret-5@2x.png" open={open} />
+                </ImgContainer>
+              </DrawerArrow>
+            )}
+    </>;
+  }
 }
 const selectTabComments = (
   showResolved,
@@ -457,11 +491,10 @@ function answersAndFeedbacks(
   showTeacherPopUp,
   setShowStudentPopUp,
   setShowTeacherPopUp,
-  setCountWords,
+  editorFontSize
 ) {
   return (
     <Frame1386 id="content">
-      
       {isTeacher && (
         <GoBackBtn onClick={() => navigate.goBack()}>
           <img className="arrowImg" src="img/arrow_left.png" />
@@ -502,7 +535,7 @@ function answersAndFeedbacks(
           commentsForSelectedTab,
           overallComments,
           methods,
-          setCountWords,
+          editorFontSize
         )}
 
         {!isMobile && (

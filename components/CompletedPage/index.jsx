@@ -49,6 +49,7 @@ import {
   Frame5086Text,
 } from '../GiveFeedback/style.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
+import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -63,9 +64,6 @@ export default function CompletedPage() {
       if (result) {
         setTasks(result);
         setFilteredTasks(result);
-        console.log('first', result);
-        console.log('first arr', arrayFromArrayOfObject(result, 'classTitle'));
-
         setIsLoading(false);
       }
     });
@@ -134,7 +132,10 @@ export default function CompletedPage() {
               <TitleContainer>
                 <Title>
                   Task History
-                  <TitleImage src={questionMark} />
+                  <QuestionTooltip 
+                    img={questionMark} 
+                    text={"View all of the tasks that you have marked as complete"}
+                  />
                 </Title>
                 <ConnectContainer>
                   <LinkButton

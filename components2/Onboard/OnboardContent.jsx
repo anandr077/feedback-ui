@@ -5,7 +5,7 @@ import FirstPopUp from './FirstPopUp';
 import { isMobileView } from '../../components/ReactiveRender'
 
 const OnboardContent = ({editStateYear, onClose}) => {
-  const [stage, setStage] = useState(1);
+  const [stage, setStage] = useState(2);
   const mobileView = isMobileView()
 
   if (editStateYear) {

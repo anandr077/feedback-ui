@@ -28,7 +28,7 @@ export default function DeleteAssignmentPopup(props) {
   };
 
   const textContent = `Are you sure you want to permanently delete ${
-    documentToDelete ? documentToDelete.title : assignment?.title
+    documentToDelete ? documentToDelete.title : 'this task'
   }?`;
 
   const onDelete = () =>{
@@ -54,7 +54,7 @@ export default function DeleteAssignmentPopup(props) {
         <CancelButton onClick={() => hidedeletePopup()}>Cancel</CancelButton>
         <DeleteButton onClick={onDelete}>
           <ArrowrightSmall src="/icons/trash-can-white.svg" alt="delete" />
-          Delete permanently
+          Delete
         </DeleteButton>
       </ButtonsContainer>
     </>
@@ -62,7 +62,7 @@ export default function DeleteAssignmentPopup(props) {
 
   return (
     <Dialog open={open} onClose={() => hidedeletePopup()}>
-      <DialogContent>
+      <DialogContent style={{maxWidth: '600px'}}>
         <DeleteAssignmentPopupContainer>
           {content}
         </DeleteAssignmentPopupContainer>
@@ -142,7 +142,11 @@ const DeleteButton = styled.div`
 `;
 
 const TextContent = styled.div`
-  ${IbmplexsansSemiBoldShark24px}
+  color: var(--text);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+
   display: flex;
   width: 90%;
   flex-direction: column;
@@ -161,6 +165,7 @@ const DeleteAssignmentPopupContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 600px;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);

@@ -105,7 +105,6 @@ export function contextBar(
   labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
-  console.log('pageMode is', pageMode)
   return (
     <Frame1371 id="assignmentTitle">
       <TitleWrapper>
@@ -121,17 +120,7 @@ export function contextBar(
           submission,
           methods
         )}
-        {/* {downloadButtonNonClosedSubmission(
-          isTeacher,
-          pageMode,
-          submission,
-          methods
-        )} */}
       </TitleWrapper>
-      {/* {tasksListsDropDown(isTeacher, methods)} */}
-      {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
-        <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-      )} */}
       <ButtonContainer>
         {submitButton(methods, pageMode, isTeacher, submission)}
       </ButtonContainer>
@@ -224,7 +213,6 @@ const selectReviewType = (
             <Frame1334Img src={messages} />
             <Frame1577>
               <Frame1577heading>Get Feedback</Frame1577heading>
-              <Frame1577Img src={questionmark} />
             </Frame1577>
             <Frame1334Img
               style={{ cursor: 'pointer' }}
@@ -304,7 +292,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
       );
     } else {
       return (
-        <RectangularBigBtn
+        <RectangularBigBtn2
           text={'Submit'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
         />

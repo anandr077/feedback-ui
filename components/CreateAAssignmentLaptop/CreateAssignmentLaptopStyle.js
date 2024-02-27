@@ -200,6 +200,19 @@ export const Frame1372 = styled.div`
   z-index: 1;
 `;
 
+export const TaskHeading = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #7200e0;
+`;
+
 export const Title = styled.h1`
   display: flex;
   align-items: center;
@@ -428,16 +441,7 @@ export const TaskHeadingContainer = styled.div`
   gap: 10px;
   background: #f7eeff;
 `;
-export const TaskHeading = styled.div`
-  diplay: flex;
-  font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 21px;
-  letter-spacing: 0.06em;
-  text-align: left;
-  color: #7200e0;
-`;
+
 export const TaskNameContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -8,14 +8,13 @@ import {
   DrawerInputBox,
   DrawerInput,
   SearchIcon,
-  DrawerQuestion,
   DrawerQuestions,
-  OverflowShadow,
   TickBox,
   LoadingDiv,
   SidebarContainer,
   StudentContainer,
 } from '../IndependentUser/style';
+import {DrawerQuestion, OverflowShadow} from './style'
 import { Avatar } from '@boringer-avatars/react';
 const drawerWidth = 315;
 
@@ -37,7 +36,6 @@ function TeacherSidebar({ open, submission }) {
   ));
 
   const handleQuestionClick = (student) => {
-    console.log('the studetn id', student);
     const newUrl = `/submissions/${student.submissionId}`;
     history.push(newUrl);
   };
@@ -71,7 +69,6 @@ function TeacherSidebar({ open, submission }) {
                       key={qIndex}
                       onClick={() => handleQuestionClick(student)}
                       studentStyle={submission.id === student.submissionId}
-                      style={{flexDirection: 'row'}}
                     >
                       {avatar[qIndex]}
                       {student.studentName.length >= 28 ? (
@@ -102,3 +99,4 @@ function TeacherSidebar({ open, submission }) {
 }
 
 export default TeacherSidebar;
+

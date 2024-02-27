@@ -75,6 +75,14 @@ import questionMark from '../../static/img/question-mark.svg';
 import tick from '../../static/img/Ticklightcolor.svg';
 import tickColor from '../../static/img/tickColor.svg';
 import { isMobileView, isSmallScreen } from '../ReactiveRender';
+import Breadcrumb from '../Breadcrumb';
+import Breadcrumb2 from '../Breadcrumb2';
+import Buttons2 from '../Buttons2';
+import Footer from '../Footer';
+import GoBack2 from '../GoBack2';
+import Header from '../Header';
+import QuestionTooltip from '../../components2/QuestionTooltip';
+import questionMark from '../../static/img/question-mark.svg';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -102,10 +110,15 @@ function CreateAAssignmentLaptop(props) {
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
       assignment.status === 'DRAFT' ? (
-        <Title>
-          Create Task
-          <TitleImage src={questionMark} />
-        </Title>
+        <TaskHeading>
+          <Title>Create Task</Title>
+          <QuestionTooltip
+            img={questionMark}
+            text={
+              'Follow the steps provided to design the perfect task for your classes'
+            }
+          />
+        </TaskHeading>
       ) : (
         <></>
       );
@@ -312,7 +325,9 @@ function CreateAAssignmentLaptop(props) {
                     src={
                       assignment.questions &&
                       assignment.questions.length > 0 &&
-                      assignment.questions[0].question !== '' ? tickColor : tick
+                      assignment.questions[0].question !== ''
+                        ? tickColor
+                        : tick
                     }
                   />
                   <StepText
@@ -320,7 +335,8 @@ function CreateAAssignmentLaptop(props) {
                       color:
                         assignment.questions &&
                         assignment.questions.length > 0 &&
-                        assignment.questions[0].question !== '' && '#7200E0',
+                        assignment.questions[0].question !== '' &&
+                        '#7200E0',
                     }}
                   >
                     Set up the task
@@ -328,21 +344,19 @@ function CreateAAssignmentLaptop(props) {
                 </StepContainer>
                 <StepContainer>
                   <StepImag
-                    src={assignment.reviewedBy === "NONE" ? tick : tickColor}
+                    src={assignment.reviewedBy === 'NONE' ? tick : tickColor}
                   />
                   <StepText
                     style={{
-                      color: assignment.reviewedBy !== "NONE" && '#7200E0',
+                      color: assignment.reviewedBy !== 'NONE' && '#7200E0',
                     }}
                   >
                     Select the feedback method
                   </StepText>
                 </StepContainer>
                 <StepContainer>
-                  <StepImag src={updateDueDateTick ? tickColor : tick } />
-                  <StepText
-                    style={{ color: updateDueDateTick && '#7200E0' }}
-                  >
+                  <StepImag src={updateDueDateTick ? tickColor : tick} />
+                  <StepText style={{ color: updateDueDateTick && '#7200E0' }}>
                     Select the due date
                   </StepText>
                 </StepContainer>

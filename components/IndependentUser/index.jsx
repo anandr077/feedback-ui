@@ -52,7 +52,6 @@ import MailIcon from '@mui/icons-material/Mail';
 import { isMobileView } from '../ReactiveRender';
 import IndepentdentUserSidebar from './IndepentdentUserSidebar';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getPortfolio } from '../../service';
 import Loader from '../Loader';
 import { useMediaQuery } from 'react-responsive';
 
@@ -134,9 +133,6 @@ function IndependentUser() {
   });
   const isMobile = useMediaQuery({ maxWidth: 765 });
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
   return (
     <>
       {isMobile ? (

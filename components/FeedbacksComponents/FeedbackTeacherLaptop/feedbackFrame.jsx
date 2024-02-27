@@ -34,6 +34,7 @@ import {
   ShortcutList,
 } from './style';
 import AntSwitch from '../AntSwitch';
+import EmptyFeedback from '../../../components2/EmptyFeedback';
 
 const reviewerDefaultComment = {
   reviewerName: 'Jeddle',
@@ -179,12 +180,8 @@ export function createCommentsFrame(
   const visibleComments = createVisibleComments(commentsForSelectedTab);
   if (visibleComments.length === 0) {
     return (
-      <CommentCard32
-        reviewer="Jeddle"
-        comment={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
-        onClick={() => {}}
-        isTeacher={isTeacher}
-        defaultComment={true}
+      <EmptyFeedback 
+         text={createDefaultCommentText(isFocusAreas, pageMode, studentId)}
       />
     );
   }
@@ -405,7 +402,7 @@ export const showResolvedToggle =
     if (!isFeedback) {
       return <></>;
     }
-  
+
     return (
       <div
         style={{
@@ -424,8 +421,8 @@ export const showResolvedToggle =
         />
       </div>
     );
-    
-    
+
+
   };
 
 function shortcutList(methods, smartAnnotations) {

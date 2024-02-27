@@ -25,6 +25,8 @@ function CompletedMobile(props) {
     headingPart,
     onAccept,
     onDecline,
+    onAddToBookmark,
+    onRemoveFromBookmark,
   } = props;
   // alert("MMMM")
   return (
@@ -41,13 +43,15 @@ function CompletedMobile(props) {
             onDecline={onDecline}
           />
         </SliderCardContainer>
-        {/* <Frame1424>{createFilter()}</Frame1424> */}
+        <Frame1424>{createFilter()}</Frame1424> 
         <Frame1413>
           <Frame1410
             id={id}
             groups={groups}
             exemplar={exemplar}
             setPublishActionCompleted={setPublishActionCompleted}
+            onAddToBookmark = {onAddToBookmark}
+            onRemoveFromBookmark={onRemoveFromBookmark}
           />
           <Line18 src={line18} alt="Line 18" />
         </Frame1413>

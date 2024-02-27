@@ -47,14 +47,26 @@ export default function Header(props) {
     staleTime: 60000,
   });
 
-  const OnFirstButtonClick = () => {
-    window.location.href = headerProps.firstButton.redirect;
+  const OnFirstButtonClick = (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      window.open(headerProps.firstButton.redirect, '_blank');
+    } else {
+      window.location.href = headerProps.firstButton.redirect;
+    }
   };
-  const OnSecondButtonClick = () => {
-    window.location.href = headerProps.secondButton.redirect;
+  const OnSecondButtonClick = (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      window.open(headerProps.secondButton.redirect, '_blank');
+    } else {
+      window.location.href = headerProps.secondButton.redirect;
+    }
   };
-  const OnThirdButtonClick = () => {
-    window.location.href = headerProps.thirdButton.redirect;
+  const OnThirdButtonClick = (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      window.open(headerProps.thirdButton.redirect, '_blank');
+    } else {
+      window.location.href = headerProps.thirdButton.redirect;
+    }
   };
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [slideNotificationBar, setSlideNotificationBar] = useState(false);
@@ -229,10 +241,10 @@ export default function Header(props) {
         </Frame5>
         <Frame51>
           {!isTeacher && <HeaderOnboardingMenu />}
-          <HeaderHelpBar
+          {/* <HeaderHelpBar
             src="/img/helpIcon.png"
             onClickFn={handleHelpBarClick}
-          />
+          /> */}
 
           <Notifications
             src="/img/notificationbing-3@2x.png"

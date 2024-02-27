@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { denyModelResponse, getModelResponses, publishModelResponse } from '../../service.js';
+import { addToFavouriteList, denyModelResponse, getModelResponses, publishModelResponse, removeFromFavouriteList } from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
@@ -41,8 +41,8 @@ export default function ExemplarResponsesPage(props) {
       }
     });
       
-    
   }, []);
+
 
   React.useEffect(() => {
     const createGroup = groupBy(exemplarResponses, (task) =>
@@ -57,6 +57,40 @@ export default function ExemplarResponsesPage(props) {
         <Loader />
       </>
     );
+  }
+
+  const handleAddToFavourite = (id) =>{
+    addToFavouriteList(id).then((result)=>{
+        setExemplarResponses((prev) => {
+          return prev.map((task) => {
+            if (task.id === id) {
+              return {
+                ...task,
+                bookmarkedByStudents: result.bookmarkedByStudents,
+              };
+            } else {
+              return task;
+            }
+          });
+        })
+    })
+  }
+
+  const handleRemoveFromFavourite = (id) =>{
+    removeFromFavouriteList(id).then((result)=>{
+      setExemplarResponses((prev) => {
+        return prev.map((task) => {
+          if (task.id === id) {
+            return {
+              ...task,
+              bookmarkedByStudents: result.bookmarkedByStudents,
+            };
+          } else {
+            return task;
+          }
+        });
+      })
+    })
   }
 
   const onAccept = (taskId) => {
@@ -116,6 +150,8 @@ export default function ExemplarResponsesPage(props) {
       classes={classes}
       onAccept={onAccept}
       onDecline={onDecline}
+      onAddToBookmark={handleAddToFavourite}
+      onRemoveFromBookmark={handleRemoveFromFavourite}
     ></CompletedRoot>
   );
 }

@@ -1,5 +1,4 @@
 import { filter, flatMap, includes, map } from 'lodash';
-import { reducer, initailState } from '../../PortfolioPage/portfolioReducer';
 import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, addDocumentToPortfolio, addDocumentToPortfolioWithDetails } from '../../../service';
 import { getPortfolio, getClasses, docsMoveToFolder, getOverComments, askJeddAI } from '../../../service';
 import 'quill/dist/quill.core.css';
@@ -119,7 +118,6 @@ export default function DocumentRoot({}) {
 
     setStudents(uniqueStudents.map((item) => ({ ...item, title: item.name })));
     setTeachers(uniqueTeachers.map((item) => ({ ...item, title: item.name })));
-    console.log('teachers', teachers);
   };
 
   const fetchClassesAndDetails = async (submission) => {
@@ -166,13 +164,6 @@ export default function DocumentRoot({}) {
     }
   }, [data, queryClient]);
 
-  console.log(
-    'isLoading',
-    data,
-    isLoading,
-    isSubmissionLoading,
-    isClassesLoading
-  );
   if (
     (loadPortfolio() && isLoading) ||
     isSubmissionLoading ||
@@ -180,8 +171,6 @@ export default function DocumentRoot({}) {
   ) {
     return <Loader />;
   }
-
-  // queryClient.removeQueries(['portfolio'])
 
   const folders = portfolio?.files.map((folder) => {
     return { id: folder.id, title: folder.title, classId: folder.classId };
@@ -475,19 +464,13 @@ export default function DocumentRoot({}) {
       type: 'OVERALL_COMMENT',
     }).then((response) => {
       if (response) {
-        console.log('the overall Feedback is', response);
         setOverallComments([...overallComments, response]);
       }
     });
   };
   const jeddAI = () => {
-    console.log("quillRefs", quillRefs)
     const q=  quillRefs.current[0]
-    console.log("q", q.getText())
-    askJeddAI(submission.id, q.getText()).then((response) => {
-      console.log("response done", response)
-    })
-    
+    askJeddAI(submission.id, q.getText()).then((response) => {})
   }
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
     const feedbackToUpdate = overallComments.find(
@@ -496,7 +479,6 @@ export default function DocumentRoot({}) {
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
       return;
     }
-    console.log('feedbackToUpdate ', feedbackToUpdate);
 
     updateFeedback(submission.id, feedbackId, {
       ...feedbackToUpdate,

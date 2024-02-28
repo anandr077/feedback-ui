@@ -116,12 +116,12 @@ function TeacherClassesDesktop(props) {
             >
               Class Statistics
             </LeftContainerTitle>
-            <LeftContainerTitle
+            {/* <LeftContainerTitle
               onClick={() => handleScroll(ref3)}
               style={{ color: useIsVisible(ref3) ? '#7200E0' : '#7b7382' }}
             >
               Student Statistics
-            </LeftContainerTitle>
+            </LeftContainerTitle> */}
             <LeftContainerTitle
               onClick={() => handleScroll(ref4)}
               style={{ color: useIsVisible(ref4) ? '#7200E0' : '#7b7382' }}
@@ -170,7 +170,7 @@ function TeacherClassesDesktop(props) {
             <ClassStatsFrame ref={ref2}>
               {annotationAnalyticsFrame}
             </ClassStatsFrame>
-            <Frame1339 ref={ref3}>
+            {/* <Frame1339 ref={ref3}>
               <Frame13371>
                 <Students>
                   Student Statistics
@@ -181,7 +181,7 @@ function TeacherClassesDesktop(props) {
                 </Students>
               </Frame13371>
               <Frame1336>{createStudentsFrames(students)}</Frame1336>
-            </Frame1339>
+            </Frame1339> */}
             <SharedResponseFrame ref={ref4}>
               <Exemplar
                 modelResponses={modelResponses}

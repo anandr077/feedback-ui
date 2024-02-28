@@ -204,8 +204,13 @@ function CreateAAssignmentLaptop(props) {
               </TaskHeadingContainer>
               <TaskNameContainer>
                 <TaskName>
-                  <TaskTitle>Name the task</TaskTitle>
-                  <TitleImage src={questionMark} />
+                  <TaskTitle>
+                    Name the task
+                  </TaskTitle>
+                  <QuestionTooltip 
+                    text={'Set a name which accurately describes this task'}
+                    img={questionMark}
+                  />
                 </TaskName>
                 <Frame1374
                   id="assignmentNameContainer"
@@ -227,7 +232,10 @@ function CreateAAssignmentLaptop(props) {
               <TaskNameContainer>
                 <TaskName>
                   <TaskTitle>Select a class</TaskTitle>
-                  <TitleImage src={questionMark} />
+                  <QuestionTooltip 
+                    text={'Select the classes this task is for'}
+                    img={questionMark}
+                  />
                 </TaskName>
                 <Frame1299 id="classesContainer">
                   <Frame1298>{checkboxes}</Frame1298>
@@ -266,7 +274,10 @@ function CreateAAssignmentLaptop(props) {
                 <TitleAndSubtitleContainer>
                   <TaskName>
                     <TaskTitle>Select the feedback method</TaskTitle>
-                    <TitleImage src={questionMark} />
+                    <QuestionTooltip 
+                      text={'Would you like to personally mark this task, or would you prefer that students provide feedback to each other?'}
+                      img={questionMark}
+                    />
                   </TaskName>
                   <HeadingLine>
                     Would you like to personally mark this task, or would you
@@ -288,7 +299,10 @@ function CreateAAssignmentLaptop(props) {
               <TaskNameContainer>
                 <TaskName>
                   <TaskTitle>Select the due date</TaskTitle>
-                  <TitleImage src={questionMark} />
+                  <QuestionTooltip 
+                      text={'Set a due date for the task'}
+                      img={questionMark}
+                  />
                 </TaskName>
 
                 <Frame1299 id="timeContainer">

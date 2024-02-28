@@ -121,6 +121,9 @@ export const SettingTitle = styled.div`
   margin-top: -1px;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 `;
 
 export const Frame1284 = styled.img`

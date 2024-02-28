@@ -2,6 +2,8 @@ import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState, useContext } from 'react';
+import Header from '../../Header';
+import { getUserRole } from '../../../userLocalDetails'; 
 
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
@@ -36,7 +38,7 @@ import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { createRequestFeddbackType } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
@@ -84,7 +86,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 315;
@@ -120,6 +122,7 @@ function FeedbackTeacherLaptop(props) {
     setSelectedSubject(Object.keys(groupedData)[0]);
   }, [submission.otherDrafts]);
   const navigate = useHistory();
+  const location = useLocation();
 
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
@@ -195,6 +198,16 @@ function FeedbackTeacherLaptop(props) {
       quillRef?.redrawHighlights(currentTabComments);
     }
   }, [showNewComment]);
+
+  React.useEffect(() => {
+    const documentsRoute = location.pathname.includes('documents'); 
+    const submissionsRoute = location.pathname.includes('submissions');
+    const role = getUserRole()
+
+    const isOpen = (role === 'TEACHER' && submissionsRoute) || (role === 'STUDENT' && documentsRoute);
+    setOpen(isOpen)
+  }, [location.pathname]); 
+
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
     setGroupedFocusAreaIds((prevState) => {

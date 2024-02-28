@@ -18,7 +18,6 @@ import {
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
 import Loader from '../../Loader';
 import _ from 'lodash';
 import AnnotationAnalytics from '../../Analytics';

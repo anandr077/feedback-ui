@@ -28,6 +28,7 @@ import {
   QuestionMarkContainer,
   BinImage,
 } from './style';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -98,7 +99,10 @@ export default function TheoryQuestionFrame(props) {
         <FocusAreasFrame>
           <QuestionMarkContainer>
             <Label>Focus areas</Label>
-            <TitleImage src={questionMark} />
+            <QuestionTooltip 
+              text={"Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"}
+              img={questionMark}
+            />
           </QuestionMarkContainer>
           {createFocusAreasFrame(
             serialNumber,
@@ -113,7 +117,10 @@ export default function TheoryQuestionFrame(props) {
         <MarkingCriteriaSelectionContainer>
           <QuestionMarkContainer>
             <Label>Marking Template</Label>
-            <TitleImage src={questionMark} />
+            <QuestionTooltip 
+              text={"Select the marking template which will be used in the assessment of this task. New marking templates can be created in the account settings"}
+              img={questionMark}
+            />
           </QuestionMarkContainer>
           <MarkingCriteriaFrame>
             {questionDetails.markingCriteria.title ? (

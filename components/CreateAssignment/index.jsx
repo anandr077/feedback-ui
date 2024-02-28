@@ -54,6 +54,7 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DragAndDrop from './DragAndDrop';
 import questionMark from '../../static/img/question-mark.svg';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -635,7 +636,10 @@ export default function CreateAssignment(props) {
             label="Teacher Feedback"
             // endIcon={<TitleImage src={questionMark} />}
           />
-          <TitleImage src={questionMark} />
+          <QuestionTooltip 
+            text={'After student submits their task the feedback will be provided by you or any other assigned teacher'}
+            img={questionMark}
+          />
         </LableAndImgContainer>
         <LableAndImgContainer>
           <StyledFormControlLabel
@@ -643,7 +647,10 @@ export default function CreateAssignment(props) {
             control={<Radio />}
             label="Peer to Peer"
           />
-          <TitleImage src={questionMark} />
+          <QuestionTooltip 
+            text={"After submission students will be randomly assigned to review their peer's task"}
+            img={questionMark}
+          />
         </LableAndImgContainer>
       </StyledRadioGroup>
       {studentDropdown && (

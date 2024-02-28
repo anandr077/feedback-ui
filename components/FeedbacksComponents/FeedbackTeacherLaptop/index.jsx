@@ -29,7 +29,6 @@ import {
 } from './style';
 import {
   isMobileView,
-  isTabletView,
   isDesktopView,
 } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -71,7 +70,6 @@ function FeedbackTeacherLaptop(props) {
     setSubmission,
     share,
     sharewithclassdialog,
-    overallComments,
     selectedRange,
     classesAndStudents,
     teachers,
@@ -255,7 +253,6 @@ function FeedbackTeacherLaptop(props) {
               comments,
               newCommentFrameRef,
               share,
-              overallComments,
               handleRequestFeedback,
               isShowSelectType,
               setShowSelectType,
@@ -450,7 +447,6 @@ function answersAndFeedbacks(
   comments,
   newCommentFrameRef,
   share,
-  overallComments,
   handleRequestFeedback,
   isShowSelectType,
   setShowSelectType,
@@ -503,7 +499,6 @@ function answersAndFeedbacks(
           pageMode,
           submission,
           commentsForSelectedTab,
-          overallComments,
           methods,
           editorFontSize
         )}

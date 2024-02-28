@@ -105,10 +105,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
-  const [initialOverallFeedback, setInitialOverAllFeedback] = useState({
-    feedbackText: 'Add General Feedback...',
-    editFeedback: false,
-  });
   const [overallComments, setOverallComments] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
@@ -1473,9 +1469,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setUpdateExemplarComment,
     convertToCheckedState,
     addOverallFeedback,
-    initialOverallFeedback,
-    setInitialOverAllFeedback,
-
     updateOverAllFeedback,
     jeddAI,
   };
@@ -1490,7 +1483,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         smartAnnotations, 
         showNewComment, 
         newCommentSerialNumber, 
-        markingCriteriaFeedback
+        markingCriteriaFeedback,
+        overallComments
       }}
     >
       {showSubmitPopup &&
@@ -1533,7 +1527,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           sharewithclassdialog,
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
-          overallComments,
           selectedRange,
           classesAndStudents,
           teachers,

@@ -41,7 +41,6 @@ export function answersFrame(
   pageMode,
   submission,
   commentsForSelectedTab,
-  overallComments,
   methods,
   editorFontSize
 ) {
@@ -62,9 +61,6 @@ export function answersFrame(
       handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback}
       handleEditorMounted={methods.handleEditorMounted}
       addOverallFeedback={methods.addOverallFeedback}
-      initialOverAllFeedback={methods.initialOverAllFeedback}
-      setInitialOverAllFeedback={methods.setInitialOverAllFeedback}
-      overallComments={overallComments}
       updateOverAllFeedback={methods.updateOverAllFeedback}
       setComments={methods.setComments}
       comments={methods.comments}
@@ -88,9 +84,6 @@ function AnswersFrame(props) {
     handleStrengthsTargetsFeedback,
     handleEditorMounted,
     addOverallFeedback,
-    initialOverallFeedback,
-    setInitialOverAllFeedback,
-    overallComments,
     updateOverAllFeedback,
     setComments,
     comments,
@@ -113,9 +106,6 @@ function AnswersFrame(props) {
           handleStrengthsTargetsFeedback,
           handleEditorMounted,
           addOverallFeedback,
-          initialOverallFeedback,
-          setInitialOverAllFeedback,
-          overallComments,
           updateOverAllFeedback,
           setComments,
           comments,
@@ -168,14 +158,13 @@ const answerFrames = (
   handleStrengthsTargetsFeedback,
   handleEditorMounted,
   addOverallFeedback,
-  initialOverallFeedback,
-  setInitialOverAllFeedback,
-  overallComments,
   updateOverAllFeedback,
   setComments,
   comments,
   editorFontSize
 ) => {
+  const { overallComments } = useContext(FeedbackContext);
+
   return submission.assignment.questions.map((question, idx) => {
     const newAnswer = {
       serialNumber: question.serialNumber,
@@ -262,10 +251,7 @@ const answerFrames = (
               <OverallFeedback
                 pageMode={pageMode}
                 addOverallFeedback={addOverallFeedback}
-                submissionId={submission.id}
                 question={question}
-                initialOverallFeedback={initialOverallFeedback}
-                setInitialOverAllFeedback={setInitialOverAllFeedback}
                 overallComment={overallComment}
                 updateOverAllFeedback={updateOverAllFeedback}
               />
@@ -368,7 +354,8 @@ function createShowMarkingCriteriasFrame(
   const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];
-  const { markingCriteriaFeedback } = useContext(FeedbackContext)
+  const { markingCriteriaFeedback } = useContext(FeedbackContext);
+
   if (
     !validStatuses.includes(submission.status) ||
     !(markingCriteriaFeedback?.length > 0) ||

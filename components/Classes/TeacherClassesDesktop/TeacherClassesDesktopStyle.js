@@ -240,7 +240,7 @@ export const LeftContainer = styled.div`
   align-items: flex-start;
   gap: 15px;
   @media (min-width: 766px) and (max-width: 1024px) {
-    display: none;
+    top: 50px;
   }
   @media (max-width: 765px) {
     display: none;

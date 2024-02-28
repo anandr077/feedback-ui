@@ -152,6 +152,9 @@ export const MarkingCriteria = styled.div`
   flex: 1;
   letter-spacing: 0;
   line-height: normal;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 `;
 
 export const Line14 = styled.img`

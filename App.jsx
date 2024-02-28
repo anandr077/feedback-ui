@@ -19,7 +19,6 @@ import ResponsiveHeader from './components/ResponsiveHeader';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
 import StudentTaskRoot from './components/StudentTaskRoot';
-import TeacherDashboardRoot from './components/TeacherDashboard/TeacherDashboardRoot';
 import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
 import PageNotFound from './components/PageNotFound';
 import { Redirect } from 'react-router-dom';

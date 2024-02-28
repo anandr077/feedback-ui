@@ -7,7 +7,6 @@ import CommonMistakeBox from '../CommonMistakeBox';
 
 function Frame13135(props) {
   const { student } = props;
-  console.log('first student', student);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortedComments, setSortedComments] = useState(

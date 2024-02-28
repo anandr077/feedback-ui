@@ -1,6 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { default as React, default as React, useEffect, useState } from 'react';
-import { Redirect, Route, HashRouter as Router, Switch } from 'react-router-dom';
+import {
+  Redirect,
+  Route,
+  HashRouter as Router,
+  Switch,
+} from 'react-router-dom';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -13,7 +18,6 @@ import ResponsiveFooter from './components/ResponsiveFooter';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
-import StudentDashboardRoot from './components/StudentDashBoardRoot';
 import StudentTaskRoot from './components/StudentTaskRoot';
 import TeacherDashboardRoot from './components/TeacherDashboard/TeacherDashboardRoot';
 import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
@@ -45,11 +49,13 @@ function App() {
     const handleRouteChange = () => {
       const currentHash = window.location.hash.split('?')[0];
       const hideFooterRoutes = [
-        '#/submissions/', 
+        '#/submissions/',
         '#/documents/',
-        '#/documentsReview/'
+        '#/documentsReview/',
       ];
-      const shouldShowFooter = !hideFooterRoutes.some(route => currentHash.startsWith(route));
+      const shouldShowFooter = !hideFooterRoutes.some((route) =>
+        currentHash.startsWith(route)
+      );
       setShowFooter(shouldShowFooter);
     };
     handleRouteChange();
@@ -79,13 +85,14 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
         <ProtectedTeacherTaskRoot />
+      ) : Cookies.get('classes') ? (
+        <ProtectedStudentTaskRoot />
       ) : (
-        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedDocRoot />
+        <ProtectedDocRoot />
       );
     return <div>{dashboard}</div>;
   };

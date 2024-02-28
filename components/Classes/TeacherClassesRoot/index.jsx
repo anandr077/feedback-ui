@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react';
 
 import ReactiveRender from '../../ReactiveRender';
 import TeacherClassesDesktop from '../TeacherClassesDesktop';
-import TeacherClassesLaptop from '../TeacherClassesLaptop';
-import TeacherClassesMobile from '../TeacherClassesMobile';
-import TeacherClassesTablet from '../TeacherClassesTablet';
 import {
   getClasses,
   getStudentsForClass,
@@ -19,7 +16,6 @@ import {
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { classesHomeHeaderProps } from '../../../utils/headerProps.js';
 import Loader from '../../Loader';
 import _ from 'lodash';
 import AnnotationAnalytics from '../../Analytics';
@@ -162,65 +158,6 @@ export default function TeacherClassesRoot() {
 
   const selectedClassIndex = getSelectedClassIndex(classes, classId);
   return (
-    // <ReactiveRender
-    //   mobile={
-    //     <TeacherClassesMobile
-    //       {...{
-    //         classes,
-    //         setClassId,
-    //         modelResponses,
-    //         setPublishActionCompleted,
-    //         students,
-    //         selectedClassIndex,
-    //         annotationAnalyticsFrame,
-    //         ...teacherClassesMobileData,
-    //       }}
-    //     />
-    //   }
-    //   tablet={
-    //     <TeacherClassesTablet
-    //       {...{
-    //         classes,
-    //         setClassId,
-    //         modelResponses,
-    //         setPublishActionCompleted,
-    //         students,
-    //         selectedClassIndex,
-    //         annotationAnalyticsFrame,
-    //         ...teacherClassesTabletData,
-    //       }}
-    //     />
-    //   }
-    //   laptop={
-    //     <TeacherClassesLaptop
-    //       {...{
-    //         classes,
-    //         setClassId,
-    //         modelResponses,
-    //         setPublishActionCompleted,
-    //         students,
-    //         selectedClassIndex,
-    //         annotationAnalyticsFrame,
-    //         ...teacherClassesLaptopData,
-    //       }}
-    //     />
-    //   }
-    //   desktop={
-    //     <TeacherClassesDesktop
-    //       {...{
-    //         classes,
-    //         setClassId,
-    //         modelResponses,
-    //         setPublishActionCompleted,
-    //         students,
-    //         selectedClassIndex,
-    //         annotationAnalyticsFrame,
-    //         awaitingSubmissions,
-    //         ...teacherClassesDesktopData,
-    //       }}
-    //     />
-    //   }
-    // />
     <TeacherClassesDesktop
       {...{
         classes,

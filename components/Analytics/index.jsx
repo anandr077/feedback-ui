@@ -137,6 +137,7 @@ export default function AnnotationAnalytics(props) {
                       lineHeight: '24px',
                       letterSpacing: '0em',
                       textAlign: 'left',
+                      color: '#7200E0'
                     }}
                   >
                     Download

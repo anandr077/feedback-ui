@@ -1,5 +1,4 @@
 import { default as React, default as React } from 'react';
-import DropdownMenu from '../../DropdownMenu';
 import Buttons from '../Buttons';
 import Exemplar from '../ExemplarContainer/index.jsx';
 import { createStudentsFrames } from '../TeacherClassesRoot/methods';
@@ -11,14 +10,11 @@ import {
   Frame1336,
   Frame13371,
   Frame1339,
-  Frame1416,
-  Frame1417,
   Frame1422,
   Frame14221,
   Frame1426,
   LeftContainer,
   LeftContainerTitle,
-  Line17,
   MainContainer,
   RightContainer,
   SharedResponseFrame,
@@ -30,12 +26,10 @@ import {
   BtnsContainer,
   TaskContainer,
 } from './TeacherClassesDesktopStyle.js';
-import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 import questionMark from '../../../static/img/question-mark.svg';
 import arrowRight from '../../../static/img/arrowright.svg';
 import whiteArrowright from '../../../static/img/arrowright-White.svg';
-import TaskCardContainer from '../../TaskCardContainer/index.jsx';
 import TaskCard from '../../TaskCard';
 import LinkButton from '../../../components2/LinkButton/index.jsx';
 import { Tabs, Tab } from '@mui/material';

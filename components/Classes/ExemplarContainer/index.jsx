@@ -29,7 +29,7 @@ const Exemplar = ({ modelResponses, setPublishActionCompleted }) => {
         </Tasks>
         <div style={{ fontSize: '16px' }}>
           <LinkButton
-            link={`#`}
+            link={`#/exemplarResponses`}
             label="View All"
             arrowright={arrowRight}
             whiteArrowright={whiteArrowright}

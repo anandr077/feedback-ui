@@ -8,7 +8,7 @@ export default function ProgressBar({
   isPercentage = true,
   isProgressBar = true,
 }) {
-  const percentage = count <= 0 ? 0 : ((count / total) * 100).toFixed(2);
+  const percentage = count !== undefined && count > 0 ? ((count / total) * 100).toFixed(2) : 0;
 
   const heading = () => {
     if (isPercentage) {

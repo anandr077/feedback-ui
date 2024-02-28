@@ -241,7 +241,10 @@ function CreateAAssignmentLaptop(props) {
               <TaskNameContainer>
                 <TaskName>
                   <TaskTitle>Set up the task</TaskTitle>
-                  <TitleImage src={questionMark} />
+                  <QuestionTooltip 
+                    text={'Add Questions and Instructions'}
+                    img={questionMark}
+                  />
                 </TaskName>
                 <Frame1294>
                   <Frame1295>{questionFrames()}</Frame1295>

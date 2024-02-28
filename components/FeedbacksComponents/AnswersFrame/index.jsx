@@ -6,6 +6,7 @@ import {
   default as React,
   default as React,
   default as React,
+  useContext
 } from 'react';
 import CheckboxList from '../../CheckboxList';
 import QuillEditor from '../../QuillEditor';
@@ -30,11 +31,10 @@ import {
 import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
 import { createDebounceFunction } from '../FeedbacksRoot/autosave';
-import { set } from 'lodash';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 export function answersFrame(
   quillRefs,
-  markingCriteriaFeedback,
   smallMarkingCriteria,
   handleCheckboxChange,
   groupedFocusAreaIds,
@@ -48,7 +48,6 @@ export function answersFrame(
   return (
     <AnswersFrame
       quillRefs={quillRefs}
-      markingCriteriaFeedback={markingCriteriaFeedback}
       smallMarkingCriteria={smallMarkingCriteria}
       handleCheckboxChange={handleCheckboxChange}
       groupedFocusAreaIds={groupedFocusAreaIds}
@@ -77,7 +76,6 @@ export function answersFrame(
 function AnswersFrame(props) {
   const {
     quillRefs,
-    markingCriteriaFeedback,
     smallMarkingCriteria,
     handleCheckboxChange,
     groupedFocusAreaIds,
@@ -103,7 +101,6 @@ function AnswersFrame(props) {
       <Frame1367>
         {answerFrames(
           quillRefs,
-          markingCriteriaFeedback,
           smallMarkingCriteria,
           handleCheckboxChange,
           groupedFocusAreaIds,
@@ -159,7 +156,6 @@ const createModules = (pageMode) => {
 };
 const answerFrames = (
   quillRefs,
-  markingCriteriaFeedback,
   smallMarkingCriteria,
   handleCheckboxChange,
   groupedFocusAreaIds,
@@ -259,7 +255,6 @@ const answerFrames = (
             )}
             {createShowMarkingCriteriasFrame(
               submission,
-              markingCriteriaFeedback,
               answer,
               question
             )}
@@ -335,7 +330,6 @@ function createQuill(
 ) {
   return (
     <QuillEditor
-      // key={Math.random()}
       key={
         'quillEditor_' +
         submission.id +
@@ -368,18 +362,16 @@ function createQuill(
 
 function createShowMarkingCriteriasFrame(
   submission,
-  markingCriteriaFeedback,
   answer,
   question
 ) {
   const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];
+  const { markingCriteriaFeedback } = useContext(FeedbackContext)
   if (
     !validStatuses.includes(submission.status) ||
     !(markingCriteriaFeedback?.length > 0) ||
-    // !questionCriteria.markingCriteria?.title ||
-    // questionCriteria.markingCriteria?.title === 'No Marking Criteria' ||
     questionCriteria.type === 'MCQ'
   ) {
     return <></>;

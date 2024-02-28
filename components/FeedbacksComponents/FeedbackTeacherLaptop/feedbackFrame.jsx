@@ -57,10 +57,8 @@ function FeedbackFrame(props) {
   const {
     methods,
     submission,
-    newCommentSerialNumber,
     commentsForSelectedTab,
     setShowResolved,
-    showNewComment,
     isShowResolved,
     setFeedback,
     isFeedback,
@@ -75,10 +73,8 @@ function FeedbackFrame(props) {
   return feedbackFrame(
     methods,
     submission,
-    newCommentSerialNumber,
     commentsForSelectedTab,
     setShowResolved,
-    showNewComment,
     isShowResolved,
     setFeedback,
     isFeedback,
@@ -94,10 +90,8 @@ function FeedbackFrame(props) {
 function feedbackFrame(
   methods,
   submission,
-  newCommentSerialNumber,
   commentsForSelectedTab,
   setShowResolved,
-  showNewComment,
   isShowResolved,
   setFeedback,
   isFeedback,
@@ -109,7 +103,7 @@ function feedbackFrame(
   newCommentFrameRef,
   share,
 ) {
-  
+  const {showNewComment, newCommentSerialNumber} = useContext(FeedbackContext);
   return (
     <Frame1331 id="feedbacksFrame">
       <Frame1322>

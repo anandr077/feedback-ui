@@ -59,15 +59,12 @@ const FeedbackType = {
 
 function FeedbackTeacherLaptop(props) {
   const {
-    newCommentSerialNumber,
-    markingCriteriaFeedback,
     smallMarkingCriteria,
     isTeacher,
     showLoader,
     quillRefs,
     pageMode,
     newCommentFrameRef,
-    showNewComment,
     methods,
     comments,
     submission,
@@ -93,7 +90,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 315;
-  const { countWords } = useContext(FeedbackContext)
+  const { countWords, showNewComment, newCommentSerialNumber } = useContext(FeedbackContext)
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
@@ -245,14 +242,11 @@ function FeedbackTeacherLaptop(props) {
               isTeacher,
               pageMode,
               quillRefs,
-              markingCriteriaFeedback,
               smallMarkingCriteria,
               handleCheckboxChange,
               groupedFocusAreaIds,
               commentsForSelectedTab,
-              newCommentSerialNumber,
               setShowResolved,
-              showNewComment,
               isShowResolved,
               setFeedback,
               isFeedback,
@@ -443,14 +437,11 @@ function answersAndFeedbacks(
   isTeacher,
   pageMode,
   quillRefs,
-  markingCriteriaFeedback,
   smallMarkingCriteria,
   handleCheckboxChange,
   groupedFocusAreaIds,
   commentsForSelectedTab,
-  newCommentSerialNumber,
   setShowResolved,
-  showNewComment,
   isShowResolved,
   setFeedback,
   isFeedback,
@@ -506,7 +497,6 @@ function answersAndFeedbacks(
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,
-          markingCriteriaFeedback,
           smallMarkingCriteria,
           handleCheckboxChange,
           groupedFocusAreaIds,
@@ -522,10 +512,8 @@ function answersAndFeedbacks(
           <FeedbackFrame
             methods={methods}
             submission={submission}
-            newCommentSerialNumber={newCommentSerialNumber}
             commentsForSelectedTab={commentsForSelectedTab}
             setShowResolved={setShowResolved}
-            showNewComment={showNewComment}
             isShowResolved={isShowResolved}
             setFeedback={setFeedback}
             isFeedback={isFeedback}

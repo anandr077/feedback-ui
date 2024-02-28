@@ -1483,7 +1483,16 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const shortcuts = getShortcuts();
 
   return (
-    <FeedbackContext.Provider value={{countWords, setCountWords, smartAnnotations}}>
+    <FeedbackContext.Provider 
+      value={{
+        countWords, 
+        setCountWords, 
+        smartAnnotations, 
+        showNewComment, 
+        newCommentSerialNumber, 
+        markingCriteriaFeedback
+      }}
+    >
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (
@@ -1510,8 +1519,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
       <FeedbackTeacherLaptop
         {...{
-          newCommentSerialNumber,
-          markingCriteriaFeedback,
           isTeacher,
           showLoader,
           submissionStatusLabel,
@@ -1520,7 +1527,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           shortcuts,
           newCommentFrameRef,
           methods,
-          showNewComment,
           comments,
           submission,
           setSubmission,

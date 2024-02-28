@@ -668,7 +668,7 @@ export default function CreateAssignment(props) {
       value={dayjs(assignment.dueAt)}
       onChange={(newValue) => {
         updateDueAt(newValue);
-        setUpdateDueDateTick(true)
+        setUpdateDueDateTick(true);
       }}
     />
   );
@@ -700,8 +700,6 @@ export default function CreateAssignment(props) {
     showDeletePopuphandler,
     showPublishPopuphandler,
   };
-
-  console.log('the props is', updateDueDateTick)
 
   return (
     <>
@@ -804,38 +802,4 @@ const createAAssignmentLaptopData = {
   goBack21Props: goBack24Data,
   buttons21Props: buttons25Data,
   goBack22Props: goBack25Data,
-};
-
-const goBack22Data = {
-  caret: '/img/caret-1@2x.png',
-};
-
-const buttons23Data = {
-  add: '/img/add@2x.png',
-};
-
-const goBack23Data = {
-  caret: '/img/caret-5@2x.png',
-  className: 'go-back-3',
-};
-
-const createAAssignmentTabletData = {
-  goBack21Props: goBack22Data,
-  buttons21Props: buttons23Data,
-  goBack22Props: goBack23Data,
-};
-
-const buttons22Data = {
-  add: '/img/add-2@2x.png',
-};
-
-const goBack2Data = {
-  className: 'go-back-1',
-};
-
-const createAAssignmentMobileData = {
-  assignmentSettings: 'Task Settings',
-  feedbackMethod: 'Feedback Method',
-  buttons22Props: buttons22Data,
-  goBackProps: goBack2Data,
 };

@@ -153,7 +153,7 @@ export const downloadSubmission = async (submissionId) => {
       headers: new Headers({
         Authorization: `Bearer ${token}`,
       }),
-      credentials: 'include', 
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -202,11 +202,13 @@ export const changePassword = async () => {
 export const account = async () => {
   window.open(jeddleBaseUrl + '/account');
 };
-export const getProfile = async () => await getApi(baseUrl + '/users/profile');
 export const getTasks = async () => await getApi(baseUrl + '/tasks');
-export const getCommunityTasks = async () => await getApi(baseUrl + '/communityTasks');
-export const getGiveFeedbackCompletedTasks = async () => await getApi(baseUrl + '/feedbackHistory');
-export const getStudentStats = async () => await getApi(baseUrl + '/students/stats');
+export const getCommunityTasks = async () =>
+  await getApi(baseUrl + '/communityTasks');
+export const getGiveFeedbackCompletedTasks = async () =>
+  await getApi(baseUrl + '/feedbackHistory');
+export const getStudentStats = async () =>
+  await getApi(baseUrl + '/students/stats');
 export const getClassesWithStudents = async () =>
   await getApi(baseUrl + '/classes/all/details');
 export const getModelResponses = async () =>
@@ -259,8 +261,17 @@ export const docsMoveToFolder = async (submissionId, classId, folderId) =>
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 
-export const provideFeedbackOnFeedback = async (submissionId, feedbackOnFeedback) =>
-  await patchApi(baseUrl + '/submissions/' + submissionId + '/feedbackOnFeedback/' + feedbackOnFeedback);
+export const provideFeedbackOnFeedback = async (
+  submissionId,
+  feedbackOnFeedback
+) =>
+  await patchApi(
+    baseUrl +
+      '/submissions/' +
+      submissionId +
+      '/feedbackOnFeedback/' +
+      feedbackOnFeedback
+  );
 
 export const getSmartAnnotaionAnalyticsByClassId = async (classId) => {
   let smartAnnotationsMap = new Map();
@@ -299,15 +310,6 @@ export const updateMarkingCriteria = async (
   );
 };
 
-export const updateStrength = async (markingCriteriaId, strength) => {
-  await patchApi(
-    baseUrl +
-      '/teachers/markingCriteria/' +
-      markingCriteriaId +
-      '/selectedStrengths',
-    strength
-  );
-};
 export const deleteMarkingCriteria = async (markingCriteriaId) => {
   await deleteApi(baseUrl + '/teachers/markingCriteria/' + markingCriteriaId);
 };
@@ -353,7 +355,9 @@ export const createAssignment = async (assignment) =>
 export const publishAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/publish', update);
 export const updateSubject = async (id, subject) =>
-  await patchApi(baseUrl + '/assignments/' + id + '/updateSubject', {subject: subject});
+  await patchApi(baseUrl + '/assignments/' + id + '/updateSubject', {
+    subject: subject,
+  });
 export const deleteAssignment = async (id, update) =>
   await patchApi(baseUrl + '/assignments/' + id + '/delete', update);
 export const extendDueAtAssignment = async (id, extendDueAt) =>
@@ -366,10 +370,14 @@ export const saveAnswer = async (submissionId, serialNumber, answer) =>
     answer
   );
 
-export const addToFavouriteList = async (feedbackId) => 
-  await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/addBookmark');
-export const removeFromFavouriteList = async (feedbackId) => 
-  await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/removeBookmark');
+export const addToFavouriteList = async (feedbackId) =>
+  await patchApi(
+    baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/addBookmark'
+  );
+export const removeFromFavouriteList = async (feedbackId) =>
+  await patchApi(
+    baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/removeBookmark'
+  );
 
 export const submitAssignment = async (submissionId) =>
   await patchApi(baseUrl + '/submissions/' + submissionId + '/submit');
@@ -404,7 +412,7 @@ export const updateFeedbackRange = async (submissionId, commentId, range) =>
 export const updateDocumentType = async (submissionId, documentType) =>
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/updateDocumentType',
-    {"documentType": documentType}
+    { documentType: documentType }
   );
 export const publishModelResponse = async (feedbackId) =>
   await patchApi(
@@ -500,9 +508,9 @@ export const getAllColors = () => {
     '#E7E3F2',
     '#B5CFED',
     '#D3E2F4',
-    '#F5E9D6', 
-    '#CCE7E1', 
-    '#F4E5F6', 
+    '#F5E9D6',
+    '#CCE7E1',
+    '#F4E5F6',
     '#D1D1EB',
   ];
 };
@@ -558,7 +566,7 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     classId,
     courseId,
     title,
-    documentType:'Analytical'
+    documentType: 'Analytical',
   });
 export const askJeddAI = async (submissionId, cleanAnswer, subject, type) =>
   await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {

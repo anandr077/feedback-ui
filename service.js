@@ -418,21 +418,16 @@ export const publishModelResponse = async (feedbackId) =>
   await patchApi(
     baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/publish'
   );
-export const unpublishModelResponse = async (feedbackId) =>
-  await patchApi(
-    baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/unpublish'
-  );
+
 export const denyModelResponse = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/modelResponses/' + feedbackId + '/deny');
 
 export const profileStateYear = async (stateYear) =>
   await patchApi(baseUrl + '/users/profile', stateYear);
 
-export const getStateYear = async () =>
-  await getApi(baseUrl + '/users/profile');
 
-export const createSubmission = async (submission) =>
-  await postApi(baseUrl + '/submissions', submission);
+
+
 
 export const createRequestFeddbackType = async (
   submissionId,
@@ -551,15 +546,9 @@ export const getPortfolio = async () =>
 
 export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);
-export const addFolderToPortfolio = async (newFolder) =>
-  await postApi(baseUrl + '/students/portfolio/folders', newFolder);
-export const deleteFolderFromPortfolio = async (folderId) =>
-  await deleteApi(baseUrl + `/students/portfolio/folders/${folderId}`);
-export const updatePortfolio = async (folderId, newTitle) =>
-  await patchApi(
-    baseUrl + `/students/portfolio/folders/${folderId}` + '/rename',
-    { title: newTitle }
-  );
+
+
+
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

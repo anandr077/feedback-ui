@@ -322,7 +322,7 @@ function CreateAAssignmentLaptop(props) {
                   <StepText
                     style={{ color: assignment.title != '' && '#7200E0' }}
                   >
-                    Name your task
+                    Name the task
                   </StepText>
                 </StepContainer>
                 <StepContainer>

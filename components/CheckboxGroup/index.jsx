@@ -5,6 +5,7 @@ import CheckboxBordered from '../CheckboxBordered';
 import './index.css';
 import TrashIcon from '../../static/icons/taskDeleteIcon.png';
 import ColoredTrashIcon from '../../static/icons/ColoredTrascan.png';
+import plusWhite from '../../static/img/plusWhite.svg';
 import {
   StyledMenuItem,
   StyledBox,
@@ -19,6 +20,8 @@ import {
   FocusAreadiv,
   Iconcontainer,
   StyledDeleteButton,
+  PlusImag,
+  PlusImagCont,
 } from './style';
 import { formatWord } from '../../utils/formatWord';
 
@@ -123,7 +126,7 @@ const CheckboxGroup = ({
 
   return (
     <>
-      <FormControl sx={{ m: 1 }}>
+      <FormControl>
         <StyledBox backgroundColor={backgroundColor}>
           <FlexContainer onClick={handleClick}>
             <StyledIconButton onClick={handleClick}>
@@ -157,7 +160,12 @@ export default CheckboxGroup;
 
 function filterText(selectedItems, dropDownText) {
   if (dropDownText) {
-    return dropDownText;
+    return (
+      <PlusImagCont>
+        <PlusImag src={plusWhite} />
+        {dropDownText}
+      </PlusImagCont>
+    );
   }
   return `Filters (${selectedItems.length})`;
 }

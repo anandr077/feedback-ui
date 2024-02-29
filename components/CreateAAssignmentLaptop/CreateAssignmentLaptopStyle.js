@@ -9,14 +9,61 @@ import {
   IbmplexsansNormalElectricViolet16px,
 } from '../../styledMixins';
 
+export const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  background-color: var(--white-pointer);
+  position: relative;
+  padding: 60px 0px;
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    min-width: 1025px;
+  }
+
+  @media (min-width: 766px) and (max-width: 1024px) {
+    min-width: 766px;
+  }
+`;
+export const TitleAndLinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  position: relative;
+  @media (max-width: 1024px) {
+    gap: 40px;
+  }
+`;
+export const LinkContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+export const TitleAndSubtitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+  width: 100%;
+`;
 export const TitleContainer = styled.div`
   display: flex;
-  width: 93%;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
+  gap: 20px;
   position: relative;
-  margin-top: 16px;
+  width: 100%;
+  @media (max-width: 765px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+export const TitleImage = styled.img`
+  padding: 2px 2px 2px 2px;
+  align-items: center;
+  gap: 10px;
+  width: 24px;
+  height: 24px;
 `;
 
 export const DeleteButtonContainer = styled.div`
@@ -64,19 +111,34 @@ export const SLink = styled.div`
   letter-spacing: -0.5px;
   line-height: normal;
   cursor: pointer;
-  &:hover {
-    scale: 1.2;
-    transition: 0.1s;
-  }
 `;
 export const Frame1379 = styled.div`
+  // display: flex;
+  // width: 100%;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  // gap: 20px;
+  // position: relative;
+  // align-self: stretch;
+  // margin-bottom: 20px;
+  max-width: 1440px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  margin-bottom: 20px;
+  gap: 60px;
+  padding: 0px 60px;
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    padding: 0px 60px;
+  }
+  @media (min-width: 766px) and (max-width: 1024px) {
+    padding: 0px 60px;
+    gap: 40px;
+  }
+  @media (max-width: 765px) {
+    padding: 0px 20px;
+    gap: 40px;
+  }
 `;
 
 export const Frame1376 = styled.div`
@@ -101,12 +163,11 @@ export const Frame1315 = styled.div`
 
 export const Frame1378 = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
-  gap: 72px;
-  padding: 0px 60px;
   position: relative;
   align-self: stretch;
+  gap: 32px;
   ${(props) => props.readOnly && 'pointer-events: none; opacity: 0.5;'}
 `;
 
@@ -114,9 +175,21 @@ export const Frame1375 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 30px;
+  gap: 32px;
   position: relative;
   align-self: stretch;
+  width: 80%;
+  // height: 90vh;
+  // overflow: scroll;
+  // &::-webkit-scrollbar {
+  //   width: 0;
+  //   display: none;
+  // }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    // height: 100%;
+  }
 `;
 
 export const Frame1372 = styled.div`
@@ -131,16 +204,38 @@ export const TaskHeading = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #7200e0;
 `;
 
 export const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  font-size: 45px;
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Dark-Purple, #301b72);
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
   line-height: normal;
+  letter-spacing: -0.9px;
+  @media (max-width: 765px) {
+    font-size: 32px;
+    letter-spacing: -0.8px;
+  }
+`;
+export const HeadingLine = styled.p`
+  color: var(--Foundation-Grey-grey-500, #333333);
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
 `;
 
 export const Frame1374 = styled.div`
@@ -153,34 +248,39 @@ export const Frame1374 = styled.div`
   background-color: var(--white);
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid;
-  border-color: var(--text);
+  border: 1px solid #a6a6a6 !important;
 `;
 
 export const TextInput = styled.input`
-  ${IbmplexsansNormalStack20px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
+  padding: 0;
+  margin: 0px;
   letter-spacing: 0;
   line-height: normal;
   border-color: transparent;
   box-shadow: 0px;
   outline: none;
   transition: 0.15s;
+  width: 100%;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  border: 0px;
 `;
 
 export const Frame1294 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
-  padding: 30px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--white);
-  border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: flex-start;
+  // gap: 30px;
+  // padding: 30px;
+  // position: relative;
+  // align-self: stretch;
+  // background-color: var(--white);
+  // border-radius: 16px;
+  // box-shadow: 0px 4px 22px #2f1a720a;
 `;
 
 export const Questions = styled.div`
@@ -212,10 +312,15 @@ export const AssignmentSettings = styled.div`
 export const Frame1296 = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 30px;
+  justify-content: flex-start;
+  padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
+  @media (max-width: 765px) {
+    width:100%;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const Frame1377 = styled.div`
@@ -231,15 +336,9 @@ export const Frame1299 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-  box-shadow: 0px 4px 16px #7200e01a;
 `;
 
 export const Frame12811 = styled.div`
@@ -261,10 +360,16 @@ export const Classes = styled.div`
 
 export const Frame1298 = styled.div`
   display: flex;
-  align-items: space-between;
+  align-items: center;
+  justify-content: flex-start;
   position: relative;
   align-self: stretch;
-  gap: 16px;
+  gap: 24px;
+  @media (max-width: 765px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 `;
 
 export const Frame12981 = styled.div`
@@ -282,25 +387,6 @@ export const Frame12191 = styled.div`
   gap: 24px;
   position: relative;
 `;
-
-export const Buttons1 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 16px;
-  position: relative;
-  background-color: var(--light-mode-purple);
-  border-radius: 30px;
-  border: 1px solid;
-  cursor: pointer;
-  &:hover {
-    scale: 1.2;
-    transition: 0.1s;
-  }
-`;
-
 export const Button = styled.div`
   ${IbmplexsansMediumWhite16px}
   position: relative;
@@ -309,5 +395,108 @@ export const Button = styled.div`
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
-  background-color: var(--light-mode-purple);
+  color: var(--light-mode-purple);
+`;
+export const Buttons1 = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  position: relative;
+
+  background-color: white;
+  border-radius: 30px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--light-mode-purple);
+    ${Button} {
+      color: white;
+    }
+  }
+`;
+
+export const TaskContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 0px 0px 32px 0px;
+  border-radius: 12px;
+  border: 1px;
+  gap: 32px;
+  background: linear-gradient(0deg, #ffffff, #ffffff);
+  border: 1px solid #f2f2f2;
+  @media (max-width: 765px) {
+    gap: 20px;
+  }
+`;
+export const TaskHeadingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 20px 30px 20px 30px;
+  border-radius: 12px 12px 0px 0px;
+  gap: 10px;
+  background: #f7eeff;
+`;
+
+export const TaskNameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 30px 0px 30px;
+  gap: 20px;
+`;
+export const TaskName = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+`;
+export const TaskTitle = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 31px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1e252a;
+`;
+
+export const StepsPart = styled.div`
+  position:sticky;
+  top: 75px;
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  padding: 0px 0px 30px 0px;
+  border-radius: 12px;
+  gap: 20px;
+  background: linear-gradient(0deg, #ffffff, #ffffff);
+  box-shadow: 0px 4px 6px 0px #ca93ff1a;
+`;
+export const StepsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px 0px 20px;
+  gap: 20px;
+`;
+export const StepContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+`;
+export const StepImag = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const StepText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #000000;
 `;

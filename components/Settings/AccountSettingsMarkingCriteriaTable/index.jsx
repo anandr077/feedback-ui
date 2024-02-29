@@ -22,6 +22,8 @@ import {
   Title1,
   Line14,
 } from './style';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
+import questionMark from '../../../static/img/question-mark.svg';
 
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
@@ -54,7 +56,13 @@ function AccountSettingsMarkingCriteriaTable(props) {
             {showUserSettings ? (
               <ActiveSetting>
                 <Frame13221>
-                  <SettingTitle>User Settings</SettingTitle>
+                  <SettingTitle>
+                    User Settings
+                    <QuestionTooltip 
+                        text={"Customise your profile and marking preferences for optimal feedback"}
+                        img={questionMark}
+                    />
+                  </SettingTitle>
                   <Frame1284
                     src="/icons/expanded.svg"
                     alt="Frame 1284"
@@ -77,7 +85,13 @@ function AccountSettingsMarkingCriteriaTable(props) {
               </ActiveSetting>
             ) : (
               <InactiveSetting>
-                <SettingTitle>User Settings</SettingTitle>
+                <SettingTitle>
+                  User Settings
+                  <QuestionTooltip 
+                      text={"Customise your profile and marking preferences for optimal feedback"}
+                      img={questionMark}
+                  />
+                </SettingTitle>
                 <Frame1284
                   src="/icons/collapsed.svg"
                   alt="Frame 1284"
@@ -90,7 +104,13 @@ function AccountSettingsMarkingCriteriaTable(props) {
             {showMarkingCriteria ? (
               <ActiveSetting>
                 <Frame13221>
-                  <SettingTitle>MarkingCriteria</SettingTitle>
+                  <SettingTitle>
+                    Marking Criteria
+                    <QuestionTooltip 
+                        text={"A library of customisable marking templates that can be used for any new task"}
+                        img={questionMark}
+                    />
+                  </SettingTitle>
                   <Frame1284
                     src="/icons/expanded.svg"
                     alt="Frame 1284"
@@ -118,7 +138,13 @@ function AccountSettingsMarkingCriteriaTable(props) {
               </ActiveSetting>
             ) : (
               <InactiveSetting>
-                <SettingTitle>MarkingCriteria</SettingTitle>
+                <SettingTitle>
+                  Marking Criteria
+                  <QuestionTooltip 
+                      text={"A library of customisable marking templates that can be used for any new task"}
+                      img={questionMark}
+                  />
+                </SettingTitle>
                 <Frame1284
                   src="/icons/collapsed.svg"
                   alt="Frame 1284"
@@ -131,7 +157,13 @@ function AccountSettingsMarkingCriteriaTable(props) {
             {showShortcuts ? (
               <ActiveSetting>
                 <Frame13221>
-                  <SettingTitle>Smart Annotations</SettingTitle>
+                  <SettingTitle>
+                    Smart Annotations
+                    <QuestionTooltip 
+                      text={"A customisable bank of comments to provide faster feedback when marking a student's work"}
+                      img={questionMark}
+                    />
+                  </SettingTitle>
                   <Frame1284
                     src="/icons/expanded.svg"
                     alt="Frame 1284"
@@ -156,7 +188,13 @@ function AccountSettingsMarkingCriteriaTable(props) {
               </ActiveSetting>
             ) : (
               <InactiveSetting>
-                <SettingTitle>Shortcuts</SettingTitle>
+                <SettingTitle>
+                  Shortcuts
+                  <QuestionTooltip 
+                    text={"A customisable bank of comments to provide faster feedback when marking a student's work"}
+                    img={questionMark}
+                  />
+                </SettingTitle>
                 <Frame1284
                   src="/icons/collapsed.svg"
                   alt="Frame 1284"

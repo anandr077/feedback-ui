@@ -19,6 +19,8 @@ import {
   MarkingCriteria,
   Line14,
 } from './style';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
+import questionMark from '../../../static/img/question-mark.svg';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -50,7 +52,13 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showUserSettings && (
                 <UserSettingFrame>
                   <Title1>
-                    <MarkingCriteria>User Settings</MarkingCriteria>
+                    <MarkingCriteria>
+                      User Settings
+                      <QuestionTooltip 
+                        text={"Customise your profile and marking preferences for optimal feedback"}
+                        img={questionMark}
+                      />
+                    </MarkingCriteria>
                     <UserSettingLinkContainer>
                       <UserSettingLink href="/#/">
                         Edit in user profile
@@ -66,7 +74,13 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showMarkingCriteria && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Marking Templates</MarkingCriteria>
+                    <MarkingCriteria>
+                      Marking Templates
+                      <QuestionTooltip 
+                        text={"A library of customisable marking templates that can be used for any new task"}
+                        img={questionMark}
+                      />
+                    </MarkingCriteria>
                     <Buttons
                       text="Create new"
                       onClickMethod={() =>
@@ -83,7 +97,13 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showShortcuts && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Smart Annotations</MarkingCriteria>
+                    <MarkingCriteria>
+                      Smart Annotations
+                      <QuestionTooltip 
+                        text={"A customisable bank of comments to provide faster feedback when marking a student's work"}
+                        img={questionMark}
+                      />
+                    </MarkingCriteria>
 
                     <Buttons
                       text="Create new"

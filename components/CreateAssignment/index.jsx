@@ -27,11 +27,9 @@ import _ from 'lodash';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
 import CreateAAssignmentLaptop from '../CreateAAssignmentLaptop';
-import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
-import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
@@ -50,9 +48,13 @@ import {
   StudentsDnD,
   StudentDnD,
   Student,
+  TitleImage,
+  LableAndImgContainer,
 } from './CreateAssignmentStyle';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DragAndDrop from './DragAndDrop';
+import questionMark from '../../static/img/question-mark.svg';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -68,7 +70,7 @@ export default function CreateAssignment(props) {
     title: '',
     classIds: [],
     questions: [newQuestion(1)],
-    reviewedBy: 'TEACHER',
+    reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
     dueAt: dayjs().add(3, 'day'),
@@ -97,9 +99,11 @@ export default function CreateAssignment(props) {
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
-
-  const [reviewedByList, setReviewedByList] = React.useState([]);
-  const [dragFromHere, setDragFromHere] = React.useState([]);
+  const [updateDueDateTick, setUpdateDueDateTick] = React.useState(false);
+  const mobileView = isMobileView();
+  const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
+    mobileView ? 'Select' : 'Select Marking Template'
+  );
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -140,7 +144,7 @@ export default function CreateAssignment(props) {
           classIds: assignmentResult.classIds ?? [],
         }));
         markingCriteriasResult.unshift({
-          title: 'No Marking Criteria',
+          title: markingPlaceholder,
           id: 'no_marking_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),
@@ -625,16 +629,29 @@ export default function CreateAssignment(props) {
         value={assignment.reviewedBy}
         onChange={(event) => feedbackMethodUpdate(event.target.value)}
       >
-        <StyledFormControlLabel
-          value="TEACHER"
-          control={<Radio />}
-          label="Teacher Feedback"
-        />
-        <StyledFormControlLabel
-          value="P2P"
-          control={<Radio />}
-          label="Peer to Peer"
-        />
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="TEACHER"
+            control={<Radio />}
+            label="Teacher Feedback"
+            // endIcon={<TitleImage src={questionMark} />}
+          />
+          <QuestionTooltip 
+            text={'After student submits their task the feedback will be provided by you or any other assigned teacher'}
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="P2P"
+            control={<Radio />}
+            label="Peer to Peer"
+          />
+          <QuestionTooltip 
+            text={"After submission students will be randomly assigned to review their peer's task"}
+            img={questionMark}
+          />
+        </LableAndImgContainer>
       </StyledRadioGroup>
       {studentDropdown && (
         <DragAndDrop
@@ -656,7 +673,10 @@ export default function CreateAssignment(props) {
   const dateSelectorFrame = (
     <DateSelector
       value={dayjs(assignment.dueAt)}
-      onChange={(newValue) => updateDueAt(newValue)}
+      onChange={(newValue) => {
+        updateDueAt(newValue);
+        setUpdateDueDateTick(true)
+      }}
     />
   );
 
@@ -688,6 +708,8 @@ export default function CreateAssignment(props) {
     showPublishPopuphandler,
   };
 
+  console.log('the props is', updateDueDateTick)
+
   return (
     <>
       {showDeletePopup && (
@@ -705,51 +727,16 @@ export default function CreateAssignment(props) {
           confirmButtonAction={publish}
         />
       )}
-      <ReactiveRender
-        mobile={
-          <CreateAAssignmentMobile
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentMobileData,
-            }}
-          />
-        }
-        tablet={
-          <CreateAAssignmentTablet
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentTabletData,
-            }}
-          />
-        }
-        laptop={
-          <CreateAAssignmentLaptop
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentLaptopData,
-            }}
-          />
-        }
-        desktop={
-          <CreateAAssignmentLaptop
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentLaptopData,
-            }}
-          />
-        }
+
+      <CreateAAssignmentLaptop
+        {...{
+          ...methods,
+          assignment,
+          feedbacksMethodContainer,
+          dateSelectorFrame,
+          updateDueDateTick,
+          ...createAAssignmentLaptopData,
+        }}
       />
       {openFocusAreaDialog && (
         <FocusAreaDialog

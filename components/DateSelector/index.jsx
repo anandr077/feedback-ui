@@ -53,6 +53,7 @@ const DateContainer = styled.div`
   height: 100%;
   width: 190px;
   border-color: var(--text);
+  width:210px !important;
   .MuiInputBase-root.MuiOutlinedInput-root
     .MuiOutlinedInput-notchedOutline
     legend {
@@ -69,5 +70,8 @@ const DateContainer = styled.div`
   .MuiOutlinedInput-notchedOutline {
     border-radius: 12px;
     border: 0px solid var(--text);
+  }
+  fieldset {
+    display: none;
   }
 `;

@@ -9,7 +9,6 @@ export const MarkingCriteriaSelectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 16px;
   width: 100%;
   gap: 14px;
 `;
@@ -34,9 +33,8 @@ export const Frame1321 = styled.div`
   background-color: #efeef1;
   border-radius: 24px;
   border: 1px solid #e6e6e6;
-  height: 36px;
+  height: 40px;
   box-sizing: border-box;
-  margin: 8px;
 `;
 
 export const Structure = styled.div`
@@ -61,16 +59,23 @@ export const Ellipse141 = styled.div`
 export const SmalllQuestionFrame = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px 0px;
-  position: relative;
+  // align-items: flex-start;
+  // gap: 20px;
+  // padding: 20px 0px;
+  // position: relative;
+  // align-self: stretch;
+  // background-color: var(--white);
+  // border-radius: 16px;
+  // border: 1px solid;
+  // border-color: var(--electric-violet);
+  // box-shadow: 0px 4px 16px #7200e01a;
   align-self: stretch;
-  background-color: var(--white);
+  padding: 20px 0px 20px 0px;
   border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-  box-shadow: 0px 4px 16px #7200e01a;
+  border: 1px;
+  gap: 20px;
+  background: linear-gradient(0deg, #ffffff, #ffffff);
+  border: 1px solid #7200e01a;
 `;
 
 export const Line141 = styled.img`
@@ -83,11 +88,8 @@ export const Line141 = styled.img`
 export const Frame12891 = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 0px 16px;
-  position: relative;
-  align-self: stretch;
+  padding: 0px 30px 0px 30px;
+  gap: 20px;
 `;
 
 export const QuestionFrame2 = styled.div`
@@ -99,8 +101,7 @@ export const QuestionFrame2 = styled.div`
   align-self: stretch;
   background-color: var(--white);
   border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
+  border: 1px solid #a6a6a6;
 `;
 
 export const ShowFocusArea = styled.div`
@@ -110,10 +111,13 @@ export const ShowFocusArea = styled.div`
   align-self: stretch;
   background-color: var(--white);
   border-radius: 12px;
-  border: 1px solid;
-  border-color: var(--text);
   flex-wrap: wrap;
   min-height: 56px;
+  padding: 10px 16px 10px 16px;
+  border-radius: 12px;
+  border: 1px;
+  gap: 8px;
+  border: 1px solid #a6a6a6;
 `;
 
 export const Frame1295 = styled.div`
@@ -126,31 +130,23 @@ export const Frame1295 = styled.div`
 `;
 
 export const DeleteButtonFrame = styled.div`
-  ${IbmplexsansNormalElectricViolet14px}
   display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  align-self: stretch;
-  //left: 1em;
-  padding: 0px 12px 0px 12px;
-
-  &.frame-1280-5.frame-1280-6 {
-    opacity: 0;
-  }
-
-  &.frame-1280-5.frame-1280-7 {
-    opacity: 0;
-  }
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 20px 30px 0px 30px;
+  border: 1px 0px 0px 0px;
+  gap: 4px;
+  cursor: pointer;
 `;
 
 export const DeleteButton = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  cursor: pointer;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #7200e0;
 `;
 
 export const InputQuestion = styled.div`
@@ -164,12 +160,13 @@ export const InputQuestion = styled.div`
 `;
 
 export const Label = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1e252a;
 `;
 
 export const QuestionInputEditable = styled.textarea`
@@ -184,6 +181,13 @@ export const QuestionInputEditable = styled.textarea`
   box-shadow: 0px;
   outline: none;
   transition: 0.15s;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  // color: #959595;
 `;
 
 export const MarkingCriteriaFrame = styled.div`
@@ -195,6 +199,25 @@ export const MarkingCriteriaFrame = styled.div`
 export const Preview = styled.div`
   background: #7200e0;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: 10px 12px;
   cursor: pointer;
+`;
+export const TitleImage = styled.img`
+  padding: 2px 2px 2px 2px;
+  align-items: center;
+  gap: 10px;
+  width: 24px;
+  height: 24px;
+`;
+export const BinImage = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+
+export const QuestionMarkContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: flex-start;
+  align-items: center;
 `;

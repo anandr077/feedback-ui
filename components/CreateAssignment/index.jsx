@@ -14,14 +14,8 @@ import {
   getStudentsForClass,
 } from '../../service';
 import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansBoldShark64px,
-} from '../../styledMixins';
-import {
   assignmentsHeaderProps,
-  taskHeaderProps,
 } from '../../utils/headerProps';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import _ from 'lodash';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
@@ -38,17 +32,11 @@ import { getFocusAreas, getAllColors } from '../../service';
 import PreviewDialog from '../Shared/Dialogs/preview/previewCard';
 import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
 import GeneralPopup from '../GeneralPopup';
-import HeaderSmall from '../HeaderSmall';
-import Header from '../Header';
 import {
   StyledRadioGroup,
   StyledFormControlLabel,
   CheckboxContainer,
   CheckBoxText,
-  StudentsDnD,
-  StudentDnD,
-  Student,
-  TitleImage,
   LableAndImgContainer,
 } from './CreateAssignmentStyle';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -159,6 +147,11 @@ export default function CreateAssignment(props) {
       }
     );
   }, [assignmentId]);
+
+  React.useEffect(()=>{
+    assignment.dueAt && setUpdateDueDateTick(true)
+  }, [assignment])
+
   async function getAllStudentsForClasses(classesArray) {
     const promises = classesArray.map(async (classItem) => {
       const classId = String(classItem.id); // Ensure classId is a string
@@ -417,6 +410,7 @@ export default function CreateAssignment(props) {
       }
     });
   };
+
 
   const saveDraft = () => {
     updateAssignment(assignment.id, assignment).then((res) => {
@@ -707,8 +701,6 @@ export default function CreateAssignment(props) {
     showDeletePopuphandler,
     showPublishPopuphandler,
   };
-
-  console.log('the props is', updateDueDateTick)
 
   return (
     <>

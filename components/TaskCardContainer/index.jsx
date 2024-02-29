@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import TaskCard from '../TaskCard';
 import styled from 'styled-components';
 
@@ -10,9 +11,12 @@ function TaskCardContainer(props) {
     showDeletePopuphandler,
     showDateExtendPopuphandler,
   } = props;
+  const location = useLocation();
+
   const cards = allTasks.map((task) => {
+    const link = location.pathname.includes('classes') ? null : task.link;
     return (
-      <a href={task.link}>
+      <a href={link} style={{ width: '100%' }}>
         <TaskCard
           task={task}
           exemplar={exemplar}
@@ -54,13 +58,6 @@ const ExemplerCardContainer = styled.div`
   width: 100%;
   align-items: center;
   gap: 20px;
-  overflow-y: scroll;
-  max-height: 615px;
   padding: 0px 0px 10px 0px;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
 `;
 export default TaskCardContainer;

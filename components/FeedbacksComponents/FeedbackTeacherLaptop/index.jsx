@@ -220,10 +220,17 @@ function FeedbackTeacherLaptop(props) {
   React.useEffect(() => {
     const documentsRoute = location.pathname.includes('documents'); 
     const submissionsRoute = location.pathname.includes('submissions');
+    const documentReviewRoute = location.pathname.includes('documentsReview');
     const role = getUserRole()
 
-    const isOpen = (role === 'TEACHER' && submissionsRoute) || (role === 'STUDENT' && documentsRoute);
-    setOpen(isOpen)
+    const isOpen =
+    (role === 'TEACHER' && submissionsRoute) ||
+    (role === 'STUDENT' && documentsRoute);
+
+    const isStudentReviewRoute = documentReviewRoute && role === 'STUDENT';
+
+    setOpen(!isStudentReviewRoute && isOpen);
+    
   }, [location.pathname]); 
 
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {

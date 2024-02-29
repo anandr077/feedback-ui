@@ -112,7 +112,7 @@ export default function AnnotationAnalytics(props) {
         <div className="parent-card">
           <div className="heading-container">
             <div className="heading-text">
-              Class Statistics
+              Class Insights
               <QuestionTooltip
                 text={
                   'See where your class is struggling the most with their writing'
@@ -137,7 +137,7 @@ export default function AnnotationAnalytics(props) {
                       lineHeight: '24px',
                       letterSpacing: '0em',
                       textAlign: 'left',
-                      color: '#7200E0'
+                      color: '#7200E0',
                     }}
                   >
                     Download

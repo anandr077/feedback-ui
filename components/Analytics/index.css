@@ -24,7 +24,7 @@
   line-height: 25px;
   letter-spacing: 0em;
   text-align: left;
-  color: #4B464F;
+  color: #4b464f;
 }
 
 .download-container {
@@ -33,7 +33,7 @@
   flex-direction: row;
   padding: 8px 12px 8px 12px;
   border-radius: 32px;
-  border: 1px solid #7200E0;
+  border: 1px solid #7200e0;
   gap: 4px;
 }
 
@@ -42,8 +42,6 @@
   height: 24px;
   cursor: pointer;
 }
-
-
 
 .download-tooltip {
   position: absolute;
@@ -79,11 +77,8 @@
 .graph-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  max-height: 200px;
   padding: 20px 40px 20px 40px;
   gap: 45px;
-
 }
 
 .graph-data {
@@ -102,11 +97,9 @@
   padding: 20px 0px 20px 0px;
   border-radius: 16px;
   gap: 20px;
-
 }
 
 .subheading-text {
-
   color: #1e252a;
   font-family: IBM Plex Sans;
   font-size: 20px;
@@ -172,25 +165,40 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 150px;
+  height: auto;
   gap: 20px;
   /* width: 55%; */
   padding-right: 20px;
   overflow-y: auto;
 }
 
+@media (min-width: 766px) and (max-width: 1024px) {
+  .legend {
+    flex: 1;
+  }
+
+  .legend-item {
+    flex-basis: 100%;
+  }
+}
+
 @media (max-width: 765px) {
   .graph-container {
     flex-direction: column;
-    max-height: 400px;
+    align-items: center;
   }
 
   .legend {
     width: 100%;
+    height: auto;
+  }
+
+  .legend-item {
+    flex-basis: 100%;
   }
 }
 
 .graph-heading {
   padding: 0px 20px 20px 20px;
-  border-bottom: 1px solid #F2F1F3;
+  border-bottom: 1px solid #f2f1f3;
 }

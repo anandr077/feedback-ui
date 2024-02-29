@@ -5,67 +5,112 @@ import {
   IbmplexsansNormalChicago13px,
 } from '../styledMixins';
 
+export const TopContainer = styled.div`
+  align-items: center;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 160px;
+  // min-width: 1441px;
+  position: relative;
+  padding-bottom: 40px;
+  padding-top: 60px;
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    min-width: 1025px;
+  }
+
+  @media (min-width: 766px) and (max-width: 1024px) {
+    min-width: 766px;
+  }
+  a {
+    text-decoration: none;
+  }
+`;
+
 export const Frame1422 = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 60px;
+  gap: 40px;
   position: relative;
-  // align-self: stretch;
   max-width: 1440px;
+  padding: 0px 60px;
+
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    padding: 0px 60px;
+  }
+  @media (min-width: 766px) and (max-width: 1024px) {
+    padding: 0px 60px;
+  }
+  @media (max-width: 765px) {
+    padding: 0px 20px;
+  }
 `;
 
 export const Frame13121 = styled.div`
   display: flex;
-  align-items: center;
-  gap: 30px;
-  padding: 0px 60px;
-  position: relative;
+  flex-direction: column;
+  align-items: flex-start;
   align-self: stretch;
+  padding: 0px 0px 20px 0px;
+  border: 0px 0px 1px 0px;
+  gap: 12px;
 `;
 
 export const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  line-height: normal;
+  display: flex;
+  gap: 8px;
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 47px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  color: #301b72;
+  @media (max-width: 765px) {
+    font-size: 32px;
+  }
 `;
 
 export const Frame14221 = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;
 
 export const Frame1306 = styled.div`
   display: flex;
+  width: 100% !important;
+  justify-content: flex-start;
   width: fit-content;
   align-items: flex-start;
   gap: 20px;
   position: relative;
+  border-bottom: 1px solid #d6d6d6;
+  border-top: 1px solid #d6d6d6;
+  .MuiTabs-scroller {
+    button {
+      color: #7200e0 !important;
+    }
+  }
 `;
 
 export const Students = styled.div`
-  color: #405059;
+  color: #3d3d3d;
+  display: flex;
+  gap: 8px;
   font-family: IBM Plex Sans;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  padding-left: 20px !important;
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
 `;
-
 
 export const X2021JeddleAllRightsReserved = styled.p`
   ${IbmplexsansNormalChicago13px}
@@ -80,18 +125,7 @@ export const Frame1426 = styled.div`
   display: flex;
   width: fit-content;
   align-items: center;
-  gap: 30px;
   position: relative;
-`;
-
-export const Frame1417 = styled.div`
-  display: flex;
-  min-height: fit-content;
-  align-items: flex-start;
-  gap: 32px;
-  padding: 0px 60px;
-  position: relative;
-  align-self: stretch;
 `;
 
 export const Frame1339 = styled.div`
@@ -99,22 +133,23 @@ export const Frame1339 = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
-  padding: 20px 0px;
   position: relative;
   flex: 1;
   align-self: stretch;
-  background-color: var(--white);
-  border-radius: 12px;
-  box-shadow: 0px 4px 16px #7200e01a;
 `;
 
 export const Frame13371 = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 0px 20px;
   position: relative;
   align-self: stretch;
+  justify-content: space-between;
+  @media (max-width: 765px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
 `;
 
 export const Line17 = styled.img`
@@ -130,15 +165,8 @@ export const Frame1336 = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding: 0px 20px;
   position: relative;
   align-self: stretch;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
 `;
 
 export const Frame1307 = styled.div`
@@ -182,4 +210,89 @@ export const Frame61 = styled.div`
   position: relative;
   align-self: stretch;
   background-color: var(--white);
+`;
+
+export const TItlePara = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #333333;
+`;
+
+export const MainContainer = styled.div`
+  display: flex;
+  gap: 32px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+`;
+
+export const LeftContainer = styled.div`
+  display: flex;
+  position: sticky;
+  height: 150px;
+  top: 100px;
+  width: 25%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  @media (min-width: 766px) and (max-width: 1024px) {
+    top: 50px;
+  }
+  @media (max-width: 765px) {
+    display: none;
+  }
+`;
+export const LeftContainerTitle = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  cursor: pointer;
+`;
+
+export const RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 90px;
+  width: 75%;
+  @media (min-width: 766px) and (max-width: 1024px) {
+    width: 100%;
+  }
+  @media (max-width: 765px) {
+    width: 100%;
+  }
+`;
+
+export const ActiveTaskContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const SharedResponseFrame = styled.div``;
+export const ClassStatsFrame = styled.div``;
+
+export const TasksContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
+export const TaskContainer = styled.div`
+  display: flex;
+  flex: 0 1 48%;
+  @media (max-width: 765px) {
+    flex: 1 1 100%;
+  }
+`;
+export const BtnsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
 `;

@@ -31,10 +31,6 @@ const Buttons1 = styled.div`
     align-self: stretch;
     width: unset;
   }
-  &:hover {
-    scale: 1.2;
-    transition: 0.1s;
-  }
 `;
 
 const Add = styled.img`
@@ -44,13 +40,14 @@ const Add = styled.img`
 `;
 
 const Button = styled.div`
-  ${IbmplexsansMediumWhite16px}
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ffffff;
+  background-color: var(--light-mode-purple);
 `;
 
 export default Buttons;

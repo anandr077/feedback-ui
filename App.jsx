@@ -35,11 +35,52 @@ import NewDocPage from './components/NewDocRoot';
 import withAuth from './components/WithAuth';
 import withOnboarding from './components/WithOnboarding';
 
+import SnackbarContext from './components/SnackbarContext';
+import { Snackbar } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
   const [showFooter, setShowFooter] = useState(true);
+  const { snackbarOpen, snackbarMessage, snackbarLink, closeSnackbar } =
+  React.useContext(SnackbarContext);
+
+
+  const linkButton = snackbarLink ? (
+    <Button
+      color="secondary"
+      style={{ color: 'white' }}
+      size="small"
+      onClick={() => {
+        window.location.href = snackbarLink;
+        closeSnackbar();
+      }}
+    >
+      View
+    </Button>
+  ) : (
+    <></>
+  );
+
+
+  const action = (
+    <React.Fragment>
+      {linkButton}
+      <IconButton
+        size="small"
+        aria-label="close"
+        style={{ color: 'white' }}
+        onClick={closeSnackbar}
+      >
+        <CloseIcon fontSize="small" style={{ color: 'white' }} />
+      </IconButton>
+    </React.Fragment>
+  );
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -169,6 +210,13 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
+          <Snackbar
+            open={snackbarOpen}
+            message={snackbarMessage}
+            onClose={closeSnackbar}
+            autoHideDuration={6000}
+            action={action}
+          />
           {showFooter && <ResponsiveFooter />}
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}

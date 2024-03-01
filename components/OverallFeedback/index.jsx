@@ -20,10 +20,7 @@ import { base64ToBlob, blobToBase64 } from '../../utils/blobs';
 const OverallFeedback = ({
   pageMode,
   addOverallFeedback,
-  submissionId,
   question,
-  initialOverallFeedback,
-  setInitialOverAllFeedback,
   overallComment,
   updateOverAllFeedback,
 }) => {

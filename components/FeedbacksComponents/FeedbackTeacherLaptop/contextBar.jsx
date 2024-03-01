@@ -102,7 +102,6 @@ export function contextBar(
   methods,
   isTeacher,
   pageMode,
-  labelText
 ) {
   const focusAreasCount = createFocusAreasCount(submission);
   return (
@@ -384,9 +383,7 @@ export function contextBarForPortfolioDocument(
   submission,
   setSubmission,
   methods,
-  isTeacher,
   pageMode,
-  labelText,
   feedbackMethodType = [],
   handleRequestFeedback,
   showStatusText = true,

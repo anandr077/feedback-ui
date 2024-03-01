@@ -14,14 +14,8 @@ import {
   getStudentsForClass,
 } from '../../service';
 import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansBoldShark64px,
-} from '../../styledMixins';
-import {
   assignmentsHeaderProps,
-  taskHeaderProps,
 } from '../../utils/headerProps';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import _ from 'lodash';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
@@ -38,17 +32,11 @@ import { getFocusAreas, getAllColors } from '../../service';
 import PreviewDialog from '../Shared/Dialogs/preview/previewCard';
 import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
 import GeneralPopup from '../GeneralPopup';
-import HeaderSmall from '../HeaderSmall';
-import Header from '../Header';
 import {
   StyledRadioGroup,
   StyledFormControlLabel,
   CheckboxContainer,
   CheckBoxText,
-  StudentsDnD,
-  StudentDnD,
-  Student,
-  TitleImage,
   LableAndImgContainer,
 } from './CreateAssignmentStyle';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -159,6 +147,11 @@ export default function CreateAssignment(props) {
       }
     );
   }, [assignmentId]);
+
+  React.useEffect(()=>{
+    assignment.dueAt && setUpdateDueDateTick(true)
+  }, [assignment])
+
   async function getAllStudentsForClasses(classesArray) {
     const promises = classesArray.map(async (classItem) => {
       const classId = String(classItem.id); // Ensure classId is a string
@@ -418,6 +411,7 @@ export default function CreateAssignment(props) {
     });
   };
 
+
   const saveDraft = () => {
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
@@ -675,7 +669,7 @@ export default function CreateAssignment(props) {
       value={dayjs(assignment.dueAt)}
       onChange={(newValue) => {
         updateDueAt(newValue);
-        setUpdateDueDateTick(true)
+        setUpdateDueDateTick(true);
       }}
     />
   );
@@ -707,8 +701,6 @@ export default function CreateAssignment(props) {
     showDeletePopuphandler,
     showPublishPopuphandler,
   };
-
-  console.log('the props is', updateDueDateTick)
 
   return (
     <>
@@ -811,38 +803,4 @@ const createAAssignmentLaptopData = {
   goBack21Props: goBack24Data,
   buttons21Props: buttons25Data,
   goBack22Props: goBack25Data,
-};
-
-const goBack22Data = {
-  caret: '/img/caret-1@2x.png',
-};
-
-const buttons23Data = {
-  add: '/img/add@2x.png',
-};
-
-const goBack23Data = {
-  caret: '/img/caret-5@2x.png',
-  className: 'go-back-3',
-};
-
-const createAAssignmentTabletData = {
-  goBack21Props: goBack22Data,
-  buttons21Props: buttons23Data,
-  goBack22Props: goBack23Data,
-};
-
-const buttons22Data = {
-  add: '/img/add-2@2x.png',
-};
-
-const goBack2Data = {
-  className: 'go-back-1',
-};
-
-const createAAssignmentMobileData = {
-  assignmentSettings: 'Task Settings',
-  feedbackMethod: 'Feedback Method',
-  buttons22Props: buttons22Data,
-  goBackProps: goBack2Data,
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import questionmark from '../../static/img/question-mark.svg';
-// import questionmark from '../../static';
-import messages from '../../static/img/messages.svg';
+import messages from '../../static/img/messages-2.svg';
 import closecircle from '../../static/img/closecircle.svg';
 import {
   Frame1334,

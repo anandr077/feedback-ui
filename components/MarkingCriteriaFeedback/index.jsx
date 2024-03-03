@@ -4,7 +4,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { createMenuItems } from '../../features/strengthsTargets';
 import DropdownMenu from '../DropdownMenu';
+import { chain, set } from 'lodash';
 import './style.css';
+import '../MarkingCriteriaFeedbackReadOnly/markingcriteria.css';
 
 export default function MarkingCriteriaFeedback(props) {
   const {
@@ -13,23 +15,24 @@ export default function MarkingCriteriaFeedback(props) {
     handleMarkingCriteriaLevelFeedback,
     handleStrengthsTargetsFeedback,
   } = props;
+
   const strengthAndTargetCriterias = markingCriteria.strengthsTargetsCriterias;
   const selectedStrengthsAndTargets = {
     strength: [],
     target: [],
   };
-  
+
   const [strengthAndTargetSelection, setStrengthAndTargetSelection] =
     React.useState(selectedStrengthsAndTargets);
 
-const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
+  const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
     setStrengthAndTargetSelection((prevState) => {
       const newState = { ...prevState };
       newState[criteriatype][index] = [cIndex, sIndex];
       return newState;
     });
   };
-  
+
   const strengthAndTargetsCardComponent = () => [
     singleStrengthTargetsContainer('strengths', 'Strength', 0),
     singleStrengthTargetsContainer('strengths', 'Strength', 1),
@@ -38,7 +41,11 @@ const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
   return (
     <>
       {markingCriteria.type === 'RUBRICS' ? (
-        rubricMarkingCriteriaComponent(markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber)
+        rubricMarkingCriteriaComponent(
+          markingCriteria,
+          handleMarkingCriteriaLevelFeedback,
+          questionSerialNumber
+        )
       ) : (
         <MarkingCriteriaContainer>
           {strengthAndTargetsCardComponent()}
@@ -64,44 +71,142 @@ const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
       </SingleMarkingCriteriaContainer>
     );
   }
-
 }
 
-const rubricMarkingCriteriaComponent = (markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber)=>{
-  if (markingCriteria?.criterias===undefined || markingCriteria?.criterias===null) {
-    return <></>
+const createRubricsHeading = (criterias) => {
+  return criterias?.map((criteria) => {
+    return <td className="marking-criteria-column-width">{criteria?.title}</td>;
+  });
+};
+
+const createRubricsLevels = (
+  criterias,
+  handleMarkingCriteriaLevelFeedback,
+  questionSerialNumber
+) => {
+  let groupedArray = chain(criterias)
+    .flatMap((criteria, criteriaIndex) => {
+      const selectedLevel = criteria.selectedLevel;
+      return criteria?.levels.map((level, levelIndex) => {
+        return {
+          criteriaIndex: criteriaIndex,
+          levelIndex: levelIndex,
+          title: criteria?.title,
+          levelName: level.name,
+          levelDescription: level.description,
+          selectedLevel: level.name === selectedLevel,
+        };
+      });
+    })
+    .groupBy('levelIndex')
+    .map((items, name) => ({ name, items }))
+    .value();
+
+  return groupedArray.map((group) => {
+    let rowItems = Array(criterias.length).fill(null);
+    group.items.forEach((item) => {
+      rowItems[item.criteriaIndex] = item;
+    });
+    return (
+      <tr className="marking-criteria-data-parent">
+        {createRows(
+          rowItems,
+          handleMarkingCriteriaLevelFeedback,
+          questionSerialNumber
+        )}
+      </tr>
+    );
+  });
+};
+
+const createRows = (
+  items,
+  handleMarkingCriteriaLevelFeedback,
+  questionSerialNumber
+) => {
+  return items.map((item) => (
+    <td
+      key={item.levelName}
+      className={`marking-criteria-data marking-criteria-column-width${
+        item.selectedLevel ? '-selected' : ''
+      }`}
+      style={{ cursor: 'pointer' }}
+      onClick={() =>
+        handleMarkingCriteriaLevelFeedback(
+          questionSerialNumber,
+          item.criteriaIndex,
+          item.levelName
+        )
+      }
+    >
+      <div className="marking-criteria-heading">{item.levelName}</div>
+      <div className="marking-criteria-content">{item.levelDescription}</div>
+    </td>
+  ));
+};
+
+const rubricMarkingCriteriaComponent = (
+  markingCriteria,
+  handleMarkingCriteriaLevelFeedback,
+  questionSerialNumber
+) => {
+  if (
+    markingCriteria?.criterias === undefined ||
+    markingCriteria?.criterias === null
+  ) {
+    return <></>;
   }
   if (markingCriteria?.criterias?.length <= 0) {
-    return <></>
+    return <></>;
   }
-  return <MarkingCriteriaContainerSmall>
-          {markingCriteriaCardsComponent(markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber)}
-  </MarkingCriteriaContainerSmall>
-}
-const markingCriteriaCardsComponent = (markingCriteria, handleMarkingCriteriaLevelFeedback, questionSerialNumber) => {
-  return markingCriteria?.criterias?.map(
-  (criteria, index) => {
-    return (
-      <SingleMarkingCriteriaContainer key={index}>
-        <MarkingCriteriaCardLabel>{criteria.title}</MarkingCriteriaCardLabel>
-        <DropdownMenu
-          markingCriteriaType={true}
-          menuItems={criteria.levels}
-          onItemSelected={(item) => {
-            handleMarkingCriteriaLevelFeedback(
-              questionSerialNumber,
-              index,
-              item.name
-            );
-          }}
-        ></DropdownMenu>
-      </SingleMarkingCriteriaContainer>
-    );
-  }
+  return (
+    <>
+      <MarkingCriteriaContainer1>
+        <MarkingCriteriaHeading>Marking Criteria</MarkingCriteriaHeading>
+        <table className="marking-criteria-parent-container">
+          <tr className="marking-criteria-title">
+            {createRubricsHeading(markingCriteria.criterias)}
+          </tr>
+          {createRubricsLevels(
+            markingCriteria.criterias,
+            handleMarkingCriteriaLevelFeedback,
+            questionSerialNumber
+          )}
+        </table>
+      </MarkingCriteriaContainer1>
+    </>
+  );
+};
 
-  )
-}
+const MarkingCriteriaHeading = styled.h2`
+  color: var(--text, #1e252a);
+  font-style: normal;
+  margin-top: 10px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 26px;
+`;
 
+const MarkingCriteriaContainer1 = styled.div`
+  margin: 0px 48px;
+  border-top: 1px solid #f1e6fc;
+  // align-items: flex-start;
+  // gap: 20px;
+  // align-self: stretch;
+  // background: #fff;
+  display: flex;
+  flex-direction: column;
+  // grid-gap: 10px;
+  // overflow-x: scroll;
+
+  // padding-top: 20px;
+  // border-top: 1px solid #f1e6fc;
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
+`;
 
 const MarkingCriteriaCardLabel = styled.div`
   display: flex;

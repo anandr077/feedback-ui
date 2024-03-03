@@ -6,7 +6,7 @@ import {
   default as React,
   default as React,
   default as React,
-  useContext
+  useContext,
 } from 'react';
 import CheckboxList from '../../CheckboxList';
 import QuillEditor from '../../QuillEditor';
@@ -87,7 +87,7 @@ function AnswersFrame(props) {
     updateOverAllFeedback,
     setComments,
     comments,
-    editorFontSize
+    editorFontSize,
   } = props;
   return (
     <Group1225 id="answers">
@@ -242,11 +242,7 @@ const answerFrames = (
               handleMarkingCriteriaLevelFeedback,
               handleStrengthsTargetsFeedback
             )}
-            {createShowMarkingCriteriasFrame(
-              submission,
-              answer,
-              question
-            )}
+            {createShowMarkingCriteriasFrame(submission, answer, question)}
             {pageMode !== 'DRAFT' && (
               <OverallFeedback
                 pageMode={pageMode}
@@ -340,17 +336,15 @@ function createQuill(
       debounceTime={debounce.debounceTime}
       onDebounce={debounce.onDebounce}
       containerName={containerName}
-      nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
+      nonEditable={
+        pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'
+      }
       editorFontSize={editorFontSize}
     ></QuillEditor>
   );
 }
 
-function createShowMarkingCriteriasFrame(
-  submission,
-  answer,
-  question
-) {
+function createShowMarkingCriteriasFrame(submission, answer, question) {
   const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];

@@ -35,9 +35,11 @@ function SmartAnotation(props) {
     deleteAnnotationHandler,
     onSuggestionClick,
     createSmartAnnotation,
+    teacherId,
   } = props;
 
   console.log('first smart annotation', smartAnnotation);
+  console.log('teacherId', teacherId);
   const [isExpanded, setIsExpanded] = useState(
     smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode
   );
@@ -46,7 +48,7 @@ function SmartAnotation(props) {
   const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
   const [editedText, setEditedText] = useState('');
   const [editingTitle, setEditingTitle] = useState(false);
-  const [editTitle, setEditTitle] = useState(smartAnnotation.categoryName);
+  const [editTitle, setEditTitle] = useState(smartAnnotation.title);
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);
@@ -87,10 +89,9 @@ function SmartAnotation(props) {
   };
 
   const addNewSuggestions = () => {
-    const newSuggestion = {
-      description: '',
-    };
+    const newSuggestion = '';
     currentSmartAnnotation.suggestions.push(newSuggestion);
+    console.log('first suggestion added', currentSmartAnnotation);
     UpdateSmartAnotationHandler(currentSmartAnnotation, smartAnnotationIndex);
   };
 
@@ -147,7 +148,7 @@ function SmartAnotation(props) {
 
             {settingsMode ? (
               <ButtonContainer>
-                {smartAnnotation?.teacherId === getUserId() ? (
+                {teacherId === getUserId() ? (
                   <ButtonBox>
                     <DeleteButton2
                       src="/icons/edit-purple-icon.svg"
@@ -167,7 +168,7 @@ function SmartAnotation(props) {
                   ></DeleteButton2>
                   <span>Copy</span>
                 </ButtonBox>
-                {smartAnnotation?.teacherId === getUserId() ? (
+                {teacherId === getUserId() ? (
                   <ButtonBox>
                     <DeleteButton2
                       src={deleteLight}
@@ -195,19 +196,19 @@ function SmartAnotation(props) {
             )}
           </TtitleContainer>
 
-          {smartAnnotation?.annotations?.map((suggestion, index) => {
+          {smartAnnotation?.suggestions?.map((suggestion, index) => {
             return (
               <SmartAnnotationSuggestion
                 key={Math.random()}
                 onClickFn={onClickFn}
-                text={suggestion.annotationText}
+                text={suggestion}
                 index={index}
                 saveEditedSuggestion={saveEditedSuggestion}
                 settingsMode={settingsMode}
                 handleDeleteSuggestion={handleDeleteSuggestion}
                 handleDeleteAnnotation={handleDeleteAnnotation}
                 addNewSuggestions={addNewSuggestions}
-                teacherId={smartAnnotation.teacherId}
+                teacherId={teacherId}
                 toggleSection={toggleSection}
               ></SmartAnnotationSuggestion>
             );
@@ -222,13 +223,12 @@ function SmartAnotation(props) {
           )}
           <Line14 src="/img/line-14.png" alt="Line 14" />
 
-          {smartAnnotation?.teacherId === getUserId() && settingsMode ? (
+          {teacherId === getUserId() && settingsMode ? (
             <ButtonContainer>
               <PlusImage src="/img/add-violet.svg" alt="plus" />
               <ButtonLabel onClick={addNewSuggestions}>New Comment</ButtonLabel>
             </ButtonContainer>
-          ) : smartAnnotation?.teacherId === getUserId() &&
-            newSmartAnnotationEdit ? (
+          ) : teacherId === getUserId() && newSmartAnnotationEdit ? (
             <ButtonWrapper>
               <SubmitButton onClick={onClickNewSuggestionComment}>
                 Submit

@@ -14,6 +14,7 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
+  getFeedbackBanks,
 } from '../../../service.js';
 import { getUserId } from '../../../userLocalDetails.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
@@ -143,30 +144,34 @@ export default function AccountSettingsRoot(props) {
       getAllMarkingCriteria(),
       getShortcuts(),
       getSmartAnnotations(),
-    ]).then(([result, shortcuts, smartAnnotation]) => {
+      getFeedbackBanks(),
+    ]).then(([result, shortcuts, smartAnnotation, feedbackBanks]) => {
       if (result) {
         setMarkingCriterias(result);
       }
-      console.log('smartAnnotation', smartAnnotation);
+      console.log('feedbackBanks', feedbackBanks._embedded.commentbanks);
       setShortcuts(shortcuts);
-      // setSmartAnnotations(smartAnnotation);
+      setSmartAnnotations(feedbackBanks._embedded.commentbanks);
       setIsLoading(false);
     });
   }, []);
 
   const smartAnnotationsFrame = () => {
-    const all = smartAnnotations[feedbackBankId].categories.map((sa, index) => (
-      <SmartAnotation
-        key={Math.random()}
-        smartAnnotationIndex={index}
-        smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
-        smartAnnotation={sa}
-        UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
-        settingsMode={true}
-        deleteAnnotationHandler={deleteAnnotationHandler}
-        createSmartAnnotation={createSmartAnnotation}
-      />
-    ));
+    const all = smartAnnotations[feedbackBankId].smartComments.map(
+      (sa, index) => (
+        <SmartAnotation
+          key={Math.random()}
+          smartAnnotationIndex={index}
+          smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
+          smartAnnotation={sa}
+          UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
+          settingsMode={true}
+          deleteAnnotationHandler={deleteAnnotationHandler}
+          createSmartAnnotation={createSmartAnnotation}
+          teacherId={smartAnnotations[feedbackBankId].ownerId}
+        />
+      )
+    );
     return all;
   };
   if (window.localStorage.getItem('markingCriteria')) {

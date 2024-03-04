@@ -61,6 +61,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     feedbackBankId,
     setOpenMarkingMethodologyDialog,
   } = props;
+  console.log('smartAnnotations', smartAnnotations);
   const [moreOptionCon, setMoreOptionCon] = useState(false);
   const [systemOptionCon, setSystemOptionCon] = useState(false);
   const [systemOptionList, setSystemOptionList] = useState([
@@ -204,10 +205,10 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     >
                       {smartAnnotations.map((bank, index) => (
                         <Tab
-                          key={bank.feedbackBankId}
+                          key={bank.id}
                           label={
                             <TabContainer>
-                              <TabTitle>{bank.feedbackBankName}</TabTitle>
+                              <TabTitle>{bank.title}</TabTitle>
                               <TabDots src={threedotsc} />
                             </TabContainer>
                           }

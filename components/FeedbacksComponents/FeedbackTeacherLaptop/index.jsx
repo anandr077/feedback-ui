@@ -3,9 +3,9 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState, useContext } from 'react';
 import Header from '../../Header';
+import { getUserRole } from '../../../userLocalDetails'; 
 
 import { flatMap, groupBy } from 'lodash';
-import HeaderSmall from '../../HeaderSmall';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
@@ -20,11 +20,7 @@ import {
   Frame1387,
   Frame1388,
   Screen2,
-  SubjectSelectionContainer,
-  SubSelcetBox,
-  Main,
   PageContainer,
-  DrawerArrowContainer,
   DrawerArrow,
   ArrowImg,
   GoBackBtn,
@@ -35,7 +31,6 @@ import {
 } from './style';
 import {
   isMobileView,
-  isTabletView,
   isDesktopView,
 } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -43,13 +38,11 @@ import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import { getSubmissionById, createRequestFeddbackType } from '../../../service';
-import StyledDropDown from '../../../components2/StyledDropDown';
+import { createRequestFeddbackType } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
-import { sub } from 'date-fns';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -67,33 +60,24 @@ const FeedbackType = {
 
 function FeedbackTeacherLaptop(props) {
   const {
-    newCommentSerialNumber,
-    markingCriteriaFeedback,
     smallMarkingCriteria,
     isTeacher,
     showLoader,
-    labelText,
     quillRefs,
     pageMode,
-    smartAnnotations,
     newCommentFrameRef,
-    showNewComment,
     methods,
     comments,
-    students,
-    headerProps,
     submission,
     setSubmission,
     share,
     sharewithclassdialog,
-    overallComments,
     selectedRange,
     classesAndStudents,
     teachers,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
-  const isTablet = isTabletView();
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(
@@ -105,9 +89,8 @@ function FeedbackTeacherLaptop(props) {
   const [open, setOpen] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
-  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const drawerWidth = 315;
-  const { countWords } = useContext(FeedbackContext)
+  const { countWords, showNewComment, newCommentSerialNumber } = useContext(FeedbackContext)
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
@@ -139,6 +122,7 @@ function FeedbackTeacherLaptop(props) {
     setSelectedSubject(Object.keys(groupedData)[0]);
   }, [submission.otherDrafts]);
   const navigate = useHistory();
+  const location = useLocation();
 
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
@@ -214,6 +198,23 @@ function FeedbackTeacherLaptop(props) {
       quillRef?.redrawHighlights(currentTabComments);
     }
   }, [showNewComment]);
+
+  React.useEffect(() => {
+    const documentsRoute = location.pathname.includes('documents'); 
+    const submissionsRoute = location.pathname.includes('submissions');
+    const documentReviewRoute = location.pathname.includes('documentsReview');
+    const role = getUserRole()
+
+    const isOpen =
+    (role === 'TEACHER' && submissionsRoute) ||
+    (role === 'STUDENT' && documentsRoute);
+
+    const isStudentReviewRoute = documentReviewRoute && role === 'STUDENT';
+
+    setOpen(!isStudentReviewRoute && isOpen);
+    
+  }, [location.pathname]); 
+
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
     setGroupedFocusAreaIds((prevState) => {
@@ -258,16 +259,12 @@ function FeedbackTeacherLaptop(props) {
               methods,
               isTeacher,
               pageMode,
-              labelText,
               quillRefs,
-              markingCriteriaFeedback,
               smallMarkingCriteria,
               handleCheckboxChange,
               groupedFocusAreaIds,
               commentsForSelectedTab,
-              newCommentSerialNumber,
               setShowResolved,
-              showNewComment,
               isShowResolved,
               setFeedback,
               isFeedback,
@@ -276,8 +273,6 @@ function FeedbackTeacherLaptop(props) {
               comments,
               newCommentFrameRef,
               share,
-              smartAnnotations,
-              overallComments,
               handleRequestFeedback,
               isShowSelectType,
               setShowSelectType,
@@ -293,7 +288,6 @@ function FeedbackTeacherLaptop(props) {
               editorFontSize
             )}
           </Frame1388>
-          {/* </Main> */}
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
           <div
@@ -459,16 +453,12 @@ function answersAndFeedbacks(
   methods,
   isTeacher,
   pageMode,
-  labelText,
   quillRefs,
-  markingCriteriaFeedback,
   smallMarkingCriteria,
   handleCheckboxChange,
   groupedFocusAreaIds,
   commentsForSelectedTab,
-  newCommentSerialNumber,
   setShowResolved,
-  showNewComment,
   isShowResolved,
   setFeedback,
   isFeedback,
@@ -477,8 +467,6 @@ function answersAndFeedbacks(
   comments,
   newCommentFrameRef,
   share,
-  smartAnnotations,
-  overallComments,
   handleRequestFeedback,
   isShowSelectType,
   setShowSelectType,
@@ -507,7 +495,6 @@ function answersAndFeedbacks(
         setSubmission,
         methods,
         pageMode,
-        labelText,
         isShowSelectType,
         setShowSelectType,
         showFeedbackButtons,
@@ -526,14 +513,12 @@ function answersAndFeedbacks(
       <Frame1368 id="assignmentData">
         {answersFrame(
           quillRefs,
-          markingCriteriaFeedback,
           smallMarkingCriteria,
           handleCheckboxChange,
           groupedFocusAreaIds,
           pageMode,
           submission,
           commentsForSelectedTab,
-          overallComments,
           methods,
           editorFontSize
         )}
@@ -542,10 +527,8 @@ function answersAndFeedbacks(
           <FeedbackFrame
             methods={methods}
             submission={submission}
-            newCommentSerialNumber={newCommentSerialNumber}
             commentsForSelectedTab={commentsForSelectedTab}
             setShowResolved={setShowResolved}
-            showNewComment={showNewComment}
             isShowResolved={isShowResolved}
             setFeedback={setFeedback}
             isFeedback={isFeedback}
@@ -556,7 +539,6 @@ function answersAndFeedbacks(
             pageMode={pageMode}
             newCommentFrameRef={newCommentFrameRef}
             share={share}
-            smartAnnotations={smartAnnotations}
           ></FeedbackFrame>
         )}
       </Frame1368>
@@ -580,7 +562,6 @@ function createContextBar(
   setSubmission,
   methods,
   pageMode,
-  labelText,
   isShowSelectType,
   setShowSelectType,
   showFeedbackButtons,
@@ -605,9 +586,7 @@ function createContextBar(
       submission,
       setSubmission,
       methods,
-      isTeacher,
       pageMode,
-      labelText,
       (feedbackMethodType = FeedbackMethodType),
       handleRequestFeedback,
       true,
@@ -619,7 +598,7 @@ function createContextBar(
     );
   }
 
-  return contextBar(submission, methods, isTeacher, pageMode, labelText);
+  return contextBar(submission, methods, isTeacher, pageMode);
 }
 
 const handleFeedbackMethodTypeDialog = (

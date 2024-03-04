@@ -14,24 +14,16 @@ import {
   getStudentsForClass,
 } from '../../service';
 import {
-  IbmplexsansNormalShark20px,
-  IbmplexsansBoldShark64px,
-} from '../../styledMixins';
-import {
   assignmentsHeaderProps,
-  taskHeaderProps,
 } from '../../utils/headerProps';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import _ from 'lodash';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
 import CreateAAssignmentLaptop from '../CreateAAssignmentLaptop';
-import CreateAAssignmentMobile from '../CreateAAssignmentMobile';
-import CreateAAssignmentTablet from '../CreateAAssignmentTablet';
 import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
-import ReactiveRender from '../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
@@ -40,19 +32,17 @@ import { getFocusAreas, getAllColors } from '../../service';
 import PreviewDialog from '../Shared/Dialogs/preview/previewCard';
 import DeleteAssignmentPopup from '../DeleteAssignmentPopUp';
 import GeneralPopup from '../GeneralPopup';
-import HeaderSmall from '../HeaderSmall';
-import Header from '../Header';
 import {
   StyledRadioGroup,
   StyledFormControlLabel,
   CheckboxContainer,
   CheckBoxText,
-  StudentsDnD,
-  StudentDnD,
-  Student,
+  LableAndImgContainer,
 } from './CreateAssignmentStyle';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DragAndDrop from './DragAndDrop';
+import questionMark from '../../static/img/question-mark.svg';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -68,7 +58,7 @@ export default function CreateAssignment(props) {
     title: '',
     classIds: [],
     questions: [newQuestion(1)],
-    reviewedBy: 'TEACHER',
+    reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
     dueAt: dayjs().add(3, 'day'),
@@ -97,9 +87,11 @@ export default function CreateAssignment(props) {
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
-
-  const [reviewedByList, setReviewedByList] = React.useState([]);
-  const [dragFromHere, setDragFromHere] = React.useState([]);
+  const [updateDueDateTick, setUpdateDueDateTick] = React.useState(false);
+  const mobileView = isMobileView();
+  const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
+    mobileView ? 'Select' : 'Select Marking Template'
+  );
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -140,7 +132,7 @@ export default function CreateAssignment(props) {
           classIds: assignmentResult.classIds ?? [],
         }));
         markingCriteriasResult.unshift({
-          title: 'No Marking Criteria',
+          title: markingPlaceholder,
           id: 'no_marking_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),
@@ -155,6 +147,11 @@ export default function CreateAssignment(props) {
       }
     );
   }, [assignmentId]);
+
+  React.useEffect(()=>{
+    assignment.dueAt && setUpdateDueDateTick(true)
+  }, [assignment])
+
   async function getAllStudentsForClasses(classesArray) {
     const promises = classesArray.map(async (classItem) => {
       const classId = String(classItem.id); // Ensure classId is a string
@@ -414,6 +411,7 @@ export default function CreateAssignment(props) {
     });
   };
 
+
   const saveDraft = () => {
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
@@ -625,16 +623,29 @@ export default function CreateAssignment(props) {
         value={assignment.reviewedBy}
         onChange={(event) => feedbackMethodUpdate(event.target.value)}
       >
-        <StyledFormControlLabel
-          value="TEACHER"
-          control={<Radio />}
-          label="Teacher Feedback"
-        />
-        <StyledFormControlLabel
-          value="P2P"
-          control={<Radio />}
-          label="Peer to Peer"
-        />
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="TEACHER"
+            control={<Radio />}
+            label="Teacher Feedback"
+            // endIcon={<TitleImage src={questionMark} />}
+          />
+          <QuestionTooltip 
+            text={'After student submits their task the feedback will be provided by you or any other assigned teacher'}
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="P2P"
+            control={<Radio />}
+            label="Peer to Peer"
+          />
+          <QuestionTooltip 
+            text={"After submission students will be randomly assigned to review their peer's task"}
+            img={questionMark}
+          />
+        </LableAndImgContainer>
       </StyledRadioGroup>
       {studentDropdown && (
         <DragAndDrop
@@ -656,7 +667,10 @@ export default function CreateAssignment(props) {
   const dateSelectorFrame = (
     <DateSelector
       value={dayjs(assignment.dueAt)}
-      onChange={(newValue) => updateDueAt(newValue)}
+      onChange={(newValue) => {
+        updateDueAt(newValue);
+        setUpdateDueDateTick(true);
+      }}
     />
   );
 
@@ -705,51 +719,16 @@ export default function CreateAssignment(props) {
           confirmButtonAction={publish}
         />
       )}
-      <ReactiveRender
-        mobile={
-          <CreateAAssignmentMobile
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentMobileData,
-            }}
-          />
-        }
-        tablet={
-          <CreateAAssignmentTablet
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentTabletData,
-            }}
-          />
-        }
-        laptop={
-          <CreateAAssignmentLaptop
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentLaptopData,
-            }}
-          />
-        }
-        desktop={
-          <CreateAAssignmentLaptop
-            {...{
-              ...methods,
-              assignment,
-              feedbacksMethodContainer,
-              dateSelectorFrame,
-              ...createAAssignmentLaptopData,
-            }}
-          />
-        }
+
+      <CreateAAssignmentLaptop
+        {...{
+          ...methods,
+          assignment,
+          feedbacksMethodContainer,
+          dateSelectorFrame,
+          updateDueDateTick,
+          ...createAAssignmentLaptopData,
+        }}
       />
       {openFocusAreaDialog && (
         <FocusAreaDialog
@@ -824,38 +803,4 @@ const createAAssignmentLaptopData = {
   goBack21Props: goBack24Data,
   buttons21Props: buttons25Data,
   goBack22Props: goBack25Data,
-};
-
-const goBack22Data = {
-  caret: '/img/caret-1@2x.png',
-};
-
-const buttons23Data = {
-  add: '/img/add@2x.png',
-};
-
-const goBack23Data = {
-  caret: '/img/caret-5@2x.png',
-  className: 'go-back-3',
-};
-
-const createAAssignmentTabletData = {
-  goBack21Props: goBack22Data,
-  buttons21Props: buttons23Data,
-  goBack22Props: goBack23Data,
-};
-
-const buttons22Data = {
-  add: '/img/add-2@2x.png',
-};
-
-const goBack2Data = {
-  className: 'go-back-1',
-};
-
-const createAAssignmentMobileData = {
-  assignmentSettings: 'Task Settings',
-  feedbackMethod: 'Feedback Method',
-  buttons22Props: buttons22Data,
-  goBackProps: goBack2Data,
 };

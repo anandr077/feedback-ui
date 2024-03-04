@@ -34,7 +34,6 @@ export const StyledMenuItem = styled(MenuItem)`
 export const StyledBox = styled(Box)`
   justify-content: flex-end;
   max-width: 200px;
-  margin-right: 10px;
   display: flex;
   align-items: center;
   position: relative;
@@ -46,7 +45,7 @@ export const StyledBox = styled(Box)`
   cursor: pointer;
   color: var(--text);
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-xs);
+  font-size: 16px;
   font-weight: 400;
   font-style: normal;
   .MuiTypography-root {
@@ -69,7 +68,7 @@ export const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;
   && {
-    padding: 3px 10px 3px 10px;
+    padding: 8px 10px 8px 10px;
   }
 `;
 
@@ -77,6 +76,8 @@ export const StyledListItemText = styled(ListItemText)`
   ${IbmplexsansNormalShark16px}
   position: relative;
   flex: 1;
+  border: 0px;
+  margin: 0px !important;
   .MuiTypography-root {
     color: ${(props) => props.textColor || 'var(--text)'};
     white-space: normal;
@@ -142,4 +143,15 @@ export const StyledDeleteButton = styled.img`
   cursor: pointer;
   margin: 0;
   color: #979797;
+`;
+export const PlusImag = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+export const PlusImagCont = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
 `;

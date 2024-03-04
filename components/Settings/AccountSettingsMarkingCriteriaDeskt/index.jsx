@@ -137,7 +137,15 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showUserSettings && (
                 <UserSettingFrame>
                   <Title1>
-                    <MarkingCriteria>User Settings</MarkingCriteria>
+                    <MarkingCriteria>
+                      User Settings
+                      <QuestionTooltip
+                        text={
+                          'Customise your profile and marking preferences for optimal feedback'
+                        }
+                        img={questionMark}
+                      />
+                    </MarkingCriteria>
                     <UserSettingLinkContainer>
                       <UserSettingLink href="/#/">
                         Edit in user profile
@@ -153,7 +161,15 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showMarkingCriteria && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Marking Templates</MarkingCriteria>
+                    <MarkingCriteria>
+                      Marking Templates
+                      <QuestionTooltip
+                        text={
+                          'A library of customisable marking templates that can be used for any new task'
+                        }
+                        img={questionMark}
+                      />
+                    </MarkingCriteria>
                     <Buttons
                       text="Create new"
                       onClickMethod={() =>

@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { cloneDeep, filter, flatMap, get, includes, map, set } from 'lodash';
+import { cloneDeep, get, set } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -16,6 +16,7 @@ import {
   deleteFeedback,
   getDefaultCriteria,
   getSubmissionById,
+  deleteSubmissionById,
   getSubmissionsByAssignmentId,
   getOverComments,
   getClassesWithStudents,
@@ -25,12 +26,8 @@ import {
   resolveFeedback,
   submitAssignment,
   updateFeedback,
-  updateFeedbackRange,
-  addDocumentToPortfolioWithDetails,
-  addDocumentToPortfolio,
   getTeachersForClass,
   askJeddAI,
-  feedbackOnFeedback,
   provideFeedbackOnFeedback,
 } from '../../../service';
 import {
@@ -39,12 +36,9 @@ import {
   saveAnswer,
 } from '../../../service.js';
 import { getUserId, getUserName, getUserRole } from '../../../userLocalDetails.js';
-import DropdownMenu from '../../DropdownMenu';
 import Loader from '../../Loader';
-import ReactiveRender from '../../ReactiveRender';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import FeedbackTeacherMobile from '../FeedbackTeacherMobile';
 import { extractStudents, getComments, getPageMode } from './functions';
 import SnackbarContext from '../../SnackbarContext';
 import {
@@ -52,9 +46,7 @@ import {
   DialogContiner,
   StyledTextField,
   feedbacksFeedbackTeacherLaptopData,
-  feedbacksFeedbackTeacherMobileData,
   ClassContainer,
-  ClassHeading,
   ClassBoxContainer,
   ClassBox,
   StudentList,
@@ -71,7 +63,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import CheckboxBordered from '../../CheckboxBordered/index.jsx';
 import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
-import { sub } from 'date-fns';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 import isJeddAIUser from './JeddAi.js';
@@ -87,7 +78,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
   const quillRefs = useRef([]);
-  const [labelText, setLabelText] = useState('');
   const [showShareWithClass, setShowShareWithClass] = useState(false);
   const [exemplarComment, setExemplerComment] = useState('');
   const [updateExemplarComment, setUpdateExemplarComment] = useState({
@@ -115,10 +105,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
-  const [initialOverallFeedback, setInitialOverAllFeedback] = useState({
-    feedbackText: 'Add General Feedback...',
-    editFeedback: false,
-  });
   const [overallComments, setOverallComments] = useState([]);
 
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
@@ -129,6 +115,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
   const [countWords, setCountWords] = useState(0);
+  const [pageLeavePopup, setPageLeavePopup] = useState(false)
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -251,7 +238,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setFeedbackReviewPopup(true);
         return false;
       }
-      
+      if(submission?.status==='DRAFT'
+      && submission?.type === 'DOCUMENT'
+      ){
+        if(
+          !submission?.answers &&
+          submission?.assignment.title === 'Untitled Question'
+        ){
+          deleteDraftPage(submission.id, location);
+          return false;
+        }else{
+          setPendingLocation(location);
+          setPageLeavePopup(true);
+          return false;
+        }
+      }
+        
   
       return true;
     });
@@ -260,6 +262,37 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       unblock();
     };
   }, [submission, feedbackReviewPopup, history]);
+
+
+  const goToNewUrl = (pendingLocation) =>{
+    const port = window.location.port && window.location.port !== "80" && window.location.port !== "443"
+    ? `:${window.location.port}`
+    : "";
+
+    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
+
+    const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}${path}`;
+
+    window.history.pushState("", "", newUrl);
+    window.location.reload();
+  }
+
+  const deleteDraftPage = async (submissionId, pendingLocation) =>{
+    await deleteSubmissionById(submissionId).then(() => {
+      if(pendingLocation){
+        goToNewUrl(pendingLocation)
+      }
+      setPageLeavePopup(false);
+    })
+  }
+
+  const saveDraftPage = () =>{
+    if(pendingLocation){
+      goToNewUrl(pendingLocation)
+    }
+    setPageLeavePopup(false);
+  }
+
 
   if (isLoading) {
     return (
@@ -270,15 +303,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
     provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
-    .then(res=>{
-      setSubmission(old=>{
-        return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+      .then(res=>{
+        setSubmission(old=>{
+          return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
+        })
+        setFeedbackReviewPopup(false);
+        if (pendingLocation !== undefined || pendingLocation !== null) {
+          history.replace(pendingLocation);
+        }
       })
-      setFeedbackReviewPopup(false);
-      if (pendingLocation !== undefined || pendingLocation !== null) {
-        history.replace(pendingLocation);
-      }
-    })
   };
   
   async function fetchClassWithStudentsAndTeachers() {
@@ -356,7 +389,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -376,7 +408,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        // quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -396,7 +427,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -418,7 +448,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   }
@@ -442,7 +471,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setShowNewComment(false);
         setExemplerComment('');
         setShowShareWithClass(false);
-        //quillRefs.current[newCommentSerialNumber - 1].highlightComment(response);
       }
     });
   };
@@ -1075,9 +1103,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     submission.assignment.questions
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
-        // alert(JSON.stringify(question))
         const quill = quillRefs.current[question.serialNumber - 1];
-        // alert(JSON.stringify(quillRefs.current))
         quill.disable();
       });
   }
@@ -1356,6 +1382,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
+    
   };
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
@@ -1427,7 +1454,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     handlesaveAnswer,
     createTasksDropDown,
     onSelectionChange,
-    setStudentName,
     studentUpdate,
     unhighlightComment,
     downloadPDF,
@@ -1443,9 +1469,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setUpdateExemplarComment,
     convertToCheckedState,
     addOverallFeedback,
-    initialOverallFeedback,
-    setInitialOverAllFeedback,
-
     updateOverAllFeedback,
     jeddAI,
   };
@@ -1453,7 +1476,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const shortcuts = getShortcuts();
 
   return (
-    <FeedbackContext.Provider value={{countWords, setCountWords}}>
+    <FeedbackContext.Provider 
+      value={{
+        countWords, 
+        setCountWords, 
+        smartAnnotations, 
+        showNewComment, 
+        newCommentSerialNumber, 
+        markingCriteriaFeedback,
+        overallComments
+      }}
+    >
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (
@@ -1461,34 +1494,39 @@ export default function FeedbacksRoot({ isDocumentPage }) {
            text={'Did you find this feedback helpful?'}
            onYes={handleFeedbackOnFeedback('LIKE')}
            onNo={handleFeedbackOnFeedback('DISLIKE')}
-           onClickOutside={()=> setFeedbackReviewPopup(false)}
+           onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
         />
       )}
 
+      {
+        pageLeavePopup && (
+          <GeneralPopup
+            title='Save document'
+            closeBtnText={'Delete'}
+            textContent={'Do you want to save this document? '} 
+            buttonText={'Save'}
+            hidePopup={()=> deleteDraftPage(submission.id, pendingLocation)}
+            confirmButtonAction={saveDraftPage}
+          />
+        )
+      }
+
       <FeedbackTeacherLaptop
         {...{
-          newCommentSerialNumber,
-          markingCriteriaFeedback,
           isTeacher,
           showLoader,
           submissionStatusLabel,
-          labelText,
           quillRefs,
           pageMode,
           shortcuts,
-          smartAnnotations,
           newCommentFrameRef,
           methods,
-          showNewComment,
           comments,
-          studentName,
-          students,
           submission,
           setSubmission,
           sharewithclassdialog,
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
-          overallComments,
           selectedRange,
           classesAndStudents,
           teachers,

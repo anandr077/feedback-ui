@@ -59,7 +59,11 @@ const QuillEditor = React.forwardRef(
       const pastedLength = editor.getText().length - currentText.length;
 
       const newCursorPosition = cursorPosition.index + pastedLength;
-      editor.setSelection(newCursorPosition, 0, 'silent');
+      
+      setTimeout(()=>{
+        editor.setSelection(newCursorPosition, 0, 'silent');
+        editor.focus();
+      }, 10)
     };
 
     useEffect(() => {

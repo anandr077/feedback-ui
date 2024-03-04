@@ -1,6 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { default as React, default as React, useEffect, useState } from 'react';
-import { Redirect, Route, HashRouter as Router, Switch } from 'react-router-dom';
+import {
+  Redirect,
+  Route,
+  HashRouter as Router,
+  Switch,
+} from 'react-router-dom';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -13,9 +18,7 @@ import ResponsiveFooter from './components/ResponsiveFooter';
 import ResponsiveHeader from './components/ResponsiveHeader';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
-import StudentDashboardRoot from './components/StudentDashBoardRoot';
 import StudentTaskRoot from './components/StudentTaskRoot';
-import TeacherDashboardRoot from './components/TeacherDashboard/TeacherDashboardRoot';
 import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
 import PageNotFound from './components/PageNotFound';
 import { Redirect } from 'react-router-dom';
@@ -35,21 +38,64 @@ import NewDocPage from './components/NewDocRoot';
 import withAuth from './components/WithAuth';
 import withOnboarding from './components/WithOnboarding';
 
+import SnackbarContext from './components/SnackbarContext';
+import { Snackbar } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
   const [showFooter, setShowFooter] = useState(true);
+  const { snackbarOpen, snackbarMessage, snackbarLink, closeSnackbar } =
+  React.useContext(SnackbarContext);
+
+
+  const linkButton = snackbarLink ? (
+    <Button
+      color="secondary"
+      style={{ color: 'white' }}
+      size="small"
+      onClick={() => {
+        window.location.href = snackbarLink;
+        closeSnackbar();
+      }}
+    >
+      View
+    </Button>
+  ) : (
+    <></>
+  );
+
+
+  const action = (
+    <React.Fragment>
+      {linkButton}
+      <IconButton
+        size="small"
+        aria-label="close"
+        style={{ color: 'white' }}
+        onClick={closeSnackbar}
+      >
+        <CloseIcon fontSize="small" style={{ color: 'white' }} />
+      </IconButton>
+    </React.Fragment>
+  );
 
   useEffect(() => {
     const handleRouteChange = () => {
       const currentHash = window.location.hash.split('?')[0];
       const hideFooterRoutes = [
-        '#/submissions/', 
+        '#/submissions/',
         '#/documents/',
-        '#/documentsReview/'
+        '#/documentsReview/',
       ];
-      const shouldShowFooter = !hideFooterRoutes.some(route => currentHash.startsWith(route));
+      const shouldShowFooter = !hideFooterRoutes.some((route) =>
+        currentHash.startsWith(route)
+      );
       setShowFooter(shouldShowFooter);
     };
     handleRouteChange();
@@ -79,13 +125,14 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
         <ProtectedTeacherTaskRoot />
+      ) : Cookies.get('classes') ? (
+        <ProtectedStudentTaskRoot />
       ) : (
-        Cookies.get('classes') ? <ProtectedStudentTaskRoot /> : <ProtectedDocRoot />
+        <ProtectedDocRoot />
       );
     return <div>{dashboard}</div>;
   };
@@ -169,6 +216,13 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
+          <Snackbar
+            open={snackbarOpen}
+            message={snackbarMessage}
+            onClose={closeSnackbar}
+            autoHideDuration={6000}
+            action={action}
+          />
           {showFooter && <ResponsiveFooter />}
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}

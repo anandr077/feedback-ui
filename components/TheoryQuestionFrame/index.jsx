@@ -3,6 +3,8 @@ import CheckboxGroup from '../CheckboxGroup';
 import Frame1297 from '../Frame1297';
 import DropdownMenu from '../DropdownMenu';
 import { getFocusAreas, deleteFocusArea } from '../../service';
+import questionMark from '../../static/img/question-mark.svg';
+import Bincolor from '../../static/img/Bincolor.svg';
 import {
   MarkingCriteriaSelectionContainer,
   FocusAreasFrame,
@@ -22,7 +24,11 @@ import {
   QuestionInputEditable,
   MarkingCriteriaFrame,
   Preview,
+  TitleImage,
+  QuestionMarkContainer,
+  BinImage,
 } from './style';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -69,22 +75,15 @@ export default function TheoryQuestionFrame(props) {
       id={'questionContainer_' + serialNumber}
       onClick={cleanformattingDiv}
     >
-      <Frame1295>
-        <Frame1297
-          number={serialNumber}
-          UpdateQuestionFrame={UpdateQuestionFrame}
-          defaultType={questionDetails.type}
-        />
-        <DeleteButtonFrame>
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
-            Delete
-          </DeleteButton>
-        </DeleteButtonFrame>
-        <Line141 src="/img/line-14@2x.png" />
-      </Frame1295>
+      <Frame1297
+        number={serialNumber}
+        UpdateQuestionFrame={UpdateQuestionFrame}
+        defaultType={questionDetails.type}
+      />
+
       <Frame12891>
         <InputQuestion id={'questionType_' + serialNumber} questionType="TEXT">
-          <Label>Question</Label>
+          <Label>Task Description</Label>
           <QuestionFrame2
             id={'question_textBox' + serialNumber}
             onClick={cleanformattingTextBox}
@@ -93,12 +92,18 @@ export default function TheoryQuestionFrame(props) {
               id={'question_' + serialNumber}
               value={questionDetails?.question}
               onChange={(e) => updateQuestion(serialNumber, e.target.value)}
-              placeholder="Type question here (500 characters max)"
+              placeholder="Enter question"
             />
           </QuestionFrame2>
         </InputQuestion>
         <FocusAreasFrame>
-          <Label>Focus areas</Label>
+          <QuestionMarkContainer>
+            <Label>Focus areas</Label>
+            <QuestionTooltip 
+              text={"Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"}
+              img={questionMark}
+            />
+          </QuestionMarkContainer>
           {createFocusAreasFrame(
             serialNumber,
             updateFocusAreas,
@@ -110,7 +115,13 @@ export default function TheoryQuestionFrame(props) {
         </FocusAreasFrame>
 
         <MarkingCriteriaSelectionContainer>
-          <Label>Marking Criteria</Label>
+          <QuestionMarkContainer>
+            <Label>Marking Template</Label>
+            <QuestionTooltip 
+              text={"Select the marking template which will be used in the assessment of this task. New marking templates can be created in the account settings"}
+              img={questionMark}
+            />
+          </QuestionMarkContainer>
           <MarkingCriteriaFrame>
             {questionDetails.markingCriteria.title ? (
               <DropdownMenu
@@ -120,6 +131,7 @@ export default function TheoryQuestionFrame(props) {
                 onItemSelected={(item) => {
                   updateMarkingCriteria(serialNumber, item);
                 }}
+                defaultSearch={true}
               ></DropdownMenu>
             ) : (
               <DropdownMenu
@@ -136,11 +148,17 @@ export default function TheoryQuestionFrame(props) {
                 handleMarkingCriteriaPreview(questionDetails.markingCriteria);
               }}
             >
-              <img src="/icons/preview-eye.png" alt="eye" />
+              <img src="/icons/preview-eye.png" alt="eye" style={{width:'32px',height:'32px'}} />
             </Preview>
           </MarkingCriteriaFrame>
         </MarkingCriteriaSelectionContainer>
       </Frame12891>
+      <DeleteButtonFrame>
+        <BinImage src={Bincolor} />
+        <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+          Delete
+        </DeleteButton>
+      </DeleteButtonFrame>
     </SmalllQuestionFrame>
   );
 }
@@ -174,9 +192,9 @@ function createFocusAreasFrame(
       <CheckboxGroup
         onChange={getSelectedFocusArea(serialNumber, updateFocusAreas)}
         data={menuItems}
-        dropDownText="Select"
+        dropDownText="Add"
         addCreateNewButton={true}
-        backgroundColor={'#25222A'}
+        backgroundColor={'#7200E0'}
         textColor={'var(--white)'}
         openDialogForNewEvent={createNewFocusArea}
         previouslySelectedItems={presentFocusAreas?.map((value) => ({

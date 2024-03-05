@@ -117,7 +117,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     );
   };
   return (
-    <div className="account-settings-marking-criteria-desktop screen">
+    <div className="account-settings-marking-criteria screen">
       <Frame1379>
         <Frame1378>
           <Frame1372>

@@ -75,6 +75,10 @@ export const Frame1376 = styled.div`
   padding: 0px 240px;
   position: relative;
   align-self: stretch;
+
+  @media (max-width: 1440px) {
+    padding: 0px 120px;
+  }
 `;
 
 export const Frame1315 = styled.div`
@@ -93,6 +97,13 @@ export const Frame1378 = styled.div`
   padding: 0px 240px;
   position: relative;
   align-self: stretch;
+
+  @media (max-width: 1440px) {
+    padding: 0px 120px;
+  }
+  @media (max-width: 765px) {
+    padding: 0px 30px;
+  }
 `;
 
 export const Frame1372 = styled.div`
@@ -109,12 +120,12 @@ export const Title = styled.h1`
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--Dark-Purple, #25222a);
-  font-family: IBM Plex Sans;
+  color: var(--royal-purple);
+  font-family: var(--font-family-ibm_plex_sans);
   font-size: 36px;
   font-style: normal;
   font-weight: 700;
-  line-height: normal;
+  line-height: 46px;
   letter-spacing: -0.9px;
   @media (max-width: 765px) {
     font-size: 32px;
@@ -129,6 +140,10 @@ export const Frame13221 = styled.div`
   gap: 60px;
   position: relative;
   align-self: stretch;
+
+  @media (max-width: 765px) {
+    flex-direction: column;
+  }
 `;
 
 export const Frame1302 = styled.div`
@@ -164,6 +179,9 @@ export const MarkingCriteria = styled.div`
   letter-spacing: 0em;
   text-align: left;
   color: #1e252a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 
 export const Line14 = styled.img`

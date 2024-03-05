@@ -15,6 +15,7 @@ import {
   deleteSmartAnnotation,
   createNewMarkingCriteria,
   getFeedbackBanks,
+  updateFeedbackBanks
 } from '../../../service.js';
 import { getUserId } from '../../../userLocalDetails.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
@@ -149,7 +150,7 @@ export default function AccountSettingsRoot(props) {
       if (result) {
         setMarkingCriterias(result);
       }
-      console.log('feedbackBanks', feedbackBanks._embedded.commentbanks);
+      console.log('feedbackBanks', feedbackBanks);
       setShortcuts(shortcuts);
       setSmartAnnotations(feedbackBanks._embedded.commentbanks);
       setIsLoading(false);
@@ -361,7 +362,7 @@ export default function AccountSettingsRoot(props) {
 
   return (
     <>
-      <ReactiveRender
+      {/* <ReactiveRender
         mobile={
           <AccountSettingsMarkingCriteriaTable
             {...{
@@ -431,6 +432,23 @@ export default function AccountSettingsRoot(props) {
             }}
           />
         }
+      /> */}
+      <AccountSettingsMarkingCriteriaDeskt
+            {...{
+              ...accountSettingsMarkingCriteriaDesktData,
+              markingCriteriaList,
+              createSmartAnnotationHandler,
+              smartAnnotationsFrame,
+              sidebarNav,
+              showMarkingCriteria,
+              showShortcuts,
+              showUserSettings,
+              breadCrumbs,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
+              setOpenMarkingMethodologyDialog,
+            }}
       />
       {openMarkingMethodologyDialog && (
         <MarkingMethodologyDialog

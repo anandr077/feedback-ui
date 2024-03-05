@@ -115,7 +115,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
               ) : (
                 <StyledButton
                   URL={text.url}
-                  Text="View Feedback"
+                  Text="Give Feedback"
                   Icon={WhiteArrowRight}
                   onAccept={() => acceptMutation.mutate(text.id)}
                   ColoredIcon={arrowRight}

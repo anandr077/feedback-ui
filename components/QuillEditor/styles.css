@@ -62,9 +62,7 @@
   padding: 12px 33px;
   background-color: var(--white);
 }
-/* .ql-container.revised{
-  border-radius: 20px 20px !important;
-} */
+
 
 .ql-editor{
   border: none;
@@ -74,6 +72,67 @@
 display: flex;
 gap: 20px;
 }
+
+.ql-formats button,
+.ql-formats .ql-picker {
+  position: relative;
+}
+
+.ql-formats button[class^='ql-'] {
+  position: relative;
+}
+
+.ql-formats button[class^='ql-']::after {
+  white-space: nowrap;
+  position: absolute;
+  display: none;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -2px);
+  background-color: #000;
+  font-size: 10px;
+  color: #fff;
+  z-index: 10;
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+.ql-formats button[class^='ql-']:hover::after {
+  display: block;
+}
+
+.ql-formats .ql-image::after{
+  content: 'Image';
+}
+
+.ql-formats .ql-bold::after {
+  content: 'Bold';
+}
+
+.ql-formats .ql-italic::after {
+  content: 'Italic';
+}
+
+.ql-formats .ql-underline::after {
+  content: 'Underline';
+}
+
+.ql-formats .ql-list[value='bullet']::after {
+  content: 'Bullet List';
+}
+
+.ql-formats .ql-list[value='ordered']::after {
+  content: 'Numbered List';
+}
+
+.ql-formats .ql-link::after {
+  content: 'Link';
+}
+
+.ql-formats .ql-clean::after {
+  content: 'Clean Markup';
+}
+
 
 .ql-formats button:hover{
  background-color: #7200e0 !important;

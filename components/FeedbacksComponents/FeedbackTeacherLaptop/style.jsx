@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 import {
-  feedbacksIbmplexsansBoldShark36px,
-  feedbacksIbmplexsansMediumPersianIndigo20px,
-  feedbacksIbmplexsansNormalBlack16px,
   feedbacksIbmplexsansNormalMountainMist16px,
   feedbacksIbmplexsansNormalShark20px,
   IbmplexsansNormalShark16px,

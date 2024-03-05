@@ -44,6 +44,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import MarkingTemplateStrengthsTargets from './components/MarkingTemplateStrengthsTargets';
 
 function App() {
   const role = getUserRole();
@@ -51,8 +52,7 @@ function App() {
   userName && (document.title = 'Jeddle - ' + userName);
   const [showFooter, setShowFooter] = useState(true);
   const { snackbarOpen, snackbarMessage, snackbarLink, closeSnackbar } =
-  React.useContext(SnackbarContext);
-
+    React.useContext(SnackbarContext);
 
   const linkButton = snackbarLink ? (
     <Button
@@ -69,7 +69,6 @@ function App() {
   ) : (
     <></>
   );
-
 
   const action = (
     <React.Fragment>
@@ -122,6 +121,9 @@ function App() {
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
   const ProtectedCompletedRoot = middleware(CompletedPage);
+  const ProtectedMarkingTemplateStrengthsTargets = middleware(
+    MarkingTemplateStrengthsTargets
+  );
 
   const portfolioClient = new QueryClient();
 
@@ -206,6 +208,9 @@ function App() {
             </Route>
             <Route path="/documentsReview/:id">
               <ProtectedDocumentRoot />
+            </Route>
+            <Route path="/markingTemplate/strengthAndTargets">
+              <ProtectedMarkingTemplateStrengthsTargets />
             </Route>
 
             <Route path="/404">

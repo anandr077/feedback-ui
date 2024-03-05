@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import {
     MainContainer,
     Logo,
@@ -17,6 +18,12 @@ import accountIcon from '../../static/icons/mask-group-4@2x.png';
 import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLeftIconBtn';
 
 const Header = () => {
+    const history = useHistory();
+
+    const handleNewTaskClick = () => {
+        history.push('/tasks/new');
+    };
+
   return (
     <MainContainer>
         <LeftSide>
@@ -32,7 +39,7 @@ const Header = () => {
         <RightSide>
             {/* <Buttons link="#tasks/new" /> */}
             <RoundedBorderLeftIconBtn 
-               onclick="#tasks/new"
+               onclick={handleNewTaskClick}
                leftIcon={addBtnIcon}
                btnText="New Task"
             />

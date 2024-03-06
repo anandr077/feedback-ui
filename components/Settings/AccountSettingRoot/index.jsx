@@ -156,8 +156,6 @@ export default function AccountSettingsRoot(props) {
     });
   }, []);
 
-  console.log('feedbackBanks collection', smartAnnotations[0].id);
-
   const smartAnnotationsFrame = () => {
     const all = smartAnnotations[feedbackBankId].smartComments.map(
       (sa, index) => (
@@ -243,6 +241,8 @@ export default function AccountSettingsRoot(props) {
       });
   };
 
+  console.log('smartAnnotations', smartAnnotations);
+
   const UpdateSmartAnotationHandler = (smartAnnotation, index, commentBankId) => {
     const smartSuggestions = {
       title: smartAnnotation.title,
@@ -252,37 +252,34 @@ export default function AccountSettingsRoot(props) {
    
     const updatedCommentBank = smartAnnotations.map((annotation)=> {
         if(annotation.id === commentBankId){
-          // const updatedSmartComments = annotation.smartComments.map((comment, idx) => {
-          //   return idx === index ? {...smartSuggestions} : comment;
-          // })
-
-          // return {
-          //   ...annotation,
-          //   smartComments: updatedSmartComments
-          // }
-
-
           const updatedSmartComments = [...annotation.smartComments];
           updatedSmartComments[index] = smartSuggestions;
 
-          const newAnnotation = {
+          return {
             "title": annotation.title,
-            "smartComments": [...updatedSmartComments]
-          }
-          return newAnnotation
+            "smartComments":[...updatedSmartComments]
+          };
         }
-        return {
-          "title": annotation.title,
-          "smartComments": annotation.smartComments
-        };
+        return annotation
     })
-    console.log('filtered smartannotation', updatedCommentBank)
     
-    updateFeedbackBanks(updatedCommentBank, commentBankId)
+    updateFeedbackBanks(updatedCommentBank[0], commentBankId)
       .then(() => {
         showSnackbar('Feedback bank updated');
         setSmartAnnotationUpdateIndex(index);
-        setSmartAnnotations(updatedCommentBank);
+        console.log('Before setSmartAnnotations', smartAnnotations);
+        setSmartAnnotations((prevSmartAnnotations) => [
+          ...prevSmartAnnotations.map((annotation) =>
+            annotation.id === commentBankId
+              ? {
+                  ...annotation,
+                  title: updatedCommentBank[0].title,
+                  smartComments: updatedCommentBank[0].smartComments,
+                }
+              : annotation
+          ),
+        ]);
+        console.log('After setSmartAnnotations', smartAnnotations);
         smartAnnotationsFrame();
       })
       .catch((error) => {

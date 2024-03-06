@@ -39,7 +39,6 @@ function SmartAnotation(props) {
     teacherId,
   } = props;
 
-  console.log('smart annotation', commentBankId);
   const [isExpanded, setIsExpanded] = useState(
     smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode
   );

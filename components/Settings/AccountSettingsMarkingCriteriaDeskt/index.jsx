@@ -61,7 +61,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     feedbackBankId,
     setOpenMarkingMethodologyDialog,
   } = props;
-  console.log('smartAnnotations', smartAnnotations);
   const [moreOptionCon, setMoreOptionCon] = useState(false);
   const [systemOptionCon, setSystemOptionCon] = useState(false);
   const [systemOptionList, setSystemOptionList] = useState([
@@ -84,6 +83,8 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
 
   const moreOptionRef = useRef(null);
   const systemOptionRef = useRef(null);
+
+  console.log('smart annotation', smartAnnotations)
 
   useEffect(() => {
     const handleClickOutside = (event) => {

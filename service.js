@@ -346,9 +346,9 @@ export const getSmartAnnotations = async () =>
 export const getFeedbackBanks = async () =>
   await getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
 
-  export const updateFeedbackBanks = async (commentBankId) =>
+export const updateFeedbackBanks = async (updatedCommentBank, commentBankId) =>
   await putApi(
-    baseUrl + '/commentbanks/' + commentBankId,
+    baseUrl + '/commentbanks/' + commentBankId, updatedCommentBank
   );
 
 export const getMarkingMethodology = async (id) =>

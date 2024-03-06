@@ -30,6 +30,7 @@ function SmartAnotation(props) {
     smartAnnotation,
     smartAnnotationIndex,
     smartAnnotationUpdateIndex,
+    commentBankId,
     UpdateSmartAnotationHandler,
     settingsMode,
     deleteAnnotationHandler,
@@ -38,8 +39,7 @@ function SmartAnotation(props) {
     teacherId,
   } = props;
 
-  console.log('first smart annotation', smartAnnotation);
-  console.log('teacherId', teacherId);
+  console.log('smart annotation', commentBankId);
   const [isExpanded, setIsExpanded] = useState(
     smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode
   );
@@ -64,9 +64,9 @@ function SmartAnotation(props) {
 
   const saveEditedSuggestion = (updatedText, index) => {
     const newSmartAnnotation = { ...currentSmartAnnotation };
-    newSmartAnnotation.suggestions[index].description = updatedText;
+    newSmartAnnotation.suggestions[index] = updatedText;
     setCurrentSmartAnnotation(newSmartAnnotation);
-    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex);
+    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex, commentBankId);
   };
 
   const saveEditedSmartAnnotation = (updatedText) => {
@@ -75,13 +75,13 @@ function SmartAnotation(props) {
     newSmartAnnotation.title = updatedText;
     setCurrentSmartAnnotation(newSmartAnnotation);
     setEditTitle(updatedText);
-    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex);
+    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex, commentBankId);
   };
 
   const handleDeleteSuggestion = (index) => {
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.suggestions.splice(index, 1);
-    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex);
+    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex, commentBankId);
   };
 
   const handleDeleteAnnotation = () => {
@@ -91,8 +91,7 @@ function SmartAnotation(props) {
   const addNewSuggestions = () => {
     const newSuggestion = '';
     currentSmartAnnotation.suggestions.push(newSuggestion);
-    console.log('first suggestion added', currentSmartAnnotation);
-    UpdateSmartAnotationHandler(currentSmartAnnotation, smartAnnotationIndex);
+    UpdateSmartAnotationHandler(currentSmartAnnotation, smartAnnotationIndex, commentBankId);
   };
 
   const onClickFn = (index) => {

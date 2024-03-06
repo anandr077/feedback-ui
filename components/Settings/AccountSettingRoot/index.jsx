@@ -15,7 +15,7 @@ import {
   deleteSmartAnnotation,
   createNewMarkingCriteria,
   getFeedbackBanks,
-  updateFeedbackBanks
+  updateFeedbackBanks,
 } from '../../../service.js';
 import { getUserId } from '../../../userLocalDetails.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
@@ -150,12 +150,13 @@ export default function AccountSettingsRoot(props) {
       if (result) {
         setMarkingCriterias(result);
       }
-      console.log('feedbackBanks', feedbackBanks);
       setShortcuts(shortcuts);
       setSmartAnnotations(feedbackBanks._embedded.commentbanks);
       setIsLoading(false);
     });
   }, []);
+
+  console.log('feedbackBanks collection', smartAnnotations[0].id);
 
   const smartAnnotationsFrame = () => {
     const all = smartAnnotations[feedbackBankId].smartComments.map(
@@ -164,6 +165,7 @@ export default function AccountSettingsRoot(props) {
           key={Math.random()}
           smartAnnotationIndex={index}
           smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
+          commentBankId={smartAnnotations[feedbackBankId].id}
           smartAnnotation={sa}
           UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
           settingsMode={true}
@@ -241,27 +243,53 @@ export default function AccountSettingsRoot(props) {
       });
   };
 
-  const UpdateSmartAnotationHandler = (smartAnnotation, index) => {
-    const smartAnnotationRequest = {
+  const UpdateSmartAnotationHandler = (smartAnnotation, index, commentBankId) => {
+    const smartSuggestions = {
       title: smartAnnotation.title,
-      suggestions: smartAnnotation.suggestions.map((suggestion) => {
-        return {
-          description: suggestion.description,
-        };
-      }),
+      suggestions: smartAnnotation.suggestions,
     };
-    updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
+
+   
+    const updatedCommentBank = smartAnnotations.map((annotation)=> {
+        if(annotation.id === commentBankId){
+          // const updatedSmartComments = annotation.smartComments.map((comment, idx) => {
+          //   return idx === index ? {...smartSuggestions} : comment;
+          // })
+
+          // return {
+          //   ...annotation,
+          //   smartComments: updatedSmartComments
+          // }
+
+
+          const updatedSmartComments = [...annotation.smartComments];
+          updatedSmartComments[index] = smartSuggestions;
+
+          const newAnnotation = {
+            "title": annotation.title,
+            "smartComments": [...updatedSmartComments]
+          }
+          return newAnnotation
+        }
+        return {
+          "title": annotation.title,
+          "smartComments": annotation.smartComments
+        };
+    })
+    console.log('filtered smartannotation', updatedCommentBank)
+    
+    updateFeedbackBanks(updatedCommentBank, commentBankId)
       .then(() => {
-        showSnackbar('Smart annotation updated');
+        showSnackbar('Feedback bank updated');
         setSmartAnnotationUpdateIndex(index);
-        const updatedAnnotation = [...smartAnnotations];
-        updatedAnnotation[index] = smartAnnotation;
-        setSmartAnnotations(updatedAnnotation);
+        setSmartAnnotations(updatedCommentBank);
         smartAnnotationsFrame();
       })
       .catch((error) => {
-        showSnackbar('Error updating smart annotation');
+        showSnackbar('Error updating Feedback bank');
       });
+
+    //updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
   };
 
   const deleteAnnotationHandler = (smartAnnotationId) => {

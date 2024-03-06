@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  AddNewCriteria,
+  AddNewCriteriaButton,
   ButtonsContainer,
+  CriteriaPart,
   Heading,
   HeadingContainer,
   InnerContainer,
@@ -16,15 +19,97 @@ import {
   RightContainer,
   SaveButton,
   SaveButtonText,
+  StrengthPart,
+  TableBodyPart,
+  TableBodyParts,
   TableContainer,
+  TableHeading,
+  TableHeadingPart,
+  TableRowButton,
+  TableRowButtonIcon,
+  TableRowButtoncont,
+  TableRowText,
+  TargetPart,
+  TargetsPart,
+  TextArea,
 } from './style';
 
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
 import Eye from '../../static/icons/Eye.svg';
+import Plus from '../../static/icons/Plus.svg';
+import pluswhite from '../../static/icons/pluswhite.svg';
 
 function MarkingTemplateStrengthsTargets() {
+  const [markingTemplates, setMarkingTemplates] = useState([
+    {
+      criteria: '',
+      strengths: ['', '', ''],
+      targets: ['', '', ''],
+    },
+    {
+      criteria: '',
+      strengths: ['', '', ''],
+      targets: ['', '', ''],
+    },
+  ]);
+
+  const updateCriteria = (templateIndex, newValue) => {
+    const updatedTemplates = markingTemplates.map((template, index) => {
+      if (templateIndex === index) {
+        return { ...template, criteria: newValue };
+      }
+      return template;
+    });
+    setMarkingTemplates(updatedTemplates);
+  };
+
+  const updateStrength = (templateIndex, strengthIndex, newValue) => {
+    const updatedTemplates = markingTemplates.map((template, index) => {
+      if (templateIndex === index) {
+        const updatedStrengths = [...template.strengths];
+        updatedStrengths[strengthIndex] = newValue;
+        return { ...template, strengths: updatedStrengths };
+      }
+      return template;
+    });
+    setMarkingTemplates(updatedTemplates);
+  };
+
+  const updateTarget = (templateIndex, targetIndex, newValue) => {
+    const updatedTemplates = markingTemplates.map((template, index) => {
+      if (index === templateIndex) {
+        const updatedTargets = [...template.targets];
+        updatedTargets[targetIndex] = newValue;
+        return { ...template, targets: updatedTargets };
+      }
+      return template;
+    });
+    setMarkingTemplates(updatedTemplates);
+  };
+
+  const addNewStrength = (templateIndex) => {
+    let updatedTemplates = [...markingTemplates];
+    updatedTemplates[templateIndex].strengths.push('');
+    setMarkingTemplates(updatedTemplates);
+  };
+  const addNewTarget = (templateIndex) => {
+    let updatedTemplates = [...markingTemplates];
+    updatedTemplates[templateIndex].targets.push('');
+    setMarkingTemplates(updatedTemplates);
+  };
+
+  const addNewTemplate = () => {
+    let newTemplates = [...markingTemplates];
+    newTemplates.push({
+      criteria: '',
+      strengths: ['', '', ''],
+      targets: ['', '', ''],
+    });
+    setMarkingTemplates(newTemplates);
+  };
+
   return (
     <>
       <MainContainer>
@@ -59,122 +144,84 @@ function MarkingTemplateStrengthsTargets() {
               </ButtonsContainer>
             </HeadingContainer>
             <TableContainer>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Criteria</th>
-                    <th>Strengths</th>
-                    <th>Targets</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td rowSpan="4" style={{ textAlign: 'center' }}>
-                      <input
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          boxSizing: 'border-box',
-                          padding: '5px',
-                        }}
+              <TableHeadingPart>
+                <TableHeading>Criteria</TableHeading>
+                <TableHeading>Strengths</TableHeading>
+                <TableHeading>Targets</TableHeading>
+              </TableHeadingPart>
+              <TableBodyParts>
+                {markingTemplates.map((markingtemplate, templateIndex) => (
+                  <TableBodyPart key={templateIndex}>
+                    <CriteriaPart>
+                      <TextArea
                         type="text"
-                        placeholder="Cut out words from the beginning and/or end of the
-                      quotation"
+                        placeholder="Cut out words from the beginning and/or end of the quotation"
+                        value={markingtemplate.criteria}
+                        onChange={(e) =>
+                          updateCriteria(templateIndex, e.target.value)
+                        }
                       />
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                </tbody>
-                <tr>
-                  <td>'</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tbody>
-                  <tr>
-                    <td rowSpan="4">
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotationGupta
-                    </td>
-                    <td>
-                      Cut out words from the beginning and/or end of the
-                      quotation
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    </CriteriaPart>
+                    <StrengthPart>
+                      {markingtemplate.strengths.map((strength, index) => (
+                        <TextArea
+                          key={index}
+                          type="text"
+                          placeholder={
+                            index === 0
+                              ? 'Cut out words from the beginning and/or end of the quotation'
+                              : 'Fragment this quotation into smaller parts and integrate into different sections'
+                          }
+                          value={strength}
+                          onChange={(e) =>
+                            updateStrength(templateIndex, index, e.target.value)
+                          }
+                        />
+                      ))}
+                      <TableRowButtoncont
+                        onClick={() => addNewStrength(templateIndex)}
+                      >
+                        <TableRowButton>
+                          <TableRowButtonIcon src={Plus} />
+                          <TableRowText>New Strength</TableRowText>
+                        </TableRowButton>
+                      </TableRowButtoncont>
+                    </StrengthPart>
+                    <TargetPart>
+                      {markingtemplate.targets.map((target, index) => (
+                        <TextArea
+                          key={index}
+                          type="text"
+                          placeholder={
+                            index === 0
+                              ? 'Cut out words from the beginning and/or end of the quotation'
+                              : 'Fragment this quotation into smaller parts and integrate into different sections'
+                          }
+                          value={target}
+                          onChange={(e) =>
+                            updateTarget(templateIndex, index, e.target.value)
+                          }
+                        />
+                      ))}
+                      <TableRowButtoncont
+                        onClick={() => addNewTarget(templateIndex)}
+                      >
+                        <TableRowButton>
+                          <TableRowButtonIcon src={Plus} />
+                          <TableRowText>New Target</TableRowText>
+                        </TableRowButton>
+                      </TableRowButtoncont>
+                    </TargetPart>
+                  </TableBodyPart>
+                ))}
+              </TableBodyParts>
             </TableContainer>
+            <AddNewCriteria>
+              <AddNewCriteriaButton onClick={() => addNewTemplate()}>
+                <TableRowButtonIcon src={pluswhite}></TableRowButtonIcon>
+                <SaveButtonText>Add New Criteria</SaveButtonText>
+              </AddNewCriteriaButton>
+            </AddNewCriteria>
           </RightContainer>
         </InnerContainer>
       </MainContainer>

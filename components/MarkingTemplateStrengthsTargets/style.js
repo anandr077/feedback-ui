@@ -22,7 +22,7 @@ export const InnerContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 67vh;
+  height: 90vh;
   position: relative;
   max-width: 1440px;
   padding: 0px 60px;
@@ -103,6 +103,7 @@ export const PreviewButton = styled.div`
   gap: 4px;
   background: #ffffff;
   border: 1px solid #7200e0;
+  cursor: pointer;
 `;
 
 export const PreviewButtonIcon = styled.img`
@@ -125,6 +126,7 @@ export const SaveButton = styled.div`
   border-radius: 32px;
   gap: 4px;
   background: #7200e0;
+  cursor: pointer;
 `;
 export const SaveButtonText = styled.p`
   font-family: IBM Plex Sans;
@@ -138,14 +140,117 @@ export const SaveButtonText = styled.p`
 
 export const TableContainer = styled.div`
   display: flex;
-  table {
-    border-collapse: collapse;
+  flex-direction: column;
+`;
+export const TableHeadingPart = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
+export const TableHeading = styled.div`
+  padding: 16px 20px 16px 20px;
+  border: 1px;
+  gap: 12px;
+  background: #f2f1f380;
+  border: 1px solid #c9c6cc80;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #56515b;
+`;
+export const TableBodyParts = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 60vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
   }
-  th,
-  td {
-    border: 1px solid #ddd;
-  }
-  tbody:first-child {
-    margin-bottom: 20px; /* Add margin between the two tbody elements */
-  }
+`;
+export const TableBodyPart = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
+export const CriteriaPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+export const StrengthPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+export const TargetPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+export const TextArea = styled.textarea`
+  width: 100%;
+  height: 100%;
+  resize: none;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #c9c6cc80;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  outline: none;
+`;
+
+export const TableRowButtoncont = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 16px 20px 16px 20px;
+  border: 1px;
+  border: 1px solid #c9c6cc80;
+  cursor: pointer;
+`;
+export const TableRowButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+`;
+export const TableRowButtonIcon = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const TableRowText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #7200e0;
+`;
+
+export const AddNewCriteria = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+`;
+export const AddNewCriteriaButton = styled.div`
+  display: flex;
+  padding: 8px 12px 8px 12px;
+  border-radius: 32px;
+  gap: 4px;
+  background: #7200e0;
+  cursor: pointer;
 `;

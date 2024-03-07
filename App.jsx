@@ -45,6 +45,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import MarkingTemplateStrengthsTargets from './components/MarkingTemplateStrengthsTargets';
+import MarkingTemplateRubrics from './components/MarkingTemplateRubrics';
 
 function App() {
   const role = getUserRole();
@@ -124,6 +125,7 @@ function App() {
   const ProtectedMarkingTemplateStrengthsTargets = middleware(
     MarkingTemplateStrengthsTargets
   );
+  const ProtectedMarkingTemplateRubrics = middleware(MarkingTemplateRubrics);
 
   const portfolioClient = new QueryClient();
 
@@ -211,6 +213,9 @@ function App() {
             </Route>
             <Route path="/markingTemplate/strengthAndTargets">
               <ProtectedMarkingTemplateStrengthsTargets />
+            </Route>
+            <Route path="/markingTemplate/rubrics">
+              <ProtectedMarkingTemplateRubrics />
             </Route>
 
             <Route path="/404">

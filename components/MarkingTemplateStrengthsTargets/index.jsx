@@ -48,11 +48,6 @@ function MarkingTemplateStrengthsTargets() {
       strengths: ['', '', ''],
       targets: ['', '', ''],
     },
-    {
-      criteria: '',
-      strengths: ['', '', ''],
-      targets: ['', '', ''],
-    },
   ]);
 
   const updateCriteria = (templateIndex, newValue) => {
@@ -146,7 +141,7 @@ function MarkingTemplateStrengthsTargets() {
             <TableContainer>
               <TableHeadingPart>
                 <TableHeading>Criteria</TableHeading>
-                <TableHeading>Strengths</TableHeading>
+                <TableHeading>Performance Levels</TableHeading>
                 <TableHeading>Targets</TableHeading>
               </TableHeadingPart>
               <TableBodyParts>

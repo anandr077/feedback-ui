@@ -46,7 +46,6 @@ export default function Header(props) {
     },
     staleTime: 60000,
   });
-
   const OnFirstButtonClick = (event) => {
     if (event.ctrlKey || event.metaKey) {
       window.open(headerProps.firstButton.redirect, '_blank');

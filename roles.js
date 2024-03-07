@@ -9,8 +9,10 @@ export const userRole = () => {
         return "TEACHER";
     }
 
-    const classes = Cookies.get('classes');
+    const classesCookie = Cookies.get('classes');
 
-    return  isNullOrEmpty(classes) ? "STUDENT" : "NONSCHOOLSTUDENT";
+    const classes = classesCookie ? JSON.parse(classesCookie) : null;
+
+    return  isNullOrEmpty(classes) ? "NONSCHOOLSTUDENT" : "STUDENT";
 }
 

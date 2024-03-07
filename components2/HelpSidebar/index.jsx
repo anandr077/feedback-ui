@@ -23,11 +23,11 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (!query) {
-      setData(helpdata.data);
+      setData(helpdata[userRole()]);
       return;
     }
 
-    const filteredData = helpdata.data.filter(
+    const filteredData = helpdata[userRole()].filter(
       (section) =>
         section.title.toLowerCase().includes(query.toLowerCase()) ||
         section.subtopics.some((subtopic) =>

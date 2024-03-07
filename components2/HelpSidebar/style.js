@@ -94,23 +94,3 @@ export const HelpOptionsContainer = styled.div`
   -ms-overflow-style: none;
 `;
 
-export const MoreOption = styled.div`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-xl);
-  line-height: 26px;
-  color: var(--light-mode-purple);
-  letter-spacing: -2.5%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
-  padding: 20px 0;
-  border-top: 1px solid #f1e6fc;
-  cursor: pointer;
-`;
-
-export const MoreOptionIcon = styled.img`
-  width: 24px;
-  height: 24px;
-`;

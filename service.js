@@ -45,7 +45,10 @@ async function fetchData(url, options, headers = {}) {
 
     const isJson = response.headers
       .get('content-type')
-      ?.includes('application/json');
+      ?.includes('application/json') ||
+      response.headers
+      .get('content-type')
+      ?.includes('application/hal+json');
     const data = isJson ? await response.json() : null;
     if (data === null) {
       window.location.href = selfBaseUrl + '/#/404';
@@ -178,6 +181,11 @@ export const downloadSubmission = async (submissionId) => {
   }
 };
 
+export const getCommentBanks = async () => {
+  return getApi(
+    baseUrl + '/commentbanks?projection=commentBanksProjection'
+  );
+};
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId

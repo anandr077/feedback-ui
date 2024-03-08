@@ -85,7 +85,7 @@ export const SearchIcon = styled.img`
 `;
 
 export const HelpOptionsContainer = styled.div`
-  flex-grow: 1;
+  height: calc(100vh - 205px);
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -93,4 +93,3 @@ export const HelpOptionsContainer = styled.div`
   scrollbar-width: none;
   -ms-overflow-style: none;
 `;
-

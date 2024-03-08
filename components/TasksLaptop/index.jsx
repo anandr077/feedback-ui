@@ -43,7 +43,7 @@ function TasksLaptop(props) {
           <TitleAndSubtitleContainer>
             <TitleContainer>
               <Title>
-                My Tasks
+                Homework
                 <QuestionTooltip 
                   text="View all of your current tasks from school"
                   img={questionMark}

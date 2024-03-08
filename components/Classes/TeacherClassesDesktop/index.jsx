@@ -120,7 +120,7 @@ function TeacherClassesDesktop(props) {
               onClick={() => handleScroll(ref3)}
               style={{ color: useIsVisible(ref3) ? '#7200E0' : '#7b7382' }}
             >
-              Students 
+              Students
             </LeftContainerTitle>
             <LeftContainerTitle
               onClick={() => handleScroll(ref4)}
@@ -160,7 +160,11 @@ function TeacherClassesDesktop(props) {
                         href={'#tasks/' + task.id}
                         style={{ width: '100%' }}
                       >
-                        <TaskCard key={task.id} task={task} showThreeDots={false}/>
+                        <TaskCard
+                          key={task.id}
+                          task={task}
+                          showThreeDots={false}
+                        />
                       </a>
                     </TaskContainer>
                   );

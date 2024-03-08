@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactiveRender from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
 import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
 import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
 import AccountSettingsMarkingCriteriaLapto from '../AccountSettingsMarkingCriteriaLapto';
+import { useQuery } from '@tanstack/react-query';
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
   getAllMarkingCriteria,
@@ -34,107 +35,7 @@ export default function AccountSettingsRoot(props) {
 
   const [markingCriterias, setMarkingCriterias] = React.useState([]);
   const [shortcuts, setShortcuts] = React.useState([]);
-  const [smartAnnotations, setSmartAnnotations] = React.useState([
-    {
-      feedbackBankId: '1',
-      feedbackBankName: 'Essay',
-      categories: [
-        {
-          categoryId: '1',
-          categoryName: 'Category1',
-          annotations: [
-            {
-              annotationId: '1',
-              annotationText:
-                'Annotation text for Bank 1, Category1, Annotation 1',
-            },
-            {
-              annotationId: '2',
-              annotationText:
-                'Annotation text for Bank 1, Category1, Annotation 2',
-            },
-          ],
-        },
-        {
-          categoryId: '2',
-          categoryName: 'Category2',
-          annotations: [
-            {
-              annotationId: '3',
-              annotationText:
-                'Annotation text for Bank 1, Category2, Annotation 1',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      feedbackBankId: '2',
-      feedbackBankName: 'Imaginative',
-      categories: [
-        {
-          categoryId: '3',
-          categoryName: 'Category3',
-          annotations: [
-            {
-              annotationId: '4',
-              annotationText:
-                'Annotation text for Bank 2, Category3, Annotation 1',
-            },
-            {
-              annotationId: '5',
-              annotationText:
-                'Annotation text for Bank 2, Category3, Annotation 2',
-            },
-          ],
-        },
-        {
-          categoryId: '4',
-          categoryName: 'Category4',
-          annotations: [
-            {
-              annotationId: '6',
-              annotationText:
-                'Annotation text for Bank 2, Category4, Annotation 1',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      feedbackBankId: '3',
-      feedbackBankName: 'Persuasive',
-      categories: [
-        {
-          categoryId: '5',
-          categoryName: 'Category5',
-          annotations: [
-            {
-              annotationId: '7',
-              annotationText:
-                'Annotation text for Bank 3, Category5, Annotation 1',
-            },
-            {
-              annotationId: '8',
-              annotationText:
-                'Annotation text for Bank 3, Category5, Annotation 2',
-            },
-          ],
-        },
-        {
-          categoryId: '6',
-          categoryName: 'Category6',
-          annotations: [
-            {
-              annotationId: '9',
-              annotationText:
-                'Annotation text for Bank 3, Category6, Annotation 1',
-            },
-          ],
-        },
-      ],
-    },
-  ]);
+  const [smartAnnotations, setSmartAnnotations] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
@@ -145,16 +46,29 @@ export default function AccountSettingsRoot(props) {
       getAllMarkingCriteria(),
       getShortcuts(),
       getSmartAnnotations(),
-      getFeedbackBanks(),
-    ]).then(([result, shortcuts, smartAnnotation, feedbackBanks]) => {
+    ]).then(([result, shortcuts, smartAnnotation]) => {
       if (result) {
         setMarkingCriterias(result);
       }
       setShortcuts(shortcuts);
-      setSmartAnnotations(feedbackBanks._embedded.commentbanks);
       setIsLoading(false);
     });
   }, []);
+
+  const feedbackBankQuery = useQuery({
+    queryKey: ['feedbackBank'],
+    queryFn: async () => {
+      const result = await getFeedbackBanks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  useEffect(()=>{
+    if(feedbackBankQuery.data){
+      setSmartAnnotations(feedbackBankQuery.data._embedded.commentbanks);
+    }
+  }, [feedbackBankQuery.data])
 
   const smartAnnotationsFrame = () => {
     const all = smartAnnotations[feedbackBankId].smartComments.map(
@@ -264,10 +178,10 @@ export default function AccountSettingsRoot(props) {
     })
     
     updateFeedbackBanks(updatedCommentBank[0], commentBankId)
-      .then(() => {
+      .then((res) => {
         showSnackbar('Feedback bank updated');
         setSmartAnnotationUpdateIndex(index);
-        console.log('Before setSmartAnnotations', smartAnnotations);
+        console.log('Before setSmartAnnotations', res);
         setSmartAnnotations((prevSmartAnnotations) => [
           ...prevSmartAnnotations.map((annotation) =>
             annotation.id === commentBankId

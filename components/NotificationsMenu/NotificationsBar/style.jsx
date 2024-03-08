@@ -104,3 +104,16 @@ export const CloseNotification = styled.img`
   right: 15px;
   cursor: pointer;
 `;
+
+export const NotificationBody = styled.div`
+  height: calc(100vh - 160px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+`;

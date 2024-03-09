@@ -7,7 +7,6 @@ import CommonMistakeBox from '../CommonMistakeBox';
 
 function Frame13135(props) {
   const { student } = props;
-  console.log('student', student);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortedComments, setSortedComments] = useState(
@@ -59,29 +58,33 @@ function Frame13135(props) {
               count={student?.submissionPercentageOnTime}
               total={100}
             />
-            <FeedbackHeading>
-              Most common feedback
-              <CommonMistakesPopup
-                studentsCommonMistakes={sortedComments?.map((eachStats) => (
-                  <ProgressBar
-                    title={eachStats?.suggestion}
-                    count={eachStats?.percentage}
-                    total={100}
-                    isProgressBar={false}
+            {sortedComments && (
+              <>
+                <FeedbackHeading>
+                  Most common feedback
+                  <CommonMistakesPopup
+                    studentsCommonMistakes={sortedComments?.map((eachStats) => (
+                      <ProgressBar
+                        title={eachStats?.suggestion}
+                        count={eachStats?.percentage}
+                        total={100}
+                        isProgressBar={false}
+                      />
+                    ))}
                   />
-                ))}
-              />
-            </FeedbackHeading>
-            <div>
-              {sortedComments?.slice(0, 2).map((eachStats) => (
-                <ProgressBar
-                  title={eachStats?.suggestion}
-                  count={eachStats?.percentage}
-                  total={100}
-                  isProgressBar={false}
-                />
-              ))}
-            </div>
+                </FeedbackHeading>
+                <div>
+                  {sortedComments?.slice(0, 2).map((eachStats) => (
+                    <ProgressBar
+                      title={eachStats?.suggestion}
+                      count={eachStats?.percentage}
+                      total={100}
+                      isProgressBar={false}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </Stats>
         </Studentscontainerfull>
       ) : (

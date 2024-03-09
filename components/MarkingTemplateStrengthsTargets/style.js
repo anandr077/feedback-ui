@@ -22,7 +22,7 @@ export const InnerContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 90vh;
+  height: 68vh;
   position: relative;
   max-width: 1440px;
   padding: 0px 60px;
@@ -45,6 +45,11 @@ export const LeftContainer = styled.div`
 export const RightContainer = styled.div`
   width: 85%;
   background: #ffffff;
+  // height: 60vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const OptionsContainer = styled.div``;
 export const OptionContainer = styled.div`
@@ -75,6 +80,7 @@ export const HeadingContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
   border: 0px 0px 1px 0px;
   gap: 8px;
@@ -166,11 +172,6 @@ export const TableBodyParts = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  height: 60vh;
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 export const TableBodyPart = styled.div`
   width: 100%;

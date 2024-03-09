@@ -108,15 +108,14 @@ function MarkingTemplateRubrics() {
     setMarkingTemplatesRubrics(updatedTemplates);
   };
 
-  //   const addNewTemplate = () => {
-  //     let newTemplates = [...markingTemplates];
-  //     newTemplates.push({
-  //       criteria: '',
-  //       strengths: ['', '', ''],
-  //       targets: ['', '', ''],
-  //     });
-  //     setMarkingTemplates(newTemplates);
-  //   };
+  const addNewTemplate = () => {
+    let newTemplates = [...markingTemplatesRubrics];
+    newTemplates.push({
+      criteria: '',
+      performanceLevels: [{ '': '' }, { '': '' }, { '': '' }],
+    });
+    setMarkingTemplatesRubrics(newTemplates);
+  };
 
   return (
     <>

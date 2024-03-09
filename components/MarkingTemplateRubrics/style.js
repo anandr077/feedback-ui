@@ -11,7 +11,7 @@ export const BodyHeadingPart = styled.div`
   grid-template-columns: 1.5fr 0.7fr 2.8fr;
 `;
 export const BodyHeading = styled.div`
-  padding: 16px 20px 16px 20px;
+  padding: 8px 20px 8px 20px;
   border: 1px;
   gap: 12px;
   border: 1px solid #c9c6cc80;

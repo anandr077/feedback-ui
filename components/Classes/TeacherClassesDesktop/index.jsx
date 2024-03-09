@@ -120,7 +120,7 @@ function TeacherClassesDesktop(props) {
               onClick={() => handleScroll(ref3)}
               style={{ color: useIsVisible(ref3) ? '#7200E0' : '#7b7382' }}
             >
-              Students Insights
+              Student Insights
             </LeftContainerTitle>
             <LeftContainerTitle
               onClick={() => handleScroll(ref4)}
@@ -177,7 +177,7 @@ function TeacherClassesDesktop(props) {
             <Frame1339 ref={ref3}>
               <Frame13371>
                 <Students>
-                  Students Insights
+                  Student Insights
                   <QuestionTooltip
                     text={'See how well each student is performing'}
                     img={questionMark}

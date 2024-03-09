@@ -282,7 +282,8 @@ export const TasksContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: space-between;
+  row-gap: 20px;
 `;
 export const TaskContainer = styled.div`
   display: flex;

@@ -11,9 +11,8 @@ function Frame13123(props) {
 
   return (
     <Frame1312>
-      <BoyleJonny>{title}</BoyleJonny>
-      {/* <BoyleJonny onClick={toggleSection}>{title}</BoyleJonny> */}
-      {/* <Arrowdown2 onClick={toggleSection} src={arrowdown2} alt="arrowdown2" /> */}
+      <BoyleJonny onClick={toggleSection}>{title}</BoyleJonny>
+      <Arrowdown2 onClick={toggleSection} src={arrowdown2} alt="arrowdown2" />
     </Frame1312>
   );
 }

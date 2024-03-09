@@ -7,10 +7,13 @@ import CommonMistakeBox from '../CommonMistakeBox';
 
 function Frame13135(props) {
   const { student } = props;
+  console.log('student', student);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortedComments, setSortedComments] = useState(
-    student.smartAnnotationStats.sort((a, b) => b.percentage - a.percentage)
+    student?.topStudentSmartAnnotationStats?.sort(
+      (a, b) => b.percentage - a.percentage
+    )
   );
 
   function groupSuggestionsByTitle(suggestions) {
@@ -38,7 +41,7 @@ function Frame13135(props) {
         <Studentscontainerfull>
           <Frame1312>
             <Frame13123
-              title={student.studentName}
+              title={student.name}
               arrowdown2="/img/arrowup.png"
               isExpanded={isExpanded}
               setIsExpanded={setIsExpanded}
@@ -48,18 +51,18 @@ function Frame13135(props) {
             <Line14 src="/img/line-14.png" alt="Line 14" />
             <ProgressBar
               title={'Completion Rate'}
-              count={student?.completionPercentage}
+              count={student?.completionRate}
               total={100}
             />
             <ProgressBar
               title={'Submissions on time'}
-              count={student?.submissionsontimePercentage}
+              count={student?.submissionPercentageOnTime}
               total={100}
             />
             <FeedbackHeading>
               Most common feedback
               <CommonMistakesPopup
-                studentsCommonMistakes={sortedComments.map((eachStats) => (
+                studentsCommonMistakes={sortedComments?.map((eachStats) => (
                   <ProgressBar
                     title={eachStats?.suggestion}
                     count={eachStats?.percentage}
@@ -70,7 +73,7 @@ function Frame13135(props) {
               />
             </FeedbackHeading>
             <div>
-              {sortedComments.slice(0, 2).map((eachStats) => (
+              {sortedComments?.slice(0, 2).map((eachStats) => (
                 <ProgressBar
                   title={eachStats?.suggestion}
                   count={eachStats?.percentage}
@@ -85,7 +88,7 @@ function Frame13135(props) {
         <Studentscontainer>
           <Frame1312>
             <Frame13123
-              title={student.studentName}
+              title={student.name}
               arrowdown2="/img/arrowdown2-1@2x.png"
               isExpanded={isExpanded}
               setIsExpanded={setIsExpanded}

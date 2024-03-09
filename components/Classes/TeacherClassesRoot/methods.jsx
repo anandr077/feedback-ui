@@ -9,7 +9,7 @@ export const createStudentsFrames = (students) => {
   return (
     <>
       {students.map((student, index) => {
-        return <Frame13135 student={student} />;
+        return <Frame13135 key={student.id} student={student} />;
       })}
     </>
   );

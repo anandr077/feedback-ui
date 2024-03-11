@@ -99,3 +99,14 @@ export const SortButtonText = styled.div`
   color: #6f6f6f;
   text-align: center;
 `;
+
+export const TitleHeading = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  cursor: pointer;
+`;

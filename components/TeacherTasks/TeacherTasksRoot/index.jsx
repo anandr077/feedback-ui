@@ -34,10 +34,10 @@ import { FilterContainer, FilterLine } from '../../CompletedPage/style.js';
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../../static/img/sort-square.svg';
 import FilterSquare from '../../../static/img/filter-square.svg';
-import TaskSelected from '../../../static/img/taskselected.svg';
+import TaskSelected from '../../../static/img/Columns-new.svg';
 import Closecircle from '../../../static/img/closecircle.svg';
 import TaskUnSelected from '../../../static/img/taskunselected.svg';
-import CalSelected from '../../../static/img/calselected.svg';
+import CalSelected from '../../../static/img/Calendar-new.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
@@ -50,6 +50,7 @@ import {
   SortText,
   SortButton,
   SortButtonText,
+  TitleHeading
 } from '../../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -343,6 +344,30 @@ export default function TeacherTaskRoot() {
   const FilterSortAndCal = (
     <>
       <MainContainer>
+        <CalenderContainer>
+          <TitleHeading 
+            style={tasksSelected ? {color: '#7200E0'} : {color: '#7B7382'}}
+            onClick={() => setTasksSelected(true)}
+          >
+            <TasksImg
+              src={TaskSelected}
+              selected={tasksSelected}
+            />
+            Column
+          </TitleHeading>
+          {!mobileView && (
+            <TitleHeading 
+              style={tasksSelected ? {color: '#7B7382'} : {color: '#7200E0'}}
+              onClick={() => setTasksSelected(false)}
+            >
+              <TasksImgCal
+                src={CalSelected}
+                selected={!tasksSelected}
+              />
+              Calendar
+            </TitleHeading>
+          )}
+        </CalenderContainer>
         <FilterAndSortContainer>
           <FilterContainer>
             <Filter
@@ -418,26 +443,6 @@ export default function TeacherTaskRoot() {
             />
           </SortContainer>
         </FilterAndSortContainer>
-        <CalenderContainer>
-          <TasksImg
-            src={
-              tasksSelected
-                ? TaskSelected
-                : mobileView
-                ? TaskSelected
-                : TaskUnSelected
-            }
-            selected={tasksSelected}
-            onClick={() => setTasksSelected(true)}
-          />
-          {!mobileView && (
-            <TasksImgCal
-              src={!tasksSelected ? CalSelected : CalUnSelected}
-              selected={!tasksSelected}
-              onClick={() => setTasksSelected(false)}
-            />
-          )}
-        </CalenderContainer>
       </MainContainer>
     </>
   );

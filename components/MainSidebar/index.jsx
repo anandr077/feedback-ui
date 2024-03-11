@@ -24,7 +24,7 @@ const sideNavItems = [
   },
 ];
 
-const Sidebar = () => {
+const MainSidebar = () => {
   const history = useHistory();
 
   const handlePageRoute = (navLink) =>{
@@ -50,4 +50,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default MainSidebar;

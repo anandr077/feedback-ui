@@ -6,7 +6,7 @@ export const SidebarContainer = styled.div`
   position: sticky;
   top: 68px;
   bottom: 0;
-  padding-top: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

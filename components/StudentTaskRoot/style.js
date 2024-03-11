@@ -33,14 +33,12 @@ export const CalenderContainer = styled.div`
 `;
 
 export const TasksImg = styled.img`
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+  width: 24px;
+  height: 24px;
 `;
 export const TasksImgCal = styled.img`
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+  width: 24px;
+  height: 24px;
 `;
 
 // export const Filter = styled.div`

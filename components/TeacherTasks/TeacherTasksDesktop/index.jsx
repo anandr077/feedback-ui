@@ -1,32 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IbmplexsansBoldShark64px } from '../../../styledMixins';
-import { assignmentsHeaderProps } from '../../../utils/headerProps';
 import Buttons from '../../Classes/Buttons';
-// import Footer from '../../Footer';
-import Header from '../../Header';
 import TaskCardContainer from '../../TaskCardContainer';
 import TaskFrame1353 from '../../TaskFrame1353';
 import './TeacherTasksDesktop.css';
-import CheckboxGroup from '../../CheckboxGroup';
 import {
   SubtitleCon,
   TitleAndFilterContainer,
   TitleAndSubtitleContainer,
-  TitleImage,
 } from '../../TasksDesktop/style';
-import LinkButton from '../../../components2/LinkButton';
-import arrowRight from '../../../static/img/arrowright.svg';
-import whiteArrowright from '../../../static/img/arrowright-White.svg';
 import questionMark from '../../../static/img/question-mark.svg';
-import share from '../../../static/img/share.svg';
-import shareColor from '../../../static/img/share-color.svg';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
+import SecondSidebar from '../../SecondSidebar';
 
 function TeacherTasksDesktop(props) {
   const {
-    menuItems,
-    filterTasks,
     drafts,
     awaitingSubmissions,
     feedbacks,
@@ -39,29 +27,9 @@ function TeacherTasksDesktop(props) {
 
   return (
     <div className="tasks-desktop screen">
+      <SecondSidebar />
       <Frame1361>
         <TitleAndFilterContainer>
-          <TitleAndSubtitleContainer>
-            <TitleContainer>
-              <Title>
-                Tasks
-                <QuestionTooltip
-                  text={
-                    'View the status of every task that you have assigned for your classes'
-                  }
-                  img={questionMark}
-                />
-              </Title>
-              <ButtonContainer>
-                {' '}
-                <Buttons link="#tasks/new" />
-              </ButtonContainer>
-            </TitleContainer>
-            <SubtitleCon>
-              Click on a task bubble to finish drafting a task, provide feedback
-              or view any current submissions
-            </SubtitleCon>
-          </TitleAndSubtitleContainer>
           <>{FilterSortAndCal}</>
         </TitleAndFilterContainer>
         <Frame1360>
@@ -127,12 +95,13 @@ const ButtonContainer = styled.div`
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100vw - 305px);
   align-items: center;
   justify-content: center;
   gap: 40px;
   position: relative;
-  max-width: 1440px;
+  border-top: 1px solid #E3E3E3;
+  //max-width: 1440px;
 `;
 
 const Title = styled.h1`
@@ -157,7 +126,7 @@ const Frame1360 = styled.div`
   position: relative;
   align-self: stretch;
   // height: 90vh;
-  padding: 0px 60px;
+  padding: 0px 20px;
 `;
 
 const Frame1359 = styled.div`

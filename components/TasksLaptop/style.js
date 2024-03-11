@@ -4,7 +4,9 @@ export const TitleAndFilterContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  padding: 0px 60px;
+  padding: 0px 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #C9C6CC80;
 `;
 export const TitleAndSubtitleContainer = styled.div`
   display: flex;

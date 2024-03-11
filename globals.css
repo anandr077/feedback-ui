@@ -25,6 +25,19 @@
   box-sizing: border-box;
 }
 
+.route-container {
+  height: 90vh;
+  overflow-y: scroll;
+  position: sticky;
+  top: 68px;
+  left: 80px;
+}
+
+.route-container::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
 .app-container{
   display: flex;
 }

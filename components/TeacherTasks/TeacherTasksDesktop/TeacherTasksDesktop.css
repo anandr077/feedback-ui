@@ -1,13 +1,6 @@
 .tasks-desktop {
-  align-items: center;
   background-color: var(--white-pointer);
   border: 1px none;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  min-width: 1441px;
-  position: relative;
+  display: flex !important;
   overflow: hidden;
-  padding-top: 60px;
-  padding-bottom: 40px;
 }

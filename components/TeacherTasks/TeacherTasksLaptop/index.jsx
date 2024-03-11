@@ -130,7 +130,8 @@ const Frame1360 = styled.div`
   position: relative;
   align-self: stretch;
   // height: 80vh;
-  padding: 0px 20px;
+  padding: 0px 20px 20px;
+  max-height: 100vh;
 `;
 
 const Frame1359 = styled.div`

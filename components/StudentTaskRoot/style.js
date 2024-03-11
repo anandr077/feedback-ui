@@ -17,7 +17,6 @@ export const MainContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   align-self: stretch;
-  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   @media (min-width: 766px) and (max-width: 1024px) {
     align-items: center;
   }

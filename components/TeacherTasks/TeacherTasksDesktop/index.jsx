@@ -98,7 +98,7 @@ const Frame1361 = styled.div`
   width: calc(100vw - 305px);
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 20px;
   position: relative;
   border-top: 1px solid #E3E3E3;
   //max-width: 1440px;
@@ -127,6 +127,7 @@ const Frame1360 = styled.div`
   align-self: stretch;
   // height: 90vh;
   padding: 0px 20px;
+  max-height: 100vh;
 `;
 
 const Frame1359 = styled.div`
@@ -135,7 +136,7 @@ const Frame1359 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
-  min-height: calc(100vh - 290px);
+  min-height: calc(100vh - 350px);
   flex-grow: 1;
   margin: 0px auto;
   height: 90vh;

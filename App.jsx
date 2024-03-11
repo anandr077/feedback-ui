@@ -46,6 +46,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
+import MarkingTemplateStrengthsTargets from './components/MarkingTemplateStrengthsTargets';
+import MarkingTemplateRubrics from './components/MarkingTemplateRubrics';
 
 function App() {
   const role = getUserRole();
@@ -122,6 +124,10 @@ function App() {
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
   const ProtectedCompletedRoot = middleware(CompletedPage);
+  const ProtectedMarkingTemplateStrengthsTargets = middleware(
+    MarkingTemplateStrengthsTargets
+  );
+  const ProtectedMarkingTemplateRubrics = middleware(MarkingTemplateRubrics);
 
   const portfolioClient = new QueryClient();
 
@@ -152,7 +158,7 @@ function App() {
         <Router>
           {/* {<ProtectedHeader />} */}
           <Header />
-          <div className='app-container'>
+          <div className="app-container">
             <MainSidebar />
             <div className="route-container">
               <Switch>
@@ -211,7 +217,12 @@ function App() {
                 <Route path="/documentsReview/:id">
                   <ProtectedDocumentRoot />
                 </Route>
-
+                <Route path="/markingTemplate/strengthAndTargets">
+                  <ProtectedMarkingTemplateStrengthsTargets />
+                </Route>
+                <Route path="/markingTemplate/rubrics">
+                  <ProtectedMarkingTemplateRubrics />
+                </Route>
                 <Route path="/404">
                   <PageNotFound />
                 </Route>

@@ -206,6 +206,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                       {smartAnnotations.map((bank, index) => (
                         <Tab
                           key={bank.id}
+                          value={bank.id}
                           label={
                             <TabContainer>
                               <TabTitle>{bank.title}</TabTitle>
@@ -265,12 +266,14 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     </MoreOptionsContainer>
                   </TabsContainer>
                   <MarkingCriteriaList>
-                    {smartAnnotationsFrame()}
+                    {smartAnnotationsFrame(feedbackBankId)}
                   </MarkingCriteriaList>
 
                   <Buttons
                     text="New Feedback Area"
-                    onClickMethod={createSmartAnnotationHandler}
+                    onClickMethod={() =>
+                      createSmartAnnotationHandler(feedbackBankId)
+                    }
                     className={'button-width'}
                   />
                 </Frame1302>

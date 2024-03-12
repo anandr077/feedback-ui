@@ -1,146 +1,582 @@
 {
-  "data": [
+  "STUDENT": [
+    {
+      "title": "Getting Started",
+      "subtopics": [
+        {
+          "title": "Where am I?",
+          "content": "Jeddle's 'Feedback Hub' is a platform for giving and receiving feedback on homework tasks, essay drafts and other written work that you need help with. You can use the platform to complete homework from a teacher, create new drafts on your own, get feedback on your work (from peers, teachers or Jedd-AI) and even help other students by giving them feedback on their work."
+        },
+        {
+          "title": "Why am I here?",
+          "content": "Jeddle accelerates the feedback and marking process so that you can improve your writing and maximise your results. It also helps you manage classwork that has been assigned by your teachers."
+        },
+        {
+          "title": "Homework",
+          "content": "If you are subscribed as part of a school, the 'Homework' page allows you to view and complete any classwork that has been set by your teachers."
+        },
+        {
+          "title": "Get Feedback",
+          "content": "The 'Get Feedback' page allows you to create and edit your own drafts (independent of classwork), while also submitting those drafts for feedback from peers, teachers or Jedd-AI."
+        },
+        {
+          "title": "Give Feedback",
+          "content": "The 'Give Feedback' page allows you to provide feedback to other students in the Jeddle community. By providing helpful feedback to other students, your feedback rating improves, making it more likely that any requests you make for feedback will be accepted."
+        }
+      ]
+    },
+    {
+      "title": "Homework",
+      "subtopics": [
+        {
+          "title": "What is a 'Task'?",
+          "content": "A 'task' is homework that your teacher has set. It will often involve writing a response to a given question or even providing feedback to another student. Tasks will appear in 'bubbles' on the 'Homework' page."
+        },
+        {
+          "title": "Where do I find my Homework?",
+          "content": "Your schoolwork is located on the 'Homework' page. This allows you to track the progress of any schoolwork that has been assigned to you by a teacher. By clicking a task bubble, you can open the task, view the instructions and begin to complete your work. Your tasks will appear in columns, based on whether they are unopened ('Assigned'), partially completed ('In Draft') or submitted and awaiting feedback ('In Review'). "
+        },
+        {
+          "title": "Calendar View",
+          "content": "By clicking on the calendar icon above the 'In Review' column, you can view your tasks on a weekly or monthly calendar. This will help you prioritise which tasks you complete first. To change the task view back to columns, simply click on the 'Column' icon."
+        },
+        {
+          "title": "Starting a Task",
+          "content": "You can start a task by clicking on the relevant task bubble. If you are completing a written response, you will see a document with space for typing. The task instructions will appear above the document, and if you are required to highlight 'Focus Areas' in your response, they will appear to the right of the document as soon as you highlight a section of your response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show you the student's response (anonymously) and provide you with feedback tools on the right-hand side of the page."
+        },
+        {
+          "title": "Focus Areas",
+          "content": "Focus Areas are specific elements that a teacher would like you to use when completing a task (e.g. 'quotes' in an English essay). Before submitting a task with Focus Areas, make sure that you have highlighted the sections of your response that include each focus area (e.g. highlight all of the quotes in your essay). Once you highlight a section of text, click the relevant Focus Area bubble on the right side of the page, as this will mark that section for your teacher."
+        },
+        {
+          "title": "Peer Feedback",
+          "content": "Some tasks will require you to mark another student's work. You can identify these tasks by the 'Peer' label at the top of a task bubble (as opposed to 'Teacher'). When you open the task, you will see the student's response as well as a 'Feedback' section on the right. Read the student's response and highlight any sections that could be improved. Once you highlight a section of text, a list of comments will appear on the right for you to choose from. Select the most relevant comments for each area of improvement."
+        },
+        {
+          "title": "Assigned Tasks",
+          "content": "Assigned tasks are unopened tasks that you have not started. Once you begin a task, it will move to the next column, 'In Draft'."
+        },
+        {
+          "title": "In Draft",
+          "content": "Draft tasks are tasks that you have started but not yet submitted. Once you submit a response, the task will move to the 'In Review' column, as you are now awaiting feedback."
+        },
+        {
+          "title": "In Review",
+          "content": "Tasks that are 'In Review' are tasks that you have submitted but not yet marked as 'Complete'. You might be awaiting feedback on this task from someone else, or you might not have looked at the feedback that has been given. If you are finished with a task, you can open it and click 'Mark as Complete'. If a teacher has requested a 'Resubmission', you can begin the process again, taking into account the feedback that was given to you."
+        },
+        {
+          "title": "Overdue Tasks",
+          "content": "If a task is overdue, a red 'Overdue' bubble will appear in the top right corner of the task bubble. Submitting a task late will appear on your student profile, which is used by teachers to assess your performance."
+        },
+        {
+          "title": "Resubmissions",
+          "content": "If your teacher gave you feedback on a task, they can request that you resubmit a response after taking their suggestions into account."
+        },
+        {
+          "title": "Task History",
+          "content": "You can view all of your previous work by clicking on 'Task History' on the 'Homework' page. These are all of the tasks that either you have marked as complete or your teacher has closed. Any active tasks will remain on the 'Homework' page."
+        }
+      ]
+    },
+    {
+      "title": "Shared Responses",
+      "subtopics": [
+        {
+          "title": "What are 'Shared Responses'?",
+          "content": "If a teacher thinks that their class might benefit from seeing an example from another student's response, they can request permission to share that response (or at least, a part of it) with the class. The teacher can add comments and explain why the sentence or paragraph is effective, or even how it could be improved."
+        },
+        {
+          "title": "See examples from other students",
+          "content": "To view the examples that your teachers have shared (with the permission of the student authors), click on the 'Shared Responses' button at the top of the 'Homework' page. Scroll down the page to view a timeline of all shared responses."
+        },
+        {
+          "title": "Share your work with others",
+          "content": "If a teacher requests to share part of your response with a class or student, it will appear at the top of the 'Shared Responses' page (above the approved responses). Simply click 'Yes' if you agree to share it with the class. This will only share the selection that has been marked by your teacher, not the entire response. The more you share, the more others will too!"
+        }
+      ]
+    },
+    {
+      "title": "Creating a Draft (Personal)",
+      "subtopics": [
+        {
+          "title": "How do I create a new draft?",
+          "content": "To create a new document that is separate from your classwork, click on the 'Get Feedback' tab at the top of the page. On the left-hand side, you will see a collection of your drafts, and in the middle of the page, you will see a blank document that you can use to create a draft response. The 'Question', 'Prompt' or 'Description' that you use for the response (located above the page) will be the title of the document. If you wish to create a new document, simply click the 'New Draft' button in the top-left corner of the page."
+        },
+        {
+          "title": "How do I add a question?",
+          "content": "To get the most accurate feedback for a draft response, select the relevant 'Subject' and 'Task Type' and then add a question or task description. These options appear above the page where you write your response. Drafts that do not have a question or task description cannot be marked, so make sure you clearly indicate what you are responding to (e.g. practice question or topic)."
+        }
+      ]
+    },
+    {
+      "title": "Saving My Work",
+      "subtopics": [
+        {
+          "title": "Autosave for Drafts",
+          "content": "Your drafts will be auto-saved as you write."
+        },
+        {
+          "title": "Save your Feedback",
+          "content": "Unless you see the 'autosave' icon at the top of the page, make sure to click 'Save' when providing feedback to another student."
+        }
+      ]
+    },
+    {
+      "title": "Downloading My Work",
+      "subtopics": [
+        {
+          "title": "Can I download my work?",
+          "content": "Yes, you can download any document that you have created as a PDF."
+        },
+        {
+          "title": "Downloading a school task",
+          "content": "You can download an active school task by clicking on the task bubble in 'Homework' and then clicking the 'Download' button in the top right corner of the page. For previously completed tasks, go to the 'Task History' page under 'Homework' and click the 'Download' button on the right side of the relevant task bubble."
+        },
+        {
+          "title": "Downloading my own draft",
+          "content": "You can download a draft document that you have created (and edited) by going to the 'Get Feedback' page, scrolling to the relevant document on the left-side menu, and then clicking the three dots on the right side of the document bubble (still on the left-side menu)."
+        }
+      ]
+    },
+    {
+      "title": "Get Feedback",
+      "subtopics": [
+        {
+          "title": "Requesting Feedback",
+          "content": "After completing a draft response on the 'Get Feedback' page, click the 'Get Feedback' button located near the top right corner of the page. You will then be provided different feedback options to choose from, including teacher feedback, peer feedback (i.e. from a classmate), community feedback (from other Jeddle members), or Jedd-AI feedback (our AI tool that provides instant feedback)."
+        },
+        {
+          "title": "Feedback Options",
+          "content": "Click 'Get Feedback' to receive feedback from either JeddAI (AI-generated feedback) or a teacher, student or marking expert (human feedback)."
+        },
+        {
+          "title": "Community Feedback",
+          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. By reviewing their work, you will earn points and rewards."
+        },
+        {
+          "title": "Jedd-AI Feedback",
+          "content": "After submitting a draft response with a question or task instruction, you can click 'Get Feedback' followed by the Jedd-AI option to receive near-instant feedback on your work. If you have waited for longer than 2 minutes, try refreshing the page. The feedback should then appear beside each page as well as below the page, including overall grades."
+        }
+      ]
+    },
+    {
+      "title": "Jedd-AI",
+      "subtopics": [
+        {
+          "title": "What is Jedd-AI?",
+          "content": "Jedd-AI is Jeddle's AI-powered marking and feedback assistant, which generates near-instant feedback for your work. Simply open a 'New Draft', write a response to a question or instruction, click 'Get Feedback' then select 'Jedd-AI'. In just a couple of minutes, you will receive detailed comments and suggestions on different parts of your work, including overall marking grades at the bottom of the page where relevant."
+        },
+        {
+          "title": "How does Jedd-AI work?",
+          "content": "Jedd-AI has been trained by real teachers and has learnt to deliver feedback and suggestions that are similar to how a teacher or tutor would present feedback. Jedd-AI will provide in-text annotations (comments) for different parts of your response, including practical suggestions on how to improve the response, general feedback on your overall strengths and target areas, and specific marking grades for different elements of the response. Jedd-AI will base its feedback on your year level, subject and task type."
+        }
+      ]
+    },
+    {
+      "title": "Give Feedback",
+      "subtopics": [
+        {
+          "title": "Give Feedback to your Peers",
+          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. Use our feedback tools by highlighting different sections of the response and selecting the most appropriate comment (or entering one in yourself). The more you help others, the more likely it is that your responses will get feedback from the community."
+        },
+        {
+          "title": "Earn Rewards by Helping Others",
+          "content": "The more you help others in the community by giving feedback, the more likely it is that your own responses will get feedback from the community."
+        }
+      ]
+    },
+    {
+      "title": "Updating My Profile",
+      "subtopics": [
+        {
+          "title": "How to Change my Password",
+          "content": "To change your password, click your profile picture (avatar) in the top right corner of the screen and click 'Change Password'."
+        },
+        {
+          "title": "How to Change my Year Level or Location",
+          "content": "Keeping your details up to date will help you get the most relevant feedback for your tasks. To change your location or year level, simply click the flag icon in the top right of the screen."
+        }
+      ]
+    },
+    {
+      "title": "Logging Out",
+      "subtopics": [
+        {
+          "title": "How to Log Out",
+          "content": "To log out, simply click your profile picture (avatar) in the top right corner of the screen and click 'Log Out' on the drop-down menu."
+        }
+      ]
+    },
+    {
+      "title": "Still Need Help?",
+      "subtopics": [
+        {
+          "title": "Contact Us",
+          "content": "Jeddle has a dedicated support team that is here to help. Simply email us at hello@jeddle.com with your question. So that we can resolve your issue quickly, please provide as many details as you can, including a screenshot where relevant."
+        }
+      ]
+    }
+  ],
+  "NONSCHOOLSTUDENT": [
+    {
+      "title": "Getting Started",
+      "subtopics": [
+        {
+          "title": "Where am I?",
+          "content": "Jeddle's 'Feedback Hub' is a platform for giving and receiving feedback on homework tasks, essay drafts and other written work that you need help with. You can use the platform to complete homework from a teacher, create new drafts on your own, get feedback on your work (from peers, teachers or Jedd-AI) and even help other students by giving them feedback on their work."
+        },
+        {
+          "title": "Why am I here?",
+          "content": "Jeddle accelerates the feedback and marking process so that you can improve your writing and maximise your results. It also helps you manage classwork that has been assigned by your teachers."
+        },
+        {
+          "title": "'Get Feedback'",
+          "content": "The 'Get Feedback' page allows you to create and edit your own drafts (independent of classwork), while also submitting those drafts for feedback from peers, teachers or Jedd-AI."
+        },
+        {
+          "title": "'Give Feedback'",
+          "content": "The 'Give Feedback' page allows you to provide feedback to other students in the Jeddle community. By providing helpful feedback to other students, your feedback rating improves, making it more likely that any requests you make for feedback will be accepted."
+        }
+      ]
+    },
+    {
+      "title": "Starting a New Draft",
+      "subtopics": [
+        {
+          "title": "How do I create a new draft?",
+          "content": "To create a new document, click on the 'Get Feedback' tab at the top of the page. On the left-hand side, you will see a collection of your drafts, and in the middle of the page, you will see a blank document that you can use to create a draft response. The 'Question', 'Prompt' or 'Description' that you use for the response (located above the page) will be the default title of the document. If you wish to create a new document, simply click the 'New Draft' button in the top-left corner of the page."
+        },
+        {
+          "title": "How do I add a question?",
+          "content": "To get the most accurate feedback for a draft response, select the relevant 'Subject' and 'Task Type' and then add a question or task description. These options appear above the page where you write your response. Drafts that do not have a question or task description cannot be marked, so make sure you clearly indicate what you are responding to (e.g. practice question or topic)."
+        }
+      ]
+    },
+    {
+      "title": "Saving My Work",
+      "subtopics": [
+        {
+          "title": "Autosave for Drafts",
+          "content": "Your drafts will be auto-saved as you write."
+        },
+        {
+          "title": "Save your Feedback",
+          "content": "Unless you see the 'autosave' icon at the top of the page, make sure to click 'Save' when providing feedback to another student."
+        }
+      ]
+    },
+    {
+      "title": "Downloading My Work",
+      "subtopics": [
+        {
+          "title": "Can I download my work?",
+          "content": "Yes, you can download any document that you have created as a PDF."
+        },
+        {
+          "title": "Downloading my own draft",
+          "content": "You can download a draft document that you have created (and edited) by going to the 'Get Feedback' page, scrolling to the relevant document on the left-side menu, and then clicking the three dots on the right side of the document bubble (still on the left-side menu)."
+        }
+      ]
+    },
+    {
+      "title": "Get Feedback",
+      "subtopics": [
+        {
+          "title": "Requesting Feedback",
+          "content": "After completing a draft response on the 'Get Feedback' page, click the 'Get Feedback' button located near the top right corner of the page. You will then be provided different feedback options to choose from, including community feedback (from other Jeddle members), or Jedd-AI feedback (our AI tool that provides instant feedback)."
+        },
+        {
+          "title": "Feedback Options",
+          "content": "Click 'Get Feedback' to receive feedback from either JeddAI (AI-generated feedback) or a teacher, student or marking expert (human feedback)."
+        },
+        {
+          "title": "Community Feedback",
+          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. By reviewing their work, you will earn points and rewards."
+        },
+        {
+          "title": "Jedd-AI Feedback",
+          "content": "After submitting a draft response with a question or task instruction, you can click 'Get Feedback' followed by the Jedd-AI option to receive near-instant feedback on your work. If you have waited for longer than 2 minutes, try refreshing the page. The feedback should then appear beside each page as well as below the page, including overall grades."
+        }
+      ]
+    },
+    {
+      "title": "Jedd-AI",
+      "subtopics": [
+        {
+          "title": "What is Jedd-AI?",
+          "content": "Jedd-AI is Jeddle's AI-powered marking and feedback assistant, which generates near-instant feedback for your work. Simply open a 'New Draft', write a response to a question or instruction, click 'Get Feedback' then select 'Jedd-AI'. In just a couple of minutes, you will receive detailed comments and suggestions on different parts of your work, including overall marking grades at the bottom of the page where relevant."
+        },
+        {
+          "title": "How does Jedd-AI work?",
+          "content": "Jedd-AI has been trained by real teachers and has learnt to deliver feedback and suggestions that are similar to how a teacher or tutor would present feedback. Jedd-AI will provide in-text annotations (comments) for different parts of your response, including practical suggestions on how to improve the response, general feedback on your overall strengths and target areas, and specific marking grades for different elements of the response. Jedd-AI will base its feedback on your year level, subject and task type."
+        }
+      ]
+    },
+    {
+      "title": "Give Feedback",
+      "subtopics": [
+        {
+          "title": "Give Feedback to your Peers",
+          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. Use our feedback tools by highlighting different sections of the response and selecting the most appropriate comment (or entering one in yourself). The more you help others, the more likely it is that your responses will get feedback from the community."
+        },
+        {
+          "title": "Earn Rewards by Helping Others",
+          "content": "The more you help others in the community by giving feedback, the more likely it is that your own responses will get feedback from the community."
+        }
+      ]
+    },
+    {
+      "title": "Updating My Profile",
+      "subtopics": [
+        {
+          "title": "How to Change my Password",
+          "content": "To change your password, click your profile picture (avatar) in the top right corner of the screen and click 'Change Password'."
+        },
+        {
+          "title": "How to Change my Year Level or Location",
+          "content": "Keeping your details up to date will help you get the most relevant feedback for your tasks. To change your location or year level, simply click the flag icon in the top right of the screen."
+        }
+      ]
+    },
+    {
+      "title": "Logging Out",
+      "subtopics": [
+        {
+          "title": "How to Log Out",
+          "content": "To log out, simply click your profile picture (avatar) in the top right corner of the screen and click 'Log Out' on the drop-down menu."
+        }
+      ]
+    },
+    {
+      "title": "Still Need Help?",
+      "subtopics": [
+        {
+          "title": "Contact Us",
+          "content": "Jeddle has a dedicated support team that is here to help. Simply email us at hello@jeddle.com with your question. So that we can resolve your issue quickly, please provide as many details as you can, including a screenshot where relevant."
+        }
+      ]
+    }
+  ],
+  "TEACHER": [
+    {
+      "title": "Getting Started",
+      "subtopics": [
+        {
+          "title": "Where am I?",
+          "content": "Jeddle's 'Feedback Hub' is a platform for creating homework tasks, particularly formative assessment tasks, providing faster feedback for students, and collecting valuable insights on both student and class performance. Teachers can create and assign tasks to students online and either provide feedback themselves (using our customisable feedback tools), facilitate peer-to-peer feedback between students or use Jedd-AI - our AI-marking and feedback tool. Students can use the platform to not only complete homework from a teacher but to submit their own drafts for feedback (from peers, teachers or Jedd-AI)."
+        },
+        {
+          "title": "Why am I here?",
+          "content": "Jeddle accelerates the feedback and marking process so that you can save time marking while improving the results of students. Jeddle's 'Feedback Hub' also helps you manage classwork and provides real-time data on student learning outcomes."
+        },
+        {
+          "title": "Tasks",
+          "content": "If you are subscribed as part of a school, the 'Tasks' page allows you to view any classwork that you have drafted or assigned to classes."
+        },
+        {
+          "title": "Classes",
+          "content": "The 'Classes' page shows you important data for each of your classes. After selecting a class from the row of classes at the top of the page, you can view Active Tasks, Class Insights, Student Insights and Shared Responses."
+        }
+      ]
+    },
+    {
+      "title": "Creating a Task for Homework",
+      "subtopics": [
+        {
+          "title": "What is a 'Task'?",
+          "content": "A 'task' is homework that you set for a class (or multiple classes). It will often require a student to write a response to a given question (or multiple questions) and/or to provide feedback to another student. Tasks will appear in 'bubbles' on the 'Tasks' page. For students, these tasks will appear in the 'Homework' tab."
+        },
+        {
+          "title": "How do I Create a New Task?",
+          "content": "To create a task for one or more classes, simply click the 'New Task' button at the top right corner of your screen. You will then be prompted to fill in the relevant information for the task, including any relevant marking templates, feedback banks and 'Focus Areas'. You must also select a due date and the mode of feedback (i.e. who is providing feedback for the student responses? Is it you as the teacher, the students themselves via peer feedback of Jedd-AI, your AI-marking assistant?)"
+        },
+        {
+          "title": "Overdue Tasks",
+          "content": "If a task is overdue, a red 'Overdue' bubble will appear in the top right corner of the task bubble. Submitting a task late will appear on a student's profile, which can be used by teachers to assess performance."
+        },
+        {
+          "title": "Resubmissions",
+          "content": "If you would like a student to resubmit a response, you can click 'Request resubmission' after providing feedback."
+        }
+      ]
+    },
+    {
+      "title": "Viewing your Tasks",
+      "subtopics": [
+        {
+          "title": "How can I view Current Tasks?",
+          "content": "Any task that has been drafted, assigned or completed can be found on the 'Tasks' page. A recent task will appear in one of three columns: Drafts, Assigned or Active. Until a new task receives at least one submission, it will remain in the 'Assigned' column. By clicking a task bubble, you can open the task to view the instructions or any relevant submissions. If a task is a peer feedback task, you can click on the task bubble to view the feedback that has been provided by your students. "
+        },
+        {
+          "title": "How can I view Previous Tasks?",
+          "content": "Previous tasks that have been completed or closed can be viewed by clicking the 'Task History' button on the 'Tasks' page."
+        },
+        {
+          "title": "Calendar View",
+          "content": "To view your tasks on a monthly calendar (rather than in columns), simply click the calendar icon near the top of the 'Tasks' page. To change the task view back to columns, simply click on the 'Column' icon."
+        }
+      ]
+    },
+    {
+      "title": "Completing a Task (Students)",
+      "subtopics": [
+        {
+          "title": "How do Students Complete a Task?",
+          "content": "Students can start a task by clicking on the relevant task bubble on their 'Homework' page. If they are completing a written response, they will see a blank document with space for typing. The task instructions will appear above the document, and if they are required to highlight 'Focus Areas' in their responses, they will appear to the right of the document as soon as they highlight a relevant section of their response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show another student's response (anonymously) and provide the student with feedback tools on the right-hand side of the page. "
+        }
+      ]
+    },
     {
       "title": "Focus Areas",
       "subtopics": [
         {
-          "title": "What are react areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
+          "title": "What are 'Focus Areas'?",
+          "content": "Focus Areas are specific elements that a teacher would like students to use when completing a task (e.g. 'quotes' in an English essay). Before submitting a task with Focus Areas, students will be prompted to highlight sections of their responses that include each focus area (e.g. highlight all of the quotes in your essay). Once a section of text is highlighted, students will be prompted to select the relevant Focus Area bubble on the right side of the page, marking that section for the teacher."
         },
         {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "How do I use 'Focus Areas'?",
+          "content": "Click the 'New Task' button to begin creating a new task. When setting up the task itself (e.g. entering in the 'Task Description'), you will see a field called 'Focus areas'. Select and/or create as many 'Focus areas' as you would like for the particular task. Each 'Focus area' has a colour, which will be the colour that appears when that particular element is highlighted in a student's response."
         },
         {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "How do I view 'Focus Areas' in a Student's Response?",
+          "content": "After a student has submitted a response to the assigned homework task, any 'Focus areas' that they have highlighted will appear by default when you first open their submission. You can reply to each selection on the right side of the page or you can hide the 'Focus areas' so that you can only see your comments and annotations."
         }
       ]
     },
     {
-      "title": "Feedback",
+      "title": "Marking Templates",
       "subtopics": [
         {
-          "title": "What are focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
+          "title": "What is a 'Marking Template'?",
+          "content": "Jeddle offers two types of 'marking templates' for overall feedback (versus specific feedback in the form of in-text annotations): 'Rubrics' and 'Strengths and Targets'. These are clickable tables that allow you to either grade a student (e.g. from A-E) based on certain criteria or select the applicable strengths and target areas for a student's response. Marking Templates are for general, holistic feedback, whereas 'Comment Banks' are for specific annotations throughout the response."
         },
         {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "How do I select a 'Marking Template'?",
+          "content": "When you are creating a new task, you will have the option of selecting a 'Marking Template' from a drop-down selection. These selections are based on the 'Marking Templates' that have been added to your library of templates in 'Settings'."
         },
         {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "Do I need to include a 'Marking Template'?",
+          "content": "No, 'Marking Templates' are optional, just like 'Focus areas'."
+        },
+        {
+          "title": "How do I create or edit a 'Marking Template'?",
+          "content": "Go to the 'Settings' page and select the tab 'Marking Templates'. You can then create a new marking template (either a Rubric or Strengths & Targets selection) OR select from Jeddle's preloaded templates. Instead of starting from scratch, it is often easier to add a preloaded template and then edit the template to your liking."
         }
       ]
     },
     {
-      "title": "Tasks",
+      "title": "Comment Banks",
       "subtopics": [
         {
-          "title": "What are focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
+          "title": "What is a 'Comment Bank'?",
+          "content": "A comment bank is a preloaded library of in-text annotations (categorised into different areas of feedback) that you typically provide to students for a certain type of task (e.g. an essay). Using a comment bank for a task will save you time as you can simply click on the relevant comments rather than typing out similar comments each time. Using 'comment banks' also allows you to track the most common types of feedback that are given to classes and students (this data can be viewed on the 'Classes' page)."
         },
         {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "How do I select a 'Comment Bank'?",
+          "content": "To select a comment bank for a New Task, on the 'New Task' page, make a selection from the drop-down under 'Comment Bank' after entering a Task Description. This is located near the 'Marking Template' selection."
         },
         {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "How do I create my own 'Comment Bank'?",
+          "content": "Go to the 'Settings' page and select the tab 'Comment Banks'. You can then create a new comment bank for a particular task type (e.g. Essays, Imaginative Writing) OR select from Jeddle's preloaded templates. Instead of starting from scratch, it is often easier to add a preloaded template and then edit the template to your liking. "
         }
       ]
     },
     {
-      "title": "Portfolio",
+      "title": "Peer Feedback",
       "subtopics": [
         {
-          "title": "What are javaScript areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
+          "title": "Peer Feedback",
+          "content": "When 'Peer feedback' is selected as the feedback method for a task, students will be required to each other's submissions. You can identify these tasks by the 'Peer' label at the top of a task bubble (as opposed to 'Teacher'). When you open the task, you will see the student's response as well as a 'Feedback' section on the right. You can view a student's feedback for a task by selecting the task bubble on the 'Tasks' page. "
         },
         {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "Customising Peer Feedback Selections",
+          "content": "When creating a new task via the 'New Task' button at the top right corner of your screen, you will be prompted to select the method of feedback. If you select 'Peer feedback', you can then decide whether you would like to randomise which student reviews another student's work or customise the pairings. To pair two students together, simply drag and drop a student's name from the far-right column into the middle column so that it aligns with the intended partner in the left column. "
         },
         {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "Anonymous Feedback",
+          "content": "When students review each other's work, the submissions will be anonymous. This is to encourage engagement with the platform and remove the fear of judgement."
         }
       ]
     },
     {
-      "title": "Drafts",
+      "title": "AI Feedback (JeddAI)",
       "subtopics": [
         {
-          "title": "What are focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
-        },
-        {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
-        },
-        {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "What is Jedd-AI?",
+          "content": "Jedd-AI is Jeddle's AI-powered marking and feedback assistant, which generates near-instant feedback for a student's work. Instead of manually reviewing a student's work, you can select 'Jedd-AI' to at least complete the first draft of feedback using a teacher-like marking style."
         }
       ]
     },
     {
-      "title": "Exemplar response",
+      "title": "Shared Response Library",
       "subtopics": [
         {
-          "title": "What are focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
+          "title": "What are 'Shared Responses'?",
+          "content": "If a teacher thinks that their class might benefit from seeing an example from another student's response (whether an exemplar or otherwise), they can request permission to share that response (or at least part of it) with the class. The teacher can add comments and explain why the sentence or paragraph is effective, or even how it could be improved."
         },
         {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "How do I Share a Student's Response?",
+          "content": "When providing feedback on a student's response, highlight the section that you would like to share with your class (or a particular set of students from the class). This is the same process for adding a comment on a particular sentence or paragraph. Instead of adding a comment, click the 'Share Response' button and then select the classes or students that you would like to share it with. You can also add a Teacher's Note to explain why you are sharing the response. The student will then be asked whether they consent to sharing the response. If they do consent, the response will appear in the 'Shared Responses' library for the relevant students and teachers."
         },
         {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "How do I view all 'Shared Responses'?",
+          "content": "To view the examples that you have shared (with the permission of the student authors), go to the 'Classes' page and click on the 'Shared Responses' tab. This will show any relevant 'Shared Responses' with Teacher's Notes for that class."
+        },
+        {
+          "title": "How does a Student Consent to Sharing?",
+          "content": "If a teacher requests to share part of a student's response with a class or student, it will appear at the top of the student's 'Shared Responses' page, which is located at the top of the 'Homework' page. Simply click 'Yes' if you agree to share it with the class. This will only share the selection that has been marked by the teacher, not the entire response."
         }
       ]
     },
     {
-      "title": "Marking Criteria",
+      "title": "Other Feedback Options for Students",
       "subtopics": [
         {
-          "title": "What are focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
+          "title": "Writing a Draft Response (outside of Homework)",
+          "content": "Students can create a draft response even when a homework task has not been set by a teacher. They can then request feedback from a teacher, a fellow student or Jedd-AI."
         },
         {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "Requesting Feedback",
+          "content": "After completing a draft response on the 'Get Feedback' page, students can click the 'Get Feedback' button located near the top right corner of the page. They will then be offered different feedback options to choose from, including teacher feedback, peer feedback (i.e. from a classmate), community feedback (from other Jeddle members), or Jedd-AI feedback (our AI tool that provides instant feedback)."
         },
         {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "Feedback Options",
+          "content": "Click 'Get Feedback' to receive feedback from either JeddAI (AI-generated feedback) or a teacher, student or marking expert (human feedback)."
+        },
+        {
+          "title": "Community Feedback",
+          "content": "Students also have a 'Give Feedback' page, which allows them to view work that has been submitted by other students in the community. By reviewing another student's work, a student can earn points and rewards."
+        },
+        {
+          "title": "Jedd-AI Feedback for Students",
+          "content": "After submitting a draft response with a question or task instruction, students can click 'Get Feedback' followed by the Jedd-AI option to receive near-instant feedback on their work."
         }
       ]
     },
     {
-      "title": "Account",
+      "title": "Updating My Profile",
       "subtopics": [
         {
-          "title": "What are focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections",
-          "video": "true"
-        },
+          "title": "How to Change my Password",
+          "content": "To change your password, click your profile picture (avatar) in the top right corner of the screen and click 'Change Password'."
+        }
+      ]
+    },
+    {
+      "title": "Logging Out",
+      "subtopics": [
         {
-          "title": "How do focus areas work?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
-        },
+          "title": "How to Log Out",
+          "content": "To log out, simply click your profile picture (avatar) in the top right corner of the screen and click 'Log Out' on the drop-down menu."
+        }
+      ]
+    },
+    {
+      "title": "Still Need Help?",
+      "subtopics": [
         {
-          "title": "Managing focus areas?",
-          "content": "Fragment this quotation into smaller parts and integrate into different sections"
+          "title": "Contact Us",
+          "content": "Jeddle has a dedicated support team that is here to help. Simply email us at hello@jeddle.com with your question. So that we can resolve your issue quickly, please provide as many details as you can, including a screenshot where relevant."
         }
       ]
     }

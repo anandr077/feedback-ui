@@ -35,9 +35,11 @@ import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../../static/img/sort-square.svg';
 import FilterSquare from '../../../static/img/filter-square.svg';
 import TaskSelected from '../../../static/img/Columns-new.svg';
+import TaskNotSelected from '../../../static/img/Columns-new-gray.svg';
 import Closecircle from '../../../static/img/closecircle.svg';
 import TaskUnSelected from '../../../static/img/taskunselected.svg';
 import CalSelected from '../../../static/img/Calendar-new.svg';
+import CalNotSelected from '../../../static/img/Calendar-new-purple.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
@@ -350,7 +352,7 @@ export default function TeacherTaskRoot() {
             onClick={() => setTasksSelected(true)}
           >
             <TasksImg
-              src={TaskSelected}
+              src={!tasksSelected ? TaskNotSelected : TaskSelected}
               selected={tasksSelected}
             />
             Column
@@ -361,7 +363,7 @@ export default function TeacherTaskRoot() {
               onClick={() => setTasksSelected(false)}
             >
               <TasksImgCal
-                src={CalSelected}
+                src={!tasksSelected ? CalNotSelected : CalSelected}
                 selected={!tasksSelected}
               />
               Calendar

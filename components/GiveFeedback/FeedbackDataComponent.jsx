@@ -101,7 +101,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
             <TextContainer>
               <DataText>{text.title}</DataText>
               <WordsCountContainer>
-                {/* <WordsCount>100 words</WordsCount> */}
+                <WordsCount>{text.wordCount} words</WordsCount>
               </WordsCountContainer>
             </TextContainer>
             <ButtonsContainer>

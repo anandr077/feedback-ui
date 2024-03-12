@@ -33,6 +33,7 @@ import {
   SystemOption,
   SystemOptionImage,
   SystemOptionTitle,
+  ThreeDotsOptions,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
@@ -42,8 +43,12 @@ import PlusViolet from '../../../static/img/Plus-violet.svg';
 import Globe from '../../../static/img/Globe.svg';
 import optionArrow from '../../../static/img/optionArrow.svg';
 import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
+import Rename from '../../../static/img/Rename.svg';
+import Hide from '../../../static/img/Hide.svg';
+import Copy from '../../../static/img/Copy.svg';
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
+import { getUserId } from '../../../userLocalDetails';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -53,6 +58,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
+    createFeedbackBank,
     createSmartAnnotationHandler,
     breadCrumbs,
     smartAnnotationsFrame,
@@ -64,6 +70,10 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
   console.log('smartAnnotations', smartAnnotations);
   const [moreOptionCon, setMoreOptionCon] = useState(false);
   const [systemOptionCon, setSystemOptionCon] = useState(false);
+  const [dotOptionCon, setDotOptionCon] = useState(
+    Array.from({ length: smartAnnotations.length }, () => false)
+  );
+  console.log('dotOptionCon', dotOptionCon);
   const [systemOptionList, setSystemOptionList] = useState([
     {
       id: 0,
@@ -84,6 +94,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
 
   const moreOptionRef = useRef(null);
   const systemOptionRef = useRef(null);
+  const dotOptionRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -99,6 +110,14 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
       ) {
         setSystemOptionCon(false);
       }
+      if (
+        dotOptionRef.current &&
+        !dotOptionRef.current.contains(event.target)
+      ) {
+        setDotOptionCon(
+          Array.from({ length: smartAnnotations.length }, () => false)
+        );
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -106,6 +125,10 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const findCurrentFeedbackBank = smartAnnotations.find(
+    (smartAnnotation) => smartAnnotation.id === feedbackBankId
+  );
 
   const handleSystemOptionList = (id) => {
     setSystemOptionList((prevOptions) =>
@@ -196,26 +219,76 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     />
                   </Title1>
                   <TabsContainer>
-                    <Tabs
-                      value={feedbackBankId}
-                      onChange={(event, newValue) => {
-                        setFeedbackBankId(newValue);
-                      }}
-                      aria-label="Feedback Bank tabs"
-                    >
-                      {smartAnnotations.map((bank, index) => (
-                        <Tab
-                          key={bank.id}
-                          value={bank.id}
-                          label={
-                            <TabContainer>
-                              <TabTitle>{bank.title}</TabTitle>
-                              <TabDots src={threedotsc} />
-                            </TabContainer>
-                          }
-                        />
-                      ))}
-                    </Tabs>
+                    <>
+                      <Tabs
+                        value={feedbackBankId}
+                        onChange={(event, newValue) => {
+                          setFeedbackBankId(newValue);
+                        }}
+                        aria-label="Feedback Bank tabs"
+                      >
+                        {smartAnnotations?.map((bank, index) => (
+                          <Tab
+                            key={bank.id}
+                            value={bank.id}
+                            label={
+                              <TabContainer>
+                                <TabTitle>{bank.title}</TabTitle>
+                                <TabDots
+                                  src={threedotsc}
+                                  onClick={() => {
+                                    const updatedDotOptionCon = Array.from(
+                                      { length: smartAnnotations.length },
+                                      () => false
+                                    );
+                                    updatedDotOptionCon[index] = true;
+                                    setDotOptionCon(updatedDotOptionCon);
+                                  }}
+                                />
+                                {dotOptionCon[index] && (
+                                  <ThreeDotsOptions ref={dotOptionRef}>
+                                    <MoreOption>
+                                      <MoreOptionImage src={Rename} />
+                                      <MoreOptionTitle>Rename</MoreOptionTitle>
+                                    </MoreOption>
+                                    <MoreOption>
+                                      <MoreOptionImage src={Copy} />
+                                      <MoreOptionTitle>
+                                        Duplicate
+                                      </MoreOptionTitle>
+                                    </MoreOption>
+                                    <MoreOption>
+                                      <MoreOptionImage src={Hide} />
+                                      <MoreOptionTitle>Hide</MoreOptionTitle>
+                                    </MoreOption>
+                                  </ThreeDotsOptions>
+                                )}
+                              </TabContainer>
+                            }
+                          />
+                        ))}
+                      </Tabs>
+                      {/* {smartAnnotations?.map((bank, index) => (
+                        <React.Fragment key={bank.id}>
+                          {dotOptionCon[index] && (
+                            <ThreeDotsOptions ref={dotOptionRef}>
+                              <MoreOption>
+                                <MoreOptionImage src={Rename} />
+                                <MoreOptionTitle>Rename</MoreOptionTitle>
+                              </MoreOption>
+                              <MoreOption>
+                                <MoreOptionImage src={Copy} />
+                                <MoreOptionTitle>Duplicate</MoreOptionTitle>
+                              </MoreOption>
+                              <MoreOption>
+                                <MoreOptionImage src={Hide} />
+                                <MoreOptionTitle>Hide</MoreOptionTitle>
+                              </MoreOption>
+                            </ThreeDotsOptions>
+                          )}
+                        </React.Fragment>
+                      ))} */}
+                    </>
                     <MoreOptionsContainer ref={moreOptionRef}>
                       <TabsPlus
                         src={Plus}
@@ -224,7 +297,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
 
                       {moreOptionCon && (
                         <MoreOptions>
-                          <MoreOption>
+                          <MoreOption onClick={() => createFeedbackBank()}>
                             <MoreOptionImage src={PlusViolet} />
                             <MoreOptionTitle>New Bank</MoreOptionTitle>
                           </MoreOption>
@@ -266,16 +339,16 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     </MoreOptionsContainer>
                   </TabsContainer>
                   <MarkingCriteriaList>
-                    {smartAnnotationsFrame(feedbackBankId)}
+                    {smartAnnotationsFrame()}
                   </MarkingCriteriaList>
 
-                  <Buttons
-                    text="New Feedback Area"
-                    onClickMethod={() =>
-                      createSmartAnnotationHandler(feedbackBankId)
-                    }
-                    className={'button-width'}
-                  />
+                  {findCurrentFeedbackBank.ownerId === getUserId() && (
+                    <Buttons
+                      text="New Feedback Area"
+                      onClickMethod={() => createSmartAnnotationHandler()}
+                      className={'button-width'}
+                    />
+                  )}
                 </Frame1302>
               )}
             </>

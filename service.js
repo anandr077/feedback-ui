@@ -317,6 +317,10 @@ export const deleteMarkingCriteria = async (markingCriteriaId) => {
   await deleteApi(baseUrl + '/teachers/markingCriteria/' + markingCriteriaId);
 };
 
+export const createNewFeedbackBank = async (newFeedbackBank) => {
+  return await postApi(baseUrl + '/commentbanks', newFeedbackBank);
+};
+
 export const createNewSmartAnnotation = async (
   smartAnnotation,
   smartAnnotationId

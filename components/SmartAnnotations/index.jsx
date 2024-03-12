@@ -89,10 +89,8 @@ function SmartAnotation(props) {
   };
 
   const handleDeleteSuggestion = (index) => {
-    console.log('handleDeleteSuggestion index', index);
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.suggestions.splice(index, 1);
-    console.log('handleDeleteSuggestion', newSmartAnnotation);
     UpdateSmartAnotationHandler(
       newSmartAnnotation,
       smartAnnotationIndex,
@@ -100,9 +98,7 @@ function SmartAnotation(props) {
     );
   };
 
-  const handleDeleteAnnotation = () => {
-    deleteAnnotationHandler(currentSmartAnnotation.id);
-  };
+ 
   const handleDeleteSmartComment = () => {
     deleteAnnotationHandler(smartCommentIndex, smartAnnotationIndex);
   };

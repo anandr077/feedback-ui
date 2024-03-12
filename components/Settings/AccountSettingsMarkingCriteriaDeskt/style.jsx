@@ -181,7 +181,10 @@ export const HeadingLine = styled.p`
   font-weight: 400;
   line-height: 24px;
 `;
-
+export const TabDots = styled.img`
+  display: none;
+  width: 3px;
+`;
 export const TabsContainer = styled.div`
   width: 100%;
   display: flex;
@@ -191,11 +194,8 @@ export const TabsContainer = styled.div`
   border-bottom: 1px solid #f2f2f2;
 `;
 
-export const TabDots = styled.img`
-  display: none;
-  width: 3px;
-`;
 export const TabContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -291,4 +291,17 @@ export const SystemOptionTitle = styled.p`
   text-align: left;
   color: #4b464f;
   cursor: pointer;
+`;
+
+export const ThreeDotsOptions = styled.div`
+  position: absolute;
+  z-index: 100;
+  left: 15px;
+  width: 180px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px;
+  gap: 3px;
+  background: #ffffff;
+  box-shadow: 0px 2px 4px 0px #73737340;
 `;

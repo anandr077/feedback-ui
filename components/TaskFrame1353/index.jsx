@@ -9,18 +9,6 @@ function TaskFrame1353(props) {
   const { outstanding, number } = props;
   const role = getUserRole();
 
-  const color = () => {
-    if (outstanding === 'Drafts' || outstanding === 'Assigned') {
-      return '#f1e7ff';
-    }
-    if (outstanding === 'Closed' || outstanding === 'In Draft') {
-      return '#F9F0CD';
-    }
-    if (outstanding === 'Active' || outstanding === 'In Review') {
-      return '#DCF5D1';
-    }
-  };
-
   const tooltipText = () => {
     if (outstanding === 'Drafts' || outstanding === 'Assigned') {
       if (role === 'TEACHER') {
@@ -43,11 +31,7 @@ function TaskFrame1353(props) {
   };
 
   return (
-    <Frame13531
-      style={{
-        backgroundColor: color(),
-      }}
-    >
+    <Frame13531>
       <Outstanding>
         {outstanding}
         <QuestionTooltip text={tooltipText()} img={questionMark}/>
@@ -70,8 +54,7 @@ const Frame13531 = styled.div`
   position: sticky;
   top: 0px;
   z-index: 1;
-  background-color: var(--white);
-  padding: 20px;
+  padding: 20px 20px 0;
   border-radius: 16px;
   border-radius: 16px 16px 0 0;
   // margin:20px;
@@ -85,6 +68,10 @@ const Outstanding = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: IBM Plex Sans;
+  font-size: 19px;
+  font-weight: 600;
+  color: #4B464F;
 `;
 
 const Number = styled.div`
@@ -94,6 +81,8 @@ const Number = styled.div`
   text-align: right;
   letter-spacing: 0;
   line-height: normal;
+  color: #405059;
+  font-size: 20px;
 `;
 
 export default TaskFrame1353;

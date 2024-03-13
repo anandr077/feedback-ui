@@ -88,7 +88,7 @@ export const FilterContainer = styled.div`
 `;
 export const SortContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 8px;
 `;
 export const SortButton = styled.div`
   display: flex;
@@ -410,12 +410,12 @@ export const Frame5086Img = styled.img`
 `;
 export const Frame5086Text = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: var(--royal-purple);
+  color: #918B97;
 `;
 
 export const Frame5051 = styled.div`

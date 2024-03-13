@@ -150,14 +150,13 @@ export const StyledCard = styled.article`
   position: relative;
   align-self: stretch;
   background-color: ${({overdue}) => (overdue ? '#FDE2E2' : 'var(--white)')};
-  box-shadow: 0px 4px 8.5px rgba(114, 0, 224, 0.08);
+  box-shadow: 0 4px 16px rgba(156, 156, 156, 0.4);
   border-color: var(--corn);
-  border:  1px solid ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : 'rgba(219, 87, 87, 0.2)')};
+  border:  1px solid ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : '#EAEAEA')};
   border-radius: 16px;
   
   &:hover {
-    background: #f9f5ff;
-    border: 1px solid var(--light-mode-purple);
+    background: #F1E6FC;
     box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
   }
 `;

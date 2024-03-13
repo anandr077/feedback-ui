@@ -84,7 +84,7 @@ export const FilterAndSortContainer = styled.div`
 `;
 export const FilterContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 8px;
 `;
 export const FilterLine = styled.div`
   height: 30px;

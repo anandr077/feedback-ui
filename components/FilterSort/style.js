@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
@@ -34,12 +34,12 @@ export const FilterImg = styled.img`
 `;
 export const FilterText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: var(--royal-purple);
+  color: #918B97;
 `;
 
 export const FilterLine = styled.div`
@@ -71,32 +71,32 @@ export const SortImg = styled.img`
 `;
 
 export const SortText = styled.p`
-  font-family:  var(--font-family-ibm_plex_sans);
-  font-size: 16px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 13px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: var(--royal-purple);
+  color: #918B97;
 `;
 
 export const SortButton = styled.div`
   display: flex;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 25px;
   border: 1px;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #7B7382;
   cursor: pointer;
 `;
 
 export const SortButtonText = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #6f6f6f;
+  color: #7B7382;
   text-align: center;
 `;
 
@@ -104,9 +104,21 @@ export const TitleHeading = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
+  position: relative;
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   cursor: pointer;
+
+  &.active {
+    &::after {
+      content: '';
+      position: absolute;
+      top: calc(100% + 16px);
+      width: 100%;
+      height: 2px;
+      background-color: #7200e0;
+    }
+  }
 `;

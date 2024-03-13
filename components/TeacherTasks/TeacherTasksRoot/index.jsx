@@ -349,6 +349,7 @@ export default function TeacherTaskRoot() {
         <CalenderContainer>
           <TitleHeading 
             style={tasksSelected ? {color: '#7200E0'} : {color: '#7B7382'}}
+            className={tasksSelected ? 'active' : ''}
             onClick={() => setTasksSelected(true)}
           >
             <TasksImg
@@ -360,6 +361,7 @@ export default function TeacherTaskRoot() {
           {!mobileView && (
             <TitleHeading 
               style={tasksSelected ? {color: '#7B7382'} : {color: '#7200E0'}}
+              className={!tasksSelected ? 'active' : ''}
               onClick={() => setTasksSelected(false)}
             >
               <TasksImgCal

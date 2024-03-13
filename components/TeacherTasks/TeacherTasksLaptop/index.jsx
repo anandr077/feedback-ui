@@ -153,9 +153,10 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: var(--white);
+  background-color: #F2F1F3; 
+  border: 1px solid #301B7214;
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  box-shadow: inset 0 0 1px 2px rgba(48, 27, 114, 0.04);
 `;
 
 export default TeacherTasksLaptop;

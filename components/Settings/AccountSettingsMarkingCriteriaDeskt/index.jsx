@@ -34,6 +34,7 @@ import {
   SystemOptionImage,
   SystemOptionTitle,
   ThreeDotsOptions,
+  TabsImage,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
@@ -46,9 +47,11 @@ import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
 import Rename from '../../../static/img/Rename.svg';
 import Hide from '../../../static/img/Hide.svg';
 import Copy from '../../../static/img/Copy.svg';
+import TabsDelete from '../../../static/img/tabs-delete.svg';
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 import { getUserId } from '../../../userLocalDetails';
+import TabTitleContainer from './TabTitleContainer';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -66,6 +69,9 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     setFeedbackBankId,
     feedbackBankId,
     setOpenMarkingMethodologyDialog,
+    UpdateSmartBankTitleHandler,
+    deteteFeedbackBank,
+    createCloneFeedbankBank,
   } = props;
   console.log('smartAnnotations', smartAnnotations);
   const [moreOptionCon, setMoreOptionCon] = useState(false);
@@ -73,7 +79,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
   const [dotOptionCon, setDotOptionCon] = useState(
     Array.from({ length: smartAnnotations.length }, () => false)
   );
-  console.log('dotOptionCon', dotOptionCon);
   const [systemOptionList, setSystemOptionList] = useState([
     {
       id: 0,
@@ -94,7 +99,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
 
   const moreOptionRef = useRef(null);
   const systemOptionRef = useRef(null);
-  const dotOptionRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -109,14 +113,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
         !systemOptionRef.current.contains(event.target)
       ) {
         setSystemOptionCon(false);
-      }
-      if (
-        dotOptionRef.current &&
-        !dotOptionRef.current.contains(event.target)
-      ) {
-        setDotOptionCon(
-          Array.from({ length: smartAnnotations.length }, () => false)
-        );
       }
     };
 
@@ -219,76 +215,32 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     />
                   </Title1>
                   <TabsContainer>
-                    <>
-                      <Tabs
-                        value={feedbackBankId}
-                        onChange={(event, newValue) => {
-                          setFeedbackBankId(newValue);
-                        }}
-                        aria-label="Feedback Bank tabs"
-                      >
-                        {smartAnnotations?.map((bank, index) => (
-                          <Tab
-                            key={bank.id}
-                            value={bank.id}
-                            label={
-                              <TabContainer>
-                                <TabTitle>{bank.title}</TabTitle>
-                                <TabDots
-                                  src={threedotsc}
-                                  onClick={() => {
-                                    const updatedDotOptionCon = Array.from(
-                                      { length: smartAnnotations.length },
-                                      () => false
-                                    );
-                                    updatedDotOptionCon[index] = true;
-                                    setDotOptionCon(updatedDotOptionCon);
-                                  }}
-                                />
-                                {dotOptionCon[index] && (
-                                  <ThreeDotsOptions ref={dotOptionRef}>
-                                    <MoreOption>
-                                      <MoreOptionImage src={Rename} />
-                                      <MoreOptionTitle>Rename</MoreOptionTitle>
-                                    </MoreOption>
-                                    <MoreOption>
-                                      <MoreOptionImage src={Copy} />
-                                      <MoreOptionTitle>
-                                        Duplicate
-                                      </MoreOptionTitle>
-                                    </MoreOption>
-                                    <MoreOption>
-                                      <MoreOptionImage src={Hide} />
-                                      <MoreOptionTitle>Hide</MoreOptionTitle>
-                                    </MoreOption>
-                                  </ThreeDotsOptions>
-                                )}
-                              </TabContainer>
-                            }
-                          />
-                        ))}
-                      </Tabs>
-                      {/* {smartAnnotations?.map((bank, index) => (
-                        <React.Fragment key={bank.id}>
-                          {dotOptionCon[index] && (
-                            <ThreeDotsOptions ref={dotOptionRef}>
-                              <MoreOption>
-                                <MoreOptionImage src={Rename} />
-                                <MoreOptionTitle>Rename</MoreOptionTitle>
-                              </MoreOption>
-                              <MoreOption>
-                                <MoreOptionImage src={Copy} />
-                                <MoreOptionTitle>Duplicate</MoreOptionTitle>
-                              </MoreOption>
-                              <MoreOption>
-                                <MoreOptionImage src={Hide} />
-                                <MoreOptionTitle>Hide</MoreOptionTitle>
-                              </MoreOption>
-                            </ThreeDotsOptions>
-                          )}
-                        </React.Fragment>
-                      ))} */}
-                    </>
+                    <Tabs
+                      value={feedbackBankId}
+                      onChange={(event, newValue) => {
+                        setFeedbackBankId(newValue);
+                      }}
+                      aria-label="Feedback Bank tabs"
+                    >
+                      {smartAnnotations?.map((bank, index) => (
+                        <Tab
+                          key={bank.id}
+                          value={bank.id}
+                          label={
+                            <TabTitleContainer
+                              bank={bank}
+                              UpdateSmartBankTitleHandler={
+                                UpdateSmartBankTitleHandler
+                              }
+                              deteteFeedbackBank={deteteFeedbackBank}
+                              createCloneFeedbankBank={createCloneFeedbankBank}
+                              showIcon={feedbackBankId === bank.id}
+                            />
+                          }
+                        />
+                      ))}
+                    </Tabs>
+
                     <MoreOptionsContainer ref={moreOptionRef}>
                       <TabsPlus
                         src={Plus}

@@ -108,6 +108,39 @@ export default function AccountSettingsRoot(props) {
       });
   };
 
+  const deteteFeedbackBank = (smartAnnotationIndex) => {
+    const newSmartAnnotations = smartAnnotations.filter(
+      (smartAnnotation) => smartAnnotation.id != smartAnnotationIndex
+    );
+    deleteSmartAnnotation(smartAnnotationIndex)
+      .then(() => {
+        setFeedbackBankId(newSmartAnnotations[0].id);
+        setSmartAnnotations(newSmartAnnotations);
+        showSnackbar('Feedback bank Deleted');
+      })
+      .catch(() => {
+        showSnackbar('Error deleting bank');
+      });
+  };
+
+  const createCloneFeedbankBank = (smartAnnotationIndex) => {
+    const newClonedBank = smartAnnotations.find(
+      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+    );
+
+    const { title, smartComments } = newClonedBank;
+    const newObject = { title, smartComments };
+
+    createNewFeedbackBank(newObject)
+      .then(() => {
+        setSmartAnnotations([...smartAnnotations, newClonedBank]);
+        showSnackbar('feedback bank cloned');
+      })
+      .catch((error) => {
+        showSnackbar('Cloning failed');
+      });
+  };
+
   const createFeedbackBank = () => {
     const newBank = {
       title: 'Sample Title',
@@ -126,10 +159,10 @@ export default function AccountSettingsRoot(props) {
     createNewFeedbackBank(newBank)
       .then(() => {
         setSmartAnnotations([...smartAnnotations, newBank]);
-        showSnackbar('new Feedback bank created');
+        showSnackbar('New feedback bank created');
       })
       .catch((error) => {
-        showSnackbar('Error creating new Feedback Bank');
+        showSnackbar('Error creating new feedback bank');
       });
   };
 
@@ -167,6 +200,37 @@ export default function AccountSettingsRoot(props) {
       .then((result) => {
         setSmartAnnotations(newSmartAnnotations);
         showSnackbar('Smart annotation created');
+      })
+      .catch((error) => {
+        showSnackbar('Error updating smart annotation');
+      });
+  };
+
+  const UpdateSmartBankTitleHandler = (newTitle, smartAnnotationIndex) => {
+    console.log('first title', newTitle);
+
+    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
+      if (smartAnnotation.id === smartAnnotationIndex) {
+        return {
+          ...smartAnnotation,
+          title: newTitle,
+        };
+      }
+
+      return smartAnnotation;
+    });
+
+    const foundSmartAnnotation = newSmartAnnotations.find(
+      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+    );
+
+    const { title, smartComments } = foundSmartAnnotation;
+    const newObject = { title, smartComments };
+
+    updateSmartAnnotation(newObject, smartAnnotationIndex)
+      .then(() => {
+        setSmartAnnotations(newSmartAnnotations);
+        showSnackbar('Feedback bank title updated');
       })
       .catch((error) => {
         showSnackbar('Error updating smart annotation');
@@ -392,6 +456,9 @@ export default function AccountSettingsRoot(props) {
               setFeedbackBankId,
               feedbackBankId,
               setOpenMarkingMethodologyDialog,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
             }}
           />
         }

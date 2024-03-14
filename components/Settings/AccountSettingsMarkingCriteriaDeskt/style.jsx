@@ -132,6 +132,7 @@ export const Frame13221 = styled.div`
 `;
 
 export const Frame1302 = styled.div`
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -198,13 +199,7 @@ export const TabContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
-  gap: 20px;
-
-  &:hover {
-    & ${TabDots} {
-      display: flex;
-    }
-  }
+  gap: 2px;
 `;
 
 export const TabTitle = styled.div`
@@ -304,4 +299,25 @@ export const ThreeDotsOptions = styled.div`
   gap: 3px;
   background: #ffffff;
   box-shadow: 0px 2px 4px 0px #73737340;
+`;
+
+export const TabsImage = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
+export const BankTitleeditTitle = styled.input`
+  font-family: IBM Plex Sans !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  border: none !important;
+  &:hover,
+  &:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: initial; /* Reset the border color */
+    box-shadow: none; /* Remove any box shadow */
+  }
 `;

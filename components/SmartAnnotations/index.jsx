@@ -25,6 +25,7 @@ import sixDots from '../../static/img/six-dots.svg';
 import WidearrowDown from '../../static/img/Widearrow-down.svg';
 import WideArrowUp from '../../static/img/WideArrow-up.svg';
 
+
 function SmartAnotation(props) {
   const {
     smartAnnotation,
@@ -98,7 +99,6 @@ function SmartAnotation(props) {
     );
   };
 
- 
   const handleDeleteSmartComment = () => {
     deleteAnnotationHandler(smartCommentIndex, smartAnnotationIndex);
   };

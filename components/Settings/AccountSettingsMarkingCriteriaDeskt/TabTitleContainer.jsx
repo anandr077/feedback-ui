@@ -12,6 +12,7 @@ function TabTitleContainer({
   deteteFeedbackBank,
   showIcon,
   createCloneFeedbankBank,
+  hideBanksidHandler,
 }) {
   const [editTitle, setEditTitle] = useState(bank.title);
 
@@ -52,7 +53,10 @@ function TabTitleContainer({
                   onClick={() => createCloneFeedbankBank(bank.id)}
                   src={Copy}
                 />
-                <TabsImage src={Hide} />
+                <TabsImage
+                  onClick={() => hideBanksidHandler(bank.id)}
+                  src={Hide}
+                />
                 {bank.ownerId === getUserId() && (
                   <TabsImage
                     onClick={() => deteteFeedbackBank(bank.id)}

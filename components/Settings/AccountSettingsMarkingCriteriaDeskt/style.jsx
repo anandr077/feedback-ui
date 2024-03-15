@@ -4,6 +4,7 @@ import {
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalElectricViolet14px,
 } from '../../../styledMixins';
+import { Tab, Tabs } from '@mui/material';
 
 export const RedictIcon = styled.img`
   position: relative;
@@ -189,6 +190,7 @@ export const TabDots = styled.img`
 export const TabsContainer = styled.div`
   width: 100%;
   display: flex;
+  gap: 3px;
   flex-direction: row;
   align-items: center;
   border-top: 1px solid #f2f2f2;
@@ -212,7 +214,15 @@ export const TabTitle = styled.div`
 `;
 
 export const TabsPlus = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const TabsPlusContainer = styled.div`
+  padding: 8px;
+  gap: 8px;
+  border-radius: 4px;
   cursor: pointer;
+  background: #f2f1f3;
 `;
 
 export const MoreOptionsContainer = styled.div`
@@ -255,6 +265,7 @@ export const MoreOptionTitle = styled.p`
 `;
 export const SystemOptions = styled.div`
   width: 135px;
+  height: 200px;
   padding: 8px;
   position: absolute;
   z-index: 1;
@@ -265,6 +276,11 @@ export const SystemOptions = styled.div`
   gap: 3px;
   background: #ffffff;
   box-shadow: 0px 2px 4px 0px #73737340;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 export const SystemOption = styled.div`
   display: flex;
@@ -316,8 +332,20 @@ export const BankTitleeditTitle = styled.input`
   border: none !important;
   &:hover,
   &:focus {
-    outline: none; /* Remove default focus outline */
-    border-color: initial; /* Reset the border color */
-    box-shadow: none; /* Remove any box shadow */
+    outline: none;
+    border-color: initial;
+    box-shadow: none;
+  }
+`;
+
+export const StyledTab = styled(Tab)`
+  padding: 8px 10px 8px 10px;
+  gap: 3px;
+  border-radius: 4px !important;
+`;
+export const StyledTabs = styled(Tabs)`
+  .MuiTabs-flexContainer {
+    gap: 5px !important;
+    // overflow-x: auto;
   }
 `;

@@ -79,19 +79,29 @@ export const Frame1378 = styled.div`
 
 export const Frame1372 = styled.div`
   display: flex;
-  align-items: center;
-  gap: 30px;
-  position: relative;
+  flex-direction: column;
   align-self: stretch;
+  padding: 0px 0px 20px 0px;
+  border: 0px 0px 1px 0px;
+  gap: 12px;
+  border-bottom: 1px solid #d6d6d6;
 `;
 
 export const Title = styled.h1`
-  ${IbmplexsansBoldShark36px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.9px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Dark-Purple, #25222a);
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
   line-height: normal;
+  letter-spacing: -0.9px;
+  @media (max-width: 765px) {
+    font-size: 32px;
+    letter-spacing: -0.8px;
+  }
 `;
 
 export const Frame1322 = styled.div`
@@ -104,26 +114,32 @@ export const Frame1322 = styled.div`
 `;
 
 export const InactiveSetting = styled.div`
+  width: 100%;
   display: flex;
-  align-items: center;
+  padding: 16px 3px 16px 3px;
   gap: 10px;
-  padding: 16px 24px;
-  position: relative;
-  align-self: stretch;
-  background-color: var(--blue-chalk);
-  border-radius: 16px;
+  justify-content: space-between;
 `;
 
 export const SettingTitle = styled.div`
-  ${IbmplexsansNormalPersianIndigo13px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #301b72;
+`;
+export const SettingTitleOpen = styled.div`
   display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 4px;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #301b72;
 `;
 
 export const Frame1284 = styled.img`
@@ -149,10 +165,12 @@ export const ActiveSetting = styled.div`
 
 export const Frame13221 = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   gap: 10px;
   position: relative;
   align-self: stretch;
+  justify-content: space-between;
 `;
 
 export const Frame1302 = styled.div`
@@ -183,4 +201,14 @@ export const Line14 = styled.img`
   width: 100%;
   height: 1px;
   object-fit: cover;
+`;
+
+export const FeedbackTitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  align-self: stretch;
 `;

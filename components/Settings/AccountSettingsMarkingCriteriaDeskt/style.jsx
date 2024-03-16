@@ -159,13 +159,14 @@ export const Title1 = styled.div`
 `;
 
 export const MarkingCriteria = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 31px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #1e252a;
+  ${IbmplexsansSemiBoldShark24px}
+  position: relative;
+  flex: 1;
+  letter-spacing: 0;
+  line-height: normal;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 `;
 
 export const Line14 = styled.img`
@@ -348,4 +349,17 @@ export const StyledTabs = styled(Tabs)`
     gap: 5px !important;
     // overflow-x: auto;
   }
+  .MuiTabScrollButton-root.Mui-disabled {
+    opacity: 0.3 !important;
+  }
+`;
+
+export const FeedbackBankHeading = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 31px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1e252a;
 `;

@@ -404,6 +404,13 @@ export default function AccountSettingsRoot(props) {
               showUserSettings,
               breadCrumbs,
               setOpenMarkingMethodologyDialog,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
+              setOpenMarkingMethodologyDialog,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
             }}
           />
         }
@@ -420,6 +427,12 @@ export default function AccountSettingsRoot(props) {
               showUserSettings,
               breadCrumbs,
               setOpenMarkingMethodologyDialog,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
             }}
           />
         }
@@ -435,7 +448,13 @@ export default function AccountSettingsRoot(props) {
               showShortcuts,
               showUserSettings,
               breadCrumbs,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
               setOpenMarkingMethodologyDialog,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
             }}
           />
         }

@@ -38,6 +38,7 @@ import {
   TabsPlusContainer,
   StyledTabs,
   StyledTab,
+  FeedbackBankHeading,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
@@ -210,7 +211,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showShortcuts && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Feedback Banks</MarkingCriteria>
+                    <FeedbackBankHeading>Feedback Banks</FeedbackBankHeading>
                     <QuestionTooltip
                       text={
                         'Help other students who have requested feedback from the community'
@@ -270,6 +271,8 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                       )}
                     </MoreOptionsContainer>
                     <StyledTabs
+                      variant="scrollable"
+                      scrollButtons
                       value={feedbackBankId}
                       onChange={(event, newValue) => {
                         setFeedbackBankId(newValue);

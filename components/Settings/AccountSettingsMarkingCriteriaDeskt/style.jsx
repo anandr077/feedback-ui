@@ -219,11 +219,13 @@ export const TabsPlus = styled.img`
   height: 24px;
 `;
 export const TabsPlusContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   padding: 8px;
-  gap: 8px;
+  gap: 2px;
   border-radius: 4px;
+  background: #7200e0;
   cursor: pointer;
-  background: #f2f1f3;
 `;
 
 export const MoreOptionsContainer = styled.div`
@@ -362,4 +364,15 @@ export const FeedbackBankHeading = styled.div`
   letter-spacing: 0em;
   text-align: left;
   color: #1e252a;
+`;
+
+export const TabsPlusText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ffffff;
+  text-wrap: nowrap;
 `;

@@ -25,6 +25,39 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
+import {
+  CardImg,
+  CardTitle,
+  Card,
+  PopupContainer,
+  PopupDialogContentBox,
+  PopupDialogContentBoxLeft,
+  PopupDialogContentBoxRight,
+  PopupTitle,
+  PopupTitleContainer,
+  PopupTitleImg,
+  CardImgCont,
+  CardImgDoc,
+  PreviewContainer,
+  PrevieImg,
+  Previewpara,
+  BankCommentTitle,
+  Commentsuggestion,
+  ButtonConatiner,
+  CreateButton,
+  ButtonText,
+} from './style.jsx';
+import closecircle from '../../../static/img/closecircle.svg';
+import PlusBlue from '../../../static/img/Plus-blue.svg';
+import Doc from '../../../static/img/doc.svg';
+import PreviewIcon from '../../../static/img/preview.svg';
 
 export default function AccountSettingsRoot(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -35,10 +68,14 @@ export default function AccountSettingsRoot(props) {
   const [markingCriterias, setMarkingCriterias] = React.useState([]);
   const [shortcuts, setShortcuts] = React.useState([]);
   const [smartAnnotations, setSmartAnnotations] = React.useState();
+  const [systemSmartAnnotations, setSystemSmartAnnotations] = React.useState();
+  const [selectedBank, setSelectedBank] = React.useState();
+  const [normalSmartAnnotations, setNormalSmartAnnotations] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
   const [feedbackBankId, setFeedbackBankId] = React.useState(0);
+  const [isShowNewBankPopUp, setShowNewBankPopUp] = React.useState(false);
 
   React.useEffect(() => {
     Promise.all([
@@ -53,6 +90,12 @@ export default function AccountSettingsRoot(props) {
       setFeedbackBankId(feedbackBanks._embedded.commentbanks[0].id);
       setShortcuts(shortcuts);
       setSmartAnnotations(feedbackBanks._embedded.commentbanks);
+      setSystemSmartAnnotations(
+        feedbackBanks._embedded.commentbanks.filter((bank) => bank.isSystem)
+      );
+      setSelectedBank(
+        feedbackBanks._embedded.commentbanks.filter((bank) => bank.isSystem)[0]
+      );
       setIsLoading(false);
     });
   }, []);
@@ -207,8 +250,6 @@ export default function AccountSettingsRoot(props) {
   };
 
   const UpdateSmartBankTitleHandler = (newTitle, smartAnnotationIndex) => {
-    console.log('first title', newTitle);
-
     const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
       if (smartAnnotation.id === smartAnnotationIndex) {
         return {
@@ -386,8 +427,86 @@ export default function AccountSettingsRoot(props) {
     );
   }
 
+  const NewBankPopContainer = ({ isShowNewBankPopUp, setShowNewBankPopUp }) => {
+    return (
+      <Dialog
+        open={isShowNewBankPopUp}
+        PaperProps={{
+          style: {
+            maxWidth: '885px',
+          },
+        }}
+      >
+        <PopupContainer>
+          <PopupTitleContainer>
+            <PopupTitle>Create New Bank</PopupTitle>
+            <PopupTitleImg
+              onClick={() => setShowNewBankPopUp(false)}
+              src={closecircle}
+            />
+          </PopupTitleContainer>
+          <PopupDialogContentBox>
+            <PopupDialogContentBoxLeft>
+              <Card onClick={() => createFeedbackBank()}>
+                <CardImgCont>
+                  <CardImg src={PlusBlue} />
+                </CardImgCont>
+                <CardTitle>New Bank</CardTitle>
+              </Card>
+              {systemSmartAnnotations?.map((bank) => {
+                return (
+                  <Card
+                    onClick={() => setSelectedBank(bank)}
+                    style={{
+                      backgroundColor:
+                        bank.id === selectedBank.id ? ' #F1E6FC' : '#ffffff',
+                    }}
+                  >
+                    <CardImgDoc src={Doc} />
+
+                    <CardTitle>{bank.title}</CardTitle>
+                  </Card>
+                );
+              })}
+            </PopupDialogContentBoxLeft>
+            <PopupDialogContentBoxRight>
+              <PreviewContainer>
+                <PrevieImg src={PreviewIcon} />
+                <Previewpara>Preview</Previewpara>
+              </PreviewContainer>
+
+              {selectedBank.smartComments.map((comment) => {
+                return (
+                  <div key={comment.title}>
+                    <BankCommentTitle>{comment.title}</BankCommentTitle>
+                    {comment.suggestions.map((suggestion) => (
+                      <Commentsuggestion key={suggestion}>
+                        {suggestion}
+                      </Commentsuggestion>
+                    ))}
+                  </div>
+                );
+              })}
+            </PopupDialogContentBoxRight>
+          </PopupDialogContentBox>
+          <ButtonConatiner>
+            <CreateButton>
+              <ButtonText>Create</ButtonText>
+            </CreateButton>
+          </ButtonConatiner>
+        </PopupContainer>
+      </Dialog>
+    );
+  };
+
   return (
     <>
+      {isShowNewBankPopUp && (
+        <NewBankPopContainer
+          isShowNewBankPopUp={isShowNewBankPopUp}
+          setShowNewBankPopUp={setShowNewBankPopUp}
+        />
+      )}
       <ReactiveRender
         mobile={
           <AccountSettingsMarkingCriteriaTable
@@ -478,6 +597,7 @@ export default function AccountSettingsRoot(props) {
               UpdateSmartBankTitleHandler,
               deteteFeedbackBank,
               createCloneFeedbankBank,
+              setShowNewBankPopUp,
             }}
           />
         }

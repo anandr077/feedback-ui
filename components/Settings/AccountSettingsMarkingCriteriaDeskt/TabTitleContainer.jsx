@@ -53,10 +53,7 @@ function TabTitleContainer({
                   onClick={() => createCloneFeedbankBank(bank.id)}
                   src={Copy}
                 />
-                <TabsImage
-                  onClick={() => hideBanksidHandler(bank.id)}
-                  src={Hide}
-                />
+
                 {bank.ownerId === getUserId() && (
                   <TabsImage
                     onClick={() => deteteFeedbackBank(bank.id)}

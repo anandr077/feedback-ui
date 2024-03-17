@@ -39,6 +39,7 @@ import {
   StyledTabs,
   StyledTab,
   FeedbackBankHeading,
+  TabsPlusText,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
@@ -76,7 +77,9 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     UpdateSmartBankTitleHandler,
     deteteFeedbackBank,
     createCloneFeedbankBank,
+    setShowNewBankPopUp,
   } = props;
+  console.log('first time', smartAnnotations);
   const [moreOptionCon, setMoreOptionCon] = useState(false);
   const [systemOptionCon, setSystemOptionCon] = useState(false);
 
@@ -220,55 +223,13 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     />
                   </Title1>
                   <TabsContainer>
-                    <MoreOptionsContainer ref={moreOptionRef}>
-                      <TabsPlusContainer>
-                        <TabsPlus
-                          src={Plus}
-                          onClick={() => setMoreOptionCon(!moreOptionCon)}
-                        />
+                    <MoreOptionsContainer>
+                      <TabsPlusContainer
+                        onClick={() => setShowNewBankPopUp(true)}
+                      >
+                        <TabsPlus src={Plus} />
+                        <TabsPlusText>New Bank</TabsPlusText>
                       </TabsPlusContainer>
-
-                      {moreOptionCon && (
-                        <MoreOptions>
-                          <MoreOption onClick={() => createFeedbackBank()}>
-                            <MoreOptionImage src={PlusViolet} />
-                            <MoreOptionTitle>New Bank</MoreOptionTitle>
-                          </MoreOption>
-                          <MoreOption
-                            onClick={() => setSystemOptionCon(!systemOptionCon)}
-                          >
-                            <MoreOptionImage src={Globe} />
-                            <MoreOptionTitle>Templates</MoreOptionTitle>
-                            <MoreOptionImage
-                              style={{ marginLeft: '20px' }}
-                              src={optionArrow}
-                            />
-                          </MoreOption>
-                        </MoreOptions>
-                      )}
-                      {systemOptionCon && (
-                        <SystemOptions ref={systemOptionRef}>
-                          {smartAnnotations.map((option) => (
-                            <SystemOption key={option.id}>
-                              <SystemOptionImage
-                                src={TickPurpleSquare}
-                                style={{
-                                  visibility: !hideBanksIds.includes(option.id)
-                                    ? 'visible'
-                                    : 'hidden',
-                                }}
-                              />
-                              <SystemOptionTitle
-                                onClick={() =>
-                                  handleSystemOptionList(option.id)
-                                }
-                              >
-                                {option.title}
-                              </SystemOptionTitle>
-                            </SystemOption>
-                          ))}
-                        </SystemOptions>
-                      )}
                     </MoreOptionsContainer>
                     <StyledTabs
                       variant="scrollable"

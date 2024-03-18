@@ -39,6 +39,7 @@ import {
   CardTitle,
   Card,
   PopupContainer,
+  PopupBackground,
   PopupDialogContentBox,
   PopupDialogContentBoxLeft,
   PopupDialogContentBoxRight,
@@ -84,7 +85,7 @@ export default function AccountSettingsRoot(props) {
       getAllMarkingCriteria(),
       getShortcuts(),
       getSmartAnnotations(),
-      getFeedbackBanks()
+      getFeedbackBanks(),
     ]).then(([result, shortcuts, smartAnnotation, feedbackBanks]) => {
       if (result) {
         setMarkingCriterias(result);
@@ -448,73 +449,68 @@ export default function AccountSettingsRoot(props) {
 
   const NewBankPopContainer = ({ isShowNewBankPopUp, setShowNewBankPopUp }) => {
     return (
-      <Dialog
-        open={isShowNewBankPopUp}
-        PaperProps={{
-          style: {
-            maxWidth: '885px',
-          },
-        }}
-      >
-        <PopupContainer>
-          <PopupTitleContainer>
-            <PopupTitle>Create New Bank</PopupTitle>
-            <PopupTitleImg
-              onClick={() => setShowNewBankPopUp(false)}
-              src={closecircle}
-            />
-          </PopupTitleContainer>
-          <PopupDialogContentBox>
-            <PopupDialogContentBoxLeft>
-              <Card onClick={() => createFeedbackBank()}>
-                <CardImgCont>
-                  <CardImg src={PlusBlue} />
-                </CardImgCont>
-                <CardTitle>New Bank</CardTitle>
-              </Card>
-              {systemSmartAnnotations?.map((bank) => {
-                return (
-                  <Card
-                    onClick={() => setSelectedBank(bank)}
-                    style={{
-                      backgroundColor:
-                        bank.id === selectedBank.id ? ' #F1E6FC' : '#ffffff',
-                    }}
-                  >
-                    <CardImgDoc src={Doc} />
+      <PopupBackground>
+        <div style={{ background: '#fff' }}>
+          <PopupContainer>
+            <PopupTitleContainer>
+              <PopupTitle>Create New Bank</PopupTitle>
+              <PopupTitleImg
+                onClick={() => setShowNewBankPopUp(false)}
+                src={closecircle}
+              />
+            </PopupTitleContainer>
+            <PopupDialogContentBox>
+              <PopupDialogContentBoxLeft>
+                <Card onClick={() => createFeedbackBank()}>
+                  <CardImgCont>
+                    <CardImg src={PlusBlue} />
+                  </CardImgCont>
+                  <CardTitle>New Bank</CardTitle>
+                </Card>
+                {systemSmartAnnotations?.map((bank) => {
+                  return (
+                    <Card
+                      onClick={() => setSelectedBank(bank)}
+                      style={{
+                        backgroundColor:
+                          bank.id === selectedBank.id ? ' #F1E6FC' : '#ffffff',
+                      }}
+                    >
+                      <CardImgDoc src={Doc} />
 
-                    <CardTitle>{bank.title}</CardTitle>
-                  </Card>
-                );
-              })}
-            </PopupDialogContentBoxLeft>
-            <PopupDialogContentBoxRight>
-              <PreviewContainer>
-                <PrevieImg src={PreviewIcon} />
-                <Previewpara>Preview</Previewpara>
-              </PreviewContainer>
+                      <CardTitle>{bank.title}</CardTitle>
+                    </Card>
+                  );
+                })}
+              </PopupDialogContentBoxLeft>
+              <PopupDialogContentBoxRight>
+                <PreviewContainer>
+                  <PrevieImg src={PreviewIcon} />
+                  <Previewpara>Preview</Previewpara>
+                </PreviewContainer>
 
-              {selectedBank.smartComments.map((comment) => {
-                return (
-                  <div key={comment.title}>
-                    <BankCommentTitle>{comment.title}</BankCommentTitle>
-                    {comment.suggestions.map((suggestion) => (
-                      <Commentsuggestion key={suggestion}>
-                        {suggestion}
-                      </Commentsuggestion>
-                    ))}
-                  </div>
-                );
-              })}
-            </PopupDialogContentBoxRight>
-          </PopupDialogContentBox>
-          <ButtonConatiner>
-            <CreateButton>
-              <ButtonText>Create</ButtonText>
-            </CreateButton>
-          </ButtonConatiner>
-        </PopupContainer>
-      </Dialog>
+                {selectedBank.smartComments.map((comment) => {
+                  return (
+                    <div key={comment.title}>
+                      <BankCommentTitle>{comment.title}</BankCommentTitle>
+                      {comment.suggestions.map((suggestion) => (
+                        <Commentsuggestion key={suggestion}>
+                          {suggestion}
+                        </Commentsuggestion>
+                      ))}
+                    </div>
+                  );
+                })}
+              </PopupDialogContentBoxRight>
+            </PopupDialogContentBox>
+            <ButtonConatiner>
+              <CreateButton>
+                <ButtonText>Create</ButtonText>
+              </CreateButton>
+            </ButtonConatiner>
+          </PopupContainer>
+        </div>
+      </PopupBackground>
     );
   };
 

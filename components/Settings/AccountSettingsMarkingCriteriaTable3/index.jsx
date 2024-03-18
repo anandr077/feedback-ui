@@ -71,7 +71,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
     setShowNewBankPopUp,
   } = props;
 
-  const findCurrentFeedbackBank = smartAnnotations.find(
+  const findCurrentFeedbackBank = smartAnnotations?.find(
     (smartAnnotation) => smartAnnotation.id === feedbackBankId
   );
 

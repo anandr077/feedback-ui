@@ -81,7 +81,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
 
   console.log('smart annotation', smartAnnotations);
 
-  const findCurrentFeedbackBank = smartAnnotations.find(
+  const findCurrentFeedbackBank = smartAnnotations?.find(
     (smartAnnotation) => smartAnnotation.id === feedbackBankId
   );
 

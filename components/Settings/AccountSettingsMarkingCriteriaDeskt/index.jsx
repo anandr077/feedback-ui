@@ -33,6 +33,13 @@ import {
   SystemOption,
   SystemOptionImage,
   SystemOptionTitle,
+  ThreeDotsOptions,
+  TabsImage,
+  TabsPlusContainer,
+  StyledTabs,
+  StyledTab,
+  FeedbackBankHeading,
+  TabsPlusText,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
@@ -42,8 +49,14 @@ import PlusViolet from '../../../static/img/Plus-violet.svg';
 import Globe from '../../../static/img/Globe.svg';
 import optionArrow from '../../../static/img/optionArrow.svg';
 import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
+import Rename from '../../../static/img/Rename.svg';
+import Hide from '../../../static/img/Hide.svg';
+import Copy from '../../../static/img/Copy.svg';
+import TabsDelete from '../../../static/img/tabs-delete.svg';
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
+import { getUserId } from '../../../userLocalDetails';
+import TabTitleContainer from './TabTitleContainer';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -53,6 +66,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     showMarkingCriteria,
     showShortcuts,
     showUserSettings,
+    createFeedbackBank,
     createSmartAnnotationHandler,
     breadCrumbs,
     smartAnnotationsFrame,
@@ -60,31 +74,20 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     setFeedbackBankId,
     feedbackBankId,
     setOpenMarkingMethodologyDialog,
+    UpdateSmartBankTitleHandler,
+    deteteFeedbackBank,
+    createCloneFeedbankBank,
+    setShowNewBankPopUp,
   } = props;
   const [moreOptionCon, setMoreOptionCon] = useState(false);
   const [systemOptionCon, setSystemOptionCon] = useState(false);
-  const [systemOptionList, setSystemOptionList] = useState([
-    {
-      id: 0,
-      title: 'English',
-      visibility: false,
-    },
-    {
-      id: 1,
-      title: 'Geography',
-      visibility: true,
-    },
-    {
-      id: 2,
-      title: 'History',
-      visibility: false,
-    },
-  ]);
+
+  const [hideBanksIds, setHideBanksIds] = useState([]);
 
   const moreOptionRef = useRef(null);
   const systemOptionRef = useRef(null);
 
-  console.log('smart annotation', smartAnnotations)
+  console.log('smart annotation', smartAnnotations);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -108,14 +111,38 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     };
   }, []);
 
+  const findCurrentFeedbackBank = smartAnnotations.find(
+    (smartAnnotation) => smartAnnotation.id === feedbackBankId
+  );
+
   const handleSystemOptionList = (id) => {
-    setSystemOptionList((prevOptions) =>
-      prevOptions.map((option) =>
-        option.id === id
-          ? { ...option, visibility: !option.visibility }
-          : option
-      )
+    if (!hideBanksIds.includes(id)) {
+      setHideBanksIds([...hideBanksIds, id]);
+      let currentIndex = smartAnnotations.findIndex(
+        (item) => item.id === feedbackBankId
+      );
+
+      if (currentIndex === smartAnnotations.length - 1) {
+        setFeedbackBankId(smartAnnotations[currentIndex - 1].id);
+      } else {
+        setFeedbackBankId(smartAnnotations[currentIndex + 1].id);
+      }
+    } else {
+      setHideBanksIds(hideBanksIds.filter((bankId) => bankId !== id));
+    }
+  };
+
+  const hideBanksidHandler = (id) => {
+    let currentIndex = smartAnnotations.findIndex(
+      (item) => item.id === feedbackBankId
     );
+    if (currentIndex === smartAnnotations.length - 1) {
+      setFeedbackBankId(smartAnnotations[currentIndex - 1].id);
+    } else {
+      setFeedbackBankId(smartAnnotations[currentIndex + 1].id);
+    }
+
+    setHideBanksIds([...hideBanksIds, id]);
   };
   return (
     <div className="account-settings-marking-criteria screen">
@@ -188,7 +215,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               {showShortcuts && (
                 <Frame1302>
                   <Title1>
-                    <MarkingCriteria>Feedback Banks</MarkingCriteria>
+                    <FeedbackBankHeading>Feedback Banks</FeedbackBankHeading>
                     <QuestionTooltip
                       text={
                         'Help other students who have requested feedback from the community'
@@ -197,83 +224,65 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     />
                   </Title1>
                   <TabsContainer>
-                    <Tabs
+                    <MoreOptionsContainer>
+                      <TabsPlusContainer
+                        onClick={() => setShowNewBankPopUp(true)}
+                      >
+                        <TabsPlus src={Plus} />
+                        <TabsPlusText>New Bank</TabsPlusText>
+                      </TabsPlusContainer>
+                    </MoreOptionsContainer>
+                    <StyledTabs
+                      variant="scrollable"
+                      scrollButtons
                       value={feedbackBankId}
                       onChange={(event, newValue) => {
                         setFeedbackBankId(newValue);
                       }}
                       aria-label="Feedback Bank tabs"
                     >
-                      {smartAnnotations.map((bank, index) => (
-                        <Tab
-                          key={bank.id}
-                          label={
-                            <TabContainer>
-                              <TabTitle>{bank.title}</TabTitle>
-                              <TabDots src={threedotsc} />
-                            </TabContainer>
-                          }
-                        />
-                      ))}
-                    </Tabs>
-                    <MoreOptionsContainer ref={moreOptionRef}>
-                      <TabsPlus
-                        src={Plus}
-                        onClick={() => setMoreOptionCon(!moreOptionCon)}
-                      />
-
-                      {moreOptionCon && (
-                        <MoreOptions>
-                          <MoreOption>
-                            <MoreOptionImage src={PlusViolet} />
-                            <MoreOptionTitle>New Bank</MoreOptionTitle>
-                          </MoreOption>
-                          <MoreOption
-                            onClick={() => setSystemOptionCon(!systemOptionCon)}
-                          >
-                            <MoreOptionImage src={Globe} />
-                            <MoreOptionTitle>Templates</MoreOptionTitle>
-                            <MoreOptionImage
-                              style={{ marginLeft: '20px' }}
-                              src={optionArrow}
+                      {smartAnnotations?.map(
+                        (bank, index) =>
+                          !hideBanksIds.includes(bank.id) && (
+                            <StyledTab
+                              style={{
+                                backgroundColor:
+                                  feedbackBankId === bank.id
+                                    ? '#f1e6fc'
+                                    : '#F2F1F3',
+                              }}
+                              key={bank.id}
+                              value={bank.id}
+                              label={
+                                <TabTitleContainer
+                                  bank={bank}
+                                  UpdateSmartBankTitleHandler={
+                                    UpdateSmartBankTitleHandler
+                                  }
+                                  hideBanksidHandler={hideBanksidHandler}
+                                  deteteFeedbackBank={deteteFeedbackBank}
+                                  createCloneFeedbankBank={
+                                    createCloneFeedbankBank
+                                  }
+                                  showIcon={feedbackBankId === bank.id}
+                                />
+                              }
                             />
-                          </MoreOption>
-                        </MoreOptions>
+                          )
                       )}
-                      {systemOptionCon && (
-                        <SystemOptions ref={systemOptionRef}>
-                          {systemOptionList.map((option) => (
-                            <SystemOption key={option.id}>
-                              <SystemOptionImage
-                                src={TickPurpleSquare}
-                                style={{
-                                  visibility: option.visibility
-                                    ? 'visible'
-                                    : 'hidden',
-                                }}
-                              />
-                              <SystemOptionTitle
-                                onClick={() =>
-                                  handleSystemOptionList(option.id)
-                                }
-                              >
-                                {option.title}
-                              </SystemOptionTitle>
-                            </SystemOption>
-                          ))}
-                        </SystemOptions>
-                      )}
-                    </MoreOptionsContainer>
+                    </StyledTabs>
                   </TabsContainer>
                   <MarkingCriteriaList>
                     {smartAnnotationsFrame()}
                   </MarkingCriteriaList>
 
-                  <Buttons
-                    text="New Feedback Area"
-                    onClickMethod={createSmartAnnotationHandler}
-                    className={'button-width'}
-                  />
+                  {findCurrentFeedbackBank.ownerId === getUserId() && (
+                    <Buttons
+                      text="New Feedback Area"
+                      onClickMethod={() => createSmartAnnotationHandler()}
+                      className={'button-width'}
+                    />
+                  )}
                 </Frame1302>
               )}
             </>

@@ -43,12 +43,9 @@ async function fetchData(url, options, headers = {}) {
       // throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const isJson = response.headers
-      .get('content-type')
-      ?.includes('application/json') ||
-      response.headers
-      .get('content-type')
-      ?.includes('application/hal+json');
+    const isJson =
+      response.headers.get('content-type')?.includes('application/json') ||
+      response.headers.get('content-type')?.includes('application/hal+json');
     const data = isJson ? await response.json() : null;
     if (data === null) {
       window.location.href = selfBaseUrl + '/#/404';
@@ -182,9 +179,7 @@ export const downloadSubmission = async (submissionId) => {
 };
 
 export const getCommentBanks = async () => {
-  return getApi(
-    baseUrl + '/commentbanks?projection=commentBanksProjection'
-  );
+  return getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
 };
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
@@ -231,6 +226,8 @@ export const getAssignmentsByClassId = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/assignments');
 export const getStudentsAnalyticsByClassId = async (classId) =>
   await getApi(baseUrl + '/feedbacks/' + classId + '/studentsAnalytics');
+export const getStudentsStatsByClassId = async (classId) =>
+  await getApi(baseUrl + '/classes/' + classId + '/studentStats');
 export const getAssignments = async () =>
   await getApi(baseUrl + '/assignments');
 export const getDocumentReviews = async () =>
@@ -322,27 +319,37 @@ export const deleteMarkingCriteria = async (markingCriteriaId) => {
   await deleteApi(baseUrl + '/teachers/markingCriteria/' + markingCriteriaId);
 };
 
-export const createNewSmartAnnotation = async (smartAnnotation) => {
-  return await postApi(baseUrl + '/teachers/smartAnnotation', smartAnnotation);
+export const createNewFeedbackBank = async (newFeedbackBank) => {
+  return await postApi(baseUrl + '/commentbanks', newFeedbackBank);
+};
+
+export const createNewSmartAnnotation = async (
+  smartAnnotation,
+  smartAnnotationId
+) => {
+  return await putApi(
+    baseUrl + '/commentbanks/' + smartAnnotationId,
+    smartAnnotation
+  );
 };
 
 export const updateSmartAnnotation = async (
   smartAnnotation,
   smartAnnotationId
 ) => {
-  return postApi(
-    baseUrl + '/teachers/smartAnnotation/' + smartAnnotationId,
+  return putApi(
+    baseUrl + '/commentbanks/' + smartAnnotationId,
     smartAnnotation
   );
 };
 
 export const deleteSmartAnnotation = async (smartAnnotationId) => {
-  await deleteApi(baseUrl + '/teachers/smartAnnotation/' + smartAnnotationId);
+  await deleteApi(baseUrl + '/commentbanks/' + smartAnnotationId);
 };
 
 export const getSmartAnnotations = async () =>
   await getApi(baseUrl + '/teachers/smartAnnotation');
-  
+
 export const getFeedbackBanks = async () =>
   await getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
 
@@ -440,10 +447,6 @@ export const denyModelResponse = async (feedbackId) =>
 
 export const profileStateYear = async (stateYear) =>
   await patchApi(baseUrl + '/users/profile', stateYear);
-
-
-
-
 
 export const createRequestFeddbackType = async (
   submissionId,
@@ -562,9 +565,6 @@ export const getPortfolio = async () =>
 
 export const addDocumentToPortfolioWithDetails = async (documentDetails) =>
   await postApi(baseUrl + '/students/portfolio/documents', documentDetails);
-
-
-
 
 export const addDocumentToPortfolio = async (classId, courseId, title) =>
   addDocumentToPortfolioWithDetails({

@@ -29,6 +29,7 @@ function SmartAnotation(props) {
   const {
     smartAnnotation,
     smartAnnotationIndex,
+    smartCommentIndex,
     smartAnnotationUpdateIndex,
     commentBankId,
     UpdateSmartAnotationHandler,
@@ -62,10 +63,15 @@ function SmartAnotation(props) {
   };
 
   const saveEditedSuggestion = (updatedText, index) => {
+    console.log('first edited suggestion', updatedText, index);
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.suggestions[index] = updatedText;
     setCurrentSmartAnnotation(newSmartAnnotation);
-    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex, commentBankId);
+    UpdateSmartAnotationHandler(
+      newSmartAnnotation,
+      smartAnnotationIndex,
+      smartCommentIndex
+    );
   };
 
   const saveEditedSmartAnnotation = (updatedText) => {
@@ -74,23 +80,35 @@ function SmartAnotation(props) {
     newSmartAnnotation.title = updatedText;
     setCurrentSmartAnnotation(newSmartAnnotation);
     setEditTitle(updatedText);
-    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex, commentBankId);
+    UpdateSmartAnotationHandler(
+      newSmartAnnotation,
+      smartAnnotationIndex,
+      smartCommentIndex
+    );
   };
 
   const handleDeleteSuggestion = (index) => {
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.suggestions.splice(index, 1);
-    UpdateSmartAnotationHandler(newSmartAnnotation, smartAnnotationIndex, commentBankId);
+    UpdateSmartAnotationHandler(
+      newSmartAnnotation,
+      smartAnnotationIndex,
+      smartCommentIndex
+    );
   };
 
-  const handleDeleteAnnotation = () => {
-    deleteAnnotationHandler(currentSmartAnnotation.id);
+  const handleDeleteSmartComment = () => {
+    deleteAnnotationHandler(smartCommentIndex, smartAnnotationIndex);
   };
 
   const addNewSuggestions = () => {
     const newSuggestion = '';
     currentSmartAnnotation.suggestions.push(newSuggestion);
-    UpdateSmartAnotationHandler(currentSmartAnnotation, smartAnnotationIndex, commentBankId);
+    UpdateSmartAnotationHandler(
+      currentSmartAnnotation,
+      smartAnnotationIndex,
+      smartCommentIndex
+    );
   };
 
   const onClickFn = (index) => {
@@ -130,7 +148,7 @@ function SmartAnotation(props) {
           <TtitleContainer>
             <SixdotsImage src={sixDots} />
             {editingTitle ? (
-              smartAnnotation?.teacherId === getUserId() ? (
+              teacherId === getUserId() ? (
                 <TextInputEditable
                   value={editTitle}
                   onChange={handleTitleTextChange}
@@ -171,7 +189,7 @@ function SmartAnotation(props) {
                     <DeleteButton2
                       src={deleteLight}
                       alt="delete-button"
-                      onClick={() => handleDeleteAnnotation()}
+                      onClick={() => handleDeleteSmartComment()}
                     />
                     <span>Delete</span>
                   </ButtonBox>
@@ -204,7 +222,6 @@ function SmartAnotation(props) {
                 saveEditedSuggestion={saveEditedSuggestion}
                 settingsMode={settingsMode}
                 handleDeleteSuggestion={handleDeleteSuggestion}
-                handleDeleteAnnotation={handleDeleteAnnotation}
                 addNewSuggestions={addNewSuggestions}
                 teacherId={teacherId}
                 toggleSection={toggleSection}
@@ -233,7 +250,7 @@ function SmartAnotation(props) {
               </SubmitButton>
             </ButtonWrapper>
           ) : (
-            smartAnnotation?.teacherId === getUserId() && (
+            teacherId === getUserId() && (
               <ButtonContainer>
                 <PlusImage src="/img/add-violet.svg" alt="plus" />
                 <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>

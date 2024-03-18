@@ -12,6 +12,7 @@ import {
   getModelResponsesForClass,
   getStudentsAnalyticsByClassId,
   getAssignments,
+  getStudentsStatsByClassId,
 } from '../../../service.js';
 import Loader from '../../Loader';
 import AnnotationAnalytics from '../../Analytics';
@@ -81,7 +82,7 @@ export default function TeacherClassesRoot() {
       const modelResponses = await getModelResponsesForClass(classId);
       const smartAnnotationAnalytics =
         await getSmartAnnotaionAnalyticsByClassId(classId);
-      const studentsAnalyticsByClassId = await getStudentsAnalyticsByClassId(
+      const studentsAnalyticsByClassId = await getStudentsStatsByClassId(
         classId
       );
 

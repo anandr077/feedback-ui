@@ -46,7 +46,6 @@ export default function Header(props) {
     },
     staleTime: 60000,
   });
-
   const OnFirstButtonClick = (event) => {
     if (event.ctrlKey || event.metaKey) {
       window.open(headerProps.firstButton.redirect, '_blank');
@@ -241,10 +240,10 @@ export default function Header(props) {
         </Frame5>
         <Frame51>
           {!isTeacher && <HeaderOnboardingMenu />}
-          {/* <HeaderHelpBar
+          <HeaderHelpBar
             src="/img/helpIcon.png"
             onClickFn={handleHelpBarClick}
-          /> */}
+          />
 
           <Notifications
             src="/img/notificationbing-3@2x.png"

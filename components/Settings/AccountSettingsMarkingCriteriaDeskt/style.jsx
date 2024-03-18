@@ -4,6 +4,7 @@ import {
   IbmplexsansSemiBoldShark24px,
   IbmplexsansNormalElectricViolet14px,
 } from '../../../styledMixins';
+import { Tab, Tabs } from '@mui/material';
 
 export const RedictIcon = styled.img`
   position: relative;
@@ -147,6 +148,7 @@ export const Frame13221 = styled.div`
 `;
 
 export const Frame1302 = styled.div`
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -172,16 +174,14 @@ export const Title1 = styled.div`
 `;
 
 export const MarkingCriteria = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 31px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #1e252a;
+  ${IbmplexsansSemiBoldShark24px}
+  position: relative;
+  flex: 1;
+  letter-spacing: 0;
+  line-height: normal;
   display: flex;
-  align-items: center;
   gap: 8px;
+  align-items: center;
 `;
 
 export const Line14 = styled.img`
@@ -199,30 +199,25 @@ export const HeadingLine = styled.p`
   font-weight: 400;
   line-height: 24px;
 `;
-
+export const TabDots = styled.img`
+  display: none;
+  width: 3px;
+`;
 export const TabsContainer = styled.div`
   width: 100%;
   display: flex;
+  gap: 3px;
   flex-direction: row;
   align-items: center;
   border-top: 1px solid #f2f2f2;
   border-bottom: 1px solid #f2f2f2;
 `;
 
-export const TabDots = styled.img`
-  display: none;
-  width: 3px;
-`;
 export const TabContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
-  gap: 20px;
-
-  &:hover {
-    & ${TabDots} {
-      display: flex;
-    }
-  }
+  gap: 2px;
 `;
 
 export const TabTitle = styled.div`
@@ -235,6 +230,16 @@ export const TabTitle = styled.div`
 `;
 
 export const TabsPlus = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const TabsPlusContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  gap: 2px;
+  border-radius: 4px;
+  background: #7200e0;
   cursor: pointer;
 `;
 
@@ -278,6 +283,7 @@ export const MoreOptionTitle = styled.p`
 `;
 export const SystemOptions = styled.div`
   width: 135px;
+  height: 200px;
   padding: 8px;
   position: absolute;
   z-index: 1;
@@ -288,6 +294,11 @@ export const SystemOptions = styled.div`
   gap: 3px;
   background: #ffffff;
   box-shadow: 0px 2px 4px 0px #73737340;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 export const SystemOption = styled.div`
   display: flex;
@@ -309,4 +320,74 @@ export const SystemOptionTitle = styled.p`
   text-align: left;
   color: #4b464f;
   cursor: pointer;
+`;
+
+export const ThreeDotsOptions = styled.div`
+  position: absolute;
+  z-index: 100;
+  left: 15px;
+  width: 180px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px;
+  gap: 3px;
+  background: #ffffff;
+  box-shadow: 0px 2px 4px 0px #73737340;
+`;
+
+export const TabsImage = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
+export const BankTitleeditTitle = styled.input`
+  font-family: IBM Plex Sans !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  border: none !important;
+  &:hover,
+  &:focus {
+    outline: none;
+    border-color: initial;
+    box-shadow: none;
+  }
+`;
+
+export const StyledTab = styled(Tab)`
+  padding: 8px 10px 8px 10px;
+  gap: 3px;
+  border-radius: 4px !important;
+`;
+export const StyledTabs = styled(Tabs)`
+  .MuiTabs-flexContainer {
+    gap: 5px !important;
+    // overflow-x: auto;
+  }
+  .MuiTabScrollButton-root.Mui-disabled {
+    opacity: 0.3 !important;
+  }
+`;
+
+export const FeedbackBankHeading = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 31px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1e252a;
+`;
+
+export const TabsPlusText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ffffff;
+  text-wrap: nowrap;
 `;

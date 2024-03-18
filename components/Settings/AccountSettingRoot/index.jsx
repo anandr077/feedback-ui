@@ -455,7 +455,7 @@ export default function AccountSettingsRoot(props) {
     />
   );
 
-  if (isLoading) {
+  if (isLoading || feedbackBankQuery.isLoading) {
     return (
       <>
         <Loader />

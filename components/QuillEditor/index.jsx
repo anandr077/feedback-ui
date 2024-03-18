@@ -1,5 +1,11 @@
 import { add, flatMap } from 'lodash';
-import React, { useEffect, useImperativeHandle, useRef, useState, useContext } from 'react';
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+  useContext,
+} from 'react';
 import { FeedbackContext } from '../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
@@ -8,11 +14,24 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce, nonEditable, editorFontSize }, ref) => {
+  (
+    {
+      comments,
+      value,
+      options,
+      debounceTime,
+      onDebounce,
+      nonEditable,
+      editorFontSize,
+    },
+    ref
+  ) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
-    const { setCountWords } = useContext(FeedbackContext)
+    const [selection, setSelection] = useState(null);
+    const [commentPosition, setCommentPosition] = useState({ top: 0, left: 0 });
+    const { setCountWords } = useContext(FeedbackContext);
     const manipulatePastedHTML = (pastedHTML) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(pastedHTML, 'text/html');
@@ -41,6 +60,8 @@ const QuillEditor = React.forwardRef(
       return modifiedHTML;
     };
 
+    console.log('the comments are', comments);
+
     const handlePaste = (event) => {
       event.preventDefault();
 
@@ -59,11 +80,11 @@ const QuillEditor = React.forwardRef(
       const pastedLength = editor.getText().length - currentText.length;
 
       const newCursorPosition = cursorPosition.index + pastedLength;
-      
-      setTimeout(()=>{
+
+      setTimeout(() => {
         editor.setSelection(newCursorPosition, 0, 'silent');
         editor.focus();
-      }, 10)
+      }, 10);
     };
 
     useEffect(() => {
@@ -77,35 +98,39 @@ const QuillEditor = React.forwardRef(
         quillInstance.setContents(delta);
         setEditor(quillInstance);
 
+        quillInstance.on('selection-change', handleSelectionChange);
+
         const initialText = quillInstance.getText();
-        const initialWordCount = initialText.trim().length > 0 ? initialText.trim().split(/\s+/).length : 0;
+        const initialWordCount =
+          initialText.trim().length > 0
+            ? initialText.trim().split(/\s+/).length
+            : 0;
         setCountWords(initialWordCount);
       }
 
       if (editor && editorFontSize !== null) {
         const fontSizePercentage = editorFontSize * 0.01;
         editor.root.style.fontSize = `${18 * fontSizePercentage}px`;
-        const calculatedLineHeight = editorFontSize * 0.25; 
+        const calculatedLineHeight = editorFontSize * 0.25;
         editor.root.style.lineHeight = `${calculatedLineHeight}px`;
       }
-      
+
       if (editor) {
         editor.on('text-change', () => {
           const text = editor.getText();
-          const wordCount = text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
+          const wordCount =
+            text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
           setCountWords(wordCount);
         });
       }
-
     }, [editor, editorRef, options, value, editorFontSize]);
 
     useEffect(() => {
       if (editor) {
         removeAllHighlights(editor);
         comments.forEach((comment) => {
-          
           if (comment.range) {
-            addCommentHighlight(editor, comment)
+            addCommentHighlight(editor, comment);
           }
         });
       }
@@ -143,8 +168,8 @@ const QuillEditor = React.forwardRef(
           var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
 
           var html = converter.convert();
-          
-          onDebounce(html,  getHighlights(editor));
+
+          onDebounce(html, getHighlights(editor));
         };
 
         if (debounceTime > 0) {
@@ -158,7 +183,7 @@ const QuillEditor = React.forwardRef(
         }
 
         const debouncedAction = debounce(handleDebounce, debounceTime);
-        editor.root.addEventListener('paste', (event)=>{
+        editor.root.addEventListener('paste', (event) => {
           debouncedAction();
           handlePaste(event);
         });
@@ -193,9 +218,9 @@ const QuillEditor = React.forwardRef(
       delteComment(commentId) {
         if (editor) {
           const remainingComments = Object.entries(highlightsWithCommentsData)
-          .filter(([commentId, _]) => commentId !== commentId)
-          .map(([commentId, _]) => commentId);
-        
+            .filter(([commentId, _]) => commentId !== commentId)
+            .map(([commentId, _]) => commentId);
+
           removeAllHighlights(editor);
           remainingComments.forEach((comment) => {
             if (comment.isHidden !== undefined && comment.isHidden !== null)
@@ -210,13 +235,12 @@ const QuillEditor = React.forwardRef(
       highlightComment(comment) {
         highlightCommentRange(editor, comment);
       },
-      
 
       getContents() {
         return editor.getContents();
       },
       getSelection() {
-        const selection =  editor.getSelection();
+        const selection = editor.getSelection();
 
         const selectedText = getSelectedText(editor, selection);
         return {
@@ -266,9 +290,131 @@ const QuillEditor = React.forwardRef(
       },
     }));
 
+    useEffect(() => {
+      const handleScroll = () => {
+        const editorElement = editorRef.current;
+        if (editorElement) {
+          const { top } = editorElement.getBoundingClientRect();
+          setCommentPosition({ top, left: 0 });
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
+
+    const handleSelectionChange = (range, oldRange, source) => {
+      if (range && range.length > 0 && source === 'user') {
+        setSelection(range);
+      } else {
+        setSelection(null);
+      }
+    };
+
+    function getTopPositionOfHighlight(start, end) {
+      const editorElement = editorRef.current;
+      if (!editorElement) return 0;
+
+      const editorBounds = editorElement.getBoundingClientRect();
+      const editorScrollTop = editorElement.scrollTop;
+
+      // Calculate the vertical position of the start and end offsets
+      const lenght = end - start;
+
+      const startOffset = getVerticalOffset(start, lenght);
+      const endOffset = getVerticalOffset(end, lenght);
+
+      // Adjust positions by subtracting editor bounds and scroll top
+      const startTopPosition = startOffset - editorBounds.top + editorScrollTop;
+      const endTopPosition = endOffset - editorBounds.top + editorScrollTop;
+
+      // Return the average position
+      return (startTopPosition + endTopPosition) / 2;
+    }
+
+    function getVerticalOffset(index, lenght) {
+      const lineBounds = editor.getBounds(index, lenght);
+      return lineBounds ? lineBounds.top : 0;
+    }
+
+    function getCommentHeight(comment) {
+      // Placeholder: return a fixed height or calculate based on content
+      return 100; // Example fixed height
+    }
+
+    let lastCommentBottomPosition = 100;
+
     return (
-      <div className="quill-editor-container">
-        <div ref={editorRef} style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}/>
+      <div className="quill-editor-container" style={{ position: 'relative' }}>
+        <div
+          ref={editorRef}
+          style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}
+        ></div>
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '100%',
+            background: 'white',
+            zIndex: '546',
+          }}
+        >
+          <ul style={{ height: '100%', overflowY: 'scroll' }}>
+            {comments.map((comment, index) => {
+              if (!editorRef.current) return null;
+
+              //   const content = editorRef.current.textContent;
+              //   const selection = editor.getSelection();
+              //   const selectedIndex = selection !== null ? selection.index : 0;
+              //   const selectedLength = selection !== null ? selection.length : 0;
+              const lenght = comment.range.to - comment.range.from;
+
+              const boundsIs = editor.getBounds(comment.range.from, lenght);
+
+              //   const editorHeight = editorRef.current.clientHeight;
+              let topPosition = boundsIs.top;
+
+              // let topPosition = getTopPositionOfHighlight(
+              //   comment.range.from,
+              //   comment.range.to
+              // );
+              let commentHeight = getCommentHeight(comment);
+
+              console.log('the position is', topPosition)
+
+              // Ensure this comment does not visually overlap with the previous one
+              if (topPosition < lastCommentBottomPosition) {
+                topPosition = lastCommentBottomPosition;
+              }
+
+              lastCommentBottomPosition = topPosition + commentHeight;
+
+              return (
+                <li
+                  key={index}
+                  id={'comment' + index}
+                  style={{
+                    background: 'white',
+                    border: '1px solid gray',
+                    margin: '5px 0',
+                    position: 'absolute',
+                    top: `${topPosition}px`,
+                    left: '100%',
+                    minWidth: '150px',
+                    height: '100px',
+                    overflow: 'hidden',
+                    padding: '20px',
+                  }}
+                >
+                  {comment.comment}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     );
   }
@@ -289,19 +435,23 @@ function getSelectedText(editor, selection) {
 }
 function scrollToHighlight(commentId) {
   ////FIX
-  const highlightSpans = Array.from(document.querySelectorAll('span.quill-highlight'));
-  const targetSpan = highlightSpans.find(span => {
-      const commentIds = span.getAttribute('data-comment-ids');
-      return commentIds && commentIds.split(',').includes(commentId);
+  const highlightSpans = Array.from(
+    document.querySelectorAll('span.quill-highlight')
+  );
+  const targetSpan = highlightSpans.find((span) => {
+    const commentIds = span.getAttribute('data-comment-ids');
+    return commentIds && commentIds.split(',').includes(commentId);
   });
   if (targetSpan) {
-    setTimeout(() => targetSpan.scrollIntoView(
-      {
+    setTimeout(
+      () =>
+        targetSpan.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
           inline: 'nearest',
-      }
-    ), 100);
+        }),
+      100
+    );
     // targetSpan.scrollIntoView({
     //   behavior: 'smooth',
     //   block: 'center',
@@ -342,7 +492,7 @@ function getHighlights(editor) {
     const length = content.length;
 
     // Process each comment ID associated with the highlight
-    commentIds.forEach(commentId => {
+    commentIds.forEach((commentId) => {
       const highlightData = { content, index, length };
 
       // Group highlights with the same comment id together
@@ -380,7 +530,9 @@ function getHighlights2(editor) {
 
   highlightElements.forEach((element) => {
     const commentIds = element.getAttribute('data-comment-ids').split(',');
-    const commentColours = element.getAttribute('data-comment-colours').split(',');
+    const commentColours = element
+      .getAttribute('data-comment-colours')
+      .split(',');
     const index = editor.getIndex(Quill.find(element));
     const length = element.textContent.length;
     const rangeKey = `${index}-${index + length}`;
@@ -391,21 +543,24 @@ function getHighlights2(editor) {
     }
 
     // Add comment IDs to the range
-    commentIds.forEach(commentId => {
+    commentIds.forEach((commentId) => {
       if (!highlightsByRange[rangeKey].includes(commentId)) {
         highlightsByRange[rangeKey].push(commentId);
       }
     });
     commentIds.forEach((commentId, idx) => {
       const colour = commentColours[idx] || '#fff9c4';
-      if (!highlightsByRange[rangeKey].some(entry => entry.commentId === commentId)) {
-          highlightsByRange[rangeKey].push({ commentId, colour });
+      if (
+        !highlightsByRange[rangeKey].some(
+          (entry) => entry.commentId === commentId
+        )
+      ) {
+        highlightsByRange[rangeKey].push({ commentId, colour });
       }
     });
   });
   return highlightsByRange;
 }
-
 
 function addComment(editor, comment) {
   // updateQuillHighlights(editor, getHighlights(editor), comment.id, comment.range);
@@ -413,82 +568,84 @@ function addComment(editor, comment) {
 }
 
 function addCommentHighlight(editor, comment) {
-  const highlightsByRange = getHighlights2(editor)
+  const highlightsByRange = getHighlights2(editor);
   const updatedHighlights = JSON.parse(JSON.stringify(highlightsByRange));
 
   let segmentsToAdd = [{ from: comment.range.from, to: comment.range.to }];
 
   Object.entries(highlightsByRange).forEach(([rangeKey, entries]) => {
-    const commentIds = entries.map(entry => entry.commentId);
-    const colours = entries.map(entry => entry.colour);  
+    const commentIds = entries.map((entry) => entry.commentId);
+    const colours = entries.map((entry) => entry.colour);
     const [rangeStart, rangeEnd] = rangeKey.split('-').map(Number);
 
-      segmentsToAdd = segmentsToAdd.flatMap(segment => {
-          if (segment.from < rangeEnd && segment.to > rangeStart) {
-              // Split the segment into non-overlapping parts
-              const newSegments = [];
-              if (segment.from < rangeStart) {
-                  newSegments.push({ from: segment.from, to: rangeStart });
-              }
-              if (segment.to > rangeEnd) {
-                  newSegments.push({ from: rangeEnd, to: segment.to });
-              }
-              return newSegments;
-          }
-          return [segment];
-      });
-
-      // Update existing overlapping highlights
-      if (comment.range.from < rangeEnd && comment.range.to > rangeStart) {
-          const overlapStart = Math.max(rangeStart, comment.range.from);
-          const overlapEnd = Math.min(rangeEnd, comment.range.to);
-          updatedHighlights[`${overlapStart}-${overlapEnd}`] = [...new Set([...commentIds, comment.id])];
-
-          editor.formatText(
-              overlapStart,
-              overlapEnd - overlapStart,
-              {
-                  highlight: {
-                      commentIds: updatedHighlights[`${overlapStart}-${overlapEnd}`],
-                      colours: [...colours, createBackgroundColour(comment)],
-                      background: createBackgroundColour(comment),
-                      isVisible: !comment.isHidden,
-                  },
-              },
-              'silent'
-          );
-
-          // Adjust the existing range if necessary
-          if (rangeStart < overlapStart) {
-              updatedHighlights[`${rangeStart}-${overlapStart}`] = commentIds;
-          }
-          if (overlapEnd < rangeEnd) {
-              updatedHighlights[`${overlapEnd}-${rangeEnd}`] = commentIds;
-          }
-
-          // Remove the original range key
-          delete updatedHighlights[rangeKey];
+    segmentsToAdd = segmentsToAdd.flatMap((segment) => {
+      if (segment.from < rangeEnd && segment.to > rangeStart) {
+        // Split the segment into non-overlapping parts
+        const newSegments = [];
+        if (segment.from < rangeStart) {
+          newSegments.push({ from: segment.from, to: rangeStart });
+        }
+        if (segment.to > rangeEnd) {
+          newSegments.push({ from: rangeEnd, to: segment.to });
+        }
+        return newSegments;
       }
+      return [segment];
+    });
+
+    // Update existing overlapping highlights
+    if (comment.range.from < rangeEnd && comment.range.to > rangeStart) {
+      const overlapStart = Math.max(rangeStart, comment.range.from);
+      const overlapEnd = Math.min(rangeEnd, comment.range.to);
+      updatedHighlights[`${overlapStart}-${overlapEnd}`] = [
+        ...new Set([...commentIds, comment.id]),
+      ];
+
+      editor.formatText(
+        overlapStart,
+        overlapEnd - overlapStart,
+        {
+          highlight: {
+            commentIds: updatedHighlights[`${overlapStart}-${overlapEnd}`],
+            colours: [...colours, createBackgroundColour(comment)],
+            background: createBackgroundColour(comment),
+            isVisible: !comment.isHidden,
+          },
+        },
+        'silent'
+      );
+
+      // Adjust the existing range if necessary
+      if (rangeStart < overlapStart) {
+        updatedHighlights[`${rangeStart}-${overlapStart}`] = commentIds;
+      }
+      if (overlapEnd < rangeEnd) {
+        updatedHighlights[`${overlapEnd}-${rangeEnd}`] = commentIds;
+      }
+
+      // Remove the original range key
+      delete updatedHighlights[rangeKey];
+    }
   });
 
   // Add new highlights for each non-overlapping segment
-  segmentsToAdd.forEach(segment => {
-      const segmentKey = `${segment.from}-${segment.to}`;
-      updatedHighlights[segmentKey] = [comment.id];
+  segmentsToAdd.forEach((segment) => {
+    const segmentKey = `${segment.from}-${segment.to}`;
+    updatedHighlights[segmentKey] = [comment.id];
 
-      editor.formatText(
-          segment.from,
-          segment.to - segment.from,
-          {
-              highlight: {
-                  commentIds: [comment.id],
-                  colours: [createBackgroundColour(comment)],
-                  background: createBackgroundColour(comment),
-                  isVisible: !comment.isHidden,
-              },
-          },
-          'silent'
-      );
+    editor.formatText(
+      segment.from,
+      segment.to - segment.from,
+      {
+        highlight: {
+          commentIds: [comment.id],
+          colours: [createBackgroundColour(comment)],
+          background: createBackgroundColour(comment),
+          isVisible: !comment.isHidden,
+        },
+      },
+      'silent'
+    );
   });
 
   // Return the updated highlights

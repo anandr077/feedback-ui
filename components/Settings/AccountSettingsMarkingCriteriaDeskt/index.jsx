@@ -68,7 +68,6 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     showUserSettings,
     createFeedbackBank,
     createSmartAnnotationHandler,
-    breadCrumbs,
     smartAnnotationsFrame,
     smartAnnotations,
     setFeedbackBankId,
@@ -79,71 +78,13 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     createCloneFeedbankBank,
     setShowNewBankPopUp,
   } = props;
-  const [moreOptionCon, setMoreOptionCon] = useState(false);
-  const [systemOptionCon, setSystemOptionCon] = useState(false);
-
-  const [hideBanksIds, setHideBanksIds] = useState([]);
-
-  const moreOptionRef = useRef(null);
-  const systemOptionRef = useRef(null);
 
   console.log('smart annotation', smartAnnotations);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        moreOptionRef.current &&
-        !moreOptionRef.current.contains(event.target)
-      ) {
-        setMoreOptionCon(false);
-      }
-      if (
-        systemOptionRef.current &&
-        !systemOptionRef.current.contains(event.target)
-      ) {
-        setSystemOptionCon(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const findCurrentFeedbackBank = smartAnnotations.find(
     (smartAnnotation) => smartAnnotation.id === feedbackBankId
   );
 
-  const handleSystemOptionList = (id) => {
-    if (!hideBanksIds.includes(id)) {
-      setHideBanksIds([...hideBanksIds, id]);
-      let currentIndex = smartAnnotations.findIndex(
-        (item) => item.id === feedbackBankId
-      );
-
-      if (currentIndex === smartAnnotations.length - 1) {
-        setFeedbackBankId(smartAnnotations[currentIndex - 1].id);
-      } else {
-        setFeedbackBankId(smartAnnotations[currentIndex + 1].id);
-      }
-    } else {
-      setHideBanksIds(hideBanksIds.filter((bankId) => bankId !== id));
-    }
-  };
-
-  const hideBanksidHandler = (id) => {
-    let currentIndex = smartAnnotations.findIndex(
-      (item) => item.id === feedbackBankId
-    );
-    if (currentIndex === smartAnnotations.length - 1) {
-      setFeedbackBankId(smartAnnotations[currentIndex - 1].id);
-    } else {
-      setFeedbackBankId(smartAnnotations[currentIndex + 1].id);
-    }
-
-    setHideBanksIds([...hideBanksIds, id]);
-  };
   return (
     <div className="account-settings-marking-criteria screen">
       <Frame1379>
@@ -241,35 +182,29 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                       }}
                       aria-label="Feedback Bank tabs"
                     >
-                      {smartAnnotations?.map(
-                        (bank, index) =>
-                          !hideBanksIds.includes(bank.id) && (
-                            <StyledTab
-                              style={{
-                                backgroundColor:
-                                  feedbackBankId === bank.id
-                                    ? '#f1e6fc'
-                                    : '#F2F1F3',
-                              }}
-                              key={bank.id}
-                              value={bank.id}
-                              label={
-                                <TabTitleContainer
-                                  bank={bank}
-                                  UpdateSmartBankTitleHandler={
-                                    UpdateSmartBankTitleHandler
-                                  }
-                                  hideBanksidHandler={hideBanksidHandler}
-                                  deteteFeedbackBank={deteteFeedbackBank}
-                                  createCloneFeedbankBank={
-                                    createCloneFeedbankBank
-                                  }
-                                  showIcon={feedbackBankId === bank.id}
-                                />
+                      {smartAnnotations?.map((bank, index) => (
+                        <StyledTab
+                          style={{
+                            backgroundColor:
+                              feedbackBankId === bank.id
+                                ? '#f1e6fc'
+                                : '#F2F1F3',
+                          }}
+                          key={bank.id}
+                          value={bank.id}
+                          label={
+                            <TabTitleContainer
+                              bank={bank}
+                              UpdateSmartBankTitleHandler={
+                                UpdateSmartBankTitleHandler
                               }
+                              deteteFeedbackBank={deteteFeedbackBank}
+                              createCloneFeedbankBank={createCloneFeedbankBank}
+                              showIcon={feedbackBankId === bank.id}
                             />
-                          )
-                      )}
+                          }
+                        />
+                      ))}
                     </StyledTabs>
                   </TabsContainer>
                   <MarkingCriteriaList>

@@ -12,7 +12,6 @@ function TabTitleContainer({
   deteteFeedbackBank,
   showIcon,
   createCloneFeedbankBank,
-  hideBanksidHandler,
 }) {
   const [editTitle, setEditTitle] = useState(bank.title);
 
@@ -23,8 +22,13 @@ function TabTitleContainer({
   };
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
+      setEditingTitle(false);
       UpdateSmartBankTitleHandler(editTitle, bank.id);
     }
+  };
+  const handleOnBlur = () => {
+    setEditingTitle(false);
+    UpdateSmartBankTitleHandler(editTitle, bank.id);
   };
 
   return (
@@ -34,7 +38,7 @@ function TabTitleContainer({
           <BankTitleeditTitle
             value={editTitle}
             onChange={handleTitleTextChange}
-            onBlur={() => UpdateSmartBankTitleHandler(editTitle, bank.id)}
+            onBlur={() => handleOnBlur()}
             onKeyPress={handleKeyPress}
           ></BankTitleeditTitle>
         ) : (

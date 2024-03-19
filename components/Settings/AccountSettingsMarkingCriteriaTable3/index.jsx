@@ -69,6 +69,8 @@ function AccountSettingsMarkingCriteriaTable3(props) {
     deteteFeedbackBank,
     createCloneFeedbankBank,
     setShowNewBankPopUp,
+    feedbackBankCreated,
+    setFeedbackBankCreated
   } = props;
 
   const findCurrentFeedbackBank = smartAnnotations?.find(
@@ -166,9 +168,14 @@ function AccountSettingsMarkingCriteriaTable3(props) {
                     <StyledTabs
                       variant="scrollable"
                       scrollButtons
-                      value={feedbackBankId}
+                      value={
+                        feedbackBankCreated 
+                        ? smartAnnotations[smartAnnotations.length - 1].id 
+                        : feedbackBankId
+                      }
                       onChange={(event, newValue) => {
                         setFeedbackBankId(newValue);
+                        setFeedbackBankCreated(false);
                       }}
                       aria-label="Feedback Bank tabs"
                     >
@@ -176,9 +183,9 @@ function AccountSettingsMarkingCriteriaTable3(props) {
                         <StyledTab
                           style={{
                             backgroundColor:
-                              feedbackBankId === bank.id
-                                ? '#f1e6fc'
-                                : '#F2F1F3',
+                            feedbackBankCreated 
+                            ? smartAnnotations[smartAnnotations.length - 1].id 
+                            : feedbackBankId
                           }}
                           key={bank.id}
                           value={bank.id}
@@ -190,7 +197,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
                               }
                               deteteFeedbackBank={deteteFeedbackBank}
                               createCloneFeedbankBank={createCloneFeedbankBank}
-                              showIcon={feedbackBankId === bank.id}
+                              showIcon={feedbackBankCreated ? index === smartAnnotations.length - 1 : feedbackBankId === bank.id}
                             />
                           }
                         />

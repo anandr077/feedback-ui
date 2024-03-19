@@ -80,6 +80,7 @@ export default function AccountSettingsRoot(props) {
     React.useState(false);
   const [feedbackBankId, setFeedbackBankId] = React.useState(0);
   const [isShowNewBankPopUp, setShowNewBankPopUp] = React.useState(false);
+  const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
 
   React.useEffect(() => {
     Promise.all([
@@ -234,6 +235,7 @@ export default function AccountSettingsRoot(props) {
       .then(() => {
         queryClient.invalidateQueries(['feedbackBank']);
         setShowNewBankPopUp(false);
+        setFeedbackBankCreated(true);
         // showSnackbar('New feedback bank created');
       })
       .catch((error) => {
@@ -253,6 +255,7 @@ export default function AccountSettingsRoot(props) {
         setShowNewBankPopUp(false);
         // showSnackbar('New feedback bank created');
         queryClient.invalidateQueries(['feedbackBank']);
+        setFeedbackBankCreated(true);
       })
       .catch((error) => {
         console.log('first error', error);
@@ -558,6 +561,8 @@ export default function AccountSettingsRoot(props) {
               deteteFeedbackBank,
               createCloneFeedbankBank,
               setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated
             }}
           />
         }
@@ -580,6 +585,8 @@ export default function AccountSettingsRoot(props) {
               deteteFeedbackBank,
               createCloneFeedbankBank,
               setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated
             }}
           />
         }
@@ -602,6 +609,8 @@ export default function AccountSettingsRoot(props) {
               deteteFeedbackBank,
               createCloneFeedbankBank,
               setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated
             }}
           />
         }
@@ -625,6 +634,8 @@ export default function AccountSettingsRoot(props) {
               deteteFeedbackBank,
               createCloneFeedbankBank,
               setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated
             }}
           />
         }

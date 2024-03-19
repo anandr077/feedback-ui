@@ -77,6 +77,8 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     deteteFeedbackBank,
     createCloneFeedbankBank,
     setShowNewBankPopUp,
+    feedbackBankCreated,
+    setFeedbackBankCreated
   } = props;
 
   console.log('smart annotation', smartAnnotations);
@@ -176,9 +178,14 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     <StyledTabs
                       variant="scrollable"
                       scrollButtons
-                      value={feedbackBankId}
+                      value={
+                        feedbackBankCreated 
+                        ? smartAnnotations[smartAnnotations.length - 1].id 
+                        : feedbackBankId
+                      }
                       onChange={(event, newValue) => {
                         setFeedbackBankId(newValue);
+                        setFeedbackBankCreated(false);
                       }}
                       aria-label="Feedback Bank tabs"
                     >
@@ -186,9 +193,9 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                         <StyledTab
                           style={{
                             backgroundColor:
-                              feedbackBankId === bank.id
-                                ? '#f1e6fc'
-                                : '#F2F1F3',
+                            feedbackBankCreated
+                            ? smartAnnotations.length - 1 === index ? '#f1e6fc' : '#F2F1F3'
+                            : feedbackBankId === bank.id ? '#f1e6fc' : '#F2F1F3',
                           }}
                           key={bank.id}
                           value={bank.id}
@@ -200,7 +207,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                               }
                               deteteFeedbackBank={deteteFeedbackBank}
                               createCloneFeedbankBank={createCloneFeedbankBank}
-                              showIcon={feedbackBankId === bank.id}
+                              showIcon={feedbackBankCreated ? index === smartAnnotations.length - 1 : feedbackBankId === bank.id}
                             />
                           }
                         />

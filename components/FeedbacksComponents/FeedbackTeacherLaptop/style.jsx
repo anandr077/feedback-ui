@@ -546,11 +546,11 @@ export const Frame1331 = styled.div`
   
   position: sticky;
   top: 0px;
-  background-color: var(--white);
+  //background-color: var(--white);
   border-radius: 16px;
   height: calc(100vh - 130px);
   overflow-y: scroll;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  //box-shadow: 0px 4px 22px #2f1a720a;
   &::-webkit-scrollbar {
     display: none;
   }

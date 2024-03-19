@@ -13,6 +13,7 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
+import CommentCard32 from '../FeedbacksComponents/CommentCard32';
 const QuillEditor = React.forwardRef(
   (
     {
@@ -342,7 +343,7 @@ const QuillEditor = React.forwardRef(
 
     function getCommentHeight(comment) {
       // Placeholder: return a fixed height or calculate based on content
-      return 100; // Example fixed height
+      return 150; // Example fixed height
     }
 
     let lastCommentBottomPosition = 100;
@@ -362,7 +363,7 @@ const QuillEditor = React.forwardRef(
             zIndex: '546',
           }}
         >
-          <ul style={{ height: '100%', overflowY: 'scroll' }}>
+          <ul style={{ height: '100%' }}>
             {comments.map((comment, index) => {
               if (!editorRef.current) return null;
 
@@ -383,7 +384,7 @@ const QuillEditor = React.forwardRef(
               // );
               let commentHeight = getCommentHeight(comment);
 
-              console.log('the position is', topPosition)
+              console.log('the position is', topPosition);
 
               // Ensure this comment does not visually overlap with the previous one
               if (topPosition < lastCommentBottomPosition) {
@@ -393,24 +394,38 @@ const QuillEditor = React.forwardRef(
               lastCommentBottomPosition = topPosition + commentHeight;
 
               return (
-                <li
+                // <li
+                //   key={index}
+                //   id={'comment' + index}
+                //   style={{
+                //     background: 'white',
+                //     border: '1px solid gray',
+                //     margin: '5px 0',
+                //     position: 'absolute',
+                //     top: `${topPosition}px`,
+                //     left: '100%',
+                //     minWidth: '150px',
+                //     height: '100px',
+                //     overflow: 'hidden',
+                //     padding: '20px',
+                //   }}
+                // >
+                //   {comment.comment}
+                // </li>
+                <div
                   key={index}
-                  id={'comment' + index}
                   style={{
-                    background: 'white',
-                    border: '1px solid gray',
-                    margin: '5px 0',
                     position: 'absolute',
                     top: `${topPosition}px`,
                     left: '100%',
-                    minWidth: '150px',
-                    height: '100px',
+                    minWidth: '300px',
+                    height: '150px',
                     overflow: 'hidden',
                     padding: '20px',
                   }}
                 >
-                  {comment.comment}
-                </li>
+                  <CommentCard32 comment={comment} />
+                </div>
               );
             })}
           </ul>

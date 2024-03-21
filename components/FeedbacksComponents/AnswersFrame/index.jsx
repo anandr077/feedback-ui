@@ -314,35 +314,41 @@ function createQuill(
   handleEditorMounted,
   editorFontSize
 ) {
+  const commentInfo = (comment, editorRef, editor) =>{
+     console.log('the comment info is', comment, editorRef, editor)
+  }
   return (
-    <QuillEditor
-      key={
-        'quillEditor_' +
-        submission.id +
-        '_' +
-        answer.serialNumber +
-        '_' +
-        submission.status +
-        '_' +
-        pageMode
-      }
-      id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
-      ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
-      comments={commentsForSelectedTab?.filter((comment) => {
-        return comment.questionSerialNumber === answer.serialNumber;
-      })}
-      value={answerValue ? answerValue : ''}
-      options={{
-        modules: createModules(pageMode),
-        theme: 'snow',
-        readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
-      }}
-      debounceTime={debounce.debounceTime}
-      onDebounce={debounce.onDebounce}
-      containerName={containerName}
-      nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
-      editorFontSize={editorFontSize}
-    ></QuillEditor>
+    <div>
+      <QuillEditor
+        key={
+          'quillEditor_' +
+          submission.id +
+          '_' +
+          answer.serialNumber +
+          '_' +
+          submission.status +
+          '_' +
+          pageMode
+        }
+        id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
+        ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
+        comments={commentsForSelectedTab?.filter((comment) => {
+          return comment.questionSerialNumber === answer.serialNumber;
+        })}
+        value={answerValue ? answerValue : ''}
+        options={{
+          modules: createModules(pageMode),
+          theme: 'snow',
+          readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
+        }}
+        debounceTime={debounce.debounceTime}
+        onDebounce={debounce.onDebounce}
+        containerName={containerName}
+        nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
+        editorFontSize={editorFontSize}
+        commentInfo={commentInfo}
+      ></QuillEditor>
+    </div>
   );
 }
 

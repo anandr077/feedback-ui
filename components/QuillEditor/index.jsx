@@ -24,6 +24,7 @@ const QuillEditor = React.forwardRef(
       onDebounce,
       nonEditable,
       editorFontSize,
+      commentInfo
     },
     ref
   ) => {
@@ -357,15 +358,26 @@ const QuillEditor = React.forwardRef(
         <div
           style={{
             position: 'absolute',
-            top: 0,
+            top: -50,
             left: '100%',
-            background: 'white',
+            height: '100%',
             zIndex: '546',
           }}
         >
-          <ul style={{ height: '100%' }}>
-            {comments.map((comment, index) => {
+          <ul 
+            style={{ 
+              height: '100%',
+              overflowY: 'scroll' 
+            }}
+          >
+            {comments
+            .sort((a, b) => {
+              return a.range.from - b.range.from;
+            })
+            .map((comment, index) => {
               if (!editorRef.current) return null;
+
+              commentInfo(comment, editorRef, editor)
 
               //   const content = editorRef.current.textContent;
               //   const selection = editor.getSelection();
@@ -378,13 +390,13 @@ const QuillEditor = React.forwardRef(
               //   const editorHeight = editorRef.current.clientHeight;
               let topPosition = boundsIs.top;
 
+              console.log('the comment top', topPosition);
+
               // let topPosition = getTopPositionOfHighlight(
               //   comment.range.from,
               //   comment.range.to
               // );
               let commentHeight = getCommentHeight(comment);
-
-              console.log('the position is', topPosition);
 
               // Ensure this comment does not visually overlap with the previous one
               if (topPosition < lastCommentBottomPosition) {
@@ -394,24 +406,6 @@ const QuillEditor = React.forwardRef(
               lastCommentBottomPosition = topPosition + commentHeight;
 
               return (
-                // <li
-                //   key={index}
-                //   id={'comment' + index}
-                //   style={{
-                //     background: 'white',
-                //     border: '1px solid gray',
-                //     margin: '5px 0',
-                //     position: 'absolute',
-                //     top: `${topPosition}px`,
-                //     left: '100%',
-                //     minWidth: '150px',
-                //     height: '100px',
-                //     overflow: 'hidden',
-                //     padding: '20px',
-                //   }}
-                // >
-                //   {comment.comment}
-                // </li>
                 <div
                   key={index}
                   style={{

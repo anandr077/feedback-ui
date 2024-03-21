@@ -73,6 +73,7 @@ export const SmallTaskTitle = styled.p`
   align-self: stretch;
   margin: 3px 0;
   letter-spacing: 0;
+  word-break: break-word;
 `;
 export const ClassText = styled.div`
   ${IbmplexsansNormalRiverBed14px}

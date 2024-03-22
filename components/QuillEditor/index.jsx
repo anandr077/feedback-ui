@@ -347,7 +347,7 @@ const QuillEditor = React.forwardRef(
       return 150; // Example fixed height
     }
 
-    let lastCommentBottomPosition = 100;
+    let lastCommentBottomPosition = 0;
 
     const getSelectedHight = updatedCommentPosition && 
     editor.getBounds(
@@ -386,29 +386,32 @@ const QuillEditor = React.forwardRef(
               .map((comment, index) => {
                 if (!editorRef.current) return null;
 
-                //   const content = editorRef.current.textContent;
-                //   const selection = editor.getSelection();
-                //   const selectedIndex = selection !== null ? selection.index : 0;
-                //   const selectedLength = selection !== null ? selection.length : 0;
                 const lenght = comment.range.to - comment.range.from;
 
                 const boundsIs = editor.getBounds(comment.range.from, lenght);
 
-                //   const editorHeight = editorRef.current.clientHeight;
                 let topPosition = boundsIs.top;
 
                 console.log('the comment top', topPosition);
 
-                // let topPosition = getTopPositionOfHighlight(
-                //   comment.range.from,
-                //   comment.range.to
-                // );
                 let commentHeight = getCommentHeight(comment);
 
-                if (updatedCommentPosition && updatedCommentPosition.id === comment.id) {
-                  topPosition = getSelectedHight;
-                } else {
-                  // Ensure no overlap with previous comments
+
+                if(updatedCommentPosition){
+                   if(updatedCommentPosition.id === comment.id){
+                      topPosition = getSelectedHight;
+                   }else{
+                    const indexOfUpdatedComment = comments.findIndex((c) => c.id === updatedCommentPosition.id);
+                    if(indexOfUpdatedComment !== -1){
+                      const commentIndex = comments.findIndex((c) => c.id === comment.id);
+                      if(commentIndex < indexOfUpdatedComment){
+                        topPosition = getSelectedHight - (getCommentHeight(comment) * (indexOfUpdatedComment - commentIndex));
+                      }else{
+                        topPosition = getSelectedHight + (getCommentHeight(comment) * (commentIndex - indexOfUpdatedComment));
+                      }
+                    }
+                   }
+                }else{
                   if (topPosition < lastCommentBottomPosition) {
                     topPosition = lastCommentBottomPosition;
                   }

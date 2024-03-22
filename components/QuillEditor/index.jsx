@@ -24,7 +24,7 @@ const QuillEditor = React.forwardRef(
       onDebounce,
       nonEditable,
       editorFontSize,
-      commentInfo
+      updatedCommentPosition
     },
     ref
   ) => {
@@ -349,6 +349,12 @@ const QuillEditor = React.forwardRef(
 
     let lastCommentBottomPosition = 100;
 
+    const getSelectedHight = updatedCommentPosition && 
+    editor.getBounds(
+      updatedCommentPosition.range.from, updatedCommentPosition.range.to - updatedCommentPosition.range.from
+    ).top
+    console.log('the updated comment is', getSelectedHight)
+
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
         <div
@@ -358,70 +364,75 @@ const QuillEditor = React.forwardRef(
         <div
           style={{
             position: 'absolute',
-            top: -50,
-            left: '100%',
+            top: 0,
+            right: '-320px',
             height: '100%',
+            width: '320px',
             zIndex: '546',
+            overflowX: 'scroll',
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
           }}
         >
-          <ul 
-            style={{ 
+          <ul
+            style={{
               height: '100%',
-              overflowY: 'scroll' 
             }}
           >
             {comments
-            .sort((a, b) => {
-              return a.range.from - b.range.from;
-            })
-            .map((comment, index) => {
-              if (!editorRef.current) return null;
+              .sort((a, b) => {
+                return a.range.from - b.range.from;
+              })
+              .map((comment, index) => {
+                if (!editorRef.current) return null;
 
-              commentInfo(comment, editorRef, editor)
+                //   const content = editorRef.current.textContent;
+                //   const selection = editor.getSelection();
+                //   const selectedIndex = selection !== null ? selection.index : 0;
+                //   const selectedLength = selection !== null ? selection.length : 0;
+                const lenght = comment.range.to - comment.range.from;
 
-              //   const content = editorRef.current.textContent;
-              //   const selection = editor.getSelection();
-              //   const selectedIndex = selection !== null ? selection.index : 0;
-              //   const selectedLength = selection !== null ? selection.length : 0;
-              const lenght = comment.range.to - comment.range.from;
+                const boundsIs = editor.getBounds(comment.range.from, lenght);
 
-              const boundsIs = editor.getBounds(comment.range.from, lenght);
+                //   const editorHeight = editorRef.current.clientHeight;
+                let topPosition = boundsIs.top;
 
-              //   const editorHeight = editorRef.current.clientHeight;
-              let topPosition = boundsIs.top;
+                console.log('the comment top', topPosition);
 
-              console.log('the comment top', topPosition);
+                // let topPosition = getTopPositionOfHighlight(
+                //   comment.range.from,
+                //   comment.range.to
+                // );
+                let commentHeight = getCommentHeight(comment);
 
-              // let topPosition = getTopPositionOfHighlight(
-              //   comment.range.from,
-              //   comment.range.to
-              // );
-              let commentHeight = getCommentHeight(comment);
+                if (updatedCommentPosition && updatedCommentPosition.id === comment.id) {
+                  topPosition = getSelectedHight;
+                } else {
+                  // Ensure no overlap with previous comments
+                  if (topPosition < lastCommentBottomPosition) {
+                    topPosition = lastCommentBottomPosition;
+                  }
+                }
 
-              // Ensure this comment does not visually overlap with the previous one
-              if (topPosition < lastCommentBottomPosition) {
-                topPosition = lastCommentBottomPosition;
-              }
+                lastCommentBottomPosition = topPosition + commentHeight;
 
-              lastCommentBottomPosition = topPosition + commentHeight;
-
-              return (
-                <div
-                  key={index}
-                  style={{
-                    position: 'absolute',
-                    top: `${topPosition}px`,
-                    left: '100%',
-                    minWidth: '300px',
-                    height: '150px',
-                    overflow: 'hidden',
-                    padding: '20px',
-                  }}
-                >
-                  <CommentCard32 comment={comment} />
-                </div>
-              );
-            })}
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      position: 'absolute',
+                      top: `${topPosition}px`,
+                      left: '0',
+                      minWidth: '300px',
+                      height: '150px',
+                      overflow: 'hidden',
+                      padding: '20px',
+                    }}
+                  >
+                    <CommentCard32 comment={comment} />
+                  </div>
+                );
+              })}
           </ul>
         </div>
       </div>

@@ -75,6 +75,7 @@ function FeedbackTeacherLaptop(props) {
     selectedRange,
     classesAndStudents,
     teachers,
+    updatedCommentPosition,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -285,7 +286,8 @@ function FeedbackTeacherLaptop(props) {
               showTeacherPopUp,
               setShowStudentPopUp,
               setShowTeacherPopUp,
-              editorFontSize
+              editorFontSize,
+              updatedCommentPosition
             )}
           </Frame1388>
         </>
@@ -479,7 +481,8 @@ function answersAndFeedbacks(
   showTeacherPopUp,
   setShowStudentPopUp,
   setShowTeacherPopUp,
-  editorFontSize
+  editorFontSize,
+  updatedCommentPosition
 ) {
   return (
     <Frame1386 id="content">
@@ -520,7 +523,8 @@ function answersAndFeedbacks(
           submission,
           commentsForSelectedTab,
           methods,
-          editorFontSize
+          editorFontSize,
+          updatedCommentPosition
         )}
 
         {!isMobile && (

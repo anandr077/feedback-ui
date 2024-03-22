@@ -115,7 +115,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
   const [countWords, setCountWords] = useState(0);
-  const [pageLeavePopup, setPageLeavePopup] = useState(false)
+  const [pageLeavePopup, setPageLeavePopup] = useState(false);
+  const [updatedCommentPosition, setUpdatedCommentPosition] = useState(null);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -1173,6 +1174,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         .filter((comment) => comment.range.from <= from && comment.range.to >= to);
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
+        setUpdatedCommentPosition(matchingComment);
         highlightByComment(matchingComment)
       } else {
         openNewCommentFrame(from, to, serialNumber, selection)
@@ -1202,11 +1204,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
   function highlightComment(color, div) {
-    div.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center',
-    });
+    // div.scrollIntoView({
+    //   behavior: 'smooth',
+    //   block: 'center',
+    //   inline: 'center',
+    // });
     setTimeout(() => {
       div.style.background = color ? color : '#FFFFFF';
       div.style.border = '1px solid #E5E5E5';
@@ -1475,6 +1477,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   const shortcuts = getShortcuts();
 
+
   return (
     <FeedbackContext.Provider 
       value={{
@@ -1530,6 +1533,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedRange,
           classesAndStudents,
           teachers,
+          updatedCommentPosition
         }}
       />
     </FeedbackContext.Provider>

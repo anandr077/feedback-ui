@@ -42,7 +42,8 @@ export function answersFrame(
   submission,
   commentsForSelectedTab,
   methods,
-  editorFontSize
+  editorFontSize,
+  updatedCommentPosition
 ) {
   return (
     <AnswersFrame
@@ -65,6 +66,7 @@ export function answersFrame(
       setComments={methods.setComments}
       comments={methods.comments}
       editorFontSize={editorFontSize}
+      updatedCommentPosition={updatedCommentPosition} 
     ></AnswersFrame>
   );
 }
@@ -87,7 +89,8 @@ function AnswersFrame(props) {
     updateOverAllFeedback,
     setComments,
     comments,
-    editorFontSize
+    editorFontSize,
+    updatedCommentPosition
   } = props;
   return (
     <Group1225 id="answers">
@@ -109,7 +112,8 @@ function AnswersFrame(props) {
           updateOverAllFeedback,
           setComments,
           comments,
-          editorFontSize
+          editorFontSize,
+          updatedCommentPosition
         )}
       </Frame1367>
     </Group1225>
@@ -161,7 +165,8 @@ const answerFrames = (
   updateOverAllFeedback,
   setComments,
   comments,
-  editorFontSize
+  editorFontSize,
+  updatedCommentPosition
 ) => {
   const { overallComments } = useContext(FeedbackContext);
 
@@ -224,7 +229,8 @@ const answerFrames = (
                   commentsForSelectedTab,
                   debounce,
                   handleEditorMounted,
-                  editorFontSize
+                  editorFontSize,
+                  updatedCommentPosition
                 )}
               </QuillContainer>
             )}
@@ -312,11 +318,10 @@ function createQuill(
   commentsForSelectedTab,
   debounce,
   handleEditorMounted,
-  editorFontSize
+  editorFontSize,
+  updatedCommentPosition
 ) {
-  const commentInfo = (comment, editorRef, editor) =>{
-     console.log('the comment info is', comment, editorRef, editor)
-  }
+
   return (
     <div>
       <QuillEditor
@@ -346,7 +351,7 @@ function createQuill(
         containerName={containerName}
         nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
         editorFontSize={editorFontSize}
-        commentInfo={commentInfo}
+        updatedCommentPosition={updatedCommentPosition}
       ></QuillEditor>
     </div>
   );

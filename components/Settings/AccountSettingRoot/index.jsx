@@ -82,19 +82,37 @@ export default function AccountSettingsRoot(props) {
   const [isShowNewBankPopUp, setShowNewBankPopUp] = React.useState(false);
   const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
 
-  React.useEffect(() => {
-    Promise.all([
-      getAllMarkingCriteria(),
-      getShortcuts(),
-      getSmartAnnotations(),
-    ]).then(([result, shortcuts, smartAnnotation]) => {
-      if (result) {
-        setMarkingCriterias(result);
-      }
-      setShortcuts(shortcuts);
-      setIsLoading(false);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   Promise.all([
+  //     getAllMarkingCriteria(),
+  //     getShortcuts(),
+  //     getSmartAnnotations(),
+  //   ]).then(([result, shortcuts, smartAnnotation]) => {
+  //     if (result) {
+  //       setMarkingCriterias(result);
+  //     }
+  //     setShortcuts(shortcuts);
+  //     setIsLoading(false);
+  //   });
+  // }, []);
+
+  const shortCutsQuery = useQuery({
+    queryKey: ['shortCuts'],
+    queryFn: async () => {
+      const result = await getShortcuts();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  const markingCriteriaQuery = useQuery({
+    queryKey: ['markingCriteria'],
+    queryFn: async () => {
+      const result = await getAllMarkingCriteria();
+      return result;
+    },
+    staleTime: 3600000,
+  });
 
   const feedbackBankQuery = useQuery({
     queryKey: ['feedbackBank'],
@@ -129,7 +147,13 @@ export default function AccountSettingsRoot(props) {
         )[0]
       );
     }
-  }, [feedbackBankQuery.data]);
+    if (markingCriteriaQuery.data) {
+      setMarkingCriterias(markingCriteriaQuery.data);
+    }
+    if (shortCutsQuery.data) {
+      setShortcuts(shortCutsQuery.data);
+    }
+  }, [feedbackBankQuery.data, markingCriteriaQuery.data, shortCutsQuery.data]);
 
   const smartAnnotationsFrame = () => {
     const smartAnnotation = smartAnnotations.find(
@@ -458,7 +482,11 @@ export default function AccountSettingsRoot(props) {
     />
   );
 
-  if (isLoading || feedbackBankQuery.isLoading) {
+  if (
+    feedbackBankQuery.isLoading ||
+    shortCutsQuery.isLoading ||
+    markingCriteriaQuery.isLoading
+  ) {
     return (
       <>
         <Loader />
@@ -562,7 +590,7 @@ export default function AccountSettingsRoot(props) {
               createCloneFeedbankBank,
               setShowNewBankPopUp,
               feedbackBankCreated,
-              setFeedbackBankCreated
+              setFeedbackBankCreated,
             }}
           />
         }
@@ -586,7 +614,7 @@ export default function AccountSettingsRoot(props) {
               createCloneFeedbankBank,
               setShowNewBankPopUp,
               feedbackBankCreated,
-              setFeedbackBankCreated
+              setFeedbackBankCreated,
             }}
           />
         }
@@ -610,7 +638,7 @@ export default function AccountSettingsRoot(props) {
               createCloneFeedbankBank,
               setShowNewBankPopUp,
               feedbackBankCreated,
-              setFeedbackBankCreated
+              setFeedbackBankCreated,
             }}
           />
         }
@@ -635,7 +663,7 @@ export default function AccountSettingsRoot(props) {
               createCloneFeedbankBank,
               setShowNewBankPopUp,
               feedbackBankCreated,
-              setFeedbackBankCreated
+              setFeedbackBankCreated,
             }}
           />
         }

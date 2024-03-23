@@ -78,7 +78,8 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     createCloneFeedbankBank,
     setShowNewBankPopUp,
     feedbackBankCreated,
-    setFeedbackBankCreated
+    setFeedbackBankCreated,
+    emptyFeedbackBank,
   } = props;
 
   console.log('smart annotation', smartAnnotations);
@@ -155,78 +156,90 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                   </MarkingCriteriaList>
                 </Frame1302>
               )}
-              {showShortcuts && (
-                <Frame1302>
-                  <Title1>
-                    <FeedbackBankHeading>Feedback Banks</FeedbackBankHeading>
-                    <QuestionTooltip
-                      text={
-                        'Help other students who have requested feedback from the community'
-                      }
-                      img={questionMark}
-                    />
-                  </Title1>
-                  <TabsContainer>
-                    <MoreOptionsContainer>
-                      <TabsPlusContainer
-                        onClick={() => setShowNewBankPopUp(true)}
+              {showShortcuts &&
+                (!(smartAnnotations.length > 0) ? (
+                  emptyFeedbackBank()
+                ) : (
+                  <Frame1302>
+                    <Title1>
+                      <FeedbackBankHeading>Feedback Banks</FeedbackBankHeading>
+                      <QuestionTooltip
+                        text={
+                          'Help other students who have requested feedback from the community'
+                        }
+                        img={questionMark}
+                      />
+                    </Title1>
+                    <TabsContainer>
+                      <MoreOptionsContainer>
+                        <TabsPlusContainer
+                          onClick={() => setShowNewBankPopUp(true)}
+                        >
+                          <TabsPlus src={Plus} />
+                          <TabsPlusText>New Bank</TabsPlusText>
+                        </TabsPlusContainer>
+                      </MoreOptionsContainer>
+                      <StyledTabs
+                        variant="scrollable"
+                        scrollButtons
+                        value={
+                          feedbackBankCreated
+                            ? smartAnnotations[smartAnnotations.length - 1].id
+                            : feedbackBankId
+                        }
+                        onChange={(event, newValue) => {
+                          setFeedbackBankId(newValue);
+                          setFeedbackBankCreated(false);
+                        }}
+                        aria-label="Feedback Bank tabs"
                       >
-                        <TabsPlus src={Plus} />
-                        <TabsPlusText>New Bank</TabsPlusText>
-                      </TabsPlusContainer>
-                    </MoreOptionsContainer>
-                    <StyledTabs
-                      variant="scrollable"
-                      scrollButtons
-                      value={
-                        feedbackBankCreated 
-                        ? smartAnnotations[smartAnnotations.length - 1].id 
-                        : feedbackBankId
-                      }
-                      onChange={(event, newValue) => {
-                        setFeedbackBankId(newValue);
-                        setFeedbackBankCreated(false);
-                      }}
-                      aria-label="Feedback Bank tabs"
-                    >
-                      {smartAnnotations?.map((bank, index) => (
-                        <StyledTab
-                          style={{
-                            backgroundColor:
-                            feedbackBankCreated
-                            ? smartAnnotations.length - 1 === index ? '#f1e6fc' : '#F2F1F3'
-                            : feedbackBankId === bank.id ? '#f1e6fc' : '#F2F1F3',
-                          }}
-                          key={bank.id}
-                          value={bank.id}
-                          label={
-                            <TabTitleContainer
-                              bank={bank}
-                              UpdateSmartBankTitleHandler={
-                                UpdateSmartBankTitleHandler
-                              }
-                              deteteFeedbackBank={deteteFeedbackBank}
-                              createCloneFeedbankBank={createCloneFeedbankBank}
-                              showIcon={feedbackBankCreated ? index === smartAnnotations.length - 1 : feedbackBankId === bank.id}
-                            />
-                          }
-                        />
-                      ))}
-                    </StyledTabs>
-                  </TabsContainer>
-                  <MarkingCriteriaList>
-                    {smartAnnotationsFrame()}
-                  </MarkingCriteriaList>
+                        {smartAnnotations?.map((bank, index) => (
+                          <StyledTab
+                            style={{
+                              backgroundColor: feedbackBankCreated
+                                ? smartAnnotations.length - 1 === index
+                                  ? '#f1e6fc'
+                                  : '#F2F1F3'
+                                : feedbackBankId === bank.id
+                                ? '#f1e6fc'
+                                : '#F2F1F3',
+                            }}
+                            key={bank.id}
+                            value={bank.id}
+                            label={
+                              <TabTitleContainer
+                                bank={bank}
+                                UpdateSmartBankTitleHandler={
+                                  UpdateSmartBankTitleHandler
+                                }
+                                deteteFeedbackBank={deteteFeedbackBank}
+                                createCloneFeedbankBank={
+                                  createCloneFeedbankBank
+                                }
+                                showIcon={
+                                  feedbackBankCreated
+                                    ? index === smartAnnotations.length - 1
+                                    : feedbackBankId === bank.id
+                                }
+                              />
+                            }
+                          />
+                        ))}
+                      </StyledTabs>
+                    </TabsContainer>
+                    <MarkingCriteriaList>
+                      {smartAnnotationsFrame()}
+                    </MarkingCriteriaList>
 
-                  {findCurrentFeedbackBank.ownerId === getUserId() && (
-                    <Buttons
-                      text="New Feedback Area"
-                      onClickMethod={() => createSmartAnnotationHandler()}
-                      className={'button-width'}
-                    />
-                  )}
-                </Frame1302>
-              )}
+                    {findCurrentFeedbackBank.ownerId === getUserId() && (
+                      <Buttons
+                        text="New Feedback Area"
+                        onClickMethod={() => createSmartAnnotationHandler()}
+                        className={'button-width'}
+                      />
+                    )}
+                  </Frame1302>
+                ))}
             </>
           </Frame13221>
         </Frame1378>

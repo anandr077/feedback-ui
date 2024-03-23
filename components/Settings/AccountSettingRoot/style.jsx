@@ -183,3 +183,45 @@ export const ButtonText = styled.p`
   text-align: left;
   color: #ffffff;
 `;
+
+export const EmptyBankContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+export const EmptyBankIconCont = styled.img`
+  width: 120px;
+  height: 120px;
+`;
+export const EmptyBankHeading = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 31.2px;
+  text-align: center;
+  color: #000000;
+`;
+export const EmptyBankSubHeading = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: center;
+  color: #7b7382;
+`;
+
+export const EmptyBankContainerButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  padding: 8px 16px 8px 16px;
+  gap: 4px;
+  border-radius: 30px;
+  border: 1px;
+  opacity: 0px;
+  background: #7200e0;
+  border: 1px solid #7200e0;
+  cursor: pointer;
+`;

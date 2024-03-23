@@ -56,11 +56,22 @@ import {
   ButtonConatiner,
   CreateButton,
   ButtonText,
+  EmptyBankIconCont,
+  EmptyBankContainer,
+  EmptyBankHeading,
+  EmptyBankSubHeading,
+  EmptyBankContainerButton,
 } from './style.jsx';
 import closecircle from '../../../static/img/closecircle.svg';
 import PlusBlue from '../../../static/img/Plus-blue.svg';
 import Doc from '../../../static/img/doc.svg';
 import PreviewIcon from '../../../static/img/preview.svg';
+import EmptyBankIcon from '../../../static/img/emptyBank.svg';
+import Plus from '../../../static/img/Plus.svg';
+import {
+  TabsPlus,
+  TabsPlusText,
+} from '../AccountSettingsMarkingCriteriaDeskt/style.jsx';
 
 export default function AccountSettingsRoot(props) {
   const queryClient = useQueryClient();
@@ -81,20 +92,6 @@ export default function AccountSettingsRoot(props) {
   const [feedbackBankId, setFeedbackBankId] = React.useState(0);
   const [isShowNewBankPopUp, setShowNewBankPopUp] = React.useState(false);
   const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   Promise.all([
-  //     getAllMarkingCriteria(),
-  //     getShortcuts(),
-  //     getSmartAnnotations(),
-  //   ]).then(([result, shortcuts, smartAnnotation]) => {
-  //     if (result) {
-  //       setMarkingCriterias(result);
-  //     }
-  //     setShortcuts(shortcuts);
-  //     setIsLoading(false);
-  //   });
-  // }, []);
 
   const shortCutsQuery = useQuery({
     queryKey: ['shortCuts'],
@@ -561,6 +558,22 @@ export default function AccountSettingsRoot(props) {
     );
   };
 
+  const emptyFeedbackBank = () => {
+    return (
+      <EmptyBankContainer>
+        <EmptyBankIconCont src={EmptyBankIcon} />
+        <EmptyBankHeading>No comment banks created yet</EmptyBankHeading>
+        <EmptyBankSubHeading>
+          To start using comment banks, click below.
+        </EmptyBankSubHeading>
+        <EmptyBankContainerButton onClick={() => setShowNewBankPopUp(true)}>
+          <TabsPlus src={Plus} />
+          <TabsPlusText>New Bank</TabsPlusText>
+        </EmptyBankContainerButton>
+      </EmptyBankContainer>
+    );
+  };
+
   return (
     <>
       {isShowNewBankPopUp && (
@@ -591,6 +604,7 @@ export default function AccountSettingsRoot(props) {
               setShowNewBankPopUp,
               feedbackBankCreated,
               setFeedbackBankCreated,
+              emptyFeedbackBank,
             }}
           />
         }
@@ -615,6 +629,7 @@ export default function AccountSettingsRoot(props) {
               setShowNewBankPopUp,
               feedbackBankCreated,
               setFeedbackBankCreated,
+              emptyFeedbackBank,
             }}
           />
         }
@@ -639,6 +654,7 @@ export default function AccountSettingsRoot(props) {
               setShowNewBankPopUp,
               feedbackBankCreated,
               setFeedbackBankCreated,
+              emptyFeedbackBank,
             }}
           />
         }
@@ -664,28 +680,11 @@ export default function AccountSettingsRoot(props) {
               setShowNewBankPopUp,
               feedbackBankCreated,
               setFeedbackBankCreated,
+              emptyFeedbackBank,
             }}
           />
         }
       />
-
-      {/* <AccountSettingsMarkingCriteriaDeskt
-        {...{
-          ...accountSettingsMarkingCriteriaDesktData,
-          markingCriteriaList,
-          createSmartAnnotationHandler,
-          smartAnnotationsFrame,
-          sidebarNav,
-          showMarkingCriteria,
-          showShortcuts,
-          showUserSettings,
-          breadCrumbs,
-          smartAnnotations,
-          setFeedbackBankId,
-          feedbackBankId,
-          setOpenMarkingMethodologyDialog,
-        }}
-      /> */}
       {openMarkingMethodologyDialog && (
         <MarkingMethodologyDialog
           setOpenMarkingMethodologyDialog={setOpenMarkingMethodologyDialog}

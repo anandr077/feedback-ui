@@ -92,6 +92,8 @@ export default function AccountSettingsRoot(props) {
   const [feedbackBankId, setFeedbackBankId] = React.useState(0);
   const [isShowNewBankPopUp, setShowNewBankPopUp] = React.useState(false);
   const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
+  const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] =
+    React.useState('');
 
   const shortCutsQuery = useQuery({
     queryKey: ['shortCuts'],
@@ -176,6 +178,8 @@ export default function AccountSettingsRoot(props) {
         deleteAnnotationHandler={deleteAnnotationHandler}
         createSmartAnnotation={createSmartAnnotation}
         teacherId={smartAnnotation.ownerId}
+        open={smartAnnotationeditIndex === index}
+        setSmartAnnotationeditIndex={setSmartAnnotationeditIndex}
       />
     ));
     return all;
@@ -365,6 +369,7 @@ export default function AccountSettingsRoot(props) {
     smartAnnotationIndex,
     index
   ) => {
+    setSmartAnnotationeditIndex(index);
     const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
       if (smartAnnotation.id === smartAnnotationIndex) {
         return {
@@ -610,6 +615,7 @@ export default function AccountSettingsRoot(props) {
               feedbackBankCreated,
               setFeedbackBankCreated,
               emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }
@@ -635,6 +641,7 @@ export default function AccountSettingsRoot(props) {
               feedbackBankCreated,
               setFeedbackBankCreated,
               emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }
@@ -660,6 +667,7 @@ export default function AccountSettingsRoot(props) {
               feedbackBankCreated,
               setFeedbackBankCreated,
               emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }
@@ -686,6 +694,7 @@ export default function AccountSettingsRoot(props) {
               feedbackBankCreated,
               setFeedbackBankCreated,
               emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }

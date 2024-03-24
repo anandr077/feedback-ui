@@ -38,6 +38,8 @@ function SmartAnotation(props) {
     onSuggestionClick,
     createSmartAnnotation,
     teacherId,
+    open,
+    setSmartAnnotationeditIndex,
   } = props;
 
   const [isExpanded, setIsExpanded] = useState(
@@ -59,6 +61,7 @@ function SmartAnotation(props) {
   };
 
   const toggleSection = () => {
+    setSmartAnnotationeditIndex('');
     setIsExpanded(!isExpanded);
   };
 
@@ -143,7 +146,7 @@ function SmartAnotation(props) {
 
   return (
     <>
-      {isExpanded ? (
+      {isExpanded || open ? (
         <SmartAnnotationContainer>
           <TtitleContainer>
             <SixdotsImage src={sixDots} />

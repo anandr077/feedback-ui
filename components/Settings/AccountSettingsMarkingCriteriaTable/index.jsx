@@ -80,6 +80,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
     feedbackBankCreated,
     setFeedbackBankCreated,
     emptyFeedbackBank,
+    setSmartAnnotationeditIndex,
   } = props;
 
   const findCurrentFeedbackBank = smartAnnotations?.find(
@@ -241,6 +242,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
                           onChange={(event, newValue) => {
                             setFeedbackBankId(newValue);
                             setFeedbackBankCreated(false);
+                            setSmartAnnotationeditIndex('');
                           }}
                           aria-label="Feedback Bank tabs"
                         >

@@ -38,13 +38,11 @@ function SmartAnotation(props) {
     onSuggestionClick,
     createSmartAnnotation,
     teacherId,
-    open,
+    open = false,
     setSmartAnnotationeditIndex,
   } = props;
 
-  const [isExpanded, setIsExpanded] = useState(
-    smartAnnotationUpdateIndex === smartAnnotationIndex && settingsMode
-  );
+  const [isExpanded, setIsExpanded] = useState(false);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] =
     useState(smartAnnotation);
   const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
@@ -61,7 +59,7 @@ function SmartAnotation(props) {
   };
 
   const toggleSection = () => {
-    setSmartAnnotationeditIndex('');
+    if (settingsMode) setSmartAnnotationeditIndex('');
     setIsExpanded(!isExpanded);
   };
 
@@ -220,7 +218,9 @@ function SmartAnotation(props) {
               <SmartAnnotationSuggestion
                 key={Math.random()}
                 onClickFn={onClickFn}
-                text={suggestion}
+                text={
+                  suggestion.description ? suggestion.description : suggestion
+                }
                 index={index}
                 saveEditedSuggestion={saveEditedSuggestion}
                 settingsMode={settingsMode}
@@ -264,11 +264,7 @@ function SmartAnotation(props) {
           )}
         </SmartAnnotationContainer>
       ) : (
-        <SmartAnnotationTitleContainer
-          onClick={() => {
-            toggleSection();
-          }}
-        >
+        <SmartAnnotationTitleContainer onClick={toggleSection}>
           <Title>{editTitle}</Title>
           <Arrowdown2 src={WidearrowDown} alt="arrowdown2" />
         </SmartAnnotationTitleContainer>

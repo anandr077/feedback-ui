@@ -63,6 +63,7 @@ export const SuggestionsContainerComments = styled.div`
   border-radius: 12px;
   border: 1px solid var(--light-mode-purple);
   background: #ffffff;
+  cursor: pointer;
 `;
 
 export const DeleteButton = styled.img`

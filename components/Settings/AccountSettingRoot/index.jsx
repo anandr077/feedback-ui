@@ -122,10 +122,14 @@ export default function AccountSettingsRoot(props) {
 
   useEffect(() => {
     if (feedbackBankQuery.data) {
-      setFeedbackBankId(
+      const nonSyatemBanks =
         feedbackBankQuery.data._embedded.commentbanks.filter(
           (bank) => !bank.isSystem
-        )[0].id
+        );
+      setFeedbackBankId(
+        feedbackBankCreated
+          ? nonSyatemBanks[nonSyatemBanks.length - 1].id
+          : nonSyatemBanks[0].id
       );
       setSmartAnnotations(
         feedbackBankQuery.data._embedded.commentbanks.filter(
@@ -156,6 +160,7 @@ export default function AccountSettingsRoot(props) {
     const smartAnnotation = smartAnnotations.find(
       (sa) => sa.id === feedbackBankId
     );
+
     if (!smartAnnotation) {
       return null;
     }
@@ -224,13 +229,13 @@ export default function AccountSettingsRoot(props) {
     );
 
     const { title, smartComments } = newClonedBank;
-    const newObject = { title, smartComments };
+    const newObject = { title: `Copy of ${title}`, smartComments };
 
     createNewFeedbackBank(newObject)
       .then(() => {
         queryClient.invalidateQueries(['feedbackBank']);
-
         // showSnackbar('feedback bank cloned');
+        setFeedbackBankCreated(true);
       })
       .catch((error) => {
         // showSnackbar('Cloning failed');
@@ -269,7 +274,7 @@ export default function AccountSettingsRoot(props) {
       (bank) => bank.id === systemBankId
     );
     const { title, smartComments } = newSystemBank;
-    const newObject = { title, smartComments };
+    const newObject = { title: `Copy of ${title}`, smartComments };
     createNewFeedbackBank(newObject)
       .then(() => {
         // setSmartAnnotations([...smartAnnotations, newBank]);

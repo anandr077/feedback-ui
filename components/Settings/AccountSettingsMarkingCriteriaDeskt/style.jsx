@@ -360,6 +360,7 @@ export const StyledTab = styled(Tab)`
   padding: 8px 10px 8px 10px;
   gap: 3px;
   border-radius: 4px !important;
+  text-transform: none !important;
 `;
 export const StyledTabs = styled(Tabs)`
   .MuiTabs-flexContainer {

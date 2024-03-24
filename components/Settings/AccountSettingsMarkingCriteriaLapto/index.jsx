@@ -172,11 +172,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                       <StyledTabs
                         variant="scrollable"
                         scrollButtons
-                        value={
-                          feedbackBankCreated
-                            ? smartAnnotations[smartAnnotations.length - 1].id
-                            : feedbackBankId
-                        }
+                        value={feedbackBankId}
                         onChange={(event, newValue) => {
                           setFeedbackBankId(newValue);
                           setFeedbackBankCreated(false);
@@ -186,13 +182,10 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                         {smartAnnotations?.map((bank, index) => (
                           <StyledTab
                             style={{
-                              backgroundColor: feedbackBankCreated
-                                ? smartAnnotations.length - 1 === index
+                              backgroundColor:
+                                feedbackBankId === bank.id
                                   ? '#f1e6fc'
-                                  : '#F2F1F3'
-                                : feedbackBankId === bank.id
-                                ? '#f1e6fc'
-                                : '#F2F1F3',
+                                  : '#F2F1F3',
                             }}
                             key={bank.id}
                             value={bank.id}
@@ -206,11 +199,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                                 createCloneFeedbankBank={
                                   createCloneFeedbankBank
                                 }
-                                showIcon={
-                                  feedbackBankCreated
-                                    ? index === smartAnnotations.length - 1
-                                    : feedbackBankId === bank.id
-                                }
+                                showIcon={feedbackBankId === bank.id}
                               />
                             }
                           />

@@ -248,15 +248,15 @@ export default function AccountSettingsRoot(props) {
 
   const createFeedbackBank = () => {
     const newBank = {
-      title: 'Sample Title',
+      title: 'Untitled feedback bank',
       smartComments: [
         {
-          title: 'Sample Comment Title',
-          suggestions: ['This is the first smart comment.', 'S2'],
+          title: 'First feedback area',
+          suggestions: ['First comment', 'Second comment'],
         },
         {
-          title: 'Sample 2 Comment Title',
-          suggestions: ['This is the second smart comment.', 'S2'],
+          title: 'Second feedback area',
+          suggestions: ['First comment.', 'Second comment.'],
         },
       ],
     };
@@ -295,8 +295,8 @@ export default function AccountSettingsRoot(props) {
 
   const createSmartAnnotationHandler = () => {
     const smartAnnotationRequest = {
-      title: 'Sample Smart Annotation Title',
-      suggestions: ['', ''],
+      title: 'Untitled feedback area',
+      suggestions: ['First comment', 'Second comment'],
     };
     createSmartAnnotation(smartAnnotationRequest);
   };

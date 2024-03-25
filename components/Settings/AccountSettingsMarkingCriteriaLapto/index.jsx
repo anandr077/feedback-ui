@@ -75,9 +75,11 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     setSmartAnnotationeditIndex,
   } = props;
 
-  const findCurrentFeedbackBank = smartAnnotations?.find(
-    (smartAnnotation) => smartAnnotation.id === feedbackBankId
-  );
+  const findCurrentFeedbackBank =
+    smartAnnotations.length > 0 &&
+    smartAnnotations?.find(
+      (smartAnnotation) => smartAnnotation.id === feedbackBankId
+    );
 
   return (
     <div className="account-settings-marking-criteria-laptop screen">
@@ -211,7 +213,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                     <MarkingCriteriaList>
                       {smartAnnotationsFrame()}
                     </MarkingCriteriaList>
-                    {findCurrentFeedbackBank.ownerId === getUserId() && (
+                    {findCurrentFeedbackBank?.ownerId === getUserId() && (
                       <Buttons
                         text="New Feedback Area"
                         onClickMethod={() => createSmartAnnotationHandler()}

@@ -130,8 +130,8 @@ export default function AccountSettingsRoot(props) {
         );
       setFeedbackBankId(
         feedbackBankCreated
-          ? nonSyatemBanks[nonSyatemBanks.length - 1].id
-          : nonSyatemBanks[0].id
+          ? nonSyatemBanks[nonSyatemBanks.length - 1]?.id
+          : nonSyatemBanks[0]?.id
       );
       setSmartAnnotations(
         feedbackBankQuery.data._embedded.commentbanks.filter(
@@ -216,9 +216,16 @@ export default function AccountSettingsRoot(props) {
     const newSmartAnnotations = smartAnnotations.filter(
       (smartAnnotation) => smartAnnotation.id != smartAnnotationIndex
     );
+    console.log('first', newSmartAnnotations);
     deleteSmartAnnotation(smartAnnotationIndex)
       .then(() => {
-        setFeedbackBankId(newSmartAnnotations[0].id);
+        if (newSmartAnnotations.length === 0) {
+          setFeedbackBankId('');
+        }
+        else{
+          setFeedbackBankId(newSmartAnnotations[0].id);
+        }
+        
         setSmartAnnotations(newSmartAnnotations);
         // showSnackbar('Feedback bank Deleted');
       })

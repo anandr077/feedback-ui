@@ -131,7 +131,7 @@ export default function AccountSettingsRoot(props) {
       setFeedbackBankId(
         feedbackBankCreated
           ? nonSyatemBanks[nonSyatemBanks.length - 1].id
-          : nonSyatemBanks[0].id
+          : nonSyatemBanks[0]?.id
       );
       setSmartAnnotations(
         feedbackBankQuery.data._embedded.commentbanks.filter(

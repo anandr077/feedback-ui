@@ -24,7 +24,7 @@ const QuillEditor = React.forwardRef(
       onDebounce,
       nonEditable,
       editorFontSize,
-      updatedCommentPosition
+      updatedCommentPosition,
     },
     ref
   ) => {
@@ -349,11 +349,82 @@ const QuillEditor = React.forwardRef(
 
     let lastCommentBottomPosition = 0;
 
-    const getSelectedHight = updatedCommentPosition && 
-    editor.getBounds(
-      updatedCommentPosition.range.from, updatedCommentPosition.range.to - updatedCommentPosition.range.from
-    ).top
-    console.log('the updated comment is', getSelectedHight)
+    const getSelectedHight =
+      updatedCommentPosition &&
+      editor.getBounds(
+        updatedCommentPosition.range.from,
+        updatedCommentPosition.range.to - updatedCommentPosition.range.from
+      ).top;
+    console.log('the updated comment is', getSelectedHight);
+
+    // Modify the existing map function for comments to group them based on topPosition and commentHeight
+    const groupedComments = comments
+      .sort((a, b) => a.range.from - b.range.from) // Sort comments by range.from
+      .map((comment, index) => {
+        if (!editorRef.current) return null;
+
+        const length = comment.range.to - comment.range.from;
+        const boundsIs = editor.getBounds(comment.range.from, length);
+
+        if (!boundsIs) {
+          console.error('Bounds not found for comment:', comment);
+          return null;
+        }
+
+        let topPosition = boundsIs.top;
+        let commentHeight = getCommentHeight(comment);
+
+        // Check for overlap with previous comment's bottom position
+        if (topPosition < lastCommentBottomPosition) {
+          topPosition = lastCommentBottomPosition;
+        }
+
+        // Calculate new top position considering potential overlaps
+        const newTopPosition = updatedCommentPosition
+          ? updatedCommentPosition.top
+          : topPosition;
+
+        // Update lastCommentBottomPosition
+        lastCommentBottomPosition = newTopPosition + commentHeight;
+
+        return { ...comment, topPosition: newTopPosition };
+      })
+      .filter((comment) => comment !== null);
+
+    // Group comments based on topPosition and commentHeight
+    const groupedCommentsWithGap = [];
+    let currentGroup = [];
+
+    groupedComments.forEach((comment, index) => {
+      // If currentGroup is empty, add the comment to it
+      if (currentGroup.length === 0) {
+        currentGroup.push(comment);
+      } else {
+        // Check if the current comment overlaps with the last comment in the group
+        if (
+          comment.topPosition <
+          currentGroup[currentGroup.length - 1].topPosition +
+            getCommentHeight(currentGroup[currentGroup.length - 1])
+        ) {
+          // If overlap exists, start a new group
+          groupedCommentsWithGap.push(currentGroup);
+          currentGroup = [comment];
+        } else {
+          // If no overlap, add the comment to the current group
+          currentGroup.push(comment);
+        }
+      }
+    });
+
+    // Add the last group to groupedCommentsWithGap
+    if (currentGroup.length > 0) {
+      groupedCommentsWithGap.push(currentGroup);
+    }
+
+    console.log('the group updatedCommentPosition', updatedCommentPosition)
+    console.log('the group groupedComments', groupedCommentsWithGap)
+
+    // Now groupedCommentsWithGap contains arrays of comments grouped based on their positions with a gap of commentHeight
 
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
@@ -370,7 +441,7 @@ const QuillEditor = React.forwardRef(
             width: '320px',
             zIndex: '546',
             overflowX: 'scroll',
-            scrollbarWidth: 'none', 
+            scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
         >
@@ -379,52 +450,14 @@ const QuillEditor = React.forwardRef(
               height: '100%',
             }}
           >
-            {comments
-              .sort((a, b) => {
-                return a.range.from - b.range.from;
-              })
-              .map((comment, index) => {
-                if (!editorRef.current) return null;
-
-                const lenght = comment.range.to - comment.range.from;
-
-                const boundsIs = editor.getBounds(comment.range.from, lenght);
-
-                let topPosition = boundsIs.top;
-
-                console.log('the comment top', topPosition);
-
-                let commentHeight = getCommentHeight(comment);
-
-
-                if(updatedCommentPosition){
-                   if(updatedCommentPosition.id === comment.id){
-                      topPosition = getSelectedHight;
-                   }else{
-                    const indexOfUpdatedComment = comments.findIndex((c) => c.id === updatedCommentPosition.id);
-                    if(indexOfUpdatedComment !== -1){
-                      const commentIndex = comments.findIndex((c) => c.id === comment.id);
-                      if(commentIndex < indexOfUpdatedComment){
-                        topPosition = getSelectedHight - (getCommentHeight(comment) * (indexOfUpdatedComment - commentIndex));
-                      }else{
-                        topPosition = getSelectedHight + (getCommentHeight(comment) * (commentIndex - indexOfUpdatedComment));
-                      }
-                    }
-                   }
-                }else{
-                  if (topPosition < lastCommentBottomPosition) {
-                    topPosition = lastCommentBottomPosition;
-                  }
-                }
-
-                lastCommentBottomPosition = topPosition + commentHeight;
-
-                return (
+            {groupedCommentsWithGap.map((group, groupIndex) => (
+              <div key={groupIndex}>
+                {group.map((comment, index) => (
                   <div
                     key={index}
                     style={{
                       position: 'absolute',
-                      top: `${topPosition}px`,
+                      top: `${comment.topPosition}px`,
                       left: '0',
                       minWidth: '300px',
                       height: '150px',
@@ -434,8 +467,9 @@ const QuillEditor = React.forwardRef(
                   >
                     <CommentCard32 comment={comment} />
                   </div>
-                );
-              })}
+                ))}
+              </div>
+            ))}
           </ul>
         </div>
       </div>

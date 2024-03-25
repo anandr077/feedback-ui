@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 
+export const GiveFeedbackContainer = styled.div`
+  display: flex;
+`;
+
 export const MainContainer = styled.div`
   align-items: center;
-  background-color: var(--white-pointer);
+  background-color: var(--white);
   border: 1px none;
   display: flex;
   flex-direction: column;
   gap: 60px;
   position: relative;
   min-height: 595px;
-  padding: 60px 0px;
+  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+
   @media (min-width: 1025px) and (max-width: 1440px) {
     min-width: 1025px;
   }
@@ -24,19 +29,8 @@ export const InnerContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 40px;
   position: relative;
   max-width: 1440px;
-  padding: 0px 60px;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 60px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 60px;
-  }
-  @media (max-width: 765px) {
-    padding: 0px 20px;
-  }
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
@@ -76,7 +70,8 @@ export const FilterAndSortContainer = styled.div`
   align-items: center;
   gap: 16px;
   align-self: stretch;
-  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+  border-bottom: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+  border-left: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   @media (max-width: 1024px) and (min-width: 765px) {
     flex-direction: column;
     align-items: flex-start;
@@ -85,6 +80,7 @@ export const FilterAndSortContainer = styled.div`
 export const FilterContainer = styled.div`
   display: flex;
   gap: 16px;
+  padding: 0 20px;
 `;
 export const SortContainer = styled.div`
   display: flex;
@@ -145,7 +141,6 @@ export const TitleImage = styled.img`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 32px;
   width: 100%;
   @media (max-width: 1024px) {
     flex-direction: column;
@@ -155,10 +150,8 @@ export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 65%;
-  border-radius: 8px;
-  border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
+  border: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
-  box-shadow: 0px 3px 8px 0px rgba(48, 27, 114, 0.04);
   @media (max-width: 1024px) {
     width: 100%;
   }
@@ -169,10 +162,8 @@ export const RightContentContainer = styled.div`
   padding: 10px;
   gap: 20px;
   width: 35%;
-  border-radius: 12px;
-  border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
+  border: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
-  box-shadow: 0px 4px 8px 0px rgba(48, 27, 114, 0.04);
   height: fit-content;
   @media (max-width: 1024px) {
     width: 100%;
@@ -415,7 +406,7 @@ export const Frame5086Text = styled.p`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #918B97;
+  color: #918b97;
 `;
 
 export const Frame5051 = styled.div`

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { getNotifications } from '../../service.js';
+import { getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
   Logo,
@@ -24,6 +25,45 @@ import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
 
+const headerTitle = [
+  {
+    link: '/',
+    title: 'Tasks',
+    teacherTooltip: 'View the status of every task that you have assigned for your classes',
+    studentTooltip: 'View all of your current tasks from school',
+  },
+  {
+    link: '/tasks',
+    title: 'Tasks',
+    teacherTooltip: 'View the status of every task that you have assigned for your classes',
+    studentTooltip: 'View all of your current tasks from school',
+  },
+  {
+    link: '/giveFeedback',
+    title: 'Give Feedback',
+    teacherTooltip: '',
+    studentTooltip: 'Help other students who have requested feedback from the community',
+  },
+  {
+    link: '/exemplarResponses',
+    title: 'Shared Responses',
+    teacherTooltip: '',
+    studentTooltip: 'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
+  },
+  {
+    link: '/settings',
+    title: 'Settings',
+    teacherTooltip: '',
+    studentTooltip: 'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
+  },
+  {
+    link: '/feedbackHistory',
+    title: 'Feedback History',
+    teacherTooltip: '',
+    studentTooltip: 'This is a record of the feedback that you have provided to other students in the past',
+  },
+]
+
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [slideNotificationBar, setSlideNotificationBar] = useState(false);
@@ -33,6 +73,8 @@ const Header = () => {
   const [fixedTop, setfixedTop] = useState(false);
   const notificationBarRef = useRef(null);
   const history = useHistory();
+  const location = useLocation();
+  const role = getUserRole();
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -98,6 +140,8 @@ const Header = () => {
     return () => observer.disconnect();
   }, []);
 
+  const pageHeader = headerTitle.find(item => item.link === location.pathname);
+
   return (
     <div
       ref={notificationBarRef}
@@ -111,10 +155,15 @@ const Header = () => {
         <LeftSide>
           <Logo src="./img/logo.svg" />
           <Title>
-            Tasks
+            {pageHeader && pageHeader.title}
             <QuestionTooltip
               img={questionMark}
-              text="View the status of every task that you have assigned for your classes"
+              text={pageHeader && 
+                role === "TEACHER" 
+                ? pageHeader.teacherTooltip
+                : role === 'STUDENT'
+                ? pageHeader.studentTooltip
+                : ''}
             />
           </Title>
         </LeftSide>

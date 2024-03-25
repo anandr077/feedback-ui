@@ -101,7 +101,6 @@ const Frame1361 = styled.div`
   gap: 20px;
   position: relative;
   border-top: 1px solid #E3E3E3;
-  //max-width: 1440px;
 `;
 
 const Title = styled.h1`
@@ -125,7 +124,6 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  // height: 90vh;
   padding: 0px 20px;
   max-height: 100vh;
 `;

@@ -105,6 +105,7 @@ const Frame1361 = styled.div`
   justify-content: center;
   position: relative;
   width: calc(100vw - 255px);
+  gap: 20px;
   border-top: 1px solid #E3E3E3;
 `;
 

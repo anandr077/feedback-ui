@@ -15,6 +15,7 @@ import {
   TitleAndSubtitleContainer,
 } from './style.js';
 import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
+import SecondSidebar from '../SecondSidebar/index.js';
 
 function TasksDesktop(props) {
   const {
@@ -32,36 +33,9 @@ function TasksDesktop(props) {
   } = props;
   return (
     <div className="tasks-desktop screen">
+      <SecondSidebar />
       <Frame1361>
         <TitleAndFilterContainer>
-          <TitleAndSubtitleContainer>
-            <TitleContainer>
-              <Title>
-                My Tasks
-                <QuestionTooltip 
-                  text="View all of your current tasks from school"
-                  img={questionMark}
-                />
-              </Title>
-              <LinkAndFilter>
-                <LinkButton
-                  link={`#/exemplarResponses`}
-                  label="Shared Responses"
-                  arrowleft={shareColor}
-                  whiteArrowleft={share}
-                />
-                <LinkButton
-                  link={`#/completed`}
-                  label="Task History"
-                  arrowright={arrowRight}
-                  whiteArrowright={whiteArrowright}
-                />
-              </LinkAndFilter>
-            </TitleContainer>
-            <SubtitleCon>
-              Click on a task bubble to complete or review your work
-            </SubtitleCon>
-          </TitleAndSubtitleContainer>
           <>{FilterSortAndCal}</>
         </TitleAndFilterContainer>
         <Frame1360>
@@ -127,12 +101,12 @@ const TitleContainer = styled.div`
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100vw - 305px);
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 20px;
   position: relative;
-  max-width: 1440px;
+  border-top: 1px solid #E3E3E3;
 `;
 
 const Heading = styled.div`
@@ -162,14 +136,12 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  // height: 90vh;
-  padding: 0px 60px;
+  padding: 0px 20px;
 `;
 
 const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  height: 90vh;
   gap: 32px;
   position: relative;
   align-self: stretch;
@@ -185,7 +157,7 @@ const Frame1354 = styled.div`
   padding-top: 0px;
   position: relative;
   flex: 1;
-  background-color: var(--white);
+  background-color: #F2F1F3;
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;

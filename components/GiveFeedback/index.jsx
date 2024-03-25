@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  GiveFeedbackContainer,
   MainContainer,
   InnerContainer,
   Title,
@@ -82,6 +83,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RoundedDropDown from '../../components2/RoundedDropDown';
 import ProgressBarComponent from './ProgressBarComponent';
 import QuestionTooltip from '../../components2/QuestionTooltip';
+import SecondSidebar from '../SecondSidebar';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -323,12 +325,13 @@ function GiveFeedback() {
   };
 
   return (
-    <>
+    <GiveFeedbackContainer>
+      <SecondSidebar />
       <MainContainer>
         <InnerContainer>
           <HeadingAndFilterCon>
-            <TopContainer>
-              <TitleContainer>
+            {/*<TopContainer>
+               <TitleContainer>
                 <Title>
                   {pathName.includes('/feedbackHistory')
                     ? 'Feedback History'
@@ -359,13 +362,14 @@ function GiveFeedback() {
                     />
                   )}
                 </ConnectContainer>
-              </TitleContainer>
+              </TitleContainer> 
               <HeadingLine>
                 {pathName.includes('/feedbackHistory')
                   ? 'View all of the feedback that you have provided to others'
                   : "By providing other students with feedback, you're more likely to get feedback on your own work"}
               </HeadingLine>
-            </TopContainer>
+            
+            </TopContainer>*/}
             {!mobileView && (
               <FilterAndSortContainer>
                 <FilterContainer>
@@ -527,7 +531,7 @@ function GiveFeedback() {
           </ContentContainer>
         </InnerContainer>
       </MainContainer>
-    </>
+    </GiveFeedbackContainer>
   );
 }
 

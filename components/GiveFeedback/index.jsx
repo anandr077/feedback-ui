@@ -69,7 +69,7 @@ import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
 import SortSquare from '../../static/img/sort-square.svg';
 import questionMark from '../../static/img/question-mark.svg';
-import arrowRight from '../../static/img/arrowright.svg';
+import line from '../../static/img/line-17-22@2x.png';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import LinkButton from '../../components2/LinkButton';
 import CloseCircle from '../../static/img/closecircle.svg';
@@ -330,46 +330,6 @@ function GiveFeedback() {
       <MainContainer>
         <InnerContainer>
           <HeadingAndFilterCon>
-            {/*<TopContainer>
-               <TitleContainer>
-                <Title>
-                  {pathName.includes('/feedbackHistory')
-                    ? 'Feedback History'
-                    : 'Give Feedback'}
-                  <QuestionTooltip
-                    text={
-                      pathName.includes('/feedbackHistory')
-                        ? 'This is a record of the feedback that you have provided to other students in the past'
-                        : 'Help other students who have requested feedback from the community'
-                    }
-                    img={questionMark}
-                  />
-                </Title>
-                <ConnectContainer>
-                  {pathName.includes('/feedbackHistory') ? (
-                    <LinkButton
-                      link={`#giveFeedback`}
-                      label="Go Back"
-                      arrowleft={arrowLeft}
-                      whiteArrowleft={whiteArrowleft}
-                    />
-                  ) : (
-                    <LinkButton
-                      link={`#feedbackHistory`}
-                      label="Feedback History"
-                      arrowright={arrowRight}
-                      whiteArrowright={whiteArrowright}
-                    />
-                  )}
-                </ConnectContainer>
-              </TitleContainer> 
-              <HeadingLine>
-                {pathName.includes('/feedbackHistory')
-                  ? 'View all of the feedback that you have provided to others'
-                  : "By providing other students with feedback, you're more likely to get feedback on your own work"}
-              </HeadingLine>
-            
-            </TopContainer>*/}
             {!mobileView && (
               <FilterAndSortContainer>
                 <FilterContainer>
@@ -423,6 +383,7 @@ function GiveFeedback() {
                     setShowFilterPopUp={setShowFilterPopUp}
                   />
                 </FilterContainer>
+                {/* <img src={line} /> */}
                 <SortContainer>
                   <Frame5086
                     onClick={

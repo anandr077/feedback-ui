@@ -76,7 +76,7 @@ function TeacherClassesDesktop(props) {
     <TopContainer>
       <Frame1422>
         <Frame14221>
-          <Frame13121>
+          {/* <Frame13121>
             <Title>
               Classes
               <QuestionTooltip
@@ -87,7 +87,7 @@ function TeacherClassesDesktop(props) {
             <TItlePara>
               Select a class to view the latest insights on their work
             </TItlePara>
-          </Frame13121>
+          </Frame13121> */}
           <Frame1306>
             <Tabs
               value={selectedClassIndex}

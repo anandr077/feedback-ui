@@ -6,6 +6,7 @@ export const TitleAndFilterContainer = styled.div`
   width: 100%;
   padding: 0px 20px;
   border-bottom: 1px solid #C9C6CC80;
+  border-top: 1px solid #C9C6CC80;
 `;
 export const TitleAndSubtitleContainer = styled.div`
   display: flex;

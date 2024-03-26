@@ -1,93 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import React, { useState, useEffect } from 'react';
 import {
-  MainContainer,
-  Button
-} from './style'
+  useLocation,
+  useHistory,
+} from 'react-router-dom/cjs/react-router-dom.min';
+import { MainContainer, Button } from './style';
+import { subRoutes } from './subRoutes';
 
-const subRoutes = [
-  {
-    link: '/',
-    subLinks: [
-      {
-        icon: '',
-        title: 'Classwork'
-      },
-      {
-        icon: '',
-        title: 'Feedback Requests(4)'
-      },
-      {
-        icon: '',
-        title: 'Closed Tasks'
-      },
-    ]
-  },
-  {
-    link: '/tasks',
-    subLinks: [
-      {
-        icon: '',
-        title: 'Classwork'
-      },
-      {
-        icon: '',
-        title: 'Feedback Requests(4)'
-      },
-      {
-        icon: '',
-        title: 'Closed Tasks'
-      },
-    ]
-  },
-  {
-    link: '/settings',
-    subLinks: [
-      {
-        icon: '',
-        title: 'User Settings'
-      },
-      {
-        icon: '',
-        title: 'Marking Templates'
-      },
-      {
-        icon: '',
-        title: 'Comment Banks'
-      },
-    ]
-  },
-  {
-    link: '/giveFeedback',
-    subLinks: [
-      {
-        icon: '',
-        title: 'Feedback Requests'
-      },
-      {
-        icon: '',
-        title: 'Feedback History'
-      },
-    ]
-  },
-  {
-    link: '/feedbackHistory',
-    subLinks: [
-      {
-        icon: '',
-        title: 'Feedback Requests'
-      },
-      {
-        icon: '',
-        title: 'Feedback History'
-      },
-    ]
-  }
-]
 
 const SecondSidebar = () => {
-  const [containerHeight, setContainerHeight] = useState(0)
+  const [containerHeight, setContainerHeight] = useState(0);
   const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     const updateHeight = () => {
@@ -104,6 +27,10 @@ const SecondSidebar = () => {
     };
   }, []);
 
+  const handleButtonClick = (link) => {
+    history.push(link);
+  };
+
   return (
     <MainContainer height={containerHeight}>
       {subRoutes.map((route, idx) => {
@@ -111,7 +38,14 @@ const SecondSidebar = () => {
           return (
             <React.Fragment key={idx}>
               {route.subLinks.map((subLink, subIdx) => (
-                <Button key={subIdx}>{subLink.title}</Button>
+                <Button
+                  key={subIdx}
+                  onClick={() => handleButtonClick(subLink.link)}
+                  active={subLink.link === location.pathname}
+                >
+                  {subLink.icon && <img src={subLink.icon} alt={subLink.title} />}
+                  {subLink.title}
+                </Button>
               ))}
             </React.Fragment>
           );
@@ -120,9 +54,7 @@ const SecondSidebar = () => {
         }
       })}
     </MainContainer>
-  )
-}
+  );
+};
 
-export default SecondSidebar
-
-//<Button highlight={idx === 0}>{route}</Button>
+export default SecondSidebar;

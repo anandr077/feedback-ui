@@ -15,9 +15,6 @@ export const MainContainer = styled.div`
   min-height: 595px;
   border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
 
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
-  }
   @media (min-width: 766px) and (max-width: 1024px) {
     min-width: 766px;
   }
@@ -66,7 +63,8 @@ export const ConnectContainer = styled.div``;
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
-  padding: 16px 0px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
   align-items: center;
   gap: 16px;
   align-self: stretch;
@@ -80,7 +78,6 @@ export const FilterAndSortContainer = styled.div`
 export const FilterContainer = styled.div`
   display: flex;
   gap: 16px;
-  padding: 0 20px;
 `;
 export const SortContainer = styled.div`
   display: flex;

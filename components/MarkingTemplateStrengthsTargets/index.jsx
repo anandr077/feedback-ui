@@ -40,6 +40,8 @@ import marking from '../../static/icons/marking.svg';
 import Eye from '../../static/icons/Eye.svg';
 import Plus from '../../static/icons/Plus.svg';
 import pluswhite from '../../static/icons/pluswhite.svg';
+import grayEdit from '../../static/icons/edit_gray.svg';
+import SecondSidebar from '../SecondSidebar';
 
 function MarkingTemplateStrengthsTargets() {
   const [markingTemplates, setMarkingTemplates] = useState([
@@ -109,25 +111,13 @@ function MarkingTemplateStrengthsTargets() {
     <>
       <MainContainer>
         <InnerContainer>
-          <LeftContainer>
-            <OptionsContainer>
-              <OptionContainer>
-                <OptionIcon src={settings} />
-                <OptionText>User Settings</OptionText>
-              </OptionContainer>
-              <OptionContainer style={{ background: '#F1E6FC' }}>
-                <OptionIcon src={marking} />
-                <OptionText>Marking Templates</OptionText>
-              </OptionContainer>
-              <OptionContainer>
-                <OptionIcon src={banks} />
-                <OptionText>Comment Banks</OptionText>
-              </OptionContainer>
-            </OptionsContainer>
-          </LeftContainer>
+          <SecondSidebar />
           <RightContainer>
             <HeadingContainer>
-              <Heading>New Marking Template</Heading>
+              <Heading>
+                New Marking Template
+                <img src={grayEdit} />
+              </Heading>
               <ButtonsContainer>
                 <PreviewButton>
                   <PreviewButtonIcon src={Eye} />

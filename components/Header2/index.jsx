@@ -24,45 +24,7 @@ import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLef
 import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
-
-const headerTitle = [
-  {
-    link: '/',
-    title: 'Tasks',
-    teacherTooltip: 'View the status of every task that you have assigned for your classes',
-    studentTooltip: 'View all of your current tasks from school',
-  },
-  {
-    link: '/tasks',
-    title: 'Tasks',
-    teacherTooltip: 'View the status of every task that you have assigned for your classes',
-    studentTooltip: 'View all of your current tasks from school',
-  },
-  {
-    link: '/giveFeedback',
-    title: 'Give Feedback',
-    teacherTooltip: '',
-    studentTooltip: 'Help other students who have requested feedback from the community',
-  },
-  {
-    link: '/exemplarResponses',
-    title: 'Shared Responses',
-    teacherTooltip: '',
-    studentTooltip: 'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
-  },
-  {
-    link: '/settings',
-    title: 'Settings',
-    teacherTooltip: '',
-    studentTooltip: 'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
-  },
-  {
-    link: '/feedbackHistory',
-    title: 'Feedback History',
-    teacherTooltip: '',
-    studentTooltip: 'This is a record of the feedback that you have provided to other students in the past',
-  },
-]
+import { headerTitle } from './headerTitle.js';
 
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);

@@ -170,7 +170,7 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: var(--white);
+  background-color: #F2F1F3;
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;

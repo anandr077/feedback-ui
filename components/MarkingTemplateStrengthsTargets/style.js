@@ -23,7 +23,7 @@ export const InnerContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 68vh;
+  min-height: 90vh;
   position: relative;
   max-width: 1440px;
 `;
@@ -85,6 +85,9 @@ export const Heading = styled.p`
   line-height: 21px;
   letter-spacing: -0.01em;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -138,6 +141,7 @@ export const SaveButtonText = styled.p`
 export const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
+   background: #f2f1f380;
 `;
 export const TableHeadingPart = styled.div`
   width: 100%;
@@ -162,7 +166,7 @@ export const TableBodyParts = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 24px;
 `;
 export const TableBodyPart = styled.div`
   width: 100%;
@@ -200,7 +204,20 @@ export const TextArea = styled.textarea`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+  display: flex;
+  align-items: center;
   outline: none;
+
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+
+  &::placeholder{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  }
 `;
 
 export const TableRowButtoncont = styled.div`

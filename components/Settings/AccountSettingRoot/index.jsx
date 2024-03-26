@@ -43,6 +43,7 @@ export default function AccountSettingsRoot(props) {
       getShortcuts(),
       getSmartAnnotations(),
     ]).then(([result, shortcuts, smartAnnotation]) => {
+      console.log('the marking criteria', result)
       if (result) {
         setMarkingCriterias(result);
       }

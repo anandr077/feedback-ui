@@ -47,6 +47,7 @@ import {
   TableHeadingPart,
   TableRowButtoncont,
 } from './style';
+import SecondSidebar from '../SecondSidebar';
 
 function MarkingTemplateRubrics() {
   const [markingTemplatesRubrics, setMarkingTemplatesRubrics] = useState([
@@ -121,22 +122,7 @@ function MarkingTemplateRubrics() {
     <>
       <MainContainer>
         <InnerContainer>
-          <LeftContainer>
-            <OptionsContainer>
-              <OptionContainer>
-                <OptionIcon src={settings} />
-                <OptionText>User Settings</OptionText>
-              </OptionContainer>
-              <OptionContainer style={{ background: '#F1E6FC' }}>
-                <OptionIcon src={marking} />
-                <OptionText>Marking Templates</OptionText>
-              </OptionContainer>
-              <OptionContainer>
-                <OptionIcon src={banks} />
-                <OptionText>Comment Banks</OptionText>
-              </OptionContainer>
-            </OptionsContainer>
-          </LeftContainer>
+          <SecondSidebar />
           <RightContainer>
             <HeadingContainer>
               <Heading>New Marking Template</Heading>

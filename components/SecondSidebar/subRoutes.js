@@ -33,7 +33,7 @@ export const subRoutes = [
         },
         {
           icon: '',
-          title: 'Feedback Requests(4)',
+          title: 'Feedback Requests (4)',
           link: '/giveFeedback',
         },
         {
@@ -54,12 +54,12 @@ export const subRoutes = [
         {
           icon: '',
           title: 'Marking Templates',
-          link: '/settings',
+          link: '/markingTemplate/strengthAndTargets',
         },
         {
           icon: '',
           title: 'Comment Banks',
-          link: '/settings',
+          link: '/commentbanks',
         },
       ],
     },
@@ -109,7 +109,7 @@ export const subRoutes = [
         {
           icon: marking,
           title: 'Comment Banks',
-          link: '/feedbackHistory',
+          link: '/commentbanks',
         },
       ],
     },
@@ -129,8 +129,29 @@ export const subRoutes = [
         {
           icon: marking,
           title: 'Comment Banks',
-          link: '/feedbackHistory',
+          link: '/commentbanks',
         },
       ],
     },
+    {
+      link: '/commentbanks',
+      subLinks: [
+        {
+          icon: settings,
+          title: 'User Settings',
+          link: '/settings',
+        },
+        {
+          icon: banks,
+          title: 'Marking Templates',
+          link: '/markingTemplate/strengthAndTargets',
+        },
+        {
+          icon: marking,
+          title: 'Comment Banks',
+          link: '/commentbanks',
+        },
+      ],
+    },
+    
   ];

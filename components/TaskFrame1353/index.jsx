@@ -63,7 +63,7 @@ const Frame13531 = styled.div`
 const Outstanding = styled.div`
   position: relative;
   flex: 1;
-  letter-spacing: 0;
+  letter-spacing: -2.5%;
   line-height: normal;
   display: flex;
   align-items: center;

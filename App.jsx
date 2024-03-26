@@ -47,6 +47,7 @@ import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import MarkingTemplateStrengthsTargets from './components/MarkingTemplateStrengthsTargets';
 import MarkingTemplateRubrics from './components/MarkingTemplateRubrics';
+import CommentBanks from './components/CommentBanks';
 
 function App() {
   const role = getUserRole();
@@ -127,6 +128,7 @@ function App() {
     MarkingTemplateStrengthsTargets
   );
   const ProtectedMarkingTemplateRubrics = middleware(MarkingTemplateRubrics);
+  const ProtectedCommentbanks = middleware(CommentBanks);
 
   const portfolioClient = new QueryClient();
 
@@ -221,6 +223,9 @@ function App() {
                 </Route>
                 <Route path="/markingTemplate/rubrics">
                   <ProtectedMarkingTemplateRubrics />
+                </Route>
+                <Route path="/commentbanks">
+                  <ProtectedCommentbanks />
                 </Route>
                 <Route path="/404">
                   <PageNotFound />

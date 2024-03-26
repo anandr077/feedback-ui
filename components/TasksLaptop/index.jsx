@@ -115,6 +115,7 @@ const Frame1361 = styled.div`
   justify-content: center;
   gap: 20px;
   position: relative;
+  border-top: 1px solid rgba(201, 198, 204, 0.5);
 `;
 
 const Heading = styled.div`
@@ -166,9 +167,9 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: #f2f1f3;
+  background: rgba(242, 241, 243, 0.5);
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  box-shadow: 0px 1px 4px 0px rgba(48, 27, 114, 0.08) inset;
 `;
 
 const LinkAndFilter = styled.div`

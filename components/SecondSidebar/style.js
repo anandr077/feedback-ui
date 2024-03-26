@@ -4,11 +4,9 @@ export const MainContainer = styled.div`
   min-height: 100vh;
   height: ${props => props.containerHeight && props.containerHeight};
   width: 219px;
-  background-color: #F2F1F380;
-  box-shadow: inset -1px -1px 1px 0 #E3E3E3,
-            inset 1px 1px 0.5px 0 #E3E3E3;
-  //border: 1px solid #f2f1f380;
-  //border-left: 1px solid #f2f1f380;
+  background: rgba(242, 241, 243, 0.5);
+  box-shadow: -1px -2px 4px 0px rgba(115, 115, 115, 0.25) inset;
+  border: 1px solid rgba(201, 198, 204, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;

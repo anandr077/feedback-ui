@@ -71,4 +71,10 @@ export const headerTitle = [
       teacherTooltip: '',
       studentTooltip: 'View all of the tasks that you have marked as complete',
     },
+    {
+      link: '/commentbanks',
+      title: 'Comment Banks',
+      teacherTooltip: '',
+      studentTooltip: 'View all of the tasks that you have marked as complete',
+    },
   ]

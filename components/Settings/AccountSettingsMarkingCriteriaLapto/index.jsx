@@ -86,21 +86,9 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     <div className="account-settings-marking-criteria-laptop screen">
       <Frame1379>
         <Frame1378>
-          {/* <Frame1372>
-            <Title>
-              Account Settings
-              <QuestionTooltip
-                text={
-                  'Help other students who have requested feedback from the community'
-                }
-                img={questionMark}
-              />
-            </Title>
-            <HeadingLine>Some description text will be added here</HeadingLine>
-          </Frame1372> */}
           <Frame13221>
-            {sidebarNav}
-            {/* <SecondSidebar /> */}
+            {/* {sidebarNav} */}
+            <SecondSidebar /> 
             <>
               {showUserSettings && (
                 <UserSettingFrame>

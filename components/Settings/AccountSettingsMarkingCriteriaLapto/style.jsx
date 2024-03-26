@@ -90,7 +90,6 @@ export const Frame1378 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 72px;
-  padding: 0px 60px;
   position: relative;
   align-self: stretch;
 `;
@@ -126,7 +125,7 @@ export const Frame13221 = styled.div`
   display: flex;
   max-height: 680px;
   align-items: flex-start;
-  gap: 60px;
+
   position: relative;
   align-self: stretch;
 `;
@@ -138,7 +137,6 @@ export const Frame1302 = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 20px;
-  padding: 30px;
   position: relative;
   flex: 1;
   align-self: stretch;

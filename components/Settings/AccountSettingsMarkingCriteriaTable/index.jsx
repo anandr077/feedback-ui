@@ -21,9 +21,40 @@ import {
   Frame1302,
   Title1,
   Line14,
+  SettingTitleOpen,
+  FeedbackTitleContainer,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
+import {
+  FeedbackBankHeading,
+  MoreOption,
+  MoreOptionImage,
+  MoreOptionTitle,
+  MoreOptions,
+  MoreOptionsContainer,
+  StyledTab,
+  StyledTabs,
+  SystemOption,
+  SystemOptionImage,
+  SystemOptionTitle,
+  SystemOptions,
+  TabsContainer,
+  TabsPlus,
+  TabsPlusContainer,
+  TabsPlusText,
+} from '../AccountSettingsMarkingCriteriaDeskt/style';
+import TabTitleContainer from '../AccountSettingsMarkingCriteriaDeskt/TabTitleContainer';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useRef } from 'react';
+import { getUserId } from '../../../userLocalDetails';
+import Plus from '../../../static/img/Plus.svg';
+import PlusViolet from '../../../static/img/Plus-violet.svg';
+import Globe from '../../../static/img/Globe.svg';
+import optionArrow from '../../../static/img/optionArrow.svg';
+import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
+import TabTitleContainer from '../AccountSettingsMarkingCriteriaDeskt/TabTitleContainer';
 
 function AccountSettingsMarkingCriteriaTable(props) {
   const {
@@ -37,39 +68,60 @@ function AccountSettingsMarkingCriteriaTable(props) {
     showShortcuts,
     showUserSettings,
     createSmartAnnotationHandler,
-    breadCrumbs,
     smartAnnotationsFrame,
     setOpenMarkingMethodologyDialog,
+    smartAnnotations,
+    setFeedbackBankId,
+    feedbackBankId,
+    UpdateSmartBankTitleHandler,
+    deteteFeedbackBank,
+    createCloneFeedbankBank,
+    setShowNewBankPopUp,
+    feedbackBankCreated,
+    setFeedbackBankCreated,
+    emptyFeedbackBank,
+    setSmartAnnotationeditIndex,
   } = props;
+
+  const findCurrentFeedbackBank =
+    smartAnnotations.length > 0 &&
+    smartAnnotations?.find(
+      (smartAnnotation) => smartAnnotation.id === feedbackBankId
+    );
 
   return (
     <div className="account-settings-marking-criteria-tablet-2 screen">
       <Frame1379>
-        <Frame1376>
-          <Frame1315>{breadCrumbs}</Frame1315>
-        </Frame1376>
         <Frame1378>
           <Frame1372>
-            <Title>Account Settings</Title>
+            <Title>
+              Account Settings
+              <QuestionTooltip
+                text={
+                  'Help other students who have requested feedback from the community'
+                }
+                img={questionMark}
+              />
+            </Title>
           </Frame1372>
           <Frame1322>
             {showUserSettings ? (
               <ActiveSetting>
-                <Frame13221>
+                <Frame13221
+                  onClick={() => {
+                    setShowUserSettings(false);
+                  }}
+                >
                   <SettingTitle>
                     User Settings
-                    <QuestionTooltip 
-                        text={"Customise your profile and marking preferences for optimal feedback"}
-                        img={questionMark}
+                    <QuestionTooltip
+                      text={
+                        'Customise your profile and marking preferences for optimal feedback'
+                      }
+                      img={questionMark}
                     />
                   </SettingTitle>
-                  <Frame1284
-                    src="/icons/expanded.svg"
-                    alt="Frame 1284"
-                    onClick={() => {
-                      setShowUserSettings(false);
-                    }}
-                  />
+                  <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" />
                 </Frame13221>
                 <Frame1302>
                   <UserSettingLinkContainer>
@@ -84,40 +136,32 @@ function AccountSettingsMarkingCriteriaTable(props) {
                 </Frame1302>
               </ActiveSetting>
             ) : (
-              <InactiveSetting>
-                <SettingTitle>
-                  User Settings
-                  <QuestionTooltip 
-                      text={"Customise your profile and marking preferences for optimal feedback"}
-                      img={questionMark}
-                  />
-                </SettingTitle>
-                <Frame1284
-                  src="/icons/collapsed.svg"
-                  alt="Frame 1284"
-                  onClick={() => {
-                    setShowUserSettings(true);
-                  }}
-                />
+              <InactiveSetting
+                onClick={() => {
+                  setShowUserSettings(true);
+                }}
+              >
+                <SettingTitle>User Settings</SettingTitle>
+                <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284" />
               </InactiveSetting>
             )}
             {showMarkingCriteria ? (
               <ActiveSetting>
-                <Frame13221>
+                <Frame13221
+                  onClick={() => {
+                    setShowMarkingCriteria(false);
+                  }}
+                >
                   <SettingTitle>
                     Marking Criteria
-                    <QuestionTooltip 
-                        text={"A library of customisable marking templates that can be used for any new task"}
-                        img={questionMark}
+                    <QuestionTooltip
+                      text={
+                        'A library of customisable marking templates that can be used for any new task'
+                      }
+                      img={questionMark}
                     />
                   </SettingTitle>
-                  <Frame1284
-                    src="/icons/expanded.svg"
-                    alt="Frame 1284"
-                    onClick={() => {
-                      setShowMarkingCriteria(false);
-                    }}
-                  />
+                  <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" />
                 </Frame13221>
                 <Frame1302>
                   <Title1>
@@ -137,71 +181,122 @@ function AccountSettingsMarkingCriteriaTable(props) {
                 </Frame1302>
               </ActiveSetting>
             ) : (
-              <InactiveSetting>
-                <SettingTitle>
-                  Marking Criteria
-                  <QuestionTooltip 
-                      text={"A library of customisable marking templates that can be used for any new task"}
-                      img={questionMark}
-                  />
-                </SettingTitle>
-                <Frame1284
-                  src="/icons/collapsed.svg"
-                  alt="Frame 1284"
-                  onClick={() => {
-                    setShowMarkingCriteria(true);
-                  }}
-                />
+              <InactiveSetting
+                onClick={() => {
+                  setShowMarkingCriteria(true);
+                }}
+              >
+                <SettingTitle>Marking Criteria</SettingTitle>
+                <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284" />
               </InactiveSetting>
             )}
             {showShortcuts ? (
-              <ActiveSetting>
-                <Frame13221>
-                  <SettingTitle>
-                    Smart Annotations
-                    <QuestionTooltip 
-                      text={"A customisable bank of comments to provide faster feedback when marking a student's work"}
-                      img={questionMark}
-                    />
-                  </SettingTitle>
-                  <Frame1284
-                    src="/icons/expanded.svg"
-                    alt="Frame 1284"
+              !(smartAnnotations.length > 0) ? (
+                <>
+                  <InactiveSetting
                     onClick={() => {
                       setShowShortcuts(false);
                     }}
-                  />
-                </Frame13221>
-                <Frame1302>
-                  <Title1>
-                    <Buttons
-                      text="Create new"
-                      className={buttonsProps.className}
-                      onClickMethod={createSmartAnnotationHandler}
-                    />
-                  </Title1>
-                  <Line14 src={line14} alt="Line 14" />
-                  <MarkingCriteriaList>
-                    {smartAnnotationsFrame()}
-                  </MarkingCriteriaList>
-                </Frame1302>
-              </ActiveSetting>
+                  >
+                    <SettingTitleOpen>Feedback Banks</SettingTitleOpen>
+                    <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" />
+                  </InactiveSetting>
+                  {emptyFeedbackBank()}
+                </>
+              ) : (
+                <>
+                  <InactiveSetting
+                    onClick={() => {
+                      setShowShortcuts(false);
+                    }}
+                  >
+                    <SettingTitleOpen>Feedback Banks</SettingTitleOpen>
+                    <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" />
+                  </InactiveSetting>
+                  <ActiveSetting>
+                    <Frame13221>
+                      <FeedbackTitleContainer>
+                        <FeedbackBankHeading>
+                          Feedback Banks
+                        </FeedbackBankHeading>
+                        <QuestionTooltip
+                          text={
+                            'Help other students who have requested feedback from the community'
+                          }
+                          img={questionMark}
+                        />
+                      </FeedbackTitleContainer>
+                    </Frame13221>
+                    <Frame1302>
+                      <TabsContainer>
+                        <MoreOptionsContainer>
+                          <TabsPlusContainer
+                            onClick={() => setShowNewBankPopUp(true)}
+                          >
+                            <TabsPlus src={Plus} />
+                            <TabsPlusText>New Bank</TabsPlusText>
+                          </TabsPlusContainer>
+                        </MoreOptionsContainer>
+                        <StyledTabs
+                          variant="scrollable"
+                          scrollButtons
+                          value={feedbackBankId}
+                          onChange={(event, newValue) => {
+                            setFeedbackBankId(newValue);
+                            setFeedbackBankCreated(false);
+                            setSmartAnnotationeditIndex('');
+                          }}
+                          aria-label="Feedback Bank tabs"
+                        >
+                          {smartAnnotations?.map((bank, index) => (
+                            <StyledTab
+                              style={{
+                                backgroundColor:
+                                  feedbackBankId === bank.id
+                                    ? '#f1e6fc'
+                                    : '#F2F1F3',
+                              }}
+                              key={bank.id}
+                              value={bank.id}
+                              label={
+                                <TabTitleContainer
+                                  bank={bank}
+                                  UpdateSmartBankTitleHandler={
+                                    UpdateSmartBankTitleHandler
+                                  }
+                                  deteteFeedbackBank={deteteFeedbackBank}
+                                  createCloneFeedbankBank={
+                                    createCloneFeedbankBank
+                                  }
+                                  showIcon={feedbackBankId === bank.id}
+                                />
+                              }
+                            />
+                          ))}
+                        </StyledTabs>
+                      </TabsContainer>
+                      <MarkingCriteriaList>
+                        {smartAnnotationsFrame()}
+                      </MarkingCriteriaList>
+                      {findCurrentFeedbackBank?.ownerId === getUserId() && (
+                        <Buttons
+                          text="New Feedback Area"
+                          onClickMethod={() => createSmartAnnotationHandler()}
+                          className={'button-width'}
+                        />
+                      )}
+                    </Frame1302>
+                  </ActiveSetting>
+                </>
+              )
             ) : (
-              <InactiveSetting>
-                <SettingTitle>
-                  Shortcuts
-                  <QuestionTooltip 
-                    text={"A customisable bank of comments to provide faster feedback when marking a student's work"}
-                    img={questionMark}
-                  />
-                </SettingTitle>
-                <Frame1284
-                  src="/icons/collapsed.svg"
-                  alt="Frame 1284"
-                  onClick={() => {
-                    setShowShortcuts(true);
-                  }}
-                />
+              <InactiveSetting
+                onClick={() => {
+                  setShowShortcuts(true);
+                }}
+              >
+                <SettingTitle>Feedback Banks</SettingTitle>
+                <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284" />
               </InactiveSetting>
             )}
           </Frame1322>

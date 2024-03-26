@@ -97,24 +97,34 @@ export const Frame1378 = styled.div`
 
 export const Frame1372 = styled.div`
   display: flex;
-  align-items: center;
-  gap: 30px;
-  position: relative;
+  flex-direction: column;
   align-self: stretch;
+  padding: 0px 0px 20px 0px;
+  border: 0px 0px 1px 0px;
+  gap: 12px;
+  border-bottom: 1px solid #d6d6d6;
 `;
 
 export const Title = styled.h1`
-  ${IbmplexsansBoldShark36px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.9px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Dark-Purple, #25222a);
+  font-family: IBM Plex Sans;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
   line-height: normal;
+  letter-spacing: -0.9px;
+  @media (max-width: 765px) {
+    font-size: 32px;
+    letter-spacing: -0.8px;
+  }
 `;
 
 export const Frame13221 = styled.div`
   display: flex;
-  height: 680px;
+  max-height: 680px;
   align-items: flex-start;
   gap: 60px;
   position: relative;
@@ -123,6 +133,7 @@ export const Frame13221 = styled.div`
 
 export const Frame1302 = styled.div`
   display: flex;
+  width: 40%;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;

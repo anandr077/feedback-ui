@@ -54,7 +54,7 @@ export const subRoutes = [
         {
           icon: '',
           title: 'Marking Templates',
-          link: '/markingTemplate',
+          link: '/settings',
         },
         {
           icon: '',

@@ -25,7 +25,7 @@ export const headerTitle = [
     },
     {
       link: '/settings',
-      title: 'Settings',
+      title: 'Account settings',
       teacherTooltip: '',
       studentTooltip: 'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
     },

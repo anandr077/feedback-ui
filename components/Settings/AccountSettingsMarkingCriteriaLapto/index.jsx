@@ -50,6 +50,7 @@ import PlusViolet from '../../../static/img/Plus-violet.svg';
 import Globe from '../../../static/img/Globe.svg';
 import optionArrow from '../../../static/img/optionArrow.svg';
 import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
+import SecondSidebar from '../../SecondSidebar';
 
 function AccountSettingsMarkingCriteriaLapto(props) {
   const {
@@ -85,7 +86,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     <div className="account-settings-marking-criteria-laptop screen">
       <Frame1379>
         <Frame1378>
-          <Frame1372>
+          {/* <Frame1372>
             <Title>
               Account Settings
               <QuestionTooltip
@@ -96,9 +97,10 @@ function AccountSettingsMarkingCriteriaLapto(props) {
               />
             </Title>
             <HeadingLine>Some description text will be added here</HeadingLine>
-          </Frame1372>
+          </Frame1372> */}
           <Frame13221>
             {sidebarNav}
+            {/* <SecondSidebar /> */}
             <>
               {showUserSettings && (
                 <UserSettingFrame>

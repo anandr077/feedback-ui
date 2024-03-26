@@ -106,7 +106,7 @@ const Frame1361 = styled.div`
   justify-content: center;
   gap: 20px;
   position: relative;
-  border-top: 1px solid #E3E3E3;
+  border-top: 1px solid #e3e3e3;
 `;
 
 const Heading = styled.div`
@@ -157,7 +157,7 @@ const Frame1354 = styled.div`
   padding-top: 0px;
   position: relative;
   flex: 1;
-  background-color: #F2F1F3;
+  background-color: #f2f1f3;
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;
@@ -170,7 +170,7 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: #F2F1F3;
+  background-color: #f2f1f3;
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;

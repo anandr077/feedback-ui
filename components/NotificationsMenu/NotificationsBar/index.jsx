@@ -15,6 +15,7 @@ import {
   NotificationHead,
   EmptyBox,
   CloseNotification,
+  NotificationBody
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import NotificationSwitch from './NotificationSwitch';
@@ -145,6 +146,8 @@ function NotificationsBar(props) {
     return <TaskCard task={notification} small={true} />;
   });
 
+  console.log('the notifications are', notifications)
+
   return (
     <>
       {type == 'small' ? (
@@ -170,11 +173,13 @@ function NotificationsBar(props) {
             <img src="img/notificationIcon.png" />
             <h1>Notifications</h1>
           </NotificationHead>
-          {notificationFrames.length > 0 ? (
-            notificationFrames
-          ) : (
-            <EmptyBox>No new notifications</EmptyBox>
-          )}
+          <NotificationBody>
+            {notificationFrames.length > 0 ? (
+              notificationFrames
+            ) : (
+              <EmptyBox>No new notifications</EmptyBox>
+            )}
+          </NotificationBody>
         </Frame15>
       )}
     </>

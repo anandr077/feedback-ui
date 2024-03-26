@@ -6,8 +6,6 @@ import {
   SearchContainer,
   Input,
   SearchIcon,
-  MoreOption,
-  MoreOptionIcon,
   HelpSidebarSmallContainer,
   CloseHelpBar,
   HelpOptionsContainer,
@@ -15,20 +13,21 @@ import {
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
 import helpdata from './helpdata.json';
+import { userRole } from '../../roles';
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
-  const [data, setData] = useState(helpdata.data);
+  const [data, setData] = useState(helpdata[userRole()] || []);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (!query) {
-      setData(helpdata.data);
+      setData(helpdata[userRole()]);
       return;
     }
 
-    const filteredData = helpdata.data.filter(
+    const filteredData = helpdata[userRole()].filter(
       (section) =>
         section.title.toLowerCase().includes(query.toLowerCase()) ||
         section.subtopics.some((subtopic) =>
@@ -74,18 +73,6 @@ function helpSidebarContent(data, handleSearch) {
         {data.map((section, index) => (
           <Accordion key={index} {...section} />
         ))}
-        <MoreOption>
-          <MoreOptionIcon src="/img/knowledge-icon.png" />
-          Knowledge base
-        </MoreOption>
-        <MoreOption>
-          <MoreOptionIcon src="/img/exportsquare.png" />
-          Youtube tutorials
-        </MoreOption>
-        <MoreOption>
-          <MoreOptionIcon src="/img/Message-question-icon.png" />
-          Need more help?
-        </MoreOption>
       </HelpOptionsContainer>
     </>
   );

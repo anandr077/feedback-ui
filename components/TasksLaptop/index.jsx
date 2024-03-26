@@ -42,7 +42,7 @@ function TasksLaptop(props) {
       <SecondSidebar />
       <Frame1361>
         <TitleAndFilterContainer>
-           <>{FilterSortAndCal}</>
+          <>{FilterSortAndCal}</>
         </TitleAndFilterContainer>
         <Frame1360>
           {tasksSelected ? (
@@ -166,7 +166,7 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: #F2F1F3;
+  background-color: #f2f1f3;
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
 `;

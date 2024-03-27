@@ -67,6 +67,13 @@ export default function Header(props) {
       window.location.href = headerProps.thirdButton.redirect;
     }
   };
+  const OnFourthButtonClick = (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      window.open(headerProps.fourthButton.redirect, '_blank');
+    } else {
+      window.location.href = headerProps.fourthButton.redirect;
+    }
+  };
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [slideNotificationBar, setSlideNotificationBar] = useState(false);
   const handleNotificationClick = () => {
@@ -213,7 +220,7 @@ export default function Header(props) {
               </HeaderButtonInnnerContainer>
             </HeaderButton>
           )}
-          {(Cookies.get('classes') && !isTeacher) &&
+          {isTeacher &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>
                 <HeaderButtonInnnerContainer>
@@ -234,6 +241,55 @@ export default function Header(props) {
                     alt="buttonIcon"
                   />
                   <ButtonText>{headerProps.thirdButton.text}</ButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButton>
+            ))}
+          {Cookies.get('classes') &&
+            !isTeacher &&
+            (headerProps.thirdButton.selected ? (
+              <HeaderButtonSelected onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer>
+                  <IconContainer
+                    src={headerProps.thirdButton.iconSelected}
+                    alt="buttonIcon"
+                  />
+                  <SelectedButtonText>
+                    {headerProps.thirdButton.text}
+                  </SelectedButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButtonSelected>
+            ) : (
+              <HeaderButton onClick={OnThirdButtonClick}>
+                <HeaderButtonInnnerContainer className="group-1">
+                  <IconContainer
+                    src={headerProps.thirdButton.icon}
+                    alt="buttonIcon"
+                  />
+                  <ButtonText>{headerProps.thirdButton.text}</ButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButton>
+            ))}
+          {isTeacher &&
+            (headerProps.fourthButton.selected ? (
+              <HeaderButtonSelected onClick={OnFourthButtonClick}>
+                <HeaderButtonInnnerContainer>
+                  <IconContainer
+                    src={headerProps.fourthButton.iconSelected}
+                    alt="buttonIcon"
+                  />
+                  <SelectedButtonText>
+                    {headerProps.fourthButton.text}
+                  </SelectedButtonText>
+                </HeaderButtonInnnerContainer>
+              </HeaderButtonSelected>
+            ) : (
+              <HeaderButton onClick={OnFourthButtonClick}>
+                <HeaderButtonInnnerContainer className="group-1">
+                  <IconContainer
+                    src={headerProps.fourthButton.icon}
+                    alt="buttonIcon"
+                  />
+                  <ButtonText>{headerProps.fourthButton.text}</ButtonText>
                 </HeaderButtonInnnerContainer>
               </HeaderButton>
             ))}
@@ -291,10 +347,7 @@ export default function Header(props) {
       )}
 
       {dropDown && (
-        <Screen 
-          onClick={toggleDropDown}
-          pageHeight={pageHeight}
-        >
+        <Screen onClick={toggleDropDown} pageHeight={pageHeight}>
           <DropDownContainer>
             <ProfileDropdown />
           </DropDownContainer>

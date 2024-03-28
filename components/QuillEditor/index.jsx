@@ -32,7 +32,7 @@ const QuillEditor = React.forwardRef(
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
     const [selection, setSelection] = useState(null);
-    const [commentPosition, setCommentPosition] = useState({ top: 0, left: 0 });
+    const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
     const { setCountWords } = useContext(FeedbackContext);
     const manipulatePastedHTML = (pastedHTML) => {
       const parser = new DOMParser();
@@ -292,22 +292,6 @@ const QuillEditor = React.forwardRef(
       },
     }));
 
-    useEffect(() => {
-      const handleScroll = () => {
-        const editorElement = editorRef.current;
-        if (editorElement) {
-          const { top } = editorElement.getBoundingClientRect();
-          setCommentPosition({ top, left: 0 });
-        }
-      };
-
-      window.addEventListener('scroll', handleScroll);
-
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, []);
-
     const handleSelectionChange = (range, oldRange, source) => {
       if (range && range.length > 0 && source === 'user') {
         setSelection(range);
@@ -316,115 +300,95 @@ const QuillEditor = React.forwardRef(
       }
     };
 
-    function getTopPositionOfHighlight(start, end) {
-      const editorElement = editorRef.current;
-      if (!editorElement) return 0;
-
-      const editorBounds = editorElement.getBoundingClientRect();
-      const editorScrollTop = editorElement.scrollTop;
-
-      // Calculate the vertical position of the start and end offsets
-      const lenght = end - start;
-
-      const startOffset = getVerticalOffset(start, lenght);
-      const endOffset = getVerticalOffset(end, lenght);
-
-      // Adjust positions by subtracting editor bounds and scroll top
-      const startTopPosition = startOffset - editorBounds.top + editorScrollTop;
-      const endTopPosition = endOffset - editorBounds.top + editorScrollTop;
-
-      // Return the average position
-      return (startTopPosition + endTopPosition) / 2;
-    }
-
-    function getVerticalOffset(index, lenght) {
-      const lineBounds = editor.getBounds(index, lenght);
-      return lineBounds ? lineBounds.top : 0;
-    }
-
-    function getCommentHeight(comment) {
-      // Placeholder: return a fixed height or calculate based on content
-      return 150; // Example fixed height
-    }
-
-    let lastCommentBottomPosition = 0;
-
-    const getSelectedHight =
-      updatedCommentPosition &&
-      editor.getBounds(
-        updatedCommentPosition.range.from,
-        updatedCommentPosition.range.to - updatedCommentPosition.range.from
-      ).top;
-    console.log('the updated comment is', getSelectedHight);
-
-    // Modify the existing map function for comments to group them based on topPosition and commentHeight
-    const groupedComments = comments
-      .sort((a, b) => a.range.from - b.range.from) // Sort comments by range.from
-      .map((comment, index) => {
-        if (!editorRef.current) return null;
-
-        const length = comment.range.to - comment.range.from;
-        const boundsIs = editor.getBounds(comment.range.from, length);
-
-        if (!boundsIs) {
-          console.error('Bounds not found for comment:', comment);
-          return null;
-        }
-
-        let topPosition = boundsIs.top;
-        let commentHeight = getCommentHeight(comment);
-
-        // Check for overlap with previous comment's bottom position
-        if (topPosition < lastCommentBottomPosition) {
-          topPosition = lastCommentBottomPosition;
-        }
-
-        // Calculate new top position considering potential overlaps
-        const newTopPosition = updatedCommentPosition
-          ? updatedCommentPosition.top
-          : topPosition;
-
-        // Update lastCommentBottomPosition
-        lastCommentBottomPosition = newTopPosition + commentHeight;
-
-        return { ...comment, topPosition: newTopPosition };
-      })
-      .filter((comment) => comment !== null);
-
-    // Group comments based on topPosition and commentHeight
-    const groupedCommentsWithGap = [];
-    let currentGroup = [];
-
-    groupedComments.forEach((comment, index) => {
-      // If currentGroup is empty, add the comment to it
-      if (currentGroup.length === 0) {
-        currentGroup.push(comment);
-      } else {
-        // Check if the current comment overlaps with the last comment in the group
-        if (
-          comment.topPosition <
-          currentGroup[currentGroup.length - 1].topPosition +
-            getCommentHeight(currentGroup[currentGroup.length - 1])
-        ) {
-          // If overlap exists, start a new group
-          groupedCommentsWithGap.push(currentGroup);
-          currentGroup = [comment];
-        } else {
-          // If no overlap, add the comment to the current group
-          currentGroup.push(comment);
-        }
+    useEffect(() => {
+      function getCommentHeight(comment) {
+        
+        return 150;
       }
-    });
 
-    // Add the last group to groupedCommentsWithGap
-    if (currentGroup.length > 0) {
-      groupedCommentsWithGap.push(currentGroup);
-    }
+      let lastCommentBottomPosition = 0;
+      let accumulatedHeight = 0;
 
-    console.log('the group updatedCommentPosition', updatedCommentPosition)
-    console.log('the group groupedComments', groupedCommentsWithGap)
+      const updatedCommentIndex = comments
+        .sort((a, b) => a.range.from - b.range.from)
+        .findIndex((comment) => comment.id === updatedCommentPosition?.id);
 
-    // Now groupedCommentsWithGap contains arrays of comments grouped based on their positions with a gap of commentHeight
+      const groupedComments = comments
+        .sort((a, b) => a.range.from - b.range.from)
+        .map((comment, index) => {
+          if (!editorRef.current) return null;
+
+          const length = comment.range.to - comment.range.from;
+          let boundsIs;
+          if (editor) {
+            boundsIs = editor.getBounds(comment.range.from, length);
+          }
+
+          if (!boundsIs) {
+            console.error('Bounds not found for comment:', comment);
+            return null;
+          }
+
+          let topPosition = boundsIs.top;
+          let commentHeight = getCommentHeight(comment);
+
+          if (topPosition < lastCommentBottomPosition) {
+            topPosition = lastCommentBottomPosition;
+          }
+
+          if (
+            index === updatedCommentIndex &&
+            topPosition > updatedCommentPosition?.topPosition
+          ) {
+            accumulatedHeight = 0; // Reset accumulated height
+            topPosition = updatedCommentPosition.topPosition; // Adjust topPosition to updatedCommentPosition
+          }
+
+          if (index < updatedCommentIndex) {
+            accumulatedHeight += commentHeight;
+            topPosition -= accumulatedHeight;
+          }
+
+          const newTopPosition = topPosition;
+
+          lastCommentBottomPosition = newTopPosition + commentHeight;
+
+          return { ...comment, topPosition: newTopPosition };
+        })
+        .filter((comment) => comment !== null);
+
+      // Group comments based on topPosition and commentHeight
+      let groupedCommentsWithGap = [];
+      let currentGroup = [];
+
+      groupedComments.forEach((comment, index) => {
+        // If currentGroup is empty, add the comment to it
+        if (currentGroup.length === 0) {
+          currentGroup.push(comment);
+        } else {
+          const lastComment = currentGroup[currentGroup.length - 1];
+          const lastCommentBottomPosition =
+            lastComment.topPosition + getCommentHeight(lastComment);
+
+          // Check if the current comment overlaps with the last comment in the group
+          if (comment.topPosition < lastCommentBottomPosition) {
+            // If overlap exists, finalize the current group
+            groupedCommentsWithGap.push(currentGroup);
+            currentGroup = [comment];
+          } else {
+            // If no overlap, add the comment to the current group
+            currentGroup.push(comment);
+          }
+        }
+      });
+
+      if (currentGroup.length > 0) {
+        groupedCommentsWithGap.push(currentGroup);
+      }
+
+      setGroupedCommentsWithGap(groupedCommentsWithGap);
+      console.log('the group groupedComments', groupedCommentsWithGap);
+    }, [editor, editorRef, updatedCommentPosition, comments]);
 
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>

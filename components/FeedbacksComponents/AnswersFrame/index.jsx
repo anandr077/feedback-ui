@@ -43,7 +43,8 @@ export function answersFrame(
   commentsForSelectedTab,
   methods,
   editorFontSize,
-  updatedCommentPosition
+  updatedCommentPosition,
+  selectedRange
 ) {
   return (
     <AnswersFrame
@@ -66,7 +67,9 @@ export function answersFrame(
       setComments={methods.setComments}
       comments={methods.comments}
       editorFontSize={editorFontSize}
-      updatedCommentPosition={updatedCommentPosition} 
+      updatedCommentPosition={updatedCommentPosition}
+      methods={methods} 
+      selectedRange={selectedRange}
     ></AnswersFrame>
   );
 }
@@ -90,7 +93,9 @@ function AnswersFrame(props) {
     setComments,
     comments,
     editorFontSize,
-    updatedCommentPosition
+    updatedCommentPosition,
+    methods,
+    selectedRange
   } = props;
   return (
     <Group1225 id="answers">
@@ -113,7 +118,9 @@ function AnswersFrame(props) {
           setComments,
           comments,
           editorFontSize,
-          updatedCommentPosition
+          updatedCommentPosition,
+          methods,
+          selectedRange
         )}
       </Frame1367>
     </Group1225>
@@ -166,7 +173,9 @@ const answerFrames = (
   setComments,
   comments,
   editorFontSize,
-  updatedCommentPosition
+  updatedCommentPosition,
+  methods,
+  selectedRange
 ) => {
   const { overallComments } = useContext(FeedbackContext);
 
@@ -230,7 +239,9 @@ const answerFrames = (
                   debounce,
                   handleEditorMounted,
                   editorFontSize,
-                  updatedCommentPosition
+                  updatedCommentPosition,
+                  methods,
+                  selectedRange
                 )}
               </QuillContainer>
             )}
@@ -319,7 +330,9 @@ function createQuill(
   debounce,
   handleEditorMounted,
   editorFontSize,
-  updatedCommentPosition
+  updatedCommentPosition,
+  methods,
+  selectedRange
 ) {
 
   return (
@@ -352,6 +365,10 @@ function createQuill(
         nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
         editorFontSize={editorFontSize}
         updatedCommentPosition={updatedCommentPosition}
+        methods={methods}
+        pageMode={pageMode}
+        submission={submission}
+        selectedRange={selectedRange}
       ></QuillEditor>
     </div>
   );

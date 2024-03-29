@@ -161,7 +161,17 @@ stroke: white !important;
   color: #7200e0 !important;
 }
 
-
+.main-side-container{
+  position: absolute;
+  top: 0;
+  right: -320px;
+  height: 100%;
+  width: 320px;
+  z-index: 546;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
 
 

@@ -287,7 +287,8 @@ function FeedbackTeacherLaptop(props) {
               setShowStudentPopUp,
               setShowTeacherPopUp,
               editorFontSize,
-              updatedCommentPosition
+              updatedCommentPosition,
+              selectedRange
             )}
           </Frame1388>
         </>
@@ -482,7 +483,8 @@ function answersAndFeedbacks(
   setShowStudentPopUp,
   setShowTeacherPopUp,
   editorFontSize,
-  updatedCommentPosition
+  updatedCommentPosition,
+  selectedRange
 ) {
   return (
     <Frame1386 id="content">
@@ -524,7 +526,8 @@ function answersAndFeedbacks(
           commentsForSelectedTab,
           methods,
           editorFontSize,
-          updatedCommentPosition
+          updatedCommentPosition,
+          selectedRange
         )}
 
         {!isMobile && (

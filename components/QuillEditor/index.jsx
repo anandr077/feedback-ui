@@ -6,6 +6,19 @@ import React, {
   useState,
   useContext,
 } from 'react';
+import {
+  Screen,
+  Frame1329,
+  Frame1406,
+  SmartAnnotationsComponent,
+  Frame1326,
+  TypeHere,
+  ShortcutList,
+  Frame1383,
+  Frame13311,
+  Crown,
+  ExemplarComponent
+} from './style';
 import { FeedbackContext } from '../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
@@ -14,6 +27,13 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 import CommentCard32 from '../FeedbacksComponents/CommentCard32';
+import SmartAnotation from '../SmartAnnotations';
+import { getUserRole } from '../../userLocalDetails';
+import SubmitCommentFrameRoot from '../SubmitCommentFrameRoot';
+import { Share } from '@mui/icons-material';
+import Buttons4 from '../FeedbacksComponents/Buttons4';
+import FocusAreasFrame from '../FeedbacksComponents/FocusAreasFrame';
+import FocussedInput from '../FocussedInput';
 const QuillEditor = React.forwardRef(
   (
     {
@@ -25,6 +45,10 @@ const QuillEditor = React.forwardRef(
       nonEditable,
       editorFontSize,
       updatedCommentPosition,
+      methods,
+      pageMode,
+      submission,
+      selectedRange,
     },
     ref
   ) => {
@@ -33,7 +57,9 @@ const QuillEditor = React.forwardRef(
     const [editor, setEditor] = useState(null);
     const [selection, setSelection] = useState(null);
     const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
-    const { setCountWords } = useContext(FeedbackContext);
+    const [commentHeights, setCommentHeights] = useState([]);
+    const { setCountWords, showNewComment, newCommentSerialNumber } =
+      useContext(FeedbackContext);
     const manipulatePastedHTML = (pastedHTML) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(pastedHTML, 'text/html');
@@ -301,11 +327,31 @@ const QuillEditor = React.forwardRef(
     };
 
     useEffect(() => {
-      function getCommentHeight(comment) {
-        
-        return 150;
-      }
+      const heights = comments.map(() => 0); // Initialize heights array with 0 values
+      setCommentHeights(heights); // Set initial heights
 
+      // Measure heights after rendering
+      const measureHeights = () => {
+        const newHeights = comments.map((_, index) => {
+          const element = document.getElementById(`comment-${index}`);
+          return element ? element.clientHeight : 0;
+        });
+        setCommentHeights(newHeights);
+      };
+
+      // Call measureHeights after each render
+      measureHeights();
+
+      // Re-measure heights when window is resized
+      window.addEventListener('resize', measureHeights);
+
+      // Cleanup event listener on unmount
+      return () => {
+        window.removeEventListener('resize', measureHeights);
+      };
+    }, [comments]);
+
+    useEffect(() => {
       let lastCommentBottomPosition = 0;
       let accumulatedHeight = 0;
 
@@ -330,7 +376,21 @@ const QuillEditor = React.forwardRef(
           }
 
           let topPosition = boundsIs.top;
-          let commentHeight = getCommentHeight(comment);
+
+          let updatedTopPosition = null;
+          if (updatedCommentPosition) {
+            let updatedLength =
+              updatedCommentPosition?.range.to -
+              updatedCommentPosition?.range.from;
+            let updatedBounds;
+            if (editor) {
+              updatedBounds = editor.getBounds(
+                updatedCommentPosition?.range.from,
+                updatedLength
+              );
+            }
+            updatedTopPosition = updatedBounds.top;
+          }
 
           if (topPosition < lastCommentBottomPosition) {
             topPosition = lastCommentBottomPosition;
@@ -338,26 +398,28 @@ const QuillEditor = React.forwardRef(
 
           if (
             index === updatedCommentIndex &&
-            topPosition > updatedCommentPosition?.topPosition
+            updatedCommentPosition &&
+            topPosition > updatedTopPosition
           ) {
-            accumulatedHeight = 0; // Reset accumulated height
-            topPosition = updatedCommentPosition.topPosition; // Adjust topPosition to updatedCommentPosition
+            accumulatedHeight = 0;
+            topPosition = updatedTopPosition;
           }
 
           if (index < updatedCommentIndex) {
-            accumulatedHeight += commentHeight;
+            accumulatedHeight += commentHeights[index];
             topPosition -= accumulatedHeight;
           }
 
-          const newTopPosition = topPosition;
+          //console.log('the comment height', commentHeights[index])
 
-          lastCommentBottomPosition = newTopPosition + commentHeight;
+          //const newTopPosition = topPosition;
 
-          return { ...comment, topPosition: newTopPosition };
+          lastCommentBottomPosition = topPosition + commentHeights[index];
+
+          return { ...comment, topPosition: topPosition };
         })
         .filter((comment) => comment !== null);
 
-      // Group comments based on topPosition and commentHeight
       let groupedCommentsWithGap = [];
       let currentGroup = [];
 
@@ -368,7 +430,7 @@ const QuillEditor = React.forwardRef(
         } else {
           const lastComment = currentGroup[currentGroup.length - 1];
           const lastCommentBottomPosition =
-            lastComment.topPosition + getCommentHeight(lastComment);
+            lastComment.topPosition + commentHeights[index];
 
           // Check if the current comment overlaps with the last comment in the group
           if (comment.topPosition < lastCommentBottomPosition) {
@@ -388,7 +450,25 @@ const QuillEditor = React.forwardRef(
 
       setGroupedCommentsWithGap(groupedCommentsWithGap);
       console.log('the group groupedComments', groupedCommentsWithGap);
-    }, [editor, editorRef, updatedCommentPosition, comments]);
+    }, [editor, editorRef, updatedCommentPosition, comments, commentHeights]);
+
+    let commentInputTopPosition;
+    if (selectedRange) {
+      const length = selectedRange.to - selectedRange.from;
+
+      let boundsIs;
+      if (editor) {
+        boundsIs = editor.getBounds(selectedRange.from, length);
+      }
+
+      if (!boundsIs) {
+        return null;
+      }
+
+      commentInputTopPosition = boundsIs.top;
+    }
+
+    console.log('the selected Range is', commentInputTopPosition);
 
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
@@ -396,46 +476,52 @@ const QuillEditor = React.forwardRef(
           ref={editorRef}
           style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}
         ></div>
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: '-320px',
-            height: '100%',
-            width: '320px',
-            zIndex: '546',
-            overflowX: 'scroll',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-        >
-          <ul
-            style={{
-              height: '100%',
-            }}
+        {showNewComment ? (
+          <div
+            className="main-side-container"
+            style={{ top: commentInputTopPosition, right: '-330px' }}
           >
-            {groupedCommentsWithGap.map((group, groupIndex) => (
-              <div key={groupIndex}>
-                {group.map((comment, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      position: 'absolute',
-                      top: `${comment.topPosition}px`,
-                      left: '0',
-                      minWidth: '300px',
-                      height: '150px',
-                      overflow: 'hidden',
-                      padding: '20px',
-                    }}
-                  >
-                    <CommentCard32 comment={comment} />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </ul>
-        </div>
+            <Screen onClick={methods.hideNewCommentDiv}></Screen>
+            {newCommentFrame(
+              pageMode,
+              submission,
+              newCommentSerialNumber,
+              methods
+              // newCommentFrameRef,
+              // share
+            )}
+          </div>
+        ) : (
+          <div className="main-side-container">
+            <ul
+              style={{
+                height: '100%',
+              }}
+            >
+              {groupedCommentsWithGap.map((group, groupIndex) => (
+                <div key={groupIndex}>
+                  {group.map((comment, index) => (
+                    <div
+                      key={index}
+                      id={`comment-${index}`}
+                      style={{
+                        position: 'absolute',
+                        top: `${comment.topPosition}px`,
+                        left: '0',
+                        minWidth: '300px',
+                        height: 'auto',
+                        overflow: 'hidden',
+                        padding: '20px',
+                      }}
+                    >
+                      <CommentCard32 comment={comment} />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     );
   }
@@ -692,4 +778,122 @@ function createBackgroundColour(comment) {
     return comment.color;
   }
   return '#fff9c4';
+}
+
+const newCommentFrame = (
+  pageMode,
+  submission,
+  newCommentSerialNumber,
+  methods
+  // newCommentFrameRef,
+  // share
+) => {
+  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+    return selectFocusArea(methods, submission, newCommentSerialNumber);
+  }
+  return reviewerNewComment(
+    methods,
+    // newCommentFrameRef,
+    // share,
+    pageMode
+  );
+};
+
+function reviewerNewComment(
+  methods,
+  // newCommentFrameRef,
+  // share,
+  pageMode
+) {
+  const { smartAnnotations } = useContext(FeedbackContext);
+
+  if (pageMode === 'CLOSED') return <></>;
+  return (
+    <>
+      <Frame1329>
+        <Frame1406>
+          <SmartAnnotationsComponent>
+            <Frame1326>
+              <TypeHere>
+                <FocussedInput
+                  id="newCommentInput"
+                  //ref={newCommentFrameRef}
+                  placeholder="Comment here...."
+                ></FocussedInput>
+              </TypeHere>
+            </Frame1326>
+
+            <SubmitCommentFrameRoot
+              submitButtonOnClick={methods.handleAddComment}
+              cancelButtonOnClick={methods.hideNewCommentDiv}
+            />
+            <ShortcutList>
+              {shortcutList(methods, smartAnnotations)}
+            </ShortcutList>
+          </SmartAnnotationsComponent>
+          <ExemplarComponent>
+            {/* {shareWithClassFrame(methods, share)} */}
+            {shareWithClassFrame(methods)}
+          </ExemplarComponent>
+        </Frame1406>
+      </Frame1329>
+    </>
+  );
+}
+
+function shortcutList(methods, smartAnnotations) {
+  return smartAnnotations.map((smartAnnotation, index) => (
+    <SmartAnotation
+      key={index}
+      smartAnnotation={smartAnnotation}
+      onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+    />
+  ));
+}
+
+function shareWithClassFrame(methods, share) {
+  if (getUserRole() === 'STUDENT') return <></>;
+  return (
+    <>
+      <Frame1383>
+        <Frame13311>
+          <Crown src="/icons/share.png" alt="crown" />
+          <Share>Share</Share>
+        </Frame13311>
+        <Buttons4
+          text={'Share with class'}
+          onClickFn={methods.handleShareWithClass}
+        />
+      </Frame1383>
+    </>
+  );
+}
+
+function selectFocusArea(methods, submission, newCommentSerialNumber) {
+  const allFocusAreas = flatMap(submission.assignment.questions, (question) =>
+    question.focusAreas ? question.focusAreas : []
+  );
+
+  const focusAreas = uniqBy(
+    allFocusAreas?.filter((fa) => {
+      return submission.assignment.questions[
+        newCommentSerialNumber - 1
+      ]?.focusAreaIds?.includes(fa.id);
+    }),
+    'id'
+  );
+  const focusAreasFrame = (methods) => (
+    <>
+      <Frame1329>
+        <Frame1406>
+          <FocusAreasFrame
+            focusAreas={focusAreas}
+            handleAddFocusArea={methods.handleFocusAreaComment}
+          />
+        </Frame1406>
+      </Frame1329>
+    </>
+  );
+
+  return focusAreasFrame(methods);
 }

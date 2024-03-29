@@ -51,6 +51,7 @@ import {
   StepImag,
   StepText,
   MainContainer,
+  StepNum,
 } from './CreateAssignmentLaptopStyle';
 import {
   IbmplexsansBoldShark64px,
@@ -132,9 +133,7 @@ function CreateAAssignmentLaptop(props) {
             whiteArrowleft={whiteArrowleft}
           />
         </LinkContainer>
-        <TitleAndSubtitleContainer
-          style={{ borderBottom: '1px solid #d6d6d6', paddingBottom: '20px' }}
-        >
+        <TitleAndSubtitleContainer>
           <TitleContainer>
             {title}
             {saveButtons(
@@ -197,6 +196,144 @@ function CreateAAssignmentLaptop(props) {
       <Frame1379>
         {titleAndSaveButtons(assignment, saveDraft, publish)}
         <Frame1378 readOnly={assignment.status != 'DRAFT'}>
+          {!smallScreenView && (
+            <StepsPart>
+              <StepsContainer>
+                <StepContainer>
+                  <StepNum
+                    style={{
+                      backgroundColor:
+                        assignment.title === '' ? '#fff' : '#7200E0',
+                      color: assignment.title === '' ? '#918b97' : '#fff',
+                      border:
+                        assignment.title === ''
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
+                    }}
+                  >
+                    1
+                  </StepNum>
+                  <StepText
+                    style={{
+                      color: assignment.title === '' ? '#918b97' : '#7200E0',
+                    }}
+                  >
+                    Name the task
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepNum
+                    style={{
+                      backgroundColor:
+                        assignment.classIds.length === 0 ? '#fff' : '#7200E0',
+                      color:
+                        assignment.classIds.length === 0 ? '#918b97' : '#fff',
+                      border:
+                        assignment.classIds.length === 0
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
+                    }}
+                  >
+                    2
+                  </StepNum>
+                  <StepText
+                    style={{
+                      color:
+                        assignment.classIds.length === 0
+                          ? '#918b97'
+                          : '#7200E0',
+                    }}
+                  >
+                    Select a class
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepNum
+                    style={{
+                      backgroundColor:
+                        assignment.questions &&
+                        assignment.questions.length > 0 &&
+                        assignment.questions[0].question === ''
+                          ? '#fff'
+                          : '#7200E0',
+                      color:
+                        assignment.questions &&
+                        assignment.questions.length > 0 &&
+                        assignment.questions[0].question === ''
+                          ? '#918b97'
+                          : '#fff',
+                      border:
+                        assignment.questions &&
+                        assignment.questions.length > 0 &&
+                        assignment.questions[0].question === ''
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
+                    }}
+                  >
+                    3
+                  </StepNum>
+                  <StepText
+                    style={{
+                      color:
+                        assignment.questions &&
+                        assignment.questions.length > 0 &&
+                        assignment.questions[0].question === ''
+                          ? '#918b97'
+                          : '#7200E0',
+                    }}
+                  >
+                    Set up the task
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepNum
+                    style={{
+                      backgroundColor:
+                        assignment.reviewedBy === 'NONE' ? '#fff' : '#7200E0',
+                      color:
+                        assignment.reviewedBy === 'NONE' ? '#918b97' : '#fff',
+                      border:
+                        assignment.reviewedBy === 'NONE'
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
+                    }}
+                  >
+                    4
+                  </StepNum>
+                  <StepText
+                    style={{
+                      color:
+                        assignment.reviewedBy === 'NONE'
+                          ? '#918b97'
+                          : '#7200E0',
+                    }}
+                  >
+                    Select the feedback method
+                  </StepText>
+                </StepContainer>
+                <StepContainer>
+                  <StepNum
+                    style={{
+                      backgroundColor: !updateDueDateTick ? '#fff' : '#7200E0',
+                      color: !updateDueDateTick ? '#918b97' : '#fff',
+                      border: !updateDueDateTick
+                        ? '1.5px solid #918b97'
+                        : '1.5px solid #7200E0',
+                    }}
+                  >
+                    5
+                  </StepNum>
+                  <StepText
+                    style={{
+                      color: !updateDueDateTick ? '#918b97' : '#7200E0',
+                    }}
+                  >
+                    Select the due date
+                  </StepText>
+                </StepContainer>
+              </StepsContainer>
+            </StepsPart>
+          )}
           <Frame1375>
             <TaskContainer>
               <TaskHeadingContainer>
@@ -204,10 +341,8 @@ function CreateAAssignmentLaptop(props) {
               </TaskHeadingContainer>
               <TaskNameContainer>
                 <TaskName>
-                  <TaskTitle>
-                    Name the task
-                  </TaskTitle>
-                  <QuestionTooltip 
+                  <TaskTitle>Name the task</TaskTitle>
+                  <QuestionTooltip
                     text={'Set a name which accurately describes this task'}
                     img={questionMark}
                   />
@@ -232,7 +367,7 @@ function CreateAAssignmentLaptop(props) {
               <TaskNameContainer>
                 <TaskName>
                   <TaskTitle>Select a class</TaskTitle>
-                  <QuestionTooltip 
+                  <QuestionTooltip
                     text={'Select the classes this task is for'}
                     img={questionMark}
                   />
@@ -249,7 +384,7 @@ function CreateAAssignmentLaptop(props) {
               <TaskNameContainer>
                 <TaskName>
                   <TaskTitle>Set up the task</TaskTitle>
-                  <QuestionTooltip 
+                  <QuestionTooltip
                     text={'Add Questions and Instructions'}
                     img={questionMark}
                   />
@@ -274,8 +409,10 @@ function CreateAAssignmentLaptop(props) {
                 <TitleAndSubtitleContainer>
                   <TaskName>
                     <TaskTitle>Select the feedback method</TaskTitle>
-                    <QuestionTooltip 
-                      text={'Would you like to personally mark this task, or would you prefer that students provide feedback to each other?'}
+                    <QuestionTooltip
+                      text={
+                        'Would you like to personally mark this task, or would you prefer that students provide feedback to each other?'
+                      }
                       img={questionMark}
                     />
                   </TaskName>
@@ -299,9 +436,9 @@ function CreateAAssignmentLaptop(props) {
               <TaskNameContainer>
                 <TaskName>
                   <TaskTitle>Select the due date</TaskTitle>
-                  <QuestionTooltip 
-                      text={'Set a due date for the task'}
-                      img={questionMark}
+                  <QuestionTooltip
+                    text={'Set a due date for the task'}
+                    img={questionMark}
                   />
                 </TaskName>
 
@@ -311,75 +448,6 @@ function CreateAAssignmentLaptop(props) {
               </TaskNameContainer>
             </TaskContainer>
           </Frame1375>
-          {!smallScreenView && (
-            <StepsPart>
-              <TaskHeadingContainer>
-                <TaskHeading>Steps</TaskHeading>
-              </TaskHeadingContainer>
-              <StepsContainer>
-                <StepContainer>
-                  <StepImag src={assignment.title === '' ? tick : tickColor} />
-                  <StepText
-                    style={{ color: assignment.title != '' && '#7200E0' }}
-                  >
-                    Name the task
-                  </StepText>
-                </StepContainer>
-                <StepContainer>
-                  <StepImag
-                    src={assignment.classIds.length === 0 ? tick : tickColor}
-                  />
-                  <StepText
-                    style={{
-                      color: assignment.classIds.length != 0 && '#7200E0',
-                    }}
-                  >
-                    Select a class
-                  </StepText>
-                </StepContainer>
-                <StepContainer>
-                  <StepImag
-                    src={
-                      assignment.questions &&
-                      assignment.questions.length > 0 &&
-                      assignment.questions[0].question !== ''
-                        ? tickColor
-                        : tick
-                    }
-                  />
-                  <StepText
-                    style={{
-                      color:
-                        assignment.questions &&
-                        assignment.questions.length > 0 &&
-                        assignment.questions[0].question !== '' &&
-                        '#7200E0',
-                    }}
-                  >
-                    Set up the task
-                  </StepText>
-                </StepContainer>
-                <StepContainer>
-                  <StepImag
-                    src={assignment.reviewedBy === 'NONE' ? tick : tickColor}
-                  />
-                  <StepText
-                    style={{
-                      color: assignment.reviewedBy !== 'NONE' && '#7200E0',
-                    }}
-                  >
-                    Select the feedback method
-                  </StepText>
-                </StepContainer>
-                <StepContainer>
-                  <StepImag src={updateDueDateTick ? tickColor : tick} />
-                  <StepText style={{ color: updateDueDateTick && '#7200E0' }}>
-                    Select the due date
-                  </StepText>
-                </StepContainer>
-              </StepsContainer>
-            </StepsPart>
-          )}
         </Frame1378>
         <Frame1377>
           <Frame1372>

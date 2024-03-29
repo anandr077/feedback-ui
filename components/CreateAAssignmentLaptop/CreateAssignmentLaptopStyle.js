@@ -13,9 +13,8 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center !important;
-  background-color: var(--white-pointer);
+  background-color: #fff;
   position: relative;
-  padding: 60px 0px;
   @media (min-width: 1025px) and (max-width: 1440px) {
     min-width: 1025px;
   }
@@ -28,23 +27,26 @@ export const TitleAndLinkContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 60px;
   position: relative;
   @media (max-width: 1024px) {
-    gap: 40px;
+    // gap: 16px;
   }
 `;
 export const LinkContainer = styled.div`
   width: 100%;
   display: flex;
+  background-color: #f2f1f380;
+  padding: 0px 90px;
 `;
 export const TitleAndSubtitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
   position: relative;
   width: 100%;
+  gap: 4px;
+  padding: 16px 90px;
+  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
 `;
 export const TitleContainer = styled.div`
   display: flex;
@@ -122,22 +124,21 @@ export const Frame1379 = styled.div`
   // position: relative;
   // align-self: stretch;
   // margin-bottom: 20px;
-  max-width: 1440px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 60px;
-  padding: 0px 60px;
+  gap: 45px;
+  // padding: 0px 60px;
   @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 60px;
+    // padding: 0px 60px;
   }
   @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 60px;
-    gap: 40px;
+    // padding: 0px 60px;
+    // gap: 40px;
   }
   @media (max-width: 765px) {
-    padding: 0px 20px;
-    gap: 40px;
+    // padding: 0px 20px;
+    // gap: 40px;
   }
 `;
 
@@ -167,8 +168,9 @@ export const Frame1378 = styled.div`
   align-items: flex-start;
   position: relative;
   align-self: stretch;
-  gap: 32px;
+  gap: 23px;
   ${(props) => props.readOnly && 'pointer-events: none; opacity: 0.5;'}
+  padding: 0px 90px;
 `;
 
 export const Frame1375 = styled.div`
@@ -216,26 +218,30 @@ export const TaskHeading = styled.div`
 export const Title = styled.h1`
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--Dark-Purple, #301b72);
-  font-family: IBM Plex Sans;
-  font-size: 36px;
+
+  font-size: 23px;
+  font-weight: 600;
+  font-stretch: normal;
   font-style: normal;
-  font-weight: 700;
   line-height: normal;
-  letter-spacing: -0.9px;
+  letter-spacing: -0.23px;
+  text-align: left;
+  color: #4b464f;
   @media (max-width: 765px) {
-    font-size: 32px;
+    font-size: 23px;
     letter-spacing: -0.8px;
   }
 `;
 export const HeadingLine = styled.p`
-  color: var(--Foundation-Grey-grey-500, #333333);
   font-family: IBM Plex Sans;
   font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
   font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #918b97;
 `;
 
 export const Frame1374 = styled.div`
@@ -317,7 +323,7 @@ export const Frame1296 = styled.div`
   position: relative;
   align-self: stretch;
   @media (max-width: 765px) {
-    width:100%;
+    width: 100%;
     justify-content: center;
     align-items: center;
   }
@@ -396,6 +402,7 @@ export const Button = styled.div`
   letter-spacing: 0;
   line-height: normal;
   color: var(--light-mode-purple);
+  font-size: 16px;
 `;
 export const Buttons1 = styled.div`
   display: flex;
@@ -465,7 +472,7 @@ export const TaskTitle = styled.div`
 `;
 
 export const StepsPart = styled.div`
-  position:sticky;
+  position: sticky;
   top: 75px;
   display: flex;
   flex-direction: column;
@@ -474,13 +481,12 @@ export const StepsPart = styled.div`
   border-radius: 12px;
   gap: 20px;
   background: linear-gradient(0deg, #ffffff, #ffffff);
-  box-shadow: 0px 4px 6px 0px #ca93ff1a;
 `;
 export const StepsContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0px 20px 0px 20px;
-  gap: 20px;
+  gap: 16px;
 `;
 export const StepContainer = styled.div`
   display: flex;
@@ -490,6 +496,18 @@ export const StepContainer = styled.div`
 export const StepImag = styled.img`
   width: 24px;
   height: 24px;
+`;
+export const StepNum = styled.p`
+  font-family: IBM Plex Sans;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
 `;
 export const StepText = styled.p`
   font-family: IBM Plex Sans;

@@ -177,7 +177,7 @@ export const Frame1375 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
+  gap: 45px;
   position: relative;
   align-self: stretch;
   width: 80%;
@@ -200,6 +200,7 @@ export const Frame1372 = styled.div`
   gap: 30px;
   align-self: stretch;
   z-index: 1;
+  padding: 0px 90px;
 `;
 
 export const TaskHeading = styled.div`
@@ -213,6 +214,26 @@ export const TaskHeading = styled.div`
   letter-spacing: 0.06em;
   text-align: left;
   color: #7200e0;
+`;
+export const LeftStepNumber = styled.div`
+  display: flex;
+  gap: 8px;
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: center;
+  color: #a154ea;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 3px 8px;
+  border-radius: 11.5px;
+  border: 1px solid #dec7ff;
+  background-color: #fff;
 `;
 
 export const Title = styled.h1`
@@ -248,13 +269,13 @@ export const Frame1374 = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 14px 21px;
+  padding: 12px 16px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #a6a6a6 !important;
+  border: 1px solid #b2aeb7 !important;
 `;
 
 export const TextInput = styled.input`
@@ -268,12 +289,13 @@ export const TextInput = styled.input`
   transition: 0.15s;
   width: 100%;
   font-family: IBM Plex Sans;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 26px;
-  letter-spacing: 0em;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
   text-align: left;
-  border: 0px;
 `;
 
 export const Frame1294 = styled.div`
@@ -319,7 +341,6 @@ export const Frame1296 = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
   @media (max-width: 765px) {
@@ -429,12 +450,10 @@ export const TaskContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding: 0px 0px 32px 0px;
-  border-radius: 12px;
-  border: 1px;
-  gap: 32px;
-  background: linear-gradient(0deg, #ffffff, #ffffff);
-  border: 1px solid #f2f2f2;
+  padding: 0px 0px 44px 0px;
+  gap: 23px;
+
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
   @media (max-width: 765px) {
     gap: 20px;
   }
@@ -443,17 +462,12 @@ export const TaskHeadingContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: 20px 30px 20px 30px;
-  border-radius: 12px 12px 0px 0px;
-  gap: 10px;
-  background: #f7eeff;
 `;
 
 export const TaskNameContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 30px 0px 30px;
-  gap: 20px;
+  gap: 23px;
 `;
 export const TaskName = styled.div`
   display: flex;
@@ -463,12 +477,14 @@ export const TaskName = styled.div`
 `;
 export const TaskTitle = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 600;
-  line-height: 31px;
-  letter-spacing: 0em;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
   text-align: left;
-  color: #1e252a;
+  color: #4b464f;
 `;
 
 export const StepsPart = styled.div`
@@ -485,7 +501,6 @@ export const StepsPart = styled.div`
 export const StepsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 20px 0px 20px;
   gap: 16px;
 `;
 export const StepContainer = styled.div`

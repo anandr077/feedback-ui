@@ -48,9 +48,11 @@ export default function TheoryQuestionFrame(props) {
     setAllFocusAreas,
   } = props;
 
-  const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
-    return item.title === questionDetails.markingCriteria?.title;
-  });
+  const selectedMarkingCriteriaIndex = allMarkingCriterias?.findIndex(
+    (item) => {
+      return item.title === questionDetails.markingCriteria?.title;
+    }
+  );
 
   const appendFunction = (markingCriterias) => {
     return markingCriterias.map((item) => {
@@ -79,6 +81,7 @@ export default function TheoryQuestionFrame(props) {
         number={serialNumber}
         UpdateQuestionFrame={UpdateQuestionFrame}
         defaultType={questionDetails.type}
+        deleteQuestionFrameFn={deleteQuestionFrameFn}
       />
 
       <Frame12891>
@@ -99,8 +102,10 @@ export default function TheoryQuestionFrame(props) {
         <FocusAreasFrame>
           <QuestionMarkContainer>
             <Label>Focus areas</Label>
-            <QuestionTooltip 
-              text={"Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"}
+            <QuestionTooltip
+              text={
+                "Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"
+              }
               img={questionMark}
             />
           </QuestionMarkContainer>
@@ -117,8 +122,10 @@ export default function TheoryQuestionFrame(props) {
         <MarkingCriteriaSelectionContainer>
           <QuestionMarkContainer>
             <Label>Marking Template</Label>
-            <QuestionTooltip 
-              text={"Select the marking template which will be used in the assessment of this task. New marking templates can be created in the account settings"}
+            <QuestionTooltip
+              text={
+                'Select the marking template which will be used in the assessment of this task. New marking templates can be created in the account settings'
+              }
               img={questionMark}
             />
           </QuestionMarkContainer>
@@ -148,17 +155,21 @@ export default function TheoryQuestionFrame(props) {
                 handleMarkingCriteriaPreview(questionDetails.markingCriteria);
               }}
             >
-              <img src="/icons/preview-eye.png" alt="eye" style={{width:'32px',height:'32px'}} />
+              <img
+                src="/icons/preview-eye.png"
+                alt="eye"
+                style={{ width: '32px', height: '32px' }}
+              />
             </Preview>
           </MarkingCriteriaFrame>
         </MarkingCriteriaSelectionContainer>
       </Frame12891>
-      <DeleteButtonFrame>
+      {/* <DeleteButtonFrame>
         <BinImage src={Bincolor} />
         <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
           Delete
         </DeleteButton>
-      </DeleteButtonFrame>
+      </DeleteButtonFrame> */}
     </SmalllQuestionFrame>
   );
 }

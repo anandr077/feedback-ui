@@ -59,23 +59,10 @@ export const Ellipse141 = styled.div`
 export const SmalllQuestionFrame = styled.div`
   display: flex;
   flex-direction: column;
-  // align-items: flex-start;
-  // gap: 20px;
-  // padding: 20px 0px;
-  // position: relative;
-  // align-self: stretch;
-  // background-color: var(--white);
-  // border-radius: 16px;
-  // border: 1px solid;
-  // border-color: var(--electric-violet);
-  // box-shadow: 0px 4px 16px #7200e01a;
   align-self: stretch;
-  padding: 20px 0px 20px 0px;
   border-radius: 16px;
   border: 1px;
-  gap: 20px;
-  background: linear-gradient(0deg, #ffffff, #ffffff);
-  border: 1px solid #7200e01a;
+  gap: 23px;
 `;
 
 export const Line141 = styled.img`
@@ -88,7 +75,6 @@ export const Line141 = styled.img`
 export const Frame12891 = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 30px 0px 30px;
   gap: 20px;
 `;
 
@@ -134,7 +120,6 @@ export const DeleteButtonFrame = styled.div`
   flex-direction: row;
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 20px 30px 0px 30px;
   border: 1px 0px 0px 0px;
   gap: 4px;
   cursor: pointer;

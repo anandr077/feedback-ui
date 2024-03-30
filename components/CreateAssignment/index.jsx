@@ -13,9 +13,7 @@ import {
   deleteAssignment,
   getStudentsForClass,
 } from '../../service';
-import {
-  assignmentsHeaderProps,
-} from '../../utils/headerProps';
+import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
 
 import { assignmentsHeaderProps } from '../../utils/headerProps';
@@ -148,9 +146,9 @@ export default function CreateAssignment(props) {
     );
   }, [assignmentId]);
 
-  React.useEffect(()=>{
-    assignment.dueAt && setUpdateDueDateTick(true)
-  }, [assignment])
+  React.useEffect(() => {
+    assignment.dueAt && setUpdateDueDateTick(true);
+  }, [assignment]);
 
   async function getAllStudentsForClasses(classesArray) {
     const promises = classesArray.map(async (classItem) => {
@@ -218,7 +216,7 @@ export default function CreateAssignment(props) {
     e.currentTarget.style.border = '1px solid var(--text)';
   };
   const cleanformattingDiv = (e) => {
-    e.currentTarget.style.border = '1px solid #E0E0E0';
+    // e.currentTarget.style.border = '1px solid #E0E0E0';
   };
 
   const questionFrames = () => {
@@ -410,7 +408,6 @@ export default function CreateAssignment(props) {
       }
     });
   };
-
 
   const saveDraft = () => {
     updateAssignment(assignment.id, assignment).then((res) => {
@@ -630,8 +627,10 @@ export default function CreateAssignment(props) {
             label="Teacher Feedback"
             // endIcon={<TitleImage src={questionMark} />}
           />
-          <QuestionTooltip 
-            text={'After student submits their task the feedback will be provided by you or any other assigned teacher'}
+          <QuestionTooltip
+            text={
+              'After student submits their task the feedback will be provided by you or any other assigned teacher'
+            }
             img={questionMark}
           />
         </LableAndImgContainer>
@@ -641,8 +640,10 @@ export default function CreateAssignment(props) {
             control={<Radio />}
             label="Peer to Peer"
           />
-          <QuestionTooltip 
-            text={"After submission students will be randomly assigned to review their peer's task"}
+          <QuestionTooltip
+            text={
+              "After submission students will be randomly assigned to review their peer's task"
+            }
             img={questionMark}
           />
         </LableAndImgContainer>

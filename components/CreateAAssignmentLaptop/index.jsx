@@ -52,6 +52,7 @@ import {
   StepText,
   MainContainer,
   StepNum,
+  LeftStepNumber,
 } from './CreateAssignmentLaptopStyle';
 import {
   IbmplexsansBoldShark64px,
@@ -337,7 +338,7 @@ function CreateAAssignmentLaptop(props) {
           <Frame1375>
             <TaskContainer>
               <TaskHeadingContainer>
-                <TaskHeading>STEP 1</TaskHeading>
+                <LeftStepNumber>STEP 1</LeftStepNumber>
               </TaskHeadingContainer>
               <TaskNameContainer>
                 <TaskName>
@@ -362,7 +363,7 @@ function CreateAAssignmentLaptop(props) {
             </TaskContainer>
             <TaskContainer>
               <TaskHeadingContainer>
-                <TaskHeading>STEP 2</TaskHeading>
+                <LeftStepNumber>STEP 2</LeftStepNumber>
               </TaskHeadingContainer>
               <TaskNameContainer>
                 <TaskName>
@@ -379,7 +380,7 @@ function CreateAAssignmentLaptop(props) {
             </TaskContainer>
             <TaskContainer>
               <TaskHeadingContainer>
-                <TaskHeading>STEP 3</TaskHeading>
+                <LeftStepNumber>STEP 3</LeftStepNumber>
               </TaskHeadingContainer>
               <TaskNameContainer>
                 <TaskName>
@@ -403,7 +404,7 @@ function CreateAAssignmentLaptop(props) {
             </TaskContainer>
             <TaskContainer>
               <TaskHeadingContainer>
-                <TaskHeading>STEP 4</TaskHeading>
+                <LeftStepNumber>STEP 4</LeftStepNumber>
               </TaskHeadingContainer>
               <TaskNameContainer>
                 <TitleAndSubtitleContainer>
@@ -431,7 +432,7 @@ function CreateAAssignmentLaptop(props) {
             </TaskContainer>
             <TaskContainer>
               <TaskHeadingContainer>
-                <TaskHeading>STEP 5</TaskHeading>
+                <LeftStepNumber>STEP 5</LeftStepNumber>
               </TaskHeadingContainer>
               <TaskNameContainer>
                 <TaskName>

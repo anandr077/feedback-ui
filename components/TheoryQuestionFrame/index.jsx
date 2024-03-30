@@ -56,7 +56,7 @@ export default function TheoryQuestionFrame(props) {
     return item.title === questionDetails.markingCriteria?.title;
   });
   const selectedCommentBankIndex = allCommentBanks.findIndex((item) => {
-    return item.title === questionDetails.commentBank?.title;
+    return item.id === questionDetails?.commentBank;
   });
 
   const appendFunction = (markingCriterias) => {
@@ -178,7 +178,7 @@ export default function TheoryQuestionFrame(props) {
             />
           </QuestionMarkContainer>
           <MarkingCriteriaFrame>
-            {questionDetails.commentBank.title ? (
+            {questionDetails.commentBank ? (
               <DropdownMenu
                 fullWidth={true}
                 menuItems={allCommentBanks}

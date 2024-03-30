@@ -140,7 +140,6 @@ export default function CreateAssignment(props) {
           ...assignmentResult,
           classIds: assignmentResult.classIds ?? [],
         }));
-        console.log('smartAnnotation', smartAnnotation);
         markingCriteriasResult.unshift({
           title: markingPlaceholder,
           id: 'no_marking_criteria',
@@ -149,7 +148,6 @@ export default function CreateAssignment(props) {
           title: commentBankPlaceholder,
           id: 'no_comment_criteria',
         });
-        console.log('markingCriteriasResult', markingCriteriasResult);
         setAllMarkingCriterias(markingCriteriasResult),
           setAllCommentBanks(smartAnnotation),
           setClasses(classesResult);
@@ -198,9 +196,12 @@ export default function CreateAssignment(props) {
     setCurrentMarkingCriteria(markingCriteria);
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
-  function handleCommentBankPreview(commentBank) {
+  function handleCommentBankPreview(commentBankId) {
+    let commentBank = allCommentBanks.find(
+      (commentBank) => commentBank.id === commentBankId
+    );
     setCurrentCommentBank(commentBank);
-    setCommentBankPreviewDialog(Object.keys(commentBank).length > 0);
+    setCommentBankPreviewDialog(commentBank?.suggestions?.length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
     const students = assignment.classIds.flatMap(
@@ -372,11 +373,12 @@ export default function CreateAssignment(props) {
       ),
     }));
   }
-  function updateCommentBank(id, commnetBank) {
+  function updateCommentBank(id, commentBank) {
+    console.log('first update', commentBank);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        q.serialNumber === id ? { ...q, commentBank: commnetBank } : q
+        q.serialNumber === id ? { ...q, commentBank: commentBank.id } : q
       ),
     }));
   }
@@ -819,7 +821,7 @@ const newQuestion = (serialNumber) => {
       },
     ],
     markingCriteria: {},
-    commentBank: {},
+    commentBank: '',
     focusAreaIds: [],
     focusAreas: [],
   };

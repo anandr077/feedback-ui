@@ -135,6 +135,7 @@ export default function CreateAssignment(props) {
         markingCriteriasResult,
         smartAnnotation,
       ]) => {
+        console.log('assignmentResult', assignmentResult);
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
@@ -192,7 +193,6 @@ export default function CreateAssignment(props) {
   }
 
   function handleMarkingCriteriaPreview(markingCriteria) {
-    console.log('markingCriteria', markingCriteria);
     setCurrentMarkingCriteria(markingCriteria);
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
@@ -374,7 +374,6 @@ export default function CreateAssignment(props) {
     }));
   }
   function updateCommentBank(id, commentBank) {
-    console.log('first update', commentBank);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>

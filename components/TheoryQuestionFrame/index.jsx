@@ -51,7 +51,6 @@ export default function TheoryQuestionFrame(props) {
     allCommentBanks,
   } = props;
 
-  console.log('questionDetails', questionDetails);
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
     return item.title === questionDetails.markingCriteria?.title;
   });

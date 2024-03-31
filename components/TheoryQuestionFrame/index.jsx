@@ -51,12 +51,15 @@ export default function TheoryQuestionFrame(props) {
     allCommentBanks,
   } = props;
 
+  console.log('first update', questionDetails);
+
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
     return item.title === questionDetails.markingCriteria?.title;
   });
   const selectedCommentBankIndex = allCommentBanks.findIndex((item) => {
-    return item.id === questionDetails?.commentBank;
+    return item.id === questionDetails?.commentBankId;
   });
+  console.log('selectedCommentBankIndex', selectedCommentBankIndex);
 
   const appendFunction = (markingCriterias) => {
     return markingCriterias.map((item) => {
@@ -177,7 +180,7 @@ export default function TheoryQuestionFrame(props) {
             />
           </QuestionMarkContainer>
           <MarkingCriteriaFrame>
-            {questionDetails.commentBank ? (
+            {questionDetails.commentBankId ? (
               <DropdownMenu
                 fullWidth={true}
                 menuItems={allCommentBanks}

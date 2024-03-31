@@ -374,10 +374,11 @@ export default function CreateAssignment(props) {
     }));
   }
   function updateCommentBank(id, commentBank) {
+    console.log('first update', commentBank);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
-        q.serialNumber === id ? { ...q, commentBank: commentBank.id } : q
+        q.serialNumber === id ? { ...q, commentBankId: commentBank.id } : q
       ),
     }));
   }
@@ -820,7 +821,7 @@ const newQuestion = (serialNumber) => {
       },
     ],
     markingCriteria: {},
-    commentBank: '',
+    commentBankId: '',
     focusAreaIds: [],
     focusAreas: [],
   };

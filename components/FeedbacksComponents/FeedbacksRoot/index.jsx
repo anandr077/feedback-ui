@@ -139,7 +139,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           classWithTeacherAndStudentsResult,
           overAllCommentsResult,
         ]) => {
-          console.log('submissionsResult', submissionsResult);
           setSubmission(submissionsResult);
           const allComments = commentsResult?.map((c) => {
             return { ...c };

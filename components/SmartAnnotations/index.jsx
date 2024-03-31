@@ -41,7 +41,6 @@ function SmartAnotation(props) {
     open = false,
     setSmartAnnotationeditIndex,
   } = props;
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] =
     useState(smartAnnotation);
@@ -116,9 +115,7 @@ function SmartAnotation(props) {
     if (onSuggestionClick)
       return () =>
         onSuggestionClick(
-          smartAnnotation.title +
-            '\n\n' +
-            smartAnnotation.suggestions[index].description
+          smartAnnotation.title + '\n\n' + smartAnnotation.suggestions[index]
         );
     else return () => {};
   };

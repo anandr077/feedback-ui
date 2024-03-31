@@ -44,10 +44,12 @@ import DragAndDrop from './DragAndDrop';
 import questionMark from '../../static/img/question-mark.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
+import { getUserId } from '../../userLocalDetails';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
+  const UserId = getUserId();
   const queryClient = useQueryClient();
   const { assignmentId } = useParams();
 
@@ -119,6 +121,7 @@ export default function CreateAssignment(props) {
 
     return a;
   };
+  console.log('UserId', UserId);
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -136,7 +139,9 @@ export default function CreateAssignment(props) {
         markingCriteriasResult,
         commentBanks,
       ]) => {
-        
+        let userCommentBanks = commentBanks._embedded.commentbanks.filter(
+          (commentBank) => commentBank.ownerId === UserId
+        );
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
@@ -146,12 +151,12 @@ export default function CreateAssignment(props) {
           title: markingPlaceholder,
           id: 'no_marking_criteria',
         });
-        commentBanks._embedded.commentbanks.unshift({
+        userCommentBanks.unshift({
           title: commentBankPlaceholder,
           id: 'no_comment_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),
-          setAllCommentBanks(commentBanks._embedded.commentbanks),
+          setAllCommentBanks(userCommentBanks),
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
@@ -375,7 +380,6 @@ export default function CreateAssignment(props) {
     }));
   }
   function updateCommentBank(id, commentBank) {
-    console.log('first update', commentBank);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
@@ -597,7 +601,6 @@ export default function CreateAssignment(props) {
   const publish = () => {
     setShowPublishPopup(false);
     if (isAssignmentValid()) {
-      console.log('published', assignment);
       updateAssignment(assignment.id, assignment).then((_) => {
         publishAssignment(assignment.id).then((res) => {
           if (res.status === 'PUBLISHED') {

@@ -13,6 +13,7 @@ import {
   deleteAssignment,
   getStudentsForClass,
   getSmartAnnotations,
+  getFeedbackBanks,
 } from '../../service';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
@@ -125,7 +126,7 @@ export default function CreateAssignment(props) {
       getFocusAreas(),
       getAllColors(),
       getAllMarkingCriteria(),
-      getSmartAnnotations(),
+      getFeedbackBanks(),
     ]).then(
       ([
         classesResult,
@@ -133,9 +134,9 @@ export default function CreateAssignment(props) {
         focusAreas,
         colors,
         markingCriteriasResult,
-        smartAnnotation,
+        commentBanks,
       ]) => {
-        console.log('assignmentResult', assignmentResult);
+        
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
@@ -145,12 +146,12 @@ export default function CreateAssignment(props) {
           title: markingPlaceholder,
           id: 'no_marking_criteria',
         });
-        smartAnnotation.unshift({
+        commentBanks._embedded.commentbanks.unshift({
           title: commentBankPlaceholder,
           id: 'no_comment_criteria',
         });
         setAllMarkingCriterias(markingCriteriasResult),
-          setAllCommentBanks(smartAnnotation),
+          setAllCommentBanks(commentBanks._embedded.commentbanks),
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);

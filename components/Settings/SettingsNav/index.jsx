@@ -41,53 +41,34 @@ function SettingsNav(props) {
 
   return (
     <Frame13221>
-      {showUserSettings && (
-        <>
-          <SelectedContainer onClick={selectUserSettings}>
-            {' '}
-            <SelectedLabel> User Settings</SelectedLabel>{' '}
-          </SelectedContainer>
-          <UnselectedContainer onClick={selectMarkingCriteria}>
-            {' '}
-            <UnselectedLabel> Marking Templates</UnselectedLabel>{' '}
-          </UnselectedContainer>
-          <UnselectedContainer onClick={selectShortcuts}>
-            {' '}
-            <UnselectedLabel> Smart Annotations</UnselectedLabel>{' '}
-          </UnselectedContainer>
-        </>
+      {showUserSettings ? (
+        <SelectedContainer onClick={selectUserSettings}>
+          <SelectedLabel> User Settings</SelectedLabel>
+        </SelectedContainer>
+      ) : (
+        <UnselectedContainer onClick={selectUserSettings}>
+          <UnselectedLabel> User Settings</UnselectedLabel>
+        </UnselectedContainer>
       )}
-      {showMarkingCriteria && (
-        <>
-          <UnselectedContainer onClick={selectUserSettings}>
-            {' '}
-            <UnselectedLabel> User Settings</UnselectedLabel>{' '}
-          </UnselectedContainer>
-          <SelectedContainer onClick={selectMarkingCriteria}>
-            {' '}
-            <SelectedLabel> Marking Templates</SelectedLabel>{' '}
-          </SelectedContainer>
-          <UnselectedContainer onClick={selectShortcuts}>
-            {' '}
-            <UnselectedLabel> Smart Annotations</UnselectedLabel>{' '}
-          </UnselectedContainer>
-        </>
+      {showMarkingCriteria ? (
+        <SelectedContainer onClick={selectMarkingCriteria}>
+          <SelectedLabel> Marking Templates</SelectedLabel>
+        </SelectedContainer>
+      ) : (
+        <UnselectedContainer onClick={selectMarkingCriteria}>
+          <UnselectedLabel> Marking Templates</UnselectedLabel>
+        </UnselectedContainer>
       )}
-      {showShortcuts && (
-        <>
-          <UnselectedContainer onClick={selectUserSettings}>
-            {' '}
-            <UnselectedLabel> User Settings</UnselectedLabel>{' '}
-          </UnselectedContainer>
-          <UnselectedContainer onClick={selectMarkingCriteria}>
-            {' '}
-            <UnselectedLabel> Marking Templates</UnselectedLabel>{' '}
-          </UnselectedContainer>
-          <SelectedContainer onClick={selectShortcuts}>
-            {' '}
-            <SelectedLabel> Smart Annotations</SelectedLabel>{' '}
-          </SelectedContainer>
-        </>
+      {showShortcuts ? (
+        <SelectedContainer onClick={selectShortcuts}>
+          {' '}
+          <SelectedLabel> Feedback Banks</SelectedLabel>{' '}
+        </SelectedContainer>
+      ) : (
+        <UnselectedContainer onClick={selectShortcuts}>
+          {' '}
+          <UnselectedLabel> Feedback Banks</UnselectedLabel>{' '}
+        </UnselectedContainer>
       )}
     </Frame13221>
   );
@@ -116,12 +97,13 @@ const UnselectedContainer = styled.article`
 `;
 
 const UnselectedLabel = styled.div`
-  ${IbmplexsansNormalPersianIndigo20px}
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #301b72;
 `;
 
 const SelectedContainer = styled.article`
@@ -137,12 +119,13 @@ const SelectedContainer = styled.article`
 `;
 
 const SelectedLabel = styled.div`
-  ${IbmplexsansNormalWhite20px}
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  font-family: IBM Plex Sans;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ffffff;
 `;
 
 export default SettingsNav;

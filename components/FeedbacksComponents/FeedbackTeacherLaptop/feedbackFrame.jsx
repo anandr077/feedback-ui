@@ -76,10 +76,6 @@ function FeedbackFrame(props) {
     share,
   } = props;
 
-  let commentBankIds = submission.assignment.questions.map(
-    (item) => item.commentBankId
-  );
-  console.log('firstsubmission', commentBankIds);
   return feedbackFrame(
     methods,
     submission,
@@ -94,8 +90,7 @@ function FeedbackFrame(props) {
     comments,
     pageMode,
     newCommentFrameRef,
-    share,
-    commentBankIds
+    share
   );
 }
 function feedbackFrame(
@@ -112,11 +107,15 @@ function feedbackFrame(
   comments,
   pageMode,
   newCommentFrameRef,
-  share,
-  commentBankIds
+  share
 ) {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
+
+  let commentBankIds = submission.assignment.questions
+    .filter((item) => item.serialNumber === newCommentSerialNumber)
+    .map((item) => item.commentBankId);
+
   return (
     <Frame1331 id="feedbacksFrame">
       <Frame1322>

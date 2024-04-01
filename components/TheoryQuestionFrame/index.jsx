@@ -51,7 +51,6 @@ export default function TheoryQuestionFrame(props) {
     allCommentBanks,
   } = props;
 
-
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
     return item.title === questionDetails.markingCriteria?.title;
   });
@@ -200,7 +199,7 @@ export default function TheoryQuestionFrame(props) {
             )}
             <Preview
               onClick={() => {
-                handleCommentBankPreview(questionDetails.commentBank);
+                handleCommentBankPreview(questionDetails.commentBankId);
               }}
             >
               <img

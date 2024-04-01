@@ -4,12 +4,12 @@ import { chain } from 'lodash';
 import { isMobileView } from '../../../ReactiveRender';
 import * as React from 'react';
 import styled from 'styled-components';
+import SmartAnotation from '../../../SmartAnnotations';
 
 export default function CommentBankDialog({
   setCommentBankPreviewDialog,
   commentBank,
 }) {
-  console.log('first comment', commentBank.suggestions);
   const [open, setOpen] = React.useState(true);
   const onMobileView = isMobileView();
   const handleClose = () => {
@@ -18,16 +18,20 @@ export default function CommentBankDialog({
   };
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="md"
+        PaperProps={{ style: { width: 750 } }}
+      >
         <DialogContent>
           <SuggestionsContainer>
-            {commentBank.suggestions.map((suggestion, index) => {
-              return (
-                <SuggestionContainer key={index}>
-                  <SuggestionDes>{suggestion.description}</SuggestionDes>
-                </SuggestionContainer>
-              );
-            })}
+            {commentBank.smartComments.map((smartComment, innerIndex) => (
+              <SmartAnotation
+                key={`${innerIndex}`}
+                smartAnnotation={smartComment}
+              />
+            ))}
           </SuggestionsContainer>
         </DialogContent>
       </Dialog>

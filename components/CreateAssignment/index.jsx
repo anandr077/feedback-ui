@@ -206,8 +206,9 @@ export default function CreateAssignment(props) {
     let commentBank = allCommentBanks.find(
       (commentBank) => commentBank.id === commentBankId
     );
+
     setCurrentCommentBank(commentBank);
-    setCommentBankPreviewDialog(commentBank?.suggestions?.length > 0);
+    setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
     const students = assignment.classIds.flatMap(

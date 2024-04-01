@@ -35,8 +35,35 @@ export const TitleAndLinkContainer = styled.div`
 export const LinkContainer = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
   background-color: #f2f1f380;
   padding: 0px 90px;
+`;
+export const LinkPartContainer = styled.a`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0px;
+  padding: 11px 0px;
+  text-decoration: none;
+`;
+
+export const LinkIcon = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+export const LinkText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #7b7382;
 `;
 export const TitleAndSubtitleContainer = styled.div`
   display: flex;

@@ -54,6 +54,9 @@ import {
   StepNum,
   LeftStepNumber,
   TitleAndSubtitleSubContainer,
+  LinkIcon,
+  LinkText,
+  LinkPartContainer,
 } from './CreateAssignmentLaptopStyle';
 import {
   IbmplexsansBoldShark64px,
@@ -86,6 +89,7 @@ import GoBack2 from '../GoBack2';
 import Header from '../Header';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
+import backIcon from '../../static/img/BackIcon.svg';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -128,12 +132,10 @@ function CreateAAssignmentLaptop(props) {
     return (
       <TitleAndLinkContainer>
         <LinkContainer>
-          <LinkButton
-            link={`#/`}
-            label="Go Back"
-            arrowleft={arrowLeft}
-            whiteArrowleft={whiteArrowleft}
-          />
+          <LinkPartContainer href={'#/'}>
+            <LinkIcon src={backIcon} />
+            <LinkText>Back to tasks</LinkText>
+          </LinkPartContainer>
         </LinkContainer>
         <TitleAndSubtitleContainer>
           <TitleContainer>

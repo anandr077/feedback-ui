@@ -195,10 +195,11 @@ export const Main2 = styled.div`
 
 export const Frame1388 = styled.div`
   flex: 1;
-  width: 100vw;
+  //width: 100vw;
+  width: calc(100vw - 84px);
   position: relative;
-  transform: ${(props) =>
-    props.open ? 'translateX(170px)' : 'translateX(0px)'};
+  /* transform: ${(props) =>
+    props.open ? 'translateX(170px)' : 'translateX(0px)'}; */
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -206,7 +207,7 @@ export const Frame1388 = styled.div`
   align-self: stretch;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width: ${(props) => (props.open ? '1100px' : '1300px')};
+  //max-width: ${(props) => (props.open ? '1100px' : '1300px')};
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -224,8 +225,8 @@ export const CountZoomContainer = styled.div`
   bottom: 0px;
   display: flex;
   justify-content: space-between;
-  transform: ${(props) =>
-    props.open ? 'translateX(310px)' : 'translateX(0px)'};
+  /* transform: ${(props) =>
+    props.open ? 'translateX(310px)' : 'translateX(0px)'}; */
   display: ${props => props.mobileView ? 'none' : ''};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
@@ -235,7 +236,7 @@ export const CountZoomContainer = styled.div`
   transition: transform 0.3s ease-in, width 0.3s ease-in;
   background-color: var(--white);
   padding: 12px 30px;
-  width: ${(props) => props.open ? `calc(100vw - 310px)` : '100vw'};
+  width: 100%;
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
 `;
 
@@ -351,15 +352,16 @@ export const Frame1315 = styled.div`
 export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  gap: 32px;
-  padding: 60px 0px;
+  //margin: 0 auto;
+  //gap: 32px;
+  //padding: 60px 0px;
   /* gap: 40px;
   padding-top: 30px; */
 
   align-self: stretch;
-  width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
-  max-width: 1321px;
+  //width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
+  width: '100%';
+  //max-width: 1321px;
 `;
 
 export const GoBackBtn = styled.button`
@@ -459,7 +461,7 @@ export const Frame1368 = styled.div`
   align-self: stretch;
   position: sticky;
   top: 75px;
-  height: calc(100vh - 140px);
+  height: calc(100vh - 120px);
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

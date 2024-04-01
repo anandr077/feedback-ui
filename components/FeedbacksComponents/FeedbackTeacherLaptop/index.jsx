@@ -1,9 +1,15 @@
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import { default as React, default as React, useEffect, useState, useContext } from 'react';
+import {
+  default as React,
+  default as React,
+  useEffect,
+  useState,
+  useContext,
+} from 'react';
 import Header from '../../Header';
-import { getUserRole } from '../../../userLocalDetails'; 
+import { getUserRole } from '../../../userLocalDetails';
 
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
@@ -27,12 +33,9 @@ import {
   ImgContainer,
   CountZoomContainer,
   ZoomContianer,
-  ZoomInput
+  ZoomInput,
 } from './style';
-import {
-  isMobileView,
-  isDesktopView,
-} from '../../ReactiveRender';
+import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
 import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
@@ -43,6 +46,10 @@ import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { createRequestFeddbackType } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
+import FeedbackRightSidebar from '../FeedbackRightSidebar';
+import FeedbackTaskDetails from '../FeedbackTaskDetails';
+import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
+import FeedbackHeader from '../FeedbackHeader';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -91,7 +98,8 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 315;
-  const { countWords, showNewComment, newCommentSerialNumber } = useContext(FeedbackContext)
+  const { countWords, showNewComment, newCommentSerialNumber } =
+    useContext(FeedbackContext);
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
@@ -201,20 +209,19 @@ function FeedbackTeacherLaptop(props) {
   }, [showNewComment]);
 
   React.useEffect(() => {
-    const documentsRoute = location.pathname.includes('documents'); 
+    const documentsRoute = location.pathname.includes('documents');
     const submissionsRoute = location.pathname.includes('submissions');
     const documentReviewRoute = location.pathname.includes('documentsReview');
-    const role = getUserRole()
+    const role = getUserRole();
 
     const isOpen =
-    (role === 'TEACHER' && submissionsRoute) ||
-    (role === 'STUDENT' && documentsRoute);
+      (role === 'TEACHER' && submissionsRoute) ||
+      (role === 'STUDENT' && documentsRoute);
 
     const isStudentReviewRoute = documentReviewRoute && role === 'STUDENT';
 
     setOpen(!isStudentReviewRoute && isOpen);
-    
-  }, [location.pathname]); 
+  }, [location.pathname]);
 
   const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
     const isChecked = event.target.checked;
@@ -246,12 +253,11 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          {sidebar()}
+          {/* {sidebar()} */}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
             drawerWidth={drawerWidth}
-            open={open}
           >
             {answersAndFeedbacks(
               isMobile,
@@ -295,22 +301,22 @@ function FeedbackTeacherLaptop(props) {
         <CountZoomContainer open={open} mobileView={isMobile}>
           <div
             style={
-            !submission.answers ||
-            submission.answers?.length <= 1 
-            ? {visibility: 'visible'} 
-            : { visibility : 'hidden'}}
+              !submission.answers || submission.answers?.length <= 1
+                ? { visibility: 'visible' }
+                : { visibility: 'hidden' }
+            }
           >
             {countWords} {countWords === 1 ? 'word' : 'words'}
           </div>
           <ZoomContianer>
             Zoom
-            <ZoomInput 
+            <ZoomInput
               name="zoom"
               type="range"
               min="100"
               max="150"
               value={editorFontSize}
-              onChange={(e)=> setEditorFontSize(e.target.value)}
+              onChange={(e) => setEditorFontSize(e.target.value)}
             />
             {editorFontSize}%
           </ZoomContianer>
@@ -336,39 +342,42 @@ function FeedbackTeacherLaptop(props) {
     if (!isTeacher && submission.type !== 'DOCUMENT') {
       return <></>;
     }
-    return <>
-    <>
-      {isTeacher ? (
-        <TeacherSidebar open={open} submission={submission} />
-      ) : (
-        !isNullOrEmpty(submission.otherDrafts) && (
-          <IndepentdentUserSidebar
-            open={open}
-            subjects={submission.otherDrafts?.map((d) => ({
-              id: d.submissionId,
-              title: d.title,
-              subject: d.subject,
-              lastseenAtTs: 1630330000,
-            }))}
-            setSelectedSubject={setSelectedSubject}
-            selectedSubject={selectedSubject}
-            groupedAndSortedData={groupedAndSortedData}
-            currentSubmissionId={submission.id} />
-        )
-      )}
-    </>
-    {(isTeacher || submission.otherDrafts) && (
-              <DrawerArrow
-                onClick={handleDrawer}
-                drawerWidth={drawerWidth}
+    return (
+      <>
+        <>
+          {isTeacher ? (
+            <TeacherSidebar open={open} submission={submission} />
+          ) : (
+            !isNullOrEmpty(submission.otherDrafts) && (
+              <IndepentdentUserSidebar
                 open={open}
-              >
-                <ImgContainer>
-                  <ArrowImg src="img/caret-5@2x.png" open={open} />
-                </ImgContainer>
-              </DrawerArrow>
-            )}
-    </>;
+                subjects={submission.otherDrafts?.map((d) => ({
+                  id: d.submissionId,
+                  title: d.title,
+                  subject: d.subject,
+                  lastseenAtTs: 1630330000,
+                }))}
+                setSelectedSubject={setSelectedSubject}
+                selectedSubject={selectedSubject}
+                groupedAndSortedData={groupedAndSortedData}
+                currentSubmissionId={submission.id}
+              />
+            )
+          )}
+        </>
+        {(isTeacher || submission.otherDrafts) && (
+          <DrawerArrow
+            onClick={handleDrawer}
+            drawerWidth={drawerWidth}
+            open={open}
+          >
+            <ImgContainer>
+              <ArrowImg src="img/caret-5@2x.png" open={open} />
+            </ImgContainer>
+          </DrawerArrow>
+        )}
+      </>
+    );
   }
 }
 const selectTabComments = (
@@ -486,16 +495,26 @@ function answersAndFeedbacks(
   updatedCommentPosition,
   selectedRange
 ) {
+  const [openRightPanel, SetOpenRightPanel] = React.useState('');
+  const [commentFocusAreaToggle, setCommentFocusAreaToggle] =
+    React.useState(false);
+
+  const handleRightSidebarClick = (tab) => {
+    SetOpenRightPanel(tab);
+  };
+
+  console.log('the submission is', submission);
+
   return (
     <Frame1386 id="content">
-      {isTeacher && (
+      {/* {isTeacher && (
         <GoBackBtn onClick={() => navigate.goBack()}>
           <img className="arrowImg" src="img/arrow_left.png" />
           <img className="hoveredImg" src="icons/arrowleft.png" />
           Go Back
         </GoBackBtn>
-      )}
-      {createContextBar(
+      )} */}
+      {/* {createContextBar(
         submission,
         setSubmission,
         methods,
@@ -514,41 +533,60 @@ function answersAndFeedbacks(
         showTeacherPopUp,
         setShowStudentPopUp,
         setShowTeacherPopUp
-      )}
-      <Frame1368 id="assignmentData">
-        {answersFrame(
-          quillRefs,
-          smallMarkingCriteria,
-          handleCheckboxChange,
-          groupedFocusAreaIds,
-          pageMode,
-          submission,
-          commentsForSelectedTab,
-          methods,
-          editorFontSize,
-          updatedCommentPosition,
-          selectedRange
-        )}
+      )} */}
+      <FeedbackHeader
+        commentFocusAreaToggle={commentFocusAreaToggle}
+        setCommentFocusAreaToggle={setCommentFocusAreaToggle}
+      />
+      <div style={{ position: 'relative' }}>
+        <Frame1368 id="assignmentData">
+          {answersFrame(
+            quillRefs,
+            smallMarkingCriteria,
+            handleCheckboxChange,
+            groupedFocusAreaIds,
+            pageMode,
+            submission,
+            commentsForSelectedTab,
+            methods,
+            editorFontSize,
+            updatedCommentPosition,
+            selectedRange
+          )}
 
-        {!isMobile && (
-          <FeedbackFrame
-            methods={methods}
-            submission={submission}
-            commentsForSelectedTab={commentsForSelectedTab}
-            setShowResolved={setShowResolved}
-            isShowResolved={isShowResolved}
-            setFeedback={setFeedback}
-            isFeedback={isFeedback}
-            isFocusAreas={isFocusAreas}
-            setFocusAreas={setFocusAreas}
-            isTeacher={isTeacher}
-            comments={comments}
-            pageMode={pageMode}
-            newCommentFrameRef={newCommentFrameRef}
-            share={share}
-          ></FeedbackFrame>
-        )}
-      </Frame1368>
+          {!isMobile && (
+            <FeedbackFrame
+              methods={methods}
+              submission={submission}
+              commentsForSelectedTab={commentsForSelectedTab}
+              setShowResolved={setShowResolved}
+              isShowResolved={isShowResolved}
+              setFeedback={setFeedback}
+              isFeedback={isFeedback}
+              isFocusAreas={isFocusAreas}
+              setFocusAreas={setFocusAreas}
+              isTeacher={isTeacher}
+              comments={comments}
+              pageMode={pageMode}
+              newCommentFrameRef={newCommentFrameRef}
+              share={share}
+            ></FeedbackFrame>
+          )}
+        </Frame1368>
+        <FeedbackTaskDetails
+          handleClick={handleRightSidebarClick}
+          openRightPanel={openRightPanel}
+          submission={submission}
+        />
+        <CriteriaAndOverallFeedback
+          handleClick={handleRightSidebarClick}
+          openRightPanel={openRightPanel}
+        />
+        <FeedbackRightSidebar
+          handleClick={handleRightSidebarClick}
+          openRightPanel={openRightPanel}
+        />
+      </div>
     </Frame1386>
   );
 }

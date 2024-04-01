@@ -109,8 +109,8 @@ export const FlexContainerSmall = styled('div')`
 
 export const StyledListItemText = styled(ListItemText)`
   .MuiTypography-root {
-    font-size: 20px;
-    color: ${({ id }) => id === 'no_marking_criteria' && '#959595'};
+    font-size: 16px;
+    color: ${({ id }) => id === 'no_marking_criteria' && '#918b97'};
   }
   font-family: IBM Plex Sans;
   font-size: 20px;

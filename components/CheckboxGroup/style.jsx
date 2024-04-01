@@ -68,7 +68,7 @@ export const StyledIconButton = styled(IconButton)`
   width: 100%;
   margin: 0;
   && {
-    padding: 8px 10px 8px 10px;
+    padding: 8px 12px 8px 12px;
   }
 `;
 
@@ -154,4 +154,13 @@ export const PlusImagCont = styled.div`
   gap: 4px;
   justify-content: center;
   align-items: center;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
 `;

@@ -48,6 +48,14 @@ export const TitleAndSubtitleContainer = styled.div`
   padding: 16px 90px;
   border-bottom: solid 1px rgba(201, 198, 204, 0.5);
 `;
+export const TitleAndSubtitleSubContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  gap: 8px;
+`;
 export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
@@ -200,7 +208,8 @@ export const Frame1372 = styled.div`
   gap: 30px;
   align-self: stretch;
   z-index: 1;
-  padding: 0px 90px;
+  // padding: 0px 90px;
+  margin-left: 22%;
 `;
 
 export const TaskHeading = styled.div`
@@ -343,6 +352,8 @@ export const Frame1296 = styled.div`
   justify-content: flex-start;
   position: relative;
   align-self: stretch;
+  padding-top: 22px;
+  border-top: 1px solid rgba(201, 198, 204, 0.5);
   @media (max-width: 765px) {
     width: 100%;
     justify-content: center;
@@ -357,6 +368,7 @@ export const Frame1377 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+  padding: 0px 90px;
 `;
 
 export const Frame1299 = styled.div`

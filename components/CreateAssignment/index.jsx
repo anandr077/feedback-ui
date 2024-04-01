@@ -41,6 +41,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DragAndDrop from './DragAndDrop';
 import questionMark from '../../static/img/question-mark.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
+import { Checkbox } from '@mui/material';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 

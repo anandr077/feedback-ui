@@ -27,6 +27,8 @@ import {
   TitleImage,
   QuestionMarkContainer,
   BinImage,
+  MarkingCriteriaAndListFrame,
+  MarkingCriteriaList,
 } from './style';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 
@@ -129,39 +131,44 @@ export default function TheoryQuestionFrame(props) {
               img={questionMark}
             />
           </QuestionMarkContainer>
-          <MarkingCriteriaFrame>
-            {questionDetails.markingCriteria.title ? (
-              <DropdownMenu
-                fullWidth={true}
-                menuItems={appendFunction(allMarkingCriterias)}
-                selectedIndex={selectedMarkingCriteriaIndex}
-                onItemSelected={(item) => {
-                  updateMarkingCriteria(serialNumber, item);
+          <MarkingCriteriaAndListFrame>
+            <MarkingCriteriaFrame>
+              {questionDetails.markingCriteria.title ? (
+                <DropdownMenu
+                  fullWidth={true}
+                  menuItems={appendFunction(allMarkingCriterias)}
+                  selectedIndex={selectedMarkingCriteriaIndex}
+                  onItemSelected={(item) => {
+                    updateMarkingCriteria(serialNumber, item);
+                  }}
+                  defaultSearch={true}
+                ></DropdownMenu>
+              ) : (
+                <DropdownMenu
+                  fullWidth={true}
+                  menuItems={appendFunction(allMarkingCriterias)}
+                  primaryText="Select Marking Criteria"
+                  onItemSelected={(item) => {
+                    updateMarkingCriteria(serialNumber, item);
+                  }}
+                ></DropdownMenu>
+              )}
+              <Preview
+                onClick={() => {
+                  handleMarkingCriteriaPreview(questionDetails.markingCriteria);
                 }}
-                defaultSearch={true}
-              ></DropdownMenu>
-            ) : (
-              <DropdownMenu
-                fullWidth={true}
-                menuItems={appendFunction(allMarkingCriterias)}
-                primaryText="Select Marking Criteria"
-                onItemSelected={(item) => {
-                  updateMarkingCriteria(serialNumber, item);
-                }}
-              ></DropdownMenu>
-            )}
-            <Preview
-              onClick={() => {
-                handleMarkingCriteriaPreview(questionDetails.markingCriteria);
-              }}
-            >
-              <img
-                src="/icons/preview-eye.png"
-                alt="eye"
-                style={{ width: '32px', height: '32px' }}
-              />
-            </Preview>
-          </MarkingCriteriaFrame>
+              >
+                <img
+                  src="/icons/preview-eye.png"
+                  alt="eye"
+                  style={{ width: '32px', height: '32px' }}
+                />
+              </Preview>
+            </MarkingCriteriaFrame>
+            <MarkingCriteriaList href={'/#/settings'}>
+              Go to marking templates
+            </MarkingCriteriaList>
+          </MarkingCriteriaAndListFrame>
         </MarkingCriteriaSelectionContainer>
       </Frame12891>
       {/* <DeleteButtonFrame>

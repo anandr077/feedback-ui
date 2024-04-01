@@ -53,6 +53,7 @@ import {
   MainContainer,
   StepNum,
   LeftStepNumber,
+  TitleAndSubtitleSubContainer,
 } from './CreateAssignmentLaptopStyle';
 import {
   IbmplexsansBoldShark64px,
@@ -407,7 +408,7 @@ function CreateAAssignmentLaptop(props) {
                 <LeftStepNumber>STEP 4</LeftStepNumber>
               </TaskHeadingContainer>
               <TaskNameContainer>
-                <TitleAndSubtitleContainer>
+                <TitleAndSubtitleSubContainer>
                   <TaskName>
                     <TaskTitle>Select the feedback method</TaskTitle>
                     <QuestionTooltip
@@ -421,7 +422,7 @@ function CreateAAssignmentLaptop(props) {
                     Would you like to personally mark this task, or would you
                     prefer that students provide feedback to each other?
                   </HeadingLine>
-                </TitleAndSubtitleContainer>
+                </TitleAndSubtitleSubContainer>
 
                 <Frame1295>
                   <Frame1299 id="DnDContainer">
@@ -452,14 +453,12 @@ function CreateAAssignmentLaptop(props) {
         </Frame1378>
         <Frame1377>
           <Frame1372>
-            <Frame1372>
-              {saveButtons(
-                assignment,
-                saveDraft,
-                publish,
-                showPublishPopuphandler
-              )}
-            </Frame1372>
+            {saveButtons(
+              assignment,
+              saveDraft,
+              publish,
+              showPublishPopuphandler
+            )}
           </Frame1372>
         </Frame1377>
       </Frame1379>

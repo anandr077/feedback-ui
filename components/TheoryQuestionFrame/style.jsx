@@ -10,7 +10,7 @@ export const MarkingCriteriaSelectionContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  gap: 14px;
+  gap: 16px;
 `;
 
 export const FocusAreasFrame = styled.div`
@@ -19,7 +19,7 @@ export const FocusAreasFrame = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
 `;
 
@@ -75,7 +75,7 @@ export const Line141 = styled.img`
 export const Frame12891 = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 23px;
 `;
 
 export const QuestionFrame2 = styled.div`
@@ -139,19 +139,21 @@ export const InputQuestion = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 14px;
+  gap: 16px;
   position: relative;
   align-self: stretch;
 `;
 
 export const Label = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 26px;
-  letter-spacing: 0em;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
   text-align: left;
-  color: #1e252a;
+  color: #56515b;
 `;
 
 export const QuestionInputEditable = styled.textarea`
@@ -167,12 +169,18 @@ export const QuestionInputEditable = styled.textarea`
   outline: none;
   transition: 0.15s;
   font-family: IBM Plex Sans;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 26px;
   letter-spacing: 0em;
   text-align: left;
   // color: #959595;
+`;
+export const MarkingCriteriaAndListFrame = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
 export const MarkingCriteriaFrame = styled.div`
@@ -180,6 +188,17 @@ export const MarkingCriteriaFrame = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+`;
+export const MarkingCriteriaList = styled.a`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.85;
+  letter-spacing: normal;
+  text-align: left;
+  color: var(--light-mode-purple);
 `;
 export const Preview = styled.div`
   background: #7200e0;

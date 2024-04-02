@@ -2,7 +2,7 @@ import { IbmplexsansNormalShark20px } from '../../styledMixins';
 import styled from 'styled-components';
 
 export const SuggestionsLabel = styled.div`
-  color: var(--light-mode-purple);
+  color: #595959;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-l);
   font-weight: 400;
@@ -48,7 +48,7 @@ export const SuggestionsContainer = styled.div`
 `;
 
 export const SuggestionsContainerComments = styled.div`
-  color: var(--light-mode-purple);
+  color: #595959;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-l);
   font-weight: 400;
@@ -69,8 +69,8 @@ export const SuggestionsContainerComments = styled.div`
 export const DeleteButton = styled.img`
   cursor: pointer;
   display: block;
-  min-width: 15px;
-  height: 15px;
+  width: 24px;
+  height: 24px;
 
   ${SuggestionsContainer}:hover & {
     display: block;

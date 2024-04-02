@@ -29,13 +29,18 @@ import {
   getTeachersForClass,
   askJeddAI,
   provideFeedbackOnFeedback,
+  getFeedbackBanks,
 } from '../../../service';
 import {
   getShortcuts,
   getSmartAnnotations,
   saveAnswer,
 } from '../../../service.js';
-import { getUserId, getUserName, getUserRole } from '../../../userLocalDetails.js';
+import {
+  getUserId,
+  getUserName,
+  getUserRole,
+} from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
@@ -106,16 +111,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
   const [overallComments, setOverallComments] = useState([]);
-
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
   const [classesAndStudents, setClassesAndStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
-  const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false)
+  const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
   const [countWords, setCountWords] = useState(0);
-  const [pageLeavePopup, setPageLeavePopup] = useState(false)
+  const [pageLeavePopup, setPageLeavePopup] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -123,7 +127,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     Promise.all([
       getSubmissionById(id),
       getComments(id),
-      getSmartAnnotations(),
+      getFeedbackBanks(),
       fetchClassWithStudentsAndTeachers(),
       getOverComments(id),
     ])
@@ -131,7 +135,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         ([
           submissionsResult,
           commentsResult,
-          smartAnnotationResult,
+          feedbackBanksResult,
           classWithTeacherAndStudentsResult,
           overAllCommentsResult,
         ]) => {
@@ -147,7 +151,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             (c) => c.type === 'MARKING_CRITERIA'
           );
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
-          setSmartAnnotations(smartAnnotationResult);
+          setSmartAnnotations(feedbackBanksResult._embedded.commentbanks);
 
           const initialState = classWithTeacherAndStudentsResult.reduce(
             (acc, classItem) => {
@@ -229,70 +233,72 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     const unblock = history.block((location, action) => {
-      if (submission?.status==='REVIEWED'
-      && submission?.type === 'DOCUMENT'
-      && submission?.studentId===getUserId()
-      && (submission?.feedbackOnFeedback === null || 
-        submission?.feedbackOnFeedback === undefined)) {
+      if (
+        submission?.status === 'REVIEWED' &&
+        submission?.type === 'DOCUMENT' &&
+        submission?.studentId === getUserId() &&
+        (submission?.feedbackOnFeedback === null ||
+          submission?.feedbackOnFeedback === undefined)
+      ) {
         setPendingLocation(location);
         setFeedbackReviewPopup(true);
         return false;
       }
-      if(submission?.status==='DRAFT'
-      && submission?.type === 'DOCUMENT'
-      ){
-        if(
+      if (submission?.status === 'DRAFT' && submission?.type === 'DOCUMENT') {
+        if (
           !submission?.answers &&
           submission?.assignment.title === 'Untitled Question'
-        ){
+        ) {
           deleteDraftPage(submission.id, location);
           return false;
-        }else{
+        } else {
           setPendingLocation(location);
           setPageLeavePopup(true);
           return false;
         }
       }
-        
-  
+
       return true;
     });
-  
+
     return () => {
       unblock();
     };
   }, [submission, feedbackReviewPopup, history]);
 
-
-  const goToNewUrl = (pendingLocation) =>{
-    const port = window.location.port && window.location.port !== "80" && window.location.port !== "443"
-    ? `:${window.location.port}`
-    : "";
+  const goToNewUrl = (pendingLocation) => {
+    const port =
+      window.location.port &&
+      window.location.port !== '80' &&
+      window.location.port !== '443'
+        ? `:${window.location.port}`
+        : '';
 
     const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
 
-    const newUrl = `${window.location.protocol}//${window.location.hostname}${port}?code=${getUserId()}${path}`;
+    const newUrl = `${window.location.protocol}//${
+      window.location.hostname
+    }${port}?code=${getUserId()}${path}`;
 
-    window.history.pushState("", "", newUrl);
+    window.history.pushState('', '', newUrl);
     window.location.reload();
-  }
+  };
 
-  const deleteDraftPage = async (submissionId, pendingLocation) =>{
+  const deleteDraftPage = async (submissionId, pendingLocation) => {
     await deleteSubmissionById(submissionId).then(() => {
-      if(pendingLocation){
-        goToNewUrl(pendingLocation)
+      if (pendingLocation) {
+        goToNewUrl(pendingLocation);
       }
       setPageLeavePopup(false);
-    })
-  }
+    });
+  };
 
-  const saveDraftPage = () =>{
-    if(pendingLocation){
-      goToNewUrl(pendingLocation)
+  const saveDraftPage = () => {
+    if (pendingLocation) {
+      goToNewUrl(pendingLocation);
     }
     setPageLeavePopup(false);
-  }
-
+  };
 
   if (isLoading) {
     return (
@@ -302,18 +308,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     );
   }
   const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
-    provideFeedbackOnFeedback(submission.id, feedbackOnFeedback)
-      .then(res=>{
-        setSubmission(old=>{
-          return ({...old, feedbackOnFeedback : res.feedbackOnFeedback})
-        })
-        setFeedbackReviewPopup(false);
-        if (pendingLocation !== undefined || pendingLocation !== null) {
-          history.replace(pendingLocation);
-        }
-      })
+    provideFeedbackOnFeedback(submission.id, feedbackOnFeedback).then((res) => {
+      setSubmission((old) => {
+        return { ...old, feedbackOnFeedback: res.feedbackOnFeedback };
+      });
+      setFeedbackReviewPopup(false);
+      if (pendingLocation !== undefined || pendingLocation !== null) {
+        history.replace(pendingLocation);
+      }
+    });
   };
-  
+
   async function fetchClassWithStudentsAndTeachers() {
     try {
       const classesWithStudents = await getClassesWithStudents();
@@ -651,7 +656,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           <DialogActions>
             <SubmitCommentFrameRoot
               submitButtonOnClick={() => {
-
                 updateExemplarComment.showComment
                   ? updateExemplar()
                   : addExemplerComment();
@@ -1155,14 +1159,18 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
-  
   const reviewerSelectionChange =
     (visibleComment, serialNumber) => (selection) => {
       if (!selection.range) {
-        return 
+        return;
       }
-      if (pageMode === 'DRAFT' && isNullOrEmpty(_.flatMap(submission.assignment.questions, q => q.focusAreas || []))) {
-        return
+      if (
+        pageMode === 'DRAFT' &&
+        isNullOrEmpty(
+          _.flatMap(submission.assignment.questions, (q) => q.focusAreas || [])
+        )
+      ) {
+        return;
       }
       const range = selection.range;
       const from = range.index;
@@ -1170,20 +1178,27 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
       const matchingComments = visibleComment
         .filter((comment) => comment.questionSerialNumber === serialNumber)
-        .filter((comment) => comment.range.from <= from && comment.range.to >= to);
+        .filter(
+          (comment) => comment.range.from <= from && comment.range.to >= to
+        );
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
-        highlightByComment(matchingComment)
+        highlightByComment(matchingComment);
       } else {
-        openNewCommentFrame(from, to, serialNumber, selection)
+        openNewCommentFrame(from, to, serialNumber, selection);
       }
-  }
+    };
   function openNewCommentFrame(from, to, serialNumber, selection) {
-    if (pageMode === 'DRAFT' && isNullOrEmpty(_.flatMap(submission.assignment.questions, q => q.focusAreas || []))) {
-      return
+    if (
+      pageMode === 'DRAFT' &&
+      isNullOrEmpty(
+        _.flatMap(submission.assignment.questions, (q) => q.focusAreas || [])
+      )
+    ) {
+      return;
     }
     if (pageMode !== 'REVIEW' && pageMode !== 'DRAFT') {
-      return
+      return;
     }
     if (from !== to) {
       setNewCommentSerialNumber(serialNumber);
@@ -1241,7 +1256,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setStudentName(student);
   };
 
-  const onSelectionChange = reviewerSelectionChange
+  const onSelectionChange = reviewerSelectionChange;
 
   const createTasksDropDown = () => {
     if (!isTeacher) {
@@ -1325,9 +1340,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         if (viewer === 'PEER') {
           reviewer = 'you';
         } else {
-          if(isJeddAIUser(submission.reviewerId)){
-            reviewer = 'JEDDAI'
-          }else{
+          if (isJeddAIUser(submission.reviewerId)) {
+            reviewer = 'JEDDAI';
+          } else {
             reviewer = 'your peer';
           }
         }
@@ -1382,7 +1397,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
-    
   };
   const showSubmitPopuphandler = (method) => {
     setShowSubmitPopup(true);
@@ -1401,35 +1415,32 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   };
   const jeddAI = () => {
     const q = quillRefs.current[0];
-    return askJeddAI(submission.id, q.getText())
-    .then((res)=> {
-      setSubmission((old)=> ({
-        ...old, 
-        status:res.status, 
-        feedbackRequestType:res.feedbackRequestType,
+    return askJeddAI(submission.id, q.getText()).then((res) => {
+      setSubmission((old) => ({
+        ...old,
+        status: res.status,
+        feedbackRequestType: res.feedbackRequestType,
         answers: res.answers,
-      }))
+      }));
       let interval;
 
       function getAndUpdateSubmission() {
-          getSubmissionById(submission.id).then((response) => {
-              if (response) {
-                  if (response.status !== 'FEEDBACK_ACCEPTED') {
-                      clearInterval(interval);
-                      window.location.reload();
-                  }
-                  setSubmission(response);
-              }
-          });
+        getSubmissionById(submission.id).then((response) => {
+          if (response) {
+            if (response.status !== 'FEEDBACK_ACCEPTED') {
+              clearInterval(interval);
+              window.location.reload();
+            }
+            setSubmission(response);
+          }
+        });
       }
 
       setTimeout(() => {
-          interval = setInterval(getAndUpdateSubmission, 30000);
+        interval = setInterval(getAndUpdateSubmission, 30000);
       }, 30000);
     });
-      
   };
-
 
   const methods = {
     comments,
@@ -1476,40 +1487,38 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const shortcuts = getShortcuts();
 
   return (
-    <FeedbackContext.Provider 
+    <FeedbackContext.Provider
       value={{
-        countWords, 
-        setCountWords, 
-        smartAnnotations, 
-        showNewComment, 
-        newCommentSerialNumber, 
+        countWords,
+        setCountWords,
+        smartAnnotations,
+        showNewComment,
+        newCommentSerialNumber,
         markingCriteriaFeedback,
-        overallComments
+        overallComments,
       }}
     >
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (
-        <PopupWithoutCloseIcon 
-           text={'Did you find this feedback helpful?'}
-           onYes={handleFeedbackOnFeedback('LIKE')}
-           onNo={handleFeedbackOnFeedback('DISLIKE')}
-           onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
+        <PopupWithoutCloseIcon
+          text={'Did you find this feedback helpful?'}
+          onYes={handleFeedbackOnFeedback('LIKE')}
+          onNo={handleFeedbackOnFeedback('DISLIKE')}
+          onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
         />
       )}
 
-      {
-        pageLeavePopup && (
-          <GeneralPopup
-            title='Save document'
-            closeBtnText={'Delete'}
-            textContent={'Do you want to save this document? '} 
-            buttonText={'Save'}
-            hidePopup={()=> deleteDraftPage(submission.id, pendingLocation)}
-            confirmButtonAction={saveDraftPage}
-          />
-        )
-      }
+      {pageLeavePopup && (
+        <GeneralPopup
+          title="Save document"
+          closeBtnText={'Delete'}
+          textContent={'Do you want to save this document? '}
+          buttonText={'Save'}
+          hidePopup={() => deleteDraftPage(submission.id, pendingLocation)}
+          confirmButtonAction={saveDraftPage}
+        />
+      )}
 
       <FeedbackTeacherLaptop
         {...{

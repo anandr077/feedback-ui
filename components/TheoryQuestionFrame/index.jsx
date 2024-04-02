@@ -44,12 +44,18 @@ export default function TheoryQuestionFrame(props) {
     allFocusAreas,
     allMarkingCriterias,
     updateMarkingCriteria,
+    updateCommentBank,
     handleMarkingCriteriaPreview,
+    handleCommentBankPreview,
     setAllFocusAreas,
+    allCommentBanks,
   } = props;
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias.findIndex((item) => {
     return item.title === questionDetails.markingCriteria?.title;
+  });
+  const selectedCommentBankIndex = allCommentBanks.findIndex((item) => {
+    return item.id === questionDetails?.commentBankId;
   });
 
   const appendFunction = (markingCriterias) => {
@@ -99,8 +105,10 @@ export default function TheoryQuestionFrame(props) {
         <FocusAreasFrame>
           <QuestionMarkContainer>
             <Label>Focus areas</Label>
-            <QuestionTooltip 
-              text={"Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"}
+            <QuestionTooltip
+              text={
+                "Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"
+              }
               img={questionMark}
             />
           </QuestionMarkContainer>
@@ -117,8 +125,10 @@ export default function TheoryQuestionFrame(props) {
         <MarkingCriteriaSelectionContainer>
           <QuestionMarkContainer>
             <Label>Marking Template</Label>
-            <QuestionTooltip 
-              text={"Select the marking template which will be used in the assessment of this task. New marking templates can be created in the account settings"}
+            <QuestionTooltip
+              text={
+                'Select the marking template which will be used in the assessment of this task. New marking templates can be created in the account settings'
+              }
               img={questionMark}
             />
           </QuestionMarkContainer>
@@ -148,7 +158,55 @@ export default function TheoryQuestionFrame(props) {
                 handleMarkingCriteriaPreview(questionDetails.markingCriteria);
               }}
             >
-              <img src="/icons/preview-eye.png" alt="eye" style={{width:'32px',height:'32px'}} />
+              <img
+                src="/icons/preview-eye.png"
+                alt="eye"
+                style={{ width: '32px', height: '32px' }}
+              />
+            </Preview>
+          </MarkingCriteriaFrame>
+        </MarkingCriteriaSelectionContainer>
+        <MarkingCriteriaSelectionContainer>
+          <QuestionMarkContainer>
+            <Label>Comment Bank</Label>
+            <QuestionTooltip
+              text={
+                'Select the commnet bank which will be used in the assessment of this task. New commnet bank can be created in the account settings'
+              }
+              img={questionMark}
+            />
+          </QuestionMarkContainer>
+          <MarkingCriteriaFrame>
+            {questionDetails.commentBankId ? (
+              <DropdownMenu
+                fullWidth={true}
+                menuItems={allCommentBanks}
+                selectedIndex={selectedCommentBankIndex}
+                onItemSelected={(item) => {
+                  updateCommentBank(serialNumber, item);
+                }}
+                defaultSearch={true}
+              ></DropdownMenu>
+            ) : (
+              <DropdownMenu
+                fullWidth={true}
+                menuItems={allCommentBanks}
+                primaryText="Select Comment Bank"
+                onItemSelected={(item) => {
+                  updateCommentBank(serialNumber, item);
+                }}
+              ></DropdownMenu>
+            )}
+            <Preview
+              onClick={() => {
+                handleCommentBankPreview(questionDetails.commentBankId);
+              }}
+            >
+              <img
+                src="/icons/preview-eye.png"
+                alt="eye"
+                style={{ width: '32px', height: '32px' }}
+              />
             </Preview>
           </MarkingCriteriaFrame>
         </MarkingCriteriaSelectionContainer>

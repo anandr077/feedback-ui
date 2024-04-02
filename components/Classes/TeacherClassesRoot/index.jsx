@@ -111,7 +111,7 @@ export default function TeacherClassesRoot() {
 
       // setStudents(students);
       setStudents(studentsAnalytics);
-      setAssignments(assignments);
+      //setAssignments(assignments);
       setSmartAnnotationAnalytics(smartAnnotationAnalytics);
       setModelResponses(modelResponses);
       setStudentsAnalytics(studentsAnalytics);
@@ -135,10 +135,7 @@ export default function TeacherClassesRoot() {
       );
     })
     .filter((assignment) => {
-      const selectedTitle = classes.filter(
-        (classItem) => !classId || classItem.title === classId
-      );
-      return assignment.classId === selectedTitle.id;
+      return assignment.classIds.includes(classId);
     });
 
   if (

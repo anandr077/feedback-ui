@@ -1,11 +1,28 @@
-.account-settings-marking-criteria-desktop {
+.account-settings-marking-criteria {
   align-items: flex-start;
   background-color: var(--white-pointer-2);
   border: 1px none;
   display: flex;
   flex-direction: column;
   gap: 123px;
-  min-width: 1441px;
   overflow: hidden;
   position: relative;
+  min-height: 88vh;
+  padding: 60px 0;
+}
+
+@media screen and (min-width: 1441px){
+  .account-settings-marking-criteria{
+    min-width: 1441px;
+  }
+}
+
+@media screen and (min-width: 1025px){
+  .account-settings-marking-criteria{
+    min-width: 1025px;
+  }
+}
+
+.button-width{
+  width: 100% !important;
 }

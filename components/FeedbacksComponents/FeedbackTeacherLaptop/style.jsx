@@ -238,6 +238,7 @@ export const CountZoomContainer = styled.div`
   padding: 12px 30px;
   width: 100%;
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
+  z-index: 2;
 `;
 
 export const ZoomContianer = styled.div`
@@ -361,6 +362,7 @@ export const Frame1386 = styled.div`
   align-self: stretch;
   //width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
   width: '100%';
+  overflow-x: hidden;
   //max-width: 1321px;
 `;
 

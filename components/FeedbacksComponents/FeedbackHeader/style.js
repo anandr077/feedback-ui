@@ -11,7 +11,38 @@ export const FeedbackHeaderContainer = styled.div`
   align-items: center;
 `;
 
-export const LeftSection = styled.div``;
+export const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+export const ArrowBtn = styled.div`
+  cursor: pointer;
+  background-color: rgba(242, 241, 243, 1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+
+  img{
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const Select = styled.select`
+  width: 250px;
+  border: none;
+  outline: none;
+  color: #4b464f;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+`;
 
 export const RightSection = styled.div`
   display: flex;
@@ -68,17 +99,17 @@ export const SubmitBtn = styled.button`
 `;
 
 export const ToggleContainer = styled.div`
-  //width: 240px;
-`;
-
-export const ToggleLavel = styled.label`
-  cursor: pointer;
-  width: 100%;
-  height: 50px;
+  width: 240px;
+  height: 40px;
   position: relative;
-  background-color: ${({ commentFocusAreaToggle }) => commentFocusAreaToggle ? 'blue' : 'transparent'};
+  border-radius: 30px;
+  border: 1px solid rgba(201, 198, 204, 0.5);
+  box-shadow: 0px 2px 4px 0px rgba(115, 115, 115, 0.25) inset;
+  background-color: rgba(242, 241, 243, 1);
   transition: background-color 0.2s;
 `;
+
+export const ToggleLavel = styled.label``;
 
 export const ToggleInput = styled.input`
   height: 0;
@@ -90,25 +121,36 @@ export const ToggleInput = styled.input`
 export const ToggleBtn = styled.div`
   position: absolute;
   z-index: 1;
-  top: 0px;
-  left: 0px;
-  width: 30px;
-  height: 30px;
+  top: 4px;
+  left: 4px;
+  width: 116px;
+  height: 32px;
   transition: 0.2s;
-  background: gray;
-  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 1.0199999809265137px 2px 0px rgba(115, 115, 115, 0.25);
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  gap: 3px;
+  color: rgba(114, 0, 224, 1);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-s);
+  line-height: 24px;
 
   ${ToggleInput}:checked + & {
-    left: calc(100% - 40px);
+    left: calc(100% - 4px);
     transform: translateX(-100%);
   }
 
   ${ToggleInput}:active + & {
-    width: 60px;
+    width: 120px;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -123,8 +165,14 @@ export const ToggleSwitchLabels = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 3px;
     width: 50%;
     height: 100%;
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 500;
+    font-size: var(--font-size-s);
+    line-height: 24px;
+    color: #918b97;
 
     &:first-child {
       left: 0;
@@ -132,6 +180,11 @@ export const ToggleSwitchLabels = styled.div`
 
     &:last-child {
       right: 0;
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
     }
   }
 `;

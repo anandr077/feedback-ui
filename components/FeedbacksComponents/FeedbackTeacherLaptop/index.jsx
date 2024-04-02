@@ -496,14 +496,11 @@ function answersAndFeedbacks(
   selectedRange
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
-  const [commentFocusAreaToggle, setCommentFocusAreaToggle] =
-    React.useState(false);
+  const [commentFocusAreaToggle, setCommentFocusAreaToggle] = React.useState(false);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
-  };
-
-  console.log('the submission is', submission);
+  }; 
 
   return (
     <Frame1386 id="content">
@@ -538,7 +535,7 @@ function answersAndFeedbacks(
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       />
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', background: 'black' }}>
         <Frame1368 id="assignmentData">
           {answersFrame(
             quillRefs,
@@ -554,7 +551,7 @@ function answersAndFeedbacks(
             selectedRange
           )}
 
-          {!isMobile && (
+          {/* {!isMobile && (
             <FeedbackFrame
               methods={methods}
               submission={submission}
@@ -571,7 +568,7 @@ function answersAndFeedbacks(
               newCommentFrameRef={newCommentFrameRef}
               share={share}
             ></FeedbackFrame>
-          )}
+          )} */}
         </Frame1368>
         <FeedbackTaskDetails
           handleClick={handleRightSidebarClick}

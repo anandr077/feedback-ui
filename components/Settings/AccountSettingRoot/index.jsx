@@ -548,7 +548,7 @@ export default function AccountSettingsRoot(props) {
                 <Previewpara>Preview</Previewpara>
               </PreviewContainer>
 
-              {selectedBank.smartComments.map((comment) => {
+              {selectedBank?.smartComments.map((comment) => {
                 return (
                   <div key={comment.title}>
                     <BankCommentTitle>{comment.title}</BankCommentTitle>

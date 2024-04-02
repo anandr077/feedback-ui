@@ -221,11 +221,10 @@ export default function AccountSettingsRoot(props) {
       .then(() => {
         if (newSmartAnnotations.length === 0) {
           setFeedbackBankId('');
-        }
-        else{
+        } else {
           setFeedbackBankId(newSmartAnnotations[0].id);
         }
-        
+
         setSmartAnnotations(newSmartAnnotations);
         // showSnackbar('Feedback bank Deleted');
       })
@@ -549,7 +548,7 @@ export default function AccountSettingsRoot(props) {
                 <Previewpara>Preview</Previewpara>
               </PreviewContainer>
 
-              {selectedBank.smartComments.map((comment) => {
+              {selectedBank?.smartComments.map((comment) => {
                 return (
                   <div key={comment.title}>
                     <BankCommentTitle>{comment.title}</BankCommentTitle>

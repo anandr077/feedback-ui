@@ -62,12 +62,12 @@ function SettingsNav(props) {
       {showShortcuts ? (
         <SelectedContainer onClick={selectShortcuts}>
           {' '}
-          <SelectedLabel> Feedback Banks</SelectedLabel>{' '}
+          <SelectedLabel> Comment Banks</SelectedLabel>{' '}
         </SelectedContainer>
       ) : (
         <UnselectedContainer onClick={selectShortcuts}>
           {' '}
-          <UnselectedLabel> Feedback Banks</UnselectedLabel>{' '}
+          <UnselectedLabel> Comment Banks</UnselectedLabel>{' '}
         </UnselectedContainer>
       )}
     </Frame13221>

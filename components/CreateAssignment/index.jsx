@@ -12,6 +12,8 @@ import {
   getAllMarkingCriteria,
   deleteAssignment,
   getStudentsForClass,
+  getSmartAnnotations,
+  getFeedbackBanks,
 } from '../../service';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
@@ -41,11 +43,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DragAndDrop from './DragAndDrop';
 import questionMark from '../../static/img/question-mark.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
-import { Checkbox } from '@mui/material';
+import CommentBankDialog from '../Shared/Dialogs/commentBank';
+import { getUserId } from '../../userLocalDetails';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
+  const UserId = getUserId();
   const queryClient = useQueryClient();
   const { assignmentId } = useParams();
 
@@ -67,9 +71,12 @@ export default function CreateAssignment(props) {
   const [openFocusAreaDialog, setOpenFocusAreaDialog] = React.useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     React.useState(false);
+  const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
+    React.useState(false);
   const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(
     []
   );
+  const [currentCommentBank, setCurrentCommentBank] = React.useState([]);
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const getAssignment = async (id) => {
@@ -84,12 +91,16 @@ export default function CreateAssignment(props) {
   const [allFocusAreas, setAllFocusAreas] = React.useState([]);
   const [allFocusAreasColors, setAllFocusAreasColors] = React.useState([]);
   const [allMarkingCriterias, setAllMarkingCriterias] = React.useState([]);
+  const [allCommentBanks, setAllCommentBanks] = React.useState([]);
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
   const [updateDueDateTick, setUpdateDueDateTick] = React.useState(false);
   const mobileView = isMobileView();
   const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
     mobileView ? 'Select' : 'Select Marking Template'
+  );
+  const [commentBankPlaceholder, setCommentBankPlaceholder] = React.useState(
+    mobileView ? 'Select' : 'Select Comment Bank'
   );
 
   const getStudentById = (id) => {
@@ -110,6 +121,7 @@ export default function CreateAssignment(props) {
 
     return a;
   };
+  console.log('UserId', UserId);
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -117,6 +129,7 @@ export default function CreateAssignment(props) {
       getFocusAreas(),
       getAllColors(),
       getAllMarkingCriteria(),
+      getFeedbackBanks(),
     ]).then(
       ([
         classesResult,
@@ -124,7 +137,11 @@ export default function CreateAssignment(props) {
         focusAreas,
         colors,
         markingCriteriasResult,
+        commentBanks,
       ]) => {
+        let userCommentBanks = commentBanks._embedded.commentbanks.filter(
+          (commentBank) => commentBank.ownerId === UserId
+        );
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
@@ -134,11 +151,15 @@ export default function CreateAssignment(props) {
           title: markingPlaceholder,
           id: 'no_marking_criteria',
         });
+        userCommentBanks.unshift({
+          title: commentBankPlaceholder,
+          id: 'no_comment_criteria',
+        });
         setAllMarkingCriterias(markingCriteriasResult),
+          setAllCommentBanks(userCommentBanks),
           setClasses(classesResult);
         setAllFocusAreas(focusAreas);
         setAllFocusAreasColors(colors);
-
         getAllStudentsForClasses(classesResult).then((result) => {
           setAllClassStudents(result);
           setIsLoading(false);
@@ -180,6 +201,14 @@ export default function CreateAssignment(props) {
   function handleMarkingCriteriaPreview(markingCriteria) {
     setCurrentMarkingCriteria(markingCriteria);
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
+  }
+  function handleCommentBankPreview(commentBankId) {
+    let commentBank = allCommentBanks.find(
+      (commentBank) => commentBank.id === commentBankId
+    );
+
+    setCurrentCommentBank(commentBank);
+    setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
     const students = assignment.classIds.flatMap(
@@ -251,8 +280,11 @@ export default function CreateAssignment(props) {
         allFocusAreas={allFocusAreas}
         allMarkingCriterias={allMarkingCriterias}
         updateMarkingCriteria={updateMarkingCriteria}
+        updateCommentBank={updateCommentBank}
         handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
+        handleCommentBankPreview={handleCommentBankPreview}
         setAllFocusAreas={setAllFocusAreas}
+        allCommentBanks={allCommentBanks}
       />
     );
   };
@@ -345,6 +377,14 @@ export default function CreateAssignment(props) {
         q.serialNumber === id
           ? { ...q, markingCriteria: updatedMarkingCriteriaObj }
           : q
+      ),
+    }));
+  }
+  function updateCommentBank(id, commentBank) {
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      questions: prevAssignment.questions.map((q) =>
+        q.serialNumber === id ? { ...q, commentBankId: commentBank.id } : q
       ),
     }));
   }
@@ -744,6 +784,12 @@ export default function CreateAssignment(props) {
           markingCriterias={currentMarkingCriteria}
         />
       )}
+      {openCommentBankPreviewDialog && (
+        <CommentBankDialog
+          setCommentBankPreviewDialog={setCommentBankPreviewDialog}
+          commentBank={currentCommentBank}
+        />
+      )}
     </>
   );
 }
@@ -780,6 +826,7 @@ const newQuestion = (serialNumber) => {
       },
     ],
     markingCriteria: {},
+    commentBankId: '',
     focusAreaIds: [],
     focusAreas: [],
   };

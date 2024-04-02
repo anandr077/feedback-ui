@@ -46,8 +46,11 @@ export default function TheoryQuestionFrame(props) {
     allFocusAreas,
     allMarkingCriterias,
     updateMarkingCriteria,
+    updateCommentBank,
     handleMarkingCriteriaPreview,
+    handleCommentBankPreview,
     setAllFocusAreas,
+    allCommentBanks,
   } = props;
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias?.findIndex(
@@ -55,6 +58,9 @@ export default function TheoryQuestionFrame(props) {
       return item.title === questionDetails.markingCriteria?.title;
     }
   );
+  const selectedCommentBankIndex = allCommentBanks.findIndex((item) => {
+    return item.id === questionDetails?.commentBankId;
+  });
 
   const appendFunction = (markingCriterias) => {
     return markingCriterias.map((item) => {
@@ -170,13 +176,56 @@ export default function TheoryQuestionFrame(props) {
             </MarkingCriteriaList>
           </MarkingCriteriaAndListFrame>
         </MarkingCriteriaSelectionContainer>
+        <MarkingCriteriaSelectionContainer>
+          <QuestionMarkContainer>
+            <Label>Comment Bank</Label>
+            <QuestionTooltip
+              text={
+                'Select the commnet bank which will be used in the assessment of this task. New commnet bank can be created in the account settings'
+              }
+              img={questionMark}
+            />
+          </QuestionMarkContainer>
+          <MarkingCriteriaAndListFrame>
+            <MarkingCriteriaFrame>
+              {questionDetails.commentBankId ? (
+                <DropdownMenu
+                  fullWidth={true}
+                  menuItems={allCommentBanks}
+                  selectedIndex={selectedCommentBankIndex}
+                  onItemSelected={(item) => {
+                    updateCommentBank(serialNumber, item);
+                  }}
+                  defaultSearch={true}
+                ></DropdownMenu>
+              ) : (
+                <DropdownMenu
+                  fullWidth={true}
+                  menuItems={allCommentBanks}
+                  primaryText="Select Comment Bank"
+                  onItemSelected={(item) => {
+                    updateCommentBank(serialNumber, item);
+                  }}
+                ></DropdownMenu>
+              )}
+              <Preview
+                onClick={() => {
+                  handleCommentBankPreview(questionDetails.commentBankId);
+                }}
+              >
+                <img
+                  src="/icons/preview-eye.png"
+                  alt="eye"
+                  style={{ width: '32px', height: '32px' }}
+                />
+              </Preview>
+            </MarkingCriteriaFrame>
+            <MarkingCriteriaList href={'/#/settings'}>
+              Go to comment banks
+            </MarkingCriteriaList>
+          </MarkingCriteriaAndListFrame>
+        </MarkingCriteriaSelectionContainer>
       </Frame12891>
-      {/* <DeleteButtonFrame>
-        <BinImage src={Bincolor} />
-        <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
-          Delete
-        </DeleteButton>
-      </DeleteButtonFrame> */}
     </SmalllQuestionFrame>
   );
 }

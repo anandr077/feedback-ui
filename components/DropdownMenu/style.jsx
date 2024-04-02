@@ -111,6 +111,7 @@ export const StyledListItemText = styled(ListItemText)`
   .MuiTypography-root {
     font-size: 16px;
     color: ${({ id }) => id === 'no_marking_criteria' && '#918b97'};
+    color: ${({ id }) => id === 'no_comment_criteria' && '#918b97'};
   }
   font-family: IBM Plex Sans;
   font-size: 20px;

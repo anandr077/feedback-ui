@@ -77,7 +77,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
   } = props;
 
   const findCurrentFeedbackBank =
-    smartAnnotations.length > 0 &&
+    smartAnnotations?.length > 0 &&
     smartAnnotations?.find(
       (smartAnnotation) => smartAnnotation.id === feedbackBankId
     );
@@ -157,7 +157,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                 ) : (
                   <Frame1302>
                     <Title1>
-                      <FeedbackBankHeading>Feedback Banks</FeedbackBankHeading>
+                      <FeedbackBankHeading>Comment Banks</FeedbackBankHeading>
                       <QuestionTooltip
                         text={
                           'Help other students who have requested feedback from the community'

@@ -75,6 +75,7 @@ function FeedbackFrame(props) {
     newCommentFrameRef,
     share,
   } = props;
+
   return feedbackFrame(
     methods,
     submission,
@@ -110,6 +111,11 @@ function feedbackFrame(
 ) {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
+
+  let commentBankIds = submission.assignment.questions
+    .filter((item) => item.serialNumber === newCommentSerialNumber)
+    .map((item) => item.commentBankId);
+
   return (
     <Frame1331 id="feedbacksFrame">
       <Frame1322>
@@ -135,7 +141,8 @@ function feedbackFrame(
               newCommentSerialNumber,
               methods,
               newCommentFrameRef,
-              share
+              share,
+              commentBankIds
             )}
           </>
         ) : (
@@ -267,15 +274,28 @@ const newCommentFrame = (
   newCommentSerialNumber,
   methods,
   newCommentFrameRef,
-  share
+  share,
+  commentBankIds
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
-  return reviewerNewComment(methods, newCommentFrameRef, share, pageMode);
+  return reviewerNewComment(
+    methods,
+    newCommentFrameRef,
+    share,
+    pageMode,
+    commentBankIds
+  );
 };
 
-function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
+function reviewerNewComment(
+  methods,
+  newCommentFrameRef,
+  share,
+  pageMode,
+  commentBankIds
+) {
   const { smartAnnotations } = useContext(FeedbackContext);
 
   if (pageMode === 'CLOSED') return <></>;
@@ -299,7 +319,7 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
               cancelButtonOnClick={methods.hideNewCommentDiv}
             />
             <ShortcutList>
-              {shortcutList(methods, smartAnnotations)}
+              {shortcutList(methods, smartAnnotations, commentBankIds)}
             </ShortcutList>
           </SmartAnnotationsComponent>
           <ExemplarComponent>
@@ -413,13 +433,20 @@ export const showResolvedToggle =
     );
   };
 
-function shortcutList(methods, smartAnnotations) {
-  return smartAnnotations.map((smartAnnotation, index) => (
-    <SmartAnotation
-      key={index}
-      smartAnnotation={smartAnnotation}
-      onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
-    />
-  ));
+function shortcutList(methods, smartAnnotations, commentBankIds) {
+  const all = smartAnnotations?.flatMap((annotation, index) =>
+    annotation.smartComments
+      .filter((smartComment) => commentBankIds.includes(annotation.id))
+      .map((smartComment, innerIndex) => (
+        <SmartAnotation
+          key={`${index}-${innerIndex}`}
+          smartAnnotation={smartComment}
+          onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+        />
+      ))
+  );
+
+  return all;
 }
+
 export default FeedbackFrame;

@@ -55,13 +55,15 @@ export const StyledCalendar = styled(Calendar)`
   }
   .rbc-day-bg {
     background-color: white;
-    min-height: 175px !important;
+    min-height: 50px !important;
     border-radius: 4px !important;
   }
   .rbc-event {
     background-color: #f7eeff !important;
   }
-
+  .rbc-overlay .rbc-event {
+    background-color: #f7eeff !important;
+  }
   .rbc-off-range-bg {
     background-color: #e5c9ff33 !important;
   }
@@ -84,6 +86,7 @@ export const StyledCalendar = styled(Calendar)`
       width: 0;
       display: none;
     }
+    // height: 100px !important;
   }
 
   .rbc-time-content {

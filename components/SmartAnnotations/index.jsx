@@ -21,7 +21,6 @@ import {
   SixdotsImage,
 } from './style';
 import deleteLight from '../../static/img/delete-light.svg';
-import sixDots from '../../static/img/six-dots.svg';
 import WidearrowDown from '../../static/img/Widearrow-down.svg';
 import WideArrowUp from '../../static/img/WideArrow-up.svg';
 
@@ -63,7 +62,6 @@ function SmartAnotation(props) {
   };
 
   const saveEditedSuggestion = (updatedText, index) => {
-    console.log('first edited suggestion', updatedText, index);
     const newSmartAnnotation = { ...currentSmartAnnotation };
     newSmartAnnotation.suggestions[index] = updatedText;
     setCurrentSmartAnnotation(newSmartAnnotation);
@@ -144,7 +142,6 @@ function SmartAnotation(props) {
       {isExpanded || open ? (
         <SmartAnnotationContainer>
           <TtitleContainer>
-            <SixdotsImage src={sixDots} />
             {editingTitle ? (
               teacherId === getUserId() ? (
                 <TextInputEditable

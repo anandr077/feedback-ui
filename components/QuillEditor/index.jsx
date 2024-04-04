@@ -20,7 +20,7 @@ import {
   Frame1383,
   Frame13311,
   Crown,
-  ExemplarComponent
+  ExemplarComponent,
 } from './style';
 import { FeedbackContext } from '../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import Quill from 'quill';
@@ -508,6 +508,14 @@ const QuillEditor = React.forwardRef(
             >
               {groupedCommentsWithGap.map((group, groupIndex) => (
                 <div key={groupIndex}>
+                  {newCommentFrame(
+                    pageMode,
+                    submission,
+                    newCommentSerialNumber,
+                    methods
+                    // newCommentFrameRef,
+                    // share
+                  )}
                   {group.map((comment, index) => (
                     <div
                       key={index}
@@ -820,10 +828,18 @@ function reviewerNewComment(
     <>
       <Frame1329>
         <OptionContainer>
-          <Option><img src={CommentIcon} /></Option>
-          <Option><img src={AlphabetIcon} /></Option>
-          <Option><img src={ShareIcon} /></Option>
-          <Option><img src={ThumbsupIcon} /></Option>
+          <Option>
+            <img src={CommentIcon} />
+          </Option>
+          <Option>
+            <img src={AlphabetIcon} />
+          </Option>
+          <Option>
+            <img src={ShareIcon} />
+          </Option>
+          <Option>
+            <img src={ThumbsupIcon} />
+          </Option>
         </OptionContainer>
         <Frame1406>
           <SmartAnnotationsComponent>

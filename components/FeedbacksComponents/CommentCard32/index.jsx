@@ -253,16 +253,16 @@ const CommentCard = styled.article`
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-  padding: 16px;
   position: relative;
   align-self: stretch;
   background-color: ${(props) =>
     props.bgColor ||
     'var(--white)'}; // default is var(--white) if no bgColor prop is provided
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-  box-shadow: 0px 4px 16px #7200e01a;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
+  border: solid 1px rgba(201, 198, 204, 0.5);
+  width: 293px;
 
   &.comment-card-4.comment-card-5 {
     cursor: unset;

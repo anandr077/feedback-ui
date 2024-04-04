@@ -9,8 +9,11 @@ import React, {
 import {
   Screen,
   Frame1329,
+  OptionContainer,
+  Option,
   Frame1406,
   SmartAnnotationsComponent,
+  CommentContainer,
   Frame1326,
   TypeHere,
   ShortcutList,
@@ -34,6 +37,11 @@ import { Share } from '@mui/icons-material';
 import Buttons4 from '../FeedbacksComponents/Buttons4';
 import FocusAreasFrame from '../FeedbacksComponents/FocusAreasFrame';
 import FocussedInput from '../FocussedInput';
+import CommentIcon from '../../static/img/graysinglecomment.svg';
+import AlphabetIcon from '../../static/img/24grayalphabet.svg';
+import ShareIcon from '../../static/img/24grayshare.svg';
+import ThumbsupIcon from '../../static/img/24thumbsuppurple.svg';
+
 const QuillEditor = React.forwardRef(
   (
     {
@@ -811,22 +819,30 @@ function reviewerNewComment(
   return (
     <>
       <Frame1329>
+        <OptionContainer>
+          <Option><img src={CommentIcon} /></Option>
+          <Option><img src={AlphabetIcon} /></Option>
+          <Option><img src={ShareIcon} /></Option>
+          <Option><img src={ThumbsupIcon} /></Option>
+        </OptionContainer>
         <Frame1406>
           <SmartAnnotationsComponent>
-            <Frame1326>
-              <TypeHere>
-                <FocussedInput
-                  id="newCommentInput"
-                  //ref={newCommentFrameRef}
-                  placeholder="Comment here...."
-                ></FocussedInput>
-              </TypeHere>
-            </Frame1326>
+            <CommentContainer>
+              <Frame1326>
+                <TypeHere>
+                  <FocussedInput
+                    id="newCommentInput"
+                    //ref={newCommentFrameRef}
+                    placeholder="Comment here...."
+                  ></FocussedInput>
+                </TypeHere>
+              </Frame1326>
 
-            <SubmitCommentFrameRoot
-              submitButtonOnClick={methods.handleAddComment}
-              cancelButtonOnClick={methods.hideNewCommentDiv}
-            />
+              <SubmitCommentFrameRoot
+                submitButtonOnClick={methods.handleAddComment}
+                cancelButtonOnClick={methods.hideNewCommentDiv}
+              />
+            </CommentContainer>
             <ShortcutList>
               {shortcutList(methods, smartAnnotations)}
             </ShortcutList>

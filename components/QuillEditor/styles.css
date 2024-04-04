@@ -59,13 +59,14 @@
 
 .quill-editor-container {
   border-radius: 8px;
-  padding: 12px 33px;
+  padding: 12px 0px;
   background-color: var(--white);
 }
 
 
 .ql-editor{
   border: none;
+  padding: 0px 80px !important;
 }
 
 .ql-formats{

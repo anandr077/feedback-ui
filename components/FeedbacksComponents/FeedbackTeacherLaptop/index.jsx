@@ -535,7 +535,7 @@ function answersAndFeedbacks(
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       />
-      <div style={{ position: 'relative', background: 'black' }}>
+      <div style={{ position: 'relative'}}>
         <Frame1368 id="assignmentData">
           {answersFrame(
             quillRefs,

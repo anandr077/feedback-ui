@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { feedbacksIbmplexsansMediumBlack16px } from '../../../styledMixins';
 import { Avatar } from '@boringer-avatars/react';
 import { getUserId } from '../../../userLocalDetails';
+import ReplyIcon from '../../../static/img/24grayreply.svg';
+import DotIcon from '../../../static/img/24gray3dots.svg';
 
 function ReviewsFrame132532(props) {
   const {
@@ -26,6 +28,8 @@ function ReviewsFrame132532(props) {
     isClosable,
     sharedWithStudents,
     isReply = false,
+    showReplyButton,
+    onReplyClick,
   } = props;
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
@@ -95,7 +99,7 @@ function ReviewsFrame132532(props) {
   };
 
   const avatar =
-    comment.reviewerId === '26614' || comment.reviewerId === '26572'? (
+    comment.reviewerId === '26614' || comment.reviewerId === '26572' ? (
       <JeddaiIcon src="img/ai.svg" />
     ) : (
       <Avatar
@@ -152,26 +156,28 @@ function ReviewsFrame132532(props) {
       <Frame1324>
         {commenterFrame}
         <Instructer onClick={() => onClick(comment)}>
-          {
-          reviewerFrame === "26614" || reviewerFrame === "26572"
-          ? "JEDDAI" : reviewerFrame
-          }
+          {reviewerFrame === '26614' || reviewerFrame === '26572'
+            ? 'JEDDAI'
+            : reviewerFrame}
         </Instructer>
       </Frame1324>
       {resolveFrame}
+      {showReplyButton &&
+        <Reply onClick={onReplyClick}>
+          <img src={ReplyIcon} alt="reply" />
+        </Reply>
+      }
       {getUserId() === comment.reviewerId &&
         !defaultComment &&
         comment.type != 'FOCUS_AREA' &&
         pageMode != 'CLOSED' && (
           <More
             onClick={handleMoreClick}
-            src="/icons/three-dot.svg"
+            src={DotIcon}
             ref={componentRef}
           />
         )}
-
       {closeFrame}
-
       {openEditDeleteTemplate}
     </Frame1325>
   );
@@ -230,7 +236,7 @@ const Ellipse141 = styled.div`
 const Frame1325 = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 4px;
   position: relative;
   align-self: stretch;
 `;
@@ -241,6 +247,10 @@ const Frame1324 = styled.div`
   gap: 8px;
   position: relative;
   flex: 1;
+`;
+
+const Reply = styled.div`
+  cursor: pointer;
 `;
 
 const Ellipse7 = styled.img`
@@ -261,8 +271,8 @@ const Instructer = styled.div`
 
 const More = styled.img`
   position: relative;
-  min-width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 `;
 

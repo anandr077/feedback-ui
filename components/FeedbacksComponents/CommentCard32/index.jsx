@@ -60,12 +60,22 @@ function CommentCard32(props) {
     }
     if (editButtonActive) {
       if (editCommentType === 'replies') {
-        updateChildComment(comment.id, editReplyIndex, inputValue, comment.sharedWithStudents);
+        updateChildComment(
+          comment.id,
+          editReplyIndex,
+          inputValue,
+          comment.sharedWithStudents
+        );
       } else if (editCommentType === 'parent_comment') {
         updateParentComment(inputValue, comment.id);
       }
     } else {
-      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber, comment.sharedWithStudents);
+      handleReplyComment(
+        inputValue,
+        comment.id,
+        comment.questionSerialNumber,
+        comment.sharedWithStudents
+      );
     }
     setInputValue('');
     setIsReplyClicked(false);
@@ -179,6 +189,13 @@ function CommentCard32(props) {
         convertToCheckedState={convertToCheckedState}
         updateExemplarComment={updateExemplarComment}
         sharedWithStudents={comment.sharedWithStudents}
+        showReplyButton={
+          isResolved !== 'RESOLVED' &&
+          !isReplyClicked &&
+          !defaultComment &&
+          pageMode !== 'CLOSED'
+        }
+        onReplyClick={handleReplyClick}
       />
       <CommentText
         onClick={() => onClick(comment)}
@@ -187,16 +204,6 @@ function CommentCard32(props) {
         {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
-      {isResolved !== 'RESOLVED' &&
-        !isReplyClicked &&
-        !defaultComment &&
-        pageMode != 'CLOSED' && (
-          <Reply onClick={handleReplyClick}>
-            <img src="/icons/reply.svg" alt="reply" />
-            <div>Reply</div>
-          </Reply>
-        )}
-
       {isReplyClicked && !editButtonActive && inputComment()}
     </CommentCard>
   );
@@ -307,22 +314,6 @@ const Input = styled.textarea`
   resize: none;
 `;
 
-const Reply = styled.div`
-  display: flex;
-  padding: 4px 8px;
-  margin-top: 6px;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  cursor: pointer;
-  border-radius: 14px;
-  border: 1px solid #7200e0;
-  color: #7200e0;
-  font-family: 'IBM Plex Sans';
-  font-weight: 500;
-  font-size: 13px;
-`;
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -355,7 +346,6 @@ const ReplyCommentWrapper = styled.div`
   font-family: IBM Plex Sans;
   padding-top: 12px;
   border-top: 1px solid #f1e6fc;
-  width: 100%;
 `;
 
 export default CommentCard32;

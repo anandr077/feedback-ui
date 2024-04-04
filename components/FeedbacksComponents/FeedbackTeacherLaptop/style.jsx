@@ -478,7 +478,7 @@ export const Group1225 = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  width: 880px;
+  //width: 880px;
   min-height: 650px;
 `;
 export const Frame1367 = styled.div`
@@ -486,14 +486,54 @@ export const Frame1367 = styled.div`
   position: relative;
   flex-direction: column;
   align-items: flex-start;
-  gap: 50px;
   height: 100%;
+  background-color: var(--white);
+  padding: 20px 0px;
+  width: 650px;
+  margin: 20px;
+  border: solid 1px rgba(201, 198, 204, 0.5);
+  border-radius: 10px;
 `;
+
+export const QuestionCounter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 0 80px;
+ `;
+
+export const QuestionBtn = styled.button`
+  min-width: 85px;
+  height: 28px;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  border: solid 1px #b2aeb7;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-s);
+  line-height: 20px;
+  color: rgba(123, 115, 130, 1);
+  background-color: transparent;
+  cursor: pointer;
+`;
+  
+export const QuestionBox = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-s);
+  line-height: 20px;
+  color: rgba(123, 115, 130, 1);
+`;
+
 export const Frame1366 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
   position: relative;
   align-self: stretch;
   height: 100%;
@@ -509,25 +549,19 @@ export const AnswerContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
-  background-color: var(--white);
-  border-radius: 8px;
   padding-bottom: 20px;
   box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
 `;
 
 export const QuestionText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
+  line-height: 27px;
+  color: #460089;
+  font-size: 19px;
   font-weight: 500;
-  position: relative;
-  align-self: stretch;
-  letter-spacing: 0;
-  line-height: 26px;
   width: 100%;
-  padding: 20px 30px;
-  background-color: var(--white);
-  border-radius: 8px;
-  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
+  padding: 16px 80px 20px;
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
 `;
 export const QuillContainer = styled.p`
   ${feedbacksIbmplexsansNormalShark20px}

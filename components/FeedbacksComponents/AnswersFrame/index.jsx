@@ -21,6 +21,9 @@ import {
   FocusAreasLabelContainer,
   Frame1366,
   Frame1367,
+  QuestionCounter,
+  QuestionBox,
+  QuestionBtn,
   Group1225,
   Label,
   QuestionText,
@@ -32,6 +35,8 @@ import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
 import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
+import LeftIcon from '../../../static/img/16-arrow-left.svg';
+import RightIcon from '../../../static/img/16-arrow-right.svg';
 
 export function answersFrame(
   quillRefs,
@@ -97,9 +102,37 @@ function AnswersFrame(props) {
     methods,
     selectedRange
   } = props;
+
+  const [QuestionIndex, setQuestionIndex] = React.useState(0);
+  
+  const handlePreviousQuestion = () => {
+    setQuestionIndex((prevIndex) => {
+      if (prevIndex === 0) {
+        return submission.assignment.questions.length - 1;
+      } else {
+        return prevIndex - 1;
+      }
+    });
+  };
+  
+  const handleNextQuestion = () => {
+    setQuestionIndex((prevIndex) => {
+      if (prevIndex === submission.assignment.questions.length - 1) {
+        return 0;
+      } else {
+        return prevIndex + 1;
+      }
+    });
+  };
+
   return (
     <Group1225 id="answers">
       <Frame1367>
+        <QuestionCounter>
+          <QuestionBtn onClick={handlePreviousQuestion} ><img src={LeftIcon} /> Previous</QuestionBtn>
+          <QuestionBox>Question {QuestionIndex + 1} of {submission.assignment.questions.length}</QuestionBox>
+          <QuestionBtn onClick={handleNextQuestion}><img src={RightIcon}  /> Next</QuestionBtn>
+        </QuestionCounter>
         {answerFrames(
           quillRefs,
           smallMarkingCriteria,
@@ -120,7 +153,8 @@ function AnswersFrame(props) {
           editorFontSize,
           updatedCommentPosition,
           methods,
-          selectedRange
+          selectedRange,
+          QuestionIndex
         )}
       </Frame1367>
     </Group1225>
@@ -175,11 +209,12 @@ const answerFrames = (
   editorFontSize,
   updatedCommentPosition,
   methods,
-  selectedRange
+  selectedRange,
+  QuestionIndex
 ) => {
   const { overallComments } = useContext(FeedbackContext);
 
-  return submission.assignment.questions.map((question, idx) => {
+  const question = submission.assignment.questions[QuestionIndex];
     const newAnswer = {
       serialNumber: question.serialNumber,
       answer: '',
@@ -189,7 +224,6 @@ const answerFrames = (
       submission.answers?.find(
         (answer) => answer.serialNumber === question.serialNumber
       ) || newAnswer;
-    const questionText = 'Q' + question.serialNumber + '. ' + question.question;
     const answerValue = answer.answer.answer;
     const debounce = createDebounceFunction(
       submission,
@@ -206,7 +240,7 @@ const answerFrames = (
         <Frame1366>
           {submission.type !== 'DOCUMENT' && (
             <QuestionText
-              dangerouslySetInnerHTML={{ __html: linkify(questionText) }}
+              dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
             />
           )}
           <AnswerContainer>
@@ -276,14 +310,13 @@ const answerFrames = (
           </AnswerContainer>
         </Frame1366>
 
-        {idx !== submission.assignment.questions.length - 1 && (
+        {QuestionIndex !== submission.assignment.questions.length - 1 && (
           <div>
             <Line src="/img/line-14-4.png" alt="Line 14" />
           </div>
         )}
       </>
     );
-  });
 };
 
 const createFocusAreasLabel = (

@@ -106,7 +106,7 @@ function feedbackFrame(
   const {showNewComment, newCommentSerialNumber} = useContext(FeedbackContext);
   return (
     <Frame1331 id="feedbacksFrame">
-      {/* <Frame1322>
+      <Frame1322>
         <Tabs
           setFeedback={setFeedback}
           isFeedback={isFeedback}
@@ -154,7 +154,7 @@ function feedbackFrame(
             </>
           </Frame1328>
         )}
-      </>  */}
+      </> 
     </Frame1331>
   );
 }

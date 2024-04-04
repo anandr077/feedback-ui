@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { feedbacksIbmplexsansNormalMountainMist16px } from "../../styledMixins";
+import styled from 'styled-components';
+import { feedbacksIbmplexsansNormalMountainMist16px } from '../../styledMixins';
 
 export const Screen = styled.div`
   position: fixed;
@@ -12,11 +12,40 @@ export const Screen = styled.div`
 
 export const Frame1329 = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 20px;
+  gap: 18px;
   position: relative;
-  align-self: stretch;
+`;
+
+export const OptionContainer = styled.div`
+  width: 40px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border: solid 1px rgba(201, 198, 204, 0.5);
+  background-color: #fff;
+  border-radius: 24px;
+`;
+
+export const Option = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+
+  :last-child {
+    border: none;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  :hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+  }
 `;
 
 export const Frame1406 = styled.div`
@@ -41,6 +70,17 @@ export const SmartAnnotationsComponent = styled.div`
   }
 `;
 
+export const CommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
+  border: solid 1px rgba(201, 198, 204, 0.5);
+  background-color: #fff;
+`;
+
 export const Frame1326 = styled.div`
   display: flex;
   align-items: center;
@@ -54,7 +94,6 @@ export const Frame1326 = styled.div`
   border-color: var(--text);
   height: 46px;
 `;
-
 
 export const TypeHere = styled.div`
   ${feedbacksIbmplexsansNormalMountainMist16px}

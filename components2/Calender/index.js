@@ -104,6 +104,7 @@ const MyCalendar = ({ calenderEvents }) => {
         // showAllEvents
         // step={60}
         // timeslots={1}
+        allDayMaxRows={2}
         popup
         tooltipAccessor={(event) => `${event.title}, ${event.class}`}
       />

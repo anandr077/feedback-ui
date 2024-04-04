@@ -185,6 +185,9 @@ export const StyledCalendar = styled(Calendar)`
   .rbc-today {
     background-color: #ecd6ff;
   }
+  // .rbc-row-content {
+  //   height: 100% !important;
+  // }
 `;
 export const MainContainer = styled.div`
   display: flex;

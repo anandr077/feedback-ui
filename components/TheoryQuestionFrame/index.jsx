@@ -139,7 +139,7 @@ export default function TheoryQuestionFrame(props) {
           </QuestionMarkContainer>
           <MarkingCriteriaAndListFrame>
             <MarkingCriteriaFrame>
-              {questionDetails.markingCriteria.title ? (
+              {questionDetails?.markingCriteria?.title ? (
                 <DropdownMenu
                   fullWidth={true}
                   menuItems={appendFunction(allMarkingCriterias)}

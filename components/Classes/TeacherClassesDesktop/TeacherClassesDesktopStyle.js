@@ -17,11 +17,11 @@ export const TopContainer = styled.div`
   border: 1px solid #301b7214;
 
   @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
+    min-width: 1010px;
   }
 
   @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
+    min-width: 698px;
   }
   a {
     text-decoration: none;
@@ -36,7 +36,6 @@ export const Frame1422 = styled.div`
   justify-content: center;
   position: relative;
   max-width: 1440px;
-
 `;
 
 export const Frame13121 = styled.div`
@@ -231,7 +230,7 @@ export const LeftContainer = styled.div`
   align-items: flex-start;
   gap: 15px;
   @media (min-width: 766px) and (max-width: 1024px) {
-    top: 50px;
+    top: 100px;
   }
   @media (max-width: 765px) {
     display: none;
@@ -260,6 +259,8 @@ export const RightContainer = styled.div`
   }
   @media (max-width: 765px) {
     width: 100%;
+    padding-left: 0px;
+    border-left: none;
   }
 `;
 

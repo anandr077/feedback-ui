@@ -5,6 +5,7 @@ import { Avatar } from '@boringer-avatars/react';
 import { getUserId } from '../../../userLocalDetails';
 import ReplyIcon from '../../../static/img/24grayreply.svg';
 import DotIcon from '../../../static/img/24gray3dots.svg';
+import TickIcon from '../../../static/img/24graytick.svg';
 
 function ReviewsFrame132532(props) {
   const {
@@ -167,6 +168,7 @@ function ReviewsFrame132532(props) {
           <img src={ReplyIcon} alt="reply" />
         </Reply>
       }
+      <img src={TickIcon} />
       {getUserId() === comment.reviewerId &&
         !defaultComment &&
         comment.type != 'FOCUS_AREA' &&

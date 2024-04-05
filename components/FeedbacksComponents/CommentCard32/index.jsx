@@ -252,7 +252,7 @@ const CommentCard = styled.article`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 4px;
   position: relative;
   align-self: stretch;
   background-color: ${(props) =>

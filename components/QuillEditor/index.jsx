@@ -31,6 +31,7 @@ const QuillEditor = React.forwardRef(
       pageMode,
       submission,
       selectedRange,
+      commentFocusAreaToggle
     },
     ref
   ) => {
@@ -66,8 +67,6 @@ const QuillEditor = React.forwardRef(
 
       return modifiedHTML;
     };
-
-    console.log('the comments are', comments);
 
     const handlePaste = (event) => {
       event.preventDefault();
@@ -320,6 +319,7 @@ const QuillEditor = React.forwardRef(
           editorRef={editorRef}
           updatedCommentPosition={updatedCommentPosition}
           selectedRange={selectedRange}
+          commentFocusAreaToggle={commentFocusAreaToggle}
         />
       </div>
     );

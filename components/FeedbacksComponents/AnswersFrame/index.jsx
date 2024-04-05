@@ -6,7 +6,7 @@ import {
   default as React,
   default as React,
   default as React,
-  useContext
+  useContext,
 } from 'react';
 import CheckboxList from '../../CheckboxList';
 import QuillEditor from '../../QuillEditor';
@@ -37,6 +37,7 @@ import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import LeftIcon from '../../../static/img/16-arrow-left.svg';
 import RightIcon from '../../../static/img/16-arrow-right.svg';
+import FocusAreaCard from '../../FocusAreaCard';
 
 export function answersFrame(
   quillRefs,
@@ -49,7 +50,9 @@ export function answersFrame(
   methods,
   editorFontSize,
   updatedCommentPosition,
-  selectedRange
+  selectedRange,
+  commentFocusAreaToggle,
+  setCommentFocusAreaToggle
 ) {
   return (
     <AnswersFrame
@@ -73,8 +76,10 @@ export function answersFrame(
       comments={methods.comments}
       editorFontSize={editorFontSize}
       updatedCommentPosition={updatedCommentPosition}
-      methods={methods} 
+      methods={methods}
       selectedRange={selectedRange}
+      commentFocusAreaToggle={commentFocusAreaToggle}
+      setCommentFocusAreaToggle={setCommentFocusAreaToggle}
     ></AnswersFrame>
   );
 }
@@ -100,11 +105,13 @@ function AnswersFrame(props) {
     editorFontSize,
     updatedCommentPosition,
     methods,
-    selectedRange
+    selectedRange,
+    commentFocusAreaToggle,
+    setCommentFocusAreaToggle
   } = props;
 
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  
+
   const handlePreviousQuestion = () => {
     setQuestionIndex((prevIndex) => {
       if (prevIndex === 0) {
@@ -114,7 +121,7 @@ function AnswersFrame(props) {
       }
     });
   };
-  
+
   const handleNextQuestion = () => {
     setQuestionIndex((prevIndex) => {
       if (prevIndex === submission.assignment.questions.length - 1) {
@@ -129,9 +136,16 @@ function AnswersFrame(props) {
     <Group1225 id="answers">
       <Frame1367>
         <QuestionCounter>
-          <QuestionBtn onClick={handlePreviousQuestion} ><img src={LeftIcon} /> Previous</QuestionBtn>
-          <QuestionBox>Question {QuestionIndex + 1} of {submission.assignment.questions.length}</QuestionBox>
-          <QuestionBtn onClick={handleNextQuestion}><img src={RightIcon}  /> Next</QuestionBtn>
+          <QuestionBtn onClick={handlePreviousQuestion}>
+            <img src={LeftIcon} /> Previous
+          </QuestionBtn>
+          <QuestionBox>
+            Question {QuestionIndex + 1} of{' '}
+            {submission.assignment.questions.length}
+          </QuestionBox>
+          <QuestionBtn onClick={handleNextQuestion}>
+            <img src={RightIcon} /> Next
+          </QuestionBtn>
         </QuestionCounter>
         {answerFrames(
           quillRefs,
@@ -154,9 +168,16 @@ function AnswersFrame(props) {
           updatedCommentPosition,
           methods,
           selectedRange,
+          commentFocusAreaToggle,
+          setCommentFocusAreaToggle,
           QuestionIndex
         )}
       </Frame1367>
+      {commentFocusAreaToggle && (
+        <FocusAreaCard
+          comments={comments.filter((comment) => comment.type === 'FOCUS_AREA')}
+        />
+      )}
     </Group1225>
   );
 }
@@ -210,113 +231,105 @@ const answerFrames = (
   updatedCommentPosition,
   methods,
   selectedRange,
+  commentFocusAreaToggle,
+  setCommentFocusAreaToggle,
   QuestionIndex
 ) => {
   const { overallComments } = useContext(FeedbackContext);
 
   const question = submission.assignment.questions[QuestionIndex];
-    const newAnswer = {
-      serialNumber: question.serialNumber,
-      answer: '',
-    };
+  const newAnswer = {
+    serialNumber: question.serialNumber,
+    answer: '',
+  };
 
-    const answer =
-      submission.answers?.find(
-        (answer) => answer.serialNumber === question.serialNumber
-      ) || newAnswer;
-    const answerValue = answer.answer.answer;
-    const debounce = createDebounceFunction(
-      submission,
-      pageMode,
-      comments,
-      setComments
-    )(answer);
+  const answer =
+    submission.answers?.find(
+      (answer) => answer.serialNumber === question.serialNumber
+    ) || newAnswer;
+  const answerValue = answer.answer.answer;
+  const debounce = createDebounceFunction(
+    submission,
+    pageMode,
+    comments,
+    setComments
+  )(answer);
 
-    const overallComment = overallComments.find((feedback) => {
-      return feedback.questionSerialNumber === question.serialNumber;
-    });
-    return (
-      <>
-        <Frame1366>
-          {submission.type !== 'DOCUMENT' && (
-            <QuestionText
-              dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
+  const overallComment = overallComments.find((feedback) => {
+    return feedback.questionSerialNumber === question.serialNumber;
+  });
+  return (
+    <>
+      <Frame1366>
+        {submission.type !== 'DOCUMENT' && (
+          <QuestionText
+            dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
+          />
+        )}
+        <AnswerContainer>
+          {question.type === 'MCQ' ? (
+            <CheckboxList
+              submission={submission}
+              question={question}
+              pageMode={pageMode}
+              handleChangeText={handleChangeText}
+            />
+          ) : (
+            <QuillContainer
+              onClick={() => {
+                onSelectionChange(
+                  createVisibleComments(commentsForSelectedTab),
+                  answer.serialNumber
+                )(quillRefs.current[answer.serialNumber - 1].getSelection());
+                setCommentFocusAreaToggle(false)
+              }}
+              id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
+            >
+              {createQuill(
+                pageMode,
+                'quillContainer_' + submission.id + '_' + answer.serialNumber,
+                submission,
+                answer,
+                answerValue,
+                commentsForSelectedTab,
+                debounce,
+                handleEditorMounted,
+                editorFontSize,
+                updatedCommentPosition,
+                methods,
+                selectedRange,
+                commentFocusAreaToggle
+              )}
+            </QuillContainer>
+          )}
+          {createFocusAreasLabel(
+            handleCheckboxChange,
+            groupedFocusAreaIds,
+            question.serialNumber,
+            question.focusAreas
+          )}
+          {createAddMarkingCriteriaOption(
+            submission,
+            answer,
+            smallMarkingCriteria,
+            question,
+            handleMarkingCriteriaLevelFeedback,
+            handleStrengthsTargetsFeedback
+          )}
+          {createShowMarkingCriteriasFrame(submission, answer, question)}
+          {pageMode !== 'DRAFT' && (
+            <OverallFeedback
+              pageMode={pageMode}
+              addOverallFeedback={addOverallFeedback}
+              question={question}
+              overallComment={overallComment}
+              updateOverAllFeedback={updateOverAllFeedback}
             />
           )}
-          <AnswerContainer>
-            {question.type === 'MCQ' ? (
-              <CheckboxList
-                submission={submission}
-                question={question}
-                pageMode={pageMode}
-                handleChangeText={handleChangeText}
-              />
-            ) : (
-              <QuillContainer
-                onClick={() => {
-                  onSelectionChange(
-                    createVisibleComments(commentsForSelectedTab),
-                    answer.serialNumber
-                  )(quillRefs.current[answer.serialNumber - 1].getSelection());
-                }}
-                id={
-                  'quillContainer_' + submission.id + '_' + answer.serialNumber
-                }
-              >
-                {createQuill(
-                  pageMode,
-                  'quillContainer_' + submission.id + '_' + answer.serialNumber,
-                  submission,
-                  answer,
-                  answerValue,
-                  commentsForSelectedTab,
-                  debounce,
-                  handleEditorMounted,
-                  editorFontSize,
-                  updatedCommentPosition,
-                  methods,
-                  selectedRange
-                )}
-              </QuillContainer>
-            )}
-            {createFocusAreasLabel(
-              handleCheckboxChange,
-              groupedFocusAreaIds,
-              question.serialNumber,
-              question.focusAreas
-            )}
-            {createAddMarkingCriteriaOption(
-              submission,
-              answer,
-              smallMarkingCriteria,
-              question,
-              handleMarkingCriteriaLevelFeedback,
-              handleStrengthsTargetsFeedback
-            )}
-            {createShowMarkingCriteriasFrame(
-              submission,
-              answer,
-              question
-            )}
-            {pageMode !== 'DRAFT' && (
-              <OverallFeedback
-                pageMode={pageMode}
-                addOverallFeedback={addOverallFeedback}
-                question={question}
-                overallComment={overallComment}
-                updateOverAllFeedback={updateOverAllFeedback}
-              />
-            )}
-          </AnswerContainer>
-        </Frame1366>
-
-        {QuestionIndex !== submission.assignment.questions.length - 1 && (
-          <div>
-            <Line src="/img/line-14-4.png" alt="Line 14" />
-          </div>
-        )}
-      </>
-    );
+        </AnswerContainer>
+      </Frame1366>
+    </>
+  );
 };
 
 const createFocusAreasLabel = (
@@ -365,9 +378,9 @@ function createQuill(
   editorFontSize,
   updatedCommentPosition,
   methods,
-  selectedRange
+  selectedRange,
+  commentFocusAreaToggle
 ) {
-
   return (
     <div>
       <QuillEditor
@@ -395,23 +408,24 @@ function createQuill(
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}
         containerName={containerName}
-        nonEditable={pageMode === 'REVIEW' || pageMode === 'CLOSED' || pageMode === 'REVISE'}
+        nonEditable={
+          pageMode === 'REVIEW' ||
+          pageMode === 'CLOSED' ||
+          pageMode === 'REVISE'
+        }
         editorFontSize={editorFontSize}
         updatedCommentPosition={updatedCommentPosition}
         methods={methods}
         pageMode={pageMode}
         submission={submission}
         selectedRange={selectedRange}
+        commentFocusAreaToggle={commentFocusAreaToggle}
       ></QuillEditor>
     </div>
   );
 }
 
-function createShowMarkingCriteriasFrame(
-  submission,
-  answer,
-  question
-) {
+function createShowMarkingCriteriasFrame(submission, answer, question) {
   const validStatuses = ['REVIEWED', 'CLOSED', 'RESUBMISSION_REQUESTED'];
   const questionCriteria =
     submission.assignment.questions[answer.serialNumber - 1];

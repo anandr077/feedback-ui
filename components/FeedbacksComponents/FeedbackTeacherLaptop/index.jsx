@@ -548,7 +548,9 @@ function answersAndFeedbacks(
             methods,
             editorFontSize,
             updatedCommentPosition,
-            selectedRange
+            selectedRange,
+            commentFocusAreaToggle,
+            setCommentFocusAreaToggle
           )}
 
           {/* {!isMobile && (

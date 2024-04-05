@@ -477,7 +477,7 @@ export const Group1225 = styled.div`
   position: relative;
   display: flex;
   flex: 1;
-  flex-direction: column;
+  //flex-direction: column;
   //width: 880px;
   min-height: 650px;
 `;
@@ -572,6 +572,7 @@ export const QuillContainer = styled.p`
   width: 100%;
   height: 100%;
   z-index: 1;
+  display: flex;
 `;
 
 export const Frame1331 = styled.div`

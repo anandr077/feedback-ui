@@ -38,6 +38,7 @@ const CommentBox = ({
   editorRef,
   updatedCommentPosition,
   selectedRange,
+  commentFocusAreaToggle
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
@@ -176,99 +177,106 @@ const CommentBox = ({
 
   return (
     <>
-      {showNewComment ? (
-        <MainSideContainer
-          style={{ top: commentInputTopPosition, right: '-330px' }}
-        >
-          <Screen onClick={methods.hideNewCommentDiv}></Screen>
-          <OptionContainer>
-            <Option>
-              <img src={CommentIcon} />
-            </Option>
-            <Option>
-              <img src={ShareIcon} />
-            </Option>
-            <Option>
-              <img src={AlphabetIcon} />
-            </Option>
-            <Option>
-              <img src={ThumbsupIcon} />
-            </Option>
-          </OptionContainer>
-          {newCommentFrame(
-            pageMode,
-            submission,
-            newCommentSerialNumber,
-            methods
-            // newCommentFrameRef,
-            // share
-          )}
-        </MainSideContainer>
-      ) : (
-        <MainSideContainer>
-          <OptionContainer>
-            <Option>
-              <img src={CommentIcon} />
-            </Option>
-            <Option>
-              <img src={AlphabetIcon} />
-            </Option>
-            <Option>
-              <img src={ShareIcon} />
-            </Option>
-            <Option>
-              <img src={ThumbsupIcon} />
-            </Option>
-          </OptionContainer>
-          {groupedCommentsWithGap.length > 0 && (
-            <div
-              style={{
-                position: 'absolute',
-                top: `${groupedCommentsWithGap[0][0].topPosition - 150}px`,
-                zIndex: 1000,
-              }}
+      {!commentFocusAreaToggle && (
+        <>
+          {showNewComment ? (
+            <MainSideContainer
+              style={{ top: commentInputTopPosition, right: '-330px' }}
             >
+              <Screen onClick={methods.hideNewCommentDiv}></Screen>
+              <OptionContainer>
+                <Option>
+                  <img src={CommentIcon} />
+                </Option>
+                <Option>
+                  <img src={ShareIcon} />
+                </Option>
+                <Option>
+                  <img src={AlphabetIcon} />
+                </Option>
+                <Option>
+                  <img src={ThumbsupIcon} />
+                </Option>
+              </OptionContainer>
               {newCommentFrame(
                 pageMode,
                 submission,
                 newCommentSerialNumber,
                 methods
+                // newCommentFrameRef,
+                // share
               )}
-            </div>
-          )}
-          <ul
-            style={{
-              height: '100%',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            {groupedCommentsWithGap.map((group, groupIndex) => (
-              <div key={groupIndex}>
-                {group.map((comment, index) => (
-                  <div
-                    key={index}
-                    id={`comment-${index}`}
-                    style={{
-                      position: 'absolute',
-                      top: `${comment.topPosition}px`,
-                      left: '0',
-                      minWidth: '300px',
-                      height: 'auto',
-                      overflow: 'hidden',
-                      paddingLeft: '60px',
-                    }}
-                  >
-                    <CommentCard32 comment={comment} />
+            </MainSideContainer>
+          ) : (
+            <MainSideContainer>
+              <OptionContainer>
+                <Option>
+                  <img src={CommentIcon} />
+                </Option>
+                <Option>
+                  <img src={AlphabetIcon} />
+                </Option>
+                <Option>
+                  <img src={ShareIcon} />
+                </Option>
+                <Option>
+                  <img src={ThumbsupIcon} />
+                </Option>
+              </OptionContainer>
+              {groupedCommentsWithGap.length > 0 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: `${groupedCommentsWithGap[0][0].topPosition - 150}px`,
+                    zIndex: 1000,
+                  }}
+                >
+                  {newCommentFrame(
+                    pageMode,
+                    submission,
+                    newCommentSerialNumber,
+                    methods
+                  )}
+                </div>
+              )}
+              <ul
+                style={{
+                  height: '100%',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                {groupedCommentsWithGap.map((group, groupIndex) => (
+                  <div key={groupIndex}>
+                    {group.filter(comment => comment.type === "COMMENT").map((comment, index) => {
+                      return (
+                        <div
+                          key={index}
+                          id={`comment-${index}`}
+                          style={{
+                            position: 'absolute',
+                            top: `${comment.topPosition}px`,
+                            left: '0',
+                            minWidth: '300px',
+                            height: 'auto',
+                            overflow: 'hidden',
+                            paddingLeft: '60px',
+                          }}
+                        >
+                          <CommentCard32 comment={comment} />
+                        </div>
+                      )
+                    })}
                   </div>
                 ))}
-              </div>
-            ))}
-          </ul>
-        </MainSideContainer>
+              </ul>
+            </MainSideContainer>
+          )}
+        </>
       )}
     </>
   );
+  
 };
 
 export default CommentBox;

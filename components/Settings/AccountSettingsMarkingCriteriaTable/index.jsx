@@ -216,9 +216,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
                   <ActiveSetting>
                     <Frame13221>
                       <FeedbackTitleContainer>
-                        <FeedbackBankHeading>
-                          Comment Banks
-                        </FeedbackBankHeading>
+                        <FeedbackBankHeading>Comment Banks</FeedbackBankHeading>
                         <QuestionTooltip
                           text={
                             'Help other students who have requested feedback from the community'

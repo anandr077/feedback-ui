@@ -253,8 +253,8 @@ export default function StudentTaskRoot() {
     <>
       <MainContainer>
         <CalenderContainer>
-          <TitleHeading 
-            style={tasksSelected ? {color: '#7200E0'} : {color: '#7B7382'}}
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
             className={tasksSelected ? 'active' : ''}
             onClick={() => setTasksSelected(true)}
           >
@@ -265,8 +265,10 @@ export default function StudentTaskRoot() {
             Column
           </TitleHeading>
           {!mobileView && (
-            <TitleHeading 
-              style={tasksSelected ? {color: '#7B7382'} : {color: '#7200E0'}}
+            <TitleHeading
+              style={
+                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
+              }
               className={!tasksSelected ? 'active' : ''}
               onClick={() => setTasksSelected(false)}
             >
@@ -406,8 +408,9 @@ export default function StudentTaskRoot() {
           }}
         />
       }
+      
       laptop={
-        <TasksLaptop
+        <TasksDesktop
           {...{
             menuItems,
             filterTasks,
@@ -417,7 +420,7 @@ export default function StudentTaskRoot() {
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
-            ...tasksLaptopData,
+            ...tasksDesktopData,
           }}
         />
       }

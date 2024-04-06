@@ -13,7 +13,6 @@ import CheckboxGroup from '../../CheckboxGroup';
 import {
   TitleAndFilterContainer,
   TitleAndSubtitleContainer,
-  TitleContainer,
   Title,
   SubtitleCon,
   TitleImage,
@@ -21,6 +20,7 @@ import {
 import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 import {
   ButtonContainer,
+  TitleContainer,
   Frame1211,
   Frame1362,
   Frame1363,
@@ -30,6 +30,7 @@ import {
   Outstanding,
   TaskScreenMainContainer,
 } from './style.js';
+import { isMobileView } from '../../ReactiveRender/index.jsx';
 
 function TeacherTasksStudentTablet(props) {
   const {
@@ -45,6 +46,7 @@ function TeacherTasksStudentTablet(props) {
     MyCalendarFile,
   } = props;
   const [tasksFrame, setTasksFrame] = useState(null);
+  const mobileView = isMobileView();
 
   useEffect(() => {
     setTasksFrame(
@@ -83,11 +85,13 @@ function TeacherTasksStudentTablet(props) {
                 <Buttons link="#tasks/new" />{' '}
               </ButtonContainer>
             </TitleContainer>
-            <SubtitleCon>
-              Click on a task bubble to complete or review your work
-            </SubtitleCon>
+            {!mobileView && (
+              <SubtitleCon>
+                Click on a task bubble to complete or review your work
+              </SubtitleCon>
+            )}
           </TitleAndSubtitleContainer>
-          <>{FilterSortAndCal}</>
+          {!mobileView && <>{FilterSortAndCal}</>}
         </TitleAndFilterContainer>
         {tasksSelected ? <>{tasksFrame}</> : MyCalendarFile}
       </Frame1365>

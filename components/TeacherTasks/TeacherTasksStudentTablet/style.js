@@ -13,6 +13,13 @@ export const TaskScreenMainContainer = styled.div`
   padding: 40px 0px;
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+`;
 
 export const ButtonContainer = styled.div`
   display: flex;
@@ -29,6 +36,16 @@ export const Frame1365 = styled.div`
   position: relative;
   align-self: stretch;
   min-height: 600px;
+  @media (max-width: 765px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 0px 20px;
+    position: relative;
+    align-self: stretch;
+    min-height: 600px;
+  }
 `;
 
 export const Frame1364 = styled.div`
@@ -49,6 +66,18 @@ export const Frame1211 = styled.div`
   position: relative;
   background-color: var(--blue-chalk);
   border-radius: 24px;
+  @media (max-width: 765px) {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 8px;
+    position: relative;
+    align-self: stretch;
+    background-color: var(--blue-chalk);
+    border-radius: 24px;
+    flex-wrap: wrap;
+  }
 `;
 
 export const Frame1363 = styled.div`

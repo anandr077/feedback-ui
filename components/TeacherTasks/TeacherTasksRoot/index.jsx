@@ -175,7 +175,6 @@ export default function TeacherTaskRoot() {
     return sortedTasks;
   };
 
-  // console.log('filteredData', filteredData(filteredTasks)[0].tags[0].name);
   console.log('selectedClass', selectedClass);
 
   const classNames = classes.map((classItem) => classItem.title);
@@ -510,19 +509,19 @@ export default function TeacherTaskRoot() {
 
       <ReactiveRender
         mobile={
-          <TeacherTasksStudentMobile
+          <TeacherTasksStudentTablet
             {...{
               menuItems,
               filterTasks,
               drafts,
               awaitingSubmissions,
-              feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              feedbacks,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksStudentMobileData,
+              ...tasksStudentTabletData,
             }}
           />
         }
@@ -543,26 +542,6 @@ export default function TeacherTaskRoot() {
             }}
           />
         }
-        // laptop={
-        //   <TeacherTasksLaptop
-        //     {...{
-        //       menuItems,
-        //       filterTasks,
-        //       drafts,
-        //       awaitingSubmissions,
-        //       feedbacks,
-        //       showDeletePopuphandler,
-        //       showDateExtendPopuphandler,
-        //       showDeletePopup,
-        //       hidedeletePopup,
-        //       selectedAssignment,
-        //       FilterSortAndCal,
-        //       tasksSelected,
-        //       MyCalendarFile,
-        //       ...tasksLaptopData,
-        //     }}
-        //   />
-        // }
         laptop={
           <TeacherTasksDesktop
             {...{

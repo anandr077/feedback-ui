@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import HeaderSmall from '../../HeaderSmall';
 import Tabs from '../../Tabs';
 import TaskCardContainer from '../../TaskCardContainer';
@@ -9,7 +8,6 @@ import {
   IbmplexsansBoldShark36px,
   IbmplexsansSemiBoldRiverBed24px,
 } from '../../../styledMixins';
-import './TeacherTasksStudentTablet.css';
 import Buttons from '../../Classes/Buttons';
 import CheckboxGroup from '../../CheckboxGroup';
 import {
@@ -21,6 +19,17 @@ import {
   TitleImage,
 } from '../../TasksStudentTablet/style.js';
 import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
+import {
+  ButtonContainer,
+  Frame1211,
+  Frame1362,
+  Frame1363,
+  Frame1364,
+  Frame1365,
+  Number,
+  Outstanding,
+  TaskScreenMainContainer,
+} from './style.js';
 
 function TeacherTasksStudentTablet(props) {
   const {
@@ -56,15 +65,17 @@ function TeacherTasksStudentTablet(props) {
   }
 
   return (
-    <div className="tasks-student-tablet screen">
+    <TaskScreenMainContainer className="screen">
       <Frame1365>
         <TitleAndFilterContainer>
           <TitleAndSubtitleContainer>
             <TitleContainer>
               <Title>
                 Tasks
-                <QuestionTooltip 
-                  text={'View the status of every task that you have assigned for your classes'} 
+                <QuestionTooltip
+                  text={
+                    'View the status of every task that you have assigned for your classes'
+                  }
                   img={questionMark}
                 />
               </Title>
@@ -80,7 +91,7 @@ function TeacherTasksStudentTablet(props) {
         </TitleAndFilterContainer>
         {tasksSelected ? <>{tasksFrame}</> : MyCalendarFile}
       </Frame1365>
-    </div>
+    </TaskScreenMainContainer>
   );
 
   function createTasksFrame(
@@ -90,17 +101,17 @@ function TeacherTasksStudentTablet(props) {
     isInProgress,
     isOverdue
   ) {
-    const tooltipText = () =>{
-      if(title === "Drafts"){
-        return "Tasks that you have started to create but have not yet assigned to a class"
+    const tooltipText = () => {
+      if (title === 'Drafts') {
+        return 'Tasks that you have started to create but have not yet assigned to a class';
       }
-      if(title === "Active"){
-        return "Tasks that are currently being completed by students and/or that await your feedback"
+      if (title === 'Active') {
+        return 'Tasks that are currently being completed by students and/or that await your feedback';
       }
-      if(title === "Closed"){
-        return "Previous tasks that are no longer accepting submissions or feedback"
+      if (title === 'Closed') {
+        return 'Previous tasks that are no longer accepting submissions or feedback';
       }
-    }
+    };
     return (
       <>
         <Frame1364>
@@ -137,10 +148,7 @@ function TeacherTasksStudentTablet(props) {
             <Frame1362>
               <Outstanding>
                 {title}
-                <QuestionTooltip 
-                  text={tooltipText()} 
-                  img={questionMark}
-                />
+                <QuestionTooltip text={tooltipText()} img={questionMark} />
               </Outstanding>
               <Number>{tasks.length}</Number>
             </Frame1362>
@@ -156,93 +164,4 @@ function TeacherTasksStudentTablet(props) {
   }
 }
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  max-width: 200px;
-`;
-
-const Frame1365 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
-  padding: 0px 60px;
-  position: relative;
-  align-self: stretch;
-  min-height: 600px;
-`;
-
-const Frame1307 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1364 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1211 = styled.div`
-  display: flex;
-  width: 442px;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 8px;
-  position: relative;
-  background-color: var(--blue-chalk);
-  border-radius: 24px;
-`;
-
-const Frame1363 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1362 = styled.div`
-  ${IbmplexsansSemiBoldRiverBed24px}
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Outstanding = styled.div`
-  position: relative;
-  flex: 1;
-  letter-spacing: 0;
-  line-height: normal;
-  display: flex;
-  gap: 8px;
-`;
-
-const Number = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-const PageTitle = styled.h1`
-  ${IbmplexsansBoldShark36px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.72px;
-  line-height: 43.2px;
-  white-space: nowrap;
-`;
 export default TeacherTasksStudentTablet;

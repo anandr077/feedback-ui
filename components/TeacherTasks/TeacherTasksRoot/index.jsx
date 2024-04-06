@@ -52,7 +52,7 @@ import {
   SortText,
   SortButton,
   SortButtonText,
-  TitleHeading
+  TitleHeading,
 } from '../../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -351,8 +351,8 @@ export default function TeacherTaskRoot() {
     <>
       <MainContainer>
         <CalenderContainer>
-          <TitleHeading 
-            style={tasksSelected ? {color: '#7200E0'} : {color: '#7B7382'}}
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
             className={tasksSelected ? 'active' : ''}
             onClick={() => setTasksSelected(true)}
           >
@@ -363,8 +363,10 @@ export default function TeacherTaskRoot() {
             Column
           </TitleHeading>
           {!mobileView && (
-            <TitleHeading 
-              style={tasksSelected ? {color: '#7B7382'} : {color: '#7200E0'}}
+            <TitleHeading
+              style={
+                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
+              }
               className={!tasksSelected ? 'active' : ''}
               onClick={() => setTasksSelected(false)}
             >
@@ -541,8 +543,28 @@ export default function TeacherTaskRoot() {
             }}
           />
         }
+        // laptop={
+        //   <TeacherTasksLaptop
+        //     {...{
+        //       menuItems,
+        //       filterTasks,
+        //       drafts,
+        //       awaitingSubmissions,
+        //       feedbacks,
+        //       showDeletePopuphandler,
+        //       showDateExtendPopuphandler,
+        //       showDeletePopup,
+        //       hidedeletePopup,
+        //       selectedAssignment,
+        //       FilterSortAndCal,
+        //       tasksSelected,
+        //       MyCalendarFile,
+        //       ...tasksLaptopData,
+        //     }}
+        //   />
+        // }
         laptop={
-          <TeacherTasksLaptop
+          <TeacherTasksDesktop
             {...{
               menuItems,
               filterTasks,
@@ -551,13 +573,10 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
-              showDeletePopup,
-              hidedeletePopup,
-              selectedAssignment,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksLaptopData,
+              ...tasksDesktopData,
             }}
           />
         }

@@ -379,7 +379,7 @@ export default function StudentTaskRoot() {
   return (
     <ReactiveRender
       mobile={
-        <TasksStudentMobile
+        <TasksStudentTablet
           {...{
             menuItems,
             filterTasks,
@@ -389,7 +389,7 @@ export default function StudentTaskRoot() {
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
-            ...tasksStudentMobileData,
+            ...tasksStudentTabletData,
           }}
         />
       }
@@ -408,7 +408,6 @@ export default function StudentTaskRoot() {
           }}
         />
       }
-      
       laptop={
         <TasksDesktop
           {...{

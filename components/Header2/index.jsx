@@ -4,7 +4,7 @@ import {
   useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { getNotifications } from '../../service.js';
-import { getUserRole } from '../../userLocalDetails.js';
+import { getUserName, getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
   Logo,
@@ -28,6 +28,7 @@ import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
 import { headerTitle } from './headerTitle.js';
+import { Avatar } from '@boringer-avatars/react';
 
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -40,6 +41,7 @@ const Header = () => {
   const history = useHistory();
   const location = useLocation();
   const role = getUserRole();
+  const name = getUserName();
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -147,7 +149,16 @@ const Header = () => {
               src={notificationsIcon}
               onClick={handleNotificationClick}
             />
-            <Account src={accountIcon} onClick={toggleDropDown} />
+            {/* <Account src={accountIcon} onClick={toggleDropDown} /> */}
+            <Account onClick={toggleDropDown}>
+              <Avatar
+                title={false}
+                size={36}
+                variant="beam"
+                name={name}
+                square={false}
+              />
+            </Account>
           </NotificationAccount>
         </RightSide>
         {isNotificationOpen && (

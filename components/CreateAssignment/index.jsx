@@ -64,7 +64,7 @@ export default function CreateAssignment(props) {
     reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
-    dueAt: dayjs().add(3, 'day'),
+    dueAt: '',
   };
   const [assignment, setAssignment] = React.useState(draft);
 

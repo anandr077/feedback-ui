@@ -216,26 +216,41 @@ export const MainContainer = styled.div`
   position: relative;
   align-self: stretch;
   width: 100%;
-  padding: 0 20px;
 `;
 
 export const LeftContainer = styled.div`
   display: flex;
   position: sticky;
-  height: 150px;
-  top: 100px;
+  height: 250px;
+  top: 10px;
   width: 25%;
   max-width: 230px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 15px;
   @media (min-width: 766px) and (max-width: 1024px) {
-    top: 100px;
+    top: 10px;
   }
   @media (max-width: 765px) {
     display: none;
   }
 `;
+
+export const LeftContainerHeading = styled.p`
+  padding: 20px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20.8px;
+  letter-spacing: -0.01em;
+  text-align: left;
+`;
+
+export const LeftContainerTitleCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px 0px 20px;
+`;
+
 export const LeftContainerTitle = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
@@ -243,6 +258,7 @@ export const LeftContainerTitle = styled.p`
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
+  padding: 12px 16px;
   cursor: pointer;
 `;
 

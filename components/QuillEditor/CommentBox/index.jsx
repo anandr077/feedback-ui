@@ -38,7 +38,7 @@ const CommentBox = ({
   editorRef,
   updatedCommentPosition,
   selectedRange,
-  commentFocusAreaToggle
+  commentFocusAreaToggle,
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
@@ -248,25 +248,27 @@ const CommentBox = ({
               >
                 {groupedCommentsWithGap.map((group, groupIndex) => (
                   <div key={groupIndex}>
-                    {group.filter(comment => comment.type === "COMMENT").map((comment, index) => {
-                      return (
-                        <div
-                          key={index}
-                          id={`comment-${index}`}
-                          style={{
-                            position: 'absolute',
-                            top: `${comment.topPosition}px`,
-                            left: '0',
-                            minWidth: '300px',
-                            height: 'auto',
-                            overflow: 'hidden',
-                            paddingLeft: '60px',
-                          }}
-                        >
-                          <CommentCard32 comment={comment} />
-                        </div>
-                      )
-                    })}
+                    {group
+                      .filter((comment) => comment.type === 'COMMENT')
+                      .map((comment, index) => {
+                        return (
+                          <div
+                            key={index}
+                            id={`comment-${index}`}
+                            style={{
+                              position: 'absolute',
+                              top: `${comment.topPosition}px`,
+                              left: '0',
+                              minWidth: '300px',
+                              height: 'auto',
+                              overflow: 'hidden',
+                              paddingLeft: '60px',
+                            }}
+                          >
+                            <CommentCard32 comment={comment} />
+                          </div>
+                        );
+                      })}
                   </div>
                 ))}
               </ul>
@@ -276,7 +278,6 @@ const CommentBox = ({
       )}
     </>
   );
-  
 };
 
 export default CommentBox;

@@ -22,6 +22,7 @@ import FeedbackFrame from './feedbackFrame';
 import {
   Frame1315,
   Frame1368,
+  FeedbackBody,
   Frame1386,
   Frame1387,
   Frame1388,
@@ -535,7 +536,7 @@ function answersAndFeedbacks(
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       />
-      <div style={{ position: 'relative'}}>
+      <FeedbackBody>
         <Frame1368 id="assignmentData">
           {answersFrame(
             quillRefs,
@@ -550,7 +551,8 @@ function answersAndFeedbacks(
             updatedCommentPosition,
             selectedRange,
             commentFocusAreaToggle,
-            setCommentFocusAreaToggle
+            setCommentFocusAreaToggle,
+            openRightPanel
           )}
 
           {/* {!isMobile && (
@@ -585,7 +587,7 @@ function answersAndFeedbacks(
           handleClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
         />
-      </div>
+      </FeedbackBody>
     </Frame1386>
   );
 }

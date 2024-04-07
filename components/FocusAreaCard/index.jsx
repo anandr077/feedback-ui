@@ -5,12 +5,12 @@ const FocusAreaCard = ({ comments }) => {
   return (
     <FocusAreaContainer>
       {comments.map((comment) => {
-          return (
-            <FocusArea style={{ backgroundColor: comment.color }}>
-              {comment.comment}
-            </FocusArea>
-          );
-        })}
+        return (
+          <FocusArea style={{ backgroundColor: comment.color }}>
+            {comment.comment}
+          </FocusArea>
+        );
+      })}
     </FocusAreaContainer>
   );
 };

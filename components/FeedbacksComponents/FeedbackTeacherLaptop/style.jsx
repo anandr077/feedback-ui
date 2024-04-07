@@ -456,6 +456,11 @@ export const Crown = styled.img`
   height: 20px;
 `;
 
+export const FeedbackBody = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 export const Frame1368 = styled.div`
   display: flex;
   align-items: flex-start;
@@ -465,6 +470,7 @@ export const Frame1368 = styled.div`
   top: 75px;
   height: calc(100vh - 120px);
   overflow-y: scroll;
+  width: 100%;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -477,15 +483,18 @@ export const Group1225 = styled.div`
   position: relative;
   display: flex;
   flex: 1;
-  //flex-direction: column;
-  //width: 880px;
   min-height: 650px;
+  width: calc(100vw - 48px);
 `;
 export const Frame1367 = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: flex-start;
+  position: absolute;
+  left: 50%;
+  //transform: translateX(calc(-50% - 210px));
+  transform: ${props => props.moveToLeft ? 'translateX(calc(-50% - 350px))' : 'translateX(calc(-50% - 210px))'};
+  transition: transform 0.3s ease;
   height: 100%;
   background-color: var(--white);
   padding: 20px 0px;
@@ -493,6 +502,13 @@ export const Frame1367 = styled.div`
   margin: 20px;
   border: solid 1px rgba(201, 198, 204, 0.5);
   border-radius: 10px;
+`;
+
+export const FocusAreaContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: ${props => props.moveToLeft ? 'translateX(calc(-50% + 170px))' : 'translateX(calc(-50% + 310px))'};
+  transition: transform 0.3s ease;
 `;
 
 export const QuestionCounter = styled.div`

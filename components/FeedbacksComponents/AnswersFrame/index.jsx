@@ -21,6 +21,7 @@ import {
   FocusAreasLabelContainer,
   Frame1366,
   Frame1367,
+  FocusAreaContainer,
   QuestionCounter,
   QuestionBox,
   QuestionBtn,
@@ -52,7 +53,8 @@ export function answersFrame(
   updatedCommentPosition,
   selectedRange,
   commentFocusAreaToggle,
-  setCommentFocusAreaToggle
+  setCommentFocusAreaToggle,
+  openRightPanel
 ) {
   return (
     <AnswersFrame
@@ -80,6 +82,7 @@ export function answersFrame(
       selectedRange={selectedRange}
       commentFocusAreaToggle={commentFocusAreaToggle}
       setCommentFocusAreaToggle={setCommentFocusAreaToggle}
+      openRightPanel={openRightPanel}
     ></AnswersFrame>
   );
 }
@@ -107,7 +110,8 @@ function AnswersFrame(props) {
     methods,
     selectedRange,
     commentFocusAreaToggle,
-    setCommentFocusAreaToggle
+    setCommentFocusAreaToggle,
+    openRightPanel,
   } = props;
 
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
@@ -134,7 +138,7 @@ function AnswersFrame(props) {
 
   return (
     <Group1225 id="answers">
-      <Frame1367>
+      <Frame1367 moveToLeft={openRightPanel}>
         <QuestionCounter>
           <QuestionBtn onClick={handlePreviousQuestion}>
             <img src={LeftIcon} /> Previous
@@ -174,9 +178,13 @@ function AnswersFrame(props) {
         )}
       </Frame1367>
       {commentFocusAreaToggle && (
-        <FocusAreaCard
-          comments={comments.filter((comment) => comment.type === 'FOCUS_AREA')}
-        />
+        <FocusAreaContainer moveToLeft={openRightPanel}>
+          <FocusAreaCard
+            comments={comments.filter(
+              (comment) => comment.type === 'FOCUS_AREA'
+            )}
+          />
+        </FocusAreaContainer>
       )}
     </Group1225>
   );
@@ -281,7 +289,7 @@ const answerFrames = (
                   createVisibleComments(commentsForSelectedTab),
                   answer.serialNumber
                 )(quillRefs.current[answer.serialNumber - 1].getSelection());
-                setCommentFocusAreaToggle(false)
+                setCommentFocusAreaToggle(false);
               }}
               id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
             >

@@ -99,7 +99,7 @@ export const subRoutes = [
         {
           icon: settings,
           title: 'User Settings',
-          link: '/settins',
+          link: '/settings',
         },
         {
           icon: banks,
@@ -119,7 +119,7 @@ export const subRoutes = [
         {
           icon: settings,
           title: 'User Settings',
-          link: '/settins',
+          link: '/settings',
         },
         {
           icon: banks,

@@ -52,7 +52,7 @@ import {
   SortText,
   SortButton,
   SortButtonText,
-  TitleHeading
+  TitleHeading,
 } from '../../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -175,7 +175,6 @@ export default function TeacherTaskRoot() {
     return sortedTasks;
   };
 
-  // console.log('filteredData', filteredData(filteredTasks)[0].tags[0].name);
   console.log('selectedClass', selectedClass);
 
   const classNames = classes.map((classItem) => classItem.title);
@@ -351,8 +350,8 @@ export default function TeacherTaskRoot() {
     <>
       <MainContainer>
         <CalenderContainer>
-          <TitleHeading 
-            style={tasksSelected ? {color: '#7200E0'} : {color: '#7B7382'}}
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
             className={tasksSelected ? 'active' : ''}
             onClick={() => setTasksSelected(true)}
           >
@@ -363,8 +362,10 @@ export default function TeacherTaskRoot() {
             Column
           </TitleHeading>
           {!mobileView && (
-            <TitleHeading 
-              style={tasksSelected ? {color: '#7B7382'} : {color: '#7200E0'}}
+            <TitleHeading
+              style={
+                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
+              }
               className={!tasksSelected ? 'active' : ''}
               onClick={() => setTasksSelected(false)}
             >
@@ -508,19 +509,19 @@ export default function TeacherTaskRoot() {
 
       <ReactiveRender
         mobile={
-          <TeacherTasksStudentMobile
+          <TeacherTasksStudentTablet
             {...{
               menuItems,
               filterTasks,
               drafts,
               awaitingSubmissions,
-              feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              feedbacks,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksStudentMobileData,
+              ...tasksStudentTabletData,
             }}
           />
         }
@@ -542,7 +543,7 @@ export default function TeacherTaskRoot() {
           />
         }
         laptop={
-          <TeacherTasksLaptop
+          <TeacherTasksDesktop
             {...{
               menuItems,
               filterTasks,
@@ -551,13 +552,10 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
-              showDeletePopup,
-              hidedeletePopup,
-              selectedAssignment,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksLaptopData,
+              ...tasksDesktopData,
             }}
           />
         }

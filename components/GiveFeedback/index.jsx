@@ -455,9 +455,11 @@ function GiveFeedback() {
                   <Frame5087 src={levelEmoji} />
                   <Frame5088>
                     <Frame5088Para>Level {studentStats.level}</Frame5088Para>
-                    <QuestionTooltip 
-                      img={questionMark} 
-                      text={'Level up by providing meaningfull feedback to other students'}
+                    <QuestionTooltip
+                      img={questionMark}
+                      text={
+                        'Level up by providing meaningfull feedback to other students'
+                      }
                     />
                   </Frame5088>
                 </Frame1353>

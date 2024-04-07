@@ -5,6 +5,7 @@ export const GiveFeedbackContainer = styled.div`
 `;
 
 export const MainContainer = styled.div`
+  width: 100%;
   align-items: center;
   background-color: var(--white);
   border: 1px none;
@@ -27,7 +28,7 @@ export const InnerContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  max-width: 1440px;
+  // max-width: 1440px;
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
@@ -93,8 +94,8 @@ export const SortButton = styled.div`
 `;
 export const SortButtonText = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 13px;
+  font-weight: 500;
   letter-spacing: 0em;
   text-align: left;
   color: #6f6f6f;
@@ -147,7 +148,7 @@ export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 65%;
-  border: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+  border-right: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
   @media (max-width: 1024px) {
     width: 100%;

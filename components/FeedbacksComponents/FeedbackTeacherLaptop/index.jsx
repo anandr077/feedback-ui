@@ -498,7 +498,8 @@ function answersAndFeedbacks(
   selectedRange
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
-  const [commentFocusAreaToggle, setCommentFocusAreaToggle] = React.useState(false);
+  const [commentFocusAreaToggle, setCommentFocusAreaToggle] =
+    React.useState(false);
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const handleRightSidebarClick = (tab) => {
@@ -538,7 +539,7 @@ function answersAndFeedbacks(
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       />
-      <FeedbackQuestionSlider 
+      <FeedbackQuestionSlider
         setQuestionIndex={setQuestionIndex}
         QuestionIndex={QuestionIndex}
         questions={submission.assignment.questions}
@@ -590,6 +591,9 @@ function answersAndFeedbacks(
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
+          QuestionIndex={QuestionIndex}
+          addOverallFeedback={methods.addOverallFeedback}
+          updateOverAllFeedback={methods.updateOverAllFeedback}
         />
         <FeedbackRightSidebar
           handleClick={handleRightSidebarClick}

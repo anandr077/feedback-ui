@@ -497,7 +497,6 @@ export const Frame1367 = styled.div`
   transition: transform 0.3s ease;
   height: 100%;
   background-color: var(--white);
-  padding: 20px 0px;
   width: 650px;
   margin: 20px;
   border: solid 1px rgba(201, 198, 204, 0.5);
@@ -506,45 +505,19 @@ export const Frame1367 = styled.div`
 
 export const FocusAreaContainer = styled.div`
   position: absolute;
+  top: 0;
   left: 50%;
   transform: ${props => props.moveToLeft ? 'translateX(calc(-50% + 170px))' : 'translateX(calc(-50% + 310px))'};
   transition: transform 0.3s ease;
 `;
 
-export const QuestionCounter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: center;
-  padding: 0 80px;
- `;
-
-export const QuestionBtn = styled.button`
-  min-width: 85px;
-  height: 28px;
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 16px;
-  border: solid 1px #b2aeb7;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-s);
-  line-height: 20px;
-  color: rgba(123, 115, 130, 1);
-  background-color: transparent;
-  cursor: pointer;
-`;
-  
-export const QuestionBox = styled.div`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-s);
-  line-height: 20px;
-  color: rgba(123, 115, 130, 1);
-`;
+export const AddCommentDiv = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: ${props => props.moveToLeft ? 'translateX(calc(-50% + 170px))' : 'translateX(calc(-50% + 310px))'};
+  transition: transform 0.3s ease;
+  width: 314px;
+`
 
 export const Frame1366 = styled.div`
   display: flex;
@@ -576,7 +549,7 @@ export const QuestionText = styled.p`
   font-size: 19px;
   font-weight: 500;
   width: 100%;
-  padding: 16px 80px 20px;
+  padding: 16px 80px;
   border-bottom: 1px solid rgba(201, 198, 204, 0.5);
 `;
 export const QuillContainer = styled.p`

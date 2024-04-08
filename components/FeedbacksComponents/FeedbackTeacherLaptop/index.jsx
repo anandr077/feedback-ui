@@ -51,6 +51,7 @@ import FeedbackRightSidebar from '../FeedbackRightSidebar';
 import FeedbackTaskDetails from '../FeedbackTaskDetails';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import FeedbackHeader from '../FeedbackHeader';
+import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -498,10 +499,11 @@ function answersAndFeedbacks(
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
   const [commentFocusAreaToggle, setCommentFocusAreaToggle] = React.useState(false);
+  const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
-  }; 
+  };
 
   return (
     <Frame1386 id="content">
@@ -536,6 +538,11 @@ function answersAndFeedbacks(
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       />
+      <FeedbackQuestionSlider 
+        setQuestionIndex={setQuestionIndex}
+        QuestionIndex={QuestionIndex}
+        questions={submission.assignment.questions}
+      />
       <FeedbackBody>
         <Frame1368 id="assignmentData">
           {answersFrame(
@@ -552,7 +559,8 @@ function answersAndFeedbacks(
             selectedRange,
             commentFocusAreaToggle,
             setCommentFocusAreaToggle,
-            openRightPanel
+            openRightPanel,
+            QuestionIndex
           )}
 
           {/* {!isMobile && (

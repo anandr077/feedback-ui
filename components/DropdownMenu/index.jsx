@@ -139,7 +139,7 @@ export const DropdownMenu = (props) => {
             >
               <p>
                 <StyledListItemText
-                  id={selectedItem.id}
+                  id={selectedItem?.id}
                   primary={
                     primaryText
                       ? primaryText

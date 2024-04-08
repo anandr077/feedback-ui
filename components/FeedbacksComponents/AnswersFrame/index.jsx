@@ -22,9 +22,7 @@ import {
   Frame1366,
   Frame1367,
   FocusAreaContainer,
-  QuestionCounter,
-  QuestionBox,
-  QuestionBtn,
+  AddCommentDiv,
   Group1225,
   Label,
   QuestionText,
@@ -36,9 +34,8 @@ import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
 import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
-import LeftIcon from '../../../static/img/16-arrow-left.svg';
-import RightIcon from '../../../static/img/16-arrow-right.svg';
 import FocusAreaCard from '../../FocusAreaCard';
+import AddCommentInstruction from '../AddCommentInstruction';
 
 export function answersFrame(
   quillRefs,
@@ -54,7 +51,8 @@ export function answersFrame(
   selectedRange,
   commentFocusAreaToggle,
   setCommentFocusAreaToggle,
-  openRightPanel
+  openRightPanel,
+  QuestionIndex
 ) {
   return (
     <AnswersFrame
@@ -83,6 +81,7 @@ export function answersFrame(
       commentFocusAreaToggle={commentFocusAreaToggle}
       setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       openRightPanel={openRightPanel}
+      QuestionIndex={QuestionIndex}
     ></AnswersFrame>
   );
 }
@@ -112,45 +111,13 @@ function AnswersFrame(props) {
     commentFocusAreaToggle,
     setCommentFocusAreaToggle,
     openRightPanel,
+    QuestionIndex
   } = props;
-
-  const [QuestionIndex, setQuestionIndex] = React.useState(0);
-
-  const handlePreviousQuestion = () => {
-    setQuestionIndex((prevIndex) => {
-      if (prevIndex === 0) {
-        return submission.assignment.questions.length - 1;
-      } else {
-        return prevIndex - 1;
-      }
-    });
-  };
-
-  const handleNextQuestion = () => {
-    setQuestionIndex((prevIndex) => {
-      if (prevIndex === submission.assignment.questions.length - 1) {
-        return 0;
-      } else {
-        return prevIndex + 1;
-      }
-    });
-  };
+  console.log('the submissions are', comments)
 
   return (
     <Group1225 id="answers">
       <Frame1367 moveToLeft={openRightPanel}>
-        <QuestionCounter>
-          <QuestionBtn onClick={handlePreviousQuestion}>
-            <img src={LeftIcon} /> Previous
-          </QuestionBtn>
-          <QuestionBox>
-            Question {QuestionIndex + 1} of{' '}
-            {submission.assignment.questions.length}
-          </QuestionBox>
-          <QuestionBtn onClick={handleNextQuestion}>
-            <img src={RightIcon} /> Next
-          </QuestionBtn>
-        </QuestionCounter>
         {answerFrames(
           quillRefs,
           smallMarkingCriteria,
@@ -185,6 +152,11 @@ function AnswersFrame(props) {
             )}
           />
         </FocusAreaContainer>
+      )}
+      {comments.length === 0 && (
+        <AddCommentDiv moveToLeft={openRightPanel}>
+           <AddCommentInstruction />
+        </AddCommentDiv>
       )}
     </Group1225>
   );
@@ -390,7 +362,7 @@ function createQuill(
   commentFocusAreaToggle
 ) {
   return (
-    <div>
+    <div style={{width: '100%'}}>
       <QuillEditor
         key={
           'quillEditor_' +

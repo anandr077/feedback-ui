@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import { getNotifications } from '../../service.js';
 import { getUserRole } from '../../userLocalDetails.js';
 import {
@@ -13,7 +16,7 @@ import {
   Account,
   Screen,
   NavigationContainer,
-  DropDownContainer
+  DropDownContainer,
 } from './HeaderStyle';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
@@ -102,7 +105,9 @@ const Header = () => {
     return () => observer.disconnect();
   }, []);
 
-  const pageHeader = headerTitle.find(item => item.link === location.pathname);
+  const pageHeader = headerTitle.find(
+    (item) => item.link === location.pathname
+  );
 
   return (
     <div
@@ -120,22 +125,27 @@ const Header = () => {
             {pageHeader && pageHeader.title}
             <QuestionTooltip
               img={questionMark}
-              text={pageHeader && 
-                role === "TEACHER" 
-                ? pageHeader.teacherTooltip
-                : role === 'STUDENT'
-                ? pageHeader.studentTooltip
-                : ''}
+              text={
+                pageHeader && role === 'TEACHER'
+                  ? pageHeader.teacherTooltip
+                  : role === 'STUDENT'
+                  ? pageHeader.studentTooltip
+                  : ''
+              }
             />
           </Title>
         </LeftSide>
         <RightSide>
           {/* <Buttons link="#tasks/new" /> */}
-          <RoundedBorderLeftIconBtn
-            onclick={handleNewTaskClick}
-            leftIcon={addBtnIcon}
-            btnText="New Task"
-          />
+          {role === 'TEACHER' && (
+            <div style={{borderRight: '2px solid #DADADA', paddingRight: '20px'}}>
+              <RoundedBorderLeftIconBtn
+                onclick={handleNewTaskClick}
+                leftIcon={addBtnIcon}
+                btnText="New Task"
+              />
+            </div>
+          )}
           <NotificationAccount>
             <Notification
               src={notificationsIcon}

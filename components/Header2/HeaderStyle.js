@@ -43,8 +43,7 @@ export const RightSide = styled.div`
 export const NotificationAccount = styled.div`
    display: flex;
    gap: 23px;
-   padding: 0 11px;
-   border-left: 2px solid #DADADA;
+   padding: 0 11px 0 5px;
 `;
 
 export const Notification = styled.img`

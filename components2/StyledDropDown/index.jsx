@@ -71,7 +71,7 @@ export default function StyledDropDown({
     >
       <Select
         style={{
-          border: !independent ? '1px solid #7200E0' : 'none',
+          border: !independent ? '1px solid #b2aeb7' : 'none',
           backgroundColor: 'white',
           borderRadius: '12px',
           fontSize: '18px !important',

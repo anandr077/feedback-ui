@@ -112,7 +112,7 @@ const Frame1361 = styled.div`
   flex-direction: column;
   width: calc(100vw - 305px);
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
   position: relative;
   border-top: 1px solid rgba(201, 198, 204, 0.5);

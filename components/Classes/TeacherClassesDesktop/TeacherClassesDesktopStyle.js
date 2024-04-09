@@ -17,11 +17,11 @@ export const TopContainer = styled.div`
   border: 1px solid #301b7214;
 
   @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
+    min-width: 1010px;
   }
 
   @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
+    min-width: 698px;
   }
   a {
     text-decoration: none;
@@ -36,7 +36,6 @@ export const Frame1422 = styled.div`
   justify-content: center;
   position: relative;
   max-width: 1440px;
-
 `;
 
 export const Frame13121 = styled.div`
@@ -217,26 +216,41 @@ export const MainContainer = styled.div`
   position: relative;
   align-self: stretch;
   width: 100%;
-  padding: 0 20px;
 `;
 
 export const LeftContainer = styled.div`
   display: flex;
   position: sticky;
-  height: 150px;
-  top: 100px;
+  height: 250px;
+  top: 10px;
   width: 25%;
   max-width: 230px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 15px;
   @media (min-width: 766px) and (max-width: 1024px) {
-    top: 50px;
+    top: 10px;
   }
   @media (max-width: 765px) {
     display: none;
   }
 `;
+
+export const LeftContainerHeading = styled.p`
+  padding: 20px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20.8px;
+  letter-spacing: -0.01em;
+  text-align: left;
+`;
+
+export const LeftContainerTitleCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px 0px 20px;
+`;
+
 export const LeftContainerTitle = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
@@ -244,6 +258,7 @@ export const LeftContainerTitle = styled.p`
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
+  padding: 12px 16px;
   cursor: pointer;
 `;
 
@@ -260,6 +275,8 @@ export const RightContainer = styled.div`
   }
   @media (max-width: 765px) {
     width: 100%;
+    padding-left: 0px;
+    border-left: none;
   }
 `;
 

@@ -52,7 +52,7 @@ import {
   SortText,
   SortButton,
   SortButtonText,
-  TitleHeading
+  TitleHeading,
 } from '../../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -175,32 +175,35 @@ export default function TeacherTaskRoot() {
     return sortedTasks;
   };
 
+  console.log('selectedClass', selectedClass);
+
   const classNames = classes.map((classItem) => classItem.title);
 
   const drafts = filteredData(filteredTasks)
     .filter((assignment) => assignment.submissionsStatus === 'DRAFT')
-    .filter((assignment) => {
-      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
-      return assignment.classId === selectedTitle.id
-    })
+    .filter(
+      (assignment) =>
+        !selectedClass || assignment?.tags[0]?.name === selectedClass
+    );
 
   const awaitingSubmissions = filteredData(filteredTasks)
     .filter((assignment) => {
       return (
         assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
         assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
-      )})
-    .filter((assignment) => {
-      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
-      return assignment.classId === selectedTitle.id
+      );
     })
+    .filter(
+      (assignment) =>
+        !selectedClass || assignment?.tags[0]?.name === selectedClass
+    );
 
   const feedbacks = filteredData(filteredTasks)
     .filter((assignment) => assignment.submissionsStatus === 'FEEDBACK')
-    .filter((assignment) => {
-      const selectedTitle = classes.filter((classItem) => !selectedClass || classItem.title === selectedClass)
-      return assignment.classId === selectedTitle.id
-    })
+    .filter(
+      (assignment) =>
+        !selectedClass || assignment?.tags[0]?.name === selectedClass
+    );
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -347,8 +350,8 @@ export default function TeacherTaskRoot() {
     <>
       <MainContainer>
         <CalenderContainer>
-          <TitleHeading 
-            style={tasksSelected ? {color: '#7200E0'} : {color: '#7B7382'}}
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
             className={tasksSelected ? 'active' : ''}
             onClick={() => setTasksSelected(true)}
           >
@@ -359,8 +362,10 @@ export default function TeacherTaskRoot() {
             Column
           </TitleHeading>
           {!mobileView && (
-            <TitleHeading 
-              style={tasksSelected ? {color: '#7B7382'} : {color: '#7200E0'}}
+            <TitleHeading
+              style={
+                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
+              }
               className={!tasksSelected ? 'active' : ''}
               onClick={() => setTasksSelected(false)}
             >
@@ -405,70 +410,85 @@ export default function TeacherTaskRoot() {
             />
           </FilterContainer>
           {!tabletView && <FilterLine />}
-          <SortContainer>
-            <SortHeading
-              onClick={
-                mobileView
-                  ? () => setShowSortPopUp(!isShowSortPopUp)
-                  : undefined
-              }
-            >
-              <SortImg src={SortSquare} />
-              <SortText>Sort by {!mobileView && ':'}</SortText>
-            </SortHeading>
-            {!mobileView ? (
-              <>
-                <SortButton
-                  style={{
-                    backgroundColor: sortData ? '#51009F' : '',
-                    border: '1px solid #8E33E6',
-                  }}
-                  onClick={() => setSortData(true)}
-                >
-                  <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                    New to Old
-                  </SortButtonText>
-                </SortButton>
-                <SortButton
-                  style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                  onClick={() => setSortData(false)}
-                >
-                  <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                    Old to New
-                  </SortButtonText>
-                </SortButton>
-              </>
-            ) : (
-              <></>
-            )}
-            <SortPopContainer
-              isShowSortPopUp={isShowSortPopUp}
-              setShowSortPopUp={setShowSortPopUp}
-            />
-          </SortContainer>
+          {tasksSelected && (
+            <SortContainer>
+              <SortHeading
+                onClick={
+                  mobileView
+                    ? () => setShowSortPopUp(!isShowSortPopUp)
+                    : undefined
+                }
+              >
+                <SortImg src={SortSquare} />
+                <SortText>Sort by {!mobileView && ':'}</SortText>
+              </SortHeading>
+              {!mobileView ? (
+                <>
+                  <SortButton
+                    style={{
+                      backgroundColor: sortData ? '#51009F' : '',
+                      border: '1px solid #8E33E6',
+                    }}
+                    onClick={() => setSortData(true)}
+                  >
+                    <SortButtonText
+                      style={{ color: sortData ? '#FFFFFF' : '' }}
+                    >
+                      New to Old
+                    </SortButtonText>
+                  </SortButton>
+                  <SortButton
+                    style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                    onClick={() => setSortData(false)}
+                  >
+                    <SortButtonText
+                      style={{ color: !sortData ? '#FFFFFF' : '' }}
+                    >
+                      Old to New
+                    </SortButtonText>
+                  </SortButton>
+                </>
+              ) : (
+                <></>
+              )}
+              <SortPopContainer
+                isShowSortPopUp={isShowSortPopUp}
+                setShowSortPopUp={setShowSortPopUp}
+              />
+            </SortContainer>
+          )}
         </FilterAndSortContainer>
       </MainContainer>
     </>
   );
 
-  function classForCalender(classId){
+  function classForCalender(classId) {
     if (!Array.isArray(classId)) {
-      return "";
+      return '';
     }
-  
-    const filteredClasses = classes.filter(classItem => classId.includes(classItem.id));
-    const classTitles = filteredClasses.map((filteredClass) => filteredClass.title);
-    
+
+    const filteredClasses = classes.filter((classItem) =>
+      classId.includes(classItem.id)
+    );
+    const classTitles = filteredClasses.map(
+      (filteredClass) => filteredClass.title
+    );
+
     return classTitles;
   }
 
-  const calenderEvents = filteredTasks.map((task) => ({
-    link: task.link,
-    title: task.title,
-    class: classForCalender(task.classIds),
-    start: moment(task.dueAt).toDate(),
-    end: moment(task.dueAt).toDate(),
-  }));
+  const calenderEvents = filteredTasks
+    .filter(
+      (assignment) =>
+        !selectedClass || assignment?.tags[0]?.name === selectedClass
+    )
+    .map((task) => ({
+      link: task.link,
+      title: task.title,
+      class: classForCalender(task.classIds),
+      start: moment(task.dueAt).toDate(),
+      end: moment(task.dueAt).toDate(),
+    }));
 
   const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
 
@@ -489,19 +509,19 @@ export default function TeacherTaskRoot() {
 
       <ReactiveRender
         mobile={
-          <TeacherTasksStudentMobile
+          <TeacherTasksStudentTablet
             {...{
               menuItems,
               filterTasks,
               drafts,
               awaitingSubmissions,
-              feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              feedbacks,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksStudentMobileData,
+              ...tasksStudentTabletData,
             }}
           />
         }
@@ -523,7 +543,7 @@ export default function TeacherTaskRoot() {
           />
         }
         laptop={
-          <TeacherTasksLaptop
+          <TeacherTasksDesktop
             {...{
               menuItems,
               filterTasks,
@@ -532,13 +552,10 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
-              showDeletePopup,
-              hidedeletePopup,
-              selectedAssignment,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksLaptopData,
+              ...tasksDesktopData,
             }}
           />
         }

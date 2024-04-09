@@ -29,6 +29,7 @@ import {
   getTeachersForClass,
   askJeddAI,
   provideFeedbackOnFeedback,
+  getFeedbackBanks,
 } from '../../../service';
 import {
   getShortcuts,
@@ -110,7 +111,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
   const [overallComments, setOverallComments] = useState([]);
-
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
@@ -127,7 +127,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     Promise.all([
       getSubmissionById(id),
       getComments(id),
-      getSmartAnnotations(),
+      getFeedbackBanks(),
       fetchClassWithStudentsAndTeachers(),
       getOverComments(id),
     ])
@@ -135,7 +135,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         ([
           submissionsResult,
           commentsResult,
-          smartAnnotationResult,
+          feedbackBanksResult,
           classWithTeacherAndStudentsResult,
           overAllCommentsResult,
         ]) => {
@@ -151,7 +151,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             (c) => c.type === 'MARKING_CRITERIA'
           );
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
-          setSmartAnnotations(smartAnnotationResult);
+          setSmartAnnotations(feedbackBanksResult._embedded.commentbanks);
 
           const initialState = classWithTeacherAndStudentsResult.reduce(
             (acc, classItem) => {

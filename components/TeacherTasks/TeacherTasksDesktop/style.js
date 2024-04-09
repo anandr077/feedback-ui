@@ -36,6 +36,7 @@ export const Frame1360 = styled.div`
   position: relative;
   align-self: stretch;
   padding: 0px 20px;
+  max-height: 100vh;
 `;
 
 export const Frame1359 = styled.div`
@@ -44,10 +45,10 @@ export const Frame1359 = styled.div`
   gap: 32px;
   position: relative;
   align-self: stretch;
-  // min-height: calc(100vh - 285px);
-  height: 90vh;
+  min-height: calc(100vh - 350px);
   flex-grow: 1;
   margin: 0px auto;
+  height: 90vh;
 `;
 
 export const Frame1354 = styled.div`
@@ -57,9 +58,11 @@ export const Frame1354 = styled.div`
   padding-top: 0px;
   position: relative;
   flex: 1;
+  flex-grow: 1;
   background-color: #f2f1f3;
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  border: 1px solid #301b7214;
+  box-shadow: inset 0 0 1px 2px rgba(48, 27, 114, 0.04);
 `;
 
 export const Frame1358 = styled.div`
@@ -70,39 +73,8 @@ export const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
+  border: 1px solid #301b7214;
   background-color: #f2f1f3;
   border-radius: 16px;
   box-shadow: 0px 4px 22px #2f1a720a;
-`;
-export const TitleAndFilterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  padding: 0px 20px;
-  border-bottom: 1px solid #c9c6cc80;
-  border-top: 1px solid #c9c6cc80;
-`;
-export const TitleAndSubtitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-export const TitleImage = styled.img`
-  padding: 2px 2px 2px 2px;
-  align-items: center;
-  gap: 10px;
-  width: 24px;
-  height: 24px;
-`;
-
-export const SubtitleCon = styled.p`
-  display: flex;
-  font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #333333;
 `;

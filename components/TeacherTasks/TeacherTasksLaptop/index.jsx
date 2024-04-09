@@ -102,11 +102,11 @@ const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
   width: calc(100vw - 255px);
   gap: 20px;
-  border-top: 1px solid #E3E3E3;
+  border-top: 1px solid #e3e3e3;
 `;
 
 const Title = styled.h1`
@@ -154,8 +154,8 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background: rgba(242, 241, 243, 0.5);
-  border: 1px solid #301B7214;
+  background-color: #f2f1f3;
+  border: 1px solid #301b7214;
   border-radius: 16px;
   box-shadow: 0px 1px 4.099999904632568px 0px rgba(48, 27, 114, 0.08) inset;
 `;

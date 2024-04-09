@@ -84,7 +84,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
   } = props;
 
   const findCurrentFeedbackBank =
-    smartAnnotations.length > 0 &&
+    smartAnnotations?.length > 0 &&
     smartAnnotations?.find(
       (smartAnnotation) => smartAnnotation.id === feedbackBankId
     );
@@ -198,7 +198,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
                       setShowShortcuts(false);
                     }}
                   >
-                    <SettingTitleOpen>Feedback Banks</SettingTitleOpen>
+                    <SettingTitleOpen>Comment Banks</SettingTitleOpen>
                     <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" />
                   </InactiveSetting>
                   {emptyFeedbackBank()}
@@ -210,15 +210,13 @@ function AccountSettingsMarkingCriteriaTable(props) {
                       setShowShortcuts(false);
                     }}
                   >
-                    <SettingTitleOpen>Feedback Banks</SettingTitleOpen>
+                    <SettingTitleOpen>Comment Banks</SettingTitleOpen>
                     <Frame1284 src="/icons/expanded.svg" alt="Frame 1284" />
                   </InactiveSetting>
                   <ActiveSetting>
                     <Frame13221>
                       <FeedbackTitleContainer>
-                        <FeedbackBankHeading>
-                          Feedback Banks
-                        </FeedbackBankHeading>
+                        <FeedbackBankHeading>Comment Banks</FeedbackBankHeading>
                         <QuestionTooltip
                           text={
                             'Help other students who have requested feedback from the community'
@@ -295,7 +293,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
                   setShowShortcuts(true);
                 }}
               >
-                <SettingTitle>Feedback Banks</SettingTitle>
+                <SettingTitle>Comment Banks</SettingTitle>
                 <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284" />
               </InactiveSetting>
             )}

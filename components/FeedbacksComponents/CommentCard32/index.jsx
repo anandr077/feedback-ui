@@ -277,6 +277,7 @@ const CommentText = styled.div`
   letter-spacing: 0;
   line-height: normal;
   white-space: pre-line;
+  word-break: break-word;
   cursor: pointer;
 `;
 

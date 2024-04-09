@@ -50,7 +50,7 @@ export const Notification = styled.img`
    cursor: pointer;
 `;
 
-export const Account = styled.img`
+export const Account = styled.div`
    height: 36px;
    width: 36px;
    cursor: pointer;

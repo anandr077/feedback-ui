@@ -5,31 +5,40 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { MainContainer, Button } from './style';
 import { useQuery } from '@tanstack/react-query';
-import { getCommunityTasks } from '../../service';
+import { getNotifications } from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
+import { getUserRole } from '../../userLocalDetails';
 
 const SecondSidebar = () => {
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequests, setFeedbackRequests] = useState(0);
   const location = useLocation();
   const history = useHistory();
+  const role = getUserRole();
 
-  const communityTasksQuery = useQuery({
-    queryKey: ['communityTasks'],
+  const { data: notifications, isLoading } = useQuery({
+    queryKey: ['notifications'],
     queryFn: async () => {
-      const result = await getCommunityTasks();
+      const result = await getNotifications();
       return result;
     },
-    staleTime: 3600000,
+    staleTime: 60000,
   });
 
   React.useEffect(() => {
-    if (communityTasksQuery.data) {
-      setFeedbackRequests(communityTasksQuery.data);
+    if (notifications) {
+      let feedbackRequestCount = 0;
+
+      notifications.forEach((item) => {
+        if (item.type === 'URL') {
+          feedbackRequestCount++;
+        }
+      });
+      setFeedbackRequests(feedbackRequestCount);
     }
-  }, [communityTasksQuery]);
+  }, [notifications]);
 
   useEffect(() => {
     const updateHeight = () => {
@@ -56,19 +65,19 @@ const SecondSidebar = () => {
       subLinks: [
         {
           icon: '',
-          title: 'Classwork',
+          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
           link: '/',
         },
         {
           icon: '',
-          title: `Feedback Requests (${feedbackRequests ? feedbackRequests.length : 0})`,
+          title: `Feedback Requests (${feedbackRequests})`,
           link: '/giveFeedback',
         },
         {
           icon: '',
-          title: 'Closed Tasks',
-          link: '/completed',
-        },
+          title: `${role === "STUDENT" ? "Feedback History" : "Closed Tasks"}`,
+          link:  `${role === "STUDENT" ? "/feedbackHistory" : "/completed"}`,
+        }
       ],
     },
     {
@@ -76,19 +85,19 @@ const SecondSidebar = () => {
       subLinks: [
         {
           icon: '',
-          title: 'Classwork',
+          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
           link: '/tasks',
         },
         {
           icon: '',
-          title: `Feedback Requests (${feedbackRequests ? feedbackRequests.length : 0})`,
+          title: `Feedback Requests (${feedbackRequests})`,
           link: '/giveFeedback',
         },
         {
           icon: '',
-          title: 'Closed Tasks',
-          link: '/completed',
-        },
+          title: `${role === "STUDENT" ? "Feedback History" : "Closed Tasks"}`,
+          link:  `${role === "STUDENT" ? "/feedbackHistory" : "/completed"}`,
+        }
       ],
     },
     {
@@ -116,7 +125,12 @@ const SecondSidebar = () => {
       subLinks: [
         {
           icon: '',
-          title: `Feedback Requests (${feedbackRequests ? feedbackRequests.length : 0})`,
+          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
+          link: '/tasks',
+        },
+        {
+          icon: '',
+          title: `Feedback Requests (${feedbackRequests})`,
           link: '/giveFeedback',
         },
         {
@@ -131,7 +145,12 @@ const SecondSidebar = () => {
       subLinks: [
         {
           icon: '',
-          title: `Feedback Requests (${feedbackRequests ? feedbackRequests.length : 0})`,
+          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
+          link: '/tasks',
+        },
+        {
+          icon: '',
+          title: `Feedback Requests (${feedbackRequests})`,
           link: '/giveFeedback',
         },
         {

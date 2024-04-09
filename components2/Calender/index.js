@@ -73,7 +73,6 @@ const MyCalendar = ({ calenderEvents }) => {
   const CustomEvent = ({ event }) => {
     return (
       <MainContainer onClick={() => redirect(event.link)}>
-        <DateContainer>{`${moment(event.end).format('h:mm A')}`}</DateContainer>
         <DataContainer>{event.title}</DataContainer>
       </MainContainer>
     );
@@ -83,6 +82,9 @@ const MyCalendar = ({ calenderEvents }) => {
     <div style={{ height: '120vh', width: '100%' }}>
       <style>
         {`
+        .rbc-overlay{
+          width: 200px;
+        }
       .rbc-overlay .rbc-event {
         background-color: #f7eeff !important;
       }
@@ -90,6 +92,19 @@ const MyCalendar = ({ calenderEvents }) => {
         font-family: IBM Plex Sans;
         font-size: 14px;
         padding : 8px 5px;
+      }
+       .rbc-event-content {
+        font-family: IBM Plex Sans;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #1e252a;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis !important;
+        white-space: nowrap;
       }
     `}
       </style>
@@ -100,13 +115,14 @@ const MyCalendar = ({ calenderEvents }) => {
           event: CustomEvent,
           toolbar: CustomToolbar,
         }}
-        // eventLimit={5}
-        // showAllEvents
+        showAllEvents={false}
         // step={60}
         // timeslots={1}
         allDayMaxRows={2}
-        popup
-        tooltipAccessor={(event) => `${event.title}, ${event.class}`}
+        popup={true}
+        tooltipAccessor={(event) =>
+          `${event.title}, ${event.class},${moment(event.end).format('h:mm A')}`
+        }
       />
     </div>
   );

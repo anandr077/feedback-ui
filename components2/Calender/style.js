@@ -30,19 +30,6 @@ export const StyledCalendar = styled(Calendar)`
   background: #f7eeff;
   font-family: IBM Plex Sans !important;
 
-  .rbc-month-view {
-    border: none !important;
-    gap: 3px !important;
-  }
-  .rbc-row-bg {
-    gap: 3px !important;
-  }
-  .rbc-month-header .rbc-header {
-    display: flex;
-    justify-content: flex-start;
-    padding: 4px 0px 4px 0px;
-    border: none;
-  }
   .rbc-month-header .rbc-header span {
     font-family: IBM Plex Sans;
     font-size: 12px;
@@ -55,42 +42,21 @@ export const StyledCalendar = styled(Calendar)`
   }
   .rbc-day-bg {
     background-color: white;
-    min-height: 175px !important;
+    min-height: 50px !important;
     border-radius: 4px !important;
   }
   .rbc-event {
     background-color: #f7eeff !important;
   }
-
+  .rbc-overlay .rbc-event {
+    background-color: #f7eeff !important;
+  }
   .rbc-off-range-bg {
     background-color: #e5c9ff33 !important;
   }
 
-  .rbc-date-cell {
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 5px;
-  }
   .rbc-row-segment {
     padding: 3px 5px;
-  }
-  .rbc-event-label {
-    display: none;
-  }
-  .rbc-row-content {
-    overflow-y: scroll;
-    max-height: none;
-    &::-webkit-scrollbar {
-      width: 0;
-      display: none;
-    }
-  }
-
-  .rbc-time-content {
-    &::-webkit-scrollbar {
-      width: 0;
-      display: none;
-    }
   }
 
   .rbc-month-view .rbc-date-cell .rbc-button-link {
@@ -102,22 +68,20 @@ export const StyledCalendar = styled(Calendar)`
     text-align: left;
     color: #a6a6a6;
   }
-  .rbc-time-header {
-    margin-right: 0px !important;
+  .rbc-event-content {
+    font-family: IBM Plex Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1e252a;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+    padding: 2px 0px;
   }
 
-  .rbc-time-view {
-    border: none !important;
-  }
-  .rbc-time-view .rbc-time-content {
-    border: none !important;
-  }
-  .rbc-time-view .rbc-time-header-content {
-    border: none !important;
-  }
-  .rbc-time-view .rbc-events-container .rbc-event-content {
-    align-items: flex-start !important;
-  }
   .rbc-time-view .rbc-header {
     display: flex;
     background-color: #f7eeff !important;
@@ -175,10 +139,6 @@ export const StyledCalendar = styled(Calendar)`
     color: #a6a6a6;
   }
 
-  .rbc-events-container .rbc-event {
-    width: 100% !important;
-    left: 0 !important;
-  }
   .rbc-today {
     background-color: #ecd6ff;
   }

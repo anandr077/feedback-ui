@@ -59,189 +59,100 @@ const SecondSidebar = () => {
     history.push(link);
   };
 
+  const subLinks = [
+    {
+      icon: '',
+      title: `${role === 'STUDENT' ? 'Tasks' : 'Classwork'}`,
+      link: '/',
+    },
+    {
+      icon: '',
+      title: `${role === 'STUDENT' ? 'Tasks' : 'Classwork'}`,
+      link: '/tasks',
+    },
+    {
+      icon: '',
+      title: `Feedback Requests (${feedbackRequests})`,
+      link: '/giveFeedback',
+    },
+    {
+      icon: '',
+      title: `${role === 'STUDENT' ? 'Feedback History' : 'Closed Tasks'}`,
+      link: `${role === 'STUDENT' ? '/feedbackHistory' : '/completed'}`,
+    },
+    {
+      icon: '',
+      title: `${role === 'STUDENT' ? 'Completed Tasks' : 'Closed Tasks'}`,
+      link: `/completed`,
+    },
+    {
+      icon: '',
+      title: `Shared Responses`,
+      link: `/shareresponse`,
+    },
+    {
+      icon: '',
+      title: 'User Settings',
+      link: '/settings',
+    },
+    {
+      icon: '',
+      title: 'Marking Templates',
+      link: '/markingTemplate/strengthAndTargets',
+    },
+    {
+      icon: '',
+      title: 'Comment Banks',
+      link: '/commentbanks',
+    },
+  ];
+
   const subRoutes = [
     {
       link: '/',
       subLinks: [
-        {
-          icon: '',
-          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
-          link: '/',
-        },
-        {
-          icon: '',
-          title: `Feedback Requests (${feedbackRequests})`,
-          link: '/giveFeedback',
-        },
-        {
-          icon: '',
-          title: `${role === "STUDENT" ? "Feedback History" : "Closed Tasks"}`,
-          link:  `${role === "STUDENT" ? "/feedbackHistory" : "/completed"}`,
-        },
-        {
-          icon: '',
-          title: `Completed Tasks`,
-          link:  `/completed`,
-        },
-        {
-          icon: '',
-          title: `Shared Responses`,
-          link:  `/shareresponse`,
-        }
+        subLinks[0],
+        subLinks[2],
+        subLinks[3],
+        subLinks[4],
+        subLinks[5],
       ],
     },
     {
       link: '/tasks',
       subLinks: [
-        {
-          icon: '',
-          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
-          link: '/tasks',
-        },
-        {
-          icon: '',
-          title: `Feedback Requests (${feedbackRequests})`,
-          link: '/giveFeedback',
-        },
-        {
-          icon: '',
-          title: `${role === "STUDENT" ? "Feedback History" : "Closed Tasks"}`,
-          link:  `${role === "STUDENT" ? "/feedbackHistory" : "/completed"}`,
-        },
-        {
-          icon: '',
-          title: `Completed Tasks`,
-          link:  `/completed`,
-        },
-        {
-          icon: '',
-          title: `Shared Responses`,
-          link:  `/shareresponse`,
-        }
+        subLinks[1],
+        subLinks[2],
+        subLinks[3],
+        subLinks[4],
+        subLinks[5],
       ],
     },
     {
       link: '/settings',
-      subLinks: [
-        {
-          icon: '',
-          title: 'User Settings',
-          link: '/settings',
-        },
-        {
-          icon: '',
-          title: 'Marking Templates',
-          link: '/markingTemplate/strengthAndTargets',
-        },
-        {
-          icon: '',
-          title: 'Comment Banks',
-          link: '/commentbanks',
-        },
-      ],
+      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
     },
     {
       link: '/giveFeedback',
-      subLinks: [
-        {
-          icon: '',
-          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
-          link: '/tasks',
-        },
-        {
-          icon: '',
-          title: `Feedback Requests (${feedbackRequests})`,
-          link: '/giveFeedback',
-        },
-        {
-          icon: '',
-          title: 'Closed Tasks',
-          link: '/completed',
-        },
-      ],
+      subLinks: [subLinks[1], subLinks[2], subLinks[4]],
     },
     {
       link: '/feedbackHistory',
-      subLinks: [
-        {
-          icon: '',
-          title: `${role === "STUDENT" ? "Tasks" : "Classwork"}`,
-          link: '/tasks',
-        },
-        {
-          icon: '',
-          title: `Feedback Requests (${feedbackRequests})`,
-          link: '/giveFeedback',
-        },
-        {
-          icon: '',
-          title: 'Feedback History',
-          link: '/feedbackHistory',
-        },
-      ],
+      subLinks: [subLinks[1], subLinks[2], subLinks[3]],
     },
     {
       link: '/markingTemplate/strengthAndTargets',
-      subLinks: [
-        {
-          icon: settings,
-          title: 'User Settings',
-          link: '/settins',
-        },
-        {
-          icon: banks,
-          title: 'Marking Templates',
-          link: '/markingTemplate/strengthAndTargets',
-        },
-        {
-          icon: marking,
-          title: 'Comment Banks',
-          link: '/commentbanks',
-        },
-      ],
+      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
     },
     {
       link: '/markingTemplate/rubrics',
-      subLinks: [
-        {
-          icon: settings,
-          title: 'User Settings',
-          link: '/settins',
-        },
-        {
-          icon: banks,
-          title: 'Marking Templates',
-          link: '/markingTemplate/strengthAndTargets',
-        },
-        {
-          icon: marking,
-          title: 'Comment Banks',
-          link: '/commentbanks',
-        },
-      ],
+      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
     },
     {
       link: '/commentbanks',
-      subLinks: [
-        {
-          icon: settings,
-          title: 'User Settings',
-          link: '/settings',
-        },
-        {
-          icon: banks,
-          title: 'Marking Templates',
-          link: '/markingTemplate/strengthAndTargets',
-        },
-        {
-          icon: marking,
-          title: 'Comment Banks',
-          link: '/commentbanks',
-        },
-      ],
+      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
     },
   ];
-
   return (
     <MainContainer height={containerHeight}>
       {subRoutes.map((route, idx) => {
@@ -249,8 +160,12 @@ const SecondSidebar = () => {
           return (
             <React.Fragment key={idx}>
               {route.subLinks.map((subLink, subIdx) => {
-                if((subLink.link === '/shareresponse' || subLink.link === '/completed') && role === 'TEACHER'){
-                     return null
+                if (
+                  (subLink.link === '/shareresponse' ||
+                    subLink.link === '/completed') &&
+                  role === 'TEACHER'
+                ) {
+                  return null;
                 }
                 return (
                   <Button
@@ -263,7 +178,7 @@ const SecondSidebar = () => {
                     )}
                     {subLink.title}
                   </Button>
-                )
+                );
               })}
             </React.Fragment>
           );

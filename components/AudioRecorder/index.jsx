@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState, useRef } from 'react';
 import {
   AudioContainer,
@@ -11,9 +11,11 @@ import {
   RecordingIndicator,
   GeneratedAudio,
   AudioIcon,
+  FeedbackBtn,
 } from './audioRecorder';
 import { isTabletView } from '../ReactiveRender';
 import DeleteIcon from '../../static/icons/delete-purple-icon.svg';
+import Microphone from '../../static/img/Microphone.svg';
 
 const mimeType = 'audio/webm';
 
@@ -22,22 +24,32 @@ const AudioRecorder = ({
   handleDelete,
   initialAudio,
 }) => {
+  console.log('firstAudioRecorder', initialAudio);
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   let recordTimeout = useRef(null);
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [audioChunks, setAudioChunks] = useState([]);
-  const [audio, setAudio] = useState(
-    initialAudio ? URL.createObjectURL(initialAudio) : null
-  );
+  const [audio, setAudio] = useState(null);
+
+  useEffect(() => {
+    if (initialAudio) {
+      setAudio(URL.createObjectURL(initialAudio));
+    } else {
+      setAudio(null);
+    }
+  }, [initialAudio]);
 
   const isTablet = isTabletView();
 
   const handleRecording = async () => {
     if (!permission || !stream) {
       try {
-        const streamData = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const streamData = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: false,
+        });
         setPermission(true);
         setStream(streamData);
         startRecording(streamData);
@@ -82,7 +94,6 @@ const AudioRecorder = ({
     };
   };
 
-
   const deleteAudio = () => {
     setAudio(null);
     setRecordingStatus('inactive');
@@ -94,13 +105,13 @@ const AudioRecorder = ({
       {
         <ButtonContainer>
           {recordingStatus === 'inactive' && !audio ? (
-          <Button onClick={handleRecording}>
-            + Add Audio <AudioIcon />
-          </Button>
-        ) : recordingStatus === 'recording' ? (
-          <Button onClick={stopRecording}>Stop Recording</Button>
-        ) : null}
-        {recordingStatus === 'recording' && <RecordingIndicator />}
+            <FeedbackBtn onClick={handleRecording}>
+              <img src={Microphone} /> Add Audio
+            </FeedbackBtn>
+          ) : recordingStatus === 'recording' ? (
+            <Button onClick={stopRecording}>Stop Recording</Button>
+          ) : null}
+          {recordingStatus === 'recording' && <RecordingIndicator />}
         </ButtonContainer>
       }
       {audio ? (

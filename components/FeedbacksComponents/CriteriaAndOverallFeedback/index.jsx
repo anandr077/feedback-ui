@@ -22,26 +22,6 @@ import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import AudioRecorder from '../../AudioRecorder';
 import { base64ToBlob, blobToBase64 } from '../../../utils/blobs';
 
-const AudioOverallComment = ({
-  overallComment,
-  handleAudioFeedbackRecorded,
-  handleDeleteAudioFeedback,
-}) => {
-  console.log('first audio feedback', overallComment);
-  if (overallComment?.audio) {
-    return (
-      <AudioRecorder
-        handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
-        handleDelete={handleDeleteAudioFeedback}
-        initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
-      />
-    );
-  }
-  return (
-    <AudioRecorder handleAudioFeedbackRecorded={handleAudioFeedbackRecorded} />
-  );
-};
-
 const CriteriaAndOverallFeedback = ({
   handleClick,
   openRightPanel,
@@ -86,7 +66,7 @@ const CriteriaAndOverallFeedback = ({
   const handleAudioFeedbackRecorded = (audioFeedback) => {
     blobToBase64(audioFeedback).then((base64) => {
       if (overallComment === null || overallComment === undefined) {
-        return addOverallFeedback(question.serialNumber, '', base64);
+        return addOverallFeedback(QuestionIndex + 1, '', base64);
       }
       return updateOverAllFeedback(
         overallComment.id,
@@ -95,23 +75,6 @@ const CriteriaAndOverallFeedback = ({
       );
     });
   };
-  // const audioOverallComment = (overallComment) => {
-  //   console.log('first audio overall comment', overallComment);
-  //   if (overallComment?.audio) {
-  //     return (
-  //       <AudioRecorder
-  //         handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
-  //         handleDelete={handleDeleteAudioFeedback}
-  //         initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
-  //       />
-  //     );
-  //   }
-  //   return (
-  //     <AudioRecorder
-  //       handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
-  //     />
-  //   );
-  // };
 
   return (
     <MainContainer openRightPanel={openRightPanel}>
@@ -152,16 +115,27 @@ const CriteriaAndOverallFeedback = ({
           value={editedText}
           placeholder="Give feedback here..."
         ></TextFeedback>
-        <FeedbackBtn>
-          {/* <img src={Microphone} />
-          Add Audio */}
-          {/* {audioOverallComment(overallComment)} */}
-          <AudioOverallComment
+        {/* <FeedbackBtn> */}
+        {/* <img src={Microphone} />
+        Add Audio */}
+        {/* {audioOverallComment(overallComment)} */}
+        {/* <AudioOverallComment
             overallComment={overallComment}
             handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
             handleDeleteAudioFeedback={handleDeleteAudioFeedback}
+          /> */}
+        {overallComment?.audio ? (
+          <AudioRecorder
+            handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
+            handleDelete={handleDeleteAudioFeedback}
+            initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
           />
-        </FeedbackBtn>
+        ) : (
+          <AudioRecorder
+            handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
+          />
+        )}
+        {/* </FeedbackBtn> */}
       </OverallFeedbackContainer>
     </MainContainer>
   );

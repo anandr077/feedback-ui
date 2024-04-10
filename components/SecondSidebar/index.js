@@ -106,7 +106,7 @@ const SecondSidebar = () => {
         {
           icon: '',
           title: `${role === "STUDENT" ? "Feedback History" : "Closed Tasks"}`,
-          link:  `${role === "STUDENT" ? "/feedbackHistory" : "/completed"}`,
+          link:  `${role === "STUDENT" ? "/feedbackHistory" : "/"}`,
         },
         {
           icon: '',
@@ -115,7 +115,7 @@ const SecondSidebar = () => {
         },
         {
           icon: '',
-          title: `Shared Responses`,
+          title: `Shared Response`,
           link:  `/shareresponse`,
         }
       ],
@@ -155,8 +155,18 @@ const SecondSidebar = () => {
         },
         {
           icon: '',
-          title: 'Closed Tasks',
+          title: `Feedback History`,
           link: '/completed',
+        },
+        {
+          icon: '',
+          title: 'Completed Tasks',
+          link: '/completed',
+        },
+        {
+          icon: '',
+          title: `${role === "STUDENT" ? "Shared Response" : "Closed Tasks"}`,
+          link: '/sharedresponse',
         },
       ],
     },

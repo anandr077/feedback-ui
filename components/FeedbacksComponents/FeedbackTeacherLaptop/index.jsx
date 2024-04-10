@@ -594,6 +594,7 @@ function answersAndFeedbacks(
           QuestionIndex={QuestionIndex}
           addOverallFeedback={methods.addOverallFeedback}
           updateOverAllFeedback={methods.updateOverAllFeedback}
+          pageMode={pageMode}
         />
         <FeedbackRightSidebar
           handleClick={handleRightSidebarClick}

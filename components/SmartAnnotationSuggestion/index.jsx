@@ -9,6 +9,7 @@ import {
   DeleteButton,
   ButtonBox,
 } from './style';
+import deleteLight from '../../static/img/delete-light.svg';
 
 export default function SmartAnnotationSuggestion(props) {
   const {
@@ -69,7 +70,7 @@ export default function SmartAnnotationSuggestion(props) {
             {teacherId === getUserId() ? (
               <ButtonBox>
                 <DeleteButton
-                  src="/icons/delete-purple-icon.svg"
+                  src={deleteLight}
                   alt="delete-button"
                   onClick={() => handleDeleteSuggestion(index)}
                 ></DeleteButton>

@@ -77,6 +77,16 @@ const SecondSidebar = () => {
           icon: '',
           title: `${role === "STUDENT" ? "Feedback History" : "Closed Tasks"}`,
           link:  `${role === "STUDENT" ? "/feedbackHistory" : "/completed"}`,
+        },
+        {
+          icon: '',
+          title: `Completed Tasks`,
+          link:  `/completed`,
+        },
+        {
+          icon: '',
+          title: `Shared Responses`,
+          link:  `/shareresponse`,
         }
       ],
     },
@@ -97,6 +107,16 @@ const SecondSidebar = () => {
           icon: '',
           title: `${role === "STUDENT" ? "Feedback History" : "Closed Tasks"}`,
           link:  `${role === "STUDENT" ? "/feedbackHistory" : "/completed"}`,
+        },
+        {
+          icon: '',
+          title: `Completed Tasks`,
+          link:  `/completed`,
+        },
+        {
+          icon: '',
+          title: `Shared Responses`,
+          link:  `/shareresponse`,
         }
       ],
     },
@@ -135,8 +155,8 @@ const SecondSidebar = () => {
         },
         {
           icon: '',
-          title: 'Feedback History',
-          link: '/feedbackHistory',
+          title: 'Closed Tasks',
+          link: '/completed',
         },
       ],
     },
@@ -228,18 +248,23 @@ const SecondSidebar = () => {
         if (route.link === location.pathname) {
           return (
             <React.Fragment key={idx}>
-              {route.subLinks.map((subLink, subIdx) => (
-                <Button
-                  key={subIdx}
-                  onClick={() => handleButtonClick(subLink.link)}
-                  active={subLink.link === location.pathname}
-                >
-                  {subLink.icon && (
-                    <img src={subLink.icon} alt={subLink.title} />
-                  )}
-                  {subLink.title}
-                </Button>
-              ))}
+              {route.subLinks.map((subLink, subIdx) => {
+                if((subLink.link === '/shareresponse' || subLink.link === '/completed') && role === 'TEACHER'){
+                     return null
+                }
+                return (
+                  <Button
+                    key={subIdx}
+                    onClick={() => handleButtonClick(subLink.link)}
+                    active={subLink.link === location.pathname}
+                  >
+                    {subLink.icon && (
+                      <img src={subLink.icon} alt={subLink.title} />
+                    )}
+                    {subLink.title}
+                  </Button>
+                )
+              })}
             </React.Fragment>
           );
         } else {

@@ -18,7 +18,7 @@ export const headerTitle = [
       'Help other students who have requested feedback from the community',
   },
   {
-    link: '/shareresponse',
+    link: '/sharedresponses',
     title: 'Shared Responses',
     teacherTooltip: '',
     studentTooltip:

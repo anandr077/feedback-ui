@@ -88,7 +88,7 @@ const SecondSidebar = () => {
     {
       icon: '',
       title: `Shared Responses`,
-      link: `/shareresponse`,
+      link: `/sharedresponses`,
     },
     {
       icon: '',
@@ -183,7 +183,7 @@ const SecondSidebar = () => {
             <React.Fragment key={idx}>
               {route.subLinks.map((subLink, subIdx) => {
                 if (
-                  (subLink.link === '/shareresponse' ||
+                  (subLink.link === '/sharedresponses' ||
                     subLink.link === '/feedbackHistory') &&
                   role === 'TEACHER'
                 ) {

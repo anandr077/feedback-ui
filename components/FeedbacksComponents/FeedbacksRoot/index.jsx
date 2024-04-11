@@ -1499,6 +1499,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         newCommentSerialNumber,
         markingCriteriaFeedback,
         overallComments,
+        comments,
       }}
     >
       {showSubmitPopup &&

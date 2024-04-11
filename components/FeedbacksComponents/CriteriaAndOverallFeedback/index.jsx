@@ -33,9 +33,11 @@ const CriteriaAndOverallFeedback = ({
   updateOverAllFeedback,
   pageMode,
 }) => {
-  const { overallComments } = useContext(FeedbackContext);
+  console.log('pageMode', pageMode);
+  const { overallComments, comments } = useContext(FeedbackContext);
+  console.log('FeedbackContext', useContext(FeedbackContext));
   console.log('QuestionIndex', QuestionIndex);
-  console.log('overallComments', overallComments);
+  console.log('overallComments', overallComments, comments);
   const [inputValue, setInputValue] = useState('');
   const [overallComment, setOverallComment] = useState({});
   const handleInputChange = (event) => {
@@ -46,12 +48,13 @@ const CriteriaAndOverallFeedback = ({
   };
 
   useEffect(() => {
-    const commentObject = overallComments.find(
-      (comment) => comment.questionSerialNumber === QuestionIndex + 1
-    );
+    console.log('comments', comments);
+    const commentObject = (
+      overallComments.length != 0 ? overallComments : comments
+    ).find((comment) => comment.questionSerialNumber === QuestionIndex + 1);
     console.log('first comment', commentObject);
     setOverallComment(commentObject);
-  }, [overallComments, QuestionIndex]);
+  }, [overallComments, QuestionIndex, comments]);
 
   return (
     <MainContainer openRightPanel={openRightPanel}>

@@ -17,16 +17,13 @@ const NewOverallFeedback = ({
   const inputRef = useRef();
   useEffect(() => {
     if (overallComment?.comment) {
-      // setEditedText(commentObject.comment);
-      inputRef.current.value = overallComment.comment;
-    } else {
-      // setEditedText('');
+      inputRef.current.value = overallComment?.comment;
+    } else if (inputRef) {
       inputRef.current.value = '';
     }
   }, [overallComment, serialNumber]);
 
   const onSave = () => {
-    // console.log('newCommentText', newCommentText);
     let value = inputRef.current.value;
     if (overallComment === null || overallComment === undefined) {
       return addOverallFeedback(serialNumber, value, null);
@@ -64,17 +61,10 @@ const NewOverallFeedback = ({
     if (overallComment !== null && overallComment !== undefined) {
       return (
         <>
-          {/* <NonEditableFeedback
-            textFeedback={overallComment?.comment}
-            audioFeedback={base64ToBlob(overallComment?.audio, 'audio/webm')}
-          /> */}
           <TextFeedback
-            // value={editedText}
-            // onChange={pageMode === 'REVIEW' ? handleTextareaChange : undefined}
             ref={inputRef}
             readOnly={true}
             placeholder="Give feedback here..."
-            // onBlur={pageMode === 'REVIEW' ? () => onSave() : undefined}
           ></TextFeedback>
           {overallComment?.audio ? (
             <AudioPlayer
@@ -89,14 +79,12 @@ const NewOverallFeedback = ({
         </>
       );
     }
-    return <></>;
+    return <TextFeedback ref={inputRef} readOnly={true}></TextFeedback>;
   }
 
   return (
     <>
       <TextFeedback
-        // value={editedText}
-        // onChange={pageMode === 'REVIEW' ? handleTextareaChange : undefined}
         ref={inputRef}
         placeholder="Give feedback here..."
         onBlur={pageMode === 'REVIEW' ? () => onSave() : undefined}

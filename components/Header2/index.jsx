@@ -17,9 +17,13 @@ import {
   Screen,
   NavigationContainer,
   DropDownContainer,
+  TitleMain,
+  ArrowRightImg,
+  TitleConatiner,
 } from './HeaderStyle';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
+import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import addBtnIcon from '../../static/icons/gradient_add.svg';
 import notificationsIcon from '../../static/icons/notifications.svg';
 import accountIcon from '../../static/icons/mask-group-4@2x.png';
@@ -29,6 +33,7 @@ import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
 import { headerTitle } from './headerTitle.js';
 import { Avatar } from '@boringer-avatars/react';
+import { headerMainTitle } from './headerMainTitle.js';
 
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -107,7 +112,10 @@ const Header = () => {
     return () => observer.disconnect();
   }, []);
 
-  const pageHeader = headerTitle.find(
+  const pageHeader = headerTitle.find((item) =>
+    new RegExp(`${item.link}`).test(location.pathname)
+  );
+  const pageMainHeader = headerMainTitle.find(
     (item) => item.link === location.pathname
   );
 
@@ -123,19 +131,23 @@ const Header = () => {
       <MainContainer>
         <LeftSide>
           <Logo src="./img/logo.svg" />
-          <Title>
-            {pageHeader && pageHeader.title}
-            <QuestionTooltip
-              img={questionMark}
-              text={
-                pageHeader && role === 'TEACHER'
-                  ? pageHeader.teacherTooltip
-                  : role === 'STUDENT'
-                  ? pageHeader?.studentTooltip
-                  : ''
-              }
-            />
-          </Title>
+          <TitleConatiner>
+            <TitleMain>{pageMainHeader && pageMainHeader.title}</TitleMain>
+            {pageMainHeader && <ArrowRightImg src={arrowRightMini} />}
+            <Title>
+              {pageHeader && pageHeader.title}
+              <QuestionTooltip
+                img={questionMark}
+                text={
+                  pageHeader && role === 'TEACHER'
+                    ? pageHeader.teacherTooltip
+                    : role === 'STUDENT'
+                    ? pageHeader?.studentTooltip
+                    : ''
+                }
+              />
+            </Title>
+          </TitleConatiner>
         </LeftSide>
         <RightSide>
           {/* <Buttons link="#tasks/new" /> */}

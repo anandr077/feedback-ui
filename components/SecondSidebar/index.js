@@ -77,8 +77,8 @@ const SecondSidebar = () => {
     },
     {
       icon: '',
-      title: `${role === 'STUDENT' ? 'Feedback History' : 'Closed Tasks'}`,
-      link: `${role === 'STUDENT' ? '/feedbackHistory' : '/completed'}`,
+      title: `Feedback History`,
+      link: `/feedbackHistory`,
     },
     {
       icon: '',
@@ -134,11 +134,23 @@ const SecondSidebar = () => {
     },
     {
       link: '/giveFeedback',
-      subLinks: [subLinks[1], subLinks[2], subLinks[4]],
+      subLinks: [
+        subLinks[1],
+        subLinks[2],
+        subLinks[3],
+        subLinks[4],
+        subLinks[5],
+      ],
     },
     {
       link: '/feedbackHistory',
-      subLinks: [subLinks[1], subLinks[2], subLinks[3]],
+      subLinks: [
+        subLinks[1],
+        subLinks[2],
+        subLinks[3],
+        subLinks[4],
+        subLinks[5],
+      ],
     },
     {
       link: '/markingTemplate/strengthAndTargets',
@@ -172,7 +184,7 @@ const SecondSidebar = () => {
               {route.subLinks.map((subLink, subIdx) => {
                 if (
                   (subLink.link === '/shareresponse' ||
-                    subLink.link === '/completed') &&
+                    subLink.link === '/feedbackHistory') &&
                   role === 'TEACHER'
                 ) {
                   return null;

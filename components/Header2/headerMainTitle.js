@@ -24,6 +24,10 @@ export const headerMainTitle = [
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
   },
   {
+    link: '/shareresponse',
+    title: 'School Work',
+  },
+  {
     link: '/documentsReview',
     title: 'Feedback History',
   },

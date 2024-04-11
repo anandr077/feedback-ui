@@ -29,16 +29,6 @@ export const InnerContainer = styled.div`
   justify-content: center;
   position: relative;
   max-width: 1440px;
-
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 20px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 20px;
-  }
-  @media (max-width: 765px) {
-    padding: 0px 10px;
-  }
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
@@ -47,6 +37,10 @@ export const HeadingAndFilterCon = styled.div`
   width: 100%;
   padding: 0px 20px;
   border-bottom: 1px solid #c9c6cc80;
+
+  @media (max-width: 765px) {
+    padding: 0px 10px;
+  }
 `;
 export const TopContainer = styled.div`
   display: flex;

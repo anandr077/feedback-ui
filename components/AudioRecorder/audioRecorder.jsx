@@ -68,7 +68,7 @@ export const GeneratedAudio = styled.div`
   display: flex;
   align-items: center;
   background-color: var(--blue-chalk);
-  width: 230px;
+  width: 250px;
   border-radius: 25px;
 `;
 

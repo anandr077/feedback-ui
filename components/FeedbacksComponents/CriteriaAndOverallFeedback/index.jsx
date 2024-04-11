@@ -21,6 +21,8 @@ import Microphone from '../../../static/img/Microphone.svg';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import AudioRecorder from '../../AudioRecorder';
 import { base64ToBlob, blobToBase64 } from '../../../utils/blobs';
+import OverallFeedback from '../../OverallFeedback';
+import NewOverallFeedback from '../../NewOverallFeedback';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
 
 const CriteriaAndOverallFeedback = ({
@@ -35,16 +37,13 @@ const CriteriaAndOverallFeedback = ({
   console.log('QuestionIndex', QuestionIndex);
   console.log('overallComments', overallComments);
   const [inputValue, setInputValue] = useState('');
-  const [overallComment, setOverallComment] = useState();
+  const [overallComment, setOverallComment] = useState({});
   const handleInputChange = (event) => {
     const allowedChars = /^[0-9]$|^$/;
     if (allowedChars.test(event.target.value)) {
       setInputValue(event.target.value);
     }
   };
-  const [editedText, setEditedText] = useState();
-
-  const inputRef = useRef();
 
   useEffect(() => {
     const commentObject = overallComments.find(
@@ -52,53 +51,7 @@ const CriteriaAndOverallFeedback = ({
     );
     console.log('first comment', commentObject);
     setOverallComment(commentObject);
-    if (commentObject?.comment) {
-      // setEditedText(commentObject.comment);
-      inputRef.current.value = commentObject.comment;
-    } else {
-      // setEditedText('');
-      inputRef.current.value = '';
-    }
   }, [overallComments, QuestionIndex]);
-
-  const onSave = () => {
-    // console.log('newCommentText', newCommentText);
-    let value = inputRef.current.value;
-    if (overallComment === null || overallComment === undefined) {
-      return addOverallFeedback(QuestionIndex + 1, value, null);
-    }
-    return updateOverAllFeedback(
-      overallComment.id,
-      value,
-      overallComment.audio
-    );
-  };
-
-  const handleDeleteAudioFeedback = (audioFeedback) => {
-    return updateOverAllFeedback(
-      overallComment.id,
-      overallComment.comment,
-      null
-    );
-  };
-
-  const handleAudioFeedbackRecorded = (audioFeedback) => {
-    blobToBase64(audioFeedback).then((base64) => {
-      if (overallComment === null || overallComment === undefined) {
-        return addOverallFeedback(QuestionIndex + 1, '', base64);
-      }
-      return updateOverAllFeedback(
-        overallComment.id,
-        overallComment.comment,
-        base64
-      );
-    });
-  };
-
-  const handleTextareaChange = (e) => {
-    e.preventDefault();
-    setEditedText(e.target.value);
-  };
 
   return (
     <MainContainer openRightPanel={openRightPanel}>
@@ -135,25 +88,13 @@ const CriteriaAndOverallFeedback = ({
         </HeadingDropdown>
       </Heading>
       <OverallFeedbackContainer>
-        <TextFeedback
-          // value={editedText}
-          // onChange={pageMode === 'REVIEW' ? handleTextareaChange : undefined}
-          ref={inputRef}
-          placeholder="Give feedback here..."
-          onBlur={pageMode === 'REVIEW' ? () => onSave() : undefined}
-        ></TextFeedback>
-
-        {overallComment?.audio ? (
-          <AudioRecorder
-            handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
-            handleDelete={handleDeleteAudioFeedback}
-            initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
-          />
-        ) : (
-          <AudioRecorder
-            handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
-          />
-        )}
+        <NewOverallFeedback
+          pageMode={pageMode}
+          addOverallFeedback={addOverallFeedback}
+          serialNumber={QuestionIndex + 1}
+          overallComment={overallComment}
+          updateOverAllFeedback={updateOverAllFeedback}
+        />
       </OverallFeedbackContainer>
     </MainContainer>
   );

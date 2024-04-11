@@ -203,7 +203,7 @@ function App() {
                   <ProtectedCreateAssignment />
                 </Route>
                 <Route path="/tasks">{Tasks({ role })}</Route>
-                <Route path="/exemplarResponses">
+                <Route path="/shareresponse">
                   <ProtectedExemplarResponsesPage />
                 </Route>
                 <Route path="/submissions/:id">

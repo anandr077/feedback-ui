@@ -152,6 +152,16 @@ const SecondSidebar = () => {
       link: '/commentbanks',
       subLinks: [subLinks[6], subLinks[7], subLinks[8]],
     },
+    {
+      link: '/completed',
+      subLinks: [
+        subLinks[1],
+        subLinks[2],
+        subLinks[3],
+        subLinks[4],
+        subLinks[5],
+      ],
+    },
   ];
   return (
     <MainContainer height={containerHeight}>

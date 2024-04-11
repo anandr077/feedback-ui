@@ -6,8 +6,7 @@ export const FilterAndSortContainer = styled.div`
   align-items: center;
   gap: 16px;
   align-self: stretch;
-  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
-
+  
   @media (max-width: 765px) {
     flex-direction: column;
     align-items: flex-start;
@@ -16,7 +15,7 @@ export const FilterAndSortContainer = styled.div`
 
 export const FilterContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 8px;
 `;
 
 export const Filter = styled.div`
@@ -39,7 +38,7 @@ export const FilterText = styled.p`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #918B97;
+  color: #918b97;
 `;
 
 export const FilterLine = styled.div`
@@ -53,7 +52,7 @@ export const FilterLine = styled.div`
 
 export const SortContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 8px;
 `;
 
 export const SortHeading = styled.div`
@@ -77,7 +76,7 @@ export const SortText = styled.p`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #918B97;
+  color: #918b97;
 `;
 
 export const SortButton = styled.div`
@@ -85,7 +84,7 @@ export const SortButton = styled.div`
   padding: 4px 8px;
   border-radius: 25px;
   border: 1px;
-  border: 1px solid #7B7382;
+  border: 1px solid #7b7382;
   cursor: pointer;
 `;
 
@@ -96,7 +95,7 @@ export const SortButtonText = styled.div`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #7B7382;
+  color: #7b7382;
   text-align: center;
 `;
 

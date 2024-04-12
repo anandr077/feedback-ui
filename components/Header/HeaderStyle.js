@@ -108,7 +108,7 @@ export const Frame1344 = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 13px 30px;
+  padding: 13px 20px;
   height: 70px;
   z-index: 100;
   position: sticky;
@@ -145,7 +145,7 @@ export const HeaderButton = styled.article`
   width: fit-content;
   align-items: flex-start;
   gap: 10px;
-  padding: 14px 50px;
+  padding: 14px 25px;
   position: relative;
   border-radius: 26.5px;
   cursor: pointer;
@@ -205,7 +205,7 @@ export const HeaderButtonSelected = styled.div`
   width: fit-content;
   align-items: flex-start;
   gap: 10px;
-  padding: 14px 60px;
+  padding: 14px 35px;
   position: relative;
   border-radius: 26.5px;
   background-color: var(--royal-purple);

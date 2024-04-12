@@ -388,7 +388,8 @@ export function contextBarForPortfolioDocument(
   showStudentPopUp,
   showTeacherPopUp,
   setShowStudentPopUp,
-  setShowTeacherPopUp
+  setShowTeacherPopUp,
+  isTeacher
 ) {
   const { showSnackbar } = React.useContext(SnackbarContext);
   const [isEditing, setIsEditing] = React.useState(false);
@@ -420,7 +421,7 @@ export function contextBarForPortfolioDocument(
               ...old.assignment,
               title: res.title,
             },
-            otherDrafts: old.otherDrafts.map((draft) =>
+            otherDrafts: old.otherDrafts?.map((draft) =>
               draft.submissionId === submission.id
                 ? { ...draft, title: res.title }
                 : draft
@@ -548,7 +549,8 @@ export function contextBarForPortfolioDocument(
             showStudentPopUp,
             showTeacherPopUp,
             setShowStudentPopUp,
-            setShowTeacherPopUp
+            setShowTeacherPopUp,
+            isTeacher
           )}
         </FeedbackBtnContainer>
       </Frame1371>
@@ -605,7 +607,8 @@ const submitButtonDocument = (
   showStudentPopUp,
   showTeacherPopUp,
   setShowStudentPopUp,
-  setShowTeacherPopUp
+  setShowTeacherPopUp,
+  isTeacher
 ) => {
   if (pageMode === 'DRAFT') {
     return (
@@ -640,8 +643,8 @@ const submitButtonDocument = (
                   setShowSelectType(true);
                 }}
               >
-                {<img src="/img/messages.png" alt="message" />}
-                Request Feedback
+                {<img src={isTeacher ? '/img/ai.svg' : '/img/messages.png'} alt="Feedback" />}
+                {isTeacher ? 'Jedd AI' : 'Request Feedback'}
               </RequestFeedbackButton>
             </>
           }

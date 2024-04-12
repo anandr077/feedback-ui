@@ -26,9 +26,9 @@ const teacherTabs = (first, second, third, fourth) => {
       redirect: '#classes',
     },
     thirdButton: {
-      text: 'Get Feedback',
-      icon: getFeedbackUnselected,
-      iconSelected: getFeedbackselected,
+      text: 'Jedd AI',
+      icon: '/img/ai.svg',
+      iconSelected: '/img/ai.svg',
       selected: third,
       redirect: '#getFeedback',
     },

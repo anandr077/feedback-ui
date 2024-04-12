@@ -60,7 +60,7 @@ export default function TeacherClassesRoot() {
       if (classIdFromUrl) {
         setClassId(classIdFromUrl);
       } else {
-        setClassId(data[0].id);
+        setClassId(data[0]?.id);
       }
       setClasses(data);
     }

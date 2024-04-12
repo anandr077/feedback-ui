@@ -174,53 +174,57 @@ export default function Header(props) {
           <Frame1343 src="/icons/header-logo.png" alt="Frame 1343" />
         </a>
         <Frame5>
-          {headerProps.firstButton.selected ? (
-            <HeaderButtonSelected onClick={OnFirstButtonClick}>
-              <HeaderButtonInnnerContainer>
-                <IconContainer
-                  src={headerProps.firstButton.iconSelected}
-                  alt="buttonIcon"
-                />
-                <SelectedButtonText>
-                  {headerProps.firstButton.text}
-                </SelectedButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButtonSelected>
-          ) : (
-            <HeaderButton onClick={OnFirstButtonClick}>
-              <HeaderButtonInnnerContainer className="group-1">
-                <IconContainer
-                  src={headerProps.firstButton.icon}
-                  alt="buttonIcon"
-                />
-                <ButtonText>{headerProps.firstButton.text}</ButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButton>
+          {Cookies.get('classes') && (
+            <>
+              {headerProps.firstButton.selected ? (
+                <HeaderButtonSelected onClick={OnFirstButtonClick}>
+                  <HeaderButtonInnnerContainer>
+                    <IconContainer
+                      src={headerProps.firstButton.iconSelected}
+                      alt="buttonIcon"
+                    />
+                    <SelectedButtonText>
+                      {headerProps.firstButton.text}
+                    </SelectedButtonText>
+                  </HeaderButtonInnnerContainer>
+                </HeaderButtonSelected>
+              ) : (
+                <HeaderButton onClick={OnFirstButtonClick}>
+                  <HeaderButtonInnnerContainer className="group-1">
+                    <IconContainer
+                      src={headerProps.firstButton.icon}
+                      alt="buttonIcon"
+                    />
+                    <ButtonText>{headerProps.firstButton.text}</ButtonText>
+                  </HeaderButtonInnnerContainer>
+                </HeaderButton>
+              )}
+              {headerProps.secondButton.selected ? (
+                <HeaderButtonSelected onClick={OnSecondButtonClick}>
+                  <HeaderButtonInnnerContainer>
+                    <IconContainer
+                      src={headerProps.secondButton.iconSelected}
+                      alt="buttonIcon"
+                    />
+                    <SelectedButtonText>
+                      {headerProps.secondButton.text}
+                    </SelectedButtonText>
+                  </HeaderButtonInnnerContainer>
+                </HeaderButtonSelected>
+              ) : (
+                <HeaderButton onClick={OnSecondButtonClick}>
+                  <HeaderButtonInnnerContainer className="group-1">
+                    <IconContainer
+                      src={headerProps.secondButton.icon}
+                      alt="buttonIcon"
+                    />
+                    <ButtonText>{headerProps.secondButton.text}</ButtonText>
+                  </HeaderButtonInnnerContainer>
+                </HeaderButton>
+              )}
+            </>
           )}
-          {headerProps.secondButton.selected ? (
-            <HeaderButtonSelected onClick={OnSecondButtonClick}>
-              <HeaderButtonInnnerContainer>
-                <IconContainer
-                  src={headerProps.secondButton.iconSelected}
-                  alt="buttonIcon"
-                />
-                <SelectedButtonText>
-                  {headerProps.secondButton.text}
-                </SelectedButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButtonSelected>
-          ) : (
-            <HeaderButton onClick={OnSecondButtonClick}>
-              <HeaderButtonInnnerContainer className="group-1">
-                <IconContainer
-                  src={headerProps.secondButton.icon}
-                  alt="buttonIcon"
-                />
-                <ButtonText>{headerProps.secondButton.text}</ButtonText>
-              </HeaderButtonInnnerContainer>
-            </HeaderButton>
-          )}
-          {isTeacher &&
+          {isTeacher && Cookies.get('classes') &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>
                 <HeaderButtonInnnerContainer>

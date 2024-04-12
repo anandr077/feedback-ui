@@ -127,14 +127,21 @@ function App() {
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
+      Cookies.get('classes') ? (
         <ProtectedTeacherTaskRoot />
-      ) : Cookies.get('classes') ? (
+      ) : (
+        <ProtectedGiveFeedback />
+      )
+    ) : (
+      Cookies.get('classes') ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />
-      );
-    return <div>{dashboard}</div>;
-  };
+      )
+    );
+
+   return <div>{dashboard}</div>;
+};
 
   const Tasks = ({ role }) => {
     const tasks =

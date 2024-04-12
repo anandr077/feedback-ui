@@ -483,13 +483,13 @@ function answersAndFeedbacks(
 ) {
   return (
     <Frame1386 id="content">
-      {isTeacher && (
+      {/* {isTeacher && (
         <GoBackBtn onClick={() => navigate.goBack()}>
           <img className="arrowImg" src="img/arrow_left.png" />
           <img className="hoveredImg" src="icons/arrowleft.png" />
           Go Back
         </GoBackBtn>
-      )}
+      )} */}
       {createContextBar(
         submission,
         setSubmission,
@@ -523,7 +523,7 @@ function answersAndFeedbacks(
           editorFontSize
         )}
 
-        {!isMobile && (
+        {!isMobile && !location.pathname === '/' && (
           <FeedbackFrame
             methods={methods}
             submission={submission}
@@ -577,6 +577,7 @@ function createContextBar(
   setShowStudentPopUp,
   setShowTeacherPopUp
 ) {
+  console.log('the submission is ', submission)
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,

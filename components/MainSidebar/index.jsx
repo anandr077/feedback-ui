@@ -35,9 +35,9 @@ const MainSidebar = () => {
       link: '/classes',
     },
     {
-      icon: getfeedbackIcon,
-      activeIcon: getfeedbackIcon,
-      name: 'Get Feedback',
+      icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
+      activeIcon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
+      name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAi'}`,
       link: '/getFeedback',
     },
     {
@@ -45,12 +45,6 @@ const MainSidebar = () => {
       activeIcon: myprogressIcon,
       name: 'My Progress',
       link: '/progress',
-    },
-    {
-      icon: jeddaiIcon,
-      activeIcon: jeddaiIcon,
-      name: 'Use JeddAi',
-      link: '/jeddai',
     },
     {
       icon: settingIcon,
@@ -89,7 +83,7 @@ const MainSidebar = () => {
               return null;
             }
             if (
-              (navItem.link === '/getFeedback' || navItem.link === '/progress') &&
+              (navItem.link === '/progress') &&
               role === 'TEACHER'
             ) {
               return null;

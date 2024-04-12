@@ -73,7 +73,7 @@ import ai from '../../../static/img/ai.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
 import Teacher from '../../../static/img/Teacher.svg';
 import questionmark from '../../../static/img/question-mark.svg';
-import people from '../../../static/img/people.svg';
+import expert from '../../../static/img/Expert-check.svg';
 import messages from '../../../static/img/messages-2.svg';
 import closecircle from '../../../static/img/closecircle.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
@@ -239,8 +239,8 @@ const selectReviewType = (
             )}
             {!isTeacher && (
               <Frame5053Card1 onClick={requestCommnityFeedback}>
-                <Frame5053Card1Img src={people} />
-                <Frame5053Card1Para>Community</Frame5053Card1Para>
+                <Frame5053Card1Img src={expert} />
+                <Frame5053Card1Para>Expert</Frame5053Card1Para>
               </Frame5053Card1>
             )}
             <Frame5053Card1

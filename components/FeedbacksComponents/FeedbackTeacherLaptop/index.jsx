@@ -505,6 +505,7 @@ function answersAndFeedbacks(
     SetOpenRightPanel(tab);
   };
 
+
   return (
     <Frame1386 id="content">
       {/* {isTeacher && (
@@ -558,7 +559,6 @@ function answersAndFeedbacks(
             updatedCommentPosition,
             selectedRange,
             commentFocusAreaToggle,
-            setCommentFocusAreaToggle,
             openRightPanel,
             QuestionIndex
           )}

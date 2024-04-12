@@ -50,7 +50,6 @@ export function answersFrame(
   updatedCommentPosition,
   selectedRange,
   commentFocusAreaToggle,
-  setCommentFocusAreaToggle,
   openRightPanel,
   QuestionIndex
 ) {
@@ -79,7 +78,6 @@ export function answersFrame(
       methods={methods}
       selectedRange={selectedRange}
       commentFocusAreaToggle={commentFocusAreaToggle}
-      setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       openRightPanel={openRightPanel}
       QuestionIndex={QuestionIndex}
     ></AnswersFrame>
@@ -109,11 +107,12 @@ function AnswersFrame(props) {
     methods,
     selectedRange,
     commentFocusAreaToggle,
-    setCommentFocusAreaToggle,
     openRightPanel,
-    QuestionIndex
+    QuestionIndex,
   } = props;
-  console.log('the submissions are', comments)
+  const [showAddingCommentDesc, setShowAddingCommentDesc] =
+    React.useState(true);
+  console.log('the submissions are', comments);
 
   return (
     <Group1225 id="answers">
@@ -140,23 +139,27 @@ function AnswersFrame(props) {
           methods,
           selectedRange,
           commentFocusAreaToggle,
-          setCommentFocusAreaToggle,
+          setShowAddingCommentDesc,
           QuestionIndex
         )}
       </Frame1367>
-      {commentFocusAreaToggle && (
-        <FocusAreaContainer moveToLeft={openRightPanel}>
+      {commentFocusAreaToggle ? (
+        <FocusAreaContainer
+          id={'FocusAreaContainer'}
+          moveToLeft={openRightPanel}
+        >
           <FocusAreaCard
             comments={comments.filter(
               (comment) => comment.type === 'FOCUS_AREA'
             )}
           />
         </FocusAreaContainer>
-      )}
-      {comments.length === 0 && (
-        <AddCommentDiv moveToLeft={openRightPanel}>
-           <AddCommentInstruction />
-        </AddCommentDiv>
+      ) : (
+        showAddingCommentDesc && (
+          <AddCommentDiv moveToLeft={openRightPanel}>
+            <AddCommentInstruction />
+          </AddCommentDiv>
+        )
       )}
     </Group1225>
   );
@@ -212,7 +215,7 @@ const answerFrames = (
   methods,
   selectedRange,
   commentFocusAreaToggle,
-  setCommentFocusAreaToggle,
+  setShowAddingCommentDesc,
   QuestionIndex
 ) => {
   const { overallComments } = useContext(FeedbackContext);
@@ -261,7 +264,7 @@ const answerFrames = (
                   createVisibleComments(commentsForSelectedTab),
                   answer.serialNumber
                 )(quillRefs.current[answer.serialNumber - 1].getSelection());
-                setCommentFocusAreaToggle(false);
+                setShowAddingCommentDesc(false);
               }}
               id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
             >
@@ -362,7 +365,7 @@ function createQuill(
   commentFocusAreaToggle
 ) {
   return (
-    <div style={{width: '100%'}}>
+    <div style={{ width: '100%' }}>
       <QuillEditor
         key={
           'quillEditor_' +

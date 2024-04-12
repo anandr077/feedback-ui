@@ -153,6 +153,16 @@ const SecondSidebar = () => {
       ],
     },
     {
+      link: '/sharedresponses',
+      subLinks: [
+        subLinks[1],
+        subLinks[2],
+        subLinks[3],
+        subLinks[4],
+        subLinks[5],
+      ],
+    },
+    {
       link: '/markingTemplate/strengthAndTargets',
       subLinks: [subLinks[6], subLinks[7], subLinks[8]],
     },

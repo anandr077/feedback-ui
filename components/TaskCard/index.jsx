@@ -19,6 +19,7 @@ import {
   ClassTitle,
   FavouriteContainer,
   FavouriteContent,
+  StyledCardMain,
 } from './style';
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
@@ -71,22 +72,18 @@ function TaskCard(props) {
     if (exemplar) {
       if (task.status === 'AWAITING_APPROVAL') {
         return (
-          <StyledCard
+          <StyledCardMain
             ref={refContainer}
             isSelected={isSelected}
             style={{
-              border: '1px solid rgba(114, 0, 224, 0.1)',
               borderTop: 'none',
               background: 'white',
-              borderRadius: '0 0 16px 16px',
-              boxShadow: '0 4px 16px 0 rgba(114, 0, 224, 0.1)',
             }}
           >
             <TaskTitle>
-              Congratulations,
-              <br />
-              {task.reviewerName} would like to share the following part of your
-              response with the class.
+              Congratulations, {task.reviewerName} has marked part of your
+              response as exemplary and would like to share with students from
+              test class!
             </TaskTitle>
             <TaskTitleBold>
               {task.submissionDetails?.assignment?.title}
@@ -94,7 +91,7 @@ function TaskCard(props) {
             {styledCardWithLink()}
             <TaskTitle>Are you happy to share?</TaskTitle>
             {saveButtons(task.id)}
-          </StyledCard>
+          </StyledCardMain>
         );
       }
     }
@@ -104,7 +101,11 @@ function TaskCard(props) {
     if (onAccept) {
       return styledCard();
     }
-    return <AnchorTag href={!exemplar && task.link}>{styledCard()}</AnchorTag>;
+    return (
+      <AnchorTag style={{ width: '100%' }} href={!exemplar && task.link}>
+        {styledCard()}
+      </AnchorTag>
+    );
   }
   function styledCard() {
     const dueDate = new Date(task.dueAt);

@@ -7,9 +7,12 @@ import {
   Slider,
   SlideDots,
   Dot,
+  Title,
 } from './style';
 import TaskCard from '../../TaskCard';
 import { isMobileView } from '../../ReactiveRender';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
+import questionMark from '../../../static/img/question-mark.svg';
 
 const HelpPeerSlide = (props) => {
   const {
@@ -31,7 +34,7 @@ const HelpPeerSlide = (props) => {
   }
 
   const tasksFrames = requireAction.map((task, idx) => {
-    if(idx === 0){
+    if (idx === 0) {
       return (
         <SlideContainer key={task.id}>
           <TaskCard
@@ -44,8 +47,8 @@ const HelpPeerSlide = (props) => {
             onExemplarDecline={onDecline}
           />
         </SlideContainer>
-      )
-    } else{
+      );
+    } else {
       return null;
     }
   });
@@ -53,8 +56,11 @@ const HelpPeerSlide = (props) => {
   return (
     <SliderContainer>
       <Header>
-        <img src="icons/sharePurple.png" />
-        <p>Help Your Peers</p>
+        <img src="icons/sharePurple.png" width="24px" />
+        <Title>
+          Help Your Peers
+          <QuestionTooltip text={''} img={questionMark} />
+        </Title>
       </Header>
       <SliderMain mobileView={mobileView}>
         <Slider>{tasksFrames}</Slider>

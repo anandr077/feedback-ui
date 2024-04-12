@@ -2,11 +2,12 @@ import styled from 'styled-components';
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
-  padding: 16px 0px;
+  padding: 20px 20px;
   align-items: center;
   gap: 16px;
   align-self: stretch;
-  
+  border-bottom: 1px solid #c9c6cc80;
+
   @media (max-width: 765px) {
     flex-direction: column;
     align-items: flex-start;
@@ -89,9 +90,10 @@ export const SortButton = styled.div`
 `;
 
 export const SortButtonText = styled.div`
+  display: flex;
   font-family: IBM Plex Sans;
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;

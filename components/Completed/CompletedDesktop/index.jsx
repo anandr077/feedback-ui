@@ -2,13 +2,17 @@ import React from 'react';
 import Frame14103 from '../Frame14103';
 import styled from 'styled-components';
 import { IbmplexsansBoldShark64px } from '../styledMixins';
-import './CompletedDesktop.css';
 import { completedHeaderProps } from '../../../utils/headerProps.js';
 import CheckboxGroup from '../../CheckboxGroup';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
-import { SharedResponseContainer, HeadingAndFilterCon } from './style.js';
+import {
+  SharedResponseContainer,
+  HeadingAndFilterCon,
+  SharedResponseMainContainer,
+} from './style.js';
+import SecondSidebar from '../../SecondSidebar/index.js';
 
 function CompletedDesktop(props) {
   const {
@@ -29,11 +33,38 @@ function CompletedDesktop(props) {
     onRemoveFromBookmark,
   } = props;
   return (
-    <div className="completed-desktop screen">
+    <SharedResponseMainContainer>
+      <SecondSidebar />
       <Frame1425>
         {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
         {createFilter() && <Frame1424>{createFilter()}</Frame1424>}
         <SharedResponseContainer>
+          <Frame1413>
+            <Frame14103
+              id={id}
+              groups={groups}
+              exemplar={exemplar}
+              setPublishActionCompleted={setPublishActionCompleted}
+              onAddToBookmark={onAddToBookmark}
+              onRemoveFromBookmark={onRemoveFromBookmark}
+            />
+            <Frame14103
+              id={id}
+              groups={groups}
+              exemplar={exemplar}
+              setPublishActionCompleted={setPublishActionCompleted}
+              onAddToBookmark={onAddToBookmark}
+              onRemoveFromBookmark={onRemoveFromBookmark}
+            />
+            <Frame14103
+              id={id}
+              groups={groups}
+              exemplar={exemplar}
+              setPublishActionCompleted={setPublishActionCompleted}
+              onAddToBookmark={onAddToBookmark}
+              onRemoveFromBookmark={onRemoveFromBookmark}
+            />
+          </Frame1413>
           <SliderCardContainer>
             <HelpPeerSlide
               id={id}
@@ -44,19 +75,9 @@ function CompletedDesktop(props) {
               onDecline={onDecline}
             />
           </SliderCardContainer>
-          <Frame1413>
-            <Frame14103
-              id={id}
-              groups={groups}
-              exemplar={exemplar}
-              setPublishActionCompleted={setPublishActionCompleted}
-              onAddToBookmark={onAddToBookmark}
-              onRemoveFromBookmark={onRemoveFromBookmark}
-            />
-          </Frame1413>
         </SharedResponseContainer>
       </Frame1425>
-    </div>
+    </SharedResponseMainContainer>
   );
   function createFilter() {
     if (exemplar) return <></>;
@@ -75,14 +96,12 @@ const Frame1315 = styled.div`
 `;
 const Frame1425 = styled.div`
   display: flex;
-  flex-direction: column;
   width: 100%;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  gap: 40px;
+  justify-content: flex-start;
   position: relative;
-  max-width: 1440px !important;
-  padding: 0px 60px;
+  // max-width: 1440px !important;
 `;
 
 const SharedResponseContainer = styled.div`
@@ -119,9 +138,10 @@ const Frame1413 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
   position: relative;
-  width: 63.68%;
+  width: 60%;
+  height: 60%;
+  overflow-y: scroll;
 `;
 
 const Line18 = styled.img`

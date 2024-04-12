@@ -63,7 +63,12 @@ export default function RoundedDropDown({
         onOpen={() => setOpen(true)}
         value={value}
         displayEmpty
-        input={<SelectInput style={{color: '#7B7382', fontSize: '13px'}} disableUnderline={true} />}
+        input={
+          <SelectInput
+            style={{ color: '#7B7382', fontSize: '13px', padding: '4px 8px' }}
+            disableUnderline={true}
+          />
+        }
       >
         {search && (
           <StyledInput
@@ -79,10 +84,7 @@ export default function RoundedDropDown({
             }}
           />
         )}
-        <MenuItem 
-          value={''} 
-          onClick={() => handleMenuSelect('')}
-        >
+        <MenuItem value={''} onClick={() => handleMenuSelect('')}>
           {type === 'documentType' ? 'Task Type' : capitalizeFirstLetter(type)}
         </MenuItem>
         {menuItems

@@ -87,23 +87,6 @@ export default function CompletedRoot(props) {
 
   const headingPart = (
     <>
-      <TopContainer>
-        {/* <TitleContainer>
-          <Title>Shared Responses</Title>
-          <ConnectContainer>
-            <LinkButton
-              link={`#/`}
-              label="Back to tasks"
-              arrowleft={arrowLeft}
-              whiteArrowleft={whiteArrowleft}
-            />
-          </ConnectContainer>
-        </TitleContainer>
-        <HeadingLine>
-          All your tasks assigned to you, tasks you are doing, and tasks you
-          have submitted for review
-        </HeadingLine> */}
-      </TopContainer>
       {!mobileView && (
         <FilterSort
           setSelectedValue={setSelectedValue}

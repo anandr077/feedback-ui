@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import {
-    IbmplexsansMediumElectricViolet20px,
-    IbmplexsansMediumWhite16px,
-    IbmplexsansNormalShark20px,
-    IbmplexsansSemiBoldShark20px,
-  } from '../../styledMixins';
+  IbmplexsansMediumElectricViolet20px,
+  IbmplexsansMediumWhite16px,
+  IbmplexsansNormalShark20px,
+  IbmplexsansSemiBoldShark20px,
+} from '../../styledMixins';
 
 export const MoreOptionsWrapper = styled.div`
   position: absolute;
@@ -82,13 +82,12 @@ export const TaskTitle = styled.p`
 `;
 
 export const TaskTitleBold = styled.p`
-  ${IbmplexsansSemiBoldShark20px}
+  font-family: IBM Plex Sans;
   font-size: 16px;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  font-weight: 500;
+  line-height: 20.8px;
+  text-align: left;
+  color: #4b464f;
 `;
 
 export const Frame12191 = styled.div`
@@ -142,28 +141,45 @@ export const Button = styled.div`
   line-height: normal;
 `;
 export const StyledCard = styled.article`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  padding: 20px;
+  padding: 12px;
   position: relative;
   align-self: stretch;
-  background-color: ${({overdue}) => (overdue ? '#FDE2E2' : 'var(--white)')};
-  box-shadow: 0 4px 16px rgba(156, 156, 156, 0.4);
-  border-color: var(--corn);
-  border:  1px solid ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : '#EAEAEA')};
-  border-radius: 16px;
-  
-  &:hover {
-    background: #F1E6FC;
-    box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
-  }
+  background-color: ${({ overdue }) => (overdue ? '#FDE2E2' : 'var(--white)')};
+
+  border: 1px solid ${({ overdue }) => (overdue ? '#C9C6CC80' : '#EAEAEA')};
+  border-radius: 6px;
+`;
+
+export const StyledCardMain = styled.article`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  // padding: 20px;
+  position: relative;
+  align-self: stretch;
+  // background-color: ${({ overdue }) =>
+    overdue ? '#FDE2E2' : 'var(--white)'};
+  // box-shadow: 0 4px 16px rgba(156, 156, 156, 0.4);
+  // border-color: var(--corn);
+  // border: 1px solid
+  //   ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : '#EAEAEA')};
+  // border-radius: ${({ overdue }) => (overdue ? '16px' : '0px')};;
+
+  // &:hover {
+  //   background: #f1e6fc;
+  //   box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
+  // }
 `;
 
 export const AnchorTag = styled.a`
   text-decoration: none;
-`
+`;
 
 export const StudentLength = styled.span`
   color: var(--royal-purple);
@@ -172,7 +188,7 @@ export const StudentLength = styled.span`
   font-size: 18px;
   cursor: pointer;
   position: relative;
-`
+`;
 
 export const Header = styled.div`
   width: 100%;
@@ -197,7 +213,8 @@ export const FavouriteContent = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  color: ${({favourite}) => favourite ? '#C70A65' : 'var(--light-mode-purple)'};
+  color: ${({ favourite }) =>
+    favourite ? '#C70A65' : 'var(--light-mode-purple)'};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: var(--font-size-s);

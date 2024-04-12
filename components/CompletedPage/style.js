@@ -1,14 +1,18 @@
 import styled, { keyframes } from 'styled-components';
 
+export const CompletedPageContainer = styled.div`
+  display: flex;
+`;
+
 export const MainContainer = styled.div`
+  width: 100%;
   align-items: center;
-  background-color: var(--white-pointer);
+  background-color: var(--white);
   border: 1px none;
   display: flex;
   flex-direction: column;
   gap: 60px;
   position: relative;
-  padding: 60px 0px;
   @media (min-width: 1025px) and (max-width: 1440px) {
     min-width: 1025px;
   }
@@ -23,26 +27,20 @@ export const InnerContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 40px;
   position: relative;
   max-width: 1440px;
-  padding: 0px 60px;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 60px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 60px;
-  }
-  @media (max-width: 765px) {
-    padding: 0px 20px;
-  }
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
   width: 100%;
+  padding: 0px 20px;
+  border-bottom: 1px solid #c9c6cc80;
+
+  @media (max-width: 765px) {
+    padding: 0px 10px;
+  }
 `;
 export const TopContainer = styled.div`
   display: flex;
@@ -71,7 +69,7 @@ export const ConnectContainer = styled.div``;
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
-  padding: 16px 0px;
+  padding: 20px 0px;
   align-items: center;
   gap: 16px;
   align-self: stretch;
@@ -91,7 +89,7 @@ export const FilterLine = styled.div`
   width: 1px;
   border: 1px solid #d6d6d6;
   @media (min-width: 766px) and (max-width: 1024px) {
-     display: none;
+    display: none;
   }
   @media (max-width: 765px) {
     display: none;
@@ -145,14 +143,11 @@ export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 20px;
-  //   border-radius: 8px;
-  //   border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
-  //   background: #fff;
-  //   box-shadow: 0px 3px 8px 0px rgba(48, 27, 114, 0.04);
-  //   @media (max-width: 1024px) {
-  //     width: 100%;
-  //   }
+  height: 90vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 `;
 export const RightContentContainer = styled.div`
   display: flex;
@@ -525,54 +520,38 @@ export const PopupContainer = styled.div`
 `;
 //
 
-export const TaskContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 20px;
-  border-radius: 16px;
-  gap: 10px;
-  border: 1px solid #7200e01a;
-  background: #ffffff;
-  cursor: pointer;
-  box-shadow: 0px 4px 16px 0px #7200e01a;
-  transition: background 2s ease-in 1s;
-
-  :hover {
-    background: linear-gradient(
-        0deg,
-        rgba(114, 0, 224, 0.1),
-        rgba(114, 0, 224, 0.1)
-      ),
-      linear-gradient(0deg, #ffffff, #ffffff);
-  }
-`;
 export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
-  gap: 10px;
-  @media (min-width: 766px) and (max-width: 1024px) {
-    width: 85%;
-  }
-  @media (max-width: 765px) {
-    width: 80%;
-  }
+  gap: 9px;
 `;
+export const TaskIconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+`;
+export const TaskIconContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+`;
+
 export const DataTitle = styled.p`
   font-family: IBM Plex Sans;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 26px;
-  letter-spacing: 0em;
+  line-height: 24px;
   text-align: left;
+  color: #4b464f;
 `;
 export const DataSubtitle = styled.p`
   font-family: IBM Plex Sans;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0.008em;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
   text-align: left;
+  color: #b2aeb7;
 `;
 
 export const TaskCompiltion = styled.div`
@@ -582,11 +561,11 @@ export const TaskCompiltion = styled.div`
   border-radius: 24px;
   gap: 5px;
   font-family: IBM Plex Sans;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0.008em;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
   text-align: left;
+  color: #7b7382;
 `;
 export const TaskCompiltionIcon = styled.img`
   width: 16px;
@@ -598,7 +577,7 @@ export const IconContainerDown = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 10%;
+  // width: 10%;
   padding: 8px;
   border-radius: 4px;
   gap: 6px;
@@ -611,16 +590,52 @@ export const IconContainerDown = styled.div`
 `;
 
 export const DownloadIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  padding: 1.67px 1.67px 1.67px 1.67px;
+  width: 16px;
+  height: 16px;
+  // padding: 1.67px 1.67px 1.67px 1.67px;
+`;
+export const DownloadIconColor = styled.img`
+  width: 16px;
+  height: 16px;
+  display: none;
 `;
 export const DownloadText = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
   text-align: left;
   color: #7200e0;
+  display: none;
+`;
+export const DeleteText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
+  text-align: left;
+  color: #9e322b;
+  display: none;
+`;
+
+export const TaskContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  gap: 10px;
+  border-bottom: 1px solid #c9c6cc80;
+  background: #ffffff;
+  cursor: pointer;
+  justify-content: space-between;
+  :hover {
+    background: #f2f1f380;
+  }
+  &:hover {
+    ${DownloadIconColor}, ${DownloadText}, ${DeleteText} {
+      display: flex;
+    }
+    ${DownloadIcon} {
+      display: none;
+    }
+  }
 `;

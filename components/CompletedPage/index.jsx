@@ -29,8 +29,8 @@ import {
   HeadingLine,
   InnerContainer,
   LeftContentContainer,
-
   MainContainer,
+  CompletedPageContainer,
 } from './style.js';
 
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
@@ -50,6 +50,7 @@ import {
 } from '../GiveFeedback/style.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
+import SecondSidebar from '../SecondSidebar/index.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -98,7 +99,6 @@ export default function CompletedPage() {
     setFilteredTasks(filteredTasks);
   };
 
-  
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
       setSelectedClass(selectValue);
@@ -124,33 +124,11 @@ export default function CompletedPage() {
   };
 
   return (
-    <>
+    <CompletedPageContainer>
+      <SecondSidebar />
       <MainContainer>
         <InnerContainer>
           <HeadingAndFilterCon>
-            <TopContainer>
-              <TitleContainer>
-                <Title>
-                  Task History
-                  <QuestionTooltip 
-                    img={questionMark} 
-                    text={"View all of the tasks that you have marked as complete"}
-                  />
-                </Title>
-                <ConnectContainer>
-                  <LinkButton
-                    link={`#/`}
-                    label="Back to tasks"
-                    arrowleft={arrowLeft}
-                    whiteArrowleft={whiteArrowleft}
-                  />
-                </ConnectContainer>
-              </TitleContainer>
-              <HeadingLine>
-                View or download any previous tasks that you have already
-                completed
-              </HeadingLine>
-            </TopContainer>
             <FilterAndSortContainer>
               <FilterContainer>
                 <Frame5086>
@@ -169,7 +147,7 @@ export default function CompletedPage() {
                   />
                 </>
               </FilterContainer>
-              <FilterLine/>
+              <FilterLine />
               <SortContainer>
                 <SortHeading>
                   <SortImg src={SortSquare} />
@@ -201,16 +179,14 @@ export default function CompletedPage() {
               </SortContainer>
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
-          <ContentContainer>
-            <LeftContentContainer>
-              <TaskHistoryDataComponent
-                downloadPDF={downloadPDF}
-                list={filteredData(tasks)}
-              />
-            </LeftContentContainer>
-          </ContentContainer>
+          <LeftContentContainer>
+            <TaskHistoryDataComponent
+              downloadPDF={downloadPDF}
+              list={filteredData(tasks)}
+            />
+          </LeftContentContainer>
         </InnerContainer>
       </MainContainer>
-    </>
+    </CompletedPageContainer>
   );
 }

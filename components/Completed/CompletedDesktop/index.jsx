@@ -50,7 +50,7 @@ function CompletedDesktop(props) {
               groups={groups}
               exemplar={exemplar}
               setPublishActionCompleted={setPublishActionCompleted}
-              onAddToBookmark = {onAddToBookmark}
+              onAddToBookmark={onAddToBookmark}
               onRemoveFromBookmark={onRemoveFromBookmark}
             />
           </Frame1413>

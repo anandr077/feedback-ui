@@ -84,6 +84,7 @@ import RoundedDropDown from '../../components2/RoundedDropDown';
 import ProgressBarComponent from './ProgressBarComponent';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import SecondSidebar from '../SecondSidebar';
+import { getUserRole } from '../../userLocalDetails';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -103,6 +104,8 @@ function GiveFeedback() {
   const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
   const location = useLocation();
   const pathName = location.pathname;
+
+  const role = getUserRole();
 
   React.useEffect(() => {
     setSelectedYear('');
@@ -449,48 +452,50 @@ function GiveFeedback() {
                 setGiveFeedbackCompletedTasks={setGiveFeedbackCompletedTasks}
               />
             </LeftContentContainer>
-            <RightContentContainer>
-              <Frame5111>
-                <Frame1353>
-                  <Frame5087 src={levelEmoji} />
-                  <Frame5088>
-                    <Frame5088Para>Level {studentStats.level}</Frame5088Para>
-                    <QuestionTooltip
-                      img={questionMark}
-                      text={
-                        'Level up by providing meaningfull feedback to other students'
-                      }
-                    />
-                  </Frame5088>
-                </Frame1353>
-                <Frame5111Para>
-                  {studentStats.total}{' '}
-                  {studentStats.total === 1
-                    ? 'document reviewed'
-                    : 'documents reviewed'}
-                </Frame5111Para>
-                <Frame5042>
-                  <Frame5042Para1>{studentStats.percentage}%</Frame5042Para1>
-                  <Frame5042Para2>
-                    of students found your feedback helpful
-                  </Frame5042Para2>
-                </Frame5042>
-              </Frame5111>
-              <Frame5114>
-                <Frame5112>
-                  <ProgressBarComponent levelNumber={studentStats.level} />
-                  {studentStats.toGoForNextLevel > 0 && (
-                    <Frame5112para>
-                      Help {studentStats.toGoForNextLevel} more{' '}
-                      {studentStats.toGoForNextLevel === 1
-                        ? 'student'
-                        : 'students'}{' '}
-                      to level up!
-                    </Frame5112para>
-                  )}
-                </Frame5112>
-              </Frame5114>
-            </RightContentContainer>
+            {role != 'TEACHER' && (
+              <RightContentContainer>
+                <Frame5111>
+                  <Frame1353>
+                    <Frame5087 src={levelEmoji} />
+                    <Frame5088>
+                      <Frame5088Para>Level {studentStats.level}</Frame5088Para>
+                      <QuestionTooltip
+                        img={questionMark}
+                        text={
+                          'Level up by providing meaningfull feedback to other students'
+                        }
+                      />
+                    </Frame5088>
+                  </Frame1353>
+                  <Frame5111Para>
+                    {studentStats.total}{' '}
+                    {studentStats.total === 1
+                      ? 'document reviewed'
+                      : 'documents reviewed'}
+                  </Frame5111Para>
+                  <Frame5042>
+                    <Frame5042Para1>{studentStats.percentage}%</Frame5042Para1>
+                    <Frame5042Para2>
+                      of students found your feedback helpful
+                    </Frame5042Para2>
+                  </Frame5042>
+                </Frame5111>
+                <Frame5114>
+                  <Frame5112>
+                    <ProgressBarComponent levelNumber={studentStats.level} />
+                    {studentStats.toGoForNextLevel > 0 && (
+                      <Frame5112para>
+                        Help {studentStats.toGoForNextLevel} more{' '}
+                        {studentStats.toGoForNextLevel === 1
+                          ? 'student'
+                          : 'students'}{' '}
+                        to level up!
+                      </Frame5112para>
+                    )}
+                  </Frame5112>
+                </Frame5114>
+              </RightContentContainer>
+            )}
           </ContentContainer>
         </InnerContainer>
       </MainContainer>

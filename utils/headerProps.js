@@ -57,39 +57,6 @@ if (Cookies.get('classes')) {
   };
 }
 
-// const teacherTabs = (first, second, third, fourth) => {
-//   return {
-//     firstButton: {
-//       text: 'Tasks',
-//       icon: '/icons/assignmentUnselected.png',
-//       iconSelected: '/icons/assignmentWhite.png',
-//       selected: first,
-//       redirect: '#/',
-//     },
-//     secondButton: {
-//       text: 'Classes',
-//       icon: '/icons/classesUnselected.png',
-//       iconSelected: '/icons/classesWhite.png',
-//       selected: second,
-//       redirect: '#classes',
-//     },
-//     thirdButton: {
-//       text: 'Jedd AI',
-//       icon: '/img/ai.svg',
-//       iconSelected: '/img/ai.svg',
-//       selected: third,
-//       redirect: '#getFeedback',
-//     },
-//     fourthButton: {
-//       text: 'Give Feedback',
-//       icon: giveFeedbackUnselected,
-//       iconSelected: giveFeedbackselected,
-//       selected: fourth,
-//       redirect: '#giveFeedback',
-//     },
-//   };
-// };
-
 let studentTabs;
 
 if (Cookies.get('classes')) {

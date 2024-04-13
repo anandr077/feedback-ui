@@ -146,7 +146,7 @@ export const LeftContentContainer = styled.div`
   height: 90vh;
   overflow-y: scroll;
   &::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
+    display: none;
   }
 `;
 export const RightContentContainer = styled.div`

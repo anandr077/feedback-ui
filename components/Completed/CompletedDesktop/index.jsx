@@ -140,8 +140,11 @@ const Frame1413 = styled.div`
   align-items: flex-start;
   position: relative;
   width: 60%;
-  height: 60%;
+  height: 90vh;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Line18 = styled.img`

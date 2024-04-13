@@ -23,11 +23,11 @@ export const Header = styled.div`
 `;
 
 export const SliderMain = styled.div`
-  height: ${(props) => (props.mobileView ? '475px' : '450px')};
-  overflow: hidden;
-  @-moz-document url-prefix() {
-    height: ${(props) => (props.mobileView ? '475px' : '450px')};
-  }
+  // height: ${(props) => (props.mobileView ? '475px' : '450px')};
+  // overflow: hidden;
+  // @-moz-document url-prefix() {
+  //   height: ${(props) => (props.mobileView ? '475px' : '450px')};
+  // }
 `;
 
 export const Slider = styled.div`

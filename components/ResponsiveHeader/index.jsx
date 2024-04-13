@@ -13,6 +13,7 @@ import {
   teacherStudentTaskHeaderProps,
   teacherGetFeedbackHeaderProps,
   teacherGiveFeedbackHeaderProps,
+  expertTeacherHomeHeaderProps,
 } from '../../utils/headerProps';
 import { getUserRole } from '../../userLocalDetails';
 import { isSmallScreen } from '../ReactiveRender';
@@ -45,7 +46,9 @@ const getHeaderProps = (location) => {
     else if (location.includes('/getFeedback'))
       return teacherGetFeedbackHeaderProps;
     else if (location.includes('/giveFeedback'))
-      return teacherGiveFeedbackHeaderProps;
+      return Cookies.get('classes')
+        ? teacherGiveFeedbackHeaderProps
+        : expertTeacherHomeHeaderProps;
     return assignmentsHeaderProps;
   } else {
     if (location.includes('/getFeedback')) return docsHeaderProps();

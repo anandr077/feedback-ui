@@ -140,7 +140,7 @@ const Frame1413 = styled.div`
   align-items: flex-start;
   position: relative;
   width: 60%;
-  height: 90vh;
+  // height: 90vh;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;

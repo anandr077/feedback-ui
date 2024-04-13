@@ -71,14 +71,12 @@ export const BubbleContainer = styled.div`
 `;
 
 export const TaskTitle = styled.p`
-  ${IbmplexsansNormalShark20px}
-  color: var(--black);
-  font-size: 18px;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: 27px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: left;
+  color: #7b7382;
 `;
 
 export const TaskTitleBold = styled.p`
@@ -146,13 +144,26 @@ export const StyledCard = styled.article`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  padding: 12px;
+  padding: ${({ exemplar }) => (exemplar ? '20px' : '12px')};
   position: relative;
   align-self: stretch;
-  background-color: ${({ overdue }) => (overdue ? '#FDE2E2' : 'var(--white)')};
 
   border: 1px solid ${({ overdue }) => (overdue ? '#C9C6CC80' : '#EAEAEA')};
-  border-radius: 6px;
+
+  background-color: ${({ overdue }) => (overdue ? '#FDE2E2' : 'var(--white)')};
+  box-shadow: ${({ exemplar }) =>
+    !exemplar ? '0 4px 16px rgba(156, 156, 156, 0.4)' : 'none'};
+
+  border-color: ${({ exemplar }) => (exemplar ? 'none' : 'var(--corn)')};
+  border: 1px solid
+    ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : '#EAEAEA')};
+  border-radius: ${({ exemplar }) => (exemplar ? '6px' : '16px')};
+
+  &:hover {
+    background: ${({ exemplar }) => (exemplar ? 'inherit' : '#f1e6fc')};
+    box-shadow: ${({ exemplar }) =>
+      exemplar ? 'none' : '0px 4px 16px rgba(114, 0, 224, 0.2)'};
+  }
 `;
 
 export const StyledCardMain = styled.article`

@@ -6,21 +6,12 @@ import {
 } from '../../styledMixins';
 
 export const RemarkText = styled.div`
-  ${IbmplexsansNormalShark12px}
-  // width: 501px;
-  height: 18px;
-  font-style: normal;
+  font-family: IBM Plex Sans;
+  font-size: 13px;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #7200e0;
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
-  margin-top: 10px;
+  line-height: 16.9px;
+  text-align: left;
+  color: #7b7382;
 `;
 
 export const Content = styled.div`
@@ -52,15 +43,13 @@ export const TaskTitle = styled.p`
   word-break: break-word;
 `;
 export const Remark = styled.p`
-  ${IbmplexsansNormalRiverBed14px}
-  font-size: 15px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
   font-style: italic;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  color: #405059;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #4b464f;
 `;
 export const SmallTaskTitle = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
@@ -156,4 +145,23 @@ export const DeclineText = styled.div`
 `;
 export const AcceptText = styled(DeclineText)`
   color: #7200e0;
+`;
+
+export const TeacherComment = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 8px;
+  border-radius: 6px;
+  background-color: #f2f1f3;
+  width: 100%;
+`;
+export const ReadMoreButton = styled.span`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #7200e0;
+  cursor: pointer;
 `;

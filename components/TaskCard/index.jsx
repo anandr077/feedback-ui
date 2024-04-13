@@ -24,8 +24,8 @@ import {
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
 import StatusBubbleContainer from '../StatusBubblesContainer';
-import BorderedHeart from '../../static/img/bordered_heart.svg';
-import RedBgHeart from '../../static/img/redbgheart.svg';
+import BorderedHeart from '../../static/img/Addtofav.svg';
+import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
 
 function TaskCard(props) {
@@ -89,7 +89,6 @@ function TaskCard(props) {
               {task.submissionDetails?.assignment?.title}
             </TaskTitleBold>
             {styledCardWithLink()}
-            <TaskTitle>Are you happy to share?</TaskTitle>
             {saveButtons(task.id)}
           </StyledCardMain>
         );
@@ -117,10 +116,11 @@ function TaskCard(props) {
         ref={refContainer}
         isSelected={isSelected}
         overdue={isOverDue}
+        exemplar={exemplar}
       >
         {showAddToCard ? (
           <Header>
-            <ClassTitle>{task.classTitle}</ClassTitle>
+            <ClassTitle>{task.submissionDetails?.assignment?.title}</ClassTitle>
             <FavouriteContainer>
               {isFavourite ? (
                 <FavouriteContent

@@ -9,31 +9,53 @@ import giveFeedbackUnselected from '../static/img/giveFeedbackunselected.svg';
 
 const isTeacher = getUserRole() === 'TEACHER';
 
-const teacherTabs = (first, second) => {
-  return {
-    firstButton: {
-      text: 'Tasks',
-      icon: '/icons/assignmentUnselected.png',
-      iconSelected: '/icons/assignmentWhite.png',
-      selected: first,
-      redirect: '#/',
-    },
-    secondButton: {
-      text: 'Classes',
-      icon: '/icons/classesUnselected.png',
-      iconSelected: '/icons/classesWhite.png',
-      selected: second,
-      redirect: '#classes',
-    },
-    // thirdButton: {
-    //   text: 'Classes',
-    //   icon: '/icons/classesUnselected.png',
-    //   iconSelected: '/icons/classesWhite.png',
-    //   selected: third,
-    //   redirect: '#classes',
-    // },
+let teacherTabs;
+if (Cookies.get('classes')) {
+  teacherTabs = (first, second, third, fourth) => {
+    return {
+      firstButton: {
+        text: 'Tasks',
+        icon: '/icons/assignmentUnselected.png',
+        iconSelected: '/icons/assignmentWhite.png',
+        selected: first,
+        redirect: '#/',
+      },
+      secondButton: {
+        text: 'Classes',
+        icon: '/icons/classesUnselected.png',
+        iconSelected: '/icons/classesWhite.png',
+        selected: second,
+        redirect: '#classes',
+      },
+      thirdButton: {
+        text: 'Jedd AI',
+        icon: '/img/ai.svg',
+        iconSelected: '/img/ai.svg',
+        selected: third,
+        redirect: '#getFeedback',
+      },
+      fourthButton: {
+        text: 'Give Feedback',
+        icon: giveFeedbackUnselected,
+        iconSelected: giveFeedbackselected,
+        selected: fourth,
+        redirect: '#giveFeedback',
+      },
+    };
   };
-};
+} else {
+  teacherTabs = (fourth) => {
+    return {
+      fourthButton: {
+        text: 'Give Feedback',
+        icon: giveFeedbackUnselected,
+        iconSelected: giveFeedbackselected,
+        selected: fourth,
+        redirect: '#/',
+      },
+    };
+  };
+}
 
 let studentTabs;
 
@@ -84,9 +106,21 @@ if (Cookies.get('classes')) {
   };
 }
 
-//export const teacherHomeHeaderProps = teacherTabs(true, false);
-export const assignmentsHeaderProps = teacherTabs(true, false);
-export const classesHomeHeaderProps = teacherTabs(false, true);
+export const expertTeacherHomeHeaderProps = teacherTabs(true);
+export const assignmentsHeaderProps = teacherTabs(true, false, false, false);
+export const classesHomeHeaderProps = teacherTabs(false, true, false, false);
+export const teacherGetFeedbackHeaderProps = teacherTabs(
+  false,
+  false,
+  true,
+  false
+);
+export const teacherGiveFeedbackHeaderProps = teacherTabs(
+  false,
+  false,
+  false,
+  true
+);
 
 // export const homeHeaderProps = studentTabs(true, false, false);
 export const giveFeedbackHeaderProps = Cookies.get('classes')
@@ -95,7 +129,7 @@ export const giveFeedbackHeaderProps = Cookies.get('classes')
 export const taskHeaderProps = studentTabs(true, false, false);
 export const teacherStudentTaskHeaderProps = () => {
   if (isTeacher) {
-    return teacherTabs(true, false);
+    return teacherTabs(true, false, false, false);
   }
   return Cookies.get('classes')
     ? studentTabs(false, false, true)
@@ -104,7 +138,7 @@ export const teacherStudentTaskHeaderProps = () => {
 
 export const docsHeaderProps = () => {
   if (isTeacher) {
-    return teacherTabs(true, false);
+    return teacherTabs(false, false, true, false);
   }
   return Cookies.get('classes')
     ? studentTabs(false, true, false)
@@ -113,7 +147,7 @@ export const docsHeaderProps = () => {
 
 export const documentHeaderProps = (selfDocument) => {
   if (isTeacher) {
-    return teacherTabs(true, false);
+    return teacherTabs(true, false, false, false);
   }
   if (selfDocument) {
     return Cookies.get('classes')
@@ -128,7 +162,7 @@ export const documentHeaderProps = (selfDocument) => {
 export const completedHeaderProps = (exemplar) => {
   if (exemplar) {
     return isTeacher
-      ? teacherTabs(false, false)
+      ? teacherTabs(false, false, false, false)
       : Cookies.get('classes')
       ? studentTabs(false, false, false)
       : studentTabs(false, false);

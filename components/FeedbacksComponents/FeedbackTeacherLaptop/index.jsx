@@ -4,7 +4,6 @@ import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState, useContext } from 'react';
 import Header from '../../Header';
 import { getUserRole } from '../../../userLocalDetails'; 
-import Cookies from 'js-cookie';
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
@@ -245,7 +244,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          {!location.pathname.includes('documentsReview') && sidebar()}
+          {(submission.otherDrafts || submission.studentsSubmissions) && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -327,15 +326,10 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function sidebar() {
-    if (isTeacher && !location.pathname.includes('/documents')) {
-      return <></>;
-    }
-    if (!isTeacher && submission.type !== 'DOCUMENT') {
-      return <></>;
-    }
     return <>
     <>
-      { !isNullOrEmpty(submission.otherDrafts) && (
+     {isTeacher && submission.studentsSubmissions && (<TeacherSidebar open={open} submission={submission}/>)}
+     { !isNullOrEmpty(submission.otherDrafts) && (
           <IndepentdentUserSidebar
             open={open}
             subjects={submission.otherDrafts?.map((d) => ({
@@ -348,9 +342,9 @@ function FeedbackTeacherLaptop(props) {
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
             currentSubmissionId={submission.id} />
-        )}
+      )}
     </>
-    {(isTeacher || submission.otherDrafts) && (
+    {(isTeacher || submission.otherDrafts || submission.studentsSubmissions) && (
               <DrawerArrow
                 onClick={handleDrawer}
                 drawerWidth={drawerWidth}

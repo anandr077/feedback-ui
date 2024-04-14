@@ -30,6 +30,7 @@ import {
   askJeddAI,
   provideFeedbackOnFeedback,
   getFeedbackBanks,
+  getCommentBank,
 } from '../../../service';
 import {
   getShortcuts,
@@ -127,7 +128,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     Promise.all([
       getSubmissionById(id),
       getComments(id),
-      getFeedbackBanks(),
       fetchClassWithStudentsAndTeachers(),
       getOverComments(id),
     ])
@@ -135,7 +135,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         ([
           submissionsResult,
           commentsResult,
-          feedbackBanksResult,
           classWithTeacherAndStudentsResult,
           overAllCommentsResult,
         ]) => {
@@ -151,7 +150,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             (c) => c.type === 'MARKING_CRITERIA'
           );
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
-          setSmartAnnotations(feedbackBanksResult._embedded.commentbanks);
 
           const initialState = classWithTeacherAndStudentsResult.reduce(
             (acc, classItem) => {
@@ -187,8 +185,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
-      getSubmissionsByAssignmentId(submission.assignment.id)
-        .then((allSubmissions) => {
+      const commentBankIds = submission.assignment.questions.map(q => q.commentBankId);
+
+      const commentBankPromises = commentBankIds.map(getCommentBank);
+    
+      Promise.all([getSubmissionsByAssignmentId(submission.assignment.id), ...commentBankPromises])
+        .then(([allSubmissions, ...commentBanks]) => {
+          setSmartAnnotations(commentBanks);
           setStudents(extractStudents(allSubmissions));
           let currentSubmissionIndex = 0;
           const allExceptCurrent = allSubmissions.map((r, index) => {

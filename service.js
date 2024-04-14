@@ -352,6 +352,8 @@ export const getSmartAnnotations = async () =>
 
 export const getFeedbackBanks = async () =>
   await getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
+export const getCommentBank = async (id) =>
+  await getApi(baseUrl + '/commentbanks/' + id + '?projection=commentBanksProjection');
 
 export const updateFeedbackBanks = async (updatedCommentBank, commentBankId) =>
   await putApi(

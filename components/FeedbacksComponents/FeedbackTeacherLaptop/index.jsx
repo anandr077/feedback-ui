@@ -4,7 +4,7 @@ import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState, useContext } from 'react';
 import Header from '../../Header';
 import { getUserRole } from '../../../userLocalDetails'; 
-
+import Cookies from 'js-cookie';
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
@@ -245,7 +245,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          {sidebar()}
+          {!location.pathname.includes('documentsReview') && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}

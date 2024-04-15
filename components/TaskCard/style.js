@@ -138,6 +138,19 @@ export const Button = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
+
+export const TaskLink = styled.a`
+  text-decoration: none;
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16.9px;
+  text-align: center;
+  color: var(--light-mode-purple);
+  display: none !important;
+  justify-content: center;
+`;
+
 export const StyledCard = styled.article`
   width: 100%;
   display: flex;
@@ -163,6 +176,9 @@ export const StyledCard = styled.article`
     background: ${({ exemplar }) => (exemplar ? 'inherit' : '#f1e6fc')};
     box-shadow: ${({ exemplar }) =>
       exemplar ? 'none' : '0px 4px 16px rgba(114, 0, 224, 0.2)'};
+    ${TaskLink} {
+      display: flex !important;
+    }
   }
 `;
 

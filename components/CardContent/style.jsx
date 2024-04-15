@@ -41,6 +41,7 @@ export const TaskTitle = styled.p`
   letter-spacing: 0;
   line-height: normal;
   word-break: break-word;
+  display: inline;
 `;
 export const Remark = styled.p`
   font-family: IBM Plex Sans;

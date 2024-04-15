@@ -69,6 +69,7 @@ const MainSidebar = () => {
   const handlePageRoute = (navLink) => {
     history.push(navLink);
     setActiveLink(navLink);
+    console.log('linl', navLink);
   };
 
   return (
@@ -77,15 +78,14 @@ const MainSidebar = () => {
         <ul>
           {sideNavItems.map((navItem) => {
             if (
-              (navItem.link === '/settings' || navItem.link === '/classes' || navItem.link === '/jeddai') &&
+              (navItem.link === '/settings' ||
+                navItem.link === '/classes' ||
+                navItem.link === '/jeddai') &&
               role === 'STUDENT'
             ) {
               return null;
             }
-            if (
-              (navItem.link === '/progress') &&
-              role === 'TEACHER'
-            ) {
+            if (navItem.link === '/progress' && role === 'TEACHER') {
               return null;
             }
 

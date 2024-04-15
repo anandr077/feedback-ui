@@ -147,7 +147,8 @@ export const ContentContainer = styled.div`
 export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 65%;
+  // width: ${(fullWidth) => (fullWidth ? '100%' : '65%')};
+  flex: ${({ fullWidth }) => (fullWidth ? '1' : '0 0 65%')};
   border-right: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
   @media (max-width: 1024px) {
@@ -159,7 +160,8 @@ export const RightContentContainer = styled.div`
   flex-direction: column;
   padding: 10px;
   gap: 20px;
-  width: 35%;
+  // width: 35%;
+  flex: 0 0 35%;
   border: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
   height: fit-content;
@@ -184,7 +186,7 @@ export const CardContainer = styled.div`
   border: 0px 0px 1px 0px;
   gap: 16px;
   border-bottom: 1px solid #d6d6d6;
-
+  width: 100%;
   padding: 30px;
 `;
 export const TextContainer1 = styled.div`

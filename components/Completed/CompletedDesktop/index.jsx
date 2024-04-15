@@ -50,22 +50,6 @@ function CompletedDesktop(props) {
               onAddToBookmark={onAddToBookmark}
               onRemoveFromBookmark={onRemoveFromBookmark}
             />
-            <Frame14103
-              id={id}
-              groups={groups}
-              exemplar={exemplar}
-              setPublishActionCompleted={setPublishActionCompleted}
-              onAddToBookmark={onAddToBookmark}
-              onRemoveFromBookmark={onRemoveFromBookmark}
-            />
-            <Frame14103
-              id={id}
-              groups={groups}
-              exemplar={exemplar}
-              setPublishActionCompleted={setPublishActionCompleted}
-              onAddToBookmark={onAddToBookmark}
-              onRemoveFromBookmark={onRemoveFromBookmark}
-            />
           </Frame1413>
           {showHelpPeerSlide && (
             <SliderCardContainer>

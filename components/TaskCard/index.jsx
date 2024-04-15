@@ -20,6 +20,7 @@ import {
   FavouriteContainer,
   FavouriteContent,
   StyledCardMain,
+  TaskLink,
 } from './style';
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
@@ -27,6 +28,7 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
+import arrowRight from '../../static/img/arrowright.svg';
 
 function TaskCard(props) {
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
@@ -100,11 +102,7 @@ function TaskCard(props) {
     if (onAccept) {
       return styledCard();
     }
-    return (
-      <AnchorTag style={{ width: '100%' }} href={!exemplar && task.link}>
-        {styledCard()}
-      </AnchorTag>
-    );
+    return <AnchorTag style={{ width: '100%' }}>{styledCard()}</AnchorTag>;
   }
   function styledCard() {
     const dueDate = new Date(task.dueAt);
@@ -158,6 +156,12 @@ function TaskCard(props) {
           onAccept={onAccept}
           onDecline={onDecline}
         />
+        {!exemplar && (
+          <TaskLink href={task.link}>
+            Open Task
+            <img src={arrowRight} width="20px" />
+          </TaskLink>
+        )}
       </StyledCard>
     );
   }

@@ -440,7 +440,7 @@ function GiveFeedback() {
             )}
           </HeadingAndFilterCon>
           <ContentContainer>
-            <LeftContentContainer>
+            <LeftContentContainer fullWidth={role === 'TEACHER'}>
               <FeedbackDataComponent
                 feedbackData={
                   pathName.includes('/feedbackHistory')

@@ -39,25 +39,31 @@ function CardContent(props) {
 
     if (!para) return <></>;
     return (
-      <>
+      <div>
         {small ? (
           <SmallTaskTitle>
-            {showFullPara ? para : para.slice(0, 200)}
+            {showFullPara
+              ? para
+              : para.slice(0, 180) + (para.length > 180 ? '...' : '')}
           </SmallTaskTitle>
         ) : (
-          <TaskTitle> {showFullPara ? para : para.slice(0, 200)}</TaskTitle>
+          <TaskTitle>
+            {showFullPara
+              ? para
+              : para.slice(0, 180) + (para.length > 180 ? '...' : '')}{' '}
+          </TaskTitle>
         )}
-        {para.length > 200 && !showFullPara && (
+        {para.length > 180 && !showFullPara && (
           <ReadMoreButton onClick={() => setShowFullPara(true)}>
             Read more
           </ReadMoreButton>
         )}
-        {para.length > 200 && showFullPara && (
+        {para.length > 180 && showFullPara && (
           <ReadMoreButton onClick={() => setShowFullPara(false)}>
             Show less
           </ReadMoreButton>
         )}
-      </>
+      </div>
     );
   }
 

@@ -46,10 +46,10 @@ const CommentBox = ({
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
 
   useEffect(() => {
-    const heights = comments.map(() => 0);
+    const heights = comments?.map(() => 0);
     setCommentHeights(heights);
     const measureHeights = () => {
-      const newHeights = comments.map((_, index) => {
+      const newHeights = comments?.map((_, index) => {
         const element = document.getElementById(`comment-${index}`);
         return element ? element.clientHeight : 0;
       });
@@ -69,12 +69,10 @@ const CommentBox = ({
     let lastCommentBottomPosition = 0;
     let accumulatedHeight = 0;
 
-    const updatedCommentIndex = comments
-      .sort((a, b) => a.range.from - b.range.from)
+    const updatedCommentIndex = comments?.sort((a, b) => a.range.from - b.range.from)
       .findIndex((comment) => comment.id === updatedCommentPosition?.id);
 
-    const groupedComments = comments
-      .sort((a, b) => a.range.from - b.range.from)
+    const groupedComments = comments?.sort((a, b) => a.range.from - b.range.from)
       .map((comment, index) => {
         if (!editorRef.current) return null;
 
@@ -135,7 +133,7 @@ const CommentBox = ({
     let groupedCommentsWithGap = [];
     let currentGroup = [];
 
-    groupedComments.forEach((comment, index) => {
+    groupedComments?.forEach((comment, index) => {
       if (currentGroup.length === 0) {
         currentGroup.push(comment);
       } else {

@@ -132,15 +132,15 @@ const QuillEditor = React.forwardRef(
     }, [editor, editorRef, options, value, editorFontSize]);
 
     useEffect(() => {
-      if (editor) {
+      if (editor && Array.isArray(comments) && comments.length > 0) {
         removeAllHighlights(editor);
-        comments.forEach((comment) => {
+        comments?.forEach((comment) => {
           if (comment.range) {
             addCommentHighlight(editor, comment);
           }
         });
       }
-    }, [editor]);
+    }, [editor, comments]);
 
     useEffect(() => {
       if (editor) {
@@ -215,7 +215,7 @@ const QuillEditor = React.forwardRef(
       redrawHighlights(comments) {
         if (editor) {
           removeAllHighlights(editor);
-          comments.forEach((comment) => {
+          comments?.forEach((comment) => {
             if (comment.isHidden !== undefined && comment.isHidden !== null)
               highlightCommentRange(editor, comment);
           });

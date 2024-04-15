@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Frame14103 from '../Frame14103';
 import styled from 'styled-components';
 import { IbmplexsansBoldShark64px } from '../styledMixins';
@@ -32,6 +32,8 @@ function CompletedDesktop(props) {
     onAddToBookmark,
     onRemoveFromBookmark,
   } = props;
+
+  const [showHelpPeerSlide, setShowHelpPeerSlide] = useState(true);
   return (
     <SharedResponseMainContainer>
       <SecondSidebar />
@@ -39,7 +41,7 @@ function CompletedDesktop(props) {
         {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
         {createFilter() && <Frame1424>{createFilter()}</Frame1424>}
         <SharedResponseContainer>
-          <Frame1413>
+          <Frame1413 secondDivEmpty={showHelpPeerSlide}>
             <Frame14103
               id={id}
               groups={groups}
@@ -65,16 +67,19 @@ function CompletedDesktop(props) {
               onRemoveFromBookmark={onRemoveFromBookmark}
             />
           </Frame1413>
-          <SliderCardContainer>
-            <HelpPeerSlide
-              id={id}
-              groups={groups}
-              exemplar={exemplar}
-              setPublishActionCompleted={setPublishActionCompleted}
-              onAccept={onAccept}
-              onDecline={onDecline}
-            />
-          </SliderCardContainer>
+          {showHelpPeerSlide && (
+            <SliderCardContainer>
+              <HelpPeerSlide
+                setShowHelpPeerSlide={setShowHelpPeerSlide}
+                id={id}
+                groups={groups}
+                exemplar={exemplar}
+                setPublishActionCompleted={setPublishActionCompleted}
+                onAccept={onAccept}
+                onDecline={onDecline}
+              />
+            </SliderCardContainer>
+          )}
         </SharedResponseContainer>
       </Frame1425>
     </SharedResponseMainContainer>
@@ -113,7 +118,8 @@ const SharedResponseContainer = styled.div`
 
 const SliderCardContainer = styled.div`
   height: auto;
-  flex: 1;
+  // flex: 1;
+  flex: 0 0 40%;
 `;
 
 const Frame1424 = styled.div`
@@ -139,8 +145,10 @@ const Frame1413 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  width: 60%;
+  // width: 60%;
   // height: 90vh;
+
+  flex: ${({ secondDivEmpty }) => (!secondDivEmpty ? '1' : '0 0 60%')};
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;

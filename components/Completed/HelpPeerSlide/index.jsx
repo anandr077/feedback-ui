@@ -22,6 +22,7 @@ const HelpPeerSlide = (props) => {
     setPublishActionCompleted,
     onAccept,
     onDecline,
+    setShowHelpPeerSlide,
   } = props;
   const [currentSlide, setCurrentSlide] = useState(0);
   const requireAction = Object.values(groups)
@@ -30,6 +31,7 @@ const HelpPeerSlide = (props) => {
   const mobileView = isMobileView();
 
   if (requireAction.length === 0 || currentSlide >= requireAction.length) {
+    setShowHelpPeerSlide(false);
     return <></>;
   }
 

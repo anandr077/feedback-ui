@@ -49,6 +49,10 @@ const getHeaderProps = (location) => {
       return Cookies.get('classes')
         ? teacherGiveFeedbackHeaderProps
         : expertTeacherHomeHeaderProps;
+    else if (location.includes('/feedbackHistory'))
+      return Cookies.get('classes')
+      ? teacherGiveFeedbackHeaderProps
+      : expertTeacherHomeHeaderProps;
     return assignmentsHeaderProps;
   } else {
     if (location.includes('/getFeedback')) return docsHeaderProps();

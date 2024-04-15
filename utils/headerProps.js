@@ -28,7 +28,7 @@ if (Cookies.get('classes')) {
         redirect: '#classes',
       },
       thirdButton: {
-        text: 'Jedd AI',
+        text: 'JeddAI',
         icon: '/img/ai.svg',
         iconSelected: '/img/ai.svg',
         selected: third,

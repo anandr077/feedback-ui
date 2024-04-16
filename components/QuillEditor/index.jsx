@@ -314,7 +314,7 @@ const QuillEditor = React.forwardRef(
           pageMode={pageMode}
           submission={submission}
           methods={methods}
-          comments={comments}
+          comments={comments.filter((comment) => comment.type === "COMMENT")}
           editor={editor}
           editorRef={editorRef}
           updatedCommentPosition={updatedCommentPosition}

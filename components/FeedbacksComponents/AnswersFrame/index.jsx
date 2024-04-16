@@ -112,7 +112,8 @@ function AnswersFrame(props) {
   } = props;
   const [showAddingCommentDesc, setShowAddingCommentDesc] =
     React.useState(true);
-  console.log('the submissions are', comments);
+  const generalComments = comments.filter((comment) => comment.type === "COMMENT")
+  console.log('the submissions are', generalComments);
 
   return (
     <Group1225 id="answers">
@@ -155,7 +156,7 @@ function AnswersFrame(props) {
           />
         </FocusAreaContainer>
       ) : (
-        showAddingCommentDesc && (
+        showAddingCommentDesc && generalComments.length === 0 && (
           <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
             <AddCommentFocusAreaInstruction />
           </AddCommentFocusAreaDiv>

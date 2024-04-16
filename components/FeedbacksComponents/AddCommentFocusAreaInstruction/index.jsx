@@ -18,7 +18,7 @@ import ShareIcon from '../../../static/img/24grayshare.svg';
 import ThumbsupIcon from '../../../static/img/24graythumbsup.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 
-const AddCommentInstruction = () => {
+const AddCommentFocusAreaInstruction = () => {
   return (
     <MainContainer>
       <Heading>
@@ -52,4 +52,4 @@ const AddCommentInstruction = () => {
   );
 };
 
-export default AddCommentInstruction;
+export default AddCommentFocusAreaInstruction;

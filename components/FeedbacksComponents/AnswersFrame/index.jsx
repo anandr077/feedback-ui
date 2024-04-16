@@ -22,7 +22,7 @@ import {
   Frame1366,
   Frame1367,
   FocusAreaContainer,
-  AddCommentDiv,
+  AddCommentFocusAreaDiv,
   Group1225,
   Label,
   QuestionText,
@@ -35,7 +35,7 @@ import OverallFeedback from '../../OverallFeedback';
 import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import FocusAreaCard from '../../FocusAreaCard';
-import AddCommentInstruction from '../AddCommentInstruction';
+import AddCommentFocusAreaInstruction from '../AddCommentFocusAreaInstruction';
 
 export function answersFrame(
   quillRefs,
@@ -156,9 +156,9 @@ function AnswersFrame(props) {
         </FocusAreaContainer>
       ) : (
         showAddingCommentDesc && (
-          <AddCommentDiv moveToLeft={openRightPanel}>
-            <AddCommentInstruction />
-          </AddCommentDiv>
+          <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
+            <AddCommentFocusAreaInstruction />
+          </AddCommentFocusAreaDiv>
         )
       )}
     </Group1225>

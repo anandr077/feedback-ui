@@ -511,7 +511,7 @@ export const FocusAreaContainer = styled.div`
   transition: transform 0.3s ease;
 `;
 
-export const AddCommentDiv = styled.div`
+export const AddCommentFocusAreaDiv = styled.div`
   position: absolute;
   left: 50%;
   transform: ${props => props.moveToLeft ? 'translateX(calc(-50% + 170px))' : 'translateX(calc(-50% + 310px))'};

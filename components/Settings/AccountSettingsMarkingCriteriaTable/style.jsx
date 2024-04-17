@@ -129,6 +129,8 @@ export const SettingTitle = styled.div`
   letter-spacing: 0em;
   text-align: left;
   color: #301b72;
+  display: flex;
+  gap: 12px;
 `;
 export const SettingTitleOpen = styled.div`
   display: flex;

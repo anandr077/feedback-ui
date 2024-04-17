@@ -90,12 +90,14 @@ function AccountSettingsMarkingCriteriaLapto(props) {
               Account Settings
               <QuestionTooltip
                 text={
-                  'Help other students who have requested feedback from the community'
+                  'Customise your profile and marking preferences for optimal feedback'
                 }
                 img={questionMark}
               />
             </Title>
-            <HeadingLine>Some description text will be added here</HeadingLine>
+            <HeadingLine>
+              Customise your marking preferences for fast and effective feedback
+            </HeadingLine>
           </Frame1372>
           <Frame13221>
             {sidebarNav}
@@ -106,9 +108,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                     <MarkingCriteria>
                       User Settings
                       <QuestionTooltip
-                        text={
-                          'Customise your profile and marking preferences for optimal feedback'
-                        }
+                        text={'Update your account settings here'}
                         img={questionMark}
                       />
                     </MarkingCriteria>
@@ -158,7 +158,7 @@ function AccountSettingsMarkingCriteriaLapto(props) {
                       <FeedbackBankHeading>Comment Banks</FeedbackBankHeading>
                       <QuestionTooltip
                         text={
-                          'Help other students who have requested feedback from the community'
+                          "A customisable bank of comments to provide faster feedback when marking a student's work"
                         }
                         img={questionMark}
                       />

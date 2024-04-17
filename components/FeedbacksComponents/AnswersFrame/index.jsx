@@ -36,6 +36,10 @@ import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import FocusAreaCard from '../../FocusAreaCard';
 import AddCommentFocusAreaInstruction from '../AddCommentFocusAreaInstruction';
+import ABCIcon from '../../../static/img/abc34.svg';
+import RedabcIcon from '../../../static/img/redabc.svg';
+import CommentGroupIcon from '../../../static/img/commentgroupicon.svg';
+import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
 
 export function answersFrame(
   quillRefs,
@@ -112,7 +116,12 @@ function AnswersFrame(props) {
   } = props;
   const [showAddingCommentDesc, setShowAddingCommentDesc] =
     React.useState(true);
-  const generalComments = comments.filter((comment) => comment.type === "COMMENT")
+  const generalComments = comments.filter(
+    (comment) => comment.type === 'COMMENT'
+  );
+  const focusAreaComments = comments.filter(
+    (comment) => comment.type === 'FOCUS_AREA'
+  );
   console.log('the submissions are', generalComments);
 
   return (
@@ -144,23 +153,36 @@ function AnswersFrame(props) {
           QuestionIndex
         )}
       </Frame1367>
-      {commentFocusAreaToggle ? (
+      {commentFocusAreaToggle && focusAreaComments.length !== 0 && (
         <FocusAreaContainer
           id={'FocusAreaContainer'}
           moveToLeft={openRightPanel}
         >
-          <FocusAreaCard
-            comments={comments.filter(
-              (comment) => comment.type === 'FOCUS_AREA'
-            )}
-          />
+          <FocusAreaCard comments={focusAreaComments} />
         </FocusAreaContainer>
-      ) : (
-        showAddingCommentDesc && generalComments.length === 0 && (
-          <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
-            <AddCommentFocusAreaInstruction />
-          </AddCommentFocusAreaDiv>
-        )
+      )}
+      {showAddingCommentDesc && comments.length === 0 && (
+        <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
+          {commentFocusAreaToggle ? (
+            <AddCommentFocusAreaInstruction
+              heading={'How to use Focus Areas:'}
+              firstIcon={RedabcIcon}
+              firstStep={'Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab).'}
+              secondIcon={ColorCircleIcon}
+              secondStep={'Click the focus area that matches your selection.'}
+              thirdStep={'Repeat this process for each focus area.'}
+            />
+          ) : (
+            <AddCommentFocusAreaInstruction
+              heading={'Adding Comments'}
+              firstIcon={ABCIcon}
+              firstStep={'Highlight a section of the response'}
+              secondIcon={CommentGroupIcon}
+              secondStep={'Click the comment icon from the provided options'}
+              thirdStep={'Repeat this process to add more comments'}
+            />
+          )}
+        </AddCommentFocusAreaDiv>
       )}
     </Group1225>
   );

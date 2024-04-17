@@ -64,7 +64,7 @@ const FeedbackTaskDetails = ({
         </FocusBody>
       </FocusAreasContainer>
       <QuestionContainer onClick={()=> questionPanelOpen('tab3')}>
-        <QuestionNumbers>4 Questions</QuestionNumbers>
+        <QuestionNumbers>{submission.assignment.questions.length} Questions</QuestionNumbers>
         <img src={RightArrow}/>
       </QuestionContainer>
     </FeedbackTaskDetailsContainer>

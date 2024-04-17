@@ -11,8 +11,8 @@ import RightSidebarHeading from '../RightSidebarHeading';
 import GrayTick from '../../../static/img/Ticklightcolor.svg';
 import PurpleTick from '../../../static/img/16purplebgtick.svg';
 
-const QuestionsDetails = ({ handleClose, openRightPanel, submission, QuestionIndex }) => {
-  console.log('the questions are ', QuestionIndex);
+const QuestionsDetailsTab = ({ handleClose, openRightPanel, submission, QuestionIndex }) => {
+ 
   return (
     <QuestionDetailsContainer openRightPanel={openRightPanel}>
       <RightSidebarHeading title={'Questions'} handleClose={handleClose} />
@@ -33,4 +33,4 @@ const QuestionsDetails = ({ handleClose, openRightPanel, submission, QuestionInd
   );
 };
 
-export default QuestionsDetails;
+export default QuestionsDetailsTab;

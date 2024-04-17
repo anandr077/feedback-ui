@@ -123,7 +123,6 @@ function AnswersFrame(props) {
   const focusAreaComments = comments.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
-  console.log('the submissions are', generalComments);
 
   return (
     <Group1225 id="answers">

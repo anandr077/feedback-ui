@@ -11,6 +11,8 @@ export const QuestionDetailsContainer = styled.div`
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;
   transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const QuestionSection = styled.div`
@@ -18,6 +20,12 @@ export const QuestionSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
 `;
 
 export const QuestionBody = styled.div`
@@ -27,7 +35,7 @@ export const QuestionBody = styled.div`
   border: 1px solid rgba(201, 198, 204, 0.5);
   box-shadow: 0px 2.04px 4px 0px rgba(112, 112, 112, 0.1);
 
-  &:hover{
+  &:hover {
     background: var(--color-purple-80, rgba(241, 230, 252, 1));
   }
 `;

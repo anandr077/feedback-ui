@@ -1,7 +1,8 @@
 import React from 'react';
 import FeedbackTaskDetails from '../FeedbackTaskDetails';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
-import QuestionsDetails from '../QuestionsDetails';
+import QuestionsDetailsTab from '../QuestionsDetailsTab';
+import SubmissionHistoryTab from '../SubmissionHistoryTab';
 
 const FeedbackRightSideSlidingTabs = ({
   handleRightSidebarClick,
@@ -11,6 +12,7 @@ const FeedbackRightSideSlidingTabs = ({
   QuestionIndex,
   questionPanelOpen,
 }) => {
+  console.log('the submission is', submission)
   return (
     <>
       <FeedbackTaskDetails
@@ -25,11 +27,15 @@ const FeedbackRightSideSlidingTabs = ({
         handleClose={handleRightSidebarClick}
         openRightPanel={openRightPanel}
       />
-      <QuestionsDetails
+      <QuestionsDetailsTab
         handleClose={handleRightSidebarClick}
         openRightPanel={openRightPanel}
         submission={submission}
         QuestionIndex={QuestionIndex}
+      />
+      <SubmissionHistoryTab
+        handleClose={handleRightSidebarClick}
+        openRightPanel={openRightPanel}
       />
     </>
   );

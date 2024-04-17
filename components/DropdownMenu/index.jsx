@@ -108,7 +108,7 @@ export const DropdownMenu = (props) => {
             <div className="text-container" onClick={handleClick}>
               <p>
                 <StyledListItemText
-                  id={selectedItem.id}
+                  id={selectedItem?.id}
                   primary={selectedItem.title || selectedItem.name}
                 />
               </p>

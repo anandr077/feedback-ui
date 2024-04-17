@@ -103,8 +103,10 @@ function Navigation(props) {
           />
         </Frame1409>
         <Frame5>
-          <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
-          <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
+          {Cookies.get('classes') && <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />}      
+          {Cookies.get('classes') && <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />}      
+          {isTeacher && Cookies.get('classes') && <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />}
+          {isTeacher && <NavElement42 button={headerProps.fourthButton} onClick={onCloseFn} />}
           {(Cookies.get('classes') && !isTeacher) && (
             <NavElement42
               button={headerProps.thirdButton}

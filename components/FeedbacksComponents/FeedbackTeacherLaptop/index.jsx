@@ -4,7 +4,6 @@ import 'quill/dist/quill.snow.css';
 import { default as React, default as React, useEffect, useState, useContext } from 'react';
 import Header from '../../Header';
 import { getUserRole } from '../../../userLocalDetails'; 
-
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
@@ -245,12 +244,12 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          {sidebar()}
+          {(submission.otherDrafts || submission.studentsSubmissions) && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
             drawerWidth={drawerWidth}
-            open={open}
+            open={!location.pathname.includes('/submission') && open}
           >
             {answersAndFeedbacks(
               isMobile,
@@ -327,18 +326,10 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function sidebar() {
-    if (isTeacher && isNullOrEmpty(submission.studentsSubmissions)) {
-      return <></>;
-    }
-    if (!isTeacher && submission.type !== 'DOCUMENT') {
-      return <></>;
-    }
     return <>
     <>
-      {isTeacher ? (
-        <TeacherSidebar open={open} submission={submission} />
-      ) : (
-        !isNullOrEmpty(submission.otherDrafts) && (
+     {isTeacher && submission.studentsSubmissions && (<TeacherSidebar open={open} submission={submission}/>)}
+     { !isNullOrEmpty(submission.otherDrafts) && (
           <IndepentdentUserSidebar
             open={open}
             subjects={submission.otherDrafts?.map((d) => ({
@@ -351,10 +342,9 @@ function FeedbackTeacherLaptop(props) {
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
             currentSubmissionId={submission.id} />
-        )
       )}
     </>
-    {(isTeacher || submission.otherDrafts) && (
+    {(isTeacher || submission.otherDrafts || submission.studentsSubmissions) && (
               <DrawerArrow
                 onClick={handleDrawer}
                 drawerWidth={drawerWidth}
@@ -594,7 +584,8 @@ function createContextBar(
       showStudentPopUp,
       showTeacherPopUp,
       setShowStudentPopUp,
-      setShowTeacherPopUp
+      setShowTeacherPopUp,
+      isTeacher
     );
   }
 

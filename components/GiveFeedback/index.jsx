@@ -203,6 +203,8 @@ function GiveFeedback() {
     getStudentStatsQuery,
   ]);
 
+  console.log('the student state is', studentStats)
+
   let statesData = ['NSW', 'VIC', 'QLD', 'NT', 'SA', 'TAS', 'WA'];
   let yearsData = ['12', '11', '10', '9', '8', '7'];
   let subjectData = ['English'];
@@ -337,7 +339,7 @@ function GiveFeedback() {
                     text={
                       pathName.includes('/feedbackHistory')
                         ? 'This is a record of the feedback that you have provided to other students in the past'
-                        : 'Help other students who have requested feedback from the community'
+                        : 'Provide personalized feedback'
                     }
                     img={questionMark}
                   />
@@ -363,7 +365,7 @@ function GiveFeedback() {
               <HeadingLine>
                 {pathName.includes('/feedbackHistory')
                   ? 'View all of the feedback that you have provided to others'
-                  : "By providing other students with feedback, you're more likely to get feedback on your own work"}
+                  : "Offer tailored feedback directly to students who have requested your insights"}
               </HeadingLine>
             </TopContainer>
             {!mobileView && (
@@ -484,7 +486,7 @@ function GiveFeedback() {
                 setGiveFeedbackCompletedTasks={setGiveFeedbackCompletedTasks}
               />
             </LeftContentContainer>
-            <RightContentContainer>
+            {/* <RightContentContainer>
               <Frame5111>
                 <Frame1353>
                   <Frame5087 src={levelEmoji} />
@@ -523,7 +525,7 @@ function GiveFeedback() {
                   )}
                 </Frame5112>
               </Frame5114>
-            </RightContentContainer>
+            </RightContentContainer> */}
           </ContentContainer>
         </InnerContainer>
       </MainContainer>

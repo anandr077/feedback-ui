@@ -5,19 +5,11 @@ import {
   Heading,
   Steps,
   Section,
-  IconGroup,
-  IconContainer,
   Text,
   SectionContainer,
 } from './style';
-import CommentIcon from '../../../static/img/24purplecomment.svg';
-import MouseCircleIcon from '../../../static/img/mouse-circle.svg';
-import AlphabetIcon from '../../../static/img/24grayalphabet.svg';
-import ShareIcon from '../../../static/img/24grayshare.svg';
-import ThumbsupIcon from '../../../static/img/24graythumbsup.svg';
-import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 
-const AddCommentFocusAreaInstruction = ({ heading, firstIcon, firstStep, secondStep, secondIcon, thirdStep }) => {
+const AddCommentFocusAreaInstruction = ({ heading, firstIcon, firstStep, secondStep, secondIcon, thirdIcon, thirdStep }) => {
   return (
     <MainContainer>
       <Heading>
@@ -42,7 +34,7 @@ const AddCommentFocusAreaInstruction = ({ heading, firstIcon, firstStep, secondS
           <Text>{secondStep}</Text>
         </Section>
         <Section>
-          <img src={RefreshIcon} />
+          <img src={thirdIcon} />
           <Text>{thirdStep}</Text>
         </Section>
       </SectionContainer>

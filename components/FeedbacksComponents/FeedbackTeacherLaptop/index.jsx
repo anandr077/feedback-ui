@@ -586,6 +586,8 @@ function answersAndFeedbacks(
           handleClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
           submission={submission}
+          groupedFocusAreaIds={groupedFocusAreaIds}
+          QuestionIndex={QuestionIndex}
         />
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}

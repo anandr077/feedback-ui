@@ -40,6 +40,7 @@ import ABCIcon from '../../../static/img/abc34.svg';
 import RedabcIcon from '../../../static/img/redabc.svg';
 import CommentGroupIcon from '../../../static/img/commentgroupicon.svg';
 import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
+import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 
 export function answersFrame(
   quillRefs,
@@ -170,6 +171,7 @@ function AnswersFrame(props) {
               firstStep={'Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab).'}
               secondIcon={ColorCircleIcon}
               secondStep={'Click the focus area that matches your selection.'}
+              thirdIcon={RefreshIcon}
               thirdStep={'Repeat this process for each focus area.'}
             />
           ) : (
@@ -179,6 +181,7 @@ function AnswersFrame(props) {
               firstStep={'Highlight a section of the response'}
               secondIcon={CommentGroupIcon}
               secondStep={'Click the comment icon from the provided options'}
+              thirdIcon={RefreshIcon}
               thirdStep={'Repeat this process to add more comments'}
             />
           )}

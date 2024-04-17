@@ -339,7 +339,7 @@ function GiveFeedback() {
                     text={
                       pathName.includes('/feedbackHistory')
                         ? 'This is a record of the feedback that you have provided to other students in the past'
-                        : 'Help other students who have requested feedback from the community'
+                        : 'Provide personalized feedback'
                     }
                     img={questionMark}
                   />
@@ -365,7 +365,7 @@ function GiveFeedback() {
               <HeadingLine>
                 {pathName.includes('/feedbackHistory')
                   ? 'View all of the feedback that you have provided to others'
-                  : "By providing other students with feedback, you're more likely to get feedback on your own work"}
+                  : "Offer tailored feedback directly to students who have requested your insights"}
               </HeadingLine>
             </TopContainer>
             {!mobileView && (

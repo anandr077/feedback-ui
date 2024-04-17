@@ -143,15 +143,13 @@ function SmartAnotation(props) {
         <SmartAnnotationContainer>
           <TtitleContainer>
             {editingTitle ? (
-              teacherId === getUserId() ? (
+               (
                 <TextInputEditable
                   value={editTitle}
                   onChange={handleTitleTextChange}
                   onBlur={() => saveEditedSmartAnnotation(editTitle)}
                   onKeyPress={handleKeyPress}
                 ></TextInputEditable>
-              ) : (
-                <Title onClick={toggleSection}>{editTitle}</Title>
               )
             ) : (
               <Title onClick={toggleSection}>{editTitle}</Title>
@@ -159,7 +157,7 @@ function SmartAnotation(props) {
 
             {settingsMode ? (
               <ButtonContainer>
-                {teacherId === getUserId() ? (
+                {(
                   <ButtonBox>
                     <DeleteButton2
                       src="/icons/edit-purple-icon.svg"
@@ -168,8 +166,6 @@ function SmartAnotation(props) {
                     ></DeleteButton2>
                     <span>Edit</span>
                   </ButtonBox>
-                ) : (
-                  <></>
                 )}
                 <ButtonBox>
                   <DeleteButton2
@@ -179,7 +175,7 @@ function SmartAnotation(props) {
                   ></DeleteButton2>
                   <span>Copy</span>
                 </ButtonBox>
-                {teacherId === getUserId() ? (
+                { (
                   <ButtonBox>
                     <DeleteButton2
                       src={deleteLight}
@@ -188,8 +184,6 @@ function SmartAnotation(props) {
                     />
                     <span>Delete</span>
                   </ButtonBox>
-                ) : (
-                  <></>
                 )}
                 <Arrowdown2
                   onClick={toggleSection}
@@ -235,19 +229,19 @@ function SmartAnotation(props) {
           )}
           <Line14 src="/img/line-14.png" alt="Line 14" />
 
-          {teacherId === getUserId() && settingsMode ? (
+          {settingsMode ? (
             <ButtonContainer>
               <PlusImage src="/img/add-violet.svg" alt="plus" />
               <ButtonLabel onClick={addNewSuggestions}>New Comment</ButtonLabel>
             </ButtonContainer>
-          ) : teacherId === getUserId() && newSmartAnnotationEdit ? (
+          ) : newSmartAnnotationEdit ? (
             <ButtonWrapper>
               <SubmitButton onClick={onClickNewSuggestionComment}>
                 Submit
               </SubmitButton>
             </ButtonWrapper>
           ) : (
-            teacherId === getUserId() && (
+             (
               <ButtonContainer>
                 <PlusImage src="/img/add-violet.svg" alt="plus" />
                 <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>

@@ -47,7 +47,7 @@ function TabTitleContainer({
 
             {showIcon && (
               <>
-                {bank.ownerId === getUserId() && (
+                {(
                   <TabsImage
                     onClick={() => setEditingTitle(true)}
                     src={Rename}
@@ -58,7 +58,7 @@ function TabTitleContainer({
                   src={Copy}
                 />
 
-                {bank.ownerId === getUserId() && (
+                {(
                   <TabsImage
                     onClick={() => deteteFeedbackBank(bank.id)}
                     src={TabsDelete}

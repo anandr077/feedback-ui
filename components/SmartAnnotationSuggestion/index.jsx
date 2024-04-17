@@ -41,21 +41,19 @@ export default function SmartAnnotationSuggestion(props) {
       {settingsMode ? (
         <SuggestionsContainer>
           {editing ? (
-            teacherId === getUserId() ? (
+             (
               <TextInputEditable
                 value={editedText}
                 onChange={handleTextChange}
                 onBlur={() => saveEditedSuggestion(editedText, index)}
                 onKeyPress={handleKeyPress}
               ></TextInputEditable>
-            ) : (
-              <SuggestionsLabel>{editedText}</SuggestionsLabel>
             )
           ) : (
             <SuggestionsLabel>{editedText}</SuggestionsLabel>
           )}
           <ButtonContainer>
-            {teacherId === getUserId() ? (
+            { (
               <ButtonBox>
                 <DeleteButton
                   src="/icons/edit-purple-icon.svg"
@@ -64,10 +62,8 @@ export default function SmartAnnotationSuggestion(props) {
                 ></DeleteButton>
                 <span>Edit</span>
               </ButtonBox>
-            ) : (
-              <></>
             )}
-            {teacherId === getUserId() ? (
+            {(
               <ButtonBox>
                 <DeleteButton
                   src={deleteLight}
@@ -76,8 +72,6 @@ export default function SmartAnnotationSuggestion(props) {
                 ></DeleteButton>
                 <span>Delete</span>
               </ButtonBox>
-            ) : (
-              <></>
             )}
           </ButtonContainer>
         </SuggestionsContainer>

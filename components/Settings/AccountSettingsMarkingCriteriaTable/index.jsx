@@ -98,7 +98,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
               Account Settings
               <QuestionTooltip
                 text={
-                  'Help other students who have requested feedback from the community'
+                  'Customise your profile and marking preferences for optimal feedback'
                 }
                 img={questionMark}
               />
@@ -115,9 +115,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
                   <SettingTitle>
                     User Settings
                     <QuestionTooltip
-                      text={
-                        'Customise your profile and marking preferences for optimal feedback'
-                      }
+                      text={'Update your account settings here'}
                       img={questionMark}
                     />
                   </SettingTitle>
@@ -216,12 +214,10 @@ function AccountSettingsMarkingCriteriaTable(props) {
                   <ActiveSetting>
                     <Frame13221>
                       <FeedbackTitleContainer>
-                        <FeedbackBankHeading>
-                          Comment Banks
-                        </FeedbackBankHeading>
+                        <FeedbackBankHeading>Comment Banks</FeedbackBankHeading>
                         <QuestionTooltip
                           text={
-                            'Help other students who have requested feedback from the community'
+                            "A customisable bank of comments to provide faster feedback when marking a student's work"
                           }
                           img={questionMark}
                         />

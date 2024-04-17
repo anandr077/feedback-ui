@@ -486,7 +486,7 @@ function GiveFeedback() {
                 setGiveFeedbackCompletedTasks={setGiveFeedbackCompletedTasks}
               />
             </LeftContentContainer>
-            <RightContentContainer>
+            {/* <RightContentContainer>
               <Frame5111>
                 <Frame1353>
                   <Frame5087 src={levelEmoji} />
@@ -525,7 +525,7 @@ function GiveFeedback() {
                   )}
                 </Frame5112>
               </Frame5114>
-            </RightContentContainer>
+            </RightContentContainer> */}
           </ContentContainer>
         </InnerContainer>
       </MainContainer>

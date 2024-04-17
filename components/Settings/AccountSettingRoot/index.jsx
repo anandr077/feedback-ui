@@ -552,7 +552,7 @@ export default function AccountSettingsRoot(props) {
                 return (
                   <div key={comment.title}>
                     <BankCommentTitle>{comment.title}</BankCommentTitle>
-                    {comment.suggestions.map((suggestion) => (
+                    {comment?.suggestions?.map((suggestion) => (
                       <Commentsuggestion key={suggestion}>
                         {suggestion}
                       </Commentsuggestion>

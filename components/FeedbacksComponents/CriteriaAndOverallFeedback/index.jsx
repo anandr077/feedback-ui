@@ -19,7 +19,7 @@ import TickMark from '../../../static/img/Ticklightcolor.svg';
 import ArrowDownIcon from '../../../static/img/gray-arrow-down.svg';
 import Microphone from '../../../static/img/Microphone.svg';
 
-const CriteriaAndOverallFeedback = ({handleClick, openRightPanel}) => {
+const CriteriaAndOverallFeedback = ({handleClose, openRightPanel}) => {
   const [inputValue, setInputValue] = useState('');
   const handleInputChange = (event) => {
     const allowedChars = /^[0-9]$|^$/;
@@ -39,7 +39,7 @@ const CriteriaAndOverallFeedback = ({handleClick, openRightPanel}) => {
           <img src={TickMark} />
           <img src={ArrowDownIcon} />
         </HeadingDropdown>
-        <CloseBtn src={CloseIcon} onClick={()=> handleClick('')}/>
+        <CloseBtn src={CloseIcon} onClick={()=> handleClose('')}/>
       </Heading>
       <Text>Click the button below to complete this section</Text>
       <RubricContainer>

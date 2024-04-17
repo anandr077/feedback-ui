@@ -48,10 +48,9 @@ import { createRequestFeddbackType } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
 import FeedbackRightSidebar from '../FeedbackRightSidebar';
-import FeedbackTaskDetails from '../FeedbackTaskDetails';
-import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
+import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -498,13 +497,13 @@ function answersAndFeedbacks(
   selectedRange
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
-  const [commentFocusAreaToggle, setCommentFocusAreaToggle] = React.useState(false);
+  const [commentFocusAreaToggle, setCommentFocusAreaToggle] =
+    React.useState(false);
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
   };
-
 
   return (
     <Frame1386 id="content">
@@ -539,7 +538,7 @@ function answersAndFeedbacks(
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       />
-      <FeedbackQuestionSlider 
+      <FeedbackQuestionSlider
         setQuestionIndex={setQuestionIndex}
         QuestionIndex={QuestionIndex}
         questions={submission.assignment.questions}
@@ -582,16 +581,13 @@ function answersAndFeedbacks(
             ></FeedbackFrame>
           )} */}
         </Frame1368>
-        <FeedbackTaskDetails
-          handleClick={handleRightSidebarClick}
+        <FeedbackRightSideSlidingTabs
+          handleRightSidebarClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
           submission={submission}
           groupedFocusAreaIds={groupedFocusAreaIds}
           QuestionIndex={QuestionIndex}
-        />
-        <CriteriaAndOverallFeedback
-          handleClick={handleRightSidebarClick}
-          openRightPanel={openRightPanel}
+          questionPanelOpen={handleRightSidebarClick}
         />
         <FeedbackRightSidebar
           handleClick={handleRightSidebarClick}

@@ -13,33 +13,6 @@ export const FeedbackTaskDetailsContainer = styled.div`
   transition: right 0.3s ease;
 `;
 
-export const Heading = styled.div`
-  position: relative;
-  height: 53px;
-  align-self: stretch;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 4px;
-  padding: 16px;
-  background-color: #f2f1f3;
-  color: #4b464f;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-l);
-  line-height: 20px;
-
-  img{
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-  }
-`;
-
 export const DueDate = styled.div`
   height: 43px;
   padding: 12px 16px;
@@ -108,6 +81,7 @@ export const QuestionContainer = styled.div`
   align-items: center;
   padding: 12px 16px;
   border-bottom: solid 1px rgba(201, 198, 204, 0.5);
+  cursor: pointer;
 `;
 
 export const QuestionNumbers = styled.div`

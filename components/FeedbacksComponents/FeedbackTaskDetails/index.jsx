@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   FeedbackTaskDetailsContainer,
-  Heading,
   DueDate,
   OtherDetails,
   FocusAreasContainer,
@@ -13,15 +12,16 @@ import {
   Ellipse141,
   Label,
 } from './style';
-import CloseIcon from '../../../static/img/close.svg';
 import RightArrow from '../../../static/img/19grayrightindicator.svg';
+import RightSidebarHeading from '../RightSidebarHeading';
 
 const FeedbackTaskDetails = ({
-  handleClick,
+  handleClose,
   openRightPanel,
   submission,
   QuestionIndex,
   groupedFocusAreaIds,
+  questionPanelOpen
 }) => {
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -30,20 +30,16 @@ const FeedbackTaskDetails = ({
 
   const question = submission.assignment.questions[QuestionIndex];
 
-  console.log('the submission is', question);
   return (
     <FeedbackTaskDetailsContainer openRightPanel={openRightPanel}>
-      <Heading>
-        Task Details
-        <img src={CloseIcon} onClick={() => handleClick('')} />
-      </Heading>
+      <RightSidebarHeading title={'Task Details'} handleClose={handleClose}/>
       <DueDate>
         <span>Due on: </span> {formatDate(submission?.assignment.dueAt)}
       </DueDate>
       <OtherDetails>
         <div>
           <span>Marking Method: </span>
-          Rubric
+          {question?.markingCriteria.type}
         </div>
         <div>
           <span>Graded Task: </span>
@@ -67,9 +63,9 @@ const FeedbackTaskDetails = ({
           })}
         </FocusBody>
       </FocusAreasContainer>
-      <QuestionContainer>
+      <QuestionContainer onClick={()=> questionPanelOpen('tab3')}>
         <QuestionNumbers>4 Questions</QuestionNumbers>
-        <img src={RightArrow} />
+        <img src={RightArrow}/>
       </QuestionContainer>
     </FeedbackTaskDetailsContainer>
   );

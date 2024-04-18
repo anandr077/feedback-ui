@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactiveRender from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
 import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
 import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
 import AccountSettingsMarkingCriteriaLapto from '../AccountSettingsMarkingCriteriaLapto';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
   getAllMarkingCriteria,
@@ -14,6 +15,9 @@ import {
   updateSmartAnnotation,
   deleteSmartAnnotation,
   createNewMarkingCriteria,
+  getFeedbackBanks,
+  updateFeedbackBanks,
+  createNewFeedbackBank,
 } from '../../../service.js';
 import { getUserId } from '../../../userLocalDetails.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
@@ -23,8 +27,54 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
+import {
+  CardImg,
+  CardTitle,
+  Card,
+  PopupContainer,
+  PopupBackground,
+  PopupDialogContentBox,
+  PopupDialogContentBoxLeft,
+  PopupDialogContentBoxRight,
+  PopupTitle,
+  PopupTitleContainer,
+  PopupTitleImg,
+  CardImgCont,
+  CardImgDoc,
+  PreviewContainer,
+  PrevieImg,
+  Previewpara,
+  BankCommentTitle,
+  Commentsuggestion,
+  ButtonConatiner,
+  CreateButton,
+  ButtonText,
+  EmptyBankIconCont,
+  EmptyBankContainer,
+  EmptyBankHeading,
+  EmptyBankSubHeading,
+  EmptyBankContainerButton,
+} from './style.jsx';
+import closecircle from '../../../static/img/closecircle.svg';
+import PlusBlue from '../../../static/img/Plus-blue.svg';
+import Doc from '../../../static/img/doc.svg';
+import PreviewIcon from '../../../static/img/preview.svg';
+import EmptyBankIcon from '../../../static/img/emptyBank.svg';
+import Plus from '../../../static/img/Plus.svg';
+import {
+  TabsPlus,
+  TabsPlusText,
+} from '../AccountSettingsMarkingCriteriaDeskt/style.jsx';
 
 export default function AccountSettingsRoot(props) {
+  const queryClient = useQueryClient();
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [smartAnnotationUpdateIndex, setSmartAnnotationUpdateIndex] =
@@ -32,37 +82,104 @@ export default function AccountSettingsRoot(props) {
 
   const [markingCriterias, setMarkingCriterias] = React.useState([]);
   const [shortcuts, setShortcuts] = React.useState([]);
-  const [smartAnnotations, setSmartAnnotations] = React.useState([]);
+  const [smartAnnotations, setSmartAnnotations] = React.useState();
+  const [systemSmartAnnotations, setSystemSmartAnnotations] = React.useState();
+  const [selectedBank, setSelectedBank] = React.useState();
+  const [normalSmartAnnotations, setNormalSmartAnnotations] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
+  const [feedbackBankId, setFeedbackBankId] = React.useState(0);
+  const [isShowNewBankPopUp, setShowNewBankPopUp] = React.useState(false);
+  const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
+  const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] =
+    React.useState('');
 
-  React.useEffect(() => {
-    Promise.all([
-      getAllMarkingCriteria(),
-      getShortcuts(),
-      getSmartAnnotations(),
-    ]).then(([result, shortcuts, smartAnnotation]) => {
-      if (result) {
-        setMarkingCriterias(result);
-      }
-      setShortcuts(shortcuts);
-      setSmartAnnotations(smartAnnotation);
-      setIsLoading(false);
-    });
-  }, []);
+  const shortCutsQuery = useQuery({
+    queryKey: ['shortCuts'],
+    queryFn: async () => {
+      const result = await getShortcuts();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  const markingCriteriaQuery = useQuery({
+    queryKey: ['markingCriteria'],
+    queryFn: async () => {
+      const result = await getAllMarkingCriteria();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  const feedbackBankQuery = useQuery({
+    queryKey: ['feedbackBank'],
+    queryFn: async () => {
+      const result = await getFeedbackBanks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  useEffect(() => {
+    if (feedbackBankQuery.data) {
+      const nonSyatemBanks =
+        feedbackBankQuery.data._embedded.commentbanks.filter(
+          (bank) => !bank.isSystem
+        );
+      setFeedbackBankId(
+        feedbackBankCreated
+          ? nonSyatemBanks[nonSyatemBanks.length - 1]?.id
+          : nonSyatemBanks[0]?.id
+      );
+      setSmartAnnotations(
+        feedbackBankQuery.data._embedded.commentbanks.filter(
+          (bank) => !bank.isSystem
+        )
+      );
+
+      setSystemSmartAnnotations(
+        feedbackBankQuery.data._embedded.commentbanks.filter(
+          (bank) => bank.isSystem
+        )
+      );
+      setSelectedBank(
+        feedbackBankQuery.data._embedded.commentbanks.filter(
+          (bank) => bank.isSystem
+        )[0]
+      );
+    }
+    if (markingCriteriaQuery.data) {
+      setMarkingCriterias(markingCriteriaQuery.data);
+    }
+    if (shortCutsQuery.data) {
+      setShortcuts(shortCutsQuery.data);
+    }
+  }, [feedbackBankQuery.data, markingCriteriaQuery.data, shortCutsQuery.data]);
 
   const smartAnnotationsFrame = () => {
-    const all = smartAnnotations.map((sa, index) => (
+    const smartAnnotation = smartAnnotations.find(
+      (sa) => sa.id === feedbackBankId
+    );
+
+    if (!smartAnnotation) {
+      return null;
+    }
+    const all = smartAnnotation.smartComments?.map((sa, index) => (
       <SmartAnotation
         key={Math.random()}
-        smartAnnotationIndex={index}
+        smartAnnotationIndex={feedbackBankId}
+        smartCommentIndex={index}
         smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
         smartAnnotation={sa}
         UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
         settingsMode={true}
         deleteAnnotationHandler={deleteAnnotationHandler}
         createSmartAnnotation={createSmartAnnotation}
+        teacherId={smartAnnotation.ownerId}
+        open={smartAnnotationeditIndex === index}
+        setSmartAnnotationeditIndex={setSmartAnnotationeditIndex}
       />
     ));
     return all;
@@ -77,7 +194,6 @@ export default function AccountSettingsRoot(props) {
         setMarkingCriterias(result);
       }
       setShortcuts(shortcuts);
-      setSmartAnnotations(smartAnnotations);
       setIsLoading(false);
     });
     window.localStorage.removeItem('markingCriteria');
@@ -86,88 +202,240 @@ export default function AccountSettingsRoot(props) {
   const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
-        showSnackbar('Marking criteria deleted');
+        // showSnackbar('Marking criteria deleted');
         getAllMarkingCriteria().then((result) => {
           setMarkingCriterias(result);
         });
       })
       .catch((error) => {
-        showSnackbar('Error deleting marking criteria');
+        // showSnackbar('Error deleting marking criteria');
+      });
+  };
+
+  const deteteFeedbackBank = (smartAnnotationIndex) => {
+    const newSmartAnnotations = smartAnnotations.filter(
+      (smartAnnotation) => smartAnnotation.id != smartAnnotationIndex
+    );
+    console.log('first', newSmartAnnotations);
+    deleteSmartAnnotation(smartAnnotationIndex)
+      .then(() => {
+        if (newSmartAnnotations.length === 0) {
+          setFeedbackBankId('');
+        } else {
+          setFeedbackBankId(newSmartAnnotations[0].id);
+        }
+
+        setSmartAnnotations(newSmartAnnotations);
+        // showSnackbar('Feedback bank Deleted');
+      })
+      .catch(() => {
+        // showSnackbar('Error deleting bank');
+      });
+  };
+
+  const createCloneFeedbankBank = (smartAnnotationIndex) => {
+    const newClonedBank = smartAnnotations.find(
+      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+    );
+
+    const { title, smartComments } = newClonedBank;
+    const newObject = { title: `Copy of ${title}`, smartComments };
+
+    createNewFeedbackBank(newObject)
+      .then(() => {
+        queryClient.invalidateQueries(['feedbackBank']);
+        // showSnackbar('feedback bank cloned');
+        setFeedbackBankCreated(true);
+      })
+      .catch((error) => {
+        // showSnackbar('Cloning failed');
+      });
+  };
+
+  const createFeedbackBank = () => {
+    const newBank = {
+      title: 'Untitled feedback bank',
+      smartComments: [
+        {
+          title: 'First feedback area',
+          suggestions: ['First comment', 'Second comment'],
+        },
+        {
+          title: 'Second feedback area',
+          suggestions: ['First comment.', 'Second comment.'],
+        },
+      ],
+    };
+
+    createNewFeedbackBank(newBank)
+      .then(() => {
+        queryClient.invalidateQueries(['feedbackBank']);
+        setShowNewBankPopUp(false);
+        setFeedbackBankCreated(true);
+        // showSnackbar('New feedback bank created');
+      })
+      .catch((error) => {
+        // showSnackbar('Error creating new feedback bank');
+      });
+  };
+
+  const createSystemFeedbackBank = (systemBankId) => {
+    let newSystemBank = systemSmartAnnotations.find(
+      (bank) => bank.id === systemBankId
+    );
+    const { title, smartComments } = newSystemBank;
+    const newObject = { title: `Copy of ${title}`, smartComments };
+    createNewFeedbackBank(newObject)
+      .then(() => {
+        // setSmartAnnotations([...smartAnnotations, newBank]);
+        setShowNewBankPopUp(false);
+        // showSnackbar('New feedback bank created');
+        queryClient.invalidateQueries(['feedbackBank']);
+        setFeedbackBankCreated(true);
+      })
+      .catch((error) => {
+        console.log('first error', error);
+        // showSnackbar('Error creating new feedback bank');
       });
   };
 
   const createSmartAnnotationHandler = () => {
     const smartAnnotationRequest = {
-      title: 'Sample Smart Annotation Title',
-      teacherId: getUserId(),
-      suggestions: [
-        {
-          description: ' Sample Suggestion 1',
-        },
-        {
-          description: ' Sample Suggestion 2',
-        },
-        {
-          description: ' Sample Suggestion 3',
-        },
-      ],
+      title: 'Untitled feedback area',
+      suggestions: ['First comment', 'Second comment'],
     };
     createSmartAnnotation(smartAnnotationRequest);
   };
 
   const createSmartAnnotation = (newSmartAnnotation) => {
-    createNewSmartAnnotation(newSmartAnnotation)
-      .then((result) => {
-        showSnackbar('Smart annotation created');
-        const createdAnnotation = {
-          id: result.id.value,
-          title: result.title.value,
-          suggestions: newSmartAnnotation.suggestions,
-          teacherId: result.teacherId.teacherId,
-        };
-        setSmartAnnotations((sa) => [createdAnnotation, ...sa]);
-        setSmartAnnotationUpdateIndex(0);
-      })
-      .catch((error) => {
-        showSnackbar('Error updating smart annotation');
-      });
-  };
-
-  const UpdateSmartAnotationHandler = (smartAnnotation, index) => {
-    const smartAnnotationRequest = {
-      title: smartAnnotation.title,
-      suggestions: smartAnnotation.suggestions.map((suggestion) => {
+    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
+      if (smartAnnotation.id === feedbackBankId) {
         return {
-          description: suggestion.description,
+          ...smartAnnotation,
+          smartComments: [
+            ...(smartAnnotation.smartComments || []),
+            newSmartAnnotation,
+          ],
         };
-      }),
-    };
-    updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
-      .then(() => {
-        showSnackbar('Smart annotation updated');
-        setSmartAnnotationUpdateIndex(index);
-        const updatedAnnotation = [...smartAnnotations];
-        updatedAnnotation[index] = smartAnnotation;
-        setSmartAnnotations(updatedAnnotation);
-        smartAnnotationsFrame();
+      }
+
+      return smartAnnotation;
+    });
+
+    const foundSmartAnnotation = newSmartAnnotations.find(
+      (smartAnnotation) => smartAnnotation.id === feedbackBankId
+    );
+
+    const { title, smartComments } = foundSmartAnnotation;
+    const newObject = { title, smartComments };
+
+    createNewSmartAnnotation(newObject, feedbackBankId)
+      .then((result) => {
+        setSmartAnnotations(newSmartAnnotations);
+        // showSnackbar('Smart annotation created');
       })
       .catch((error) => {
-        showSnackbar('Error updating smart annotation');
+        // showSnackbar('Error updating Feedback bank');
+      });
+
+    //updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
+  };
+
+  const UpdateSmartBankTitleHandler = (newTitle, smartAnnotationIndex) => {
+    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
+      if (smartAnnotation.id === smartAnnotationIndex) {
+        return {
+          ...smartAnnotation,
+          title: newTitle,
+        };
+      }
+
+      return smartAnnotation;
+    });
+
+    const foundSmartAnnotation = newSmartAnnotations.find(
+      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+    );
+
+    const { title, smartComments } = foundSmartAnnotation;
+    const newObject = { title, smartComments };
+
+    updateSmartAnnotation(newObject, smartAnnotationIndex)
+      .then(() => {
+        setSmartAnnotations(newSmartAnnotations);
+        // showSnackbar('Feedback bank title updated');
+      })
+      .catch((error) => {
+        // showSnackbar('Error updating smart annotation');
       });
   };
 
-  const deleteAnnotationHandler = (smartAnnotationId) => {
-    deleteSmartAnnotation(smartAnnotationId)
-      .then((result) => {
-        setSmartAnnotations((s) =>
-          s.filter(
-            (smartAnnotation) => smartAnnotation.id !== smartAnnotationId
-          )
-        );
-        showSnackbar('Smart annotation deleted');
+  const UpdateSmartAnotationHandler = (
+    newSmartComment,
+    smartAnnotationIndex,
+    index
+  ) => {
+    setSmartAnnotationeditIndex(index);
+    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
+      if (smartAnnotation.id === smartAnnotationIndex) {
+        return {
+          ...smartAnnotation,
+          smartComments: smartAnnotation.smartComments.map((comment, ind) => {
+            if (ind === index) {
+              return newSmartComment;
+            }
+            return comment;
+          }),
+        };
+      }
+
+      return smartAnnotation;
+    });
+
+    const foundSmartAnnotation = newSmartAnnotations.find(
+      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+    );
+
+    const { title, smartComments } = foundSmartAnnotation;
+    const newObject = { title, smartComments };
+
+    updateSmartAnnotation(newObject, smartAnnotationIndex)
+      .then(() => {
+        setSmartAnnotations(newSmartAnnotations);
+        // showSnackbar('Smart annotation updated');
       })
       .catch((error) => {
-        showSnackbar('Error deleting smart annotation');
+        // showSnackbar('Error updating smart annotation');
+      });
+  };
+
+  const deleteAnnotationHandler = (smartcommentId, smartAnnotationIndex) => {
+    const NewSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
+      if (smartAnnotation.id === smartAnnotationIndex) {
+        return {
+          ...smartAnnotation,
+          smartComments: smartAnnotation.smartComments.filter(
+            (comment, ind) => ind !== smartcommentId
+          ),
+        };
+      }
+
+      return smartAnnotation;
+    });
+
+    const foundSmartAnnotation = NewSmartAnnotations.find(
+      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+    );
+
+    const { title, smartComments } = foundSmartAnnotation;
+    const newObject = { title, smartComments };
+    updateSmartAnnotation(newObject, smartAnnotationIndex)
+      .then(() => {
+        setSmartAnnotations(NewSmartAnnotations);
+        // showSnackbar('Smart commit deleted');
+      })
+      .catch((error) => {
+        // showSnackbar('Error deleting Smart commit');
       });
   };
 
@@ -186,19 +454,18 @@ export default function AccountSettingsRoot(props) {
     }
     createNewMarkingCriteria(createdMarkingCriteria)
       .then((res) => {
-        
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
-        showSnackbar(
-          'Copied marking template',
-          markingCriteriaUrl(res.id.value, res.type.value)
-        );
+        // showSnackbar(
+        //   'Copied marking template',
+        //   markingCriteriaUrl(res.id.value, res.type.value)
+        // );
         getAllMarkingCriteria().then((result) => {
           setMarkingCriterias(result);
         });
       })
       .catch((err) => {
-        showSnackbar('Error cloning marking template');
+        // showSnackbar('Error cloning marking template');
       });
   };
 
@@ -228,24 +495,11 @@ export default function AccountSettingsRoot(props) {
     />
   );
 
-  const breadCrumbs = (
-    <>
-      <Breadcrumb text="Account Settings" link={'/#/settings'} />
-      {(showMarkingCriteria || showUserSettings || showShortcuts) && (
-        <Breadcrumb2
-          title={
-            showMarkingCriteria
-              ? 'Marking Templates'
-              : showShortcuts
-              ? 'Smart Annotations'
-              : 'User Settings'
-          }
-        />
-      )}
-    </>
-  );
-
-  if (isLoading) {
+  if (
+    feedbackBankQuery.isLoading ||
+    shortCutsQuery.isLoading ||
+    markingCriteriaQuery.isLoading
+  ) {
     return (
       <>
         <Loader />
@@ -253,8 +507,94 @@ export default function AccountSettingsRoot(props) {
     );
   }
 
+  const NewBankPopContainer = ({ setShowNewBankPopUp }) => {
+    return (
+      <PopupBackground>
+        <PopupContainer>
+          <PopupTitleContainer>
+            <PopupTitle>Create New Bank</PopupTitle>
+            <PopupTitleImg
+              onClick={() => setShowNewBankPopUp(false)}
+              src={closecircle}
+            />
+          </PopupTitleContainer>
+          <PopupDialogContentBox>
+            <PopupDialogContentBoxLeft>
+              <Card onClick={() => createFeedbackBank()}>
+                <CardImgCont>
+                  <CardImg src={PlusBlue} />
+                </CardImgCont>
+                <CardTitle>New Bank</CardTitle>
+              </Card>
+              {systemSmartAnnotations?.map((bank) => {
+                return (
+                  <Card
+                    onClick={() => setSelectedBank(bank)}
+                    style={{
+                      backgroundColor:
+                        bank.id === selectedBank.id ? ' #F1E6FC' : '#ffffff',
+                    }}
+                  >
+                    <CardImgDoc src={Doc} />
+
+                    <CardTitle>{bank.title}</CardTitle>
+                  </Card>
+                );
+              })}
+            </PopupDialogContentBoxLeft>
+            <PopupDialogContentBoxRight>
+              <PreviewContainer>
+                <PrevieImg src={PreviewIcon} />
+                <Previewpara>Preview</Previewpara>
+              </PreviewContainer>
+
+              {selectedBank?.smartComments.map((comment) => {
+                return (
+                  <div key={comment.title}>
+                    <BankCommentTitle>{comment.title}</BankCommentTitle>
+                    {comment?.suggestions?.map((suggestion) => (
+                      <Commentsuggestion key={suggestion}>
+                        {suggestion}
+                      </Commentsuggestion>
+                    ))}
+                  </div>
+                );
+              })}
+            </PopupDialogContentBoxRight>
+          </PopupDialogContentBox>
+          <ButtonConatiner>
+            <CreateButton
+              onClick={() => createSystemFeedbackBank(selectedBank.id)}
+            >
+              <ButtonText>Create</ButtonText>
+            </CreateButton>
+          </ButtonConatiner>
+        </PopupContainer>
+      </PopupBackground>
+    );
+  };
+
+  const emptyFeedbackBank = () => {
+    return (
+      <EmptyBankContainer>
+        <EmptyBankIconCont src={EmptyBankIcon} />
+        <EmptyBankHeading>No comment banks created yet</EmptyBankHeading>
+        <EmptyBankSubHeading>
+          To start using comment banks, click below.
+        </EmptyBankSubHeading>
+        <EmptyBankContainerButton onClick={() => setShowNewBankPopUp(true)}>
+          <TabsPlus src={Plus} />
+          <TabsPlusText>New Bank</TabsPlusText>
+        </EmptyBankContainerButton>
+      </EmptyBankContainer>
+    );
+  };
+
   return (
     <>
+      {isShowNewBankPopUp && (
+        <NewBankPopContainer setShowNewBankPopUp={setShowNewBankPopUp} />
+      )}
       <ReactiveRender
         mobile={
           <AccountSettingsMarkingCriteriaTable
@@ -269,8 +609,19 @@ export default function AccountSettingsRoot(props) {
               showMarkingCriteria,
               showShortcuts,
               showUserSettings,
-              breadCrumbs,
               setOpenMarkingMethodologyDialog,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
+              setOpenMarkingMethodologyDialog,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
+              setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated,
+              emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }
@@ -285,8 +636,18 @@ export default function AccountSettingsRoot(props) {
               showMarkingCriteria,
               showShortcuts,
               showUserSettings,
-              breadCrumbs,
               setOpenMarkingMethodologyDialog,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
+              setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated,
+              emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }
@@ -301,8 +662,18 @@ export default function AccountSettingsRoot(props) {
               showMarkingCriteria,
               showShortcuts,
               showUserSettings,
-              breadCrumbs,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
               setOpenMarkingMethodologyDialog,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
+              setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated,
+              emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }
@@ -313,12 +684,23 @@ export default function AccountSettingsRoot(props) {
               markingCriteriaList,
               createSmartAnnotationHandler,
               smartAnnotationsFrame,
+              createFeedbackBank,
               sidebarNav,
               showMarkingCriteria,
               showShortcuts,
               showUserSettings,
-              breadCrumbs,
+              smartAnnotations,
+              setFeedbackBankId,
+              feedbackBankId,
               setOpenMarkingMethodologyDialog,
+              UpdateSmartBankTitleHandler,
+              deteteFeedbackBank,
+              createCloneFeedbankBank,
+              setShowNewBankPopUp,
+              feedbackBankCreated,
+              setFeedbackBankCreated,
+              emptyFeedbackBank,
+              setSmartAnnotationeditIndex,
             }}
           />
         }

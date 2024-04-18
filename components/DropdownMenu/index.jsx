@@ -29,7 +29,7 @@ export const DropdownMenu = (props) => {
     defaultSearch = false,
     getSelectedItem = null,
   } = props;
-  console.log('first', menuItems);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchInput, setSearchInput] = React.useState('');
   const [filteredMenuItems, setFilteredMenuItems] = React.useState(menuItems);
@@ -108,7 +108,7 @@ export const DropdownMenu = (props) => {
             <div className="text-container" onClick={handleClick}>
               <p>
                 <StyledListItemText
-                  id={selectedItem.id}
+                  id={selectedItem?.id}
                   primary={selectedItem.title || selectedItem.name}
                 />
               </p>
@@ -135,7 +135,7 @@ export const DropdownMenu = (props) => {
             <div
               className="text-container"
               onClick={handleClick}
-              style={{ padding: '5px 0px' }}
+              style={{ padding: '5px 10px' }}
             >
               <p>
                 <StyledListItemText

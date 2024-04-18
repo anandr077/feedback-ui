@@ -39,7 +39,7 @@ import {
   updateDocumentType,
   updateSubject,
 } from '../../../service';
-import { getUserId } from '../../../userLocalDetails';
+import { getUserId, getUserRole } from '../../../userLocalDetails';
 import {
   Frame1334,
   Frame1334Img,
@@ -73,7 +73,7 @@ import ai from '../../../static/img/ai.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
 import Teacher from '../../../static/img/Teacher.svg';
 import questionmark from '../../../static/img/question-mark.svg';
-import people from '../../../static/img/people.svg';
+import expert from '../../../static/img/Expert-check.svg';
 import messages from '../../../static/img/messages-2.svg';
 import closecircle from '../../../static/img/closecircle.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
@@ -97,12 +97,7 @@ const tasksListsDropDown = (isTeacher, methods) => {
   }
   return <></>;
 };
-export function contextBar(
-  submission,
-  methods,
-  isTeacher,
-  pageMode,
-) {
+export function contextBar(submission, methods, isTeacher, pageMode) {
   const focusAreasCount = createFocusAreasCount(submission);
   return (
     <Frame1371 id="assignmentTitle">
@@ -146,6 +141,7 @@ const selectReviewType = (
   const uniqueStudents = _.uniqBy(allStudents, 'id').filter(
     (s) => s.id !== getUserId()
   );
+  const isTeacher = getUserRole() === 'TEACHER';
   const showClassMate = uniqueStudents.length > 0;
   const showTeacher = uniqueTeachers.length > 0;
   const requestFeedback = (submissionId, requestType) => (id) => {
@@ -153,7 +149,6 @@ const selectReviewType = (
       type: requestType,
       reviewerId: id,
     }).then((response) => {
-
       setSubmission((old) => ({
         ...old,
         answers: response.answers,
@@ -220,7 +215,7 @@ const selectReviewType = (
             />
           </Frame1334>
           <Frame5053>
-            {showTeacher && (
+            {showTeacher && !isTeacher && (
               <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>
                   <Frame5053Card1Img src={Teacher} />
@@ -231,7 +226,7 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            {showClassMate && (
+            {showClassMate && !isTeacher && (
               <Frame5053Card2 onClick={ShowStudent}>
                 <Frame5053Card2Data>
                   <Frame5053Card1Img src={profileCircle} />
@@ -242,10 +237,12 @@ const selectReviewType = (
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            <Frame5053Card1 onClick={requestCommnityFeedback}>
-              <Frame5053Card1Img src={people} />
-              <Frame5053Card1Para>Community</Frame5053Card1Para>
-            </Frame5053Card1>
+            {!isTeacher && (
+              <Frame5053Card1 onClick={requestCommnityFeedback}>
+                <Frame5053Card1Img src={expert} />
+                <Frame5053Card1Para>Expert</Frame5053Card1Para>
+              </Frame5053Card1>
+            )}
             <Frame5053Card1
               onClick={() => {
                 methods.jeddAI().then(() => ClosePopUp());
@@ -391,7 +388,8 @@ export function contextBarForPortfolioDocument(
   showStudentPopUp,
   showTeacherPopUp,
   setShowStudentPopUp,
-  setShowTeacherPopUp
+  setShowTeacherPopUp,
+  isTeacher
 ) {
   const { showSnackbar } = React.useContext(SnackbarContext);
   const [isEditing, setIsEditing] = React.useState(false);
@@ -423,7 +421,7 @@ export function contextBarForPortfolioDocument(
               ...old.assignment,
               title: res.title,
             },
-            otherDrafts: old.otherDrafts.map((draft) =>
+            otherDrafts: old.otherDrafts?.map((draft) =>
               draft.submissionId === submission.id
                 ? { ...draft, title: res.title }
                 : draft
@@ -551,7 +549,8 @@ export function contextBarForPortfolioDocument(
             showStudentPopUp,
             showTeacherPopUp,
             setShowStudentPopUp,
-            setShowTeacherPopUp
+            setShowTeacherPopUp,
+            isTeacher
           )}
         </FeedbackBtnContainer>
       </Frame1371>
@@ -608,7 +607,8 @@ const submitButtonDocument = (
   showStudentPopUp,
   showTeacherPopUp,
   setShowStudentPopUp,
-  setShowTeacherPopUp
+  setShowTeacherPopUp,
+  isTeacher
 ) => {
   if (pageMode === 'DRAFT') {
     return (
@@ -643,8 +643,8 @@ const submitButtonDocument = (
                   setShowSelectType(true);
                 }}
               >
-                {<img src="/img/messages.png" alt="message" />}
-                Request Feedback
+                {<img src={isTeacher ? '/img/ai.svg' : '/img/messages.png'} alt="Feedback" />}
+                {isTeacher ? 'Jedd AI' : 'Request Feedback'}
               </RequestFeedbackButton>
             </>
           }
@@ -724,7 +724,7 @@ const submitButtonDocument = (
             display: 'flex',
             gap: '10px',
             height: '66px',
-            border: '1px solid #F1E7FF'
+            border: '1px solid #F1E7FF',
           }}
         >
           {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
@@ -750,7 +750,7 @@ const submitButtonDocument = (
           display: 'flex',
           gap: '10px',
           height: '66px',
-          border: '1px solid #F1E7FF'
+          border: '1px solid #F1E7FF',
         }}
       >
         {<Icon24 src="/img/message24.svg"></Icon24>}
@@ -771,7 +771,7 @@ const submitButtonDocument = (
             display: 'flex',
             gap: '10px',
             height: '66px',
-            border: '1px solid #F1E7FF'
+            border: '1px solid #F1E7FF',
           }}
         >
           {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
@@ -790,7 +790,7 @@ const submitButtonDocument = (
           display: 'flex',
           gap: '10px',
           height: '66px',
-          border: '1px solid #F1E7FF'
+          border: '1px solid #F1E7FF',
         }}
       >
         {<Icon24 src="/img/message24.svg"></Icon24>}

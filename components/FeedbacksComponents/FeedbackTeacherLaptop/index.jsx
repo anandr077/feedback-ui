@@ -10,7 +10,6 @@ import {
 } from 'react';
 import Header from '../../Header';
 import { getUserRole } from '../../../userLocalDetails';
-
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
@@ -254,11 +253,13 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          {/* {sidebar()} */}
+          {(submission.otherDrafts || submission.studentsSubmissions) &&
+            sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
             drawerWidth={drawerWidth}
+            open={!location.pathname.includes('/submission') && open}
           >
             {answersAndFeedbacks(
               isMobile,
@@ -337,35 +338,47 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function sidebar() {
-    if (isTeacher && isNullOrEmpty(submission.studentsSubmissions)) {
-      return <></>;
-    }
-    if (!isTeacher && submission.type !== 'DOCUMENT') {
-      return <></>;
-    }
     return (
       <>
-        <>
-          {isTeacher ? (
-            <TeacherSidebar open={open} submission={submission} />
-          ) : (
-            !isNullOrEmpty(submission.otherDrafts) && (
-              <IndepentdentUserSidebar
-                open={open}
-                subjects={submission.otherDrafts?.map((d) => ({
-                  id: d.submissionId,
-                  title: d.title,
-                  subject: d.subject,
-                  lastseenAtTs: 1630330000,
-                }))}
-                setSelectedSubject={setSelectedSubject}
-                selectedSubject={selectedSubject}
-                groupedAndSortedData={groupedAndSortedData}
-                currentSubmissionId={submission.id}
-              />
-            )
-          )}
-        </>
+        {isTeacher && submission.studentsSubmissions && (
+          <TeacherSidebar open={open} submission={submission} />
+        )}
+        {!isNullOrEmpty(submission.otherDrafts) && (
+          <IndepentdentUserSidebar
+            open={open}
+            subjects={submission.otherDrafts?.map((d) => ({
+              id: d.submissionId,
+              title: d.title,
+              subject: d.subject,
+              lastseenAtTs: 1630330000,
+            }))}
+            setSelectedSubject={setSelectedSubject}
+            selectedSubject={selectedSubject}
+            groupedAndSortedData={groupedAndSortedData}
+            currentSubmissionId={submission.id}
+          />
+        )}
+
+        {(isTeacher ||
+          submission.otherDrafts ||
+          submission.studentsSubmissions) && (
+          <DrawerArrow
+            onClick={handleDrawer}
+            drawerWidth={drawerWidth}
+            open={open}
+            subjects={submission.otherDrafts?.map((d) => ({
+              id: d.submissionId,
+              title: d.title,
+              subject: d.subject,
+              lastseenAtTs: 1630330000,
+            }))}
+            setSelectedSubject={setSelectedSubject}
+            selectedSubject={selectedSubject}
+            groupedAndSortedData={groupedAndSortedData}
+            currentSubmissionId={submission.id}
+          />
+        )}
+
         {(isTeacher || submission.otherDrafts) && (
           <DrawerArrow
             onClick={handleDrawer}
@@ -381,6 +394,7 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+
 const selectTabComments = (
   showResolved,
   isFocusAreas,
@@ -646,7 +660,8 @@ function createContextBar(
       showStudentPopUp,
       showTeacherPopUp,
       setShowStudentPopUp,
-      setShowTeacherPopUp
+      setShowTeacherPopUp,
+      isTeacher
     );
   }
 

@@ -72,6 +72,9 @@ export const TtitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1e6fc;
 `;
 
 export const ButtonBox = styled.div`
@@ -103,8 +106,8 @@ export const ButtonBox = styled.div`
 
 export const DeleteButton2 = styled.img`
   cursor: pointer;
-  min-width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 `;
 
 export const Line14 = styled.img`
@@ -177,4 +180,9 @@ export const ButtonWrapper = styled.div`
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
+`;
+export const SixdotsImage = styled.img`
+  width: 15px;
+  height: 24px;
+  padding-right: 8px;
 `;

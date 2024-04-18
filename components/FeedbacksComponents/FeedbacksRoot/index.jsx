@@ -185,15 +185,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
+      // alert("sub" + JSON.stringify(submission.assignment))
       const commentBankIds = submission.assignment.questions.filter((q) => q.commentBankId !== undefined && q.commentBankId !== null).map(q => q.commentBankId);
 
-      console.log("commentBankIds", commentBankIds)
 
       const commentBankPromises = commentBankIds.map(getCommentBank);
     
       Promise.all([getSubmissionsByAssignmentId(submission.assignment.id), ...commentBankPromises])
         .then(([allSubmissions, ...commentBanks]) => {
-          setSmartAnnotations(commentBanks);
+          setSmartAnnotations(commentBanks.filter(cb => cb !== undefined && cb !== null));
           setStudents(extractStudents(allSubmissions));
           let currentSubmissionIndex = 0;
           const allExceptCurrent = allSubmissions.map((r, index) => {

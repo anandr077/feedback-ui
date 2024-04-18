@@ -352,8 +352,36 @@ export const getSmartAnnotations = async () =>
 
 export const getFeedbackBanks = async () =>
   await getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
-export const getCommentBank = async (id) =>
-  await getApi(baseUrl + '/commentbanks/' + id + '?projection=commentBanksProjection');
+
+export const getCommentBank = async (id) => {
+  const url = `${baseUrl}/commentbanks/${id}?projection=commentBanksProjection`;
+  const token = localStorage.getItem('jwtToken'); // Retrieve the token if available
+
+  const headers = new Headers();
+  if (token) {
+    headers.append('Authorization', `Bearer ${token}`);
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      credentials: 'include', // Ensure credentials are included for cookies
+      headers: headers,
+    });
+
+    if (response.ok) {
+      const isJson = response.headers.get('content-type')?.includes('application/json') ||
+                      response.headers.get('content-type')?.includes('application/hal+json');
+      return isJson ? await response.json() : null;  // Only parse JSON if the content type is correct
+    } else {
+      console.error('HTTP error:', response.status);
+      return null; // Return null on any non-ok HTTP response
+    }
+  } catch (error) {
+    console.error('Network or other error:', error);
+    return null; // Return null on network errors or exceptions
+  }
+};
 
 export const updateFeedbackBanks = async (updatedCommentBank, commentBankId) =>
   await putApi(

@@ -34,7 +34,6 @@ async function fetchData(url, options, headers = {}) {
       // window.location.reload();
       // throw new Error('Page not found');
     } else if (response.status === 500) {
-      alert("Got 500" + url);
       window.location.href = selfBaseUrl + '/#/404';
       window.location.reload();
       throw new Error('Server error');
@@ -49,7 +48,6 @@ async function fetchData(url, options, headers = {}) {
       response.headers.get('content-type')?.includes('application/hal+json');
     const data = isJson ? await response.json() : null;
     if (data === null) {
-      alert("Data is null" + url);
       window.location.href = selfBaseUrl + '/#/404';
       window.location.reload();
       throw new Error('Page not found');
@@ -384,16 +382,7 @@ export const getCommentBank = async (id) => {
     return null; // Return null on network errors or exceptions
   }
 };
-  
 
-const getApiNoFail = async (url) => {
-  try {
-    return await fetchApi(url, { method: 'GET' });
-  } catch (error) {
-    console.error('Error in getApi:', error);
-    return null;
-  }
-};
 export const updateFeedbackBanks = async (updatedCommentBank, commentBankId) =>
   await putApi(
     baseUrl + '/commentbanks/' + commentBankId, updatedCommentBank

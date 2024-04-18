@@ -54,9 +54,7 @@ import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
-  const [classes, setClasses] = React.useState([]);
   const [selectedClass, setSelectedClass] = React.useState('');
 
   React.useEffect(() => {
@@ -72,32 +70,7 @@ export default function CompletedPage() {
   if (isLoading) {
     return <Loader />;
   }
-  const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));
-  const menuItems = [
-    {
-      name: 'TYPES',
-      title: 'Types',
-      items: [
-        { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
-        { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
-      ],
-    },
-  ];
-
-  const filterTasks = (selectedItems) => {
-    const groupedData = _.groupBy(selectedItems, 'category');
-    let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
-
-    if (typesValues.length === 0) {
-      typesValues = ['REVIEW', 'ASSIGNMENT'];
-    }
-    const filteredTasks = _.filter(tasks, (task) =>
-      _.includes(typesValues, task.type)
-    );
-
-    setFilteredTasks(filteredTasks);
-  };
-
+  
   
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {

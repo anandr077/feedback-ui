@@ -61,7 +61,6 @@ export default function CompletedPage() {
     getCompletedTasks().then((result) => {
       if (result) {
         setTasks(result);
-        setFilteredTasks(result);
         setIsLoading(false);
       }
     });

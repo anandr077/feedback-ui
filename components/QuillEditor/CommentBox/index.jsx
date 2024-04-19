@@ -12,6 +12,7 @@ import {
   ShortcutList,
   Frame1383,
   Frame13311,
+  CommentDiv,
   Crown,
   ExemplarComponent,
   MainSideContainer,
@@ -36,7 +37,7 @@ const CommentBox = ({
   comments,
   editor,
   editorRef,
-  updatedCommentPosition,
+  selectedComment,
   selectedRange,
   commentFocusAreaToggle,
 }) => {
@@ -44,6 +45,7 @@ const CommentBox = ({
     useContext(FeedbackContext);
   const [commentHeights, setCommentHeights] = useState([]);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
+  const [openCommentBox, setOpenCommentbox] = useState(false);
 
   useEffect(() => {
     const heights = comments?.map(() => 0);
@@ -69,10 +71,12 @@ const CommentBox = ({
     let lastCommentBottomPosition = 0;
     let accumulatedHeight = 0;
 
-    const updatedCommentIndex = comments?.sort((a, b) => a.range.from - b.range.from)
-      .findIndex((comment) => comment.id === updatedCommentPosition?.id);
+    const updatedCommentIndex = comments
+      ?.sort((a, b) => a.range.from - b.range.from)
+      .findIndex((comment) => comment.id === selectedComment?.id);
 
-    const groupedComments = comments?.sort((a, b) => a.range.from - b.range.from)
+    const groupedComments = comments
+      ?.sort((a, b) => a.range.from - b.range.from)
       .map((comment, index) => {
         if (!editorRef.current) return null;
 
@@ -90,14 +94,13 @@ const CommentBox = ({
         let topPosition = boundsIs.top;
 
         let updatedTopPosition = null;
-        if (updatedCommentPosition) {
+        if (selectedComment) {
           let updatedLength =
-            updatedCommentPosition?.range.to -
-            updatedCommentPosition?.range.from;
+            selectedComment?.range.to - selectedComment?.range.from;
           let updatedBounds;
           if (editor) {
             updatedBounds = editor.getBounds(
-              updatedCommentPosition?.range.from,
+              selectedComment?.range.from,
               updatedLength
             );
           }
@@ -110,7 +113,7 @@ const CommentBox = ({
 
         if (
           index === updatedCommentIndex &&
-          updatedCommentPosition &&
+          selectedComment &&
           topPosition > updatedTopPosition
         ) {
           accumulatedHeight = 0;
@@ -121,8 +124,6 @@ const CommentBox = ({
           accumulatedHeight += commentHeights[index];
           topPosition -= accumulatedHeight;
         }
-
-        //const newTopPosition = topPosition;
 
         lastCommentBottomPosition = topPosition + commentHeights[index];
 
@@ -155,7 +156,7 @@ const CommentBox = ({
     }
 
     setGroupedCommentsWithGap(groupedCommentsWithGap);
-  }, [editor, editorRef, updatedCommentPosition, comments, commentHeights]);
+  }, [editor, editorRef, selectedComment, comments, commentHeights]);
 
   let commentInputTopPosition;
   if (selectedRange) {
@@ -183,7 +184,7 @@ const CommentBox = ({
             >
               <Screen onClick={methods.hideNewCommentDiv}></Screen>
               <OptionContainer>
-                <Option>
+                <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
                   <img src={CommentIcon} />
                 </Option>
                 <Option>
@@ -196,47 +197,18 @@ const CommentBox = ({
                   <img src={ThumbsupIcon} />
                 </Option>
               </OptionContainer>
-              {newCommentFrame(
-                pageMode,
-                submission,
-                newCommentSerialNumber,
-                methods
-                // newCommentFrameRef,
-                // share
-              )}
+              {openCommentBox &&
+                newCommentFrame(
+                  pageMode,
+                  submission,
+                  newCommentSerialNumber,
+                  methods
+                  // newCommentFrameRef,
+                  // share
+                )}
             </MainSideContainer>
           ) : (
             <MainSideContainer>
-              <OptionContainer>
-                <Option>
-                  <img src={CommentIcon} />
-                </Option>
-                <Option>
-                  <img src={AlphabetIcon} />
-                </Option>
-                <Option>
-                  <img src={ShareIcon} />
-                </Option>
-                <Option>
-                  <img src={ThumbsupIcon} />
-                </Option>
-              </OptionContainer>
-              {groupedCommentsWithGap.length > 0 && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: `${groupedCommentsWithGap[0][0].topPosition - 150}px`,
-                    zIndex: 1000,
-                  }}
-                >
-                  {newCommentFrame(
-                    pageMode,
-                    submission,
-                    newCommentSerialNumber,
-                    methods
-                  )}
-                </div>
-              )}
               <ul
                 style={{
                   height: '100%',
@@ -250,21 +222,16 @@ const CommentBox = ({
                       .filter((comment) => comment.type === 'COMMENT')
                       .map((comment, index) => {
                         return (
-                          <div
+                          <CommentDiv
                             key={index}
                             id={`comment-${index}`}
                             style={{
-                              position: 'absolute',
                               top: `${comment.topPosition}px`,
-                              left: '0',
-                              minWidth: '300px',
-                              height: 'auto',
-                              overflow: 'hidden',
-                              paddingLeft: '60px',
+                              transform: selectedComment && comment.id === selectedComment.id ? 'translateX(-35px)' : 'none',
                             }}
                           >
                             <CommentCard32 comment={comment} />
-                          </div>
+                          </CommentDiv>
                         );
                       })}
                   </div>

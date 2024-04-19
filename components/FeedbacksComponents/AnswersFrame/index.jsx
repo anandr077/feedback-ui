@@ -52,7 +52,7 @@ export function answersFrame(
   commentsForSelectedTab,
   methods,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   selectedRange,
   commentFocusAreaToggle,
   openRightPanel,
@@ -79,7 +79,7 @@ export function answersFrame(
       setComments={methods.setComments}
       comments={methods.comments}
       editorFontSize={editorFontSize}
-      updatedCommentPosition={updatedCommentPosition}
+      selectedComment={selectedComment}
       methods={methods}
       selectedRange={selectedRange}
       commentFocusAreaToggle={commentFocusAreaToggle}
@@ -108,7 +108,7 @@ function AnswersFrame(props) {
     setComments,
     comments,
     editorFontSize,
-    updatedCommentPosition,
+    selectedComment,
     methods,
     selectedRange,
     commentFocusAreaToggle,
@@ -145,7 +145,7 @@ function AnswersFrame(props) {
           setComments,
           comments,
           editorFontSize,
-          updatedCommentPosition,
+          selectedComment,
           methods,
           selectedRange,
           commentFocusAreaToggle,
@@ -161,19 +161,22 @@ function AnswersFrame(props) {
           <FocusAreaCard comments={focusAreaComments} />
         </FocusAreaContainer>
       )}
-      {showAddingCommentDesc && comments.length === 0 && (
+      {showAddingCommentDesc && (
         <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
-          {commentFocusAreaToggle ? (
+          {commentFocusAreaToggle && focusAreaComments.length === 0 && (
             <AddCommentFocusAreaInstruction
               heading={'How to use Focus Areas:'}
               firstIcon={RedabcIcon}
-              firstStep={'Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab).'}
+              firstStep={
+                'Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab).'
+              }
               secondIcon={ColorCircleIcon}
               secondStep={'Click the focus area that matches your selection.'}
               thirdIcon={RefreshIcon}
               thirdStep={'Repeat this process for each focus area.'}
             />
-          ) : (
+          )}
+          {!commentFocusAreaToggle && generalComments.length === 0 && (
             <AddCommentFocusAreaInstruction
               heading={'Adding Comments'}
               firstIcon={ABCIcon}
@@ -236,7 +239,7 @@ const answerFrames = (
   setComments,
   comments,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   methods,
   selectedRange,
   commentFocusAreaToggle,
@@ -303,7 +306,7 @@ const answerFrames = (
                 debounce,
                 handleEditorMounted,
                 editorFontSize,
-                updatedCommentPosition,
+                selectedComment,
                 methods,
                 selectedRange,
                 commentFocusAreaToggle
@@ -384,7 +387,7 @@ function createQuill(
   debounce,
   handleEditorMounted,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   methods,
   selectedRange,
   commentFocusAreaToggle
@@ -422,7 +425,7 @@ function createQuill(
           pageMode === 'REVISE'
         }
         editorFontSize={editorFontSize}
-        updatedCommentPosition={updatedCommentPosition}
+        selectedComment={selectedComment}
         methods={methods}
         pageMode={pageMode}
         submission={submission}

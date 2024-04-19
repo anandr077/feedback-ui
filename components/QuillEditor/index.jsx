@@ -26,12 +26,12 @@ const QuillEditor = React.forwardRef(
       onDebounce,
       nonEditable,
       editorFontSize,
-      updatedCommentPosition,
+      selectedComment,
       methods,
       pageMode,
       submission,
       selectedRange,
-      commentFocusAreaToggle
+      commentFocusAreaToggle,
     },
     ref
   ) => {
@@ -314,10 +314,10 @@ const QuillEditor = React.forwardRef(
           pageMode={pageMode}
           submission={submission}
           methods={methods}
-          comments={comments.filter((comment) => comment.type === "COMMENT")}
+          comments={comments.filter((comment) => comment.type === 'COMMENT')}
           editor={editor}
           editorRef={editorRef}
-          updatedCommentPosition={updatedCommentPosition}
+          selectedComment={selectedComment}
           selectedRange={selectedRange}
           commentFocusAreaToggle={commentFocusAreaToggle}
         />

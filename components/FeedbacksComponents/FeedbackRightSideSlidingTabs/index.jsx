@@ -12,7 +12,7 @@ const FeedbackRightSideSlidingTabs = ({
   QuestionIndex,
   questionPanelOpen,
 }) => {
-  console.log('the submission is', submission)
+ 
   return (
     <>
       <FeedbackTaskDetails

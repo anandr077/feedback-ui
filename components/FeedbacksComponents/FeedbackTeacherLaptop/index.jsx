@@ -82,7 +82,7 @@ function FeedbackTeacherLaptop(props) {
     selectedRange,
     classesAndStudents,
     teachers,
-    updatedCommentPosition,
+    selectedComment,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -295,7 +295,7 @@ function FeedbackTeacherLaptop(props) {
               setShowStudentPopUp,
               setShowTeacherPopUp,
               editorFontSize,
-              updatedCommentPosition,
+              selectedComment,
               selectedRange
             )}
           </Frame1388>
@@ -507,7 +507,7 @@ function answersAndFeedbacks(
   setShowStudentPopUp,
   setShowTeacherPopUp,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   selectedRange
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
@@ -569,7 +569,7 @@ function answersAndFeedbacks(
             commentsForSelectedTab,
             methods,
             editorFontSize,
-            updatedCommentPosition,
+            selectedComment,
             selectedRange,
             commentFocusAreaToggle,
             openRightPanel,

@@ -121,7 +121,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
   const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
-  const [updatedCommentPosition, setUpdatedCommentPosition] = useState(null);
+  const [selectedComment, setSelectedComment] = useState(null);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -1197,7 +1197,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         );
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
-        setUpdatedCommentPosition(matchingComment);
+        setSelectedComment(matchingComment);
         highlightByComment(matchingComment);
       } else {
         openNewCommentFrame(from, to, serialNumber, selection);
@@ -1554,7 +1554,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedRange,
           classesAndStudents,
           teachers,
-          updatedCommentPosition,
+          selectedComment,
         }}
       />
     </FeedbackContext.Provider>

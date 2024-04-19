@@ -160,7 +160,6 @@ export const CommentDiv = styled.div`
   position: absolute;
   left: 0;
   min-width: 300px;
-  height: auto;
   overflow: hidden;
   padding-left: 60px;
   transition: transform 0.1s ease-in;

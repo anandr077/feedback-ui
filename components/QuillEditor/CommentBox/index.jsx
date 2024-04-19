@@ -65,13 +65,13 @@ const CommentBox = ({
     return () => {
       window.removeEventListener('resize', measureHeights);
     };
-  }, [comments]);
+  }, [comments, selectedComment]);
 
   useEffect(() => {
     let lastCommentBottomPosition = 0;
     let accumulatedHeight = 0;
 
-    const updatedCommentIndex = comments
+    const selectedCommentIndex = comments
       ?.sort((a, b) => a.range.from - b.range.from)
       .findIndex((comment) => comment.id === selectedComment?.id);
 
@@ -95,16 +95,16 @@ const CommentBox = ({
 
         let updatedTopPosition = null;
         if (selectedComment) {
-          let updatedLength =
+          let selectedLength =
             selectedComment?.range.to - selectedComment?.range.from;
-          let updatedBounds;
+          let selectedBounds;
           if (editor) {
-            updatedBounds = editor.getBounds(
+            selectedBounds = editor.getBounds(
               selectedComment?.range.from,
-              updatedLength
+              selectedLength
             );
           }
-          updatedTopPosition = updatedBounds.top;
+          updatedTopPosition = selectedBounds.top;
         }
 
         if (topPosition < lastCommentBottomPosition) {
@@ -112,7 +112,7 @@ const CommentBox = ({
         }
 
         if (
-          index === updatedCommentIndex &&
+          index === selectedCommentIndex &&
           selectedComment &&
           topPosition > updatedTopPosition
         ) {
@@ -120,9 +120,8 @@ const CommentBox = ({
           topPosition = updatedTopPosition;
         }
 
-        if (index < updatedCommentIndex) {
-          accumulatedHeight += commentHeights[index];
-          topPosition -= accumulatedHeight;
+        if (index < selectedCommentIndex) {     
+          topPosition -= commentHeights[index];
         }
 
         lastCommentBottomPosition = topPosition + commentHeights[index];
@@ -227,7 +226,16 @@ const CommentBox = ({
                             id={`comment-${index}`}
                             style={{
                               top: `${comment.topPosition}px`,
-                              transform: selectedComment && comment.id === selectedComment.id ? 'translateX(-35px)' : 'none',
+                              transform:
+                                selectedComment &&
+                                comment.id === selectedComment.id
+                                  ? 'translateX(-35px)'
+                                  : 'none',
+                              height:
+                                selectedComment &&
+                                comment.id === selectedComment.id
+                                  ? 'auto'
+                                  : '100px',
                             }}
                           >
                             <CommentCard32 comment={comment} />

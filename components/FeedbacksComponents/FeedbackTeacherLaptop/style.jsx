@@ -180,26 +180,23 @@ export const Main = styled.div`
   position: fixed;
   top: 70px;
   left: 0;
-  background-color: #f0f0f0; // Example background color
+  background-color: #f0f0f0; 
 `;
 
 export const Main2 = styled.div`
-  width: 300px; // Adjust width as needed
+  width: 300px; 
   height: 100vh;
   overflow-y: auto;
   position: fixed;
   top: 70px;
   left: 0;
-  background-color: #f0f0f0; // Example background color
+  background-color: #f0f0f0; 
 `;
 
 export const Frame1388 = styled.div`
   flex: 1;
-  //width: 100vw;
-  width: calc(100vw - 84px);
+  width: 100vw;
   position: relative;
-  /* transform: ${(props) =>
-    props.open ? 'translateX(170px)' : 'translateX(0px)'}; */
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -207,7 +204,6 @@ export const Frame1388 = styled.div`
   align-self: stretch;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  //max-width: ${(props) => (props.open ? '1100px' : '1300px')};
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -215,9 +211,9 @@ export const Frame1388 = styled.div`
   scrollbar-width: none;
   background: #FAF7FC;
 
-  @media (min-width: 1600px) {
+  /* @media (min-width: 1600px) {
     max-width: 1300px;
-  }
+  }  */
 `;
 
 export const CountZoomContainer = styled.div`
@@ -225,8 +221,6 @@ export const CountZoomContainer = styled.div`
   bottom: 0px;
   display: flex;
   justify-content: space-between;
-  /* transform: ${(props) =>
-    props.open ? 'translateX(310px)' : 'translateX(0px)'}; */
   display: ${props => props.mobileView ? 'none' : ''};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
@@ -353,17 +347,9 @@ export const Frame1315 = styled.div`
 export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
-  //margin: 0 auto;
-  //gap: 32px;
-  //padding: 60px 0px;
-  /* gap: 40px;
-  padding-top: 30px; */
-
   align-self: stretch;
-  //width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
   width: '100%';
   overflow-x: hidden;
-  //max-width: 1321px;
 `;
 
 export const GoBackBtn = styled.button`

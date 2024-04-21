@@ -1556,7 +1556,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedRange,
           classesAndStudents,
           teachers,
-          updatedCommentPosition,
           selectedComment,
         }}
       />

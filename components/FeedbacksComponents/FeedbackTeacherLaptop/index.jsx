@@ -50,6 +50,7 @@ import FeedbackRightSidebar from '../FeedbackRightSidebar';
 import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
+import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 

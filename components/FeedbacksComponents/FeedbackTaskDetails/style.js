@@ -13,33 +13,6 @@ export const FeedbackTaskDetailsContainer = styled.div`
   transition: right 0.3s ease;
 `;
 
-export const Heading = styled.div`
-  position: relative;
-  height: 53px;
-  align-self: stretch;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 4px;
-  padding: 16px;
-  background-color: #f2f1f3;
-  color: #4b464f;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-l);
-  line-height: 20px;
-
-  img{
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-  }
-`;
-
 export const DueDate = styled.div`
   height: 43px;
   padding: 12px 16px;
@@ -64,7 +37,7 @@ export const OtherDetails = styled.div`
   align-items: stretch;
   gap: 12px;
   padding: 12px 16px;
-  border: solid 1px rgba(201, 198, 204, 0.5);
+  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
 
   div {
     font-family: var(--font-family-ibm_plex_sans);
@@ -81,7 +54,7 @@ export const OtherDetails = styled.div`
 
 export const FocusAreasContainer = styled.div`
   padding: 12px 16px;
-  border: solid 1px rgba(201, 198, 204, 0.5);
+  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -102,6 +75,23 @@ export const FocusBody = styled.div`
   gap: 8px;
 `;
 
+export const QuestionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
+  cursor: pointer;
+`;
+
+export const QuestionNumbers = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  font-size: var(--font-size-s);
+  line-height: 19px;
+  color: rgba(75, 70, 79, 1);
+`;
+
 export const FocusArea = styled.div`
   display: flex;
   justify-content: center;
@@ -110,6 +100,7 @@ export const FocusArea = styled.div`
   padding: 8px;
   border-radius: 22px;
   border: solid 1px rgba(201, 198, 204, 0.5);
+  cursor: pointer;
 `;
 
 export const Ellipse141 = styled.div`
@@ -117,7 +108,7 @@ export const Ellipse141 = styled.div`
   height: 16px;
   border-radius: 50%;
   border: solid 1px rgba(178, 174, 183, 0.5);
-  background-color: #d3f6bd;
+  background-color: ${props => props.bg};
 `;
 
 export const Label = styled.div`

@@ -11,6 +11,9 @@ import {
   taskHeaderProps,
   teacherHomeHeaderProps,
   teacherStudentTaskHeaderProps,
+  teacherGetFeedbackHeaderProps,
+  teacherGiveFeedbackHeaderProps,
+  expertTeacherHomeHeaderProps,
 } from '../../utils/headerProps';
 import { getUserRole } from '../../userLocalDetails';
 import { isSmallScreen } from '../ReactiveRender';
@@ -27,28 +30,37 @@ export default function ResponsiveHeader() {
   return <Header headerProps={headerProps} />;
 }
 
-
-
 const getHeaderProps = (location) => {
   if (location.includes('/settings')) return completedHeaderProps(true);
   if (location.includes('/marking')) return completedHeaderProps(true);
   if (location.includes('/documents/')) return docsHeaderProps();
-  if (location.includes('/documentsReview/')) return teacherStudentTaskHeaderProps();
-  if (location.includes('/getFeedback')) return docsHeaderProps();
-  
+  if (location.includes('/documentsReview/'))
+    return teacherStudentTaskHeaderProps();
+  // if (location.includes('/getFeedback')) return docsHeaderProps();
 
   const isTeacher = getUserRole() === 'TEACHER';
   if (isTeacher) {
     if (location.includes('/tasks')) return assignmentsHeaderProps;
     else if (location.includes('/classes')) return classesHomeHeaderProps;
     else if (location.includes('/submissions')) return assignmentsHeaderProps;
+    else if (location.includes('/getFeedback'))
+      return teacherGetFeedbackHeaderProps;
+    else if (location.includes('/giveFeedback'))
+      return Cookies.get('classes')
+        ? teacherGiveFeedbackHeaderProps
+        : expertTeacherHomeHeaderProps;
+    else if (location.includes('/feedbackHistory'))
+      return Cookies.get('classes')
+      ? teacherGiveFeedbackHeaderProps
+      : expertTeacherHomeHeaderProps;
     return assignmentsHeaderProps;
   } else {
     if (location.includes('/getFeedback')) return docsHeaderProps();
     else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;
-    else if (location.includes('/feedbackHistory')) return giveFeedbackHeaderProps;
+    else if (location.includes('/feedbackHistory'))
+      return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
-    return Cookies.get('classes') ? taskHeaderProps : docsHeaderProps() ;
+    return Cookies.get('classes') ? taskHeaderProps : docsHeaderProps();
   }
 };

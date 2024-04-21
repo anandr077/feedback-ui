@@ -10,7 +10,6 @@ import {
 } from 'react';
 import Header from '../../Header';
 import { getUserRole } from '../../../userLocalDetails';
-
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
@@ -48,10 +47,9 @@ import { createRequestFeddbackType } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
 import FeedbackRightSidebar from '../FeedbackRightSidebar';
-import FeedbackTaskDetails from '../FeedbackTaskDetails';
-import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
+import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -84,7 +82,7 @@ function FeedbackTeacherLaptop(props) {
     selectedRange,
     classesAndStudents,
     teachers,
-    updatedCommentPosition,
+    selectedComment,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -255,11 +253,13 @@ function FeedbackTeacherLaptop(props) {
         <>
           {isMobile && <WelcomeOverlayMobile />}
           {sharewithclassdialog}
-          {/* {sidebar()} */}
+          {(submission.otherDrafts || submission.studentsSubmissions) &&
+            sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
             drawerWidth={drawerWidth}
+            open={!location.pathname.includes('/submission') && open}
           >
             {answersAndFeedbacks(
               isMobile,
@@ -295,7 +295,7 @@ function FeedbackTeacherLaptop(props) {
               setShowStudentPopUp,
               setShowTeacherPopUp,
               editorFontSize,
-              updatedCommentPosition,
+              selectedComment,
               selectedRange
             )}
           </Frame1388>
@@ -338,35 +338,47 @@ function FeedbackTeacherLaptop(props) {
   );
 
   function sidebar() {
-    if (isTeacher && isNullOrEmpty(submission.studentsSubmissions)) {
-      return <></>;
-    }
-    if (!isTeacher && submission.type !== 'DOCUMENT') {
-      return <></>;
-    }
     return (
       <>
-        <>
-          {isTeacher ? (
-            <TeacherSidebar open={open} submission={submission} />
-          ) : (
-            !isNullOrEmpty(submission.otherDrafts) && (
-              <IndepentdentUserSidebar
-                open={open}
-                subjects={submission.otherDrafts?.map((d) => ({
-                  id: d.submissionId,
-                  title: d.title,
-                  subject: d.subject,
-                  lastseenAtTs: 1630330000,
-                }))}
-                setSelectedSubject={setSelectedSubject}
-                selectedSubject={selectedSubject}
-                groupedAndSortedData={groupedAndSortedData}
-                currentSubmissionId={submission.id}
-              />
-            )
-          )}
-        </>
+        {isTeacher && submission.studentsSubmissions && (
+          <TeacherSidebar open={open} submission={submission} />
+        )}
+        {!isNullOrEmpty(submission.otherDrafts) && (
+          <IndepentdentUserSidebar
+            open={open}
+            subjects={submission.otherDrafts?.map((d) => ({
+              id: d.submissionId,
+              title: d.title,
+              subject: d.subject,
+              lastseenAtTs: 1630330000,
+            }))}
+            setSelectedSubject={setSelectedSubject}
+            selectedSubject={selectedSubject}
+            groupedAndSortedData={groupedAndSortedData}
+            currentSubmissionId={submission.id}
+          />
+        )}
+
+        {(isTeacher ||
+          submission.otherDrafts ||
+          submission.studentsSubmissions) && (
+          <DrawerArrow
+            onClick={handleDrawer}
+            drawerWidth={drawerWidth}
+            open={open}
+            subjects={submission.otherDrafts?.map((d) => ({
+              id: d.submissionId,
+              title: d.title,
+              subject: d.subject,
+              lastseenAtTs: 1630330000,
+            }))}
+            setSelectedSubject={setSelectedSubject}
+            selectedSubject={selectedSubject}
+            groupedAndSortedData={groupedAndSortedData}
+            currentSubmissionId={submission.id}
+          />
+        )}
+
         {(isTeacher || submission.otherDrafts) && (
           <DrawerArrow
             onClick={handleDrawer}
@@ -382,6 +394,7 @@ function FeedbackTeacherLaptop(props) {
     );
   }
 }
+
 const selectTabComments = (
   showResolved,
   isFocusAreas,
@@ -494,7 +507,7 @@ function answersAndFeedbacks(
   setShowStudentPopUp,
   setShowTeacherPopUp,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   selectedRange
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
@@ -556,10 +569,9 @@ function answersAndFeedbacks(
             commentsForSelectedTab,
             methods,
             editorFontSize,
-            updatedCommentPosition,
+            selectedComment,
             selectedRange,
             commentFocusAreaToggle,
-            setCommentFocusAreaToggle,
             openRightPanel,
             QuestionIndex
           )}
@@ -583,10 +595,13 @@ function answersAndFeedbacks(
             ></FeedbackFrame>
           )} */}
         </Frame1368>
-        <FeedbackTaskDetails
-          handleClick={handleRightSidebarClick}
+        <FeedbackRightSideSlidingTabs
+          handleRightSidebarClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
           submission={submission}
+          groupedFocusAreaIds={groupedFocusAreaIds}
+          QuestionIndex={QuestionIndex}
+          questionPanelOpen={handleRightSidebarClick}
         />
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}
@@ -653,7 +668,8 @@ function createContextBar(
       showStudentPopUp,
       showTeacherPopUp,
       setShowStudentPopUp,
-      setShowTeacherPopUp
+      setShowTeacherPopUp,
+      isTeacher
     );
   }
 

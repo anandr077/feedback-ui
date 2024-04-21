@@ -5,6 +5,7 @@ import PurpleExclamationIcon from '../../../static/img/purpleExclamationIcon.svg
 import CommentsIcon from '../../../static/img/gray_message_2.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import ClockIcon from '../../../static/img/clock_2.svg';
+import TasksIcon from '../../../static/img/task.svg';
 
 const FeedbackRightSidebar = ({ handleClick, openRightPanel }) => {
   return (
@@ -17,6 +18,9 @@ const FeedbackRightSidebar = ({ handleClick, openRightPanel }) => {
           <img src={openRightPanel === 'tab2' ? PurpleCommentsIcon : CommentsIcon} />
         </Button>
         <Button isActive={openRightPanel === 'tab3'} onClick={() => handleClick('tab3')}>
+          <img src={openRightPanel === 'tab3' ? TasksIcon : TasksIcon} />
+        </Button>
+        <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
           <img src={ClockIcon} />
         </Button>
       </TopSection>

@@ -29,6 +29,8 @@ import {
   getTeachersForClass,
   askJeddAI,
   provideFeedbackOnFeedback,
+  getFeedbackBanks,
+  getCommentBank,
 } from '../../../service';
 import {
   getShortcuts,
@@ -110,7 +112,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
   const [overallComments, setOverallComments] = useState([]);
-
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
@@ -120,7 +121,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
   const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
-  const [updatedCommentPosition, setUpdatedCommentPosition] = useState(null);
+  const [selectedComment, setSelectedComment] = useState(null);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -128,7 +129,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     Promise.all([
       getSubmissionById(id),
       getComments(id),
-      getSmartAnnotations(),
       fetchClassWithStudentsAndTeachers(),
       getOverComments(id),
     ])
@@ -136,7 +136,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         ([
           submissionsResult,
           commentsResult,
-          smartAnnotationResult,
           classWithTeacherAndStudentsResult,
           overAllCommentsResult,
         ]) => {
@@ -152,7 +151,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             (c) => c.type === 'MARKING_CRITERIA'
           );
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
-          setSmartAnnotations(smartAnnotationResult);
 
           const initialState = classWithTeacherAndStudentsResult.reduce(
             (acc, classItem) => {
@@ -189,8 +187,23 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
-      getSubmissionsByAssignmentId(submission.assignment.id)
-        .then((allSubmissions) => {
+      // alert("sub" + JSON.stringify(submission.assignment))
+      const commentBankIds = submission.assignment.questions
+        .filter(
+          (q) => q.commentBankId !== undefined && q.commentBankId !== null
+        )
+        .map((q) => q.commentBankId);
+
+      const commentBankPromises = commentBankIds.map(getCommentBank);
+
+      Promise.all([
+        getSubmissionsByAssignmentId(submission.assignment.id),
+        ...commentBankPromises,
+      ])
+        .then(([allSubmissions, ...commentBanks]) => {
+          setSmartAnnotations(
+            commentBanks.filter((cb) => cb !== undefined && cb !== null)
+          );
           setStudents(extractStudents(allSubmissions));
           let currentSubmissionIndex = 0;
           const allExceptCurrent = allSubmissions.map((r, index) => {
@@ -1185,7 +1198,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         );
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
-        setUpdatedCommentPosition(matchingComment);
+        setSelectedComment(matchingComment);
         highlightByComment(matchingComment);
       } else {
         openNewCommentFrame(from, to, serialNumber, selection);
@@ -1544,6 +1557,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           classesAndStudents,
           teachers,
           updatedCommentPosition,
+          selectedComment,
         }}
       />
     </FeedbackContext.Provider>

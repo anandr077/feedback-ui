@@ -154,8 +154,13 @@ export const MainSideContainer = styled.div`
   height: 100%;
   width: 360px;
   z-index: 546;
-  /* overflow-x: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  background-color: green; */
+`;
+
+export const CommentDiv = styled.div`
+  position: absolute;
+  left: 0;
+  min-width: 300px;
+  overflow: hidden;
+  padding-left: 60px;
+  transition: transform 0.1s ease-in;
 `;

@@ -26,12 +26,12 @@ const QuillEditor = React.forwardRef(
       onDebounce,
       nonEditable,
       editorFontSize,
-      updatedCommentPosition,
+      selectedComment,
       methods,
       pageMode,
       submission,
       selectedRange,
-      commentFocusAreaToggle
+      commentFocusAreaToggle,
     },
     ref
   ) => {
@@ -132,15 +132,15 @@ const QuillEditor = React.forwardRef(
     }, [editor, editorRef, options, value, editorFontSize]);
 
     useEffect(() => {
-      if (editor) {
+      if (editor && Array.isArray(comments) && comments.length > 0) {
         removeAllHighlights(editor);
-        comments.forEach((comment) => {
+        comments?.forEach((comment) => {
           if (comment.range) {
             addCommentHighlight(editor, comment);
           }
         });
       }
-    }, [editor]);
+    }, [editor, comments]);
 
     useEffect(() => {
       if (editor) {
@@ -215,7 +215,7 @@ const QuillEditor = React.forwardRef(
       redrawHighlights(comments) {
         if (editor) {
           removeAllHighlights(editor);
-          comments.forEach((comment) => {
+          comments?.forEach((comment) => {
             if (comment.isHidden !== undefined && comment.isHidden !== null)
               highlightCommentRange(editor, comment);
           });
@@ -314,10 +314,10 @@ const QuillEditor = React.forwardRef(
           pageMode={pageMode}
           submission={submission}
           methods={methods}
-          comments={comments}
+          comments={comments.filter((comment) => comment.type === 'COMMENT')}
           editor={editor}
           editorRef={editorRef}
-          updatedCommentPosition={updatedCommentPosition}
+          selectedComment={selectedComment}
           selectedRange={selectedRange}
           commentFocusAreaToggle={commentFocusAreaToggle}
         />

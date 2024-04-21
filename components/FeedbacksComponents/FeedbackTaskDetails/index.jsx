@@ -1,36 +1,45 @@
 import React from 'react';
 import {
   FeedbackTaskDetailsContainer,
-  Heading,
   DueDate,
   OtherDetails,
   FocusAreasContainer,
   FocusHeading,
   FocusBody,
+  QuestionContainer,
+  QuestionNumbers,
   FocusArea,
   Ellipse141,
   Label,
 } from './style';
-import CloseIcon from '../../../static/img/close.svg';
+import RightArrow from '../../../static/img/19grayrightindicator.svg';
+import RightSidebarHeading from '../RightSidebarHeading';
 
-const FeedbackTaskDetails = ({ handleClick, openRightPanel, submission }) => {
+const FeedbackTaskDetails = ({
+  handleClose,
+  openRightPanel,
+  submission,
+  QuestionIndex,
+  groupedFocusAreaIds,
+  questionPanelOpen
+}) => {
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-GB', options);
   };
+
+  const question = submission.assignment.questions[QuestionIndex];
+
   return (
     <FeedbackTaskDetailsContainer openRightPanel={openRightPanel}>
-      <Heading>
-        Task Details
-        <img src={CloseIcon} onClick={() => handleClick('')} />
-      </Heading>
+      <RightSidebarHeading title={'Task Details'} handleClose={handleClose}/>
       <DueDate>
         <span>Due on: </span> {formatDate(submission?.assignment.dueAt)}
       </DueDate>
       <OtherDetails>
         <div>
           <span>Marking Method: </span>
-          Rubric
+          {question?.markingCriteria.type}
         </div>
         <div>
           <span>Graded Task: </span>
@@ -44,28 +53,20 @@ const FeedbackTaskDetails = ({ handleClick, openRightPanel, submission }) => {
       <FocusAreasContainer>
         <FocusHeading>Focus Areas</FocusHeading>
         <FocusBody>
-          <FocusArea>
-            <Ellipse141></Ellipse141>
-            <Label>Focus Area 1</Label>
-          </FocusArea>
-          <FocusArea>
-            <Ellipse141></Ellipse141>
-            <Label>Focus Area 1</Label>
-          </FocusArea>
-          <FocusArea>
-            <Ellipse141></Ellipse141>
-            <Label>Focus Area 1</Label>
-          </FocusArea>
-          <FocusArea>
-            <Ellipse141></Ellipse141>
-            <Label>Focus Area 1</Label>
-          </FocusArea>
-          <FocusArea>
-            <Ellipse141></Ellipse141>
-            <Label>Focus Area 1</Label>
-          </FocusArea>
+          {question?.focusAreas?.map((fa) => {
+            return (
+              <FocusArea>
+                <Ellipse141 bg={fa.color}></Ellipse141>
+                <Label>{fa.title}</Label>
+              </FocusArea>
+            );
+          })}
         </FocusBody>
       </FocusAreasContainer>
+      <QuestionContainer onClick={()=> questionPanelOpen('tab3')}>
+        <QuestionNumbers>{submission.assignment.questions.length} Questions</QuestionNumbers>
+        <img src={RightArrow}/>
+      </QuestionContainer>
     </FeedbackTaskDetailsContainer>
   );
 };

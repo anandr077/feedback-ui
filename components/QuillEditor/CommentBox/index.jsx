@@ -12,6 +12,7 @@ import {
   ShortcutList,
   Frame1383,
   Frame13311,
+  CommentDiv,
   Crown,
   ExemplarComponent,
   MainSideContainer,
@@ -36,7 +37,7 @@ const CommentBox = ({
   comments,
   editor,
   editorRef,
-  updatedCommentPosition,
+  selectedComment,
   selectedRange,
   commentFocusAreaToggle,
 }) => {
@@ -44,12 +45,13 @@ const CommentBox = ({
     useContext(FeedbackContext);
   const [commentHeights, setCommentHeights] = useState([]);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
+  const [openCommentBox, setOpenCommentbox] = useState(false);
 
   useEffect(() => {
-    const heights = comments.map(() => 0);
+    const heights = comments?.map(() => 0);
     setCommentHeights(heights);
     const measureHeights = () => {
-      const newHeights = comments.map((_, index) => {
+      const newHeights = comments?.map((_, index) => {
         const element = document.getElementById(`comment-${index}`);
         return element ? element.clientHeight : 0;
       });
@@ -63,18 +65,18 @@ const CommentBox = ({
     return () => {
       window.removeEventListener('resize', measureHeights);
     };
-  }, [comments]);
+  }, [comments, selectedComment]);
 
   useEffect(() => {
     let lastCommentBottomPosition = 0;
     let accumulatedHeight = 0;
 
-    const updatedCommentIndex = comments
-      .sort((a, b) => a.range.from - b.range.from)
-      .findIndex((comment) => comment.id === updatedCommentPosition?.id);
+    const selectedCommentIndex = comments
+      ?.sort((a, b) => a.range.from - b.range.from)
+      .findIndex((comment) => comment.id === selectedComment?.id);
 
     const groupedComments = comments
-      .sort((a, b) => a.range.from - b.range.from)
+      ?.sort((a, b) => a.range.from - b.range.from)
       .map((comment, index) => {
         if (!editorRef.current) return null;
 
@@ -92,18 +94,17 @@ const CommentBox = ({
         let topPosition = boundsIs.top;
 
         let updatedTopPosition = null;
-        if (updatedCommentPosition) {
-          let updatedLength =
-            updatedCommentPosition?.range.to -
-            updatedCommentPosition?.range.from;
-          let updatedBounds;
+        if (selectedComment) {
+          let selectedLength =
+            selectedComment?.range.to - selectedComment?.range.from;
+          let selectedBounds;
           if (editor) {
-            updatedBounds = editor.getBounds(
-              updatedCommentPosition?.range.from,
-              updatedLength
+            selectedBounds = editor.getBounds(
+              selectedComment?.range.from,
+              selectedLength
             );
           }
-          updatedTopPosition = updatedBounds.top;
+          updatedTopPosition = selectedBounds.top;
         }
 
         if (topPosition < lastCommentBottomPosition) {
@@ -111,20 +112,17 @@ const CommentBox = ({
         }
 
         if (
-          index === updatedCommentIndex &&
-          updatedCommentPosition &&
+          index === selectedCommentIndex &&
+          selectedComment &&
           topPosition > updatedTopPosition
         ) {
           accumulatedHeight = 0;
           topPosition = updatedTopPosition;
         }
 
-        if (index < updatedCommentIndex) {
-          accumulatedHeight += commentHeights[index];
-          topPosition -= accumulatedHeight;
+        if (index < selectedCommentIndex) {     
+          topPosition -= commentHeights[index];
         }
-
-        //const newTopPosition = topPosition;
 
         lastCommentBottomPosition = topPosition + commentHeights[index];
 
@@ -135,7 +133,7 @@ const CommentBox = ({
     let groupedCommentsWithGap = [];
     let currentGroup = [];
 
-    groupedComments.forEach((comment, index) => {
+    groupedComments?.forEach((comment, index) => {
       if (currentGroup.length === 0) {
         currentGroup.push(comment);
       } else {
@@ -157,7 +155,7 @@ const CommentBox = ({
     }
 
     setGroupedCommentsWithGap(groupedCommentsWithGap);
-  }, [editor, editorRef, updatedCommentPosition, comments, commentHeights]);
+  }, [editor, editorRef, selectedComment, comments, commentHeights]);
 
   let commentInputTopPosition;
   if (selectedRange) {
@@ -185,7 +183,7 @@ const CommentBox = ({
             >
               <Screen onClick={methods.hideNewCommentDiv}></Screen>
               <OptionContainer>
-                <Option>
+                <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
                   <img src={CommentIcon} />
                 </Option>
                 <Option>
@@ -198,47 +196,18 @@ const CommentBox = ({
                   <img src={ThumbsupIcon} />
                 </Option>
               </OptionContainer>
-              {newCommentFrame(
-                pageMode,
-                submission,
-                newCommentSerialNumber,
-                methods
-                // newCommentFrameRef,
-                // share
-              )}
+              {openCommentBox &&
+                newCommentFrame(
+                  pageMode,
+                  submission,
+                  newCommentSerialNumber,
+                  methods
+                  // newCommentFrameRef,
+                  // share
+                )}
             </MainSideContainer>
           ) : (
             <MainSideContainer>
-              <OptionContainer>
-                <Option>
-                  <img src={CommentIcon} />
-                </Option>
-                <Option>
-                  <img src={AlphabetIcon} />
-                </Option>
-                <Option>
-                  <img src={ShareIcon} />
-                </Option>
-                <Option>
-                  <img src={ThumbsupIcon} />
-                </Option>
-              </OptionContainer>
-              {groupedCommentsWithGap.length > 0 && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: `${groupedCommentsWithGap[0][0].topPosition - 150}px`,
-                    zIndex: 1000,
-                  }}
-                >
-                  {newCommentFrame(
-                    pageMode,
-                    submission,
-                    newCommentSerialNumber,
-                    methods
-                  )}
-                </div>
-              )}
               <ul
                 style={{
                   height: '100%',
@@ -252,21 +221,25 @@ const CommentBox = ({
                       .filter((comment) => comment.type === 'COMMENT')
                       .map((comment, index) => {
                         return (
-                          <div
+                          <CommentDiv
                             key={index}
                             id={`comment-${index}`}
                             style={{
-                              position: 'absolute',
                               top: `${comment.topPosition}px`,
-                              left: '0',
-                              minWidth: '300px',
-                              height: 'auto',
-                              overflow: 'hidden',
-                              paddingLeft: '60px',
+                              transform:
+                                selectedComment &&
+                                comment.id === selectedComment.id
+                                  ? 'translateX(-35px)'
+                                  : 'none',
+                              height:
+                                selectedComment &&
+                                comment.id === selectedComment.id
+                                  ? 'auto'
+                                  : '100px',
                             }}
                           >
                             <CommentCard32 comment={comment} />
-                          </div>
+                          </CommentDiv>
                         );
                       })}
                   </div>

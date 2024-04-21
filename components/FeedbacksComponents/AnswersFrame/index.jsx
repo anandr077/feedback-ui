@@ -22,7 +22,7 @@ import {
   Frame1366,
   Frame1367,
   FocusAreaContainer,
-  AddCommentDiv,
+  AddCommentFocusAreaDiv,
   Group1225,
   Label,
   QuestionText,
@@ -35,7 +35,12 @@ import OverallFeedback from '../../OverallFeedback';
 import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import FocusAreaCard from '../../FocusAreaCard';
-import AddCommentInstruction from '../AddCommentInstruction';
+import AddCommentFocusAreaInstruction from '../AddCommentFocusAreaInstruction';
+import ABCIcon from '../../../static/img/abc34.svg';
+import RedabcIcon from '../../../static/img/redabc.svg';
+import CommentGroupIcon from '../../../static/img/commentgroupicon.svg';
+import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
+import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 
 export function answersFrame(
   quillRefs,
@@ -47,10 +52,9 @@ export function answersFrame(
   commentsForSelectedTab,
   methods,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   selectedRange,
   commentFocusAreaToggle,
-  setCommentFocusAreaToggle,
   openRightPanel,
   QuestionIndex
 ) {
@@ -75,11 +79,10 @@ export function answersFrame(
       setComments={methods.setComments}
       comments={methods.comments}
       editorFontSize={editorFontSize}
-      updatedCommentPosition={updatedCommentPosition}
+      selectedComment={selectedComment}
       methods={methods}
       selectedRange={selectedRange}
       commentFocusAreaToggle={commentFocusAreaToggle}
-      setCommentFocusAreaToggle={setCommentFocusAreaToggle}
       openRightPanel={openRightPanel}
       QuestionIndex={QuestionIndex}
     ></AnswersFrame>
@@ -105,15 +108,21 @@ function AnswersFrame(props) {
     setComments,
     comments,
     editorFontSize,
-    updatedCommentPosition,
+    selectedComment,
     methods,
     selectedRange,
     commentFocusAreaToggle,
-    setCommentFocusAreaToggle,
     openRightPanel,
-    QuestionIndex
+    QuestionIndex,
   } = props;
-  console.log('the submissions are', comments)
+  const [showAddingCommentDesc, setShowAddingCommentDesc] =
+    React.useState(true);
+  const generalComments = comments.filter(
+    (comment) => comment.type === 'COMMENT'
+  );
+  const focusAreaComments = comments.filter(
+    (comment) => comment.type === 'FOCUS_AREA'
+  );
 
   return (
     <Group1225 id="answers">
@@ -136,27 +145,49 @@ function AnswersFrame(props) {
           setComments,
           comments,
           editorFontSize,
-          updatedCommentPosition,
+          selectedComment,
           methods,
           selectedRange,
           commentFocusAreaToggle,
-          setCommentFocusAreaToggle,
+          setShowAddingCommentDesc,
           QuestionIndex
         )}
       </Frame1367>
-      {commentFocusAreaToggle && (
-        <FocusAreaContainer moveToLeft={openRightPanel}>
-          <FocusAreaCard
-            comments={comments.filter(
-              (comment) => comment.type === 'FOCUS_AREA'
-            )}
-          />
+      {commentFocusAreaToggle && focusAreaComments.length !== 0 && (
+        <FocusAreaContainer
+          id={'FocusAreaContainer'}
+          moveToLeft={openRightPanel}
+        >
+          <FocusAreaCard comments={focusAreaComments} />
         </FocusAreaContainer>
       )}
-      {comments.length === 0 && (
-        <AddCommentDiv moveToLeft={openRightPanel}>
-           <AddCommentInstruction />
-        </AddCommentDiv>
+      {showAddingCommentDesc && (
+        <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
+          {commentFocusAreaToggle && focusAreaComments.length === 0 && (
+            <AddCommentFocusAreaInstruction
+              heading={'How to use Focus Areas:'}
+              firstIcon={RedabcIcon}
+              firstStep={
+                'Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab).'
+              }
+              secondIcon={ColorCircleIcon}
+              secondStep={'Click the focus area that matches your selection.'}
+              thirdIcon={RefreshIcon}
+              thirdStep={'Repeat this process for each focus area.'}
+            />
+          )}
+          {!commentFocusAreaToggle && generalComments.length === 0 && (
+            <AddCommentFocusAreaInstruction
+              heading={'Adding Comments'}
+              firstIcon={ABCIcon}
+              firstStep={'Highlight a section of the response'}
+              secondIcon={CommentGroupIcon}
+              secondStep={'Click the comment icon from the provided options'}
+              thirdIcon={RefreshIcon}
+              thirdStep={'Repeat this process to add more comments'}
+            />
+          )}
+        </AddCommentFocusAreaDiv>
       )}
     </Group1225>
   );
@@ -208,11 +239,11 @@ const answerFrames = (
   setComments,
   comments,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   methods,
   selectedRange,
   commentFocusAreaToggle,
-  setCommentFocusAreaToggle,
+  setShowAddingCommentDesc,
   QuestionIndex
 ) => {
   const { overallComments } = useContext(FeedbackContext);
@@ -261,7 +292,7 @@ const answerFrames = (
                   createVisibleComments(commentsForSelectedTab),
                   answer.serialNumber
                 )(quillRefs.current[answer.serialNumber - 1].getSelection());
-                setCommentFocusAreaToggle(false);
+                setShowAddingCommentDesc(false);
               }}
               id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
             >
@@ -275,7 +306,7 @@ const answerFrames = (
                 debounce,
                 handleEditorMounted,
                 editorFontSize,
-                updatedCommentPosition,
+                selectedComment,
                 methods,
                 selectedRange,
                 commentFocusAreaToggle
@@ -356,13 +387,13 @@ function createQuill(
   debounce,
   handleEditorMounted,
   editorFontSize,
-  updatedCommentPosition,
+  selectedComment,
   methods,
   selectedRange,
   commentFocusAreaToggle
 ) {
   return (
-    <div style={{width: '100%'}}>
+    <div style={{ width: '100%' }}>
       <QuillEditor
         key={
           'quillEditor_' +
@@ -394,7 +425,7 @@ function createQuill(
           pageMode === 'REVISE'
         }
         editorFontSize={editorFontSize}
-        updatedCommentPosition={updatedCommentPosition}
+        selectedComment={selectedComment}
         methods={methods}
         pageMode={pageMode}
         submission={submission}

@@ -17,10 +17,10 @@ function MarkingCriteriaCard(props) {
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
   return (
-    <MarkingCriteriaEntry isHovered={markingCriteria?.teacherId ? true : false}>
+    <MarkingCriteriaEntry isHovered={!markingCriteria?.isSystem ? true : false}>
       <MarkingCriteriaEntryHeading
         onClick={() =>
-          markingCriteria?.teacherId
+          !markingCriteria?.isSystem
             ? navigateToMarkingCriteriaUrl(
                 markingCriteria.id,
                 markingCriteria.type

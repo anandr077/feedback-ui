@@ -18,7 +18,12 @@ function Buttons2(props) {
   return (
     <ButtonsContainer>
       <TooltipWrapper>
-        <Buttons>
+        <Buttons
+          onClick={(e) => {
+            setMarkingCriteriaPreviewDialog(true);
+            e.stopPropagation();
+          }}
+        >
           <img
             src="/icons/preview-eye.png"
             alt="preview"
@@ -29,21 +34,18 @@ function Buttons2(props) {
               height: '12px',
               width: '12px',
             }}
-            onClick={(e) => {
-              setMarkingCriteriaPreviewDialog(true);
-              e.stopPropagation();
-            }}
           />
         </Buttons>
         <span className="tooltip-text">Preview</span>
       </TooltipWrapper>
       <TooltipWrapper>
-        <Buttons>
+        <Buttons
+          onClick={(e) => {
+            cloneMarkingCriteria();
+            e.stopPropagation();
+          }}
+        >
           <img
-            onClick={(e) => {
-              cloneMarkingCriteria();
-              e.stopPropagation();
-            }}
             src="/img/copy@2x.png"
             alt="copy"
             style={{
@@ -58,14 +60,14 @@ function Buttons2(props) {
       <TooltipWrapper>
         <DeleteButtonContainer
           onClick={(e) => {
-            markingCriteria?.teacherId
+            !markingCriteria?.isSystem
               ? deleteMarkingCriteriaHandler(markingCriteria.id)
               : {};
             e.stopPropagation();
           }}
-          isHovered={markingCriteria?.teacherId ? true : false}
+          isHovered={!markingCriteria?.isSystem ? true : false}
         >
-          {markingCriteria?.teacherId ? (
+          {!markingCriteria?.isSystem ? (
             <Arrowright src="/icons/delete-logo.svg" alt="delete" />
           ) : (
             <Arrowright
@@ -74,7 +76,7 @@ function Buttons2(props) {
             />
           )}
         </DeleteButtonContainer>
-        {markingCriteria?.teacherId ? (
+        {!markingCriteria?.isSystem ? (
           <span className="tooltip-text">Delete</span>
         ) : (
           <span></span>

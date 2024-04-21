@@ -58,14 +58,14 @@ function Buttons2(props) {
       <TooltipWrapper>
         <DeleteButtonContainer
           onClick={(e) => {
-            markingCriteria?.teacherId
+            !markingCriteria?.isSystem
               ? deleteMarkingCriteriaHandler(markingCriteria.id)
               : {};
             e.stopPropagation();
           }}
-          isHovered={markingCriteria?.teacherId ? true : false}
+          isHovered={!markingCriteria?.isSystem ? true : false}
         >
-          {markingCriteria?.teacherId ? (
+          {!markingCriteria?.isSystem ? (
             <Arrowright src="/icons/delete-logo.svg" alt="delete" />
           ) : (
             <Arrowright
@@ -74,7 +74,7 @@ function Buttons2(props) {
             />
           )}
         </DeleteButtonContainer>
-        {markingCriteria?.teacherId ? (
+        {!markingCriteria?.isSystem ? (
           <span className="tooltip-text">Delete</span>
         ) : (
           <span></span>

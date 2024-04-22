@@ -13,7 +13,6 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
-import { getUserRole } from '../../userLocalDetails';
 import CommentBox from './CommentBox';
 
 const QuillEditor = React.forwardRef(

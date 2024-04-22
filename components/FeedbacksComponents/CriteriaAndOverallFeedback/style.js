@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const MainContainer = styled.div`
   position: absolute;
-  right: ${props => props.openRightPanel === 'tab2' ? '48px' : '-287px'};
+  right: ${(props) => (props.openRightPanel === 'tab2' ? '48px' : '-287px')};
   top: 0;
   bottom: 0;
   width: 287px;
@@ -14,6 +14,7 @@ export const MainContainer = styled.div`
 `;
 
 export const Heading = styled.div`
+  width: 100%;
   position: relative;
   height: 53px;
   align-self: stretch;
@@ -144,4 +145,77 @@ export const FeedbackBtn = styled.div`
   color: rgba(114, 0, 224, 1);
   margin-top: 14px;
   cursor: pointer;
+`;
+export const MarkingCriteriaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 16px;
+  border: 1px solid #c9c6cc80;
+  border-radius: 6px;
+  height: 470px;
+`;
+export const MarkingCriteriaHeading = styled.p`
+  width: 100%;
+  padding: 12px 20px;
+  background-color: #f2f1f3;
+  color: #4b464f;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20.8px;
+  letter-spacing: -0.01em;
+  text-align: left;
+  border-bottom: 1px solid #c9c6cc80;
+`;
+
+export const MarkRubricsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  background-color: #ffffff;
+  padding: 8px;
+  gap: 4px;
+`;
+export const MarkRubricContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+export const MarkRubricTitle = styled.p`
+  display: flex;
+  background-color: #f2f1f3;
+  color: #56515b;
+  font-family: var(--font-family-ibm_plex_sans);
+  align-text: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+`;
+
+export const MarkRubricLevelContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+`;
+
+export const LevelName = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  background-color: #f2f1f3;
+  color: #56515b;
+  width: 20%;
+`;
+export const LevelDesc = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  background-color: #ffffff;
+  color: #56515b;
+  width: 80%;
 `;

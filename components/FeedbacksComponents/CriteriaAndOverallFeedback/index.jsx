@@ -12,6 +12,7 @@ import {
   OverallFeedbackContainer,
   TextFeedback,
   FeedbackBtn,
+  MarkingCriteriaContainer,
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
@@ -23,6 +24,13 @@ import AudioRecorder from '../../AudioRecorder';
 import { base64ToBlob, blobToBase64 } from '../../../utils/blobs';
 import OverallFeedback from '../../OverallFeedback';
 import NewOverallFeedback from '../../NewOverallFeedback';
+import { MarkingCriteriaHeading } from './style';
+import { MarkRubricContainer } from './style';
+import { MarkRubricsContainer } from './style';
+import { MarkRubricTitle } from './style';
+import { MarkRubricLevelContainer } from './style';
+import { LevelName } from './style';
+import { LevelDesc } from './style';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
 
 const CriteriaAndOverallFeedback = ({
@@ -32,14 +40,16 @@ const CriteriaAndOverallFeedback = ({
   addOverallFeedback,
   updateOverAllFeedback,
   pageMode,
+  submission,
 }) => {
   console.log('pageMode', pageMode);
-  const { overallComments, comments } = useContext(FeedbackContext);
-  console.log('FeedbackContext', useContext(FeedbackContext));
+  const { overallComments, comments, markingCriteriaFeedback } =
+    useContext(FeedbackContext);
+  console.log('submission', submission);
   console.log('QuestionIndex', QuestionIndex);
-  console.log('overallComments', overallComments, comments);
   const [inputValue, setInputValue] = useState('');
   const [overallComment, setOverallComment] = useState({});
+  const [markingCriteria, setMarkingCriteria] = useState();
   const handleInputChange = (event) => {
     const allowedChars = /^[0-9]$|^$/;
     if (allowedChars.test(event.target.value)) {
@@ -48,13 +58,15 @@ const CriteriaAndOverallFeedback = ({
   };
 
   useEffect(() => {
-    console.log('comments', comments);
     const commentObject = (
       overallComments.length != 0 ? overallComments : comments
     ).find((comment) => comment.questionSerialNumber === QuestionIndex + 1);
-    console.log('first comment', commentObject);
     setOverallComment(commentObject);
-  }, [overallComments, QuestionIndex, comments]);
+    const markingCriteria =
+      submission?.assignment?.questions[QuestionIndex].markingCriteria;
+    console.log('markingCriteria', markingCriteria);
+    setMarkingCriteria(markingCriteria);
+  }, [overallComments, QuestionIndex, comments, submission]);
 
   return (
     <MainContainer openRightPanel={openRightPanel}>
@@ -81,6 +93,30 @@ const CriteriaAndOverallFeedback = ({
         </RubricInputContainer>
         <RubricButton>Rubric</RubricButton>
       </RubricContainer>
+      <MarkingCriteriaContainer>
+        <MarkingCriteriaHeading>
+          {markingCriteria?.type === 'RUBRICS'
+            ? 'Rubric'
+            : 'Strengths and Targets'}
+        </MarkingCriteriaHeading>
+        {markingCriteria?.type === 'RUBRICS' ? (
+          <MarkRubricsContainer>
+            {markingCriteria.criterias.map((rubrics) => (
+              <MarkRubricContainer key={rubrics.title}>
+                <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
+                {rubrics.levels.map((level) => (
+                  <MarkRubricLevelContainer key={level.name}>
+                    <LevelName>{level.name}</LevelName>
+                    <LevelDesc>{level.description}</LevelDesc>
+                  </MarkRubricLevelContainer>
+                ))}
+              </MarkRubricContainer>
+            ))}
+          </MarkRubricsContainer>
+        ) : (
+          <></>
+        )}
+      </MarkingCriteriaContainer>
       <Heading>
         <HeadingTitle>
           Overall Feedback

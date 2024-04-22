@@ -150,6 +150,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           const markingCriteriaFeedback = allComments?.filter(
             (c) => c.type === 'MARKING_CRITERIA'
           );
+          console.log('firstmarkingCriteriaFeedback', markingCriteriaFeedback);
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
 
           const initialState = classWithTeacherAndStudentsResult.reduce(

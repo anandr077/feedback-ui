@@ -17,6 +17,7 @@ import {
 } from '../../../service';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
+import { useHistory } from 'react-router-dom';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
@@ -27,6 +28,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
+  const history = useHistory();
 
   React.useEffect(() => {
     Promise.all([getAllMarkingCriteria()]).then(([result]) => {
@@ -154,7 +156,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         isUpdating ? 'Marking criteria updated' : 'Marking criteria created'
       );
       window.localStorage.setItem('markingCriteria', 'true');
-      window.location.href = '#settings';
+      history.push('/settings');
     } else {
       return;
     }
@@ -165,7 +167,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       .then(() => {
         showSnackbar('Marking criteria deleted');
         window.localStorage.setItem('markingCriteria', 'true');
-        window.location.href = '/#settings';
+        history.push('/settings');
       })
       .catch((error) => {
         showSnackbar('An error occured while deleting marking criteria');

@@ -43,6 +43,8 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const role = getUserRole();
@@ -222,6 +224,18 @@ function App() {
             </Route>
             <Redirect to="/404" />
           </Switch>
+          <ToastContainer
+            position="bottom-left"
+            autoClose={6000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme="dark"
+          />
           <Snackbar
             open={snackbarOpen}
             message={snackbarMessage}

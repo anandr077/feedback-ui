@@ -321,7 +321,7 @@ function reviewerNewComment(
                 <TypeHere>
                   <FocussedInput
                     id="newCommentInput"
-                    ref={newCommentFrameRef}
+                    //ref={newCommentFrameRef}
                     placeholder="Comment here...."
                   ></FocussedInput>
                 </TypeHere>
@@ -336,10 +336,10 @@ function reviewerNewComment(
                 {shortcutList(methods, smartAnnotations)}
               </ShortcutList> */}
           </SmartAnnotationsComponent>
-            <ExemplarComponent>
+            {/* <ExemplarComponent>
               {shareWithClassFrame(methods, share)}
               {shareWithClassFrame(methods)}
-            </ExemplarComponent>
+            </ExemplarComponent> */}
         </Frame1406>
       </Frame1329>
     </>

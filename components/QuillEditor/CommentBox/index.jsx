@@ -29,6 +29,7 @@ import { Share } from '@mui/icons-material';
 import Buttons4 from '../../FeedbacksComponents/Buttons4';
 import FocusAreasFrame from '../../FeedbacksComponents/FocusAreasFrame';
 import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
+import { getUserRole } from '../../../userLocalDetails';
 
 const CommentBox = ({
   pageMode,
@@ -40,12 +41,18 @@ const CommentBox = ({
   selectedComment,
   selectedRange,
   commentFocusAreaToggle,
+  newCommentFrameRef,
+  share
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
   const [commentHeights, setCommentHeights] = useState([]);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
   const [openCommentBox, setOpenCommentbox] = useState(false);
+  const isTeacher = getUserRole() === 'TEACHER';
+
+  console.log('editorRef is', editorRef);
+  console.log('selectedComment is', selectedComment);
 
   useEffect(() => {
     const heights = comments?.map(() => 0);
@@ -69,7 +76,6 @@ const CommentBox = ({
 
   useEffect(() => {
     let lastCommentBottomPosition = 0;
-    let accumulatedHeight = 0;
 
     const selectedCommentIndex = comments
       ?.sort((a, b) => a.range.from - b.range.from)
@@ -116,11 +122,10 @@ const CommentBox = ({
           selectedComment &&
           topPosition > updatedTopPosition
         ) {
-          accumulatedHeight = 0;
           topPosition = updatedTopPosition;
         }
 
-        if (index < selectedCommentIndex) {     
+        if (index < selectedCommentIndex) {
           topPosition -= commentHeights[index];
         }
 
@@ -201,9 +206,9 @@ const CommentBox = ({
                   pageMode,
                   submission,
                   newCommentSerialNumber,
-                  methods
-                  // newCommentFrameRef,
-                  // share
+                  methods,
+                  newCommentFrameRef,
+                  share
                 )}
             </MainSideContainer>
           ) : (
@@ -238,7 +243,28 @@ const CommentBox = ({
                                   : '100px',
                             }}
                           >
-                            <CommentCard32 comment={comment} />
+                            <CommentCard32
+                              reviewer={comment.reviewerName}
+                              comment={comment}
+                              onClick={(c) => methods.handleCommentSelected(c)}
+                              onClose={() =>
+                                methods.handleDeleteComment(comment.id)
+                              }
+                              handleEditingComment={methods.handleEditingComment}
+                              deleteReplyComment={methods.handleDeleteReplyComment}
+                              onResolved={methods.handleResolvedComment}
+                              handleReplyComment={methods.handleReplyComment}
+                              isResolved={comment.status}
+                              showResolveButton={false}
+                              isTeacher={isTeacher}
+                              updateParentComment={methods.updateParentComment}
+                              updateChildComment={methods.updateChildComment}
+                              pageMode={pageMode}
+                              openShareWithStudentDialog={methods.handleShareWithClass}
+                              convertToCheckedState={methods.convertToCheckedState}
+                              updateExemplarComment={methods.setUpdateExemplarComment}
+                              studentId={submission.studentId}
+                            />
                           </CommentDiv>
                         );
                       })}
@@ -259,25 +285,25 @@ const newCommentFrame = (
   pageMode,
   submission,
   newCommentSerialNumber,
-  methods
-  // newCommentFrameRef,
-  // share
+  methods,
+  newCommentFrameRef,
+  share
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
   return reviewerNewComment(
     methods,
-    // newCommentFrameRef,
-    // share,
+    newCommentFrameRef,
+    share,
     pageMode
   );
 };
 
 function reviewerNewComment(
   methods,
-  // newCommentFrameRef,
-  // share,
+  newCommentFrameRef,
+  share,
   pageMode
 ) {
   const { smartAnnotations } = useContext(FeedbackContext);
@@ -293,7 +319,7 @@ function reviewerNewComment(
                 <TypeHere>
                   <FocussedInput
                     id="newCommentInput"
-                    //ref={newCommentFrameRef}
+                    ref={newCommentFrameRef}
                     placeholder="Comment here...."
                   ></FocussedInput>
                 </TypeHere>
@@ -308,10 +334,10 @@ function reviewerNewComment(
                 {shortcutList(methods, smartAnnotations)}
               </ShortcutList> */}
           </SmartAnnotationsComponent>
-          {/* <ExemplarComponent>
+            <ExemplarComponent>
               {shareWithClassFrame(methods, share)}
               {shareWithClassFrame(methods)}
-            </ExemplarComponent> */}
+            </ExemplarComponent>
         </Frame1406>
       </Frame1329>
     </>

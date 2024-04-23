@@ -56,7 +56,9 @@ export function answersFrame(
   selectedRange,
   commentFocusAreaToggle,
   openRightPanel,
-  QuestionIndex
+  QuestionIndex,
+  newCommentFrameRef,
+  share
 ) {
   return (
     <AnswersFrame
@@ -85,6 +87,8 @@ export function answersFrame(
       commentFocusAreaToggle={commentFocusAreaToggle}
       openRightPanel={openRightPanel}
       QuestionIndex={QuestionIndex}
+      newCommentFrameRef={newCommentFrameRef}
+      share={share}
     ></AnswersFrame>
   );
 }
@@ -114,6 +118,8 @@ function AnswersFrame(props) {
     commentFocusAreaToggle,
     openRightPanel,
     QuestionIndex,
+    newCommentFrameRef,
+    share
   } = props;
   const [showAddingCommentDesc, setShowAddingCommentDesc] =
     React.useState(true);
@@ -150,7 +156,9 @@ function AnswersFrame(props) {
           selectedRange,
           commentFocusAreaToggle,
           setShowAddingCommentDesc,
-          QuestionIndex
+          QuestionIndex,
+          newCommentFrameRef,
+          share
         )}
       </Frame1367>
       {commentFocusAreaToggle && focusAreaComments.length !== 0 && (
@@ -244,7 +252,9 @@ const answerFrames = (
   selectedRange,
   commentFocusAreaToggle,
   setShowAddingCommentDesc,
-  QuestionIndex
+  QuestionIndex,
+  newCommentFrameRef,
+  share
 ) => {
   const { overallComments } = useContext(FeedbackContext);
 
@@ -309,7 +319,9 @@ const answerFrames = (
                 selectedComment,
                 methods,
                 selectedRange,
-                commentFocusAreaToggle
+                commentFocusAreaToggle,
+                newCommentFrameRef,
+                share
               )}
             </QuillContainer>
           )}
@@ -390,7 +402,9 @@ function createQuill(
   selectedComment,
   methods,
   selectedRange,
-  commentFocusAreaToggle
+  commentFocusAreaToggle,
+  newCommentFrameRef,
+  share
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -431,6 +445,8 @@ function createQuill(
         submission={submission}
         selectedRange={selectedRange}
         commentFocusAreaToggle={commentFocusAreaToggle}
+        newCommentFrameRef={newCommentFrameRef}
+        share={share}
       ></QuillEditor>
     </div>
   );

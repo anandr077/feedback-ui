@@ -21,7 +21,7 @@ const FeedbackTaskDetails = ({
   submission,
   QuestionIndex,
   groupedFocusAreaIds,
-  questionPanelOpen
+  questionPanelOpen,
 }) => {
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -32,14 +32,14 @@ const FeedbackTaskDetails = ({
 
   return (
     <FeedbackTaskDetailsContainer openRightPanel={openRightPanel}>
-      <RightSidebarHeading title={'Task Details'} handleClose={handleClose}/>
+      <RightSidebarHeading title={'Task Details'} handleClose={handleClose} />
       <DueDate>
         <span>Due on: </span> {formatDate(submission?.assignment.dueAt)}
       </DueDate>
       <OtherDetails>
         <div>
           <span>Marking Method: </span>
-          {question?.markingCriteria.type}
+          {question?.markingCriteria?.type}
         </div>
         <div>
           <span>Graded Task: </span>
@@ -63,9 +63,14 @@ const FeedbackTaskDetails = ({
           })}
         </FocusBody>
       </FocusAreasContainer>
-      <QuestionContainer onClick={()=> questionPanelOpen('tab3')}>
-        <QuestionNumbers>{submission.assignment.questions.length} Questions</QuestionNumbers>
-        <img src={RightArrow}/>
+      <QuestionContainer onClick={() => questionPanelOpen('tab3')}>
+        <QuestionNumbers>
+          {submission.assignment.questions.length}
+          {submission.assignment.questions.length <= 1
+            ? ' Question'
+            : ' Questions'}
+        </QuestionNumbers>
+        <img src={RightArrow} />
       </QuestionContainer>
     </FeedbackTaskDetailsContainer>
   );

@@ -574,7 +574,9 @@ function answersAndFeedbacks(
             selectedRange,
             commentFocusAreaToggle,
             openRightPanel,
-            QuestionIndex
+            QuestionIndex,
+            newCommentFrameRef,
+            share
           )}
 
           {/* {!isMobile && (

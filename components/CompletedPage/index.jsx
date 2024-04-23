@@ -29,8 +29,8 @@ import {
   HeadingLine,
   InnerContainer,
   LeftContentContainer,
-
   MainContainer,
+  CompletedPageContainer,
 } from './style.js';
 
 import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
@@ -50,17 +50,21 @@ import {
 } from '../GiveFeedback/style.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
+import SecondSidebar from '../SecondSidebar/index.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
+  const [classes, setClasses] = React.useState([]);
   const [selectedClass, setSelectedClass] = React.useState('');
 
   React.useEffect(() => {
     getCompletedTasks().then((result) => {
       if (result) {
         setTasks(result);
+        setFilteredTasks(result);
         setIsLoading(false);
       }
     });
@@ -69,8 +73,32 @@ export default function CompletedPage() {
   if (isLoading) {
     return <Loader />;
   }
-  
-  
+  const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));
+  const menuItems = [
+    {
+      name: 'TYPES',
+      title: 'Types',
+      items: [
+        { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
+        { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
+      ],
+    },
+  ];
+
+  const filterTasks = (selectedItems) => {
+    const groupedData = _.groupBy(selectedItems, 'category');
+    let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
+
+    if (typesValues.length === 0) {
+      typesValues = ['REVIEW', 'ASSIGNMENT'];
+    }
+    const filteredTasks = _.filter(tasks, (task) =>
+      _.includes(typesValues, task.type)
+    );
+
+    setFilteredTasks(filteredTasks);
+  };
+
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
       setSelectedClass(selectValue);
@@ -96,33 +124,11 @@ export default function CompletedPage() {
   };
 
   return (
-    <>
+    <CompletedPageContainer>
+      <SecondSidebar />
       <MainContainer>
         <InnerContainer>
           <HeadingAndFilterCon>
-            <TopContainer>
-              <TitleContainer>
-                <Title>
-                  Task History
-                  <QuestionTooltip 
-                    img={questionMark} 
-                    text={"View all of the tasks that you have marked as complete"}
-                  />
-                </Title>
-                <ConnectContainer>
-                  <LinkButton
-                    link={`#/`}
-                    label="Back to tasks"
-                    arrowleft={arrowLeft}
-                    whiteArrowleft={whiteArrowleft}
-                  />
-                </ConnectContainer>
-              </TitleContainer>
-              <HeadingLine>
-                View or download any previous tasks that you have already
-                completed
-              </HeadingLine>
-            </TopContainer>
             <FilterAndSortContainer>
               <FilterContainer>
                 <Frame5086>
@@ -141,7 +147,7 @@ export default function CompletedPage() {
                   />
                 </>
               </FilterContainer>
-              <FilterLine/>
+              <FilterLine />
               <SortContainer>
                 <SortHeading>
                   <SortImg src={SortSquare} />
@@ -173,16 +179,14 @@ export default function CompletedPage() {
               </SortContainer>
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
-          <ContentContainer>
-            <LeftContentContainer>
-              <TaskHistoryDataComponent
-                downloadPDF={downloadPDF}
-                list={filteredData(tasks)}
-              />
-            </LeftContentContainer>
-          </ContentContainer>
+          <LeftContentContainer>
+            <TaskHistoryDataComponent
+              downloadPDF={downloadPDF}
+              list={filteredData(tasks)}
+            />
+          </LeftContentContainer>
         </InnerContainer>
       </MainContainer>
-    </>
+    </CompletedPageContainer>
   );
 }

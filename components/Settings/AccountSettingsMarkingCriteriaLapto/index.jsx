@@ -50,6 +50,7 @@ import PlusViolet from '../../../static/img/Plus-violet.svg';
 import Globe from '../../../static/img/Globe.svg';
 import optionArrow from '../../../static/img/optionArrow.svg';
 import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
+import SecondSidebar from '../../SecondSidebar';
 
 function AccountSettingsMarkingCriteriaLapto(props) {
   const {
@@ -100,7 +101,8 @@ function AccountSettingsMarkingCriteriaLapto(props) {
             </HeadingLine>
           </Frame1372>
           <Frame13221>
-            {sidebarNav}
+            {/* {sidebarNav} */}
+            <SecondSidebar />
             <>
               {showUserSettings && (
                 <UserSettingFrame>

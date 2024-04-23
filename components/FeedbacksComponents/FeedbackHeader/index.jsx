@@ -26,6 +26,7 @@ const data = ['one', 'two', 'three', 'four', 'five'];
 const FeedbackHeader = ({
   commentFocusAreaToggle,
   setCommentFocusAreaToggle,
+  methods
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -93,7 +94,7 @@ const FeedbackHeader = ({
           <img src={ResubmitBtn} />
           Reassign Task
         </ReassignBtn>
-        <SubmitBtn>Submit Feedback</SubmitBtn>
+        <SubmitBtn onClick={()=> methods.showSubmitPopuphandler('SubmitForReview')}>Submit Feedback</SubmitBtn>
       </RightSection>
     </FeedbackHeaderContainer>
   );

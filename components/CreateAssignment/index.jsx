@@ -64,7 +64,7 @@ export default function CreateAssignment(props) {
     reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
-    dueAt: dayjs().add(3, 'day'),
+    dueAt: '',
   };
   const [assignment, setAssignment] = React.useState(draft);
 
@@ -246,7 +246,7 @@ export default function CreateAssignment(props) {
     e.currentTarget.style.border = '1px solid var(--text)';
   };
   const cleanformattingDiv = (e) => {
-    e.currentTarget.style.border = '1px solid #E0E0E0';
+    // e.currentTarget.style.border = '1px solid #E0E0E0';
   };
 
   const questionFrames = () => {

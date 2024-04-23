@@ -551,6 +551,7 @@ function answersAndFeedbacks(
       <FeedbackHeader
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
+        methods={methods}
       />
       <FeedbackQuestionSlider
         setQuestionIndex={setQuestionIndex}
@@ -645,6 +646,7 @@ function createContextBar(
   setShowStudentPopUp,
   setShowTeacherPopUp
 ) {
+  console.log('the submission is ', submission);
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,

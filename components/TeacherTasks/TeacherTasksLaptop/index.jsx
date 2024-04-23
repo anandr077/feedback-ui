@@ -6,9 +6,6 @@ import Buttons from '../../Classes/Buttons';
 import TaskCardContainer from '../../TaskCardContainer';
 import TaskFrame1353 from '../../TaskFrame1353';
 import './TeacherTasksLaptop.css';
-import CheckboxGroup from '../../CheckboxGroup';
-import arrowRight from '../../../static/img/arrowright.svg';
-import whiteArrowright from '../../../static/img/arrowright-White.svg';
 import questionMark from '../../../static/img/question-mark.svg';
 import share from '../../../static/img/share.svg';
 import shareColor from '../../../static/img/share-color.svg';
@@ -19,6 +16,7 @@ import {
   TitleImage,
 } from '../../TasksLaptop/style.js';
 import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
+import SecondSidebar from '../../SecondSidebar/index.js';
 
 function TeacherTasksLaptop(props) {
   const {
@@ -35,27 +33,9 @@ function TeacherTasksLaptop(props) {
   } = props;
   return (
     <div className="tasks-laptop screen">
+      <SecondSidebar />
       <Frame1361>
         <TitleAndFilterContainer>
-          <TitleAndSubtitleContainer>
-            <TitleContainer>
-              <Title>
-                Tasks
-                <QuestionTooltip 
-                  text={'View the status of every task that you have assigned for your classes'} 
-                  img={questionMark}
-                />
-              </Title>
-              <ButtonContainer>
-                {' '}
-                <Buttons link="#tasks/new" />
-              </ButtonContainer>
-            </TitleContainer>
-            <SubtitleCon>
-              Click on a task bubble to finish drafting a task, provide feedback
-              or view any current submissions
-            </SubtitleCon>
-          </TitleAndSubtitleContainer>
           <>{FilterSortAndCal}</>
         </TitleAndFilterContainer>
         <Frame1360>
@@ -122,10 +102,11 @@ const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 40px;
+  justify-content: flex-start;
   position: relative;
-  width: 100%;
+  width: calc(100vw - 255px);
+  gap: 20px;
+  border-top: 1px solid #e3e3e3;
 `;
 
 const Title = styled.h1`
@@ -149,8 +130,9 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  // height: 80vh;
-  padding: 0px 60px;
+  width: calc(100vw - 305px);
+  padding: 0px 20px 20px;
+  max-height: 100vh;
 `;
 
 const Frame1359 = styled.div`
@@ -162,7 +144,6 @@ const Frame1359 = styled.div`
   min-height: calc(100vh - 300px);
   flex-grow: 1;
   margin: 0px auto;
-  height: 80vh;
 `;
 
 const Frame1358 = styled.div`
@@ -173,9 +154,10 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: var(--white);
+  background-color: #f2f1f3;
+  border: 1px solid #301b7214;
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  box-shadow: 0px 1px 4.099999904632568px 0px rgba(48, 27, 114, 0.08) inset;
 `;
 
 export default TeacherTasksLaptop;

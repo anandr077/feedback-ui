@@ -6,6 +6,7 @@ import StrengthsTargets from '../StrengthsTargets';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
   const { allmarkingCriteriaFeedback, questionSerialNumber } = props;
+  console.log('MarkingCriteriaFeedbackReadOnly', props);
   const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
     (markingCriteriaFeedback) =>
       markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber
@@ -121,9 +122,9 @@ const MarkingCriteriaContainer = styled.div`
   display: flex;
   grid-gap: 10px;
   overflow-x: scroll;
-  
+
   padding-top: 20px;
-  border-top: 1px solid #F1E6FC;
+  border-top: 1px solid #f1e6fc;
   &::-webkit-scrollbar {
     display: none;
   }

@@ -25,6 +25,8 @@ import {
   TopContainer,
   BtnsContainer,
   TaskContainer,
+  LeftContainerHeading,
+  LeftContainerTitleCon,
 } from './TeacherClassesDesktopStyle.js';
 import QuestionTooltip from '../../../components2/QuestionTooltip/index.jsx';
 import questionMark from '../../../static/img/question-mark.svg';
@@ -63,10 +65,11 @@ function TeacherClassesDesktop(props) {
   const ref4 = useRef();
 
   const handleScroll = (ref) => {
+    const element = ref.current;
     var elementPosition = ref.current.getBoundingClientRect().top;
     var offsetPosition = elementPosition + window.pageYOffset - 100;
 
-    window.scrollTo({
+    element.scrollIntoView({
       top: offsetPosition,
       behavior: 'smooth',
     });
@@ -76,7 +79,7 @@ function TeacherClassesDesktop(props) {
     <TopContainer>
       <Frame1422>
         <Frame14221>
-          <Frame13121>
+          {/* <Frame13121>
             <Title>
               Classes
               <QuestionTooltip
@@ -87,7 +90,7 @@ function TeacherClassesDesktop(props) {
             <TItlePara>
               Select a class to view the latest insights on their work
             </TItlePara>
-          </Frame13121>
+          </Frame13121> */}
           <Frame1306>
             <Tabs
               value={selectedClassIndex}
@@ -104,30 +107,33 @@ function TeacherClassesDesktop(props) {
         </Frame14221>
         <MainContainer>
           <LeftContainer>
-            <LeftContainerTitle
-              onClick={() => handleScroll(ref1)}
-              style={{ color: useIsVisible(ref1) ? '#7200E0' : '#7b7382' }}
-            >
-              Active Tasks
-            </LeftContainerTitle>
-            <LeftContainerTitle
-              onClick={() => handleScroll(ref2)}
-              style={{ color: useIsVisible(ref2) ? '#7200E0' : '#7b7382' }}
-            >
-              Class Insights
-            </LeftContainerTitle>
-            <LeftContainerTitle
-              onClick={() => handleScroll(ref3)}
-              style={{ color: useIsVisible(ref3) ? '#7200E0' : '#7b7382' }}
-            >
-              Student Insights
-            </LeftContainerTitle>
-            <LeftContainerTitle
-              onClick={() => handleScroll(ref4)}
-              style={{ color: useIsVisible(ref4) ? '#7200E0' : '#7b7382' }}
-            >
-              Shared Responses
-            </LeftContainerTitle>
+            <LeftContainerHeading>Page Contents</LeftContainerHeading>
+            <LeftContainerTitleCon>
+              <LeftContainerTitle
+                onClick={() => handleScroll(ref1)}
+                style={{ color: useIsVisible(ref1) ? '#7200E0' : '#7b7382' }}
+              >
+                Active Tasks
+              </LeftContainerTitle>
+              <LeftContainerTitle
+                onClick={() => handleScroll(ref2)}
+                style={{ color: useIsVisible(ref2) ? '#7200E0' : '#7b7382' }}
+              >
+                Class Insights
+              </LeftContainerTitle>
+              <LeftContainerTitle
+                onClick={() => handleScroll(ref3)}
+                style={{ color: useIsVisible(ref3) ? '#7200E0' : '#7b7382' }}
+              >
+                Student Insights
+              </LeftContainerTitle>
+              <LeftContainerTitle
+                onClick={() => handleScroll(ref4)}
+                style={{ color: useIsVisible(ref4) ? '#7200E0' : '#7b7382' }}
+              >
+                Shared Responses
+              </LeftContainerTitle>
+            </LeftContainerTitleCon>
           </LeftContainer>
           <RightContainer>
             <ActiveTaskContainer ref={ref1}>

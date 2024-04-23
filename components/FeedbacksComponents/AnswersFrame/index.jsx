@@ -119,7 +119,7 @@ function AnswersFrame(props) {
     openRightPanel,
     QuestionIndex,
     newCommentFrameRef,
-    share
+    share,
   } = props;
   const [showAddingCommentDesc, setShowAddingCommentDesc] =
     React.useState(true);

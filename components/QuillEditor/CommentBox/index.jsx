@@ -72,7 +72,9 @@ const CommentBox = ({
     return () => {
       window.removeEventListener('resize', measureHeights);
     };
-  }, [comments, selectedComment]);
+  }, [comments]);
+
+  console.log('the comment height', commentHeights)
 
   useEffect(() => {
     let lastCommentBottomPosition = 0;
@@ -239,7 +241,7 @@ const CommentBox = ({
                               height:
                                 selectedComment &&
                                 comment.id === selectedComment.id
-                                  ? 'auto'
+                                  ? 'auto66'
                                   : '100px',
                             }}
                           >

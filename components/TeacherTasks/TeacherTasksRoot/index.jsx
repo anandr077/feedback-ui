@@ -34,10 +34,12 @@ import { FilterContainer, FilterLine } from '../../CompletedPage/style.js';
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../../static/img/sort-square.svg';
 import FilterSquare from '../../../static/img/filter-square.svg';
-import TaskSelected from '../../../static/img/taskselected.svg';
+import TaskSelected from '../../../static/img/Columns-new.svg';
+import TaskNotSelected from '../../../static/img/Columns-new-gray.svg';
 import Closecircle from '../../../static/img/closecircle.svg';
 import TaskUnSelected from '../../../static/img/taskunselected.svg';
-import CalSelected from '../../../static/img/calselected.svg';
+import CalSelected from '../../../static/img/Calendar-new.svg';
+import CalNotSelected from '../../../static/img/Calendar-new-purple.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
@@ -50,6 +52,7 @@ import {
   SortText,
   SortButton,
   SortButtonText,
+  TitleHeading,
 } from '../../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -172,7 +175,6 @@ export default function TeacherTaskRoot() {
     return sortedTasks;
   };
 
-  // console.log('filteredData', filteredData(filteredTasks)[0].tags[0].name);
   console.log('selectedClass', selectedClass);
 
   const classNames = classes.map((classItem) => classItem.title);
@@ -347,6 +349,34 @@ export default function TeacherTaskRoot() {
   const FilterSortAndCal = (
     <>
       <MainContainer>
+        <CalenderContainer>
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
+            className={tasksSelected ? 'active' : ''}
+            onClick={() => setTasksSelected(true)}
+          >
+            <TasksImg
+              src={!tasksSelected ? TaskNotSelected : TaskSelected}
+              selected={tasksSelected}
+            />
+            Column
+          </TitleHeading>
+          {!mobileView && (
+            <TitleHeading
+              style={
+                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
+              }
+              className={!tasksSelected ? 'active' : ''}
+              onClick={() => setTasksSelected(false)}
+            >
+              <TasksImgCal
+                src={!tasksSelected ? CalNotSelected : CalSelected}
+                selected={!tasksSelected}
+              />
+              Calendar
+            </TitleHeading>
+          )}
+        </CalenderContainer>
         <FilterAndSortContainer>
           <FilterContainer>
             <Filter
@@ -428,26 +458,6 @@ export default function TeacherTaskRoot() {
             </SortContainer>
           )}
         </FilterAndSortContainer>
-        <CalenderContainer>
-          <TasksImg
-            src={
-              tasksSelected
-                ? TaskSelected
-                : mobileView
-                ? TaskSelected
-                : TaskUnSelected
-            }
-            selected={tasksSelected}
-            onClick={() => setTasksSelected(true)}
-          />
-          {!mobileView && (
-            <TasksImgCal
-              src={!tasksSelected ? CalSelected : CalUnSelected}
-              selected={!tasksSelected}
-              onClick={() => setTasksSelected(false)}
-            />
-          )}
-        </CalenderContainer>
       </MainContainer>
     </>
   );
@@ -499,19 +509,19 @@ export default function TeacherTaskRoot() {
 
       <ReactiveRender
         mobile={
-          <TeacherTasksStudentMobile
+          <TeacherTasksStudentTablet
             {...{
               menuItems,
               filterTasks,
               drafts,
               awaitingSubmissions,
-              feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
+              feedbacks,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksStudentMobileData,
+              ...tasksStudentTabletData,
             }}
           />
         }
@@ -533,7 +543,7 @@ export default function TeacherTaskRoot() {
           />
         }
         laptop={
-          <TeacherTasksLaptop
+          <TeacherTasksDesktop
             {...{
               menuItems,
               filterTasks,
@@ -542,13 +552,10 @@ export default function TeacherTaskRoot() {
               feedbacks,
               showDeletePopuphandler,
               showDateExtendPopuphandler,
-              showDeletePopup,
-              hidedeletePopup,
-              selectedAssignment,
               FilterSortAndCal,
               tasksSelected,
               MyCalendarFile,
-              ...tasksLaptopData,
+              ...tasksDesktopData,
             }}
           />
         }

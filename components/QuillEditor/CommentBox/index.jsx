@@ -41,6 +41,8 @@ const CommentBox = ({
   selectedComment,
   selectedRange,
   commentFocusAreaToggle,
+  newCommentFrameRef,
+  share
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
@@ -204,9 +206,9 @@ const CommentBox = ({
                   pageMode,
                   submission,
                   newCommentSerialNumber,
-                  methods
-                  // newCommentFrameRef,
-                  // share
+                  methods,
+                  newCommentFrameRef,
+                  share
                 )}
             </MainSideContainer>
           ) : (
@@ -283,25 +285,25 @@ const newCommentFrame = (
   pageMode,
   submission,
   newCommentSerialNumber,
-  methods
-  // newCommentFrameRef,
-  // share
+  methods,
+  newCommentFrameRef,
+  share
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
   return reviewerNewComment(
     methods,
-    // newCommentFrameRef,
-    // share,
+    newCommentFrameRef,
+    share,
     pageMode
   );
 };
 
 function reviewerNewComment(
   methods,
-  // newCommentFrameRef,
-  // share,
+  newCommentFrameRef,
+  share,
   pageMode
 ) {
   const { smartAnnotations } = useContext(FeedbackContext);
@@ -317,7 +319,7 @@ function reviewerNewComment(
                 <TypeHere>
                   <FocussedInput
                     id="newCommentInput"
-                    //ref={newCommentFrameRef}
+                    ref={newCommentFrameRef}
                     placeholder="Comment here...."
                   ></FocussedInput>
                 </TypeHere>
@@ -332,10 +334,10 @@ function reviewerNewComment(
                 {shortcutList(methods, smartAnnotations)}
               </ShortcutList> */}
           </SmartAnnotationsComponent>
-          {/* <ExemplarComponent>
+            <ExemplarComponent>
               {shareWithClassFrame(methods, share)}
               {shareWithClassFrame(methods)}
-            </ExemplarComponent> */}
+            </ExemplarComponent>
         </Frame1406>
       </Frame1329>
     </>

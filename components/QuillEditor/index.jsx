@@ -31,6 +31,8 @@ const QuillEditor = React.forwardRef(
       submission,
       selectedRange,
       commentFocusAreaToggle,
+      newCommentFrameRef,
+      share
     },
     ref
   ) => {
@@ -319,6 +321,8 @@ const QuillEditor = React.forwardRef(
           selectedComment={selectedComment}
           selectedRange={selectedRange}
           commentFocusAreaToggle={commentFocusAreaToggle}
+          newCommentFrameRef={newCommentFrameRef}
+          share={share}
         />
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SidebarContainer, SideNavbar, HelpIcon } from './style';
 import { getUserRole } from '../../userLocalDetails';
-import taskIcon from '../../static/img/task.svg';
+import taskIcon from '../../static/img/Task2.svg';
 import activetaskIcon from '../../static/img/activetask.svg';
 import classIcon from '../../static/img/insights.svg';
 import activeClassIcon from '../../static/img/active-class-insights-icon.svg';

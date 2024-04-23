@@ -50,6 +50,7 @@ import FeedbackRightSidebar from '../FeedbackRightSidebar';
 import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
+import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -605,6 +606,15 @@ function answersAndFeedbacks(
           groupedFocusAreaIds={groupedFocusAreaIds}
           QuestionIndex={QuestionIndex}
           questionPanelOpen={handleRightSidebarClick}
+        />
+        <CriteriaAndOverallFeedback
+          handleClick={handleRightSidebarClick}
+          openRightPanel={openRightPanel}
+          QuestionIndex={QuestionIndex}
+          addOverallFeedback={methods.addOverallFeedback}
+          updateOverAllFeedback={methods.updateOverAllFeedback}
+          pageMode={pageMode}
+          submission={submission}
         />
         <FeedbackRightSidebar
           handleClick={handleRightSidebarClick}

@@ -150,6 +150,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           const markingCriteriaFeedback = allComments?.filter(
             (c) => c.type === 'MARKING_CRITERIA'
           );
+          console.log('firstmarkingCriteriaFeedback', markingCriteriaFeedback);
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
 
           const initialState = classWithTeacherAndStudentsResult.reduce(
@@ -169,6 +170,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           );
           setCheckedState(initialState);
           setOverallComments(overAllCommentsResult);
+          console.log('overAllCommentsResult', overAllCommentsResult);
           setClassesAndStudents(classWithTeacherAndStudentsResult);
           const allTeachers = _.flatten(
             classWithTeacherAndStudentsResult.map((c) => c.teachers)
@@ -1538,6 +1540,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         newCommentSerialNumber,
         markingCriteriaFeedback,
         overallComments,
+        comments,
       }}
     >
       {showSubmitPopup &&

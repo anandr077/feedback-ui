@@ -68,7 +68,7 @@ export const GeneratedAudio = styled.div`
   display: flex;
   align-items: center;
   background-color: var(--blue-chalk);
-  width: fit-content;
+  width: 250px;
   border-radius: 25px;
 `;
 
@@ -116,4 +116,17 @@ export const RecordingIndicator = styled.div`
 
 export const AudioIcon = styled(VolumeUpIcon)`
   font-size: 18px !important;
+`;
+
+export const FeedbackBtn = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: rgba(114, 0, 224, 1);
+  margin-top: 14px;
+  cursor: pointer;
 `;

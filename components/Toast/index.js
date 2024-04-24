@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-function ToastComponent({ message, link }) {
+function Toast({ message, link }) {
   const history = useHistory();
   return (
     <div
@@ -24,9 +24,7 @@ function ToastComponent({ message, link }) {
           }}
           size="small"
           onClick={() => {
-            window.location.href = link;
-            // history.push('/' + link);
-            // history.replace('/' + link);
+            history.push(link.replace('#', ''));
           }}
         >
           View
@@ -36,4 +34,4 @@ function ToastComponent({ message, link }) {
   );
 }
 
-export default ToastComponent;
+export default Toast;

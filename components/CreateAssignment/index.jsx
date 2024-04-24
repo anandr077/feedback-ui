@@ -47,7 +47,7 @@ import CommentBankDialog from '../Shared/Dialogs/commentBank';
 import { getUserId } from '../../userLocalDetails';
 import { toast } from 'react-toastify';
 import { Button } from '@mui/material';
-import ToastComponent from '../ToastComponent';
+import Toast from '../Toast';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -462,12 +462,11 @@ export default function CreateAssignment(props) {
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        // showSnackbar('Task saved');
-        toast(<ToastComponent message={'Task saved'} />);
+
+        toast(<Toast message={'Task saved'} />);
         return;
       } else {
-        // showSnackbar('Could not save task');
-        toast(<ToastComponent message={'Could not save task'} />);
+        toast(<Toast message={'Could not save task'} />);
         return;
       }
     });
@@ -480,8 +479,8 @@ export default function CreateAssignment(props) {
     } else {
       document.getElementById('assignmentNameContainer');
       assignmentNameContainer.style.border = '1px solid red';
-      // showSnackbar('Please enter task title');
-      toast(<ToastComponent message={'Please enter task title'} />);
+
+      toast(<Toast message={'Please enter task title'} />);
       return false;
     }
   };
@@ -501,11 +500,9 @@ export default function CreateAssignment(props) {
           );
           questionTextBox.style.border = '1px solid red';
           invalidQuestion = true;
-          // showSnackbar('Please enter Question ' + question.serialNumber);
+
           toast(
-            <ToastComponent
-              message={'Please enter Question ' + question.serialNumber}
-            />
+            <Toast message={'Please enter Question ' + question.serialNumber} />
           );
           return false;
         }
@@ -525,11 +522,8 @@ export default function CreateAssignment(props) {
             }
           });
           if (invalidQuestion) {
-            // showSnackbar(
-            //   'Please enter options for Question ' + question.serialNumber
-            // );
             toast(
-              <ToastComponent
+              <Toast
                 message={
                   'Please enter options for Question ' + question.serialNumber
                 }
@@ -544,12 +538,9 @@ export default function CreateAssignment(props) {
             );
             optionContainer.style.border = '1px solid red';
             invalidQuestion = true;
-            // showSnackbar(
-            //   'Please select atleast one correct option for Question ' +
-            //     question.serialNumber
-            // );
+
             toast(
-              <ToastComponent
+              <Toast
                 message={
                   'Please select atleast one correct option for Question ' +
                   question.serialNumber
@@ -569,11 +560,9 @@ export default function CreateAssignment(props) {
         );
         questionTextBox.style.border = '1px solid red';
         invalidQuestion = true;
-        // showSnackbar('Please enter Question ' + question.serialNumber);
+
         toast(
-          <ToastComponent
-            message={'Please enter Question ' + question.serialNumber}
-          />
+          <Toast message={'Please enter Question ' + question.serialNumber} />
         );
         return false;
       }
@@ -587,8 +576,8 @@ export default function CreateAssignment(props) {
     } else {
       const classesContainer = document.getElementById('classesContainer');
       classesContainer.style.border = '1px solid red';
-      // showSnackbar('Please select atleast one class');
-      toast(<ToastComponent message={'Please select atleast one class'} />);
+
+      toast(<Toast message={'Please select atleast one class'} />);
     }
   };
 
@@ -599,11 +588,9 @@ export default function CreateAssignment(props) {
     } else {
       const dueDateContainer = document.getElementById('timeContainer');
       dueDateContainer.style.border = '1px solid red';
-      // showSnackbar('Please choose due time at least one hour from now.');
+
       toast(
-        <ToastComponent
-          message={'Please choose due time at least one hour from now'}
-        />
+        <Toast message={'Please choose due time at least one hour from now'} />
       );
       return false;
     }
@@ -619,10 +606,8 @@ export default function CreateAssignment(props) {
       } else {
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
-        // showSnackbar('Please add reviewer for each student');
-        toast(
-          <ToastComponent message={'Please add reviewer for each student'} />
-        );
+
+        toast(<Toast message={'Please add reviewer for each student'} />);
         return false;
       }
     } else {
@@ -652,27 +637,17 @@ export default function CreateAssignment(props) {
             queryClient.invalidateQueries((queryKey) => {
               return queryKey.includes('class');
             });
-            // showSnackbar('Task published', res.link);
 
-            toast(
-              <ToastComponent message={'Task published'} link={res.link} />
-            );
-            window.location.href = '#tasks';
+            toast(<Toast message={'Task published'} link={res.link} />);
+            window.location.href = '#';
           } else {
-            // showSnackbar('Task creation failed', res.link);
-            toast(
-              <ToastComponent
-                message={'Task creation failed'}
-                link={res.link}
-              />
-            );
+            toast(<Toast message={'Task creation failed'} link={res.link} />);
             return;
           }
         });
       });
     } else {
       // showSnackbar('Please fill all the fields');
-      // toast(<ToastComponent message={'Please fill all the fields'} />);
     }
   };
 
@@ -680,13 +655,10 @@ export default function CreateAssignment(props) {
     updateAssignment(assignment.id, assignment).then((_) => {
       deleteAssignment(assignment.id).then((res) => {
         if (res.status === 'DELETED') {
-          // showSnackbar('Task deleted');
-
-          toast(<ToastComponent message={'Task deleted'} />);
-          window.location.href = '#tasks';
+          toast(<Toast message={'Task deleted'} />);
+          window.location.href = '#';
         } else {
-          // showSnackbar('Task deletion failed');
-          toast(<ToastComponent message={'Task deletion failed'} />);
+          toast(<Toast message={'Task deletion failed'} />);
           return;
         }
       });

@@ -175,8 +175,6 @@ export default function TeacherTaskRoot() {
     return sortedTasks;
   };
 
-  console.log('selectedClass', selectedClass);
-
   const classNames = classes.map((classItem) => classItem.title);
 
   const drafts = filteredData(filteredTasks)

@@ -58,8 +58,6 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
     mutationFn: declineFeedbackRequest,
 
     onSuccess: (data, variables) => {
-      console.log('data', data);
-      console.log('variables', variables);
       const submissionId = variables;
 
       const previousCommunityTasks = queryClient.getQueryData([

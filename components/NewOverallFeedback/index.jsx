@@ -12,8 +12,6 @@ const NewOverallFeedback = ({
   overallComment,
   updateOverAllFeedback,
 }) => {
-  console.log('first overall feedback', overallComment);
-  console.log('pageMode', pageMode);
   const inputRef = useRef();
   useEffect(() => {
     if (overallComment?.comment) {

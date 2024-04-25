@@ -112,7 +112,6 @@ function CreateAAssignmentLaptop(props) {
 
   const smallScreenView = isSmallScreen();
   const mobileView = isMobileView();
-  console.log('first assignment', assignment);
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =

@@ -41,7 +41,6 @@ export default function ExemplarResponsesPage(props) {
   React.useEffect(() => {
     getModelResponses().then((result) => {
       if (result) {
-        console.log('first response', result);
         setExemplarResponses(result);
         setIsLoading(false);
       }

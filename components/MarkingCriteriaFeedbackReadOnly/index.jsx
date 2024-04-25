@@ -6,7 +6,6 @@ import StrengthsTargets from '../StrengthsTargets';
 
 export default function MarkingCriteriaFeedbackReadOnly(props) {
   const { allmarkingCriteriaFeedback, questionSerialNumber } = props;
-  console.log('MarkingCriteriaFeedbackReadOnly', props);
   const selectedMarkingCriteria = allmarkingCriteriaFeedback.filter(
     (markingCriteriaFeedback) =>
       markingCriteriaFeedback?.questionSerialNumber === questionSerialNumber

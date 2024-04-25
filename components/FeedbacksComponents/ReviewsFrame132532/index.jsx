@@ -31,6 +31,7 @@ function ReviewsFrame132532(props) {
     isReply = false,
     showReplyButton,
     onReplyClick,
+    selectedComment,
   } = props;
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
@@ -163,24 +164,28 @@ function ReviewsFrame132532(props) {
         </Instructer>
       </Frame1324>
       {resolveFrame}
-      {showReplyButton &&
-        <Reply onClick={onReplyClick}>
-          <img src={ReplyIcon} alt="reply" />
-        </Reply>
-      }
-      <img src={TickIcon} />
-      {getUserId() === comment.reviewerId &&
-        !defaultComment &&
-        comment.type != 'FOCUS_AREA' &&
-        pageMode != 'CLOSED' && (
-          <More
-            onClick={handleMoreClick}
-            src={DotIcon}
-            ref={componentRef}
-          />
-        )}
-      {closeFrame}
-      {openEditDeleteTemplate}
+      {selectedComment && selectedComment.id === comment.id && (
+        <>
+          {showReplyButton && (
+            <Reply onClick={onReplyClick}>
+              <img src={ReplyIcon} alt="reply" />
+            </Reply>
+          )}
+          <img src={TickIcon} />
+          {getUserId() === comment.reviewerId &&
+            !defaultComment &&
+            comment.type !== 'FOCUS_AREA' &&
+            pageMode !== 'CLOSED' && (
+              <More
+                onClick={handleMoreClick}
+                src={DotIcon}
+                ref={componentRef}
+              />
+            )}
+          {closeFrame}
+          {openEditDeleteTemplate}
+        </>
+      )}
     </Frame1325>
   );
 

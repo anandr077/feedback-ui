@@ -656,7 +656,6 @@ function createContextBar(
   setShowStudentPopUp,
   setShowTeacherPopUp
 ) {
-  console.log('the submission is ', submission);
   if (submission.type === 'DOCUMENT') {
     return contextBarForPortfolioDocument(
       isShowSelectType,

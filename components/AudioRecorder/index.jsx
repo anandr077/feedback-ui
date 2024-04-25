@@ -24,7 +24,6 @@ const AudioRecorder = ({
   handleDelete,
   initialAudio,
 }) => {
-  console.log('firstAudioRecorder', initialAudio);
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   let recordTimeout = useRef(null);

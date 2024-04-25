@@ -121,7 +121,6 @@ export default function CreateAssignment(props) {
 
     return a;
   };
-  console.log('UserId', UserId);
   React.useEffect(() => {
     Promise.all([
       getClasses(),

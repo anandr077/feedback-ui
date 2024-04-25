@@ -12,16 +12,16 @@ export const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 160px;
-  // min-width: 1441px;
   position: relative;
   padding-bottom: 40px;
-  padding-top: 60px;
+  border: 1px solid #301b7214;
+
   @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
+    min-width: 1010px;
   }
 
   @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
+    min-width: 698px;
   }
   a {
     text-decoration: none;
@@ -34,20 +34,8 @@ export const Frame1422 = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 40px;
   position: relative;
   max-width: 1440px;
-  padding: 0px 60px;
-
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 60px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 60px;
-  }
-  @media (max-width: 765px) {
-    padding: 0px 20px;
-  }
 `;
 
 export const Frame13121 = styled.div`
@@ -233,19 +221,36 @@ export const MainContainer = styled.div`
 export const LeftContainer = styled.div`
   display: flex;
   position: sticky;
-  height: 150px;
-  top: 100px;
+  height: 250px;
+  top: 10px;
   width: 25%;
+  max-width: 230px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 15px;
   @media (min-width: 766px) and (max-width: 1024px) {
-    top: 50px;
+    top: 10px;
   }
   @media (max-width: 765px) {
     display: none;
   }
 `;
+
+export const LeftContainerHeading = styled.p`
+  padding: 20px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20.8px;
+  letter-spacing: -0.01em;
+  text-align: left;
+`;
+
+export const LeftContainerTitleCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px 0px 20px;
+`;
+
 export const LeftContainerTitle = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
@@ -253,6 +258,7 @@ export const LeftContainerTitle = styled.p`
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
+  padding: 12px 16px;
   cursor: pointer;
 `;
 
@@ -261,11 +267,16 @@ export const RightContainer = styled.div`
   flex-direction: column;
   gap: 90px;
   width: 75%;
+  padding-top: 40px;
+  padding-left: 30px;
+  border-left: 1px solid #d6d6d6;
   @media (min-width: 766px) and (max-width: 1024px) {
     width: 100%;
   }
   @media (max-width: 765px) {
     width: 100%;
+    padding-left: 0px;
+    border-left: none;
   }
 `;
 

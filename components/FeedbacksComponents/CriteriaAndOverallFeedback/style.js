@@ -6,11 +6,13 @@ export const MainContainer = styled.div`
   top: 0;
   bottom: 0;
   width: 287px;
-  height: 100%;
+  height: calc(100% - 25px);
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;
   transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Heading = styled.div`
@@ -30,6 +32,14 @@ export const Heading = styled.div`
   font-weight: 500;
   font-size: var(--font-size-l);
   line-height: 20px;
+`;
+
+export const Body = styled.div`
+  flex: 1;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 `;
 
 export const CloseBtn = styled.img`

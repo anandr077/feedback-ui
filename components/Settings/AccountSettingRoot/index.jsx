@@ -216,7 +216,6 @@ export default function AccountSettingsRoot(props) {
     const newSmartAnnotations = smartAnnotations.filter(
       (smartAnnotation) => smartAnnotation.id != smartAnnotationIndex
     );
-    console.log('first', newSmartAnnotations);
     deleteSmartAnnotation(smartAnnotationIndex)
       .then(() => {
         if (newSmartAnnotations.length === 0) {

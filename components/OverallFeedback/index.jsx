@@ -24,7 +24,6 @@ const OverallFeedback = ({
   overallComment,
   updateOverAllFeedback,
 }) => {
-  console.log('question', question);
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -118,7 +117,6 @@ const OverallFeedback = ({
   };
 
   const audioOverallComment = (pageMode, overallComment) => {
-    console.log('second audio overall comment', overallComment);
     if (overallComment?.audio) {
       return (
         <AudioRecorder

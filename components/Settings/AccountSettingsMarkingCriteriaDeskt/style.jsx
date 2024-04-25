@@ -364,7 +364,7 @@ export const StyledTab = styled(Tab)`
 `;
 export const StyledTabs = styled(Tabs)`
   .MuiTabs-flexContainer {
-    gap: 5px !important;
+    //gap: 5px !important;
     // overflow-x: auto;
   }
   .MuiTabScrollButton-root.Mui-disabled {

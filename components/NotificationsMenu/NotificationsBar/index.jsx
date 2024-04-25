@@ -146,8 +146,6 @@ function NotificationsBar(props) {
     return <TaskCard task={notification} small={true} />;
   });
 
-  console.log('the notifications are', notifications)
-
   return (
     <>
       {type == 'small' ? (

@@ -42,7 +42,7 @@ const CommentBox = ({
   selectedRange,
   commentFocusAreaToggle,
   newCommentFrameRef,
-  share
+  share,
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
@@ -51,12 +51,9 @@ const CommentBox = ({
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const isTeacher = getUserRole() === 'TEACHER';
 
-  console.log('editorRef is', editorRef);
-  console.log('selectedComment is', selectedComment);
-
   useEffect(() => {
-    const heights = comments?.map(() => 0);
-    setCommentHeights(heights);
+    // const heights = comments?.map(() => 0);
+    // setCommentHeights(heights);
     const measureHeights = () => {
       const newHeights = comments?.map((_, index) => {
         const element = document.getElementById(`comment-${index}`);
@@ -72,7 +69,7 @@ const CommentBox = ({
     return () => {
       window.removeEventListener('resize', measureHeights);
     };
-  }, [comments, selectedComment]);
+  }, [comments]);
 
   useEffect(() => {
     let lastCommentBottomPosition = 0;
@@ -162,6 +159,8 @@ const CommentBox = ({
     setGroupedCommentsWithGap(groupedCommentsWithGap);
   }, [editor, editorRef, selectedComment, comments, commentHeights]);
 
+  console.log('the comment heights are', commentHeights)
+
   let commentInputTopPosition;
   if (selectedRange) {
     const length = selectedRange.to - selectedRange.from;
@@ -250,8 +249,12 @@ const CommentBox = ({
                               onClose={() =>
                                 methods.handleDeleteComment(comment.id)
                               }
-                              handleEditingComment={methods.handleEditingComment}
-                              deleteReplyComment={methods.handleDeleteReplyComment}
+                              handleEditingComment={
+                                methods.handleEditingComment
+                              }
+                              deleteReplyComment={
+                                methods.handleDeleteReplyComment
+                              }
                               onResolved={methods.handleResolvedComment}
                               handleReplyComment={methods.handleReplyComment}
                               isResolved={comment.status}
@@ -260,10 +263,17 @@ const CommentBox = ({
                               updateParentComment={methods.updateParentComment}
                               updateChildComment={methods.updateChildComment}
                               pageMode={pageMode}
-                              openShareWithStudentDialog={methods.handleShareWithClass}
-                              convertToCheckedState={methods.convertToCheckedState}
-                              updateExemplarComment={methods.setUpdateExemplarComment}
+                              openShareWithStudentDialog={
+                                methods.handleShareWithClass
+                              }
+                              convertToCheckedState={
+                                methods.convertToCheckedState
+                              }
+                              updateExemplarComment={
+                                methods.setUpdateExemplarComment
+                              }
                               studentId={submission.studentId}
+                              selectedComment={selectedComment}
                             />
                           </CommentDiv>
                         );
@@ -292,20 +302,10 @@ const newCommentFrame = (
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
-  return reviewerNewComment(
-    methods,
-    newCommentFrameRef,
-    share,
-    pageMode
-  );
+  return reviewerNewComment(methods, newCommentFrameRef, share, pageMode);
 };
 
-function reviewerNewComment(
-  methods,
-  newCommentFrameRef,
-  share,
-  pageMode
-) {
+function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
   const { smartAnnotations } = useContext(FeedbackContext);
 
   if (pageMode === 'CLOSED') return <></>;
@@ -319,7 +319,7 @@ function reviewerNewComment(
                 <TypeHere>
                   <FocussedInput
                     id="newCommentInput"
-                    ref={newCommentFrameRef}
+                    //ref={newCommentFrameRef}
                     placeholder="Comment here...."
                   ></FocussedInput>
                 </TypeHere>
@@ -334,10 +334,10 @@ function reviewerNewComment(
                 {shortcutList(methods, smartAnnotations)}
               </ShortcutList> */}
           </SmartAnnotationsComponent>
-            <ExemplarComponent>
+          {/* <ExemplarComponent>
               {shareWithClassFrame(methods, share)}
               {shareWithClassFrame(methods)}
-            </ExemplarComponent>
+            </ExemplarComponent> */}
         </Frame1406>
       </Frame1329>
     </>

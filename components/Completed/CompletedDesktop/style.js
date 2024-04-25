@@ -8,10 +8,17 @@ export const HeadingAndFilterCon = styled.div`
   width: 100%;
 `;
 
+export const SharedResponseMainContainer = styled.div`
+  display: flex;
+  // align-items: center;
+  flex-direction: row;
+  background-color: #ffffff;
+  border: 1px none;
+  min-width: 1025px;
+  position: relative;
+`;
 export const SharedResponseContainer = styled.div`
   display: flex;
-  flex-direction: row-reverse;
-  gap: 30px;
+  flex-direction: row;
   width: 100%;
 `;
-

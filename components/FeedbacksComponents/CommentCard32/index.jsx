@@ -27,6 +27,7 @@ function CommentCard32(props) {
     openShareWithStudentDialog,
     convertToCheckedState,
     updateExemplarComment,
+    selectedComment
   } = props;
   const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
@@ -114,6 +115,7 @@ function CommentCard32(props) {
             updateExemplarComment={updateExemplarComment}
             sharedWithStudents={comment.sharedWithStudents}
             isReply={true}
+            selectedComment={selectedComment}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -196,6 +198,7 @@ function CommentCard32(props) {
           pageMode !== 'CLOSED'
         }
         onReplyClick={handleReplyClick}
+        selectedComment={selectedComment}
       />
       <CommentText
         onClick={() => onClick(comment)}

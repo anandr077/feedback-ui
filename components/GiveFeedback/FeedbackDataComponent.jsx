@@ -44,7 +44,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
     mutationFn: acceptFeedbackRequest,
-    
+
     onSuccess: (data, variables) => {
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
       queryClient.refetchQueries({
@@ -56,19 +56,19 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
 
   const declineMutation = useMutation({
     mutationFn: declineFeedbackRequest,
-  
+
     onSuccess: (data, variables) => {
-      console.log('data', data);
-      console.log('variables', variables);
       const submissionId = variables;
-      
-      const previousCommunityTasks = queryClient.getQueryData(['communityTasks']);
+
+      const previousCommunityTasks = queryClient.getQueryData([
+        'communityTasks',
+      ]);
       const updatedCommunityTasks = previousCommunityTasks.filter(
         (n) => n.submissionId !== submissionId
       );
       queryClient.setQueryData(['communityTasks'], updatedCommunityTasks);
     },
-  
+
     onSettled: () => {
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
       showSnackbar('Feedback request dismissed');

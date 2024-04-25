@@ -150,7 +150,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           const markingCriteriaFeedback = allComments?.filter(
             (c) => c.type === 'MARKING_CRITERIA'
           );
-          console.log('firstmarkingCriteriaFeedback', markingCriteriaFeedback);
           setMarkingCriteriaFeedback(markingCriteriaFeedback);
 
           const initialState = classWithTeacherAndStudentsResult.reduce(
@@ -170,7 +169,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           );
           setCheckedState(initialState);
           setOverallComments(overAllCommentsResult);
-          console.log('overAllCommentsResult', overAllCommentsResult);
           setClassesAndStudents(classWithTeacherAndStudentsResult);
           const allTeachers = _.flatten(
             classWithTeacherAndStudentsResult.map((c) => c.teachers)
@@ -1392,10 +1390,37 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     criteriaSerialNumber,
     selectedLevel
   ) {
-    const markingCriteriaToUpdate =
-      submission.assignment.questions[questionSerialNumber - 1].markingCriteria;
-    markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel =
-      selectedLevel;
+    const updatedSubmission = {
+      ...submission,
+      assignment: {
+        ...submission.assignment,
+        questions: submission.assignment.questions.map((question, index) => {
+          if (index === questionSerialNumber - 1) {
+            return {
+              ...question,
+              markingCriteria: {
+                ...question.markingCriteria,
+                criterias: question.markingCriteria.criterias.map(
+                  (criteria, criteriaIndex) => {
+                    if (criteriaIndex === criteriaSerialNumber) {
+                      return {
+                        ...criteria,
+                        selectedLevel: selectedLevel,
+                      };
+                    }
+                    return criteria;
+                  }
+                ),
+              },
+            };
+          }
+          return question;
+        }),
+      },
+    };
+
+    // Set the updated submission object
+    setSubmission(updatedSubmission);
   }
 
   const handleStrengthsTargetsFeedback =

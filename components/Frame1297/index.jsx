@@ -7,9 +7,16 @@ import {
 import DropdownMenu from '../DropdownMenu';
 import { set } from 'lodash';
 import StyledDropDown from '../../components2/StyledDropDown';
+import RedBin from '../../static/img/RedBin.svg';
 
 function Frame1297(props) {
-  const { dropdown, number, UpdateQuestionFrame, defaultType } = props;
+  const {
+    dropdown,
+    number,
+    UpdateQuestionFrame,
+    defaultType,
+    deleteQuestionFrameFn,
+  } = props;
   const [type, setType] = React.useState(defaultType);
 
   const setTypeTheory = () => {
@@ -27,17 +34,25 @@ function Frame1297(props) {
     UpdateQuestionFrame(number, 'ESSAY');
   };
   return (
-    <Frame12971>
-      <Frame1281>
-        <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
-      </Frame1281>
+    <QuestionPart>
+      <Frame12971>
+        <Frame1281>
+          <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
+        </Frame1281>
+        <DeleteButtonFrame>
+          <BinImage src={RedBin} />
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+            Delete
+          </DeleteButton>
+        </DeleteButtonFrame>
+      </Frame12971>
       {createQuestionTypeSelector(
         type,
         setTypeTheory,
         setTypeMCQ,
         setTypeEssay
       )}
-    </Frame12971>
+    </QuestionPart>
   );
 }
 
@@ -78,6 +93,37 @@ const createQuestionTypeSelector = (
   );
 };
 
+const DeleteButtonFrame = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+`;
+
+const DeleteButton = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #e2483d;
+`;
+
+const BinImage = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+
+const QuestionPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+`;
 const DropDown = styled.div`
   position: absolute;
   right: 30px;
@@ -117,7 +163,6 @@ const Frame12971 = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
   @media (max-width: 765px) {
@@ -169,20 +214,19 @@ const ToremIpsumDolorSi = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-weight: 500;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: center;
-  color: #a154ea;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #56515b;
 `;
 
 const Frame1281 = styled.div`
   display: flex;
-  padding: 11px 20px 11px 20px;
   border-radius: 38px;
   border: 1px;
   gap: 10px;
-  background: linear-gradient(0deg, #ffffff, #ffffff);
-  border: 1px solid #dec7ff;
 `;
 
 const RichTextComponents1 = styled.div`

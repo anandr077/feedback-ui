@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
 export const SliderContainer = styled.div`
-  border-radius: 16px;
   width: 100%;
+  padding: 20px;
+  border-bottom: 1px solid #c9c6cc80;
+  border-left: 1px solid #c9c6cc80;
+  background-color: #ffffff;
 `;
 
 export const Header = styled.div`
-  background-color: #f7eeff;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 20px;
-  border-radius: 16px 16px 0 0;
 
   p {
     font-weight: 500;
@@ -23,13 +23,11 @@ export const Header = styled.div`
 `;
 
 export const SliderMain = styled.div`
-  height: ${(props) => (props.mobileView ? '475px' : '450px')};
-  border-radius: 0 0 16px 16px;
-  overflow: hidden;
-
-  @-moz-document url-prefix() {
-    height: ${(props) => (props.mobileView ? '475px' : '450px')};
-  }
+  // height: ${(props) => (props.mobileView ? '475px' : '450px')};
+  // overflow: hidden;
+  // @-moz-document url-prefix() {
+  //   height: ${(props) => (props.mobileView ? '475px' : '450px')};
+  // }
 `;
 
 export const Slider = styled.div`
@@ -42,6 +40,7 @@ export const Slider = styled.div`
 export const SlideContainer = styled.div`
   position: relative;
   height: 100%;
+  padding-top: 10px;
 `;
 
 export const SlideDots = styled.div`
@@ -57,4 +56,21 @@ export const Dot = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
+`;
+
+export const Title = styled.h1`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b464f;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  text-align: left;
+
+  // @media (max-width: 765px) {
+  //   font-size: 32px;
+  //   letter-spacing: -0.8px;
+  // }
 `;

@@ -552,6 +552,7 @@ function answersAndFeedbacks(
       <FeedbackHeader
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
+        methods={methods}
       />
       <FeedbackQuestionSlider
         setQuestionIndex={setQuestionIndex}

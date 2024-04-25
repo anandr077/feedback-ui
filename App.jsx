@@ -43,6 +43,11 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import Header from './components/Header2';
+import MainSidebar from './components/MainSidebar';
+import MarkingTemplateStrengthsTargets from './components/MarkingTemplateStrengthsTargets';
+import MarkingTemplateRubrics from './components/MarkingTemplateRubrics';
+import CommentBanks from './components/CommentBanks';
 
 function App() {
   const role = getUserRole();
@@ -50,8 +55,7 @@ function App() {
   userName && (document.title = 'Jeddle - ' + userName);
   const [showFooter, setShowFooter] = useState(true);
   const { snackbarOpen, snackbarMessage, snackbarLink, closeSnackbar } =
-  React.useContext(SnackbarContext);
-
+    React.useContext(SnackbarContext);
 
   const linkButton = snackbarLink ? (
     <Button
@@ -68,7 +72,6 @@ function App() {
   ) : (
     <></>
   );
-
 
   const action = (
     <React.Fragment>
@@ -121,6 +124,11 @@ function App() {
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
   const ProtectedCompletedRoot = middleware(CompletedPage);
+  const ProtectedMarkingTemplateStrengthsTargets = middleware(
+    MarkingTemplateStrengthsTargets
+  );
+  const ProtectedMarkingTemplateRubrics = middleware(MarkingTemplateRubrics);
+  const ProtectedCommentbanks = middleware(CommentBanks);
 
   const portfolioClient = new QueryClient();
 
@@ -156,72 +164,87 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
-          {<ProtectedHeader />}
-          <Switch>
-            <Route path="/docs">
-              <ProtectedDocRoot />
-            </Route>
-            <Route path="/main">
-              <MainPage />
-            </Route>
-            <Route path="/settings">
-              <ProtectedSettings />
-            </Route>
-            <Route path="/markingTemplates/rubrics/new">
-              <ProtectedMarkingCriteria />
-            </Route>
-            <Route path="/markingCriterias/rubrics/:markingCriteriaId">
-              <ProtectedMarkingCriteria />
-            </Route>
-            <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
-              <ProtectedStrengthAndTarget />
-            </Route>
-            <Route path="/getFeedback">
-              <ProtectedDocRoot />
-            </Route>
-            <Route path="/giveFeedback">
-              <ProtectedGiveFeedback />
-            </Route>
-            <Route path="/completed">
-              <ProtectedCompletedRoot />
-            </Route>
-            <Route path="/feedbackHistory">
-              <ProtectedGiveFeedback />
-            </Route>
-            <Route path="/classes/:classIdFromUrl?">
-              <ProtectedTeacherClassesRoot />
-            </Route>
-            <Route path="/tasks/:assignmentId/start">
-              <ProtectedTaskDetail />
-            </Route>
-            <Route path="/tasks/:assignmentId">
-              <ProtectedCreateAssignment />
-            </Route>
-            <Route path="/tasks">{Tasks({ role })}</Route>
-            <Route path="/exemplarResponses">
-              <ProtectedExemplarResponsesPage />
-            </Route>
-            <Route path="/submissions/:id">
-              <ProtectedFeedbacksRoot isAssignmentPage={false} />
-            </Route>
-            <Route path="/docs">
-              <ProtectedDocumentRoot />
-            </Route>
-            <Route path="/documents/:id">
-              <ProtectedDocumentRoot />
-            </Route>
-            <Route path="/documentsReview/:id">
-              <ProtectedDocumentRoot />
-            </Route>
-
-            <Route path="/404">
-              <PageNotFound />
-            </Route>
-            <Route exact path="/">
-              {Dashboard({ role })}
-            </Route>
-            <Redirect to="/404" />
-          </Switch>
+          {/* {<ProtectedHeader />} */}
+          <Header />
+          <div className="app-container">
+            <MainSidebar />
+            <div className="route-container">
+              <Switch>
+                <Route path="/docs">
+                  <ProtectedDocRoot />
+                </Route>
+                <Route path="/main">
+                  <MainPage />
+                </Route>
+                <Route path="/settings">
+                  <ProtectedSettings />
+                </Route>
+                <Route path="/markingTemplates/rubrics/new">
+                  <ProtectedMarkingCriteria />
+                </Route>
+                <Route path="/markingCriterias/rubrics/:markingCriteriaId">
+                  <ProtectedMarkingCriteria />
+                </Route>
+                <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
+                  <ProtectedStrengthAndTarget />
+                </Route>
+                <Route path="/getFeedback">
+                  <ProtectedDocRoot />
+                </Route>
+                <Route path="/giveFeedback">
+                  <ProtectedGiveFeedback />
+                </Route>
+                <Route path="/completed">
+                  <ProtectedCompletedRoot />
+                </Route>
+                <Route path="/feedbackHistory">
+                  <ProtectedGiveFeedback />
+                </Route>
+                <Route path="/classes/:classIdFromUrl?">
+                  <ProtectedTeacherClassesRoot />
+                </Route>
+                <Route path="/tasks/:assignmentId/start">
+                  <ProtectedTaskDetail />
+                </Route>
+                <Route path="/tasks/:assignmentId">
+                  <ProtectedCreateAssignment />
+                </Route>
+                <Route path="/tasks">{Tasks({ role })}</Route>
+                <Route path="/sharedresponses">
+                  <ProtectedExemplarResponsesPage />
+                </Route>
+                <Route path="/submissions/:id">
+                  <ProtectedFeedbacksRoot isAssignmentPage={false} />
+                </Route>
+                <Route path="/docs">
+                  <ProtectedDocumentRoot />
+                </Route>
+                <Route path="/documents/:id">
+                  <ProtectedDocumentRoot />
+                </Route>
+                <Route path="/documentsReview/:id">
+                  <ProtectedDocumentRoot />
+                </Route>
+                <Route path="/markingTemplate/strengthAndTargets">
+                  <ProtectedMarkingTemplateStrengthsTargets />
+                </Route>
+                <Route path="/markingTemplate/rubrics">
+                  <ProtectedMarkingTemplateRubrics />
+                </Route>
+                <Route path="/commentbanks">
+                  <ProtectedCommentbanks />
+                </Route>
+                <Route path="/404">
+                  <PageNotFound />
+                </Route>
+                <Route exact path="/">
+                  {Dashboard({ role })}
+                </Route>
+                <Redirect to="/404" />
+              </Switch>
+              {showFooter && <ResponsiveFooter />}
+            </div>
+          </div>
           <Snackbar
             open={snackbarOpen}
             message={snackbarMessage}
@@ -229,7 +252,6 @@ function App() {
             autoHideDuration={6000}
             action={action}
           />
-          {showFooter && <ResponsiveFooter />}
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>

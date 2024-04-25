@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   MainContainer,
   Heading,
+  Body,
   HeadingTitle,
   CloseBtn,
   HeadingDropdown,
@@ -42,11 +43,8 @@ const CriteriaAndOverallFeedback = ({
   pageMode,
   submission,
 }) => {
-  console.log('pageMode', pageMode);
   const { overallComments, comments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
-  console.log('submission', submission);
-  console.log('QuestionIndex', QuestionIndex);
   const [inputValue, setInputValue] = useState('');
   const [overallComment, setOverallComment] = useState({});
   const [markingCriteria, setMarkingCriteria] = useState();
@@ -64,7 +62,6 @@ const CriteriaAndOverallFeedback = ({
     setOverallComment(commentObject);
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
-    console.log('markingCriteria', markingCriteria);
     setMarkingCriteria(markingCriteria);
   }, [overallComments, QuestionIndex, comments, submission]);
 
@@ -81,60 +78,62 @@ const CriteriaAndOverallFeedback = ({
         </HeadingDropdown>
         <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
       </Heading>
-      <Text>Click the button below to complete this section</Text>
-      <RubricContainer>
-        <RubricInputContainer>
-          <input
-            type="number"
-            value={inputValue}
-            onChange={handleInputChange}
-          />{' '}
-          / 5
-        </RubricInputContainer>
-        <RubricButton>Rubric</RubricButton>
-      </RubricContainer>
-      <MarkingCriteriaContainer>
-        <MarkingCriteriaHeading>
-          {markingCriteria?.type === 'RUBRICS'
-            ? 'Rubric'
-            : 'Strengths and Targets'}
-        </MarkingCriteriaHeading>
-        {markingCriteria?.type === 'RUBRICS' ? (
-          <MarkRubricsContainer>
-            {markingCriteria.criterias.map((rubrics) => (
-              <MarkRubricContainer key={rubrics.title}>
-                <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
-                {rubrics.levels.map((level) => (
-                  <MarkRubricLevelContainer key={level.name}>
-                    <LevelName>{level.name}</LevelName>
-                    <LevelDesc>{level.description}</LevelDesc>
-                  </MarkRubricLevelContainer>
-                ))}
-              </MarkRubricContainer>
-            ))}
-          </MarkRubricsContainer>
-        ) : (
-          <></>
-        )}
-      </MarkingCriteriaContainer>
-      <Heading>
-        <HeadingTitle>
-          Overall Feedback
-          <img src={QuestionIcon} />
-        </HeadingTitle>
-        <HeadingDropdown>
-          <img src={TickMark} />
-        </HeadingDropdown>
-      </Heading>
-      <OverallFeedbackContainer>
-        <NewOverallFeedback
-          pageMode={pageMode}
-          addOverallFeedback={addOverallFeedback}
-          serialNumber={QuestionIndex + 1}
-          overallComment={overallComment}
-          updateOverAllFeedback={updateOverAllFeedback}
-        />
-      </OverallFeedbackContainer>
+      <Body>
+        <Text>Click the button below to complete this section</Text>
+        <RubricContainer>
+          <RubricInputContainer>
+            <input
+              type="number"
+              value={inputValue}
+              onChange={handleInputChange}
+            />{' '}
+            / 5
+          </RubricInputContainer>
+          <RubricButton>Rubric</RubricButton>
+        </RubricContainer>
+        <MarkingCriteriaContainer>
+          <MarkingCriteriaHeading>
+            {markingCriteria?.type === 'RUBRICS'
+              ? 'Rubric'
+              : 'Strengths and Targets'}
+          </MarkingCriteriaHeading>
+          {markingCriteria?.type === 'RUBRICS' ? (
+            <MarkRubricsContainer>
+              {markingCriteria.criterias.map((rubrics) => (
+                <MarkRubricContainer key={rubrics.title}>
+                  <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
+                  {rubrics.levels.map((level) => (
+                    <MarkRubricLevelContainer key={level.name}>
+                      <LevelName>{level.name}</LevelName>
+                      <LevelDesc>{level.description}</LevelDesc>
+                    </MarkRubricLevelContainer>
+                  ))}
+                </MarkRubricContainer>
+              ))}
+            </MarkRubricsContainer>
+          ) : (
+            <></>
+          )}
+        </MarkingCriteriaContainer>
+        <Heading>
+          <HeadingTitle>
+            Overall Feedback
+            <img src={QuestionIcon} />
+          </HeadingTitle>
+          <HeadingDropdown>
+            <img src={TickMark} />
+          </HeadingDropdown>
+        </Heading>
+        <OverallFeedbackContainer>
+          <NewOverallFeedback
+            pageMode={pageMode}
+            addOverallFeedback={addOverallFeedback}
+            serialNumber={QuestionIndex + 1}
+            overallComment={overallComment}
+            updateOverAllFeedback={updateOverAllFeedback}
+          />
+        </OverallFeedbackContainer>
+      </Body>
     </MainContainer>
   );
 };

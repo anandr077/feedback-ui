@@ -167,11 +167,13 @@ function ReviewsFrame132532(props) {
       {selectedComment && selectedComment.id === comment.id && (
         <>
           {showReplyButton && (
-            <Reply onClick={onReplyClick}>
-              <img src={ReplyIcon} alt="reply" />
-            </Reply>
+            <>
+              <Reply onClick={onReplyClick}>
+                <img src={ReplyIcon} alt="reply" />
+              </Reply>
+              <img src={TickIcon} />
+            </>
           )}
-          <img src={TickIcon} />
           {getUserId() === comment.reviewerId &&
             !defaultComment &&
             comment.type !== 'FOCUS_AREA' &&

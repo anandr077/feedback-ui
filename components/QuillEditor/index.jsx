@@ -305,6 +305,8 @@ const QuillEditor = React.forwardRef(
       }
     };
 
+   console.log('page mode is', pageMode)
+
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
         <div

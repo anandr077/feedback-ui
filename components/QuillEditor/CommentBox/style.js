@@ -162,5 +162,5 @@ export const CommentDiv = styled.div`
   min-width: 300px;
   overflow: hidden;
   padding-left: 60px;
-  transition: transform 0.1s ease-in;
+  transition: top 0.3s ease-in-out, transform 0.1s ease-in;
 `;

@@ -34,7 +34,9 @@ async function fetchData(url, options, headers = {}) {
       // window.location.reload();
       // throw new Error('Page not found');
     } else if (response.status === 500) {
+      window.location.href = selfBaseUrl + '/#/404';
       window.location.reload();
+      throw new Error('Server error');
     } else if (!response.ok) {
       // window.location.href = selfBaseUrl + '/#/404';
       // window.location.reload();

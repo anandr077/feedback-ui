@@ -34,9 +34,7 @@ async function fetchData(url, options, headers = {}) {
       // window.location.reload();
       // throw new Error('Page not found');
     } else if (response.status === 500) {
-      window.location.href = selfBaseUrl + '/#/404';
       window.location.reload();
-      throw new Error('Server error');
     } else if (!response.ok) {
       // window.location.href = selfBaseUrl + '/#/404';
       // window.location.reload();
@@ -493,21 +491,70 @@ function logoutLocal() {
 }
 
 export function redirectToExternalIDP() {
-  logoutLocal();
-  const externalIDPLoginUrl =
-    jeddleBaseUrl +
-    '/wp-json/moserver/authorize?response_type=code&client_id=' +
-    clientId +
-    '&state=' +
-    Date.now() +
-    '&redirect_uri=' +
-    selfBaseUrl;
-  window.location.href = externalIDPLoginUrl;
+  setTimeout(() => {
+    logoutLocal();
+    const externalIDPLoginUrl =
+      jeddleBaseUrl +
+      '/wp-json/moserver/authorize?response_type=code&client_id=' +
+      clientId +
+      '&state=' +
+      Date.now() +
+      '&redirect_uri=' +
+      selfBaseUrl;
+    window.location.href = externalIDPLoginUrl;
+  }, 4000);
+  
 }
 
 export const exchangeCodeForToken = async (code) => {
-  return await getApi(baseUrl + '/users/exchange/' + code);
+  const url = `${baseUrl}/users/exchange/${code}`;
+  const defaultHeaders = new Headers();
+  const token = localStorage.getItem('jwtToken');
+  
+  if (token) {
+    defaultHeaders.append('Authorization', `Bearer ${token}`);
+  }
+
+  const options = {}; // Define any options if necessary
+  const headers = {}; // Define any custom headers if necessary
+
+  const mergedHeaders = Object.assign(defaultHeaders, headers);
+  
+  try {
+    const response = await fetch(url, {
+      ...options,
+      withCredentials: true,
+      credentials: 'include',
+      headers: mergedHeaders,
+    });
+
+    if (response.status === 401 || response.status === 500) {
+      return redirectToExternalIDP();
+    }
+    if (response.status === 404) {
+      window.location.href = selfBaseUrl + '/#/404';
+      // window.location.reload();
+      throw new Error('Page not found');
+    } else if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const isJson = response.headers.get('content-type')?.includes('application/json') ||
+                   response.headers.get('content-type')?.includes('application/hal+json');
+    const data = isJson ? await response.json() : null;
+
+    if (data === null) {
+      window.location.href = selfBaseUrl + '/#/404';
+      // window.location.reload();
+      throw new Error('Page not found');
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`An error occurred while fetching data: ${error.message}`);
+  }
 };
+
 
 export const getShortcuts = () => {
   const shortcuts = [

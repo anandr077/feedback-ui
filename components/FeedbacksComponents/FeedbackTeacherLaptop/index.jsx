@@ -607,6 +607,7 @@ function answersAndFeedbacks(
           QuestionIndex={QuestionIndex}
           questionPanelOpen={handleRightSidebarClick}
           methods={methods}
+          setQuestionIndex={setQuestionIndex}
         />
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}

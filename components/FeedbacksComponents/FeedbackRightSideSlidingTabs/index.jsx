@@ -11,7 +11,8 @@ const FeedbackRightSideSlidingTabs = ({
   groupedFocusAreaIds,
   QuestionIndex,
   questionPanelOpen,
-  methods
+  methods,
+  setQuestionIndex
 }) => {
  
   return (
@@ -34,6 +35,7 @@ const FeedbackRightSideSlidingTabs = ({
         openRightPanel={openRightPanel}
         submission={submission}
         QuestionIndex={QuestionIndex}
+        setQuestionIndex={setQuestionIndex}
       />
       <SubmissionHistoryTab
         handleClose={handleRightSidebarClick}

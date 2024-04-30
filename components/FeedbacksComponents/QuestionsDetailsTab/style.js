@@ -34,6 +34,7 @@ export const QuestionBody = styled.div`
   padding: 8px;
   border: 1px solid rgba(201, 198, 204, 0.5);
   box-shadow: 0px 2.04px 4px 0px rgba(112, 112, 112, 0.1);
+  cursor: pointer;
 
   &:hover {
     background: var(--color-purple-80, rgba(241, 230, 252, 1));

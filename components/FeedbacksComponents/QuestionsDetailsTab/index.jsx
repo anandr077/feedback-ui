@@ -11,7 +11,7 @@ import RightSidebarHeading from '../RightSidebarHeading';
 import GrayTick from '../../../static/img/Ticklightcolor.svg';
 import PurpleTick from '../../../static/img/16purplebgtick.svg';
 
-const QuestionsDetailsTab = ({ handleClose, openRightPanel, submission, QuestionIndex }) => {
+const QuestionsDetailsTab = ({ handleClose, openRightPanel, submission, QuestionIndex, setQuestionIndex }) => {
  
   return (
     <QuestionDetailsContainer openRightPanel={openRightPanel}>
@@ -19,7 +19,7 @@ const QuestionsDetailsTab = ({ handleClose, openRightPanel, submission, Question
       <QuestionSection>
         {submission.assignment.questions.map((question, idx) => {
           return (
-            <QuestionBody>
+            <QuestionBody onClick={()=> setQuestionIndex(idx)}>
               <Heading>
                 <SerialNumber>Question {question.serialNumber}</SerialNumber>
                 <img src={QuestionIndex === idx ? PurpleTick : GrayTick} />

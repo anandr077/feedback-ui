@@ -606,6 +606,7 @@ function answersAndFeedbacks(
           groupedFocusAreaIds={groupedFocusAreaIds}
           QuestionIndex={QuestionIndex}
           questionPanelOpen={handleRightSidebarClick}
+          methods={methods}
         />
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}

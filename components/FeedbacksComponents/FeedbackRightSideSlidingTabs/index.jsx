@@ -11,6 +11,7 @@ const FeedbackRightSideSlidingTabs = ({
   groupedFocusAreaIds,
   QuestionIndex,
   questionPanelOpen,
+  methods
 }) => {
  
   return (
@@ -22,6 +23,7 @@ const FeedbackRightSideSlidingTabs = ({
         groupedFocusAreaIds={groupedFocusAreaIds}
         QuestionIndex={QuestionIndex}
         questionPanelOpen={handleRightSidebarClick}
+        methods={methods}
       />
       <CriteriaAndOverallFeedback
         handleClose={handleRightSidebarClick}

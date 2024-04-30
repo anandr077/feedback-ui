@@ -14,12 +14,14 @@ const NewOverallFeedback = ({
 }) => {
   const inputRef = useRef();
   useEffect(() => {
-    if (overallComment?.comment) {
-      inputRef.current.value = overallComment?.comment;
-    } else if (inputRef) {
-      inputRef.current.value = '';
+    if (inputRef.current) {
+      if (overallComment?.comment) {
+        inputRef.current.value = overallComment.comment;
+      } else {
+        inputRef.current.value = '';
+      }
     }
-  }, [overallComment, serialNumber]);
+  }, [overallComment, serialNumber, inputRef]);
 
   const onSave = () => {
     let value = inputRef.current.value;

@@ -53,6 +53,9 @@ const withAuth = (WrappedComponent) => {
 function loginUsing(code) {
   exchangeCodeForToken(code)
     .then((result) => {
+      if (result === undefined || result === null ) {
+        return redirectToExternalIDP();
+      }
       setProfileCookies(result);
       window.location.href = '/#/';
     })

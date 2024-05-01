@@ -230,7 +230,7 @@ export const CountZoomContainer = styled.div`
   transition: transform 0.3s ease-in, width 0.3s ease-in;
   background-color: var(--white);
   padding: 12px 30px;
-  width: 100%;
+  width: calc(100% - 80px);
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
   z-index: 2;
 `;

@@ -83,7 +83,7 @@ export const headerTitle = [
   },
   {
     link: '/documents/',
-    title: role === 'TEACHER' ? 'Jedd AI' : 'Get Feedback',
+    title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
     teacherTooltip: '',
     studentTooltip: '',
   },

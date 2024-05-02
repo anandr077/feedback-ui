@@ -235,11 +235,6 @@ const CommentBox = ({
                               comment.id === selectedComment.id
                                 ? 'translateX(-35px)'
                                 : 'none',
-                            height:
-                              selectedComment &&
-                              comment.id === selectedComment.id
-                                ? 'auto'
-                                : '70px',
                           }}
                         >
                           <CommentCard32

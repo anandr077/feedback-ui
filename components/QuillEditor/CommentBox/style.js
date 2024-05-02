@@ -55,7 +55,7 @@ export const Frame1326 = styled.div`
   overflow: hidden;
   border: 1px solid;
   border-color: var(--text);
-  height: 46px;
+  min-height: 46px;
 `;
 
 export const TypeHere = styled.div`
@@ -160,7 +160,7 @@ export const CommentDiv = styled.div`
   position: absolute;
   left: 0;
   min-width: 300px;
-  overflow: hidden;
+  //overflow: hidden;
   padding-left: 60px;
   transition: top 0.3s ease-in-out, transform 0.1s ease-in;
 `;

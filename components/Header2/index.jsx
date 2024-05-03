@@ -7,7 +7,6 @@ import { getNotifications } from '../../service.js';
 import { getUserName, getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
-  Logo,
   LeftSide,
   Title,
   RightSide,
@@ -130,7 +129,6 @@ const Header = () => {
     >
       <MainContainer>
         <LeftSide>
-          <Logo src="./img/logo.svg" />
           <TitleConatiner>
             <TitleMain>{pageMainHeader && pageMainHeader.title}</TitleMain>
             {pageMainHeader && <ArrowRightImg src={arrowRightMini} />}

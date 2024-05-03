@@ -16,7 +16,7 @@ import {
 } from '../IndependentUser/style';
 import {DrawerQuestion, OverflowShadow} from './style'
 import { Avatar } from '@boringer-avatars/react';
-const drawerWidth = 315;
+const drawerWidth = 219;
 
 function TeacherSidebar({ open, submission }) {
   const theme = useTheme();
@@ -57,7 +57,7 @@ function TeacherSidebar({ open, submission }) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <SearchIcon src="img/vectorsearch.png" />
+              <SearchIcon src="img/search14gray.svg" />
             </DrawerInputBox>
             <DrawerQuestions>
               {studentsList?.map(

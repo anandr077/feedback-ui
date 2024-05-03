@@ -1244,8 +1244,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       div.style.scale = 1;
     }, 2000);
     div.style.background = '#F9F5FF';
-    div.style.border = '1px solid #7200E0';
-    div.style.boxShadow = '0px 4px 16px rgba(114, 0, 224, 0.2)';
+    div.style.border = '1px solid rgba(197, 150, 242, 1)';
+    div.style.boxShadow = '0px 4.08px 8px 0px rgba(112, 112, 112, 0.1)';
     div.style.scale = 1.0003;
     setCommentHighlight(true);
   }

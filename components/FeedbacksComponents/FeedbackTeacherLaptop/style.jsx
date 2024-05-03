@@ -290,24 +290,11 @@ export const DrawerArrowContainer = styled.div`
 
 export const DrawerArrow = styled.div`
   cursor: pointer;
-  //margin-left:0px
-  //margin-left: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
-
-  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
-  /* transform: ${(props) =>
-    props.open
-      ? 'translateX(0)'
-      : `translateX(-${props.drawerWidth + 35}px)`}; */
   padding: 6px 2px;
-  height: 100vh;
+  height: 30vh;
   position: fixed;
-
-  /* position: ${(props) => (props.open ? 'relative' : 'fixed')}; */
-  /* top: ${(props) => (!props.open ? '0' : '50%')}; */
-  top: '50%';
   transform: ${(props) =>
-    props.open ? `translateX(${props.drawerWidth}px)` : '10px'};
-  /* transform: ${(props) => (!props.open ? 'none' : 'none')}; */
+    props.open ? `translateX(${props.drawerWidth - 10}px)` : '10px'};
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
@@ -315,17 +302,21 @@ export const DrawerArrow = styled.div`
 `;
 
 export const ArrowImg = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 8px;
+  height: 8px;
   transform: ${(props) => (!props.open ? 'rotate(180deg)' : '0')};
   transition: transform 0.3s ease-in;
 `;
 
 export const ImgContainer = styled.div`
   padding: 5px 1px;
+  width: 24px;
+  height: 24px;
   background-color: white;
-  border: 1px solid var(--fog);
-  border-radius: 5px;
+  border: 1px solid rgba(201, 198, 204, 1);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
 `;
 
 export const Frame1387 = styled.div`

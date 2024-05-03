@@ -2,17 +2,37 @@ import styled from 'styled-components';
 
 export const SidebarContainer = styled.div`
   width: 80px;
-  height: calc(100vh - 106px);
+  height: 100vh;
   position: sticky;
-  top: 68px;
-  bottom: 0;
-  padding: 20px;
+  top: 0;
+  padding: 12px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color: rgba(48, 27, 114, 1);
   z-index: 1000;
+`;
+
+export const SideBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  p{
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 500;
+    font-size: var(--font-size-s);
+    line-height: 17px;
+    color: rgba(216, 210, 250, 1);
+  }
+`;
+
+export const Logo = styled.img`
+  display: block;
+  margin: 0 auto 20px;
 `;
 
 export const SideNavbar = styled.div`
@@ -32,12 +52,12 @@ export const SideNavbar = styled.div`
       span{
          font-family: var(--font-family-ibm_plex_sans);
          line-height: 17px;
-         color: #56515B;
-         font-weight: 400;
-         font-size: 12px;
+         color: rgba(216, 210, 250, 1);
+         font-weight: 500;
+         font-size: 13px;
 
          &.active{
-          color: #7200E0;
+          color: rgba(114, 0, 224, 1);
           font-weight: 500;
           font-size: 13px;
          }
@@ -47,4 +67,3 @@ export const SideNavbar = styled.div`
 `;
 
 
-export const HelpIcon = styled.img``;

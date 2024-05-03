@@ -256,24 +256,24 @@ function CommentCard32(props) {
         const truncatedText = words.slice(0, 12).join(' ');
         return (
           <>
-            <p>
+            <CommentDiv>
               <>{truncatedText}</>
               <ReadMore onClick={() => setShowFullComment(true)}>
                 Read more
               </ReadMore>
-            </p>
+            </CommentDiv>
           </>
         );
       } else {
         return (
-          <p>
+          <CommentDiv>
             {commentText}
             {showFullComment && (
               <ReadMore onClick={() => setShowFullComment(false)}>
                 Read less
               </ReadMore>
             )}
-          </p>
+          </CommentDiv>
         );
       }
     }
@@ -303,7 +303,6 @@ const CommentCard = styled.article`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
   position: relative;
   align-self: stretch;
   background-color: ${(props) =>
@@ -324,7 +323,7 @@ const CommentCard = styled.article`
   }
 
   &:hover {
-    border-color: var(--light-mode-purple);
+    border-color: rgba(197, 150, 242, 1);
   }
 `;
 
@@ -403,6 +402,14 @@ const ReplyCommentWrapper = styled.div`
 const ReadMore = styled.div`
   color: var(--light-mode-purple);
   font-size: var(--font-size-s);
+`;
+
+const CommentDiv = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-s);
+  line-height: 16px;
+  color: rgba(75, 70, 79, 1);
 `;
 
 export default CommentCard32;

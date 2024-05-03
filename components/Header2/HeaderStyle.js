@@ -11,6 +11,7 @@ export const MainContainer = styled.div`
   align-items: center;
   position: sticky;
   top: 0;
+  left: 80px;
   z-index: 100;
 `;
 
@@ -21,9 +22,6 @@ export const TitleConatiner = styled.div`
   gap: 8px;
 `;
 
-export const Logo = styled.img`
-  margin-right: 36px;
-`;
 export const ArrowRightImg = styled.img`
   width: 12px;
   height: 12px;

@@ -313,7 +313,7 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
                   <FocussedInput
                     id="newCommentInput"
                     //ref={newCommentFrameRef}
-                    placeholder="Comment here...."
+                    placeholder="Start typing here..."
                   ></FocussedInput>
                 </TypeHere>
               </Frame1326>

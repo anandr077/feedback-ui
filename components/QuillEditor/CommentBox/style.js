@@ -50,12 +50,6 @@ export const Frame1326 = styled.div`
   gap: 12px;
   position: relative;
   align-self: stretch;
-  background-color: var(--white);
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: var(--text);
-  min-height: 46px;
 `;
 
 export const TypeHere = styled.div`

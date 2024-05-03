@@ -78,20 +78,7 @@ function TeacherClassesDesktop(props) {
   return (
     <TopContainer>
       <Frame1422>
-        <Frame14221>
-          {/* <Frame13121>
-            <Title>
-              Classes
-              <QuestionTooltip
-                text={'View detailed analytics for each class and student'}
-                img={questionMark}
-              />
-            </Title>
-            <TItlePara>
-              Select a class to view the latest insights on their work
-            </TItlePara>
-          </Frame13121> */}
-          <Frame1306>
+        <Frame1306>
             <Tabs
               value={selectedClassIndex}
               onChange={(event, newValue) => {
@@ -103,8 +90,7 @@ function TeacherClassesDesktop(props) {
                 <Tab key={index} label={classItem.title} />
               ))}
             </Tabs>
-          </Frame1306>
-        </Frame14221>
+        </Frame1306>
         <MainContainer>
           <LeftContainer>
             <LeftContainerHeading>Page Contents</LeftContainerHeading>

@@ -6,10 +6,10 @@ import { dateOnly } from '../../dates.js';
 import { useLocation } from 'react-router-dom';
 import Loader from '../Loader';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
-import SnackbarContext from '../SnackbarContext/index.jsx';
+import Toast from '../Toast/index.js';
+import { toast } from 'react-toastify';
 
 export default function ExemplarResponsesPage(props) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [exemplarResponses, setExemplarResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [id, setId] = React.useState(null);
@@ -110,7 +110,7 @@ export default function ExemplarResponsesPage(props) {
           });
         })
         // onSlideChange();
-        showSnackbar('Response shared', res.link);
+        toast(<Toast message={'Response shared'} link={res.link} />);
       } else {
         return;
       }
@@ -132,7 +132,7 @@ export default function ExemplarResponsesPage(props) {
           });
         })
         // onSlideChange();
-        showSnackbar("Response won't be shared", res.link);
+        toast(<Toast message={"Response won't be shared"} link={res.link} />);
       } else {
         return;
       }

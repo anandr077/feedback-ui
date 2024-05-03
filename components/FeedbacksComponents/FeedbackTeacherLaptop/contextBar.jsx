@@ -65,7 +65,6 @@ import {
   cancelFeedbackRequest,
   createRequestFeddbackType,
 } from '../../../service';
-import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Button5 from '../Buttons5';
 import { Dialog } from '@mui/material';
@@ -84,6 +83,8 @@ import RectangularBigBtn from '../../../components2/Buttons/RectangularbigBtn';
 import StyledDropDown from '../../../components2/StyledDropDown';
 import TransparentbigBtn from '../../../components2/Buttons/TransparentbigBtn';
 import RectangularBigBtn2 from '../../../components2/Buttons/RectangularBigBtn2';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -391,7 +392,6 @@ export function contextBarForPortfolioDocument(
   setShowTeacherPopUp,
   isTeacher
 ) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [assignment, setAssignment] = React.useState(submission);
@@ -534,7 +534,6 @@ export function contextBarForPortfolioDocument(
           <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
         )} */}
           {submitButtonDocument(
-            showSnackbar,
             isShowSelectType,
             setShowSelectType,
             methods,
@@ -592,7 +591,6 @@ function statusText(methods, focusAreasCount, submission) {
 }
 
 const submitButtonDocument = (
-  showSnackbar,
   isShowSelectType,
   setShowSelectType,
   methods,
@@ -692,7 +690,7 @@ const submitButtonDocument = (
           onClick={() =>
             handleCancelFeedbackRequest(
               setShowFeedbackButtons,
-              showSnackbar,
+
               submission,
               setSubmission
             )
@@ -704,7 +702,7 @@ const submitButtonDocument = (
         {showFeedbackButtons &&
           dropdownButtons(
             setShowFeedbackButtons,
-            showSnackbar,
+
             submission,
             setSubmission
           )}
@@ -866,7 +864,7 @@ function getFeedbackRequestedBy(submission, allClasses) {
 
 function dropdownButtons(
   setShowFeedbackButtons,
-  showSnackbar,
+
   submission,
   setSubmission
 ) {
@@ -877,7 +875,7 @@ function dropdownButtons(
         onClick={() =>
           handleCancelFeedbackRequest(
             setShowFeedbackButtons,
-            showSnackbar,
+
             submission,
             setSubmission
           )
@@ -891,13 +889,12 @@ function dropdownButtons(
 
 function handleCancelFeedbackRequest(
   setShowFeedbackButtons,
-  showSnackbar,
   submission,
   setSubmission
 ) {
   cancelFeedbackRequest(submission.id)
     .then((response) => {
-      showSnackbar('Feedback request cancelled');
+      toast(<Toast message={'Feedback request cancelled'} />);
 
       setSubmission((old) => ({
         ...old,
@@ -909,7 +906,7 @@ function handleCancelFeedbackRequest(
       }));
     })
     .catch((error) => {
-      showSnackbar(error.message);
+      toast(<Toast message={error.message} />);
       setSubmission(error.submission);
     })
     .finally(() => {

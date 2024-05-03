@@ -43,10 +43,8 @@ import {
   getUserRole,
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
-import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import { extractStudents, getComments, getPageMode } from './functions';
-import SnackbarContext from '../../SnackbarContext';
 import {
   ActionButtonsContainer,
   DialogContiner,
@@ -72,6 +70,8 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 import isJeddAIUser from './JeddAi.js';
+import Toast from '../../Toast/index.js';
+import { toast } from 'react-toastify';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -91,7 +91,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     showComment: false,
   });
   const [showLoader, setShowLoader] = useState(false);
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const newCommentFrameRef = useRef(null);
 
@@ -186,14 +185,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
       // alert("sub" + JSON.stringify(submission.assignment))
-      const commentBankIds = submission.assignment.questions.filter((q) => q.commentBankId !== undefined && q.commentBankId !== null).map(q => q.commentBankId);
-
+      const commentBankIds = submission.assignment.questions
+        .filter(
+          (q) => q.commentBankId !== undefined && q.commentBankId !== null
+        )
+        .map((q) => q.commentBankId);
 
       const commentBankPromises = commentBankIds.map(getCommentBank);
-    
-      Promise.all([getSubmissionsByAssignmentId(submission.assignment.id), ...commentBankPromises])
+
+      Promise.all([
+        getSubmissionsByAssignmentId(submission.assignment.id),
+        ...commentBankPromises,
+      ])
         .then(([allSubmissions, ...commentBanks]) => {
-          setSmartAnnotations(commentBanks.filter(cb => cb !== undefined && cb !== null));
+          setSmartAnnotations(
+            commentBanks.filter((cb) => cb !== undefined && cb !== null)
+          );
           setStudents(extractStudents(allSubmissions));
           let currentSubmissionIndex = 0;
           const allExceptCurrent = allSubmissions.map((r, index) => {
@@ -933,9 +940,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         return true;
       }
       if (hasDuplicateAttributes(question.markingCriteria?.selectedStrengths)) {
-        showSnackbar(
-          'Please select different strength in question number ' +
-            question.serialNumber
+        toast(
+          <Toast
+            message={
+              'Please select different strength in question number ' +
+              question.serialNumber
+            }
+          />
         );
         setShowSubmitPopup(false);
         isDuplicate = true;
@@ -978,7 +989,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       queryClient.invalidateQueries((queryKey) => {
         return queryKey.includes('class');
       });
-      showSnackbar('Task reviewed...', window.location.href);
+      
+      toast(
+        <Toast
+          message={'Task reviewed...'}
+          link={
+            window.location.href.includes('documentsReview')
+              ? '/documentsReview/'
+              : '/submissions/' + submission.id
+          }
+        />
+      );
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
@@ -1025,7 +1046,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             queryClient.invalidateQueries((queryKey) => {
               return queryKey.includes('class');
             });
-            showSnackbar('Resubmission requested...', window.location.href);
+
+            toast(
+              <Toast
+                message={'Resubmission requested...'}
+                link={'/submissions/' + submission.id}
+              />
+            );
             window.location.href = '/#';
             setShowLoader(false);
           });
@@ -1033,7 +1060,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       });
 
       markSubmissionRequestSubmission(submission.id).then((_) => {
-        showSnackbar('Resubmission requested...', window.location.href);
+        toast(
+          <Toast
+            message={'Resubmission requested...'}
+            link={'/submissions/' + submission.id}
+          />
+        );
         if (isTeacher) {
           window.location.href = nextUrl === '/' ? '/#' : nextUrl;
           window.location.reload();
@@ -1092,7 +1124,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     disableAllEditors();
     handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar('Submitting task...');
+    toast(<Toast message={'Submitting task...'} />);
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
@@ -1102,7 +1134,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        showSnackbar('Task submitted...', window.location.href);
+
+        toast(
+          <Toast
+            message={'Task submitted...'}
+            link={'/submissions/' + submission.id}
+          />
+        );
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -1125,7 +1163,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     disableAllEditors();
     handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar('Submitting task...');
+    toast(<Toast message={'Submitting task...'} />);
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
         queryClient.invalidateQueries(['notifications']);
@@ -1134,7 +1172,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        showSnackbar('Task completed...', window.location.href);
+
+        toast(
+          <Toast
+            message={'Task completed...'}
+            link={'/submissions/' + submission.id}
+          />
+        );
         window.location.href = '/#';
         setShowLoader(false);
       });

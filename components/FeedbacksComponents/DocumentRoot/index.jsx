@@ -33,9 +33,10 @@ import {
 import { documentHeaderProps } from '../../../utils/headerProps';
 import Loader from '../../Loader';
 import ReactiveRender, { isMobileView } from '../../ReactiveRender';
-import SnackbarContext from '../../SnackbarContext';
 import { getComments, getPortfolioPageMode } from './functions';
 import _ from 'lodash';
+import Toast from '../../Toast/index.js';
+import { toast } from 'react-toastify';
 
 export default function DocumentRoot({}) {
   const queryClient = useQueryClient();
@@ -43,7 +44,6 @@ export default function DocumentRoot({}) {
   const quillRefs = useRef([]);
   const [labelText, setLabelText] = useState('');
   const [showLoader, setShowLoader] = useState(false);
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const newCommentFrameRef = useRef(null);
   const [submission, setSubmission] = useState(null);
   const [portfolio, setPortfolio] = useState(null);
@@ -505,7 +505,13 @@ export default function DocumentRoot({}) {
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
       clearQueries();
-      showSnackbar('Task reviewed...', window.location.href);
+      
+      toast(
+        <Toast
+          message={'Task reviewed...'}
+          link={'/documentsReview/' + submission.id}
+        />
+      );
       window.location.href = '/#';
     });
   }
@@ -517,7 +523,8 @@ export default function DocumentRoot({}) {
 
     markSubmissionRequestSubmission(submission.id).then((_) => {
       clearQueries();
-      showSnackbar('Resubmission requested...', window.location.href);
+      
+      toast(<Toast message={'Resubmission requested...'} />);
       window.location.href = '/#';
     });
   }
@@ -530,12 +537,13 @@ export default function DocumentRoot({}) {
     disableAllEditors();
     handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar('Submitting task...');
+    toast(<Toast message={'Submitting task...'} />);
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
         clearQueries();
-        showSnackbar('Task submitted...', window.location.href);
+        
+        toast(<Toast message={'Task submitted...'} />);
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -558,11 +566,12 @@ export default function DocumentRoot({}) {
     disableAllEditors();
     handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar('Submitting task...');
+
+    toast(<Toast message={'Submitting task...'} />);
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
         clearQueries();
-        showSnackbar('Task completed...', window.location.href);
+        toast(<Toast message={'Task completed...'} />);
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -721,7 +730,8 @@ export default function DocumentRoot({}) {
     docsMoveToFolder(submission.id, item.classId, item.id).then((res) => {
       if (res) {
         const classObj = allFolders.find((item) => item.id === res.folderId);
-        showSnackbar('Moved to ' + classObj.title);
+
+        toast(<Toast message={'Moved to ' + classObj.title} />);
         queryClient.invalidateQueries(['portfolio']);
         getSubmissionById(submission.id).then((s) => {
           setSubmission(s);

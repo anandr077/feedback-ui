@@ -36,10 +36,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
 import arrowRight from '../../static/img/arrowright.svg';
 import { requestedTime } from '../../utils/requestedTime';
-import SnackbarContext from '../SnackbarContext';
+import { toast } from 'react-toastify';
+import Toast from '../Toast';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
@@ -71,7 +71,13 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
   
     onSettled: () => {
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
-      showSnackbar('Feedback request dismissed');
+      
+        toast(
+          <Toast
+            message={'Feedback request dismissed'}
+           
+          />
+        );
     },
   });
   return (

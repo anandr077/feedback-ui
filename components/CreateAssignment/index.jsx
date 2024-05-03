@@ -25,7 +25,6 @@ import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
 import ReactiveRender, { isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
-import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
 import FocusAreaDialog from './Dialog/newFocusArea';
 import { getFocusAreas, getAllColors } from '../../service';
@@ -46,7 +45,6 @@ import QuestionTooltip from '../../components2/QuestionTooltip';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
 import { getUserId } from '../../userLocalDetails';
 import { toast } from 'react-toastify';
-import { Button } from '@mui/material';
 import Toast from '../Toast';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
@@ -80,7 +78,6 @@ export default function CreateAssignment(props) {
     []
   );
   const [currentCommentBank, setCurrentCommentBank] = React.useState([]);
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const getAssignment = async (id) => {
     if (id === 'new') {
@@ -647,7 +644,6 @@ export default function CreateAssignment(props) {
         });
       });
     } else {
-      // showSnackbar('Please fill all the fields');
     }
   };
 

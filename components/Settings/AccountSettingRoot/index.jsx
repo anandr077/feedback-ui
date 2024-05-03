@@ -25,7 +25,6 @@ import SettingsNav from '../SettingsNav';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
-import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
 import {
   Button,
@@ -72,10 +71,11 @@ import {
   TabsPlus,
   TabsPlusText,
 } from '../AccountSettingsMarkingCriteriaDeskt/style.jsx';
+import Toast from '../../Toast/index.js';
+import { toast } from 'react-toastify';
 
 export default function AccountSettingsRoot(props) {
   const queryClient = useQueryClient();
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [smartAnnotationUpdateIndex, setSmartAnnotationUpdateIndex] =
     React.useState(-1);
@@ -202,13 +202,13 @@ export default function AccountSettingsRoot(props) {
   const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
-        // showSnackbar('Marking criteria deleted');
+        toast(<Toast message={'Marking criteria deleted'} />);
         getAllMarkingCriteria().then((result) => {
           setMarkingCriterias(result);
         });
       })
       .catch((error) => {
-        // showSnackbar('Error deleting marking criteria');
+        toast(<Toast message={'Error deleting marking criteria'} />);
       });
   };
 
@@ -226,10 +226,10 @@ export default function AccountSettingsRoot(props) {
         }
 
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Feedback bank Deleted');
+        toast(<Toast message={'Feedback bank Deleted'} />);
       })
       .catch(() => {
-        // showSnackbar('Error deleting bank');
+        toast(<Toast message={'Error deleting bank'} />);
       });
   };
 
@@ -244,11 +244,11 @@ export default function AccountSettingsRoot(props) {
     createNewFeedbackBank(newObject)
       .then(() => {
         queryClient.invalidateQueries(['feedbackBank']);
-        // showSnackbar('feedback bank cloned');
+        toast(<Toast message={'feedback bank cloned'} />);
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
-        // showSnackbar('Cloning failed');
+        toast(<Toast message={'Cloning failed'} />);
       });
   };
 
@@ -272,10 +272,10 @@ export default function AccountSettingsRoot(props) {
         queryClient.invalidateQueries(['feedbackBank']);
         setShowNewBankPopUp(false);
         setFeedbackBankCreated(true);
-        // showSnackbar('New feedback bank created');
+        toast(<Toast message={'New feedback bank created'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error creating new feedback bank');
+        toast(<Toast message={'Error creating new feedback bank'} />);
       });
   };
 
@@ -289,13 +289,13 @@ export default function AccountSettingsRoot(props) {
       .then(() => {
         // setSmartAnnotations([...smartAnnotations, newBank]);
         setShowNewBankPopUp(false);
-        // showSnackbar('New feedback bank created');
+        toast(<Toast message={'New feedback bank created'} />);
         queryClient.invalidateQueries(['feedbackBank']);
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
         console.log('first error', error);
-        // showSnackbar('Error creating new feedback bank');
+        toast(<Toast message={'Error creating new feedback bank'} />);
       });
   };
 
@@ -332,10 +332,10 @@ export default function AccountSettingsRoot(props) {
     createNewSmartAnnotation(newObject, feedbackBankId)
       .then((result) => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Smart annotation created');
+        toast(<Toast message={'Smart annotation created'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating Feedback bank');
+        toast(<Toast message={'Error updating Feedback bank'} />);
       });
 
     //updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
@@ -363,10 +363,10 @@ export default function AccountSettingsRoot(props) {
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Feedback bank title updated');
+        toast(<Toast message={'Feedback bank title updated'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating smart annotation');
+        toast(<Toast message={'Error updating smart annotation'} />);
       });
   };
 
@@ -402,10 +402,10 @@ export default function AccountSettingsRoot(props) {
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Smart annotation updated');
+        toast(<Toast message={'Smart annotation updated'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating smart annotation');
+        toast(<Toast message={'Error updating smart annotation'} />);
       });
   };
 
@@ -432,10 +432,10 @@ export default function AccountSettingsRoot(props) {
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
         setSmartAnnotations(NewSmartAnnotations);
-        // showSnackbar('Smart commit deleted');
+        toast(<Toast message={'Smart commit deleted'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error deleting Smart commit');
+        toast(<Toast message={'Error deleting Smart commit'} />);
       });
   };
 
@@ -456,16 +456,19 @@ export default function AccountSettingsRoot(props) {
       .then((res) => {
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
-        // showSnackbar(
-        //   'Copied marking template',
-        //   markingCriteriaUrl(res.id.value, res.type.value)
-        // );
+        
+        toast(
+          <Toast
+            message={'Copied marking template'}
+            link={markingCriteriaUrl(res.id.value, res.type.value)}
+          />
+        );
         getAllMarkingCriteria().then((result) => {
           setMarkingCriterias(result);
         });
       })
       .catch((err) => {
-        // showSnackbar('Error cloning marking template');
+        toast(<Toast message={'Error cloning marking template'} />);
       });
   };
 
@@ -715,8 +718,8 @@ export default function AccountSettingsRoot(props) {
 }
 function markingCriteriaUrl(id, type) {
   return type === 'RUBRICS'
-    ? `/#/markingCriterias/rubrics/${id}`
-    : `/#/markingTemplates/strengths-and-targets/${id}`;
+    ? `/markingCriterias/rubrics/${id}`
+    : `/markingTemplates/strengths-and-targets/${id}`;
 }
 const navElement1Data = {
   home3: '/img/home3@2x.png',

@@ -34,7 +34,6 @@ export const Frame1422 = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  position: relative;
   max-width: 1440px;
 `;
 
@@ -78,9 +77,12 @@ export const Frame1306 = styled.div`
   width: fit-content;
   align-items: flex-start;
   gap: 20px;
-  position: relative;
   border-bottom: 1px solid #d6d6d6;
   border-top: 1px solid #d6d6d6;
+  position: sticky;
+  top: 68px;
+  z-index: 4;
+  background-color: white;
   .MuiTabs-scroller {
     button {
       color: #7200e0 !important;
@@ -222,14 +224,11 @@ export const LeftContainer = styled.div`
   display: flex;
   position: sticky;
   height: 250px;
-  top: 10px;
+  top: 120px;
   width: 25%;
   max-width: 230px;
   flex-direction: column;
   align-items: flex-start;
-  @media (min-width: 766px) and (max-width: 1024px) {
-    top: 10px;
-  }
   @media (max-width: 765px) {
     display: none;
   }
@@ -272,6 +271,7 @@ export const RightContainer = styled.div`
   border-left: 1px solid #d6d6d6;
   @media (min-width: 766px) and (max-width: 1024px) {
     width: 100%;
+    padding-right: 30px;
   }
   @media (max-width: 765px) {
     width: 100%;

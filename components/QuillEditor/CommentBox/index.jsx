@@ -123,7 +123,11 @@ const CommentBox = ({
         }
 
         if (index < selectedCommentIndex) {
-          topPosition -= commentHeights[index];
+          if (topPosition <= lastCommentBottomPosition) {
+            topPosition -= commentHeights[index];
+          } else {
+            topPosition = topPosition;
+          }
         }
 
         lastCommentBottomPosition = topPosition + commentHeights[index];
@@ -158,8 +162,6 @@ const CommentBox = ({
 
     setGroupedCommentsWithGap(groupedCommentsWithGap);
   }, [editor, editorRef, selectedComment, comments, commentHeights]);
-
-  console.log('the comment heights are', commentHeights)
 
   let commentInputTopPosition;
   if (selectedRange) {
@@ -221,63 +223,54 @@ const CommentBox = ({
               >
                 {groupedCommentsWithGap.map((group, groupIndex) => (
                   <div key={groupIndex}>
-                    {group
-                      .filter((comment) => comment.type === 'COMMENT')
-                      .map((comment, index) => {
-                        return (
-                          <CommentDiv
-                            key={index}
-                            id={`comment-${index}`}
-                            style={{
-                              top: `${comment.topPosition}px`,
-                              transform:
-                                selectedComment &&
-                                comment.id === selectedComment.id
-                                  ? 'translateX(-35px)'
-                                  : 'none',
-                              height:
-                                selectedComment &&
-                                comment.id === selectedComment.id
-                                  ? 'auto'
-                                  : '100px',
-                            }}
-                          >
-                            <CommentCard32
-                              reviewer={comment.reviewerName}
-                              comment={comment}
-                              onClick={(c) => methods.handleCommentSelected(c)}
-                              onClose={() =>
-                                methods.handleDeleteComment(comment.id)
-                              }
-                              handleEditingComment={
-                                methods.handleEditingComment
-                              }
-                              deleteReplyComment={
-                                methods.handleDeleteReplyComment
-                              }
-                              onResolved={methods.handleResolvedComment}
-                              handleReplyComment={methods.handleReplyComment}
-                              isResolved={comment.status}
-                              showResolveButton={false}
-                              isTeacher={isTeacher}
-                              updateParentComment={methods.updateParentComment}
-                              updateChildComment={methods.updateChildComment}
-                              pageMode={pageMode}
-                              openShareWithStudentDialog={
-                                methods.handleShareWithClass
-                              }
-                              convertToCheckedState={
-                                methods.convertToCheckedState
-                              }
-                              updateExemplarComment={
-                                methods.setUpdateExemplarComment
-                              }
-                              studentId={submission.studentId}
-                              selectedComment={selectedComment}
-                            />
-                          </CommentDiv>
-                        );
-                      })}
+                    {group.map((comment, index) => {
+                      return (
+                        <CommentDiv
+                          key={index}
+                          id={`comment-${index}`}
+                          style={{
+                            top: `${comment.topPosition}px`,
+                            transform:
+                              selectedComment &&
+                              comment.id === selectedComment.id
+                                ? 'translateX(-35px)'
+                                : 'none',
+                          }}
+                        >
+                          <CommentCard32
+                            reviewer={comment.reviewerName}
+                            comment={comment}
+                            onClick={(c) => methods.handleCommentSelected(c)}
+                            onClose={() =>
+                              methods.handleDeleteComment(comment.id)
+                            }
+                            handleEditingComment={methods.handleEditingComment}
+                            deleteReplyComment={
+                              methods.handleDeleteReplyComment
+                            }
+                            onResolved={methods.handleResolvedComment}
+                            handleReplyComment={methods.handleReplyComment}
+                            isResolved={comment.status}
+                            showResolveButton={false}
+                            isTeacher={isTeacher}
+                            updateParentComment={methods.updateParentComment}
+                            updateChildComment={methods.updateChildComment}
+                            pageMode={pageMode}
+                            openShareWithStudentDialog={
+                              methods.handleShareWithClass
+                            }
+                            convertToCheckedState={
+                              methods.convertToCheckedState
+                            }
+                            updateExemplarComment={
+                              methods.setUpdateExemplarComment
+                            }
+                            studentId={submission.studentId}
+                            selectedComment={selectedComment}
+                          />
+                        </CommentDiv>
+                      );
+                    })}
                   </div>
                 ))}
               </ul>
@@ -320,7 +313,7 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
                   <FocussedInput
                     id="newCommentInput"
                     //ref={newCommentFrameRef}
-                    placeholder="Comment here...."
+                    placeholder="Start typing here..."
                   ></FocussedInput>
                 </TypeHere>
               </Frame1326>

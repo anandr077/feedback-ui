@@ -1,17 +1,30 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { css } from 'styled-components';
 import styled from 'styled-components';
 
 const FocusedInput = ({ id, placeholder, onKeyPress }) => {
-  // Create a ref for the input element
   const inputRef = useRef(null);
+  const [rows, setRows] = useState(1);
 
-  // Use the useEffect hook to set focus on the input element when the component is loaded
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
+
+  const handleChange = () => {
+    if (inputRef.current) {
+      const textareaLineHeight = 20; 
+      const previousRows = inputRef.current.rows;
+      inputRef.current.rows = 1; 
+      const currentRows = Math.ceil(inputRef.current.scrollHeight / textareaLineHeight);
+      inputRef.current.rows = currentRows;
+      setRows(currentRows);
+      if (currentRows !== previousRows) {
+        inputRef.current.style.height = `${currentRows * textareaLineHeight}px`;
+      }
+    }
+  };
 
   return (
     <TextInput
@@ -20,6 +33,8 @@ const FocusedInput = ({ id, placeholder, onKeyPress }) => {
       type="text"
       onKeyPress={onKeyPress}
       ref={inputRef}
+      rows={rows}
+      onChange={handleChange}
     ></TextInput>
   );
 };
@@ -38,14 +53,15 @@ const TextInput = styled.textarea`
   ${feedbacksIbmplexsansNormalStack20px}
   position: relative;
   flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  padding: 0px 12px;
   line-height: normal;
-  border-color: transparent;
-  box-shadow: 0px;
   outline: none;
   transition: 0.15s;
   width: 100%;
-  height: 30px;
+  resize: none; 
+  overflow-y: hidden;
+  min-height: 33px;
+  border-radius: 4px;
+  border: 1px solid rgba(201, 198, 204, 1);
+  padding: 8px;
+  box-shadow: 0px 2.04px 2px 0px rgba(115, 115, 115, 0.25) inset;
 `;

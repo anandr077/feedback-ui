@@ -22,6 +22,7 @@ const FeedbackTaskDetails = ({
   QuestionIndex,
   groupedFocusAreaIds,
   questionPanelOpen,
+  methods
 }) => {
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -55,7 +56,7 @@ const FeedbackTaskDetails = ({
         <FocusBody>
           {question?.focusAreas?.map((fa) => {
             return (
-              <FocusArea>
+              <FocusArea onClick={()=> methods.handleFocusAreaComment(fa)}>
                 <Ellipse141 bg={fa.color}></Ellipse141>
                 <Label>{fa.title}</Label>
               </FocusArea>

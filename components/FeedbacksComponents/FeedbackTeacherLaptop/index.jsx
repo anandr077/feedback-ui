@@ -98,7 +98,7 @@ function FeedbackTeacherLaptop(props) {
   const [open, setOpen] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
-  const drawerWidth = 315;
+  const drawerWidth = 219;
   const { countWords, showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
 
@@ -387,7 +387,7 @@ function FeedbackTeacherLaptop(props) {
             open={open}
           >
             <ImgContainer>
-              <ArrowImg src="img/caret-5@2x.png" open={open} />
+              <ArrowImg src="img/anglerightgray3.svg" open={open} />
             </ImgContainer>
           </DrawerArrow>
         )}
@@ -606,6 +606,8 @@ function answersAndFeedbacks(
           groupedFocusAreaIds={groupedFocusAreaIds}
           QuestionIndex={QuestionIndex}
           questionPanelOpen={handleRightSidebarClick}
+          methods={methods}
+          setQuestionIndex={setQuestionIndex}
         />
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}

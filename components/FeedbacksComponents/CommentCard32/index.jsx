@@ -34,6 +34,7 @@ function CommentCard32(props) {
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
+  const [showFullComment, setShowFullComment] = React.useState(false);
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
@@ -215,18 +216,65 @@ function CommentCard32(props) {
     if (editButtonActive && editCommentType === 'parent_comment') {
       return inputComment();
     } else {
-      if (comment?.comment?.includes('\n\n')) {
-        const commentArray = comment.comment.split('\n\n');
+      // if (comment?.comment?.includes('\n\n')) {
+      //   const commentArray = comment.comment.split('\n\n');
+      //   return (
+      //     <>
+      //       <p>
+      //         <BoldText>{commentArray[0]}</BoldText>
+      //       </p>
+      //       <NewlineText text={commentArray[1]} />
+      //     </>
+      //   );
+      // } else {
+      //   const commentText = comment.comment;
+      //   const words = commentText.split(' ');
+
+      //   if (!showFullComment && words.length > 12) {
+      //     const truncatedText = words.slice(0, 12).join(' ');
+      //     return (
+      //       <>
+      //         <p>
+      //           <>{truncatedText}</>
+      //           <ReadMore onClick={() => setShowFullComment(true)}> Read more</ReadMore>
+      //         </p>
+      //       </>
+      //     );
+      //   } else {
+      //     return (
+      //         <p>
+      //         {commentText}
+      //         </p>
+      //     );
+      //   }
+      // }
+
+      const commentText = comment.comment;
+      const words = commentText.split(' ');
+
+      if (!showFullComment && words.length > 12) {
+        const truncatedText = words.slice(0, 12).join(' ');
         return (
           <>
-            <p>
-              <BoldText>{commentArray[0]}</BoldText>
-            </p>
-            <NewlineText text={commentArray[1]} />
+            <CommentDiv>
+              <>{truncatedText}</>
+              <ReadMore onClick={() => setShowFullComment(true)}>
+                Read more
+              </ReadMore>
+            </CommentDiv>
           </>
         );
       } else {
-        return comment.comment;
+        return (
+          <CommentDiv>
+            {commentText}
+            {showFullComment && (
+              <ReadMore onClick={() => setShowFullComment(false)}>
+                Read less
+              </ReadMore>
+            )}
+          </CommentDiv>
+        );
       }
     }
   }
@@ -255,7 +303,6 @@ const CommentCard = styled.article`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
   position: relative;
   align-self: stretch;
   background-color: ${(props) =>
@@ -276,7 +323,7 @@ const CommentCard = styled.article`
   }
 
   &:hover {
-    border-color: var(--light-mode-purple);
+    border-color: rgba(197, 150, 242, 1);
   }
 `;
 
@@ -350,6 +397,19 @@ const ReplyCommentWrapper = styled.div`
   font-family: IBM Plex Sans;
   padding-top: 12px;
   border-top: 1px solid #f1e6fc;
+`;
+
+const ReadMore = styled.div`
+  color: var(--light-mode-purple);
+  font-size: var(--font-size-s);
+`;
+
+const CommentDiv = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-s);
+  line-height: 16px;
+  color: rgba(75, 70, 79, 1);
 `;
 
 export default CommentCard32;

@@ -17,13 +17,13 @@ export const OverflowShadow = styled.div`
 export const DrawerQuestion = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
-  font-size: var(--font-size-l);
-  line-height: 20.8px;
-  padding: 16px 20px;
-  border-radius: 8px;
+  font-size: 14px;
+  line-height: 18.2px;
+  padding: 8px 12px;
+  border-radius: 22px;
   background: ${(props) =>
-    props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
-  color: ${(props) => (props.studentStyle ? 'var(--white)' : 'var(--text)')};
+    props.studentStyle ? 'rgba(241, 230, 252, 1)' : 'white'};
+  color: ${(props) => (props.studentStyle ? 'rgba(114, 0, 224, 1)' : 'rgba(123, 115, 130, 1)')};
   position: relative;
   display: flex;
   align-items: center;

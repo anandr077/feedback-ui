@@ -11,6 +11,7 @@ export const MainContainer = styled.div`
   align-items: center;
   position: sticky;
   top: 0;
+  left: 80px;
   z-index: 100;
 `;
 
@@ -21,9 +22,6 @@ export const TitleConatiner = styled.div`
   gap: 8px;
 `;
 
-export const Logo = styled.img`
-  margin-right: 36px;
-`;
 export const ArrowRightImg = styled.img`
   width: 12px;
   height: 12px;
@@ -65,13 +63,40 @@ export const RightSide = styled.div`
 
 export const NotificationAccount = styled.div`
   display: flex;
+  align-items: center;
   gap: 23px;
   padding: 0 11px 0 5px;
+`;
+
+
+export const HelpbarContainer = styled.div`
+  position: absolute;
+  top: 70px;
+  right: 0;
+  z-index: 10000 !important;
+  border-radius: 8px;
+  background-color: white;
+  align-self: stretch;
+  overflow-y: scroll;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+  height: ${(props) => (props.pageHeight ? props.pageHeight + 'px' : '0')};
+  animation: ${(props) => (props.isHelpBarOpen ? slideIn : slideOut)} 0.3s
+    linear forwards;
+  &::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
 `;
 
 export const Notification = styled.img`
   cursor: pointer;
 `;
+
+export const HeaderHelpBar = styled.img`
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+`
 
 export const Account = styled.div`
   height: 36px;
@@ -83,7 +108,7 @@ export const Screen = styled.div`
   height: ${(props) =>
     props.pageHeight ? props.pageHeight + 170 + 'px' : '0'};
   //height: 100%;
-  width: calc(100vw - 20px);
+  width: calc(100vw - 77px);
   position: absolute;
   top: 0;
   left: 0;
@@ -131,7 +156,7 @@ export const NavigationContainer = styled.div`
   top: 70px;
   right: 0;
   z-index: 10000 !important;
-  border-radius: 8px;
+  border-radius: 8px 0 0 8px;
   background-color: white;
   align-self: stretch;
   overflow-y: scroll;

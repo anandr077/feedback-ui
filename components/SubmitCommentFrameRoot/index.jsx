@@ -26,7 +26,7 @@ const SubmitCommentFrameRoot = (props) => {
           onClick={(e) => submitButtonOnClick()}
           style={{ opacity: isButtonDisabled ? 0.6 : 1 }}
         >
-          <Text1>{showComment ? 'Update' : 'Comment'}</Text1>
+          {showComment ? 'Update' : 'Comment'}
         </SmallButton>
       </RightBtnContainer>
     </SubmitCommentFrameRootRoot>
@@ -49,7 +49,7 @@ const LeftBtn = styled.button`
   display: flex;
   align-items: center;
 
-  img{
+  img {
     width: 24px;
     height: 24px;
   }
@@ -67,7 +67,16 @@ const SubmitCommentFrameRootRoot = styled.div`
   width: 100%;
 `;
 
-const Text1 = styled.div`
+const SmallButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 33px;
+  min-width: 83px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 32px;
+  background-color: rgba(178, 174, 183, 1);
   text-align: center;
   white-space: nowrap;
   font-family: var(--font-family-ibm_plex_sans);
@@ -75,29 +84,15 @@ const Text1 = styled.div`
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.31;
+  line-height: 17px;
   letter-spacing: normal;
-  text-align: left;
-  color: #fff;
-`;
-
-const SmallButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 33px;
-  min-width: 83px;
-  cursor: pointer; 
-  padding: 8px 12px;
-  border-radius: 32px;
-  background-color: var(--light-mode-purple);
-  border: 1px solid var(--light-mode-purple);
+  color: rgba(255, 255, 255, 1);
+  border: none;
 
   &:hover {
-    ${Text1} {
-      scale: 1.05;
-      transition: 0.1s;
-    }
+    transform: scale(1.02);
+    transition: 0.1s;
+    background-color: rgba(114, 0, 224, 1);
   }
 `;
 
@@ -108,7 +103,7 @@ const Text2 = styled.div`
   font-weight: 500;
   font-size: var(--font-size-s);
   line-height: 24px;
-  color: #918b97;
+  color: rgba(145, 139, 151, 1);
 `;
 
 const SmallButtonWhite = styled.button`

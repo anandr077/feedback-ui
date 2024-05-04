@@ -165,10 +165,10 @@ function App() {
       <QueryClientProvider client={portfolioClient}>
         <Router>
           {/* {<ProtectedHeader />} */}
-          <Header />
           <div className="app-container">
             <MainSidebar />
             <div className="route-container">
+              <Header />
               <Switch>
                 <Route path="/docs">
                   <ProtectedDocRoot />

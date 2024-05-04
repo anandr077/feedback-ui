@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SidebarContainer, SideNavbar, HelpIcon } from './style';
+import { SidebarContainer, SideNavbar, SideBottom, Logo } from './style';
 import { getUserRole } from '../../userLocalDetails';
 import taskIcon from '../../static/img/Task2.svg';
 import activetaskIcon from '../../static/img/activetask.svg';
@@ -7,10 +7,11 @@ import classIcon from '../../static/img/insights.svg';
 import activeClassIcon from '../../static/img/active-class-insights-icon.svg';
 import settingIcon from '../../static/img/setting.svg';
 import activesettingIcon from '../../static/img/activesetting.svg';
-import helpIcon from '../../static/img/help.png';
 import jeddaiIcon from '../../static/img/jeddaigray32.svg';
 import getfeedbackIcon from '../../static/img/getfeedback32gray.svg';
+import activeGetfeedbackIcon from '../../static/img/activeGetFeedback.svg';
 import myprogressIcon from '../../static/img/myprogressgray.svg';
+import ExitHub from '../../static/img/exithubgray26.svg';
 import {
   useHistory,
   useLocation,
@@ -36,7 +37,7 @@ const MainSidebar = () => {
     },
     {
       icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
-      activeIcon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
+      activeIcon: `${role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIcon}`,
       name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAi'}`,
       link: '/getFeedback',
     },
@@ -75,6 +76,7 @@ const MainSidebar = () => {
   return (
     <SidebarContainer>
       <SideNavbar>
+        <Logo src="./img/logo.svg" />
         <ul>
           {sideNavItems.map((navItem) => {
             if (
@@ -102,7 +104,10 @@ const MainSidebar = () => {
           })}
         </ul>
       </SideNavbar>
-      <HelpIcon src={helpIcon} />
+      <SideBottom>
+        <img src={ExitHub} />
+        <p>Exit Hub</p>
+      </SideBottom>
     </SidebarContainer>
   );
 };

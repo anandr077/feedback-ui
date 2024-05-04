@@ -12,6 +12,8 @@ import {
   RightSide,
   NotificationAccount,
   Notification,
+  HeaderHelpBar,
+  HelpbarContainer,
   Account,
   Screen,
   NavigationContainer,
@@ -23,6 +25,7 @@ import {
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
+import helpbarIcon from '../../static/img/helpgray24.svg';
 import addBtnIcon from '../../static/icons/gradient_add.svg';
 import notificationsIcon from '../../static/icons/notifications.svg';
 import accountIcon from '../../static/icons/mask-group-4@2x.png';
@@ -33,10 +36,13 @@ import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
 import { headerTitle } from './headerTitle.js';
 import { Avatar } from '@boringer-avatars/react';
 import { headerMainTitle } from './headerMainTitle.js';
+import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
+//import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
 
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [slideNotificationBar, setSlideNotificationBar] = useState(false);
+  const [isHelpBarOpen, setIsHelpBarOpen] = useState(false);
   const [dropDown, setDropDown] = React.useState(false);
   const [pageHeight, setPageHeight] = useState(0);
   const [sliderOpen, setsliderOpen] = useState(false);
@@ -77,6 +83,22 @@ const Header = () => {
         setIsNotificationOpen(false);
       }, 300);
     }
+  };
+
+  const handleHelpBarClick = () => {
+    setIsNotificationOpen(false);
+    if (!isHelpBarOpen) {
+      setIsHelpBarOpen(true);
+      setsliderOpen(true);
+      setIsNotificationOpen(false);
+      setDropDown(false);
+    } else {
+      setsliderOpen(false);
+      setTimeout(() => {
+        setIsHelpBarOpen(false);
+      }, 300);
+    }
+    console.log('the help bar');
   };
 
   useEffect(() => {
@@ -161,6 +183,7 @@ const Header = () => {
             </div>
           )}
           <NotificationAccount>
+            <HeaderHelpBar src={helpbarIcon} onClick={handleHelpBarClick} />
             <Notification
               src={notificationsIcon}
               onClick={handleNotificationClick}
@@ -177,6 +200,18 @@ const Header = () => {
             </Account>
           </NotificationAccount>
         </RightSide>
+        {isHelpBarOpen && (
+          <Screen onClick={handleHelpBarClick} pageHeight={pageHeight}>
+            <HelpbarContainer
+              isHelpBarOpen={sliderOpen}
+              pageHeight={pageHeight}
+              ref={notificationBarRef}
+              fixedTop={fixedTop}
+            >
+              <HelpSidebar fixedTop={fixedTop} />
+            </HelpbarContainer>
+          </Screen>
+        )}
         {isNotificationOpen && (
           <Screen
             onClick={handleNotificationClick}

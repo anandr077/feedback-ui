@@ -81,7 +81,7 @@ export const Frame1306 = styled.div`
   border-top: 1px solid #d6d6d6;
   position: sticky;
   top: 68px;
-  z-index: 999;
+  z-index: 4;
   background-color: white;
   .MuiTabs-scroller {
     button {

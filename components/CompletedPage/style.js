@@ -8,7 +8,7 @@ export const MainContainer = styled.div`
   width: 100%;
   align-items: center;
   background-color: var(--white);
-  border: 1px none;
+  border-top: 1px solid rgba(201, 198, 204, 0.5);
   display: flex;
   flex-direction: column;
   gap: 60px;

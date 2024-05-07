@@ -90,6 +90,7 @@ const Frame1425 = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
+  border-top: 1px solid rgba(201, 198, 204, 0.5);
   // max-width: 1440px !important;
 `;
 

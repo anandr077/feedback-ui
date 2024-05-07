@@ -63,6 +63,8 @@ export const Frame1354 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
+  max-height: 100%;
+  height: fit-content;
   border-radius: 16px;
   border: 1px solid #301b7214;
   background-color: rgba(242, 241, 243, 0.9);
@@ -77,6 +79,8 @@ export const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
+  max-height: 100%;
+  height: fit-content;
   border: 1px solid #301b7214;
   border-radius: 16px;
   background-color: rgba(242, 241, 243, 0.9);

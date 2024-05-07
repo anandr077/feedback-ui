@@ -39,7 +39,7 @@ const MainSidebar = () => {
     {
       icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
       activeIcon: `${role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon}`,
-      name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAi'}`,
+      name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
       link: '/getFeedback',
     },
     {

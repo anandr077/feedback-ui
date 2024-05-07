@@ -84,7 +84,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
     if (showFullText) {
       return title;
     } else {
-      return title.length > 120 ? title.slice(0, 120) + '... ' : title;
+      return title.length > 120 ? title.slice(0, 120) + '...' : title;
     }
   };
 
@@ -115,7 +115,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
             </TagsAndTextContainer>
             <TextContainer>
               <DataText>
-                {showMoreText(text.title)}
+                {showMoreText(text.title)} {' '} 
                 <span onClick={toggleShowText}>
                   {text.title.length > 120 && (!showFullText ? 'Show more' : 'Show less')}
                 </span>

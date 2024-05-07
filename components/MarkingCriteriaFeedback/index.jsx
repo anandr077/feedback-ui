@@ -126,9 +126,9 @@ const createRows = (
 ) => {
   return items.map((item) => (
     <td
-      key={item.levelName}
+      key={item?.levelName}
       className={`marking-criteria-data marking-criteria-column-width${
-        item.selectedLevel ? '-selected' : ''
+        item?.selectedLevel ? '-selected' : ''
       }`}
       style={{ cursor: 'pointer' }}
       onClick={() =>
@@ -139,8 +139,8 @@ const createRows = (
         )
       }
     >
-      <div className="marking-criteria-heading">{item.levelName}</div>
-      <div className="marking-criteria-content">{item.levelDescription}</div>
+      <div className="marking-criteria-heading">{item?.levelName}</div>
+      <div className="marking-criteria-content">{item?.levelDescription}</div>
     </td>
   ));
 };

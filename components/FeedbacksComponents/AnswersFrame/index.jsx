@@ -130,6 +130,8 @@ function AnswersFrame(props) {
     (comment) => comment.type === 'FOCUS_AREA'
   );
 
+  console.log('submission is', submission)
+
   return (
     <Group1225 id="answers">
       <Frame1367 moveToLeft={openRightPanel}>

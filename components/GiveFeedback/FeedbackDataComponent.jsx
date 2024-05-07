@@ -18,19 +18,23 @@ import {
   IconsContainer,
   ParaContainer,
   RequestedText,
+  MarkedLiked,
   Tag,
   TagText,
   TagsAndTextContainer,
+  UserNameBox,
+  UserImage,
   TagsContainer,
   TextContainer,
   TextContainer1,
   WordsCount,
   WordsCountContainer,
 } from './style';
-import WhiteArrowRight from '../../static/img/arrowright-White.svg';
+import WhiteArrowRight from '../../static/img/Arrow-right-purple-24.svg';
 import CloseCircle from '../../static/img/closecircle.svg';
 import StarFilled from '../../static/img/Star-filled.png';
 import StarEmpty from '../../static/img/Star-empty.png';
+import Liked from '../../static/img/like.svg';
 import StyledButton from '../../components2/StyledButton';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
@@ -40,6 +44,8 @@ import SnackbarContext from '../SnackbarContext';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
   const { showSnackbar } = React.useContext(SnackbarContext);
+
+  console.log('the feedbackData', feedbackData);
 
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
@@ -80,13 +86,10 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
         return (
           <CardContainer>
             <TagsAndTextContainer>
-              <TagsContainer>
-                {text.tags.map((tag, index) => (
-                  <Tag key={index}>
-                    <TagText>{tag.name}</TagText>
-                  </Tag>
-                ))}
-              </TagsContainer>
+              <UserNameBox>
+                 <UserImage></UserImage>
+                 Username
+              </UserNameBox>
               <RequestedText>
                 {pathName.includes('/feedbackHistory')
                   ? 'Reviewed '
@@ -101,14 +104,25 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
             <TextContainer>
               <DataText>{text.title}</DataText>
               <WordsCountContainer>
+                <TagsContainer>
+                  {text.tags.map((tag, index) => (
+                    <Tag key={index}>
+                      <TagText>{tag.name}</TagText>
+                    </Tag>
+                  ))}
+                </TagsContainer>
                 <WordsCount>{text.wordCount} words</WordsCount>
+                <MarkedLiked>
+                  <img src={Liked} />
+                  You marked this feedback as helpful
+                </MarkedLiked>
               </WordsCountContainer>
             </TextContainer>
             <ButtonsContainer>
               {pathName.includes('/feedbackHistory') ? (
                 <StyledButton
                   URL={text.url}
-                  Text="View Feedback"
+                  Text="Open"
                   Icon={WhiteArrowRight}
                   ColoredIcon={arrowRight}
                 />

@@ -32,14 +32,14 @@ export const SideBottom = styled.div`
 
 export const Logo = styled.img`
   display: block;
-  margin: 0 auto 20px;
+  margin: 0 auto 25px;
 `;
 
 export const SideNavbar = styled.div`
   ul {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 
     li {
       display: flex;
@@ -57,9 +57,8 @@ export const SideNavbar = styled.div`
          font-size: 13px;
 
          &.active{
-          color: rgba(114, 0, 224, 1);
-          font-weight: 500;
-          font-size: 13px;
+          color: rgba(251, 247, 254, 1);
+          font-weight: 600;
          }
       }
     }

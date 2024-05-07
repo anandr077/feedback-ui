@@ -187,7 +187,7 @@ export const CardContainer = styled.div`
   gap: 16px;
   border-bottom: 1px solid #d6d6d6;
   width: 100%;
-  padding: 30px;
+  padding: 20px;
 `;
 export const TextContainer1 = styled.div`
   color: var(--Text, #1e252a);
@@ -419,11 +419,31 @@ export const Frame5051 = styled.div`
 export const TagsAndTextContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   @media (max-width: 765px) {
     flex-direction: column-reverse;
     gap: 16px;
   }
 `;
+
+export const UserNameBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 24px;
+  color: rgba(30, 37, 42, 1);
+`;
+
+export const UserImage = styled.div`
+  width: 24px;
+  height: 24px;
+  background-color: rgba(241, 230, 252, 1);
+  border-radius: 50%;
+`;
+
 export const TagsContainer = styled.div`
   display: flex;
   gap: 8px;
@@ -441,18 +461,17 @@ export const TagText = styled.div`
   font-size: 13px;
   font-weight: 500;
   line-height: 17px;
-  letter-spacing: 0em;
   text-align: center;
-  color: #9b4be8;
+  color: rgba(173, 107, 237, 1);
 `;
 export const RequestedText = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 18px;
+  line-height: 17px;
   letter-spacing: 0em;
   text-align: left;
-  color: #a6a6a6;
+  color: rgba(178, 174, 183, 1);
 `;
 export const DataText = styled.div`
   font-family: IBM Plex Sans;
@@ -464,17 +483,38 @@ export const DataText = styled.div`
 `;
 export const WordsCountContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 12px;
+  margin-top: 6px;
 `;
 export const WordsCount = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 21px;
+  line-height: 16px;
   letter-spacing: 0em;
-  text-align: left;
-  color: #7a7a7a;
+  color: rgba(178, 174, 183, 1);
+  padding: 0 8px;
+  border-right: 1px solid rgba(214, 214, 214, 1);
+  border-left: 1px solid rgba(214, 214, 214, 1);
 `;
+
+export const MarkedLiked = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(178, 174, 183, 1);
+  display: flex;
+  align-items: center;
+  gap: 1px;
+
+  img{
+    height: 16px;
+    width: 16px;
+  }
+`;
+
 export const ButtonsContainer = styled.div`
   display: flex;
   gap: 12px;

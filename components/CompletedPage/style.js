@@ -535,6 +535,16 @@ export const TaskIconContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3px;
+  height: 32px;
+  width: 32px;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  visibility: hidden;
+
+  &:hover {
+    background-color: rgba(241, 230, 252, 1);
+  }
 `;
 
 export const DataTitle = styled.p`
@@ -637,5 +647,49 @@ export const TaskContainer = styled.div`
     ${DownloadIcon} {
       display: none;
     }
+  }
+`;
+
+export const Table = styled.table`
+  th {
+    font-weight: 700;
+  }
+  .completed-heading{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  td {
+    font-weight: 500;
+  }
+  th,
+  td {
+    font-family: IBM Plex Sans;
+    font-size: 13px;
+    line-height: 24px;
+    color: rgba(75, 70, 79, 1);
+    text-align: start;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+  }
+  .first-column {
+    width: 65%;
+  }
+
+  .second-column {
+    width: 10%;
+  }
+
+  .icon-row {
+    display: flex;
+    align-items: center;
+  }
+
+  tr:hover {
+    background-color: rgba(242, 241, 243, 0.5); 
+  }
+
+  tr:hover ${TaskIconContainer} {
+    visibility: visible;
   }
 `;

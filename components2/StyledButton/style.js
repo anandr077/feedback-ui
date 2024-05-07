@@ -4,10 +4,9 @@ export const ButtonText = styled.div`
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-weight: 500;
-  line-height: 21px;
-  letter-spacing: 0em;
+  line-height: 24px;
   text-align: center;
-  color: #ffffff;
+  color: rgba(114, 0, 224, 1);
 `;
 export const ButtonIcon = styled.img`
   width: 16px;
@@ -23,12 +22,10 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px 16px 8px 16px;
-  border-radius: 30px;
-  border: 1px;
+  padding: 8px 12px;
+  border-radius: 32px;
   gap: 4px;
-  background: var(--light-mode-purple);
-  border: 1px solid var(--light-mode-purple);
+  border: 1px solid rgba(114, 0, 224, 1);
   text-decoration: none;
   cursor: pointer;
   :hover {

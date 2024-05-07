@@ -333,7 +333,7 @@ function GiveFeedback() {
       <MainContainer>
         <InnerContainer>
           <HeadingAndFilterCon>
-            <TopContainer>
+            {/* <TopContainer>
               <TitleContainer>
                 <Title>
                   {pathName.includes('/feedbackHistory')
@@ -371,7 +371,7 @@ function GiveFeedback() {
                   ? 'View all of the feedback that you have provided to others'
                   : "Offer tailored feedback directly to students who have requested your insights"}
               </HeadingLine>
-            </TopContainer>
+            </TopContainer> */}
             {!mobileView && (
               <FilterAndSortContainer>
                 <FilterContainer>

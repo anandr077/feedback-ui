@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ButtonsContainer,
   CardContainer,
@@ -44,8 +44,7 @@ import SnackbarContext from '../SnackbarContext';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
   const { showSnackbar } = React.useContext(SnackbarContext);
-
-  console.log('the feedbackData', feedbackData);
+  const [showFullText, setShowFullText] = useState(false);
 
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
@@ -80,6 +79,19 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
       showSnackbar('Feedback request dismissed');
     },
   });
+
+  const showMoreText = (title) => {
+    if (showFullText) {
+      return title;
+    } else {
+      return title.length > 120 ? title.slice(0, 120) + '... ' : title;
+    }
+  };
+
+  const toggleShowText = () => {
+    setShowFullText(!showFullText);
+  };
+
   return (
     <>
       {feedbackData.map((text, index) => {
@@ -87,8 +99,8 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
           <CardContainer>
             <TagsAndTextContainer>
               <UserNameBox>
-                 <UserImage></UserImage>
-                 Username
+                <UserImage></UserImage>
+                Username
               </UserNameBox>
               <RequestedText>
                 {pathName.includes('/feedbackHistory')
@@ -102,7 +114,12 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
               </RequestedText>
             </TagsAndTextContainer>
             <TextContainer>
-              <DataText>{text.title}</DataText>
+              <DataText>
+                {showMoreText(text.title)}
+                <span onClick={toggleShowText}>
+                  {text.title.length > 120 && (!showFullText ? 'Show more' : 'Show less')}
+                </span>
+              </DataText>
               <WordsCountContainer>
                 <TagsContainer>
                   {text.tags.map((tag, index) => (

@@ -29,7 +29,7 @@ export const ButtonContainer = styled.div`
   text-decoration: none;
   cursor: pointer;
   :hover {
-    background: var(--white);
+    background:  rgba(241, 230, 252, 1);
     ${ButtonText} {
       color: var(--light-mode-purple);
     }

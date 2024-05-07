@@ -609,15 +609,7 @@ export const DownloadIconColor = styled.img`
   height: 16px;
   display: none;
 `;
-export const DownloadText = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 16.9px;
-  text-align: left;
-  color: #7200e0;
-  display: none;
-`;
+
 export const DeleteText = styled.div`
   font-family: IBM Plex Sans;
   font-size: 13px;
@@ -641,7 +633,7 @@ export const TaskContainer = styled.div`
     background: #f2f1f380;
   }
   &:hover {
-    ${DownloadIconColor}, ${DownloadText}, ${DeleteText} {
+    ${DownloadIconColor}, ${DeleteText} {
       display: flex;
     }
     ${DownloadIcon} {

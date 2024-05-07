@@ -333,45 +333,6 @@ function GiveFeedback() {
       <MainContainer>
         <InnerContainer>
           <HeadingAndFilterCon>
-            {/* <TopContainer>
-              <TitleContainer>
-                <Title>
-                  {pathName.includes('/feedbackHistory')
-                    ? 'Feedback History'
-                    : 'Give Feedback'}
-                  <QuestionTooltip
-                    text={
-                      pathName.includes('/feedbackHistory')
-                        ? 'This is a record of the feedback that you have provided to other students in the past'
-                        : 'Provide personalized feedback'
-                    }
-                    img={questionMark}
-                  />
-                </Title>
-                <ConnectContainer>
-                  {pathName.includes('/feedbackHistory') ? (
-                    <LinkButton
-                      link={`#giveFeedback`}
-                      label="Go Back"
-                      arrowleft={arrowLeft}
-                      whiteArrowleft={whiteArrowleft}
-                    />
-                  ) : (
-                    <LinkButton
-                      link={`#feedbackHistory`}
-                      label="Feedback History"
-                      // arrowright={arrowRight}
-                      whiteArrowright={whiteArrowright}
-                    />
-                  )}
-                </ConnectContainer>
-              </TitleContainer>
-              <HeadingLine>
-                {pathName.includes('/feedbackHistory')
-                  ? 'View all of the feedback that you have provided to others'
-                  : "Offer tailored feedback directly to students who have requested your insights"}
-              </HeadingLine>
-            </TopContainer> */}
             {!mobileView && (
               <FilterAndSortContainer>
                 <FilterContainer>

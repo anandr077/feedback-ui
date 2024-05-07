@@ -37,30 +37,7 @@ export const HeadingAndFilterCon = styled.div`
   gap: 20px;
   width: 100%;
 `;
-export const TopContainer = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-`;
-export const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  text-decoration: none;
-  @media (max-width: 765px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  a {
-    text-decoration: none;
-  }
-`;
-export const ConnectContainer = styled.div``;
+
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
@@ -100,32 +77,6 @@ export const SortButtonText = styled.div`
   text-align: left;
   color: #6f6f6f;
   text-align: center;
-`;
-
-export const HeadingLine = styled.p`
-  color: var(--Foundation-Grey-grey-500, #7a7a7a);
-  font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-`;
-
-export const Title = styled.h1`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--Dark-Purple, #25222a);
-  font-family: IBM Plex Sans;
-  font-size: 36px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.9px;
-  @media (max-width: 765px) {
-    font-size: 32px;
-    letter-spacing: -0.8px;
-  }
 `;
 
 export const TitleImage = styled.img`
@@ -480,6 +431,12 @@ export const DataText = styled.div`
   line-height: 26px;
   letter-spacing: 0em;
   text-align: left;
+
+  span{
+    cursor: pointer;
+    color: rgba(114, 0, 224, 1);
+    text-decoration: underline;
+  }
 `;
 export const WordsCountContainer = styled.div`
   display: flex;

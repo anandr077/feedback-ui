@@ -27,6 +27,7 @@ import OpenColor from '../../static/img/openColor.svg';
 import BinRed from '../../static/img/binRed.svg';
 import clock from '../../static/img/clock.svg';
 import { dateOnly } from '../../dates';
+import { Tooltip } from '@mui/material';
 
 function TaskHistoryDataComponent({ list, downloadPDF }) {
   const redirectFunction = (url) => {
@@ -39,7 +40,9 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
           <tr>
             <th class="first-column">Task Name</th>
             <th class="second-column">Class</th>
-            <th className='completed-heading'>Completed on <img src={CompletedIcon} /></th>
+            <th className="completed-heading">
+              Completed on <img src={CompletedIcon} />
+            </th>
             <th></th>
           </tr>
         </thead>
@@ -49,16 +52,24 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
               <td>{task.title}</td>
               <td>{task.classTitle}</td>
               <td>{dateOnly(task.completedAt)}</td>
-              <td className='icon-row'>
-                <TaskIconContainer onClick={() => redirectFunction(task.link)}>
-                  <DownloadIcon src={OpenLight} />
-                  <DownloadIconColor src={OpenColor} />
-                  <DownloadText>Open</DownloadText>
+              <td className="icon-row">
+                <TaskIconContainer>
+                  <Tooltip
+                    title={'Open'}
+                    placement={'top'}
+                    onClick={() => redirectFunction(task.link)}
+                  >
+                    <DownloadIcon src={OpenLight} />
+                  </Tooltip>
                 </TaskIconContainer>
                 <TaskIconContainer onClick={() => downloadPDF(task.id)}>
-                  <DownloadIcon src={DownloadLight} />
-                  <DownloadIconColor src={Download} />
-                  <DownloadText>Download</DownloadText>
+                  <Tooltip
+                    title={'Download'}
+                    placement={'top'}
+                    onClick={() => downloadPDF(task.id)}
+                  >
+                    <DownloadIcon src={DownloadLight} />
+                  </Tooltip>
                 </TaskIconContainer>
               </td>
             </tr>

@@ -51,6 +51,7 @@ export const Remark = styled.p`
   line-height: 24px;
   text-align: left;
   color: #4b464f;
+  display: inline;
 `;
 export const SmallTaskTitle = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
@@ -164,5 +165,6 @@ export const ReadMoreButton = styled.span`
   line-height: 24px;
   text-align: left;
   color: #7200e0;
+  white-space: nowrap;
   cursor: pointer;
 `;

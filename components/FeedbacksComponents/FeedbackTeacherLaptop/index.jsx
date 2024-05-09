@@ -529,7 +529,7 @@ function answersAndFeedbacks(
           Go Back
         </GoBackBtn>
       )} */}
-      {/* {createContextBar(
+      {createContextBar(
         submission,
         setSubmission,
         methods,
@@ -548,7 +548,7 @@ function answersAndFeedbacks(
         showTeacherPopUp,
         setShowStudentPopUp,
         setShowTeacherPopUp
-      )} */}
+      )}
       <FeedbackHeader
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}

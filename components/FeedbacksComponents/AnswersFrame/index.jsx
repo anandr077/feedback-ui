@@ -130,7 +130,7 @@ function AnswersFrame(props) {
     (comment) => comment.type === 'FOCUS_AREA'
   );
 
-  console.log('submission is', submission)
+  console.log('submission is', submission);
 
   return (
     <Group1225 id="answers">
@@ -285,11 +285,15 @@ const answerFrames = (
     <>
       <Frame1366>
         {submission.type !== 'DOCUMENT' && (
-          <QuestionText
-            dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
-          />
+          <div>
+            Question
+            <QuestionText
+              dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
+            />
+          </div>
         )}
         <AnswerContainer>
+          Answer
           {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}

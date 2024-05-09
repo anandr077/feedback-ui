@@ -21,7 +21,7 @@ import FocusIcon from '../../../static/img/grayhighlight.svg';
 import ArrowLeft from '../../../static/img/arrowleftgray.svg';
 import ArrowRight from '../../../static/img/arrowrightgray.svg';
 
-const data = ['one', 'two', 'three', 'four', 'five'];
+const data = ['Student one', 'Student two', 'Student three', 'Student four', 'Student five'];
 
 const FeedbackHeader = ({
   commentFocusAreaToggle,

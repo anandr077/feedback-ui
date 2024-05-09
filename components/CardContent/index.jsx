@@ -24,6 +24,8 @@ import {
 
 function CardContent(props) {
   const { task, small, onAccept, onDecline } = props;
+  const [showFullPara, setShowFullPara] = useState(false);
+  const [showFullSubPara, setShowFullSubPera] = useState(false);
 
   function createTitle(small, title) {
     if (!title) return <></>;
@@ -35,8 +37,6 @@ function CardContent(props) {
   }
 
   function createPara(small, para) {
-    const [showFullPara, setShowFullPara] = useState(false);
-
     if (!para) return <></>;
     return (
       <div>
@@ -74,7 +74,25 @@ function CardContent(props) {
 
   function createSubPara(subPara) {
     if (!subPara) return <></>;
-    return <Remark>{subPara}</Remark>;
+    return (
+      <div>
+        <Remark>
+          {showFullSubPara
+            ? subPara
+            : subPara.slice(0, 180) + (subPara.length > 180 ? '...' : '')}{' '}
+        </Remark>
+        {subPara.length > 180 && !showFullSubPara && (
+          <ReadMoreButton onClick={() => setShowFullSubPera(true)}>
+            Read more
+          </ReadMoreButton>
+        )}
+        {subPara.length > 180 && showFullSubPara && (
+          <ReadMoreButton onClick={() => setShowFullSubPera(false)}>
+            Show less
+          </ReadMoreButton>
+        )}
+      </div>
+    );
   }
 
   function date(small, date) {

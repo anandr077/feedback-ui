@@ -469,14 +469,11 @@ export const Frame1367 = styled.div`
   align-items: flex-start;
   position: absolute;
   left: 50%;
-  //transform: translateX(calc(-50% - 210px));
   transform: ${props => props.moveToLeft ? 'translateX(calc(-50% - 350px))' : 'translateX(calc(-50% - 210px))'};
   transition: transform 0.3s ease;
   height: 100%;
-  background-color: var(--white);
   width: 650px;
   margin: 20px;
-  border: solid 1px rgba(201, 198, 204, 0.5);
   border-radius: 10px;
 `;
 
@@ -502,6 +499,7 @@ export const Frame1366 = styled.div`
   align-items: flex-start;
   position: relative;
   align-self: stretch;
+  gap: 16px;
   height: 100%;
 `;
 
@@ -514,9 +512,7 @@ export const AnswerContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
   padding-bottom: 20px;
-  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
 `;
 
 export const QuestionText = styled.p`
@@ -526,8 +522,6 @@ export const QuestionText = styled.p`
   font-size: 19px;
   font-weight: 500;
   width: 100%;
-  padding: 16px 80px;
-  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
 `;
 export const QuillContainer = styled.p`
   ${feedbacksIbmplexsansNormalShark20px}

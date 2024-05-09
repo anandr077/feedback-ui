@@ -77,7 +77,7 @@ const MainSidebar = () => {
   return (
     <SidebarContainer>
       <SideNavbar>
-        <Logo src="./img/logo.svg" />
+        <a href="/"><Logo src="./img/logo.svg" /></a>
         <ul>
           {sideNavItems.map((navItem) => {
             if (

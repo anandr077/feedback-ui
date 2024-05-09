@@ -503,6 +503,14 @@ export const Frame1366 = styled.div`
   height: 100%;
 `;
 
+export const QuestionContainer = styled.div`
+  background-color: var(--white);
+  padding: 20px 80px;
+  border-radius: 8px;
+  border: 1px solid rgba(178, 174, 183, 0.5);
+  box-shadow: 0px 4px 9px 0px rgba(133, 133, 133, 0.25);
+`;
+
 export const Line = styled.img`
   width: 100%;
   margin-top: 50px;
@@ -516,11 +524,11 @@ export const AnswerContainer = styled.div`
 `;
 
 export const QuestionText = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
-  line-height: 27px;
-  color: #460089;
-  font-size: 19px;
-  font-weight: 500;
+  font-family: Open Sans;
+  line-height: 30px;
+  color: rgba(24, 23, 24, 1);
+  font-size: 20px;
+  font-weight: 600;
   width: 100%;
 `;
 export const QuillContainer = styled.p`

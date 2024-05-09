@@ -316,7 +316,7 @@ function FeedbackTeacherLaptop(props) {
             <ZoomInput
               name="zoom"
               type="range"
-              min="100"
+              min="50"
               max="150"
               value={editorFontSize}
               onChange={(e) => setEditorFontSize(e.target.value)}

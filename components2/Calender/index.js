@@ -16,6 +16,7 @@ import {
   StyledCalendarHeading,
   StyledMonth,
   StyledToolbar,
+  MainCalender
 } from './style';
 
 const localizer = momentLocalizer(moment);
@@ -79,7 +80,7 @@ const MyCalendar = ({ calenderEvents }) => {
   };
 
   return (
-    <div style={{ height: '120vh', width: '100%' }}>
+    <MainCalender>
       <style>
         {`
         .rbc-overlay{
@@ -124,7 +125,7 @@ const MyCalendar = ({ calenderEvents }) => {
           `${event.title}, ${event.class},${moment(event.end).format('h:mm A')}`
         }
       />
-    </div>
+    </MainCalender>
   );
 };
 

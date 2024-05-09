@@ -26,6 +26,7 @@ import {
   Group1225,
   Label,
   QuestionText,
+  QuestionContainer,
   QuillContainer,
   AnswerContainer,
   Line,
@@ -285,12 +286,12 @@ const answerFrames = (
     <>
       <Frame1366>
         {submission.type !== 'DOCUMENT' && (
-          <div>
+          <QuestionContainer>
             Question
             <QuestionText
               dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
             />
-          </div>
+          </QuestionContainer>
         )}
         <AnswerContainer>
           Answer

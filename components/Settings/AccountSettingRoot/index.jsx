@@ -480,16 +480,13 @@ export default function AccountSettingsRoot(props) {
   );
 
   const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(true);
-  const [showUserSettings, setShowUserSettings] = React.useState(false);
   const [showShortcuts, setShowShortcuts] = React.useState(false);
 
   const sidebarNav = (
     <SettingsNav
       setShowMarkingCriteria={setShowMarkingCriteria}
       setShowShortcuts={setShowShortcuts}
-      setShowUserSettings={setShowUserSettings}
       showMarkingCriteria={showMarkingCriteria}
-      showUserSettings={showUserSettings}
       showShortcuts={showShortcuts}
     />
   );
@@ -604,10 +601,8 @@ export default function AccountSettingsRoot(props) {
               createSmartAnnotationHandler,
               setShowMarkingCriteria,
               setShowShortcuts,
-              setShowUserSettings,
               showMarkingCriteria,
               showShortcuts,
-              showUserSettings,
               setOpenMarkingMethodologyDialog,
               smartAnnotations,
               setFeedbackBankId,
@@ -634,7 +629,6 @@ export default function AccountSettingsRoot(props) {
               sidebarNav,
               showMarkingCriteria,
               showShortcuts,
-              showUserSettings,
               setOpenMarkingMethodologyDialog,
               smartAnnotations,
               setFeedbackBankId,
@@ -660,7 +654,6 @@ export default function AccountSettingsRoot(props) {
               sidebarNav,
               showMarkingCriteria,
               showShortcuts,
-              showUserSettings,
               smartAnnotations,
               setFeedbackBankId,
               feedbackBankId,
@@ -687,7 +680,6 @@ export default function AccountSettingsRoot(props) {
               sidebarNav,
               showMarkingCriteria,
               showShortcuts,
-              showUserSettings,
               smartAnnotations,
               setFeedbackBankId,
               feedbackBankId,

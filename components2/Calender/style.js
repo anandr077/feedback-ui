@@ -22,12 +22,24 @@ export const DataContainer = styled.div`
   overflow: hidden;
   text-overflow: ellipsis !important;
 `;
+
+export const MainCalender = styled.div`
+  height: 120vh; 
+  width: 100%; 
+  /* padding: 20px; 
+  background: rgba(48, 27, 114, 1);
+  background-image: url('img/Tasks-page-background-overlay@2x.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;  */
+`;
+
 export const StyledCalendar = styled(Calendar)`
   padding: 20px;
-  border-radius: 16px;
   gap: 20px;
   box-shadow: 0px 4px 22px 0px #301b720a;
-  background: #f7eeff;
+  border-radius: 8px;
+  background-color: white !important;
   font-family: IBM Plex Sans !important;
 
   .rbc-month-header .rbc-header span {
@@ -68,6 +80,11 @@ export const StyledCalendar = styled(Calendar)`
     text-align: left;
     color: #a6a6a6;
   }
+
+  .rbc-date-cell{
+    text-align: center;
+    margin-top: 1px;
+  }
   .rbc-event-content {
     font-family: IBM Plex Sans;
     font-size: 14px;
@@ -81,6 +98,19 @@ export const StyledCalendar = styled(Calendar)`
     text-overflow: ellipsis !important;
     padding: 2px 0px;
   }
+
+ .rbc-now.rbc-current .rbc-button-link{
+  background-color: var(--light-mode-purple) !important;
+  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: white;
+  font-size: 10px !important;
+ }
 
   .rbc-time-view .rbc-header {
     display: flex;
@@ -137,10 +167,6 @@ export const StyledCalendar = styled(Calendar)`
     letter-spacing: 0em;
     text-align: right;
     color: #a6a6a6;
-  }
-
-  .rbc-today {
-    background-color: #ecd6ff;
   }
 `;
 export const MainContainer = styled.div`

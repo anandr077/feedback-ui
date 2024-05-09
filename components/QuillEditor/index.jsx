@@ -98,7 +98,7 @@ const QuillEditor = React.forwardRef(
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
         quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
-        quillInstance.root.style.fontSize = '18px';
+        quillInstance.root.style.fontSize = '16px';
         quillInstance.root.style.lineHeight = '32px';
 
         const delta = quillInstance.clipboard.convert(value);

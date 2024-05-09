@@ -518,7 +518,6 @@ export const PopupContainer = styled.div`
   width: 360px;
   border-radius: 12px;
 `;
-//
 
 export const DataContainer = styled.div`
   display: flex;
@@ -587,7 +586,6 @@ export const IconContainerDown = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  // width: 10%;
   padding: 8px;
   border-radius: 4px;
   gap: 6px;
@@ -602,7 +600,6 @@ export const IconContainerDown = styled.div`
 export const DownloadIcon = styled.img`
   width: 16px;
   height: 16px;
-  // padding: 1.67px 1.67px 1.67px 1.67px;
 `;
 export const DownloadIconColor = styled.img`
   width: 16px;
@@ -661,8 +658,9 @@ export const Table = styled.table`
     line-height: 24px;
     color: rgba(75, 70, 79, 1);
     text-align: start;
-    padding: 16px 20px;
+    padding: 8px 20px;
     border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+    vertical-align: middle;
   }
   .first-column {
     width: 65%;

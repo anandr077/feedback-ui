@@ -46,7 +46,6 @@ export const TaskTitle = styled.p`
 export const Remark = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
-  font-style: italic;
   font-weight: 400;
   line-height: 24px;
   text-align: left;

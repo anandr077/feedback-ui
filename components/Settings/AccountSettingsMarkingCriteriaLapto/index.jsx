@@ -60,7 +60,6 @@ function AccountSettingsMarkingCriteriaLapto(props) {
     sidebarNav,
     showMarkingCriteria,
     showShortcuts,
-    showUserSettings,
     createSmartAnnotationHandler,
     setOpenMarkingMethodologyDialog,
     smartAnnotations,
@@ -101,31 +100,8 @@ function AccountSettingsMarkingCriteriaLapto(props) {
             </HeadingLine>
           </Frame1372>
           <Frame13221>
-            {/* {sidebarNav} */}
             <SecondSidebar />
             <>
-              {showUserSettings && (
-                <UserSettingFrame>
-                  <Title1>
-                    <MarkingCriteria>
-                      User Settings
-                      <QuestionTooltip
-                        text={'Update your account settings here'}
-                        img={questionMark}
-                      />
-                    </MarkingCriteria>
-                    <UserSettingLinkContainer>
-                      <UserSettingLink href="/#/">
-                        Edit in user profile
-                      </UserSettingLink>
-                      <RedictIcon
-                        src="/icons/redirecticon.svg"
-                        alt="Redirect Icon"
-                      />
-                    </UserSettingLinkContainer>
-                  </Title1>
-                </UserSettingFrame>
-              )}
               {showMarkingCriteria && (
                 <Frame1302>
                   <Title1>

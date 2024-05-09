@@ -58,7 +58,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
     sidebarNav,
     showMarkingCriteria,
     showShortcuts,
-    showUserSettings,
+    //showUserSettings,
     createSmartAnnotationHandler,
     smartAnnotationsFrame,
     setOpenMarkingMethodologyDialog,
@@ -102,7 +102,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
           <Frame13221>
             {sidebarNav}
             <>
-              {showUserSettings && (
+              {/* {showUserSettings && (
                 <UserSettingFrame>
                   <Title1>
                     <MarkingCriteria>
@@ -123,7 +123,7 @@ function AccountSettingsMarkingCriteriaTable3(props) {
                     </UserSettingLinkContainer>
                   </Title1>
                 </UserSettingFrame>
-              )}
+              )} */}
               {showMarkingCriteria && (
                 <Frame1302>
                   <Title1>

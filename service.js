@@ -667,6 +667,6 @@ export const getLocalClasses = () => {
 }
 
 
-export const deleteLocalClasses = (key) => {
-  localStorage.removeItem(key);
+export const deleteLocalClasses = () => {
+  localStorage.removeItem('classes');
 };

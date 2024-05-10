@@ -4,11 +4,11 @@ import { deleteProfileCookies } from './userLocalDetails';
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
 const jeddleBaseUrl =
-  process.env.REACT_APP_JEDDLE_BASE_URL ?? 'https://jeddle.com';
+  process.env.REACT_APP_JEDDLE_BASE_URL ?? 'https://jeddle.duxdigital.net';
 const selfBaseUrl =
   process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
 const clientId =
-  process.env.REACT_APP_CLIENT_ID ?? 'KjdJNoiRHNrJIxDvvGRDsQwKImCQKBdF';
+  process.env.REACT_APP_CLIENT_ID ?? 'glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr';
 
 async function fetchData(url, options, headers = {}) {
   const defaultHeaders = new Headers();

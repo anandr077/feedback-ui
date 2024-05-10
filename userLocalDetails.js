@@ -20,7 +20,6 @@ export const setCookie = (key, value) => {
 };
 
 export const setProfileCookies = (profile) => {
-  alert("profile"+ JSON.stringify(profile));
   localStorage.setItem('jwtToken', profile.token);
 
   setCookie('user.name', profile.name);
@@ -33,12 +32,8 @@ export const setProfileCookies = (profile) => {
   }
 
   if (profile.classes) {
-    alert("Setting classes" + JSON.stringify(profile.classes));
     localStorage.setItem('classes', JSON.stringify(profile.classes));
     setLocalClasses(profile.classes);
-    alert("Classes set" + getLocalClasses());
-  } else {
-    alert("No classes " + profile.classes);
   }
 };
 

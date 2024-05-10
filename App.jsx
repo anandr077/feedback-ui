@@ -116,7 +116,7 @@ function App() {
   const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = middleware(AccountSettingsRoot);
-  const ProtectedHeader = (ResponsiveHeader);
+  const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
 
   const ProtectedGiveFeedback = middleware(GiveFeedback);

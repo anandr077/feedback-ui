@@ -17,6 +17,14 @@ export const LeftSection = styled.div`
   gap: 16px;
 `;
 
+export const AssignmentTitle = styled.h1`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: rgba(24, 23, 24, 1);
+`;
+
 export const ArrowBtn = styled.div`
   cursor: pointer;
   background-color: rgba(242, 241, 243, 1);
@@ -79,24 +87,6 @@ export const ReassignBtn = styled.button`
   }
 `;
 
-export const SubmitBtn = styled.button`
-  width: 152px;
-  height: 40px;
-  padding: 8px 12px;
-  border-radius: 32px;
-  border: none;
-  background-color: var(--light-mode-purple);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-l);
-  line-height: 24px;
-  color: rgba(255, 255, 255, 1);
-  cursor: pointer;
-
-  :hover {
-    background-color: rgba(80, 0, 157, 1);
-  }
-`;
 
 export const ToggleContainer = styled.div`
   width: 240px;

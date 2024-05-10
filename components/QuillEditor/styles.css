@@ -42,9 +42,10 @@
   display: flex;
   justify-content: space-between;
   position: sticky;
-  top: 2px;
+  top: 0px;
   z-index: 1;
   margin-bottom: 10px;
+  background-color: white;
 }
 
 .ql-toolbar.ql-snow{

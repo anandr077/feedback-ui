@@ -529,7 +529,7 @@ function answersAndFeedbacks(
           Go Back
         </GoBackBtn>
       )} */}
-      {createContextBar(
+      {/* {createContextBar(
         submission,
         setSubmission,
         methods,
@@ -548,17 +548,31 @@ function answersAndFeedbacks(
         showTeacherPopUp,
         setShowStudentPopUp,
         setShowTeacherPopUp
-      )}
+      )} */}
       <FeedbackHeader
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
         methods={methods}
+        submission={submission}
+        pageMode={pageMode}
+        FeedbackMethodType={FeedbackMethodType}
+        handleRequestFeedback={handleRequestFeedback}
+        allClasses={classesAndStudents}
+        showFeedbackButtons={showFeedbackButtons}
+        setShowFeedbackButtons={setShowFeedbackButtons}
+        showStudentPopUp={showStudentPopUp}
+        setShowStudentPopUp={setShowStudentPopUp}
+        showTeacherPopUp={showTeacherPopUp}
+        setShowTeacherPopUp={setShowTeacherPopUp}
       />
-      <FeedbackQuestionSlider
-        setQuestionIndex={setQuestionIndex}
-        QuestionIndex={QuestionIndex}
-        questions={submission.assignment.questions}
-      />
+      {submission.type === 'SUBMISSION' &&
+        submission.assignment.questions.length !== 0 && (
+          <FeedbackQuestionSlider
+            setQuestionIndex={setQuestionIndex}
+            QuestionIndex={QuestionIndex}
+            questions={submission.assignment.questions}
+          />
+        )}
       <FeedbackBody>
         <Frame1368 id="assignmentData">
           {answersFrame(
@@ -568,6 +582,7 @@ function answersAndFeedbacks(
             groupedFocusAreaIds,
             pageMode,
             submission,
+            setSubmission,
             commentsForSelectedTab,
             methods,
             editorFontSize,

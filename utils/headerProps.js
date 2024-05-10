@@ -6,11 +6,12 @@ import getFeedbackselected from '../static/img/getFeedbackselected.svg';
 import getFeedbackUnselected from '../static/img/getFeedbackunselected.svg';
 import giveFeedbackselected from '../static/img/giveFeedbackselected.svg';
 import giveFeedbackUnselected from '../static/img/giveFeedbackunselected.svg';
+import { getLocalClasses } from '../service';
 
 const isTeacher = getUserRole() === 'TEACHER';
 
 let teacherTabs;
-if (Cookies.get('classes')) {
+if (getLocalClasses()) {
   teacherTabs = (first, second, third, fourth) => {
     return {
       firstButton: {
@@ -59,7 +60,7 @@ if (Cookies.get('classes')) {
 
 let studentTabs;
 
-if (Cookies.get('classes')) {
+if (getLocalClasses()) {
   studentTabs = (first, second, third) => {
     return {
       firstButton: {
@@ -123,7 +124,7 @@ export const teacherGiveFeedbackHeaderProps = teacherTabs(
 );
 
 // export const homeHeaderProps = studentTabs(true, false, false);
-export const giveFeedbackHeaderProps = Cookies.get('classes')
+export const giveFeedbackHeaderProps = getLocalClasses()
   ? studentTabs(false, false, true)
   : studentTabs(false, true);
 export const taskHeaderProps = studentTabs(true, false, false);
@@ -131,7 +132,7 @@ export const teacherStudentTaskHeaderProps = () => {
   if (isTeacher) {
     return teacherTabs(true, false, false, false);
   }
-  return Cookies.get('classes')
+  return getLocalClasses()
     ? studentTabs(false, false, true)
     : studentTabs(false, true);
 };
@@ -140,7 +141,7 @@ export const docsHeaderProps = () => {
   if (isTeacher) {
     return teacherTabs(false, false, true, false);
   }
-  return Cookies.get('classes')
+  return getLocalClasses()
     ? studentTabs(false, true, false)
     : studentTabs(true, false);
 };
@@ -150,11 +151,11 @@ export const documentHeaderProps = (selfDocument) => {
     return teacherTabs(true, false, false, false);
   }
   if (selfDocument) {
-    return Cookies.get('classes')
+    return getLocalClasses()
       ? studentTabs(false, false, true)
       : studentTabs(false, true);
   }
-  return Cookies.get('classes')
+  return getLocalClasses()
     ? studentTabs(false, true, false)
     : studentTabs(true, false);
 };
@@ -163,11 +164,11 @@ export const completedHeaderProps = (exemplar) => {
   if (exemplar) {
     return isTeacher
       ? teacherTabs(false, false, false, false)
-      : Cookies.get('classes')
+      : getLocalClasses()
       ? studentTabs(false, false, false)
       : studentTabs(false, false);
   }
-  return Cookies.get('classes')
+  return getLocalClasses()
     ? studentTabs(false, false, true)
     : studentTabs(false, true);
 };

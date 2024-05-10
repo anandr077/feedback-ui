@@ -3,7 +3,7 @@ import Notifications from '../Notifications';
 import UserIcon from '../UserIcon';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar';
-import { getNotifications } from '../../service.js';
+import { getLocalClasses, getNotifications } from '../../service.js';
 import {
   NavigationContainer,
   HelpbarContainer,
@@ -174,7 +174,7 @@ export default function Header(props) {
           <Frame1343 src="/icons/header-logo.png" alt="Frame 1343" />
         </a>
         <Frame5>
-          {Cookies.get('classes') && (
+          {getLocalClasses() && (
             <>
               {headerProps.firstButton.selected ? (
                 <HeaderButtonSelected onClick={OnFirstButtonClick}>
@@ -224,7 +224,7 @@ export default function Header(props) {
               )}
             </>
           )}
-          {isTeacher && Cookies.get('classes') &&
+          {isTeacher && getLocalClasses() &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>
                 <HeaderButtonInnnerContainer>
@@ -248,7 +248,7 @@ export default function Header(props) {
                 </HeaderButtonInnnerContainer>
               </HeaderButton>
             ))}
-          {Cookies.get('classes') &&
+          {getLocalClasses() &&
             !isTeacher &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>

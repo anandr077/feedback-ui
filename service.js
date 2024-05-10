@@ -514,11 +514,11 @@ export const exchangeCodeForToken = async (code) => {
   const token = localStorage.getItem('jwtToken');
   
   if (token) {
-    defaultHeaders.append('Authorization', `Bearer ${token}`);
+    return token;
   }
 
-  const options = {}; // Define any options if necessary
-  const headers = {}; // Define any custom headers if necessary
+  const options = {};
+  const headers = {};
 
   const mergedHeaders = Object.assign(defaultHeaders, headers);
   
@@ -529,7 +529,6 @@ export const exchangeCodeForToken = async (code) => {
       credentials: 'include',
       headers: mergedHeaders,
     });
-
     if (response.status === 401 || response.status === 500) {
       return redirectToExternalIDP();
     }
@@ -658,3 +657,16 @@ export const askJeddAI = async (submissionId, cleanAnswer, subject, type) =>
     year: Cookies.get('year'),
     cleanAnswer: cleanAnswer,
   });
+
+export const setLocalClasses = (classes) => {
+  localStorage.setItem('classes', JSON.stringify(classes));
+}
+
+export const getLocalClasses = () => {
+  return localStorage.getItem('classes');
+}
+
+
+export const deleteLocalClasses = (key) => {
+  localStorage.removeItem(key);
+};

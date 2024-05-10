@@ -43,6 +43,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import { getLocalClasses } from './service';
 
 function App() {
   const role = getUserRole();
@@ -115,7 +116,7 @@ function App() {
   const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = middleware(AccountSettingsRoot);
-  const ProtectedHeader = middleware(ResponsiveHeader);
+  const ProtectedHeader = (ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
 
   const ProtectedGiveFeedback = middleware(GiveFeedback);
@@ -127,13 +128,13 @@ function App() {
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
-      Cookies.get('classes') ? (
+      getLocalClasses() ? (
         <ProtectedTeacherTaskRoot />
       ) : (
         <ProtectedGiveFeedback />
       )
     ) : (
-      Cookies.get('classes') ? (
+      getLocalClasses() ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />

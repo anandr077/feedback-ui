@@ -1,3 +1,5 @@
+import { deleteLocalClasses, getClasses, getLocalClasses, setLocalClasses } from "./service";
+
 export const getUserName = () => getCookie('user.name');
 export const getUserId = () => getCookie('userId');
 export const getUserRole = () => getCookie('role');
@@ -18,6 +20,7 @@ export const setCookie = (key, value) => {
 };
 
 export const setProfileCookies = (profile) => {
+  alert("profile"+ JSON.stringify(profile));
   localStorage.setItem('jwtToken', profile.token);
 
   setCookie('user.name', profile.name);
@@ -30,13 +33,19 @@ export const setProfileCookies = (profile) => {
   }
 
   if (profile.classes) {
-    setCookie('classes', JSON.stringify(profile.classes));
+    alert("Setting classes" + JSON.stringify(profile.classes));
+    localStorage.setItem('classes', JSON.stringify(profile.classes));
+    setLocalClasses(profile.classes);
+    alert("Classes set" + getLocalClasses());
+  } else {
+    alert("No classes " + profile.classes);
   }
 };
 
 export const deleteCookie = (key) => {
   document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
 };
+
 
 export const deleteProfileCookies = () => {
   deleteCookie('user.name');
@@ -45,4 +54,5 @@ export const deleteProfileCookies = () => {
   deleteCookie('state');
   deleteCookie('year');
   deleteCookie('classes');
+  deleteLocalClasses();
 };

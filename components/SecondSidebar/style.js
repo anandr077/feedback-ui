@@ -24,7 +24,7 @@ export const Button = styled.button`
   font-weight: ${props => props.active ? '500' : '400'};
   font-size: var(--font-size-l);
   line-height: 24px;
-  background-color: ${props => props.active ? '#F1E6FC' : 'transparent'};
+  background-color: ${props => props.active ? ' rgba(241, 230, 252, 1)' : 'transparent'};
   border: none;
   display: flex;
   align-items: center;

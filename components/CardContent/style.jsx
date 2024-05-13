@@ -46,11 +46,11 @@ export const TaskTitle = styled.p`
 export const Remark = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
-  font-style: italic;
   font-weight: 400;
   line-height: 24px;
   text-align: left;
   color: #4b464f;
+  display: inline;
 `;
 export const SmallTaskTitle = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
@@ -164,5 +164,6 @@ export const ReadMoreButton = styled.span`
   line-height: 24px;
   text-align: left;
   color: #7200e0;
+  white-space: nowrap;
   cursor: pointer;
 `;

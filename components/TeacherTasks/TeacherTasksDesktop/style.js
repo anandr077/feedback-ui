@@ -22,7 +22,6 @@ export const Frame1361 = styled.div`
   width: calc(100vw - 305px);
   align-items: center;
   justify-content: flex-start;
-  gap: 20px;
   position: relative;
   border-top: 1px solid #e3e3e3;
 `;
@@ -35,14 +34,19 @@ export const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  padding: 0px 20px;
+  padding: 20px;
   max-height: 100vh;
+  background-color: rgba(48, 27, 114, 1);
+  background-image: url('img/Tasks-page-background-overlay@2x.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 export const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  gap: 32px;
+  gap: 23px;
   position: relative;
   align-self: stretch;
   min-height: calc(100vh - 350px);
@@ -59,10 +63,12 @@ export const Frame1354 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: #f2f1f3;
+  max-height: 100%;
+  height: fit-content;
   border-radius: 16px;
   border: 1px solid #301b7214;
-  box-shadow: inset 0 0 1px 2px rgba(48, 27, 114, 0.04);
+  background-color: rgba(242, 241, 243, 0.9);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 export const Frame1358 = styled.div`
@@ -73,8 +79,10 @@ export const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
+  max-height: 100%;
+  height: fit-content;
   border: 1px solid #301b7214;
-  background-color: #f2f1f3;
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  background-color: rgba(242, 241, 243, 0.9);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;

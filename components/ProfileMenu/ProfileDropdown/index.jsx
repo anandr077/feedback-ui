@@ -30,7 +30,7 @@ function ProfileDropdown() {
 
   return (
     <>
-      <ProfileDropDownElement text="View Profile" onClick={() => account()} />
+      <ProfileDropDownElement text="Edit Profile" onClick={() => account()} />
       <Line6 src="/icons/line.png" alt="Line 6" />
       <ProfileDropDownElement
         text="Change Password"

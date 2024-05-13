@@ -23,7 +23,7 @@ import {
   TitleConatiner,
 } from './HeaderStyle';
 import QuestionTooltip from '../../components2/QuestionTooltip';
-import questionMark from '../../static/img/question-mark.svg';
+import questionMark from '../../static/img/24questionbordered.svg';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import helpbarIcon from '../../static/img/helpgray24.svg';
 import addBtnIcon from '../../static/icons/gradient_add.svg';

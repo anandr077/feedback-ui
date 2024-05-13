@@ -35,7 +35,7 @@ export const LeftSide = styled.div`
 export const Title = styled.h1`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 3px;
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: 19px;

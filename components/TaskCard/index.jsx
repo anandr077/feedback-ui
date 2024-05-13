@@ -172,7 +172,7 @@ function TaskCard(props) {
         para: task.title,
         date: task.dueAt,
         status1:
-          task.submissionCount >= 0 ? (
+          task.submissionCount > 0 ? (
             <ProgressBar
               title={'Submissions'}
               isPercentage={false}
@@ -181,7 +181,7 @@ function TaskCard(props) {
             />
           ) : null,
         status2:
-          task.submissionCount >= 0 ? (
+          task.submissionCount > 0 ? (
             <ProgressBar
               title={'Reviewed'}
               isPercentage={false}

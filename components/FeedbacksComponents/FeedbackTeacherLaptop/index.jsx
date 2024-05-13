@@ -316,7 +316,7 @@ function FeedbackTeacherLaptop(props) {
             <ZoomInput
               name="zoom"
               type="range"
-              min="100"
+              min="50"
               max="150"
               value={editorFontSize}
               onChange={(e) => setEditorFontSize(e.target.value)}
@@ -553,12 +553,26 @@ function answersAndFeedbacks(
         commentFocusAreaToggle={commentFocusAreaToggle}
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
         methods={methods}
+        submission={submission}
+        pageMode={pageMode}
+        FeedbackMethodType={FeedbackMethodType}
+        handleRequestFeedback={handleRequestFeedback}
+        allClasses={classesAndStudents}
+        showFeedbackButtons={showFeedbackButtons}
+        setShowFeedbackButtons={setShowFeedbackButtons}
+        showStudentPopUp={showStudentPopUp}
+        setShowStudentPopUp={setShowStudentPopUp}
+        showTeacherPopUp={showTeacherPopUp}
+        setShowTeacherPopUp={setShowTeacherPopUp}
       />
-      <FeedbackQuestionSlider
-        setQuestionIndex={setQuestionIndex}
-        QuestionIndex={QuestionIndex}
-        questions={submission.assignment.questions}
-      />
+      {submission.type === 'SUBMISSION' &&
+        submission.assignment.questions.length !== 0 && (
+          <FeedbackQuestionSlider
+            setQuestionIndex={setQuestionIndex}
+            QuestionIndex={QuestionIndex}
+            questions={submission.assignment.questions}
+          />
+        )}
       <FeedbackBody>
         <Frame1368 id="assignmentData">
           {answersFrame(
@@ -568,6 +582,7 @@ function answersAndFeedbacks(
             groupedFocusAreaIds,
             pageMode,
             submission,
+            setSubmission,
             commentsForSelectedTab,
             methods,
             editorFontSize,

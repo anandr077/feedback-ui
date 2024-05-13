@@ -161,15 +161,15 @@ export const StyledCard = styled.article`
   position: relative;
   align-self: stretch;
 
-  border: 1px solid ${({ overdue }) => (overdue ? '#C9C6CC80' : '#EAEAEA')};
-
-  background-color: ${({ overdue }) => (overdue ? '#FDE2E2' : 'var(--white)')};
+  //border: 1px solid ${({ overdue }) => (overdue ? '#C9C6CC80' : '#EAEAEA')};
+  background-color: var(--white);
   box-shadow: ${({ exemplar }) =>
     !exemplar ? '0 4px 16px rgba(156, 156, 156, 0.4)' : 'none'};
 
-  border-color: ${({ exemplar }) => (exemplar ? 'none' : 'var(--corn)')};
+  //border-color: ${({ exemplar }) => (exemplar ? 'none' : 'var(--corn)')};
+  box-shadow: 0px 4px 8.5px 0px rgba(156, 156, 156, 0.08);
   border: 1px solid
-    ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : '#EAEAEA')};
+    ${({ overdue }) => (overdue ? 'rgba(238, 149, 142, 1)' : '#EAEAEA')};
   border-radius: ${({ exemplar }) => (exemplar ? '6px' : '16px')};
 
   &:hover {

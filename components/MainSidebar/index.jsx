@@ -8,6 +8,7 @@ import activeClassIcon from '../../static/img/active-class-insights-icon.svg';
 import settingIcon from '../../static/img/setting.svg';
 import activesettingIcon from '../../static/img/activesetting.svg';
 import jeddaiIcon from '../../static/img/jeddaigray32.svg';
+import jeddaiIconIcon from '../../static/img/JeddAI-Icon-active.svg';
 import getfeedbackIcon from '../../static/img/getfeedback32gray.svg';
 import activeGetfeedbackIcon from '../../static/img/activeGetFeedback.svg';
 import myprogressIcon from '../../static/img/myprogressgray.svg';
@@ -37,8 +38,8 @@ const MainSidebar = () => {
     },
     {
       icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
-      activeIcon: `${role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIcon}`,
-      name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAi'}`,
+      activeIcon: `${role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon}`,
+      name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
       link: '/getFeedback',
     },
     {
@@ -76,7 +77,7 @@ const MainSidebar = () => {
   return (
     <SidebarContainer>
       <SideNavbar>
-        <Logo src="./img/logo.svg" />
+        <a href="/"><Logo src="./img/logo.svg" /></a>
         <ul>
           {sideNavItems.map((navItem) => {
             if (

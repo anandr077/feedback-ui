@@ -116,9 +116,9 @@ export const TitleHeading = styled.div`
     &::after {
       content: '';
       position: absolute;
-      top: calc(100% + 16px);
+      top: calc(100% + 15px);
       width: 100%;
-      height: 2px;
+      height: 4px;
       background-color: #7200e0;
     }
   }

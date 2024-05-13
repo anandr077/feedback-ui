@@ -26,6 +26,9 @@ import {
   Group1225,
   Label,
   QuestionText,
+  QuestionInputBox,
+  QuestionContainer,
+  QuestionTitleBox,
   QuillContainer,
   AnswerContainer,
   Line,
@@ -40,7 +43,9 @@ import ABCIcon from '../../../static/img/abc34.svg';
 import RedabcIcon from '../../../static/img/redabc.svg';
 import CommentGroupIcon from '../../../static/img/commentgroupicon.svg';
 import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
+import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
+import { updateAssignment } from '../../../service';
 
 export function answersFrame(
   quillRefs,
@@ -49,6 +54,7 @@ export function answersFrame(
   groupedFocusAreaIds,
   pageMode,
   submission,
+  setSubmission,
   commentsForSelectedTab,
   methods,
   editorFontSize,
@@ -68,6 +74,7 @@ export function answersFrame(
       groupedFocusAreaIds={groupedFocusAreaIds}
       pageMode={pageMode}
       submission={submission}
+      setSubmission={setSubmission}
       commentsForSelectedTab={commentsForSelectedTab}
       handleChangeText={methods.handleChangeText}
       onSelectionChange={methods.onSelectionChange}
@@ -101,6 +108,7 @@ function AnswersFrame(props) {
     groupedFocusAreaIds,
     pageMode,
     submission,
+    setSubmission,
     commentsForSelectedTab,
     handleChangeText,
     onSelectionChange,
@@ -130,6 +138,8 @@ function AnswersFrame(props) {
     (comment) => comment.type === 'FOCUS_AREA'
   );
 
+  console.log('submission is', submission);
+
   return (
     <Group1225 id="answers">
       <Frame1367 moveToLeft={openRightPanel}>
@@ -140,6 +150,7 @@ function AnswersFrame(props) {
           groupedFocusAreaIds,
           pageMode,
           submission,
+          setSubmission,
           commentsForSelectedTab,
           handleChangeText,
           onSelectionChange,
@@ -161,15 +172,17 @@ function AnswersFrame(props) {
           share
         )}
       </Frame1367>
-      {commentFocusAreaToggle && focusAreaComments.length !== 0 && (
-        <FocusAreaContainer
-          id={'FocusAreaContainer'}
-          moveToLeft={openRightPanel}
-        >
-          <FocusAreaCard comments={focusAreaComments} />
-        </FocusAreaContainer>
-      )}
-      {showAddingCommentDesc && (
+      {pageMode === 'REVIEW' &&
+        commentFocusAreaToggle &&
+        focusAreaComments.length !== 0 && (
+          <FocusAreaContainer
+            id={'FocusAreaContainer'}
+            moveToLeft={openRightPanel}
+          >
+            <FocusAreaCard comments={focusAreaComments} />
+          </FocusAreaContainer>
+        )}
+      {pageMode === 'REVIEW' && showAddingCommentDesc && (
         <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
           {commentFocusAreaToggle && focusAreaComments.length === 0 && (
             <AddCommentFocusAreaInstruction
@@ -236,6 +249,7 @@ const answerFrames = (
   groupedFocusAreaIds,
   pageMode,
   submission,
+  setSubmission,
   commentsForSelectedTab,
   handleChangeText,
   onSelectionChange,
@@ -257,6 +271,61 @@ const answerFrames = (
   share
 ) => {
   const { overallComments } = useContext(FeedbackContext);
+  const [questionSlide, setQuestionSlide] = React.useState(true);
+  const [inputValue, setInputValue] = React.useState('Type your question');
+  const inputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (submission?.assignment?.title) {
+      setInputValue(submission.assignment.title);
+    }
+  }, [submission]);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const updateAssignmentTitle = (newTitle) => {
+    const updatedAssignment = {
+      ...submission.assignment,
+      title: newTitle,
+    };
+    updateAssignment(submission.assignment.id, updatedAssignment)
+      .then((res) => {
+        if (res && res.title) {
+          setSubmission((old) => ({
+            ...old,
+            assignment: {
+              ...old.assignment,
+              title: res.title,
+            },
+            otherDrafts: old.otherDrafts?.map((draft) =>
+              draft.submissionId === submission.id
+                ? { ...draft, title: res.title }
+                : draft
+            ),
+          }));
+        } else {
+          setInputValue(res.title);
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating assignment:', error);
+      });
+  };
+
+  const autoResize = () => {
+    if (inputRef.current) {
+      inputRef.current.style.height = '20px';
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+    }
+  };
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      autoResize();
+    }, 0);
+  }, []);
 
   const question = submission.assignment.questions[QuestionIndex];
   const newAnswer = {
@@ -282,12 +351,43 @@ const answerFrames = (
   return (
     <>
       <Frame1366>
-        {submission.type !== 'DOCUMENT' && (
-          <QuestionText
-            dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
-          />
+        {submission.type === 'DOCUMENT' ? (
+          <QuestionContainer>
+            {QuestionHeadingContainer(setQuestionSlide, questionSlide)}
+            {pageMode === 'DRAFT' ? (
+              <QuestionInputBox
+                ref={inputRef}
+                slide={questionSlide}
+                type="text"
+                value={inputValue}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  autoResize(e);
+                }}
+                onBlur={() => {
+                  updateAssignmentTitle(inputValue);
+                }}
+              />
+            ) : (
+              <QuestionText
+                slide={questionSlide}
+                dangerouslySetInnerHTML={{
+                  __html: linkify(submission?.assignment?.title),
+                }}
+              />
+            )}
+          </QuestionContainer>
+        ) : (
+          <QuestionContainer>
+            {QuestionHeadingContainer(setQuestionSlide, questionSlide)}
+            <QuestionText
+              slide={questionSlide}
+              dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
+            />
+          </QuestionContainer>
         )}
         <AnswerContainer>
+          <QuestionTitleBox>Answer</QuestionTitleBox>
           {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}
@@ -325,7 +425,7 @@ const answerFrames = (
               )}
             </QuillContainer>
           )}
-          {createFocusAreasLabel(
+          {/* {createFocusAreasLabel(
             handleCheckboxChange,
             groupedFocusAreaIds,
             question.serialNumber,
@@ -348,7 +448,7 @@ const answerFrames = (
               overallComment={overallComment}
               updateOverAllFeedback={updateOverAllFeedback}
             />
-          )}
+          )} */}
         </AnswerContainer>
       </Frame1366>
     </>
@@ -388,6 +488,24 @@ const createFocusAreasLabel = (
     </FocusAreasLabelContainer>
   );
 };
+
+function QuestionHeadingContainer(setQuestionSlide, questionSlide) {
+  return (
+    <QuestionTitleBox>
+      <h3>Question</h3>
+      <button onClick={() => setQuestionSlide(!questionSlide)}>
+        <img
+          style={{
+            transform: `${questionSlide ? 'rotate(0deg)' : 'rotate(180deg)'}`,
+          }}
+          src={DownWhite}
+          slide={questionSlide}
+        />{' '}
+        {questionSlide ? 'Hide' : 'Show'}
+      </button>
+    </QuestionTitleBox>
+  );
+}
 
 function createQuill(
   pageMode,

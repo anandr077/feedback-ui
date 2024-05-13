@@ -592,6 +592,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
+  console.log('the page mode is', pageMode)
+
   const sharewithclassdialog = (
     <Dialog
       onClose={() => {

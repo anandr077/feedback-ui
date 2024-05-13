@@ -22,7 +22,6 @@ export const Frame1361 = styled.div`
   width: calc(100vw - 305px);
   align-items: center;
   justify-content: flex-start;
-  gap: 20px;
   position: relative;
   border-top: 1px solid #e3e3e3;
 `;
@@ -35,19 +34,23 @@ export const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  padding: 0px 20px;
 `;
 
 export const Frame1359 = styled.div`
   display: flex;
   width: 100%;
-  gap: 32px;
+  gap: 23px;
   position: relative;
   align-self: stretch;
-  // min-height: calc(100vh - 285px);
   height: 90vh;
   flex-grow: 1;
   margin: 0px auto;
+  padding: 20px;
+  background-color: rgba(48, 27, 114, 1);
+  background-image: url('img/Tasks-page-background-overlay@2x.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 export const Frame1354 = styled.div`
@@ -57,9 +60,11 @@ export const Frame1354 = styled.div`
   padding-top: 0px;
   position: relative;
   flex: 1;
-  background-color: #f2f1f3;
+  max-height: 100%;
+  height: fit-content;
+  background-color: rgba(242, 241, 243, 0.9);
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 export const Frame1358 = styled.div`
@@ -70,9 +75,11 @@ export const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: #f2f1f3;
+  max-height: 100%;
+  height: fit-content;
+  background-color: rgba(242, 241, 243, 0.9);
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 export const TitleAndFilterContainer = styled.div`
   display: flex;

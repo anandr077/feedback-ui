@@ -164,7 +164,7 @@ export const PageContainer = styled.div`
   ::-webkit-scrollbar {
     width: 0;
   }
-  background: #FAF7FC;
+  background: #faf7fc;
   position: relative;
 `;
 
@@ -180,17 +180,17 @@ export const Main = styled.div`
   position: fixed;
   top: 70px;
   left: 0;
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 `;
 
 export const Main2 = styled.div`
-  width: 300px; 
+  width: 300px;
   height: 100vh;
   overflow-y: auto;
   position: fixed;
   top: 70px;
   left: 0;
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 `;
 
 export const Frame1388 = styled.div`
@@ -209,7 +209,7 @@ export const Frame1388 = styled.div`
     display: none;
   }
   scrollbar-width: none;
-  background: #FAF7FC;
+  background: #faf7fc;
 
   /* @media (min-width: 1600px) {
     max-width: 1300px;
@@ -217,11 +217,11 @@ export const Frame1388 = styled.div`
 `;
 
 export const CountZoomContainer = styled.div`
-  position: fixed; 
+  position: fixed;
   bottom: 0px;
   display: flex;
   justify-content: space-between;
-  display: ${props => props.mobileView ? 'none' : ''};
+  display: ${(props) => (props.mobileView ? 'none' : '')};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-size: var(--font-size-l);
@@ -257,7 +257,7 @@ export const ZoomInput = styled.input`
   background-color: transparent;
 
   &::-webkit-slider-runnable-track {
-    background-color: #8F8F8F;
+    background-color: #8f8f8f;
     border-radius: 5px;
     height: 1px;
   }
@@ -270,7 +270,7 @@ export const ZoomInput = styled.input`
     border-radius: 50%;
     background-color: var(--light-mode-purple);
     cursor: pointer;
-    margin-top: -10px; 
+    margin-top: -10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
 `;
@@ -280,9 +280,9 @@ export const DrawerArrowContainer = styled.div`
   /* width: 300px;  */
   height: 100vh;
   overflow-x: hidden;
-  transition: width 0.3s; 
-  background-color: #f0f0f0; 
-  position: fixed; 
+  transition: width 0.3s;
+  background-color: #f0f0f0;
+  position: fixed;
   align-self: stretch;
   top: 70px;
   overflow-y: scroll;
@@ -388,7 +388,7 @@ export const Frame1371 = styled.div`
   justify-content: space-between;
   gap: 32px;
   z-index: 2;
-  background-color: #FAF7FC;
+  background-color: #faf7fc;
   width: 100%;
 
   @media screen and (max-width: 1024px) and (min-width: 766px) {
@@ -469,14 +469,14 @@ export const Frame1367 = styled.div`
   align-items: flex-start;
   position: absolute;
   left: 50%;
-  //transform: translateX(calc(-50% - 210px));
-  transform: ${props => props.moveToLeft ? 'translateX(calc(-50% - 350px))' : 'translateX(calc(-50% - 210px))'};
+  transform: ${(props) =>
+    props.moveToLeft
+      ? 'translateX(calc(-50% - 350px))'
+      : 'translateX(calc(-50% - 210px))'};
   transition: transform 0.3s ease;
   height: 100%;
-  background-color: var(--white);
   width: 650px;
   margin: 20px;
-  border: solid 1px rgba(201, 198, 204, 0.5);
   border-radius: 10px;
 `;
 
@@ -484,17 +484,23 @@ export const FocusAreaContainer = styled.div`
   position: absolute;
   top: 0;
   left: 50%;
-  transform: ${props => props.moveToLeft ? 'translateX(calc(-50% + 170px))' : 'translateX(calc(-50% + 310px))'};
+  transform: ${(props) =>
+    props.moveToLeft
+      ? 'translateX(calc(-50% + 170px))'
+      : 'translateX(calc(-50% + 310px))'};
   transition: transform 0.3s ease;
 `;
 
 export const AddCommentFocusAreaDiv = styled.div`
   position: absolute;
   left: 50%;
-  transform: ${props => props.moveToLeft ? 'translateX(calc(-50% + 170px))' : 'translateX(calc(-50% + 310px))'};
+  transform: ${(props) =>
+    props.moveToLeft
+      ? 'translateX(calc(-50% + 170px))'
+      : 'translateX(calc(-50% + 310px))'};
   transition: transform 0.3s ease;
   width: 314px;
-`
+`;
 
 export const Frame1366 = styled.div`
   display: flex;
@@ -502,7 +508,44 @@ export const Frame1366 = styled.div`
   align-items: flex-start;
   position: relative;
   align-self: stretch;
+  gap: 16px;
   height: 100%;
+`;
+
+export const QuestionContainer = styled.div`
+  background-color: var(--white);
+  border-radius: 8px;
+  border: 1px solid rgba(178, 174, 183, 0.5);
+  box-shadow: 0px 4px 9px 0px rgba(133, 133, 133, 0.25);
+  width: 100%;
+`;
+
+export const QuestionTitleBox = styled.div`
+  background-color: rgba(40, 31, 69, 1);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  line-height: 24px;
+  color: rgba(251, 247, 254, 1);
+  padding: 8px 20px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    background-color: transparent;
+    border: none;
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 600;
+    line-height: 24px;
+    color: rgba(251, 247, 254, 1);
+    cursor: pointer;
+  }
 `;
 
 export const Line = styled.img`
@@ -514,21 +557,39 @@ export const AnswerContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
   padding-bottom: 20px;
-  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
+  border: 1px solid rgba(201, 198, 204, 0.5);
+  box-shadow: 0px 4px 9px 0px rgba(133, 133, 133, 0.25);
+  border-radius: 8px;
 `;
 
 export const QuestionText = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
-  line-height: 27px;
-  color: #460089;
-  font-size: 19px;
-  font-weight: 500;
+  font-family: Open Sans;
+  line-height: 24px;
+  color: rgba(24, 23, 24, 1);
+  font-size: 16px;
+  font-weight: 400;
   width: 100%;
-  padding: 16px 80px;
-  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+  display: ${(props) => (props.slide ? 'auto' : 'none')};
+  padding: 20px 80px;
+  overflow: hidden;
 `;
+
+export const QuestionInputBox = styled.textarea`
+  font-family: Open Sans;
+  font-size: 16px;
+  color: rgba(24, 23, 24, 1);
+  font-weight: 400;
+  line-height: 24px;
+  border: none;
+  outline: none;
+  resize: none;
+  width: 100%;
+  padding: 20px 80px;
+  display: ${(props) => (props.slide ? 'auto' : 'none')};
+  overflow: hidden;
+`;
+
 export const QuillContainer = styled.p`
   ${feedbacksIbmplexsansNormalShark20px}
   position: relative;
@@ -548,7 +609,7 @@ export const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
-  
+
   position: sticky;
   top: 0px;
   //background-color: var(--white);
@@ -708,27 +769,28 @@ export const Label16pxSmall = styled.div`
   align-items: center;
   gap: 10px;
 
-  div{
+  div {
     display: flex;
     gap: 5px;
 
-    span{
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: var(--light-mode-purple);
-    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
+    span {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--light-mode-purple);
+      transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
 
-    @keyframes wave {
-      0%, 100% {
+      @keyframes wave {
+        0%,
+        100% {
           transform: translateY(0);
-      }
-      50% {
+        }
+        50% {
           transform: translateY(-5px);
+        }
       }
-    }
     }
     span:nth-child(1) {
       animation-delay: 0s;
@@ -892,7 +954,7 @@ export const SubjectSelectBox = styled.div`
   label {
     font-family: var(--font-family-ibm_plex_sans);
     font-weight: 400;
-    font-size:  var(--font-size-xl);
+    font-size: var(--font-size-xl);
     line-height: 26px;
     color: #6f6f6f;
     padding-right: 10px;

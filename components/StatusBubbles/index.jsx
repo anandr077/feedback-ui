@@ -24,7 +24,7 @@ const StatusBubble = styled.article`
 `;
 
 const StatusBubblesText = styled.div`
-  color: ${props => props.name === "Community" ? 'var(--horses-neck)' : '#A154EA'};
+  color: ${props => props.name === "Community" ? 'var(--horses-neck)' : 'rgba(161, 84, 234, 1)'};
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 13px;
   font-weight: 500;

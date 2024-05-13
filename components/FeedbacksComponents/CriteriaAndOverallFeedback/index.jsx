@@ -14,6 +14,19 @@ import {
   TextFeedback,
   FeedbackBtn,
   MarkingCriteriaContainer,
+  MarkRubricTitleContainer,
+  LevelNameContainer,
+  LevelDescCont,
+  MarkStrengthContainer,
+  StrengthsAndTargetsCont,
+  StrengthsCont,
+  TargetsCont,
+  StrengthCont,
+  Strength,
+  TargetCont,
+  Target,
+  TargetHeadingCon,
+  TargetHeading,
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
@@ -62,6 +75,7 @@ const CriteriaAndOverallFeedback = ({
     setOverallComment(commentObject);
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
+    console.log('markingCriteria', markingCriteria);
     setMarkingCriteria(markingCriteria);
   }, [overallComments, QuestionIndex, comments, submission]);
 
@@ -99,20 +113,61 @@ const CriteriaAndOverallFeedback = ({
           </MarkingCriteriaHeading>
           {markingCriteria?.type === 'RUBRICS' ? (
             <MarkRubricsContainer>
-              {markingCriteria.criterias.map((rubrics) => (
+              {markingCriteria.criterias?.map((rubrics) => (
                 <MarkRubricContainer key={rubrics.title}>
-                  <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
+                  <MarkRubricTitleContainer>
+                    <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
+                  </MarkRubricTitleContainer>
+
                   {rubrics.levels.map((level) => (
                     <MarkRubricLevelContainer key={level.name}>
-                      <LevelName>{level.name}</LevelName>
-                      <LevelDesc>{level.description}</LevelDesc>
+                      <LevelNameContainer>
+                        <LevelName>{level.name}</LevelName>
+                      </LevelNameContainer>
+                      <LevelDescCont>
+                        <LevelDesc>{level.description}</LevelDesc>
+                      </LevelDescCont>
                     </MarkRubricLevelContainer>
                   ))}
                 </MarkRubricContainer>
               ))}
             </MarkRubricsContainer>
           ) : (
-            <></>
+            <MarkStrengthContainer>
+              {markingCriteria?.strengthsTargetsCriterias?.map(
+                (strengthsAndTargets) => (
+                  <MarkRubricContainer key={strengthsAndTargets.title}>
+                    <MarkRubricTitleContainer>
+                      <MarkRubricTitle>
+                        {strengthsAndTargets.title}
+                      </MarkRubricTitle>
+                    </MarkRubricTitleContainer>
+                    <StrengthsAndTargetsCont>
+                      <StrengthsCont>
+                        <TargetHeadingCon>
+                          <TargetHeading>Strengths</TargetHeading>
+                        </TargetHeadingCon>
+                        {strengthsAndTargets.strengths.map((strength) => (
+                          <StrengthCont>
+                            <Strength>{strength}</Strength>
+                          </StrengthCont>
+                        ))}
+                      </StrengthsCont>
+                      <TargetsCont>
+                        <TargetHeadingCon>
+                          <TargetHeading>Targets</TargetHeading>
+                        </TargetHeadingCon>
+                        {strengthsAndTargets.targets.map((target) => (
+                          <TargetCont>
+                            <Target>{target}</Target>
+                          </TargetCont>
+                        ))}
+                      </TargetsCont>
+                    </StrengthsAndTargetsCont>
+                  </MarkRubricContainer>
+                )
+              )}
+            </MarkStrengthContainer>
           )}
         </MarkingCriteriaContainer>
         <Heading>

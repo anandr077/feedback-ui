@@ -182,6 +182,9 @@ export const MarkRubricsContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   background-color: #ffffff;
   padding: 8px;
   gap: 4px;
@@ -191,16 +194,20 @@ export const MarkRubricContainer = styled.div`
   flex-direction: column;
   gap: 4px;
 `;
-export const MarkRubricTitle = styled.p`
+export const MarkRubricTitleContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #f2f1f3;
+  padding: 8px;
+  border-radius: 4px;
+`;
+export const MarkRubricTitle = styled.p`
   color: #56515b;
   font-family: var(--font-family-ibm_plex_sans);
-  align-text: center;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-  text-align: center;
 `;
 
 export const MarkRubricLevelContainer = styled.div`
@@ -209,15 +216,34 @@ export const MarkRubricLevelContainer = styled.div`
   gap: 4px;
 `;
 
+export const LevelNameContainer = styled.div`
+  display: flex;
+  background-color: #f2f1f3;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 4px;
+  width: 20%;
+`;
 export const LevelName = styled.p`
+  display: inline-block;
+  width: -webkit-fill-available;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
   text-align: center;
-  background-color: #f2f1f3;
   color: #56515b;
-  width: 20%;
+  overflow-wrap: break-word;
+`;
+export const LevelDescCont = styled.div`
+  display: flex;
+  background-color: #ffffff;
+  padding: 8px;
+  border-radius: 4px;
+  color: #56515b;
+  width: 80%;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 export const LevelDesc = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
@@ -225,7 +251,85 @@ export const LevelDesc = styled.p`
   font-weight: 400;
   line-height: 24px;
   text-align: center;
-  background-color: #ffffff;
   color: #56515b;
-  width: 80%;
+`;
+
+export const MarkStrengthContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  background-color: #ffffff;
+  padding: 8px;
+  gap: 4px;
+`;
+
+export const StrengthsAndTargetsCont = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+`;
+export const StrengthsCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 4px;
+`;
+export const TargetsCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 4px;
+`;
+export const StrengthCont = styled.div`
+  display: flex;
+  background-color: #ffffff;
+  padding: 8px;
+  border-radius: 4px;
+  color: #56515b;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+`;
+export const Strength = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  color: #56515b;
+`;
+
+export const TargetCont = styled.div`
+  display: flex;
+  background-color: #ffffff;
+  padding: 8px;
+  border-radius: 4px;
+  color: #56515b;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+`;
+export const Target = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  color: #56515b;
+`;
+
+export const TargetHeadingCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-neutral-alpha-80, #f2f1f380);
+  padding: 8px;
+  border-radius: 4px;
+`;
+export const TargetHeading = styled.p`
+  color: #56515b;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
 `;

@@ -554,6 +554,7 @@ function answersAndFeedbacks(
         setCommentFocusAreaToggle={setCommentFocusAreaToggle}
         methods={methods}
         submission={submission}
+        setSubmission={setSubmission}
         pageMode={pageMode}
         FeedbackMethodType={FeedbackMethodType}
         handleRequestFeedback={handleRequestFeedback}

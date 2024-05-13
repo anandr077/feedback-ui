@@ -25,6 +25,34 @@ export const AssignmentTitle = styled.h1`
   color: rgba(24, 23, 24, 1);
 `;
 
+export const SubjectTaskTypeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+`;
+
+export const STTitle = styled.h3`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: rgba(123, 115, 130, 1);
+`;
+
+export const STDetails = styled.h3`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: rgba(123, 115, 130, 1);
+`;
+
 export const ArrowBtn = styled.div`
   cursor: pointer;
   background-color: rgba(242, 241, 243, 1);
@@ -34,7 +62,7 @@ export const ArrowBtn = styled.div`
   display: grid;
   place-items: center;
 
-  img{
+  img {
     width: 24px;
     height: 24px;
   }
@@ -86,7 +114,6 @@ export const ReassignBtn = styled.button`
     height: 24px;
   }
 `;
-
 
 export const ToggleContainer = styled.div`
   width: 240px;
@@ -177,4 +204,36 @@ export const ToggleSwitchLabels = styled.div`
       height: 24px;
     }
   }
+`;
+
+export const DocumentSubmitBtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 13px;
+`;
+
+export const AwaitingFeedbackTextAlert = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  p {
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(75, 70, 79, 1);
+  }
+`;
+
+export const CancelBtn = styled.button`
+  background-color: rgba(199, 60, 39, 1);
+  color: var(--white);
+  border-radius: 24px;
+  padding: 8px 16px;
+  border: 1px solid rgba(199, 60, 39, 1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `;

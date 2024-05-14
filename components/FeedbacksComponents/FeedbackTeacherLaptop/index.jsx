@@ -630,6 +630,7 @@ function answersAndFeedbacks(
           QuestionIndex={QuestionIndex}
           addOverallFeedback={methods.addOverallFeedback}
           updateOverAllFeedback={methods.updateOverAllFeedback}
+          handleMarkingCriteriaLevelFeedback={methods.handleMarkingCriteriaLevelFeedback}
           pageMode={pageMode}
           submission={submission}
         />

@@ -55,12 +55,15 @@ const CriteriaAndOverallFeedback = ({
   updateOverAllFeedback,
   pageMode,
   submission,
+  handleMarkingCriteriaLevelFeedback,
 }) => {
   const { overallComments, comments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
   const [inputValue, setInputValue] = useState('');
   const [overallComment, setOverallComment] = useState({});
   const [markingCriteria, setMarkingCriteria] = useState();
+  const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
+
   const handleInputChange = (event) => {
     const allowedChars = /^[0-9]$|^$/;
     if (allowedChars.test(event.target.value)) {
@@ -75,9 +78,14 @@ const CriteriaAndOverallFeedback = ({
     setOverallComment(commentObject);
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
-    console.log('markingCriteria', markingCriteria);
+
     setMarkingCriteria(markingCriteria);
   }, [overallComments, QuestionIndex, comments, submission]);
+
+  const handleMarkingCriteria = (index, name) => {
+    handleMarkingCriteriaLevelFeedback(QuestionIndex + 1, index, name);
+    
+  };
 
   return (
     <MainContainer openRightPanel={openRightPanel}>
@@ -113,18 +121,36 @@ const CriteriaAndOverallFeedback = ({
           </MarkingCriteriaHeading>
           {markingCriteria?.type === 'RUBRICS' ? (
             <MarkRubricsContainer>
-              {markingCriteria.criterias?.map((rubrics) => (
-                <MarkRubricContainer key={rubrics.title}>
+              {markingCriteria.criterias?.map((rubrics, index) => (
+                <MarkRubricContainer key={index}>
                   <MarkRubricTitleContainer>
                     <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
                   </MarkRubricTitleContainer>
 
                   {rubrics.levels.map((level) => (
-                    <MarkRubricLevelContainer key={level.name}>
-                      <LevelNameContainer>
+                    <MarkRubricLevelContainer
+                      key={level.name}
+                      onClick={
+                        pageMode === 'REVIEW'
+                          ? () => handleMarkingCriteria(index, level.name)
+                          : null
+                      }
+                      style={{ cursor: pageMode === 'REVIEW' ? 'pointer' : '' }}
+                    >
+                      <LevelNameContainer
+                        bgColor={
+                          markingCriteria.criterias[index]?.selectedLevel ===
+                          level.name
+                        }
+                      >
                         <LevelName>{level.name}</LevelName>
                       </LevelNameContainer>
-                      <LevelDescCont>
+                      <LevelDescCont
+                        bgColor={
+                          markingCriteria.criterias[index]?.selectedLevel ===
+                          level.name
+                        }
+                      >
                         <LevelDesc>{level.description}</LevelDesc>
                       </LevelDescCont>
                     </MarkRubricLevelContainer>

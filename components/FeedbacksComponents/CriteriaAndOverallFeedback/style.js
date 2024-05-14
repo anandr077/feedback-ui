@@ -218,7 +218,7 @@ export const MarkRubricLevelContainer = styled.div`
 
 export const LevelNameContainer = styled.div`
   display: flex;
-  background-color: #f2f1f3;
+  background-color: ${(props) => (props.bgColor ? '#F1E6FC' : '#f2f1f3')};
   align-items: center;
   justify-content: center;
   padding: 8px;
@@ -243,7 +243,8 @@ export const LevelDescCont = styled.div`
   border-radius: 4px;
   color: #56515b;
   width: 80%;
-  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  border: ${(props) =>
+    props.bgColor ? '1px solid  #C596F2' : '1px solid  #c9c6cc80'};
 `;
 export const LevelDesc = styled.p`
   font-family: var(--font-family-ibm_plex_sans);

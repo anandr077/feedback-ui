@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DataContainer,
   DataSubtitle,
@@ -30,9 +30,19 @@ import { dateOnly } from '../../dates';
 import { Tooltip } from '@mui/material';
 
 function TaskHistoryDataComponent({ list, downloadPDF }) {
-  const redirectFunction = (url) => {
+  const [clickHighLightRow, setClickHighlightRow] = useState(false);
+
+  const handleClick = (index) => {
+    setClickHighlightRow(index);
+  };
+
+  const handleDoubleClick = (url) => {
     window.location.href = url;
   };
+
+  // const redirectFunction = (url) => {
+  //   window.location.href = url;
+  // };
   return (
     <>
       <Table>
@@ -48,29 +58,39 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
         </thead>
         <tbody>
           {list.map((task, index) => (
-            <tr key={index}>
+            <tr
+              key={index}
+              style={{
+                backgroundColor:
+                clickHighLightRow === index ? 'rgba(242, 241, 243, 0.5)' : 'transparent',
+              }}
+              onClick={() => handleClick(index)}
+              onDoubleClick={() => handleDoubleClick(task.link)}
+            >
               <td>{task.title}</td>
               <td>{task.classTitle}</td>
               <td>{dateOnly(task.completedAt)}</td>
-              <td className="icon-row">
-                <TaskIconContainer>
-                  <Tooltip
-                    title={'Open'}
-                    placement={'top'}
-                    onClick={() => redirectFunction(task.link)}
-                  >
-                    <DownloadIcon src={OpenLight} />
-                  </Tooltip>
-                </TaskIconContainer>
-                <TaskIconContainer onClick={() => downloadPDF(task.id)}>
-                  <Tooltip
-                    title={'Download'}
-                    placement={'top'}
-                    onClick={() => downloadPDF(task.id)}
-                  >
-                    <DownloadIcon src={DownloadLight} />
-                  </Tooltip>
-                </TaskIconContainer>
+              <td>
+                <div style={{ display: 'flex' }}>
+                  {/* <TaskIconContainer>
+                    <Tooltip
+                      title={'Open'}
+                      placement={'top'}
+                      onClick={() => redirectFunction(task.link)}
+                    >
+                      <DownloadIcon src={OpenLight} />
+                    </Tooltip>
+                  </TaskIconContainer> */}
+                  <TaskIconContainer onClick={() => downloadPDF(task.id)}>
+                    <Tooltip
+                      title={'Download'}
+                      placement={'top'}
+                      onClick={() => downloadPDF(task.id)}
+                    >
+                      <DownloadIcon src={DownloadLight} />
+                    </Tooltip>
+                  </TaskIconContainer>
+                </div>
               </td>
             </tr>
           ))}

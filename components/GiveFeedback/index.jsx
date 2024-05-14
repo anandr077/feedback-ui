@@ -230,6 +230,8 @@ function GiveFeedback() {
     );
   }
 
+  console.log('the feedback is', communityTasks)
+
   const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
     return (
       <Dialog open={isShowFilterPopUp}>

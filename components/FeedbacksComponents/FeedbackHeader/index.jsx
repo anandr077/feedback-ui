@@ -306,22 +306,10 @@ function submitButtonOnDocument(
       );
     }
     return (
-      <div
-        style={{
-          cursor: 'unset',
-          minWidth: '100px',
-          position: 'relative',
-          background: 'white',
-          color: 'black',
-          display: 'flex',
-          gap: '10px',
-          height: '66px',
-          border: '1px solid #F1E7FF',
-        }}
-      >
+      <DocumentSubmitBtnContainer>
         {<img src="/img/message24.svg" />}
         <p>Someone is working on your feedback</p>
-      </div>
+      </DocumentSubmitBtnContainer>
     );
   }
 

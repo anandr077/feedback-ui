@@ -9,6 +9,7 @@ export const FeedbackHeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 `;
 
 export const LeftSection = styled.div`
@@ -51,6 +52,15 @@ export const STDetails = styled.h3`
   font-size: 16px;
   line-height: 24px;
   color: rgba(123, 115, 130, 1);
+  max-width: 40vw;
+  max-height: 60px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 
 export const ArrowBtn = styled.div`

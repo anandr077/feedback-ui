@@ -22,7 +22,7 @@ const FeedbackTaskDetails = ({
   QuestionIndex,
   groupedFocusAreaIds,
   questionPanelOpen,
-  methods
+  methods,
 }) => {
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -51,19 +51,21 @@ const FeedbackTaskDetails = ({
           {submission?.assignment.teacherName}
         </div>
       </OtherDetails>
-      <FocusAreasContainer>
-        <FocusHeading>Focus Areas</FocusHeading>
-        <FocusBody>
-          {question?.focusAreas?.map((fa) => {
-            return (
-              <FocusArea onClick={()=> methods.handleFocusAreaComment(fa)}>
-                <Ellipse141 bg={fa.color}></Ellipse141>
-                <Label>{fa.title}</Label>
-              </FocusArea>
-            );
-          })}
-        </FocusBody>
-      </FocusAreasContainer>
+      {question?.focusAreas && question?.focusAreas.length !== 0 && (
+        <FocusAreasContainer>
+          <FocusHeading>Focus Areas</FocusHeading>
+          <FocusBody>
+            {question?.focusAreas?.map((fa) => {
+              return (
+                <FocusArea onClick={() => methods.handleFocusAreaComment(fa)}>
+                  <Ellipse141 bg={fa.color}></Ellipse141>
+                  <Label>{fa.title}</Label>
+                </FocusArea>
+              );
+            })}
+          </FocusBody>
+        </FocusAreasContainer>
+      )}
       <QuestionContainer onClick={() => questionPanelOpen('tab3')}>
         <QuestionNumbers>
           {submission.assignment.questions.length}

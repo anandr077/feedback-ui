@@ -13,9 +13,11 @@ import {
   Frame5053Card2Data,
   Frame5053Card1Img,
   Frame5053Card1Para,
+  CardPara2,
+  CardContainer,
   Card1ImgContainer,
   Frame5053Card1,
-  Card1Img
+  Card1Img,
 } from './selectReviewTypeStyle';
 import _ from 'lodash';
 import messages from '../../../static/img/messages-2.svg';
@@ -122,11 +124,26 @@ const SelectReviewType = ({
             />
           </Frame1334>
           <Frame5053>
+            <Frame5053Card1
+              bg="jeddai"
+              onClick={() => {
+                methods.jeddAI().then(() => ClosePopUp());
+              }}
+            >
+              <Frame5053Card1Img src={ai} />
+              <CardContainer>
+                <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
+                <CardPara2>Immediate feedback using AI</CardPara2>
+              </CardContainer>
+            </Frame5053Card1>
             {showTeacher && !isTeacher && (
               <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>
                   <Frame5053Card1Img src={Teacher} />
-                  <Frame5053Card1Para>Teacher</Frame5053Card1Para>
+                  <CardContainer>
+                    <Frame5053Card1Para>Teacher</Frame5053Card1Para>
+                    <CardPara2>Ask a teacher for feedback</CardPara2>
+                  </CardContainer>
                 </Frame5053Card2Data>
                 <Card1ImgContainer>
                   <Card1Img src={rightarrow} />
@@ -137,27 +154,29 @@ const SelectReviewType = ({
               <Frame5053Card2 onClick={ShowStudent}>
                 <Frame5053Card2Data>
                   <Frame5053Card1Img src={profileCircle} />
-                  <Frame5053Card1Para>Classmate</Frame5053Card1Para>
+                  <CardContainer>
+                    <Frame5053Card1Para>Ask a Friend</Frame5053Card1Para>
+                    <CardPara2>
+                      Ask someone you know to look at your work
+                    </CardPara2>
+                  </CardContainer>
                 </Frame5053Card2Data>
                 <Card1ImgContainer>
                   <Card1Img src={rightarrow} />
                 </Card1ImgContainer>
               </Frame5053Card2>
-            )} 
+            )}
             {!isTeacher && (
               <Frame5053Card1 onClick={requestCommnityFeedback}>
                 <Frame5053Card1Img src={expert} />
-                <Frame5053Card1Para>Expert</Frame5053Card1Para>
+                <CardContainer>
+                  <Frame5053Card1Para>Community Expert</Frame5053Card1Para>
+                  <CardPara2>
+                    Get expert feedback from a verified marker
+                  </CardPara2>
+                </CardContainer>
               </Frame5053Card1>
             )}
-            <Frame5053Card1
-              onClick={() => {
-                methods.jeddAI().then(() => ClosePopUp());
-              }}
-            >
-              <Frame5053Card1Img src={ai} />
-              <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
-            </Frame5053Card1> 
           </Frame5053>
         </PopupContainer>
       )}

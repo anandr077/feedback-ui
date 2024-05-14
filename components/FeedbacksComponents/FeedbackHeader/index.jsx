@@ -108,7 +108,12 @@ const FeedbackHeader = ({
               <>
                 <div>
                   <STTitle>Subject:</STTitle>
-                  <STDetails>{submission.assignment.title}</STDetails>
+                  {/* <STDetails>{submission.assignment.title}</STDetails> */}
+                  {submission.type === "DOCUMENT" ? (
+                    <STDetails>{submission.assignment.subject}</STDetails>
+                  ) : (
+                    <STDetails>{submission.assignment.title}</STDetails>
+                  )}
                 </div>
                 <span>|</span>
               </>

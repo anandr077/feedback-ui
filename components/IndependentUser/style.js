@@ -271,19 +271,6 @@ export const DrawerQuestions = styled.div`
   }
 `;
 
-export const OverflowShadow = styled.div`
-  position: absolute;
-  height: 100%;
-  width: 40px;
-  background: ${(props) =>
-    props.blueBackground
-      ? 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, rgba(241, 230, 252, 1) 60%, rgba(241, 230, 252, 1) 100%)'
-      : 'transparent'};
-  border-radius: 0 8px 8px 0;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-`;
 export const MenuItemsDots = styled.img`
   cursor: pointer;
 `;
@@ -405,10 +392,6 @@ export const DrawerQuestion = styled.div`
       max-height: 1500px;
       text-overflow: clip;
       white-space: normal;
-    }
-
-    ${OverflowShadow} {
-      display: none;
     }
     ${MenuItems} {
       border-color: #d6d6d6;

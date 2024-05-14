@@ -16,14 +16,14 @@ export const OverflowShadow = styled.div`
 
 export const DrawerQuestion = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 18.2px;
-  padding: 8px 12px;
-  border-radius: 22px;
+  font-weight: ${props => props.studentStyle ? '500' : '400'};
+  font-size: 16px;
+  line-height: 24px;
+  padding: 12px;
+  border-radius: 6px;
   background: ${(props) =>
     props.studentStyle ? 'rgba(241, 230, 252, 1)' : 'white'};
-  color: ${(props) => (props.studentStyle ? 'rgba(114, 0, 224, 1)' : 'rgba(123, 115, 130, 1)')};
+  color: ${(props) => (props.studentStyle ? 'rgba(114, 0, 224, 1)' : 'rgba(75, 70, 79, 1)')};
   position: relative;
   display: flex;
   align-items: center;

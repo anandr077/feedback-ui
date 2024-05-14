@@ -10,7 +10,6 @@ import {
   SearchIcon,
   DrawerQuestion,
   DrawerQuestions,
-  OverflowShadow,
   DrawerSubject,
   DrawerSubjects,
   DrawerVericalNav,
@@ -203,11 +202,6 @@ function IndepentdentUserSidebar({
                         >
                           <QuestionTitle>
                             {question.title}
-                            {/* <OverflowShadow
-                              blueBackground={
-                                question.id === currentSubmissionId
-                              }
-                            ></OverflowShadow> */}
                           </QuestionTitle>
                           <MenuItems
                             studentStyle={question.id === currentSubmissionId}

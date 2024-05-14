@@ -81,11 +81,24 @@ export const Frame5053Card1Img = styled.img`
 
 export const Frame5053Card1Para = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 500;
-  line-height: 26px;
+  line-height: 24px;
   letter-spacing: 0em;
+  color: rgba(30, 37, 42, 1);
   text-align: left;
+`;
+
+export const CardPara2 = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  color: rgba(123, 115, 130, 1);
+`;
+
+export const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 export const Card1ImgContainer = styled.div`
@@ -104,7 +117,7 @@ export const Frame5053Card1 = styled.div`
   gap: 16px;
   border: 1px solid #f1e7ff;
   cursor: pointer;
-  background-color: #f5effe;
+  background: ${props => props.bg === 'jeddai' ? 'linear-gradient(90deg, #E8FCFF 0%, #F4ECFD 100%)' : 'rgba(251, 247, 254, 1)'};
   :hover {
     background: linear-gradient(0deg, #f1e7ff, #f1e7ff),
       linear-gradient(0deg, #f5effe, #f5effe);

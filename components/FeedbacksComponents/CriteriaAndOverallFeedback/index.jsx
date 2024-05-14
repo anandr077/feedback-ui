@@ -121,7 +121,7 @@ const CriteriaAndOverallFeedback = ({
           </MarkingCriteriaHeading>
           {markingCriteria?.type === 'RUBRICS' ? (
             <MarkRubricsContainer>
-              {markingCriteria.criterias?.map((rubrics, index) => (
+              {markingCriteria?.criterias?.map((rubrics, index) => (
                 <MarkRubricContainer key={index}>
                   <MarkRubricTitleContainer>
                     <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>

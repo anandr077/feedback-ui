@@ -919,7 +919,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return false;
   }
   function convertToSelectedAttribute(selectedArray) {
-    return selectedArray.map((item, index) => ({
+    return selectedArray?.map((item, index) => ({
       index,
       criteria: item.label,
       attribute: item.value.name,

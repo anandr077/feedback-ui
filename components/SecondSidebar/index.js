@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { MainContainer, Button } from './style';
 import { useQuery } from '@tanstack/react-query';
-import { getNotifications } from '../../service';
+import { getCommunityTasks } from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
@@ -18,27 +18,23 @@ const SecondSidebar = () => {
   const history = useHistory();
   const role = getUserRole();
 
-  const { data: notifications, isLoading } = useQuery({
-    queryKey: ['notifications'],
+  const { data: communityTasks, isLoading } = useQuery({
+    queryKey: ['communityTasks'],
     queryFn: async () => {
-      const result = await getNotifications();
+      const result = await getCommunityTasks();
       return result;
     },
     staleTime: 60000,
   });
 
   React.useEffect(() => {
-    if (notifications) {
-      let feedbackRequestCount = 0;
-
-      notifications.forEach((item) => {
-        if (item.type === 'URL') {
-          feedbackRequestCount++;
-        }
-      });
-      setFeedbackRequests(feedbackRequestCount);
+    if (communityTasks) {
+      const len = communityTasks.length;
+      setFeedbackRequests(len);
     }
-  }, [notifications]);
+  }, [communityTasks]);
+
+  console.log('communityTasks', communityTasks)
 
   useEffect(() => {
     const updateHeight = () => {

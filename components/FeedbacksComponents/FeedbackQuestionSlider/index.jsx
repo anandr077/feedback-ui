@@ -8,29 +8,24 @@ const FeedbackQuestionSlider = ({
   QuestionIndex,
   questions,
 }) => {
+  
   const handlePreviousQuestion = () => {
-    setQuestionIndex((prevIndex) => {
-      if (prevIndex === 0) {
-        return questions.length - 1;
-      } else {
-        return prevIndex - 1;
-      }
-    });
+    if (QuestionIndex === 0) return;
+    setQuestionIndex((prevIndex) => prevIndex - 1);
   };
 
   const handleNextQuestion = () => {
-    setQuestionIndex((prevIndex) => {
-      if (prevIndex === questions.length - 1) {
-        return 0;
-      } else {
-        return prevIndex + 1;
-      }
-    });
+    if (QuestionIndex === questions.length - 1) return;
+    setQuestionIndex((prevIndex) => prevIndex + 1);
   };
+
   return (
     <QuestionCounter size={questions.length}>
       {questions.length > 1 && (
-        <QuestionBtn onClick={handlePreviousQuestion}>
+        <QuestionBtn
+          onClick={handlePreviousQuestion}
+          disabled={QuestionIndex === 0}
+        >
           <img src={LeftIcon} /> Previous
         </QuestionBtn>
       )}
@@ -38,7 +33,10 @@ const FeedbackQuestionSlider = ({
         Question {QuestionIndex + 1} of {questions.length}
       </QuestionBox>
       {questions.length > 1 && (
-        <QuestionBtn onClick={handleNextQuestion}>
+        <QuestionBtn
+          onClick={handleNextQuestion}
+          disabled={QuestionIndex === questions.length - 1}
+        >
           <img src={RightIcon} /> Next
         </QuestionBtn>
       )}
@@ -50,7 +48,7 @@ export default FeedbackQuestionSlider;
 
 export const QuestionCounter = styled.div`
   display: flex;
-  justify-content: ${props => props.size > 1 ? '' : 'center'};
+  justify-content: ${(props) => (props.size > 1 ? '' : 'center')};
   width: 100%;
   align-items: center;
   padding: 8px 16px;
@@ -74,7 +72,8 @@ export const QuestionBtn = styled.button`
   line-height: 20px;
   color: rgba(75, 70, 79, 1);
   background-color: transparent;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
 export const QuestionBox = styled.div`

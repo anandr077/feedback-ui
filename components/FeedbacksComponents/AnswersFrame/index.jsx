@@ -172,8 +172,7 @@ function AnswersFrame(props) {
           share
         )}
       </Frame1367>
-      {pageMode === 'REVIEW' &&
-        commentFocusAreaToggle &&
+      {commentFocusAreaToggle &&
         focusAreaComments.length !== 0 && (
           <FocusAreaContainer
             id={'FocusAreaContainer'}

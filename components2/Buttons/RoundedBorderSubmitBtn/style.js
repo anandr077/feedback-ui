@@ -15,6 +15,7 @@ export const ButtonContainer = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   gap: 5px;
   cursor: pointer;
 

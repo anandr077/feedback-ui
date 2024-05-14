@@ -97,9 +97,9 @@ const QuillEditor = React.forwardRef(
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
-        quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
+        quillInstance.root.style.fontFamily = 'Open Sans';
         quillInstance.root.style.fontSize = '16px';
-        quillInstance.root.style.lineHeight = '32px';
+        quillInstance.root.style.lineHeight = '24px';
 
         const delta = quillInstance.clipboard.convert(value);
         quillInstance.setContents(delta);
@@ -117,7 +117,7 @@ const QuillEditor = React.forwardRef(
 
       if (editor && editorFontSize !== null) {
         const fontSizePercentage = editorFontSize * 0.01;
-        editor.root.style.fontSize = `${18 * fontSizePercentage}px`;
+        editor.root.style.fontSize = `${16 * fontSizePercentage}px`;
         const calculatedLineHeight = editorFontSize * 0.25;
         editor.root.style.lineHeight = `${calculatedLineHeight}px`;
       }

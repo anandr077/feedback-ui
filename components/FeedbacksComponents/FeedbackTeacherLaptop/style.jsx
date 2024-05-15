@@ -291,7 +291,7 @@ export const DrawerArrowContainer = styled.div`
 export const DrawerArrow = styled.div`
   cursor: pointer;
   padding: 6px 2px;
-  height: 30vh;
+  height: 100vh;
   position: fixed;
   transform: ${(props) =>
     props.open ? `translateX(${props.drawerWidth - 10}px)` : '10px'};

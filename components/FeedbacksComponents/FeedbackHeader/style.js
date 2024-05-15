@@ -18,14 +18,6 @@ export const LeftSection = styled.div`
   gap: 16px;
 `;
 
-export const AssignmentTitle = styled.h1`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: rgba(24, 23, 24, 1);
-`;
-
 export const SubjectTaskTypeContainer = styled.div`
   display: flex;
   align-items: center;

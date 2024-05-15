@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import {
   FeedbackHeaderContainer,
   LeftSection,
-  AssignmentTitle,
   RightSection,
   ReassignBtn,
   ToggleContainer,
@@ -66,31 +65,23 @@ const FeedbackHeader = ({
   return (
     <FeedbackHeaderContainer>
       <LeftSection>
-        {submission.status === 'DRAFT' ? (
-          <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        ) : (
-          <SubjectTaskTypeContainer>
-            {submission.assignment.title && (
-              <>
-                <div>
-                  <STTitle>Subject:</STTitle>
-                  {submission.type === "DOCUMENT" ? (
-                    <STDetails>{submission.assignment.subject}</STDetails>
-                  ) : (
-                    <STDetails>{submission.assignment.title}</STDetails>
-                  )}
-                </div>
-                <span>|</span>
-              </>
-            )}
-            {submission.documentType && (
+        <SubjectTaskTypeContainer>
+          {submission.assignment.subject && (
+            <>
               <div>
-                <STTitle>Task Type:</STTitle>
-                <STDetails>{submission.documentType}</STDetails>
+                <STTitle>Subject:</STTitle>
+                <STDetails>{submission.assignment.subject}</STDetails>
               </div>
-            )}
-          </SubjectTaskTypeContainer>
-        )}
+              <span>|</span>
+            </>
+          )}
+          {submission.documentType && (
+            <div>
+              <STTitle>Task Type:</STTitle>
+              <STDetails>{submission.documentType}</STDetails>
+            </div>
+          )}
+        </SubjectTaskTypeContainer>
       </LeftSection>
       <RightSection>
         {submission.type !== 'DOCUMENT' && (
@@ -199,10 +190,17 @@ function submitButtonOnDocument(
         />
         <RoundedBorderSubmitBtn
           text={isTeacher ? 'JeddAI' : 'Request Feedback'}
-          onClickFn={(event) => {
-            event.stopPropagation();
-            setShowSelectType(true);
-          }}
+          onClickFn={
+            isTeacher
+              ? (event) => {
+                  event.stopPropagation();
+                  methods.jeddAI();
+                }
+              : (event) => {
+                  event.stopPropagation();
+                  setShowSelectType(true);
+                }
+          }
         />
       </>
     );

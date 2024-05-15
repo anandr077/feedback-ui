@@ -522,13 +522,6 @@ function answersAndFeedbacks(
 
   return (
     <Frame1386 id="content">
-      {/* {isTeacher && (
-        <GoBackBtn onClick={() => navigate.goBack()}>
-          <img className="arrowImg" src="img/arrow_left.png" />
-          <img className="hoveredImg" src="icons/arrowleft.png" />
-          Go Back
-        </GoBackBtn>
-      )} */}
       {/* {createContextBar(
         submission,
         setSubmission,

@@ -10,8 +10,6 @@ import {
   ToggleInput,
   ToggleBtn,
   ToggleSwitchLabels,
-  ArrowBtn,
-  Select,
   DocumentSubmitBtnContainer,
   AwaitingFeedbackTextAlert,
   CancelBtn,
@@ -31,14 +29,6 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
-
-const data = [
-  'Student one',
-  'Student two',
-  'Student three',
-  'Student four',
-  'Student five',
-];
 
 const FeedbackHeader = ({
   commentFocusAreaToggle,
@@ -75,30 +65,6 @@ const FeedbackHeader = ({
   };
   return (
     <FeedbackHeaderContainer>
-      {/* {isTeacher ? (
-        <LeftSection>
-          <ArrowBtn onClick={handlePrevious}>
-            <img src={ArrowLeft} alt="Left" />
-          </ArrowBtn>
-          <Select
-            value={data[selectedIndex]}
-            onChange={(e) => setSelectedIndex(data.indexOf(e.target.value))}
-          >
-            {data.map((name, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </Select>
-          <ArrowBtn onClick={handleNext}>
-            <img src={ArrowRight} alt="Right" />
-          </ArrowBtn>
-        </LeftSection>
-      ) : (
-        <LeftSection>
-          <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        </LeftSection>
-      )} */}
       <LeftSection>
         {submission.status === 'DRAFT' ? (
           <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
@@ -108,7 +74,6 @@ const FeedbackHeader = ({
               <>
                 <div>
                   <STTitle>Subject:</STTitle>
-                  {/* <STDetails>{submission.assignment.title}</STDetails> */}
                   {submission.type === "DOCUMENT" ? (
                     <STDetails>{submission.assignment.subject}</STDetails>
                   ) : (
@@ -218,20 +183,6 @@ function submitButtonOnDocument(
   if (pageMode === 'DRAFT') {
     return (
       <>
-        {/* {selectReviewType(
-                submission,
-                setSubmission,
-                methods,
-                feedbackMethodType,
-                isShowSelectType,
-                setShowSelectType,
-                handleRequestFeedback,
-                allClasses,
-                showStudentPopUp,
-                showTeacherPopUp,
-                setShowStudentPopUp,
-                setShowTeacherPopUp
-              )} */}
         <SelectReviewType
           submission={submission}
           setSubmission={setSubmission}
@@ -247,7 +198,7 @@ function submitButtonOnDocument(
           setShowTeacherPopUp={setShowTeacherPopUp}
         />
         <RoundedBorderSubmitBtn
-          text={isTeacher ? 'Jedd AI' : 'Request Feedback'}
+          text={isTeacher ? 'JeddAI' : 'Request Feedback'}
           onClickFn={(event) => {
             event.stopPropagation();
             setShowSelectType(true);
@@ -389,7 +340,7 @@ function submitButton(methods, pageMode, submission, isTeacher) {
     }
     return (
       <RoundedBorderSubmitBtn
-        text={'Mark as completed'}
+        text={'Mark Complete'}
         onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
       />
     );

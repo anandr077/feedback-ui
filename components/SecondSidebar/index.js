@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { MainContainer, Button } from './style';
 import { useQuery } from '@tanstack/react-query';
-import { getCommunityTasks } from '../../service';
+import { getCommunityTasks, getCompletedTasks } from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
@@ -13,28 +13,27 @@ import { getUserRole } from '../../userLocalDetails';
 
 const SecondSidebar = () => {
   const [containerHeight, setContainerHeight] = useState(0);
-  const [feedbackRequests, setFeedbackRequests] = useState(0);
+  const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
+  const [completedTaskLength, setCompletedTaskLength] = useState(0)
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
 
-  const { data: communityTasks, isLoading } = useQuery({
-    queryKey: ['communityTasks'],
-    queryFn: async () => {
-      const result = await getCommunityTasks();
-      return result;
-    },
-    staleTime: 60000,
-  });
-
-  React.useEffect(() => {
-    if (communityTasks) {
-      const len = communityTasks.length;
-      setFeedbackRequests(len);
-    }
-  }, [communityTasks]);
-
-  console.log('communityTasks', communityTasks)
+  useEffect(() => {
+    Promise.all([
+      getCompletedTasks(),
+      getCommunityTasks(),
+    ])
+      .then(
+        ([
+          getCompletedTasks,
+          getCommunityTasks
+        ]) => {
+          setCompletedTaskLength(getCompletedTasks.length)
+          setFeedbackRequestsLength(getCommunityTasks.length)
+        }
+      )
+  }, []);
 
   useEffect(() => {
     const updateHeight = () => {
@@ -58,33 +57,37 @@ const SecondSidebar = () => {
   const subLinks = [
     {
       icon: '',
-      title: `${role === 'STUDENT' ? 'Tasks' : 'Classwork'}`,
+      title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
       link: '/',
     },
     {
       icon: '',
-      title: `${role === 'STUDENT' ? 'Tasks' : 'Classwork'}`,
+      title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
       link: '/tasks',
     },
     {
       icon: '',
-      title: `Feedback Requests (${feedbackRequests})`,
+      title: `Completed Tasks (${completedTaskLength})`,
+      link: `/completed`,
+    },
+    {
+      icon: '',
+      title: `${
+        role === 'STUDENT'
+          ? `Help a Friend (${feedbackRequestsLength})`
+          : `Students Request (${feedbackRequestsLength})`
+      }`,
       link: '/giveFeedback',
+    },
+    {
+      icon: '',
+      title: `Examples`,
+      link: `/sharedresponses`,
     },
     {
       icon: '',
       title: `Feedback History`,
       link: `/feedbackHistory`,
-    },
-    {
-      icon: '',
-      title: `${role === 'STUDENT' ? 'Completed Tasks' : 'Closed Tasks'}`,
-      link: `/completed`,
-    },
-    {
-      icon: '',
-      title: `Shared Responses`,
-      link: `/sharedresponses`,
     },
     {
       icon: '',

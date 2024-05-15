@@ -386,7 +386,7 @@ const answerFrames = (
           </QuestionContainer>
         )}
         <AnswerContainer>
-          <QuestionTitleBox>Answer</QuestionTitleBox>
+          <QuestionTitleBox>Response</QuestionTitleBox>
           {question.type === 'MCQ' ? (
             <CheckboxList
               submission={submission}

@@ -1420,8 +1420,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         }),
       },
     };
-
-    // Set the updated submission object
     setSubmission(updatedSubmission);
   }
 

@@ -663,7 +663,11 @@ export const setLocalClasses = (classes) => {
 }
 
 export const getLocalClasses = () => {
-  return localStorage.getItem('classes');
+  const localClasses = localStorage.getItem('classes');
+  if (localClasses) {
+    return localClasses;
+  }
+  return Cookies.get('classes');
 }
 
 

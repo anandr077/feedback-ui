@@ -518,7 +518,6 @@ export const AnswerContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
   border: 1px solid rgba(201, 198, 204, 0.5);
   box-shadow: 0px 4px 9px 0px rgba(133, 133, 133, 0.25);
   border-radius: 8px;

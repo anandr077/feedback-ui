@@ -315,7 +315,7 @@ const QuillEditor = React.forwardRef(
           pageMode={pageMode}
           submission={submission}
           methods={methods}
-          comments={comments.filter((comment) => comment.type === 'COMMENT')}
+          comments={comments.filter((comment) => comment.type === 'COMMENT' || comment.type === "MODEL_RESPONSE")}
           editor={editor}
           editorRef={editorRef}
           selectedComment={selectedComment}

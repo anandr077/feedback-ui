@@ -52,8 +52,6 @@ const CommentBox = ({
   const isTeacher = getUserRole() === 'TEACHER';
 
   useEffect(() => {
-    // const heights = comments?.map(() => 0);
-    // setCommentHeights(heights);
     const measureHeights = () => {
       const newHeights = comments?.map((_, index) => {
         const element = document.getElementById(`comment-${index}`);
@@ -183,7 +181,7 @@ const CommentBox = ({
     <>
       {!commentFocusAreaToggle && (
         <>
-          {showNewComment ? (
+          {showNewComment && pageMode !== 'DRAFT'? (
             <MainSideContainer
               style={{ top: commentInputTopPosition, right: '-330px' }}
             >

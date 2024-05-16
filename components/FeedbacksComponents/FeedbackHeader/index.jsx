@@ -84,7 +84,7 @@ const FeedbackHeader = ({
         </SubjectTaskTypeContainer>
       </LeftSection>
       <RightSection>
-        {submission.type !== 'DOCUMENT' && (
+        {(submission.type !== 'DOCUMENT' && pageMode !== 'DRAFT') && (
           <ToggleContainer>
             <ToggleLavel>
               <ToggleInput

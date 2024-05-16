@@ -147,6 +147,8 @@ const Header = () => {
         position: 'sticky',
         top: '0',
         zIndex: '5',
+        borderBottom: '1px solid rgba(255, 255, 255, 1)',
+        boxShadow: '2px 1px 4px 0px rgba(115, 115, 115, 0.25)'
       }}
     >
       <MainContainer>

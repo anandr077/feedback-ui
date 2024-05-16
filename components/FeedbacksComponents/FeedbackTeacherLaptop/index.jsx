@@ -513,12 +513,23 @@ function answersAndFeedbacks(
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
   const [commentFocusAreaToggle, setCommentFocusAreaToggle] =
-    React.useState(false);
+    React.useState(() => {
+      return pageMode === 'REVIEW' ? false : pageMode === 'DRAFT' ? true : false;
+    });
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
   };
+
+  React.useEffect(() => {
+    if (selectedRange !== null && pageMode === 'DRAFT') {
+      handleRightSidebarClick('tab1');
+    }
+    if(selectedRange && pageMode === 'REVIEW'){
+      setCommentFocusAreaToggle(false);
+    }
+  }, [selectedRange]);
 
   return (
     <Frame1386 id="content">

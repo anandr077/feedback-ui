@@ -138,7 +138,8 @@ function AnswersFrame(props) {
     (comment) => comment.type === 'FOCUS_AREA'
   );
 
-  console.log('submission is', submission);
+  console.log('focusAreaComments is', focusAreaComments);
+  console.log('QuestionIndex is', QuestionIndex);
 
   return (
     <Group1225 id="answers">
@@ -172,16 +173,20 @@ function AnswersFrame(props) {
           share
         )}
       </Frame1367>
-      {commentFocusAreaToggle &&
-        focusAreaComments.length !== 0 && (
-          <FocusAreaContainer
-            id={'FocusAreaContainer'}
-            moveToLeft={openRightPanel}
-          >
-            <FocusAreaCard comments={focusAreaComments} />
-          </FocusAreaContainer>
-        )}
-      {pageMode === 'REVIEW' && showAddingCommentDesc && (
+      {((commentFocusAreaToggle && focusAreaComments.length !== 0) ||
+        pageMode === 'DRAFT') && (
+        <FocusAreaContainer
+          id={'FocusAreaContainer'}
+          moveToLeft={openRightPanel}
+        >
+          <FocusAreaCard
+            comments={focusAreaComments}
+            methods={methods}
+            QuestionIndex={QuestionIndex}
+          />
+        </FocusAreaContainer>
+      )}
+      {showAddingCommentDesc && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
         <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
           {commentFocusAreaToggle && focusAreaComments.length === 0 && (
             <AddCommentFocusAreaInstruction
@@ -545,7 +550,7 @@ function createQuill(
         options={{
           modules: createModules(pageMode),
           theme: 'snow',
-          readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
+          readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED'
         }}
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}

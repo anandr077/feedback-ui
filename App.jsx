@@ -135,21 +135,19 @@ function App() {
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
-      Cookies.get('classes') ? (
-        <ProtectedTeacherTaskRoot />
-      ) : (
-        <ProtectedGiveFeedback />
-      )
-    ) : (
-      Cookies.get('classes') ? (
+        Cookies.get('classes') ? (
+          <ProtectedTeacherTaskRoot />
+        ) : (
+          <ProtectedGiveFeedback />
+        )
+      ) : Cookies.get('classes') ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />
-      )
-    );
+      );
 
-   return <div>{dashboard}</div>;
-};
+    return <div>{dashboard}</div>;
+  };
 
   const Tasks = ({ role }) => {
     const tasks =
@@ -181,6 +179,7 @@ function App() {
                 </Route>
                 <Route path="/markingTemplates/rubrics/new">
                   <ProtectedMarkingCriteria />
+                  {/* <ProtectedMarkingTemplateRubrics /> */}
                 </Route>
                 <Route path="/markingCriterias/rubrics/:markingCriteriaId">
                   <ProtectedMarkingCriteria />

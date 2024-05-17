@@ -43,11 +43,10 @@ export const UserSettingFrame = styled.div`
 `;
 
 export const MarkingCriteriaList = styled.div`
-  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+
   position: relative;
   align-self: stretch;
   overflow-y: scroll;
@@ -148,21 +147,15 @@ export const Frame13221 = styled.div`
 `;
 
 export const Frame1302 = styled.div`
-  width: 40%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 20px;
-  padding: 30px;
   position: relative;
   flex: 1;
   align-self: stretch;
   background-color: var(--white);
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-  box-shadow: 0px 4px 16px #7200e01a;
 `;
 
 export const Title1 = styled.div`
@@ -391,4 +384,73 @@ export const TabsPlusText = styled.div`
   text-align: left;
   color: #ffffff;
   text-wrap: nowrap;
+`;
+
+export const MainContainer = styled.div`
+  align-items: center;
+  background-color: var(--white-pointer);
+  border: 1px none;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  position: relative;
+  width: calc(100vw - 90px);
+  border-top: 1px solid #73737340;
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    min-width: 1025px;
+  }
+  @media (min-width: 766px) and (max-width: 1024px) {
+    min-width: 766px;
+  }
+`;
+
+export const InnerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 90vh;
+  position: relative;
+  max-width: 1440px;
+`;
+
+export const RightContainer = styled.div`
+  width: 100%;
+  background: #ffffff;
+  // height: 60vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const CreateButtonCont = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px 20px;
+  gap: 8px;
+  border: 0px 0px 1px 0px;
+  opacity: 0px;
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  cursor: pointer;
+`;
+
+export const PlusIcon = styled.img`
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px;
+  opacity: 0px;
+  border: 1px solid var(--color-neutral-90, #c9c6cc);
+  background: var(--color-neutral-alpha-80, #f2f1f380);
+`;
+
+export const PlusText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: #4b464f;
 `;

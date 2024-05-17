@@ -14,25 +14,18 @@ import { getUserRole } from '../../userLocalDetails';
 const SecondSidebar = () => {
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
-  const [completedTaskLength, setCompletedTaskLength] = useState(0)
+  const [completedTaskLength, setCompletedTaskLength] = useState(0);
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
 
   useEffect(() => {
-    Promise.all([
-      getCompletedTasks(),
-      getCommunityTasks(),
-    ])
-      .then(
-        ([
-          getCompletedTasks,
-          getCommunityTasks
-        ]) => {
-          setCompletedTaskLength(getCompletedTasks.length)
-          setFeedbackRequestsLength(getCommunityTasks.length)
-        }
-      )
+    Promise.all([getCompletedTasks(), getCommunityTasks()]).then(
+      ([getCompletedTasks, getCommunityTasks]) => {
+        setCompletedTaskLength(getCompletedTasks.length);
+        setFeedbackRequestsLength(getCommunityTasks.length);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -89,20 +82,25 @@ const SecondSidebar = () => {
       title: `Feedback History`,
       link: `/feedbackHistory`,
     },
-    {
-      icon: '',
-      title: 'User Settings',
-      link: '/settings',
-    },
+    // {
+    //   icon: '',
+    //   title: 'User Settings',
+    //   link: '/settings',
+    // },
     {
       icon: '',
       title: 'Marking Templates',
-      link: '/markingTemplate/strengthAndTargets',
+      link: '/settings',
     },
     {
       icon: '',
       title: 'Comment Banks',
       link: '/commentbanks',
+    },
+    {
+      icon: '',
+      title: 'Marking Templates',
+      link: '/markingTemplates/rubrics/new',
     },
   ];
 
@@ -127,10 +125,10 @@ const SecondSidebar = () => {
         subLinks[5],
       ],
     },
-    {
-      link: '/settings',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
-    },
+    // {
+    //   link: '/settings',
+    //   subLinks: [subLinks[6], subLinks[7]],
+    // },
     {
       link: '/giveFeedback',
       subLinks: [
@@ -162,16 +160,16 @@ const SecondSidebar = () => {
       ],
     },
     {
-      link: '/markingTemplate/strengthAndTargets',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
+      link: '/settings',
+      subLinks: [subLinks[6], subLinks[7]],
     },
     {
-      link: '/markingTemplate/rubrics',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
+      link: '/markingTemplates/rubrics/new',
+      subLinks: [subLinks[8], subLinks[7]],
     },
     {
       link: '/commentbanks',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
+      subLinks: [subLinks[6], subLinks[7]],
     },
     {
       link: '/completed',

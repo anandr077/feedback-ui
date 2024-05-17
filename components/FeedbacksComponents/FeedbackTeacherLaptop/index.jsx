@@ -628,6 +628,7 @@ function answersAndFeedbacks(
           questionPanelOpen={handleRightSidebarClick}
           methods={methods}
           setQuestionIndex={setQuestionIndex}
+          pageMode={pageMode}
         />
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}

@@ -2,7 +2,6 @@ import React from 'react';
 import { FocusAreaContainer, FocusArea } from './style';
 
 const FocusAreaCard = ({ comments, methods, QuestionIndex }) => {
-  console.log('my focus areas', comments);
   return (
     <FocusAreaContainer>
       {comments

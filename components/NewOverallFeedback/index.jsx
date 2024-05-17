@@ -4,6 +4,7 @@ import { base64ToBlob, blobToBase64 } from '../../utils/blobs';
 import AudioRecorder from '../AudioRecorder';
 import NonEditableFeedback from '../../components2/NonEditableFeedback';
 import AudioPlayer from '../AudioPlayer';
+import { textAreaAutoResize } from '../../components2/textAreaAutoResize';
 
 const NewOverallFeedback = ({
   pageMode,
@@ -23,9 +24,14 @@ const NewOverallFeedback = ({
     }
   }, [overallComment, serialNumber, inputRef]);
 
+  console.log('the overall feedback', overallComment)
+  console.log('the page mode is', pageMode)
+
   const onSave = () => {
     let value = inputRef.current.value;
+    console.log('the console for save', value)
     if (overallComment === null || overallComment === undefined) {
+      console.log('the comment adding check is', serialNumber, value, null)
       return addOverallFeedback(serialNumber, value, null);
     }
     return updateOverAllFeedback(
@@ -82,12 +88,18 @@ const NewOverallFeedback = ({
     return <TextFeedback ref={inputRef} readOnly={true}></TextFeedback>;
   }
 
+  
+
   return (
     <>
       <TextFeedback
         ref={inputRef}
         placeholder="Give feedback here..."
+        style={{height: `${inputRef.current ? inputRef.current.scrollHeight : 104}px`}}
         onBlur={pageMode === 'REVIEW' ? () => onSave() : undefined}
+        onChange={(e) => {
+          textAreaAutoResize(e, inputRef);
+        }}
       ></TextFeedback>
 
       {overallComment?.audio ? (

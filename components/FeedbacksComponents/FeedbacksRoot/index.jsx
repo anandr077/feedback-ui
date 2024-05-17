@@ -1124,7 +1124,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         const quill = quillRefs.current[question.serialNumber - 1];
-        quill.disable();
+        quill?.disable();
       });
   }
 

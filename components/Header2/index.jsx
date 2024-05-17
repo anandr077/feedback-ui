@@ -98,7 +98,6 @@ const Header = () => {
         setIsHelpBarOpen(false);
       }, 300);
     }
-    console.log('the help bar');
   };
 
   useEffect(() => {

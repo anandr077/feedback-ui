@@ -32,7 +32,7 @@ const QuillEditor = React.forwardRef(
       selectedRange,
       commentFocusAreaToggle,
       newCommentFrameRef,
-      share
+      share,
     },
     ref
   ) => {
@@ -68,6 +68,8 @@ const QuillEditor = React.forwardRef(
 
       return modifiedHTML;
     };
+
+    console.log('all comments are', comments);
 
     const handlePaste = (event) => {
       event.preventDefault();
@@ -315,7 +317,12 @@ const QuillEditor = React.forwardRef(
           pageMode={pageMode}
           submission={submission}
           methods={methods}
-          comments={comments.filter((comment) => comment.type === 'COMMENT' || comment.type === "MODEL_RESPONSE")}
+          comments={comments.filter(
+            (comment) =>
+              comment.type === 'COMMENT' ||
+              comment.type === 'MODEL_RESPONSE' ||
+              comment.type === 'SMART_ANNOTATION'
+          )}
           editor={editor}
           editorRef={editorRef}
           selectedComment={selectedComment}

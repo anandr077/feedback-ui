@@ -12,7 +12,8 @@ const FeedbackRightSideSlidingTabs = ({
   QuestionIndex,
   questionPanelOpen,
   methods,
-  setQuestionIndex
+  setQuestionIndex,
+  pageMode
 }) => {
  
   return (
@@ -29,6 +30,11 @@ const FeedbackRightSideSlidingTabs = ({
       <CriteriaAndOverallFeedback
         handleClose={handleRightSidebarClick}
         openRightPanel={openRightPanel}
+        addOverallFeedback={methods.addOverallFeedback}
+        updateOverAllFeedback={methods.updateOverAllFeedback}
+        pageMode={pageMode}
+        submission={submission}
+        QuestionIndex={QuestionIndex}
       />
       <QuestionsDetailsTab
         handleClose={handleRightSidebarClick}

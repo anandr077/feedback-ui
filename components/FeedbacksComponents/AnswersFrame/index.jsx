@@ -138,9 +138,6 @@ function AnswersFrame(props) {
     (comment) => comment.type === 'FOCUS_AREA'
   );
 
-  console.log('focusAreaComments is', focusAreaComments);
-  console.log('QuestionIndex is', QuestionIndex);
-
   return (
     <Group1225 id="answers">
       <Frame1367 moveToLeft={openRightPanel}>

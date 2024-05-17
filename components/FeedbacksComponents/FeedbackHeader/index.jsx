@@ -299,7 +299,6 @@ function submitButtonOnDocument(
 }
 
 function submitButton(methods, pageMode, submission, isTeacher) {
-  console.log('the pagemode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
       <RoundedBorderSubmitBtn

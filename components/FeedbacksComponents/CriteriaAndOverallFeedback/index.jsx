@@ -32,6 +32,7 @@ import { MarkRubricTitle } from './style';
 import { MarkRubricLevelContainer } from './style';
 import { LevelName } from './style';
 import { LevelDesc } from './style';
+import { getUserRole } from '../../../userLocalDetails';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
 
 const CriteriaAndOverallFeedback = ({
@@ -48,6 +49,7 @@ const CriteriaAndOverallFeedback = ({
   const [inputValue, setInputValue] = useState('');
   const [overallComment, setOverallComment] = useState({});
   const [markingCriteria, setMarkingCriteria] = useState();
+  const isTeacher = getUserRole() === 'TEACHER';
   const handleInputChange = (event) => {
     const allowedChars = /^[0-9]$|^$/;
     if (allowedChars.test(event.target.value)) {
@@ -55,11 +57,15 @@ const CriteriaAndOverallFeedback = ({
     }
   };
 
+  console.log('the role is ', isTeacher);
+  console.log('the overall comment before sorting by index', overallComments)
+
   useEffect(() => {
     const commentObject = (
       overallComments.length != 0 ? overallComments : comments
     ).find((comment) => comment.questionSerialNumber === QuestionIndex + 1);
     setOverallComment(commentObject);
+    
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     setMarkingCriteria(markingCriteria);

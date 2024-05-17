@@ -51,6 +51,10 @@ const CommentBox = ({
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const isTeacher = getUserRole() === 'TEACHER';
 
+  let commentBankIds = submission.assignment.questions
+    .filter((item) => item.serialNumber === newCommentSerialNumber)
+    .map((item) => item.commentBankId);
+
   useEffect(() => {
     const measureHeights = () => {
       const newHeights = comments?.map((_, index) => {
@@ -181,7 +185,7 @@ const CommentBox = ({
     <>
       {!commentFocusAreaToggle && (
         <>
-          {showNewComment && pageMode !== 'DRAFT'? (
+          {showNewComment && pageMode !== 'DRAFT' ? (
             <MainSideContainer
               style={{ top: commentInputTopPosition, right: '-330px' }}
             >
@@ -207,7 +211,8 @@ const CommentBox = ({
                   newCommentSerialNumber,
                   methods,
                   newCommentFrameRef,
-                  share
+                  share,
+                  commentBankIds
                 )}
             </MainSideContainer>
           ) : (
@@ -288,15 +293,16 @@ const newCommentFrame = (
   newCommentSerialNumber,
   methods,
   newCommentFrameRef,
-  share
+  share,
+  commentBankIds
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
-  return reviewerNewComment(methods, newCommentFrameRef, share, pageMode);
+  return reviewerNewComment(methods, newCommentFrameRef, share, pageMode, commentBankIds);
 };
 
-function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
+function reviewerNewComment(methods, newCommentFrameRef, share, pageMode, commentBankIds) {
   const { smartAnnotations } = useContext(FeedbackContext);
 
   if (pageMode === 'CLOSED') return <></>;
@@ -319,11 +325,14 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
               <SubmitCommentFrameRoot
                 submitButtonOnClick={methods.handleAddComment}
                 cancelButtonOnClick={methods.hideNewCommentDiv}
+                smartAnnotations={smartAnnotations}
+                commentBankIds={commentBankIds}
+                methods={methods}
               />
             </CommentContainer>
             {/* <ShortcutList>
-                {shortcutList(methods, smartAnnotations)}
-              </ShortcutList> */}
+                {shortcutList(methods, smartAnnotations, commentBankIds)}
+            </ShortcutList> */}
           </SmartAnnotationsComponent>
           {/* <ExemplarComponent>
               {shareWithClassFrame(methods, share)}
@@ -335,15 +344,18 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
   );
 }
 
-function shortcutList(methods, smartAnnotations) {
-  return smartAnnotations.map((smartAnnotation, index) => (
-    <SmartAnotation
-      key={index}
-      smartAnnotation={smartAnnotation}
-      onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
-    />
-  ));
-}
+function shortcutList(methods, smartAnnotations, commentBankIds) {
+  const all = smartAnnotations?.flatMap((annotation, index) =>
+    annotation.smartComments
+      .filter((smartComment) => commentBankIds.includes(annotation.id))
+      .map((smartComment, innerIndex) => (
+        <SmartAnotation
+          key={`${index}-${innerIndex}`}
+          smartAnnotation={smartComment}
+          onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+        />
+      ))
+)}
 
 function shareWithClassFrame(methods, share) {
   if (getUserRole() === 'STUDENT') return <></>;

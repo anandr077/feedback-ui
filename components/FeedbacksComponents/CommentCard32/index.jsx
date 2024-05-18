@@ -216,66 +216,66 @@ function CommentCard32(props) {
     if (editButtonActive && editCommentType === 'parent_comment') {
       return inputComment();
     } else {
-      // if (comment?.comment?.includes('\n\n')) {
-      //   const commentArray = comment.comment.split('\n\n');
-      //   return (
-      //     <>
-      //       <p>
-      //         <BoldText>{commentArray[0]}</BoldText>
-      //       </p>
-      //       <NewlineText text={commentArray[1]} />
-      //     </>
-      //   );
-      // } else {
-      //   const commentText = comment.comment;
-      //   const words = commentText.split(' ');
-
-      //   if (!showFullComment && words.length > 12) {
-      //     const truncatedText = words.slice(0, 12).join(' ');
-      //     return (
-      //       <>
-      //         <p>
-      //           <>{truncatedText}</>
-      //           <ReadMore onClick={() => setShowFullComment(true)}> Read more</ReadMore>
-      //         </p>
-      //       </>
-      //     );
-      //   } else {
-      //     return (
-      //         <p>
-      //         {commentText}
-      //         </p>
-      //     );
-      //   }
-      // }
-
-      const commentText = comment.comment;
-      const words = commentText.split(' ');
-
-      if (!showFullComment && words.length > 12) {
-        const truncatedText = words.slice(0, 12).join(' ');
+      if (comment?.comment?.includes('\n\n')) {
+        const commentArray = comment.comment.split('\n\n');
         return (
           <>
-            <CommentDiv>
-              <>{truncatedText}</>
-              <ReadMore onClick={() => setShowFullComment(true)}>
-                Read more
-              </ReadMore>
-            </CommentDiv>
+            <p>
+              <BoldText>{commentArray[0]}</BoldText>
+            </p>
+            <NewlineText text={commentArray[1]} />
           </>
         );
       } else {
-        return (
-          <CommentDiv>
-            {commentText}
-            {showFullComment && (
-              <ReadMore onClick={() => setShowFullComment(false)}>
-                Read less
-              </ReadMore>
-            )}
-          </CommentDiv>
-        );
+        const commentText = comment.comment;
+        const words = commentText.split(' ');
+
+        if (!showFullComment && words.length > 12) {
+          const truncatedText = words.slice(0, 12).join(' ');
+          return (
+            <>
+              <p>
+                <>{truncatedText}</>
+                <ReadMore onClick={() => setShowFullComment(true)}> Read more</ReadMore>
+              </p>
+            </>
+          );
+        } else {
+          return (
+              <p>
+              {commentText}
+              </p>
+          );
+        }
       }
+
+      // const commentText = comment.comment;
+      // const words = commentText.split(' ');
+
+      // if (!showFullComment && words.length > 12) {
+      //   const truncatedText = words.slice(0, 12).join(' ');
+      //   return (
+      //     <>
+      //       <CommentDiv>
+      //         <>{truncatedText}</>
+      //         <ReadMore onClick={() => setShowFullComment(true)}>
+      //           Read more
+      //         </ReadMore>
+      //       </CommentDiv>
+      //     </>
+      //   );
+      // } else {
+      //   return (
+      //     <CommentDiv>
+      //       {commentText}
+      //       {showFullComment && (
+      //         <ReadMore onClick={() => setShowFullComment(false)}>
+      //           Read less
+      //         </ReadMore>
+      //       )}
+      //     </CommentDiv>
+      //   );
+      // }
     }
   }
 }
@@ -307,7 +307,7 @@ const CommentCard = styled.article`
   align-self: stretch;
   background-color: ${(props) =>
     props.bgColor ||
-    'var(--white)'}; // default is var(--white) if no bgColor prop is provided
+    'var(--white)'}; 
   padding: 8px;
   border-radius: 6px;
   box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);

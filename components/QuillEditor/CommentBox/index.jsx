@@ -42,7 +42,7 @@ const CommentBox = ({
   selectedRange,
   commentFocusAreaToggle,
   newCommentFrameRef,
-  share,
+  share
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
@@ -327,7 +327,7 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode, commen
                 cancelButtonOnClick={methods.hideNewCommentDiv}
                 smartAnnotations={smartAnnotations}
                 commentBankIds={commentBankIds}
-                methods={methods}
+                handleComment={methods.handleShortcutAddCommentSmartAnnotaion}
               />
             </CommentContainer>
             {/* <ShortcutList>

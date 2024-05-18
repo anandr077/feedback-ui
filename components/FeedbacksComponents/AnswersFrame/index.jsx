@@ -422,7 +422,7 @@ const answerFrames = (
                 selectedRange,
                 commentFocusAreaToggle,
                 newCommentFrameRef,
-                share
+                share,
               )}
             </QuillContainer>
           )}

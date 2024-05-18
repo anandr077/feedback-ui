@@ -12,20 +12,22 @@ const SubmitCommentFrameRoot = (props) => {
     isButtonDisabled,
     smartAnnotations,
     commentBankIds,
-    methods
+    handleComment,
   } = props;
   const [isCommentBankVisible, setIsCommentBankVisible] = useState(false);
 
-  const allCommentBanks = smartAnnotations?.flatMap((annotation, index) =>
-    annotation.smartComments
-      .filter((smartComment) => commentBankIds.includes(annotation.id))
-      // .map((smartComment, innerIndex) => (
-      //   <SmartAnotation
-      //     key={`${index}-${innerIndex}`}
-      //     smartAnnotation={smartComment}
-      //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
-      //   />
-      // ))
+  const allCommentBanks = smartAnnotations?.flatMap(
+    (annotation, index) =>
+      annotation.smartComments.filter((smartComment) =>
+        commentBankIds?.includes(annotation.id)
+      )
+    // .map((smartComment, innerIndex) => (
+    //   <SmartAnotation
+    //     key={`${index}-${innerIndex}`}
+    //     smartAnnotation={smartComment}
+    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+    //   />
+    // ))
   );
 
   function toggleCommentBankPopup() {
@@ -34,10 +36,12 @@ const SubmitCommentFrameRoot = (props) => {
 
   return (
     <SubmitCommentFrameRootRoot>
-      <LeftBtn onClick={toggleCommentBankPopup}>
-        <img src={ActiveCommentIcon} />
-        Bank
-      </LeftBtn>
+      {commentBankIds && (
+        <LeftBtn onClick={toggleCommentBankPopup}>
+          <img src={ActiveCommentIcon} />
+          Bank
+        </LeftBtn>
+      )}
       <RightBtnContainer>
         <SmallButtonWhite onClick={(e) => cancelButtonOnClick()}>
           <Text2>Cancel</Text2>
@@ -54,7 +58,7 @@ const SubmitCommentFrameRoot = (props) => {
         isVisible={isCommentBankVisible}
         onClose={toggleCommentBankPopup}
         commentBanks={allCommentBanks}
-        onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+        onSuggestionClick={handleComment}
       />
     </SubmitCommentFrameRootRoot>
   );

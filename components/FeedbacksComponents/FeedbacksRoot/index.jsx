@@ -186,11 +186,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
-      // alert("sub" + JSON.stringify(submission.assignment))
-      const commentBankIds = submission.assignment.questions
-        .filter(
-          (q) => q.commentBankId !== undefined && q.commentBankId !== null
-        )
+      // alert("sub" + JSON.stringify(submission.assignment)
+      const commentBankIds = submission?.assignment?.questions
+       .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
         .map((q) => q.commentBankId);
 
       const commentBankPromises = commentBankIds.map(getCommentBank);
@@ -592,7 +590,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
-  console.log('the page mode is', pageMode)
+  console.log('the page mode is', pageMode);
 
   const sharewithclassdialog = (
     <Dialog
@@ -687,6 +685,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                 setExemplerComment('');
                 setCheckedState(initialCheckedState);
               }}
+              smartAnnotations={smartAnnotations}
+              handleComment={handleShortcutAddCommentSmartAnnotaion}
             />
           </DialogActions>
         </ActionButtonsContainer>

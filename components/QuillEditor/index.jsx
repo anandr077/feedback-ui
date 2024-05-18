@@ -32,7 +32,7 @@ const QuillEditor = React.forwardRef(
       selectedRange,
       commentFocusAreaToggle,
       newCommentFrameRef,
-      share,
+      share
     },
     ref
   ) => {

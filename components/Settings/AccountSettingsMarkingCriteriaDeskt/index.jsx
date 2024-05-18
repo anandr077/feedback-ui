@@ -46,12 +46,18 @@ import {
   CreateButtonCont,
   PlusIcon,
   PlusText,
+  PopUpContainer,
+  PopUpCardImg,
+  PopUpCard,
+  PopUpCardText,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
 import Plus from '../../../static/img/Plus.svg';
 import threedotsc from '../../../static/img/threedotsc.svg';
 import PlusViolet from '../../../static/img/Plus-violet.svg';
+import Rubricsnew from '../../../static/img/Rubricsnew.svg';
+import Strengthsnew from '../../../static/img/Strengthsnew.svg';
 import Globe from '../../../static/img/Globe.svg';
 import optionArrow from '../../../static/img/optionArrow.svg';
 import TickPurpleSquare from '../../../static/img/Tick-purple-square.svg';
@@ -64,6 +70,7 @@ import { useState } from 'react';
 import { getUserId } from '../../../userLocalDetails';
 import TabTitleContainer from './TabTitleContainer';
 import SecondSidebar from '../../SecondSidebar';
+import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -78,7 +85,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     smartAnnotations,
     setFeedbackBankId,
     feedbackBankId,
-    setOpenMarkingMethodologyDialog,
+    // setOpenMarkingMethodologyDialog,
     UpdateSmartBankTitleHandler,
     deteteFeedbackBank,
     createCloneFeedbankBank,
@@ -89,11 +96,28 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     setSmartAnnotationeditIndex,
   } = props;
 
+  const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
+    React.useState(false);
+  const divRef = useRef(null);
+
   const findCurrentFeedbackBank =
     smartAnnotations?.length > 0 &&
     smartAnnotations?.find(
       (smartAnnotation) => smartAnnotation.id === feedbackBankId
     );
+
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      setOpenMarkingMethodologyDialog(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     // <div className="account-settings-marking-criteria screen">
@@ -231,7 +255,31 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
               >
                 <PlusIcon src={PlusViolet} />
                 <PlusText>New Marking Template</PlusText>
+                {openMarkingMethodologyDialog && (
+                  <PopUpContainer ref={divRef}>
+                    <PopUpCard
+                      onClick={() =>
+                        (window.location.href =
+                          '/#/markingTemplates/rubrics/new')
+                      }
+                      style={{ borderBottom: '1px solid  #C9C6CC80' }}
+                    >
+                      <PopUpCardImg src={Rubricsnew} />
+                      <PopUpCardText>Rubric</PopUpCardText>
+                    </PopUpCard>
+                    <PopUpCard
+                      onClick={() =>
+                        (window.location.href =
+                          '/#/markingTemplates/strengths-and-targets/new')
+                      }
+                    >
+                      <PopUpCardImg src={Strengthsnew} />
+                      <PopUpCardText>Strengths and Targets</PopUpCardText>
+                    </PopUpCard>
+                  </PopUpContainer>
+                )}
               </CreateButtonCont>
+
               <MarkingCriteriaList>{markingCriteriaList}</MarkingCriteriaList>
             </Frame1302>
           )}

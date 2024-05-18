@@ -17,15 +17,10 @@ export const TextInput = styled.input`
 export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
-  // gap: 20px;
-  // padding: 13px 20px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
   width: 100%;
-  // border-radius: 12px;
-  // border: 1px solid;
-  // border-color: var(--text);
 `;
 
 export const Frame1379 = styled.div`

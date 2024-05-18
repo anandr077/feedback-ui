@@ -324,6 +324,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             handleTitleChange,
             isUpdating,
             markingCriterias,
+            markingCriteriaId,
           }}
         />
       }

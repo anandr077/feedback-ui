@@ -7,6 +7,8 @@
   gap: 30px;
   border-radius: 12px;
   box-shadow: 0px 4px 16px 0px rgba(114, 0, 224, 0.1);
+  /* background-color: red; */
+
 }
 
 .content-container {
@@ -15,6 +17,7 @@
   justify-content: center;
   gap: 30px;
   flex-direction: column;
+  position: absolute;
 }
 
 .dialog-heading {
@@ -55,7 +58,7 @@
 }
 
 .rubrics:hover,
-.strength-target:hover{
+.strength-target:hover {
   border-color: var(--light-mode-purple);
 }
 

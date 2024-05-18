@@ -435,6 +435,7 @@ export const CreateButtonCont = styled.div`
   opacity: 0px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   cursor: pointer;
+  position: relative;
 `;
 
 export const PlusIcon = styled.img`
@@ -447,6 +448,40 @@ export const PlusIcon = styled.img`
 `;
 
 export const PlusText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: #4b464f;
+`;
+
+export const PopUpContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  position: absolute;
+  top: 75px;
+
+  background: var(--color-neutral-white, #ffffff);
+  box-shadow: 0px 8.16px 16px 0px #7b738240;
+  border-radius: 8px;
+`;
+export const PopUpCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+`;
+export const PopUpCardImg = styled.img`
+  width: 36px;
+  height: 36px;
+  gap: 4px;
+  opacity: 0px;
+`;
+export const PopUpCardText = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-weight: 500;

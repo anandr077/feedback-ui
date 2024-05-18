@@ -11,13 +11,14 @@ import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
 import { getUserRole } from '../../userLocalDetails';
 
-const SecondSidebar = () => {
+const SecondSidebar = ({ id }) => {
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
   const [completedTaskLength, setCompletedTaskLength] = useState(0);
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
+  
 
   useEffect(() => {
     Promise.all([getCompletedTasks(), getCommunityTasks()]).then(
@@ -100,7 +101,12 @@ const SecondSidebar = () => {
     {
       icon: '',
       title: 'Marking Templates',
-      link: '/markingTemplates/rubrics/new',
+      link: `/markingTemplates/rubrics/${id}`,
+    },
+    {
+      icon: '',
+      title: 'Marking Templates',
+      link: `/markingTemplates/strengths-and-targets/${id}`,
     },
   ];
 
@@ -164,8 +170,12 @@ const SecondSidebar = () => {
       subLinks: [subLinks[6], subLinks[7]],
     },
     {
-      link: '/markingTemplates/rubrics/new',
+      link: `/markingTemplates/rubrics/${id}`,
       subLinks: [subLinks[8], subLinks[7]],
+    },
+    {
+      link: `/markingTemplates/strengths-and-targets/${id}`,
+      subLinks: [subLinks[9], subLinks[7]],
     },
     {
       link: '/commentbanks',

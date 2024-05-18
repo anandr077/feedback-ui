@@ -124,10 +124,7 @@ function App() {
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
   const ProtectedCompletedRoot = middleware(CompletedPage);
-  const ProtectedMarkingTemplateStrengthsTargets = middleware(
-    MarkingTemplateStrengthsTargets
-  );
-  const ProtectedMarkingTemplateRubrics = middleware(MarkingTemplateRubrics);
+
   const ProtectedCommentbanks = middleware(CommentBanks);
 
   const portfolioClient = new QueryClient();
@@ -177,11 +174,8 @@ function App() {
                 <Route path="/settings">
                   <ProtectedSettings />
                 </Route>
-                <Route path="/markingTemplates/rubrics/new">
-                  <ProtectedMarkingCriteria />
-                  {/* <ProtectedMarkingTemplateRubrics /> */}
-                </Route>
-                <Route path="/markingCriterias/rubrics/:markingCriteriaId">
+
+                <Route path="/markingTemplates/rubrics/:markingCriteriaId">
                   <ProtectedMarkingCriteria />
                 </Route>
                 <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
@@ -223,12 +217,6 @@ function App() {
                 </Route>
                 <Route path="/documentsReview/:id">
                   <ProtectedDocumentRoot />
-                </Route>
-                <Route path="/markingTemplate/strengthAndTargets">
-                  <ProtectedMarkingTemplateStrengthsTargets />
-                </Route>
-                <Route path="/markingTemplate/rubrics">
-                  <ProtectedMarkingTemplateRubrics />
                 </Route>
                 <Route path="/commentbanks">
                   <ProtectedCommentbanks />

@@ -78,6 +78,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
     deleteMarkingCriteriaMethod,
     isUpdating,
     markingCriterias,
+    markingCriteriaId,
   } = props;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -136,7 +137,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
       </div> */}
       <MainContainer>
         <InnerContainer>
-          <SecondSidebar />
+          <SecondSidebar id={markingCriteriaId} />
           <RightContainer>
             <HeadingContainer>
               {isEditing ? (
@@ -160,7 +161,6 @@ function CreateNewMarkingCriteriaDesktop(props) {
                   <EditIcon src={MarkEdit} onClick={() => setIsEditing(true)} />
                 </Heading>
               )}
-
               <ButtonsContainer>
                 <PreviewButton>
                   <PreviewButtonIcon src={Eye} />

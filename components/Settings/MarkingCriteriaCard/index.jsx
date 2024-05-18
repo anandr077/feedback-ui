@@ -73,6 +73,6 @@ function navigateToMarkingCriteriaUrl(id, type) {
 }
 function markingCriteriaUrl(id, type) {
   return type == 'RUBRICS'
-    ? `/#/markingCriterias/rubrics/${id}`
+    ? `/#/markingTemplates/rubrics/${id}`
     : `/#/markingTemplates/strengths-and-targets/${id}`;
 }

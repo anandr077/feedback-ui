@@ -98,11 +98,11 @@ export const headerTitle = [
 
 export const headerTitleSub = [
   {
-    link: '/markingTemplates/rubrics',
+    link: '/markingTemplates/rubrics/new',
     title: 'New Marking Template',
   },
   {
-    link: '/markingTemplates/strengths-and-targets',
+    link: '/markingTemplates/strengths-and-targets/new',
     title: 'New Marking Template',
   },
 ];

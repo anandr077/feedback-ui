@@ -45,8 +45,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
-import MarkingTemplateStrengthsTargets from './components/MarkingTemplateStrengthsTargets';
-import MarkingTemplateRubrics from './components/MarkingTemplateRubrics';
 import CommentBanks from './components/CommentBanks';
 
 function App() {

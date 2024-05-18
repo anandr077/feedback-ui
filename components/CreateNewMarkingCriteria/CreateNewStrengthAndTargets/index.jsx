@@ -52,9 +52,7 @@ import {
   TextInput,
 } from './style';
 
-// import settings from '../../static/icons/settings.svg';
-// import banks from '../../static/icons/banks.svg';
-// import marking from '../../static/icons/marking.svg';
+
 import Eye from '../../../static/icons/Eye.svg';
 import Plus from '../../../static/icons/Plus.svg';
 import pluswhite from '../../../static/icons/pluswhite.svg';

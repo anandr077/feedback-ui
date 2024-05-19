@@ -172,7 +172,6 @@ function App() {
                 <Route path="/settings">
                   <ProtectedSettings />
                 </Route>
-
                 <Route path="/markingTemplates/rubrics/:markingCriteriaId">
                   <ProtectedMarkingCriteria />
                 </Route>

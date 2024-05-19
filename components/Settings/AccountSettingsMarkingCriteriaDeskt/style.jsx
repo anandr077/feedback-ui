@@ -46,11 +46,10 @@ export const MarkingCriteriaList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
+  height: 90vh;
   position: relative;
   align-self: stretch;
   overflow-y: scroll;
-
   &::-webkit-scrollbar {
     width: 0;
     display: none;
@@ -411,7 +410,6 @@ export const InnerContainer = styled.div`
   width: 100%;
   min-height: 90vh;
   position: relative;
-  max-width: 1440px;
 `;
 
 export const RightContainer = styled.div`

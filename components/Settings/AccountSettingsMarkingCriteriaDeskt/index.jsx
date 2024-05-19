@@ -71,6 +71,7 @@ import { getUserId } from '../../../userLocalDetails';
 import TabTitleContainer from './TabTitleContainer';
 import SecondSidebar from '../../SecondSidebar';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
+import { useHistory } from 'react-router-dom';
 
 function AccountSettingsMarkingCriteriaDeskt(props) {
   const {
@@ -85,7 +86,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
     smartAnnotations,
     setFeedbackBankId,
     feedbackBankId,
-    // setOpenMarkingMethodologyDialog,
+
     UpdateSmartBankTitleHandler,
     deteteFeedbackBank,
     createCloneFeedbankBank,
@@ -99,6 +100,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
   const divRef = useRef(null);
+  const history = useHistory();
 
   const findCurrentFeedbackBank =
     smartAnnotations?.length > 0 &&
@@ -259,8 +261,7 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                   <PopUpContainer ref={divRef}>
                     <PopUpCard
                       onClick={() =>
-                        (window.location.href =
-                          '/#/markingTemplates/rubrics/new')
+                        history.push('/markingTemplates/rubrics/new')
                       }
                       style={{ borderBottom: '1px solid  #C9C6CC80' }}
                     >
@@ -269,8 +270,9 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
                     </PopUpCard>
                     <PopUpCard
                       onClick={() =>
-                        (window.location.href =
-                          '/#/markingTemplates/strengths-and-targets/new')
+                        history.push(
+                          '/markingTemplates/strengths-and-targets/new'
+                        )
                       }
                     >
                       <PopUpCardImg src={Strengthsnew} />

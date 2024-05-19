@@ -24,9 +24,8 @@ export const InnerContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  min-height: 90vh;
+  min-height: 100vh;
   position: relative;
-  max-width: 1440px;
 `;
 
 export const LeftContainer = styled.div`
@@ -35,9 +34,9 @@ export const LeftContainer = styled.div`
   box-shadow: -1px -2px 4px 0px #73737340 inset;
 `;
 export const RightContainer = styled.div`
-  width: 85%;
+  width: 100%;
   background: #ffffff;
-  // height: 60vh;
+  height: 100vh;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;

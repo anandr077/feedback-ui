@@ -620,19 +620,20 @@ export default function AccountSettingsRoot(props) {
           />
         }
         tablet={
-          <AccountSettingsMarkingCriteriaTable3
+          <AccountSettingsMarkingCriteriaDeskt
             {...{
-              ...accountSettingsMarkingCriteriaTable3Data,
+              ...accountSettingsMarkingCriteriaDesktData,
               markingCriteriaList,
-              smartAnnotationsFrame,
               createSmartAnnotationHandler,
+              smartAnnotationsFrame,
+              createFeedbackBank,
               sidebarNav,
               showMarkingCriteria,
               showShortcuts,
-              setOpenMarkingMethodologyDialog,
               smartAnnotations,
               setFeedbackBankId,
               feedbackBankId,
+              setOpenMarkingMethodologyDialog,
               UpdateSmartBankTitleHandler,
               deteteFeedbackBank,
               createCloneFeedbankBank,
@@ -645,12 +646,13 @@ export default function AccountSettingsRoot(props) {
           />
         }
         laptop={
-          <AccountSettingsMarkingCriteriaLapto
+          <AccountSettingsMarkingCriteriaDeskt
             {...{
-              ...accountSettingsMarkingCriteriaLaptoData,
+              ...accountSettingsMarkingCriteriaDesktData,
               markingCriteriaList,
               createSmartAnnotationHandler,
               smartAnnotationsFrame,
+              createFeedbackBank,
               sidebarNav,
               showMarkingCriteria,
               showShortcuts,

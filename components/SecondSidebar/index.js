@@ -18,7 +18,6 @@ const SecondSidebar = ({ id }) => {
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
-  
 
   useEffect(() => {
     Promise.all([getCompletedTasks(), getCommunityTasks()]).then(
@@ -53,16 +52,19 @@ const SecondSidebar = ({ id }) => {
       icon: '',
       title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
       link: '/',
+      matchLink: '/',
     },
     {
       icon: '',
       title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
       link: '/tasks',
+      matchLink: '/tasks',
     },
     {
       icon: '',
       title: `Completed Tasks (${completedTaskLength})`,
       link: `/completed`,
+      matchLink: `/completed`,
     },
     {
       icon: '',
@@ -72,41 +74,43 @@ const SecondSidebar = ({ id }) => {
           : `Students Request (${feedbackRequestsLength})`
       }`,
       link: '/giveFeedback',
+      matchLink: '/giveFeedback',
     },
     {
       icon: '',
       title: `Examples`,
       link: `/sharedresponses`,
+      matchLink: `/sharedresponses`,
     },
     {
       icon: '',
       title: `Feedback History`,
       link: `/feedbackHistory`,
+      matchLink: `/feedbackHistory`,
     },
-    // {
-    //   icon: '',
-    //   title: 'User Settings',
-    //   link: '/settings',
-    // },
     {
       icon: '',
       title: 'Marking Templates',
       link: '/settings',
+      matchLink: '/settings',
     },
     {
       icon: '',
       title: 'Comment Banks',
       link: '/commentbanks',
+      matchLink: '/commentbanks',
     },
     {
       icon: '',
       title: 'Marking Templates',
-      link: `/markingTemplates/rubrics/${id}`,
+      link: '/settings',
+      matchLink: `/markingTemplates/rubrics/${id}`,
     },
     {
       icon: '',
       title: 'Marking Templates',
-      link: `/markingTemplates/strengths-and-targets/${id}`,
+      link: '/settings',
+      matchLink: `/markingTemplates/strengths-and-targets/${id}`,
     },
   ];
 
@@ -131,10 +135,6 @@ const SecondSidebar = ({ id }) => {
         subLinks[5],
       ],
     },
-    // {
-    //   link: '/settings',
-    //   subLinks: [subLinks[6], subLinks[7]],
-    // },
     {
       link: '/giveFeedback',
       subLinks: [
@@ -210,7 +210,7 @@ const SecondSidebar = ({ id }) => {
                   <Button
                     key={subIdx}
                     onClick={() => handleButtonClick(subLink.link)}
-                    active={subLink.link === location.pathname}
+                    active={subLink.matchLink === location.pathname}
                   >
                     {subLink.icon && (
                       <img src={subLink.icon} alt={subLink.title} />

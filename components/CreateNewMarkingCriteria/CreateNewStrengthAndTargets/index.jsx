@@ -10,7 +10,10 @@ import {
   getMarkingMethodology,
   updateMarkingCriteria,
 } from '../../../service';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import {
+  useHistory,
+  useParams,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import SnackbarContext from '../../SnackbarContext';
 import Loader from '../../Loader';
 
@@ -52,12 +55,12 @@ import {
   TextInput,
 } from './style';
 
-
 import Eye from '../../../static/icons/Eye.svg';
 import Plus from '../../../static/icons/Plus.svg';
 import pluswhite from '../../../static/icons/pluswhite.svg';
 import grayEdit from '../../../static/icons/edit_gray.svg';
 import SecondSidebar from '../../SecondSidebar';
+import { isMobileView } from '../../ReactiveRender';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -78,6 +81,8 @@ export default function CreateNewStrengthAndTargets() {
 
   const [isLoading, setIsLoading] = React.useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const history = useHistory();
+  const mobileView = isMobileView();
 
   useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
@@ -355,7 +360,8 @@ export default function CreateNewStrengthAndTargets() {
           'Strengths and Targets Created',
           '/#/markingTemplates/strengths-and-targets/' + response.id.value
         );
-        window.location.href = '/#/settings';
+
+        history.push('/settings');
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
@@ -364,7 +370,7 @@ export default function CreateNewStrengthAndTargets() {
             'Strengths and Targets Updated',
             '/#/markingTemplates/strengths-and-targets/' + response.id.value
           );
-          window.location.href = '/#/settings';
+          history.push('/settings');
         }
       );
     }
@@ -381,141 +387,147 @@ export default function CreateNewStrengthAndTargets() {
 
   return (
     <>
-      {/* <div className="parent-containe">
-        <div className="child-container">
-          {createBreadcrumb(markingMethodologyId)}
-          <GoBack />
-          {titleAndSaveButton(saveData, markingMethodologyId)}
-          {inputTitle(markingMethodology?.title, handleTitleChange)}
-          {allCriteriaFrames()}
+      {mobileView ? (
+        <div className="parent-container">
+          <div className="child-container">
+            {createBreadcrumb(markingMethodologyId)}
+            <GoBack />
+            {titleAndSaveButton(saveData, markingMethodologyId)}
+            {inputTitle(markingMethodology?.title, handleTitleChange)}
+            {allCriteriaFrames()}
+          </div>
         </div>
-      </div> */}
-      <MainContainer>
-        <InnerContainer>
-          <SecondSidebar id={markingMethodologyId} />
-          <RightContainer>
-            <HeadingContainer>
-              {isEditing ? (
-                <Heading style={{ width: '75%' }}>
-                  <TextInput
-                    placeholder="Name a marking template"
-                    value={markingMethodology?.title}
-                    onChange={handleTitleChange}
-                    onBlur={() => handleOnBlur()}
-                    onKeyPress={handleKeyPress}
-                    maxLength="140"
-                  ></TextInput>
-                </Heading>
-              ) : (
-                <Heading>
-                  {markingMethodology?.title}
-                  <EditIcon src={grayEdit} onClick={() => setIsEditing(true)} />
-                </Heading>
-              )}
-              <ButtonsContainer>
-                <PreviewButton>
-                  <PreviewButtonIcon src={Eye} />
-                  <PreviewButtonText>Preview</PreviewButtonText>
-                </PreviewButton>
-                <SaveButton onClick={() => saveData()}>
-                  <SaveButtonText>
-                    {markingMethodologyId === 'new'
-                      ? 'Save criteria'
-                      : 'Update criteria'}
-                  </SaveButtonText>
-                </SaveButton>
-              </ButtonsContainer>
-            </HeadingContainer>
-            <TableContainer>
-              <TableHeadingPart>
-                <TableHeading>Criteria</TableHeading>
-                <TableHeading>Performance Levels</TableHeading>
-                <TableHeading>Targets</TableHeading>
-              </TableHeadingPart>
-              <TableBodyParts>
-                {markingMethodology.strengthsTargetsCriterias.map(
-                  (markingtemplate, templateIndex) => (
-                    <TableBodyPart key={templateIndex}>
-                      <CriteriaPart>
-                        <TextArea
-                          type="text"
-                          placeholder="Enter an evaluation area for this set of strengths and targets"
-                          value={markingtemplate.title}
-                          onChange={(e) =>
-                            handleCriteriaChange(e, templateIndex)
-                          }
-                        />
-                      </CriteriaPart>
-                      <StrengthPart>
-                        {markingtemplate.strengths.map((strength, index) => (
-                          <TextArea
-                            key={index}
-                            type="text"
-                            placeholder="You have effectively..."
-                            value={strength}
-                            onChange={(e) =>
-                              handleCriteriaOptionChange(
-                                e,
-                                index,
-                                templateIndex,
-                                STRENGTHS
-                              )
-                            }
-                          />
-                        ))}
-                        <TableRowButtoncont
-                          onClick={() =>
-                            handleAddOption(templateIndex, STRENGTHS)
-                          }
-                        >
-                          <TableRowButton>
-                            <TableRowButtonIcon src={Plus} />
-                            <TableRowText>New Strength</TableRowText>
-                          </TableRowButton>
-                        </TableRowButtoncont>
-                      </StrengthPart>
-                      <TargetPart>
-                        {markingtemplate.targets.map((target, index) => (
-                          <TextArea
-                            key={index}
-                            type="text"
-                            placeholder="You need to..."
-                            value={target}
-                            onChange={(e) =>
-                              handleCriteriaOptionChange(
-                                e,
-                                index,
-                                templateIndex,
-                                TARGETS
-                              )
-                            }
-                          />
-                        ))}
-                        <TableRowButtoncont
-                          onClick={() =>
-                            handleAddOption(templateIndex, TARGETS)
-                          }
-                        >
-                          <TableRowButton>
-                            <TableRowButtonIcon src={Plus} />
-                            <TableRowText>New Target</TableRowText>
-                          </TableRowButton>
-                        </TableRowButtoncont>
-                      </TargetPart>
-                    </TableBodyPart>
-                  )
+      ) : (
+        <MainContainer>
+          <InnerContainer>
+            <SecondSidebar id={markingMethodologyId} />
+            <RightContainer>
+              <HeadingContainer>
+                {isEditing ? (
+                  <Heading style={{ width: '75%' }}>
+                    <TextInput
+                      placeholder="Name a marking template"
+                      value={markingMethodology?.title}
+                      onChange={handleTitleChange}
+                      onBlur={() => handleOnBlur()}
+                      onKeyPress={handleKeyPress}
+                      maxLength="140"
+                    ></TextInput>
+                  </Heading>
+                ) : (
+                  <Heading>
+                    {markingMethodology?.title}
+                    <EditIcon
+                      src={grayEdit}
+                      onClick={() => setIsEditing(true)}
+                    />
+                  </Heading>
                 )}
-              </TableBodyParts>
-            </TableContainer>
-            <AddNewCriteria>
-              <AddNewCriteriaButton onClick={() => handleAddCriteria()}>
-                <TableRowButtonIcon src={pluswhite}></TableRowButtonIcon>
-                <SaveButtonText>Add New Criteria</SaveButtonText>
-              </AddNewCriteriaButton>
-            </AddNewCriteria>
-          </RightContainer>
-        </InnerContainer>
-      </MainContainer>
+                <ButtonsContainer>
+                  <PreviewButton>
+                    <PreviewButtonIcon src={Eye} />
+                    <PreviewButtonText>Preview</PreviewButtonText>
+                  </PreviewButton>
+                  <SaveButton onClick={() => saveData()}>
+                    <SaveButtonText>
+                      {markingMethodologyId === 'new'
+                        ? 'Save Template'
+                        : 'Update Template'}
+                    </SaveButtonText>
+                  </SaveButton>
+                </ButtonsContainer>
+              </HeadingContainer>
+              <TableContainer>
+                <TableHeadingPart>
+                  <TableHeading>Criteria</TableHeading>
+                  <TableHeading>Performance Levels</TableHeading>
+                  <TableHeading>Targets</TableHeading>
+                </TableHeadingPart>
+                <TableBodyParts>
+                  {markingMethodology.strengthsTargetsCriterias.map(
+                    (markingtemplate, templateIndex) => (
+                      <TableBodyPart key={templateIndex}>
+                        <CriteriaPart>
+                          <TextArea
+                            type="text"
+                            placeholder="Enter an evaluation area for this set of strengths and targets"
+                            value={markingtemplate.title}
+                            onChange={(e) =>
+                              handleCriteriaChange(e, templateIndex)
+                            }
+                          />
+                        </CriteriaPart>
+                        <StrengthPart>
+                          {markingtemplate.strengths.map((strength, index) => (
+                            <TextArea
+                              key={index}
+                              type="text"
+                              placeholder="You have effectively..."
+                              value={strength}
+                              onChange={(e) =>
+                                handleCriteriaOptionChange(
+                                  e,
+                                  index,
+                                  templateIndex,
+                                  STRENGTHS
+                                )
+                              }
+                            />
+                          ))}
+                          <TableRowButtoncont
+                            onClick={() =>
+                              handleAddOption(templateIndex, STRENGTHS)
+                            }
+                          >
+                            <TableRowButton>
+                              <TableRowButtonIcon src={Plus} />
+                              <TableRowText>New Strength</TableRowText>
+                            </TableRowButton>
+                          </TableRowButtoncont>
+                        </StrengthPart>
+                        <TargetPart>
+                          {markingtemplate.targets.map((target, index) => (
+                            <TextArea
+                              key={index}
+                              type="text"
+                              placeholder="You need to..."
+                              value={target}
+                              onChange={(e) =>
+                                handleCriteriaOptionChange(
+                                  e,
+                                  index,
+                                  templateIndex,
+                                  TARGETS
+                                )
+                              }
+                            />
+                          ))}
+                          <TableRowButtoncont
+                            onClick={() =>
+                              handleAddOption(templateIndex, TARGETS)
+                            }
+                          >
+                            <TableRowButton>
+                              <TableRowButtonIcon src={Plus} />
+                              <TableRowText>New Target</TableRowText>
+                            </TableRowButton>
+                          </TableRowButtoncont>
+                        </TargetPart>
+                      </TableBodyPart>
+                    )
+                  )}
+                </TableBodyParts>
+              </TableContainer>
+              <AddNewCriteria>
+                <AddNewCriteriaButton onClick={() => handleAddCriteria()}>
+                  <TableRowButtonIcon src={pluswhite}></TableRowButtonIcon>
+                  <SaveButtonText>Add New Criteria</SaveButtonText>
+                </AddNewCriteriaButton>
+              </AddNewCriteria>
+            </RightContainer>
+          </InnerContainer>
+        </MainContainer>
+      )}
     </>
   );
 }

@@ -278,32 +278,44 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         />
       }
       tablet={
-        <CreateNewMarkingCriteriaTablet
-          {...{
-            ...accountSettingsMarkingCriteriaCreat3Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      }
-      laptop={
-        <CreateNewMarkingCriteriaLaptop
+        <CreateNewMarkingCriteriaDesktop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
             criterias,
             addCriteria,
             addLevel,
+            deleteLevel,
+            deleteCriteria,
+            updateCriteriaTitle,
+            updateLevelName,
+            updateLevelDescription,
             saveMarkingCriteria,
             deleteMarkingCriteriaMethod,
             handleTitleChange,
             isUpdating,
             markingCriterias,
+            markingCriteriaId,
+          }}
+        />
+      }
+      laptop={
+        <CreateNewMarkingCriteriaDesktop
+          {...{
+            ...accountSettingsMarkingCriteriaCreat4Data,
+            criterias,
+            addCriteria,
+            addLevel,
+            deleteLevel,
+            deleteCriteria,
+            updateCriteriaTitle,
+            updateLevelName,
+            updateLevelDescription,
+            saveMarkingCriteria,
+            deleteMarkingCriteriaMethod,
+            handleTitleChange,
+            isUpdating,
+            markingCriterias,
+            markingCriteriaId,
           }}
         />
       }

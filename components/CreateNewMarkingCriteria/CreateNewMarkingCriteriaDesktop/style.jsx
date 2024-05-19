@@ -213,7 +213,6 @@ export const InnerContainer = styled.div`
   width: 100%;
   min-height: 90vh;
   position: relative;
-  max-width: 1440px;
 `;
 
 export const PreviewButton = styled.div`
@@ -242,9 +241,9 @@ export const PreviewButtonText = styled.p`
 `;
 
 export const RightContainer = styled.div`
-  width: 85%;
+  width: 100%;
   background: #ffffff;
-  // height: 60vh;
+  height: 100vh;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;

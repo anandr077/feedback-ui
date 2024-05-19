@@ -54,6 +54,7 @@ import {
   TableRowButtoncont,
 } from './style';
 import SecondSidebar from '../../SecondSidebar';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 
 function CreateNewMarkingCriteriaDesktop(props) {
   const {
@@ -74,6 +75,8 @@ function CreateNewMarkingCriteriaDesktop(props) {
   } = props;
 
   const [isEditing, setIsEditing] = useState(false);
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+    useState(false);
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -82,6 +85,13 @@ function CreateNewMarkingCriteriaDesktop(props) {
   };
   const handleOnBlur = () => {
     setIsEditing(false);
+  };
+
+  const handleKeyPressInput = (e, maxLines, text) => {
+    const lines = text.split('\n');
+    if (e.key === 'Enter' && lines.length >= maxLines) {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -138,13 +148,13 @@ function CreateNewMarkingCriteriaDesktop(props) {
                   style={{ width: '75%' }}
                 >
                   <TextInput
-                    placeholder="Name of marking template (max 140 characters)"
+                    placeholder="Name of marking template (max 100 characters)"
                     id="markingCriteriaName"
                     value={markingCriterias.title}
                     onChange={handleTitleChange}
                     onBlur={() => handleOnBlur()}
                     onKeyPress={handleKeyPress}
-                    maxLength="140"
+                    maxLength="100"
                   ></TextInput>
                 </Heading>
               ) : (
@@ -154,7 +164,9 @@ function CreateNewMarkingCriteriaDesktop(props) {
                 </Heading>
               )}
               <ButtonsContainer>
-                <PreviewButton>
+                <PreviewButton
+                  onClick={() => setMarkingCriteriaPreviewDialog(true)}
+                >
                   <PreviewButtonIcon src={Eye} />
                   <PreviewButtonText>Preview</PreviewButtonText>
                 </PreviewButton>
@@ -188,7 +200,15 @@ function CreateNewMarkingCriteriaDesktop(props) {
                             updateCriteriaTitle(templateIndex, e.target.value)
                           }
                           maxLength="140"
+                          rows="1"
                           id="criteriaName"
+                          onKeyPress={(e) =>
+                            handleKeyPressInput(
+                              e,
+                              1,
+                              markingTemplatesRubric.title
+                            )
+                          }
                         />
                       </CriteriaPart>
                       <div>
@@ -207,6 +227,10 @@ function CreateNewMarkingCriteriaDesktop(props) {
                                   )
                                 }
                                 maxLength="30"
+                                rows="1"
+                                onKeyPress={(e) =>
+                                  handleKeyPressInput(e, 1, level.name)
+                                }
                               />
                             </LevelPart>
                             <LevelDescPart>
@@ -222,6 +246,10 @@ function CreateNewMarkingCriteriaDesktop(props) {
                                   )
                                 }
                                 maxLength="200"
+                                rows="3"
+                                onKeyPress={(e) =>
+                                  handleKeyPressInput(e, 3, level.description)
+                                }
                               />
                             </LevelDescPart>
                           </LevelAndDescPart>
@@ -249,6 +277,12 @@ function CreateNewMarkingCriteriaDesktop(props) {
           </RightContainer>
         </InnerContainer>
       </MainContainer>
+      {openMarkingCriteriaPreviewDialog && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={{ ...markingCriterias, type: 'RUBRICS' }}
+        />
+      )}
     </>
   );
 }

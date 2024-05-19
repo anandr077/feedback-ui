@@ -224,6 +224,9 @@ export const PreviewButton = styled.div`
   background: #ffffff;
   border: 1px solid #7200e0;
   cursor: pointer;
+  &:hover {
+    background-color: #f9f5ff;
+  }
 `;
 
 export const PreviewButtonIcon = styled.img`
@@ -331,7 +334,10 @@ export const TextArea = styled.textarea`
   display: flex;
   align-items: center;
   outline: none;
-
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f1f380;
+  }
   overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 0;

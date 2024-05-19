@@ -434,6 +434,9 @@ export const CreateButtonCont = styled.div`
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   cursor: pointer;
   position: relative;
+  &:hover {
+    background-color: #f2f1f380;
+  }
 `;
 
 export const PlusIcon = styled.img`
@@ -472,6 +475,10 @@ export const PopUpCard = styled.div`
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f1f380;
+  }
 `;
 export const PopUpCardImg = styled.img`
   width: 36px;

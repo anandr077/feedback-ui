@@ -61,6 +61,7 @@ import pluswhite from '../../../static/icons/pluswhite.svg';
 import grayEdit from '../../../static/icons/edit_gray.svg';
 import SecondSidebar from '../../SecondSidebar';
 import { isMobileView } from '../../ReactiveRender';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -83,6 +84,8 @@ export default function CreateNewStrengthAndTargets() {
   const [isEditing, setIsEditing] = useState(false);
   const history = useHistory();
   const mobileView = isMobileView();
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+    useState(false);
 
   useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
@@ -385,6 +388,13 @@ export default function CreateNewStrengthAndTargets() {
     setIsEditing(false);
   };
 
+  const handleKeyPressInput = (e, maxLines, text) => {
+    const lines = text.split('\n');
+    if (e.key === 'Enter' && lines.length >= maxLines) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       {mobileView ? (
@@ -411,7 +421,7 @@ export default function CreateNewStrengthAndTargets() {
                       onChange={handleTitleChange}
                       onBlur={() => handleOnBlur()}
                       onKeyPress={handleKeyPress}
-                      maxLength="140"
+                      maxLength="100"
                     ></TextInput>
                   </Heading>
                 ) : (
@@ -424,7 +434,9 @@ export default function CreateNewStrengthAndTargets() {
                   </Heading>
                 )}
                 <ButtonsContainer>
-                  <PreviewButton>
+                  <PreviewButton
+                    onClick={() => setMarkingCriteriaPreviewDialog(true)}
+                  >
                     <PreviewButtonIcon src={Eye} />
                     <PreviewButtonText>Preview</PreviewButtonText>
                   </PreviewButton>
@@ -440,7 +452,7 @@ export default function CreateNewStrengthAndTargets() {
               <TableContainer>
                 <TableHeadingPart>
                   <TableHeading>Criteria</TableHeading>
-                  <TableHeading>Performance Levels</TableHeading>
+                  <TableHeading>Strengths</TableHeading>
                   <TableHeading>Targets</TableHeading>
                 </TableHeadingPart>
                 <TableBodyParts>
@@ -455,6 +467,10 @@ export default function CreateNewStrengthAndTargets() {
                             onChange={(e) =>
                               handleCriteriaChange(e, templateIndex)
                             }
+                            rows="1"
+                            onKeyPress={(e) =>
+                              handleKeyPressInput(e, 1, markingtemplate.title)
+                            }
                           />
                         </CriteriaPart>
                         <StrengthPart>
@@ -464,6 +480,7 @@ export default function CreateNewStrengthAndTargets() {
                               type="text"
                               placeholder="You have effectively..."
                               value={strength}
+                              rows="1"
                               onChange={(e) =>
                                 handleCriteriaOptionChange(
                                   e,
@@ -471,6 +488,9 @@ export default function CreateNewStrengthAndTargets() {
                                   templateIndex,
                                   STRENGTHS
                                 )
+                              }
+                              onKeyPress={(e) =>
+                                handleKeyPressInput(e, 1, strength)
                               }
                             />
                           ))}
@@ -492,6 +512,7 @@ export default function CreateNewStrengthAndTargets() {
                               type="text"
                               placeholder="You need to..."
                               value={target}
+                              rows="1"
                               onChange={(e) =>
                                 handleCriteriaOptionChange(
                                   e,
@@ -499,6 +520,9 @@ export default function CreateNewStrengthAndTargets() {
                                   templateIndex,
                                   TARGETS
                                 )
+                              }
+                              onKeyPress={(e) =>
+                                handleKeyPressInput(e, 1, target)
                               }
                             />
                           ))}
@@ -527,6 +551,15 @@ export default function CreateNewStrengthAndTargets() {
             </RightContainer>
           </InnerContainer>
         </MainContainer>
+      )}
+      {openMarkingCriteriaPreviewDialog && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={{
+            ...markingMethodology,
+            type: 'STRENGTHS_TARGETS',
+          }}
+        />
       )}
     </>
   );

@@ -21,7 +21,7 @@ export const MarkingCriteriaEntry = styled.div`
     props.isHovered &&
     css`
       &:hover {
-        background-color: #f9f5ff;
+        background-color: #f2f1f380;
       }
       cursor: pointer;
     `};

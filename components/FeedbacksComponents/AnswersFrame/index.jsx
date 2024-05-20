@@ -64,7 +64,8 @@ export function answersFrame(
   openRightPanel,
   QuestionIndex,
   newCommentFrameRef,
-  share
+  share,
+  isTeacher
 ) {
   return (
     <AnswersFrame
@@ -96,6 +97,7 @@ export function answersFrame(
       QuestionIndex={QuestionIndex}
       newCommentFrameRef={newCommentFrameRef}
       share={share}
+      isTeacher={isTeacher}
     ></AnswersFrame>
   );
 }
@@ -128,6 +130,7 @@ function AnswersFrame(props) {
     QuestionIndex,
     newCommentFrameRef,
     share,
+    isTeacher
   } = props;
   const [showAddingCommentDesc, setShowAddingCommentDesc] =
     React.useState(true);
@@ -137,6 +140,8 @@ function AnswersFrame(props) {
   const focusAreaComments = comments.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
+
+  console.log('the role is ', isTeacher)
 
   return (
     <Group1225 id="answers">
@@ -183,7 +188,7 @@ function AnswersFrame(props) {
           />
         </FocusAreaContainer>
       )} */}
-      {showAddingCommentDesc && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
+      {showAddingCommentDesc && submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
         <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
           {commentFocusAreaToggle && focusAreaComments.length === 0 && (
             <AddCommentFocusAreaInstruction

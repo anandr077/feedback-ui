@@ -343,9 +343,9 @@ function FeedbackTeacherLaptop(props) {
   function sidebar() {
     return (
       <>
-        {isTeacher && submission.studentsSubmissions && (
+        {/* {isTeacher && submission.studentsSubmissions && (
           <TeacherSidebar open={open} submission={submission} />
-        )}
+        )} */}
         {!isNullOrEmpty(submission.otherDrafts) && (
           <IndepentdentUserSidebar
             open={open}
@@ -362,7 +362,7 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {(isTeacher ||
+        {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
           submission.otherDrafts ||
           submission.studentsSubmissions) && (
           <DrawerArrow
@@ -382,7 +382,19 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {(isTeacher || submission.otherDrafts) && (
+        {/* {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) || submission.otherDrafts) && (
+          <DrawerArrow
+            onClick={handleDrawer}
+            drawerWidth={drawerWidth}
+            open={open}
+          >
+            <ImgContainer>
+              <ArrowImg src="img/anglerightgray3.svg" open={open} />
+            </ImgContainer>
+          </DrawerArrow>
+        )} */}
+        {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
+          submission.otherDrafts) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
@@ -514,10 +526,15 @@ function answersAndFeedbacks(
   selectedRange
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
-  const [commentFocusAreaToggle, setCommentFocusAreaToggle] =
-    React.useState(() => {
-      return pageMode === 'REVIEW' ? false : pageMode === 'DRAFT' ? true : false;
-    });
+  const [commentFocusAreaToggle, setCommentFocusAreaToggle] = React.useState(
+    () => {
+      return pageMode === 'REVIEW'
+        ? false
+        : pageMode === 'DRAFT'
+        ? true
+        : false;
+    }
+  );
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
   const [showFocusAreas, setShowFocusArea] = React.useState(false);
 
@@ -531,12 +548,11 @@ function answersAndFeedbacks(
 
   const question = submission.assignment.questions[QuestionIndex];
 
-  
   React.useEffect(() => {
     if (selectedRange !== null && pageMode === 'DRAFT') {
       toggleFocusAreaPopup();
     }
-    if(selectedRange && pageMode === 'REVIEW'){
+    if (selectedRange && pageMode === 'REVIEW') {
       setCommentFocusAreaToggle(false);
     }
   }, [selectedRange]);
@@ -589,12 +605,12 @@ function answersAndFeedbacks(
           />
         )}
       <FeedbackBody>
-        <FocusAreasLabel 
-          handleCheckboxChange={handleCheckboxChange}
-          groupedFocusAreaIds={groupedFocusAreaIds}
-          serialNumber={question.serialNumber}
-          focusAreas={question.focusAreas}
-        />
+        {/* <FocusAreasLabel 
+            handleCheckboxChange={handleCheckboxChange}
+            groupedFocusAreaIds={groupedFocusAreaIds}
+            serialNumber={question.serialNumber}
+            focusAreas={question.focusAreas}
+        /> */}
         <Frame1368 id="assignmentData">
           {answersFrame(
             quillRefs,
@@ -657,11 +673,11 @@ function answersAndFeedbacks(
           handleClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
         />
-        <ModalForSelectOption 
+        <ModalForSelectOption
           isVisible={showFocusAreas}
           onClose={toggleFocusAreaPopup}
           optionsToSelect={question?.focusAreas}
-          modalType={"focus area"}
+          modalType={'focus area'}
           onClickOption={methods.handleFocusAreaComment}
         />
       </FeedbackBody>
@@ -768,6 +784,5 @@ const handleFeedbackMethodTypeDialog = (
   }
   return <></>;
 };
-
 
 export default FeedbackTeacherLaptop;

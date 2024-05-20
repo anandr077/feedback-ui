@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   FeedbackHeaderContainer,
   LeftSection,
@@ -9,6 +9,8 @@ import {
   ToggleInput,
   ToggleBtn,
   ToggleSwitchLabels,
+  ArrowBtn,
+  Select,
   DocumentSubmitBtnContainer,
   AwaitingFeedbackTextAlert,
   CancelBtn,
@@ -28,6 +30,7 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
+import { useHistory } from 'react-router-dom';
 
 const FeedbackHeader = ({
   commentFocusAreaToggle,
@@ -50,41 +53,84 @@ const FeedbackHeader = ({
   const isTeacher = getUserRole() === 'TEACHER';
   const [isShowSelectType, setShowSelectType] = useState();
   const { showSnackbar } = React.useContext(SnackbarContext);
+  const history = useHistory();
+
+  const studentsList = submission?.studentsSubmissions;
+  console.log('the submissions in feedback page', submission);
 
   const handlePrevious = () => {
     setSelectedIndex((prevIndex) =>
-      prevIndex === 0 ? data.length - 1 : prevIndex - 1
+      prevIndex <= 0 ? studentsList.length - 1 : prevIndex - 1
     );
   };
 
   const handleNext = () => {
     setSelectedIndex((prevIndex) =>
-      prevIndex === data.length - 1 ? 0 : prevIndex + 1
+      prevIndex >= studentsList.length - 1 ? 0 : prevIndex + 1
     );
   };
+
+  useEffect(()=>{
+      //console.log('the studentsList is ', selectedIndex)
+      if(isTeacher && (pageMode === 'REVIEW' || pageMode === 'CLOSED')){
+        const newUrl = `/submissions/${studentsList[selectedIndex]?.submissionId}`;
+        history.push(newUrl)
+      }
+  }, [selectedIndex])
+
+  // const handleQuestionClick = (student) => {
+  //   console.log('the submission is', selectedIndex)
+  //   // const newUrl = `/submissions/${student.submissionId}`;
+  //   // history.push(newUrl);
+  // };
+
   return (
     <FeedbackHeaderContainer>
-      <LeftSection>
-        <SubjectTaskTypeContainer>
-          {submission.assignment.subject && (
-            <>
+      {isTeacher && (pageMode === 'REVIEW' || pageMode === 'CLOSED') ? (
+        <LeftSection>
+          <ArrowBtn onClick={handlePrevious}>
+            <img src={ArrowLeft} alt="Left" />
+          </ArrowBtn>
+          <Select
+            value={studentsList[selectedIndex]}
+            onChange={(e) => {
+              setSelectedIndex(e.target.selectedIndex)
+            }}
+          >
+            {studentsList.map((student, index) => (
+              <option key={index} value={student.studentName}>
+                {student.studentName}
+              </option>
+            ))}
+          </Select>
+          <ArrowBtn onClick={handleNext}>
+            <img src={ArrowRight} alt="Right" />
+          </ArrowBtn>
+        </LeftSection>
+      ) : (
+        <LeftSection>
+          <SubjectTaskTypeContainer>
+            {submission.assignment.subject && (
+              <>
+                <div>
+                  <STTitle>Subject:</STTitle>
+                  <STDetails>{submission.assignment.subject}</STDetails>
+                </div>
+                <span>|</span>
+              </>
+            )}
+            {submission.documentType && (
               <div>
-                <STTitle>Subject:</STTitle>
-                <STDetails>{submission.assignment.subject}</STDetails>
+                <STTitle>Task Type:</STTitle>
+                <STDetails>{submission.documentType}</STDetails>
               </div>
-              <span>|</span>
-            </>
-          )}
-          {submission.documentType && (
-            <div>
-              <STTitle>Task Type:</STTitle>
-              <STDetails>{submission.documentType}</STDetails>
-            </div>
-          )}
-        </SubjectTaskTypeContainer>
-      </LeftSection>
+            )}
+          </SubjectTaskTypeContainer>
+        </LeftSection>
+      )}
+
       <RightSection>
-        {(submission.type !== 'DOCUMENT' && pageMode !== 'DRAFT') && (
+        {submission.type !== 'DOCUMENT' && pageMode !== 'DRAFT' && (
           <ToggleContainer>
             <ToggleLavel>
               <ToggleInput

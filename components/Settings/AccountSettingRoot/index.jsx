@@ -27,13 +27,7 @@ import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material';
+
 import {
   CardImg,
   CardTitle,

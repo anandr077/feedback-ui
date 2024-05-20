@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { IbmplexsansNormalStack20px } from '../../../styledMixins';
 
 export const MainContainer = styled.div`
   align-items: center;
@@ -23,9 +24,8 @@ export const InnerContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  min-height: 90vh;
+  min-height: 100vh;
   position: relative;
-  max-width: 1440px;
 `;
 
 export const LeftContainer = styled.div`
@@ -34,9 +34,9 @@ export const LeftContainer = styled.div`
   box-shadow: -1px -2px 4px 0px #73737340 inset;
 `;
 export const RightContainer = styled.div`
-  width: 85%;
+  width: 100%;
   background: #ffffff;
-  // height: 60vh;
+  height: 100vh;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -104,6 +104,9 @@ export const PreviewButton = styled.div`
   background: #ffffff;
   border: 1px solid #7200e0;
   cursor: pointer;
+  &:hover {
+    background-color: #f9f5ff;
+  }
 `;
 
 export const PreviewButtonIcon = styled.img`
@@ -141,7 +144,7 @@ export const SaveButtonText = styled.p`
 export const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
-   background: #f2f1f380;
+  background: #f2f1f380;
 `;
 export const TableHeadingPart = styled.div`
   width: 100%;
@@ -207,16 +210,19 @@ export const TextArea = styled.textarea`
   display: flex;
   align-items: center;
   outline: none;
-
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f1f380;
+  }
   overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 0;
   }
 
-  &::placeholder{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  &::placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `;
 
@@ -263,3 +269,18 @@ export const AddNewCriteriaButton = styled.div`
   background: #7200e0;
   cursor: pointer;
 `;
+export const TextInput = styled.input`
+  ${IbmplexsansNormalStack20px}
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+  width: 100%;
+`;
+
+export const EditIcon = styled.img``;

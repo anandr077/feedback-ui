@@ -1,16 +1,21 @@
 import React from 'react';
 import { FocusAreaContainer, FocusArea } from './style';
 
-const FocusAreaCard = ({ comments }) => {
+const FocusAreaCard = ({ comments, methods, QuestionIndex }) => {
   return (
     <FocusAreaContainer>
-      {comments.map((comment) => {
-        return (
-          <FocusArea style={{ backgroundColor: comment.color }}>
-            {comment.comment}
-          </FocusArea>
-        );
-      })}
+      {comments
+        .filter((c) => c.questionSerialNumber === QuestionIndex + 1)
+        .map((comment) => {
+          return (
+            <FocusArea
+              style={{ backgroundColor: comment.color }}
+              onClick={() => methods.handleCommentSelected(comment)}
+            >
+              {comment.comment}
+            </FocusArea>
+          );
+        })}
     </FocusAreaContainer>
   );
 };

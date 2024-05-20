@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const TextFeedback = styled.textarea`
-  height: 104px;
+  min-height: 160px;
   width: 100%;
   padding: 8px;
   border-radius: 4px;
@@ -14,6 +14,10 @@ export const TextFeedback = styled.textarea`
   line-height: 24px;
   font-weight: 400;
   font-family: var(--font-family-ibm_plex_sans);
+
+
+
+  overflow: hidden;
 
   ::placeholder {
     color: rgba(145, 139, 151, 1);

@@ -51,9 +51,11 @@ const CommentBox = ({
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const isTeacher = getUserRole() === 'TEACHER';
 
+  let commentBankIds = submission.assignment.questions
+    .filter((item) => item.serialNumber === newCommentSerialNumber)
+    .map((item) => item.commentBankId);
+
   useEffect(() => {
-    // const heights = comments?.map(() => 0);
-    // setCommentHeights(heights);
     const measureHeights = () => {
       const newHeights = comments?.map((_, index) => {
         const element = document.getElementById(`comment-${index}`);
@@ -181,102 +183,90 @@ const CommentBox = ({
 
   return (
     <>
-      {!commentFocusAreaToggle && (
-        <>
-          {showNewComment ? (
-            <MainSideContainer
-              style={{ top: commentInputTopPosition, right: '-330px' }}
-            >
-              <Screen onClick={methods.hideNewCommentDiv}></Screen>
-              <OptionContainer>
-                <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
-                  <img src={CommentIcon} />
-                </Option>
-                <Option>
-                  <img src={ShareIcon} />
-                </Option>
-                <Option>
-                  <img src={AlphabetIcon} />
-                </Option>
-                <Option>
-                  <img src={ThumbsupIcon} />
-                </Option>
-              </OptionContainer>
-              {openCommentBox &&
-                newCommentFrame(
-                  pageMode,
-                  submission,
-                  newCommentSerialNumber,
-                  methods,
-                  newCommentFrameRef,
-                  share
-                )}
-            </MainSideContainer>
-          ) : (
-            <MainSideContainer>
-              <ul
-                style={{
-                  height: '100%',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                {groupedCommentsWithGap.map((group, groupIndex) => (
-                  <div key={groupIndex}>
-                    {group.map((comment, index) => {
-                      return (
-                        <CommentDiv
-                          key={index}
-                          id={`comment-${index}`}
-                          style={{
-                            top: `${comment.topPosition}px`,
-                            transform:
-                              selectedComment &&
-                              comment.id === selectedComment.id
-                                ? 'translateX(-35px)'
-                                : 'none',
-                          }}
-                        >
-                          <CommentCard32
-                            reviewer={comment.reviewerName}
-                            comment={comment}
-                            onClick={(c) => methods.handleCommentSelected(c)}
-                            onClose={() =>
-                              methods.handleDeleteComment(comment.id)
-                            }
-                            handleEditingComment={methods.handleEditingComment}
-                            deleteReplyComment={
-                              methods.handleDeleteReplyComment
-                            }
-                            onResolved={methods.handleResolvedComment}
-                            handleReplyComment={methods.handleReplyComment}
-                            isResolved={comment.status}
-                            showResolveButton={false}
-                            isTeacher={isTeacher}
-                            updateParentComment={methods.updateParentComment}
-                            updateChildComment={methods.updateChildComment}
-                            pageMode={pageMode}
-                            openShareWithStudentDialog={
-                              methods.handleShareWithClass
-                            }
-                            convertToCheckedState={
-                              methods.convertToCheckedState
-                            }
-                            updateExemplarComment={
-                              methods.setUpdateExemplarComment
-                            }
-                            studentId={submission.studentId}
-                            selectedComment={selectedComment}
-                          />
-                        </CommentDiv>
-                      );
-                    })}
-                  </div>
-                ))}
-              </ul>
-            </MainSideContainer>
-          )}
-        </>
+      {showNewComment && pageMode !== 'DRAFT' ? (
+        <MainSideContainer
+          style={{ top: commentInputTopPosition, right: '-330px' }}
+        >
+          <Screen onClick={methods.hideNewCommentDiv}></Screen>
+          <OptionContainer>
+            <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
+              <img src={CommentIcon} />
+            </Option>
+            <Option onClick={methods.handleShareWithClass}>
+              <img src={ShareIcon} />
+            </Option>
+            <Option>
+              <img src={AlphabetIcon} />
+            </Option>
+            <Option>
+              <img src={ThumbsupIcon} />
+            </Option>
+          </OptionContainer>
+          {openCommentBox &&
+            newCommentFrame(
+              pageMode,
+              submission,
+              newCommentSerialNumber,
+              methods,
+              newCommentFrameRef,
+              share,
+              commentBankIds
+            )}
+        </MainSideContainer>
+      ) : (
+        <MainSideContainer>
+          <ul
+            style={{
+              height: '100%',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            {groupedCommentsWithGap.map((group, groupIndex) => (
+              <div key={groupIndex}>
+                {group.map((comment, index) => {
+                  return (
+                    <CommentDiv
+                      key={index}
+                      id={`comment-${index}`}
+                      style={{
+                        top: `${comment.topPosition}px`,
+                        transform:
+                          selectedComment && comment.id === selectedComment.id
+                            ? 'translateX(-35px)'
+                            : 'none',
+                      }}
+                    >
+                      <CommentCard32
+                        reviewer={comment.reviewerName}
+                        comment={comment}
+                        onClick={(c) => methods.handleCommentSelected(c)}
+                        onClose={() => methods.handleDeleteComment(comment.id)}
+                        handleEditingComment={methods.handleEditingComment}
+                        deleteReplyComment={methods.handleDeleteReplyComment}
+                        onResolved={methods.handleResolvedComment}
+                        handleReplyComment={methods.handleReplyComment}
+                        isResolved={comment.status}
+                        showResolveButton={false}
+                        isTeacher={isTeacher}
+                        updateParentComment={methods.updateParentComment}
+                        updateChildComment={methods.updateChildComment}
+                        pageMode={pageMode}
+                        openShareWithStudentDialog={
+                          methods.handleShareWithClass
+                        }
+                        convertToCheckedState={methods.convertToCheckedState}
+                        updateExemplarComment={methods.setUpdateExemplarComment}
+                        studentId={submission.studentId}
+                        selectedComment={selectedComment}
+                      />
+                    </CommentDiv>
+                  );
+                })}
+              </div>
+            ))}
+          </ul>
+        </MainSideContainer>
       )}
     </>
   );
@@ -290,15 +280,28 @@ const newCommentFrame = (
   newCommentSerialNumber,
   methods,
   newCommentFrameRef,
-  share
+  share,
+  commentBankIds
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
-  return reviewerNewComment(methods, newCommentFrameRef, share, pageMode);
+  return reviewerNewComment(
+    methods,
+    newCommentFrameRef,
+    share,
+    pageMode,
+    commentBankIds
+  );
 };
 
-function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
+function reviewerNewComment(
+  methods,
+  newCommentFrameRef,
+  share,
+  pageMode,
+  commentBankIds
+) {
   const { smartAnnotations } = useContext(FeedbackContext);
 
   if (pageMode === 'CLOSED') return <></>;
@@ -321,11 +324,14 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
               <SubmitCommentFrameRoot
                 submitButtonOnClick={methods.handleAddComment}
                 cancelButtonOnClick={methods.hideNewCommentDiv}
+                smartAnnotations={smartAnnotations}
+                commentBankIds={commentBankIds}
+                handleComment={methods.handleShortcutAddCommentSmartAnnotaion}
               />
             </CommentContainer>
             {/* <ShortcutList>
-                {shortcutList(methods, smartAnnotations)}
-              </ShortcutList> */}
+                {shortcutList(methods, smartAnnotations, commentBankIds)}
+            </ShortcutList> */}
           </SmartAnnotationsComponent>
           {/* <ExemplarComponent>
               {shareWithClassFrame(methods, share)}
@@ -337,14 +343,18 @@ function reviewerNewComment(methods, newCommentFrameRef, share, pageMode) {
   );
 }
 
-function shortcutList(methods, smartAnnotations) {
-  return smartAnnotations.map((smartAnnotation, index) => (
-    <SmartAnotation
-      key={index}
-      smartAnnotation={smartAnnotation}
-      onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
-    />
-  ));
+function shortcutList(methods, smartAnnotations, commentBankIds) {
+  const all = smartAnnotations?.flatMap((annotation, index) =>
+    annotation.smartComments
+      .filter((smartComment) => commentBankIds.includes(annotation.id))
+      .map((smartComment, innerIndex) => (
+        <SmartAnotation
+          key={`${index}-${innerIndex}`}
+          smartAnnotation={smartComment}
+          onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+        />
+      ))
+  );
 }
 
 function shareWithClassFrame(methods, share) {

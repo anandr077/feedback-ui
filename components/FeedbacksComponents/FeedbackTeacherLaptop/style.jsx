@@ -291,7 +291,7 @@ export const DrawerArrowContainer = styled.div`
 export const DrawerArrow = styled.div`
   cursor: pointer;
   padding: 6px 2px;
-  height: 30vh;
+  height: 100vh;
   position: fixed;
   transform: ${(props) =>
     props.open ? `translateX(${props.drawerWidth - 10}px)` : '10px'};
@@ -341,45 +341,6 @@ export const Frame1386 = styled.div`
   align-self: stretch;
   width: '100%';
   overflow-x: hidden;
-`;
-
-export const GoBackBtn = styled.button`
-  width: fit-content;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 23px;
-  color: var(--light-mode-purple);
-  background-color: transparent;
-  border-radius: 24px;
-  border: 1px solid var(--light-mode-purple);
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: 0.3s ease-in;
-  margin-bottom: 8px;
-  cursor: pointer;
-
-  .arrowImg {
-    width: 17px;
-    height: 12px;
-  }
-  .hoveredImg {
-    width: 17px;
-    height: 12px;
-    display: none;
-  }
-  &:hover {
-    color: var(--white);
-    background-color: var(--light-mode-purple);
-    .arrowImg {
-      display: none;
-    }
-    .hoveredImg {
-      display: block;
-    }
-  }
 `;
 
 export const Frame1371 = styled.div`
@@ -557,7 +518,6 @@ export const AnswerContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
   border: 1px solid rgba(201, 198, 204, 0.5);
   box-shadow: 0px 4px 9px 0px rgba(133, 133, 133, 0.25);
   border-radius: 8px;

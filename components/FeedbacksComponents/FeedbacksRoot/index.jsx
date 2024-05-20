@@ -186,11 +186,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
-      // alert("sub" + JSON.stringify(submission.assignment))
-      const commentBankIds = submission.assignment.questions
-        .filter(
-          (q) => q.commentBankId !== undefined && q.commentBankId !== null
-        )
+      // alert("sub" + JSON.stringify(submission.assignment)
+      const commentBankIds = submission?.assignment?.questions
+       .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
         .map((q) => q.commentBankId);
 
       const commentBankPromises = commentBankIds.map(getCommentBank);
@@ -687,6 +685,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                 setExemplerComment('');
                 setCheckedState(initialCheckedState);
               }}
+              smartAnnotations={smartAnnotations}
+              handleComment={handleShortcutAddCommentSmartAnnotaion}
             />
           </DialogActions>
         </ActionButtonsContainer>
@@ -1124,7 +1124,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         const quill = quillRefs.current[question.serialNumber - 1];
-        quill.disable();
+        quill?.disable();
       });
   }
 
@@ -1420,8 +1420,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         }),
       },
     };
-
-    // Set the updated submission object
     setSubmission(updatedSubmission);
   }
 

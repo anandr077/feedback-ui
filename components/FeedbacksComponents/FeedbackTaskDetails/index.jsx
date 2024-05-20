@@ -20,7 +20,6 @@ const FeedbackTaskDetails = ({
   openRightPanel,
   submission,
   QuestionIndex,
-  groupedFocusAreaIds,
   questionPanelOpen,
   methods,
 }) => {

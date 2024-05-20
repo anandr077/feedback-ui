@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import {
   FeedbackHeaderContainer,
   LeftSection,
-  AssignmentTitle,
   RightSection,
   ReassignBtn,
   ToggleContainer,
@@ -10,8 +9,6 @@ import {
   ToggleInput,
   ToggleBtn,
   ToggleSwitchLabels,
-  ArrowBtn,
-  Select,
   DocumentSubmitBtnContainer,
   AwaitingFeedbackTextAlert,
   CancelBtn,
@@ -31,14 +28,6 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
-
-const data = [
-  'Student one',
-  'Student two',
-  'Student three',
-  'Student four',
-  'Student five',
-];
 
 const FeedbackHeader = ({
   commentFocusAreaToggle,
@@ -75,60 +64,27 @@ const FeedbackHeader = ({
   };
   return (
     <FeedbackHeaderContainer>
-      {/* {isTeacher ? (
-        <LeftSection>
-          <ArrowBtn onClick={handlePrevious}>
-            <img src={ArrowLeft} alt="Left" />
-          </ArrowBtn>
-          <Select
-            value={data[selectedIndex]}
-            onChange={(e) => setSelectedIndex(data.indexOf(e.target.value))}
-          >
-            {data.map((name, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </Select>
-          <ArrowBtn onClick={handleNext}>
-            <img src={ArrowRight} alt="Right" />
-          </ArrowBtn>
-        </LeftSection>
-      ) : (
-        <LeftSection>
-          <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        </LeftSection>
-      )} */}
       <LeftSection>
-        {submission.status === 'DRAFT' ? (
-          <AssignmentTitle>{submission.assignment.title}</AssignmentTitle>
-        ) : (
-          <SubjectTaskTypeContainer>
-            {submission.assignment.title && (
-              <>
-                <div>
-                  <STTitle>Subject:</STTitle>
-                  {/* <STDetails>{submission.assignment.title}</STDetails> */}
-                  {submission.type === "DOCUMENT" ? (
-                    <STDetails>{submission.assignment.subject}</STDetails>
-                  ) : (
-                    <STDetails>{submission.assignment.title}</STDetails>
-                  )}
-                </div>
-                <span>|</span>
-              </>
-            )}
-            {submission.documentType && (
+        <SubjectTaskTypeContainer>
+          {submission.assignment.subject && (
+            <>
               <div>
-                <STTitle>Task Type:</STTitle>
-                <STDetails>{submission.documentType}</STDetails>
+                <STTitle>Subject:</STTitle>
+                <STDetails>{submission.assignment.subject}</STDetails>
               </div>
-            )}
-          </SubjectTaskTypeContainer>
-        )}
+              <span>|</span>
+            </>
+          )}
+          {submission.documentType && (
+            <div>
+              <STTitle>Task Type:</STTitle>
+              <STDetails>{submission.documentType}</STDetails>
+            </div>
+          )}
+        </SubjectTaskTypeContainer>
       </LeftSection>
       <RightSection>
-        {submission.type !== 'DOCUMENT' && (
+        {(submission.type !== 'DOCUMENT' && pageMode !== 'DRAFT') && (
           <ToggleContainer>
             <ToggleLavel>
               <ToggleInput
@@ -218,20 +174,6 @@ function submitButtonOnDocument(
   if (pageMode === 'DRAFT') {
     return (
       <>
-        {/* {selectReviewType(
-                submission,
-                setSubmission,
-                methods,
-                feedbackMethodType,
-                isShowSelectType,
-                setShowSelectType,
-                handleRequestFeedback,
-                allClasses,
-                showStudentPopUp,
-                showTeacherPopUp,
-                setShowStudentPopUp,
-                setShowTeacherPopUp
-              )} */}
         <SelectReviewType
           submission={submission}
           setSubmission={setSubmission}
@@ -247,11 +189,18 @@ function submitButtonOnDocument(
           setShowTeacherPopUp={setShowTeacherPopUp}
         />
         <RoundedBorderSubmitBtn
-          text={isTeacher ? 'Jedd AI' : 'Request Feedback'}
-          onClickFn={(event) => {
-            event.stopPropagation();
-            setShowSelectType(true);
-          }}
+          text={isTeacher ? 'JeddAI' : 'Request Feedback'}
+          onClickFn={
+            isTeacher
+              ? (event) => {
+                  event.stopPropagation();
+                  methods.jeddAI();
+                }
+              : (event) => {
+                  event.stopPropagation();
+                  setShowSelectType(true);
+                }
+          }
         />
       </>
     );
@@ -350,7 +299,6 @@ function submitButtonOnDocument(
 }
 
 function submitButton(methods, pageMode, submission, isTeacher) {
-  console.log('the pagemode', pageMode);
   if (pageMode === 'DRAFT') {
     return (
       <RoundedBorderSubmitBtn
@@ -389,7 +337,7 @@ function submitButton(methods, pageMode, submission, isTeacher) {
     }
     return (
       <RoundedBorderSubmitBtn
-        text={'Mark as completed'}
+        text={'Mark Complete'}
         onClickFn={() => methods.showSubmitPopuphandler('CloseSubmission')}
       />
     );

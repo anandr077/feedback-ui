@@ -51,7 +51,7 @@ const MainSidebar = () => {
     {
       icon: settingIcon,
       activeIcon: activesettingIcon,
-      name: 'Settings',
+      name: 'Feedback Tools',
       link: '/settings',
     },
   ];

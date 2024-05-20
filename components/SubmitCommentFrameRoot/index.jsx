@@ -1,22 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import './SubmitCommentFrameRoot.css';
 import ActiveCommentIcon from '../../static/img/purplesinglecomment.svg';
+import ModalForSelectOption from '../../components2/Modals/ModalForSelectOption';
+import SmartAnotation from '../SmartAnnotations';
 const SubmitCommentFrameRoot = (props) => {
   const {
     submitButtonOnClick,
     cancelButtonOnClick,
     showComment,
     isButtonDisabled,
+    smartAnnotations,
+    commentBankIds,
+    handleComment,
   } = props;
+  const [isCommentBankVisible, setIsCommentBankVisible] = useState(false);
 
-  const SmallButtonWhiteFunction = (e, name) => {};
+  const allCommentBanks = smartAnnotations?.flatMap(
+    (annotation, index) =>
+      annotation.smartComments.filter((smartComment) =>
+        commentBankIds?.includes(annotation.id)
+      )
+    // .map((smartComment, innerIndex) => (
+    //   <SmartAnotation
+    //     key={`${index}-${innerIndex}`}
+    //     smartAnnotation={smartComment}
+    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+    //   />
+    // ))
+  );
+
+  function toggleCommentBankPopup() {
+    setIsCommentBankVisible(!isCommentBankVisible);
+  }
+
   return (
     <SubmitCommentFrameRootRoot>
-      <LeftBtn>
-        <img src={ActiveCommentIcon} />
-        Bank
-      </LeftBtn>
+      {commentBankIds && (
+        <LeftBtn onClick={toggleCommentBankPopup}>
+          <img src={ActiveCommentIcon} />
+          Bank
+        </LeftBtn>
+      )}
       <RightBtnContainer>
         <SmallButtonWhite onClick={(e) => cancelButtonOnClick()}>
           <Text2>Cancel</Text2>
@@ -29,6 +54,13 @@ const SubmitCommentFrameRoot = (props) => {
           {showComment ? 'Update' : 'Comment'}
         </SmallButton>
       </RightBtnContainer>
+      <ModalForSelectOption
+        isVisible={isCommentBankVisible}
+        onClose={toggleCommentBankPopup}
+        optionsToSelect={allCommentBanks}
+        modalType={"comment bank"}
+        onClickOption={handleComment}
+      />
     </SubmitCommentFrameRootRoot>
   );
 };
@@ -48,6 +80,7 @@ const LeftBtn = styled.button`
   color: #4b464f;
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   img {
     width: 24px;
@@ -117,6 +150,16 @@ const SmallButtonWhite = styled.button`
       transition: 0.1s;
     }
   }
+`;
+
+const CommentBankContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: green;
+  z-index: 100;
 `;
 
 export default SubmitCommentFrameRoot;

@@ -33,7 +33,7 @@ import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLef
 import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
-import { headerTitle } from './headerTitle.js';
+import { headerTitle, headerTitleSub } from './headerTitle.js';
 import { Avatar } from '@boringer-avatars/react';
 import { headerMainTitle } from './headerMainTitle.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
@@ -98,7 +98,6 @@ const Header = () => {
         setIsHelpBarOpen(false);
       }, 300);
     }
-    console.log('the help bar');
   };
 
   useEffect(() => {
@@ -136,8 +135,11 @@ const Header = () => {
   const pageHeader = headerTitle.find((item) =>
     new RegExp(`${item.link}`).test(location.pathname)
   );
-  const pageMainHeader = headerMainTitle.find(
-    (item) => item.link === location.pathname
+  const pageHeaderSub = headerTitleSub.find((item) =>
+    new RegExp(`${item.link}`).test(location.pathname)
+  );
+  const pageMainHeader = headerMainTitle.find((item) =>
+    new RegExp(`${item.link}`).test(location.pathname)
   );
 
   return (
@@ -147,6 +149,8 @@ const Header = () => {
         position: 'sticky',
         top: '0',
         zIndex: '5',
+        borderBottom: '1px solid rgba(255, 255, 255, 1)',
+        boxShadow: '2px 1px 4px 0px rgba(115, 115, 115, 0.25)',
       }}
     >
       <MainContainer>
@@ -155,7 +159,12 @@ const Header = () => {
             <TitleMain>{pageMainHeader && pageMainHeader.title}</TitleMain>
             {pageMainHeader && <ArrowRightImg src={arrowRightMini} />}
             <Title>
-              {pageHeader && pageHeader.title}
+              <Title style={{ color: pageHeaderSub && '#7b7382' }}>
+                {pageHeader && pageHeader.title}
+              </Title>
+
+              {pageHeaderSub && <ArrowRightImg src={arrowRightMini} />}
+              {pageHeaderSub && pageHeaderSub.title}
               <QuestionTooltip
                 img={questionMark}
                 text={

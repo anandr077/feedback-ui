@@ -23,6 +23,8 @@ function TeacherSidebar({ open, submission }) {
   const [searchQuery, setSearchQuery] = useState('');
   const history = useHistory();
 
+  console.log('the submission is', submission)
+
   const studentsList = submission.studentsSubmissions;
 
   const avatar = studentsList.map((student) => (
@@ -82,7 +84,7 @@ function TeacherSidebar({ open, submission }) {
                       ) : (
                         student.studentName
                       )}
-                      {student.status === 'REVIEWED' && (
+                      {(student.status === 'REVIEWED' || student.status === 'CLOSED') && (
                         <TickBox>
                           <img src="img/tickCircle.png" />
                         </TickBox>

@@ -51,6 +51,7 @@ import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
+import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -513,22 +514,34 @@ function answersAndFeedbacks(
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
   const [commentFocusAreaToggle, setCommentFocusAreaToggle] =
-    React.useState(false);
+    React.useState(() => {
+      return pageMode === 'REVIEW' ? false : pageMode === 'DRAFT' ? true : false;
+    });
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
+  const [showFocusAreas, setShowFocusArea] = React.useState(false);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
   };
 
+  function toggleFocusAreaPopup() {
+    setShowFocusArea(!showFocusAreas);
+  }
+
+  const question = submission.assignment.questions[QuestionIndex];
+
+  
+  React.useEffect(() => {
+    if (selectedRange !== null && pageMode === 'DRAFT') {
+      toggleFocusAreaPopup();
+    }
+    if(selectedRange && pageMode === 'REVIEW'){
+      setCommentFocusAreaToggle(false);
+    }
+  }, [selectedRange]);
+
   return (
     <Frame1386 id="content">
-      {/* {isTeacher && (
-        <GoBackBtn onClick={() => navigate.goBack()}>
-          <img className="arrowImg" src="img/arrow_left.png" />
-          <img className="hoveredImg" src="icons/arrowleft.png" />
-          Go Back
-        </GoBackBtn>
-      )} */}
       {/* {createContextBar(
         submission,
         setSubmission,
@@ -619,11 +632,10 @@ function answersAndFeedbacks(
           handleRightSidebarClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
           submission={submission}
-          groupedFocusAreaIds={groupedFocusAreaIds}
           QuestionIndex={QuestionIndex}
-          questionPanelOpen={handleRightSidebarClick}
           methods={methods}
           setQuestionIndex={setQuestionIndex}
+          pageMode={pageMode}
         />
         <CriteriaAndOverallFeedback
           handleClick={handleRightSidebarClick}
@@ -641,6 +653,13 @@ function answersAndFeedbacks(
         <FeedbackRightSidebar
           handleClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
+        />
+        <ModalForSelectOption 
+          isVisible={showFocusAreas}
+          onClose={toggleFocusAreaPopup}
+          optionsToSelect={question?.focusAreas}
+          modalType={"focus area"}
+          onClickOption={methods.handleFocusAreaComment}
         />
       </FeedbackBody>
     </Frame1386>

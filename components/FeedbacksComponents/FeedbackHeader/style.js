@@ -18,14 +18,6 @@ export const LeftSection = styled.div`
   gap: 16px;
 `;
 
-export const AssignmentTitle = styled.h1`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: rgba(24, 23, 24, 1);
-`;
-
 export const SubjectTaskTypeContainer = styled.div`
   display: flex;
   align-items: center;
@@ -61,33 +53,6 @@ export const STDetails = styled.h3`
 
   scrollbar-width: none;
   -ms-overflow-style: none;
-`;
-
-export const ArrowBtn = styled.div`
-  cursor: pointer;
-  background-color: rgba(242, 241, 243, 1);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-
-  img {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const Select = styled.select`
-  width: 250px;
-  border: none;
-  outline: none;
-  color: #4b464f;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
-  font-weight: 500;
-  line-height: 20px;
-  cursor: pointer;
 `;
 
 export const RightSection = styled.div`

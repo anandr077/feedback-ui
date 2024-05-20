@@ -5,36 +5,32 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { MainContainer, Button } from './style';
 import { useQuery } from '@tanstack/react-query';
-import { getCommunityTasks } from '../../service';
+import { getCommunityTasks, getCompletedTasks } from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
+import commentSelected from '../../static/img/commentSelected.svg';
+import commentUnSelected from '../../static/img/commentUnSelected.svg';
+import markSelected from '../../static/img/markSelected.svg';
+import markUnSelected from '../../static/img/markUnSelected.svg';
 import { getUserRole } from '../../userLocalDetails';
 
-const SecondSidebar = () => {
+const SecondSidebar = ({ id }) => {
   const [containerHeight, setContainerHeight] = useState(0);
-  const [feedbackRequests, setFeedbackRequests] = useState(0);
+  const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
+  const [completedTaskLength, setCompletedTaskLength] = useState(0);
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
 
-  const { data: communityTasks, isLoading } = useQuery({
-    queryKey: ['communityTasks'],
-    queryFn: async () => {
-      const result = await getCommunityTasks();
-      return result;
-    },
-    staleTime: 60000,
-  });
-
-  React.useEffect(() => {
-    if (communityTasks) {
-      const len = communityTasks.length;
-      setFeedbackRequests(len);
-    }
-  }, [communityTasks]);
-
-  console.log('communityTasks', communityTasks)
+  useEffect(() => {
+    Promise.all([getCompletedTasks(), getCommunityTasks()]).then(
+      ([getCompletedTasks, getCommunityTasks]) => {
+        setCompletedTaskLength(getCompletedTasks.length);
+        setFeedbackRequestsLength(getCommunityTasks.length);
+      }
+    );
+  }, []);
 
   useEffect(() => {
     const updateHeight = () => {
@@ -58,48 +54,77 @@ const SecondSidebar = () => {
   const subLinks = [
     {
       icon: '',
-      title: `${role === 'STUDENT' ? 'Tasks' : 'Classwork'}`,
+      selectedIcon: '',
+      title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
       link: '/',
+      matchLink: '/',
     },
     {
       icon: '',
-      title: `${role === 'STUDENT' ? 'Tasks' : 'Classwork'}`,
+      selectedIcon: '',
+      title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
       link: '/tasks',
+      matchLink: '/tasks',
     },
     {
       icon: '',
-      title: `Feedback Requests (${feedbackRequests})`,
+      selectedIcon: '',
+      title: `Completed Tasks (${completedTaskLength})`,
+      link: `/completed`,
+      matchLink: `/completed`,
+    },
+    {
+      icon: '',
+      selectedIcon: '',
+      title: `${
+        role === 'STUDENT'
+          ? `Help a Friend (${feedbackRequestsLength})`
+          : `Students Request (${feedbackRequestsLength})`
+      }`,
       link: '/giveFeedback',
+      matchLink: '/giveFeedback',
     },
     {
       icon: '',
+      selectedIcon: '',
+      title: `Examples`,
+      link: `/sharedresponses`,
+      matchLink: `/sharedresponses`,
+    },
+    {
+      icon: '',
+      selectedIcon: '',
       title: `Feedback History`,
       link: `/feedbackHistory`,
+      matchLink: `/feedbackHistory`,
     },
     {
-      icon: '',
-      title: `${role === 'STUDENT' ? 'Completed Tasks' : 'Closed Tasks'}`,
-      link: `/completed`,
-    },
-    {
-      icon: '',
-      title: `Shared Responses`,
-      link: `/sharedresponses`,
-    },
-    {
-      icon: '',
-      title: 'User Settings',
-      link: '/settings',
-    },
-    {
-      icon: '',
+      icon: markUnSelected,
+      selectedIcon: markSelected,
       title: 'Marking Templates',
-      link: '/markingTemplate/strengthAndTargets',
+      link: '/settings',
+      matchLink: '/settings',
     },
     {
-      icon: '',
+      icon: commentUnSelected,
+      selectedIcon: commentSelected,
       title: 'Comment Banks',
       link: '/commentbanks',
+      matchLink: '/commentbanks',
+    },
+    {
+      icon: markUnSelected,
+      selectedIcon: markSelected,
+      title: 'Marking Templates',
+      link: '/settings',
+      matchLink: `/markingTemplates/rubrics/${id}`,
+    },
+    {
+      icon: markUnSelected,
+      selectedIcon: markSelected,
+      title: 'Marking Templates',
+      link: '/settings',
+      matchLink: `/markingTemplates/strengths-and-targets/${id}`,
     },
   ];
 
@@ -123,10 +148,6 @@ const SecondSidebar = () => {
         subLinks[4],
         subLinks[5],
       ],
-    },
-    {
-      link: '/settings',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
     },
     {
       link: '/giveFeedback',
@@ -159,16 +180,20 @@ const SecondSidebar = () => {
       ],
     },
     {
-      link: '/markingTemplate/strengthAndTargets',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
+      link: '/settings',
+      subLinks: [subLinks[6], subLinks[7]],
     },
     {
-      link: '/markingTemplate/rubrics',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
+      link: `/markingTemplates/rubrics/${id}`,
+      subLinks: [subLinks[8], subLinks[7]],
+    },
+    {
+      link: `/markingTemplates/strengths-and-targets/${id}`,
+      subLinks: [subLinks[9], subLinks[7]],
     },
     {
       link: '/commentbanks',
-      subLinks: [subLinks[6], subLinks[7], subLinks[8]],
+      subLinks: [subLinks[6], subLinks[7]],
     },
     {
       link: '/completed',
@@ -199,10 +224,17 @@ const SecondSidebar = () => {
                   <Button
                     key={subIdx}
                     onClick={() => handleButtonClick(subLink.link)}
-                    active={subLink.link === location.pathname}
+                    active={subLink.matchLink === location.pathname}
                   >
                     {subLink.icon && (
-                      <img src={subLink.icon} alt={subLink.title} />
+                      <img
+                        src={
+                          subLink.matchLink === location.pathname
+                            ? subLink.selectedIcon
+                            : subLink.icon
+                        }
+                        alt={subLink.title}
+                      />
                     )}
                     {subLink.title}
                   </Button>

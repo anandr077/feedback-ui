@@ -291,6 +291,9 @@ export const StrengthCont = styled.div`
   border-radius: 4px;
   color: #56515b;
   border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  border: ${(props) =>
+    props.bgColor ? '1px solid  #C596F2' : '1px solid  #c9c6cc80'};
+  background-color: ${(props) => (props.bgColor ? '#F1E6FC' : '#f2f1f3')};
 `;
 export const Strength = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
@@ -308,6 +311,9 @@ export const TargetCont = styled.div`
   border-radius: 4px;
   color: #56515b;
   border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  border: ${(props) =>
+    props.bgColor ? '1px solid  #C596F2' : '1px solid  #c9c6cc80'};
+  background-color: ${(props) => (props.bgColor ? '#F1E6FC' : '#f2f1f3')};
 `;
 export const Target = styled.p`
   font-family: var(--font-family-ibm_plex_sans);

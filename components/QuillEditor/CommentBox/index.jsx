@@ -42,7 +42,7 @@ const CommentBox = ({
   selectedRange,
   commentFocusAreaToggle,
   newCommentFrameRef,
-  share
+  share,
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
@@ -183,103 +183,90 @@ const CommentBox = ({
 
   return (
     <>
-      {!commentFocusAreaToggle && (
-        <>
-          {showNewComment && pageMode !== 'DRAFT' ? (
-            <MainSideContainer
-              style={{ top: commentInputTopPosition, right: '-330px' }}
-            >
-              <Screen onClick={methods.hideNewCommentDiv}></Screen>
-              <OptionContainer>
-                <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
-                  <img src={CommentIcon} />
-                </Option>
-                <Option onClick={methods.handleShareWithClass}>
-                  <img src={ShareIcon} />
-                </Option>
-                <Option>
-                  <img src={AlphabetIcon} />
-                </Option>
-                <Option>
-                  <img src={ThumbsupIcon} />
-                </Option>
-              </OptionContainer>
-              {openCommentBox &&
-                newCommentFrame(
-                  pageMode,
-                  submission,
-                  newCommentSerialNumber,
-                  methods,
-                  newCommentFrameRef,
-                  share,
-                  commentBankIds
-                )}
-            </MainSideContainer>
-          ) : (
-            <MainSideContainer>
-              <ul
-                style={{
-                  height: '100%',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                {groupedCommentsWithGap.map((group, groupIndex) => (
-                  <div key={groupIndex}>
-                    {group.map((comment, index) => {
-                      return (
-                        <CommentDiv
-                          key={index}
-                          id={`comment-${index}`}
-                          style={{
-                            top: `${comment.topPosition}px`,
-                            transform:
-                              selectedComment &&
-                              comment.id === selectedComment.id
-                                ? 'translateX(-35px)'
-                                : 'none',
-                          }}
-                        >
-                          <CommentCard32
-                            reviewer={comment.reviewerName}
-                            comment={comment}
-                            onClick={(c) => methods.handleCommentSelected(c)}
-                            onClose={() =>
-                              methods.handleDeleteComment(comment.id)
-                            }
-                            handleEditingComment={methods.handleEditingComment}
-                            deleteReplyComment={
-                              methods.handleDeleteReplyComment
-                            }
-                            onResolved={methods.handleResolvedComment}
-                            handleReplyComment={methods.handleReplyComment}
-                            isResolved={comment.status}
-                            showResolveButton={false}
-                            isTeacher={isTeacher}
-                            updateParentComment={methods.updateParentComment}
-                            updateChildComment={methods.updateChildComment}
-                            pageMode={pageMode}
-                            openShareWithStudentDialog={
-                              methods.handleShareWithClass
-                            }
-                            convertToCheckedState={
-                              methods.convertToCheckedState
-                            }
-                            updateExemplarComment={
-                              methods.setUpdateExemplarComment
-                            }
-                            studentId={submission.studentId}
-                            selectedComment={selectedComment}
-                          />
-                        </CommentDiv>
-                      );
-                    })}
-                  </div>
-                ))}
-              </ul>
-            </MainSideContainer>
-          )}
-        </>
+      {showNewComment && pageMode !== 'DRAFT' ? (
+        <MainSideContainer
+          style={{ top: commentInputTopPosition, right: '-330px' }}
+        >
+          <Screen onClick={methods.hideNewCommentDiv}></Screen>
+          <OptionContainer>
+            <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
+              <img src={CommentIcon} />
+            </Option>
+            <Option onClick={methods.handleShareWithClass}>
+              <img src={ShareIcon} />
+            </Option>
+            <Option>
+              <img src={AlphabetIcon} />
+            </Option>
+            <Option>
+              <img src={ThumbsupIcon} />
+            </Option>
+          </OptionContainer>
+          {openCommentBox &&
+            newCommentFrame(
+              pageMode,
+              submission,
+              newCommentSerialNumber,
+              methods,
+              newCommentFrameRef,
+              share,
+              commentBankIds
+            )}
+        </MainSideContainer>
+      ) : (
+        <MainSideContainer>
+          <ul
+            style={{
+              height: '100%',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            {groupedCommentsWithGap.map((group, groupIndex) => (
+              <div key={groupIndex}>
+                {group.map((comment, index) => {
+                  return (
+                    <CommentDiv
+                      key={index}
+                      id={`comment-${index}`}
+                      style={{
+                        top: `${comment.topPosition}px`,
+                        transform:
+                          selectedComment && comment.id === selectedComment.id
+                            ? 'translateX(-35px)'
+                            : 'none',
+                      }}
+                    >
+                      <CommentCard32
+                        reviewer={comment.reviewerName}
+                        comment={comment}
+                        onClick={(c) => methods.handleCommentSelected(c)}
+                        onClose={() => methods.handleDeleteComment(comment.id)}
+                        handleEditingComment={methods.handleEditingComment}
+                        deleteReplyComment={methods.handleDeleteReplyComment}
+                        onResolved={methods.handleResolvedComment}
+                        handleReplyComment={methods.handleReplyComment}
+                        isResolved={comment.status}
+                        showResolveButton={false}
+                        isTeacher={isTeacher}
+                        updateParentComment={methods.updateParentComment}
+                        updateChildComment={methods.updateChildComment}
+                        pageMode={pageMode}
+                        openShareWithStudentDialog={
+                          methods.handleShareWithClass
+                        }
+                        convertToCheckedState={methods.convertToCheckedState}
+                        updateExemplarComment={methods.setUpdateExemplarComment}
+                        studentId={submission.studentId}
+                        selectedComment={selectedComment}
+                      />
+                    </CommentDiv>
+                  );
+                })}
+              </div>
+            ))}
+          </ul>
+        </MainSideContainer>
       )}
     </>
   );
@@ -299,10 +286,22 @@ const newCommentFrame = (
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
   }
-  return reviewerNewComment(methods, newCommentFrameRef, share, pageMode, commentBankIds);
+  return reviewerNewComment(
+    methods,
+    newCommentFrameRef,
+    share,
+    pageMode,
+    commentBankIds
+  );
 };
 
-function reviewerNewComment(methods, newCommentFrameRef, share, pageMode, commentBankIds) {
+function reviewerNewComment(
+  methods,
+  newCommentFrameRef,
+  share,
+  pageMode,
+  commentBankIds
+) {
   const { smartAnnotations } = useContext(FeedbackContext);
 
   if (pageMode === 'CLOSED') return <></>;
@@ -355,7 +354,8 @@ function shortcutList(methods, smartAnnotations, commentBankIds) {
           onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
         />
       ))
-)}
+  );
+}
 
 function shareWithClassFrame(methods, share) {
   if (getUserRole() === 'STUDENT') return <></>;

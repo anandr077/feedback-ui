@@ -2,55 +2,76 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
-const modalRoot = document.getElementById('commentBank-modal');
+const modalRoot = document.getElementById('modal-for-select-option');
 
-const CommentBankModal = ({
+const ModalForSelectOption = ({
   isVisible,
   onClose,
-  commentBanks,
-  onSuggestionClick,
+  optionsToSelect,
+  modalType,
+  onClickOption,
 }) => {
   if (!isVisible) return null;
 
-  console.log('the commentbanks are', commentBanks);
-
-  function onClickFn(title, suggestion) {
-    onSuggestionClick(title + '\n\n' + suggestion);
-  }
-
-  return ReactDOM.createPortal(
-    <Overlay>
-      <MainContainer>
-        <CommentHeading>
-          <h1>Comment bank</h1>
-          <CloseButton onClick={onClose}>×</CloseButton>
-        </CommentHeading>
-        <ModalContent>
-          {commentBanks?.map((comment, idx) => {
-            return (
-              <div key={idx}>
-                <CommentTitle>{comment.title}</CommentTitle>
-                {comment?.suggestions?.map((suggestion, index) => {
-                  return (
+  const renderModalContent = () => {
+    if (modalType === 'comment bank') {
+      return (
+        <Overlay>
+          <MainContainer>
+            <ModalHeading>
+              <h1>Comment bank</h1>
+              <CloseButton onClick={onClose}>×</CloseButton>
+            </ModalHeading>
+            <ModalContent>
+              {optionsToSelect?.map((comment, idx) => (
+                <div key={idx}>
+                  <CommentTitle>{comment.title}</CommentTitle>
+                  {comment?.suggestions?.map((suggestion, index) => (
                     <SuggestionComment
                       key={index}
                       onClick={() => {
-                        onClickFn(comment.title, suggestion);
+                        onClickOption(comment.title + '\n\n' + suggestion);
                         onClose();
                       }}
                     >
                       {suggestion}
                     </SuggestionComment>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </ModalContent>
-      </MainContainer>
-    </Overlay>,
-    modalRoot
-  );
+                  ))}
+                </div>
+              ))}
+            </ModalContent>
+          </MainContainer>
+        </Overlay>
+      );
+    }
+    return (
+      <Overlay>
+        <MainContainer>
+          <ModalHeading>
+            <h1>Focus Areas</h1>
+            <CloseButton onClick={onClose}>×</CloseButton>
+          </ModalHeading>
+          <ModalContent>
+            {optionsToSelect?.map((focusArea, idx) => {
+              return (
+                <div
+                  key={idx}
+                  onClick={() => {
+                    onClickOption(focusArea);
+                    onClose();
+                  }}
+                >
+                  {focusArea.title}
+                </div>
+              );
+            })}
+          </ModalContent>
+        </MainContainer>
+      </Overlay>
+    );
+  };
+
+  return ReactDOM.createPortal(renderModalContent(), modalRoot);
 };
 
 const Overlay = styled.div`
@@ -77,7 +98,7 @@ const MainContainer = styled.div`
   overflow: hidden;
 `;
 
-const CommentHeading = styled.div`
+const ModalHeading = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -136,4 +157,4 @@ const SuggestionComment = styled.p`
   }
 `;
 
-export default CommentBankModal;
+export default ModalForSelectOption;

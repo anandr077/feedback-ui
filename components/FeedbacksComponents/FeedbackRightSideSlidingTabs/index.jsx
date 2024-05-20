@@ -8,9 +8,7 @@ const FeedbackRightSideSlidingTabs = ({
   handleRightSidebarClick,
   openRightPanel,
   submission,
-  groupedFocusAreaIds,
   QuestionIndex,
-  questionPanelOpen,
   methods,
   setQuestionIndex,
   pageMode
@@ -22,7 +20,6 @@ const FeedbackRightSideSlidingTabs = ({
         handleClose={handleRightSidebarClick}
         openRightPanel={openRightPanel}
         submission={submission}
-        groupedFocusAreaIds={groupedFocusAreaIds}
         QuestionIndex={QuestionIndex}
         questionPanelOpen={handleRightSidebarClick}
         methods={methods}

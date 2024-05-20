@@ -51,6 +51,7 @@ import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
+import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -517,14 +518,22 @@ function answersAndFeedbacks(
       return pageMode === 'REVIEW' ? false : pageMode === 'DRAFT' ? true : false;
     });
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
+  const [showFocusAreas, setShowFocusArea] = React.useState(false);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
   };
 
+  function toggleFocusAreaPopup() {
+    setShowFocusArea(!showFocusAreas);
+  }
+
+  const question = submission.assignment.questions[QuestionIndex];
+
+  
   React.useEffect(() => {
     if (selectedRange !== null && pageMode === 'DRAFT') {
-      handleRightSidebarClick('tab1');
+      toggleFocusAreaPopup();
     }
     if(selectedRange && pageMode === 'REVIEW'){
       setCommentFocusAreaToggle(false);
@@ -623,9 +632,7 @@ function answersAndFeedbacks(
           handleRightSidebarClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
           submission={submission}
-          groupedFocusAreaIds={groupedFocusAreaIds}
           QuestionIndex={QuestionIndex}
-          questionPanelOpen={handleRightSidebarClick}
           methods={methods}
           setQuestionIndex={setQuestionIndex}
           pageMode={pageMode}
@@ -642,6 +649,13 @@ function answersAndFeedbacks(
         <FeedbackRightSidebar
           handleClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
+        />
+        <ModalForSelectOption 
+          isVisible={showFocusAreas}
+          onClose={toggleFocusAreaPopup}
+          optionsToSelect={question?.focusAreas}
+          modalType={"focus area"}
+          onClickOption={methods.handleFocusAreaComment}
         />
       </FeedbackBody>
     </Frame1386>

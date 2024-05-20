@@ -170,7 +170,7 @@ function AnswersFrame(props) {
           share
         )}
       </Frame1367>
-      {((commentFocusAreaToggle && focusAreaComments.length !== 0) ||
+      {/* {((commentFocusAreaToggle && focusAreaComments.length !== 0) ||
         pageMode === 'DRAFT') && (
         <FocusAreaContainer
           id={'FocusAreaContainer'}
@@ -182,7 +182,7 @@ function AnswersFrame(props) {
             QuestionIndex={QuestionIndex}
           />
         </FocusAreaContainer>
-      )}
+      )} */}
       {showAddingCommentDesc && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
         <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
           {commentFocusAreaToggle && focusAreaComments.length === 0 && (

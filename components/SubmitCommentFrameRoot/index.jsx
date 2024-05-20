@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import './SubmitCommentFrameRoot.css';
 import ActiveCommentIcon from '../../static/img/purplesinglecomment.svg';
-import CommentBankModal from '../../components2/Modals/CommentBankModal';
+import ModalForSelectOption from '../../components2/Modals/ModalForSelectOption';
 import SmartAnotation from '../SmartAnnotations';
 const SubmitCommentFrameRoot = (props) => {
   const {
@@ -54,11 +54,12 @@ const SubmitCommentFrameRoot = (props) => {
           {showComment ? 'Update' : 'Comment'}
         </SmallButton>
       </RightBtnContainer>
-      <CommentBankModal
+      <ModalForSelectOption
         isVisible={isCommentBankVisible}
         onClose={toggleCommentBankPopup}
-        commentBanks={allCommentBanks}
-        onSuggestionClick={handleComment}
+        optionsToSelect={allCommentBanks}
+        modalType={"comment bank"}
+        onClickOption={handleComment}
       />
     </SubmitCommentFrameRootRoot>
   );

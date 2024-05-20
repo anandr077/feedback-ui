@@ -32,7 +32,7 @@ const QuillEditor = React.forwardRef(
       selectedRange,
       commentFocusAreaToggle,
       newCommentFrameRef,
-      share
+      share,
     },
     ref
   ) => {
@@ -307,6 +307,15 @@ const QuillEditor = React.forwardRef(
       }
     };
 
+    const filteredComments = commentFocusAreaToggle
+      ? comments.filter((comment) => comment.type === "FOCUS_AREA")
+      : comments.filter(
+          (comment) =>
+            comment.type === 'COMMENT' ||
+            comment.type === 'MODEL_RESPONSE' ||
+            comment.type === 'SMART_ANNOTATION'
+        );
+
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
         <div
@@ -317,12 +326,7 @@ const QuillEditor = React.forwardRef(
           pageMode={pageMode}
           submission={submission}
           methods={methods}
-          comments={comments.filter(
-            (comment) =>
-              comment.type === 'COMMENT' ||
-              comment.type === 'MODEL_RESPONSE' ||
-              comment.type === 'SMART_ANNOTATION'
-          )}
+          comments={filteredComments}
           editor={editor}
           editorRef={editorRef}
           selectedComment={selectedComment}

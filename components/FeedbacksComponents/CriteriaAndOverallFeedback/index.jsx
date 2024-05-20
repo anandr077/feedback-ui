@@ -69,18 +69,14 @@ const CriteriaAndOverallFeedback = ({
   const [selectedStrengthId, setSelectedStrengthId] = useState(0);
   const [selectedStrengths, setSelectedStrengths] = useState([{}]);
   const [selectedTarget, setSelectedTarget] = useState([{}]);
-  console.log('markingCriteriaFeedback', markingCriteriaFeedback);
-  console.log('pageMode', pageMode);
-
-  console.log('the role is ', isTeacher);
-  console.log('the overall comment before sorting by index', overallComments)
+  
 
   useEffect(() => {
     const commentObject = (
       overallComments.length != 0 ? overallComments : comments
     )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
     setOverallComment(commentObject);
-    
+
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     console.log('markingCriteria', markingCriteria);
@@ -395,8 +391,6 @@ const CriteriaAndOverallFeedback = ({
               )}
             </>
           )}
-
-          
         </MarkingCriteriaContainer>
         <Heading>
           <HeadingTitle>

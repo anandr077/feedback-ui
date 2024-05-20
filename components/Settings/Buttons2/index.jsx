@@ -6,6 +6,7 @@ import {
   Arrowright,
   DeleteButtonContainer,
 } from './style';
+import preview from '../../../static/img/preview.svg';
 
 function Buttons2(props) {
   const {
@@ -25,14 +26,12 @@ function Buttons2(props) {
           }}
         >
           <img
-            src="/icons/preview-eye.png"
+            src={preview}
             alt="preview"
             style={{
-              background: '#7200e0',
               cursor: 'pointer',
-              borderRadius: '6px',
-              height: '12px',
-              width: '12px',
+              height: '15px',
+              width: '15px',
             }}
           />
         </Buttons>
@@ -50,8 +49,8 @@ function Buttons2(props) {
             alt="copy"
             style={{
               cursor: 'pointer',
-              height: '12px',
-              width: '12px',
+              height: '15px',
+              width: '15px',
             }}
           />
         </Buttons>

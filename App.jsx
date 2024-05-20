@@ -45,8 +45,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
-import MarkingTemplateStrengthsTargets from './components/MarkingTemplateStrengthsTargets';
-import MarkingTemplateRubrics from './components/MarkingTemplateRubrics';
 import CommentBanks from './components/CommentBanks';
 
 function App() {
@@ -124,10 +122,7 @@ function App() {
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
   const ProtectedCompletedRoot = middleware(CompletedPage);
-  const ProtectedMarkingTemplateStrengthsTargets = middleware(
-    MarkingTemplateStrengthsTargets
-  );
-  const ProtectedMarkingTemplateRubrics = middleware(MarkingTemplateRubrics);
+
   const ProtectedCommentbanks = middleware(CommentBanks);
 
   const portfolioClient = new QueryClient();
@@ -135,21 +130,19 @@ function App() {
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
-      Cookies.get('classes') ? (
-        <ProtectedTeacherTaskRoot />
-      ) : (
-        <ProtectedGiveFeedback />
-      )
-    ) : (
-      Cookies.get('classes') ? (
+        Cookies.get('classes') ? (
+          <ProtectedTeacherTaskRoot />
+        ) : (
+          <ProtectedGiveFeedback />
+        )
+      ) : Cookies.get('classes') ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />
-      )
-    );
+      );
 
-   return <div>{dashboard}</div>;
-};
+    return <div>{dashboard}</div>;
+  };
 
   const Tasks = ({ role }) => {
     const tasks =
@@ -179,10 +172,7 @@ function App() {
                 <Route path="/settings">
                   <ProtectedSettings />
                 </Route>
-                <Route path="/markingTemplates/rubrics/new">
-                  <ProtectedMarkingCriteria />
-                </Route>
-                <Route path="/markingCriterias/rubrics/:markingCriteriaId">
+                <Route path="/markingTemplates/rubrics/:markingCriteriaId">
                   <ProtectedMarkingCriteria />
                 </Route>
                 <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
@@ -224,12 +214,6 @@ function App() {
                 </Route>
                 <Route path="/documentsReview/:id">
                   <ProtectedDocumentRoot />
-                </Route>
-                <Route path="/markingTemplate/strengthAndTargets">
-                  <ProtectedMarkingTemplateStrengthsTargets />
-                </Route>
-                <Route path="/markingTemplate/rubrics">
-                  <ProtectedMarkingTemplateRubrics />
                 </Route>
                 <Route path="/commentbanks">
                   <ProtectedCommentbanks />

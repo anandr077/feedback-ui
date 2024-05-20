@@ -1,9 +1,9 @@
-.parent-container {
+.parent-containe {
   display: flex;
   flex-direction: column;
   gap: 30px;
   background: #fcfaff;
-  height: 100%;
+  
 }
 
 .child-container {

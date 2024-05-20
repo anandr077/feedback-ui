@@ -58,13 +58,13 @@ export const headerTitle = [
     studentTooltip: 'View all of the tasks that you have marked as complete',
   },
   {
-    link: '/markingTemplate/strengthAndTargets',
+    link: '/markingTemplates/strengths-and-targets',
     title: 'Marking Templates',
     teacherTooltip: '',
     studentTooltip: 'View all of the tasks that you have marked as complete',
   },
   {
-    link: '/markingTemplate/rubrics',
+    link: '/markingTemplates/rubrics',
     title: 'Marking Templates',
     teacherTooltip: '',
     studentTooltip: 'View all of the tasks that you have marked as complete',
@@ -93,5 +93,16 @@ export const headerTitle = [
     teacherTooltip:
       'View the status of every task that you have assigned for your classes',
     studentTooltip: 'View all of your current tasks from school',
+  },
+];
+
+export const headerTitleSub = [
+  {
+    link: '/markingTemplates/rubrics/new',
+    title: 'New Marking Template',
+  },
+  {
+    link: '/markingTemplates/strengths-and-targets/new',
+    title: 'New Marking Template',
   },
 ];

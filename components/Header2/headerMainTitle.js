@@ -17,7 +17,7 @@ export const headerMainTitle = [
   },
   {
     link: '/settings',
-    title: 'Account settings',
+    title: 'Settings',
   },
   {
     link: '/feedbackHistory',
@@ -36,12 +36,12 @@ export const headerMainTitle = [
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
   },
   {
-    link: '/markingTemplate/strengthAndTargets',
-    title: 'Marking Templates',
+    link: '/markingTemplates/strengths-and-targets',
+    title: 'Settings',
   },
   {
-    link: '/markingTemplate/rubrics',
-    title: 'Marking Templates',
+    link: '/markingTemplates/rubrics',
+    title: 'Settings',
   },
   {
     link: '/tasks/new',
@@ -49,7 +49,7 @@ export const headerMainTitle = [
   },
   {
     link: '/commentbanks',
-    title: 'Comment Banks',
+    title: 'Settings',
   },
   {
     link: '/',

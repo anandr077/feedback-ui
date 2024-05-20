@@ -629,7 +629,8 @@ function answersAndFeedbacks(
             openRightPanel,
             QuestionIndex,
             newCommentFrameRef,
-            share
+            share,
+            isTeacher
           )}
 
           {/* {!isMobile && (

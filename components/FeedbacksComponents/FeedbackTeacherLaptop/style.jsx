@@ -33,15 +33,7 @@ export const ButtonsContainer = styled.div`
     align-items: flex-start;
   }
 `;
-export const FocusAreasLabelContainer = styled.div`
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 0 48px;
-  padding-top: 20px;
-  border-top: 1px solid #f1e6fc;
-`;
+
 export const Ellipse141 = styled.div`
   position: relative;
   min-width: 15px;
@@ -63,6 +55,32 @@ export const Label = styled.div`
   letter-spacing: 0;
   line-height: 26px;
 `;
+
+export const OptionContainer = styled.button`
+  min-width: 112px;
+  min-height: 33px;
+  border-radius: 22px;
+  border: 1px solid rgba(201, 198, 204, 0.5);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  text-align: start;
+  gap: 8px;
+  background-color: white;
+  cursor: pointer;
+
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-s);
+  line-height: 16px;
+  color: #7B7382;
+
+  &:hover{
+    background-color: rgba(201, 198, 204, 0.5);
+  }
+`;
+
+
 export const TitleWrapper = styled.div`
   width: 880px;
   display: flex;

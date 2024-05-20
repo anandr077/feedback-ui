@@ -1,0 +1,39 @@
+.focusAreaContainer{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.focusBox{
+    min-width: 113px;
+    width: fit-content;
+    height: 33px;
+    border-radius: 22px;
+    border: 1px solid #C9C6CC80;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 500;
+    font-size: var(--font-size-s);
+    line-height: 16px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.highlighted{
+    background-color: #F1E6FC;
+}
+
+.roundedColorBox{
+    border: 1px solid #B2AEB780;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+

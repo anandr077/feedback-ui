@@ -52,6 +52,7 @@ import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
+import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -588,6 +589,12 @@ function answersAndFeedbacks(
           />
         )}
       <FeedbackBody>
+        <FocusAreasLabel 
+          handleCheckboxChange={handleCheckboxChange}
+          groupedFocusAreaIds={groupedFocusAreaIds}
+          serialNumber={question.serialNumber}
+          focusAreas={question.focusAreas}
+        />
         <Frame1368 id="assignmentData">
           {answersFrame(
             quillRefs,
@@ -761,4 +768,6 @@ const handleFeedbackMethodTypeDialog = (
   }
   return <></>;
 };
+
+
 export default FeedbackTeacherLaptop;

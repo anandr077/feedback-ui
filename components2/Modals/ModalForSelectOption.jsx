@@ -46,14 +46,13 @@ const ModalForSelectOption = ({
     }
     return (
       <Overlay>
-        <MainContainer>
+        <MainContainer style={{width: '256px'}}>
           <ModalHeading>
             <h1>Focus Areas</h1>
             <CloseButton onClick={onClose}>×</CloseButton>
           </ModalHeading>
           <ModalContentForFocusArea>
             {optionsToSelect?.map((focusArea, idx) => {
-              console.log('the focus area is', focusArea)
               return (
                 <OptionContainer
                   key={idx}
@@ -95,7 +94,7 @@ const MainContainer = styled.div`
   border-radius: 10px;
   width: 350px;
   max-width: 90%;
-  height: 360px;
+  min-height: 150px;
   max-height: 350px;
   overflow: hidden;
   box-shadow: 0px 2.04px 4px 0px rgba(112, 112, 112, 0.25);
@@ -126,14 +125,12 @@ const ModalContent = styled.div`
 `;
 
 const ModalContentForFocusArea = styled.div`
-  width: 100%;
-  height: 100%;
-  margin: 12px;
-  overflow-y: scroll;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
   gap: 8px;
+  padding: 12px;
+  overflow-y: scroll;
+  
   &::-webkit-scrollbar {
     display: none;
   }
@@ -141,19 +138,33 @@ const ModalContentForFocusArea = styled.div`
 
 const OptionContainer = styled.button`
   min-width: 112px;
-  height: 33px;
+  min-height: 33px;
   border-radius: 22px;
   border: 1px solid rgba(201, 198, 204, 0.5);
   padding: 8px;
   display: flex;
-  gap: 8px;
   align-items: center;
+  text-align: start;
+  gap: 8px;
+  background-color: white;
+  cursor: pointer;
+
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-s);
+  line-height: 16px;
+  color: #7B7382;
+
+  &:hover{
+    background-color: rgba(201, 198, 204, 0.5);
+  }
 `;
 
 const FocusAreaColorBox = styled.div`
   width: 16px;
   height: 16px;
   border-radius: 50%;
+  border: 1px solid #B2AEB780;
 `;
 
 const CloseButton = styled.button`
@@ -174,6 +185,7 @@ const CommentTitle = styled.h1`
   font-weight: 600;
   font-size: var(--font-size-s);
   line-height: 17px;
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
 `;
 
 const SuggestionComment = styled.p`

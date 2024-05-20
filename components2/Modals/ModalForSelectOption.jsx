@@ -51,21 +51,23 @@ const ModalForSelectOption = ({
             <h1>Focus Areas</h1>
             <CloseButton onClick={onClose}>×</CloseButton>
           </ModalHeading>
-          <ModalContent>
+          <ModalContentForFocusArea>
             {optionsToSelect?.map((focusArea, idx) => {
+              console.log('the focus area is', focusArea)
               return (
-                <div
+                <OptionContainer
                   key={idx}
                   onClick={() => {
                     onClickOption(focusArea);
                     onClose();
                   }}
                 >
+                  <FocusAreaColorBox style={{background: focusArea.color}}></FocusAreaColorBox>
                   {focusArea.title}
-                </div>
+                </OptionContainer>
               );
             })}
-          </ModalContent>
+          </ModalContentForFocusArea>
         </MainContainer>
       </Overlay>
     );
@@ -94,8 +96,9 @@ const MainContainer = styled.div`
   width: 350px;
   max-width: 90%;
   height: 360px;
-  max-height: 90%;
+  max-height: 350px;
   overflow: hidden;
+  box-shadow: 0px 2.04px 4px 0px rgba(112, 112, 112, 0.25);
 `;
 
 const ModalHeading = styled.div`
@@ -120,6 +123,37 @@ const ModalContent = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const ModalContentForFocusArea = styled.div`
+  width: 100%;
+  height: 100%;
+  margin: 12px;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const OptionContainer = styled.button`
+  min-width: 112px;
+  height: 33px;
+  border-radius: 22px;
+  border: 1px solid rgba(201, 198, 204, 0.5);
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;
+
+const FocusAreaColorBox = styled.div`
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
 `;
 
 const CloseButton = styled.button`

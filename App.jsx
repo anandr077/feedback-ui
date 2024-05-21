@@ -46,6 +46,7 @@ import Button from '@mui/material/Button';
 import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
+import { getLocalClasses } from './service';
 
 function App() {
   const role = getUserRole();
@@ -130,12 +131,12 @@ function App() {
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
-        Cookies.get('classes') ? (
-          <ProtectedTeacherTaskRoot />
-        ) : (
-          <ProtectedGiveFeedback />
-        )
-      ) : Cookies.get('classes') ? (
+      getLocalClasses() ? (
+        <ProtectedTeacherTaskRoot />
+      ) : (
+        <ProtectedGiveFeedback />
+      )
+    ) : getLocalClasses() ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />

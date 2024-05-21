@@ -1,3 +1,4 @@
+import { getLocalClasses } from "./service";
 import { getUserRole } from "./userLocalDetails";
 import { isNullOrEmpty } from "./utils/arrays";
 import Cookies from 'js-cookie';
@@ -9,7 +10,7 @@ export const userRole = () => {
         return "TEACHER";
     }
 
-    const classesCookie = Cookies.get('classes');
+    const classesCookie = getLocalClasses();
 
     const classes = classesCookie ? JSON.parse(classesCookie) : null;
 

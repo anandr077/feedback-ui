@@ -543,9 +543,9 @@ export const AnswerContainer = styled.div`
 `;
 
 export const QuestionText = styled.p`
-  font-family: Open Sans;
+  font-family: var(--font-family-ibm_plex_sans);
   line-height: 24px;
-  color: rgba(24, 23, 24, 1);
+  color: #181718;
   font-size: 16px;
   font-weight: 400;
   width: 100%;

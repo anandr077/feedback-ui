@@ -69,8 +69,6 @@ const QuillEditor = React.forwardRef(
       return modifiedHTML;
     };
 
-    console.log('all comments are', comments);
-
     const handlePaste = (event) => {
       event.preventDefault();
 
@@ -99,9 +97,11 @@ const QuillEditor = React.forwardRef(
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
-        quillInstance.root.style.fontFamily = 'Open Sans';
+        quillInstance.root.style.fontFamily = 'var(--font-family-ibm_plex_sans)';
         quillInstance.root.style.fontSize = '16px';
         quillInstance.root.style.lineHeight = '24px';
+        quillInstance.root.style.fontWeight = '400';
+        quillInstance.root.style.color = '#181718';
 
         const delta = quillInstance.clipboard.convert(value);
         quillInstance.setContents(delta);

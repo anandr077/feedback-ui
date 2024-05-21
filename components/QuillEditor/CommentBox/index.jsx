@@ -195,12 +195,12 @@ const CommentBox = ({
             <Option onClick={methods.handleShareWithClass}>
               <img src={ShareIcon} />
             </Option>
-            <Option>
+            {/* <Option>
               <img src={AlphabetIcon} />
             </Option>
             <Option>
               <img src={ThumbsupIcon} />
-            </Option>
+            </Option> */}
           </OptionContainer>
           {openCommentBox &&
             newCommentFrame(

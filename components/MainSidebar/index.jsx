@@ -42,12 +42,12 @@ const MainSidebar = () => {
       name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
       link: '/getFeedback',
     },
-    {
-      icon: myprogressIcon,
-      activeIcon: myprogressIcon,
-      name: 'My Progress',
-      link: '/progress',
-    },
+    // {
+    //   icon: myprogressIcon,
+    //   activeIcon: myprogressIcon,
+    //   name: 'My Progress',
+    //   link: '/progress',
+    // },
     {
       icon: settingIcon,
       activeIcon: activesettingIcon,

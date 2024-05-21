@@ -20,9 +20,9 @@ const FeedbackRightSidebar = ({ handleClick, openRightPanel }) => {
         <Button isActive={openRightPanel === 'tab3'} onClick={() => handleClick('tab3')}>
           <img src={openRightPanel === 'tab3' ? TasksIcon : TasksIcon} />
         </Button>
-        <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
+        {/* <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
           <img src={ClockIcon} />
-        </Button>
+        </Button> */}
       </TopSection>
     </MainContainer>
   );

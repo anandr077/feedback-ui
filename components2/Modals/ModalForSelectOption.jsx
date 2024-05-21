@@ -96,7 +96,10 @@ const MainContainer = styled.div`
   max-width: 90%;
   min-height: 150px;
   max-height: 350px;
-  overflow: hidden;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   box-shadow: 0px 2.04px 4px 0px rgba(112, 112, 112, 0.25);
 `;
 

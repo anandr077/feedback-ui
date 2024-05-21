@@ -30,7 +30,7 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation  } from 'react-router-dom';
 
 const FeedbackHeader = ({
   commentFocusAreaToggle,
@@ -54,35 +54,42 @@ const FeedbackHeader = ({
   const [isShowSelectType, setShowSelectType] = useState();
   const { showSnackbar } = React.useContext(SnackbarContext);
   const history = useHistory();
+  const location = useLocation();
 
   const studentsList = submission?.studentsSubmissions;
-  console.log('the submissions in feedback page', submission);
+
+  useEffect(() => {
+    const submissionId = location.pathname.split('/').pop();
+    const newIndex = studentsList.findIndex(
+      (student) => student.submissionId === submissionId
+    );
+    if (newIndex !== -1) {
+      setSelectedIndex(newIndex);
+    }
+  }, [location, studentsList]);
 
   const handlePrevious = () => {
-    setSelectedIndex((prevIndex) =>
-      prevIndex <= 0 ? studentsList.length - 1 : prevIndex - 1
-    );
+    setSelectedIndex((prevIndex) => {
+      console.log('the index num is', prevIndex)
+      const newIndex = prevIndex >= studentsList.length - 1 ? 0 : prevIndex + 1;
+      console.log('the newIndex num is', newIndex)
+      handleQuestionClick(newIndex);
+      return newIndex;
+    });
   };
 
   const handleNext = () => {
-    setSelectedIndex((prevIndex) =>
-      prevIndex >= studentsList.length - 1 ? 0 : prevIndex + 1
-    );
+    setSelectedIndex((prevIndex) => {
+      const newIndex = prevIndex <= 0 ? studentsList.length - 1 : prevIndex - 1;
+      handleQuestionClick(newIndex);
+      return newIndex;
+    });
   };
 
-  useEffect(()=>{
-      //console.log('the studentsList is ', selectedIndex)
-      if(isTeacher && (pageMode === 'REVIEW' || pageMode === 'CLOSED')){
-        const newUrl = `/submissions/${studentsList[selectedIndex]?.submissionId}`;
-        history.push(newUrl)
-      }
-  }, [selectedIndex])
-
-  // const handleQuestionClick = (student) => {
-  //   console.log('the submission is', selectedIndex)
-  //   // const newUrl = `/submissions/${student.submissionId}`;
-  //   // history.push(newUrl);
-  // };
+  const handleQuestionClick = (index) => {
+    const newUrl = `/submissions/${studentsList[index]?.submissionId}`;
+    history.push(newUrl);
+  };
 
   return (
     <FeedbackHeaderContainer>
@@ -92,9 +99,11 @@ const FeedbackHeader = ({
             <img src={ArrowLeft} alt="Left" />
           </ArrowBtn>
           <Select
-            value={studentsList[selectedIndex]}
+            value={studentsList[selectedIndex]?.studentName || ''}
             onChange={(e) => {
-              setSelectedIndex(e.target.selectedIndex)
+              const newIndex = e.target.selectedIndex;
+              setSelectedIndex(newIndex);
+              handleQuestionClick(newIndex);
             }}
           >
             {studentsList.map((student, index) => (

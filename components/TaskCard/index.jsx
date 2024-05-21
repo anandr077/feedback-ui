@@ -156,12 +156,12 @@ function TaskCard(props) {
           onAccept={onAccept}
           onDecline={onDecline}
         />
-        {!exemplar && (
+        {/* {!exemplar && (
           <TaskLink href={task.link}>
             Open Task
             <img src={arrowRight} width="20px" />
           </TaskLink>
-        )}
+        )} */}
       </StyledCard>
     );
   }

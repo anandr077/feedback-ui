@@ -605,12 +605,12 @@ function answersAndFeedbacks(
           />
         )}
       <FeedbackBody>
-        {/* <FocusAreasLabel 
+        <FocusAreasLabel 
             handleCheckboxChange={handleCheckboxChange}
             groupedFocusAreaIds={groupedFocusAreaIds}
             serialNumber={question.serialNumber}
             focusAreas={question.focusAreas}
-        /> */}
+        />
         <Frame1368 id="assignmentData">
           {answersFrame(
             quillRefs,

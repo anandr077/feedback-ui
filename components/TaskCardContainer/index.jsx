@@ -16,7 +16,7 @@ function TaskCardContainer(props) {
   const cards = allTasks.map((task) => {
     const link = location.pathname.includes('classes') ? null : task.link;
     return (
-      <a style={{ width: '100%' }}>
+      <a href={link} style={{ width: '100%' }}>
         <TaskCard
           task={task}
           exemplar={exemplar}

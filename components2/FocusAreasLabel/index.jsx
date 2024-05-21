@@ -3,8 +3,11 @@ import {
   FocusAreasLabelContainer,
   OptionContainer,
   FocusAreaColorBox,
+  Ellipse141,
+  Label
 } from './style';
 import style from './style.module.css';
+import CheckboxBordered from '../../components/CheckboxBordered';
 
 const FocusAreasLabel = ({
   handleCheckboxChange,
@@ -38,30 +41,32 @@ const FocusAreasLabel = ({
 
   const all = focusAreas?.map((fa, idx) => {
     return (
-      // <>
-      //   <CheckboxBordered
-      //     checked={isChecked(groupedFocusAreaIds, serialNumber, fa.id)}
-      //     onChange={handleCheckboxChange(serialNumber, fa.id)}
-      //   />
-      //   <Ellipse141 backgroundColor={fa.color}></Ellipse141>
-      //   <Label>{fa.title}</Label>
-      // </>
+      <>
+        <CheckboxBordered
+          checked={isHighlighted(groupedFocusAreaIds, serialNumber, fa.id)}
+          onChange={handleCheckboxChange(serialNumber, fa.id)}
+        />
+        <div className={style.mainFocusBox}>
+          <div className={style.Ellipse141} style={{backgroundColor: fa.color}}></div>
+          <label className={style.label}>{fa.title}</label>
+        </div>
+      </>
 
-      <div
-        key={idx}
-        onClick={() => {
-            handleClick(fa);
-        }}
-        className={`${style.focusBox} ${
-            isHighlighted(groupedFocusAreaIds, serialNumber, fa.id) ? style.highlighted : ''
-          }`} 
-      >
-        <div
-          className={style.roundedColorBox}
-          style={{ background: fa.color }}
-        ></div>
-        {fa.title}
-      </div>
+      // <div
+      //   key={idx}
+      //   onClick={() => {
+      //       handleClick(fa);
+      //   }}
+      //   className={`${style.focusBox} ${
+      //       isHighlighted(groupedFocusAreaIds, serialNumber, fa.id) ? style.highlighted : ''
+      //     }`} 
+      // >
+      //   <div
+      //     className={style.roundedColorBox}
+      //     style={{ background: fa.color }}
+      //   ></div>
+      //   {fa.title}
+      // </div>
     );
   });
 

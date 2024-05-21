@@ -29,18 +29,30 @@ const MainSidebar = () => {
       activeIcon: activetaskIcon,
       name: `${role === 'STUDENT' ? 'School Work' : 'Tasks'}`,
       link: '/tasks',
+      linksContainer: [
+        '/tasks',
+        '/completed',
+        '/submissions/',
+        '/giveFeedback',
+        '/feedbackHistory',
+        '/sharedresponses',
+      ],
     },
     {
       icon: classIcon,
       activeIcon: activeClassIcon,
       name: 'Class Insights',
       link: '/classes',
+      linksContainer: ['/classes'],
     },
     {
       icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
-      activeIcon: `${role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon}`,
+      activeIcon: `${
+        role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon
+      }`,
       name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
       link: '/getFeedback',
+      linksContainer: ['/getFeedback', '/documents'],
     },
     // {
     //   icon: myprogressIcon,
@@ -53,31 +65,33 @@ const MainSidebar = () => {
       activeIcon: activesettingIcon,
       name: 'Feedback Tools',
       link: '/settings',
+      linksContainer: [
+        '/settings',
+        '/markingTemplates/strengths-and-targets',
+        '/markingTemplates/rubrics',
+        '/commentbanks',
+      ],
     },
   ];
 
-  const [activeLink, setActiveLink] = useState(null);
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const defaultLink = sideNavItems[0].link;
-
-    const foundLink = sideNavItems.find(
-      (item) => item.link === currentPath
-    )?.link;
-    setActiveLink(foundLink || defaultLink);
-  }, [location]);
-
   const handlePageRoute = (navLink) => {
     history.push(navLink);
-    setActiveLink(navLink);
-    console.log('linl', navLink);
+  };
+  const isActive = (obj) => {
+    if (location.pathname === '/' && obj.link === '/tasks') {
+      return true;
+    }
+    return obj.linksContainer.some((item) =>
+      new RegExp(`${item}`).test(location.pathname)
+    );
   };
 
   return (
     <SidebarContainer>
       <SideNavbar>
-        <a href="/"><Logo src="./img/logo.svg" /></a>
+        <a href="/">
+          <Logo src="./img/logo.svg" />
+        </a>
         <ul>
           {sideNavItems.map((navItem) => {
             if (
@@ -92,14 +106,18 @@ const MainSidebar = () => {
               return null;
             }
 
-            const isActive = navItem.link === activeLink;
+            // const isActive = navItem.link === activeLink;
             return (
               <li
                 key={navItem.link}
                 onClick={() => handlePageRoute(navItem.link)}
               >
-                <img src={isActive ? navItem.activeIcon : navItem.icon} />
-                <span className={isActive ? 'active' : ''}>{navItem.name}</span>
+                <img
+                  src={isActive(navItem) ? navItem.activeIcon : navItem.icon}
+                />
+                <span className={isActive(navItem) ? 'active' : ''}>
+                  {navItem.name}
+                </span>
               </li>
             );
           })}

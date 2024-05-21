@@ -60,7 +60,7 @@ const FeedbackHeader = ({
 
   useEffect(() => {
     const submissionId = location.pathname.split('/').pop();
-    const newIndex = studentsList.findIndex(
+    const newIndex = studentsList?.findIndex(
       (student) => student.submissionId === submissionId
     );
     if (newIndex !== -1) {

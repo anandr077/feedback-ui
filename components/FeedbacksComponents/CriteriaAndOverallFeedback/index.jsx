@@ -14,6 +14,19 @@ import {
   TextFeedback,
   FeedbackBtn,
   MarkingCriteriaContainer,
+  MarkRubricTitleContainer,
+  LevelNameContainer,
+  LevelDescCont,
+  MarkStrengthContainer,
+  StrengthsAndTargetsCont,
+  StrengthsCont,
+  TargetsCont,
+  StrengthCont,
+  Strength,
+  TargetCont,
+  Target,
+  TargetHeadingCon,
+  TargetHeading,
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
@@ -43,6 +56,8 @@ const CriteriaAndOverallFeedback = ({
   updateOverAllFeedback,
   pageMode,
   submission,
+  handleMarkingCriteriaLevelFeedback,
+  handleStrengthsTargetsFeedback,
 }) => {
   const { overallComments, comments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
@@ -50,6 +65,35 @@ const CriteriaAndOverallFeedback = ({
   const [overallComment, setOverallComment] = useState({});
   const [markingCriteria, setMarkingCriteria] = useState();
   const isTeacher = getUserRole() === 'TEACHER';
+  const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
+  const [selectedStrengthId, setSelectedStrengthId] = useState(0);
+  const [selectedStrengths, setSelectedStrengths] = useState([{}]);
+  const [selectedTarget, setSelectedTarget] = useState([{}]);
+  
+
+  useEffect(() => {
+    const commentObject = (
+      overallComments.length != 0 ? overallComments : comments
+    )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
+    setOverallComment(commentObject);
+
+    const markingCriteria =
+      submission?.assignment?.questions[QuestionIndex].markingCriteria;
+    console.log('markingCriteria', markingCriteria);
+    setMarkingCriteria(markingCriteria);
+    if (pageMode != 'REVIEW') {
+      setMarkingCriteria(
+        markingCriteriaFeedback[QuestionIndex]?.markingCriteria
+      );
+      setSelectedStrengths(
+        markingCriteriaFeedback[QuestionIndex]?.markingCriteria
+          ?.selectedStrengths
+      );
+      setSelectedTarget(
+        markingCriteriaFeedback[QuestionIndex]?.markingCriteria?.selectedTargets
+      );
+    }
+  }, [overallComments, QuestionIndex, comments, submission]);
   const handleInputChange = (event) => {
     const allowedChars = /^[0-9]$|^$/;
     if (allowedChars.test(event.target.value)) {
@@ -57,19 +101,68 @@ const CriteriaAndOverallFeedback = ({
     }
   };
 
-  console.log('the role is ', isTeacher);
-  console.log('the overall comment before sorting by index', overallComments)
-
-  useEffect(() => {
-    const commentObject = (
-      overallComments.length != 0 ? overallComments : comments
-    ).find((comment) => comment.questionSerialNumber === QuestionIndex + 1);
-    setOverallComment(commentObject);
-    
-    const markingCriteria =
-      submission?.assignment?.questions[QuestionIndex].markingCriteria;
-    setMarkingCriteria(markingCriteria);
-  }, [overallComments, QuestionIndex, comments, submission]);
+  const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {
+    console.log('clicked', strengthsAndTargets[type][index], index, type);
+    let seletedItem = strengthsAndTargets[type][index];
+    if (type === 'strengths') {
+      if (selectedStrengthId === 0) {
+        let selectedStrengthNew = {
+          id: selectedStrengthId,
+          name: seletedItem,
+          type: 'strengths',
+          heading: strengthsAndTargets.title,
+        };
+        setSelectedStrengths([
+          ...selectedStrengths.filter(
+            (selectedStrength) => selectedStrength.id !== selectedStrengthNew.id
+          ),
+          selectedStrengthNew,
+        ]);
+        handleStrengthsTargetsFeedback(
+          QuestionIndex + 1,
+          selectedStrengthId,
+          selectedStrengthNew
+        );
+        setSelectedStrengthId(1);
+      }
+      if (selectedStrengthId === 1) {
+        let selectedStrengthNew = {
+          id: selectedStrengthId,
+          name: seletedItem,
+          type: 'strengths',
+          heading: strengthsAndTargets.title,
+        };
+        setSelectedStrengths([
+          ...selectedStrengths.filter(
+            (selectedStrength) => selectedStrength.id !== selectedStrengthNew.id
+          ),
+          selectedStrengthNew,
+        ]);
+        handleStrengthsTargetsFeedback(
+          QuestionIndex + 1,
+          selectedStrengthId,
+          selectedStrengthNew
+        );
+        setSelectedStrengthId(0);
+      }
+    }
+    if (type === 'targets') {
+      let selectedTargetNew = {
+        id: selectedStrengthId,
+        name: seletedItem,
+        type: 'targets',
+        heading: strengthsAndTargets.title,
+      };
+      setSelectedTarget([selectedTargetNew]);
+      handleStrengthsTargetsFeedback(QuestionIndex + 1, 2, selectedTargetNew);
+    }
+  };
+  const isStringPresent = (array, key, string) => {
+    return array?.some((object) => object[key] === string);
+  };
+  const handleMarkingCriteria = (index, name) => {
+    handleMarkingCriteriaLevelFeedback(QuestionIndex + 1, index, name);
+  };
 
   return (
     <MainContainer openRightPanel={openRightPanel}>
@@ -103,22 +196,200 @@ const CriteriaAndOverallFeedback = ({
               ? 'Rubric'
               : 'Strengths and Targets'}
           </MarkingCriteriaHeading>
+
           {markingCriteria?.type === 'RUBRICS' ? (
             <MarkRubricsContainer>
-              {markingCriteria?.criterias?.map((rubrics) => (
-                <MarkRubricContainer key={rubrics.title}>
-                  <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
+              {markingCriteria?.criterias?.map((rubrics, index) => (
+                <MarkRubricContainer key={index}>
+                  <MarkRubricTitleContainer>
+                    <MarkRubricTitle>{rubrics.title}</MarkRubricTitle>
+                  </MarkRubricTitleContainer>
+
                   {rubrics.levels.map((level) => (
-                    <MarkRubricLevelContainer key={level.name}>
-                      <LevelName>{level.name}</LevelName>
-                      <LevelDesc>{level.description}</LevelDesc>
+                    <MarkRubricLevelContainer
+                      key={level.name}
+                      onClick={
+                        pageMode === 'REVIEW'
+                          ? () => handleMarkingCriteria(index, level.name)
+                          : null
+                      }
+                      style={{
+                        cursor: pageMode === 'REVIEW' ? 'pointer' : '',
+                      }}
+                    >
+                      <LevelNameContainer
+                        bgColor={
+                          markingCriteria.criterias[index]?.selectedLevel ===
+                          level.name
+                        }
+                      >
+                        <LevelName>{level.name}</LevelName>
+                      </LevelNameContainer>
+                      <LevelDescCont
+                        bgColor={
+                          markingCriteria.criterias[index]?.selectedLevel ===
+                          level.name
+                        }
+                      >
+                        <LevelDesc>{level.description}</LevelDesc>
+                      </LevelDescCont>
                     </MarkRubricLevelContainer>
                   ))}
                 </MarkRubricContainer>
               ))}
             </MarkRubricsContainer>
           ) : (
-            <></>
+            <>
+              {pageMode === 'REVIEW' ? (
+                <MarkStrengthContainer>
+                  {markingCriteria?.strengthsTargetsCriterias?.map(
+                    (strengthsAndTargets) => (
+                      <MarkRubricContainer key={strengthsAndTargets.title}>
+                        <MarkRubricTitleContainer>
+                          <MarkRubricTitle>
+                            {strengthsAndTargets.title}
+                          </MarkRubricTitle>
+                        </MarkRubricTitleContainer>
+                        <StrengthsAndTargetsCont>
+                          <StrengthsCont>
+                            <TargetHeadingCon>
+                              <TargetHeading>Strengths</TargetHeading>
+                            </TargetHeadingCon>
+                            {strengthsAndTargets.strengths.map(
+                              (strength, index) => (
+                                <StrengthCont
+                                  onClick={() =>
+                                    handleStrengthndTargetChange(
+                                      strengthsAndTargets,
+                                      index,
+                                      'strengths'
+                                    )
+                                  }
+                                  bgColor={isStringPresent(
+                                    selectedStrengths,
+                                    'name',
+                                    strength
+                                  )}
+                                  style={{
+                                    cursor:
+                                      pageMode === 'REVIEW' ? 'pointer' : '',
+                                  }}
+                                >
+                                  <Strength>{strength}</Strength>
+                                </StrengthCont>
+                              )
+                            )}
+                          </StrengthsCont>
+                          <TargetsCont>
+                            <TargetHeadingCon>
+                              <TargetHeading>Targets</TargetHeading>
+                            </TargetHeadingCon>
+                            {strengthsAndTargets.targets.map(
+                              (target, index) => (
+                                <TargetCont
+                                  onClick={() =>
+                                    handleStrengthndTargetChange(
+                                      strengthsAndTargets,
+                                      index,
+                                      'targets'
+                                    )
+                                  }
+                                  bgColor={isStringPresent(
+                                    selectedTarget,
+                                    'name',
+                                    target
+                                  )}
+                                  style={{
+                                    cursor:
+                                      pageMode === 'REVIEW' ? 'pointer' : '',
+                                  }}
+                                >
+                                  <Target>{target}</Target>
+                                </TargetCont>
+                              )
+                            )}
+                          </TargetsCont>
+                        </StrengthsAndTargetsCont>
+                      </MarkRubricContainer>
+                    )
+                  )}
+                </MarkStrengthContainer>
+              ) : (
+                <MarkStrengthContainer>
+                  {markingCriteria?.strengthsTargetsCriterias?.map(
+                    (strengthsAndTargets) => (
+                      <MarkRubricContainer key={strengthsAndTargets.title}>
+                        <MarkRubricTitleContainer>
+                          <MarkRubricTitle>
+                            {strengthsAndTargets.title}
+                          </MarkRubricTitle>
+                        </MarkRubricTitleContainer>
+                        <StrengthsAndTargetsCont>
+                          <StrengthsCont>
+                            <TargetHeadingCon>
+                              <TargetHeading>Strengths</TargetHeading>
+                            </TargetHeadingCon>
+                            {strengthsAndTargets.strengths.map(
+                              (strength, index) => (
+                                <StrengthCont
+                                  onClick={() =>
+                                    handleStrengthndTargetChange(
+                                      strengthsAndTargets,
+                                      index,
+                                      'strengths'
+                                    )
+                                  }
+                                  bgColor={isStringPresent(
+                                    selectedStrengths,
+                                    'attribute',
+                                    strength
+                                  )}
+                                  style={{
+                                    cursor:
+                                      pageMode === 'REVIEW' ? 'pointer' : '',
+                                  }}
+                                >
+                                  <Strength>{strength}</Strength>
+                                </StrengthCont>
+                              )
+                            )}
+                          </StrengthsCont>
+                          <TargetsCont>
+                            <TargetHeadingCon>
+                              <TargetHeading>Targets</TargetHeading>
+                            </TargetHeadingCon>
+                            {strengthsAndTargets.targets.map(
+                              (target, index) => (
+                                <TargetCont
+                                  onClick={() =>
+                                    handleStrengthndTargetChange(
+                                      strengthsAndTargets,
+                                      index,
+                                      'targets'
+                                    )
+                                  }
+                                  bgColor={isStringPresent(
+                                    selectedTarget,
+                                    'attribute',
+                                    target
+                                  )}
+                                  style={{
+                                    cursor:
+                                      pageMode === 'REVIEW' ? 'pointer' : '',
+                                  }}
+                                >
+                                  <Target>{target}</Target>
+                                </TargetCont>
+                              )
+                            )}
+                          </TargetsCont>
+                        </StrengthsAndTargetsCont>
+                      </MarkRubricContainer>
+                    )
+                  )}
+                </MarkStrengthContainer>
+              )}
+            </>
           )}
         </MarkingCriteriaContainer>
         <Heading>

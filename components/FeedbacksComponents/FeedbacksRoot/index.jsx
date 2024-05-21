@@ -1423,20 +1423,25 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setSubmission(updatedSubmission);
   }
 
-  const handleStrengthsTargetsFeedback =
-    (questionSerialNumber) => (index) => (value) => {
-      const criteriaType = index === 2 ? 'target' : 'strength';
-      const criteriaIndex = index === 2 ? 0 : index;
-      setNewMarkingCriterias((prevState) => {
-        const label = value.heading;
-        let newState = cloneDeep(prevState);
-        let path = `${questionSerialNumber}.${
-          criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
-        }[${criteriaIndex}]`;
-        newState = set(newState, path, { label, value });
-        return newState;
-      });
-    };
+  const handleStrengthsTargetsFeedback = (
+    questionSerialNumber,
+    index,
+    value
+  ) => {
+    console.log('clicked Function');
+    const criteriaType = index === 2 ? 'target' : 'strength';
+    const criteriaIndex = index === 2 ? 0 : index;
+    setNewMarkingCriterias((prevState) => {
+      const label = value.heading;
+      let newState = cloneDeep(prevState);
+      let path = `${questionSerialNumber}.${
+        criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
+      }[${criteriaIndex}]`;
+      newState = set(newState, path, { label, value });
+      console.log('newState', newState);
+      return newState;
+    });
+  };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };

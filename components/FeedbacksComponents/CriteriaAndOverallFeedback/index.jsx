@@ -69,17 +69,18 @@ const CriteriaAndOverallFeedback = ({
   const [selectedStrengthId, setSelectedStrengthId] = useState(0);
   const [selectedStrengths, setSelectedStrengths] = useState([{}]);
   const [selectedTarget, setSelectedTarget] = useState([{}]);
-  
+
+  console.log('the submission is', submission)
+
 
   useEffect(() => {
     const commentObject = (
-      overallComments.length != 0 ? overallComments : comments
+      overallComments.length != 0 ? overallComments : null
     )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
     setOverallComment(commentObject);
 
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
-    console.log('markingCriteria', markingCriteria);
     setMarkingCriteria(markingCriteria);
     if (pageMode != 'REVIEW') {
       setMarkingCriteria(

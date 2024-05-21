@@ -36,7 +36,6 @@ export const Logo = styled.img`
 `;
 
 export const SideNavbar = styled.div`
-  margin: 0 auto;
   ul {
     display: flex;
     flex-direction: column;

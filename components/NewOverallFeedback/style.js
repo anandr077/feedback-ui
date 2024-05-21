@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const TextFeedback = styled.textarea`
   min-height: 160px;
+  height: ${(props) => (props.hasComment ? 'auto' : '160px')};
   width: 100%;
   padding: 8px;
   border-radius: 4px;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TextFeedback } from './style';
 import { base64ToBlob, blobToBase64 } from '../../utils/blobs';
 import AudioRecorder from '../AudioRecorder';
@@ -13,6 +13,7 @@ const NewOverallFeedback = ({
   overallComment,
   updateOverAllFeedback,
 }) => {
+  const [audioComment, setAudioComment] = useState(null);
   const inputRef = useRef();
   useEffect(() => {
     if (inputRef.current) {
@@ -22,23 +23,18 @@ const NewOverallFeedback = ({
         inputRef.current.value = '';
       }
     }
-  }, [overallComment, serialNumber, inputRef]);
 
-  console.log('the overall feedback', overallComment)
-  console.log('the page mode is', pageMode)
+    if (overallComment?.questionSerialNumber === serialNumber) {
+      setAudioComment(overallComment.audio);
+    }
+  }, [overallComment, serialNumber, inputRef]);
 
   const onSave = () => {
     let value = inputRef.current.value;
-    console.log('the console for save', value)
     if (overallComment === null || overallComment === undefined) {
-      console.log('the comment adding check is', serialNumber, value, null)
       return addOverallFeedback(serialNumber, value, null);
     }
-    return updateOverAllFeedback(
-      overallComment.id,
-      value,
-      overallComment.audio
-    );
+    return updateOverAllFeedback(overallComment.id, value, audioComment);
   };
 
   const handleDeleteAudioFeedback = (audioFeedback) => {
@@ -72,12 +68,9 @@ const NewOverallFeedback = ({
             readOnly={true}
             placeholder="Give feedback here..."
           ></TextFeedback>
-          {overallComment?.audio ? (
+          {audioComment ? (
             <AudioPlayer
-              generatedAudioFeedback={base64ToBlob(
-                overallComment?.audio,
-                'audio/webm'
-              )}
+              generatedAudioFeedback={base64ToBlob(audioComment, 'audio/webm')}
             />
           ) : (
             <></>
@@ -85,17 +78,25 @@ const NewOverallFeedback = ({
         </>
       );
     }
-    return <TextFeedback ref={inputRef} readOnly={true}></TextFeedback>;
+    return (
+      <TextFeedback
+        ref={inputRef}
+        readOnly={true}
+        style={{
+          height: `auto`,
+        }}
+      ></TextFeedback>
+    );
   }
-
-  
 
   return (
     <>
       <TextFeedback
         ref={inputRef}
         placeholder="Give feedback here..."
-        style={{height: `${inputRef.current ? inputRef.current.scrollHeight : 104}px`}}
+        style={{
+          height: `${inputRef.current ? inputRef.current.scrollHeight : 104}px`,
+        }}
         onBlur={pageMode === 'REVIEW' ? () => onSave() : undefined}
         onChange={(e) => {
           textAreaAutoResize(e, inputRef);

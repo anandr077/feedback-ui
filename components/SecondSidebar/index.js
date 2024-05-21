@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { MainContainer, Button } from './style';
 import { useQuery } from '@tanstack/react-query';
-import { getCommunityTasks, getCompletedTasks } from '../../service';
+import { getCommunityTasks, getCompletedTasks, getTasks, getAssignments } from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
@@ -19,18 +19,24 @@ const SecondSidebar = ({ id }) => {
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
   const [completedTaskLength, setCompletedTaskLength] = useState(0);
+  const [allStudentTasks, setAllStudentTasks] = useState(0);
+  const [allTeacherTasks, setAllTeacherTasks] = useState(0);
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
 
   useEffect(() => {
-    Promise.all([getCompletedTasks(), getCommunityTasks()]).then(
-      ([getCompletedTasks, getCommunityTasks]) => {
+    Promise.all([getCompletedTasks(), getCommunityTasks(), getTasks(), getAssignments()]).then(
+      ([getCompletedTasks, getCommunityTasks, getTasks, getAssignments]) => {
         setCompletedTaskLength(getCompletedTasks.length);
         setFeedbackRequestsLength(getCommunityTasks.length);
+        setAllStudentTasks(getTasks.length);
+        setAllTeacherTasks(getAssignments.length);
       }
     );
   }, []);
+
+  console.log('the total task are', allTeacherTasks)
 
   useEffect(() => {
     const updateHeight = () => {
@@ -55,14 +61,14 @@ const SecondSidebar = ({ id }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
+      title: `Current Tasks ${role === 'STUDENT' ? `(${allStudentTasks})` : `(${allTeacherTasks})`}`,
       link: '/',
       matchLink: '/',
     },
     {
       icon: '',
       selectedIcon: '',
-      title: `${role === 'STUDENT' ? 'Current Tasks' : 'Classwork'}`,
+      title: `Current Tasks ${role === 'STUDENT' ? `(${allStudentTasks})` : `(${allTeacherTasks})`}`,
       link: '/tasks',
       matchLink: '/tasks',
     },
@@ -79,7 +85,7 @@ const SecondSidebar = ({ id }) => {
       title: `${
         role === 'STUDENT'
           ? `Help a Friend (${feedbackRequestsLength})`
-          : `Students Request (${feedbackRequestsLength})`
+          : `Student Requests (${feedbackRequestsLength})`
       }`,
       link: '/giveFeedback',
       matchLink: '/giveFeedback',
@@ -87,7 +93,7 @@ const SecondSidebar = ({ id }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Examples`,
+      title: `Model Response`,
       link: `/sharedresponses`,
       matchLink: `/sharedresponses`,
     },

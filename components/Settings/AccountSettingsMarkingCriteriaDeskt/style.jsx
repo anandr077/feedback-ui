@@ -422,6 +422,25 @@ export const RightContainer = styled.div`
   }
 `;
 
+export const PlusIcon = styled.img`
+  width: 46px;
+  height: 46px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px;
+  opacity: 0px;
+  border: 1px solid var(--color-neutral-90, #c9c6cc);
+  background: var(--color-neutral-alpha-80, #f2f1f380);
+`;
+export const PlusIconHover = styled.img`
+  width: 46px;
+  height: 46px;
+  border-radius: 4px;
+  border: 1px;
+  opacity: 0px;
+  display: none;
+`;
+
 export const CreateButtonCont = styled.div`
   width: 100%;
   display: flex;
@@ -434,18 +453,22 @@ export const CreateButtonCont = styled.div`
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   cursor: pointer;
   position: relative;
+  background-color: ${(props) => (props.selected ? '#f2f1f380' : '#fff')};
+  ${PlusIcon} {
+    display: ${(props) => (props.selected ? 'none' : 'block')};
+  }
+  ${PlusIconHover} {
+    display: ${(props) => (props.selected ? 'block' : 'none')};
+  }
   &:hover {
     background-color: #f2f1f380;
+    ${PlusIcon} {
+      display: none;
+    }
+    ${PlusIconHover} {
+      display: block;
+    }
   }
-`;
-
-export const PlusIcon = styled.img`
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px;
-  opacity: 0px;
-  border: 1px solid var(--color-neutral-90, #c9c6cc);
-  background: var(--color-neutral-alpha-80, #f2f1f380);
 `;
 
 export const PlusText = styled.p`
@@ -463,7 +486,6 @@ export const PopUpContainer = styled.div`
   z-index: 5;
   position: absolute;
   top: 75px;
-
   background: var(--color-neutral-white, #ffffff);
   box-shadow: 0px 8.16px 16px 0px #7b738240;
   border-radius: 8px;

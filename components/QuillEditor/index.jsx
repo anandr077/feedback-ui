@@ -97,7 +97,8 @@ const QuillEditor = React.forwardRef(
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
-        quillInstance.root.style.fontFamily = 'var(--font-family-ibm_plex_sans)';
+        quillInstance.root.style.fontFamily =
+          'var(--font-family-ibm_plex_sans)';
         quillInstance.root.style.fontSize = '16px';
         quillInstance.root.style.lineHeight = '24px';
         quillInstance.root.style.fontWeight = '400';
@@ -308,13 +309,29 @@ const QuillEditor = React.forwardRef(
     };
 
     const filteredComments = commentFocusAreaToggle
-      ? comments.filter((comment) => comment.type === "FOCUS_AREA")
+      ? comments.filter((comment) => comment.type === 'FOCUS_AREA')
       : comments.filter(
           (comment) =>
             comment.type === 'COMMENT' ||
             comment.type === 'MODEL_RESPONSE' ||
             comment.type === 'SMART_ANNOTATION'
         );
+
+    let floatingBoxTopPosition;
+    if (selectedRange) {
+      const length = selectedRange.to - selectedRange.from;
+
+      let boundsIs;
+      if (editor) {
+        boundsIs = editor.getBounds(selectedRange.from, length);
+      }
+
+      if (!boundsIs) {
+        return null;
+      }
+
+      floatingBoxTopPosition = boundsIs.top;
+    }
 
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
@@ -333,6 +350,7 @@ const QuillEditor = React.forwardRef(
           selectedRange={selectedRange}
           newCommentFrameRef={newCommentFrameRef}
           share={share}
+          floatingBoxTopPosition={floatingBoxTopPosition}
         />
       </div>
     );

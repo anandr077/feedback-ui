@@ -42,6 +42,7 @@ const CommentBox = ({
   selectedRange,
   newCommentFrameRef,
   share,
+  floatingBoxTopPosition
 }) => {
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
@@ -164,27 +165,12 @@ const CommentBox = ({
     setGroupedCommentsWithGap(groupedCommentsWithGap);
   }, [editor, editorRef, selectedComment, comments, commentHeights]);
 
-  let commentInputTopPosition;
-  if (selectedRange) {
-    const length = selectedRange.to - selectedRange.from;
-
-    let boundsIs;
-    if (editor) {
-      boundsIs = editor.getBounds(selectedRange.from, length);
-    }
-
-    if (!boundsIs) {
-      return null;
-    }
-
-    commentInputTopPosition = boundsIs.top;
-  }
 
   return (
     <>
       {showNewComment && pageMode !== 'DRAFT' ? (
         <MainSideContainer
-          style={{ top: commentInputTopPosition, right: '-330px' }}
+          style={{ top: floatingBoxTopPosition, right: '-330px' }}
         >
           <Screen onClick={methods.hideNewCommentDiv}></Screen>
           <OptionContainer>

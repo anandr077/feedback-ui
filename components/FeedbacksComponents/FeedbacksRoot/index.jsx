@@ -1428,7 +1428,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     index,
     value
   ) => {
-    console.log('clicked Function');
     const criteriaType = index === 2 ? 'target' : 'strength';
     const criteriaIndex = index === 2 ? 0 : index;
     setNewMarkingCriterias((prevState) => {
@@ -1438,7 +1437,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
       }[${criteriaIndex}]`;
       newState = set(newState, path, { label, value });
-      console.log('newState', newState);
       return newState;
     });
   };

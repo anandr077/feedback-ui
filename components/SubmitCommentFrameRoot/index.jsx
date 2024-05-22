@@ -51,7 +51,7 @@ const SubmitCommentFrameRoot = (props) => {
           onClick={(e) => submitButtonOnClick()}
           style={{ opacity: isButtonDisabled ? 0.6 : 1 }}
         >
-          {showComment ? 'Update' : 'Comment'}
+          {commentBankIds ? (showComment ? 'Update' : 'Comment') : 'Share'}
         </SmallButton>
       </RightBtnContainer>
       <ModalForSelectOption

@@ -91,7 +91,7 @@ const SecondSidebar = ({ id }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Model Response`,
+      title: `Model Responses`,
       link: `/sharedresponses`,
       matchLink: `/sharedresponses`,
     },

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import './SubmitCommentFrameRoot.css';
 import ActiveCommentIcon from '../../static/img/purplesinglecomment.svg';
 import ModalForSelectOption from '../../components2/Modals/ModalForSelectOption';
 import SmartAnotation from '../SmartAnnotations';
@@ -49,7 +48,8 @@ const SubmitCommentFrameRoot = (props) => {
         <SmallButton
           disabled={isButtonDisabled}
           onClick={(e) => submitButtonOnClick()}
-          style={{ opacity: isButtonDisabled ? 0.6 : 1 }}
+          //style={{ opacity: isButtonDisabled ? 0.6 : 1 }}
+          background={!commentBankIds}
         >
           {commentBankIds ? (showComment ? 'Update' : 'Comment') : 'Share'}
         </SmallButton>
@@ -109,7 +109,7 @@ const SmallButton = styled.button`
   cursor: pointer;
   padding: 8px 12px;
   border-radius: 32px;
-  background-color: rgba(178, 174, 183, 1);
+  background-color: ${props => props.background ? 'rgba(114, 0, 224, 1)' : 'rgba(178, 174, 183, 1) '};
   text-align: center;
   white-space: nowrap;
   font-family: var(--font-family-ibm_plex_sans);

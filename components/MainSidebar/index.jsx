@@ -22,6 +22,7 @@ const MainSidebar = () => {
   const history = useHistory();
   const location = useLocation();
   const role = getUserRole();
+  const [isActive, setIsActive] = useState(() => (obj) => false);
 
   const sideNavItems = [
     {
@@ -76,15 +77,24 @@ const MainSidebar = () => {
 
   const handlePageRoute = (navLink) => {
     history.push(navLink);
+    updateIsActive();
   };
-  const isActive = (obj) => {
-    if (location.pathname === '/' && obj.link === '/tasks') {
-      return true;
-    }
-    return obj.linksContainer.some((item) =>
-      new RegExp(`${item}`).test(location.pathname)
-    );
+  const updateIsActive = () => {
+    const checkIsActive = (obj) => {
+      if (location.pathname === '/' && obj.link === '/tasks') {
+        return true;
+      }
+      return obj.linksContainer.some((item) =>
+        new RegExp(`${item}`).test(location.pathname)
+      );
+    };
+
+    setIsActive(() => checkIsActive);
   };
+
+  useEffect(() => {
+    updateIsActive();
+  }, [location]);
 
   return (
     <SidebarContainer>
@@ -106,7 +116,6 @@ const MainSidebar = () => {
               return null;
             }
 
-            // const isActive = navItem.link === activeLink;
             return (
               <li
                 key={navItem.link}

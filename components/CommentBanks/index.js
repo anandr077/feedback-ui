@@ -473,7 +473,7 @@ const CommentBanks = () => {
             <CreateButton
               onClick={() => createSystemFeedbackBank(selectedBank.id)}
             >
-              <ButtonText>Create</ButtonText>
+              <ButtonText>Add</ButtonText>
             </CreateButton>
           </ButtonConatiner>
         </PopupContainer>

@@ -211,18 +211,15 @@ export const TextArea = styled.textarea`
   align-items: center;
   outline: none;
   cursor: pointer;
+  &:focus::placeholder {
+    color: transparent;
+  }
   &:hover {
     background-color: #f2f1f380;
   }
   overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 0;
-  }
-
-  &::placeholder {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
   }
 `;
 

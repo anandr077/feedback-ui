@@ -36,8 +36,6 @@ const SecondSidebar = ({ id }) => {
     );
   }, []);
 
-  console.log('the total task are', allTeacherTasks)
-
   useEffect(() => {
     const updateHeight = () => {
       const windowHeight = window.innerHeight;

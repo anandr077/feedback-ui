@@ -677,6 +677,9 @@ function answersAndFeedbacks(
         <FeedbackRightSidebar
           handleClick={handleRightSidebarClick}
           openRightPanel={openRightPanel}
+          pageMode={pageMode}
+          isTeacher={isTeacher}
+          submission={submission}
         />
         <ModalForSelectOption
           isVisible={showFocusAreas}

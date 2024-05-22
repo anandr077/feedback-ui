@@ -50,12 +50,14 @@ import {
   PopUpCardImg,
   PopUpCard,
   PopUpCardText,
+  PlusIconHover,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
 import Plus from '../../../static/img/Plus.svg';
 import threedotsc from '../../../static/img/threedotsc.svg';
 import PlusViolet from '../../../static/img/Plus-violet.svg';
+import AddNewHover from '../../../static/img/AddNewHover.svg';
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
 import Globe from '../../../static/img/Globe.svg';
@@ -254,8 +256,10 @@ function AccountSettingsMarkingCriteriaDeskt(props) {
             <Frame1302>
               <CreateButtonCont
                 onClick={() => setOpenMarkingMethodologyDialog(true)}
+                selected={openMarkingMethodologyDialog}
               >
                 <PlusIcon src={PlusViolet} />
+                <PlusIconHover src={AddNewHover} />
                 <PlusText>New Marking Template</PlusText>
                 {openMarkingMethodologyDialog && (
                   <PopUpContainer ref={divRef}>

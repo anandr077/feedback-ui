@@ -123,7 +123,7 @@ const MainSidebar = () => {
           })}
         </ul>
       </SideNavbar>
-      <SideBottom>
+      <SideBottom href="https://jeddle.com/my-courses/">
         <img src={ExitHub} />
         <p>Exit Hub</p>
       </SideBottom>

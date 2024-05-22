@@ -14,11 +14,12 @@ export const SidebarContainer = styled.div`
   z-index: 1000;
 `;
 
-export const SideBottom = styled.div`
+export const SideBottom = styled.a`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  text-decoration: none;
   cursor: pointer;
 
   p{

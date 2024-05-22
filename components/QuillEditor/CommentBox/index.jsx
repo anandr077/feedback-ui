@@ -40,7 +40,6 @@ const CommentBox = ({
   editorRef,
   selectedComment,
   selectedRange,
-  commentFocusAreaToggle,
   newCommentFrameRef,
   share,
 }) => {

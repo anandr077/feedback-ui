@@ -8,6 +8,7 @@ export const Frame1329 = styled.div`
   position: relative;
   width: 293px;
   margin: 20px 20px 20px 60px;
+  z-index: 100;
 `;
 
 export const Frame1406 = styled.div`

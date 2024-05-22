@@ -549,7 +549,7 @@ function answersAndFeedbacks(
   const question = submission.assignment.questions[QuestionIndex];
 
   React.useEffect(() => {
-    if (selectedRange !== null && pageMode === 'DRAFT') {
+    if (selectedRange !== null && (pageMode === 'DRAFT' || pageMode === 'REVISE')) {
       toggleFocusAreaPopup();
     }
     if (selectedRange && pageMode === 'REVIEW') {

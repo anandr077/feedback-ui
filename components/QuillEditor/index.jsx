@@ -331,7 +331,6 @@ const QuillEditor = React.forwardRef(
           editorRef={editorRef}
           selectedComment={selectedComment}
           selectedRange={selectedRange}
-          commentFocusAreaToggle={commentFocusAreaToggle}
           newCommentFrameRef={newCommentFrameRef}
           share={share}
         />

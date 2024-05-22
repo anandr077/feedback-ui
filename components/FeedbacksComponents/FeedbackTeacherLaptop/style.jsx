@@ -460,17 +460,6 @@ export const Frame1367 = styled.div`
   border-radius: 10px;
 `;
 
-export const FocusAreaContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: ${(props) =>
-    props.moveToLeft
-      ? 'translateX(calc(-50% + 170px))'
-      : 'translateX(calc(-50% + 310px))'};
-  transition: transform 0.3s ease;
-`;
-
 export const AddCommentFocusAreaDiv = styled.div`
   position: absolute;
   left: 50%;
@@ -480,6 +469,7 @@ export const AddCommentFocusAreaDiv = styled.div`
       : 'translateX(calc(-50% + 310px))'};
   transition: transform 0.3s ease;
   width: 314px;
+  z-index: -10;
 `;
 
 export const Frame1366 = styled.div`

@@ -21,7 +21,6 @@ import {
   FocusAreasLabelContainer,
   Frame1366,
   Frame1367,
-  FocusAreaContainer,
   AddCommentFocusAreaDiv,
   Group1225,
   Label,
@@ -37,7 +36,6 @@ import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
 import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
-import FocusAreaCard from '../../FocusAreaCard';
 import AddCommentFocusAreaInstruction from '../AddCommentFocusAreaInstruction';
 import ABCIcon from '../../../static/img/abc34.svg';
 import RedabcIcon from '../../../static/img/redabc.svg';
@@ -132,16 +130,15 @@ function AnswersFrame(props) {
     share,
     isTeacher
   } = props;
-  const [showAddingCommentDesc, setShowAddingCommentDesc] =
-    React.useState(true);
-  const generalComments = comments.filter(
-    (comment) => comment.type === 'COMMENT'
+  const generalComments = comments?.filter(
+    (comment) => comment.type === 'COMMENT' || comment.type === "MODEL_RESPONSE"
   );
-  const focusAreaComments = comments.filter(
+  const focusAreaComments = comments?.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
 
-  console.log('the role is ', isTeacher)
+  console.log('the submission is', submission)
+  console.log('the comments is', comments)
 
   return (
     <Group1225 id="answers">
@@ -169,40 +166,25 @@ function AnswersFrame(props) {
           methods,
           selectedRange,
           commentFocusAreaToggle,
-          setShowAddingCommentDesc,
           QuestionIndex,
           newCommentFrameRef,
           share
         )}
       </Frame1367>
-      {/* {((commentFocusAreaToggle && focusAreaComments.length !== 0) ||
-        pageMode === 'DRAFT') && (
-        <FocusAreaContainer
-          id={'FocusAreaContainer'}
-          moveToLeft={openRightPanel}
-        >
-          <FocusAreaCard
-            comments={focusAreaComments}
-            methods={methods}
-            QuestionIndex={QuestionIndex}
-          />
-        </FocusAreaContainer>
-      )} */}
-      {showAddingCommentDesc && submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
+      {submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
         <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
           {commentFocusAreaToggle && focusAreaComments.length === 0 && (
-            <AddCommentFocusAreaInstruction
-              heading={'How to use Focus Areas:'}
-              firstIcon={RedabcIcon}
-              firstStep={
-                'Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab).'
-              }
-              secondIcon={ColorCircleIcon}
-              secondStep={'Click the focus area that matches your selection.'}
-              thirdIcon={RefreshIcon}
-              thirdStep={'Repeat this process for each focus area.'}
-            />
-          )}
+              <AddCommentFocusAreaInstruction
+                heading="How to use Focus Areas:"
+                firstIcon={RedabcIcon}
+                firstStep="Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab)."
+                secondIcon={ColorCircleIcon}
+                secondStep="Click the focus area that matches your selection."
+                thirdIcon={RefreshIcon}
+                thirdStep="Repeat this process for each focus area."
+              />
+            )
+          }
           {!commentFocusAreaToggle && generalComments.length === 0 && (
             <AddCommentFocusAreaInstruction
               heading={'Adding Comments'}
@@ -271,7 +253,6 @@ const answerFrames = (
   methods,
   selectedRange,
   commentFocusAreaToggle,
-  setShowAddingCommentDesc,
   QuestionIndex,
   newCommentFrameRef,
   share
@@ -408,7 +389,6 @@ const answerFrames = (
                   createVisibleComments(commentsForSelectedTab),
                   answer.serialNumber
                 )(quillRefs.current[answer.serialNumber - 1].getSelection());
-                setShowAddingCommentDesc(false);
               }}
               id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
             >

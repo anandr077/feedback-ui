@@ -63,7 +63,6 @@ export function answersFrame(
   QuestionIndex,
   newCommentFrameRef,
   share,
-  isTeacher
 ) {
   return (
     <AnswersFrame
@@ -95,7 +94,6 @@ export function answersFrame(
       QuestionIndex={QuestionIndex}
       newCommentFrameRef={newCommentFrameRef}
       share={share}
-      isTeacher={isTeacher}
     ></AnswersFrame>
   );
 }
@@ -128,7 +126,6 @@ function AnswersFrame(props) {
     QuestionIndex,
     newCommentFrameRef,
     share,
-    isTeacher
   } = props;
   const generalComments = comments?.filter(
     (comment) => comment.type === 'COMMENT' || comment.type === "MODEL_RESPONSE"
@@ -165,7 +162,7 @@ function AnswersFrame(props) {
           commentFocusAreaToggle,
           QuestionIndex,
           newCommentFrameRef,
-          share
+          share,
         )}
       </Frame1367>
       {submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
@@ -405,6 +402,7 @@ const answerFrames = (
                 commentFocusAreaToggle,
                 newCommentFrameRef,
                 share,
+                question
               )}
             </QuillContainer>
           )}
@@ -505,7 +503,8 @@ function createQuill(
   selectedRange,
   commentFocusAreaToggle,
   newCommentFrameRef,
-  share
+  share,
+  question
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -548,6 +547,7 @@ function createQuill(
         commentFocusAreaToggle={commentFocusAreaToggle}
         newCommentFrameRef={newCommentFrameRef}
         share={share}
+        question={question}
       ></QuillEditor>
     </div>
   );

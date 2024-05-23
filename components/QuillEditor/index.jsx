@@ -14,6 +14,7 @@ import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
 import CommentBox from './CommentBox';
+import ModalForSelectOption from '../../components2/Modals/ModalForSelectOption';
 
 const QuillEditor = React.forwardRef(
   (
@@ -33,6 +34,7 @@ const QuillEditor = React.forwardRef(
       commentFocusAreaToggle,
       newCommentFrameRef,
       share,
+      question,
     },
     ref
   ) => {
@@ -40,7 +42,13 @@ const QuillEditor = React.forwardRef(
     const editorRef = useRef(null);
     const [editor, setEditor] = useState(null);
     const [selection, setSelection] = useState(null);
-    const { setCountWords } = useContext(FeedbackContext);
+    const {
+      setCountWords,
+      showFloatingDialogue,
+      toggleEditorFloatingDialogue,
+      allCommentBanks,
+      isTeacher,
+    } = useContext(FeedbackContext);
     const manipulatePastedHTML = (pastedHTML) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(pastedHTML, 'text/html');
@@ -339,20 +347,54 @@ const QuillEditor = React.forwardRef(
           ref={editorRef}
           style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}
         ></div>
-        <CommentBox
-          pageMode={pageMode}
-          submission={submission}
-          methods={methods}
-          comments={filteredComments}
-          editor={editor}
-          editorRef={editorRef}
-          selectedComment={selectedComment}
-          selectedRange={selectedRange}
-          newCommentFrameRef={newCommentFrameRef}
-          share={share}
-          floatingBoxTopPosition={floatingBoxTopPosition}
-        />
-        
+        {showFloatingDialogue && (
+          <div
+            className="FloatingEditorDialogueBox"
+            style={{
+              top: floatingBoxTopPosition,
+              width: isTeacher ? '330px' : '280px',
+            }}
+          >
+            <div className="modalHeading">
+              <h1>{isTeacher ? 'Comment Banks' : 'Focus Areas'}</h1>
+              <button
+                className="closeButton"
+                onClick={() => toggleEditorFloatingDialogue()}
+              >
+                x
+              </button>
+            </div>
+            <ModalForSelectOption
+              isVisible={showFloatingDialogue}
+              onClose={toggleEditorFloatingDialogue}
+              optionsToSelect={
+                isTeacher ? allCommentBanks : question?.focusAreas
+              }
+              infoType={isTeacher ? 'comment bank' : 'focus area'}
+              onClickOption={
+                isTeacher
+                  ? methods.handleShortcutAddCommentSmartAnnotaion
+                  : methods.handleFocusAreaComment
+              }
+            />
+          </div>
+        )}
+
+        {!showFloatingDialogue && (
+          <CommentBox
+            pageMode={pageMode}
+            submission={submission}
+            methods={methods}
+            comments={filteredComments}
+            editor={editor}
+            editorRef={editorRef}
+            selectedComment={selectedComment}
+            selectedRange={selectedRange}
+            newCommentFrameRef={newCommentFrameRef}
+            share={share}
+            floatingBoxTopPosition={floatingBoxTopPosition}
+          />
+        )}
       </div>
     );
   }

@@ -122,6 +122,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
+  const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -184,12 +185,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       });
   }, [id]);
 
+  const commentBankIds = submission?.assignment?.questions
+  .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
+   .map((q) => q.commentBankId);
+
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
       // alert("sub" + JSON.stringify(submission.assignment)
-      const commentBankIds = submission?.assignment?.questions
-       .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
-        .map((q) => q.commentBankId);
 
       const commentBankPromises = commentBankIds.map(getCommentBank);
 
@@ -242,6 +244,20 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
+
+  const allCommentBanks = smartAnnotations?.flatMap(
+    (annotation, index) =>
+      annotation.smartComments.filter((smartComment) =>
+        commentBankIds?.includes(annotation.id)
+      )
+    // .map((smartComment, innerIndex) => (
+    //   <SmartAnotation
+    //     key={`${index}-${innerIndex}`}
+    //     smartAnnotation={smartComment}
+    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+    //   />
+    // ))
+  );
 
   useEffect(() => {
     const unblock = history.block((location, action) => {
@@ -590,6 +606,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
+
+  function toggleEditorFloatingDialogue() {
+    setShowFloatingDialogue(!showFloatingDialogue);
+  }
+
   console.log('the page mode is', pageMode);
 
   const sharewithclassdialog = (
@@ -686,7 +707,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                 setCheckedState(initialCheckedState);
               }}
               smartAnnotations={smartAnnotations}
-              handleComment={handleShortcutAddCommentSmartAnnotaion}
             />
           </DialogActions>
         </ActionButtonsContainer>
@@ -1491,7 +1511,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     comments,
     setComments,
     submissionStatusLabel,
-    isTeacher,
     handleChangeText,
     handleDeleteComment,
     handleShareWithClass,
@@ -1542,6 +1561,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         markingCriteriaFeedback,
         overallComments,
         comments,
+        showFloatingDialogue,
+        toggleEditorFloatingDialogue,
+        allCommentBanks,
+        methods,
+        isTeacher
       }}
     >
       {showSubmitPopup &&

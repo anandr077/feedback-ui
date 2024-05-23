@@ -51,7 +51,6 @@ import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
-import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
@@ -536,21 +535,17 @@ function answersAndFeedbacks(
     }
   );
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  const [showFocusAreas, setShowFocusArea] = React.useState(false);
+  const { toggleEditorFloatingDialogue } = useContext(FeedbackContext);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
   };
 
-  function toggleFocusAreaPopup() {
-    setShowFocusArea(!showFocusAreas);
-  }
-
   const question = submission.assignment.questions[QuestionIndex];
 
   React.useEffect(() => {
     if (selectedRange !== null && (pageMode === 'DRAFT' || pageMode === 'REVISE')) {
-      toggleFocusAreaPopup();
+      toggleEditorFloatingDialogue();
     }
     if (selectedRange && pageMode === 'REVIEW') {
       setCommentFocusAreaToggle(false);
@@ -680,14 +675,7 @@ function answersAndFeedbacks(
           pageMode={pageMode}
           isTeacher={isTeacher}
           submission={submission}
-        />
-        <ModalForSelectOption
-          isVisible={showFocusAreas}
-          onClose={toggleFocusAreaPopup}
-          optionsToSelect={question?.focusAreas}
-          modalType={'focus area'}
-          onClickOption={methods.handleFocusAreaComment}
-        />
+        /> 
       </FeedbackBody>
     </Frame1386>
   );

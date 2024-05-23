@@ -311,7 +311,6 @@ function reviewerNewComment(
                 cancelButtonOnClick={methods.hideNewCommentDiv}
                 smartAnnotations={smartAnnotations}
                 commentBankIds={commentBankIds}
-                handleComment={methods.handleShortcutAddCommentSmartAnnotaion}
               />
             </CommentContainer>
             {/* <ShortcutList>

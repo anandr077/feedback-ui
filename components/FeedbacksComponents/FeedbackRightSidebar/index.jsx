@@ -14,7 +14,6 @@ const FeedbackRightSidebar = ({
   isTeacher,
   submission,
 }) => {
-
   return (
     <MainContainer>
       <TopSection>

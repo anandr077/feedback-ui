@@ -70,8 +70,6 @@ const CriteriaAndOverallFeedback = ({
   const [selectedStrengths, setSelectedStrengths] = useState([{}]);
   const [selectedTarget, setSelectedTarget] = useState([{}]);
 
-  console.log('the overallComments is', overallComments)
-
 
   useEffect(() => {
     const commentObject = (

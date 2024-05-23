@@ -549,7 +549,10 @@ function answersAndFeedbacks(
   const question = submission.assignment.questions[QuestionIndex];
 
   React.useEffect(() => {
-    if (selectedRange !== null && (pageMode === 'DRAFT' || pageMode === 'REVISE')) {
+    if (
+      selectedRange !== null &&
+      (pageMode === 'DRAFT' || pageMode === 'REVISE')
+    ) {
       toggleFocusAreaPopup();
     }
     if (selectedRange && pageMode === 'REVIEW') {
@@ -605,11 +608,11 @@ function answersAndFeedbacks(
           />
         )}
       <FeedbackBody>
-        <FocusAreasLabel 
-            handleCheckboxChange={handleCheckboxChange}
-            groupedFocusAreaIds={groupedFocusAreaIds}
-            serialNumber={question.serialNumber}
-            focusAreas={question.focusAreas}
+        <FocusAreasLabel
+          handleCheckboxChange={handleCheckboxChange}
+          groupedFocusAreaIds={groupedFocusAreaIds}
+          serialNumber={question.serialNumber}
+          focusAreas={question.focusAreas}
         />
         <Frame1368 id="assignmentData">
           {answersFrame(
@@ -652,35 +655,41 @@ function answersAndFeedbacks(
             ></FeedbackFrame>
           )} */}
         </Frame1368>
-        <FeedbackRightSideSlidingTabs
-          handleRightSidebarClick={handleRightSidebarClick}
-          openRightPanel={openRightPanel}
-          submission={submission}
-          QuestionIndex={QuestionIndex}
-          methods={methods}
-          setQuestionIndex={setQuestionIndex}
-          pageMode={pageMode}
-        />
-        <CriteriaAndOverallFeedback
-          handleClick={handleRightSidebarClick}
-          openRightPanel={openRightPanel}
-          QuestionIndex={QuestionIndex}
-          addOverallFeedback={methods.addOverallFeedback}
-          updateOverAllFeedback={methods.updateOverAllFeedback}
-          handleMarkingCriteriaLevelFeedback={
-            methods.handleMarkingCriteriaLevelFeedback
-          }
-          handleStrengthsTargetsFeedback = {methods.handleStrengthsTargetsFeedback}
-          pageMode={pageMode}
-          submission={submission}
-        />
-        <FeedbackRightSidebar
-          handleClick={handleRightSidebarClick}
-          openRightPanel={openRightPanel}
-          pageMode={pageMode}
-          isTeacher={isTeacher}
-          submission={submission}
-        />
+        {submission.type !== 'DOCUMENT' && (
+          <>
+            <FeedbackRightSideSlidingTabs
+              handleRightSidebarClick={handleRightSidebarClick}
+              openRightPanel={openRightPanel}
+              submission={submission}
+              QuestionIndex={QuestionIndex}
+              methods={methods}
+              setQuestionIndex={setQuestionIndex}
+              pageMode={pageMode}
+            />
+            <CriteriaAndOverallFeedback
+              handleClick={handleRightSidebarClick}
+              openRightPanel={openRightPanel}
+              QuestionIndex={QuestionIndex}
+              addOverallFeedback={methods.addOverallFeedback}
+              updateOverAllFeedback={methods.updateOverAllFeedback}
+              handleMarkingCriteriaLevelFeedback={
+                methods.handleMarkingCriteriaLevelFeedback
+              }
+              handleStrengthsTargetsFeedback={
+                methods.handleStrengthsTargetsFeedback
+              }
+              pageMode={pageMode}
+              submission={submission}
+            />
+            <FeedbackRightSidebar
+              handleClick={handleRightSidebarClick}
+              openRightPanel={openRightPanel}
+              pageMode={pageMode}
+              isTeacher={isTeacher}
+              submission={submission}
+            />
+          </>
+        )}
         <ModalForSelectOption
           isVisible={showFocusAreas}
           onClose={toggleFocusAreaPopup}

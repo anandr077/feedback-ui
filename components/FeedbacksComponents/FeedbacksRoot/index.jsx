@@ -591,6 +591,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   };
 
   console.log('the page mode is', pageMode);
+  console.log('the submission is', submission);
 
   const sharewithclassdialog = (
     <Dialog

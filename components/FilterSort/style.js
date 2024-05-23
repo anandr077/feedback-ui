@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
-  padding: 20px 20px;
+  padding: 20px 40px;
   align-items: center;
   gap: 16px;
   align-self: stretch;
-  border-bottom: 1px solid #c9c6cc80;
-
+  border: 1px solid #c9c6cc80;
+  border-top: none;
   @media (max-width: 765px) {
     flex-direction: column;
     align-items: flex-start;

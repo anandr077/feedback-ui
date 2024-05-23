@@ -36,14 +36,8 @@ export const Frame1360 = styled.div`
   align-self: stretch;
 `;
 
-export const Frame1359 = styled.div`
-  display: flex;
+export const FixedWidthDiv = styled.div`
   width: 100%;
-  gap: 23px;
-  position: relative;
-  align-self: stretch;
-  height: 90vh;
-  flex-grow: 1;
   margin: 0px auto;
   padding: 20px;
   background-color: rgba(48, 27, 114, 1);
@@ -51,6 +45,18 @@ export const Frame1359 = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+`;
+
+export const Frame1359 = styled.div`
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  gap: 23px;
+  position: relative;
+  align-self: stretch;
+  height: 90vh;
+  flex-grow: 1;
+  margin: 0 auto;
 `;
 
 export const Frame1354 = styled.div`

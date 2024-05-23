@@ -28,15 +28,14 @@ export const InnerContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  max-width: 1440px;
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  padding: 0px 20px;
-  border-bottom: 1px solid #c9c6cc80;
+  //padding: 0px 0px;
+  //border-bottom: 1px solid #c9c6cc80;
 
   @media (max-width: 765px) {
     padding: 0px 10px;
@@ -641,6 +640,8 @@ export const TaskContainer = styled.div`
 `;
 
 export const Table = styled.table`
+  border: 1px solid rgba(201, 198, 204, 0.5);
+
   th {
     font-weight: 700;
   }

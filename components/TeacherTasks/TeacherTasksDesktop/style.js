@@ -46,6 +46,7 @@ export const Frame1360 = styled.div`
 export const Frame1359 = styled.div`
   display: flex;
   width: 100%;
+  max-width: 1440px;
   gap: 23px;
   position: relative;
   align-self: stretch;

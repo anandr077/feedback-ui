@@ -30,7 +30,7 @@ import { dateOnly } from '../../dates';
 import { Tooltip } from '@mui/material';
 
 function TaskHistoryDataComponent({ list, downloadPDF }) {
-  const [clickHighLightRow, setClickHighlightRow] = useState(false);
+  const [clickHighLightRow, setClickHighlightRow] = useState(null);
 
   const handleClick = (index) => {
     setClickHighlightRow(index);
@@ -40,9 +40,6 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
     window.location.href = url;
   };
 
-  // const redirectFunction = (url) => {
-  //   window.location.href = url;
-  // };
   return (
     <>
       <Table>

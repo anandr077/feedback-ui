@@ -199,6 +199,7 @@ export const MarkingCriteriaList = styled.a`
   letter-spacing: normal;
   text-align: left;
   color: var(--light-mode-purple);
+  cursor: pointer;
 `;
 export const Preview = styled.div`
   background: #7200e0;

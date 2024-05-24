@@ -78,6 +78,20 @@ export const HeadingContainer = styled.div`
   background: #ffffff;
   border-bottom: 1px solid #c9c6cc80;
 `;
+
+export const EditIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  gap: 0px;
+  opacity: 0px;
+`;
+export const EditIconHover = styled.img`
+  width: 24px;
+  height: 24px;
+  gap: 0px;
+  opacity: 0px;
+  display: none;
+`;
 export const Heading = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
@@ -87,9 +101,21 @@ export const Heading = styled.p`
   text-align: left;
   display: flex;
   align-items: center;
+  padding: 8px 6px;
+  width: 75%;
   gap: 4px;
+  cursor: pointer;
+  border: 1px solid var(--color-neutral-white, #ffffff);
+  &:hover {
+    border: 1px solid var(--color-neutral-white, #c9c6cc80);
+    ${EditIconHover} {
+      display: block;
+    }
+    ${EditIcon} {
+      display: none;
+    }
+  }
 `;
-
 export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -280,4 +306,4 @@ export const TextInput = styled.input`
   width: 100%;
 `;
 
-export const EditIcon = styled.img``;
+

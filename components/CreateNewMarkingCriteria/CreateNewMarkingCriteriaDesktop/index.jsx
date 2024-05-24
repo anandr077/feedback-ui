@@ -15,11 +15,13 @@ import {
   Frame1302,
   Line15,
   EditIcon,
+  EditIconHover,
 } from './style';
 import Eye from '../../../static/icons/Eye.svg';
 import Plus from '../../../static/icons/Plus.svg';
 import pluswhite from '../../../static/icons/pluswhite.svg';
 import MarkEdit from '../../../static/img/markEdit.svg';
+import EditHover from '../../../static/img/EditHover.svg';
 import {
   AddNewCriteria,
   AddNewCriteriaButton,
@@ -143,10 +145,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
           <RightContainer>
             <HeadingContainer>
               {isEditing ? (
-                <Heading
-                  id="markingCriteriaTitleContainer"
-                  style={{ width: '75%' }}
-                >
+                <Heading id="markingCriteriaTitleContainer">
                   <TextInput
                     placeholder="Name of marking template"
                     id="markingCriteriaName"
@@ -158,9 +157,10 @@ function CreateNewMarkingCriteriaDesktop(props) {
                   ></TextInput>
                 </Heading>
               ) : (
-                <Heading>
+                <Heading onClick={() => setIsEditing(true)}>
                   {markingCriterias.title}
-                  <EditIcon src={MarkEdit} onClick={() => setIsEditing(true)} />
+                  <EditIcon src={MarkEdit} />
+                  <EditIconHover src={EditHover} />
                 </Heading>
               )}
               <ButtonsContainer>

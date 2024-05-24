@@ -24,6 +24,7 @@ import {
   ButtonsContainer,
   CriteriaPart,
   EditIcon,
+  EditIconHover,
   Heading,
   HeadingContainer,
   InnerContainer,
@@ -59,6 +60,7 @@ import Eye from '../../../static/icons/Eye.svg';
 import Plus from '../../../static/icons/Plus.svg';
 import pluswhite from '../../../static/icons/pluswhite.svg';
 import grayEdit from '../../../static/icons/edit_gray.svg';
+import EditHover from '../../../static/img/EditHover.svg';
 import SecondSidebar from '../../SecondSidebar';
 import { isMobileView } from '../../ReactiveRender';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
@@ -414,7 +416,7 @@ export default function CreateNewStrengthAndTargets() {
             <RightContainer>
               <HeadingContainer>
                 {isEditing ? (
-                  <Heading style={{ width: '75%' }}>
+                  <Heading>
                     <TextInput
                       placeholder="Name a marking template"
                       value={markingMethodology?.title}
@@ -425,12 +427,10 @@ export default function CreateNewStrengthAndTargets() {
                     ></TextInput>
                   </Heading>
                 ) : (
-                  <Heading>
+                  <Heading onClick={() => setIsEditing(true)}>
                     {markingMethodology?.title}
-                    <EditIcon
-                      src={grayEdit}
-                      onClick={() => setIsEditing(true)}
-                    />
+                    <EditIcon src={grayEdit} />
+                    <EditIconHover src={EditHover} />
                   </Heading>
                 )}
                 <ButtonsContainer>

@@ -29,7 +29,7 @@ const SubmitCommentFrameRoot = (props) => {
 
   return (
     <SubmitCommentFrameRootRoot>
-      {commentBankIds && (
+      {/* {commentBankIds && (
         <LeftBtn onClick={()=> {
           toggleEditorFloatingDialogue();
           cancelButtonOnClick()
@@ -37,7 +37,7 @@ const SubmitCommentFrameRoot = (props) => {
           <img src={ActiveCommentIcon} />
           Bank
         </LeftBtn>
-      )}
+      )} */}
       <RightBtnContainer>
         <SmallButtonWhite onClick={(e) => cancelButtonOnClick()}>
           <Text2>Cancel</Text2>
@@ -82,7 +82,7 @@ const SubmitCommentFrameRootRoot = styled.div`
   gap: 15px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
   box-sizing: border-box;
   background-position: 50% 50%;

@@ -8,6 +8,7 @@ import {
   SmartAnnotationsComponent,
   CommentContainer,
   Frame1326,
+  ModalHeading,
   TypeHere,
   ShortcutList,
   Frame1383,
@@ -30,6 +31,7 @@ import Buttons4 from '../../FeedbacksComponents/Buttons4';
 import FocusAreasFrame from '../../FeedbacksComponents/FocusAreasFrame';
 import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import { getUserRole } from '../../../userLocalDetails';
+import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 
 const CommentBox = ({
   pageMode,
@@ -42,14 +44,14 @@ const CommentBox = ({
   selectedRange,
   newCommentFrameRef,
   share,
-  floatingBoxTopPosition
+  floatingBoxTopPosition,
+  question
 }) => {
-  const { showNewComment, newCommentSerialNumber } =
+  const { showNewComment, newCommentSerialNumber, isTeacher } =
     useContext(FeedbackContext);
   const [commentHeights, setCommentHeights] = useState([]);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
   const [openCommentBox, setOpenCommentbox] = useState(false);
-  const isTeacher = getUserRole() === 'TEACHER';
 
   let commentBankIds = submission.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
@@ -195,7 +197,9 @@ const CommentBox = ({
               methods,
               newCommentFrameRef,
               share,
-              commentBankIds
+              commentBankIds,
+              question,
+              selectedRange
             )}
         </MainSideContainer>
       ) : (
@@ -266,7 +270,9 @@ const newCommentFrame = (
   methods,
   newCommentFrameRef,
   share,
-  commentBankIds
+  commentBankIds,
+  question,
+  selectedRange
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
@@ -276,7 +282,9 @@ const newCommentFrame = (
     newCommentFrameRef,
     share,
     pageMode,
-    commentBankIds
+    commentBankIds,
+    question,
+    selectedRange
   );
 };
 
@@ -285,9 +293,11 @@ function reviewerNewComment(
   newCommentFrameRef,
   share,
   pageMode,
-  commentBankIds
+  commentBankIds,
+  question,
+  selectedRange
 ) {
-  const { smartAnnotations } = useContext(FeedbackContext);
+  const { smartAnnotations, toggleEditorFloatingDialogue, allCommentBanks, isTeacher} = useContext(FeedbackContext);
 
   if (pageMode === 'CLOSED') return <></>;
   return (
@@ -295,6 +305,7 @@ function reviewerNewComment(
       <Frame1329>
         <Frame1406>
           <SmartAnnotationsComponent>
+
             <CommentContainer>
               <Frame1326>
                 <TypeHere>
@@ -313,6 +324,18 @@ function reviewerNewComment(
                 commentBankIds={commentBankIds}
               />
             </CommentContainer>
+            <ModalHeading>
+              <h1>{isTeacher ? 'Comment Banks' : 'Focus Areas'}</h1>
+            </ModalHeading>
+            <ModalForSelectOption 
+               isVisible={true}
+               onClose={toggleEditorFloatingDialogue}
+               optionsToSelect={isTeacher ? allCommentBanks : question?.focusAreas}
+               infoType={isTeacher ? "comment bank" : 'Focus Areas'}
+               onClickOption={isTeacher
+                ? methods.handleShortcutAddCommentSmartAnnotaion
+                : methods.handleFocusAreaComment}
+            />
             {/* <ShortcutList>
                 {shortcutList(methods, smartAnnotations, commentBankIds)}
             </ShortcutList> */}
@@ -374,14 +397,14 @@ function selectFocusArea(methods, submission, newCommentSerialNumber) {
   );
   const focusAreasFrame = (methods) => (
     <>
-      <Frame1329>
+      {/* <Frame1329>
         <Frame1406>
           <FocusAreasFrame
             focusAreas={focusAreas}
             handleAddFocusArea={methods.handleFocusAreaComment}
           />
         </Frame1406>
-      </Frame1329>
+      </Frame1329> */}
     </>
   );
 

@@ -44,10 +44,9 @@ const QuillEditor = React.forwardRef(
     const [selection, setSelection] = useState(null);
     const {
       setCountWords,
+      isTeacher,
       showFloatingDialogue,
       toggleEditorFloatingDialogue,
-      allCommentBanks,
-      isTeacher,
     } = useContext(FeedbackContext);
     const manipulatePastedHTML = (pastedHTML) => {
       const parser = new DOMParser();
@@ -352,7 +351,7 @@ const QuillEditor = React.forwardRef(
             className="FloatingEditorDialogueBox"
             style={{
               top: floatingBoxTopPosition,
-              width: isTeacher ? '330px' : '280px',
+              width: '280px',
             }}
           >
             <div className="modalHeading">
@@ -365,17 +364,11 @@ const QuillEditor = React.forwardRef(
               </button>
             </div>
             <ModalForSelectOption
-              isVisible={showFloatingDialogue}
+              isVisible={true}
               onClose={toggleEditorFloatingDialogue}
-              optionsToSelect={
-                isTeacher ? allCommentBanks : question?.focusAreas
-              }
-              infoType={isTeacher ? 'comment bank' : 'focus area'}
-              onClickOption={
-                isTeacher
-                  ? methods.handleShortcutAddCommentSmartAnnotaion
-                  : methods.handleFocusAreaComment
-              }
+              optionsToSelect={!isTeacher && question?.focusAreas}
+              infoType={!isTeacher && 'focus area'}
+              onClickOption={!isTeacher && methods.handleFocusAreaComment}
             />
           </div>
         )}

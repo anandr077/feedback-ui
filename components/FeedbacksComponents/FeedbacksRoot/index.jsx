@@ -606,7 +606,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
-
   function toggleEditorFloatingDialogue() {
     setShowFloatingDialogue(!showFloatingDialogue);
   }

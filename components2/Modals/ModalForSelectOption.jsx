@@ -59,7 +59,7 @@ const ModalForSelectOption = ({
 
 const MainContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 336px !important;
   flex: 1;
   overflow: scroll;
   &::-webkit-scrollbar {
@@ -73,7 +73,16 @@ const ModalContent = styled.div`
   height: 100%;
   overflow-y: scroll;
   &::-webkit-scrollbar {
-    display: none;
+    width: 4px; 
+    height: 8px; 
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
   }
 `;
 

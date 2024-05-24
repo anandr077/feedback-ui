@@ -419,7 +419,7 @@ const CommentBanks = () => {
       <PopupBackground>
         <PopupContainer>
           <PopupTitleContainer>
-            <PopupTitle>Create New Bank</PopupTitle>
+            <PopupTitle>Add New Comment Bank</PopupTitle>
             <PopupTitleImg
               onClick={() => setShowNewBankPopUp(false)}
               src={closecircle}
@@ -431,7 +431,7 @@ const CommentBanks = () => {
                 <CardImgCont>
                   <CardImg src={PlusBlue} />
                 </CardImgCont>
-                <CardTitle>New Bank</CardTitle>
+                <CardTitle>Create Your Own</CardTitle>
               </Card>
               {systemSmartAnnotations?.map((bank) => {
                 return (
@@ -473,7 +473,7 @@ const CommentBanks = () => {
             <CreateButton
               onClick={() => createSystemFeedbackBank(selectedBank.id)}
             >
-              <ButtonText>Create</ButtonText>
+              <ButtonText>Add</ButtonText>
             </CreateButton>
           </ButtonConatiner>
         </PopupContainer>

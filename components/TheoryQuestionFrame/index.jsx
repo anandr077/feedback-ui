@@ -31,6 +31,7 @@ import {
   MarkingCriteriaList,
 } from './style';
 import QuestionTooltip from '../../components2/QuestionTooltip';
+import { useHistory } from 'react-router-dom';
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -52,6 +53,7 @@ export default function TheoryQuestionFrame(props) {
     setAllFocusAreas,
     allCommentBanks,
   } = props;
+  const history = useHistory();
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias?.findIndex(
     (item) => {
@@ -171,7 +173,7 @@ export default function TheoryQuestionFrame(props) {
                 />
               </Preview>
             </MarkingCriteriaFrame>
-            <MarkingCriteriaList href={'/#/settings'}>
+            <MarkingCriteriaList onClick={() => history.push('/settings')}>
               Go to marking templates
             </MarkingCriteriaList>
           </MarkingCriteriaAndListFrame>
@@ -220,7 +222,7 @@ export default function TheoryQuestionFrame(props) {
                 />
               </Preview>
             </MarkingCriteriaFrame>
-            <MarkingCriteriaList href={'/#/settings'}>
+            <MarkingCriteriaList onClick={() => history.push('/commentbanks')}>
               Go to comment banks
             </MarkingCriteriaList>
           </MarkingCriteriaAndListFrame>

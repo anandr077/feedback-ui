@@ -15,11 +15,13 @@ import {
   Frame1302,
   Line15,
   EditIcon,
+  EditIconHover,
 } from './style';
 import Eye from '../../../static/icons/Eye.svg';
 import Plus from '../../../static/icons/Plus.svg';
 import pluswhite from '../../../static/icons/pluswhite.svg';
 import MarkEdit from '../../../static/img/markEdit.svg';
+import EditHover from '../../../static/img/EditHover.svg';
 import {
   AddNewCriteria,
   AddNewCriteriaButton,
@@ -143,12 +145,9 @@ function CreateNewMarkingCriteriaDesktop(props) {
           <RightContainer>
             <HeadingContainer>
               {isEditing ? (
-                <Heading
-                  id="markingCriteriaTitleContainer"
-                  style={{ width: '75%' }}
-                >
+                <Heading id="markingCriteriaTitleContainer">
                   <TextInput
-                    placeholder="Name of marking template (max 100 characters)"
+                    placeholder="Name of marking template"
                     id="markingCriteriaName"
                     value={markingCriterias.title}
                     onChange={handleTitleChange}
@@ -158,9 +157,10 @@ function CreateNewMarkingCriteriaDesktop(props) {
                   ></TextInput>
                 </Heading>
               ) : (
-                <Heading>
+                <Heading onClick={() => setIsEditing(true)}>
                   {markingCriterias.title}
-                  <EditIcon src={MarkEdit} onClick={() => setIsEditing(true)} />
+                  <EditIcon src={MarkEdit} />
+                  <EditIconHover src={EditHover} />
                 </Heading>
               )}
               <ButtonsContainer>
@@ -194,7 +194,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
                       <CriteriaPart>
                         <TextArea
                           type="text"
-                          placeholder="Answering the question (max 140 characters)"
+                          placeholder="Answering the question"
                           value={markingTemplatesRubric.title}
                           onChange={(e) =>
                             updateCriteriaTitle(templateIndex, e.target.value)
@@ -217,7 +217,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
                             <LevelPart>
                               <TextArea
                                 type="text"
-                                placeholder="Level Name (max 30 characters)"
+                                placeholder="Level name"
                                 value={level.name}
                                 onChange={(e) =>
                                   updateLevelName(
@@ -236,7 +236,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
                             <LevelDescPart>
                               <TextArea
                                 type="text"
-                                placeholder="An answer of this level should...(max 200 characters)"
+                                placeholder="An answer of this level should..."
                                 value={level.description}
                                 onChange={(e) =>
                                   updateLevelDescription(

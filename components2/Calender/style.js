@@ -26,6 +26,7 @@ export const DataContainer = styled.div`
 export const MainCalender = styled.div`
   height: 120vh; 
   width: 100%; 
+  max-width: 1440px;
   /* padding: 20px; 
   background: rgba(48, 27, 114, 1);
   background-image: url('img/Tasks-page-background-overlay@2x.png');

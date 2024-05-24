@@ -11,6 +11,7 @@ import shareColor from '../../static/img/share-color.svg';
 import {
   Frame1354,
   Frame1358,
+  FixedWidthDiv,
   Frame1359,
   Frame1360,
   Frame1361,
@@ -45,38 +46,40 @@ function TasksDesktop(props) {
         </TitleAndFilterContainer>
         <Frame1360>
           {tasksSelected ? (
-            <Frame1359>
-              <Frame1354>
-                <TaskFrame1353
-                  outstanding="Assigned"
-                  number={assignmedTasks.length}
-                />
-                <TaskCardContainer
-                  allTasks={assignmedTasks}
-                  className={frame19Props.className}
-                />
-              </Frame1354>
-              <Frame1354>
-                <TaskFrame1353
-                  outstanding="In Draft"
-                  number={inProgressTasks.length}
-                />
-                <TaskCardContainer
-                  allTasks={inProgressTasks}
-                  className={frame19Props.className}
-                />
-              </Frame1354>
-              <Frame1358>
-                <TaskFrame1353
-                  outstanding="In Review"
-                  number={inReviewTasks.length}
-                />
-                <TaskCardContainer
-                  allTasks={inReviewTasks}
-                  className={frame19Props.className}
-                />
-              </Frame1358>
-            </Frame1359>
+            <FixedWidthDiv>
+              <Frame1359>
+                <Frame1354>
+                  <TaskFrame1353
+                    outstanding="Assigned"
+                    number={assignmedTasks.length}
+                  />
+                  <TaskCardContainer
+                    allTasks={assignmedTasks}
+                    className={frame19Props.className}
+                  />
+                </Frame1354>
+                <Frame1354>
+                  <TaskFrame1353
+                    outstanding="In Draft"
+                    number={inProgressTasks.length}
+                  />
+                  <TaskCardContainer
+                    allTasks={inProgressTasks}
+                    className={frame19Props.className}
+                  />
+                </Frame1354>
+                <Frame1358>
+                  <TaskFrame1353
+                    outstanding="In Review"
+                    number={inReviewTasks.length}
+                  />
+                  <TaskCardContainer
+                    allTasks={inReviewTasks}
+                    className={frame19Props.className}
+                  />
+                </Frame1358>
+              </Frame1359>
+            </FixedWidthDiv>
           ) : (
             MyCalendarFile
           )}

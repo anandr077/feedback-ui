@@ -1,10 +1,10 @@
-.rubrics-table{
+.rubrics-table {
   border-radius: 15px !important;
   padding: 10px;
   box-shadow: rgba(10, 10, 11, 0.2) 0px 5px 20px 0px;
 }
 
-.st-table{
+.st-table {
   border: 1px solid #eeecec;
   border-radius: 15px;
   box-shadow: rgba(10, 10, 11, 0.2) 0px 5px 20px 0px;
@@ -18,7 +18,7 @@
   padding: 16px;
 }
 
-.parent-container-sm{
+.parent-container-sm {
   display: flex;
   gap: 20px;
   flex-direction: column;
@@ -36,7 +36,7 @@
   margin: 10px;
 }
 
-.mc-title{
+.mc-title {
   width: 100%;
   padding: 8px;
   text-align: center;
@@ -70,7 +70,7 @@
   padding: 8px;
 }
 
-.data:last-child{
+.data:last-child {
   border-right: none;
 }
 
@@ -84,7 +84,7 @@
   margin-bottom: 20px !important;
 }
 
-.mk-heading{
+.mk-heading {
   color: #1e252a;
   font-size: 18px;
   font-family: IBM Plex Sans;
@@ -115,36 +115,36 @@
 
 
 
-.st-subHeader{
+.st-subHeader {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
 
-.st-title{
+.st-title {
   color: var(--royal-purple);
   font-size: var(--font-size-xl);
   font-weight: bold;
-  margin: 30px auto;
+  margin: 10px auto;
   text-align: center;
   font-family: IBM Plex Sans;
   text-align: center;
 }
 
 
-.st-sub-title{
+.st-sub-title {
   color: #1e252a;
   font-size: 18px;
   font-family: IBM Plex Sans;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  padding: 8px 0 30px;
+  padding: 8px 0 10px;
   width: 100%;
   min-width: 150px;
   text-align: center;
 }
 
-.st-sub-title-sm{
+.st-sub-title-sm {
   color: #1e252a;
   font-size: 18px;
   font-family: IBM Plex Sans;
@@ -157,13 +157,11 @@
   text-align: center;
 }
 
-.mk-column{
+.mk-column {
   padding: 8px;
 }
 
-.mk-empty-column{
+.mk-empty-column {
   border: 1px solid transparent;
   padding: 8px;
 }
-
-

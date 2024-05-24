@@ -553,13 +553,13 @@ const CommentBanks = () => {
                   {smartAnnotationsFrame()}
                 </MarkingCriteriaList>
 
-                {findCurrentFeedbackBank?.ownerId === getUserId() && (
+                {/* {findCurrentFeedbackBank?.ownerId === getUserId() && (
                   <Buttons
                     text="New Feedback Area"
                     onClickMethod={() => createSmartAnnotationHandler()}
                     className={'button-width'}
                   />
-                )}
+                )} */}
               </Frame1302>
             )}
           </RightContainer>

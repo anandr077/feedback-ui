@@ -15,7 +15,11 @@ import {
   RightConatiner,
   RightConatinerHeading,
   RightConatinerHeadingText,
+  SpecificComment,
+  SpecificCommentText,
+  SpecificCommentsCont,
 } from './feedbackAreastyle';
+import CommentSuggestion from './CommentSuggestion';
 // import {
 //   TextInputEditable,
 //   TextBox,
@@ -58,6 +62,10 @@ function FeedbackArea(props) {
   const [editedText, setEditedText] = useState('');
   const [editingTitle, setEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState();
+  const [currentSmartComment, setCurrnetSmartComment] = useState(
+    currentSmartAnnotation.smartComments[0]
+  );
+  const [currentSmartCommentId, setCurrnetSmartCommentId] = useState(0);
 
   const handleTextChange = (event) => {
     setEditedText(event.target.value);
@@ -148,6 +156,11 @@ function FeedbackArea(props) {
     }
   };
 
+  const handleSmartCommentSelection = (smartComment, index) => {
+    setCurrnetSmartCommentId(index);
+    setCurrnetSmartComment(smartComment);
+  };
+
   return (
     <>
       <MainConatiner>
@@ -156,23 +169,38 @@ function FeedbackArea(props) {
             <LeftConatinerHeadingText>Feedback Areas</LeftConatinerHeadingText>
           </LeftConatinerHeading>
           <FeedbackAreasContainer>
-            <FeedbackAreaCon>
-              <FeedbackAreaText>Contextualise evidence </FeedbackAreaText>
-            </FeedbackAreaCon>
-            <FeedbackAreaCon>
-              <FeedbackAreaText>Contextualise evidence </FeedbackAreaText>
-            </FeedbackAreaCon>
-            <FeedbackAreaCon>
-              <FeedbackAreaText>Contextualise evidence </FeedbackAreaText>
-            </FeedbackAreaCon>
+            {currentSmartAnnotation.smartComments.map((smartComment, index) => {
+              return (
+                <FeedbackAreaCon
+                  key={index}
+                  onClick={() =>
+                    handleSmartCommentSelection(smartComment, index)
+                  }
+                  selected={index === currentSmartCommentId}
+                >
+                  <FeedbackAreaText selected={index === currentSmartCommentId}>
+                    {smartComment.title}
+                  </FeedbackAreaText>
+                </FeedbackAreaCon>
+              );
+            })}
           </FeedbackAreasContainer>
         </LeftConatiner>
         <RightConatiner>
           <RightConatinerHeading>
             <RightConatinerHeadingText>
-              Specific Comments: Use of evidence
+              Specific Comments:
+              <span style={{ opacity: '0.7' }}>
+                {' '}
+                {currentSmartComment.title}
+              </span>
             </RightConatinerHeadingText>
           </RightConatinerHeading>
+          <SpecificCommentsCont>
+            {currentSmartComment.suggestions.map((comment, index) => {
+              return <CommentSuggestion comment={comment} index={index} />;
+            })}
+          </SpecificCommentsCont>
         </RightConatiner>
       </MainConatiner>
     </>

@@ -197,6 +197,7 @@ export const LeftConatiner = styled.div`
   display: flex;
   flex-direction: column;
   width: 25%;
+  border-right: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 export const RightConatiner = styled.div`
   display: flex;
@@ -209,6 +210,7 @@ export const LeftConatinerHeading = styled.div`
   flex-direction: column;
   background-color: #ffffff;
   padding: 20px;
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 export const LeftConatinerHeadingText = styled.p`
   font-family: IBM Plex Sans;
@@ -223,6 +225,7 @@ export const RightConatinerHeading = styled.div`
   display: flex;
   background-color: #ffffff;
   padding: 20px;
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 export const RightConatinerHeadingText = styled.p`
   font-family: IBM Plex Sans;
@@ -243,12 +246,55 @@ export const FeedbackAreasContainer = styled.div`
 
 export const FeedbackAreaCon = styled.div`
   padding: 12px 16px;
+  cursor: pointer;
+  background-color: ${(props) => (props.selected ? '#F1E6FC' : '#fff')};
+  border-radius: 6px;
 `;
 export const FeedbackAreaText = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: ${(props) => (props.selected ? '500' : '400')};
   line-height: 24px;
   letter-spacing: -0.01em;
   text-align: left;
+  color: ${(props) => (props.selected ? '#7200E0' : '#4B464F')};
+`;
+
+export const SpecificCommentsCont = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const IconImage = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
+export const SpecificComment = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border: 0px 0px 1px 0px;
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  background-color: #ffffff;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f1f380;
+  }
+`;
+export const SpecificCommentText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #56515b;
+`;
+
+export const IconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 `;

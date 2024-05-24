@@ -234,6 +234,9 @@ export const StyledTab = styled(Tab)`
   gap: 3px;
   border-radius: 4px !important;
   text-transform: none !important;
+  .Mui-selected {
+    color: #7200e0 !important;
+  }
 `;
 
 export const StyledTabs = styled(Tabs)`

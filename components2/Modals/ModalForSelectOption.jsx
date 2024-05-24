@@ -2,58 +2,33 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ModalForSelectOption = ({
-  isVisible,
   onClose,
   optionsToSelect,
-  infoType,
   onClickOption,
 }) => {
-  if (!isVisible) return null;
 
-    if (infoType === 'comment bank') {
-      return (
-          <MainContainer>
-            <ModalContent>
-              {optionsToSelect?.map((comment, idx) => (
-                <div key={idx}>
-                  <CommentTitle>{comment.title}</CommentTitle>
-                  {comment?.suggestions?.map((suggestion, index) => (
-                    <SuggestionComment
-                      key={index}
-                      onClick={() => {
-                        onClickOption(comment.title + '\n\n' + suggestion);
-                        onClose();
-                      }}
-                    >
-                      {suggestion}
-                    </SuggestionComment>
-                  ))}
-                </div>
-              ))}
-            </ModalContent>
-          </MainContainer>
-      );
-    }
-    return (
-        <MainContainer>
-          <ModalContentForFocusArea>
-            {optionsToSelect?.map((focusArea, idx) => {
-              return (
-                <OptionContainer
-                  key={idx}
-                  onClick={() => {
-                    onClickOption(focusArea);
-                    onClose();
-                  }}
-                >
-                  <FocusAreaColorBox style={{background: focusArea.color}}></FocusAreaColorBox>
-                  {focusArea.title}
-                </OptionContainer>
-              );
-            })}
-          </ModalContentForFocusArea>
-        </MainContainer>
-    );
+  return (
+    <MainContainer>
+      <ModalContent>
+        {optionsToSelect?.map((comment, idx) => (
+          <div key={idx}>
+            <CommentTitle>{comment.title}</CommentTitle>
+            {comment?.suggestions?.map((suggestion, index) => (
+              <SuggestionComment
+                key={index}
+                onClick={() => {
+                  onClickOption(comment.title + '\n\n' + suggestion);
+                  onClose(false);   
+                }}
+              >
+                {suggestion}
+              </SuggestionComment>
+            ))}
+          </div>
+        ))}
+      </ModalContent>
+    </MainContainer>
+);
 };
 
 
@@ -84,49 +59,6 @@ const ModalContent = styled.div`
   &::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
   }
-`;
-
-const ModalContentForFocusArea = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 12px;
-  overflow-y: scroll;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const OptionContainer = styled.button`
-  min-width: 112px;
-  min-height: 33px;
-  border-radius: 22px;
-  border: 1px solid rgba(201, 198, 204, 0.5);
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  text-align: start;
-  gap: 8px;
-  background-color: white;
-  cursor: pointer;
-
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-s);
-  line-height: 16px;
-  color: #7B7382;
-
-  &:hover{
-    background-color: rgba(201, 198, 204, 0.5);
-  }
-`;
-
-const FocusAreaColorBox = styled.div`
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 1px solid #B2AEB780;
 `;
 
 

@@ -606,9 +606,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
-  function toggleEditorFloatingDialogue() {
-    setShowFloatingDialogue(!showFloatingDialogue);
-  }
 
   console.log('the page mode is', pageMode);
 
@@ -1561,7 +1558,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         overallComments,
         comments,
         showFloatingDialogue,
-        toggleEditorFloatingDialogue,
+        setShowFloatingDialogue,
         allCommentBanks,
         methods,
         isTeacher

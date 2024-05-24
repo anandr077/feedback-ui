@@ -15,6 +15,7 @@ import HighlightBlot from './HighlightBlot';
 import './styles.css';
 import CommentBox from './CommentBox';
 import ModalForSelectOption from '../../components2/Modals/ModalForSelectOption';
+import FocusAreaSelection from '../../components2/FocusAreaSelection';
 
 const QuillEditor = React.forwardRef(
   (
@@ -46,7 +47,7 @@ const QuillEditor = React.forwardRef(
       setCountWords,
       isTeacher,
       showFloatingDialogue,
-      toggleEditorFloatingDialogue,
+      setShowFloatingDialogue,
     } = useContext(FeedbackContext);
     const manipulatePastedHTML = (pastedHTML) => {
       const parser = new DOMParser();
@@ -358,17 +359,15 @@ const QuillEditor = React.forwardRef(
               <h1>{isTeacher ? 'Comment Banks' : 'Focus Areas'}</h1>
               <button
                 className="closeButton"
-                onClick={() => toggleEditorFloatingDialogue()}
+                onClick={() => setShowFloatingDialogue(false)}
               >
                 x
               </button>
             </div>
-            <ModalForSelectOption
-              isVisible={true}
-              onClose={toggleEditorFloatingDialogue}
-              optionsToSelect={!isTeacher && question?.focusAreas}
-              infoType={!isTeacher && 'focus area'}
-              onClickOption={!isTeacher && methods.handleFocusAreaComment}
+            <FocusAreaSelection 
+              onClose={setShowFloatingDialogue}
+              optionsToSelect={question?.focusAreas}
+              onClickOption={methods.handleFocusAreaComment}
             />
           </div>
         )}

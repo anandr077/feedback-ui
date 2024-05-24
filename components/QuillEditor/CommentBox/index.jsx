@@ -297,7 +297,7 @@ function reviewerNewComment(
   question,
   selectedRange
 ) {
-  const { smartAnnotations, toggleEditorFloatingDialogue, allCommentBanks, isTeacher} = useContext(FeedbackContext);
+  const { smartAnnotations, setShowFloatingDialogue, allCommentBanks, isTeacher} = useContext(FeedbackContext);
 
   if (pageMode === 'CLOSED') return <></>;
   return (
@@ -325,16 +325,12 @@ function reviewerNewComment(
               />
             </CommentContainer>
             <ModalHeading>
-              <h1>{isTeacher ? 'Comment Banks' : 'Focus Areas'}</h1>
+              <h1>Comment Banks</h1>
             </ModalHeading>
             <ModalForSelectOption 
-               isVisible={true}
-               onClose={toggleEditorFloatingDialogue}
-               optionsToSelect={isTeacher ? allCommentBanks : question?.focusAreas}
-               infoType={isTeacher ? "comment bank" : 'Focus Areas'}
-               onClickOption={isTeacher
-                ? methods.handleShortcutAddCommentSmartAnnotaion
-                : methods.handleFocusAreaComment}
+               onClose={setShowFloatingDialogue}
+               optionsToSelect={allCommentBanks}
+               onClickOption={methods.handleShortcutAddCommentSmartAnnotaion}
             />
             {/* <ShortcutList>
                 {shortcutList(methods, smartAnnotations, commentBankIds)}
@@ -397,14 +393,14 @@ function selectFocusArea(methods, submission, newCommentSerialNumber) {
   );
   const focusAreasFrame = (methods) => (
     <>
-      {/* <Frame1329>
+      <Frame1329>
         <Frame1406>
           <FocusAreasFrame
             focusAreas={focusAreas}
             handleAddFocusArea={methods.handleFocusAreaComment}
           />
         </Frame1406>
-      </Frame1329> */}
+      </Frame1329>
     </>
   );
 

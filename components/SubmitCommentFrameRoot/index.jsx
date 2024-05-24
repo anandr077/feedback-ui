@@ -12,7 +12,7 @@ const SubmitCommentFrameRoot = (props) => {
     smartAnnotations,
     commentBankIds,
   } = props;
-  const { toggleEditorFloatingDialogue } = useContext(FeedbackContext);
+  const { setShowFloatingDialogue } = useContext(FeedbackContext);
   // const allCommentBanks = smartAnnotations?.flatMap(
   //   (annotation, index) =>
   //     annotation.smartComments.filter((smartComment) =>
@@ -31,7 +31,7 @@ const SubmitCommentFrameRoot = (props) => {
     <SubmitCommentFrameRootRoot>
       {/* {commentBankIds && (
         <LeftBtn onClick={()=> {
-          toggleEditorFloatingDialogue();
+          setShowFloatingDialogue();
           cancelButtonOnClick()
         }}>
           <img src={ActiveCommentIcon} />

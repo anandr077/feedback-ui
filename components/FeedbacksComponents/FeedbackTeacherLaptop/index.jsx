@@ -535,22 +535,26 @@ function answersAndFeedbacks(
     }
   );
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  const { toggleEditorFloatingDialogue } = useContext(FeedbackContext);
+  const { setShowFloatingDialogue } = useContext(FeedbackContext);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
   };
 
-  const question = submission.assignment.questions[QuestionIndex];
+  const question = submission.assignment.questions[1];
 
-  React.useEffect(() => {
-    if (selectedRange !== null && (pageMode === 'DRAFT' || pageMode === 'REVISE')) {
-      toggleEditorFloatingDialogue();
+ 
+  useEffect(()=>{
+    if(selectedRange !== null){
+      if(pageMode === 'DRAFT' || pageMode === 'REVISE'){
+        setShowFloatingDialogue(true);
+      }
+      if(pageMode === 'REVIEW'){
+        setCommentFocusAreaToggle(false);
+      }
     }
-    if (selectedRange && pageMode === 'REVIEW') {
-      setCommentFocusAreaToggle(false);
-    }
-  }, [selectedRange]);
+  }, [selectedRange])
+
 
   return (
     <Frame1386 id="content">

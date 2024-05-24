@@ -545,7 +545,7 @@ export const QuestionText = styled.p`
 `;
 
 export const QuestionInputBox = styled.textarea`
-  font-family: Open Sans;
+  font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
   color: rgba(24, 23, 24, 1);
   font-weight: 400;

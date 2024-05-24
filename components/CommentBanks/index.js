@@ -431,7 +431,7 @@ const CommentBanks = () => {
                 <CardImgCont>
                   <CardImg src={PlusBlue} />
                 </CardImgCont>
-                <CardTitle>New Bank</CardTitle>
+                <CardTitle>Create Your Own</CardTitle>
               </Card>
               {systemSmartAnnotations?.map((bank) => {
                 return (

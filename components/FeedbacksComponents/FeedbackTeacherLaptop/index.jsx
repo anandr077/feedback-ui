@@ -607,8 +607,8 @@ function answersAndFeedbacks(
         <FocusAreasLabel 
             handleCheckboxChange={handleCheckboxChange}
             groupedFocusAreaIds={groupedFocusAreaIds}
-            serialNumber={question.serialNumber}
-            focusAreas={question.focusAreas}
+            serialNumber={question?.serialNumber}
+            focusAreas={question?.focusAreas}
         />
         <Frame1368 id="assignmentData">
           {answersFrame(

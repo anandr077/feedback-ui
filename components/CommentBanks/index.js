@@ -419,7 +419,7 @@ const CommentBanks = () => {
       <PopupBackground>
         <PopupContainer>
           <PopupTitleContainer>
-            <PopupTitle>Create New Bank</PopupTitle>
+            <PopupTitle>Add New Comment Bank</PopupTitle>
             <PopupTitleImg
               onClick={() => setShowNewBankPopUp(false)}
               src={closecircle}

@@ -422,7 +422,7 @@ border-radius: 0px 0px 8px 8px;
 `;
 
 export const CreateButton = styled.div`
-  padding: 8px 12px 8px 12px;
+  padding: 5px 15px;
   border-radius: 32px;
   background: #7200e0;
   cursor: pointer;

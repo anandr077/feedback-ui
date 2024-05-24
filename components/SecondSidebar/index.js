@@ -83,7 +83,7 @@ const SecondSidebar = ({ id }) => {
       title: `${
         role === 'STUDENT'
           ? `Help a Friend (${feedbackRequestsLength})`
-          : `Student Requests (${feedbackRequestsLength})`
+          : `Feedback From Me (${feedbackRequestsLength})`
       }`,
       link: '/giveFeedback',
       matchLink: '/giveFeedback',
@@ -98,7 +98,7 @@ const SecondSidebar = ({ id }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Feedback History`,
+      title: `Feedback From Me`,
       link: `/feedbackHistory`,
       matchLink: `/feedbackHistory`,
     },

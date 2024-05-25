@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import ActiveCommentIcon from '../../static/img/purplesinglecomment.svg';
-import ModalForSelectOption from '../../components2/Modals/ModalForSelectOption';
 import SmartAnotation from '../SmartAnnotations';
+import { FeedbackContext } from '../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 const SubmitCommentFrameRoot = (props) => {
   const {
     submitButtonOnClick,
@@ -11,36 +11,33 @@ const SubmitCommentFrameRoot = (props) => {
     isButtonDisabled,
     smartAnnotations,
     commentBankIds,
-    handleComment,
   } = props;
-  const [isCommentBankVisible, setIsCommentBankVisible] = useState(false);
-
-  const allCommentBanks = smartAnnotations?.flatMap(
-    (annotation, index) =>
-      annotation.smartComments.filter((smartComment) =>
-        commentBankIds?.includes(annotation.id)
-      )
-    // .map((smartComment, innerIndex) => (
-    //   <SmartAnotation
-    //     key={`${index}-${innerIndex}`}
-    //     smartAnnotation={smartComment}
-    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
-    //   />
-    // ))
-  );
-
-  function toggleCommentBankPopup() {
-    setIsCommentBankVisible(!isCommentBankVisible);
-  }
+  const { setShowFloatingDialogue } = useContext(FeedbackContext);
+  // const allCommentBanks = smartAnnotations?.flatMap(
+  //   (annotation, index) =>
+  //     annotation.smartComments.filter((smartComment) =>
+  //       commentBankIds?.includes(annotation.id)
+  //     )
+  //   // .map((smartComment, innerIndex) => (
+  //   //   <SmartAnotation
+  //   //     key={`${index}-${innerIndex}`}
+  //   //     smartAnnotation={smartComment}
+  //   //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+  //   //   />
+  //   // ))
+  // );
 
   return (
     <SubmitCommentFrameRootRoot>
-      {commentBankIds && (
-        <LeftBtn onClick={toggleCommentBankPopup}>
+      {/* {commentBankIds && (
+        <LeftBtn onClick={()=> {
+          setShowFloatingDialogue();
+          cancelButtonOnClick()
+        }}>
           <img src={ActiveCommentIcon} />
           Bank
         </LeftBtn>
-      )}
+      )} */}
       <RightBtnContainer>
         <SmallButtonWhite onClick={(e) => cancelButtonOnClick()}>
           <Text2>Cancel</Text2>
@@ -54,13 +51,6 @@ const SubmitCommentFrameRoot = (props) => {
           {commentBankIds ? (showComment ? 'Update' : 'Comment') : 'Share'}
         </SmallButton>
       </RightBtnContainer>
-      <ModalForSelectOption
-        isVisible={isCommentBankVisible}
-        onClose={toggleCommentBankPopup}
-        optionsToSelect={allCommentBanks}
-        modalType={"comment bank"}
-        onClickOption={handleComment}
-      />
     </SubmitCommentFrameRootRoot>
   );
 };
@@ -92,7 +82,7 @@ const SubmitCommentFrameRootRoot = styled.div`
   gap: 15px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
   box-sizing: border-box;
   background-position: 50% 50%;

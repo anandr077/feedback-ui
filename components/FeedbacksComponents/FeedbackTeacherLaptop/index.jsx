@@ -51,7 +51,6 @@ import FeedbackHeader from '../FeedbackHeader';
 import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
-import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
@@ -536,29 +535,26 @@ function answersAndFeedbacks(
     }
   );
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  const [showFocusAreas, setShowFocusArea] = React.useState(false);
+  const { setShowFloatingDialogue } = useContext(FeedbackContext);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
   };
 
-  function toggleFocusAreaPopup() {
-    setShowFocusArea(!showFocusAreas);
-  }
+  const question = submission.assignment.questions[1];
 
-  const question = submission.assignment.questions[QuestionIndex];
+ 
+  useEffect(()=>{
+    if(selectedRange !== null){
+      if(pageMode === 'DRAFT' || pageMode === 'REVISE'){
+        setShowFloatingDialogue(true);
+      }
+      if(pageMode === 'REVIEW'){
+        setCommentFocusAreaToggle(false);
+      }
+    }
+  }, [selectedRange])
 
-  React.useEffect(() => {
-    if (
-      selectedRange !== null &&
-      (pageMode === 'DRAFT' || pageMode === 'REVISE')
-    ) {
-      toggleFocusAreaPopup();
-    }
-    if (selectedRange && pageMode === 'REVIEW') {
-      setCommentFocusAreaToggle(false);
-    }
-  }, [selectedRange]);
 
   return (
     <Frame1386 id="content">
@@ -608,11 +604,11 @@ function answersAndFeedbacks(
           />
         )}
       <FeedbackBody>
-        <FocusAreasLabel
-          handleCheckboxChange={handleCheckboxChange}
-          groupedFocusAreaIds={groupedFocusAreaIds}
-          serialNumber={question.serialNumber}
-          focusAreas={question.focusAreas}
+        <FocusAreasLabel 
+            handleCheckboxChange={handleCheckboxChange}
+            groupedFocusAreaIds={groupedFocusAreaIds}
+            serialNumber={question?.serialNumber}
+            focusAreas={question?.focusAreas}
         />
         <Frame1368 id="assignmentData">
           {answersFrame(
@@ -655,48 +651,35 @@ function answersAndFeedbacks(
             ></FeedbackFrame>
           )} */}
         </Frame1368>
-        {submission.type !== 'DOCUMENT' && (
-          <>
-            <FeedbackRightSideSlidingTabs
-              handleRightSidebarClick={handleRightSidebarClick}
-              openRightPanel={openRightPanel}
-              submission={submission}
-              QuestionIndex={QuestionIndex}
-              methods={methods}
-              setQuestionIndex={setQuestionIndex}
-              pageMode={pageMode}
-            />
-            <CriteriaAndOverallFeedback
-              handleClick={handleRightSidebarClick}
-              openRightPanel={openRightPanel}
-              QuestionIndex={QuestionIndex}
-              addOverallFeedback={methods.addOverallFeedback}
-              updateOverAllFeedback={methods.updateOverAllFeedback}
-              handleMarkingCriteriaLevelFeedback={
-                methods.handleMarkingCriteriaLevelFeedback
-              }
-              handleStrengthsTargetsFeedback={
-                methods.handleStrengthsTargetsFeedback
-              }
-              pageMode={pageMode}
-              submission={submission}
-            />
-            <FeedbackRightSidebar
-              handleClick={handleRightSidebarClick}
-              openRightPanel={openRightPanel}
-              pageMode={pageMode}
-              isTeacher={isTeacher}
-              submission={submission}
-            />
-          </>
-        )}
-        <ModalForSelectOption
-          isVisible={showFocusAreas}
-          onClose={toggleFocusAreaPopup}
-          optionsToSelect={question?.focusAreas}
-          modalType={'focus area'}
-          onClickOption={methods.handleFocusAreaComment}
+        <FeedbackRightSideSlidingTabs
+          handleRightSidebarClick={handleRightSidebarClick}
+          openRightPanel={openRightPanel}
+          submission={submission}
+          QuestionIndex={QuestionIndex}
+          methods={methods}
+          setQuestionIndex={setQuestionIndex}
+          pageMode={pageMode}
         />
+        <CriteriaAndOverallFeedback
+          handleClick={handleRightSidebarClick}
+          openRightPanel={openRightPanel}
+          QuestionIndex={QuestionIndex}
+          addOverallFeedback={methods.addOverallFeedback}
+          updateOverAllFeedback={methods.updateOverAllFeedback}
+          handleMarkingCriteriaLevelFeedback={
+            methods.handleMarkingCriteriaLevelFeedback
+          }
+          handleStrengthsTargetsFeedback = {methods.handleStrengthsTargetsFeedback}
+          pageMode={pageMode}
+          submission={submission}
+        />
+        <FeedbackRightSidebar
+          handleClick={handleRightSidebarClick}
+          openRightPanel={openRightPanel}
+          pageMode={pageMode}
+          isTeacher={isTeacher}
+          submission={submission}
+        /> 
       </FeedbackBody>
     </Frame1386>
   );

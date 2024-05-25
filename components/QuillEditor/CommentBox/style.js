@@ -29,6 +29,9 @@ export const SmartAnnotationsComponent = styled.div`
   gap: 8px;
   overflow-y: scroll;
   padding-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
+  border: solid 1px rgba(201, 198, 204, 0.5);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -39,10 +42,8 @@ export const CommentContainer = styled.div`
   flex-direction: column;
   gap: 8px;
   padding: 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
-  border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;
+  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
 `;
 
 export const Frame1326 = styled.div`
@@ -159,3 +160,21 @@ export const CommentDiv = styled.div`
   padding-left: 60px;
   transition: top 0.3s ease-in-out, transform 0.1s ease-in;
 `;
+
+
+export const ModalHeading = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 12px 6px;
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+
+  h1{
+  font-family: var(--font-family-ibm_plex_sans);
+  color: rgba(86, 81, 91, 1);
+  font-weight: 600;
+  font-size: var(--font-size-l);
+  line-height: 17px;
+}
+`;
+

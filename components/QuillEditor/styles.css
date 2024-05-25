@@ -160,6 +160,48 @@ stroke: white !important;
   color: #7200e0 !important;
 }
 
+.FloatingEditorDialogueBox{ 
+  position: absolute; 
+  left: 90%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0 20px;
+  background: white;
+  border-radius: 10px;
+  max-width: 90%;
+  min-height: 150px;
+  max-height: 350px;
+  z-index: 10000;
+  border: 1px solid rgba(201, 198, 204, 0.5);
+  box-shadow: inset 0 0 4px rgba(112, 112, 112, 0.25);
+}
+
+.modalHeading{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 12px 6px;
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+}
+
+.modalHeading h1{
+  font-family: var(--font-family-ibm_plex_sans);
+  color: rgba(86, 81, 91, 1);
+  font-weight: 600;
+  font-size: var(--font-size-l);
+  line-height: 17px;
+}
+
+.closeButton{
+  border: none;
+  background: none;
+  font-size: 1.3rem;
+  padding: 0;
+  margin: 0;
+  color: rgba(86, 81, 91, 1);
+  cursor: pointer;
+}
+
 
 
 

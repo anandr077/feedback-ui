@@ -1,11 +1,12 @@
 import React from 'react';
-import {MainContainer, ModalContentForFocusArea, OptionContainer, FocusAreaColorBox} from './style';
+import {
+  MainContainer,
+  ModalContentForFocusArea,
+  OptionContainer,
+  FocusAreaColorBox,
+} from './style';
 
-const FocusAreaSelection = ({
-    onClose,
-    optionsToSelect,
-    onClickOption
-}) => {
+const FocusAreaSelection = ({ optionsToSelect, onClickOption }) => {
   return (
     <MainContainer>
       <ModalContentForFocusArea>
@@ -15,7 +16,6 @@ const FocusAreaSelection = ({
               key={idx}
               onClick={() => {
                 onClickOption(focusArea);
-                onClose(false);
               }}
             >
               <FocusAreaColorBox

@@ -481,6 +481,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
+        setShowFloatingDialogue(false);
       }
     });
   }

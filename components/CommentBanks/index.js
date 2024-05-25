@@ -55,6 +55,7 @@ import Loader from '../Loader';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import EmptyBankIcon from '../../static/img/emptyBank.svg';
 import Plus from '../../static/img/Plus.svg';
+import Pluslight from '../../static/img/Pluslight.svg';
 import TabTitleContainer from '../Settings/AccountSettingsMarkingCriteriaDeskt/TabTitleContainer';
 import Buttons from '../Classes/Buttons';
 import questionMark from '../../static/img/question-mark.svg';
@@ -63,6 +64,7 @@ import closecircle from '../../static/img/closecircle.svg';
 import PlusBlue from '../../static/img/Plus-blue.svg';
 import Doc from '../../static/img/doc.svg';
 import PreviewIcon from '../../static/img/preview.svg';
+import FeedbackArea from './FeedbackArea';
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = React.useState();
@@ -125,23 +127,22 @@ const CommentBanks = () => {
     if (!smartAnnotation) {
       return null;
     }
-    const all = smartAnnotation.smartComments?.map((sa, index) => (
-      <SmartAnotation
+    return (
+      <FeedbackArea
         key={Math.random()}
         smartAnnotationIndex={feedbackBankId}
-        smartCommentIndex={index}
+        // smartCommentIndex={index}
         smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
-        smartAnnotation={sa}
+        smartAnnotation={smartAnnotation}
         UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
         settingsMode={true}
         deleteAnnotationHandler={deleteAnnotationHandler}
         createSmartAnnotation={createSmartAnnotation}
         teacherId={smartAnnotation.ownerId}
-        open={smartAnnotationeditIndex === index}
+        // open={smartAnnotationeditIndex === index}
         setSmartAnnotationeditIndex={setSmartAnnotationeditIndex}
       />
-    ));
-    return all;
+    );
   };
 
   const deteteFeedbackBank = (smartAnnotationIndex) => {
@@ -510,24 +511,7 @@ const CommentBanks = () => {
               emptyFeedbackBank()
             ) : (
               <Frame1302>
-                <Title1>
-                  <FeedbackBankHeading>Comment Banks</FeedbackBankHeading>
-                  <QuestionTooltip
-                    text={
-                      "A customisable bank of comments to provide faster feedback when marking a student's work"
-                    }
-                    img={questionMark}
-                  />
-                </Title1>
                 <TabsContainer>
-                  <MoreOptionsContainer>
-                    <TabsPlusContainer
-                      onClick={() => setShowNewBankPopUp(true)}
-                    >
-                      <TabsPlus src={Plus} />
-                      <TabsPlusText>New Bank</TabsPlusText>
-                    </TabsPlusContainer>
-                  </MoreOptionsContainer>
                   <StyledTabs
                     variant="scrollable"
                     scrollButtons
@@ -541,10 +525,6 @@ const CommentBanks = () => {
                   >
                     {smartAnnotations?.map((bank, index) => (
                       <StyledTab
-                        style={{
-                          backgroundColor:
-                            feedbackBankId === bank.id ? '#f1e6fc' : '#F2F1F3',
-                        }}
                         key={bank.id}
                         value={bank.id}
                         label={
@@ -561,18 +541,25 @@ const CommentBanks = () => {
                       />
                     ))}
                   </StyledTabs>
+                  <MoreOptionsContainer>
+                    <TabsPlusContainer
+                      onClick={() => setShowNewBankPopUp(true)}
+                    >
+                      <TabsPlus src={Pluslight} />
+                    </TabsPlusContainer>
+                  </MoreOptionsContainer>
                 </TabsContainer>
                 <MarkingCriteriaList>
                   {smartAnnotationsFrame()}
                 </MarkingCriteriaList>
 
-                {findCurrentFeedbackBank?.ownerId === getUserId() && (
+                {/* {findCurrentFeedbackBank?.ownerId === getUserId() && (
                   <Buttons
                     text="New Feedback Area"
                     onClickMethod={() => createSmartAnnotationHandler()}
                     className={'button-width'}
                   />
-                )}
+                )} */}
               </Frame1302>
             )}
           </RightContainer>

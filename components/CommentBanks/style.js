@@ -88,7 +88,8 @@ export const EmptyBankContainerButton = styled.div`
 export const TabsContainer = styled.div`
   width: 100%;
   display: flex;
-  gap: 3px;
+  gap: 23px;
+  padding: 0px 20px;
   flex-direction: row;
   align-items: center;
   border-top: 1px solid #f2f2f2;
@@ -100,7 +101,6 @@ export const TabsPlusContainer = styled.div`
   padding: 8px;
   gap: 2px;
   border-radius: 4px;
-  background: #7200e0;
   cursor: pointer;
 `;
 
@@ -230,10 +230,13 @@ export const SystemOptionTitle = styled.p`
 `;
 
 export const StyledTab = styled(Tab)`
-  padding: 8px 10px 8px 10px;
+  padding: 20px 16px !important;
   gap: 3px;
   border-radius: 4px !important;
   text-transform: none !important;
+  .Mui-selected {
+    color: #7200e0 !important;
+  }
 `;
 
 export const StyledTabs = styled(Tabs)`

@@ -76,7 +76,6 @@ const FeedbackHeader = ({
 
   const handlePrevious = () => {
     setSelectedIndex((prevIndex) => {
-      console.log('the index num is', prevIndex);
       const newIndex = prevIndex >= studentsList.length - 1 ? 0 : prevIndex + 1;
       console.log('the newIndex num is', newIndex);
       handleQuestionClick(newIndex);

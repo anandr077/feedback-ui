@@ -226,10 +226,10 @@ function FeedbackTeacherLaptop(props) {
     setOpen(!isStudentReviewRoute && isOpen);
   }, [location.pathname]);
 
-  const handleCheckboxChange = (serialNumber, focusAreaId) => (event) => {
-    const isChecked = event.target.checked;
+  const handleCheckboxChange = (serialNumber, focusAreaId) => {
+    const isChecked = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
     setGroupedFocusAreaIds((prevState) => {
-      if (isChecked) {
+      if (!isChecked) {
         return {
           ...prevState,
           [serialNumber]: [...prevState[serialNumber], focusAreaId],

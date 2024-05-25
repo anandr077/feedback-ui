@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import {
-  FocusAreasLabelContainer,
-  OptionContainer,
-  FocusAreaColorBox,
   Ellipse141,
-  Label
+  Label,
+  MainFocusBox,
+  FocusAreaContainer,
 } from './style';
-import style from './style.module.css';
-import CheckboxBordered from '../../components/CheckboxBordered';
 
 const FocusAreasLabel = ({
   handleCheckboxChange,
@@ -19,58 +16,29 @@ const FocusAreasLabel = ({
     groupedFocusAreaIds?.[serialNumber] || []
   );
 
-  const handleClick = (fa) => {
-    const newSelectedFocusAreaIds = [...selectedFocusAreaIds]; // Create a copy of the state
-
-    if (selectedFocusAreaIds.includes(fa.id)) {
-      // Deselect if already selected
-      const index = newSelectedFocusAreaIds.indexOf(fa.id);
-      newSelectedFocusAreaIds.splice(index, 1);
-    } else {
-      // Select if not already selected
-      newSelectedFocusAreaIds.push(fa.id);
-    }
-
-    setSelectedFocusAreaIds(newSelectedFocusAreaIds); // Update state with the modified selection
-    handleCheckboxChange(serialNumber, newSelectedFocusAreaIds); // Pass updated selection to the provided function
-  };
-
-  if (focusAreas === null || focusAreas === undefined || focusAreas.length <= 0) {
-    return <></>; 
+  if (
+    focusAreas === null ||
+    focusAreas === undefined ||
+    focusAreas.length <= 0
+  ) {
+    return <></>;
   }
 
   const all = focusAreas?.map((fa, idx) => {
     return (
       <>
-        <CheckboxBordered
-          checked={isHighlighted(groupedFocusAreaIds, serialNumber, fa.id)}
-          onChange={handleCheckboxChange(serialNumber, fa.id)}
-        />
-        <div className={style.mainFocusBox}>
-          <div className={style.Ellipse141} style={{backgroundColor: fa.color}}></div>
-          <label className={style.label}>{fa.title}</label>
-        </div>
+        <MainFocusBox
+          selected={isHighlighted(groupedFocusAreaIds, serialNumber, fa.id)}
+          onClick={() => handleCheckboxChange(serialNumber, fa.id)}
+        >
+          <Ellipse141 style={{ backgroundColor: fa.color }}></Ellipse141>
+          <Label>{fa.title}</Label>
+        </MainFocusBox>
       </>
-
-      // <div
-      //   key={idx}
-      //   onClick={() => {
-      //       handleClick(fa);
-      //   }}
-      //   className={`${style.focusBox} ${
-      //       isHighlighted(groupedFocusAreaIds, serialNumber, fa.id) ? style.highlighted : ''
-      //     }`} 
-      // >
-      //   <div
-      //     className={style.roundedColorBox}
-      //     style={{ background: fa.color }}
-      //   ></div>
-      //   {fa.title}
-      // </div>
     );
   });
 
-  return <div className={style.focusAreaContainer}>{all}</div>;
+  return <FocusAreaContainer>{all}</FocusAreaContainer>;
 };
 
 const isHighlighted = (groupedFocusAreaIds, serialNumber, focusAreaId) => {

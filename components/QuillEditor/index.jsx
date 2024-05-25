@@ -365,7 +365,6 @@ const QuillEditor = React.forwardRef(
               </button>
             </div>
             <FocusAreaSelection 
-              onClose={setShowFloatingDialogue}
               optionsToSelect={question?.focusAreas}
               onClickOption={methods.handleFocusAreaComment}
             />

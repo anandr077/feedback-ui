@@ -367,14 +367,14 @@ function submitButton(methods, pageMode, submission, isTeacher) {
     if (isTeacher) {
       return (
         <RoundedBorderSubmitBtn
-          text={'Submit'}
+          text={'Submit Feedback'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
         />
       );
     } else {
       return (
         <RoundedBorderSubmitBtn
-          text={'Submit'}
+          text={'Submit Feedback'}
           onClickFn={() => methods.showSubmitPopuphandler('SubmitReview')}
         />
       );

@@ -1,52 +1,14 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const FocusAreasLabelContainer = styled.div`
+export const FocusAreaContainer = styled.div`
   display: flex;
-  gap: 5px;
-  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  margin: 0 48px;
-  padding-top: 20px;
-  border-top: 1px solid #f1e6fc;
-`;
-
-const OptionContainer = styled.button`
-  min-width: 112px;
-  min-height: 33px;
-  border-radius: 22px;
-  border: 1px solid rgba(201, 198, 204, 0.5);
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  text-align: start;
   gap: 8px;
-  background-color: white;
-  cursor: pointer;
-
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-s);
-  line-height: 16px;
-  color: #7B7382;
-
-  &:hover{
-    background-color: rgba(201, 198, 204, 0.5);
-  }
-`;
-
-export const FocusAreaColorBox = styled.div`
-width: 16px;
-height: 16px;
-border-radius: 50%;
-border: 1px solid #B2AEB780;
-`;
-
-export const Ellipse141 = styled.div`
-  position: relative;
-  min-width: 15px;
-  height: 15px;
-  background-color: ${(props) => props.backgroundColor};
-  border-radius: 10px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 8px 10%;
+  border-bottom: 1px solid #c9c6cc80;
 `;
 
 export const Label = styled.div`
@@ -62,4 +24,21 @@ export const Label = styled.div`
   font-weight: 500;
   letter-spacing: 0;
   line-height: 26px;
+`;
+
+export const MainFocusBox = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 22px;
+  padding: 8px;
+  gap: 8px;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  background-color: ${(props) => (props.selected ? '#F1E6FC' : '#FFFFFF')};
+  cursor: pointer;
+`;
+export const Ellipse141 = styled.div`
+  position: relative;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 10px;
 `;

@@ -17,6 +17,10 @@ import {
   SubjectTaskTypeContainer,
   STTitle,
   STDetails,
+  TickBox,
+  StyledSelect,
+  StyledMenuItem,
+  StyledMenuItemText,
 } from './style';
 import ResubmitBtn from '../../../static/img/Resubmit.svg';
 import ActiveCommentIcon from '../../../static/img/purplesinglecomment.svg';
@@ -24,13 +28,15 @@ import CommentIcon from '../../../static/img/graysinglecomment.svg';
 import ActiveFocusIcon from '../../../static/img/purplehighlight.svg';
 import FocusIcon from '../../../static/img/grayhighlight.svg';
 import ArrowLeft from '../../../static/img/arrowleftgray.svg';
+import studentTick from '../../../static/img/student-tick.svg';
 import ArrowRight from '../../../static/img/arrowrightgray.svg';
 import { getUserRole } from '../../../userLocalDetails';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
-import { useHistory, useLocation  } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { FormControl, MenuItem, Select } from '@mui/material';
 
 const FeedbackHeader = ({
   commentFocusAreaToggle,
@@ -57,6 +63,7 @@ const FeedbackHeader = ({
   const location = useLocation();
 
   const studentsList = submission?.studentsSubmissions;
+  console.log('studentsList', studentsList);
 
   useEffect(() => {
     const submissionId = location.pathname.split('/').pop();
@@ -70,9 +77,9 @@ const FeedbackHeader = ({
 
   const handlePrevious = () => {
     setSelectedIndex((prevIndex) => {
-      console.log('the index num is', prevIndex)
+      console.log('the index num is', prevIndex);
       const newIndex = prevIndex >= studentsList.length - 1 ? 0 : prevIndex + 1;
-      console.log('the newIndex num is', newIndex)
+      console.log('the newIndex num is', newIndex);
       handleQuestionClick(newIndex);
       return newIndex;
     });
@@ -98,7 +105,7 @@ const FeedbackHeader = ({
           <ArrowBtn onClick={handlePrevious}>
             <img src={ArrowLeft} alt="Left" />
           </ArrowBtn>
-          <Select
+          {/* <Select
             value={studentsList[selectedIndex]?.studentName || ''}
             onChange={(e) => {
               const newIndex = e.target.selectedIndex;
@@ -109,9 +116,41 @@ const FeedbackHeader = ({
             {studentsList.map((student, index) => (
               <option key={index} value={student.studentName}>
                 {student.studentName}
+                <TickBox>
+                  <img src="img/tickCircle.png" />
+                </TickBox>
               </option>
             ))}
-          </Select>
+          </Select> */}
+
+          <FormControl>
+            <StyledSelect
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    padding: '8px',
+                    borderRadius: '4px',
+                  },
+                },
+              }}
+              value={selectedIndex}
+              onChange={(e) => {
+                const newIndex = e.target.value;
+                setSelectedIndex(newIndex);
+                handleQuestionClick(newIndex);
+              }}
+            >
+              {studentsList.map((student, index) => (
+                <StyledMenuItem key={index} value={index}>
+                  <StyledMenuItemText>{student.studentName}</StyledMenuItemText>
+                  {(student.status === 'REVIEWED' ||
+                    student.status === 'CLOSED') && (
+                    <TickBox src={studentTick} />
+                  )}
+                </StyledMenuItem>
+              ))}
+            </StyledSelect>
+          </FormControl>
           <ArrowBtn onClick={handleNext}>
             <img src={ArrowRight} alt="Right" />
           </ArrowBtn>

@@ -1,3 +1,4 @@
+import { MenuItem, Select } from '@mui/material';
 import styled from 'styled-components';
 
 export const FeedbackHeaderContainer = styled.div`
@@ -75,18 +76,57 @@ export const ArrowBtn = styled.div`
   }
 `;
 
-export const Select = styled.select`
+export const TickBox = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+export const StyledSelect = styled(Select)`
   width: 250px;
   border: none;
   outline: none;
   color: #4b464f;
-  font-family: var(--font-family-ibm_plex_sans);
+  font-family: var(--font-family-ibm_plex_sans) !important;
   font-size: var(--font-size-l);
   font-weight: 500;
   line-height: 20px;
   cursor: pointer;
+  .MuiSelect-select {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    padding: 12px !important;
+    border: none !important;
+    outline: none !important;
+    ${TickBox} {
+      display: none;
+    }
+  }
+  .MuiSelect-outlined {
+    display: none;
+  }
+`;
+export const StyledMenuItem = styled(MenuItem)`
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  li {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    padding: 12px !important;
+  }
 `;
 
+export const StyledMenuItemText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: #4b464f;
+`;
 
 export const ReassignBtn = styled.button`
   width: 156px;

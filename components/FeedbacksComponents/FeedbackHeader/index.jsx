@@ -63,7 +63,6 @@ const FeedbackHeader = ({
   const location = useLocation();
 
   const studentsList = submission?.studentsSubmissions;
-  console.log('studentsList', studentsList);
 
   useEffect(() => {
     const submissionId = location.pathname.split('/').pop();
@@ -105,24 +104,6 @@ const FeedbackHeader = ({
           <ArrowBtn onClick={handlePrevious}>
             <img src={ArrowLeft} alt="Left" />
           </ArrowBtn>
-          {/* <Select
-            value={studentsList[selectedIndex]?.studentName || ''}
-            onChange={(e) => {
-              const newIndex = e.target.selectedIndex;
-              setSelectedIndex(newIndex);
-              handleQuestionClick(newIndex);
-            }}
-          >
-            {studentsList.map((student, index) => (
-              <option key={index} value={student.studentName}>
-                {student.studentName}
-                <TickBox>
-                  <img src="img/tickCircle.png" />
-                </TickBox>
-              </option>
-            ))}
-          </Select> */}
-
           <FormControl>
             <StyledSelect
               MenuProps={{
@@ -130,6 +111,13 @@ const FeedbackHeader = ({
                   sx: {
                     padding: '8px',
                     borderRadius: '4px',
+                    gap: '2px',
+                    '& .MuiMenu-list': {
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '2px',
+                      padding: '0px',
+                    },
                   },
                 },
               }}
@@ -141,8 +129,19 @@ const FeedbackHeader = ({
               }}
             >
               {studentsList.map((student, index) => (
-                <StyledMenuItem key={index} value={index}>
-                  <StyledMenuItemText>{student.studentName}</StyledMenuItemText>
+                <StyledMenuItem
+                  key={index}
+                  value={index}
+                  studentStyle={submission.id === student.submissionId}
+                  closed={
+                    student.status === 'REVIEWED' || student.status === 'CLOSED'
+                  }
+                >
+                  <StyledMenuItemText
+                    studentStyle={submission.id === student.submissionId}
+                  >
+                    {student.studentName}
+                  </StyledMenuItemText>
                   {(student.status === 'REVIEWED' ||
                     student.status === 'CLOSED') && (
                     <TickBox src={studentTick} />

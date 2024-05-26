@@ -45,6 +45,7 @@ import SecondSidebar from '../SecondSidebar';
 import {
   createNewFeedbackBank,
   createNewMarkingCriteria,
+  createNewSmartAnnotation,
   deleteSmartAnnotation,
   getFeedbackBanks,
   updateSmartAnnotation,
@@ -131,7 +132,6 @@ const CommentBanks = () => {
       <FeedbackArea
         key={Math.random()}
         smartAnnotationIndex={feedbackBankId}
-        // smartCommentIndex={index}
         smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
         smartAnnotation={smartAnnotation}
         UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
@@ -139,8 +139,8 @@ const CommentBanks = () => {
         deleteAnnotationHandler={deleteAnnotationHandler}
         createSmartAnnotation={createSmartAnnotation}
         teacherId={smartAnnotation.ownerId}
-        // open={smartAnnotationeditIndex === index}
-        setSmartAnnotationeditIndex={setSmartAnnotationeditIndex}
+        smartAnnotationeditIndex={smartAnnotationeditIndex}
+        createSmartAnnotationHandler={createSmartAnnotationHandler}
       />
     );
   };
@@ -269,8 +269,6 @@ const CommentBanks = () => {
       .catch((error) => {
         // showSnackbar('Error updating Feedback bank');
       });
-
-    //updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
   };
 
   const UpdateSmartBankTitleHandler = (newTitle, smartAnnotationIndex) => {
@@ -304,12 +302,12 @@ const CommentBanks = () => {
 
   const UpdateSmartAnotationHandler = (
     newSmartComment,
-    smartAnnotationIndex,
+    // smartAnnotationIndex,
     index
   ) => {
     setSmartAnnotationeditIndex(index);
     const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
-      if (smartAnnotation.id === smartAnnotationIndex) {
+      if (smartAnnotation.id === feedbackBankId) {
         return {
           ...smartAnnotation,
           smartComments: smartAnnotation.smartComments.map((comment, ind) => {
@@ -325,13 +323,13 @@ const CommentBanks = () => {
     });
 
     const foundSmartAnnotation = newSmartAnnotations.find(
-      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+      (smartAnnotation) => smartAnnotation.id === feedbackBankId
     );
 
     const { title, smartComments } = foundSmartAnnotation;
     const newObject = { title, smartComments };
 
-    updateSmartAnnotation(newObject, smartAnnotationIndex)
+    updateSmartAnnotation(newObject, feedbackBankId)
       .then(() => {
         setSmartAnnotations(newSmartAnnotations);
         // showSnackbar('Smart annotation updated');
@@ -341,9 +339,9 @@ const CommentBanks = () => {
       });
   };
 
-  const deleteAnnotationHandler = (smartcommentId, smartAnnotationIndex) => {
+  const deleteAnnotationHandler = (smartcommentId) => {
     const NewSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
-      if (smartAnnotation.id === smartAnnotationIndex) {
+      if (smartAnnotation.id === feedbackBankId) {
         return {
           ...smartAnnotation,
           smartComments: smartAnnotation.smartComments.filter(
@@ -356,48 +354,18 @@ const CommentBanks = () => {
     });
 
     const foundSmartAnnotation = NewSmartAnnotations.find(
-      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
+      (smartAnnotation) => smartAnnotation.id === feedbackBankId
     );
 
     const { title, smartComments } = foundSmartAnnotation;
     const newObject = { title, smartComments };
-    updateSmartAnnotation(newObject, smartAnnotationIndex)
+    updateSmartAnnotation(newObject, feedbackBankId)
       .then(() => {
         setSmartAnnotations(NewSmartAnnotations);
         // showSnackbar('Smart commit deleted');
       })
       .catch((error) => {
         // showSnackbar('Error deleting Smart commit');
-      });
-  };
-
-  const createMarkingCriteria = (markingCriteria) => {
-    let { title } = markingCriteria;
-    title = 'Copy of ' + title;
-    const createdMarkingCriteria = {
-      title: title,
-      type: markingCriteria.type,
-    };
-    if (markingCriteria.type === 'RUBRICS') {
-      createdMarkingCriteria.criterias = markingCriteria.criterias;
-    } else {
-      createdMarkingCriteria.strengthsTargetsCriterias =
-        markingCriteria.strengthsTargetsCriterias;
-    }
-    createNewMarkingCriteria(createdMarkingCriteria)
-      .then((res) => {
-        createdMarkingCriteria.id = res.id.value;
-        createdMarkingCriteria.teacherId = res.teacherId.value;
-        // showSnackbar(
-        //   'Copied marking template',
-        //   markingCriteriaUrl(res.id.value, res.type.value)
-        // );
-        getAllMarkingCriteria().then((result) => {
-          setMarkingCriterias(result);
-        });
-      })
-      .catch((err) => {
-        // showSnackbar('Error cloning marking template');
       });
   };
 
@@ -552,14 +520,6 @@ const CommentBanks = () => {
                 <MarkingCriteriaList>
                   {smartAnnotationsFrame()}
                 </MarkingCriteriaList>
-
-                {/* {findCurrentFeedbackBank?.ownerId === getUserId() && (
-                  <Buttons
-                    text="New Feedback Area"
-                    onClickMethod={() => createSmartAnnotationHandler()}
-                    className={'button-width'}
-                  />
-                )} */}
               </Frame1302>
             )}
           </RightContainer>

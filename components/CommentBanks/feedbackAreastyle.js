@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IbmplexsansNormalShark20px } from '../../styledMixins';
 // import {
 //   IbmplexsansNormalShark20px,
 //   IbmplexsansNormalElectricViolet14px,
@@ -198,6 +199,7 @@ export const LeftConatiner = styled.div`
   flex-direction: column;
   width: 25%;
   border-right: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  height: 90vh;
 `;
 export const RightConatiner = styled.div`
   display: flex;
@@ -244,11 +246,33 @@ export const FeedbackAreasContainer = styled.div`
   gap: 8px;
 `;
 
+export const DotContainer = styled.div`
+  display: flex;
+  position: relative;
+`;
+export const DotIconImage = styled.img`
+  width: 10px;
+  height: 10px;
+  display: none;
+`;
+
 export const FeedbackAreaCon = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px 16px;
   cursor: pointer;
   background-color: ${(props) => (props.selected ? '#F1E6FC' : '#fff')};
   border-radius: 6px;
+  ${DotIconImage} {
+    display: ${(props) => (props.showPopUp ? 'flex' : '')};
+  }
+  &:hover {
+    ${DotIconImage} {
+      display: flex;
+    }
+  }
 `;
 export const FeedbackAreaText = styled.p`
   font-family: IBM Plex Sans;
@@ -269,6 +293,16 @@ export const IconImage = styled.img`
   width: 20px;
   height: 20px;
 `;
+export const PlusImage = styled.img`
+  width: 23px;
+  height: 23px;
+`;
+
+export const IconsContainer = styled.div`
+  flex-direction: row;
+  gap: 5px;
+  display: none;
+`;
 
 export const SpecificComment = styled.div`
   display: flex;
@@ -282,8 +316,26 @@ export const SpecificComment = styled.div`
   cursor: pointer;
   &:hover {
     background-color: #f2f1f380;
+    ${IconsContainer} {
+      display: flex;
+    }
   }
 `;
+
+export const TextInputEditable = styled.textarea`
+  ${IbmplexsansNormalShark20px}
+  position: relative;
+  width: 100%;
+  flex: 1;
+  margin-top: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  border-color: transparent;
+  box-shadow: 0px;
+  outline: none;
+  transition: 0.15s;
+`;
+
 export const SpecificCommentText = styled.p`
   font-family: IBM Plex Sans;
   font-size: 16px;
@@ -293,8 +345,38 @@ export const SpecificCommentText = styled.p`
   color: #56515b;
 `;
 
-export const IconsContainer = styled.div`
+export const DotContainerPopUp = styled.div`
+  width: 130px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 3px;
+  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid var(--color-neutral-80, #f2f1f3);
+  position: absolute;
+  top: 5px;
+  left: 5px;
+`;
+
+export const OptionContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  padding: 6px;
+  gap: 6px;
+  &:hover {
+    background-color: #f2f1f380;
+  }
+`;
+export const OptionText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #4b464f;
+`;
+export const Optionicon = styled.img`
+  width: 24px;
+  height: 24px;
 `;

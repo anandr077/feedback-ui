@@ -4,6 +4,8 @@ import { getUserId } from '../../userLocalDetails';
 import deleteLight from '../../static/img/delete-light.svg';
 import WidearrowDown from '../../static/img/Widearrow-down.svg';
 import WideArrowUp from '../../static/img/WideArrow-up.svg';
+import PlusBlue from '../../static/img/Plus-blue.svg';
+
 import {
   FeedbackAreaCon,
   FeedbackAreaText,
@@ -12,6 +14,7 @@ import {
   LeftConatinerHeading,
   LeftConatinerHeadingText,
   MainConatiner,
+  PlusImage,
   RightConatiner,
   RightConatinerHeading,
   RightConatinerHeadingText,
@@ -20,23 +23,7 @@ import {
   SpecificCommentsCont,
 } from './feedbackAreastyle';
 import CommentSuggestion from './CommentSuggestion';
-// import {
-//   TextInputEditable,
-//   TextBox,
-//   SmartAnnotationContainer,
-//   ButtonContainer,
-//   ButtonLabel,
-//   PlusImage,
-//   TtitleContainer,
-//   ButtonBox,
-//   DeleteButton2,
-//   Line14,
-//   SmartAnnotationTitleContainer,
-//   Title,
-//   Arrowdown2,
-//   SubmitButton,
-//   ButtonWrapper,
-// } from './feedbackAreastyle';
+import FeedbackAreaTitle from './FeedbackAreaTitle';
 
 function FeedbackArea(props) {
   const {
@@ -44,17 +31,16 @@ function FeedbackArea(props) {
     smartAnnotationIndex,
     // smartCommentIndex,
     smartAnnotationUpdateIndex,
-    commentBankId,
+
     UpdateSmartAnotationHandler,
     settingsMode,
     deleteAnnotationHandler,
     onSuggestionClick,
     createSmartAnnotation,
-    teacherId,
     open = false,
-    setSmartAnnotationeditIndex,
+    smartAnnotationeditIndex,
+    createSmartAnnotationHandler,
   } = props;
-  console.log('smartAnnotation', smartAnnotation);
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] =
     useState(smartAnnotation);
@@ -63,97 +49,34 @@ function FeedbackArea(props) {
   const [editingTitle, setEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState();
   const [currentSmartComment, setCurrnetSmartComment] = useState(
-    currentSmartAnnotation.smartComments[0]
+    smartAnnotationeditIndex
+      ? currentSmartAnnotation?.smartComments[smartAnnotationeditIndex]
+      : currentSmartAnnotation?.smartComments[0]
   );
-  const [currentSmartCommentId, setCurrnetSmartCommentId] = useState(0);
-
-  const handleTextChange = (event) => {
-    setEditedText(event.target.value);
-  };
-
-  const handleTitleTextChange = (event) => {
-    setEditTitle(event.target.value);
-  };
-
-  const toggleSection = () => {
-    if (settingsMode) setSmartAnnotationeditIndex('');
-    setIsExpanded(!isExpanded);
-  };
+  const [currentSmartCommentId, setCurrnetSmartCommentId] = useState(
+    smartAnnotationeditIndex ? smartAnnotationeditIndex : 0
+  );
 
   const saveEditedSuggestion = (updatedText, index) => {
-    const newSmartAnnotation = { ...currentSmartAnnotation };
+    const newSmartAnnotation = { ...currentSmartComment };
+    console.log('newSmartAnnotation', newSmartAnnotation);
     newSmartAnnotation.suggestions[index] = updatedText;
-    setCurrentSmartAnnotation(newSmartAnnotation);
-    UpdateSmartAnotationHandler(
-      newSmartAnnotation,
-      smartAnnotationIndex,
-      smartCommentIndex
-    );
-  };
-
-  const saveEditedSmartAnnotation = (updatedText) => {
-    if (updatedText?.trim() === '') return;
-    const newSmartAnnotation = { ...currentSmartAnnotation };
-    newSmartAnnotation.title = updatedText;
-    setCurrentSmartAnnotation(newSmartAnnotation);
-    setEditTitle(updatedText);
-    UpdateSmartAnotationHandler(
-      newSmartAnnotation,
-      smartAnnotationIndex,
-      smartCommentIndex
-    );
+    setCurrnetSmartComment(newSmartAnnotation);
+    UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
 
   const handleDeleteSuggestion = (index) => {
-    const newSmartAnnotation = { ...currentSmartAnnotation };
+    const newSmartAnnotation = { ...currentSmartComment };
     newSmartAnnotation.suggestions.splice(index, 1);
-    UpdateSmartAnotationHandler(
-      newSmartAnnotation,
-      smartAnnotationIndex,
-      smartCommentIndex
-    );
-  };
-
-  const handleDeleteSmartComment = () => {
-    deleteAnnotationHandler(smartCommentIndex, smartAnnotationIndex);
+    UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
 
   const addNewSuggestions = () => {
-    const newSuggestion = '';
-    currentSmartAnnotation.suggestions.push(newSuggestion);
-    UpdateSmartAnotationHandler(
-      currentSmartAnnotation,
-      smartAnnotationIndex,
-      smartCommentIndex
-    );
-  };
-
-  const onClickFn = (index) => {
-    if (onSuggestionClick)
-      return () =>
-        onSuggestionClick(
-          smartAnnotation.title + '\n\n' + smartAnnotation.suggestions[index]
-        );
-    else return () => {};
-  };
-
-  const onClickNewSuggestionComment = () => {
-    if (editedText.trim() === '') return;
-    onSuggestionClick(smartAnnotation.title + '\n\n' + editedText);
-    setEditedText('');
-    setNewSmartAnnotationEdit(false);
-  };
-
-  const cloneSmartAnnotation = () => {
-    let { title, suggestions } = smartAnnotation;
-    title = 'Copy of ' + title;
-    createSmartAnnotation({ title: title, suggestions: suggestions });
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      saveEditedSmartAnnotation(editTitle);
-    }
+    const newSuggestion = 'New suggestion';
+    let newSmartAnnotation = { ...currentSmartComment };
+    newSmartAnnotation.suggestions.push(newSuggestion);
+    setCurrentSmartAnnotation(newSmartAnnotation);
+    UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
 
   const handleSmartCommentSelection = (smartComment, index) => {
@@ -169,21 +92,32 @@ function FeedbackArea(props) {
             <LeftConatinerHeadingText>Feedback Areas</LeftConatinerHeadingText>
           </LeftConatinerHeading>
           <FeedbackAreasContainer>
-            {currentSmartAnnotation.smartComments.map((smartComment, index) => {
-              return (
-                <FeedbackAreaCon
-                  key={index}
-                  onClick={() =>
-                    handleSmartCommentSelection(smartComment, index)
-                  }
-                  selected={index === currentSmartCommentId}
-                >
-                  <FeedbackAreaText selected={index === currentSmartCommentId}>
-                    {smartComment.title}
-                  </FeedbackAreaText>
-                </FeedbackAreaCon>
-              );
-            })}
+            {currentSmartAnnotation?.smartComments?.map(
+              (smartComment, index) => {
+                return (
+                  <FeedbackAreaTitle
+                    index={index}
+                    smartComment={smartComment}
+                    currentSmartCommentId={currentSmartCommentId}
+                    handleSmartCommentSelection={handleSmartCommentSelection}
+                    UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
+                    createSmartAnnotation={createSmartAnnotation}
+                    deleteAnnotationHandler={deleteAnnotationHandler}
+                  />
+                );
+              }
+            )}
+            {currentSmartAnnotation?.ownerId === getUserId() && (
+              <FeedbackAreaCon
+                style={{ justifyContent: 'flex-start', gap: '8px' }}
+                onClick={() => createSmartAnnotationHandler()}
+              >
+                <PlusImage src={PlusBlue} />
+                <FeedbackAreaText style={{ color: '#7200E0' }}>
+                  New Feedback Area
+                </FeedbackAreaText>
+              </FeedbackAreaCon>
+            )}
           </FeedbackAreasContainer>
         </LeftConatiner>
         <RightConatiner>
@@ -197,9 +131,31 @@ function FeedbackArea(props) {
             </RightConatinerHeadingText>
           </RightConatinerHeading>
           <SpecificCommentsCont>
-            {currentSmartComment.suggestions.map((comment, index) => {
-              return <CommentSuggestion comment={comment} index={index} />;
+            {currentSmartComment?.suggestions?.map((comment, index) => {
+              return (
+                <CommentSuggestion
+                  key={index}
+                  comment={comment}
+                  index={index}
+                  saveEditedSuggestion={saveEditedSuggestion}
+                  handleDeleteSuggestion={handleDeleteSuggestion}
+                />
+              );
             })}
+
+            {currentSmartAnnotation?.ownerId === getUserId() && (
+              <SpecificComment
+                style={{ justifyContent: 'flex-start', gap: '8px' }}
+                onClick={addNewSuggestions}
+              >
+                <PlusImage src={PlusBlue} />
+                <SpecificCommentText
+                  style={{ color: '#7200E0', fontWeight: '500' }}
+                >
+                  Add New Comment
+                </SpecificCommentText>
+              </SpecificComment>
+            )}
           </SpecificCommentsCont>
         </RightConatiner>
       </MainConatiner>

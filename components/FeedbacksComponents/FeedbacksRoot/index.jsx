@@ -1242,7 +1242,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         to: to,
       });
       setSelectedText(selection.selectedText);
-      setShowNewComment(true);
+      if(pageMode === 'DRAFT' || pageMode === 'REVISE'){
+        setShowFloatingDialogue(true);
+      }
+      if(pageMode === 'REVIEW'){
+        setCommentFocusAreaToggle(false);
+      }
+      // setShowNewComment(true);
+      
     }
   }
   function highlightByComment(comment) {
@@ -1563,7 +1570,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setShowFloatingDialogue,
         allCommentBanks,
         methods,
-        isTeacher
+        isTeacher,
+        quillRefs,
+        setNewCommentSerialNumber,
+        setSelectedRange,
+        setSelectedText
       }}
     >
       {showSubmitPopup &&

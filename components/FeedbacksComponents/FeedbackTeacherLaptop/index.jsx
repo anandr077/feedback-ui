@@ -544,16 +544,7 @@ function answersAndFeedbacks(
   const question = submission.assignment.questions[1];
 
  
-  useEffect(()=>{
-    if(selectedRange !== null){
-      if(pageMode === 'DRAFT' || pageMode === 'REVISE'){
-        setShowFloatingDialogue(true);
-      }
-      if(pageMode === 'REVIEW'){
-        setCommentFocusAreaToggle(false);
-      }
-    }
-  }, [selectedRange])
+  
 
 
   return (

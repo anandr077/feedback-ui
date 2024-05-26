@@ -220,6 +220,10 @@ const QuillEditor = React.forwardRef(
       getAllHighlightsWithComments() {
         return getHighlights(editor);
       },
+      setSelection(from, to) {
+        console.log("setSelection", from, to);
+        return editor.setSelection(null);
+      },
       selectRange(range) {
         editor.setSelection(range.index, range.length, 'silent');
         editor.focus();
@@ -340,7 +344,7 @@ const QuillEditor = React.forwardRef(
 
       floatingBoxTopPosition = boundsIs.top;
     }
-
+    console.log("showFloatingDialogue", showFloatingDialogue)
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
         <div
@@ -359,7 +363,11 @@ const QuillEditor = React.forwardRef(
               <h1>{isTeacher ? 'Comment Banks' : 'Focus Areas'}</h1>
               <button
                 className="closeButton"
-                onClick={() => setShowFloatingDialogue(false)}
+                onClick={() => {
+                  console.log("closeButton")
+                  editor.setSelection(null);
+                  setShowFloatingDialogue(false)
+                }}
               >
                 x
               </button>

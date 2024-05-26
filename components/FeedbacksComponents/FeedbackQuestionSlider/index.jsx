@@ -2,20 +2,33 @@ import React from 'react';
 import styled from 'styled-components';
 import LeftIcon from '../../../static/img/darkgray16leftarrow.svg';
 import RightIcon from '../../../static/img/darkgray16rightarrow.svg';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 const FeedbackQuestionSlider = ({
   setQuestionIndex,
   QuestionIndex,
   questions,
 }) => {
-  
+  const {setNewCommentSerialNumber,setSelectedRange,setSelectedText, quillRefs, setShowFloatingDialogue } = React.useContext(FeedbackContext);
+
   const handlePreviousQuestion = () => {
     if (QuestionIndex === 0) return;
+    setShowFloatingDialogue(false);
+
+   
+    setNewCommentSerialNumber(0)
+    setSelectedRange(null)
+    setSelectedText(null)
     setQuestionIndex((prevIndex) => prevIndex - 1);
   };
 
   const handleNextQuestion = () => {
     if (QuestionIndex === questions.length - 1) return;
+    setShowFloatingDialogue(false);
+
+    setNewCommentSerialNumber(0)
+    setSelectedRange(null)
+    setSelectedText(null)
     setQuestionIndex((prevIndex) => prevIndex + 1);
   };
 

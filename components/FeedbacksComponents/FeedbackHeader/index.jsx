@@ -127,7 +127,7 @@ const FeedbackHeader = ({
                 handleQuestionClick(newIndex);
               }}
             >
-              {studentsList.map((student, index) => (
+              {studentsList?.map((student, index) => (
                 <StyledMenuItem
                   key={index}
                   value={index}

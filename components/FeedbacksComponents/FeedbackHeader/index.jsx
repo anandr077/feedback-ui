@@ -21,6 +21,7 @@ import {
   StyledSelect,
   StyledMenuItem,
   StyledMenuItemText,
+  DocumentSubmitCancelBtnContainer,
 } from './style';
 import ResubmitBtn from '../../../static/img/Resubmit.svg';
 import ActiveCommentIcon from '../../../static/img/purplesinglecomment.svg';
@@ -322,7 +323,7 @@ function submitButtonOnDocument(
 
   if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
     return (
-      <DocumentSubmitBtnContainer>
+      <DocumentSubmitCancelBtnContainer>
         <AwaitingFeedbackTextAlert>
           {<img src="/img/message24.svg"></img>}
           <p>Your work is currently awaiting feedback</p>
@@ -340,7 +341,7 @@ function submitButtonOnDocument(
           <img src="img/white-cross12.svg" />
           Cancel Request
         </CancelBtn>
-      </DocumentSubmitBtnContainer>
+      </DocumentSubmitCancelBtnContainer>
     );
   }
 

@@ -270,17 +270,37 @@ export const ToggleSwitchLabels = styled.div`
   }
 `;
 
+export const DocumentSubmitCancelBtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 11px;
+`;
+
 export const DocumentSubmitBtnContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 11px;
+  border: 1px solid #c9c6cc80;
+  padding: 8px;
+  gap: 4px;
+  border-radius: 32px;
+  p {
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(75, 70, 79, 1);
+  }
 `;
 
 export const AwaitingFeedbackTextAlert = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
-
+  border: 1px solid #c9c6cc80;
+  padding: 8px;
+  gap: 4px;
+  border-radius: 32px;
   p {
     font-family: var(--font-family-ibm_plex_sans);
     font-weight: 500;
@@ -300,4 +320,7 @@ export const CancelBtn = styled.button`
   display: flex;
   align-items: center;
   gap: 5px;
+  &:hover {
+    background-color: #701f12;
+  }
 `;

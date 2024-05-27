@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   BankCommentTitle,
   ButtonConatiner,
@@ -31,6 +31,7 @@ import {
   PopupTitleImg,
   PrevieImg,
   PreviewContainer,
+  PreviewIconCont,
   Previewpara,
   RightContainer,
   StyledTab,
@@ -79,6 +80,7 @@ const CommentBanks = () => {
     React.useState(-1);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] =
     React.useState('');
+  const selectedRef = useRef(null);
   const queryClient = useQueryClient();
 
   const feedbackBankQuery = useQuery({
@@ -384,6 +386,18 @@ const CommentBanks = () => {
     );
 
   const NewBankPopContainer = ({ setShowNewBankPopUp }) => {
+    const selectBankFun = (e, bank) => {
+      e.preventDefault();
+      setSelectedBank(bank);
+      setTimeout(() => {
+        if (selectedRef.current) {
+          selectedRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+          });
+        }
+      }, 0);
+    };
     return (
       <PopupBackground>
         <PopupContainer>
@@ -402,13 +416,20 @@ const CommentBanks = () => {
                 </CardImgCont>
                 <CardTitle>Create Your Own</CardTitle>
               </Card>
+              {systemSmartAnnotations.length > 0 && (
+                <BankCommentTitle style={{ borderTop: '1px solid #C9C6CC80' }}>
+                  Use a template
+                </BankCommentTitle>
+              )}
+
               {systemSmartAnnotations?.map((bank) => {
                 return (
                   <Card
-                    onClick={() => setSelectedBank(bank)}
+                    onClick={(e) => selectBankFun(e, bank)}
+                    ref={bank.id === selectedBank?.id ? selectedRef : null}
                     style={{
                       backgroundColor:
-                        bank.id === selectedBank.id ? ' #F1E6FC' : '#ffffff',
+                        bank.id === selectedBank?.id ? ' #F1E6FC' : '#ffffff',
                     }}
                   >
                     <CardImgDoc src={Doc} />
@@ -420,8 +441,17 @@ const CommentBanks = () => {
             </PopupDialogContentBoxLeft>
             <PopupDialogContentBoxRight>
               <PreviewContainer>
-                <PrevieImg src={PreviewIcon} />
-                <Previewpara>Preview</Previewpara>
+                <PreviewIconCont>
+                  <PrevieImg src={PreviewIcon} />
+                  <Previewpara>Preview</Previewpara>
+                </PreviewIconCont>
+                {systemSmartAnnotations.length > 0 && (
+                  <CreateButton
+                    onClick={() => createSystemFeedbackBank(selectedBank.id)}
+                  >
+                    <ButtonText>Use template</ButtonText>
+                  </CreateButton>
+                )}
               </PreviewContainer>
 
               {selectedBank?.smartComments.map((comment) => {
@@ -438,13 +468,6 @@ const CommentBanks = () => {
               })}
             </PopupDialogContentBoxRight>
           </PopupDialogContentBox>
-          <ButtonConatiner>
-            <CreateButton
-              onClick={() => createSystemFeedbackBank(selectedBank.id)}
-            >
-              <ButtonText>Add</ButtonText>
-            </CreateButton>
-          </ButtonConatiner>
         </PopupContainer>
       </PopupBackground>
     );

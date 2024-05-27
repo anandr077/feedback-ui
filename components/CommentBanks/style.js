@@ -280,6 +280,7 @@ export const PopupContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 885px;
+  height: 410px;
   border-radius: 12px;
   background: #ffffff;
 `;
@@ -313,19 +314,24 @@ export const PopupDialogContentBox = styled(DialogContent)`
   display: flex;
   flex-direction: row;
   padding: 0px !important;
+  border-radius: 0px 0px 8px 8px;
 `;
 export const PopupDialogContentBoxLeft = styled.div`
   display: flex;
   flex-direction: column;
   width: 60%;
-  height: 300px;
+  height: 100%;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
   border-right: 1px solid #c9c6cc80;
 `;
 export const PopupDialogContentBoxRight = styled.div`
   display: flex;
   flex-direction: column;
   width: 40%;
-  height: 300px;
+  height: 100%;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 0;
@@ -370,11 +376,18 @@ export const CardTitle = styled.div`
 `;
 
 export const PreviewContainer = styled.div`
-  padding: 15px;
-  gap: 5px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
   background: #ffffff;
+  border-bottom: 1px solid #c9c6cc80;
+`;
+export const PreviewIconCont = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
 `;
 
 export const PrevieImg = styled.img`
@@ -425,7 +438,7 @@ border-radius: 0px 0px 8px 8px;
 `;
 
 export const CreateButton = styled.div`
-  padding: 5px 15px;
+  padding: 8px 12px;
   border-radius: 32px;
   background: #7200e0;
   cursor: pointer;

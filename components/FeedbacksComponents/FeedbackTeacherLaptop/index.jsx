@@ -298,7 +298,8 @@ function FeedbackTeacherLaptop(props) {
               setShowTeacherPopUp,
               editorFontSize,
               selectedComment,
-              selectedRange
+              selectedRange,
+              handleTabUpdate,
             )}
           </Frame1388>
         </>
@@ -535,7 +536,6 @@ function answersAndFeedbacks(
     }
   );
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  const { setShowFloatingDialogue } = useContext(FeedbackContext);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
@@ -585,6 +585,10 @@ function answersAndFeedbacks(
         setShowStudentPopUp={setShowStudentPopUp}
         showTeacherPopUp={showTeacherPopUp}
         setShowTeacherPopUp={setShowTeacherPopUp}
+        setFeedback={setFeedback}
+        setFocusAreas={setFocusAreas}
+        isFeedback={isFeedback}
+        isFocusAreas={isFocusAreas}
       />
       {submission.type === 'SUBMISSION' &&
         submission.assignment.questions.length !== 0 && (

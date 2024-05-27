@@ -1246,7 +1246,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setShowFloatingDialogue(true);
       }
       if(pageMode === 'REVIEW'){
-        setCommentFocusAreaToggle(false);
+        setShowNewComment(true);
       }
       // setShowNewComment(true);
       

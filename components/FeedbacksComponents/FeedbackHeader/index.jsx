@@ -54,6 +54,10 @@ const FeedbackHeader = ({
   setShowStudentPopUp,
   showTeacherPopUp,
   setShowTeacherPopUp,
+  setFeedback,
+  isFeedback,
+  isFocusAreas,
+  setFocusAreas,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
@@ -95,6 +99,16 @@ const FeedbackHeader = ({
     const newUrl = `/submissions/${studentsList[index]?.submissionId}`;
     history.push(newUrl);
   };
+
+  function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
+    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+      setFeedback(false);
+      setFocusAreas(true);
+    } else {
+      setFeedback(true);
+      setFocusAreas(false);
+    }
+  }
 
   return (
     <FeedbackHeaderContainer>
@@ -180,20 +194,20 @@ const FeedbackHeader = ({
           <ToggleContainer>
             <ToggleLavel>
               <ToggleInput
-                checked={commentFocusAreaToggle}
+                checked={isFocusAreas}
                 onChange={() =>
-                  setCommentFocusAreaToggle(!commentFocusAreaToggle)
+                  handleTabUpdate(pageMode, setFeedback, setFocusAreas)
                 }
                 type="checkbox"
               />
               <ToggleBtn>
                 <img
                   src={
-                    commentFocusAreaToggle ? ActiveFocusIcon : ActiveCommentIcon
+                    isFeedback ? ActiveCommentIcon : ActiveFocusIcon
                   }
-                  alt={commentFocusAreaToggle ? 'Focus Area' : 'Comments'}
+                  alt={isFeedback ? 'Comments' : 'Focus Area'}
                 />
-                {commentFocusAreaToggle ? 'Focus Area' : 'Comments'}
+                {isFeedback ? 'Comments' : 'Focus Area'}
               </ToggleBtn>
               <ToggleSwitchLabels>
                 <span>

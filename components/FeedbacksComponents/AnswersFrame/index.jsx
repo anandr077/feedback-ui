@@ -44,6 +44,7 @@ import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
 import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 import { updateAssignment } from '../../../service';
+import { isShowCommentInstructions, isShowFocusAreaInstructions } from '../FeedbacksRoot/rules';
 
 export function answersFrame(
   quillRefs,
@@ -121,18 +122,19 @@ function AnswersFrame(props) {
     selectedComment,
     methods,
     selectedRange,
-    commentFocusAreaToggle,
     openRightPanel,
     QuestionIndex,
     newCommentFrameRef,
     share,
   } = props;
+  const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
     (comment) => comment.type === 'COMMENT' || comment.type === "MODEL_RESPONSE"
   );
   const focusAreaComments = comments?.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
+
 
   return (
     <Group1225 id="answers">
@@ -159,7 +161,6 @@ function AnswersFrame(props) {
           selectedComment,
           methods,
           selectedRange,
-          commentFocusAreaToggle,
           QuestionIndex,
           newCommentFrameRef,
           share,
@@ -167,7 +168,7 @@ function AnswersFrame(props) {
       </Frame1367>
       {submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
         <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
-          {commentFocusAreaToggle && focusAreaComments.length === 0 && (
+          {isShowFocusAreaInstructions(pageMode, focusAreaComments?.length) && (
               <AddCommentFocusAreaInstruction
                 heading="How to use Focus Areas:"
                 firstIcon={RedabcIcon}
@@ -179,7 +180,7 @@ function AnswersFrame(props) {
               />
             )
           }
-          {!commentFocusAreaToggle && generalComments.length === 0 && (
+          {isShowCommentInstructions(pageMode, generalComments?.length, showNewComment) && (
             <AddCommentFocusAreaInstruction
               heading={'Adding Comments'}
               firstIcon={ABCIcon}
@@ -246,7 +247,6 @@ const answerFrames = (
   selectedComment,
   methods,
   selectedRange,
-  commentFocusAreaToggle,
   QuestionIndex,
   newCommentFrameRef,
   share
@@ -399,7 +399,6 @@ const answerFrames = (
                 selectedComment,
                 methods,
                 selectedRange,
-                commentFocusAreaToggle,
                 newCommentFrameRef,
                 share,
                 question
@@ -501,7 +500,6 @@ function createQuill(
   selectedComment,
   methods,
   selectedRange,
-  commentFocusAreaToggle,
   newCommentFrameRef,
   share,
   question
@@ -544,7 +542,6 @@ function createQuill(
         pageMode={pageMode}
         submission={submission}
         selectedRange={selectedRange}
-        commentFocusAreaToggle={commentFocusAreaToggle}
         newCommentFrameRef={newCommentFrameRef}
         share={share}
         question={question}

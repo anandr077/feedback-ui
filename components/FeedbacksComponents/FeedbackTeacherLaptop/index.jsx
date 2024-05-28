@@ -140,7 +140,8 @@ function FeedbackTeacherLaptop(props) {
 
   React.useEffect(() => {
     if (showNewComment) {
-      handleTabUpdate(pageMode, setFeedback, setFocusAreas);
+      //handleTabUpdate(pageMode, setFeedback, setFocusAreas);
+      handleTabUpdate();
     }
   }, [showNewComment]);
 
@@ -244,6 +245,10 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
+  function handleTabUpdate() {
+    setFeedback(!isFeedback);
+    setFocusAreas(!isFocusAreas);
+  }
   const handleDrawer = () => {
     setOpen(!open);
   };
@@ -299,7 +304,7 @@ function FeedbackTeacherLaptop(props) {
               editorFontSize,
               selectedComment,
               selectedRange,
-              handleTabUpdate,
+              handleTabUpdate
             )}
           </Frame1388>
         </>
@@ -455,15 +460,15 @@ function loader(showLoader) {
   );
 }
 
-function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-    setFeedback(false);
-    setFocusAreas(true);
-  } else {
-    setFeedback(true);
-    setFocusAreas(false);
-  }
-}
+// function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
+//   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+//     setFeedback(false);
+//     setFocusAreas(true);
+//   } else {
+//     setFeedback(true);
+//     setFocusAreas(false);
+//   }
+// }
 
 function createGroupedFocusAreas(submission) {
   const flattenedQuestions = flatMap(
@@ -523,18 +528,10 @@ function answersAndFeedbacks(
   setShowTeacherPopUp,
   editorFontSize,
   selectedComment,
-  selectedRange
+  selectedRange,
+  handleTabUpdate
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
-  const [commentFocusAreaToggle, setCommentFocusAreaToggle] = React.useState(
-    () => {
-      return pageMode === 'REVIEW'
-        ? false
-        : pageMode === 'DRAFT'
-        ? true
-        : false;
-    }
-  );
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const handleRightSidebarClick = (tab) => {
@@ -542,10 +539,6 @@ function answersAndFeedbacks(
   };
 
   const question = submission.assignment.questions[1];
-
- 
-  
-
 
   return (
     <Frame1386 id="content">
@@ -570,8 +563,6 @@ function answersAndFeedbacks(
         setShowTeacherPopUp
       )} */}
       <FeedbackHeader
-        commentFocusAreaToggle={commentFocusAreaToggle}
-        setCommentFocusAreaToggle={setCommentFocusAreaToggle}
         methods={methods}
         submission={submission}
         setSubmission={setSubmission}
@@ -589,6 +580,7 @@ function answersAndFeedbacks(
         setFocusAreas={setFocusAreas}
         isFeedback={isFeedback}
         isFocusAreas={isFocusAreas}
+        handleTabUpdate={handleTabUpdate}
       />
       {submission.type === 'SUBMISSION' &&
         submission.assignment.questions.length !== 0 && (
@@ -599,11 +591,11 @@ function answersAndFeedbacks(
           />
         )}
       <FeedbackBody>
-        <FocusAreasLabel 
-            handleCheckboxChange={handleCheckboxChange}
-            groupedFocusAreaIds={groupedFocusAreaIds}
-            serialNumber={question?.serialNumber}
-            focusAreas={question?.focusAreas}
+        <FocusAreasLabel
+          handleCheckboxChange={handleCheckboxChange}
+          groupedFocusAreaIds={groupedFocusAreaIds}
+          serialNumber={question?.serialNumber}
+          focusAreas={question?.focusAreas}
         />
         <Frame1368 id="assignmentData">
           {answersFrame(
@@ -619,12 +611,12 @@ function answersAndFeedbacks(
             editorFontSize,
             selectedComment,
             selectedRange,
-            commentFocusAreaToggle,
             openRightPanel,
             QuestionIndex,
             newCommentFrameRef,
             share,
-            isTeacher
+            isTeacher,
+            isFeedback
           )}
 
           {/* {!isMobile && (
@@ -646,35 +638,41 @@ function answersAndFeedbacks(
             ></FeedbackFrame>
           )} */}
         </Frame1368>
-        <FeedbackRightSideSlidingTabs
-          handleRightSidebarClick={handleRightSidebarClick}
-          openRightPanel={openRightPanel}
-          submission={submission}
-          QuestionIndex={QuestionIndex}
-          methods={methods}
-          setQuestionIndex={setQuestionIndex}
-          pageMode={pageMode}
-        />
-        <CriteriaAndOverallFeedback
-          handleClick={handleRightSidebarClick}
-          openRightPanel={openRightPanel}
-          QuestionIndex={QuestionIndex}
-          addOverallFeedback={methods.addOverallFeedback}
-          updateOverAllFeedback={methods.updateOverAllFeedback}
-          handleMarkingCriteriaLevelFeedback={
-            methods.handleMarkingCriteriaLevelFeedback
-          }
-          handleStrengthsTargetsFeedback = {methods.handleStrengthsTargetsFeedback}
-          pageMode={pageMode}
-          submission={submission}
-        />
-        <FeedbackRightSidebar
-          handleClick={handleRightSidebarClick}
-          openRightPanel={openRightPanel}
-          pageMode={pageMode}
-          isTeacher={isTeacher}
-          submission={submission}
-        /> 
+        {submission.type !== 'DOCUMENT' && (
+          <>
+            <FeedbackRightSideSlidingTabs
+              handleRightSidebarClick={handleRightSidebarClick}
+              openRightPanel={openRightPanel}
+              submission={submission}
+              QuestionIndex={QuestionIndex}
+              methods={methods}
+              setQuestionIndex={setQuestionIndex}
+              pageMode={pageMode}
+            />
+            <CriteriaAndOverallFeedback
+              handleClick={handleRightSidebarClick}
+              openRightPanel={openRightPanel}
+              QuestionIndex={QuestionIndex}
+              addOverallFeedback={methods.addOverallFeedback}
+              updateOverAllFeedback={methods.updateOverAllFeedback}
+              handleMarkingCriteriaLevelFeedback={
+                methods.handleMarkingCriteriaLevelFeedback
+              }
+              handleStrengthsTargetsFeedback={
+                methods.handleStrengthsTargetsFeedback
+              }
+              pageMode={pageMode}
+              submission={submission}
+            />
+            <FeedbackRightSidebar
+              handleClick={handleRightSidebarClick}
+              openRightPanel={openRightPanel}
+              pageMode={pageMode}
+              isTeacher={isTeacher}
+              submission={submission}
+            />
+          </>
+        )}
       </FeedbackBody>
     </Frame1386>
   );

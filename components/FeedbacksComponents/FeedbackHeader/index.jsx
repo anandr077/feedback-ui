@@ -38,10 +38,10 @@ import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import { FormControl, MenuItem, Select } from '@mui/material';
+import { isShowCommentsAndFocusAreasTab } from '../FeedbacksRoot/rules';
+import ToggleSwitch from '../../../components2/ToggleSwitch';
 
 const FeedbackHeader = ({
-  commentFocusAreaToggle,
-  setCommentFocusAreaToggle,
   methods,
   submission,
   setSubmission,
@@ -59,6 +59,7 @@ const FeedbackHeader = ({
   isFeedback,
   isFocusAreas,
   setFocusAreas,
+  handleTabUpdate
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
@@ -101,15 +102,15 @@ const FeedbackHeader = ({
     history.push(newUrl);
   };
 
-  function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-    if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-      setFeedback(false);
-      setFocusAreas(true);
-    } else {
-      setFeedback(true);
-      setFocusAreas(false);
-    }
-  }
+  // function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
+  //   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+  //     setFeedback(false);
+  //     setFocusAreas(true);
+  //   } else {
+  //     setFeedback(true);
+  //     setFocusAreas(false);
+  //   }
+  // }
 
   return (
     <FeedbackHeaderContainer>
@@ -191,35 +192,17 @@ const FeedbackHeader = ({
       )}
 
       <RightSection>
-        {submission.type !== 'DOCUMENT' && pageMode !== 'DRAFT' && (
-          <ToggleContainer>
-            <ToggleLavel>
-              <ToggleInput
-                checked={isFocusAreas}
-                onChange={() =>
-                  handleTabUpdate(pageMode, setFeedback, setFocusAreas)
-                }
-                type="checkbox"
-              />
-              <ToggleBtn>
-                <img
-                  src={
-                    isFeedback ? ActiveCommentIcon : ActiveFocusIcon
-                  }
-                  alt={isFeedback ? 'Comments' : 'Focus Area'}
-                />
-                {isFeedback ? 'Comments' : 'Focus Area'}
-              </ToggleBtn>
-              <ToggleSwitchLabels>
-                <span>
-                  <img src={CommentIcon} /> Comments
-                </span>
-                <span>
-                  <img src={FocusIcon} /> Focus Area
-                </span>
-              </ToggleSwitchLabels>
-            </ToggleLavel>
-          </ToggleContainer>
+        {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
+          <ToggleSwitch 
+            text1={'Comments'}
+            text2={'Focus Area'}
+            icon1={CommentIcon}
+            icon1Active={ActiveCommentIcon}
+            icon2={FocusIcon}
+            icon2Active={ActiveFocusIcon}
+            isChecked={isFeedback}
+            onChangeFn={handleTabUpdate}
+          />
         )}
         {isTeacher && pageMode === 'REVIEW' && (
           <ReassignBtn

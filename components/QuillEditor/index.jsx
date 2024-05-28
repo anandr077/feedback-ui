@@ -32,10 +32,10 @@ const QuillEditor = React.forwardRef(
       pageMode,
       submission,
       selectedRange,
-      commentFocusAreaToggle,
       newCommentFrameRef,
       share,
       question,
+      isFeedback,
     },
     ref
   ) => {
@@ -320,15 +320,6 @@ const QuillEditor = React.forwardRef(
       }
     };
 
-    const filteredComments = commentFocusAreaToggle
-      ? comments.filter((comment) => comment.type === 'FOCUS_AREA')
-      : comments.filter(
-          (comment) =>
-            comment.type === 'COMMENT' ||
-            comment.type === 'MODEL_RESPONSE' ||
-            comment.type === 'SMART_ANNOTATION'
-        );
-
     let floatingBoxTopPosition;
     if (selectedRange) {
       const length = selectedRange.to - selectedRange.from;
@@ -344,7 +335,6 @@ const QuillEditor = React.forwardRef(
 
       floatingBoxTopPosition = boundsIs.top;
     }
-    console.log("showFloatingDialogue", showFloatingDialogue)
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
         <div
@@ -384,7 +374,7 @@ const QuillEditor = React.forwardRef(
             pageMode={pageMode}
             submission={submission}
             methods={methods}
-            comments={filteredComments}
+            comments={comments.filter((comment) => !comment.isHidden)}
             editor={editor}
             editorRef={editorRef}
             selectedComment={selectedComment}
@@ -392,6 +382,7 @@ const QuillEditor = React.forwardRef(
             newCommentFrameRef={newCommentFrameRef}
             share={share}
             floatingBoxTopPosition={floatingBoxTopPosition}
+            isFeedback={isFeedback}
           />
         )}
       </div>

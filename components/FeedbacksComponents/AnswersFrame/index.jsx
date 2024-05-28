@@ -59,11 +59,11 @@ export function answersFrame(
   editorFontSize,
   selectedComment,
   selectedRange,
-  commentFocusAreaToggle,
   openRightPanel,
   QuestionIndex,
   newCommentFrameRef,
   share,
+  isFeedback,
 ) {
   return (
     <AnswersFrame
@@ -90,11 +90,11 @@ export function answersFrame(
       selectedComment={selectedComment}
       methods={methods}
       selectedRange={selectedRange}
-      commentFocusAreaToggle={commentFocusAreaToggle}
       openRightPanel={openRightPanel}
       QuestionIndex={QuestionIndex}
       newCommentFrameRef={newCommentFrameRef}
       share={share}
+      isFeedback={isFeedback}
     ></AnswersFrame>
   );
 }
@@ -126,6 +126,7 @@ function AnswersFrame(props) {
     QuestionIndex,
     newCommentFrameRef,
     share,
+    isFeedback,
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -164,6 +165,7 @@ function AnswersFrame(props) {
           QuestionIndex,
           newCommentFrameRef,
           share,
+          isFeedback,
         )}
       </Frame1367>
       {submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
@@ -249,7 +251,8 @@ const answerFrames = (
   selectedRange,
   QuestionIndex,
   newCommentFrameRef,
-  share
+  share,
+  isFeedback,
 ) => {
   const { overallComments } = useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
@@ -401,7 +404,8 @@ const answerFrames = (
                 selectedRange,
                 newCommentFrameRef,
                 share,
-                question
+                question,
+                isFeedback,
               )}
             </QuillContainer>
           )}
@@ -502,7 +506,8 @@ function createQuill(
   selectedRange,
   newCommentFrameRef,
   share,
-  question
+  question,
+  isFeedback,
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -545,6 +550,7 @@ function createQuill(
         newCommentFrameRef={newCommentFrameRef}
         share={share}
         question={question}
+        isFeedback={isFeedback}
       ></QuillEditor>
     </div>
   );

@@ -112,6 +112,7 @@ const FeedbackHeader = ({
   //   }
   // }
 
+
   return (
     <FeedbackHeaderContainer>
       {isTeacher && (pageMode === 'REVIEW' || pageMode === 'CLOSED') ? (
@@ -200,8 +201,8 @@ const FeedbackHeader = ({
             icon1Active={ActiveCommentIcon}
             icon2={FocusIcon}
             icon2Active={ActiveFocusIcon}
-            isChecked={isFeedback}
             onChangeFn={handleTabUpdate}
+            isChecked={isFeedback}
           />
         )}
         {isTeacher && pageMode === 'REVIEW' && (

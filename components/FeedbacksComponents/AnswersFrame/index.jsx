@@ -44,7 +44,10 @@ import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
 import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 import { updateAssignment } from '../../../service';
-import { isShowCommentInstructions, isShowFocusAreaInstructions } from '../FeedbacksRoot/rules';
+import {
+  isShowCommentInstructions,
+  isShowFocusAreaInstructions,
+} from '../FeedbacksRoot/rules';
 
 export function answersFrame(
   quillRefs,
@@ -64,6 +67,7 @@ export function answersFrame(
   newCommentFrameRef,
   share,
   isFeedback,
+  isFocusAreas
 ) {
   return (
     <AnswersFrame
@@ -95,6 +99,7 @@ export function answersFrame(
       newCommentFrameRef={newCommentFrameRef}
       share={share}
       isFeedback={isFeedback}
+      isFocusAreas={isFocusAreas}
     ></AnswersFrame>
   );
 }
@@ -127,15 +132,15 @@ function AnswersFrame(props) {
     newCommentFrameRef,
     share,
     isFeedback,
+    isFocusAreas,
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
-    (comment) => comment.type === 'COMMENT' || comment.type === "MODEL_RESPONSE"
+    (comment) => comment.type === 'COMMENT' || comment.type === 'MODEL_RESPONSE'
   );
   const focusAreaComments = comments?.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
-
 
   return (
     <Group1225 id="answers">
@@ -166,11 +171,16 @@ function AnswersFrame(props) {
           newCommentFrameRef,
           share,
           isFeedback,
+          isFocusAreas
         )}
       </Frame1367>
-      {submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
-        <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
-          {isShowFocusAreaInstructions(pageMode, focusAreaComments?.length) && (
+      {submission.type !== 'DOCUMENT' &&
+        (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
+          <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
+            {isShowFocusAreaInstructions(
+              pageMode,
+              focusAreaComments?.length
+            ) && (
               <AddCommentFocusAreaInstruction
                 heading="How to use Focus Areas:"
                 firstIcon={RedabcIcon}
@@ -180,21 +190,25 @@ function AnswersFrame(props) {
                 thirdIcon={RefreshIcon}
                 thirdStep="Repeat this process for each focus area."
               />
-            )
-          }
-          {isShowCommentInstructions(pageMode, generalComments?.length, showNewComment) && (
-            <AddCommentFocusAreaInstruction
-              heading={'Adding Comments'}
-              firstIcon={ABCIcon}
-              firstStep={'Highlight a section of the response'}
-              secondIcon={CommentGroupIcon}
-              secondStep={'Click the comment icon from the provided options'}
-              thirdIcon={RefreshIcon}
-              thirdStep={'Repeat this process to add more comments'}
-            />
-          )}
-        </AddCommentFocusAreaDiv>
-      )}
+            )}
+            {isShowCommentInstructions(
+              pageMode,
+              generalComments?.length,
+              showNewComment,
+              isFeedback
+            ) && (
+              <AddCommentFocusAreaInstruction
+                heading={'Adding Comments'}
+                firstIcon={ABCIcon}
+                firstStep={'Highlight a section of the response'}
+                secondIcon={CommentGroupIcon}
+                secondStep={'Click the comment icon from the provided options'}
+                thirdIcon={RefreshIcon}
+                thirdStep={'Repeat this process to add more comments'}
+              />
+            )}
+          </AddCommentFocusAreaDiv>
+        )}
     </Group1225>
   );
 }
@@ -252,7 +266,7 @@ const answerFrames = (
   QuestionIndex,
   newCommentFrameRef,
   share,
-  isFeedback,
+  isFeedback
 ) => {
   const { overallComments } = useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
@@ -405,7 +419,7 @@ const answerFrames = (
                 newCommentFrameRef,
                 share,
                 question,
-                isFeedback,
+                isFeedback
               )}
             </QuillContainer>
           )}
@@ -507,7 +521,7 @@ function createQuill(
   newCommentFrameRef,
   share,
   question,
-  isFeedback,
+  isFeedback
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -531,7 +545,7 @@ function createQuill(
         options={{
           modules: createModules(pageMode),
           theme: 'snow',
-          readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED'
+          readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
         }}
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}

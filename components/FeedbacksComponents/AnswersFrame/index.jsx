@@ -64,7 +64,6 @@ export function answersFrame(
   newCommentFrameRef,
   share,
   isFeedback,
-  isFocusAreas,
 ) {
   return (
     <AnswersFrame
@@ -96,7 +95,6 @@ export function answersFrame(
       newCommentFrameRef={newCommentFrameRef}
       share={share}
       isFeedback={isFeedback}
-      isFocusAreas={isFocusAreas}
     ></AnswersFrame>
   );
 }
@@ -129,7 +127,6 @@ function AnswersFrame(props) {
     newCommentFrameRef,
     share,
     isFeedback,
-    isFocusAreas,
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -169,7 +166,6 @@ function AnswersFrame(props) {
           newCommentFrameRef,
           share,
           isFeedback,
-          isFocusAreas,
         )}
       </Frame1367>
       {submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
@@ -257,7 +253,6 @@ const answerFrames = (
   newCommentFrameRef,
   share,
   isFeedback,
-  isFocusAreas,
 ) => {
   const { overallComments } = useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
@@ -411,7 +406,6 @@ const answerFrames = (
                 share,
                 question,
                 isFeedback,
-                isFocusAreas,
               )}
             </QuillContainer>
           )}
@@ -514,7 +508,6 @@ function createQuill(
   share,
   question,
   isFeedback,
-  isFocusAreas,
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -557,6 +550,7 @@ function createQuill(
         newCommentFrameRef={newCommentFrameRef}
         share={share}
         question={question}
+        isFeedback={isFeedback}
       ></QuillEditor>
     </div>
   );

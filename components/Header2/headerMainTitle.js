@@ -17,7 +17,7 @@ export const headerMainTitle = [
   },
   {
     link: '/settings',
-    title: 'Settings',
+    title: 'Feeback Tools',
   },
   {
     link: '/feedbackHistory',
@@ -37,11 +37,11 @@ export const headerMainTitle = [
   },
   {
     link: '/markingTemplates/strengths-and-targets',
-    title: 'Settings',
+    title: 'Feeback Tools',
   },
   {
     link: '/markingTemplates/rubrics',
-    title: 'Settings',
+    title: 'Feeback Tools',
   },
   {
     link: '/tasks/new',
@@ -49,7 +49,7 @@ export const headerMainTitle = [
   },
   {
     link: '/commentbanks',
-    title: 'Settings',
+    title: 'Feeback Tools',
   },
   {
     link: '/',

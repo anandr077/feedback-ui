@@ -196,7 +196,7 @@ const FeedbackHeader = ({
         {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
           <ToggleSwitch 
             text1={'Comments'}
-            text2={'Focus Area'}
+            text2={'Focus Areas'}
             icon1={CommentIcon}
             icon1Active={ActiveCommentIcon}
             icon2={FocusIcon}

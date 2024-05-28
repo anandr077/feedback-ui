@@ -385,7 +385,7 @@ function reviewerNewComment(
     allCommentBanks,
     isTeacher,
   } = useContext(FeedbackContext);
-
+                
   if (pageMode === 'CLOSED') return <></>;
   return (
     <>

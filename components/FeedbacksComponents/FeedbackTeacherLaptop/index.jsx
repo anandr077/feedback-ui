@@ -539,7 +539,7 @@ function answersAndFeedbacks(
     SetOpenRightPanel(tab);
   };
 
-  const question = submission.assignment.questions[1];
+  const question = submission.assignment.questions[QuestionIndex];
 
   return (
     <Frame1386 id="content">
@@ -592,12 +592,14 @@ function answersAndFeedbacks(
           />
         )}
       <FeedbackBody>
-        <FocusAreasLabel
-          handleCheckboxChange={handleCheckboxChange}
-          groupedFocusAreaIds={groupedFocusAreaIds}
-          serialNumber={question?.serialNumber}
-          focusAreas={question?.focusAreas}
-        />
+        {isFocusAreas && (
+          <FocusAreasLabel
+            handleCheckboxChange={handleCheckboxChange}
+            groupedFocusAreaIds={groupedFocusAreaIds}
+            serialNumber={question?.serialNumber}
+            focusAreas={question?.focusAreas}
+          />
+        )}
         <Frame1368 id="assignmentData">
           {answersFrame(
             quillRefs,

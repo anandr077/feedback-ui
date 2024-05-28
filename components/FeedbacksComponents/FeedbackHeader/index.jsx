@@ -195,27 +195,26 @@ const FeedbackHeader = ({
           <ToggleContainer>
             <ToggleLavel>
               <ToggleInput
-                checked={isFocusAreas}
-                onChange={() =>
-                  handleTabUpdate(pageMode, setFeedback, setFocusAreas)
-                }
+                checked={isFeedback}
+                onChange={() => {
+                  setFeedback(!isFeedback);
+                  setFocusAreas(isFocusAreas); 
+                }}
                 type="checkbox"
               />
               <ToggleBtn>
                 <img
-                  src={
-                    isFeedback ? ActiveCommentIcon : ActiveFocusIcon
-                  }
-                  alt={isFeedback ? 'Comments' : 'Focus Area'}
+                  src={isFeedback  ?  ActiveCommentIcon : ActiveFocusIcon}
+                  alt={isFeedback  ? 'Comments' : 'Focus Area'}
                 />
                 {isFeedback ? 'Comments' : 'Focus Area'}
               </ToggleBtn>
               <ToggleSwitchLabels>
                 <span>
-                  <img src={CommentIcon} /> Comments
+                  <img src={FocusIcon} /> Focus Area
                 </span>
                 <span>
-                  <img src={FocusIcon} /> Focus Area
+                  <img src={CommentIcon} /> Comments
                 </span>
               </ToggleSwitchLabels>
             </ToggleLavel>

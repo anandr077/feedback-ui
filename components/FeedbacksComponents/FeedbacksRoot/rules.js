@@ -13,7 +13,10 @@ export const isShowCommentInstructions = (
   return pageMode === 'REVIEW' && nbComments === 0;
 };
 
-export const isShowFocusAreaInstructions = (pageMode, nbComments) => {
+export const isShowFocusAreaInstructions = (pageMode, nbComments, isFocusAreas) => {
+  if(!isFocusAreas){
+    return
+  }
   return pageMode === 'DRAFT' && nbComments === 0;
 };
 

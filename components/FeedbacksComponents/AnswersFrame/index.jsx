@@ -59,11 +59,12 @@ export function answersFrame(
   editorFontSize,
   selectedComment,
   selectedRange,
-  commentFocusAreaToggle,
   openRightPanel,
   QuestionIndex,
   newCommentFrameRef,
   share,
+  isFeedback,
+  isFocusAreas,
 ) {
   return (
     <AnswersFrame
@@ -90,11 +91,12 @@ export function answersFrame(
       selectedComment={selectedComment}
       methods={methods}
       selectedRange={selectedRange}
-      commentFocusAreaToggle={commentFocusAreaToggle}
       openRightPanel={openRightPanel}
       QuestionIndex={QuestionIndex}
       newCommentFrameRef={newCommentFrameRef}
       share={share}
+      isFeedback={isFeedback}
+      isFocusAreas={isFocusAreas}
     ></AnswersFrame>
   );
 }
@@ -126,6 +128,8 @@ function AnswersFrame(props) {
     QuestionIndex,
     newCommentFrameRef,
     share,
+    isFeedback,
+    isFocusAreas,
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -164,6 +168,8 @@ function AnswersFrame(props) {
           QuestionIndex,
           newCommentFrameRef,
           share,
+          isFeedback,
+          isFocusAreas,
         )}
       </Frame1367>
       {submission.type !== "DOCUMENT" && (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
@@ -249,7 +255,9 @@ const answerFrames = (
   selectedRange,
   QuestionIndex,
   newCommentFrameRef,
-  share
+  share,
+  isFeedback,
+  isFocusAreas,
 ) => {
   const { overallComments } = useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
@@ -401,7 +409,9 @@ const answerFrames = (
                 selectedRange,
                 newCommentFrameRef,
                 share,
-                question
+                question,
+                isFeedback,
+                isFocusAreas,
               )}
             </QuillContainer>
           )}
@@ -502,7 +512,9 @@ function createQuill(
   selectedRange,
   newCommentFrameRef,
   share,
-  question
+  question,
+  isFeedback,
+  isFocusAreas,
 ) {
   return (
     <div style={{ width: '100%' }}>

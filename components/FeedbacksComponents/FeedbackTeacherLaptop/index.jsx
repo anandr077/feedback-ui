@@ -243,7 +243,13 @@ function FeedbackTeacherLaptop(props) {
       }
     });
   };
+  console.log('the focus area is', isFocusAreas)
 
+  function handleTabUpdate(){
+    setFeedback(!isFeedback);
+    setFocusAreas(isFocusAreas);
+  }
+  
   const handleDrawer = () => {
     setOpen(!open);
   };
@@ -455,15 +461,16 @@ function loader(showLoader) {
   );
 }
 
-function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-    setFeedback(false);
-    setFocusAreas(true);
-  } else {
-    setFeedback(true);
-    setFocusAreas(false);
-  }
-}
+// function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
+//   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+//     setFeedback(false);
+//     setFocusAreas(true);
+//   } else {
+//     setFeedback(true);
+//     setFocusAreas(false);
+//   }
+// }
+
 
 function createGroupedFocusAreas(submission) {
   const flattenedQuestions = flatMap(
@@ -523,18 +530,10 @@ function answersAndFeedbacks(
   setShowTeacherPopUp,
   editorFontSize,
   selectedComment,
-  selectedRange
+  selectedRange,
+  handleTabUpdate,
 ) {
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
-  const [commentFocusAreaToggle, setCommentFocusAreaToggle] = React.useState(
-    () => {
-      return pageMode === 'REVIEW'
-        ? false
-        : pageMode === 'DRAFT'
-        ? true
-        : false;
-    }
-  );
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const handleRightSidebarClick = (tab) => {
@@ -570,8 +569,6 @@ function answersAndFeedbacks(
         setShowTeacherPopUp
       )} */}
       <FeedbackHeader
-        commentFocusAreaToggle={commentFocusAreaToggle}
-        setCommentFocusAreaToggle={setCommentFocusAreaToggle}
         methods={methods}
         submission={submission}
         setSubmission={setSubmission}
@@ -589,6 +586,7 @@ function answersAndFeedbacks(
         setFocusAreas={setFocusAreas}
         isFeedback={isFeedback}
         isFocusAreas={isFocusAreas}
+        handleTabUpdate={handleTabUpdate}
       />
       {submission.type === 'SUBMISSION' &&
         submission.assignment.questions.length !== 0 && (
@@ -619,12 +617,13 @@ function answersAndFeedbacks(
             editorFontSize,
             selectedComment,
             selectedRange,
-            commentFocusAreaToggle,
             openRightPanel,
             QuestionIndex,
             newCommentFrameRef,
             share,
-            isTeacher
+            isTeacher,
+            isFeedback,
+            isFocusAreas,
           )}
 
           {/* {!isMobile && (

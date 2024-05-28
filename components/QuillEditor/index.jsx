@@ -32,10 +32,11 @@ const QuillEditor = React.forwardRef(
       pageMode,
       submission,
       selectedRange,
-      commentFocusAreaToggle,
       newCommentFrameRef,
       share,
       question,
+      isFeedback,
+      isFocusAreas,
     },
     ref
   ) => {
@@ -320,7 +321,9 @@ const QuillEditor = React.forwardRef(
       }
     };
 
-    const filteredComments = commentFocusAreaToggle
+
+
+    const filteredComments = isFocusAreas
       ? comments.filter((comment) => comment.type === 'FOCUS_AREA')
       : comments.filter(
           (comment) =>

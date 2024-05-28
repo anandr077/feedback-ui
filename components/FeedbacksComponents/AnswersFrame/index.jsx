@@ -179,7 +179,8 @@ function AnswersFrame(props) {
           <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
             {isShowFocusAreaInstructions(
               pageMode,
-              focusAreaComments?.length
+              focusAreaComments?.length,
+              isFocusAreas
             ) && (
               <AddCommentFocusAreaInstruction
                 heading="How to use Focus Areas:"

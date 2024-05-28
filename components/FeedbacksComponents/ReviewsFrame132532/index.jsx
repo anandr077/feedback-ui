@@ -117,8 +117,8 @@ function ReviewsFrame132532(props) {
       <More
         src={
           isResolveHovered
-            ? '/icons/resolve-tick-purple.png'
-            : '/icons/resolve-tick-grey.png'
+            ? TickIcon
+            : TickIcon
         }
         alt="resolve"
         onMouseEnter={handleMouseEnter}
@@ -164,14 +164,12 @@ function ReviewsFrame132532(props) {
         </Instructer>
       </Frame1324>
       {resolveFrame}
-      {selectedComment && selectedComment.id === comment.id && (
         <>
           {showReplyButton && (
             <>
               <Reply onClick={onReplyClick}>
                 <img src={ReplyIcon} alt="reply" />
               </Reply>
-              <img src={TickIcon} />
             </>
           )}
           {getUserId() === comment.reviewerId &&
@@ -187,7 +185,6 @@ function ReviewsFrame132532(props) {
           {closeFrame}
           {openEditDeleteTemplate}
         </>
-      )}
     </Frame1325>
   );
 

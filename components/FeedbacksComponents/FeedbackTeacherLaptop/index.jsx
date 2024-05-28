@@ -246,9 +246,10 @@ function FeedbackTeacherLaptop(props) {
   };
 
   function handleTabUpdate() {
-    setFeedback(!isFeedback);
-    setFocusAreas(!isFocusAreas);
+    setFeedback((prev) => !prev);
+    setFocusAreas((prev) => !prev);
   }
+
   const handleDrawer = () => {
     setOpen(!open);
   };
@@ -615,8 +616,8 @@ function answersAndFeedbacks(
             QuestionIndex,
             newCommentFrameRef,
             share,
-            isTeacher,
-            isFeedback
+            isFeedback,
+            isFocusAreas
           )}
 
           {/* {!isMobile && (

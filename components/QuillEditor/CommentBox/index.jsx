@@ -169,7 +169,6 @@ const CommentBox = ({
     setGroupedCommentsWithGap(groupedCommentsWithGap);
   }, [isFeedback, editor, editorRef, selectedComment, comments, commentHeights]);
 
-  console.log('the focus area is', isFeedback)
 
   return (
     <>

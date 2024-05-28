@@ -1,9 +1,13 @@
 export const isShowCommentInstructions = (
   pageMode,
   nbComments,
-  isShowingNewCommentDialogue
+  isShowingNewCommentDialogue,
+  isFeedback
 ) => {
   if (isShowingNewCommentDialogue) {
+    return false;
+  }
+  if(!isFeedback){
     return false;
   }
   return pageMode === 'REVIEW' && nbComments === 0;

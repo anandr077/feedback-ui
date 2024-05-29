@@ -172,7 +172,7 @@ const CommentBox = ({
 
   return (
     <>
-      {showNewComment && pageMode !== 'DRAFT' ? (
+      {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
         <MainSideContainer
           style={{ top: floatingBoxTopPosition, right: '-330px' }}
         >

@@ -9,27 +9,35 @@ const FeedbackQuestionSlider = ({
   QuestionIndex,
   questions,
 }) => {
-  const {setNewCommentSerialNumber,setSelectedRange,setSelectedText, quillRefs, setShowFloatingDialogue } = React.useContext(FeedbackContext);
+  const {
+    setNewCommentSerialNumber,
+    setSelectedRange,
+    setSelectedText,
+    quillRefs,
+    setShowFloatingDialogue,
+    methods
+  } = React.useContext(FeedbackContext);
 
   const handlePreviousQuestion = () => {
     if (QuestionIndex === 0) return;
     setShowFloatingDialogue(false);
 
-   
-    setNewCommentSerialNumber(0)
-    setSelectedRange(null)
-    setSelectedText(null)
+    setNewCommentSerialNumber(0);
+    setSelectedRange(null);
+    setSelectedText(null);
     setQuestionIndex((prevIndex) => prevIndex - 1);
+    methods.setShowNewComment(false);
   };
 
   const handleNextQuestion = () => {
     if (QuestionIndex === questions.length - 1) return;
     setShowFloatingDialogue(false);
 
-    setNewCommentSerialNumber(0)
-    setSelectedRange(null)
-    setSelectedText(null)
+    setNewCommentSerialNumber(0);
+    setSelectedRange(null);
+    setSelectedText(null);
     setQuestionIndex((prevIndex) => prevIndex + 1);
+    methods.setShowNewComment(false);
   };
 
   return (

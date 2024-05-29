@@ -138,13 +138,6 @@ function FeedbackTeacherLaptop(props) {
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
 
-  React.useEffect(() => {
-    if (showNewComment) {
-      //handleTabUpdate(pageMode, setFeedback, setFocusAreas);
-      handleTabUpdate();
-    }
-  }, [showNewComment]);
-
   const [isShowResolved, setShowResolved] = useState(false);
 
   const [isShowSelectType, setShowSelectType] = useState(false);
@@ -248,6 +241,7 @@ function FeedbackTeacherLaptop(props) {
   function handleTabUpdate() {
     setFeedback((prev) => !prev);
     setFocusAreas((prev) => !prev);
+    methods.setShowNewComment(false);
   }
 
   const handleDrawer = () => {

@@ -383,7 +383,6 @@ function reviewerNewComment(
     smartAnnotations,
     setShowFloatingDialogue,
     allCommentBanks,
-    isTeacher,
   } = useContext(FeedbackContext);
                 
   if (pageMode === 'CLOSED') return <></>;

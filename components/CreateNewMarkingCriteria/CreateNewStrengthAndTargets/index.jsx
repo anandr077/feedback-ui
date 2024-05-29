@@ -64,7 +64,6 @@ import EditHover from '../../../static/img/EditHover.svg';
 import SecondSidebar from '../../SecondSidebar';
 import { isMobileView } from '../../ReactiveRender';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
-import AutoHeightTextarea from './AutoHeightTextarea';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -90,7 +89,6 @@ export default function CreateNewStrengthAndTargets() {
 
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
-  const textareaRef = useRef(null);
 
   useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
@@ -100,28 +98,6 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
-
-  useEffect(() => {
-    const textarea = textareaRef.current;
-
-    if (textarea) {
-      const adjustHeight = () => {
-        textarea.style.height = 'auto';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-      };
-
-      // Adjust height initially
-      adjustHeight();
-
-      // Adjust height on input change
-      textarea.addEventListener('input', adjustHeight);
-
-      // Cleanup event listener on component unmount
-      return () => {
-        textarea.removeEventListener('input', adjustHeight);
-      };
-    }
-  }, [markingMethodology]);
 
   if (isLoading) {
     return (
@@ -501,9 +477,12 @@ export default function CreateNewStrengthAndTargets() {
                         </CriteriaPart>
                         <StrengthPart>
                           {markingtemplate.strengths.map((strength, index) => (
-                            <AutoHeightTextarea
+                            <TextArea
                               key={index}
+                              type="text"
+                              placeholder="You have effectively..."
                               value={strength}
+                              rows="5"
                               onChange={(e) =>
                                 handleCriteriaOptionChange(
                                   e,
@@ -512,7 +491,6 @@ export default function CreateNewStrengthAndTargets() {
                                   STRENGTHS
                                 )
                               }
-                              placeholder="You have effectively..."
                               onKeyPress={(e) =>
                                 handleKeyPressInput(e, 5, strength)
                               }
@@ -531,9 +509,12 @@ export default function CreateNewStrengthAndTargets() {
                         </StrengthPart>
                         <TargetPart>
                           {markingtemplate.targets.map((target, index) => (
-                            <AutoHeightTextarea
+                            <TextArea
                               key={index}
+                              type="text"
+                              placeholder="You need to..."
                               value={target}
+                              rows="5"
                               onChange={(e) =>
                                 handleCriteriaOptionChange(
                                   e,
@@ -542,7 +523,6 @@ export default function CreateNewStrengthAndTargets() {
                                   TARGETS
                                 )
                               }
-                              placeholder="You need to..."
                               onKeyPress={(e) =>
                                 handleKeyPressInput(e, 5, target)
                               }

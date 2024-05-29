@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { css } from 'styled-components';
 import styled from 'styled-components';
 
-const FocusedInput = ({ id, placeholder, onKeyPress }) => {
+const FocusedInput = ({ id, placeholder }) => {
   const inputRef = useRef(null);
   const [rows, setRows] = useState(1);
 
@@ -31,7 +31,6 @@ const FocusedInput = ({ id, placeholder, onKeyPress }) => {
       placeholder={placeholder}
       id={id}
       type="text"
-      onKeyPress={onKeyPress}
       ref={inputRef}
       rows={rows}
       onChange={handleChange}

@@ -99,7 +99,8 @@ const SmallButton = styled.button`
   cursor: pointer;
   padding: 8px 12px;
   border-radius: 32px;
-  background-color: ${props => props.background ? 'rgba(114, 0, 224, 1)' : 'rgba(178, 174, 183, 1) '};
+  //background-color: ${props => props.background ? 'rgba(114, 0, 224, 1)' : 'rgba(178, 174, 183, 1) '};
+  background-color: rgba(114, 0, 224, 1);
   text-align: center;
   white-space: nowrap;
   font-family: var(--font-family-ibm_plex_sans);

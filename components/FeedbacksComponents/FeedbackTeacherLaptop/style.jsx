@@ -359,6 +359,7 @@ export const Frame1386 = styled.div`
   align-self: stretch;
   width: '100%';
   overflow-x: hidden;
+  position: relative;
 `;
 
 export const Frame1371 = styled.div`
@@ -417,6 +418,16 @@ export const FeedbackBody = styled.div`
   width: 100%;
 `;
 
+export const FeedbackPageOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+`;
+
 export const Frame1368 = styled.div`
   display: flex;
   flex-direction: column;
@@ -428,6 +439,7 @@ export const Frame1368 = styled.div`
   height: calc(100vh - 120px);
   overflow-y: scroll;
   width: 100%;
+  z-index: 2;
 
   &::-webkit-scrollbar {
     width: 0;

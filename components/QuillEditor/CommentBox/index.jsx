@@ -60,15 +60,19 @@ const CommentBox = ({
     .filter((item) => item.serialNumber === newCommentSerialNumber)
     .map((item) => item.commentBankId);
 
-  useEffect(() => {
     const measureHeights = () => {
-      const newHeights = comments?.map((_, index) => {
-        const element = document.getElementById(`comment-${index}`);
-        return element ? element.clientHeight : 0;
+      const newHeights = comments?.map((comment, index) => {
+        
+        const element = document.getElementById(`comment-${comment.id}`);
+
+        const a = element ? element.clientHeight : 0;
+
+        return {...comment, height: a}
       });
       setCommentHeights(newHeights);
     };
 
+  useEffect(() => {
     measureHeights();
 
     window.addEventListener('resize', measureHeights);
@@ -79,17 +83,22 @@ const CommentBox = ({
   }, [comments]);
 
   useEffect(() => {
-    const groupedComments = getBounds(editor, editorRef, comments, selectedComment, commentHeights)
+    const visibleComments = comments.filter((comment) => !comment.isHidden)
+    const groupedComments = getBounds(editor, editorRef, visibleComments, selectedComment, commentHeights)
 
     setGroupedCommentsWithGap(groupedComments);
   }, [isFeedback, editor, editorRef, selectedComment, comments, commentHeights]);
+
+  const totalHeightAllComments = commentHeights.reduce((acc, cur) =>{
+    return acc + cur.height
+  }, 0)
 
 
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
         <MainSideContainer
-          style={{ top: floatingBoxTopPosition, right: '-330px' }}
+          style={{ top: floatingBoxTopPosition, right: '-330px', height: '100%' }}
         >
           <Screen onClick={methods.hideNewCommentDiv}></Screen>
           <OptionContainer>
@@ -120,7 +129,7 @@ const CommentBox = ({
             )}
         </MainSideContainer>
       ) : (
-        <MainSideContainer>
+        <MainSideContainer style={{height: `${totalHeightAllComments}px`}}>
           <ul
             style={{
               height: '100%',
@@ -140,7 +149,7 @@ const CommentBox = ({
                     return (
                       <CommentDiv
                         key={index}
-                        id={`comment-${index}`}
+                        id={`comment-${comment.id}`}
                         style={{
                           top: `${comment.topPosition}px`,
                           transform:

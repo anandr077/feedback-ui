@@ -21,8 +21,6 @@ export const getBounds = (
 
       let topPosition = boundsIs.top;
 
-      let updatedTopPosition = null;
-
       if (topPosition < lastCommentBottomPosition) {
         topPosition = lastCommentBottomPosition;
       }
@@ -57,6 +55,8 @@ export const getBounds = (
     groupedCommentsWithGap.push(currentGroup);
   }
 
+  console.log('the groupedCommentsWithGap', groupedCommentsWithGap)
+
   return groupedCommentsWithGap;
 };
 
@@ -70,7 +70,8 @@ function boundsFunc(editor, comment) {
     boundsIs = editor.getBounds(comment.range.from, length);
   }
 
-  console.log('the bounds', boundsIs)
-
   return boundsIs
 }
+
+
+

@@ -305,5 +305,3 @@ export const TextInput = styled.input`
   transition: 0.15s;
   width: 100%;
 `;
-
-

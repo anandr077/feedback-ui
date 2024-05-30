@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   BankCommentTitle,
   ButtonConatiner,
@@ -69,17 +69,14 @@ import PreviewIcon from '../../static/img/preview.svg';
 import FeedbackArea from './FeedbackArea';
 
 const CommentBanks = () => {
-  const [smartAnnotations, setSmartAnnotations] = React.useState();
-  const [systemSmartAnnotations, setSystemSmartAnnotations] = React.useState();
-  const [selectedBank, setSelectedBank] = React.useState();
-  const [feedbackBankId, setFeedbackBankId] = React.useState(0);
-  const [isShowNewBankPopUp, setShowNewBankPopUp] = React.useState(false);
-  const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
+  const [smartAnnotations, setSmartAnnotations] = useState();
+  const [systemSmartAnnotations, setSystemSmartAnnotations] = useState();
+  const [selectedBank, setSelectedBank] = useState();
+  const [feedbackBankId, setFeedbackBankId] = useState(0);
+  const [isShowNewBankPopUp, setShowNewBankPopUp] = useState(false);
+  const [feedbackBankCreated, setFeedbackBankCreated] = useState(false);
 
-  const [smartAnnotationUpdateIndex, setSmartAnnotationUpdateIndex] =
-    React.useState(-1);
-  const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] =
-    React.useState('');
+  const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] = useState(0);
   const selectedRef = useRef(null);
   const queryClient = useQueryClient();
 
@@ -121,31 +118,6 @@ const CommentBanks = () => {
       );
     }
   }, [feedbackBankQuery.data]);
-
-  const smartAnnotationsFrame = () => {
-    const smartAnnotation = smartAnnotations.find(
-      (sa) => sa.id === feedbackBankId
-    );
-
-    if (!smartAnnotation) {
-      return null;
-    }
-    return (
-      <FeedbackArea
-        key={Math.random()}
-        smartAnnotationIndex={feedbackBankId}
-        smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
-        smartAnnotation={smartAnnotation}
-        UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
-        settingsMode={true}
-        deleteAnnotationHandler={deleteAnnotationHandler}
-        createSmartAnnotation={createSmartAnnotation}
-        teacherId={smartAnnotation.ownerId}
-        smartAnnotationeditIndex={smartAnnotationeditIndex}
-        createSmartAnnotationHandler={createSmartAnnotationHandler}
-      />
-    );
-  };
 
   const deteteFeedbackBank = (smartAnnotationIndex) => {
     const newSmartAnnotations = smartAnnotations.filter(
@@ -323,7 +295,6 @@ const CommentBanks = () => {
 
       return smartAnnotation;
     });
-
     const foundSmartAnnotation = newSmartAnnotations.find(
       (smartAnnotation) => smartAnnotation.id === feedbackBankId
     );
@@ -378,12 +349,6 @@ const CommentBanks = () => {
       </>
     );
   }
-
-  const findCurrentFeedbackBank =
-    smartAnnotations?.length > 0 &&
-    smartAnnotations?.find(
-      (smartAnnotation) => smartAnnotation.id === feedbackBankId
-    );
 
   const NewBankPopContainer = ({ setShowNewBankPopUp }) => {
     const selectBankFun = (e, bank) => {
@@ -489,6 +454,12 @@ const CommentBanks = () => {
     );
   };
 
+  const tabChangeFunc = (event, newValue) => {
+    setSmartAnnotationeditIndex(0);
+    setFeedbackBankId(newValue);
+    setFeedbackBankCreated(false);
+  };
+
   return (
     <>
       {isShowNewBankPopUp && (
@@ -507,11 +478,9 @@ const CommentBanks = () => {
                     variant="scrollable"
                     scrollButtons
                     value={feedbackBankId}
-                    onChange={(event, newValue) => {
-                      setFeedbackBankId(newValue);
-                      setFeedbackBankCreated(false);
-                      setSmartAnnotationeditIndex('');
-                    }}
+                    onChange={(event, newValue) =>
+                      tabChangeFunc(event, newValue)
+                    }
                     aria-label="Feedback Bank tabs"
                   >
                     {smartAnnotations?.map((bank, index) => (
@@ -541,7 +510,22 @@ const CommentBanks = () => {
                   </MoreOptionsContainer>
                 </TabsContainer>
                 <MarkingCriteriaList>
-                  {smartAnnotationsFrame()}
+                  {
+                    <FeedbackArea
+                      key={Math.random()}
+                      smartAnnotation={smartAnnotations.find(
+                        (sa) => sa.id === feedbackBankId
+                      )}
+                      UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
+                      settingsMode={true}
+                      deleteAnnotationHandler={deleteAnnotationHandler}
+                      createSmartAnnotation={createSmartAnnotation}
+                      smartAnnotationeditIndex={smartAnnotationeditIndex}
+                      createSmartAnnotationHandler={
+                        createSmartAnnotationHandler
+                      }
+                    />
+                  }
                 </MarkingCriteriaList>
               </Frame1302>
             )}

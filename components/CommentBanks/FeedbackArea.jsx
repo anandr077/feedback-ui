@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SmartAnnotationSuggestion from '../SmartAnnotationSuggestion';
 import { getUserId } from '../../userLocalDetails';
 import deleteLight from '../../static/img/delete-light.svg';
@@ -28,38 +28,23 @@ import FeedbackAreaTitle from './FeedbackAreaTitle';
 function FeedbackArea(props) {
   const {
     smartAnnotation,
-    smartAnnotationIndex,
-    // smartCommentIndex,
-    smartAnnotationUpdateIndex,
-
     UpdateSmartAnotationHandler,
-    settingsMode,
     deleteAnnotationHandler,
-    onSuggestionClick,
     createSmartAnnotation,
-    open = false,
     smartAnnotationeditIndex,
     createSmartAnnotationHandler,
   } = props;
-  const [isExpanded, setIsExpanded] = useState(false);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] =
     useState(smartAnnotation);
-  const [newSmartAnnotationEdit, setNewSmartAnnotationEdit] = useState(false);
-  const [editedText, setEditedText] = useState('');
-  const [editingTitle, setEditingTitle] = useState(false);
-  const [editTitle, setEditTitle] = useState();
+
   const [currentSmartComment, setCurrnetSmartComment] = useState(
-    smartAnnotationeditIndex
-      ? currentSmartAnnotation?.smartComments[smartAnnotationeditIndex]
-      : currentSmartAnnotation?.smartComments[0]
+    smartAnnotation?.smartComments[smartAnnotationeditIndex]
   );
   const [currentSmartCommentId, setCurrnetSmartCommentId] = useState(
-    smartAnnotationeditIndex ? smartAnnotationeditIndex : 0
+    smartAnnotationeditIndex
   );
-
   const saveEditedSuggestion = (updatedText, index) => {
     const newSmartAnnotation = { ...currentSmartComment };
-    console.log('newSmartAnnotation', newSmartAnnotation);
     newSmartAnnotation.suggestions[index] = updatedText;
     setCurrnetSmartComment(newSmartAnnotation);
     UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
@@ -68,6 +53,7 @@ function FeedbackArea(props) {
   const handleDeleteSuggestion = (index) => {
     const newSmartAnnotation = { ...currentSmartComment };
     newSmartAnnotation.suggestions.splice(index, 1);
+    setCurrentSmartAnnotation(newSmartAnnotation);
     UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
 
@@ -126,7 +112,7 @@ function FeedbackArea(props) {
               Specific Comments:
               <span style={{ opacity: '0.7' }}>
                 {' '}
-                {currentSmartComment.title}
+                {currentSmartComment?.title}
               </span>
             </RightConatinerHeadingText>
           </RightConatinerHeading>

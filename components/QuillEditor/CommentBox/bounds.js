@@ -1,3 +1,60 @@
+
+export const adjustPositionsForSelectedComment = (editor, groupedComments, selectedCommentId) => {
+  if (!selectedCommentId) {
+    return groupedComments;
+  }
+
+  console.log("Grouped Comments: ", groupedComments.map(c => ({ id: c.id, topPosition: c.topPosition })));
+  console.log("Selected Comment ID: ", selectedCommentId);
+
+  const selectedCommentIndex = groupedComments.findIndex(comment => comment.id === selectedCommentId);
+  if (selectedCommentIndex === -1) {
+    console.error(`Selected comment with ID ${selectedCommentId} not found.`);
+    return groupedComments;
+  }
+
+  const selectedComment = groupedComments[selectedCommentIndex];
+  const boundsIs = getBoundsForComment(editor, selectedComment);
+  const selectedCommentTopPosition = boundsIs?.top || 0;
+  selectedComment.topPosition = selectedCommentTopPosition;
+
+  // Split the comments into before and after the selected comment
+  const beforeComments = groupedComments.slice(0, selectedCommentIndex);
+  const afterComments = groupedComments.slice(selectedCommentIndex + 1);
+
+  // Adjust positions for the before group
+  for (let i = beforeComments.length - 1; i >= 0; i--) {
+    const comment = beforeComments[i];
+    const nextComment = i < beforeComments.length - 1 ? beforeComments[i + 1] : selectedComment;
+
+    if (comment.topPosition + comment.height > nextComment.topPosition) {
+      comment.topPosition = Math.max(nextComment.topPosition - comment.height, 0);
+    }
+  }
+
+  // Adjust positions for the after group
+  let lastPosition = selectedCommentTopPosition + selectedComment.height;
+  for (let i = 0; i < afterComments.length; i++) {
+    const comment = afterComments[i];
+    if (comment.topPosition < lastPosition) {
+      comment.topPosition = lastPosition;
+    }
+    lastPosition = comment.topPosition + comment.height;
+  }
+
+  // Combine the groups with the selected comment in the middle
+  const adjustedComments = [...beforeComments, selectedComment, ...afterComments];
+
+  const sortedAdjustedComments = adjustedComments.sort((a, b) => a.topPosition - b.topPosition);
+
+  console.log("Adjusted Comments: ", sortedAdjustedComments.map(c => ({ id: c.id, topPosition: c.topPosition })));
+
+  return sortedAdjustedComments;
+};
+
+
+
+
 export const getBounds = (
   editor,
   comments,

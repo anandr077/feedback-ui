@@ -33,7 +33,7 @@ import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/Feedbac
 import { getUserRole } from '../../../userLocalDetails';
 import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 import { sortBy } from 'lodash';
-import { getBounds, withHeights } from './bounds';
+import { adjustPositionsForSelectedComment, getBounds, withHeights } from './bounds';
 
 const CommentBox = ({
   pageMode,
@@ -84,16 +84,19 @@ const CommentBox = ({
 
   useEffect(() => {
     const visibleComments = comments.filter((comment) => !comment.isHidden)
-    const groupedComments = getBounds(editor, withHeights(visibleComments))
-    console.log('groupedComments', groupedComments)
-    setGroupedCommentsWithGap(groupedComments);
+    
+    const groupedComments = getBounds(editor, withHeights(visibleComments), selectedComment?.id)
+    const a = adjustPositionsForSelectedComment(editor, flattenComments(groupedComments), selectedComment?.id)
+    setGroupedCommentsWithGap(a);
   }, [isFeedback, editor, editorRef, selectedComment, comments, commentHeights]);
 
   const totalHeightAllComments = commentHeights.reduce((acc, cur) =>{
     return acc + cur.height
   }, 0)
 
-
+  const flattenComments = (nestedComments) => {
+    return nestedComments.reduce((acc, group) => acc.concat(group), []);
+  };
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
@@ -137,14 +140,8 @@ const CommentBox = ({
               overflow: 'hidden',
             }}
           >
-            {groupedCommentsWithGap.map((group, groupIndex) => {
-              const sortedGroup = sortBy(group, [
-                'questionSerialNumber',
-                'range.from',
-              ]);
-              return (
-                <div key={groupIndex}>
-                  {sortedGroup.map((comment, index) => {
+            <div>
+                  {groupedCommentsWithGap.map((comment, index) => {
                     return (
                       <CommentDiv
                         key={index}
@@ -257,8 +254,15 @@ const CommentBox = ({
                     );
                   })}
                 </div>
+            {/* {groupedCommentsWithGap.map((group, groupIndex) => {
+              const sortedGroup = sortBy(group, [
+                'questionSerialNumber',
+                'range.from',
+              ]);
+              return (
+                
               );
-            })}
+            })} */}
           </ul>
         </MainSideContainer>
       )}

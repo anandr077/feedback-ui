@@ -221,7 +221,6 @@ const CommentBox = ({
               return (
                 <div key={groupIndex}>
                   {sortedGroup.map((comment, index) => {
-                    console.log('the comment status', comment.status)
                     return (
                       <CommentDiv
                         key={index}

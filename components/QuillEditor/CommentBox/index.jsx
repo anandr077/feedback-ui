@@ -33,6 +33,7 @@ import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/Feedbac
 import { getUserRole } from '../../../userLocalDetails';
 import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 import { sortBy } from 'lodash';
+import { getBounds } from './bounds';
 
 const CommentBox = ({
   pageMode,
@@ -78,95 +79,9 @@ const CommentBox = ({
   }, [comments]);
 
   useEffect(() => {
-    let lastCommentBottomPosition = 0;
+    const groupedComments = getBounds(editor, editorRef, comments, selectedComment, commentHeights)
 
-    const selectedCommentIndex = comments
-      ?.sort((a, b) => a.range.from - b.range.from)
-      .findIndex((comment) => comment.id === selectedComment?.id);
-
-    const groupedComments = comments
-      ?.sort((a, b) => a.range.from - b.range.from)
-      .map((comment, index) => {
-        if (!editorRef.current) return null;
-
-        const length = comment.range.to - comment.range.from;
-        let boundsIs;
-        if (editor) {
-          boundsIs = editor.getBounds(comment.range.from, length);
-        }
-
-        if (!boundsIs) {
-          console.error('Bounds not found for comment:', comment);
-          return null;
-        }
-
-        let topPosition = boundsIs.top;
-
-        let updatedTopPosition = null;
-        if (selectedComment) {
-          let selectedLength =
-            selectedComment?.range.to - selectedComment?.range.from;
-          let selectedBounds;
-          if (editor) {
-            selectedBounds = editor.getBounds(
-              selectedComment?.range.from,
-              selectedLength
-            );
-          }
-          updatedTopPosition = selectedBounds.top;
-        }
-
-        if (topPosition < lastCommentBottomPosition) {
-          topPosition = lastCommentBottomPosition;
-        }
-
-        if (
-          index === selectedCommentIndex &&
-          selectedComment &&
-          topPosition > updatedTopPosition
-        ) {
-          topPosition = updatedTopPosition;
-        }
-
-        if (index < selectedCommentIndex) {
-          if (topPosition <= lastCommentBottomPosition) {
-            topPosition -= commentHeights[index];
-          } else {
-            topPosition = topPosition;
-          }
-        }
-
-        lastCommentBottomPosition = topPosition + commentHeights[index];
-
-        return { ...comment, topPosition: topPosition };
-      })
-      .filter((comment) => comment !== null);
-
-    let groupedCommentsWithGap = [];
-    let currentGroup = [];
-
-    groupedComments?.forEach((comment, index) => {
-      if (currentGroup.length === 0) {
-        currentGroup.push(comment);
-      } else {
-        const lastComment = currentGroup[currentGroup.length - 1];
-        const lastCommentBottomPosition =
-          lastComment.topPosition + commentHeights[index];
-
-        if (comment.topPosition < lastCommentBottomPosition) {
-          groupedCommentsWithGap.push(currentGroup);
-          currentGroup = [comment];
-        } else {
-          currentGroup.push(comment);
-        }
-      }
-    });
-
-    if (currentGroup.length > 0) {
-      groupedCommentsWithGap.push(currentGroup);
-    }
-
-    setGroupedCommentsWithGap(groupedCommentsWithGap);
+    setGroupedCommentsWithGap(groupedComments);
   }, [isFeedback, editor, editorRef, selectedComment, comments, commentHeights]);
 
 

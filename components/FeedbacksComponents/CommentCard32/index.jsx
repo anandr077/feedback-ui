@@ -304,7 +304,7 @@ function NewlineText({ text }) {
 
 const BoldText = styled.div`
   font-weight: bold;
-  padding-bottom: 1em;
+  padding-bottom: 5px;
 `;
 
 const CommentCard = styled.article`

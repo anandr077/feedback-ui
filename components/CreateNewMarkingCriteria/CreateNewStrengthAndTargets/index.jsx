@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './style.css';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
@@ -86,6 +86,7 @@ export default function CreateNewStrengthAndTargets() {
   const [isEditing, setIsEditing] = useState(false);
   const history = useHistory();
   const mobileView = isMobileView();
+
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
 
@@ -97,6 +98,7 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
+
   if (isLoading) {
     return (
       <>
@@ -480,7 +482,7 @@ export default function CreateNewStrengthAndTargets() {
                               type="text"
                               placeholder="You have effectively..."
                               value={strength}
-                              rows="1"
+                              rows="5"
                               onChange={(e) =>
                                 handleCriteriaOptionChange(
                                   e,
@@ -490,7 +492,7 @@ export default function CreateNewStrengthAndTargets() {
                                 )
                               }
                               onKeyPress={(e) =>
-                                handleKeyPressInput(e, 1, strength)
+                                handleKeyPressInput(e, 5, strength)
                               }
                             />
                           ))}
@@ -512,7 +514,7 @@ export default function CreateNewStrengthAndTargets() {
                               type="text"
                               placeholder="You need to..."
                               value={target}
-                              rows="1"
+                              rows="5"
                               onChange={(e) =>
                                 handleCriteriaOptionChange(
                                   e,
@@ -522,7 +524,7 @@ export default function CreateNewStrengthAndTargets() {
                                 )
                               }
                               onKeyPress={(e) =>
-                                handleKeyPressInput(e, 1, target)
+                                handleKeyPressInput(e, 5, target)
                               }
                             />
                           ))}

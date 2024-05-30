@@ -29,7 +29,6 @@ const NewOverallFeedback = ({
     }
   }, [overallComment, serialNumber, inputRef]);
 
-  
   // if(overallComment.questionSerialNumber === serialNumber){
   //   console.log('the overall feedback', overallComment.audio)
   // }
@@ -72,6 +71,7 @@ const NewOverallFeedback = ({
             ref={inputRef}
             readOnly={true}
             placeholder="Give feedback here..."
+            read={true}
           ></TextFeedback>
           {audioComment ? (
             <AudioPlayer
@@ -87,6 +87,7 @@ const NewOverallFeedback = ({
       <TextFeedback
         ref={inputRef}
         readOnly={true}
+        read={true}
         style={{
           height: `auto`,
         }}

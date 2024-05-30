@@ -244,6 +244,11 @@ export const FeedbackAreasContainer = styled.div`
   flex-direction: column;
   padding: 0px 20px;
   gap: 8px;
+  height: 90vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const DotContainer = styled.div`
@@ -287,6 +292,11 @@ export const FeedbackAreaText = styled.p`
 export const SpecificCommentsCont = styled.div`
   display: flex;
   flex-direction: column;
+  height: 80vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const IconImage = styled.img`

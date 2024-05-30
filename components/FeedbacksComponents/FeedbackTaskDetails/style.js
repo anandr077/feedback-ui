@@ -29,7 +29,6 @@ export const DueDate = styled.div`
 `;
 
 export const OtherDetails = styled.div`
-  height: 105px;
   flex-grow: 0;
   display: flex;
   flex-direction: column;

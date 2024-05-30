@@ -34,21 +34,27 @@ const FeedbackTaskDetails = ({
     <FeedbackTaskDetailsContainer openRightPanel={openRightPanel}>
       <RightSidebarHeading title={'Task Details'} handleClose={handleClose} />
       <DueDate>
-        <span>Due on: </span> {formatDate(submission?.assignment.dueAt)}
+        <span>Due on : </span> {formatDate(submission?.assignment.dueAt)}
       </DueDate>
       <OtherDetails>
         <div>
-          <span>Marking Method: </span>
+          <span>Marking Method : </span>
           {question?.markingCriteria?.type}
         </div>
         <div>
-          <span>Graded Task: </span>
+          <span>Graded Task : </span>
           Yes
         </div>
         <div>
-          <span>Feedback By: </span>
+          <span>Feedback By : </span>
           {submission?.assignment.teacherName}
         </div>
+        {submission?.reviewedAt && (
+          <div>
+            <span>Reviewed At : </span>
+            {formatDate(submission?.reviewedAt)}
+          </div>
+        )}
       </OtherDetails>
       {question?.focusAreas && question?.focusAreas.length !== 0 && (
         <FocusAreasContainer>

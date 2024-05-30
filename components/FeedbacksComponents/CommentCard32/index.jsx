@@ -256,34 +256,6 @@ function CommentCard32(props) {
           );
         }
       }
-
-      // const commentText = comment.comment;
-      // const words = commentText.split(' ');
-
-      // if (!showFullComment && words.length > 12) {
-      //   const truncatedText = words.slice(0, 12).join(' ');
-      //   return (
-      //     <>
-      //       <CommentDiv>
-      //         <>{truncatedText}</>
-      //         <ReadMore onClick={() => setShowFullComment(true)}>
-      //           Read more
-      //         </ReadMore>
-      //       </CommentDiv>
-      //     </>
-      //   );
-      // } else {
-      //   return (
-      //     <CommentDiv>
-      //       {commentText}
-      //       {showFullComment && (
-      //         <ReadMore onClick={() => setShowFullComment(false)}>
-      //           Read less
-      //         </ReadMore>
-      //       )}
-      //     </CommentDiv>
-      //   );
-      // }
     }
   }
 }

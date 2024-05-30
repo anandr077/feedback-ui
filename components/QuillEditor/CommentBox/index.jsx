@@ -97,6 +97,7 @@ const CommentBox = ({
   const flattenComments = (nestedComments) => {
     return nestedComments.reduce((acc, group) => acc.concat(group), []);
   };
+  console.log('teh selectedComment', selectedComment)
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
@@ -133,14 +134,13 @@ const CommentBox = ({
         </MainSideContainer>
       ) : (
         <MainSideContainer style={{height: `${totalHeightAllComments}px`}}>
-          <ul
+          <div
             style={{
               height: '100%',
               position: 'relative',
               overflow: 'hidden',
             }}
           >
-            <div>
                   {groupedCommentsWithGap.map((comment, index) => {
                     return (
                       <CommentDiv
@@ -184,6 +184,7 @@ const CommentBox = ({
                               methods.setUpdateExemplarComment
                             }
                             studentId={submission.studentId}
+                            selectedComment={selectedComment}
                           />
                         ) : isFeedback && comment.status !== 'RESOLVED' ? (
                           <CommentCard32
@@ -215,6 +216,7 @@ const CommentBox = ({
                               methods.setUpdateExemplarComment
                             }
                             studentId={submission.studentId}
+                            selectedComment={selectedComment}
                           />
                         ) : comment.status === 'RESOLVED' ? (
                           <CommentCard32
@@ -246,6 +248,7 @@ const CommentBox = ({
                               methods.setUpdateExemplarComment
                             }
                             studentId={submission.studentId}
+                            selectedComment={selectedComment}
                           />
                         ) : (
                           <></>
@@ -253,17 +256,7 @@ const CommentBox = ({
                       </CommentDiv>
                     );
                   })}
-                </div>
-            {/* {groupedCommentsWithGap.map((group, groupIndex) => {
-              const sortedGroup = sortBy(group, [
-                'questionSerialNumber',
-                'range.from',
-              ]);
-              return (
-                
-              );
-            })} */}
-          </ul>
+              </div>
         </MainSideContainer>
       )}
     </>

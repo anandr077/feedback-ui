@@ -147,7 +147,7 @@ export const MainSideContainer = styled.div`
   position: absolute;
   top: 0;
   right: -340px;
-  min-height: 100%;
+  min-height: 120%;
   width: 360px;
   z-index: 546;
 `;

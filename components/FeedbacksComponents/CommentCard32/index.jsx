@@ -236,9 +236,9 @@ function CommentCard32(props) {
         );
       } else {
         const commentText = comment.comment;
-        const words = commentText.split(' ');
+        const words = commentText?.split(' ');
 
-        if (!showFullComment && words.length > 12) {
+        if (!showFullComment && words?.length > 12) {
           const truncatedText = words.slice(0, 12).join(' ');
           return (
             <>

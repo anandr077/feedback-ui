@@ -33,7 +33,7 @@ import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/Feedbac
 import { getUserRole } from '../../../userLocalDetails';
 import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 import { sortBy } from 'lodash';
-import { getBounds } from './bounds';
+import { getBounds, withHeights } from './bounds';
 
 const CommentBox = ({
   pageMode,
@@ -65,9 +65,9 @@ const CommentBox = ({
         
         const element = document.getElementById(`comment-${comment.id}`);
 
-        const a = element ? element.clientHeight : 0;
+        const height = element ? element.clientHeight : 0;
 
-        return {...comment, height: a}
+        return {...comment, height: height}
       });
       setCommentHeights(newHeights);
     };
@@ -84,8 +84,8 @@ const CommentBox = ({
 
   useEffect(() => {
     const visibleComments = comments.filter((comment) => !comment.isHidden)
-    const groupedComments = getBounds(editor, editorRef, visibleComments, selectedComment, commentHeights)
-
+    const groupedComments = getBounds(editor, withHeights(visibleComments))
+    console.log('groupedComments', groupedComments)
     setGroupedCommentsWithGap(groupedComments);
   }, [isFeedback, editor, editorRef, selectedComment, comments, commentHeights]);
 

@@ -1,9 +1,9 @@
-export const adjustPositionsForSelectedComment = (editor, groupedComments, selectedCommentId) => {
+export const adjustPositionsForSelectedComment = (editor, groupedComments, selectedCommentId, spacing = 10) => {
   if (!selectedCommentId) {
     return groupedComments;
   }
 
-  console.log("Grouped Comments: ", groupedComments.map(c => ({ id: c.id, topPosition: c.topPosition })));
+  console.log("Grouped Comments: ", groupedComments.map(c => ({ id: c.id, topPosition: c.topPosition, height: c.height })));
   console.log("Selected Comment ID: ", selectedCommentId);
 
   const selectedCommentIndex = groupedComments.findIndex(comment => comment.id === selectedCommentId);
@@ -17,49 +17,43 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
   const selectedCommentTopPosition = boundsIs?.top || 0;
   selectedComment.topPosition = selectedCommentTopPosition;
 
-  // Split the comments into before and after the selected comment
-  const beforeComments = groupedComments.slice(0, selectedCommentIndex);
-  const afterComments = groupedComments.slice(selectedCommentIndex + 1);
-
-  // Adjust positions for the before group
-  for (let i = beforeComments.length - 1; i >= 0; i--) {
-    const comment = beforeComments[i];
-    const bounds = getBoundsForComment(editor, comment);
-    const desiredTop = bounds?.top || 0;
-    const nextComment = i < beforeComments.length - 1 ? beforeComments[i + 1] : selectedComment;
-
-    if (comment.topPosition + comment.height > nextComment.topPosition) {
-      comment.topPosition = Math.max(nextComment.topPosition - comment.height, 0);
-    } else if (comment.topPosition > desiredTop) {
-      comment.topPosition = Math.min(comment.topPosition, nextComment.topPosition - comment.height);
-    }
-  }
-
-  // Adjust positions for the after group
-  let lastPosition = selectedCommentTopPosition + selectedComment.height;
-  for (let i = 0; i < afterComments.length; i++) {
-    const comment = afterComments[i];
+  // Adjust positions for comments before the selected comment
+  for (let i = selectedCommentIndex - 1; i >= 0; i--) {
+    const comment = groupedComments[i];
     const bounds = getBoundsForComment(editor, comment);
     const desiredTop = bounds?.top || 0;
 
-    if (comment.topPosition < lastPosition) {
-      comment.topPosition = lastPosition;
-    } else if (comment.topPosition > desiredTop) {
-      comment.topPosition = Math.max(lastPosition, desiredTop);
+    const nextComment = i < selectedCommentIndex - 1 ? groupedComments[i + 1] : selectedComment;
+    const nextCommentTop = nextComment.topPosition;
+
+    if (comment.topPosition + comment.height + spacing > nextCommentTop) {
+      comment.topPosition = nextCommentTop - comment.height - spacing;
+    } else {
+      comment.topPosition = Math.min(desiredTop, nextCommentTop - comment.height - spacing);
     }
-    lastPosition = comment.topPosition + comment.height;
   }
 
-  // Combine the groups with the selected comment in the middle
-  const adjustedComments = [...beforeComments, selectedComment, ...afterComments];
+  // Adjust positions for comments after the selected comment
+  let lastBottomPosition = selectedCommentTopPosition + selectedComment.height + spacing;
+  for (let i = selectedCommentIndex + 1; i < groupedComments.length; i++) {
+    const comment = groupedComments[i];
+    const bounds = getBoundsForComment(editor, comment);
+    const desiredTop = bounds?.top || 0;
 
-  const sortedAdjustedComments = adjustedComments.sort((a, b) => a.topPosition - b.topPosition);
+    if (comment.topPosition < lastBottomPosition) {
+      comment.topPosition = lastBottomPosition;
+    } else {
+      comment.topPosition = Math.max(lastBottomPosition, desiredTop);
+    }
+    lastBottomPosition = comment.topPosition + comment.height + spacing;
+  }
 
-  console.log("Adjusted Comments: ", sortedAdjustedComments.map(c => ({ id: c.id, topPosition: c.topPosition })));
+  const adjustedComments = groupedComments.sort((a, b) => a.topPosition - b.topPosition);
 
-  return sortedAdjustedComments;
+  console.log("Adjusted Comments: ", adjustedComments.map(c => ({ id: c.id, topPosition: c.topPosition, height: c.height })));
+
+  return adjustedComments;
 };
-
 
 
 

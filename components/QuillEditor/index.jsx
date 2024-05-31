@@ -142,7 +142,7 @@ const QuillEditor = React.forwardRef(
         });
       }
     }, [editor, editorRef, options, value, editorFontSize]);
-
+    console.log('Render QuillEditor');
     useEffect(() => {
       if (editor && Array.isArray(comments) && comments.length > 0) {
         removeAllHighlights(editor);

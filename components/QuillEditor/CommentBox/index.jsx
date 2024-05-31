@@ -33,7 +33,11 @@ import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/Feedbac
 import { getUserRole } from '../../../userLocalDetails';
 import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 import { sortBy } from 'lodash';
-import { adjustPositionsForSelectedComment, getBounds, withHeights } from './bounds';
+import {
+  adjustPositionsForSelectedComment,
+  getBounds,
+  withHeights,
+} from './bounds';
 
 const CommentBox = ({
   pageMode,
@@ -48,29 +52,27 @@ const CommentBox = ({
   share,
   floatingBoxTopPosition,
   question,
-  isFeedback
+  isFeedback,
 }) => {
   const { showNewComment, newCommentSerialNumber, isTeacher } =
     useContext(FeedbackContext);
   const [commentHeights, setCommentHeights] = useState([]);
-  const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
   const [openCommentBox, setOpenCommentbox] = useState(false);
 
   let commentBankIds = submission.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
     .map((item) => item.commentBankId);
 
-    const measureHeights = () => {
-      const newHeights = comments?.map((comment, index) => {
-        
-        const element = document.getElementById(`comment-${comment.id}`);
+  const measureHeights = () => {
+    const newHeights = comments?.map((comment, index) => {
+      const element = document.getElementById(`comment-${comment.id}`);
 
-        const height = element ? element.clientHeight : 0;
+      const height = element ? element.clientHeight : 0;
 
-        return {...comment, height: height}
-      });
-      setCommentHeights(newHeights);
-    };
+      return { ...comment, height: height };
+    });
+    setCommentHeights(newHeights);
+  };
 
   useEffect(() => {
     measureHeights();
@@ -80,29 +82,52 @@ const CommentBox = ({
     return () => {
       window.removeEventListener('resize', measureHeights);
     };
-  }, [comments]);
-
+  }, []);
   useEffect(() => {
-    const visibleComments = comments.filter((comment) => !comment.isHidden)
-    
-    const groupedComments = getBounds(editor, withHeights(visibleComments), selectedComment?.id)
-    const a = adjustPositionsForSelectedComment(editor, flattenComments(groupedComments), selectedComment?.id)
-    setGroupedCommentsWithGap(a);
-  }, [isFeedback, editor, editorRef, selectedComment, comments, commentHeights]);
+    comments.forEach((comment) => {
+      const element = document.getElementById(`comment-${comment.id}`);
+      if (!element) return;
+      const resizeObserver = new ResizeObserver((_) => {
+        measureHeights();
+      });
 
-  const totalHeightAllComments = commentHeights.reduce((acc, cur) =>{
-    return acc + cur.height
-  }, 0)
+      resizeObserver.observe(element);
 
+      return () => {
+        resizeObserver.unobserve(element);
+      };
+    });
+  }, [comments]);
   const flattenComments = (nestedComments) => {
     return nestedComments.reduce((acc, group) => acc.concat(group), []);
   };
-  console.log('teh selectedComment', selectedComment)
+  const visibleComments = comments.filter((comment) => !comment.isHidden);
+
+  const groupedComments = getBounds(
+    editor,
+    withHeights(visibleComments),
+    selectedComment?.id
+  );
+  const groupedCommentsWithGap = adjustPositionsForSelectedComment(
+    editor,
+    flattenComments(groupedComments),
+    selectedComment?.id
+  );
+
+  const totalHeightAllComments = commentHeights.reduce((acc, cur) => {
+    return acc + cur.height;
+  }, 0);
+
+  console.log('teh selectedComment', selectedComment);
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
         <MainSideContainer
-          style={{ top: floatingBoxTopPosition, right: '-330px', height: '100%' }}
+          style={{
+            top: floatingBoxTopPosition,
+            right: '-330px',
+            height: '100%',
+          }}
         >
           <Screen onClick={methods.hideNewCommentDiv}></Screen>
           <OptionContainer>
@@ -133,7 +158,7 @@ const CommentBox = ({
             )}
         </MainSideContainer>
       ) : (
-        <MainSideContainer style={{height: `${totalHeightAllComments}px`}}>
+        <MainSideContainer style={{ height: `${totalHeightAllComments}px` }}>
           <div
             style={{
               height: '100%',
@@ -141,122 +166,98 @@ const CommentBox = ({
               overflow: 'hidden',
             }}
           >
-                  {groupedCommentsWithGap.map((comment, index) => {
-                    return (
-                      <CommentDiv
-                        key={index}
-                        id={`comment-${comment.id}`}
-                        style={{
-                          top: `${comment.topPosition}px`,
-                          transform:
-                            selectedComment && comment.id === selectedComment.id
-                              ? 'translateX(-35px)'
-                              : 'none',
-                        }}
-                      >
-                        {comment.type === 'FOCUS_AREA' ? (
-                          <CommentCard32
-                            reviewer={comment.reviewerName}
-                            comment={comment}
-                            onClick={(c) => methods.handleCommentSelected(c)}
-                            onClose={() => {
-                              methods.handleDeleteComment(comment.id);
-                            }}
-                            handleEditingComment={methods.handleEditingComment}
-                            deleteReplyComment={
-                              methods.handleDeleteReplyComment
-                            }
-                            onResolved={methods.handleResolvedComment}
-                            handleReplyComment={methods.handleReplyComment}
-                            isResolved={comment.status}
-                            showResolveButton={false}
-                            isTeacher={isTeacher}
-                            updateParentComment={methods.updateParentComment}
-                            updateChildComment={methods.updateChildComment}
-                            pageMode={pageMode}
-                            openShareWithStudentDialog={
-                              methods.handleShareWithClass
-                            }
-                            convertToCheckedState={
-                              methods.convertToCheckedState
-                            }
-                            updateExemplarComment={
-                              methods.setUpdateExemplarComment
-                            }
-                            studentId={submission.studentId}
-                            selectedComment={selectedComment}
-                          />
-                        ) : isFeedback && comment.status !== 'RESOLVED' ? (
-                          <CommentCard32
-                            reviewer={comment.reviewerName}
-                            comment={comment}
-                            onClick={(c) => methods.handleCommentSelected(c)}
-                            onClose={() => {
-                              methods.handleDeleteComment(comment.id);
-                            }}
-                            handleEditingComment={methods.handleEditingComment}
-                            deleteReplyComment={
-                              methods.handleDeleteReplyComment
-                            }
-                            onResolved={methods.handleResolvedComment}
-                            handleReplyComment={methods.handleReplyComment}
-                            isResolved={comment.status}
-                            showResolveButton={pageMode === 'REVISE'}
-                            isTeacher={isTeacher}
-                            updateParentComment={methods.updateParentComment}
-                            updateChildComment={methods.updateChildComment}
-                            pageMode={pageMode}
-                            openShareWithStudentDialog={
-                              methods.handleShareWithClass
-                            }
-                            convertToCheckedState={
-                              methods.convertToCheckedState
-                            }
-                            updateExemplarComment={
-                              methods.setUpdateExemplarComment
-                            }
-                            studentId={submission.studentId}
-                            selectedComment={selectedComment}
-                          />
-                        ) : comment.status === 'RESOLVED' ? (
-                          <CommentCard32
-                            reviewer={comment.reviewerName}
-                            comment={comment}
-                            onClick={(c) => methods.handleCommentSelected(c)}
-                            onClose={() => {
-                              methods.handleDeleteComment(comment.id);
-                            }}
-                            handleEditingComment={methods.handleEditingComment}
-                            deleteReplyComment={
-                              methods.handleDeleteReplyComment
-                            }
-                            onResolved={methods.handleResolvedComment}
-                            handleReplyComment={methods.handleReplyComment}
-                            isResolved={comment.status}
-                            showResolveButton={false}
-                            isTeacher={isTeacher}
-                            updateParentComment={methods.updateParentComment}
-                            updateChildComment={methods.updateChildComment}
-                            pageMode={pageMode}
-                            openShareWithStudentDialog={
-                              methods.handleShareWithClass
-                            }
-                            convertToCheckedState={
-                              methods.convertToCheckedState
-                            }
-                            updateExemplarComment={
-                              methods.setUpdateExemplarComment
-                            }
-                            studentId={submission.studentId}
-                            selectedComment={selectedComment}
-                          />
-                        ) : (
-                          <></>
-                        )}
-                      </CommentDiv>
-                    );
-                  })}
-              </div>
+            {groupedCommentsWithGap.map((comment, index) => {
+              return (
+                <CommentDiv
+                  key={index}
+                  id={`comment-${comment.id}`}
+                  style={{
+                    top: `${comment.topPosition}px`,
+                    transform:
+                      selectedComment && comment.id === selectedComment.id
+                        ? 'translateX(-35px)'
+                        : 'none',
+                  }}
+                >
+                  {comment.type === 'FOCUS_AREA' ? (
+                    <CommentCard32
+                      reviewer={comment.reviewerName}
+                      comment={comment}
+                      onClick={(c) => methods.handleCommentSelected(c)}
+                      onClose={() => {
+                        methods.handleDeleteComment(comment.id);
+                      }}
+                      handleEditingComment={methods.handleEditingComment}
+                      deleteReplyComment={methods.handleDeleteReplyComment}
+                      onResolved={methods.handleResolvedComment}
+                      handleReplyComment={methods.handleReplyComment}
+                      isResolved={comment.status}
+                      showResolveButton={false}
+                      isTeacher={isTeacher}
+                      updateParentComment={methods.updateParentComment}
+                      updateChildComment={methods.updateChildComment}
+                      pageMode={pageMode}
+                      openShareWithStudentDialog={methods.handleShareWithClass}
+                      convertToCheckedState={methods.convertToCheckedState}
+                      updateExemplarComment={methods.setUpdateExemplarComment}
+                      studentId={submission.studentId}
+                      selectedComment={selectedComment}
+                    />
+                  ) : isFeedback && comment.status !== 'RESOLVED' ? (
+                    <CommentCard32
+                      reviewer={comment.reviewerName}
+                      comment={comment}
+                      onClick={(c) => methods.handleCommentSelected(c)}
+                      onClose={() => {
+                        methods.handleDeleteComment(comment.id);
+                      }}
+                      handleEditingComment={methods.handleEditingComment}
+                      deleteReplyComment={methods.handleDeleteReplyComment}
+                      onResolved={methods.handleResolvedComment}
+                      handleReplyComment={methods.handleReplyComment}
+                      isResolved={comment.status}
+                      showResolveButton={pageMode === 'REVISE'}
+                      isTeacher={isTeacher}
+                      updateParentComment={methods.updateParentComment}
+                      updateChildComment={methods.updateChildComment}
+                      pageMode={pageMode}
+                      openShareWithStudentDialog={methods.handleShareWithClass}
+                      convertToCheckedState={methods.convertToCheckedState}
+                      updateExemplarComment={methods.setUpdateExemplarComment}
+                      studentId={submission.studentId}
+                      selectedComment={selectedComment}
+                    />
+                  ) : comment.status === 'RESOLVED' ? (
+                    <CommentCard32
+                      reviewer={comment.reviewerName}
+                      comment={comment}
+                      onClick={(c) => methods.handleCommentSelected(c)}
+                      onClose={() => {
+                        methods.handleDeleteComment(comment.id);
+                      }}
+                      handleEditingComment={methods.handleEditingComment}
+                      deleteReplyComment={methods.handleDeleteReplyComment}
+                      onResolved={methods.handleResolvedComment}
+                      handleReplyComment={methods.handleReplyComment}
+                      isResolved={comment.status}
+                      showResolveButton={false}
+                      isTeacher={isTeacher}
+                      updateParentComment={methods.updateParentComment}
+                      updateChildComment={methods.updateChildComment}
+                      pageMode={pageMode}
+                      openShareWithStudentDialog={methods.handleShareWithClass}
+                      convertToCheckedState={methods.convertToCheckedState}
+                      updateExemplarComment={methods.setUpdateExemplarComment}
+                      studentId={submission.studentId}
+                      selectedComment={selectedComment}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </CommentDiv>
+              );
+            })}
+          </div>
         </MainSideContainer>
       )}
     </>
@@ -299,12 +300,9 @@ function reviewerNewComment(
   question,
   selectedRange
 ) {
-  const {
-    smartAnnotations,
-    setShowFloatingDialogue,
-    allCommentBanks,
-  } = useContext(FeedbackContext);
-                
+  const { smartAnnotations, setShowFloatingDialogue, allCommentBanks } =
+    useContext(FeedbackContext);
+
   if (pageMode === 'CLOSED') return <></>;
   return (
     <>

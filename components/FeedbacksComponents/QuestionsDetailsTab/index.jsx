@@ -15,7 +15,7 @@ const QuestionsDetailsTab = ({ handleClose, openRightPanel, submission, Question
  
   return (
     <QuestionDetailsContainer openRightPanel={openRightPanel}>
-      <RightSidebarHeading title={'Questions'} handleClose={handleClose} />
+      {openRightPanel === 'tab3' && <RightSidebarHeading title={'Questions'} handleClose={handleClose} />}
       <QuestionSection>
         {submission.assignment.questions.map((question, idx) => {
           return (

@@ -13,6 +13,7 @@ export const QuestionDetailsContainer = styled.div`
   transition: right 0.3s ease;
   display: flex;
   flex-direction: column;
+  z-index: 4;
 `;
 
 export const QuestionSection = styled.div`

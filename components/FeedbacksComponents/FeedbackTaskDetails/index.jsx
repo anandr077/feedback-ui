@@ -32,7 +32,7 @@ const FeedbackTaskDetails = ({
 
   return (
     <FeedbackTaskDetailsContainer openRightPanel={openRightPanel}>
-      <RightSidebarHeading title={'Task Details'} handleClose={handleClose} />
+      {openRightPanel === 'tab1' && <RightSidebarHeading title={'Task Details'} handleClose={handleClose} />} 
       <DueDate>
         <span>Due on: </span> {formatDate(submission?.assignment.dueAt)}
       </DueDate>

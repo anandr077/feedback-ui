@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ButtonContainer = styled.button`
-  min-width: 152px;
+  width: fit-content;
   height: 40px;
   padding: 8px 12px;
   border-radius: 32px;

@@ -164,6 +164,7 @@ function ReviewsFrame132532(props) {
         </Instructer>
       </Frame1324>
       {resolveFrame}
+      {selectedComment?.id === comment.id && (
         <>
           {showReplyButton && (
             <>
@@ -185,6 +186,7 @@ function ReviewsFrame132532(props) {
           {closeFrame}
           {openEditDeleteTemplate}
         </>
+      )}
     </Frame1325>
   );
 

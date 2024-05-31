@@ -22,6 +22,7 @@ import {
   Frame1315,
   Frame1368,
   FeedbackBody,
+  FeedbackPageOverlay,
   Frame1386,
   Frame1387,
   Frame1388,
@@ -537,6 +538,7 @@ function answersAndFeedbacks(
 
   return (
     <Frame1386 id="content">
+      {selectedRange && (<FeedbackPageOverlay></FeedbackPageOverlay>)}
       {/* {createContextBar(
         submission,
         setSubmission,

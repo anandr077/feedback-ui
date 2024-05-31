@@ -23,15 +23,24 @@ const NewOverallFeedback = ({
         inputRef.current.value = '';
       }
     }
+    const textarea = inputRef.current;
+
+    if (textarea) {
+      const adjustHeight = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      };
+      adjustHeight();
+      textarea.addEventListener('input', adjustHeight);
+      return () => {
+        textarea.removeEventListener('input', adjustHeight);
+      };
+    }
 
     if (overallComment?.questionSerialNumber === serialNumber) {
       setAudioComment(overallComment.audio);
     }
   }, [overallComment, serialNumber, inputRef]);
-
-  // if(overallComment.questionSerialNumber === serialNumber){
-  //   console.log('the overall feedback', overallComment.audio)
-  // }
 
   const onSave = () => {
     let value = inputRef.current.value;

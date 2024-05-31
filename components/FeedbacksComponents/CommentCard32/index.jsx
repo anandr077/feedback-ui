@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import {
   IbmplexsansNormalBlack16px,
   feedbacksIbmplexsansMediumBlack16px,
 } from '../../../styledMixins';
+import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
 
 function CommentCard32(props) {
   const {
@@ -35,6 +36,7 @@ function CommentCard32(props) {
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
   const [showFullComment, setShowFullComment] = React.useState(false);
+  const inputRef = useRef();
 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
@@ -50,6 +52,7 @@ function CommentCard32(props) {
   const handleInputChange = (event) => {
     event.preventDefault();
     setInputValue(event.target.value);
+    textAreaAutoResize(event, inputRef);
   };
 
   function handleReplyClick() {
@@ -139,6 +142,10 @@ function CommentCard32(props) {
     return (
       <ReplyInputWrapper id="comment_input">
         <Input
+          ref={inputRef}
+          style={{
+            height: `${inputRef.current ? inputRef.current.scrollHeight : 33}px`,
+          }}
           type="text"
           placeholder="Type here..."
           defaultValue={inputValue}
@@ -146,18 +153,19 @@ function CommentCard32(props) {
         />
         <ButtonWrapper>
           <InputButton
-            backgroundColor={'#7200E0'}
-            textColor={'#ffffff'}
-            onClick={handleSubmitClick}
-          >
-            Submit
-          </InputButton>
-          <InputButton
             backgroundColor={'#ffffff'}
             textColor={'#7200E0'}
             onClick={handleCancelClick}
           >
             Cancel
+          </InputButton>
+          <InputButton
+            backgroundColor={'#7200E0'}
+            textColor={'#ffffff'}
+            onClick={handleSubmitClick}
+            borderColor={'#7200E0'}
+          >
+            Submit
           </InputButton>
         </ButtonWrapper>
       </ReplyInputWrapper>
@@ -228,9 +236,9 @@ function CommentCard32(props) {
         );
       } else {
         const commentText = comment.comment;
-        const words = commentText.split(' ');
+        const words = commentText?.split(' ');
 
-        if (!showFullComment && words.length > 12) {
+        if (!showFullComment && words?.length > 12) {
           const truncatedText = words.slice(0, 12).join(' ');
           return (
             <>
@@ -248,34 +256,6 @@ function CommentCard32(props) {
           );
         }
       }
-
-      // const commentText = comment.comment;
-      // const words = commentText.split(' ');
-
-      // if (!showFullComment && words.length > 12) {
-      //   const truncatedText = words.slice(0, 12).join(' ');
-      //   return (
-      //     <>
-      //       <CommentDiv>
-      //         <>{truncatedText}</>
-      //         <ReadMore onClick={() => setShowFullComment(true)}>
-      //           Read more
-      //         </ReadMore>
-      //       </CommentDiv>
-      //     </>
-      //   );
-      // } else {
-      //   return (
-      //     <CommentDiv>
-      //       {commentText}
-      //       {showFullComment && (
-      //         <ReadMore onClick={() => setShowFullComment(false)}>
-      //           Read less
-      //         </ReadMore>
-      //       )}
-      //     </CommentDiv>
-      //   );
-      // }
     }
   }
 }
@@ -349,20 +329,19 @@ const ReplyInputWrapper = styled.div`
 
 const Input = styled.textarea`
   width: 100%;
-  min-height: 100px;
   display: flex;
-  padding: 8px 8px 8px 12px;
+  padding: 8px;
   font-family: var(--font-family-ibm_plex_sans);
   align-items: center;
   gap: 12px;
   align-self: stretch;
-  border-radius: 8px;
-  border: 1px solid #1e252a;
+  border-radius: 4px;
   background: #fff;
-  border: 1px solid var(--light-mode-purple);
-  border-radius: 10px;
+  border: 1px solid #C9C6CC;
+  box-shadow: 0px 2.04px 2px 0px #73737340 inset;
   outline: none;
   resize: none;
+  overflow: hidden;
 `;
 
 const ButtonWrapper = styled.div`
@@ -375,18 +354,19 @@ const ButtonWrapper = styled.div`
 
 const InputButton = styled.div`
   display: flex;
-  padding: 8px 16px;
+  padding: 8px 12px;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  border-radius: 30px;
-  border: 1px solid #7200e0;
+  border-radius: 32px;
+  border: ${(props) => props.borderColor ? '1px solid #7200e0' : ''};
   background: ${(props) => props.backgroundColor};
   cursor: pointer;
   color: ${(props) => props.textColor};
   text-align: center;
-  font-size: 16px;
-  font-family: IBM Plex Sans;
+  font-size: 13px;
+  line-height: 17px;
+  font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
 `;
 
@@ -394,8 +374,9 @@ const ReplyCommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-family: IBM Plex Sans;
+  font-family: var(--font-family-ibm_plex_sans);
   padding-top: 12px;
+  width: 100%;
   border-top: 1px solid #f1e6fc;
 `;
 

@@ -41,4 +41,5 @@ export const Ellipse141 = styled.div`
   min-width: 15px;
   height: 15px;
   border-radius: 10px;
+  border: 1.5px solid var(--color-neutral-alpha-100, #b2aeb780);
 `;

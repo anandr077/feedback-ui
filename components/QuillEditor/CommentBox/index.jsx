@@ -33,6 +33,7 @@ import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/Feedbac
 import { getUserRole } from '../../../userLocalDetails';
 import ModalForSelectOption from '../../../components2/Modals/ModalForSelectOption';
 import { sortBy } from 'lodash';
+import { adjustPositionsForSelectedComment, getBounds, withHeights } from './bounds';
 
 const CommentBox = ({
   pageMode,
@@ -59,15 +60,19 @@ const CommentBox = ({
     .filter((item) => item.serialNumber === newCommentSerialNumber)
     .map((item) => item.commentBankId);
 
-  useEffect(() => {
     const measureHeights = () => {
-      const newHeights = comments?.map((_, index) => {
-        const element = document.getElementById(`comment-${index}`);
-        return element ? element.clientHeight : 0;
+      const newHeights = comments?.map((comment, index) => {
+        
+        const element = document.getElementById(`comment-${comment.id}`);
+
+        const height = element ? element.clientHeight : 0;
+
+        return {...comment, height: height}
       });
       setCommentHeights(newHeights);
     };
 
+  useEffect(() => {
     measureHeights();
 
     window.addEventListener('resize', measureHeights);
@@ -78,103 +83,26 @@ const CommentBox = ({
   }, [comments]);
 
   useEffect(() => {
-    let lastCommentBottomPosition = 0;
-
-    const selectedCommentIndex = comments
-      ?.sort((a, b) => a.range.from - b.range.from)
-      .findIndex((comment) => comment.id === selectedComment?.id);
-
-    const groupedComments = comments
-      ?.sort((a, b) => a.range.from - b.range.from)
-      .map((comment, index) => {
-        if (!editorRef.current) return null;
-
-        const length = comment.range.to - comment.range.from;
-        let boundsIs;
-        if (editor) {
-          boundsIs = editor.getBounds(comment.range.from, length);
-        }
-
-        if (!boundsIs) {
-          console.error('Bounds not found for comment:', comment);
-          return null;
-        }
-
-        let topPosition = boundsIs.top;
-
-        let updatedTopPosition = null;
-        if (selectedComment) {
-          let selectedLength =
-            selectedComment?.range.to - selectedComment?.range.from;
-          let selectedBounds;
-          if (editor) {
-            selectedBounds = editor.getBounds(
-              selectedComment?.range.from,
-              selectedLength
-            );
-          }
-          updatedTopPosition = selectedBounds.top;
-        }
-
-        if (topPosition < lastCommentBottomPosition) {
-          topPosition = lastCommentBottomPosition;
-        }
-
-        if (
-          index === selectedCommentIndex &&
-          selectedComment &&
-          topPosition > updatedTopPosition
-        ) {
-          topPosition = updatedTopPosition;
-        }
-
-        if (index < selectedCommentIndex) {
-          if (topPosition <= lastCommentBottomPosition) {
-            topPosition -= commentHeights[index];
-          } else {
-            topPosition = topPosition;
-          }
-        }
-
-        lastCommentBottomPosition = topPosition + commentHeights[index];
-
-        return { ...comment, topPosition: topPosition };
-      })
-      .filter((comment) => comment !== null);
-
-    let groupedCommentsWithGap = [];
-    let currentGroup = [];
-
-    groupedComments?.forEach((comment, index) => {
-      if (currentGroup.length === 0) {
-        currentGroup.push(comment);
-      } else {
-        const lastComment = currentGroup[currentGroup.length - 1];
-        const lastCommentBottomPosition =
-          lastComment.topPosition + commentHeights[index];
-
-        if (comment.topPosition < lastCommentBottomPosition) {
-          groupedCommentsWithGap.push(currentGroup);
-          currentGroup = [comment];
-        } else {
-          currentGroup.push(comment);
-        }
-      }
-    });
-
-    if (currentGroup.length > 0) {
-      groupedCommentsWithGap.push(currentGroup);
-    }
-
-    setGroupedCommentsWithGap(groupedCommentsWithGap);
+    const visibleComments = comments.filter((comment) => !comment.isHidden)
+    
+    const groupedComments = getBounds(editor, withHeights(visibleComments), selectedComment?.id)
+    const a = adjustPositionsForSelectedComment(editor, flattenComments(groupedComments), selectedComment?.id)
+    setGroupedCommentsWithGap(a);
   }, [isFeedback, editor, editorRef, selectedComment, comments, commentHeights]);
 
+  const totalHeightAllComments = commentHeights.reduce((acc, cur) =>{
+    return acc + cur.height
+  }, 0)
 
+  const flattenComments = (nestedComments) => {
+    return nestedComments.reduce((acc, group) => acc.concat(group), []);
+  };
+  console.log('teh selectedComment', selectedComment)
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
         <MainSideContainer
-          style={{ top: floatingBoxTopPosition, right: '-330px' }}
+          style={{ top: floatingBoxTopPosition, right: '-330px', height: '100%' }}
         >
           <Screen onClick={methods.hideNewCommentDiv}></Screen>
           <OptionContainer>
@@ -205,26 +133,19 @@ const CommentBox = ({
             )}
         </MainSideContainer>
       ) : (
-        <MainSideContainer>
-          <ul
+        <MainSideContainer style={{height: `${totalHeightAllComments}px`}}>
+          <div
             style={{
               height: '100%',
               position: 'relative',
               overflow: 'hidden',
             }}
           >
-            {groupedCommentsWithGap.map((group, groupIndex) => {
-              const sortedGroup = sortBy(group, [
-                'questionSerialNumber',
-                'range.from',
-              ]);
-              return (
-                <div key={groupIndex}>
-                  {sortedGroup.map((comment, index) => {
+                  {groupedCommentsWithGap.map((comment, index) => {
                     return (
                       <CommentDiv
                         key={index}
-                        id={`comment-${index}`}
+                        id={`comment-${comment.id}`}
                         style={{
                           top: `${comment.topPosition}px`,
                           transform:
@@ -263,6 +184,7 @@ const CommentBox = ({
                               methods.setUpdateExemplarComment
                             }
                             studentId={submission.studentId}
+                            selectedComment={selectedComment}
                           />
                         ) : isFeedback && comment.status !== 'RESOLVED' ? (
                           <CommentCard32
@@ -294,6 +216,7 @@ const CommentBox = ({
                               methods.setUpdateExemplarComment
                             }
                             studentId={submission.studentId}
+                            selectedComment={selectedComment}
                           />
                         ) : comment.status === 'RESOLVED' ? (
                           <CommentCard32
@@ -325,6 +248,7 @@ const CommentBox = ({
                               methods.setUpdateExemplarComment
                             }
                             studentId={submission.studentId}
+                            selectedComment={selectedComment}
                           />
                         ) : (
                           <></>
@@ -332,10 +256,7 @@ const CommentBox = ({
                       </CommentDiv>
                     );
                   })}
-                </div>
-              );
-            })}
-          </ul>
+              </div>
         </MainSideContainer>
       )}
     </>

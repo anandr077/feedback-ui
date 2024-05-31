@@ -436,7 +436,7 @@ export const Frame1368 = styled.div`
   align-self: stretch;
   position: sticky;
   top: 75px;
-  height: calc(100vh - 120px);
+  height: 100vh;
   overflow-y: scroll;
   width: 100%;
   z-index: 2;

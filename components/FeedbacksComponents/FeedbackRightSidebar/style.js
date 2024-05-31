@@ -16,7 +16,7 @@ export const MainContainer = styled.div`
   padding: 4px;
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const TopSection = styled.div`

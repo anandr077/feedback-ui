@@ -1,4 +1,3 @@
-
 export const adjustPositionsForSelectedComment = (editor, groupedComments, selectedCommentId) => {
   if (!selectedCommentId) {
     return groupedComments;
@@ -25,10 +24,14 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
   // Adjust positions for the before group
   for (let i = beforeComments.length - 1; i >= 0; i--) {
     const comment = beforeComments[i];
+    const bounds = getBoundsForComment(editor, comment);
+    const desiredTop = bounds?.top || 0;
     const nextComment = i < beforeComments.length - 1 ? beforeComments[i + 1] : selectedComment;
 
     if (comment.topPosition + comment.height > nextComment.topPosition) {
       comment.topPosition = Math.max(nextComment.topPosition - comment.height, 0);
+    } else if (comment.topPosition > desiredTop) {
+      comment.topPosition = Math.min(comment.topPosition, nextComment.topPosition - comment.height);
     }
   }
 
@@ -36,8 +39,13 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
   let lastPosition = selectedCommentTopPosition + selectedComment.height;
   for (let i = 0; i < afterComments.length; i++) {
     const comment = afterComments[i];
+    const bounds = getBoundsForComment(editor, comment);
+    const desiredTop = bounds?.top || 0;
+
     if (comment.topPosition < lastPosition) {
       comment.topPosition = lastPosition;
+    } else if (comment.topPosition > desiredTop) {
+      comment.topPosition = Math.max(lastPosition, desiredTop);
     }
     lastPosition = comment.topPosition + comment.height;
   }
@@ -51,6 +59,9 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
 
   return sortedAdjustedComments;
 };
+
+
+
 
 
 

@@ -7,7 +7,7 @@ import {
   ToggleSwitchLabels,
 } from './style';
 
-const ToggleSwitch = ({
+const ToggleSwitchWithTwoOptions = ({
     text1,
     text2,
     icon1,
@@ -45,4 +45,4 @@ const ToggleSwitch = ({
   );
 };
 
-export default ToggleSwitch;
+export default ToggleSwitchWithTwoOptions;

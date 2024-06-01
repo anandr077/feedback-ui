@@ -35,9 +35,10 @@ import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import { isShowCommentsAndFocusAreasTab } from '../FeedbacksRoot/rules';
-import ToggleSwitch from '../../../components2/ToggleSwitch';
 import PopupDialogueBox from '../../../components2/PopupDialogueBox';
 import DropdownWithRoundedTick from '../../../components2/DropdownWithRoundedTick';
+import ToggleSwitchWithTwoOptions from '../../../components2/ToggleSwitchWithTwoOptions';
+import ToggleSwitchWithOneOption from '../../../components2/ToggleSwitchWithOneOption';
 
 const FeedbackHeader = ({
   methods,
@@ -102,6 +103,10 @@ const FeedbackHeader = ({
     history.push(newUrl);
   };
 
+  const handleResolvedCommentToggle = (state) => {
+    console.log('Toggle switch is now', state ? 'ON' : 'OFF');
+  };
+
   return (
     <FeedbackHeaderContainer>
       {isTeacher && (pageMode === 'REVIEW' || pageMode === 'CLOSED') ? (
@@ -153,8 +158,9 @@ const FeedbackHeader = ({
       )}
 
       <RightSection>
+        <ToggleSwitchWithOneOption text="Resolved Comments" onToggle={handleResolvedCommentToggle}/>
         {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
-          <ToggleSwitch
+          <ToggleSwitchWithTwoOptions
             text1={'Comments'}
             text2={'Focus Areas'}
             icon1={CommentIcon}

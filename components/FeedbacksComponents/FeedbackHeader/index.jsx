@@ -326,20 +326,20 @@ function submitButtonOnDocument(
   }
 
   if (submission.status === 'REVIEWED') {
-    //if (submission.feedbackRequestType === 'JEDDAI') {
+    if (submission.feedbackRequestType === 'JEDDAI') {
       return (
         <DocumentSubmitBtnContainer>
           {<Icon24 src="/img/jeddleaiIcon.svg" />}
           <p>JeddAI has provided its feedback</p>
         </DocumentSubmitBtnContainer>
       );
-    // }
-    // return (
-    //   <DocumentSubmitBtnContainer>
-    //     {<img src="/img/message24.svg" />}
-    //     <p>Your feedback is ready to review</p>
-    //   </DocumentSubmitBtnContainer>
-    // );
+    }
+    return (
+      <DocumentSubmitBtnContainer>
+        {<img src="/img/message24.svg" />}
+        <p>Your feedback is ready to review</p>
+      </DocumentSubmitBtnContainer>
+    );
   }
   return <></>;
 }

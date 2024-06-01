@@ -11,7 +11,6 @@ export const FeedbackTaskDetailsContainer = styled.div`
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;
   transition: right 0.3s ease;
-  z-index: 4;
 `;
 
 export const DueDate = styled.div`

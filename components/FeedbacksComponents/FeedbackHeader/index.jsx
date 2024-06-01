@@ -19,6 +19,9 @@ import {
   STDetails,
   UpdateButton,
   DocumentSubmitCancelBtnContainer,
+  Label16pxSmall,
+  JeddAiAnimatedTextContainer,
+  JeddAiImageForAnimation
 } from './style';
 import ResubmitBtn from '../../../static/img/Resubmit.svg';
 import ActiveCommentIcon from '../../../static/img/purplesinglecomment.svg';
@@ -300,22 +303,17 @@ function submitButtonOnDocument(
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
     if (submission.feedbackRequestType === 'JEDDAI') {
       return (
-        <div
-          style={{
-            cursor: 'unset',
-            minWidth: '100px',
-          }}
-        >
-          {<img src="/img/jeddleaiIcon.svg" />}
-          <div>
+        <JeddAiAnimatedTextContainer>
+          {<JeddAiImageForAnimation src="/img/jeddleaiIcon.svg" />}
+          <Label16pxSmall>
             <div>JeddAI is working on your feedback</div>
             <div>
               <span></span>
               <span></span>
               <span></span>
             </div>
-          </div>
-        </div>
+          </Label16pxSmall>
+        </JeddAiAnimatedTextContainer>
       );
     }
     return (

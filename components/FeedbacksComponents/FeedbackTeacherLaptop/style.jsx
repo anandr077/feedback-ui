@@ -916,44 +916,6 @@ export const ShortcutList = styled.div`
   gap: 8px;
 `;
 
-export const SubjectSelectionContainer = styled.div`
-  display: flex;
-  justify-content: start;
-  gap: 30px;
-`;
-
-export const SubjectSelectBox = styled.div`
-  border-right: 1px solid #d6d6d6;
-  padding-right: 30px;
-  display: flex;
-  align-items: center;
-  /* flex-direction: row; */
-  &:last-child {
-    border-right: none;
-  }
-
-  label {
-    font-family: var(--font-family-ibm_plex_sans);
-    font-weight: 400;
-    font-size: var(--font-size-xl);
-    line-height: 26px;
-    color: #6f6f6f;
-    padding-right: 10px;
-  }
-
-  select {
-    width: 200px;
-    border-radius: 8px;
-    border: 1px solid #d6d6d6;
-    padding: 8px 12px;
-    font-size: var(--font-size-l);
-    font-weight: 400;
-    line-height: 26px;
-    color: var(--text);
-    outline: none;
-    cursor: pointer;
-  }
-`;
 export const PopupContainer = styled.div`
   display: flex;
   flex-direction: column;

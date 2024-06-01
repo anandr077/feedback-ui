@@ -436,34 +436,6 @@ export function contextBarForPortfolioDocument(
       });
   };
 
-  const handleTaskUpdate = (selectedItem) => {
-    updateDocumentType(submission.id, selectedItem.title).then((res) => {
-      setSubmission((old) => {
-        return {
-          ...old,
-          documentType: res.documentType,
-        };
-      });
-    });
-  };
-
-  const handleSubjectUpdate = (selectedItem) => {
-    updateSubject(submission.assignment.id, selectedItem.title).then((res) => {
-      setSubmission((old) => {
-        return {
-          ...old,
-          assignment: {
-            ...old.assignment,
-            subject: res.subject,
-          },
-        };
-      });
-    });
-  };
-
-  const handleTitleClick = () => {
-    setIsEditing(true);
-  };
 
   React.useEffect(() => {
     if (isEditing) {
@@ -488,12 +460,6 @@ export function contextBarForPortfolioDocument(
 
   return (
     <>
-      {subjectTypeSelection(
-        pageMode,
-        submission,
-        handleTaskUpdate,
-        handleSubjectUpdate
-      )}
       <Frame1371 id="assignmentTitle">
         <TitleWrapper>
           <TitleContainer>
@@ -917,55 +883,4 @@ function handleCancelFeedbackRequest(
     });
 }
 
-function subjectTypeSelection(
-  pageMode,
-  submission,
-  handleTaskUpdate,
-  handleSubjectUpdate
-) {
-  const subjectOptions = [{ title: 'English' }];
-  const taskOptions = [
-    { title: 'Analytical' },
-    { title: 'Imaginative' },
-    { title: 'Discursive' },
-    { title: 'Persuasive' },
-    { title: 'Reflective' },
-  ];
-  return (
-    <SubjectSelectionContainer>
-      {pageMode === 'DRAFT' ? (
-        <>
-          <SubjectSelectBox>
-            <label>Select Subject</label>
-            <StyledDropDown
-              menuItems={subjectOptions}
-              selectedIndex={subjectOptions.findIndex(
-                (item) => item.title === submission.assignment.subject
-              )}
-              onItemSelected={(item) => handleSubjectUpdate(item)}
-            ></StyledDropDown>
-          </SubjectSelectBox>
-          <SubjectSelectBox>
-            <label>Task Type</label>
-            <StyledDropDown
-              menuItems={taskOptions}
-              selectedIndex={taskOptions.findIndex(
-                (item) => item.title === submission.documentType
-              )}
-              onItemSelected={(item) => handleTaskUpdate(item)}
-            ></StyledDropDown>
-          </SubjectSelectBox>
-        </>
-      ) : (
-        <>
-          <SubjectSelectBox>
-            <label>{submission.assignment.subject || 'English'}</label>
-          </SubjectSelectBox>
-          <SubjectSelectBox>
-            <label>{submission.documentType || 'Analytical'}</label>
-          </SubjectSelectBox>
-        </>
-      )}
-    </SubjectSelectionContainer>
-  );
-}
+

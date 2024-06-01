@@ -29,7 +29,6 @@ export const SmartAnnotationsComponent = styled.div`
   overflow-y: scroll;
   padding-bottom: 10px;
   border-radius: 6px;
-  background-color: var(--white);
   box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
   border: solid 1px rgba(201, 198, 204, 0.5);
   &::-webkit-scrollbar {

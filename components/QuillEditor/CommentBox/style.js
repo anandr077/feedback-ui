@@ -23,7 +23,6 @@ export const Frame1406 = styled.div`
 
 export const SmartAnnotationsComponent = styled.div`
   width: 100%;
-  height: 330px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -44,7 +43,12 @@ export const CommentContainer = styled.div`
   gap: 8px;
   padding: 8px;
   background-color: #fff;
-  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
+`;
+
+export const CommentBoxContainer = styled.div`
+  border-top: solid 1px rgba(201, 198, 204, 0.5);
+  padding: 5px 0;
+  height: 280px;
 `;
 
 export const Frame1326 = styled.div`

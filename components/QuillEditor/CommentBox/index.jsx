@@ -7,6 +7,7 @@ import {
   Frame1406,
   SmartAnnotationsComponent,
   CommentContainer,
+  CommentBoxContainer,
   Frame1326,
   ModalHeading,
   TypeHere,
@@ -38,6 +39,10 @@ import {
   getBounds,
   withHeights,
 } from './bounds';
+import {
+  isShareWithClass,
+  isShowCommentBanks,
+} from '../../FeedbacksComponents/FeedbacksRoot/rules';
 
 const CommentBox = ({
   pageMode,
@@ -58,6 +63,7 @@ const CommentBox = ({
     useContext(FeedbackContext);
   const [commentHeights, setCommentHeights] = useState([]);
   const [openCommentBox, setOpenCommentbox] = useState(false);
+  const role = getUserRole();
 
   let commentBankIds = submission.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
@@ -134,9 +140,12 @@ const CommentBox = ({
             <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
               <img src={CommentIcon} />
             </Option>
-            <Option onClick={methods.handleShareWithClass}>
-              <img src={ShareIcon} />
-            </Option>
+            {isShareWithClass(role) && (
+              <Option onClick={methods.handleShareWithClass}>
+                <img src={ShareIcon} />
+              </Option>
+            )}
+
             {/* <Option>
               <img src={AlphabetIcon} />
             </Option>
@@ -287,7 +296,8 @@ const newCommentFrame = (
     pageMode,
     commentBankIds,
     question,
-    selectedRange
+    selectedRange,
+    submission.type
   );
 };
 
@@ -298,7 +308,8 @@ function reviewerNewComment(
   pageMode,
   commentBankIds,
   question,
-  selectedRange
+  selectedRange,
+  submissionType
 ) {
   const { smartAnnotations, setShowFloatingDialogue, allCommentBanks } =
     useContext(FeedbackContext);
@@ -327,22 +338,22 @@ function reviewerNewComment(
                 commentBankIds={commentBankIds}
               />
             </CommentContainer>
-            <ModalHeading>
-              <h1>Comment Banks</h1>
-            </ModalHeading>
-            <ModalForSelectOption
-              onClose={setShowFloatingDialogue}
-              optionsToSelect={allCommentBanks}
-              onClickOption={methods.handleShortcutAddCommentSmartAnnotaion}
-            />
+            {isShowCommentBanks(allCommentBanks) && (
+              <CommentBoxContainer>
+                <ModalHeading>
+                  <h1>Comment Banks</h1>
+                </ModalHeading>
+                <ModalForSelectOption
+                  onClose={setShowFloatingDialogue}
+                  optionsToSelect={allCommentBanks}
+                  onClickOption={methods.handleShortcutAddCommentSmartAnnotaion}
+                />
+              </CommentBoxContainer>
+            )}
             {/* <ShortcutList>
                 {shortcutList(methods, smartAnnotations, commentBankIds)}
             </ShortcutList> */}
           </SmartAnnotationsComponent>
-          {/* <ExemplarComponent>
-              {shareWithClassFrame(methods, share)}
-              {shareWithClassFrame(methods)}
-            </ExemplarComponent> */}
         </Frame1406>
       </Frame1329>
     </>
@@ -363,23 +374,6 @@ function shortcutList(methods, smartAnnotations, commentBankIds) {
   );
 }
 
-function shareWithClassFrame(methods, share) {
-  if (getUserRole() === 'STUDENT') return <></>;
-  return (
-    <>
-      <Frame1383>
-        <Frame13311>
-          <Crown src="/icons/share.png" alt="crown" />
-          <Share>Share</Share>
-        </Frame13311>
-        <Buttons4
-          text={'Share with class'}
-          onClickFn={methods.handleShareWithClass}
-        />
-      </Frame1383>
-    </>
-  );
-}
 
 function selectFocusArea(methods, submission, newCommentSerialNumber) {
   const allFocusAreas = flatMap(submission.assignment.questions, (question) =>

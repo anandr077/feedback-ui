@@ -174,7 +174,7 @@ const CriteriaAndOverallFeedback = ({
           <img src={TickMark} />
           <img src={ArrowDownIcon} />
         </HeadingDropdown>
-        {openRightPanel === 'tab2' && <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />}
+        <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
       </Heading>
       <Body>
         <Text>Click the button below to complete this section</Text>

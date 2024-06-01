@@ -425,7 +425,7 @@ export const FeedbackPageOverlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 3;
+  z-index: 2;
 `;
 
 export const Frame1368 = styled.div`
@@ -438,8 +438,8 @@ export const Frame1368 = styled.div`
   top: 75px;
   height: 100vh;
   overflow-y: scroll;
-  width: calc(100% - 48px);
-  z-index: 4;
+  width: 100%;
+  z-index: 2;
 
   &::-webkit-scrollbar {
     width: 0;

@@ -316,7 +316,7 @@ export const DrawerArrow = styled.div`
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
-  z-index: 4;
+  z-index: 5;
 `;
 
 export const ArrowImg = styled.img`
@@ -739,53 +739,6 @@ export const ButtonWithImageBeforeText = styled.button`
   gap: 5px;
 `;
 
-export const Label16pxSmall = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  font-family: var(--font-family-ibm_plex_sans);
-  line-height: 20px;
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-
-  div {
-    display: flex;
-    gap: 5px;
-
-    span {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: var(--light-mode-purple);
-      transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
-
-      @keyframes wave {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-5px);
-        }
-      }
-    }
-    span:nth-child(1) {
-      animation-delay: 0s;
-    }
-
-    span:nth-child(2) {
-      animation-delay: 100ms;
-    }
-
-    span:nth-child(3) {
-      animation-delay: 200ms;
-    }
-  }
-`;
 
 export const RequestFeedbackStatusFrame = styled.div`
   cursor: pointer;

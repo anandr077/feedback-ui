@@ -23,3 +23,8 @@ export const isShowFocusAreaInstructions = (pageMode, nbComments, isFocusAreas) 
 export const isShowCommentsAndFocusAreasTab = (pageMode, submissionType) => {
   return pageMode !== 'DRAFT' && submissionType !== 'DOCUMENT';
 };
+
+
+export const isReviewMode = (pageMode) => {
+  return pageMode === 'REVIEW';
+};

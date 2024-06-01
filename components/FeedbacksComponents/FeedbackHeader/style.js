@@ -164,6 +164,11 @@ export const Label16pxSmall = styled.div`
   }
 `;
 
+export const Icon24 = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
 export const JeddAiAnimatedTextContainer = styled.div`
   cursor: unset;
   min-width: 100px;
@@ -192,7 +197,7 @@ export const DocumentSubmitBtnContainer = styled.div`
   align-items: center;
   gap: 11px;
   border: 1px solid #c9c6cc80;
-  padding: 8px;
+  padding: 8px 12px;
   gap: 4px;
   border-radius: 32px;
   p {

@@ -20,6 +20,7 @@ import {
   UpdateButton,
   DocumentSubmitCancelBtnContainer,
   Label16pxSmall,
+  Icon24,
   JeddAiAnimatedTextContainer,
   JeddAiImageForAnimation
 } from './style';
@@ -325,32 +326,20 @@ function submitButtonOnDocument(
   }
 
   if (submission.status === 'REVIEWED') {
-    if (submission.feedbackRequestType === 'JEDDAI') {
+    //if (submission.feedbackRequestType === 'JEDDAI') {
       return (
-        <div
-          style={{
-            cursor: 'unset',
-            minWidth: '100px',
-            position: 'relative',
-            backgroundColor: 'white',
-            color: 'black',
-            display: 'flex',
-            gap: '10px',
-            height: '66px',
-            border: '1px solid #F1E7FF',
-          }}
-        >
-          {<img src="/img/jeddleaiIcon.svg" />}
+        <DocumentSubmitBtnContainer>
+          {<Icon24 src="/img/jeddleaiIcon.svg" />}
           <p>JeddAI has provided its feedback</p>
-        </div>
+        </DocumentSubmitBtnContainer>
       );
-    }
-    return (
-      <DocumentSubmitBtnContainer>
-        {<img src="/img/message24.svg" />}
-        <p>Your feedback is ready to review</p>
-      </DocumentSubmitBtnContainer>
-    );
+    // }
+    // return (
+    //   <DocumentSubmitBtnContainer>
+    //     {<img src="/img/message24.svg" />}
+    //     <p>Your feedback is ready to review</p>
+    //   </DocumentSubmitBtnContainer>
+    // );
   }
   return <></>;
 }

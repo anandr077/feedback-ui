@@ -25,6 +25,16 @@ export const isShowCommentsAndFocusAreasTab = (pageMode, submissionType) => {
 };
 
 
+
+export const isShowCommentBanks = (commentBanks) =>{
+  return commentBanks.length > 0
+}
+
+export const isShareWithClass = (role) =>{
+  return role !== 'STUDENT'
+}
+
+
 export const isReviewMode = (pageMode) => {
   return pageMode === 'REVIEW';
 };

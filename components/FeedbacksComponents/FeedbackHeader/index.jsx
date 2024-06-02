@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FeedbackHeaderContainer,
   LeftSection,
@@ -17,11 +17,12 @@ import {
   SubjectTaskTypeContainer,
   STTitle,
   STDetails,
-  TickBox,
-  StyledSelect,
-  StyledMenuItem,
-  StyledMenuItemText,
+  UpdateButton,
   DocumentSubmitCancelBtnContainer,
+  Label16pxSmall,
+  Icon24,
+  JeddAiAnimatedTextContainer,
+  JeddAiImageForAnimation
 } from './style';
 import ResubmitBtn from '../../../static/img/Resubmit.svg';
 import ActiveCommentIcon from '../../../static/img/purplesinglecomment.svg';
@@ -29,17 +30,18 @@ import CommentIcon from '../../../static/img/graysinglecomment.svg';
 import ActiveFocusIcon from '../../../static/img/purplehighlight.svg';
 import FocusIcon from '../../../static/img/grayhighlight.svg';
 import ArrowLeft from '../../../static/img/arrowleftgray.svg';
-import studentTick from '../../../static/img/student-tick.svg';
 import ArrowRight from '../../../static/img/arrowrightgray.svg';
+import UpdateIcon from '../../../static/img/update15purple.svg';
 import { getUserRole } from '../../../userLocalDetails';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { useHistory, useLocation } from 'react-router-dom';
-import { FormControl, MenuItem, Select } from '@mui/material';
 import { isShowCommentsAndFocusAreasTab } from '../FeedbacksRoot/rules';
 import ToggleSwitch from '../../../components2/ToggleSwitch';
+import PopupDialogueBox from '../../../components2/PopupDialogueBox';
+import DropdownWithRoundedTick from '../../../components2/DropdownWithRoundedTick';
 
 const FeedbackHeader = ({
   methods,
@@ -59,11 +61,12 @@ const FeedbackHeader = ({
   isFeedback,
   isFocusAreas,
   setFocusAreas,
-  handleTabUpdate
+  handleTabUpdate,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
   const [isShowSelectType, setShowSelectType] = useState();
+  const [openEditDialogue, setOpenEditDialogue] = useState();
   const { showSnackbar } = React.useContext(SnackbarContext);
   const history = useHistory();
   const location = useLocation();
@@ -98,20 +101,10 @@ const FeedbackHeader = ({
   };
 
   const handleQuestionClick = (index) => {
+    setSelectedIndex(index);
     const newUrl = `/submissions/${studentsList[index]?.submissionId}`;
     history.push(newUrl);
   };
-
-  // function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-  //   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-  //     setFeedback(false);
-  //     setFocusAreas(true);
-  //   } else {
-  //     setFeedback(true);
-  //     setFocusAreas(false);
-  //   }
-  // }
-
 
   return (
     <FeedbackHeaderContainer>
@@ -120,52 +113,12 @@ const FeedbackHeader = ({
           <ArrowBtn onClick={handlePrevious}>
             <img src={ArrowLeft} alt="Left" />
           </ArrowBtn>
-          <FormControl>
-            <StyledSelect
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    padding: '8px',
-                    borderRadius: '4px',
-                    gap: '2px',
-                    '& .MuiMenu-list': {
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                      padding: '0px',
-                    },
-                  },
-                },
-              }}
-              value={selectedIndex}
-              onChange={(e) => {
-                const newIndex = e.target.value;
-                setSelectedIndex(newIndex);
-                handleQuestionClick(newIndex);
-              }}
-            >
-              {studentsList?.map((student, index) => (
-                <StyledMenuItem
-                  key={index}
-                  value={index}
-                  studentStyle={submission.id === student.submissionId}
-                  closed={
-                    student.status === 'REVIEWED' || student.status === 'CLOSED'
-                  }
-                >
-                  <StyledMenuItemText
-                    studentStyle={submission.id === student.submissionId}
-                  >
-                    {student.studentName}
-                  </StyledMenuItemText>
-                  {(student.status === 'REVIEWED' ||
-                    student.status === 'CLOSED') && (
-                    <TickBox src={studentTick} />
-                  )}
-                </StyledMenuItem>
-              ))}
-            </StyledSelect>
-          </FormControl>
+          <DropdownWithRoundedTick
+            options={studentsList}
+            selectedId={submission.id}
+            selectedIndex={selectedIndex}
+            onChange={handleQuestionClick}
+          />
           <ArrowBtn onClick={handleNext}>
             <img src={ArrowRight} alt="Right" />
           </ArrowBtn>
@@ -183,10 +136,21 @@ const FeedbackHeader = ({
               </>
             )}
             {submission.documentType && (
-              <div>
-                <STTitle>Task Type:</STTitle>
-                <STDetails>{submission.documentType}</STDetails>
-              </div>
+              <>
+                <div>
+                  <STTitle>Task Type:</STTitle>
+                  <STDetails>{submission.documentType}</STDetails>
+                </div>
+              </>
+            )}
+            {pageMode === 'DRAFT' && (
+              <>
+                <span>|</span>
+                <UpdateButton onClick={() => setOpenEditDialogue(true)}>
+                  <img src={UpdateIcon} />
+                  Update
+                </UpdateButton>
+              </>
             )}
           </SubjectTaskTypeContainer>
         </LeftSection>
@@ -194,7 +158,7 @@ const FeedbackHeader = ({
 
       <RightSection>
         {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
-          <ToggleSwitch 
+          <ToggleSwitch
             text1={'Comments'}
             text2={'Focus Areas'}
             icon1={CommentIcon}
@@ -237,6 +201,14 @@ const FeedbackHeader = ({
             )
           : submitButton(methods, pageMode, submission, isTeacher)}
       </RightSection>
+      {openEditDialogue && (
+        <PopupDialogueBox
+          open={openEditDialogue}
+          close={() => setOpenEditDialogue(false)}
+          submission={submission}
+          setSubmission={setSubmission}
+        />
+      )}
     </FeedbackHeaderContainer>
   );
 };
@@ -332,22 +304,17 @@ function submitButtonOnDocument(
   if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
     if (submission.feedbackRequestType === 'JEDDAI') {
       return (
-        <div
-          style={{
-            cursor: 'unset',
-            minWidth: '100px',
-          }}
-        >
-          {<img src="/img/jeddleaiIcon.svg" />}
-          <div>
+        <JeddAiAnimatedTextContainer>
+          {<JeddAiImageForAnimation src="/img/jeddleaiIcon.svg" />}
+          <Label16pxSmall>
             <div>JeddAI is working on your feedback</div>
             <div>
               <span></span>
               <span></span>
               <span></span>
             </div>
-          </div>
-        </div>
+          </Label16pxSmall>
+        </JeddAiAnimatedTextContainer>
       );
     }
     return (
@@ -361,22 +328,10 @@ function submitButtonOnDocument(
   if (submission.status === 'REVIEWED') {
     if (submission.feedbackRequestType === 'JEDDAI') {
       return (
-        <div
-          style={{
-            cursor: 'unset',
-            minWidth: '100px',
-            position: 'relative',
-            backgroundColor: 'white',
-            color: 'black',
-            display: 'flex',
-            gap: '10px',
-            height: '66px',
-            border: '1px solid #F1E7FF',
-          }}
-        >
-          {<img src="/img/jeddleaiIcon.svg" />}
+        <DocumentSubmitBtnContainer>
+          {<Icon24 src="/img/jeddleaiIcon.svg" />}
           <p>JeddAI has provided its feedback</p>
-        </div>
+        </DocumentSubmitBtnContainer>
       );
     }
     return (

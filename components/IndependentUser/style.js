@@ -48,7 +48,7 @@ export const SidebarContainer = styled.div`
     width: 0;
   }
   position: fixed;
-  z-index: 4;
+  z-index: 5;
 `;
 
 export const DrawerHeader = styled.div`

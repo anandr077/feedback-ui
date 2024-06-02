@@ -316,7 +316,7 @@ export const DrawerArrow = styled.div`
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
-  z-index: 4;
+  z-index: 5;
 `;
 
 export const ArrowImg = styled.img`
@@ -359,7 +359,6 @@ export const Frame1386 = styled.div`
   align-self: stretch;
   width: '100%';
   overflow-x: hidden;
-  position: relative;
 `;
 
 export const Frame1371 = styled.div`
@@ -418,16 +417,6 @@ export const FeedbackBody = styled.div`
   width: 100%;
 `;
 
-export const FeedbackPageOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 3;
-`;
-
 export const Frame1368 = styled.div`
   display: flex;
   flex-direction: column;
@@ -438,8 +427,7 @@ export const Frame1368 = styled.div`
   top: 75px;
   height: 100vh;
   overflow-y: scroll;
-  width: calc(100% - 48px);
-  z-index: 4;
+  width: 100%;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -739,53 +727,6 @@ export const ButtonWithImageBeforeText = styled.button`
   gap: 5px;
 `;
 
-export const Label16pxSmall = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  font-family: var(--font-family-ibm_plex_sans);
-  line-height: 20px;
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-
-  div {
-    display: flex;
-    gap: 5px;
-
-    span {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: var(--light-mode-purple);
-      transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
-
-      @keyframes wave {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-5px);
-        }
-      }
-    }
-    span:nth-child(1) {
-      animation-delay: 0s;
-    }
-
-    span:nth-child(2) {
-      animation-delay: 100ms;
-    }
-
-    span:nth-child(3) {
-      animation-delay: 200ms;
-    }
-  }
-`;
 
 export const RequestFeedbackStatusFrame = styled.div`
   cursor: pointer;
@@ -916,44 +857,6 @@ export const ShortcutList = styled.div`
   gap: 8px;
 `;
 
-export const SubjectSelectionContainer = styled.div`
-  display: flex;
-  justify-content: start;
-  gap: 30px;
-`;
-
-export const SubjectSelectBox = styled.div`
-  border-right: 1px solid #d6d6d6;
-  padding-right: 30px;
-  display: flex;
-  align-items: center;
-  /* flex-direction: row; */
-  &:last-child {
-    border-right: none;
-  }
-
-  label {
-    font-family: var(--font-family-ibm_plex_sans);
-    font-weight: 400;
-    font-size: var(--font-size-xl);
-    line-height: 26px;
-    color: #6f6f6f;
-    padding-right: 10px;
-  }
-
-  select {
-    width: 200px;
-    border-radius: 8px;
-    border: 1px solid #d6d6d6;
-    padding: 8px 12px;
-    font-size: var(--font-size-l);
-    font-weight: 400;
-    line-height: 26px;
-    color: var(--text);
-    outline: none;
-    cursor: pointer;
-  }
-`;
 export const PopupContainer = styled.div`
   display: flex;
   flex-direction: column;

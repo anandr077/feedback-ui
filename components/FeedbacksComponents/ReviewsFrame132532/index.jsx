@@ -34,7 +34,7 @@ function ReviewsFrame132532(props) {
     selectedComment,
   } = props;
   const closeFrame = isClosable ? (
-    <More onClick={onClose} src="/icons/closecircle@2x.png" alt="more" />
+    <More onClick={onClose} src="/img/FAClose.svg" alt="more" />
   ) : (
     <></>
   );

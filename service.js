@@ -672,3 +672,13 @@ export const getLocalClasses = () => {
 export const deleteLocalClasses = () => {
   localStorage.removeItem('classes');
 };
+
+
+export const getAllSubjects = [{ title: 'English' }];
+export const getAllTypes = [
+  { title: 'Analytical' },
+  { title: 'Imaginative' },
+  { title: 'Discursive' },
+  { title: 'Persuasive' },
+  { title: 'Reflective' },
+];

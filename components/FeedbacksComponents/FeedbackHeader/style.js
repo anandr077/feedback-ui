@@ -1,4 +1,3 @@
-import { MenuItem, Select } from '@mui/material';
 import styled from 'styled-components';
 
 export const FeedbackHeaderContainer = styled.div`
@@ -29,6 +28,19 @@ export const SubjectTaskTypeContainer = styled.div`
     align-items: center;
     gap: 3px;
   }
+`;
+
+export const UpdateButton = styled.button`
+  display: flex;
+  gap: 3px;
+  background-color: transparent;
+  border: none;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-s);
+  line-height: 20px;
+  color: #8A2BE5;
+  cursor: pointer;
 `;
 
 export const STTitle = styled.h3`
@@ -76,80 +88,6 @@ export const ArrowBtn = styled.div`
   }
 `;
 
-export const TickBox = styled.img`
-  width: 24px;
-  height: 24px;
-`;
-export const StyledMenuItemText = styled.p`
-  font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: -0.01em;
-  text-align: left;
-  color: #4b464f;
-  font-family: var(--font-family-ibm_plex_sans) !important;
-  font-weight: ${(props) => (props.studentStyle ? '500' : '400')} !important;
-  font-size: 16px !important;
-  line-height: 24px !important;
-  // padding: 12px !important;
-  border-radius: 6px;
-  color: ${(props) =>
-    props.studentStyle
-      ? 'rgba(114, 0, 224, 1)'
-      : 'rgba(75, 70, 79, 1)'} !important;
-`;
-export const StyledSelect = styled(Select)`
-  width: 250px;
-  border: none;
-  outline: none;
-  color: #4b464f;
-  font-family: var(--font-family-ibm_plex_sans) !important;
-  font-size: var(--font-size-l);
-  font-weight: 500;
-  line-height: 20px;
-  cursor: pointer;
-  .MuiSelect-select {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    padding: 12px !important;
-    border: none !important;
-    outline: none !important;
-    ${TickBox} {
-      display: none;
-    }
-    ${StyledMenuItemText} {
-      font-weight: 500 !important;
-      color: rgba(75, 70, 79, 1) !important;
-    }
-  }
-  .MuiOutlinedInput-notchedOutline {
-    border: none !important;
-  }
-`;
-export const StyledMenuItem = styled(MenuItem)`
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: space-between !important;
-  font-family: var(--font-family-ibm_plex_sans) !important;
-  background: ${(props) =>
-    props.studentStyle
-      ? '#F1E6FC !important'
-      : props.closed
-      ? '#FBF7FE !important'
-      : '#fff !important'};
-  border-radius: 6px !important;
-  padding: 12px !important;
-
-  li {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    padding: 12px !important;
-  }
-`;
-
 export const ReassignBtn = styled.button`
   width: 156px;
   height: 40px;
@@ -179,6 +117,74 @@ export const ReassignBtn = styled.button`
   }
 `;
 
+export const Label16pxSmall = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #4B464F;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  div {
+    display: flex;
+    gap: 5px;
+
+    span {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--light-mode-purple);
+      transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
+
+      @keyframes wave {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+    }
+    span:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    span:nth-child(2) {
+      animation-delay: 100ms;
+    }
+
+    span:nth-child(3) {
+      animation-delay: 200ms;
+    }
+  }
+`;
+
+export const Icon24 = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+export const JeddAiAnimatedTextContainer = styled.div`
+  cursor: unset;
+  min-width: 100px;
+  position: relative;
+  background-color: white;
+  display: flex;
+  gap: 10px;
+  border-radius: 32px;
+  padding: 8px 12px;
+  border: 1px solid #C9C6CC;
+`;
+
+export const JeddAiImageForAnimation = styled.img`
+  width: 24px;
+  height: 24px;
+`;
 
 export const DocumentSubmitCancelBtnContainer = styled.div`
   display: flex;
@@ -191,7 +197,7 @@ export const DocumentSubmitBtnContainer = styled.div`
   align-items: center;
   gap: 11px;
   border: 1px solid #c9c6cc80;
-  padding: 8px;
+  padding: 8px 12px;
   gap: 4px;
   border-radius: 32px;
   p {

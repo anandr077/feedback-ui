@@ -30,16 +30,22 @@ import {
   InnerContainer,
   LeftContainer,
   MainContainer,
+  MinusContainer,
+  MinusImg,
   OptionContainer,
   OptionIcon,
   OptionText,
   OptionsContainer,
+  PlusContainer,
+  PlusImg,
+  PlusMinusContainer,
   PreviewButton,
   PreviewButtonIcon,
   PreviewButtonText,
   RightContainer,
   SaveButton,
   SaveButtonText,
+  Strength,
   StrengthPart,
   TableBodyPart,
   TableBodyParts,
@@ -64,6 +70,7 @@ import EditHover from '../../../static/img/EditHover.svg';
 import SecondSidebar from '../../SecondSidebar';
 import { isMobileView } from '../../ReactiveRender';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
+import MinusCircle from '../../../static/img/MinusCircle.svg';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -154,6 +161,25 @@ export default function CreateNewStrengthAndTargets() {
     if (type === TARGETS) {
       updatedData.strengthsTargetsCriterias[index].targets.push('');
     }
+    setMarkingMethodology(updatedData);
+  };
+  const handleAddOptionInBetween = (childIndex, index, type) => {
+    const updatedData = { ...markingMethodology };
+
+    if (type === STRENGTHS) {
+      const strengths = [
+        ...updatedData.strengthsTargetsCriterias[index].strengths,
+      ];
+      strengths.splice(childIndex + 1, 0, '');
+      updatedData.strengthsTargetsCriterias[index].strengths = strengths;
+    }
+
+    if (type === TARGETS) {
+      const targets = [...updatedData.strengthsTargetsCriterias[index].targets];
+      targets.splice(childIndex + 1, 0, '');
+      updatedData.strengthsTargetsCriterias[index].targets = targets;
+    }
+
     setMarkingMethodology(updatedData);
   };
 
@@ -477,24 +503,50 @@ export default function CreateNewStrengthAndTargets() {
                         </CriteriaPart>
                         <StrengthPart>
                           {markingtemplate.strengths.map((strength, index) => (
-                            <TextArea
-                              key={index}
-                              type="text"
-                              placeholder="You have effectively..."
-                              value={strength}
-                              rows="5"
-                              onChange={(e) =>
-                                handleCriteriaOptionChange(
-                                  e,
-                                  index,
-                                  templateIndex,
-                                  STRENGTHS
-                                )
-                              }
-                              onKeyPress={(e) =>
-                                handleKeyPressInput(e, 5, strength)
-                              }
-                            />
+                            <Strength>
+                              <TextArea
+                                key={index}
+                                type="text"
+                                placeholder="You have effectively..."
+                                value={strength}
+                                rows="5"
+                                onChange={(e) =>
+                                  handleCriteriaOptionChange(
+                                    e,
+                                    index,
+                                    templateIndex,
+                                    STRENGTHS
+                                  )
+                                }
+                                onKeyPress={(e) =>
+                                  handleKeyPressInput(e, 5, strength)
+                                }
+                              />
+                              <PlusMinusContainer>
+                                <PlusContainer
+                                  onClick={() =>
+                                    handleAddOptionInBetween(
+                                      index,
+                                      templateIndex,
+                                      STRENGTHS
+                                    )
+                                  }
+                                >
+                                  <PlusImg src={Plus} />
+                                </PlusContainer>
+                                <MinusContainer
+                                  onClick={() =>
+                                    removeAddOption(
+                                      index,
+                                      templateIndex,
+                                      STRENGTHS
+                                    )
+                                  }
+                                >
+                                  <MinusImg src={MinusCircle} />
+                                </MinusContainer>
+                              </PlusMinusContainer>
+                            </Strength>
                           ))}
                           <TableRowButtoncont
                             onClick={() =>
@@ -509,24 +561,50 @@ export default function CreateNewStrengthAndTargets() {
                         </StrengthPart>
                         <TargetPart>
                           {markingtemplate.targets.map((target, index) => (
-                            <TextArea
-                              key={index}
-                              type="text"
-                              placeholder="You need to..."
-                              value={target}
-                              rows="5"
-                              onChange={(e) =>
-                                handleCriteriaOptionChange(
-                                  e,
-                                  index,
-                                  templateIndex,
-                                  TARGETS
-                                )
-                              }
-                              onKeyPress={(e) =>
-                                handleKeyPressInput(e, 5, target)
-                              }
-                            />
+                            <Strength>
+                              <TextArea
+                                key={index}
+                                type="text"
+                                placeholder="You need to..."
+                                value={target}
+                                rows="5"
+                                onChange={(e) =>
+                                  handleCriteriaOptionChange(
+                                    e,
+                                    index,
+                                    templateIndex,
+                                    TARGETS
+                                  )
+                                }
+                                onKeyPress={(e) =>
+                                  handleKeyPressInput(e, 5, target)
+                                }
+                              />
+                              <PlusMinusContainer>
+                                <PlusContainer
+                                  onClick={() =>
+                                    handleAddOptionInBetween(
+                                      index,
+                                      templateIndex,
+                                      TARGETS
+                                    )
+                                  }
+                                >
+                                  <PlusImg src={Plus} />
+                                </PlusContainer>
+                                <MinusContainer
+                                  onClick={() =>
+                                    removeAddOption(
+                                      index,
+                                      templateIndex,
+                                      TARGETS
+                                    )
+                                  }
+                                >
+                                  <MinusImg src={MinusCircle} />
+                                </MinusContainer>
+                              </PlusMinusContainer>
+                            </Strength>
                           ))}
                           <TableRowButtoncont
                             onClick={() =>

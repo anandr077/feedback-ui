@@ -16,12 +16,18 @@ import {
   Line15,
   EditIcon,
   EditIconHover,
+  PlusMinusContainer,
+  PlusImg,
+  MinusImg,
+  PlusContainer,
+  MinusContainer,
 } from './style';
 import Eye from '../../../static/icons/Eye.svg';
 import Plus from '../../../static/icons/Plus.svg';
 import pluswhite from '../../../static/icons/pluswhite.svg';
 import MarkEdit from '../../../static/img/markEdit.svg';
 import EditHover from '../../../static/img/EditHover.svg';
+import MinusCircle from '../../../static/img/MinusCircle.svg';
 import {
   AddNewCriteria,
   AddNewCriteriaButton,
@@ -64,6 +70,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
     addCriteria,
     addLevel,
     deleteLevel,
+    addLevelInBetween,
     deleteCriteria,
     updateCriteriaTitle,
     updateLevelName,
@@ -75,6 +82,8 @@ function CreateNewMarkingCriteriaDesktop(props) {
     markingCriterias,
     markingCriteriaId,
   } = props;
+
+ 
 
   const [isEditing, setIsEditing] = useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
@@ -98,47 +107,6 @@ function CreateNewMarkingCriteriaDesktop(props) {
 
   return (
     <>
-      {/* <div className="account-settings-marking-criteria-create-new-desktop screen">
-        <Frame1379>
-          <Frame1376>
-            <Frame1315>
-              <Breadcrumb text="Account Settings" link={'/#/settings'} />
-              <Breadcrumb2 title="Marking Criteria" link={'/#/settings'} />
-              <Breadcrumb2 title={isUpdating ? 'Update' : 'Create new'} />
-            </Frame1315>
-            <GoBack />
-          </Frame1376>
-          <Frame1376>
-            <Frame1372
-              saveMethod={saveMarkingCriteria}
-              deleteMethod={deleteMarkingCriteriaMethod}
-              isUpdating={isUpdating}
-            />
-
-            <TitleContainer id="markingCriteriaTitleContainer">
-              <TextInput
-                placeholder="Name of marking template (max 140 characters)"
-                id="markingCriteriaName"
-                value={markingCriterias.title}
-                onChange={handleTitleChange}
-                maxLength="140"
-              ></TextInput>
-            </TitleContainer>
-            <Frame1302>
-              <Frame1281 />
-              <Line15 src="/img/line-14@2x.png" alt="Line 15" />
-              {criterias}
-              <Buttons2 text="Add criteria" onClickFn={addCriteria} />
-            </Frame1302>
-            <Frame1372
-              saveMethod={saveMarkingCriteria}
-              deleteMethod={deleteMarkingCriteriaMethod}
-              isUpdating={isUpdating}
-              withoutTitle={true}
-            />
-          </Frame1376>
-        </Frame1379>
-      </div> */}
       <MainContainer>
         <InnerContainer>
           <SecondSidebar id={markingCriteriaId} />
@@ -232,7 +200,24 @@ function CreateNewMarkingCriteriaDesktop(props) {
                                   handleKeyPressInput(e, 1, level.name)
                                 }
                               />
+                              <PlusMinusContainer>
+                                <PlusContainer
+                                  onClick={() =>
+                                    addLevelInBetween(templateIndex, index)
+                                  }
+                                >
+                                  <PlusImg src={Plus} />
+                                </PlusContainer>
+                                <MinusContainer
+                                  onClick={() =>
+                                    deleteLevel(templateIndex, index)
+                                  }
+                                >
+                                  <MinusImg src={MinusCircle} />
+                                </MinusContainer>
+                              </PlusMinusContainer>
                             </LevelPart>
+
                             <LevelDescPart>
                               <TextArea
                                 type="text"

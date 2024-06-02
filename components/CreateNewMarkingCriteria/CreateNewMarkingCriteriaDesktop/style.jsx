@@ -127,11 +127,53 @@ export const LevelPart = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
+export const PlusMinusContainer = styled.div`
+  display: none;
+  position: absolute;
+  right: -12px;
+  flex-direction: column;
+  gap: 4px;
+`;
+export const PlusContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  box-shadow: 0px 1px 1.1px 0px #00000040;
+  cursor: pointer;
+`;
+export const MinusContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 16px;
+  background-color: var(--white);
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  box-shadow: 0px 1px 1.1px 0px #00000040;
+  cursor: pointer;
+`;
+export const PlusImg = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const MinusImg = styled.img``;
 export const LevelAndDescPart = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 0.7fr 2.8fr;
+  &:hover {
+    ${PlusMinusContainer} {
+      display: flex;
+    }
+  }
 `;
 
 export const LevelDescPart = styled.div`

@@ -42,6 +42,57 @@ export const RightContainer = styled.div`
     display: none;
   }
 `;
+export const PlusMinusContainer = styled.div`
+  display: none;
+  position: absolute;
+  left: -12px;
+  flex-direction: column;
+  gap: 4px;
+`;
+export const PlusImg = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+export const MinusImg = styled.img``;
+export const PlusContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  box-shadow: 0px 1px 1.1px 0px #00000040;
+  cursor: pointer;
+`;
+export const MinusContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 16px;
+  background-color: var(--white);
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  box-shadow: 0px 1px 1.1px 0px #00000040;
+  cursor: pointer;
+`;
+
+export const Strength = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  &:hover {
+    ${PlusMinusContainer} {
+      display: flex;
+    }
+  }
+`;
 export const OptionsContainer = styled.div``;
 export const OptionContainer = styled.div`
   display: flex;
@@ -210,9 +261,11 @@ export const CriteriaPart = styled.div`
 `;
 export const StrengthPart = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 export const TargetPart = styled.div`
   display: flex;

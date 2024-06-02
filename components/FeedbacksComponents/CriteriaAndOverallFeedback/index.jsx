@@ -16,29 +16,26 @@ import {
   MarkingCriteriaContainer,
   MarkRubricTitleContainer,
   LevelNameContainer,
-  LevelDescCont,
   MarkStrengthContainer,
-  StrengthsAndTargetsCont,
-  StrengthsCont,
-  TargetsCont,
-  StrengthCont,
   Strength,
-  TargetCont,
   Target,
-  TargetHeadingCon,
   TargetHeading,
   MarkingCriteriaMainHeading,
-  MarkingCriteriaMainHeadingCont,
-  MarkingCriteriaHeadingCont,
   PopupBackground,
   PopupContainer,
   PopupTitleContainer,
   PopupTitle,
   PopupTitleImg,
   PopupDialogContentBox,
-  StrengthsAndTargetsContHeading,
-  StrengthsAndTargetsContBody,
   StrengthsAndTargetsPart,
+  TargetHeadingContainer,
+  StrengthContainer,
+  StrengthsAndTargetsContainerBody,
+  StrengthsAndTargetsContainer,
+  StrengthsAndTargetsContainerHeading,
+  MarkingCriteriaHeadingContainer,
+  MarkingCriteriaMainHeadingContainer,
+  TargetContainer,
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
@@ -60,7 +57,7 @@ import { LevelDesc } from './style';
 import { getUserRole } from '../../../userLocalDetails';
 import closecircle from '../../../static/img/closecircle.svg';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
-import { isReviewMode } from '../FeedbacksRoot/rules';
+import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksRoot/rules';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
 
 const CriteriaAndOverallFeedback = ({
@@ -96,7 +93,7 @@ const CriteriaAndOverallFeedback = ({
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     setMarkingCriteria(markingCriteria);
-    if (!isReviewMode(pageMode)) {
+    if (!isAllowGiveMarkingCriteriaFeedback(pageMode)) {
       setMarkingCriteria(
         markingCriteriaFeedback[QuestionIndex]?.markingCriteria
       );
@@ -206,7 +203,7 @@ const CriteriaAndOverallFeedback = ({
               />
             ) : (
               <>
-                {isReviewMode(pageMode) ? (
+                {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
                   <MarkStrengthContainer>
                     {markingCriteria?.strengthsTargetsCriterias?.map(
                       (strengthsAndTargets) => {
@@ -221,21 +218,21 @@ const CriteriaAndOverallFeedback = ({
                                 {strengthsAndTargets.title}
                               </MarkRubricTitle>
                             </MarkRubricTitleContainer>
-                            <StrengthsAndTargetsCont>
-                              <StrengthsAndTargetsContHeading>
-                                <TargetHeadingCon>
+                            <StrengthsAndTargetsContainer>
+                              <StrengthsAndTargetsContainerHeading>
+                                <TargetHeadingContainer>
                                   <TargetHeading>Strengths</TargetHeading>
-                                </TargetHeadingCon>
-                                <TargetHeadingCon>
+                                </TargetHeadingContainer>
+                                <TargetHeadingContainer>
                                   <TargetHeading>Targets</TargetHeading>
-                                </TargetHeadingCon>
-                              </StrengthsAndTargetsContHeading>
-                              <StrengthsAndTargetsContBody>
+                                </TargetHeadingContainer>
+                              </StrengthsAndTargetsContainerHeading>
+                              <StrengthsAndTargetsContainerBody>
                                 {Array.from({ length: maxLen }).map(
                                   (_, index) => (
                                     <StrengthsAndTargetsPart key={index}>
                                       {strengthsAndTargets.strengths[index] && (
-                                        <StrengthCont
+                                        <StrengthContainer
                                           onClick={() =>
                                             handleStrengthndTargetChange(
                                               strengthsAndTargets,
@@ -249,9 +246,12 @@ const CriteriaAndOverallFeedback = ({
                                             strengthsAndTargets.strengths[index]
                                           )}
                                           style={{
-                                            cursor: isReviewMode(pageMode)
-                                              ? 'pointer'
-                                              : '',
+                                            cursor:
+                                              isAllowGiveMarkingCriteriaFeedback(
+                                                pageMode
+                                              )
+                                                ? 'pointer'
+                                                : '',
                                           }}
                                         >
                                           <Strength>
@@ -261,10 +261,10 @@ const CriteriaAndOverallFeedback = ({
                                               ]
                                             }
                                           </Strength>
-                                        </StrengthCont>
+                                        </StrengthContainer>
                                       )}
                                       {strengthsAndTargets.targets[index] && (
-                                        <TargetCont
+                                        <TargetContainer
                                           onClick={() =>
                                             handleStrengthndTargetChange(
                                               strengthsAndTargets,
@@ -278,21 +278,24 @@ const CriteriaAndOverallFeedback = ({
                                             strengthsAndTargets.targets[index]
                                           )}
                                           style={{
-                                            cursor: isReviewMode(pageMode)
-                                              ? 'pointer'
-                                              : '',
+                                            cursor:
+                                              isAllowGiveMarkingCriteriaFeedback(
+                                                pageMode
+                                              )
+                                                ? 'pointer'
+                                                : '',
                                           }}
                                         >
                                           <Target>
                                             {strengthsAndTargets.targets[index]}
                                           </Target>
-                                        </TargetCont>
+                                        </TargetContainer>
                                       )}
                                     </StrengthsAndTargetsPart>
                                   )
                                 )}
-                              </StrengthsAndTargetsContBody>
-                            </StrengthsAndTargetsCont>
+                              </StrengthsAndTargetsContainerBody>
+                            </StrengthsAndTargetsContainer>
                           </MarkRubricContainer>
                         );
                       }
@@ -313,21 +316,21 @@ const CriteriaAndOverallFeedback = ({
                                 {strengthsAndTargets.title}
                               </MarkRubricTitle>
                             </MarkRubricTitleContainer>
-                            <StrengthsAndTargetsCont>
-                              <StrengthsAndTargetsContHeading>
-                                <TargetHeadingCon>
+                            <StrengthsAndTargetsContainer>
+                              <StrengthsAndTargetsContainerHeading>
+                                <TargetHeadingContainer>
                                   <TargetHeading>Strengths</TargetHeading>
-                                </TargetHeadingCon>
-                                <TargetHeadingCon>
+                                </TargetHeadingContainer>
+                                <TargetHeadingContainer>
                                   <TargetHeading>Targets</TargetHeading>
-                                </TargetHeadingCon>
-                              </StrengthsAndTargetsContHeading>
-                              <StrengthsAndTargetsContBody>
+                                </TargetHeadingContainer>
+                              </StrengthsAndTargetsContainerHeading>
+                              <StrengthsAndTargetsContainerBody>
                                 {Array.from({ length: maxLen }).map(
                                   (_, index) => (
                                     <StrengthsAndTargetsPart key={index}>
                                       {strengthsAndTargets.strengths[index] && (
-                                        <StrengthCont
+                                        <StrengthContainer
                                           bgColor={isStringPresent(
                                             selectedStrengths,
                                             'attribute',
@@ -341,10 +344,10 @@ const CriteriaAndOverallFeedback = ({
                                               ]
                                             }
                                           </Strength>
-                                        </StrengthCont>
+                                        </StrengthContainer>
                                       )}
                                       {strengthsAndTargets.targets[index] && (
-                                        <TargetCont
+                                        <TargetContainer
                                           bgColor={isStringPresent(
                                             selectedTarget,
                                             'attribute',
@@ -354,13 +357,13 @@ const CriteriaAndOverallFeedback = ({
                                           <Target>
                                             {strengthsAndTargets.targets[index]}
                                           </Target>
-                                        </TargetCont>
+                                        </TargetContainer>
                                       )}
                                     </StrengthsAndTargetsPart>
                                   )
                                 )}
-                              </StrengthsAndTargetsContBody>
-                            </StrengthsAndTargetsCont>
+                              </StrengthsAndTargetsContainerBody>
+                            </StrengthsAndTargetsContainer>
                           </MarkRubricContainer>
                         );
                       }
@@ -403,14 +406,14 @@ const CriteriaAndOverallFeedback = ({
           )}
         </Heading>
         <Body>
-          <MarkingCriteriaMainHeadingCont>
+          <MarkingCriteriaMainHeadingContainer>
             <MarkingCriteriaMainHeading>
               Marking Criteria
             </MarkingCriteriaMainHeading>
             <Text>Click below to complete your selected marking template</Text>
-          </MarkingCriteriaMainHeadingCont>
+          </MarkingCriteriaMainHeadingContainer>
           <MarkingCriteriaContainer>
-            <MarkingCriteriaHeadingCont>
+            <MarkingCriteriaHeadingContainer>
               <MarkingCriteriaHeading>
                 {markingCriteria?.type === 'RUBRICS'
                   ? 'Rubric'
@@ -419,7 +422,7 @@ const CriteriaAndOverallFeedback = ({
               <RubricButton onClick={() => setShowMarkingCrteriaPopUp(true)}>
                 Expand
               </RubricButton>
-            </MarkingCriteriaHeadingCont>
+            </MarkingCriteriaHeadingContainer>
           </MarkingCriteriaContainer>
           <Heading>
             <HeadingTitle>

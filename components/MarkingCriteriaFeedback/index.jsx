@@ -7,7 +7,7 @@ import DropdownMenu from '../DropdownMenu';
 import { chain, set } from 'lodash';
 import './style.css';
 import '../MarkingCriteriaFeedbackReadOnly/markingcriteria.css';
-import { isReviewMode } from '../FeedbacksComponents/FeedbacksRoot/rules';
+import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksComponents/FeedbacksRoot/rules';
 
 export default function MarkingCriteriaFeedback(props) {
   const {
@@ -137,17 +137,17 @@ const createRows = (
         item?.selectedLevel ? '-selected' : ''
       }`}
       onClick={
-        isReviewMode(pageMode)
+        isAllowGiveMarkingCriteriaFeedback(pageMode)
           ? () =>
               handleMarkingCriteriaLevelFeedback(
                 questionSerialNumber,
                 item.criteriaIndex,
                 item.levelName
               )
-          : null
+          : () => {}
       }
       style={{
-        cursor: isReviewMode(pageMode) ? 'pointer' : '',
+        cursor: isAllowGiveMarkingCriteriaFeedback(pageMode) ? 'pointer' : '',
       }}
     >
       <div className="marking-criteria-heading">{item?.levelName}</div>

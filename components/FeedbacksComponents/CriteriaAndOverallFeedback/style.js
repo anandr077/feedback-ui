@@ -164,7 +164,7 @@ export const MarkingCriteriaContainer = styled.div`
   border: 1px solid #c9c6cc80;
   border-radius: 6px;
 `;
-export const MarkingCriteriaMainHeadingCont = styled.div`
+export const MarkingCriteriaMainHeadingContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -179,7 +179,7 @@ export const MarkingCriteriaMainHeading = styled.p`
   text-align: left;
   color: #4b464f;
 `;
-export const MarkingCriteriaHeadingCont = styled.div`
+export const MarkingCriteriaHeadingContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -262,7 +262,7 @@ export const LevelName = styled.p`
   color: #56515b;
   overflow-wrap: break-word;
 `;
-export const LevelDescCont = styled.div`
+export const LevelDescContainer = styled.div`
   display: flex;
   background-color: #ffffff;
   padding: 8px;
@@ -292,20 +292,20 @@ export const MarkStrengthContainer = styled.div`
   gap: 4px;
 `;
 
-export const StrengthsAndTargetsCont = styled.div`
+export const StrengthsAndTargetsContainer = styled.div`
   display: flex;
   width: 80%;
   flex-direction: column;
   gap: 4px;
 `;
-export const StrengthsAndTargetsContHeading = styled.div`
+export const StrengthsAndTargetsContainerHeading = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   gap: 4px;
 `;
 
-export const StrengthsAndTargetsContBody = styled.div`
+export const StrengthsAndTargetsContainerBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -315,19 +315,19 @@ export const StrengthsAndTargetsPart = styled.div`
   flex-direction: row;
   gap: 4px;
 `;
-export const StrengthsCont = styled.div`
+export const StrengthsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
   gap: 4px;
 `;
-export const TargetsCont = styled.div`
+export const TargetsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
   gap: 4px;
 `;
-export const StrengthCont = styled.div`
+export const StrengthContainer = styled.div`
   display: flex;
   flex: 0 0 50%;
   padding: 8px;
@@ -345,7 +345,7 @@ export const Strength = styled.p`
   color: #56515b;
 `;
 
-export const TargetCont = styled.div`
+export const TargetContainer = styled.div`
   display: flex;
   flex: 1 1 50%;
   background-color: #ffffff;
@@ -364,7 +364,7 @@ export const Target = styled.p`
   color: #56515b;
 `;
 
-export const TargetHeadingCon = styled.div`
+export const TargetHeadingContainer = styled.div`
   display: flex;
   flex: 1 1 50%;
   flex-direction: column;

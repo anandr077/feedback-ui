@@ -35,6 +35,6 @@ export const isShareWithClass = (role) =>{
 }
 
 
-export const isReviewMode = (pageMode) => {
+export const isAllowGiveMarkingCriteriaFeedback = (pageMode) => {
   return pageMode === 'REVIEW';
 };

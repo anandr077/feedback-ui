@@ -339,6 +339,7 @@ const answerFrames = (
   const answerValue = answer.answer.answer;
   const debounce = createDebounceFunction(
     submission,
+    setSubmission,
     pageMode,
     comments,
     setComments

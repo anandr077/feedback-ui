@@ -88,6 +88,8 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
+  const [openRightPanel, SetOpenRightPanel] = React.useState('');
+  const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
   const [isFocusAreas, setFocusAreas] = React.useState(
@@ -299,7 +301,11 @@ function FeedbackTeacherLaptop(props) {
               editorFontSize,
               selectedComment,
               selectedRange,
-              handleTabUpdate
+              handleTabUpdate,
+              openRightPanel, 
+              SetOpenRightPanel,
+              QuestionIndex, 
+              setQuestionIndex
             )}
           </Frame1388>
         </>
@@ -524,10 +530,13 @@ function answersAndFeedbacks(
   editorFontSize,
   selectedComment,
   selectedRange,
-  handleTabUpdate
+  handleTabUpdate,
+  openRightPanel, 
+  SetOpenRightPanel,
+  QuestionIndex, 
+  setQuestionIndex
+
 ) {
-  const [openRightPanel, SetOpenRightPanel] = React.useState('');
-  const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);

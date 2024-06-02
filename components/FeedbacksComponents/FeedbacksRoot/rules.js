@@ -23,3 +23,18 @@ export const isShowFocusAreaInstructions = (pageMode, nbComments, isFocusAreas) 
 export const isShowCommentsAndFocusAreasTab = (pageMode, submissionType) => {
   return pageMode !== 'DRAFT' && submissionType !== 'DOCUMENT';
 };
+
+
+
+export const isShowCommentBanks = (commentBanks) =>{
+  return commentBanks.length > 0
+}
+
+export const isShareWithClass = (role) =>{
+  return role !== 'STUDENT'
+}
+
+
+export const isAllowGiveMarkingCriteriaFeedback = (pageMode) => {
+  return pageMode === 'REVIEW';
+};

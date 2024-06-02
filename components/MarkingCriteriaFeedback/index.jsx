@@ -7,6 +7,7 @@ import DropdownMenu from '../DropdownMenu';
 import { chain, set } from 'lodash';
 import './style.css';
 import '../MarkingCriteriaFeedbackReadOnly/markingcriteria.css';
+import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksComponents/FeedbacksRoot/rules';
 
 export default function MarkingCriteriaFeedback(props) {
   const {
@@ -14,9 +15,10 @@ export default function MarkingCriteriaFeedback(props) {
     questionSerialNumber,
     handleMarkingCriteriaLevelFeedback,
     handleStrengthsTargetsFeedback,
+    pageMode,
   } = props;
 
-  const strengthAndTargetCriterias = markingCriteria.strengthsTargetsCriterias;
+  const strengthAndTargetCriterias = markingCriteria?.strengthsTargetsCriterias;
   const selectedStrengthsAndTargets = {
     strength: [],
     target: [],
@@ -44,7 +46,8 @@ export default function MarkingCriteriaFeedback(props) {
         rubricMarkingCriteriaComponent(
           markingCriteria,
           handleMarkingCriteriaLevelFeedback,
-          questionSerialNumber
+          questionSerialNumber,
+          pageMode
         )
       ) : (
         <MarkingCriteriaContainer>
@@ -82,7 +85,8 @@ const createRubricsHeading = (criterias) => {
 const createRubricsLevels = (
   criterias,
   handleMarkingCriteriaLevelFeedback,
-  questionSerialNumber
+  questionSerialNumber,
+  pageMode
 ) => {
   let groupedArray = chain(criterias)
     .flatMap((criteria, criteriaIndex) => {
@@ -112,7 +116,8 @@ const createRubricsLevels = (
         {createRows(
           rowItems,
           handleMarkingCriteriaLevelFeedback,
-          questionSerialNumber
+          questionSerialNumber,
+          pageMode
         )}
       </tr>
     );
@@ -122,7 +127,8 @@ const createRubricsLevels = (
 const createRows = (
   items,
   handleMarkingCriteriaLevelFeedback,
-  questionSerialNumber
+  questionSerialNumber,
+  pageMode
 ) => {
   return items.map((item) => (
     <td
@@ -130,14 +136,19 @@ const createRows = (
       className={`marking-criteria-data marking-criteria-column-width${
         item?.selectedLevel ? '-selected' : ''
       }`}
-      style={{ cursor: 'pointer' }}
-      onClick={() =>
-        handleMarkingCriteriaLevelFeedback(
-          questionSerialNumber,
-          item.criteriaIndex,
-          item.levelName
-        )
+      onClick={
+        isAllowGiveMarkingCriteriaFeedback(pageMode)
+          ? () =>
+              handleMarkingCriteriaLevelFeedback(
+                questionSerialNumber,
+                item.criteriaIndex,
+                item.levelName
+              )
+          : () => {}
       }
+      style={{
+        cursor: isAllowGiveMarkingCriteriaFeedback(pageMode) ? 'pointer' : '',
+      }}
     >
       <div className="marking-criteria-heading">{item?.levelName}</div>
       <div className="marking-criteria-content">{item?.levelDescription}</div>
@@ -148,7 +159,8 @@ const createRows = (
 const rubricMarkingCriteriaComponent = (
   markingCriteria,
   handleMarkingCriteriaLevelFeedback,
-  questionSerialNumber
+  questionSerialNumber,
+  pageMode
 ) => {
   if (
     markingCriteria?.criterias === undefined ||
@@ -162,7 +174,6 @@ const rubricMarkingCriteriaComponent = (
   return (
     <>
       <MarkingCriteriaContainer1>
-        <MarkingCriteriaHeading>Marking Criteria</MarkingCriteriaHeading>
         <table className="marking-criteria-parent-container">
           <tr className="marking-criteria-title">
             {createRubricsHeading(markingCriteria.criterias)}
@@ -170,7 +181,8 @@ const rubricMarkingCriteriaComponent = (
           {createRubricsLevels(
             markingCriteria.criterias,
             handleMarkingCriteriaLevelFeedback,
-            questionSerialNumber
+            questionSerialNumber,
+            pageMode
           )}
         </table>
       </MarkingCriteriaContainer1>
@@ -190,22 +202,9 @@ const MarkingCriteriaHeading = styled.h2`
 `;
 
 const MarkingCriteriaContainer1 = styled.div`
-  margin: 0px 48px;
-  border-top: 1px solid #f1e6fc;
-  // align-items: flex-start;
-  // gap: 20px;
-  // align-self: stretch;
-  // background: #fff;
   display: flex;
   flex-direction: column;
-  // grid-gap: 10px;
-  // overflow-x: scroll;
-
-  // padding-top: 20px;
-  // border-top: 1px solid #f1e6fc;
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
+  height: 100%;
 `;
 
 const MarkingCriteriaCardLabel = styled.div`

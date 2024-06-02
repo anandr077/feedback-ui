@@ -23,14 +23,12 @@ export const Frame1406 = styled.div`
 
 export const SmartAnnotationsComponent = styled.div`
   width: 100%;
-  height: 330px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   overflow-y: scroll;
   padding-bottom: 10px;
   border-radius: 6px;
-  background-color: var(--white);
   box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
   border: solid 1px rgba(201, 198, 204, 0.5);
   &::-webkit-scrollbar {
@@ -44,7 +42,12 @@ export const CommentContainer = styled.div`
   gap: 8px;
   padding: 8px;
   background-color: #fff;
-  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
+`;
+
+export const CommentBoxContainer = styled.div`
+  border-top: solid 1px rgba(201, 198, 204, 0.5);
+  padding: 5px 0;
+  height: 280px;
 `;
 
 export const Frame1326 = styled.div`

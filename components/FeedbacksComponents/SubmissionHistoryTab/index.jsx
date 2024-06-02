@@ -15,12 +15,10 @@ const SubmissionHistoryTab = ({ handleClose, openRightPanel }) => {
   const active = true;
   return (
     <MainContainer openRightPanel={openRightPanel}>
-      {openRightPanel === 'tab4' && (
-        <RightSidebarHeading
-          title={'Submission History'}
-          handleClose={handleClose}
-        />
-      )}
+      <RightSidebarHeading
+        title={'Submission History'}
+        handleClose={handleClose}
+      />
       <SubmissionBody>
         <Line></Line>
         <Submissions>

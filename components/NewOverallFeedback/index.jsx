@@ -80,6 +80,7 @@ const NewOverallFeedback = ({
             ref={inputRef}
             readOnly={true}
             placeholder="Give feedback here..."
+            read={true}
           ></TextFeedback>
           {audioComment ? (
             <AudioPlayer
@@ -91,7 +92,16 @@ const NewOverallFeedback = ({
         </>
       );
     }
-    return <TextFeedback ref={inputRef} readOnly={true}></TextFeedback>;
+    return (
+      <TextFeedback
+        ref={inputRef}
+        readOnly={true}
+        read={true}
+        style={{
+          height: `auto`,
+        }}
+      ></TextFeedback>
+    );
   }
 
   return (

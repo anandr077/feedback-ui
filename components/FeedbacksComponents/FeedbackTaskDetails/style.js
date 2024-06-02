@@ -99,7 +99,6 @@ export const FocusArea = styled.div`
   padding: 8px;
   border-radius: 22px;
   border: solid 1px rgba(201, 198, 204, 0.5);
-  cursor: pointer;
 `;
 
 export const Ellipse141 = styled.div`

@@ -5,16 +5,14 @@ import {
 } from './style';
 import AntSwitch from '../../components/FeedbacksComponents/AntSwitch';
 
-const ToggleSwitchWithOneOption = ({ text, onToggle }) => {
+const ToggleSwitchWithOneOption = ({ text, onChecked, onChangeFn }) => {
 
-  const handleToggle = () => {
-    onToggle();
-  };
   return (
     <SwitchContainer>
       <SwitchLabel>{text}</SwitchLabel>
       <AntSwitch 
-         onChange={handleToggle}
+         checked={onChecked}
+         onChange={onChangeFn}
       />
     </SwitchContainer>
   )

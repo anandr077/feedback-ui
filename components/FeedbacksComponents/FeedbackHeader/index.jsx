@@ -59,6 +59,9 @@ const FeedbackHeader = ({
   isFocusAreas,
   setFocusAreas,
   handleTabUpdate,
+  setShowResolved,
+  isShowResolved,
+  commentsForSelectedTab
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
@@ -158,7 +161,12 @@ const FeedbackHeader = ({
       )}
 
       <RightSection>
-        <ToggleSwitchWithOneOption text="Resolved Comments" onToggle={handleResolvedCommentToggle}/>
+        {showResolvedToggle(setShowResolved)(
+          commentsForSelectedTab,
+          isFeedback,
+          isShowResolved,
+          handleShowResolvedToggle
+        )}
         {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
           <ToggleSwitchWithTwoOptions
             text1={'Comments'}
@@ -452,3 +460,33 @@ function handleCancelFeedbackRequest(
       setShowFeedbackButtons(false);
     });
 }
+
+export const handleShowResolvedToggle = (setShowResolved) => (event) => {
+  setShowResolved(event.target.checked);
+};
+
+export const showResolvedToggle =
+  (setShowResolved) =>
+  (
+    commentsForSelectedTab,
+    isFeedback,
+    isShowResolved,
+    handleShowResolvedToggle
+  ) => {
+    if (
+      commentsForSelectedTab.filter((c) => c.status === 'RESOLVED').length <= 0
+    ) {
+      return <></>;
+    }
+    if (!isFeedback) {
+      return <></>;
+    }
+
+    return (
+      <ToggleSwitchWithOneOption
+        text="Resolved Comments"
+        onChecked={isShowResolved}
+        onChangeFn={handleShowResolvedToggle(setShowResolved)}
+      />
+    );
+  };

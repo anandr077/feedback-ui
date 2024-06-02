@@ -14,6 +14,7 @@ import {
 } from './style';
 import RightArrow from '../../../static/img/19grayrightindicator.svg';
 import RightSidebarHeading from '../RightSidebarHeading';
+import { isShowFeedbackBy, isShowMarkingCriteria } from '../FeedbacksRoot/rules';
 
 const FeedbackTaskDetails = ({
   handleClose,
@@ -37,18 +38,18 @@ const FeedbackTaskDetails = ({
         <span>Due on : </span> {formatDate(submission?.assignment.dueAt)}
       </DueDate>
       <OtherDetails>
-        <div>
-          <span>Marking Method : </span>
-          {question?.markingCriteria?.type}
-        </div>
-        <div>
-          <span>Graded Task : </span>
-          Yes
-        </div>
-        <div>
-          <span>Feedback By : </span>
-          {submission?.assignment.teacherName}
-        </div>
+        {question?.markingCriteria?.type && (
+          <div>
+            <span>Marking Method : </span>
+            {isShowMarkingCriteria(question?.markingCriteria?.type)}
+          </div>
+        )}
+        {isShowFeedbackBy(submission?.assignment.teacherName) && (
+          <div>
+            <span>Feedback By : </span>
+            {submission?.assignment.teacherName}
+          </div>
+        )}
         {submission?.reviewedAt && (
           <div>
             <span>Reviewed At : </span>

@@ -112,7 +112,7 @@ const CriteriaAndOverallFeedback = ({
           heading: strengthsAndTargets.title,
         };
         setSelectedStrengths([
-          ...selectedStrengths.filter(
+          ...selectedStrengths?.filter(
             (selectedStrength) => selectedStrength.id !== selectedStrengthNew.id
           ),
           selectedStrengthNew,

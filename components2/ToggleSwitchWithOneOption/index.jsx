@@ -1,24 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   SwitchContainer,
   SwitchLabel,
-  Switch,
-  Slider
 } from './style';
+import AntSwitch from '../../components/FeedbacksComponents/AntSwitch';
 
 const ToggleSwitchWithOneOption = ({ text, onToggle }) => {
-  const [isOn, setIsOn] = useState(false);
 
   const handleToggle = () => {
-    setIsOn(!isOn);
-    onToggle(!isOn);
+    onToggle();
   };
   return (
-    <SwitchContainer onClick={handleToggle}>
+    <SwitchContainer>
       <SwitchLabel>{text}</SwitchLabel>
-      <Switch isOn={isOn}>
-        <Slider isOn={isOn} />
-      </Switch>
+      <AntSwitch 
+         onChange={handleToggle}
+      />
     </SwitchContainer>
   )
 }

@@ -103,8 +103,8 @@ const FeedbackHeader = ({
     history.push(newUrl);
   };
 
-  const handleResolvedCommentToggle = (state) => {
-    console.log('Toggle switch is now', state ? 'ON' : 'OFF');
+  const handleResolvedCommentToggle = () => {
+    console.log('Toggle switch is now');
   };
 
   return (

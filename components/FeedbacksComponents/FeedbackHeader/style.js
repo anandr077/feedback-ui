@@ -88,6 +88,14 @@ export const ArrowBtn = styled.div`
   }
 `;
 
+export const TaskTitle = styled.h3`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: #181718;
+`;
+
 export const ReassignBtn = styled.button`
   width: 156px;
   height: 40px;

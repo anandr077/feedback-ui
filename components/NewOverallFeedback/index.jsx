@@ -23,8 +23,12 @@ const NewOverallFeedback = ({
         inputRef.current.value = '';
       }
     }
+  
+    if (overallComment?.questionSerialNumber === serialNumber) {
+      console.log('the overallComment in useEffect', overallComment)
+      setAudioComment(overallComment.audio);
+    }
     const textarea = inputRef.current;
-
     if (textarea) {
       const adjustHeight = () => {
         textarea.style.height = 'auto';
@@ -35,10 +39,6 @@ const NewOverallFeedback = ({
       return () => {
         textarea.removeEventListener('input', adjustHeight);
       };
-    }
-
-    if (overallComment?.questionSerialNumber === serialNumber) {
-      setAudioComment(overallComment.audio);
     }
   }, [overallComment, serialNumber, inputRef]);
 

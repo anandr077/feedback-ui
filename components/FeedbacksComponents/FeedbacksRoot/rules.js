@@ -44,10 +44,14 @@ export const isShowFeedbackBy = (name) => {
   return name !== null;
 };
 
-export const isShowMarkingCriteria = (markingCriteriaType) => {
-  const markingCriteria =
-    markingCriteriaType === 'STRENGTHS_TARGETS'
-      ? 'Strengths and Targets'
-      : 'Rubrics';
-  return markingCriteria;
-};
+export const isShowStudentDropdownInHeader = (isTeacher, submissionType, pageMode) =>{
+   return isTeacher && submissionType === "SUBMISSION" && (pageMode === 'REVIEW' || pageMode === 'CLOSED')
+}
+
+export const isShowTitleInHeader = (submissionType, role) =>{
+  return submissionType === "SUBMISSION" && role !== 'TEACHER'
+}
+
+export const isSubjectTaskType = (submissionType) =>{
+  return submissionType === "DOCUMENT"
+}

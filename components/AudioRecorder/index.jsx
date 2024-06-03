@@ -132,14 +132,4 @@ const AudioRecorder = ({
 };
 
 export default AudioRecorder;
-// const arePropsEqual = (prevProps, nextProps) => {
-//   return (
-//     prevProps.handleAudioFeedbackRecorded ===
-//       nextProps.handleAudioFeedbackRecorded &&
-//     prevProps.handleDelete === nextProps.handleDelete &&
-//     prevProps.initialAudio === nextProps.initialAudio
-//   );
-// };
 
-// const MemoizedAudioRecorder = React.memo(AudioRecorder, arePropsEqual);
-// export default MemoizedAudioRecorder;

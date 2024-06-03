@@ -1512,6 +1512,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
+  const isResetEditorTextSelection = () =>{
+    setShowFloatingDialogue(false);
+    setNewCommentSerialNumber(0);
+    setSelectedRange(null);
+    setSelectedText(null);
+    setShowNewComment(false);
+  }
+
   const methods = {
     comments,
     setComments,
@@ -1574,7 +1582,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         quillRefs,
         setNewCommentSerialNumber,
         setSelectedRange,
-        setSelectedText
+        setSelectedText,
+        isResetEditorTextSelection
       }}
     >
       {showSubmitPopup &&

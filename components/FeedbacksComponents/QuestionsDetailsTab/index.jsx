@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import {
   QuestionDetailsContainer,
   QuestionSection,
@@ -12,23 +12,19 @@ import GrayTick from '../../../static/img/Ticklightcolor.svg';
 import PurpleTick from '../../../static/img/16purplebgtick.svg';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
-const QuestionsDetailsTab = ({ handleClose, openRightPanel, submission, QuestionIndex, setQuestionIndex }) => {
-  const {
-    setNewCommentSerialNumber,
-    setSelectedRange,
-    setSelectedText,
-    setShowFloatingDialogue,
-    methods
-  } = React.useContext(FeedbackContext);
- 
-  const questionClick = (idx) =>{
-    setQuestionIndex(idx)
-    setShowFloatingDialogue(false);
-    setNewCommentSerialNumber(0);
-    setSelectedRange(null);
-    setSelectedText(null);
-    methods.setShowNewComment(false);
-  }
+const QuestionsDetailsTab = ({
+  handleClose,
+  openRightPanel,
+  submission,
+  QuestionIndex,
+  setQuestionIndex,
+}) => {
+  const { isResetEditorTextSelection } = useContext(FeedbackContext);
+
+  const questionClick = (idx) => {
+    setQuestionIndex(idx);
+    isResetEditorTextSelection();
+  };
 
   return (
     <QuestionDetailsContainer openRightPanel={openRightPanel}>
@@ -36,7 +32,7 @@ const QuestionsDetailsTab = ({ handleClose, openRightPanel, submission, Question
       <QuestionSection>
         {submission.assignment.questions.map((question, idx) => {
           return (
-            <QuestionBody onClick={()=> questionClick(idx)}>
+            <QuestionBody onClick={() => questionClick(idx)}>
               <Heading>
                 <SerialNumber>Question {question.serialNumber}</SerialNumber>
                 <img src={QuestionIndex === idx ? PurpleTick : GrayTick} />

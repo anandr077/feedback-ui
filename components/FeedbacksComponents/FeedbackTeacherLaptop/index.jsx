@@ -585,6 +585,9 @@ function answersAndFeedbacks(
         isFeedback={isFeedback}
         isFocusAreas={isFocusAreas}
         handleTabUpdate={handleTabUpdate}
+        setShowResolved={setShowResolved}
+        isShowResolved={isShowResolved}
+        commentsForSelectedTab={commentsForSelectedTab}
       />
       {submission.type === 'SUBMISSION' &&
         submission.assignment.questions.length !== 0 && (

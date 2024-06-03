@@ -39,15 +39,17 @@ import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { useHistory, useLocation } from 'react-router-dom';
+import { isShowCommentsAndFocusAreasTab } from '../FeedbacksRoot/rules';
 import {
   isShowCommentsAndFocusAreasTab,
   isShowStudentDropdownInHeader,
   isShowTitleInHeader,
-  isSubjectTaskType,
+  isShowSubjectTaskType,
 } from '../FeedbacksRoot/rules';
-import ToggleSwitch from '../../../components2/ToggleSwitch';
 import PopupDialogueBox from '../../../components2/PopupDialogueBox';
 import DropdownWithRoundedTick from '../../../components2/DropdownWithRoundedTick';
+import ToggleSwitchWithTwoOptions from '../../../components2/ToggleSwitchWithTwoOptions';
+import ToggleSwitchWithOneOption from '../../../components2/ToggleSwitchWithOneOption';
 
 const FeedbackHeader = ({
   methods,
@@ -68,6 +70,9 @@ const FeedbackHeader = ({
   isFocusAreas,
   setFocusAreas,
   handleTabUpdate,
+  setShowResolved,
+  isShowResolved,
+  commentsForSelectedTab
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
@@ -112,6 +117,10 @@ const FeedbackHeader = ({
     history.push(newUrl);
   };
 
+  const handleResolvedCommentToggle = () => {
+    console.log('Toggle switch is now');
+  };
+
   return (
     <FeedbackHeaderContainer>
       <LeftSection>
@@ -138,7 +147,7 @@ const FeedbackHeader = ({
         {isShowTitleInHeader(submission.type, getUserRole()) && (
           <TaskTitle>{submission?.assignment?.title}</TaskTitle>
         )}
-        {isSubjectTaskType(submission.type) && (
+        {isShowSubjectTaskType(submission.type) && (
           <SubjectTaskTypeContainer>
             {submission.assignment.subject && (
               <>
@@ -171,8 +180,14 @@ const FeedbackHeader = ({
       </LeftSection>
 
       <RightSection>
+        {showResolvedToggle(setShowResolved)(
+          commentsForSelectedTab,
+          isFeedback,
+          isShowResolved,
+          handleShowResolvedToggle
+        )}
         {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
-          <ToggleSwitch
+          <ToggleSwitchWithTwoOptions
             text1={'Comments'}
             text2={'Focus Areas'}
             icon1={CommentIcon}
@@ -447,3 +462,33 @@ function handleCancelFeedbackRequest(
       setShowFeedbackButtons(false);
     });
 }
+
+export const handleShowResolvedToggle = (setShowResolved) => (event) => {
+  setShowResolved(event.target.checked);
+};
+
+export const showResolvedToggle =
+  (setShowResolved) =>
+  (
+    commentsForSelectedTab,
+    isFeedback,
+    isShowResolved,
+    handleShowResolvedToggle
+  ) => {
+    if (
+      commentsForSelectedTab.filter((c) => c.status === 'RESOLVED').length <= 0
+    ) {
+      return <></>;
+    }
+    if (!isFeedback) {
+      return <></>;
+    }
+
+    return (
+      <ToggleSwitchWithOneOption
+        text="Resolved Comments"
+        onChecked={isShowResolved}
+        onChangeFn={handleShowResolvedToggle(setShowResolved)}
+      />
+    );
+  };

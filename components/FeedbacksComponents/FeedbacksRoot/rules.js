@@ -52,6 +52,6 @@ export const isShowTitleInHeader = (submissionType, role) =>{
   return submissionType === "SUBMISSION" && role !== 'TEACHER'
 }
 
-export const isSubjectTaskType = (submissionType) =>{
+export const isShowSubjectTaskType = (submissionType) =>{
   return submissionType === "DOCUMENT"
 }

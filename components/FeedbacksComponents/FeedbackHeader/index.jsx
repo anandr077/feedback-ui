@@ -10,6 +10,7 @@ import {
   ToggleBtn,
   ToggleSwitchLabels,
   ArrowBtn,
+  TaskTitle,
   Select,
   DocumentSubmitBtnContainer,
   AwaitingFeedbackTextAlert,
@@ -22,7 +23,7 @@ import {
   Label16pxSmall,
   Icon24,
   JeddAiAnimatedTextContainer,
-  JeddAiImageForAnimation
+  JeddAiImageForAnimation,
 } from './style';
 import ResubmitBtn from '../../../static/img/Resubmit.svg';
 import ActiveCommentIcon from '../../../static/img/purplesinglecomment.svg';
@@ -39,6 +40,12 @@ import { cancelFeedbackRequest } from '../../../service';
 import SnackbarContext from '../../SnackbarContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import { isShowCommentsAndFocusAreasTab } from '../FeedbacksRoot/rules';
+import {
+  isShowCommentsAndFocusAreasTab,
+  isShowStudentDropdownInHeader,
+  isShowTitleInHeader,
+  isSubjectTaskType,
+} from '../FeedbacksRoot/rules';
 import PopupDialogueBox from '../../../components2/PopupDialogueBox';
 import DropdownWithRoundedTick from '../../../components2/DropdownWithRoundedTick';
 import ToggleSwitchWithTwoOptions from '../../../components2/ToggleSwitchWithTwoOptions';
@@ -116,23 +123,31 @@ const FeedbackHeader = ({
 
   return (
     <FeedbackHeaderContainer>
-      {isTeacher && (pageMode === 'REVIEW' || pageMode === 'CLOSED') ? (
-        <LeftSection>
-          <ArrowBtn onClick={handlePrevious}>
-            <img src={ArrowLeft} alt="Left" />
-          </ArrowBtn>
-          <DropdownWithRoundedTick
-            options={studentsList}
-            selectedId={submission.id}
-            selectedIndex={selectedIndex}
-            onChange={handleQuestionClick}
-          />
-          <ArrowBtn onClick={handleNext}>
-            <img src={ArrowRight} alt="Right" />
-          </ArrowBtn>
-        </LeftSection>
-      ) : (
-        <LeftSection>
+      <LeftSection>
+        {isShowStudentDropdownInHeader(
+          isTeacher,
+          submission.type,
+          pageMode
+        ) && (
+          <>
+            <ArrowBtn onClick={handlePrevious}>
+              <img src={ArrowLeft} alt="Left" />
+            </ArrowBtn>
+            <DropdownWithRoundedTick
+              options={studentsList}
+              selectedId={submission.id}
+              selectedIndex={selectedIndex}
+              onChange={handleQuestionClick}
+            />
+            <ArrowBtn onClick={handleNext}>
+              <img src={ArrowRight} alt="Right" />
+            </ArrowBtn>
+          </>
+        )}
+        {isShowTitleInHeader(submission.type, getUserRole()) && (
+          <TaskTitle>{submission?.assignment?.title}</TaskTitle>
+        )}
+        {isSubjectTaskType(submission.type) && (
           <SubjectTaskTypeContainer>
             {submission.assignment.subject && (
               <>
@@ -161,8 +176,8 @@ const FeedbackHeader = ({
               </>
             )}
           </SubjectTaskTypeContainer>
-        </LeftSection>
-      )}
+        )}
+      </LeftSection>
 
       <RightSection>
         {showResolvedToggle(setShowResolved)(

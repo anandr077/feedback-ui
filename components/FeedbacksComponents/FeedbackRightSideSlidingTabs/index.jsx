@@ -22,7 +22,6 @@ const FeedbackRightSideSlidingTabs = ({
         submission={submission}
         QuestionIndex={QuestionIndex}
         questionPanelOpen={handleRightSidebarClick}
-        methods={methods}
       />
       <CriteriaAndOverallFeedback
         handleClose={handleRightSidebarClick}

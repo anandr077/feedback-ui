@@ -136,7 +136,7 @@ function AnswersFrame(props) {
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
-    (comment) => comment.type === 'COMMENT' || comment.type === 'MODEL_RESPONSE'
+    (comment) => comment.type !== 'FOCUS_AREA'
   );
   const focusAreaComments = comments?.filter(
     (comment) => comment.type === 'FOCUS_AREA'

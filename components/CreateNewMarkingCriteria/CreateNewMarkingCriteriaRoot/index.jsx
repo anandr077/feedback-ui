@@ -78,6 +78,27 @@ export default function CreateNewMarkingCriteriaRoot(props) {
     setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
   };
 
+
+    const addLevelInBetween = (criteriaId,levelId) => {
+      const newLevel = {
+        id: markingCriterias.criterias[criteriaId].levels.length,
+        name: '',
+        description: '',
+      };
+      const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+        if (index === criteriaId) {
+          const newLevels = [...criteria.levels];
+          newLevels.splice(levelId + 1, 0, newLevel); 
+          return {
+            ...criteria,
+            levels: newLevels,
+          };
+        }
+        return criteria;
+      });
+      setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    };
+
   const deleteLevel = (criteriaId, levelId) => {
     const newCriterias = markingCriterias.criterias.map((criteria, index) => {
       if (index === criteriaId) {
@@ -285,6 +306,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             addCriteria,
             addLevel,
             deleteLevel,
+            addLevelInBetween,
             deleteCriteria,
             updateCriteriaTitle,
             updateLevelName,
@@ -306,6 +328,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             addCriteria,
             addLevel,
             deleteLevel,
+            addLevelInBetween,
             deleteCriteria,
             updateCriteriaTitle,
             updateLevelName,
@@ -327,6 +350,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             addCriteria,
             addLevel,
             deleteLevel,
+            addLevelInBetween,
             deleteCriteria,
             updateCriteriaTitle,
             updateLevelName,

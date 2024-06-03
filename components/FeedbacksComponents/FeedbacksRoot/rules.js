@@ -7,15 +7,19 @@ export const isShowCommentInstructions = (
   if (isShowingNewCommentDialogue) {
     return false;
   }
-  if(!isFeedback){
+  if (!isFeedback) {
     return false;
   }
   return pageMode === 'REVIEW' && nbComments === 0;
 };
 
-export const isShowFocusAreaInstructions = (pageMode, nbComments, isFocusAreas) => {
-  if(!isFocusAreas){
-    return
+export const isShowFocusAreaInstructions = (
+  pageMode,
+  nbComments,
+  isFocusAreas
+) => {
+  if (!isFocusAreas) {
+    return;
   }
   return pageMode === 'DRAFT' && nbComments === 0;
 };
@@ -24,19 +28,20 @@ export const isShowCommentsAndFocusAreasTab = (pageMode, submissionType) => {
   return pageMode !== 'DRAFT' && submissionType !== 'DOCUMENT';
 };
 
+export const isShowCommentBanks = (commentBanks) => {
+  return commentBanks.length > 0;
+};
 
-
-export const isShowCommentBanks = (commentBanks) =>{
-  return commentBanks.length > 0
-}
-
-export const isShareWithClass = (role) =>{
-  return role !== 'STUDENT'
-}
-
+export const isShareWithClass = (role) => {
+  return role !== 'STUDENT';
+};
 
 export const isAllowGiveMarkingCriteriaFeedback = (pageMode) => {
   return pageMode === 'REVIEW';
+};
+
+export const isShowFeedbackBy = (name) => {
+  return name !== null;
 };
 
 export const isShowStudentDropdownInHeader = (isTeacher, submissionType, pageMode) =>{

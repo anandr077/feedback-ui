@@ -38,3 +38,15 @@ export const isShareWithClass = (role) =>{
 export const isAllowGiveMarkingCriteriaFeedback = (pageMode) => {
   return pageMode === 'REVIEW';
 };
+
+export const isShowStudentDropdownInHeader = (isTeacher, submissionType, pageMode) =>{
+   return isTeacher && submissionType === "SUBMISSION" && (pageMode === 'REVIEW' || pageMode === 'CLOSED')
+}
+
+export const isShowTitleInHeader = (submissionType, role) =>{
+  return submissionType === "SUBMISSION" && role !== 'TEACHER'
+}
+
+export const isSubjectTaskType = (submissionType) =>{
+  return submissionType === "DOCUMENT"
+}

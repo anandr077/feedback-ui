@@ -567,7 +567,6 @@ function answersAndFeedbacks(
         setShowTeacherPopUp
       )} */}
       <FeedbackHeader
-        methods={methods}
         submission={submission}
         setSubmission={setSubmission}
         pageMode={pageMode}

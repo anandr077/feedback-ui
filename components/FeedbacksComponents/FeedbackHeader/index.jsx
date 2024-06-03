@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   FeedbackHeaderContainer,
   LeftSection,
@@ -50,9 +50,9 @@ import PopupDialogueBox from '../../../components2/PopupDialogueBox';
 import DropdownWithRoundedTick from '../../../components2/DropdownWithRoundedTick';
 import ToggleSwitchWithTwoOptions from '../../../components2/ToggleSwitchWithTwoOptions';
 import ToggleSwitchWithOneOption from '../../../components2/ToggleSwitchWithOneOption';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 const FeedbackHeader = ({
-  methods,
   submission,
   setSubmission,
   pageMode,
@@ -72,13 +72,14 @@ const FeedbackHeader = ({
   handleTabUpdate,
   setShowResolved,
   isShowResolved,
-  commentsForSelectedTab
+  commentsForSelectedTab,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
   const [isShowSelectType, setShowSelectType] = useState();
   const [openEditDialogue, setOpenEditDialogue] = useState();
-  const { showSnackbar } = React.useContext(SnackbarContext);
+  const { showSnackbar } = useContext(SnackbarContext);
+  const { methods, isResetEditorTextSelection } = useContext(FeedbackContext);
   const history = useHistory();
   const location = useLocation();
 
@@ -95,15 +96,16 @@ const FeedbackHeader = ({
   }, [location, studentsList]);
 
   const handlePrevious = () => {
+    isResetEditorTextSelection();
     setSelectedIndex((prevIndex) => {
       const newIndex = prevIndex >= studentsList.length - 1 ? 0 : prevIndex + 1;
-      console.log('the newIndex num is', newIndex);
       handleQuestionClick(newIndex);
       return newIndex;
     });
   };
 
   const handleNext = () => {
+    isResetEditorTextSelection();
     setSelectedIndex((prevIndex) => {
       const newIndex = prevIndex <= 0 ? studentsList.length - 1 : prevIndex - 1;
       handleQuestionClick(newIndex);
@@ -112,13 +114,10 @@ const FeedbackHeader = ({
   };
 
   const handleQuestionClick = (index) => {
+    isResetEditorTextSelection();
     setSelectedIndex(index);
     const newUrl = `/submissions/${studentsList[index]?.submissionId}`;
     history.push(newUrl);
-  };
-
-  const handleResolvedCommentToggle = () => {
-    console.log('Toggle switch is now');
   };
 
   return (

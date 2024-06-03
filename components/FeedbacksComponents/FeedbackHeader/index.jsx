@@ -44,7 +44,7 @@ import {
   isShowCommentsAndFocusAreasTab,
   isShowStudentDropdownInHeader,
   isShowTitleInHeader,
-  isSubjectTaskType,
+  isShowSubjectTaskType,
 } from '../FeedbacksRoot/rules';
 import PopupDialogueBox from '../../../components2/PopupDialogueBox';
 import DropdownWithRoundedTick from '../../../components2/DropdownWithRoundedTick';
@@ -147,7 +147,7 @@ const FeedbackHeader = ({
         {isShowTitleInHeader(submission.type, getUserRole()) && (
           <TaskTitle>{submission?.assignment?.title}</TaskTitle>
         )}
-        {isSubjectTaskType(submission.type) && (
+        {isShowSubjectTaskType(submission.type) && (
           <SubjectTaskTypeContainer>
             {submission.assignment.subject && (
               <>

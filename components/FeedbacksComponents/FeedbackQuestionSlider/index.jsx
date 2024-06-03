@@ -13,7 +13,6 @@ const FeedbackQuestionSlider = ({
     setNewCommentSerialNumber,
     setSelectedRange,
     setSelectedText,
-    quillRefs,
     setShowFloatingDialogue,
     methods
   } = React.useContext(FeedbackContext);
@@ -21,7 +20,6 @@ const FeedbackQuestionSlider = ({
   const handlePreviousQuestion = () => {
     if (QuestionIndex === 0) return;
     setShowFloatingDialogue(false);
-
     setNewCommentSerialNumber(0);
     setSelectedRange(null);
     setSelectedText(null);
@@ -32,7 +30,6 @@ const FeedbackQuestionSlider = ({
   const handleNextQuestion = () => {
     if (QuestionIndex === questions.length - 1) return;
     setShowFloatingDialogue(false);
-
     setNewCommentSerialNumber(0);
     setSelectedRange(null);
     setSelectedText(null);

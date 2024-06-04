@@ -80,7 +80,7 @@ const CriteriaAndOverallFeedback = ({
   const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
   const [selectedStrengthId, setSelectedStrengthId] = useState(0);
   const [selectedStrengths, setSelectedStrengths] = useState([{}]);
-  const [selectedTarget, setSelectedTarget] = useState([{}]);
+  const [selectedTargets, setSelectedTargets] = useState([{}]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
 
@@ -101,7 +101,7 @@ const CriteriaAndOverallFeedback = ({
         markingCriteriaFeedback[QuestionIndex]?.markingCriteria
           ?.selectedStrengths
       );
-      setSelectedTarget(
+      setSelectedTargets(
         markingCriteriaFeedback[QuestionIndex]?.markingCriteria?.selectedTargets
       );
     }
@@ -115,47 +115,27 @@ const CriteriaAndOverallFeedback = ({
 
   const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {
     let seletedItem = strengthsAndTargets[type][index];
+
     if (type === 'strengths') {
-      if (selectedStrengthId === 0) {
-        let selectedStrengthNew = {
-          id: selectedStrengthId,
-          name: seletedItem,
-          type: 'strengths',
-          heading: strengthsAndTargets.title,
-        };
-        setSelectedStrengths([
-          ...selectedStrengths?.filter(
-            (selectedStrength) => selectedStrength.id !== selectedStrengthNew.id
-          ),
-          selectedStrengthNew,
-        ]);
-        handleStrengthsTargetsFeedback(
-          QuestionIndex + 1,
-          selectedStrengthId,
-          selectedStrengthNew
-        );
-        setSelectedStrengthId(1);
-      }
-      if (selectedStrengthId === 1) {
-        let selectedStrengthNew = {
-          id: selectedStrengthId,
-          name: seletedItem,
-          type: 'strengths',
-          heading: strengthsAndTargets.title,
-        };
+      let selectedStrengthNew = {
+        id: selectedStrengths.length + 1,
+        name: seletedItem,
+        type: 'strengths',
+        heading: strengthsAndTargets.title,
+      };
+      if (
+        selectedStrengths.find((stre) => stre.name === selectedStrengthNew.name)
+      ) {
         setSelectedStrengths([
           ...selectedStrengths.filter(
-            (selectedStrength) => selectedStrength.id !== selectedStrengthNew.id
+            (selectedStrength) =>
+              selectedStrength.name != selectedStrengthNew.name
           ),
-          selectedStrengthNew,
         ]);
-        handleStrengthsTargetsFeedback(
-          QuestionIndex + 1,
-          selectedStrengthId,
-          selectedStrengthNew
-        );
-        setSelectedStrengthId(0);
+      } else {
+        setSelectedStrengths([...selectedStrengths, selectedStrengthNew]);
       }
+      handleStrengthsTargetsFeedback(QuestionIndex + 1, 1, selectedStrengthNew);
     }
     if (type === 'targets') {
       let selectedTargetNew = {
@@ -164,7 +144,18 @@ const CriteriaAndOverallFeedback = ({
         type: 'targets',
         heading: strengthsAndTargets.title,
       };
-      setSelectedTarget([selectedTargetNew]);
+
+      if (
+        selectedTargets.find((target) => target.name === selectedTargetNew.name)
+      ) {
+        setSelectedTargets([
+          ...selectedTargets.filter(
+            (selectedTarget) => selectedTarget.name != selectedTargetNew.name
+          ),
+        ]);
+      } else {
+        setSelectedTargets([...selectedTargets, selectedTargetNew]);
+      }
       handleStrengthsTargetsFeedback(QuestionIndex + 1, 2, selectedTargetNew);
     }
   };
@@ -273,7 +264,7 @@ const CriteriaAndOverallFeedback = ({
                                             )
                                           }
                                           bgColor={isStringPresent(
-                                            selectedTarget,
+                                            selectedTargets,
                                             'name',
                                             strengthsAndTargets.targets[index]
                                           )}
@@ -349,7 +340,7 @@ const CriteriaAndOverallFeedback = ({
                                       {strengthsAndTargets.targets[index] && (
                                         <TargetContainer
                                           bgColor={isStringPresent(
-                                            selectedTarget,
+                                            selectedTargets,
                                             'attribute',
                                             strengthsAndTargets.targets[index]
                                           )}

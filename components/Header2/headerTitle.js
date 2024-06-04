@@ -13,13 +13,13 @@ export const headerTitle = [
   {
     link: '/giveFeedback',
     title: 'Give Feedback',
-    teacherTooltip: '',
+    teacherTooltip: 'Provide personalized feedback',
     studentTooltip:
       'Help other students who have requested feedback from the community',
   },
   {
     link: '/sharedresponses',
-    title: 'Shared Responses',
+    title: 'Model Responses',
     teacherTooltip: '',
     studentTooltip:
       'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
@@ -27,7 +27,7 @@ export const headerTitle = [
   {
     link: '/settings',
     title: ' Marking Templates',
-    teacherTooltip: '',
+    teacherTooltip: 'A library of customisable marking templates that can be used for any new task',
     studentTooltip:
       'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
   },
@@ -47,21 +47,25 @@ export const headerTitle = [
   },
   {
     link: '/completed',
-    title: 'Completed',
+    title: 'Completed Tasks',
     teacherTooltip: '',
     studentTooltip: 'View all of the tasks that you have marked as complete',
   },
   {
     link: '/classes',
-    title: 'Class Insights',
+    //title: 'Class Insights',
+    teacherTooltip: 'View detailed analytics for each class and student',
+  },
+  {
+    link: '/submissions',
     teacherTooltip: '',
     studentTooltip: 'View all of the tasks that you have marked as complete',
   },
   {
     link: '/markingTemplates/strengths-and-targets',
     title: 'Marking Templates',
-    teacherTooltip: '',
-    studentTooltip: 'View all of the tasks that you have marked as complete',
+    teacherTooltip: 'A library of customisable marking templates that can be used for any new task',
+    //studentTooltip: 'View all of the tasks that you have marked as complete',
   },
   {
     link: '/markingTemplates/rubrics',
@@ -73,17 +77,15 @@ export const headerTitle = [
     link: '/tasks/new',
     title: 'Create task',
     teacherTooltip: '',
-    studentTooltip: 'View all of the tasks that you have marked as complete',
   },
   {
     link: '/commentbanks',
     title: 'Comment Banks',
-    teacherTooltip: '',
-    studentTooltip: 'View all of the tasks that you have marked as complete',
+    teacherTooltip: "A customisable bank of comments to provide faster feedback when making a student's work",
   },
   {
     link: '/documents/',
-    title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
+    //title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
     teacherTooltip: '',
     studentTooltip: '',
   },

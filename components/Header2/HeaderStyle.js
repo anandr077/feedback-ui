@@ -49,10 +49,12 @@ export const TitleMain = styled.h1`
   font-family: IBM Plex Sans;
   font-size: 19px;
   font-weight: 400;
+  font-weight: ${props => props.darkBackground ? '500' : '400'};
   line-height: 24.7px;
   letter-spacing: -0.01em;
   text-align: left;
-  color: #7b7382;
+  color: ${props => props.darkBackground ? '#4b464f' : '#7b7382'};
+  cursor: ${props => props.darkBackground ? 'default' : 'pointer'};
 `;
 
 export const RightSide = styled.div`

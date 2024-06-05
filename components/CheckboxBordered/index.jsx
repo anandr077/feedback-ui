@@ -15,7 +15,7 @@ const StyledCheckbox = styled(Checkbox)`
     }
     &.Mui-checked:not(:hover) {
       color: var(--light-mode-purple);
-      background-color: #ffffff;
+      background-color: transparent;
     }
     &:hover:not(.Mui-disabled) {
       background-color: rgba(0, 0, 0, 0.04) !important;

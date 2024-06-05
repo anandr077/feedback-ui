@@ -7,7 +7,7 @@ export const Frame1329 = styled.div`
   gap: 18px;
   position: relative;
   width: 293px;
-  margin: 20px 20px 20px 60px;
+  margin: 0px 20px 20px 60px;
   z-index: 100;
 `;
 
@@ -105,8 +105,8 @@ export const ExemplarComponent = styled.div`
 export const OptionContainer = styled.div`
   width: 40px;
   position: absolute;
-  top: 20px;
-  left: 0px;
+  top: 0px;
+  left: 10px;
   height: fit-content;
   display: flex;
   flex-direction: column;

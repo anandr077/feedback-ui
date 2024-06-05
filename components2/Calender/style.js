@@ -80,6 +80,7 @@ export const StyledCalendar = styled(Calendar)`
     letter-spacing: 0em;
     text-align: left;
     color: #a6a6a6;
+    pointer-events: none !important;
   }
 
   .rbc-date-cell{
@@ -100,18 +101,19 @@ export const StyledCalendar = styled(Calendar)`
     padding: 2px 0px;
   }
 
- .rbc-now.rbc-current .rbc-button-link{
-  background-color: var(--light-mode-purple) !important;
-  border-radius: 50%;
-  height: 18px;
-  width: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  color: white;
-  font-size: 10px !important;
- }
+  .rbc-now.rbc-current .rbc-button-link {
+    background-color: var(--light-mode-purple) !important;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    font-size: 10px !important;
+    pointer-events: none !important;
+  }
 
   .rbc-time-view .rbc-header {
     display: flex;

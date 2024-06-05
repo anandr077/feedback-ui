@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { cloneDeep, get, set } from 'lodash';
+import { cloneDeep, get, has, set, unset } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -186,8 +186,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, [id]);
 
   const commentBankIds = submission?.assignment?.questions
-  .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
-   .map((q) => q.commentBankId);
+    .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
+    .map((q) => q.commentBankId);
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
@@ -607,7 +607,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
-
   console.log('the page mode is', pageMode);
   console.log('the submission is', submission);
 
@@ -936,8 +935,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
     return false;
   }
-  function convertToSelectedAttribute(selectedArray) {
-    return selectedArray?.map((item, index) => ({
+  function convertToSelectedAttribute(selectedObject) {
+    let arr = Object.values(selectedObject);
+    return arr?.map((item, index) => ({
       index,
       criteria: item.label,
       attribute: item.value.name,
@@ -1460,8 +1460,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       let newState = cloneDeep(prevState);
       let path = `${questionSerialNumber}.${
         criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
-      }[${criteriaIndex}]`;
-      newState = set(newState, path, { label, value });
+      }[${value.name}]`;
+      if (has(newState, path)) {
+        newState = unset(newState, path);
+      } else {
+        newState = set(newState, path, { label, value });
+      }
       return newState;
     });
   };
@@ -1512,13 +1516,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
-  const isResetEditorTextSelection = () =>{
+  const isResetEditorTextSelection = () => {
     setShowFloatingDialogue(false);
     setNewCommentSerialNumber(0);
     setSelectedRange(null);
     setSelectedText(null);
     setShowNewComment(false);
-  }
+  };
 
   const methods = {
     comments,
@@ -1583,7 +1587,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setNewCommentSerialNumber,
         setSelectedRange,
         setSelectedText,
-        isResetEditorTextSelection
+        isResetEditorTextSelection,
       }}
     >
       {showSubmitPopup &&

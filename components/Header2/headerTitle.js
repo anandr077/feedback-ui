@@ -4,6 +4,11 @@ const role = getUserRole();
 
 export const headerTitle = [
   {
+    link: '/tasks/new',
+    title: 'Create task',
+    teacherTooltip: 'Follow the steps provided to design the perfect task for your classes'
+  },
+  {
     link: '/tasks',
     title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
     teacherTooltip:
@@ -72,11 +77,6 @@ export const headerTitle = [
     title: 'Marking Templates',
     teacherTooltip: '',
     studentTooltip: 'View all of the tasks that you have marked as complete',
-  },
-  {
-    link: '/tasks/new',
-    title: 'Create task',
-    teacherTooltip: '',
   },
   {
     link: '/commentbanks',

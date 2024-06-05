@@ -341,7 +341,7 @@ function reviewerNewComment(
             {isShowCommentBanks(allCommentBanks) && (
               <CommentBoxContainer>
                 <ModalHeading>
-                  <h1>Comment Banks</h1>
+                  <h1>Comment Bank</h1>
                 </ModalHeading>
                 <ModalForSelectOption
                   onClose={setShowFloatingDialogue}

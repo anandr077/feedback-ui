@@ -124,7 +124,7 @@ const CommentBox = ({
     return acc + cur.height;
   }, 0);
 
-  console.log('teh selectedComment', selectedComment);
+
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (

@@ -55,3 +55,10 @@ export const isShowTitleInHeader = (submissionType, role) =>{
 export const isShowSubjectTaskType = (submissionType) =>{
   return submissionType === "DOCUMENT"
 }
+
+export const isShowFullCommentBankText = (comment, selectedComment) =>{
+  if(selectedComment){
+    return comment.id === selectedComment.id
+  }
+  return false;
+}

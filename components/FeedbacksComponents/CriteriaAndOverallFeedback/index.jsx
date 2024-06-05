@@ -410,7 +410,15 @@ const CriteriaAndOverallFeedback = ({
             <MarkingCriteriaMainHeading>
               Marking Criteria
             </MarkingCriteriaMainHeading>
-            <Text>Click below to complete your selected marking template</Text>
+            {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
+              <Text>
+                Click 'Expand' to provide Marking Criteria based feedback
+              </Text>
+            ) : (
+              <Text>
+                Click 'Expand' to see Marking Criteria based feedback
+              </Text>
+            )}
           </MarkingCriteriaMainHeadingContainer>
           <MarkingCriteriaContainer>
             <MarkingCriteriaHeadingContainer>

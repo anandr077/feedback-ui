@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
-import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
 import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
-import AccountSettingsMarkingCriteriaLapto from '../AccountSettingsMarkingCriteriaLapto';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
@@ -88,6 +86,7 @@ export default function AccountSettingsRoot(props) {
   const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] =
     React.useState('');
+  const mobileView = isMobileView();
 
   const shortCutsQuery = useQuery({
     queryKey: ['shortCuts'],
@@ -476,15 +475,6 @@ export default function AccountSettingsRoot(props) {
   const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(true);
   const [showShortcuts, setShowShortcuts] = React.useState(false);
 
-  const sidebarNav = (
-    <SettingsNav
-      setShowMarkingCriteria={setShowMarkingCriteria}
-      setShowShortcuts={setShowShortcuts}
-      showMarkingCriteria={showMarkingCriteria}
-      showShortcuts={showShortcuts}
-    />
-  );
-
   if (
     feedbackBankQuery.isLoading ||
     shortCutsQuery.isLoading ||
@@ -585,113 +575,39 @@ export default function AccountSettingsRoot(props) {
       {isShowNewBankPopUp && (
         <NewBankPopContainer setShowNewBankPopUp={setShowNewBankPopUp} />
       )}
-      <ReactiveRender
-        mobile={
-          <AccountSettingsMarkingCriteriaTable
-            {...{
-              ...accountSettingsMarkingCriteriaTableData,
-              markingCriteriaList,
-              smartAnnotationsFrame,
-              createSmartAnnotationHandler,
-              setShowMarkingCriteria,
-              setShowShortcuts,
-              showMarkingCriteria,
-              showShortcuts,
-              setOpenMarkingMethodologyDialog,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              setOpenMarkingMethodologyDialog,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
-        tablet={
-          <AccountSettingsMarkingCriteriaDeskt
-            {...{
-              ...accountSettingsMarkingCriteriaDesktData,
-              markingCriteriaList,
-              createSmartAnnotationHandler,
-              smartAnnotationsFrame,
-              createFeedbackBank,
-              sidebarNav,
-              showMarkingCriteria,
-              showShortcuts,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              setOpenMarkingMethodologyDialog,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
-        laptop={
-          <AccountSettingsMarkingCriteriaDeskt
-            {...{
-              ...accountSettingsMarkingCriteriaDesktData,
-              markingCriteriaList,
-              createSmartAnnotationHandler,
-              smartAnnotationsFrame,
-              createFeedbackBank,
-              sidebarNav,
-              showMarkingCriteria,
-              showShortcuts,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              setOpenMarkingMethodologyDialog,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
-        desktop={
-          <AccountSettingsMarkingCriteriaDeskt
-            {...{
-              ...accountSettingsMarkingCriteriaDesktData,
-              markingCriteriaList,
-              createSmartAnnotationHandler,
-              smartAnnotationsFrame,
-              createFeedbackBank,
-              sidebarNav,
-              showMarkingCriteria,
-              showShortcuts,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              setOpenMarkingMethodologyDialog,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
-      />
+      {mobileView ? (
+        <AccountSettingsMarkingCriteriaTable
+          {...{
+            ...accountSettingsMarkingCriteriaTableData,
+            markingCriteriaList,
+            smartAnnotationsFrame,
+            createSmartAnnotationHandler,
+            setShowMarkingCriteria,
+            setShowShortcuts,
+            showMarkingCriteria,
+            showShortcuts,
+            setOpenMarkingMethodologyDialog,
+            smartAnnotations,
+            setFeedbackBankId,
+            feedbackBankId,
+            setOpenMarkingMethodologyDialog,
+            UpdateSmartBankTitleHandler,
+            deteteFeedbackBank,
+            createCloneFeedbankBank,
+            setShowNewBankPopUp,
+            feedbackBankCreated,
+            setFeedbackBankCreated,
+            emptyFeedbackBank,
+            setSmartAnnotationeditIndex,
+          }}
+        />
+      ) : (
+        <AccountSettingsMarkingCriteriaDeskt
+          {...{
+            markingCriteriaList,
+          }}
+        />
+      )}
       {openMarkingMethodologyDialog && (
         <MarkingMethodologyDialog
           setOpenMarkingMethodologyDialog={setOpenMarkingMethodologyDialog}

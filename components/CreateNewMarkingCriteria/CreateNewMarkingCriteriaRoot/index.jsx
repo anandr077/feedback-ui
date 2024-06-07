@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop';
-import CreateNewMarkingCriteriaTablet from '../CreateNewMarkingCriteriaTablet';
-import CreateNewMarkingCriteriaLaptop from '../CreateNewMarkingCriteriaLaptop';
 import CreateNewMarkingCriteriaMobile from '../CreateNewMarkingCriteriaMobile';
-import ReactiveRender from '../../ReactiveRender';
-
+import  { isMobileView } from '../../ReactiveRender';
 import CriteriaContainer from '../CriteriaContainer';
 import {
   createNewMarkingCriteria,
@@ -29,6 +26,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
   const history = useHistory();
+  const mobileView = isMobileView();
 
   React.useEffect(() => {
     Promise.all([getAllMarkingCriteria()]).then(([result]) => {
@@ -78,26 +76,25 @@ export default function CreateNewMarkingCriteriaRoot(props) {
     setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
   };
 
-
-    const addLevelInBetween = (criteriaId,levelId) => {
-      const newLevel = {
-        id: markingCriterias.criterias[criteriaId].levels.length,
-        name: '',
-        description: '',
-      };
-      const newCriterias = markingCriterias.criterias.map((criteria, index) => {
-        if (index === criteriaId) {
-          const newLevels = [...criteria.levels];
-          newLevels.splice(levelId + 1, 0, newLevel); 
-          return {
-            ...criteria,
-            levels: newLevels,
-          };
-        }
-        return criteria;
-      });
-      setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+  const addLevelInBetween = (criteriaId, levelId) => {
+    const newLevel = {
+      id: markingCriterias.criterias[criteriaId].levels.length,
+      name: '',
+      description: '',
     };
+    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+      if (index === criteriaId) {
+        const newLevels = [...criteria.levels];
+        newLevels.splice(levelId + 1, 0, newLevel);
+        return {
+          ...criteria,
+          levels: newLevels,
+        };
+      }
+      return criteria;
+    });
+    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+  };
 
   const deleteLevel = (criteriaId, levelId) => {
     const newCriterias = markingCriterias.criterias.map((criteria, index) => {
@@ -282,8 +279,8 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   }
 
   return (
-    <ReactiveRender
-      mobile={
+    <>
+      {mobileView ? (
         <CreateNewMarkingCriteriaMobile
           {...{
             ...accountSettingsMarkingCriteriaCreat2Data,
@@ -297,8 +294,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             markingCriterias,
           }}
         />
-      }
-      tablet={
+      ) : (
         <CreateNewMarkingCriteriaDesktop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
@@ -319,52 +315,8 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             markingCriteriaId,
           }}
         />
-      }
-      laptop={
-        <CreateNewMarkingCriteriaDesktop
-          {...{
-            ...accountSettingsMarkingCriteriaCreat4Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            deleteLevel,
-            addLevelInBetween,
-            deleteCriteria,
-            updateCriteriaTitle,
-            updateLevelName,
-            updateLevelDescription,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-            markingCriteriaId,
-          }}
-        />
-      }
-      desktop={
-        <CreateNewMarkingCriteriaDesktop
-          {...{
-            ...accountSettingsMarkingCriteriaCreat4Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            deleteLevel,
-            addLevelInBetween,
-            deleteCriteria,
-            updateCriteriaTitle,
-            updateLevelName,
-            updateLevelDescription,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-            markingCriteriaId,
-          }}
-        />
-      }
-    />
+      )}
+    </>
   );
 }
 

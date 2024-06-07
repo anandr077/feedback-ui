@@ -1248,7 +1248,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       if(pageMode === 'REVIEW'){
         setShowNewComment(true);
       }
-      // setShowNewComment(true);
       
     }
   }
@@ -1259,11 +1258,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
   function highlightComment(color, div) {
-    // div.scrollIntoView({
-    //   behavior: 'smooth',
-    //   block: 'center',
-    //   inline: 'center',
-    // });
     setTimeout(() => {
       div.style.background = color ? color : '#FFFFFF';
       div.style.border = '1px solid #E5E5E5';

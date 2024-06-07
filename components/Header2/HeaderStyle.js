@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const MainContainer = styled.div`
   height: 68px;
@@ -42,7 +43,7 @@ export const Title = styled.h1`
   line-height: 24px;
   color: #4b464f;
 `;
-export const TitleMain = styled.h1`
+export const TitleMain = styled(Link)`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -53,6 +54,7 @@ export const TitleMain = styled.h1`
   line-height: 24.7px;
   letter-spacing: -0.01em;
   text-align: left;
+  text-decoration: none;
   color: ${props => props.darkBackground ? '#4b464f' : '#7b7382'};
   cursor: ${props => props.darkBackground ? 'default' : 'pointer'};
 `;
@@ -109,7 +111,6 @@ export const Account = styled.div`
 export const Screen = styled.div`
   height: ${(props) =>
     props.pageHeight ? props.pageHeight + 170 + 'px' : '0'};
-  //height: 100%;
   width: calc(100vw - 77px);
   position: absolute;
   top: 0;

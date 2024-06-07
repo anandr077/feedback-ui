@@ -58,7 +58,6 @@ export const headerTitle = [
   },
   {
     link: '/classes',
-    //title: 'Class Insights',
     teacherTooltip: 'View detailed analytics for each class and student',
   },
   {
@@ -70,7 +69,6 @@ export const headerTitle = [
     link: '/markingTemplates/strengths-and-targets',
     title: 'Marking Templates',
     teacherTooltip: 'A library of customisable marking templates that can be used for any new task',
-    //studentTooltip: 'View all of the tasks that you have marked as complete',
   },
   {
     link: '/markingTemplates/rubrics',
@@ -85,7 +83,6 @@ export const headerTitle = [
   },
   {
     link: '/documents/',
-    //title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
     teacherTooltip: '',
     studentTooltip: '',
   },

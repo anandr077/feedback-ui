@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   useHistory,
-  useLocation,
+  useLocation, 
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { getNotifications } from '../../service.js';
 import { getUserName, getUserRole } from '../../userLocalDetails.js';
@@ -28,7 +28,6 @@ import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import helpbarIcon from '../../static/img/helpgray24.svg';
 import addBtnIcon from '../../static/icons/gradient_add.svg';
 import notificationsIcon from '../../static/icons/notifications.svg';
-import accountIcon from '../../static/icons/mask-group-4@2x.png';
 import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLeftIconBtn';
 import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
@@ -37,7 +36,6 @@ import { headerTitle, headerTitleSub } from './headerTitle.js';
 import { Avatar } from '@boringer-avatars/react';
 import { headerMainTitle } from './headerMainTitle.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
-//import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
 
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -142,12 +140,6 @@ const Header = () => {
     new RegExp(`${item.link}`).test(location.pathname)
   );
 
-  const handleMainBreadcrumbClick = (homeLink) => {
-    if (homeLink) {
-      history.push(homeLink);
-    }
-  };
-
   return (
     <div
       ref={notificationBarRef}
@@ -164,7 +156,7 @@ const Header = () => {
           <TitleConatiner>
             <TitleMain
               darkBackground={!pageHeader.title}
-              onClick={() => handleMainBreadcrumbClick(pageMainHeader.homeLink)}
+              to={pageMainHeader.homeLink}
             >
               {pageMainHeader && pageMainHeader.title}
             </TitleMain>
@@ -190,7 +182,6 @@ const Header = () => {
           </TitleConatiner>
         </LeftSide>
         <RightSide>
-          {/* <Buttons link="#tasks/new" /> */}
           {role === 'TEACHER' && (
             <div
               style={{ borderRight: '2px solid #DADADA', paddingRight: '20px' }}
@@ -208,7 +199,6 @@ const Header = () => {
               src={notificationsIcon}
               onClick={handleNotificationClick}
             />
-            {/* <Account src={accountIcon} onClick={toggleDropDown} /> */}
             <Account onClick={toggleDropDown}>
               <Avatar
                 title={false}

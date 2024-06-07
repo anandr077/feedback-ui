@@ -343,9 +343,6 @@ function FeedbackTeacherLaptop(props) {
   function sidebar() {
     return (
       <>
-        {/* {isTeacher && submission.studentsSubmissions && (
-          <TeacherSidebar open={open} submission={submission} />
-        )} */}
         {!isNullOrEmpty(submission.otherDrafts) && (
           <IndepentdentUserSidebar
             open={open}
@@ -382,17 +379,6 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {/* {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) || submission.otherDrafts) && (
-          <DrawerArrow
-            onClick={handleDrawer}
-            drawerWidth={drawerWidth}
-            open={open}
-          >
-            <ImgContainer>
-              <ArrowImg src="img/anglerightgray3.svg" open={open} />
-            </ImgContainer>
-          </DrawerArrow>
-        )} */}
         {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
           submission.otherDrafts) && (
           <DrawerArrow
@@ -455,15 +441,6 @@ function loader(showLoader) {
   );
 }
 
-// function handleTabUpdate(pageMode, setFeedback, setFocusAreas) {
-//   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
-//     setFeedback(false);
-//     setFocusAreas(true);
-//   } else {
-//     setFeedback(true);
-//     setFocusAreas(false);
-//   }
-// }
 
 function createGroupedFocusAreas(submission) {
   const flattenedQuestions = flatMap(

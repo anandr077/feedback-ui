@@ -310,13 +310,7 @@ function FeedbackTeacherLaptop(props) {
           </Frame1388>
         </>
         <CountZoomContainer open={open} mobileView={isMobile}>
-          <div
-            style={
-              !submission.answers || submission.answers?.length <= 1
-                ? { visibility: 'visible' }
-                : { visibility: 'hidden' }
-            }
-          >
+          <div>
             {countWords} {countWords === 1 ? 'word' : 'words'}
           </div>
           <ZoomContianer>

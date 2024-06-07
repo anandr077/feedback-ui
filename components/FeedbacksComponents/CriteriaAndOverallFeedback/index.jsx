@@ -407,7 +407,7 @@ const CriteriaAndOverallFeedback = ({
               </Text>
             ) : (
               <Text>
-                Click 'Expand' to see Marking Criteria based feedback
+                Click 'Expand' to see Marking Criteria based feedback
               </Text>
             )}
           </MarkingCriteriaMainHeadingContainer>

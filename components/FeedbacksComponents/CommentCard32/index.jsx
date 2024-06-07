@@ -7,6 +7,8 @@ import {
   feedbacksIbmplexsansMediumBlack16px,
 } from '../../../styledMixins';
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
+import { truncateString } from '../../../components2/truncateString';
+import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
 
 function CommentCard32(props) {
   const {
@@ -221,37 +223,36 @@ function CommentCard32(props) {
   );
 
   function showComment() {
+    
+    
     if (editButtonActive && editCommentType === 'parent_comment') {
       return inputComment();
     } else {
       if (comment?.comment?.includes('\n\n')) {
         const commentArray = comment.comment.split('\n\n');
+        const commentBankTextLength = isShowFullCommentBankText(comment, selectedComment) ? commentArray[1]?.length : 70;
         return (
           <>
             <p>
               <BoldText>{commentArray[0]}</BoldText>
             </p>
-            <NewlineText text={commentArray[1]} />
+            <NewlineText text={truncateString(commentArray[1], commentBankTextLength)} />
           </>
         );
       } else {
-        const commentText = comment.comment;
-        const words = commentText?.split(' ');
-
-        if (!showFullComment && words?.length > 12) {
-          const truncatedText = words.slice(0, 12).join(' ');
+        const commentTextLength = isShowFullCommentBankText(comment, selectedComment) ? comment.comment?.length : 70;
+        if (!showFullComment && comment.comment?.length > 70) {
           return (
             <>
               <p>
-                <>{truncatedText}</>
-                <ReadMore onClick={() => setShowFullComment(true)}> Read more</ReadMore>
+                <>{truncateString(comment.comment, commentTextLength)}</>
               </p>
             </>
           );
         } else {
           return (
               <p>
-              {commentText}
+              {comment.comment}
               </p>
           );
         }
@@ -380,10 +381,6 @@ const ReplyCommentWrapper = styled.div`
   border-top: 1px solid #f1e6fc;
 `;
 
-const ReadMore = styled.div`
-  color: var(--light-mode-purple);
-  font-size: var(--font-size-s);
-`;
 
 const CommentDiv = styled.p`
   font-family: var(--font-family-ibm_plex_sans);

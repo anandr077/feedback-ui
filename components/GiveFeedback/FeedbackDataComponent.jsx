@@ -129,10 +129,10 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
                   ))}
                 </TagsContainer>
                 <WordsCount>{text.wordCount} words</WordsCount>
-                <MarkedLiked>
+                {/* <MarkedLiked>
                   <img src={Liked} />
                   You marked this feedback as helpful
-                </MarkedLiked>
+                </MarkedLiked> */}
               </WordsCountContainer>
             </TextContainer>
             <ButtonsContainer>

@@ -142,6 +142,12 @@ const Header = () => {
     new RegExp(`${item.link}`).test(location.pathname)
   );
 
+  const handleMainBreadcrumbClick = (homeLink) => {
+    if (homeLink) {
+      history.push(homeLink);
+    }
+  };
+
   return (
     <div
       ref={notificationBarRef}
@@ -156,8 +162,13 @@ const Header = () => {
       <MainContainer>
         <LeftSide>
           <TitleConatiner>
-            <TitleMain>{pageMainHeader && pageMainHeader.title}</TitleMain>
-            {pageMainHeader && <ArrowRightImg src={arrowRightMini} />}
+            <TitleMain
+              darkBackground={!pageHeader.title}
+              onClick={() => handleMainBreadcrumbClick(pageMainHeader.homeLink)}
+            >
+              {pageMainHeader && pageMainHeader.title}
+            </TitleMain>
+            {pageHeader.title && <ArrowRightImg src={arrowRightMini} />}
             <Title>
               <Title style={{ color: pageHeaderSub && '#7b7382' }}>
                 {pageHeader && pageHeader.title}

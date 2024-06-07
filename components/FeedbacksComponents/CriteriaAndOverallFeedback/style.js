@@ -33,13 +33,13 @@ export const Heading = styled.div`
   font-weight: 500;
   font-size: var(--font-size-l);
   line-height: 20px;
+  margin-top: 8px;
 `;
 
 export const Body = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 16px;
   gap: 8px;
   overflow-y: scroll;
   ::-webkit-scrollbar {
@@ -123,7 +123,7 @@ export const RubricButton = styled.button`
 `;
 
 export const OverallFeedbackContainer = styled.div`
-  padding: 16px;
+  padding: 0 16px;
   margin-bottom: 65px;
 `;
 
@@ -163,12 +163,14 @@ export const MarkingCriteriaContainer = styled.div`
   flex-direction: column;
   border: 1px solid #c9c6cc80;
   border-radius: 6px;
+  margin: 0 16px;
 `;
 export const MarkingCriteriaMainHeadingContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin: 16px;
 `;
 export const MarkingCriteriaMainHeading = styled.p`
   width: 100%;
@@ -187,6 +189,7 @@ export const MarkingCriteriaHeadingContainer = styled.div`
   width: 100%;
   padding: 12px 8px;
   background-color: #f2f1f3;
+  border-radius: 6px;
 `;
 
 export const MarkingCriteriaHeading = styled.p`

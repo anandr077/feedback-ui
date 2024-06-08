@@ -98,7 +98,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
   );
-  const [open, setOpen] = useState(false);
+  const [openLeftPanel, setOpenLefPanel] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 219;
@@ -218,7 +218,7 @@ function FeedbackTeacherLaptop(props) {
 
     const isStudentReviewRoute = documentReviewRoute && role === 'STUDENT';
 
-    setOpen(!isStudentReviewRoute && isOpen);
+    setOpenLefPanel(!isStudentReviewRoute && isOpen);
   }, [location.pathname]);
 
   const handleCheckboxChange = (serialNumber, focusAreaId) => {
@@ -247,7 +247,7 @@ function FeedbackTeacherLaptop(props) {
   }
 
   const handleDrawer = () => {
-    setOpen(!open);
+    setOpenLefPanel(!openLeftPanel);
   };
 
   return (
@@ -263,7 +263,7 @@ function FeedbackTeacherLaptop(props) {
             mobileView={isMobile}
             desktopView={isDesktop}
             drawerWidth={drawerWidth}
-            open={!location.pathname.includes('/submission') && open}
+            open={!location.pathname.includes('/submission') && openLeftPanel}
           >
             {answersAndFeedbacks(
               isMobile,
@@ -305,11 +305,12 @@ function FeedbackTeacherLaptop(props) {
               openRightPanel, 
               SetOpenRightPanel,
               QuestionIndex, 
-              setQuestionIndex
+              setQuestionIndex,
+              openLeftPanel
             )}
           </Frame1388>
         </>
-        <CountZoomContainer open={open} mobileView={isMobile}>
+        <CountZoomContainer open={openLeftPanel} mobileView={isMobile}>
           <div>
             {countWords} {countWords === 1 ? 'word' : 'words'}
           </div>
@@ -345,7 +346,7 @@ function FeedbackTeacherLaptop(props) {
       <>
         {!isNullOrEmpty(submission.otherDrafts) && (
           <IndepentdentUserSidebar
-            open={open}
+            open={openLeftPanel}
             subjects={submission.otherDrafts?.map((d) => ({
               id: d.submissionId,
               title: d.title,
@@ -365,7 +366,7 @@ function FeedbackTeacherLaptop(props) {
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
-            open={open}
+            open={openLeftPanel}
             subjects={submission.otherDrafts?.map((d) => ({
               id: d.submissionId,
               title: d.title,
@@ -384,10 +385,10 @@ function FeedbackTeacherLaptop(props) {
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
-            open={open}
+            open={openLeftPanel}
           >
             <ImgContainer>
-              <ArrowImg src="img/anglerightgray3.svg" open={open} />
+              <ArrowImg src="img/anglerightgray3.svg" open={openLeftPanel} />
             </ImgContainer>
           </DrawerArrow>
         )}
@@ -505,8 +506,8 @@ function answersAndFeedbacks(
   openRightPanel, 
   SetOpenRightPanel,
   QuestionIndex, 
-  setQuestionIndex
-
+  setQuestionIndex,
+  openLeftPanel
 ) {
 
   const handleRightSidebarClick = (tab) => {
@@ -558,6 +559,7 @@ function answersAndFeedbacks(
         setShowResolved={setShowResolved}
         isShowResolved={isShowResolved}
         commentsForSelectedTab={commentsForSelectedTab}
+        isLeftSidebarOpen={openLeftPanel}
       />
       {submission.type === 'SUBMISSION' &&
         submission.assignment.questions.length !== 0 && (

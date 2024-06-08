@@ -16,6 +16,8 @@ export const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  transform: ${props => props.moveToRight ? 'translateX(230px)' : 'translateX(0)'};
+  transition: transform 0.3s ease-in;
 `;
 
 export const SubjectTaskTypeContainer = styled.div`

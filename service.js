@@ -661,12 +661,11 @@ export const setLocalClasses = (classes) => {
 }
 
 export const getLocalClasses = () => {
-  // const localClasses = localStorage.getItem('classes');
-  // if (localClasses) {
-  //   return localClasses;
-  // }
-  // return Cookies.get('classes');
-  return null
+  const localClasses = localStorage.getItem('classes');
+  if (localClasses) {
+    return localClasses;
+  }
+  return Cookies.get('classes');
 }
 
 

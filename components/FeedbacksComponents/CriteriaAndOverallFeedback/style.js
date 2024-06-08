@@ -220,6 +220,7 @@ export const MarkRubricContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
+  width: 99%;
 `;
 export const MarkRubricTitleContainer = styled.div`
   display: flex;
@@ -306,7 +307,7 @@ export const StrengthsAndTargetsContainer = styled.div`
 export const StrengthsAndTargetsHeadingContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 99%;
   gap: 8px;
 `;
 export const StrengthsAndTargetsHeadingContainerDummy = styled.div`
@@ -433,6 +434,7 @@ export const PopupTitleContainer = styled(DialogTitle)`
   align-items: center !important;
   padding: 12px 8px !important;
   border: 0 0 1px 0;
+  border-radius: 6px 6px 0px 0px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   background: var(--color-neutral-alpha-80, #f2f1f380);
 `;

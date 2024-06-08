@@ -183,11 +183,13 @@ const CriteriaAndOverallFeedback = ({
               {markingCriteria?.type === 'RUBRICS'
                 ? 'Rubric'
                 : 'Strengths & Targets'}
-              <PopupSubTitle>
-                {markingCriteria?.type === 'RUBRICS'
-                  ? 'Mark the rubric for every criteria. Only one value can be selected in each criteria'
-                  : 'Mark the Strengths and Targets for every criteria. Multiple strength and target values can be selected for each criteria'}
-              </PopupSubTitle>
+              {isAllowGiveMarkingCriteriaFeedback(pageMode) && (
+                <PopupSubTitle>
+                  {markingCriteria?.type === 'RUBRICS'
+                    ? 'Mark the rubric for every criteria. Only one value can be selected in each criteria'
+                    : 'Mark the Strengths and Targets for every criteria. Multiple strength and target values can be selected for each criteria'}
+                </PopupSubTitle>
+              )}
             </PopupTitle>
             <PopupTitleImg
               onClick={() => setShowMarkingCrteriaPopUp(false)}

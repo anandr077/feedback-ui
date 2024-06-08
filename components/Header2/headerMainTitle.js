@@ -1,17 +1,21 @@
+import { getLocalClasses } from '../../service';
 import { getUserRole } from '../../userLocalDetails';
+import { isTeacherWithoutClass } from './rules';
 
 const role = getUserRole();
+const localClasses = getLocalClasses();
+const homeLink = isTeacherWithoutClass(role, localClasses) ? '/giveFeedback' : '/tasks';
 
 export const headerMainTitle = [
   {
     link: '/tasks',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
-    homeLink: '/tasks',
+    homeLink: homeLink,
   },
   {
     link: '/giveFeedback',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
-    homeLink: '/tasks',
+    homeLink: homeLink,
   },
   {
     link: '/exemplarResponses',
@@ -26,7 +30,7 @@ export const headerMainTitle = [
   {
     link: '/feedbackHistory',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
-    homeLink: '/tasks',
+    homeLink: homeLink,
   },
   {
     link: '/sharedresponses',
@@ -41,7 +45,6 @@ export const headerMainTitle = [
   {
     link: '/documents',
     title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
-    //homeLink: '/documents',
   },
   {
     link: '/classes',
@@ -79,6 +82,6 @@ export const headerMainTitle = [
   {
     link: '/',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
-    homeLink: '/tasks',
+    homeLink: homeLink,
   },
 ];

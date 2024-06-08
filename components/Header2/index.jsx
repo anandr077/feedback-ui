@@ -3,7 +3,7 @@ import {
   useHistory,
   useLocation, 
 } from 'react-router-dom/cjs/react-router-dom.min';
-import { getNotifications } from '../../service.js';
+import { getLocalClasses, getNotifications } from '../../service.js';
 import { getUserName, getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
@@ -36,6 +36,7 @@ import { headerTitle, headerTitleSub } from './headerTitle.js';
 import { Avatar } from '@boringer-avatars/react';
 import { headerMainTitle } from './headerMainTitle.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
+import { isTeacherWithClass } from './rules.js';
 
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -50,6 +51,7 @@ const Header = () => {
   const location = useLocation();
   const role = getUserRole();
   const name = getUserName();
+  const localClasses = getLocalClasses();
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -182,7 +184,7 @@ const Header = () => {
           </TitleConatiner>
         </LeftSide>
         <RightSide>
-          {role === 'TEACHER' && (
+          {isTeacherWithClass(role, localClasses) && (
             <div
               style={{ borderRight: '2px solid #DADADA', paddingRight: '20px' }}
             >

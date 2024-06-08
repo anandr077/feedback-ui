@@ -1,6 +1,11 @@
+import { getLocalClasses } from '../../service';
 import { getUserRole } from '../../userLocalDetails';
+import { isTeacherWithoutClass } from './rules';
 
 const role = getUserRole();
+const localClasses = getLocalClasses();
+const isExpert = isTeacherWithoutClass(role, localClasses);
+const homeTitle = isExpert ? 'Give Feedback' : 'Classwork';
 
 export const headerTitle = [
   {
@@ -88,7 +93,7 @@ export const headerTitle = [
   },
   {
     link: '/',
-    title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
+    title: role === 'TEACHER' ? homeTitle : 'Tasks',
     teacherTooltip:
       'View the status of every task that you have assigned for your classes',
     studentTooltip: 'View all of your current tasks from school',

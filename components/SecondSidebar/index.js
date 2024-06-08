@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { MainContainer, Button } from './style';
 import { useQuery } from '@tanstack/react-query';
-import { getCommunityTasks, getCompletedTasks, getTasks, getAssignments } from '../../service';
+import { getCommunityTasks, getCompletedTasks, getTasks, getAssignments, getLocalClasses } from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
@@ -14,6 +14,7 @@ import commentUnSelected from '../../static/img/commentUnSelected.svg';
 import markSelected from '../../static/img/markSelected.svg';
 import markUnSelected from '../../static/img/markUnSelected.svg';
 import { getUserRole } from '../../userLocalDetails';
+import { isActiveButton, isTeacherWithoutClass } from './rules';
 
 const SecondSidebar = ({ id }) => {
   const [containerHeight, setContainerHeight] = useState(0);
@@ -24,6 +25,8 @@ const SecondSidebar = ({ id }) => {
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
+  const localClasses = getLocalClasses();
+  const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
 
   useEffect(() => {
     Promise.all([getCompletedTasks(), getCommunityTasks(), getTasks(), getAssignments()]).then(
@@ -83,7 +86,7 @@ const SecondSidebar = ({ id }) => {
       title: `${
         role === 'STUDENT'
           ? `Help a Friend (${feedbackRequestsLength})`
-          : `Feedback From Me (${feedbackRequestsLength})`
+          : `Feedback From Me (${feedbackRequestsLength})`
       }`,
       link: '/giveFeedback',
       matchLink: '/giveFeedback',
@@ -98,7 +101,11 @@ const SecondSidebar = ({ id }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Feedback From Me`,
+      title: `${
+        role === 'STUDENT'
+          ? `Feedback From Me`
+          : `Feedback History`
+      }`,
       link: `/feedbackHistory`,
       matchLink: `/feedbackHistory`,
     },
@@ -132,7 +139,20 @@ const SecondSidebar = ({ id }) => {
     },
   ];
 
-  const subRoutes = [
+  const subRoutes = isTeacherNoClass ? [
+    {
+      link: '/giveFeedback',
+      subLinks: [subLinks[3], subLinks[5]],
+    },
+    {
+      link: '/feedbackHistory',
+      subLinks: [subLinks[3], subLinks[5]], 
+    },
+    {
+      link: '/',
+      subLinks: [subLinks[3], subLinks[5]], 
+    }
+  ] : [
     {
       link: '/',
       subLinks: [
@@ -218,17 +238,19 @@ const SecondSidebar = ({ id }) => {
             <React.Fragment key={idx}>
               {route.subLinks.map((subLink, subIdx) => {
                 if (
-                  (subLink.link === '/sharedresponses' ||
-                    subLink.link === '/feedbackHistory') &&
+                  (subLink.link === '/sharedresponses') &&
                   role === 'TEACHER'
                 ) {
                   return null;
                 }
+
+                const isActive = isActiveButton(subLink, location.pathname, isTeacherNoClass);
+
                 return (
                   <Button
                     key={subIdx}
                     onClick={() => handleButtonClick(subLink.link)}
-                    active={subLink.matchLink === location.pathname}
+                    active={isActive}
                   >
                     {subLink.icon && (
                       <img
@@ -255,3 +277,6 @@ const SecondSidebar = ({ id }) => {
 };
 
 export default SecondSidebar;
+
+
+

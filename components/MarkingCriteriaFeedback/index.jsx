@@ -5,9 +5,19 @@ import styled from 'styled-components';
 import { createMenuItems } from '../../features/strengthsTargets';
 import DropdownMenu from '../DropdownMenu';
 import { chain, set } from 'lodash';
-import './style.css';
 import '../MarkingCriteriaFeedbackReadOnly/markingcriteria.css';
+import './style.css';
 import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksComponents/FeedbacksRoot/rules';
+import {
+  CriteriaHeading,
+  CriteriaHeadingContainer,
+  CriteriaTable,
+  MarkingCriteriaBody,
+  MarkingCriteriaBodyRow,
+  MarkingCriteriaBodyRowContent,
+  MarkingCriteriaBodyRowHeading,
+  MarkingCriteriaBodyRowheading,
+} from './style';
 
 export default function MarkingCriteriaFeedback(props) {
   const {
@@ -78,7 +88,7 @@ export default function MarkingCriteriaFeedback(props) {
 
 const createRubricsHeading = (criterias) => {
   return criterias?.map((criteria) => {
-    return <td className="marking-criteria-column-width">{criteria?.title}</td>;
+    return <CriteriaHeading>{criteria?.title}</CriteriaHeading>;
   });
 };
 
@@ -112,14 +122,14 @@ const createRubricsLevels = (
       rowItems[item.criteriaIndex] = item;
     });
     return (
-      <tr className="marking-criteria-data-parent">
+      <MarkingCriteriaBody>
         {createRows(
           rowItems,
           handleMarkingCriteriaLevelFeedback,
           questionSerialNumber,
           pageMode
         )}
-      </tr>
+      </MarkingCriteriaBody>
     );
   });
 };
@@ -130,12 +140,11 @@ const createRows = (
   questionSerialNumber,
   pageMode
 ) => {
+  console.log('items', items);
   return items.map((item) => (
-    <td
+    <MarkingCriteriaBodyRow
+      selected={item?.selectedLevel}
       key={item?.levelName}
-      className={`marking-criteria-data marking-criteria-column-width${
-        item?.selectedLevel ? '-selected' : ''
-      }`}
       onClick={
         isAllowGiveMarkingCriteriaFeedback(pageMode)
           ? () =>
@@ -150,9 +159,13 @@ const createRows = (
         cursor: isAllowGiveMarkingCriteriaFeedback(pageMode) ? 'pointer' : '',
       }}
     >
-      <div className="marking-criteria-heading">{item?.levelName}</div>
-      <div className="marking-criteria-content">{item?.levelDescription}</div>
-    </td>
+      <MarkingCriteriaBodyRowHeading selected={item?.selectedLevel}>
+        {item?.levelName}
+      </MarkingCriteriaBodyRowHeading>
+      <MarkingCriteriaBodyRowContent selected={item?.selectedLevel}>
+        {item?.levelDescription}
+      </MarkingCriteriaBodyRowContent>
+    </MarkingCriteriaBodyRow>
   ));
 };
 
@@ -174,17 +187,17 @@ const rubricMarkingCriteriaComponent = (
   return (
     <>
       <MarkingCriteriaContainer1>
-        <table className="marking-criteria-parent-container">
-          <tr className="marking-criteria-title">
+        <CriteriaTable>
+          <CriteriaHeadingContainer>
             {createRubricsHeading(markingCriteria.criterias)}
-          </tr>
+          </CriteriaHeadingContainer>
           {createRubricsLevels(
             markingCriteria.criterias,
             handleMarkingCriteriaLevelFeedback,
             questionSerialNumber,
             pageMode
           )}
-        </table>
+        </CriteriaTable>
       </MarkingCriteriaContainer1>
     </>
   );

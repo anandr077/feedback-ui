@@ -219,23 +219,25 @@ export const MarkRubricsContainer = styled.div`
 export const MarkRubricContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 4px;
+  gap: 8px;
+  width: 99%;
 `;
 export const MarkRubricTitleContainer = styled.div`
   display: flex;
-  width: 20% !important;
+  width: 25% !important;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background: #fff;
+  background: var(--color-neutral-alpha-90, #c9c6cc80);
   padding: 8px;
   border-radius: 4px;
+  gap: 12px;
 `;
 export const MarkRubricTitle = styled.p`
-  color: #301b72;
+  color: #4b464f;
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 500;
   line-height: 24px;
 `;
 
@@ -288,35 +290,49 @@ export const MarkStrengthContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  width: 100%;
   &::-webkit-scrollbar {
     display: none;
   }
   background-color: #ffffff;
-  gap: 4px;
+  gap: 12px;
 `;
 
 export const StrengthsAndTargetsContainer = styled.div`
   display: flex;
-  width: 80%;
+  width: 75%;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+`;
+export const StrengthsAndTargetsHeadingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 99%;
+  gap: 8px;
+`;
+export const StrengthsAndTargetsHeadingContainerDummy = styled.div`
+  display: flex;
+  width: 25%;
+  border-radius: 4px;
+  padding: 8px;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 export const StrengthsAndTargetsContainerHeading = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
-  gap: 4px;
+  width: 75%;
+  gap: 8px;
 `;
 
 export const StrengthsAndTargetsContainerBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 `;
 export const StrengthsAndTargetsPart = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 4px;
+  gap: 8px;
 `;
 export const StrengthsContainer = styled.div`
   display: flex;
@@ -336,48 +352,53 @@ export const StrengthContainer = styled.div`
   padding: 8px;
   border-radius: 4px;
   color: #56515b;
-  background-color: ${(props) => (props.bgColor ? '#F1E6FC' : '#ffffff')};
+  border: ${(props) =>
+    props.bgColor ? '1px solid #C596F2' : '1px solid #c9c6cc80'};
+  background: ${(props) => (props.bgColor ? '#FBF7FE' : '#ffffff')};
   align-items: flex-start;
 `;
 export const Strength = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: ${(props) => (props.bgColor ? '500' : '400')};
   line-height: 24px;
   text-align: left;
-  color: #56515b;
+  color: ${(props) => (props.bgColor ? '#50009D' : '#56515B')};
 `;
 
 export const TargetContainer = styled.div`
   display: flex;
-  flex: 1 1 50%;
+  flex: 0 0 50%;
   background-color: #ffffff;
   padding: 8px;
   border-radius: 4px;
   color: #56515b;
-  background-color: ${(props) => (props.bgColor ? '#F1E6FC' : '#ffffff')};
+  border: ${(props) =>
+    props.bgColor ? '1px solid #C596F2' : '1px solid #c9c6cc80'};
+  background: ${(props) => (props.bgColor ? '#FBF7FE' : '#ffffff')};
   align-items: flex-start;
 `;
 export const Target = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: ${(props) => (props.bgColor ? '500' : '400')};
   line-height: 24px;
   text-align: left;
-  color: #56515b;
+  color: ${(props) => (props.bgColor ? '#50009D' : '#56515B')};
 `;
 
 export const TargetHeadingContainer = styled.div`
   display: flex;
-  flex: 1 1 50%;
+  flex: 0 0 50%;
   flex-direction: column;
   align-items: flex-start;
-  background: #fff;
+  background: #c9c6cc;
   padding: 8px;
   border-radius: 4px;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 export const TargetHeading = styled.p`
-  color: #1e252a;
+  color: #4b464f;
   font-family: IBM Plex Sans;
   font-size: 18px;
   font-weight: 500;
@@ -410,12 +431,17 @@ export const PopupContainer = styled.div`
 export const PopupTitleContainer = styled(DialogTitle)`
   display: flex;
   justify-content: space-between;
-  padding: 12px 8px;
+  align-items: center !important;
+  padding: 12px 8px !important;
   border: 0 0 1px 0;
+  border-radius: 6px 6px 0px 0px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   background: var(--color-neutral-alpha-80, #f2f1f380);
 `;
 export const PopupTitle = styled.p`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   font-family: IBM Plex Sans;
   font-size: 16px;
   font-weight: 500;
@@ -423,6 +449,14 @@ export const PopupTitle = styled.p`
   letter-spacing: -0.01em;
   text-align: left;
   color: var(--color-neutral-500, #4b464f);
+`;
+export const PopupSubTitle = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: left;
+  color: var(--color-neutral-300, #7b7382);
 `;
 
 export const PopupTitleImg = styled.img`
@@ -435,6 +469,7 @@ export const PopupDialogContentBox = styled(DialogContent)`
   display: flex;
   flex-direction: row;
   padding: 12px 12px 22px 12px !important;
+
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;

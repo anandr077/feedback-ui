@@ -36,6 +36,9 @@ import {
   MarkingCriteriaHeadingContainer,
   MarkingCriteriaMainHeadingContainer,
   TargetContainer,
+  PopupSubTitle,
+  StrengthsAndTargetsHeadingContainer,
+  StrengthsAndTargetsHeadingContainerDummy,
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
@@ -176,7 +179,18 @@ const CriteriaAndOverallFeedback = ({
       <PopupBackground>
         <PopupContainer>
           <PopupTitleContainer>
-            <PopupTitle>{markingCriteria.title}</PopupTitle>
+            <PopupTitle>
+              {markingCriteria?.type === 'RUBRICS'
+                ? 'Rubric'
+                : 'Strengths & Targets'}
+              {isAllowGiveMarkingCriteriaFeedback(pageMode) && (
+                <PopupSubTitle>
+                  {markingCriteria?.type === 'RUBRICS'
+                    ? 'Mark the rubric for every criteria. Only one value can be selected in each criteria'
+                    : 'Mark the Strengths and Targets for every criteria. Multiple strength and target values can be selected for each criteria'}
+                </PopupSubTitle>
+              )}
+            </PopupTitle>
             <PopupTitleImg
               onClick={() => setShowMarkingCrteriaPopUp(false)}
               src={closecircle}
@@ -196,6 +210,17 @@ const CriteriaAndOverallFeedback = ({
               <>
                 {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
                   <MarkStrengthContainer>
+                    <StrengthsAndTargetsHeadingContainer>
+                      <StrengthsAndTargetsHeadingContainerDummy></StrengthsAndTargetsHeadingContainerDummy>
+                      <StrengthsAndTargetsContainerHeading>
+                        <TargetHeadingContainer>
+                          <TargetHeading>Strengths</TargetHeading>
+                        </TargetHeadingContainer>
+                        <TargetHeadingContainer>
+                          <TargetHeading>Targets</TargetHeading>
+                        </TargetHeadingContainer>
+                      </StrengthsAndTargetsContainerHeading>
+                    </StrengthsAndTargetsHeadingContainer>
                     {markingCriteria?.strengthsTargetsCriterias?.map(
                       (strengthsAndTargets) => {
                         const maxLen = Math.max(
@@ -210,14 +235,6 @@ const CriteriaAndOverallFeedback = ({
                               </MarkRubricTitle>
                             </MarkRubricTitleContainer>
                             <StrengthsAndTargetsContainer>
-                              <StrengthsAndTargetsContainerHeading>
-                                <TargetHeadingContainer>
-                                  <TargetHeading>Strengths</TargetHeading>
-                                </TargetHeadingContainer>
-                                <TargetHeadingContainer>
-                                  <TargetHeading>Targets</TargetHeading>
-                                </TargetHeadingContainer>
-                              </StrengthsAndTargetsContainerHeading>
                               <StrengthsAndTargetsContainerBody>
                                 {Array.from({ length: maxLen }).map(
                                   (_, index) => (
@@ -245,7 +262,15 @@ const CriteriaAndOverallFeedback = ({
                                                 : '',
                                           }}
                                         >
-                                          <Strength>
+                                          <Strength
+                                            bgColor={isStringPresent(
+                                              selectedStrengths,
+                                              'name',
+                                              strengthsAndTargets.strengths[
+                                                index
+                                              ]
+                                            )}
+                                          >
                                             {
                                               strengthsAndTargets.strengths[
                                                 index
@@ -277,7 +302,13 @@ const CriteriaAndOverallFeedback = ({
                                                 : '',
                                           }}
                                         >
-                                          <Target>
+                                          <Target
+                                            bgColor={isStringPresent(
+                                              selectedTargets,
+                                              'name',
+                                              strengthsAndTargets.targets[index]
+                                            )}
+                                          >
                                             {strengthsAndTargets.targets[index]}
                                           </Target>
                                         </TargetContainer>
@@ -294,6 +325,17 @@ const CriteriaAndOverallFeedback = ({
                   </MarkStrengthContainer>
                 ) : (
                   <MarkStrengthContainer>
+                    <StrengthsAndTargetsHeadingContainer>
+                      <StrengthsAndTargetsHeadingContainerDummy></StrengthsAndTargetsHeadingContainerDummy>
+                      <StrengthsAndTargetsContainerHeading>
+                        <TargetHeadingContainer>
+                          <TargetHeading>Strengths</TargetHeading>
+                        </TargetHeadingContainer>
+                        <TargetHeadingContainer>
+                          <TargetHeading>Targets</TargetHeading>
+                        </TargetHeadingContainer>
+                      </StrengthsAndTargetsContainerHeading>
+                    </StrengthsAndTargetsHeadingContainer>
                     {markingCriteria?.strengthsTargetsCriterias?.map(
                       (strengthsAndTargets) => {
                         const maxLen = Math.max(
@@ -308,14 +350,6 @@ const CriteriaAndOverallFeedback = ({
                               </MarkRubricTitle>
                             </MarkRubricTitleContainer>
                             <StrengthsAndTargetsContainer>
-                              <StrengthsAndTargetsContainerHeading>
-                                <TargetHeadingContainer>
-                                  <TargetHeading>Strengths</TargetHeading>
-                                </TargetHeadingContainer>
-                                <TargetHeadingContainer>
-                                  <TargetHeading>Targets</TargetHeading>
-                                </TargetHeadingContainer>
-                              </StrengthsAndTargetsContainerHeading>
                               <StrengthsAndTargetsContainerBody>
                                 {Array.from({ length: maxLen }).map(
                                   (_, index) => (
@@ -328,7 +362,15 @@ const CriteriaAndOverallFeedback = ({
                                             strengthsAndTargets.strengths[index]
                                           )}
                                         >
-                                          <Strength>
+                                          <Strength
+                                            bgColor={isStringPresent(
+                                              selectedStrengths,
+                                              'attribute',
+                                              strengthsAndTargets.strengths[
+                                                index
+                                              ]
+                                            )}
+                                          >
                                             {
                                               strengthsAndTargets.strengths[
                                                 index
@@ -345,7 +387,13 @@ const CriteriaAndOverallFeedback = ({
                                             strengthsAndTargets.targets[index]
                                           )}
                                         >
-                                          <Target>
+                                          <Target
+                                            bgColor={isStringPresent(
+                                              selectedTargets,
+                                              'attribute',
+                                              strengthsAndTargets.targets[index]
+                                            )}
+                                          >
                                             {strengthsAndTargets.targets[index]}
                                           </Target>
                                         </TargetContainer>
@@ -406,9 +454,7 @@ const CriteriaAndOverallFeedback = ({
                 Click 'Expand' to provide Marking Criteria based feedback
               </Text>
             ) : (
-              <Text>
-                Click 'Expand' to see Marking Criteria based feedback
-              </Text>
+              <Text>Click 'Expand' to see Marking Criteria based feedback</Text>
             )}
           </MarkingCriteriaMainHeadingContainer>
           <MarkingCriteriaContainer>

@@ -291,6 +291,8 @@ export const PreviewButton = styled.div`
   background: #ffffff;
   border: 1px solid #7200e0;
   cursor: pointer;
+  height: 40px;
+  width: 115px;
   &:hover {
     background-color: #f9f5ff;
   }
@@ -322,11 +324,16 @@ export const RightContainer = styled.div`
 
 export const SaveButton = styled.div`
   display: flex;
+  height: 40px;
+  width: 150px;
   padding: 8px 12px 8px 12px;
   border-radius: 32px;
   gap: 4px;
   background: #7200e0;
   cursor: pointer;
+  &:hover {
+    background-color: rgba(80, 0, 157, 1);
+  }
 `;
 export const SaveButtonText = styled.p`
   font-family: IBM Plex Sans;

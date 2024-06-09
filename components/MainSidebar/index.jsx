@@ -11,25 +11,33 @@ import jeddaiIcon from '../../static/img/jeddaigray32.svg';
 import jeddaiIconIcon from '../../static/img/JeddAI-Icon-active.svg';
 import getfeedbackIcon from '../../static/img/getfeedback32gray.svg';
 import activeGetfeedbackIcon from '../../static/img/activeGetFeedback.svg';
-import myprogressIcon from '../../static/img/myprogressgray.svg';
 import ExitHub from '../../static/img/exithubgray26.svg';
 import {
   useHistory,
   useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
+import { getLocalClasses } from '../../service';
+import {
+  isNonSchoolStudent,
+  isTeacherWithClass,
+  isTeacherWithoutClass,
+} from './rules';
 
 const MainSidebar = () => {
   const history = useHistory();
   const location = useLocation();
   const role = getUserRole();
   const [isActive, setIsActive] = useState(() => (obj) => false);
+  const localClasses = getLocalClasses();
+  const isExpert = isTeacherWithoutClass(role, localClasses);
+  const homePageLink = isExpert ? '/giveFeedback' : '/tasks'
 
   const sideNavItems = [
-    {
+    !isNonSchoolStudent(role, localClasses) && {
       icon: taskIcon,
       activeIcon: activetaskIcon,
       name: `${role === 'STUDENT' ? 'School Work' : 'Tasks'}`,
-      link: '/tasks',
+      link: homePageLink,
       linksContainer: [
         '/tasks',
         '/completed',
@@ -39,14 +47,14 @@ const MainSidebar = () => {
         '/sharedresponses',
       ],
     },
-    {
+    isTeacherWithClass(role, localClasses) && {
       icon: classIcon,
       activeIcon: activeClassIcon,
       name: 'Class Insights',
       link: '/classes',
       linksContainer: ['/classes'],
     },
-    {
+    !isTeacherWithoutClass(role, localClasses) && {
       icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
       activeIcon: `${
         role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon
@@ -55,13 +63,7 @@ const MainSidebar = () => {
       link: '/getFeedback',
       linksContainer: ['/getFeedback', '/documents'],
     },
-    // {
-    //   icon: myprogressIcon,
-    //   activeIcon: myprogressIcon,
-    //   name: 'My Progress',
-    //   link: '/progress',
-    // },
-    {
+    isTeacherWithClass(role, localClasses) && {
       icon: settingIcon,
       activeIcon: activesettingIcon,
       name: 'Feedback Tools',
@@ -73,7 +75,7 @@ const MainSidebar = () => {
         '/commentbanks',
       ],
     },
-  ];
+  ].filter(Boolean);
 
   const handlePageRoute = (navLink) => {
     history.push(navLink);
@@ -104,32 +106,21 @@ const MainSidebar = () => {
         </a>
         <ul>
           {sideNavItems.map((navItem) => {
-            if (
-              (navItem.link === '/settings' ||
-                navItem.link === '/classes' ||
-                navItem.link === '/jeddai') &&
-              role === 'STUDENT'
-            ) {
-              return null;
-            }
-            if (navItem.link === '/progress' && role === 'TEACHER') {
-              return null;
-            }
-
-            return (
-              <li
-                key={navItem.link}
-                onClick={() => handlePageRoute(navItem.link)}
-              >
-                <img
-                  src={isActive(navItem) ? navItem.activeIcon : navItem.icon}
-                />
-                <span className={isActive(navItem) ? 'active' : ''}>
-                  {navItem.name}
-                </span>
-              </li>
-            );
-          })}
+            const active = isActive(navItem) || isExpert;
+              return (
+                <li
+                  key={navItem.link}
+                  onClick={() => handlePageRoute(navItem.link)}
+                >
+                  <img
+                    src={active ? navItem.activeIcon : navItem.icon}
+                  />
+                  <span className={active ? 'active' : ''}>
+                    {navItem.name}
+                  </span>
+                </li>
+              );
+            })}
         </ul>
       </SideNavbar>
       <SideBottom href="https://jeddle.com/my-courses/">

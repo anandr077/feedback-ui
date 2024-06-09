@@ -62,3 +62,4 @@ export const isShowFullCommentBankText = (comment, selectedComment) =>{
   }
   return false;
 }
+

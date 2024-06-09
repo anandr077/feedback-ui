@@ -151,7 +151,15 @@ const SecondSidebar = ({ id }) => {
     {
       link: '/',
       subLinks: [subLinks[3], subLinks[5]], 
-    }
+    },
+    {
+      link: '/settings',
+      subLinks: [subLinks[6], subLinks[7]],
+    },
+    {
+      link: '/commentbanks',
+      subLinks: [subLinks[6], subLinks[7]],
+    },
   ] : [
     {
       link: '/',

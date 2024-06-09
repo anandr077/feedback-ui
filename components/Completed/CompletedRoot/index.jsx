@@ -32,17 +32,14 @@ export default function CompletedRoot(props) {
     onAccept,
     onDecline,
     onAddToBookmark,
-    onRemoveFromBookmark
+    onRemoveFromBookmark,
   } = props;
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [favouriteResponse, setFavouriteResponse] = React.useState(false);
   const mobileView = isMobileView();
 
-  
-
   function filterAndSortData(obj, targetClassTitle, sortData) {
-   
     const dataArray = Object.entries(obj);
     const sortedArray = dataArray.sort((a, b) => {
       const dateA = new Date(a[0]);
@@ -65,20 +62,18 @@ export default function CompletedRoot(props) {
       });
     }
 
-    if(favouriteResponse){
+    if (favouriteResponse) {
       Object.keys(sortedData).forEach((date) => {
-        const filteredObjects = sortedData[date].filter(
-          (item) => {
-            const bookmarkedItems = item?.bookmarkedByStudents || [];
-            const isBookmarkedByUser = bookmarkedItems.includes(getUserId());
-            return isBookmarkedByUser;
-          }
-        );
+        const filteredObjects = sortedData[date].filter((item) => {
+          const bookmarkedItems = item?.bookmarkedByStudents || [];
+          const isBookmarkedByUser = bookmarkedItems.includes(getUserId());
+          return isBookmarkedByUser;
+        });
         if (filteredObjects.length > 0) {
           filteredAndSortedData[date] = filteredObjects;
         }
       });
-      return filteredAndSortedData
+      return filteredAndSortedData;
     }
 
     return selectedClass != '' ? filteredAndSortedData : sortedData;
@@ -92,23 +87,6 @@ export default function CompletedRoot(props) {
 
   const headingPart = (
     <>
-      <TopContainer>
-        <TitleContainer>
-          <Title>Shared Responses</Title>
-          <ConnectContainer>
-            <LinkButton
-              link={`#/`}
-              label="Back to tasks"
-              arrowleft={arrowLeft}
-              whiteArrowleft={whiteArrowleft}
-            />
-          </ConnectContainer>
-        </TitleContainer>
-        <HeadingLine>
-          All your tasks assigned to you, tasks you are doing, and tasks you
-          have submitted for review
-        </HeadingLine>
-      </TopContainer>
       {!mobileView && (
         <FilterSort
           setSelectedValue={setSelectedValue}
@@ -131,7 +109,12 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
+            groups: filterAndSortData(
+              groups,
+              selectedClass,
+              sortData,
+              favouriteResponse
+            ),
             exemplar,
             id,
             headingPart,
@@ -150,7 +133,12 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
+            groups: filterAndSortData(
+              groups,
+              selectedClass,
+              sortData,
+              favouriteResponse
+            ),
             exemplar,
             id,
 
@@ -170,7 +158,12 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
+            groups: filterAndSortData(
+              groups,
+              selectedClass,
+              sortData,
+              favouriteResponse
+            ),
             exemplar,
             id,
 
@@ -190,7 +183,12 @@ export default function CompletedRoot(props) {
             menuItems,
             filterTasks,
             title,
-            groups: filterAndSortData(groups, selectedClass, sortData, favouriteResponse),
+            groups: filterAndSortData(
+              groups,
+              selectedClass,
+              sortData,
+              favouriteResponse
+            ),
             exemplar,
             id,
             headingPart,

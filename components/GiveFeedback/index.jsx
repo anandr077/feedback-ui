@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  GiveFeedbackContainer,
   MainContainer,
   InnerContainer,
   Title,
@@ -68,7 +69,7 @@ import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
 import SortSquare from '../../static/img/sort-square.svg';
 import questionMark from '../../static/img/question-mark.svg';
-import arrowRight from '../../static/img/arrowright.svg';
+import line from '../../static/img/line-17-22@2x.png';
 import arrowLeft from '../../static/img/arrowleft.svg';
 import LinkButton from '../../components2/LinkButton';
 import CloseCircle from '../../static/img/closecircle.svg';
@@ -82,6 +83,8 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RoundedDropDown from '../../components2/RoundedDropDown';
 import ProgressBarComponent from './ProgressBarComponent';
 import QuestionTooltip from '../../components2/QuestionTooltip';
+import SecondSidebar from '../SecondSidebar';
+import { getUserRole } from '../../userLocalDetails';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -101,6 +104,8 @@ function GiveFeedback() {
   const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
   const location = useLocation();
   const pathName = location.pathname;
+
+  const role = getUserRole();
 
   React.useEffect(() => {
     setSelectedYear('');
@@ -202,8 +207,6 @@ function GiveFeedback() {
     giveFeedbackCompletedTasksQuery,
     getStudentStatsQuery,
   ]);
-
-  console.log('the student state is', studentStats)
 
   let statesData = ['NSW', 'VIC', 'QLD', 'NT', 'SA', 'TAS', 'WA'];
   let yearsData = ['12', '11', '10', '9', '8', '7'];
@@ -325,49 +328,11 @@ function GiveFeedback() {
   };
 
   return (
-    <>
+    <GiveFeedbackContainer>
+      <SecondSidebar />
       <MainContainer>
         <InnerContainer>
           <HeadingAndFilterCon>
-            <TopContainer>
-              <TitleContainer>
-                <Title>
-                  {pathName.includes('/feedbackHistory')
-                    ? 'Feedback History'
-                    : 'Give Feedback'}
-                  <QuestionTooltip
-                    text={
-                      pathName.includes('/feedbackHistory')
-                        ? 'This is a record of the feedback that you have provided to other students in the past'
-                        : 'Provide personalized feedback'
-                    }
-                    img={questionMark}
-                  />
-                </Title>
-                <ConnectContainer>
-                  {pathName.includes('/feedbackHistory') ? (
-                    <LinkButton
-                      link={`#giveFeedback`}
-                      label="Go Back"
-                      arrowleft={arrowLeft}
-                      whiteArrowleft={whiteArrowleft}
-                    />
-                  ) : (
-                    <LinkButton
-                      link={`#feedbackHistory`}
-                      label="Feedback History"
-                      arrowright={arrowRight}
-                      whiteArrowright={whiteArrowright}
-                    />
-                  )}
-                </ConnectContainer>
-              </TitleContainer>
-              <HeadingLine>
-                {pathName.includes('/feedbackHistory')
-                  ? 'View all of the feedback that you have provided to others'
-                  : "Offer tailored feedback directly to students who have requested your insights"}
-              </HeadingLine>
-            </TopContainer>
             {!mobileView && (
               <FilterAndSortContainer>
                 <FilterContainer>
@@ -421,6 +386,7 @@ function GiveFeedback() {
                     setShowFilterPopUp={setShowFilterPopUp}
                   />
                 </FilterContainer>
+                {/* <img src={line} /> */}
                 <SortContainer>
                   <Frame5086
                     onClick={
@@ -474,7 +440,7 @@ function GiveFeedback() {
             )}
           </HeadingAndFilterCon>
           <ContentContainer>
-            <LeftContentContainer>
+            <LeftContentContainer fullWidth={role === 'TEACHER'}>
               <FeedbackDataComponent
                 feedbackData={
                   pathName.includes('/feedbackHistory')
@@ -529,7 +495,7 @@ function GiveFeedback() {
           </ContentContainer>
         </InnerContainer>
       </MainContainer>
-    </>
+    </GiveFeedbackContainer>
   );
 }
 

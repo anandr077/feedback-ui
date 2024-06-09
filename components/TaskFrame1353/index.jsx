@@ -2,24 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { IbmplexsansSemiBoldRiverBed24px } from '../../styledMixins';
 import QuestionTooltip from '../../components2/QuestionTooltip';
-import questionMark from '../../static/img/question-mark.svg';
+import questionMark from '../../static/img/24questionbordered.svg';
+import TickMark from '../../static/img/20greenroundedtick.svg';
+import PencilIcon from '../../static/img/20bluepencil.svg';
+import StarIcon from '../../static/img/yellowstar20.svg';
 import { getUserRole } from '../../userLocalDetails';
 
 function TaskFrame1353(props) {
   const { outstanding, number } = props;
   const role = getUserRole();
-
-  const color = () => {
-    if (outstanding === 'Drafts' || outstanding === 'Assigned') {
-      return '#f1e7ff';
-    }
-    if (outstanding === 'Closed' || outstanding === 'In Draft') {
-      return '#F9F0CD';
-    }
-    if (outstanding === 'Active' || outstanding === 'In Review') {
-      return '#DCF5D1';
-    }
-  };
 
   const tooltipText = () => {
     if (outstanding === 'Drafts' || outstanding === 'Assigned') {
@@ -42,13 +33,24 @@ function TaskFrame1353(props) {
     }
   };
 
+  const leftSideIcon = () =>{
+    let icon = null;
+    if (outstanding === 'Drafts' || outstanding === 'Assigned') {
+      icon = TickMark;
+    }
+    if (outstanding === 'Closed' || outstanding === 'In Draft') {
+      icon = PencilIcon;
+    }
+    if (outstanding === 'Active' || outstanding === 'In Review') {
+      icon = StarIcon;
+    }
+    return icon;
+  };
+
   return (
-    <Frame13531
-      style={{
-        backgroundColor: color(),
-      }}
-    >
+    <Frame13531>
       <Outstanding>
+        <RightSideImg src={leftSideIcon()} />
         {outstanding}
         <QuestionTooltip text={tooltipText()} img={questionMark}/>
       </Outstanding>
@@ -70,8 +72,7 @@ const Frame13531 = styled.div`
   position: sticky;
   top: 0px;
   z-index: 1;
-  background-color: var(--white);
-  padding: 20px;
+  padding: 20px 20px 0;
   border-radius: 16px;
   border-radius: 16px 16px 0 0;
   // margin:20px;
@@ -80,20 +81,33 @@ const Frame13531 = styled.div`
 const Outstanding = styled.div`
   position: relative;
   flex: 1;
-  letter-spacing: 0;
-  line-height: normal;
+  line-height: 24px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
+  font-family: IBM Plex Sans;
+  font-size: 19px;
+  font-weight: 600;
+  color: rgba(75, 70, 79, 1);
 `;
 
 const Number = styled.div`
   position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
+  width: 24px; 
+  height: 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: rgba(123, 115, 130, 1);
+  background-color: rgba(255, 255, 255, 1);
+  font-size: 16px;
+  border-radius: 50%; 
+  padding: 8px;
 `;
+
+const RightSideImg = styled.img`
+  margin-right: 8px;
+`
 
 export default TaskFrame1353;

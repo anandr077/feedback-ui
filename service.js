@@ -370,9 +370,10 @@ export const getCommentBank = async (id) => {
     });
 
     if (response.ok) {
-      const isJson = response.headers.get('content-type')?.includes('application/json') ||
-                      response.headers.get('content-type')?.includes('application/hal+json');
-      return isJson ? await response.json() : null;  // Only parse JSON if the content type is correct
+      const isJson =
+        response.headers.get('content-type')?.includes('application/json') ||
+        response.headers.get('content-type')?.includes('application/hal+json');
+      return isJson ? await response.json() : null; // Only parse JSON if the content type is correct
     } else {
       console.error('HTTP error:', response.status);
       return null; // Return null on any non-ok HTTP response
@@ -384,9 +385,7 @@ export const getCommentBank = async (id) => {
 };
 
 export const updateFeedbackBanks = async (updatedCommentBank, commentBankId) =>
-  await putApi(
-    baseUrl + '/commentbanks/' + commentBankId, updatedCommentBank
-  );
+  await putApi(baseUrl + '/commentbanks/' + commentBankId, updatedCommentBank);
 
 export const getMarkingMethodology = async (id) =>
   await getApi(baseUrl + '/teachers/markingCriterias/' + id);
@@ -493,20 +492,67 @@ function logoutLocal() {
 }
 
 export function redirectToExternalIDP() {
-  logoutLocal();
-  const externalIDPLoginUrl =
-    jeddleBaseUrl +
-    '/wp-json/moserver/authorize?response_type=code&client_id=' +
-    clientId +
-    '&state=' +
-    Date.now() +
-    '&redirect_uri=' +
-    selfBaseUrl;
-  window.location.href = externalIDPLoginUrl;
+  setTimeout(() => {
+    logoutLocal();
+    const externalIDPLoginUrl =
+      jeddleBaseUrl +
+      '/wp-json/moserver/authorize?response_type=code&client_id=' +
+      clientId +
+      '&state=' +
+      Date.now() +
+      '&redirect_uri=' +
+      selfBaseUrl;
+    window.location.href = externalIDPLoginUrl;
+  }, 4000);
 }
 
 export const exchangeCodeForToken = async (code) => {
-  return await getApi(baseUrl + '/users/exchange/' + code);
+  const url = `${baseUrl}/users/exchange/${code}`;
+  const defaultHeaders = new Headers();
+  const token = localStorage.getItem('jwtToken');
+
+  if (token) {
+    return token;
+  }
+
+  const options = {};
+  const headers = {};
+
+  const mergedHeaders = Object.assign(defaultHeaders, headers);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      withCredentials: true,
+      credentials: 'include',
+      headers: mergedHeaders,
+    });
+    if (response.status === 401 || response.status === 500) {
+      return redirectToExternalIDP();
+    }
+    if (response.status === 404) {
+      window.location.href = selfBaseUrl + '/#/404';
+      // window.location.reload();
+      throw new Error('Page not found');
+    } else if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const isJson =
+      response.headers.get('content-type')?.includes('application/json') ||
+      response.headers.get('content-type')?.includes('application/hal+json');
+    const data = isJson ? await response.json() : null;
+
+    if (data === null) {
+      window.location.href = selfBaseUrl + '/#/404';
+      // window.location.reload();
+      throw new Error('Page not found');
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`An error occurred while fetching data: ${error.message}`);
+  }
 };
 
 export const getShortcuts = () => {
@@ -586,7 +632,7 @@ export const getNewCriteria = (criteriaId) => {
 export const getDefaultCriteria = () => {
   const criteria = getNewCriteria(0);
   return {
-    title: '',
+    title: 'New Marking Template',
     criterias: [criteria],
   };
 };
@@ -609,3 +655,30 @@ export const askJeddAI = async (submissionId, cleanAnswer, subject, type) =>
     year: Cookies.get('year'),
     cleanAnswer: cleanAnswer,
   });
+
+export const setLocalClasses = (classes) => {
+  localStorage.setItem('classes', JSON.stringify(classes));
+}
+
+export const getLocalClasses = () => {
+  const localClasses = localStorage.getItem('classes');
+  if (localClasses) {
+    return localClasses;
+  }
+  return Cookies.get('classes');
+}
+
+
+export const deleteLocalClasses = () => {
+  localStorage.removeItem('classes');
+};
+
+
+export const getAllSubjects = [{ title: 'English' }];
+export const getAllTypes = [
+  { title: 'Analytical' },
+  { title: 'Imaginative' },
+  { title: 'Discursive' },
+  { title: 'Persuasive' },
+  { title: 'Reflective' },
+];

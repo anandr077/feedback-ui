@@ -10,7 +10,6 @@ import {
   SearchIcon,
   DrawerQuestion,
   DrawerQuestions,
-  OverflowShadow,
   DrawerSubject,
   DrawerSubjects,
   DrawerVericalNav,
@@ -22,6 +21,7 @@ import {
   StyledMoreVertIcon,
   LoadingDiv,
   SidebarContainer,
+  DrawerHeader,
   MenuItemsDots,
   QuestionTitle,
   MenuItemsContainer,
@@ -45,26 +45,7 @@ import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
 import { deleteSubmissionById } from '../../service';
 import Loader from '../Loader';
 import DeleteGetFeedbackPopup from '../DeleteGetFeedbackPopUp';
-const drawerWidth = 315;
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '16px',
-  ...theme.mixins.toolbar,
-  justifyContent: 'center',
-  background: 'var(--light-mode-purple)',
-  padding: '16px',
-  borderRadius: '12px',
-  gap: '4px',
-  color: 'var(--white)',
-  margin: '20px',
-  fontFamily: 'var(--font-family-ibm_plex_sans)',
-  fontSize: 'var(--font-size-xl)',
-  fontWeight: '500',
-  position: 'relative',
-  cursor: 'pointer',
-}));
+const drawerWidth = 219;
 
 function IndepentdentUserSidebar({
   open,
@@ -184,7 +165,7 @@ function IndepentdentUserSidebar({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <SearchIcon src="img/vectorsearch.png" />
+                <SearchIcon src="img/search14gray.svg" />
               </DrawerInputBox>
               <SubjectTitle>SUBJECTS</SubjectTitle>
               <DrawerSubjects>
@@ -221,11 +202,6 @@ function IndepentdentUserSidebar({
                         >
                           <QuestionTitle>
                             {question.title}
-                            <OverflowShadow
-                              blueBackground={
-                                question.id === currentSubmissionId
-                              }
-                            ></OverflowShadow>
                           </QuestionTitle>
                           <MenuItems
                             studentStyle={question.id === currentSubmissionId}
@@ -238,15 +214,12 @@ function IndepentdentUserSidebar({
                                 }}
                               >
                                 <EachMenuItemImg
-                                  src={
-                                    question.id === currentSubmissionId
-                                      ? selectedDownload
-                                      : Download
-                                  }
+                                  src={Download}
                                 />
                                 <EachMenuItemText
                                   purpleColor={
-                                    question.id === currentSubmissionId
+                                    //question.id === currentSubmissionId
+                                    false
                                   }
                                 >
                                   Download

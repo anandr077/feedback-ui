@@ -23,6 +23,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100vw;
   height: 77vh;
   // position: fixed;
   // top: 0;

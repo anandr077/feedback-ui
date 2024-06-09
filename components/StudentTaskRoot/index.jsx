@@ -21,10 +21,11 @@ import {
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../static/img/sort-square.svg';
 import FilterSquare from '../../static/img/filter-square.svg';
-import TaskSelected from '../../static/img/taskselected.svg';
+import TaskSelected from '../../static/img/Columns-new.svg';
 import CloseCircle from '../../static/img/closecircle.svg';
-import TaskUnSelected from '../../static/img/taskunselected.svg';
-import CalSelected from '../../static/img/calselected.svg';
+import TaskNotSelected from '../../static/img/Columns-new-gray.svg';
+import CalNotSelected from '../../static/img/Calendar-new-purple.svg';
+import CalSelected from '../../static/img/Calendar-new.svg';
 import CalUnSelected from '../../static/img/calunselected.svg';
 import MyCalendar from '../../components2/Calender/index.js';
 import moment from 'moment';
@@ -42,6 +43,7 @@ import {
   SortHeading,
   SortImg,
   SortText,
+  TitleHeading,
 } from '../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -250,6 +252,34 @@ export default function StudentTaskRoot() {
   const FilterSortAndCal = (
     <>
       <MainContainer>
+        <CalenderContainer>
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
+            className={tasksSelected ? 'active' : ''}
+            onClick={() => setTasksSelected(true)}
+          >
+            <TasksImg
+              src={!tasksSelected ? TaskNotSelected : TaskSelected}
+              selected={tasksSelected}
+            />
+            Column
+          </TitleHeading>
+          {!mobileView && (
+            <TitleHeading
+              style={
+                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
+              }
+              className={!tasksSelected ? 'active' : ''}
+              onClick={() => setTasksSelected(false)}
+            >
+              <TasksImgCal
+                src={!tasksSelected ? CalNotSelected : CalSelected}
+                selected={!tasksSelected}
+              />
+              Calendar
+            </TitleHeading>
+          )}
+        </CalenderContainer>
         <FilterAndSortContainer>
           <FilterContainer>
             <Filter
@@ -331,26 +361,6 @@ export default function StudentTaskRoot() {
             </SortContainer>
           )}
         </FilterAndSortContainer>
-        <CalenderContainer>
-          <TasksImg
-            src={
-              tasksSelected
-                ? TaskSelected
-                : mobileView
-                ? TaskSelected
-                : TaskUnSelected
-            }
-            selected={tasksSelected}
-            onClick={() => setTasksSelected(true)}
-          />
-          {!mobileView && (
-            <TasksImgCal
-              src={!tasksSelected ? CalSelected : CalUnSelected}
-              selected={!tasksSelected}
-              onClick={() => setTasksSelected(false)}
-            />
-          )}
-        </CalenderContainer>
       </MainContainer>
     </>
   );
@@ -369,7 +379,7 @@ export default function StudentTaskRoot() {
   return (
     <ReactiveRender
       mobile={
-        <TasksStudentMobile
+        <TasksStudentTablet
           {...{
             menuItems,
             filterTasks,
@@ -379,7 +389,7 @@ export default function StudentTaskRoot() {
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
-            ...tasksStudentMobileData,
+            ...tasksStudentTabletData,
           }}
         />
       }
@@ -399,7 +409,7 @@ export default function StudentTaskRoot() {
         />
       }
       laptop={
-        <TasksLaptop
+        <TasksDesktop
           {...{
             menuItems,
             filterTasks,
@@ -409,7 +419,7 @@ export default function StudentTaskRoot() {
             FilterSortAndCal,
             tasksSelected,
             MyCalendarFile,
-            ...tasksLaptopData,
+            ...tasksDesktopData,
           }}
         />
       }

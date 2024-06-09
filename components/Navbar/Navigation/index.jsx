@@ -6,7 +6,7 @@ import NavElement7 from '../NavElement7';
 import NavElement8 from '../NavElement8';
 import styled from 'styled-components';
 import './Navigation.css';
-import { account, changePassword, logout } from '../../../service';
+import { account, changePassword, getLocalClasses, logout } from '../../../service';
 import { getUserName } from '../../../userLocalDetails';
 import { Avatar } from '@boringer-avatars/react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -103,11 +103,11 @@ function Navigation(props) {
           />
         </Frame1409>
         <Frame5>
-          {Cookies.get('classes') && <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />}      
-          {Cookies.get('classes') && <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />}      
-          {isTeacher && Cookies.get('classes') && <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />}
+          {getLocalClasses() && <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />}      
+          {getLocalClasses() && <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />}      
+          {isTeacher && getLocalClasses() && <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />}
           {isTeacher && <NavElement42 button={headerProps.fourthButton} onClick={onCloseFn} />}
-          {(Cookies.get('classes') && !isTeacher) && (
+          {(getLocalClasses() && !isTeacher) && (
             <NavElement42
               button={headerProps.thirdButton}
               onClick={onCloseFn}

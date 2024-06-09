@@ -22,6 +22,7 @@ import {
   TitleImage,
 } from './style.js';
 import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
+import SecondSidebar from '../SecondSidebar/index.js';
 function TasksLaptop(props) {
   const {
     menuItems,
@@ -38,36 +39,9 @@ function TasksLaptop(props) {
   } = props;
   return (
     <div className="tasks-laptop screen">
+      <SecondSidebar />
       <Frame1361>
         <TitleAndFilterContainer>
-          <TitleAndSubtitleContainer>
-            <TitleContainer>
-              <Title>
-                Homework
-                <QuestionTooltip 
-                  text="View all of your current tasks from school"
-                  img={questionMark}
-                />
-              </Title>
-              <LinkAndFilter>
-                <LinkButton
-                  link={`#/exemplarResponses`}
-                  label="Shared Responses"
-                  arrowleft={shareColor}
-                  whiteArrowleft={share}
-                />
-                <LinkButton
-                  link={`#/completed`}
-                  label="Task History"
-                  arrowright={arrowRight}
-                  whiteArrowright={whiteArrowright}
-                />
-              </LinkAndFilter>
-            </TitleContainer>
-            <SubtitleCon>
-              Click on a task bubble to complete or review your work
-            </SubtitleCon>
-          </TitleAndSubtitleContainer>
           <>{FilterSortAndCal}</>
         </TitleAndFilterContainer>
         <Frame1360>
@@ -136,11 +110,12 @@ const TitleContainer = styled.div`
 const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100vw - 305px);
   align-items: center;
-  justify-content: center;
-  gap: 40px;
+  justify-content: flex-start;
+  gap: 20px;
   position: relative;
+  border-top: 1px solid rgba(201, 198, 204, 0.5);
 `;
 
 const Heading = styled.div`
@@ -170,8 +145,7 @@ const Frame1360 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
-  // height: 80vh;
-  padding: 0px 60px;
+  padding: 0px 20px;
 `;
 
 const Frame1359 = styled.div`
@@ -183,7 +157,6 @@ const Frame1359 = styled.div`
   min-height: calc(100vh - 285px);
   flex-grow: 1;
   margin: 0px auto;
-  height: 80vh;
 `;
 
 const Frame1358 = styled.div`
@@ -194,9 +167,9 @@ const Frame1358 = styled.div`
   position: relative;
   flex: 1;
   flex-grow: 1;
-  background-color: var(--white);
+  background: rgba(242, 241, 243, 0.5);
   border-radius: 16px;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  box-shadow: 0px 1px 4px 0px rgba(48, 27, 114, 0.08) inset;
 `;
 
 const LinkAndFilter = styled.div`

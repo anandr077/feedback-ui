@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { cloneDeep, get, set } from 'lodash';
+import { cloneDeep, get, has, set, unset } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -121,6 +121,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
   const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -183,17 +185,24 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       });
   }, [id]);
 
+  const commentBankIds = submission?.assignment?.questions
+    .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
+    .map((q) => q.commentBankId);
+
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
-      // alert("sub" + JSON.stringify(submission.assignment))
-      const commentBankIds = submission.assignment.questions.filter((q) => q.commentBankId !== undefined && q.commentBankId !== null).map(q => q.commentBankId);
-
+      // alert("sub" + JSON.stringify(submission.assignment)
 
       const commentBankPromises = commentBankIds.map(getCommentBank);
-    
-      Promise.all([getSubmissionsByAssignmentId(submission.assignment.id), ...commentBankPromises])
+
+      Promise.all([
+        getSubmissionsByAssignmentId(submission.assignment.id),
+        ...commentBankPromises,
+      ])
         .then(([allSubmissions, ...commentBanks]) => {
-          setSmartAnnotations(commentBanks.filter(cb => cb !== undefined && cb !== null));
+          setSmartAnnotations(
+            commentBanks.filter((cb) => cb !== undefined && cb !== null)
+          );
           setStudents(extractStudents(allSubmissions));
           let currentSubmissionIndex = 0;
           const allExceptCurrent = allSubmissions.map((r, index) => {
@@ -235,6 +244,20 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
+
+  const allCommentBanks = smartAnnotations?.flatMap(
+    (annotation, index) =>
+      annotation.smartComments.filter((smartComment) =>
+        commentBankIds?.includes(annotation.id)
+      )
+    // .map((smartComment, innerIndex) => (
+    //   <SmartAnotation
+    //     key={`${index}-${innerIndex}`}
+    //     smartAnnotation={smartComment}
+    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+    //   />
+    // ))
+  );
 
   useEffect(() => {
     const unblock = history.block((location, action) => {
@@ -458,6 +481,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
+        setShowFloatingDialogue(false);
       }
     });
   }
@@ -583,6 +607,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
+  console.log('the page mode is', pageMode);
+  console.log('the submission is', submission);
+
   const sharewithclassdialog = (
     <Dialog
       onClose={() => {
@@ -676,6 +703,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                 setExemplerComment('');
                 setCheckedState(initialCheckedState);
               }}
+              smartAnnotations={smartAnnotations}
             />
           </DialogActions>
         </ActionButtonsContainer>
@@ -907,8 +935,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
     return false;
   }
-  function convertToSelectedAttribute(selectedArray) {
-    return selectedArray.map((item, index) => ({
+  function convertToSelectedAttribute(selectedObject) {
+    let arr = Object.values(selectedObject);
+    return arr?.map((item, index) => ({
       index,
       criteria: item.label,
       attribute: item.value.name,
@@ -1113,7 +1142,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         const quill = quillRefs.current[question.serialNumber - 1];
-        quill.disable();
+        quill?.disable();
       });
   }
 
@@ -1188,6 +1217,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         );
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
+        setSelectedComment(matchingComment);
         highlightByComment(matchingComment);
       } else {
         openNewCommentFrame(from, to, serialNumber, selection);
@@ -1212,7 +1242,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         to: to,
       });
       setSelectedText(selection.selectedText);
-      setShowNewComment(true);
+      if(pageMode === 'DRAFT' || pageMode === 'REVISE'){
+        setShowFloatingDialogue(true);
+      }
+      if(pageMode === 'REVIEW'){
+        setShowNewComment(true);
+      }
+      
     }
   }
   function highlightByComment(comment) {
@@ -1222,11 +1258,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
   function highlightComment(color, div) {
-    div.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center',
-    });
     setTimeout(() => {
       div.style.background = color ? color : '#FFFFFF';
       div.style.border = '1px solid #E5E5E5';
@@ -1234,8 +1265,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       div.style.scale = 1;
     }, 2000);
     div.style.background = '#F9F5FF';
-    div.style.border = '1px solid #7200E0';
-    div.style.boxShadow = '0px 4px 16px rgba(114, 0, 224, 0.2)';
+    div.style.border = '1px solid rgba(197, 150, 242, 1)';
+    div.style.boxShadow = '0px 4.08px 8px 0px rgba(112, 112, 112, 0.1)';
     div.style.scale = 1.0003;
     setCommentHighlight(true);
   }
@@ -1380,26 +1411,58 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     criteriaSerialNumber,
     selectedLevel
   ) {
-    const markingCriteriaToUpdate =
-      submission.assignment.questions[questionSerialNumber - 1].markingCriteria;
-    markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel =
-      selectedLevel;
+    const updatedSubmission = {
+      ...submission,
+      assignment: {
+        ...submission.assignment,
+        questions: submission.assignment.questions.map((question, index) => {
+          if (index === questionSerialNumber - 1) {
+            return {
+              ...question,
+              markingCriteria: {
+                ...question.markingCriteria,
+                criterias: question.markingCriteria.criterias.map(
+                  (criteria, criteriaIndex) => {
+                    if (criteriaIndex === criteriaSerialNumber) {
+                      return {
+                        ...criteria,
+                        selectedLevel: selectedLevel,
+                      };
+                    }
+                    return criteria;
+                  }
+                ),
+              },
+            };
+          }
+          return question;
+        }),
+      },
+    };
+    setSubmission(updatedSubmission);
   }
 
-  const handleStrengthsTargetsFeedback =
-    (questionSerialNumber) => (index) => (value) => {
-      const criteriaType = index === 2 ? 'target' : 'strength';
-      const criteriaIndex = index === 2 ? 0 : index;
-      setNewMarkingCriterias((prevState) => {
-        const label = value.heading;
-        let newState = cloneDeep(prevState);
-        let path = `${questionSerialNumber}.${
-          criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
-        }[${criteriaIndex}]`;
+  const handleStrengthsTargetsFeedback = (
+    questionSerialNumber,
+    index,
+    value
+  ) => {
+    const criteriaType = index === 2 ? 'target' : 'strength';
+    const criteriaIndex = index === 2 ? 0 : index;
+    setNewMarkingCriterias((prevState) => {
+      const label = value.heading;
+      let newState = cloneDeep(prevState);
+      let path = `${questionSerialNumber}.${
+        criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
+      }[${value.name}]`;
+      if (has(newState, path)) {
+        newState = unset(newState, path);
+      } else {
         newState = set(newState, path, { label, value });
-        return newState;
-      });
-    };
+      }
+      return newState;
+    });
+  };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -1447,11 +1510,18 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
+  const isResetEditorTextSelection = () => {
+    setShowFloatingDialogue(false);
+    setNewCommentSerialNumber(0);
+    setSelectedRange(null);
+    setSelectedText(null);
+    setShowNewComment(false);
+  };
+
   const methods = {
     comments,
     setComments,
     submissionStatusLabel,
-    isTeacher,
     handleChangeText,
     handleDeleteComment,
     handleShareWithClass,
@@ -1501,6 +1571,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         newCommentSerialNumber,
         markingCriteriaFeedback,
         overallComments,
+        comments,
+        showFloatingDialogue,
+        setShowFloatingDialogue,
+        allCommentBanks,
+        methods,
+        isTeacher,
+        quillRefs,
+        setNewCommentSerialNumber,
+        setSelectedRange,
+        setSelectedText,
+        isResetEditorTextSelection,
       }}
     >
       {showSubmitPopup &&
@@ -1544,6 +1625,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedRange,
           classesAndStudents,
           teachers,
+          selectedComment,
         }}
       />
     </FeedbackContext.Provider>

@@ -15,6 +15,7 @@ import markSelected from '../../static/img/markSelected.svg';
 import markUnSelected from '../../static/img/markUnSelected.svg';
 import { getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isTeacherWithoutClass } from './rules';
+import { useQuery } from '@tanstack/react-query';
 
 const SecondSidebar = ({ id }) => {
   const [containerHeight, setContainerHeight] = useState(0);
@@ -28,16 +29,61 @@ const SecondSidebar = ({ id }) => {
   const localClasses = getLocalClasses();
   const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
 
+  const completedTasksQuery = useQuery({
+    queryKey: ['completedTasks'],
+    queryFn: async () => {
+      const result = await getCompletedTasks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+  const tasksQuery = useQuery({
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      const result = await getTasks();
+
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  const assignmentsQuery = useQuery({
+    queryKey: ['assignments'],
+    queryFn: async () => {
+      const result = await getAssignments();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  const communityTasksQuery = useQuery({
+    queryKey: ['communityTasks'],
+    queryFn: async () => {
+      const result = await getCommunityTasks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
   useEffect(() => {
-    Promise.all([getCompletedTasks(), getCommunityTasks(), getTasks(), getAssignments()]).then(
-      ([getCompletedTasks, getCommunityTasks, getTasks, getAssignments]) => {
-        setCompletedTaskLength(getCompletedTasks.length);
-        setFeedbackRequestsLength(getCommunityTasks.length);
-        setAllStudentTasks(getTasks.length);
-        setAllTeacherTasks(getAssignments.length);
-      }
-    );
-  }, []);
+    if (tasksQuery.data) {
+      setAllStudentTasks(tasksQuery.data?.length);
+    }
+    if (assignmentsQuery.data) {
+      setAllTeacherTasks(assignmentsQuery.data?.length);
+    }
+    if (completedTasksQuery.data) {
+      setCompletedTaskLength(completedTasksQuery.data?.length);
+    }
+    if (communityTasksQuery.data) {
+      setFeedbackRequestsLength(communityTasksQuery.data?.length);
+    }
+  }, [
+    tasksQuery.data,
+    completedTasksQuery.data,
+    assignmentsQuery.data,
+    communityTasksQuery.data,
+  ]);
 
   useEffect(() => {
     const updateHeight = () => {
@@ -151,7 +197,15 @@ const SecondSidebar = ({ id }) => {
     {
       link: '/',
       subLinks: [subLinks[3], subLinks[5]], 
-    }
+    },
+    {
+      link: '/settings',
+      subLinks: [subLinks[6], subLinks[7]],
+    },
+    {
+      link: '/commentbanks',
+      subLinks: [subLinks[6], subLinks[7]],
+    },
   ] : [
     {
       link: '/',
@@ -277,6 +331,3 @@ const SecondSidebar = ({ id }) => {
 };
 
 export default SecondSidebar;
-
-
-

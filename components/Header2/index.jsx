@@ -27,7 +27,7 @@ import questionMark from '../../static/img/24questionbordered.svg';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import helpbarIcon from '../../static/img/helpgray24.svg';
 import addBtnIcon from '../../static/icons/gradient_add.svg';
-import notificationsIcon from '../../static/icons/notifications.svg';
+import notificationsIcon from '../../static/icons/Notifications.svg';
 import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLeftIconBtn';
 import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
@@ -36,7 +36,8 @@ import { headerTitle, headerTitleSub } from './headerTitle.js';
 import { Avatar } from '@boringer-avatars/react';
 import { headerMainTitle } from './headerMainTitle.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
-import { isTeacherWithClass } from './rules.js';
+import { isTeacher, isTeacherWithClass } from './rules.js';
+import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 
 const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -148,7 +149,7 @@ const Header = () => {
       style={{
         position: 'sticky',
         top: '0',
-        zIndex: '5',
+        zIndex: '6',
         borderBottom: '1px solid rgba(255, 255, 255, 1)',
         boxShadow: '2px 1px 4px 0px rgba(115, 115, 115, 0.25)',
       }}
@@ -196,6 +197,7 @@ const Header = () => {
             </div>
           )}
           <NotificationAccount>
+            {!isTeacher(role) && <HeaderOnboardingMenu />}
             <HeaderHelpBar src={helpbarIcon} onClick={handleHelpBarClick} />
             <Notification
               src={notificationsIcon}

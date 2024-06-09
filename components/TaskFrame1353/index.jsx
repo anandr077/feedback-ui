@@ -46,6 +46,13 @@ function TaskFrame1353(props) {
     }
     return icon;
   };
+  const numberIconSize = (number) => {
+    let length = number.toString().length;
+    if (length === 1) return 24;
+    if (length === 2) return 27;
+    if (length === 3) return 32;
+    return 24;
+  };
 
   return (
     <Frame13531>
@@ -54,7 +61,7 @@ function TaskFrame1353(props) {
         {outstanding}
         <QuestionTooltip text={tooltipText()} img={questionMark}/>
       </Outstanding>
-      <Number>{number}</Number>
+      <Number width={numberIconSize(number)}>{number}</Number>
     </Frame13531>
   );
 }
@@ -93,8 +100,8 @@ const Outstanding = styled.div`
 
 const Number = styled.div`
   position: relative;
-  width: 24px; 
-  height: 24px;
+  width: ${({ width }) => width || '24'}px;
+  height: ${({ width }) => width || '24'}px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -108,6 +115,6 @@ const Number = styled.div`
 
 const RightSideImg = styled.img`
   margin-right: 8px;
-`
+`;
 
 export default TaskFrame1353;

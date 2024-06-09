@@ -4,10 +4,6 @@ import { DotsContainer, Dot, FooterContainer, ButtonContainer, Button } from './
 const OnboardFooter = ({ stage, setStage }) => {
   return (
     <FooterContainer>
-      {/* <DotsContainer>
-        <Dot isActive={stage === 1}></Dot>
-        <Dot isActive={stage === 2}></Dot>
-      </DotsContainer> */}
       <ButtonContainer>
         <Button prev={true}>Previous</Button>
         <Button next={true} onClick={()=> setStage(stage + 1)}>Next</Button>

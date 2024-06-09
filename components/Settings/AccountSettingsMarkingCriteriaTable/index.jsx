@@ -63,10 +63,10 @@ function AccountSettingsMarkingCriteriaTable(props) {
     markingCriteriaList,
     setShowMarkingCriteria,
     setShowShortcuts,
-    setShowUserSettings,
+    //setShowUserSettings,
     showMarkingCriteria,
     showShortcuts,
-    showUserSettings,
+    //showUserSettings,
     createSmartAnnotationHandler,
     smartAnnotationsFrame,
     setOpenMarkingMethodologyDialog,
@@ -105,7 +105,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
             </Title>
           </Frame1372>
           <Frame1322>
-            {showUserSettings ? (
+            {/* {showUserSettings ? (
               <ActiveSetting>
                 <Frame13221
                   onClick={() => {
@@ -142,7 +142,7 @@ function AccountSettingsMarkingCriteriaTable(props) {
                 <SettingTitle>User Settings</SettingTitle>
                 <Frame1284 src="/icons/collapsed.svg" alt="Frame 1284" />
               </InactiveSetting>
-            )}
+            )} */}
             {showMarkingCriteria ? (
               <ActiveSetting>
                 <Frame13221

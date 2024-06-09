@@ -122,6 +122,8 @@ export const InactiveSetting = styled.div`
 `;
 
 export const SettingTitle = styled.div`
+  display: flex;
+  gap: 5px;
   font-family: IBM Plex Sans;
   font-size: 20px;
   font-weight: 500;

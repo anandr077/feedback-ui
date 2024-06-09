@@ -370,9 +370,10 @@ export const getCommentBank = async (id) => {
     });
 
     if (response.ok) {
-      const isJson = response.headers.get('content-type')?.includes('application/json') ||
-                      response.headers.get('content-type')?.includes('application/hal+json');
-      return isJson ? await response.json() : null;  // Only parse JSON if the content type is correct
+      const isJson =
+        response.headers.get('content-type')?.includes('application/json') ||
+        response.headers.get('content-type')?.includes('application/hal+json');
+      return isJson ? await response.json() : null; // Only parse JSON if the content type is correct
     } else {
       console.error('HTTP error:', response.status);
       return null; // Return null on any non-ok HTTP response
@@ -384,9 +385,7 @@ export const getCommentBank = async (id) => {
 };
 
 export const updateFeedbackBanks = async (updatedCommentBank, commentBankId) =>
-  await putApi(
-    baseUrl + '/commentbanks/' + commentBankId, updatedCommentBank
-  );
+  await putApi(baseUrl + '/commentbanks/' + commentBankId, updatedCommentBank);
 
 export const getMarkingMethodology = async (id) =>
   await getApi(baseUrl + '/teachers/markingCriterias/' + id);
@@ -505,14 +504,13 @@ export function redirectToExternalIDP() {
       selfBaseUrl;
     window.location.href = externalIDPLoginUrl;
   }, 4000);
-  
 }
 
 export const exchangeCodeForToken = async (code) => {
   const url = `${baseUrl}/users/exchange/${code}`;
   const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
-  
+
   if (token) {
     return token;
   }
@@ -521,7 +519,7 @@ export const exchangeCodeForToken = async (code) => {
   const headers = {};
 
   const mergedHeaders = Object.assign(defaultHeaders, headers);
-  
+
   try {
     const response = await fetch(url, {
       ...options,
@@ -540,8 +538,9 @@ export const exchangeCodeForToken = async (code) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const isJson = response.headers.get('content-type')?.includes('application/json') ||
-                   response.headers.get('content-type')?.includes('application/hal+json');
+    const isJson =
+      response.headers.get('content-type')?.includes('application/json') ||
+      response.headers.get('content-type')?.includes('application/hal+json');
     const data = isJson ? await response.json() : null;
 
     if (data === null) {
@@ -555,7 +554,6 @@ export const exchangeCodeForToken = async (code) => {
     throw new Error(`An error occurred while fetching data: ${error.message}`);
   }
 };
-
 
 export const getShortcuts = () => {
   const shortcuts = [
@@ -634,7 +632,7 @@ export const getNewCriteria = (criteriaId) => {
 export const getDefaultCriteria = () => {
   const criteria = getNewCriteria(0);
   return {
-    title: '',
+    title: 'New Marking Template',
     criterias: [criteria],
   };
 };
@@ -674,3 +672,13 @@ export const getLocalClasses = () => {
 export const deleteLocalClasses = () => {
   localStorage.removeItem('classes');
 };
+
+
+export const getAllSubjects = [{ title: 'English' }];
+export const getAllTypes = [
+  { title: 'Analytical' },
+  { title: 'Imaginative' },
+  { title: 'Discursive' },
+  { title: 'Persuasive' },
+  { title: 'Reflective' },
+];

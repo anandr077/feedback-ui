@@ -9,47 +9,32 @@ function SettingsNav(props) {
   const {
     setShowMarkingCriteria,
     setShowShortcuts,
-    setShowUserSettings,
     showMarkingCriteria,
     showShortcuts,
-    showUserSettings,
   } = props;
 
-  if (!showMarkingCriteria && !showShortcuts && !showUserSettings) {
+  if (!showMarkingCriteria && !showShortcuts) {
     setShowMarkingCriteria(true);
     setShowShortcuts(false);
-    setShowUserSettings(false);
   }
 
   const selectUserSettings = () => {
     setShowMarkingCriteria(false);
     setShowShortcuts(false);
-    setShowUserSettings(true);
   };
 
   const selectMarkingCriteria = () => {
     setShowMarkingCriteria(true);
     setShowShortcuts(false);
-    setShowUserSettings(false);
   };
 
   const selectShortcuts = () => {
     setShowMarkingCriteria(false);
     setShowShortcuts(true);
-    setShowUserSettings(false);
   };
 
   return (
     <Frame13221>
-      {showUserSettings ? (
-        <SelectedContainer onClick={selectUserSettings}>
-          <SelectedLabel> User Settings</SelectedLabel>
-        </SelectedContainer>
-      ) : (
-        <UnselectedContainer onClick={selectUserSettings}>
-          <UnselectedLabel> User Settings</UnselectedLabel>
-        </UnselectedContainer>
-      )}
       {showMarkingCriteria ? (
         <SelectedContainer onClick={selectMarkingCriteria}>
           <SelectedLabel> Marking Templates</SelectedLabel>

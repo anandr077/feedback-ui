@@ -22,12 +22,10 @@ import {
 } from './HeaderStyle';
 import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect, useRef } from 'react';
-import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
-import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { useState } from 'react';
-import Cookies from 'js-cookie';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
+import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 
 export default function Header(props) {
   const { headerProps } = props;
@@ -300,11 +298,6 @@ export default function Header(props) {
         </Frame5>
         <Frame51>
           {!isTeacher && <HeaderOnboardingMenu />}
-          <HeaderHelpBar
-            src="/img/helpIcon.png"
-            onClickFn={handleHelpBarClick}
-          />
-
           <Notifications
             src="/img/notificationbing-3@2x.png"
             onClickFn={handleNotificationClick}

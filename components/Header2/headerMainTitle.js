@@ -1,0 +1,87 @@
+import { getLocalClasses } from '../../service';
+import { getUserRole } from '../../userLocalDetails';
+import { isTeacherWithoutClass } from './rules';
+
+const role = getUserRole();
+const localClasses = getLocalClasses();
+const homeLink = isTeacherWithoutClass(role, localClasses) ? '/giveFeedback' : '/tasks';
+
+export const headerMainTitle = [
+  {
+    link: '/tasks',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
+    homeLink: homeLink,
+  },
+  {
+    link: '/giveFeedback',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
+    homeLink: homeLink,
+  },
+  {
+    link: '/exemplarResponses',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
+    homeLink: '/tasks',
+  },
+  {
+    link: '/settings',
+    title: 'Feeback Tools',
+    homeLink: '/settings',
+  },
+  {
+    link: '/feedbackHistory',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
+    homeLink: homeLink,
+  },
+  {
+    link: '/sharedresponses',
+    title: 'School Work',
+    homeLink: '/tasks',
+  },
+  {
+    link: '/documentsReview',
+    title: 'Feedback History',
+    homeLink: '/tasks',
+  },
+  {
+    link: '/documents',
+    title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
+  },
+  {
+    link: '/classes',
+    title: 'Class Insights',
+  },
+  {
+    link: '/submissions',
+    title: 'Tasks',
+    homeLink: '/tasks',
+  },
+  {
+    link: '/completed',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
+    homeLink: '/tasks',
+  },
+  {
+    link: '/markingTemplates/strengths-and-targets',
+    title: 'Feeback Tools',
+    homeLink: '/settings',
+  },
+  {
+    link: '/markingTemplates/rubrics',
+    title: 'Feeback Tools',
+    homeLink: '/settings',
+  },
+  {
+    link: '/tasks/new',
+    title: 'Create task',
+  },
+  {
+    link: '/commentbanks',
+    title: 'Feeback Tools',
+    homeLink: '/settings',
+  },
+  {
+    link: '/',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
+    homeLink: homeLink,
+  },
+];

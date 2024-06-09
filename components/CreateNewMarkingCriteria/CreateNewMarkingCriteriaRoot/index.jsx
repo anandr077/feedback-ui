@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop';
-import CreateNewMarkingCriteriaTablet from '../CreateNewMarkingCriteriaTablet';
-import CreateNewMarkingCriteriaLaptop from '../CreateNewMarkingCriteriaLaptop';
 import CreateNewMarkingCriteriaMobile from '../CreateNewMarkingCriteriaMobile';
-import ReactiveRender from '../../ReactiveRender';
-
+import  { isMobileView } from '../../ReactiveRender';
 import CriteriaContainer from '../CriteriaContainer';
 import {
   createNewMarkingCriteria,
@@ -29,6 +26,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
   const history = useHistory();
+  const mobileView = isMobileView();
 
   React.useEffect(() => {
     Promise.all([getAllMarkingCriteria()]).then(([result]) => {
@@ -71,6 +69,26 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         return {
           ...criteria,
           levels: [...criteria.levels, newLevel],
+        };
+      }
+      return criteria;
+    });
+    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+  };
+
+  const addLevelInBetween = (criteriaId, levelId) => {
+    const newLevel = {
+      id: markingCriterias.criterias[criteriaId].levels.length,
+      name: '',
+      description: '',
+    };
+    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+      if (index === criteriaId) {
+        const newLevels = [...criteria.levels];
+        newLevels.splice(levelId + 1, 0, newLevel);
+        return {
+          ...criteria,
+          levels: newLevels,
         };
       }
       return criteria;
@@ -261,8 +279,8 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   }
 
   return (
-    <ReactiveRender
-      mobile={
+    <>
+      {mobileView ? (
         <CreateNewMarkingCriteriaMobile
           {...{
             ...accountSettingsMarkingCriteriaCreat2Data,
@@ -276,53 +294,29 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             markingCriterias,
           }}
         />
-      }
-      tablet={
-        <CreateNewMarkingCriteriaTablet
-          {...{
-            ...accountSettingsMarkingCriteriaCreat3Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      }
-      laptop={
-        <CreateNewMarkingCriteriaLaptop
-          {...{
-            ...accountSettingsMarkingCriteriaCreat4Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      }
-      desktop={
+      ) : (
         <CreateNewMarkingCriteriaDesktop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
             criterias,
             addCriteria,
             addLevel,
+            deleteLevel,
+            addLevelInBetween,
+            deleteCriteria,
+            updateCriteriaTitle,
+            updateLevelName,
+            updateLevelDescription,
             saveMarkingCriteria,
             deleteMarkingCriteriaMethod,
             handleTitleChange,
             isUpdating,
             markingCriterias,
+            markingCriteriaId,
           }}
         />
-      }
-    />
+      )}
+    </>
   );
 }
 

@@ -6,7 +6,6 @@ const AudioPlayer = ({ generatedAudioFeedback }) => {
 
   return (
     <AudioContainer>
-      <AudioFeedbackTitle>Audio Feedback</AudioFeedbackTitle>
       <Audio controls>
         <source
           src={audioUrl}

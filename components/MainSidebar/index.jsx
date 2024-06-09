@@ -19,6 +19,7 @@ import {
 import { getLocalClasses } from '../../service';
 import {
   isNonSchoolStudent,
+  isShowSetting,
   isTeacherWithClass,
   isTeacherWithoutClass,
 } from './rules';
@@ -63,7 +64,7 @@ const MainSidebar = () => {
       link: '/getFeedback',
       linksContainer: ['/getFeedback', '/documents'],
     },
-    isTeacherWithClass(role, localClasses) && {
+    isShowSetting(role) && {
       icon: settingIcon,
       activeIcon: activesettingIcon,
       name: 'Feedback Tools',
@@ -83,7 +84,7 @@ const MainSidebar = () => {
   };
   const updateIsActive = () => {
     const checkIsActive = (obj) => {
-      if (location.pathname === '/' && obj.link === '/tasks') {
+      if (location.pathname === '/' && (obj.link === '/tasks' || (isExpert && obj.linksContainer.includes('/tasks')))) {
         return true;
       }
       return obj.linksContainer.some((item) =>
@@ -106,7 +107,7 @@ const MainSidebar = () => {
         </a>
         <ul>
           {sideNavItems.map((navItem) => {
-            const active = isActive(navItem) || isExpert;
+            const active = isActive(navItem);
               return (
                 <li
                   key={navItem.link}

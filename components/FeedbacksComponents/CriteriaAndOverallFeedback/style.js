@@ -27,13 +27,12 @@ export const Heading = styled.div`
   align-items: center;
   gap: 4px;
   padding: 16px;
-  background-color: #f2f1f3;
+  background-color: #f2f1f3; 
   color: #4b464f;
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: var(--font-size-l);
   line-height: 20px;
-  margin-top: 8px;
 `;
 
 export const Body = styled.div`

@@ -27,7 +27,7 @@ import questionMark from '../../static/img/24questionbordered.svg';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import helpbarIcon from '../../static/img/helpgray24.svg';
 import addBtnIcon from '../../static/icons/gradient_add.svg';
-import notificationsIcon from '../../static/icons/notifications.svg';
+import notificationsIcon from '../../static/icons/Notifications.svg';
 import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLeftIconBtn';
 import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';

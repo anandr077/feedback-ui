@@ -57,10 +57,13 @@ import { MarkRubricTitle } from './style';
 import { MarkRubricLevelContainer } from './style';
 import { LevelName } from './style';
 import { LevelDesc } from './style';
-import { getUserRole } from '../../../userLocalDetails';
+import { getUserId, getUserRole } from '../../../userLocalDetails';
 import closecircle from '../../../static/img/closecircle.svg';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
-import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksRoot/rules';
+import {
+  isAllowGiveMarkingCriteriaFeedback,
+  isShowOverallFeedbackHeadline,
+} from '../FeedbacksRoot/rules';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
 
 const CriteriaAndOverallFeedback = ({
@@ -80,6 +83,7 @@ const CriteriaAndOverallFeedback = ({
   const [overallComment, setOverallComment] = useState({});
   const [markingCriteria, setMarkingCriteria] = useState();
   const isTeacher = getUserRole() === 'TEACHER';
+  const userId = getUserId();
   const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
   const [selectedStrengthId, setSelectedStrengthId] = useState(0);
   const [selectedStrengths, setSelectedStrengths] = useState([{}]);
@@ -468,15 +472,17 @@ const CriteriaAndOverallFeedback = ({
               </RubricButton>
             </MarkingCriteriaHeadingContainer>
           </MarkingCriteriaContainer>
-          <Heading>
-            <HeadingTitle>
-              Overall Feedback
-              <img src={QuestionIcon} />
-            </HeadingTitle>
-            <HeadingDropdown>
-              <img src={TickMark} />
-            </HeadingDropdown>
-          </Heading>
+          {isShowOverallFeedbackHeadline(pageMode, overallComment, submission.reviewerId, userId) && (
+            <Heading>
+              <HeadingTitle>
+                Overall Feedback
+                <img src={QuestionIcon} />
+              </HeadingTitle>
+              <HeadingDropdown>
+                <img src={TickMark} />
+              </HeadingDropdown>
+            </Heading>
+          )}
           <OverallFeedbackContainer>
             <NewOverallFeedback
               pageMode={pageMode}
@@ -484,6 +490,8 @@ const CriteriaAndOverallFeedback = ({
               serialNumber={QuestionIndex + 1}
               overallComment={overallComment}
               updateOverAllFeedback={updateOverAllFeedback}
+              reviewer={submission.reviewerId}
+              userId={userId}
             />
           </OverallFeedbackContainer>
         </Body>

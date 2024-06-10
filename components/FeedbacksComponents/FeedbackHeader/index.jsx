@@ -283,7 +283,7 @@ function submitButtonOnDocument(
           setShowTeacherPopUp={setShowTeacherPopUp}
         />
         <RoundedBorderSubmitBtn
-          text={isTeacher ? 'JeddAI' : 'Request Feedback'}
+          text={isTeacher ? 'Use JeddAI' : 'Request Feedback'}
           onClickFn={
             isTeacher
               ? (event) => {

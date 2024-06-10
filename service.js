@@ -196,7 +196,7 @@ export const logout = async () => {
     logoutLocal();
 
     window.location.href =
-      jeddleBaseUrl + '/wp-json/moserver/logout';
+     jeddleBaseUrl + '/wp-login.php?action=logout&redirect_to=' + selfBaseUrl;
   });
 };
 export const changePassword = async () => {

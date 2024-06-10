@@ -63,3 +63,7 @@ export const isShowFullCommentBankText = (comment, selectedComment) =>{
   return false;
 }
 
+export const isShowMarkingCriteriaSection = (markingCriteriaFeedback) =>{
+   return markingCriteriaFeedback?.length !== 0;
+}
+

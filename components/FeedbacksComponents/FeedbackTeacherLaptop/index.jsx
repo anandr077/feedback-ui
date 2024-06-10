@@ -619,7 +619,6 @@ function answersAndFeedbacks(
             ></FeedbackFrame>
           )} */}
         </Frame1368>
-        {submission.type !== 'DOCUMENT' && (
           <>
             <FeedbackRightSideSlidingTabs
               handleRightSidebarClick={handleRightSidebarClick}
@@ -653,7 +652,6 @@ function answersAndFeedbacks(
               submission={submission}
             />
           </>
-        )}
       </FeedbackBody>
     </Frame1386>
   );

@@ -62,6 +62,7 @@ import closecircle from '../../../static/img/closecircle.svg';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
 import {
   isAllowGiveMarkingCriteriaFeedback,
+  isShowMarkingCriteriaSection,
   isShowOverallFeedbackHeadline,
 } from '../FeedbacksRoot/rules';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
@@ -421,6 +422,7 @@ const CriteriaAndOverallFeedback = ({
     );
   };
 
+
   return (
     <>
       {isShowMarkingCrteriaPopUp && (
@@ -435,43 +437,53 @@ const CriteriaAndOverallFeedback = ({
         />
       )}
       <MainContainer openRightPanel={openRightPanel}>
-        <Heading>
-          <HeadingTitle>
-            Assessment Criteria
-            <img src={QuestionIcon} />
-          </HeadingTitle>
-          <HeadingDropdown>
-            <img src={TickMark} />
-          </HeadingDropdown>
-          {openRightPanel === 'tab2' && (
-            <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-          )}
-        </Heading>
-        <Body>
-          <MarkingCriteriaMainHeadingContainer>
-            <MarkingCriteriaMainHeading>
-              Marking Criteria
-            </MarkingCriteriaMainHeading>
-            {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
-              <Text>
-                Click 'Expand' to provide Marking Criteria based feedback
-              </Text>
-            ) : (
-              <Text>Click 'Expand' to see Marking Criteria based feedback</Text>
+        {isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
+          <Heading>
+            <HeadingTitle>
+              Assessment Criteria
+              <img src={QuestionIcon} />
+            </HeadingTitle>
+            <HeadingDropdown>
+              <img src={TickMark} />
+            </HeadingDropdown>
+            {openRightPanel === 'tab2' && (
+              <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
             )}
-          </MarkingCriteriaMainHeadingContainer>
-          <MarkingCriteriaContainer>
-            <MarkingCriteriaHeadingContainer>
-              <MarkingCriteriaHeading>
-                {markingCriteria?.type === 'RUBRICS'
-                  ? 'Rubric'
-                  : 'Strengths and Targets'}
-              </MarkingCriteriaHeading>
-              <RubricButton onClick={() => setShowMarkingCrteriaPopUp(true)}>
-                Expand
-              </RubricButton>
-            </MarkingCriteriaHeadingContainer>
-          </MarkingCriteriaContainer>
+          </Heading>
+        )}
+        <Body>
+          {isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
+            <>
+              <MarkingCriteriaMainHeadingContainer>
+                <MarkingCriteriaMainHeading>
+                  Marking Criteria
+                </MarkingCriteriaMainHeading>
+                {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
+                  <Text>
+                    Click 'Expand' to provide Marking Criteria based feedback
+                  </Text>
+                ) : (
+                  <Text>
+                    Click 'Expand' to see Marking Criteria based feedback
+                  </Text>
+                )}
+              </MarkingCriteriaMainHeadingContainer>
+              <MarkingCriteriaContainer>
+                <MarkingCriteriaHeadingContainer>
+                  <MarkingCriteriaHeading>
+                    {markingCriteria?.type === 'RUBRICS'
+                      ? 'Rubric'
+                      : 'Strengths and Targets'}
+                  </MarkingCriteriaHeading>
+                  <RubricButton
+                    onClick={() => setShowMarkingCrteriaPopUp(true)}
+                  >
+                    Expand
+                  </RubricButton>
+                </MarkingCriteriaHeadingContainer>
+              </MarkingCriteriaContainer>
+            </>
+          )}
           {isShowOverallFeedbackHeadline(pageMode, overallComment, submission.reviewerId, userId) && (
             <Heading>
               <HeadingTitle>
@@ -481,6 +493,10 @@ const CriteriaAndOverallFeedback = ({
               <HeadingDropdown>
                 <img src={TickMark} />
               </HeadingDropdown>
+              {openRightPanel === 'tab2' &&
+              !isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
+                <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+              )}
             </Heading>
           )}
           <OverallFeedbackContainer>

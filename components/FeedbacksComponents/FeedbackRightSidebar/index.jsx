@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { MainContainer, TopSection, Button } from './style';
 import ExclamationIcon from '../../../static/img/exclamation.svg';
 import PurpleExclamationIcon from '../../../static/img/purpleExclamationIcon.svg';
@@ -7,6 +7,7 @@ import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import ClockIcon from '../../../static/img/clock_2.svg';
 import TasksIcon from '../../../static/img/task.svg';
 import { isShowMarkingCriteriaButton, isShowTaskDetailsButton } from '../FeedbacksRoot/rules';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 const FeedbackRightSidebar = ({
   handleClick,
@@ -15,6 +16,9 @@ const FeedbackRightSidebar = ({
   isTeacher,
   submission,
 }) => {
+  const { overallComments, markingCriteriaFeedback } =
+    useContext(FeedbackContext);
+
   return (
     <MainContainer>
       <TopSection>
@@ -32,7 +36,7 @@ const FeedbackRightSidebar = ({
             />
           </Button>
         )}
-        {isShowMarkingCriteriaButton(isTeacher, submission.type, submission.status) && (
+        {isShowMarkingCriteriaButton(isTeacher, submission.type, submission.status, overallComments, markingCriteriaFeedback) && (
           <Button
             isActive={openRightPanel === 'tab2'}
             onClick={() => handleClick('tab2')}

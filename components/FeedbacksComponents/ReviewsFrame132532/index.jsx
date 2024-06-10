@@ -29,9 +29,6 @@ function ReviewsFrame132532(props) {
     isClosable,
     sharedWithStudents,
     isReply = false,
-    showReplyButton,
-    onReplyClick,
-    selectedComment,
   } = props;
   const closeFrame = isClosable ? (
     <More onClick={onClose} src="/img/FAClose.svg" alt="more" />
@@ -164,16 +161,7 @@ function ReviewsFrame132532(props) {
         </Instructer>
       </Frame1324>
       {resolveFrame}
-      {selectedComment?.id === comment.id && (
-        <>
-          {showReplyButton && (
-            <>
-              <Reply onClick={onReplyClick}>
-                <img src={ReplyIcon} alt="reply" />
-              </Reply>
-            </>
-          )}
-          {getUserId() === comment.reviewerId &&
+      {getUserId() === comment.reviewerId &&
             !defaultComment &&
             comment.type !== 'FOCUS_AREA' &&
             pageMode !== 'CLOSED' && (
@@ -182,11 +170,9 @@ function ReviewsFrame132532(props) {
                 src={DotIcon}
                 ref={componentRef}
               />
-            )}
-          {closeFrame}
-          {openEditDeleteTemplate}
-        </>
       )}
+      {closeFrame}
+      {openEditDeleteTemplate}
     </Frame1325>
   );
 

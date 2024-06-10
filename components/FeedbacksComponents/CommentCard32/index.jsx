@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import {
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
 import { truncateString } from '../../../components2/truncateString';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
+import { isShowReplyInput } from './rule';
 
 function CommentCard32(props) {
   const {
@@ -57,9 +58,13 @@ function CommentCard32(props) {
     textAreaAutoResize(event, inputRef);
   };
 
-  function handleReplyClick() {
-    setIsReplyClicked(true);
-  }
+  useEffect(()=>{
+    if(selectedComment?.id === comment.id){
+      setIsReplyClicked(true)
+    }else{
+      setIsReplyClicked(false)
+    }
+  }, [selectedComment])
 
   function handleSubmitClick() {
     if (inputValue === '' || inputValue === null || inputValue === undefined) {
@@ -121,7 +126,6 @@ function CommentCard32(props) {
             updateExemplarComment={updateExemplarComment}
             sharedWithStudents={comment.sharedWithStudents}
             isReply={true}
-            selectedComment={selectedComment}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -202,14 +206,6 @@ function CommentCard32(props) {
         convertToCheckedState={convertToCheckedState}
         updateExemplarComment={updateExemplarComment}
         sharedWithStudents={comment.sharedWithStudents}
-        showReplyButton={
-          isResolved !== 'RESOLVED' &&
-          !isReplyClicked &&
-          !defaultComment &&
-          pageMode !== 'CLOSED'
-        }
-        onReplyClick={handleReplyClick}
-        selectedComment={selectedComment}
       />
       <CommentText
         onClick={() => onClick(comment)}
@@ -218,7 +214,12 @@ function CommentCard32(props) {
         {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
-      {isReplyClicked && !editButtonActive && inputComment()}
+      {isShowReplyInput(
+        isResolved, 
+        isReplyClicked, 
+        defaultComment, 
+        pageMode, 
+        editButtonActive) && inputComment()}
     </CommentCard>
   );
 
@@ -326,6 +327,7 @@ const ReplyInputWrapper = styled.div`
   gap: 8px;
   align-self: stretch;
   font-family: 'IBM Plex Sans';
+  margin-top: 10px;
 `;
 
 const Input = styled.textarea`

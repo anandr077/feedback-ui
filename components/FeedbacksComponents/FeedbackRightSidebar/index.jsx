@@ -6,6 +6,7 @@ import CommentsIcon from '../../../static/img/gray_message_2.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import ClockIcon from '../../../static/img/clock_2.svg';
 import TasksIcon from '../../../static/img/task.svg';
+import { isShowMarkingCriteriaButton, isShowTaskDetailsButton } from '../FeedbacksRoot/rules';
 
 const FeedbackRightSidebar = ({
   handleClick,
@@ -17,19 +18,21 @@ const FeedbackRightSidebar = ({
   return (
     <MainContainer>
       <TopSection>
-        <Button
-          isActive={openRightPanel === 'tab1'}
-          onClick={() => handleClick('tab1')}
-        >
-          <img
-            src={
-              openRightPanel === 'tab1'
-                ? PurpleExclamationIcon
-                : ExclamationIcon
-            }
-          />
-        </Button>
-        {(isTeacher || (!isTeacher && (submission.status === "REVIEWED" || submission.status === "CLOSED"))) && (
+        {isShowTaskDetailsButton(submission.type) && (
+          <Button
+            isActive={openRightPanel === 'tab1'}
+            onClick={() => handleClick('tab1')}
+          >
+            <img
+              src={
+                openRightPanel === 'tab1'
+                  ? PurpleExclamationIcon
+                  : ExclamationIcon
+              }
+            />
+          </Button>
+        )}
+        {isShowMarkingCriteriaButton(isTeacher, submission.type, submission.status) && (
           <Button
             isActive={openRightPanel === 'tab2'}
             onClick={() => handleClick('tab2')}

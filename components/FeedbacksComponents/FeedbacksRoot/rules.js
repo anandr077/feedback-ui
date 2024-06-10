@@ -44,22 +44,99 @@ export const isShowFeedbackBy = (name) => {
   return name !== null;
 };
 
-export const isShowStudentDropdownInHeader = (isTeacher, submissionType, pageMode) =>{
-   return isTeacher && submissionType === "SUBMISSION" && (pageMode === 'REVIEW' || pageMode === 'CLOSED')
-}
+export const isShowStudentDropdownInHeader = (
+  isTeacher,
+  submissionType,
+  pageMode
+) => {
+  return (
+    isTeacher &&
+    submissionType === 'SUBMISSION' &&
+    (pageMode === 'REVIEW' || pageMode === 'CLOSED')
+  );
+};
 
-export const isShowTitleInHeader = (submissionType, role) =>{
-  return submissionType === "SUBMISSION" && role !== 'TEACHER'
-}
+export const isShowTitleInHeader = (submissionType, role) => {
+  return submissionType === 'SUBMISSION' && role !== 'TEACHER';
+};
 
-export const isShowSubjectTaskType = (submissionType) =>{
-  return submissionType === "DOCUMENT"
-}
+export const isShowSubjectTaskType = (submissionType) => {
+  return submissionType === 'DOCUMENT';
+};
 
-export const isShowFullCommentBankText = (comment, selectedComment) =>{
-  if(selectedComment){
-    return comment.id === selectedComment.id
+export const isShowFullCommentBankText = (comment, selectedComment) => {
+  if (selectedComment) {
+    return comment.id === selectedComment.id;
   }
   return false;
+};
+
+export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer, userId) => {
+  if (overallComment === null || overallComment === undefined) {
+    return false;
+  }
+  if (pageMode === "CLOSED" && reviewer !== userId) {
+    return false;
+  }
+  if (pageMode === "DRAFT") {
+    return false;
+  }
+  return true;
+};
+
+export const isShowTaskDetailsButton = (submissionType) => {
+  return submissionType !== 'DOCUMENT';
+};
+
+export const isShowMarkingCriteriaButton = (
+  isTeacher,
+  submissionType,
+  submissionStatus
+) => {
+  return (
+    isTeacher ||
+    (!isTeacher &&
+      (submissionStatus === 'REVIEWED' ||
+        submissionStatus === 'CLOSED' ||
+        submissionType === 'DOCUMENT'))
+  );
+};
+
+export const isShowOverAllTextFeedback = (pageMode, overallComment) => {
+  return pageMode === 'REVIEW' || overallComment != null;
+};
+
+
+export const isShowClosedReviewOverallTextInputBox = (pageMode) =>{
+  return pageMode === "REVIEW";
 }
 
+export const isShowMarkingCriteriaSection = (markingCriteriaFeedback) =>{
+   return markingCriteriaFeedback?.length !== 0;
+}
+
+export const isShowClosedReviewOverallComment = (pageMode, overallComment, reviewer, user) =>{
+  if (overallComment === null || overallComment === undefined) {
+    return false;
+  }
+  if (pageMode === "REVISE") {
+    return true;
+  }
+  if (pageMode === "CLOSED" && reviewer !== user) {
+    return false;
+  }
+  return true;
+}
+
+export const isShowClosedReviewAudioComment = (pageMode, audio, reviewer, user) =>{
+  if (audio === null || audio === undefined) {
+    return false;
+  }
+  if (pageMode === "REVISE") {
+    return true;
+  }
+  if (pageMode === "CLOSED" && reviewer !== user) {
+    return false;
+  }
+  return true;
+}

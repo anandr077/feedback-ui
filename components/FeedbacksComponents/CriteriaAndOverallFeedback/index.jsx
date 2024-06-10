@@ -57,10 +57,14 @@ import { MarkRubricTitle } from './style';
 import { MarkRubricLevelContainer } from './style';
 import { LevelName } from './style';
 import { LevelDesc } from './style';
-import { getUserRole } from '../../../userLocalDetails';
+import { getUserId, getUserRole } from '../../../userLocalDetails';
 import closecircle from '../../../static/img/closecircle.svg';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
-import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksRoot/rules';
+import {
+  isAllowGiveMarkingCriteriaFeedback,
+  isShowMarkingCriteriaSection,
+  isShowOverallFeedbackHeadline,
+} from '../FeedbacksRoot/rules';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
 
 const CriteriaAndOverallFeedback = ({
@@ -80,6 +84,7 @@ const CriteriaAndOverallFeedback = ({
   const [overallComment, setOverallComment] = useState({});
   const [markingCriteria, setMarkingCriteria] = useState();
   const isTeacher = getUserRole() === 'TEACHER';
+  const userId = getUserId();
   const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
   const [selectedStrengthId, setSelectedStrengthId] = useState(0);
   const [selectedStrengths, setSelectedStrengths] = useState([{}]);
@@ -417,6 +422,7 @@ const CriteriaAndOverallFeedback = ({
     );
   };
 
+
   return (
     <>
       {isShowMarkingCrteriaPopUp && (
@@ -431,52 +437,68 @@ const CriteriaAndOverallFeedback = ({
         />
       )}
       <MainContainer openRightPanel={openRightPanel}>
-        <Heading>
-          <HeadingTitle>
-            Assessment Criteria
-            <img src={QuestionIcon} />
-          </HeadingTitle>
-          <HeadingDropdown>
-            <img src={TickMark} />
-          </HeadingDropdown>
-          {openRightPanel === 'tab2' && (
-            <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-          )}
-        </Heading>
-        <Body>
-          <MarkingCriteriaMainHeadingContainer>
-            <MarkingCriteriaMainHeading>
-              Marking Criteria
-            </MarkingCriteriaMainHeading>
-            {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
-              <Text>
-                Click 'Expand' to provide Marking Criteria based feedback
-              </Text>
-            ) : (
-              <Text>Click 'Expand' to see Marking Criteria based feedback</Text>
-            )}
-          </MarkingCriteriaMainHeadingContainer>
-          <MarkingCriteriaContainer>
-            <MarkingCriteriaHeadingContainer>
-              <MarkingCriteriaHeading>
-                {markingCriteria?.type === 'RUBRICS'
-                  ? 'Rubric'
-                  : 'Strengths and Targets'}
-              </MarkingCriteriaHeading>
-              <RubricButton onClick={() => setShowMarkingCrteriaPopUp(true)}>
-                Expand
-              </RubricButton>
-            </MarkingCriteriaHeadingContainer>
-          </MarkingCriteriaContainer>
+        {isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
           <Heading>
             <HeadingTitle>
-              Overall Feedback
+              Assessment Criteria
               <img src={QuestionIcon} />
             </HeadingTitle>
             <HeadingDropdown>
               <img src={TickMark} />
             </HeadingDropdown>
+            {openRightPanel === 'tab2' && (
+              <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+            )}
           </Heading>
+        )}
+        <Body>
+          {isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
+            <>
+              <MarkingCriteriaMainHeadingContainer>
+                <MarkingCriteriaMainHeading>
+                  Marking Criteria
+                </MarkingCriteriaMainHeading>
+                {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
+                  <Text>
+                    Click 'Expand' to provide Marking Criteria based feedback
+                  </Text>
+                ) : (
+                  <Text>
+                    Click 'Expand' to see Marking Criteria based feedback
+                  </Text>
+                )}
+              </MarkingCriteriaMainHeadingContainer>
+              <MarkingCriteriaContainer>
+                <MarkingCriteriaHeadingContainer>
+                  <MarkingCriteriaHeading>
+                    {markingCriteria?.type === 'RUBRICS'
+                      ? 'Rubric'
+                      : 'Strengths and Targets'}
+                  </MarkingCriteriaHeading>
+                  <RubricButton
+                    onClick={() => setShowMarkingCrteriaPopUp(true)}
+                  >
+                    Expand
+                  </RubricButton>
+                </MarkingCriteriaHeadingContainer>
+              </MarkingCriteriaContainer>
+            </>
+          )}
+          {isShowOverallFeedbackHeadline(pageMode, overallComment, submission.reviewerId, userId) && (
+            <Heading>
+              <HeadingTitle>
+                Overall Feedback
+                <img src={QuestionIcon} />
+              </HeadingTitle>
+              <HeadingDropdown>
+                <img src={TickMark} />
+              </HeadingDropdown>
+              {openRightPanel === 'tab2' &&
+              !isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
+                <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+              )}
+            </Heading>
+          )}
           <OverallFeedbackContainer>
             <NewOverallFeedback
               pageMode={pageMode}
@@ -484,6 +506,8 @@ const CriteriaAndOverallFeedback = ({
               serialNumber={QuestionIndex + 1}
               overallComment={overallComment}
               updateOverAllFeedback={updateOverAllFeedback}
+              reviewer={submission.reviewerId}
+              userId={userId}
             />
           </OverallFeedbackContainer>
         </Body>

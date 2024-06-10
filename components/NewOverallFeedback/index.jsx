@@ -5,6 +5,7 @@ import AudioRecorder from '../AudioRecorder';
 import NonEditableFeedback from '../../components2/NonEditableFeedback';
 import AudioPlayer from '../AudioPlayer';
 import { textAreaAutoResize } from '../../components2/textAreaAutoResize';
+import { isShowClosedReviewAudioComment, isShowClosedReviewOverallComment, isShowClosedReviewOverallTextInputBox, isShowOverAllTextFeedback } from '../FeedbacksComponents/FeedbacksRoot/rules';
 
 const NewOverallFeedback = ({
   pageMode,
@@ -12,9 +13,12 @@ const NewOverallFeedback = ({
   serialNumber,
   overallComment,
   updateOverAllFeedback,
+  reviewer,
+  userId
 }) => {
   const [audioComment, setAudioComment] = useState(null);
   const inputRef = useRef();
+
   useEffect(() => {
     if (inputRef.current) {
       if (overallComment?.comment) {
@@ -25,7 +29,6 @@ const NewOverallFeedback = ({
     }
   
     if (overallComment?.questionSerialNumber === serialNumber) {
-      console.log('the overallComment in useEffect', overallComment)
       setAudioComment(overallComment.audio);
     }
     const textarea = inputRef.current;
@@ -70,42 +73,40 @@ const NewOverallFeedback = ({
       );
     });
   };
-
   if (pageMode === 'DRAFT') return <></>;
   if (pageMode === 'CLOSED' || pageMode === 'REVISE') {
-    if (overallComment !== null && overallComment !== undefined) {
-      return (
-        <>
+    return (
+      <>
+        {isShowClosedReviewOverallTextInputBox(pageMode) && (
           <TextFeedback
             ref={inputRef}
             readOnly={true}
             placeholder="Give feedback here..."
             read={true}
-          ></TextFeedback>
-          {audioComment ? (
-            <AudioPlayer
-              generatedAudioFeedback={base64ToBlob(audioComment, 'audio/webm')}
-            />
-          ) : (
-            <></>
-          )}
-        </>
-      );
-    }
-    return (
-      <TextFeedback
-        ref={inputRef}
-        readOnly={true}
-        read={true}
-        style={{
-          height: `auto`,
-        }}
-      ></TextFeedback>
+          />
+        )}
+        {isShowClosedReviewOverallComment(pageMode, overallComment?.comment, reviewer, userId) ? (
+          <TextFeedback
+            ref={inputRef}
+            readOnly={true}
+            read={true}
+            style={{
+              height: `auto`,
+            }}
+          />
+        ) : null}
+        {isShowClosedReviewAudioComment(pageMode, overallComment?.audio, reviewer, userId) && (
+          <AudioPlayer
+            generatedAudioFeedback={base64ToBlob(overallComment.audio, 'audio/webm')}
+          />
+        )}
+      </>
     );
   }
 
   return (
     <>
+     {isShowOverAllTextFeedback(pageMode, overallComment?.comment) && (
       <TextFeedback
         ref={inputRef}
         placeholder="Give feedback here..."
@@ -117,6 +118,7 @@ const NewOverallFeedback = ({
           textAreaAutoResize(e, inputRef);
         }}
       ></TextFeedback>
+     )}
 
       {overallComment?.audio ? (
         <AudioRecorder

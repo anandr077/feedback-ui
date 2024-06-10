@@ -33,14 +33,14 @@ function CommentCard32(props) {
     updateExemplarComment,
     selectedComment
   } = props;
-  const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
   const [showFullComment, setShowFullComment] = React.useState(false);
   const inputRef = useRef();
-
+  
+  const isReplyClicked = selectedComment?.id === comment.id 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
     handleEditingComment(true);
@@ -49,7 +49,6 @@ function CommentCard32(props) {
       setEditReplyIndex(index);
     }
     setInputValue(inputValue);
-    setIsReplyClicked(true);
   };
 
   const handleInputChange = (event) => {
@@ -58,13 +57,7 @@ function CommentCard32(props) {
     textAreaAutoResize(event, inputRef);
   };
 
-  useEffect(()=>{
-    if(selectedComment?.id === comment.id){
-      setIsReplyClicked(true)
-    }else{
-      setIsReplyClicked(false)
-    }
-  }, [selectedComment])
+  
 
   function handleSubmitClick() {
     if (inputValue === '' || inputValue === null || inputValue === undefined) {
@@ -90,13 +83,11 @@ function CommentCard32(props) {
       );
     }
     setInputValue('');
-    setIsReplyClicked(false);
     setEditButtonActive(false);
     handleEditingComment(false);
   }
 
   function handleCancelClick() {
-    setIsReplyClicked(false);
     setEditButtonActive(false);
     setInputValue('');
     handleEditingComment(false);

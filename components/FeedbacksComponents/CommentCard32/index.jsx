@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import {
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
 import { truncateString } from '../../../components2/truncateString';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
+import { isShowReplyInput } from './rule';
 
 function CommentCard32(props) {
   const {
@@ -32,14 +33,14 @@ function CommentCard32(props) {
     updateExemplarComment,
     selectedComment
   } = props;
-  const [isReplyClicked, setIsReplyClicked] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
   const [showFullComment, setShowFullComment] = React.useState(false);
   const inputRef = useRef();
-
+  
+  const isReplyClicked = selectedComment?.id === comment.id 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
     handleEditingComment(true);
@@ -48,7 +49,6 @@ function CommentCard32(props) {
       setEditReplyIndex(index);
     }
     setInputValue(inputValue);
-    setIsReplyClicked(true);
   };
 
   const handleInputChange = (event) => {
@@ -57,9 +57,7 @@ function CommentCard32(props) {
     textAreaAutoResize(event, inputRef);
   };
 
-  function handleReplyClick() {
-    setIsReplyClicked(true);
-  }
+  
 
   function handleSubmitClick() {
     if (inputValue === '' || inputValue === null || inputValue === undefined) {
@@ -85,13 +83,11 @@ function CommentCard32(props) {
       );
     }
     setInputValue('');
-    setIsReplyClicked(false);
     setEditButtonActive(false);
     handleEditingComment(false);
   }
 
   function handleCancelClick() {
-    setIsReplyClicked(false);
     setEditButtonActive(false);
     setInputValue('');
     handleEditingComment(false);
@@ -121,7 +117,6 @@ function CommentCard32(props) {
             updateExemplarComment={updateExemplarComment}
             sharedWithStudents={comment.sharedWithStudents}
             isReply={true}
-            selectedComment={selectedComment}
           />
           <CommentText
             onClick={() => onClick(comment)}
@@ -202,14 +197,6 @@ function CommentCard32(props) {
         convertToCheckedState={convertToCheckedState}
         updateExemplarComment={updateExemplarComment}
         sharedWithStudents={comment.sharedWithStudents}
-        showReplyButton={
-          isResolved !== 'RESOLVED' &&
-          !isReplyClicked &&
-          !defaultComment &&
-          pageMode !== 'CLOSED'
-        }
-        onReplyClick={handleReplyClick}
-        selectedComment={selectedComment}
       />
       <CommentText
         onClick={() => onClick(comment)}
@@ -218,7 +205,12 @@ function CommentCard32(props) {
         {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
-      {isReplyClicked && !editButtonActive && inputComment()}
+      {isShowReplyInput(
+        isResolved, 
+        isReplyClicked, 
+        defaultComment, 
+        pageMode, 
+        editButtonActive) && inputComment()}
     </CommentCard>
   );
 
@@ -326,6 +318,7 @@ const ReplyInputWrapper = styled.div`
   gap: 8px;
   align-self: stretch;
   font-family: 'IBM Plex Sans';
+  margin-top: 10px;
 `;
 
 const Input = styled.textarea`

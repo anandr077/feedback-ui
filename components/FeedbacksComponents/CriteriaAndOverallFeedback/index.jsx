@@ -437,20 +437,25 @@ const CriteriaAndOverallFeedback = ({
         />
       )}
       <MainContainer openRightPanel={openRightPanel}>
-        {isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
-          <Heading>
+        <Heading>
+            {isShowMarkingCriteriaSection(markingCriteriaFeedback) ? (
             <HeadingTitle>
               Assessment Criteria
               <img src={QuestionIcon} />
             </HeadingTitle>
+            ) : (
+            <HeadingTitle>
+              Overall Feedback
+              <img src={QuestionIcon} />
+            </HeadingTitle>
+            )}
             <HeadingDropdown>
               <img src={TickMark} />
             </HeadingDropdown>
             {openRightPanel === 'tab2' && (
               <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
             )}
-          </Heading>
-        )}
+        </Heading>
         <Body>
           {isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
             <>
@@ -484,7 +489,7 @@ const CriteriaAndOverallFeedback = ({
               </MarkingCriteriaContainer>
             </>
           )}
-          {isShowOverallFeedbackHeadline(pageMode, overallComment, submission.reviewerId, userId) && (
+          {isShowOverallFeedbackHeadline(pageMode, overallComment, submission.reviewerId, userId, markingCriteriaFeedback) && (
             <Heading>
               <HeadingTitle>
                 Overall Feedback

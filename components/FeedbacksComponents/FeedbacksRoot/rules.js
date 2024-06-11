@@ -71,7 +71,10 @@ export const isShowFullCommentBankText = (comment, selectedComment) => {
   return false;
 };
 
-export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer, userId) => {
+export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer, userId, markingCriteriaFeedback) => {
+  if(markingCriteriaFeedback?.length === 0){
+    return false
+  }
   if (overallComment === null || overallComment === undefined) {
     return false;
   }

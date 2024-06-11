@@ -88,7 +88,6 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
-  const [openRightPanel, SetOpenRightPanel] = React.useState('');
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
 
   const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
@@ -102,8 +101,9 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 219;
-  const { countWords, showNewComment, newCommentSerialNumber } =
+  const { countWords, showNewComment, newCommentSerialNumber, overallComments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
+  const [openRightPanel, SetOpenRightPanel] = React.useState(overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0 ? 'tab2' : 'tab1');
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];

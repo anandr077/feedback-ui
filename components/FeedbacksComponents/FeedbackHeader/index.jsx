@@ -69,7 +69,7 @@ const FeedbackHeader = ({
   isFeedback,
   isFocusAreas,
   setFocusAreas,
-  handleTabUpdate,
+  handleToggleUpdate,
   setShowResolved,
   isShowResolved,
   commentsForSelectedTab,
@@ -196,8 +196,8 @@ const FeedbackHeader = ({
             icon1Active={ActiveCommentIcon}
             icon2={FocusIcon}
             icon2Active={ActiveFocusIcon}
-            onChangeFn={handleTabUpdate}
-            isChecked={isFeedback}
+            onChangeFn={handleToggleUpdate}
+            isChecked={isFocusAreas}
           />
         )}
         {isTeacher && pageMode === 'REVIEW' && (

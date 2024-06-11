@@ -71,7 +71,10 @@ export const isShowFullCommentBankText = (comment, selectedComment) => {
   return false;
 };
 
-export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer, userId) => {
+export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer, userId, markingCriteriaFeedback) => {
+  if(markingCriteriaFeedback?.length === 0){
+    return false
+  }
   if (overallComment === null || overallComment === undefined) {
     return false;
   }
@@ -91,8 +94,16 @@ export const isShowTaskDetailsButton = (submissionType) => {
 export const isShowMarkingCriteriaButton = (
   isTeacher,
   submissionType,
-  submissionStatus
+  submissionStatus,
+  overallComments, 
+  markingCriteriaFeedback
 ) => {
+  const areCommentsAndFeedbackEmpty = overallComments.length === 0 && markingCriteriaFeedback.length === 0;
+
+  if ((submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') && areCommentsAndFeedbackEmpty) {
+    return false;
+  }
+
   return (
     isTeacher ||
     (!isTeacher &&

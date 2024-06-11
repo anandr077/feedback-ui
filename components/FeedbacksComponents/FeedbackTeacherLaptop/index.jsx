@@ -88,12 +88,11 @@ function FeedbackTeacherLaptop(props) {
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
-  const [openRightPanel, SetOpenRightPanel] = React.useState('');
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-
-  const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
+  const questions = submission.assignment.questions
+  const [isFeedback, setFeedback] = React.useState( !(questions[QuestionIndex]?.focusAreas && questions[QuestionIndex]?.focusAreas.length !== 0));
   const [isFocusAreas, setFocusAreas] = React.useState(
-    pageMode === 'DRAFT' && submission.type !== 'DOCUMENT'
+    questions[QuestionIndex]?.focusAreas && questions[QuestionIndex]?.focusAreas.length !== 0
   );
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
@@ -102,8 +101,9 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 219;
-  const { countWords, showNewComment, newCommentSerialNumber } =
+  const { countWords, showNewComment, newCommentSerialNumber, overallComments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
+  const [openRightPanel, SetOpenRightPanel] = React.useState(overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0 ? 'tab2' : 'tab1');
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
@@ -240,7 +240,7 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
-  function handleTabUpdate() {
+  function handleToggleUpdate() {
     setFeedback((prev) => !prev);
     setFocusAreas((prev) => !prev);
     methods.setShowNewComment(false);
@@ -301,7 +301,7 @@ function FeedbackTeacherLaptop(props) {
               editorFontSize,
               selectedComment,
               selectedRange,
-              handleTabUpdate,
+              handleToggleUpdate,
               openRightPanel, 
               SetOpenRightPanel,
               QuestionIndex, 
@@ -502,7 +502,7 @@ function answersAndFeedbacks(
   editorFontSize,
   selectedComment,
   selectedRange,
-  handleTabUpdate,
+  handleToggleUpdate,
   openRightPanel, 
   SetOpenRightPanel,
   QuestionIndex, 
@@ -555,7 +555,7 @@ function answersAndFeedbacks(
         setFocusAreas={setFocusAreas}
         isFeedback={isFeedback}
         isFocusAreas={isFocusAreas}
-        handleTabUpdate={handleTabUpdate}
+        handleToggleUpdate={handleToggleUpdate}
         setShowResolved={setShowResolved}
         isShowResolved={isShowResolved}
         commentsForSelectedTab={commentsForSelectedTab}
@@ -567,6 +567,8 @@ function answersAndFeedbacks(
             setQuestionIndex={setQuestionIndex}
             QuestionIndex={QuestionIndex}
             questions={submission.assignment.questions}
+            setFeedback={setFeedback}
+            setFocusAreas={setFocusAreas}
           />
         )}
       <FeedbackBody>

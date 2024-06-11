@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   OptionContainer,
   Option,
@@ -43,6 +43,7 @@ import {
   isShareWithClass,
   isShowCommentBanks,
 } from '../../FeedbacksComponents/FeedbacksRoot/rules';
+import { useOutsideAlerter } from '../../../components2/CustomHooks/useOutsideAlerter';
 
 const CommentBox = ({
   pageMode,
@@ -59,11 +60,14 @@ const CommentBox = ({
   question,
   isFeedback,
 }) => {
-  const { showNewComment, newCommentSerialNumber, isTeacher } =
+  const { showNewComment, newCommentSerialNumber, isTeacher, setSelectedComment } =
     useContext(FeedbackContext);
   const [commentHeights, setCommentHeights] = useState([]);
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const role = getUserRole();
+  const commentRepositionRef = useRef(null);
+
+  useOutsideAlerter(commentRepositionRef, ()=> setSelectedComment(null))
 
   let commentBankIds = submission.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
@@ -178,6 +182,7 @@ const CommentBox = ({
             {groupedCommentsWithGap.map((comment, index) => {
               return (
                 <CommentDiv
+                  ref={commentRepositionRef}
                   key={index}
                   id={`comment-${comment.id}`}
                   style={{

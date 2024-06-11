@@ -1582,6 +1582,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setSelectedRange,
         setSelectedText,
         isResetEditorTextSelection,
+        setSelectedComment
       }}
     >
       {showSubmitPopup &&

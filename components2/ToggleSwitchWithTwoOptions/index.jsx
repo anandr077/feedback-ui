@@ -8,14 +8,14 @@ import {
 } from './style';
 
 const ToggleSwitchWithTwoOptions = ({
-    text1,
-    text2,
-    icon1,
-    icon1Active,
-    icon2,
-    icon2Active,
-    onChangeFn,
-    isChecked
+  text1,
+  text2,
+  icon1,
+  icon1Active,
+  icon2,
+  icon2Active,
+  onChangeFn,
+  isChecked,
 }) => {
   return (
     <ToggleContainer>
@@ -27,17 +27,17 @@ const ToggleSwitchWithTwoOptions = ({
         />
         <ToggleBtn>
           <img
-            src={isChecked ? icon1Active : icon2Active}
-            alt={isChecked ? text1 : text2}
+            src={isChecked ? icon2Active : icon1Active}
+            alt={isChecked ? text2 : text1}
           />
-          {isChecked ? text1 : text2}
+          {isChecked ? text2 : text1}
         </ToggleBtn>
         <ToggleSwitchLabels>
           <span>
-            <img src={icon2} /> {text2}
+            <img src={icon1} /> {text1}
           </span>
           <span>
-            <img src={icon1} /> {text1}
+            <img src={icon2} /> {text2}
           </span>
         </ToggleSwitchLabels>
       </ToggleLavel>

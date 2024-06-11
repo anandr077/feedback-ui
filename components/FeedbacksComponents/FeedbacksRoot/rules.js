@@ -94,8 +94,16 @@ export const isShowTaskDetailsButton = (submissionType) => {
 export const isShowMarkingCriteriaButton = (
   isTeacher,
   submissionType,
-  submissionStatus
+  submissionStatus,
+  overallComments, 
+  markingCriteriaFeedback
 ) => {
+  const areCommentsAndFeedbackEmpty = overallComments.length === 0 && markingCriteriaFeedback.length === 0;
+
+  if ((submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') && areCommentsAndFeedbackEmpty) {
+    return false;
+  }
+
   return (
     isTeacher ||
     (!isTeacher &&

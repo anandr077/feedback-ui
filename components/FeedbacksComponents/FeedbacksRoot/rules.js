@@ -87,6 +87,10 @@ export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer
   return true;
 };
 
+export const isMarkingCriteriaTypeRubric = (type) => {
+  return type === 'RUBRICS';
+};
+
 export const isShowTaskDetailsButton = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };

@@ -24,66 +24,15 @@ export default function MarkingCriteriaFeedback(props) {
     markingCriteria,
     questionSerialNumber,
     handleMarkingCriteriaLevelFeedback,
-    handleStrengthsTargetsFeedback,
     pageMode,
   } = props;
 
-  const strengthAndTargetCriterias = markingCriteria?.strengthsTargetsCriterias;
-  const selectedStrengthsAndTargets = {
-    strength: [],
-    target: [],
-  };
-
-  const [strengthAndTargetSelection, setStrengthAndTargetSelection] =
-    React.useState(selectedStrengthsAndTargets);
-
-  const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
-    setStrengthAndTargetSelection((prevState) => {
-      const newState = { ...prevState };
-      newState[criteriatype][index] = [cIndex, sIndex];
-      return newState;
-    });
-  };
-
-  const strengthAndTargetsCardComponent = () => [
-    singleStrengthTargetsContainer('strengths', 'Strength', 0),
-    singleStrengthTargetsContainer('strengths', 'Strength', 1),
-    singleStrengthTargetsContainer('targets', 'Target', 2),
-  ];
-  return (
-    <>
-      {markingCriteria.type === 'RUBRICS' ? (
-        rubricMarkingCriteriaComponent(
-          markingCriteria,
-          handleMarkingCriteriaLevelFeedback,
-          questionSerialNumber,
-          pageMode
-        )
-      ) : (
-        <MarkingCriteriaContainer>
-          {strengthAndTargetsCardComponent()}
-        </MarkingCriteriaContainer>
-      )}
-    </>
+  return rubricMarkingCriteriaComponent(
+    markingCriteria,
+    handleMarkingCriteriaLevelFeedback,
+    questionSerialNumber,
+    pageMode
   );
-
-  function singleStrengthTargetsContainer(type, heading, index) {
-    return (
-      <SingleMarkingCriteriaContainer>
-        <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
-
-        <DropdownMenu
-          menuItems={createMenuItems(strengthAndTargetCriterias, type)}
-          onItemSelected={(item) => {
-            if (item) {
-              handleStrengthsTargetsFeedback(index)(item);
-            }
-          }}
-          noDefaultSelected={index === 1 ? true : false}
-        ></DropdownMenu>
-      </SingleMarkingCriteriaContainer>
-    );
-  }
 }
 
 const createRubricsHeading = (criterias) => {

@@ -90,10 +90,10 @@ function FeedbackTeacherLaptop(props) {
   const isDesktop = isDesktopView();
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-
-  const [isFeedback, setFeedback] = React.useState(pageMode !== 'DRAFT');
+  const questions = submission.assignment.questions
+  const [isFeedback, setFeedback] = React.useState( !(questions[QuestionIndex]?.focusAreas && questions[QuestionIndex]?.focusAreas.length !== 0));
   const [isFocusAreas, setFocusAreas] = React.useState(
-    pageMode === 'DRAFT' && submission.type !== 'DOCUMENT'
+    questions[QuestionIndex]?.focusAreas && questions[QuestionIndex]?.focusAreas.length !== 0
   );
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
     createGroupedFocusAreas(submission)
@@ -240,7 +240,7 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
-  function handleTabUpdate() {
+  function handleToggleUpdate() {
     setFeedback((prev) => !prev);
     setFocusAreas((prev) => !prev);
     methods.setShowNewComment(false);
@@ -301,7 +301,7 @@ function FeedbackTeacherLaptop(props) {
               editorFontSize,
               selectedComment,
               selectedRange,
-              handleTabUpdate,
+              handleToggleUpdate,
               openRightPanel, 
               SetOpenRightPanel,
               QuestionIndex, 
@@ -502,7 +502,7 @@ function answersAndFeedbacks(
   editorFontSize,
   selectedComment,
   selectedRange,
-  handleTabUpdate,
+  handleToggleUpdate,
   openRightPanel, 
   SetOpenRightPanel,
   QuestionIndex, 
@@ -555,7 +555,7 @@ function answersAndFeedbacks(
         setFocusAreas={setFocusAreas}
         isFeedback={isFeedback}
         isFocusAreas={isFocusAreas}
-        handleTabUpdate={handleTabUpdate}
+        handleToggleUpdate={handleToggleUpdate}
         setShowResolved={setShowResolved}
         isShowResolved={isShowResolved}
         commentsForSelectedTab={commentsForSelectedTab}
@@ -567,6 +567,8 @@ function answersAndFeedbacks(
             setQuestionIndex={setQuestionIndex}
             QuestionIndex={QuestionIndex}
             questions={submission.assignment.questions}
+            setFeedback={setFeedback}
+            setFocusAreas={setFocusAreas}
           />
         )}
       <FeedbackBody>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonContainer } from './style';
+import { ButtonContainer, LeftImage } from './style';
 
 const RoundedBorderSubmitBtn = ({
   leftIcon = null,
@@ -9,7 +9,7 @@ const RoundedBorderSubmitBtn = ({
 }) => {
   return (
     <ButtonContainer onClick={onClickFn}>
-      {leftIcon && <img src={leftIcon} />}
+      {leftIcon && <LeftImage src={leftIcon} />}
       {text}
       {rightIcon && <img src={rightIcon} />}
     </ButtonContainer>

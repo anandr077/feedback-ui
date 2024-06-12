@@ -528,7 +528,7 @@ export const TaskTitle = styled.div`
 
 export const StepsPart = styled.div`
   position: sticky;
-  top: 75px;
+  top: 110px;
   display: flex;
   flex-direction: column;
   width: 20%;

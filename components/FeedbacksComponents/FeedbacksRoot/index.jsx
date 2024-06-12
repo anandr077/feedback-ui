@@ -1242,13 +1242,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         to: to,
       });
       setSelectedText(selection.selectedText);
-      if(pageMode === 'DRAFT' || pageMode === 'REVISE'){
+      if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
         setShowFloatingDialogue(true);
       }
-      if(pageMode === 'REVIEW'){
+      if (pageMode === 'REVIEW') {
         setShowNewComment(true);
       }
-      
     }
   }
   function highlightByComment(comment) {
@@ -1582,7 +1581,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setSelectedRange,
         setSelectedText,
         isResetEditorTextSelection,
-        setSelectedComment
+        setSelectedComment,
       }}
     >
       {showSubmitPopup &&
@@ -1627,6 +1626,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           classesAndStudents,
           teachers,
           selectedComment,
+          overallComments,
+          markingCriteriaFeedback,
         }}
       />
     </FeedbackContext.Provider>

@@ -122,8 +122,8 @@ export const isShowClosedReviewOverallTextInputBox = (pageMode) =>{
   return pageMode === "REVIEW";
 }
 
-export const isShowMarkingCriteriaSection = (markingCriteriaFeedback) =>{
-   return markingCriteriaFeedback?.length !== 0;
+export const isShowMarkingCriteriaSection = (markingCriteriaFeedback, pageMode) =>{
+   return markingCriteriaFeedback?.length !== 0 || pageMode === "REVIEW";
 }
 
 export const isShowClosedReviewOverallComment = (pageMode, overallComment, reviewer, user) =>{

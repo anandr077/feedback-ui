@@ -13,39 +13,28 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
   }
 
   const selectedComment = groupedComments[selectedCommentIndex];
-  const boundsIs = getBoundsForComment(editor, selectedComment);
-  const selectedCommentTopPosition = boundsIs?.top || 0;
+  const selectedCommentTopPosition = getBoundsForComment(editor, selectedComment)?.top || 0;
   selectedComment.topPosition = selectedCommentTopPosition;
 
-  // Adjust positions for comments before the selected comment
-  for (let i = selectedCommentIndex - 1; i >= 0; i--) {
-    const comment = groupedComments[i];
-    const bounds = getBoundsForComment(editor, comment);
-    const desiredTop = bounds?.top || 0;
-
-    const nextComment = i < selectedCommentIndex - 1 ? groupedComments[i + 1] : selectedComment;
-    const nextCommentTop = nextComment.topPosition;
-
-    if (comment.topPosition + comment.height + spacing > nextCommentTop) {
-      comment.topPosition = nextCommentTop - comment.height - spacing;
-    } else {
-      comment.topPosition = Math.min(desiredTop, nextCommentTop - comment.height - spacing);
-    }
-  }
+  let lastBottomPosition = selectedCommentTopPosition + selectedComment.height + spacing;
 
   // Adjust positions for comments after the selected comment
-  let lastBottomPosition = selectedCommentTopPosition + selectedComment.height + spacing;
   for (let i = selectedCommentIndex + 1; i < groupedComments.length; i++) {
     const comment = groupedComments[i];
-    const bounds = getBoundsForComment(editor, comment);
-    const desiredTop = bounds?.top || 0;
+    const desiredTop = getBoundsForComment(editor, comment)?.top || 0;
 
-    if (comment.topPosition < lastBottomPosition) {
-      comment.topPosition = lastBottomPosition;
-    } else {
-      comment.topPosition = Math.max(lastBottomPosition, desiredTop);
-    }
+    comment.topPosition = Math.max(desiredTop, lastBottomPosition);
     lastBottomPosition = comment.topPosition + comment.height + spacing;
+  }
+
+  // Adjust positions for comments before the selected comment
+  lastBottomPosition = selectedCommentTopPosition;
+  for (let i = selectedCommentIndex - 1; i >= 0; i--) {
+    const comment = groupedComments[i];
+    const desiredTop = getBoundsForComment(editor, comment)?.top || 0;
+    
+    comment.topPosition = Math.min(desiredTop, lastBottomPosition - comment.height - spacing);
+    lastBottomPosition = comment.topPosition;
   }
 
   const adjustedComments = groupedComments.sort((a, b) => a.topPosition - b.topPosition);
@@ -55,73 +44,33 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
   return adjustedComments;
 };
 
-
-
-
-
-
-export const getBounds = (
-  editor,
-  comments,
-) => {
+export const getBounds = (editor, comments) => {
   let lastCommentBottomPosition = 0;
 
   const groupedComments = comments
-    .filter((comment) => comment !== null)
-    ?.sort((a, b) => a.range.from - b.range.from)
-    .map((comment, index) => {
-      //if (!editorRef.current) return null;
-
+    .filter(comment => comment !== null)
+    .sort((a, b) => a.range.from - b.range.from)
+    .map(comment => {
       const boundsIs = getBoundsForComment(editor, comment);
-
-
       let topPosition = boundsIs?.top || 0;
 
-      if (topPosition < lastCommentBottomPosition) {
-        topPosition = lastCommentBottomPosition;
-      }
-
+      topPosition = Math.max(topPosition, lastCommentBottomPosition);
       lastCommentBottomPosition = topPosition + comment.height;
 
-      return { ...comment, topPosition: topPosition };
-    })
-    .filter((comment) => comment !== null)
-    ;
+      return { ...comment, topPosition };
+    });
 
-  let groupedCommentsWithGap = [];
-  let currentGroup = [];
-
-  groupedComments?.forEach((comment, index) => {
-    if (currentGroup.length === 0) {
-      currentGroup.push(comment);
-    } else {
-      const lastComment = currentGroup[currentGroup.length - 1];
-      const lastCommentBottomPosition =
-        lastComment?.topPosition||0 + comment.height;
-
-      if (comment.topPosition < lastCommentBottomPosition) {
-        groupedCommentsWithGap.push(currentGroup);
-        currentGroup = [comment];
-      } else {
-        currentGroup.push(comment);
-      }
-    }
-  });
-
-  if (currentGroup.length > 0) {
-    groupedCommentsWithGap.push(currentGroup);
-  }
-  return groupedCommentsWithGap;
+  return groupedComments;
 };
 
 function getBoundsForComment(editor, comment) {
-  const length = comment.range.to - comment.range.from;
   if (editor) {
+    const length = comment.range.to - comment.range.from;
     return editor.getBounds(comment.range.from, length);
   }
-
   return null;
 }
+
 
 export const withHeights = (comments) => {
   return comments?.map((comment, index) => {

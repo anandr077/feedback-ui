@@ -4,6 +4,9 @@ import {
   MarkRubricTitle,
   MarkRubricTitleContainer,
   MarkStrengthContainer,
+  SaveButton,
+  SaveButtonContainer,
+  SaveButtonText,
   Strength,
   StrengthContainer,
   StrengthsAndTargetsContainer,
@@ -72,9 +75,7 @@ function StrengthAndTargetMarkingCriteria({
                             }
                             bgColor={isStringPresent(
                               selectedStrengths,
-                              isAllowGiveMarkingCriteriaFeedback(pageMode)
-                                ? 'name'
-                                : 'attribute',
+                              'attribute',
                               strengthsAndTargets.strengths[index]
                             )}
                             style={{
@@ -88,9 +89,7 @@ function StrengthAndTargetMarkingCriteria({
                             <Strength
                               bgColor={isStringPresent(
                                 selectedStrengths,
-                                isAllowGiveMarkingCriteriaFeedback(pageMode)
-                                  ? 'name'
-                                  : 'attribute',
+                                'attribute',
                                 strengthsAndTargets.strengths[index]
                               )}
                             >
@@ -109,9 +108,7 @@ function StrengthAndTargetMarkingCriteria({
                             }
                             bgColor={isStringPresent(
                               selectedTargets,
-                              isAllowGiveMarkingCriteriaFeedback(pageMode)
-                                ? 'name'
-                                : 'attribute',
+                              'attribute',
                               strengthsAndTargets.targets[index]
                             )}
                             style={{
@@ -125,9 +122,7 @@ function StrengthAndTargetMarkingCriteria({
                             <Target
                               bgColor={isStringPresent(
                                 selectedTargets,
-                                isAllowGiveMarkingCriteriaFeedback(pageMode)
-                                  ? 'name'
-                                  : 'attribute',
+                                'attribute',
                                 strengthsAndTargets.targets[index]
                               )}
                             >

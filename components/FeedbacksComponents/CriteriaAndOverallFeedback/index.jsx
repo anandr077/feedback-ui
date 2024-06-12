@@ -39,6 +39,9 @@ import {
   PopupSubTitle,
   StrengthsAndTargetsHeadingContainer,
   StrengthsAndTargetsHeadingContainerDummy,
+  SaveButtonContainer,
+  SaveButton,
+  SaveButtonText,
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
@@ -88,9 +91,9 @@ const CriteriaAndOverallFeedback = ({
   const isTeacher = getUserRole() === 'TEACHER';
   const userId = getUserId();
   const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
-  const [selectedStrengthId, setSelectedStrengthId] = useState(0);
-  const [selectedStrengths, setSelectedStrengths] = useState([{}]);
-  const [selectedTargets, setSelectedTargets] = useState([{}]);
+  // const [selectedStrengthId, setSelectedStrengthId] = useState(0);
+  const [selectedStrengths, setSelectedStrengths] = useState([]);
+  const [selectedTargets, setSelectedTargets] = useState([]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
 
@@ -99,11 +102,11 @@ const CriteriaAndOverallFeedback = ({
       overallComments.length != 0 ? overallComments : null
     )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
     setOverallComment(commentObject);
-
+    console.log('markingCriteriaFeedback', markingCriteriaFeedback);
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     setMarkingCriteria(markingCriteria);
-    if (!isAllowGiveMarkingCriteriaFeedback(pageMode)) {
+    if (markingCriteriaFeedback) {
       setMarkingCriteria(
         markingCriteriaFeedback[QuestionIndex]?.markingCriteria
       );
@@ -129,44 +132,64 @@ const CriteriaAndOverallFeedback = ({
     if (type === 'strengths') {
       let selectedStrengthNew = {
         id: selectedStrengths.length + 1,
-        name: seletedItem,
-        type: 'strengths',
-        heading: strengthsAndTargets.title,
+        attribute: seletedItem,
+        criteria: strengthsAndTargets.title,
       };
       if (
-        selectedStrengths.find((stre) => stre.name === selectedStrengthNew.name)
+        selectedStrengths.find(
+          (stre) => stre.attribute === selectedStrengthNew.attribute
+        )
       ) {
         setSelectedStrengths([
           ...selectedStrengths.filter(
             (selectedStrength) =>
-              selectedStrength.name != selectedStrengthNew.name
+              selectedStrength.attribute != selectedStrengthNew.attribute
           ),
         ]);
       } else {
         setSelectedStrengths([...selectedStrengths, selectedStrengthNew]);
       }
-      handleStrengthsTargetsFeedback(QuestionIndex + 1, 1, selectedStrengthNew);
     }
     if (type === 'targets') {
       let selectedTargetNew = {
-        id: selectedStrengthId,
-        name: seletedItem,
-        type: 'targets',
-        heading: strengthsAndTargets.title,
+        id: selectedTargets.length + 1,
+        attribute: seletedItem,
+        criteria: strengthsAndTargets.title,
       };
 
       if (
-        selectedTargets.find((target) => target.name === selectedTargetNew.name)
+        selectedTargets.find(
+          (target) => target.attribute === selectedTargetNew.attribute
+        )
       ) {
         setSelectedTargets([
           ...selectedTargets.filter(
-            (selectedTarget) => selectedTarget.name != selectedTargetNew.name
+            (selectedTarget) =>
+              selectedTarget.attribute != selectedTargetNew.attribute
           ),
         ]);
       } else {
         setSelectedTargets([...selectedTargets, selectedTargetNew]);
       }
-      handleStrengthsTargetsFeedback(QuestionIndex + 1, 2, selectedTargetNew);
+    }
+  };
+
+  const saveMarkingCrieria = () => {
+    if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
+    } else {
+      if (selectedStrengths.length === 0) {
+        console.log('please select at least one strength');
+        return;
+      }
+      if (selectedTargets.length === 0) {
+        console.log('please select at least one target');
+        return;
+      }
+      handleStrengthsTargetsFeedback(
+        QuestionIndex,
+        selectedStrengths,
+        selectedTargets
+      );
     }
   };
   const isStringPresent = (array, key, string) => {
@@ -223,6 +246,11 @@ const CriteriaAndOverallFeedback = ({
               />
             )}
           </PopupDialogContentBox>
+          <SaveButtonContainer>
+            <SaveButton onClick={() => saveMarkingCrieria()}>
+              <SaveButtonText>Save Criteria</SaveButtonText>
+            </SaveButton>
+          </SaveButtonContainer>
         </PopupContainer>
       </PopupBackground>
     );
@@ -243,7 +271,7 @@ const CriteriaAndOverallFeedback = ({
       )}
       <MainContainer openRightPanel={openRightPanel}>
         <Heading>
-          {isShowMarkingCriteriaSection(markingCriteriaFeedback) ? (
+          {isShowMarkingCriteriaSection(markingCriteria) ? (
             <HeadingTitle>
               Assessment Criteria
               <img src={QuestionIcon} />
@@ -262,7 +290,7 @@ const CriteriaAndOverallFeedback = ({
           )}
         </Heading>
         <Body>
-          {isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
+          {isShowMarkingCriteriaSection(markingCriteria) && (
             <>
               <MarkingCriteriaMainHeadingContainer>
                 <MarkingCriteriaMainHeading>

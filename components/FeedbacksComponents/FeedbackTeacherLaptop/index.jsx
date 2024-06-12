@@ -103,8 +103,8 @@ function FeedbackTeacherLaptop(props) {
   const drawerWidth = 219;
   const { countWords, showNewComment, newCommentSerialNumber, overallComments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
-  const [openRightPanel, SetOpenRightPanel] = React.useState(overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0 ? 'tab2' : 'tab1');
-
+  const [openRightPanel, SetOpenRightPanel] = React.useState(overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0 ? 'tab2' : 'tab1');  
+                      
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
 

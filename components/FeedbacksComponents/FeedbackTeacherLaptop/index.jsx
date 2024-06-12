@@ -208,17 +208,12 @@ function FeedbackTeacherLaptop(props) {
 
   React.useEffect(() => {
     const documentsRoute = location.pathname.includes('documents');
-    const submissionsRoute = location.pathname.includes('submissions');
     const documentReviewRoute = location.pathname.includes('documentsReview');
     const role = getUserRole();
 
-    const isOpen =
-      (role === 'TEACHER' && submissionsRoute) ||
-      (role === 'STUDENT' && documentsRoute);
-
     const isStudentReviewRoute = documentReviewRoute && role === 'STUDENT';
 
-    setOpenLefPanel(!isStudentReviewRoute && isOpen);
+    setOpenLefPanel(!isStudentReviewRoute && documentsRoute);
   }, [location.pathname]);
 
   const handleCheckboxChange = (serialNumber, focusAreaId) => {
@@ -599,7 +594,8 @@ function answersAndFeedbacks(
             newCommentFrameRef,
             share,
             isFeedback,
-            isFocusAreas
+            isFocusAreas,
+            openLeftPanel
           )}
 
           {/* {!isMobile && (

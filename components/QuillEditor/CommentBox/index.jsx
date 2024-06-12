@@ -178,11 +178,11 @@ const CommentBox = ({
               position: 'relative',
               overflow: 'hidden',
             }}
+            ref={commentRepositionRef}
           >
             {groupedCommentsWithGap.map((comment, index) => {
               return (
                 <CommentDiv
-                  ref={commentRepositionRef}
                   key={index}
                   id={`comment-${comment.id}`}
                   style={{

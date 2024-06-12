@@ -67,7 +67,8 @@ export function answersFrame(
   newCommentFrameRef,
   share,
   isFeedback,
-  isFocusAreas
+  isFocusAreas,
+  openLeftPanel
 ) {
   return (
     <AnswersFrame
@@ -100,6 +101,7 @@ export function answersFrame(
       share={share}
       isFeedback={isFeedback}
       isFocusAreas={isFocusAreas}
+      openLeftPanel={openLeftPanel}
     ></AnswersFrame>
   );
 }
@@ -133,6 +135,7 @@ function AnswersFrame(props) {
     share,
     isFeedback,
     isFocusAreas,
+    openLeftPanel
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -144,7 +147,7 @@ function AnswersFrame(props) {
 
   return (
     <Group1225 id="answers">
-      <Frame1367 moveToLeft={openRightPanel}>
+      <Frame1367 moveToLeft={openRightPanel} moveRight={openLeftPanel}>
         {answerFrames(
           quillRefs,
           smallMarkingCriteria,
